@@ -31,6 +31,8 @@ import androidx.compose.material.icons.outlined.CloudUpload
 import androidx.compose.material.icons.outlined.ExpandMore
 import androidx.compose.material.icons.outlined.ContactSupport
 import androidx.compose.material.icons.outlined.Inventory2
+import androidx.compose.material.icons.outlined.Tune
+import com.neb.ians.ui.components.FilterDialog
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Card
@@ -126,6 +128,36 @@ fun LibraryScreen(
         onDispose { onSyllabusDetailChromeChanged(false) }
     }
 
+    var showFilterDialog by remember { mutableStateOf(false) }
+
+    val activeFilterCount = (if (uiState.selectedSubject != null) 1 else 0) +
+        (if (uiState.selectedGradeLevel != null) 1 else 0) +
+        (if (uiState.selectedType != null) 1 else 0) +
+        (if (uiState.sort != "relevant") 1 else 0)
+
+    if (showFilterDialog) {
+        FilterDialog(
+            onDismissRequest = { showFilterDialog = false },
+            selectedSort = uiState.sort,
+            onSortSelected = viewModel::selectSort,
+            selectedSubject = uiState.selectedSubject,
+            selectedGradeLevel = uiState.selectedGradeLevel,
+            selectedType = uiState.selectedType,
+            subjects = LibraryUiState.SUBJECTS,
+            gradeLevels = LibraryUiState.GRADE_LEVELS,
+            types = LibraryUiState.TYPES,
+            onSubjectSelected = viewModel::selectSubject,
+            onGradeLevelSelected = viewModel::selectGradeLevel,
+            onTypeSelected = viewModel::selectType,
+            onClearAll = {
+                viewModel.clearFilters()
+                viewModel.selectSort("relevant")
+                showFilterDialog = false
+            },
+            onApply = { showFilterDialog = false }
+        )
+    }
+
     Scaffold(
         topBar = {
             if (!isSyllabusDetailMode) {
@@ -159,8 +191,8 @@ fun LibraryScreen(
                 LibraryTabs(
                     currentTab = currentTab,
                     onTabSelected = { currentTab = it },
-                    sort = uiState.sort,
-                    onSortSelected = viewModel::selectSort
+                    activeFilterCount = activeFilterCount,
+                    onFilterClick = { showFilterDialog = true }
                 )
             }
 
@@ -204,8 +236,8 @@ fun LibraryScreen(
 private fun LibraryTabs(
     currentTab: String,
     onTabSelected: (String) -> Unit,
-    sort: String = "relevant",
-    onSortSelected: (String) -> Unit = {}
+    activeFilterCount: Int = 0,
+    onFilterClick: () -> Unit = {}
 ) {
     val tabs = listOf("library" to "Library", "syllabus" to "Syllabus", "interactive" to "Interactive")
     val scrollState = rememberScrollState()
@@ -229,10 +261,24 @@ private fun LibraryTabs(
                 }
             }
             if (currentTab == "library") {
-                LibrarySortDropdown(
-                    sort = sort,
-                    onSortSelected = onSortSelected
-                )
+                val hasActiveFilters = activeFilterCount > 0
+                IconButton(onClick = onFilterClick) {
+                    Box {
+                        Icon(
+                            imageVector = Icons.Outlined.Tune,
+                            contentDescription = "Filters",
+                            tint = if (hasActiveFilters) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        if (hasActiveFilters) {
+                            Box(
+                                modifier = Modifier
+                                    .size(8.dp)
+                                    .align(Alignment.TopEnd)
+                                    .background(MaterialTheme.colorScheme.primary, CircleShape)
+                            )
+                        }
+                    }
+                }
             }
         }
         HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)

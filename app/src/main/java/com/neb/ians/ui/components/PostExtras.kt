@@ -376,53 +376,34 @@ fun ForumPostCard(
                 )
             }
 
-            // ----- Images (max 3 thumbnails preview, +N badge if more) -----
+            // ----- Images (horizontal scrollable row for all post images up to 10) -----
             if (post.images.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(10.dp))
                 val sortedImages = remember(post.images) { post.images.sortedBy { it.order } }
-                val displayImages = sortedImages.take(3)
-                val extraCount = sortedImages.size - 3
                 val allResolvedUrls = remember(sortedImages) { sortedImages.mapNotNull { resolveMediaUrl(it.imageUrl) } }
 
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    displayImages.forEachIndexed { index, image ->
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .horizontalScroll(rememberScrollState()),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    sortedImages.forEachIndexed { index, image ->
                         Box(
                             modifier = Modifier
-                                .weight(1f)
-                                .height(80.dp)
+                                .size(120.dp, 86.dp)
+                                .clip(RoundedCornerShape(8.dp))
+                                .clickable {
+                                    zoomImageUrlsList = allResolvedUrls
+                                    zoomInitialIndex = index
+                                }
                         ) {
                             AsyncImage(
                                 model = resolveMediaUrl(image.imageUrl),
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .clip(RoundedCornerShape(8.dp))
-                                    .clickable {
-                                        zoomImageUrlsList = allResolvedUrls
-                                        zoomInitialIndex = index
-                                    },
+                                contentDescription = "Image ${index + 1}",
+                                modifier = Modifier.fillMaxSize(),
                                 contentScale = ContentScale.Crop
                             )
-                            if (index == 2 && extraCount > 0) {
-                                Box(
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .clip(RoundedCornerShape(8.dp))
-                                        .background(Color.Black.copy(alpha = 0.55f))
-                                        .clickable {
-                                            zoomImageUrlsList = allResolvedUrls
-                                            zoomInitialIndex = index
-                                        },
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Text(
-                                        text = "+$extraCount",
-                                        style = MaterialTheme.typography.titleMedium,
-                                        fontWeight = FontWeight.Bold,
-                                        color = Color.White
-                                    )
-                                }
-                            }
                         }
                     }
                 }

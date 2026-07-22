@@ -71,6 +71,7 @@ fun ZoomableImageDialog(
         initialPage = initialIndex.coerceIn(0, imageUrls.size - 1),
         pageCount = { imageUrls.size }
     )
+    val scope = androidx.compose.runtime.rememberCoroutineScope()
     // Zoom state kept per page so every image keeps its own pinch/pan.
     val zoomScales = remember { mutableStateMapOf<Int, Float>() }
     val zoomOffsets = remember { mutableStateMapOf<Int, Offset>() }
@@ -101,11 +102,15 @@ fun ZoomableImageDialog(
                             .fillMaxSize()
                             .pointerInput(page) {
                                 detectTransformGestures { _, pan, zoom, _ ->
-                                    val newScale = ((zoomScales[page] ?: 1f) * zoom).coerceIn(1f, 5f)
+                                    val currentScale = zoomScales[page] ?: 1f
+                                    val newScale = (currentScale * zoom).coerceIn(1f, 5f)
                                     zoomScales[page] = newScale
-                                    zoomOffsets[page] =
-                                        if (newScale <= 1.01f) Offset.Zero
-                                        else (zoomOffsets[page] ?: Offset.Zero) + pan
+                                    if (newScale <= 1.01f) {
+                                        zoomOffsets[page] = Offset.Zero
+                                    } else {
+                                        val currentOffset = zoomOffsets[page] ?: Offset.Zero
+                                        zoomOffsets[page] = currentOffset + pan
+                                    }
                                 }
                             }
                             .graphicsLayer(
@@ -134,19 +139,69 @@ fun ZoomableImageDialog(
             }
 
             if (imageUrls.size > 1) {
-                Surface(
+                androidx.compose.foundation.layout.Row(
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
                         .padding(bottom = 26.dp),
-                    shape = CircleShape,
-                    color = Color.White.copy(alpha = 0.88f),
-                    contentColor = Color.Black
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    Text(
-                        text = "${pagerState.currentPage + 1} / ${imageUrls.size}",
-                        modifier = Modifier.padding(horizontal = 14.dp, vertical = 6.dp),
-                        style = MaterialTheme.typography.labelMedium
-                    )
+                    if (pagerState.currentPage > 0) {
+                        Surface(
+                            onClick = {
+                                scope.launch {
+                                    pagerState.animateScrollToPage(pagerState.currentPage - 1)
+                                }
+                            },
+                            shape = CircleShape,
+                            color = Color.White.copy(alpha = 0.88f),
+                            contentColor = Color.Black,
+                            modifier = Modifier.size(36.dp)
+                        ) {
+                            Box(contentAlignment = Alignment.Center) {
+                                Icon(
+                                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                    contentDescription = "Previous Image",
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            }
+                        }
+                    }
+
+                    Surface(
+                        shape = CircleShape,
+                        color = Color.White.copy(alpha = 0.88f),
+                        contentColor = Color.Black
+                    ) {
+                        Text(
+                            text = "${pagerState.currentPage + 1} / ${imageUrls.size}",
+                            modifier = Modifier.padding(horizontal = 14.dp, vertical = 6.dp),
+                            style = MaterialTheme.typography.labelMedium,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+
+                    if (pagerState.currentPage < imageUrls.size - 1) {
+                        Surface(
+                            onClick = {
+                                scope.launch {
+                                    pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                                }
+                            },
+                            shape = CircleShape,
+                            color = Color.White.copy(alpha = 0.88f),
+                            contentColor = Color.Black,
+                            modifier = Modifier.size(36.dp)
+                        ) {
+                            Box(contentAlignment = Alignment.Center) {
+                                Icon(
+                                    imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                                    contentDescription = "Next Image",
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            }
+                        }
+                    }
                 }
             }
         }
