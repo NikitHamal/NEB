@@ -12,8 +12,7 @@ endblock %}
 {% block og_title %}{% if current_tab == 'interactive' %}NEBians Interactive — 3D Models, Simulations & Coding Games{%
 else %}NEBians Library - Study Resources{% endif %}{% endblock %}
 {% block og_description %}{% if current_tab == 'interactive' %}Explore free interactive lessons - 3D models, virtual
-labs and coding games.{% else %}Browse study resources - notes, past papers, textbooks and more.{% endif %}{% endblock
-%}
+labs and coding games.{% else %}Browse study resources - notes, past papers, textbooks and more.{% endif %}{% endblock %}
 {% block nav_library %}md-nav-active{% endblock %}
 {% block bnav_library %}md-nav-active{% endblock %}
 {% block canonical %}https://nebians.consica.com.np{{ request.path }}{% if current_tab == 'interactive' %}?tab=interactive{% else %}{% if page_obj and page_obj.number > 1 %}?page={{ page_obj.number }}{% endif %}{% endif %}{% endblock %}
