@@ -137,6 +137,153 @@
     background-position: right center;
   }
 
+  /* Filter Button in Topbar */
+  .lib-filter-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--md-surface-container-low, #f3f4f6);
+    padding: 6px 14px;
+    border-radius: var(--md-radius-full, 9999px);
+    border: 1px solid var(--md-outline-variant, #e5e7eb);
+    font-family: var(--md-font);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--md-on-surface-variant);
+    cursor: pointer;
+    transition: all 150ms ease;
+    flex-shrink: 0;
+    margin-bottom: 6px;
+  }
+  .lib-filter-btn:hover {
+    border-color: var(--md-primary);
+    background: var(--md-surface-container-high, #e5e7eb);
+    color: var(--md-primary);
+  }
+  .lib-filter-btn.active {
+    background: var(--md-primary-container, #dbeafe);
+    color: var(--md-primary, #004ac6);
+    border-color: var(--md-primary, #004ac6);
+  }
+  .lib-filter-badge {
+    background: var(--md-primary, #004ac6);
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 1px 7px;
+    border-radius: var(--md-radius-full, 9999px);
+    line-height: 1.2;
+  }
+
+  /* Library Filter Modal */
+  .filter-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(4px);
+    z-index: 1050;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .filter-dialog-card {
+    background: var(--md-surface-container-lowest, #ffffff);
+    border-radius: var(--md-radius-xl, 28px);
+    width: 100%;
+    max-width: 560px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    animation: filterModalPop 200ms cubic-bezier(0.1, 0.9, 0.2, 1);
+  }
+  @keyframes filterModalPop {
+    from { opacity: 0; transform: scale(0.94) translateY(12px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  .filter-dialog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--md-outline-variant, #e5e7eb);
+  }
+  .filter-dialog-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--md-on-surface);
+  }
+  .filter-dialog-close {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--md-on-surface-variant);
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 150ms ease;
+  }
+  .filter-dialog-close:hover {
+    background: var(--md-surface-container-high, #e5e7eb);
+  }
+  .filter-dialog-body {
+    padding: 20px 24px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .filter-group-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--md-on-surface-variant);
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+    display: block;
+    text-transform: uppercase;
+  }
+  .filter-chip-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .filter-chip-btn {
+    background: transparent;
+    border: 1px solid var(--md-outline-variant, #e5e7eb);
+    color: var(--md-on-surface-variant);
+    padding: 6px 14px;
+    border-radius: var(--md-radius-full, 9999px);
+    font-family: var(--md-font);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 150ms ease;
+  }
+  .filter-chip-btn:hover {
+    background: var(--md-surface-container-low, #f3f4f6);
+    border-color: var(--md-primary);
+  }
+  .filter-chip-btn.selected {
+    background: var(--md-primary, #004ac6);
+    color: #ffffff;
+    border-color: var(--md-primary, #004ac6);
+    font-weight: 600;
+  }
+  .filter-dialog-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    border-top: 1px solid var(--md-outline-variant, #e5e7eb);
+    background: var(--md-surface-container-lowest, #ffffff);
+  }
+
   /* Filter dialog multi-select */
   .filter-chip-select {
     display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px;
