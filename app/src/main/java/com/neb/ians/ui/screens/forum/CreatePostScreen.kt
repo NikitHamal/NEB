@@ -86,8 +86,12 @@ fun CreatePostScreen(
     var durationExpanded by remember { mutableStateOf(false) }
 
     val imagePicker = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent()
-    ) { uri -> viewModel.addImage(uri) }
+        contract = ActivityResultContracts.GetMultipleContents()
+    ) { uris ->
+        if (!uris.isNullOrEmpty()) {
+            uris.forEach { uri -> viewModel.addImage(uri) }
+        }
+    }
 
     val mediaPicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenMultipleDocuments()
@@ -265,7 +269,12 @@ fun CreatePostScreen(
                     )
                 }
                 Spacer(modifier = Modifier.height(8.dp))
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .horizontalScroll(rememberScrollState()),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
                     uiState.visibleExistingImages.forEach { image ->
                         Box {
                             AsyncImage(
