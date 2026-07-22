@@ -282,6 +282,28 @@
   gap: 8px;
 }
 
+.lib-filter-header .md-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: 9999px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--md-on-surface-variant, #64748b);
+  cursor: pointer;
+  transition: all 150ms ease;
+  user-select: none;
+}
+
+.lib-filter-header .md-icon-btn:hover {
+  background: var(--md-surface-container-high, #e2e8f0);
+  color: var(--md-on-surface, #0f172a);
+}
+
 .lib-filter-body {
   padding: 20px 24px;
   max-height: 60vh;

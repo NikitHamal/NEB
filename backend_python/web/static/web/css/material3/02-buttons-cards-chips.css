@@ -63,23 +63,35 @@
   color: var(--md-on-error);
 }
 
-.md-btn-icon {
-  width: 40px;
-  height: 40px;
-  padding: 8px;
-  border-radius: var(--md-radius-full);
+.md-btn-icon,
+.md-icon-btn {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: var(--md-radius-full, 9999px);
   background: transparent;
   border: none;
+  outline: none;
   color: var(--md-on-surface-variant);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   transition: background var(--md-transition);
+  font-family: inherit;
+  user-select: none;
 }
 
-.md-btn-icon:hover {
+.md-btn-icon:hover,
+.md-icon-btn:hover {
   background: var(--md-surface-variant);
+  color: var(--md-on-surface);
+}
+
+.md-btn-icon .material-symbols-outlined,
+.md-icon-btn .material-symbols-outlined {
+  font-size: 20px;
+  line-height: 1;
 }
 
 /* Material 3 Cards */
