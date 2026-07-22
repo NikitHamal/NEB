@@ -21,7 +21,7 @@ NEBians is a Material 3 Android app for Nepali students (NEB curriculum). It pro
 
 **Package:** `com.neb.ians`
 **Min SDK:** 24 (legacy) / 28 (modern)
-**Target SDK:** 34
+**Target SDK:** 36
 
 ---
 
