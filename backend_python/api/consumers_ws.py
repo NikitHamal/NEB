@@ -184,19 +184,19 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def _can_see_study_space(self, space_id: str) -> bool:
-        """Return whether the connected user may join a StudySpace realtime group.
-
-        This must mirror the HTTP access rules in web.views_study_lab._accessible_space().
-        The previous implementation only allowed public/link visibility and therefore
-        blocked owners, private members, unlisted invite spaces, and specifically
-        shared spaces from subscribing to `studyspace.<id>`. The board UI would still
-        save via HTTP, so other devices only saw changes after a manual refresh.
-        """
         from api.models import StudySpace, StudySpaceMember, StudySpaceShare
         try:
             s = StudySpace.objects.only('id', 'user_id', 'visibility', 'share_mode', 'shared_at').get(pk=space_id)
         except StudySpace.DoesNotExist:
             return False
+
+        # Public discoverable spaces are readable/subscribable by anyone
+        if s.visibility == getattr(StudySpace, 'VISIBILITY_PUBLIC', 'public'):
+            return True
+
+        # Link-shared spaces are readable/subscribable by anyone with the link
+        if s.share_mode == getattr(StudySpace, 'SHARE_LINK', 'link') and s.shared_at:
+            return True
 
         if not self._user_id:
             return False
@@ -207,10 +207,6 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
 
         # Joined members/admins/moderators always have realtime access.
         if StudySpaceMember.objects.filter(space=s, user_id=self._user_id).exists():
-            return True
-
-        # Public discoverable spaces are readable/subscribable by signed-in users.
-        if s.visibility == getattr(StudySpace, 'VISIBILITY_PUBLIC', 'public'):
             return True
 
         # Specific-user grants can open the page before joining; allow realtime too.
