@@ -227,17 +227,18 @@ class CreatePostViewModel @Inject constructor(
 
     fun addImage(uri: Uri?) {
         if (uri == null) return
-        val state = _uiState.value
-        if (state.activeImageCount >= MAX_POST_IMAGES) {
-            _uiState.update { it.copy(error = "Maximum $MAX_POST_IMAGES images per post") }
-            return
-        }
         val size = imageSizeBytes(uri)
         if (size != null && size > MAX_IMAGE_BYTES) {
             _uiState.update { it.copy(error = "Image too large (max 10MB)") }
             return
         }
-        _uiState.update { it.copy(images = it.images + uri, error = null) }
+        _uiState.update { current ->
+            if (current.activeImageCount >= MAX_POST_IMAGES) {
+                current.copy(error = "Maximum $MAX_POST_IMAGES images per post")
+            } else {
+                current.copy(images = current.images + uri, error = null)
+            }
+        }
     }
 
     fun removeImage(uri: Uri) {

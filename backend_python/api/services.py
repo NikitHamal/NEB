@@ -12,7 +12,7 @@ from django.core.exceptions import ValidationError as DjangoValidationError
 
 from .models import User, Post, PostLike, PostImage, Poll, PollOption, PollVote, Reply, ReplyLike, Follow, UserPhoto, EditHistory, FollowRequest
 from .models import Resource, ResourceLike, ResourceComment, ResourceCommentLike, Bookmark, Notification, FCMToken, ResourceRequest, AccountDeletionRequest
-from .security import hash_password, issue_auth_token, verify_password, validate_profile_photo_url, validate_external_https_url
+from .security import hash_password, issue_auth_token, verify_password, validate_profile_photo_url, validate_external_https_url, POST_IMAGE_MAX_COUNT
 from .utils import now_ms, uuid_str
 from . import counters as _counters
 from . import notifications as _notif
@@ -150,7 +150,7 @@ def create_post(user, title, content, category, image_urls=None, poll_data=None,
         created_at=now,
     )
     if image_urls:
-        for i, url in enumerate(image_urls[:3]):
+        for i, url in enumerate(image_urls[:POST_IMAGE_MAX_COUNT]):
             PostImage.objects.create(
                 id=uuid_str(),
                 post=post,
