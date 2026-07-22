@@ -37,6 +37,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 
+private data class SortOption(val key: String, val label: String)
+private val SORT_OPTIONS = listOf(
+    SortOption("relevant", "Most Relevant"),
+    SortOption("trending", "Trending"),
+    SortOption("newest", "Newest"),
+    SortOption("liked", "Most Liked"),
+    SortOption("oldest", "Oldest")
+)
+
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun FilterDialog(
@@ -89,10 +98,10 @@ fun FilterDialog(
                 ) {
                     FilterSection(
                         title = "SORT BY",
-                        items = LibraryUiState.SORT_OPTIONS.map { it.label },
-                        selectedItem = LibraryUiState.SORT_OPTIONS.firstOrNull { it.key == selectedSort }?.label ?: "Most Relevant",
+                        items = SORT_OPTIONS.map { it.label },
+                        selectedItem = SORT_OPTIONS.firstOrNull { it.key == selectedSort }?.label ?: "Most Relevant",
                         onItemClick = { label ->
-                            val option = LibraryUiState.SORT_OPTIONS.firstOrNull { it.label == label }
+                            val option = SORT_OPTIONS.firstOrNull { it.label == label }
                             if (option != null) {
                                 onSortSelected(option.key)
                             }
