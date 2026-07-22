@@ -771,7 +771,7 @@ def ajax_space_notes(request, space_id):
             return JsonResponse({'error': 'You do not have permission to edit collaborative notes'}, status=403)
         body = _json_body(request)
         content = str(body.get('content') or '')
-        if len(content) > 200000:
+        if len(content) > 2000000:
             return JsonResponse({'error': 'Note is too long'}, status=400)
         note.content = content
         note.updated_by_id = user_id
