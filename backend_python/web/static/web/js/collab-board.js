@@ -844,8 +844,13 @@
     }
 
     if (this.drawing && this.tool === 'pen' && this.currentPath.length > 1) {
+      var cleanPoints = [];
+      for (var pIdx = 0; pIdx < this.currentPath.length; pIdx++) {
+        var pt = this.currentPath[pIdx];
+        cleanPoints.push({ x: Math.round(pt.x * 10) / 10, y: Math.round(pt.y * 10) / 10 });
+      }
       this._addElement({
-        type: 'pen', points: this.currentPath.slice(),
+        type: 'pen', points: cleanPoints,
         color: this.color, lineWidth: this.strokeWidth, id: this._uid()
       });
     }
