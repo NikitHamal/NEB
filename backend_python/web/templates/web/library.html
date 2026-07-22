@@ -16,8 +16,7 @@ labs and coding games.{% else %}Browse study resources - notes, past papers, tex
 %}
 {% block nav_library %}md-nav-active{% endblock %}
 {% block bnav_library %}md-nav-active{% endblock %}
-{% block canonical %}https://nebians.consica.com.np{{ request.path }}{% if current_tab == 'interactive'
-%}?tab=interactive{% elif page_obj and page_obj.number > 1 %}?page={{ page_obj.number }}{% endif %}{% endblock %}
+{% block canonical %}https://nebians.consica.com.np{{ request.path }}{% if current_tab == 'interactive' %}?tab=interactive{% else %}{% if page_obj and page_obj.number > 1 %}?page={{ page_obj.number }}{% endif %}{% endif %}{% endblock %}
 
 {% block bottomnav %}
 <nav class="md-bottomnav">
