@@ -340,13 +340,20 @@ def render_content(value):
 _STRIP_BLOCK_RE = re.compile(r'</?(?:h[1-6]|pre|blockquote|ul|ol|li|table|thead|tbody|tr|th|td|hr|div|p)\b[^>]*>', re.IGNORECASE)
 
 
+_BLOCK_END_RE = re.compile(r'</(?:p|div|li|h[1-6]|blockquote|tr)>\s*', re.IGNORECASE)
+_BR_HR_RE = re.compile(r'<(?:br|hr)\s*/?>', re.IGNORECASE)
+_TAG_STRIP_RE = re.compile(r'</?(?:h[1-6]|pre|blockquote|ul|ol|li|table|thead|tbody|tr|th|td|hr|div|p)[^>]*>', re.IGNORECASE)
+
 @register.filter
 def render_content_inline(value):
-    """Render content for card previews — strips block-level tags, keeps inline formatting only."""
+    """Render content for card previews — preserves paragraph & newline spacing while keeping inline tags."""
     if not value:
         return mark_safe('')
     html = _render_user_content(str(value))
-    inline = _STRIP_BLOCK_RE.sub('', str(html))
+    html_spaced = _BLOCK_END_RE.sub('<br>', str(html))
+    html_spaced = _BR_HR_RE.sub('<br>', html_spaced)
+    html_spaced = re.sub(r'(?:<br\s*/?>\s*){3,}', '<br><br>', html_spaced)
+    inline = _TAG_STRIP_RE.sub('', html_spaced)
     return mark_safe(inline)
 
 

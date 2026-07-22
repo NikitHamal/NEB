@@ -1,0 +1,22 @@
+{% comment %}Renders forum post images using an adaptive modern grid gallery layout.
+Expects `images` in context: list of dicts with imageUrl.{% endcomment %}
+{% if images %}
+<div class="post-card-media-grid grid-count-{{ images|length|default:1 }}" data-action-stop>
+  {% for img in images %}
+    {% if forloop.counter <= 4 %}
+      <div class="post-media-grid-item {% if forloop.counter == 4 and images|length > 4 %}has-more{% endif %}" 
+           data-action="open-image-lightbox" 
+           data-src="{{ img.imageUrl }}" 
+           data-index="{{ forloop.counter0 }}" 
+           data-all-images="{% for i in images %}{{ i.imageUrl }}{% if not forloop.last %}|{% endif %}{% endfor %}">
+        <img src="{{ img.imageUrl }}" alt="Post image {{ forloop.counter }}" loading="lazy">
+        {% if forloop.counter == 4 and images|length > 4 %}
+          <div class="post-media-more-overlay">
+            <span>+{{ images|length|add:"-3" }}</span>
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>
+{% endif %}

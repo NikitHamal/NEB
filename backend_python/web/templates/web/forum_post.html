@@ -119,15 +119,7 @@
     <h2 class="fp-post-title">{{ post.title }}</h2>
     <div class="fp-post-body" id="post-content-{{ post.id }}">{{ post.content|mention_links:all_usernames }}</div>
 
-    {% if post.images %}
-    <div class="fp-post-images">
-      <div class="fp-post-images-slider">
-        {% for img in post.images %}
-        <img src="{{ img.imageUrl }}" alt="Post image {{ forloop.counter }}" loading="lazy" data-action="open-image-lightbox" data-src="{{ img.imageUrl }}">
-        {% endfor %}
-      </div>
-    </div>
-    {% endif %}
+    {% with images=post.images %}{% include "web/_forum_post_images.html" %}{% endwith %}
 
     {% with attachments=post.attachments %}{% include "web/_forum_attachments.html" %}{% endwith %}
 

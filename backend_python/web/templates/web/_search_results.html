@@ -112,15 +112,7 @@
             </div>
           </div>
           <h3><a href="{% url 'web:forum_post' post_id=post.id %}">{% if post.highlight and post.highlight.title %}{{ post.highlight.title|safe }}{% else %}{{ post.title }}{% endif %}</a></h3>
-          {% if post.images %}
-          <div class="post-card-images">
-            {% for img in post.images %}
-            {% if forloop.counter <= 3 %}
-            <img src="{{ img.imageUrl }}" alt="" loading="lazy" class="post-card-thumb">
-            {% endif %}
-            {% endfor %}
-          </div>
-          {% endif %}
+          {% with images=post.images %}{% include "web/_forum_post_images.html" %}{% endwith %}
           {% if post.poll %}
           <div class="post-card-poll-badge">
             <span class="material-symbols-outlined" style="font-size:16px;">{% if post.poll.pollType == 'mcq' %}quiz{% else %}poll{% endif %}</span>
@@ -365,15 +357,7 @@
             </div>
           </div>
           <h3><a href="{% url 'web:forum_post' post_id=post.id %}">{% if post.highlight and post.highlight.title %}{{ post.highlight.title|safe }}{% else %}{{ post.title }}{% endif %}</a></h3>
-          {% if post.images %}
-          <div class="post-card-images">
-            {% for img in post.images %}
-            {% if forloop.counter <= 3 %}
-            <img src="{{ img.imageUrl }}" alt="" loading="lazy" class="post-card-thumb">
-            {% endif %}
-            {% endfor %}
-          </div>
-          {% endif %}
+          {% with images=post.images %}{% include "web/_forum_post_images.html" %}{% endwith %}
           {% if post.poll %}
           <div class="post-card-poll-badge">
             <span class="material-symbols-outlined" style="font-size:16px;">{% if post.poll.pollType == 'mcq' %}quiz{% else %}poll{% endif %}</span>
