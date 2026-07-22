@@ -158,7 +158,9 @@ fun LibraryScreen(
             if (!isSyllabusDetailMode) {
                 LibraryTabs(
                     currentTab = currentTab,
-                    onTabSelected = { currentTab = it }
+                    onTabSelected = { currentTab = it },
+                    sort = uiState.sort,
+                    onSortSelected = viewModel::selectSort
                 )
             }
 
@@ -201,22 +203,35 @@ fun LibraryScreen(
 @Composable
 private fun LibraryTabs(
     currentTab: String,
-    onTabSelected: (String) -> Unit
+    onTabSelected: (String) -> Unit,
+    sort: String = "relevant",
+    onSortSelected: (String) -> Unit = {}
 ) {
     val tabs = listOf("library" to "Library", "syllabus" to "Syllabus", "interactive" to "Interactive")
     val scrollState = rememberScrollState()
     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .horizontalScroll(scrollState),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            tabs.forEach { (key, label) ->
-                TabButton(
-                    text = label,
-                    selected = currentTab == key,
-                    onClick = { onTabSelected(key) }
+            Row(
+                modifier = Modifier
+                    .weight(1f)
+                    .horizontalScroll(scrollState),
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                tabs.forEach { (key, label) ->
+                    TabButton(
+                        text = label,
+                        selected = currentTab == key,
+                        onClick = { onTabSelected(key) }
+                    )
+                }
+            }
+            if (currentTab == "library") {
+                LibrarySortDropdown(
+                    sort = sort,
+                    onSortSelected = onSortSelected
                 )
             }
         }
@@ -229,7 +244,7 @@ private fun TabButton(text: String, selected: Boolean, onClick: () -> Unit) {
     Column(
         modifier = Modifier
             .clickable(onClick = onClick)
-            .padding(horizontal = 16.dp, vertical = 12.dp),
+            .padding(horizontal = 8.dp, vertical = 4.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
@@ -238,10 +253,10 @@ private fun TabButton(text: String, selected: Boolean, onClick: () -> Unit) {
             fontWeight = FontWeight.Bold,
             color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
         )
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(4.dp))
         Surface(
             modifier = Modifier
-                .fillMaxWidth()
+                .width(28.dp)
                 .height(3.dp),
             color = if (selected) MaterialTheme.colorScheme.primary else Color.Transparent,
             shape = WebPillShape
@@ -285,33 +300,6 @@ private fun LibraryContent(
                             message = uiState.error ?: "Something went wrong",
                             onRetry = onRetry,
                             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-                        )
-                    }
-                }
-                Surface(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 8.dp),
-                    shape = WebPanelShape,
-                    color = MaterialTheme.colorScheme.surfaceContainerLowest,
-                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
-                ) {
-                    Row(
-                        modifier = Modifier.padding(start = 14.dp, top = 4.dp, end = 8.dp, bottom = 4.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        val total = uiState.totalCount.coerceAtLeast(uiState.resources.size)
-                        Text(
-                            text = "Showing 1\u2013${uiState.resources.size} of $total resources",
-                            style = MaterialTheme.typography.labelMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.weight(1f),
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                        LibrarySortDropdown(
-                            sort = uiState.sort,
-                            onSortSelected = onSortSelected
                         )
                     }
                 }

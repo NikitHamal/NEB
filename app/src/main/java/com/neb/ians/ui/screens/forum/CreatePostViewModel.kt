@@ -32,7 +32,7 @@ import javax.inject.Inject
 
 const val MAX_POST_TITLE = 200
 const val MAX_POST_CONTENT = 20_000
-const val MAX_POST_IMAGES = 3
+const val MAX_POST_IMAGES = 10
 const val MAX_IMAGE_BYTES = 10L * 1024 * 1024
 
 data class PollOptionDraft(

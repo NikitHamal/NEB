@@ -334,7 +334,7 @@ def save_banner_image_upload(request, user, file_obj) -> str:
 
 
 POST_IMAGE_MAX_BYTES = 10 * 1024 * 1024  # 10 MB per image
-POST_IMAGE_MAX_COUNT = 3
+POST_IMAGE_MAX_COUNT = 10
 POST_IMAGE_ALLOWED_EXTENSIONS = {'.jpg', '.jpeg', '.png', '.webp', '.gif'}
 POST_IMAGE_ALLOWED_FORMATS = {'JPEG', 'PNG', 'WEBP', 'GIF'}
 POST_IMAGE_CONTENT_TYPES = {'image/jpeg', 'image/png', 'image/webp', 'image/gif'}

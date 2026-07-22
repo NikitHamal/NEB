@@ -80,6 +80,7 @@ class MediaPlayerViewModel @Inject constructor(
     }
 
     init {
+        ensurePlayer()
         if (initialResourceId.isNotBlank()) setResource(initialResourceId)
     }
 
@@ -87,9 +88,7 @@ class MediaPlayerViewModel @Inject constructor(
         if (resourceId.isBlank()) return
         if (activeResourceId == resourceId && _uiState.value.resource != null) return
         savePosition()
-        // Stop, don't release — the ExoPlayer instance must outlive resource
-        // swaps or the Compose stage ends up bound to a released player
-        // (black video-on-first-play until a fullscreen rebind).
+        ensurePlayer()
         stopPlayerForLoad()
         loadJob?.cancel()
         activeResourceId = resourceId

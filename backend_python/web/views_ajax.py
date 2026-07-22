@@ -216,8 +216,8 @@ def ajax_create_post(request):
         return JsonResponse({'error': 'Title must be 200 characters or fewer'}, status=400)
     if len(content) > 20000:
         return JsonResponse({'error': 'Content must be 20000 characters or fewer'}, status=400)
-    if image_urls and len(image_urls) > 3:
-        return JsonResponse({'error': 'Maximum 3 images per post'}, status=400)
+    if image_urls and len(image_urls) > POST_IMAGE_MAX_COUNT:
+        return JsonResponse({'error': f'Maximum {POST_IMAGE_MAX_COUNT} images per post'}, status=400)
     if poll_data:
         options = poll_data.get('options', [])
         if len(options) < 2:
