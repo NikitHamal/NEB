@@ -76,9 +76,7 @@
     {% if post.images %}
     <div class="post-card-images">
       {% for img in post.images %}
-      {% if forloop.counter <= 3 %}
-      <img src="{{ img.imageUrl }}" alt="" loading="lazy" class="post-card-thumb">
-      {% endif %}
+      <img src="{{ img.imageUrl }}" alt="Post image {{ forloop.counter }}" loading="lazy" class="post-card-thumb" data-action="open-image-lightbox" data-src="{{ img.imageUrl }}">
       {% endfor %}
     </div>
     {% endif %}

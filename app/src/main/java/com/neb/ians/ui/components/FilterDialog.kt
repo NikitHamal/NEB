@@ -41,6 +41,8 @@ import androidx.compose.ui.window.DialogProperties
 @Composable
 fun FilterDialog(
     onDismissRequest: () -> Unit,
+    selectedSort: String = "relevant",
+    onSortSelected: (String) -> Unit = {},
     selectedSubject: String?,
     selectedGradeLevel: String?,
     selectedType: String?,
@@ -60,7 +62,7 @@ fun FilterDialog(
         Surface(
             modifier = Modifier
                 .fillMaxWidth(0.92f)
-                .heightIn(max = 560.dp),
+                .heightIn(max = 580.dp),
             shape = RoundedCornerShape(28.dp),
             color = MaterialTheme.colorScheme.surfaceContainerLowest,
             tonalElevation = 6.dp
@@ -85,6 +87,18 @@ fun FilterDialog(
                         .verticalScroll(rememberScrollState()),
                     verticalArrangement = Arrangement.spacedBy(20.dp)
                 ) {
+                    FilterSection(
+                        title = "SORT BY",
+                        items = LibraryUiState.SORT_OPTIONS.map { it.label },
+                        selectedItem = LibraryUiState.SORT_OPTIONS.firstOrNull { it.key == selectedSort }?.label ?: "Most Relevant",
+                        onItemClick = { label ->
+                            val option = LibraryUiState.SORT_OPTIONS.firstOrNull { it.label == label }
+                            if (option != null) {
+                                onSortSelected(option.key)
+                            }
+                        }
+                    )
+
                     FilterSection(
                         title = "SUBJECT",
                         items = subjects,

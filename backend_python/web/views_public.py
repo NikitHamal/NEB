@@ -385,6 +385,7 @@ def library(request):
         })
     categories_list.sort(key=lambda x: x['order'])
 
+    active_filter_count = len(subjects) + len(grades) + len(types) + len(faculties) + len(exam_types)
     ctx = _ctx(request,
         resources=filtered,
         all_subjects=all_subjects,
@@ -398,6 +399,7 @@ def library(request):
         current_types=types,
         current_faculties=faculties,
         current_exam_types=exam_types,
+        active_filter_count=active_filter_count,
         current_sort=sort_by,
         current_tab=current_tab,
         page_obj=page_obj,
