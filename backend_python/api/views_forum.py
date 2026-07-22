@@ -592,7 +592,7 @@ def post_images(request, post_id):
     if not files:
         return Response({'error': 'No images provided'}, status=400)
     if existing_count + len(files) > POST_IMAGE_MAX_COUNT:
-        return Response({'error': 'Maximum 3 images per post'}, status=400)
+        return Response({'error': f'Maximum {POST_IMAGE_MAX_COUNT} images per post'}, status=400)
     now = _now_ms()
     uploaded = []
     for i, f in enumerate(files):

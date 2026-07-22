@@ -61,17 +61,32 @@
     {% endif %}
   </div>
 
-  <!-- Navigation Tabs -->
-  <div class="subj-tabs" style="margin-bottom: 20px;">
-    <a href="?tab=digital{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" class="subj-tab-btn {% if current_tab == 'digital' %}active{% endif %}">
-      Library
-    </a>
-    <a href="?tab=categories{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" class="subj-tab-btn {% if current_tab == 'categories' %}active{% endif %}">
-      Syllabus
-    </a>
-    <a href="?tab=interactive{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" class="subj-tab-btn ix-tab-btn {% if current_tab == 'interactive' %}active{% endif %}">
-      Interactive
-    </a>
+  <!-- Navigation Tabs & Sort Filter -->
+  <div class="subj-tabs-header">
+    <div class="subj-tabs">
+      <a href="?tab=digital{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" class="subj-tab-btn {% if current_tab == 'digital' %}active{% endif %}">
+        Library
+      </a>
+      <a href="?tab=categories{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" class="subj-tab-btn {% if current_tab == 'categories' %}active{% endif %}">
+        Syllabus
+      </a>
+      <a href="?tab=interactive{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" class="subj-tab-btn ix-tab-btn {% if current_tab == 'interactive' %}active{% endif %}">
+        Interactive
+      </a>
+    </div>
+    {% if current_tab == 'digital' %}
+    <div class="lib-sort-controls">
+      <span style="font-size:0.8125rem;color:var(--md-on-surface-variant);">Sort by:</span>
+      <select data-change-action="navigate-sort">
+        <option value="relevant" {% if current_sort == 'relevant' %}selected{% endif %}>Most Relevant</option>
+        <option value="trending" {% if current_sort == 'trending' %}selected{% endif %}>Trending</option>
+        <option value="newest" {% if current_sort == 'newest' %}selected{% endif %}>Newest</option>
+        <option value="liked" {% if current_sort == 'liked' %}selected{% endif %}>Most Liked</option>
+        <option value="oldest" {% if current_sort == 'oldest' %}selected{% endif %}>Oldest</option>
+      </select>
+      <span id="sort-params" style="display:none;" data-tab="{{ current_tab }}" data-subjects="{{ current_subjects|join:',' }}" data-grades="{{ current_grades|join:',' }}" data-types="{{ current_types|join:',' }}"></span>
+    </div>
+    {% endif %}
   </div>
 
 {% if current_tab == 'interactive' %}
@@ -99,22 +114,6 @@
       <a href="{% url 'web:library' %}?tab={{ current_tab }}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" style="font-size:0.8125rem;color:var(--md-primary);text-decoration:none;font-weight:600;" hx-get="{% url 'web:library' %}?tab={{ current_tab }}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" hx-target="#library-main" hx-swap="innerHTML" hx-push-url="true">Clear all</a>
     </div>
     {% endif %}
-
-    <!-- Sort bar -->
-    <div class="lib-sort-bar">
-      <div class="lib-count">Showing <strong>{{ page_obj.start_index }}&ndash;{{ page_obj.end_index }}</strong> of <strong>{{ page_obj.paginator.count }}</strong> resources</div>
-      <div class="lib-sort-controls">
-        <span style="font-size:0.8125rem;color:var(--md-on-surface-variant);">Sort by:</span>
-        <select data-change-action="navigate-sort">
-          <option value="relevant" {% if current_sort == 'relevant' %}selected{% endif %}>Most Relevant</option>
-          <option value="trending" {% if current_sort == 'trending' %}selected{% endif %}>Trending</option>
-          <option value="newest" {% if current_sort == 'newest' %}selected{% endif %}>Newest</option>
-          <option value="liked" {% if current_sort == 'liked' %}selected{% endif %}>Most Liked</option>
-          <option value="oldest" {% if current_sort == 'oldest' %}selected{% endif %}>Oldest</option>
-        </select>
-        <span id="sort-params" style="display:none;" data-tab="{{ current_tab }}" data-subjects="{{ current_subjects|join:',' }}" data-grades="{{ current_grades|join:',' }}" data-types="{{ current_types|join:',' }}"></span>
-      </div>
-    </div>
 
     <!-- Resource Grid -->
     {% include "web/_library_content.html" %}

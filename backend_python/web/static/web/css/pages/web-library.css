@@ -24,14 +24,21 @@
     background: var(--md-primary);
   }
 
-  /* M3 Tabs Navigation */
+  /* M3 Tabs Navigation & Header Row */
+  .subj-tabs-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--md-outline-variant);
+    margin-bottom: 20px;
+    gap: 16px;
+  }
   .subj-tabs {
     display: flex;
-    border-bottom: 1px solid var(--md-outline-variant);
-    margin-bottom: 24px;
     gap: 8px;
     overflow-x: auto;
     scrollbar-width: none;
+    margin-bottom: -1px;
   }
   .subj-tabs::-webkit-scrollbar { display: none; }
   .subj-tab-btn {

@@ -34,11 +34,23 @@ fun NebPlayerView(
                 setShutterBackgroundColor(android.graphics.Color.TRANSPARENT)
                 this.resizeMode = resizeMode
                 this.player = player
+                (videoSurfaceView as? android.view.TextureView)?.let { tv ->
+                    if (tv.isAvailable && player != null) {
+                        player.setVideoTextureView(tv)
+                    }
+                }
             }
         },
         update = { pv ->
             if (pv.resizeMode != resizeMode) pv.resizeMode = resizeMode
             if (pv.player !== player) pv.player = player
+            if (player != null) {
+                (pv.videoSurfaceView as? android.view.TextureView)?.let { tv ->
+                    if (tv.isAvailable) {
+                        player.setVideoTextureView(tv)
+                    }
+                }
+            }
         },
         modifier = modifier
     )
