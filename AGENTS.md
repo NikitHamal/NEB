@@ -14,6 +14,7 @@
 - Follow existing code style in each file.
 - Use existing libraries already in the codebase; don't assume third-party packages exist.
 - Always check `requirements.txt` before adding new dependencies.
+- **Django 5.2 templates:** `{% endblock %}`, `{% else %}`, and similar block tags MUST be on a single line. Multi-line splits (`{% endblock\n%}` or `{%\nendblock %}`) cause cryptic "Unclosed tag" errors.
 
 ## Overview
 
@@ -1136,6 +1137,8 @@ UI/UX revamp — home page, library, search, and design system consistency pass:
 19. **Three-dot menu + Bookmark system (Migration 0016)** — Added `Bookmark` model (user, target_type, target_id) and `Reply.is_archived` field. All post/reply cards across home, forum, search, and forum_post pages now have a three-dot `more-btn` → `more-menu` dropdown. The menu is wrapped in `.more-menu-wrapper` for proper `position: absolute` containment. Menu options: Bookmark, Share, Report (non-author), Edit/Archive/Delete (author only). Bookmark toggle hits `/ajax/bookmark/toggle/`. Post/reply delete now cascades to bookmarks, likes, edit history, and child replies.
 
 20. **Post delete cascade is thorough** — `ajax_delete_post` deletes: bookmarks for the post, bookmarks for all replies, PostLikes, ReplyLikes, EditHistory for post and replies, all replies, and the post itself. `ajax_delete_reply` deletes: bookmarks for the reply and its children, ReplyLikes, EditHistory, child replies, and the reply. Both use `transaction.atomic()`.
+
+21. **Django 5.2 template tag multi-line pitfall** — The template parser treats `{% endblock %}` as invalid when the keyword and closing `%}` are on different lines. Both `{% endblock\n%}` (keyword on one line, `%}` on next) AND `{%\nendblock %}` (`{%` on one line, `endblock %}` on next) fail with `Unclosed tag on line N: 'block'`. This applies to all block tags (`{% endblock %}`, `{% else %}`, `{% elif %}`, `{% endif %}`, etc.) inside `{% block %}` regions. Always keep the entire tag on a single line. This bug was hit on `library.html` after a deploy and took 3 rounds of fixes to fully resolve.
 
 ---
 
