@@ -237,7 +237,8 @@ fun ForumPostCard(
         buildInlineAnnotatedString(preview, bodyColor, primary, codeBg, anonAccent, anonOnAccent)
     }
     val bookmarked = post.isBookmarked == true
-    var zoomImageUrl by remember { mutableStateOf<String?>(null) }
+    var zoomImageUrlsList by remember { mutableStateOf<List<String>?>(null) }
+    var zoomInitialIndex by remember { mutableStateOf(0) }
 
     NebCard(
         modifier = modifier.fillMaxWidth(),
@@ -381,6 +382,8 @@ fun ForumPostCard(
                 val sortedImages = remember(post.images) { post.images.sortedBy { it.order } }
                 val displayImages = sortedImages.take(3)
                 val extraCount = sortedImages.size - 3
+                val allResolvedUrls = remember(sortedImages) { sortedImages.map { resolveMediaUrl(it.imageUrl) } }
+
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     displayImages.forEachIndexed { index, image ->
                         Box(
@@ -394,7 +397,10 @@ fun ForumPostCard(
                                 modifier = Modifier
                                     .fillMaxSize()
                                     .clip(RoundedCornerShape(8.dp))
-                                    .clickable { zoomImageUrl = resolveMediaUrl(image.imageUrl) },
+                                    .clickable {
+                                        zoomImageUrlsList = allResolvedUrls
+                                        zoomInitialIndex = index
+                                    },
                                 contentScale = ContentScale.Crop
                             )
                             if (index == 2 && extraCount > 0) {
@@ -403,7 +409,10 @@ fun ForumPostCard(
                                         .fillMaxSize()
                                         .clip(RoundedCornerShape(8.dp))
                                         .background(Color.Black.copy(alpha = 0.55f))
-                                        .clickable { zoomImageUrl = resolveMediaUrl(image.imageUrl) },
+                                        .clickable {
+                                            zoomImageUrlsList = allResolvedUrls
+                                            zoomInitialIndex = index
+                                        },
                                     contentAlignment = Alignment.Center
                                 ) {
                                     Text(
@@ -419,11 +428,12 @@ fun ForumPostCard(
                 }
             }
 
-            zoomImageUrl?.let { url ->
+            zoomImageUrlsList?.let { urls ->
                 ZoomableImageDialog(
-                    imageUrl = url,
+                    imageUrls = urls,
+                    initialIndex = zoomInitialIndex,
                     contentDescription = "Post image preview",
-                    onDismiss = { zoomImageUrl = null }
+                    onDismiss = { zoomImageUrlsList = null }
                 )
             }
 

@@ -31,8 +31,6 @@ import androidx.compose.material.icons.outlined.CloudUpload
 import androidx.compose.material.icons.outlined.ExpandMore
 import androidx.compose.material.icons.outlined.ContactSupport
 import androidx.compose.material.icons.outlined.Inventory2
-import androidx.compose.material.icons.outlined.Tune
-import com.neb.ians.ui.components.FilterDialog
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Card
@@ -128,32 +126,6 @@ fun LibraryScreen(
         onDispose { onSyllabusDetailChromeChanged(false) }
     }
 
-    var showFilterDialog by remember { mutableStateOf(false) }
-
-    val activeFilterCount = (if (uiState.selectedSubject != null) 1 else 0) +
-        (if (uiState.selectedGradeLevel != null) 1 else 0) +
-        (if (uiState.selectedType != null) 1 else 0)
-
-    if (showFilterDialog) {
-        FilterDialog(
-            onDismissRequest = { showFilterDialog = false },
-            selectedSubject = uiState.selectedSubject,
-            selectedGradeLevel = uiState.selectedGradeLevel,
-            selectedType = uiState.selectedType,
-            subjects = LibraryUiState.SUBJECTS,
-            gradeLevels = LibraryUiState.GRADE_LEVELS,
-            types = LibraryUiState.TYPES,
-            onSubjectSelected = viewModel::selectSubject,
-            onGradeLevelSelected = viewModel::selectGradeLevel,
-            onTypeSelected = viewModel::selectType,
-            onClearAll = {
-                viewModel.clearFilters()
-                showFilterDialog = false
-            },
-            onApply = { showFilterDialog = false }
-        )
-    }
-
     Scaffold(
         topBar = {
             if (!isSyllabusDetailMode) {
@@ -188,9 +160,7 @@ fun LibraryScreen(
                     currentTab = currentTab,
                     onTabSelected = { currentTab = it },
                     sort = uiState.sort,
-                    onSortSelected = viewModel::selectSort,
-                    activeFilterCount = activeFilterCount,
-                    onFilterClick = { showFilterDialog = true }
+                    onSortSelected = viewModel::selectSort
                 )
             }
 
@@ -235,9 +205,7 @@ private fun LibraryTabs(
     currentTab: String,
     onTabSelected: (String) -> Unit,
     sort: String = "relevant",
-    onSortSelected: (String) -> Unit = {},
-    activeFilterCount: Int = 0,
-    onFilterClick: () -> Unit = {}
+    onSortSelected: (String) -> Unit = {}
 ) {
     val tabs = listOf("library" to "Library", "syllabus" to "Syllabus", "interactive" to "Interactive")
     val scrollState = rememberScrollState()
@@ -261,41 +229,10 @@ private fun LibraryTabs(
                 }
             }
             if (currentTab == "library") {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(6.dp)
-                ) {
-                    val hasActiveFilters = activeFilterCount > 0
-                    Surface(
-                        onClick = onFilterClick,
-                        shape = WebPillShape,
-                        color = if (hasActiveFilters) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceContainerLow,
-                        contentColor = if (hasActiveFilters) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant,
-                        border = BorderStroke(1.dp, if (hasActiveFilters) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant)
-                    ) {
-                        Row(
-                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(4.dp)
-                        ) {
-                            Icon(
-                                imageVector = Icons.Outlined.Tune,
-                                contentDescription = "Filter",
-                                modifier = Modifier.size(16.dp)
-                            )
-                            Text(
-                                text = if (activeFilterCount > 0) "Filter ($activeFilterCount)" else "Filter",
-                                style = MaterialTheme.typography.labelSmall,
-                                fontWeight = FontWeight.Bold
-                            )
-                        }
-                    }
-
-                    LibrarySortDropdown(
-                        sort = sort,
-                        onSortSelected = onSortSelected
-                    )
-                }
+                LibrarySortDropdown(
+                    sort = sort,
+                    onSortSelected = onSortSelected
+                )
             }
         }
         HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
