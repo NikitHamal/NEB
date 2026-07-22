@@ -65,10 +65,10 @@
   {% for num in page_obj.paginator.page_range %}
     {% if page_obj.number == num %}
     <span class="current">{{ num }}</span>
-    {% elif num == 1 or num == page_obj.paginator.num_pages or num == page_obj.number|add:1 or num == page_obj.number|add:-1 %}
+    {% elif num == 1 or num == page_obj.paginator.num_pages %}
     <a href="?page={{ num }}&tab={{ current_tab }}&sort={{ current_sort }}{% for s in current_subjects %}&subject={{ s|urlencode }}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}" hx-get="?page={{ num }}&tab={{ current_tab }}&sort={{ current_sort }}{% for s in current_subjects %}&subject={{ s|urlencode }}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}" hx-target="#library-main" hx-swap="innerHTML" hx-push-url="true">{{ num }}</a>
-    {% elif num == 2 and page_obj.number > 4 or num == page_obj.paginator.num_pages|add:-1 and page_obj.number < page_obj.paginator.num_pages|add:-3 %}
-    <span class="dots">&hellip;</span>
+    {% elif num >= page_obj.number|add:"-1" and num <= page_obj.number|add:"1" %}
+    <a href="?page={{ num }}&tab={{ current_tab }}&sort={{ current_sort }}{% for s in current_subjects %}&subject={{ s|urlencode }}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}" hx-get="?page={{ num }}&tab={{ current_tab }}&sort={{ current_sort }}{% for s in current_subjects %}&subject={{ s|urlencode }}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}" hx-target="#library-main" hx-swap="innerHTML" hx-push-url="true">{{ num }}</a>
     {% endif %}
   {% endfor %}
 
