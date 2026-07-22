@@ -382,7 +382,7 @@ fun ForumPostCard(
                 val sortedImages = remember(post.images) { post.images.sortedBy { it.order } }
                 val displayImages = sortedImages.take(3)
                 val extraCount = sortedImages.size - 3
-                val allResolvedUrls = remember(sortedImages) { sortedImages.map { resolveMediaUrl(it.imageUrl) } }
+                val allResolvedUrls = remember(sortedImages) { sortedImages.mapNotNull { resolveMediaUrl(it.imageUrl) } }
 
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     displayImages.forEachIndexed { index, image ->
