@@ -877,17 +877,21 @@ def ajax_space_canvas_ai(request, space_id):
     if not prompt_text:
         return JsonResponse({'error': 'Prompt is required'}, status=400)
 
+    board_summary = str(body.get('board_summary') or '').strip()
     texts, _p, _f = _get_space_texts(space)
-    doc_context = ""
+    context_parts = []
+    if board_summary:
+        context_parts.append(f"Existing Canvas Notes & Content:\n{board_summary[:4000]}")
     if texts:
         sources = [f"[{t['title']}]: {t['content'][:1500]}" for t in texts[:3]]
-        doc_context = "\n\nRelevant Study Space Context:\n" + "\n".join(sources)
-
+        context_parts.append("Relevant Study Space Document Context:\n" + "\n".join(sources))
+    
+    context_str = "\n\n".join(context_parts)
     full_prompt = (
-        f"Learner's Canvas Request:\n{prompt_text}\n"
-        f"{doc_context}\n\n"
-        "Provide a clear, well-structured explanation or solution. "
-        "Use LaTeX for all mathematical expressions and chemical formulas."
+        f"Learner's Canvas Request:\n{prompt_text}\n\n"
+        f"{context_str}\n\n"
+        "Provide a clear, mathematically rigorous explanation or solution. "
+        "Use LaTeX for all equations."
     )
 
     result, err = _qwen().simple_chat(full_prompt, system_prompt=CANVAS_AI_SYSTEM_PROMPT)
