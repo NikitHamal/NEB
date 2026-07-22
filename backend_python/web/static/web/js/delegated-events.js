@@ -248,4 +248,31 @@
     window.openImageLightbox(imagesList, indexAttr);
   };
 
+
+  actions['fp-slide-prev'] = function(el, e) {
+    var container = el.closest('.fp-post-slider-container');
+    if (!container) return;
+    var slider = container.querySelector('.fp-post-images-slider');
+    if (slider) slider.scrollBy({ left: -332, behavior: 'smooth' });
+  };
+
+  actions['fp-slide-next'] = function(el, e) {
+    var container = el.closest('.fp-post-slider-container');
+    if (!container) return;
+    var slider = container.querySelector('.fp-post-images-slider');
+    if (slider) slider.scrollBy({ left: 332, behavior: 'smooth' });
+  };
+
+  document.addEventListener('scroll', function(e) {
+    if (e.target && e.target.classList && e.target.classList.contains('fp-post-images-slider')) {
+      var slider = e.target;
+      var container = slider.closest('.fp-post-slider-container');
+      if (!container) return;
+      var prev = container.querySelector('.fp-slider-prev');
+      var next = container.querySelector('.fp-slider-next');
+      if (prev) prev.style.display = slider.scrollLeft > 10 ? 'flex' : 'none';
+      if (next) next.style.display = (slider.scrollLeft + slider.clientWidth) < (slider.scrollWidth - 10) ? 'flex' : 'none';
+    }
+  }, true);
+
 })();

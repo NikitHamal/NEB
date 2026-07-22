@@ -119,7 +119,7 @@
     <h2 class="fp-post-title">{{ post.title }}</h2>
     <div class="fp-post-body" id="post-content-{{ post.id }}">{{ post.content|mention_links:all_usernames }}</div>
 
-    {% with images=post.images %}{% include "web/_forum_post_images.html" %}{% endwith %}
+    {% with images=post.images %}{% include "web/_forum_post_slider.html" %}{% endwith %}
 
     {% with attachments=post.attachments %}{% include "web/_forum_attachments.html" %}{% endwith %}
 
