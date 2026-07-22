@@ -1529,11 +1529,18 @@
       btn.disabled = true;
       btn.textContent = 'Generating...';
 
+      var summary = self.elements.map(function(el) {
+        if (el.type === 'text' || el.type === 'sticky') return (el.type.toUpperCase()) + ': ' + (el.text || '');
+        if (el.type === 'ai_card') return 'AI_CARD: ' + (el.title || '') + ' - ' + (el.content || '');
+        if (el.type === 'document_card') return 'DOC: ' + (el.title || '');
+        return '';
+      }).filter(Boolean).join('\n');
+
       var csrf = getCsrfToken();
       fetch('/ajax/study-space/' + self.spaceId + '/canvas-ai/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrf },
-        body: JSON.stringify({ prompt: val })
+        body: JSON.stringify({ prompt: val, board_summary: summary })
       }).then(function(r) { return r.json(); })
         .then(function(res) {
           close();
