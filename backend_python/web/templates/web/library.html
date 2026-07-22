@@ -82,30 +82,32 @@ labs and coding games.{% else %}Browse study resources - notes, past papers, tex
         Interactive
       </a>
     </div>
-    {% if current_tab == 'digital' %}
+    {% if current_tab == 'digital' or current_tab == 'community' %}
     <div class="lib-sort-controls">
-      <button type="button" class="lib-filter-btn {% if active_filter_count > 0 %}active{% endif %}" data-action="open-library-filter">
+      <button type="button" class="lib-filter-btn {% if active_filter_count > 0 %}has-badge{% endif %}" data-action="open-library-filter">
         <span class="material-symbols-outlined" style="font-size:18px;">tune</span>
         <span>Filter</span>
         {% if active_filter_count > 0 %}
         <span class="lib-filter-badge">{{ active_filter_count }}</span>
         {% endif %}
       </button>
-      <span style="font-size:0.8125rem;color:var(--md-on-surface-variant);margin-left:6px;">Sort by:</span>
-      <select data-change-action="navigate-sort">
-        <option value="relevant" {% if current_sort == 'relevant' %}selected{% endif %}>Most Relevant</option>
-        <option value="trending" {% if current_sort == 'trending' %}selected{% endif %}>Trending</option>
-        <option value="newest" {% if current_sort == 'newest' %}selected{% endif %}>Newest</option>
-        <option value="liked" {% if current_sort == 'liked' %}selected{% endif %}>Most Liked</option>
-        <option value="oldest" {% if current_sort == 'oldest' %}selected{% endif %}>Oldest</option>
-      </select>
+      <div class="lib-sort-select-wrapper">
+        <span class="sort-label">Sort by:</span>
+        <select data-change-action="navigate-sort" class="lib-sort-select">
+          <option value="relevant" {% if current_sort == 'relevant' %}selected{% endif %}>Most Relevant</option>
+          <option value="trending" {% if current_sort == 'trending' %}selected{% endif %}>Trending</option>
+          <option value="newest" {% if current_sort == 'newest' %}selected{% endif %}>Newest</option>
+          <option value="liked" {% if current_sort == 'liked' %}selected{% endif %}>Most Liked</option>
+          <option value="oldest" {% if current_sort == 'oldest' %}selected{% endif %}>Oldest</option>
+        </select>
+      </div>
     </div>
     {% endif %}
   </div>
 
   {% if current_tab == 'interactive' %}
   {% include "web/interactive/_hub_content.html" %}
-  {% elif current_tab == 'digital' %}
+  {% elif current_tab == 'digital' or current_tab == 'community' %}
   <div id="library-main">
     <!-- Active filter chips -->
     {% if current_subjects or current_grades or current_types %}
@@ -177,28 +179,173 @@ labs and coding games.{% else %}Browse study resources - notes, past papers, tex
 </div>
 </div>
 
+<!-- Library Filter Dialog -->
+{% if current_tab == 'digital' or current_tab == 'community' %}
+<div id="library-filter-modal" class="md-overlay" style="display:none;" data-action="close-library-filter-outside">
+  <div class="md-dialog lib-filter-dialog" onclick="event.stopPropagation();">
+    <div class="lib-filter-header">
+      <h3>
+        <span class="material-symbols-outlined" style="color:var(--md-primary);">tune</span>
+        Filter Resources
+      </h3>
+      <button type="button" class="md-icon-btn" data-action="close-library-filter" aria-label="Close">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    
+    <div class="lib-filter-body">
+      <!-- Sort By -->
+      <div>
+        <div class="filter-section-title">SORT BY</div>
+        <div class="filter-chip-group">
+          <button type="button" class="filter-chip-btn {% if current_sort == 'relevant' %}active{% endif %}" data-filter="sort" data-value="relevant">
+            <span class="material-symbols-outlined check-icon">check</span> Most Relevant
+          </button>
+          <button type="button" class="filter-chip-btn {% if current_sort == 'trending' %}active{% endif %}" data-filter="sort" data-value="trending">
+            <span class="material-symbols-outlined check-icon">check</span> Trending
+          </button>
+          <button type="button" class="filter-chip-btn {% if current_sort == 'newest' %}active{% endif %}" data-filter="sort" data-value="newest">
+            <span class="material-symbols-outlined check-icon">check</span> Newest
+          </button>
+          <button type="button" class="filter-chip-btn {% if current_sort == 'liked' %}active{% endif %}" data-filter="sort" data-value="liked">
+            <span class="material-symbols-outlined check-icon">check</span> Most Liked
+          </button>
+          <button type="button" class="filter-chip-btn {% if current_sort == 'oldest' %}active{% endif %}" data-filter="sort" data-value="oldest">
+            <span class="material-symbols-outlined check-icon">check</span> Oldest
+          </button>
+        </div>
+      </div>
+
+      <!-- Subject -->
+      {% if all_subjects %}
+      <div>
+        <div class="filter-section-title">SUBJECT</div>
+        <div class="filter-chip-group">
+          {% for s in all_subjects %}
+          <button type="button" class="filter-chip-btn {% if s in current_subjects %}active{% endif %}" data-filter="subject" data-value="{{ s }}">
+            <span class="material-symbols-outlined check-icon">check</span> {{ s }}
+          </button>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Grade / Level -->
+      {% if all_grades %}
+      <div>
+        <div class="filter-section-title">GRADE / LEVEL</div>
+        <div class="filter-chip-group">
+          {% for g in all_grades %}
+          <button type="button" class="filter-chip-btn {% if g in current_grades %}active{% endif %}" data-filter="grade" data-value="{{ g }}">
+            <span class="material-symbols-outlined check-icon">check</span> {{ g }}
+          </button>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Resource Type -->
+      {% if all_types %}
+      <div>
+        <div class="filter-section-title">TYPE</div>
+        <div class="filter-chip-group">
+          {% for t in all_types %}
+          <button type="button" class="filter-chip-btn {% if t in current_types %}active{% endif %}" data-filter="type" data-value="{{ t }}">
+            <span class="material-symbols-outlined check-icon">check</span> {{ t }}
+          </button>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="lib-filter-footer">
+      <button type="button" class="md-btn-text" data-action="reset-library-filter">Clear All</button>
+      <button type="button" class="md-btn-filled" data-action="apply-library-filter">Apply Filters</button>
+    </div>
+  </div>
+</div>
+{% endif %}
 
 {% endblock %}
 
 {% block extra_js %}
 <script nonce="{{ csp_nonce }}">
-  // ── Real-time library: like counts update live ──
   document.addEventListener('DOMContentLoaded', function () {
     if (!window.WS) return;
     window.WS.subscribe('forum.public');
-    // Library cards on the public list don't have per-resource WS channels
-    // (would require N subscriptions per page). Like count updates on the
-    // global forum.public aren't a perfect fit, so we just listen for the
-    // resource_request channel events (low volume).
     window.WS.on('forum.public:resource_request.created', function () {
-      // No-op for now; visible only when on a future /library/requests page.
+      // No-op for now
     });
   });
 
+  // Filter Chip Click delegation
+  document.addEventListener('click', function(e) {
+    const chip = e.target.closest('.filter-chip-btn');
+    if (!chip) return;
+    const type = chip.getAttribute('data-filter');
+    if (type === 'sort') {
+      const container = chip.closest('.filter-chip-group');
+      if (container) {
+        container.querySelectorAll('.filter-chip-btn').forEach(c => c.classList.remove('active'));
+      }
+      chip.classList.add('active');
+    } else {
+      chip.classList.toggle('active');
+    }
+  });
+
   registerActions({
+    'open-library-filter': function () {
+      var modal = document.getElementById('library-filter-modal');
+      if (modal) modal.style.display = 'flex';
+    },
+    'close-library-filter': function () {
+      var modal = document.getElementById('library-filter-modal');
+      if (modal) modal.style.display = 'none';
+    },
+    'close-library-filter-outside': function (el, ev) {
+      if (ev && ev.target && ev.target.id === 'library-filter-modal') {
+        ev.target.style.display = 'none';
+      }
+    },
+    'reset-library-filter': function () {
+      const modal = document.getElementById('library-filter-modal');
+      if (!modal) return;
+      modal.querySelectorAll('.filter-chip-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      const defaultSort = modal.querySelector('.filter-chip-btn[data-filter="sort"][data-value="relevant"]');
+      if (defaultSort) defaultSort.classList.add('active');
+    },
+    'apply-library-filter': function () {
+      const modal = document.getElementById('library-filter-modal');
+      if (!modal) return;
+      const params = new URLSearchParams();
+      params.set('tab', '{{ current_tab }}');
+      
+      modal.querySelectorAll('.filter-chip-btn.active').forEach(btn => {
+        const type = btn.getAttribute('data-filter');
+        const val = btn.getAttribute('data-value');
+        if (type === 'sort') {
+          params.set('sort', val);
+        } else if (type === 'subject') {
+          params.append('subject', val);
+        } else if (type === 'grade') {
+          params.append('grade', val);
+        } else if (type === 'type') {
+          params.append('type', val);
+        }
+      });
+
+      modal.style.display = 'none';
+      const url = '{% url "web:library" %}?' + params.toString();
+      htmx.ajax('GET', url, '#library-main', { swap: 'innerHTML' });
+      history.pushState({}, '', url);
+    },
     'navigate-sort': function (el) {
       var sortVal = el.value;
-      var params = new URLSearchParams();
+      var params = new URLSearchParams(window.location.search);
       params.set('tab', '{{ current_tab }}');
       params.set('sort', sortVal);
       var qs = params.toString();
