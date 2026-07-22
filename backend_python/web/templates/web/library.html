@@ -6,11 +6,8 @@ Games{% else %}Study Resources Library{% endif %}{% endblock %}
 {% block description %}{% if current_tab == 'interactive' %}Explore free interactive lessons - real-time 3D models,
 virtual lab simulations and coding games for curious students.{% else %}Browse study resources - notes, past papers,
 textbooks and more for students and teachers.{% endif %}{% endblock %}
-{% block keywords %}{% if current_tab == 'interactive' %}interactive learning, 3D models, simulations, coding games,
-virtual labs, free education{% else %}study resources, notes, past papers, textbooks, education, library{% endif %}{%
-endblock %}
-{% block og_title %}{% if current_tab == 'interactive' %}NEBians Interactive — 3D Models, Simulations & Coding Games{%
-else %}NEBians Library - Study Resources{% endif %}{% endblock %}
+{% block keywords %}{% if current_tab == 'interactive' %}interactive learning, 3D models, simulations, coding games, virtual labs, free education{% else %}study resources, notes, past papers, textbooks, education, library{% endif %}{% endblock %}
+{% block og_title %}{% if current_tab == 'interactive' %}NEBians Interactive — 3D Models, Simulations & Coding Games{% else %}NEBians Library - Study Resources{% endif %}{% endblock %}
 {% block og_description %}{% if current_tab == 'interactive' %}Explore free interactive lessons - 3D models, virtual
 labs and coding games.{% else %}Browse study resources - notes, past papers, textbooks and more.{% endif %}{% endblock %}
 {% block nav_library %}md-nav-active{% endblock %}
