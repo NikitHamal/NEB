@@ -436,13 +436,113 @@
     }
   };
 
+
+  function formatMarkdownAndMath(text) {
+    if (!text) return '';
+    var esc = function(str) {
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    };
+
+    var mathBlocks = [];
+    text = text.replace(/(\$\$[\s\S]*?\$\$|\\\[[\s\S]*?\\\])/g, function(match) {
+      var latex = match.startsWith('$$') ? match.slice(2, -2) : match.slice(2, -2);
+      try {
+        if (typeof katex !== 'undefined') {
+          var rendered = katex.renderToString(latex.trim(), { displayMode: true, throwOnError: false });
+          mathBlocks.push(rendered);
+          return '___MATH_BLOCK_' + (mathBlocks.length - 1) + '___';
+        }
+      } catch(e) {}
+      return match;
+    });
+
+    text = text.replace(/(\$[^\$\n]+?\$|\\\(.*?\\\))/g, function(match) {
+      var latex = match.startsWith('$') ? match.slice(1, -1) : match.slice(2, -2);
+      try {
+        if (typeof katex !== 'undefined') {
+          var rendered = katex.renderToString(latex.trim(), { displayMode: false, throwOnError: false });
+          mathBlocks.push(rendered);
+          return '___MATH_BLOCK_' + (mathBlocks.length - 1) + '___';
+        }
+      } catch(e) {}
+      return match;
+    });
+
+    var lines = text.split('\n');
+    var html = '';
+    var inList = false;
+
+    for (var i = 0; i < lines.length; i++) {
+      var line = lines[i].trim();
+
+      if (line === '---' || line === '***') {
+        if (inList) { html += '</ul>'; inList = false; }
+        html += '<hr style="border:none; border-top:1px solid var(--md-outline-variant, rgba(0,0,0,0.12)); margin:12px 0;">';
+        continue;
+      }
+
+      if (line.startsWith('### ')) {
+        if (inList) { html += '</ul>'; inList = false; }
+        html += '<h4 style="font-size:14px; font-weight:700; margin:10px 0 4px; color:var(--md-primary, #2563eb);">' + esc(line.slice(4)) + '</h4>';
+        continue;
+      }
+      if (line.startsWith('## ')) {
+        if (inList) { html += '</ul>'; inList = false; }
+        html += '<h3 style="font-size:15px; font-weight:700; margin:12px 0 6px; color:var(--md-primary, #2563eb);">' + esc(line.slice(3)) + '</h3>';
+        continue;
+      }
+      if (line.startsWith('# ')) {
+        if (inList) { html += '</ul>'; inList = false; }
+        html += '<h2 style="font-size:16px; font-weight:700; margin:14px 0 8px; color:var(--md-primary, #2563eb);">' + esc(line.slice(2)) + '</h2>';
+        continue;
+      }
+
+      if (line.startsWith('- ') || line.startsWith('* ')) {
+        if (!inList) { html += '<ul style="margin:4px 0; padding-left:18px;">'; inList = true; }
+        var listContent = line.slice(2);
+        listContent = listContent.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        listContent = listContent.replace(/\*(.*?)\*/g, '<em>$1</em>');
+        html += '<li style="margin-bottom:3px;">' + listContent + '</li>';
+        continue;
+      } else {
+        if (inList) { html += '</ul>'; inList = false; }
+      }
+
+      if (/^\d+\.\s/.test(line)) {
+        var numContent = line.replace(/^\d+\.\s/, '');
+        numContent = numContent.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        numContent = numContent.replace(/\*(.*?)\*/g, '<em>$1</em>');
+        html += '<div style="margin:3px 0; padding-left:2px;"><strong>' + line.match(/^\d+\./)[0] + '</strong> ' + numContent + '</div>';
+        continue;
+      }
+
+      if (!line) {
+        html += '<div style="height:6px;"></div>';
+        continue;
+      }
+
+      var pContent = esc(line);
+      pContent = pContent.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      pContent = pContent.replace(/\*(.*?)\*/g, '<em>$1</em>');
+      html += '<p style="margin:3px 0; line-height:1.5;">' + pContent + '</p>';
+    }
+    if (inList) html += '</ul>';
+
+    for (var m = 0; m < mathBlocks.length; m++) {
+      html = html.replace('___MATH_BLOCK_' + m + '___', mathBlocks[m]);
+    }
+
+    return html;
+  }
+
+
   CollabBoard.prototype._drawAiCard = function(ctx, el) {
-    var x = el.x, y = el.y, w = el.w || 420, h = el.h || 260;
+    var x = el.x, y = el.y, w = el.w || 460, h = el.h || 320;
     ctx.save();
     var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
     ctx.fillStyle = isDark ? '#1e2025' : '#ffffff';
     ctx.strokeStyle = isDark ? '#3b82f6' : '#2563eb';
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 1.5;
     
     var r = 12;
     ctx.beginPath();
@@ -458,29 +558,124 @@
     ctx.closePath();
     ctx.fill();
     ctx.stroke();
-
-    // Header
-    ctx.fillStyle = isDark ? '#1e3a8a' : '#eff6ff';
-    ctx.beginPath();
-    ctx.moveTo(x + r, y);
-    ctx.lineTo(x + w - r, y);
-    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
-    ctx.lineTo(x + w, y + 36);
-    ctx.lineTo(x, y + 36);
-    ctx.lineTo(x, y + r);
-    ctx.quadraticCurveTo(x, y, x + r, y);
-    ctx.closePath();
-    ctx.fill();
-
-    ctx.font = 'bold 13px Poppins, sans-serif';
-    ctx.fillStyle = isDark ? '#93c5fd' : '#1d4ed8';
-    ctx.fillText('\u2728 Neby AI \u00b7 ' + (el.title || 'AI Response'), x + 12, y + 23);
-
-    ctx.font = '13px Poppins, sans-serif';
-    ctx.fillStyle = isDark ? '#e2e8f0' : '#1e293b';
-    this._wrapText(ctx, el.content || '', x + 14, y + 54, w - 28, 20);
     ctx.restore();
   };
+
+
+  CollabBoard.prototype._syncAiCardOverlays = function() {
+    if (!this.container) return;
+    var overlayContainer = this.container.querySelector('.cb-ai-overlay-container');
+    if (!overlayContainer) {
+      overlayContainer = document.createElement('div');
+      overlayContainer.className = 'cb-ai-overlay-container';
+      this.container.appendChild(overlayContainer);
+    }
+
+    var existingOverlays = {};
+    overlayContainer.querySelectorAll('.cb-ai-card-overlay').forEach(function(el) {
+      existingOverlays[el.dataset.id] = el;
+    });
+
+    var self = this;
+    var activeIds = {};
+
+    for (var i = 0; i < this.elements.length; i++) {
+      var el = this.elements[i];
+      if (el.type !== 'ai_card') continue;
+      activeIds[el.id] = true;
+
+      var sp = this._worldToScreen(el.x, el.y);
+      var w = Math.max((el.w || 460) * this.camera.zoom, 280);
+      var h = Math.max((el.h || 320) * this.camera.zoom, 180);
+
+      var cardEl = existingOverlays[el.id];
+      if (!cardEl) {
+        cardEl = document.createElement('div');
+        cardEl.className = 'cb-ai-card-overlay';
+        cardEl.dataset.id = el.id;
+        cardEl.innerHTML = 
+          '<div class="cb-ai-card-header">' +
+            '<div class="cb-ai-card-title"><span class="material-symbols-outlined" style="font-size:18px;">auto_awesome</span> <span class="cb-ai-title-text"></span></div>' +
+            '<div class="cb-ai-card-actions">' +
+              '<button class="cb-ai-card-btn" data-action="copy" title="Copy response & LaTeX"><span class="material-symbols-outlined" style="font-size:16px;">content_copy</span></button>' +
+              '<button class="cb-ai-card-btn" data-action="delete" title="Delete card"><span class="material-symbols-outlined" style="font-size:16px;">close</span></button>' +
+            '</div>' +
+          '</div>' +
+          '<div class="cb-ai-card-body"></div>';
+
+        overlayContainer.appendChild(cardEl);
+
+        (function(targetEl, domCard) {
+          domCard.querySelector('[data-action="copy"]').onclick = function(ev) {
+            ev.stopPropagation();
+            navigator.clipboard.writeText(targetEl.content || '');
+            if (typeof window.showSnackbar === 'function') window.showSnackbar('Copied solution & LaTeX formulas!');
+          };
+          domCard.querySelector('[data-action="delete"]').onclick = function(ev) {
+            ev.stopPropagation();
+            var idx = self.elements.indexOf(targetEl);
+            if (idx !== -1) self._removeElement(idx);
+          };
+
+          // Dragging overlay card via header
+          var header = domCard.querySelector('.cb-ai-card-header');
+          var isDragging = false, startX = 0, startY = 0, origX = targetEl.x, origY = targetEl.y;
+
+          header.onmousedown = function(ev) {
+            ev.stopPropagation();
+            isDragging = true;
+            startX = ev.clientX;
+            startY = ev.clientY;
+            origX = targetEl.x;
+            origY = targetEl.y;
+
+            function onMove(mEv) {
+              if (!isDragging) return;
+              var dx = (mEv.clientX - startX) / self.camera.zoom;
+              var dy = (mEv.clientY - startY) / self.camera.zoom;
+              targetEl.x = origX + dx;
+              targetEl.y = origY + dy;
+              self.dirty = true;
+            }
+            function onUp() {
+              if (isDragging) {
+                isDragging = false;
+                var idx = self.elements.indexOf(targetEl);
+                if (idx !== -1) self._updateElement(idx, targetEl);
+              }
+              window.removeEventListener('mousemove', onMove);
+              window.removeEventListener('mouseup', onUp);
+            }
+            window.addEventListener('mousemove', onMove);
+            window.addEventListener('mouseup', onUp);
+          };
+        })(el, cardEl);
+      }
+
+      cardEl.style.left = sp.x + 'px';
+      cardEl.style.top = sp.y + 'px';
+      cardEl.style.width = w + 'px';
+      cardEl.style.height = h + 'px';
+
+      var titleEl = cardEl.querySelector('.cb-ai-title-text');
+      if (titleEl) titleEl.textContent = 'Neby AI · ' + (el.title || 'AI Solution');
+
+      var bodyEl = cardEl.querySelector('.cb-ai-card-body');
+      if (bodyEl && bodyEl.dataset.content !== el.content) {
+        bodyEl.dataset.content = el.content || '';
+        bodyEl.innerHTML = formatMarkdownAndMath(el.content || '');
+      }
+    }
+
+    // Clean up dead overlays
+    for (var id in existingOverlays) {
+      if (!activeIds[id]) {
+        var dead = existingOverlays[id];
+        if (dead && dead.parentNode) dead.parentNode.removeChild(dead);
+      }
+    }
+  };
+
 
   CollabBoard.prototype._drawDocumentCard = function(ctx, el) {
     var w = el.w || 200;
