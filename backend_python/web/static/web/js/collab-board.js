@@ -1490,7 +1490,79 @@
       });
   };
 
-  // ── Static entry points ──
+
+  CollabBoard.prototype.openAiPrompt = function() {
+    var self = this;
+    var scrim = document.createElement('div');
+    scrim.className = 'cb-ai-modal-scrim';
+    scrim.innerHTML = 
+      '<div class="cb-ai-modal">' +
+        '<div class="cb-ai-modal-header">' +
+          '<div class="cb-ai-modal-title"><span class="material-symbols-outlined">auto_awesome</span> Ask Neby AI on Canvas</div>' +
+          '<button class="cb-tool-btn" id="cbAiModalClose"><span class="material-symbols-outlined">close</span></button>' +
+        '</div>' +
+        '<p style="font-size:13px; color:var(--md-on-surface-variant); margin-bottom:10px;">Ask for math solutions, explanations, formulas, or diagrams to place directly on the canvas.</p>' +
+        '<textarea class="cb-ai-input" id="cbAiInput" placeholder="e.g. Solve integral of x^2 * sin(x) dx step by step with LaTeX formulas..."></textarea>' +
+        '<div class="cb-ai-actions">' +
+          '<button class="md-btn md-btn-outlined" id="cbAiCancel">Cancel</button>' +
+          '<button class="md-btn md-btn-filled" id="cbAiSubmit" style="display:flex; align-items:center; gap:6px;">' +
+            '<span class="material-symbols-outlined" style="font-size:18px;">sparkles</span> Generate on Canvas' +
+          '</button>' +
+        '</div>' +
+      '</div>';
+
+    document.body.appendChild(scrim);
+    var input = scrim.querySelector('#cbAiInput');
+    if (input) input.focus();
+
+    function close() {
+      if (scrim && scrim.parentNode) scrim.parentNode.removeChild(scrim);
+    }
+
+    scrim.querySelector('#cbAiModalClose').onclick = close;
+    scrim.querySelector('#cbAiCancel').onclick = close;
+
+    scrim.querySelector('#cbAiSubmit').onclick = function() {
+      var val = input.value.trim();
+      if (!val) return;
+      var btn = this;
+      btn.disabled = true;
+      btn.textContent = 'Generating...';
+
+      var csrf = getCsrfToken();
+      fetch('/ajax/study-space/' + self.spaceId + '/canvas-ai/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrf },
+        body: JSON.stringify({ prompt: val })
+      }).then(function(r) { return r.json(); })
+        .then(function(res) {
+          close();
+          if (res.error) {
+            alert('Neby AI error: ' + res.error);
+            return;
+          }
+          if (res.ai_card) {
+            var centerW = self._screenToWorld(self.container.clientWidth / 2 - 210, self.container.clientHeight / 2 - 130);
+            self._addElement({
+              type: 'ai_card',
+              x: centerW.x,
+              y: centerW.y,
+              w: 420,
+              h: 260,
+              title: res.ai_card.title,
+              prompt: res.ai_card.prompt,
+              content: res.ai_card.content,
+              id: self._uid()
+            });
+          }
+        }).catch(function(e) {
+          close();
+          alert('Network error requesting Neby AI');
+        });
+    };
+  };
+
+  // ── Static entry points ──��─
 
   window.CollabBoard = {
     init: function(spaceId, yjsInst, savedContent) {
@@ -1498,6 +1570,8 @@
       _board = new CollabBoard();
       _board.init(spaceId, yjsInst, savedContent);
     },
+    setGridMode: function(m) { if (_board) { _board.gridMode = m; _board.dirty = true; } },
+    openAiPrompt: function() { if (_board) _board.openAiPrompt(); },
     destroy: function() {
       if (_board) {
         _board._saveToServer();
