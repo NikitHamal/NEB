@@ -1699,7 +1699,7 @@
         '<div style="margin-bottom:12px; display:flex; align-items:center; gap:8px;">' +
           '<label style="font-size:12px; font-weight:600; color:var(--md-on-surface-variant);">Model / Provider:</label>' +
           '<select id="cbAiModelSelect" style="flex:1; padding:6px 10px; border-radius:8px; border:1px solid var(--md-outline); background:var(--md-surface); color:var(--md-on-surface); font-size:12px; font-family:inherit;">' +
-            '<option value="qwen3.7-plus">Qwen 3.7 Plus (Default)</option>' +
+            '<option value="qwen:qwen3.7-plus">Qwen 3.7 Plus (Default)</option>' +
           '</select>' +
         '</div>' +
         '<p style="font-size:13px; color:var(--md-on-surface-variant); margin-bottom:10px;">Ask for math solutions, explanations, formulas, or diagrams to place directly on the canvas.</p>' +
@@ -1720,10 +1720,10 @@
     fetch('/ajax/llm/models/').then(function(r) { return r.json(); }).then(function(data) {
       if (data.models && select) {
         var opts = '';
-        var savedModel = localStorage.getItem('neby_ai_selected_model') || data.default || 'qwen3.7-plus';
+        var savedModel = localStorage.getItem('neby_ai_selected_model') || data.default || 'qwen:qwen3.7-plus';
         data.models.forEach(function(m) {
           var sel = m.id === savedModel ? ' selected' : '';
-          opts += '<option value="' + m.id + '"' + sel + '>' + m.name + ' (' + m.provider + ')</option>';
+          opts += '<option value="' + m.id + '"' + sel + '>' + m.name + '</option>';
         });
         select.innerHTML = opts;
       }
@@ -1739,12 +1739,13 @@
     scrim.querySelector('#cbAiSubmit').onclick = function() {
       var val = input.value.trim();
       if (!val) return;
-      var selectedModel = select ? select.value : 'qwen3.7-plus';
+
+      var selectedModel = select ? select.value : 'qwen:qwen3.7-plus';
+      var selectedModelName = select && select.options[select.selectedIndex] ? select.options[select.selectedIndex].text : selectedModel;
       localStorage.setItem('neby_ai_selected_model', selectedModel);
 
-      var btn = this;
-      btn.disabled = true;
-      btn.textContent = 'Generating...';
+      // Close modal immediately so user can continue using the board freely!
+      close();
 
       var summary = self.elements.map(function(el) {
         if (el.type === 'text' || el.type === 'sticky') return (el.type.toUpperCase()) + ': ' + (el.text || '');
@@ -1753,6 +1754,23 @@
         return '';
       }).filter(Boolean).join('\n');
 
+      var centerW = self._screenToWorld(self.container.clientWidth / 2 - 230, self.container.clientHeight / 2 - 140);
+      var cardId = self._uid();
+      var cardTitle = val.length > 50 ? val.slice(0, 50) + '…' : val;
+
+      // Add live loading card onto the canvas immediately
+      self._addElement({
+        type: 'ai_card',
+        x: centerW.x,
+        y: centerW.y,
+        w: 460,
+        h: 320,
+        title: cardTitle,
+        prompt: val,
+        content: '✨ Neby AI is generating solution (' + selectedModelName + ')...',
+        id: cardId
+      });
+
       var csrf = getCsrfToken();
       fetch('/ajax/study-space/' + self.spaceId + '/canvas-ai/', {
         method: 'POST',
@@ -1760,28 +1778,31 @@
         body: JSON.stringify({ prompt: val, model: selectedModel, board_summary: summary })
       }).then(function(r) { return r.json(); })
         .then(function(res) {
-          close();
+          var cardIdx = -1;
+          for (var i = 0; i < self.elements.length; i++) {
+            if (self.elements[i].id === cardId) { cardIdx = i; break; }
+          }
           if (res.error) {
-            alert('Neby AI error: ' + res.error);
+            if (cardIdx !== -1) {
+              self.elements[cardIdx].content = '⚠️ Neby AI generation error: ' + res.error;
+              self._updateElement(cardIdx, self.elements[cardIdx]);
+            }
             return;
           }
-          if (res.ai_card) {
-            var centerW = self._screenToWorld(self.container.clientWidth / 2 - 210, self.container.clientHeight / 2 - 130);
-            self._addElement({
-              type: 'ai_card',
-              x: centerW.x,
-              y: centerW.y,
-              w: 420,
-              h: 260,
-              title: res.ai_card.title,
-              prompt: res.ai_card.prompt,
-              content: res.ai_card.content,
-              id: self._uid()
-            });
+          if (res.ai_card && cardIdx !== -1) {
+            self.elements[cardIdx].content = res.ai_card.content;
+            self.elements[cardIdx].title = res.ai_card.title || cardTitle;
+            self._updateElement(cardIdx, self.elements[cardIdx]);
           }
         }).catch(function(e) {
-          close();
-          alert('Network error requesting Neby AI');
+          var cardIdx = -1;
+          for (var i = 0; i < self.elements.length; i++) {
+            if (self.elements[i].id === cardId) { cardIdx = i; break; }
+          }
+          if (cardIdx !== -1) {
+            self.elements[cardIdx].content = '⚠️ Network error generating AI solution.';
+            self._updateElement(cardIdx, self.elements[cardIdx]);
+          }
         });
     };
   };
