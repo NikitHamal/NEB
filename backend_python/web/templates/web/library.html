@@ -91,16 +91,6 @@ labs and coding games.{% else %}Browse study resources - notes, past papers, tex
         <span class="lib-filter-badge">{{ active_filter_count }}</span>
         {% endif %}
       </button>
-      <div class="lib-sort-select-wrapper">
-        <span class="sort-label">Sort by:</span>
-        <select data-change-action="navigate-sort" class="lib-sort-select">
-          <option value="relevant" {% if current_sort == 'relevant' %}selected{% endif %}>Most Relevant</option>
-          <option value="trending" {% if current_sort == 'trending' %}selected{% endif %}>Trending</option>
-          <option value="newest" {% if current_sort == 'newest' %}selected{% endif %}>Newest</option>
-          <option value="liked" {% if current_sort == 'liked' %}selected{% endif %}>Most Liked</option>
-          <option value="oldest" {% if current_sort == 'oldest' %}selected{% endif %}>Oldest</option>
-        </select>
-      </div>
     </div>
     {% endif %}
   </div>
@@ -182,7 +172,7 @@ labs and coding games.{% else %}Browse study resources - notes, past papers, tex
 <!-- Library Filter Dialog -->
 {% if current_tab == 'digital' or current_tab == 'community' %}
 <div id="library-filter-modal" class="md-overlay" style="display:none;" data-action="close-library-filter-outside">
-  <div class="md-dialog lib-filter-dialog" onclick="event.stopPropagation();">
+  <div class="md-dialog lib-filter-dialog">
     <div class="lib-filter-header">
       <h3>
         <span class="material-symbols-outlined" style="color:var(--md-primary);">tune</span>
@@ -260,8 +250,8 @@ labs and coding games.{% else %}Browse study resources - notes, past papers, tex
     </div>
 
     <div class="lib-filter-footer">
-      <button type="button" class="md-btn-text" data-action="reset-library-filter">Clear All</button>
-      <button type="button" class="md-btn-filled" data-action="apply-library-filter">Apply Filters</button>
+      <button type="button" class="md-btn md-btn-text" data-action="reset-library-filter">Clear All</button>
+      <button type="button" class="md-btn md-btn-filled" data-action="apply-library-filter">Apply Filters</button>
     </div>
   </div>
 </div>

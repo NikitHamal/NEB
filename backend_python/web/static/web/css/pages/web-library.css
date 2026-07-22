@@ -353,6 +353,44 @@
   border-top: 1px solid var(--md-outline-variant, #e2e8f0);
 }
 
+.lib-filter-footer .md-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 22px;
+  border-radius: 9999px;
+  font-family: var(--md-font);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  transition: all 150ms ease;
+  user-select: none;
+  text-decoration: none;
+}
+
+.lib-filter-footer .md-btn-text {
+  background: transparent;
+  color: var(--md-primary, #2563eb);
+}
+
+.lib-filter-footer .md-btn-text:hover {
+  background: var(--md-surface-container-high, #e2e8f0);
+}
+
+.lib-filter-footer .md-btn-filled {
+  background: var(--md-primary, #2563eb);
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+}
+
+.lib-filter-footer .md-btn-filled:hover {
+  background: #1d4ed8;
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.35);
+}
+
 /* Coming soon card */
 .lib-coming-soon {
   display: flex;
