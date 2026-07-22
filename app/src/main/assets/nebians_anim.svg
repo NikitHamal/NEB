@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 432 768"
+     width="100%" height="100%" preserveAspectRatio="xMidYMid slice"
+     role="img" aria-label="Nebians">
+  <defs>
+    <style><![CDATA[
+      @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
+
+      /* One-time screen fade-in on load (does NOT loop) */
+      .screen { animation: screenIn .5s ease both; }
+      @keyframes screenIn { from { opacity: 0; } to { opacity: 1; } }
+
+      /* Handwritten brand word: capital N + lowercase ebians */
+      .brand-word {
+        font-family: 'Dancing Script', 'Segoe Script', 'Brush Script MT', cursive;
+        font-weight: 700;
+        font-size: 92px;          /* slightly larger so the lowercase reads well */
+        fill: url(#brand);
+      }
+
+      /*
+        ONE-SHOT MODE (no loop): on the <animate> below set repeatCount="1"
+        and change to  values="-460;0;0"  keyTimes="0;0.7;1"
+        (drop the 4th/5th keySplines) so it writes once and stays.
+      */
+    ]]></style>
+
+    <!-- Brand blue gradient (sampled from the logo) -->
+    <linearGradient id="brand" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0"   stop-color="#A7C2F8"/> <!-- light periwinkle -->
+      <stop offset="0.5" stop-color="#2563EB"/> <!-- royal blue       -->
+      <stop offset="1"   stop-color="#07255E"/> <!-- deep navy        -->
+    </linearGradient>
+
+    <!-- Soft halo behind the word -->
+    <radialGradient id="halo" gradientUnits="userSpaceOnUse"
+                    cx="216" cy="384" r="300">
+      <stop offset="0"    stop-color="#ffffff" stop-opacity="0.95"/>
+      <stop offset="0.55" stop-color="#ffffff" stop-opacity="0.25"/>
+      <stop offset="1"    stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Feathered edge used by the reveal mask (soft "ink" leading edge) -->
+    <linearGradient id="edge" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0"     stop-color="#fff"/>
+      <stop offset="0.939" stop-color="#fff"/> <!-- 432 / 460 -->
+      <stop offset="1"     stop-color="#000"/> <!-- 28px soft fade -->
+    </linearGradient>
+
+    <!--
+      Reveal mask: sweeps right (write) -> holds -> sweeps left (un-write) ->
+      holds empty -> loops. Eased splines keep it buttery; loop wraps while the
+      word is invisible so there's no jump.
+      Cycle = 4.6s  ->  write 0–2.0s | hold 2.0–3.2s | un-write 3.2–4.2s | gap 4.2–4.6s
+    -->
+    <mask id="reveal" maskUnits="userSpaceOnUse" x="0" y="0" width="432" height="768">
+      <rect x="-460" y="0" width="460" height="768" fill="url(#edge)">
+        <animate attributeName="x"
+                 values="-460;0;0;-460;-460"
+                 keyTimes="0;0.435;0.696;0.913;1"
+                 keySplines="0.4 0 0.2 1; 0 0 1 1; 0.4 0 0.2 1; 0 0 1 1"
+                 calcMode="spline"
+                 dur="4.6s" repeatCount="indefinite"/>
+      </rect>
+    </mask>
+  </defs>
+
+  <g class="screen">
+    <!-- Light background + halo -->
+    <rect width="432" height="768" fill="#E9EBF0"/>
+    <rect width="432" height="768" fill="url(#halo)"/>
+
+    <!-- Brand word: capital N + lowercase, written on with a soft edge, looping -->
+    <g mask="url(#reveal)">
+      <text class="brand-word" x="216" y="412" text-anchor="middle">Nebians</text>
+    </g>
+  </g>
+</svg>
