@@ -1574,7 +1574,7 @@ interface ApiService {
         @Body request: WebPostCreateRequest
     ): ApiPost
 
-    /** Upload one post image; returns its hosted URL. Max 3 per post, 10MB each. */
+    /** Upload one post image; returns its hosted URL. Max 10 per post, 10MB each. */
     @Multipart
     @POST("ajax/post/upload-image/")
     suspend fun uploadPostImage(
