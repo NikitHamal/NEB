@@ -855,7 +855,7 @@ CANVAS_AI_SYSTEM_PROMPT = (
 
 
 def ajax_llm_models(request):
-    """Return all available AI models across Qwen and Arena providers."""
+    """Return all available AI models across all built-in providers."""
     from api.qwen_utils.models import fetch_models
     qwen_models = []
     try:
@@ -863,33 +863,47 @@ def ajax_llm_models(request):
         for m in raw_qwen:
             if m.get("is_active"):
                 qwen_models.append({
-                    "id": m["id"],
-                    "name": m.get("name") or m["id"],
-                    "provider": "Qwen",
+                    "id": f"qwen:{m['id']}",
+                    "name": f"Qwen: {m.get('name') or m['id']}",
+                    "provider": "Qwen (chat.qwen.ai)",
                 })
     except Exception:
         pass
 
     if not qwen_models:
         qwen_models = [
-            {"id": "qwen3.8-max-preview", "name": "Qwen 3.8 Max (Preview)", "provider": "Qwen"},
-            {"id": "qwen3.7-plus", "name": "Qwen 3.7 Plus", "provider": "Qwen"},
-            {"id": "qwen3.7-max", "name": "Qwen 3.7 Max", "provider": "Qwen"},
-            {"id": "qwen3.6-plus", "name": "Qwen 3.6 Plus", "provider": "Qwen"},
-            {"id": "qwen3.5-plus", "name": "Qwen 3.5 Plus", "provider": "Qwen"},
-            {"id": "qwen3.5-flash", "name": "Qwen 3.5 Flash", "provider": "Qwen"},
+            {"id": "qwen:qwen3.8-max-preview", "name": "Qwen 3.8 Max (Preview)", "provider": "Qwen (chat.qwen.ai)"},
+            {"id": "qwen:qwen3.7-plus", "name": "Qwen 3.7 Plus", "provider": "Qwen (chat.qwen.ai)"},
+            {"id": "qwen:qwen3.7-max", "name": "Qwen 3.7 Max", "provider": "Qwen (chat.qwen.ai)"},
+            {"id": "qwen:qwen3.6-plus", "name": "Qwen 3.6 Plus", "provider": "Qwen (chat.qwen.ai)"},
+            {"id": "qwen:qwen3.5-plus", "name": "Qwen 3.5 Plus", "provider": "Qwen (chat.qwen.ai)"},
+            {"id": "qwen:qwen3.5-flash", "name": "Qwen 3.5 Flash", "provider": "Qwen (chat.qwen.ai)"},
         ]
 
     arena_models = [
-        {"id": "arena:gpt-4o", "name": "GPT-4o (AI4Bharat Arena)", "provider": "Arena"},
-        {"id": "arena:claude-3-5-sonnet", "name": "Claude 3.5 Sonnet (Arena)", "provider": "Arena"},
-        {"id": "arena:deepseek-v3", "name": "DeepSeek V3 (Arena)", "provider": "Arena"},
-        {"id": "arena:qwen-2.5-72b", "name": "Qwen 2.5 72B (Arena)", "provider": "Arena"},
+        {"id": "arena:gpt-4o", "name": "GPT-4o (AI4Bharat Arena)", "provider": "AI4Bharat Arena (Indic LLM Arena)"},
+        {"id": "arena:claude-3-5-sonnet", "name": "Claude 3.5 Sonnet (Arena)", "provider": "AI4Bharat Arena (Indic LLM Arena)"},
+        {"id": "arena:deepseek-v3", "name": "DeepSeek V3 (Arena)", "provider": "AI4Bharat Arena (Indic LLM Arena)"},
+        {"id": "arena:qwen-2.5-72b", "name": "Qwen 2.5 72B (Arena)", "provider": "AI4Bharat Arena (Indic LLM Arena)"},
     ]
 
+    egov_models = [
+        {"id": "egov:AI1", "name": "eGov Chat AI (Primary)", "provider": "eGov Chat AI (Philippines)"},
+    ]
+
+    deepai_models = [
+        {"id": "deepai:standard", "name": "DeepAI Chat", "provider": "DeepAI (deepai.org)"},
+    ]
+
+    inception_models = [
+        {"id": "inception:mercury-2", "name": "Mercury 2 (Diffusion LLM)", "provider": "Inception Labs (Mercury 2)"},
+    ]
+
+    all_models = qwen_models + arena_models + egov_models + deepai_models + inception_models
+
     return JsonResponse({
-        "models": qwen_models + arena_models,
-        "default": "qwen3.7-plus"
+        "models": all_models,
+        "default": "qwen:qwen3.7-plus"
     })
 
 
@@ -934,14 +948,32 @@ def ajax_space_canvas_ai(request, space_id):
     )
 
     model_id = str(body.get('model') or '').strip()
+    result = None
+    err = None
+
     if model_id.startswith('arena:'):
-        arena_model = model_id.replace('arena:', '')
-        from api import ai4bharat_proxy as arena
-        result = arena.simple_chat(full_prompt, system_prompt=CANVAS_AI_SYSTEM_PROMPT, model_id=arena_model)
-        err = None if result else 'Arena model returned empty response'
+        arena_model = model_id.split(':', 1)[1]
+        from api import ai4bharat_proxy
+        result = ai4bharat_proxy.simple_chat(user_message=full_prompt, model_id=arena_model, system_prompt=CANVAS_AI_SYSTEM_PROMPT)
+    elif model_id.startswith('egov:'):
+        egov_model = model_id.split(':', 1)[1]
+        from api import egov_proxy
+        result = egov_proxy.simple_chat(user_message=full_prompt, model=egov_model, system_prompt=CANVAS_AI_SYSTEM_PROMPT)
+    elif model_id.startswith('deepai:'):
+        deepai_model = model_id.split(':', 1)[1]
+        from api import deepai_proxy
+        result = deepai_proxy.simple_chat(user_message=full_prompt, model=deepai_model, system_prompt=CANVAS_AI_SYSTEM_PROMPT)
+    elif model_id.startswith('inception:'):
+        inc_model = model_id.split(':', 1)[1]
+        from api import inception_proxy
+        result = inception_proxy.simple_chat(user_message=full_prompt, model=inc_model, system_prompt=CANVAS_AI_SYSTEM_PROMPT)
     else:
-        qwen_model = model_id if model_id else None
+        qwen_model = model_id.replace('qwen:', '') if model_id.startswith('qwen:') else (model_id or None)
         result, err = _qwen().simple_chat(full_prompt, system_prompt=CANVAS_AI_SYSTEM_PROMPT, model=qwen_model)
+
+    if not result and not err:
+        err = f"Provider {model_id} returned an empty response"
+
     if err:
         return JsonResponse({'error': err}, status=502)
 
@@ -954,7 +986,6 @@ def ajax_space_canvas_ai(request, space_id):
             'content': cleaned_response,
         }
     })
-
 
 
 def ajax_space_learning_path(request, space_id):
