@@ -470,7 +470,7 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
         version = int(msg.get('version') or 0)
         if not space_id or not isinstance(content, str):
             return
-        if len(content) > 200000:
+        if len(content) > 2000000:
             await self._send_json({'type': 'error', 'code': 'note_too_large', 'message': 'Note exceeds 200k chars'})
             return
         # Save to Redis for fast cross-worker access
