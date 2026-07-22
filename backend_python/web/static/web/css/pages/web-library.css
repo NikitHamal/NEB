@@ -253,15 +253,16 @@
   background-position: right center;
 }
 
-/* Filter Dialog Styling */
+/* Filter Dialog Styling — Material 3 Android App Parity */
 .lib-filter-dialog {
   max-width: 540px;
   width: 92%;
   padding: 0 !important;
   border-radius: 28px !important;
   overflow: hidden;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25) !important;
-  background: var(--md-surface-container-lowest, #ffffff);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.22) !important;
+  background: var(--md-surface-container-high, #ffffff) !important;
+  border: 1px solid var(--md-outline-variant, rgba(0, 0, 0, 0.08)) !important;
 }
 
 .lib-filter-header {
@@ -269,7 +270,8 @@
   align-items: center;
   justify-content: space-between;
   padding: 20px 24px 16px;
-  border-bottom: 1px solid var(--md-outline-variant, #e2e8f0);
+  background: var(--md-surface-container-high, #ffffff);
+  border-bottom: 1px solid var(--md-outline-variant, rgba(0, 0, 0, 0.08));
 }
 
 .lib-filter-header h3 {
@@ -289,7 +291,7 @@
   width: 36px;
   height: 36px;
   padding: 0;
-  border-radius: 9999px;
+  border-radius: 50%;
   border: none;
   outline: none;
   background: transparent;
@@ -300,7 +302,7 @@
 }
 
 .lib-filter-header .md-icon-btn:hover {
-  background: var(--md-surface-container-high, #e2e8f0);
+  background: var(--md-surface-container-highest, #e2e8f0);
   color: var(--md-on-surface, #0f172a);
 }
 
@@ -310,15 +312,15 @@
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 22px;
 }
 
 .filter-section-title {
   font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--md-on-surface-variant, #64748b);
+  color: var(--md-primary, #2563eb);
   margin-bottom: 10px;
 }
 
@@ -333,9 +335,9 @@
   align-items: center;
   gap: 6px;
   padding: 7px 14px;
-  border-radius: 9999px;
+  border-radius: 10px;
   border: 1px solid var(--md-outline-variant, #cbd5e1);
-  background: var(--md-surface, #ffffff);
+  background: var(--md-surface-container-low, #f1f5f9);
   color: var(--md-on-surface-variant, #334155);
   font-size: 0.8125rem;
   font-weight: 500;
@@ -346,13 +348,14 @@
 }
 
 .filter-chip-btn:hover {
-  background: var(--md-surface-container-high, #f1f5f9);
+  background: var(--md-surface-container-high, #e2e8f0);
   border-color: var(--md-primary, #2563eb);
+  color: var(--md-on-surface);
 }
 
 .filter-chip-btn.active {
-  background: var(--md-secondary-container, #dbeafe);
-  color: var(--md-on-secondary-container, #1e40af);
+  background: var(--md-primary-container, rgba(37, 99, 235, 0.14));
+  color: var(--md-primary, #2563eb);
   border-color: var(--md-primary, #2563eb);
   font-weight: 600;
 }
@@ -360,6 +363,7 @@
 .filter-chip-btn .check-icon {
   font-size: 16px;
   display: none;
+  color: var(--md-primary, #2563eb);
 }
 
 .filter-chip-btn.active .check-icon {
@@ -379,9 +383,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 40px;
-  padding: 0 22px;
-  border-radius: 9999px;
+  height: 42px;
+  padding: 0 24px;
+  border-radius: 100px;
   font-family: var(--md-font);
   font-size: 0.875rem;
   font-weight: 600;
@@ -404,13 +408,13 @@
 
 .lib-filter-footer .md-btn-filled {
   background: var(--md-primary, #2563eb);
-  color: #ffffff;
-  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+  color: var(--md-on-primary, #ffffff);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--md-primary, #2563eb) 30%, transparent);
 }
 
 .lib-filter-footer .md-btn-filled:hover {
   background: #1d4ed8;
-  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.35);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--md-primary, #2563eb) 40%, transparent);
 }
 
 /* Coming soon card */
