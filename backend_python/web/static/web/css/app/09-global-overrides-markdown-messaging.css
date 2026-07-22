@@ -267,13 +267,21 @@ body[data-ws-state='disconnected'] .ws-state-dot { background: #c62828; }
 
 /* ---- In-bar live voice recording strip ---- */
 .voice-rec-strip {
+  display: none !important;
   flex: 1 !important;
-  display: flex !important;
   align-items: center !important;
   gap: 8px !important;
   min-height: 32px !important;
   min-width: 0 !important;
   animation: voiceRecIn 0.18s ease-out !important;
+}
+
+.reply-input-wrapper.recording .voice-rec-strip {
+  display: flex !important;
+}
+
+.reply-input-wrapper.recording textarea {
+  display: none !important;
 }
 @keyframes voiceRecIn {
   from { opacity: 0; transform: translateX(-6px); }
