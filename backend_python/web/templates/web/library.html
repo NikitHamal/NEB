@@ -89,17 +89,21 @@ labs and coding games.{% else %}Browse study resources - notes, past papers, tex
     </div>
     {% if current_tab == 'digital' %}
     <div class="lib-sort-controls">
-      <span style="font-size:0.8125rem;color:var(--md-on-surface-variant);">Sort by:</span>
+      <button type="button" class="lib-filter-btn {% if active_filter_count > 0 %}active{% endif %}" data-action="open-library-filter">
+        <span class="material-symbols-outlined" style="font-size:18px;">tune</span>
+        <span>Filter</span>
+        {% if active_filter_count > 0 %}
+        <span class="lib-filter-badge">{{ active_filter_count }}</span>
+        {% endif %}
+      </button>
+      <span style="font-size:0.8125rem;color:var(--md-on-surface-variant);margin-left:6px;">Sort by:</span>
       <select data-change-action="navigate-sort">
-        <option value="relevant" {% if current_sort=='relevant' %}selected{% endif %}>Most Relevant</option>
-        <option value="trending" {% if current_sort=='trending' %}selected{% endif %}>Trending</option>
-        <option value="newest" {% if current_sort=='newest' %}selected{% endif %}>Newest</option>
-        <option value="liked" {% if current_sort=='liked' %}selected{% endif %}>Most Liked</option>
-        <option value="oldest" {% if current_sort=='oldest' %}selected{% endif %}>Oldest</option>
+        <option value="relevant" {% if current_sort == 'relevant' %}selected{% endif %}>Most Relevant</option>
+        <option value="trending" {% if current_sort == 'trending' %}selected{% endif %}>Trending</option>
+        <option value="newest" {% if current_sort == 'newest' %}selected{% endif %}>Newest</option>
+        <option value="liked" {% if current_sort == 'liked' %}selected{% endif %}>Most Liked</option>
+        <option value="oldest" {% if current_sort == 'oldest' %}selected{% endif %}>Oldest</option>
       </select>
-      <span id="sort-params" style="display:none;" data-tab="{{ current_tab }}"
-        data-subjects="{{ current_subjects|join:',' }}" data-grades="{{ current_grades|join:',' }}"
-        data-types="{{ current_types|join:',' }}"></span>
     </div>
     {% endif %}
   </div>

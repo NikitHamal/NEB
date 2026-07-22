@@ -121,23 +121,11 @@
 
     {% if post.images %}
     <div class="fp-post-images">
-      {% if post.images|length == 1 %}
-      <div class="fp-post-image-single">
-        <img src="{{ post.images.0.imageUrl }}" alt="Post image" loading="lazy" data-action="open-image-lightbox" data-src="{{ post.images.0.imageUrl }}">
-      </div>
-      {% elif post.images|length == 2 %}
-      <div class="fp-post-image-grid fp-post-image-grid-2">
+      <div class="fp-post-images-slider">
         {% for img in post.images %}
-        <img src="{{ img.imageUrl }}" alt="Post image" loading="lazy" data-action="open-image-lightbox" data-src="{{ img.imageUrl }}">
+        <img src="{{ img.imageUrl }}" alt="Post image {{ forloop.counter }}" loading="lazy" data-action="open-image-lightbox" data-src="{{ img.imageUrl }}">
         {% endfor %}
       </div>
-      {% else %}
-      <div class="fp-post-image-grid fp-post-image-grid-3">
-        {% for img in post.images %}
-        <img src="{{ img.imageUrl }}" alt="Post image" loading="lazy" data-action="open-image-lightbox" data-src="{{ img.imageUrl }}">
-        {% endfor %}
-      </div>
-      {% endif %}
     </div>
     {% endif %}
 
