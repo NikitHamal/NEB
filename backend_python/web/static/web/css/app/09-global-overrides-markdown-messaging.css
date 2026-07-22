@@ -141,20 +141,22 @@ body[data-ws-state='disconnected'] .ws-state-dot { background: #c62828; }
 /* Messaging/Reply box design revamp */
 .reply-input-wrapper {
   position: relative;
-  display: flex;
-  align-items: center;
-  background: var(--md-surface-container-lowest) !important;
-  border: 1px solid var(--md-outline-variant) !important;
-  border-radius: 24px !important;
-  padding: 4px 6px 4px 16px !important;
-  transition: all var(--md-transition) !important;
-  width: 100%;
-  box-sizing: border-box;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  background: var(--md-surface-container-lowest, #ffffff) !important;
+  border: 1px solid var(--md-outline-variant, #e5e7eb) !important;
+  border-radius: 28px !important;
+  padding: 5px 8px 5px 12px !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  min-height: 46px !important;
 }
 
 .reply-input-wrapper:focus-within {
-  border-color: var(--md-primary) !important;
-  box-shadow: 0 0 0 1px var(--md-primary) !important;
+  border-color: var(--md-primary, #2563eb) !important;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--md-primary, #2563eb) 15%, transparent) !important;
 }
 
 .reply-input-wrapper textarea {
@@ -165,44 +167,45 @@ body[data-ws-state='disconnected'] .ws-state-dot { background: #c62828; }
   color: var(--md-on-surface) !important;
   font-family: inherit !important;
   font-size: 0.875rem !important;
-  padding: 6px 0 !important;
+  padding: 6px 4px !important;
   resize: none !important;
   min-height: 24px !important;
   max-height: 120px !important;
-  line-height: 1.5 !important;
-  box-sizing: border-box;
+  line-height: 1.45 !important;
+  box-sizing: border-box !important;
   box-shadow: none !important;
+  margin: 0 4px !important;
 }
 
 .reply-input-wrapper .reply-send-btn {
-  width: 32px !important;
-  height: 32px !important;
+  width: 34px !important;
+  height: 34px !important;
   border-radius: 50% !important;
   border: none !important;
-  background: var(--md-primary) !important;
-  color: var(--md-on-primary) !important;
-  display: flex !important;
+  background: var(--md-primary, #2563eb) !important;
+  color: var(--md-on-primary, #ffffff) !important;
+  display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
   cursor: pointer !important;
-  transition: all var(--md-transition) !important;
+  transition: all 0.2s ease !important;
   flex-shrink: 0 !important;
-  align-self: flex-end !important;
-  margin-bottom: 2px !important;
-  margin-left: 8px !important;
+  align-self: center !important;
+  margin: 0 !important;
   padding: 0 !important;
 }
 
 .reply-input-wrapper .reply-send-btn:disabled {
-  background: var(--md-outline-variant) !important;
-  color: var(--md-on-surface-variant) !important;
-  opacity: 0.5 !important;
+  background: var(--md-surface-container-high, #f3f4f6) !important;
+  color: var(--md-outline, #9ca3af) !important;
+  opacity: 0.6 !important;
   cursor: not-allowed !important;
 }
 
 .reply-input-wrapper .reply-send-btn .material-symbols-outlined {
-  font-size: 18px !important;
-  font-weight: 600 !important;
+  font-size: 19px !important;
+  font-weight: 300 !important;
+  font-variation-settings: 'wght' 300, 'GRAD' 0, 'opsz' 20 !important;
 }
 
 /* ---- Composer leading inline tools (inside the bar stroke) ---- */
@@ -214,12 +217,12 @@ body[data-ws-state='disconnected'] .ws-state-dot { background: #c62828; }
   border-radius: 50% !important;
   border: none !important;
   background: transparent !important;
-  color: var(--md-on-surface-variant) !important;
+  color: var(--md-on-surface-variant, #6b7280) !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
   cursor: pointer !important;
-  transition: all var(--md-transition) !important;
+  transition: all 0.2s ease !important;
   padding: 0 !important;
   margin: 0 !important;
   align-self: center !important;
@@ -227,12 +230,14 @@ body[data-ws-state='disconnected'] .ws-state-dot { background: #c62828; }
 }
 .reply-input-wrapper .fp-inline-tool:hover,
 .reply-input-wrapper .fp-inline-anon:hover {
-  background: var(--md-surface-container-high) !important;
+  background: var(--md-surface-container-high, #f3f4f6) !important;
   color: var(--md-primary) !important;
 }
 .reply-input-wrapper .fp-inline-tool .material-symbols-outlined,
 .reply-input-wrapper .fp-inline-anon .material-symbols-outlined {
-  font-size: 19px !important;
+  font-size: 20px !important;
+  font-weight: 300 !important;
+  font-variation-settings: 'wght' 300, 'GRAD' 0, 'opsz' 20 !important;
 }
 .reply-input-wrapper .fp-inline-anon input[type="checkbox"] {
   position: absolute !important;
@@ -243,8 +248,8 @@ body[data-ws-state='disconnected'] .ws-state-dot { background: #c62828; }
   cursor: pointer !important;
 }
 .reply-input-wrapper .fp-inline-anon.anon-on {
-  background: var(--md-primary) !important;
-  color: var(--md-on-primary) !important;
+  background: var(--md-primary-container, rgba(37, 99, 235, 0.14)) !important;
+  color: var(--md-primary, #2563eb) !important;
 }
 .reply-input-wrapper .fp-inline-text {
   margin-right: 6px !important;
@@ -253,10 +258,14 @@ body[data-ws-state='disconnected'] .ws-state-dot { background: #c62828; }
 
 /* ---- Send button morphing states (send / mic / recording) ---- */
 .reply-input-wrapper .reply-send-btn[data-mode="mic"] {
-  background: var(--md-primary) !important;
-  color: var(--md-on-primary) !important;
+  background: var(--md-primary-container, rgba(37, 99, 235, 0.12)) !important;
+  color: var(--md-primary, #2563eb) !important;
   opacity: 1 !important;
   cursor: pointer !important;
+}
+.reply-input-wrapper .reply-send-btn[data-mode="mic"]:hover {
+  background: var(--md-primary, #2563eb) !important;
+  color: var(--md-on-primary, #ffffff) !important;
 }
 .reply-input-wrapper .reply-send-btn[data-mode="recording"] {
   background: var(--md-error) !important;
