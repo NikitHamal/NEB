@@ -80,22 +80,110 @@
   display: none !important;
 }
 
+/* ── Modern Forum Post Media Grid Layout ── */
+.post-card-media-grid {
+  display: grid;
+  gap: 6px;
+  margin-top: 10px;
+  margin-bottom: 12px;
+  border-radius: 14px;
+  overflow: hidden;
+  max-width: 100%;
+  border: 1px solid var(--md-outline-variant, rgba(0, 0, 0, 0.08));
+}
+
+.post-card-media-grid.grid-count-1 {
+  grid-template-columns: 1fr;
+  max-height: 380px;
+}
+.post-card-media-grid.grid-count-1 .post-media-grid-item {
+  height: 100%;
+  max-height: 380px;
+}
+.post-card-media-grid.grid-count-1 img {
+  width: 100%;
+  max-height: 380px;
+  object-fit: cover;
+}
+
+.post-card-media-grid.grid-count-2 {
+  grid-template-columns: 1fr 1fr;
+  height: 220px;
+}
+.post-card-media-grid.grid-count-2 .post-media-grid-item {
+  height: 220px;
+}
+
+.post-card-media-grid.grid-count-3 {
+  grid-template-columns: 1.2fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  height: 260px;
+}
+.post-card-media-grid.grid-count-3 .post-media-grid-item:first-child {
+  grid-row: 1 / span 2;
+  height: 260px;
+}
+.post-card-media-grid.grid-count-3 .post-media-grid-item:nth-child(2),
+.post-card-media-grid.grid-count-3 .post-media-grid-item:nth-child(3) {
+  height: 127px;
+}
+
+.post-card-media-grid.grid-count-4,
+.post-card-media-grid[class*="grid-count-"] {
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  height: 280px;
+}
+.post-card-media-grid.grid-count-4 .post-media-grid-item,
+.post-card-media-grid[class*="grid-count-"] .post-media-grid-item {
+  height: 137px;
+}
+
+.post-media-grid-item {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--md-surface-container-high, #f3f4f6);
+}
+.post-media-grid-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), filter 0.2s ease;
+}
+.post-media-grid-item:hover img {
+  transform: scale(1.03);
+  filter: brightness(0.95);
+}
+
+.post-media-more-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.58);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  pointer-events: none;
+  transition: background 0.2s ease;
+}
+.post-media-grid-item:hover .post-media-more-overlay {
+  background: rgba(0, 0, 0, 0.42);
+}
+
+/* Fallback legacy compatibility */
 .post-card-images {
   display: flex;
   gap: 8px;
   margin-top: 10px;
   border-radius: 8px;
   overflow-x: auto;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-  padding-bottom: 4px;
 }
-
-.post-card-images::-webkit-scrollbar,
-.fp-post-images-slider::-webkit-scrollbar {
-  display: none;
-}
-
 .post-card-thumb {
   width: 140px;
   height: 90px;
@@ -103,39 +191,133 @@
   object-fit: cover;
   border-radius: 8px;
   cursor: pointer;
-  transition: opacity .15s, transform .15s;
 }
 
-.post-card-thumb:hover {
-  opacity: .9;
-  transform: scale(1.02);
-}
-
-.fp-post-images-slider {
+/* ── Universal Lightbox Gallery Overlay ── */
+.nebians-lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.92);
+  backdrop-filter: blur(12px);
+  z-index: 10000;
   display: flex;
-  gap: 10px;
-  margin-top: 12px;
-  margin-bottom: 12px;
-  overflow-x: auto;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-  padding-bottom: 6px;
+  flex-direction: column;
+  color: #fff;
+  user-select: none;
+  animation: lbFadeIn 0.2s ease-out;
+  outline: none;
 }
 
-.fp-post-images-slider img {
-  width: 220px;
-  height: 150px;
-  flex-shrink: 0;
-  object-fit: cover;
-  border-radius: 12px;
+@keyframes lbFadeIn {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.nebians-lightbox-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.6), transparent);
+}
+
+.nebians-lightbox-counter {
+  background: rgba(255, 255, 255, 0.18);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+}
+
+.nebians-lightbox-close {
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  color: #fff;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  border: 1px solid var(--md-outline-variant, #e5e7eb);
-  transition: transform 150ms ease, opacity 150ms ease;
+  font-size: 20px;
+  transition: background 0.2s ease;
+}
+.nebians-lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.35);
 }
 
-.fp-post-images-slider img:hover {
-  transform: scale(1.02);
-  opacity: 0.92;
+.nebians-lightbox-body {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  position: relative;
+}
+
+.nebians-lightbox-img-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  max-height: calc(100vh - 160px);
+  padding: 8px;
+}
+
+.nebians-lightbox-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  transition: transform 0.2s ease;
+}
+
+.nebians-lightbox-nav {
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  color: #fff;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+  z-index: 2;
+}
+.nebians-lightbox-nav:hover {
+  background: rgba(255, 255, 255, 0.35);
+  transform: scale(1.08);
+}
+
+.nebians-lightbox-thumbs {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  padding: 16px;
+  overflow-x: auto;
+  background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+}
+
+.nebians-lightbox-thumb {
+  width: 50px;
+  height: 50px;
+  border-radius: 6px;
+  object-fit: cover;
+  cursor: pointer;
+  opacity: 0.5;
+  border: 2px solid transparent;
+  transition: opacity 0.2s ease, border-color 0.2s ease;
+}
+.nebians-lightbox-thumb.active,
+.nebians-lightbox-thumb:hover {
+  opacity: 1;
+  border-color: var(--md-primary, #2563eb);
 }
 
 .act-preview {
