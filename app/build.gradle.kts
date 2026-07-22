@@ -10,15 +10,15 @@ plugins {
 
 android {
     namespace = "com.neb.ians"
-    compileSdk = 35
+    compileSdk = 36
     ndkVersion = "27.0.12077973"
 
     defaultConfig {
         applicationId = "com.neb.ians"
         minSdk = 24
-        targetSdk = 35
-        versionCode = 19
-        versionName = "1.5.4"
+        targetSdk = 36
+        versionCode = 22
+        versionName = "1.6.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
