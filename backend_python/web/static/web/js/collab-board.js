@@ -1501,6 +1501,12 @@
           '<div class="cb-ai-modal-title"><span class="material-symbols-outlined">auto_awesome</span> Ask Neby AI on Canvas</div>' +
           '<button class="cb-tool-btn" id="cbAiModalClose"><span class="material-symbols-outlined">close</span></button>' +
         '</div>' +
+        '<div style="margin-bottom:12px; display:flex; align-items:center; gap:8px;">' +
+          '<label style="font-size:12px; font-weight:600; color:var(--md-on-surface-variant);">Model / Provider:</label>' +
+          '<select id="cbAiModelSelect" style="flex:1; padding:6px 10px; border-radius:8px; border:1px solid var(--md-outline); background:var(--md-surface); color:var(--md-on-surface); font-size:12px; font-family:inherit;">' +
+            '<option value="qwen3.7-plus">Qwen 3.7 Plus (Default)</option>' +
+          '</select>' +
+        '</div>' +
         '<p style="font-size:13px; color:var(--md-on-surface-variant); margin-bottom:10px;">Ask for math solutions, explanations, formulas, or diagrams to place directly on the canvas.</p>' +
         '<textarea class="cb-ai-input" id="cbAiInput" placeholder="e.g. Solve integral of x^2 * sin(x) dx step by step with LaTeX formulas..."></textarea>' +
         '<div class="cb-ai-actions">' +
@@ -1513,7 +1519,20 @@
 
     document.body.appendChild(scrim);
     var input = scrim.querySelector('#cbAiInput');
+    var select = scrim.querySelector('#cbAiModelSelect');
     if (input) input.focus();
+
+    fetch('/ajax/llm/models/').then(function(r) { return r.json(); }).then(function(data) {
+      if (data.models && select) {
+        var opts = '';
+        var savedModel = localStorage.getItem('neby_ai_selected_model') || data.default || 'qwen3.7-plus';
+        data.models.forEach(function(m) {
+          var sel = m.id === savedModel ? ' selected' : '';
+          opts += '<option value="' + m.id + '"' + sel + '>' + m.name + ' (' + m.provider + ')</option>';
+        });
+        select.innerHTML = opts;
+      }
+    }).catch(function() {});
 
     function close() {
       if (scrim && scrim.parentNode) scrim.parentNode.removeChild(scrim);
@@ -1525,6 +1544,9 @@
     scrim.querySelector('#cbAiSubmit').onclick = function() {
       var val = input.value.trim();
       if (!val) return;
+      var selectedModel = select ? select.value : 'qwen3.7-plus';
+      localStorage.setItem('neby_ai_selected_model', selectedModel);
+
       var btn = this;
       btn.disabled = true;
       btn.textContent = 'Generating...';
@@ -1540,7 +1562,7 @@
       fetch('/ajax/study-space/' + self.spaceId + '/canvas-ai/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrf },
-        body: JSON.stringify({ prompt: val, board_summary: summary })
+        body: JSON.stringify({ prompt: val, model: selectedModel, board_summary: summary })
       }).then(function(r) { return r.json(); })
         .then(function(res) {
           close();
@@ -1568,6 +1590,7 @@
         });
     };
   };
+
 
   // ── Static entry points ──��─
 
