@@ -1,0 +1,27 @@
+{% comment %}Renders forum post images using an Android-style horizontal sliding carousel layout.
+Expects `images` in context: list of dicts with imageUrl.{% endcomment %}
+{% if images %}
+<div class="fp-post-slider-container" data-action-stop>
+  <button type="button" class="fp-slider-arrow fp-slider-prev" data-action="fp-slide-prev" aria-label="Previous image" style="display:none;">
+    <span class="material-symbols-outlined">chevron_left</span>
+  </button>
+  
+  <div class="fp-post-images-slider">
+    {% for img in images %}
+    <div class="fp-slider-item">
+      <img src="{{ img.imageUrl }}" 
+           alt="Post image {{ forloop.counter }}" 
+           loading="lazy" 
+           data-action="open-image-lightbox" 
+           data-src="{{ img.imageUrl }}" 
+           data-index="{{ forloop.counter0 }}" 
+           data-all-images="{% for i in images %}{{ i.imageUrl }}{% if not forloop.last %}|{% endif %}{% endfor %}">
+    </div>
+    {% endfor %}
+  </div>
+
+  <button type="button" class="fp-slider-arrow fp-slider-next" data-action="fp-slide-next" aria-label="Next image" {% if images|length <= 1 %}style="display:none;"{% endif %}>
+    <span class="material-symbols-outlined">chevron_right</span>
+  </button>
+</div>
+{% endif %}
