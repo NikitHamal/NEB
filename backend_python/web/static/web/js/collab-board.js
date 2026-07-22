@@ -264,16 +264,32 @@
   };
 
   CollabBoard.prototype._drawGrid = function(ctx, w, h, cam) {
+    var mode = this.gridMode || 'dots';
+    if (mode === 'none') return;
     var gs = GRID_SIZE * cam.zoom;
-    if (gs < 8) return;
-    ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--md-outline-variant') || 'rgba(0,0,0,0.06)';
-    ctx.lineWidth = 0.5;
+    if (gs < 6) return;
+    var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
     var ox = cam.x % gs;
     var oy = cam.y % gs;
-    ctx.beginPath();
-    for (var x = ox; x < w; x += gs) { ctx.moveTo(x, 0); ctx.lineTo(x, h); }
-    for (var y = oy; y < h; y += gs) { ctx.moveTo(0, y); ctx.lineTo(w, y); }
-    ctx.stroke();
+
+    if (mode === 'dots') {
+      ctx.fillStyle = isDark ? 'rgba(255,255,255,0.18)' : 'rgba(0,0,0,0.14)';
+      var radius = Math.max(1, 1.2 * Math.min(cam.zoom, 1.5));
+      for (var x = ox; x < w; x += gs) {
+        for (var y = oy; y < h; y += gs) {
+          ctx.beginPath();
+          ctx.arc(x, y, radius, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+    } else {
+      ctx.strokeStyle = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.07)';
+      ctx.lineWidth = 0.5;
+      ctx.beginPath();
+      for (var x = ox; x < w; x += gs) { ctx.moveTo(x, 0); ctx.lineTo(x, h); }
+      for (var y = oy; y < h; y += gs) { ctx.moveTo(0, y); ctx.lineTo(w, y); }
+      ctx.stroke();
+    }
   };
 
   CollabBoard.prototype._drawElement = function(ctx, el, isSelected) {
@@ -289,6 +305,7 @@
       case 'text': this._drawText(ctx, el); break;
       case 'image': this._drawImage(ctx, el); break;
       case 'document_card': this._drawDocumentCard(ctx, el); break;
+      case 'ai_card': this._drawAiCard(ctx, el); break;
     }
     if (isSelected) this._drawSelectionBox(ctx, el);
     ctx.restore();
@@ -417,6 +434,52 @@
       ctx.fillText('Loading...', el.x + (el.w || 200) / 2, el.y + (el.h || 150) / 2);
       ctx.textAlign = 'start';
     }
+  };
+
+  CollabBoard.prototype._drawAiCard = function(ctx, el) {
+    var x = el.x, y = el.y, w = el.w || 420, h = el.h || 260;
+    ctx.save();
+    var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    ctx.fillStyle = isDark ? '#1e2025' : '#ffffff';
+    ctx.strokeStyle = isDark ? '#3b82f6' : '#2563eb';
+    ctx.lineWidth = 2;
+    
+    var r = 12;
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+
+    // Header
+    ctx.fillStyle = isDark ? '#1e3a8a' : '#eff6ff';
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + 36);
+    ctx.lineTo(x, y + 36);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.font = 'bold 13px Poppins, sans-serif';
+    ctx.fillStyle = isDark ? '#93c5fd' : '#1d4ed8';
+    ctx.fillText('\u2728 Neby AI \u00b7 ' + (el.title || 'AI Response'), x + 12, y + 23);
+
+    ctx.font = '13px Poppins, sans-serif';
+    ctx.fillStyle = isDark ? '#e2e8f0' : '#1e293b';
+    this._wrapText(ctx, el.content || '', x + 14, y + 54, w - 28, 20);
+    ctx.restore();
   };
 
   CollabBoard.prototype._drawDocumentCard = function(ctx, el) {
@@ -553,8 +616,8 @@
         }
         return { x: mnx, y: mny, w: mxx - mnx, h: mxy - mny };
       }
-      case 'rect': case 'ellipse': case 'sticky': case 'image': case 'document_card':
-        return { x: el.x, y: el.y, w: el.w || (el.type === 'document_card' ? 200 : 160), h: el.h || (el.type === 'document_card' ? 64 : 120) };
+      case 'rect': case 'ellipse': case 'sticky': case 'image': case 'document_card': case 'ai_card':
+        return { x: el.x, y: el.y, w: el.w || (el.type === 'ai_card' ? 420 : el.type === 'document_card' ? 200 : 160), h: el.h || (el.type === 'ai_card' ? 260 : el.type === 'document_card' ? 64 : 120) };
       case 'text': {
         var tw = (el.text || '').length * (el.fontSize || 16) * 0.6;
         var th = ((el.text || '').split('\n').length) * (el.fontSize || 16) * 1.4;
@@ -1194,6 +1257,8 @@
       { id: 'text', icon: 'text_fields', title: 'Text' },
       { id: 'image', icon: 'image', title: 'Place File / Image' },
       { sep: true },
+      { id: 'ai', icon: 'auto_awesome', title: 'Neby AI (Canvas Assistant)' },
+      { sep: true },
       { id: 'eraser', icon: 'ink_eraser', title: 'Eraser' },
       { sep: true },
       { id: 'color', icon: 'palette', title: 'Color' },
@@ -1229,6 +1294,10 @@
       var btn = e.target.closest('[data-tool]');
       if (btn) {
         var tid = btn.dataset.tool;
+        if (tid === 'ai') {
+          self.openAiPrompt();
+          return;
+        }
         if (tid === 'color') {
           var cp = document.getElementById('cbColorPicker');
           if (cp) cp.classList.toggle('cb-open');
