@@ -854,6 +854,45 @@ CANVAS_AI_SYSTEM_PROMPT = (
 )
 
 
+def ajax_llm_models(request):
+    """Return all available AI models across Qwen and Arena providers."""
+    from api.qwen_utils.models import fetch_models
+    qwen_models = []
+    try:
+        raw_qwen = fetch_models()
+        for m in raw_qwen:
+            if m.get("is_active"):
+                qwen_models.append({
+                    "id": m["id"],
+                    "name": m.get("name") or m["id"],
+                    "provider": "Qwen",
+                })
+    except Exception:
+        pass
+
+    if not qwen_models:
+        qwen_models = [
+            {"id": "qwen3.8-max-preview", "name": "Qwen 3.8 Max (Preview)", "provider": "Qwen"},
+            {"id": "qwen3.7-plus", "name": "Qwen 3.7 Plus", "provider": "Qwen"},
+            {"id": "qwen3.7-max", "name": "Qwen 3.7 Max", "provider": "Qwen"},
+            {"id": "qwen3.6-plus", "name": "Qwen 3.6 Plus", "provider": "Qwen"},
+            {"id": "qwen3.5-plus", "name": "Qwen 3.5 Plus", "provider": "Qwen"},
+            {"id": "qwen3.5-flash", "name": "Qwen 3.5 Flash", "provider": "Qwen"},
+        ]
+
+    arena_models = [
+        {"id": "arena:gpt-4o", "name": "GPT-4o (AI4Bharat Arena)", "provider": "Arena"},
+        {"id": "arena:claude-3-5-sonnet", "name": "Claude 3.5 Sonnet (Arena)", "provider": "Arena"},
+        {"id": "arena:deepseek-v3", "name": "DeepSeek V3 (Arena)", "provider": "Arena"},
+        {"id": "arena:qwen-2.5-72b", "name": "Qwen 2.5 72B (Arena)", "provider": "Arena"},
+    ]
+
+    return JsonResponse({
+        "models": qwen_models + arena_models,
+        "default": "qwen3.7-plus"
+    })
+
+
 def ajax_space_canvas_ai(request, space_id):
     """Generate canvas AI assistance, math solutions, explanations, and diagrams for the collaborative board."""
     user_id = _get_user_id(request)
@@ -894,7 +933,15 @@ def ajax_space_canvas_ai(request, space_id):
         "Use LaTeX for all equations."
     )
 
-    result, err = _qwen().simple_chat(full_prompt, system_prompt=CANVAS_AI_SYSTEM_PROMPT)
+    model_id = str(body.get('model') or '').strip()
+    if model_id.startswith('arena:'):
+        arena_model = model_id.replace('arena:', '')
+        from api import ai4bharat_proxy as arena
+        result = arena.simple_chat(full_prompt, system_prompt=CANVAS_AI_SYSTEM_PROMPT, model_id=arena_model)
+        err = None if result else 'Arena model returned empty response'
+    else:
+        qwen_model = model_id if model_id else None
+        result, err = _qwen().simple_chat(full_prompt, system_prompt=CANVAS_AI_SYSTEM_PROMPT, model=qwen_model)
     if err:
         return JsonResponse({'error': err}, status=502)
 
