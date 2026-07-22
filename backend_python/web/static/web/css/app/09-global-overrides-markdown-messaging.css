@@ -143,15 +143,15 @@ body[data-ws-state='disconnected'] .ws-state-dot { background: #c62828; }
   position: relative;
   display: flex !important;
   align-items: center !important;
-  gap: 8px !important;
+  gap: 2px !important;
   background: var(--md-surface-container-lowest, #ffffff) !important;
   border: 1px solid var(--md-outline-variant, #e5e7eb) !important;
   border-radius: 28px !important;
-  padding: 5px 8px 5px 12px !important;
+  padding: 4px 6px 4px 10px !important;
   transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
   width: 100% !important;
   box-sizing: border-box !important;
-  min-height: 46px !important;
+  min-height: 44px !important;
 }
 
 .reply-input-wrapper:focus-within {
@@ -167,19 +167,21 @@ body[data-ws-state='disconnected'] .ws-state-dot { background: #c62828; }
   color: var(--md-on-surface) !important;
   font-family: inherit !important;
   font-size: 0.875rem !important;
-  padding: 6px 4px !important;
+  padding: 2px 4px !important;
+  margin: 0 6px !important;
   resize: none !important;
+  height: 24px !important;
   min-height: 24px !important;
   max-height: 120px !important;
-  line-height: 1.45 !important;
+  line-height: 20px !important;
+  align-self: center !important;
   box-sizing: border-box !important;
   box-shadow: none !important;
-  margin: 0 4px !important;
 }
 
 .reply-input-wrapper .reply-send-btn {
-  width: 34px !important;
-  height: 34px !important;
+  width: 32px !important;
+  height: 32px !important;
   border-radius: 50% !important;
   border: none !important;
   background: var(--md-primary, #2563eb) !important;
@@ -203,7 +205,7 @@ body[data-ws-state='disconnected'] .ws-state-dot { background: #c62828; }
 }
 
 .reply-input-wrapper .reply-send-btn .material-symbols-outlined {
-  font-size: 19px !important;
+  font-size: 18px !important;
   font-weight: 300 !important;
   font-variation-settings: 'wght' 300, 'GRAD' 0, 'opsz' 20 !important;
 }
@@ -235,7 +237,7 @@ body[data-ws-state='disconnected'] .ws-state-dot { background: #c62828; }
 }
 .reply-input-wrapper .fp-inline-tool .material-symbols-outlined,
 .reply-input-wrapper .fp-inline-anon .material-symbols-outlined {
-  font-size: 20px !important;
+  font-size: 19px !important;
   font-weight: 300 !important;
   font-variation-settings: 'wght' 300, 'GRAD' 0, 'opsz' 20 !important;
 }
