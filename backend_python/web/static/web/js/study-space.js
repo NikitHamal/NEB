@@ -429,6 +429,12 @@
       case 'cb-zoom-fit':
         if (typeof CollabBoard !== 'undefined') CollabBoard.zoomFit();
         break;
+      case 'cb-grid-mode':
+        var nextMode = el.dataset.mode === 'dots' ? 'lines' : el.dataset.mode === 'lines' ? 'none' : 'dots';
+        el.dataset.mode = nextMode;
+        el.title = 'Canvas Style: ' + nextMode.charAt(0).toUpperCase() + nextMode.slice(1);
+        if (typeof CollabBoard !== 'undefined') CollabBoard.setGridMode(nextMode);
+        break;
       case 'cb-file-tab':
         if (typeof CollabBoard !== 'undefined') CollabBoard.switchFileTab(el.dataset.tab);
         break;

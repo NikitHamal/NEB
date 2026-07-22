@@ -846,6 +846,65 @@ def ajax_space_tutor(request, space_id):
         return JsonResponse({'error': err}, status=502)
     return JsonResponse({'answer': clean_ai_markdown(result), 'citations': citations})
 
+CANVAS_AI_SYSTEM_PROMPT = (
+    "You are Neby AI, an intelligent canvas assistant for Nepali students and researchers. "
+    "Provide concise, mathematically rigorous, and visually structured responses. "
+    "Format all math formulas using clear LaTeX ($...$ for inline, $$...$$ for block). "
+    "Keep answers direct, clear, and organized into bullet points or numbered steps where appropriate."
+)
+
+
+def ajax_space_canvas_ai(request, space_id):
+    """Generate canvas AI assistance, math solutions, explanations, and diagrams for the collaborative board."""
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+    throttled = _throttled(request, THROTTLE_TUTOR)
+    if throttled:
+        return throttled
+
+    space, err = _accessible_space(space_id, user_id, request)
+    if err:
+        return err
+    if not _space_permission_allows(space, user_id, 'generate_min_role'):
+        return JsonResponse({'error': 'You do not have permission to use AI on this space canvas'}, status=403)
+
+    body = _json_body(request)
+    prompt_text = str(body.get('prompt') or '').strip()
+    if not prompt_text:
+        return JsonResponse({'error': 'Prompt is required'}, status=400)
+
+    texts, _p, _f = _get_space_texts(space)
+    doc_context = ""
+    if texts:
+        sources = [f"[{t['title']}]: {t['content'][:1500]}" for t in texts[:3]]
+        doc_context = "\n\nRelevant Study Space Context:\n" + "\n".join(sources)
+
+    full_prompt = (
+        f"Learner's Canvas Request:\n{prompt_text}\n"
+        f"{doc_context}\n\n"
+        "Provide a clear, well-structured explanation or solution. "
+        "Use LaTeX for all mathematical expressions and chemical formulas."
+    )
+
+    result, err = _qwen().simple_chat(full_prompt, system_prompt=CANVAS_AI_SYSTEM_PROMPT)
+    if err:
+        return JsonResponse({'error': err}, status=502)
+
+    cleaned_response = clean_ai_markdown(result)
+    return JsonResponse({
+        'status': 'ok',
+        'ai_card': {
+            'title': prompt_text[:60] + ('...' if len(prompt_text) > 60 else ''),
+            'prompt': prompt_text,
+            'content': cleaned_response,
+        }
+    })
+
+
 
 def ajax_space_learning_path(request, space_id):
     """Generate a daily learning path grounded in the space documents."""

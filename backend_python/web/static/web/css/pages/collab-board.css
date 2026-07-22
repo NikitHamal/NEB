@@ -352,17 +352,77 @@
 .cb-chalk-theme {
   background: #17191c;
   border: 0;
-  box-shadow: inset 0 0 0 2px rgba(255,255,255,.08), inset 0 0 40px rgba(0,0,0,.55), inset 0 0 0 10px #8a5a31;
-  border-radius: 4px;
+  box-shadow: none;
+  border-radius: 12px;
 }
 .cb-chalk-theme::after {
-  content: '';
+  display: none;
+}
+
+/* ── Neby AI Canvas Modal ── */
+.cb-ai-modal-scrim {
   position: absolute;
   inset: 0;
-  z-index: 40;
-  pointer-events: none;
-  border: 10px solid transparent;
-  border-image: linear-gradient(90deg,#6f4725,#c99555,#8a5a31) 1;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.cb-ai-modal {
+  width: 100%;
+  max-width: 520px;
+  background: var(--md-surface, #ffffff);
+  border-radius: 18px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.24);
+  border: 1px solid var(--md-outline-variant, rgba(0, 0, 0, 0.12));
+  padding: 20px;
+  color: var(--md-on-surface, #1f1f1f);
+}
+[data-theme="dark"] .cb-ai-modal {
+  background: var(--md-surface-container-high, #1e1e1e);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+.cb-ai-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.cb-ai-modal-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--md-primary, #1a73e8);
+}
+.cb-ai-input {
+  width: 100%;
+  min-height: 90px;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid var(--md-outline-variant, #ccc);
+  background: var(--md-surface-container-lowest, #fdfdfd);
+  color: var(--md-on-surface, #1f1f1f);
+  font-family: inherit;
+  font-size: 14px;
+  resize: vertical;
+  outline: none;
+}
+[data-theme="dark"] .cb-ai-input {
+  background: #121212;
+  border-color: rgba(255, 255, 255, 0.16);
+  color: #f1f1f1;
+}
+.cb-ai-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 14px;
 }
 .cb-three-scene {
   position: absolute;
