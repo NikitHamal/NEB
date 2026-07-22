@@ -374,21 +374,46 @@ fun ForumPostCard(
                 )
             }
 
-            // ----- Images (max 3 thumbnails) -----
+            // ----- Images (max 3 thumbnails preview, +N badge if more) -----
             if (post.images.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(10.dp))
+                val sortedImages = remember(post.images) { post.images.sortedBy { it.order } }
+                val displayImages = sortedImages.take(3)
+                val extraCount = sortedImages.size - 3
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    post.images.sortedBy { it.order }.take(3).forEach { image ->
-                        AsyncImage(
-                            model = resolveMediaUrl(image.imageUrl),
-                            contentDescription = null,
+                    displayImages.forEachIndexed { index, image ->
+                        Box(
                             modifier = Modifier
                                 .weight(1f)
                                 .height(80.dp)
-                                .clip(RoundedCornerShape(8.dp))
-                                .clickable { zoomImageUrl = resolveMediaUrl(image.imageUrl) },
-                            contentScale = ContentScale.Crop
-                        )
+                        ) {
+                            AsyncImage(
+                                model = resolveMediaUrl(image.imageUrl),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .clickable { zoomImageUrl = resolveMediaUrl(image.imageUrl) },
+                                contentScale = ContentScale.Crop
+                            )
+                            if (index == 2 && extraCount > 0) {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .clip(RoundedCornerShape(8.dp))
+                                        .background(Color.Black.copy(alpha = 0.55f))
+                                        .clickable { zoomImageUrl = resolveMediaUrl(image.imageUrl) },
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        text = "+$extraCount",
+                                        style = MaterialTheme.typography.titleMedium,
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color.White
+                                    )
+                                }
+                            }
+                        }
                     }
                 }
             }
