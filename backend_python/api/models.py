@@ -234,6 +234,9 @@ class Resource(models.Model):
     rejection_reason = models.TextField(blank=True, default='')
     upload_group_id = models.CharField(max_length=36, blank=True, default='')
     is_lead = models.BooleanField(default=True)
+    # Marketplace paid content fields
+    is_paid = models.BooleanField(default=False, db_index=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
 
     class Meta:
         db_table = 'resources'
@@ -246,6 +249,7 @@ class Resource(models.Model):
             models.Index(fields=['type']),
             models.Index(fields=['-like_count']),
             models.Index(fields=['approval_status']),
+            models.Index(fields=['is_paid']),
             models.Index(fields=['approval_status', 'is_lead', '-added_at'], name='res_appr_lead_added_idx'),
             models.Index(fields=['approval_status', 'is_lead', '-view_count'], name='res_appr_lead_views_idx'),
         ]
@@ -725,7 +729,7 @@ class ResourceComment(models.Model):
     """Comment on a resource — supports nested replies via parent_comment."""
     id = models.CharField(max_length=36, primary_key=True)
     resource = models.ForeignKey(Resource, on_delete=models.CASCADE, related_name='comments')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='resource_comments')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='resource_comments')
     parent_comment = models.ForeignKey(
         'self', on_delete=models.CASCADE,
         null=True, blank=True, related_name='children'
@@ -817,6 +821,7 @@ class BotConfig(models.Model):
         ('anthropic', 'Anthropic (Claude official API)'),
         ('gemini', 'Google Gemini (official API)'),
         ('deepseek', 'DeepSeek (official API)'),
+        ('agentrouter', 'AgentRouter (proxy/router)'),
     ]
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100, default='Neby', help_text='Display name shown in the admin panel.')
@@ -2153,4 +2158,96 @@ class UserLLMProvider(models.Model):
 
     def __str__(self):
         return f"{self.name or self.provider} ({self.user_id})"
+
+
+class PaymentVerification(models.Model):
+    """Buyers submit QR payment proof (screenshots & transaction ID) for paid resources/classes.
+    Admins verify and approve these payments manually to credit the seller.
+    """
+    STATUS_CHOICES = [
+        ('pending', 'Pending Verification'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+    ]
+
+    id = models.CharField(max_length=36, primary_key=True)  # UUID
+    buyer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='resource_purchases')
+    resource = models.ForeignKey(Resource, on_delete=models.CASCADE, related_name='purchases')
+    seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name='resource_sales')
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    platform_commission = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    seller_earnings = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    payment_method = models.CharField(max_length=50, default='qr_code')
+    transaction_id = models.CharField(max_length=100, blank=True, default='')  # eSewa / Khalti / Mobile Banking Ref ID or phone
+    payment_proof = models.FileField(upload_to='payments/%Y/%m/', blank=True, null=True)
+    payment_proof_url = models.TextField(blank=True, default='')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending', db_index=True)
+    admin_notes = models.TextField(blank=True, default='')
+    created_at = models.BigIntegerField(default=0)
+    verified_at = models.BigIntegerField(default=0)
+    verified_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='verified_payments')
+
+    class Meta:
+        db_table = 'payment_verifications'
+        ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['buyer', 'resource', 'status']),
+            models.Index(fields=['seller', 'status']),
+            models.Index(fields=['status', '-created_at']),
+        ]
+
+    def __str__(self):
+        return f"Payment {self.id[:8]} - {self.buyer.username} for {self.resource.title} ({self.status})"
+
+
+class SellerBalance(models.Model):
+    """Tracks cumulative earnings, current available balance, and withdrawals for sellers/tutors/institutions."""
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name='seller_balance')
+    total_earned = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)
+    total_withdrawn = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)
+    current_balance = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)
+    updated_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'seller_balances'
+
+    def __str__(self):
+        return f"Balance for {self.user.username}: Rs. {self.current_balance}"
+
+
+class WithdrawalRequest(models.Model):
+    """Sellers submit requests to withdraw their accumulated earnings (Minimum threshold: 1,000 NPR)."""
+    STATUS_CHOICES = [
+        ('pending', 'Pending Review'),
+        ('approved', 'Approved & Paid'),
+        ('rejected', 'Rejected'),
+    ]
+    PAYOUT_METHODS = [
+        ('esewa', 'eSewa'),
+        ('khalti', 'Khalti'),
+        ('bank', 'Bank Transfer'),
+    ]
+
+    id = models.CharField(max_length=36, primary_key=True)  # UUID
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='withdrawal_requests')
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    payout_method = models.CharField(max_length=30, choices=PAYOUT_METHODS, default='esewa')
+    payout_details = models.TextField(help_text="Account holder name, ID, or account number")
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending', db_index=True)
+    admin_notes = models.TextField(blank=True, default='')
+    created_at = models.BigIntegerField(default=0)
+    processed_at = models.BigIntegerField(default=0)
+    processed_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='processed_withdrawals')
+
+    class Meta:
+        db_table = 'withdrawal_requests'
+        ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['user', 'status']),
+            models.Index(fields=['status', '-created_at']),
+        ]
+
+    def __str__(self):
+        return f"Withdrawal {self.amount} NPR by {self.user.username} ({self.status})"
+
 

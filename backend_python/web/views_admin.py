@@ -2483,3 +2483,161 @@ def admin_hero_backgrounds(request):
     backgrounds = HeroBackground.objects.all().order_by('sort_order', 'id')
     ctx = _ctx(request, active_page='hero_backgrounds', backgrounds=backgrounds)
     return render(request, 'admin_panel/hero_backgrounds.html', ctx)
+
+
+def admin_pending_payments(request):
+    """Admin page to verify buyer payment screenshots & transaction IDs."""
+    redirect_response = _require_staff_admin(request)
+    if redirect_response:
+        return redirect_response
+
+    admin_user = None
+    if hasattr(request, 'user') and request.user.is_authenticated:
+        try:
+            admin_user = User.objects.get(username=request.user.username)
+        except User.DoesNotExist:
+            pass
+
+    if request.method == 'POST':
+        payment_id = request.POST.get('payment_id', '').strip()
+        action = request.POST.get('action', '').strip()
+        reason = request.POST.get('reason', '').strip()[:500]
+
+        try:
+            payment_obj = PaymentVerification.objects.select_related('buyer', 'seller', 'resource').get(pk=payment_id)
+            if action == 'approve' and payment_obj.status == 'pending':
+                with transaction.atomic():
+                    payment_obj.status = 'approved'
+                    payment_obj.verified_at = now_ms()
+                    payment_obj.verified_by = admin_user
+                    payment_obj.admin_notes = reason
+                    payment_obj.save()
+
+                    # Credit seller balance
+                    seller_bal = get_or_create_seller_balance(payment_obj.seller)
+                    seller_bal.total_earned += payment_obj.seller_earnings
+                    seller_bal.current_balance += payment_obj.seller_earnings
+                    seller_bal.updated_at = now_ms()
+                    seller_bal.save()
+
+                    # Notify buyer and seller
+                    _notif.create_notification(
+                        recipient=payment_obj.buyer,
+                        actor=admin_user or payment_obj.seller,
+                        verb='payment_approved',
+                        target=payment_obj.resource,
+                        message=f"Your payment of Rs. {payment_obj.amount} for '{payment_obj.resource.title}' has been verified & approved! You now have full access."
+                    )
+                    _notif.create_notification(
+                        recipient=payment_obj.seller,
+                        actor=payment_obj.buyer,
+                        verb='sale_credited',
+                        target=payment_obj.resource,
+                        message=f"You earned Rs. {payment_obj.seller_earnings} from the sale of '{payment_obj.resource.title}' to @{payment_obj.buyer.username}!"
+                    )
+
+            elif action == 'reject' and payment_obj.status == 'pending':
+                payment_obj.status = 'rejected'
+                payment_obj.verified_at = now_ms()
+                payment_obj.verified_by = admin_user
+                payment_obj.admin_notes = reason
+                payment_obj.save()
+
+                _notif.create_notification(
+                    recipient=payment_obj.buyer,
+                    actor=admin_user or payment_obj.seller,
+                    verb='payment_rejected',
+                    target=payment_obj.resource,
+                    message=f"Your payment verification for '{payment_obj.resource.title}' was rejected. Reason: {reason or 'Invalid proof'}"
+                )
+        except PaymentVerification.DoesNotExist:
+            pass
+
+        return redirect('web:admin_pending_payments')
+
+    pending_payments = PaymentVerification.objects.filter(status='pending').select_related('buyer', 'seller', 'resource').order_by('-created_at')
+    processed_payments = PaymentVerification.objects.exclude(status='pending').select_related('buyer', 'seller', 'resource', 'verified_by').order_by('-verified_at')[:50]
+
+    return render(request, 'admin_panel/payments.html', _ctx(request,
+        active_page='payments',
+        pending_payments=pending_payments,
+        processed_payments=processed_payments,
+    ))
+
+
+def admin_withdrawals(request):
+    """Admin view for processing seller earnings withdrawal requests."""
+    redirect_response = _require_staff_admin(request)
+    if redirect_response:
+        return redirect_response
+
+    admin_user = None
+    if hasattr(request, 'user') and request.user.is_authenticated:
+        try:
+            admin_user = User.objects.get(username=request.user.username)
+        except User.DoesNotExist:
+            pass
+
+    if request.method == 'POST':
+        request_id = request.POST.get('request_id', '').strip()
+        action = request.POST.get('action', '').strip()
+        reason = request.POST.get('reason', '').strip()[:500]
+
+        try:
+            w_req = WithdrawalRequest.objects.select_related('user').get(pk=request_id)
+            if action == 'approve' and w_req.status == 'pending':
+                with transaction.atomic():
+                    w_req.status = 'approved'
+                    w_req.processed_at = now_ms()
+                    w_req.processed_by = admin_user
+                    w_req.admin_notes = reason
+                    w_req.save()
+
+                    # Update total_withdrawn in SellerBalance
+                    seller_bal = get_or_create_seller_balance(w_req.user)
+                    seller_bal.total_withdrawn += w_req.amount
+                    seller_bal.updated_at = now_ms()
+                    seller_bal.save()
+
+                    _notif.create_notification(
+                        recipient=w_req.user,
+                        actor=admin_user,
+                        verb='withdrawal_paid',
+                        target=None,
+                        message=f"Your withdrawal of Rs. {w_req.amount} via {w_req.get_payout_method_display()} has been processed & paid!"
+                    )
+
+            elif action == 'reject' and w_req.status == 'pending':
+                with transaction.atomic():
+                    w_req.status = 'rejected'
+                    w_req.processed_at = now_ms()
+                    w_req.processed_by = admin_user
+                    w_req.admin_notes = reason
+                    w_req.save()
+
+                    # Refund balance back to seller
+                    seller_bal = get_or_create_seller_balance(w_req.user)
+                    seller_bal.current_balance += w_req.amount
+                    seller_bal.updated_at = now_ms()
+                    seller_bal.save()
+
+                    _notif.create_notification(
+                        recipient=w_req.user,
+                        actor=admin_user,
+                        verb='withdrawal_rejected',
+                        target=None,
+                        message=f"Your withdrawal request of Rs. {w_req.amount} was rejected. Amount has been refunded to your balance. Reason: {reason or 'Incorrect details'}"
+                    )
+        except WithdrawalRequest.DoesNotExist:
+            pass
+
+        return redirect('web:admin_withdrawals')
+
+    pending_withdrawals = WithdrawalRequest.objects.filter(status='pending').select_related('user').order_by('-created_at')
+    processed_withdrawals = WithdrawalRequest.objects.exclude(status='pending').select_related('user', 'processed_by').order_by('-processed_at')[:50]
+
+    return render(request, 'admin_panel/withdrawals.html', _ctx(request,
+        active_page='withdrawals',
+        pending_withdrawals=pending_withdrawals,
+        processed_withdrawals=processed_withdrawals,
+    ))

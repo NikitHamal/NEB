@@ -46,10 +46,22 @@ Pop-Location
 
 # Upload the ZIP file
 Write-Host "Uploading ZIP file via SCP..."
-& scp -o StrictHostKeyChecking=no -i $keyPath -P 22 $zipPath "${username}@${hostIp}:${remoteDir}/"
-if ($LASTEXITCODE -ne 0) {
-    Write-Error "Failed to upload ZIP archive!"
-    Remove-Item $keyPath -Force
+$uploadSuccess = $false
+for ($attempt = 1; $attempt -le 3; $attempt++) {
+    & scp -o StrictHostKeyChecking=no -i $keyPath -P 22 $zipPath "${username}@${hostIp}:${remoteDir}/"
+    if ($LASTEXITCODE -eq 0) {
+        $uploadSuccess = $true
+        break
+    }
+    Write-Host "SCP upload attempt $attempt failed, retrying in 3 seconds..."
+    Start-Sleep -Seconds 3
+}
+
+if (-not $uploadSuccess) {
+    Write-Error "Failed to upload ZIP archive after 3 attempts!"
+    & icacls $keyPath /grant "${env:USERNAME}:F" 2>&1 | Out-Null
+    attrib -r $keyPath 2>&1 | Out-Null
+    Remove-Item $keyPath -Force -ErrorAction SilentlyContinue
     Remove-Item $zipPath -Force -ErrorAction SilentlyContinue
     exit 1
 }

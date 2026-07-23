@@ -252,6 +252,14 @@ def profile(request, username):
                 'sender_photo': req.sender.photo_url or '',
             })
 
+    seller_balance = None
+    sales_history = []
+    withdrawal_history = []
+    if is_self:
+        seller_balance = get_or_create_seller_balance(profile_user)
+        sales_history = PaymentVerification.objects.filter(seller=profile_user).select_related('buyer', 'resource').order_by('-created_at')[:100]
+        withdrawal_history = WithdrawalRequest.objects.filter(user=profile_user).order_by('-created_at')[:100]
+
     social_links_data = []
     if not profile_private and not profile_user.is_bot:
         social_links_data = get_user_links(profile_user.id)
@@ -272,7 +280,72 @@ def profile(request, username):
         pending_requests_count=pending_requests_count,
         social_links=social_links_data,
         social_links_json=json.dumps(social_links_data),
+        seller_balance=seller_balance,
+        sales_history=sales_history,
+        withdrawal_history=withdrawal_history,
     ))
+
+
+@require_POST
+def ajax_request_withdrawal(request):
+    """Allows sellers to submit withdrawal requests when minimum 1000 NPR threshold is met."""
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'status': 'error', 'error': 'Authentication required.'}, status=401)
+
+    try:
+        user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return JsonResponse({'status': 'error', 'error': 'User not found.'}, status=404)
+
+    from decimal import Decimal
+    raw_amount = request.POST.get('amount', '0').strip()
+    payout_method = request.POST.get('payout_method', 'esewa').strip().lower()
+    payout_details = request.POST.get('payout_details', '').strip()
+
+    if payout_method not in ['esewa', 'khalti', 'bank']:
+        payout_method = 'esewa'
+
+    try:
+        amount = Decimal(raw_amount)
+    except Exception:
+        return JsonResponse({'status': 'error', 'error': 'Invalid withdrawal amount.'}, status=400)
+
+    if amount < Decimal('1000.00'):
+        return JsonResponse({'status': 'error', 'error': 'Minimum withdrawal threshold is Rs. 1,000.'}, status=400)
+
+    if not payout_details:
+        return JsonResponse({'status': 'error', 'error': 'Please provide payout account details (Account holder name, ID, or phone number).'}, status=400)
+
+    seller_bal = get_or_create_seller_balance(user)
+    if seller_bal.current_balance < amount:
+        return JsonResponse({
+            'status': 'error',
+            'error': f'Insufficient balance. Your available balance is Rs. {seller_bal.current_balance:.2f}.'
+        }, status=400)
+
+    if WithdrawalRequest.objects.filter(user=user, status='pending').exists():
+        return JsonResponse({'status': 'error', 'error': 'You already have a pending withdrawal request under review.'}, status=400)
+
+    with transaction.atomic():
+        WithdrawalRequest.objects.create(
+            id=uuid_str(),
+            user=user,
+            amount=amount,
+            payout_method=payout_method,
+            payout_details=payout_details,
+            status='pending',
+            created_at=now_ms(),
+        )
+        seller_bal.current_balance -= amount
+        seller_bal.updated_at = now_ms()
+        seller_bal.save()
+
+    return JsonResponse({
+        'status': 'success',
+        'message': f'Withdrawal request for Rs. {amount:.2f} submitted successfully!',
+        'new_balance': float(seller_bal.current_balance)
+    })
 
 def profile_achievements(request, username):
     user_id = _get_user_id(request)

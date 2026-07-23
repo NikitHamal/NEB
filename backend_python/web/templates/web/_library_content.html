@@ -14,6 +14,12 @@
           <path d="M0,120 L0,95 Q80,65 160,85 Q240,105 300,80 L300,120Z" fill="var(--art-c4)" opacity="0.2"/>
         </svg>
       {% endif %}
+      {% if r.is_paid or r.isPaid %}
+        <span class="resource-card-paid-pill" style="position:absolute;top:10px;left:10px;background:#16a34a;color:#fff;font-size:0.75rem;font-weight:700;padding:3px 10px;border-radius:20px;display:inline-flex;align-items:center;gap:4px;z-index:2;">
+          <span class="material-symbols-outlined" style="font-size:14px">payments</span>
+          Rs. {{ r.price|floatformat:"0" }}
+        </span>
+      {% endif %}
       <span class="resource-card-type-pill">{{ r.type }}</span>
       <span class="resource-card-art-icon material-symbols-outlined">{{ r.subject|split:','|first|subject_icon }}</span>
     </div>

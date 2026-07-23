@@ -409,10 +409,6 @@ class ResourceDetailViewModel @Inject constructor(
         val draft = _uiState.value.commentDraft.trim()
         val staged = _commentAttachments.value
         if ((draft.isEmpty() && staged.isEmpty()) || _uiState.value.isPostingComment) return
-        if (!_uiState.value.isAuthenticated) {
-            _uiState.update { it.copy(snackbarMessage = "Please sign in to comment") }
-            return
-        }
         if (staged.any { it.uploading }) {
             _uiState.update { it.copy(snackbarMessage = "Wait for attachments to finish uploading") }
             return
@@ -449,10 +445,6 @@ class ResourceDetailViewModel @Inject constructor(
         val draft = _uiState.value.threadDraft.trim()
         val staged = _commentAttachments.value
         if ((draft.isEmpty() && staged.isEmpty()) || _uiState.value.isPostingComment) return
-        if (!_uiState.value.isAuthenticated) {
-            _uiState.update { it.copy(snackbarMessage = "Please sign in to comment") }
-            return
-        }
         if (staged.any { it.uploading }) {
             _uiState.update { it.copy(snackbarMessage = "Wait for attachments to finish uploading") }
             return

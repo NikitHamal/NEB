@@ -445,21 +445,20 @@ PRIOR OUTPUT
             from api.llm.runtime import model_display_label
             return model_display_label('qwen', self._community_model())
         except Exception:
-            return 'Qwen 3.7 Plus'
-        return self._llm_resolved
+            return f'Qwen ({self._community_model()})'
 
     def _community_model(self) -> str:
         """Selected community (Qwen web) model, else the live default from
-        chat.qwen.ai's catalog (falls back to qwen3.7-plus offline)."""
+        chat.qwen.ai's catalog (falls back to qwen3.8-max-preview offline)."""
         slug = (self.session.llm_provider or '').strip().lower()
         model = (self.session.llm_model or '').strip()
         if slug == 'qwen' and model:
             return model
         try:
             from api.qwen_utils.models import get_default_model
-            return get_default_model() or 'qwen3.7-plus'
+            return get_default_model() or 'qwen3.8-max-preview'
         except Exception:
-            return 'qwen3.7-plus'
+            return 'qwen3.8-max-preview'
 
     def _llm_label(self) -> str:
         resolved = self._llm_selection()
@@ -469,8 +468,7 @@ PRIOR OUTPUT
             from api.llm.runtime import model_display_label
             return model_display_label('qwen', self._community_model())
         except Exception:
-            community = self._community_model()
-            return 'Qwen 3.7 Plus' if community == 'qwen3.7-plus' else f'Qwen ({community})'
+            return f'Qwen ({self._community_model()})'
 
     def _system_prompt_for_run(self) -> str:
         """SYSTEM_PROMPT with the identity line pointed at the model actually

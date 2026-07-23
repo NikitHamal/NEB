@@ -329,15 +329,31 @@ def catalog_for_user(user) -> dict:
 
 
 def default_selection(user) -> dict:
-    """What an agent session gets when the user picks nothing: the legacy
-    Qwen bot if configured, else the first available official provider."""
-    from api.models import BotConfig
+    """What an agent session gets when the user picks nothing: the user's
+    first saved BYOK key for an official provider, else the legacy Qwen
+    bot if configured, else the first env-configured official provider."""
+    from api.models import BotConfig, UserLLMProvider
     live_default = None
     try:
         from api.qwen_utils.models import get_default_model
         live_default = get_default_model()
     except Exception:
         pass
+
+    user_obj = _real_user(user)
+    if user_obj is not None:
+        byok = UserLLMProvider.objects.filter(
+            user=user_obj, enabled=True,
+        ).exclude(provider='custom').order_by('-updated_at').first()
+        if byok and byok.api_key:
+            from .registry import preset as _preset
+            p = _preset(byok.provider)
+            if p and p.official:
+                return {
+                    'kind': 'official', 'slug': byok.provider,
+                    'model': byok.default_model or p.default_model or live_default or '',
+                }
+
     qwen = BotConfig.objects.filter(enabled=True, provider='qwen').order_by('id').first()
     if qwen:
         return {'kind': 'community', 'slug': 'qwen', 'model': qwen.model or live_default or 'qwen3.7-plus'}

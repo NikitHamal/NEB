@@ -80,13 +80,13 @@ from .registry import preset as _preset  # noqa: E402
 
 def model_display_label(slug: str, model: str = '') -> str:
     """Pretty label for a (slug, model) pair — 'Agnes · agnes-2.0-flash',
-    'Qwen3.8-Max-Preview', etc. Community slugs use live upstream names when
+    'Qwen 3.8 Max Preview', etc. Community slugs use live upstream names when
     the 5-minute cached catalog has them."""
     slug = (slug or '').strip().lower()
     model = (model or '').strip()
     if not slug or slug == 'qwen':
-        if not model or model == 'qwen3.7-plus':
-            return 'Qwen 3.7 Plus'
+        if not model:
+            return 'Qwen (default)'
         name = ''
         try:
             from api.qwen_utils.models import fetch_models
@@ -113,8 +113,15 @@ def describe_session_llm(session) -> dict:
     slug = (getattr(session, 'llm_provider', '') or '').strip().lower()
     model = (getattr(session, 'llm_model', '') or '').strip()
     if not slug:
-        return {'provider': 'qwen', 'model': 'qwen3.7-plus',
-                'label': 'Qwen 3.7 Plus (default)', 'official': False}
+        live = ''
+        try:
+            from api.qwen_utils.models import get_default_model
+            live = get_default_model()
+        except Exception:
+            pass
+        model = live or 'qwen3.7-plus'
+        label = model_display_label('qwen', model) + ' (default)'
+        return {'provider': 'qwen', 'model': model, 'label': label, 'official': False}
     p = _preset(slug)
     return {
         'provider': slug,
@@ -126,14 +133,18 @@ def describe_session_llm(session) -> dict:
 
 
 def default_llm_label(user) -> str:
-    """Label for what a *new* session would use if the user picks nothing —
-    the qwen bot's model (live default), else the first available official
-    provider, else the plain Qwen fallback."""
+    """Label for what a *new* session would use if the user picks nothing."""
     from .credentials import default_selection  # lazy: avoids import cycle
     try:
         sel = default_selection(user)
     except Exception:
-        return 'Qwen 3.7 Plus'
+        live = ''
+        try:
+            from api.qwen_utils.models import get_default_model
+            live = get_default_model()
+        except Exception:
+            pass
+        return model_display_label('qwen', live or 'qwen3.7-plus')
     return model_display_label(sel.get('slug') or 'qwen', sel.get('model') or '')
 
 
@@ -168,4 +179,10 @@ def default_model_state(user, provider=None) -> dict:
             configured = any(_resolve(user, p.slug) for p in OFFICIAL_PRESETS)
         except Exception:
             configured = False
-    return {'provider': slug, 'model': model or 'qwen3.7-plus', 'label': label, 'configured': configured}
+    if not model:
+        try:
+            from api.qwen_utils.models import get_default_model
+            model = get_default_model() or 'qwen3.7-plus'
+        except Exception:
+            model = 'qwen3.7-plus'
+    return {'provider': slug, 'model': model, 'label': label, 'configured': configured}

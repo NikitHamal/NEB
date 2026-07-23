@@ -120,12 +120,12 @@ def ajax_like_resource_comment(request, comment_id):
 @require_POST
 def ajax_resource_comment(request, resource_id):
     user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
-    try:
-        user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
+    user = None
+    if user_id:
+        try:
+            user = User.objects.get(pk=user_id)
+        except User.DoesNotExist:
+            user = None
     try:
         data = json.loads(request.body)
         content = data.get('content', '').strip()

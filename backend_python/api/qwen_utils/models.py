@@ -179,7 +179,7 @@ def get_default_model(force_refresh=False):
     `fetch_models()` but subsequent calls are instant.  The default-model
     cache is tied to the same 5-min TTL as the full model list.
 
-    Falls back to ``qwen3.7-plus`` if anything fails.
+    Falls back to ``qwen3.8-max-preview`` if anything fails.
     """
     global _DEFAULT_MODEL
 
@@ -187,7 +187,7 @@ def get_default_model(force_refresh=False):
     if cached_default and not force_refresh:
         return cached_default
 
-    default = "qwen3.7-plus"
+    default = "qwen3.8-max-preview"
     try:
         models = fetch_models(force_refresh=force_refresh)
         for m in models:

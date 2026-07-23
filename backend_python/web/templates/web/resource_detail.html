@@ -66,6 +66,12 @@
         <span class="material-symbols-outlined icon-sm">{{ resource.type|resource_type_icon }}</span>
         {{ resource.type }}
       </span>
+      {% if resource.is_paid or resource.isPaid %}
+      <span class="rd-chip" style="background:#16a34a;color:#fff;font-weight:700;">
+        <span class="material-symbols-outlined icon-sm">payments</span>
+        Rs. {{ resource.price|floatformat:"0" }} &middot; PAID
+      </span>
+      {% endif %}
       <span class="rd-chip rd-chip-grade">{{ resource.grade_level }}</span>
     </div>
     <h1 class="rd-title">{{ resource.title }}</h1>
@@ -140,6 +146,97 @@
     <div class="rd-description">{{ resource.description }}</div>
     {% endif %}
 
+    <!-- Paid Content Access Guard / Purchase Box -->
+    {% if resource.is_paid and not resource.has_access %}
+    <div class="rd-paid-lock-box" style="margin-top:24px;background:var(--md-surface-container-high, #f1f5f9);border:2px solid #16a34a;border-radius:16px;padding:24px;">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+        <span class="material-symbols-outlined" style="font-size:32px;color:#16a34a;">lock</span>
+        <div>
+          <h3 style="margin:0;font-size:1.25rem;font-weight:700;color:var(--md-on-surface,#0f172a);">Paid Content &middot; Rs. {{ resource.price|floatformat:"0" }}</h3>
+          <p style="margin:4px 0 0 0;font-size:0.875rem;color:var(--md-on-surface-variant,#475569);">
+            This is a premium resource uploaded by {{ resource.uploadedByName|default:"the instructor" }}. Pay via QR code below to gain full access.
+          </p>
+        </div>
+      </div>
+
+      {% if resource.purchase_status == 'pending' %}
+      <div style="background:#fef3c7;border:1px solid #f59e0b;color:#92400e;padding:14px 18px;border-radius:12px;margin-bottom:20px;display:flex;align-items:center;gap:10px;">
+        <span class="material-symbols-outlined">hourglass_top</span>
+        <div>
+          <strong>Payment Pending Verification</strong><br>
+          <span style="font-size:0.875rem;">Your submitted payment proof is currently under review by our admin team. You will be notified as soon as it is approved!</span>
+        </div>
+      </div>
+      {% elif resource.purchase_status == 'rejected' %}
+      <div style="background:#fee2e2;border:1px solid #ef4444;color:#991b1b;padding:14px 18px;border-radius:12px;margin-bottom:20px;display:flex;align-items:center;gap:10px;">
+        <span class="material-symbols-outlined">error</span>
+        <div>
+          <strong>Payment Verification Rejected</strong><br>
+          <span style="font-size:0.875rem;">Your previous payment submission could not be verified. Please double-check your payment screenshot and transaction ID and submit again below.</span>
+        </div>
+      </div>
+      {% endif %}
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));gap:20px;margin-top:20px;">
+        <!-- Payment Instructions & QR Card -->
+        <div style="background:var(--md-surface,#ffffff);padding:20px;border-radius:12px;border:1px solid var(--md-outline-variant,#e2e8f0);text-align:center;">
+          <h4 style="margin:0 0 12px 0;font-weight:700;">1. Scan & Pay via QR Code</h4>
+          <div style="background:#f8fafc;padding:16px;border-radius:12px;display:inline-block;border:1px solid #cbd5e1;">
+            <svg viewBox="0 0 160 160" width="160" height="160" style="display:block;margin:0 auto;">
+              <!-- QR Code visual artwork representation -->
+              <rect width="160" height="160" fill="#ffffff"/>
+              <!-- Target boxes -->
+              <rect x="10" y="10" width="40" height="40" fill="#0f172a"/><rect x="16" y="16" width="28" height="28" fill="#ffffff"/><rect x="22" y="22" width="16" height="16" fill="#004bd4"/>
+              <rect x="110" y="10" width="40" height="40" fill="#0f172a"/><rect x="116" y="16" width="28" height="28" fill="#ffffff"/><rect x="122" y="22" width="16" height="16" fill="#004bd4"/>
+              <rect x="10" y="110" width="40" height="40" fill="#0f172a"/><rect x="16" y="116" width="28" height="28" fill="#ffffff"/><rect x="22" y="122" width="16" height="16" fill="#004bd4"/>
+              <!-- Data patterns -->
+              <rect x="60" y="20" width="12" height="12" fill="#0f172a"/><rect x="80" y="10" width="12" height="12" fill="#004bd4"/>
+              <rect x="60" y="60" width="40" height="40" rx="8" fill="#004bd4"/>
+              <text x="80" y="85" text-anchor="middle" fill="#ffffff" font-weight="bold" font-size="14">eSewa</text>
+              <rect x="110" y="60" width="12" height="12" fill="#0f172a"/><rect x="130" y="80" width="12" height="12" fill="#004bd4"/>
+              <rect x="20" y="60" width="12" height="12" fill="#0f172a"/><rect x="80" y="120" width="12" height="12" fill="#0f172a"/>
+              <rect x="110" y="110" width="12" height="12" fill="#004bd4"/><rect x="130" y="130" width="16" height="16" fill="#0f172a"/>
+            </svg>
+          </div>
+          <div style="margin-top:12px;font-size:0.875rem;color:var(--md-on-surface-variant,#475569);">
+            <strong>eSewa / Khalti / Mobile Banking</strong><br>
+            Pay Exact Amount: <span style="color:#16a34a;font-weight:700;">Rs. {{ resource.price|floatformat:"0" }}</span>
+          </div>
+        </div>
+
+        <!-- Submit Proof Form -->
+        <div style="background:var(--md-surface,#ffffff);padding:20px;border-radius:12px;border:1px solid var(--md-outline-variant,#e2e8f0);">
+          <h4 style="margin:0 0 12px 0;font-weight:700;">2. Submit Payment Details</h4>
+          {% if is_authenticated %}
+          <form method="post" action="{% url 'web:submit_payment_proof' resource_id=resource.id %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div style="margin-bottom:12px;">
+              <label class="md-label" for="transaction_id">Transaction ID / Reference / Phone *</label>
+              <input class="md-input" type="text" id="transaction_id" name="transaction_id" required placeholder="e.g. 98XXXXXXXX or Txn #12345" style="width:100%;">
+            </div>
+
+            <div style="margin-bottom:16px;">
+              <label class="md-label" for="payment_proof">Payment Proof Screenshot *</label>
+              <input class="md-input" type="file" id="payment_proof" name="payment_proof" accept="image/*" required style="width:100%;height:auto;padding:8px;">
+            </div>
+
+            <button type="submit" class="md-btn md-btn-filled" style="width:100%;background:#16a34a;">
+              <span class="material-symbols-outlined">send</span>
+              Submit Payment Proof
+            </button>
+          </form>
+          {% else %}
+          <div style="text-align:center;padding:24px 12px;">
+            <span class="material-symbols-outlined" style="font-size:36px;color:var(--md-primary);">account_circle</span>
+            <p style="margin:8px 0 16px 0;font-size:0.9375rem;">Sign in to submit payment proof and access this paid content.</p>
+            <a href="{% url 'web:login' %}?next={{ request.path }}" class="md-btn md-btn-filled" style="width:100%;">Sign In to Purchase</a>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
     <!-- Files List Section -->
     <div class="rd-files-section">
       <h3 class="rd-files-title">
@@ -164,43 +261,18 @@
             </div>
           </div>
           <div class="rd-file-actions">
-            {% if file.id == resource.id %}
-              {% with f_url=resource.safe_file_url|default:resource.file_url %}
-              {% if f_url %}
-                <a href="{{ f_url }}" target="_blank" rel="noopener noreferrer" class="rd-file-btn btn-read">
-                  {% if resource.media_type == 'pdf' %}
-                    <span class="material-symbols-outlined">visibility</span>
-                    Read
-                  {% elif resource.media_type == 'image' %}
-                    <span class="material-symbols-outlined">image</span>
-                    View
-                  {% elif resource.media_type == 'video' or resource.media_type == 'audio' %}
-                    <span class="material-symbols-outlined">play_circle</span>
-                    Play
-                  {% else %}
-                    <span class="material-symbols-outlined">open_in_new</span>
-                    Open
-                  {% endif %}
-                </a>
-                <a href="{{ f_url }}" download class="rd-file-btn btn-download">
-                  <span class="material-symbols-outlined">download</span>
-                  Download
-                </a>
-              {% endif %}
-              {% endwith %}
-            {% else %}
-              {% if file.media_type == 'pdf' %}
-                <a href="{% url 'web:reader' resource_id=file.id %}" class="rd-file-btn btn-read">
-                  <span class="material-symbols-outlined">menu_book</span>
-                  Read
-                </a>
-              {% else %}
-                {% if file.file_url %}
-                  <a href="{{ file.file_url }}" target="_blank" rel="noopener noreferrer" class="rd-file-btn btn-read">
-                    {% if file.media_type == 'image' %}
+            {% if resource.has_access %}
+              {% if file.id == resource.id %}
+                {% with f_url=resource.safe_file_url|default:resource.file_url %}
+                {% if f_url %}
+                  <a href="{{ f_url }}" target="_blank" rel="noopener noreferrer" class="rd-file-btn btn-read">
+                    {% if resource.media_type == 'pdf' %}
+                      <span class="material-symbols-outlined">visibility</span>
+                      Read
+                    {% elif resource.media_type == 'image' %}
                       <span class="material-symbols-outlined">image</span>
                       View
-                    {% elif file.media_type == 'video' or file.media_type == 'audio' %}
+                    {% elif resource.media_type == 'video' or resource.media_type == 'audio' %}
                       <span class="material-symbols-outlined">play_circle</span>
                       Play
                     {% else %}
@@ -208,14 +280,17 @@
                       Open
                     {% endif %}
                   </a>
+                  <a href="{{ f_url }}" download class="rd-file-btn btn-download">
+                    <span class="material-symbols-outlined">download</span>
+                    Download
+                  </a>
                 {% endif %}
+                {% endwith %}
               {% endif %}
-              {% if file.file_url %}
-                <a href="{{ file.file_url }}" download class="rd-file-btn btn-download">
-                  <span class="material-symbols-outlined">download</span>
-                  Download
-                </a>
-              {% endif %}
+            {% else %}
+              <span class="rd-file-badge" style="background:#fee2e2;color:#991b1b;font-weight:600;padding:6px 12px;border-radius:20px;display:inline-flex;align-items:center;gap:4px;">
+                <span class="material-symbols-outlined" style="font-size:16px;">lock</span> Paid Content
+              </span>
             {% endif %}
           </div>
         </div>
@@ -263,12 +338,8 @@
     Comments <span class="count">({{ comment_count }})</span>
   </div>
 
-  <div id="comment-list">
-    {% include "web/_comment_cards.html" %}
-  </div>
-
-  {% if is_authenticated %}
-  <div class="rd-compose" id="comment-compose" style="margin-top: 16px;">
+  <!-- Comment Composer (Available for all users including anonymous) -->
+  <div class="rd-compose" id="comment-compose" style="margin-top: 12px; margin-bottom: 24px;">
     <div class="rd-compose-header">Add a comment</div>
     <div class="reply-input-wrapper" id="rdCommentWrapper">
       <button type="button" class="fp-inline-tool" id="rdCommentAttachBtn" title="Add video, audio or file">
@@ -283,12 +354,10 @@
     <input type="file" id="rdCommentMediaInput" multiple style="display:none"
            accept="video/mp4,video/webm,video/quicktime,audio/mpeg,audio/mp4,audio/aac,audio/ogg,audio/opus,audio/wav,audio/flac,.m4v,.mov,.m4a,.pdf,.txt,.md,.csv,.json,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.zip">
   </div>
-  {% else %}
-  <div class="rd-login-prompt" style="margin-top: 16px;">
-    <span class="material-symbols-outlined" style="font-size:36px;opacity:.4;margin-bottom:8px;display:block;">login</span>
-    <p><a href="{% url 'web:login' %}" style="color:var(--md-primary);font-weight:600;">Sign in</a> to leave a comment</p>
+
+  <div id="comment-list">
+    {% include "web/_comment_cards.html" %}
   </div>
-  {% endif %}
 
   <!-- Related Resources -->
   {% if related_resources %}
@@ -568,7 +637,6 @@ function toggleResourceCommentLike(commentId) {
 }
 
 function submitResourceComment() {
-  if (!IS_AUTH) { window.location.href = '{% url "web:login" %}'; return; }
   var input = document.getElementById('comment-input');
   var btn = document.getElementById('comment-submit-btn');
   var content = input.value.trim();

@@ -538,11 +538,12 @@ def create_resource_comment(user, resource_id, content, parent_comment_id=None, 
                     mime_type=item['mime_type'], size_bytes=item['size_bytes'],
                     order=order, created_at=now,
                 )
-    _counters.increment_user_reply_count(user.id)
-    if parent_comment_id:
-        _notif.notify_resource_comment_reply(user.id, parent_comment_id, resource_id, comment.id)
-    else:
-        _notif.notify_resource_comment(user.id, resource_id, comment.id)
+    if user:
+        _counters.increment_user_reply_count(user.id)
+        if parent_comment_id:
+            _notif.notify_resource_comment_reply(user.id, parent_comment_id, resource_id, comment.id)
+        else:
+            _notif.notify_resource_comment(user.id, resource_id, comment.id)
     data = _serialize_resource_comment(comment)
     _rt.broadcast_resource_comment_created(resource_id, data)
     return data
@@ -597,8 +598,8 @@ def _serialize_resource_comment(comment):
     return {
         'id': comment.id,
         'resourceId': comment.resource_id,
-        'authorId': comment.user_id,
-        'authorName': comment.user.username if hasattr(comment, 'user') and comment.user else '',
+        'authorId': comment.user_id or '',
+        'authorName': comment.user.username if hasattr(comment, 'user') and comment.user else 'Anonymous',
         'authorPhoto': comment.user.photo_url if hasattr(comment, 'user') and comment.user else '',
         'parentCommentId': comment.parent_comment_id or '',
         'content': comment.content,

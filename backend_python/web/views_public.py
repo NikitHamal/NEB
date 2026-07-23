@@ -250,6 +250,12 @@ def library(request):
             for e in exam_types:
                 q |= Q(exam_type__iexact=e)
             qs = qs.filter(q)
+
+        pricing = request.GET.get('pricing', '').strip().lower()
+        if pricing == 'free':
+            qs = qs.filter(is_paid=False)
+        elif pricing == 'paid':
+            qs = qs.filter(is_paid=True)
             
         from api.models import User as _LocalUser
         user_profile = None
@@ -385,7 +391,7 @@ def library(request):
         })
     categories_list.sort(key=lambda x: x['order'])
 
-    active_filter_count = len(subjects) + len(grades) + len(types) + len(faculties) + len(exam_types)
+    active_filter_count = len(subjects) + len(grades) + len(types) + len(faculties) + len(exam_types) + (1 if pricing else 0)
     ctx = _ctx(request,
         resources=filtered,
         all_subjects=all_subjects,
@@ -399,6 +405,7 @@ def library(request):
         current_types=types,
         current_faculties=faculties,
         current_exam_types=exam_types,
+        current_pricing=pricing,
         active_filter_count=active_filter_count,
         current_sort=sort_by,
         current_tab=current_tab,
@@ -640,8 +647,6 @@ def ajax_instant_search(request):
                 for u in qs:
                     users.append({'id': u.id, 'username': u.username, 'displayName': u.display_name or u.username, 'photoUrl': u.photo_url, 'url': f'/profile/{u.username}/'})
     return JsonResponse({'results': {'resources': resources, 'posts': posts, 'users': users}})
-
-
 def reader(request, resource_id):
     """Resource detail page — shows title, description, view/download/like actions, and comments."""
     user_id = _get_user_id(request)
@@ -653,6 +658,15 @@ def reader(request, resource_id):
     if resource_obj.approval_status != 'approved' and not _is_staff_admin(request):
         raise Http404("Resource not found")
 
+    current_user = None
+    if user_id:
+        try:
+            current_user = User.objects.get(pk=user_id)
+        except User.DoesNotExist:
+            pass
+
+    has_access, access_reason, purchase_obj = check_user_resource_access(current_user, resource_obj)
+
     # Increment view count once per session
     view_key = f'resource_viewed_{resource_id}'
     if not request.session.get(view_key):
@@ -661,12 +675,16 @@ def reader(request, resource_id):
         resource_obj.view_count += 1  # update in-memory
 
     resource = _serialize_resource(resource_obj)
+    resource['has_access'] = has_access
+    resource['access_reason'] = access_reason
+    resource['purchase_status'] = purchase_obj.status if purchase_obj else ''
+    resource['purchase_id'] = purchase_obj.id if purchase_obj else ''
 
-    # Validate file URL for "open in new tab" / download links
+    # Validate file URL for "open in new tab" / download links (only if user has access)
     raw_file_url = resource.get('file_url') or ''
     safe_file_url = ''
     file_url_error = ''
-    if raw_file_url:
+    if has_access and raw_file_url:
         media_prefix = settings.MEDIA_URL
         if raw_file_url.startswith(media_prefix) or (request and raw_file_url.startswith(request.build_absolute_uri(media_prefix))):
             safe_file_url = raw_file_url
@@ -801,9 +819,75 @@ def reader(request, resource_id):
         comment_target_type='resource_comment',
         comment_count=resource_obj.comment_count,
         related_resources=related_resources,
-        group_resources=group_resources,
         resource_files=resource_files,
     ))
+
+
+def submit_payment_proof(request, resource_id):
+    """Allows buyers to submit payment transaction details & QR payment proof screenshot."""
+    user_id = _get_user_id(request)
+    if not user_id:
+        return redirect('web:login')
+    try:
+        resource_obj = Resource.objects.select_related('uploaded_by').get(id=resource_id)
+    except Resource.DoesNotExist:
+        raise Http404("Resource not found")
+
+    if not resource_obj.is_paid:
+        return redirect('web:reader', resource_id=resource_id)
+
+    buyer = User.objects.get(pk=user_id)
+    seller = resource_obj.uploaded_by
+    if not seller:
+        seller = User.objects.filter(is_admin=True).first() or buyer
+
+    if request.method == 'POST':
+        transaction_id = request.POST.get('transaction_id', '').strip()
+        proof_file = request.FILES.get('payment_proof')
+
+        if not transaction_id and not proof_file:
+            messages.error(request, "Please provide a transaction reference or upload a payment screenshot proof.")
+            return redirect('web:reader', resource_id=resource_id)
+
+        from decimal import Decimal
+        price_dec = resource_obj.price
+        commission_dec = (price_dec * Decimal('0.10')).quantize(Decimal('0.01'))
+        earnings_dec = price_dec - commission_dec
+
+        existing_pending = PaymentVerification.objects.filter(buyer=buyer, resource=resource_obj, status='pending').first()
+        if existing_pending:
+            pv = existing_pending
+            pv.transaction_id = transaction_id or pv.transaction_id
+            if proof_file:
+                pv.payment_proof = proof_file
+                pv.payment_proof_url = request.build_absolute_uri(settings.MEDIA_URL + str(pv.payment_proof))
+            pv.amount = price_dec
+            pv.platform_commission = commission_dec
+            pv.seller_earnings = earnings_dec
+            pv.save()
+        else:
+            pv = PaymentVerification.objects.create(
+                id=uuid_str(),
+                buyer=buyer,
+                resource=resource_obj,
+                seller=seller,
+                amount=price_dec,
+                platform_commission=commission_dec,
+                seller_earnings=earnings_dec,
+                payment_method='qr_code',
+                transaction_id=transaction_id,
+                payment_proof=proof_file,
+                status='pending',
+                created_at=now_ms(),
+            )
+            if proof_file:
+                pv.payment_proof_url = request.build_absolute_uri(settings.MEDIA_URL + str(pv.payment_proof))
+                pv.save()
+
+        messages.success(request, "Payment proof submitted successfully! Your purchase is now pending verification by our admin team.")
+        return redirect('web:reader', resource_id=resource_id)
+
+    return redirect('web:reader', resource_id=resource_id)
 
 def resource_requests_page(request):
     """Public resource request listing page."""
@@ -1008,6 +1092,16 @@ def upload_resource(request):
         uploaded_files = request.FILES.getlist('file')
         file_url = request.POST.get('file_url', '').strip()
 
+        from decimal import Decimal
+        is_paid = request.POST.get('is_paid') in ['on', 'true', '1', True]
+        raw_price_input = request.POST.get('price', '0').strip() or '0'
+        try:
+            price_val = Decimal(raw_price_input)
+            if price_val < 0:
+                price_val = Decimal('0.00')
+        except Exception:
+            price_val = Decimal('0.00')
+
         errors = []
         if len(uploaded_files) > 5:
             errors.append('You can upload at most 5 files per request.')
@@ -1016,6 +1110,8 @@ def upload_resource(request):
             errors.append('Title is required.')
         if not subject:
             errors.append('Subject is required.')
+        if is_paid and price_val <= 0:
+            errors.append('Please set a valid price (greater than Rs. 0) for paid resources.')
         if not uploaded_files and not file_url:
             errors.append('Please upload a file or provide a file URL.')
 
@@ -1109,6 +1205,8 @@ def upload_resource(request):
                         approval_status='pending',
                         upload_group_id=group_id,
                         is_lead=is_lead,
+                        is_paid=is_paid,
+                        price=price_val if is_paid else Decimal('0.00'),
                     )
                     resource.save()
                     created_resources.append(resource)
@@ -1142,6 +1240,8 @@ def upload_resource(request):
                     approval_status='pending',
                     upload_group_id='',
                     is_lead=True,
+                    is_paid=is_paid,
+                    price=price_val if is_paid else Decimal('0.00'),
                 )
                 resource.save()
                 created_resources.append(resource)
@@ -1284,6 +1384,19 @@ def edit_resource(request, resource_id):
         resource_obj.source_label = request.POST.get('source_label', '').strip()
         resource_obj.source_url = request.POST.get('source_url', '').strip()
 
+        from decimal import Decimal
+        is_paid = request.POST.get('is_paid') in ['on', 'true', '1', True]
+        raw_price_input = request.POST.get('price', '0').strip() or '0'
+        try:
+            price_val = Decimal(raw_price_input)
+            if price_val < 0:
+                price_val = Decimal('0.00')
+        except Exception:
+            price_val = Decimal('0.00')
+
+        resource_obj.is_paid = is_paid
+        resource_obj.price = price_val if is_paid else Decimal('0.00')
+
         uploaded_file = request.FILES.get('file')
         if uploaded_file:
             path, size, err_resp = validate_and_save_resource_file(request, uploaded_file)
@@ -1314,7 +1427,8 @@ def edit_resource(request, resource_id):
         elif request.POST.get('thumbnail_url') == '':
             resource_obj.thumbnail_url = ''
 
-        resource_obj.approval_status = 'pending'
+        if resource_obj.approval_status != 'approved':
+            resource_obj.approval_status = 'pending'
         resource_obj.save()
         if not resource_obj.thumbnail_url:
             maybe_autoset_video_thumbnail(resource_obj, request)

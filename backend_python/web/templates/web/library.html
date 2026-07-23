@@ -247,6 +247,19 @@ labs and coding games.{% else %}Browse study resources - notes, past papers, tex
         </div>
       </div>
       {% endif %}
+
+      <!-- Pricing Filter -->
+      <div>
+        <div class="filter-section-title">PRICING</div>
+        <div class="filter-chip-group">
+          <button type="button" class="filter-chip-btn {% if current_pricing == 'free' %}active{% endif %}" data-filter="pricing" data-value="free">
+            <span class="material-symbols-outlined check-icon">check</span> Free
+          </button>
+          <button type="button" class="filter-chip-btn {% if current_pricing == 'paid' %}active{% endif %}" data-filter="pricing" data-value="paid">
+            <span class="material-symbols-outlined check-icon">check</span> Paid Content
+          </button>
+        </div>
+      </div>
     </div>
 
     <div class="lib-filter-footer">
@@ -274,7 +287,7 @@ labs and coding games.{% else %}Browse study resources - notes, past papers, tex
     const chip = e.target.closest('.filter-chip-btn');
     if (!chip) return;
     const type = chip.getAttribute('data-filter');
-    if (type === 'sort') {
+    if (type === 'sort' || type === 'pricing') {
       const container = chip.closest('.filter-chip-group');
       if (container) {
         container.querySelectorAll('.filter-chip-btn').forEach(c => c.classList.remove('active'));
@@ -319,6 +332,8 @@ labs and coding games.{% else %}Browse study resources - notes, past papers, tex
         const val = btn.getAttribute('data-value');
         if (type === 'sort') {
           params.set('sort', val);
+        } else if (type === 'pricing') {
+          params.set('pricing', val);
         } else if (type === 'subject') {
           params.append('subject', val);
         } else if (type === 'grade') {
