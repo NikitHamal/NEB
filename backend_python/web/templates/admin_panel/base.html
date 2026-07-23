@@ -79,6 +79,14 @@
       <span class="material-symbols-outlined">pending_actions</span>
       Pending Review
     </a>
+    <a href="{% url 'web:admin_pending_payments' %}" class="{% if active_page == 'payments' %}active{% endif %}">
+      <span class="material-symbols-outlined">payments</span>
+      Pending Payments
+    </a>
+    <a href="{% url 'web:admin_withdrawals' %}" class="{% if active_page == 'withdrawals' %}active{% endif %}">
+      <span class="material-symbols-outlined">account_balance_wallet</span>
+      Withdrawals
+    </a>
     <a href="{% url 'web:admin_resource_requests' %}" class="{% if active_page == 'resource_requests' %}active{% endif %}">
       <span class="material-symbols-outlined">contact_support</span>
       Requests
@@ -186,6 +194,14 @@
       <a href="{% url 'web:admin_pending_resources' %}" class="{% if active_page == 'pending_resources' %}active{% endif %}">
         <span class="material-symbols-outlined">pending_actions</span>
         Pending Review
+      </a>
+      <a href="{% url 'web:admin_pending_payments' %}" class="{% if active_page == 'payments' %}active{% endif %}">
+        <span class="material-symbols-outlined">payments</span>
+        Pending Payments
+      </a>
+      <a href="{% url 'web:admin_withdrawals' %}" class="{% if active_page == 'withdrawals' %}active{% endif %}">
+        <span class="material-symbols-outlined">account_balance_wallet</span>
+        Withdrawals
       </a>
       <a href="{% url 'web:admin_resource_requests' %}" class="{% if active_page == 'resource_requests' %}active{% endif %}">
         <span class="material-symbols-outlined">contact_support</span>

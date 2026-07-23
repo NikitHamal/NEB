@@ -20,7 +20,7 @@ from django.core.paginator import Paginator
 from django.utils.html import escape
 
 from api.models import User, Resource, ResourceRequest, ResourceRequestUpvote, Post, PostLike, PostImage, PostMedia, Poll, PollOption, PollVote, Reply, ReplyLike, Follow, UserPhoto, EditHistory, Bookmark, Notification, Report, BotConfig, TakedownRequest, BlogComment, BlogCommentLike
-from api.models import ResourceLike, ResourceComment, ResourceCommentLike
+from api.models import ResourceLike, ResourceComment, ResourceCommentLike, PaymentVerification, SellerBalance, WithdrawalRequest
 from api.serializers import UserSerializer, ResourceSerializer, PostSerializer, ReplySerializer
 from api.security import (
     get_user_by_auth_token, hash_auth_token, issue_auth_token, revoke_auth_token,
@@ -232,6 +232,9 @@ def _serialize_resource(r, _uploaded_by_map=None):
         file_url = r.file.url
     media = classify_resource_media(r.type, file_url)
     media_type = media['media_type']
+    is_paid = bool(getattr(r, 'is_paid', False))
+    raw_price = float(getattr(r, 'price', 0.0) or 0.0)
+    price_formatted = f"Rs. {raw_price:.0f}" if raw_price.is_integer() else f"Rs. {raw_price:.2f}"
     return {
         'id': r.id, 'title': r.title, 'description': r.description or '',
         'subject': r.subject, 'gradeLevel': r.grade_level, 'grade_level': r.grade_level,
@@ -259,7 +262,57 @@ def _serialize_resource(r, _uploaded_by_map=None):
         'uploadedByPhoto': uploaded_by_photo, 'uploaded_by_photo': uploaded_by_photo,
         'uploadedByUsername': uploaded_by_username,
         'approvalStatus': r.approval_status, 'approval_status': r.approval_status,
+        'isPaid': is_paid, 'is_paid': is_paid,
+        'price': raw_price,
+        'priceFormatted': price_formatted, 'price_formatted': price_formatted,
     }
+
+
+def check_user_resource_access(user, resource_obj):
+    """Determines whether a user has full access to view/download a paid or free resource.
+
+    Returns tuple: (has_access: bool, access_reason: str, purchase_obj: PaymentVerification|None)
+    access_reason can be: 'free', 'owner', 'admin', 'purchased', 'pending_verification', 'rejected', 'unpurchased'
+    """
+    if not resource_obj.is_paid:
+        return True, 'free', None
+
+    if not user or not user.is_authenticated:
+        return False, 'unpurchased', None
+
+    user_id = user.id if hasattr(user, 'id') else str(user)
+    
+    # Owner access
+    if resource_obj.uploaded_by_id == user_id:
+        return True, 'owner', None
+
+    # Admin access
+    if getattr(user, 'is_admin', False) or getattr(user, 'is_staff', False) or (isinstance(user, User) and (user.is_admin or user.is_locked is False and user.moderator_level >= 3)):
+        return True, 'admin', None
+
+    # Check buyer payment records
+    purchase = PaymentVerification.objects.filter(buyer_id=user_id, resource_id=resource_obj.id).order_by('-created_at').first()
+    if purchase:
+        if purchase.status == 'approved':
+            return True, 'purchased', purchase
+        elif purchase.status == 'pending':
+            return False, 'pending_verification', purchase
+        elif purchase.status == 'rejected':
+            return False, 'rejected', purchase
+
+    return False, 'unpurchased', None
+
+
+def get_or_create_seller_balance(user_obj):
+    """Retrieves or initializes a SellerBalance record for a user."""
+    balance, _ = SellerBalance.objects.get_or_create(user=user_obj, defaults={
+        'total_earned': 0.00,
+        'total_withdrawn': 0.00,
+        'current_balance': 0.00,
+        'updated_at': now_ms(),
+    })
+    return balance
+
 
 def _serialize_resources(resources_qs):
     resources = list(resources_qs)

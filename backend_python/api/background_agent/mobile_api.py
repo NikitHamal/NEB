@@ -80,7 +80,7 @@ def _session(admin, session_id):
 
 
 def _provider():
-    return BotConfig.objects.filter(enabled=True, provider='qwen', model__iexact='qwen3.7-plus').first()
+    return BotConfig.objects.filter(enabled=True, provider='qwen').order_by('id').first()
 
 
 def _payload(request):
@@ -393,7 +393,9 @@ def state(request):
         from api.llm.runtime import default_model_state
         model_state = default_model_state(admin, provider)
     except Exception:
-        model_state = {'provider': 'qwen', 'model': 'qwen3.7-plus', 'label': 'Qwen 3.7 Plus', 'configured': bool(provider)}
+        from api.qwen_utils.models import get_default_model as _qwen_default
+        qwen_model = _qwen_default() or 'qwen3.8-max-preview'
+        model_state = {'provider': 'qwen', 'model': qwen_model, 'label': f'Qwen ({qwen_model})', 'configured': bool(provider)}
     return _json({
         'ok': True,
         'projects': [_project_data(item) for item in projects],
