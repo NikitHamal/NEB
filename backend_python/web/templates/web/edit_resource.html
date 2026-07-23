@@ -202,7 +202,7 @@
 
       <div class="upload-field">
         <label class="md-label" for="file_url">File URL</label>
-        <input class="md-input" type="url" id="file_url" name="file_url" value="{{ resource.file_url|default:'' }}" placeholder="https://drive.google.com/... or https://...pdf">
+        <input class="md-input" type="text" id="file_url" name="file_url" value="{{ resource.file_url|default:'' }}" placeholder="https://drive.google.com/... or https://...pdf">
       </div>
 
       <div class="upload-field">
@@ -219,7 +219,7 @@
 
       <div class="upload-field">
         <label class="md-label" for="thumbnail_url">Thumbnail URL</label>
-        <input class="md-input" type="url" id="thumbnail_url" name="thumbnail_url" value="{{ resource.thumbnail_url|default:'' }}" placeholder="https://... (optional cover image)">
+        <input class="md-input" type="text" id="thumbnail_url" name="thumbnail_url" value="{{ resource.thumbnail_url|default:'' }}" placeholder="https://... (optional cover image)">
         <div class="upload-hint">Only used when no thumbnail file is uploaded above. Clear it to remove the cover.</div>
       </div>
     </div>
@@ -243,9 +243,50 @@
 
       <div class="upload-field">
         <label class="md-label" for="source_url">Source URL</label>
-        <input class="md-input" type="url" id="source_url" name="source_url" value="{{ resource.source_url|default:'' }}" placeholder="https://... (original source link)">
+        <input class="md-input" type="text" id="source_url" name="source_url" value="{{ resource.source_url|default:'' }}" placeholder="https://... (original source link)">
       </div>
     </div>
+
+    <!-- Pricing & Marketplace Section -->
+    <div class="upload-section">
+      <div class="upload-section-header">
+        <span class="material-symbols-outlined">payments</span>
+        <h2>Pricing & Monetization</h2>
+      </div>
+
+      <div class="upload-field" style="background:var(--md-surface-container-low, #f8fafc);padding:16px;border-radius:12px;border:1px solid var(--md-outline-variant, #e2e8f0);">
+        <label class="md-label" style="display:flex;align-items:center;gap:10px;cursor:pointer;margin:0;font-weight:600;color:var(--md-on-surface,#0f172a);">
+          <input type="checkbox" name="is_paid" id="edit_is_paid_toggle" style="width:20px;height:20px;accent-color:var(--md-primary,#004bd4);" {% if resource.is_paid %}checked{% endif %}>
+          <span>Sell as Paid Resource / Class</span>
+        </label>
+        <div class="upload-hint" style="margin-top:6px;margin-left:30px;">Mark this note, resource, or class as paid content. Buyers pay via QR code and funds are credited after verification.</div>
+      </div>
+
+      <div class="upload-field" id="edit_price_field_container" style="display:{% if resource.is_paid %}block{% else %}none{% endif %};margin-top:16px;">
+        <label class="md-label" for="edit_price_input">Price in NPR (Rs.) *</label>
+        <div style="position:relative;display:flex;align-items:center;">
+          <span style="position:absolute;left:14px;font-weight:600;color:var(--md-primary,#004bd4);">Rs.</span>
+          <input class="md-input" type="number" id="edit_price_input" name="price" min="1" step="1" value="{{ resource.price|default:'100' }}" placeholder="e.g. 150" style="padding-left:48px;">
+        </div>
+        <div class="upload-hint">Set the purchase price in Nepali Rupees (NPR). You receive 90% of earnings (10% platform commission).</div>
+      </div>
+    </div>
+
+    <script nonce="{{ csp_nonce }}">
+      document.addEventListener('DOMContentLoaded', function() {
+        const toggle = document.getElementById('edit_is_paid_toggle');
+        const container = document.getElementById('edit_price_field_container');
+        const priceInput = document.getElementById('edit_price_input');
+        if (toggle && container) {
+          toggle.addEventListener('change', function() {
+            container.style.display = this.checked ? 'block' : 'none';
+            if (this.checked && priceInput && (!priceInput.value || Number(priceInput.value) <= 0)) {
+              priceInput.value = '100';
+            }
+          });
+        }
+      });
+    </script>
 
     <div class="upload-actions">
       <div class="upload-note">

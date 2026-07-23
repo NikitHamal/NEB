@@ -133,13 +133,30 @@ OFFICIAL_PRESETS: List[ProviderPreset] = [
         context_window=128000,
         key_env='DEEPSEEK_API_KEY',
     ),
+    ProviderPreset(
+        slug='agentrouter',
+        label='AgentRouter',
+        format=FORMAT_OPENAI,
+        base_url='https://agentrouter.org/v1',
+        default_model='gpt-5.5',
+        models=[
+            ModelSpec('gpt-5.5', 'GPT-5.5', 'Fast general-purpose'),
+            ModelSpec('claude-opus-4-6', 'Claude Opus 4.6', 'Strong coding & reasoning'),
+            ModelSpec('claude-opus-4-8', 'Claude Opus 4.8', 'Latest Claude flagship'),
+            ModelSpec('claude-haiku-4-5', 'Claude Haiku 4.5', 'Fastest Claude'),
+            ModelSpec('glm-5.2', 'GLM-5.2'),
+        ],
+        context_window=200000,
+        key_env='AGENTROUTER_API_KEY',
+    ),
 ]
 
 SCRAPER_PRESETS: List[ProviderPreset] = [
     ProviderPreset(
         slug='qwen', label='Qwen (chat.qwen.ai)', format=FORMAT_SCRAPER,
-        base_url='https://chat.qwen.ai/api/v2', default_model='qwen3.7-plus',
-        models=[ModelSpec('qwen3.7-plus', 'Qwen 3.7 Plus', 'Current default')],
+        base_url='https://chat.qwen.ai/api/v2', default_model='qwen3.8-max-preview',
+        models=[ModelSpec('qwen3.8-max-preview', 'Qwen 3.8 Max Preview', 'Latest'),
+                ModelSpec('qwen3.7-plus', 'Qwen 3.7 Plus', 'Stable')],
         key_required=False, official=False, scraper_module='qwen_proxy',
     ),
     ProviderPreset(

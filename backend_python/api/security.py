@@ -218,8 +218,12 @@ def validate_profile_photo_url(url: str) -> str:
 
 
 def validate_resource_file_url(url: str) -> str:
-    # Resource files are iframe-rendered, so force HTTPS and block local/private hosts.
-    return validate_external_https_url(url, allow_http=False)
+    if not url:
+        return ""
+    url = url.strip()
+    if url.startswith('/media/') or url.startswith('media/'):
+        return url if url.startswith('/') else '/' + url
+    return validate_external_https_url(url, allow_http=True)
 
 
 def save_profile_image_upload(request, user, file_obj) -> str:

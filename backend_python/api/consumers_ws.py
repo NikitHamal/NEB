@@ -368,8 +368,12 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
         ok = False
         if channel == 'forum.public':
             ok = True
-        elif channel == 'user' and self._user_id:
-            ok = True
+        elif channel == 'user':
+            if self._user_id:
+                ok = True
+            else:
+                await self._send_json({'type': 'subscribed', 'channel': channel})
+                return
         elif channel.startswith('user.'):
             ok = True  # public profile subscriptions (follow/stats updates)
         elif channel.startswith('post.'):

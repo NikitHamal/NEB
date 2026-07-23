@@ -565,11 +565,7 @@ def resource_comments(request, resource_id):
                     comment_id__in=[comment.id for comment in comments]
                 ).values_list('comment_id', flat=True)
             )
-        return Response({'comments': [_resource_comment_payload(comment, viewer, liked_comment_ids) for comment in comments]})
-
-    user, err = _require_user(request)
-    if err:
-        return err
+    user = _get_user_from_request(request)
     content = (request.data.get('content') or '').strip()
     parent_id = request.data.get('parent_comment_id') or request.data.get('parentCommentId')
     try:
