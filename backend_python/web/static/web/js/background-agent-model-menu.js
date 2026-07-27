@@ -32,7 +32,6 @@
   function normalize(catalog) {
     var providers = [];
     ((catalog && catalog.community) || []).forEach(function (p) {
-      if (!p.selectableForAgent) return;
       providers.push({
         slug: p.slug, name: shortLabel(p.label), kind: 'community', official: false,
         available: p.available, hint: 'Free web model · no key needed', keySource: p.keySource,
@@ -283,7 +282,8 @@
           (isSelectedProvider ? '<span class="material-symbols-outlined ba-mm-check">check</span>' : '') +
           '<span class="material-symbols-outlined ba-mm-arrow">chevron_right</span>';
         row.querySelector('.ba-mm-provider-name').textContent = p.name;
-        row.addEventListener('click', function () {
+        row.addEventListener('click', function (event) {
+          event.stopPropagation();
           activeProviderIndex = providers.indexOf(p);
           render();
         });
