@@ -61,7 +61,7 @@ Response schema:
 }
 
 How to edit code (in order of preference):
-1. edit_file / multi_edit — the most reliable. Provide old_text copied verbatim from read_file, with enough surrounding lines to be unique. It tolerates incidental whitespace drift and tells you the closest line if it cannot match.
+1. edit_file / multi_edit — the most reliable. Provide old_text copied verbatim from read_file, with enough surrounding lines to be unique. It tolerates incidental whitespace drift and tells you the closest line if it cannot match. For large batches (5+ edits) use "best_effort": true so a single mismatch doesn't discard all other edits.
 2. write_file — for brand-new files or full rewrites.
 3. apply_patch — unified diff. Use only for bulk changes; it is less forgiving than edit_file.
 
@@ -115,6 +115,10 @@ class BackgroundAgentRunner:
         self._llm_resolved_once = False
         self._call_announced = False
         self._pending_reasoning = ''
+        # Actual model response time from the upstream API (milliseconds),
+        # vs wall-clock from Python-side timer which includes Qwen pool
+        # queue, file uploads, and format-retry overhead.
+        self._last_model_response_ms = 0
         # Deferred-commit bookkeeping: the model's git_commit calls are staged
         # and their messages queued here; one consolidated commit materializes
         # on git_push / completion.
@@ -209,8 +213,8 @@ PRIOR OUTPUT
 '''
                 raw = self._call_provider(repair_prompt)
                 parsed = parse_model_response(raw, extra_thought=self._pending_reasoning)
-            duration_ms = int((time.monotonic() - model_started) * 1000)
-            self._record_messages(parsed, iteration, raw, file_paths, format_retries_used, duration_ms)
+            response_ms = self._last_model_response_ms or int((time.monotonic() - model_started) * 1000)
+            self._record_messages(parsed, iteration, raw, file_paths, format_retries_used, response_ms)
 
             # Anti-loop guard: an identical reasoning block three iterations in
             # a row means the agent is stuck re-answering the same prompt.
@@ -517,6 +521,7 @@ PRIOR OUTPUT
                     max_tokens=output_tokens,
                     timeout=int(getattr(settings, 'BACKGROUND_AGENT_PROVIDER_TIMEOUT', 300)),
                 )
+                self._last_model_response_ms = result.duration_ms
                 if result and result.text:
                     self._pending_reasoning = (getattr(result, 'reasoning', '') or '').strip()
                     return result.text
@@ -585,6 +590,7 @@ PRIOR OUTPUT
         for attempt in range(1, attempts + 1):
             self._check_control()
             try:
+                t0 = time.monotonic()
                 response = qwen_proxy.call_qwen(
                     system_prompt=system_prompt,
                     user_message=prompt,
@@ -592,6 +598,8 @@ PRIOR OUTPUT
                     max_tokens=output_tokens,
                     file_paths=file_paths or None,
                 )
+                if t0:
+                    self._last_model_response_ms = int((time.monotonic() - t0) * 1000)
                 if response:
                     return str(response)
                 raise WorkspaceError(f'Qwen {model} returned an empty response')

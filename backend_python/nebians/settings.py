@@ -300,6 +300,8 @@ LLM_PROVIDER_KEYS = {
 
 # LLM call time budget for background-agent official providers (seconds).
 BACKGROUND_AGENT_PROVIDER_TIMEOUT = int(os.environ.get('BACKGROUND_AGENT_PROVIDER_TIMEOUT', '300'))
+# Context window for agent sessions (default 1M — Qwen models all support 1M).
+BACKGROUND_AGENT_CONTEXT_WINDOW_TOKENS = int(os.environ.get('BACKGROUND_AGENT_CONTEXT_WINDOW_TOKENS', '1000000'))
 BACKGROUND_AGENT_ALLOW_LOCAL_EXECUTION = os.environ.get('BACKGROUND_AGENT_ALLOW_LOCAL_EXECUTION', 'True').lower() in ('1', 'true', 'yes')
 FIREBASE_API_KEY = os.environ.get('FIREBASE_API_KEY', '')
 FIREBASE_AUTH_DOMAIN = os.environ.get('FIREBASE_AUTH_DOMAIN', '')

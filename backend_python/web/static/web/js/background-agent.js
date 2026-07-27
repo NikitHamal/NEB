@@ -167,7 +167,7 @@
       var row = document.createElement('article');
       row.className = 'ba-session-card';
       var title = session.title || session.goal || 'Untitled task';
-      row.innerHTML = '<a class="ba-session-card-link"><div class="ba-session-card-main"><div class="ba-session-card-title"><span class="ba-status-pill"></span><strong></strong></div><p></p><div class="ba-session-card-meta"><span class="repo"></span><span class="branch"></span><span class="model" hidden></span><span class="time"></span></div></div><div class="ba-session-card-side"><div class="ba-session-progress"><span></span></div><span class="material-symbols-outlined">chevron_right</span></div></a><div class="ba-session-menu-wrap"><button class="ba-icon-button ba-icon-button-quiet ba-session-menu-trigger" type="button" aria-label="Session actions" aria-haspopup="menu" aria-expanded="false"><span class="material-symbols-outlined">more_vert</span></button><div class="ba-session-menu" role="menu" hidden></div></div>';
+      row.innerHTML = '<a class="ba-session-card-link"><div class="ba-session-card-main"><div class="ba-session-card-title"><span class="ba-status-pill"></span><strong></strong></div><p></p><div class="ba-session-card-meta"><span class="repo"></span><span class="branch"></span><span class="model" hidden></span><span class="time"></span></div></div><div class="ba-session-card-side"><span class="material-symbols-outlined">chevron_right</span></div></a><div class="ba-session-menu-wrap"><button class="ba-icon-button ba-icon-button-quiet ba-session-menu-trigger" type="button" aria-label="Session actions" aria-haspopup="menu" aria-expanded="false"><span class="material-symbols-outlined">more_vert</span></button><div class="ba-session-menu" role="menu" hidden></div></div>';
       var link = row.querySelector('.ba-session-card-link');
       link.href = sessionUrl(session.id);
       var pill = row.querySelector('.ba-status-pill');
@@ -184,7 +184,6 @@
         modelMeta.title = 'Model: ' + session.provider.name + (session.provider.official ? '' : ' (community)');
       }
       row.querySelector('.time').textContent = BA.timeAgo(session.updatedAt || session.createdAt);
-      row.querySelector('.ba-session-progress span').style.width = Math.max(2, Number(session.progress || 0)) + '%';
       var menu = row.querySelector('.ba-session-menu');
       var primaryAction = state.archivedMode ? 'restore' : 'archive';
       var activeSession = ['queued', 'preparing', 'running'].includes(session.status);

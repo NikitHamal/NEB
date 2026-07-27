@@ -7,7 +7,7 @@
   var state = { session: null, lastEvent: 0, messages: new Map(), files: [], activeFile: '', poll: null, detailTimer: null, diff: '', lifecycleAction: '' };
   var els = {
     title: BA.qs('#bs-title'), status: BA.qs('#bs-status-badge'), repoShort: BA.qs('#bs-repo-short'), branchShort: BA.qs('#bs-branch-short'),
-    progressLabel: BA.qs('#bs-progress-label'), progressValue: BA.qs('#bs-progress-value'), progressBar: BA.qs('#bs-progress-bar'), updated: BA.qs('#bs-updated-label'),
+    progressLabel: BA.qs('#bs-progress-label'), updated: BA.qs('#bs-updated-label'),
     iteration: BA.qs('#bs-iteration-label'), contextBar: BA.qs('#bs-context-bar'), contextValue: BA.qs('#bs-context-value'), contextMeter: BA.qs('.ba-context-meter'),
     conversation: BA.qs('#bs-conversation'), pause: BA.qs('#bs-pause'), resume: BA.qs('#bs-resume'), stop: BA.qs('#bs-stop'), refresh: BA.qs('#bs-refresh'),
     followup: BA.qs('#bs-followup'), send: BA.qs('#bs-send'), attach: BA.qs('#bs-attach'), fileInput: BA.qs('#bs-file-input'), attachmentList: BA.qs('#bs-attachment-list'), followupWrap: BA.qs('#bs-followup-wrap'),
@@ -36,7 +36,6 @@
     els.status.className = 'ba-status-badge ' + current.status; els.status.textContent = statusLabel(current.status);
     els.repoShort.textContent = current.repoFullName || ''; els.branchShort.textContent = current.workBranch || current.sourceBranch || '';
     els.progressLabel.textContent = current.progressLabel || statusLabel(current.status);
-    els.progressValue.textContent = Number(current.progress || 0) + '%'; els.progressBar.style.width = Number(current.progress || 0) + '%';
     els.updated.textContent = BA.timeAgo(current.updatedAt || current.createdAt);
     els.iteration.innerHTML = '<span class="material-symbols-outlined">repeat</span>Iteration ' + Number(current.iteration || 0);
     var modelLabel = BA.qs('#bs-model-label');
