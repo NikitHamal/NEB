@@ -771,8 +771,13 @@ class ToolExecutor:
         target.write_bytes(encoded)
         return {'path': path, 'replacements': count}
 
-    def multi_edit(self, path, edits):
-        """Apply several sequential old_text→new_text edits to one file."""
+    def multi_edit(self, path, edits, best_effort=False):
+        """Apply several sequential old_text→new_text edits to one file.
+
+        When *best_effort* is true, failing edits are skipped and the
+        response reports which succeeded and which failed (with the closest
+        hint).  Default (false) raises on the first failure so no partial
+        changes are ever written — the caller can retry the whole batch."""
         if not isinstance(edits, list) or not edits:
             raise WorkspaceError('edits must be a non-empty array of {old_text, new_text}')
         target = self.workspace.safe_path(path, must_exist=True)
@@ -783,16 +788,30 @@ class ToolExecutor:
             raise WorkspaceError('Cannot edit a binary file')
         text = original.decode('utf-8')
         applied = 0
+        skipped = []
         for index, edit in enumerate(edits, 1):
             if not isinstance(edit, dict):
+                if best_effort:
+                    skipped.append({'index': index, 'reason': 'edit must be an object'})
+                    continue
                 raise WorkspaceError(f'edit #{index} must be an object')
             old = '' if edit.get('old_text') is None else str(edit.get('old_text'))
             new = '' if edit.get('new_text') is None else str(edit.get('new_text'))
             if old == new:
+                if best_effort:
+                    skipped.append({'index': index, 'reason': 'old_text and new_text are identical'})
+                    continue
                 raise WorkspaceError(f'edit #{index}: old_text and new_text are identical')
             text, count = self._str_replace(text, old, new, bool(edit.get('replace_all')))
             if count == 0:
                 hint = self._closest_match_hint(text, old)
+                if best_effort:
+                    skipped.append({
+                        'index': index,
+                        'reason': 'old_text not found',
+                        'hint': hint or '',
+                    })
+                    continue
                 raise WorkspaceError(
                     f'edit #{index}: old_text was not found.'
                     + (f'\nClosest region:\n{hint}' if hint else '')
@@ -803,7 +822,10 @@ class ToolExecutor:
         if len(encoded) > max_bytes:
             raise WorkspaceError(f'Edited file would exceed {max_bytes} bytes')
         target.write_bytes(encoded)
-        return {'path': path, 'replacements': applied}
+        result = {'path': path, 'replacements': applied}
+        if skipped:
+            result['skipped'] = skipped
+        return result
 
     @staticmethod
     def _str_replace(text: str, old: str, new: str, replace_all: bool):
