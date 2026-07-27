@@ -25,7 +25,7 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('--interval', type=float, default=2.0)
         parser.add_argument('--once', action='store_true')
-        parser.add_argument('--recover-after', type=int, default=900, help='Requeue stale running sessions after N seconds')
+        parser.add_argument('--recover-after', type=int, default=120, help='Requeue stale running sessions after N seconds of inactivity')
 
     def handle(self, *args, **options):
         self.running = True
@@ -144,28 +144,54 @@ class Command(BaseCommand):
             return action
 
     def _recover(self, recover_after):
-        cutoff = now_ms() - max(60, int(recover_after)) * 1000
-        worker_cutoff = now_ms() - 30000
+        now = now_ms()
+        cutoff = now - max(60, int(recover_after)) * 1000
+        worker_cutoff = now - 30000
         active_worker_ids = list(BackgroundAgentWorker.objects.filter(
             last_heartbeat_at__gte=worker_cutoff,
             status__in=['starting', 'idle', 'busy'],
         ).values_list('worker_id', flat=True))
-        count = BackgroundAgentSession.objects.filter(
+
+        # 1. Recover sessions whose worker is confirmed dead
+        # The session has a non-empty worker_id but that process is not heartbeating
+        dead_worker_count = BackgroundAgentSession.objects.filter(
+            status__in=['preparing', 'running'],
+        ).exclude(
+            worker_id=''
+        ).exclude(
+            worker_id__in=active_worker_ids
+        ).update(
+            status='queued',
+            worker_id='',
+            progress_label='Session recovered — worker went offline',
+            updated_at=now,
+        )
+
+        # 2. Legacy/edge: sessions with stale heartbeats and no worker (pre-worker_id era)
+        stale_heartbeat_count = BackgroundAgentSession.objects.filter(
             status__in=['preparing', 'running'],
             last_heartbeat_at__lt=cutoff,
         ).exclude(worker_id__in=active_worker_ids).update(
             status='queued',
             worker_id='',
-            progress_label='Recovered after stale worker heartbeat',
-            updated_at=now_ms(),
+            progress_label='Session recovered after stale heartbeat',
+            updated_at=now,
         )
+
+        # 3. Recover actions with stale started_at
         BackgroundAgentAction.objects.filter(
             status='processing', started_at__lt=cutoff,
         ).exclude(worker_id__in=active_worker_ids).update(
-            status='queued', started_at=0, worker_id='', error='Recovered after stale worker heartbeat'
+            status='queued', started_at=0, worker_id='',
+            error='Recovered after stale worker heartbeat'
         )
-        if count:
-            self.stdout.write(self.style.WARNING(f'Requeued {count} stale session(s)'))
+
+        total = dead_worker_count + stale_heartbeat_count
+        if total:
+            self.stdout.write(self.style.WARNING(
+                f'Requeued {total} stale session(s) '
+                f'({dead_worker_count} dead worker, {stale_heartbeat_count} stale heartbeat)'
+            ))
 
     def _stop(self, signum, frame):
         self.running = False
