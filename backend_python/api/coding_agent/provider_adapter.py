@@ -133,41 +133,6 @@ def _call_qwen(messages: List[Dict[str, str]], model: str, max_tokens: int, time
     )
 
 
-def _call_ai4bharat(messages: List[Dict[str, str]], model: str, max_tokens: int) -> ProviderCompletion:
-    from api.ai4bharat_proxy import simple_chat
-    import uuid as _uuid
-
-    sys = ''
-    user_parts: List[str] = []
-    for m in messages:
-        if m['role'] == 'system':
-            sys += '\n' + m['content']
-        elif m['role'] == 'user':
-            user_parts.append(m['content'])
-        elif m['role'] == 'assistant':
-            user_parts.append('\n[A previous assistant answer]: ' + m['content'])
-    sys = sys.strip()
-    user_msg = '\n\n'.join(user_parts).strip()
-    t0 = time.time()
-    text = simple_chat(
-        user_message=user_msg,
-        model_id=model,
-        system_prompt=sys,
-        max_tokens=max_tokens,
-    )
-    dt_ms = int((time.time() - t0) * 1000)
-    if not text:
-        raise ProviderError('AI4Bharat arena returned no text')
-    return ProviderCompletion(
-        text=text,
-        provider='ai4bharat',
-        model=model,
-        duration_ms=dt_ms,
-        input_tokens=len(user_msg) // 4,
-        output_tokens=len(text) // 4,
-    )
-
-
 def _call_inception(messages: List[Dict[str, str]], model: str, max_tokens: int) -> ProviderCompletion:
     from api.inception_proxy import simple_chat
 
@@ -287,8 +252,6 @@ def call_for_agent(
     try:
         if provider == 'qwen':
             return _call_qwen(truncated, model, max_tokens, timeout)
-        if provider == 'ai4bharat':
-            return _call_ai4bharat(truncated, model, max_tokens)
         if provider == 'inception':
             return _call_inception(truncated, model, max_tokens)
         if provider == 'deepai':

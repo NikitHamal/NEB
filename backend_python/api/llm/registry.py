@@ -9,7 +9,7 @@ Two families, kept deliberately distinct:
    site admin can share a key per provider; servers keep scraper models and
    official APIs fully separate.
 
-2. **Community web models** (Qwen, AI4Bharat, eGov, DeepAI, Inception) —
+2. **Community web models** (Qwen, eGov, DeepAI, Inception) —
    reverse-engineered web frontends that keep their existing proxies
    untouched. They are listed here only so every picker renders from one
    catalog.
@@ -30,7 +30,7 @@ FORMAT_SCRAPER = 'scraper'      # Existing NEBians web proxies (qwen & friends)
 
 OFFICIAL_FORMATS = (FORMAT_OPENAI, FORMAT_ANTHROPIC, FORMAT_GEMINI)
 
-SCRAPER_PROVIDERS = ('qwen', 'ai4bharat', 'egov', 'deepai', 'inception')
+SCRAPER_PROVIDERS = ('qwen', 'egov', 'deepai', 'inception')
 
 
 @dataclass(frozen=True)
@@ -159,11 +159,6 @@ SCRAPER_PRESETS: List[ProviderPreset] = [
                 ModelSpec('qwen3.7-plus', 'Qwen 3.7 Plus', 'Stable')],
         context_window=1000000,
         key_required=False, official=False, scraper_module='qwen_proxy',
-    ),
-    ProviderPreset(
-        slug='ai4bharat', label='AI4Bharat Arena', format=FORMAT_SCRAPER,
-        base_url='https://backend.arena.ai4bharat.co', default_model='',
-        models=[], key_required=False, official=False, scraper_module='ai4bharat_proxy',
     ),
     ProviderPreset(
         slug='egov', label='eGov Chat AI', format=FORMAT_SCRAPER,

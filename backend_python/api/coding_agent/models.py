@@ -34,7 +34,7 @@ class CodingAgentProject(models.Model):
         max_length=20,
         blank=True,
         default='',
-        help_text='Optional override AI provider (qwen/ai4bharat/inception/...).',
+        help_text='Optional override AI provider (qwen/inception/...).',
     )
     agent_model = models.CharField(max_length=200, blank=True, default='')
     max_iterations = models.PositiveIntegerField(default=80, help_text='Safety cap per session.')
