@@ -15,7 +15,6 @@ def _uuid():
 
 PROVIDERS = [
     {'id': 'qwen',       'label': 'Qwen (chat.qwen.ai)',                           'stream': True,  'thinking': True,  'web_search': True,  'files': True},
-    {'id': 'ai4bharat',  'label': 'AI4Bharat Arena (Indic LLM Arena)',             'stream': False, 'thinking': False, 'web_search': False, 'files': False},
     {'id': 'egov',       'label': 'eGov Chat AI (Philippines)',                    'stream': True,  'thinking': False, 'web_search': False, 'files': True},
     {'id': 'deepai',     'label': 'DeepAI (deepai.org)',                           'stream': True,  'thinking': True,  'web_search': False, 'files': True},
     {'id': 'inception',  'label': 'Inception Labs (Mercury 2)',                    'stream': True,  'thinking': True,  'web_search': True,  'files': False},
@@ -24,7 +23,6 @@ PROVIDERS = [
 
 MODEL_OPTIONS = {
     'qwen':      [{'id': 'qwen3.7-plus', 'label': 'Qwen 3.7 Plus'}, {'id': 'qwen3.7-max', 'label': 'Qwen 3.7 Max'}, {'id': 'qwen3.6-plus', 'label': 'Qwen 3.6 Plus'}],
-    'ai4bharat': [],
     'egov':      [{'id': 'AI1', 'label': 'eGov AI1 (Global)'}, {'id': 'AI1-ph', 'label': 'eGov AI1 (Philippines)'}, {'id': 'AI2', 'label': 'eGov AI2 (Global)'}, {'id': 'AI2-ph', 'label': 'eGov AI2 (Philippines)'}],
     'deepai':    [{'id': 'standard', 'label': 'DeepAI Standard'}, {'id': 'deepseek-v3.2', 'label': 'DeepSeek V3.2'}, {'id': 'gemma-4', 'label': 'Gemma 4'}, {'id': 'gpt-4.1-nano', 'label': 'GPT-4.1 Nano'}, {'id': 'gpt-5-nano', 'label': 'GPT-5 Nano'}, {'id': 'gemini-2.5-flash-lite', 'label': 'Gemini 2.5 Flash Lite'}, {'id': 'llama-3.3-70b-instruct', 'label': 'Llama 3.3 70B'}, {'id': 'o4-mini', 'label': 'o4 Mini'}, {'id': 'gpt-4o-mini', 'label': 'GPT-4o Mini'}, {'id': 'gpt-oss-120b', 'label': 'GPT OSS 120B (Reasoning)'}],
     'inception': [{'id': 'mercury-2', 'label': 'Mercury 2'}],
@@ -75,22 +73,6 @@ def ajax_admin_chat_send(request):
                     model=model or 'qwen3.7-plus',
                     max_tokens=2000,
                     file_paths=file_paths,
-                )
-                if result:
-                    yield _sse({'type': 'text', 'content': result})
-                else:
-                    yield _sse({'type': 'error', 'message': 'Empty response'})
-            except Exception as e:
-                yield _sse({'type': 'error', 'message': str(e)})
-
-        elif provider == 'ai4bharat':
-            from api import ai4bharat_proxy
-            try:
-                result = ai4bharat_proxy.simple_chat(
-                    user_message=message,
-                    model_id=model or None,
-                    system_prompt='You are a helpful assistant.',
-                    max_tokens=2000,
                 )
                 if result:
                     yield _sse({'type': 'text', 'content': result})
