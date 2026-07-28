@@ -171,7 +171,6 @@ def call_ai_api(system_prompt, user_message, config=None):
 
     Supports:
       - 'qwen'      → Qwen web chat (chat.qwen.ai), via qwen_proxy.call_qwen
-      - 'ai4bharat' → AI4Bharat Indic LLM Arena, via ai4bharat_proxy.simple_chat
       - 'egov'      → eGov Chat AI (Philippines), via egov_proxy.simple_chat
       - 'inception' → Inception Labs (Mercury 2 diffusion LLM)
       - 'custom'    → any OpenAI-compatible /chat/completions endpoint
@@ -211,14 +210,6 @@ def call_ai_api(system_prompt, user_message, config=None):
             logger.error('neby: %s call failed: %s', provider, e)
             return None
 
-    if provider == 'ai4bharat':
-        from . import ai4bharat_proxy
-        return ai4bharat_proxy.simple_chat(
-            user_message=user_message,
-            model_id=config.model or None,
-            system_prompt=system_prompt or '',
-            max_tokens=max_tokens,
-        )
     if provider == 'egov':
         from . import egov_proxy
         return egov_proxy.simple_chat(

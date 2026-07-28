@@ -58,7 +58,6 @@ SHELL_COMMAND_DENYLIST_PATH = None  # populated by sandbox if needed
 
 PROVIDER_MAX_OUTPUT_TOKENS = {
     'qwen': 8192,
-    'ai4bharat': 4096,
     'inception': 4096,
     'deepai': 4096,
     'egov': 2048,
@@ -67,7 +66,6 @@ PROVIDER_MAX_OUTPUT_TOKENS = {
 
 PROVIDER_DEFAULT_MODEL = {
     'qwen': 'qwen3.7-plus',
-    'ai4bharat': 'gemini-3.1-flash-lite-preview',
     'inception': 'mercury-2',
     'deepai': 'gpt-4.1-nano',
     'egov': 'AI1',

@@ -809,7 +809,6 @@ class BotConfig(models.Model):
     """
     PROVIDER_CHOICES = [
         ('qwen', 'Qwen (chat.qwen.ai)'),
-        ('ai4bharat', 'AI4Bharat Arena (Indic LLM Arena)'),
         ('egov', 'eGov Chat AI (Philippines)'),
         ('deepai', 'DeepAI (deepai.org)'),
         ('inception', 'Inception Labs (Mercury 2)'),
@@ -921,16 +920,15 @@ class NebyTask(models.Model):
 class ArenaChatSession(models.Model):
     """A user's persistent conversation with an AI provider.
 
-    Supports two providers:
-      - 'ai4bharat': the AI4Bharat Arena (anonymous token pool, no file uploads)
+    Supports multiple providers via web proxies:
       - 'qwen': the Qwen proxy (browser-spoofed session, supports file uploads)
+      - 'egov', 'deepai', 'inception': other arena-style proxies
 
     Each session maps to one remote session ID and is bound to provider-specific
-    credentials. For AI4Bharat, arena_token_id is the bound anonymous pool token.
-    For Qwen, qwen_chat_id is the Qwen chat ID.
+    credentials. For Qwen, qwen_chat_id is the Qwen chat ID; for others,
+    arena_session_id and arena_token_id are used.
     """
     PROVIDER_CHOICES = [
-        ('ai4bharat', 'AI4Bharat Arena'),
         ('qwen', 'Qwen (chat.qwen.ai)'),
         ('egov', 'eGov Chat AI (Philippines)'),
         ('deepai', 'DeepAI (deepai.org)'),
@@ -940,7 +938,7 @@ class ArenaChatSession(models.Model):
     user = models.ForeignKey(
         'User', on_delete=models.CASCADE, related_name='arena_sessions', db_index=True,
     )
-    provider = models.CharField(max_length=20, choices=PROVIDER_CHOICES, default='ai4bharat')
+    provider = models.CharField(max_length=20, choices=PROVIDER_CHOICES, default='qwen')
     arena_session_id = models.CharField(max_length=64, db_index=True)
     arena_token_id = models.CharField(max_length=64, blank=True, default='')
     qwen_chat_id = models.CharField(max_length=64, blank=True, default='')
