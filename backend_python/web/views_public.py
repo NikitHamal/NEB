@@ -212,6 +212,8 @@ def library(request):
     if current_tab not in ['digital', 'community', 'categories', 'interactive']:
         current_tab = 'digital'
 
+    pricing = request.GET.get('pricing', '').strip().lower()
+
     interactive_categories = []
     interactive_stats = None
     if current_tab == 'interactive':
@@ -251,7 +253,6 @@ def library(request):
                 q |= Q(exam_type__iexact=e)
             qs = qs.filter(q)
 
-        pricing = request.GET.get('pricing', '').strip().lower()
         if pricing == 'free':
             qs = qs.filter(is_paid=False)
         elif pricing == 'paid':

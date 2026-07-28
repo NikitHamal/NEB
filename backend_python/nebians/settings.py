@@ -172,6 +172,9 @@ else:
         }
     }
 
+ADMINS = [('NEBians Admin', os.environ.get('ADMIN_EMAIL', 'noreply@nebians.consica.com.np'))]
+SERVER_EMAIL = os.environ.get('SERVER_EMAIL', 'noreply@nebians.consica.com.np')
+
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator', 'OPTIONS': {'min_length': 8}},
@@ -364,11 +367,16 @@ LOGGING = {
             'formatter': 'verbose',
             'filters': ['redact_sensitive'],
         },
+        'mail_admins': {
+            'class': 'django.utils.log.AdminEmailHandler',
+            'level': 'ERROR',
+            'include_html': False,
+        },
     },
     'loggers': {
         'api': {'handlers': ['console', 'file'], 'level': os.environ.get('LOG_LEVEL', 'INFO'), 'propagate': False},
         'web': {'handlers': ['console', 'file'], 'level': os.environ.get('LOG_LEVEL', 'INFO'), 'propagate': False},
-        'django.request': {'handlers': ['console', 'file'], 'level': 'WARNING', 'propagate': False},
+        'django.request': {'handlers': ['console', 'file', 'mail_admins'], 'level': 'ERROR', 'propagate': False},
     },
     'root': {'handlers': ['console', 'file'], 'level': os.environ.get('LOG_LEVEL', 'INFO')},
 }
