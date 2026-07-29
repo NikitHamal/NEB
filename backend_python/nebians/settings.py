@@ -167,8 +167,8 @@ else:
             'HOST': os.environ.get('DB_HOST', 'localhost'),
             'PORT': os.environ.get('DB_PORT', '3306'),
             'OPTIONS': {'charset': 'utf8mb4', 'init_command': "SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci"},
-            'CONN_MAX_AGE': 60,
-            'CONN_HEALTH_CHECKS': True,
+            'CONN_MAX_AGE': int(os.environ.get('DB_CONN_MAX_AGE', '60')),
+            'CONN_HEALTH_CHECKS': os.environ.get('DB_CONN_HEALTH_CHECKS', 'True') == 'True',
         }
     }
 
