@@ -49,6 +49,9 @@ data class UploadFormState(
     val authorName: String = "",
     val sourceLabel: String = "",
     val sourceUrl: String = "",
+    // ----- Marketplace: list this resource as paid with a price -----
+    val isPaid: Boolean = false,
+    val price: String = "",
     val selectedFiles: List<SelectedFile> = emptyList(),
     val titleError: String? = null,
     val subjectError: String? = null,
@@ -136,6 +139,8 @@ class UploadViewModel @Inject constructor(
                             authorName = resource.authorName ?: "",
                             sourceLabel = resource.sourceLabel ?: "",
                             sourceUrl = resource.sourceUrl ?: "",
+                            isPaid = resource.isPaid,
+                            price = resource.price,
                             fileUrlDirty = false,
                             thumbnailDirty = false
                         )
@@ -274,6 +279,16 @@ class UploadViewModel @Inject constructor(
         _uiState.update { it.copy(sourceUrl = sourceUrl) }
     }
 
+    fun updateIsPaid(isPaid: Boolean) {
+        _uiState.update { it.copy(isPaid = isPaid) }
+    }
+
+    fun updatePrice(price: String) {
+        // Keep it numeric — digits only, no negatives/letters.
+        val sanitized = price.filter { it.isDigit() || it == '.' }.trim()
+        _uiState.update { it.copy(price = sanitized) }
+    }
+
     fun addFiles(files: List<SelectedFile>) {
         // Edit mode replaces the single stored file — only the first pick counts.
         if (_uiState.value.isEditMode) {
@@ -313,6 +328,10 @@ class UploadViewModel @Inject constructor(
         // Edit mode keeps the stored file unless a replacement/link is provided.
         if (!state.isEditMode && state.selectedFiles.isEmpty() && state.fileUrl.isBlank()) {
             _uiState.update { it.copy(fileError = "Please upload a file or provide a file URL") }
+            hasError = true
+        }
+        if (state.isPaid && (state.price.toDoubleOrNull() ?: 0.0) <= 0.0) {
+            _uiState.update { it.copy(submitError = "Enter a price greater than Rs. 0 for paid resources") }
             hasError = true
         }
         if (hasError) return
@@ -367,7 +386,9 @@ class UploadViewModel @Inject constructor(
                     "tags" to state.tags.toRequestBody(TEXT_PLAIN),
                     "author_name" to state.authorName.toRequestBody(TEXT_PLAIN),
                     "source_label" to state.sourceLabel.toRequestBody(TEXT_PLAIN),
-                    "source_url" to state.sourceUrl.toRequestBody(TEXT_PLAIN)
+                    "source_url" to state.sourceUrl.toRequestBody(TEXT_PLAIN),
+                    "is_paid" to (if (state.isPaid) "true" else "false").toRequestBody(TEXT_PLAIN),
+                    "price" to (state.price.ifBlank { "0" }).toRequestBody(TEXT_PLAIN)
                 )
                 // Link: only PATCH when edited — a blank untouched field must never wipe an upload.
                 if (state.fileUrlDirty) fields["file_url"] = state.fileUrl.toRequestBody(TEXT_PLAIN)
@@ -446,7 +467,9 @@ class UploadViewModel @Inject constructor(
                 thumbnailUrl = (state.thumbnailUrl.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
                 authorName = (state.authorName.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
                 sourceLabel = (state.sourceLabel.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
-                sourceUrl = (state.sourceUrl.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN)
+                sourceUrl = (state.sourceUrl.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
+                isPaid = (if (state.isPaid) "true" else "false").toRequestBody(TEXT_PLAIN),
+                price = (state.price.ifBlank { "0" }).toRequestBody(TEXT_PLAIN)
             )
 
             if (response.error != null) {
@@ -486,7 +509,9 @@ class UploadViewModel @Inject constructor(
             thumbnailUrl = (state.thumbnailUrl.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
             authorName = (state.authorName.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
             sourceLabel = (state.sourceLabel.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
-            sourceUrl = (state.sourceUrl.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN)
+            sourceUrl = (state.sourceUrl.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
+            isPaid = (if (state.isPaid) "true" else "false").toRequestBody(TEXT_PLAIN),
+            price = (state.price.ifBlank { "0" }).toRequestBody(TEXT_PLAIN)
         )
 
         if (response.error != null) {

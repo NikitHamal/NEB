@@ -52,6 +52,9 @@
       <tr>
         <td style="max-width:300px;">
           <div style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ r.title }}</div>
+          {% if r.is_paid %}
+          <div style="margin-top:2px;"><span class="md-chip" style="font-size:0.7rem;background:rgba(245,158,11,0.15);color:#b45309;">Rs. {{ r.price|floatformat:"0" }} · PAID</span></div>
+          {% endif %}
           <div style="font-size:0.75rem;color:var(--md-on-surface-variant);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ r.description|default:"" }}</div>
         </td>
         <td><span class="md-chip" style="font-size:0.75rem;">{{ r.subject|truncatechars:35 }}</span></td>

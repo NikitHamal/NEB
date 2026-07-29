@@ -379,6 +379,34 @@ def is_global_user(user):
         return True
     return False
 
+def parse_paid_fields(data):
+    """Parse is_paid + price from request data (multipart form or JSON).
+
+    Accepts both snake_case ('is_paid'/'price') and camelCase ('isPaid').
+    Returns (is_paid: bool, price: Decimal). A non-paid resource always
+    normalises price to 0.00; a negative/invalid price falls back to 0.00.
+    """
+    from decimal import Decimal, InvalidOperation
+
+    def _truthy(key):
+        return data.get(key) in ('on', 'true', '1', 1, True, 'yes')
+
+    is_paid = _truthy('is_paid') or _truthy('isPaid')
+    raw_price = data.get('price')
+    if isinstance(raw_price, (int, float)):
+        raw_price = str(raw_price)
+    raw_price = ((raw_price or '0') or '0').strip() or '0'
+    try:
+        price_val = Decimal(raw_price)
+    except (InvalidOperation, ValueError, TypeError):
+        price_val = Decimal('0.00')
+    if price_val < 0:
+        price_val = Decimal('0.00')
+    if not is_paid:
+        price_val = Decimal('0.00')
+    return is_paid, price_val
+
+
 # Star imports from this module are intentional: split view modules need the
 # same helper functions and imported framework symbols that the former monolith
 # exposed as globals. Keep this broad to avoid changing runtime behavior.
