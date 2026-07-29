@@ -150,6 +150,40 @@ class ResourceSerializer(serializers.ModelSerializer):
         user = getattr(obj, 'uploaded_by', None)
         if obj.source_type == 'user' and user is not None and not data.get('author_name'):
             data['author_name'] = user.username
+
+        # --- Paid / access state (mirrors web check_user_resource_access) ---
+        # is_paid + price are plain model fields; has_access / purchase_status
+        # reuse the single source of truth from web.view_helpers (imported lazily
+        # to avoid an api<->web import cycle). Computed once per resource.
+        from decimal import Decimal
+        price_val = float(obj.price or Decimal('0.00'))
+        data['isPaid'] = bool(obj.is_paid)
+        data['price'] = ('%g' % price_val) if price_val else '0'
+
+        request = self.context.get('request')
+        viewer = getattr(request, 'user', None) if request is not None else None
+        viewer = viewer if (viewer is not None and getattr(viewer, 'is_authenticated', False)) else None
+        data['isOwner'] = bool(viewer is not None and obj.uploaded_by_id == viewer.id)
+
+        if obj.is_paid:
+            try:
+                from web.view_helpers import check_user_resource_access
+                has_access, _reason, purchase = check_user_resource_access(viewer, obj)
+            except Exception:
+                # Fail closed: if the helper is unavailable, treat as locked.
+                has_access, purchase = False, None
+            data['hasAccess'] = bool(has_access)
+            data['purchaseStatus'] = getattr(purchase, 'status', '') if purchase else ''
+            # Access control: never leak the actual file to a viewer who hasn't
+            # unlocked a paid resource (the website does the same via safe_file_url).
+            if not has_access:
+                data['file'] = ''
+                data['file_url'] = ''
+                data['fileUrl'] = ''
+        else:
+            data['hasAccess'] = True
+            data['purchaseStatus'] = ''
+
         return data
 
 
