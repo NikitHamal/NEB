@@ -712,6 +712,26 @@ fun WebResourceCard(
                     maxLines = 1
                 )
             }
+            if (resource.isPaid) {
+                Surface(
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(10.dp),
+                    shape = WebPillShape,
+                    color = Color(0xFFF59E0B).copy(alpha = 0.92f),
+                    shadowElevation = 2.dp
+                ) {
+                    Text(
+                        text = "Rs. ${resource.price.ifBlank { "0" }}",
+                        modifier = Modifier.padding(horizontal = 9.dp, vertical = 4.dp),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 1
+                    )
+                }
+            }
+
             Surface(
                 modifier = Modifier
                     .align(Alignment.BottomEnd)

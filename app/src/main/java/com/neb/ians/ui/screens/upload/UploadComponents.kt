@@ -35,6 +35,7 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.outlined.Description
 import androidx.compose.material.icons.outlined.Image
+import androidx.compose.material.icons.outlined.Payments
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -45,6 +46,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -803,6 +805,61 @@ fun DetailsStep(
             },
             onAddClick = onOpenTagPicker
         )
+
+        // ----- Pricing: optionally list this resource as paid -----
+        Surface(
+            shape = RoundedCornerShape(12.dp),
+            color = MaterialTheme.colorScheme.surfaceContainerLow,
+            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Column(modifier = Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.Payments,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Spacer(Modifier.width(10.dp))
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            "Paid resource",
+                            style = MaterialTheme.typography.labelLarge,
+                            fontWeight = FontWeight.SemiBold,
+                            maxLines = 1
+                        )
+                        Text(
+                            "Charge students to unlock this file",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            maxLines = 2
+                        )
+                    }
+                    Switch(
+                        checked = uiState.isPaid,
+                        onCheckedChange = viewModel::updateIsPaid
+                    )
+                }
+                if (uiState.isPaid) {
+                    OutlinedTextField(
+                        value = uiState.price,
+                        onValueChange = viewModel::updatePrice,
+                        label = { Text("Price (Rs.)", maxLines = 1) },
+                        placeholder = { Text("e.g. 100", maxLines = 1) },
+                        modifier = Modifier.fillMaxWidth(),
+                        singleLine = true,
+                        keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(
+                            keyboardType = androidx.compose.ui.text.input.KeyboardType.Number
+                        ),
+                        prefix = { Text("Rs. ") }
+                    )
+                }
+            }
+        }
     }
 }
 
@@ -891,6 +948,11 @@ fun ReviewStep(
             )
             ReviewRow(label = "Description", value = uiState.description.ifBlank { "—" }, onEdit = { onEdit(2) })
             ReviewRow(label = "Tags", value = uiState.tags.ifBlank { "—" }, onEdit = { onEdit(2) })
+            ReviewRow(
+                label = "Price",
+                value = if (uiState.isPaid) "Rs. ${uiState.price.ifBlank { "0" }} · PAID" else "Free",
+                onEdit = { onEdit(2) }
+            )
             ReviewRow(label = "Author", value = uiState.authorName.ifBlank { "—" }, onEdit = { onEdit(3) })
         }
         Surface(

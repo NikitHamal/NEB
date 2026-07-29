@@ -43,12 +43,16 @@ import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -66,6 +70,7 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -73,10 +78,23 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.ArrowForwardIos
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.outlined.AttachFile
+import androidx.compose.material.icons.outlined.QrCode2
+import androidx.compose.material.icons.outlined.Info
+import coil.compose.AsyncImage
+import android.content.Context
+import android.net.Uri
+import java.io.File
+import java.io.FileOutputStream
 import com.neb.ians.data.api.ApiResource
 import com.neb.ians.data.api.ApiResourceComment
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -206,6 +224,15 @@ private fun ResourceChips(resource: ApiResource, subject: String, subjectColor: 
             backgroundColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.06f),
             borderColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.22f)
         )
+        if (resource.isPaid) {
+            ResourceChip(
+                text = "Rs. ${resource.price.ifBlank { "0" }} · PAID",
+                icon = Icons.Filled.Lock,
+                contentColor = Color(0xFFB45309),
+                backgroundColor = Color(0xFFF59E0B).copy(alpha = 0.14f),
+                borderColor = Color(0xFFF59E0B).copy(alpha = 0.4f)
+            )
+        }
         if (resource.gradeLevel.isNotBlank()) {
             ResourceChip(
                 text = resource.gradeLevel,
@@ -838,5 +865,202 @@ fun ResourceLockedMediaPlaceholder(
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
+    }
+}
+
+/**
+ * Native in-app checkout sheet for a paid resource the viewer hasn't unlocked.
+ * Mirrors the website's QR checkout: shows the price + seller, lets the buyer
+ * enter a transaction reference and attach a payment screenshot, then submits
+ * the proof (server creates a pending PaymentVerification; an admin approves it
+ * before access is granted). Reflects an existing pending/rejected submission.
+ */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ResourcePurchaseSheet(
+    price: String,
+    sellerName: String,
+    purchaseStatus: String,
+    submitting: Boolean,
+    isAuthenticated: Boolean,
+    onDismiss: () -> Unit,
+    onSubmit: (transactionId: String, proofFile: File?) -> Unit,
+    onSignInPrompt: () -> Unit
+) {
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val context = LocalContext.current
+    var transactionId by remember { mutableStateOf("") }
+    var proofUri by remember { mutableStateOf<Uri?>(null) }
+
+    val proofPicker = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+        proofUri = uri
+    }
+
+    val isPending = purchaseStatus.equals("pending", ignoreCase = true)
+    val isRejected = purchaseStatus.equals("rejected", ignoreCase = true)
+    val canSubmit = !submitting && (transactionId.isNotBlank() || proofUri != null)
+
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        sheetState = sheetState,
+        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp)
+                .padding(bottom = 28.dp),
+            verticalArrangement = Arrangement.spacedBy(14.dp)
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                Box(
+                    modifier = Modifier
+                        .size(44.dp)
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.12f)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(Icons.Filled.Lock, null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(22.dp))
+                }
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = "Unlock this resource",
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    Text(
+                        text = "Rs. ${price.ifBlank { "0" }}",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
+
+            // Status / instructions banner
+            Surface(
+                shape = RoundedCornerShape(12.dp),
+                color = when {
+                    isPending -> MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f)
+                    isRejected -> MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.6f)
+                    else -> MaterialTheme.colorScheme.surfaceContainerLow
+                },
+                border = BorderStroke(
+                    1.dp,
+                    when {
+                        isPending -> MaterialTheme.colorScheme.primary.copy(alpha = 0.25f)
+                        isRejected -> MaterialTheme.colorScheme.error.copy(alpha = 0.3f)
+                        else -> MaterialTheme.colorScheme.outlineVariant
+                    }
+                ),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Row(modifier = Modifier.padding(12.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                    Icon(
+                        imageVector = if (isPending) Icons.Filled.Check else if (isRejected) Icons.Outlined.Info else Icons.Outlined.QrCode2,
+                        contentDescription = null,
+                        tint = if (isRejected) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Text(
+                        text = when {
+                            isPending -> "Payment pending verification. You'll get access once an admin approves it. You can re-submit updated proof below."
+                            isRejected -> "Your previous payment couldn't be verified. Please double-check and re-submit below."
+                            else -> "Pay Rs. ${price.ifBlank { "0" }} to $sellerName via eSewa, Khalti or mobile banking, then submit your transaction reference or a payment screenshot. Access unlocks after admin verification."
+                        },
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+            }
+
+            OutlinedTextField(
+                value = transactionId,
+                onValueChange = { transactionId = it },
+                label = { Text("Transaction ID / Reference / Phone", maxLines = 1) },
+                placeholder = { Text("e.g. 98XXXXXXXX or Txn #12345", maxLines = 1) },
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true,
+                enabled = !submitting
+            )
+
+            // Payment proof attachment
+            Surface(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(12.dp))
+                    .clickable(enabled = !submitting) { proofPicker.launch("image/*") },
+                shape = RoundedCornerShape(12.dp),
+                color = MaterialTheme.colorScheme.surfaceContainerLow,
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+            ) {
+                Row(
+                    modifier = Modifier.padding(12.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    if (proofUri != null) {
+                        AsyncImage(
+                            model = proofUri,
+                            contentDescription = "Payment proof",
+                            modifier = Modifier.size(48.dp).clip(RoundedCornerShape(8.dp))
+                        )
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text("Payment screenshot attached", style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold, maxLines = 1)
+                            Text("Tap to change", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1)
+                        }
+                        IconButton(onClick = { proofUri = null }, enabled = !submitting) {
+                            Icon(Icons.Filled.Close, contentDescription = "Remove", tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(18.dp))
+                        }
+                    } else {
+                        Icon(Icons.Outlined.AttachFile, null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(22.dp))
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text("Attach payment screenshot", style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold, maxLines = 1)
+                            Text("Optional — or enter a transaction reference above", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 2)
+                        }
+                        Icon(Icons.Outlined.CloudUpload, null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
+                    }
+                }
+            }
+
+            Button(
+                onClick = {
+                    if (!isAuthenticated) {
+                        onSignInPrompt()
+                        return@Button
+                    }
+                    val file = proofUri?.let { uriToCacheFile(context, it) }
+                    onSubmit(transactionId, file)
+                },
+                enabled = canSubmit,
+                shape = RoundedCornerShape(999.dp),
+                modifier = Modifier.fillMaxWidth().height(50.dp)
+            ) {
+                if (submitting) {
+                    CircularProgressIndicator(modifier = Modifier.size(20.dp), color = MaterialTheme.colorScheme.onPrimary, strokeWidth = 2.5.dp)
+                    Spacer(Modifier.width(10.dp))
+                    Text("Submitting…", fontWeight = FontWeight.Bold)
+                } else {
+                    Icon(Icons.Outlined.CloudUpload, null, modifier = Modifier.size(18.dp))
+                    Spacer(Modifier.width(8.dp))
+                    Text("Submit payment proof", fontWeight = FontWeight.Bold)
+                }
+            }
+        }
+    }
+}
+
+/** Copies a content Uri (a picked image) into a cache File for multipart upload. */
+private fun uriToCacheFile(context: Context, uri: Uri): File? {
+    return try {
+        val tmp = File.createTempFile("payment_proof", ".jpg", context.cacheDir)
+        context.contentResolver.openInputStream(uri)?.use { input ->
+            FileOutputStream(tmp).use { output -> input.copyTo(output) }
+        } ?: return null
+        tmp
+    } catch (_: Exception) {
+        null
     }
 }

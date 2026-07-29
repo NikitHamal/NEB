@@ -305,6 +305,23 @@
       {% endif %}
     </div>
 
+    <div class="upload-section">
+      <div class="upload-section-header">
+        <span class="material-symbols-outlined">payments</span>
+        <h2>Paid Resource</h2>
+      </div>
+      <div class="upload-row" style="align-items:center;gap:16px;">
+        <div class="upload-field" style="flex:0 0 auto;display:flex;align-items:center;gap:8px;">
+          <input type="checkbox" id="is_paid" name="is_paid" {% if resource.is_paid %}checked{% endif %} style="width:18px;height:18px;">
+          <label class="md-label" for="is_paid" style="margin:0;">Charge for this resource</label>
+        </div>
+        <div class="upload-field upload-field-half">
+          <label class="md-label" for="price">Price (Rs.)</label>
+          <input class="md-input" type="number" id="price" name="price" min="0" step="1" value="{{ resource.price|default:'0' }}" placeholder="0">
+        </div>
+      </div>
+    </div>
+
 <div class="upload-actions">
       <a href="{% url 'web:admin_resources' %}" class="md-btn md-btn-text">Cancel</a>
       <button type="submit" class="md-btn md-btn-filled">

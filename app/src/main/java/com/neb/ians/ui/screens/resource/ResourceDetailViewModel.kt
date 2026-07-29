@@ -317,6 +317,16 @@ class ResourceDetailViewModel @Inject constructor(
     private val _commentAttachments = MutableStateFlow<List<PendingForumAttachment>>(emptyList())
     val commentAttachments: StateFlow<List<PendingForumAttachment>> = _commentAttachments.asStateFlow()
 
+    // ----- In-app purchase flow (paid resources) -----
+    private val _purchaseSheetVisible = MutableStateFlow(false)
+    val purchaseSheetVisible: StateFlow<Boolean> = _purchaseSheetVisible.asStateFlow()
+
+    private val _purchaseSubmitting = MutableStateFlow(false)
+    val purchaseSubmitting: StateFlow<Boolean> = _purchaseSubmitting.asStateFlow()
+
+    fun openPurchaseSheet() { _purchaseSheetVisible.value = true }
+    fun dismissPurchaseSheet() { _purchaseSheetVisible.value = false }
+
     fun addCommentAttachments(uris: List<Uri>) {
         uris.forEach { uri -> addCommentAttachment(uri) }
     }
@@ -562,5 +572,27 @@ class ResourceDetailViewModel @Inject constructor(
 
     fun consumeSnackbar() {
         _uiState.update { it.copy(snackbarMessage = null) }
+    }
+
+    /** Submit a QR payment proof (transaction id + optional screenshot) for a
+     *  paid resource. On success the sheet closes and the resource is reloaded
+     *  so the locked view flips to "pending verification". */
+    fun submitPurchase(transactionId: String, proofFile: File?) {
+        viewModelScope.launch {
+            _purchaseSubmitting.value = true
+            resourceRepository.submitPurchase(resourceId, transactionId.trim(), proofFile)
+                .onSuccess { resp ->
+                    _purchaseSubmitting.value = false
+                    _purchaseSheetVisible.value = false
+                    _uiState.update {
+                        it.copy(snackbarMessage = resp.message.ifBlank { "Payment proof submitted — pending admin verification." })
+                    }
+                    load(forceRefresh = true)
+                }
+                .onFailure { e ->
+                    _purchaseSubmitting.value = false
+                    _uiState.update { it.copy(snackbarMessage = ApiErrorMapper.mapException(e)) }
+                }
+        }
     }
 }

@@ -1,4 +1,5 @@
 """Views Admin extracted from views.py."""
+from decimal import Decimal
 from .view_helpers import *  # noqa: F401,F403
 
 def admin_pending_resources(request):
@@ -547,6 +548,19 @@ def admin_resource_create(request):
             except User.DoesNotExist:
                 errors.append(f"No platform user found with username '@{behalf_username}'.")
 
+        # Marketplace: admins can list a resource as paid with a price.
+        is_paid = request.POST.get('is_paid') in ['on', 'true', '1', True]
+        try:
+            price_val = Decimal(request.POST.get('price', '0').strip() or '0')
+        except Exception:
+            price_val = Decimal('0.00')
+        if price_val < 0:
+            price_val = Decimal('0.00')
+        if not is_paid:
+            price_val = Decimal('0.00')
+        elif price_val <= 0:
+            errors.append('Please set a valid price (greater than Rs. 0) for paid resources.')
+
         uploaded_files = request.FILES.getlist('file')
         file_url = request.POST.get('file_url', '').strip()
 
@@ -660,6 +674,8 @@ def admin_resource_create(request):
                         reviewed_at=now_ms() if approval_status == 'approved' else None,
                         upload_group_id=group_id,
                         is_lead=is_lead,
+                        is_paid=is_paid,
+                        price=price_val,
                     )
                     resource.save()
                     created_count += 1
@@ -695,6 +711,8 @@ def admin_resource_create(request):
                     reviewed_at=now_ms() if approval_status == 'approved' else None,
                     upload_group_id='',
                     is_lead=True,
+                    is_paid=is_paid,
+                    price=price_val,
                 )
                 resource.save()
                 created_count += 1
@@ -769,6 +787,16 @@ def admin_resource_edit(request, resource_id):
             resource_obj.uploaded_by = None
         if request.POST.get('view_count', '').strip():
             resource_obj.view_count = int(request.POST.get('view_count', '0'))
+        # Marketplace: admins can toggle paid + price.
+        is_paid = request.POST.get('is_paid') in ['on', 'true', '1', True]
+        try:
+            price_val = Decimal(request.POST.get('price', '0').strip() or '0')
+        except Exception:
+            price_val = Decimal('0.00')
+        if price_val < 0:
+            price_val = Decimal('0.00')
+        resource_obj.is_paid = is_paid
+        resource_obj.price = price_val if is_paid else Decimal('0.00')
         new_status = request.POST.get('approval_status', '').strip()
         if new_status in ('approved', 'pending', 'rejected'):
             old_status = resource_obj.approval_status

@@ -52,6 +52,7 @@ urlpatterns = [
     path('resources/<str:resource_id>/comments/', views.resource_comments, name='resource-comments'),
     path('resources/<str:resource_id>/comments/<str:comment_id>/', views.resource_comment_detail, name='resource-comment-detail'),
     path('resources/<str:resource_id>/comments/<str:comment_id>/like/', views.resource_comment_like, name='resource-comment-like'),
+    path('resources/<str:resource_id>/purchase/', views.resource_purchase, name='resource-purchase'),
     path('resources/<str:resource_id>/pdf-assistant/', pdf_assistant_views.resource_pdf_assistant, name='resource-pdf-assistant'),
 
     # Syllabus categories for native apps

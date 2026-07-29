@@ -1,6 +1,8 @@
 """Views Resources extracted from views.py."""
+from decimal import Decimal
 from .view_helpers import *  # noqa: F401,F403
 from .security import validate_forum_attachments
+from .models import PaymentVerification
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
@@ -477,12 +479,111 @@ def resource_detail(request, resource_id):
         else:
             resource.thumbnail_url = ''
 
+    # Marketplace: owner can toggle paid + price from the app/web edit form.
+    if 'is_paid' in data or 'isPaid' in data or 'price' in data:
+        is_paid, price_val = parse_paid_fields(data)
+        resource.is_paid = is_paid
+        resource.price = price_val
+
     resource.approval_status = 'pending'
     resource.save()
     if not resource.thumbnail_url:
         maybe_autoset_video_thumbnail(resource, request)
     cache.delete_many(['home_resources', 'library_all_resources', 'library_filter_options', 'distinct_subjects'])
     return Response(ResourceSerializer(resource, context={'request': request}).data)
+
+
+@api_view(['GET', 'POST'])
+@permission_classes([AllowAny])
+def resource_purchase(request, resource_id):
+    """In-app purchase flow for a paid resource (Android parity with the web
+    submit_payment_proof page).
+
+    GET  — returns the viewer's access + purchase status and the price/seller,
+           so the app can render the checkout sheet (locked viewers only).
+    POST — buyer submits their QR payment proof: a `transaction_id` (text) and
+           an optional `payment_proof` image. Creates/updates a pending
+           PaymentVerification. Access is granted only after an admin approves.
+    """
+    try:
+        resource_obj = Resource.objects.select_related('uploaded_by').get(pk=resource_id)
+    except Resource.DoesNotExist:
+        return Response({'error': 'Resource not found'}, status=404)
+
+    # Auth: the purchase sheet is buyer-scoped, so we need a real user.
+    user, err = _require_user(request)
+    if err:
+        return err
+
+    price_dec = resource_obj.price or Decimal('0.00')
+    seller = resource_obj.uploaded_by or User.objects.filter(is_admin=True).first() or user
+
+    def _status_payload():
+        from web.view_helpers import check_user_resource_access
+        has_access, _reason, purchase = check_user_resource_access(user, resource_obj)
+        return {
+            'status': 'ok',
+            'is_paid': bool(resource_obj.is_paid),
+            'price': ('%g' % float(price_dec)) if float(price_dec or 0) else '0',
+            'has_access': bool(has_access),
+            'purchase_status': getattr(purchase, 'status', '') if purchase else '',
+            'purchase_id': getattr(purchase, 'id', '') if purchase else '',
+            'seller_name': (seller.display_name or seller.username) if seller else '',
+            'message': '',
+        }
+
+    if request.method == 'GET':
+        return Response(_status_payload())
+
+    # ----- POST: submit payment proof -----
+    if not resource_obj.is_paid:
+        return Response({'error': 'This resource is not paid'}, status=400)
+    if resource_obj.uploaded_by_id == user.id:
+        return Response({'error': 'You own this resource'}, status=400)
+
+    transaction_id = (request.data.get('transaction_id') or '').strip()
+    proof_file = request.FILES.get('payment_proof')
+
+    if not transaction_id and not proof_file:
+        return Response({'error': 'Please provide a transaction reference or upload a payment screenshot.'}, status=400)
+
+    commission_dec = (price_dec * Decimal('0.10')).quantize(Decimal('0.01'))
+    earnings_dec = price_dec - commission_dec
+
+    existing_pending = PaymentVerification.objects.filter(buyer=user, resource=resource_obj, status='pending').first()
+    if existing_pending:
+        pv = existing_pending
+        if transaction_id:
+            pv.transaction_id = transaction_id
+        if proof_file:
+            pv.payment_proof = proof_file
+            pv.payment_proof_url = request.build_absolute_uri(settings.MEDIA_URL + str(pv.payment_proof))
+        pv.amount = price_dec
+        pv.platform_commission = commission_dec
+        pv.seller_earnings = earnings_dec
+        pv.save()
+    else:
+        pv = PaymentVerification.objects.create(
+            id=str(uuid.uuid4()),
+            buyer=user,
+            resource=resource_obj,
+            seller=seller,
+            amount=price_dec,
+            platform_commission=commission_dec,
+            seller_earnings=earnings_dec,
+            payment_method='qr_code',
+            transaction_id=transaction_id,
+            payment_proof=proof_file,
+            status='pending',
+            created_at=_now_ms(),
+        )
+        if proof_file:
+            pv.payment_proof_url = request.build_absolute_uri(settings.MEDIA_URL + str(pv.payment_proof))
+            pv.save(update_fields=['payment_proof_url'])
+
+    payload = _status_payload()
+    payload['message'] = "Payment proof submitted! Your purchase is pending admin verification."
+    return Response(payload, status=201)
 
 
 def _resource_comment_payload(comment, viewer=None, liked_comment_ids=None):
@@ -710,6 +811,10 @@ def resource_upload(request):
         source_url=data.get('source_url', '').strip(),
         approval_status='pending',
     )
+    # Marketplace: uploader can list this as paid with a price.
+    is_paid, price_val = parse_paid_fields(data)
+    resource.is_paid = is_paid
+    resource.price = price_val
     resource.save()
     if not resource.thumbnail_url:
         maybe_autoset_video_thumbnail(resource, request)
