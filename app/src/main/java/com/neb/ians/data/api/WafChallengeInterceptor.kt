@@ -122,7 +122,13 @@ class WafChallengeInterceptor(private val context: Context) : Interceptor {
         }
         if (isChallengeBody(sample)) return true
         if (response.code in listOf(403, 429, 503, 520, 522, 524) && !contentType.contains("application/json", true)) return true
-        return path.startsWith("/api/") && response.code == 200 && contentType.contains("text/html", true)
+        // Any HTML reply on the API — e.g. a host security block page returned
+        // for a binary multipart upload that the browser's same-origin form
+        // doesn't trigger — is treated as a WAF/challenge. That way we attempt
+        // to clear it and, if we can't, surface the actionable security message
+        // instead of an unhelpful generic / "invalid response" error.
+        if (path.startsWith("/api/") && contentType.contains("text/html", true)) return true
+        return false
     }
 
     private fun isUnexpectedHtmlForApi(request: Request, response: Response): Boolean {
