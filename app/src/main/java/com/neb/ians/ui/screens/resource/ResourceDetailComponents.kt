@@ -59,6 +59,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.layout.offset
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.ArrowForwardIos
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.ShoppingCart
 import com.neb.ians.data.api.ApiResource
 import com.neb.ians.data.api.ApiResourceComment
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -610,4 +628,215 @@ private fun fileSizeHuman(bytes: Long): String {
         unit++
     }
     return if (unit == 0) "${value.toInt()} ${units[unit]}" else String.format("%.1f %s", value, units[unit])
+}
+
+/**
+ * Sticky "slide to buy" call-to-action shown at the very bottom of the resource
+ * screen for a paid resource the viewer hasn't unlocked. The user drags the
+ * thumb to the right to confirm purchase intent — a deliberate gesture that
+ * avoids accidental taps on an irreversible action. Completing the slide fires
+ * [onSlideComplete] exactly once; the caller owns what "buy" actually does
+ * (today: open the checkout), so this component is purely the CTA + gesture.
+ */
+@Composable
+fun SlideToBuyBar(
+    price: String,
+    onSlideComplete: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val trackColor = MaterialTheme.colorScheme.primary
+    var trackWidthPx by remember { mutableFloatStateOf(0f) }
+    val thumbSize = 56.dp
+    var dragging by remember { mutableStateOf(false) }
+    var rawProgress by remember { mutableFloatStateOf(0f) } // 0..1 while the finger is down
+    var completed by remember { mutableStateOf(false) }
+    var fired by remember { mutableStateOf(false) }
+
+    // Smooth snap-back when released short, snap-to-end when the slide completes.
+    val targetProgress = when {
+        completed -> 1f
+        dragging -> rawProgress
+        else -> 0f
+    }
+    val animatedProgress by animateFloatAsState(
+        targetValue = targetProgress,
+        animationSpec = tween(if (completed) 220 else 260),
+        label = "slideBuyProgress"
+    )
+    val progress = if (dragging) rawProgress else animatedProgress
+
+    Surface(modifier = modifier.fillMaxWidth(), color = MaterialTheme.colorScheme.surfaceContainerLow) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 12.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Icon(Icons.Filled.Lock, null, tint = trackColor, modifier = Modifier.size(16.dp))
+                Text(
+                    text = "This is paid content",
+                    style = MaterialTheme.typography.labelLarge,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.weight(1f)
+                )
+                Text(
+                    text = "Rs. $price",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = trackColor
+                )
+            }
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(60.dp)
+                    .onSizeChanged { trackWidthPx = it.width.toFloat() }
+                    .clip(RoundedCornerShape(999.dp))
+                    .background(trackColor.copy(alpha = 0.14f))
+                    .border(1.dp, trackColor.copy(alpha = 0.35f), RoundedCornerShape(999.dp))
+            ) {
+                val density = LocalDensity.current
+                val thumbPx = with(density) { thumbSize.toPx() }
+                val travel = (trackWidthPx - thumbPx).coerceAtLeast(1f)
+                val thumbLeftPx = (progress * travel).coerceIn(0f, travel)
+
+                // Fill that follows the thumb
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.CenterStart)
+                        .height(60.dp)
+                        .fillMaxWidth(((thumbLeftPx + thumbPx) / trackWidthPx.coerceAtLeast(1f)).coerceIn(0f, 1f))
+                        .background(
+                            Brush.horizontalGradient(listOf(trackColor.copy(alpha = 0.85f), trackColor))
+                        )
+                )
+
+                if (completed) {
+                    Row(
+                        modifier = Modifier.align(Alignment.Center),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Icon(Icons.Filled.Check, null, tint = MaterialTheme.colorScheme.onPrimary, modifier = Modifier.size(20.dp))
+                        Text(
+                            text = "Opening checkout…",
+                            style = MaterialTheme.typography.titleSmall,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onPrimary
+                        )
+                    }
+                } else {
+                    // Centered hint — fades out as the thumb travels right
+                    val labelAlpha = (1f - progress * 1.4f).coerceIn(0f, 1f)
+                    Row(
+                        modifier = Modifier.align(Alignment.Center).graphicsLayer { alpha = labelAlpha },
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Icon(Icons.Filled.ShoppingCart, null, tint = trackColor, modifier = Modifier.size(18.dp))
+                        Text(
+                            text = "Slide to buy",
+                            style = MaterialTheme.typography.titleSmall,
+                            fontWeight = FontWeight.Bold,
+                            color = trackColor
+                        )
+                    }
+                }
+
+                // Draggable thumb
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.CenterStart)
+                        .offset { IntOffset(x = thumbLeftPx.toInt(), y = 0) }
+                        .size(thumbSize)
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.surfaceContainerLowest)
+                        .border(1.dp, trackColor.copy(alpha = 0.4f), CircleShape)
+                        .pointerInput(completed, trackWidthPx) {
+                            if (completed || trackWidthPx <= 0f) return@pointerInput
+                            detectDragGestures(
+                                onDragStart = { dragging = true },
+                                onDragEnd = {
+                                    dragging = false
+                                    if (rawProgress >= 0.92f) {
+                                        completed = true
+                                        if (!fired) {
+                                            fired = true
+                                            onSlideComplete()
+                                        }
+                                    }
+                                },
+                                onDragCancel = { dragging = false },
+                                onDrag = { change, dragAmount ->
+                                    change.consume()
+                                    val travelLocal = (trackWidthPx - thumbPx).coerceAtLeast(1f)
+                                    rawProgress = (rawProgress + dragAmount.x / travelLocal).coerceIn(0f, 1f)
+                                }
+                            )
+                        },
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = if (completed) Icons.Filled.Check else Icons.Filled.ArrowForwardIos,
+                        contentDescription = if (completed) "Purchased" else "Slide to buy",
+                        tint = trackColor,
+                        modifier = Modifier.size(22.dp)
+                    )
+                }
+            }
+        }
+    }
+}
+
+/** Shown in place of the media player for a paid resource the viewer hasn't unlocked. */
+@Composable
+fun ResourceLockedMediaPlaceholder(
+    subjectColor: Color,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(200.dp)
+            .clip(RoundedCornerShape(12.dp))
+            .background(
+                Brush.verticalGradient(
+                    listOf(subjectColor.copy(alpha = 0.16f), MaterialTheme.colorScheme.surfaceContainerHigh)
+                )
+            )
+            .border(1.dp, MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(12.dp)),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(56.dp)
+                    .clip(CircleShape)
+                    .background(subjectColor.copy(alpha = 0.18f)),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(Icons.Filled.Lock, null, tint = subjectColor, modifier = Modifier.size(28.dp))
+            }
+            Text(
+                text = "Paid content",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            Text(
+                text = "Slide the bar below to unlock full access",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+    }
 }

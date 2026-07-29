@@ -415,7 +415,16 @@ data class ApiResource(
     @SerialName("author_username") val authorUsernameSnake: String? = null,
     @SerialName("authorUsername") val authorUsernameCamel: String? = null,
     @SerialName("is_liked") val isLiked: Boolean? = null,
-    @SerialName("is_bookmarked") val isBookmarked: Boolean? = null
+    @SerialName("is_bookmarked") val isBookmarked: Boolean? = null,
+    // --- Paid / marketplace state (server-gated; defaults keep old caches safe) ---
+    @SerialName("isPaid") val isPaid: Boolean = false,
+    /** Normalised price string as sent by the server (e.g. "150", "149.5"). */
+    @SerialName("price") val price: String = "",
+    /** True when the viewer may open/download this resource (free, owner, admin or approved purchase). */
+    @SerialName("hasAccess") val hasAccess: Boolean = true,
+    /** "" | "pending" | "approved" | "rejected" for the viewer's purchase, if any. */
+    @SerialName("purchaseStatus") val purchaseStatus: String = "",
+    @SerialName("isOwner") val isOwner: Boolean = false
 ) {
     val uploadedByUsername: String get() = uploadedByUsernameSnake ?: uploadedByUsernameCamel ?: authorUsernameSnake ?: authorUsernameCamel ?: ""
     val approvalStatus: String? get() = approvalStatusSnake ?: approvalStatusCamel
