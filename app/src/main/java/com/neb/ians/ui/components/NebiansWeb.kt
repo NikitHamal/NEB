@@ -619,6 +619,7 @@ fun WebResourceCard(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     minWidth: Dp? = 220.dp,
+    height: Dp? = null,
     shape: RoundedCornerShape = WebPanelShape
 ) {
     val subjectParts = remember(resource.subject) {
@@ -641,6 +642,7 @@ fun WebResourceCard(
     Card(
         modifier = modifier
             .then(if (minWidth != null) Modifier.width(minWidth) else Modifier.fillMaxWidth())
+            .then(if (height != null) Modifier.height(height) else Modifier)
             .clip(shape)
             .clickable(onClick = onClick),
         shape = shape,
@@ -734,7 +736,7 @@ fun WebResourceCard(
         }
         Column(
             modifier = Modifier
-                .fillMaxWidth()
+                .then(if (height != null) Modifier.weight(1f) else Modifier.fillMaxWidth())
                 .padding(12.dp)
         ) {
             Surface(
@@ -761,7 +763,14 @@ fun WebResourceCard(
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
-            Spacer(modifier = Modifier.height(8.dp))
+            // With a fixed card height the footer meta is pinned to the bottom
+            // so every card in a rail shares identical, aligned heights; without
+            // one we keep the original tight wrap-content spacing.
+            if (height != null) {
+                Spacer(modifier = Modifier.weight(1f))
+            } else {
+                Spacer(modifier = Modifier.height(8.dp))
+            }
             Text(
                 text = "${resource.gradeLevel} · ${formatFileSize(resource.fileSize)}",
                 style = MaterialTheme.typography.labelSmall,
