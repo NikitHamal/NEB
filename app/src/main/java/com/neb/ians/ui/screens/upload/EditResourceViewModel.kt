@@ -196,12 +196,12 @@ class EditResourceViewModel @Inject constructor(
                     _uiState.update { it.copy(isSubmitting = false, submitted = true) }
                 }.onFailure { e ->
                     _uiState.update {
-                        it.copy(isSubmitting = false, submitError = ApiErrorMapper.mapException(e))
+                        it.copy(isSubmitting = false, submitError = ApiErrorMapper.mapExceptionVerbose(e, "Edit resource"))
                     }
                 }
             } catch (e: Exception) {
                 _uiState.update {
-                    it.copy(isSubmitting = false, submitError = ApiErrorMapper.mapException(e))
+                    it.copy(isSubmitting = false, submitError = ApiErrorMapper.mapExceptionVerbose(e, "Edit resource"))
                 }
             }
         }
