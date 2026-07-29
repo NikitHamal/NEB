@@ -242,6 +242,18 @@ fun ResourceDetailScreen(
             },
             bottomBar = {
                 if (!isFullscreen && uiState.resource != null) {
+                    val res = uiState.resource!!
+                    if (res.isPaid && !res.hasAccess) {
+                        SlideToBuyBar(
+                            price = res.price.ifBlank { "0" },
+                            onSlideComplete = {
+                                openExternal("https://nebians.consica.com.np/reader/${res.id}/")
+                                viewModel.showSnackbar(
+                                    "Finish your payment on the page that opens — access unlocks after admin approval."
+                                )
+                            }
+                        )
+                    } else {
                     NebCommentComposerBar(
                         value = uiState.commentDraft,
                         onValueChange = viewModel::onCommentDraftChange,
@@ -267,6 +279,7 @@ fun ResourceDetailScreen(
                             attachments = commentAttachments,
                             onRemoveAttachment = viewModel::removeCommentAttachment
                         )
+                    }
                     }
                 }
             },
@@ -294,6 +307,7 @@ fun ResourceDetailScreen(
                         val mediaType = detectResourceMedia(resource.fileUrl, resource.type)
                         val subject = resource.subject.split(",").firstOrNull()?.trim().orEmpty().ifBlank { "General" }
                         val subjectColor = Color(com.neb.ians.util.getSubjectColor(subject))
+                        val locked = resource.isPaid && !resource.hasAccess
 
                         val onCommentReplyClick: (ApiResourceComment) -> Unit = { comment ->
                             activeThreadParentId = comment.id
@@ -331,6 +345,7 @@ fun ResourceDetailScreen(
                                 onRelatedResourceClick = onRelatedResourceClick,
                                 share = ::share,
                                 openExternal = ::openExternal,
+                                locked = locked,
                                 padding = padding
                             )
                         } else {
@@ -348,6 +363,7 @@ fun ResourceDetailScreen(
                                 onCommentDeleteClick = onCommentDeleteClick,
                                 share = ::share,
                                 openExternal = ::openExternal,
+                                locked = locked,
                                 padding = padding,
                                 onZoomImage = { zoomImageUrl = it }
                             )
@@ -635,6 +651,7 @@ private fun VideoYouTubeLayout(
     onRelatedResourceClick: (String) -> Unit,
     share: (String, String) -> Unit,
     openExternal: (String) -> Unit,
+    locked: Boolean = false,
     padding: PaddingValues
 ) {
     LazyColumn(
@@ -644,17 +661,24 @@ private fun VideoYouTubeLayout(
         contentPadding = PaddingValues(bottom = padding.calculateBottomPadding() + 18.dp)
     ) {
         item(key = "video_player") {
-            EmbeddedMediaPlayer(
-                resourceId = resource.id,
-                fileUrl = resource.fileUrl,
-                isVideo = true,
-                subjectColor = subjectColor,
-                title = resource.title,
-                onFullscreenClick = onFullscreenClick,
-                onMinimize = onMinimizeVideo,
-                viewModel = mediaViewModel,
-                fullWidth = true
-            )
+            if (locked) {
+                ResourceLockedMediaPlaceholder(
+                    subjectColor = subjectColor,
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                )
+            } else {
+                EmbeddedMediaPlayer(
+                    resourceId = resource.id,
+                    fileUrl = resource.fileUrl,
+                    isVideo = true,
+                    subjectColor = subjectColor,
+                    title = resource.title,
+                    onFullscreenClick = onFullscreenClick,
+                    onMinimize = onMinimizeVideo,
+                    viewModel = mediaViewModel,
+                    fullWidth = true
+                )
+            }
         }
 
         item(key = "video_title") {
@@ -766,16 +790,18 @@ private fun VideoYouTubeLayout(
                     contentDescription = "Share",
                     onClick = { share(resource.title, resource.id) }
                 )
-                VideoActionIcon(
-                    icon = when {
-                        uiState.isDownloaded -> Icons.Filled.DownloadDone
-                        uiState.downloadProgress != null && uiState.downloadProgress in 0..99 -> Icons.Filled.Downloading
-                        else -> Icons.Filled.Download
-                    },
-                    selected = uiState.isDownloaded,
-                    contentDescription = if (uiState.isDownloaded) "Downloaded" else "Download for offline playback",
-                    onClick = viewModel::downloadResource
-                )
+                if (!locked) {
+                    VideoActionIcon(
+                        icon = when {
+                            uiState.isDownloaded -> Icons.Filled.DownloadDone
+                            uiState.downloadProgress != null && uiState.downloadProgress in 0..99 -> Icons.Filled.Downloading
+                            else -> Icons.Filled.Download
+                        },
+                        selected = uiState.isDownloaded,
+                        contentDescription = if (uiState.isDownloaded) "Downloaded" else "Download for offline playback",
+                        onClick = viewModel::downloadResource
+                    )
+                }
             }
         }
 
@@ -861,6 +887,7 @@ private fun NonVideoLayout(
     onCommentDeleteClick: (ApiResourceComment) -> Unit,
     share: (String, String) -> Unit,
     openExternal: (String) -> Unit,
+    locked: Boolean = false,
     padding: PaddingValues,
     onZoomImage: (String) -> Unit
 ) {
@@ -870,6 +897,11 @@ private fun NonVideoLayout(
             .padding(top = padding.calculateTopPadding()),
         contentPadding = PaddingValues(start = 16.dp, top = 4.dp, end = 16.dp, bottom = padding.calculateBottomPadding() + 18.dp)
     ) {
+        if (locked) {
+            item(key = "locked_banner") {
+                ResourceLockedMediaPlaceholder(subjectColor = subjectColor)
+            }
+        }
         item(key = "hero") {
             ResourceHeroCard(
                 resource = resource,
