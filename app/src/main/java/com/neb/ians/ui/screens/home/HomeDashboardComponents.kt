@@ -10,10 +10,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -54,7 +54,6 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -64,12 +63,9 @@ import com.neb.ians.data.api.ApiSuggestedItem
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.size
 import androidx.compose.ui.graphics.graphicsLayer
-import coil.compose.AsyncImage
+import com.neb.ians.ui.components.Avatar
 import com.neb.ians.ui.components.MarkdownInlineText
-import com.neb.ians.ui.components.resolveMediaUrl
 import com.neb.ians.ui.components.WebPillShape
 import com.neb.ians.ui.components.WebResourceCard
 import com.neb.ians.ui.components.compactCount
@@ -343,6 +339,7 @@ internal fun HomeResourceCarousel(
                 resource = resource,
                 onClick = { onResourceClick(resource.id) },
                 minWidth = 248.dp,
+                height = HomeRailCardHeight,
                 shape = RoundedCornerShape(24.dp)
             )
         }
@@ -350,10 +347,17 @@ internal fun HomeResourceCarousel(
 }
 
 /**
+ * Shared fixed height for every card in the home rails (suggested deck +
+ * trending carousel). Pinning both resource and discussion cards to this exact
+ * height keeps the whole rail perfectly aligned — no more mismatched bottoms.
+ */
+private val HomeRailCardHeight = 276.dp
+
+/**
  * "Suggested for you" — mixed deck of resource + discussion cards picked by
  * the server-side feed engine. Guaranteed non-empty while any content exists.
- * Discussion cards mirror the resource card's exact dimensions (110.dp media
- * area + identical content rows) so every card in the rail is the same height.
+ * Both card types render at [HomeRailCardHeight] so every card in the rail
+ * shares an identical, aligned height.
  */
 @Composable
 internal fun HomeSuggestedDeck(
@@ -375,6 +379,7 @@ internal fun HomeSuggestedDeck(
                     resource = item.resource,
                     onClick = { onResourceClick(item.resource.id) },
                     minWidth = 248.dp,
+                    height = HomeRailCardHeight,
                     shape = RoundedCornerShape(24.dp)
                 )
                 item.type == "post" && item.post != null -> SuggestedPostCard(
@@ -388,12 +393,13 @@ internal fun HomeSuggestedDeck(
 }
 
 /**
- * Discussion card for the suggested rail: a *distinct forum-post layout* — no
- * cover/banner art — while keeping the exact same outer size as the resource
- * cards in the row (248.dp wide, same total height as [WebResourceCard]'s
- * 110.dp cover + content rows). Shows category + like state up top, a bold
- * title, a content excerpt, media-kind indicator pills (video / audio / poll /
- * photos), and the author · replies · views footer of a forum post.
+ * Discussion card for the suggested rail — fully revamped. Renders at the same
+ * [HomeRailCardHeight] as the resource cards so the whole rail lines up.
+ *
+ * Design: a category-tinted banner (giving it the same colourful "cover"
+ * presence as resource cards) carrying a DISCUSSION tag, a bold category chip
+ * and an easy-to-tap like button; below it a bold title, a markdown excerpt,
+ * optional media-kind pills, and an author-avatar footer with replies/views.
  */
 @Composable
 private fun SuggestedPostCard(
@@ -403,41 +409,69 @@ private fun SuggestedPostCard(
 ) {
     val category = post.category.ifBlank { "General" }
     val categoryTheme = getSubjectTheme(category)
-    val firstVideo = remember(post.attachments) { post.attachments.firstOrNull { it.kind == "video" } }
-    val firstAudio = remember(post.attachments) { post.attachments.firstOrNull { it.kind == "audio" } }
+    val hasVideo = remember(post.attachments) { post.attachments.any { it.kind == "video" } }
+    val hasAudio = remember(post.attachments) { post.attachments.any { it.kind == "audio" } }
     val hasPoll = post.poll != null
+    val hasPhotos = post.images.isNotEmpty()
     val liked = post.isThumbedUp
     val shape = RoundedCornerShape(24.dp)
     val excerpt = remember(post.content) { post.content.replace('\n', ' ').trim() }
+    val displayName = if (post.isAnonymous) "Anonymous Nebian" else post.authorName
+
+    // Springy pop on like toggle (VM updates optimistically, so it plays instantly).
+    val likePop by animateFloatAsState(
+        targetValue = if (liked) 1.3f else 1f,
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioMediumBouncy,
+            stiffness = Spring.StiffnessMedium
+        ),
+        label = "suggested-like-pop"
+    )
 
     Card(
         modifier = Modifier
             .width(248.dp)
-            // Mirrors the exact 110.dp-cover + content-rows total of WebResourceCard.
-            .height(247.dp)
+            .height(HomeRailCardHeight)
             .clip(shape)
             .clickable(onClick = onClick),
         shape = shape,
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest),
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(12.dp)
-        ) {
-            // ----- Header: category pill + like pill (forum-post style, no cover) -----
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(6.dp)
+        Column(modifier = Modifier.fillMaxSize()) {
+            // ----- Banner: category-tinted cover with a soft watermark icon -----
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(92.dp)
+                    .background(
+                        Brush.linearGradient(
+                            listOf(
+                                categoryTheme.container,
+                                categoryTheme.color.copy(alpha = 0.18f)
+                            )
+                        )
+                    )
             ) {
+                Icon(
+                    imageVector = Icons.Outlined.ChatBubbleOutline,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .offset(x = 12.dp, y = 14.dp)
+                        .size(78.dp),
+                    tint = categoryTheme.color.copy(alpha = 0.20f)
+                )
+                // DISCUSSION tag
                 Surface(
+                    modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .padding(10.dp),
                     shape = WebPillShape,
-                    color = categoryTheme.container
+                    color = MaterialTheme.colorScheme.surfaceContainerLowest.copy(alpha = 0.92f)
                 ) {
                     Row(
-                        modifier = Modifier.padding(horizontal = 9.dp, vertical = 3.dp),
+                        modifier = Modifier.padding(horizontal = 9.dp, vertical = 4.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
@@ -448,37 +482,26 @@ private fun SuggestedPostCard(
                             tint = categoryTheme.onContainer
                         )
                         Text(
-                            text = category.uppercase(),
+                            text = "DISCUSSION",
                             style = MaterialTheme.typography.labelSmall,
                             fontWeight = FontWeight.Bold,
-                            color = categoryTheme.onContainer,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                            modifier = Modifier.widthIn(max = 120.dp)
+                            color = categoryTheme.onContainer
                         )
                     }
                 }
-                Spacer(modifier = Modifier.weight(1f))
-                // Like pill: unmistakable liked/unliked state + springy pop
-                // on toggle (the VM updates optimistically, so this plays instantly).
-                val likePop by animateFloatAsState(
-                    targetValue = if (liked) 1.25f else 1f,
-                    animationSpec = spring(
-                        dampingRatio = Spring.DampingRatioMediumBouncy,
-                        stiffness = Spring.StiffnessMedium
-                    ),
-                    label = "suggested-like-pop"
-                )
+                // Like button — clear liked/unliked state + bouncy pop
                 Surface(
                     onClick = onLikeClick,
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(10.dp),
                     shape = WebPillShape,
                     color = if (liked) MaterialTheme.colorScheme.primary
-                    else MaterialTheme.colorScheme.surfaceContainerLow,
-                    border = if (liked) null
-                    else BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.6f))
+                    else MaterialTheme.colorScheme.surfaceContainerLowest.copy(alpha = 0.92f),
+                    shadowElevation = 2.dp
                 ) {
                     Row(
-                        modifier = Modifier.padding(horizontal = 9.dp, vertical = 4.dp),
+                        modifier = Modifier.padding(horizontal = 9.dp, vertical = 5.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
@@ -503,121 +526,143 @@ private fun SuggestedPostCard(
                         )
                     }
                 }
+                // Bold category chip anchored to the banner's bottom
+                Surface(
+                    modifier = Modifier
+                        .align(Alignment.BottomStart)
+                        .padding(start = 10.dp, bottom = 10.dp),
+                    shape = WebPillShape,
+                    color = categoryTheme.color
+                ) {
+                    Text(
+                        text = category.uppercase(),
+                        modifier = Modifier
+                            .padding(horizontal = 10.dp, vertical = 4.dp)
+                            .widthIn(max = 150.dp),
+                        style = MaterialTheme.typography.labelSmall,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
             }
-            Spacer(modifier = Modifier.height(10.dp))
 
-            // ----- Title (+ tiny cover thumb when the post has photos) -----
-            val firstImage = remember(post.images) {
-                post.images.minByOrNull { it.order }?.imageUrl?.let { resolveMediaUrl(it) }
-            }
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.Top
+            // ----- Body: title + excerpt, flexible gap, media pills, author footer -----
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .padding(12.dp)
             ) {
                 Text(
                     text = post.title,
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurface,
                     maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.weight(1f)
+                    overflow = TextOverflow.Ellipsis
                 )
-                if (firstImage != null) {
-                    Spacer(modifier = Modifier.width(8.dp))
-                    AsyncImage(
-                        model = firstImage,
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .size(44.dp)
-                            .clip(RoundedCornerShape(10.dp))
-                            .border(
-                                1.dp,
-                                MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.6f),
-                                RoundedCornerShape(10.dp)
+                if (excerpt.isNotBlank()) {
+                    Spacer(modifier = Modifier.height(4.dp))
+                    MarkdownInlineText(
+                        markdown = excerpt,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        maxLines = 2
+                    )
+                }
+                Spacer(modifier = Modifier.weight(1f))
+
+                if (hasVideo || hasAudio || hasPoll || hasPhotos) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(5.dp)
+                    ) {
+                        if (hasVideo) PostKindPill(icon = Icons.Filled.PlayArrow, label = "VIDEO")
+                        if (hasAudio) PostKindPill(icon = Icons.Outlined.MusicNote, label = "AUDIO")
+                        if (hasPoll) PostKindPill(icon = Icons.Outlined.Poll, label = "POLL")
+                        if (hasPhotos) {
+                            PostKindPill(
+                                icon = Icons.Outlined.PhotoLibrary,
+                                label = if (post.images.size > 1) "${post.images.size} PHOTOS" else "PHOTO"
                             )
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(9.dp))
+                }
+
+                // Footer: avatar + author/time, with a replies pill on the right
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(7.dp)
+                ) {
+                    Avatar(
+                        name = displayName,
+                        imageUrl = if (post.isAnonymous) null else post.authorPhotoUrl,
+                        size = 26.dp
                     )
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = displayName,
+                            style = MaterialTheme.typography.labelMedium,
+                            fontWeight = FontWeight.SemiBold,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(3.dp)
+                        ) {
+                            Text(
+                                text = formatTimeAgo(post.createdAt),
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                maxLines = 1
+                            )
+                            Icon(
+                                imageVector = Icons.Outlined.Visibility,
+                                contentDescription = null,
+                                modifier = Modifier.size(11.dp),
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                            Text(
+                                text = compactCount(post.viewCount),
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                maxLines = 1
+                            )
+                        }
+                    }
+                    Surface(
+                        shape = WebPillShape,
+                        color = MaterialTheme.colorScheme.surfaceContainerLow,
+                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.55f))
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(3.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Outlined.ChatBubbleOutline,
+                                contentDescription = null,
+                                modifier = Modifier.size(12.dp),
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                            Text(
+                                text = compactCount(post.replyCount),
+                                style = MaterialTheme.typography.labelSmall,
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                maxLines = 1
+                            )
+                        }
+                    }
                 }
-            }
-            Spacer(modifier = Modifier.height(4.dp))
-
-            // ----- Excerpt with real inline markdown (bold/italic/code/links) -----
-            Box(modifier = Modifier
-                .fillMaxWidth()
-                .heightIn(min = 30.dp)) {
-                MarkdownInlineText(
-                    markdown = excerpt,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 2
-                )
-            }
-            Spacer(modifier = Modifier.height(10.dp))
-
-            // ----- Media-kind indicator pills -----
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(5.dp)
-            ) {
-                if (firstVideo != null) {
-                    PostKindPill(icon = Icons.Filled.PlayArrow, label = "VIDEO")
-                }
-                if (firstAudio != null) {
-                    PostKindPill(icon = Icons.Outlined.MusicNote, label = "AUDIO")
-                }
-                if (hasPoll) {
-                    PostKindPill(icon = Icons.Outlined.Poll, label = "POLL")
-                }
-                if (post.images.isNotEmpty()) {
-                    PostKindPill(
-                        icon = Icons.Outlined.PhotoLibrary,
-                        label = if (post.images.size > 1) "${post.images.size} PHOTOS" else "PHOTO"
-                    )
-                }
-            }
-            Spacer(modifier = Modifier.weight(1f))
-
-            // ----- Footer: author · time, replies · views -----
-            Text(
-                text = (if (post.isAnonymous) "Anonymous Nebian" else post.authorName) +
-                    " · " + formatTimeAgo(post.createdAt),
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-            Spacer(modifier = Modifier.height(5.dp))
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.ChatBubbleOutline,
-                    contentDescription = null,
-                    modifier = Modifier.size(14.dp),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                Text(
-                    text = "${post.replyCount}",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 1
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Icon(
-                    imageVector = Icons.Outlined.Visibility,
-                    contentDescription = null,
-                    modifier = Modifier.size(14.dp),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                Text(
-                    text = "${compactCount(post.viewCount)} views",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 1
-                )
             }
         }
     }
