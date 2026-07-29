@@ -147,6 +147,55 @@ object ApiErrorMapper {
         ).any { it in msg }
     }
 
+    /**
+     * Contributor-facing diagnostic mapping for upload / edit failures. Unlike
+     * [mapException] (which hides server internals behind friendly strings so
+     * students aren't shown tracebacks), this surfaces the *real* cause — HTTP
+     * status, the server's error body, and the exception class — and logs the
+     * full throwable to logcat (tag "NebUpload"). Upload/edit screens are
+     * owner/contributor only, so a technical message here is both safe and
+     * exactly what's needed to answer "why did my upload fail?".
+     */
+    fun mapExceptionVerbose(e: Throwable, op: String): String {
+        logRaw(e, op)
+        return when (e) {
+            is HttpException -> {
+                val code = e.code()
+                val body = safeErrorBody(e)
+                val serverMsg = body?.let { parseServerMessage(it) }
+                val snippet = body?.replace(Regex("\\s+"), " ")?.trim()?.take(180).orEmpty()
+                val detail = serverMsg ?: snippet.ifBlank { "(empty response body)" }
+                "$op failed (HTTP $code): $detail"
+            }
+            is SerializationException ->
+                "$op failed: the server's reply didn't match this app version - please update the app. (${e.message?.take(80).orEmpty()})"
+            else -> {
+                val friendly = mapException(e)
+                val raw = e.message?.replace(Regex("\\s+"), " ")?.trim()?.take(140).orEmpty()
+                val cls = e::class.simpleName ?: "Error"
+                // Only override the unhelpful catch-all buckets; keep specific
+                // friendly messages (offline, too large, sign in, ...) as-is.
+                if (friendly.contains("Something went wrong") || friendly.contains("Network error")) {
+                    "$op failed ($cls): ${raw.ifBlank { friendly }}"
+                } else {
+                    friendly
+                }
+            }
+        }
+    }
+
+    private fun safeErrorBody(e: HttpException): String? =
+        try { e.response()?.errorBody()?.string() } catch (_: Exception) { null }
+
+    private fun logRaw(e: Throwable, op: String) {
+        try {
+            val body = if (e is HttpException) " HTTP ${e.code()} body=${safeErrorBody(e)?.take(600)}" else ""
+            android.util.Log.e("NebUpload", "$op failed: ${e::class.qualifiedName}: ${e.message}$body", e)
+        } catch (_: Throwable) {
+            // The unit-test JVM has no android.util.Log; never let logging break a flow.
+        }
+    }
+
     fun isHostSecurityError(e: Throwable): Boolean {
         return when (e) {
             is ApiClientException -> e.isWafBlock

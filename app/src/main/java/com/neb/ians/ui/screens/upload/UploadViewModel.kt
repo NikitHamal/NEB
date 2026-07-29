@@ -340,7 +340,7 @@ class UploadViewModel @Inject constructor(
                     uploadWithUrl(context, bearerToken, state)
                 }
             } catch (e: Exception) {
-                _uiState.update { it.copy(isSubmitting = false, submitError = ApiErrorMapper.mapException(e)) }
+                _uiState.update { it.copy(isSubmitting = false, submitError = ApiErrorMapper.mapExceptionVerbose(e, "Upload resource")) }
             }
         }
     }
@@ -393,12 +393,12 @@ class UploadViewModel @Inject constructor(
                     _uiState.update { it.copy(isSubmitting = false, uploadProgress = 1f, editSuccess = true) }
                 }.onFailure { e ->
                     _uiState.update {
-                        it.copy(isSubmitting = false, submitError = ApiErrorMapper.mapException(e))
+                        it.copy(isSubmitting = false, submitError = ApiErrorMapper.mapExceptionVerbose(e, "Edit resource"))
                     }
                 }
             } catch (e: Exception) {
                 _uiState.update {
-                    it.copy(isSubmitting = false, submitError = ApiErrorMapper.mapException(e))
+                    it.copy(isSubmitting = false, submitError = ApiErrorMapper.mapExceptionVerbose(e, "Edit resource"))
                 }
             }
         }
