@@ -91,6 +91,8 @@ fun ResourceDetailScreen(
     viewModel: ResourceDetailViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val purchaseSheetVisible by viewModel.purchaseSheetVisible.collectAsStateWithLifecycle()
+    val purchaseSubmitting by viewModel.purchaseSubmitting.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val activity = context as? android.app.Activity
     val snackbarHostState = remember { SnackbarHostState() }
@@ -247,10 +249,7 @@ fun ResourceDetailScreen(
                         SlideToBuyBar(
                             price = res.price.ifBlank { "0" },
                             onSlideComplete = {
-                                openExternal("https://nebians.consica.com.np/reader/${res.id}/")
-                                viewModel.showSnackbar(
-                                    "Finish your payment on the page that opens — access unlocks after admin approval."
-                                )
+                                viewModel.openPurchaseSheet()
                             }
                         )
                     } else {
@@ -402,6 +401,28 @@ fun ResourceDetailScreen(
                     showResourceReportDialog = false
                 }
             )
+        }
+
+        // ----- Native purchase sheet (paid resource the viewer hasn't unlocked) -----
+        if (purchaseSheetVisible) {
+            val resource = uiState.resource
+            if (resource != null) {
+                ResourcePurchaseSheet(
+                    price = resource.price.ifBlank { "0" },
+                    sellerName = resource.uploadedByUsername.ifBlank { resource.authorName ?: "the seller" },
+                    purchaseStatus = resource.purchaseStatus,
+                    submitting = purchaseSubmitting,
+                    isAuthenticated = uiState.isAuthenticated,
+                    onDismiss = { viewModel.dismissPurchaseSheet() },
+                    onSubmit = { transactionId, proofFile ->
+                        viewModel.submitPurchase(transactionId, proofFile)
+                    },
+                    onSignInPrompt = {
+                        viewModel.dismissPurchaseSheet()
+                        viewModel.showSnackbar("Please sign in to purchase this resource.")
+                    }
+                )
+            }
         }
 
         // ----- Comment thread bottom sheet (same system as the forum post viewer) -----

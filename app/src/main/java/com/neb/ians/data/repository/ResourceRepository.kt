@@ -10,9 +10,13 @@ import com.neb.ians.data.api.BookmarkToggleRequest
 import com.neb.ians.data.api.OfflineException
 import com.neb.ians.data.api.ResourceLikeResponse
 import com.neb.ians.data.api.ApiResourceCommentLikeResponse
+import com.neb.ians.data.api.ApiPurchaseResponse
 import com.neb.ians.data.api.ReportRequest
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import com.neb.ians.data.network.NetworkMonitor
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -393,6 +397,51 @@ class ResourceRepository @Inject constructor(
         } catch (e: Exception) {
             Result.failure(e)
         }
+    }
+
+    /** Fetch the buyer-scoped purchase status for a paid resource (price + access). */
+    suspend fun getPurchaseStatus(resourceId: String): Result<ApiPurchaseResponse> {
+        return try {
+            val token = getBearerToken() ?: return Result.failure(IllegalStateException("Not authenticated"))
+            val response = apiService.getResourcePurchaseStatus(token, resourceId)
+            Result.success(response)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    /** Submit a QR payment proof (transaction id + optional screenshot). The
+     *  server creates/updates a pending PaymentVerification. Returns the fresh
+     *  status so the caller can refresh the locked/unlocked UI. */
+    suspend fun submitPurchase(
+        resourceId: String,
+        transactionId: String,
+        proofFile: java.io.File?
+    ): Result<ApiPurchaseResponse> {
+        return try {
+            val token = getBearerToken() ?: return Result.failure(IllegalStateException("Not authenticated"))
+            val txnRequestBody = transactionId.takeIf { it.isNotBlank() }?.toRequestBody("text/plain".toMediaTypeOrNull())
+            val proofPart = proofFile?.let { file ->
+                MultipartBody.Part.createFormData("payment_proof", file.name, file.asRequestBody(guessImageMime(file.name)))
+            }
+            val response = apiService.submitResourcePurchase(token, resourceId, txnRequestBody, proofPart)
+            if (response.error != null) Result.failure(IllegalStateException(response.error))
+            else Result.success(response)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    private fun guessImageMime(name: String): okhttp3.MediaType? {
+        val ext = name.substringAfterLast('.', "").lowercase()
+        val mime = when (ext) {
+            "png" -> "image/png"
+            "webp" -> "image/webp"
+            "gif" -> "image/gif"
+            "bmp" -> "image/bmp"
+            else -> "image/jpeg"
+        }
+        return mime.toMediaTypeOrNull()
     }
 
     private fun resourceCacheKey(resourceId: String): String = "resource|$resourceId"

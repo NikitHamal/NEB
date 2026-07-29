@@ -581,6 +581,19 @@ data class ApiResourceUploadResponse(
     val error: String? = null
 )
 
+/** In-app purchase status / submission result for a paid resource. */
+@Serializable
+data class ApiPurchaseResponse(
+    val status: String = "",
+    val message: String = "",
+    val error: String? = null,
+    @SerialName("is_paid") val isPaid: Boolean = false,
+    @SerialName("price") val price: String = "0",
+    @SerialName("has_access") val hasAccess: Boolean = false,
+    @SerialName("purchase_status") val purchaseStatus: String = "",
+    @SerialName("seller_name") val sellerName: String = ""
+)
+
 @Serializable
 data class ApiSyllabusCategoriesResponse(
     val categories: List<ApiSyllabusCategory> = emptyList()
@@ -1144,7 +1157,9 @@ interface ApiService {
         @Part("thumbnail_url") thumbnailUrl: okhttp3.RequestBody?,
         @Part("author_name") authorName: okhttp3.RequestBody?,
         @Part("source_label") sourceLabel: okhttp3.RequestBody?,
-        @Part("source_url") sourceUrl: okhttp3.RequestBody?
+        @Part("source_url") sourceUrl: okhttp3.RequestBody?,
+        @Part("is_paid") isPaid: okhttp3.RequestBody?,
+        @Part("price") price: okhttp3.RequestBody?
     ): ApiResourceUploadResponse
 
     // --- Resources ---
@@ -1174,6 +1189,27 @@ interface ApiService {
         @Header("Authorization") bearerToken: String?,
         @Path("resourceId") resourceId: String
     ): ApiResource
+
+    /** In-app purchase status for a paid resource (buyer-scoped). GET returns
+     *  price + the viewer's access/purchase status so the app can render the
+     *  checkout sheet. */
+    @GET("api/resources/{resourceId}/purchase/")
+    suspend fun getResourcePurchaseStatus(
+        @Header("Authorization") bearerToken: String,
+        @Path("resourceId") resourceId: String
+    ): ApiPurchaseResponse
+
+    /** Submit a QR payment proof (transaction id + optional screenshot) for a
+     *  paid resource. Creates/updates a pending PaymentVerification; access is
+     *  granted only after an admin approves (mirrors the web checkout). */
+    @Multipart
+    @POST("api/resources/{resourceId}/purchase/")
+    suspend fun submitResourcePurchase(
+        @Header("Authorization") bearerToken: String,
+        @Path("resourceId") resourceId: String,
+        @Part("transaction_id") transactionId: okhttp3.RequestBody?,
+        @Part paymentProof: okhttp3.MultipartBody.Part?
+    ): ApiPurchaseResponse
 
     @POST("api/resources/{resourceId}/view/")
     suspend fun viewResource(@Path("resourceId") resourceId: String)
