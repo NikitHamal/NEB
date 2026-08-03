@@ -23,6 +23,7 @@ def _session_provider(session):
         'provider': llm['provider'],
         'model': llm['model'],
         'official': llm['official'],
+        'thinkingMode': (session.llm_thinking_mode or 'auto').strip().lower(),
     }
 
 

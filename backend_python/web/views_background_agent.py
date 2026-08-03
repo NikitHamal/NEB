@@ -214,6 +214,9 @@ def background_agent_session_page(request, session_id):
     try:
         from api.llm.runtime import describe_session_llm
         session_llm_label = describe_session_llm(session).get('label') or 'Qwen 3.7 Plus'
+        thinking_mode = (session.llm_thinking_mode or 'auto').strip().lower()
+        if thinking_mode in ('auto', 'thinking', 'fast') and thinking_mode != 'auto':
+            session_llm_label = f'{session_llm_label} · {thinking_mode.title()}'
     except Exception:
         session_llm_label = 'Qwen 3.7 Plus'
     return render(request, 'background_agent/session.html', _base_context(request,
@@ -413,6 +416,9 @@ def background_agent_create_session(request):
         elif not provider:
             return _json_error('Enable a Qwen provider configuration or pick an official API provider', 409)
         title = (payload.get('title') or goal.splitlines()[0])[:255]
+        thinking_mode = (payload.get('thinkingMode') or 'auto').strip().lower()
+        if thinking_mode not in ('auto', 'thinking', 'fast'):
+            thinking_mode = 'auto'
         now = now_ms()
         session = BackgroundAgentSession.objects.create(
             id=uuid_str(),
@@ -427,6 +433,7 @@ def background_agent_create_session(request):
             llm_provider=selection['llm_provider'],
             llm_model=selection['llm_model'],
             llm_provider_id=selection['llm_provider_id'],
+            llm_thinking_mode=thinking_mode,
             progress_label='Queued for worker',
             max_iterations=0,
             context_window_tokens=int(getattr(settings, 'BACKGROUND_AGENT_CONTEXT_WINDOW_TOKENS', 131072)),

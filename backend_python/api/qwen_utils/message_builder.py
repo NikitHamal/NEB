@@ -14,7 +14,43 @@ def build_feature_config(
     thinking_enabled: bool = False,
     thinking_mode: str = "Auto",
     chat_type: str = "t2t",
+    mode: Optional[str] = None,
 ) -> Dict[str, Any]:
+    """Feature config for the Qwen chat payload.
+
+    `mode` is the user-facing thinking selector: "auto" (let the model think)
+    / "thinking" (force deep reasoning) / "fast" (no private reasoning).
+    When mode is provided it takes precedence; otherwise the legacy
+    `thinking_enabled`/`thinking_mode` flags are honoured.
+    """
+    if mode == "fast":
+        return {
+            "thinking_enabled": False,
+            "thinking_mode": "Fast",
+            "auto_thinking": False,
+            "output_schema": "phase",
+            "research_mode": "normal" if chat_type != "deep_research" else "deep",
+            "auto_search": chat_type in ("search", "deep_research"),
+            "thinking_budget": 81920,
+        }
+    if mode == "thinking":
+        return {
+            "thinking_enabled": True,
+            "thinking_mode": "Thinking",
+            "auto_thinking": False,
+            "output_schema": "phase",
+            "research_mode": "normal" if chat_type != "deep_research" else "deep",
+            "auto_search": chat_type in ("search", "deep_research"),
+        }
+    if mode == "auto":
+        return {
+            "thinking_enabled": True,
+            "thinking_mode": "Auto",
+            "auto_thinking": True,
+            "output_schema": "phase",
+            "research_mode": "normal" if chat_type != "deep_research" else "deep",
+            "auto_search": chat_type in ("search", "deep_research"),
+        }
     if thinking_enabled:
         return {
             "auto_thinking": thinking_mode == "Auto",

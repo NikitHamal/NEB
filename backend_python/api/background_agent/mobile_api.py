@@ -249,7 +249,9 @@ def _request_compaction(session, source):
 def _llm_data(session):
     """Lightweight LLM selection summary for session payloads (no DB hits)."""
     from api.llm.runtime import describe_session_llm
-    return describe_session_llm(session)
+    data = describe_session_llm(session)
+    data['thinkingMode'] = (session.llm_thinking_mode or 'auto').strip().lower()
+    return data
 
 
 def _session_data(session, request=None, detail=False):
@@ -530,6 +532,9 @@ def sessions(request):
         elif not provider:
             return _error('No model is configured right now. Add a provider or ask the admin to share one.', 409, 'model_unavailable')
         source_branch = (payload.get('sourceBranch') or project.preferred_base_branch or project.default_branch).strip()
+        thinking_mode = (payload.get('thinkingMode') or 'auto').strip().lower()
+        if thinking_mode not in ('auto', 'thinking', 'fast'):
+            thinking_mode = 'auto'
         now = now_ms()
         session = BackgroundAgentSession.objects.create(
             id=uuid_str(), project=project, admin_user=admin, bot_config=provider,
@@ -537,6 +542,7 @@ def sessions(request):
             source_branch=source_branch, status='paused',
             llm_provider=selection['llm_provider'], llm_model=selection['llm_model'],
             llm_provider_id=selection['llm_provider_id'],
+            llm_thinking_mode=thinking_mode,
             context_window_tokens=int(getattr(settings, 'BACKGROUND_AGENT_CONTEXT_WINDOW_TOKENS', 131072)),
             created_at=now, updated_at=now,
         )
