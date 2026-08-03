@@ -53,7 +53,9 @@ Response schema:
     {"tool": "git_log", "arguments": {"limit": 20}},
     {"tool": "git_pull", "arguments": {}},
     {"tool": "git_restore", "arguments": {"paths": ["src/app.py"], "staged": false}},
-    {"tool": "git_push", "arguments": {"branch": "nebians-agent/..."}}
+    {"tool": "git_stage", "arguments": {"paths": ["src/app.py"]}},
+    {"tool": "git_commit", "arguments": {"message": "concise conventional commit message"}},
+    {"tool": "git_push", "arguments": {"branch": "task-branch-name"}}
   ],
   "final": "set ONLY when the goal is genuinely complete; summarize the implementation and validation",
   "needs_input": false,
@@ -80,9 +82,25 @@ Planning (update_plan):
 - Every plan item must be "completed" before you set "final".
 
 Git policy:
-- Never call git_commit or git_stage. The server stages all changes and records your commit messages, then creates ONE single consolidated commit automatically when you call git_push (or when the task completes). Multiple commits per task are not allowed.
-- Call git_push exactly ONCE per task, only when the work is finished and validated. If you set "final" in the same response, place git_push in actions AND still set "final" — both are honored.
+- Write your own commits as you work: after completing a meaningful unit of work, call git_commit with a clear, descriptive message (conventional style, e.g. "fix: refresh token after expiry"). Multiple commits per task are allowed and expected. Never use vague messages like "update" or "changes" — say what changed and why. git_commit stages and commits the current changes for you.
+- Call git_push exactly ONCE per task, only when the work is finished and validated. If you set "final" in the same response, place git_push in actions AND still set "final" — both are honored. The server also pushes automatically when you finish, so a final push is guaranteed.
 - If you catch yourself repeating the same analysis or the same action sequence without new information, stop: either change your approach materially or set needs_input so the operator can unblock you.
+- The task branch is generated for you before you start (shown in the TASK header). Never switch, merge, reset, rebase, force-push or modify the source/default branch.
+'''.strip()
+
+BRANCH_NAME_SYSTEM_PROMPT = r'''
+You are naming a short git branch for an autonomous coding task. Respond with exactly one JSON object and nothing else:
+
+{"branch": "...", "description": "..."}
+
+Branch rules:
+- Short: 3-6 words, 5-40 characters, all lowercase, hyphen-separated, no spaces.
+- No slashes, no prefixes like "nebians-agent/" or "feature/", no generic words like "system", "task", "fix".
+- Name describes the concrete outcome of the goal (e.g. "oauth-token-refresh", "pdf-zoom-sync", "exam-countdown-widget").
+- Use the task title and goal below as the source of the name; if the goal names a module, bug or feature, use that.
+
+Description rules:
+- One sentence, max 120 characters, plain English, describing what this branch does.
 '''.strip()
 
 
@@ -119,26 +137,16 @@ class BackgroundAgentRunner:
         # vs wall-clock from Python-side timer which includes Qwen pool
         # queue, file uploads, and format-retry overhead.
         self._last_model_response_ms = 0
-        # Deferred-commit bookkeeping: the model's git_commit calls are staged
-        # and their messages queued here; one consolidated commit materializes
-        # on git_push / completion.
-        self._pending_commit_messages: list[str] = []
         # Anti-loop guard: count consecutive identical reasoning blocks.
         self._last_signature = ''
         self._signature_repeats = 0
-        try:
-            restored = json.loads(session.agent_state or '{}')
-            pending = restored.get('pendingCommits')
-            if isinstance(pending, list):
-                self._pending_commit_messages = [str(item)[:200] for item in pending if item][-12:]
-        except (TypeError, json.JSONDecodeError):
-            pass
 
     def run(self):
         try:
-            self._set_status('preparing', 5, 'Preparing isolated worktree')
-            emit(self.session, 'session.preparing', 'Syncing repository and creating the task branch')
+            self._set_status('preparing', 5, 'Naming the task branch')
+            emit(self.session, 'session.preparing', 'Naming the task branch and syncing the repository')
             self._check_control()
+            self._generate_branch_name()
             self.workspace.prepare_session()
             emit(self.session, 'workspace.ready', f'Working on {self.session.work_branch}', {
                 'sourceBranch': self.session.source_branch,
@@ -162,6 +170,70 @@ class BackgroundAgentRunner:
             self.session.updated_at = now_ms()
             self.session.save(update_fields=['status', 'last_error', 'progress_label', 'completed_at', 'updated_at'])
             emit(self.session, 'session.failed', str(exc)[:1000], {'trace': traceback.format_exc()[-6000:]})
+
+    _BRANCH_RE = re.compile(r'^[a-z0-9][a-z0-9-]{2,58}[a-z0-9]$')
+
+    def _generate_branch_name(self):
+        """Ask the LLM for a short, task-specific branch name before the
+        worktree is created. Falls back to the deterministic generator when
+        the model call fails or returns something unusable."""
+        if self.session.work_branch:
+            return
+        title = (self.session.title or '').strip()
+        goal = (self.session.goal or '').strip()
+        prompt = (
+            f'Task title: {title or "(untitled)"}\n'
+            f'User goal: {goal}\n'
+        )
+        fallback = None
+        try:
+            from api.background_agent.workspace import build_branch_name
+            fallback = build_branch_name(goal, str(self.session.id))
+        except Exception:
+            pass
+        try:
+            raw = self._call_provider(
+                prompt,
+                system_prompt=BRANCH_NAME_SYSTEM_PROMPT,
+                max_tokens=400,
+            )
+            branch, description = self._parse_branch_response(raw, fallback)
+        except Exception as exc:
+            logger.exception('Branch-name generation failed for session %s', self.session.id)
+            emit(self.session, 'branch.fallback', f'Branch-name generation failed ({str(exc)[:200]}); using a generated name')
+            branch, description = fallback or 'task-branch', ''
+        if not branch or branch in ('main', 'master'):
+            branch = fallback or 'task-branch'
+        try:
+            state = json.loads(self.session.agent_state or '{}')
+        except (TypeError, json.JSONDecodeError):
+            state = {}
+        state['branchDescription'] = description
+        self.session.work_branch = branch
+        self.session.agent_state = json.dumps(state, ensure_ascii=False)
+        self.session.save(update_fields=['work_branch', 'agent_state', 'updated_at'])
+        emit(self.session, 'branch.named', f'Task branch: {branch}', {
+            'branch': branch, 'description': description,
+        })
+
+    @classmethod
+    def _parse_branch_response(cls, raw: str, fallback: str):
+        text = re.sub(r'```(?:json)?', '', raw or '').replace('```', '').strip()
+        start, end = text.find('{'), text.rfind('}')
+        if start < 0 or end <= start:
+            raise ValueError('no JSON object in branch-name response')
+        payload = json.loads(text[start:end + 1])
+        branch = cls._sanitize_branch_name(payload.get('branch') or '')
+        if not cls._BRANCH_RE.match(branch or '') or branch in ('main', 'master'):
+            raise ValueError(f'invalid branch name: {branch!r}')
+        description = str(payload.get('description') or '').strip()[:120]
+        return branch, description
+
+    @staticmethod
+    def _sanitize_branch_name(name: str) -> str:
+        cleaned = re.sub(r'[^a-z0-9]+', '-', (name or '').strip().lower()).strip('-')
+        cleaned = re.sub(r'-{2,}', '-', cleaned)
+        return cleaned[:60].rstrip('-')
 
     def _loop(self):
         # No iteration cap: the agent works until it reports completion, asks for
@@ -226,12 +298,19 @@ PRIOR OUTPUT
                 self._last_signature = signature
 
             self.session.iteration = iteration
-            self.session.agent_state = json.dumps({
+            state = {}
+            try:
+                prior = json.loads(self.session.agent_state or '{}')
+                if prior.get('branchDescription'):
+                    state['branchDescription'] = prior['branchDescription']
+            except (TypeError, json.JSONDecodeError):
+                pass
+            state.update({
                 'summary': parsed.summary,
                 'lastThought': parsed.thought,
                 'lastIteration': iteration,
-                'pendingCommits': self._pending_commit_messages[-12:],
-            }, ensure_ascii=False)
+            })
+            self.session.agent_state = json.dumps(state, ensure_ascii=False)
             self.session.updated_at = now_ms()
             self.session.save(update_fields=['iteration', 'agent_state', 'updated_at'])
 
@@ -286,12 +365,7 @@ PRIOR OUTPUT
             self._check_control()
             tool_name = (action.get('tool') or 'unknown').strip()
             arguments = action.get('arguments') or {}
-            if tool_name == 'git_commit':
-                # Consolidation policy: never create individual commits mid-task.
-                result = self._defer_commit(arguments.get('message'))
-            elif tool_name == 'git_push':
-                result = self._push_once(arguments)
-            elif tool_name == 'update_plan':
+            if tool_name == 'update_plan':
                 result = self._update_plan(arguments)
             else:
                 result = self.tools.execute(action)
@@ -315,62 +389,24 @@ PRIOR OUTPUT
             )
 
     # ------------------------------------------------------------------
-    # Deferred-commit policy: exactly ONE consolidated commit per task.
+    # Delivery: the model writes its own commits; push is guaranteed at the end.
     # ------------------------------------------------------------------
 
-    def _worktree_dirty(self) -> bool:
-        return bool(self.workspace.git('status', '--short').get('stdout', '').strip())
-
-    def _defer_commit(self, message):
-        text = (message or '').strip()
-        if text and text not in self._pending_commit_messages:
-            self._pending_commit_messages.append(text[:200])
-        dirty = self._worktree_dirty()
-        if dirty:
-            self.workspace.stage()
-        return {
-            'ok': True,
-            'tool': 'git_commit',
-            'label': f'Staged · {(text or "changes")[:56]} (auto-commit at delivery)',
-            'result': {
-                'deferred': True,
-                'staged': dirty,
-                'pendingCommits': len(self._pending_commit_messages),
-                'note': 'Commits are consolidated: a single commit is created automatically when you git_push and at task completion. Keep working; do not commit again.',
-            },
-        }
-
-    def _push_once(self, arguments):
-        sha = self._materialize_commit()
-        branch = (arguments or {}).get('branch') or ''
-        result = self.tools.execute({'tool': 'git_push', 'arguments': {'branch': branch}})
-        if sha and result.get('ok'):
-            inner = result.setdefault('result', {})
-            if isinstance(inner, dict):
-                inner['commit'] = sha
-        return result
-
-    def _materialize_commit(self) -> str:
-        """Create the single consolidated commit from queued messages, if dirty."""
-        if not self._worktree_dirty():
-            self._pending_commit_messages.clear()
-            return ''
-        subject = (
-            self._pending_commit_messages[0]
-            if self._pending_commit_messages
-            else (self.session.title or self.session.goal or 'Background agent changes')
-        ).strip()[:180]
-        extras = [item for item in self._pending_commit_messages[1:5] if item and item != subject]
-        message = subject if not extras else subject + '\n\n' + '\n'.join(f'- {item}' for item in extras)
-        self._pending_commit_messages.clear()
+    def _ensure_final_push(self):
+        """Best-effort final push so completed work always reaches the remote,
+        even when the model never called git_push. workspace.push() commits any
+        remaining uncommitted changes first, then pushes the task branch."""
         try:
-            sha = self.workspace.commit(message)
-        except WorkspaceError as exc:
-            emit(self.session, 'git.commit_failed', str(exc)[:400])
-            return ''
-        if sha:
-            emit(self.session, 'git.committed', f'Created one consolidated commit {sha[:10]}', {'sha': sha, 'message': message[:400]})
-        return sha
+            result = self.workspace.push()
+            ok = bool(result and result.ok)
+            emit(self.session, 'git.pushed', f'Pushed {self.session.work_branch}' if ok else 'Push reported no changes', {
+                'branch': self.session.work_branch,
+                'ok': ok,
+                'detail': (result.get('stdout', '') if result else '')[-500:],
+            })
+        except Exception as exc:
+            logger.exception('Final push failed for session %s', self.session.id)
+            emit(self.session, 'git.push_failed', f'Automatic push failed: {str(exc)[:300]}')
 
     # ------------------------------------------------------------------
     # Live task planning.
@@ -453,16 +489,16 @@ PRIOR OUTPUT
 
     def _community_model(self) -> str:
         """Selected community (Qwen web) model, else the live default from
-        chat.qwen.ai's catalog (falls back to qwen3.8-max-preview offline)."""
+        chat.qwen.ai's catalog (falls back to qwen3.8-max offline)."""
         slug = (self.session.llm_provider or '').strip().lower()
         model = (self.session.llm_model or '').strip()
         if slug == 'qwen' and model:
             return model
         try:
             from api.qwen_utils.models import get_default_model
-            return get_default_model() or 'qwen3.8-max-preview'
+            return get_default_model() or 'qwen3.8-max'
         except Exception:
-            return 'qwen3.8-max-preview'
+            return 'qwen3.8-max'
 
     def _llm_label(self) -> str:
         resolved = self._llm_selection()
@@ -693,9 +729,7 @@ Decide the next smallest set of high-value actions. Prefer edit_file/multi_edit 
     def _complete(self, final: str):
         self._check_control()
         self._heartbeat(95, 'Building diff and downloadable artifacts')
-        # Guarantee a single recorded commit exists even when the model never
-        # pushed (e.g. local-only delivery via patch/ZIP artifacts).
-        self._materialize_commit()
+        self._ensure_final_push()
         diff = self.workspace.diff(max_chars=1_000_000)
         changed = self.workspace.changed_files()
         artifacts = self.workspace.build_artifacts()

@@ -1699,7 +1699,7 @@
         '<div style="margin-bottom:12px; display:flex; align-items:center; gap:8px;">' +
           '<label style="font-size:12px; font-weight:600; color:var(--md-on-surface-variant);">Model / Provider:</label>' +
           '<select id="cbAiModelSelect" style="flex:1; padding:6px 10px; border-radius:8px; border:1px solid var(--md-outline); background:var(--md-surface); color:var(--md-on-surface); font-size:12px; font-family:inherit;">' +
-            '<option value="qwen:qwen3.7-plus">Qwen 3.7 Plus (Default)</option>' +
+            '<option value="qwen:qwen3.8-max">Qwen 3.8 Max (Default)</option>' +
           '</select>' +
         '</div>' +
         '<p style="font-size:13px; color:var(--md-on-surface-variant); margin-bottom:10px;">Ask for math solutions, explanations, formulas, or diagrams to place directly on the canvas.</p>' +
@@ -1720,7 +1720,7 @@
     fetch('/ajax/llm/models/').then(function(r) { return r.json(); }).then(function(data) {
       if (data.models && select) {
         var opts = '';
-        var savedModel = localStorage.getItem('neby_ai_selected_model') || data.default || 'qwen:qwen3.7-plus';
+        var savedModel = localStorage.getItem('neby_ai_selected_model') || data.default || 'qwen:qwen3.8-max';
         data.models.forEach(function(m) {
           var sel = m.id === savedModel ? ' selected' : '';
           opts += '<option value="' + m.id + '"' + sel + '>' + m.name + '</option>';
@@ -1740,7 +1740,7 @@
       var val = input.value.trim();
       if (!val) return;
 
-      var selectedModel = select ? select.value : 'qwen:qwen3.7-plus';
+      var selectedModel = select ? select.value : 'qwen:qwen3.8-max';
       var selectedModelName = select && select.options[select.selectedIndex] ? select.options[select.selectedIndex].text : selectedModel;
       localStorage.setItem('neby_ai_selected_model', selectedModel);
 
@@ -1808,7 +1808,7 @@
   };
 
 
-  // ── Static entry points ──��─
+  // ── Static entry points ──��─
 
   window.CollabBoard = {
     init: function(spaceId, yjsInst, savedContent) {

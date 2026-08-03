@@ -1054,7 +1054,7 @@
           const createResp = await fetch('/ajax/neby-arena/qwen/sessions/', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
-            body: JSON.stringify({ modelId: defaultModelId || 'qwen3.7-plus', title: (text || 'File upload').substring(0, 80) })
+            body: JSON.stringify({ modelId: defaultModelId || 'qwen3.8-max', title: (text || 'File upload').substring(0, 80) })
           });
           const createData = await createResp.json();
           if (!createData.session) {

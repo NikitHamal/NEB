@@ -356,11 +356,11 @@ def default_selection(user) -> dict:
 
     qwen = BotConfig.objects.filter(enabled=True, provider='qwen').order_by('id').first()
     if qwen:
-        return {'kind': 'community', 'slug': 'qwen', 'model': qwen.model or live_default or 'qwen3.7-plus'}
+        return {'kind': 'community', 'slug': 'qwen', 'model': qwen.model or live_default or 'qwen3.8-max'}
     for p in OFFICIAL_PRESETS:
         if resolve(user, p.slug):
             return {'kind': 'official', 'slug': p.slug, 'model': ''}
-    return {'kind': 'community', 'slug': 'qwen', 'model': live_default or 'qwen3.7-plus'}
+    return {'kind': 'community', 'slug': 'qwen', 'model': live_default or 'qwen3.8-max'}
 
 
 def _masked_row_key(row) -> str:

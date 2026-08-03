@@ -543,7 +543,7 @@ def ajax_session_create(request: HttpRequest) -> JsonResponse:
     task = (body.get('task') or '').strip()
     title = (body.get('title') or '').strip()
     provider = (body.get('provider') or 'qwen').strip()
-    model = (body.get('model') or 'qwen3.7-plus').strip()
+    model = (body.get('model') or 'qwen3.8-max').strip()
     attachments = body.get('attachments') or []
     attachments_json = json.dumps(attachments, ensure_ascii=False) if attachments else '[]'
     

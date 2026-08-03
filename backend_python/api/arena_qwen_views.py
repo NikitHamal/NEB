@@ -304,7 +304,7 @@ def arena_send_message_qwen(request, session_id):
         qwen_session.headers['x-request-id'] = str(uuid.uuid4())
 
         chat_id = sess.qwen_chat_id
-        model = sess.model_id or 'qwen3.7-plus'
+        model = sess.model_id or 'qwen3.8-max'
 
         # Look up parent_id from last assistant message for threading
         last_asst = (
@@ -492,7 +492,7 @@ def arena_send_message_qwen_sse(request, session_id):
         qwen_session.headers['x-request-id'] = str(uuid.uuid4())
 
         chat_id = sess.qwen_chat_id
-        model = sess.model_id or 'qwen3.7-plus'
+        model = sess.model_id or 'qwen3.8-max'
 
         last_asst = (
             sess.messages.filter(role='assistant')
