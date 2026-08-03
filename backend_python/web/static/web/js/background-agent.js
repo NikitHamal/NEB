@@ -5,7 +5,7 @@
   var root = BA.qs('#background-agent-app');
   if (!root) return;
 
-  var state = { github: null, projects: [], sessions: [], model: null, selectedProject: '', repositories: [], selectedRepo: null, archivedMode: false, lifecycleTarget: null, lifecycleAction: '', llmSelection: { provider: '', model: '', providerId: '' } };
+  var state = { github: null, projects: [], sessions: [], model: null, selectedProject: '', repositories: [], selectedRepo: null, archivedMode: false, lifecycleTarget: null, lifecycleAction: '', llmSelection: { provider: '', model: '', providerId: '' }, thinkingMode: 'auto' };
   var els = {
     connect: BA.qs('#ba-connect-panel'), workspace: BA.qs('#ba-connected-workspace'), githubCard: BA.qs('#ba-github-connected'),
     githubLogin: BA.qs('#ba-github-login'), disconnect: BA.qs('#ba-disconnect'), addRepo: BA.qs('#ba-open-repo-dialog'),
@@ -65,6 +65,19 @@
     state.llmSelection = modelMenu.value();
   }
   buildModelOptions();
+
+  // ----- Thinking mode segmented control -----
+  var thinkingPicker = BA.qs('#ba-thinking-picker');
+  if (thinkingPicker) {
+    var thinkingOptions = thinkingPicker.querySelectorAll('.ba-thinking-opt');
+    thinkingOptions.forEach(function (opt) {
+      opt.addEventListener('click', function () {
+        thinkingOptions.forEach(function (o) { o.classList.remove('active'); });
+        opt.classList.add('active');
+        state.thinkingMode = opt.dataset.mode || 'auto';
+      });
+    });
+  }
 
   // The provider-settings dialog pushes a fresh catalog here after keys are
   // added/removed so availability updates without a reload.
@@ -359,6 +372,7 @@
       form.append('llmModel', state.llmSelection.model || '');
       form.append('llmProviderId', state.llmSelection.providerId || '');
     }
+    form.append('thinkingMode', state.thinkingMode || 'auto');
     attachments.files().forEach(function (file) { form.append('files', file, file.name); });
     setBusy(els.start, true);
     try {
