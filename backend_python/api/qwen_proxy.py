@@ -712,6 +712,11 @@ def create_chat(session, model=None, _pool_session=None):
 def _model_thinking_required(model_id):
     if not model_id:
         return False
+    if model_id.startswith('qwen3.8'):
+        # qwen3.8-max-preview is no longer listed in the live catalog but is
+        # still the stable channel; it requires thinking (and reliably keeps
+        # the strict JSON protocol with auto-thinking on).
+        return True
     try:
         from .qwen_utils.models import fetch_models
         for m in fetch_models():
@@ -847,7 +852,7 @@ def _parse_stream(response, session=None):
 
 # ========================= Public API =========================
 
-def call_qwen(system_prompt, user_message, model="qwen3.8-max", max_tokens=500,
+def call_qwen(system_prompt, user_message, model="qwen3.8-max-preview", max_tokens=500,
                file_paths=None, thinking_mode="auto"):
     """Call Qwen AI directly (no proxy needed). Returns response text or None.
 
