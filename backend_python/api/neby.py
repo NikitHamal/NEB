@@ -245,7 +245,7 @@ def call_ai_api(system_prompt, user_message, config=None):
         )
     # default: qwen
     from .qwen_proxy import call_qwen
-    model = config.model or 'qwen3.7-plus'
+    model = config.model or 'qwen3.8-max'
     return call_qwen(system_prompt, user_message, model=model, max_tokens=max_tokens)
 
 

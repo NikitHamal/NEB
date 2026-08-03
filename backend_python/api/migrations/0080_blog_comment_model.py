@@ -8,6 +8,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('api', '0079_remove_g4f_freegpt_deepseekai_surfsense_eqing'),
+        ('api', '0104_restore_studydoc_space_column'),
     ]
 
     operations = [

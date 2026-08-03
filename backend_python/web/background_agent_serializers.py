@@ -26,6 +26,14 @@ def _session_provider(session):
     }
 
 
+def _branch_description(session):
+    try:
+        state = json.loads(session.agent_state or '{}')
+        return str(state.get('branchDescription') or '').strip()
+    except (TypeError, json.JSONDecodeError):
+        return ''
+
+
 def serialize_repo(repo):
     permissions = repo.get('permissions') or {}
     owner = repo.get('owner') or {}
@@ -85,6 +93,7 @@ def serialize_session_summary(session):
         'todos': serialize_todos(session),
         'sourceBranch': session.source_branch,
         'workBranch': session.work_branch,
+        'branchDescription': _branch_description(session),
         'status': session.status,
         'progress': session.progress,
         'progressLabel': session.progress_label,

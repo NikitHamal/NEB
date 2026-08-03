@@ -833,7 +833,7 @@ class BotConfig(models.Model):
     )
     api_url = models.TextField(default='https://chat.qwen.ai/api/v2')
     api_key = models.TextField(blank=True, default='')
-    model = models.CharField(max_length=200, default='qwen3.7-plus')
+    model = models.CharField(max_length=200, default='qwen3.8-max')
     system_prompt = models.TextField(
         default='You are Neby, a friendly and helpful AI study buddy for Nepali students on the NEBians app. '
                 'You help with academic questions, explain concepts clearly, and give study tips.\n\n'

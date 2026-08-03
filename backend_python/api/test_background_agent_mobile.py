@@ -68,11 +68,11 @@ class BackgroundAgentMobileApiTests(TestCase):
             updated_at=now_ms(),
         )
         provider = BotConfig.objects.create(
-            name='Qwen 3.7 Plus',
+            name='Qwen 3.8 Max',
             enabled=True,
             bot_username='mobile-qwen-provider',
             provider='qwen',
-            model='qwen3.7-plus',
+            model='qwen3.8-max',
         )
         session = BackgroundAgentSession.objects.create(
             id=uuid_str(),

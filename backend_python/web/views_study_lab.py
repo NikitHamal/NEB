@@ -872,7 +872,7 @@ def ajax_llm_models(request):
 
     if not qwen_models:
         qwen_models = [
-            {"id": "qwen:qwen3.8-max-preview", "name": "Qwen 3.8 Max (Preview)", "provider": "Qwen (chat.qwen.ai)"},
+            {"id": "qwen:qwen3.8-max", "name": "Qwen 3.8 Max", "provider": "Qwen (chat.qwen.ai)"},
             {"id": "qwen:qwen3.7-plus", "name": "Qwen 3.7 Plus", "provider": "Qwen (chat.qwen.ai)"},
             {"id": "qwen:qwen3.7-max", "name": "Qwen 3.7 Max", "provider": "Qwen (chat.qwen.ai)"},
             {"id": "qwen:qwen3.6-plus", "name": "Qwen 3.6 Plus", "provider": "Qwen (chat.qwen.ai)"},
@@ -903,7 +903,7 @@ def ajax_llm_models(request):
 
     return JsonResponse({
         "models": all_models,
-        "default": "qwen:qwen3.7-plus"
+        "default": "qwen:qwen3.8-max"
     })
 
 

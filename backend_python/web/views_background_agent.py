@@ -75,7 +75,7 @@ def _request_payload(request):
 
 def _qwen_provider():
     return BotConfig.objects.filter(
-        enabled=True, provider='qwen', model__iexact='qwen3.7-plus',
+        enabled=True, provider='qwen', model__iexact='qwen3.8-max',
     ).first()
 
 
@@ -91,7 +91,7 @@ def _default_model_state(admin, provider):
         from api.llm.runtime import default_model_state
         return default_model_state(admin, provider or _any_qwen_bot())
     except Exception:
-        return {'provider': 'qwen', 'model': 'qwen3.7-plus', 'label': 'Qwen 3.7 Plus', 'configured': bool(provider)}
+        return {'provider': 'qwen', 'model': 'qwen3.8-max', 'label': 'Qwen 3.8 Max', 'configured': bool(provider)}
 
 
 def _admin(request):

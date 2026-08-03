@@ -22,7 +22,7 @@ PROVIDERS = [
 ]
 
 MODEL_OPTIONS = {
-    'qwen':      [{'id': 'qwen3.7-plus', 'label': 'Qwen 3.7 Plus'}, {'id': 'qwen3.7-max', 'label': 'Qwen 3.7 Max'}, {'id': 'qwen3.6-plus', 'label': 'Qwen 3.6 Plus'}],
+    'qwen':      [{'id': 'qwen3.8-max', 'label': 'Qwen 3.8 Max'}, {'id': 'qwen3.7-plus', 'label': 'Qwen 3.7 Plus'}, {'id': 'qwen3.7-max', 'label': 'Qwen 3.7 Max'}, {'id': 'qwen3.6-plus', 'label': 'Qwen 3.6 Plus'}],
     'egov':      [{'id': 'AI1', 'label': 'eGov AI1 (Global)'}, {'id': 'AI1-ph', 'label': 'eGov AI1 (Philippines)'}, {'id': 'AI2', 'label': 'eGov AI2 (Global)'}, {'id': 'AI2-ph', 'label': 'eGov AI2 (Philippines)'}],
     'deepai':    [{'id': 'standard', 'label': 'DeepAI Standard'}, {'id': 'deepseek-v3.2', 'label': 'DeepSeek V3.2'}, {'id': 'gemma-4', 'label': 'Gemma 4'}, {'id': 'gpt-4.1-nano', 'label': 'GPT-4.1 Nano'}, {'id': 'gpt-5-nano', 'label': 'GPT-5 Nano'}, {'id': 'gemini-2.5-flash-lite', 'label': 'Gemini 2.5 Flash Lite'}, {'id': 'llama-3.3-70b-instruct', 'label': 'Llama 3.3 70B'}, {'id': 'o4-mini', 'label': 'o4 Mini'}, {'id': 'gpt-4o-mini', 'label': 'GPT-4o Mini'}, {'id': 'gpt-oss-120b', 'label': 'GPT OSS 120B (Reasoning)'}],
     'inception': [{'id': 'mercury-2', 'label': 'Mercury 2'}],
@@ -70,7 +70,7 @@ def ajax_admin_chat_send(request):
                 result = qwen_proxy.call_qwen(
                     system_prompt='You are a helpful assistant.',
                     user_message=message,
-                    model=model or 'qwen3.7-plus',
+                    model=model or 'qwen3.8-max',
                     max_tokens=2000,
                     file_paths=file_paths,
                 )

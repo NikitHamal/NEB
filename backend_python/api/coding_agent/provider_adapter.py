@@ -83,7 +83,7 @@ def _call_qwen(messages: List[Dict[str, str]], model: str, max_tokens: int, time
     from api.models import BotConfig
 
     cfg = BotConfig.objects.filter(provider='qwen').first()
-    target_model = model or (cfg.model if cfg and cfg.model else 'qwen3.7-plus')
+    target_model = model or (cfg.model if cfg and cfg.model else 'qwen3.8-max')
     system = ''
     user = ''
     file_paths: List[str] = []
