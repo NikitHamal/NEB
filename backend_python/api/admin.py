@@ -5,6 +5,7 @@ Accessible at /admin-django/ after creating a superuser. The public custom admin
 from django.contrib import admin
 from .models import User, Resource, Post, Reply, PostLike, ReplyLike, FCMToken, UserPhoto, Follow, EditHistory, Report, BotConfig, TakedownRequest, SyllabusContent
 from .models import ResourceComment, ResourceLike, ResourceCommentLike, BlogComment, BlogCommentLike, UserLLMProvider
+from .models import PaymentConfig
 
 
 @admin.register(User)
@@ -139,3 +140,9 @@ class SyllabusContentAdmin(admin.ModelAdmin):
     list_display = ['chapter_title', 'subject', 'grade_level', 'order', 'created_at']
     search_fields = ['chapter_title', 'text_content', 'question_answers', 'subject']
     list_filter = ['grade_level', 'subject']
+
+
+@admin.register(PaymentConfig)
+class PaymentConfigAdmin(admin.ModelAdmin):
+    list_display = ['company_qr_caption', 'commission_percent', 'withdraw_min', 'points_to_credit', 'free_credits_per_month', 'updated_at']
+    readonly_fields = ['id', 'updated_at']

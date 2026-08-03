@@ -5,6 +5,7 @@ class Migration(migrations.Migration):
     dependencies = [
         ('api', '0104_restore_studydoc_space_column'),
         ('api', '0103_alter_resourcecomment_user'),
+        ('api', '0105_alter_arenachatsession_provider_and_more'),
     ]
 
     operations = [

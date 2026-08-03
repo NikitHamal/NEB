@@ -4,6 +4,7 @@ Schema is the source of truth — keep in sync with the Kotlin app's ApiService.
 """
 import time
 import uuid
+from decimal import Decimal
 from django.db import models
 from .security import generate_numeric_code
 
@@ -117,6 +118,13 @@ class User(models.Model):
 
     # Denormalized notification counter
     unread_notification_count = models.PositiveIntegerField(default=0)
+
+    # Marketplace economy — Nebians points, AI credits (persistent + monthly free), spend
+    nebians_points = models.PositiveIntegerField(default=0)
+    ai_credits = models.PositiveIntegerField(default=0)
+    free_credits = models.PositiveIntegerField(default=0)
+    free_credits_month = models.CharField(max_length=7, blank=True, default='')
+    total_spent = models.DecimalField(max_digits=12, decimal_places=2, default=Decimal('0.00'))
 
     class Meta:
         db_table = 'users'
@@ -2166,6 +2174,7 @@ class PaymentVerification(models.Model):
     STATUS_CHOICES = [
         ('pending', 'Pending Verification'),
         ('approved', 'Approved'),
+        ('hold', 'On Hold'),
         ('rejected', 'Rejected'),
     ]
 
@@ -2224,6 +2233,8 @@ class WithdrawalRequest(models.Model):
     PAYOUT_METHODS = [
         ('esewa', 'eSewa'),
         ('khalti', 'Khalti'),
+        ('mobile_banking', 'Mobile Banking'),
+        ('connectips', 'ConnectIPS'),
         ('bank', 'Bank Transfer'),
     ]
 
@@ -2248,5 +2259,27 @@ class WithdrawalRequest(models.Model):
 
     def __str__(self):
         return f"Withdrawal {self.amount} NPR by {self.user.username} ({self.status})"
+
+
+class PaymentConfig(models.Model):
+    """Singleton marketplace/company-QR/commission economy configuration."""
+    id = models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')
+    company_qr_url = models.TextField(blank=True, default='')
+    company_qr_caption = models.CharField(max_length=200, blank=True, default='NEBians — Company QR')
+    payment_instructions = models.TextField(blank=True, default='')
+    upi_id = models.CharField(max_length=100, blank=True, default='')
+    commission_percent = models.DecimalField(max_digits=5, decimal_places=2, default=Decimal('2.50'))
+    withdraw_min = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal('1000.00'))
+    points_per_rupee_buyer = models.DecimalField(max_digits=6, decimal_places=2, default=Decimal('0.10'))
+    points_per_rupee_seller = models.DecimalField(max_digits=6, decimal_places=2, default=Decimal('0.10'))
+    points_to_credit = models.PositiveIntegerField(default=2)
+    free_credits_per_month = models.PositiveIntegerField(default=10)
+    updated_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'payment_config'
+
+    def __str__(self):
+        return 'PaymentConfig (singleton)'
 
 
