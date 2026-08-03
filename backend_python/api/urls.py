@@ -6,6 +6,7 @@ from django.urls import path, include
 from . import views
 from . import views_presence
 from . import pdf_assistant_views
+from . import views_wallet
 
 urlpatterns = [
     # Auth
@@ -126,6 +127,13 @@ urlpatterns = [
     # Consica app AI bridge (non-guessable path, key-authenticated)
 
     path('background-agent/mobile/', include('api.background_agent.mobile_urls')),
+
+    # Wallet / marketplace economy (budget points, AI credits, withdrawals)
+    path('wallet/overview/', views_wallet.wallet_overview, name='wallet-overview'),
+    path('wallet/purchases/', views_wallet.wallet_purchases, name='wallet-purchases'),
+    path('wallet/withdrawals/', views_wallet.wallet_withdrawals, name='wallet-withdrawals'),
+    path('payments/config/', views_wallet.payments_config, name='payments-config'),
+    path('credits/overview/', views_wallet.credits_overview, name='credits-overview'),
 
     # Admin API
     path('', include('api.admin_urls')),
