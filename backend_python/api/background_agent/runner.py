@@ -623,6 +623,11 @@ PRIOR OUTPUT
         thinking_mode = (self.session.llm_thinking_mode or 'auto').strip().lower()
         if thinking_mode not in ('auto', 'thinking', 'fast'):
             thinking_mode = 'auto'
+        if thinking_mode == 'auto' and model.startswith('qwen3.8'):
+            # qwen3.8-max enters its native image-tool agent mode (image_gen/
+            # image_edit) on long prompts when auto-thinking is enabled, which
+            # breaks the strict JSON protocol. Fall back to thinking-off.
+            thinking_mode = 'fast'
         output_tokens = int(max_tokens or getattr(settings, 'BACKGROUND_AGENT_MODEL_MAX_TOKENS', 6000))
         attempts = max(1, min(int(getattr(settings, 'BACKGROUND_AGENT_PROVIDER_ATTEMPTS', 3)), 6))
         last_error = None
