@@ -838,7 +838,7 @@ def _parse_stream(response, session=None):
 
 # ========================= Public API =========================
 
-def call_qwen(system_prompt, user_message, model="qwen3.7-plus", max_tokens=500,
+def call_qwen(system_prompt, user_message, model="qwen3.8-max", max_tokens=500,
                file_paths=None):
     """Call Qwen AI directly (no proxy needed). Returns response text or None.
 
@@ -848,7 +848,7 @@ def call_qwen(system_prompt, user_message, model="qwen3.7-plus", max_tokens=500,
     Args:
         system_prompt: System instructions (prepended to user message).
         user_message: The user's message text.
-        model: Qwen model ID (default qwen3.6-plus).
+        model: Qwen model ID (default qwen3.8-max).
         max_tokens: Rough character cap for the response.
         file_paths: Optional list of local file paths to upload to Qwen OSS.
                    Supports images, PDFs, audio, and video files.

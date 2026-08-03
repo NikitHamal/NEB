@@ -1217,7 +1217,7 @@ def admin_bot_edit(request, bot_id=None):
         if model:
             config.model = model[:200]
         elif not config.model:
-            config.model = 'qwen3.7-plus'
+            config.model = 'qwen3.8-max'
         config.system_prompt = request.POST.get('system_prompt', config.system_prompt).strip()
         try:
             config.max_context_posts = int(request.POST.get('max_context_posts', config.max_context_posts))

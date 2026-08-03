@@ -75,7 +75,7 @@ class Command(BaseCommand):
             # 1) Qwen path
             self.stdout.write('\n[1] provider=qwen')
             cfg.provider = 'qwen'
-            cfg.model = 'qwen3.7-plus'
+            cfg.model = 'qwen3.8-max'
             cfg.enabled = True
             cfg.save()
             try:

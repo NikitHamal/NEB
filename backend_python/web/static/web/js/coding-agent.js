@@ -253,7 +253,7 @@
         }
 
         var provider = (dropdownBtn && dropdownBtn.dataset.provider) || 'qwen';
-        var model = (dropdownBtn && dropdownBtn.dataset.model) || 'qwen3.7-plus';
+        var model = (dropdownBtn && dropdownBtn.dataset.model) || 'qwen3.8-max';
 
         showToast('Queueing background session...', 'info');
 

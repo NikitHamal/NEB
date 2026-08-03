@@ -336,11 +336,11 @@ class BackgroundAgentRunnerIntegrationTests(TestCase):
             updated_at=now_ms(),
         )
         provider = BotConfig.objects.create(
-            name='Qwen 3.7 Plus',
+            name='Qwen 3.8 Max',
             enabled=True,
             bot_username='runner-background-agent-provider',
             provider='qwen',
-            model='qwen3.7-plus',
+            model='qwen3.8-max',
         )
         self.session = BackgroundAgentSession.objects.create(
             id=uuid_str(),
@@ -364,6 +364,10 @@ class BackgroundAgentRunnerIntegrationTests(TestCase):
     def test_runner_clones_branches_edits_and_completes_durably(self, call_qwen):
         call_qwen.side_effect = [
             json.dumps({
+                'branch': 'health-check-module',
+                'description': 'Adds a health check module to the repository',
+            }),
+            json.dumps({
                 'thought': 'Create the requested module.',
                 'actions': [{
                     'tool': 'write_file',
@@ -382,14 +386,35 @@ class BackgroundAgentRunnerIntegrationTests(TestCase):
         BackgroundAgentRunner(self.session).run()
         self.session.refresh_from_db()
         self.assertEqual(self.session.status, 'completed')
-        self.assertTrue(self.session.work_branch.startswith('nebians-agent/'))
+        self.assertEqual(self.session.work_branch, 'health-check-module')
         self.assertNotEqual(self.session.work_branch, 'main')
+        self.assertEqual(self.session.agent_state and json.loads(self.session.agent_state).get('branchDescription'),
+                         'Adds a health check module to the repository')
         self.assertIn('health.py', json.loads(self.session.changed_files))
         self.assertIn('health.py', self.session.final_diff)
         self.assertEqual(self.session.artifacts.count(), 2)
-        self.assertEqual(call_qwen.call_count, 2)
+        self.assertEqual(call_qwen.call_count, 3)
         for invocation in call_qwen.call_args_list:
-            self.assertEqual(invocation.kwargs['model'], 'qwen3.7-plus')
+            self.assertEqual(invocation.kwargs['model'], 'qwen3.8-max')
+
+    def test_parse_branch_response_rejects_invalid_names(self):
+        from api.background_agent.runner import BackgroundAgentRunner
+        good = BackgroundAgentRunner._parse_branch_response(
+            '{"branch": "OAuth Token Refresh!", "description": "Fixes the refresh flow."}',
+            'fallback-branch',
+        )
+        self.assertEqual(good, ('oauth-token-refresh', 'Fixes the refresh flow.'))
+        self.assertEqual(
+            BackgroundAgentRunner._parse_branch_response('{"branch": "with/slash"}', 'fallback-branch'),
+            ('with-slash', ''),
+        )
+        self.assertEqual(
+            BackgroundAgentRunner._parse_branch_response('{"branch": "UPPER-CASE"}', 'fallback-branch'),
+            ('upper-case', ''),
+        )
+        for bad in ('{"branch": "main"}', '{"branch": ""}', 'not json', '{"branch": "a"}'):
+            with self.assertRaises(Exception):
+                BackgroundAgentRunner._parse_branch_response(bad, 'fallback-branch')
 
 
 class BackgroundAgentAdminViewTests(TestCase):
@@ -419,11 +444,11 @@ class BackgroundAgentAdminViewTests(TestCase):
             updated_at=now_ms(),
         )
         self.provider = BotConfig.objects.create(
-            name='Qwen 3.7 Plus',
+            name='Qwen 3.8 Max',
             enabled=True,
             bot_username='test-background-agent-provider',
             provider='qwen',
-            model='qwen3.7-plus',
+            model='qwen3.8-max',
         )
 
     def tearDown(self):

@@ -154,8 +154,8 @@ OFFICIAL_PRESETS: List[ProviderPreset] = [
 SCRAPER_PRESETS: List[ProviderPreset] = [
     ProviderPreset(
         slug='qwen', label='Qwen (chat.qwen.ai)', format=FORMAT_SCRAPER,
-        base_url='https://chat.qwen.ai/api/v2', default_model='qwen3.8-max-preview',
-        models=[ModelSpec('qwen3.8-max-preview', 'Qwen 3.8 Max Preview', 'Latest'),
+        base_url='https://chat.qwen.ai/api/v2', default_model='qwen3.8-max',
+        models=[ModelSpec('qwen3.8-max', 'Qwen 3.8 Max', 'Latest'),
                 ModelSpec('qwen3.7-plus', 'Qwen 3.7 Plus', 'Stable')],
         context_window=1000000,
         key_required=False, official=False, scraper_module='qwen_proxy',

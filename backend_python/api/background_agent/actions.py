@@ -95,6 +95,13 @@ def _default_pr_body(session):
     except (TypeError, json.JSONDecodeError):
         pass
     changed_block = '\n'.join(f'- `{path}`' for path in changed[:100]) or '- No tracked changes listed'
+    description = ''
+    try:
+        state = json.loads(session.agent_state or '{}')
+        description = str(state.get('branchDescription') or '').strip()
+    except (TypeError, json.JSONDecodeError):
+        pass
+    description_block = f'\n{description}\n' if description else ''
     return f'''## Summary
 {session.summary or session.goal}
 
@@ -102,8 +109,7 @@ def _default_pr_body(session):
 {changed_block}
 
 ## Validation
-{session.test_summary or 'See the agent activity log for commands and results.'}
-
+{session.test_summary or 'See the agent activity log for commands and results.'}{description_block}
 ---
 Created by the NEBians Background Agent from `{session.source_branch}` into `{session.work_branch}`.
 '''

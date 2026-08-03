@@ -473,7 +473,7 @@ def ajax_arena_send_message_qwen(request, session_id):
             qwen_session.headers['bx-v'] = '2.5.31'
 
         chat_id = sess.qwen_chat_id
-        model = sess.model_id or 'qwen3.7-plus'
+        model = sess.model_id or 'qwen3.8-max'
 
         last_asst = (
             sess.messages.filter(role='assistant')

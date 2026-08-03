@@ -205,6 +205,14 @@ def _todos_data(session):
     return clean
 
 
+def _branch_description(session):
+    try:
+        state = json.loads(session.agent_state or '{}')
+        return str(state.get('branchDescription') or '').strip()
+    except (TypeError, json.JSONDecodeError):
+        return ''
+
+
 def _request_compaction(session, source):
     """Handle the /compact command from Zeus: run the anchored compaction at the next iteration."""
     now = now_ms()
@@ -257,6 +265,7 @@ def _session_data(session, request=None, detail=False):
         'goal': session.goal if detail else session.goal[:2000],
         'sourceBranch': session.source_branch,
         'workBranch': session.work_branch,
+        'branchDescription': _branch_description(session),
         'baseSha': session.base_sha,
         'headSha': session.head_sha,
         'status': session.status,
@@ -394,7 +403,7 @@ def state(request):
         model_state = default_model_state(admin, provider)
     except Exception:
         from api.qwen_utils.models import get_default_model as _qwen_default
-        qwen_model = _qwen_default() or 'qwen3.8-max-preview'
+        qwen_model = _qwen_default() or 'qwen3.8-max'
         model_state = {'provider': 'qwen', 'model': qwen_model, 'label': f'Qwen ({qwen_model})', 'configured': bool(provider)}
     return _json({
         'ok': True,

@@ -1,6 +1,34 @@
 from django.db import migrations
 
 
+def to_mediumtext(apps, schema_editor):
+    cursor = schema_editor.connection.cursor()
+    if schema_editor.connection.vendor == 'sqlite':
+        return
+    cursor.execute(
+        "ALTER TABLE background_agent_messages "
+        "MODIFY content MEDIUMTEXT, MODIFY metadata MEDIUMTEXT;"
+    )
+    cursor.execute(
+        "ALTER TABLE background_agent_events "
+        "MODIFY payload MEDIUMTEXT;"
+    )
+
+
+def to_text(apps, schema_editor):
+    cursor = schema_editor.connection.cursor()
+    if schema_editor.connection.vendor == 'sqlite':
+        return
+    cursor.execute(
+        "ALTER TABLE background_agent_messages "
+        "MODIFY content TEXT, MODIFY metadata TEXT;"
+    )
+    cursor.execute(
+        "ALTER TABLE background_agent_events "
+        "MODIFY payload TEXT;"
+    )
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -10,27 +38,6 @@ class Migration(migrations.Migration):
     operations = [
         # On MySQL/MariaDB, alter TEXT columns to MEDIUMTEXT so we can store
         # raw model responses, full prompts, tool results, and event payloads
-        # without truncation.
-        migrations.RunSQL(
-            sql="""
-                ALTER TABLE background_agent_messages
-                MODIFY content MEDIUMTEXT,
-                MODIFY metadata MEDIUMTEXT;
-            """,
-            reverse_sql="""
-                ALTER TABLE background_agent_messages
-                MODIFY content TEXT,
-                MODIFY metadata TEXT;
-            """,
-        ),
-        migrations.RunSQL(
-            sql="""
-                ALTER TABLE background_agent_events
-                MODIFY payload MEDIUMTEXT;
-            """,
-            reverse_sql="""
-                ALTER TABLE background_agent_events
-                MODIFY payload TEXT;
-            """,
-        ),
+        # without truncation. No-op on SQLite, which has no MEDIUMTEXT.
+        migrations.RunPython(to_mediumtext, to_text),
     ]

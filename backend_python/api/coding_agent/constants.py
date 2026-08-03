@@ -65,7 +65,7 @@ PROVIDER_MAX_OUTPUT_TOKENS = {
 }
 
 PROVIDER_DEFAULT_MODEL = {
-    'qwen': 'qwen3.7-plus',
+    'qwen': 'qwen3.8-max',
     'inception': 'mercury-2',
     'deepai': 'gpt-4.1-nano',
     'egov': 'AI1',

@@ -119,7 +119,7 @@ def describe_session_llm(session) -> dict:
             live = get_default_model()
         except Exception:
             pass
-        model = live or 'qwen3.7-plus'
+        model = live or 'qwen3.8-max'
         label = model_display_label('qwen', model) + ' (default)'
         return {'provider': 'qwen', 'model': model, 'label': label, 'official': False}
     p = _preset(slug)
@@ -144,7 +144,7 @@ def default_llm_label(user) -> str:
             live = get_default_model()
         except Exception:
             pass
-        return model_display_label('qwen', live or 'qwen3.7-plus')
+        return model_display_label('qwen', live or 'qwen3.8-max')
     return model_display_label(sel.get('slug') or 'qwen', sel.get('model') or '')
 
 
@@ -162,7 +162,7 @@ def default_model_state(user, provider=None) -> dict:
         model = sel.get('model') or ''
         label = model_display_label(slug, model)
     except Exception:
-        slug, model, label = 'qwen', 'qwen3.7-plus', 'Qwen 3.7 Plus'
+        slug, model, label = 'qwen', 'qwen3.8-max', 'Qwen 3.8 Max'
     try:
         label = default_llm_label(user) or label
     except Exception:
@@ -182,7 +182,7 @@ def default_model_state(user, provider=None) -> dict:
     if not model:
         try:
             from api.qwen_utils.models import get_default_model
-            model = get_default_model() or 'qwen3.7-plus'
+            model = get_default_model() or 'qwen3.8-max'
         except Exception:
-            model = 'qwen3.7-plus'
+            model = 'qwen3.8-max'
     return {'provider': slug, 'model': model, 'label': label, 'configured': configured}
