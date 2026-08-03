@@ -1902,6 +1902,7 @@ class BackgroundAgentSession(models.Model):
     llm_provider = models.CharField(max_length=40, blank=True, default='')
     llm_model = models.CharField(max_length=200, blank=True, default='')
     llm_provider_id = models.CharField(max_length=36, blank=True, default='')
+    llm_thinking_mode = models.CharField(max_length=12, blank=True, default='auto')
     summary = models.TextField(blank=True, default='')
     final_diff = models.TextField(blank=True, default='')
     changed_files = models.TextField(blank=True, default='[]')

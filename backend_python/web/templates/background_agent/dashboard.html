@@ -73,6 +73,14 @@
           <div id="ba-project-picker" class="ba-picker-field ba-picker-wide" data-label="Repository" data-placeholder="Select a repository" data-icon="folder_open" data-search-placeholder="Search projects"></div>
           <div id="ba-branch-picker" class="ba-picker-field" data-label="Base branch" data-placeholder="Select a branch" data-icon="account_tree" data-search-placeholder="Search branches"></div>
           <div id="ba-model-picker" class="ba-picker-field"></div>
+          <div id="ba-thinking-picker" class="ba-picker-field" data-label="Thinking" data-placeholder="Thinking mode" data-icon="psychology">
+            <span class="ba-field-label">Thinking</span>
+            <div class="ba-thinking-seg" role="group" aria-label="Thinking mode">
+              <button type="button" class="ba-thinking-opt active" data-mode="auto" title="Let the model decide when to reason">Auto</button>
+              <button type="button" class="ba-thinking-opt" data-mode="thinking" title="Force deep reasoning before answering">Thinking</button>
+              <button type="button" class="ba-thinking-opt" data-mode="fast" title="Skip private reasoning for fastest replies">Fast</button>
+            </div>
+          </div>
           <script nonce="{{ csp_nonce }}" type="application/json" id="ba-llm-catalog">{{ llm_catalog_json|safe }}</script>
           <button id="ba-start" class="ba-button ba-button-primary ba-start-button" type="button"><span>Start task</span><span class="material-symbols-outlined">arrow_forward</span></button>
         </div>

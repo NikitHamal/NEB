@@ -620,6 +620,9 @@ PRIOR OUTPUT
 
     def _call_qwen_legacy(self, prompt: str, *, system_prompt: str = SYSTEM_PROMPT, file_paths=None, max_tokens=None) -> str:
         model = self._community_model()
+        thinking_mode = (self.session.llm_thinking_mode or 'auto').strip().lower()
+        if thinking_mode not in ('auto', 'thinking', 'fast'):
+            thinking_mode = 'auto'
         output_tokens = int(max_tokens or getattr(settings, 'BACKGROUND_AGENT_MODEL_MAX_TOKENS', 6000))
         attempts = max(1, min(int(getattr(settings, 'BACKGROUND_AGENT_PROVIDER_ATTEMPTS', 3)), 6))
         last_error = None
@@ -633,6 +636,7 @@ PRIOR OUTPUT
                     model=model,
                     max_tokens=output_tokens,
                     file_paths=file_paths or None,
+                    thinking_mode=thinking_mode,
                 )
                 if t0:
                     self._last_model_response_ms = int((time.monotonic() - t0) * 1000)

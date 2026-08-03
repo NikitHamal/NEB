@@ -724,7 +724,7 @@ def _model_thinking_required(model_id):
 
 def send_message(session, chat_id, message, model=None, parent_id=None,
                  max_tokens=500, uploaded_files=None, system_prompt=None,
-                 _pool_session=None):
+                 _pool_session=None, thinking_mode="auto"):
     if model is None:
         from .qwen_utils.models import get_default_model
         model = get_default_model()
@@ -734,8 +734,17 @@ def send_message(session, chat_id, message, model=None, parent_id=None,
         full_prompt = message
     msg_id = str(uuid.uuid4())
     from .qwen_utils.message_builder import build_msg_payload, build_feature_config
+    mode = str(thinking_mode or "auto").strip().lower()
+    if mode not in ("auto", "thinking", "fast"):
+        mode = "auto"
     thinking_enabled = _model_thinking_required(model)
-    feature_config = build_feature_config(thinking_enabled=thinking_enabled)
+    if mode == "fast":
+        thinking_enabled = False
+    elif mode == "thinking":
+        thinking_enabled = True
+    elif mode == "auto":
+        mode = None
+    feature_config = build_feature_config(thinking_enabled=thinking_enabled, mode=mode)
     payload = build_msg_payload(
         chat_id=chat_id,
         model=model,
@@ -839,7 +848,7 @@ def _parse_stream(response, session=None):
 # ========================= Public API =========================
 
 def call_qwen(system_prompt, user_message, model="qwen3.8-max", max_tokens=500,
-               file_paths=None):
+               file_paths=None, thinking_mode="auto"):
     """Call Qwen AI directly (no proxy needed). Returns response text or None.
 
     This function manages its own browser session, creating a fresh one
@@ -891,7 +900,7 @@ def call_qwen(system_prompt, user_message, model="qwen3.8-max", max_tokens=500,
             result = send_message(
                 session, chat_id, full_message, model, max_tokens=max_tokens,
                 uploaded_files=uploaded_files if uploaded_files else None,
-                _pool_session=session,
+                _pool_session=session, thinking_mode=thinking_mode,
             )
             if result:
                 logger.info(f"Qwen response received ({len(result)} chars)")
