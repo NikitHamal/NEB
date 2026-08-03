@@ -488,17 +488,18 @@ PRIOR OUTPUT
             return f'Qwen ({self._community_model()})'
 
     def _community_model(self) -> str:
-        """Selected community (Qwen web) model, else the live default from
-        chat.qwen.ai's catalog (falls back to qwen3.8-max offline)."""
+        """Selected community (Qwen web) model, else qwen3.8-max-preview —
+        the stable channel that keeps the strict JSON protocol working with
+        thinking enabled."""
         slug = (self.session.llm_provider or '').strip().lower()
         model = (self.session.llm_model or '').strip()
         if slug == 'qwen' and model:
             return model
         try:
             from api.qwen_utils.models import get_default_model
-            return get_default_model() or 'qwen3.8-max'
+            return get_default_model() or 'qwen3.8-max-preview'
         except Exception:
-            return 'qwen3.8-max'
+            return 'qwen3.8-max-preview'
 
     def _llm_label(self) -> str:
         resolved = self._llm_selection()
@@ -623,11 +624,6 @@ PRIOR OUTPUT
         thinking_mode = (self.session.llm_thinking_mode or 'auto').strip().lower()
         if thinking_mode not in ('auto', 'thinking', 'fast'):
             thinking_mode = 'auto'
-        if thinking_mode == 'auto' and model.startswith('qwen3.8'):
-            # qwen3.8-max enters its native image-tool agent mode (image_gen/
-            # image_edit) on long prompts when auto-thinking is enabled, which
-            # breaks the strict JSON protocol. Fall back to thinking-off.
-            thinking_mode = 'fast'
         output_tokens = int(max_tokens or getattr(settings, 'BACKGROUND_AGENT_MODEL_MAX_TOKENS', 6000))
         attempts = max(1, min(int(getattr(settings, 'BACKGROUND_AGENT_PROVIDER_ATTEMPTS', 3)), 6))
         last_error = None
