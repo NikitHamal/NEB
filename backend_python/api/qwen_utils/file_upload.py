@@ -54,6 +54,32 @@ MAX_FILE_SIZE = 20 * 1024 * 1024  # 20 MB per file
 MAX_FILES_PER_MESSAGE = 5
 ALLOWED_EXTENSIONS = set(_FILE_TYPE_MAP.keys())
 
+# Qwen STS tokens (and the signed OSS upload URLs they mint) are short-lived.
+# Cached file objects must never outlive them — otherwise the chat endpoint
+# silently drops attachments (instant empty stream). 15 min is well under the
+# typical STS expiry while still covering rapid retries within a run.
+_CACHE_TTL = 15 * 60
+
+
+def _get_cached_upload(content_hash):
+    """Return a cached upload only if it is still fresh (URL not expired)."""
+    entry = _file_cache.get(content_hash)
+    if not entry:
+        return None
+    file_obj, uploaded_at = entry
+    if time.time() - uploaded_at > _CACHE_TTL:
+        _file_cache.pop(content_hash, None)
+        return None
+    return file_obj
+
+
+def _put_upload(content_hash, file_obj):
+    _file_cache[content_hash] = (file_obj, time.time())
+
+
+def _drop_upload(content_hash):
+    _file_cache.pop(content_hash, None)
+
 
 def classify_file(file_name: str, mime_type: str):
     ext = os.path.splitext(file_name)[1].lower()
@@ -138,9 +164,10 @@ def upload_file(
         mime_type = "application/octet-stream"
 
     content_hash = hashlib.md5(file_data).hexdigest()
-    if content_hash in _file_cache:
+    cached = _get_cached_upload(content_hash)
+    if cached is not None:
         logger.info("Using cached file: %s", file_name)
-        return _file_cache[content_hash]
+        return cached
 
     file_type, show_type, file_class = classify_file(file_name, mime_type)
 
@@ -221,7 +248,7 @@ def upload_file(
             "uploadTaskId": str(uuid.uuid4()),
         }
 
-        _file_cache[content_hash] = file_obj
+        _put_upload(content_hash, file_obj)
         logger.info("File uploaded: %s (%d bytes, id=%s)", file_name, file_size, file_id)
         return file_obj
 
@@ -247,9 +274,10 @@ def upload_file_from_bytes(
         mime_type = "application/octet-stream"
 
     content_hash = hashlib.md5(file_data).hexdigest()
-    if content_hash in _file_cache:
+    cached = _get_cached_upload(content_hash)
+    if cached is not None:
         logger.info("Using cached file: %s", file_name)
-        return _file_cache[content_hash]
+        return cached
 
     file_type, show_type, file_class = classify_file(file_name, mime_type)
 
@@ -330,7 +358,7 @@ def upload_file_from_bytes(
             "uploadTaskId": str(uuid.uuid4()),
         }
 
-        _file_cache[content_hash] = file_obj
+        _put_upload(content_hash, file_obj)
         logger.info("File uploaded from bytes: %s (%d bytes, id=%s)", file_name, file_size, file_id)
         return file_obj
 
