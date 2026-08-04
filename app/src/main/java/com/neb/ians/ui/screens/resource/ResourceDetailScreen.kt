@@ -308,6 +308,13 @@ fun ResourceDetailScreen(
                         val subjectColor = Color(com.neb.ians.util.getSubjectColor(subject))
                         val locked = resource.isPaid && !resource.hasAccess
 
+                        // A locked paid resource never renders the player — if another
+                        // video is still playing (mini-player), stop it so audio doesn't
+                        // keep playing behind the purchase gate.
+                        LaunchedEffect(locked, resource.id) {
+                            if (locked) mediaViewModel.stopPlayback()
+                        }
+
                         val onCommentReplyClick: (ApiResourceComment) -> Unit = { comment ->
                             activeThreadParentId = comment.id
                             activeThreadTargetId = comment.id
@@ -945,7 +952,7 @@ private fun NonVideoLayout(
             )
         }
 
-        if (mediaType == ResourceMediaType.Audio) {
+        if (mediaType == ResourceMediaType.Audio && !locked) {
             item(key = "embedded_player") {
                 EmbeddedMediaPlayer(
                     resourceId = resource.id,
