@@ -713,9 +713,8 @@ def _model_thinking_required(model_id):
     if not model_id:
         return False
     if model_id.startswith('qwen3.8'):
-        # qwen3.8-max-preview is no longer listed in the live catalog but is
-        # still the stable channel; it requires thinking (and reliably keeps
-        # the strict JSON protocol with auto-thinking on).
+        # qwen3.8-max (and its preview) requires thinking — the strict JSON
+        # protocol for the background agent depends on auto-thinking being on.
         return True
     try:
         from .qwen_utils.models import fetch_models
@@ -787,6 +786,10 @@ def _parse_stream(response, session=None):
     reasoning_text = ""
     parent_id = None
     had_quota_error = False
+    raw_lines_seen = 0
+    json_chunks_seen = 0
+    errors_seen = []
+    error_text_total = ""
 
     # curl_cffi's iter_lines() returns bytes (decode_unicode=True is not
     # supported), so we decode manually. plain requests returns strings.
@@ -802,6 +805,7 @@ def _parse_stream(response, session=None):
             continue
         if not line.startswith("data: "):
             continue
+        raw_lines_seen += 1
         chunk_str = line[6:]
         if chunk_str == "[DONE]":
             break
@@ -809,9 +813,11 @@ def _parse_stream(response, session=None):
             chunk = json.loads(chunk_str)
         except json.JSONDecodeError:
             continue
+        json_chunks_seen += 1
 
         if "error" in chunk:
             err_text = str(chunk['error'])
+            error_text_total += err_text
             logger.error(f"Qwen stream error: {err_text}")
             if 'quota' in err_text.lower():
                 had_quota_error = True
@@ -842,17 +848,28 @@ def _parse_stream(response, session=None):
     if not full_text and reasoning_text:
         full_text = reasoning_text
 
-    if had_quota_error and session:
-        _mark_failed(session)
-        logger.info("Session retired due to quota error")
+    if had_quota_error:
+        if session:
+            _mark_failed(session)
+            logger.info("Session retired due to quota error")
+        # A quota/overload error interrupts the model's JSON protocol and the
+        # stream falls back to plain narrative. Returning that garbage as if
+        # it were valid would let the agent run on broken output — treat the
+        # attempt as failed so the caller retries with a fresh session.
+        return None
 
     result = full_text.strip() if full_text else None
+    if result is None:
+        logger.warning(
+            "Qwen empty stream: raw_lines=%d json_chunks=%d errors=%s parent_id=%s",
+            raw_lines_seen, json_chunks_seen, (error_text_total[:300] or 'none'), parent_id,
+        )
     return result
 
 
 # ========================= Public API =========================
 
-def call_qwen(system_prompt, user_message, model="qwen3.8-max-preview", max_tokens=500,
+def call_qwen(system_prompt, user_message, model="qwen3.8-max", max_tokens=500,
                file_paths=None, thinking_mode="auto"):
     """Call Qwen AI directly (no proxy needed). Returns response text or None.
 
@@ -913,6 +930,19 @@ def call_qwen(system_prompt, user_message, model="qwen3.8-max-preview", max_toke
 
             logger.warning(f"Qwen empty response (attempt {attempt + 1})")
             _mark_failed(session)
+            # A cached OSS upload may have expired mid-run (STS URLs are
+            # short-lived) — the chat endpoint silently drops those
+            # attachments, yielding an instant empty stream. Drop the cache
+            # so the next attempt re-uploads fresh URLs.
+            if file_paths:
+                from .qwen_utils import file_upload as _fu
+                from pathlib import Path
+                for fp in file_paths[:MAX_FILES_PER_MESSAGE]:
+                    try:
+                        data = open(fp, "rb").read()
+                        _fu._drop_upload(hashlib.md5(data).hexdigest())
+                    except Exception:
+                        pass
             time.sleep(2 * (attempt + 1))
         except Exception as e:
             logger.error(f"Qwen call exception (attempt {attempt + 1}): {e}")

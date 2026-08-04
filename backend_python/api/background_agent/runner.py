@@ -488,18 +488,18 @@ PRIOR OUTPUT
             return f'Qwen ({self._community_model()})'
 
     def _community_model(self) -> str:
-        """Selected community (Qwen web) model, else qwen3.8-max-preview —
-        the stable channel that keeps the strict JSON protocol working with
-        thinking enabled."""
+        """Selected community (Qwen web) model, else qwen3.8-max —
+        the current final flagship that reliably keeps the strict JSON
+        protocol working with thinking enabled."""
         slug = (self.session.llm_provider or '').strip().lower()
         model = (self.session.llm_model or '').strip()
         if slug == 'qwen' and model:
             return model
         try:
             from api.qwen_utils.models import get_default_model
-            return get_default_model() or 'qwen3.8-max-preview'
+            return get_default_model() or 'qwen3.8-max'
         except Exception:
-            return 'qwen3.8-max-preview'
+            return 'qwen3.8-max'
 
     def _llm_label(self) -> str:
         resolved = self._llm_selection()
