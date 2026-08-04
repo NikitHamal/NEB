@@ -772,6 +772,29 @@ def send_message(session, chat_id, message, model=None, parent_id=None,
             if _pool_session:
                 _mark_failed(_pool_session)
             return None
+        # The Qwen endpoint returns HTTP 200 with a plain JSON error body (not
+        # SSE) when a request is rejected during high-demand windows — content
+        # streamed via iter_lines() yields no data lines. Read it as JSON so
+        # the exact reason surfaces in the logs.
+        ctype = resp.headers.get("content-type", "")
+        if "text/event-stream" not in ctype:
+            err_body = ""
+            try:
+                jdata = resp.json()
+                err_body = repr(jdata)[:500]
+            except Exception:
+                try:
+                    err_body = resp.content[:500]
+                    if isinstance(err_body, bytes):
+                        err_body = err_body.decode("utf-8", errors="replace")
+                except Exception:
+                    err_body = "?"
+            logger.warning(
+                f"Qwen completions 200 with non-SSE body (content-type={ctype!r}): {err_body}"
+            )
+            if _pool_session:
+                _mark_failed(_pool_session)
+            return None
         result = _parse_stream(resp, session=_pool_session)
         if _pool_session:
             _mark_used(_pool_session)
@@ -790,6 +813,11 @@ def _parse_stream(response, session=None):
     json_chunks_seen = 0
     errors_seen = []
     error_text_total = ""
+    body_snapshot = ""
+    try:
+        body_snapshot = response.text[:600]
+    except Exception:
+        pass
 
     # curl_cffi's iter_lines() returns bytes (decode_unicode=True is not
     # supported), so we decode manually. plain requests returns strings.
@@ -860,9 +888,22 @@ def _parse_stream(response, session=None):
 
     result = full_text.strip() if full_text else None
     if result is None:
+        raw_body = ""
+        try:
+            raw_body = response.content[:600]
+            if isinstance(raw_body, bytes):
+                raw_body = raw_body.decode("utf-8", errors="replace")
+        except Exception:
+            pass
+        if not raw_body and json_chunks_seen == 0:
+            try:
+                if response.headers.get("content-type", "").startswith("application/json"):
+                    raw_body = repr(response.json())[:600]
+            except Exception:
+                pass
         logger.warning(
-            "Qwen empty stream: raw_lines=%d json_chunks=%d errors=%s parent_id=%s",
-            raw_lines_seen, json_chunks_seen, (error_text_total[:300] or 'none'), parent_id,
+            "Qwen empty stream: raw_lines=%d json_chunks=%d errors=%s parent_id=%s body=%r",
+            raw_lines_seen, json_chunks_seen, (error_text_total[:300] or 'none'), parent_id, raw_body,
         )
     return result
 
@@ -943,7 +984,10 @@ def call_qwen(system_prompt, user_message, model="qwen3.8-max", max_tokens=500,
                         _fu._drop_upload(hashlib.md5(data).hexdigest())
                     except Exception:
                         pass
-            time.sleep(2 * (attempt + 1))
+            # An instant empty 200 is upstream throttling during high-demand
+            # windows — give it more room to recover than the old 2/4/6s
+            # schedule before exhausting the session.
+            time.sleep(5 * (attempt + 1))
         except Exception as e:
             logger.error(f"Qwen call exception (attempt {attempt + 1}): {e}")
             if session:
