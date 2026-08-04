@@ -119,6 +119,21 @@ class MediaPlayerViewModel @Inject constructor(
             resourceRepository.getResource(resourceId)
                 .onSuccess { resource ->
                     if (activeResourceId != resourceId) return@onSuccess
+                    // Paid resources are gated server-side: the API returns an empty
+                    // file URL for any viewer who hasn't unlocked them. Never hand
+                    // ExoPlayer a blank/gated URL — surface a clear message instead
+                    // of the raw "source error". (A blank URL on a paid resource is
+                    // treated as locked even if a stale payload omits hasAccess.)
+                    if (resource.isPaid && (resource.fileUrl.isBlank() || !resource.hasAccess)) {
+                        _uiState.update {
+                            it.copy(
+                                isLoading = false,
+                                hasError = true,
+                                errorMessage = "This is paid content — purchase to unlock"
+                            )
+                        }
+                        return@onSuccess
+                    }
                     val cachedFile = downloadManager.getLocalFile(resource.id, resource.fileUrl)?.takeIf { it.exists() }
                     val playableUri = cachedFile?.let { Uri.fromFile(it).toString() } ?: resource.fileUrl
                     if (playableUri.isBlank()) {
