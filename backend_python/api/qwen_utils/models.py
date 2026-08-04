@@ -125,6 +125,13 @@ def _fallback_models():
     """Hardcoded fallback when the upstream is unreachable."""
     return [
         {
+            "id": "qwen3.8-max",
+            "name": "Qwen3.8-Max",
+            "capabilities": {"vision": True, "document": True, "video": True, "audio": True, "thinking": True, "reasoning_levels": ["low", "medium", "high"], "search": True, "citations": False},
+            "max_context_length": 1000000,
+            "is_active": True,
+        },
+        {
             "id": "qwen3.8-max-preview",
             "name": "Qwen3.8-Max-Preview",
             "capabilities": {"vision": True, "document": True, "video": True, "audio": True, "thinking": True, "reasoning_levels": ["low", "medium", "high"], "search": True, "citations": False},
@@ -179,9 +186,10 @@ def get_default_model(force_refresh=False):
     `fetch_models()` but subsequent calls are instant.  The default-model
     cache is tied to the same 5-min TTL as the full model list.
 
-    Prefers ``qwen3.8-max-preview`` — the stable channel that keeps the
-    background-agent JSON protocol intact (the ``qwen3.8-max`` id routes the
-    web scraper into its native image-tool agent mode on long prompts).
+    Prefers ``qwen3.8-max`` — the current final flagship. With the quota
+    fix in the proxy (streams interrupted by upstream "high demand" are no
+    longer accepted as valid output) it reliably keeps the background-agent
+    JSON protocol intact with thinking on.
     """
     global _DEFAULT_MODEL
 
@@ -189,11 +197,11 @@ def get_default_model(force_refresh=False):
     if cached_default and not force_refresh:
         return cached_default
 
-    default = "qwen3.8-max-preview"
+    default = "qwen3.8-max"
     try:
         models = fetch_models(force_refresh=force_refresh)
         for m in models:
-            if m["id"] == "qwen3.8-max-preview" and m["is_active"]:
+            if m["id"] == "qwen3.8-max" and m["is_active"]:
                 default = m["id"]
                 break
     except Exception:

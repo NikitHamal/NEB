@@ -405,7 +405,7 @@ def state(request):
         model_state = default_model_state(admin, provider)
     except Exception:
         from api.qwen_utils.models import get_default_model as _qwen_default
-        qwen_model = _qwen_default() or 'qwen3.8-max-preview'
+        qwen_model = _qwen_default() or 'qwen3.8-max'
         model_state = {'provider': 'qwen', 'model': qwen_model, 'label': f'Qwen ({qwen_model})', 'configured': bool(provider)}
     return _json({
         'ok': True,
