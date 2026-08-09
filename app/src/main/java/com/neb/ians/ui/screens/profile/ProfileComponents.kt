@@ -44,6 +44,8 @@ import com.neb.ians.ui.components.WebPanelShape
 import com.neb.ians.ui.components.WebPillShape
 import com.neb.ians.ui.components.WebResourceCard
 import com.neb.ians.ui.components.WebPostCard
+import com.neb.ians.ui.components.buildInlineAnnotatedString
+import com.neb.ians.ui.components.markdownToInlinePreview
 import coil.compose.AsyncImage
 import androidx.compose.ui.platform.LocalUriHandler
 import com.neb.ians.ui.components.bannerPresetFor
@@ -754,7 +756,13 @@ fun ProfilePostCard(post: ApiPost, onClick: () -> Unit) {
 
 @Composable
 fun ProfileReplyCard(reply: ApiReply, onClick: () -> Unit) {
-    val preview = remember(reply.content) { plainTextPreview(reply.content) }
+    val preview = remember(reply.content) { markdownToInlinePreview(reply.content) }
+    val primary = MaterialTheme.colorScheme.primary
+    val codeBg = MaterialTheme.colorScheme.surfaceContainerHigh
+    val bodyColor = MaterialTheme.colorScheme.onSurfaceVariant
+    val previewAnnotated = remember(preview, primary, codeBg, bodyColor) {
+        buildInlineAnnotatedString(preview, bodyColor, primary, codeBg)
+    }
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -776,7 +784,7 @@ fun ProfileReplyCard(reply: ApiReply, onClick: () -> Unit) {
             if (preview.isNotBlank()) {
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = preview,
+                    text = previewAnnotated,
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 2,

@@ -24,6 +24,12 @@
             <path d="M0,120 L0,95 Q80,65 160,85 Q240,105 300,80 L300,120Z" fill="var(--art-c4)" opacity="0.2" />
           </svg>
           {% endif %}
+          {% if r.is_paid or r.isPaid %}
+          <span class="resource-card-paid-pill" style="position:absolute;top:10px;right:10px;background:#16a34a;color:#fff;font-size:0.75rem;font-weight:700;padding:3px 10px;border-radius:20px;display:inline-flex;align-items:center;gap:4px;z-index:2;">
+            <span class="material-symbols-outlined" style="font-size:14px">payments</span>
+            Rs. {{ r.price|floatformat:"0" }}
+          </span>
+          {% endif %}
           <span class="resource-card-type-pill">{{ r.type }}</span>
           <span class="resource-card-art-icon material-symbols-outlined">{{ r.subject|split:','|first|subject_icon }}</span>
         </div>
@@ -48,25 +54,49 @@
       {% endwith %}
       {% else %}
       {% with p=item.post %}
-      <a href="{% url 'web:forum_post' post_id=p.id %}" class="suggest-post-card">
-        <div class="suggest-post-head">
+      {% with cat_color=p.category|subject_color %}
+      <a href="{% url 'web:forum_post' post_id=p.id %}" class="suggest-post-card" style="--suggest-cat-color: {{ cat_color }};">
+        <div class="suggest-post-banner">
+          <span class="suggest-post-disc">
+            <span class="material-symbols-outlined">forum</span> DISCUSSION
+          </span>
+          <span class="suggest-post-like">
+            <span class="material-symbols-outlined">thumb_up</span>
+            <span>{{ p.thumbsUpCount|short_number }}</span>
+          </span>
           <span class="suggest-post-cat">{{ p.category }}</span>
-          <span class="material-symbols-outlined">forum</span>
         </div>
-        <div class="suggest-post-title">{{ p.title }}</div>
-        <div class="suggest-post-author">
-          {% if p.isAnonymous %}
-          <span class="material-symbols-outlined">visibility_off</span> Anonymous Nebian
-          {% else %}
-          {{ p.authorName }}
+        <div class="suggest-post-body">
+          <span class="suggest-post-title">{{ p.title }}</span>
+          <span class="suggest-post-excerpt">{{ p.content|render_content_inline }}</span>
+          {% if p.attachments or p.poll or p.images %}
+          <span class="suggest-post-kinds">
+            {% for att in p.attachments %}{% if att.kind == 'video' %}<span class="suggest-post-kind"><span class="material-symbols-outlined">play_arrow</span>VIDEO</span>{% elif att.kind == 'audio' %}<span class="suggest-post-kind"><span class="material-symbols-outlined">music_note</span>AUDIO</span>{% endif %}{% endfor %}
+            {% if p.poll %}<span class="suggest-post-kind"><span class="material-symbols-outlined">poll</span>POLL</span>{% endif %}
+            {% if p.images %}<span class="suggest-post-kind"><span class="material-symbols-outlined">photo_library</span>{% if p.images|length > 1 %}{{ p.images|length }} PHOTOS{% else %}PHOTO{% endif %}</span>{% endif %}
+          </span>
           {% endif %}
-        </div>
-        <div class="suggest-post-stats">
-          <span><span class="material-symbols-outlined">thumb_up</span> {{ p.thumbsUpCount|short_number }}</span>
-          <span><span class="material-symbols-outlined">chat_bubble_outline</span> {{ p.replyCount }}</span>
-          <span><span class="material-symbols-outlined">visibility</span> {{ p.viewCount|short_number }}</span>
+          <span class="suggest-post-footer">
+            <span class="suggest-post-avatar">
+              {% if p.isAnonymous %}
+              <span class="suggest-post-avatar-letter"><span class="material-symbols-outlined">visibility_off</span></span>
+              {% elif p.authorPhotoUrl %}
+              <img src="{{ p.authorPhotoUrl }}" alt="" loading="lazy">
+              {% else %}
+              <span class="suggest-post-avatar-letter">{{ p.authorName|truncate_chars:1|default:"?" }}</span>
+              {% endif %}
+            </span>
+            <span class="suggest-post-author-col">
+              <span class="suggest-post-author">{{ p.authorName }}</span>
+              <span class="suggest-post-time">{{ p.createdAt|time_ago }} <span class="suggest-post-views"><span class="material-symbols-outlined">visibility</span> {{ p.viewCount|short_number }}</span></span>
+            </span>
+            <span class="suggest-post-replies">
+              <span class="material-symbols-outlined">chat_bubble_outline</span> {{ p.replyCount|short_number }}
+            </span>
+          </span>
         </div>
       </a>
+      {% endwith %}
       {% endwith %}
       {% endif %}
     {% endfor %}

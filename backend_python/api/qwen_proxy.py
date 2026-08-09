@@ -31,6 +31,13 @@ logger = logging.getLogger(__name__)
 
 QWEN_URL = "https://chat.qwen.ai"
 
+
+class QwenPunishedError(Exception):
+    """Aliyun WAF CAPTCHA punishment — "RGV587_ERROR" / x5secdata challenge.
+    The endpoint is overloaded and this IP/session got challenged. Retry
+    after a cooldown (the challenge typically clears within 30-120s)."""
+
+
 # Optional HTTP proxy to bypass Aliyun WAF IP blocks.
 # Set QWEN_PROXY_URL in the server .env, e.g.:
 #   QWEN_PROXY_URL=http://user:pass@proxyhost:port
@@ -780,25 +787,36 @@ def send_message(session, chat_id, message, model=None, parent_id=None,
         if "text/event-stream" not in ctype:
             err_body = ""
             try:
-                jdata = resp.json()
-                err_body = repr(jdata)[:500]
-            except Exception:
+                chunks = list(resp.iter_content(chunk_size=4096))
+                raw = b"".join(chunks) if chunks else b""
+                if isinstance(raw, bytes):
+                    raw = raw.decode("utf-8", errors="replace")
+                err_body = raw[:500]
+            except Exception as e:
+                err_body = f"<iter_content failed: {e}>"
+            if not err_body:
                 try:
-                    err_body = resp.content[:500]
-                    if isinstance(err_body, bytes):
-                        err_body = err_body.decode("utf-8", errors="replace")
-                except Exception:
-                    err_body = "?"
+                    jdata = resp.json()
+                    err_body = repr(jdata)[:500]
+                except Exception as e:
+                    err_body = f"<json read failed: {e}>"
+            is_punish = "RGV587_ERROR" in err_body or "_____tmd_____" in err_body or "x5secdata" in err_body
             logger.warning(
-                f"Qwen completions 200 with non-SSE body (content-type={ctype!r}): {err_body}"
+                f"Qwen completions 200 with non-SSE body "
+                f"(content-type={ctype!r}, content-length={resp.headers.get('content-length')}, "
+                f"punish={is_punish}): {err_body}"
             )
             if _pool_session:
                 _mark_failed(_pool_session)
+            if is_punish:
+                raise QwenPunishedError(err_body)
             return None
         result = _parse_stream(resp, session=_pool_session)
         if _pool_session:
             _mark_used(_pool_session)
         return result
+    except QwenPunishedError:
+        raise
     except Exception as e:
         logger.error(f"Qwen chat completions exception: {e}")
         return None
@@ -988,6 +1006,16 @@ def call_qwen(system_prompt, user_message, model="qwen3.8-max", max_tokens=500,
             # windows — give it more room to recover than the old 2/4/6s
             # schedule before exhausting the session.
             time.sleep(5 * (attempt + 1))
+        except QwenPunishedError as e:
+            logger.warning(
+                f"Qwen WAF punish (attempt {attempt + 1}): {str(e)[:200]}"
+            )
+            if session:
+                _mark_failed(session)
+            # WAF captcha challenges are IP-scoped and typically clear within
+            # 30-120s. Wait longer than normal retries so the punishment
+            # expires instead of hammering the endpoint.
+            time.sleep(30 * (attempt + 1))
         except Exception as e:
             logger.error(f"Qwen call exception (attempt {attempt + 1}): {e}")
             if session:

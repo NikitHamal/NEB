@@ -927,14 +927,23 @@ fun WebPostCard(
                 maxLines = if (compact) 2 else 3,
                 overflow = TextOverflow.Ellipsis
             )
-            Spacer(modifier = Modifier.height(6.dp))
-            Text(
-                text = post.content,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                maxLines = if (compact) 2 else 4,
-                overflow = TextOverflow.Ellipsis
-            )
+            if (post.content.isNotBlank()) {
+                Spacer(modifier = Modifier.height(6.dp))
+                val preview = remember(post.content) { markdownToInlinePreview(post.content) }
+                val primary = MaterialTheme.colorScheme.primary
+                val codeBg = MaterialTheme.colorScheme.surfaceContainerHigh
+                val bodyColor = MaterialTheme.colorScheme.onSurfaceVariant
+                val previewAnnotated = remember(preview, primary, codeBg, bodyColor) {
+                    buildInlineAnnotatedString(preview, bodyColor, primary, codeBg)
+                }
+                Text(
+                    text = previewAnnotated,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = if (compact) 2 else 4,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
             Spacer(modifier = Modifier.height(12.dp))
             Row(
                 verticalAlignment = Alignment.CenterVertically,
