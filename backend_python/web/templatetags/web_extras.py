@@ -141,10 +141,10 @@ def subject_color(subject):
         'computer science': '#185ABC',
         'economics': '#E37400',
         'accountancy': '#0D652D',
-        'general': '#5F6368',
+        'general': '#6750A4',
         'exam tips': '#C5221F',
     }
-    return colors.get(_normalize_subject(subject), '#5F6368')
+    return colors.get(_normalize_subject(subject), '#6750A4')
 
 
 @register.filter
@@ -343,6 +343,28 @@ _STRIP_BLOCK_RE = re.compile(r'</?(?:h[1-6]|pre|blockquote|ul|ol|li|table|thead|
 _BLOCK_END_RE = re.compile(r'</(?:p|div|li|h[1-6]|blockquote|tr)>\s*', re.IGNORECASE)
 _BR_HR_RE = re.compile(r'<(?:br|hr)\s*/?>', re.IGNORECASE)
 _TAG_STRIP_RE = re.compile(r'</?(?:h[1-6]|pre|blockquote|ul|ol|li|table|thead|tbody|tr|th|td|hr|div|p)[^>]*>', re.IGNORECASE)
+
+@register.filter
+def plain_excerpt(value, max_chars=110):
+    """Return a clean single-line plain text excerpt stripped of Markdown and HTML."""
+    if not value:
+        return ''
+    text = str(value)
+    text = re.sub(r'<[^>]+>', ' ', text)
+    text = re.sub(r'!\[.*?\]\(.*?\)', '', text)
+    text = re.sub(r'\[(.*?)\]\(.*?\)', r'\1', text)
+    text = re.sub(r'`{1,3}.*?`{1,3}', '', text)
+    text = re.sub(r'[*_~#>-]', ' ', text)
+    text = re.sub(r'\s+', ' ', text).strip()
+    try:
+        max_c = int(max_chars)
+    except (ValueError, TypeError):
+        max_c = 110
+    if len(text) <= max_c:
+        return text
+    words = text[:max_c - 3].rsplit(' ', 1)
+    return (words[0] if len(words) > 1 else text[:max_c - 3]) + '...'
+
 
 @register.filter
 def render_content_inline(value):

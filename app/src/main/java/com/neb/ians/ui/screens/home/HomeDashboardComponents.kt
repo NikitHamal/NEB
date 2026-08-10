@@ -351,7 +351,7 @@ internal fun HomeResourceCarousel(
  * trending carousel). Pinning both resource and discussion cards to this exact
  * height keeps the whole rail perfectly aligned — no more mismatched bottoms.
  */
-private val HomeRailCardHeight = 276.dp
+private val HomeRailCardHeight = 268.dp
 
 /**
  * "Suggested for you" — mixed deck of resource + discussion cards picked by

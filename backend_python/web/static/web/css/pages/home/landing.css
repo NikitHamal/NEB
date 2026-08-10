@@ -10,9 +10,13 @@
   position: relative;
   overflow: hidden;
   isolation: isolate;
-  padding: calc(64px + 40px) 24px 80px;
+  min-height: calc(100vh - 64px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 24px 60px;
   background:
-    var(--home-landing-bg, url("../../../img/paper_sky_hero_background.svg")) center top / cover no-repeat;
+    var(--home-landing-bg, url("../../../img/paper_sky_hero_background.svg")) center center / cover no-repeat;
 }
 
 .home-landing::before {
