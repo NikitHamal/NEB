@@ -614,7 +614,12 @@ def generate_video_thumbnail(rel_path: str) -> str:
                 pub_thumb_dir = os.path.join('/home/consicac/nebians.consica.com.np/media/forum_media/thumbnails')
                 if os.path.exists('/home/consicac/nebians.consica.com.np/media'):
                     os.makedirs(pub_thumb_dir, exist_ok=True)
-                    shutil.copy2(abs_thumb, os.path.join(pub_thumb_dir, thumb_filename))
+                    dest = os.path.join(pub_thumb_dir, thumb_filename)
+                    if os.path.abspath(abs_thumb) != os.path.abspath(dest):
+                        try:
+                            shutil.copy2(abs_thumb, dest)
+                        except Exception:
+                            pass
                 return rel_thumb
                 
         logger.warning("generate_video_thumbnail failed all attempts for %s", abs_video)
