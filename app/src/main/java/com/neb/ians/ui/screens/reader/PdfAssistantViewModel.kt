@@ -1,8 +1,8 @@
 package com.neb.ians.ui.screens.reader
 
 import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.neb.ians.data.api.ApiService
 import com.neb.ians.data.api.PdfAssistantHistoryItem
@@ -54,9 +54,9 @@ data class PdfAssistantUiState(
 @HiltViewModel
 class PdfAssistantViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val application: Application,
+    application: Application,
     private val apiService: ApiService
-) : ViewModel() {
+) : AndroidViewModel(application) {
     private val resourceId: String = savedStateHandle.get<String>("resourceId").orEmpty()
     private val json = Json { ignoreUnknownKeys = true }
     private val prefs = application.getSharedPreferences("pdf_ai_history", 0)
@@ -160,7 +160,7 @@ class PdfAssistantViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            val token = SecurePrefs.getAuthToken(application)?.takeIf { it.isNotBlank() }
+            val token = SecurePrefs.getAuthToken(getApplication())?.takeIf { it.isNotBlank() }
             if (token == null) {
                 _uiState.update { it.copy(isThinking = false, error = "Please sign in to use PDF AI") }
                 return@launch

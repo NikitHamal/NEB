@@ -627,7 +627,7 @@ fun ProfileHeaderCard(
                     ) {
                         profile.socialLinks.forEach { link ->
                             val p = link.platform.lowercase().trim()
-                            val iconRes = when (p) {
+                            val iconRes: Int? = when (p) {
                                 "instagram" -> R.drawable.ic_instagram
                                 "facebook" -> R.drawable.ic_facebook
                                 "twitter", "x" -> R.drawable.ic_twitter
@@ -636,8 +636,8 @@ fun ProfileHeaderCard(
                                 "github" -> R.drawable.ic_github
                                 "tiktok" -> R.drawable.ic_tiktok
                                 "telegram" -> R.drawable.ic_telegram
-                                "website", "web", "site", "portfolio" -> R.drawable.ic_globe
-                                else -> R.drawable.ic_globe
+                                "discord" -> R.drawable.ic_discord
+                                else -> null
                             }
                             Box(
                                 modifier = Modifier
@@ -658,18 +658,21 @@ fun ProfileHeaderCard(
                                     Icon(
                                         painter = painterResource(id = iconRes),
                                         contentDescription = link.platformLabel,
-                                        tint = if (iconRes == R.drawable.ic_globe) MaterialTheme.colorScheme.primary else Color.Unspecified,
+                                        tint = Color.Unspecified,
                                         modifier = Modifier.size(18.dp)
                                     )
                                 } else {
-                                    val domain = if (link.platform == "website") {
-                                        link.websiteDomain.takeIf { it.isNotBlank() } ?: "google.com"
-                                    } else "${link.platform}.com"
+                                    val domain = link.websiteDomain.takeIf { it.isNotBlank() }
+                                        ?: link.url.removePrefix("https://").removePrefix("http://")
+                                            .substringBefore("/").substringBefore("?")
+                                        ?: "${link.platform}.com"
                                     val faviconUrl = "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://$domain&size=64"
                                     AsyncImage(
                                         model = faviconUrl,
                                         contentDescription = link.platformLabel,
-                                        modifier = Modifier.size(18.dp)
+                                        modifier = Modifier.size(18.dp),
+                                        error = androidx.compose.ui.res.painterResource(R.drawable.ic_globe),
+                                        placeholder = null
                                     )
                                 }
                             }

@@ -71,6 +71,10 @@ class ResourceSerializer(serializers.ModelSerializer):
     uploadedByUsername = serializers.SerializerMethodField()
     author_username = serializers.SerializerMethodField()
     authorUsername = serializers.SerializerMethodField()
+    uploaded_by_name = serializers.SerializerMethodField()
+    uploadedByName = serializers.SerializerMethodField()
+    uploaded_by_photo = serializers.SerializerMethodField()
+    uploadedByPhoto = serializers.SerializerMethodField()
 
     class Meta:
         model = Resource
@@ -86,6 +90,8 @@ class ResourceSerializer(serializers.ModelSerializer):
             'approval_status', 'approvalStatus',
             'uploaded_by_username', 'uploadedByUsername',
             'author_username', 'authorUsername',
+            'uploaded_by_name', 'uploadedByName',
+            'uploaded_by_photo', 'uploadedByPhoto',
             'is_liked', 'isLiked', 'is_bookmarked', 'isBookmarked',
         ]
 
@@ -144,6 +150,31 @@ class ResourceSerializer(serializers.ModelSerializer):
 
     def get_authorUsername(self, obj):
         return self.get_uploaded_by_username(obj)
+
+    def get_uploaded_by_name(self, obj):
+        user = getattr(obj, 'uploaded_by', None)
+        if user:
+            display = getattr(user, 'display_name', None) or getattr(user, 'name', None)
+            return display or user.username
+        return getattr(obj, 'author_name', None) or ''
+
+    def get_uploadedByName(self, obj):
+        return self.get_uploaded_by_name(obj)
+
+    def get_uploaded_by_photo(self, obj):
+        user = getattr(obj, 'uploaded_by', None)
+        if user is None:
+            return None
+        photo = getattr(user, 'photo_url', None) or getattr(user, 'photoUrl', None)
+        if not photo:
+            return None
+        request = self.context.get('request')
+        if request and photo and not photo.startswith('http'):
+            return request.build_absolute_uri(photo)
+        return photo
+
+    def get_uploadedByPhoto(self, obj):
+        return self.get_uploaded_by_photo(obj)
 
     def to_representation(self, obj):
         data = super().to_representation(obj)
