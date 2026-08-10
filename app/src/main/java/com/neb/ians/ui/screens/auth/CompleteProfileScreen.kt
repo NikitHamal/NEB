@@ -846,7 +846,7 @@ fun CompleteProfileScreen(
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     val p = link.platform.lowercase().trim()
-                                    val iconRes = when (p) {
+                                    val iconRes: Int? = when (p) {
                                         "instagram" -> R.drawable.ic_instagram
                                         "facebook" -> R.drawable.ic_facebook
                                         "twitter", "x" -> R.drawable.ic_twitter
@@ -856,15 +856,28 @@ fun CompleteProfileScreen(
                                         "tiktok" -> R.drawable.ic_tiktok
                                         "telegram" -> R.drawable.ic_telegram
                                         "discord" -> R.drawable.ic_discord
-                                        else -> R.drawable.ic_globe
+                                        else -> null
                                     }
-                                    val isOfficial = iconRes != R.drawable.ic_globe
-                                    Icon(
-                                        painter = painterResource(id = iconRes),
-                                        contentDescription = null,
-                                        tint = if (isOfficial) Color.Unspecified else MaterialTheme.colorScheme.primary,
-                                        modifier = Modifier.size(22.dp)
-                                    )
+                                    if (iconRes != null) {
+                                        Icon(
+                                            painter = painterResource(id = iconRes),
+                                            contentDescription = null,
+                                            tint = Color.Unspecified,
+                                            modifier = Modifier.size(22.dp)
+                                        )
+                                    } else {
+                                        val domain = link.websiteDomain.takeIf { it.isNotBlank() }
+                                            ?: link.url.removePrefix("https://").removePrefix("http://")
+                                                .substringBefore("/").substringBefore("?")
+                                            ?: "${link.platform}.com"
+                                        val faviconUrl = "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://$domain&size=64"
+                                        AsyncImage(
+                                            model = faviconUrl,
+                                            contentDescription = null,
+                                            modifier = Modifier.size(22.dp),
+                                            error = painterResource(R.drawable.ic_globe)
+                                        )
+                                    }
                                     Spacer(modifier = Modifier.width(10.dp))
                                     Column(modifier = Modifier.weight(1f)) {
                                         Text(
