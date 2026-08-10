@@ -1,3 +1,5 @@
+import time
+import uuid
 import os
 from pathlib import Path
 from urllib.parse import unquote, urljoin, urlparse
@@ -11,7 +13,8 @@ from rest_framework.decorators import api_view, authentication_classes, throttle
 from rest_framework.response import Response
 
 from .authentication import AuthTokenAuthentication
-from .models import Resource, User
+from .models import Resource, User, NebyCreditTransaction
+from .credit_views import check_and_reset_monthly_credits, WHATSAPP_CONTACT
 from .qwen_utils.client import QwenClient
 from .qwen_utils.text_extraction import extract_text_from_bytes
 from .security import validate_resource_file_url
@@ -100,9 +103,22 @@ def _document_context(resource):
 @authentication_classes([AuthTokenAuthentication])
 @throttle_classes([ArenaChatRateThrottle])
 def resource_pdf_assistant(request, resource_id):
-    _, error = _user_or_error(request)
+    user, error = _user_or_error(request)
     if error:
         return error
+
+    user = check_and_reset_monthly_credits(user)
+    total_credits = user.free_credits + user.ai_credits
+    if total_credits <= 0:
+        return Response({
+            'error': 'Neby Credits exhausted. You get 10 free credits every month, or you can convert 2 NEBians points to 1 credit.',
+            'code': 'CREDITS_EXHAUSTED',
+            'free_credits': 0,
+            'ai_credits': 0,
+            'nebians_points': user.nebians_points,
+            'whatsapp_contact': WHATSAPP_CONTACT
+        }, status=status.HTTP_402_PAYMENT_REQUIRED)
+
     prompt = str(request.data.get('prompt') or '').strip()
     if not prompt:
         return Response({'error': 'Prompt is required'}, status=status.HTTP_400_BAD_REQUEST)
@@ -152,4 +168,28 @@ def resource_pdf_assistant(request, resource_id):
 
     if not answer:
         return Response({'error': ai_error or 'AI could not answer right now'}, status=status.HTTP_502_BAD_GATEWAY)
-    return Response({'answer': answer, 'resourceId': resource.id, 'title': resource.title})
+
+    # Deduct 1 Neby credit on successful AI response
+    if user.free_credits > 0:
+        user.free_credits -= 1
+        user.save(update_fields=['free_credits'])
+    else:
+        user.ai_credits = max(0, user.ai_credits - 1)
+        user.save(update_fields=['ai_credits'])
+
+    NebyCreditTransaction.objects.create(
+        id=str(uuid.uuid4()),
+        user=user,
+        transaction_type='ai_usage',
+        amount=-1,
+        description=f"PDF AI query on: {resource.title[:50]}",
+        created_at=int(time.time() * 1000)
+    )
+
+    remaining_credits = user.free_credits + user.ai_credits
+    return Response({
+        'answer': answer,
+        'resourceId': resource.id,
+        'title': resource.title,
+        'remaining_credits': remaining_credits
+    })

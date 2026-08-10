@@ -602,6 +602,54 @@ data class ApiPurchaseResponse(
 )
 
 @Serializable
+data class ApiWhatsAppContact(
+    val name: String = "Nikit Hamal",
+    val phone: String = "+9779765324034",
+    val url: String = "https://wa.me/9779765324034"
+)
+
+@Serializable
+data class ApiCreditBalanceResponse(
+    @SerialName("free_credits") val freeCredits: Int = 10,
+    @SerialName("ai_credits") val aiCredits: Int = 0,
+    @SerialName("total_credits") val totalCredits: Int = 10,
+    @SerialName("nebians_points") val nebiansPoints: Int = 0,
+    @SerialName("free_credits_month") val freeCreditsMonth: String = "",
+    @SerialName("whatsapp_contact") val whatsappContact: ApiWhatsAppContact = ApiWhatsAppContact()
+)
+
+@Serializable
+data class ApiConvertPointsRequest(
+    val points: Int
+)
+
+@Serializable
+data class ApiConvertPointsResponse(
+    val message: String = "",
+    @SerialName("credits_added") val creditsAdded: Int = 0,
+    @SerialName("free_credits") val freeCredits: Int = 0,
+    @SerialName("ai_credits") val aiCredits: Int = 0,
+    @SerialName("total_credits") val totalCredits: Int = 0,
+    @SerialName("nebians_points") val nebiansPoints: Int = 0,
+    val error: String? = null
+)
+
+@Serializable
+data class ApiCreditTransaction(
+    val id: String = "",
+    @SerialName("transaction_type") val transactionType: String = "",
+    val amount: Int = 0,
+    @SerialName("points_spent") val pointsSpent: Int = 0,
+    val description: String = "",
+    @SerialName("created_at") val createdAt: Long = 0
+)
+
+@Serializable
+data class ApiCreditHistoryResponse(
+    val transactions: List<ApiCreditTransaction> = emptyList()
+)
+
+@Serializable
 data class ApiSyllabusCategoriesResponse(
     val categories: List<ApiSyllabusCategory> = emptyList()
 )
@@ -1286,6 +1334,23 @@ interface ApiService {
         @Path("resourceId") resourceId: String,
         @Body request: PdfAssistantRequest
     ): PdfAssistantResponse
+
+    // --- Neby Credits ---
+    @GET("api/credits/balance/")
+    suspend fun getCreditBalance(
+        @Header("Authorization") bearerToken: String
+    ): ApiCreditBalanceResponse
+
+    @POST("api/credits/convert/")
+    suspend fun convertPointsToCredits(
+        @Header("Authorization") bearerToken: String,
+        @Body request: ApiConvertPointsRequest
+    ): ApiConvertPointsResponse
+
+    @GET("api/credits/history/")
+    suspend fun getCreditHistory(
+        @Header("Authorization") bearerToken: String
+    ): ApiCreditHistoryResponse
 
     // --- Posts ---
     @GET("api/feed/suggested/")

@@ -9,6 +9,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.BookmarkBorder
 import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.material.icons.outlined.Delete
@@ -43,6 +44,7 @@ fun SettingsScreen(
     settingsViewModel: SettingsViewModel,
     onNavigateToEditProfile: () -> Unit,
     onNavigateToBookmarks: () -> Unit = {},
+    onNavigateToNebyCredits: () -> Unit = {},
     onNavigateToDeleteAccount: () -> Unit = {},
     onNavigateToLogin: () -> Unit = {},
     onNavigateToWebPortal: (String) -> Unit = {}
@@ -176,6 +178,30 @@ fun SettingsScreen(
                             imageVector = Icons.Outlined.BookmarkBorder,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.size(22.dp)
+                        )
+                    },
+                    colors = ListItemDefaults.colors(
+                        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
+                    )
+                )
+
+                HorizontalDivider(
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+                )
+
+                ListItem(
+                    modifier = Modifier.clickable { onNavigateToNebyCredits() },
+                    headlineContent = { Text("Neby Credits", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium) },
+                    supportingContent = {
+                        Text("10 free monthly credits, convert points & developer contact", style = MaterialTheme.typography.bodySmall)
+                    },
+                    leadingContent = {
+                        Icon(
+                            imageVector = Icons.Outlined.AutoAwesome,
+                            contentDescription = null,
+                            tint = androidx.compose.ui.graphics.Color(0xFFF59E0B),
                             modifier = Modifier.size(22.dp)
                         )
                     },

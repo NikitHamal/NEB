@@ -1240,3 +1240,35 @@ def ajax_social_links_track_click(request):
         clicker_age=clicker_age,
     )
     return JsonResponse({'ok': True})
+
+
+def credits_page(request):
+    user_id = _get_user_id(request)
+    if not user_id:
+        return redirect('web:login')
+    try:
+        current_user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return redirect('web:login')
+
+    from api.credit_views import check_and_reset_monthly_credits, WHATSAPP_CONTACT
+    from api.models import NebyCreditTransaction
+    current_user = check_and_reset_monthly_credits(current_user)
+
+    transactions = NebyCreditTransaction.objects.filter(user=current_user).order_by('-created_at')[:30]
+
+    ctx = _common_context(request)
+    ctx.update({
+        'title': 'Neby Credits — NEBians',
+        'active_nav': 'credits',
+        'current_user': current_user,
+        'free_credits': current_user.free_credits,
+        'ai_credits': current_user.ai_credits,
+        'total_credits': current_user.free_credits + current_user.ai_credits,
+        'nebians_points': current_user.nebians_points,
+        'free_credits_month': current_user.free_credits_month,
+        'whatsapp_contact': WHATSAPP_CONTACT,
+        'transactions': transactions,
+    })
+    return render(request, 'web/credits.html', ctx)
+

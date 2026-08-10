@@ -1,0 +1,220 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Neby Credits — NEBians{% endblock %}
+
+{% block content %}
+<div class="container py-4 max-w-4xl mx-auto px-4">
+    <!-- Header banner -->
+    <div class="md-card p-6 mb-6 rounded-2xl bg-gradient-to-r from-blue-700 via-indigo-700 to-purple-800 text-white shadow-lg relative overflow-hidden">
+        <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div>
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-white/20 backdrop-blur-md text-white mb-2">
+                    <svg class="w-4 h-4 text-amber-300 fill-current" viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                    Neby AI Economy
+                </span>
+                <h1 class="text-3xl font-extrabold text-white tracking-tight">Neby Credits</h1>
+                <p class="text-blue-100 text-sm mt-1 max-w-xl">
+                    Every user gets <strong>10 free credits</strong> every month. Use credits for AI tools like PDF Assistant. Mentioning @neby in community discussions is always free!
+                </p>
+            </div>
+            <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 text-center min-w-[180px]">
+                <div class="text-xs uppercase tracking-wider text-blue-200 font-semibold">Available Balance</div>
+                <div class="text-4xl font-black text-amber-300 mt-1" id="total-credits-val">{{ total_credits }}</div>
+                <div class="text-xs text-blue-100 mt-1">
+                    <span class="font-medium text-white">{{ free_credits }}</span> free + <span class="font-medium text-white">{{ ai_credits }}</span> converted
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <!-- Convert Points to Credits -->
+        <div class="md-card p-6 rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center font-bold text-lg">
+                    ⚡
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-gray-900 dark:text-white">Convert NEBians Points</h3>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">Rate: <strong>2 Points = 1 Neby Credit</strong></p>
+                </div>
+            </div>
+
+            <div class="p-3 mb-4 rounded-xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 text-xs text-blue-800 dark:text-blue-200 flex justify-between items-center">
+                <span>Your NEBians Points Balance:</span>
+                <span class="font-bold text-sm text-blue-900 dark:text-blue-100" id="user-points-val">{{ nebians_points }} pts</span>
+            </div>
+
+            <form id="convert-form" onsubmit="handleConvertPoints(event)" class="space-y-4">
+                <div>
+                    <label for="convert-points-input" class="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">Points to Convert (Even Number)</label>
+                    <div class="relative">
+                        <input type="number" id="convert-points-input" min="2" step="2" max="{{ nebians_points }}" value="2" 
+                               oninput="updateCalcPreview()"
+                               class="w-full px-3 py-2 text-sm rounded-xl border border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
+                        <button type="button" onclick="setConvertMaxPoints()" class="absolute right-2 top-1/2 -translate-y-1/2 px-2 py-1 text-xs font-bold bg-gray-200 dark:bg-gray-700 rounded-lg text-gray-700 dark:text-gray-200 hover:bg-gray-300">MAX</button>
+                    </div>
+                </div>
+
+                <div class="p-3 rounded-xl bg-gray-50 dark:bg-gray-800/60 border border-gray-200 dark:border-gray-700 text-xs flex justify-between items-center">
+                    <span class="text-gray-600 dark:text-gray-400">You will receive:</span>
+                    <span class="text-base font-black text-amber-600 dark:text-amber-400" id="calc-preview-val">+1 Credit</span>
+                </div>
+
+                <div id="convert-msg" class="text-xs hidden"></div>
+
+                <button type="submit" id="convert-submit-btn" class="w-full py-2.5 px-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow transition-all flex items-center justify-center gap-2">
+                    <span>Convert Now</span>
+                </button>
+            </form>
+        </div>
+
+        <!-- Need More Credits? Contact Developer -->
+        <div class="md-card p-6 rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm flex flex-col justify-between">
+            <div>
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-xl bg-green-500/10 text-green-600 dark:text-green-400 flex items-center justify-center font-bold text-lg">
+                        💬
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900 dark:text-white">Need More Credits?</h3>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">Contact the developer directly</p>
+                    </div>
+                </div>
+
+                <p class="text-sm text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    Need additional Neby Credits for research, bulk PDF analysis, or projects? Reach out to <strong>Nikit Hamal</strong> on WhatsApp.
+                </p>
+
+                <div class="p-4 rounded-xl bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 space-y-2 mb-4 text-xs">
+                    <div class="flex justify-between text-gray-600 dark:text-gray-400">
+                        <span>Developer:</span>
+                        <span class="font-bold text-gray-900 dark:text-white">{{ whatsapp_contact.name }}</span>
+                    </div>
+                    <div class="flex justify-between text-gray-600 dark:text-gray-400">
+                        <span>Phone / WhatsApp:</span>
+                        <span class="font-bold text-green-600 dark:text-green-400">{{ whatsapp_contact.phone }}</span>
+                    </div>
+                    <div class="flex justify-between text-gray-600 dark:text-gray-400">
+                        <span>Monthly Refresh:</span>
+                        <span class="font-semibold text-blue-600 dark:text-blue-400">10 Free Credits / Month</span>
+                    </div>
+                </div>
+            </div>
+
+            <a href="{{ whatsapp_contact.url }}" target="_blank" rel="noopener noreferrer" 
+               class="w-full py-2.5 px-4 rounded-xl bg-green-600 hover:bg-green-700 text-white font-bold text-sm shadow transition-all flex items-center justify-center gap-2">
+                <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+                <span>Chat on WhatsApp</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Recent Credit Activity -->
+    <div class="md-card p-6 rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm">
+        <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Credit Activity & History</h3>
+        {% if transactions %}
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs border-collapse">
+                    <thead>
+                        <tr class="border-b border-gray-200 dark:border-gray-800 text-gray-500 dark:text-gray-400">
+                            <th class="py-2.5 px-3 font-semibold">Type</th>
+                            <th class="py-2.5 px-3 font-semibold">Amount</th>
+                            <th class="py-2.5 px-3 font-semibold">Description</th>
+                            <th class="py-2.5 px-3 font-semibold">Time</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
+                        {% for tx in transactions %}
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/40 transition-colors">
+                                <td class="py-2.5 px-3">
+                                    {% if tx.amount > 0 %}
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300">
+                                            + Grant / Conversion
+                                        </span>
+                                    {% else %}
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300">
+                                            - AI Call
+                                        </span>
+                                    {% endif %}
+                                </td>
+                                <td class="py-2.5 px-3 font-bold {% if tx.amount > 0 %}text-green-600 dark:text-green-400{% else %}text-amber-600 dark:text-amber-400{% endif %}">
+                                    {% if tx.amount > 0 %}+{% endif %}{{ tx.amount }}
+                                </td>
+                                <td class="py-2.5 px-3 text-gray-800 dark:text-gray-200 font-medium">
+                                    {{ tx.description }}
+                                </td>
+                                <td class="py-2.5 px-3 text-gray-500 dark:text-gray-400">
+                                    <script>document.write(new Date({{ tx.created_at }}).toLocaleDateString());</script>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="p-8 text-center text-gray-500 text-sm">
+                No credit activity recorded yet.
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+function updateCalcPreview() {
+    const input = document.getElementById('convert-points-input');
+    const preview = document.getElementById('calc-preview-val');
+    const val = parseInt(input.value) || 0;
+    const credits = Math.floor(val / 2);
+    preview.innerText = '+' + credits + (credits === 1 ? ' Credit' : ' Credits');
+}
+
+function setConvertMaxPoints() {
+    const maxPts = parseInt("{{ nebians_points }}") || 0;
+    const evenMax = maxPts % 2 === 0 ? maxPts : maxPts - 1;
+    if (evenMax >= 2) {
+        document.getElementById('convert-points-input').value = evenMax;
+        updateCalcPreview();
+    }
+}
+
+async function handleConvertPoints(e) {
+    e.preventDefault();
+    const input = document.getElementById('convert-points-input');
+    const msg = document.getElementById('convert-msg');
+    const btn = document.getElementById('convert-submit-btn');
+    const points = parseInt(input.value) || 0;
+
+    msg.classList.add('hidden');
+    btn.disabled = true;
+    btn.innerHTML = '<span>Converting...</span>';
+
+    try {
+        const resp = await fetch('/api/credits/convert/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'same-origin',
+            body: JSON.stringify({ points: points })
+        });
+        const data = await resp.json();
+        if (resp.ok) {
+            msg.className = 'text-xs p-3 rounded-xl bg-green-50 dark:bg-green-950/40 text-green-700 dark:text-green-300 font-semibold block';
+            msg.innerText = data.message || 'Successfully converted points to credits!';
+            document.getElementById('total-credits-val').innerText = data.total_credits;
+            document.getElementById('user-points-val').innerText = data.nebians_points + ' pts';
+            setTimeout(() => window.location.reload(), 1500);
+        } else {
+            msg.className = 'text-xs p-3 rounded-xl bg-red-50 dark:bg-red-950/40 text-red-700 dark:text-red-300 font-semibold block';
+            msg.innerText = data.error || 'Could not convert points.';
+        }
+    } catch (err) {
+        msg.className = 'text-xs p-3 rounded-xl bg-red-50 dark:bg-red-950/40 text-red-700 dark:text-red-300 font-semibold block';
+        msg.innerText = 'Network error. Please try again.';
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<span>Convert Now</span>';
+    }
+}
+</script>
+{% endblock %}

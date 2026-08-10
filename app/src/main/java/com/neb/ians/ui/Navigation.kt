@@ -83,6 +83,7 @@ import com.neb.ians.ui.screens.results.ResultCheckerScreen
 import com.neb.ians.ui.screens.results.ToolsScreen
 import com.neb.ians.ui.screens.news.NewsDetailScreen
 import com.neb.ians.ui.screens.news.NewsScreen
+import com.neb.ians.ui.screens.credits.NebyCreditsScreen
 
 sealed class Screen(val route: String) {
     data object Splash : Screen("splash")
@@ -120,6 +121,7 @@ sealed class Screen(val route: String) {
         fun createRoute(courseSlug: String, lessonSlug: String) = "interactive/lesson/$courseSlug/$lessonSlug"
     }
     data object NebyAi : Screen("neby_ai")
+    data object NebyCredits : Screen("credits")
     data object Analytics : Screen("analytics")
     data object Bookmarks : Screen("bookmarks")
     data object Downloads : Screen("downloads")
@@ -588,6 +590,13 @@ fun NEBiansNavHost(
                     onUploadSuccess = { navController.navigate(Screen.Library.createRoute()) }
                 )
             }
+            composable(Screen.NebyCredits.route) {
+                NebyCreditsScreen(
+                    apiService = apiService,
+                    securePrefs = securePrefs,
+                    onBack = { navController.popBackStack() }
+                )
+            }
             composable(
                 route = Screen.Profile.route,
                 arguments = listOf(
@@ -645,6 +654,7 @@ fun NEBiansNavHost(
                     settingsViewModel = settingsViewModel,
                     onNavigateToEditProfile = { navController.navigate(Screen.EditProfile.route) },
                     onNavigateToBookmarks = { navController.navigate(Screen.Bookmarks.route) },
+                    onNavigateToNebyCredits = { navController.navigate(Screen.NebyCredits.route) },
                     onNavigateToDeleteAccount = { navController.navigate(Screen.DeleteAccount.route) },
                     onNavigateToLogin = {
                         navController.navigate(Screen.Login.route) {
