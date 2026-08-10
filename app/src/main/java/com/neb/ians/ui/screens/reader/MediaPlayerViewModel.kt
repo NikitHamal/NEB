@@ -192,7 +192,7 @@ class MediaPlayerViewModel @Inject constructor(
      */
     private fun ensurePlayer(): ExoPlayer {
         player?.let { return it }
-        val exoPlayer = ExoPlayer.Builder(application).build()
+        val exoPlayer = com.neb.ians.util.createConfiguredExoPlayer(application)
         player = exoPlayer
         exoPlayer.addListener(object : Player.Listener {
             override fun onPlaybackStateChanged(state: Int) {
