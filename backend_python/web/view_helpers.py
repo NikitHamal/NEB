@@ -457,9 +457,11 @@ def _serialize_posts(posts_qs, user_id=None):
         all_images.setdefault(img.post_id, []).append({'id': img.id, 'imageUrl': img.image_url, 'order': img.order})
     all_media = {}
     for m in PostMedia.objects.filter(post_id__in=post_ids).order_by('order', 'created_at'):
+        thumb = m.thumbnail_url or ''
         all_media.setdefault(m.post_id, []).append({
-            'id': m.id, 'kind': m.kind, 'url': m.url, 'name': m.name,
-            'mimeType': m.mime_type, 'sizeBytes': m.size_bytes, 'order': m.order,
+            'id': m.id, 'kind': m.kind, 'url': m.url,
+            'thumbnail_url': thumb, 'thumbnailUrl': thumb,
+            'name': m.name, 'mimeType': m.mime_type, 'sizeBytes': m.size_bytes, 'order': m.order,
         })
     all_polls = {}
     polls = list(Poll.objects.filter(post_id__in=post_ids))
@@ -524,8 +526,9 @@ def _serialize_post(p, user_id=None, _liked_ids=None, _followed_ids=None, _bookm
             is_bookmarked = Bookmark.objects.filter(user_id=user_id, target_type='post', target_id=p.id).exists()
     anon = bool(getattr(p, 'is_anonymous', False))
     media = [{
-        'id': m.id, 'kind': m.kind, 'url': m.url, 'name': m.name,
-        'mimeType': m.mime_type, 'sizeBytes': m.size_bytes, 'order': m.order,
+        'id': m.id, 'kind': m.kind, 'url': m.url,
+        'thumbnail_url': m.thumbnail_url or '', 'thumbnailUrl': m.thumbnail_url or '',
+        'name': m.name, 'mimeType': m.mime_type, 'sizeBytes': m.size_bytes, 'order': m.order,
     } for m in PostMedia.objects.filter(post_id=p.id).order_by('order', 'created_at')]
     return {
         'id': p.id, 'title': p.title, 'content': p.content, 'category': p.category,
@@ -571,9 +574,11 @@ def _serialize_replies(replies_qs, user_id=None):
     all_media = {}
     reply_ids = [r.id for r in replies]
     for m in PostMedia.objects.filter(reply_id__in=reply_ids).order_by('order', 'created_at'):
+        thumb = m.thumbnail_url or ''
         all_media.setdefault(m.reply_id, []).append({
-            'id': m.id, 'kind': m.kind, 'url': m.url, 'name': m.name,
-            'mimeType': m.mime_type, 'sizeBytes': m.size_bytes, 'order': m.order,
+            'id': m.id, 'kind': m.kind, 'url': m.url,
+            'thumbnail_url': thumb, 'thumbnailUrl': thumb,
+            'name': m.name, 'mimeType': m.mime_type, 'sizeBytes': m.size_bytes, 'order': m.order,
         })
     child_reply_ids = {}
     for r in replies:
@@ -652,8 +657,9 @@ def _serialize_reply(r, user_id=None, _liked_ids=None, _bookmarked_ids=None):
             is_bookmarked = Bookmark.objects.filter(user_id=user_id, target_type='reply', target_id=r.id).exists()
     anon = bool(getattr(r, 'is_anonymous', False))
     media = [{
-        'id': m.id, 'kind': m.kind, 'url': m.url, 'name': m.name,
-        'mimeType': m.mime_type, 'sizeBytes': m.size_bytes, 'order': m.order,
+        'id': m.id, 'kind': m.kind, 'url': m.url,
+        'thumbnail_url': m.thumbnail_url or '', 'thumbnailUrl': m.thumbnail_url or '',
+        'name': m.name, 'mimeType': m.mime_type, 'sizeBytes': m.size_bytes, 'order': m.order,
     } for m in r.media.all()]
     return {
         'id': r.id, 'postId': r.post_id, 'parentReplyId': r.parent_reply_id,

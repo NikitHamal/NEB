@@ -5,20 +5,20 @@ list of dicts with kind (video|audio|file), url, name, sizeBytes/size_bytes.{% e
   {% for att in attachments %}
     {% if att.kind == 'video' %}
       {% if is_feed_card %}
-      <div class="fm-video-feed-card" data-video-url="{{ att.url }}" style="max-width: 480px; width: 100%; border-radius: 14px; overflow: hidden; background: #090d16; margin-top: 8px; cursor: pointer; position: relative; border: 1px solid var(--md-outline-variant);" onclick="event.stopPropagation(); this.outerHTML='<div class=\'fm-video-wrap\' style=\'max-width:480px; max-height:360px; border-radius:14px; overflow:hidden; background:#000; margin-top:8px;\'><video class=\'fm-video\' controls autoplay playsinline style=\'width:100%; max-height:360px; display:block;\' src=\'{{ att.url }}\'></video></div>';">
-        <div style="position: relative; width: 100%; height: 250px; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #090d16;">
+      <div class="fm-video-feed-card" data-video-url="{{ att.url }}" style="max-width: 340px; width: 100%; border-radius: 12px; overflow: hidden; background: #090d16; margin-top: 8px; cursor: pointer; position: relative; border: 1px solid var(--md-outline-variant);" onclick="event.stopPropagation(); this.outerHTML='<div class=\'fm-video-wrap\' style=\'max-width:480px; max-height:320px; border-radius:12px; overflow:hidden; background:#000; margin-top:8px;\'><video class=\'fm-video\' controls autoplay playsinline style=\'width:100%; max-height:320px; display:block;\' src=\'{{ att.url }}\'></video></div>';">
+        <div style="position: relative; width: 100%; height: 180px; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #090d16;">
           {% if att.thumbnailUrl or att.thumbnail_url %}
             <img src="{{ att.thumbnailUrl|default:att.thumbnail_url }}" alt="" style="width: 100%; height: 100%; object-fit: cover; display: block; filter: brightness(0.88); transition: transform 0.3s ease, filter 0.3s ease;" class="fm-thumb-img">
           {% else %}
             <div style="width: 100%; height: 100%; background: var(--md-surface-container-high, #1e293b); display: flex; align-items: center; justify-content: center;">
-              <span class="material-symbols-outlined" style="font-size: 48px; color: var(--md-primary, #3b82f6);">videocam</span>
+              <span class="material-symbols-outlined" style="font-size: 40px; color: var(--md-primary, #3b82f6);">videocam</span>
             </div>
           {% endif %}
-          <div class="fm-play-btn" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 54px; height: 54px; border-radius: 50%; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(8px); border: 1.5px solid rgba(255, 255, 255, 0.35); display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4); transition: all 0.2s ease;">
-            <span class="material-symbols-outlined" style="font-size: 34px; color: #ffffff; margin-left: 3px;">play_arrow</span>
+          <div class="fm-play-btn" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 46px; height: 46px; border-radius: 50%; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(8px); border: 1.5px solid rgba(255, 255, 255, 0.35); display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4); transition: all 0.2s ease;">
+            <span class="material-symbols-outlined" style="font-size: 28px; color: #ffffff; margin-left: 2px;">play_arrow</span>
           </div>
-          <div style="position: absolute; bottom: 8px; right: 8px; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(4px); padding: 3px 8px; border-radius: 6px; color: #ffffff; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.3px; display: flex; align-items: center; gap: 4px;">
-            <span class="material-symbols-outlined" style="font-size: 14px;">play_circle</span> Watch Video
+          <div style="position: absolute; bottom: 6px; right: 6px; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(4px); padding: 2px 7px; border-radius: 5px; color: #ffffff; font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.3px; display: flex; align-items: center; gap: 3px;">
+            <span class="material-symbols-outlined" style="font-size: 13px;">play_circle</span> Watch Video
           </div>
         </div>
       </div>
