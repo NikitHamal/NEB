@@ -40,6 +40,7 @@ def _parse_attachments_or_error(request):
 
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 @throttle_classes([UploadRateThrottle])
 def forum_media_upload(request):
     """POST /api/forum/uploads/ — one video/audio/file, returns the descriptor
