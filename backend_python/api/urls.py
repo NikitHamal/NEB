@@ -7,6 +7,7 @@ from . import views
 from . import views_presence
 from . import pdf_assistant_views
 from . import views_wallet
+from . import credit_views
 
 urlpatterns = [
     # Auth
@@ -133,7 +134,10 @@ urlpatterns = [
     path('wallet/purchases/', views_wallet.wallet_purchases, name='wallet-purchases'),
     path('wallet/withdrawals/', views_wallet.wallet_withdrawals, name='wallet-withdrawals'),
     path('payments/config/', views_wallet.payments_config, name='payments-config'),
-    path('credits/overview/', views_wallet.credits_overview, name='credits-overview'),
+    # Neby Credits system (10 monthly free credits, 2 points -> 1 credit conversion)
+    path('credits/balance/', credit_views.credit_balance, name='credit-balance'),
+    path('credits/convert/', credit_views.convert_points_to_credits, name='credit-convert'),
+    path('credits/history/', credit_views.credit_history, name='credit-history'),
 
     # Admin API
     path('', include('api.admin_urls')),

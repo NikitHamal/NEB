@@ -48,6 +48,7 @@ urlpatterns = [
     path('requests/', views.resource_requests_page, name='resource_requests'),
 
     path('profile/edit/', views.edit_profile, name='edit_profile'),
+    path('credits/', views.credits_page, name='credits'),
     path('settings/', views.settings_page, name='settings'),
     path('settings/delete-account/', views.delete_account_page, name='delete_account'),
     path('analytics/', views.analytics, name='analytics'),
