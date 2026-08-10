@@ -23,7 +23,9 @@ def _attach_forum_media(target, attachments, now):
     for order, item in enumerate(attachments):
         PostMedia.objects.create(
             id=str(uuid.uuid4()),
-            kind=item['kind'], url=item['url'], name=item['name'],
+            kind=item['kind'], url=item['url'],
+            thumbnail_url=item.get('thumbnail_url', '') or item.get('thumbnailUrl', '') or '',
+            name=item['name'],
             mime_type=item['mime_type'], size_bytes=item['size_bytes'],
             order=order, created_at=now,
             **{kind_attr: target},

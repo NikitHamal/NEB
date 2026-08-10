@@ -5,7 +5,7 @@ list of dicts with kind (video|audio|file), url, name, sizeBytes/size_bytes.{% e
   {% for att in attachments %}
     {% if att.kind == 'video' %}
     <div class="fm-video-wrap">
-      <video class="fm-video" controls preload="metadata" playsinline src="{{ att.url }}"></video>
+      <video class="fm-video" controls preload="metadata" playsinline src="{{ att.url }}"{% if att.thumbnailUrl or att.thumbnail_url %} poster="{{ att.thumbnailUrl|default:att.thumbnail_url }}"{% endif %}></video>
     </div>
     {% elif att.kind == 'audio' %}
     <div class="fm-audio" data-fm-audio>

@@ -383,6 +383,7 @@ class PostMedia(models.Model):
     reply = models.ForeignKey('Reply', on_delete=models.CASCADE, related_name='media', null=True, blank=True)
     kind = models.CharField(max_length=10, choices=KIND_CHOICES, default='file')
     url = models.TextField()
+    thumbnail_url = models.TextField(blank=True, default='')
     name = models.CharField(max_length=255, blank=True, default='')
     mime_type = models.CharField(max_length=120, blank=True, default='')
     size_bytes = models.BigIntegerField(default=0)

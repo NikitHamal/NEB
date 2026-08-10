@@ -234,6 +234,16 @@ fun ForumVideoPlayer(attachment: ApiMediaAttachment, modifier: Modifier = Modifi
                 modifier = Modifier.fillMaxSize()
             )
 
+            val thumbUrl = resolveMediaUrl(attachment.thumbnail)
+            if (!isPlaying && !thumbUrl.isNullOrBlank() && !hasError) {
+                coil.compose.AsyncImage(
+                    model = thumbUrl,
+                    contentDescription = "Video poster thumbnail",
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = androidx.compose.ui.layout.ContentScale.Crop
+                )
+            }
+
             if (hasError) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -580,10 +590,48 @@ fun ForumMediaBadges(
     val videos = attachments.count { it.kind == "video" }
     val audios = attachments.count { it.kind == "audio" }
     val files = attachments.size - videos - audios
-    Row(modifier = modifier, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-        if (videos > 0) MediaBadge(icon = { Icon(Icons.Filled.Videocam, null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(14.dp)) }, label = if (videos > 1) "$videos videos" else "Video")
-        if (audios > 0) MediaBadge(icon = { Icon(Icons.Filled.MusicNote, null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(14.dp)) }, label = if (audios > 1) "$audios audio" else "Audio")
-        if (files > 0) MediaBadge(icon = { Icon(Icons.Filled.InsertDriveFile, null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(14.dp)) }, label = if (files > 1) "$files files" else "File")
+    val videoWithThumb = attachments.firstOrNull { it.kind == "video" && !it.thumbnail.isNullOrBlank() }
+
+    Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        if (videoWithThumb != null) {
+            val thumbUrl = resolveMediaUrl(videoWithThumb.thumbnail)
+            if (!thumbUrl.isNullOrBlank()) {
+                Box(
+                    modifier = Modifier
+                        .size(120.dp, 86.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                        .background(Color.Black)
+                ) {
+                    coil.compose.AsyncImage(
+                        model = thumbUrl,
+                        contentDescription = "Video preview",
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = androidx.compose.ui.layout.ContentScale.Crop
+                    )
+                    Surface(
+                        shape = CircleShape,
+                        color = Color.Black.copy(alpha = 0.55f),
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .size(32.dp)
+                    ) {
+                        Box(contentAlignment = Alignment.Center) {
+                            Icon(
+                                imageVector = Icons.Filled.PlayArrow,
+                                contentDescription = "Play video",
+                                tint = Color.White,
+                                modifier = Modifier.size(20.dp)
+                            )
+                        }
+                    }
+                }
+            }
+        }
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            if (videos > 0) MediaBadge(icon = { Icon(Icons.Filled.Videocam, null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(14.dp)) }, label = if (videos > 1) "$videos videos" else "Video")
+            if (audios > 0) MediaBadge(icon = { Icon(Icons.Filled.MusicNote, null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(14.dp)) }, label = if (audios > 1) "$audios audio" else "Audio")
+            if (files > 0) MediaBadge(icon = { Icon(Icons.Filled.InsertDriveFile, null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(14.dp)) }, label = if (files > 1) "$files files" else "File")
+        }
     }
 }
 
