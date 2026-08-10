@@ -603,7 +603,7 @@ def generate_video_thumbnail(rel_path: str) -> str:
         ffmpeg_bin = shutil.which('ffmpeg') or '/usr/bin/ffmpeg' or '/usr/local/bin/ffmpeg'
         cmd = [
             ffmpeg_bin, '-y', '-ss', '00:00:01', '-i', abs_video,
-            '-vframes', '1', '-pix_fmt', 'yuv420p', '-vf', 'format=yuv420p,scale=1280:-2', '-q:v', '3', abs_thumb
+            '-vframes', '1', '-an', '-sn', abs_thumb
         ]
         res = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=15)
         if res.returncode == 0 and os.path.exists(abs_thumb) and os.path.getsize(abs_thumb) > 0:
