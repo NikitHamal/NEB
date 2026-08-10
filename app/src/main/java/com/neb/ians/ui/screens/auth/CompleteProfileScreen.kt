@@ -845,16 +845,27 @@ fun CompleteProfileScreen(
                                     modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 8.dp),
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
+                                    val p = link.platform.lowercase().trim()
+                                    val iconRes = when (p) {
+                                        "instagram" -> R.drawable.ic_instagram
+                                        "facebook" -> R.drawable.ic_facebook
+                                        "twitter", "x" -> R.drawable.ic_twitter
+                                        "youtube" -> R.drawable.ic_youtube
+                                        "linkedin" -> R.drawable.ic_linkedin
+                                        "github" -> R.drawable.ic_github
+                                        "tiktok" -> R.drawable.ic_tiktok
+                                        "telegram" -> R.drawable.ic_telegram
+                                        "discord" -> R.drawable.ic_discord
+                                        else -> R.drawable.ic_globe
+                                    }
+                                    val isOfficial = iconRes != R.drawable.ic_globe
                                     Icon(
-                                        painter = when (link.platform.lowercase()) {
-                                            "github" -> painterResource(id = R.drawable.ic_github)
-                                            else -> painterResource(id = R.drawable.ic_globe)
-                                        },
+                                        painter = painterResource(id = iconRes),
                                         contentDescription = null,
-                                        tint = MaterialTheme.colorScheme.primary,
-                                        modifier = Modifier.size(20.dp)
+                                        tint = if (isOfficial) Color.Unspecified else MaterialTheme.colorScheme.primary,
+                                        modifier = Modifier.size(22.dp)
                                     )
-                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Spacer(modifier = Modifier.width(10.dp))
                                     Column(modifier = Modifier.weight(1f)) {
                                         Text(
                                             text = link.platformLabel.ifBlank { link.platform.replaceFirstChar { it.uppercase() } },

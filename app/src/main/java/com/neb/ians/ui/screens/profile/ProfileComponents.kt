@@ -626,22 +626,24 @@ fun ProfileHeaderCard(
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         profile.socialLinks.forEach { link ->
-                            val domain = if (link.platform == "website") {
-                                link.websiteDomain.takeIf { it.isNotBlank() } ?: "google.com"
-                            } else {
-                                when (link.platform) {
-                                    "telegram" -> "telegram.org"
-                                    "twitter" -> "x.com"
-                                    else -> link.platform + ".com"
-                                }
+                            val p = link.platform.lowercase().trim()
+                            val iconRes = when (p) {
+                                "instagram" -> R.drawable.ic_instagram
+                                "facebook" -> R.drawable.ic_facebook
+                                "twitter", "x" -> R.drawable.ic_twitter
+                                "youtube" -> R.drawable.ic_youtube
+                                "linkedin" -> R.drawable.ic_linkedin
+                                "github" -> R.drawable.ic_github
+                                "tiktok" -> R.drawable.ic_tiktok
+                                "telegram" -> R.drawable.ic_telegram
+                                "discord" -> R.drawable.ic_discord
+                                else -> null
                             }
-                            val faviconUrl = "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://$domain&size=64"
-                            
                             Box(
                                 modifier = Modifier
-                                    .size(32.dp)
+                                    .size(34.dp)
                                     .clip(CircleShape)
-                                    .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
+                                    .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.6f))
                                     .clickable {
                                         onSocialLinkClick?.invoke(link)
                                         try {
@@ -652,11 +654,24 @@ fun ProfileHeaderCard(
                                     },
                                 contentAlignment = Alignment.Center
                             ) {
-                                AsyncImage(
-                                    model = faviconUrl,
-                                    contentDescription = link.platformLabel,
-                                    modifier = Modifier.size(18.dp)
-                                )
+                                if (iconRes != null) {
+                                    Icon(
+                                        painter = painterResource(id = iconRes),
+                                        contentDescription = link.platformLabel,
+                                        tint = Color.Unspecified,
+                                        modifier = Modifier.size(18.dp)
+                                    )
+                                } else {
+                                    val domain = if (link.platform == "website") {
+                                        link.websiteDomain.takeIf { it.isNotBlank() } ?: "google.com"
+                                    } else "${link.platform}.com"
+                                    val faviconUrl = "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://$domain&size=64"
+                                    AsyncImage(
+                                        model = faviconUrl,
+                                        contentDescription = link.platformLabel,
+                                        modifier = Modifier.size(18.dp)
+                                    )
+                                }
                             }
                         }
                     }
