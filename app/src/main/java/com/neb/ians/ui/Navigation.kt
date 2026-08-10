@@ -592,8 +592,6 @@ fun NEBiansNavHost(
             }
             composable(Screen.NebyCredits.route) {
                 NebyCreditsScreen(
-                    apiService = apiService,
-                    securePrefs = securePrefs,
                     onBack = { navController.popBackStack() }
                 )
             }
