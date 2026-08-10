@@ -250,25 +250,22 @@ The `.github/workflows/deploy-backend.yml` workflow auto-deploys on push to `mai
 
 **BUT** it does NOT update the `.env` file. If you change env-dependent settings, manually update `.env` on the server.
 
-### CRITICAL: Static Files Deployment (Two-Location Problem)
-LiteSpeed/LSAPI serves static files from `public/static/`, but Django's `STATIC_ROOT` points to `staticfiles/`. These are **DIFFERENT directories**. After editing CSS/JS in `web/static/`, you MUST update BOTH:
+### CRITICAL: Static Files Deployment — WhiteNoise Serves From staticfiles/, NOT public/static/
+**Verified Aug 2026:** The domain's document root (`/home/consicac/nebians.consica.com.np/`) contains **NO `static/` directory** — only Passenger `.htaccess`, `api/`, `cgi-bin/`, and a `media` symlink. Static files are served by the **WhiteNoise middleware** (`whitenoise.middleware.WhiteNoiseMiddleware`, position 0 in MIDDLEWARE) straight from Django's `STATIC_ROOT = /home/consicac/nebians_api/staticfiles/`. Files that exist ONLY in `public/static/` return 404 (proven with test files). The `public/static/` copies in `deploy.ps1` are harmless but NOT what serves traffic.
+
+**CRITICAL — stale WhiteNoise index:** WhiteNoise builds an in-memory file index when the lswsgi worker process starts. If you deploy new static files (or edit existing ones) and the worker does NOT actually respawn, requests for those files fall through to Django's 404 handler — the response carries Django's security headers (`content-security-policy`, `set-cookie: csrftoken`, `permissions-policy`). Diagnosis: a 404 on a file that EXISTS in `staticfiles/`, with Django CSP headers (not LiteSpeed's plain 404). Fix — force a worker respawn and WAIT:
 
 ```bash
-# 1. Run collectstatic (writes to staticfiles/)
 cd /home/consicac/nebians_api
-source /home/consicac/virtualenv/nebians_api/3.13/bin/activate
-python manage.py collectstatic --noinput
-
-# 2. Manually copy to public/static/ (where LiteSpeed serves from)
-cp /home/consicac/nebians_api/web/static/web/css/app.css /home/consicac/nebians_api/public/static/web/css/app.css
-cp /home/consicac/nebians_api/web/static/web/css/material3.css /home/consicac/nebians_api/public/static/web/css/material3.css
-# ... repeat for any other changed static files
+rm -rf tmp/*
+touch tmp/restart.txt
+sleep 45   # LSAPI respawn takes 30-60s; verify with: ps -eo pid,lstart,cmd | grep lswsgi
+curl -sI https://nebians.consica.com.np/static/web/css/pages/<new-file>.css | head -3   # expect 200
 ```
 
 **NEVER do these:**
-- Do NOT change `STATICFILES_STORAGE` from `CompressedManifestStaticFilesStorage` to `StaticFilesStorage` — it breaks the manifest and corrupts cached hashed files
-- Do NOT delete `.gz` files from `public/static/` — the web server uses them for compression
-- Do NOT delete hashed files (e.g., `app.7d01927028c0.css`) from `public/static/` — they are part of the WhiteNoise manifest
+- Do NOT change `STATICFILES_STORAGE` from `whitenoise.storage.CompressedManifestStaticFilesStorage` — note Django 5.1+ `STORAGES['staticfiles']` also exists in settings.py and must stay consistent
+- Do NOT delete `.gz` files or hashed manifest files from `staticfiles/`
 - Do NOT change `STATIC_ROOT` — it must stay as `BASE_DIR / 'staticfiles'`
 
 ### CRITICAL: Background Agent Worker Must Restart After Deploy
