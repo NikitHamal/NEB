@@ -759,7 +759,12 @@ def validate_forum_attachments(raw) -> list:
             size_bytes = max(0, int(item.get('size') or item.get('size_bytes') or 0))
         except (TypeError, ValueError):
             size_bytes = 0
-        cleaned.append({'url': url, 'kind': kind, 'name': name, 'mime_type': mime_type, 'size_bytes': size_bytes})
+        thumb_url = str(item.get('thumbnail_url') or item.get('thumbnailUrl') or '').strip()
+        if not thumb_url and kind == 'video' and url:
+            thumb_rel = generate_video_thumbnail(url)
+            if thumb_rel:
+                thumb_url = thumb_rel
+        cleaned.append({'url': url, 'thumbnail_url': thumb_url, 'kind': kind, 'name': name, 'mime_type': mime_type, 'size_bytes': size_bytes})
     if len(cleaned) > FORUM_ATTACHMENTS_MAX_COUNT:
         raise ValidationError(f'Maximum {FORUM_ATTACHMENTS_MAX_COUNT} attachments')
     if sum(1 for a in cleaned if a['kind'] == 'video') > FORUM_ATTACHMENTS_MAX_VIDEO:
