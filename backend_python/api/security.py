@@ -628,6 +628,64 @@ def generate_video_thumbnail(rel_path: str) -> str:
     return ''
 
 
+def auto_transcode_video_to_h264(rel_path: str) -> bool:
+    """Transcodes an uploaded video file to universal 8-bit H.264 MP4 format."""
+    if not rel_path:
+        return False
+    try:
+        import subprocess
+        import shutil
+        from django.conf import settings
+        
+        path_only = rel_path
+        if '://' in path_only:
+            path_only = path_only.split('://', 1)[1]
+            if '/' in path_only:
+                path_only = '/' + path_only.split('/', 1)[1]
+
+        media_prefix = getattr(settings, 'MEDIA_URL', '/media/')
+        rel_clean = path_only.replace(media_prefix, '').lstrip('/')
+
+        candidate_paths = [
+            os.path.join(settings.MEDIA_ROOT, rel_clean),
+            os.path.join('/home/consicac/nebians.consica.com.np/media', rel_clean),
+            os.path.join('/home/consicac/nebians_api/public/media', rel_clean),
+        ]
+        abs_video = None
+        for p in candidate_paths:
+            if os.path.exists(p):
+                abs_video = p
+                break
+        if not abs_video:
+            return False
+
+        dir_name = os.path.dirname(abs_video)
+        base_name = os.path.splitext(os.path.basename(abs_video))[0]
+        out_filename = f"{base_name}_h264.mp4"
+        abs_out = os.path.join(dir_name, out_filename)
+
+        ffmpeg_bin = shutil.which('ffmpeg') or '/usr/bin/ffmpeg' or '/usr/local/bin/ffmpeg'
+        cmd = [
+            ffmpeg_bin, '-y', '-i', abs_video,
+            '-vf', 'scale=720:1280,format=yuv420p',
+            '-c:v', 'libx264', '-preset', 'fast', '-crf', '23',
+            '-c:a', 'copy', abs_out
+        ]
+        res = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=45)
+        if res.returncode == 0 and os.path.exists(abs_out) and os.path.getsize(abs_out) > 0:
+            os.replace(abs_out, abs_video)
+            pub_video = os.path.join('/home/consicac/nebians.consica.com.np/media', rel_clean)
+            if os.path.exists('/home/consicac/nebians.consica.com.np/media') and os.path.abspath(abs_video) != os.path.abspath(pub_video):
+                try:
+                    shutil.copy2(abs_video, pub_video)
+                except Exception:
+                    pass
+            return True
+    except Exception as exc:
+        logger.warning("auto_transcode_video_to_h264 failed: %s", exc)
+    return False
+
+
 def save_forum_media_upload(request, file_obj) -> dict:
     """Validate + store one forum attachment. Returns a descriptor dict the
     client echoes back inside the post/reply `attachments` payload:
@@ -712,6 +770,7 @@ def save_forum_media_upload(request, file_obj) -> dict:
 
     thumb_url = ''
     if kind == 'video':
+        auto_transcode_video_to_h264(path)
         thumb_rel = generate_video_thumbnail(path)
         if thumb_rel:
             thumb_url = request.build_absolute_uri(thumb_rel)
