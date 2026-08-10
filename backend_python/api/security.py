@@ -23,6 +23,9 @@ from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 from django.core.signing import BadSignature, SignatureExpired, TimestampSigner
 from django.utils.text import get_valid_filename
+import logging
+
+logger = logging.getLogger(__name__)
 from PIL import Image, UnidentifiedImageError
 
 Image.MAX_IMAGE_PIXELS = 20_000_000
