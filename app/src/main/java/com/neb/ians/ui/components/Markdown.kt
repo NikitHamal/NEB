@@ -33,12 +33,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.text.ClickableText
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material3.Surface
+
 /**
- * Lightweight markdown renderer matching the web's python-markdown output
- * (nl2br, bold, italic, inline code, strikethrough, headings, lists,
- * blockquotes, links and @mentions).
- *
- * Mentions (@username) and links are clickable.
+ * Lightweight markdown & LaTeX math renderer matching web formatting
+ * (headings, bold, italic, inline code, code blocks, lists, blockquotes,
+ * links, @mentions, LaTeX formulas \(...\), \[...\], $$...$$).
  */
 @Composable
 fun MarkdownText(
@@ -113,6 +116,51 @@ fun MarkdownText(
                         )
                     }
                 }
+                is MdBlock.CodeBlock -> {
+                    Surface(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 4.dp),
+                        shape = RoundedCornerShape(8.dp),
+                        color = MaterialTheme.colorScheme.surfaceContainerHigh,
+                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+                    ) {
+                        Column(modifier = Modifier.padding(10.dp)) {
+                            if (block.language.isNotBlank()) {
+                                Text(
+                                    text = block.language.uppercase(),
+                                    style = MaterialTheme.typography.labelSmall,
+                                    fontWeight = FontWeight.Bold,
+                                    color = primary
+                                )
+                                Spacer(modifier = Modifier.height(4.dp))
+                            }
+                            Text(
+                                text = block.code,
+                                style = TextStyle(fontFamily = FontFamily.Monospace, fontSize = 13.sp),
+                                color = color,
+                                modifier = Modifier.horizontalScroll(rememberScrollState())
+                            )
+                        }
+                    }
+                }
+                is MdBlock.MathBlock -> {
+                    Surface(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 4.dp),
+                        shape = RoundedCornerShape(8.dp),
+                        color = primary.copy(alpha = 0.08f),
+                        border = BorderStroke(1.dp, primary.copy(alpha = 0.25f))
+                    ) {
+                        Text(
+                            text = formatMathExpression(block.formula),
+                            style = style.copy(fontWeight = FontWeight.SemiBold, fontSize = 14.sp),
+                            color = color,
+                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
+                        )
+                    }
+                }
                 is MdBlock.Paragraph -> {
                     InlineMdText(
                         text = block.text,
@@ -141,8 +189,9 @@ private fun InlineMdText(
 ) {
     val errorBg = MaterialTheme.colorScheme.errorContainer
     val errorFg = MaterialTheme.colorScheme.onErrorContainer
-    val annotated = remember(text, color, primary, codeBg, errorBg, errorFg) {
-        buildInlineAnnotatedString(text, color, primary, codeBg, errorBg, errorFg)
+    val formatted = remember(text) { formatLatexMath(text) }
+    val annotated = remember(formatted, color, primary, codeBg, errorBg, errorFg) {
+        buildInlineAnnotatedString(formatted, color, primary, codeBg, errorBg, errorFg)
     }
     ClickableText(
         text = annotated,
@@ -163,14 +212,48 @@ sealed class MdBlock {
     data class Heading(val level: Int, val text: String) : MdBlock()
     data class Quote(val text: String) : MdBlock()
     data class ListItem(val text: String, val ordered: Boolean, val number: Int) : MdBlock()
+    data class CodeBlock(val language: String, val code: String) : MdBlock()
+    data class MathBlock(val formula: String) : MdBlock()
     data class Paragraph(val text: String) : MdBlock()
 }
 
 internal fun parseMarkdownBlocks(markdown: String): List<MdBlock> {
     val blocks = mutableListOf<MdBlock>()
     var orderedIndex = 1
-    markdown.replace("\r\n", "\n").split("\n").forEach { rawLine ->
+    val lines = markdown.replace("\r\n", "\n").split("\n")
+    var i = 0
+    while (i < lines.size) {
+        val rawLine = lines[i]
         val line = rawLine.trimEnd()
+        val trimmed = line.trim()
+
+        if (trimmed.startsWith("```")) {
+            val lang = trimmed.removePrefix("```").trim()
+            val codeLines = mutableListOf<String>()
+            i++
+            while (i < lines.size && !lines[i].trim().startsWith("```")) {
+                codeLines.add(lines[i])
+                i++
+            }
+            blocks.add(MdBlock.CodeBlock(lang, codeLines.joinToString("\n")))
+            i++
+            continue
+        }
+
+        if (trimmed.startsWith("\\[") && trimmed.endsWith("\\]")) {
+            val formula = trimmed.removePrefix("\\[").removeSuffix("\\]").trim()
+            blocks.add(MdBlock.MathBlock(formula))
+            i++
+            continue
+        }
+
+        if (trimmed.startsWith("$$") && trimmed.endsWith("$$") && trimmed.length > 2) {
+            val formula = trimmed.removePrefix("$$").removeSuffix("$$").trim()
+            blocks.add(MdBlock.MathBlock(formula))
+            i++
+            continue
+        }
+
         when {
             line.isBlank() -> {
                 orderedIndex = 1
@@ -190,6 +273,7 @@ internal fun parseMarkdownBlocks(markdown: String): List<MdBlock> {
             }
             else -> { orderedIndex = 1; blocks.add(MdBlock.Paragraph(line)) }
         }
+        i++
     }
     // Collapse consecutive blank paragraphs
     val result = mutableListOf<MdBlock>()
@@ -203,6 +287,74 @@ internal fun parseMarkdownBlocks(markdown: String): List<MdBlock> {
         result.removeAt(result.lastIndex)
     }
     return result
+}
+
+fun formatLatexMath(input: String): String {
+    if (input.isBlank()) return ""
+    var text = input
+    text = text.replace(Regex("\\\\\\[([\\s\\S]*?)\\\\\\]")) { m ->
+        "\n" + formatMathExpression(m.groupValues[1].trim()) + "\n"
+    }.replace(Regex("\\$\\$([\\s\\S]*?)\\$\\$")) { m ->
+        "\n" + formatMathExpression(m.groupValues[1].trim()) + "\n"
+    }
+    text = text.replace(Regex("\\\\\\(([\\s\\S]*?)\\\\\\))")) { m ->
+        formatMathExpression(m.groupValues[1].trim())
+    }.replace(Regex("(?<!\\\\)\\$([^$\\n]+)\\$")) { m ->
+        formatMathExpression(m.groupValues[1].trim())
+    }
+    return text
+}
+
+fun formatMathExpression(expr: String): String {
+    var s = expr
+    s = s.replace(Regex("\\\\frac\\{([^}]+)\\}\\{([^}]+)\\}"), "($1)/($2)")
+    s = s.replace(Regex("\\\\sqrt\\{([^}]+)\\}"), "√($1)")
+    s = s.replace("\\sqrt", "√")
+    s = s.replace("\\pm", "±")
+         .replace("\\times", "×")
+         .replace("\\div", "÷")
+         .replace("\\cdot", "·")
+         .replace("\\approx", "≈")
+         .replace("\\neq", "≠")
+         .replace("\\le", "≤")
+         .replace("\\ge", "≥")
+         .replace("\\infty", "∞")
+         .replace("\\sum", "∑")
+         .replace("\\int", "∫")
+         .replace("\\partial", "∂")
+         .replace("\\rightarrow", "→")
+         .replace("\\Rightarrow", "⇒")
+         .replace("\\leftrightarrow", "↔")
+         .replace("\\in", "∈")
+         .replace("\\subset", "⊂")
+         .replace("\\cup", "∪")
+         .replace("\\cap", "∩")
+    s = s.replace("\\alpha", "α")
+         .replace("\\beta", "β")
+         .replace("\\gamma", "γ")
+         .replace("\\delta", "δ")
+         .replace("\\epsilon", "ε")
+         .replace("\\theta", "θ")
+         .replace("\\lambda", "λ")
+         .replace("\\mu", "μ")
+         .replace("\\pi", "π")
+         .replace("\\sigma", "σ")
+         .replace("\\phi", "φ")
+         .replace("\\omega", "ω")
+         .replace("\\Delta", "Δ")
+         .replace("\\Omega", "Ω")
+         .replace("\\Sigma", "Σ")
+         .replace("\\Pi", "Π")
+    s = s.replace(Regex("\\\\text\\{([^}]+)\\}"), "$1")
+    s = s.replace("^0", "⁰").replace("^1", "¹").replace("^2", "²").replace("^3", "³")
+         .replace("^4", "⁴").replace("^5", "⁵").replace("^6", "⁶").replace("^7", "⁷")
+         .replace("^8", "⁸").replace("^9", "⁹").replace("^n", "ⁿ").replace("^x", "ˣ")
+         .replace("^y", "ʸ").replace("^+", "⁺").replace("^-", "⁻").replace("^=", "⁼")
+    s = s.replace("_0", "₀").replace("_1", "₁").replace("_2", "₂").replace("_3", "₃")
+         .replace("_4", "₄").replace("_5", "₅").replace("_6", "₆").replace("_7", "₇")
+         .replace("_8", "₈").replace("_9", "₉").replace("_a", "ₐ").replace("_e", "ₑ")
+         .replace("_o", "ₒ").replace("_x", "ₓ").replace("_i", "ᵢ").replace("_n", "ₙ")
+    return s
 }
 
 private val inlinePattern = Regex(
