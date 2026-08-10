@@ -552,10 +552,47 @@ def _sniff_forum_media_kind(data: bytes):
     return None
 
 
+def generate_video_thumbnail(rel_path: str) -> str:
+    """Extract a JPEG thumbnail frame from an uploaded video file using ffmpeg."""
+    if not rel_path:
+        return ''
+    try:
+        import subprocess
+        import shutil
+        from django.conf import settings
+        
+        rel_clean = rel_path.replace(settings.MEDIA_URL, '').lstrip('/')
+        abs_video = os.path.join(settings.MEDIA_ROOT, rel_clean)
+        if not os.path.exists(abs_video):
+            return ''
+            
+        thumb_dir = os.path.join(settings.MEDIA_ROOT, 'forum_media', 'thumbnails')
+        os.makedirs(thumb_dir, exist_ok=True)
+        base_name = os.path.splitext(os.path.basename(abs_video))[0]
+        thumb_filename = f"thumb_{base_name}.jpg"
+        abs_thumb = os.path.join(thumb_dir, thumb_filename)
+        rel_thumb = f"{settings.MEDIA_URL}forum_media/thumbnails/{thumb_filename}"
+        
+        if os.path.exists(abs_thumb) and os.path.getsize(abs_thumb) > 0:
+            return rel_thumb
+            
+        ffmpeg_bin = shutil.which('ffmpeg') or '/usr/bin/ffmpeg'
+        cmd = [
+            ffmpeg_bin, '-y', '-ss', '00:00:01', '-i', abs_video,
+            '-vframes', '1', '-q:v', '3', '-vf', 'scale=1280:-2', abs_thumb
+        ]
+        res = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=10)
+        if res.returncode == 0 and os.path.exists(abs_thumb) and os.path.getsize(abs_thumb) > 0:
+            return rel_thumb
+    except Exception as exc:
+        logger.warning("generate_video_thumbnail failed: %s", exc)
+    return ''
+
+
 def save_forum_media_upload(request, file_obj) -> dict:
     """Validate + store one forum attachment. Returns a descriptor dict the
     client echoes back inside the post/reply `attachments` payload:
-    {url, kind, name, size, mime}. Raises ValidationError on bad input."""
+    {url, thumbnail_url, kind, name, size, mime}. Raises ValidationError on bad input."""
     if not file_obj:
         raise ValidationError('File is required')
 
@@ -569,9 +606,6 @@ def save_forum_media_upload(request, file_obj) -> dict:
     ext = os.path.splitext(original_name)[1].lower()
     kind_mime = FORUM_MEDIA_TYPES.get(ext)
 
-    # Voice-note hint: browser/app recorders produce audio-only webm/mp4
-    # containers that extension-based mapping would class as video. An explicit
-    # kind_hint=audio field reclasses them (sniff check below still validates).
     kind_hint = ''
     try:
         kind_hint = str(request.data.get('kind_hint', '') or '').strip().lower()
@@ -579,9 +613,6 @@ def save_forum_media_upload(request, file_obj) -> dict:
         kind_hint = ''
 
     if kind_mime is None and kind_hint == 'audio' and ext == '':
-        # Extensionless multipart filename (a recording staged under a display
-        # name like "Voice note (0:07)"): class purely by magic bytes. Only
-        # reached with an explicit audio hint — everything else still 400s.
         file_obj.seek(0)
         sniffed0 = _sniff_forum_media_kind(file_obj.read(64))
         file_obj.seek(0)
@@ -620,14 +651,12 @@ def save_forum_media_upload(request, file_obj) -> dict:
     if len(data) > per_kind_limit:
         raise ValidationError('File is too large.')
 
-    # Magic-byte check for binary formats; text formats pass through.
     if ext in ('.mp4', '.m4v', '.webm', '.mov', '.mp3', '.m4a', '.aac', '.ogg', '.opus',
                '.wav', '.flac', '.pdf', '.zip', '.doc', '.docx', '.ppt', '.pptx', '.xls', '.xlsx'):
         sniffed = _sniff_forum_media_kind(data)
         if sniffed is None:
             raise ValidationError('File content does not match its extension.')
         sniffed_kind, sniffed_mime = sniffed
-        # Office files are zips; allow zip detection for office extensions.
         office_exts = ('.docx', '.pptx', '.xlsx')
         hinted_audio = kind_hint == 'audio' and kind == 'audio'
         if not (sniffed_kind == kind or (ext in office_exts and sniffed_mime == 'application/zip')
@@ -641,8 +670,16 @@ def save_forum_media_upload(request, file_obj) -> dict:
     subdir = {'video': 'videos', 'audio': 'audios', 'file': 'files'}[kind]
     filename = f"forum_{_secrets.token_urlsafe(12)}{ext}"
     path = default_storage.save(os.path.join('forum_media', subdir, filename), ContentFile(data))
+
+    thumb_url = ''
+    if kind == 'video':
+        thumb_rel = generate_video_thumbnail(path)
+        if thumb_rel:
+            thumb_url = request.build_absolute_uri(thumb_rel)
+
     return {
         'url': request.build_absolute_uri(settings.MEDIA_URL + path),
+        'thumbnail_url': thumb_url,
         'kind': kind,
         'name': original_name,
         'size': len(data),

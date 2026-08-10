@@ -326,10 +326,19 @@ class PostMediaSerializer(serializers.ModelSerializer):
     mimeType = serializers.CharField(source='mime_type', read_only=True)
     sizeBytes = serializers.IntegerField(source='size_bytes', read_only=True)
     createdAt = serializers.IntegerField(source='created_at', read_only=True)
+    thumbnailUrl = serializers.SerializerMethodField()
 
     class Meta:
         model = PostMedia
-        fields = ['id', 'kind', 'url', 'name', 'mimeType', 'sizeBytes', 'order', 'createdAt']
+        fields = ['id', 'kind', 'url', 'thumbnail_url', 'thumbnailUrl', 'name', 'mimeType', 'sizeBytes', 'order', 'createdAt']
+
+    def get_thumbnailUrl(self, obj):
+        url = getattr(obj, 'thumbnail_url', '') or ''
+        if url and not url.startswith('http'):
+            request = self.context.get('request')
+            if request:
+                return request.build_absolute_uri(url)
+        return url
 
 
 class PostSerializer(serializers.ModelSerializer):

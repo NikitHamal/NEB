@@ -141,7 +141,6 @@ data class ApiMediaAttachmentInput(
     val size: Long = 0
 )
 
-/** Server → client forum media attachment on posts/replies. */
 @Serializable
 data class ApiMediaAttachment(
     val id: String = "",
@@ -150,8 +149,12 @@ data class ApiMediaAttachment(
     val name: String = "",
     @SerialName("mimeType") val mimeType: String = "",
     @SerialName("sizeBytes") val sizeBytes: Long = 0,
-    val order: Int = 0
-)
+    val order: Int = 0,
+    @SerialName("thumbnailUrl") val thumbnailUrl: String? = null,
+    @SerialName("thumbnail_url") val thumbnailUrlSnake: String? = null
+) {
+    val thumbnail: String? get() = thumbnailUrl ?: thumbnailUrlSnake
+}
 
 @Serializable
 data class ForumMediaUploadResponse(

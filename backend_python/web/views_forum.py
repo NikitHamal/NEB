@@ -29,6 +29,7 @@ def _collect_web_attachments(request):
             continue
         collected.append({
             'url': desc.get('url', ''),
+            'thumbnail_url': desc.get('thumbnail_url', ''),
             'kind': desc.get('kind', 'file'),
             'name': desc.get('name', ''),
             'mime_type': desc.get('mime', ''),
