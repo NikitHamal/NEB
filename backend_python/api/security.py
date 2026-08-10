@@ -601,20 +601,23 @@ def generate_video_thumbnail(rel_path: str) -> str:
             return rel_thumb
             
         ffmpeg_bin = shutil.which('ffmpeg') or '/usr/bin/ffmpeg' or '/usr/local/bin/ffmpeg'
-        cmd = [
-            ffmpeg_bin, '-y', '-ss', '00:00:01', '-i', abs_video,
-            '-vframes', '1', '-pix_fmt', 'yuvj420p', abs_thumb
+        
+        cmd_attempts = [
+            [ffmpeg_bin, '-y', '-ss', '00:00:01', '-i', abs_video, '-vframes', '1', '-s', '720x1280', abs_thumb],
+            [ffmpeg_bin, '-y', '-i', abs_video, '-vframes', '1', '-s', '720x1280', abs_thumb],
+            [ffmpeg_bin, '-y', '-ss', '00:00:01', '-i', abs_video, '-vframes', '1', '-pix_fmt', 'yuvj420p', abs_thumb],
         ]
-        res = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=15)
-        if res.returncode == 0 and os.path.exists(abs_thumb) and os.path.getsize(abs_thumb) > 0:
-            # Sync thumbnail file to public/media if needed
-            pub_thumb_dir = os.path.join('/home/consicac/nebians.consica.com.np/media/forum_media/thumbnails')
-            if os.path.exists('/home/consicac/nebians.consica.com.np/media'):
-                os.makedirs(pub_thumb_dir, exist_ok=True)
-                shutil.copy2(abs_thumb, os.path.join(pub_thumb_dir, thumb_filename))
-            return rel_thumb
-        else:
-            logger.warning("ffmpeg returned %s for %s: %s", res.returncode, abs_video, res.stderr.decode('utf-8', errors='ignore'))
+        
+        for cmd in cmd_attempts:
+            res = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=15)
+            if res.returncode == 0 and os.path.exists(abs_thumb) and os.path.getsize(abs_thumb) > 0:
+                pub_thumb_dir = os.path.join('/home/consicac/nebians.consica.com.np/media/forum_media/thumbnails')
+                if os.path.exists('/home/consicac/nebians.consica.com.np/media'):
+                    os.makedirs(pub_thumb_dir, exist_ok=True)
+                    shutil.copy2(abs_thumb, os.path.join(pub_thumb_dir, thumb_filename))
+                return rel_thumb
+                
+        logger.warning("generate_video_thumbnail failed all attempts for %s", abs_video)
     except Exception as exc:
         logger.warning("generate_video_thumbnail failed: %s", exc)
     return ''
