@@ -51,6 +51,13 @@
             </intent-filter>
         </activity>
 
+        <!-- Crash Activity for global uncaught exception handling -->
+        <activity
+            android:name=".ui.crash.CrashActivity"
+            android:exported="false"
+            android:process=":crash_process"
+            android:theme="@style/Theme.NEBians" />
+
         <!-- Default notification icon and color for Firebase Cloud Messaging -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"

@@ -47,6 +47,7 @@ class NEBiansApp : Application(), Configuration.Provider, ImageLoaderFactory {
 
     override fun onCreate() {
         super.onCreate()
+        com.neb.ians.util.CrashHandler.init(this)
         createNotificationChannels()
     }
 

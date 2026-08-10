@@ -89,51 +89,54 @@ fun PdfAssistantOverlay(
                 Icon(Icons.Filled.AutoAwesome, contentDescription = "Ask AI about this PDF")
             }
         } else {
-            val shellModifier = if (state.isFullscreen) {
-                Modifier
-                    .fillMaxSize()
-                    .padding(10.dp)
-            } else {
-                Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(horizontal = 12.dp, vertical = 10.dp)
-                    .widthIn(max = 390.dp)
-                    .fillMaxWidth()
-            }
-            Column(
-                modifier = shellModifier.imePadding(),
-                horizontalAlignment = Alignment.End,
-                verticalArrangement = Arrangement.Bottom
+            Box(
+                modifier = if (state.isFullscreen) {
+                    Modifier
+                        .fillMaxSize()
+                        .padding(10.dp)
+                } else {
+                    Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(horizontal = 12.dp, vertical = 10.dp)
+                        .widthIn(max = 390.dp)
+                        .fillMaxWidth()
+                }.imePadding()
             ) {
-                AnimatedVisibility(
-                    visible = state.isPanelOpen,
-                    modifier = if (state.isFullscreen) Modifier.weight(1f) else Modifier,
-                    enter = fadeIn() + slideInVertically { it / 4 },
-                    exit = fadeOut() + slideOutVertically { it / 4 }
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.End,
+                    verticalArrangement = Arrangement.Bottom
                 ) {
-                    if (state.isMinimized) {
-                        PdfAiMinimizedBar(
-                            title = currentTitle(state, documentTitle),
-                            onExpand = viewModel::expandPanel
-                        )
-                    } else {
-                        PdfAiPanel(
-                            state = state,
-                            documentTitle = documentTitle,
-                            viewModel = viewModel,
-                            modifier = if (state.isFullscreen) Modifier.fillMaxSize() else Modifier.height(420.dp)
-                        )
+                    AnimatedVisibility(
+                        visible = state.isPanelOpen,
+                        modifier = if (state.isFullscreen) Modifier.weight(1f) else Modifier,
+                        enter = fadeIn() + slideInVertically { it / 4 },
+                        exit = fadeOut() + slideOutVertically { it / 4 }
+                    ) {
+                        if (state.isMinimized) {
+                            PdfAiMinimizedBar(
+                                title = currentTitle(state, documentTitle),
+                                onExpand = viewModel::expandPanel
+                            )
+                        } else {
+                            PdfAiPanel(
+                                state = state,
+                                documentTitle = documentTitle,
+                                viewModel = viewModel,
+                                modifier = if (state.isFullscreen) Modifier.fillMaxSize() else Modifier.height(420.dp)
+                            )
+                        }
                     }
+                    PdfAiPromptBar(
+                        value = state.prompt,
+                        onValueChange = viewModel::onPromptChange,
+                        onSend = viewModel::send,
+                        onCollapse = viewModel::collapseToFab,
+                        onTogglePanel = viewModel::togglePanel,
+                        isThinking = state.isThinking,
+                        attached = state.isPanelOpen
+                    )
                 }
-                PdfAiPromptBar(
-                    value = state.prompt,
-                    onValueChange = viewModel::onPromptChange,
-                    onSend = viewModel::send,
-                    onCollapse = viewModel::collapseToFab,
-                    onTogglePanel = viewModel::togglePanel,
-                    isThinking = state.isThinking,
-                    attached = state.isPanelOpen
-                )
             }
         }
     }
