@@ -34,7 +34,7 @@ import com.neb.ians.ui.theme.NEBiansTheme
 class CrashActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate()
+        super.onCreate(savedInstanceState)
 
         val logFromIntent = intent.getStringExtra("crash_log")
         val typeFromIntent = intent.getStringExtra("crash_type")
