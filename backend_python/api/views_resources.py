@@ -993,6 +993,7 @@ def resource_request_create_anonymous(request):
     return Response(ResourceRequestSerializer(req, context={'request': request}).data, status=201)
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 @throttle_classes([WriteActionRateThrottle])
 def resource_request_upvote(request, request_id):
     """POST /api/resource-requests/<request_id>/upvote — toggle upvote."""
