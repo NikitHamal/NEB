@@ -147,8 +147,7 @@ fun extractPostAttachments(post: ApiPost): List<com.neb.ians.data.api.ApiMediaAt
                     name = img.imageUrl.substringAfterLast("/"),
                     mimeType = "video/mp4",
                     sizeBytes = 0,
-                    order = img.order,
-                    createdAt = 0
+                    order = img.order
                 )
             )
         }
@@ -166,8 +165,7 @@ fun extractPostAttachments(post: ApiPost): List<com.neb.ians.data.api.ApiMediaAt
                     name = vUrl.substringAfterLast("/").substringBefore("?"),
                     mimeType = "video/mp4",
                     sizeBytes = 0,
-                    order = 99,
-                    createdAt = 0
+                    order = 99
                 )
             )
         }
