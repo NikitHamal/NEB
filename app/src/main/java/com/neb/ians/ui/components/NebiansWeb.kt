@@ -1042,12 +1042,12 @@ private fun PostAction(text: String, selected: Boolean, onClick: () -> Unit) {
             contentDescription = "Like",
             modifier = Modifier.size(16.dp),
             tint = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
-                            color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                }
-            }
-        }
+        )
+        Text(
+            text = text,
+            style = MaterialTheme.typography.labelMedium,
+            color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+        )
     }
 }
 
