@@ -412,6 +412,11 @@ data class ApiResource(
     @SerialName("source_label") val sourceLabel: String? = null,
     @SerialName("uploaded_by_username") val uploadedByUsernameSnake: String? = null,
     @SerialName("uploadedByUsername") val uploadedByUsernameCamel: String? = null,
+    @SerialName("uploaded_by_name") val uploadedByNameSnake: String? = null,
+    @SerialName("uploadedByName") val uploadedByNameCamel: String? = null,
+    @SerialName("uploaded_by_photo") val uploadedByPhotoSnake: String? = null,
+    @SerialName("uploadedByPhoto") val uploadedByPhotoCamel: String? = null,
+    @SerialName("is_anonymous") val isAnonymous: Boolean = false,
     @SerialName("author_username") val authorUsernameSnake: String? = null,
     @SerialName("authorUsername") val authorUsernameCamel: String? = null,
     @SerialName("is_liked") val isLiked: Boolean? = null,
@@ -427,6 +432,8 @@ data class ApiResource(
     @SerialName("isOwner") val isOwner: Boolean = false
 ) {
     val uploadedByUsername: String get() = uploadedByUsernameSnake ?: uploadedByUsernameCamel ?: authorUsernameSnake ?: authorUsernameCamel ?: ""
+    val uploadedByName: String get() = uploadedByNameSnake ?: uploadedByNameCamel ?: authorName ?: uploadedByUsername
+    val uploadedByPhoto: String? get() = uploadedByPhotoSnake ?: uploadedByPhotoCamel
     val approvalStatus: String? get() = approvalStatusSnake ?: approvalStatusCamel
 }
 

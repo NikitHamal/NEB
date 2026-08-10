@@ -800,7 +800,7 @@ fun WebResourceCard(
                 overflow = TextOverflow.Ellipsis
             )
             Spacer(modifier = Modifier.height(6.dp))
-            val uploaderName = resource.uploadedByName.ifBlank { resource.uploadedByUsername.ifBlank { resource.authorName.ifBlank { "NEBians" } } }
+            val uploaderName = resource.uploadedByName.ifBlank { resource.uploadedByUsername.ifBlank { resource.authorName.orEmpty().ifBlank { "NEBians" } } }
             val photo = resource.uploadedByPhoto
 
             Row(
@@ -858,7 +858,7 @@ fun WebResourceCard(
                             tint = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         Text(
-                            text = compactCount(resource.viewCount.toLong()),
+                            text = compactCount(resource.viewCount),
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             maxLines = 1
