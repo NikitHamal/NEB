@@ -982,3 +982,53 @@ def ajax_reject_follow_request(request, request_id):
     _notif.notify_cancel_follow_request(sender_id, user_id)
     
     return JsonResponse({'status': 'success'})
+
+
+@require_POST
+def ajax_convert_credits(request):
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
+    try:
+        user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
+    if user.is_locked:
+        return JsonResponse({'error': 'Account unavailable.'}, status=403)
+
+    from api.marketplace import convert_points_to_credits
+    from api.credit_views import check_and_reset_monthly_credits
+    from api.models import NebyCreditTransaction
+    import time, uuid as _uuid
+
+    user = check_and_reset_monthly_credits(user)
+    try:
+        data = json.loads(request.body) if request.body else {}
+    except ValueError:
+        return JsonResponse({'error': 'Invalid request body'}, status=400)
+    try:
+        points = int(data.get('points') or 0)
+    except (ValueError, TypeError):
+        return JsonResponse({'error': 'Invalid points amount'}, status=400)
+    try:
+        credits, used = convert_points_to_credits(user, points)
+    except ValueError as exc:
+        return JsonResponse({'error': str(exc)}, status=400)
+
+    NebyCreditTransaction.objects.create(
+        id=str(_uuid.uuid4()),
+        user=user,
+        transaction_type='conversion',
+        amount=credits,
+        points_spent=used,
+        description=f'Converted {used} points to {credits} Neby Credits',
+        created_at=int(time.time() * 1000),
+    )
+    return JsonResponse({
+        'message': f'Successfully converted {used} points to {credits} Neby Credits!',
+        'credits_added': credits,
+        'free_credits': user.free_credits,
+        'ai_credits': user.ai_credits,
+        'total_credits': (user.free_credits or 0) + (user.ai_credits or 0),
+        'nebians_points': user.nebians_points,
+    })
