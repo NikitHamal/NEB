@@ -776,6 +776,32 @@
       window.reportContent = openReportDialog;
     })();
 
+    // CSP-compliant event delegation for feed video preview inline player expansion
+    document.addEventListener('click', function (e) {
+      var videoCard = e.target && e.target.closest ? e.target.closest('[data-action="play-inline-video"]') : null;
+      if (videoCard) {
+        e.stopPropagation();
+        e.preventDefault();
+        var videoUrl = videoCard.getAttribute('data-video-url');
+        if (videoUrl) {
+          var wrap = document.createElement('div');
+          wrap.className = 'fm-video-wrap';
+          wrap.style.cssText = 'max-width:480px; max-height:320px; border-radius:12px; overflow:hidden; background:#000; margin-top:8px;';
+          var video = document.createElement('video');
+          video.className = 'fm-video';
+          video.controls = true;
+          video.autoplay = true;
+          video.playsInline = true;
+          video.style.cssText = 'width:100%; max-height:320px; display:block;';
+          video.src = videoUrl;
+          wrap.appendChild(video);
+          if (videoCard.parentNode) {
+            videoCard.parentNode.replaceChild(wrap, videoCard);
+          }
+        }
+      }
+    });
+
   </script>
   <script nonce="{{ csp_nonce }}" src="{% load static %}{% static 'web/js/realtime.js' %}"></script>
   {% block extra_js %}{% endblock %}
