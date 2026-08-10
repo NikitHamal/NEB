@@ -37,6 +37,7 @@ import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.ThumbUp
 import androidx.compose.material.icons.outlined.Visibility
+import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material.icons.outlined.Upload
 import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material3.Button
@@ -799,22 +800,71 @@ fun WebResourceCard(
                 overflow = TextOverflow.Ellipsis
             )
             Spacer(modifier = Modifier.height(6.dp))
+            val uploaderName = resource.uploadedByName.ifBlank { resource.uploadedByUsername.ifBlank { resource.authorName.ifBlank { "NEBians" } } }
+            val photo = resource.uploadedByPhoto
+
             Row(
+                modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                horizontalArrangement = Arrangement.spacedBy(7.dp)
             ) {
-                Icon(
-                    imageVector = Icons.Outlined.Visibility,
-                    contentDescription = null,
-                    modifier = Modifier.size(14.dp),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                Avatar(
+                    name = uploaderName,
+                    imageUrl = photo,
+                    size = 24.dp
                 )
-                Text(
-                    text = "${resource.viewCount} · ${formatTimeAgo(resource.addedAt)}",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 1
-                )
+                Column(modifier = Modifier.weight(1f)) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(2.dp)
+                    ) {
+                        Text(
+                            text = uploaderName,
+                            style = MaterialTheme.typography.labelMedium,
+                            fontWeight = FontWeight.SemiBold,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier.weight(1f, fill = false)
+                        )
+                        if (uploaderName.equals("NEBians", ignoreCase = true) || uploaderName.equals("nebians", ignoreCase = true)) {
+                            Icon(
+                                imageVector = Icons.Filled.Verified,
+                                contentDescription = "Verified Official",
+                                modifier = Modifier.size(13.dp),
+                                tint = Color(0xFF1D65D8)
+                            )
+                        }
+                    }
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(3.dp)
+                    ) {
+                        Text(
+                            text = formatTimeAgo(resource.addedAt),
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            maxLines = 1
+                        )
+                        Text(
+                            text = "·",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        Icon(
+                            imageVector = Icons.Outlined.Visibility,
+                            contentDescription = null,
+                            modifier = Modifier.size(11.dp),
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        Text(
+                            text = compactCount(resource.viewCount.toLong()),
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            maxLines = 1
+                        )
+                    }
+                }
             }
         }
     }
@@ -992,12 +1042,12 @@ private fun PostAction(text: String, selected: Boolean, onClick: () -> Unit) {
             contentDescription = "Like",
             modifier = Modifier.size(16.dp),
             tint = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
-        )
-        Text(
-            text = text,
-            style = MaterialTheme.typography.labelMedium,
-            color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
-        )
+                            color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -1010,11 +1060,15 @@ fun Avatar(
     verificationLevel: Int = 0,
     isAdmin: Boolean = false
 ) {
+    val isNebians = remember(name) { name.equals("NEBians", ignoreCase = true) || name.equals("nebians", ignoreCase = true) }
+    val isAnon = remember(name) { name.equals("Anonymous", ignoreCase = true) || name.equals("Anonymous Nebian", ignoreCase = true) }
+    val effectiveVerificationLevel = if (isNebians && verificationLevel == 0) 1 else verificationLevel
+
     Box(modifier = modifier.size(size)) {
         Surface(
             modifier = Modifier.fillMaxSize(),
             shape = CircleShape,
-            color = MaterialTheme.colorScheme.primary
+            color = if (isNebians) Color(0xFF1D65D8) else MaterialTheme.colorScheme.primary
         ) {
             val resolvedUrl = remember(imageUrl) {
                 if (imageUrl.isNullOrBlank()) null
@@ -1032,7 +1086,16 @@ fun Avatar(
                 }
             }
             var isError by remember(resolvedUrl) { mutableStateOf(false) }
-            if (!resolvedUrl.isNullOrBlank() && !isError) {
+            if (isAnon) {
+                Box(contentAlignment = Alignment.Center) {
+                    Icon(
+                        imageVector = Icons.Outlined.VisibilityOff,
+                        contentDescription = "Anonymous",
+                        tint = MaterialTheme.colorScheme.onPrimary,
+                        modifier = Modifier.size(size * 0.55f)
+                    )
+                }
+            } else if (!resolvedUrl.isNullOrBlank() && !isError) {
                 AsyncImage(
                     model = resolvedUrl,
                     contentDescription = name,
@@ -1040,6 +1103,15 @@ fun Avatar(
                     contentScale = ContentScale.Crop,
                     onError = { isError = true }
                 )
+            } else if (isNebians) {
+                Box(contentAlignment = Alignment.Center, modifier = Modifier.padding(size * 0.15f)) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.n_logo),
+                        contentDescription = "NEBians",
+                        tint = Color.White,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
             } else {
                 Box(contentAlignment = Alignment.Center) {
                     Text(
@@ -1070,9 +1142,9 @@ fun Avatar(
                     modifier = Modifier.size(badgeSize * 0.7f)
                 )
             }
-        } else if (verificationLevel > 0) {
-            val badgeColor = when (verificationLevel) {
-                1 -> Color(0xFF1B9AF0)
+        } else if (effectiveVerificationLevel > 0) {
+            val badgeColor = when (effectiveVerificationLevel) {
+                1 -> Color(0xFF1D65D8)
                 2 -> Color(0xFF2E7D32)
                 3 -> Color(0xFFF59E0B)
                 else -> Color(0xFF1A1A1A)
@@ -1091,7 +1163,7 @@ fun Avatar(
                     imageVector = Icons.Filled.Verified,
                     contentDescription = "Verified",
                     tint = Color.White,
-                    modifier = Modifier.size(badgeSize * 0.85f)
+                    modifier = Modifier.size(badgeSize * 0.7f)
                 )
             }
         }

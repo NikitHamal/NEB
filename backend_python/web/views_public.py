@@ -79,7 +79,7 @@ def home(request):
         cache.set('active_hero_background_filename', hero_bg_filename, 60)
     resources = cache.get('home_resources')
     if resources is None:
-        resources = _serialize_resources(Resource.objects.filter(approval_status='approved', is_lead=True)[:50])
+        resources = _serialize_resources(Resource.objects.filter(approval_status='approved')[:50])
         cache.set('home_resources', resources, 60)
     user_profile = None
     if user_id:
@@ -225,8 +225,7 @@ def library(request):
     page_obj = None
 
     if current_tab in ['digital', 'community']:
-        is_lead_val = (current_tab == 'digital')
-        qs = Resource.objects.filter(approval_status='approved', is_lead=is_lead_val, uploaded_by__email_verified=True)
+        qs = Resource.objects.filter(approval_status='approved')
         if subjects:
             q = Q()
             for s in subjects:
@@ -314,7 +313,7 @@ def library(request):
             
         from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
         page_num = request.GET.get('page', 1)
-        paginator = Paginator(qs, 12)
+        paginator = Paginator(qs, 24)
         try:
             page_obj = paginator.page(page_num)
         except (EmptyPage, PageNotAnInteger):

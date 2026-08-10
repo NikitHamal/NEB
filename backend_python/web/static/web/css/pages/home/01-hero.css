@@ -11,10 +11,13 @@
   --home-mint-dark: #0f8f53;
   --home-violet: #7357e8;
   position: relative;
-  min-height: 850px;
+  min-height: calc(100vh - 64px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
   isolation: isolate;
-  padding: 76px 24px 112px;
+  padding: 64px 24px 60px;
   background:
     radial-gradient(circle at 15% 18%, rgba(255, 255, 255, 0.92), transparent 28%),
     radial-gradient(circle at 82% 6%, rgba(255, 255, 255, 0.5), transparent 24%),
