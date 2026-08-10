@@ -80,7 +80,7 @@
       {% if post.poll.pollType == 'mcq' %}MCQ{% else %}Poll{% endif %}
     </div>
     {% endif %}
-    {% with attachments=post.attachments %}{% include "web/_forum_attachments.html" %}{% endwith %}
+    {% with attachments=post.attachments is_feed_card=True %}{% include "web/_forum_attachments.html" %}{% endwith %}
     <div class="post-card-actions">
       <button type="button" data-action="toggle-forum-post-like" data-post-id="{{ post.id }}" class="{% if post.isThumbedUp %}liked{% endif %}" id="forum-post-like-btn-{{ post.id }}">
         <span class="material-symbols-outlined">thumb_up</span>
