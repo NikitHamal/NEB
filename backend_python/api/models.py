@@ -2276,10 +2276,21 @@ class PaymentConfig(models.Model):
     free_credits_per_month = models.PositiveIntegerField(default=10)
     updated_at = models.BigIntegerField(default=0)
 
+class NebyCreditTransaction(models.Model):
+    id = models.CharField(max_length=255, primary_key=True, default=uuid.uuid4)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='credit_transactions')
+    transaction_type = models.CharField(max_length=30)  # 'monthly_grant', 'conversion', 'ai_usage', 'manual_topup'
+    amount = models.IntegerField(default=0)
+    points_spent = models.PositiveIntegerField(default=0)
+    description = models.CharField(max_length=255, blank=True, default='')
+    created_at = models.BigIntegerField(default=0)
+
     class Meta:
-        db_table = 'payment_config'
+        db_table = 'neby_credit_transactions'
+        ordering = ['-created_at']
 
     def __str__(self):
-        return 'PaymentConfig (singleton)'
+        return f"{self.user.username}: {self.amount} credits ({self.transaction_type})"
+
 
 
