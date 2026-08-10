@@ -1054,7 +1054,7 @@ fun Avatar(
 ) {
     val isNebians = remember(name) { name.equals("NEBians", ignoreCase = true) || name.equals("nebians", ignoreCase = true) }
     val isAnon = remember(name) { name.equals("Anonymous", ignoreCase = true) || name.equals("Anonymous Nebian", ignoreCase = true) }
-    val effectiveVerificationLevel = if (isNebians && verificationLevel == 0) 1 else verificationLevel
+    val effectiveVerificationLevel = verificationLevel
 
     Box(modifier = modifier.size(size)) {
         Surface(
@@ -1134,7 +1134,7 @@ fun Avatar(
                     modifier = Modifier.size(badgeSize * 0.7f)
                 )
             }
-        } else if (effectiveVerificationLevel > 0) {
+        } else if (effectiveVerificationLevel > 0 && !isNebians) {
             val badgeColor = when (effectiveVerificationLevel) {
                 1 -> Color(0xFF1D65D8)
                 2 -> Color(0xFF2E7D32)
