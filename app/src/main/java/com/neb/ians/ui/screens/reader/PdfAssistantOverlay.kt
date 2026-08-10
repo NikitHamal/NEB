@@ -17,7 +17,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -180,7 +181,7 @@ private fun PdfAiPanel(
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
-                IconButton(onClick = viewModel::startNewSession, modifier = Modifier.size(34.dp)) {
+                IconButton(onClick = viewModel::newChat, modifier = Modifier.size(34.dp)) {
                     Icon(Icons.Filled.Add, contentDescription = "New chat", modifier = Modifier.size(18.dp))
                 }
                 IconButton(onClick = viewModel::toggleHistory, modifier = Modifier.size(34.dp)) {
@@ -212,7 +213,7 @@ private fun PdfAiPanel(
                 PdfAiHistoryList(
                     sessions = state.sessions,
                     currentSessionId = state.currentSessionId,
-                    onSelectSession = viewModel::switchSession,
+                    onSelectSession = viewModel::selectSession,
                     modifier = Modifier.weight(1f)
                 )
             } else {

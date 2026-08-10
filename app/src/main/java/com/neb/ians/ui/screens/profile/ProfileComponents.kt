@@ -636,8 +636,8 @@ fun ProfileHeaderCard(
                                 "github" -> R.drawable.ic_github
                                 "tiktok" -> R.drawable.ic_tiktok
                                 "telegram" -> R.drawable.ic_telegram
-                                "discord" -> R.drawable.ic_discord
-                                else -> null
+                                "website", "web", "site", "portfolio" -> R.drawable.ic_globe
+                                else -> R.drawable.ic_globe
                             }
                             Box(
                                 modifier = Modifier
@@ -658,7 +658,7 @@ fun ProfileHeaderCard(
                                     Icon(
                                         painter = painterResource(id = iconRes),
                                         contentDescription = link.platformLabel,
-                                        tint = Color.Unspecified,
+                                        tint = if (iconRes == R.drawable.ic_globe) MaterialTheme.colorScheme.primary else Color.Unspecified,
                                         modifier = Modifier.size(18.dp)
                                     )
                                 } else {
