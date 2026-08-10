@@ -28,6 +28,14 @@ from api.security import (
     validate_resource_file_url, validate_and_save_resource_file,
     save_resource_thumbnail_upload, maybe_autoset_video_thumbnail,
 )
+
+def _make_abs_url(path: str) -> str:
+    if not path:
+        return ''
+    if path.startswith('http://') or path.startswith('https://'):
+        return path
+    domain = 'https://nebians.consica.com.np'
+    return domain + (path if path.startswith('/') else '/' + path)
 from api.authentication import verify_google_token
 from api.utils import now_ms, uuid_str
 from api import services
@@ -457,7 +465,7 @@ def _serialize_posts(posts_qs, user_id=None):
         all_images.setdefault(img.post_id, []).append({'id': img.id, 'imageUrl': img.image_url, 'order': img.order})
     all_media = {}
     for m in PostMedia.objects.filter(post_id__in=post_ids).order_by('order', 'created_at'):
-        thumb = m.thumbnail_url or ''
+        thumb = _make_abs_url(m.thumbnail_url)
         all_media.setdefault(m.post_id, []).append({
             'id': m.id, 'kind': m.kind, 'url': m.url,
             'thumbnail_url': thumb, 'thumbnailUrl': thumb,
@@ -527,7 +535,7 @@ def _serialize_post(p, user_id=None, _liked_ids=None, _followed_ids=None, _bookm
     anon = bool(getattr(p, 'is_anonymous', False))
     media = [{
         'id': m.id, 'kind': m.kind, 'url': m.url,
-        'thumbnail_url': m.thumbnail_url or '', 'thumbnailUrl': m.thumbnail_url or '',
+        'thumbnail_url': _make_abs_url(m.thumbnail_url), 'thumbnailUrl': _make_abs_url(m.thumbnail_url),
         'name': m.name, 'mimeType': m.mime_type, 'sizeBytes': m.size_bytes, 'order': m.order,
     } for m in PostMedia.objects.filter(post_id=p.id).order_by('order', 'created_at')]
     return {
@@ -574,7 +582,7 @@ def _serialize_replies(replies_qs, user_id=None):
     all_media = {}
     reply_ids = [r.id for r in replies]
     for m in PostMedia.objects.filter(reply_id__in=reply_ids).order_by('order', 'created_at'):
-        thumb = m.thumbnail_url or ''
+        thumb = _make_abs_url(m.thumbnail_url)
         all_media.setdefault(m.reply_id, []).append({
             'id': m.id, 'kind': m.kind, 'url': m.url,
             'thumbnail_url': thumb, 'thumbnailUrl': thumb,
@@ -658,7 +666,7 @@ def _serialize_reply(r, user_id=None, _liked_ids=None, _bookmarked_ids=None):
     anon = bool(getattr(r, 'is_anonymous', False))
     media = [{
         'id': m.id, 'kind': m.kind, 'url': m.url,
-        'thumbnail_url': m.thumbnail_url or '', 'thumbnailUrl': m.thumbnail_url or '',
+        'thumbnail_url': _make_abs_url(m.thumbnail_url), 'thumbnailUrl': _make_abs_url(m.thumbnail_url),
         'name': m.name, 'mimeType': m.mime_type, 'sizeBytes': m.size_bytes, 'order': m.order,
     } for m in r.media.all()]
     return {
