@@ -219,8 +219,8 @@ internal fun buildInlineAnnotatedString(
     baseColor: Color,
     primary: Color,
     codeBg: Color,
-    errorBg: Color = Color.Transparent,
-    errorFg: Color = Color.Transparent
+    errorBg: Color = Color(0xFFFFD8E4),
+    errorFg: Color = Color(0xFF31111D)
 ): AnnotatedString = buildAnnotatedString {
     var cursor = 0
     inlinePattern.findAll(text).forEach { match ->
