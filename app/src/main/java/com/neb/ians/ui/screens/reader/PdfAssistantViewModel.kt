@@ -65,7 +65,11 @@ class PdfAssistantViewModel @Inject constructor(
     val uiState: StateFlow<PdfAssistantUiState> = _uiState.asStateFlow()
 
     fun openPrompt() {
-        _uiState.update { it.copy(isPromptOpen = true, isMinimized = false) }
+        _uiState.update { it.copy(isPromptOpen = true, isPanelOpen = true, isMinimized = false) }
+    }
+
+    fun togglePanel() {
+        _uiState.update { it.copy(isPanelOpen = !it.isPanelOpen, isMinimized = false) }
     }
 
     fun collapseToFab() {

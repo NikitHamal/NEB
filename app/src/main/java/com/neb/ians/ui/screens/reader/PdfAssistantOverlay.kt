@@ -41,6 +41,7 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Fullscreen
 import androidx.compose.material.icons.filled.FullscreenExit
 import androidx.compose.material.icons.filled.History
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Minimize
 import androidx.compose.material3.CircularProgressIndicator
@@ -117,11 +118,7 @@ fun PdfAssistantOverlay(
                         PdfAiPanel(
                             state = state,
                             documentTitle = documentTitle,
-                            onToggleHistory = viewModel::toggleHistory,
-                            onToggleFullscreen = viewModel::toggleFullscreen,
-                            onMinimize = viewModel::minimize,
-                            onNewChat = viewModel::newChat,
-                            onSelectSession = viewModel::selectSession,
+                            viewModel = viewModel,
                             modifier = if (state.isFullscreen) Modifier.fillMaxSize() else Modifier.height(420.dp)
                         )
                     }
@@ -131,6 +128,7 @@ fun PdfAssistantOverlay(
                     onValueChange = viewModel::onPromptChange,
                     onSend = viewModel::send,
                     onCollapse = viewModel::collapseToFab,
+                    onTogglePanel = viewModel::togglePanel,
                     isThinking = state.isThinking,
                     attached = state.isPanelOpen
                 )
@@ -143,96 +141,137 @@ fun PdfAssistantOverlay(
 private fun PdfAiPanel(
     state: PdfAssistantUiState,
     documentTitle: String,
-    onToggleHistory: () -> Unit,
-    onToggleFullscreen: () -> Unit,
-    onMinimize: () -> Unit,
-    onNewChat: () -> Unit,
-    onSelectSession: (String) -> Unit,
+    viewModel: PdfAssistantViewModel,
     modifier: Modifier = Modifier
 ) {
-    val listState = rememberLazyListState()
-    LaunchedEffect(state.messages.size, state.isThinking) {
-        val count = state.messages.size + if (state.isThinking) 1 else 0
-        if (count > 0) listState.animateScrollToItem(count - 1)
-    }
-
     Surface(
         modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp, bottomStart = 0.dp, bottomEnd = 0.dp),
+        shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
         color = MaterialTheme.colorScheme.surfaceContainerLowest,
-        tonalElevation = 4.dp,
-        shadowElevation = 8.dp,
+        tonalElevation = 2.dp,
+        shadowElevation = 10.dp,
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
     ) {
         Column(Modifier.fillMaxSize()) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 16.dp, end = 6.dp, top = 8.dp, bottom = 8.dp),
+                    .padding(horizontal = 14.dp, vertical = 10.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(Icons.Filled.AutoAwesome, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(20.dp))
+                Icon(
+                    imageVector = Icons.Filled.AutoAwesome,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(20.dp)
+                )
                 Spacer(Modifier.width(8.dp))
                 Column(Modifier.weight(1f)) {
-                    Text(currentTitle(state, documentTitle), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                    Text("Grounded in this PDF", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                }
-                IconButton(onClick = onToggleHistory, modifier = Modifier.size(38.dp)) {
-                    Icon(Icons.Filled.History, contentDescription = "Chat history", modifier = Modifier.size(19.dp))
-                }
-                IconButton(onClick = onToggleFullscreen, modifier = Modifier.size(38.dp)) {
-                    Icon(
-                        if (state.isFullscreen) Icons.Filled.FullscreenExit else Icons.Filled.Fullscreen,
-                        contentDescription = if (state.isFullscreen) "Exit full screen" else "Full screen",
-                        modifier = Modifier.size(19.dp)
+                    Text(
+                        text = currentTitle(state, documentTitle),
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    Text(
+                        text = "AI Study Assistant",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
-                IconButton(onClick = onMinimize, modifier = Modifier.size(38.dp)) {
-                    Icon(Icons.Filled.Minimize, contentDescription = "Minimize", modifier = Modifier.size(19.dp))
+                IconButton(onClick = viewModel::startNewSession, modifier = Modifier.size(34.dp)) {
+                    Icon(Icons.Filled.Add, contentDescription = "New chat", modifier = Modifier.size(18.dp))
+                }
+                IconButton(onClick = viewModel::toggleHistory, modifier = Modifier.size(34.dp)) {
+                    Icon(
+                        Icons.Filled.History,
+                        contentDescription = "History",
+                        tint = if (state.showHistory) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.size(18.dp)
+                    )
+                }
+                IconButton(onClick = viewModel::toggleFullscreen, modifier = Modifier.size(34.dp)) {
+                    Icon(
+                        imageVector = if (state.isFullscreen) Icons.Filled.FullscreenExit else Icons.Filled.Fullscreen,
+                        contentDescription = "Toggle full screen",
+                        modifier = Modifier.size(18.dp)
+                    )
+                }
+                IconButton(onClick = viewModel::minimize, modifier = Modifier.size(34.dp)) {
+                    Icon(Icons.Filled.Minimize, contentDescription = "Minimize", modifier = Modifier.size(18.dp))
+                }
+                IconButton(onClick = viewModel::collapseToFab, modifier = Modifier.size(34.dp)) {
+                    Icon(Icons.Filled.Close, contentDescription = "Close", modifier = Modifier.size(18.dp))
                 }
             }
 
+            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+
             if (state.showHistory) {
-                PdfAiHistory(
+                PdfAiHistoryList(
                     sessions = state.sessions,
                     currentSessionId = state.currentSessionId,
-                    onNewChat = onNewChat,
-                    onSelectSession = onSelectSession,
+                    onSelectSession = viewModel::switchSession,
                     modifier = Modifier.weight(1f)
                 )
             } else {
+                val listState = rememberLazyListState()
+                LaunchedEffect(state.messages.size, state.isThinking) {
+                    if (state.messages.isNotEmpty()) {
+                        listState.animateScrollToItem(state.messages.size)
+                    }
+                }
                 LazyColumn(
                     state = listState,
                     modifier = Modifier
                         .weight(1f)
-                        .fillMaxWidth(),
-                    contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 14.dp, vertical = 10.dp),
-                    verticalArrangement = Arrangement.spacedBy(9.dp)
+                        .padding(horizontal = 14.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    contentPadding = PaddingValues(vertical = 12.dp)
                 ) {
-                    if (state.messages.isEmpty() && !state.isThinking) {
+                    if (state.messages.isEmpty()) {
                         item {
-                            Text(
-                                "Ask for an explanation, summary, formula, definition, or answer from this document.",
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                modifier = Modifier.padding(12.dp)
-                            )
+                            Surface(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 16.dp),
+                                shape = RoundedCornerShape(16.dp),
+                                color = MaterialTheme.colorScheme.surfaceContainerLow
+                            ) {
+                                Column(
+                                    modifier = Modifier.padding(16.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    Icon(
+                                        Icons.Filled.AutoAwesome,
+                                        contentDescription = null,
+                                        tint = MaterialTheme.colorScheme.primary,
+                                        modifier = Modifier.size(32.dp)
+                                    )
+                                    Spacer(Modifier.height(8.dp))
+                                    Text(
+                                        text = "Ask Neby AI about this document",
+                                        style = MaterialTheme.typography.titleSmall,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                    Spacer(Modifier.height(4.dp))
+                                    Text(
+                                        text = "Get summaries, explanations, formula derivations, or key questions.",
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                                    )
+                                }
+                            }
                         }
                     }
                     items(state.messages, key = { it.id }) { message ->
                         PdfAiMessageBubble(message)
                     }
                     if (state.isThinking) {
-                        item { PdfAiThinkingBubble() }
-                    }
-                    state.error?.let { error ->
                         item {
-                            Text(
-                                error,
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.error,
-                                modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp)
-                            )
+                            PdfAiThinkingBubble()
                         }
                     }
                 }
@@ -240,6 +279,7 @@ private fun PdfAiPanel(
         }
     }
 }
+
 @Composable
 private fun PdfAiMessageBubble(message: PdfAiMessage) {
     val isUser = message.role == "user"
@@ -301,31 +341,19 @@ private fun PdfAiThinkingBubble() {
 }
 
 @Composable
-private fun PdfAiHistory(
+private fun PdfAiHistoryList(
     sessions: List<PdfAiSession>,
     currentSessionId: String,
-    onNewChat: () -> Unit,
     onSelectSession: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
-        modifier = modifier.fillMaxWidth(),
-        contentPadding = androidx.compose.foundation.layout.PaddingValues(12.dp),
+        modifier = modifier.padding(12.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        item {
-            Surface(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable(onClick = onNewChat),
-                shape = RoundedCornerShape(14.dp),
-                color = MaterialTheme.colorScheme.primaryContainer
-            ) {
-                Row(Modifier.padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
-                    Icon(Icons.Filled.Add, contentDescription = null, modifier = Modifier.size(18.dp))
-                    Spacer(Modifier.width(8.dp))
-                    Text("New PDF chat", fontWeight = FontWeight.SemiBold)
-                }
+        if (sessions.isEmpty()) {
+            item {
+                Text("No chat history yet", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(12.dp))
             }
         }
         items(sessions, key = { it.id }) { session ->
@@ -370,6 +398,7 @@ private fun PdfAiPromptBar(
     onValueChange: (String) -> Unit,
     onSend: () -> Unit,
     onCollapse: () -> Unit,
+    onTogglePanel: () -> Unit,
     isThinking: Boolean,
     attached: Boolean
 ) {
@@ -386,11 +415,19 @@ private fun PdfAiPromptBar(
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
     ) {
         Row(
-            modifier = Modifier.padding(start = 10.dp, end = 6.dp, top = 7.dp, bottom = 7.dp),
+            modifier = Modifier.padding(start = 6.dp, end = 6.dp, top = 7.dp, bottom = 7.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = onCollapse, modifier = Modifier.size(36.dp)) {
                 Icon(Icons.Filled.Close, contentDescription = "Close PDF AI", modifier = Modifier.size(18.dp))
+            }
+            IconButton(onClick = onTogglePanel, modifier = Modifier.size(36.dp)) {
+                Icon(
+                    imageVector = if (attached) Icons.Filled.KeyboardArrowDown else Icons.Filled.KeyboardArrowUp,
+                    contentDescription = if (attached) "Collapse chat view" else "Expand chat view",
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(20.dp)
+                )
             }
             OutlinedTextField(
                 value = value,
