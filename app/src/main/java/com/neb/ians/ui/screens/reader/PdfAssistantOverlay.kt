@@ -1,5 +1,7 @@
 package com.neb.ians.ui.screens.reader
 
+import com.neb.ians.ui.components.MarkdownText
+
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -238,7 +240,6 @@ private fun PdfAiPanel(
         }
     }
 }
-
 @Composable
 private fun PdfAiMessageBubble(message: PdfAiMessage) {
     val isUser = message.role == "user"
@@ -256,12 +257,21 @@ private fun PdfAiMessageBubble(message: PdfAiMessage) {
             ),
             color = if (isUser) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceContainerLow
         ) {
-            Text(
-                message.content,
-                style = MaterialTheme.typography.bodyMedium,
-                color = if (isUser) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier.padding(horizontal = 13.dp, vertical = 10.dp)
-            )
+            Box(modifier = Modifier.padding(horizontal = 13.dp, vertical = 10.dp)) {
+                if (isUser) {
+                    Text(
+                        text = message.content,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                } else {
+                    MarkdownText(
+                        markdown = message.content,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                }
+            }
         }
     }
 }
