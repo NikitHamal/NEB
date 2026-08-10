@@ -510,6 +510,8 @@ fun markdownToInlinePreview(markdown: String): String {
             is MdBlock.Heading -> block.text
             is MdBlock.Quote -> block.text
             is MdBlock.ListItem -> (if (block.ordered) "${block.number}. " else "• ") + block.text
+            is MdBlock.CodeBlock -> block.code
+            is MdBlock.MathBlock -> block.formula
             is MdBlock.Paragraph -> block.text
         }
     }.replace(Regex("!\\[[^]]*]\\([^)]*\\)"), "").trim()
