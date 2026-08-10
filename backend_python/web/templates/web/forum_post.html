@@ -7,12 +7,12 @@
 {% block og_title %}{{ post.title|default:"Discussion" }} - NEBians Forum{% endblock %}
 {% block og_description %}{{ post.content|truncatechars:200|default:"Discussion on NEBians forum" }}{% endblock %}
 {% block og_type %}article{% endblock %}
-{% block og_image %}{% if post.images %}{{ post.images.0.imageUrl }}{% else %}https://nebians.consica.com.np{% static 'web/img/n-logo-social-1200.png' %}{% endif %}{% endblock %}
-{% block og_image_secure %}{% if post.images %}{{ post.images.0.imageUrl }}{% else %}https://nebians.consica.com.np{% static 'web/img/n-logo-social-1200.png' %}{% endif %}{% endblock %}
-{% block og_image_type %}{% if post.images %}image/jpeg{% else %}image/png{% endif %}{% endblock %}
-{% block og_image_alt %}{% if post.images %}Image from: {{ post.title|default:"Discussion" }}{% else %}NEBians logo{% endif %}{% endblock %}
-{% block tw_image %}{% if post.images %}{{ post.images.0.imageUrl }}{% else %}https://nebians.consica.com.np{% static 'web/img/n-logo-social-1200.png' %}{% endif %}{% endblock %}
-{% block tw_image_alt %}{% if post.images %}Image from: {{ post.title|default:"Discussion" }} on NEBians{% else %}NEBians logo{% endif %}{% endblock %}
+{% block og_image %}{% if post.images %}{{ post.images.0.imageUrl }}{% elif post.attachments.0.thumbnailUrl %}{{ post.attachments.0.thumbnailUrl }}{% elif post.attachments.0.thumbnail_url %}{{ post.attachments.0.thumbnail_url }}{% else %}https://nebians.consica.com.np{% static 'web/img/n-logo-social-1200.png' %}{% endif %}{% endblock %}
+{% block og_image_secure %}{% if post.images %}{{ post.images.0.imageUrl }}{% elif post.attachments.0.thumbnailUrl %}{{ post.attachments.0.thumbnailUrl }}{% elif post.attachments.0.thumbnail_url %}{{ post.attachments.0.thumbnail_url }}{% else %}https://nebians.consica.com.np{% static 'web/img/n-logo-social-1200.png' %}{% endif %}{% endblock %}
+{% block og_image_type %}{% if post.images or post.attachments.0.thumbnailUrl or post.attachments.0.thumbnail_url %}image/jpeg{% else %}image/png{% endif %}{% endblock %}
+{% block og_image_alt %}{% if post.images or post.attachments.0.thumbnailUrl or post.attachments.0.thumbnail_url %}Preview from: {{ post.title|default:"Discussion" }}{% else %}NEBians logo{% endif %}{% endblock %}
+{% block tw_image %}{% if post.images %}{{ post.images.0.imageUrl }}{% elif post.attachments.0.thumbnailUrl %}{{ post.attachments.0.thumbnailUrl }}{% elif post.attachments.0.thumbnail_url %}{{ post.attachments.0.thumbnail_url }}{% else %}https://nebians.consica.com.np{% static 'web/img/n-logo-social-1200.png' %}{% endif %}{% endblock %}
+{% block tw_image_alt %}{% if post.images or post.attachments.0.thumbnailUrl or post.attachments.0.thumbnail_url %}Preview from: {{ post.title|default:"Discussion" }} on NEBians{% else %}NEBians logo{% endif %}{% endblock %}
 {% block tw_title %}{{ post.title|default:"Discussion" }} - NEBians{% endblock %}
 {% block tw_description %}{{ post.content|truncatechars:200|default:"Discussion on NEBians forum" }}{% endblock %}
 {% block nav_forum %}md-nav-active{% endblock %}
