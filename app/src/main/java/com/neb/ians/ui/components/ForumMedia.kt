@@ -121,7 +121,7 @@ fun ForumMediaAttachments(
 private fun rememberMediaPlayer(url: String): ExoPlayer {
     val context = LocalContext.current
     val player = remember(url) {
-        ExoPlayer.Builder(context).build().apply {
+        com.neb.ians.util.createConfiguredExoPlayer(context).apply {
             setMediaItem(MediaItem.fromUri(url))
             prepare()
             playWhenReady = false
@@ -147,9 +147,12 @@ private fun PlayerPositionPoller(player: ExoPlayer, isPlaying: Boolean, onTick: 
 
 @Composable
 fun ForumVideoPlayer(attachment: ApiMediaAttachment, modifier: Modifier = Modifier) {
+    val context = LocalContext.current
     val url = resolveMediaUrl(attachment.url) ?: return
     val player = rememberMediaPlayer(url)
     var isPlaying by remember { mutableStateOf(false) }
+    var hasError by remember { mutableStateOf(false) }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
     var positionMs by remember { mutableLongStateOf(0L) }
     var durationMs by remember { mutableLongStateOf(0L) }
     var dragging by remember { mutableStateOf(false) }
@@ -163,7 +166,15 @@ fun ForumVideoPlayer(attachment: ApiMediaAttachment, modifier: Modifier = Modifi
         val listener = object : Player.Listener {
             override fun onIsPlayingChanged(playing: Boolean) {
                 isPlaying = playing
-                if (playing) ForumMediaSession.requestFocus(player)
+                if (playing) {
+                    hasError = false
+                    ForumMediaSession.requestFocus(player)
+                }
+            }
+
+            override fun onPlayerError(error: androidx.media3.common.PlaybackException) {
+                hasError = true
+                errorMessage = error.localizedMessage ?: "Playback error"
             }
 
             override fun onVideoSizeChanged(videoSize: VideoSize) {
@@ -223,7 +234,58 @@ fun ForumVideoPlayer(attachment: ApiMediaAttachment, modifier: Modifier = Modifi
                 modifier = Modifier.fillMaxSize()
             )
 
-            if (controlsVisible) {
+            if (hasError) {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = Color.Black.copy(alpha = 0.85f)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(16.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Icon(
+                            Icons.Filled.Videocam,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.error,
+                            modifier = Modifier.size(36.dp)
+                        )
+                        Spacer(Modifier.height(8.dp))
+                        Text(
+                            text = errorMessage ?: "Unable to play video stream",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = Color.White,
+                            textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                        )
+                        Spacer(Modifier.height(12.dp))
+                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            androidx.compose.material3.Button(
+                                onClick = {
+                                    hasError = false
+                                    player.prepare()
+                                    player.play()
+                                },
+                                shape = RoundedCornerShape(8.dp)
+                            ) {
+                                Text("Retry")
+                            }
+                            androidx.compose.material3.OutlinedButton(
+                                onClick = {
+                                    try {
+                                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                                        context.startActivity(intent)
+                                    } catch (_: Exception) {}
+                                },
+                                shape = RoundedCornerShape(8.dp)
+                            ) {
+                                Text("Open Link", color = Color.White)
+                            }
+                        }
+                    }
+                }
+            } else if (controlsVisible) {
                 // Center play/pause
                 Surface(
                     onClick = {

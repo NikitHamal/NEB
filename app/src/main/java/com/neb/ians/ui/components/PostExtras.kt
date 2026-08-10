@@ -122,11 +122,58 @@ import javax.inject.Inject
 
 private const val WEB_BASE = "https://nebians.consica.com.np"
 
-/** Resolve a possibly-relative media URL against the web origin (same as Avatar). */
 fun resolveMediaUrl(url: String?): String? {
     if (url.isNullOrBlank()) return null
     return if (url.startsWith("http://") || url.startsWith("https://")) url
     else "$WEB_BASE${if (url.startsWith("/")) "" else "/"}$url"
+}
+
+fun isVideoMediaUrl(url: String?): String? {
+    if (url.isNullOrBlank()) return null
+    val clean = url.substringBefore("?").lowercase()
+    return if (clean.endsWith(".mp4") || clean.endsWith(".webm") || clean.endsWith(".mov") || clean.endsWith(".m4v") || clean.endsWith(".mkv")) url else null
+}
+
+fun extractPostAttachments(post: ApiPost): List<com.neb.ians.data.api.ApiMediaAttachment> {
+    val result = post.attachments.toMutableList()
+
+    post.images.forEach { img ->
+        if (isVideoMediaUrl(img.imageUrl) != null && result.none { it.url == img.imageUrl }) {
+            result.add(
+                com.neb.ians.data.api.ApiMediaAttachment(
+                    id = img.id,
+                    kind = "video",
+                    url = img.imageUrl,
+                    name = img.imageUrl.substringAfterLast("/"),
+                    mimeType = "video/mp4",
+                    sizeBytes = 0,
+                    order = img.order,
+                    createdAt = 0
+                )
+            )
+        }
+    }
+
+    val videoRegex = Regex("""https?://[^\s<"]+?\.(?:mp4|webm|mov|m4v|mkv)(?:\?[^\s<"]*)?""", RegexOption.IGNORE_CASE)
+    videoRegex.findAll(post.content).forEach { match ->
+        val vUrl = match.value
+        if (result.none { it.url == vUrl }) {
+            result.add(
+                com.neb.ians.data.api.ApiMediaAttachment(
+                    id = vUrl.hashCode().toString(),
+                    kind = "video",
+                    url = vUrl,
+                    name = vUrl.substringAfterLast("/").substringBefore("?"),
+                    mimeType = "video/mp4",
+                    sizeBytes = 0,
+                    order = 99,
+                    createdAt = 0
+                )
+            )
+        }
+    }
+
+    return result
 }
 
 /** Share a forum post link via the system share sheet. */
@@ -426,9 +473,10 @@ fun ForumPostCard(
             }
 
             // ----- Media attachment badges (video/audio/files) -----
-            if (post.attachments.isNotEmpty()) {
+            val allAttachments = remember(post) { extractPostAttachments(post) }
+            if (allAttachments.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(10.dp))
-                ForumMediaBadges(post.attachments)
+                ForumMediaBadges(allAttachments)
             }
 
             Spacer(modifier = Modifier.height(12.dp))

@@ -929,10 +929,11 @@ private fun PostContentSection(
         }
 
         // ----- Media attachments (video / audio / files) -----
-        if (post.attachments.isNotEmpty()) {
+        val allAttachments = remember(post) { extractPostAttachments(post) }
+        if (allAttachments.isNotEmpty()) {
             Spacer(modifier = Modifier.height(12.dp))
             ForumMediaAttachments(
-                attachments = post.attachments,
+                attachments = allAttachments,
                 modifier = Modifier.fillMaxWidth()
             )
         }
