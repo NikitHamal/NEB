@@ -23,8 +23,7 @@ import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.MenuBook
 import androidx.compose.material.icons.filled.OpenInNew
-import androidx.compose.material.icons.filled.Share
-import androidx.compose.material.icons.filled.ThumbUp
+import androidx.compose.material.icons.filled.Verified
 import androidx.compose.material.icons.outlined.BookmarkBorder
 import androidx.compose.material.icons.outlined.ChatBubbleOutline
 import androidx.compose.material.icons.outlined.CloudUpload
@@ -268,27 +267,45 @@ private fun ResourceChip(
 
 @Composable
 private fun ResourceMetaBar(resource: ApiResource, onUserProfileClick: (String) -> Unit) {
+    val uploaderName = resource.uploadedByName.ifBlank { resource.uploadedByUsername.ifBlank { resource.authorName.orEmpty().ifBlank { "NEBians" } } }
+    val photo = resource.uploadedByPhoto
+    val isNebians = uploaderName.equals("NEBians", ignoreCase = true) || uploaderName.equals("nebians", ignoreCase = true)
+    val isAnon = resource.isAnonymous || uploaderName.equals("Anonymous", ignoreCase = true)
+    val uploadUsername = resource.uploadedByUsername.ifBlank { resource.authorUsernameSnake ?: "" }
+
     Row(
         modifier = Modifier.horizontalScroll(rememberScrollState()),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        when (resource.sourceType) {
-            "external" -> ResourceMetaItem(Icons.Outlined.Public, resource.sourceLabel ?: "External Source", highlight = Color(0xFFE37400))
-            "anonymous" -> ResourceMetaItem(Icons.Outlined.Public, "Anonymous")
-            "user" -> ResourceMetaItem(Icons.Outlined.CloudUpload, "Community", highlight = Color(0xFF0D652D))
-            else -> ResourceMetaItem(Icons.Outlined.Verified, "NEBians Team", highlight = MaterialTheme.colorScheme.primary)
-        }
-        val uploadUsername = resource.uploadedByUsername.ifBlank { resource.authorName.orEmpty() }
-        if (resource.sourceType == "user" && uploadUsername.isNotBlank()) {
-            ResourceMetaItem(
-                icon = null,
-                text = uploadUsername,
-                highlight = MaterialTheme.colorScheme.primary,
-                onClick = { onUserProfileClick(uploadUsername) }
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(6.dp),
+            modifier = if (uploadUsername.isNotBlank() && !isAnon) Modifier
+                .clip(RoundedCornerShape(999.dp))
+                .clickable { onUserProfileClick(uploadUsername) }
+                .padding(horizontal = 4.dp, vertical = 2.dp)
+            else Modifier
+        ) {
+            Avatar(
+                name = uploaderName,
+                imageUrl = photo,
+                size = 24.dp
             )
-        } else if (!resource.authorName.isNullOrBlank()) {
-            ResourceMetaItem(null, resource.authorName)
+            Text(
+                text = uploaderName,
+                style = MaterialTheme.typography.labelMedium,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            if (isNebians) {
+                Icon(
+                    imageVector = Icons.Filled.Verified,
+                    contentDescription = "Verified Official",
+                    modifier = Modifier.size(14.dp),
+                    tint = Color(0xFF1D65D8)
+                )
+            }
         }
         ResourceDot()
         ResourceMetaItem(Icons.Outlined.Schedule, formatTimeAgo(resource.addedAt))
