@@ -5,7 +5,6 @@ import android.net.Uri
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,19 +18,16 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.Chat
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -42,12 +38,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -59,53 +52,23 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.neb.ians.data.api.ApiConvertPointsRequest
-import com.neb.ians.data.api.ApiCreditBalanceResponse
-import com.neb.ians.data.api.ApiCreditTransaction
-import com.neb.ians.data.api.ApiService
-import com.neb.ians.data.repository.SecurePrefs
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.util.formatTimeAgo
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NebyCreditsScreen(
-    apiService: ApiService,
-    securePrefs: SecurePrefs,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    viewModel: NebyCreditsViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
-    val scope = rememberCoroutineScope()
-    var isLoading by remember { mutableStateOf(true) }
-    var balanceData by remember { mutableStateOf<ApiCreditBalanceResponse?>(null) }
-    var transactions by remember { mutableStateOf<List<ApiCreditTransaction>>(emptyList()) }
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     var pointsInput by remember { mutableStateOf("2") }
-    var isConverting by remember { mutableStateOf(false) }
-
-    fun loadData() {
-        scope.launch {
-            isLoading = true
-            try {
-                val token = securePrefs.getToken() ?: ""
-                val bearer = "Bearer $token"
-                val bal = apiService.getCreditBalance(bearer)
-                balanceData = bal
-                val hist = apiService.getCreditHistory(bearer)
-                transactions = hist.transactions
-            } catch (e: Exception) {
-                Toast.makeText(context, "Failed to load Neby Credits info", Toast.LENGTH_SHORT).show()
-            } finally {
-                isLoading = false
-            }
-        }
-    }
-
-    LaunchedEffect(Unit) {
-        loadData()
-    }
 
     val primaryColor = MaterialTheme.colorScheme.primary
+    val balance = uiState.balance
 
     Scaffold(
         topBar = {
@@ -117,7 +80,7 @@ fun NebyCreditsScreen(
                     }
                 },
                 actions = {
-                    IconButton(onClick = { loadData() }) {
+                    IconButton(onClick = { viewModel.loadData() }) {
                         Icon(Icons.Filled.Refresh, contentDescription = "Refresh")
                     }
                 },
@@ -127,7 +90,7 @@ fun NebyCreditsScreen(
             )
         }
     ) { padding ->
-        if (isLoading && balanceData == null) {
+        if (uiState.isLoading) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -137,7 +100,6 @@ fun NebyCreditsScreen(
                 CircularProgressIndicator()
             }
         } else {
-            val balance = balanceData ?: ApiCreditBalanceResponse()
             val totalCredits = balance.totalCredits
             val freeCredits = balance.freeCredits
             val aiCredits = balance.aiCredits
@@ -152,7 +114,6 @@ fun NebyCreditsScreen(
             ) {
                 item {
                     Spacer(Modifier.height(4.dp))
-                    // Header Credit Card
                     Surface(
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(20.dp),
@@ -192,25 +153,17 @@ fun NebyCreditsScreen(
                                     )
                                 }
                                 Spacer(Modifier.height(8.dp))
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.SpaceBetween,
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Column {
-                                        Text(
-                                            text = "$totalCredits Credits",
-                                            fontSize = 32.sp,
-                                            fontWeight = FontWeight.Black,
-                                            color = Color.White
-                                        )
-                                        Text(
-                                            text = "$freeCredits free monthly + $aiCredits converted",
-                                            style = MaterialTheme.typography.bodySmall,
-                                            color = Color.White.copy(alpha = 0.85f)
-                                        )
-                                    }
-                                }
+                                Text(
+                                    text = "$totalCredits Credits",
+                                    fontSize = 32.sp,
+                                    fontWeight = FontWeight.Black,
+                                    color = Color.White
+                                )
+                                Text(
+                                    text = "$freeCredits free monthly + $aiCredits converted",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = Color.White.copy(alpha = 0.85f)
+                                )
                                 Spacer(Modifier.height(12.dp))
                                 Text(
                                     text = "Every user gets 10 free credits refreshed every month. Used for PDF AI & AI tools. @neby community mentions are always free!",
@@ -222,7 +175,6 @@ fun NebyCreditsScreen(
                     }
                 }
 
-                // Points to Credits Conversion Card
                 item {
                     Surface(
                         modifier = Modifier.fillMaxWidth(),
@@ -335,29 +287,21 @@ fun NebyCreditsScreen(
                                         Toast.makeText(context, "Insufficient points balance", Toast.LENGTH_SHORT).show()
                                         return@Button
                                     }
-                                    scope.launch {
-                                        isConverting = true
-                                        try {
-                                            val token = securePrefs.getToken() ?: ""
-                                            val resp = apiService.convertPointsToCredits("Bearer $token", ApiConvertPointsRequest(pts))
-                                            if (resp.error != null) {
-                                                Toast.makeText(context, resp.error, Toast.LENGTH_SHORT).show()
-                                            } else {
-                                                Toast.makeText(context, resp.message.ifBlank { "Converted successfully!" }, Toast.LENGTH_SHORT).show()
-                                                loadData()
-                                            }
-                                        } catch (e: Exception) {
-                                            Toast.makeText(context, "Failed to convert points", Toast.LENGTH_SHORT).show()
-                                        } finally {
-                                            isConverting = false
+                                    viewModel.convertPoints(
+                                        points = pts,
+                                        onSuccess = { msg ->
+                                            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+                                        },
+                                        onError = { err ->
+                                            Toast.makeText(context, err, Toast.LENGTH_SHORT).show()
                                         }
-                                    }
+                                    )
                                 },
-                                enabled = !isConverting && inputVal >= 2 && inputVal % 2 == 0 && inputVal <= points,
+                                enabled = !uiState.isConverting && inputVal >= 2 && inputVal % 2 == 0 && inputVal <= points,
                                 modifier = Modifier.fillMaxWidth(),
                                 shape = RoundedCornerShape(12.dp)
                             ) {
-                                if (isConverting) {
+                                if (uiState.isConverting) {
                                     CircularProgressIndicator(modifier = Modifier.size(18.dp), strokeWidth = 2.dp)
                                 } else {
                                     Text("Convert Points to Credits", fontWeight = FontWeight.Bold)
@@ -367,7 +311,6 @@ fun NebyCreditsScreen(
                     }
                 }
 
-                // WhatsApp Contact Card
                 item {
                     Surface(
                         modifier = Modifier.fillMaxWidth(),
@@ -435,7 +378,6 @@ fun NebyCreditsScreen(
                     }
                 }
 
-                // Transaction History Header
                 item {
                     Text(
                         text = "Credit Activity History",
@@ -445,7 +387,7 @@ fun NebyCreditsScreen(
                     )
                 }
 
-                if (transactions.isEmpty()) {
+                if (uiState.transactions.isEmpty()) {
                     item {
                         Text(
                             text = "No credit activity recorded yet.",
@@ -454,7 +396,7 @@ fun NebyCreditsScreen(
                         )
                     }
                 } else {
-                    items(transactions, key = { it.id }) { tx ->
+                    items(uiState.transactions, key = { it.id }) { tx ->
                         Surface(
                             modifier = Modifier.fillMaxWidth(),
                             shape = RoundedCornerShape(12.dp),

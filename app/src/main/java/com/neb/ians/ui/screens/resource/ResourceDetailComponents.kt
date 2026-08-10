@@ -435,7 +435,7 @@ private fun ResourceFileCard(resource: ApiResource, onRead: () -> Unit, onDownlo
                         ResourceMediaType.Pdf -> Icons.Filled.MenuBook
                         ResourceMediaType.Image -> Icons.Outlined.Image
                         ResourceMediaType.Video, ResourceMediaType.Audio -> Icons.Outlined.PlayCircle
-                        else -> Icons.Filled.OpenInNew
+                        else -> Icons.Outlined.Public
                     }
                     val buttonText = when (mediaType) {
                         ResourceMediaType.Pdf -> "Read"
