@@ -103,7 +103,6 @@ urlpatterns = [
     path('ajax/user-search/', views.ajax_user_search, name='ajax_user_search'),
     path('ajax/check-username/', views.ajax_check_username, name='ajax_check_username'),
     path('ajax/theme/', views.ajax_set_theme, name='ajax_set_theme'),
-    path('ajax/credits/convert/', views.ajax_convert_credits, name='ajax_convert_credits'),
     path('ajax/follow/<str:user_id>/', views.ajax_follow_user, name='ajax_follow_user'),
     path('ajax/follow-requests/<str:request_id>/accept/', views.ajax_accept_follow_request, name='ajax_accept_follow_request'),
     path('ajax/follow-requests/<str:request_id>/reject/', views.ajax_reject_follow_request, name='ajax_reject_follow_request'),
