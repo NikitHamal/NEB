@@ -572,12 +572,25 @@ def generate_video_thumbnail(rel_path: str) -> str:
 
         media_prefix = getattr(settings, 'MEDIA_URL', '/media/')
         rel_clean = path_only.replace(media_prefix, '').lstrip('/')
-        abs_video = os.path.join(settings.MEDIA_ROOT, rel_clean)
-        if not os.path.exists(abs_video):
-            logger.warning("generate_video_thumbnail: video file not found at %s (input: %s)", abs_video, rel_path)
+
+        candidate_paths = [
+            os.path.join(settings.MEDIA_ROOT, rel_clean),
+            os.path.join('/home/consicac/nebians.consica.com.np/media', rel_clean),
+            os.path.join('/home/consicac/nebians_api/public/media', rel_clean),
+            os.path.join('/home/consicac/nebians_api/media', rel_clean),
+        ]
+        
+        abs_video = None
+        for p in candidate_paths:
+            if os.path.exists(p):
+                abs_video = p
+                break
+
+        if not abs_video:
+            logger.warning("generate_video_thumbnail: video file not found for input %s", rel_path)
             return ''
             
-        thumb_dir = os.path.join(settings.MEDIA_ROOT, 'forum_media', 'thumbnails')
+        thumb_dir = os.path.join(os.path.dirname(os.path.dirname(abs_video)), 'thumbnails')
         os.makedirs(thumb_dir, exist_ok=True)
         base_name = os.path.splitext(os.path.basename(abs_video))[0]
         thumb_filename = f"thumb_{base_name}.jpg"
@@ -594,6 +607,11 @@ def generate_video_thumbnail(rel_path: str) -> str:
         ]
         res = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=15)
         if res.returncode == 0 and os.path.exists(abs_thumb) and os.path.getsize(abs_thumb) > 0:
+            # Sync thumbnail file to public/media if needed
+            pub_thumb_dir = os.path.join('/home/consicac/nebians.consica.com.np/media/forum_media/thumbnails')
+            if os.path.exists('/home/consicac/nebians.consica.com.np/media'):
+                os.makedirs(pub_thumb_dir, exist_ok=True)
+                shutil.copy2(abs_thumb, os.path.join(pub_thumb_dir, thumb_filename))
             return rel_thumb
         else:
             logger.warning("ffmpeg returned %s for %s: %s", res.returncode, abs_video, res.stderr.decode('utf-8', errors='ignore'))
