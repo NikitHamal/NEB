@@ -561,9 +561,17 @@ def generate_video_thumbnail(rel_path: str) -> str:
         import shutil
         from django.conf import settings
         
-        rel_clean = rel_path.replace(settings.MEDIA_URL, '').lstrip('/')
+        path_only = rel_path
+        if '://' in path_only:
+            path_only = path_only.split('://', 1)[1]
+            if '/' in path_only:
+                path_only = '/' + path_only.split('/', 1)[1]
+
+        media_prefix = getattr(settings, 'MEDIA_URL', '/media/')
+        rel_clean = path_only.replace(media_prefix, '').lstrip('/')
         abs_video = os.path.join(settings.MEDIA_ROOT, rel_clean)
         if not os.path.exists(abs_video):
+            logger.warning("generate_video_thumbnail: video file not found at %s (input: %s)", abs_video, rel_path)
             return ''
             
         thumb_dir = os.path.join(settings.MEDIA_ROOT, 'forum_media', 'thumbnails')
@@ -576,14 +584,16 @@ def generate_video_thumbnail(rel_path: str) -> str:
         if os.path.exists(abs_thumb) and os.path.getsize(abs_thumb) > 0:
             return rel_thumb
             
-        ffmpeg_bin = shutil.which('ffmpeg') or '/usr/bin/ffmpeg'
+        ffmpeg_bin = shutil.which('ffmpeg') or '/usr/bin/ffmpeg' or '/usr/local/bin/ffmpeg'
         cmd = [
             ffmpeg_bin, '-y', '-ss', '00:00:01', '-i', abs_video,
             '-vframes', '1', '-q:v', '3', '-vf', 'scale=1280:-2', abs_thumb
         ]
-        res = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=10)
+        res = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=15)
         if res.returncode == 0 and os.path.exists(abs_thumb) and os.path.getsize(abs_thumb) > 0:
             return rel_thumb
+        else:
+            logger.warning("ffmpeg returned %s for %s: %s", res.returncode, abs_video, res.stderr.decode('utf-8', errors='ignore'))
     except Exception as exc:
         logger.warning("generate_video_thumbnail failed: %s", exc)
     return ''
