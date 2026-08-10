@@ -291,70 +291,75 @@ internal fun parseMarkdownBlocks(markdown: String): List<MdBlock> {
 
 fun formatLatexMath(input: String): String {
     if (input.isBlank()) return ""
-    var text = input
-    text = text.replace(Regex("\\\\\\[([\\s\\S]*?)\\\\\\]")) { m ->
-        "\n" + formatMathExpression(m.groupValues[1].trim()) + "\n"
-    }.replace(Regex("\\$\\$([\\s\\S]*?)\\$\\$")) { m ->
-        "\n" + formatMathExpression(m.groupValues[1].trim()) + "\n"
-    }
-    text = text.replace(Regex("\\\\\\(([\\s\\S]*?)\\\\\\))")) { m ->
-        formatMathExpression(m.groupValues[1].trim())
-    }.replace(Regex("(?<!\\\\)\\$([^$\\n]+)\\$")) { m ->
-        formatMathExpression(m.groupValues[1].trim())
-    }
-    return text
+    return runCatching {
+        var text = input
+        text = text.replace(Regex("""\\\[([\s\S]*?)\\\]""")) { m ->
+            "\n" + formatMathExpression(m.groupValues[1].trim()) + "\n"
+        }.replace(Regex("""\$\$([\s\S]*?)\$\$""")) { m ->
+            "\n" + formatMathExpression(m.groupValues[1].trim()) + "\n"
+        }
+        text = text.replace(Regex("""\\\(([\s\S]*?)\\\)""")) { m ->
+            formatMathExpression(m.groupValues[1].trim())
+        }.replace(Regex("""(?<!\\)\$([^$\n]+)\$""")) { m ->
+            formatMathExpression(m.groupValues[1].trim())
+        }
+        text
+    }.getOrDefault(input)
 }
 
 fun formatMathExpression(expr: String): String {
-    var s = expr
-    s = s.replace(Regex("\\\\frac\\{([^}]+)\\}\\{([^}]+)\\}"), "($1)/($2)")
-    s = s.replace(Regex("\\\\sqrt\\{([^}]+)\\}"), "√($1)")
-    s = s.replace("\\sqrt", "√")
-    s = s.replace("\\pm", "±")
-         .replace("\\times", "×")
-         .replace("\\div", "÷")
-         .replace("\\cdot", "·")
-         .replace("\\approx", "≈")
-         .replace("\\neq", "≠")
-         .replace("\\le", "≤")
-         .replace("\\ge", "≥")
-         .replace("\\infty", "∞")
-         .replace("\\sum", "∑")
-         .replace("\\int", "∫")
-         .replace("\\partial", "∂")
-         .replace("\\rightarrow", "→")
-         .replace("\\Rightarrow", "⇒")
-         .replace("\\leftrightarrow", "↔")
-         .replace("\\in", "∈")
-         .replace("\\subset", "⊂")
-         .replace("\\cup", "∪")
-         .replace("\\cap", "∩")
-    s = s.replace("\\alpha", "α")
-         .replace("\\beta", "β")
-         .replace("\\gamma", "γ")
-         .replace("\\delta", "δ")
-         .replace("\\epsilon", "ε")
-         .replace("\\theta", "θ")
-         .replace("\\lambda", "λ")
-         .replace("\\mu", "μ")
-         .replace("\\pi", "π")
-         .replace("\\sigma", "σ")
-         .replace("\\phi", "φ")
-         .replace("\\omega", "ω")
-         .replace("\\Delta", "Δ")
-         .replace("\\Omega", "Ω")
-         .replace("\\Sigma", "Σ")
-         .replace("\\Pi", "Π")
-    s = s.replace(Regex("\\\\text\\{([^}]+)\\}"), "$1")
-    s = s.replace("^0", "⁰").replace("^1", "¹").replace("^2", "²").replace("^3", "³")
-         .replace("^4", "⁴").replace("^5", "⁵").replace("^6", "⁶").replace("^7", "⁷")
-         .replace("^8", "⁸").replace("^9", "⁹").replace("^n", "ⁿ").replace("^x", "ˣ")
-         .replace("^y", "ʸ").replace("^+", "⁺").replace("^-", "⁻").replace("^=", "⁼")
-    s = s.replace("_0", "₀").replace("_1", "₁").replace("_2", "₂").replace("_3", "₃")
-         .replace("_4", "₄").replace("_5", "₅").replace("_6", "₆").replace("_7", "₇")
-         .replace("_8", "₈").replace("_9", "₉").replace("_a", "ₐ").replace("_e", "ₑ")
-         .replace("_o", "ₒ").replace("_x", "ₓ").replace("_i", "ᵢ").replace("_n", "ₙ")
-    return s
+    if (expr.isBlank()) return ""
+    return runCatching {
+        var s = expr
+        s = s.replace(Regex("""\\frac\{([^}]+)\}\{([^}]+)\}"""), "($1)/($2)")
+        s = s.replace(Regex("""\\sqrt\{([^}]+)\}"""), "√($1)")
+        s = s.replace("\\sqrt", "√")
+        s = s.replace("\\pm", "±")
+             .replace("\\times", "×")
+             .replace("\\div", "÷")
+             .replace("\\cdot", "·")
+             .replace("\\approx", "≈")
+             .replace("\\neq", "≠")
+             .replace("\\le", "≤")
+             .replace("\\ge", "≥")
+             .replace("\\infty", "∞")
+             .replace("\\sum", "∑")
+             .replace("\\int", "∫")
+             .replace("\\partial", "∂")
+             .replace("\\rightarrow", "→")
+             .replace("\\Rightarrow", "⇒")
+             .replace("\\leftrightarrow", "↔")
+             .replace("\\in", "∈")
+             .replace("\\subset", "⊂")
+             .replace("\\cup", "∪")
+             .replace("\\cap", "∩")
+        s = s.replace("\\alpha", "α")
+             .replace("\\beta", "β")
+             .replace("\\gamma", "γ")
+             .replace("\\delta", "δ")
+             .replace("\\epsilon", "ε")
+             .replace("\\theta", "θ")
+             .replace("\\lambda", "λ")
+             .replace("\\mu", "μ")
+             .replace("\\pi", "π")
+             .replace("\\sigma", "σ")
+             .replace("\\phi", "φ")
+             .replace("\\omega", "ω")
+             .replace("\\Delta", "Δ")
+             .replace("\\Omega", "Ω")
+             .replace("\\Sigma", "Σ")
+             .replace("\\Pi", "Π")
+        s = s.replace(Regex("""\\text\{([^}]+)\}"""), "$1")
+        s = s.replace("^0", "⁰").replace("^1", "¹").replace("^2", "²").replace("^3", "³")
+             .replace("^4", "⁴").replace("^5", "⁵").replace("^6", "⁶").replace("^7", "⁷")
+             .replace("^8", "⁸").replace("^9", "⁹").replace("^n", "ⁿ").replace("^x", "ˣ")
+             .replace("^y", "ʸ").replace("^+", "⁺").replace("^-", "⁻").replace("^=", "⁼")
+        s = s.replace("_0", "₀").replace("_1", "₁").replace("_2", "₂").replace("_3", "₃")
+             .replace("_4", "₄").replace("_5", "₅").replace("_6", "₆").replace("_7", "₇")
+             .replace("_8", "₈").replace("_9", "₉").replace("_a", "ₐ").replace("_e", "ₑ")
+             .replace("_o", "ₒ").replace("_x", "ₓ").replace("_i", "ᵢ").replace("_n", "ₙ")
+        s
+    }.getOrDefault(expr)
 }
 
 private val inlinePattern = Regex(
