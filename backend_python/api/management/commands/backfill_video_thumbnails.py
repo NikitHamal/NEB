@@ -78,6 +78,28 @@ class Command(BaseCommand):
             processed += 1
             self.stdout.write(f"  ok: {resource.id} -> {thumb_rel}")
 
+        # Process forum video attachments (PostMedia)
+        from api.models import PostMedia
+        from api.security import generate_video_thumbnail
+        forum_qs = PostMedia.objects.filter(kind='video').filter(Q(thumbnail_url__isnull=True) | Q(thumbnail_url=''))
+        self.stdout.write(f"Found {forum_qs.count()} forum video attachments needing thumbnails.")
+        for pm in forum_qs:
+            if limit and processed >= limit:
+                break
+            if dry_run:
+                self.stdout.write(f"  [dry-run forum] {pm.id} {pm.url}")
+                processed += 1
+                continue
+            thumb_rel = generate_video_thumbnail(pm.url)
+            if not thumb_rel:
+                failed += 1
+                self.stdout.write(self.style.WARNING(f"  could not extract forum video: {pm.id} {pm.url}"))
+                continue
+            pm.thumbnail_url = thumb_rel if thumb_rel.startswith('http') else (base + thumb_rel)
+            pm.save(update_fields=['thumbnail_url'])
+            processed += 1
+            self.stdout.write(f"  ok forum: {pm.id} -> {pm.thumbnail_url}")
+
         summary = (f"done: {processed} thumbnailed, {failed} failed, "
                    f"{skipped} non-video-file rows skipped")
         if dry_run:
