@@ -174,7 +174,15 @@ fun ForumVideoPlayer(attachment: ApiMediaAttachment, modifier: Modifier = Modifi
 
             override fun onPlayerError(error: androidx.media3.common.PlaybackException) {
                 hasError = true
-                errorMessage = error.localizedMessage ?: "Playback error"
+                val rawMsg = error.localizedMessage ?: error.message ?: ""
+                errorMessage = when {
+                    rawMsg.contains("dolby-vision", ignoreCase = true) ||
+                    rawMsg.contains("NO_EXCEEDS_CAPABILITIES", ignoreCase = true) ||
+                    rawMsg.contains("10bit", ignoreCase = true) ||
+                    rawMsg.contains("MediaCodecVideoRenderer", ignoreCase = true) ->
+                        "Your device hardware decoder does not support 10-bit Dolby Vision video playback natively."
+                    else -> "Unable to play video stream."
+                }
             }
 
             override fun onVideoSizeChanged(videoSize: VideoSize) {
