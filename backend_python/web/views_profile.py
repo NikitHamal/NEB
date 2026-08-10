@@ -1257,7 +1257,7 @@ def credits_page(request):
 
     transactions = NebyCreditTransaction.objects.filter(user=current_user).order_by('-created_at')[:30]
 
-    ctx = _common_context(request)
+    ctx = _ctx(request)
     ctx.update({
         'title': 'Neby Credits — NEBians',
         'active_nav': 'credits',
