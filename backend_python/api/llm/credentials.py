@@ -282,6 +282,10 @@ def catalog_for_user(user) -> dict:
             for m in live:
                 if all(x['id'].lower() != m['id'].lower() for x in models):
                     models.append(m)
+        # k2think/poolside are direct public web proxies — the agent runner
+        # calls them with no key and no BotConfig row. Everything else
+        # community needs an enabled BotConfig to serve.
+        proxy_served = p.slug in ('k2think', 'poolside')
         community.append({
             'slug': p.slug,
             'label': p.label,
@@ -290,12 +294,12 @@ def catalog_for_user(user) -> dict:
             'contextWindow': p.context_window,
             'freeNote': '',
             'official': False,
-            'available': bool(bots),
-            # Only Qwen community models can drive agent sessions today — the
-            # other web models serve Neby bots/arena. Pickers must hide these
-            # for agent tasks until a runner adapter exists for them.
-            'selectableForAgent': p.slug == 'qwen',
-            'keySource': 'scraper' if bots else '',
+            'available': bool(bots) or proxy_served,
+            # Community models with a background-agent runner adapter can
+            # drive agent sessions. The other web models serve Neby
+            # bots/arena — pickers must hide them for agent tasks.
+            'selectableForAgent': p.slug in ('qwen', 'k2think', 'poolside'),
+            'keySource': 'scraper' if (bots or proxy_served) else '',
             'keyMasked': '',
             'byokProviderId': '',
             'defaultModel': (bots[0].model if bots and bots[0].model else
