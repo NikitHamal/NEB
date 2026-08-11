@@ -89,9 +89,11 @@
   <link rel="stylesheet" href="{% static 'web/css/material3.css' %}">
   <link rel="stylesheet" href="{% static 'web/css/app.css' %}">
   <link rel="stylesheet" href="{% static 'web/css/forum-media.css' %}">
+  <link rel="stylesheet" href="{% static 'web/css/pages/media-player.css' %}">
   {% block extra_css %}{% endblock %}
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/delegated-events.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/forum-media.js' %}"></script>
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/media-player.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/htmx.min.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/marked.min.js' %}"></script>
 <!-- HTMX global config: use full URL for pushState, allow CSS transitions -->
