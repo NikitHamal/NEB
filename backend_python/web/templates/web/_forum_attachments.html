@@ -5,7 +5,7 @@ list of dicts with kind (video|audio|file), url, name, sizeBytes/size_bytes.{% e
   {% for att in attachments %}
     {% if att.kind == 'video' %}
       {% if is_feed_card %}
-      <div class="fm-video-feed-card" data-action="play-inline-video" data-video-url="{{ att.url }}" style="max-width: 340px; width: 100%; border-radius: 12px; overflow: hidden; background: #090d16; margin-top: 8px; cursor: pointer; position: relative; border: 1px solid var(--md-outline-variant);">
+      <div class="fm-video-feed-card" data-action="open-post" data-post-url="{% if post_url %}{{ post_url }}{% elif post.id %}{% url 'web:forum_post' post_id=post.id %}{% else %}#{% endif %}" style="max-width: 340px; width: 100%; border-radius: 12px; overflow: hidden; background: #090d16; margin-top: 8px; cursor: pointer; position: relative; border: 1px solid var(--md-outline-variant);">
         <div style="position: relative; width: 100%; height: 180px; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #090d16;">
           {% if att.thumbnailUrl or att.thumbnail_url %}
             <img src="{{ att.thumbnailUrl|default:att.thumbnail_url }}" alt="" style="width: 100%; height: 100%; object-fit: cover; display: block; filter: brightness(0.88); transition: transform 0.3s ease, filter 0.3s ease;" class="fm-thumb-img">
@@ -23,8 +23,50 @@ list of dicts with kind (video|audio|file), url, name, sizeBytes/size_bytes.{% e
         </div>
       </div>
       {% else %}
-      <div class="fm-video-wrap">
-        <video class="fm-video" controls preload="metadata" playsinline src="{{ att.url }}"{% if att.thumbnailUrl or att.thumbnail_url %} poster="{{ att.thumbnailUrl|default:att.thumbnail_url }}"{% endif %}></video>
+      <div class="nmp nmp-video rd-preview" data-nmp data-kind="video" data-src="{{ att.url }}" data-title="{{ post.title|default:att.name|default:'Video' }}" data-provider="direct" tabindex="0" style="margin-top: 10px; border-radius: 14px; overflow: hidden;">
+        <div class="nmp-stage">
+          <video class="nmp-el nmp-el-video" preload="metadata" playsinline{% if att.thumbnailUrl or att.thumbnail_url %} poster="{{ att.thumbnailUrl|default:att.thumbnail_url }}"{% endif %}></video>
+          <div class="nmp-poster"{% if att.thumbnailUrl or att.thumbnail_url %} style="background-image: url('{{ att.thumbnailUrl|default:att.thumbnail_url }}'); background-size: cover; background-position: center;"{% endif %}>
+            <div class="nmp-poster-veil"></div>
+            <button class="nmp-big-play" data-nmp-big-play aria-label="Play"><span class="material-symbols-outlined">play_arrow</span></button>
+          </div>
+          <div class="nmp-buffer"></div>
+          <div class="nmp-error">
+            <span class="material-symbols-outlined">error_outline</span>
+            <p>Playback unavailable</p>
+            <a href="{{ att.url }}" target="_blank" rel="noopener noreferrer">Open file directly</a>
+          </div>
+        </div>
+        <div class="nmp-controls">
+          <div class="nmp-progress" data-nmp-progress tabindex="0" role="slider" aria-label="Seek">
+            <div class="nmp-progress-track"><div class="nmp-progress-buf" data-nmp-buf></div><div class="nmp-progress-fill" data-nmp-fill></div><div class="nmp-progress-thumb" data-nmp-thumb></div></div>
+          </div>
+          <div class="nmp-bar">
+            <button class="nmp-icon-btn" data-nmp-play aria-label="Play"><span class="material-symbols-outlined">play_arrow</span></button>
+            <button class="nmp-icon-btn nmp-icon-btn-sm" data-nmp-back aria-label="Rewind 10s"><span class="material-symbols-outlined">replay_10</span></button>
+            <button class="nmp-icon-btn nmp-icon-btn-sm" data-nmp-fwd aria-label="Forward 10s"><span class="material-symbols-outlined">forward_10</span></button>
+            <span class="nmp-time"><b data-nmp-current>0:00</b> / <span data-nmp-duration>0:00</span></span>
+            <span class="nmp-spacer"></span>
+            <div class="nmp-volume">
+              <button class="nmp-icon-btn" data-nmp-mute aria-label="Mute" aria-pressed="false"><span class="material-symbols-outlined">volume_up</span></button>
+              <input class="nmp-volume-range" data-nmp-volume type="range" min="0" max="1" step="0.05" value="1" aria-label="Volume">
+            </div>
+            <div class="nmp-speed" data-nmp-speed>
+              <button class="nmp-speed-btn" data-nmp-speed-btn aria-label="Speed" aria-expanded="false">1x</button>
+              <div class="nmp-speed-menu" data-nmp-speed-menu role="menu">
+                <button class="nmp-speed-option" data-speed="2" role="menuitem">2x</button>
+                <button class="nmp-speed-option" data-speed="1.75" role="menuitem">1.75x</button>
+                <button class="nmp-speed-option" data-speed="1.5" role="menuitem">1.5x</button>
+                <button class="nmp-speed-option" data-speed="1.25" role="menuitem">1.25x</button>
+                <button class="nmp-speed-option is-active" data-speed="1" role="menuitem">1x</button>
+                <button class="nmp-speed-option" data-speed="0.75" role="menuitem">0.75x</button>
+                <button class="nmp-speed-option" data-speed="0.5" role="menuitem">0.5x</button>
+              </div>
+            </div>
+            <button class="nmp-icon-btn" data-nmp-pip aria-label="Picture in Picture" hidden><span class="material-symbols-outlined">picture_in_picture</span></button>
+            <button class="nmp-icon-btn" data-nmp-fs aria-label="Fullscreen"><span class="material-symbols-outlined">fullscreen</span></button>
+          </div>
+        </div>
       </div>
       {% endif %}
     {% elif att.kind == 'audio' %}
