@@ -151,28 +151,46 @@
 
 /* Portrait / Vertical Videos (9:16 Shorts/Reels) */
 .nmp.is-portrait {
-  max-width: 380px;
+  width: fit-content;
+  max-width: min(380px, 100%);
   margin-left: 0;
-  margin-right: auto;
+  margin-right: 0;
   border-radius: 16px;
 }
 
 .nmp.is-portrait .nmp-stage {
   aspect-ratio: var(--nmp-stage-ratio, 9 / 16);
-  max-height: min(75vh, 580px);
+  max-height: min(75vh, 560px);
+  width: auto;
+}
+
+/* Hide seek-skip and speed on portrait — control bar is too narrow */
+.nmp.is-portrait [data-nmp-back],
+.nmp.is-portrait [data-nmp-fwd],
+.nmp.is-portrait [data-nmp-speed] {
+  display: none !important;
 }
 
 /* Square Videos (1:1) */
 .nmp.is-square {
-  max-width: 480px;
+  width: fit-content;
+  max-width: min(460px, 100%);
   margin-left: 0;
-  margin-right: auto;
+  margin-right: 0;
   border-radius: 16px;
 }
 
 .nmp.is-square .nmp-stage {
   aspect-ratio: var(--nmp-stage-ratio, 1 / 1);
-  max-height: min(70vh, 500px);
+  max-height: min(70vh, 480px);
+  width: auto;
+}
+
+/* Hide seek-skip and speed on square — saves control bar space */
+.nmp.is-square [data-nmp-back],
+.nmp.is-square [data-nmp-fwd],
+.nmp.is-square [data-nmp-speed] {
+  display: none !important;
 }
 
 .nmp-stage.is-theatre {
