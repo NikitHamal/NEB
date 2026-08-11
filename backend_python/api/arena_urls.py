@@ -8,6 +8,8 @@ from . import arena_qwen_views
 from . import arena_egov_views
 from . import arena_deepai_views
 from . import arena_inception_views
+from . import arena_k2think_views
+from . import arena_poolside_views
 
 urlpatterns = [
     # AI4Bharat Arena (text-only, anonymous token pool)
@@ -40,4 +42,14 @@ urlpatterns = [
     path('inception/models/', arena_inception_views.arena_inception_models, name='arena-inception-models'),
     path('inception/sessions/', arena_inception_views.arena_create_inception_session, name='arena-inception-create-session'),
     path('inception/sessions/<str:session_id>/messages/', arena_inception_views.arena_send_message_inception, name='arena-inception-send-message'),
+
+    # K2 Think (k2think.ai/guest — MBZUAI K2 Think V2 reasoning, no API key required)
+    path('k2think/models/', arena_k2think_views.arena_k2think_models, name='arena-k2think-models'),
+    path('k2think/sessions/', arena_k2think_views.arena_create_k2think_session, name='arena-k2think-create-session'),
+    path('k2think/sessions/<str:session_id>/messages/', arena_k2think_views.arena_send_message_k2think, name='arena-k2think-send-message'),
+
+    # Poolside (chat.poolside.ai/guest — Laguna S 2.1 / XS 2.1, no API key required)
+    path('poolside/models/', arena_poolside_views.arena_poolside_models, name='arena-poolside-models'),
+    path('poolside/sessions/', arena_poolside_views.arena_create_poolside_session, name='arena-poolside-create-session'),
+    path('poolside/sessions/<str:session_id>/messages/', arena_poolside_views.arena_send_message_poolside, name='arena-poolside-send-message'),
 ]
