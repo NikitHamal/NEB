@@ -441,6 +441,32 @@ def _serialize_post_poll(post_id, user_id=None):
         'userVote': user_vote,
     }
 
+def _serialize_web_media_item(m):
+    import json
+    from api.security import get_video_qualities
+    thumb = _make_abs_url(m.thumbnail_url)
+    quals = []
+    quals_json = '[]'
+    if m.kind == 'video':
+        quals = get_video_qualities(m.url)
+        try:
+            quals_json = json.dumps(quals)
+        except Exception:
+            quals_json = '[]'
+    return {
+        'id': m.id,
+        'kind': m.kind,
+        'url': m.url,
+        'thumbnail_url': thumb,
+        'thumbnailUrl': thumb,
+        'qualities': quals,
+        'qualities_json': quals_json,
+        'name': m.name,
+        'mimeType': m.mime_type,
+        'sizeBytes': m.size_bytes,
+        'order': m.order,
+    }
+
 def _serialize_posts(posts_qs, user_id=None):
     posts = list(posts_qs)
     liked_ids = set()
@@ -465,12 +491,7 @@ def _serialize_posts(posts_qs, user_id=None):
         all_images.setdefault(img.post_id, []).append({'id': img.id, 'imageUrl': img.image_url, 'order': img.order})
     all_media = {}
     for m in PostMedia.objects.filter(post_id__in=post_ids).order_by('order', 'created_at'):
-        thumb = _make_abs_url(m.thumbnail_url)
-        all_media.setdefault(m.post_id, []).append({
-            'id': m.id, 'kind': m.kind, 'url': m.url,
-            'thumbnail_url': thumb, 'thumbnailUrl': thumb,
-            'name': m.name, 'mimeType': m.mime_type, 'sizeBytes': m.size_bytes, 'order': m.order,
-        })
+        all_media.setdefault(m.post_id, []).append(_serialize_web_media_item(m))
     all_polls = {}
     polls = list(Poll.objects.filter(post_id__in=post_ids))
     user_votes_by_poll = {}
@@ -533,11 +554,7 @@ def _serialize_post(p, user_id=None, _liked_ids=None, _followed_ids=None, _bookm
         else:
             is_bookmarked = Bookmark.objects.filter(user_id=user_id, target_type='post', target_id=p.id).exists()
     anon = bool(getattr(p, 'is_anonymous', False))
-    media = [{
-        'id': m.id, 'kind': m.kind, 'url': m.url,
-        'thumbnail_url': _make_abs_url(m.thumbnail_url), 'thumbnailUrl': _make_abs_url(m.thumbnail_url),
-        'name': m.name, 'mimeType': m.mime_type, 'sizeBytes': m.size_bytes, 'order': m.order,
-    } for m in PostMedia.objects.filter(post_id=p.id).order_by('order', 'created_at')]
+    media = [_serialize_web_media_item(m) for m in PostMedia.objects.filter(post_id=p.id).order_by('order', 'created_at')]
     return {
         'id': p.id, 'title': p.title, 'content': p.content, 'category': p.category,
         'authorName': 'Anonymous Nebian' if anon else p.user.username,
@@ -582,12 +599,7 @@ def _serialize_replies(replies_qs, user_id=None):
     all_media = {}
     reply_ids = [r.id for r in replies]
     for m in PostMedia.objects.filter(reply_id__in=reply_ids).order_by('order', 'created_at'):
-        thumb = _make_abs_url(m.thumbnail_url)
-        all_media.setdefault(m.reply_id, []).append({
-            'id': m.id, 'kind': m.kind, 'url': m.url,
-            'thumbnail_url': thumb, 'thumbnailUrl': thumb,
-            'name': m.name, 'mimeType': m.mime_type, 'sizeBytes': m.size_bytes, 'order': m.order,
-        })
+        all_media.setdefault(m.reply_id, []).append(_serialize_web_media_item(m))
     child_reply_ids = {}
     for r in replies:
         if r.parent_reply_id:

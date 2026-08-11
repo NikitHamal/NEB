@@ -386,6 +386,28 @@
       }
     } catch (e) {}
 
+    if ((!qualitiesList || !qualitiesList.length) && src && kind === 'video') {
+      var baseSrc = src.split('?')[0];
+      var lastDot = baseSrc.lastIndexOf('.');
+      if (lastDot > 0) {
+        var pUrl = baseSrc.substring(0, lastDot);
+        var pExt = baseSrc.substring(lastDot);
+        var suffixes = ['_720p', '_480p', '_360p', '_h264'];
+        for (var si = 0; si < suffixes.length; si++) {
+          if (pUrl.endsWith(suffixes[si])) {
+            pUrl = pUrl.substring(0, pUrl.length - suffixes[si].length);
+            break;
+          }
+        }
+        qualitiesList = [
+          { label: 'Auto', height: 0, url: pUrl + pExt },
+          { label: '720p', height: 720, url: pUrl + '_720p' + pExt },
+          { label: '480p', height: 480, url: pUrl + '_480p' + pExt },
+          { label: '360p', height: 360, url: pUrl + '_360p' + pExt }
+        ];
+      }
+    }
+
     if (qualityWrap && qualityMenu && Array.isArray(qualitiesList) && qualitiesList.length > 1) {
       qualityWrap.style.display = '';
       while (qualityMenu.firstChild) qualityMenu.removeChild(qualityMenu.firstChild);
