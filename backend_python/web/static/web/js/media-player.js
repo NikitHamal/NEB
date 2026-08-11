@@ -109,6 +109,25 @@
       root.classList.toggle('is-loading', !!on);
     }
 
+    function applyAspectRatio() {
+      var vw = media.videoWidth;
+      var vh = media.videoHeight;
+      if (vw > 0 && vh > 0) {
+        var ratio = vw / vh;
+        root.style.setProperty('--nmp-stage-ratio', ratio);
+        if (ratio < 0.85) {
+          root.classList.add('is-portrait');
+          root.classList.remove('is-square', 'is-landscape');
+        } else if (ratio >= 0.85 && ratio <= 1.15) {
+          root.classList.add('is-square');
+          root.classList.remove('is-portrait', 'is-landscape');
+        } else {
+          root.classList.add('is-landscape');
+          root.classList.remove('is-portrait', 'is-square');
+        }
+      }
+    }
+
     function bindSrc() {
       if (srcBound) return Promise.resolve();
       srcBound = true;
@@ -121,6 +140,7 @@
       media.load();
       return new Promise(function (resolve) {
         var done = function () {
+          applyAspectRatio();
           media.removeEventListener('loadedmetadata', done);
           media.removeEventListener('error', done);
           resolve();
