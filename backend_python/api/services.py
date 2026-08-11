@@ -580,16 +580,25 @@ def delete_resource_comment(user, comment_id, is_admin=False):
 def _serialize_media_payload(media_iterable):
     """PostMedia/ResourceCommentMedia rows → camelCase attachment dicts,
     same shape as PostMediaSerializer."""
-    return [{
-        'id': m.id,
-        'kind': m.kind,
-        'url': m.url,
-        'name': m.name,
-        'mimeType': m.mime_type,
-        'sizeBytes': m.size_bytes,
-        'order': m.order,
-        'createdAt': m.created_at,
-    } for m in media_iterable]
+    from .security import get_video_qualities
+    res = []
+    for m in media_iterable:
+        thumb = getattr(m, 'thumbnail_url', '') or ''
+        quals = get_video_qualities(m.url) if getattr(m, 'kind', '') == 'video' else []
+        res.append({
+            'id': m.id,
+            'kind': m.kind,
+            'url': m.url,
+            'thumbnailUrl': thumb,
+            'thumbnail_url': thumb,
+            'qualities': quals,
+            'name': m.name,
+            'mimeType': m.mime_type,
+            'sizeBytes': m.size_bytes,
+            'order': m.order,
+            'createdAt': m.created_at,
+        })
+    return res
 
 
 def _serialize_resource_comment(comment):

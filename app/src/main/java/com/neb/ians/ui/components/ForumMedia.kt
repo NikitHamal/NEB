@@ -31,6 +31,8 @@ import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Videocam
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -38,6 +40,7 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -159,6 +162,9 @@ fun ForumVideoPlayer(attachment: ApiMediaAttachment, modifier: Modifier = Modifi
     var dragPosition by remember { mutableLongStateOf(0L) }
     var controlsVisible by remember { mutableStateOf(true) }
     var fullscreen by remember { mutableStateOf(false) }
+    val qualities = attachment.qualities ?: emptyList()
+    var qualityMenuExpanded by remember { mutableStateOf(false) }
+    var selectedQualityIndex by remember { mutableIntStateOf(0) }
     // Real aspect ratio of the stream (16:9 until the decoder reports size).
     var videoAspectRatio by remember { mutableStateOf(16f / 9f) }
 
@@ -383,6 +389,41 @@ fun ForumVideoPlayer(attachment: ApiMediaAttachment, modifier: Modifier = Modifi
                             color = Color.White,
                             style = MaterialTheme.typography.labelSmall
                         )
+                        if (qualities.size > 1) {
+                            Box {
+                                TextButton(
+                                    onClick = { qualityMenuExpanded = true },
+                                    modifier = Modifier.height(32.dp)
+                                ) {
+                                    Text(
+                                        text = qualities.getOrNull(selectedQualityIndex)?.label ?: "Auto",
+                                        color = Color.White,
+                                        style = MaterialTheme.typography.labelSmall,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                }
+                                DropdownMenu(
+                                    expanded = qualityMenuExpanded,
+                                    onDismissRequest = { qualityMenuExpanded = false }
+                                ) {
+                                    qualities.forEachIndexed { idx, q ->
+                                        DropdownMenuItem(
+                                            text = { Text(q.label, style = MaterialTheme.typography.bodySmall) },
+                                            onClick = {
+                                                selectedQualityIndex = idx
+                                                qualityMenuExpanded = false
+                                                val currentPos = player.currentPosition
+                                                val wasPlaying = player.isPlaying
+                                                player.setMediaItem(MediaItem.fromUri(q.url))
+                                                player.prepare()
+                                                player.seekTo(currentPos)
+                                                if (wasPlaying) player.play()
+                                            }
+                                        )
+                                    }
+                                }
+                            }
+                        }
                         IconButton(onClick = { fullscreen = true }) {
                             Icon(
                                 imageVector = Icons.Filled.Fullscreen,
