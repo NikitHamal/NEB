@@ -142,6 +142,13 @@ data class ApiMediaAttachmentInput(
 )
 
 @Serializable
+data class ApiVideoQuality(
+    val label: String = "",
+    val height: Int = 0,
+    val url: String = ""
+)
+
+@Serializable
 data class ApiMediaAttachment(
     val id: String = "",
     val kind: String = "file", // video | audio | file
@@ -151,7 +158,8 @@ data class ApiMediaAttachment(
     @SerialName("sizeBytes") val sizeBytes: Long = 0,
     val order: Int = 0,
     @SerialName("thumbnailUrl") val thumbnailUrl: String? = null,
-    @SerialName("thumbnail_url") val thumbnailUrlSnake: String? = null
+    @SerialName("thumbnail_url") val thumbnailUrlSnake: String? = null,
+    val qualities: List<ApiVideoQuality>? = null
 ) {
     val thumbnail: String? get() = thumbnailUrl ?: thumbnailUrlSnake
 }

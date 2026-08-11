@@ -374,6 +374,65 @@
       });
     }
 
+    var qualityWrap = $('[data-nmp-quality]', root);
+    var qualityBtn = qualityWrap ? $('[data-nmp-quality-btn]', qualityWrap) : null;
+    var qualityMenu = qualityWrap ? $('[data-nmp-quality-menu]', qualityWrap) : null;
+    var qualitiesList = [];
+
+    try {
+      var rawQ = root.getAttribute('data-qualities');
+      if (rawQ) {
+        qualitiesList = typeof rawQ === 'string' ? JSON.parse(rawQ) : rawQ;
+      }
+    } catch (e) {}
+
+    if (qualityWrap && qualityMenu && Array.isArray(qualitiesList) && qualitiesList.length > 1) {
+      qualityWrap.style.display = '';
+      while (qualityMenu.firstChild) qualityMenu.removeChild(qualityMenu.firstChild);
+      qualitiesList.forEach(function (q, idx) {
+        var btn = document.createElement('button');
+        btn.className = 'nmp-speed-option' + (idx === 0 ? ' is-active' : '');
+        btn.setAttribute('data-url', q.url);
+        btn.setAttribute('role', 'menuitem');
+        btn.textContent = q.label;
+        btn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          qualityMenu.querySelectorAll('.nmp-speed-option').forEach(function (b) { b.classList.remove('is-active'); });
+          btn.classList.add('is-active');
+          if (qualityBtn) qualityBtn.textContent = q.label;
+          qualityMenu.classList.remove('is-open');
+          if (qualityBtn) qualityBtn.setAttribute('aria-expanded', 'false');
+
+          var curTime = media.currentTime || 0;
+          var wasPlaying = !media.paused;
+          
+          while (media.firstChild) media.removeChild(media.firstChild);
+          var s = document.createElement('source');
+          s.src = q.url;
+          media.appendChild(s);
+          media.src = q.url;
+          media.currentTime = curTime;
+          if (wasPlaying) media.play().catch(function () {});
+        });
+        qualityMenu.appendChild(btn);
+      });
+
+      if (qualityBtn) {
+        qualityBtn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          if (speedMenu) speedMenu.classList.remove('is-open');
+          var open = qualityMenu.classList.toggle('is-open');
+          qualityBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+      }
+      document.addEventListener('click', function () {
+        qualityMenu.classList.remove('is-open');
+        if (qualityBtn) qualityBtn.setAttribute('aria-expanded', 'false');
+      });
+    } else if (qualityWrap) {
+      qualityWrap.style.display = 'none';
+    }
+
     if (progress) {
       var onDown = function (e) {
         if (e.button != null && e.button !== 0) return;

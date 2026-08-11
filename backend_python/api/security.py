@@ -686,6 +686,169 @@ def auto_transcode_video_to_h264(rel_path: str) -> bool:
     return False
 
 
+def get_video_qualities(video_url: str, request=None) -> list:
+    """Discovers available resolution variants for a video file (720p, 480p, 360p).
+    Returns list of dicts: [{'label': '720p', 'height': 720, 'url': '...'}, ...]"""
+    if not video_url or not isinstance(video_url, str):
+        return []
+    
+    base_url = video_url.split('?')[0]
+    ext_idx = base_url.rfind('.')
+    if ext_idx == -1:
+        return []
+    
+    prefix_url = base_url[:ext_idx]
+    ext = base_url[ext_idx:]
+
+    from django.conf import settings
+    path_only = base_url
+    if '://' in path_only:
+        path_only = path_only.split('://', 1)[1]
+        if '/' in path_only:
+            path_only = '/' + path_only.split('/', 1)[1]
+    
+    media_prefix = getattr(settings, 'MEDIA_URL', '/media/')
+    rel_clean = path_only.replace(media_prefix, '').lstrip('/')
+    dir_name = os.path.dirname(rel_clean)
+    base_filename = os.path.splitext(os.path.basename(rel_clean))[0]
+
+    for suffix in ('_720p', '_480p', '_360p', '_h264'):
+        if base_filename.endswith(suffix):
+            base_filename = base_filename[:-len(suffix)]
+            prefix_url = prefix_url[:-len(suffix)]
+            break
+
+    candidate_dirs = [
+        os.path.join(settings.MEDIA_ROOT, dir_name),
+        os.path.join('/home/consicac/nebians.consica.com.np/media', dir_name),
+        os.path.join('/home/consicac/nebians_api/public/media', dir_name),
+    ]
+    
+    valid_dir = None
+    for d in candidate_dirs:
+        if os.path.exists(d):
+            valid_dir = d
+            break
+
+    qualities = []
+    variant_targets = [
+        ('720p', 720, f"{base_filename}_720p{ext}", f"{prefix_url}_720p{ext}"),
+        ('480p', 480, f"{base_filename}_480p{ext}", f"{prefix_url}_480p{ext}"),
+        ('360p', 360, f"{base_filename}_360p{ext}", f"{prefix_url}_360p{ext}"),
+    ]
+    
+    for label, h, fname, url_var in variant_targets:
+        file_exists = False
+        if valid_dir:
+            file_exists = os.path.exists(os.path.join(valid_dir, fname))
+        if file_exists:
+            target_url = url_var
+            if request and not target_url.startswith('http'):
+                target_url = request.build_absolute_uri(target_url)
+            qualities.append({
+                'label': label,
+                'height': h,
+                'url': target_url
+            })
+
+    orig_url = f"{prefix_url}{ext}"
+    if request and not orig_url.startswith('http'):
+        orig_url = request.build_absolute_uri(orig_url)
+    qualities.insert(0, {
+        'label': 'Auto',
+        'height': 0,
+        'url': orig_url
+    })
+    
+    return qualities
+
+
+def auto_transcode_video_qualities(rel_path: str) -> list:
+    """Generates 720p, 480p, and 360p resolution variants for an uploaded video file."""
+    if not rel_path:
+        return []
+    try:
+        import subprocess
+        import shutil
+        from django.conf import settings
+
+        path_only = rel_path
+        if '://' in path_only:
+            path_only = path_only.split('://', 1)[1]
+            if '/' in path_only:
+                path_only = '/' + path_only.split('/', 1)[1]
+
+        media_prefix = getattr(settings, 'MEDIA_URL', '/media/')
+        rel_clean = path_only.replace(media_prefix, '').lstrip('/')
+
+        candidate_paths = [
+            os.path.join(settings.MEDIA_ROOT, rel_clean),
+            os.path.join('/home/consicac/nebians.consica.com.np/media', rel_clean),
+            os.path.join('/home/consicac/nebians_api/public/media', rel_clean),
+        ]
+        abs_video = None
+        for p in candidate_paths:
+            if os.path.exists(p):
+                abs_video = p
+                break
+        if not abs_video:
+            return []
+
+        ffprobe_bin = shutil.which('ffprobe') or '/usr/bin/ffprobe'
+        ffmpeg_bin = shutil.which('ffmpeg') or '/usr/bin/ffmpeg'
+
+        probe_cmd = [
+            ffprobe_bin, '-v', 'error', '-select_streams', 'v:0',
+            '-show_entries', 'stream=width,height', '-of', 'csv=s=x:p=0', abs_video
+        ]
+        res_probe = subprocess.run(probe_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=15)
+        orig_w, orig_h = 0, 0
+        if res_probe.returncode == 0 and res_probe.stdout.strip():
+            try:
+                parts = res_probe.stdout.strip().split('x')
+                orig_w, orig_h = int(parts[0]), int(parts[1])
+            except Exception:
+                pass
+
+        if orig_h == 0:
+            orig_h = 720
+
+        targets = []
+        if orig_h >= 720 or orig_w >= 1280:
+            targets.append(('720p', 720, 3, '128k'))
+        if orig_h >= 480 or orig_w >= 854:
+            targets.append(('480p', 480, 5, '96k'))
+        if orig_h >= 360 or orig_w >= 640:
+            targets.append(('360p', 360, 7, '64k'))
+
+        dir_name = os.path.dirname(abs_video)
+        base_name, ext = os.path.splitext(os.path.basename(abs_video))
+        pub_dir = os.path.join('/home/consicac/nebians.consica.com.np/media', os.path.dirname(rel_clean))
+
+        for label, height, qval, abit in targets:
+            out_name = f"{base_name}_{label}{ext}"
+            abs_out = os.path.join(dir_name, out_name)
+            if os.path.exists(abs_out) and os.path.getsize(abs_out) > 0:
+                continue
+
+            cmd = [
+                ffmpeg_bin, '-y', '-i', abs_video,
+                '-vf', f"scale=-2:{height}",
+                '-c:v', 'mpeg4', '-q:v', str(qval),
+                '-c:a', 'aac', '-b:a', abit, abs_out
+            ]
+            r = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=90)
+            if r.returncode == 0 and os.path.exists(abs_out) and os.path.getsize(abs_out) > 0:
+                if os.path.exists('/home/consicac/nebians.consica.com.np/media'):
+                    try:
+                        shutil.copy2(abs_out, os.path.join(pub_dir, out_name))
+                    except Exception:
+                        pass
+    except Exception as exc:
+        logger.warning("auto_transcode_video_qualities failed: %s", exc)
+    return get_video_qualities(rel_path)
+
+
 def save_forum_media_upload(request, file_obj) -> dict:
     """Validate + store one forum attachment. Returns a descriptor dict the
     client echoes back inside the post/reply `attachments` payload:
@@ -769,15 +932,22 @@ def save_forum_media_upload(request, file_obj) -> dict:
     path = default_storage.save(os.path.join('forum_media', subdir, filename), ContentFile(data))
 
     thumb_url = ''
+    qualities = []
     if kind == 'video':
         auto_transcode_video_to_h264(path)
+        qualities = auto_transcode_video_qualities(path)
         thumb_rel = generate_video_thumbnail(path)
         if thumb_rel:
             thumb_url = request.build_absolute_uri(thumb_rel)
 
+    full_url = request.build_absolute_uri(settings.MEDIA_URL + path)
+    if not qualities:
+        qualities = get_video_qualities(full_url, request=request)
+
     return {
-        'url': request.build_absolute_uri(settings.MEDIA_URL + path),
+        'url': full_url,
         'thumbnail_url': thumb_url,
+        'qualities': qualities,
         'kind': kind,
         'name': original_name,
         'size': len(data),

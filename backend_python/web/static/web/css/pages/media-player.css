@@ -434,7 +434,8 @@
   min-width: 8px;
 }
 
-.nmp-speed {
+.nmp-speed,
+.nmp-quality {
   position: relative;
 }
 

@@ -23,7 +23,7 @@ list of dicts with kind (video|audio|file), url, name, sizeBytes/size_bytes.{% e
         </div>
       </div>
       {% else %}
-      <div class="nmp nmp-video rd-preview" data-nmp data-kind="video" data-src="{{ att.url }}" data-title="{{ post.title|default:att.name|default:'Video' }}" data-provider="direct" tabindex="0" style="margin-top: 10px; border-radius: 14px; overflow: hidden;">
+      <div class="nmp nmp-video rd-preview" data-nmp data-kind="video" data-src="{{ att.url }}"{% if att.qualities_json %} data-qualities="{{ att.qualities_json|safe }}"{% endif %} data-title="{{ post.title|default:att.name|default:'Video' }}" data-provider="direct" tabindex="0" style="margin-top: 10px; border-radius: 14px; overflow: hidden;">
         <div class="nmp-stage">
           <video class="nmp-el nmp-el-video" preload="metadata" playsinline{% if att.thumbnailUrl or att.thumbnail_url %} poster="{{ att.thumbnailUrl|default:att.thumbnail_url }}"{% endif %}></video>
           <div class="nmp-poster"{% if att.thumbnailUrl or att.thumbnail_url %} style="background-image: url('{{ att.thumbnailUrl|default:att.thumbnail_url }}'); background-size: cover; background-position: center;"{% endif %}>
@@ -50,6 +50,10 @@ list of dicts with kind (video|audio|file), url, name, sizeBytes/size_bytes.{% e
             <div class="nmp-volume">
               <button class="nmp-icon-btn" data-nmp-mute aria-label="Mute" aria-pressed="false"><span class="material-symbols-outlined">volume_up</span></button>
               <input class="nmp-volume-range" data-nmp-volume type="range" min="0" max="1" step="0.05" value="1" aria-label="Volume">
+            </div>
+            <div class="nmp-quality" data-nmp-quality style="display: none;">
+              <button class="nmp-speed-btn" data-nmp-quality-btn aria-label="Quality" aria-expanded="false">Auto</button>
+              <div class="nmp-speed-menu" data-nmp-quality-menu role="menu"></div>
             </div>
             <div class="nmp-speed" data-nmp-speed>
               <button class="nmp-speed-btn" data-nmp-speed-btn aria-label="Speed" aria-expanded="false">1x</button>
