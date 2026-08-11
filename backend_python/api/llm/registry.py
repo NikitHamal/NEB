@@ -30,7 +30,7 @@ FORMAT_SCRAPER = 'scraper'      # Existing NEBians web proxies (qwen & friends)
 
 OFFICIAL_FORMATS = (FORMAT_OPENAI, FORMAT_ANTHROPIC, FORMAT_GEMINI)
 
-SCRAPER_PROVIDERS = ('qwen', 'egov', 'deepai', 'inception')
+SCRAPER_PROVIDERS = ('qwen', 'egov', 'deepai', 'inception', 'k2think', 'poolside')
 
 
 @dataclass(frozen=True)
@@ -184,6 +184,21 @@ SCRAPER_PRESETS: List[ProviderPreset] = [
         base_url='https://api.inceptionlabs.ai/v1', default_model='mercury-2',
         models=[ModelSpec('mercury-2', 'Mercury 2')],
         key_required=False, official=False, scraper_module='inception_proxy',
+    ),
+    ProviderPreset(
+        slug='k2think', label='K2 Think (k2think.ai)', format=FORMAT_SCRAPER,
+        base_url='https://www.k2think.ai', default_model='MBZUAI-IFM/K2-Think-v2',
+        models=[ModelSpec('MBZUAI-IFM/K2-Think-v2', 'K2 Think V2', 'Reasoning model (MBZUAI)')],
+        context_window=32000, max_output_tokens=6000,
+        key_required=False, official=False, scraper_module='k2think_proxy',
+    ),
+    ProviderPreset(
+        slug='poolside', label='Poolside (chat.poolside.ai)', format=FORMAT_SCRAPER,
+        base_url='https://chat.poolside.ai', default_model='laguna-s-2.1',
+        models=[ModelSpec('laguna-s-2.1', 'Laguna S 2.1'),
+                ModelSpec('laguna-xs-2.1', 'Laguna XS 2.1')],
+        context_window=32000, max_output_tokens=6000,
+        key_required=False, official=False, scraper_module='poolside_proxy',
     ),
 ]
 

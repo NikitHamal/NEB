@@ -821,6 +821,8 @@ class BotConfig(models.Model):
         ('egov', 'eGov Chat AI (Philippines)'),
         ('deepai', 'DeepAI (deepai.org)'),
         ('inception', 'Inception Labs (Mercury 2)'),
+        ('k2think', 'K2 Think (k2think.ai — MBZUAI K2 Think V2)'),
+        ('poolside', 'Poolside (chat.poolside.ai — Laguna 2.1)'),
         ('custom', 'Custom OpenAI-compatible endpoint'),
         # Official API providers (handled through api.llm — real API formats,
         # not the web scrapers above).
@@ -942,6 +944,8 @@ class ArenaChatSession(models.Model):
         ('egov', 'eGov Chat AI (Philippines)'),
         ('deepai', 'DeepAI (deepai.org)'),
         ('inception', 'Inception Labs (Mercury 2)'),
+        ('k2think', 'K2 Think (k2think.ai — MBZUAI K2 Think V2)'),
+        ('poolside', 'Poolside (chat.poolside.ai — Laguna 2.1)'),
     ]
     id = models.CharField(max_length=36, primary_key=True)
     user = models.ForeignKey(

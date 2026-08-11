@@ -233,6 +233,22 @@ def call_ai_api(system_prompt, user_message, config=None):
             system_prompt=system_prompt or '',
             reasoning_effort=getattr(config, 'reasoning_effort', 'high'),
         )
+    if provider == 'k2think':
+        from . import k2think_proxy
+        return k2think_proxy.simple_chat(
+            user_message=user_message,
+            model=config.model or 'MBZUAI-IFM/K2-Think-v2',
+            system_prompt=system_prompt or '',
+            max_tokens=max_tokens,
+        )
+    if provider == 'poolside':
+        from . import poolside_proxy
+        return poolside_proxy.simple_chat(
+            user_message=user_message,
+            model=config.model or 'laguna-s-2.1',
+            system_prompt=system_prompt or '',
+            max_tokens=max_tokens,
+        )
     if provider == 'custom':
         from .custom_provider import call_custom
         return call_custom(

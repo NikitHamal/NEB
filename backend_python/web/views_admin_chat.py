@@ -18,6 +18,8 @@ PROVIDERS = [
     {'id': 'egov',       'label': 'eGov Chat AI (Philippines)',                    'stream': True,  'thinking': False, 'web_search': False, 'files': True},
     {'id': 'deepai',     'label': 'DeepAI (deepai.org)',                           'stream': True,  'thinking': True,  'web_search': False, 'files': True},
     {'id': 'inception',  'label': 'Inception Labs (Mercury 2)',                    'stream': True,  'thinking': True,  'web_search': True,  'files': False},
+    {'id': 'k2think',    'label': 'K2 Think (k2think.ai — MBZUAI K2 Think V2)',    'stream': True,  'thinking': True,  'web_search': False, 'files': False},
+    {'id': 'poolside',   'label': 'Poolside (chat.poolside.ai — Laguna 2.1)',      'stream': True,  'thinking': False, 'web_search': True,  'files': False},
     {'id': 'custom',     'label': 'Custom OpenAI-compatible endpoint',             'stream': False, 'thinking': False, 'web_search': False, 'files': False},
 ]
 
@@ -26,6 +28,8 @@ MODEL_OPTIONS = {
     'egov':      [{'id': 'AI1', 'label': 'eGov AI1 (Global)'}, {'id': 'AI1-ph', 'label': 'eGov AI1 (Philippines)'}, {'id': 'AI2', 'label': 'eGov AI2 (Global)'}, {'id': 'AI2-ph', 'label': 'eGov AI2 (Philippines)'}],
     'deepai':    [{'id': 'standard', 'label': 'DeepAI Standard'}, {'id': 'deepseek-v3.2', 'label': 'DeepSeek V3.2'}, {'id': 'gemma-4', 'label': 'Gemma 4'}, {'id': 'gpt-4.1-nano', 'label': 'GPT-4.1 Nano'}, {'id': 'gpt-5-nano', 'label': 'GPT-5 Nano'}, {'id': 'gemini-2.5-flash-lite', 'label': 'Gemini 2.5 Flash Lite'}, {'id': 'llama-3.3-70b-instruct', 'label': 'Llama 3.3 70B'}, {'id': 'o4-mini', 'label': 'o4 Mini'}, {'id': 'gpt-4o-mini', 'label': 'GPT-4o Mini'}, {'id': 'gpt-oss-120b', 'label': 'GPT OSS 120B (Reasoning)'}],
     'inception': [{'id': 'mercury-2', 'label': 'Mercury 2'}],
+    'k2think':   [{'id': 'MBZUAI-IFM/K2-Think-v2', 'label': 'K2 Think V2'}],
+    'poolside':  [{'id': 'laguna-s-2.1', 'label': 'Laguna S 2.1'}, {'id': 'laguna-xs-2.1', 'label': 'Laguna XS 2.1'}],
     'custom':    [],
 }
 
@@ -130,6 +134,44 @@ def ajax_admin_chat_send(request):
                     model=model or 'mercury-2',
                     reasoning_effort='high' if reasoning else 'low',
                     web_search=web_search,
+                ):
+                    t = chunk.get('type')
+                    if t == 'text':
+                        yield _sse({'type': 'text', 'content': chunk.get('content', '')})
+                    elif t == 'done':
+                        break
+                    elif t == 'error':
+                        yield _sse({'type': 'error', 'message': chunk.get('error', 'upstream error')})
+                        break
+            except Exception as e:
+                yield _sse({'type': 'error', 'message': str(e)})
+
+        elif provider == 'k2think':
+            from api import k2think_proxy
+            try:
+                msgs = history + [{'role': 'user', 'content': message}]
+                for chunk in k2think_proxy.stream_chat(
+                    messages=msgs,
+                    model=model or 'MBZUAI-IFM/K2-Think-v2',
+                ):
+                    t = chunk.get('type')
+                    if t == 'text':
+                        yield _sse({'type': 'text', 'content': chunk.get('content', '')})
+                    elif t == 'done':
+                        break
+                    elif t == 'error':
+                        yield _sse({'type': 'error', 'message': chunk.get('error', 'upstream error')})
+                        break
+            except Exception as e:
+                yield _sse({'type': 'error', 'message': str(e)})
+
+        elif provider == 'poolside':
+            from api import poolside_proxy
+            try:
+                msgs = history + [{'role': 'user', 'content': message}]
+                for chunk in poolside_proxy.stream_chat(
+                    messages=msgs,
+                    model=model or 'laguna-s-2.1',
                 ):
                     t = chunk.get('type')
                     if t == 'text':
