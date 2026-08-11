@@ -109,9 +109,7 @@
       root.classList.toggle('is-loading', !!on);
     }
 
-    function applyAspectRatio() {
-      var vw = media.videoWidth;
-      var vh = media.videoHeight;
+    function applyAspectRatioFromDimensions(vw, vh) {
       if (vw > 0 && vh > 0) {
         var ratio = vw / vh;
         root.style.setProperty('--nmp-stage-ratio', ratio);
@@ -126,6 +124,34 @@
           root.classList.remove('is-portrait', 'is-square');
         }
       }
+    }
+
+    function applyAspectRatio() {
+      applyAspectRatioFromDimensions(media.videoWidth, media.videoHeight);
+    }
+
+    // Inspect poster thumbnail or video metadata immediately so player container formats before play
+    var posterUrl = media.getAttribute('poster') || '';
+    if (!posterUrl) {
+      var posterDiv = $('.nmp-poster', root);
+      if (posterDiv) {
+        var bg = posterDiv.style.backgroundImage || posterDiv.getAttribute('style') || '';
+        var match = bg.match(/url\(['"]?(.*?)['"]?\)/);
+        if (match) posterUrl = match[1];
+      }
+    }
+    if (posterUrl) {
+      var pImg = new Image();
+      pImg.onload = function () {
+        applyAspectRatioFromDimensions(pImg.naturalWidth, pImg.naturalHeight);
+      };
+      pImg.src = posterUrl;
+    }
+
+    if (media.videoWidth && media.videoHeight) {
+      applyAspectRatio();
+    } else {
+      media.addEventListener('loadedmetadata', applyAspectRatio, { once: true });
     }
 
     function bindSrc() {
