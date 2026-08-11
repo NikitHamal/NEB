@@ -211,6 +211,7 @@ fun ForumVideoPlayer(attachment: ApiMediaAttachment, modifier: Modifier = Modifi
     val safeDuration = if (durationMs > 0) durationMs else 1L
     val shownPosition = if (dragging) dragPosition else positionMs
     val stageRatio = videoAspectRatio.coerceIn(0.5f, 2.39f)
+    val isPortrait = stageRatio < 0.85f
 
     Surface(
         modifier = modifier.fillMaxWidth(),
@@ -219,14 +220,19 @@ fun ForumVideoPlayer(attachment: ApiMediaAttachment, modifier: Modifier = Modifi
     ) {
         Box(
             modifier = Modifier.fillMaxWidth(),
-            contentAlignment = Alignment.Center
+            contentAlignment = if (isPortrait) Alignment.CenterStart else Alignment.Center
         ) {
         Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .heightIn(max = 420.dp)
-                .aspectRatio(stageRatio)
-                .clickable(
+            modifier = if (isPortrait) {
+                Modifier
+                    .widthIn(max = 300.dp)
+                    .aspectRatio(stageRatio)
+            } else {
+                Modifier
+                    .fillMaxWidth()
+                    .heightIn(max = 340.dp)
+                    .aspectRatio(stageRatio)
+            }.clickable(
                     interactionSource = remember { MutableInteractionSource() },
                     indication = null
                 ) {
