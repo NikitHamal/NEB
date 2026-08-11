@@ -116,6 +116,8 @@
           <option value="egov"      {% if config.provider == 'egov' %}selected{% endif %}>eGov Chat AI (Philippines)</option>
           <option value="deepai"    {% if config.provider == 'deepai' %}selected{% endif %}>DeepAI (deepai.org)</option>
           <option value="inception" {% if config.provider == 'inception' %}selected{% endif %}>Inception Labs (Mercury 2)</option>
+          <option value="k2think"   {% if config.provider == 'k2think' %}selected{% endif %}>K2 Think (k2think.ai — MBZUAI K2 Think V2)</option>
+          <option value="poolside"  {% if config.provider == 'poolside' %}selected{% endif %}>Poolside (chat.poolside.ai — Laguna 2.1)</option>
           <option value="custom"    {% if config.provider == 'custom' %}selected{% endif %}>Custom (any OpenAI-compatible endpoint)</option>
           <optgroup label="Official APIs (real API formats, BYOK or shared key)">
             <option value="agnes"     {% if config.provider == 'agnes' %}selected{% endif %}>Agnes 2.0 Flash (Sapiens AI — currently free)</option>
@@ -373,6 +375,27 @@
       options: [
         { value: 'mercury-2', label: 'Mercury 2 (default)' },
 
+      ],
+    },
+    k2think: {
+      urlLabel: 'API URL',
+      urlHelp: 'K2 Think guest endpoint (leave default).',
+      urlDefault: 'https://www.k2think.ai',
+      modelControl: 'select',
+      modelHelp: 'Pick a K2 Think model.',
+      options: [
+        { value: 'MBZUAI-IFM/K2-Think-v2', label: 'K2 Think V2 (default)' },
+      ],
+    },
+    poolside: {
+      urlLabel: 'API URL',
+      urlHelp: 'Poolside guest endpoint (leave default).',
+      urlDefault: 'https://chat.poolside.ai',
+      modelControl: 'select',
+      modelHelp: 'Pick a Laguna model.',
+      options: [
+        { value: 'laguna-s-2.1', label: 'Laguna S 2.1 (default)' },
+        { value: 'laguna-xs-2.1', label: 'Laguna XS 2.1' },
       ],
     },
   };

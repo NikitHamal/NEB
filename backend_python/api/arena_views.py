@@ -35,8 +35,47 @@ from .models import ArenaChatSession, ArenaChatMessage, ArenaChatAttachment, Use
 from .throttles import ArenaChatRateThrottle, ArenaListRateThrottle
 from .utils import now_ms, uuid_str
 from . import ai4bharat_proxy as arena
+from .llm import registry
 
 logger = logging.getLogger(__name__)
+
+# Community (scraper) providers surfaced in the generic /models/ list and
+# routed here for session create + streaming. Their proxies are stateless:
+# we replay the session history on every call.
+_COMMUNITY_SLUGS = ('k2think', 'poolside')
+
+
+def _community_models():
+    """Static model catalog for community providers, shaped like arena models."""
+    out = []
+    for preset in registry.SCRAPER_PRESETS:
+        if preset.slug not in _COMMUNITY_SLUGS:
+            continue
+        for spec in preset.models:
+            out.append({
+                'id': spec.id,
+                'code': spec.id,
+                'name': spec.label,
+                'provider': preset.slug,
+                'thinking': preset.slug == 'k2think',
+                'randomOnly': False,
+                'active': True,
+            })
+    return out
+
+
+def _community_model_meta(model_id):
+    return next((m for m in _community_models() if m['id'] == model_id), None)
+
+
+def _community_proxy(provider):
+    if provider == 'k2think':
+        from . import k2think_proxy
+        return k2think_proxy
+    if provider == 'poolside':
+        from . import poolside_proxy
+        return poolside_proxy
+    return None
 
 
 # ========================= Helpers =========================
@@ -77,10 +116,11 @@ _MODELS_CACHE_TTL = 60 * 5  # 5 minutes
 @authentication_classes([AuthTokenAuthentication])
 @throttle_classes([ArenaListRateThrottle])
 def arena_models(request):
-    """Return a lean list of LLM models from the arena, with 5-min cache.
+    """Return a lean list of LLM models with 5-min cache.
 
-    Falls back to a fresh fetch (and re-caches) on cache miss.
-    Returns 503 if the arena is unreachable.
+    Community providers (K2 Think, Poolside) are always included. AI4Bharat
+    models are merged in best-effort — if the arena is unreachable the list
+    still serves the community models instead of failing with 503.
     """
     from django.core.cache import cache
 
@@ -88,20 +128,15 @@ def arena_models(request):
     if cached:
         return Response({'models': cached, 'cached': True})
 
+    community = _community_models()
+
     # Need a token to call the arena. Pull one from the pool.
     try:
         entry = arena.acquire_token(require_low_budget=False)
-    except arena.ArenaRateLimit as e:
-        return Response(
-            {'error': 'AI pool is at capacity — try again shortly', 'code': 'pool_exhausted'},
-            status=status.HTTP_503_SERVICE_UNAVAILABLE,
-        )
     except arena.ArenaError as e:
-        logger.error("arena_models: token mint failed: %s", e)
-        return Response(
-            {'error': 'AI service temporarily unavailable'},
-            status=status.HTTP_503_SERVICE_UNAVAILABLE,
-        )
+        logger.warning("arena_models: arena unavailable (%s) — serving community models only", e)
+        cache.set(_MODELS_CACHE_KEY, community, _MODELS_CACHE_TTL)
+        return Response({'models': community, 'cached': False})
 
     try:
         models = arena.fetch_models_for_client(entry['token'])
@@ -111,17 +146,13 @@ def arena_models(request):
             fresh = arena._new_anonymous_token()
             models = arena.fetch_models_for_client(fresh['token'])
         except Exception as e:
-            logger.error("arena_models: fallback fetch failed: %s", e)
-            return Response(
-                {'error': 'AI service temporarily unavailable'},
-                status=status.HTTP_503_SERVICE_UNAVAILABLE,
-            )
+            logger.warning("arena_models: fallback fetch failed (%s) — serving community models only", e)
+            cache.set(_MODELS_CACHE_KEY, community, _MODELS_CACHE_TTL)
+            return Response({'models': community, 'cached': False})
     except Exception as e:
-        logger.error("arena_models: fetch failed: %s", e)
-        return Response(
-            {'error': 'AI service temporarily unavailable'},
-            status=status.HTTP_503_SERVICE_UNAVAILABLE,
-        )
+        logger.warning("arena_models: fetch failed (%s) — serving community models only", e)
+        cache.set(_MODELS_CACHE_KEY, community, _MODELS_CACHE_TTL)
+        return Response({'models': community, 'cached': False})
 
     # Trim to chat-friendly fields
     public = [
@@ -137,8 +168,9 @@ def arena_models(request):
         for m in models
         if m['active'] and not m['random_only']
     ]
-    cache.set(_MODELS_CACHE_KEY, public, _MODELS_CACHE_TTL)
-    return Response({'models': public, 'cached': False})
+    merged = community + public
+    cache.set(_MODELS_CACHE_KEY, merged, _MODELS_CACHE_TTL)
+    return Response({'models': merged, 'cached': False})
 
 
 # ========================= Session list / create =========================
@@ -184,6 +216,40 @@ def arena_sessions(request):
             {'error': 'modelId is required'},
             status=status.HTTP_400_BAD_REQUEST,
         )
+
+    # Community providers (K2 Think / Poolside) — stateless proxies, no arena token.
+    community_meta = _community_model_meta(model_id)
+    if community_meta:
+        now = now_ms()
+        sess = ArenaChatSession.objects.create(
+            id=uuid_str(),
+            user=user,
+            provider=community_meta['provider'],
+            arena_session_id=model_id,
+            arena_token_id='',
+            model_id=model_id,
+            model_code=model_id,
+            model_display_name=community_meta['name'],
+            title=title or 'New chat',
+            is_active=True,
+            message_count=0,
+            last_message_at=0,
+            created_at=now,
+            updated_at=now,
+        )
+        return Response({
+            'session': {
+                'id': sess.id,
+                'title': sess.title,
+                'modelId': sess.model_id,
+                'modelCode': sess.model_code,
+                'modelName': sess.model_display_name,
+                'messageCount': 0,
+                'createdAt': sess.created_at,
+                'updatedAt': sess.updated_at,
+                'provider': sess.provider,
+            },
+        }, status=status.HTTP_201_CREATED)
 
     # Get a healthy token
     try:
@@ -422,6 +488,143 @@ def _stream_regenerate(sess, target_msg_id: str):
     )
 
 
+def _build_history(sess, stop_at_msg_id=None):
+    """Replay session rows as an OpenAI-style message list for stateless proxies.
+
+    Skips empty placeholder assistant rows. Stops at (and excludes) a message id
+    — used for regenerate to cut off the answer being replaced.
+    """
+    msgs = sess.messages.order_by('created_at')
+    out = []
+    for m in msgs:
+        if stop_at_msg_id is not None and m.pk == stop_at_msg_id:
+            break
+        if m.role == 'user' and m.content:
+            out.append({'role': 'user', 'content': m.content})
+        elif m.role == 'assistant' and m.content:
+            out.append({'role': 'assistant', 'content': m.content})
+    return out
+
+
+def _stream_community(sess, user_msg_id: str, asst_msg_id: str, asst_started_at: int,
+                      upstream_kwargs: dict, bump_session_counter: bool,
+                      preinsert_assistant: bool = True):
+    """SSE streaming body for stateless community proxies (K2 Think / Poolside).
+
+    History is replayed from the session rows, so send and regenerate both work
+    without upstream session state. Reasoning (thought) chunks are dropped.
+    """
+    proxy = _community_proxy(sess.provider)
+    if proxy is None:
+        yield _sse_format({'error': {'message': 'Unknown provider', 'code': 'server'}})
+        yield _sse_done_marker()
+        return
+
+    if preinsert_assistant:
+        ArenaChatMessage.objects.create(
+            id=asst_msg_id, session=sess, role='assistant',
+            content='', parent_id=user_msg_id,
+            arena_message_id='', finish_reason='', error='',
+            duration_ms=0, created_at=asst_started_at,
+        )
+
+    mode = upstream_kwargs.get('mode')
+    if mode == 'regenerate':
+        target_id = upstream_kwargs.get('assistant_message_id') or asst_msg_id
+        history = _build_history(sess, stop_at_msg_id=target_id)
+    else:
+        history = _build_history(sess)
+
+    preset = registry.preset(sess.provider)
+    model = sess.model_id or (preset.default_model if preset else '')
+
+    # Open header — announce assistant role + ids
+    yield _sse_format({
+        'choices': [{
+            'index': 0,
+            'delta': {'role': 'assistant', 'messageId': asst_msg_id, 'userMessageId': user_msg_id},
+        }],
+    })
+
+    collected_text = ''
+    finish_reason = 'stop'
+    error_text = ''
+    # Upstreams occasionally cut the stream after reasoning without an answer —
+    # retry once before reporting failure.
+    attempts_left = 2
+    while attempts_left > 0:
+        attempts_left -= 1
+        try:
+            for chunk in proxy.stream_chat(messages=history, model=model):
+                t = chunk.get('type')
+                if t == 'text':
+                    text = chunk.get('content', '')
+                    if not text:
+                        continue
+                    collected_text += text
+                    yield _sse_format({
+                        'choices': [{'index': 0, 'delta': {'content': text}}],
+                    })
+                elif t == 'done':
+                    finish_reason = chunk.get('finish_reason', 'stop')
+                elif t == 'error':
+                    error_text = chunk.get('error') or chunk.get('message') or 'upstream error'
+                    logger.warning("stream[%s]: upstream error: %s", sess.provider, error_text)
+                    yield _sse_format({
+                        'error': {'message': error_text, 'code': 'upstream'},
+                    })
+                    break
+        except Exception as e:
+            logger.exception("stream[%s]: unexpected error: %s", sess.provider, e)
+            yield _sse_format({
+                'error': {'message': 'Internal streaming error', 'code': 'server'},
+            })
+            error_text = str(e)
+        if collected_text or error_text:
+            break
+
+    # Upstream may cut the stream after reasoning without an answer — surface
+    # that instead of silently persisting an empty reply.
+    if not error_text and not collected_text:
+        error_text = f'{sess.provider} returned no answer — try again'
+        yield _sse_format({
+            'error': {'message': error_text, 'code': 'upstream'},
+        })
+
+    # Finalise the assistant row
+    duration_ms = max(0, now_ms() - asst_started_at)
+    try:
+        ArenaChatMessage.objects.filter(pk=asst_msg_id).update(
+            content=collected_text,
+            finish_reason=finish_reason,
+            error=error_text[:200],
+            duration_ms=duration_ms,
+            arena_message_id=asst_msg_id,
+        )
+    except Exception as e:
+        logger.exception("stream[%s]: failed to finalize assistant row: %s", sess.provider, e)
+
+    # Bump session counters on success (no arena token to commit)
+    if not error_text and bump_session_counter:
+        try:
+            ArenaChatSession.objects.filter(pk=sess.id).update(
+                message_count=sess.message_count + 1,
+                last_message_at=now_ms(),
+                updated_at=now_ms(),
+            )
+            sess.message_count = sess.message_count + 1
+            sess.last_message_at = now_ms()
+        except Exception as e:
+            logger.warning("stream[%s]: counter commit failed: %s", sess.provider, e)
+
+    # Final SSE event
+    if not error_text:
+        yield _sse_format({
+            'choices': [{'index': 0, 'delta': {}, 'finish_reason': finish_reason}],
+        })
+    yield _sse_done_marker()
+
+
 def _stream_assistant(sess, user_msg_id: str, asst_msg_id: str, asst_started_at: int,
                        parent_ids: list, upstream_kwargs: dict, bump_session_counter: bool,
                        preinsert_assistant: bool = True):
@@ -431,6 +634,19 @@ def _stream_assistant(sess, user_msg_id: str, asst_msg_id: str, asst_started_at:
     the upstream stream, translates a0:/ad: chunks to OpenAI-style SSE deltas,
     and finalises the row on completion.
     """
+    # Community providers (K2 Think / Poolside) — stateless, replay history.
+    if sess.provider in _COMMUNITY_SLUGS:
+        yield from _stream_community(
+            sess=sess,
+            user_msg_id=user_msg_id,
+            asst_msg_id=asst_msg_id,
+            asst_started_at=asst_started_at,
+            upstream_kwargs=upstream_kwargs,
+            bump_session_counter=bump_session_counter,
+            preinsert_assistant=preinsert_assistant,
+        )
+        return
+
     # Pre-insert assistant row in 'pending' state — skipped for regenerate
     # (the row already exists and we're overwriting its content).
     if preinsert_assistant:
@@ -552,6 +768,11 @@ def arena_send_message(request, session_id: str):
             {'error': 'Message too long (max 8000 chars)'},
             status=status.HTTP_400_BAD_REQUEST,
         )
+    if sess.provider not in ('', 'ai4bharat') and sess.provider not in _COMMUNITY_SLUGS:
+        return Response(
+            {'error': f'This session uses the {sess.provider} provider — use its dedicated endpoint.'},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
 
     gen = _stream_send(sess, content)
     response = StreamingHttpResponse(gen, content_type='text/event-stream')
@@ -580,6 +801,11 @@ def arena_regenerate(request, message_id: str):
     if target.role != 'assistant':
         return Response(
             {'error': 'Only assistant messages can be regenerated'},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+    if target.session.provider not in ('', 'ai4bharat') and target.session.provider not in _COMMUNITY_SLUGS:
+        return Response(
+            {'error': f'This session uses the {target.session.provider} provider — use its dedicated endpoint.'},
             status=status.HTTP_400_BAD_REQUEST,
         )
 

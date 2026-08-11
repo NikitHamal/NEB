@@ -483,18 +483,27 @@ PRIOR OUTPUT
     def _llm_label_community_fallback(self) -> str:
         try:
             from api.llm.runtime import model_display_label
-            return model_display_label('qwen', self._community_model())
+            return model_display_label(self._community_slug(), self._community_model())
         except Exception:
             return f'Qwen ({self._community_model()})'
 
+    def _community_slug(self) -> str:
+        slug = (self.session.llm_provider or '').strip().lower()
+        if slug in ('qwen', 'k2think', 'poolside'):
+            return slug
+        return 'qwen'
+
     def _community_model(self) -> str:
-        """Selected community (Qwen web) model, else qwen3.8-max —
-        the current final flagship that reliably keeps the strict JSON
-        protocol working with thinking enabled."""
+        """Selected community model — Qwen web model, else the preset default
+        for k2think/poolside, else qwen3.8-max."""
         slug = (self.session.llm_provider or '').strip().lower()
         model = (self.session.llm_model or '').strip()
-        if slug == 'qwen' and model:
+        if model:
             return model
+        if slug == 'k2think':
+            return 'MBZUAI-IFM/K2-Think-v2'
+        if slug == 'poolside':
+            return 'laguna-s-2.1'
         try:
             from api.qwen_utils.models import get_default_model
             return get_default_model() or 'qwen3.8-max'
@@ -507,7 +516,7 @@ PRIOR OUTPUT
             return f'{resolved.label} · {resolved.model}'
         try:
             from api.llm.runtime import model_display_label
-            return model_display_label('qwen', self._community_model())
+            return model_display_label(self._community_slug(), self._community_model())
         except Exception:
             return f'Qwen ({self._community_model()})'
 
@@ -531,7 +540,63 @@ PRIOR OUTPUT
             return self._call_official_provider(
                 resolved, prompt, system_prompt=system_prompt, file_paths=file_paths, max_tokens=max_tokens,
             )
+        slug = (self.session.llm_provider or '').strip().lower()
+        if slug in ('k2think', 'poolside'):
+            return self._call_community_proxy(
+                slug, prompt, system_prompt=system_prompt, file_paths=file_paths, max_tokens=max_tokens,
+            )
         return self._call_qwen_legacy(prompt, system_prompt=system_prompt, file_paths=file_paths, max_tokens=max_tokens)
+
+    def _call_community_proxy(self, slug: str, prompt: str, *, system_prompt: str, file_paths=None, max_tokens=None) -> str:
+        """Community web proxies (k2think / poolside) — no keys, no native
+        file upload; new upload contents are inlined into the prompt."""
+        if slug == 'k2think':
+            from api import k2think_proxy
+            model = (self.session.llm_model or '').strip() or 'MBZUAI-IFM/K2-Think-v2'
+            label = 'K2 Think'
+        else:
+            from api import poolside_proxy
+            model = (self.session.llm_model or '').strip() or 'laguna-s-2.1'
+            label = 'Poolside'
+        if file_paths:
+            inline_files = self._attachments_inline_text(file_paths)
+            if inline_files:
+                prompt = prompt + '\n\n' + inline_files
+        output_tokens = int(max_tokens or getattr(settings, 'BACKGROUND_AGENT_MODEL_MAX_TOKENS', 6000))
+        attempts = max(1, min(int(getattr(settings, 'BACKGROUND_AGENT_PROVIDER_ATTEMPTS', 3)), 6))
+        last_error = None
+        for attempt in range(1, attempts + 1):
+            self._check_control()
+            try:
+                t0 = time.monotonic()
+                response = (k2think_proxy.simple_chat if slug == 'k2think' else poolside_proxy.simple_chat)(
+                    user_message=prompt,
+                    model=model,
+                    system_prompt=system_prompt,
+                    max_tokens=output_tokens,
+                )
+                if t0:
+                    self._last_model_response_ms = int((time.monotonic() - t0) * 1000)
+                if response:
+                    return str(response)
+                raise WorkspaceError(f'{label} {model} returned an empty response')
+            except (AgentPaused, AgentStopped):
+                raise
+            except Exception as exc:
+                last_error = exc
+                if attempt >= attempts:
+                    break
+                delay = min(30, 2 ** attempt)
+                emit(self.session, 'model.retrying', f'{label} attempt {attempt} failed; retrying in {delay}s', {
+                    'provider': slug, 'model': model,
+                    'error': str(exc)[:1000], 'attempt': attempt,
+                })
+                for _ in range(delay):
+                    time.sleep(1)
+                    self._check_control()
+        raise WorkspaceError(
+            f'{label} {model} failed after {attempts} attempt(s): {last_error}'
+        ) from last_error
 
     def _call_official_provider(self, resolved, prompt: str, *, system_prompt: str, file_paths=None, max_tokens=None) -> str:
         """Official API providers (Agnes, OpenAI, Claude, Gemini, DeepSeek,
