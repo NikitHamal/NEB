@@ -36,11 +36,9 @@ class Command(BaseCommand):
             
             cmd = [
                 ffmpeg_bin, '-y', '-i', abs_video,
-                '-vf', 'scale=720:1280,format=yuv420p',
-                '-c:v', 'libx264', '-preset', 'fast', '-crf', '23',
-                '-c:a', 'copy', abs_out
+                '-c:v', 'mpeg4', '-q:v', '3',
+                '-c:a', 'aac', abs_out
             ]
-            
             self.stdout.write(f"Transcoding {abs_video} -> {abs_out}...")
             res = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             if res.returncode == 0 and os.path.exists(abs_out) and os.path.getsize(abs_out) > 0:
