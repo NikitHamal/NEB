@@ -427,14 +427,22 @@
 
           var curTime = media.currentTime || 0;
           var wasPlaying = !media.paused;
-          
+
+          media.pause();
           while (media.firstChild) media.removeChild(media.firstChild);
-          var s = document.createElement('source');
-          s.src = q.url;
-          media.appendChild(s);
           media.src = q.url;
-          media.currentTime = curTime;
-          if (wasPlaying) media.play().catch(function () {});
+          media.load();
+
+          function onMetadata() {
+            media.removeEventListener('loadedmetadata', onMetadata);
+            if (curTime > 0 && isFinite(media.duration) && curTime < media.duration) {
+              try { media.currentTime = curTime; } catch (err) {}
+            }
+            if (wasPlaying) {
+              media.play().catch(function () {});
+            }
+          }
+          media.addEventListener('loadedmetadata', onMetadata);
         });
         qualityMenu.appendChild(btn);
       });
