@@ -151,8 +151,8 @@
 
 /* Portrait / Vertical Videos (9:16 Shorts/Reels) */
 .nmp.is-portrait {
-  max-width: 420px;
-  margin-left: auto;
+  max-width: 380px;
+  margin-left: 0;
   margin-right: auto;
   border-radius: 16px;
 }
@@ -164,8 +164,8 @@
 
 /* Square Videos (1:1) */
 .nmp.is-square {
-  max-width: 520px;
-  margin-left: auto;
+  max-width: 480px;
+  margin-left: 0;
   margin-right: auto;
   border-radius: 16px;
 }
