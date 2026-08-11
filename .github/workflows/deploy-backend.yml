@@ -1,11 +1,13 @@
-name: Deploy Backend to cPanel
+name: Deploy Backend to cPanel (Disabled)
 
+# Disabled automatic trigger on push — to re-enable in future, uncomment push block below.
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'backend_python/**'
+  workflow_dispatch:
+  # push:
+  #   branches:
+  #     - main
+  #   paths:
+  #     - 'backend_python/**'
 
 jobs:
   deploy:
