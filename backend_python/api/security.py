@@ -815,17 +815,17 @@ def auto_transcode_video_qualities(rel_path: str) -> list:
 
         targets = []
         if orig_h >= 720 or orig_w >= 1280:
-            targets.append(('720p', 720, 3, '128k'))
+            targets.append(('720p', 720, 23, '128k'))
         if orig_h >= 480 or orig_w >= 854:
-            targets.append(('480p', 480, 5, '96k'))
+            targets.append(('480p', 480, 25, '96k'))
         if orig_h >= 360 or orig_w >= 640:
-            targets.append(('360p', 360, 7, '64k'))
+            targets.append(('360p', 360, 27, '64k'))
 
         dir_name = os.path.dirname(abs_video)
         base_name, ext = os.path.splitext(os.path.basename(abs_video))
         pub_dir = os.path.join('/home/consicac/nebians.consica.com.np/media', os.path.dirname(rel_clean))
 
-        for label, height, qval, abit in targets:
+        for label, height, crfval, abit in targets:
             out_name = f"{base_name}_{label}{ext}"
             abs_out = os.path.join(dir_name, out_name)
             if os.path.exists(abs_out) and os.path.getsize(abs_out) > 0:
@@ -833,8 +833,10 @@ def auto_transcode_video_qualities(rel_path: str) -> list:
 
             cmd = [
                 ffmpeg_bin, '-y', '-i', abs_video,
-                '-vf', f"scale=-2:{height}",
-                '-c:v', 'mpeg4', '-q:v', str(qval),
+                '-threads', '4',
+                '-vf', f"scale=trunc(iw*{height}/ih/2)*2:{height},setsar=1,format=yuv420p",
+                '-c:v', 'libx264', '-preset', 'fast', '-crf', str(crfval),
+                '-pix_fmt', 'yuv420p',
                 '-c:a', 'aac', '-b:a', abit, abs_out
             ]
             r = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=90)
