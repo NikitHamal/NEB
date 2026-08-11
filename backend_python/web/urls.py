@@ -7,12 +7,14 @@ from . import views_background_agent_lifecycle as ba_lifecycle_views
 from . import views_background_agent_mobile as ba_mobile_views
 from . import views_llm as ba_llm_views
 from . import views_monitor
+from . import views_needle
 
 app_name = 'web'
 
 urlpatterns = [
     path('', views.home, name='home'),
     path('health/', views_monitor.health_check, name='health_check'),
+    path('ajax/neby-assist/', views_needle.ajax_neby_assist, name='ajax_neby_assist'),
     path('manifest.json', views.manifest_json, name='manifest_json'),
     path('sitemap.xml', views.sitemap_xml, name='sitemap_xml'),
     path('robots.txt', views.robots_txt, name='robots_txt'),

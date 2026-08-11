@@ -191,6 +191,11 @@ STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+def _immutable_file_test(path, _url=None):
+    return path.startswith('web/js/needle2/')
+
+WHITENOISE_IMMUTABLE_FILE_TEST = _immutable_file_test
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = (BASE_DIR / 'public' / 'media') if (BASE_DIR / 'public').exists() else (BASE_DIR / 'media')
 PROFILE_PHOTO_MAX_BYTES = int(os.environ.get('PROFILE_PHOTO_MAX_BYTES', str(5 * 1024 * 1024)))

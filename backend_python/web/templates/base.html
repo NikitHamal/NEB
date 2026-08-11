@@ -91,6 +91,7 @@
   <link rel="stylesheet" href="{% static 'web/css/forum-media.css' %}">
   <link rel="stylesheet" href="{% static 'web/css/pages/media-player.css' %}">
   {% block extra_css %}{% endblock %}
+  <link rel="stylesheet" href="{% static 'web/css/pages/neby-assist.css' %}">
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/delegated-events.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/forum-media.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/media-player.js' %}"></script>
@@ -305,6 +306,62 @@
 
   <!-- Snackbar container -->
   <div id="snackbar-container"></div>
+
+  <!-- Neby AI Assistant -->
+  <button id="neby-fab" aria-label="Open Neby AI Assistant" aria-expanded="false" aria-controls="neby-panel">
+    <span class="material-symbols-outlined">auto_awesome</span>
+  </button>
+
+  <div id="neby-panel" role="dialog" aria-label="Neby AI Assistant" aria-modal="true">
+    <div class="neby-panel-header">
+      <div class="neby-header-avatar">
+        <span class="material-symbols-outlined">auto_awesome</span>
+      </div>
+      <div class="neby-header-info">
+        <div class="neby-header-name">Neby AI</div>
+        <div class="neby-header-status">
+          <span class="neby-status-dot"></span>
+          <span id="neby-status-text">loading model…</span>
+        </div>
+      </div>
+      <button class="neby-panel-close" id="neby-close-btn" aria-label="Close">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <div class="neby-chat-area" id="neby-chat-area">
+      <div class="neby-empty-state">
+        <div class="neby-empty-icon">
+          <span class="material-symbols-outlined">auto_awesome</span>
+        </div>
+        <p>Ask me to find resources, forum posts, subjects, or navigate around NEBians!</p>
+      </div>
+    </div>
+
+    <div class="neby-suggestions" id="neby-suggestions">
+      <div class="neby-suggestions-label">Try asking</div>
+      <button class="neby-suggestion-btn" data-query="Find Physics notes for Class 12">
+        <span class="material-symbols-outlined">science</span>
+        Find Physics notes for Class 12
+      </button>
+      <button class="neby-suggestion-btn" data-query="Show popular forum discussions">
+        <span class="material-symbols-outlined">forum</span>
+        Show popular forum discussions
+      </button>
+      <button class="neby-suggestion-btn" data-query="What subjects are available?">
+        <span class="material-symbols-outlined">school</span>
+        What subjects are available?
+      </button>
+    </div>
+
+    <div class="neby-input-row">
+      <textarea id="neby-input" rows="1" placeholder="Ask Neby anything..." autocomplete="off" aria-label="Message Neby AI"></textarea>
+      <button class="neby-send-btn" id="neby-send-btn" disabled aria-label="Send">
+        <span class="material-symbols-outlined">send</span>
+      </button>
+    </div>
+    <div class="neby-powered">Needle 2 WASM &middot; 45M params &middot; runs in your browser</div>
+  </div>
 
   <script nonce="{{ csp_nonce }}">
     const IS_AUTHENTICATED = {{ is_authenticated|yesno:"true,false" }};
@@ -806,6 +863,7 @@
 
   </script>
   <script nonce="{{ csp_nonce }}" src="{% load static %}{% static 'web/js/realtime.js' %}"></script>
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neby-assist.js' %}"></script>
   {% block extra_js %}{% endblock %}
 </body>
 
