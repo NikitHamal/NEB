@@ -1,0 +1,42 @@
+========================================================
+ Needle 2 WASM benchmark - NEBians Neby AI
+========================================================
+ assets:
+   needle.js      0.06 MB
+   needle.wasm    0.30 MB
+   needle2.cact   13.10 MB  (model)
+   TOTAL transfer 13.46 MB
+ engine+glue init : 8.9 ms
+ model load       : 31.9 ms
+ tool init        : 4995.4 ms
+ cold start TOTAL : 5044.8 ms
+ wasm HEAP        : 32.5 MB
+ process RSS      : 97.4 MB
+
+ warmup (first completion call)...
+ hello, can you search for some science notes for class 11 please    1404      376         67
+      -> search_resources({"query":"science notes for class 11"})  (conf=0.2039) gen_chars=376
+
+ per-query decode (single turn, independent like the site):
+   query                                                    ms    out_len  est tok/s
+ find physics notes for class 12                          840      273         81
+      -> find_notes({"subject":"Physics","grade_level":"Class 12","exam_type":"Notes"})  (conf=0.003) gen_chars=273
+ show me popular forum posts                              719      251         87
+      -> get_forum_posts({"category":"Popular","sort":"popular"})  (conf=0.3952) gen_chars=251
+ search for mathematics study resources                   673      283        105
+      -> search_resources({"query":"mathematics","subject":"Mathematics","resource_type":"Note"})  (conf=0.0001) gen_chars=283
+ take me to the library                                  1074      287         67
+      -> navigate_to({"page":"library"})  (conf=0.9808) gen_chars=287
+ find chemistry past papers                              1295      375         72
+      -> search_resources({"query":"chemistry","subject":"PDF","resource_type":"PDF"})  (conf=0.0008) gen_chars=375
+ what subjects are available                              374      211        141
+      -> get_subjects({})  (conf=0.9058) gen_chars=211
+ search for english textbooks                             760      285         94
+      -> search_resources({"query":"english textbooks","subject":"English","resource_type":"Note"})  (conf=0) gen_chars=285
+
+ ---------------------------------------------------
+ queries            : 7
+ latency avg/min/max: 819.3 / 373.7 / 1294.7 ms
+ latency p50/p95    : 760.4 / 1294.7 ms
+ est. decode        : ~70 tok/query @ 86 tok/s
+========================================================

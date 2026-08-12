@@ -9,6 +9,9 @@
   var runId = 0;
   var workerStartedAt = 0;
 
+  var NEBY_MAX_TOKENS = 128;
+  var preloadScheduled = false;
+
   /* ── UI state ─────────────────────────────────────────────────────────────── */
   var isOpen = false;
   var isThinking = false;
@@ -78,6 +81,40 @@
   /* ── DOM refs ─────────────────────────────────────────────────────────────── */
   var fab, panel, chatArea, textarea, sendBtn, suggestionsEl;
 
+  /* ── Idle preload & warm-up ────────────────────────────────────────────────
+     The engine takes ~5s to compile the tool grammar (needle_init) the first
+     time. It runs in a Web Worker so it never blocks the UI thread — we just
+     want it STARTED while the user is still reading the page instead of when
+     they open the chat. Once loaded, the worker is kept alive for the whole
+     visit, so subsequent panel opens are instant. */
+  function preloadNeedle() {
+    if (preloadScheduled) return;
+    preloadScheduled = true;
+
+    function start() {
+      if (document.getElementById('neby-fab')) ensureWorker();
+    }
+
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(start, { timeout: 3000 });
+    } else {
+      setTimeout(start, 1500);
+    }
+
+    var done = false;
+    function onGesture() {
+      if (done) return;
+      done = true;
+      start();
+      ['pointerdown', 'mousemove', 'scroll', 'touchstart', 'keydown'].forEach(function (t) {
+        document.removeEventListener(t, onGesture, true);
+      });
+    }
+    ['pointerdown', 'mousemove', 'scroll', 'touchstart', 'keydown'].forEach(function (t) {
+      document.addEventListener(t, onGesture, true);
+    });
+  }
+
   /* ── Worker bootstrap ─────────────────────────────────────────────────────── */
   function ensureWorker() {
     if (worker) return;
@@ -101,7 +138,7 @@
           appendAiBubble('The AI model failed to load. Please refresh and try again.');
         }
       });
-      worker.postMessage({ type: 'initialize', tools: NEBY_TOOLS });
+      worker.postMessage({ type: 'initialize', tools: NEBY_TOOLS, warmup: true });
     } catch (e) {
       console.error('Failed to create worker:', e);
       workerLoading = false;
@@ -254,7 +291,7 @@
 
   function _runNeedle(query, id) {
     if (!worker) return;
-    worker.postMessage({ type: 'run', id: id, query: query, tools: NEBY_TOOLS });
+    worker.postMessage({ type: 'run', id: id, query: query, tools: NEBY_TOOLS, maxNewTokens: NEBY_MAX_TOKENS });
   }
 
   /* ── Needle result handler ────────────────────────────────────────────────── */
@@ -447,9 +484,13 @@
 
   /* ── Bootstrap ────────────────────────────────────────────────────────────── */
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', function () {
+      init();
+      preloadNeedle();
+    });
   } else {
     init();
+    preloadNeedle();
   }
 
 })();
