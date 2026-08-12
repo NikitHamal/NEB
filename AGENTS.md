@@ -670,6 +670,44 @@ A trycloudflare URL looks like `https://abc123.trycloudflare.com` — different 
 ## Continuity Notes
 
 ### What Was Worked On (Current Session)
+**Needle 2 WASM assistant ("Neby AI") — efficiency & runtime pass + benchmarks**
+
+Investigated the on-device 45M-param Needle 2 model (`web/static/web/js/needle2/`:
+`needle.js` + `needle.wasm` + `needle2.cact`, 13.46 MB total). The artifacts are the
+**official upstream build** — byte-identical to the `Cactus-Compute/needle2` HF
+release (`wasm/` dir + `needle2.cact`); there is **no SIMD/threads variant** published.
+
+**Benchmark harness (real engine, Node):** `benchmarks/needle_bench.mjs` loads the
+exact shipped engine in Node and measures load/init/latency/memory. Key findings:
+- Grammar compile `needle_init` ≈ **5.0 s** ≈ 98% of the ~5.0 s cold start
+  (model load only ~30–60 ms, engine init ~10–20 ms).
+- Tool-call decode: ~336–1,310 ms/query (avg ~0.81 s, p50 ~0.76 s) on 7 realistic
+  NEB queries; ~270–560 byte-token/s decode. WASM heap 32.5 MB, RSS ~90–97 MB.
+- `max_new_tokens` 128 vs 256 → byte-identical results, latency within noise.
+- gzip on the CQ2-bit model saves only 5% (94.9% incompressible) → not shipped.
+
+**Changes made:**
+- `web/static/web/js/neby-assist.js` — added **idle pre-warm**: `preloadNeedle()`
+  starts the worker on `requestIdleCallback` (+ first-user-gesture fallback:
+  pointerdown/mousemove/scroll/touchstart/keydown) instead of only on panel open.
+  The ~5 s grammar compile now runs in a background Web Worker while the user reads
+  the page; the worker stays alive for the whole visit. Passes `warmup: true` on
+  initialize and `maxNewTokens: 128` on run.
+- `web/static/web/js/needle2/needle.worker.js` — `ASSET_VERSION`/`?v=` bumped to
+  **v2**; `run` honors `maxNewTokens` (default 128, was hardcoded 256); added
+  best-effort `warmup()` completion after `ready` so JIT/buffers are hot before the
+  first real query.
+- `benchmarks/needle_bench.mjs` + `benchmarks/README.md` — reproducible harness.
+- `docs/NEEDLE_FINETUNE_PLAN.md` — LoRA fine-tune + `.cact` build/deploy plan for
+  the later finetuning step (swap `needle2.cact`, bump asset version, no recompile).
+
+**Not deployed yet.**
+
+**Deploy note:** after deploying, also re-run `node benchmarks/needle_bench.mjs` to
+confirm the engine loads. For a tuned model later, replace `needle2.cact` (same
+engine) and bump `ASSET_VERSION` to `needle2-assets-v3` + `?v=3`.
+
+### Previous Session
 **Blog comment system (web + backend) + Android UI cleanup (library/forum/news screens)**
 
 **Blog Comment System (Web):**
