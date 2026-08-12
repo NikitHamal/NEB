@@ -112,20 +112,31 @@
 
 .home-hero-button {
   display: inline-flex;
-  min-height: 46px;
+  min-height: 52px;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 0 21px;
-  border-radius: 13px;
-  font-size: 0.88rem;
-  font-weight: 700;
+  gap: 10px;
+  padding: 0 20px;
+  min-width: 150px;
+  border-radius: 14px;
+  font-size: 0.90rem;
+  font-weight: 600;
   text-decoration: none;
-  transition: background-color 150ms ease, border-color 150ms ease;
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
 }
 
-.home-hero-button .material-symbols-outlined {
+.home-hero-button .material-symbols-outlined,
+.home-hero-button svg {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
   font-size: 18px;
+  line-height: 1;
+  flex-shrink: 0;
+  transition: background 150ms ease, color 150ms ease;
 }
 
 .home-hero-button-primary {
@@ -134,10 +145,21 @@
   color: #fff;
 }
 
+.home-hero-button-primary .material-symbols-outlined,
+.home-hero-button-primary svg {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
 .home-hero-button-primary:hover {
   background: #003ea8;
   color: #fff;
   text-decoration: none;
+}
+
+.home-hero-button-primary:hover .material-symbols-outlined,
+.home-hero-button-primary:hover svg {
+  background: rgba(255, 255, 255, 0.3);
 }
 
 .home-hero-button-secondary {
@@ -146,11 +168,53 @@
   color: #173552;
 }
 
+.home-hero-button-secondary .material-symbols-outlined,
+.home-hero-button-secondary svg {
+  background: rgba(23, 52, 82, 0.08);
+  color: #173552;
+}
+
 .home-hero-button-secondary:hover {
   border-color: rgba(29, 70, 103, 0.28);
   background: rgba(255, 255, 255, 0.96);
   color: #173552;
   text-decoration: none;
+}
+
+.home-hero-button-secondary:hover .material-symbols-outlined,
+.home-hero-button-secondary:hover svg {
+  background: rgba(23, 52, 82, 0.14);
+}
+
+[data-theme="dark"] .home-hero-button-secondary,
+html[data-theme="dark"] .home-hero-button-secondary {
+  color: #f8fafc;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .home-hero-button-secondary .material-symbols-outlined,
+[data-theme="dark"] .home-hero-button-secondary svg,
+html[data-theme="dark"] .home-hero-button-secondary .material-symbols-outlined,
+html[data-theme="dark"] .home-hero-button-secondary svg {
+  background: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+}
+
+[data-theme="dark"] .home-hero-button-secondary:hover,
+html[data-theme="dark"] .home-hero-button-secondary:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+[data-theme="dark"] .home-hero-button-secondary:hover .material-symbols-outlined,
+[data-theme="dark"] .home-hero-button-secondary:hover svg,
+html[data-theme="dark"] .home-hero-button-secondary:hover .material-symbols-outlined,
+html[data-theme="dark"] .home-hero-button-secondary:hover svg {
+  background: rgba(255, 255, 255, 0.28);
+  color: #ffffff;
 }
 
 .home-community-preview {
