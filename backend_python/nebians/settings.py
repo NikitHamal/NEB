@@ -192,7 +192,8 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 def _immutable_file_test(path, _url=None):
-    return path.startswith('web/js/needle2/')
+    p = path.replace('\\', '/')
+    return 'web/js/needle2/' in p or (_url is not None and 'web/js/needle2/' in _url)
 
 WHITENOISE_IMMUTABLE_FILE_TEST = _immutable_file_test
 
