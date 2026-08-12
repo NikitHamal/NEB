@@ -34,6 +34,26 @@ def ajax_neby_assist(request):
         return JsonResponse({'error': 'Something went wrong.'}, status=500)
 
 
+STOPWORDS = {'for', 'and', 'the', 'with', 'from', 'to', 'of', 'in', 'my', 'me',
+             'find', 'show', 'give', 'need', 'want', 'please', 'some', 'any',
+             'class', 'grade', 'notes', 'note', 'are', 'is', 'a', 'an', 'on',
+             'it', 'this', 'that', 'there', 'have', 'has', 'get', 'about', 'can'}
+
+TYPE_CANON = {}
+for canon, aliases in (
+    ('PDF', ['pdf']),
+    ('Note', ['note', 'notes', 'document']),
+    ('Video', ['video', 'videos']),
+    ('DOCX', ['docx', 'doc', 'document']),
+    ('Image', ['image', 'images']),
+    ('Past Paper', ['past paper', 'past papers', 'pastpaper', 'board exam', 'board']),
+    ('Textbook', ['textbook', 'textbooks', 'book', 'books']),
+    ('Link', ['link', 'links', 'url', 'website']),
+):
+    for a in aliases:
+        TYPE_CANON[a] = canon
+
+
 def _search_resources(args, limit=5):
     from api.models import Resource
 
@@ -54,7 +74,10 @@ def _search_resources(args, limit=5):
         return None
 
     auto_grade = grade_level or grade_from_query(query)
-    tokens = [t for t in query.split() if len(t) > 1]
+    tokens = [t for t in query.split() if len(t) > 2 and t.lower() not in STOPWORDS]
+
+    rt = resource_type.strip().lower()
+    normalized_type = TYPE_CANON.get(rt, resource_type)
 
     def run(with_query, with_type, with_grade, with_exam):
         qs = base
@@ -68,8 +91,8 @@ def _search_resources(args, limit=5):
                 )
         if subject:
             qs = qs.filter(subject__icontains=subject)
-        if with_type and resource_type:
-            qs = qs.filter(type__iexact=resource_type)
+        if with_type and normalized_type:
+            qs = qs.filter(type__iexact=normalized_type)
         if with_grade and auto_grade:
             qs = qs.filter(grade_level__icontains=auto_grade)
         if with_exam and exam_type:
@@ -100,8 +123,16 @@ def _execute_tool(tool, args):
         category = str(args.get('category', ''))[:100]
         sort = str(args.get('sort', 'recent'))
         qs = Post.objects.filter(is_archived=False)
-        if category:
-            qs = qs.filter(category__icontains=category)
+        if category and category.lower() not in ('popular', 'hot', 'all'):
+            real_cats = list(
+                Post.objects.filter(is_archived=False)
+                .exclude(category='')
+                .values_list('category', flat=True)
+                .distinct()
+            )
+            matched = [c for c in real_cats if category.lower() in c.lower()]
+            if matched:
+                qs = qs.filter(category__in=matched)
         if sort == 'popular':
             qs = qs.order_by('-thumbs_up_count', '-created_at')
         else:
