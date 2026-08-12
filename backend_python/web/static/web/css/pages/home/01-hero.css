@@ -157,18 +157,29 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 9px;
-  min-height: 52px;
-  padding: 0 24px;
+  gap: 10px;
+  min-height: 56px;
+  padding: 0 22px;
+  min-width: 160px;
   border-radius: 16px;
   font-size: 0.92rem;
-  font-weight: 700;
+  font-weight: 600;
   text-decoration: none;
-  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease, border-color 180ms ease, color 180ms ease;
 }
 
-.home-hero-button .material-symbols-outlined {
-  font-size: 19px;
+.home-hero-button .material-symbols-outlined,
+.home-hero-button svg {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 18px;
+  line-height: 1;
+  flex-shrink: 0;
+  transition: background 180ms ease, color 180ms ease;
 }
 
 .home-hero-button-primary {
@@ -178,10 +189,21 @@
   box-shadow: 0 12px 28px rgba(0, 74, 198, 0.22), inset 0 1px rgba(255, 255, 255, 0.28);
 }
 
+.home-hero-button-primary .material-symbols-outlined,
+.home-hero-button-primary svg {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
 .home-hero-button-primary:hover {
   color: #ffffff;
   transform: translateY(-2px);
   box-shadow: 0 16px 32px rgba(0, 74, 198, 0.28), inset 0 1px rgba(255, 255, 255, 0.28);
+}
+
+.home-hero-button-primary:hover .material-symbols-outlined,
+.home-hero-button-primary:hover svg {
+  background: rgba(255, 255, 255, 0.3);
 }
 
 .home-hero-button-secondary {
@@ -193,10 +215,52 @@
   -webkit-backdrop-filter: blur(10px);
 }
 
+.home-hero-button-secondary .material-symbols-outlined,
+.home-hero-button-secondary svg {
+  background: rgba(23, 52, 82, 0.08);
+  color: #173452;
+}
+
 .home-hero-button-secondary:hover {
   color: #173452;
   background: rgba(255, 255, 255, 0.96);
   transform: translateY(-2px);
+}
+
+.home-hero-button-secondary:hover .material-symbols-outlined,
+.home-hero-button-secondary:hover svg {
+  background: rgba(23, 52, 82, 0.14);
+}
+
+[data-theme="dark"] .home-hero-button-secondary,
+html[data-theme="dark"] .home-hero-button-secondary {
+  color: #f8fafc;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .home-hero-button-secondary .material-symbols-outlined,
+[data-theme="dark"] .home-hero-button-secondary svg,
+html[data-theme="dark"] .home-hero-button-secondary .material-symbols-outlined,
+html[data-theme="dark"] .home-hero-button-secondary svg {
+  background: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+}
+
+[data-theme="dark"] .home-hero-button-secondary:hover,
+html[data-theme="dark"] .home-hero-button-secondary:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+[data-theme="dark"] .home-hero-button-secondary:hover .material-symbols-outlined,
+[data-theme="dark"] .home-hero-button-secondary:hover svg,
+html[data-theme="dark"] .home-hero-button-secondary:hover .material-symbols-outlined,
+html[data-theme="dark"] .home-hero-button-secondary:hover svg {
+  background: rgba(255, 255, 255, 0.28);
+  color: #ffffff;
 }
 
 .home-hero-button:focus-visible {
