@@ -7,9 +7,9 @@ importScripts("./needle.js");
    loads straight from browser storage — no re-download on refresh. Bump
    ASSET_VERSION when the model or engine changes to force a refresh. */
 
-var ASSET_VERSION = "needle2-assets-v1";
-var WASM_URL = "./needle.wasm?v=1";
-var CACT_URL = "./needle2.cact?v=1";
+var ASSET_VERSION = "needle2-assets-v2";
+var WASM_URL = "./needle.wasm?v=2";
+var CACT_URL = "./needle2.cact?v=2";
 
 var moduleInstance = null;
 var loadingPromise = null;
@@ -110,18 +110,33 @@ function allocateCString(runtime, value) {
   return pointer;
 }
 
-async function run({ id, query, tools }) {
+async function run({ id, query, tools, maxNewTokens }) {
   const runtime = await ensureModel();
   initializeTools(runtime, tools);
   runtime._needle_reset();
 
   const queryPointer = allocateCString(runtime, query);
   try {
-    runtime._needle_complete(queryPointer, 256, outputPointer, 16384);
+    const limit = Number.isInteger(maxNewTokens) ? maxNewTokens : 128;
+    runtime._needle_complete(queryPointer, limit, outputPointer, 16384);
     const result = JSON.parse(runtime.UTF8ToString(outputPointer));
     self.postMessage({ type: "result", id, result });
   } finally {
     runtime._free(queryPointer);
+  }
+}
+
+function warmup(runtime, tools) {
+  /* Best-effort: run one tiny completion so the engine's internal buffers,
+     allocators and JIT paths are warm before the user's first real query. */
+  try {
+    initializeTools(runtime, tools);
+    runtime._needle_reset();
+    const p = allocateCString(runtime, "hi");
+    runtime._needle_complete(p, 64, outputPointer, 16384);
+    runtime._free(p);
+  } catch (e) {
+    /* ignore warm-up failures */
   }
 }
 
@@ -133,6 +148,7 @@ self.addEventListener("message", (event) => {
       .then((runtime) => {
         initializeTools(runtime, message.tools);
         self.postMessage({ type: "ready", loadSeconds });
+        if (message.warmup) warmup(runtime, message.tools);
       })
       .catch((error) => postError(error));
     return;
