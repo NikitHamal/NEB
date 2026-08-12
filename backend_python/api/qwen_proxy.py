@@ -572,7 +572,7 @@ def _create_fresh_session():
 
     try:
         warmup = session.get(f"{QWEN_URL}/", timeout=15, allow_redirects=True)
-        logger.info(f"Qwen warmup: {warmup.status_code}")
+        logger.debug(f"Qwen warmup: {warmup.status_code}")
     except Exception as e:
         logger.warning(f"Qwen warmup failed: {e}")
 
@@ -605,7 +605,9 @@ def _prune_pool():
 def _pool_refill_loop():
     """Background thread: keep the pool at target size."""
     while True:
-        time.sleep(_POOL_REFILL_INTERVAL)
+        # Jitter the sleep so multiple lswsgi workers don't all refill at
+        # the exact same second (which floods the log with warmup lines).
+        time.sleep(_POOL_REFILL_INTERVAL + random.uniform(0, 45))
         try:
             with _pool_lock:
                 _prune_pool()
@@ -618,7 +620,7 @@ def _pool_refill_loop():
                     logger.error(f"Pool refill failed: {e}")
                     break
             if need > 0:
-                logger.info(f"Pool refill: added {need} sessions (pool={len(_session_pool)})")
+                logger.debug(f"Pool refill: added {need} sessions (pool={len(_session_pool)})")
         except Exception as e:
             logger.error(f"Pool refill loop error: {e}")
 
@@ -630,7 +632,7 @@ def _start_refill_thread():
     _pool_refill_thread_started = True
     t = threading.Thread(target=_pool_refill_loop, daemon=True, name='qwen-pool-refill')
     t.start()
-    logger.info("Qwen session pool refill thread started")
+    logger.debug("Qwen session pool refill thread started")
 
 
 def _get_session():
