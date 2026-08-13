@@ -26,7 +26,7 @@
         properties: {
           query: { type: 'string', description: 'search keywords' },
           subject: { type: 'string', description: 'subject name e.g. Mathematics, Physics, English' },
-          resource_type: { type: 'string', enum: ['PDF', 'Note', 'Video', 'Link', ''], description: 'optional type filter' },
+          resource_type: { type: 'string', enum: ['PDF', 'Note', 'Past Paper', 'Textbook', 'Video', 'Link', ''], description: 'optional type filter' },
         },
         required: ['query'],
       },
@@ -81,12 +81,9 @@
   /* ── DOM refs ─────────────────────────────────────────────────────────────── */
   var fab, panel, chatArea, textarea, sendBtn, suggestionsEl;
 
-  /* ── Idle preload & warm-up ────────────────────────────────────────────────
-     The engine takes ~5s to compile the tool grammar (needle_init) the first
-     time. It runs in a Web Worker so it never blocks the UI thread — we just
-     want it STARTED while the user is still reading the page instead of when
-     they open the chat. Once loaded, the worker is kept alive for the whole
-     visit, so subsequent panel opens are instant. */
+  /* ── Idle preload ──────────────────────────────────────────────────────────
+     The first setup runs in a Web Worker and later launches restore the
+     initialized runtime from IndexedDB instead of compiling the grammar again. */
   function preloadNeedle() {
     if (preloadScheduled) return;
     preloadScheduled = true;
@@ -95,24 +92,30 @@
       if (document.getElementById('neby-fab')) ensureWorker();
     }
 
-    if ('requestIdleCallback' in window) {
-      window.requestIdleCallback(start, { timeout: 3000 });
-    } else {
-      setTimeout(start, 1500);
+    var connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    var constrained = connection && (connection.saveData || /(^|-)2g$/.test(connection.effectiveType || ''));
+    if (!constrained) {
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(start, { timeout: 3000 });
+      } else {
+        setTimeout(start, 1500);
+      }
     }
 
     var done = false;
     function onGesture() {
-      if (done) return;
+      if (done || constrained) return;
       done = true;
       start();
       ['pointerdown', 'mousemove', 'scroll', 'touchstart', 'keydown'].forEach(function (t) {
         document.removeEventListener(t, onGesture, true);
       });
     }
-    ['pointerdown', 'mousemove', 'scroll', 'touchstart', 'keydown'].forEach(function (t) {
-      document.addEventListener(t, onGesture, true);
-    });
+    if (!constrained) {
+      ['pointerdown', 'mousemove', 'scroll', 'touchstart', 'keydown'].forEach(function (t) {
+        document.addEventListener(t, onGesture, true);
+      });
+    }
   }
 
   /* ── Worker bootstrap ─────────────────────────────────────────────────────── */
@@ -138,7 +141,7 @@
           appendAiBubble('The AI model failed to load. Please refresh and try again.');
         }
       });
-      worker.postMessage({ type: 'initialize', tools: NEBY_TOOLS, warmup: true });
+      worker.postMessage({ type: 'initialize', tools: NEBY_TOOLS, snapshotNamespace: 'nebians-web-v1' });
     } catch (e) {
       console.error('Failed to create worker:', e);
       workerLoading = false;
@@ -147,7 +150,22 @@
   }
 
   function getWorkerUrl() {
-    return '/static/web/js/needle2/needle.worker.js';
+    return '/static/web/js/needle2/needle.worker.js?v=3';
+  }
+
+  function statusLabel(msg) {
+    if (msg.status === 'loading-engine') return 'loading AI engine\u2026';
+    if (msg.status === 'restoring') return 'restoring saved runtime' + progressSuffix(msg.progress);
+    if (msg.status === 'cache-hit') return msg.asset === 'model' ? 'model found on device' : 'engine found on device';
+    if (msg.status === 'downloading') return 'downloading ' + (msg.asset || 'model') + progressSuffix(msg.progress);
+    if (msg.status === 'loading-model') return 'loading model into memory\u2026';
+    if (msg.status === 'preparing-tools') return 'preparing on-device tools\u2026';
+    if (msg.status === 'saving') return 'optimizing future launches' + progressSuffix(msg.progress);
+    return 'loading on-device AI\u2026';
+  }
+
+  function progressSuffix(value) {
+    return typeof value === 'number' && value > 0 ? ' \u00b7 ' + Math.round(value * 100) + '%' : '';
   }
 
   function onWorkerMessage(e) {
@@ -155,7 +173,7 @@
     if (!msg) return;
 
     if (msg.type === 'status') {
-      updateStatus('loading model\u2026');
+      updateStatus(statusLabel(msg));
       return;
     }
 
@@ -163,7 +181,8 @@
       workerReady = true;
       workerLoading = false;
       var totalSecs = workerStartedAt ? (performance.now() - workerStartedAt) / 1000 : 0;
-      updateStatus('on-device AI \u00b7 ' + (totalSecs > 0 ? totalSecs.toFixed(1) + 's load' : 'ready'));
+      var source = msg.source === 'snapshot' ? 'saved runtime' : 'ready';
+      updateStatus('on-device AI \u00b7 ' + source + (totalSecs > 0 ? ' in ' + totalSecs.toFixed(1) + 's' : ''));
       if (sendBtn) sendBtn.disabled = !(textarea && textarea.value.trim());
       if (pendingRun) {
         var p = pendingRun;
@@ -176,7 +195,7 @@
     if (msg.type === 'result') {
       if (msg.id !== runId) return;
       removeThinking();
-      handleNeedleResult(msg.result);
+      handleNeedleResult(msg.result, msg.durationMs);
       return;
     }
 
@@ -295,10 +314,11 @@
   }
 
   /* ── Needle result handler ────────────────────────────────────────────────── */
-  function handleNeedleResult(result) {
+  function handleNeedleResult(result, durationMs) {
     console.log('[Neby] raw result:', result);
     if (!result) { appendAiBubble('No results found. Try asking differently!'); return; }
 
+    appendReasoning(result, durationMs);
     var calls = result.function_calls || [];
 
     if (!calls.length) {
@@ -306,10 +326,15 @@
       return;
     }
 
-    var call = calls[0];
+    calls.forEach(function (call) {
+      handleNeedleCall(call, result.confidence);
+    });
+  }
+
+  function handleNeedleCall(call, confidence) {
     var toolName = call.name;
     var args = call.arguments || {};
-    console.log('[Neby] tool:', toolName, '| args:', args, '| confidence:', result.confidence);
+    console.log('[Neby] tool:', toolName, '| args:', args, '| confidence:', confidence);
 
     if (toolName === 'navigate_to') {
       var routes = {
@@ -343,6 +368,36 @@
     }
 
     appendAiBubble('Got it! Let me know if you need anything else.');
+  }
+
+  function appendReasoning(result, durationMs) {
+    var reasoning = String(result.reasoning || '').trim();
+    if (!reasoning) return;
+
+    var message = createAiMsgEl();
+    var content = document.createElement('div');
+    content.className = 'neby-msg-content';
+    var details = document.createElement('details');
+    details.className = 'neby-reasoning';
+    var summary = document.createElement('summary');
+    summary.textContent = 'How Needle understood this';
+    var body = document.createElement('div');
+    body.className = 'neby-reasoning-body';
+    body.textContent = reasoning;
+    var metrics = document.createElement('div');
+    metrics.className = 'neby-reasoning-metrics';
+    var parts = [];
+    if (typeof result.confidence === 'number') parts.push('confidence ' + Math.round(result.confidence * 100) + '%');
+    if (typeof durationMs === 'number') parts.push(Math.round(durationMs) + ' ms on this device');
+    if (typeof result.decode_tps === 'number') parts.push(Math.round(result.decode_tps) + ' tok/s');
+    metrics.textContent = parts.join(' \u00b7 ');
+    details.appendChild(summary);
+    details.appendChild(body);
+    if (parts.length) details.appendChild(metrics);
+    content.appendChild(details);
+    message.innerHTML = '<div class="neby-msg-avatar"><span class="material-symbols-outlined">psychology</span></div>';
+    message.appendChild(content);
+    appendEl(message);
   }
 
   /* ── Backend fetch for DB results ─────────────────────────────────────────── */

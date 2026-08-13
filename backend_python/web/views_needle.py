@@ -62,6 +62,8 @@ def _search_resources(args, limit=5):
     resource_type = str(args.get('resource_type', ''))[:50]
     grade_level = str(args.get('grade_level', ''))[:50]
     exam_type = str(args.get('exam_type', ''))[:50]
+    if subject.strip().lower() in TYPE_CANON or subject.strip().lower() in ('nebians', 'resources'):
+        subject = ''
 
     base = Resource.objects.filter(approval_status='approved')
 

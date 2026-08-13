@@ -45,6 +45,7 @@ fun SettingsScreen(
     onNavigateToEditProfile: () -> Unit,
     onNavigateToBookmarks: () -> Unit = {},
     onNavigateToNebyCredits: () -> Unit = {},
+    onNavigateToLocalNeby: () -> Unit = {},
     onNavigateToDeleteAccount: () -> Unit = {},
     onNavigateToLogin: () -> Unit = {},
     onNavigateToWebPortal: (String) -> Unit = {}
@@ -242,6 +243,26 @@ fun SettingsScreen(
             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f))
 
             SettingsSectionLabel(label = "Preferences")
+
+            ListItem(
+                modifier = Modifier.clickable { onNavigateToLocalNeby() },
+                headlineContent = { Text("Neby Local", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium) },
+                supportingContent = { Text("Optional private AI · download once, use offline", style = MaterialTheme.typography.bodySmall) },
+                leadingContent = {
+                    Icon(
+                        imageVector = Icons.Outlined.AutoAwesome,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(22.dp)
+                    )
+                },
+                colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest)
+            )
+
+            HorizontalDivider(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+            )
 
             ListItem(
                 headlineContent = { Text("Dark Theme", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium) },
