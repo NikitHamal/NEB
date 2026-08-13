@@ -236,6 +236,7 @@ private fun SearchHeader(
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun SearchScreen(
+    initialQuery: String = "",
     onResourceClick: (String) -> Unit,
     onPostClick: (String) -> Unit = {},
     onProfileClick: (String) -> Unit = {},
@@ -249,7 +250,13 @@ fun SearchScreen(
 
     BackHandler { onNavigateBack() }
 
-    LaunchedEffect(Unit) { focusRequester.requestFocus() }
+    LaunchedEffect(initialQuery) {
+        if (initialQuery.isNotBlank() && uiState.query != initialQuery) {
+            viewModel.onQueryChange(initialQuery)
+        } else {
+            focusRequester.requestFocus()
+        }
+    }
 
     Scaffold(
         topBar = {
