@@ -672,6 +672,14 @@ A trycloudflare URL looks like `https://abc123.trycloudflare.com` — different 
 ### What Was Worked On (Current Session)
 **Needle 2 on-device assistant ("Neby Local") — persisted runtime + Android**
 
+DECISION RECORD (2026-08-13): An earlier v3 attempt (IDB asset caching only —
+commit 57e91be on main) was **reverted** (`git reset main 830f2f0` + force-push)
+in favor of this snapshot-based implementation on branch `arena/019ffa43-neb`
+(commit f5e559c). Snapshot restore is 49 ms vs v3's ~3.9 s (which still
+recompiled the tool grammar every refresh). Live server re-deployed to match.
+Notable gap vs v3: no AbortController fetch timeout/retry and no 90 s load
+watchdog in neby-assist.js — port over if load hangs ever recur.
+
 The 45M-parameter Needle 2 integration uses the official CQ2 model and WASM
 engine. The web model remains 13.10 MiB; Android packages only 0.375 MiB of
 engine/glue/license/bootstrap assets and downloads the model after explicit
