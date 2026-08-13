@@ -118,6 +118,7 @@ dependencies {
 
 // Core KTX
     implementation("androidx.core:core-ktx:1.15.0")
+    implementation("androidx.webkit:webkit:1.12.1")
 
 // Lifecycle + ViewModel Compose
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")

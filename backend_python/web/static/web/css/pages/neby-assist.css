@@ -226,6 +226,32 @@
 }
 
 /* ── Tool Result Cards ───────────────────────────────────────────────────────── */
+.neby-reasoning {
+  width: 100%;
+  padding: 8px 11px;
+  border: 1px solid var(--neby-border);
+  border-radius: 13px;
+  background: var(--md-surface-container-low);
+  color: var(--md-on-surface-variant);
+  font-size: 11.5px;
+  line-height: 1.45;
+}
+.neby-reasoning summary {
+  cursor: pointer;
+  color: var(--md-on-surface);
+  font-weight: 600;
+  user-select: none;
+}
+.neby-reasoning-body {
+  margin-top: 7px;
+  white-space: pre-wrap;
+}
+.neby-reasoning-metrics {
+  margin-top: 6px;
+  color: var(--md-primary);
+  font-size: 10.5px;
+  font-weight: 500;
+}
 .neby-results {
   display: flex;
   flex-direction: column;

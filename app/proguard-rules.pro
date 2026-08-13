@@ -160,6 +160,10 @@
 -keep class androidx.datastore.** { *; }
 -dontwarn androidx.datastore.**
 
+-keepclassmembers class com.neb.ians.data.needle.NeedleWebRuntime$Bridge {
+    @android.webkit.JavascriptInterface <methods>;
+}
+
 # ----------------------------------------------------------------------------
 # WorkManager
 # ----------------------------------------------------------------------------

@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Neby Local Runtime</title>
+</head>
+<body>
+<script>
+(function () {
+  'use strict';
+
+  var tools = JSON.stringify([
+    {
+      name: 'search_resources',
+      description: 'Search for study resources on NEBians — notes, past papers, textbooks, PDFs.',
+      parameters: {
+        type: 'object',
+        properties: {
+          query: { type: 'string', description: 'search keywords' },
+          subject: { type: 'string', description: 'subject name e.g. Mathematics, Physics, English' },
+          resource_type: { type: 'string', enum: ['PDF', 'Note', 'Past Paper', 'Textbook', 'Video', 'Link', ''], description: 'optional type filter' }
+        },
+        required: ['query']
+      }
+    },
+    {
+      name: 'find_notes',
+      description: 'Find study notes or past exam papers for a specific subject and grade on NEBians.',
+      parameters: {
+        type: 'object',
+        properties: {
+          subject: { type: 'string', description: 'subject name e.g. Mathematics, Physics, Chemistry' },
+          grade_level: { type: 'string', description: 'e.g. Class 11, Class 12, SEE' },
+          exam_type: { type: 'string', enum: ['Notes', 'Board', 'Final', 'SEE', 'Mock', 'Reference', ''], description: 'type of material' }
+        },
+        required: []
+      }
+    },
+    {
+      name: 'get_forum_posts',
+      description: 'Get forum posts from the NEBians discussion forum.',
+      parameters: {
+        type: 'object',
+        properties: {
+          category: { type: 'string', description: 'category to filter e.g. Science, Math, Help, General' },
+          sort: { type: 'string', enum: ['recent', 'popular'], description: 'sort order' }
+        },
+        required: []
+      }
+    },
+    {
+      name: 'navigate_to',
+      description: 'Navigate the user to a specific page on NEBians.',
+      parameters: {
+        type: 'object',
+        properties: {
+          page: {
+            type: 'string',
+            enum: ['home', 'library', 'forum', 'search', 'news', 'settings', 'bookmarks', 'upload', 'results', 'tools'],
+            description: 'destination page'
+          }
+        },
+        required: ['page']
+      }
+    },
+    {
+      name: 'get_subjects',
+      description: 'List all available subjects on NEBians.',
+      parameters: { type: 'object', properties: {}, required: [] }
+    }
+  ]);
+
+  var worker = null;
+
+  function emit(message) {
+    if (window.NeedleAndroid && window.NeedleAndroid.onMessage) {
+      window.NeedleAndroid.onMessage(JSON.stringify(message));
+    }
+  }
+
+  window.NebyRuntime = {
+    initialize: function () {
+      if (worker) return;
+      try {
+        worker = new Worker('./needle.worker.js?v=3');
+        worker.onmessage = function (event) { emit(event.data || {}); };
+        worker.onerror = function (event) {
+          emit({ type: 'error', message: event.message || 'Needle worker failed' });
+        };
+        worker.postMessage({
+          type: 'initialize',
+          tools: tools,
+          wasmUrl: './needle.wasm?v=2',
+          cactUrl: '/model/needle2.cact',
+          snapshotNamespace: 'nebians-android-ca7950ac',
+          cacheAssets: false
+        });
+      } catch (error) {
+        emit({ type: 'error', message: String(error) });
+      }
+    },
+    run: function (id, query) {
+      if (!worker) {
+        emit({ type: 'error', id: id, message: 'Runtime is not ready' });
+        return;
+      }
+      worker.postMessage({
+        type: 'run',
+        id: id,
+        query: String(query || ''),
+        tools: tools,
+        maxNewTokens: 128
+      });
+    },
+    clearCache: function () {
+      if (worker) worker.postMessage({ type: 'clear-cache', tools: tools });
+    }
+  };
+
+  emit({ type: 'bridge-ready' });
+})();
+</script>
+</body>
+</html>
