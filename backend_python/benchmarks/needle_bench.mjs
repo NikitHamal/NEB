@@ -24,7 +24,10 @@ const NEBY_TOOLS = JSON.stringify([
   { name: 'get_subjects', description: 'List all available subjects on NEBians.', parameters: { type: 'object', properties: {}, required: [] } },
 ]);
 
-const MAX_NEW_TOKENS = Number(process.env.MAX_TOKENS) || 256;
+// Production site runs with max_new_tokens = 128 (see neby-assist.js). Capping
+// at 128 vs 256 yields byte-identical tool calls, so the benchmark defaults to
+// the shipped value; override with MAX_TOKENS=<n> to experiment.
+const MAX_NEW_TOKENS = Number(process.env.MAX_TOKENS) || 128;
 const QUERIES = [
   'find physics notes for class 12',
   'show me popular forum posts',
@@ -64,18 +67,24 @@ function runOne(runtime, outPtr, query, maxNewTokens) {
   const genChars = outStr.length;
   const calls = parsed?.function_calls || [];
   const preview = calls.length ? calls.map((c) => c.name + '(' + JSON.stringify(c.arguments || {}) + ')').join(' | ') : '(empty call)';
+  const reasoning = (parsed?.reasoning || '').toString().slice(0, 90);
   const estTok = genChars / 4;
   console.log(' ' + query.padEnd(52) + ' ' + String(elapsed.toFixed(0)).padStart(7) + '  ' + String(genChars).padStart(7) + '  ' + String((estTok / (elapsed / 1000)).toFixed(0)).padStart(9));
-  console.log('      -> ' + preview + '  (conf=' + (parsed?.confidence ?? '-') + ') gen_chars=' + genChars);
+  console.log('      -> ' + preview + '  (conf=' + (parsed?.confidence ?? '-') + ') gen_chars=' + genChars + (reasoning ? '  reasoning="' + reasoning + '"' : ''));
   return { ms: elapsed, estTok, genChars };
 }
 
 async function main() {
   const mod = await import(GLUE_JS);
   const createNeedle = mod.default || mod;
+
+  // Measure a local-storage read of the assets — this is the IndexedDB "cache
+  // hit" path the worker uses after the first visit (no network involved).
+  const tRead0 = process.hrtime.bigint();
   const wasmBytes = readFileSync(WASM);
   const modelBytes = readFileSync(MODEL);
   const glueBytes = readFileSync(GLUE_JS);
+  const localReadMs = Number(process.hrtime.bigint() - tRead0) / 1e6;
   const sizeMB = (b) => (b / (1024 * 1024)).toFixed(2) + ' MB';
 
   const t0 = process.hrtime.bigint();
@@ -106,6 +115,7 @@ async function main() {
   console.log('   needle.wasm    ' + sizeMB(wasmBytes.length));
   console.log('   needle2.cact   ' + sizeMB(modelBytes.length) + '  (model)');
   console.log('   TOTAL transfer ' + sizeMB(glueBytes.length + wasmBytes.length + modelBytes.length));
+  console.log(' local read (IDB cache hit, all bytes) : ' + localReadMs.toFixed(1) + ' ms');
   console.log(' engine+glue init : ' + ms(t0, t1).toFixed(1) + ' ms');
   console.log(' model load       : ' + ms(t2, t3).toFixed(1) + ' ms');
   console.log(' tool init        : ' + ms(t3, t4).toFixed(1) + ' ms');

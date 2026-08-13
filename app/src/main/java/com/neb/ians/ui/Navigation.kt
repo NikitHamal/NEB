@@ -68,6 +68,7 @@ import com.neb.ians.ui.screens.bookmarks.BookmarksScreen
 import com.neb.ians.ui.screens.downloads.DownloadsScreen
 import com.neb.ians.ui.screens.upload.UploadScreen
 import com.neb.ians.ui.screens.ai.NebyAiScreen
+import com.neb.ians.ui.screens.localai.LocalNebyScreen
 import com.neb.ians.ui.screens.study.StudyLabScreen
 import com.neb.ians.ui.screens.study.StudySpaceScreen
 import com.neb.ians.ui.screens.interactive.InteractiveCourseScreen
@@ -121,6 +122,7 @@ sealed class Screen(val route: String) {
         fun createRoute(courseSlug: String, lessonSlug: String) = "interactive/lesson/$courseSlug/$lessonSlug"
     }
     data object NebyAi : Screen("neby_ai")
+    data object LocalNeby : Screen("local_neby")
     data object NebyCredits : Screen("credits")
     data object Analytics : Screen("analytics")
     data object Bookmarks : Screen("bookmarks")
@@ -156,6 +158,21 @@ sealed class Screen(val route: String) {
     data object WebPortal : Screen("web_portal/{url}") {
         fun createRoute(url: String) = "web_portal/${java.net.URLEncoder.encode(url, "UTF-8")}"
     }
+}
+
+/** Maps a Needle `navigate_to` page value to an in-app navigation destination. */
+private fun localNebyPageRoute(page: String): String? = when (page.lowercase()) {
+    "home" -> Screen.Home.route
+    "library" -> Screen.Library.createRoute()
+    "forum" -> Screen.Forum.route
+    "search" -> Screen.Search.route
+    "news" -> Screen.News.route
+    "settings" -> Screen.Settings.route
+    "bookmarks" -> Screen.Bookmarks.route
+    "upload" -> Screen.Upload.route
+    "results" -> Screen.ResultChecker.route
+    "tools" -> Screen.Tools.route
+    else -> null
 }
 
 val glassNavItems = listOf(
@@ -535,6 +552,15 @@ fun NEBiansNavHost(
                     onSearchClick = { navController.navigate(Screen.Search.route) }
                 )
             }
+            composable(Screen.LocalNeby.route) {
+                LocalNebyScreen(
+                    onNavigateBack = { navController.popBackStack() },
+                    onNavigateToPage = { page ->
+                        val dest = localNebyPageRoute(page)
+                        if (dest != null) navController.navigate(dest) { launchSingleTop = true }
+                    }
+                )
+            }
             composable(
                 route = Screen.InteractiveCourse.route,
                 arguments = listOf(navArgument("courseSlug") { type = NavType.StringType })
@@ -653,6 +679,7 @@ fun NEBiansNavHost(
                     onNavigateToEditProfile = { navController.navigate(Screen.EditProfile.route) },
                     onNavigateToBookmarks = { navController.navigate(Screen.Bookmarks.route) },
                     onNavigateToNebyCredits = { navController.navigate(Screen.NebyCredits.route) },
+                    onNavigateToLocalNeby = { navController.navigate(Screen.LocalNeby.route) },
                     onNavigateToDeleteAccount = { navController.navigate(Screen.DeleteAccount.route) },
                     onNavigateToLogin = {
                         navController.navigate(Screen.Login.route) {

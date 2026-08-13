@@ -176,6 +176,10 @@ dependencies {
 // Browser (Custom Tabs for GitHub OAuth)
     implementation("androidx.browser:browser:1.8.0")
 
+// AndroidX WebKit — WebViewAssetLoader serves the on-device Needle model assets
+// (in app-private storage) to a WebView for fully offline local-AI inference.
+    implementation("androidx.webkit:webkit:1.12.1")
+
 // Media3 (ExoPlayer) for video/audio playback
     implementation("androidx.media3:media3-exoplayer:1.5.1")
     implementation("androidx.media3:media3-ui:1.5.1")

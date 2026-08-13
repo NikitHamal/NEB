@@ -705,7 +705,57 @@ exact shipped engine in Node and measures load/init/latency/memory. Key findings
 
 **Deploy note:** after deploying, also re-run `node benchmarks/needle_bench.mjs` to
 confirm the engine loads. For a tuned model later, replace `needle2.cact` (same
-engine) and bump `ASSET_VERSION` to `needle2-assets-v3` + `?v=3`.
+engine) and bump `ASSET_VERSION`/`?v=` together (see `needle.worker.js`).
+
+---
+
+### Needle 2 — v3 pass: IndexedDB caching, reasoning surfaced, Android offline Neby
+
+**Problem:** mobile visitors were re-loading the ~13.46 MB model every refresh
+(40–50s cold loads). The previous pass used Cache Storage + idle pre-warm, but
+Cache Storage still had to be read back through the HTTP layer and some browsers
+evict it. **Root cause:** the asset fetch is the dominant mobile cost, and the
+one-time ~5 s grammar compile (`needle_init`) was the desktop cold-start cost.
+
+**Web changes (`backend_python/web/static/web/js/`):**
+- `needle2/needle.worker.js` — added a three-layer asset cache, **IndexedDB →
+  Cache Storage → network**. First visit fetches once; every later visit reads
+  the model bytes from IndexedDB (~8 ms for all 13 MB, verified). The IDB write
+  is awaited before `ready` so persistence is guaranteed (no dropped write on
+  page close). Old v2 Cache-Storage bytes migrate to IDB automatically, so
+  existing users don't re-download. Bumped `ASSET_VERSION` to `needle2-assets-v3`
+  + `?v=3`.
+- `neby-assist.js` — surfaces the model's **`reasoning`** in the chat UI (a
+  collapsible "Model reasoning" `<details>` block above each tool result), and
+  shows whether the model loaded from `local` storage or was `downloaded` in the
+  status line. When the model refuses (empty `function_calls`), its reasoning is
+  shown instead of a canned hint.
+- `benchmarks/needle_bench.mjs` + `benchmarks/README.md` + `FINAL_bench_v3.txt` —
+  now defaults to the shipped `max_new_tokens = 128`, reports `reasoning` per
+  query, and measures the local-storage (IDB cache-hit) read of all assets
+  (~8 ms). A mock-browser worker test validates the IDB→cache→fetch state machine
+  (verified offline: network fully disabled still answers).
+
+**Android changes (`app/`):** brand-new fully-offline on-device "Neby" assistant,
+deliberately NOT bundling the model so the APK stays small.
+- `data/repository/LocalNebyModelManager.kt` — downloads `needle.js`/`needle.wasm`/
+  `needle2.cact` from `https://nebians.consica.com.np/static/web/js/needle2/` into
+  app-private `filesDir/needle/`, with per-file byte-size integrity checks, a
+  version marker, progress reporting, and delete. Idempotent + offline afterwards.
+- `ui/screens/localai/LocalNebyWebEngine.kt` — runs the same engine + model the
+  website ships inside a hidden WebView via `WebViewAssetLoader`
+  (`androidx.webkit:webkit:1.12.1`), served from app-private storage — fully
+  offline, no native/NDK build. Results (incl. `reasoning`) return through a JS
+  bridge.
+- `ui/screens/localai/LocalNebyViewModel.kt` + `LocalNebyScreen.kt` — model
+  download/setup UI, chat with **reasoning** blocks, confidence, and offline
+  `navigate_to` → in-app navigation. `LocalNeby` route added in `ui/Navigation.kt`
+  and linked from **Settings → Offline AI (Neby)**.
+
+**Verification:** Node 22 web benchmark + worker cache test both pass in-sandbox.
+The Android module could not be compiled here (no JDK/Android SDK in the sandbox);
+code is written against the project's existing Compose/Hilt/webkit APIs and needs
+an on-device `assembleModernDebug` smoke test before release.
 
 ### Previous Session
 **Blog comment system (web + backend) + Android UI cleanup (library/forum/news screens)**

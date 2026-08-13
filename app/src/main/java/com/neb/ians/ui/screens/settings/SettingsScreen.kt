@@ -45,6 +45,7 @@ fun SettingsScreen(
     onNavigateToEditProfile: () -> Unit,
     onNavigateToBookmarks: () -> Unit = {},
     onNavigateToNebyCredits: () -> Unit = {},
+    onNavigateToLocalNeby: () -> Unit = {},
     onNavigateToDeleteAccount: () -> Unit = {},
     onNavigateToLogin: () -> Unit = {},
     onNavigateToWebPortal: (String) -> Unit = {}
@@ -322,6 +323,28 @@ fun SettingsScreen(
                     Switch(
                         checked = downloadWifiOnly,
                         onCheckedChange = { settingsViewModel.setDownloadWifiOnly(it) }
+                    )
+                },
+                colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest)
+            )
+
+            HorizontalDivider(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+            )
+
+            ListItem(
+                modifier = Modifier.clickable { onNavigateToLocalNeby() },
+                headlineContent = { Text("Offline AI (Neby)", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium) },
+                supportingContent = {
+                    Text("On-device assistant — works without internet, keeps your chats private", style = MaterialTheme.typography.bodySmall)
+                },
+                leadingContent = {
+                    Icon(
+                        imageVector = Icons.Outlined.AutoAwesome,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(22.dp)
                     )
                 },
                 colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest)

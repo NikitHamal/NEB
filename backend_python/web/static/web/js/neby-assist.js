@@ -163,7 +163,8 @@
       workerReady = true;
       workerLoading = false;
       var totalSecs = workerStartedAt ? (performance.now() - workerStartedAt) / 1000 : 0;
-      updateStatus('on-device AI \u00b7 ' + (totalSecs > 0 ? totalSecs.toFixed(1) + 's load' : 'ready'));
+      var origin = msg.fromCache ? 'local' : 'downloaded';
+      updateStatus('on-device AI \u00b7 ' + origin + (totalSecs > 0 ? ' \u00b7 ' + totalSecs.toFixed(1) + 's load' : ''));
       if (sendBtn) sendBtn.disabled = !(textarea && textarea.value.trim());
       if (pendingRun) {
         var p = pendingRun;
@@ -300,16 +301,22 @@
     if (!result) { appendAiBubble('No results found. Try asking differently!'); return; }
 
     var calls = result.function_calls || [];
+    var reasoning = (typeof result.reasoning === 'string' ? result.reasoning : '').trim();
 
     if (!calls.length) {
-      appendAiBubble('I can help you find resources, forum posts, subjects, or navigate NEBians. Try: \u201cFind Physics notes for Class 12\u201d or \u201cshow popular forum posts\u201d.');
+      // The model refused because nothing in the toolset matched — show its
+      // short derivation when available instead of a canned hint.
+      var fallback = reasoning
+        ? reasoning
+        : 'I can help you find resources, forum posts, subjects, or navigate NEBians. Try: \u201cFind Physics notes for Class 12\u201d or \u201cshow popular forum posts\u201d.';
+      appendAiBubble(fallback);
       return;
     }
 
     var call = calls[0];
     var toolName = call.name;
     var args = call.arguments || {};
-    console.log('[Neby] tool:', toolName, '| args:', args, '| confidence:', result.confidence);
+    console.log('[Neby] tool:', toolName, '| args:', args, '| confidence:', result.confidence, '| reasoning:', reasoning);
 
     if (toolName === 'navigate_to') {
       var routes = {
@@ -328,21 +335,40 @@
         'Go to ' + escapeHtml(page) +
         '<span class="material-symbols-outlined neby-result-arrow" style="margin-left:auto;">arrow_forward</span>' +
         '</a></div>';
+      appendReasoning(msgEl, reasoning);
       appendEl(msgEl);
       return;
     }
 
     if (toolName === 'get_subjects') {
-      fetchAndRender('get_subjects', {});
+      fetchAndRender('get_subjects', {}, reasoning);
       return;
     }
 
     if (toolName === 'search_resources' || toolName === 'find_notes' || toolName === 'get_forum_posts') {
-      fetchAndRender(toolName, args);
+      fetchAndRender(toolName, args, reasoning);
       return;
     }
 
     appendAiBubble('Got it! Let me know if you need anything else.');
+  }
+
+  /* Inserts a small collapsible "model reasoning" block at the top of an AI
+     message element (native <details> — collapses with no JS or extra CSS). */
+  function appendReasoning(el, reasoning) {
+    if (!reasoning) return;
+    var d = document.createElement('details');
+    d.className = 'neby-reasoning';
+    d.style.cssText = 'font-size:12px;margin:6px 12px 2px;';
+    var s = document.createElement('summary');
+    s.style.cssText = 'cursor:pointer;color:var(--neby-muted,#8a8f98);opacity:.9;display:flex;align-items:center;gap:4px;user-select:none;';
+    s.innerHTML = '<span class="material-symbols-outlined" style="font-size:14px">psychology</span> Model reasoning';
+    var body = document.createElement('div');
+    body.style.cssText = 'color:var(--neby-muted,#8a8f98);opacity:.85;font-style:italic;margin-top:4px;white-space:pre-wrap;';
+    body.textContent = reasoning;
+    d.appendChild(s);
+    d.appendChild(body);
+    el.insertBefore(d, el.firstChild);
   }
 
   /* ── Backend fetch for DB results ─────────────────────────────────────────── */
@@ -351,7 +377,7 @@
     return m ? m[1] : '';
   }
 
-  function fetchAndRender(toolName, args) {
+  function fetchAndRender(toolName, args, reasoning) {
     fetch('/ajax/neby-assist/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCsrfToken() },
@@ -361,7 +387,7 @@
       .then(function (r) { return r.json(); })
       .then(function (data) {
         if (data.error) { appendAiBubble(data.error); return; }
-        renderToolResult(toolName, args, data.result || data);
+        renderToolResult(toolName, args, data.result || data, reasoning);
       })
       .catch(function () {
         appendAiBubble('Couldn\u2019t fetch results right now. Please try again.');
@@ -369,7 +395,7 @@
   }
 
   /* ── Tool result renderers ────────────────────────────────────────────────── */
-  function renderToolResult(tool, args, result) {
+  function renderToolResult(tool, args, result, reasoning) {
     if (!result) { appendAiBubble('No results found.'); return; }
 
     if (tool === 'get_subjects') {
@@ -380,6 +406,7 @@
         return '<span class="neby-chip">' + escapeHtml(s.subject) + ' <span style="opacity:.55">(' + s.count + ')</span></span>';
       }).join('');
       msgEl.innerHTML = '<div class="neby-bubble">Here are the subjects available on NEBians:<div class="neby-chips">' + chips + '</div></div>';
+      appendReasoning(msgEl, reasoning);
       appendEl(msgEl);
       return;
     }
@@ -399,6 +426,7 @@
           '<div class="neby-result-arrow"><span class="material-symbols-outlined">chevron_right</span></div></a>';
       }).join('');
       msgEl2.innerHTML = '<div class="neby-bubble">' + intro + '<span class="neby-count-badge">' + resources.length + '</span><div class="neby-results">' + cards + '</div></div>';
+      appendReasoning(msgEl2, reasoning);
       appendEl(msgEl2);
       return;
     }
@@ -415,6 +443,7 @@
           '</div><div class="neby-result-arrow"><span class="material-symbols-outlined">chevron_right</span></div></a>';
       }).join('');
       msgEl3.innerHTML = '<div class="neby-bubble">Here are some forum discussions:<span class="neby-count-badge">' + posts.length + '</span><div class="neby-results">' + pcards + '</div></div>';
+      appendReasoning(msgEl3, reasoning);
       appendEl(msgEl3);
       return;
     }

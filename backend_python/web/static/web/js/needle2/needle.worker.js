@@ -2,20 +2,38 @@
 
 importScripts("./needle.js");
 
-/* Assets are served as binary files (needle.wasm + needle2.cact) and cached in
-   the Cache Storage API. First visit downloads them once; every later visit
-   loads straight from browser storage — no re-download on refresh. Bump
-   ASSET_VERSION when the model or engine changes to force a refresh. */
+/* Assets are served as binary files (needle.wasm + needle2.cact) and cached
+   locally so the ~13 MB model is downloaded over the network exactly ONCE per
+   browser, then reused on every later visit — no re-download on refresh, and
+   reads on mobile come from fast local storage instead of a second network
+   fetch (which is what made cold loads take 40-50s on phones).
 
-var ASSET_VERSION = "needle2-assets-v2";
-var WASM_URL = "./needle.wasm?v=2";
-var CACT_URL = "./needle2.cact?v=2";
+   Caching layering (fastest first):
+     1. IndexedDB      — primary store for the model bytes. Browsers keep IDB
+                         blobs on disk with no quota pressure for ~13 MB, and
+                         reads are synchronous-ish (no network, no HTTP).
+     2. Cache Storage  — legacy layer from the previous pass, kept so users who
+                         already have v2 bytes cached can migrate instantly
+                         instead of re-fetching. Also a fallback if IDB is
+                         unavailable (e.g. private mode / quota errors).
+     3. Network fetch  — only when neither store has the bytes (true first run).
+
+   Bump ASSET_VERSION + the ?v= query when the model or engine changes so every
+   browser re-fetches exactly once. */
+
+var ASSET_VERSION = "needle2-assets-v3";
+var WASM_URL = "./needle.wasm?v=3";
+var CACT_URL = "./needle2.cact?v=3";
+var IDB_NAME = "neby-assets";
+var IDB_STORE = "assets";
 
 var moduleInstance = null;
 var loadingPromise = null;
 var loadedTools = null;
 var outputPointer = 0;
 var loadSeconds = 0;
+/* true when every asset byte came from local storage (no network was hit) */
+var fromCache = true;
 
 function postError(error, id) {
   self.postMessage({
@@ -36,21 +54,100 @@ function fetchBytes(url) {
   });
 }
 
-async function loadAsset(url) {
-  var cache = await caches.open(ASSET_VERSION);
-  var cached = await cache.match(url);
-  if (cached) {
-    var cachedBytes = await cached.arrayBuffer();
-    return new Uint8Array(cachedBytes);
-  }
-  var bytes = await fetchBytes(url);
-  try {
-    await cache.put(url, new Response(bytes.slice().buffer, {
+/* ── IndexedDB layer ─────────────────────────────────────────────────────── */
+
+var idbPromise = null;
+
+function openIdb() {
+  if (idbPromise) return idbPromise;
+  idbPromise = new Promise(function (resolve, reject) {
+    var req = indexedDB.open(IDB_NAME, 1);
+    req.onupgradeneeded = function (e) {
+      var db = e.target.result;
+      if (!db.objectStoreNames.contains(IDB_STORE)) {
+        db.createObjectStore(IDB_STORE); // key = asset url string
+      }
+    };
+    req.onsuccess = function () { resolve(req.result); };
+    req.onerror = function () { reject(req.error); };
+  });
+  return idbPromise;
+}
+
+function idbGet(key) {
+  return openIdb().then(
+    function (db) {
+      return new Promise(function (resolve) {
+        try {
+          var tx = db.transaction(IDB_STORE, "readonly");
+          var req = tx.objectStore(IDB_STORE).get(key);
+          req.onsuccess = function () { resolve(req.result || null); };
+          req.onerror = function () { resolve(null); };
+        } catch (e) { resolve(null); }
+      });
+    },
+    function () { return null; }
+  );
+}
+
+function idbPut(key, bytes) {
+  return openIdb().then(
+    function (db) {
+      return new Promise(function (resolve) {
+        try {
+          var tx = db.transaction(IDB_STORE, "readwrite");
+          tx.objectStore(IDB_STORE).put(bytes, key);
+          tx.oncomplete = function () { resolve(true); };
+          tx.onerror = function () { resolve(false); };
+        } catch (e) { resolve(false); }
+      });
+    },
+    function () { return false; }
+  );
+}
+
+/* ── Cache Storage layer (legacy + fallback) ─────────────────────────────── */
+
+function cacheGet(url) {
+  return caches.open(ASSET_VERSION).then(function (cache) {
+    return cache.match(url).then(function (cached) {
+      if (!cached) return null;
+      return cached.arrayBuffer().then(function (buf) {
+        return new Uint8Array(buf);
+      });
+    });
+  }).catch(function () { return null; });
+}
+
+function cachePut(url, bytes) {
+  return caches.open(ASSET_VERSION).then(function (cache) {
+    return cache.put(url, new Response(bytes.slice().buffer, {
       headers: { "Content-Type": "application/octet-stream" },
     }));
-  } catch (e) {
-    /* cache write failure is non-fatal — the model is still loaded */
+  }).catch(function () { /* non-fatal */ });
+}
+
+/* Resolve one asset: IndexedDB → Cache Storage → network. Returns bytes and
+   flips `fromCache` to false the moment any byte came over the wire. */
+async function loadAsset(url) {
+  var idb = await idbGet(url);
+  if (idb) return idb;
+
+  var cache = await cacheGet(url);
+  if (cache) {
+    // Migrate the old Cache Storage copy into IDB so future loads skip HTTP.
+    await idbPut(url, cache);
+    return cache;
   }
+
+  fromCache = false;
+  var bytes = await fetchBytes(url);
+  // Await the IDB write so the model is guaranteed persisted before we report
+  // "ready" — otherwise a fast page close could drop it and force a re-download.
+  // (13 MB IDB write is tens of ms; far cheaper than re-fetching on a phone.)
+  await idbPut(url, bytes);
+  // Secondary best-effort copy in Cache Storage for older-browser fallback.
+  cachePut(url, bytes);
   return bytes;
 }
 
@@ -147,7 +244,8 @@ self.addEventListener("message", (event) => {
     ensureModel()
       .then((runtime) => {
         initializeTools(runtime, message.tools);
-        self.postMessage({ type: "ready", loadSeconds });
+        const data = { type: "ready", loadSeconds, fromCache: fromCache };
+        self.postMessage(data);
         if (message.warmup) warmup(runtime, message.tools);
       })
       .catch((error) => postError(error));
