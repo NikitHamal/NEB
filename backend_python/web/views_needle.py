@@ -1,12 +1,34 @@
 import json
 import logging
+import re
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.db.models import Q, Count
 
+from web.rate_limit import web_rate_limit
+
 logger = logging.getLogger(__name__)
 
 ALLOWED_TOOLS = {'search_resources', 'find_notes', 'get_forum_posts', 'get_subjects'}
+
+CLOUD_SYSTEM_PROMPT = """You are Neby, the AI assistant inside the NEBians app (a Nepali study platform for the NEB curriculum).
+You have access to platform tools but NOT native function calling, so you must emit tool requests as strict JSON.
+Decide which of these fits the user's intent:
+
+Tools (emit ONE of these when the user wants that action):
+- search_resources: arguments {"query": "...", "subject"?: "...", "resource_type"?: "PDF|Note|Past Paper|Textbook|Video|Link"} — find study resources
+- find_notes: arguments {"subject": "...", "grade_level"?: "e.g. Class 11, Class 12, SEE", "exam_type"?: "Notes|Board|Final|SEE|Mock|Reference"} — find notes or past papers for a subject and grade
+- get_forum_posts: arguments {"category"?: "...", "sort"?: "recent|popular"} — forum discussions
+- get_subjects: arguments {} — list all available subjects
+- navigate_to: arguments {"page": "home|library|forum|search|news|settings|bookmarks|upload|results|leaderboard|tools"} — move the user to a page
+
+Rules:
+1. If the user's request maps to a tool, reply with EXACTLY one JSON object and nothing else:
+   {"tool_call": {"name": "find_notes", "arguments": {"subject": "Physics", "grade_level": "Class 12"}}}
+2. Otherwise reply as a friendly, helpful chatbot. Your reply MUST be a JSON object:
+   {"chat": "your friendly reply here"}
+3. Never wrap JSON in markdown fences. Never add text outside the JSON object.
+4. Keep chat replies short (1-3 sentences). For resource searches, extract the subject and grade the user mentions."""
 
 
 @require_POST
@@ -32,6 +54,143 @@ def ajax_neby_assist(request):
     except Exception as exc:
         logger.exception("Neby tool execution error (%s): %s", tool, exc)
         return JsonResponse({'error': 'Something went wrong.'}, status=500)
+
+
+@require_POST
+@web_rate_limit('neby-cloud', limit=15, window=60)
+def ajax_neby_cloud(request):
+    try:
+        body = json.loads(request.body)
+    except (json.JSONDecodeError, ValueError):
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+
+    query = (body.get('query') or '').strip()[:500]
+    if not query:
+        return JsonResponse({'error': 'query required'}, status=400)
+
+    local_guess = body.get('localGuess')
+    if not isinstance(local_guess, dict) or not isinstance(local_guess.get('name'), str):
+        local_guess = None
+
+    mode, payload = _cloud_route(query, local_guess)
+    if mode is None:
+        return JsonResponse({'error': 'Cloud AI unavailable. Try again in a moment.'}, status=502)
+    return JsonResponse({'mode': mode, **payload})
+
+
+def _cloud_route(query, local_guess=None):
+    """Ask Mercury 2 (Inception diffusion LLM) and return (mode, payload).
+
+    mode is 'tool' (payload: tool/args/result) or 'chat' (payload: text).
+    Falls back to Qwen chat if Inception is unreachable.
+    """
+    system_prompt = CLOUD_SYSTEM_PROMPT
+    if local_guess:
+        guess_json = json.dumps(local_guess)
+        system_prompt += (
+            "\n\nThe on-device model guessed this action with low confidence: "
+            + guess_json
+            + "\nIf the guess is sensible, emit it as your tool_call. Otherwise emit "
+            "the correct tool_call or a chat reply."
+        )
+
+    try:
+        from api import inception_proxy
+        raw = inception_proxy.simple_chat(
+            user_message=query,
+            system_prompt=system_prompt,
+            reasoning_effort='low',
+        )
+    except Exception as exc:
+        logger.warning('neby cloud: inception failed: %s', exc)
+        raw = None
+
+    if raw:
+        parsed = _parse_cloud_reply(raw)
+        if parsed is not None:
+            kind, name, args, text = parsed
+            if kind == 'tool' and name in ALLOWED_TOOLS:
+                try:
+                    result = _execute_tool(name, args)
+                    return 'tool', {'tool': name, 'args': args, 'result': result}
+                except Exception as exc:
+                    logger.warning('neby cloud: tool %s failed: %s', name, exc)
+            if kind == 'tool' and name == 'navigate_to':
+                return 'tool', {'tool': 'navigate_to', 'args': args, 'result': None}
+            if kind == 'chat' and text:
+                return 'chat', {'text': text}
+
+    fallback = None
+    try:
+        from api import qwen_proxy
+        fallback = qwen_proxy.call_qwen(
+            CLOUD_SYSTEM_PROMPT,
+            query,
+            model='qwen3.8-max',
+            max_tokens=300,
+        )
+    except Exception as exc:
+        logger.warning('neby cloud: qwen fallback failed: %s', exc)
+        fallback = None
+
+    if fallback:
+        parsed = _parse_cloud_reply(fallback)
+        if parsed is not None:
+            kind, name, args, text = parsed
+            if kind == 'tool' and name in ALLOWED_TOOLS:
+                try:
+                    result = _execute_tool(name, args)
+                    return 'tool', {'tool': name, 'args': args, 'result': result}
+                except Exception as exc:
+                    logger.warning('neby cloud fallback: tool %s failed: %s', name, exc)
+            if kind == 'tool' and name == 'navigate_to':
+                return 'tool', {'tool': 'navigate_to', 'args': args, 'result': None}
+            return 'chat', {'text': text}
+        return 'chat', {'text': fallback.strip()[:800]}
+
+    return None, {}
+
+
+def _parse_cloud_reply(raw):
+    """Parse Mercury's reply into (kind, name, args, text) or None.
+
+    Accepts {"tool_call": {"name": ..., "arguments": {...}}} and
+    {"chat": "..."}, with or without markdown fences around the JSON.
+    """
+    text = (raw or '').strip()
+    if not text:
+        return None
+
+    candidate = text
+    if candidate.startswith('```'):
+        candidate = re.sub(r'^```(?:json)?\s*|\s*```$', '', candidate, flags=re.S).strip()
+
+    data = None
+    for attempt in (candidate, text):
+        try:
+            data = json.loads(attempt)
+            break
+        except (json.JSONDecodeError, ValueError):
+            match = re.search(r'\{.*\}', attempt, re.S)
+            if match:
+                try:
+                    data = json.loads(match.group(0))
+                    break
+                except (json.JSONDecodeError, ValueError):
+                    pass
+
+    if isinstance(data, dict):
+        tc = data.get('tool_call')
+        if isinstance(tc, dict):
+            name = str(tc.get('name') or '').strip()
+            args = tc.get('arguments')
+            if name and isinstance(args, dict):
+                return ('tool', name, args, '')
+        chat = data.get('chat')
+        if isinstance(chat, str) and chat.strip():
+            return ('chat', '', {}, chat.strip())
+
+    return None
 
 
 STOPWORDS = {'for', 'and', 'the', 'with', 'from', 'to', 'of', 'in', 'my', 'me',
