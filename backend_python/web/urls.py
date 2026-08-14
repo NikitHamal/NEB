@@ -15,6 +15,7 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('health/', views_monitor.health_check, name='health_check'),
     path('ajax/neby-assist/', views_needle.ajax_neby_assist, name='ajax_neby_assist'),
+    path('ajax/neby-assist/cloud/', views_needle.ajax_neby_cloud, name='ajax_neby_cloud'),
     path('manifest.json', views.manifest_json, name='manifest_json'),
     path('sitemap.xml', views.sitemap_xml, name='sitemap_xml'),
     path('robots.txt', views.robots_txt, name='robots_txt'),
