@@ -42,7 +42,7 @@ logger = logging.getLogger(__name__)
 # Community (scraper) providers surfaced in the generic /models/ list and
 # routed here for session create + streaming. Their proxies are stateless:
 # we replay the session history on every call.
-_COMMUNITY_SLUGS = ('k2think', 'poolside')
+_COMMUNITY_SLUGS = ('k2think', 'poolside', 'motiftech')
 
 
 def _community_models():
@@ -75,6 +75,9 @@ def _community_proxy(provider):
     if provider == 'poolside':
         from . import poolside_proxy
         return poolside_proxy
+    if provider == 'motiftech':
+        from . import motiftech_proxy
+        return motiftech_proxy
     return None
 
 
@@ -549,13 +552,19 @@ def _stream_community(sess, user_msg_id: str, asst_msg_id: str, asst_started_at:
     collected_text = ''
     finish_reason = 'stop'
     error_text = ''
+    # Motif tracks context server-side via conversation_id — we keep it in
+    # arena_token_id (unused for community sessions) and persist the fresh one.
+    conv_id = sess.arena_token_id or None
     # Upstreams occasionally cut the stream after reasoning without an answer —
     # retry once before reporting failure.
     attempts_left = 2
     while attempts_left > 0:
         attempts_left -= 1
         try:
-            for chunk in proxy.stream_chat(messages=history, model=model):
+            kwargs = {}
+            if sess.provider == 'motiftech':
+                kwargs['conversation_id'] = conv_id
+            for chunk in proxy.stream_chat(messages=history, model=model, **kwargs):
                 t = chunk.get('type')
                 if t == 'text':
                     text = chunk.get('content', '')
@@ -567,6 +576,13 @@ def _stream_community(sess, user_msg_id: str, asst_msg_id: str, asst_started_at:
                     })
                 elif t == 'done':
                     finish_reason = chunk.get('finish_reason', 'stop')
+                    new_conv = chunk.get('conversation_id')
+                    if new_conv and new_conv != conv_id:
+                        conv_id = new_conv
+                        try:
+                            ArenaChatSession.objects.filter(pk=sess.id).update(arena_token_id=new_conv)
+                        except Exception as e:
+                            logger.warning("stream[%s]: conversation_id persist failed: %s", sess.provider, e)
                 elif t == 'error':
                     error_text = chunk.get('error') or chunk.get('message') or 'upstream error'
                     logger.warning("stream[%s]: upstream error: %s", sess.provider, error_text)

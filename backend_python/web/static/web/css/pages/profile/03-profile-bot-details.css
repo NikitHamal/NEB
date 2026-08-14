@@ -64,6 +64,12 @@
   }
 
   /* Bot avatar — primary border + AI badge */
+  .pf-avatar-overlap-wrap.pf-avatar-bot {
+    width: 140px;
+    height: 140px;
+    margin-top: -70px;
+    overflow: visible;
+  }
   .pf-avatar-bot .pf-avatar-circle {
     position: relative;
     border: 3px solid var(--md-primary);

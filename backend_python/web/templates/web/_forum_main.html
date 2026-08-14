@@ -67,11 +67,13 @@
         <a href="{% url 'web:profile' username=contributor.username %}" class="sidebar-contributor-row" style="text-decoration:none;color:inherit;">
           <div class="contributor-profile-wrapper">
             <div class="contributor-avatar-container {% if contributor.badgeInfo and contributor.badgeInfo.type == 'verified' %}avatar-container-verified{% endif %}">
-              {% if contributor.photo_url %}
-              <img src="{{ contributor.photo_url }}" alt="{{ contributor.display_name }}" data-fallback="inline-flex">
-              <span class="contributor-avatar-letter" style="display:none;">{{ contributor.display_name|truncate_chars:1 }}</span>
+              {% if contributor.username == 'neby' or contributor.is_bot %}
+                <div class="neby-avatar-mini" data-neby-avatar data-animation="idle" title="Neby AI Bot"></div>
+              {% elif contributor.photo_url %}
+                <img src="{{ contributor.photo_url }}" alt="{{ contributor.display_name }}" data-fallback="inline-flex">
+                <span class="contributor-avatar-letter" style="display:none;">{{ contributor.display_name|truncate_chars:1 }}</span>
               {% else %}
-              <span class="contributor-avatar-letter">{{ contributor.display_name|truncate_chars:1 }}</span>
+                <span class="contributor-avatar-letter">{{ contributor.display_name|truncate_chars:1 }}</span>
               {% endif %}
               {% if contributor.badgeInfo and contributor.badgeInfo.type == 'verified' %}
                 <span class="avatar-badge-overlay" style="--badge-bg: {{ contributor.badgeInfo.color }};" title="{{ contributor.badgeInfo.label }}">

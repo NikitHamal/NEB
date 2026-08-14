@@ -90,6 +90,7 @@
   <link rel="stylesheet" href="{% static 'web/css/app.css' %}">
   <link rel="stylesheet" href="{% static 'web/css/forum-media.css' %}">
   <link rel="stylesheet" href="{% static 'web/css/pages/media-player.css' %}">
+  <link rel="stylesheet" href="{% static 'web/css/neby-avatar.css' %}">
   {% block extra_css %}{% endblock %}
   <link rel="stylesheet" href="{% static 'web/css/pages/neby-assist.css' %}">
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/delegated-events.js' %}"></script>
@@ -309,13 +310,13 @@
 
   <!-- Neby AI Assistant -->
   <button id="neby-fab" aria-label="Open Neby AI Assistant" aria-expanded="false" aria-controls="neby-panel">
-    <span class="material-symbols-outlined">auto_awesome</span>
+    <div class="neby-avatar-mini neby-size-reply" data-neby-avatar data-animation="idle" style="pointer-events:none;"></div>
   </button>
 
   <div id="neby-panel" role="dialog" aria-label="Neby AI Assistant" aria-modal="true">
     <div class="neby-panel-header">
       <div class="neby-header-avatar">
-        <span class="material-symbols-outlined">auto_awesome</span>
+        <div class="neby-avatar-mini neby-size-reply" data-neby-avatar data-animation="idle" title="Neby AI Assistant"></div>
       </div>
       <div class="neby-header-info">
         <div class="neby-header-name">Neby AI</div>
@@ -331,8 +332,8 @@
 
     <div class="neby-chat-area" id="neby-chat-area">
       <div class="neby-empty-state">
-        <div class="neby-empty-icon">
-          <span class="material-symbols-outlined">auto_awesome</span>
+        <div class="neby-empty-icon" style="background:transparent;box-shadow:none;">
+          <div class="neby-avatar-mini" data-neby-avatar data-animation="idle" style="width:64px;height:64px;margin:0 auto 12px;"></div>
         </div>
         <p>Ask me to find resources, forum posts, subjects, or navigate around NEBians!</p>
       </div>
@@ -864,6 +865,14 @@
   </script>
   <script nonce="{{ csp_nonce }}" src="{% load static %}{% static 'web/js/realtime.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neby-assist.js' %}"></script>
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neby-avatar.js' %}"></script>
+  <script nonce="{{ csp_nonce }}">
+    document.addEventListener('htmx:afterSwap', function() {
+      if (window.NebyAvatar && window.NebyAvatar.initAll) {
+        window.NebyAvatar.initAll();
+      }
+    });
+  </script>
   {% block extra_js %}{% endblock %}
 </body>
 

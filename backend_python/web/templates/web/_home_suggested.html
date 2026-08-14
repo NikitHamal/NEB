@@ -49,7 +49,9 @@
           {% with author=r.uploaded_by_name|default:r.uploadedByName|default:r.uploadedByUsername|default:r.author_name|default:r.authorName|default:"NEBians" photo=r.uploaded_by_photo|default:r.uploadedByPhoto %}
           <div class="resource-card-footer">
             <div class="resource-card-avatar">
-              {% if author == "Anonymous" or author == "Anonymous Nebian" or r.is_anonymous %}
+              {% if author == 'neby' %}
+                <div class="neby-avatar-mini neby-size-sm" data-neby-avatar data-animation="idle" title="Neby AI Bot"></div>
+              {% elif author == "Anonymous" or author == "Anonymous Nebian" or r.is_anonymous %}
               <span class="resource-card-avatar-letter"><span class="material-symbols-outlined" style="font-size:13px">visibility_off</span></span>
               {% elif photo %}
               <img src="{{ photo }}" alt="" loading="lazy">
@@ -117,7 +119,9 @@
           {% endif %}
           <div class="suggest-post-footer">
             <div class="suggest-post-avatar">
-              {% if p.isAnonymous or p.authorName == "Anonymous Nebian" %}
+              {% if p.authorName == 'neby' or p.authorIsBot %}
+                <div class="neby-avatar-mini neby-size-sm" data-neby-avatar data-animation="idle" title="Neby AI Bot"></div>
+              {% elif p.isAnonymous or p.authorName == "Anonymous Nebian" %}
               <span class="suggest-post-avatar-letter"><span class="material-symbols-outlined" style="font-size:13px">visibility_off</span></span>
               {% elif p.authorPhotoUrl %}
               <img src="{{ p.authorPhotoUrl }}" alt="" loading="lazy">

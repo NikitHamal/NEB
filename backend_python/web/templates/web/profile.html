@@ -80,20 +80,24 @@
           </div>
 
           <!-- Overlapping Circular Avatar -->
-          <div class="pf-avatar-overlap-wrap{% if profile_user.is_bot %} pf-avatar-bot{% endif %} {% if profile_user.verification_level and profile_user.verification_level > 0 %}avatar-container-verified{% endif %}">
-            <div class="pf-avatar-circle" id="profilePageAvatar">
-              {% if profile_user.photo_url %}
-                <img src="{{ profile_user.photo_url }}" alt="{{ profile_user.display_name|default:profile_user.username }}">
-              {% else %}
-                <div class="pf-avatar-initial">{{ profile_user.display_name|default:profile_user.username|slice:":1" }}</div>
-              {% endif %}
-            </div>
+          <div class="pf-avatar-overlap-wrap{% if profile_user.is_bot or profile_user.username == 'neby' %} pf-avatar-bot{% endif %} {% if profile_user.verification_level and profile_user.verification_level > 0 %}avatar-container-verified{% endif %}">
+            {% if profile_user.is_bot or profile_user.username == 'neby' %}
+              <div class="neby-avatar-hero" data-neby-avatar data-hero="true" data-animation="idle" id="profilePageNebyAvatar" title="Interactive 3D Neby! Click to play reactions"></div>
+            {% else %}
+              <div class="pf-avatar-circle" id="profilePageAvatar">
+                {% if profile_user.photo_url %}
+                  <img src="{{ profile_user.photo_url }}" alt="{{ profile_user.display_name|default:profile_user.username }}">
+                {% else %}
+                  <div class="pf-avatar-initial">{{ profile_user.display_name|default:profile_user.username|slice:":1" }}</div>
+                {% endif %}
+              </div>
+            {% endif %}
             {% if profile_user.verification_level and profile_user.verification_level > 0 %}
               <span class="avatar-badge-overlay" style="--badge-bg: {% if profile_user.verification_level == 1 %}#1B9AF0{% elif profile_user.verification_level == 2 %}#2E7D32{% elif profile_user.verification_level == 3 %}#F59E0B{% else %}#1A1A1A{% endif %};" title="Verified User">
                 <span class="material-symbols-outlined">verified</span>
               </span>
             {% endif %}
-            {% if user and user.username == profile_user.username and not profile_user.is_bot %}
+            {% if user and user.username == profile_user.username and not profile_user.is_bot and profile_user.username != 'neby' %}
               <div class="pf-avatar-cam" data-action="open-photo-history-modal" title="Change photo">
                 <span class="material-symbols-outlined">camera_alt</span>
               </div>
@@ -137,7 +141,7 @@
 
             <!-- Student Subtitle / Role Headline -->
             <p class="pf-card-headline">
-              {% if profile_user.is_bot %}
+              {% if profile_user.is_bot or profile_user.username == 'neby' %}
                 <span class="pf-bot-tagline">
                   <span class="material-symbols-outlined">auto_awesome</span>
                   AI Study Companion
@@ -169,6 +173,17 @@
                 {% endif %}
               {% endif %}
             </p>
+
+            {% if profile_user.is_bot or profile_user.username == 'neby' %}
+              <div class="neby-mood-bar">
+                <span class="neby-mood-title"><span class="material-symbols-outlined" style="font-size:16px;">smart_toy</span> React:</span>
+                <button type="button" class="neby-mood-pill" data-neby-react="joy">✨ Joy</button>
+                <button type="button" class="neby-mood-pill" data-neby-react="wink">😉 Wink</button>
+                <button type="button" class="neby-mood-pill" data-neby-react="think">🤔 Think</button>
+                <button type="button" class="neby-mood-pill" data-neby-react="dance">💃 Dance</button>
+                <button type="button" class="neby-mood-pill" data-neby-react="talk">💬 Talk</button>
+              </div>
+            {% endif %}
 
             <!-- Stats Rows (Followers, Following, Posts) -->
             <div class="pf-stats-row">
