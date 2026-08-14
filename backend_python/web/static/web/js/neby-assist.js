@@ -12,6 +12,11 @@
   var NEBY_MAX_TOKENS = 128;
   var preloadScheduled = false;
 
+  /* When the on-device model is unsure, hand the request to the cloud
+     (Mercury 2 via the server) which can still emit a tool call or chat. */
+  var CLOUD_CONFIDENCE_THRESHOLD = 0.35;
+  var lastQuery = '';
+
   /* ── UI state ─────────────────────────────────────────────────────────────── */
   var isOpen = false;
   var isThinking = false;
@@ -297,6 +302,7 @@
     appendUserBubble(query);
     showThinking();
     ensureWorker();
+    lastQuery = query;
 
     runId += 1;
     var id = runId;
@@ -322,13 +328,75 @@
     var calls = result.function_calls || [];
 
     if (!calls.length) {
-      appendAiBubble('I can help you find resources, forum posts, subjects, or navigate NEBians. Try: \u201cFind Physics notes for Class 12\u201d or \u201cshow popular forum posts\u201d.');
+      routeToCloud(lastQuery, result);
+      return;
+    }
+
+    var confidence = typeof result.confidence === 'number' ? result.confidence : 1;
+    if (confidence < CLOUD_CONFIDENCE_THRESHOLD) {
+      console.log('[Neby] confidence ' + confidence.toFixed(3) + ' < ' + CLOUD_CONFIDENCE_THRESHOLD + ' — routing to cloud');
+      routeToCloud(lastQuery, result);
       return;
     }
 
     calls.forEach(function (call) {
       handleNeedleCall(call, result.confidence);
     });
+  }
+
+  /* ── Cloud fallback (Mercury 2 via server, low-confidence or chat-y) ─────── */
+  function routeToCloud(query, localResult) {
+    updateStatus('checking with the cloud AI\u2026');
+    var hint = null;
+    if (localResult && localResult.function_calls && localResult.function_calls.length) {
+      var first = localResult.function_calls[0];
+      hint = { name: first.name, arguments: first.arguments || {} };
+    }
+    fetch('/ajax/neby-assist/cloud/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCsrfToken() },
+      credentials: 'same-origin',
+      body: JSON.stringify({ query: query, localGuess: hint }),
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        updateStatus('on-device AI');
+        if (!data.mode) {
+          fallbackToLocal(localResult, data.error);
+          return;
+        }
+        if (data.mode === 'chat') {
+          appendAiBubble(data.text || 'Here you go!');
+          return;
+        }
+        if (data.mode === 'tool') {
+          if (data.tool === 'navigate_to') {
+            handleNeedleCall({ name: 'navigate_to', arguments: data.args || {} }, 1);
+            return;
+          }
+          if (data.result) {
+            renderToolResult(data.tool, data.args || {}, data.result);
+            return;
+          }
+          handleNeedleCall({ name: data.tool, arguments: data.args || {} }, 1);
+          return;
+        }
+        appendAiBubble('Hmm, I couldn\u2019t figure that out. Try rephrasing!');
+      })
+      .catch(function () {
+        updateStatus('on-device AI');
+        fallbackToLocal(localResult, null);
+      });
+  }
+
+  function fallbackToLocal(localResult, errMsg) {
+    if (localResult && localResult.function_calls && localResult.function_calls.length) {
+      localResult.function_calls.forEach(function (call) {
+        handleNeedleCall(call, localResult.confidence);
+      });
+      return;
+    }
+    appendAiBubble(errMsg || 'Couldn\u2019t reach the cloud AI. Please try again.');
   }
 
   function handleNeedleCall(call, confidence) {
