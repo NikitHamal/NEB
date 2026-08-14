@@ -83,9 +83,6 @@
     const backLayer = svgElement('g');
     const head = svgElement('path');
     head.setAttribute('class', 'neby-head-base');
-    head.setAttribute('stroke', 'rgba(29, 78, 216, 0.28)');
-    head.setAttribute('stroke-width', '1.8');
-    head.setAttribute('stroke-linejoin', 'round');
 
     const decalsLayer = svgElement('g');
     decalsLayer.setAttribute('class', 'neby-decals-layer');
@@ -116,9 +113,6 @@
         const el = group.children[idx];
         el.setAttribute('d', p);
         el.setAttribute('fill', fill);
-        el.setAttribute('stroke', 'rgba(29, 78, 216, 0.22)');
-        el.setAttribute('stroke-width', '1.5');
-        el.setAttribute('stroke-linejoin', 'round');
       });
     };
 
