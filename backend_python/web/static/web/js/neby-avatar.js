@@ -388,11 +388,17 @@
       else if (type === 'think' || type === 'focus' || type === 'scanning') animName = 'scanning';
       else if (type === 'talk' || type === 'speaking' || type === 'chat') animName = 'speaking';
       else if (type === 'dance' || type === 'groove') animName = 'dance';
-      else if (type === 'love' || type === 'kiss') animName = 'love';
+      else if (type === 'love' || type === 'heart' || type === 'kiss') animName = 'love';
+      else if (type === 'agree' || type === 'nod' || type === 'yes' || type === 'affirm') animName = 'success';
+      else if (type === 'disagree' || type === 'no' || type === 'skeptical') animName = 'disagree';
+      else if (type === 'angry' || type === 'mad' || type === 'hot') animName = 'error';
+      else if (type === 'sleepy' || type === 'sleep' || type === 'tired' || type === 'nap') animName = 'sad';
       else if (type === 'playful' || type === 'laugh' || type === 'laughing') animName = 'playful';
-      else if (type === 'disagree' || type === 'nod') animName = 'disagree';
       else if (type === 'presenting') animName = 'presenting';
-      else if (type === 'scared' || type === 'panic') animName = 'scared';
+      else if (type === 'scared' || type === 'panic' || type === 'surprised') animName = 'surprised';
+      else if (type === 'shy') animName = 'shy';
+      else if (type === 'proud') animName = 'proud';
+      else if (type === 'confused') animName = 'confused';
       else if (NEBY_DATA.animations[type]) animName = type;
 
       if (NEBY_DATA.animations[animName]) {
@@ -438,7 +444,10 @@
       };
 
       const onClick = () => {
-        const reactions = ['wink', 'celebrate', 'dance', 'speaking', 'scanning', 'playful', 'love'];
+        const reactions = [
+          'wink', 'dance', 'speaking', 
+          'scanning', 'agree', 'disagree', 'sleepy', 'playful', 'shy'
+        ];
         const randomReaction = reactions[Math.floor(Math.random() * reactions.length)];
         triggerReaction(randomReaction);
       };
