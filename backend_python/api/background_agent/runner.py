@@ -489,13 +489,13 @@ PRIOR OUTPUT
 
     def _community_slug(self) -> str:
         slug = (self.session.llm_provider or '').strip().lower()
-        if slug in ('qwen', 'k2think', 'poolside'):
+        if slug in ('qwen', 'k2think', 'poolside', 'motiftech'):
             return slug
         return 'qwen'
 
     def _community_model(self) -> str:
         """Selected community model — Qwen web model, else the preset default
-        for k2think/poolside, else qwen3.8-max."""
+        for k2think/poolside/motiftech, else qwen3.8-max."""
         slug = (self.session.llm_provider or '').strip().lower()
         model = (self.session.llm_model or '').strip()
         if model:
@@ -504,6 +504,8 @@ PRIOR OUTPUT
             return 'MBZUAI-IFM/K2-Think-v2'
         if slug == 'poolside':
             return 'laguna-s-2.1'
+        if slug == 'motiftech':
+            return 'motif-102b'
         try:
             from api.qwen_utils.models import get_default_model
             return get_default_model() or 'qwen3.8-max'
@@ -541,19 +543,23 @@ PRIOR OUTPUT
                 resolved, prompt, system_prompt=system_prompt, file_paths=file_paths, max_tokens=max_tokens,
             )
         slug = (self.session.llm_provider or '').strip().lower()
-        if slug in ('k2think', 'poolside'):
+        if slug in ('k2think', 'poolside', 'motiftech'):
             return self._call_community_proxy(
                 slug, prompt, system_prompt=system_prompt, file_paths=file_paths, max_tokens=max_tokens,
             )
         return self._call_qwen_legacy(prompt, system_prompt=system_prompt, file_paths=file_paths, max_tokens=max_tokens)
 
     def _call_community_proxy(self, slug: str, prompt: str, *, system_prompt: str, file_paths=None, max_tokens=None) -> str:
-        """Community web proxies (k2think / poolside) — no keys, no native
-        file upload; new upload contents are inlined into the prompt."""
+        """Community web proxies (k2think / poolside / motiftech) — no keys, no
+        native file upload; new upload contents are inlined into the prompt."""
         if slug == 'k2think':
             from api import k2think_proxy
             model = (self.session.llm_model or '').strip() or 'MBZUAI-IFM/K2-Think-v2'
             label = 'K2 Think'
+        elif slug == 'motiftech':
+            from api import motiftech_proxy
+            model = (self.session.llm_model or '').strip() or 'motif-102b'
+            label = 'Motif'
         else:
             from api import poolside_proxy
             model = (self.session.llm_model or '').strip() or 'laguna-s-2.1'
@@ -569,7 +575,7 @@ PRIOR OUTPUT
             self._check_control()
             try:
                 t0 = time.monotonic()
-                response = (k2think_proxy.simple_chat if slug == 'k2think' else poolside_proxy.simple_chat)(
+                response = (k2think_proxy.simple_chat if slug == 'k2think' else motiftech_proxy.simple_chat if slug == 'motiftech' else poolside_proxy.simple_chat)(
                     user_message=prompt,
                     model=model,
                     system_prompt=system_prompt,

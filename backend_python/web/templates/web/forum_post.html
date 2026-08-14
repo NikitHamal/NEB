@@ -56,7 +56,9 @@
   <div class="fp-post">
     <div class="fp-post-header">
       <div class="fp-avatar">
-        {% if post.authorPhotoUrl %}
+        {% if post.authorName == 'neby' or post.authorIsBot %}
+          <div class="neby-avatar-mini" data-neby-avatar data-animation="idle" title="Neby AI Bot"></div>
+        {% elif post.authorPhotoUrl %}
           <img src="{{ post.authorPhotoUrl }}" alt="" data-fallback="flex">
           <span class="fp-avatar-letter" style="display:none;">{{ post.authorName|truncate_chars:1|default:"?" }}</span>
         {% else %}
@@ -998,9 +1000,12 @@ async function loadThreadReplies(replyId) {
 
 function renderThreadParent(parent) {
   const parentAnon = !parent.authorId;
-  const avatarHtml = parent.authorPhotoUrl
-    ? '<img src="' + escapeHtml(parent.authorPhotoUrl) + '" alt="" data-fallback="flex"><span class="fp-reply-avatar-letter" style="display:none;">' + escapeHtml(parent.authorName ? parent.authorName.charAt(0) : '?') + '</span>'
-    : '<span class="fp-reply-avatar-letter">' + escapeHtml(parent.authorName ? parent.authorName.charAt(0) : '?') + '</span>';
+  const isNeby = parent.authorName === 'neby' || parent.authorIsBot;
+  const avatarHtml = isNeby
+    ? '<div class="neby-avatar-mini neby-size-reply" data-neby-avatar data-animation="idle" title="Neby AI Bot"></div>'
+    : (parent.authorPhotoUrl
+      ? '<img src="' + escapeHtml(parent.authorPhotoUrl) + '" alt="" data-fallback="flex"><span class="fp-reply-avatar-letter" style="display:none;">' + escapeHtml(parent.authorName ? parent.authorName.charAt(0) : '?') + '</span>'
+      : '<span class="fp-reply-avatar-letter">' + escapeHtml(parent.authorName ? parent.authorName.charAt(0) : '?') + '</span>');
   const likedClass = parent.isThumbedUp ? 'liked' : '';
   const likedFill = parent.isThumbedUp ? " style=\"font-variation-settings:'FILL' 1\"" : '';
   const likeIcon = 'thumb_up';
@@ -1087,9 +1092,12 @@ function renderAttachmentsHtml(list) {
 
 function renderThreadReply(reply, parentInfo, depth) {
   const isAnon = !reply.authorId;
-  const avatarHtml = reply.authorPhotoUrl
-    ? '<img src="' + escapeHtml(reply.authorPhotoUrl) + '" alt="" data-fallback="flex"><span class="fp-reply-avatar-letter" style="display:none;">' + escapeHtml(reply.authorName.charAt(0)) + '</span>'
-    : '<span class="fp-reply-avatar-letter">' + escapeHtml(reply.authorName.charAt(0)) + '</span>';
+  const isNeby = reply.authorName === 'neby' || reply.authorIsBot;
+  const avatarHtml = isNeby
+    ? '<div class="neby-avatar-mini neby-size-reply" data-neby-avatar data-animation="idle" title="Neby AI Bot"></div>'
+    : (reply.authorPhotoUrl
+      ? '<img src="' + escapeHtml(reply.authorPhotoUrl) + '" alt="" data-fallback="flex"><span class="fp-reply-avatar-letter" style="display:none;">' + escapeHtml(reply.authorName.charAt(0)) + '</span>'
+      : '<span class="fp-reply-avatar-letter">' + escapeHtml(reply.authorName.charAt(0)) + '</span>');
   const likedClass = reply.isThumbedUp ? 'liked' : '';
   const likedFill = reply.isThumbedUp ? " style=\"font-variation-settings:'FILL' 1\"" : '';
   const likeIcon = 'thumb_up';

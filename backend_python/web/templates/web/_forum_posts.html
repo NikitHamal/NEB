@@ -5,7 +5,9 @@
   <div class="post-card" data-action="open-post" data-post-url="{% url 'web:forum_post' post_id=post.id %}" style="cursor: pointer;">
     <div class="post-card-header">
       <div class="post-card-avatar {% if post.authorBadgeInfo and post.authorBadgeInfo.type == 'verified' %}avatar-container-verified{% endif %}">
-        {% if post.authorPhotoUrl %}
+        {% if post.authorName == 'neby' or post.authorIsBot %}
+          <div class="neby-avatar-mini" data-neby-avatar data-animation="idle" title="Neby AI Bot"></div>
+        {% elif post.authorPhotoUrl %}
           <img src="{{ post.authorPhotoUrl }}" alt="" data-fallback="inline-flex">
           <span class="contributor-avatar-letter" style="display:none;">{{ post.authorName|truncate_chars:1|default:"?" }}</span>
         {% else %}
