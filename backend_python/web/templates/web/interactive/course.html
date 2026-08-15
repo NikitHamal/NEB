@@ -32,7 +32,7 @@
         <span class="ix-chip ix-chip-level">{{ course.level }}</span>
       </div>
       <h1 class="ix-course-title">{{ course.title }}</h1>
-      <p class="ix-course-desc">{{ course.description }}</p>
+      <p class="ix-course-desc">{{ course.description|linkify }}</p>
       {% if course.skills %}
       <div class="ix-skills">
         <span class="ix-skills-label">You will learn:</span>

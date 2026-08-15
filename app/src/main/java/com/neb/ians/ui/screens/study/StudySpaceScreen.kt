@@ -1,5 +1,7 @@
 package com.neb.ians.ui.screens.study
 
+import com.neb.ians.ui.components.LinkifyText
+
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -734,7 +736,7 @@ private fun StudySpaceHeader(space: ApiStudySpaceDetail) {
                 overflow = TextOverflow.Ellipsis
             )
             if (space.description.isNotBlank()) {
-                Text(
+                LinkifyText(
                     text = space.description,
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,

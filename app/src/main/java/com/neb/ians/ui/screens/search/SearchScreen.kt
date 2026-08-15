@@ -1,5 +1,7 @@
 package com.neb.ians.ui.screens.search
 
+import com.neb.ians.ui.components.LinkifyText
+
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -698,7 +700,7 @@ private fun PostResultItem(
                 overflow = TextOverflow.Ellipsis
             )
             if (post.content.isNotBlank()) {
-                Text(
+                LinkifyText(
                     text = post.content.take(100) + if (post.content.length > 100) "..." else "",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
