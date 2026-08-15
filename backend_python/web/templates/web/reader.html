@@ -38,7 +38,7 @@
     <div class="empty-state">
       <span class="material-symbols-outlined">picture_as_pdf</span>
       <h3>{{ resource.title }}</h3>
-      <p>{{ resource.description|default:"No description available." }}</p>
+      <p>{{ resource.description|default:"No description available."|linkify }}</p>
       <div class="chip-group mt-2" style="justify-content:center;">
         <span class="md-chip">{{ resource.subject }}</span>
         <span class="md-chip">{{ resource.grade_level }}</span>

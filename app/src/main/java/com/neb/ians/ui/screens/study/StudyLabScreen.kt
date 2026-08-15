@@ -1,5 +1,7 @@
 package com.neb.ians.ui.screens.study
 
+import com.neb.ians.ui.components.LinkifyText
+
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
@@ -698,7 +700,7 @@ private fun StudySpaceCard(space: ApiStudySpace, onClick: () -> Unit) {
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
-                    Text(
+                    LinkifyText(
                         text = space.description.ifBlank { "Study space" },
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,

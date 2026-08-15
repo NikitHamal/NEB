@@ -1,5 +1,7 @@
 package com.neb.ians.ui.screens.interactive
 
+import com.neb.ians.ui.components.LinkifyText
+
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -231,7 +233,7 @@ private fun CourseDetailContent(
                 }
                 if (course.description.isNotBlank()) {
                     Spacer(modifier = Modifier.height(12.dp))
-                    Text(
+                    LinkifyText(
                         text = course.description,
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
