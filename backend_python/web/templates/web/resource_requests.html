@@ -115,7 +115,7 @@
         </div>
         <div class="request-card-content">
           <div class="request-card-title">{{ req.title }}</div>
-          {% if req.description %}<div class="request-card-desc">{{ req.description }}</div>{% endif %}
+          {% if req.description %}<div class="request-card-desc">{{ req.description|linkify }}</div>{% endif %}
           <div class="request-card-meta">
             {% if req.subject %}<span class="request-chip">{{ req.subject }}</span>{% endif %}
             {% if req.grade_level %}<span class="request-chip">{{ req.grade_level }}</span>{% endif %}

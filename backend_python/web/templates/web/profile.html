@@ -262,7 +262,7 @@
               <h2 class="pf-about-title">{% if profile_user.is_bot %}About Neby{% else %}About{% endif %}</h2>
               <p class="pf-about-bio">
                 {% if profile_user.bio %}
-                  {{ profile_user.bio }}
+                  {{ profile_user.bio|linkify }}
                 {% else %}
                   {% if profile_user.is_bot %}
                     Your friendly AI study buddy. Always learning, always here to help.
@@ -627,7 +627,7 @@
 
                 <!-- Description Text -->
                 {% if r.description %}
-                <div class="pf-res-desc" id="res-desc-{{ r.id }}">{{ r.description }}<button class="pf-res-desc-toggle" data-action="toggle-res-desc" data-desc-id="res-desc-{{ r.id }}" style="display:none;">…see more</button></div>
+                <div class="pf-res-desc" id="res-desc-{{ r.id }}">{{ r.description|linkify }}<button class="pf-res-desc-toggle" data-action="toggle-res-desc" data-desc-id="res-desc-{{ r.id }}" style="display:none;">…see more</button></div>
                 {% endif %}
 
                 <!-- Preview or Attachment Box -->
