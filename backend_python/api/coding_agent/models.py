@@ -343,3 +343,53 @@ class CodingAgentEvent(models.Model):
         if not self.created_at:
             self.created_at = now_ms()
         super().save(*args, **kwargs)
+
+
+class CodingAgentKnowledgeItem(models.Model):
+    """Server-side Long-Term Memory & Knowledge Base item for background agent sessions."""
+    TYPE_CODING_RULE = 'CODING_RULE'
+    TYPE_PROJECT_ARCHITECTURE = 'PROJECT_ARCHITECTURE'
+    TYPE_USER_PREFERENCE = 'USER_PREFERENCE'
+    TYPE_SNIPPET = 'SNIPPET'
+    TYPE_DOCUMENT_CHUNK = 'DOCUMENT_CHUNK'
+    TYPE_SESSION_SUMMARY = 'SESSION_SUMMARY'
+
+    TYPE_CHOICES = [
+        (TYPE_CODING_RULE, 'Coding Rule'),
+        (TYPE_PROJECT_ARCHITECTURE, 'Project Architecture'),
+        (TYPE_USER_PREFERENCE, 'User Preference'),
+        (TYPE_SNIPPET, 'Snippet'),
+        (TYPE_DOCUMENT_CHUNK, 'Document Chunk'),
+        (TYPE_SESSION_SUMMARY, 'Session Summary'),
+    ]
+
+    id = models.CharField(max_length=36, primary_key=True, default=uuid_str)
+    owner_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='coding_agent_knowledge_items')
+    project = models.ForeignKey(CodingAgentProject, on_delete=models.CASCADE, null=True, blank=True, related_name='knowledge_items')
+    title = models.CharField(max_length=255)
+    content = models.TextField()
+    type = models.CharField(max_length=40, choices=TYPE_CHOICES, default=TYPE_CODING_RULE)
+    tags = models.CharField(max_length=500, blank=True, default='')
+    repository = models.CharField(max_length=400, blank=True, default='')
+    created_at = models.BigIntegerField(default=0)
+    updated_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'coding_agent_knowledge_items'
+        ordering = ['-updated_at']
+        indexes = [
+            models.Index(fields=['owner_user', '-updated_at'], name='ca_kb_user_idx'),
+            models.Index(fields=['project', '-updated_at'], name='ca_kb_proj_idx'),
+            models.Index(fields=['repository'], name='ca_kb_repo_idx'),
+        ]
+
+    def save(self, *args, **kwargs):
+        now = now_ms()
+        if not self.created_at:
+            self.created_at = now
+        self.updated_at = now
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f'[{self.type}] {self.title}'
+

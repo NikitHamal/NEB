@@ -641,6 +641,61 @@ def _done(args: Dict[str, Any], ctx: ToolContext) -> ToolResult:
     return ToolResult(text=f'Done ({status}). {summary}', status='ok')
 
 
+@registry.register('call_mcp_tool')
+def _call_mcp_tool(args: Dict[str, Any], ctx: ToolContext) -> ToolResult:
+    """Invokes an external tool via Model Context Protocol (MCP) server."""
+    server_url = args.get('server_url') or os.environ.get('DEFAULT_MCP_SERVER_URL')
+    tool_name = args.get('tool_name') or args.get('name')
+    tool_args = args.get('arguments') or args.get('args') or {}
+    api_key = args.get('api_key') or os.environ.get('MCP_API_KEY')
+    if not server_url:
+        return ToolResult(text='server_url is required for MCP call', status='error')
+    if not tool_name:
+        return ToolResult(text='tool_name is required for MCP call', status='error')
+
+    from .mcp_bridge import McpBridgeClient
+    headers = {'Authorization': f'Bearer {api_key}'} if api_key else {}
+    client = McpBridgeClient(server_url, headers=headers)
+    try:
+        res = client.call_tool(tool_name, tool_args)
+        content_items = res.get('content', [])
+        texts = [item.get('text', '') for item in content_items if item.get('type') == 'text']
+        out = '\n'.join(texts) if texts else json.dumps(res, ensure_ascii=False)
+        return ToolResult(text=out, status='ok', data=res)
+    except Exception as e:
+        return ToolResult(text=f'MCP tool execution failed: {e}', status='error')
+
+
+@registry.register('fetch_web_page')
+def _fetch_web_page(args: Dict[str, Any], ctx: ToolContext) -> ToolResult:
+    """Fetches text and markdown content from a public web page or documentation site."""
+    url = args.get('url')
+    if not url:
+        return ToolResult(text='url is required', status='error')
+    import urllib.request
+    import urllib.error
+    req = urllib.request.Request(
+        url,
+        headers={'User-Agent': 'Zeus-Agent/1.0 (Mobile Coding Assistant; +https://zeus.code)'}
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=20) as resp:
+            content_type = resp.headers.get('Content-Type', '')
+            raw_bytes = resp.read(256 * 1024) # Cap at 256KB
+            text = raw_bytes.decode('utf-8', errors='replace')
+            # Clean basic HTML tags if HTML
+            if 'html' in content_type.lower():
+                import re
+                text = re.sub(r'<script.*?</script>', '', text, flags=re.DOTALL | re.IGNORECASE)
+                text = re.sub(r'<style.*?</style>', '', text, flags=re.DOTALL | re.IGNORECASE)
+                text = re.sub(r'<[^>]+>', ' ', text)
+                text = re.sub(r'\s+', ' ', text).strip()
+            truncated_text, is_trunc = _truncate(text, 15000)
+            return ToolResult(text=truncated_text, status='ok', data={'url': url, 'truncated': is_trunc})
+    except Exception as e:
+        return ToolResult(text=f'Failed to fetch {url}: {e}', status='error')
+
+
 def persist_tool_call(session_id: str, name: str, args: Dict[str, Any], result: ToolResult, iteration: int) -> CodingAgentToolCall:
     """Insert / update a CodingAgentToolCall row for audit & rerun."""
     args_json = json.dumps(args, ensure_ascii=False, default=str)[:20000]
