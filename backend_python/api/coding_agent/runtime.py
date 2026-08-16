@@ -135,6 +135,23 @@ class AgentRuntime:
             return StepResult(finished=True, status=session.status, message=str(e))
 
         system_prompt = merge_system_prompts(AGENT_DEFAULT_SYSTEM_PROMPT, project.system_prompt)
+        
+        # Inject project and user long-term memory / knowledge base context
+        try:
+            from django.db.models import Q
+            from .models import CodingAgentKnowledgeItem
+            kb_items = CodingAgentKnowledgeItem.objects.filter(
+                Q(owner_user=project.owner_user) &
+                (Q(project=project) | Q(repository=project.repo_full_name) | Q(repository=''))
+            ).order_by('-updated_at')[:10]
+            if kb_items:
+                kb_lines = ['\n\n## Project & User Knowledge Base (Long-Term Memory)']
+                for kb in kb_items:
+                    kb_lines.append(f'### [{kb.type}] {kb.title}\n{kb.content}\n')
+                system_prompt += '\n'.join(kb_lines)
+        except Exception as kb_err:
+            logger.warning('Failed to query knowledge base for session %s: %s', session.id, kb_err)
+
         CodingAgentMessage.objects.get_or_create(
             session=session,
             role=CodingAgentMessage.ROLE_SYSTEM,

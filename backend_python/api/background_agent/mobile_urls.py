@@ -25,4 +25,6 @@ urlpatterns = [
     path('llm/providers/', mobile_llm.llm_providers, name='bg_mobile_llm_providers'),
     path('llm/providers/<str:provider_id>/', mobile_llm.llm_provider_detail, name='bg_mobile_llm_provider_detail'),
     path('llm/test/', mobile_llm.llm_test, name='bg_mobile_llm_test'),
+    path('knowledge/', mobile_api.knowledge_list_create, name='bg_mobile_knowledge_list_create'),
+    path('knowledge/<str:item_id>/', mobile_api.knowledge_detail, name='bg_mobile_knowledge_detail'),
 ]
