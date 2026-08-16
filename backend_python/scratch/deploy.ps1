@@ -134,6 +134,15 @@ else:
             wf.write('\n')
 PYEOF
 
+echo 'Backfilling video thumbnails...'
+python manage.py backfill_video_thumbnails || true
+
+echo 'Restarting background agent worker and autofix watcher...'
+pkill -f run_background_agent_worker 2>/dev/null || true
+pkill -f run_autofix_watch 2>/dev/null || true
+nohup python manage.py run_background_agent_worker >> logs/worker.log 2>&1 & disown
+nohup python manage.py run_autofix_watch >> logs/autofix.log 2>&1 & disown
+
 echo 'Restarting Phusion Passenger application...'
 rm -rf tmp/*
 touch tmp/restart.txt

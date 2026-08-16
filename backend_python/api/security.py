@@ -555,6 +555,46 @@ def _sniff_forum_media_kind(data: bytes):
     return None
 
 
+def find_ffmpeg_bin() -> str | None:
+    """Find a working ffmpeg binary across system and cPanel paths."""
+    found = shutil.which('ffmpeg')
+    if found and os.path.exists(found):
+        return found
+    candidates = [
+        '/usr/local/bin/ffmpeg',
+        '/usr/bin/ffmpeg',
+        '/home/consicac/.local/bin/ffmpeg',
+        '/home/consicac/bin/ffmpeg',
+        '/opt/cpanel/ea-php81/root/usr/bin/ffmpeg',
+        '/opt/ffmpeg/bin/ffmpeg',
+        '/bin/ffmpeg',
+        'C:\\ffmpeg\\bin\\ffmpeg.exe',
+    ]
+    for path in candidates:
+        if os.path.exists(path) and os.path.isfile(path):
+            return path
+    return None
+
+
+def find_ffprobe_bin() -> str | None:
+    """Find a working ffprobe binary across system and cPanel paths."""
+    found = shutil.which('ffprobe')
+    if found and os.path.exists(found):
+        return found
+    candidates = [
+        '/usr/local/bin/ffprobe',
+        '/usr/bin/ffprobe',
+        '/home/consicac/.local/bin/ffprobe',
+        '/home/consicac/bin/ffprobe',
+        '/bin/ffprobe',
+        'C:\\ffmpeg\\bin\\ffprobe.exe',
+    ]
+    for path in candidates:
+        if os.path.exists(path) and os.path.isfile(path):
+            return path
+    return None
+
+
 def generate_video_thumbnail(rel_path: str) -> str:
     """Extract a JPEG thumbnail frame from an uploaded video file using ffmpeg."""
     if not rel_path:
@@ -600,11 +640,15 @@ def generate_video_thumbnail(rel_path: str) -> str:
         if os.path.exists(abs_thumb) and os.path.getsize(abs_thumb) > 0:
             return rel_thumb
             
-        ffmpeg_bin = shutil.which('ffmpeg') or '/usr/bin/ffmpeg' or '/usr/local/bin/ffmpeg'
+        ffmpeg_bin = find_ffmpeg_bin()
+        if not ffmpeg_bin:
+            logger.warning("generate_video_thumbnail: ffmpeg binary not found on system")
+            return ''
         
         cmd_attempts = [
-            [ffmpeg_bin, '-y', '-ss', '00:00:01', '-i', abs_video, '-vframes', '1', '-s', '720x1280', abs_thumb],
-            [ffmpeg_bin, '-y', '-i', abs_video, '-vframes', '1', '-s', '720x1280', abs_thumb],
+            [ffmpeg_bin, '-y', '-ss', '00:00:01', '-i', abs_video, '-vframes', '1', '-vf', "scale='min(720,iw)':-2", '-q:v', '4', abs_thumb],
+            [ffmpeg_bin, '-y', '-i', abs_video, '-vframes', '1', '-vf', "scale='min(720,iw)':-2", '-q:v', '4', abs_thumb],
+            [ffmpeg_bin, '-y', '-i', abs_video, '-frames:v', '1', abs_thumb],
             [ffmpeg_bin, '-y', '-ss', '00:00:01', '-i', abs_video, '-vframes', '1', '-pix_fmt', 'yuvj420p', abs_thumb],
         ]
         
@@ -664,7 +708,9 @@ def auto_transcode_video_to_h264(rel_path: str) -> bool:
         out_filename = f"{base_name}_h264.mp4"
         abs_out = os.path.join(dir_name, out_filename)
 
-        ffmpeg_bin = shutil.which('ffmpeg') or '/usr/bin/ffmpeg' or '/usr/local/bin/ffmpeg'
+        ffmpeg_bin = find_ffmpeg_bin()
+        if not ffmpeg_bin:
+            return False
         cmd = [
             ffmpeg_bin, '-y', '-i', abs_video,
             '-vf', 'scale=trunc(iw/2)*2:trunc(ih/2)*2,format=yuv420p',
@@ -794,8 +840,10 @@ def auto_transcode_video_qualities(rel_path: str) -> list:
         if not abs_video:
             return []
 
-        ffprobe_bin = shutil.which('ffprobe') or '/usr/bin/ffprobe'
-        ffmpeg_bin = shutil.which('ffmpeg') or '/usr/bin/ffmpeg'
+        ffprobe_bin = find_ffprobe_bin()
+        ffmpeg_bin = find_ffmpeg_bin()
+        if not ffmpeg_bin or not ffprobe_bin:
+            return []
 
         probe_cmd = [
             ffprobe_bin, '-v', 'error', '-select_streams', 'v:0',
@@ -1079,7 +1127,7 @@ def extract_video_thumbnail_frame(video_storage_path):
     import subprocess
     import tempfile
 
-    ffmpeg = shutil.which('ffmpeg')
+    ffmpeg = find_ffmpeg_bin()
     if not ffmpeg or not video_storage_path:
         return None
     try:
