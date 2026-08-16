@@ -166,6 +166,24 @@
 .ba-thought-chevron { transition: transform 140ms ease; }
 .ba-thought[open] summary .ba-thought-chevron { transform: rotate(90deg); }
 
+/* --- Live streaming rows (SSE) --- */
+.ba-thought.live summary { color: var(--ba-muted); }
+.ba-message.assistant.live .ba-message-content { min-height: 20px; }
+.ba-live-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 12px;
+  margin-left: 2px;
+  transform: translateY(2px);
+  border-radius: 2px;
+  background: var(--ba-accent, var(--md-primary));
+  animation: ba-live-blink 900ms ease-in-out infinite;
+}
+@keyframes ba-live-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.15; } }
+@media (prefers-reduced-motion: reduce) {
+  .ba-live-cursor { animation: none; }
+}
+
 /* --- Slash-command echo rows (/compact) --- */
 .ba-command-event { margin: 4px 0 10px 36px; display: flex; align-items: center; gap: 7px; color: var(--ba-faint); font-size: 9px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
 .ba-command-event .material-symbols-outlined { font-size: 13px; }
