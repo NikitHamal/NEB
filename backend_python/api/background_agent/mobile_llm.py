@@ -19,7 +19,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_GET, require_http_methods, require_POST
 
-from api.background_agent.mobile_auth import json_body, require_device
+from api.background_agent.mobile_auth import json_body, require_device, optional_device
 from api.llm import provider_store
 from api.llm.credentials import catalog_for_user
 
@@ -104,7 +104,7 @@ def llm_test(request):
 
 @csrf_exempt
 @require_POST
-@require_device
+@optional_device
 def llm_chat(request):
     """Unified chat endpoint for mobile agents (WebAgent & PhoneController)
     supporting all official providers (BYOK), custom endpoints, and community proxies (Motif, Qwen, K2Think, Poolside)."""
