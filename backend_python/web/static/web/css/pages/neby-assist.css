@@ -185,7 +185,7 @@
   padding: 14px 14px 8px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
   scroll-behavior: smooth;
 }
 .neby-chat-area::-webkit-scrollbar { width: 4px; }
@@ -206,30 +206,8 @@
 }
 .neby-msg.user { justify-content: flex-end; }
 
-.neby-msg-avatar {
-  width: 28px;
-  height: 28px;
-  border-radius: var(--md-radius-full);
-  background: var(--md-primary);
-  color: var(--md-on-primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.neby-msg-avatar .material-symbols-outlined {
-  font-size: 15px;
-  font-variation-settings: 'FILL' 1;
-}
-
 /* AI message column: bubble + optional tool results beneath it */
-.neby-msg-content {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  min-width: 0;
-  max-width: 84%;
-}
+.neby-msg.ai { width: 100%; }
 .neby-msg.user .neby-bubble { max-width: 84%; }
 
 .neby-bubble {
@@ -243,9 +221,12 @@
   word-break: break-word;
 }
 .neby-msg.ai .neby-bubble {
-  background: var(--neby-bubble-ai-bg);
+  background: none;
   color: var(--neby-bubble-ai-text);
-  border-bottom-left-radius: 5px;
+  width: 100%;
+  max-width: 100%;
+  padding: 0;
+  border-radius: 0;
 }
 .neby-msg.user .neby-bubble {
   background: var(--neby-bubble-user);
@@ -254,32 +235,6 @@
 }
 
 /* ── Tool Result Cards ───────────────────────────────────────────────────────── */
-.neby-reasoning {
-  width: 100%;
-  padding: 8px 11px;
-  border: 1px solid var(--neby-border);
-  border-radius: 13px;
-  background: var(--md-surface-container-low);
-  color: var(--md-on-surface-variant);
-  font-size: 11.5px;
-  line-height: 1.45;
-}
-.neby-reasoning summary {
-  cursor: pointer;
-  color: var(--md-on-surface);
-  font-weight: 600;
-  user-select: none;
-}
-.neby-reasoning-body {
-  margin-top: 7px;
-  white-space: pre-wrap;
-}
-.neby-reasoning-metrics {
-  margin-top: 6px;
-  color: var(--md-primary);
-  font-size: 10.5px;
-  font-weight: 500;
-}
 .neby-results {
   display: flex;
   flex-direction: column;
@@ -400,31 +355,6 @@
   color: var(--md-on-secondary-container);
   font-weight: 500;
   white-space: nowrap;
-}
-
-/* ── Thinking indicator ──────────────────────────────────────────────────────── */
-.neby-thinking {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding: 10px 13px;
-  border-radius: 18px 18px 18px 5px;
-  background: var(--neby-bubble-ai-bg);
-  width: fit-content;
-}
-.neby-thinking span {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--md-primary);
-  opacity: 0.5;
-  animation: neby-dot 1.2s ease-in-out infinite;
-}
-.neby-thinking span:nth-child(2) { animation-delay: 0.2s; }
-.neby-thinking span:nth-child(3) { animation-delay: 0.4s; }
-@keyframes neby-dot {
-  0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
-  30% { transform: translateY(-5px); opacity: 1; }
 }
 
 /* ── Suggestions ─────────────────────────────────────────────────────────────── */
@@ -587,7 +517,6 @@
     bottom: 16px;
     right: 16px;
   }
-  .neby-msg-content { max-width: 88%; }
   .neby-msg.user .neby-bubble { max-width: 88%; }
   .neby-bubble { font-size: 13px; }
 }

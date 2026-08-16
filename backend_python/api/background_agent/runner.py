@@ -19,7 +19,7 @@ from api.background_agent.workspace import GitWorkspace, ToolExecutor, Workspace
 from api.models import BackgroundAgentSession
 from api import qwen_proxy
 from api.llm.client import LLMError
-from api.llm.runtime import call_session_provider, resolve_session_provider
+from api.llm.runtime import call_session_provider, call_session_provider_stream, resolve_session_provider
 from api.utils import now_ms
 
 logger = logging.getLogger(__name__)
@@ -141,6 +141,8 @@ class BackgroundAgentRunner:
         # Anti-loop guard: count consecutive identical reasoning blocks.
         self._last_signature = ''
         self._signature_repeats = 0
+        # Live-stream pub/sub client (lazy; None when Redis is unavailable).
+        self._stream_redis_client = None
 
     def run(self):
         try:
@@ -540,7 +542,7 @@ PRIOR OUTPUT
         self._pending_reasoning = ''
         resolved = self._llm_selection()
         if resolved is not None:
-            return self._call_official_provider(
+            return self._call_official_provider_stream(
                 resolved, prompt, system_prompt=system_prompt, file_paths=file_paths, max_tokens=max_tokens,
             )
         slug = (self.session.llm_provider or '').strip().lower()
@@ -549,6 +551,39 @@ PRIOR OUTPUT
                 slug, prompt, system_prompt=system_prompt, file_paths=file_paths, max_tokens=max_tokens,
             )
         return self._call_qwen_legacy(prompt, system_prompt=system_prompt, file_paths=file_paths, max_tokens=max_tokens)
+
+    # ------------------------------------------------------------------
+    # Live streaming: official providers publish incremental deltas to
+    # Redis pub/sub on `ba:stream:<session_id>`; the admin panel's SSE
+    # endpoint relays them to the page. Fully best-effort — when Redis is
+    # down the call still completes and the UI falls back to polling.
+    # ------------------------------------------------------------------
+
+    def _stream_redis(self):
+        if self._stream_redis_client is None:
+            client = None
+            try:
+                import redis
+                url = (getattr(settings, 'BACKGROUND_AGENT_STREAM_REDIS', '') or '').strip() \
+                    or (getattr(settings, 'CACHE_LOCATION', '') or '').strip()
+                client = redis.Redis.from_url(url, socket_connect_timeout=2, socket_timeout=2, decode_responses=True) if url \
+                    else redis.Redis(host='127.0.0.1', port=6379, db=0, socket_connect_timeout=2, socket_timeout=2, decode_responses=True)
+                client.ping()
+            except Exception:
+                client = None
+            self._stream_redis_client = client
+        return self._stream_redis_client
+
+    def _publish_stream(self, kind: str, payload: dict):
+        try:
+            client = self._stream_redis()
+            if client is None:
+                return
+            message = dict(payload or {})
+            message['kind'] = kind
+            client.publish(f'ba:stream:{self.session.id}', json.dumps(message, ensure_ascii=False))
+        except Exception:
+            pass
 
     def _call_community_proxy(self, slug: str, prompt: str, *, system_prompt: str, file_paths=None, max_tokens=None) -> str:
         """Community web proxies (k2think / poolside / motiftech) — no keys, no
@@ -601,6 +636,91 @@ PRIOR OUTPUT
                 for _ in range(delay):
                     time.sleep(1)
                     self._check_control()
+        raise WorkspaceError(
+            f'{label} {model} failed after {attempts} attempt(s): {last_error}'
+        ) from last_error
+
+    def _call_official_provider_stream(self, resolved, prompt: str, *, system_prompt: str, file_paths=None, max_tokens=None) -> str:
+        """Official API providers with live streaming: every reasoning/text
+        delta is published to Redis pub/sub (`ba:stream:<session_id>`) so the
+        admin panel renders the turn as it happens instead of after the fact.
+
+        Same retry contract as the one-shot path; on success returns the full
+        text exactly like `_call_official_provider`."""
+        model = resolved.model
+        label = resolved.label
+        output_tokens = int(max_tokens or getattr(settings, 'BACKGROUND_AGENT_MODEL_MAX_TOKENS', 6000))
+        output_tokens = min(output_tokens, resolved.max_output_tokens or output_tokens)
+        attempts = max(1, min(int(getattr(settings, 'BACKGROUND_AGENT_PROVIDER_ATTEMPTS', 3)), 6))
+        inline_files = self._attachments_inline_text(file_paths) if file_paths else ''
+        if inline_files:
+            prompt = prompt + '\n\n' + inline_files
+        timeout = int(getattr(settings, 'BACKGROUND_AGENT_PROVIDER_TIMEOUT', 300))
+        last_error = None
+        for attempt in range(1, attempts + 1):
+            self._check_control()
+            try:
+                t0 = time.monotonic()
+                text_parts: list = []
+                reasoning_parts: list = []
+                stream_meta: dict = {}
+                for chunk in call_session_provider_stream(
+                        self.session, resolved,
+                        system_prompt=system_prompt, user_prompt=prompt,
+                        max_tokens=output_tokens, timeout=timeout):
+                    ctype = chunk.get('type')
+                    if ctype == 'reasoning':
+                        part = chunk.get('content') or ''
+                        reasoning_parts.append(part)
+                        self._publish_stream('thought', {'content': part})
+                    elif ctype == 'text':
+                        part = chunk.get('content') or ''
+                        text_parts.append(part)
+                        self._publish_stream('text', {'content': part})
+                    elif ctype == 'done':
+                        stream_meta = chunk
+                text = ''.join(text_parts).strip()
+                reasoning = ''.join(reasoning_parts).strip()
+                if text:
+                    self._pending_reasoning = reasoning
+                    self._last_model_response_ms = int((time.monotonic() - t0) * 1000)
+                    self._publish_stream('done', {
+                        'model': stream_meta.get('model') or model,
+                        'durationMs': self._last_model_response_ms,
+                        'tokensIn': stream_meta.get('input_tokens') or 0,
+                        'tokensOut': stream_meta.get('output_tokens') or 0,
+                    })
+                    return text
+                raise WorkspaceError(f'{label} {model} returned an empty response')
+            except (AgentPaused, AgentStopped):
+                self._publish_stream('error', {'message': 'Agent paused mid-generation'})
+                raise
+            except LLMError as exc:
+                last_error = exc
+                if attempt >= attempts or not exc.retryable:
+                    break
+                delay = min(30, 2 ** attempt)
+                self._publish_stream('error', {'message': f'{label} attempt {attempt} failed; retrying in {delay}s'})
+                emit(self.session, 'model.retrying', f'{label} attempt {attempt} failed; retrying in {delay}s', {
+                    'provider': resolved.slug, 'model': model,
+                    'error': str(exc)[:1000], 'attempt': attempt,
+                })
+                for _ in range(delay):
+                    time.sleep(1)
+                    self._check_control()
+            except Exception as exc:
+                last_error = exc
+                if attempt >= attempts:
+                    break
+                delay = min(30, 2 ** attempt)
+                emit(self.session, 'model.retrying', f'{label} attempt {attempt} failed; retrying in {delay}s', {
+                    'provider': resolved.slug, 'model': model,
+                    'error': str(exc)[:1000], 'attempt': attempt,
+                })
+                for _ in range(delay):
+                    time.sleep(1)
+                    self._check_control()
+        self._publish_stream('error', {'message': f'{label} {model} failed after {attempts} attempt(s): {last_error}', 'fatal': True})
         raise WorkspaceError(
             f'{label} {model} failed after {attempts} attempt(s): {last_error}'
         ) from last_error
