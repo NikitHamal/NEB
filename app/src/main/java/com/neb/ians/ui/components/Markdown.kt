@@ -368,7 +368,7 @@ private val inlinePattern = Regex(
         "|(`([^`]+)`)" +                // 5,6 code
         "|(~~([^~]+)~~)" +              // 7,8 strikethrough
         "|(\\[([^\\]]+)\\]\\(([^)]+)\\))" + // 9,10,11 link
-        "|(@([A-Za-z0-9_]+))"           // 12,13 mention
+        "|(@([A-Za-z0-9_]+))" +          // 12,13 mention
         "|((https?://[^\\s]+|www\\.[^\\s]+))" // 14 bare url
 )
 

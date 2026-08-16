@@ -11,7 +11,7 @@ from __future__ import annotations
 
 from typing import Optional
 
-from .client import ChatResult, chat
+from .client import ChatResult, chat, chat_stream
 from .credentials import ResolvedProvider, resolve
 from .registry import is_official_slug
 
@@ -41,6 +41,30 @@ def call_session_provider(session, resolved: ResolvedProvider, *, system_prompt:
         messages.append({'role': 'system', 'content': system_prompt})
     messages.append({'role': 'user', 'content': user_prompt})
     return chat(
+        format=resolved.format,
+        base_url=resolved.base_url,
+        api_key=resolved.api_key,
+        model=resolved.model,
+        messages=messages,
+        max_tokens=max_tokens,
+        timeout=timeout,
+        temperature=0.2,
+        provider=resolved.slug,
+    )
+
+
+def call_session_provider_stream(session, resolved: ResolvedProvider, *, system_prompt: str,
+                                 user_prompt: str, max_tokens: int, timeout: int = 300):
+    """Streaming twin of `call_session_provider()`.
+
+    Yields the `chat_stream()` chunk dicts: {'type': 'reasoning'|'text'|
+    'done', ...} so callers can relay deltas live (Redis pub/sub, SSE, ...)
+    instead of waiting for the full completion."""
+    messages = []
+    if system_prompt and system_prompt.strip():
+        messages.append({'role': 'system', 'content': system_prompt})
+    messages.append({'role': 'user', 'content': user_prompt})
+    yield from chat_stream(
         format=resolved.format,
         base_url=resolved.base_url,
         api_key=resolved.api_key,

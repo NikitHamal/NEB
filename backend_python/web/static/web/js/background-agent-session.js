@@ -66,6 +66,8 @@
       lifecycleDelete.disabled = active;
       lifecycleDelete.title = active ? 'Stop this task before deleting it' : '';
     }
+    if (active && !streamState.open) openStream();
+    if (!active && streamState.open) { stopStream(); finalizeLive(); }
   }
   function renderSummary(summary) {
     var existing = BA.qs('[data-final-summary]', els.conversation);
@@ -308,6 +310,115 @@
     } catch (error) { if (error.status === 401 || error.status === 403) clearInterval(state.poll); }
   }
 
+  /* ── Live SSE streaming (official providers) ───────────────────────────────
+   * Reuses AIWidgets.streamSSE (fetch + ReadableStream) against the
+   * /stream/ endpoint. The runner publishes 'thought' / 'text' / 'done'
+   * deltas over Redis pub/sub; we render them into live nodes, then swap
+   * them for the durable DB rows when the turn finishes. Polling stays on
+   * as the fallback / sync layer. */
+  state.live = { thought: null, message: null, thoughtText: '', messageText: '', thoughtTimer: null, messageTimer: null };
+  var streamState = { open: false, timer: null };
+
+  function activeStatus() { return state.session && ['queued', 'preparing', 'running'].includes(state.session.status); }
+
+  function liveThoughtNode() {
+    var wrapper = document.createElement('div'); wrapper.className = 'ba-thought-wrap';
+    var detail = document.createElement('details'); detail.className = 'ba-thought live'; detail.open = true;
+    var summary = document.createElement('summary');
+    summary.innerHTML = '<span class="material-symbols-outlined">psychology</span><span></span><span class="material-symbols-outlined ba-thought-chevron">chevron_right</span>';
+    summary.children[1].textContent = 'Thinking…';
+    var body = document.createElement('div'); body.className = 'ba-thought-body';
+    detail.append(summary, body); wrapper.appendChild(detail); return wrapper;
+  }
+
+  function liveMessageNode() {
+    var node = document.createElement('article'); node.className = 'ba-message assistant live';
+    var avatar = document.createElement('div'); avatar.className = 'ba-message-avatar'; avatar.innerHTML = '<span class="material-symbols-outlined">smart_toy</span>';
+    var body = document.createElement('div'); body.className = 'ba-message-body';
+    var head = document.createElement('div'); head.className = 'ba-message-head'; head.innerHTML = '<strong>Background Agent</strong><time>streaming…</time>';
+    var content = document.createElement('div'); content.className = 'ba-message-content'; content.innerHTML = '<span class="ba-live-cursor"></span>';
+    body.append(head, content); node.append(avatar, body); return node;
+  }
+
+  function scheduleLiveRender(live, which) {
+    var key = which === 'thought' ? 'thoughtTimer' : 'messageTimer';
+    if (live[key]) return;
+    live[key] = setTimeout(function () {
+      live[key] = null;
+      if (which === 'thought' && live.thought) {
+        var body = live.thought.querySelector('.ba-thought-body');
+        if (body) body.innerHTML = BA.renderMarkdown(live.thoughtText || ' ');
+      }
+      if (which === 'message' && live.message) {
+        var content = live.message.querySelector('.ba-message-content');
+        if (content) {
+          content.innerHTML = BA.renderMarkdown(live.messageText || ' ');
+          var cursor = document.createElement('span'); cursor.className = 'ba-live-cursor'; content.appendChild(cursor);
+        }
+      }
+      scrollBottom(false);
+    }, 140);
+  }
+
+  function finalizeLive() {
+    var live = state.live;
+    var hadLive = !!(live.thought || live.message);
+    if (live.thought) { live.thought.remove(); live.thought = null; }
+    if (live.message) { live.message.remove(); live.message = null; }
+    clearTimeout(live.thoughtTimer); clearTimeout(live.messageTimer);
+    live.thoughtTimer = null; live.messageTimer = null;
+    live.thoughtText = ''; live.messageText = '';
+    if (hadLive) loadDetail();
+  }
+
+  function handleLiveFrame(frame) {
+    if (!frame || typeof frame !== 'object') return;
+    if (frame.type === 'snapshot') {
+      updateSession(frame.session);
+      (frame.events || []).forEach(addEvent);
+      return;
+    }
+    if (frame.type === 'thought') {
+      var live = state.live;
+      if (!live.thought) { live.thought = liveThoughtNode(); els.conversation.appendChild(live.thought); scrollBottom(false); live.thoughtText = ''; }
+      live.thoughtText += frame.content || '';
+      scheduleLiveRender(live, 'thought');
+      return;
+    }
+    if (frame.type === 'text') {
+      var liveMessage = state.live;
+      if (!liveMessage.message) { liveMessage.message = liveMessageNode(); els.conversation.appendChild(liveMessage.message); scrollBottom(false); liveMessage.messageText = ''; }
+      liveMessage.messageText += frame.content || '';
+      scheduleLiveRender(liveMessage, 'message');
+      return;
+    }
+    if (frame.type === 'done') { finalizeLive(); return; }
+    if (frame.type === 'end') { finalizeLive(); return; }
+    if (frame.type === 'error' && frame.fatal) { finalizeLive(); return; }
+  }
+
+  function openStream() {
+    if (streamState.open || !window.AIWidgets || !root.dataset.streamUrl) return;
+    streamState.open = true;
+    state.stream = window.AIWidgets.streamSSE(root.dataset.streamUrl + '?after=' + state.lastEvent, {
+      onEvent: handleLiveFrame,
+      onDone: function () { streamState.open = false; scheduleReopen(); },
+      onError: function () { streamState.open = false; scheduleReopen(); },
+    });
+  }
+
+  function scheduleReopen() {
+    clearTimeout(streamState.timer);
+    if (document.hidden || !activeStatus()) return;
+    streamState.timer = setTimeout(openStream, 2500);
+  }
+
+  function stopStream() {
+    if (state.stream) { state.stream.abort(); state.stream = null; }
+    streamState.open = false;
+    clearTimeout(streamState.timer);
+  }
+
   BA.qsa('[data-review-tab]').forEach(function (button) { button.addEventListener('click', function () { openReviewTab(button.dataset.reviewTab); }); });
   els.more.addEventListener('click', function (event) { event.stopPropagation(); var opening = els.moreMenu.hidden; els.moreMenu.hidden = !opening; els.more.setAttribute('aria-expanded', opening ? 'true' : 'false'); });
   els.moreMenu.addEventListener('click', function (event) { var exportBtn = event.target.closest('#bs-export'); if (exportBtn) { els.moreMenu.hidden = true; els.more.setAttribute('aria-expanded', 'false'); window.open(root.dataset.exportUrl, '_blank'); return; } var compactBtn = event.target.closest('#bs-compact'); if (compactBtn) { els.moreMenu.hidden = true; els.more.setAttribute('aria-expanded', 'false'); requestCompact(); return; } var button = event.target.closest('[data-session-action]'); if (!button) return; els.moreMenu.hidden = true; els.more.setAttribute('aria-expanded', 'false'); openLifecycleDialog(button.dataset.sessionAction); });
@@ -322,4 +433,5 @@
   els.refreshFiles.addEventListener('click', loadFiles); els.fileSearch.addEventListener('input', renderFiles); els.push.addEventListener('click', function () { action('push', els.push); }); els.openPr.addEventListener('click', function () { action('open_pr', els.openPr); });
 
   loadDetail().then(loadFiles); state.poll = setInterval(pollEvents, 2500); setInterval(function () { if (!document.hidden) loadDetail(); }, 15000);
+  openStream();
 })();

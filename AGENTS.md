@@ -670,6 +670,29 @@ A trycloudflare URL looks like `https://abc123.trycloudflare.com` — different 
 ## Continuity Notes
 
 ### What Was Worked On (Current Session)
+**Reusable AI widgets + live streaming for the background agent**
+
+**Shared widget library:** new `web/static/web/js/ai-widgets.js` + `web/static/web/css/ai-widgets.css` expose `window.AIWidgets` (each widget returns `{ el, destroy, ... }` and carries `.ai-widget` token vars with fallbacks so they render inside Neby chat, the background agent panel, or any future AI UI):
+- `AIWidgets.PixelLoader.create({label, variant: 'drive'|'dots'|'orbit', timer})` → `{el, setLabel, destroy}` — 3×3 pixel grid + shimmer label + elapsed timer
+- `AIWidgets.Trace.create(opts)` → `{el, settle, destroy}` — ThinkingState port (steps/reasoning/search/coding variants, expandable rail)
+- `AIWidgets.StreamingText.create({text, wordMs, sources, citeAfter, actions, onCopy/onRetry/onVote, onDone})` — word-by-word blur resolve (55ms/word), inline citation chips, copy/retry/up/down action row, expandable sources panel. NO follow-up suggestions (per user).
+- `AIWidgets.streamSSE(url, {onText, onThought, onEvent, onDone, onError})` → `{abort}` — fetch + ReadableStream SSE reader (avatar-lab technique)
+
+**Neby assistant refactor:** `neby-assist.js` now consumes `AIWidgets` (loader + trace); `neby-trace.js` deleted; `base.html` loads `ai-widgets.js`+`ai-widgets.css` (L95/L869); old `.neby-pixel-*`/`.neby-trace-*` CSS removed from `neby-assist.css`; chat-area gap 12px→16px (4px more between messages); cloud `chat` replies render through `AIWidgets.StreamingText` (≥40 chars).
+
+**Backend streaming (`api/llm/client.py`):** `chat_stream()` generator — same validation as `chat()`, yields `{'type':'reasoning'|'text'|'done', ...}` deltas for OpenAI-compat (incl. `reasoning_content`), Anthropic (incl. `thinking_delta`), Gemini (`streamGenerateContent?alt=sse`). `api/llm/runtime.py::call_session_provider_stream()` wraps it for sessions.
+
+**Runner live streaming (`api/background_agent/runner.py`):** official providers now call `_call_official_provider_stream()` — publishes every delta to Redis pub/sub channel `ba:stream:<session_id>` (frames `kind=thought|text|done|error`, `fatal:true` on terminal failure; retry errors are non-fatal). Fully best-effort: no Redis → call still completes, UI falls back to polling. Redis URL: `BACKGROUND_AGENT_STREAM_REDIS` env or `CACHE_LOCATION`, else localhost:6379.
+
+**SSE endpoint (`web/views_background_agent.py`):** `background_agent_session_stream` at `backgroundagent/api/sessions/<id>/stream/` (session-cookie auth, same as events). First frame is a `snapshot` (events since `?after=` — same shape as events endpoint) for reconnect catch-up; then relays pub/sub frames as `data: {json}`; `: ping` keepalive every 15s; closes on `fatal` error, or when the session leaves running/queued/preparing (checked on `done` + every 10s), or after 1h cap. No Redis → sends `close` immediately.
+
+**BA frontend (`background-agent-session.js`):** opens the SSE stream when session is active (reopens with 2.5s backoff on disconnect while active, stops when inactive). `thought`/`text` deltas render into live nodes (`.ba-thought.live` + `.ba-message.assistant.live` with blinking `.ba-live-cursor`), throttled markdown re-render every 140ms; on `done`/`end`/fatal the live nodes are swapped for the durable DB rows via `loadDetail()` (polling at 2.5s stays as the sync/fallback layer). `session.html` got `data-stream-url` + ai-widgets includes; `background_agent/base.html` loads ai-widgets.css.
+
+**User directives:** loader grid + text side-by-side (row), label ellipsis, NO avatar icon / NO bubble bg on Neby AI messages, AI messages full width, loader uses **drive** variant (not orbit), reusable components also applied in background agent, **no suggested replies/follow-ups** in the streaming widget.
+
+**Status:** all `node --check` + `py_compile` + `manage.py check` pass. **Not committed / not deployed** — user hasn't given the go-ahead.
+
+### Previous Session
 **Needle 2 on-device assistant ("Neby Local") — persisted runtime + Android**
 
 DECISION RECORD (2026-08-13): An earlier v3 attempt (IDB asset caching only —

@@ -264,6 +264,7 @@ path('ajax/study-space/<str:space_id>/summary/', views.ajax_space_generate_summa
     path('backgroundagent/api/sessions/', ba_views.background_agent_create_session, name='background_agent_create_session'),
     path('backgroundagent/api/sessions/<str:session_id>/', ba_views.background_agent_session_detail, name='background_agent_session_detail'),
     path('backgroundagent/api/sessions/<str:session_id>/events/', ba_views.background_agent_session_events, name='background_agent_session_events'),
+    path('backgroundagent/api/sessions/<str:session_id>/stream/', ba_views.background_agent_session_stream, name='background_agent_session_stream'),
     path('backgroundagent/api/sessions/<str:session_id>/messages/', ba_views.background_agent_session_message, name='background_agent_session_message'),
     path('backgroundagent/api/sessions/<str:session_id>/files/', ba_views.background_agent_session_files, name='background_agent_session_files'),
     path('backgroundagent/api/sessions/<str:session_id>/file/', ba_views.background_agent_session_file, name='background_agent_session_file'),

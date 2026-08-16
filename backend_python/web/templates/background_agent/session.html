@@ -10,6 +10,7 @@
      data-session-id="{{ session_id }}"
      data-detail-url="{% url 'web:background_agent_session_detail' session_id %}"
      data-events-url="{% url 'web:background_agent_session_events' session_id %}"
+     data-stream-url="{% url 'web:background_agent_session_stream' session_id %}"
      data-message-url="{% url 'web:background_agent_session_message' session_id %}"
      data-files-url="{% url 'web:background_agent_session_files' session_id %}"
      data-file-url="{% url 'web:background_agent_session_file' session_id %}"
@@ -108,4 +109,4 @@
 </div>
 {% endblock %}
 
-{% block extra_js %}<script nonce="{{ csp_nonce }}" src="{% static 'web/js/background-agent-session.js' %}"></script>{% endblock %}
+{% block extra_js %}<script nonce="{{ csp_nonce }}" src="{% static 'web/js/ai-widgets.js' %}"></script><script nonce="{{ csp_nonce }}" src="{% static 'web/js/background-agent-session.js' %}"></script>{% endblock %}

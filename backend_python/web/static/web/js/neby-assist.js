@@ -130,6 +130,7 @@
     workerLoading = true;
 
     updateStatus('loading model\u2026');
+    if (isThinking) setThinking('Loading', 'dots');
 
     try {
       workerStartedAt = performance.now();
@@ -179,6 +180,7 @@
 
     if (msg.type === 'status') {
       updateStatus(statusLabel(msg));
+      if (isThinking) setThinking(statusLabel(msg), 'dots');
       return;
     }
 
@@ -189,6 +191,7 @@
       var source = msg.source === 'snapshot' ? 'saved runtime' : 'ready';
       updateStatus('on-device AI \u00b7 ' + source + (totalSecs > 0 ? ' in ' + totalSecs.toFixed(1) + 's' : ''));
       if (sendBtn) sendBtn.disabled = !(textarea && textarea.value.trim());
+      if (isThinking) setThinking('Thinking', 'drive');
       if (pendingRun) {
         var p = pendingRun;
         pendingRun = null;
@@ -300,7 +303,7 @@
   function runQuery(query) {
     hideSuggestions();
     appendUserBubble(query);
-    showThinking();
+    showThinking('Thinking', 'drive');
     ensureWorker();
     lastQuery = query;
 
@@ -347,6 +350,7 @@
   /* ── Cloud fallback (Mercury 2 via server, low-confidence or chat-y) ─────── */
   function routeToCloud(query, localResult) {
     updateStatus('checking with the cloud AI\u2026');
+    setThinking('Routing Request to Cloud', 'drive');
     var hint = null;
     if (localResult && localResult.function_calls && localResult.function_calls.length) {
       var first = localResult.function_calls[0];
@@ -361,12 +365,13 @@
       .then(function (r) { return r.json(); })
       .then(function (data) {
         updateStatus('on-device AI');
+        removeThinking();
         if (!data.mode) {
           fallbackToLocal(localResult, data.error);
           return;
         }
         if (data.mode === 'chat') {
-          appendAiBubble(data.text || 'Here you go!');
+          appendStreamingAi(data.text || 'Here you go!');
           return;
         }
         if (data.mode === 'tool') {
@@ -385,6 +390,7 @@
       })
       .catch(function () {
         updateStatus('on-device AI');
+        removeThinking();
         fallbackToLocal(localResult, null);
       });
   }
@@ -422,6 +428,7 @@
         '<span class="material-symbols-outlined neby-result-arrow" style="margin-left:auto;">arrow_forward</span>' +
         '</a></div>';
       appendEl(msgEl);
+      removeThinking();
       return;
     }
 
@@ -441,31 +448,19 @@
   function appendReasoning(result, durationMs) {
     var reasoning = String(result.reasoning || '').trim();
     if (!reasoning) return;
+    if (!window.AIWidgets) return;
 
-    var message = createAiMsgEl();
-    var content = document.createElement('div');
-    content.className = 'neby-msg-content';
-    var details = document.createElement('details');
-    details.className = 'neby-reasoning';
-    var summary = document.createElement('summary');
-    summary.textContent = 'How Needle understood this';
-    var body = document.createElement('div');
-    body.className = 'neby-reasoning-body';
-    body.textContent = reasoning;
-    var metrics = document.createElement('div');
-    metrics.className = 'neby-reasoning-metrics';
-    var parts = [];
-    if (typeof result.confidence === 'number') parts.push('confidence ' + Math.round(result.confidence * 100) + '%');
-    if (typeof durationMs === 'number') parts.push(Math.round(durationMs) + ' ms on this device');
-    if (typeof result.decode_tps === 'number') parts.push(Math.round(result.decode_tps) + ' tok/s');
-    metrics.textContent = parts.join(' \u00b7 ');
-    details.appendChild(summary);
-    details.appendChild(body);
-    if (parts.length) details.appendChild(metrics);
-    content.appendChild(details);
-    message.innerHTML = '<div class="neby-msg-avatar"><span class="material-symbols-outlined">psychology</span></div>';
-    message.appendChild(content);
-    appendEl(message);
+    var lines = reasoning.split(/\n+/).map(function (l) { return l.trim(); }).filter(Boolean);
+    var secs = Math.round((typeof durationMs === 'number' ? durationMs : 0) / 1000);
+    var done = secs > 0 ? 'Thought for ' + secs + (secs === 1 ? ' second' : ' seconds') : 'Thought for a moment';
+    var trace = window.AIWidgets.Trace.create({
+      variant: 'reasoning',
+      active: 'Thinking',
+      done: done,
+      rows: lines.map(function (l) { return { primary: l }; }),
+      settleDelay: 700,
+    });
+    appendEl(trace.el);
   }
 
   /* ── Backend fetch for DB results ─────────────────────────────────────────── */
@@ -475,6 +470,23 @@
   }
 
   function fetchAndRender(toolName, args) {
+    var isSearch = toolName === 'search_resources' || toolName === 'find_notes' || toolName === 'get_forum_posts';
+    var query = (args && (args.q || args.query)) || '';
+    var trace = null;
+    if (window.AIWidgets) {
+      trace = window.AIWidgets.Trace.create({
+        variant: isSearch ? 'search' : 'steps',
+        active: isSearch ? 'Searching the web' : 'Working',
+        done: isSearch ? 'Searched the web' : 'Done',
+        query: isSearch ? query : '',
+        rows: isSearch ? [] : [
+          { primary: 'Reading your request' },
+          { primary: 'Finding what you need' },
+          { primary: 'Preparing the answer' },
+        ],
+      });
+      appendEl(trace.el);
+    }
     fetch('/ajax/neby-assist/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCsrfToken() },
@@ -483,10 +495,38 @@
     })
       .then(function (r) { return r.json(); })
       .then(function (data) {
-        if (data.error) { appendAiBubble(data.error); return; }
-        renderToolResult(toolName, args, data.result || data);
+        removeThinking();
+        if (data.error) {
+          if (trace) trace.settle(isSearch ? 'Search failed' : 'Couldn\u2019t finish');
+          appendAiBubble(data.error);
+          return;
+        }
+        var result = data.result || data;
+        var rows = [];
+        var total = 0;
+        if (isSearch && trace) {
+          if (toolName === 'get_forum_posts') {
+            var posts = result.posts || [];
+            total = posts.length;
+            rows = posts.slice(0, 3).map(function (p) {
+              return { primary: p.title, secondary: p.category, href: '/forum/post/' + escapeHtml(p.id) + '/' };
+            });
+          } else {
+            var resources = result.resources || [];
+            total = resources.length;
+            rows = resources.slice(0, 3).map(function (r) {
+              return { primary: r.title, secondary: [r.subject, r.grade_level].filter(Boolean).join(' \u00b7 '), href: '/reader/' + escapeHtml(r.id) + '/' };
+            });
+          }
+          trace.settle(total ? 'Found ' + total + ' results' : 'Nothing found', rows, total);
+        } else if (trace) {
+          trace.settle('Done');
+        }
+        renderToolResult(toolName, args, result);
       })
       .catch(function () {
+        removeThinking();
+        if (trace) trace.settle('Something went wrong');
         appendAiBubble('Couldn\u2019t fetch results right now. Please try again.');
       });
   }
@@ -553,9 +593,27 @@
 
   function appendAiBubble(text) {
     var el = createAiMsgEl();
-    el.innerHTML = '<div class="neby-msg-avatar"><span class="material-symbols-outlined">auto_awesome</span></div>' +
-      '<div class="neby-bubble">' + escapeHtml(text) + '</div>';
+    el.innerHTML = '<div class="neby-bubble">' + escapeHtml(text) + '</div>';
     appendEl(el);
+  }
+
+  function appendStreamingAi(text) {
+    var el = createAiMsgEl();
+    var bubble = document.createElement('div');
+    bubble.className = 'neby-bubble';
+    if (window.AIWidgets && text && text.length > 40) {
+      var stream = window.AIWidgets.StreamingText.create({
+        text: text,
+        actions: true,
+        wordMs: 55,
+      });
+      bubble.appendChild(stream.el);
+    } else {
+      bubble.innerHTML = escapeHtml(text || 'Here you go!');
+    }
+    el.appendChild(bubble);
+    appendEl(el);
+    scrollToBottom();
   }
 
   function createAiMsgEl() {
@@ -571,20 +629,33 @@
     scrollToBottom();
   }
 
-  function showThinking() {
+  var thinkingEl = null;
+  var thinkingLoader = null;
+
+  function showThinking(label, variant) {
     isThinking = true;
-    var el = document.createElement('div');
-    el.className = 'neby-msg ai';
-    el.id = 'neby-thinking-el';
-    el.innerHTML = '<div class="neby-msg-avatar"><span class="material-symbols-outlined">auto_awesome</span></div>' +
-      '<div class="neby-thinking"><span></span><span></span><span></span></div>';
-    appendEl(el);
+    if (thinkingEl) thinkingEl.remove();
+    thinkingEl = document.createElement('div');
+    thinkingEl.className = 'neby-msg ai';
+    thinkingEl.id = 'neby-thinking-el';
+    if (window.AIWidgets) {
+      thinkingLoader = window.AIWidgets.PixelLoader.create({ label: label || 'Thinking', variant: variant || 'drive' });
+      thinkingEl.appendChild(thinkingLoader.el);
+    } else {
+      thinkingEl.innerHTML = '<div class="ai-widget ai-pixel-loader"><div class="ai-px-meta"><span class="ai-px-label">' + escapeHtml(label || 'Thinking') + '</span></div></div>';
+    }
+    appendEl(thinkingEl);
+  }
+
+  function setThinking(label, variant) {
+    if (!isThinking) { showThinking(label, variant); return; }
+    if (thinkingLoader) thinkingLoader.setLabel(label || 'Thinking', variant);
   }
 
   function removeThinking() {
     isThinking = false;
-    var el = document.getElementById('neby-thinking-el');
-    if (el) el.remove();
+    if (thinkingLoader) { thinkingLoader.destroy(); thinkingLoader = null; }
+    if (thinkingEl) { thinkingEl.remove(); thinkingEl = null; }
   }
 
   function scrollToBottom() {
