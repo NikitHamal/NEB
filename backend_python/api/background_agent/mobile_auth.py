@@ -129,6 +129,16 @@ def require_device(view):
     return wrapped
 
 
+def optional_device(view):
+    @wraps(view)
+    def wrapped(request, *args, **kwargs):
+        device = authenticate_device(request)
+        request.background_agent_device = device
+        request.background_agent_admin = device.admin_user if device else None
+        return view(request, *args, **kwargs)
+    return wrapped
+
+
 def json_body(request) -> dict:
     try:
         return json.loads(request.body.decode('utf-8') or '{}')
