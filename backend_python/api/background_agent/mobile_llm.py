@@ -155,11 +155,17 @@ def llm_chat(request):
                 return _json({'ok': False, 'error': resp.get('error', 'Poolside request failed')})
             return _json({'ok': True, 'reply': resp.get('content', ''), 'model': resolved.model})
         else:
-            from api import qwen_utils
+            from api import qwen_proxy
             user_msg = messages[-1].get('content', '') if messages else ''
             sys_msg = next((m['content'] for m in messages if m.get('role') == 'system'), '')
-            full_prompt = f"{sys_msg}\n\n{user_msg}" if sys_msg else user_msg
-            reply = qwen_utils.ask_qwen(full_prompt, model=resolved.model)
+            reply = qwen_proxy.call_qwen(
+                system_prompt=sys_msg,
+                user_message=user_msg,
+                model=resolved.model or 'qwen3.8-max',
+                max_tokens=int(payload.get('max_tokens', 4096))
+            )
+            if not reply:
+                return _json({'ok': False, 'error': 'Qwen returned an empty response. Please retry.'})
             return _json({'ok': True, 'reply': reply, 'model': resolved.model})
 
     # Official BYOK / Custom
