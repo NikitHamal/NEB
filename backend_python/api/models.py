@@ -2298,4 +2298,26 @@ class NebyCreditTransaction(models.Model):
         return f"{self.user.username}: {self.amount} credits ({self.transaction_type})"
 
 
+class AiFeedback(models.Model):
+    """Thumbs up/down on AI assistant replies (Neby chat / admin chat)."""
+    id = models.CharField(max_length=255, primary_key=True, default=uuid.uuid4)
+    user_id = models.CharField(max_length=255, db_index=True, default='')
+    surface = models.CharField(max_length=30, default='neby')
+    vote = models.SmallIntegerField(default=0)
+    provider = models.CharField(max_length=60, blank=True, default='')
+    model_name = models.CharField(max_length=120, blank=True, default='')
+    query = models.TextField(blank=True, default='')
+    created_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'ai_feedback'
+        ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['surface', '-created_at']),
+        ]
+
+    def __str__(self):
+        return f"{self.surface} {self.vote} by {self.user_id}"
+
+
 

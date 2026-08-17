@@ -215,6 +215,12 @@
       renderRows();
     }
 
+    function setRows(nextRows) {
+      if (settled) return;
+      rows = nextRows || [];
+      renderRows();
+    }
+
     headerEl.addEventListener('click', function () {
       manual = !(manual !== null ? manual : true);
       expanded = manual;
@@ -229,6 +235,7 @@
     return {
       el: el,
       settle: settle,
+      setRows: setRows,
       destroy: function () {
         if (autoTimer) clearTimeout(autoTimer);
         if (el.parentNode) el.parentNode.removeChild(el);
@@ -251,6 +258,36 @@
         : '<path d="M17 14V2M9 18.12L10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22a3.13 3.13 0 0 1-3-3.88z"/>');
   }
 
+  function buildActions(text, opts) {
+    opts = opts || {};
+    var actionsEl = document.createElement('div');
+    actionsEl.className = 'ai-stream-actions';
+    actionsEl.hidden = true;
+    actionsEl.innerHTML =
+      '<button type="button" class="ai-stream-action" data-action="copy" aria-label="Copy">' + streamSvg() + '</button>' +
+      '<button type="button" class="ai-stream-action" data-action="retry" aria-label="Retry">' + retrySvg() + '</button>' +
+      '<button type="button" class="ai-stream-action" data-action="up" aria-label="Helpful">' + thumbsSvg(true) + '</button>' +
+      '<button type="button" class="ai-stream-action" data-action="down" aria-label="Not helpful">' + thumbsSvg(false) + '</button>';
+    actionsEl.addEventListener('click', function (event) {
+      var btn = event.target.closest('.ai-stream-action');
+      if (!btn) return;
+      var action = btn.dataset.action;
+      if (action === 'copy') {
+        if (opts.onCopy) opts.onCopy(text);
+        else if (navigator.clipboard) navigator.clipboard.writeText(text).then(function () {
+          btn.classList.add('ai-stream-action-on');
+          setTimeout(function () { btn.classList.remove('ai-stream-action-on'); }, 1200);
+        }).catch(function () {});
+      } else if (action === 'retry' && opts.onRetry) opts.onRetry();
+      else if (action === 'up' || action === 'down') {
+        if (opts.onVote) opts.onVote(action === 'up' ? 1 : -1);
+        btn.classList.add('ai-stream-action-on');
+        setTimeout(function () { btn.classList.remove('ai-stream-action-on'); }, 1200);
+      }
+    });
+    return actionsEl;
+  }
+
   function StreamingText(opts) {
     opts = opts || {};
     var text = String(opts.text || '');
@@ -268,27 +305,29 @@
     el.className = 'ai-widget ai-stream';
     el.innerHTML =
       '<p class="ai-stream-text"><span class="ai-stream-words"></span><span class="ai-stream-cursor"></span></p>' +
-      '<div class="ai-stream-actions" hidden>' +
-      '<button type="button" class="ai-stream-action" data-action="copy" aria-label="Copy">' + streamSvg() + '</button>' +
-      '<button type="button" class="ai-stream-action" data-action="retry" aria-label="Retry">' + retrySvg() + '</button>' +
-      '<button type="button" class="ai-stream-action" data-action="up" aria-label="Helpful">' + thumbsSvg(true) + '</button>' +
-      '<button type="button" class="ai-stream-action" data-action="down" aria-label="Not helpful">' + thumbsSvg(false) + '</button>' +
-      (sources.length ? '<button type="button" class="ai-stream-sources-btn" aria-expanded="false"><span class="ai-stream-source-stack"></span><span class="ai-stream-sources-count"></span></button>' : '') +
-      '</div>' +
       (sources.length ? '<div class="ai-stream-sources"><div class="ai-stream-sources-list"></div></div>' : '');
 
     var wordsEl = el.querySelector('.ai-stream-words');
     var cursorEl = el.querySelector('.ai-stream-cursor');
-    var actionsEl = el.querySelector('.ai-stream-actions');
     var sourcesEl = el.querySelector('.ai-stream-sources');
-    var sourcesBtn = el.querySelector('.ai-stream-sources-btn');
+    var actionsEl = null;
+    if (showActions) {
+      actionsEl = buildActions(text, opts);
+      el.appendChild(actionsEl);
+    }
 
     if (sources.length) {
-      var stack = el.querySelector('.ai-stream-source-stack');
-      stack.innerHTML = sources.slice(0, 3).map(function (s) {
+      var sourcesBtn = document.createElement('button');
+      sourcesBtn.type = 'button';
+      sourcesBtn.className = 'ai-stream-sources-btn';
+      sourcesBtn.setAttribute('aria-expanded', 'false');
+      sourcesBtn.innerHTML = '<span class="ai-stream-source-stack"></span><span class="ai-stream-sources-count"></span>';
+      if (actionsEl) actionsEl.appendChild(sourcesBtn);
+      else el.appendChild(sourcesBtn);
+      sourcesBtn.querySelector('.ai-stream-source-stack').innerHTML = sources.slice(0, 3).map(function (s) {
         return '<img src="' + escapeHtml(s.image || '') + '" alt="" class="ai-stream-source-avatar">';
       }).join('');
-      el.querySelector('.ai-stream-sources-count').textContent = sources.length + ' source' + (sources.length === 1 ? '' : 's');
+      sourcesBtn.querySelector('.ai-stream-sources-count').textContent = sources.length + ' source' + (sources.length === 1 ? '' : 's');
       var list = el.querySelector('.ai-stream-sources-list');
       list.innerHTML = sources.map(function (s) {
         return '<a href="' + escapeHtml(s.href || '#') + '" target="_blank" rel="noreferrer" class="ai-stream-source-row">' +
@@ -296,12 +335,10 @@
           '<span class="ai-stream-source-name">' + escapeHtml(s.name || s.domain || '') + '</span>' +
           '<span class="ai-stream-source-domain">' + escapeHtml(s.domain || '') + '</span></a>';
       }).join('');
-      if (sourcesBtn) {
-        sourcesBtn.addEventListener('click', function () {
-          var open = sourcesEl.classList.toggle('open');
-          sourcesBtn.setAttribute('aria-expanded', String(open));
-        });
-      }
+      sourcesBtn.addEventListener('click', function () {
+        var open = sourcesEl.classList.toggle('open');
+        sourcesBtn.setAttribute('aria-expanded', String(open));
+      });
     }
 
     function citeChip(source) {
@@ -337,18 +374,6 @@
       if (onDone) onDone();
     }
 
-    actionsEl.addEventListener('click', function (event) {
-      var btn = event.target.closest('.ai-stream-action');
-      if (!btn) return;
-      var action = btn.dataset.action;
-      if (action === 'copy') {
-        if (opts.onCopy) opts.onCopy(text);
-        else if (navigator.clipboard) navigator.clipboard.writeText(text).then(function () { btn.classList.add('ai-stream-action-on'); setTimeout(function () { btn.classList.remove('ai-stream-action-on'); }, 1200); }).catch(function () {});
-      } else if (action === 'retry' && opts.onRetry) opts.onRetry();
-      else if (action === 'up' && opts.onVote) opts.onVote(1);
-      else if (action === 'down' && opts.onVote) opts.onVote(-1);
-    });
-
     if (!words.length) { finish(); }
     else { timer = setTimeout(tick, wordMs); }
 
@@ -363,16 +388,17 @@
   }
 
   /* ── streamSSE (avatar-lab technique) ────────────────────────────────────── */
-  function streamSSE(url, callbacks) {
-    callbacks = callbacks || {};
+  function streamSSE(url, opts) {
+    opts = opts || {};
+    var callbacks = opts.onEvent || opts;
     var controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
 
     function handle(event) {
       if (!event || typeof event !== 'object') return;
-      if (event.type === 'text' && callbacks.onText) callbacks.onText(String(event.content || ''));
-      else if (event.type === 'thought' && callbacks.onThought) callbacks.onThought(String(event.content || ''));
-      else if (event.type === 'error') { if (callbacks.onError) callbacks.onError(event.message || 'stream error'); }
-      else if (event.type === 'done') { if (callbacks.onDone) callbacks.onDone(event); }
+      if (callbacks.onText && event.type === 'text') callbacks.onText(String(event.content || ''));
+      else if (callbacks.onThought && event.type === 'thought') callbacks.onThought(String(event.content || ''));
+      else if (callbacks.onError && event.type === 'error') callbacks.onError(event.message || 'stream error');
+      else if (callbacks.onDone && event.type === 'done') callbacks.onDone(event);
       else if (callbacks.onEvent) callbacks.onEvent(event);
     }
 
@@ -397,11 +423,15 @@
       return read();
     }
 
-    fetch(url, {
-      headers: { 'Accept': 'text/event-stream' },
-      credentials: 'same-origin',
+    var init = {
+      headers: opts.headers || { 'Accept': 'text/event-stream' },
+      credentials: opts.credentials || 'same-origin',
       signal: controller ? controller.signal : undefined,
-    })
+    };
+    if (opts.method) init.method = opts.method;
+    if (opts.body !== undefined) init.body = opts.body;
+
+    fetch(url, init)
       .then(function (res) {
         if (!res.ok || !res.body) throw new Error('stream unavailable (' + res.status + ')');
         return pump(res.body.getReader(), new TextDecoder());
@@ -417,14 +447,418 @@
     };
   }
 
+  /* ── ApprovalCard ──────────────────────────────────────────────────────── */
+  function ApprovalCard(opts) {
+    opts = opts || {};
+    var questions = opts.questions || [];
+    var onSubmit = opts.onSubmit || function () {};
+    var onDismiss = opts.onDismiss || function () {};
+    var title = opts.title || 'A few quick questions';
+    var subtitle = opts.subtitle || '';
+
+    var el = document.createElement('div');
+    el.className = 'ai-widget ai-approval';
+    var body = document.createElement('div');
+    body.className = 'ai-approval-body';
+    el.appendChild(body);
+
+    var idx = 0;
+    var answers = {};
+    var custom = {};
+    var sent = false;
+    var timers = [];
+
+    function currentAnswers() {
+      var q = questions[idx];
+      if (!q) return [];
+      return Array.from(answers[q.q] || []);
+    }
+
+    function renderPill() {
+      body.innerHTML =
+        '<button type="button" class="ai-approval-pill">' +
+        '<span class="ai-approval-pill-dot"></span>' +
+        '<span class="ai-approval-pill-label">' + escapeHtml(title) + '</span>' +
+        '<span class="ai-approval-pill-arrow">keyboard_arrow_up</span>' +
+        '</button>';
+      body.querySelector('.ai-approval-pill').addEventListener('click', function () { open(); });
+    }
+
+    function renderSent() {
+      body.innerHTML =
+        '<div class="ai-approval-sent">' +
+        '<span class="ai-approval-sent-icon">check</span>' +
+        '<div class="ai-approval-sent-title">Thanks for your feedback!</div>' +
+        '<button type="button" class="ai-approval-restart">Start over</button>' +
+        '</div>';
+      body.querySelector('.ai-approval-restart').addEventListener('click', function () {
+        reset();
+        open();
+      });
+    }
+
+    function renderQuestion() {
+      var q = questions[idx];
+      if (!q) { finish(); return; }
+      var qAnswers = answers[q.q] || new Set();
+      var isLast = idx === questions.length - 1;
+      var answered = qAnswers.size > 0;
+
+      var dots = '';
+      for (var i = 0; i < questions.length; i++) {
+        dots += '<span class="ai-approval-dot' + (i === idx ? ' ai-approval-dot-on' : '') + '"></span>';
+      }
+      var customVal = custom[q.q] || '';
+
+      var optsHtml = (q.options || []).map(function (opt) {
+        var selected = qAnswers.has(opt);
+        var input = q.type === 'check'
+          ? '<span class="ai-approval-opt-check' + (selected ? ' ai-approval-opt-check-on' : '') + '">' + (selected ? 'check' : '') + '</span>'
+          : '<span class="ai-approval-opt-radio' + (selected ? ' ai-approval-opt-radio-on' : '') + '"></span>';
+        return '<button type="button" class="ai-approval-opt' + (selected ? ' ai-approval-opt-on' : '') + '" data-opt="' + escapeHtml(opt) + '">' +
+          input + '<span class="ai-approval-opt-text">' + escapeHtml(opt) + '</span></button>';
+      }).join('');
+
+      var inner =
+        '<div class="ai-approval-head">' +
+        '<div class="ai-approval-head-text"><div class="ai-approval-title">' + escapeHtml(title) + '</div>' +
+        (subtitle ? '<div class="ai-approval-sub">' + escapeHtml(subtitle) + '</div>' : '') + '</div>' +
+        '<button type="button" class="ai-approval-close" aria-label="Dismiss">close</button>' +
+        '</div>' +
+        '<div class="ai-approval-progress">' + dots + '</div>' +
+        '<div class="ai-approval-q">' + escapeHtml(q.q) + '</div>' +
+        '<div class="ai-approval-opts">' + optsHtml + '</div>' +
+        (q.allowCustom ? '<input type="text" class="ai-approval-custom" placeholder="Other…" value="' + escapeHtml(customVal) + '">' : '') +
+        '<div class="ai-approval-footer">' +
+        (idx > 0 ? '<button type="button" class="ai-approval-prev">arrow_back</button>' : '') +
+        '<div class="ai-approval-step">' + (idx + 1) + ' / ' + questions.length + '</div>' +
+        (isLast
+          ? '<button type="button" class="ai-approval-send' + (answered ? ' ai-approval-send-ready' : '') + '"' + (answered ? '' : ' disabled') + '>arrow_forward</button>'
+          : '<button type="button" class="ai-approval-next' + (answered ? ' ai-approval-next-ready' : '') + '"' + (answered ? '' : ' disabled') + '>arrow_forward</button>') +
+        '</div>';
+      body.innerHTML = '<div class="ai-approval-card">' + inner + '</div>';
+
+      body.querySelector('.ai-approval-close').addEventListener('click', function () { close(); });
+      if (idx > 0) body.querySelector('.ai-approval-prev').addEventListener('click', function () {
+        idx -= 1;
+        renderQuestion();
+      });
+      var advanceBtn = body.querySelector(isLast ? '.ai-approval-send' : '.ai-approval-next');
+      if (answered) advanceBtn.addEventListener('click', function () {
+        if (isLast) finish();
+        else { idx += 1; renderQuestion(); }
+      });
+
+      body.querySelectorAll('.ai-approval-opt').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var opt = btn.dataset.opt;
+          if (q.type === 'check') {
+            if (qAnswers.has(opt)) qAnswers.delete(opt);
+            else qAnswers.add(opt);
+          } else {
+            qAnswers.clear();
+            qAnswers.add(opt);
+          }
+          answers[q.q] = qAnswers;
+          renderQuestion();
+          if (q.type === 'radio') {
+            timers.push(setTimeout(function () {
+              if (isLast) finish();
+              else { idx += 1; renderQuestion(); }
+            }, 480));
+          }
+        });
+      });
+
+      var customInput = body.querySelector('.ai-approval-custom');
+      if (customInput) {
+        customInput.addEventListener('input', function () {
+          custom[q.q] = customInput.value;
+          if (customInput.value.trim()) {
+            qAnswers.add(customInput.value.trim());
+            answers[q.q] = qAnswers;
+            var sendBtn = body.querySelector('.ai-approval-send');
+            if (sendBtn) { sendBtn.disabled = false; sendBtn.classList.add('ai-approval-send-ready'); }
+          }
+        });
+        customInput.addEventListener('keydown', function (event) {
+          if (event.key === 'Enter' && customInput.value.trim()) {
+            event.preventDefault();
+            if (isLast) finish();
+            else { idx += 1; renderQuestion(); }
+          }
+        });
+      }
+    }
+
+    function finish() {
+      if (sent) return;
+      sent = true;
+      var flat = {};
+      Object.keys(answers).forEach(function (key) { flat[key] = Array.from(answers[key] || []); });
+      onSubmit(flat, custom);
+      renderSent();
+    }
+
+    function open() {
+      if (sent) { reset(); }
+      el.classList.add('ai-approval-open');
+      renderQuestion();
+    }
+
+    function close() {
+      el.classList.remove('ai-approval-open');
+      renderPill();
+      onDismiss();
+    }
+
+    function reset() {
+      idx = 0;
+      answers = {};
+      custom = {};
+      sent = false;
+      timers.forEach(clearTimeout);
+      timers = [];
+    }
+
+    renderPill();
+
+    return {
+      el: el,
+      destroy: function () {
+        timers.forEach(clearTimeout);
+        if (el.parentNode) el.parentNode.removeChild(el);
+      },
+      open: open,
+      close: close,
+      reset: reset,
+      get sent() { return sent; },
+    };
+  }
+
+  /* ── ToolChips ──────────────────────────────────────────────────────────── */
+  function chipsSvg(icon) {
+    if (icon === 'think') {
+      return '<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8z"/></svg>';
+    }
+    if (icon === 'write') {
+      return '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.8 2.8 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"/></svg>';
+    }
+    if (icon === 'read') {
+      return '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>';
+    }
+    return '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17l6-5-6-5M12 19h8"/></svg>';
+  }
+  function chipsChevronSvg() {
+    return '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';
+  }
+
+  function ToolChips(opts) {
+    opts = opts || {};
+    var stepMs = typeof opts.stepMs === 'number' ? opts.stepMs : 700;
+    var reveal = opts.reveal || 'stagger';
+    var runOpen = opts.open !== false;
+    var header = { calls: opts.calls || 0, messages: opts.messages || 0 };
+    var rows = (opts.rows || []).slice();
+    var diffs = (opts.diffs || []).slice();
+    var moreCount = opts.more || 0;
+    var shown = 0;
+    var timer = null;
+    var rowSeq = 0;
+    if (!opts.calls && rows.length) header.calls = rows.length;
+
+    var el = document.createElement('div');
+    el.className = 'ai-widget ai-chips';
+    el.innerHTML =
+      '<button type="button" class="ai-chips-header" aria-expanded="' + (runOpen ? 'true' : 'false') + '">' +
+      '<span class="ai-chips-header-chevron">' + chipsChevronSvg() + '</span>' +
+      '<span class="ai-chips-header-text"></span>' +
+      '</button>' +
+      '<div class="ai-chips-grid" style="grid-template-rows:' + (runOpen ? '1fr' : '0fr') + ';opacity:' + (runOpen ? 1 : 0) + '">' +
+      '<div class="ai-chips-clip">' +
+      '<div class="ai-chips-rows"></div>' +
+      '<div class="ai-chips-diffs" hidden></div>' +
+      '</div></div>';
+
+    var headerBtn = el.querySelector('.ai-chips-header');
+    var headerText = el.querySelector('.ai-chips-header-text');
+    var gridEl = el.querySelector('.ai-chips-grid');
+    var rowsEl = el.querySelector('.ai-chips-rows');
+    var diffsEl = el.querySelector('.ai-chips-diffs');
+    var openRows = {};
+
+    function headerLabel() {
+      return header.calls + ' tool call' + (header.calls === 1 ? '' : 's') + ', ' + header.messages + ' message' + (header.messages === 1 ? '' : 's');
+    }
+
+    function renderHeader() {
+      headerText.textContent = headerLabel();
+    }
+
+    function rowDetailHtml(row) {
+      var lines = row.detail || [];
+      if (!lines.length) return '';
+      var mono = row.detailMono !== false ? ' ai-chips-detail-mono' : '';
+      var html = '';
+      lines.forEach(function (line) {
+        var tone = line.tone === 'add' ? ' ai-chips-detail-line-add' : '';
+        html += '<span class="ai-chips-detail-line' + tone + mono + '">' + escapeHtml(line.text) + '</span>';
+      });
+      return html;
+    }
+
+    function renderRow(row, animate) {
+      row._id = 'r' + (rowSeq += 1);
+      var wrap = document.createElement('div');
+      wrap.className = 'ai-chips-row' + (row.error ? ' ai-chips-row-error' : '');
+      if (animate) wrap.style.animation = 'ai-fade-up 300ms cubic-bezier(0.23,1,0.32,1) both';
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'ai-chips-row-btn';
+      btn.setAttribute('aria-expanded', 'false');
+      var icon = chipsSvg(row.icon || 'run');
+      btn.innerHTML =
+        '<span class="ai-chips-row-icon">' +
+        '<span class="ai-chips-row-icon-main">' + icon + '</span>' +
+        '<span class="ai-chips-row-chevron">' + chipsChevronSvg() + '</span>' +
+        '</span>' +
+        '<span class="ai-chips-row-label">' + escapeHtml(row.label || '') + '</span>' +
+        '<span class="ai-chips-chip' + (row.mono === false ? '' : ' ai-chips-chip-mono') + '">' + escapeHtml(row.chip || '') + '</span>';
+      var detail = document.createElement('div');
+      detail.className = 'ai-chips-row-detail';
+      detail.style.gridTemplateRows = '0fr';
+      detail.style.opacity = '0';
+      detail.innerHTML = '<div class="ai-chips-row-detail-clip"><div class="ai-chips-row-detail-lines">' +
+        rowDetailHtml(row) + '</div></div>';
+      btn.addEventListener('click', function () {
+        var isOpen = !!openRows[row._id];
+        openRows[row._id] = !isOpen;
+        btn.setAttribute('aria-expanded', String(!isOpen));
+        var chevron = btn.querySelector('.ai-chips-row-chevron');
+        if (chevron) chevron.style.transform = !isOpen ? 'rotate(0deg)' : 'rotate(-90deg)';
+        detail.style.gridTemplateRows = !isOpen ? '1fr' : '0fr';
+        detail.style.opacity = !isOpen ? '1' : '0';
+      });
+      wrap.appendChild(btn);
+      wrap.appendChild(detail);
+      rowsEl.appendChild(wrap);
+    }
+
+    function maybeShowDiffs() {
+      if (diffsEl.hidden) return;
+      if (reveal === 'stagger' && shown < rows.length) return;
+      diffsEl.hidden = false;
+      diffsEl.innerHTML = '';
+      diffs.forEach(function (d, i) {
+        var chip = document.createElement('span');
+        chip.className = 'ai-chips-diff';
+        chip.style.animation = 'ai-pop-in 250ms cubic-bezier(0.23,1,0.32,1) ' + (i * 80) + 'ms both';
+        var add = typeof d.add === 'number' && d.add > 0 ? '<span class="ai-chips-diff-add">+' + d.add + '</span>' : '';
+        var del = typeof d.del === 'number' && d.del > 0 ? '<span class="ai-chips-diff-del">\u2212' + d.del + '</span>' : '';
+        chip.innerHTML = '<span class="ai-chips-diff-file">' + escapeHtml(d.file) + '</span>' + add + del;
+        diffsEl.appendChild(chip);
+      });
+      if (moreCount > 0) {
+        var moreBtn = document.createElement('button');
+        moreBtn.type = 'button';
+        moreBtn.className = 'ai-chips-more';
+        moreBtn.style.animation = 'ai-fade-in 300ms ease-out ' + (diffs.length * 80) + 'ms both';
+        moreBtn.textContent = '+' + moreCount + ' more';
+        moreBtn.addEventListener('click', function () {
+          var extra = rows.splice(shown, moreCount);
+          extra.forEach(function (row) { renderRow(row, true); shown += 1; });
+          header.calls += extra.length;
+          renderHeader();
+          moreCount = 0;
+          moreBtn.remove();
+          maybeShowDiffs();
+        });
+        diffsEl.appendChild(moreBtn);
+      }
+    }
+
+    function scheduleReveal() {
+      if (reveal !== 'stagger' || shown >= rows.length) return;
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        renderRow(rows[shown], true);
+        shown += 1;
+        renderHeader();
+        maybeShowDiffs();
+        scheduleReveal();
+      }, stepMs);
+    }
+
+    function renderAll() {
+      while (shown < rows.length) { renderRow(rows[shown], false); shown += 1; }
+      renderHeader();
+      maybeShowDiffs();
+    }
+
+    headerBtn.addEventListener('click', function () {
+      runOpen = !runOpen;
+      gridEl.style.gridTemplateRows = runOpen ? '1fr' : '0fr';
+      gridEl.style.opacity = runOpen ? '1' : '0';
+      headerBtn.setAttribute('aria-expanded', String(runOpen));
+      var chevron = headerBtn.querySelector('.ai-chips-header-chevron svg');
+      if (chevron) chevron.style.transform = runOpen ? 'rotate(0deg)' : 'rotate(-90deg)';
+    });
+
+    renderHeader();
+    if (reveal === 'stagger') scheduleReveal();
+    else renderAll();
+
+    return {
+      el: el,
+      destroy: function () {
+        clearTimeout(timer);
+        if (el.parentNode) el.parentNode.removeChild(el);
+      },
+      addRow: function (row) {
+        rows.push(row || {});
+        header.calls += 1;
+        if (reveal === 'stagger') { renderHeader(); scheduleReveal(); }
+        else renderAll();
+      },
+      addRows: function (list) {
+        (list || []).forEach(function (row) { rows.push(row || {}); header.calls += 1; });
+        if (reveal === 'stagger') { renderHeader(); scheduleReveal(); }
+        else renderAll();
+      },
+      setDiffs: function (list, more) {
+        diffs = (list || []).slice();
+        if (typeof more === 'number') moreCount = more;
+        maybeShowDiffs();
+      },
+      setHeader: function (calls, messages) {
+        if (typeof calls === 'number') header.calls = calls;
+        if (typeof messages === 'number') header.messages = messages;
+        renderHeader();
+      },
+      open: function () { runOpen = true; gridEl.style.gridTemplateRows = '1fr'; gridEl.style.opacity = '1'; headerBtn.setAttribute('aria-expanded', 'true'); },
+      close: function () { runOpen = false; gridEl.style.gridTemplateRows = '0fr'; gridEl.style.opacity = '0'; headerBtn.setAttribute('aria-expanded', 'false'); },
+      toggle: function () { runOpen ? this.close() : this.open(); },
+      revealAll: renderAll,
+    };
+  }
+
   PixelLoader.create = PixelLoader;
   Trace.create = Trace;
   StreamingText.create = StreamingText;
+  ApprovalCard.create = ApprovalCard;
+  ToolChips.create = ToolChips;
 
   window.AIWidgets = {
     PixelLoader: PixelLoader,
     Trace: Trace,
     StreamingText: StreamingText,
+    ApprovalCard: ApprovalCard,
+    ToolChips: ToolChips,
+    actionRow: function (opts) {
+      var row = buildActions(String(opts && opts.text || ''), opts || {});
+      row.hidden = false;
+      return row;
+    },
     streamSSE: streamSSE,
     escapeHtml: escapeHtml,
   };
