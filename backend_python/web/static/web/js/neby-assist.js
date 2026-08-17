@@ -606,6 +606,17 @@
         text: text,
         actions: true,
         wordMs: 55,
+        onRetry: function () {
+          if (lastQuery) runQuery(lastQuery);
+        },
+        onVote: function (vote) {
+          fetch('/ajax/ai-feedback/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCsrfToken() },
+            credentials: 'same-origin',
+            body: JSON.stringify({ surface: 'neby', vote: vote, provider: 'cloud', query: lastQuery || '' }),
+          }).catch(function () {});
+        },
       });
       bubble.appendChild(stream.el);
     } else {

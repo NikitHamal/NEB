@@ -20,6 +20,129 @@
   };
   var attachments = BA.createAttachmentController({ input: els.fileInput, list: els.attachmentList, dropZone: els.followupWrap });
 
+  var runWidget = null;
+  var runWrap = null;
+  var runFiles = {};
+  var lastWasAssistantText = false;
+  var TOOL_VERBS = { read_file: 'Read', write_file: 'Write', edit_file: 'Edit', multi_edit: 'Edit', delete_file: 'Delete', copy_file: 'Copy', move_file: 'Move', create_directory: 'Create dir', list_files: 'List', search_text: 'Search', apply_patch: 'Apply patch', run_command: 'Run', git_status: 'Git status', git_diff: 'Git diff', git_log: 'Git log', git_stage: 'Stage', git_commit: 'Commit', git_push: 'Push', git_pull: 'Pull', git_restore: 'Restore', update_plan: 'Plan' };
+  function chipsBasename(path) { return String(path || '').split(/[\\/]/).pop() || ''; }
+  function chipsIconFor(tool) {
+    if (tool === 'update_plan') return 'think';
+    if (['read_file', 'search_text', 'list_files', 'web_extractor'].includes(tool)) return 'read';
+    if (['write_file', 'edit_file', 'multi_edit', 'apply_patch', 'delete_file', 'copy_file', 'move_file', 'create_directory', 'git_restore'].includes(tool)) return 'write';
+    return 'run';
+  }
+  function chipsTargetFor(tool, args) {
+    args = args || {};
+    if (tool === 'run_command') return (args.argv || []).join(' ');
+    if (tool === 'git_commit') return args.message || 'commit';
+    if (tool === 'search_text') return String(args.query || '');
+    if (tool === 'copy_file' || tool === 'move_file') return chipsBasename(args.destination || args.source);
+    if (tool === 'update_plan') return (args.todos || []).length + ' steps';
+    if (args.path) return chipsBasename(args.path);
+    return '';
+  }
+  function chipsDetailFor(tool, parsed, args) {
+    parsed = parsed || {};
+    args = args || {};
+    var lines = [];
+    function push(raw, max) {
+      String(raw || '').split('\n').slice(0, max).forEach(function (t) {
+        var s = t.replace(/\s+$/g, '');
+        if (s) lines.push({ text: s.length > 160 ? s.slice(0, 159) + '\u2026' : s });
+      });
+    }
+    if (tool === 'write_file') {
+      push(args.content, 4);
+      if (lines.length) lines.forEach(function (l) { l.tone = 'add'; });
+      else lines.push({ text: '+' + (args.path || ''), tone: 'add' });
+      if (parsed.bytes) lines.push({ text: '+' + parsed.bytes + ' bytes', tone: 'add' });
+    } else if (tool === 'edit_file') {
+      push(args.new_text, 4);
+      lines.forEach(function (l) { l.tone = 'add'; });
+    } else if (tool === 'multi_edit') {
+      var count = (args.edits || []).length;
+      lines.push({ text: '+' + (args.path || '') + ' \u00b7 ' + count + ' change' + (count === 1 ? '' : 's'), tone: 'add' });
+    } else if (tool === 'apply_patch') {
+      lines.push({ text: '+ patch applied', tone: 'add' });
+    } else if (tool === 'delete_file') {
+      lines.push({ text: '\u2212 ' + (args.path || 'deleted') });
+    } else if (tool === 'read_file') {
+      push(Array.isArray(parsed.lines) ? parsed.lines.join('\n') : '', 5);
+      if (!lines.length && parsed.totalLines) lines.push({ text: parsed.totalLines + ' lines' });
+    } else if (tool === 'run_command') {
+      push(parsed.stdout, 5);
+      if (parsed.stderr) push(parsed.stderr, 2);
+      if (typeof parsed.returncode === 'number') lines.push({ text: 'exit ' + parsed.returncode + (parsed.duration ? ' \u00b7 ' + parsed.duration + 's' : '') });
+    } else if (parsed.output) {
+      push(parsed.output, 4);
+    } else if (parsed.totalLines) {
+      lines.push({ text: parsed.totalLines + ' lines' });
+    } else if (tool === 'update_plan') {
+      lines.push({ text: 'Updated plan \u00b7 ' + (args.todos || []).length + ' steps' });
+    } else {
+      try { push(JSON.stringify(parsed, null, 2), 4); } catch (e) { lines.push({ text: String(parsed || '') }); }
+    }
+    if (!lines.length) lines.push({ text: 'ok' });
+    return lines;
+  }
+  function chipsFileFor(tool, args) {
+    args = args || {};
+    if (tool === 'copy_file' || tool === 'move_file') return args.destination || args.source || '';
+    if (tool === 'git_restore') return Array.isArray(args.paths) ? (args.paths[0] || '') : (args.paths || '');
+    return args.path || '';
+  }
+  function startRun(countsTextMessage) {
+    runWrap = document.createElement('div');
+    runWrap.className = 'ba-message tool-group';
+    runWidget = window.AIWidgets.ToolChips.create({ reveal: 'instant', messages: countsTextMessage ? 1 : 0 });
+    runWrap.appendChild(runWidget.el);
+    els.conversation.appendChild(runWrap);
+    scrollBottom(false);
+    return runWidget;
+  }
+  function endRun() {
+    if (!runWidget) return;
+    var diffs = Object.keys(runFiles).map(function (path) {
+      var entry = runFiles[path];
+      return { file: path.split('/').pop(), add: entry.add, del: entry.del };
+    });
+    runWidget.setDiffs(diffs, 0);
+    runWidget = null;
+    runWrap = null;
+    runFiles = {};
+  }
+  function addToolRow(message) {
+    if (!runWidget) startRun(lastWasAssistantText);
+    lastWasAssistantText = false;
+    var meta = message.metadata || {};
+    var tool = meta.tool || 'tool';
+    var ok = meta.ok !== false;
+    var args = meta.args || {};
+    var parsed = null;
+    try { parsed = JSON.parse(message.content || ''); } catch (e) { parsed = null; }
+    var row = {
+      icon: chipsIconFor(tool),
+      label: TOOL_VERBS[tool] || tool.replace(/_/g, ' ').replace(/\b\w/g, function (c) { return c.toUpperCase(); }),
+      chip: chipsTargetFor(tool, args),
+      mono: true,
+      detailMono: true,
+      detail: ok ? chipsDetailFor(tool, parsed, args) : [{ text: 'failed \u2014 ' + ((parsed && parsed.error) || meta.label || '') }],
+      error: !ok,
+    };
+    runWidget.addRow(row);
+    var file = chipsFileFor(tool, args);
+    if (file) {
+      var key = String(file).replace(/\\/g, '/');
+      var entry = runFiles[key] || { add: 0, del: 0 };
+      if (tool === 'write_file') entry.add = String(args.content || '').split('\n').filter(Boolean).length || 1;
+      else if (tool === 'delete_file') entry.del = 1;
+      else if (tool !== 'git_restore') entry.add = entry.add || 1;
+      runFiles[key] = entry;
+    }
+    scrollBottom(false);
+  }
+
   function terminal(status) { return ['completed', 'failed', 'cancelled'].includes(status); }
   function nearBottom() { return els.conversation.scrollHeight - els.conversation.scrollTop - els.conversation.clientHeight < 120; }
   function scrollBottom(force) { if (force || nearBottom()) requestAnimationFrame(function () { els.conversation.scrollTop = els.conversation.scrollHeight; }); }
@@ -45,6 +168,7 @@
     els.contextMeter.classList.toggle('warning', percent >= 65 && percent < 80); els.contextMeter.classList.toggle('danger', percent >= 80);
     els.contextMeter.title = 'Estimated context: ' + Number(context.estimatedTokens || 0).toLocaleString() + ' / ' + Number(context.windowTokens || 0).toLocaleString() + ' tokens · ' + Number(context.compactions || 0) + ' compactions';
     var active = ['queued', 'preparing', 'running'].includes(current.status);
+    if (!active) endRun();
     els.pause.hidden = !active; els.resume.hidden = !['paused', 'waiting', 'failed', 'completed'].includes(current.status); els.stop.disabled = terminal(current.status);
     if (current.testSummary) els.tests.textContent = current.testSummary;
     if (current.diff !== undefined && current.diff !== state.diff) { state.diff = current.diff || ''; renderDiff(); }
@@ -91,19 +215,23 @@
       els.planList.appendChild(li);
     });
   }
+  function thoughtRows(content) {
+    return String(content || '').split('\n').map(function (line) { return line.trim(); }).filter(Boolean).map(function (line) { return { primary: line }; });
+  }
   function thoughtNode(message) {
     var meta = message.metadata || {};
-    var wrapper = document.createElement('div'); wrapper.className = 'ba-thought-wrap';
-    var detail = document.createElement('details'); detail.className = 'ba-thought';
     var ms = Number(meta.durationMs || 0);
     var secs = ms > 0 ? Math.max(1, Math.round(ms / 1000)) : 0;
     var label = 'Thought for ' + (secs ? secs + ' second' + (secs === 1 ? '' : 's') : 'a moment');
-    var summary = document.createElement('summary');
-    summary.innerHTML = '<span class="material-symbols-outlined">psychology</span><span></span><span class="material-symbols-outlined ba-thought-chevron">chevron_right</span>';
-    summary.children[1].textContent = label;
-    var body = document.createElement('div'); body.className = 'ba-thought-body';
-    body.innerHTML = BA.renderMarkdown(message.content || '');
-    detail.append(summary, body); wrapper.appendChild(detail); return wrapper;
+    var wrapper = document.createElement('div'); wrapper.className = 'ba-trace-wrap';
+    if (window.AIWidgets) {
+      var trace = AIWidgets.Trace.create({ variant: 'reasoning', active: label, settleDelay: 0, rows: thoughtRows(message.content) });
+      trace.settle(label);
+      wrapper.appendChild(trace.el);
+    } else {
+      wrapper.innerHTML = '<div style="color:var(--ba-faint);font-size:10px;line-height:1.6;white-space:pre-wrap">' + BA.escapeHtml(label + '\n' + (message.content || '')) + '</div>';
+    }
+    return wrapper;
   }
   function commandNode(message) {
     var node = document.createElement('div'); node.className = 'ba-command-event';
@@ -122,15 +250,6 @@
     }
     if (message.role === 'user' && message.metadata && message.metadata.kind === 'command') {
       return commandNode(message);
-    }
-    if (message.role === 'tool') {
-      var wrapper = document.createElement('div'); wrapper.className = 'ba-message tool';
-      var detail = document.createElement('details'); detail.className = 'ba-tool-event ' + (message.metadata?.ok === false ? 'error' : 'ok');
-      var summary = document.createElement('summary'); summary.innerHTML = '<span class="material-symbols-outlined">terminal</span><span class="ba-tool-label"></span><span class="ba-tool-state">' + (message.metadata?.ok === false ? 'Failed' : 'Done') + '</span>';
-      summary.querySelector('.ba-tool-label').textContent = message.label || message.metadata?.tool || 'Tool result';
-      var pre = document.createElement('pre');
-      try { pre.textContent = JSON.stringify(JSON.parse(message.content), null, 2); } catch (error) { pre.textContent = message.content; }
-      detail.append(summary, pre); wrapper.appendChild(detail); return wrapper;
     }
     var node = document.createElement('article'); node.className = 'ba-message ' + message.role;
     var avatar = document.createElement('div'); avatar.className = 'ba-message-avatar'; avatar.innerHTML = '<span class="material-symbols-outlined">' + (message.role === 'user' ? 'person' : 'smart_toy') + '</span>';
@@ -152,7 +271,14 @@
   }
   function addMessage(message, initial) {
     if (!message || state.messages.has(String(message.id))) return;
-    state.messages.set(String(message.id), message); var node = messageNode(message);
+    state.messages.set(String(message.id), message);
+    if (message.role === 'tool') { addToolRow(message); return; }
+    if (message.role === 'user') { endRun(); lastWasAssistantText = false; }
+    if (message.role === 'assistant' && !(message.metadata && message.metadata.kind === 'thought')) {
+      endRun();
+      lastWasAssistantText = true;
+    }
+    var node = messageNode(message);
     if (!node) return;
     var stick = initial || nearBottom(); els.conversation.appendChild(node); scrollBottom(stick);
   }
@@ -168,7 +294,7 @@
       if (['write_file', 'edit_file', 'multi_edit', 'apply_patch', 'delete_file', 'copy_file', 'move_file', 'git_restore'].includes(tool)) scheduleDetailRefresh();
     }
     if (event.type === 'plan.updated' && event.payload && Array.isArray(event.payload.todos)) renderPlan(event.payload.todos);
-    if (event.type === 'session.completed') scheduleDetailRefresh(true);
+    if (['session.completed', 'session.failed', 'session.cancelled'].includes(event.type)) { endRun(); scheduleDetailRefresh(true); }
   }
   function renderDiff() {
     var files = BA.splitDiff(state.diff); els.stackedDiff.innerHTML = '';
@@ -322,13 +448,14 @@
   function activeStatus() { return state.session && ['queued', 'preparing', 'running'].includes(state.session.status); }
 
   function liveThoughtNode() {
-    var wrapper = document.createElement('div'); wrapper.className = 'ba-thought-wrap';
-    var detail = document.createElement('details'); detail.className = 'ba-thought live'; detail.open = true;
-    var summary = document.createElement('summary');
-    summary.innerHTML = '<span class="material-symbols-outlined">psychology</span><span></span><span class="material-symbols-outlined ba-thought-chevron">chevron_right</span>';
-    summary.children[1].textContent = 'Thinking…';
-    var body = document.createElement('div'); body.className = 'ba-thought-body';
-    detail.append(summary, body); wrapper.appendChild(detail); return wrapper;
+    var wrapper = document.createElement('div'); wrapper.className = 'ba-trace-wrap';
+    if (window.AIWidgets) {
+      var trace = AIWidgets.Trace.create({ variant: 'reasoning', active: 'Thinking…', settleDelay: 86400000 });
+      wrapper.__trace = trace; wrapper.appendChild(trace.el);
+    } else {
+      wrapper.innerHTML = '<div style="color:var(--ba-muted);font-size:10px">Thinking…</div>';
+    }
+    return wrapper;
   }
 
   function liveMessageNode() {
@@ -346,8 +473,8 @@
     live[key] = setTimeout(function () {
       live[key] = null;
       if (which === 'thought' && live.thought) {
-        var body = live.thought.querySelector('.ba-thought-body');
-        if (body) body.innerHTML = BA.renderMarkdown(live.thoughtText || ' ');
+        var trace = live.thought.__trace;
+        if (trace) trace.setRows(thoughtRows(live.thoughtText || ' '));
       }
       if (which === 'message' && live.message) {
         var content = live.message.querySelector('.ba-message-content');

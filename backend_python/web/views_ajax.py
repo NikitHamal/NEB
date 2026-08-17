@@ -1032,3 +1032,33 @@ def ajax_convert_credits(request):
         'total_credits': (user.free_credits or 0) + (user.ai_credits or 0),
         'nebians_points': user.nebians_points,
     })
+
+@require_POST
+def ajax_ai_feedback(request):
+    """Record thumbs up/down on an AI reply (Neby chat / admin chat / elsewhere)."""
+    import time, uuid as _uuid
+    user_id = _get_user_id(request)
+    try:
+        data = json.loads(request.body) if request.body else {}
+    except ValueError:
+        return JsonResponse({'error': 'Invalid request body'}, status=400)
+    try:
+        vote = int(data.get('vote') or 0)
+    except (ValueError, TypeError):
+        return JsonResponse({'error': 'Invalid vote'}, status=400)
+    if vote not in (1, -1):
+        return JsonResponse({'error': 'Invalid vote'}, status=400)
+    if _rate_limit(request, 'ai_feedback', 30, 60):
+        return JsonResponse({'error': 'Too many requests. Please slow down.'}, status=429)
+    surface = str(data.get('surface') or 'neby')[:30]
+    AiFeedback.objects.create(
+        id=str(_uuid.uuid4()),
+        user_id=str(user_id or ''),
+        surface=surface,
+        vote=vote,
+        provider=str(data.get('provider') or '')[:60],
+        model_name=str(data.get('modelName') or data.get('model') or '')[:120],
+        query=str(data.get('query') or '')[:5000],
+        created_at=int(time.time() * 1000),
+    )
+    return JsonResponse({'ok': True})
