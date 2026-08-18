@@ -1632,7 +1632,7 @@ def ajax_space_quiz_submit(request, quiz_id):
         created_at=now,
     )
     if xp:
-        User.objects.filter(pk=user_id).update(contribution_score=F('contribution_score') + xp)
+        User.objects.filter(pk=user_id).update(contribution_score=F('contribution_score') + xp, nebians_points=F('nebians_points') + xp)
 
     return JsonResponse({
         'attempt': {
@@ -2488,7 +2488,7 @@ def ajax_study_quiz_submit(request, quiz_id):
     )
 
     if xp_earned:
-        User.objects.filter(pk=user_id).update(contribution_score=F('contribution_score') + xp_earned)
+        User.objects.filter(pk=user_id).update(contribution_score=F('contribution_score') + xp_earned, nebians_points=F('nebians_points') + xp_earned)
 
     return JsonResponse({
         'attempt': {
