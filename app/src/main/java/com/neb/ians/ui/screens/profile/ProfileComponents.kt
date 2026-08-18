@@ -1,5 +1,7 @@
 package com.neb.ians.ui.screens.profile
 
+import com.neb.ians.ui.components.LinkifyText
+
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
@@ -547,7 +549,7 @@ fun ProfileHeaderCard(
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                Text(
+                LinkifyText(
                     text = bioText,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurface

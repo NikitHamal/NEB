@@ -1,39 +1,56 @@
-# Needle 2 (WASM) benchmark — NEBians "Neby AI"
+# Needle 2 benchmarks — NEBians "Neby Local"
 
-Runs the **exact** engine + model shipped to the browser
-(`web/static/web/js/needle2/{needle.js,needle.wasm,needle2.cact}`) in Node.js to
-measure load time, grammar-compile time, per-query decode latency and memory.
-The engine is the official upstream build (identical byte sizes to the
-`Cactus-Compute/needle2` HuggingFace `wasm/` + `needle2.cact` release, so results
-are representative of a desktop browser — minus network).
+These harnesses execute the exact Needle 2 glue, WASM engine, CQ2 model, and tool schemas shipped by NEBians. They require Node 18+ and no third-party packages.
 
 ## Run
+
 ```bash
-node benchmarks/needle_bench.mjs            # max_new_tokens = 256 (old default)
-env MAX_TOKENS=128 node benchmarks/needle_bench.mjs   # new cap used by the site
+cd backend_python
+node benchmarks/needle_bench.mjs
+node benchmarks/needle_snapshot_bench.mjs
 ```
-No third-party deps. Node 18+ with WebAssembly (Node 22 tested).
 
-## What it measures
-- Asset transfer size (glue + wasm + model = 13.46 MB)
-- Engine/glue instantiation, model `needle_load`, tool grammar `needle_init`
-- WASM heap + process RSS
-- End-to-end `needle_complete` latency and decoded bytes-per-second for a set of
-  realistic NEB queries (single turn, reset between turns — like the site)
+Use `MAX_TOKENS=256 node benchmarks/needle_bench.mjs` to compare the former 256-token cap. Production uses 128; all benchmark tool calls finish below the cap.
 
-## TL;DR results (sandbox: throttled x86-64 VM, Node 22)
-- **Grammar compile (`needle_init`) ≈ 5.0 s** — ≈98% of the ~5.0 s cold start.
-  Model load is only ~30–60 ms and engine init ~10–20 ms.
-- Decode: tool call completed in **~336–1,310 ms** (avg ~0.81 s, p50 ~0.76 s) for
-  the 7 realistic tool-calling queries; ~**270–560 byte-tokens/s** decode.
-- WASM heap **32.5 MB**, process RSS ~90–97 MB.
-- Capping `max_new_tokens` at 128 vs 256 changes **nothing** for real tool calls
-  (results are byte-identical, latency within noise) — it only bounds runaway.
-- gzip on the CQ2-bit model only saves 5% (94.9% incompressible) → not worthwhile.
+## What changed
 
-## Why the site now feels faster
-Browsers are bottlenecked by the ~5 s one-time grammar compile, not throughput.
-The integration now **starts loading + initing + warming the engine in the
-background** (idle callback + first-user-gesture fallback) in a Web Worker, so the
-5 s grammar compile happens while the user is reading the page, not after they
-click the assistant. The worker stays alive for the whole visit.
+The model download was not the main repeat-launch bottleneck. The exact breakdown on the sandbox is:
+
+- engine instantiation: about 8 ms
+- model load: about 35 ms
+- tool grammar initialization: about 5.2 seconds
+- tool decode: about 0.4–1.4 seconds
+
+Caching only `needle2.cact` therefore still left almost all startup work on every refresh. The v3 worker now persists a versioned, tool-schema-keyed snapshot of the initialized 32.6 MB WASM heap in 2 MB IndexedDB chunks. On a later launch it instantiates the 0.30 MB engine and restores the snapshot without reading the model or recompiling the grammar. A corrupt, missing, quota-rejected, or version-mismatched snapshot automatically falls back to the normal verified cold path.
+
+The snapshot is taken before any user query, so it contains the public model/runtime/tool state and no chat content. Model and engine binaries remain in Cache Storage on web. Android stores the optional model in `noBackupFilesDir`; the APK only includes the 0.36 MB WASM engine and glue.
+
+The former synthetic warm-up completion was removed. Repeating the same first query showed no material decode improvement, while warm-up added roughly 1.1 seconds of CPU time and battery use before the first real query.
+
+## Latest results
+
+Sandbox: throttled x86-64 VM, Node 22, 2026-08-13. See `FINAL_bench.txt` and `snapshot_bench.txt` for full raw output.
+
+| Metric | Result |
+|---|---:|
+| Model | 13.10 MiB |
+| Web engine + glue | 0.36 MiB |
+| Cold initialized WASM heap | 32.63 MiB |
+| Cold load + tool init | 5,116–5,284 ms |
+| Persisted runtime restore, including disk read | 49 ms |
+| Repeat-launch reduction | **99.0%** |
+| Restored output equivalence | **7/7** |
+| Expected tool routing | **7/7** |
+| Grounded key arguments | **7/7** |
+| Decode average / p50 / p95 | 819 / 727 / 1,529 ms |
+| Browser runtime snapshot | 32.63 MiB |
+| Android model added to base APK | **0 bytes** |
+| Android engine/glue added to APK before packaging | 0.36 MiB |
+
+The engine exposes a `reasoning` field on every tested response, but this shipped model generated a non-null compact trace on 2/7 benchmark prompts. Both web and Android render the trace when present; they do not invent one when the engine returns `null`.
+
+## Mobile interpretation
+
+The Node result isolates engine behavior and snapshot correctness; it is not presented as a phone benchmark. The Android screen reports real setup time and per-response milliseconds on each user's device. First setup still includes the one-time cloud download and cold grammar build. Later app launches restore the initialized runtime locally and inference remains offline.
+
+The Android download is resumable, SHA-256 verified, optional, and removable. The expected model is exactly 13,737,679 bytes with SHA-256 `ca7950ac8aef26ed22d17f92c733c9374aa7f59f6c2abb0fe2ac320a04f3c3d8`.

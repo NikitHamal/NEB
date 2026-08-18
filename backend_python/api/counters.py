@@ -13,6 +13,7 @@ def increment_user_post_count(user_id):
     User.objects.filter(pk=user_id).update(
         post_count=F('post_count') + 1,
         contribution_score=F('contribution_score') + 3,
+        nebians_points=F('nebians_points') + 3,
     )
 
 
@@ -29,6 +30,7 @@ def increment_user_reply_count(user_id):
     User.objects.filter(pk=user_id).update(
         reply_count=F('reply_count') + 1,
         contribution_score=F('contribution_score') + 2,
+        nebians_points=F('nebians_points') + 2,
     )
 
 
@@ -45,6 +47,7 @@ def increment_user_likes_given(user_id):
     User.objects.filter(pk=user_id).update(
         likes_given_count=F('likes_given_count') + 1,
         contribution_score=F('contribution_score') + 1,
+        nebians_points=F('nebians_points') + 1,
     )
 
 
@@ -61,6 +64,7 @@ def increment_user_likes_received(user_id):
     User.objects.filter(pk=user_id).update(
         likes_received_count=F('likes_received_count') + 1,
         contribution_score=F('contribution_score') + 2,
+        nebians_points=F('nebians_points') + 2,
     )
 
 
@@ -122,6 +126,7 @@ def increment_user_resource_approved(user_id):
     from .models import User
     User.objects.filter(pk=user_id).update(
         contribution_score=F('contribution_score') + 10,
+        nebians_points=F('nebians_points') + 10,
     )
 
 

@@ -1,5 +1,7 @@
 package com.neb.ians.ui.screens.resource
 
+import com.neb.ians.ui.components.LinkifyText
+
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -300,7 +302,7 @@ fun ResourceRequestCard(
                 )
                 if (!request.description.isNullOrBlank()) {
                     Spacer(modifier = Modifier.height(2.dp))
-                    Text(
+                    LinkifyText(
                         text = request.description,
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,

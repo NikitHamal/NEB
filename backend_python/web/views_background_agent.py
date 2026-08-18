@@ -2,11 +2,12 @@ from __future__ import annotations
 
 import json
 import logging
+import time
 from pathlib import Path
 
 from django.conf import settings
 from django.contrib import messages
-from django.http import FileResponse, Http404, JsonResponse
+from django.http import FileResponse, Http404, JsonResponse, StreamingHttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.decorators.cache import never_cache
@@ -497,6 +498,124 @@ def background_agent_session_events(request, session_id):
         'actions': [_serialize_action(a) for a in session.actions.order_by('-created_at')[:50]],
         'artifacts': _serialize_artifacts(session),
     })
+
+
+def _stream_sse_frame(event: dict) -> str:
+    return 'data: ' + json.dumps(event, ensure_ascii=False) + '\n\n'
+
+
+def _stream_events_generator(session, request):
+    """Live generator for the session's SSE endpoint.
+
+    First frame is a `snapshot` (same shape as the events endpoint, filtered
+    by `after`) so a reconnecting client never loses events. After that the
+    stream relays the runner's Redis pub/sub deltas on `ba:stream:<id>`:
+    {'kind': 'thought'|'text'|'done'|'error'} plus the raw payload fields.
+
+    The stream stays open across agent iterations; it closes when the turn
+    finishes and the session leaves 'running'/'queued'/'preparing', when a
+    fatal error arrives, or after a 1-hour hard cap. When Redis is
+    unreachable it sends `close` immediately and the client falls back to
+    its existing polling loop."""
+    try:
+        after = max(0, int(request.GET.get('after', '0') or 0))
+    except ValueError:
+        after = 0
+    catch_up = list(BackgroundAgentEvent.objects.filter(session=session, id__gt=after).order_by('id')[:500])
+    serialized = [_serialize_event(e) for e in catch_up]
+    message_ids = [
+        item['payload'].get('messageId')
+        for item in serialized
+        if item['type'] == 'message.created' and item['payload'].get('messageId')
+    ]
+    messages_by_id = {
+        str(message.id): _serialize_message(message)
+        for message in session.messages.filter(id__in=message_ids).prefetch_related('attachments')
+    }
+    for item in serialized:
+        message_id = item['payload'].get('messageId')
+        if message_id and str(message_id) in messages_by_id:
+            item['payload']['message'] = messages_by_id[str(message_id)]
+    yield _stream_sse_frame({
+        'type': 'snapshot',
+        'session': _serialize_session_summary(session),
+        'events': serialized,
+    })
+
+    client = None
+    try:
+        import redis as redis_lib
+        url = (getattr(settings, 'BACKGROUND_AGENT_STREAM_REDIS', '') or '').strip() \
+            or (getattr(settings, 'CACHE_LOCATION', '') or '').strip()
+        client = redis_lib.Redis.from_url(url, socket_connect_timeout=2, socket_timeout=2, decode_responses=True) if url \
+            else redis_lib.Redis(host='127.0.0.1', port=6379, db=0, socket_connect_timeout=2, socket_timeout=2, decode_responses=True)
+        client.ping()
+    except Exception:
+        client = None
+    if client is None:
+        yield _stream_sse_frame({'type': 'close', 'reason': 'no-redis'})
+        return
+
+    pubsub = client.pubsub()
+    pubsub.subscribe(f'ba:stream:{session.id}')
+    try:
+        deadline = time.time() + 3600
+        last_beat = time.time()
+        last_status_check = 0.0
+        while time.time() < deadline:
+            msg = pubsub.get_message(ignore_subscribe_messages=True, timeout=1.0)
+            if msg and msg.get('type') == 'message':
+                try:
+                    payload = json.loads(msg['data'])
+                except (TypeError, ValueError):
+                    payload = {}
+                kind = payload.get('kind') or 'event'
+                fields = {k: v for k, v in payload.items() if k != 'kind'}
+                yield _stream_sse_frame({'type': kind, **fields})
+                if payload.get('fatal'):
+                    yield _stream_sse_frame({'type': 'end', 'reason': 'fatal'})
+                    break
+                if kind == 'done':
+                    try:
+                        session.refresh_from_db(fields=['status'])
+                    except Exception:
+                        pass
+                    if session.status not in ('running', 'queued', 'preparing'):
+                        yield _stream_sse_frame({'type': 'end', 'reason': session.status or 'done'})
+                        break
+            now = time.time()
+            if now - last_status_check >= 10:
+                last_status_check = now
+                try:
+                    session.refresh_from_db(fields=['status'])
+                except Exception:
+                    pass
+                if session.status not in ('running', 'queued', 'preparing'):
+                    yield _stream_sse_frame({'type': 'end', 'reason': session.status or 'idle'})
+                    break
+            if now - last_beat >= 15:
+                yield ': ping\n\n'
+                last_beat = now
+    finally:
+        try:
+            pubsub.close()
+        except Exception:
+            pass
+
+
+@require_GET
+def background_agent_session_stream(request, session_id):
+    guard = require_bg_admin_json(request)
+    if guard:
+        return guard[1]
+    session = _session_for_admin(request, session_id)
+    response = StreamingHttpResponse(
+        _stream_events_generator(session, request),
+        content_type='text/event-stream',
+    )
+    response['Cache-Control'] = 'no-cache'
+    response['X-Accel-Buffering'] = 'no'
+    return response
 
 
 def _request_compaction(session):

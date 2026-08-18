@@ -5,7 +5,9 @@
   <div class="fp-reply" id="reply-card-{{ reply.id }}">
     <div class="fp-reply-header">
       <div class="fp-reply-avatar">
-        {% if reply.authorPhotoUrl %}
+        {% if reply.authorName == 'neby' or reply.authorIsBot %}
+          <div class="neby-avatar-mini neby-size-reply" data-neby-avatar data-animation="idle" title="Neby AI Bot"></div>
+        {% elif reply.authorPhotoUrl %}
           <img src="{{ reply.authorPhotoUrl }}" alt="" data-fallback="flex">
           <span class="fp-reply-avatar-letter" style="display:none;">{{ reply.authorName|truncate_chars:1|default:"?" }}</span>
         {% else %}
@@ -85,7 +87,9 @@
       <div class="fp-thread-avatars">
         {% for author in reply.childAuthors %}
         <div class="fp-thread-avatar">
-          {% if author.photoUrl %}
+          {% if author.username == 'neby' or author.isBot %}
+            <div class="neby-avatar-mini neby-size-sm" data-neby-avatar data-animation="idle" title="Neby AI Bot"></div>
+          {% elif author.photoUrl %}
             <img src="{{ author.photoUrl }}" alt="" data-fallback="flex">
             <span class="fp-thread-avatar-letter" style="display:none;">{{ author.username|truncate_chars:1|default:"?" }}</span>
           {% else %}

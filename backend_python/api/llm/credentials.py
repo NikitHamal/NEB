@@ -122,14 +122,14 @@ def resolve(user, slug: str, model: str = '', user_provider_id: str = '') -> Opt
             bot = bot_qs.filter(model__iexact=model).first() or bot_qs.first()
         else:
             bot = bot_qs.first()
-        if not bot:
+        if not bot and slug not in ('k2think', 'poolside', 'motiftech'):
             return None
         return ResolvedProvider(
-            slug=slug, label=bot.display_name or bot.name or p.label, format=p.format,
-            base_url=bot.api_url or p.base_url, api_key=bot.api_key or '',
-            model=model or bot.model or p.default_model,
+            slug=slug, label=(bot.display_name or bot.name or p.label) if bot else p.label, format=p.format,
+            base_url=(bot.api_url or p.base_url) if bot else p.base_url, api_key=(bot.api_key or '') if bot else '',
+            model=model or (bot.model if bot else '') or p.default_model,
             context_window=p.context_window, max_output_tokens=p.max_output_tokens,
-            source='scraper', official=False, preset=p, bot_config_id=bot.id,
+            source='scraper', official=False, preset=p, bot_config_id=bot.id if bot else None,
         )
 
     # --- Official: user BYOK row -------------------------------------------
@@ -282,10 +282,10 @@ def catalog_for_user(user) -> dict:
             for m in live:
                 if all(x['id'].lower() != m['id'].lower() for x in models):
                     models.append(m)
-        # k2think/poolside are direct public web proxies — the agent runner
+        # k2think/poolside/motiftech are direct public web proxies — the agent runner
         # calls them with no key and no BotConfig row. Everything else
         # community needs an enabled BotConfig to serve.
-        proxy_served = p.slug in ('k2think', 'poolside')
+        proxy_served = p.slug in ('k2think', 'poolside', 'motiftech')
         community.append({
             'slug': p.slug,
             'label': p.label,
@@ -298,7 +298,7 @@ def catalog_for_user(user) -> dict:
             # Community models with a background-agent runner adapter can
             # drive agent sessions. The other web models serve Neby
             # bots/arena — pickers must hide them for agent tasks.
-            'selectableForAgent': p.slug in ('qwen', 'k2think', 'poolside'),
+            'selectableForAgent': p.slug in ('qwen', 'k2think', 'poolside', 'motiftech'),
             'keySource': 'scraper' if (bots or proxy_served) else '',
             'keyMasked': '',
             'byokProviderId': '',

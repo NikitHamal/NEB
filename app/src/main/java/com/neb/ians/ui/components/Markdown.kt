@@ -368,7 +368,8 @@ private val inlinePattern = Regex(
         "|(`([^`]+)`)" +                // 5,6 code
         "|(~~([^~]+)~~)" +              // 7,8 strikethrough
         "|(\\[([^\\]]+)\\]\\(([^)]+)\\))" + // 9,10,11 link
-        "|(@([A-Za-z0-9_]+))"           // 12,13 mention
+        "|(@([A-Za-z0-9_]+))" +          // 12,13 mention
+        "|((https?://[^\\s]+|www\\.[^\\s]+))" // 14 bare url
 )
 
 internal fun buildInlineAnnotatedString(
@@ -409,6 +410,17 @@ internal fun buildInlineAnnotatedString(
                     pushStringAnnotation("mention", g[13]!!.value)
                     withStyleAppend(SpanStyle(color = primary, fontWeight = FontWeight.Medium), "@${g[13]!!.value}")
                     pop()
+                }
+            }
+            g[14] != null -> {
+                val raw = g[14]!!.value.trimEnd('.', ',', ';', ':', '!', '?', ')')
+                if (raw.isNotEmpty()) {
+                    val href = if (raw.startsWith("http", ignoreCase = true)) raw else "http://$raw"
+                    pushStringAnnotation("url", href)
+                    withStyleAppend(SpanStyle(color = primary, textDecoration = TextDecoration.Underline), raw)
+                    pop()
+                } else {
+                    append(g[14]!!.value)
                 }
             }
         }

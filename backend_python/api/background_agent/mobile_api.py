@@ -707,3 +707,92 @@ def artifact(request, session_id, kind):
     response['Cache-Control'] = 'no-store, private'
     response['X-Content-Type-Options'] = 'nosniff'
     return response
+
+
+def _knowledge_data(item):
+    return {
+        'id': item.id,
+        'title': item.title,
+        'content': item.content,
+        'type': item.type,
+        'tags': [t.strip() for t in item.tags.split(',') if t.strip()] if item.tags else [],
+        'repository': item.repository,
+        'createdAt': item.created_at,
+        'updatedAt': item.updated_at,
+    }
+
+
+@csrf_exempt
+@require_http_methods(['GET', 'POST'])
+@require_device
+def knowledge_list_create(request):
+    admin = _admin(request)
+    from api.coding_agent.models import CodingAgentKnowledgeItem
+    if request.method == 'GET':
+        query = (request.GET.get('q') or '').strip()
+        repo = (request.GET.get('repo') or '').strip()
+        qs = CodingAgentKnowledgeItem.objects.filter(owner_user=admin)
+        if repo:
+            qs = qs.filter(models.Q(repository=repo) | models.Q(repository=''))
+        if query:
+            qs = qs.filter(models.Q(title__icontains=query) | models.Q(content__icontains=query) | models.Q(tags__icontains=query))
+        items = [_knowledge_data(it) for it in qs.order_by('-updated_at')[:100]]
+        return _json({'ok': True, 'items': items, 'count': len(items)})
+
+    payload = json_body(request)
+    title = (payload.get('title') or '').strip()
+    content = (payload.get('content') or '').strip()
+    k_type = (payload.get('type') or 'CODING_RULE').strip()
+    repo = (payload.get('repository') or '').strip()
+    tags = payload.get('tags') or []
+    tags_str = ','.join(tags) if isinstance(tags, list) else str(tags)
+    if not title or not content:
+        return _error('Title and content are required')
+
+    item = CodingAgentKnowledgeItem.objects.create(
+        id=uuid_str(),
+        owner_user=admin,
+        title=title,
+        content=content,
+        type=k_type,
+        repository=repo,
+        tags=tags_str,
+        created_at=now_ms(),
+        updated_at=now_ms(),
+    )
+    return _json({'ok': True, 'item': _knowledge_data(item)}, status=201)
+
+
+@csrf_exempt
+@require_http_methods(['GET', 'PUT', 'PATCH', 'DELETE'])
+@require_device
+def knowledge_detail(request, item_id):
+    admin = _admin(request)
+    from api.coding_agent.models import CodingAgentKnowledgeItem
+    item = CodingAgentKnowledgeItem.objects.filter(owner_user=admin, id=item_id).first()
+    if not item:
+        raise Http404('Knowledge item not found')
+
+    if request.method == 'DELETE':
+        item.delete()
+        return _json({'ok': True, 'deleted': True})
+
+    if request.method == 'GET':
+        return _json({'ok': True, 'item': _knowledge_data(item)})
+
+    payload = json_body(request)
+    if 'title' in payload:
+        item.title = payload['title'].strip()
+    if 'content' in payload:
+        item.content = payload['content'].strip()
+    if 'type' in payload:
+        item.type = payload['type'].strip()
+    if 'repository' in payload:
+        item.repository = payload['repository'].strip()
+    if 'tags' in payload:
+        tags = payload['tags']
+        item.tags = ','.join(tags) if isinstance(tags, list) else str(tags)
+    item.updated_at = now_ms()
+    item.save()
+    return _json({'ok': True, 'item': _knowledge_data(item)})
+

@@ -1,0 +1,25 @@
+PASS  find physics notes for class 12                  746 ms  search_resources
+PASS  show me popular forum posts                      727 ms  get_forum_posts
+PASS  search for mathematics study resources           643 ms  search_resources
+PASS  take me to the library                           994 ms  navigate_to
+PASS  find chemistry past papers                      1528 ms  search_resources
+PASS  what subjects are available                      369 ms  get_subjects
+PASS  search for english textbooks                     725 ms  search_resources
+
+========================================================
+ Needle 2 persisted-runtime benchmark
+========================================================
+ cold load + tool init       : 5115.8 ms
+ snapshot save (memory+disk) : 52.0 ms
+ snapshot restore (disk)     : 49.4 ms
+ relaunch reduction          : 99.0%
+ runtime snapshot            : 32.63 MB
+ model file                  : 13.10 MB
+ Android APK engine assets   : 0.36 MB (model excluded)
+ restored output equivalence : 7/7
+ expected tool routing       : 7/7
+ grounded key arguments      : 7/7
+ reasoning field exposed     : 7/7
+ generated reasoning trace   : 2/7
+ restored decode avg/p50/p95 : 819.0 / 726.9 / 1528.5 ms
+========================================================

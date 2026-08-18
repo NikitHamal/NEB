@@ -19,7 +19,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_GET, require_http_methods, require_POST
 
-from api.background_agent.mobile_auth import json_body, require_device
+from api.background_agent.mobile_auth import json_body, require_device, optional_device
 from api.llm import provider_store
 from api.llm.credentials import catalog_for_user
 
@@ -100,3 +100,89 @@ def llm_test(request):
         return _error('Invalid JSON body')
     data, status = provider_store.run_test(_admin(request), payload)
     return _json(data, status=status)
+
+
+@csrf_exempt
+@require_POST
+@optional_device
+def llm_chat(request):
+    """Unified chat endpoint for mobile agents (WebAgent & PhoneController)
+    supporting all official providers (BYOK), custom endpoints, and community proxies (Motif, Qwen, K2Think, Poolside)."""
+    admin = _admin(request)
+    payload = _payload(request)
+    if payload is None:
+        return _error('Invalid JSON body')
+
+    from api.llm.credentials import resolve
+    slug = (payload.get('provider') or '').strip().lower()
+    model = (payload.get('model') or '').strip()
+    provider_id = (payload.get('providerId') or '').strip()
+    messages = payload.get('messages') or []
+    prompt = (payload.get('prompt') or '').strip()
+
+    if not messages and prompt:
+        system_prompt = (payload.get('system') or '').strip()
+        messages = []
+        if system_prompt:
+            messages.append({'role': 'system', 'content': system_prompt})
+        messages.append({'role': 'user', 'content': prompt})
+
+    if not messages:
+        return _error('messages or prompt is required')
+
+    resolved = resolve(admin, slug, model=model, user_provider_id=provider_id)
+    if resolved is None:
+        return _error(f'Provider "{slug}" cannot be resolved. Please verify credentials/model in Settings.', 400)
+
+    # Community scrapers / proxies
+    if not resolved.official:
+        if resolved.slug == 'motiftech':
+            from api import motiftech_proxy
+            resp = motiftech_proxy.simple_chat(messages, model=resolved.model or 'motif-102b')
+            if resp.get('type') == 'error':
+                return _json({'ok': False, 'error': resp.get('error', 'Motif request failed')})
+            return _json({'ok': True, 'reply': resp.get('content', ''), 'model': resolved.model})
+        elif resolved.slug == 'k2think':
+            from api import k2think_proxy
+            resp = k2think_proxy.simple_chat(messages, model=resolved.model)
+            if resp.get('type') == 'error':
+                return _json({'ok': False, 'error': resp.get('error', 'K2Think request failed')})
+            return _json({'ok': True, 'reply': resp.get('content', ''), 'model': resolved.model})
+        elif resolved.slug == 'poolside':
+            from api import poolside_proxy
+            resp = poolside_proxy.simple_chat(messages, model=resolved.model)
+            if resp.get('type') == 'error':
+                return _json({'ok': False, 'error': resp.get('error', 'Poolside request failed')})
+            return _json({'ok': True, 'reply': resp.get('content', ''), 'model': resolved.model})
+        else:
+            from api import qwen_proxy
+            user_msg = messages[-1].get('content', '') if messages else ''
+            sys_msg = next((m['content'] for m in messages if m.get('role') == 'system'), '')
+            reply = qwen_proxy.call_qwen(
+                system_prompt=sys_msg,
+                user_message=user_msg,
+                model=resolved.model or 'qwen3.8-max',
+                max_tokens=int(payload.get('max_tokens', 4096))
+            )
+            if not reply:
+                return _json({'ok': False, 'error': 'Qwen returned an empty response. Please retry.'})
+            return _json({'ok': True, 'reply': reply, 'model': resolved.model})
+
+    # Official BYOK / Custom
+    from api.llm.client import chat as _client_chat, LLMError
+    try:
+        res = _client_chat(
+            format=resolved.format,
+            base_url=resolved.base_url,
+            api_key=resolved.api_key,
+            model=resolved.model,
+            messages=messages,
+            max_tokens=int(payload.get('max_tokens', 4096)),
+            temperature=float(payload.get('temperature', 0.2)),
+            timeout=int(payload.get('timeout', 120)),
+            provider=resolved.slug
+        )
+        return _json({'ok': True, 'reply': res.text, 'model': res.model, 'usage': res.usage})
+    except LLMError as e:
+        return _json({'ok': False, 'error': str(e), 'status': e.status})
+

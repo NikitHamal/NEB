@@ -90,7 +90,9 @@
   <link rel="stylesheet" href="{% static 'web/css/app.css' %}">
   <link rel="stylesheet" href="{% static 'web/css/forum-media.css' %}">
   <link rel="stylesheet" href="{% static 'web/css/pages/media-player.css' %}">
+  <link rel="stylesheet" href="{% static 'web/css/neby-avatar.css' %}">
   {% block extra_css %}{% endblock %}
+  <link rel="stylesheet" href="{% static 'web/css/ai-widgets.css' %}">
   <link rel="stylesheet" href="{% static 'web/css/pages/neby-assist.css' %}">
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/delegated-events.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/forum-media.js' %}"></script>
@@ -309,13 +311,15 @@
 
   <!-- Neby AI Assistant -->
   <button id="neby-fab" aria-label="Open Neby AI Assistant" aria-expanded="false" aria-controls="neby-panel">
-    <span class="material-symbols-outlined">auto_awesome</span>
+    <div class="neby-fab-avatar-badge">
+      <div class="neby-avatar-mini" data-neby-avatar data-animation="idle" style="pointer-events:none; width:36px; height:36px;"></div>
+    </div>
   </button>
 
   <div id="neby-panel" role="dialog" aria-label="Neby AI Assistant" aria-modal="true">
     <div class="neby-panel-header">
       <div class="neby-header-avatar">
-        <span class="material-symbols-outlined">auto_awesome</span>
+        <div class="neby-avatar-mini neby-size-reply" data-neby-avatar data-animation="idle" title="Neby AI Assistant"></div>
       </div>
       <div class="neby-header-info">
         <div class="neby-header-name">Neby AI</div>
@@ -331,8 +335,8 @@
 
     <div class="neby-chat-area" id="neby-chat-area">
       <div class="neby-empty-state">
-        <div class="neby-empty-icon">
-          <span class="material-symbols-outlined">auto_awesome</span>
+        <div class="neby-empty-icon" style="background:transparent;box-shadow:none;">
+          <div class="neby-avatar-mini" data-neby-avatar data-animation="idle" style="width:64px;height:64px;margin:0 auto 12px;"></div>
         </div>
         <p>Ask me to find resources, forum posts, subjects, or navigate around NEBians!</p>
       </div>
@@ -360,7 +364,7 @@
         <span class="material-symbols-outlined">send</span>
       </button>
     </div>
-    <div class="neby-powered">Needle 2 WASM &middot; 45M params &middot; runs in your browser</div>
+    <div class="neby-powered">Needle 2 &middot; private on-device AI &middot; saved for fast relaunch</div>
   </div>
 
   <script nonce="{{ csp_nonce }}">
@@ -863,7 +867,16 @@
 
   </script>
   <script nonce="{{ csp_nonce }}" src="{% load static %}{% static 'web/js/realtime.js' %}"></script>
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/ai-widgets.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neby-assist.js' %}"></script>
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neby-avatar.js' %}"></script>
+  <script nonce="{{ csp_nonce }}">
+    document.addEventListener('htmx:afterSwap', function() {
+      if (window.NebyAvatar && window.NebyAvatar.initAll) {
+        window.NebyAvatar.initAll();
+      }
+    });
+  </script>
   {% block extra_js %}{% endblock %}
 </body>
 

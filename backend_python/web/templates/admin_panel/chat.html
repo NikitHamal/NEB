@@ -3,6 +3,7 @@
 {% block title %}AI Chat Test{% endblock %}
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'web/css/pages/admin-chat.css' %}">
+<link rel="stylesheet" href="{% static 'web/css/ai-widgets.css' %}">
 {% endblock %}
 {% block content %}
 <div id="admin-chat" class="admin-chat">
@@ -92,6 +93,7 @@
 </div>
 {% endblock %}
 {% block extra_js %}
+<script src="{% static 'web/js/ai-widgets.js' %}" nonce="{{ csp_nonce }}"></script>
 <script nonce="{{ csp_nonce }}">
 const MODEL_OPTIONS = {{ model_options|safe }};
 const PROVIDER_CAPS = {};
@@ -204,7 +206,7 @@ function addMessage(role, content, extra) {
   bubble.appendChild(meta);
   messagesEl.appendChild(bubble);
   messagesEl.scrollTop = messagesEl.scrollHeight;
-  return textEl;
+  return { textEl: textEl, inner: inner, bubble: bubble };
 }
 
 function showStatus(msg, isError) {
@@ -217,9 +219,27 @@ function scrollToBottom() {
   messagesEl.scrollTop = messagesEl.scrollHeight;
 }
 
-async function sendMessage() {
-  var text = inputEl.value.trim();
-  if (!text || isStreaming) return;
+function sendVote(vote, query) {
+  fetch('/ajax/ai-feedback/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRFToken': CSRF_TOKEN,
+    },
+    credentials: 'same-origin',
+    body: JSON.stringify({
+      surface: 'admin-chat',
+      vote: vote,
+      provider: providerEl.value,
+      modelName: modelEl.value,
+      query: query || '',
+    }),
+  }).catch(function() {});
+}
+
+function sendMessage(text) {
+  var queryText = (text !== undefined && text !== null) ? text : inputEl.value.trim();
+  if (!queryText || isStreaming) return;
 
   var p = providerEl.value;
   var m = modelEl.value;
@@ -236,14 +256,19 @@ async function sendMessage() {
   }
 
   // Add user message to UI
-  addMessage('user', text, { files: files });
+  addMessage('user', queryText, { files: files });
   inputEl.value = '';
   inputEl.style.height = 'auto';
   fileInput.value = '';
-  history.push({ role: 'user', content: text });
+  history.push({ role: 'user', content: queryText });
 
-  // Assistant placeholder
-  var asstTextEl = addMessage('assistant', '', { thinking: reasoning });
+  // Assistant placeholder with pixel loader while waiting
+  var asst = addMessage('assistant', '', { thinking: reasoning });
+  var loader = AIWidgets.PixelLoader.create({ label: 'Waiting for response', variant: 'drive', timer: true });
+  asst.textEl.appendChild(loader.el);
+  var collected = '';
+  var gotFirstChunk = false;
+  var streamDone = false;
   isStreaming = true;
   sendBtn.disabled = true;
   showStatus('Streaming…');
@@ -251,7 +276,7 @@ async function sendMessage() {
   var formData = new FormData();
   formData.append('provider', p);
   formData.append('model', m);
-  formData.append('message', text);
+  formData.append('message', queryText);
   formData.append('reasoning', reasoning ? 'true' : 'false');
   formData.append('web_search', websearch ? 'true' : 'false');
   formData.append('history', JSON.stringify(history.slice(0, -1)));
@@ -263,70 +288,56 @@ async function sendMessage() {
     formData.append('files', files[fi]);
   }
 
-  var collected = '';
-  var done = false;
-
-  try {
-    var resp = await fetch('/admin/chat/send/', {
-      method: 'POST',
-      body: formData,
-      headers: { 'X-CSRFToken': CSRF_TOKEN },
-    });
-    if (!resp.ok) {
-      showStatus('HTTP ' + resp.status + ': ' + resp.statusText, true);
-      isStreaming = false;
-      sendBtn.disabled = false;
-      return;
+  function finishStream(success) {
+    if (streamDone) return;
+    streamDone = true;
+    isStreaming = false;
+    sendBtn.disabled = false;
+    showStatus('');
+    if (success && collected) {
+      history.push({ role: 'assistant', content: collected });
+      var row = AIWidgets.actionRow({
+        text: collected,
+        onRetry: function() { sendMessage(queryText); },
+        onVote: function(vote) { sendVote(vote, queryText); },
+      });
+      asst.inner.appendChild(row);
+      scrollToBottom();
     }
-    var reader = resp.body.getReader();
-    var decoder = new TextDecoder();
-    var buffer = '';
+  }
 
-    while (true) {
-      var result = await reader.read();
-      if (result.done) break;
-      buffer += decoder.decode(result.value, { stream: true });
-      var lines = buffer.split('\n');
-      buffer = lines.pop() || '';
-      for (var li = 0; li < lines.length; li++) {
-        var line = lines[li].trim();
-        if (!line || !line.startsWith('data: ')) continue;
-        var payload = line.slice(6).trim();
-        if (payload === '[DONE]') { done = true; break; }
-        try {
-          var ev = JSON.parse(payload);
-          if (ev.type === 'text') {
-            collected += ev.content;
-            asstTextEl.textContent = collected;
-            scrollToBottom();
-          } else if (ev.type === 'thinking') {
-            var dt = asstTextEl.previousElementSibling;
-            if (dt && dt.tagName === 'DETAILS') {
-              var db = dt.querySelector('.chat-thinking-body');
-              if (db) db.textContent += ev.content;
-            }
-          } else if (ev.type === 'error') {
-            showStatus('Error: ' + (ev.message || 'unknown'), true);
-            asstTextEl.textContent = '[Error] ' + (ev.message || 'Stream failed');
-            done = true;
-          } else if (ev.type === 'done') {
-            done = true;
-          }
-        } catch(e) { /* skip malformed JSON */ }
+  var stream = AIWidgets.streamSSE('/admin/chat/send/', {
+    method: 'POST',
+    body: formData,
+    headers: {
+      'Accept': 'text/event-stream',
+      'X-CSRFToken': CSRF_TOKEN,
+    },
+    onText: function(chunk) {
+      if (!gotFirstChunk) {
+        gotFirstChunk = true;
+        loader.destroy();
+        asst.textEl.textContent = '';
       }
-      if (done) break;
-    }
-  } catch (err) {
-    showStatus('Connection error: ' + err.message, true);
-    asstTextEl.textContent = '[Connection Error] ' + err.message;
-  }
-
-  isStreaming = false;
-  sendBtn.disabled = false;
-  showStatus('');
-  if (collected) {
-    history.push({ role: 'assistant', content: collected });
-  }
+      collected += chunk;
+      asst.textEl.textContent = collected;
+      scrollToBottom();
+    },
+    onThought: function(chunk) {
+      if (gotFirstChunk) return;
+      var dt = asst.inner.querySelector('.chat-thinking-body');
+      if (dt) dt.textContent += chunk;
+    },
+    onError: function(message) {
+      if (!gotFirstChunk) { gotFirstChunk = true; loader.destroy(); }
+      showStatus('Error: ' + message, true);
+      asst.textEl.textContent = '[Error] ' + message;
+      finishStream(false);
+    },
+    onDone: function() {
+      finishStream(true);
+    },
+  });
 }
 
 function clearChat() {
@@ -353,7 +364,7 @@ inputEl.addEventListener('keydown', function(e) {
     sendMessage();
   }
 });
-sendBtn.addEventListener('click', sendMessage);
+sendBtn.addEventListener('click', function() { sendMessage(); });
 clearBtn.addEventListener('click', clearChat);
 
 // Register actions for delegated-events.js compatibility
