@@ -20,6 +20,7 @@ PROVIDERS = [
     {'id': 'inception',  'label': 'Inception Labs (Mercury 2)',                    'stream': True,  'thinking': True,  'web_search': True,  'files': False},
     {'id': 'k2think',    'label': 'K2 Think (k2think.ai — MBZUAI K2 Think V2)',    'stream': True,  'thinking': True,  'web_search': False, 'files': False},
     {'id': 'poolside',   'label': 'Poolside (chat.poolside.ai — Laguna 2.1)',      'stream': True,  'thinking': False, 'web_search': True,  'files': False},
+    {'id': 'motiftech',  'label': 'Motif (chat.motiftech.io — Motif 3)',           'stream': True,  'thinking': True,  'web_search': False, 'files': False},
     {'id': 'custom',     'label': 'Custom OpenAI-compatible endpoint',             'stream': False, 'thinking': False, 'web_search': False, 'files': False},
 ]
 
@@ -30,6 +31,7 @@ MODEL_OPTIONS = {
     'inception': [{'id': 'mercury-2', 'label': 'Mercury 2'}],
     'k2think':   [{'id': 'MBZUAI-IFM/K2-Think-v2', 'label': 'K2 Think V2'}],
     'poolside':  [{'id': 'laguna-s-2.1', 'label': 'Laguna S 2.1'}, {'id': 'laguna-xs-2.1', 'label': 'Laguna XS 2.1'}],
+    'motiftech': [{'id': 'motif-102b', 'label': 'Motif 3'}, {'id': 'motif-12-7b', 'label': 'Motif 12.7B'}, {'id': 'motif-12-7b-reasoning', 'label': 'Motif 12.7B Reasoning'}, {'id': 'motif-tiny', 'label': 'Motif Tiny'}],
     'custom':    [],
 }
 
@@ -172,6 +174,25 @@ def ajax_admin_chat_send(request):
                 for chunk in poolside_proxy.stream_chat(
                     messages=msgs,
                     model=model or 'laguna-s-2.1',
+                ):
+                    t = chunk.get('type')
+                    if t == 'text':
+                        yield _sse({'type': 'text', 'content': chunk.get('content', '')})
+                    elif t == 'done':
+                        break
+                    elif t == 'error':
+                        yield _sse({'type': 'error', 'message': chunk.get('error', 'upstream error')})
+                        break
+            except Exception as e:
+                yield _sse({'type': 'error', 'message': str(e)})
+
+        elif provider == 'motiftech':
+            from api import motiftech_proxy
+            try:
+                msgs = history + [{'role': 'user', 'content': message}]
+                for chunk in motiftech_proxy.stream_chat(
+                    messages=msgs,
+                    model=model or 'motif-102b',
                 ):
                     t = chunk.get('type')
                     if t == 'text':

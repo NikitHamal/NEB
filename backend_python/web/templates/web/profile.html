@@ -80,9 +80,11 @@
           </div>
 
           <!-- Overlapping Circular Avatar -->
-          <div class="pf-avatar-overlap-wrap{% if profile_user.is_bot %} pf-avatar-bot{% endif %} {% if profile_user.verification_level and profile_user.verification_level > 0 %}avatar-container-verified{% endif %}">
-            <div class="pf-avatar-circle" id="profilePageAvatar">
-              {% if profile_user.photo_url %}
+          <div class="pf-avatar-overlap-wrap{% if profile_user.is_bot or profile_user.username == 'neby' %} pf-avatar-bot{% endif %} {% if profile_user.verification_level and profile_user.verification_level > 0 %}avatar-container-verified{% endif %}">
+            <div class="pf-avatar-circle{% if profile_user.is_bot or profile_user.username == 'neby' %} pf-avatar-bot-circle{% endif %}" id="profilePageAvatar">
+              {% if profile_user.is_bot or profile_user.username == 'neby' %}
+                <div class="neby-avatar-hero" data-neby-avatar data-hero="true" data-animation="idle" id="profilePageNebyAvatar" title="Interactive 3D Neby! Click to play reactions"></div>
+              {% elif profile_user.photo_url %}
                 <img src="{{ profile_user.photo_url }}" alt="{{ profile_user.display_name|default:profile_user.username }}">
               {% else %}
                 <div class="pf-avatar-initial">{{ profile_user.display_name|default:profile_user.username|slice:":1" }}</div>
@@ -93,7 +95,7 @@
                 <span class="material-symbols-outlined">verified</span>
               </span>
             {% endif %}
-            {% if user and user.username == profile_user.username and not profile_user.is_bot %}
+            {% if user and user.username == profile_user.username and not profile_user.is_bot and profile_user.username != 'neby' %}
               <div class="pf-avatar-cam" data-action="open-photo-history-modal" title="Change photo">
                 <span class="material-symbols-outlined">camera_alt</span>
               </div>
@@ -137,10 +139,10 @@
 
             <!-- Student Subtitle / Role Headline -->
             <p class="pf-card-headline">
-              {% if profile_user.is_bot %}
+              {% if profile_user.is_bot or profile_user.username == 'neby' %}
                 <span class="pf-bot-tagline">
                   <span class="material-symbols-outlined">auto_awesome</span>
-                  AI Study Companion
+                  AI Companion
                 </span>
               {% else %}
                 {% if profile_user.role == 'teacher' %}
@@ -169,6 +171,25 @@
                 {% endif %}
               {% endif %}
             </p>
+
+            {% if profile_user.is_bot or profile_user.username == 'neby' %}
+              <div class="neby-mood-bar">
+                <button type="button" class="neby-mood-pill" data-neby-react="wink">😉 Wink</button>
+                <button type="button" class="neby-mood-pill" data-neby-react="love">❤️ Love</button>
+                <button type="button" class="neby-mood-pill" data-neby-react="kiss">💋 Kiss</button>
+                <button type="button" class="neby-mood-pill" data-neby-react="celebrate">🎉 Celebrate</button>
+                <button type="button" class="neby-mood-pill" data-neby-react="think">🤔 Think</button>
+                <button type="button" class="neby-mood-pill" data-neby-react="agree">👍 Agree</button>
+                <button type="button" class="neby-mood-pill" data-neby-react="disagree">👎 Disagree</button>
+                <button type="button" class="neby-mood-pill" data-neby-react="laughing">😆 Laugh</button>
+                <button type="button" class="neby-mood-pill" data-neby-react="proud">✨ Proud</button>
+                <button type="button" class="neby-mood-pill" data-neby-react="shy">🙈 Shy</button>
+                <button type="button" class="neby-mood-pill" data-neby-react="sleepy">😴 Sleepy</button>
+                <button type="button" class="neby-mood-pill" data-neby-react="dance">💃 Dance</button>
+                <button type="button" class="neby-mood-pill" data-neby-react="dizzy">💫 Dizzy</button>
+                <button type="button" class="neby-mood-pill" data-neby-react="talk">💬 Talk</button>
+              </div>
+            {% endif %}
 
             <!-- Stats Rows (Followers, Following, Posts) -->
             <div class="pf-stats-row">
@@ -248,7 +269,7 @@
               <h2 class="pf-about-title">{% if profile_user.is_bot %}About Neby{% else %}About{% endif %}</h2>
               <p class="pf-about-bio">
                 {% if profile_user.bio %}
-                  {{ profile_user.bio }}
+                  {{ profile_user.bio|linkify }}
                 {% else %}
                   {% if profile_user.is_bot %}
                     Your friendly AI study buddy. Always learning, always here to help.
@@ -329,7 +350,7 @@
             {% if profile_user.is_bot %}
               <div class="pf-bot-footer">
                 <span class="material-symbols-outlined">auto_awesome</span>
-                Powered by AI &middot; Always-on study companion
+                Powered by AI &middot; Always-on AI companion
               </div>
             {% endif %}
 
@@ -613,7 +634,7 @@
 
                 <!-- Description Text -->
                 {% if r.description %}
-                <div class="pf-res-desc" id="res-desc-{{ r.id }}">{{ r.description }}<button class="pf-res-desc-toggle" data-action="toggle-res-desc" data-desc-id="res-desc-{{ r.id }}" style="display:none;">…see more</button></div>
+                <div class="pf-res-desc" id="res-desc-{{ r.id }}">{{ r.description|linkify }}<button class="pf-res-desc-toggle" data-action="toggle-res-desc" data-desc-id="res-desc-{{ r.id }}" style="display:none;">…see more</button></div>
                 {% endif %}
 
                 <!-- Preview or Attachment Box -->

@@ -1,5 +1,7 @@
 package com.neb.ians.ui.screens.credits
 
+import com.neb.ians.ui.components.LinkifyText
+
 import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
@@ -408,7 +410,7 @@ fun NebyCreditsScreen(
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
                                 Column(modifier = Modifier.weight(1f)) {
-                                    Text(
+                                    LinkifyText(
                                         text = tx.description.ifBlank { tx.transactionType },
                                         style = MaterialTheme.typography.bodyMedium,
                                         fontWeight = FontWeight.SemiBold,

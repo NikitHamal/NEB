@@ -5,7 +5,9 @@
   <div class="fp-reply" id="comment-card-{{ reply.id }}">
     <div class="fp-reply-header">
       <div class="fp-reply-avatar">
-        {% if reply.authorPhotoUrl %}
+        {% if reply.authorName == 'neby' or reply.authorIsBot %}
+          <div class="neby-avatar-mini neby-size-reply" data-neby-avatar data-animation="idle" title="Neby AI Bot"></div>
+        {% elif reply.authorPhotoUrl %}
           <img src="{{ reply.authorPhotoUrl }}" alt="" data-fallback="flex">
           <span class="fp-reply-avatar-letter" style="display:none;">{{ reply.authorName|truncate_chars:1|default:"?" }}</span>
         {% else %}
@@ -82,7 +84,9 @@
       <div class="fp-reply" id="comment-card-{{ child.id }}" style="margin-bottom:6px;">
         <div class="fp-reply-header">
           <div class="fp-reply-avatar" style="width:28px;height:28px;">
-            {% if child.authorPhotoUrl %}
+            {% if child.authorName == 'neby' or child.authorIsBot %}
+              <div class="neby-avatar-mini neby-size-sm" data-neby-avatar data-animation="idle" title="Neby AI Bot"></div>
+            {% elif child.authorPhotoUrl %}
               <img src="{{ child.authorPhotoUrl }}" alt="" data-fallback="flex" style="width:28px;height:28px;">
               <span class="fp-reply-avatar-letter" style="display:none;font-size:.6rem;">{{ child.authorName|truncate_chars:1|default:"?" }}</span>
             {% else %}
@@ -130,18 +134,14 @@
         </div>
         {% if child.content %}<div class="fp-reply-body" style="font-size:.8125rem;" id="comment-content-{{ child.id }}">{{ child.content|mention_links }}</div>{% endif %}
         {% with attachments=child.attachments is_feed_card=True %}{% include "web/_forum_attachments.html" %}{% endwith %}
-        <div class="fp-reply-actions">
-          <button data-action="toggle-comment-like" data-comment-id="{{ child.id }}" class="fp-reply-action {% if child.isThumbedUp %}liked{% endif %}" id="comment-like-btn-{{ child.id }}">
-            <span class="material-symbols-outlined">thumb_up</span>
+        <div class="fp-reply-actions" style="margin-top:2px;">
+          <button data-action="toggle-comment-like" data-comment-id="{{ child.id }}" class="fp-reply-action {% if child.isThumbedUp %}liked{% endif %}" id="comment-like-btn-{{ child.id }}" style="font-size:.6875rem;">
+            <span class="material-symbols-outlined" style="font-size:14px;">thumb_up</span>
             <span id="comment-like-count-{{ child.id }}">{{ child.thumbsUpCount }}</span>
           </button>
           {% if is_authenticated %}
-          <span class="fp-action-spacer"></span>
-          <button class="fp-reply-action {% if child.isBookmarked %}bookmark-active{% endif %}" data-action="toggle-bookmark" data-target-type="{{ comment_target_type }}" data-target-id="{{ child.id }}" id="comment-bookmark-btn-{{ child.id }}">
-            <span class="material-symbols-outlined">bookmark</span>
-          </button>
-          <button class="fp-reply-action" data-action="share-comment" data-comment-id="{{ child.id }}">
-            <span class="material-symbols-outlined">share</span>
+          <button class="fp-reply-action" data-action="reply-to-comment" data-comment-id="{{ reply.id }}" data-author-name="{{ child.authorName|escapejs }}" style="font-size:.6875rem;">
+            <span class="material-symbols-outlined" style="font-size:14px;">reply</span> Reply
           </button>
           {% endif %}
         </div>
@@ -156,7 +156,9 @@
       <div class="fp-thread-avatars">
         {% for author in reply.childAuthors %}
         <div class="fp-thread-avatar">
-          {% if author.photoUrl %}
+          {% if author.username == 'neby' or author.isBot %}
+            <div class="neby-avatar-mini neby-size-sm" data-neby-avatar data-animation="idle" title="Neby AI Bot"></div>
+          {% elif author.photoUrl %}
             <img src="{{ author.photoUrl }}" alt="" data-fallback="flex">
             <span class="fp-thread-avatar-letter" style="display:none;">{{ author.username|truncate_chars:1|default:"?" }}</span>
           {% else %}

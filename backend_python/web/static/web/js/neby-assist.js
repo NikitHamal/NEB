@@ -12,6 +12,11 @@
   var NEBY_MAX_TOKENS = 128;
   var preloadScheduled = false;
 
+  /* When the on-device model is unsure, hand the request to the cloud
+     (Mercury 2 via the server) which can still emit a tool call or chat. */
+  var CLOUD_CONFIDENCE_THRESHOLD = 0.35;
+  var lastQuery = '';
+
   /* ── UI state ─────────────────────────────────────────────────────────────── */
   var isOpen = false;
   var isThinking = false;
@@ -26,7 +31,7 @@
         properties: {
           query: { type: 'string', description: 'search keywords' },
           subject: { type: 'string', description: 'subject name e.g. Mathematics, Physics, English' },
-          resource_type: { type: 'string', enum: ['PDF', 'Note', 'Video', 'Link', ''], description: 'optional type filter' },
+          resource_type: { type: 'string', enum: ['PDF', 'Note', 'Past Paper', 'Textbook', 'Video', 'Link', ''], description: 'optional type filter' },
         },
         required: ['query'],
       },
@@ -81,12 +86,9 @@
   /* ── DOM refs ─────────────────────────────────────────────────────────────── */
   var fab, panel, chatArea, textarea, sendBtn, suggestionsEl;
 
-  /* ── Idle preload & warm-up ────────────────────────────────────────────────
-     The engine takes ~5s to compile the tool grammar (needle_init) the first
-     time. It runs in a Web Worker so it never blocks the UI thread — we just
-     want it STARTED while the user is still reading the page instead of when
-     they open the chat. Once loaded, the worker is kept alive for the whole
-     visit, so subsequent panel opens are instant. */
+  /* ── Idle preload ──────────────────────────────────────────────────────────
+     The first setup runs in a Web Worker and later launches restore the
+     initialized runtime from IndexedDB instead of compiling the grammar again. */
   function preloadNeedle() {
     if (preloadScheduled) return;
     preloadScheduled = true;
@@ -95,24 +97,30 @@
       if (document.getElementById('neby-fab')) ensureWorker();
     }
 
-    if ('requestIdleCallback' in window) {
-      window.requestIdleCallback(start, { timeout: 3000 });
-    } else {
-      setTimeout(start, 1500);
+    var connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    var constrained = connection && (connection.saveData || /(^|-)2g$/.test(connection.effectiveType || ''));
+    if (!constrained) {
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(start, { timeout: 3000 });
+      } else {
+        setTimeout(start, 1500);
+      }
     }
 
     var done = false;
     function onGesture() {
-      if (done) return;
+      if (done || constrained) return;
       done = true;
       start();
       ['pointerdown', 'mousemove', 'scroll', 'touchstart', 'keydown'].forEach(function (t) {
         document.removeEventListener(t, onGesture, true);
       });
     }
-    ['pointerdown', 'mousemove', 'scroll', 'touchstart', 'keydown'].forEach(function (t) {
-      document.addEventListener(t, onGesture, true);
-    });
+    if (!constrained) {
+      ['pointerdown', 'mousemove', 'scroll', 'touchstart', 'keydown'].forEach(function (t) {
+        document.addEventListener(t, onGesture, true);
+      });
+    }
   }
 
   /* ── Worker bootstrap ─────────────────────────────────────────────────────── */
@@ -122,6 +130,7 @@
     workerLoading = true;
 
     updateStatus('loading model\u2026');
+    if (isThinking) setThinking('Loading', 'dots');
 
     try {
       workerStartedAt = performance.now();
@@ -138,7 +147,7 @@
           appendAiBubble('The AI model failed to load. Please refresh and try again.');
         }
       });
-      worker.postMessage({ type: 'initialize', tools: NEBY_TOOLS, warmup: true });
+      worker.postMessage({ type: 'initialize', tools: NEBY_TOOLS, snapshotNamespace: 'nebians-web-v1' });
     } catch (e) {
       console.error('Failed to create worker:', e);
       workerLoading = false;
@@ -147,7 +156,22 @@
   }
 
   function getWorkerUrl() {
-    return '/static/web/js/needle2/needle.worker.js';
+    return '/static/web/js/needle2/needle.worker.js?v=3';
+  }
+
+  function statusLabel(msg) {
+    if (msg.status === 'loading-engine') return 'loading AI engine\u2026';
+    if (msg.status === 'restoring') return 'restoring saved runtime' + progressSuffix(msg.progress);
+    if (msg.status === 'cache-hit') return msg.asset === 'model' ? 'model found on device' : 'engine found on device';
+    if (msg.status === 'downloading') return 'downloading ' + (msg.asset || 'model') + progressSuffix(msg.progress);
+    if (msg.status === 'loading-model') return 'loading model into memory\u2026';
+    if (msg.status === 'preparing-tools') return 'preparing on-device tools\u2026';
+    if (msg.status === 'saving') return 'optimizing future launches' + progressSuffix(msg.progress);
+    return 'loading on-device AI\u2026';
+  }
+
+  function progressSuffix(value) {
+    return typeof value === 'number' && value > 0 ? ' \u00b7 ' + Math.round(value * 100) + '%' : '';
   }
 
   function onWorkerMessage(e) {
@@ -155,7 +179,8 @@
     if (!msg) return;
 
     if (msg.type === 'status') {
-      updateStatus('loading model\u2026');
+      updateStatus(statusLabel(msg));
+      if (isThinking) setThinking(statusLabel(msg), 'dots');
       return;
     }
 
@@ -163,8 +188,10 @@
       workerReady = true;
       workerLoading = false;
       var totalSecs = workerStartedAt ? (performance.now() - workerStartedAt) / 1000 : 0;
-      updateStatus('on-device AI \u00b7 ' + (totalSecs > 0 ? totalSecs.toFixed(1) + 's load' : 'ready'));
+      var source = msg.source === 'snapshot' ? 'saved runtime' : 'ready';
+      updateStatus('on-device AI \u00b7 ' + source + (totalSecs > 0 ? ' in ' + totalSecs.toFixed(1) + 's' : ''));
       if (sendBtn) sendBtn.disabled = !(textarea && textarea.value.trim());
+      if (isThinking) setThinking('Thinking', 'drive');
       if (pendingRun) {
         var p = pendingRun;
         pendingRun = null;
@@ -176,7 +203,7 @@
     if (msg.type === 'result') {
       if (msg.id !== runId) return;
       removeThinking();
-      handleNeedleResult(msg.result);
+      handleNeedleResult(msg.result, msg.durationMs);
       return;
     }
 
@@ -276,8 +303,9 @@
   function runQuery(query) {
     hideSuggestions();
     appendUserBubble(query);
-    showThinking();
+    showThinking('Thinking', 'drive');
     ensureWorker();
+    lastQuery = query;
 
     runId += 1;
     var id = runId;
@@ -295,21 +323,92 @@
   }
 
   /* ── Needle result handler ────────────────────────────────────────────────── */
-  function handleNeedleResult(result) {
+  function handleNeedleResult(result, durationMs) {
     console.log('[Neby] raw result:', result);
     if (!result) { appendAiBubble('No results found. Try asking differently!'); return; }
 
+    appendReasoning(result, durationMs);
     var calls = result.function_calls || [];
 
     if (!calls.length) {
-      appendAiBubble('I can help you find resources, forum posts, subjects, or navigate NEBians. Try: \u201cFind Physics notes for Class 12\u201d or \u201cshow popular forum posts\u201d.');
+      routeToCloud(lastQuery, result);
       return;
     }
 
-    var call = calls[0];
+    var confidence = typeof result.confidence === 'number' ? result.confidence : 1;
+    if (confidence < CLOUD_CONFIDENCE_THRESHOLD) {
+      console.log('[Neby] confidence ' + confidence.toFixed(3) + ' < ' + CLOUD_CONFIDENCE_THRESHOLD + ' — routing to cloud');
+      routeToCloud(lastQuery, result);
+      return;
+    }
+
+    calls.forEach(function (call) {
+      handleNeedleCall(call, result.confidence);
+    });
+  }
+
+  /* ── Cloud fallback (Mercury 2 via server, low-confidence or chat-y) ─────── */
+  function routeToCloud(query, localResult) {
+    updateStatus('checking with the cloud AI\u2026');
+    setThinking('Routing Request to Cloud', 'drive');
+    var hint = null;
+    if (localResult && localResult.function_calls && localResult.function_calls.length) {
+      var first = localResult.function_calls[0];
+      hint = { name: first.name, arguments: first.arguments || {} };
+    }
+    fetch('/ajax/neby-assist/cloud/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCsrfToken() },
+      credentials: 'same-origin',
+      body: JSON.stringify({ query: query, localGuess: hint }),
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        updateStatus('on-device AI');
+        removeThinking();
+        if (!data.mode) {
+          fallbackToLocal(localResult, data.error);
+          return;
+        }
+        if (data.mode === 'chat') {
+          appendStreamingAi(data.text || 'Here you go!');
+          return;
+        }
+        if (data.mode === 'tool') {
+          if (data.tool === 'navigate_to') {
+            handleNeedleCall({ name: 'navigate_to', arguments: data.args || {} }, 1);
+            return;
+          }
+          if (data.result) {
+            renderToolResult(data.tool, data.args || {}, data.result);
+            return;
+          }
+          handleNeedleCall({ name: data.tool, arguments: data.args || {} }, 1);
+          return;
+        }
+        appendAiBubble('Hmm, I couldn\u2019t figure that out. Try rephrasing!');
+      })
+      .catch(function () {
+        updateStatus('on-device AI');
+        removeThinking();
+        fallbackToLocal(localResult, null);
+      });
+  }
+
+  function fallbackToLocal(localResult, errMsg) {
+    if (localResult && localResult.function_calls && localResult.function_calls.length) {
+      localResult.function_calls.forEach(function (call) {
+        handleNeedleCall(call, localResult.confidence);
+      });
+      return;
+    }
+    appendAiBubble(errMsg || 'Couldn\u2019t reach the cloud AI. Please try again.');
+  }
+
+  function handleNeedleCall(call, confidence) {
     var toolName = call.name;
     var args = call.arguments || {};
-    console.log('[Neby] tool:', toolName, '| args:', args, '| confidence:', result.confidence);
+    console.log('[Neby] tool:', toolName, '| args:', args, '| confidence:', confidence);
 
     if (toolName === 'navigate_to') {
       var routes = {
@@ -329,6 +428,7 @@
         '<span class="material-symbols-outlined neby-result-arrow" style="margin-left:auto;">arrow_forward</span>' +
         '</a></div>';
       appendEl(msgEl);
+      removeThinking();
       return;
     }
 
@@ -345,6 +445,24 @@
     appendAiBubble('Got it! Let me know if you need anything else.');
   }
 
+  function appendReasoning(result, durationMs) {
+    var reasoning = String(result.reasoning || '').trim();
+    if (!reasoning) return;
+    if (!window.AIWidgets) return;
+
+    var lines = reasoning.split(/\n+/).map(function (l) { return l.trim(); }).filter(Boolean);
+    var secs = Math.round((typeof durationMs === 'number' ? durationMs : 0) / 1000);
+    var done = secs > 0 ? 'Thought for ' + secs + (secs === 1 ? ' second' : ' seconds') : 'Thought for a moment';
+    var trace = window.AIWidgets.Trace.create({
+      variant: 'reasoning',
+      active: 'Thinking',
+      done: done,
+      rows: lines.map(function (l) { return { primary: l }; }),
+      settleDelay: 700,
+    });
+    appendEl(trace.el);
+  }
+
   /* ── Backend fetch for DB results ─────────────────────────────────────────── */
   function getCsrfToken() {
     var m = document.cookie.match(/csrftoken=([^;]+)/);
@@ -352,6 +470,23 @@
   }
 
   function fetchAndRender(toolName, args) {
+    var isSearch = toolName === 'search_resources' || toolName === 'find_notes' || toolName === 'get_forum_posts';
+    var query = (args && (args.q || args.query)) || '';
+    var trace = null;
+    if (window.AIWidgets) {
+      trace = window.AIWidgets.Trace.create({
+        variant: isSearch ? 'search' : 'steps',
+        active: isSearch ? 'Searching the web' : 'Working',
+        done: isSearch ? 'Searched the web' : 'Done',
+        query: isSearch ? query : '',
+        rows: isSearch ? [] : [
+          { primary: 'Reading your request' },
+          { primary: 'Finding what you need' },
+          { primary: 'Preparing the answer' },
+        ],
+      });
+      appendEl(trace.el);
+    }
     fetch('/ajax/neby-assist/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCsrfToken() },
@@ -360,10 +495,38 @@
     })
       .then(function (r) { return r.json(); })
       .then(function (data) {
-        if (data.error) { appendAiBubble(data.error); return; }
-        renderToolResult(toolName, args, data.result || data);
+        removeThinking();
+        if (data.error) {
+          if (trace) trace.settle(isSearch ? 'Search failed' : 'Couldn\u2019t finish');
+          appendAiBubble(data.error);
+          return;
+        }
+        var result = data.result || data;
+        var rows = [];
+        var total = 0;
+        if (isSearch && trace) {
+          if (toolName === 'get_forum_posts') {
+            var posts = result.posts || [];
+            total = posts.length;
+            rows = posts.slice(0, 3).map(function (p) {
+              return { primary: p.title, secondary: p.category, href: '/forum/post/' + escapeHtml(p.id) + '/' };
+            });
+          } else {
+            var resources = result.resources || [];
+            total = resources.length;
+            rows = resources.slice(0, 3).map(function (r) {
+              return { primary: r.title, secondary: [r.subject, r.grade_level].filter(Boolean).join(' \u00b7 '), href: '/reader/' + escapeHtml(r.id) + '/' };
+            });
+          }
+          trace.settle(total ? 'Found ' + total + ' results' : 'Nothing found', rows, total);
+        } else if (trace) {
+          trace.settle('Done');
+        }
+        renderToolResult(toolName, args, result);
       })
       .catch(function () {
+        removeThinking();
+        if (trace) trace.settle('Something went wrong');
         appendAiBubble('Couldn\u2019t fetch results right now. Please try again.');
       });
   }
@@ -430,9 +593,38 @@
 
   function appendAiBubble(text) {
     var el = createAiMsgEl();
-    el.innerHTML = '<div class="neby-msg-avatar"><span class="material-symbols-outlined">auto_awesome</span></div>' +
-      '<div class="neby-bubble">' + escapeHtml(text) + '</div>';
+    el.innerHTML = '<div class="neby-bubble">' + escapeHtml(text) + '</div>';
     appendEl(el);
+  }
+
+  function appendStreamingAi(text) {
+    var el = createAiMsgEl();
+    var bubble = document.createElement('div');
+    bubble.className = 'neby-bubble';
+    if (window.AIWidgets && text && text.length > 40) {
+      var stream = window.AIWidgets.StreamingText.create({
+        text: text,
+        actions: true,
+        wordMs: 55,
+        onRetry: function () {
+          if (lastQuery) runQuery(lastQuery);
+        },
+        onVote: function (vote) {
+          fetch('/ajax/ai-feedback/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCsrfToken() },
+            credentials: 'same-origin',
+            body: JSON.stringify({ surface: 'neby', vote: vote, provider: 'cloud', query: lastQuery || '' }),
+          }).catch(function () {});
+        },
+      });
+      bubble.appendChild(stream.el);
+    } else {
+      bubble.innerHTML = escapeHtml(text || 'Here you go!');
+    }
+    el.appendChild(bubble);
+    appendEl(el);
+    scrollToBottom();
   }
 
   function createAiMsgEl() {
@@ -448,20 +640,33 @@
     scrollToBottom();
   }
 
-  function showThinking() {
+  var thinkingEl = null;
+  var thinkingLoader = null;
+
+  function showThinking(label, variant) {
     isThinking = true;
-    var el = document.createElement('div');
-    el.className = 'neby-msg ai';
-    el.id = 'neby-thinking-el';
-    el.innerHTML = '<div class="neby-msg-avatar"><span class="material-symbols-outlined">auto_awesome</span></div>' +
-      '<div class="neby-thinking"><span></span><span></span><span></span></div>';
-    appendEl(el);
+    if (thinkingEl) thinkingEl.remove();
+    thinkingEl = document.createElement('div');
+    thinkingEl.className = 'neby-msg ai';
+    thinkingEl.id = 'neby-thinking-el';
+    if (window.AIWidgets) {
+      thinkingLoader = window.AIWidgets.PixelLoader.create({ label: label || 'Thinking', variant: variant || 'drive' });
+      thinkingEl.appendChild(thinkingLoader.el);
+    } else {
+      thinkingEl.innerHTML = '<div class="ai-widget ai-pixel-loader"><div class="ai-px-meta"><span class="ai-px-label">' + escapeHtml(label || 'Thinking') + '</span></div></div>';
+    }
+    appendEl(thinkingEl);
+  }
+
+  function setThinking(label, variant) {
+    if (!isThinking) { showThinking(label, variant); return; }
+    if (thinkingLoader) thinkingLoader.setLabel(label || 'Thinking', variant);
   }
 
   function removeThinking() {
     isThinking = false;
-    var el = document.getElementById('neby-thinking-el');
-    if (el) el.remove();
+    if (thinkingLoader) { thinkingLoader.destroy(); thinkingLoader = null; }
+    if (thinkingEl) { thinkingEl.remove(); thinkingEl = null; }
   }
 
   function scrollToBottom() {
