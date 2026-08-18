@@ -9,7 +9,7 @@ The app already runs Channels + Daphne. Today the session page polls `/events?af
 Thread `call_ai_api` through a streaming path for providers that support it (Qwen/custom OpenAI-compatible). Surface a live "Agent is thinking…" line that fills in as tokens arrive, then collapse into the final thought. Pairs naturally with #1.
 
 ## 3. Provider-native function calling for models that support it
-The harness assumes no native tool calls and parses a JSON envelope. Add an optional `BotConfig` capability flag; when a provider supports OpenAI-style `tools`, send the toolset natively and skip the JSON-format-repair path. This materially improves reliability for capable models (fewer parse failures, better tool selection).
+Qwen (web proxy, no native `tools` field) now uses the official Hermes/Nous `<tool_call>` protocol plus ACI observations — see `docs/QWEN_HARNESS.md`. Remaining work: optional `BotConfig` capability flag so official OpenAI-style providers send the toolset natively and skip JSON-format-repair.
 
 ## 4. Editor-backed diffs in the Files tab (syntax-highlighted, per-file)
 Replace the plain file list + raw unified blob with a per-file, syntax-highlighted, side-by-side or unified view (e.g. a vendored `diff2html` or a small custom renderer). Add "jump to file" from a tool row. Currently the Files tab is a flat list and the Diff tab is one giant `<pre>`.
