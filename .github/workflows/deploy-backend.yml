@@ -1,72 +1,13 @@
 name: Deploy Backend to cPanel (Disabled)
 
-# Disabled automatic trigger on push — to re-enable in future, uncomment push block below.
+# Disabled completely — backend deployments are handled manually / by agent via deploy.ps1
+# to ensure local .env configuration, real-time logging, and verification checks.
 on:
   workflow_dispatch:
-  # push:
-  #   branches:
-  #     - main
-  #   paths:
-  #     - 'backend_python/**'
 
 jobs:
-  deploy:
+  disabled_notice:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Create ZIP archive
-        run: |
-          cd backend_python
-          zip -r ../deploy.zip api nebians web manage.py requirements.txt passenger_wsgi.py
-
-      - name: Copy ZIP file via SSH
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: consicac
-          key: ${{ secrets.SSH_KEY }}
-          port: 22
-          source: "deploy.zip"
-          target: "/home/consicac/nebians_api/"
-
-      - name: Deploy and restart
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: consicac
-          key: ${{ secrets.SSH_KEY }}
-          port: 22
-          script: |
-            cd /home/consicac/nebians_api
-            
-            echo "Extracting deployment archive..."
-            unzip -o deploy.zip
-            rm -f deploy.zip
-            
-            source /home/consicac/virtualenv/nebians_api/3.13/bin/activate
-            
-            echo "Installing dependencies..."
-            pip install -r requirements.txt
-            
-            echo "Collecting static files..."
-            rm -rf staticfiles/*
-            python manage.py collectstatic --noinput
-            
-            echo "Running database migrations..."
-            python manage.py migrate
-            
-            echo "Resolving cPanel static files two-location copies..."
-            mkdir -p public/static/web/css
-            mkdir -p public/static/web/js
-            mkdir -p public/static/web/img
-            cp -rf web/static/web/css/* public/static/web/css/
-            cp -rf web/static/web/js/* public/static/web/js/
-            cp -rf web/static/web/img/* public/static/web/img/
-            cp -f web/static/web/manifest.json public/static/web/manifest.json
-            
-            echo "Restarting Phusion Passenger application..."
-            rm -rf tmp/*
-            touch tmp/restart.txt
-            echo "Deploy complete"
+      - name: Notice
+        run: echo "GitHub CD deployment is disabled. Use local deploy.ps1 for verified deployments."

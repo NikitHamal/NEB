@@ -670,42 +670,87 @@ A trycloudflare URL looks like `https://abc123.trycloudflare.com` — different 
 ## Continuity Notes
 
 ### What Was Worked On (Current Session)
-**Needle 2 WASM assistant ("Neby AI") — efficiency & runtime pass + benchmarks**
+**Reusable AI widgets + live streaming for the background agent**
 
-Investigated the on-device 45M-param Needle 2 model (`web/static/web/js/needle2/`:
-`needle.js` + `needle.wasm` + `needle2.cact`, 13.46 MB total). The artifacts are the
-**official upstream build** — byte-identical to the `Cactus-Compute/needle2` HF
-release (`wasm/` dir + `needle2.cact`); there is **no SIMD/threads variant** published.
+**Shared widget library:** new `web/static/web/js/ai-widgets.js` + `web/static/web/css/ai-widgets.css` expose `window.AIWidgets` (each widget returns `{ el, destroy, ... }` and carries `.ai-widget` token vars with fallbacks so they render inside Neby chat, the background agent panel, or any future AI UI):
+- `AIWidgets.PixelLoader.create({label, variant: 'drive'|'dots'|'orbit', timer})` → `{el, setLabel, destroy}` — 3×3 pixel grid + shimmer label + elapsed timer
+- `AIWidgets.Trace.create(opts)` → `{el, settle, setRows, destroy}` — ThinkingState port (steps/reasoning/search/coding variants, expandable rail). `setRows(rows)` re-renders rows live while still working (added for BA live thought streaming). Rows container honors `--ai-rows-max` (scroll cap, thin scrollbar) so long reasoning lists scroll instead of growing forever.
+- `AIWidgets.StreamingText.create({text, wordMs, sources, citeAfter, actions, onCopy/onRetry/onVote, onDone})` — word-by-word blur resolve (55ms/word), inline citation chips, copy/retry/up/down action row, expandable sources panel. NO follow-up suggestions (per user).
+- `AIWidgets.streamSSE(url, {method, body, headers, credentials, onText, onThought, onEvent, onDone, onError})` → `{abort}` — fetch + ReadableStream SSE reader (avatar-lab technique); now accepts POST/FormData for admin chat
+- `AIWidgets.ApprovalCard.create({questions: [{q, type:'radio'|'check', options, allowCustom}], title, subtitle, onSubmit(answers, custom), onDismiss})` → `{el, destroy, open, close, reset, sent}` — vanilla port of the React ApprovalCard (pager dots, prev/next, send arrow disabled until answered, radio auto-advance 480ms, custom "Other…" input, sent state with "Start over", dismiss → "Open approval" pill, Material Symbols icons)
+- `AIWidgets.actionRow({text, onCopy, onRetry, onVote})` → actions element (shared with StreamingText via internal `buildActions`; copy works by default, up/down flash `.ai-stream-action-on` and call `onVote(1|-1)`)
+- `AIWidgets.ToolChips.create({rows: [{icon:'think'|'write'|'run'|'read', label, chip, mono, detailMono, detail: [{text, tone:'add'}], error}], diffs: [{file, add, del}], more, header: {calls, messages}, reveal: 'stagger'|'instant', stepMs})` → `{el, destroy, addRow, addRows, setDiffs, setHeader, open, close, toggle, revealAll}` — vanilla port of the React ToolChips: collapsible run header ("N tool calls, M messages"), staggered row reveal (700ms), hover reveals chevron, rows expand to detail lines (green `+` add tone, mono), file-diff chips pop in at the end (+adds/−dels, "+N more" button). Token colors via `--ai-*` (adds `--ai-green`/`--ai-red` fallbacks).
 
-**Benchmark harness (real engine, Node):** `benchmarks/needle_bench.mjs` loads the
-exact shipped engine in Node and measures load/init/latency/memory. Key findings:
-- Grammar compile `needle_init` ≈ **5.0 s** ≈ 98% of the ~5.0 s cold start
-  (model load only ~30–60 ms, engine init ~10–20 ms).
-- Tool-call decode: ~336–1,310 ms/query (avg ~0.81 s, p50 ~0.76 s) on 7 realistic
-  NEB queries; ~270–560 byte-token/s decode. WASM heap 32.5 MB, RSS ~90–97 MB.
-- `max_new_tokens` 128 vs 256 → byte-identical results, latency within noise.
-- gzip on the CQ2-bit model saves only 5% (94.9% incompressible) → not shipped.
+**Neby assistant refactor:** `neby-assist.js` now consumes `AIWidgets` (loader + trace); `neby-trace.js` deleted; `base.html` loads `ai-widgets.js`+`ai-widgets.css` (L95/L869); old `.neby-pixel-*`/`.neby-trace-*` CSS removed from `neby-assist.css`; chat-area gap 12px→16px (4px more between messages); cloud `chat` replies render through `AIWidgets.StreamingText` (≥40 chars).
 
-**Changes made:**
-- `web/static/web/js/neby-assist.js` — added **idle pre-warm**: `preloadNeedle()`
-  starts the worker on `requestIdleCallback` (+ first-user-gesture fallback:
-  pointerdown/mousemove/scroll/touchstart/keydown) instead of only on panel open.
-  The ~5 s grammar compile now runs in a background Web Worker while the user reads
-  the page; the worker stays alive for the whole visit. Passes `warmup: true` on
-  initialize and `maxNewTokens: 128` on run.
-- `web/static/web/js/needle2/needle.worker.js` — `ASSET_VERSION`/`?v=` bumped to
-  **v2**; `run` honors `maxNewTokens` (default 128, was hardcoded 256); added
-  best-effort `warmup()` completion after `ready` so JIT/buffers are hot before the
-  first real query.
-- `benchmarks/needle_bench.mjs` + `benchmarks/README.md` — reproducible harness.
-- `docs/NEEDLE_FINETUNE_PLAN.md` — LoRA fine-tune + `.cact` build/deploy plan for
-  the later finetuning step (swap `needle2.cact`, bump asset version, no recompile).
+**Backend streaming (`api/llm/client.py`):** `chat_stream()` generator — same validation as `chat()`, yields `{'type':'reasoning'|'text'|'done', ...}` deltas for OpenAI-compat (incl. `reasoning_content`), Anthropic (incl. `thinking_delta`), Gemini (`streamGenerateContent?alt=sse`). `api/llm/runtime.py::call_session_provider_stream()` wraps it for sessions.
 
-**Not deployed yet.**
+**Runner live streaming (`api/background_agent/runner.py`):** official providers now call `_call_official_provider_stream()` — publishes every delta to Redis pub/sub channel `ba:stream:<session_id>` (frames `kind=thought|text|done|error`, `fatal:true` on terminal failure; retry errors are non-fatal). Fully best-effort: no Redis → call still completes, UI falls back to polling. Redis URL: `BACKGROUND_AGENT_STREAM_REDIS` env or `CACHE_LOCATION`, else localhost:6379.
 
-**Deploy note:** after deploying, also re-run `node benchmarks/needle_bench.mjs` to
-confirm the engine loads. For a tuned model later, replace `needle2.cact` (same
-engine) and bump `ASSET_VERSION` to `needle2-assets-v3` + `?v=3`.
+**SSE endpoint (`web/views_background_agent.py`):** `background_agent_session_stream` at `backgroundagent/api/sessions/<id>/stream/` (session-cookie auth, same as events). First frame is a `snapshot` (events since `?after=` — same shape as events endpoint) for reconnect catch-up; then relays pub/sub frames as `data: {json}`; `: ping` keepalive every 15s; closes on `fatal` error, or when the session leaves running/queued/preparing (checked on `done` + every 10s), or after 1h cap. No Redis → sends `close` immediately.
+
+**BA frontend (`background-agent-session.js`):** opens the SSE stream when session is active (reopens with 2.5s backoff on disconnect while active, stops when inactive). `thought`/`text` deltas render into live nodes (`.ba-thought.live` + `.ba-message.assistant.live` with blinking `.ba-live-cursor`), throttled markdown re-render every 140ms; on `done`/`end`/fatal the live nodes are swapped for the durable DB rows via `loadDetail()` (polling at 2.5s stays as the sync/fallback layer). `session.html` got `data-stream-url` + ai-widgets includes; `background_agent/base.html` loads ai-widgets.css.
+
+**User directives:** loader grid + text side-by-side (row), label ellipsis, NO avatar icon / NO bubble bg on Neby AI messages, AI messages full width, loader uses **drive** variant (not orbit), reusable components also applied in background agent, **no suggested replies/follow-ups** in the streaming widget.
+
+**Admin AI chat (`admin_panel/chat.html` + `views_admin_chat.py`):** now consumes `AIWidgets` — `PixelLoader` ("Waiting for response", drive variant, elapsed timer) inside the assistant bubble until the first token, `AIWidgets.streamSSE` (POST + FormData + `X-CSRFToken`) replaces the hand-rolled reader, and `AIWidgets.actionRow` (copy/retry/up/down) is appended on completion. Retry re-sends the same query; up/down POST to the new feedback endpoint. Includes `ai-widgets.js` + `ai-widgets.css`. Live chunk-by-chunk text rendering is kept (it's a provider test tool — word-blur would hide streaming latency).
+
+**Action buttons + feedback endpoint:** new `POST /ajax/ai-feedback/` (`web/views_ajax.py::ajax_ai_feedback`) stores `AiFeedback` rows (`api/models.py` + migration `0108_ai_feedback.py` — `user_id` is a plain CharField, NO FK to users, so no charset-mismatch table pain; rate-limited 30/min). StreamingText actions now actually work: Neby cloud replies (`neby-assist.js::appendStreamingAi`) wire `onRetry` → `runQuery(lastQuery)` and `onVote` → `/ajax/ai-feedback/` with `surface:'neby'`; admin chat uses `surface:'admin-chat'` + provider/model. Copy works by default (clipboard).
+
+**Bug fix:** `.ai-stream-actions { display: flex }` was overriding the `hidden` attribute — action rows were visible during streaming everywhere. Fixed with `.ai-stream-actions[hidden] { display: none; }` in ai-widgets.css (same fix applied to `.ai-chips-diffs[hidden]`).
+
+**BA tool calls → ToolChips (`background-agent-session.js`):** the bulky per-tool `<details class="ba-tool-event">` bubbles in the conversation are replaced by grouped `AIWidgets.ToolChips` runs (`reveal:'instant'`, `.ba-message.tool-group` wrapper, max-width 20rem, token-mapped to `--ba-*` vars incl. `--ai-green/--ai-red` → `--ba-success/--ba-danger`). Run lifecycle: an assistant text (non-thought) message closes the previous run and flags the next tool group as a new run (header "N tool calls, 1 message"); tool rows map via TOOL_VERBS (mirror of `labels.py::TOOL_VERBS`) + `meta.args` (icon: think/write/run/read; chip: file basename / command / query; detail: write→`+` content lines (green), read→file lines, run_command→stdout+exit, error rows red "failed — …"); file-diff chips at run end from `runFiles` (write→line count, delete→del). `endRun()` also fires on user messages, terminal events (`session.completed/failed/cancelled`) and when the session leaves active status. Full tool results remain viewable in the Files/Diff review tabs. `.ba-tool-event`/`.ba-message.tool` CSS removed.
+
+**BA thought cards → Trace:** the old `<details class="ba-thought">` reasoning cards (durable "Thought for N seconds" + live "Thinking…") are replaced by `AIWidgets.Trace` (variant 'reasoning') inside `.ba-trace-wrap` (margin 2px 0 8px 36px, token-mapped to `--ba-*` incl. `--ai-rows-max: 340px` for the scroll-capped rows). Durable cards create with `settleDelay: 0` + immediate `trace.settle(label)`; the live node uses `settleDelay: 86400000` (never auto-settles) and feeds rows via the new `setRows()` every throttled render (content split into non-empty lines via `thoughtRows()`). Both have a plain-text fallback if `window.AIWidgets` is missing. `.ba-thought*` CSS removed; `psychology`/`chevron_right` icons gone from the conversation.
+
+**Status:** all `node --check` + `py_compile` + `manage.py check` pass. **Not committed / not deployed** — user hasn't given the go-ahead.
+
+### Previous Session
+**Needle 2 on-device assistant ("Neby Local") — persisted runtime + Android**
+
+DECISION RECORD (2026-08-13): An earlier v3 attempt (IDB asset caching only —
+commit 57e91be on main) was **reverted** (`git reset main 830f2f0` + force-push)
+in favor of this snapshot-based implementation on branch `arena/019ffa43-neb`
+(commit f5e559c). Snapshot restore is 49 ms vs v3's ~3.9 s (which still
+recompiled the tool grammar every refresh). Live server re-deployed to match.
+Notable gap vs v3: no AbortController fetch timeout/retry and no 90 s load
+watchdog in neby-assist.js — port over if load hangs ever recur.
+
+The 45M-parameter Needle 2 integration uses the official CQ2 model and WASM
+engine. The web model remains 13.10 MiB; Android packages only 0.375 MiB of
+engine/glue/license/bootstrap assets and downloads the model after explicit
+user opt-in.
+
+**Runtime optimization:** `web/static/web/js/needle2/needle.worker.js` now saves
+the initialized 32.63 MiB WASM heap in versioned, tool-schema-keyed 2 MiB
+IndexedDB chunks. A repeat launch restores it instead of loading the model and
+recompiling the tool grammar. Corrupt/missing/quota-rejected snapshots fall back
+to cold init. Keep `RUNTIME_VERSION`, web cact URL, Android expected size/hash,
+and Android `snapshotNamespace` in sync whenever the model changes.
+
+**Measured on the sandbox (Node 22):** cold load+tool init 5.12 s; snapshot
+restore including disk read 49 ms (99.0% reduction); restored semantic output
+7/7 identical; expected route and key arguments 7/7; decode avg/p50/p95
+819/727/1,529 ms. Full reproducible output is under `backend_python/benchmarks/`.
+The previous synthetic warmup was removed because it added about 1.1 s without
+improving first-query decode.
+
+**Web:** progress distinguishes download, model load, tool preparation, and
+snapshot restore. The assistant displays Needle reasoning/confidence/device
+latency when the engine emits a trace and handles every returned tool call.
+Slow/save-data connections do not auto-download during idle preload.
+
+**Android:** Settings → Neby Local opens a dedicated Compose chat/setup screen.
+`NeedleModelManager` provides resumable SHA-256-verified cloud download into
+`noBackupFilesDir`; `NeedleWebRuntime` runs the same exact engine in a locked
+local WebView worker; chat and compact reasoning persist offline; users can
+pause setup, clear chat, or remove model/runtime. The `.cact` is never in the
+APK.
+
+**Deploy note:** deploy backend/static files normally. The Android model URL
+currently points to the deployed web cact and verifies size 13,737,679 bytes and
+SHA-256 `ca7950ac8aef26ed22d17f92c733c9374aa7f59f6c2abb0fe2ac320a04f3c3d8`.
+After replacing the model, follow `backend_python/docs/NEEDLE_FINETUNE_PLAN.md`.
 
 ### Previous Session
 **Blog comment system (web + backend) + Android UI cleanup (library/forum/news screens)**

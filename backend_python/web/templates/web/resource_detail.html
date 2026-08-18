@@ -143,7 +143,7 @@
       {% endif %}
     </div>
     {% if resource.description %}
-    <div class="rd-description">{{ resource.description }}</div>
+    <div class="rd-description">{{ resource.description|linkify }}</div>
     {% endif %}
 
     <!-- Paid Content Access Guard / Purchase Box -->

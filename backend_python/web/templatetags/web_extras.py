@@ -379,6 +379,36 @@ def render_content_inline(value):
     return mark_safe(inline)
 
 
+_URL_RE = re.compile(r'(?P<url>https?://[^\s<>"\u0000-\u001f]+|www\.[^\s<>"\u0000-\u001f]+\.[^\s<>"\u0000-\u001f]+)')
+_TRAIL_PUNCT = ('。', '.', ',', ';', ':', '!', '?', ')', '】', '》', '"', '\u201d')
+
+
+def _urlize_text(text):
+    """Turn bare URLs in plain text into <a> links. Input must already be HTML-escaped."""
+    def repl(m):
+        url = m.group('url')
+        while url and url[-1] in _TRAIL_PUNCT:
+            url = url[:-1]
+        if not url:
+            return m.group(0)
+        href = url if url.startswith('http') else 'http://' + url
+        return '<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>' % (escape(href), escape(url))
+    return _URL_RE.sub(repl, text)
+
+
+def _linkify_html(html):
+    """Linkify bare URLs in the text nodes of already-rendered (markdown) HTML."""
+    if not html:
+        return html
+    out = []
+    for part in re.split(r'(<[^>]+>)', html):
+        if part.startswith('<') and part.endswith('>'):
+            out.append(part)
+        else:
+            out.append(_urlize_text(part))
+    return ''.join(out)
+
+
 def _render_user_content(value):
     """Render markdown formatting and @mention links."""
     text = str(value)
@@ -414,7 +444,18 @@ def _render_user_content(value):
         html,
     )
 
+    html = _linkify_html(html)
+
     return mark_safe(html)
+
+
+@register.filter
+def linkify(value):
+    """Escape plain text and turn bare URLs into links. No markdown.
+    Use for descriptions, bios and other plain-text user fields."""
+    if not value:
+        return mark_safe('')
+    return mark_safe(_urlize_text(escape(str(value))))
 
 
 @register.filter
@@ -555,6 +596,7 @@ def markdown_format(value):
         r'<a href="\1" target="_blank" rel="noopener noreferrer"',
         html,
     )
+    html = _linkify_html(html)
     return mark_safe(html)
 
 

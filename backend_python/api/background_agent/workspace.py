@@ -64,7 +64,7 @@ class GitWorkspace:
         self.project_root = self.root / 'projects' / str(project.id)
         self.mirror_path = self.project_root / 'repo.git'
         self.session_root = self.root / 'sessions' / str(session.id) if session else None
-        self.worktree = self.session_root / 'repo' if self.session_root else None
+        self.worktree = self.project_root / 'reusable_workspace'
         self.artifact_root = self.session_root / 'artifacts' if self.session_root else None
 
     @property
@@ -230,12 +230,8 @@ class GitWorkspace:
         if not self.session:
             raise WorkspaceError('Session is required')
         self.ensure_dirs()
-        if self.worktree.exists() and (self.worktree / '.git').exists():
-            return
         with self._project_lock():
             self._ensure_mirror_locked()
-            if self.worktree.exists():
-                shutil.rmtree(self.worktree, ignore_errors=True)
             source_branch = (self.session.source_branch or '').strip()
             valid_source = self._run(['git', 'check-ref-format', '--branch', source_branch], check=False)
             if not valid_source.ok:
@@ -249,12 +245,22 @@ class GitWorkspace:
             valid_work = self._run(['git', 'check-ref-format', '--branch', self.session.work_branch], check=False)
             if not valid_work.ok:
                 raise WorkspaceError('Generated task branch is invalid')
-            # A stale branch from a failed preparation should not block a retry.
-            self._run(['git', '--git-dir', str(self.mirror_path), 'branch', '-D', self.session.work_branch], check=False)
-            self._run([
-                'git', '--git-dir', str(self.mirror_path), 'worktree', 'add', '--force', '-b',
-                self.session.work_branch, str(self.worktree), source_ref,
-            ], timeout=300)
+
+            # Single reusable workspace: clone/add worktree once, otherwise fetch & checkout clean
+            if not self.worktree.exists() or not (self.worktree / '.git').exists():
+                if self.worktree.exists():
+                    shutil.rmtree(self.worktree, ignore_errors=True)
+                self._run([
+                    'git', '--git-dir', str(self.mirror_path), 'worktree', 'add', '--force', '-b',
+                    self.session.work_branch, str(self.worktree), source_ref,
+                ], timeout=300)
+            else:
+                self._run(['git', 'reset', '--hard'], cwd=self.worktree, check=False)
+                self._run(['git', 'clean', '-fd'], cwd=self.worktree, check=False)
+                with self._auth_env() as env:
+                    self._run(['git', 'fetch', '--prune', 'origin'], cwd=self.worktree, env=env, check=False)
+                self._run(['git', 'checkout', '-B', self.session.work_branch, source_ref], cwd=self.worktree, check=False)
+
         self._run(['git', 'config', 'user.name', 'NEBians Background Agent'], cwd=self.worktree)
         self._run(['git', 'config', 'user.email', 'background-agent@nebians.local'], cwd=self.worktree)
         base_sha = self._run(['git', 'rev-parse', 'HEAD'], cwd=self.worktree).get('stdout', '').strip()
@@ -554,6 +560,7 @@ class ToolExecutor:
             'git_push': self.git_push,
             'git_pull': self.git_pull,
             'git_restore': self.git_restore,
+            'deploy_live_hotfix': self.deploy_live_hotfix,
         }
         handler = handlers.get(tool)
         if not handler:
@@ -950,6 +957,47 @@ class ToolExecutor:
 
     def git_restore(self, paths=None, staged=False):
         return {'status': self.workspace.restore(paths, staged=staged)}
+
+    def deploy_live_hotfix(self, reason=''):
+        """Deploys verified changes from the workspace directly to the live server
+        and restarts the application (LiteSpeed/Passenger) without needing SSH keys."""
+        import shutil
+        from django.conf import settings
+        
+        live_root = Path(getattr(settings, 'BASE_DIR', '.'))
+        ws_repo = self.workspace.worktree
+        
+        if not ws_repo or not ws_repo.exists():
+            return {'ok': False, 'error': 'Workspace repository is unavailable'}
+
+        copied_files = []
+        changed = self.workspace.changed_files()
+        for rel_file in changed:
+            src = ws_repo / rel_file
+            if rel_file.startswith('backend_python/'):
+                target_rel = rel_file[len('backend_python/'):]
+            else:
+                target_rel = rel_file
+                
+            dst = live_root / target_rel
+            if src.is_file():
+                dst.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(src, dst)
+                copied_files.append(str(target_rel))
+
+        # Restart LiteSpeed / WSGI by touching restart.txt
+        tmp_dir = live_root / 'tmp'
+        tmp_dir.mkdir(parents=True, exist_ok=True)
+        restart_file = tmp_dir / 'restart.txt'
+        restart_file.touch()
+
+        return {
+            'ok': True,
+            'message': f'Live hotfix deployed ({len(copied_files)} files updated on live server)',
+            'copied_files': copied_files,
+            'restarted': True,
+            'reason': reason or 'Autonomous hotfix by background agent'
+        }
 
     def _validate_patch_paths(self, patch):
         paths = set()

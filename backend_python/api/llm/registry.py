@@ -30,7 +30,7 @@ FORMAT_SCRAPER = 'scraper'      # Existing NEBians web proxies (qwen & friends)
 
 OFFICIAL_FORMATS = (FORMAT_OPENAI, FORMAT_ANTHROPIC, FORMAT_GEMINI)
 
-SCRAPER_PROVIDERS = ('qwen', 'egov', 'deepai', 'inception', 'k2think', 'poolside')
+SCRAPER_PROVIDERS = ('qwen', 'egov', 'deepai', 'inception', 'k2think', 'poolside', 'motiftech')
 
 
 @dataclass(frozen=True)
@@ -199,6 +199,16 @@ SCRAPER_PRESETS: List[ProviderPreset] = [
                 ModelSpec('laguna-xs-2.1', 'Laguna XS 2.1')],
         context_window=32000, max_output_tokens=6000,
         key_required=False, official=False, scraper_module='poolside_proxy',
+    ),
+    ProviderPreset(
+        slug='motiftech', label='Motif (chat.motiftech.io)', format=FORMAT_SCRAPER,
+        base_url='https://chat.motiftech.io', default_model='motif-102b',
+        models=[ModelSpec('motif-102b', 'Motif 3', 'Flagship (Korean-optimized)'),
+                ModelSpec('motif-12-7b', 'Motif 12.7B'),
+                ModelSpec('motif-12-7b-reasoning', 'Motif 12.7B Reasoning'),
+                ModelSpec('motif-tiny', 'Motif Tiny')],
+        context_window=32000, max_output_tokens=6000,
+        key_required=False, official=False, scraper_module='motiftech_proxy',
     ),
 ]
 

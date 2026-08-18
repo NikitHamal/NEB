@@ -17,14 +17,14 @@ const WASM = join(ASSET_DIR, 'needle.wasm');
 const MODEL = join(ASSET_DIR, 'needle2.cact');
 
 const NEBY_TOOLS = JSON.stringify([
-  { name: 'search_resources', description: 'Search for study resources on NEBians -- notes, past papers, textbooks, PDFs.', parameters: { type: 'object', properties: { query: { type: 'string', description: 'search keywords' }, subject: { type: 'string', description: 'subject name e.g. Mathematics, Physics, English' }, resource_type: { type: 'string', enum: ['PDF', 'Note', 'Video', 'Link', ''], description: 'optional type filter' } }, required: ['query'] } },
+  { name: 'search_resources', description: 'Search for study resources on NEBians -- notes, past papers, textbooks, PDFs.', parameters: { type: 'object', properties: { query: { type: 'string', description: 'search keywords' }, subject: { type: 'string', description: 'subject name e.g. Mathematics, Physics, English' }, resource_type: { type: 'string', enum: ['PDF', 'Note', 'Past Paper', 'Textbook', 'Video', 'Link', ''], description: 'optional type filter' } }, required: ['query'] } },
   { name: 'find_notes', description: 'Find study notes or past exam papers for a specific subject and grade on NEBians.', parameters: { type: 'object', properties: { subject: { type: 'string', description: 'subject name e.g. Mathematics, Physics, Chemistry' }, grade_level: { type: 'string', description: 'e.g. Class 11, Class 12, SEE' }, exam_type: { type: 'string', enum: ['Notes', 'Board', 'Final', 'SEE', 'Mock', 'Reference', ''], description: 'type of material' } }, required: [] } },
   { name: 'get_forum_posts', description: 'Get forum posts from the NEBians discussion forum.', parameters: { type: 'object', properties: { category: { type: 'string', description: 'category to filter e.g. Science, Math, Help, General' }, sort: { type: 'string', enum: ['recent', 'popular'], description: 'sort order' } }, required: [] } },
   { name: 'navigate_to', description: 'Navigate the user to a specific page on NEBians.', parameters: { type: 'object', properties: { page: { type: 'string', enum: ['home', 'library', 'forum', 'search', 'news', 'settings', 'bookmarks', 'upload', 'results', 'leaderboard', 'tools'], description: 'destination page' } }, required: ['page'] } },
   { name: 'get_subjects', description: 'List all available subjects on NEBians.', parameters: { type: 'object', properties: {}, required: [] } },
 ]);
 
-const MAX_NEW_TOKENS = Number(process.env.MAX_TOKENS) || 256;
+const MAX_NEW_TOKENS = Number(process.env.MAX_TOKENS) || 128;
 const QUERIES = [
   'find physics notes for class 12',
   'show me popular forum posts',
@@ -34,8 +34,6 @@ const QUERIES = [
   'what subjects are available',
   'search for english textbooks',
 ];
-const WARMUP = 'hello, can you search for some science notes for class 11 please';
-
 function allocateCString(runtime, value) {
   const bytes = new TextEncoder().encode(value);
   const ptr = runtime._malloc(bytes.length + 1);
@@ -114,10 +112,7 @@ async function main() {
   console.log(' wasm HEAP        : ' + heapMB.toFixed(1) + ' MB');
   console.log(' process RSS      : ' + (process.memoryUsage().rss / (1024 * 1024)).toFixed(1) + ' MB');
   console.log('');
-  console.log(' warmup (first completion call)...');
-  runOne(runtime, outPtr, WARMUP, MAX_NEW_TOKENS);
-  console.log('');
-  console.log(' per-query decode (single turn, independent like the site):');
+  console.log(' per-query decode (single turn, no synthetic warmup):');
   console.log('   query                                                    ms    out_len  est tok/s');
   const rows = [];
   for (const q of QUERIES) { rows.push(runOne(runtime, outPtr, q, MAX_NEW_TOKENS)); }

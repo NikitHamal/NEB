@@ -118,6 +118,7 @@
           <option value="inception" {% if config.provider == 'inception' %}selected{% endif %}>Inception Labs (Mercury 2)</option>
           <option value="k2think"   {% if config.provider == 'k2think' %}selected{% endif %}>K2 Think (k2think.ai — MBZUAI K2 Think V2)</option>
           <option value="poolside"  {% if config.provider == 'poolside' %}selected{% endif %}>Poolside (chat.poolside.ai — Laguna 2.1)</option>
+          <option value="motiftech" {% if config.provider == 'motiftech' %}selected{% endif %}>Motif (chat.motiftech.io — Motif 3)</option>
           <option value="custom"    {% if config.provider == 'custom' %}selected{% endif %}>Custom (any OpenAI-compatible endpoint)</option>
           <optgroup label="Official APIs (real API formats, BYOK or shared key)">
             <option value="agnes"     {% if config.provider == 'agnes' %}selected{% endif %}>Agnes 2.0 Flash (Sapiens AI — currently free)</option>
@@ -396,6 +397,19 @@
       options: [
         { value: 'laguna-s-2.1', label: 'Laguna S 2.1 (default)' },
         { value: 'laguna-xs-2.1', label: 'Laguna XS 2.1' },
+      ],
+    },
+    motiftech: {
+      urlLabel: 'API URL',
+      urlHelp: 'Motif guest endpoint (leave default).',
+      urlDefault: 'https://chat.motiftech.io',
+      modelControl: 'select',
+      modelHelp: 'Pick a Motif model.',
+      options: [
+        { value: 'motif-102b', label: 'Motif 3 (default)' },
+        { value: 'motif-12-7b', label: 'Motif 12.7B' },
+        { value: 'motif-12-7b-reasoning', label: 'Motif 12.7B Reasoning' },
+        { value: 'motif-tiny', label: 'Motif Tiny' },
       ],
     },
   };

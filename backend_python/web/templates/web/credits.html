@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static web_extras %}
 
 {% block title %}Neby Credits — NEBians{% endblock %}
 {% block robots %}<meta name="robots" content="noindex, nofollow">{% endblock %}
@@ -141,7 +141,7 @@
                                 <td class="credits-amount {% if tx.amount > 0 %}credits-amount-pos{% else %}credits-amount-neg{% endif %}">
                                     {% if tx.amount > 0 %}+{% endif %}{{ tx.amount }}
                                 </td>
-                                <td class="credits-desc">{{ tx.description }}</td>
+                                <td class="credits-desc">{{ tx.description|linkify }}</td>
                                 <td class="credits-time" data-ts="{{ tx.created_at }}"></td>
                             </tr>
                         {% endfor %}

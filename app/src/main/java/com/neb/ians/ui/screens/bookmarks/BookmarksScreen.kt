@@ -1,5 +1,7 @@
 package com.neb.ians.ui.screens.bookmarks
 
+import com.neb.ians.ui.components.LinkifyText
+
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -302,7 +304,7 @@ private fun BookmarkCard(item: BookmarkListItem, onClick: () -> Unit) {
                     overflow = TextOverflow.Ellipsis
                 )
                 if (item.excerpt.isNotBlank()) {
-                    Text(
+                    LinkifyText(
                         text = item.excerpt,
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,

@@ -105,6 +105,7 @@ MIDDLEWARE = [
     'django_htmx.middleware.HtmxMiddleware',
     'nebians.middleware.SecurityHeadersMiddleware',
     'nebians.middleware.PageViewTrackingMiddleware',
+    'nebians.middleware.ApiUnhandledExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'nebians.urls'
@@ -251,7 +252,7 @@ REST_FRAMEWORK = {
         'write_action': os.environ.get('DRF_WRITE_ACTION_THROTTLE', '30/minute'),
         'report': os.environ.get('DRF_REPORT_THROTTLE', '10/hour'),
         'search': os.environ.get('DRF_SEARCH_THROTTLE', '60/minute'),
-        'upload': os.environ.get('DRF_UPLOAD_THROTTLE', '10/hour'),
+        'upload': os.environ.get('DRF_UPLOAD_THROTTLE', '120/hour'),
         'view_increment': os.environ.get('DRF_VIEW_INCREMENT_THROTTLE', '60/minute'),
         'arena_chat': os.environ.get('DRF_ARENA_CHAT_THROTTLE', '60/minute'),
         'arena_list': os.environ.get('DRF_ARENA_LIST_THROTTLE', '120/minute'),

@@ -249,6 +249,14 @@ def call_ai_api(system_prompt, user_message, config=None):
             system_prompt=system_prompt or '',
             max_tokens=max_tokens,
         )
+    if provider == 'motiftech':
+        from . import motiftech_proxy
+        return motiftech_proxy.simple_chat(
+            user_message=user_message,
+            model=config.model or 'motif-102b',
+            system_prompt=system_prompt or '',
+            max_tokens=max_tokens,
+        )
     if provider == 'custom':
         from .custom_provider import call_custom
         return call_custom(

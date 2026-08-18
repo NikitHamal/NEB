@@ -43,11 +43,16 @@ grammar to close the train/serve gap.
 1. Back up `web/static/web/js/needle2/needle2.cact`.
 2. Copy the tuned `neb_needle.cact` to `web/static/web/js/needle2/needle2.cact`.
    Same filename, same engine — nothing else changes.
-3. Bump the cache-busting version so every browser re-fetches once:
-   in `needle.worker.js` change `ASSET_VERSION` to `needle2-assets-v3` and the
-   `?v=2` query strings on `WASM_URL`/`CACT_URL` to `?v=3`.
-4. Redeploy static files (collectstatic + copy to public/static per AGENTS.md).
-5. Re-run `node benchmarks/needle_bench.mjs` to confirm quality + latency.
+3. In `needle.worker.js`, bump `RUNTIME_VERSION` and the `CACT_URL` query
+   version. This invalidates the initialized IndexedDB snapshot and fetches the
+   new model without evicting the unchanged WASM engine.
+4. In Android `NeedleModelManager`, update `MODEL_SIZE_BYTES`, `MODEL_SHA256`,
+   and the model URL query version. Bump the Android `snapshotNamespace` in
+   `assets/needle2/bootstrap.html`, then copy the updated worker into app assets.
+5. Redeploy static files (collectstatic + copy to public/static per AGENTS.md).
+6. Re-run both `node benchmarks/needle_bench.mjs` and
+   `node benchmarks/needle_snapshot_bench.mjs` to confirm quality, restored
+   output equivalence, and latency.
 
 ## Quality gates before shipping a tuned model
 - Accuracy on a held-out set of ~50 real user-style queries.

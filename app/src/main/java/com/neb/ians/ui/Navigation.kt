@@ -68,6 +68,7 @@ import com.neb.ians.ui.screens.bookmarks.BookmarksScreen
 import com.neb.ians.ui.screens.downloads.DownloadsScreen
 import com.neb.ians.ui.screens.upload.UploadScreen
 import com.neb.ians.ui.screens.ai.NebyAiScreen
+import com.neb.ians.ui.screens.localai.LocalNebyScreen
 import com.neb.ians.ui.screens.study.StudyLabScreen
 import com.neb.ians.ui.screens.study.StudySpaceScreen
 import com.neb.ians.ui.screens.interactive.InteractiveCourseScreen
@@ -108,7 +109,13 @@ sealed class Screen(val route: String) {
     }
     data object ResultChecker : Screen("results/check")
     data object Tools : Screen("tools")
-    data object Search : Screen("search")
+    data object Search : Screen("search?query={query}") {
+        fun createRoute(query: String? = null): String = if (query.isNullOrBlank()) {
+            "search"
+        } else {
+            "search?query=${java.net.URLEncoder.encode(query, "UTF-8")}"
+        }
+    }
     data object Notifications : Screen("notifications")
     data object StudyLab : Screen("study_lab")
     data object StudySpace : Screen("study_space/{spaceId}") {
@@ -121,6 +128,7 @@ sealed class Screen(val route: String) {
         fun createRoute(courseSlug: String, lessonSlug: String) = "interactive/lesson/$courseSlug/$lessonSlug"
     }
     data object NebyAi : Screen("neby_ai")
+    data object LocalNeby : Screen("neby_local")
     data object NebyCredits : Screen("credits")
     data object Analytics : Screen("analytics")
     data object Bookmarks : Screen("bookmarks")
@@ -403,7 +411,7 @@ fun NEBiansNavHost(
                     onResourceClick = { resourceId ->
                         navController.navigate(Screen.ResourceDetail.createRoute(resourceId))
                     },
-                    onSearchClick = { navController.navigate(Screen.Search.route) },
+                    onSearchClick = { navController.navigate(Screen.Search.createRoute()) },
                     onViewAllClick = { navController.navigate(Screen.Library.createRoute()) },
                     onForumClick = { navController.navigate(Screen.Forum.route) },
                     onNewsClick = { navController.navigate(Screen.News.route) },
@@ -426,7 +434,7 @@ fun NEBiansNavHost(
                     onResourceClick = { resourceId ->
                         navController.navigate(Screen.ResourceDetail.createRoute(resourceId))
                     },
-                    onSearchClick = { navController.navigate(Screen.Search.route) },
+                    onSearchClick = { navController.navigate(Screen.Search.createRoute()) },
                     onUploadClick = { navController.navigate(Screen.Upload.route) },
                     onNotificationsClick = { navController.navigate(Screen.Notifications.route) },
                     onProfileClick = navigateToOwnProfile,
@@ -443,7 +451,7 @@ fun NEBiansNavHost(
                         navController.navigate(Screen.ForumPostDetail.createRoute(postId))
                     },
                     onCreatePostClick = { navController.navigate(Screen.CreatePost.route) },
-                    onSearchClick = { navController.navigate(Screen.Search.route) },
+                    onSearchClick = { navController.navigate(Screen.Search.createRoute()) },
                     onNotificationsClick = { navController.navigate(Screen.Notifications.route) },
                     onProfileClick = navigateToOwnProfile,
                     onUserProfileClick = { username ->
@@ -458,7 +466,7 @@ fun NEBiansNavHost(
                 NewsScreen(
                     onNewsClick = { slug -> navController.navigate(Screen.NewsDetail.createRoute(slug)) },
                     onNavigateBack = { navController.popBackStack() },
-                    onSearchClick = { navController.navigate(Screen.Search.route) },
+                    onSearchClick = { navController.navigate(Screen.Search.createRoute()) },
                     onNotificationsClick = { navController.navigate(Screen.Notifications.route) },
                     onProfileClick = navigateToOwnProfile
                 )
@@ -485,8 +493,12 @@ fun NEBiansNavHost(
                     onNavigateToResultChecker = { navController.navigate(Screen.ResultChecker.route) }
                 )
             }
-            composable(Screen.Search.route) {
+            composable(
+                route = Screen.Search.route,
+                arguments = listOf(navArgument("query") { type = NavType.StringType; defaultValue = "" })
+            ) { backStackEntry ->
                 SearchScreen(
+                    initialQuery = backStackEntry.arguments?.getString("query").orEmpty(),
                     onResourceClick = { resourceId ->
                         navController.navigate(Screen.ResourceDetail.createRoute(resourceId))
                     },
@@ -517,7 +529,7 @@ fun NEBiansNavHost(
                 StudyLabScreen(
                     onNavigateBack = { navController.popBackStack() },
                     onOpenSpace = { spaceId -> navController.navigate(Screen.StudySpace.createRoute(spaceId)) },
-                    onSearchClick = { navController.navigate(Screen.Search.route) }
+                    onSearchClick = { navController.navigate(Screen.Search.createRoute()) }
                 )
             }
             composable(
@@ -526,13 +538,49 @@ fun NEBiansNavHost(
             ) {
                 StudySpaceScreen(
                     onNavigateBack = { navController.popBackStack() },
-                    onSearchClick = { navController.navigate(Screen.Search.route) }
+                    onSearchClick = { navController.navigate(Screen.Search.createRoute()) }
                 )
             }
             composable(Screen.NebyAi.route) {
                 NebyAiScreen(
                     onNavigateBack = { navController.popBackStack() },
-                    onSearchClick = { navController.navigate(Screen.Search.route) }
+                    onSearchClick = { navController.navigate(Screen.Search.createRoute()) }
+                )
+            }
+            composable(Screen.LocalNeby.route) {
+                LocalNebyScreen(
+                    onNavigateBack = { navController.popBackStack() },
+                    onToolAction = { call ->
+                        when (call.name) {
+                            "search_resources", "find_notes" -> {
+                                val query = listOfNotNull(
+                                    call.argument("query"),
+                                    call.argument("subject"),
+                                    call.argument("grade_level"),
+                                    call.argument("exam_type")
+                                ).distinct().joinToString(" ")
+                                navController.navigate(Screen.Search.createRoute(query))
+                            }
+                            "get_forum_posts" -> navController.navigate(Screen.Forum.route)
+                            "get_subjects" -> navController.navigate(Screen.Library.createRoute())
+                            "navigate_to" -> {
+                                val route = when (call.argument("page")) {
+                                    "home" -> Screen.Home.route
+                                    "library" -> Screen.Library.createRoute()
+                                    "forum" -> Screen.Forum.route
+                                    "search" -> Screen.Search.createRoute()
+                                    "news" -> Screen.News.route
+                                    "settings" -> Screen.Settings.route
+                                    "bookmarks" -> Screen.Bookmarks.route
+                                    "upload" -> Screen.Upload.route
+                                    "results" -> Screen.ResultChecker.route
+                                    "tools" -> Screen.Tools.route
+                                    else -> Screen.Home.route
+                                }
+                                navController.navigate(route)
+                            }
+                        }
+                    }
                 )
             }
             composable(
@@ -566,7 +614,7 @@ fun NEBiansNavHost(
             composable(Screen.Analytics.route) {
                 AnalyticsScreen(
                     onNavigateBack = { navController.popBackStack() },
-                    onSearchClick = { navController.navigate(Screen.Search.route) }
+                    onSearchClick = { navController.navigate(Screen.Search.createRoute()) }
                 )
             }
             composable(Screen.Bookmarks.route) {
@@ -574,7 +622,7 @@ fun NEBiansNavHost(
                     onNavigateBack = { navController.popBackStack() },
                     onResourceClick = { resourceId -> navController.navigate(Screen.ResourceDetail.createRoute(resourceId)) },
                     onPostClick = { postId -> navController.navigate(Screen.ForumPostDetail.createRoute(postId)) },
-                    onSearchClick = { navController.navigate(Screen.Search.route) }
+                    onSearchClick = { navController.navigate(Screen.Search.createRoute()) }
                 )
             }
             composable(Screen.Downloads.route) {
@@ -625,7 +673,7 @@ fun NEBiansNavHost(
                         navController.navigate(Screen.Profile.createRoute(targetUsername))
                     },
                     onAnalyticsClick = { navController.navigate(Screen.Analytics.route) },
-                    onSearchClick = { navController.navigate(Screen.Search.route) },
+                    onSearchClick = { navController.navigate(Screen.Search.createRoute()) },
                     onProfileClick = { targetUsername ->
                         navController.navigate(Screen.Profile.createRoute(targetUsername))
                     }
@@ -653,6 +701,7 @@ fun NEBiansNavHost(
                     onNavigateToEditProfile = { navController.navigate(Screen.EditProfile.route) },
                     onNavigateToBookmarks = { navController.navigate(Screen.Bookmarks.route) },
                     onNavigateToNebyCredits = { navController.navigate(Screen.NebyCredits.route) },
+                    onNavigateToLocalNeby = { navController.navigate(Screen.LocalNeby.route) },
                     onNavigateToDeleteAccount = { navController.navigate(Screen.DeleteAccount.route) },
                     onNavigateToLogin = {
                         navController.navigate(Screen.Login.route) {

@@ -134,7 +134,9 @@ object ApiErrorMapper {
             "serial name",
             "required for type",
             "missing at path",
-            "json",
+            "jsonencodingexception",
+            "jsondecodingexception",
+            "jsonsyntaxexception",
             "stacktrace",
             "traceback",
             "nullpointer",
@@ -157,13 +159,13 @@ object ApiErrorMapper {
      * exactly what's needed to answer "why did my upload fail?".
      */
     fun mapExceptionVerbose(e: Throwable, op: String): String {
-        logRaw(e, op)
+        val httpBody = if (e is HttpException) safeErrorBody(e) else null
+        logRawWithBody(e, op, httpBody)
         return when (e) {
             is HttpException -> {
                 val code = e.code()
-                val body = safeErrorBody(e)
-                val serverMsg = body?.let { parseServerMessage(it) }
-                val snippet = body?.replace(Regex("\\s+"), " ")?.trim()?.take(180).orEmpty()
+                val serverMsg = httpBody?.let { parseServerMessage(it) }
+                val snippet = httpBody?.replace(Regex("\\s+"), " ")?.trim()?.take(180).orEmpty()
                 val detail = serverMsg ?: snippet.ifBlank { "(empty response body)" }
                 "$op failed (HTTP $code): $detail"
             }
@@ -173,8 +175,6 @@ object ApiErrorMapper {
                 val friendly = mapException(e)
                 val raw = e.message?.replace(Regex("\\s+"), " ")?.trim()?.take(140).orEmpty()
                 val cls = e::class.simpleName ?: "Error"
-                // Only override the unhelpful catch-all buckets; keep specific
-                // friendly messages (offline, too large, sign in, ...) as-is.
                 if (friendly.contains("Something went wrong") || friendly.contains("Network error")) {
                     "$op failed ($cls): ${raw.ifBlank { friendly }}"
                 } else {
@@ -188,8 +188,13 @@ object ApiErrorMapper {
         try { e.response()?.errorBody()?.string() } catch (_: Exception) { null }
 
     private fun logRaw(e: Throwable, op: String) {
+        val body = if (e is HttpException) safeErrorBody(e) else null
+        logRawWithBody(e, op, body)
+    }
+
+    private fun logRawWithBody(e: Throwable, op: String, errorBody: String?) {
         try {
-            val body = if (e is HttpException) " HTTP ${e.code()} body=${safeErrorBody(e)?.take(600)}" else ""
+            val body = if (e is HttpException && !errorBody.isNullOrBlank()) " HTTP ${e.code()} body=${errorBody.take(600)}" else ""
             android.util.Log.e("NebUpload", "$op failed: ${e::class.qualifiedName}: ${e.message}$body", e)
         } catch (_: Throwable) {
             // The unit-test JVM has no android.util.Log; never let logging break a flow.

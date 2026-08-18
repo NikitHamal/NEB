@@ -94,7 +94,7 @@
   <div class="study-join-card">
     <span class="study-join-eyebrow"><span class="material-symbols-outlined">group_add</span> Study Space invite</span>
     <h1>{{ space.title }}</h1>
-    {% if space.description %}<p class="study-join-desc">{{ space.description }}</p>{% endif %}
+    {% if space.description %}<p class="study-join-desc">{{ space.description|linkify }}</p>{% endif %}
     <div class="study-join-meta">
       <span class="study-join-chip"><span class="material-symbols-outlined icon-sm">description</span>{{ space.docCount }} docs</span>
       <span class="study-join-chip"><span class="material-symbols-outlined icon-sm">groups</span>{{ space.memberCount }} members</span>

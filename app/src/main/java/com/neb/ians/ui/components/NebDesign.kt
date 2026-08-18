@@ -484,7 +484,7 @@ fun ExpandableText(
     var hasOverflow by remember { mutableStateOf(false) }
 
     androidx.compose.foundation.layout.Column(modifier = modifier) {
-        Text(
+        LinkifyText(
             text = text,
             style = style,
             color = color,

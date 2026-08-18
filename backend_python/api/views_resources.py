@@ -784,42 +784,54 @@ def resource_upload(request):
                 messages_list = getattr(exc, 'messages', [str(exc)])
                 return Response({'error': ' '.join(messages_list)}, status=400)
 
-    resource = Resource(
-        id=str(uuid.uuid4()),
-        title=title,
-        description=data.get('description', '').strip(),
-        subject=subject,
-        grade_level=data.get('grade_level', '').strip(),
-        faculty=data.get('faculty', '').strip(),
-        program=data.get('program', '').strip(),
-        year=data.get('year', '').strip(),
-        exam_type=data.get('exam_type', '').strip(),
-        pradesh=data.get('pradesh', '').strip(),
-        district=data.get('district', '').strip(),
-        school=data.get('school', '').strip(),
-        tags=data.get('tags', '').strip(),
-        type=data.get('type', 'PDF').strip() or 'PDF',
-        file=file_path or None,
-        file_url=file_url,
-        thumbnail_url=thumbnail_url or '',
-        file_size=file_size or int(data.get('file_size') or 0),
-        added_at=_now_ms(),
-        author_name=data.get('author_name', '').strip(),
-        source_type='user',
-        uploaded_by=user,
-        source_label=data.get('source_label', '').strip(),
-        source_url=data.get('source_url', '').strip(),
-        approval_status='pending',
-    )
-    # Marketplace: uploader can list this as paid with a price.
-    is_paid, price_val = parse_paid_fields(data)
-    resource.is_paid = is_paid
-    resource.price = price_val
-    resource.save()
-    if not resource.thumbnail_url:
-        maybe_autoset_video_thumbnail(resource, request)
-    cache.delete_many(['home_resources', 'library_all_resources'])
-    return Response(ResourceSerializer(resource).data, status=201)
+    raw_size = data.get('file_size')
+    parsed_size = 0
+    if raw_size:
+        try:
+            parsed_size = int(float(raw_size))
+        except (ValueError, TypeError):
+            parsed_size = 0
+
+    try:
+        resource = Resource(
+            id=str(uuid.uuid4()),
+            title=title,
+            description=data.get('description', '').strip(),
+            subject=subject,
+            grade_level=data.get('grade_level', '').strip(),
+            faculty=data.get('faculty', '').strip(),
+            program=data.get('program', '').strip(),
+            year=data.get('year', '').strip(),
+            exam_type=data.get('exam_type', '').strip(),
+            pradesh=data.get('pradesh', '').strip(),
+            district=data.get('district', '').strip(),
+            school=data.get('school', '').strip(),
+            tags=data.get('tags', '').strip(),
+            type=data.get('type', 'PDF').strip() or 'PDF',
+            file=file_path or None,
+            file_url=file_url,
+            thumbnail_url=thumbnail_url or '',
+            file_size=file_size or parsed_size,
+            added_at=_now_ms(),
+            author_name=data.get('author_name', '').strip(),
+            source_type='user',
+            uploaded_by=user,
+            source_label=data.get('source_label', '').strip(),
+            source_url=data.get('source_url', '').strip(),
+            approval_status='pending',
+        )
+        # Marketplace: uploader can list this as paid with a price.
+        is_paid, price_val = parse_paid_fields(data)
+        resource.is_paid = is_paid
+        resource.price = price_val
+        resource.save()
+        if not resource.thumbnail_url:
+            maybe_autoset_video_thumbnail(resource, request)
+        cache.delete_many(['home_resources', 'library_all_resources'])
+        return Response(ResourceSerializer(resource).data, status=201)
+    except Exception as exc:
+        logger.exception("resource_upload failed to save resource: %s", exc)
+        return Response({'error': f'Failed to save resource: {str(exc)}'}, status=500)
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -877,37 +889,49 @@ def resource_upload_anonymous(request):
                 return Response({'error': ' '.join(messages_list)}, status=400)
 
     requester_name = data.get('requester_name', '').strip()[:100]
-    resource = Resource(
-        id=str(uuid.uuid4()),
-        title=title,
-        description=data.get('description', '').strip(),
-        subject=subject,
-        grade_level=data.get('grade_level', '').strip(),
-        faculty=data.get('faculty', '').strip(),
-        program=data.get('program', '').strip(),
-        year=data.get('year', '').strip(),
-        exam_type=data.get('exam_type', '').strip(),
-pradesh=data.get('pradesh', '').strip(),
-        district=data.get('district', '').strip(),
-        school=data.get('school', '').strip(),
-        tags=data.get('tags', '').strip(),
-        type=data.get('type', 'PDF').strip() or 'PDF',
-        file=file_path or None,
-        file_url=file_url,
-        thumbnail_url=thumbnail_url or '',
-        file_size=file_size or int(data.get('file_size') or 0),
-        added_at=_now_ms(),
-        author_name=requester_name,
-        source_type='anonymous',
-        approval_status='pending',
-        source_label=data.get('source_label', '').strip(),
-        source_url=data.get('source_url', '').strip(),
-    )
-    resource.save()
-    if not resource.thumbnail_url:
-        maybe_autoset_video_thumbnail(resource, request)
-    cache.delete_many(['home_resources', 'library_all_resources'])
-    return Response(ResourceSerializer(resource).data, status=201)
+    raw_size = data.get('file_size')
+    parsed_size = 0
+    if raw_size:
+        try:
+            parsed_size = int(float(raw_size))
+        except (ValueError, TypeError):
+            parsed_size = 0
+
+    try:
+        resource = Resource(
+            id=str(uuid.uuid4()),
+            title=title,
+            description=data.get('description', '').strip(),
+            subject=subject,
+            grade_level=data.get('grade_level', '').strip(),
+            faculty=data.get('faculty', '').strip(),
+            program=data.get('program', '').strip(),
+            year=data.get('year', '').strip(),
+            exam_type=data.get('exam_type', '').strip(),
+            pradesh=data.get('pradesh', '').strip(),
+            district=data.get('district', '').strip(),
+            school=data.get('school', '').strip(),
+            tags=data.get('tags', '').strip(),
+            type=data.get('type', 'PDF').strip() or 'PDF',
+            file=file_path or None,
+            file_url=file_url,
+            thumbnail_url=thumbnail_url or '',
+            file_size=file_size or parsed_size,
+            added_at=_now_ms(),
+            author_name=requester_name,
+            source_type='anonymous',
+            approval_status='pending',
+            source_label=data.get('source_label', '').strip(),
+            source_url=data.get('source_url', '').strip(),
+        )
+        resource.save()
+        if not resource.thumbnail_url:
+            maybe_autoset_video_thumbnail(resource, request)
+        cache.delete_many(['home_resources', 'library_all_resources'])
+        return Response(ResourceSerializer(resource).data, status=201)
+    except Exception as exc:
+        logger.exception("resource_upload_anonymous failed to save resource: %s", exc)
+        return Response({'error': f'Failed to save resource: {str(exc)}'}, status=500)
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
