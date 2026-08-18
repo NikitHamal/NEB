@@ -9,6 +9,7 @@ import ipaddress
 import os
 import re
 import secrets
+import shutil
 import socket
 import time
 import uuid
