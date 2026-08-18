@@ -60,7 +60,7 @@ def _serialize_announcement(a, include_content=False):
         'external_url': a.external_url or '',
         'tags': a.tags or '',
         'author_name': (a.author.display_name or a.author.username) if a.author else 'NEBians Team',
-        'author_photo': (a.author.photo_url or '') if a.author else '',
+        'author_photo': _avatar_url(a.author) if a.author else '',
         'published_at': a.published_at,
         'created_at': a.created_at,
         'view_count': a.view_count,
@@ -141,7 +141,7 @@ def _blog_comment_dict(c, user_id, liked_ids, bookmarked_ids):
         'id': c.id,
         'authorId': c.author_id,
         'authorName': c.author.username,
-        'authorPhotoUrl': c.author.photo_url or '',
+        'authorPhotoUrl': _avatar_url(c.author),
         'authorBadgeInfo': _user_badge_info(c.author),
         'parentReplyId': parent_id,
         'parentCommentId': parent_id,
@@ -158,7 +158,7 @@ def _blog_comment_dict(c, user_id, liked_ids, bookmarked_ids):
         # Legacy durability for older app builds.
         'author_name': c.author.username,
         'author_initials': (c.author.username or 'N')[:2].upper(),
-        'author_photo': c.author.photo_url or '',
+        'author_photo': _avatar_url(c.author),
         'text': c.text,
         'created_at': c.created_at,
     }

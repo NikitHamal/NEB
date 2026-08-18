@@ -37,7 +37,21 @@ class UserSerializer(serializers.ModelSerializer):
             ret['class'] = ret['class_level']
         if 'is_locked' in ret:
             ret['is_locked'] = 1 if ret['is_locked'] else 0
+        if not (ret.get('photo_url') or ''):
+            ret['photo_url'] = self._blobatar_absolute(instance)
         return ret
+
+    def _blobatar_absolute(self, instance):
+        from urllib.parse import quote
+        from .services import avatar_options_for, avatar_path
+        path = avatar_path(instance.username)
+        prefs = avatar_options_for(instance)
+        if prefs:
+            path += '?' + '&'.join('%s=%s' % (k, quote(str(v), safe='')) for k, v in sorted(prefs.items()))
+        request = self.context.get('request')
+        if request:
+            return request.build_absolute_uri(path)
+        return path
 
 
 class UserPublicSerializer(serializers.ModelSerializer):
@@ -52,6 +66,15 @@ class UserPublicSerializer(serializers.ModelSerializer):
         ret = super().to_representation(instance)
         if 'is_locked' in ret:
             ret['is_locked'] = 1 if ret['is_locked'] else 0
+        if not (ret.get('photo_url') or ''):
+            from urllib.parse import quote
+            from .services import avatar_options_for, avatar_path
+            path = avatar_path(instance.username)
+            prefs = avatar_options_for(instance)
+            if prefs:
+                path += '?' + '&'.join('%s=%s' % (k, quote(str(v), safe='')) for k, v in sorted(prefs.items()))
+            request = self.context.get('request')
+            ret['photo_url'] = request.build_absolute_uri(path) if request else path
         return ret
 
 
@@ -167,7 +190,12 @@ class ResourceSerializer(serializers.ModelSerializer):
             return None
         photo = getattr(user, 'photo_url', None) or getattr(user, 'photoUrl', None)
         if not photo:
-            return None
+            from urllib.parse import quote
+            from .services import avatar_options_for, avatar_path
+            photo = avatar_path(getattr(user, 'username', '') or '')
+            prefs = avatar_options_for(user)
+            if prefs:
+                photo += '?' + '&'.join('%s=%s' % (k, quote(str(v), safe='')) for k, v in sorted(prefs.items()))
         request = self.context.get('request')
         if request and photo and not photo.startswith('http'):
             return request.build_absolute_uri(photo)

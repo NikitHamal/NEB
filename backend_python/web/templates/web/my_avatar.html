@@ -1,0 +1,501 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}My Avatar — NEBians{% endblock %}
+{% block robots %}<meta name="robots" content="noindex, nofollow">{% endblock %}
+
+{% block extra_css %}
+<style>
+  .avatar-main-wrap {
+    position: relative;
+    display: inline-block;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.16);
+    line-height: 0;
+  }
+  .avatar-main-wrap img { display: block; }
+  .avatar-live-box {
+    width: 160px;
+    height: 160px;
+    border-radius: 24px;
+    background: var(--md-surface-container);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: transform 0.15s ease;
+  }
+  .avatar-live-box svg { width: 100%; height: 100%; display: block; }
+  .avatar-live-box.previewing { transform: scale(0.96); }
+  .avatar-status-line { min-height: 20px; font-size: 0.8125rem; }
+  .avatar-status-ok { color: var(--md-primary); }
+  .avatar-status-err { color: var(--md-error); }
+  .avatar-status-warn { color: var(--md-tertiary); }
+  .cooldown-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .cooldown-chip {
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--md-secondary-container);
+    color: var(--md-on-secondary-container);
+  }
+  .cooldown-chip.active { background: var(--md-primary); color: var(--md-on-primary); font-weight: 600; }
+  .avatar-success-banner {
+    display: flex; align-items: center; gap: 10px;
+    background: color-mix(in srgb, var(--md-primary) 10%, transparent);
+    color: var(--md-primary);
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 0.875rem;
+    margin-bottom: 16px;
+  }
+  .avatar-style-row { margin-bottom: 18px; }
+  .avatar-style-label {
+    display: block; font-size: 0.8125rem; font-weight: 500;
+    color: var(--md-on-surface-variant); margin-bottom: 8px;
+  }
+  .pick-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pick-chip {
+    font-size: 0.8125rem; padding: 6px 14px; border-radius: 999px;
+    border: 1px solid var(--md-outline-variant);
+    background: transparent; color: var(--md-on-surface-variant);
+    cursor: pointer; transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
+  .pick-chip:hover { border-color: var(--md-primary); }
+  .pick-chip.active {
+    background: var(--md-primary); border-color: var(--md-primary);
+    color: var(--md-on-primary); font-weight: 600;
+  }
+  .pick-chip.auto-active { background: var(--md-secondary-container); border-color: var(--md-secondary-container); color: var(--md-on-secondary-container); font-weight: 600; }
+  .avatar-slider-row { display: flex; align-items: center; gap: 12px; }
+  .avatar-slider-row input[type="range"] { flex: 1; accent-color: var(--md-primary); }
+  .avatar-slider-val { min-width: 44px; text-align: right; font-size: 0.8125rem; color: var(--md-on-surface-variant); font-variant-numeric: tabular-nums; }
+  .md-btn-text.btn-tiny { padding: 2px 10px; font-size: 0.75rem; min-height: 28px; }
+  @keyframes av-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+  @keyframes av-wave { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(5deg); } 75% { transform: rotate(-5deg); } }
+  @keyframes av-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  @keyframes av-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+  #live-avatar svg.anim-bob { animation: av-bob 3s ease-in-out infinite; }
+  #live-avatar svg.anim-wave { animation: av-wave 4s ease-in-out infinite; }
+  #live-avatar svg.anim-spin { animation: av-spin 6s linear infinite; }
+  #live-avatar svg.anim-pulse { animation: av-pulse 3s ease-in-out infinite; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="md-container-narrow" style="padding-top:24px; padding-bottom: 48px;">
+  <div style="text-align:left;margin-bottom:24px;">
+    <a href="{% url 'web:settings' %}" class="md-btn md-btn-text" style="padding:4px 8px;margin:-4px -8px;text-decoration:none;" data-action="go-back">
+      <span class="material-symbols-outlined" style="font-size:20px;vertical-align:middle;">arrow_back</span> Back to Settings
+    </a>
+  </div>
+
+  <div style="margin-bottom: 24px;">
+    <h1 style="font-size:1.75rem;font-weight:600;margin:0;">My Avatar</h1>
+    <p style="font-size:0.875rem;color:var(--md-on-surface-variant);margin:4px 0 0;">Your avatar is generated from your username — every NEBian gets a unique one.</p>
+  </div>
+
+  {% if has_avatar_changed %}
+  <div class="avatar-success-banner">
+    <span class="material-symbols-outlined" style="font-size:20px;">check_circle</span>
+    Username updated — your new avatar is now live everywhere.
+  </div>
+  {% endif %}
+
+  <!-- Current Avatar -->
+  <div style="margin-bottom: 24px;">
+    <div class="md-card" style="padding:32px; text-align:center;">
+      <div class="avatar-main-wrap">
+        <img id="avatar-main" src="{{ avatar_main_url }}" width="160" height="160" alt="Your avatar">
+      </div>
+      <h4 style="margin:16px 0 4px;font-size:1.125rem;font-weight:600;">@{{ user.username }}</h4>
+      <p style="margin:0;font-size:0.8125rem;color:var(--md-on-surface-variant);">This is the avatar other NEBians see next to your name.</p>
+      {% if has_photo %}
+      <p style="margin:12px 0 0;font-size:0.8125rem;color:var(--md-tertiary);">
+        <span class="material-symbols-outlined" style="font-size:14px;vertical-align:-2px;">info</span>
+        You have an uploaded profile photo — it is shown first. Your generated avatar still updates with your username.
+      </p>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Change Username -->
+  <div style="margin-bottom: 24px;">
+    <h2 style="font-size:0.875rem;font-weight:600;color:var(--md-primary);text-transform:uppercase;letter-spacing:0.5px;margin:0 0 12px 4px;">Change Your Avatar</h2>
+    <div class="md-card" style="padding:24px;">
+      <p style="margin:0 0 16px;font-size:0.875rem;color:var(--md-on-surface-variant);">
+        Your avatar only changes when your username changes. Type a new username below and watch your avatar update live.
+      </p>
+      <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:center;">
+        <div id="live-avatar" class="avatar-live-box" aria-hidden="true"></div>
+        <div style="flex:1;min-width:240px;">
+          <label for="username-input" style="display:block;font-size:0.8125rem;font-weight:500;margin-bottom:6px;color:var(--md-on-surface-variant);">New username</label>
+          <div class="md-textfield" style="margin-bottom:8px;">
+            <input type="text" id="username-input" maxlength="50" autocomplete="off" autocapitalize="off" spellcheck="false" value="{{ user.username }}">
+          </div>
+          <div class="avatar-status-line" id="username-status" role="status"></div>
+          <div class="avatar-status-line" id="cooldown-line" style="margin-top:4px;"></div>
+          <button class="md-btn md-btn-primary" id="save-btn" style="margin-top:12px;" disabled>
+            <span class="material-symbols-outlined" style="font-size:18px;">check</span> Save Username
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Avatar Style -->
+  <div style="margin-bottom: 24px;">
+    <h2 style="font-size:0.875rem;font-weight:600;color:var(--md-primary);text-transform:uppercase;letter-spacing:0.5px;margin:0 0 12px 4px;">Avatar Style</h2>
+    <div class="md-card" style="padding:24px;">
+      <p style="margin:0 0 20px;font-size:0.875rem;color:var(--md-on-surface-variant);">
+        Fine-tune your avatar: pick a background shape, colors, and a gentle animation. Auto keeps the colors your username naturally generates.
+      </p>
+
+      <div class="avatar-style-row">
+        <span class="avatar-style-label">Background</span>
+        <div class="pick-chips" id="bg-chips">
+          <button type="button" class="pick-chip auto-active" data-bg="">Auto</button>
+          <button type="button" class="pick-chip" data-bg="square">Square</button>
+          <button type="button" class="pick-chip" data-bg="circle">Circle</button>
+          <button type="button" class="pick-chip" data-bg="squircle">Squircle</button>
+        </div>
+      </div>
+
+      <div class="avatar-style-row">
+        <span class="avatar-style-label">Color hue <span id="hue-val" style="color:var(--md-on-surface);">Auto</span></span>
+        <div class="avatar-slider-row">
+          <input type="range" id="hue-slider" min="0" max="360" step="1" value="0">
+          <button type="button" class="md-btn md-btn-text btn-tiny" id="hue-auto">Auto</button>
+        </div>
+      </div>
+
+      <div class="avatar-style-row">
+        <span class="avatar-style-label">Color tone <span id="tone-val" style="color:var(--md-on-surface);">Auto</span></span>
+        <div class="avatar-slider-row">
+          <input type="range" id="tone-slider" min="0" max="100" step="1" value="50">
+          <button type="button" class="md-btn md-btn-text btn-tiny" id="tone-auto">Auto</button>
+        </div>
+      </div>
+
+      <div class="avatar-style-row">
+        <span class="avatar-style-label">Animation</span>
+        <div class="pick-chips" id="anim-chips">
+          <button type="button" class="pick-chip active" data-anim="">None</button>
+          <button type="button" class="pick-chip" data-anim="bob">Bob</button>
+          <button type="button" class="pick-chip" data-anim="wave">Wave</button>
+          <button type="button" class="pick-chip" data-anim="spin">Spin</button>
+          <button type="button" class="pick-chip" data-anim="pulse">Pulse</button>
+        </div>
+      </div>
+
+      <button class="md-btn md-btn-primary" id="save-style-btn" disabled>
+        <span class="material-symbols-outlined" style="font-size:18px;">check</span> Save Avatar Style
+      </button>
+    </div>
+  </div>
+
+  <!-- Cooldown Schedule -->
+  <div>
+    <h2 style="font-size:0.875rem;font-weight:600;color:var(--md-primary);text-transform:uppercase;letter-spacing:0.5px;margin:0 0 12px 4px;">Username Changes</h2>
+    <div class="md-card" style="padding:24px;">
+      <p style="margin:0;font-size:0.875rem;color:var(--md-on-surface-variant);">
+        Username changes are rate-limited so names stay stable. Your first change is free; after that, wait times increase:
+      </p>
+      <div class="cooldown-chips">
+        <span class="cooldown-chip {% if avatar_status.change_count == 0 %}active{% endif %}">1st — free</span>
+        {% for d in avatar_status.schedule %}
+        <span class="cooldown-chip {% if avatar_status.change_count == forloop.counter %}active{% endif %}">Change #{{ forloop.counter|add:1 }} — {{ d }} days</span>
+        {% endfor %}
+      </div>
+      <p style="margin:16px 0 0;font-size:0.8125rem;color:var(--md-on-surface-variant);" id="cooldown-now">
+        You have changed your username {{ avatar_status.change_count }} time{{ avatar_status.change_count|pluralize }} so far.
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/blobatar.js' %}"></script>
+<script nonce="{{ csp_nonce }}">
+(function () {
+  var CURRENT = '{{ user.username|escapejs }}';
+  var input = document.getElementById('username-input');
+  var live = document.getElementById('live-avatar');
+  var statusEl = document.getElementById('username-status');
+  var cooldownEl = document.getElementById('cooldown-line');
+  var saveBtn = document.getElementById('save-btn');
+  var avatarMain = document.getElementById('avatar-main');
+  var debounceTimer = null;
+  var checkTimer = null;
+  var lastChecked = '';
+  var available = null;
+
+  var STATUS = {{ avatar_status_json|safe }};
+  var isBlocked = !STATUS.allowed;
+
+  var STYLE = {{ avatar_raw|safe }};
+  var SAVED_STYLE = JSON.parse(JSON.stringify(STYLE));
+  var hueSlider = document.getElementById('hue-slider');
+  var toneSlider = document.getElementById('tone-slider');
+  var hueVal = document.getElementById('hue-val');
+  var toneVal = document.getElementById('tone-val');
+  var saveStyleBtn = document.getElementById('save-style-btn');
+
+  function buildOpts() {
+    var o = {};
+    if (STYLE.hue >= 0) o.hue = STYLE.hue;
+    if (STYLE.tone >= 0) o.tone = STYLE.tone;
+    if (STYLE.bg) o.background = STYLE.bg;
+    if (STYLE.anim) o.anim = STYLE.anim;
+    return o;
+  }
+
+  function renderPreview(name) {
+    var svg;
+    try {
+      svg = window.Blobatar ? window.Blobatar.blobatar(name, buildOpts()) : '';
+    } catch (e) { svg = ''; }
+    if (svg) {
+      live.innerHTML = svg;
+      live.classList.add('previewing');
+      var s = live.querySelector('svg');
+      if (s) s.className = STYLE.anim ? 'anim-' + STYLE.anim : '';
+    } else {
+      live.innerHTML = '';
+      live.classList.remove('previewing');
+    }
+  }
+
+  function syncStyleControls() {
+    document.querySelectorAll('#bg-chips .pick-chip').forEach(function (c) {
+      var on = c.getAttribute('data-bg') === STYLE.bg;
+      c.classList.toggle('active', on);
+      c.classList.toggle('auto-active', on && STYLE.bg === '');
+    });
+    document.querySelectorAll('#anim-chips .pick-chip').forEach(function (c) {
+      var on = c.getAttribute('data-anim') === STYLE.anim;
+      c.classList.toggle('active', on);
+      c.classList.toggle('auto-active', on && STYLE.anim === '');
+    });
+    var hueAuto = STYLE.hue < 0;
+    hueSlider.disabled = hueAuto;
+    hueSlider.value = hueAuto ? 0 : STYLE.hue;
+    hueVal.textContent = hueAuto ? 'Auto' : STYLE.hue;
+    var toneAuto = STYLE.tone < 0;
+    toneSlider.disabled = toneAuto;
+    toneSlider.value = toneAuto ? 50 : Math.round(STYLE.tone * 100);
+    toneVal.textContent = toneAuto ? 'Auto' : STYLE.tone.toFixed(2);
+  }
+
+  function styleChanged() {
+    saveStyleBtn.disabled = JSON.stringify(STYLE) === JSON.stringify(SAVED_STYLE);
+  }
+
+  function restyle() {
+    syncStyleControls();
+    var v = input.value.trim();
+    renderPreview(v || CURRENT);
+    styleChanged();
+  }
+
+  document.querySelectorAll('#bg-chips .pick-chip').forEach(function (c) {
+    c.addEventListener('click', function () {
+      STYLE.bg = c.getAttribute('data-bg');
+      restyle();
+    });
+  });
+  document.querySelectorAll('#anim-chips .pick-chip').forEach(function (c) {
+    c.addEventListener('click', function () {
+      STYLE.anim = c.getAttribute('data-anim');
+      restyle();
+    });
+  });
+  hueSlider.addEventListener('input', function () {
+    STYLE.hue = parseInt(hueSlider.value, 10);
+    restyle();
+  });
+  toneSlider.addEventListener('input', function () {
+    STYLE.tone = parseInt(toneSlider.value, 10) / 100;
+    restyle();
+  });
+  document.getElementById('hue-auto').addEventListener('click', function () {
+    STYLE.hue = STYLE.hue < 0 ? parseInt(hueSlider.value, 10) : -1;
+    restyle();
+  });
+  document.getElementById('tone-auto').addEventListener('click', function () {
+    STYLE.tone = STYLE.tone < 0 ? Math.round(parseInt(toneSlider.value, 10)) / 100 : -1;
+    restyle();
+  });
+  saveStyleBtn.addEventListener('click', function () {
+    if (saveStyleBtn.disabled) return;
+    saveStyleBtn.disabled = true;
+    fetch('/ajax/avatar/customize/', {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+      body: JSON.stringify({ background: STYLE.bg, hue: STYLE.hue, tone: STYLE.tone, anim: STYLE.anim })
+    })
+      .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+      .then(function (res) {
+        if (res.ok && res.d && res.d.status === 'success') {
+          SAVED_STYLE = JSON.parse(JSON.stringify(STYLE));
+          avatarMain.src = res.d.avatarUrl;
+          styleChanged();
+          showSnackbar('Avatar style saved — it is now live everywhere!');
+          document.querySelectorAll('img[alt="Profile"]').forEach(function (img) { img.src = res.d.avatarUrl; });
+        } else {
+          saveStyleBtn.disabled = false;
+          showSnackbar((res.d && res.d.error) || 'Failed to save avatar style.');
+        }
+      })
+      .catch(function () {
+        saveStyleBtn.disabled = false;
+        showSnackbar('Network error — please try again.');
+      });
+  });
+
+  function validName(name) {
+    return /^[a-zA-Z0-9_]{3,50}$/.test(name);
+  }
+
+  function setStatus(text, cls) {
+    statusEl.textContent = text || '';
+    statusEl.className = 'avatar-status-line' + (cls ? ' avatar-status-' + cls : '');
+  }
+
+  function setCooldown(text, cls) {
+    cooldownEl.textContent = text || '';
+    cooldownEl.className = 'avatar-status-line' + (cls ? ' avatar-status-' + cls : '');
+  }
+
+  function formatDate(ms) {
+    if (!ms) return '';
+    try {
+      return new Date(ms).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+    } catch (e) { return ''; }
+  }
+
+  function cooldownText() {
+    if (!STATUS.allowed && STATUS.next_change_at) {
+      return 'You can change your username again on ' + formatDate(STATUS.next_change_at) + '.';
+    }
+    if (STATUS.change_count > 0) {
+      return 'You are free to change your username now.';
+    }
+    return 'Your first username change is free.';
+  }
+
+  function updateSave() {
+    var v = input.value.trim();
+    var changed = v !== CURRENT;
+    saveBtn.disabled = !(changed && validName(v) && available === true && !isBlocked);
+  }
+
+  function checkAvailability(name) {
+    fetch('/ajax/check-username/?username=' + encodeURIComponent(name), { credentials: 'same-origin' })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        if (lastChecked !== name) return;
+        if (d.available) {
+          available = true;
+          setStatus('"' + name + '" is available.', 'ok');
+        } else {
+          available = false;
+          setStatus('That username is already taken.', 'err');
+        }
+        updateSave();
+      })
+      .catch(function () { available = null; updateSave(); });
+  }
+
+  input.addEventListener('input', function () {
+    var v = input.value.trim();
+    if (!v) {
+      renderPreview(CURRENT);
+      setStatus('');
+      available = null;
+      updateSave();
+      return;
+    }
+    renderPreview(v);
+    live.classList.remove('previewing');
+    requestAnimationFrame(function () { live.classList.add('previewing'); });
+    if (!validName(v)) {
+      setStatus('Usernames are 3-50 characters: letters, numbers, underscores.', 'err');
+      available = null;
+      updateSave();
+      return;
+    }
+    if (v === CURRENT) {
+      setStatus('That is your current username.', 'warn');
+      available = null;
+      updateSave();
+      return;
+    }
+    if (isBlocked) {
+      setStatus(cooldownText(), 'err');
+      available = null;
+      updateSave();
+      return;
+    }
+    clearTimeout(debounceTimer);
+    clearTimeout(checkTimer);
+    debounceTimer = setTimeout(function () { live.classList.remove('previewing'); }, 200);
+    checkTimer = setTimeout(function () {
+      lastChecked = v;
+      available = null;
+      setStatus('Checking availability…');
+      checkAvailability(v);
+      updateSave();
+    }, 250);
+  });
+
+  saveBtn.addEventListener('click', function () {
+    var v = input.value.trim();
+    if (saveBtn.disabled) return;
+    saveBtn.disabled = true;
+    setStatus('Saving…');
+    fetch('/ajax/avatar/change-username/', {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+      body: JSON.stringify({ username: v })
+    })
+      .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+      .then(function (res) {
+        if (res.ok && res.d && res.d.status === 'success') {
+          CURRENT = res.d.username;
+          isBlocked = true;
+          STATUS = { allowed: false, change_count: res.d.changeCount, next_change_at: res.d.nextChangeAt };
+          input.value = CURRENT;
+          renderPreview(CURRENT);
+          avatarMain.src = res.d.avatarUrl;
+          setStatus('Username updated to @' + CURRENT + '!', 'ok');
+          setCooldown(cooldownText(), 'warn');
+          updateSave();
+          showSnackbar('Username updated — your new avatar is live!');
+          document.querySelectorAll('img[alt="Profile"]').forEach(function (img) { img.src = res.d.avatarUrl; });
+          var nowP = document.getElementById('cooldown-now');
+          if (nowP) nowP.textContent = 'You have changed your username ' + res.d.changeCount + ' time' + (res.d.changeCount === 1 ? '' : 's') + ' so far.';
+        } else {
+          saveBtn.disabled = false;
+          setStatus((res.d && res.d.error) || 'Failed to update username.', 'err');
+          showSnackbar((res.d && res.d.error) || 'Failed to update username.');
+        }
+      })
+      .catch(function () {
+        saveBtn.disabled = false;
+        setStatus('Network error — please try again.', 'err');
+        showSnackbar('Network error — please try again.');
+      });
+  });
+
+  renderPreview(CURRENT);
+  setCooldown(cooldownText(), STATUS.allowed ? 'ok' : 'warn');
+  syncStyleControls();
+  updateSave();
+})();
+</script>
+{% endblock %}

@@ -38,6 +38,20 @@
       
       <div style="height:1px;background:var(--md-outline-variant);opacity:0.5;margin:0 16px;"></div>
 
+      <!-- My Avatar -->
+      <a href="{% url 'web:my_avatar' %}" style="display:flex;align-items:center;padding:16px;text-decoration:none;color:inherit;transition:background 0.2s;" class="settings-item-hover">
+        <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;margin-right:16px;color:var(--md-on-surface-variant);">
+          <span class="material-symbols-outlined">blur_on</span>
+        </div>
+        <div style="flex-grow:1;">
+          <h4 style="margin:0;font-size:0.9375rem;font-weight:600;">My Avatar</h4>
+          <p style="margin:2px 0 0;font-size:0.8125rem;color:var(--md-on-surface-variant);">Preview your generated avatar and change your username</p>
+        </div>
+        <span class="material-symbols-outlined" style="color:var(--md-on-surface-variant);">chevron_right</span>
+      </a>
+
+      <div style="height:1px;background:var(--md-outline-variant);opacity:0.5;margin:0 16px;"></div>
+
       <!-- Password / Security -->
       <a href="{% url 'web:password' %}" style="display:flex;align-items:center;padding:16px;text-decoration:none;color:inherit;transition:background 0.2s;" class="settings-item-hover">
         <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;margin-right:16px;color:var(--md-on-surface-variant);">
