@@ -625,7 +625,7 @@ def ajax_instant_search(request):
             if meili_users is not None:
                 u_ids = [h['id'] for h in meili_users]
                 for u in User.objects.filter(pk__in=u_ids, email_verified=True):
-                    users.append({'id': u.id, 'username': u.username, 'displayName': u.display_name or u.username, 'photoUrl': u.photo_url, 'url': f'/profile/{u.username}/'})
+                    users.append({'id': u.id, 'username': u.username, 'displayName': u.display_name or u.username, 'photoUrl': _avatar_url(u), 'url': f'/profile/{u.username}/'})
     if not use_meili:
         import re
         import operator
@@ -645,7 +645,7 @@ def ajax_instant_search(request):
             if tab in ('all', 'users'):
                 qs = User.objects.filter(Q(username__icontains=query) | Q(display_name__icontains=query), is_locked=False, email_verified=True).order_by('-follower_count')[:10]
                 for u in qs:
-                    users.append({'id': u.id, 'username': u.username, 'displayName': u.display_name or u.username, 'photoUrl': u.photo_url, 'url': f'/profile/{u.username}/'})
+                    users.append({'id': u.id, 'username': u.username, 'displayName': u.display_name or u.username, 'photoUrl': _avatar_url(u), 'url': f'/profile/{u.username}/'})
     return JsonResponse({'results': {'resources': resources, 'posts': posts, 'users': users}})
 def reader(request, resource_id):
     """Resource detail page — shows title, description, view/download/like actions, and comments."""
@@ -757,7 +757,7 @@ def reader(request, resource_id):
             'id': c.id,
             'authorId': c.user_id,
             'authorName': c.user.username if c.user else '',
-            'authorPhotoUrl': c.user.photo_url if c.user else '',
+            'authorPhotoUrl': _avatar_url(c.user) if c.user else '',
             'authorBadgeInfo': _user_badge_info(c.user) if c.user else None,
             'parentReplyId': parent_id,
             'parentCommentId': parent_id,
@@ -963,7 +963,7 @@ def resource_requests_page(request):
             'is_upvoted': req.id in upvoted_ids,
             'created_at': req.created_at,
             'requested_by_name': req.requested_by.display_name or req.requested_by.username if req.requested_by else (req.requester_name or 'Anonymous'),
-            'requested_by_photo': req.requested_by.photo_url if req.requested_by else '',
+            'requested_by_photo': _avatar_url(req.requested_by) if req.requested_by else '',
         }
         requests_data.append(rd)
 

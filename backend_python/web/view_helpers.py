@@ -49,7 +49,7 @@ from . import api_client as api
 logger = logging.getLogger(__name__)
 
 import math
-from urllib.parse import urlparse, parse_qs
+from urllib.parse import urlparse, parse_qs, quote
 
 _VIDEO_EXTS = ('.mp4', '.webm', '.mkv', '.mov', '.m4v', '.3gp', '.ogv', '.avi')
 _AUDIO_EXTS = ('.mp3', '.wav', '.ogg', '.oga', '.flac', '.aac', '.m4a', '.opus', '.wma')
@@ -233,7 +233,7 @@ def _serialize_resource(r, _uploaded_by_map=None):
             ub = r.uploaded_by
         if ub:
             uploaded_by_name = ub.display_name or ub.username
-            uploaded_by_photo = ub.photo_url or ''
+            uploaded_by_photo = _avatar_url(ub)
             uploaded_by_username = ub.username
     file_url = r.file_url or ''
     if r.file:
@@ -515,7 +515,7 @@ def _serialize_posts(posts_qs, user_id=None):
         result.append({
             'id': p.id, 'title': p.title, 'content': p.content, 'category': p.category,
             'authorName': 'Anonymous Nebian' if anon else p.user.username,
-            'authorPhotoUrl': '' if anon else p.user.photo_url,
+            'authorPhotoUrl': '' if anon else _avatar_url(p.user),
             'authorBadgeInfo': None if anon else _user_badge_info(p.user),
             'authorAchievements': [] if anon else _user_achievement_badges(p.user),
             'authorIsBot': False if anon else p.user.is_bot,
@@ -558,7 +558,7 @@ def _serialize_post(p, user_id=None, _liked_ids=None, _followed_ids=None, _bookm
     return {
         'id': p.id, 'title': p.title, 'content': p.content, 'category': p.category,
         'authorName': 'Anonymous Nebian' if anon else p.user.username,
-        'authorPhotoUrl': '' if anon else p.user.photo_url,
+        'authorPhotoUrl': '' if anon else _avatar_url(p.user),
         'authorBadgeInfo': None if anon else _user_badge_info(p.user),
         'authorAchievements': [] if anon else _user_achievement_badges(p.user),
         'authorIsBot': False if anon else p.user.is_bot,
@@ -636,14 +636,14 @@ def _serialize_replies(replies_qs, user_id=None):
                 child_authors.append({
                     'id': '' if c_anon else c.user_id,
                     'username': 'Anonymous Nebian' if c_anon else c.user.username,
-                    'photoUrl': '' if c_anon else c.user.photo_url,
+                    'photoUrl': '' if c_anon else _avatar_url(c.user),
                 })
         anon = bool(getattr(r, 'is_anonymous', False))
         result.append({
             'id': r.id, 'postId': r.post_id, 'postTitle': r.post.title if r.post else '', 'parentReplyId': r.parent_reply_id,
             'content': r.content,
             'authorName': 'Anonymous Nebian' if anon else r.user.username,
-            'authorPhotoUrl': '' if anon else r.user.photo_url,
+            'authorPhotoUrl': '' if anon else _avatar_url(r.user),
             'authorId': '' if anon else r.user_id,
             'authorBadgeInfo': None if anon else _user_badge_info(r.user),
             'authorAchievements': [] if anon else _user_achievement_badges(r.user),
@@ -685,7 +685,7 @@ def _serialize_reply(r, user_id=None, _liked_ids=None, _bookmarked_ids=None):
         'id': r.id, 'postId': r.post_id, 'parentReplyId': r.parent_reply_id,
         'content': r.content,
         'authorName': 'Anonymous Nebian' if anon else r.user.username,
-        'authorPhotoUrl': '' if anon else r.user.photo_url,
+        'authorPhotoUrl': '' if anon else _avatar_url(r.user),
         'authorId': '' if anon else r.user_id,
         'authorBadgeInfo': None if anon else _user_badge_info(r.user),
         'authorAchievements': [] if anon else _user_achievement_badges(r.user),
@@ -831,6 +831,9 @@ def _ctx(request, **extra):
                 if db_user.photo_url:
                     user['photo_url'] = db_user.photo_url
                     user['avatar_url'] = db_user.photo_url
+                else:
+                    user['photo_url'] = _blobatar_url_for(db_user)
+                    user['avatar_url'] = _blobatar_url_for(db_user)
                 badge_info = _user_badge_info(db_user)
     dark_mode = request.session.get('theme') == 'dark'
     unread_notifications = 0
@@ -900,7 +903,7 @@ def _serialize_user_search_single(u, viewer_id=None, _followed_ids=None):
         'id': u.id,
         'username': u.username,
         'displayName': u.display_name or u.username,
-        'photoUrl': u.photo_url,
+        'photoUrl': _avatar_url(u),
         'bio': u.bio or '',
         'classLevel': u.class_level or '',
         'school': u.school or '',
@@ -1006,7 +1009,7 @@ def _build_contributors_batch():
         contributors.append({
             'username': u.username,
             'display_name': u.display_name or u.username,
-            'photo_url': u.photo_url,
+            'photo_url': _avatar_url(u),
             'score': score,
             'formatted_score': format_score(score),
             'level': get_user_level_title(score),
@@ -1092,11 +1095,59 @@ def _normalize_user_data(user):
     
     # Ensure avatar_url is populated for base.html navbar compatibility
     if 'photo_url' in user:
-        user['avatar_url'] = user['photo_url']
+        user['avatar_url'] = user['photo_url'] or _blobatar_url_for(user)
     elif 'photoUrl' in user:
-        user['avatar_url'] = user['photoUrl']
-        
+        user['avatar_url'] = user['photoUrl'] or _blobatar_url_for(user)
+    else:
+        user['avatar_url'] = _blobatar_url_for(user)
+
     return user
+
+
+def _avatar_prefs_from(obj):
+    from api.services import avatar_options_for
+    if hasattr(obj, 'username'):
+        return avatar_options_for(obj)
+    prefs = {}
+    try:
+        hue = obj.get('avatar_hue', -1)
+        tone = obj.get('avatar_tone', -1.0)
+        bg = obj.get('avatar_bg', '') or ''
+        anim = obj.get('avatar_anim', '') or ''
+    except AttributeError:
+        return prefs
+    if hue >= 0:
+        prefs['hue'] = int(hue)
+    if tone >= 0:
+        prefs['tone'] = float(tone)
+    if bg:
+        prefs['background'] = bg
+    if anim:
+        prefs['anim'] = anim
+    return prefs
+
+
+def _blobatar_url_for(user_or_username, prefs=None):
+    from urllib.parse import quote as _q
+    if prefs is None and not isinstance(user_or_username, str):
+        prefs = _avatar_prefs_from(user_or_username)
+        if isinstance(user_or_username, dict):
+            username = user_or_username.get('username', '') or ''
+        else:
+            username = getattr(user_or_username, 'username', '') or ''
+    else:
+        username = user_or_username
+    url = '/avatar/%s/' % _q((username or ''), safe='')
+    if prefs:
+        url += '?' + '&'.join('%s=%s' % (k, _q(str(v), safe='')) for k, v in sorted(prefs.items()))
+    return url
+
+
+def _avatar_url(u):
+    photo = getattr(u, 'photo_url', None) or getattr(u, 'photoUrl', None) or ''
+    if photo:
+        return photo
+    return _blobatar_url_for(u)
 
 def _clear_page_cache():
     cache.delete_many([

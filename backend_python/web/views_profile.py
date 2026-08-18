@@ -1,5 +1,6 @@
 """Views Profile extracted from views.py."""
 from .view_helpers import *  # noqa: F401,F403
+from api.services import record_username_change
 from api.view_helpers import _profile_incomplete, _can_view_locked_profile
 from api.models import Follow, FollowRequest, NEPAL_DISTRICTS, SocialLink, SocialLinkClick
 from api.social_links import (
@@ -139,7 +140,7 @@ def profile(request, username):
         'id': profile_user.id,
         'username': profile_user.username,
         'email': profile_user.email,
-        'photo_url': profile_user.photo_url,
+        'photo_url': _avatar_url(profile_user),
         'banner_url': profile_user.banner_url,
         'banner_type': banner_type,
         'banner_deco_text': banner_deco_text,
@@ -249,7 +250,7 @@ def profile(request, username):
                 'sender_id': req.sender.id,
                 'sender_username': req.sender.username,
                 'sender_display_name': req.sender.display_name or req.sender.username,
-                'sender_photo': req.sender.photo_url or '',
+                'sender_photo': _avatar_url(req.sender),
             })
 
     seller_balance = None
@@ -367,7 +368,7 @@ def profile_achievements(request, username):
         'id': profile_user.id,
         'username': profile_user.username,
         'email': profile_user.email,
-        'photo_url': profile_user.photo_url,
+        'photo_url': _avatar_url(profile_user),
         'banner_url': profile_user.banner_url,
         'display_name': profile_user.display_name,
         'role': profile_user.role,
@@ -891,10 +892,14 @@ def edit_profile(request):
             return render(request, 'web/edit_profile.html', _ctx(request, error='Teaching subjects are required for teachers.'))
         if role == 'institution' and not request.POST.get('school', '').strip():
             return render(request, 'web/edit_profile.html', _ctx(request, error='Institution name is required.'))
-        conflict = User.objects.filter(username__iexact=username).exclude(pk=db_user.id).exists()
-        if conflict:
-            return render(request, 'web/edit_profile.html', _ctx(request, error='Username already taken.'))
-        db_user.username = username
+        if username != db_user.username:
+            _v_err, _v_code = services.validate_username_change(db_user, username)
+            if _v_err:
+                return render(request, 'web/edit_profile.html', _ctx(request, error=_v_err.get('error', 'Username change failed.')))
+            db_user.username = username
+            record_username_change(db_user)
+        else:
+            db_user.username = username
         db_user.email = request.POST.get('email', '').strip() or db_user.email or ''
         db_user.display_name = display_name or db_user.display_name or ''
         db_user.role = role

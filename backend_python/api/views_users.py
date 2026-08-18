@@ -2,6 +2,7 @@
 from .view_helpers import *  # noqa: F401,F403
 from collections import Counter
 from django.db.models import Avg, Max, Q, Sum
+from .services import record_username_change
 from .models import Bookmark, Notification, NEPAL_DISTRICTS, ResourceComment, StudyDocument, StudyQuiz, StudyQuizAttempt, StudyFlashcard, StudyFlashcardReview
 
 @api_view(['GET'])
@@ -37,6 +38,15 @@ def user_profile_create_or_update(request):
     if conflict:
         logger.warning("user_profile: username conflict for '%s'", username)
         return Response({'error': 'Username already taken'}, status=409)
+
+    if username != user.username:
+        _v_err, _v_code = services.validate_username_change(user, username)
+        if _v_err:
+            return Response(_v_err, status=_v_code)
+        user.username = username
+        record_username_change(user)
+    else:
+        user.username = username
 
     email = data.get('email', '') or user.email or ''
     photo_url = data.get('photoUrl', '') or user.photo_url or ''

@@ -570,7 +570,7 @@ def ajax_edit_history(request, target_type, target_id):
     for e in entries:
         data.append({
             'id': e.id, 'field': e.field, 'oldValue': e.old_value, 'newValue': e.new_value,
-            'editedByUsername': e.edited_by.username, 'editedByPhotoUrl': e.edited_by.photo_url or '',
+            'editedByUsername': e.edited_by.username, 'editedByPhotoUrl': _avatar_url(e.edited_by),
             'editedAt': e.edited_at,
         })
     return JsonResponse(data, safe=False)
@@ -624,7 +624,7 @@ def ajax_user_popup(request, username):
         'id': u.id,
         'username': u.username,
         'displayName': u.display_name or u.username,
-        'photoUrl': u.photo_url or '',
+        'photoUrl': _avatar_url(u),
         'bio': '' if is_private else (u.bio or ''),
         'classLevel': '' if is_private else (u.class_level or ''),
         'isLocked': u.is_locked,
@@ -662,7 +662,7 @@ def ajax_user_search(request):
             'id': u['id'],
             'username': u['username'],
             'displayName': u['display_name'] or u['username'],
-            'photoUrl': u['photo_url'] or '',
+            'photoUrl': u['photo_url'] or _blobatar_url_for(u),
         })
     return JsonResponse(results, safe=False)
 

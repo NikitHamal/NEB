@@ -378,6 +378,122 @@ def check_username_available(username):
     return {'available': not exists}
 
 
+def avatar_path(username):
+    from urllib.parse import quote
+    return '/avatar/%s/' % quote((username or ''), safe='')
+
+
+AVATAR_BACKGROUNDS = ('', 'square', 'circle', 'squircle')
+AVATAR_ANIMATIONS = ('', 'bob', 'wave', 'spin', 'pulse')
+
+
+def avatar_options_for(user):
+    opts = {}
+    if getattr(user, 'avatar_hue', -1) >= 0:
+        opts['hue'] = int(user.avatar_hue)
+    if getattr(user, 'avatar_tone', -1.0) >= 0:
+        opts['tone'] = float(user.avatar_tone)
+    bg = getattr(user, 'avatar_bg', '') or ''
+    if bg in AVATAR_BACKGROUNDS[1:]:
+        opts['background'] = bg
+    anim = getattr(user, 'avatar_anim', '') or ''
+    if anim in AVATAR_ANIMATIONS[1:]:
+        opts['anim'] = anim
+    return opts
+
+
+def save_avatar_customization(user, payload=None, user_id=None):
+    payload = payload or {}
+    bg = str(payload.get('background', '') or '').strip()
+    if bg not in AVATAR_BACKGROUNDS:
+        return {'error': 'background must be one of: square, circle, squircle'}, 400
+    anim = str(payload.get('anim', '') or '').strip()
+    if anim not in AVATAR_ANIMATIONS:
+        return {'error': 'anim must be one of: bob, wave, spin, pulse'}, 400
+    hue_raw = payload.get('hue', -1)
+    if isinstance(hue_raw, bool) or not isinstance(hue_raw, (int, float, str)):
+        return {'error': 'hue must be a number between 0 and 360'}, 400
+    try:
+        hue = int(float(hue_raw))
+    except (TypeError, ValueError):
+        return {'error': 'hue must be a number between 0 and 360'}, 400
+    if hue < -1 or hue > 360:
+        return {'error': 'hue must be a number between 0 and 360'}, 400
+    tone_raw = payload.get('tone', -1)
+    if isinstance(tone_raw, bool) or not isinstance(tone_raw, (int, float, str)):
+        return {'error': 'tone must be a number between 0 and 1'}, 400
+    try:
+        tone = float(tone_raw)
+    except (TypeError, ValueError):
+        return {'error': 'tone must be a number between 0 and 1'}, 400
+    if tone < -1.0 or tone > 1.0:
+        return {'error': 'tone must be a number between 0 and 1'}, 400
+    user.avatar_bg = bg
+    user.avatar_hue = hue
+    user.avatar_tone = tone
+    user.avatar_anim = anim
+    user.save(update_fields=['avatar_bg', 'avatar_hue', 'avatar_tone', 'avatar_anim'])
+    return avatar_options_for(user), 200
+
+
+USERNAME_COOLDOWN_DAYS = [7, 15, 30, 60, 100]
+DAY_MS = 24 * 60 * 60 * 1000
+
+
+def username_change_status(user, now=None):
+    from .utils import now_ms
+    now = now or now_ms()
+    count = user.username_change_count or 0
+    last = user.username_changed_at or 0
+    if count <= 0 or not last:
+        return {
+            'allowed': True,
+            'change_count': count,
+            'cooldown_days': 0,
+            'days_left': 0,
+            'next_change_at': 0,
+            'schedule': list(USERNAME_COOLDOWN_DAYS),
+        }
+    cooldown_days = USERNAME_COOLDOWN_DAYS[min(count - 1, len(USERNAME_COOLDOWN_DAYS) - 1)]
+    next_change_at = last + cooldown_days * DAY_MS
+    days_left = max(0, (next_change_at - now) / DAY_MS)
+    return {
+        'allowed': now >= next_change_at,
+        'change_count': count,
+        'cooldown_days': cooldown_days,
+        'days_left': days_left,
+        'next_change_at': next_change_at,
+        'schedule': list(USERNAME_COOLDOWN_DAYS),
+    }
+
+
+def record_username_change(user, now=None):
+    from .utils import now_ms
+    now = now or now_ms()
+    user.username_changed_at = now
+    user.username_change_count = (user.username_change_count or 0) + 1
+
+
+def validate_username_change(user, new_username, now=None):
+    if new_username == user.username:
+        return {'error': 'New username is the same as the current one.'}, 400
+    if not new_username or len(new_username) < 3 or len(new_username) > 50 or not new_username.replace('_', '').isalnum():
+        return {'error': 'Username must be 3-50 characters and can only contain letters, numbers, and underscores.'}, 400
+    status = username_change_status(user, now)
+    if not status['allowed']:
+        from datetime import datetime
+        ready = datetime.fromtimestamp(status['next_change_at'] / 1000.0)
+        return {
+            'error': 'You changed your username recently. You can change it again on %s (in %d days).' % (
+                ready.strftime('%B %d, %Y'), int(status['days_left']) + 1),
+            'status': status,
+        }, 429
+    conflict = User.objects.filter(username__iexact=new_username).exclude(pk=user.id).exists()
+    if conflict:
+        return {'error': 'Username already taken.'}, 409
+    return None, 200
+
+
 def set_password(user, password):
     from django.contrib.auth.password_validation import validate_password as django_validate_password
     try:

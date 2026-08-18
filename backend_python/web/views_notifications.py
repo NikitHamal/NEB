@@ -27,7 +27,7 @@ def notifications(request):
     for n in notifs:
         actor_name = n.actor.username if n.actor else None
         safe_actor_name = escape(actor_name) if actor_name else None
-        actor_photo = n.actor.photo_url if n.actor else None
+        actor_photo = _avatar_url(n.actor) if n.actor else None
         actor_id_val = n.actor_id if n.actor else None
         actor_badge = _user_badge_info(n.actor) if n.actor else None
         verb_label = VERB_LABELS.get(n.verb, n.verb)
@@ -89,7 +89,7 @@ def ajax_notifications(request):
             'isRead': n.is_read,
             'createdAt': n.created_at,
             'actorName': actor_name,
-            'actorPhotoUrl': n.actor.photo_url if n.actor else None,
+            'actorPhotoUrl': _avatar_url(n.actor) if n.actor else None,
             'actorId': n.actor_id if n.actor else None,
             'actorBadgeInfo': actor_badge,
             'url': get_notification_url(n, actor_name=actor_name),
