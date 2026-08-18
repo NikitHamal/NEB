@@ -9,20 +9,22 @@ Design principles:
 - Auto-delete on undo (unlike, unfollow) or content deletion
 - Denormalized unread_notification_count on User model for fast badge queries
 - System notifications have no actor (null)
-"""
-import logging
-
-from django.core.cache import cache
-from django.db import transaction
-from django.db.models import F
-
+"""
+
+import logging
+
+from django.core.cache import cache
+
+from django.db import transaction
+
+from django.db.models import F
+
 from .models import Notification, User, Post, Reply, Resource, ResourceComment
 from .utils import now_ms, uuid_str
 from . import counters as _counters
 from . import realtime as _rt
 
 logger = logging.getLogger(__name__)
-
 
 def get_notification_url(n, actor_name=None):
     if not actor_name and n.actor_id:
@@ -58,7 +60,6 @@ def get_notification_url(n, actor_name=None):
         if post_id:
             url = f'/forum/post/{post_id}/#thread-{n.target_id}'
     return url
-
 
 def _create_notification(*, recipient_id, actor_id, verb, target_type, target_id,
                          reference_type='', reference_id='', message='', anonymous_actor=False):
@@ -143,12 +144,12 @@ def _create_notification(*, recipient_id, actor_id, verb, target_type, target_id
     try:
         from api.models import FCMToken
         from api.fcm_utils import send_fcm_message
-        
+
         tokens = list(FCMToken.objects.filter(user_id=recipient_id).values_list('token', flat=True))
         if tokens:
             title = "New Notification"
             body = message or ""
-            
+
             if not body:
                 actor_display = actor_name
                 if actor_id:
@@ -157,7 +158,7 @@ def _create_notification(*, recipient_id, actor_id, verb, target_type, target_id
                         actor_display = actor.display_name or actor.username
                     except User.DoesNotExist:
                         pass
-                
+
                 if verb == 'like_post':
                     body = f"{actor_display} liked your post."
                 elif verb == 'like_reply':
@@ -180,7 +181,7 @@ def _create_notification(*, recipient_id, actor_id, verb, target_type, target_id
                     body = f"{actor_display} replied to your comment."
                 else:
                     body = f"Interact from {actor_display}"
-            
+
             if verb in ('like_post', 'like_reply', 'like_resource', 'like_resource_comment'):
                 title = "New Like"
             elif verb in ('reply', 'reply_reply', 'resource_comment', 'resource_comment_reply'):
@@ -213,7 +214,6 @@ def _create_notification(*, recipient_id, actor_id, verb, target_type, target_id
 
     return notification
 
-
 def _delete_notification(*, recipient_id, actor_id, verb, target_type, target_id):
     """
     Delete a specific notification (e.g. when user unlikes something).
@@ -234,7 +234,6 @@ def _delete_notification(*, recipient_id, actor_id, verb, target_type, target_id
     if was_unread:
         _counters.decrement_user_unread_notification_count(recipient_id)
 
-
 def notify_post_liked(actor_id, post_id):
     """Called when someone likes a post. Creates notification for post author."""
     try:
@@ -249,7 +248,6 @@ def notify_post_liked(actor_id, post_id):
         target_id=post_id,
     )
 
-
 def notify_post_unliked(actor_id, post_id):
     """Called when someone unlikes a post. Removes the notification."""
     try:
@@ -263,7 +261,6 @@ def notify_post_unliked(actor_id, post_id):
         target_type='post',
         target_id=post_id,
     )
-
 
 def notify_reply_liked(actor_id, reply_id):
     """Called when someone likes a reply. Creates notification for reply author."""
@@ -281,7 +278,6 @@ def notify_reply_liked(actor_id, reply_id):
         reference_id=reply.post_id,
     )
 
-
 def notify_reply_unliked(actor_id, reply_id):
     """Called when someone unlikes a reply. Removes the notification."""
     try:
@@ -295,7 +291,6 @@ def notify_reply_unliked(actor_id, reply_id):
         target_type='reply',
         target_id=reply_id,
     )
-
 
 def notify_new_reply(actor_id, post_id, reply_id, anonymous_actor=False):
     """
@@ -316,7 +311,6 @@ def notify_new_reply(actor_id, post_id, reply_id, anonymous_actor=False):
         reference_id=reply_id,
         anonymous_actor=anonymous_actor,
     )
-
 
 def notify_reply_to_reply(actor_id, parent_reply_id, post_id, reply_id, anonymous_actor=False):
     """
@@ -340,7 +334,6 @@ def notify_reply_to_reply(actor_id, parent_reply_id, post_id, reply_id, anonymou
         anonymous_actor=anonymous_actor,
     )
 
-
 def notify_new_follow(actor_id, target_user_id):
     """Called when someone follows a user."""
     return _create_notification(
@@ -350,7 +343,6 @@ def notify_new_follow(actor_id, target_user_id):
         target_type='user',
         target_id=target_user_id,
     )
-
 
 def notify_unfollow(actor_id, target_user_id):
     """Called when someone unfollows a user. Removes the follow notification."""
@@ -362,7 +354,6 @@ def notify_unfollow(actor_id, target_user_id):
         target_id=target_user_id,
     )
 
-
 def notify_new_follow_request(actor_id, target_user_id):
     """Called when someone requests to follow a user."""
     return _create_notification(
@@ -373,7 +364,6 @@ def notify_new_follow_request(actor_id, target_user_id):
         target_id=target_user_id,
     )
 
-
 def notify_cancel_follow_request(actor_id, target_user_id):
     """Called when someone cancels a follow request."""
     _delete_notification(
@@ -383,7 +373,6 @@ def notify_cancel_follow_request(actor_id, target_user_id):
         target_type='user',
         target_id=target_user_id,
     )
-
 
 def notify_system(recipient_id, message, target_type='system', target_id=''):
     """
@@ -443,7 +432,6 @@ def notify_system(recipient_id, message, target_type='system', target_id=''):
         logger.error("Failed to send FCM in notify_system: %s", str(e))
 
     return notif
-
 
 def notify_mention_all(actor_id, target_type, target_id='', message=''):
     """Send a 'mention' notification to all eligible users (non-bot, non-locked, email_verified)."""
@@ -512,7 +500,6 @@ def notify_mention_all(actor_id, target_type, target_id='', message=''):
     except Exception as e:
         logger.error("Failed to send FCM in notify_mention_all: %s", str(e))
 
-
 def notify_system_broadcast(message, target_type='system', target_id=''):
     """Send a system notification to all users (skip bots)."""
     user_ids = list(User.objects.filter(is_bot=False).values_list('id', flat=True))
@@ -531,13 +518,20 @@ def notify_system_broadcast(message, target_type='system', target_id=''):
             message=message,
             is_read=False,
             created_at=now,
-        ))
-    Notification.objects.bulk_create(objs)
-    User.objects.filter(is_bot=False).update(unread_notification_count=F('unread_notification_count') + 1)
-    cache.delete_many([f'unread_count:{uid}' for uid in user_ids])
-    # Fan out to all connected users. Each user has their own `user.<id>`
-    # group, so we walk them. Cheap because we only push the metadata; the
-    # full notification row is fetched on demand by the client.
+        ))
+
+    Notification.objects.bulk_create(objs)
+
+    User.objects.filter(is_bot=False).update(unread_notification_count=F('unread_notification_count') + 1)
+
+    cache.delete_many([f'unread_count:{uid}' for uid in user_ids])
+
+    # Fan out to all connected users. Each user has their own `user.<id>`
+
+    # group, so we walk them. Cheap because we only push the metadata; the
+
+    # full notification row is fetched on demand by the client.
+
     for uid in user_ids:
         _rt.broadcast_notification(uid, {
             'verb': 'system',
@@ -567,7 +561,6 @@ def notify_system_broadcast(message, target_type='system', target_id=''):
     except Exception as e:
         logger.error("Failed to send FCM in notify_system_broadcast: %s", str(e))
 
-
 def notify_resource_liked(actor_id, resource_id):
     """Called when someone likes a resource. Creates notification for resource uploader."""
     try:
@@ -583,7 +576,6 @@ def notify_resource_liked(actor_id, resource_id):
         target_type='resource',
         target_id=resource_id,
     )
-
 
 def notify_resource_unliked(actor_id, resource_id):
     """Called when someone unlikes a resource. Removes the notification."""
@@ -601,7 +593,6 @@ def notify_resource_unliked(actor_id, resource_id):
         target_id=resource_id,
     )
 
-
 def notify_resource_comment_liked(actor_id, comment_id):
     """Called when someone likes a resource comment. Creates notification for comment author."""
     try:
@@ -618,7 +609,6 @@ def notify_resource_comment_liked(actor_id, comment_id):
         reference_id=comment.resource_id,
     )
 
-
 def notify_resource_comment_unliked(actor_id, comment_id):
     """Called when someone unlikes a resource comment. Removes the notification."""
     try:
@@ -632,7 +622,6 @@ def notify_resource_comment_unliked(actor_id, comment_id):
         target_type='resource_comment',
         target_id=comment_id,
     )
-
 
 def notify_resource_comment(actor_id, resource_id, comment_id):
     """Called when someone comments on a resource. Notifies the resource uploader."""
@@ -652,7 +641,6 @@ def notify_resource_comment(actor_id, resource_id, comment_id):
         reference_id=comment_id,
     )
 
-
 def notify_resource_comment_reply(actor_id, parent_comment_id, resource_id, comment_id):
     """Called when someone replies to a resource comment. Notifies the parent comment author."""
     try:
@@ -671,7 +659,6 @@ def notify_resource_comment_reply(actor_id, parent_comment_id, resource_id, comm
         reference_id=resource_id,
     )
 
-
 def notify_resource_approved(resource_id, uploader_id):
     """Called when a resource is approved. Notifies the uploader."""
     if not uploader_id:
@@ -682,7 +669,6 @@ def notify_resource_approved(resource_id, uploader_id):
         target_type='resource',
         target_id=resource_id,
     )
-
 
 def notify_resource_rejected(resource_id, uploader_id, reason=''):
     """Called when a resource is rejected. Notifies the uploader with the reason."""
@@ -698,12 +684,10 @@ def notify_resource_rejected(resource_id, uploader_id, reason=''):
         target_id=resource_id,
     )
 
-
 def has_at_all(text):
     """Check if text contains @all as a standalone word."""
     import re
     return bool(re.search(r'(?<!\w)@all(?!\w)', text or '', re.IGNORECASE))
-
 
 def send_mention_all_if_eligible(user, text, target_type, target_id='', message=''):
     """If user is admin/moderator and text contains @all, notify all users."""
@@ -714,6 +698,25 @@ def send_mention_all_if_eligible(user, text, target_type, target_id='', message=
         return
     notify_mention_all(user.id, target_type, target_id, message)
 
+def batch_fix_unread_counts(recipient_ids):
+    """
+    Recalculate unread_notification_count for affected recipients in a single aggregate query.
+    Bulk updates zero-count users and invalidates caches in batch.
+    """
+    if not recipient_ids:
+        return
+    from django.db.models import Count
+    counts = dict(
+        Notification.objects.filter(
+            recipient_id__in=recipient_ids, is_read=False
+        ).values('recipient_id').annotate(cnt=Count('id')).values_list('recipient_id', 'cnt')
+    )
+    zero_uids = [uid for uid in recipient_ids if uid not in counts]
+    if zero_uids:
+        User.objects.filter(pk__in=zero_uids).update(unread_notification_count=0)
+    for uid, cnt in counts.items():
+        User.objects.filter(pk=uid).update(unread_notification_count=cnt)
+    cache.delete_many([f'unread_count:{uid}' for uid in recipient_ids])
 
 def delete_notifications_for_target(target_type, target_id):
     """
@@ -725,13 +728,9 @@ def delete_notifications_for_target(target_type, target_id):
         notifs.filter(is_read=False).values_list('recipient_id', flat=True).distinct()
     )
     notifs.delete()
-    for rid in unread_recipient_ids:
-        count = Notification.objects.filter(recipient_id=rid, is_read=False).count()
-        User.objects.filter(pk=rid).update(unread_notification_count=count)
-        cache.delete(f'unread_count:{rid}')
-
-
-def delete_notifications_for_actor_and_target(actor_id, verb, target_type, target_id):
+    batch_fix_unread_counts(unread_recipient_ids)
+
+def delete_notifications_for_actor_and_target(actor_id, verb, target_type, target_id):
     """
     Delete notifications matching actor+verb+target, regardless of recipient.
     Used when content is deleted by the author.
@@ -746,7 +745,4 @@ def delete_notifications_for_actor_and_target(actor_id, verb, target_type, targe
         notifs.filter(is_read=False).values_list('recipient_id', flat=True).distinct()
     )
     notifs.delete()
-    for rid in unread_recipient_ids:
-        count = Notification.objects.filter(recipient_id=rid, is_read=False).count()
-        User.objects.filter(pk=rid).update(unread_notification_count=count)
-        cache.delete(f'unread_count:{rid}')
+    batch_fix_unread_counts(unread_recipient_ids)
