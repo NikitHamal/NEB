@@ -29,18 +29,8 @@ from .models import (
 
 def _batch_fix_unread_counts(recipient_ids):
     """Recalculate unread_notification_count for affected recipients after notification deletion."""
-    if not recipient_ids:
-        return
-    from django.db.models import Count, Q
-    counts = dict(
-        Notification.objects.filter(
-            recipient_id__in=recipient_ids, is_read=False
-        ).values('recipient_id').annotate(cnt=Count('id')).values_list('recipient_id', 'cnt')
-    )
-    for uid in recipient_ids:
-        new_count = counts.get(uid, 0)
-        User.objects.filter(pk=uid).update(unread_notification_count=new_count)
-        cache.delete(f'unread_count:{uid}')
+    from .notifications import batch_fix_unread_counts
+    batch_fix_unread_counts(recipient_ids)
 
 
 logger = logging.getLogger(__name__)
