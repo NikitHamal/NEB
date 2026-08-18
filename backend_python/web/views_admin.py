@@ -2027,54 +2027,72 @@ def admin_analytics(request):
     range_days_count = max(1, (_range_end - _range_start) // 86400000)
 
     # ── Daily trend over range ──
-    day_labels = []
-    day_visits = []
-    day_users = []
-    day_posts = []
-    day_resources = []
+    valid_days = []
     for i in range(range_days_count - 1, -1, -1):
         ds = _range_end - (i + 1) * 86400000
-        de = ds + 86400000
         if ds < _range_start:
             continue
-        from datetime import datetime as dtfmt
-        day_labels.append(dtfmt.utcfromtimestamp(ds / 1000).strftime('%a %m/%d'))
-        day_visits.append(PageView.objects.filter(created_at__gte=ds, created_at__lt=de).count())
-        day_users.append(UserModel.objects.filter(created_at__gte=ds, created_at__lt=de).count())
-        day_posts.append(Post.objects.filter(created_at__gte=ds, created_at__lt=de).count())
-        day_resources.append(Resource.objects.filter(added_at__gte=ds, added_at__lt=de).count())
+        valid_days.append(ds)
 
-    # ── Hourly breakdown (aggregated over range) ──
-    hourly_labels = []
-    hourly_visits = []
-    for h in range(24):
-        total_h = 0
-        for day_offset in range(range_days_count):
-            day_start = _range_end - (day_offset + 1) * 86400000
-            if day_start < _range_start:
-                continue
-            hs = day_start + h * 3600000
-            he = hs + 3600000
-            total_h += PageView.objects.filter(created_at__gte=hs, created_at__lt=he).count()
-        hourly_labels.append(f'{h:02d}:00')
-        hourly_visits.append(total_h)
+    K = len(valid_days)
+    if K > 0:
+        ds_first = valid_days[0]
+        total_span = K * 86400000
+        from datetime import datetime as dtfmt
+        day_labels = [dtfmt.utcfromtimestamp(ds / 1000).strftime('%a %m/%d') for ds in valid_days]
+
+        pv_timestamps = list(PageView.objects.filter(created_at__gte=ds_first, created_at__lt=_range_end).values_list('created_at', flat=True))
+        user_timestamps = list(UserModel.objects.filter(created_at__gte=ds_first, created_at__lt=_range_end).values_list('created_at', flat=True))
+        post_timestamps = list(Post.objects.filter(created_at__gte=ds_first, created_at__lt=_range_end).values_list('created_at', flat=True))
+        res_timestamps = list(Resource.objects.filter(added_at__gte=ds_first, added_at__lt=_range_end).values_list('added_at', flat=True))
+
+        day_visits = [0] * K
+        hourly_visits = [0] * 24
+        for ts in pv_timestamps:
+            offset = ts - ds_first
+            if 0 <= offset < total_span:
+                day_visits[int(offset // 86400000)] += 1
+                hourly_visits[int((offset % 86400000) // 3600000)] += 1
+
+        day_users = [0] * K
+        for ts in user_timestamps:
+            offset = ts - ds_first
+            if 0 <= offset < total_span:
+                day_users[int(offset // 86400000)] += 1
+
+        day_posts = [0] * K
+        for ts in post_timestamps:
+            offset = ts - ds_first
+            if 0 <= offset < total_span:
+                day_posts[int(offset // 86400000)] += 1
+
+        day_resources = [0] * K
+        for ts in res_timestamps:
+            offset = ts - ds_first
+            if 0 <= offset < total_span:
+                day_resources[int(offset // 86400000)] += 1
+
+        hourly_labels = [f'{h:02d}:00' for h in range(24)]
+
+        dow_labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        dow_data = [0] * 7
+        for k, ds in enumerate(valid_days):
+            dow = dtfmt.utcfromtimestamp(ds / 1000).weekday()
+            dow_data[dow] += day_visits[k]
+    else:
+        day_labels = []
+        day_visits = []
+        day_users = []
+        day_posts = []
+        day_resources = []
+        hourly_labels = [f'{h:02d}:00' for h in range(24)]
+        hourly_visits = [0] * 24
+        dow_labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        dow_data = [0] * 7
 
     # ── Peak hours (aggregated over range) ──
     peak_hour_labels = hourly_labels[:]
     peak_hour_data = hourly_visits[:]
-
-    # ── Day-of-week breakdown ──
-    dow_labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-    dow_data = [0] * 7
-    for day_offset in range(range_days_count):
-        ds = _range_end - (day_offset + 1) * 86400000
-        if ds < _range_start:
-            continue
-        de = ds + 86400000
-        from datetime import datetime as dt2
-        dow = dt2.utcfromtimestamp(ds / 1000).weekday()
-        count = PageView.objects.filter(created_at__gte=ds, created_at__lt=de).count()
-        dow_data[dow] += count
 
     # ── Source breakdown (range) ──
     source_web = qs_range.filter(source='web').count()
