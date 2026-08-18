@@ -125,7 +125,7 @@ def _serialize_presence_row(row):
         'id': user.id,
         'username': user.username,
         'displayName': user.display_name or user.username,
-        'photoUrl': user.photo_url or getattr(user, 'profile_photo_url', '') or '',
+        'photoUrl': _avatar_url(user),
         'role': _space_membership_role(row.space, user.id),
         'status': row.status,
         'currentTab': row.current_tab,
@@ -337,7 +337,7 @@ def study_space_shared(request, token):
         owner={
             'username': owner.username,
             'displayName': owner.display_name or owner.username,
-            'photoUrl': owner.photo_url or getattr(owner, 'profile_photo_url', '') or '',
+            'photoUrl': _avatar_url(owner),
         },
         join_url=reverse('web:ajax_space_join_shared', args=[token]),
         page='study_space',
@@ -3016,7 +3016,7 @@ def _serialize_space_member(member):
         'id': user.id,
         'username': user.username,
         'displayName': user.display_name or user.username,
-        'photoUrl': user.photo_url or getattr(user, 'profile_photo_url', '') or '',
+        'photoUrl': _avatar_url(user),
         'role': member.role,
         'joinedAt': member.joined_at,
     }
@@ -3172,7 +3172,7 @@ def _serialize_space_list_item(space, user_id=None, member_count=None, doc_count
             'id': owner.id if owner else space.user_id,
             'username': owner.username if owner else '',
             'displayName': (owner.display_name or owner.username) if owner else '',
-            'photoUrl': (owner.photo_url or getattr(owner, 'profile_photo_url', '') or '') if owner else '',
+            'photoUrl': _avatar_url(owner) if owner else '',
             'badge': owner_badge,
         },
         'createdAt': space.created_at,
@@ -3258,7 +3258,7 @@ def _serialize_space_detail(space, user_id):
                 'id': s.user.id,
                 'username': s.user.username,
                 'displayName': s.user.display_name or s.user.username,
-                'photoUrl': s.user.photo_url or getattr(s.user, 'profile_photo_url', '') or '',
+                'photoUrl': _avatar_url(s.user),
             })
     members = [_serialize_space_member(m) for m in space.members.select_related('user').order_by('role', '-joined_at')[:80]]
     presence = [_serialize_presence_row(r) for r in StudySpacePresence.objects.filter(space=space).select_related('user').order_by('-last_seen_at')[:40]]
@@ -3310,7 +3310,7 @@ def _serialize_space_detail(space, user_id):
             'id': owner.id if owner else space.user_id,
             'username': owner.username if owner else '',
             'displayName': (owner.display_name or owner.username) if owner else '',
-            'photoUrl': (owner.photo_url or getattr(owner, 'profile_photo_url', '') or '') if owner else '',
+            'photoUrl': _avatar_url(owner) if owner else '',
             'badge': owner_badge,
         },
         'note': {
