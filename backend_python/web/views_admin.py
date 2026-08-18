@@ -52,9 +52,14 @@ def admin_pending_resources(request):
             pass
         return redirect('web:admin_pending_resources')
 
-    pending = Resource.objects.filter(approval_status='pending').order_by('added_at')
+    pending = list(Resource.objects.filter(approval_status='pending').select_related('uploaded_by').order_by('added_at'))
     
     # Group the pending resources by upload_group_id to show them as a single request card
+    group_members_map = {}
+    for r in pending:
+        if r.upload_group_id:
+            group_members_map.setdefault(r.upload_group_id, []).append(r)
+
     grouped_pending = []
     seen_groups = set()
     
@@ -64,12 +69,7 @@ def admin_pending_resources(request):
                 continue
             seen_groups.add(r.upload_group_id)
             
-            # Fetch all pending resources in this group
-            group_members = list(Resource.objects.filter(
-                upload_group_id=r.upload_group_id, 
-                approval_status='pending'
-            ).order_by('added_at'))
-            
+            group_members = group_members_map.get(r.upload_group_id, [])
             if not group_members:
                 continue
                 
