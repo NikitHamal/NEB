@@ -16,6 +16,8 @@ The agent authorizes with broad repository scopes (`repo workflow read:org user:
 
 The agent works on a dedicated task branch (never the base branch) and has a full toolset. There is **no iteration cap** — it keeps working until the goal is genuinely complete, it explicitly asks for input, an admin pauses/stops it, or an unrecoverable error occurs.
 
+Qwen sessions (the default community proxy, which has no native function calling) use a dedicated Hermes/Nous harness: `<tool_call>` XML the model was trained on, numbered file observations, parallel read-only tools, and `done`/`ask_user` control tools. Official API providers still use the JSON envelope. See `docs/QWEN_HARNESS.md`. Set `BACKGROUND_AGENT_QWEN_HARNESS=False` to fall back.
+
 | Category | Tools |
 | --- | --- |
 | Read / explore | `list_files`, `read_file`, `search_text` |

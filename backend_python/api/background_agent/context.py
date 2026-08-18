@@ -5,8 +5,11 @@ from dataclasses import dataclass
 
 from django.conf import settings
 
+import json
+
 from api.background_agent.attachments import prompt_attachment_block
 from api.background_agent.events import emit
+from api.background_agent.qwen_harness.observe import compact_tool_content
 from api.models import BackgroundAgentMessage, BackgroundAgentSession
 from api.utils import now_ms
 
@@ -56,8 +59,17 @@ def context_threshold() -> float:
     return min(0.95, max(0.50, value))
 
 
+def _message_kind(message: BackgroundAgentMessage) -> str:
+    try:
+        return str(json.loads(message.metadata or '{}').get('kind') or '')
+    except (TypeError, json.JSONDecodeError):
+        return ''
+
+
 def _format_message(message: BackgroundAgentMessage, per_message_chars: int = 40000) -> str:
     content = message.content or ''
+    if (message.role or '') == 'tool':
+        content = compact_tool_content(content, cap=min(per_message_chars, 8000))
     if len(content) > per_message_chars:
         content = content[:per_message_chars] + '\n[message truncated for context]'
     attachment_block = prompt_attachment_block(message)
@@ -69,12 +81,22 @@ def recent_rows(session: BackgroundAgentSession) -> list[BackgroundAgentMessage]
     qs = session.messages.order_by('created_at', 'id')
     if session.context_compacted_at:
         qs = qs.filter(created_at__gt=session.context_compacted_at)
-    return list(qs)
+    rows = []
+    for row in qs:
+        if _message_kind(row) == 'model_prompt':
+            continue
+        rows.append(row)
+    return rows
 
 
-def build_snapshot(session: BackgroundAgentSession, fixed_prompt: str = '') -> ContextSnapshot:
+def build_snapshot(session: BackgroundAgentSession, fixed_prompt: str = '', format_message=None, rows_as_transcript: bool = False) -> ContextSnapshot:
     rows = recent_rows(session)
-    transcript = '\n\n'.join(_format_message(row) for row in rows)
+    if rows_as_transcript and format_message is not None:
+        transcript = format_message(rows)
+    elif format_message is not None:
+        transcript = '\n\n'.join(format_message(row) for row in rows)
+    else:
+        transcript = '\n\n'.join(_format_message(row) for row in rows)
     if session.context_summary:
         transcript = f'<anchored-summary>\n{session.context_summary}\n</anchored-summary>\n\n{transcript}'
     window = max(16000, int(session.context_window_tokens or context_window_tokens()))

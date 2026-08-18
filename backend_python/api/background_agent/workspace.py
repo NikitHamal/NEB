@@ -540,6 +540,7 @@ class ToolExecutor:
         arguments = action.get('arguments') or {}
         handlers = {
             'list_files': self.list_files,
+            'glob_files': self.glob_files,
             'read_file': self.read_file,
             'search_text': self.search_text,
             'write_file': self.write_file,
@@ -570,6 +571,36 @@ class ToolExecutor:
         except Exception as exc:
             logger.exception('Background agent tool failed: %s', tool)
             return {'ok': False, 'tool': tool, 'error': str(exc)[:4000]}
+
+    def glob_files(self, pattern, path='.', limit=200):
+        import fnmatch
+        if not pattern or not isinstance(pattern, str) or len(pattern) > 260:
+            raise WorkspaceError('glob_files requires a pattern under 260 characters')
+        base = self.workspace.safe_path(path, must_exist=True)
+        if not base or not base.is_dir():
+            raise WorkspaceError('Directory not found or outside workspace')
+        limit = max(1, min(int(limit or 200), 2000))
+        ignored = {'.git', 'node_modules', '.venv', 'venv', '__pycache__', '.gradle', 'build', 'dist', 'target'}
+        matches = []
+        for current, dirs, files in os.walk(base):
+            current_path = Path(current)
+            dirs[:] = [
+                name for name in dirs
+                if name not in ignored and not self.workspace.is_sensitive_relative(
+                    (current_path / name).relative_to(self.workspace.worktree)
+                )
+            ]
+            for name in files:
+                candidate = current_path / name
+                relative = candidate.relative_to(self.workspace.worktree)
+                if self.workspace.is_sensitive_relative(relative):
+                    continue
+                rel = relative.as_posix()
+                if fnmatch.fnmatch(rel, pattern) or fnmatch.fnmatch(name, pattern):
+                    matches.append(rel)
+                    if len(matches) >= limit:
+                        return {'matches': matches, 'truncated': True, 'pattern': pattern}
+        return {'matches': matches, 'truncated': False, 'pattern': pattern}
 
     def list_files(self, path='.', depth=3, limit=500):
         base = self.workspace.safe_path(path, must_exist=True)
@@ -616,15 +647,31 @@ class ToolExecutor:
         start = max(1, int(start_line))
         end = max(start, min(int(end_line), start + 2000))
         lines = [{'line': i + 1, 'text': text[i]} for i in range(start - 1, min(end, len(text)))]
-        return {'path': path, 'lines': lines, 'totalLines': len(text), 'truncatedBytes': target.stat().st_size > len(data)}
+        width = max(4, len(str(min(end, len(text)))))
+        view = '\n'.join(f'{item["line"]:>{width}}|{item["text"]}' for item in lines)
+        return {
+            'path': path,
+            'lines': lines,
+            'view': view,
+            'totalLines': len(text),
+            'truncatedBytes': target.stat().st_size > len(data),
+        }
 
-    def search_text(self, query, path='.', limit=100):
+    def search_text(self, query, path='.', limit=100, regex=False, glob=''):
         if not query or len(query) > 500:
             raise WorkspaceError('Search query is required and must be under 500 characters')
         base = self.workspace.safe_path(path, must_exist=True)
         if not base:
             raise WorkspaceError('Search path is outside workspace')
         limit = max(1, min(int(limit), 500))
+        use_regex = str(regex).strip().lower() in ('1', 'true', 'yes', 'on')
+        matcher = None
+        if use_regex:
+            try:
+                matcher = re.compile(query)
+            except re.error as exc:
+                raise WorkspaceError(f'Invalid regex: {exc}') from exc
+        file_glob = (glob or '').strip()
         matches = []
         scanned_bytes = 0
         max_scan_bytes = int(getattr(settings, 'BACKGROUND_AGENT_MAX_SEARCH_BYTES', 25_000_000))
@@ -645,6 +692,8 @@ class ToolExecutor:
                 )
             ]
             for name in files:
+                if file_glob and not __import__('fnmatch').fnmatch(name, file_glob):
+                    continue
                 candidate = current_path / name
                 relative = candidate.relative_to(self.workspace.worktree)
                 safe = self.workspace.safe_path(relative.as_posix(), must_exist=True)
@@ -665,7 +714,8 @@ class ToolExecutor:
                 if b'\x00' in data:
                     continue
                 for line_number, line in enumerate(data.decode('utf-8', errors='replace').splitlines(), 1):
-                    if query in line:
+                    hit = bool(matcher.search(line)) if matcher is not None else query in line
+                    if hit:
                         matches.append(f'{relative.as_posix()}:{line_number}:{line[:2000]}')
                         if len(matches) >= limit:
                             return {'matches': matches, 'truncated': True, 'scannedBytes': scanned_bytes}
