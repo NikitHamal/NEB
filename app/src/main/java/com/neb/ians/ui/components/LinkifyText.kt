@@ -11,6 +11,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.style.TextOverflow
@@ -47,6 +48,7 @@ fun LinkifyText(
     style: TextStyle = MaterialTheme.typography.bodyMedium,
     color: Color = MaterialTheme.colorScheme.onSurface,
     fontSize: TextUnit = Unspecified,
+    fontWeight: FontWeight? = null,
     maxLines: Int = Int.MAX_VALUE,
     overflow: TextOverflow = TextOverflow.Clip,
     onTextLayout: (TextLayoutResult) -> Unit = {},
@@ -59,7 +61,7 @@ fun LinkifyText(
     ClickableText(
         text = annotated,
         modifier = modifier,
-        style = style.copy(color = color, fontSize = fontSize),
+        style = style.copy(color = color, fontSize = fontSize, fontWeight = fontWeight ?: style.fontWeight),
         maxLines = maxLines,
         overflow = overflow,
         onTextLayout = onTextLayout,
