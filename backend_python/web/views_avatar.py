@@ -1,5 +1,6 @@
 """Blobatar avatar endpoint and the "My Avatar" username/avatar page."""
 import json
+import re
 
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
@@ -7,6 +8,7 @@ from django.urls import reverse
 from django.views.decorators.http import require_GET, require_POST
 
 from api.blobatar import blobatar as render_blobatar
+from api.blobatar.expression import EXPRESSIONS
 from api.models import User
 from api.services import (
     avatar_options_for,
@@ -32,7 +34,7 @@ AVATAR_SECURITY = {
     "access-control-allow-origin": "*",
 }
 USAGE = (
-    "blobatar avatar generator — gen 1\n\n"
+    "blobatar avatar generator — v2.0.0 (10 shapes, 14 expressions)\n\n"
     "GET /avatar/<name>/?size=256&background=circle&hue=200&tone=0.6&anim=bob&title=hi\n"
     "  size|s       integer 8-1024 (square output)\n"
     "  background   square|circle|squircle (default: none)\n"
@@ -40,10 +42,23 @@ USAGE = (
     "  tone         float 0-1\n"
     "  anim         bob|wave|spin|pulse (SMIL animation, works in <img>)\n"
     "  title        string (max 128 chars)\n"
-    "  gen          1 (only gen 1 exists)\n"
+    "  expression   idle|happy|sad|mad|surprised|wink|sleepy|smug|unsure|scared|love|shy|sick|thinking\n"
+    "  shape        round|organic|boxy|capsule|nub|cloud|droplet|hexagon|sun|triangle\n"
+    "  color        #rrggbb (head color override)\n"
+    "  bgcolor      #rrggbb (background color override)\n"
+    "  eyecolor     #rrggbb (eye color override)\n"
 )
 
+SHAPE_TRAITS = {
+    'round': 0.11, 'organic': 0.35, 'boxy': 0.54, 'capsule': 0.65,
+    'nub': 0.745, 'cloud': 0.825, 'droplet': 0.8875, 'hexagon': 0.9325,
+    'sun': 0.965, 'triangle': 0.99,
+}
+
+_EXPRESSIONS = sorted(EXPRESSIONS.keys())
+
 _DIGITS = "0123456789abcdefghijklmnopqrstuvwxyz"
+_HEX_RE = re.compile(r'^#[0-9a-fA-F]{6}$')
 
 
 def _base36(n):
@@ -101,9 +116,24 @@ def _parse_options(params):
     title = params.get('title')
     if title is not None:
         opts['title'] = title[:128]
-    gen = params.get('gen')
-    if gen is not None and gen not in ('', '1'):
-        raise ValueError('only gen=1 is available')
+    expression = params.get('expression')
+    if expression is not None:
+        if expression not in _EXPRESSIONS:
+            raise ValueError('expression must be one of: ' + ', '.join(_EXPRESSIONS))
+        opts['expression'] = expression
+    shape = params.get('shape')
+    if shape is not None:
+        if shape not in SHAPE_TRAITS:
+            raise ValueError('shape must be one of: ' + ', '.join(sorted(SHAPE_TRAITS)))
+        traits = opts.setdefault('traits', {})
+        traits['shape'] = SHAPE_TRAITS[shape]
+    for param, field in (('color', 'head'), ('bgcolor', 'bg'), ('eyecolor', 'eye')):
+        value = params.get(param)
+        if value is not None:
+            if not _HEX_RE.match(value):
+                raise ValueError('%s must be a hex color like #a1b2c3' % param)
+            palette = opts.setdefault('palette', {})
+            palette[field] = value.lower()
     return opts
 
 
@@ -152,6 +182,12 @@ def _session_user_dict(db_user):
         'avatar_hue': db_user.avatar_hue,
         'avatar_tone': db_user.avatar_tone,
         'avatar_anim': db_user.avatar_anim,
+        'avatar_shape': db_user.avatar_shape,
+        'avatar_expression': db_user.avatar_expression,
+        'avatar_color': db_user.avatar_color,
+        'avatar_bg_color': db_user.avatar_bg_color,
+        'avatar_eye_color': db_user.avatar_eye_color,
+        'avatar_use_pp': db_user.avatar_use_pp,
     }
 
 
@@ -181,8 +217,15 @@ def my_avatar(request):
             'hue': db_user.avatar_hue,
             'tone': db_user.avatar_tone,
             'anim': db_user.avatar_anim,
+            'shape': db_user.avatar_shape,
+            'expression': db_user.avatar_expression,
+            'color': db_user.avatar_color,
+            'bgcolor': db_user.avatar_bg_color,
+            'eyecolor': db_user.avatar_eye_color,
+            'use_pp': db_user.avatar_use_pp,
         }),
         has_photo=bool(db_user.photo_url),
+        avatar_use_pp=db_user.avatar_use_pp,
         has_avatar_changed=request.GET.get('changed') == '1',
     ))
 

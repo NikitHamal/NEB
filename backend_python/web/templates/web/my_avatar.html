@@ -32,15 +32,6 @@
   .avatar-status-ok { color: var(--md-primary); }
   .avatar-status-err { color: var(--md-error); }
   .avatar-status-warn { color: var(--md-tertiary); }
-  .cooldown-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-  .cooldown-chip {
-    font-size: 0.75rem;
-    padding: 4px 10px;
-    border-radius: 999px;
-    background: var(--md-secondary-container);
-    color: var(--md-on-secondary-container);
-  }
-  .cooldown-chip.active { background: var(--md-primary); color: var(--md-on-primary); font-weight: 600; }
   .avatar-success-banner {
     display: flex; align-items: center; gap: 10px;
     background: color-mix(in srgb, var(--md-primary) 10%, transparent);
@@ -68,10 +59,28 @@
     color: var(--md-on-primary); font-weight: 600;
   }
   .pick-chip.auto-active { background: var(--md-secondary-container); border-color: var(--md-secondary-container); color: var(--md-on-secondary-container); font-weight: 600; }
-  .avatar-slider-row { display: flex; align-items: center; gap: 12px; }
-  .avatar-slider-row input[type="range"] { flex: 1; accent-color: var(--md-primary); }
-  .avatar-slider-val { min-width: 44px; text-align: right; font-size: 0.8125rem; color: var(--md-on-surface-variant); font-variant-numeric: tabular-nums; }
-  .md-btn-text.btn-tiny { padding: 2px 10px; font-size: 0.75rem; min-height: 28px; }
+  .color-row { display: flex; align-items: center; gap: 12px; }
+  .color-swatch {
+    width: 40px; height: 40px; border-radius: 12px; border: 1px solid var(--md-outline-variant);
+    padding: 0; cursor: pointer; overflow: hidden; flex: none;
+  }
+  .color-swatch::-webkit-color-swatch-wrapper { padding: 3px; }
+  .color-swatch::-webkit-color-swatch { border: none; border-radius: 9px; }
+  .username-field { position: relative; margin-bottom: 8px; }
+  .username-at {
+    position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+    font-size: 1rem; font-weight: 600; color: var(--md-on-surface-variant); pointer-events: none;
+  }
+  #username-input {
+    width: 100%; padding: 13px 16px 13px 30px; font-size: 1rem;
+    border-radius: 999px; border: 1px solid var(--md-outline); background: transparent;
+    color: var(--md-on-surface); outline: none; transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    font-family: inherit;
+  }
+  #username-input:focus { border-color: var(--md-primary); box-shadow: 0 0 0 3px color-mix(in srgb, var(--md-primary) 18%, transparent); }
+  #username-input.invalid { border-color: var(--md-error); }
+  .char-count { font-size: 0.75rem; color: var(--md-on-surface-variant); font-variant-numeric: tabular-nums; }
+  .char-count.invalid { color: var(--md-error); }
   @keyframes av-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
   @keyframes av-wave { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(5deg); } 75% { transform: rotate(-5deg); } }
   @keyframes av-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
@@ -93,7 +102,7 @@
 
   <div style="margin-bottom: 24px;">
     <h1 style="font-size:1.75rem;font-weight:600;margin:0;">My Avatar</h1>
-    <p style="font-size:0.875rem;color:var(--md-on-surface-variant);margin:4px 0 0;">Your avatar is generated from your username — every NEBian gets a unique one.</p>
+    <p style="font-size:0.875rem;color:var(--md-on-surface-variant);margin:4px 0 0;">Your avatar is generated from your username — every NEBian gets a unique one — plus the style you choose below.</p>
   </div>
 
   {% if has_avatar_changed %}
@@ -111,10 +120,10 @@
       </div>
       <h4 style="margin:16px 0 4px;font-size:1.125rem;font-weight:600;">@{{ user.username }}</h4>
       <p style="margin:0;font-size:0.8125rem;color:var(--md-on-surface-variant);">This is the avatar other NEBians see next to your name.</p>
-      {% if has_photo %}
+      {% if has_photo and not avatar_use_pp %}
       <p style="margin:12px 0 0;font-size:0.8125rem;color:var(--md-tertiary);">
         <span class="material-symbols-outlined" style="font-size:14px;vertical-align:-2px;">info</span>
-        You have an uploaded profile photo — it is shown first. Your generated avatar still updates with your username.
+        You have an uploaded profile photo — it is shown first. Enable "Use avatar everywhere" below to show your animated avatar instead.
       </p>
       {% endif %}
     </div>
@@ -125,16 +134,20 @@
     <h2 style="font-size:0.875rem;font-weight:600;color:var(--md-primary);text-transform:uppercase;letter-spacing:0.5px;margin:0 0 12px 4px;">Change Your Avatar</h2>
     <div class="md-card" style="padding:24px;">
       <p style="margin:0 0 16px;font-size:0.875rem;color:var(--md-on-surface-variant);">
-        Your avatar only changes when your username changes. Type a new username below and watch your avatar update live.
+        Your avatar is generated from your username. Type a new username below and watch your avatar update live.
       </p>
       <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:center;">
         <div id="live-avatar" class="avatar-live-box" aria-hidden="true"></div>
         <div style="flex:1;min-width:240px;">
           <label for="username-input" style="display:block;font-size:0.8125rem;font-weight:500;margin-bottom:6px;color:var(--md-on-surface-variant);">New username</label>
-          <div class="md-textfield" style="margin-bottom:8px;">
+          <div class="username-field">
+            <span class="username-at">@</span>
             <input type="text" id="username-input" maxlength="50" autocomplete="off" autocapitalize="off" spellcheck="false" value="{{ user.username }}">
           </div>
-          <div class="avatar-status-line" id="username-status" role="status"></div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div class="avatar-status-line" id="username-status" role="status" style="flex:1;"></div>
+            <span class="char-count" id="char-count"></span>
+          </div>
           <div class="avatar-status-line" id="cooldown-line" style="margin-top:4px;"></div>
           <button class="md-btn md-btn-primary" id="save-btn" style="margin-top:12px;" disabled>
             <span class="material-symbols-outlined" style="font-size:18px;">check</span> Save Username
@@ -148,69 +161,73 @@
   <div style="margin-bottom: 24px;">
     <h2 style="font-size:0.875rem;font-weight:600;color:var(--md-primary);text-transform:uppercase;letter-spacing:0.5px;margin:0 0 12px 4px;">Avatar Style</h2>
     <div class="md-card" style="padding:24px;">
-      <p style="margin:0 0 20px;font-size:0.875rem;color:var(--md-on-surface-variant);">
-        Fine-tune your avatar: pick a background shape, colors, and a gentle animation. Auto keeps the colors your username naturally generates.
-      </p>
-
       <div class="avatar-style-row">
-        <span class="avatar-style-label">Background</span>
-        <div class="pick-chips" id="bg-chips">
-          <button type="button" class="pick-chip auto-active" data-bg="">Auto</button>
-          <button type="button" class="pick-chip" data-bg="square">Square</button>
-          <button type="button" class="pick-chip" data-bg="circle">Circle</button>
-          <button type="button" class="pick-chip" data-bg="squircle">Squircle</button>
+        <span class="avatar-style-label">Shape</span>
+        <div class="pick-chips" id="shape-chips">
+          <button type="button" class="pick-chip auto-active" data-shape="">Auto</button>
+          <button type="button" class="pick-chip" data-shape="round">Round</button>
+          <button type="button" class="pick-chip" data-shape="organic">Organic</button>
+          <button type="button" class="pick-chip" data-shape="boxy">Boxy</button>
+          <button type="button" class="pick-chip" data-shape="capsule">Capsule</button>
+          <button type="button" class="pick-chip" data-shape="nub">Nub</button>
+          <button type="button" class="pick-chip" data-shape="cloud">Cloud</button>
+          <button type="button" class="pick-chip" data-shape="droplet">Droplet</button>
+          <button type="button" class="pick-chip" data-shape="hexagon">Hexagon</button>
+          <button type="button" class="pick-chip" data-shape="sun">Sun</button>
+          <button type="button" class="pick-chip" data-shape="triangle">Triangle</button>
         </div>
       </div>
 
       <div class="avatar-style-row">
-        <span class="avatar-style-label">Color hue <span id="hue-val" style="color:var(--md-on-surface);">Auto</span></span>
-        <div class="avatar-slider-row">
-          <input type="range" id="hue-slider" min="0" max="360" step="1" value="0">
-          <button type="button" class="md-btn md-btn-text btn-tiny" id="hue-auto">Auto</button>
+        <span class="avatar-style-label">Expression</span>
+        <div class="pick-chips" id="expr-chips">
+          <button type="button" class="pick-chip auto-active" data-expr="">None</button>
+          <button type="button" class="pick-chip" data-expr="idle">Idle</button>
+          <button type="button" class="pick-chip" data-expr="happy">Happy</button>
+          <button type="button" class="pick-chip" data-expr="sad">Sad</button>
+          <button type="button" class="pick-chip" data-expr="mad">Mad</button>
+          <button type="button" class="pick-chip" data-expr="surprised">Surprised</button>
+          <button type="button" class="pick-chip" data-expr="wink">Wink</button>
+          <button type="button" class="pick-chip" data-expr="sleepy">Sleepy</button>
+          <button type="button" class="pick-chip" data-expr="smug">Smug</button>
+          <button type="button" class="pick-chip" data-expr="unsure">Unsure</button>
+          <button type="button" class="pick-chip" data-expr="scared">Scared</button>
+          <button type="button" class="pick-chip" data-expr="love">Love</button>
+          <button type="button" class="pick-chip" data-expr="shy">Shy</button>
+          <button type="button" class="pick-chip" data-expr="sick">Sick</button>
+          <button type="button" class="pick-chip" data-expr="thinking">Thinking</button>
         </div>
       </div>
 
       <div class="avatar-style-row">
-        <span class="avatar-style-label">Color tone <span id="tone-val" style="color:var(--md-on-surface);">Auto</span></span>
-        <div class="avatar-slider-row">
-          <input type="range" id="tone-slider" min="0" max="100" step="1" value="50">
-          <button type="button" class="md-btn md-btn-text btn-tiny" id="tone-auto">Auto</button>
+        <span class="avatar-style-label">Head color <span style="color:var(--md-on-surface-variant);font-weight:400;">— your username's color until you pick one</span></span>
+        <div class="color-row">
+          <input type="color" class="color-swatch" id="color-input" value="#7a5af5" title="Pick a head color">
         </div>
       </div>
 
       <div class="avatar-style-row">
-        <span class="avatar-style-label">Animation</span>
-        <div class="pick-chips" id="anim-chips">
-          <button type="button" class="pick-chip active" data-anim="">None</button>
-          <button type="button" class="pick-chip" data-anim="bob">Bob</button>
-          <button type="button" class="pick-chip" data-anim="wave">Wave</button>
-          <button type="button" class="pick-chip" data-anim="spin">Spin</button>
-          <button type="button" class="pick-chip" data-anim="pulse">Pulse</button>
+        <span class="avatar-style-label">Eye color <span style="color:var(--md-on-surface-variant);font-weight:400;">— your username's color until you pick one</span></span>
+        <div class="color-row">
+          <input type="color" class="color-swatch" id="eye-input" value="#2b2b2b" title="Pick an eye color">
         </div>
+      </div>
+
+      <div class="avatar-style-row">
+        <label style="display:flex;align-items:flex-start;gap:12px;cursor:pointer;">
+          <input type="checkbox" id="use-pp-toggle" style="width:18px;height:18px;margin-top:2px;accent-color:var(--md-primary);">
+          <span>
+            <span class="avatar-style-label" style="margin:0;font-weight:600;">Use my avatar everywhere instead of my profile photo</span>
+            <span style="display:block;font-size:0.8125rem;color:var(--md-on-surface-variant);margin-top:2px;">
+              Your animated avatar replaces your profile photo in posts, comments, replies, your profile and everywhere else on the website.
+            </span>
+          </span>
+        </label>
       </div>
 
       <button class="md-btn md-btn-primary" id="save-style-btn" disabled>
         <span class="material-symbols-outlined" style="font-size:18px;">check</span> Save Avatar Style
       </button>
-    </div>
-  </div>
-
-  <!-- Cooldown Schedule -->
-  <div>
-    <h2 style="font-size:0.875rem;font-weight:600;color:var(--md-primary);text-transform:uppercase;letter-spacing:0.5px;margin:0 0 12px 4px;">Username Changes</h2>
-    <div class="md-card" style="padding:24px;">
-      <p style="margin:0;font-size:0.875rem;color:var(--md-on-surface-variant);">
-        Username changes are rate-limited so names stay stable. Your first change is free; after that, wait times increase:
-      </p>
-      <div class="cooldown-chips">
-        <span class="cooldown-chip {% if avatar_status.change_count == 0 %}active{% endif %}">1st — free</span>
-        {% for d in avatar_status.schedule %}
-        <span class="cooldown-chip {% if avatar_status.change_count == forloop.counter %}active{% endif %}">Change #{{ forloop.counter|add:1 }} — {{ d }} days</span>
-        {% endfor %}
-      </div>
-      <p style="margin:16px 0 0;font-size:0.8125rem;color:var(--md-on-surface-variant);" id="cooldown-now">
-        You have changed your username {{ avatar_status.change_count }} time{{ avatar_status.change_count|pluralize }} so far.
-      </p>
     </div>
   </div>
 </div>
@@ -237,11 +254,13 @@
 
   var STYLE = {{ avatar_raw|safe }};
   var SAVED_STYLE = JSON.parse(JSON.stringify(STYLE));
-  var hueSlider = document.getElementById('hue-slider');
-  var toneSlider = document.getElementById('tone-slider');
-  var hueVal = document.getElementById('hue-val');
-  var toneVal = document.getElementById('tone-val');
   var saveStyleBtn = document.getElementById('save-style-btn');
+  var colorInput = document.getElementById('color-input');
+  var eyeInput = document.getElementById('eye-input');
+  var usePpToggle = document.getElementById('use-pp-toggle');
+  var charCount = document.getElementById('char-count');
+
+  usePpToggle.checked = !!STYLE.use_pp;
 
   function buildOpts() {
     var o = {};
@@ -249,6 +268,14 @@
     if (STYLE.tone >= 0) o.tone = STYLE.tone;
     if (STYLE.bg) o.background = STYLE.bg;
     if (STYLE.anim) o.anim = STYLE.anim;
+    if (STYLE.shape && window.Blobatar && window.Blobatar.shapeTraits) {
+      var band = window.Blobatar.shapeTraits[STYLE.shape];
+      if (band !== undefined) o.traits = { shape: band };
+    }
+    if (STYLE.expression) o.expression = STYLE.expression;
+    if (STYLE.color) o.palette = Object.assign({}, o.palette, { head: STYLE.color });
+    if (STYLE.bgcolor) o.palette = Object.assign({}, o.palette, { bg: STYLE.bgcolor });
+    if (STYLE.eyecolor) o.palette = Object.assign({}, o.palette, { eye: STYLE.eyecolor });
     return o;
   }
 
@@ -262,6 +289,13 @@
       live.classList.add('previewing');
       var s = live.querySelector('svg');
       if (s) s.className = STYLE.anim ? 'anim-' + STYLE.anim : '';
+      if (window.Blobatar && window.Blobatar.paletteFor) {
+        try {
+          var pal = window.Blobatar.paletteFor(name, buildOpts());
+          if (!STYLE.color) colorInput.value = pal.head;
+          if (!STYLE.eyecolor) eyeInput.value = pal.eye;
+        } catch (e) {}
+      }
     } else {
       live.innerHTML = '';
       live.classList.remove('previewing');
@@ -269,24 +303,17 @@
   }
 
   function syncStyleControls() {
-    document.querySelectorAll('#bg-chips .pick-chip').forEach(function (c) {
-      var on = c.getAttribute('data-bg') === STYLE.bg;
-      c.classList.toggle('active', on);
-      c.classList.toggle('auto-active', on && STYLE.bg === '');
-    });
-    document.querySelectorAll('#anim-chips .pick-chip').forEach(function (c) {
-      var on = c.getAttribute('data-anim') === STYLE.anim;
-      c.classList.toggle('active', on);
-      c.classList.toggle('auto-active', on && STYLE.anim === '');
-    });
-    var hueAuto = STYLE.hue < 0;
-    hueSlider.disabled = hueAuto;
-    hueSlider.value = hueAuto ? 0 : STYLE.hue;
-    hueVal.textContent = hueAuto ? 'Auto' : STYLE.hue;
-    var toneAuto = STYLE.tone < 0;
-    toneSlider.disabled = toneAuto;
-    toneSlider.value = toneAuto ? 50 : Math.round(STYLE.tone * 100);
-    toneVal.textContent = toneAuto ? 'Auto' : STYLE.tone.toFixed(2);
+    function chips(chipId, attr, key) {
+      document.querySelectorAll('#' + chipId + ' .pick-chip').forEach(function (c) {
+        var on = c.getAttribute(attr) === STYLE[key];
+        c.classList.toggle('active', on);
+        c.classList.toggle('auto-active', on && STYLE[key] === '');
+      });
+    }
+    chips('shape-chips', 'data-shape', 'shape');
+    chips('expr-chips', 'data-expr', 'expression');
+    if (STYLE.color) colorInput.value = STYLE.color;
+    if (STYLE.eyecolor) eyeInput.value = STYLE.eyecolor;
   }
 
   function styleChanged() {
@@ -300,32 +327,24 @@
     styleChanged();
   }
 
-  document.querySelectorAll('#bg-chips .pick-chip').forEach(function (c) {
+  document.querySelectorAll('#shape-chips .pick-chip').forEach(function (c) {
     c.addEventListener('click', function () {
-      STYLE.bg = c.getAttribute('data-bg');
+      STYLE.shape = c.getAttribute('data-shape');
       restyle();
     });
   });
-  document.querySelectorAll('#anim-chips .pick-chip').forEach(function (c) {
+  document.querySelectorAll('#expr-chips .pick-chip').forEach(function (c) {
     c.addEventListener('click', function () {
-      STYLE.anim = c.getAttribute('data-anim');
+      STYLE.expression = c.getAttribute('data-expr');
       restyle();
     });
   });
-  hueSlider.addEventListener('input', function () {
-    STYLE.hue = parseInt(hueSlider.value, 10);
+  colorInput.addEventListener('input', function () {
+    STYLE.color = colorInput.value;
     restyle();
   });
-  toneSlider.addEventListener('input', function () {
-    STYLE.tone = parseInt(toneSlider.value, 10) / 100;
-    restyle();
-  });
-  document.getElementById('hue-auto').addEventListener('click', function () {
-    STYLE.hue = STYLE.hue < 0 ? parseInt(hueSlider.value, 10) : -1;
-    restyle();
-  });
-  document.getElementById('tone-auto').addEventListener('click', function () {
-    STYLE.tone = STYLE.tone < 0 ? Math.round(parseInt(toneSlider.value, 10)) / 100 : -1;
+  eyeInput.addEventListener('input', function () {
+    STYLE.eyecolor = eyeInput.value;
     restyle();
   });
   saveStyleBtn.addEventListener('click', function () {
@@ -335,7 +354,7 @@
       method: 'POST',
       credentials: 'same-origin',
       headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
-      body: JSON.stringify({ background: STYLE.bg, hue: STYLE.hue, tone: STYLE.tone, anim: STYLE.anim })
+      body: JSON.stringify({ background: STYLE.bg, hue: STYLE.hue, tone: STYLE.tone, anim: STYLE.anim, shape: STYLE.shape, expression: STYLE.expression, color: STYLE.color, bgcolor: STYLE.bgcolor })
     })
       .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
       .then(function (res) {
@@ -354,6 +373,39 @@
         saveStyleBtn.disabled = false;
         showSnackbar('Network error — please try again.');
       });
+  });
+
+  usePpToggle.addEventListener('change', function () {
+    usePpToggle.disabled = true;
+    var body = { use_pp: usePpToggle.checked };
+    if (usePpToggle.checked && !STYLE.anim) {
+      STYLE.anim = 'bob';
+      SAVED_STYLE.anim = 'bob';
+      body.anim = 'bob';
+      restyle();
+    }
+    fetch('/ajax/avatar/customize/', {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+      body: JSON.stringify(body)
+    })
+      .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+      .then(function (res) {
+        if (res.ok && res.d && res.d.status === 'success') {
+          avatarMain.src = res.d.avatarUrl;
+          showSnackbar(usePpToggle.checked ? 'Your animated avatar now shows everywhere!' : 'Your profile photo is shown again.');
+          document.querySelectorAll('img[alt="Profile"]').forEach(function (img) { img.src = res.d.avatarUrl; });
+        } else {
+          usePpToggle.checked = !usePpToggle.checked;
+          showSnackbar((res.d && res.d.error) || 'Failed to save the avatar preference.');
+        }
+      })
+      .catch(function () {
+        usePpToggle.checked = !usePpToggle.checked;
+        showSnackbar('Network error — please try again.');
+      })
+      .finally(function () { usePpToggle.disabled = false; });
   });
 
   function validName(name) {
@@ -412,6 +464,11 @@
 
   input.addEventListener('input', function () {
     var v = input.value.trim();
+    if (charCount) {
+      charCount.textContent = v.length + '/50';
+      charCount.classList.toggle('invalid', !validName(v));
+    }
+    input.classList.toggle('invalid', !validName(v) && v !== '');
     if (!v) {
       renderPreview(CURRENT);
       setStatus('');
@@ -477,8 +534,6 @@
           updateSave();
           showSnackbar('Username updated — your new avatar is live!');
           document.querySelectorAll('img[alt="Profile"]').forEach(function (img) { img.src = res.d.avatarUrl; });
-          var nowP = document.getElementById('cooldown-now');
-          if (nowP) nowP.textContent = 'You have changed your username ' + res.d.changeCount + ' time' + (res.d.changeCount === 1 ? '' : 's') + ' so far.';
         } else {
           saveBtn.disabled = false;
           setStatus((res.d && res.d.error) || 'Failed to update username.', 'err');
@@ -493,6 +548,7 @@
   });
 
   renderPreview(CURRENT);
+  if (charCount) charCount.textContent = input.value.length + '/50';
   setCooldown(cooldownText(), STATUS.allowed ? 'ok' : 'warn');
   syncStyleControls();
   updateSave();

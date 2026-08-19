@@ -1,12 +1,13 @@
-"""Port of blobatar/src/render.ts + src/blobatar.ts — options resolution and SVG assembly."""
+"""Port of blobatar/src/render.ts + src/blobatar.ts — options resolution, pose application and SVG assembly."""
 
 import re
 
-from .blob import background as default_background
-from .blob import layout as default_layout
-from .blob import render as default_render
 from .color import palette as build_palette
+from .expression import EXPRESSIONS
 from .shape import superellipse
+from .styles import background as default_background
+from .styles import layout as default_layout
+from .styles import render as default_render
 from .traits import traits
 
 _ESCAPE_RE = re.compile(r"[&<>]")
@@ -44,7 +45,22 @@ def _backdrop(opts, p):
         d = "M0 0H100V100H0Z"
     else:
         d = superellipse(50, 50, 50, 50, 2 if bg == "circle" else 6)
-    return {'d': d, 'fill': p['bg']}
+    return {"d": d, "fill": p["bg"]}
+
+
+def _posed(l, opts):
+    """Static pose application: eye channels baked, body offset as a transform."""
+    e = EXPRESSIONS.get(opts.get("expression"))
+    if not e:
+        return l, ""
+    return e["bake"](l, e["p"])
+
+
+def _tinted_palette(p, opts):
+    e = EXPRESSIONS.get(opts.get("expression"))
+    if e and e.get("tint"):
+        return {**p, **e["tint"](p, e["p"])}
+    return p
 
 
 def _anim_element(anim):
@@ -76,12 +92,15 @@ def _anim_element(anim):
 def blobatar(name, opts=None):
     opts = opts or {}
     resolved = resolve(name, opts)
-    palette = resolved["palette"]
+    p = _tinted_palette(resolved["palette"], opts)
     dim = ' width="%s" height="%s"' % (opts["size"], opts["size"]) if opts.get("size") else ""
     title = "<title>%s</title>" % _escape(opts["title"]) if opts.get("title") else ""
-    plate = _backdrop(opts, palette)
-    plate_svg = '<path d="%s" fill="%s"/>' % (plate['d'], plate['fill']) if plate else ""
-    inner = default_render(default_layout(resolved["t"]), palette)
+    plate = _backdrop(opts, p)
+    plate_svg = '<path d="%s" fill="%s"/>' % (plate["d"], plate["fill"]) if plate else ""
+    l, pose_wrap = _posed(default_layout(resolved["t"]), opts)
+    inner = default_render(l, p)
+    if pose_wrap:
+        inner = '<g transform="%s">%s</g>' % (pose_wrap, inner)
     anim = _anim_element(opts.get("anim"))
     if anim:
         inner = '<g>%s%s</g>' % (anim, inner)
