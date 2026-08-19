@@ -74,7 +74,6 @@
         <label for="id_provider" style="display:block;font-size:0.8125rem;font-weight:500;margin-bottom:4px;color:var(--md-on-surface-variant);">AI Provider</label>
         <select name="provider" id="id_provider" data-action="provider-change" style="width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--md-outline);background:var(--md-surface);color:var(--md-on-surface);font-family:var(--md-font);font-size:0.875rem;cursor:pointer;">
           <option value="qwen"      {% if config.provider == 'qwen' %}selected{% endif %}>Qwen (chat.qwen.ai)</option>
-          <option value="ai4bharat" {% if config.provider == 'ai4bharat' %}selected{% endif %}>AI4Bharat Arena (Indic LLM Arena)</option>
           <option value="egov"      {% if config.provider == 'egov' %}selected{% endif %}>eGov Chat AI (Philippines)</option>
           <option value="deepai"    {% if config.provider == 'deepai' %}selected{% endif %}>DeepAI (deepai.org)</option>
           <option value="inception" {% if config.provider == 'inception' %}selected{% endif %}>Inception Labs (Mercury 2)</option>
@@ -107,7 +106,7 @@
 
       <div style="margin-bottom:16px;">
         <label for="id_model" style="display:block;font-size:0.8125rem;font-weight:500;margin-bottom:4px;color:var(--md-on-surface-variant);" id="id_model_label">Model</label>
-        <!-- Select is shown for qwen / ai4bharat; text input is swapped in for custom. -->
+        <!-- Select is shown for qwen / egov / deepai / inception; text input is swapped in for custom. -->
         <select name="model_select" id="id_model_select" style="width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--md-outline);background:var(--md-surface);color:var(--md-on-surface);font-family:var(--md-font);font-size:0.875rem;">
         </select>
         <input type="text" name="model_text" id="id_model_text" placeholder="model-name-or-uuid" style="display:none;width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--md-outline);background:var(--md-surface);color:var(--md-on-surface);font-family:var(--md-font);font-size:0.875rem;">
@@ -160,23 +159,6 @@
 
 {% block extra_js %}
 <script nonce="{{ csp_nonce }}">
-  // Curated AI4Bharat Arena model list (mirrors fetch_models_for_client output).
-  // The UUIDs are stable per the upstream arena and rarely change.
-  // Verified against the live arena API on 2026-06-03.
-  const AI4BHARAT_MODELS = [
-    { id: 'fadda998-e440-4c44-81b4-b0ecae27a0c5', name: 'Gemini 3.5 Flash',                       code: 'gemini-3.5-flash',                          provider: 'google',  reasoning: false, vision: false, context: 32000  },
-    { id: 'd95f1077-9bd0-46e4-8dcd-c43227e87885', name: 'Nemotron 3 Super 120B A12B',             code: 'nvidia/NVIDIA-Nemotron-3-Super-120B-A12B',  provider: 'nvidia',  reasoning: false, vision: false, context: 131072 },
-    { id: '7927d963-5444-4330-8bea-28d4b35694e5', name: 'Nemotron 3 Nano Omni 30B A3B Reasoning', code: 'nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning', provider: 'nvidia', reasoning: true,  vision: true,  context: 65536  },
-    { id: 'bb89dfa2-1b8e-4075-9567-0c6f4c6f621e', name: 'Gemma 4 26B A4B it',                     code: 'google/gemma-4-26B-A4B-it',                  provider: 'google',  reasoning: false, vision: false, context: 32768  },
-    { id: '860f13ee-b21b-4508-a12f-7f5ac184df58', name: 'Gemma 4 31B it',                         code: 'google/gemma-4-31B-it',                      provider: 'google',  reasoning: false, vision: false, context: 32768  },
-    { id: 'ca7565b7-eee6-4503-9c26-cf5655d61f82', name: 'Gemini 3.1 Flash Lite',                  code: 'gemini-3.1-flash-lite-preview',              provider: 'google',  reasoning: false, vision: true,  context: 32000  },
-    { id: 'a3581540-b86b-402f-b3d3-bdbc95e572ee', name: 'Sarvam 105B',                            code: 'sarvam-105b',                                provider: 'sarvam',  reasoning: true,  vision: false, context: 32768, hint: 'Best for Hindi/Nepali/Indic' },
-    { id: '8087217e-f01f-41b0-9d3a-885154d3d8e8', name: 'Sarvam 30B',                             code: 'sarvam-30b',                                 provider: 'sarvam',  reasoning: true,  vision: false, context: 32768, hint: 'Indic LLM (smaller, faster)' },
-    { id: '1f228a49-deed-4660-9301-d149efe8b068', name: 'Gemini 3 Flash',                         code: 'gemini-3-flash-preview',                     provider: 'google',  reasoning: true,  vision: true,  context: 32000  },
-    { id: '318878b7-c6a6-4c98-b228-b36ae505250c', name: 'Gemini 2.5 Flash',                       code: 'gemini-2.5-flash',                           provider: 'google',  reasoning: true,  vision: true,  context: 32000  },
-    { id: '864608e8-c05d-4ad0-bf46-ecc00b2045b6', name: 'Gemini 2.5 Flash Lite',                  code: 'gemini-2.5-flash-lite',                      provider: 'google',  reasoning: false, vision: true,  context: 32000  },
-  ];
-
   const QWEN_FALLBACK = [
     { value: 'qwen3.8-max',          label: 'Qwen 3.8 Max (default)' },
     { value: 'qwen3.7-plus',         label: 'Qwen 3.7 Plus' },
@@ -259,14 +241,6 @@
       modelControl: 'select',
       modelHelp: 'Pick a Qwen model.',
       options: QWEN_MODELS,
-    },
-    ai4bharat: {
-      urlLabel: 'API URL',
-      urlHelp: 'AI4Bharat Arena endpoint (leave default).',
-      urlDefault: 'https://backend.arena.ai4bharat.co',
-      modelControl: 'select',
-      modelHelp: 'Pick an AI4Bharat Arena model. Indic models (Sarvam) work best for Hindi/Nepali.',
-      options: AI4BHARAT_MODELS,
     },
     custom: {
       urlLabel: 'API URL',
@@ -425,7 +399,7 @@
     if (!userTouchedUrl) {
       urlEl.value = cfg.urlDefault;
     }
-    // Show / hide API key row (Qwen uses cookies not keys; ai4bharat uses anon tokens;
+    // Show / hide API key row (Qwen uses cookies not keys;
     // custom might need a key). Always show it for safety.
     document.getElementById('id_api_key_row').style.display = '';
     // Model control

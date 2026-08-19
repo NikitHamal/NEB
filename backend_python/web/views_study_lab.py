@@ -880,13 +880,6 @@ def ajax_llm_models(request):
             {"id": "qwen:qwen3.5-flash", "name": "Qwen 3.5 Flash", "provider": "Qwen (chat.qwen.ai)"},
         ]
 
-    arena_models = [
-        {"id": "arena:gpt-4o", "name": "GPT-4o (AI4Bharat Arena)", "provider": "AI4Bharat Arena (Indic LLM Arena)"},
-        {"id": "arena:claude-3-5-sonnet", "name": "Claude 3.5 Sonnet (Arena)", "provider": "AI4Bharat Arena (Indic LLM Arena)"},
-        {"id": "arena:deepseek-v3", "name": "DeepSeek V3 (Arena)", "provider": "AI4Bharat Arena (Indic LLM Arena)"},
-        {"id": "arena:qwen-2.5-72b", "name": "Qwen 2.5 72B (Arena)", "provider": "AI4Bharat Arena (Indic LLM Arena)"},
-    ]
-
     egov_models = [
         {"id": "egov:AI1", "name": "eGov Chat AI (Primary)", "provider": "eGov Chat AI (Philippines)"},
     ]
@@ -899,7 +892,7 @@ def ajax_llm_models(request):
         {"id": "inception:mercury-2", "name": "Mercury 2 (Diffusion LLM)", "provider": "Inception Labs (Mercury 2)"},
     ]
 
-    all_models = qwen_models + arena_models + egov_models + deepai_models + inception_models
+    all_models = qwen_models + egov_models + deepai_models + inception_models
 
     return JsonResponse({
         "models": all_models,
@@ -951,11 +944,7 @@ def ajax_space_canvas_ai(request, space_id):
     result = None
     err = None
 
-    if model_id.startswith('arena:'):
-        arena_model = model_id.split(':', 1)[1]
-        from api import ai4bharat_proxy
-        result = ai4bharat_proxy.simple_chat(user_message=full_prompt, model_id=arena_model, system_prompt=CANVAS_AI_SYSTEM_PROMPT)
-    elif model_id.startswith('egov:'):
+    if model_id.startswith('egov:'):
         egov_model = model_id.split(':', 1)[1]
         from api import egov_proxy
         result = egov_proxy.simple_chat(user_message=full_prompt, model=egov_model, system_prompt=CANVAS_AI_SYSTEM_PROMPT)

@@ -51,7 +51,7 @@ We will expand the platform's features from "passive content consumption" to "ac
 
 #### A. Interactive Mock Tests & Adaptive Quizzing
 * **Custom Quiz Engine:** Rather than simply downloading old model question papers, students can trigger an interactive practice quiz.
-* **Neby AI Integration:** Leverage our custom AI4Bharat Indic LLM proxy. Students can click **"Quiz Me on This"** while reading a specific PDF. Neby AI will parse the document, generate a 5-question multi-choice quiz, grade the answers in real-time, and explain incorrect choices.
+* **Neby AI Integration:** Leverage our community LLM proxy stack (Qwen + keyless web-chat proxies). Students can click **"Quiz Me on This"** while reading a specific PDF. Neby AI will parse the document, generate a 5-question multi-choice quiz, grade the answers in real-time, and explain incorrect choices.
 
 #### B. Real-Time Study Circles (WebSockets Powered)
 * **The Concept:** A collaborative virtual workspace where peers study together.

@@ -5,7 +5,7 @@ These endpoints use the eGov (egov-chat-ai.e.gov.ph) proxy which provides
 free AI chat with Philippine and global knowledge scopes, plus file uploads
 (images and PDFs).
 
-Mounted under /api/neby-arena/ alongside the AI4Bharat and Qwen views.
+Mounted under /api/neby-arena/ alongside the Qwen and community views.
 """
 import json
 import logging

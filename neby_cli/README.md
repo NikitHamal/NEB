@@ -1,0 +1,61 @@
+# ⚡ Neby CLI
+
+A minimal, fast, autonomous agentic coding CLI powered by reverse-engineered and proxy LLMs (Meta AI, Qwen, Poolside, K2 Think, Motiftech, eGov, and official providers).
+
+---
+
+## 🚀 Key Features
+
+* **Universal Reverse & Proxy Model Hub**: Talk to **Meta AI (meta.ai)**, **Qwen 3.8 Max**, **Poolside Laguna S 2.1**, **K2 Think V2 (Reasoning)**, **Motif 102B**, and official APIs with zero setup.
+* **Autonomous Local Agent Loop (ReAct)**: Full local file inspection, multi-file editing, grep searching, directory navigation, and test/shell execution.
+* **Universal Tool Parser**: Robust multi-format tool calling (XML, YAML, JSON, Markdown fences) enabling models without native tool APIs to execute actions locally with 100% reliability.
+* **Fast & Minimal Terminal UI**: Rich markdown rendering, tool execution panels, animated spinners, syntax highlighting, and interactive slash commands.
+* **Global Access**: Installed globally via `pip install -e neby_cli` — accessible from any terminal via `neby`.
+
+---
+
+## 🛠️ Installation & Global Usage
+
+```bash
+cd F:\NEB\neby_cli
+pip install -e .
+```
+
+Run in any workspace:
+```bash
+# Interactive REPL mode
+neby
+
+# Single-shot execution
+neby "Read lines 1 to 20 of README.md and summarize the architecture"
+
+# Specify provider & model
+neby --provider k2think "Find all occurrences of simple_chat in api/ and list them"
+neby --provider metaai "Explain how this repository is structured"
+```
+
+---
+
+## ⌨️ Slash Commands (Inside Interactive Mode)
+
+| Command | Description |
+|---|---|
+| `/model` or `/provider` | Switch the active LLM provider and model interactively |
+| `/diff` | Show current uncommitted Git diff |
+| `/files` | List workspace files and directory hierarchy |
+| `/clear` | Clear the current conversation history |
+| `/help` | Show command cheat sheet |
+| `/exit` | Exit the CLI session |
+
+---
+
+## 🧰 Available Agent Tools
+
+1. `read_file(path, start_line, end_line)`: Inspect files with exact line numbers.
+2. `write_file(path, content)`: Create or replace full files.
+3. `edit_file(path, old_str, new_str)`: Surgical search-and-replace text edits.
+4. `list_dir(path)`: Recursive directory explorer.
+5. `grep_search(query, path)`: Regex and text search across code files.
+6. `find_files(pattern, path)`: File name glob finder.
+7. `run_command(command)`: Execute terminal commands, tests, and scripts.
+8. `done(summary)`: Mark the coding task complete.

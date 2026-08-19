@@ -166,22 +166,8 @@ def _build_reply_context(reply, max_context_replies=10, bot_name='Neby'):
     return '\n'.join(lines), reply_username
 
 
-def call_ai_api(system_prompt, user_message, config=None):
-    """Dispatch to the configured AI provider.
-
-    Supports:
-      - 'qwen'      → Qwen web chat (chat.qwen.ai), via qwen_proxy.call_qwen
-      - 'egov'      → eGov Chat AI (Philippines), via egov_proxy.simple_chat
-      - 'inception' → Inception Labs (Mercury 2 diffusion LLM)
-      - 'custom'    → any OpenAI-compatible /chat/completions endpoint
-      - 'agnes' / 'openai' / 'anthropic' / 'gemini' / 'deepseek'
-                    → official APIs via the shared api.llm client
-    Returns response text or None.
-    """
-    if config is None:
-        config = BotConfig.objects.filter(enabled=True).first()
-        if not config:
-            return None
+def _call_single_provider(system_prompt, user_message, config):
+    """Dispatch a single provider call (no fallback). Returns text or None."""
     provider = (config.provider or 'qwen').strip().lower()
     max_tokens = config.response_max_length or 500
 
@@ -271,6 +257,51 @@ def call_ai_api(system_prompt, user_message, config=None):
     from .qwen_proxy import call_qwen
     model = config.model or 'qwen3.8-max'
     return call_qwen(system_prompt, user_message, model=model, max_tokens=max_tokens)
+
+
+def call_ai_api(system_prompt, user_message, config=None):
+    """Dispatch to the configured AI provider, walking the bot's fallback
+    chain when the primary provider fails.
+
+    Supports:
+      - 'qwen'      → Qwen web chat (chat.qwen.ai), via qwen_proxy.call_qwen
+      - 'egov'      → eGov Chat AI (Philippines), via egov_proxy.simple_chat
+      - 'inception' → Inception Labs (Mercury 2 diffusion LLM)
+      - 'custom'    → any OpenAI-compatible /chat/completions endpoint
+      - 'agnes' / 'openai' / 'anthropic' / 'gemini' / 'deepseek'
+                    → official APIs via the shared api.llm client
+    Returns response text or None.
+    """
+    if config is None:
+        config = BotConfig.objects.filter(enabled=True).first()
+        if not config:
+            return None
+    try:
+        text = _call_single_provider(system_prompt, user_message, config)
+        if text:
+            return text
+    except Exception as exc:
+        logger.warning('neby: primary provider %s failed: %s', config.provider, exc)
+    for entry in config.get_fallback_chain():
+        provider = (entry.get('provider') or '').strip().lower()
+        if not provider:
+            continue
+        fallback_cfg = BotConfig(
+            provider=provider,
+            model=(entry.get('model') or '').strip(),
+            api_url=(entry.get('api_url') or '').strip(),
+            api_key=(entry.get('api_key') or '').strip(),
+            response_max_length=config.response_max_length,
+        )
+        try:
+            text = _call_single_provider(system_prompt, user_message, fallback_cfg)
+            if text:
+                logger.info('neby: fell back to provider %s (%s)', provider, fallback_cfg.model)
+                return text
+            logger.warning('neby: fallback %s returned empty', provider)
+        except Exception as exc:
+            logger.warning('neby: fallback %s failed: %s', provider, exc)
+    return None
 
 
 def process_neby_task(task):

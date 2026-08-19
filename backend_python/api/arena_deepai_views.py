@@ -9,7 +9,7 @@ DeepAI supports file attachments (images and documents) via its upload endpoint.
 Free-tier models: standard, deepseek-v3.2, gemma-4, gpt-4.1-nano, etc.
 Pro-only models: genius, supergenius, gpt-4o-mini, o3, claude-4.7-opus, etc.
 
-Mounted under /api/neby-arena/ alongside the AI4Bharat, Qwen, and eGov views.
+Mounted under /api/neby-arena/ alongside the Qwen, eGov, and community views.
 """
 import json
 import logging

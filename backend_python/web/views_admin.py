@@ -1206,7 +1206,7 @@ def admin_bot_edit(request, bot_id=None):
         config.display_name = request.POST.get('display_name', '').strip()[:100]
         config.avatar_url = request.POST.get('avatar_url', '').strip()
         provider = (request.POST.get('provider') or 'qwen').strip().lower()
-        if provider not in ('qwen', 'ai4bharat', 'egov', 'deepai', 'inception', 'custom'):
+        if provider not in ('qwen', 'egov', 'deepai', 'inception', 'custom', 'k2think', 'poolside', 'motiftech', 'agnes', 'openai', 'anthropic', 'gemini', 'deepseek', 'agentrouter'):
             provider = 'qwen'
         config.provider = provider
         config.api_url = request.POST.get('api_url', config.api_url).strip()
@@ -1218,6 +1218,27 @@ def admin_bot_edit(request, bot_id=None):
             config.model = model[:200]
         elif not config.model:
             config.model = 'qwen3.8-max'
+        try:
+            raw_chain = json.loads(request.POST.get('fallback_chain') or '[]')
+            if not isinstance(raw_chain, list):
+                raw_chain = []
+        except (ValueError, TypeError):
+            raw_chain = []
+        chain_allowed = {'agnes', 'agentrouter', 'anthropic', 'custom', 'deepai', 'deepseek', 'egov', 'gemini', 'inception', 'k2think', 'motiftech', 'openai', 'poolside', 'qwen'}
+        clean_chain = []
+        for entry in raw_chain[:5]:
+            if not isinstance(entry, dict):
+                continue
+            provider = (entry.get('provider') or '').strip().lower()
+            if provider not in chain_allowed:
+                continue
+            clean_chain.append({
+                'provider': provider,
+                'model': (entry.get('model') or '').strip()[:200],
+                'api_url': (entry.get('api_url') or '').strip()[:2000],
+                'api_key': (entry.get('api_key') or '').strip()[:2000],
+            })
+        config.fallback_chain = json.dumps(clean_chain, ensure_ascii=False)
         config.system_prompt = request.POST.get('system_prompt', config.system_prompt).strip()
         try:
             config.max_context_posts = int(request.POST.get('max_context_posts', config.max_context_posts))

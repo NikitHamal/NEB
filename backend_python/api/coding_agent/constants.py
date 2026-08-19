@@ -1,7 +1,7 @@
 """Constants shared by the coding agent runtime and the worker.
 
 LLM tool-calls are not natively supported by every reverse-engineered provider
-we use (Qwen chat UI, AI4Bharat arena, eGov, DeepAI free tier). The agent runs
+we use (Qwen chat UI, eGov, DeepAI free tier). The agent runs
 in a *prompted* mode where the LLM is told to emit fenced code blocks of the
 form below, which are parsed and executed locally.
 

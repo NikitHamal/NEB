@@ -549,7 +549,7 @@
                 </div>
                 <div>
                   <h4 id="ai-bot-name">Neby AI</h4>
-                  <p id="ai-bot-status">Powered by AI4Bharat</p>
+                  <p id="ai-bot-status">Powered by Neby AI</p>
                 </div>
               </div>
               <button class="md-btn-icon" id="ai-clear-session-btn" title="Delete current session">
@@ -928,10 +928,10 @@
     
     try {
       const title = `${subjectName} helper`;
-      const resp = await fetch('/ajax/neby-arena/sessions/', {
+      const resp = await fetch('/ajax/neby-arena/qwen/sessions/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
-        body: JSON.stringify({ modelId: defaultModelId, title: title })
+        body: JSON.stringify({ modelId: defaultModelId || 'qwen3.8-max', title: title })
       });
       const data = await resp.json();
       
@@ -1044,50 +1044,40 @@
     try {
       let response;
       
-      if (filesToSend.length > 0) {
-        // Route through Qwen provider for file uploads
-        // First, ensure we have a Qwen session
-        let qwenSessionId = activeSessionId;
-        const sessResp = await fetch(`/ajax/neby-arena/sessions/${qwenSessionId}/`);
-        const sessData = await sessResp.json();
-        
-        if (!sessData.session || sessData.session.provider !== 'qwen') {
-          // Create a new Qwen session
-          const createResp = await fetch('/ajax/neby-arena/qwen/sessions/', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
-            body: JSON.stringify({ modelId: defaultModelId || 'qwen3.8-max', title: (text || 'File upload').substring(0, 80) })
-          });
-          const createData = await createResp.json();
-          if (!createData.session) {
-            thinking.remove();
-            appendMessageHTML('assistant', `⚠️ *Error:* Failed to create Qwen session: ${(createData.error || 'Unknown error')}`);
-            isSending = false;
-            return;
-          }
-          qwenSessionId = createData.session.id;
-          activeSessionId = qwenSessionId;
-          await loadAISessions();
-        }
-        
-        // Send with files via multipart form data
-        const formData = new FormData();
-        formData.append('content', text || 'Please analyze the attached file(s).');
-        filesToSend.forEach(f => formData.append('files', f));
-        
-        response = await fetch(`/ajax/neby-arena/qwen/sessions/${qwenSessionId}/messages/`, {
-          method: 'POST',
-          headers: { 'X-CSRFToken': CSRF_TOKEN },
-          body: formData
-        });
-      } else {
-        // Text-only: use existing AI4Bharat arena endpoint
-        response = await fetch(`/ajax/neby-arena/sessions/${activeSessionId}/messages/`, {
+      // Route through Qwen provider (text and file uploads both go here)
+      let qwenSessionId = activeSessionId;
+      const sessResp = await fetch(`/ajax/neby-arena/sessions/${qwenSessionId}/`);
+      const sessData = await sessResp.json();
+      
+      if (!sessData.session || sessData.session.provider !== 'qwen') {
+        // Create a new Qwen session
+        const createResp = await fetch('/ajax/neby-arena/qwen/sessions/', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
-          body: JSON.stringify({ content: text })
+          body: JSON.stringify({ modelId: defaultModelId || 'qwen3.8-max', title: (text || 'File upload').substring(0, 80) })
         });
+        const createData = await createResp.json();
+        if (!createData.session) {
+          thinking.remove();
+          appendMessageHTML('assistant', `⚠️ *Error:* Failed to create Qwen session: ${(createData.error || 'Unknown error')}`);
+          isSending = false;
+          return;
+        }
+        qwenSessionId = createData.session.id;
+        activeSessionId = qwenSessionId;
+        await loadAISessions();
       }
+      
+      // Send via multipart form data (text-only works too — files are optional)
+      const formData = new FormData();
+      formData.append('content', text || 'Please analyze the attached file(s).');
+      filesToSend.forEach(f => formData.append('files', f));
+      
+      response = await fetch(`/ajax/neby-arena/qwen/sessions/${qwenSessionId}/messages/`, {
+        method: 'POST',
+        headers: { 'X-CSRFToken': CSRF_TOKEN },
+        body: formData
+      });
       
       thinking.remove();
       
