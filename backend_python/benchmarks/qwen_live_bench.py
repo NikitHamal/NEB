@@ -23,9 +23,37 @@ if str(ROOT) not in sys.path:
 
 os.environ.setdefault("QWEN_DISABLE_POOL_REFILL", "1")
 
-from api.background_agent.protocol import parse_model_response
-from api.background_agent.qwen_harness.prompt import build_system_prompt
-from api.qwen_proxy import call_qwen, probe_qwen
+import importlib.util
+
+
+def _load_file(name, rel):
+    spec = importlib.util.spec_from_file_location(name, ROOT / rel)
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[name] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+protocol = _load_file("ba_protocol", "api/background_agent/protocol.py")
+parse_model_response = protocol.parse_model_response
+
+# Import the proxy as api.qwen_proxy so its relative qwen_utils imports work,
+# without importing api.background_agent (that pulls Django).
+import api.qwen_proxy as qwen_proxy  # noqa: E402
+
+call_qwen = qwen_proxy.call_qwen
+probe_qwen = qwen_proxy.probe_qwen
+
+
+def hermes_system():
+    return """You are a senior coding agent. You do not have native function calling.
+You may call one or more functions using this exact shape:
+<tool_call>
+{"name": "list_files", "arguments": {"path": "."}}
+</tool_call>
+Tools: list_files(path), read_file(path, start_line, end_line), write_file(path, content),
+edit_file(path, old_text, new_text), done(summary), ask_user(question).
+Inspect before editing. When the goal is complete call done. No JSON envelope."""
 
 MODEL = os.environ.get("QWEN_LIVE_MODEL", "qwen3.8-max")
 MAX_TURNS = int(os.environ.get("QWEN_LIVE_TURNS", "6"))
@@ -34,10 +62,6 @@ JSON_SYSTEM = """You are a coding agent. Respond with exactly one JSON object an
 {"thought":"...","actions":[{"tool":"TOOL","arguments":{...}}],"final":"","summary":"..."}
 Tools: list_files(path), read_file(path), write_file(path, content), edit_file(path, old_text, new_text), done via non-empty final.
 Inspect before editing. When finished set final and leave actions empty."""
-
-
-def hermes_system():
-    return build_system_prompt("Qwen 3.8 Max")
 
 
 class MiniWorkspace:
