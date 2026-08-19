@@ -609,10 +609,10 @@ class UserStatsSerializer(serializers.Serializer):
 class FollowSerializer(serializers.ModelSerializer):
     """Used when listing followers / following for a user (web + Android)."""
     follower_username = serializers.CharField(source='follower.username', read_only=True)
-    follower_photo_url = serializers.CharField(source='follower.photo_url', read_only=True)
+    follower_photo_url = serializers.SerializerMethodField()
     follower_display_name = serializers.CharField(source='follower.display_name', read_only=True)
     following_username = serializers.CharField(source='following.username', read_only=True)
-    following_photo_url = serializers.CharField(source='following.photo_url', read_only=True)
+    following_photo_url = serializers.SerializerMethodField()
     following_display_name = serializers.CharField(source='following.display_name', read_only=True)
 
     class Meta:
@@ -623,6 +623,14 @@ class FollowSerializer(serializers.ModelSerializer):
             'following_username', 'following_photo_url', 'following_display_name',
         ]
 
+    def get_follower_photo_url(self, obj):
+        from api.services import avatar_or_photo_url
+        return avatar_or_photo_url(obj.follower)
+
+    def get_following_photo_url(self, obj):
+        from api.services import avatar_or_photo_url
+        return avatar_or_photo_url(obj.following)
+
     def to_representation(self, instance):
         ret = super().to_representation(instance)
         if 'id' in ret and ret['id'] is not None:
@@ -632,11 +640,15 @@ class FollowSerializer(serializers.ModelSerializer):
 
 class EditHistorySerializer(serializers.ModelSerializer):
     editedByUsername = serializers.CharField(source='edited_by.username', read_only=True)
-    editedByPhotoUrl = serializers.CharField(source='edited_by.photo_url', read_only=True)
+    editedByPhotoUrl = serializers.SerializerMethodField()
 
     class Meta:
         model = EditHistory
         fields = ['id', 'target_type', 'target_id', 'field', 'old_value', 'new_value', 'editedByUsername', 'editedByPhotoUrl', 'edited_at']
+
+    def get_editedByPhotoUrl(self, obj):
+        from api.services import avatar_or_photo_url
+        return avatar_or_photo_url(obj.edited_by) if obj.edited_by else ''
 
 
 class BookmarkSerializer(serializers.ModelSerializer):

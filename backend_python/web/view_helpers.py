@@ -828,7 +828,10 @@ def _ctx(request, **extra):
                 user['is_admin'] = db_user.is_admin
                 user['verification_level'] = db_user.verification_level
                 user['moderator_level'] = db_user.moderator_level
-                if db_user.photo_url:
+                if db_user.avatar_use_pp:
+                    user['photo_url'] = _blobatar_url_for(db_user)
+                    user['avatar_url'] = _blobatar_url_for(db_user)
+                elif db_user.photo_url:
                     user['photo_url'] = db_user.photo_url
                     user['avatar_url'] = db_user.photo_url
                 else:
@@ -1094,7 +1097,9 @@ def _normalize_user_data(user):
             user[new_key] = user[old_key]
     
     # Ensure avatar_url is populated for base.html navbar compatibility
-    if 'photo_url' in user:
+    if user.get('avatar_use_pp'):
+        user['avatar_url'] = _blobatar_url_for(user)
+    elif 'photo_url' in user:
         user['avatar_url'] = user['photo_url'] or _blobatar_url_for(user)
     elif 'photoUrl' in user:
         user['avatar_url'] = user['photoUrl'] or _blobatar_url_for(user)
@@ -1114,6 +1119,11 @@ def _avatar_prefs_from(obj):
         tone = obj.get('avatar_tone', -1.0)
         bg = obj.get('avatar_bg', '') or ''
         anim = obj.get('avatar_anim', '') or ''
+        shape = obj.get('avatar_shape', '') or ''
+        expression = obj.get('avatar_expression', '') or ''
+        color = obj.get('avatar_color', '') or ''
+        bgcolor = obj.get('avatar_bg_color', '') or ''
+        eyecolor = obj.get('avatar_eye_color', '') or ''
     except AttributeError:
         return prefs
     if hue >= 0:
@@ -1124,6 +1134,16 @@ def _avatar_prefs_from(obj):
         prefs['background'] = bg
     if anim:
         prefs['anim'] = anim
+    if shape:
+        prefs['shape'] = shape
+    if expression:
+        prefs['expression'] = expression
+    if color:
+        prefs['color'] = color
+    if bgcolor:
+        prefs['bgcolor'] = bgcolor
+    if eyecolor:
+        prefs['eyecolor'] = eyecolor
     return prefs
 
 
@@ -1144,6 +1164,11 @@ def _blobatar_url_for(user_or_username, prefs=None):
 
 
 def _avatar_url(u):
+    from api.services import avatar_or_photo_url
+    if hasattr(u, 'username'):
+        return avatar_or_photo_url(u)
+    if getattr(u, 'avatar_use_pp', False):
+        return _blobatar_url_for(u)
     photo = getattr(u, 'photo_url', None) or getattr(u, 'photoUrl', None) or ''
     if photo:
         return photo

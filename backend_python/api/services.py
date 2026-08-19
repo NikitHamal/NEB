@@ -4,6 +4,7 @@ These replicate the business logic from api/views.py but return Python dicts
 instead of DRF Response objects, and accept User objects instead of DRF requests.
 """
 import logging
+import re
 
 from django.core.cache import cache
 from django.db import transaction
@@ -390,6 +391,12 @@ def avatar_path(username):
 
 AVATAR_BACKGROUNDS = ('', 'square', 'circle', 'squircle')
 AVATAR_ANIMATIONS = ('', 'bob', 'wave', 'spin', 'pulse')
+AVATAR_SHAPES = ('', 'round', 'organic', 'boxy', 'capsule', 'nub', 'cloud',
+                 'droplet', 'hexagon', 'sun', 'triangle')
+AVATAR_EXPRESSIONS = ('', 'idle', 'happy', 'sad', 'mad', 'surprised', 'wink',
+                      'sleepy', 'smug', 'unsure', 'scared', 'love', 'shy',
+                      'sick', 'thinking')
+_HEX_COLOR_RE = re.compile(r'^#[0-9a-fA-F]{6}$')
 
 
 def avatar_options_for(user):
@@ -404,7 +411,39 @@ def avatar_options_for(user):
     anim = getattr(user, 'avatar_anim', '') or ''
     if anim in AVATAR_ANIMATIONS[1:]:
         opts['anim'] = anim
+    shape = getattr(user, 'avatar_shape', '') or ''
+    if shape in AVATAR_SHAPES[1:]:
+        opts['shape'] = shape
+    expression = getattr(user, 'avatar_expression', '') or ''
+    if expression in AVATAR_EXPRESSIONS[1:]:
+        opts['expression'] = expression
+    color = getattr(user, 'avatar_color', '') or ''
+    if _HEX_COLOR_RE.match(color):
+        opts['color'] = color.lower()
+    bgcolor = getattr(user, 'avatar_bg_color', '') or ''
+    if _HEX_COLOR_RE.match(bgcolor):
+        opts['bgcolor'] = bgcolor.lower()
+    eyecolor = getattr(user, 'avatar_eye_color', '') or ''
+    if _HEX_COLOR_RE.match(eyecolor):
+        opts['eyecolor'] = eyecolor.lower()
     return opts
+
+
+def avatar_url_for(user):
+    from urllib.parse import quote as _q
+    username = getattr(user, 'username', '') or ''
+    opts = avatar_options_for(user)
+    url = '/avatar/%s/' % _q(username, safe='')
+    if opts:
+        url += '?' + '&'.join('%s=%s' % (k, _q(str(v), safe='')) for k, v in sorted(opts.items()))
+    return url
+
+
+def avatar_or_photo_url(user):
+    if getattr(user, 'avatar_use_pp', False):
+        return avatar_url_for(user)
+    photo = getattr(user, 'photo_url', None) or ''
+    return photo or avatar_url_for(user)
 
 
 def save_avatar_customization(user, payload=None, user_id=None):
@@ -415,6 +454,21 @@ def save_avatar_customization(user, payload=None, user_id=None):
     anim = str(payload.get('anim', '') or '').strip()
     if anim not in AVATAR_ANIMATIONS:
         return {'error': 'anim must be one of: bob, wave, spin, pulse'}, 400
+    shape = str(payload.get('shape', '') or '').strip()
+    if shape not in AVATAR_SHAPES:
+        return {'error': 'shape must be one of: ' + ', '.join(AVATAR_SHAPES[1:])}, 400
+    expression = str(payload.get('expression', '') or '').strip()
+    if expression not in AVATAR_EXPRESSIONS:
+        return {'error': 'expression must be one of: ' + ', '.join(AVATAR_EXPRESSIONS[1:])}, 400
+    color = str(payload.get('color', '') or '').strip()
+    if color and not _HEX_COLOR_RE.match(color):
+        return {'error': 'color must be a hex color like #a1b2c3'}, 400
+    bgcolor = str(payload.get('bgcolor', '') or '').strip()
+    if bgcolor and not _HEX_COLOR_RE.match(bgcolor):
+        return {'error': 'bgcolor must be a hex color like #a1b2c3'}, 400
+    eyecolor = str(payload.get('eyeColor', '') or '').strip()
+    if eyecolor and not _HEX_COLOR_RE.match(eyecolor):
+        return {'error': 'eyeColor must be a hex color like #a1b2c3'}, 400
     hue_raw = payload.get('hue', -1)
     if isinstance(hue_raw, bool) or not isinstance(hue_raw, (int, float, str)):
         return {'error': 'hue must be a number between 0 and 360'}, 400
@@ -437,7 +491,21 @@ def save_avatar_customization(user, payload=None, user_id=None):
     user.avatar_hue = hue
     user.avatar_tone = tone
     user.avatar_anim = anim
-    user.save(update_fields=['avatar_bg', 'avatar_hue', 'avatar_tone', 'avatar_anim'])
+    user.avatar_shape = shape
+    user.avatar_expression = expression
+    user.avatar_color = color.lower()
+    user.avatar_bg_color = bgcolor.lower()
+    user.avatar_eye_color = eyecolor.lower()
+    update_fields = [
+        'avatar_bg', 'avatar_hue', 'avatar_tone', 'avatar_anim',
+        'avatar_shape', 'avatar_expression', 'avatar_color', 'avatar_bg_color',
+        'avatar_eye_color',
+    ]
+    use_pp_raw = payload.get('use_pp', None)
+    if use_pp_raw is not None:
+        user.avatar_use_pp = str(use_pp_raw).strip().lower() in ('1', 'true', 'yes', 'on')
+        update_fields.append('avatar_use_pp')
+    user.save(update_fields=update_fields)
     return avatar_options_for(user), 200
 
 

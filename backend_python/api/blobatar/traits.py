@@ -1,4 +1,4 @@
-"""Port of blobatar/src/traits.ts — deterministic trait reader."""
+"""Port of blobatar/src/traits.ts — deterministic keyed trait reader (v2)."""
 
 from .hash import seed_state, stream
 
@@ -11,7 +11,11 @@ class Traits:
         self._overrides = overrides or {}
 
     def __call__(self, key):
-        o = self._overrides.get(key)
+        v = self._overrides.get(key)
+        if isinstance(v, list):
+            o = v[int(stream(self._state, key) * len(v))] if v else None
+        else:
+            o = v
         if o is None:
             return stream(self._state, key)
         if o > 0:

@@ -107,9 +107,10 @@ def _create_notification(*, recipient_id, actor_id, verb, target_type, target_id
     actor_photo_url = ''
     if actor_id:
         try:
+            from .services import avatar_or_photo_url
             actor = User.objects.get(pk=actor_id)
             actor_name = actor.username
-            actor_photo_url = actor.photo_url or ''
+            actor_photo_url = avatar_or_photo_url(actor)
         except User.DoesNotExist:
             pass
     if anonymous_actor:
