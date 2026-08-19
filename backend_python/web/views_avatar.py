@@ -256,7 +256,9 @@ def ajax_avatar_change_username(request):
     db_user.save()
     _clear_page_cache()
     token = api.get_session_token(request)
-    api.set_session_auth(request, token, _session_user_dict(db_user))
+    user_data = dict(api.get_session_user(request) or {})
+    user_data.update(_session_user_dict(db_user))
+    api.set_session_auth(request, token, user_data)
     status = username_change_status(db_user)
     return JsonResponse({
         'status': 'success',
@@ -288,7 +290,9 @@ def ajax_avatar_customize(request):
         return JsonResponse(result, status=code)
     _clear_page_cache()
     token = api.get_session_token(request)
-    api.set_session_auth(request, token, _session_user_dict(db_user))
+    user_data = dict(api.get_session_user(request) or {})
+    user_data.update(_session_user_dict(db_user))
+    api.set_session_auth(request, token, user_data)
     return JsonResponse({
         'status': 'success',
         'avatarUrl': _blobatar_url_for(db_user),
