@@ -1,0 +1,28 @@
+/* Avatar images (profile photos or transparent blobatar SVGs) fill their
+   circular container completely, so the blue circle background only ever
+   shows through the transparent parts of the SVG. Give every avatar image
+   the theme surface color as its own background instead, so generated
+   avatars float on the page background everywhere (topbar, comment
+   threads, post cards, leaderboard, search, study spaces, mentions).
+   Letter-fallback avatars keep their blue circle via the container. */
+.avatar-ring img,
+.profile-dropdown-avatar img,
+.fp-avatar img,
+.fp-reply-avatar img,
+.fp-user-popup-avatar img,
+.fp-mention-item-avatar img,
+.fp-thread-avatar img,
+.comment-avatar img,
+.post-card-avatar img,
+.act-avatar img,
+.profile-avatar img,
+.user-search-avatar img,
+.ss-member-avatar img,
+.contributor-avatar-container img,
+.behalf-avatar img,
+.behalf-result-avatar img,
+.mention-result-avatar img,
+.suggest-post-avatar img,
+.resource-card-avatar img {
+  background: var(--md-surface-container-lowest, #ffffff);
+}
