@@ -179,6 +179,7 @@ def create_post(user, title, content, category, image_urls=None, poll_data=None,
             total_votes=0,
             created_at=now,
         )
+        poll_options = []
         for i, opt in enumerate(poll_data.get('options', [])):
             if isinstance(opt, dict):
                 opt_text = opt.get('text', '').strip()
@@ -187,14 +188,18 @@ def create_post(user, title, content, category, image_urls=None, poll_data=None,
                 opt_text = opt.strip()
                 is_correct = False
             if opt_text:
-                PollOption.objects.create(
-                    id=uuid_str(),
-                    poll=poll,
-                    text=opt_text,
-                    is_correct=is_correct,
-                    vote_count=0,
-                    order=i,
+                poll_options.append(
+                    PollOption(
+                        id=uuid_str(),
+                        poll=poll,
+                        text=opt_text,
+                        is_correct=is_correct,
+                        vote_count=0,
+                        order=i,
+                    )
                 )
+        if poll_options:
+            PollOption.objects.bulk_create(poll_options)
     _counters.increment_user_post_count(user.id)
     _neby.enqueue_if_post_mention(post)
     _notif.send_mention_all_if_eligible(user, f'{title} {content}', 'post', post.id)
