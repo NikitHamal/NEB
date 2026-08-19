@@ -2,9 +2,9 @@
    circular container completely, so the blue circle background only ever
    shows through the transparent parts of the SVG. Give every avatar image
    the theme surface color as its own background instead, so generated
-   avatars float on the page background everywhere (topbar, comment
-   threads, post cards, leaderboard, search, study spaces, mentions).
-   Letter-fallback avatars keep their blue circle via the container. */
+   avatars float on a visible disc everywhere (topbar, comment threads,
+   post cards, leaderboard, search, study spaces, mentions). Letter-fallback
+   avatars keep their blue circle via the container. */
 .avatar-ring img,
 .profile-dropdown-avatar img,
 .fp-avatar img,
@@ -25,4 +25,30 @@
 .suggest-post-avatar img,
 .resource-card-avatar img {
   background: var(--md-surface-container-lowest, #ffffff);
+}
+
+/* A disc alone reads as invisible against the same-colored page surface,
+   so stroke the avatar circle so the circular frame stays visible.
+   Overrides the old letter-fallback border on post-card/leaderboard
+   avatars with the same consistent ring. Thread-avatar stacks keep their
+   own overlap separator border. */
+.avatar-ring:has(img),
+.profile-dropdown-avatar:has(img),
+.fp-avatar:has(img),
+.fp-reply-avatar:has(img),
+.fp-user-popup-avatar:has(img),
+.fp-mention-item-avatar:has(img),
+.comment-avatar:has(img),
+.post-card-avatar:has(img),
+.act-avatar:has(img),
+.profile-avatar:has(img),
+.user-search-avatar:has(img),
+.ss-member-avatar:has(img),
+.contributor-avatar-container:has(img),
+.behalf-avatar:has(img),
+.behalf-result-avatar:has(img),
+.mention-result-avatar:has(img),
+.suggest-post-avatar:has(img),
+.resource-card-avatar:has(img) {
+  border: 1.5px solid var(--md-outline, #737686);
 }
