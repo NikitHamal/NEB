@@ -3,12 +3,15 @@
 import re
 
 from .color import palette as build_palette
+from .color import ensure_contrast, from_hex, to_hex
 from .expression import EXPRESSIONS
 from .shape import superellipse
 from .styles import background as default_background
 from .styles import layout as default_layout
 from .styles import render as default_render
 from .traits import traits
+
+_FLOORS = (("head", "bg", 1.25), ("eye", "head", 4.5))
 
 _ESCAPE_RE = re.compile(r"[&<>]")
 
@@ -33,7 +36,13 @@ def resolve(seed, opts=None):
         opts.get("contrast", True),
         opts.get("tone", t("tone")),
     )
-    merged.update(opts.get("palette", {}) or {})
+    overrides = opts.get("palette", {}) or {}
+    merged.update(overrides)
+    if overrides:
+        for fg, bg, minimum in _FLOORS:
+            merged[fg] = to_hex(
+                ensure_contrast(from_hex(merged[fg]), from_hex(merged[bg]), minimum)
+            )
     return {"t": t, "palette": merged}
 
 

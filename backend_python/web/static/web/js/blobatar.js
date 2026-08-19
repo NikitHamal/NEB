@@ -717,17 +717,25 @@
 
   function resolveOpts(seed, opts) {
     var t = traits(seed, opts.normalize !== false, opts.traits);
-    return {
-      t: t,
-      palette: Object.assign(
-        palette(
-          opts.hue !== undefined ? opts.hue : t.num("hue", 0, 360),
-          opts.contrast !== false,
-          opts.tone !== undefined ? opts.tone : t("tone"),
-        ),
-        opts.palette || {},
+    var overrides = opts.palette || {};
+    var merged = Object.assign(
+      palette(
+        opts.hue !== undefined ? opts.hue : t.num("hue", 0, 360),
+        opts.contrast !== false,
+        opts.tone !== undefined ? opts.tone : t("tone"),
       ),
-    };
+      overrides,
+    );
+    if (Object.keys(overrides).length) {
+      var floors = [["head", "bg", 1.25], ["eye", "head", 4.5]];
+      for (var i = 0; i < floors.length; i++) {
+        var fg = floors[i][0];
+        var bg = floors[i][1];
+        var min = floors[i][2];
+        merged[fg] = toHex(ensureContrast(fromHex(merged[fg]), fromHex(merged[bg]), min));
+      }
+    }
+    return { t: t, palette: merged };
   }
 
   function backdrop(opts, p) {
