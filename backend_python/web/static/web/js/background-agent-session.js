@@ -28,7 +28,7 @@
   function chipsBasename(path) { return String(path || '').split(/[\\/]/).pop() || ''; }
   function chipsIconFor(tool) {
     if (tool === 'update_plan') return 'think';
-    if (['read_file', 'search_text', 'list_files', 'web_extractor'].includes(tool)) return 'read';
+    if (['read_file', 'search_text', 'list_files', 'glob_files', 'web_extractor'].includes(tool)) return 'read';
     if (['write_file', 'edit_file', 'multi_edit', 'apply_patch', 'delete_file', 'copy_file', 'move_file', 'create_directory', 'git_restore'].includes(tool)) return 'write';
     return 'run';
   }
@@ -37,6 +37,7 @@
     if (tool === 'run_command') return (args.argv || []).join(' ');
     if (tool === 'git_commit') return args.message || 'commit';
     if (tool === 'search_text') return String(args.query || '');
+    if (tool === 'glob_files') return String(args.pattern || '');
     if (tool === 'copy_file' || tool === 'move_file') return chipsBasename(args.destination || args.source);
     if (tool === 'update_plan') return (args.todos || []).length + ' steps';
     if (args.path) return chipsBasename(args.path);

@@ -1,13 +1,11 @@
 """Iterative coding-agent harness for providers without native tool calls."""
 from __future__ import annotations
 
-import ast
 import json
 import logging
 import re
 import time
 import traceback
-from dataclasses import dataclass
 
 from django.conf import settings
 
@@ -15,6 +13,19 @@ from api.background_agent.attachments import mark_qwen_files_sent, qwen_files_fo
 from api.background_agent.context import build_snapshot, compact_if_needed, compact_now
 from api.background_agent.events import add_message, emit, store_prompt
 from api.background_agent.labels import tool_label
+from api.background_agent.protocol import MAX_ACTIONS_PER_TURN, ParsedResponse, parse_model_response
+from api.background_agent.qwen_harness import (
+    action_signature,
+    build_system_prompt,
+    build_user_prompt,
+    format_repair_prompt,
+    heal_note,
+    json_repair_prompt,
+    needs_format_repair,
+    render_hermes_transcript,
+    run_action_batches,
+    thought_signature,
+)
 from api.background_agent.workspace import GitWorkspace, ToolExecutor, WorkspaceError
 from api.models import BackgroundAgentSession
 from api import qwen_proxy
@@ -24,8 +35,7 @@ from api.utils import now_ms
 
 logger = logging.getLogger(__name__)
 
-# A turn may carry several tool calls, but keep each step focused.
-_MAX_ACTIONS_PER_TURN = 12
+_MAX_ACTIONS_PER_TURN = MAX_ACTIONS_PER_TURN
 
 SYSTEM_PROMPT = r'''
 You are NEBians Background Agent, a senior autonomous software engineer operating in a real Git repository.
@@ -105,15 +115,6 @@ Description rules:
 '''.strip()
 
 
-@dataclass
-class ParsedResponse:
-    thought: str
-    actions: list[dict]
-    final: str
-    needs_input: bool
-    summary: str
-
-
 class AgentPaused(Exception):
     pass
 
@@ -138,9 +139,12 @@ class BackgroundAgentRunner:
         # vs wall-clock from Python-side timer which includes Qwen pool
         # queue, file uploads, and format-retry overhead.
         self._last_model_response_ms = 0
-        # Anti-loop guard: count consecutive identical reasoning blocks.
+        # Anti-loop guard: count consecutive identical reasoning / action blocks.
         self._last_signature = ''
         self._signature_repeats = 0
+        self._last_action_sig = ''
+        self._action_repeats = 0
+        self._pending_heal = []
         # Live-stream pub/sub client (lazy; None when Redis is unavailable).
         self._stream_redis_client = None
 
@@ -267,38 +271,37 @@ class BackgroundAgentRunner:
             raw = self._call_provider(prompt, file_paths=file_paths)
             mark_qwen_files_sent(qwen_attachments, iteration)
             parsed = parse_model_response(raw, extra_thought=self._pending_reasoning)
-            format_retries_allowed = max(0, min(int(getattr(settings, 'BACKGROUND_AGENT_FORMAT_RETRIES', 1)), 3))
+            format_retries_allowed = max(0, min(int(getattr(settings, 'BACKGROUND_AGENT_FORMAT_RETRIES', 2)), 3))
             format_retries_used = 0
             for retry_index in range(format_retries_allowed):
-                if parsed.summary != 'Provider returned non-JSON output; waiting for administrator guidance.':
+                if not needs_format_repair(parsed):
                     break
                 format_retries_used += 1
-                emit(self.session, 'model.format_retry', 'Provider output was not valid JSON; requesting a schema repair', {
+                emit(self.session, 'model.format_retry', 'Provider output was not a valid tool protocol; requesting a schema repair', {
                     'iteration': iteration, 'retry': retry_index + 1,
+                    'protocol': getattr(parsed, 'protocol', 'none'),
                 })
-                repair_prompt = f'''{prompt}
-
-FORMAT REPAIR
-Your prior response did not match the required JSON protocol. Do not continue the task yet.
-Convert the intended next step below into exactly one valid JSON object matching the system schema.
-Do not use markdown fences or any text outside the JSON object.
-
-PRIOR OUTPUT
-{raw[:12000]}
-'''
+                if self._uses_qwen_harness():
+                    repair_prompt = format_repair_prompt(prompt, raw)
+                else:
+                    repair_prompt = json_repair_prompt(prompt, raw)
                 raw = self._call_provider(repair_prompt)
                 parsed = parse_model_response(raw, extra_thought=self._pending_reasoning)
             response_ms = self._last_model_response_ms or int((time.monotonic() - model_started) * 1000)
             self._record_messages(parsed, iteration, raw, file_paths, format_retries_used, response_ms)
 
-            # Anti-loop guard: an identical reasoning block three iterations in
-            # a row means the agent is stuck re-answering the same prompt.
-            signature = re.sub(r'\s+', ' ', (parsed.thought or '').strip().lower())[:1500]
+            signature = thought_signature(parsed.thought)
             if signature and signature == self._last_signature:
                 self._signature_repeats += 1
             elif signature:
                 self._signature_repeats = 0
                 self._last_signature = signature
+            act_sig = action_signature(parsed.actions)
+            if act_sig and act_sig == self._last_action_sig:
+                self._action_repeats += 1
+            elif act_sig:
+                self._action_repeats = 0
+                self._last_action_sig = act_sig
 
             self.session.iteration = iteration
             state = {}
@@ -326,12 +329,12 @@ PRIOR OUTPUT
                 self._complete(parsed.final)
                 return
 
-            if self._signature_repeats >= 3:
+            if self._signature_repeats >= 3 or self._action_repeats >= 3:
                 self._set_status('waiting', self.session.progress, 'Paused — repeated reasoning detected')
                 emit(
                     self.session,
                     'session.waiting',
-                    'The agent repeated the same reasoning several times without new information. '
+                    'The agent repeated the same reasoning or tool sequence several times without new information. '
                     'Send a clarifying message (or /compact) to unblock it.',
                 )
                 return
@@ -364,7 +367,7 @@ PRIOR OUTPUT
             add_message(self.session, 'assistant', 'Agent response received', {**base, 'kind': 'assistant'})
 
     def _run_actions(self, actions, iteration):
-        for index, action in enumerate(actions, 1):
+        def execute_one(action):
             self._check_control()
             tool_name = (action.get('tool') or 'unknown').strip()
             arguments = action.get('arguments') or {}
@@ -372,6 +375,12 @@ PRIOR OUTPUT
                 result = self._update_plan(arguments)
             else:
                 result = self.tools.execute(action)
+            return action, result
+
+        executed = run_action_batches(actions, execute_one)
+        for index, (action, result) in enumerate(executed, 1):
+            tool_name = (action.get('tool') or 'unknown').strip()
+            arguments = action.get('arguments') or {}
             ok = bool(result.get('ok', False))
             label = result.pop('label', None) or tool_label(tool_name, arguments, ok=ok)
             compact = self._compact_result(result)
@@ -383,6 +392,9 @@ PRIOR OUTPUT
                 'ok': ok,
                 'args': arguments,
             })
+            note = heal_note(tool_name, result)
+            if note:
+                self._pending_heal.append(note)
             emit(
                 self.session,
                 'tool.executed' if ok else 'tool.failed',
@@ -482,6 +494,7 @@ PRIOR OUTPUT
                         'requestedProvider': self.session.llm_provider,
                         'requestedModel': self.session.llm_model,
                     })
+        return self._llm_resolved
 
     def _llm_label_community_fallback(self) -> str:
         try:
@@ -525,9 +538,16 @@ PRIOR OUTPUT
         except Exception:
             return f'Qwen ({self._community_model()})'
 
+    def _uses_qwen_harness(self) -> bool:
+        if not getattr(settings, 'BACKGROUND_AGENT_QWEN_HARNESS', True):
+            return False
+        if self._llm_selection() is not None:
+            return False
+        return self._community_slug() == 'qwen'
+
     def _system_prompt_for_run(self) -> str:
-        """SYSTEM_PROMPT with the identity line pointed at the model actually
-        serving this run (Agnes/OpenAI/custom/community), never hardcoded."""
+        if self._uses_qwen_harness():
+            return build_system_prompt(self._llm_label())
         try:
             return SYSTEM_PROMPT.replace(
                 'You are running through Qwen 3.7 Plus.',
@@ -816,7 +836,10 @@ PRIOR OUTPUT
         thinking_mode = (self.session.llm_thinking_mode or 'auto').strip().lower()
         if thinking_mode not in ('auto', 'thinking', 'fast'):
             thinking_mode = 'auto'
-        output_tokens = int(max_tokens or getattr(settings, 'BACKGROUND_AGENT_MODEL_MAX_TOKENS', 6000))
+        default_tokens = int(getattr(settings, 'BACKGROUND_AGENT_MODEL_MAX_TOKENS', 6000))
+        if self._uses_qwen_harness():
+            default_tokens = max(default_tokens, int(getattr(settings, 'BACKGROUND_AGENT_QWEN_MAX_TOKENS', 8192)))
+        output_tokens = int(max_tokens or default_tokens)
         attempts = max(1, min(int(getattr(settings, 'BACKGROUND_AGENT_PROVIDER_ATTEMPTS', 3)), 6))
         last_error = None
         for attempt in range(1, attempts + 1):
@@ -906,21 +929,40 @@ INITIAL REPOSITORY MAP
             except (TypeError, json.JSONDecodeError):
                 pass
         compact_if_needed(self.session, fixed, self._compact_call)
-        snapshot = build_snapshot(self.session, fixed)
+        qwen = self._uses_qwen_harness()
+        snapshot = build_snapshot(
+            self.session,
+            fixed,
+            format_message=render_hermes_transcript if qwen else None,
+            rows_as_transcript=qwen,
+        )
         self.session.context_tokens_estimate = snapshot.estimated_tokens
         self.session.context_window_tokens = snapshot.window_tokens
         self.session.save(update_fields=['context_tokens_estimate', 'context_window_tokens'])
         threshold_percent = round(snapshot.threshold_tokens * 100 / snapshot.window_tokens)
+        accounting = (
+            f'Estimated input: {snapshot.estimated_tokens} / {snapshot.window_tokens} tokens '
+            f'({snapshot.percent}%).\nAutomatic anchored compaction runs at {threshold_percent}%.'
+        )
+        heal = '\n'.join(self._pending_heal)
+        self._pending_heal = []
+        if qwen:
+            return build_user_prompt(fixed, snapshot.transcript, accounting, heal=heal)
+        closer = (
+            'Decide the next smallest set of high-value actions. Prefer edit_file/multi_edit over apply_patch. '
+            'Return exactly one JSON object matching the required schema.'
+        )
+        if heal:
+            closer = f'RECOVERY\n{heal}\n\n{closer}'
         return f"""{fixed}
 
 ANCHORED CONTEXT AND RECENT CONVERSATION
 {snapshot.transcript or '(none)'}
 
 CONTEXT ACCOUNTING
-Estimated input: {snapshot.estimated_tokens} / {snapshot.window_tokens} tokens ({snapshot.percent}%).
-Automatic anchored compaction runs at {threshold_percent}%.
+{accounting}
 
-Decide the next smallest set of high-value actions. Prefer edit_file/multi_edit over apply_patch. Return exactly one JSON object matching the required schema.
+{closer}
 """.strip()
 
     def _complete(self, final: str):
@@ -1012,107 +1054,3 @@ Decide the next smallest set of high-value actions. Prefer edit_file/multi_edit 
             self.session.completed_at = now_ms()
             fields.append('completed_at')
         self.session.save(update_fields=fields)
-
-
-def _balanced_json_candidates(text: str):
-    for start, char in enumerate(text):
-        if char != '{':
-            continue
-        depth = 0
-        quoted = False
-        escaped = False
-        for index in range(start, len(text)):
-            current = text[index]
-            if quoted:
-                if escaped:
-                    escaped = False
-                elif current == '\\':
-                    escaped = True
-                elif current == '"':
-                    quoted = False
-                continue
-            if current == '"':
-                quoted = True
-            elif current == '{':
-                depth += 1
-            elif current == '}':
-                depth -= 1
-                if depth == 0:
-                    yield text[start:index + 1]
-                    break
-
-
-def _decode_protocol_object(candidate: str):
-    variants = [candidate, re.sub(r',\s*([}\]])', r'\1', candidate)]
-    for variant in variants:
-        try:
-            value = json.loads(variant)
-        except json.JSONDecodeError:
-            try:
-                value = ast.literal_eval(variant)
-            except (ValueError, SyntaxError):
-                continue
-        if isinstance(value, dict):
-            return value
-    return None
-
-
-_THINK_BLOCK_RE = re.compile(r'<\s*think\s*>(.*?)<\s*/\s*think\s*>', re.I | re.S)
-
-
-def parse_model_response(raw: str, extra_thought: str = '') -> ParsedResponse:
-    """Parse the model turn into (thought, actions, final...). Reasoning is a
-    first-class, separately rendered thing: the protocol `thought` field,
-    upstream `reasoning_content` (passed via extra_thought), and any inline
-    <think>…</think> blocks all funnel into ParsedResponse.thought, while the
-    JSON protocol payload is extracted from think-stripped text."""
-    text = (raw or '').strip()
-    think_bits = [bit.strip() for bit in _THINK_BLOCK_RE.findall(text) if bit and bit.strip()]
-    if think_bits:
-        text = _THINK_BLOCK_RE.sub('\n', text).strip()
-    upstream = ' · '.join(bit for bit in [extra_thought.strip() if extra_thought else ''] if bit)
-    prefix = '\n\n'.join(part for part in [upstream, '\n\n'.join(think_bits)] if part).strip()
-
-    def _thought(value: str, limit: int) -> str:
-        combined = '\n\n'.join(part for part in [prefix, (value or '').strip()] if part).strip()
-        return combined[:limit]
-
-    candidates = [text]
-    candidates.extend(re.findall(r'```(?:json)?\s*(\{.*?\})\s*```', text, flags=re.I | re.S))
-    candidates.extend(_balanced_json_candidates(text))
-    payload = None
-    seen = set()
-    for candidate in candidates:
-        if candidate in seen:
-            continue
-        seen.add(candidate)
-        payload = _decode_protocol_object(candidate)
-        if payload is not None:
-            break
-    if payload is None:
-        return ParsedResponse(
-            thought=_thought(text, 12000),
-            actions=[],
-            final='',
-            needs_input=True,
-            summary='Provider returned non-JSON output; waiting for administrator guidance.',
-        )
-    actions = payload.get('actions')
-    if not isinstance(actions, list):
-        actions = []
-    normalized = []
-    for action in actions:
-        if not isinstance(action, dict) or not isinstance(action.get('tool'), str):
-            continue
-        arguments = action.get('arguments')
-        normalized.append({
-            'tool': action['tool'].strip(),
-            'arguments': arguments if isinstance(arguments, dict) else {},
-        })
-    return ParsedResponse(
-        thought=_thought(str(payload.get('thought') or ''), 20000),
-        actions=normalized[:_MAX_ACTIONS_PER_TURN],
-        final=str(payload.get('final') or '')[:30000],
-        needs_input=bool(payload.get('needs_input', False)),
-        summary=str(payload.get('summary') or '')[:12000],
-    )
