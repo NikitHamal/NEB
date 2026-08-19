@@ -2319,7 +2319,7 @@ data class ApiArenaSession(
     val modelId: String = "",
     val modelCode: String = "",
     val modelName: String = "",
-    val provider: String = "ai4bharat",
+    val provider: String = "qwen",
     val messageCount: Int = 0,
     val createdAt: Long = 0,
     val updatedAt: Long = 0,

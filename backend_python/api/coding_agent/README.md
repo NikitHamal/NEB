@@ -23,7 +23,7 @@ walk away from Wi-Fi and the work continues until stopped.
 - **Open PR** — `POST /repos/owner/name/pulls` via the API; the session flips
   to `pr_opened` and the PR URL is shown in the UI.
 - **Reuses every AI provider NEBians already has** — Qwen (`chat.qwen.ai`),
-  AI4Bharat Arena, eGov Chat AI, DeepAI, Inception Labs Mercury 2, plus any
+  eGov Chat AI, DeepAI, Inception Labs Mercury 2, plus any
   custom OpenAI-compatible endpoint. The agent's prompt is tuned to each
   provider's quirks (long-context, vision etc).
 

@@ -16,7 +16,7 @@ def _sse_done_marker():
     return "data: [DONE]\n\n"
 
 def ajax_arena_sessions(request):
-    """Session-based AJAX wrapper for listing or creating AI4Bharat Arena sessions."""
+    """Session-based AJAX wrapper for listing or creating chat sessions."""
     user_id = _get_user_id(request)
     if not user_id:
         return JsonResponse({'error': 'Unauthorized'}, status=401)
@@ -25,7 +25,6 @@ def ajax_arena_sessions(request):
     except User.DoesNotExist:
         return JsonResponse({'error': 'User not found'}, status=404)
 
-    from api import ai4bharat_proxy as arena
     from api.models import ArenaChatSession
 
     if request.method == 'GET':
@@ -47,58 +46,33 @@ def ajax_arena_sessions(request):
                 for s in sessions
             ]
         })
-        
+
     elif request.method == 'POST':
+        from api.arena_views import _community_model_meta
         try:
             data = json.loads(request.body)
         except ValueError:
             return JsonResponse({'error': 'Invalid JSON'}, status=400)
-            
+
         model_id = (data.get('modelId') or '').strip()
         title = (data.get('title') or '').strip()[:200]
         if not model_id:
             return JsonResponse({'error': 'modelId is required'}, status=400)
-            
-        try:
-            entry = arena.acquire_token(require_low_budget=True)
-        except arena.ArenaRateLimit:
-            return JsonResponse({'error': 'AI pool capacity reached', 'code': 'pool_exhausted'}, status=503)
-        except arena.ArenaError as e:
-            logger.error("ajax_arena_sessions create: token mint failed: %s", e)
-            return JsonResponse({'error': 'AI service temporarily unavailable'}, status=503)
-            
-        model_meta = None
-        try:
-            all_models = arena.list_models(entry['token'])
-            model_meta = next((m for m in all_models if m.get('id') == model_id), None)
-        except Exception:
-            pass
-            
-        try:
-            remote = arena.create_session(entry['token'], model_id)
-        except arena.ArenaAuthError:
-            try:
-                fresh = arena._new_anonymous_token()
-                remote = arena.create_session(fresh['token'], model_id)
-                entry = fresh
-            except Exception as e:
-                logger.error("ajax_arena_sessions create fallback failed: %s", e)
-                return JsonResponse({'error': 'AI service temporarily unavailable'}, status=503)
-        except arena.ArenaRateLimit as e:
-            return JsonResponse({'error': str(e), 'code': 'pool_exhausted'}, status=503)
-        except arena.ArenaError as e:
-            logger.error("ajax_arena_sessions create failed: %s", e)
-            return JsonResponse({'error': 'Could not start AI session — try again'}, status=502)
-            
+
+        community_meta = _community_model_meta(model_id)
+        if not community_meta:
+            return JsonResponse({'error': f'Unknown model: {model_id}'}, status=400)
+
         now = now_ms()
         sess = ArenaChatSession.objects.create(
             id=uuid_str(),
             user=user,
-            arena_session_id=remote['id'],
-            arena_token_id=entry['token'],
+            provider=community_meta['provider'],
+            arena_session_id=model_id,
+            arena_token_id='',
             model_id=model_id,
-            model_code=(model_meta or {}).get('model_code', ''),
-            model_display_name=(model_meta or {}).get('display_name', ''),
+            model_code=model_id,
+            model_display_name=community_meta['name'],
             title=title or 'New chat',
             is_active=True,
             message_count=0,
@@ -106,8 +80,7 @@ def ajax_arena_sessions(request):
             created_at=now,
             updated_at=now,
         )
-        arena.commit_token_use(entry['token'], message_used=False, session_opened=True)
-        
+
         return JsonResponse({
             'session': {
                 'id': sess.id,
@@ -118,9 +91,10 @@ def ajax_arena_sessions(request):
                 'messageCount': 0,
                 'createdAt': sess.created_at,
                 'updatedAt': sess.updated_at,
+                'provider': sess.provider,
             }
         }, status=201)
-    
+
     return JsonResponse({'error': 'Method not allowed'}, status=405)
 
 def ajax_arena_session_detail(request, session_id):

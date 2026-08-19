@@ -112,7 +112,6 @@
         <label for="id_provider" class="admin-form-label">AI Provider</label>
         <select name="provider" id="id_provider" data-action="provider-change" class="admin-form-input" style="cursor:pointer;">
           <option value="qwen"      {% if config.provider == 'qwen' %}selected{% endif %}>Qwen (chat.qwen.ai)</option>
-          <option value="ai4bharat" {% if config.provider == 'ai4bharat' %}selected{% endif %}>AI4Bharat Arena (Indic LLM Arena)</option>
           <option value="egov"      {% if config.provider == 'egov' %}selected{% endif %}>eGov Chat AI (Philippines)</option>
           <option value="deepai"    {% if config.provider == 'deepai' %}selected{% endif %}>DeepAI (deepai.org)</option>
           <option value="inception" {% if config.provider == 'inception' %}selected{% endif %}>Inception Labs (Mercury 2)</option>
@@ -149,6 +148,21 @@
         <input type="hidden" name="model" id="id_model" value="{{ config.model }}">
         <p class="admin-form-hint" id="id_model_help"></p>
       </div>
+    </div>
+
+    {# === Fallback Providers Section === #}
+    <div style="background:var(--md-surface-container);border-radius:16px;padding:24px;margin-bottom:16px;">
+      <h2 style="font-size:1rem;font-weight:600;margin:0 0 4px;">Fallback Providers</h2>
+      <p class="admin-form-hint" style="margin:0 0 16px;">
+        When the primary provider above fails (e.g. rate-limited or down), the bot tries
+        these in order before giving up. Up to 5 entries.
+      </p>
+      <div id="fallback-rows"></div>
+      <button type="button" id="add-fallback-row" class="md-btn md-btn-text" style="margin-top:8px;">
+        <span class="material-symbols-outlined" style="font-size:18px;">add</span>
+        Add fallback
+      </button>
+      <input type="hidden" name="fallback_chain" id="id_fallback_chain" value='{{ config.fallback_chain|default:"[]" }}'>
     </div>
 
     {# === Behavior Section === #}
@@ -205,20 +219,6 @@
 
 {% block extra_js %}
 <script nonce="{{ csp_nonce }}">
-  const AI4BHARAT_MODELS = [
-    { id: 'fadda998-e440-4c44-81b4-b0ecae27a0c5', name: 'Gemini 3.5 Flash',                       code: 'gemini-3.5-flash',                          provider: 'google',  reasoning: false, vision: false, context: 32000  },
-    { id: 'd95f1077-9bd0-46e4-8dcd-c43227e87885', name: 'Nemotron 3 Super 120B A12B',             code: 'nvidia/NVIDIA-Nemotron-3-Super-120B-A12B',  provider: 'nvidia',  reasoning: false, vision: false, context: 131072 },
-    { id: '7927d963-5444-4330-8bea-28d4b35694e5', name: 'Nemotron 3 Nano Omni 30B A3B Reasoning', code: 'nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning', provider: 'nvidia', reasoning: true,  vision: true,  context: 65536  },
-    { id: 'bb89dfa2-1b8e-4075-9567-0c6f4c6f621e', name: 'Gemma 4 26B A4B it',                     code: 'google/gemma-4-26B-A4B-it',                  provider: 'google',  reasoning: false, vision: false, context: 32768  },
-    { id: '860f13ee-b21b-4508-a12f-7f5ac184df58', name: 'Gemma 4 31B it',                         code: 'google/gemma-4-31B-it',                      provider: 'google',  reasoning: false, vision: false, context: 32768  },
-    { id: 'ca7565b7-eee6-4503-9c26-cf5655d61f82', name: 'Gemini 3.1 Flash Lite',                  code: 'gemini-3.1-flash-lite-preview',              provider: 'google',  reasoning: false, vision: true,  context: 32000  },
-    { id: 'a3581540-b86b-402f-b3d3-bdbc95e572ee', name: 'Sarvam 105B',                            code: 'sarvam-105b',                                provider: 'sarvam',  reasoning: true,  vision: false, context: 32768, hint: 'Best for Hindi/Nepali/Indic' },
-    { id: '8087217e-f01f-41b0-9d3a-885154d3d8e8', name: 'Sarvam 30B',                             code: 'sarvam-30b',                                 provider: 'sarvam',  reasoning: true,  vision: false, context: 32768, hint: 'Indic LLM (smaller, faster)' },
-    { id: '1f228a49-deed-4660-9301-d149efe8b068', name: 'Gemini 3 Flash',                         code: 'gemini-3-flash-preview',                     provider: 'google',  reasoning: true,  vision: true,  context: 32000  },
-    { id: '318878b7-c6a6-4c98-b228-b36ae505250c', name: 'Gemini 2.5 Flash',                       code: 'gemini-2.5-flash',                           provider: 'google',  reasoning: true,  vision: true,  context: 32000  },
-    { id: '864608e8-c05d-4ad0-bf46-ecc00b2045b6', name: 'Gemini 2.5 Flash Lite',                  code: 'gemini-2.5-flash-lite',                      provider: 'google',  reasoning: false, vision: true,  context: 32000  },
-  ];
-
   const QWEN_FALLBACK = [
     { value: 'qwen3.8-max',          label: 'Qwen3.8-Max (1M ctx, vision/think, auto/thinking/fast)' },
     { value: 'qwen3.7-plus',         label: 'Qwen3.7-Plus (1M ctx, vision/think)' },
@@ -305,18 +305,18 @@
       modelHelp: 'Pick a Qwen model.',
       options: QWEN_MODELS,
     },
-    ai4bharat: {
-      urlLabel: 'API URL',
-      urlHelp: 'AI4Bharat Arena endpoint (leave default).',
-      urlDefault: 'https://backend.arena.ai4bharat.co',
-      modelControl: 'select',
-      modelHelp: 'Pick an AI4Bharat Arena model. Indic models (Sarvam) work best for Hindi/Nepali.',
-      options: AI4BHARAT_MODELS,
-    },
     custom: {
       urlLabel: 'API URL',
       urlHelp: 'Full URL to any OpenAI-compatible /chat/completions endpoint (e.g. https://api.openai.com/v1/chat/completions).',
       urlDefault: '',
+      modelControl: 'text',
+      modelHelp: 'Free-form model name as required by the provider.',
+      options: [],
+    },
+    agentrouter: {
+      urlLabel: 'API URL',
+      urlHelp: 'AgentRouter endpoint (leave default).',
+      urlDefault: 'https://agentrouter.org/v1',
       modelControl: 'text',
       modelHelp: 'Free-form model name as required by the provider.',
       options: [],
@@ -553,6 +553,159 @@
     'provider-change': function(el, e) {
       onProviderChange();
     }
+  });
+
+  var FALLBACK_PROVIDERS = [
+    { value: 'qwen',      label: 'Qwen (chat.qwen.ai)' },
+    { value: 'k2think',   label: 'K2 Think (k2think.ai)' },
+    { value: 'poolside',  label: 'Poolside (Laguna 2.1)' },
+    { value: 'motiftech', label: 'Motif (Motif 3)' },
+    { value: 'egov',      label: 'eGov Chat AI (Philippines)' },
+    { value: 'deepai',    label: 'DeepAI (deepai.org)' },
+    { value: 'inception', label: 'Inception (Mercury 2)' },
+    { value: 'custom',    label: 'Custom OpenAI-compatible' },
+    { value: 'agnes',     label: 'Agnes (official)' },
+    { value: 'openai',    label: 'OpenAI (official)' },
+    { value: 'anthropic', label: 'Anthropic (official)' },
+    { value: 'gemini',    label: 'Gemini (official)' },
+    { value: 'deepseek',  label: 'DeepSeek (official)' },
+    { value: 'agentrouter', label: 'AgentRouter (official)' },
+  ];
+
+  function parseFallbackChain() {
+    var raw = document.getElementById('id_fallback_chain').value || '[]';
+    try { var chain = JSON.parse(raw); } catch(e) { return []; }
+    return Array.isArray(chain) ? chain : [];
+  }
+
+  function fallbackModelCell(provider, currentModel) {
+    var cell = document.createElement('div');
+    cell.className = 'fb-model-cell';
+    var cfg = PROVIDER_CONFIG[provider] || PROVIDER_CONFIG.qwen;
+    if (cfg.modelControl === 'select' && cfg.options.length) {
+      var select = document.createElement('select');
+      select.className = 'admin-form-input fb-model';
+      var matched = false;
+      for (var i = 0; i < cfg.options.length; i++) {
+        var opt = cfg.options[i];
+        var o = document.createElement('option');
+        var v = opt.id || opt.value;
+        o.value = v;
+        o.textContent = _formatOptionLabel(opt);
+        if (v === currentModel) {
+          o.selected = true;
+          matched = true;
+        }
+        select.appendChild(o);
+      }
+      if (!matched && currentModel) {
+        var o = document.createElement('option');
+        o.value = currentModel;
+        o.textContent = currentModel + '  (custom value)';
+        o.selected = true;
+        select.appendChild(o);
+      }
+      cell.appendChild(select);
+    } else {
+      var text = document.createElement('input');
+      text.type = 'text';
+      text.className = 'admin-form-input fb-model';
+      text.placeholder = 'model (optional)';
+      text.value = currentModel || '';
+      cell.appendChild(text);
+    }
+    return cell;
+  }
+
+  function renderFallbackRows() {
+    var box = document.getElementById('fallback-rows');
+    box.innerHTML = '';
+    var chain = parseFallbackChain();
+    chain.forEach(function(entry, idx) {
+      var row = document.createElement('div');
+      row.style.cssText = 'display:grid;grid-template-columns:220px 1fr 1fr 1fr auto;gap:8px;margin-bottom:8px;align-items:center;';
+      var sel = document.createElement('select');
+      sel.className = 'admin-form-input fb-provider';
+      FALLBACK_PROVIDERS.forEach(function(p) {
+        var o = document.createElement('option');
+        o.value = p.value;
+        o.textContent = p.label;
+        if (p.value === entry.provider) o.selected = true;
+        sel.appendChild(o);
+      });
+      sel.addEventListener('change', function() {
+        var cur = parseFallbackChain();
+        cur[idx].provider = sel.value;
+        cur[idx].model = '';
+        document.getElementById('id_fallback_chain').value = JSON.stringify(cur);
+        var cell = row.querySelector('.fb-model-cell');
+        cell.innerHTML = '';
+        cell.appendChild(fallbackModelCell(sel.value, ''));
+      });
+      var modelCell = fallbackModelCell(entry.provider || 'qwen', entry.model || '');
+      var url = document.createElement('input');
+      url.type = 'text';
+      url.className = 'admin-form-input fb-url';
+      url.placeholder = 'API URL (optional)';
+      url.value = entry.api_url || '';
+      var key = document.createElement('input');
+      key.type = 'password';
+      key.className = 'admin-form-input fb-key';
+      key.placeholder = 'API key (optional)';
+      key.value = entry.api_key || '';
+      var del = document.createElement('button');
+      del.type = 'button';
+      del.className = 'md-btn md-btn-text';
+      del.style.color = 'var(--md-error)';
+      del.innerHTML = '<span class="material-symbols-outlined" style="font-size:18px;">delete</span>';
+      del.addEventListener('click', function() {
+        var cur = parseFallbackChain();
+        cur.splice(idx, 1);
+        document.getElementById('id_fallback_chain').value = JSON.stringify(cur);
+        renderFallbackRows();
+      });
+      row.appendChild(sel);
+      row.appendChild(modelCell);
+      row.appendChild(url);
+      row.appendChild(key);
+      row.appendChild(del);
+      box.appendChild(row);
+    });
+  }
+
+  function syncFallbackChain() {
+    var box = document.getElementById('fallback-rows');
+    var rows = box.querySelectorAll('div');
+    var chain = [];
+    rows.forEach(function(row) {
+      var sel = row.querySelector('.fb-provider');
+      if (!sel) return;
+      var modelEl = row.querySelector('.fb-model');
+      var url = row.querySelector('.fb-url');
+      var key = row.querySelector('.fb-key');
+      chain.push({
+        provider: sel.value,
+        model: (modelEl ? modelEl.value : '').trim(),
+        api_url: (url ? url.value : '').trim(),
+        api_key: (key ? key.value : '').trim(),
+      });
+    });
+    document.getElementById('id_fallback_chain').value = JSON.stringify(chain);
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    renderFallbackRows();
+    var addBtn = document.getElementById('add-fallback-row');
+    if (addBtn) {
+      addBtn.addEventListener('click', function() {
+        var cur = parseFallbackChain();
+        if (cur.length >= 5) return;
+        cur.push({ provider: 'k2think', model: '', api_url: '', api_key: '' });
+        document.getElementById('id_fallback_chain').value = JSON.stringify(cur);
+        renderFallbackRows();
+      });
+    }
+    document.querySelector('form').addEventListener('submit', syncFallbackChain);
   });
 </script>
 {% endblock %}

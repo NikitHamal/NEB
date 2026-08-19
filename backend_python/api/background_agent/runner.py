@@ -505,13 +505,13 @@ class BackgroundAgentRunner:
 
     def _community_slug(self) -> str:
         slug = (self.session.llm_provider or '').strip().lower()
-        if slug in ('qwen', 'k2think', 'poolside', 'motiftech'):
+        if slug in ('qwen', 'k2think', 'poolside', 'motiftech', 'metaai'):
             return slug
         return 'qwen'
 
     def _community_model(self) -> str:
         """Selected community model — Qwen web model, else the preset default
-        for k2think/poolside/motiftech, else qwen3.8-max."""
+        for k2think/poolside/motiftech/metaai, else qwen3.8-max."""
         slug = (self.session.llm_provider or '').strip().lower()
         model = (self.session.llm_model or '').strip()
         if model:
@@ -522,6 +522,8 @@ class BackgroundAgentRunner:
             return 'laguna-s-2.1'
         if slug == 'motiftech':
             return 'motif-102b'
+        if slug == 'metaai':
+            return 'metaai-instant'
         try:
             from api.qwen_utils.models import get_default_model
             return get_default_model() or 'qwen3.8-max'
@@ -560,17 +562,116 @@ class BackgroundAgentRunner:
         if system_prompt is None:
             system_prompt = self._system_prompt_for_run()
         self._pending_reasoning = ''
-        resolved = self._llm_selection()
-        if resolved is not None:
+        primary_error = None
+        try:
+            resolved = self._llm_selection()
+            if resolved is not None:
+                return self._call_official_provider_stream(
+                    resolved, prompt, system_prompt=system_prompt, file_paths=file_paths, max_tokens=max_tokens,
+                )
+            slug = (self.session.llm_provider or '').strip().lower()
+            if slug in ('k2think', 'poolside', 'motiftech', 'metaai'):
+                return self._call_community_proxy(
+                    slug, prompt, system_prompt=system_prompt, file_paths=file_paths, max_tokens=max_tokens,
+                )
+            return self._call_qwen_legacy(prompt, system_prompt=system_prompt, file_paths=file_paths, max_tokens=max_tokens)
+        except (AgentPaused, AgentStopped):
+            raise
+        except WorkspaceError as exc:
+            primary_error = exc
+        chain = self._bot_fallback_chain()
+        if not chain:
+            raise primary_error
+        last_error = primary_error
+        for entry in chain:
+            self._check_control()
+            label = self._fallback_entry_label(entry)
+            try:
+                emit(self.session, 'model.fallback', f'Primary provider failed; trying fallback: {label}', {
+                    'provider': entry.get('provider'), 'model': entry.get('model') or '',
+                    'error': str(last_error)[:1000],
+                })
+                return self._call_fallback_entry(entry, prompt, system_prompt=system_prompt, file_paths=file_paths, max_tokens=max_tokens)
+            except (AgentPaused, AgentStopped):
+                raise
+            except WorkspaceError as exc:
+                last_error = exc
+                emit(self.session, 'model.fallback', f'Fallback {label} failed; next: {str(exc)[:400]}', {
+                    'provider': entry.get('provider'), 'model': entry.get('model') or '',
+                    'error': str(exc)[:1000],
+                })
+                continue
+        raise WorkspaceError(
+            f'All providers failed ({1 + len(chain)} tried, last: {last_error})'
+        ) from last_error
+
+    def _bot_fallback_chain(self) -> list:
+        """Ordered fallback provider entries from the session's BotConfig."""
+        try:
+            bot = self.session.bot_config
+        except Exception:
+            bot = None
+        if bot is None:
+            return []
+        return bot.get_fallback_chain()
+
+    @staticmethod
+    def _fallback_entry_label(entry: dict) -> str:
+        slug = (entry.get('provider') or '').strip().lower()
+        model = (entry.get('model') or '').strip()
+        if slug == 'custom':
+            return 'Custom endpoint' + (f' ({model})' if model else '')
+        return f'{slug} {model}'.strip()
+
+    def _call_fallback_entry(self, entry: dict, prompt: str, *, system_prompt: str, file_paths=None, max_tokens=None) -> str:
+        """Run a single fallback-chain entry: official preset, community
+        scraper, or a custom OpenAI-compatible endpoint."""
+        slug = (entry.get('provider') or '').strip().lower()
+        model = (entry.get('model') or '').strip()
+        api_url = (entry.get('api_url') or '').strip()
+        api_key = (entry.get('api_key') or '').strip()
+        from api.llm.registry import is_official_slug
+        if slug == 'qwen':
+            return self._call_qwen_legacy(
+                prompt, system_prompt=system_prompt, file_paths=file_paths,
+                max_tokens=max_tokens, model_override=model or None,
+            )
+        if slug in ('k2think', 'poolside', 'motiftech', 'metaai'):
+            return self._call_community_proxy(
+                slug, prompt, system_prompt=system_prompt, file_paths=file_paths,
+                max_tokens=max_tokens, model_override=model or None,
+            )
+        if slug in ('egov', 'deepai', 'inception'):
+            return self._call_scraper_proxy(
+                slug, prompt, system_prompt=system_prompt, file_paths=file_paths,
+                max_tokens=max_tokens, model_override=model or None,
+            )
+        if slug == 'custom':
+            if not api_url:
+                raise WorkspaceError('Custom fallback entry requires an api_url')
+            from api.llm.credentials import ResolvedProvider
+            resolved = ResolvedProvider(
+                slug='custom', label='Custom fallback', format='openai',
+                base_url=api_url, api_key=api_key, model=model or '',
+                context_window=131072, max_output_tokens=4096,
+                source='bot', official=True,
+            )
             return self._call_official_provider_stream(
                 resolved, prompt, system_prompt=system_prompt, file_paths=file_paths, max_tokens=max_tokens,
             )
-        slug = (self.session.llm_provider or '').strip().lower()
-        if slug in ('k2think', 'poolside', 'motiftech'):
-            return self._call_community_proxy(
-                slug, prompt, system_prompt=system_prompt, file_paths=file_paths, max_tokens=max_tokens,
-            )
-        return self._call_qwen_legacy(prompt, system_prompt=system_prompt, file_paths=file_paths, max_tokens=max_tokens)
+        if not is_official_slug(slug):
+            raise WorkspaceError(f'Fallback provider {slug} is not supported by the agent runner')
+        from api.llm.credentials import resolve as llm_resolve
+        resolved = llm_resolve(self.session.admin_user, slug, model=model)
+        if resolved is None:
+            raise WorkspaceError(f'Fallback provider {slug} is not configured (no API key/URL)')
+        if api_url:
+            resolved.base_url = api_url
+        if api_key:
+            resolved.api_key = api_key
+        return self._call_official_provider_stream(
+            resolved, prompt, system_prompt=system_prompt, file_paths=file_paths, max_tokens=max_tokens,
+        )
 
     # ------------------------------------------------------------------
     # Live streaming: official providers publish incremental deltas to
@@ -605,21 +706,29 @@ class BackgroundAgentRunner:
         except Exception:
             pass
 
-    def _call_community_proxy(self, slug: str, prompt: str, *, system_prompt: str, file_paths=None, max_tokens=None) -> str:
-        """Community web proxies (k2think / poolside / motiftech) — no keys, no
+    def _call_community_proxy(self, slug: str, prompt: str, *, system_prompt: str, file_paths=None, max_tokens=None, model_override: str = None) -> str:
+        """Community web proxies (k2think / poolside / motiftech / metaai) — no keys, no
         native file upload; new upload contents are inlined into the prompt."""
         if slug == 'k2think':
             from api import k2think_proxy
-            model = (self.session.llm_model or '').strip() or 'MBZUAI-IFM/K2-Think-v2'
+            model = model_override or (self.session.llm_model or '').strip() or 'MBZUAI-IFM/K2-Think-v2'
             label = 'K2 Think'
+            fn = k2think_proxy.simple_chat
         elif slug == 'motiftech':
             from api import motiftech_proxy
-            model = (self.session.llm_model or '').strip() or 'motif-102b'
+            model = model_override or (self.session.llm_model or '').strip() or 'motif-102b'
             label = 'Motif'
+            fn = motiftech_proxy.simple_chat
+        elif slug == 'metaai':
+            from api import metaai_proxy
+            model = model_override or (self.session.llm_model or '').strip() or 'metaai-instant'
+            label = 'Meta AI'
+            fn = metaai_proxy.simple_chat
         else:
             from api import poolside_proxy
-            model = (self.session.llm_model or '').strip() or 'laguna-s-2.1'
+            model = model_override or (self.session.llm_model or '').strip() or 'laguna-s-2.1'
             label = 'Poolside'
+            fn = poolside_proxy.simple_chat
         if file_paths:
             inline_files = self._attachments_inline_text(file_paths)
             if inline_files:
@@ -631,11 +740,68 @@ class BackgroundAgentRunner:
             self._check_control()
             try:
                 t0 = time.monotonic()
-                response = (k2think_proxy.simple_chat if slug == 'k2think' else motiftech_proxy.simple_chat if slug == 'motiftech' else poolside_proxy.simple_chat)(
+                response = fn(
                     user_message=prompt,
                     model=model,
                     system_prompt=system_prompt,
                     max_tokens=output_tokens,
+                )
+                if t0:
+                    self._last_model_response_ms = int((time.monotonic() - t0) * 1000)
+                if response:
+                    return str(response)
+                raise WorkspaceError(f'{label} {model} returned an empty response')
+            except (AgentPaused, AgentStopped):
+                raise
+            except Exception as exc:
+                last_error = exc
+                if attempt >= attempts:
+                    break
+                delay = min(30, 2 ** attempt)
+                emit(self.session, 'model.retrying', f'{label} attempt {attempt} failed; retrying in {delay}s', {
+                    'provider': slug, 'model': model,
+                    'error': str(exc)[:1000], 'attempt': attempt,
+                })
+                for _ in range(delay):
+                    time.sleep(1)
+                    self._check_control()
+        raise WorkspaceError(
+            f'{label} {model} failed after {attempts} attempt(s): {last_error}'
+        ) from last_error
+
+    def _call_scraper_proxy(self, slug: str, prompt: str, *, system_prompt: str, file_paths=None, max_tokens=None, model_override: str = None) -> str:
+        """Scraper proxies (egov / deepai / inception) — no keys, no native
+        file upload; new upload contents are inlined into the prompt."""
+        output_tokens = int(max_tokens or getattr(settings, 'BACKGROUND_AGENT_MODEL_MAX_TOKENS', 6000))
+        if slug == 'egov':
+            from api import egov_proxy
+            model = model_override or (self.session.llm_model or '').strip() or 'AI1'
+            label = 'eGov'
+            fn = lambda **kw: egov_proxy.simple_chat(max_tokens=output_tokens, **kw)
+        elif slug == 'deepai':
+            from api import deepai_proxy
+            model = model_override or (self.session.llm_model or '').strip() or 'standard'
+            label = 'DeepAI'
+            fn = deepai_proxy.simple_chat
+        else:
+            from api import inception_proxy
+            model = model_override or (self.session.llm_model or '').strip() or 'mercury-2'
+            label = 'Inception'
+            fn = lambda **kw: inception_proxy.simple_chat(reasoning_effort='high', **kw)
+        if file_paths:
+            inline_files = self._attachments_inline_text(file_paths)
+            if inline_files:
+                prompt = prompt + '\n\n' + inline_files
+        attempts = max(1, min(int(getattr(settings, 'BACKGROUND_AGENT_PROVIDER_ATTEMPTS', 3)), 6))
+        last_error = None
+        for attempt in range(1, attempts + 1):
+            self._check_control()
+            try:
+                t0 = time.monotonic()
+                response = fn(
+                    user_message=prompt,
+                    model=model,
+                    system_prompt=system_prompt,
                 )
                 if t0:
                     self._last_model_response_ms = int((time.monotonic() - t0) * 1000)
@@ -831,8 +997,8 @@ class BackgroundAgentRunner:
             return ''
         return 'ATTACHED FILES (inline — this provider has no file upload)\n' + '\n\n'.join(chunks)
 
-    def _call_qwen_legacy(self, prompt: str, *, system_prompt: str = SYSTEM_PROMPT, file_paths=None, max_tokens=None) -> str:
-        model = self._community_model()
+    def _call_qwen_legacy(self, prompt: str, *, system_prompt: str = SYSTEM_PROMPT, file_paths=None, max_tokens=None, model_override: str = None) -> str:
+        model = model_override or self._community_model()
         thinking_mode = (self.session.llm_thinking_mode or 'auto').strip().lower()
         if thinking_mode not in ('auto', 'thinking', 'fast'):
             thinking_mode = 'auto'

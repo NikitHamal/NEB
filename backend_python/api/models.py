@@ -2,6 +2,7 @@
 Django models for NEBians.
 Schema is the source of truth — keep in sync with the Kotlin app's ApiService.
 """
+import json
 import time
 import uuid
 from decimal import Decimal
@@ -857,6 +858,11 @@ class BotConfig(models.Model):
     api_url = models.TextField(default='https://chat.qwen.ai/api/v2')
     api_key = models.TextField(blank=True, default='')
     model = models.CharField(max_length=200, default='qwen3.8-max')
+    fallback_chain = models.TextField(
+        blank=True, default='[]',
+        help_text='JSON list of fallback provider entries tried in order when the primary provider fails. '
+                  'Each entry: {"provider": slug, "model": "...", "api_url": "...", "api_key": "..."}.',
+    )
     system_prompt = models.TextField(
         default='You are Neby, a friendly and helpful AI study buddy for Nepali students on the NEBians app. '
                 'You help with academic questions, explain concepts clearly, and give study tips.\n\n'
@@ -888,6 +894,18 @@ class BotConfig(models.Model):
 
     def __str__(self):
         return f'{self.name} (@{self.bot_username})'
+
+    def get_fallback_chain(self):
+        """Ordered fallback provider entries as a list of dicts."""
+        try:
+            chain = self.fallback_chain or '[]'
+            if isinstance(chain, str):
+                chain = json.loads(chain or '[]')
+            if not isinstance(chain, list):
+                return []
+            return [e for e in chain if isinstance(e, dict) and (e.get('provider') or '').strip()][:5]
+        except (ValueError, TypeError):
+            return []
 
     @classmethod
     def get_enabled_bots(cls):

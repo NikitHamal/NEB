@@ -7,7 +7,7 @@ values.
 
 Why handled in Python (not as native tool_calls):
   Several reverse-engineered providers used by NEBians (chat.qwen.ai,
-  AI4Bharat Arena, eGov, DeepAI free tier) do not honor OpenAI's tool_calls
+  eGov, DeepAI free tier) do not honor OpenAI's tool_calls
   JSON Schema path. They drop the `tools` field entirely or refuse to produce
   structured outputs reliably. Coercing them to use prompt-defined tool
   blocks is far more portable, deterministic and cheaper.

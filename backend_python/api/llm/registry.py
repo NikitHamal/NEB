@@ -30,7 +30,7 @@ FORMAT_SCRAPER = 'scraper'      # Existing NEBians web proxies (qwen & friends)
 
 OFFICIAL_FORMATS = (FORMAT_OPENAI, FORMAT_ANTHROPIC, FORMAT_GEMINI)
 
-SCRAPER_PROVIDERS = ('qwen', 'egov', 'deepai', 'inception', 'k2think', 'poolside', 'motiftech')
+SCRAPER_PROVIDERS = ('qwen', 'egov', 'deepai', 'inception', 'k2think', 'poolside', 'motiftech', 'metaai')
 
 
 @dataclass(frozen=True)
@@ -209,6 +209,17 @@ SCRAPER_PRESETS: List[ProviderPreset] = [
                 ModelSpec('motif-tiny', 'Motif Tiny')],
         context_window=32000, max_output_tokens=6000,
         key_required=False, official=False, scraper_module='motiftech_proxy',
+    ),
+    ProviderPreset(
+        slug='metaai', label='Meta AI (meta.ai)', format=FORMAT_SCRAPER,
+        base_url='https://www.meta.ai', default_model='metaai-instant',
+        models=[
+            ModelSpec('metaai-instant', 'Meta AI (Instant)', 'Fast chat mode'),
+            ModelSpec('metaai-thinking', 'Meta AI (Thinking)', 'Deep reasoning mode'),
+            ModelSpec('metaai-imagine', 'Meta AI Imagine', 'Text-to-image generator'),
+        ],
+        context_window=128000, max_output_tokens=4000,
+        key_required=False, official=False, scraper_module='metaai_proxy',
     ),
 ]
 

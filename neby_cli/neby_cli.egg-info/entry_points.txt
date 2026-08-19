@@ -1,0 +1,2 @@
+[console_scripts]
+neby = neby_cli.main:main

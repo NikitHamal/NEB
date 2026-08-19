@@ -82,7 +82,7 @@ This document captures concrete, prioritized ideas to take NEBians from a polish
 
 ### 14. Nepali Language Mode (i18n + bilingual AI)
 **Why:** Many NEB students study in Nepali medium; competitors are English-only.
-**What:** Django i18n for UI strings; AI prompts accept `language: ne` for Nepali/bilingual summaries and explanations (the Qwen models handle Nepali reasonably; AI4Bharat arena models are Indic-focused).
+**What:** Django i18n for UI strings; AI prompts accept `language: ne` for Nepali/bilingual summaries and explanations (the Qwen models handle Nepali reasonably).
 **First step:** Add a `language` option to generation requests + a UI toggle; wrap templates in `{% trans %}` incrementally.
 
 ### 15. Resource Quality Loop: Ratings, Reports & Verified Badges

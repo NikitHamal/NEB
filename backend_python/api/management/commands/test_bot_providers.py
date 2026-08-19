@@ -2,7 +2,6 @@
 
 Verifies that `call_ai_api()` correctly dispatches to:
   - qwen (default)
-  - ai4bharat (live)
   - custom (we spin up a tiny http.server that mimics an OpenAI-compatible API)
 """
 import json
@@ -60,7 +59,7 @@ class FakeOpenAIServer:
 
 
 class Command(BaseCommand):
-    help = 'E2E test of BotConfig provider switcher (qwen / ai4bharat / custom)'
+    help = 'E2E test of BotConfig provider switcher (qwen / custom)'
 
     def handle(self, *args, **options):
         cfg = BotConfig.objects.first()
@@ -84,19 +83,8 @@ class Command(BaseCommand):
             except Exception as e:
                 self.stdout.write(self.style.WARNING(f'  qwen call failed (likely network): {e}'))
 
-            # 2) AI4Bharat path (live)
-            self.stdout.write('\n[2] provider=ai4bharat (live arena)')
-            cfg.provider = 'ai4bharat'
-            cfg.model = ''   # let the proxy pick the first healthy model
-            cfg.save()
-            try:
-                out = _neby.call_ai_api('You are a test.', 'Say just the word OK.')
-                self.stdout.write(f'  ai4bharat reply: {out!r}'[:200])
-            except Exception as e:
-                self.stdout.write(self.style.WARNING(f'  ai4bharat call failed: {e}'))
-
-            # 3) Custom path (with a fake OpenAI-compatible server)
-            self.stdout.write('\n[3] provider=custom (fake OpenAI server)')
+            # 2) Custom path (with a fake OpenAI-compatible server)
+            self.stdout.write('\n[2] provider=custom (fake OpenAI server)')
             with FakeOpenAIServer():
                 cfg.provider = 'custom'
                 cfg.api_url = 'http://127.0.0.1:18765/v1/chat/completions'
@@ -113,8 +101,8 @@ class Command(BaseCommand):
                     # We didn't capture the Authorization header in this minimal server,
                     # so this just confirms the request was POSTed.
 
-            # 4) Reset to original
-            self.stdout.write('\n[4] reset to original')
+            # 3) Reset to original
+            self.stdout.write('\n[3] reset to original')
             cfg.provider = original_provider
             cfg.api_url = original_api_url
             cfg.api_key = original_api_key

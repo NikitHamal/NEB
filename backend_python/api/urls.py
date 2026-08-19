@@ -119,7 +119,7 @@ urlpatterns = [
     path('bookmarks/', views.bookmark_list, name='bookmark-list'),
     path('bookmarks/check/', views.bookmark_check, name='bookmark-check'),
 
-    # AI4Bharat Arena chat (Neby AI on Android)
+    # Community AI chat (Neby AI on Android)
     path('neby-arena/', include('api.arena_urls')),
 
     # Interactive learning catalog

@@ -1,0 +1,11 @@
+Metadata-Version: 2.4
+Name: neby-cli
+Version: 0.1.0
+Summary: Minimal Autonomous Agentic Coding CLI using Proxy & Reversed Models
+Author: NEBians Team
+License: MIT
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: rich>=13.0.0
+Requires-Dist: prompt-toolkit>=3.0.0
+Requires-Dist: requests>=2.28.0

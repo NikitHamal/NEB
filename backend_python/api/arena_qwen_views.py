@@ -4,7 +4,7 @@ Qwen provider views for the Arena chat system — supports file uploads.
 These endpoints use the Qwen (chat.qwen.ai) proxy which supports
 images, PDFs, audio, and video via Alibaba Cloud OSS upload.
 
-Mounted under /api/neby-arena/ alongside the AI4Bharat views.
+Mounted under /api/neby-arena/ alongside the community views.
 """
 import json
 import logging
@@ -227,7 +227,7 @@ def arena_send_message_qwen(request, session_id):
 
     if sess.provider != 'qwen':
         return Response(
-            {'error': 'This endpoint only works with Qwen sessions. Use /sessions/<id>/messages/ for AI4Bharat.'},
+            {'error': 'This endpoint only works with Qwen sessions. Use /sessions/<id>/messages/ for community sessions.'},
             status=status.HTTP_400_BAD_REQUEST,
         )
 

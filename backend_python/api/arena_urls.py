@@ -1,4 +1,4 @@
-"""URL patterns for the AI4Bharat Arena chat proxy, Qwen file-upload chat, eGov Chat AI, DeepAI, EQing, FreeGPT, DeepSeek AI, and SurfSense.
+"""URL patterns for the community chat proxies, Qwen file-upload chat, eGov Chat AI, DeepAI, EQing, FreeGPT, DeepSeek AI, and SurfSense.
 
 Mounted under /api/neby-arena/ by api/urls.py.
 """
@@ -12,9 +12,8 @@ from . import arena_k2think_views
 from . import arena_poolside_views
 
 urlpatterns = [
-    # AI4Bharat Arena (text-only, anonymous token pool)
+    # Community chat (K2 Think / Poolside / Motiftech — stateless proxies)
     path('models/', arena_views.arena_models, name='arena-models'),
-    path('pool-stats/', arena_views.arena_pool_stats, name='arena-pool-stats'),
     path('sessions/', arena_views.arena_sessions, name='arena-sessions'),
     path('sessions/<str:session_id>/', arena_views.arena_session_detail, name='arena-session-detail'),
     path('sessions/<str:session_id>/messages/', arena_views.arena_send_message, name='arena-send-message'),

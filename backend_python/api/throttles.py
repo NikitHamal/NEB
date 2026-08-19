@@ -44,11 +44,10 @@ class ViewIncrementRateThrottle(_IdentityThrottle):
 
 
 class ArenaChatRateThrottle(_IdentityThrottle):
-    """Throttle for AI4Bharat Arena chat endpoints (per-user or per-IP).
+    """Throttle for community chat endpoints (per-user or per-IP).
 
-    Generous limits — the upstream arena already enforces 20 msgs / token, and
-    the pool spreads load across many tokens. We mainly want to prevent one
-    user from monopolising the pool.
+    Generous limits — we mainly want to prevent one user from monopolising
+    the shared upstream proxies.
     """
     scope = 'arena_chat'
 
