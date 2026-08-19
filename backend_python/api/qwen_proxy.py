@@ -465,26 +465,63 @@ def generate_bx_ua(fingerprint):
 
 # ========================= Session Headers =========================
 
-def build_session_headers(bx_ua=""):
+# Keep fingerprint, Client Hints, and TLS impersonation on the SAME browser.
+# Mixed Mac fingerprint + Linux UA is an easy Aliyun WAF tell.
+# Live site (2026-08-19) ships qwen-chat-fe 0.2.86.
+_BROWSER_PROFILES = (
+    {
+        "impersonate": "chrome136",
+        "platform": "macIntel",
+        "ua": (
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
+            "(KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"
+        ),
+        "sec_ch_ua": '"Chromium";v="136", "Google Chrome";v="136", "Not.A/Brand";v="99"',
+        "sec_ch_ua_platform": '"macOS"',
+    },
+    {
+        "impersonate": "chrome131",
+        "platform": "macM1",
+        "ua": (
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
+            "(KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+        ),
+        "sec_ch_ua": '"Chromium";v="131", "Google Chrome";v="131", "Not.A/Brand";v="24"',
+        "sec_ch_ua_platform": '"macOS"',
+    },
+    {
+        "impersonate": "chrome",
+        "platform": "win64",
+        "ua": (
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+            "(KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"
+        ),
+        "sec_ch_ua": '"Chromium";v="136", "Google Chrome";v="136", "Not.A/Brand";v="99"',
+        "sec_ch_ua_platform": '"Windows"',
+    },
+)
+
+_WEB_CLIENT_VERSION = "0.2.86"
+
+
+def build_session_headers(bx_ua="", profile=None):
+    profile = profile or _BROWSER_PROFILES[0]
     headers = {
         "accept": "*/*",
-        "accept-language": "en-US,en;q=0.9",
+        "accept-language": "zh-CN,zh;q=0.9,en;q=0.8",
         "content-type": "application/json",
         "origin": QWEN_URL,
         "referer": f"{QWEN_URL}/",
-        "sec-ch-ua": '"Google Chrome";v="138", "Chromium";v="138", "Not.A/Brand";v="99"',
+        "sec-ch-ua": profile["sec_ch_ua"],
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": '"Linux"',
+        "sec-ch-ua-platform": profile["sec_ch_ua_platform"],
         "sec-fetch-dest": "empty",
         "sec-fetch-mode": "cors",
         "sec-fetch-site": "same-origin",
-        "user-agent": (
-            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
-            "(KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
-        ),
+        "user-agent": profile["ua"],
         "x-requested-with": "XMLHttpRequest",
         "source": "web",
-        "version": "0.2.63",
+        "version": _WEB_CLIENT_VERSION,
         "X-Accel-Buffering": "no",
     }
     if bx_ua:
@@ -536,47 +573,52 @@ _POOL_REFILL_INTERVAL = 120
 _pool_refill_thread_started = False
 
 
-def _create_fresh_session():
-    """Build a brand-new session with unique fingerprint and cookies.
-
-    Uses curl_cffi with impersonate='chrome' when available so that TLS
-    fingerprints match a real Chrome browser â€” this is the primary WAF
-    bypass mechanism for Aliyun WAF on chat.qwen.ai.
-    """
-    cookies_data = generate_cookies()
+def _create_session_with_profile(profile):
+    cookies_data = generate_cookies(generate_fingerprint({"platform": profile["platform"]}))
     bx_ua = generate_bx_ua(cookies_data.get("rawData", ""))
-    headers = build_session_headers(bx_ua)
+    headers = build_session_headers(bx_ua, profile=profile)
+    proxies = {"https": QWEN_PROXY_URL, "http": QWEN_PROXY_URL} if QWEN_PROXY_URL else {}
 
     if _USE_CURL_CFFI:
-        session = _CurlSession(impersonate="chrome", headers=headers, proxies={"https": QWEN_PROXY_URL, "http": QWEN_PROXY_URL} if QWEN_PROXY_URL else {})
+        session = _CurlSession(impersonate=profile["impersonate"], headers=headers, proxies=proxies)
     else:
         session = requests.Session()
         session.headers.update(headers)
+        if QWEN_PROXY_URL:
+            session.proxies.update(proxies)
 
-    cookie_dict = {
-        "ssxmod_itna": cookies_data["ssxmod_itna"],
-        "ssxmod_itna2": cookies_data["ssxmod_itna2"],
-    }
-    for k, v in cookie_dict.items():
-        session.cookies.set(k, v, domain="chat.qwen.ai")
+    for key, value in (
+        ("ssxmod_itna", cookies_data["ssxmod_itna"]),
+        ("ssxmod_itna2", cookies_data["ssxmod_itna2"]),
+    ):
+        session.cookies.set(key, value, domain="chat.qwen.ai")
 
-    # Use a plain requests session for the midtoken fetch (curl_cffi
-    # sessions are not reused across threads safely for this helper)
-    midtoken_session = requests.Session()
-    midtoken_session.headers.update(headers)
-    midtoken = get_midtoken(midtoken_session)
+    midtoken = get_midtoken(session)
     if midtoken:
         session.headers["bx-umidtoken"] = midtoken
         session.headers["bx-v"] = "2.5.36"
     session.headers["x-request-id"] = str(uuid.uuid4())
 
-    try:
-        warmup = session.get(f"{QWEN_URL}/", timeout=15, allow_redirects=True)
-        logger.debug(f"Qwen warmup: {warmup.status_code}")
-    except Exception as e:
-        logger.warning(f"Qwen warmup failed: {e}")
-
+    warmup = session.get(f"{QWEN_URL}/", timeout=20, allow_redirects=True)
+    waf_err = _check_waf_response(warmup)
+    if waf_err:
+        raise RuntimeError(f"warmup blocked: {waf_err} (HTTP {warmup.status_code})")
+    logger.debug("Qwen warmup %s via %s: %s", profile["impersonate"], profile["platform"], warmup.status_code)
     return session, cookies_data
+
+
+def _create_fresh_session():
+    last_error = None
+    for profile in _BROWSER_PROFILES:
+        try:
+            return _create_session_with_profile(profile)
+        except Exception as exc:
+            last_error = exc
+            logger.warning(
+                "Qwen session profile %s/%s failed: %s",
+                profile.get("impersonate"), profile.get("platform"), exc,
+            )
+    raise RuntimeError(f"all Qwen browser profiles failed: {last_error}") from last_error
 
 
 def _add_pool_entry():
@@ -773,7 +815,7 @@ def send_message(session, chat_id, message, model=None, parent_id=None,
         resp = session.post(
             f"{QWEN_URL}/api/v2/chat/completions?chat_id={chat_id}",
             json=payload,
-            timeout=120,
+            timeout=240,
             stream=True,
         )
         if resp.status_code != 200:
@@ -881,14 +923,20 @@ def _parse_stream(response, session=None):
         choice = choices[0]
         delta = choice.get("delta", {})
         content = delta.get("content")
+        reasoning = delta.get("reasoning_content") or delta.get("reasoning")
         phase = delta.get("phase")
         finish_reason = choice.get("finish_reason")
 
+        if reasoning:
+            reasoning_text += reasoning
         if content:
             if phase == "think" or phase == "web_search":
                 reasoning_text += content
             else:
                 full_text += content
+        message = choice.get("message") or {}
+        if not content and message.get("content"):
+            full_text += message.get("content") or ""
 
         if finish_reason:
             break
@@ -926,6 +974,31 @@ def _parse_stream(response, session=None):
             raw_lines_seen, json_chunks_seen, (error_text_total[:300] or 'none'), parent_id, raw_body,
         )
     return result
+
+
+def probe_qwen(model="qwen3.8-max"):
+    """One-shot connectivity check used by the live harness bench."""
+    report = {
+        "curl_cffi": _USE_CURL_CFFI,
+        "client_version": _WEB_CLIENT_VERSION,
+        "model": model,
+        "warmup_status": None,
+        "chat_id": None,
+        "ok": False,
+        "error": "",
+    }
+    try:
+        session, _ = _get_session()
+        warmup = session.get(f"{QWEN_URL}/", timeout=20, allow_redirects=True)
+        report["warmup_status"] = warmup.status_code
+        chat_id = create_chat(session, model, _pool_session=session)
+        report["chat_id"] = chat_id
+        report["ok"] = bool(chat_id)
+        if not chat_id:
+            report["error"] = "create_chat returned empty"
+    except Exception as exc:
+        report["error"] = f"{type(exc).__name__}: {exc}"
+    return report
 
 
 # ========================= Public API =========================
