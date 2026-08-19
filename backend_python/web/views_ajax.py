@@ -631,8 +631,8 @@ def ajax_user_popup(request, username):
         'badgeInfo': _user_badge_info(u),
     }
     if not is_private:
-        data['postCount'] = getattr(u, 'post_count', 0) or 0
-        data['replyCount'] = getattr(u, 'reply_count', 0) or 0
+        data['postCount'] = Post.objects.filter(user_id=u.id, is_anonymous=False).count()
+        data['replyCount'] = Reply.objects.filter(user_id=u.id, is_anonymous=False).count()
         data['followerCount'] = getattr(u, 'follower_count', 0) or 0
     else:
         data['postCount'] = 0

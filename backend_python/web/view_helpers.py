@@ -936,7 +936,7 @@ def get_user_level_title(score):
     else:
         return "Level 1 Novice"
 
-def _build_local_stats(user):
+def _build_local_stats(user, exclude_anonymous=False):
     post_count = getattr(user, 'post_count', None)
     reply_count = getattr(user, 'reply_count', None)
     follower_count = getattr(user, 'follower_count', None)
@@ -944,6 +944,9 @@ def _build_local_stats(user):
     likes_given = getattr(user, 'likes_given_count', None)
     likes_received = getattr(user, 'likes_received_count', None)
     contribution_score = getattr(user, 'contribution_score', None)
+    if exclude_anonymous:
+        post_count = Post.objects.filter(user_id=user.id, is_anonymous=False).count()
+        reply_count = Reply.objects.filter(user_id=user.id, is_anonymous=False).count()
     needs_fallback = any(v is None for v in [post_count, reply_count, follower_count, following_count, likes_given, likes_received, contribution_score])
     if needs_fallback:
         fallback = _build_local_stats_fallback(user.id)
