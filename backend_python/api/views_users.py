@@ -155,8 +155,8 @@ def user_profile_stats(request, username):
 
     stats = _build_stats(user)
     public_resource_filter = {} if is_owner else {'approval_status': 'approved'}
-    stats['post_count'] = Post.objects.filter(user=user, is_archived=False).count()
-    stats['reply_count'] = Reply.objects.filter(user=user, is_archived=False).count()
+    stats['post_count'] = Post.objects.filter(user=user, is_archived=False, is_anonymous=False).count()
+    stats['reply_count'] = Reply.objects.filter(user=user, is_archived=False, is_anonymous=False).count()
     stats['uploaded_resources_count'] = Resource.objects.filter(
         uploaded_by=user,
         is_lead=True,

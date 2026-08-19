@@ -178,7 +178,7 @@ def profile(request, username):
             'subjects': '', 'pradesh': '', 'district': '', 'school': '',
         })
 
-    stats = _build_local_stats(profile_user) if not profile_private else {
+    stats = _build_local_stats(profile_user, exclude_anonymous=True) if not profile_private else {
         'post_count': 0, 'reply_count': 0, 'likes_given': 0, 'likes_received': 0, 'contribution_score': 0,
     }
 
@@ -196,10 +196,10 @@ def profile(request, username):
         uploaded_resources_count = Resource.objects.filter(uploaded_by_id=profile_user.id, approval_status='approved', is_lead=True).count()
     stats['uploaded_resources_count'] = uploaded_resources_count
 
-    user_posts_qs = Post.objects.none() if profile_private else Post.objects.select_related('user').filter(user_id=profile_user.id).order_by('-created_at')[:10]
+    user_posts_qs = Post.objects.none() if profile_private else Post.objects.select_related('user').filter(user_id=profile_user.id, is_anonymous=False).order_by('-created_at')[:10]
     user_posts = _serialize_posts(user_posts_qs, user_id)
 
-    user_replies_qs = Reply.objects.none() if profile_private else Reply.objects.select_related('user', 'post').filter(user_id=profile_user.id, is_archived=False).order_by('-created_at')[:10]
+    user_replies_qs = Reply.objects.none() if profile_private else Reply.objects.select_related('user', 'post').filter(user_id=profile_user.id, is_anonymous=False, is_archived=False).order_by('-created_at')[:10]
     user_replies = _serialize_replies(user_replies_qs, user_id)
 
     user_resources = []
@@ -395,7 +395,7 @@ def profile_achievements(request, username):
         'achievement_info': _user_achievement_badges(profile_user),
     }
 
-    stats = _build_local_stats(profile_user)
+    stats = _build_local_stats(profile_user, exclude_anonymous=True)
     follower_count = Follow.objects.filter(following_id=profile_user.id).count()
     following_count = Follow.objects.filter(follower_id=profile_user.id).count()
     stats['follower_count'] = follower_count
@@ -770,10 +770,10 @@ def ajax_profile_activity(request, username):
         offset = 0
         limit = 10
 
-    user_posts_qs = Post.objects.select_related('user').filter(user_id=profile_user.id).order_by('-created_at')[offset:offset+limit]
+    user_posts_qs = Post.objects.select_related('user').filter(user_id=profile_user.id, is_anonymous=False).order_by('-created_at')[offset:offset+limit]
     user_posts = _serialize_posts(user_posts_qs, user_id)
 
-    total_count = Post.objects.filter(user_id=profile_user.id).count()
+    total_count = Post.objects.filter(user_id=profile_user.id, is_anonymous=False).count()
     has_more = (offset + len(user_posts)) < total_count
 
     return JsonResponse({
@@ -805,10 +805,10 @@ def ajax_profile_replies(request, username):
         offset = 0
         limit = 10
 
-    replies_qs = Reply.objects.select_related('user', 'post').filter(user_id=profile_user.id, is_archived=False).order_by('-created_at')[offset:offset+limit]
+    replies_qs = Reply.objects.select_related('user', 'post').filter(user_id=profile_user.id, is_anonymous=False, is_archived=False).order_by('-created_at')[offset:offset+limit]
     replies = _serialize_replies(replies_qs, user_id)
 
-    total_count = Reply.objects.filter(user_id=profile_user.id, is_archived=False).count()
+    total_count = Reply.objects.filter(user_id=profile_user.id, is_anonymous=False, is_archived=False).count()
     has_more = (offset + len(replies)) < total_count
 
     return JsonResponse({

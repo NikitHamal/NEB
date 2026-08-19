@@ -60,7 +60,7 @@ def _ensure_indexes():
         logger.info("Ensured index %s (task %s)", index_uid, task_info.task_uid)
     for index_uid in [INDEX_RESOURCES, INDEX_POSTS]:
         index = client.index(index_uid)
-        index.update_filterable_attributes(['category', 'subject', 'grade_level', 'type', 'is_archived'])
+        index.update_filterable_attributes(['category', 'subject', 'grade_level', 'type', 'is_archived', 'is_anonymous'])
         index.update_searchable_attributes(['title', 'content', 'description', 'tags', 'subject', 'faculty', 'school', 'username', 'display_name'])
         index.update_sortable_attributes(['created_at', 'thumbs_up_count', 'view_count'])
         index.update_ranking_rules([
@@ -85,7 +85,7 @@ def _serialize_resource(r):
 
 
 def _serialize_post(p):
-    username = p.user.username if p.user else ''
+    username = '' if p.is_anonymous else (p.user.username if p.user else '')
     return {
         'id': p.id,
         'title': p.title,
@@ -96,6 +96,7 @@ def _serialize_post(p):
         'view_count': p.view_count,
         'created_at': p.created_at,
         'is_archived': p.is_archived,
+        'is_anonymous': p.is_anonymous,
         'username': username,
     }
 
@@ -128,7 +129,7 @@ def sync_posts(queryset=None):
     if not client:
         return 0
     from api.models import Post
-    qs = queryset if queryset is not None else Post.objects.filter(is_archived=False).select_related('user')
+    qs = queryset if queryset is not None else Post.objects.filter(is_archived=False, is_anonymous=False).select_related('user')
     docs = [_serialize_post(p) for p in qs.iterator()]
     if not docs:
         return 0
@@ -185,7 +186,7 @@ def search_posts(query, category='', limit=20):
     client = get_client()
     if not client:
         return None
-    filters_parts = ['is_archived = false']
+    filters_parts = ['is_archived = false', 'is_anonymous = false']
     if category:
         filters_parts.append(f"category = \"{category}\"")
     filter_str = ' AND '.join(filters_parts)

@@ -476,7 +476,7 @@ def search(request):
                     post_results = []
                     for hit in meili_posts:
                         p = post_map.get(hit['id'])
-                        if p:
+                        if p and not p.is_anonymous:
                             formatted = _serialize_post(p, user_id)
                             formatted['highlight'] = hit.get('_formatted', {})
                             post_results.append(formatted)
@@ -531,7 +531,7 @@ def search(request):
                     )
                 post_qs = Post.objects.select_related('user').filter(
                     reduce(operator.and_, post_q_list)
-                ).filter(is_archived=False)
+                ).filter(is_archived=False, is_anonymous=False)
                 exact_post_expr = Q(title__icontains=query) | Q(content__icontains=query)
                 post_qs = post_qs.annotate(
                     is_exact=Case(
@@ -618,7 +618,7 @@ def ajax_instant_search(request):
                 post_map = {str(p.id): p for p in Post.objects.filter(pk__in=post_ids).select_related('user')}
                 for hit in meili_posts:
                     p = post_map.get(hit['id'])
-                    if p:
+                    if p and not p.is_anonymous:
                         posts.append({'id': p.id, 'title': p.title, 'content': p.content[:200], 'category': p.category or '', 'username': p.user.username if p.user else '', 'thumbs_up_count': p.thumbs_up_count, 'reply_count': p.reply_count, 'url': f'/forum/post/{p.id}/', 'highlight': hit.get('_formatted', {})})
         if tab in ('all', 'users'):
             meili_users = search_users(query, limit=10)
@@ -639,7 +639,7 @@ def ajax_instant_search(request):
                     resources.append({'id': r.id, 'title': r.title, 'description': (r.description or '')[:200], 'subject': r.subject or '', 'type': r.type or '', 'grade_level': r.grade_level or '', 'url': f'/reader/{r.id}/'})
             if tab in ('all', 'posts'):
                 post_q_list = [Q(title__icontains=t) | Q(content__icontains=t) for t in terms]
-                qs = Post.objects.select_related('user').filter(reduce(operator.and_, post_q_list), is_archived=False)[:10]
+                qs = Post.objects.select_related('user').filter(reduce(operator.and_, post_q_list), is_archived=False, is_anonymous=False)[:10]
                 for p in qs:
                     posts.append({'id': p.id, 'title': p.title, 'content': p.content[:200], 'category': p.category or '', 'username': p.user.username if p.user else '', 'thumbs_up_count': p.thumbs_up_count, 'reply_count': p.reply_count, 'url': f'/forum/post/{p.id}/'})
             if tab in ('all', 'users'):
@@ -1662,7 +1662,7 @@ def subject_page(request, grade_slug, subject_slug):
         total_count=total_count,
         grade_list=grade_list,
         subject_list=subject_list,
-        default_model='meta-llama/Llama-3-8b-instruct'
+        default_model='qwen3.8-max'
     )
     return render(request, 'web/subject_page.html', ctx)
 
