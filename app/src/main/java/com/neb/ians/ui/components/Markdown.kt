@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.background
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.InlineTextContent
+import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,7 +20,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
@@ -196,7 +197,7 @@ private fun InlineMdText(
     codeBg: Color,
     onMentionClick: (String) -> Unit,
     onLinkClick: (String) -> Unit,
-    inlineContents: Map<String, InlineTextContent> = emptyMap()
+    inlineContents: Map<String, InlineTextContent> = emptyMap<String, InlineTextContent>()
 ) {
     val errorBg = MaterialTheme.colorScheme.errorContainer
     val errorFg = MaterialTheme.colorScheme.onErrorContainer

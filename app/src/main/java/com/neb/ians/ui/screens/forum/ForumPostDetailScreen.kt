@@ -853,7 +853,7 @@ private fun PostContentSection(
             color = MaterialTheme.colorScheme.onSurface,
             onMentionClick = onProfileClick,
             onLinkClick = onLinkClick,
-            onInlineImageClick = { url -> zoomImageUrls = listOf(url); zoomImageIndex = 0 }
+            onInlineImageClick = { url -> onImageClick(listOf(url), 0) }
         )
 
         // ----- Attached images: horizontal carousel (swipe), tap opens fullscreen -----
