@@ -9,6 +9,7 @@ from . import views_llm as ba_llm_views
 from . import views_monitor
 from . import views_needle
 from . import views_avatar
+from . import views_videos
 
 app_name = 'web'
 
@@ -39,6 +40,8 @@ urlpatterns = [
     path('forum/', views.forum, name='forum'),
     path('forum/categories/', views.forum_categories, name='forum_categories'),
     path('forum/leaderboard/', views.leaderboard, name='leaderboard'),
+    path('videos/', views_videos.videos, name='videos'),
+    path('videos/<str:media_id>/', views_videos.video_watch, name='video_watch'),
     path('forum/post/<str:post_id>/', views.forum_post, name='forum_post'),
     path('forum/create/', views.create_post, name='create_post'),
     path('forum/reply/<str:post_id>/', views.reply_post, name='reply_post'),

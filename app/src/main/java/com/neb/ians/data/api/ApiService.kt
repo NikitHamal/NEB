@@ -328,6 +328,54 @@ data class EmailSignupResponse(
 data class UsernameCheckResponse(val available: Boolean)
 
 @Serializable
+data class AvatarStyleRaw(
+    val hue: Int = -1,
+    val tone: Double = -1.0,
+    val bg: String = "",
+    val anim: String = "",
+    val shape: String = "",
+    val expression: String = "",
+    val color: String = "",
+    val bgcolor: String = "",
+    val eyecolor: String = "",
+    @SerialName("use_pp") val usePp: Boolean = false
+)
+
+@Serializable
+data class AvatarStyleResponse(
+    @SerialName("avatar_url") val avatarUrl: String = "",
+    val avatarUrlCamel: String? = null,
+    @SerialName("avatar_use_pp") val avatarUsePp: Boolean = false,
+    val style: Map<String, kotlinx.serialization.json.JsonElement> = emptyMap(),
+    val raw: AvatarStyleRaw = AvatarStyleRaw(),
+    val error: String? = null
+)
+
+@Serializable
+data class AvatarStyleUpdateRequest(
+    val background: String? = null,
+    val anim: String? = null,
+    val shape: String? = null,
+    val expression: String? = null,
+    val color: String? = null,
+    val bgcolor: String? = null,
+    val eyecolor: String? = null,
+    val hue: Int? = null,
+    val tone: Double? = null,
+    @SerialName("use_pp") val usePp: Boolean? = null
+)
+
+@Serializable
+data class AvatarStyleUpdateResponse(
+    val status: String = "",
+    @SerialName("avatar_url") val avatarUrl: String = "",
+    val avatarUrlCamel: String? = null,
+    val style: Map<String, kotlinx.serialization.json.JsonElement> = emptyMap(),
+    @SerialName("avatar_use_pp") val avatarUsePp: Boolean = false,
+    val error: String? = null
+)
+
+@Serializable
 data class UserProfileResponse(
     val id: String,
     val username: String = "",
@@ -1122,6 +1170,15 @@ interface ApiService {
     // --- Users ---
     @GET("api/users/check-username/")
     suspend fun checkUsername(@Query("username") username: String): UsernameCheckResponse
+
+    @GET("api/users/me/avatar/")
+    suspend fun getAvatarStyle(@Header("Authorization") bearerToken: String?): AvatarStyleResponse
+
+    @POST("api/users/me/avatar/customize/")
+    suspend fun updateAvatarStyle(
+        @Header("Authorization") bearerToken: String,
+        @Body request: AvatarStyleUpdateRequest
+    ): AvatarStyleUpdateResponse
 
     @POST("api/users/profile/")
     suspend fun updateProfile(

@@ -1,0 +1,404 @@
+{
+  "version": 2,
+  "library": {
+    "activeAvatarId": "mf-ghost-scan",
+    "avatars": [
+      {
+        "id": "mf-ghost-scan",
+        "name": "Ghost \u00b7 Scan (MetalForge)",
+        "body": {
+          "primary": {
+            "type": "capsule",
+            "width": 220,
+            "height": 260,
+            "depth": 210,
+            "roundness": 1
+          },
+          "nodes": []
+        },
+        "colors": {
+          "body": "#f0f4fc",
+          "eyes": "#0f172a",
+          "pupil": "#38bdf8"
+        },
+        "eyes": {
+          "widthLeft": 34,
+          "widthRight": 34,
+          "heightLeft": 56,
+          "heightRight": 56,
+          "spacing": 52,
+          "positionXLeft": 0,
+          "positionXRight": 0,
+          "positionYLeft": -6,
+          "positionYRight": -6,
+          "leftAngle": 0,
+          "rightAngle": 0,
+          "eyeStyle": "circle"
+        },
+        "eyeRenderer": "classic",
+        "mouthEnabled": false
+      },
+      {
+        "id": "mf-ghost-flutter",
+        "name": "Ghost \u00b7 Flutter",
+        "body": {
+          "primary": {
+            "type": "capsule",
+            "width": 230,
+            "height": 250,
+            "depth": 220,
+            "roundness": 1
+          },
+          "nodes": []
+        },
+        "colors": {
+          "body": "#e0e7ff",
+          "eyes": "#1e1b4b",
+          "pupil": "#818cf8"
+        },
+        "eyes": {
+          "widthLeft": 28,
+          "widthRight": 28,
+          "heightLeft": 46,
+          "heightRight": 46,
+          "spacing": 46,
+          "positionXLeft": 0,
+          "positionXRight": 0,
+          "positionYLeft": -8,
+          "positionYRight": -8,
+          "leftAngle": 0,
+          "rightAngle": 0,
+          "eyeStyle": "dot"
+        },
+        "eyeRenderer": "classic",
+        "mouthEnabled": false
+      },
+      {
+        "id": "mf-devil-horns",
+        "name": "Devil Horns \u00b7 Venom",
+        "body": {
+          "primary": {
+            "type": "capsule",
+            "width": 220,
+            "height": 260,
+            "depth": 210,
+            "roundness": 1
+          },
+          "nodes": [
+            {
+              "id": "horn-left",
+              "name": "Horn Left",
+              "surface": {
+                "type": "cone",
+                "width": 45,
+                "height": 75,
+                "depth": 45,
+                "roundness": 0.2
+              },
+              "position": [
+                -65,
+                -115,
+                0
+              ],
+              "rotation": [
+                0,
+                0,
+                -25
+              ]
+            },
+            {
+              "id": "horn-right",
+              "name": "Horn Right",
+              "surface": {
+                "type": "cone",
+                "width": 45,
+                "height": 75,
+                "depth": 45,
+                "roundness": 0.2
+              },
+              "position": [
+                65,
+                -115,
+                0
+              ],
+              "rotation": [
+                0,
+                0,
+                25
+              ]
+            }
+          ]
+        },
+        "colors": {
+          "body": "#e11d48",
+          "eyes": "#ffffff",
+          "pupil": "#fbbf24"
+        },
+        "eyes": {
+          "widthLeft": 36,
+          "widthRight": 36,
+          "heightLeft": 58,
+          "heightRight": 58,
+          "spacing": 48,
+          "positionXLeft": 0,
+          "positionXRight": 0,
+          "positionYLeft": -8,
+          "positionYRight": -8,
+          "leftAngle": 15,
+          "rightAngle": -15,
+          "eyeStyle": "cat"
+        },
+        "eyeRenderer": "classic",
+        "mouthEnabled": false
+      },
+      {
+        "id": "mf-crown-imperial",
+        "name": "Imperial Crown",
+        "body": {
+          "primary": {
+            "type": "sphere",
+            "width": 240,
+            "height": 240,
+            "depth": 240,
+            "roundness": 1
+          },
+          "nodes": [
+            {
+              "id": "crown-mesh",
+              "name": "Crown Ring",
+              "surface": {
+                "type": "torus",
+                "width": 140,
+                "height": 40,
+                "depth": 140,
+                "roundness": 0.8
+              },
+              "position": [
+                0,
+                -115,
+                0
+              ],
+              "rotation": [
+                0,
+                0,
+                0
+              ]
+            },
+            {
+              "id": "crown-peak",
+              "name": "Crown Peak",
+              "surface": {
+                "type": "diamond",
+                "width": 30,
+                "height": 45,
+                "depth": 30,
+                "roundness": 0.1
+              },
+              "position": [
+                0,
+                -135,
+                0
+              ],
+              "rotation": [
+                0,
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        "colors": {
+          "body": "#7c3aed",
+          "eyes": "#fbbf24",
+          "pupil": "#ffffff"
+        },
+        "eyes": {
+          "widthLeft": 30,
+          "widthRight": 30,
+          "heightLeft": 50,
+          "heightRight": 50,
+          "spacing": 44,
+          "positionXLeft": 0,
+          "positionXRight": 0,
+          "positionYLeft": -6,
+          "positionYRight": -6,
+          "leftAngle": 0,
+          "rightAngle": 0,
+          "eyeStyle": "circle"
+        },
+        "eyeRenderer": "classic",
+        "mouthEnabled": true
+      },
+      {
+        "id": "mf-bear-ears",
+        "name": "Bear Ears \u00b7 Cozy",
+        "body": {
+          "primary": {
+            "type": "sphere",
+            "width": 240,
+            "height": 230,
+            "depth": 230,
+            "roundness": 1
+          },
+          "nodes": [
+            {
+              "id": "ear-left",
+              "name": "Ear Left",
+              "surface": {
+                "type": "sphere",
+                "width": 75,
+                "height": 75,
+                "depth": 45,
+                "roundness": 1
+              },
+              "position": [
+                -85,
+                -95,
+                0
+              ],
+              "rotation": [
+                0,
+                0,
+                0
+              ]
+            },
+            {
+              "id": "ear-right",
+              "name": "Ear Right",
+              "surface": {
+                "type": "sphere",
+                "width": 75,
+                "height": 75,
+                "depth": 45,
+                "roundness": 1
+              },
+              "position": [
+                85,
+                -95,
+                0
+              ],
+              "rotation": [
+                0,
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        "colors": {
+          "body": "#b45309",
+          "eyes": "#1c1917",
+          "pupil": "#fef3c7"
+        },
+        "eyes": {
+          "widthLeft": 30,
+          "widthRight": 30,
+          "heightLeft": 48,
+          "heightRight": 48,
+          "spacing": 52,
+          "positionXLeft": 0,
+          "positionXRight": 0,
+          "positionYLeft": -4,
+          "positionYRight": -4,
+          "leftAngle": 0,
+          "rightAngle": 0,
+          "eyeStyle": "dot"
+        },
+        "eyeRenderer": "classic",
+        "mouthEnabled": true
+      },
+      {
+        "id": "mf-cyber-visor",
+        "name": "Cyber Visor \u00b7 Slit",
+        "body": {
+          "primary": {
+            "type": "cube",
+            "width": 230,
+            "height": 230,
+            "depth": 210,
+            "roundness": 0.8
+          },
+          "nodes": [
+            {
+              "id": "visor-slit",
+              "name": "Visor Bar",
+              "surface": {
+                "type": "cylinder",
+                "width": 210,
+                "height": 28,
+                "depth": 50,
+                "roundness": 0.4
+              },
+              "position": [
+                0,
+                -10,
+                -95
+              ],
+              "rotation": [
+                0,
+                0,
+                90
+              ]
+            }
+          ]
+        },
+        "colors": {
+          "body": "#09090b",
+          "eyes": "#06b6d4",
+          "pupil": "#22d3ee"
+        },
+        "eyes": {
+          "widthLeft": 48,
+          "widthRight": 48,
+          "heightLeft": 18,
+          "heightRight": 18,
+          "spacing": 68,
+          "positionXLeft": 0,
+          "positionXRight": 0,
+          "positionYLeft": -6,
+          "positionYRight": -6,
+          "leftAngle": 0,
+          "rightAngle": 0,
+          "eyeStyle": "acorn"
+        },
+        "eyeRenderer": "classic",
+        "mouthEnabled": false
+      },
+      {
+        "id": "mf-ink-blob",
+        "name": "Ink Slime \u00b7 Liquid",
+        "body": {
+          "primary": {
+            "type": "droplet",
+            "width": 230,
+            "height": 260,
+            "depth": 210,
+            "roundness": 1
+          },
+          "nodes": []
+        },
+        "colors": {
+          "body": "#18181b",
+          "eyes": "#a855f7",
+          "pupil": "#e9d5ff"
+        },
+        "eyes": {
+          "widthLeft": 36,
+          "widthRight": 36,
+          "heightLeft": 52,
+          "heightRight": 52,
+          "spacing": 42,
+          "positionXLeft": 0,
+          "positionXRight": 0,
+          "positionYLeft": -8,
+          "positionYRight": -8,
+          "leftAngle": -6,
+          "rightAngle": 6,
+          "eyeStyle": "circle"
+        },
+        "eyeRenderer": "classic",
+        "mouthEnabled": true
+      }
+    ]
+  }
+}

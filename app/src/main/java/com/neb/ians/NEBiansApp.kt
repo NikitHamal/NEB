@@ -27,6 +27,10 @@ class NEBiansApp : Application(), Configuration.Provider, ImageLoaderFactory {
 
     override fun newImageLoader(): ImageLoader {
         return ImageLoader.Builder(this)
+            .components {
+                add(com.neb.ians.ui.avatar.AvatarMapper())
+                add(com.neb.ians.ui.avatar.AvatarFetcher.Factory())
+            }
             .okHttpClient {
                 OkHttpClient.Builder()
                     .addInterceptor(WafChallengeInterceptor(this))

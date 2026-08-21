@@ -28,6 +28,7 @@ import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.ui.res.painterResource
 import com.neb.ians.R
 import androidx.compose.material3.Icon
+import com.neb.ians.ui.avatar.blobatarAnim
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -275,20 +276,29 @@ fun NebAvatar(
     }
 
     var isError by remember(resolvedUrl) { mutableStateOf(false) }
+    val nebAnim = remember(resolvedUrl) { com.neb.ians.ui.avatar.avatarAnimFromUrl(resolvedUrl) }
+    val hasImageBgNeb = !resolvedUrl.isNullOrBlank() && !isError
 
     Box(modifier = modifier.then(ringMod), contentAlignment = Alignment.Center) {
         Box(
             modifier = Modifier
                 .size(size)
                 .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.primaryContainer),
+                .background(
+                    if (hasImageBgNeb) MaterialTheme.colorScheme.surfaceContainerLowest
+                    else MaterialTheme.colorScheme.primaryContainer
+                )
+                .then(
+                    if (hasImageBgNeb) Modifier.border(1.5.dp, MaterialTheme.colorScheme.outlineVariant, CircleShape)
+                    else Modifier
+                ),
             contentAlignment = Alignment.Center
         ) {
             if (!resolvedUrl.isNullOrBlank() && !isError) {
                 AsyncImage(
                     model = resolvedUrl,
                     contentDescription = name,
-                    modifier = Modifier.size(size).clip(CircleShape),
+                    modifier = Modifier.size(size).clip(CircleShape).blobatarAnim(nebAnim),
                     contentScale = ContentScale.Crop,
                     onError = { isError = true }
                 )

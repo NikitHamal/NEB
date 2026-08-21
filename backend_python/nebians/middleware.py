@@ -362,6 +362,8 @@ class SecurityHeadersMiddleware:
         csp = (
             "default-src 'self'; "
             f"script-src 'self' 'nonce-{nonce}' https://accounts.google.com https://www.gstatic.com https://cdn.jsdelivr.net; "
+            "worker-src 'self' blob:; "
+            "child-src 'self' blob:; "
             "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://accounts.google.com https://cdn.jsdelivr.net; "
             "font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net; "
             f"{img_sources_blob} "

@@ -102,6 +102,8 @@
 html {
   scroll-behavior: smooth;
   scrollbar-gutter: stable;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 body {
@@ -111,6 +113,8 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-y: scroll;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 button,

@@ -1,12 +1,12 @@
 import os
 from typing import Dict, List, Optional
+from .providers import CATALOG
 
 SYSTEM_PROMPT_TEMPLATE = """You are Neby, a fast autonomous agentic coding assistant running in the user's terminal.
 Workspace: {cwd}
 
 # TOOL CALLING PROTOCOL:
-You inspect files, search codebase, edit files, and execute commands to solve the user's request.
-To use a tool, output a tool call block using this exact format:
+When you need to read files, search code, list directories, or run commands, you MUST output a tool block using this exact format:
 
 ```tool
 name: <tool_name>
@@ -15,46 +15,36 @@ args:
 ```
 
 Available Tools:
-1. read_file:
-   path: path to file (relative to workspace)
-   start_line: optional starting line number (1-based)
-   end_line: optional ending line number
-2. write_file:
-   path: path to file
-   content: full content to write
-3. edit_file:
-   path: path to file
-   old_str: exact text to replace
-   new_str: new replacement text
-4. list_dir:
-   path: directory path (default '.')
-5. grep_search:
-   query: string to search in code files
-6. find_files:
-   pattern: glob pattern (e.g. '*.py')
-7. run_command:
-   command: shell command to run (e.g. pytest, npm test, python script)
-8. git_diff:
-   Show git diff of uncommitted changes.
-9. done:
-   summary: brief explanation of completed work.
+- read_file(path: str, start_line: Optional[int], end_line: Optional[int])
+- write_file(path: str, content: str)
+- edit_file(path: str, old_str: str, new_str: str)
+- list_dir(path: str = '.')
+- grep_search(query: str, path: str = '.')
+- find_files(pattern: str, path: str = '.')
+- run_command(command: str)
+- done(summary: str)
 
-# AGENT WORKFLOW GUIDELINES:
-1. ALWAYS inspect and read relevant files before attempting to edit them.
-2. Make minimal, precise changes. After editing, verify your changes if needed.
-3. Emit one or two tool calls per step, then wait for the tool result before taking the next step.
-4. When finished, summarize your solution clearly.
+# EXAMPLE TURN:
+User: "Check what files are in the repository."
+Assistant:
+I will list the files in the workspace.
+
+```tool
+name: list_dir
+args:
+  path: .
+```
+
+Always emit the tool block immediately when you need information or to perform an action.
 """
 
-
-from .providers import CATALOG
+MODES = ["Plan", "Agent", "Ask"]
 
 
 class Session:
     def __init__(self, provider: str = "metaai", model: Optional[str] = None, cwd: Optional[str] = None):
         self.provider = (provider or "metaai").strip().lower()
         if not model or model == "metaai-instant" and self.provider != "metaai":
-            # Auto pick default model for provider
             matched = next((p for p in CATALOG if p["provider"] == self.provider), None)
             self.model = matched["default_model"] if matched else (model or "metaai-instant")
         else:
@@ -63,13 +53,24 @@ class Session:
         self.cwd = os.path.abspath(cwd or os.getcwd())
         self.messages: List[Dict[str, str]] = []
         self.max_steps_per_turn: int = 10
+        self.mode_index: int = 0
+        self.files_edited_count: int = 0
         self.reset()
+
+    @property
+    def mode(self) -> str:
+        return MODES[self.mode_index]
+
+    def cycle_mode(self) -> str:
+        self.mode_index = (self.mode_index + 1) % len(MODES)
+        return self.mode
 
     def reset(self):
         sys_prompt = SYSTEM_PROMPT_TEMPLATE.format(cwd=self.cwd)
         self.messages = [
             {"role": "system", "content": sys_prompt}
         ]
+        self.files_edited_count = 0
 
     def add_user_message(self, content: str):
         self.messages.append({"role": "user", "content": content})
@@ -78,5 +79,22 @@ class Session:
         self.messages.append({"role": "assistant", "content": content})
 
     def add_tool_result(self, tool_name: str, result: str):
+        if tool_name in ("write_file", "edit_file"):
+            self.files_edited_count += 1
         content = f"Tool Result for '{tool_name}':\n```\n{result}\n```\nProceed with the next step or finalize your answer."
         self.messages.append({"role": "user", "content": content})
+
+    def get_model_display_name(self) -> str:
+        for p in CATALOG:
+            if p["provider"].lower() == self.provider.lower():
+                for m in p.get("models", []):
+                    if m["id"].lower() == self.model.lower():
+                        return m.get("name", self.model)
+        return f"{self.provider}:{self.model}"
+
+    def get_context_percent(self) -> int:
+        total_chars = sum(len(m.get("content", "")) for m in self.messages)
+        # Context window baseline: 128k tokens (~480k chars)
+        window_chars = 480000.0
+        pct = max(1, min(99, int((total_chars / window_chars) * 100) + 1))
+        return pct

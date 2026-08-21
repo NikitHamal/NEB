@@ -348,6 +348,26 @@ fun ProfileHeaderCard(
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
 
+                if (profile.isBot) {
+                    Spacer(modifier = Modifier.height(14.dp))
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        com.neb.ians.ui.avatar.neby.NebyAvatarHero(
+                            animation = "idle",
+                            size = 110.dp,
+                            interactive = true
+                        )
+                        Spacer(modifier = Modifier.height(6.dp))
+                        Text(
+                            text = "Tap Neby for a reaction",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
+
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Row(

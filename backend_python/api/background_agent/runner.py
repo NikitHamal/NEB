@@ -505,17 +505,19 @@ class BackgroundAgentRunner:
 
     def _community_slug(self) -> str:
         slug = (self.session.llm_provider or '').strip().lower()
-        if slug in ('qwen', 'k2think', 'poolside', 'motiftech', 'metaai'):
+        if slug in ('qwen', 'tryingopen', 'k2think', 'poolside', 'motiftech', 'metaai', 'longcat', 'geminiweb'):
             return slug
         return 'qwen'
 
     def _community_model(self) -> str:
         """Selected community model — Qwen web model, else the preset default
-        for k2think/poolside/motiftech/metaai, else qwen3.8-max."""
+        for k2think/poolside/motiftech/metaai/tryingopen/longcat/geminiweb, else qwen3.8-max."""
         slug = (self.session.llm_provider or '').strip().lower()
         model = (self.session.llm_model or '').strip()
         if model:
             return model
+        if slug == 'tryingopen':
+            return 'qwen/qwen3.8-27b'
         if slug == 'k2think':
             return 'MBZUAI-IFM/K2-Think-v2'
         if slug == 'poolside':
@@ -524,6 +526,10 @@ class BackgroundAgentRunner:
             return 'motif-102b'
         if slug == 'metaai':
             return 'metaai-instant'
+        if slug == 'longcat':
+            return 'longcat/LongCat-2.0'
+        if slug == 'geminiweb':
+            return 'geminiweb/gemini-flash-lite'
         try:
             from api.qwen_utils.models import get_default_model
             return get_default_model() or 'qwen3.8-max'
@@ -574,6 +580,12 @@ class BackgroundAgentRunner:
                 return self._call_community_proxy(
                     slug, prompt, system_prompt=system_prompt, file_paths=file_paths, max_tokens=max_tokens,
                 )
+            if slug == 'tryingopen':
+                return self._call_tryingopen(prompt, system_prompt=system_prompt, file_paths=file_paths, max_tokens=max_tokens)
+            if slug == 'longcat':
+                return self._call_longcat(prompt, system_prompt=system_prompt, max_tokens=max_tokens)
+            if slug == 'geminiweb':
+                return self._call_geminiweb(prompt, system_prompt=system_prompt, max_tokens=max_tokens)
             return self._call_qwen_legacy(prompt, system_prompt=system_prompt, file_paths=file_paths, max_tokens=max_tokens)
         except (AgentPaused, AgentStopped):
             raise
@@ -641,6 +653,31 @@ class BackgroundAgentRunner:
                 slug, prompt, system_prompt=system_prompt, file_paths=file_paths,
                 max_tokens=max_tokens, model_override=model or None,
             )
+        if slug == 'tryingopen':
+            return self._call_tryingopen(
+                prompt, system_prompt=system_prompt, file_paths=file_paths,
+                max_tokens=max_tokens, model_override=model or None,
+            )
+        if slug == 'longcat':
+            from api.longcat_proxy import simple_chat as _longcat_chat
+            answer = _longcat_chat(
+                prompt,
+                model=model or 'longcat/LongCat-2.0',
+                system_prompt=system_prompt,
+            )
+            if not answer:
+                raise WorkspaceError('LongCat returned no content')
+            return answer
+        if slug == 'geminiweb':
+            from api.geminiweb_proxy import simple_chat as _geminiweb_chat
+            answer = _geminiweb_chat(
+                prompt,
+                model=model or 'geminiweb/gemini-flash-lite',
+                system_prompt=system_prompt,
+            )
+            if not answer:
+                raise WorkspaceError('GeminiWeb returned no content')
+            return answer
         if slug in ('egov', 'deepai', 'inception'):
             return self._call_scraper_proxy(
                 slug, prompt, system_prompt=system_prompt, file_paths=file_paths,
@@ -768,6 +805,126 @@ class BackgroundAgentRunner:
         raise WorkspaceError(
             f'{label} {model} failed after {attempts} attempt(s): {last_error}'
         ) from last_error
+
+    def _call_tryingopen(self, prompt: str, *, system_prompt: str = SYSTEM_PROMPT, file_paths=None, max_tokens=None, model_override: str = None) -> str:
+        model = model_override or self._community_model()
+        # Map background agent thinking mode to TryingOpen effort
+        thinking = (self.session.llm_thinking_mode or 'balanced').strip().lower()
+        effort_map = {"quick": "quick", "fast": "quick", "balanced": "balanced", "auto": "balanced", "thinking": "deep", "deep": "deep"}
+        effort = effort_map.get(thinking, "balanced")
+        from api import tryingopen_proxy
+        output_tokens = int(max_tokens or getattr(settings, 'BACKGROUND_AGENT_MODEL_MAX_TOKENS', 6000))
+        attempts = max(1, min(int(getattr(settings, 'BACKGROUND_AGENT_PROVIDER_ATTEMPTS', 3)), 6))
+        last_error = None
+        for attempt in range(1, attempts + 1):
+            self._check_control()
+            try:
+                t0 = time.monotonic()
+                # TryingOpen supports native file upload (images/pdfs) via data URL
+                text = tryingopen_proxy.simple_chat(
+                    user_message=prompt,
+                    model=model,
+                    system_prompt=system_prompt,
+                    effort=effort,
+                    file_paths=file_paths or None,
+                    max_tokens=output_tokens,
+                )
+                if t0:
+                    self._last_model_response_ms = int((time.monotonic() - t0) * 1000)
+                if text:
+                    # publish reasoning deltas are not available in simple_chat, but we can still emit thought
+                    self._pending_reasoning = ""
+                    return str(text)
+                raise WorkspaceError(f'TryingOpen {model} returned an empty response')
+            except (AgentPaused, AgentStopped):
+                raise
+            except Exception as exc:
+                last_error = exc
+                if attempt >= attempts:
+                    break
+                delay = min(30, 2 ** attempt)
+                emit(self.session, 'model.retrying', f'TryingOpen attempt {attempt} failed; retrying in {delay}s', {
+                    'provider': 'tryingopen', 'model': model,
+                    'error': str(exc)[:1000], 'attempt': attempt,
+                })
+                for _ in range(delay):
+                    time.sleep(1)
+                    self._check_control()
+        raise WorkspaceError(f'TryingOpen {model} failed after {attempts} attempt(s): {last_error}') from last_error
+
+    def _call_longcat(self, prompt: str, *, system_prompt: str = SYSTEM_PROMPT, max_tokens=None, model_override: str = None) -> str:
+        model = model_override or self._community_model()
+        from api import longcat_proxy
+        attempts = max(1, min(int(getattr(settings, 'BACKGROUND_AGENT_PROVIDER_ATTEMPTS', 3)), 6))
+        last_error = None
+        for attempt in range(1, attempts + 1):
+            self._check_control()
+            try:
+                t0 = time.monotonic()
+                text = longcat_proxy.simple_chat(
+                    user_message=prompt,
+                    model=model,
+                    system_prompt=system_prompt,
+                    max_tokens=int(max_tokens or getattr(settings, 'BACKGROUND_AGENT_MODEL_MAX_TOKENS', 6000)),
+                )
+                if t0:
+                    self._last_model_response_ms = int((time.monotonic() - t0) * 1000)
+                if text:
+                    self._pending_reasoning = ""
+                    return str(text)
+                raise WorkspaceError(f'LongCat {model} returned an empty response')
+            except (AgentPaused, AgentStopped):
+                raise
+            except Exception as exc:
+                last_error = exc
+                if attempt >= attempts:
+                    break
+                delay = min(30, 2 ** attempt)
+                emit(self.session, 'model.retrying', f'LongCat attempt {attempt} failed; retrying in {delay}s', {
+                    'provider': 'longcat', 'model': model,
+                    'error': str(exc)[:1000], 'attempt': attempt,
+                })
+                for _ in range(delay):
+                    time.sleep(1)
+                    self._check_control()
+        raise WorkspaceError(f'LongCat {model} failed after {attempts} attempt(s): {last_error}') from last_error
+
+    def _call_geminiweb(self, prompt: str, *, system_prompt: str = SYSTEM_PROMPT, max_tokens=None, model_override: str = None) -> str:
+        model = model_override or self._community_model()
+        from api import geminiweb_proxy
+        attempts = max(1, min(int(getattr(settings, 'BACKGROUND_AGENT_PROVIDER_ATTEMPTS', 3)), 6))
+        last_error = None
+        for attempt in range(1, attempts + 1):
+            self._check_control()
+            try:
+                t0 = time.monotonic()
+                text = geminiweb_proxy.simple_chat(
+                    user_message=prompt,
+                    model=model,
+                    system_prompt=system_prompt,
+                    max_tokens=int(max_tokens or getattr(settings, 'BACKGROUND_AGENT_MODEL_MAX_TOKENS', 6000)),
+                )
+                if t0:
+                    self._last_model_response_ms = int((time.monotonic() - t0) * 1000)
+                if text:
+                    self._pending_reasoning = ""
+                    return str(text)
+                raise WorkspaceError(f'GeminiWeb {model} returned an empty response')
+            except (AgentPaused, AgentStopped):
+                raise
+            except Exception as exc:
+                last_error = exc
+                if attempt >= attempts:
+                    break
+                delay = min(30, 2 ** attempt)
+                emit(self.session, 'model.retrying', f'GeminiWeb attempt {attempt} failed; retrying in {delay}s', {
+                    'provider': 'geminiweb', 'model': model,
+                    'error': str(exc)[:1000], 'attempt': attempt,
+                })
+                for _ in range(delay):
+                    time.sleep(1)
+                    self._check_control()
+        raise WorkspaceError(f'GeminiWeb {model} failed after {attempts} attempt(s): {last_error}') from last_error
 
     def _call_scraper_proxy(self, slug: str, prompt: str, *, system_prompt: str, file_paths=None, max_tokens=None, model_override: str = None) -> str:
         """Scraper proxies (egov / deepai / inception) — no keys, no native

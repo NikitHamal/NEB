@@ -19,6 +19,7 @@ import androidx.compose.material.icons.outlined.Description
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.material.icons.outlined.Notifications
+import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Visibility
@@ -46,6 +47,7 @@ fun SettingsScreen(
     onNavigateToBookmarks: () -> Unit = {},
     onNavigateToNebyCredits: () -> Unit = {},
     onNavigateToLocalNeby: () -> Unit = {},
+    onNavigateToMyAvatar: () -> Unit = {},
     onNavigateToDeleteAccount: () -> Unit = {},
     onNavigateToLogin: () -> Unit = {},
     onNavigateToWebPortal: (String) -> Unit = {}
@@ -203,6 +205,30 @@ fun SettingsScreen(
                             imageVector = Icons.Outlined.AutoAwesome,
                             contentDescription = null,
                             tint = androidx.compose.ui.graphics.Color(0xFFF59E0B),
+                            modifier = Modifier.size(22.dp)
+                        )
+                    },
+                    colors = ListItemDefaults.colors(
+                        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
+                    )
+                )
+
+                HorizontalDivider(
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+                )
+
+                ListItem(
+                    modifier = Modifier.clickable { onNavigateToMyAvatar() },
+                    headlineContent = { Text("My Avatar", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium) },
+                    supportingContent = {
+                        Text("Customize your generated avatar — shape, mood, colors", style = MaterialTheme.typography.bodySmall)
+                    },
+                    leadingContent = {
+                        Icon(
+                            imageVector = Icons.Outlined.Palette,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary,
                             modifier = Modifier.size(22.dp)
                         )
                     },

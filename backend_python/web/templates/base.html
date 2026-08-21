@@ -176,6 +176,7 @@
     <nav class="md-nav-pill md-topbar-nav">
       <a href="{% url 'web:home' %}" class="{% block nav_home %}{% endblock %}">Home</a>
       <a href="{% url 'web:library' %}" class="{% block nav_library %}{% endblock %}">Library</a>
+      <a href="{% url 'web:videos' %}" class="{% block nav_videos %}{% endblock %}">Videos</a>
       <a href="{% url 'web:forum' %}" class="{% block nav_forum %}{% endblock %}">Forum</a>
       <a href="{% url 'web:news_list' %}" class="{% block nav_news %}{% endblock %}">Blog</a>
     </nav>
@@ -205,12 +206,12 @@
                 <span class="material-symbols-outlined">verified</span>
               </span>
             {% endif %}
+            {% if unread_notifications > 0 %}
+            <span class="notif-dot" id="profile-notif-dot"></span>
+            {% else %}
+            <span class="notif-dot" id="profile-notif-dot" style="display:none;"></span>
+            {% endif %}
           </span>
-          {% if unread_notifications > 0 %}
-          <span class="notif-dot" id="profile-notif-dot"></span>
-          {% else %}
-          <span class="notif-dot" id="profile-notif-dot" style="display:none;"></span>
-          {% endif %}
         </button>
         <div class="profile-dropdown-menu" id="profileMenu">
           <a href="{% url 'web:profile' username=user.username %}" class="profile-dropdown-header-link">
@@ -244,10 +245,6 @@
             {% else %}
             <span class="notif-popup-badge" id="notif-popup-badge" style="display:none;"></span>
             {% endif %}
-          </a>
-          <a href="{% url 'web:credits' %}">
-            <span class="material-symbols-outlined" style="color: #F59E0B;">bolt</span>
-            <span>Neby Credits</span>
           </a>
           <a href="{% url 'web:bookmarks' %}">
             <span class="material-symbols-outlined">bookmark</span>
@@ -325,7 +322,7 @@
         <div class="neby-header-name">Neby AI</div>
         <div class="neby-header-status">
           <span class="neby-status-dot"></span>
-          <span id="neby-status-text">loading model…</span>
+          <span id="neby-status-text">Online &middot; Neby Assistant</span>
         </div>
       </div>
       <button class="neby-panel-close" id="neby-close-btn" aria-label="Close">
@@ -364,7 +361,7 @@
         <span class="material-symbols-outlined">send</span>
       </button>
     </div>
-    <div class="neby-powered">Needle 2 &middot; private on-device AI &middot; saved for fast relaunch</div>
+    <div class="neby-powered">⚡ Neby Cloud AI &middot; <a href="#" id="neby-switch-local" style="color:var(--md-sys-color-primary);text-decoration:underline;">Enable Offline Mode (~40MB)</a></div>
   </div>
 
   <script nonce="{{ csp_nonce }}">

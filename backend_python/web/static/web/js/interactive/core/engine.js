@@ -136,7 +136,7 @@ export function createEngine(stage, opts = {}) {
         if (obj.material) {
           const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
           mats.forEach((m) => {
-            if (!m.userData?.scanGrade) Object.keys(m).forEach((k) => { if (m[k] && m[k].isTexture) m[k].dispose(); });
+            if (!m.userData?.scanGrade && !m.userData?.sharedFx) Object.keys(m).forEach((k) => { if (m[k] && m[k].isTexture) m[k].dispose(); });
             m.dispose();
           });
         }

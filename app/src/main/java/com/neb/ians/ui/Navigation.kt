@@ -140,6 +140,7 @@ sealed class Screen(val route: String) {
     }
     data object EditProfile : Screen("profile/edit")
     data object Settings : Screen("settings")
+    data object MyAvatar : Screen("my_avatar")
     data object DeleteAccount : Screen("delete_account")
     data object PdfViewer : Screen("pdf/{resourceId}") {
         fun createRoute(resourceId: String) = "pdf/$resourceId"
@@ -702,6 +703,7 @@ fun NEBiansNavHost(
                     onNavigateToBookmarks = { navController.navigate(Screen.Bookmarks.route) },
                     onNavigateToNebyCredits = { navController.navigate(Screen.NebyCredits.route) },
                     onNavigateToLocalNeby = { navController.navigate(Screen.LocalNeby.route) },
+                    onNavigateToMyAvatar = { navController.navigate(Screen.MyAvatar.route) },
                     onNavigateToDeleteAccount = { navController.navigate(Screen.DeleteAccount.route) },
                     onNavigateToLogin = {
                         navController.navigate(Screen.Login.route) {
@@ -711,6 +713,11 @@ fun NEBiansNavHost(
                     onNavigateToWebPortal = { url ->
                         navController.navigate(Screen.WebPortal.createRoute(url))
                     }
+                )
+            }
+            composable(Screen.MyAvatar.route) {
+                com.neb.ians.ui.screens.avatar.MyAvatarScreen(
+                    onNavigateBack = { navController.popBackStack() }
                 )
             }
             composable(Screen.DeleteAccount.route) {

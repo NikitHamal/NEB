@@ -1,163 +1,256 @@
-import { THREE, createEngine, createOrbitControls, basicLights, makeLabelSprite } from '../core/engine.js';
+import { THREE, createEngine, createOrbitControls, basicLights } from '../core/engine.js';
 import { createPanel, createHud, showInfoCard } from '../core/sim-ui.js';
-import { addScanGradeEnhancement } from '../core/bio3d-scan-grade.js';
+import { makeScanMaterial } from '../core/bio3d-scan-grade.js';
+import {
+  Particles, skyDome, applyEnvironmentLighting,
+  cellTexture, glowTexture, ringTexture,
+} from '../core/bio-fx.js';
+
+const Y_AXIS = new THREE.Vector3(0, 1, 0);
+
+function tubeFromPoints(points, radius, material, tubular = 32, radial = 8) {
+  const curve = new THREE.CatmullRomCurve3(points.map((p) => new THREE.Vector3(...p)));
+  const mesh = new THREE.Mesh(new THREE.TubeGeometry(curve, tubular, radius, radial, false), material);
+  mesh.castShadow = true;
+  return mesh;
+}
 
 export default function init(stage) {
   stage.classList.add('bio-beginner-stage', 'bio-heart-lungs-stage');
   const engine = createEngine(stage, { shadows: true });
   if (!engine) return null;
-  const { scene, camera, quality } = engine;
-  const seg = Math.max(14, quality.segments / 2);
+  const { scene, camera, renderer, quality } = engine;
+  const low = quality.tier === 'low';
 
-  camera.position.set(0, 1, 9);
+  camera.position.set(0.6, 1.4, 9.2);
   const controls = createOrbitControls(camera, engine.canvas, {
     minDistance: 4, maxDistance: 16, enablePan: false, maxPolar: Math.PI * 0.72, minPolar: Math.PI * 0.2,
   });
-  controls.setTarget(new THREE.Vector3(0, 0.6, 0));
+  controls.setTarget(new THREE.Vector3(0, 0.7, 0));
 
-  scene.background = new THREE.Color(0x140a14);
-  scene.fog = new THREE.Fog(0x140a14, 14, 30);
-  basicLights(scene, { ambient: 0.5, key: 1.5 });
+  const disposeEnv = applyEnvironmentLighting(renderer, scene, { sky: '#5c2733', horizon: '#3a1520', ground: '#12060a' });
+  skyDome(scene, { top: 0x34101c, mid: 0x1d0910, bottom: 0x080204 });
+  scene.fog = new THREE.Fog(0x160810, 14, 34);
+  basicLights(scene, { ambient: 0.42, key: 1.35 });
 
-  // Ribcage: faint arcs
-  const ribMat = new THREE.MeshStandardMaterial({ color: 0xe8d9c5, transparent: true, opacity: 0.18, roughness: 0.6 });
+  // ---- Ribcage: paired curved rib tubes + sternum ----
+  const boneMat = makeScanMaterial('rib-bone-pbr', 0xe6d3ba, { family: 'bone', roughness: 0.66, textureSize: low ? 128 : 256 });
   const ribcage = new THREE.Group();
-  for (let i = 0; i < 8; i++) {
-    const rib = new THREE.Mesh(new THREE.TorusGeometry(1.4 - i * 0.04, 0.05, 8, 28, Math.PI * 1.15), ribMat);
-    rib.position.set(0, 2.2 - i * 0.32, 0); rib.rotation.x = Math.PI / 2; rib.rotation.z = -Math.PI * 0.575;
-    ribcage.add(rib);
+  for (let i = 0; i < 7; i++) {
+    const y = 2.15 - i * 0.33;
+    const spread = 1.28 - i * 0.05;
+    [-1, 1].forEach((side) => {
+      const pts = [];
+      for (let k = 0; k <= 8; k++) {
+        const t = k / 8;
+        const a = Math.PI * (0.16 + t * 0.68);
+        pts.push([
+          side * Math.sin(a) * spread,
+          y - Math.cos(a * 1.4) * 0.10 + t * t * 0.22,
+          -Math.cos(a) * spread * 0.62 + 0.18,
+        ]);
+      }
+      const rib = tubeFromPoints(pts, 0.038, boneMat, 24, 6);
+      ribcage.add(rib);
+    });
   }
+  const sternum = new THREE.Mesh(new THREE.BoxGeometry(0.30, 1.55, 0.10), boneMat);
+  sternum.position.set(0, 1.45, 0.86);
+  sternum.rotation.x = -0.12;
+  ribcage.add(sternum);
   scene.add(ribcage);
 
-  const root = new THREE.Group(); scene.add(root);
+  const root = new THREE.Group();
+  scene.add(root);
 
-  // ---- Heart (4 chambers simplified) ----
+  // ---- Heart: ventricle mass + atria + great vessels ----
   const heart = new THREE.Group();
-  const heartMat = new THREE.MeshStandardMaterial({ color: 0xc0392b, roughness: 0.4, emissive: 0x7b1e12, emissiveIntensity: 0.2 });
-  const heartGeo = new THREE.SphereGeometry(0.55, 24, 24); heartGeo.scale(1, 1.1, 0.9);
-  const heartMesh = new THREE.Mesh(heartGeo, heartMat);
-  heartMesh.castShadow = true; heart.add(heartMesh);
-  // apex nub
-  const apex = new THREE.Mesh(new THREE.ConeGeometry(0.32, 0.5, 16), heartMat);
-  apex.position.set(0, -0.65, 0); apex.rotation.x = Math.PI; heart.add(apex);
-  // aorta + pulmonary trunk
-  const vesselMat = new THREE.MeshStandardMaterial({ color: 0x992b22, roughness: 0.5 });
-  const aorta = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.14, 1.1, 12), vesselMat);
-  aorta.position.set(0.15, 0.75, 0); aorta.rotation.z = 0.2; heart.add(aorta);
-  heart.position.set(0.2, 0.5, 0.2);
+  heart.position.set(0.22, 0.62, 0.28);
+  const myocardium = makeScanMaterial('heart-myocardium-pbr', 0xb23330, {
+    family: 'tissue', roughness: 0.42, emissive: 0x5c1210, emissiveIntensity: 0.22,
+    textureSize: low ? 128 : 256,
+  });
+  const ventGeo = new THREE.SphereGeometry(0.56, 28, 24); ventGeo.scale(1.0, 1.14, 0.88);
+  const ventricle = new THREE.Mesh(ventGeo, myocardium);
+  ventricle.castShadow = true;
+  heart.add(ventricle);
+  const apex = new THREE.Mesh(new THREE.ConeGeometry(0.30, 0.52, 18), myocardium);
+  apex.position.set(-0.06, -0.72, 0.02);
+  apex.rotation.z = 0.22;
+  heart.add(apex);
+  const atriumMat = makeScanMaterial('heart-atria-pbr', 0x8f2626, { family: 'tissue', roughness: 0.5, textureSize: 128 });
+  [[-0.30, 0.48, -0.06], [0.34, 0.44, -0.10]].forEach((p) => {
+    const g = new THREE.SphereGeometry(0.24, 18, 14); g.scale(1.1, 0.85, 0.9);
+    const a = new THREE.Mesh(g, atriumMat);
+    a.position.set(...p);
+    a.castShadow = true;
+    heart.add(a);
+  });
+  const groove = new THREE.Mesh(new THREE.TorusGeometry(0.46, 0.035, 8, 28), atriumMat);
+  groove.position.set(0, 0.30, 0);
+  groove.rotation.x = Math.PI / 2.4;
+  heart.add(groove);
+
+  const vesselMat = makeScanMaterial('great-vessels-pbr', 0xa8322c, { family: 'tissue', roughness: 0.44, textureSize: 128 });
+  const veinBlueMat = makeScanMaterial('vena-cava-pbr', 0x37507e, { family: 'tissue', roughness: 0.48, textureSize: 128 });
+  heart.add(tubeFromPoints([[0.10, 0.55, -0.05], [0.16, 1.15, -0.10], [0.02, 1.55, -0.28], [-0.30, 1.50, -0.42], [-0.52, 1.28, -0.40]], 0.115, vesselMat, 36, 10));
+  heart.add(tubeFromPoints([[-0.08, 0.55, 0.10], [-0.16, 1.05, 0.16], [-0.34, 1.30, 0.10]], 0.095, vesselMat, 28, 9));
+  heart.add(tubeFromPoints([[0.42, 0.45, -0.05], [0.58, 0.95, -0.12], [0.60, 1.35, -0.18]], 0.085, veinBlueMat, 28, 9));
+  heart.add(tubeFromPoints([[0.30, -0.45, -0.05], [0.38, -0.95, -0.10], [0.42, -1.45, -0.12]], 0.095, veinBlueMat, 28, 9));
+  const coronary = makeScanMaterial('coronary-arteries-pbr', 0xe0473d, { family: 'tissue', roughness: 0.36, textureSize: 128 });
+  for (let i = 0; i < 4; i++) {
+    const a0 = -0.6 + i * 0.5;
+    heart.add(tubeFromPoints(
+      [[Math.cos(a0) * 0.30, 0.25, Math.sin(a0) * 0.30 + 0.18],
+       [Math.cos(a0 + 0.5) * 0.48, -0.12, Math.sin(a0 + 0.5) * 0.40 + 0.20],
+       [Math.cos(a0 + 0.9) * 0.40, -0.48, Math.sin(a0 + 0.9) * 0.34 + 0.16]],
+      0.017, coronary, 20, 6
+    ));
+  }
   root.add(heart);
 
-  // ---- Lungs (left + right), each a group we can scale to "inflate" ----
-  function makeLung(x) {
+  // ---- Lungs with internal bronchial tree ----
+  function buildLung(x) {
     const lung = new THREE.Group();
-    const mat = new THREE.MeshStandardMaterial({ color: 0xe08aa8, roughness: 0.58, transparent: true, opacity: 0.88,
-      emissive: 0x6a2a40, emissiveIntensity: 0.1 });
-    const geo = new THREE.SphereGeometry(0.75, 32, 24); geo.scale(0.82, 1.54, 0.78);
-    const mesh = new THREE.Mesh(geo, mat); mesh.castShadow = true; lung.add(mesh);
-    // lobes/fissures as darker curved bands on the pleural surface
-    const fissureMat = new THREE.LineBasicMaterial({ color: 0x7f1d3a, transparent: true, opacity: 0.42 });
-    for (let i = 0; i < 3; i++) {
+    const mat = makeScanMaterial(`lung-pleura-${x}`, 0xdb8fa6, {
+      family: 'tissue', roughness: 0.55, transparent: true, opacity: 0.86,
+      emissive: 0x521f31, emissiveIntensity: 0.10, textureSize: low ? 128 : 256,
+    });
+    const upper = new THREE.SphereGeometry(0.62, 26, 20); upper.scale(0.80, 1.15, 0.74);
+    const um = new THREE.Mesh(upper, mat);
+    um.position.y = 0.55;
+    um.castShadow = true;
+    lung.add(um);
+    const lower = new THREE.SphereGeometry(0.68, 26, 20); lower.scale(0.86, 1.05, 0.80);
+    const lm = new THREE.Mesh(lower, mat);
+    lm.position.y = -0.42;
+    lm.castShadow = true;
+    lung.add(lm);
+    const fissureMat = new THREE.LineBasicMaterial({ color: 0x6e1d38, transparent: true, opacity: 0.45 });
+    for (let i = 0; i < 2; i++) {
       const pts = [];
-      for (let k = 0; k < 18; k++) {
-        const t = -0.65 + k * 0.075;
-        pts.push(new THREE.Vector3(Math.sin(t * 2.1) * 0.18, 0.36 - i * 0.42 + t * 0.25, 0.63));
+      for (let k = 0; k <= 14; k++) {
+        const t = k / 14;
+        pts.push(new THREE.Vector3(Math.sin(t * 2.6) * 0.30, 0.05 - i * 0.16 + Math.sin(t * 3.1) * 0.05, 0.50 - t * 0.1));
       }
-      lung.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), fissureMat));
+      const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), fissureMat);
+      line.userData.noScan = true;
+      lung.add(line);
     }
-    lung.position.set(x, 0.7, 0);
-    return { lung, mesh };
+    const airwayMat = makeScanMaterial('bronchial-tree-pbr', 0xd9c4ae, { family: 'tissue', roughness: 0.6, textureSize: 128 });
+    function branch(origin, dir, len, radius, depth) {
+      const end = [origin[0] + dir[0] * len, origin[1] + dir[1] * len, origin[2] + dir[2] * len];
+      const seg = tubeFromPoints([origin, [(origin[0] + end[0]) / 2 + dir[2] * 0.03, (origin[1] + end[1]) / 2, (origin[2] + end[2]) / 2], end], radius, airwayMat, 12, 6);
+      lung.add(seg);
+      if (depth <= 0) {
+        alveoliTips.push(end);
+        return;
+      }
+      branch(end, [dir[0] * 0.7 + (x > 0 ? 0.16 : -0.16), dir[1] * 0.55 - 0.28, dir[2] * 0.5 + 0.14], len * 0.72, radius * 0.68, depth - 1);
+      branch(end, [dir[0] * 0.7, dir[1] * 0.55 - 0.30, dir[2] * 0.5 - 0.16], len * 0.70, radius * 0.66, depth - 1);
+    }
+    const alveoliTips = [];
+    branch([x * 0.42, 1.55, 0.02], [x > 0 ? 0.30 : -0.30, -0.65, 0.05], 0.55, 0.062, low ? 1 : 2);
+    const alvMat = new THREE.SpriteMaterial({
+      map: glowTexture('alveolus', { inner: 'rgba(255,214,228,0.95)', mid: 'rgba(240,150,180,0.4)' }),
+      transparent: true, opacity: 0.5, depthWrite: false, blending: THREE.AdditiveBlending,
+    });
+    alvMat.userData.sharedFx = true;
+    const alveoli = [];
+    alveoliTips.forEach((p) => {
+      const s = new THREE.Sprite(alvMat.clone());
+      s.material.userData.sharedFx = true;
+      s.position.set(...p);
+      s.scale.setScalar(0.34);
+      lung.add(s);
+      alveoli.push(s);
+    });
+    lung.position.set(x, 0.78, -0.05);
+    return { lung, meshes: [um, lm], alveoli };
   }
-  function cylBetween(a, b, r, material, radial = 10) {
-    const va = new THREE.Vector3(...a); const vb = new THREE.Vector3(...b);
-    const mid = va.clone().add(vb).multiplyScalar(0.5);
-    const mesh = new THREE.Mesh(new THREE.CylinderGeometry(r, r, va.distanceTo(vb), radial), material);
-    mesh.position.copy(mid);
-    mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), vb.clone().sub(va).normalize());
-    mesh.castShadow = true; return mesh;
+  const left = buildLung(-1.02);
+  const right = buildLung(1.02);
+  root.add(left.lung);
+  root.add(right.lung);
+
+  // Trachea with cartilage rings
+  const tracheaMat = makeScanMaterial('trachea-pbr', 0xd7c3b0, { family: 'tissue', roughness: 0.58, textureSize: 128 });
+  const trachea = new THREE.Mesh(new THREE.CylinderGeometry(0.105, 0.105, 1.15, 14), tracheaMat);
+  trachea.position.set(0, 2.15, 0.02);
+  root.add(trachea);
+  for (let i = 0; i < 7; i++) {
+    const ring = new THREE.Mesh(new THREE.TorusGeometry(0.108, 0.011, 6, 20), tracheaMat);
+    ring.rotation.x = Math.PI / 2;
+    ring.position.set(0, 1.68 + i * 0.155, 0.02);
+    root.add(ring);
   }
-  const left = makeLung(-0.95); const right = makeLung(0.95);
-  root.add(left.lung); root.add(right.lung);
 
-  // Trachea (windpipe) splitting into bronchi
-  const trachea = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.1, 0.1, 1.1, 12),
-    new THREE.MeshStandardMaterial({ color: 0xd7c3b0, roughness: 0.6 })
-  );
-  trachea.position.set(0, 2.1, 0); root.add(trachea);
-  const airwayMat = new THREE.MeshStandardMaterial({ color: 0xd7c3b0, roughness: 0.6 });
-  [-0.4, 0.4].forEach((bx, i) => {
-    const side = i === 0 ? -1 : 1;
-    const bronchus = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.07, 0.07, 0.6, 10),
-      airwayMat
-    );
-    bronchus.position.set(bx * 1.2, 1.55, 0); bronchus.rotation.z = i === 0 ? 0.9 : -0.9; root.add(bronchus);
-    for (let b = 0; b < 4; b++) {
-      const y = 1.35 - b * 0.22;
-      root.add(cylBetween([side * 0.47, y + 0.20, 0.02], [side * (0.62 + b * 0.07), y, 0.12], 0.026 - b * 0.003, airwayMat, 8));
-      root.add(cylBetween([side * 0.47, y + 0.20, 0.02], [side * (0.74 + b * 0.04), y + 0.02, -0.14], 0.020 - b * 0.002, airwayMat, 8));
-    }
-  });
-  const alveolusMat = new THREE.MeshStandardMaterial({ color: 0xf7b2c4, roughness: 0.65, transparent: true, opacity: 0.78 });
-  [-1, 1].forEach((side) => {
-    for (let i = 0; i < 18; i++) {
-      const a = i * 2.399; const r = 0.10 + (i % 3) * 0.055;
-      const alv = new THREE.Mesh(new THREE.SphereGeometry(0.035, 10, 8), alveolusMat);
-      alv.position.set(side * (0.82 + Math.cos(a) * r), 0.06 + (i % 6) * 0.22, Math.sin(a) * 0.22);
-      root.add(alv);
-    }
-  });
-
-  // Diaphragm dome: contracts downward during inspiration and relaxes upward during expiration.
-  const diaphragmGeo = new THREE.SphereGeometry(1, 36, 12, 0, Math.PI * 2, 0, Math.PI / 2);
-  diaphragmGeo.scale(1.85, 0.42, 0.70);
+  // Diaphragm dome
+  const diaphragmGeo = new THREE.SphereGeometry(1, 36, 14, 0, Math.PI * 2, 0, Math.PI / 2);
+  diaphragmGeo.scale(1.9, 0.44, 0.74);
   const diaphragm = new THREE.Mesh(
     diaphragmGeo,
-    new THREE.MeshStandardMaterial({ color: 0xfda4af, roughness: 0.58, transparent: true, opacity: 0.52, side: THREE.DoubleSide })
+    new THREE.MeshStandardMaterial({ color: 0xd96b77, roughness: 0.55, transparent: true, opacity: 0.55, side: THREE.DoubleSide })
   );
-  diaphragm.position.set(0, -0.72, 0);
+  diaphragm.position.set(0, -0.62, 0);
   diaphragm.rotation.x = Math.PI;
   root.add(diaphragm);
-  root.add(makeLabelSprite('diaphragm', { scale: 0.35, fontSize: 28 }));
-  root.children[root.children.length - 1].position.set(0, -1.25, 0.1);
-  addScanGradeEnhancement(root, { kind: 'heartLungs', quality, seed: 'heart-lungs-model' });
 
-  // ---- Blood particle flow (oxygen-rich red, oxygen-poor blue) ----
-  const MAX_BLOOD = 160;
-  const bPos = new Float32Array(MAX_BLOOD * 3);
-  const bCol = new Float32Array(MAX_BLOOD * 3);
-  const bGeo = new THREE.BufferGeometry();
-  bGeo.setAttribute('position', new THREE.BufferAttribute(bPos, 3));
-  bGeo.setAttribute('color', new THREE.BufferAttribute(bCol, 3));
-  const bMat = new THREE.PointsMaterial({ size: 0.1, vertexColors: true, transparent: true, opacity: 0.9, depthWrite: false });
-  const blood = new THREE.Points(bGeo, bMat); scene.add(blood);
-  const bv = new Float32Array(MAX_BLOOD * 3); // velocities
-  const bPath = new Float32Array(MAX_BLOOD);  // progress 0..1 around loop
-  const RED = new THREE.Color(0xff3b3b); const BLUE = new THREE.Color(0x3b6bff);
+  // Beat pulse ring at the chest wall
+  const beatRing = new THREE.Sprite(new THREE.SpriteMaterial({
+    map: ringTexture('#ff6b6b'), transparent: true, opacity: 0, depthWrite: false,
+    blending: THREE.AdditiveBlending,
+  }));
+  beatRing.material.userData.sharedFx = true;
+  beatRing.position.set(0.55, 0.85, 1.15);
+  scene.add(beatRing);
+
+  // ---- Blood cells on a full circulation loop ----
+  const MAX_BLOOD = low ? 90 : 150;
+  const blood = new Particles(scene, {
+    max: MAX_BLOOD, size: 0.17,
+    texture: cellTexture({ center: '#6e0d10', edge: '#ff5252' }),
+    blending: THREE.NormalBlending, opacity: 0.95,
+  });
+  blood.points.renderOrder = 6;
+  const RED = new THREE.Color(0xff4444);
+  const BLUE = new THREE.Color(0x4d6fff);
+  const seeds = [];
   for (let i = 0; i < MAX_BLOOD; i++) {
-    bPath[i] = Math.random();
-    const c = Math.random() < 0.5 ? RED : BLUE;
-    bCol[i * 3] = c.r; bCol[i * 3 + 1] = c.g; bCol[i * 3 + 2] = c.b;
+    seeds.push(Math.random());
+    blood.spawn(0, 0, 0, 0, 0, 0, 1e9, RED);
+    blood.life[i] = 1; blood.decay[i] = 0;
   }
-  // Heart-lung loop path sampled: heart -> lung -> back to heart (figure-8-ish)
+  // Path: body -> heart -> lungs (pick a side) -> heart -> body arc.
   function loopPoint(t, out) {
-    // t in 0..1; first half lung (oxygen pickup), second half return
-    const side = t < 0.5 ? -1 : 1;
-    const lt = t < 0.5 ? t * 2 : (t - 0.5) * 2;
-    const ang = lt * Math.PI * 2;
-    const baseX = side * 0.95;
-    const baseY = 0.7;
-    out[0] = baseX + Math.cos(ang) * 0.35;
-    out[1] = baseY + Math.sin(ang) * 0.9;
-    out[2] = Math.sin(ang * 2) * 0.2;
-    if (t < 0.02 || t > 0.98) { out[0] = 0.2; out[1] = 0.5; out[2] = 0.2; }
+    if (t < 0.18) {
+      const u = t / 0.18;
+      out[0] = 0.22 - u * 0.5; out[1] = -1.2 + u * 1.7; out[2] = -0.1 + u * 0.3;
+    } else if (t < 0.30) {
+      const u = (t - 0.18) / 0.12;
+      const side = u < 0.5 ? -1 : 1;
+      const lu = (u % 0.5) * 2;
+      const ang = lu * Math.PI * 2;
+      out[0] = side * 1.0 + Math.cos(ang) * 0.30;
+      out[1] = 0.85 + Math.sin(ang) * 0.55;
+      out[2] = Math.sin(ang * 2) * 0.12;
+    } else if (t < 0.42) {
+      const u = (t - 0.30) / 0.12;
+      out[0] = 0.5 - u * 0.3; out[1] = 1.4 - u * 0.8; out[2] = 0.1 + u * 0.15;
+    } else {
+      const u = (t - 0.42) / 0.58;
+      const ang = u * Math.PI * 2;
+      out[0] = Math.cos(ang) * 1.55;
+      out[1] = 0.55 + Math.sin(ang * 2) * 0.55 - u * 0.35;
+      out[2] = Math.sin(ang) * 0.85;
+    }
   }
-  const tmp = [0, 0, 0];
+  const tmpP = [0, 0, 0];
 
-  // ---- Activity + rates ----
-  let activity = 0.0; // 0 = rest, 1 = hard exercise
-  function bpm() { return 70 + activity * 90; }       // ~70 to ~160
-  function breathsPerMin() { return 12 + activity * 32; } // ~12 to ~44
+  // ---- Physiology ----
+  let activity = 0.0;
+  function bpm() { return 70 + activity * 90; }
+  function breathsPerMin() { return 12 + activity * 32; }
   function strokeVolumeMl() { return 70 + activity * 45; }
   function cardiacOutputLMin() { return (bpm() * strokeVolumeMl()) / 1000; }
   function tidalVolumeMl() { return 500 + activity * 1700; }
@@ -168,8 +261,8 @@ export default function init(stage) {
   const lungBadge = hud.badge('🫁 12 breaths/min', '#60a5fa');
 
   const panel = createPanel(stage, { title: 'Heart & Lungs' });
-  panel.info('The heart-lung model now links heart rate, stroke volume, breathing rate, tidal volume and diaphragm motion. Raise activity to see cardiac output and minute ventilation increase together.');
-  const actSlider = panel.slider({
+  panel.info('The heart-lung model links heart rate, stroke volume, breathing rate, tidal volume and diaphragm motion. Raise activity to see cardiac output and minute ventilation increase together.');
+  panel.slider({
     label: 'Activity level', min: 0, max: 100, step: 1, value: 0,
     format: (v) => v < 25 ? 'Resting' : v < 60 ? 'Walking' : v < 85 ? 'Running' : 'Sprinting',
     onChange: (v) => { activity = v / 100; refreshBadges(); },
@@ -190,8 +283,8 @@ export default function init(stage) {
     });
   } });
 
-  // Animation state
   let beatPhase = 0; let breathPhase = 0; let lastBeat = false;
+  let ringT = 1;
   function refreshBadges() {
     const b = Math.round(bpm()); const br = Math.round(breathsPerMin());
     heartBadge.set(`♥ ${b} bpm`); lungBadge.set(`🫁 ${br} breaths/min`);
@@ -203,57 +296,65 @@ export default function init(stage) {
   }
   refreshBadges();
 
+  let time = 0;
   engine.setUpdate((dt) => {
+    time += dt;
     controls.update(dt);
     const b = bpm(); const br = breathsPerMin();
-    // Heartbeat: two quick thumps per cycle (lub-dub)
+
     beatPhase += dt * (b / 60);
     const cyc = beatPhase % 1;
-    const beatStrength = cyc < 0.12 ? Math.sin((cyc / 0.12) * Math.PI) * 0.18
+    const beatStrength = cyc < 0.12 ? Math.sin((cyc / 0.12) * Math.PI) * 0.16
       : cyc < 0.18 ? 0
-        : cyc < 0.30 ? Math.sin(((cyc - 0.18) / 0.12) * Math.PI) * 0.12 : 0;
-    const scale = 1 + beatStrength;
-    heart.scale.setScalar(scale);
-    heartMesh.material.emissiveIntensity = 0.2 + beatStrength * 1.8;
-    if (cyc < 0.12 && !lastBeat) { lastBeat = true; refreshBadges(); }
-    else if (cyc >= 0.12) lastBeat = false;
+        : cyc < 0.30 ? Math.sin(((cyc - 0.18) / 0.12) * Math.PI) * 0.11 : 0;
+    heart.scale.setScalar(1 + beatStrength);
+    myocardium.emissiveIntensity = 0.22 + beatStrength * 2.2;
+    if (cyc < 0.12 && !lastBeat) {
+      lastBeat = true;
+      ringT = 0;
+      refreshBadges();
+    } else if (cyc >= 0.12) lastBeat = false;
+    ringT = Math.min(1, ringT + dt * 1.8);
+    beatRing.material.opacity = (1 - ringT) * 0.55;
+    beatRing.scale.setScalar(0.6 + ringT * 2.6);
 
-    // Breathing: sinusoidal inflation
     breathPhase += dt * (br / 60) * Math.PI * 2;
-    const inflate = (Math.sin(breathPhase) * 0.5 + 0.5); // 0..1
-    const lungScale = 0.85 + inflate * 0.45;
-    left.lung.scale.set(lungScale, lungScale * 0.95, lungScale);
-    right.lung.scale.set(lungScale, lungScale * 0.95, lungScale);
-    left.mesh.material.emissiveIntensity = 0.1 + inflate * 0.25;
-    right.mesh.material.emissiveIntensity = 0.1 + inflate * 0.25;
-    // trachea subtly rises with breath; diaphragm moves opposite to lung inflation.
-    trachea.position.y = 2.1 + inflate * 0.06;
-    diaphragm.position.y = -0.54 - inflate * 0.34;
-    diaphragm.scale.y = 1.10 - inflate * 0.42;
+    const inflate = Math.sin(breathPhase) * 0.5 + 0.5;
+    const lungScale = 0.86 + inflate * 0.42;
+    left.lung.scale.set(lungScale, lungScale * 0.96, lungScale);
+    right.lung.scale.set(lungScale, lungScale * 0.96, lungScale);
+    left.meshes[0].material.emissiveIntensity = 0.10 + inflate * 0.28;
+    const alvGlow = 0.25 + inflate * 0.55;
+    left.alveoli.forEach((s) => { s.material.opacity = alvGlow; });
+    right.alveoli.forEach((s) => { s.material.opacity = alvGlow; });
+    trachea.position.y = 2.15 + inflate * 0.05;
+    diaphragm.position.y = -0.44 - inflate * 0.34;
+    diaphragm.scale.y = 1.10 - inflate * 0.40;
 
-    // Blood flow: speed scales with heart rate
-    const speed = (b / 70) * 0.25;
+    const speed = (b / 70) * 0.16;
     for (let i = 0; i < MAX_BLOOD; i++) {
-      bPath[i] = (bPath[i] + dt * speed) % 1;
-      loopPoint(bPath[i], tmp);
-      bPos[i * 3] += (tmp[0] - bPos[i * 3]) * 0.25;
-      bPos[i * 3 + 1] += (tmp[1] - bPos[i * 3 + 1]) * 0.25;
-      bPos[i * 3 + 2] += (tmp[2] - bPos[i * 3 + 2]) * 0.25;
-      // colour by half: 0..0.5 is going TO lungs (blue, deoxygenated), 0.5..1 returning (red, oxygenated)
-      const oxy = bPath[i] > 0.5 ? 1 : 0;
-      bCol[i * 3] += ((RED.r * oxy + BLUE.r * (1 - oxy)) - bCol[i * 3]) * 0.1;
-      bCol[i * 3 + 1] += ((RED.g * oxy + BLUE.g * (1 - oxy)) - bCol[i * 3 + 1]) * 0.1;
-      bCol[i * 3 + 2] += ((RED.b * oxy + BLUE.b * (1 - oxy)) - bCol[i * 3 + 2]) * 0.1;
+      seeds[i] = (seeds[i] + dt * speed) % 1;
+      loopPoint(seeds[i], tmpP);
+      const ix = i * 3;
+      blood.pos[ix] += (tmpP[0] - blood.pos[ix]) * 0.3;
+      blood.pos[ix + 1] += (tmpP[1] - blood.pos[ix + 1]) * 0.3;
+      blood.pos[ix + 2] += (tmpP[2] - blood.pos[ix + 2]) * 0.3;
+      const oxy = seeds[i] > 0.36 ? 1 : 0;
+      blood.base[ix] += ((RED.r * oxy + BLUE.r * (1 - oxy)) - blood.base[ix]) * 0.08;
+      blood.base[ix + 1] += ((RED.g * oxy + BLUE.g * (1 - oxy)) - blood.base[ix + 1]) * 0.08;
+      blood.base[ix + 2] += ((RED.b * oxy + BLUE.b * (1 - oxy)) - blood.base[ix + 2]) * 0.08;
+      blood.col[ix] = blood.base[ix]; blood.col[ix + 1] = blood.base[ix + 1]; blood.col[ix + 2] = blood.base[ix + 2];
     }
-    bGeo.attributes.position.needsUpdate = true;
-    bGeo.attributes.color.needsUpdate = true;
+    blood.geo.attributes.position.needsUpdate = true;
+    blood.geo.attributes.color.needsUpdate = true;
   });
 
   engine.start();
 
   return {
     dispose() {
-      bGeo.dispose(); bMat.dispose();
+      disposeEnv();
+      blood.dispose();
       controls.dispose(); panel.dispose(); hud.dispose(); engine.dispose();
     },
   };

@@ -8,6 +8,7 @@ from . import views_presence
 from . import pdf_assistant_views
 from . import views_wallet
 from . import credit_views
+from . import views_avatar_api
 
 urlpatterns = [
     # Auth
@@ -29,6 +30,10 @@ urlpatterns = [
     path('users/profile/<str:username>/', views.user_profile_get, name='profile-get'),
     path('users/profile/<str:username>/stats/', views.user_profile_stats, name='profile-stats'),
     path('users/institutions/', views.institutions_list, name='institutions-list'),
+
+    # Users — avatar customization (auth required)
+    path('users/me/avatar/', views_avatar_api.avatar_style_get, name='avatar-style-get'),
+    path('users/me/avatar/customize/', views_avatar_api.avatar_style_update, name='avatar-style-update'),
 
     # Users — photo history (auth required)
     path('users/me/photos/', views.user_photos, name='user-photos'),

@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -231,15 +232,29 @@ fun NebyAiScreen(
                     ) {
                         if (uiState.messages.isEmpty() && !uiState.isStreaming) {
                             item(key = "empty-hint") {
-                                Text(
-                                    text = "Ask Neby anything about your studies. " +
-                                        if (activeSession.provider == "qwen")
-                                            "You can also attach files with the paperclip."
-                                        else "",
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                    modifier = Modifier.padding(6.dp)
-                                )
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 18.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    com.neb.ians.ui.avatar.neby.NebyAvatarHero(
+                                        animation = "idle",
+                                        size = 96.dp,
+                                        interactive = true
+                                    )
+                                    Spacer(Modifier.height(12.dp))
+                                    Text(
+                                        text = "Ask Neby anything about your studies. " +
+                                            if (activeSession.provider == "qwen")
+                                                "You can also attach files with the paperclip."
+                                            else "",
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                                        modifier = Modifier.padding(horizontal = 6.dp)
+                                    )
+                                }
                             }
                         }
                         items(uiState.messages, key = { it.id }) { message ->
@@ -258,9 +273,10 @@ fun NebyAiScreen(
                                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                                     modifier = Modifier.padding(horizontal = 6.dp)
                                 ) {
-                                    CircularProgressIndicator(
-                                        modifier = Modifier.size(14.dp),
-                                        strokeWidth = 2.dp
+                                    com.neb.ians.ui.avatar.neby.NebyAvatarMini(
+                                        animation = "idle",
+                                        size = 28.dp,
+                                        interactive = false
                                     )
                                     Text(
                                         text = "Neby is responding…",
