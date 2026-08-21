@@ -453,6 +453,8 @@ def avatar_url_for(user):
 
 
 def avatar_or_photo_url(user):
+    """use_pp → generated avatar; else stored photo; else generated avatar so
+    every user gets a consistent identity everywhere."""
     if getattr(user, 'avatar_use_pp', False):
         return avatar_url_for(user)
     photo = getattr(user, 'photo_url', None) or ''

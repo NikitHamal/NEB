@@ -67,16 +67,16 @@
       <div class="ss-sidebar-gen" id="ssLinkedGen">
         <div class="ss-sidebar-section-title">Linked generation</div>
         <button class="ss-gen-btn" data-action="ss-gen-linked-summary" id="ssGenSummaryBtn">
-          Generate summary
+          <span class="material-symbols-outlined">summarize</span><span>Generate summary</span>
         </button>
         <button class="ss-gen-btn" data-action="ss-gen-linked-mindmap" id="ssGenMindmapBtn">
-          Generate mindmap
+          <span class="material-symbols-outlined">account_tree</span><span>Generate mindmap</span>
         </button>
         <button class="ss-gen-btn" data-action="ss-gen-linked-quiz" id="ssGenQuizBtn">
-          Generate quiz
+          <span class="material-symbols-outlined">quiz</span><span>Generate quiz</span>
         </button>
         <button class="ss-gen-btn" data-action="ss-gen-linked-flashcards" id="ssGenFlashBtn">
-          Generate flashcards
+          <span class="material-symbols-outlined">style</span><span>Generate flashcards</span>
         </button>
       </div>
 
@@ -262,7 +262,7 @@
         <div class="ss-ai-card">
           <div style="font-weight:700; margin-bottom:8px;">AI tutor with citations</div>
           <div class="ss-text-xs">Ask questions grounded in the documents inside this StudySpace.</div>
-          <textarea class="ss-ai-input" id="ssTutorQuestion" rows="4" placeholder="Ask anything from your study materials..."></textarea>
+          <textarea class="ss-ai-input" id="ssTutorQuestion" data-neb-skip="1" rows="4" placeholder="Ask anything from your study materials..."></textarea>
           <div class="ss-ai-actions">
             <button class="md-btn md-btn-filled" data-action="ss-ask-tutor">Ask tutor</button>
             <span class="ss-text-xs" id="ssTutorStatus"></span>
