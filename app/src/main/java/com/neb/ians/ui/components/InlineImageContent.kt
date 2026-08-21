@@ -46,11 +46,9 @@ fun rememberInlineImageContents(
     val outline = MaterialTheme.colorScheme.outlineVariant
     val surfaceHigh = MaterialTheme.colorScheme.surfaceContainerHigh
     val ids = remember(text) { InlineImageTokens.extractIds(text) }
+    if (ids.isEmpty()) return emptyMap()
     return remember(ids, outline, surfaceHigh) {
-        if (ids.isEmpty()) {
-            emptyMap<String, InlineTextContent>()
-        } else {
-            ids.associateWith { id ->
+        ids.associateWith { id ->
                 InlineTextContent(
                     placeholder = Placeholder(
                         width = 2.2f.em,
