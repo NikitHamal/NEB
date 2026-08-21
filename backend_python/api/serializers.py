@@ -19,6 +19,7 @@ class UserSerializer(serializers.ModelSerializer):
             'email_verified', 'hasPassword',
             'verification_level', 'moderator_level', 'is_admin', 'achievement_badges',
             'is_bot', 'teacher_verified', 'institution_verified',
+            'avatar_use_pp',
             'social_links',
         ]
         read_only_fields = ['id', 'created_at', 'email_verified', 'hasPassword',
@@ -37,21 +38,14 @@ class UserSerializer(serializers.ModelSerializer):
             ret['class'] = ret['class_level']
         if 'is_locked' in ret:
             ret['is_locked'] = 1 if ret['is_locked'] else 0
-        if not (ret.get('photo_url') or ''):
-            ret['photo_url'] = self._blobatar_absolute(instance)
+        from .services import avatar_or_photo_url
+        avatar = avatar_or_photo_url(instance) or ''
+        if avatar.startswith('/'):
+            request = self.context.get('request')
+            if request:
+                avatar = request.build_absolute_uri(avatar)
+        ret['photo_url'] = avatar
         return ret
-
-    def _blobatar_absolute(self, instance):
-        from urllib.parse import quote
-        from .services import avatar_options_for, avatar_path
-        path = avatar_path(instance.username)
-        prefs = avatar_options_for(instance)
-        if prefs:
-            path += '?' + '&'.join('%s=%s' % (k, quote(str(v), safe='')) for k, v in sorted(prefs.items()))
-        request = self.context.get('request')
-        if request:
-            return request.build_absolute_uri(path)
-        return path
 
 
 class UserPublicSerializer(serializers.ModelSerializer):
@@ -66,15 +60,13 @@ class UserPublicSerializer(serializers.ModelSerializer):
         ret = super().to_representation(instance)
         if 'is_locked' in ret:
             ret['is_locked'] = 1 if ret['is_locked'] else 0
-        if not (ret.get('photo_url') or ''):
-            from urllib.parse import quote
-            from .services import avatar_options_for, avatar_path
-            path = avatar_path(instance.username)
-            prefs = avatar_options_for(instance)
-            if prefs:
-                path += '?' + '&'.join('%s=%s' % (k, quote(str(v), safe='')) for k, v in sorted(prefs.items()))
+        from .services import avatar_or_photo_url
+        avatar = avatar_or_photo_url(instance) or ''
+        if avatar.startswith('/'):
             request = self.context.get('request')
-            ret['photo_url'] = request.build_absolute_uri(path) if request else path
+            if request:
+                avatar = request.build_absolute_uri(avatar)
+        ret['photo_url'] = avatar
         return ret
 
 
@@ -188,14 +180,8 @@ class ResourceSerializer(serializers.ModelSerializer):
         user = getattr(obj, 'uploaded_by', None)
         if user is None:
             return None
-        photo = getattr(user, 'photo_url', None) or getattr(user, 'photoUrl', None)
-        if not photo:
-            from urllib.parse import quote
-            from .services import avatar_options_for, avatar_path
-            photo = avatar_path(getattr(user, 'username', '') or '')
-            prefs = avatar_options_for(user)
-            if prefs:
-                photo += '?' + '&'.join('%s=%s' % (k, quote(str(v), safe='')) for k, v in sorted(prefs.items()))
+        from .services import avatar_or_photo_url
+        photo = avatar_or_photo_url(user) or ''
         request = self.context.get('request')
         if request and photo and not photo.startswith('http'):
             return request.build_absolute_uri(photo)
@@ -273,7 +259,8 @@ class ResourceRequestSerializer(serializers.ModelSerializer):
 
     def get_requestedByPhoto(self, obj):
         if obj.requested_by:
-            return obj.requested_by.photo_url or ''
+            from .services import avatar_or_photo_url
+            return avatar_or_photo_url(obj.requested_by) or ''
         return ''
 
     def get_requestedByUsername(self, obj):
@@ -453,7 +440,8 @@ class PostSerializer(serializers.ModelSerializer):
         if obj.is_anonymous:
             return ''
         try:
-            return obj.user.photo_url
+            from .services import avatar_or_photo_url
+            return avatar_or_photo_url(obj.user)
         except Exception:
             return None
 
@@ -555,7 +543,8 @@ class ReplySerializer(serializers.ModelSerializer):
         if obj.is_anonymous:
             return ''
         try:
-            return obj.user.photo_url
+            from .services import avatar_or_photo_url
+            return avatar_or_photo_url(obj.user)
         except Exception:
             return None
 
@@ -799,4 +788,5 @@ class NotificationSerializer(serializers.ModelSerializer):
     def get_actorPhotoUrl(self, obj):
         if obj.actor_anonymous:
             return None
-        return obj.actor.photo_url if obj.actor else None
+        from .services import avatar_or_photo_url
+        return avatar_or_photo_url(obj.actor) if obj.actor else None

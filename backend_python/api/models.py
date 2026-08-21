@@ -1654,6 +1654,38 @@ class BlogComment(models.Model):
         return f"Comment by {self.author_id} on {self.announcement_id}"
 
 
+class ContentImage(models.Model):
+    """A normalised image that can be embedded inline inside any text
+    content (posts, replies, comments) via a [[img:ID]] token.
+
+    Files are stored under media content_images/<id>.webp (+<id>t.webp
+    thumbnail, <id>.gif for animated uploads) so URLs are derivable from
+    the id alone. Rows are immutable after creation; sha256 dedupes
+    identical uploads. `used` flips once saved content references the row;
+    cleanup purges unused rows older than 48h.
+    """
+    id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='content_images')
+    file = models.FileField(upload_to='content_images/', max_length=255)
+    thumb = models.FileField(upload_to='content_images/', max_length=255)
+    width = models.PositiveIntegerField(default=0)
+    height = models.PositiveIntegerField(default=0)
+    size = models.PositiveIntegerField(default=0)
+    sha256 = models.CharField(max_length=64, db_index=True)
+    is_animated = models.BooleanField(default=False)
+    used = models.BooleanField(default=False)
+    created_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'content_images'
+        indexes = [
+            models.Index(fields=['used', 'created_at']),
+        ]
+
+    def __str__(self):
+        return f"ContentImage {self.id}"
+
+
 class BlogCommentMedia(models.Model):
     """Attachments (voice notes, audio, video, files) on blog/news comments —
     mirrors PostMedia/ResourceCommentMedia so every comment bar can carry

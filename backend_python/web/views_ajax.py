@@ -449,6 +449,7 @@ def ajax_edit_post(request, post_id):
         post.title = title
     if 'content' in data:
         content = str(data['content']).strip()
+        content = services._prep_inline_images(content)[0]
         EditHistory.objects.create(
             id=uuid_str(), target_type='post', target_id=post.id,
             field='content', old_value=post.content, new_value=content,
@@ -522,6 +523,7 @@ def ajax_edit_reply(request, reply_id):
     content = data.get('content', '').strip()
     if not content:
         return JsonResponse({'error': 'Content required'}, status=400)
+    content = services._prep_inline_images(content)[0]
     now = now_ms()
     EditHistory.objects.create(
         id=uuid_str(), target_type='reply', target_id=reply.id,

@@ -159,6 +159,9 @@ class MyAvatarViewModel @Inject constructor(
             )
             avatarRepository.updateStyle(req)
                 .onSuccess { res ->
+                    res.avatarUrl.ifBlank { res.avatarUrlCamel.orEmpty() }.takeIf { it.isNotBlank() }?.let { newUrl ->
+                        runCatching { authRepository.updateCachedPhotoUrl(newUrl) }
+                    }
                     _uiState.update {
                         it.copy(
                             saving = false,

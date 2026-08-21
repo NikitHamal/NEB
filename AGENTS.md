@@ -417,6 +417,28 @@ The "Neby AI" chat (Android `NebyAiViewModel`, web `subject_page.html` chat pane
 | `egov` | `api/egov_proxy.py` | `AI1` | Scraper |
 | `deepai` | `api/deepai_proxy.py` | `standard` | Scraper |
 | `inception` | `api/inception_proxy.py` | `mercury-2` | Scraper, `reasoning_effort` kwarg |
+| `tryingopen` | `api/tryingopen_proxy.py` | `qwen/qwen3.8-27b` | 16 open models, effort levels quick/balanced/deep, native file upload |
+| `longcat` | `api/longcat_proxy.py` | `longcat/LongCat-2.0` | Meituan LongCat web reverse — needs H5guard signing (see below) |
+| `geminiweb` | `api/geminiweb_proxy.py` | `geminiweb/gemini-flash-lite` | Gemini anonymous web tier (Flash-Lite), no login |
+
+### LongCat + GeminiWeb reverse proxies (added Aug 2026)
+
+**LongCat (`longcat.chat/t`, anonymous chat):**
+- Endpoint: `POST https://longcat.chat/api/v1/chat-completion-oversea-V2?yodaReady=h5&csecplatform=4&csecversion=4.3.0`
+- Body: `{content, agentId:"1", messages:[{role:"user",events:[{type:"userMsg",content,status:"FINISHED"}],chatStatus:"FINISHED",messageId:<int>,idType:"custom"},{role:"assistant",events:[],chatStatus:"LOADING",...}], reasonEnabled:0|1, searchEnabled:0|1, regenerate:0}` — **reasonEnabled/searchEnabled must be integers 0/1 and messageId must be a number**, otherwise the API returns empty 400/500.
+- **H5guard `mtgsig` header is REQUIRED.** Unsigned requests fail with 400/500. Signing is done by `api/h5guard_signer.js` — a Node HTTP sidecar (port `H5GUARD_PORT`, default 8765) that runs the official H5guard SDK in a VM with browser shims and hooks `window.fetch`. `api/longcat_proxy.py` auto-spawns it via `shutil.which("node")`; if node is missing the provider fails gracefully. The sidecar serializes signs through an internal queue.
+- SSE events: `event.type` of `create|content|reason|think|search|finish|eventError`; `finish` carries `usage {inputTokens, outputTokens}` and `lastOne:true`.
+- Anti-detection: curl_cffi Chrome impersonation, cookie jar warmed by GET /t per attempt, `m-appkey: fe_com.sankuai.friday.fe.longcat` + `m-traceid` headers, exponential backoff on 429/5xx, proxy rotation via `LONGCAT_PROXIES` env (comma-separated, round-robin per attempt).
+- **Server deployment needs `node` on PATH** for the signer sidecar; otherwise LongCat is unavailable (other providers unaffected).
+
+**Gemini Web (`gemini.google.com/app`, anonymous Flash-Lite):**
+- Flow: `GET /app` → parse `"FdrFJe":"<f.sid>"` + `boq_assistant-bard-web-server_*` (bl) from WIZ_global_data + collect NID/COMPASS cookies → `POST /_/BardChatUi/data/assistant.lamda.BardFrontendService/StreamGenerate?bl=...&f.sid=...&hl=en-US&_reqid=...&rt=c`
+- Body: form-encoded `f.req=[null,"[[\"<prompt>\",0,null,null,null,null,0],[\"en-US\"],[\"\",\"\",\"\",null×6,\"\"],\"\",\"<uuid-hex>\",null,[0],1,null,null,1,0]"]`. **The big client-side conversation token can be an EMPTY string** for anonymous chats (it is generated client-side by JS and not needed).
+- Response: `)]}'` prefix then length-prefixed JSON lines; answer text in nested `rc_*` arrays as CUMULATIVE snapshots (emit deltas only); conversation/response ids `c_*/r_*` at `inner[1]`.
+- Multi-turn: no server-side history for anonymous; the proxy inlines a compact transcript ("Previous conversation:\nUser: ...\nAssistant: ...") into the prompt.
+- Anti-detection: fresh identity per request (new session+cookies+f.sid), curl_cffi Chrome impersonation, backoff on 429/5xx, proxy rotation via `GEMINIWEB_PROXIES` env.
+
+Both providers are registered in `api/llm/registry.py` (SCRAPER_PROVIDERS + presets), `api/models.py` BotConfig PROVIDER_CHOICES, `api/neby.py::_call_single_provider`, `api/background_agent/runner.py` (`_call_longcat`/`_call_geminiweb` + fallback chain), `api/llm/runtime.py::selection_payload` whitelist, Neby CLI `neby_cli/providers.py` CATALOG, and Flashy (`backend/providers/{longcat,geminiweb}.py` — Flashy longcat also uses the sidecar from `backend/lc_helper/signer.py` + its own copy of `h5guard_signer.js`). Opencode model ids: `flashy/longcat/longcat`, `flashy/geminiweb/gemini-flash-lite`.
 
 Community/stateless sessions (`k2think`, `poolside`, `motiftech`) are streamed through `_stream_community` in `api/arena_views.py` â€” history is replayed from the session rows so send and regenerate both work without upstream session state. Qwen/egov/deepai/inception have their own send endpoints under `/ajax/neby-arena/<slug>/...` (web) and `/api/neby-arena/<slug>/...` (mobile).
 

@@ -7,6 +7,7 @@ from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from urllib.parse import quote
 import markdown as md_lib
+from api import content_images
 
 register = template.Library()
 
@@ -350,6 +351,7 @@ def plain_excerpt(value, max_chars=110):
     if not value:
         return ''
     text = str(value)
+    text = content_images.plain_text(text, ' [image] ')
     text = re.sub(r'<[^>]+>', ' ', text)
     text = re.sub(r'!\[.*?\]\(.*?\)', '', text)
     text = re.sub(r'\[(.*?)\]\(.*?\)', r'\1', text)
@@ -411,7 +413,7 @@ def _linkify_html(html):
 
 def _render_user_content(value):
     """Render markdown formatting and @mention links."""
-    text = str(value)
+    text = content_images.tokenize_for_markdown(value)
     mention_re = re.compile(r'@([A-Za-z0-9_]+)')
 
     def replace_mentions(text):
@@ -446,6 +448,8 @@ def _render_user_content(value):
 
     html = _linkify_html(html)
 
+    html = content_images.detokenize_html(html)
+
     return mark_safe(html)
 
 
@@ -455,7 +459,26 @@ def linkify(value):
     Use for descriptions, bios and other plain-text user fields."""
     if not value:
         return mark_safe('')
-    return mark_safe(_urlize_text(escape(str(value))))
+    text = str(value)
+    if content_images.TOKEN_RE.search(text):
+        parts = []
+        last = 0
+        for m in content_images.TOKEN_RE.finditer(text):
+            if m.start() > last:
+                parts.append(_urlize_text(escape(text[last:m.start()])))
+            parts.append(content_images.detokenize_html(
+                f'ZQXIMG{m.group(1)}ZQXEND'))
+            last = m.end()
+        if last < len(text):
+            parts.append(_urlize_text(escape(text[last:])))
+        return mark_safe(''.join(parts))
+    return mark_safe(_urlize_text(escape(text)))
+
+
+@register.filter
+def strip_inline(value):
+    """Remove inline-image tokens — safe for meta descriptions and snippets."""
+    return content_images.strip_tokens(value)
 
 
 @register.filter

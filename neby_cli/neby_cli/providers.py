@@ -54,6 +54,24 @@ CATALOG = [
         "default_model": "qwen/qwen3.8-27b",
     },
     {
+        "provider": "longcat",
+        "label": "LongCat (longcat.chat — free, no login)",
+        "type": "reverse",
+        "models": [
+            {"id": "longcat/LongCat-2.0", "name": "LongCat 2.0 Flash", "desc": "Meituan · reasoning + search · 128k"},
+        ],
+        "default_model": "longcat/LongCat-2.0",
+    },
+    {
+        "provider": "geminiweb",
+        "label": "Gemini Web (gemini.google.com — anonymous)",
+        "type": "reverse",
+        "models": [
+            {"id": "geminiweb/gemini-flash-lite", "name": "Gemini Flash Lite (Web)", "desc": "Google · anonymous web tier · no login"},
+        ],
+        "default_model": "geminiweb/gemini-flash-lite",
+    },
+    {
         "provider": "qwen",
         "label": "Qwen (chat.qwen.ai)",
         "type": "reverse",
@@ -276,6 +294,16 @@ def stream_chat(
     elif provider == "poolside":
         from api import poolside_proxy
         yield from poolside_proxy.stream_chat(messages, model=model or "laguna-s-2.1")
+        return
+
+    elif provider == "longcat":
+        from api import longcat_proxy
+        yield from longcat_proxy.stream_chat(messages, model=model or "longcat/LongCat-2.0")
+        return
+
+    elif provider == "geminiweb":
+        from api import geminiweb_proxy
+        yield from geminiweb_proxy.stream_chat(messages, model=model or "geminiweb/gemini-flash-lite")
         return
 
     elif provider == "k2think":
