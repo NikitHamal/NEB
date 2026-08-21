@@ -64,12 +64,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.neb.ians.ui.components.ForumAttachmentChip
+import com.neb.ians.ui.components.InlineImageField
+import com.neb.ians.ui.components.InlineImageTokens
 import com.neb.ians.ui.components.MarkdownText
 import com.neb.ians.ui.components.MarkdownToolbar
 import com.neb.ians.ui.components.MentionSuggestions
-import com.neb.ians.ui.components.MentionsVisualTransformation
+import com.neb.ians.ui.components.rememberInlineImageFieldHandle
 import com.neb.ians.ui.components.resolveMediaUrl
 import com.neb.ians.ui.components.WebPillShape
+import com.neb.ians.ui.components.ZoomableImageDialog
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -84,6 +87,13 @@ fun CreatePostScreen(
     val isEditing = postId != null || uiState.isEditMode
     var categoryExpanded by remember { mutableStateOf(false) }
     var durationExpanded by remember { mutableStateOf(false) }
+    val inlineHandle = rememberInlineImageFieldHandle()
+    var pendingInlineCount by remember { mutableStateOf(0) }
+    var zoomImageUrl by remember { mutableStateOf<String?>(null) }
+
+    zoomImageUrl?.let { url ->
+        ZoomableImageDialog(imageUrl = url, onDismiss = { zoomImageUrl = null })
+    }
 
     val imagePicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetMultipleContents()
@@ -211,19 +221,56 @@ fun CreatePostScreen(
                             .fillMaxWidth()
                             .horizontalScroll(rememberScrollState())
                     )
-                    OutlinedTextField(
-                        value = uiState.content,
-                        onValueChange = viewModel::onContentChange,
-                        label = { Text("Content") },
-                        placeholder = { Text("Write your discussion content... Use @ to mention users.") },
-                        supportingText = { Text("${uiState.content.text.length}/$MAX_POST_CONTENT") },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .heightIn(min = 180.dp),
+                    Surface(
+                        modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(12.dp),
-                        enabled = !uiState.isSubmitting,
-                        visualTransformation = MentionsVisualTransformation(MaterialTheme.colorScheme.primary)
-                    )
+                        color = MaterialTheme.colorScheme.surfaceContainerLowest,
+                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+                    ) {
+                        Column(
+                            modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp)
+                        ) {
+                            InlineImageField(
+                                value = uiState.content,
+                                onValueChange = viewModel::onContentChange,
+                                uploader = viewModel::uploadInlineImage,
+                                onError = viewModel::reportError,
+                                handle = inlineHandle,
+                                placeholder = "Write your discussion content... Use @ to mention users.",
+                                textStyle = MaterialTheme.typography.bodyMedium,
+                                minLines = 5,
+                                maxLines = 14,
+                                enabled = !uiState.isSubmitting,
+                                onPendingCountChange = { pendingInlineCount = it },
+                                onImageClick = { url -> zoomImageUrl = url }
+                            )
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(top = 6.dp)
+                            ) {
+                                IconButton(
+                                    onClick = { inlineHandle.pickImage() },
+                                    enabled = !uiState.isSubmitting && pendingInlineCount == 0,
+                                    modifier = Modifier.size(30.dp)
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Outlined.AddPhotoAlternate,
+                                        contentDescription = "Insert image in text",
+                                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        modifier = Modifier.size(19.dp)
+                                    )
+                                }
+                                Spacer(modifier = Modifier.weight(1f))
+                                Text(
+                                    text = "${uiState.content.text.length}/$MAX_POST_CONTENT",
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        }
+                    }
                     MentionSuggestions(
                         users = uiState.mentionSuggestions,
                         onSelect = viewModel::selectMention,
@@ -247,7 +294,10 @@ fun CreatePostScreen(
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         } else {
-                            MarkdownText(markdown = uiState.content.text)
+                            MarkdownText(
+                                markdown = uiState.content.text,
+                                onInlineImageClick = { url -> zoomImageUrl = url }
+                            )
                         }
                     }
                 }
@@ -644,6 +694,8 @@ fun CreatePostScreen(
                 enabled = uiState.title.isNotBlank() && uiState.content.text.isNotBlank() &&
                     (!uiState.isCustomCategory || uiState.customCategory.isNotBlank()) &&
                     uiState.mediaAttachments.none { it.uploading } &&
+                    pendingInlineCount == 0 &&
+                    !InlineImageTokens.hasPending(uiState.content.text) &&
                     !uiState.isSubmitting && !uiState.isLoadingPost
             ) {
                 if (uiState.isSubmitting) {

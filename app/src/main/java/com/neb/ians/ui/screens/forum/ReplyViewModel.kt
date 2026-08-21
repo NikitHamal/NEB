@@ -36,7 +36,8 @@ data class ReplyUiState(
 class ReplyViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val forumRepository: ForumRepository,
-    private val mediaUploadHelper: ForumMediaUploadHelper
+    private val mediaUploadHelper: ForumMediaUploadHelper,
+    private val contentImageRepository: com.neb.ians.data.repository.ContentImageRepository
 ) : ViewModel() {
 
     private val postId: String = savedStateHandle.get<String>("postId") ?: ""
@@ -46,6 +47,14 @@ class ReplyViewModel @Inject constructor(
     val uiState: StateFlow<ReplyUiState> = _uiState.asStateFlow()
 
     private var mentionJob: Job? = null
+
+    /** Uploads an inline text-image chip; returns the server row on success. */
+    suspend fun uploadInlineImage(uri: android.net.Uri) =
+        contentImageRepository.upload(uri)
+
+    fun reportError(message: String) {
+        _uiState.update { it.copy(error = message) }
+    }
 
     init {
         viewModelScope.launch {

@@ -386,7 +386,8 @@ fun ForumPostDetailScreen(
                             onAuthorLongPress = { popoverUsername = reply.authorName },
                             onLinkClick = openLink,
                             children = children,
-                            onRepliesBarClick = { activeThreadParentId = reply.id }
+                            onRepliesBarClick = { activeThreadParentId = reply.id },
+                            onInlineImageClick = { url -> zoomImageUrls = listOf(url); zoomImageIndex = 0 }
                         )
                         Spacer(modifier = Modifier.height(10.dp))
                     }
@@ -573,7 +574,8 @@ fun ForumPostDetailScreen(
                             onDeleteClick = { deletingReplyId = parent.id },
                             onProfileClick = onProfileClick,
                             onAuthorLongPress = { popoverUsername = parent.authorName },
-                            onLinkClick = openLink
+                            onLinkClick = openLink,
+                            onInlineImageClick = { url -> zoomImageUrls = listOf(url); zoomImageIndex = 0 }
                         )
                         Spacer(modifier = Modifier.height(16.dp))
                         HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
@@ -630,7 +632,8 @@ fun ForumPostDetailScreen(
                                     onAuthorLongPress = { popoverUsername = child.authorName },
                                     onLinkClick = openLink,
                                     replyingToUsername = replyingTo,
-                                    quotedContent = parentOfChild?.content
+                                    quotedContent = parentOfChild?.content,
+                                    onInlineImageClick = { url -> zoomImageUrls = listOf(url); zoomImageIndex = 0 }
                                 )
                             }
                         }
@@ -849,7 +852,8 @@ private fun PostContentSection(
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurface,
             onMentionClick = onProfileClick,
-            onLinkClick = onLinkClick
+            onLinkClick = onLinkClick,
+            onInlineImageClick = { url -> zoomImageUrls = listOf(url); zoomImageIndex = 0 }
         )
 
         // ----- Attached images: horizontal carousel (swipe), tap opens fullscreen -----
