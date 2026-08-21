@@ -15,7 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.gestures.detectTapGestures
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.AnnotatedString
@@ -48,7 +48,7 @@ fun rememberInlineImageContents(
     val ids = remember(text) { InlineImageTokens.extractIds(text) }
     return remember(ids, outline, surfaceHigh) {
         if (ids.isEmpty()) {
-            emptyMap()
+            emptyMap<String, InlineTextContent>()
         } else {
             ids.associateWith { id ->
                 InlineTextContent(

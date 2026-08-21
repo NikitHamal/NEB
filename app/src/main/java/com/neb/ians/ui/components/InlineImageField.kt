@@ -286,7 +286,7 @@ private fun InlineChipOverlay(
     val alpha by shimmer.animateFloat(
         initialValue = 0.55f,
         targetValue = 1f,
-        animationSpec = infiniteRepeatable(tween(900), RepeatMode.Alternate),
+        animationSpec = infiniteRepeatable(tween(900), RepeatMode.Reverse),
         label = "nebChipAlpha"
     )
 
