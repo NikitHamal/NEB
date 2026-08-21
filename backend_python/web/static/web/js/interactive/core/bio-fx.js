@@ -194,6 +194,7 @@ export class Particles {
         this.life[w] = this.life[i]; this.decay[w] = this.decay[i];
         this.base[w * 3] = this.base[i * 3]; this.base[w * 3 + 1] = this.base[i * 3 + 1]; this.base[w * 3 + 2] = this.base[i * 3 + 2];
       }
+      w++;
     }
     this.count = w;
     this.geo.setDrawRange(0, w);
