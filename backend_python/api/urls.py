@@ -134,6 +134,11 @@ urlpatterns = [
 
     # Consica app AI bridge (non-guessable path, key-authenticated)
 
+    # AstroWeb LLM bridge — secure proxy to the NEBians registry (key-authenticated)
+    path('astroweb-bridge/models/', __import__('api.astroweb_bridge_views', fromlist=['astroweb_models']).astroweb_models, name='astroweb-bridge-models'),
+    path('astroweb-bridge/chat/', __import__('api.astroweb_bridge_views', fromlist=['astroweb_chat_completions']).astroweb_chat_completions, name='astroweb-bridge-chat'),
+    path('astroweb-bridge/v1/chat/completions/', __import__('api.astroweb_bridge_views', fromlist=['astroweb_chat_completions']).astroweb_chat_completions, name='astroweb-bridge-chat-completions'),
+
     path('background-agent/mobile/', include('api.background_agent.mobile_urls')),
 
     # Wallet / marketplace economy (budget points, AI credits, withdrawals)

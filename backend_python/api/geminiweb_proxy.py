@@ -23,6 +23,7 @@ import os
 import random
 import re
 import time
+import urllib.parse
 import uuid
 from typing import Dict, Generator, List, Optional
 
@@ -101,7 +102,11 @@ class _GeminiSession:
             m = re.search(r"(boq_assistant-bard-web-server_[0-9._p]+)", html)
             if m:
                 self.bl = m.group(1)
+            m = re.search(r'"SNlM0e":"([^"]+)"', html)
+            self._snlm0e = m.group(1) if m else ""
             self.warmed = bool(self.fsid)
+            if not self.fsid:
+                logger.warning("GeminiWeb warm: FdrFJe not found")
             return self.warmed
         except Exception as exc:
             logger.warning("GeminiWeb warm error: %s", exc)
@@ -132,21 +137,33 @@ class _GeminiSession:
             f"{BASE_URL}{STREAM_ENDPOINT}?bl={self.bl}&f.sid={self.fsid}"
             f"&hl=en-US&_reqid={self.reqid}&rt=c"
         )
+        snlm0e = getattr(self, '_snlm0e', '')
+        if snlm0e:
+            url += f"&at={urllib.parse.quote(snlm0e, safe='')}"
         headers = {
             "content-type": "application/x-www-form-urlencoded;charset=UTF-8",
             "origin": BASE_URL,
             "referer": f"{BASE_URL}/",
             "user-agent": _UA,
+            "x-same-domain": "1",
         }
         resp = self.session.post(
             url,
-            data=f"f.req={freq}&".encode("utf-8"),
+            data=f"f.req={urllib.parse.quote(freq, safe='')}&".encode("utf-8"),
             headers=headers,
             proxy=self.proxy,
             stream=True,
         )
         if resp.status_code != 200:
-            yield {"type": "error", "error": f"GeminiWeb HTTP {resp.status_code}"}
+            txt = ""
+            try:
+                txt = resp.text[:500] if hasattr(resp, 'text') else ""
+            except Exception:
+                pass
+            if "400" in txt or resp.status_code == 400:
+                yield {"type": "error", "error": "GeminiWeb rejected the request (400). Retrying may help; if persistent the page format may have changed."}
+            else:
+                yield {"type": "error", "error": f"GeminiWeb HTTP {resp.status_code}: {txt[:300]}"}
             return
 
         buffer = b""
@@ -293,6 +310,9 @@ def stream_chat(
             last_error = got_error
             if "429" in got_error or "HTTP 5" in got_error:
                 time.sleep(2 ** attempt + random.random())
+                continue
+            if "400" in got_error and attempt == 0:
+                time.sleep(1 + random.random())
                 continue
             yield {"type": "error", "error": got_error}
             return
