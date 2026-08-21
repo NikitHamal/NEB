@@ -188,7 +188,7 @@ private fun AvatarPreviewCard(uiState: MyAvatarUiState) {
                 seed = uiState.username,
                 opts = uiState.toOpts(),
                 size = 150.dp,
-                anim = null
+                anim = uiState.anim.ifBlank { null }
             )
         }
         Spacer(Modifier.height(14.dp))

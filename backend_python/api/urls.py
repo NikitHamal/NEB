@@ -9,6 +9,7 @@ from . import pdf_assistant_views
 from . import views_wallet
 from . import credit_views
 from . import views_avatar_api
+from . import views_content_images
 
 urlpatterns = [
     # Auth
@@ -83,6 +84,7 @@ urlpatterns = [
 
     path('posts/<str:post_id>/images/', views.post_images, name='post-images'),
     path('forum/uploads/', views.forum_media_upload, name='forum-media-upload'),
+    path('content-images/upload/', views_content_images.upload_content_image, name='content-image-upload'),
     path('polls/<str:poll_id>/vote/', views.poll_vote, name='poll-vote'),
 
     # Intelligent mixed feed — never-empty suggestions (posts + resources)

@@ -10,6 +10,7 @@ from . import views_monitor
 from . import views_needle
 from . import views_avatar
 from . import views_videos
+from . import views_content_images
 
 app_name = 'web'
 
@@ -99,6 +100,7 @@ urlpatterns = [
     path('ajax/reply/<str:post_id>/', views.ajax_create_reply, name='ajax_create_reply'),
     path('ajax/post/', views.ajax_create_post, name='ajax_create_post'),
     path('ajax/post/upload-image/', views.ajax_upload_post_image, name='ajax_upload_post_image'),
+    path('ajax/inline-image/upload/', views_content_images.ajax_upload_inline_image, name='ajax_upload_inline_image'),
     path('ajax/poll/<str:poll_id>/vote/', views.ajax_poll_vote, name='ajax_poll_vote'),
     path('ajax/delete/post/<str:post_id>/', views.ajax_delete_post, name='ajax_delete_post'),
     path('ajax/edit/post/<str:post_id>/', views.ajax_edit_post, name='ajax_edit_post'),

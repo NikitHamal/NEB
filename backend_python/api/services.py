@@ -19,8 +19,19 @@ from . import counters as _counters
 from . import notifications as _notif
 from . import neby as _neby
 from . import realtime as _rt
+from . import content_images as _cimg
 
 logger = logging.getLogger(__name__)
+
+
+def _prep_inline_images(content):
+    """Sanitise [[img:ID]] tokens in user content and flag the referenced
+    uploads as used. Returns (cleaned_content, referenced_ids)."""
+    cleaned = _cimg.clean_content(content)
+    ids = _cimg.extract_image_ids(cleaned)
+    if ids:
+        _cimg.mark_used(ids)
+    return cleaned, ids
 
 
 def toggle_post_like(user, post_id):
@@ -92,6 +103,7 @@ def create_reply(user, post_id, content, parent_reply_id=None, is_anonymous=Fals
     if parent_reply_id and not Reply.objects.filter(pk=parent_reply_id, post_id=post_id).exists():
         # Invalid parent reply (missing or belongs to another post)
         return None
+    content, _img_ids = _prep_inline_images(content)
     now = now_ms()
     with transaction.atomic():
         reply = Reply.objects.create(
@@ -138,6 +150,7 @@ def create_post(user, title, content, category, image_urls=None, poll_data=None,
     category = category.strip()
     if not title or not content or not category:
         return None
+    content, _img_ids = _prep_inline_images(content)
     now = now_ms()
     post = Post.objects.create(
         id=uuid_str(),
@@ -703,6 +716,7 @@ def create_resource_comment(user, resource_id, content, parent_comment_id=None, 
     content = content.strip()
     if not content and not attachments:
         return None
+    content, _img_ids = _prep_inline_images(content)
     now = now_ms()
     with transaction.atomic():
         comment = ResourceComment.objects.create(
@@ -837,6 +851,7 @@ def create_blog_comment(user, slug, content, parent_comment_id=None, attachments
     content = content.strip()
     if not content and not attachments:
         return None
+    content, _img_ids = _prep_inline_images(content)
     now = now_ms()
     with transaction.atomic():
         comment = BlogComment.objects.create(

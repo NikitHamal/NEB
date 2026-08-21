@@ -47,8 +47,6 @@ class NebyRenderer(private val surface: NebySurface = NebySurface("cube", 240.0,
 
     private val decalNodeRot = Array(decalVLevels.size) { Array<Vec3?>(DECAL_COLS + 1) { null } }
     private val decalNodeNormZ = Array(decalVLevels.size) { DoubleArray(DECAL_COLS + 1) }
-    private val decalNodeProjX = Array(decalVLevels.size) { DoubleArray(DECAL_COLS + 1) }
-    private val decalNodeProjY = Array(decalVLevels.size) { DoubleArray(DECAL_COLS + 1) }
 
     private val pathHead = Path()
     private val pathLeftEye = Path()
@@ -140,23 +138,30 @@ class NebyRenderer(private val surface: NebySurface = NebySurface("cube", 240.0,
         path.rewind()
         var visSum = 0.0
         var first = true
+        val a = surface.width / 2; val b = surface.height / 2; val c = surface.depth / 2
         for ((idx, pt) in outline.withIndex()) {
             val rx = pt.x * cosA - pt.y * sinA
             val ry = pt.x * sinA + pt.y * cosA
             val wx = cx + rx
             val wy = cy + ry
-            val theta = EYE_MAP_SCALE * cos(wy / EYE_MAP_SCALE) * sin(wx / EYE_MAP_SCALE)
-            val phi = EYE_MAP_SCALE * sin(wy / EYE_MAP_SCALE)
-            val sp = surfacePoint(surface, theta, phi)
+            val fx = EYE_MAP_SCALE * cos(wy / EYE_MAP_SCALE) * sin(wx / EYE_MAP_SCALE)
+            val fy = EYE_MAP_SCALE * sin(wy / EYE_MAP_SCALE)
+            val clampedFx = fx.coerceIn(-a + 0.5, a - 0.5)
+            val clampedFy = fy.coerceIn(-b + 0.5, b - 0.5)
+            val s2 = 1 - (clampedFx / a) * (clampedFx / a) - (clampedFy / b) * (clampedFy / b)
+            val fz = if (s2 <= 0) 0.0 else c * sqrt(s2)
+            val sp = Vec3(clampedFx, clampedFy, fz)
+            val nx = clampedFx / (a * a)
+            val ny = clampedFy / (b * b)
+            val nz = if (fz == 0.0) 1.0 else fz / (c * c)
+            val nlen = sqrt(nx * nx + ny * ny + nz * nz).coerceAtLeast(1e-9)
+            val nrm = Vec3(nx / nlen, ny / nlen, nz / nlen)
             val rp = quatRotate(orient, sp)
+            val rn = quatRotate(orient, nrm)
             val pr = projectPoint(rp, persp)
             if (first) { path.moveTo(pr.x.toFloat(), pr.y.toFloat()); first = false }
             else path.lineTo(pr.x.toFloat(), pr.y.toFloat())
-            if (idx % 6 == 0) {
-                val nrm = surfaceNormalNumeric(surface, theta, phi)
-                val rn = quatRotate(orient, nrm)
-                visSum += rn.z
-            }
+            if (idx % 6 == 0) visSum += rn.z
         }
         path.close()
         return visSum > 0
@@ -180,9 +185,6 @@ class NebyRenderer(private val surface: NebySurface = NebySurface("cube", 240.0,
                 val rn = quatRotate(orient, nrm)
                 decalNodeRot[vi][ui] = rp
                 decalNodeNormZ[vi][ui] = visibility(rp, rn, persp)
-                val pr = projectPoint(rp, persp)
-                decalNodeProjX[vi][ui] = pr.x
-                decalNodeProjY[vi][ui] = pr.y
             }
         }
 
@@ -199,23 +201,29 @@ class NebyRenderer(private val surface: NebySurface = NebySurface("cube", 240.0,
                 for (s in 0 until subDivs) {
                     val rowA = vi0 + span * s / subDivs
                     val rowB = vi0 + span * (s + 1) / subDivs
-                    val c0x = decalNodeProjX[rowA][ui]; val c0y = decalNodeProjY[rowA][ui]
-                    val c1x = decalNodeProjX[rowB][ui]; val c1y = decalNodeProjY[rowB][ui]
-                    val c2x = decalNodeProjX[rowB][ui + 1]; val c2y = decalNodeProjY[rowB][ui + 1]
-                    val c3x = decalNodeProjX[rowA][ui + 1]; val c3y = decalNodeProjY[rowA][ui + 1]
-                    val v0 = decalNodeNormZ[rowA][ui]; val v1 = decalNodeNormZ[rowB][ui]
-                    val v2 = decalNodeNormZ[rowB][ui + 1]; val v3 = decalNodeNormZ[rowA][ui + 1]
-                    if (v0 >= 0 && v1 >= 0 && v2 >= 0 && v3 >= 0) {
-                        path.moveTo(c0x.toFloat(), c0y.toFloat())
-                        path.lineTo(c1x.toFloat(), c1y.toFloat())
-                        path.lineTo(c2x.toFloat(), c2y.toFloat())
-                        path.lineTo(c3x.toFloat(), c3y.toFloat())
+                    val pts = arrayOf(
+                        decalNodeRot[rowA][ui]!! to decalNodeNormZ[rowA][ui],
+                        decalNodeRot[rowB][ui]!! to decalNodeNormZ[rowB][ui],
+                        decalNodeRot[rowB][ui + 1]!! to decalNodeNormZ[rowB][ui + 1],
+                        decalNodeRot[rowA][ui + 1]!! to decalNodeNormZ[rowA][ui + 1]
+                    )
+                    val allIn = pts.all { it.second >= 0 }
+                    val anyIn = pts.any { it.second >= 0 }
+                    if (allIn) {
+                        val pr0 = projectPoint(pts[0].first, persp)
+                        val pr1 = projectPoint(pts[1].first, persp)
+                        val pr2 = projectPoint(pts[2].first, persp)
+                        val pr3 = projectPoint(pts[3].first, persp)
+                        path.moveTo(pr0.x.toFloat(), pr0.y.toFloat())
+                        path.lineTo(pr1.x.toFloat(), pr1.y.toFloat())
+                        path.lineTo(pr2.x.toFloat(), pr2.y.toFloat())
+                        path.lineTo(pr3.x.toFloat(), pr3.y.toFloat())
                         path.close()
-                    } else if (v0 > -0.25 && v1 > -0.25 && v2 > -0.25 && v3 > -0.25) {
-                        val xs = doubleArrayOf(c0x, c1x, c2x, c3x)
-                        val ys = doubleArrayOf(c0y, c1y, c2y, c3y)
-                        val vs = doubleArrayOf(v0, v1, v2, v3)
-                        appendClippedPoly(path, xs, ys, vs)
+                    } else if (anyIn) {
+                        pathQuadChipped3D(
+                            path, pts.map { it.first }.toTypedArray(),
+                            pts.map { it.second }.toDoubleArray(), persp
+                        )
                     }
                 }
             }
@@ -230,6 +238,32 @@ class NebyRenderer(private val surface: NebySurface = NebySurface("cube", 240.0,
             pathDecalMid to Color.parseColor("#3b82f6"),
             pathDecalLight to Color.parseColor("#93c5fd")
         )
+    }
+
+    private fun pathQuadChipped3D(path: Path, pts: Array<Vec3>, vis: DoubleArray, persp: Double) {
+        val n = 4
+        var started = false
+        for (i in 0 until n) {
+            val j = (i + 1) % n
+            val curIn = vis[i] >= 0
+            val nextIn = vis[j] >= 0
+            if (curIn) {
+                val pr = projectPoint(pts[i], persp)
+                if (!started) { path.moveTo(pr.x.toFloat(), pr.y.toFloat()); started = true }
+                else path.lineTo(pr.x.toFloat(), pr.y.toFloat())
+            }
+            if (curIn != nextIn) {
+                val t = vis[i] / (vis[i] - vis[j])
+                val ix = pts[i].x + (pts[j].x - pts[i].x) * t
+                val iy = pts[i].y + (pts[j].y - pts[i].y) * t
+                val iz = pts[i].z + (pts[j].z - pts[i].z) * t
+                val ip = Vec3(ix, iy, iz)
+                val pr = projectPoint(ip, persp)
+                if (!started) { path.moveTo(pr.x.toFloat(), pr.y.toFloat()); started = true }
+                else path.lineTo(pr.x.toFloat(), pr.y.toFloat())
+            }
+        }
+        if (started) path.close()
     }
 
     private fun appendClippedPoly(path: Path, xs: DoubleArray, ys: DoubleArray, vs: DoubleArray) {

@@ -543,6 +543,10 @@ class AuthRepository @Inject constructor(
         }
     }
 
+    suspend fun updateCachedPhotoUrl(url: String?) {
+        dataStore.edit { prefs -> prefs[USER_PHOTO_URL] = url ?: "" }
+    }
+
     fun syncFcmToken() {
         kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.IO).launch {
             try {
