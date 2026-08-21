@@ -406,8 +406,6 @@ def _call_scraper_stream(preset, real_model: str, messages: List[Dict], tools, m
             import inspect as _ins
             sig = _ins.signature(mod.stream_chat)
             kwargs: Dict = {"messages": scraper_messages, "model": real_model}
-            if "effort" in sig.parameters and preset.slug == "tryingopen":
-                kwargs["effort"] = "balanced"
             if "system_prompt" in sig.parameters:
                 sys_prompt, _ = _messages_to_prompt(messages)
                 if sys_prompt and "system_prompt" not in kwargs:

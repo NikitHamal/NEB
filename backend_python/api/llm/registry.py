@@ -30,7 +30,7 @@ FORMAT_SCRAPER = 'scraper'      # Existing NEBians web proxies (qwen & friends)
 
 OFFICIAL_FORMATS = (FORMAT_OPENAI, FORMAT_ANTHROPIC, FORMAT_GEMINI)
 
-SCRAPER_PROVIDERS = ('qwen', 'egov', 'deepai', 'inception', 'k2think', 'poolside', 'motiftech', 'metaai', 'tryingopen', 'longcat', 'geminiweb')
+SCRAPER_PROVIDERS = ('qwen', 'egov', 'deepai', 'inception', 'k2think', 'poolside', 'motiftech', 'metaai', 'longcat', 'geminiweb')
 
 
 @dataclass(frozen=True)
@@ -220,30 +220,6 @@ SCRAPER_PRESETS: List[ProviderPreset] = [
         ],
         context_window=128000, max_output_tokens=4000,
         key_required=False, official=False, scraper_module='metaai_proxy',
-    ),
-    ProviderPreset(
-        slug='tryingopen', label='TryingOpen (tryingopen.com — 16 open models, free)', format=FORMAT_SCRAPER,
-        base_url='https://www.tryingopen.com/api/open', default_model='qwen/qwen3.8-27b',
-        models=[
-            ModelSpec('qwen/qwen3.8-27b', 'Qwen3.8 27B', 'Default · vision + tools · 262k'),
-            ModelSpec('qwen/qwen3.6-27b', 'Qwen3.6 27B', 'Vision + tools · 262k'),
-            ModelSpec('qwen/qwen3.8-2.4t-a95b', 'Qwen3.8 2.4T', 'Largest Qwen · 95B active · 1M'),
-            ModelSpec('nvidia/nemotron-3.5-lightning', 'Nemotron 3.5 Lightning', 'NVIDIA · 3B active · 1M · ultra-cheap'),
-            ModelSpec('z-ai/glm-5.3', 'GLM 5.3', 'Z.ai · reasoning · 1M'),
-            ModelSpec('z-ai/glm-5.2', 'GLM 5.2', 'Z.ai · multi-step · 1M'),
-            ModelSpec('moonshotai/kimi-k3', 'Kimi K3', 'Moonshot · 2.8T · vision · 1M'),
-            ModelSpec('minimax/minimax-m3', 'MiniMax M3', 'MiniMax · multimodal · 427B · 1M'),
-            ModelSpec('deepseek/deepseek-v4-flash-0731', 'DeepSeek V4 Flash', 'DeepSeek · 284B (13B active) · 1M'),
-            ModelSpec('deepseek/deepseek-v4-pro-0813', 'DeepSeek V4 Pro', 'DeepSeek · 1.7T full V4 · 1M'),
-            ModelSpec('google/gemma-4-31b-it', 'Gemma 4 31B', 'Google · vision · 262k'),
-            ModelSpec('google/gemma-4-26b-a4b-it', 'Gemma 4 26B', 'Google · MoE 3.8B active · vision · 262k'),
-            ModelSpec('mistralai/mistral-small-2603', 'Mistral Small 4', 'Mistral · 119B · vision · 262k · cheap'),
-            ModelSpec('meta/muse-glimmer-30b', 'Muse Glimmer 30B', 'Meta · 30B · vision · 131k'),
-            ModelSpec('thinkingmachines/inkling-small', 'Inkling Small', 'Thinking Machines · 276B (12B active) · 524k'),
-            ModelSpec('thinkingmachines/inkling', 'Inkling', 'Thinking Machines · 975B (41B active) · 1M'),
-        ],
-        context_window=1000000, max_output_tokens=8000,
-        key_required=False, official=False, scraper_module='tryingopen_proxy',
     ),
     ProviderPreset(
         slug='longcat', label='LongCat (longcat.chat — free, no login)', format=FORMAT_SCRAPER,

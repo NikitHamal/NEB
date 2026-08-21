@@ -85,7 +85,7 @@ def selection_payload(slug: str, model: str, user_provider_id: str = '') -> dict
     if slug == 'custom' and not user_provider_id:
         return {'llm_provider': '', 'llm_model': '', 'llm_provider_id': ''}
     if slug and slug != 'custom' and not is_official_slug(slug) and slug not in (
-            'qwen', 'tryingopen', 'egov', 'deepai', 'inception', 'k2think', 'poolside', 'motiftech', 'metaai',
+            'qwen', 'egov', 'deepai', 'inception', 'k2think', 'poolside', 'motiftech', 'metaai',
             'longcat', 'geminiweb'):
         return {'llm_provider': '', 'llm_model': '', 'llm_provider_id': ''}
     return {

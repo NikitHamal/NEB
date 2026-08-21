@@ -752,7 +752,7 @@ class NebyTUI:
 
         img_count = len(getattr(self.session, "attached_images", []))
         img_badge = f' · <style fg="#e5c07b">📷 {img_count} img</style>' if img_count > 0 else ""
-        effort = getattr(self.session, "tryingopen_effort", "balanced") if (getattr(self.session, "provider", "") or "").lower() == "tryingopen" else ""
+        effort = ""
         effort_badge = f' · <style fg="#c678dd">🧠 {effort}</style>' if effort else ""
         return to_formatted_text(HTML(
             f'<style fg="#8a8a8a">{model_name} · {pct}%</style>{img_badge}{effort_badge}'
@@ -942,3 +942,5 @@ class NebyTUI:
 
 class NebyUI(NebyTUI):
     pass
+
+
