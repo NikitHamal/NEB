@@ -308,12 +308,14 @@
   <!-- Snackbar container -->
   <div id="snackbar-container"></div>
 
-  <!-- Neby AI Assistant -->
+  <!-- Neby AI Assistant (home + library only) -->
+  {% if request.path == '/' or '/library' in request.path %}
   <button id="neby-fab" aria-label="Open Neby AI Assistant" aria-expanded="false" aria-controls="neby-panel">
     <div class="neby-fab-avatar-badge">
       <div class="neby-avatar-mini" data-neby-avatar data-animation="idle" style="pointer-events:none; width:36px; height:36px;"></div>
     </div>
   </button>
+  {% endif %}
 
   <div id="neby-panel" role="dialog" aria-label="Neby AI Assistant" aria-modal="true">
     <div class="neby-panel-header">
@@ -358,7 +360,7 @@
     </div>
 
     <div class="neby-input-row">
-      <textarea id="neby-input" rows="1" placeholder="Ask Neby anything..." autocomplete="off" aria-label="Message Neby AI"></textarea>
+      <textarea id="neby-input" data-neb-skip="1" rows="1" placeholder="Ask Neby anything..." autocomplete="off" aria-label="Message Neby AI"></textarea>
       <button class="neby-send-btn" id="neby-send-btn" disabled aria-label="Send">
         <span class="material-symbols-outlined">send</span>
       </button>
@@ -745,7 +747,7 @@
           '</div>' +
           '<div style="padding:18px 20px;display:grid;gap:14px;">' +
           '<label style="display:grid;gap:6px;font-weight:600;font-size:13px;">Reason<select id="global-report-reason" style="width:100%;border:1px solid var(--md-outline-variant,#cac4d0);border-radius:12px;padding:11px 12px;background:var(--md-surface,#fff);color:inherit;font:inherit;"></select></label>' +
-          '<label style="display:grid;gap:6px;font-weight:600;font-size:13px;">Details<textarea id="global-report-description" maxlength="1600" rows="5" placeholder="Add links, quotes, context, or what admins should check..." style="width:100%;resize:vertical;border:1px solid var(--md-outline-variant,#cac4d0);border-radius:12px;padding:11px 12px;background:var(--md-surface,#fff);color:inherit;font:inherit;"></textarea></label>' +
+          '<label style="display:grid;gap:6px;font-weight:600;font-size:13px;">Details<textarea id="global-report-description" data-neb-skip="1" maxlength="1600" rows="5" placeholder="Add links, quotes, context, or what admins should check..." style="width:100%;resize:vertical;border:1px solid var(--md-outline-variant,#cac4d0);border-radius:12px;padding:11px 12px;background:var(--md-surface,#fff);color:inherit;font:inherit;"></textarea></label>' +
           '<p id="global-report-error" style="display:none;margin:0;color:var(--md-error,#b3261e);font-size:13px;"></p>' +
           '</div>' +
           '<div style="display:flex;justify-content:flex-end;gap:10px;padding:14px 20px 18px;border-top:1px solid var(--md-outline-variant,#cac4d0);">' +

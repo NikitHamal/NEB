@@ -178,28 +178,47 @@
 /* Linked generation */
 .ss-sidebar-gen {
   margin-top: 14px;
-  padding-top: 14px;
+  padding-top: 12px;
   border-top: 1px solid var(--md-outline-variant);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
+.ss-sidebar-gen .ss-sidebar-section-title { margin: 0 0 4px; }
 .ss-gen-btn {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   width: 100%;
   padding: 8px 10px;
-  border-radius: var(--md-radius-md);
-  background: transparent;
-  border: none;
-  color: var(--md-primary);
+  border-radius: 12px;
+  background: var(--md-surface-container);
+  border: 1px solid transparent;
+  color: var(--md-on-surface);
   font-size: 0.8125rem;
   font-weight: 500;
   font-family: inherit;
   cursor: pointer;
-  transition: background 0.15s;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s;
   text-align: left;
 }
-.ss-gen-btn:hover { background: var(--md-surface-container); }
-.ss-gen-btn .material-symbols-outlined { font-size: 18px; }
+.ss-gen-btn:hover {
+  background: var(--md-surface-container-high);
+  border-color: var(--md-outline-variant);
+}
+.ss-gen-btn:active { transform: scale(0.98); }
+.ss-gen-btn .material-symbols-outlined {
+  font-size: 18px;
+  color: var(--md-primary);
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--md-primary) 10%, transparent);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
 
 /* ── Main ── */
 .ss-main { min-height: 60vh; }
@@ -675,7 +694,15 @@
 
 /* ── Members ── */
 .ss-member-list { display: flex; flex-direction: column; gap: 2px; }
-.ss-member-item { display: flex; align-items: center; gap: 8px; padding: 7px 8px; border-radius: 12px; }
+.ss-member-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 8px;
+  border-radius: 12px;
+  transition: background 0.15s;
+}
+.ss-member-item:hover { background: var(--md-surface-container); }
 .ss-member-online { background: var(--md-surface-container); }
 .ss-member-avatar {
   width: 30px; height: 30px; border-radius: 50%;
