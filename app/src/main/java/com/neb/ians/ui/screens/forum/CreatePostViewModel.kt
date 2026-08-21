@@ -107,6 +107,7 @@ data class CreatePostUiState(
 class CreatePostViewModel @Inject constructor(
     private val forumRepository: ForumRepository,
     private val mediaUploadHelper: ForumMediaUploadHelper,
+    private val contentImageRepository: com.neb.ians.data.repository.ContentImageRepository,
     @ApplicationContext private val appContext: Context
 ) : ViewModel() {
 
@@ -115,6 +116,14 @@ class CreatePostViewModel @Inject constructor(
 
     private var mentionJob: Job? = null
     private var loadedEditPostId: String? = null
+
+    /** Uploads an inline text-image chip; returns the server row on success. */
+    suspend fun uploadInlineImage(uri: android.net.Uri) =
+        contentImageRepository.upload(uri)
+
+    fun reportError(message: String) {
+        _uiState.update { it.copy(error = message) }
+    }
 
     fun loadForEdit(postId: String) {
         if (loadedEditPostId == postId && _uiState.value.editingPostId == postId) return

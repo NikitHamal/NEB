@@ -20,6 +20,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.outlined.AddPhotoAlternate
 import androidx.compose.material.icons.outlined.AttachFile
 import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.Button
@@ -37,6 +38,9 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -45,8 +49,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.ui.components.ForumAttachmentChip
+import com.neb.ians.ui.components.InlineImageField
+import com.neb.ians.ui.components.InlineImageTokens
 import com.neb.ians.ui.components.MarkdownToolbar
 import com.neb.ians.ui.components.MentionSuggestions
+import com.neb.ians.ui.components.rememberInlineImageFieldHandle
+import com.neb.ians.ui.components.ZoomableImageDialog
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -58,6 +66,13 @@ fun ReplyScreen(
     viewModel: ReplyViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val inlineHandle = rememberInlineImageFieldHandle()
+    var pendingInlineCount by remember { mutableStateOf(0) }
+    var zoomImageUrl by remember { mutableStateOf<String?>(null) }
+
+    zoomImageUrl?.let { url ->
+        ZoomableImageDialog(imageUrl = url, onDismiss = { zoomImageUrl = null })
+    }
 
     val mediaPicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenMultipleDocuments()
@@ -121,19 +136,56 @@ fun ReplyScreen(
             )
 
             Column(modifier = Modifier.weight(1f)) {
-                OutlinedTextField(
-                    value = uiState.content,
-                    onValueChange = viewModel::onContentChange,
-                    label = { Text("Your Reply") },
-                    placeholder = { Text("Write your reply... Use @ to mention users.") },
-                    supportingText = { Text("${uiState.content.text.length}/$MAX_REPLY_CONTENT") },
+                Surface(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .heightIn(min = 160.dp)
                         .weight(1f, fill = false),
                     shape = RoundedCornerShape(12.dp),
-                    enabled = !uiState.isSubmitting
-                )
+                    color = MaterialTheme.colorScheme.surfaceContainerLowest,
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+                ) {
+                    Column(modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp)) {
+                        InlineImageField(
+                            value = uiState.content,
+                            onValueChange = viewModel::onContentChange,
+                            uploader = viewModel::uploadInlineImage,
+                            onError = viewModel::reportError,
+                            handle = inlineHandle,
+                            placeholder = "Write your reply... Use @ to mention users.",
+                            textStyle = MaterialTheme.typography.bodyMedium,
+                            minLines = 4,
+                            maxLines = 12,
+                            enabled = !uiState.isSubmitting,
+                            onPendingCountChange = { pendingInlineCount = it },
+                            onImageClick = { url -> zoomImageUrl = url }
+                        )
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 6.dp)
+                        ) {
+                            IconButton(
+                                onClick = { inlineHandle.pickImage() },
+                                enabled = !uiState.isSubmitting && pendingInlineCount == 0,
+                                modifier = Modifier.size(30.dp)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Outlined.AddPhotoAlternate,
+                                    contentDescription = "Insert image in text",
+                                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    modifier = Modifier.size(19.dp)
+                                )
+                            }
+                            Spacer(modifier = Modifier.weight(1f))
+                            Text(
+                                text = "${uiState.content.text.length}/$MAX_REPLY_CONTENT",
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    }
+                }
                 MentionSuggestions(
                     users = uiState.mentionSuggestions,
                     onSelect = viewModel::selectMention,
@@ -249,6 +301,8 @@ fun ReplyScreen(
                 shape = RoundedCornerShape(50),
                 enabled = uiState.content.text.isNotBlank() &&
                     !uiState.isSubmitting &&
+                    pendingInlineCount == 0 &&
+                    !InlineImageTokens.hasPending(uiState.content.text) &&
                     uiState.mediaAttachments.none { it.uploading }
             ) {
                 if (uiState.isSubmitting) {

@@ -2,6 +2,20 @@
 ;(function () {
   var TOKEN_RE = /\[\[img:(\d{1,10})\]\]/g;
 
+  var SKIP_SELECTOR = '[data-neb-skip],#neby-input,#chat-input,#bs-followup,#ba-goal,'
+    + '#agent_chat_input,#agent_new_task,#agent_home_task_input,'
+    + '#ssTutorQuestion,#cbAiInput,.ss-ai-input,.cb-ai-input';
+
+  function isSkipped(el) {
+    if (!el || el.nodeType !== 1) return false;
+    if (el.hasAttribute && el.hasAttribute('data-neb-skip')) return true;
+    try {
+      if (el.closest && el.closest('[data-neb-skip]')) return true;
+      if (el.matches && el.matches(SKIP_SELECTOR)) return true;
+    } catch (_) {}
+    return false;
+  }
+
   function isEnabled() {
     if (typeof window.NEB_INLINE_ENABLED === 'boolean') return window.NEB_INLINE_ENABLED;
     try { var v = localStorage.getItem('neb_inline_enabled'); if (v === '0') return false; if (v === '1') return true; } catch(_){}
@@ -43,7 +57,7 @@
     var removeBtn = extra ? '<button type="button" class="neb-chip-remove" data-neb-remove="' + esc('' + id) + '" aria-label="Remove image"><span class="material-symbols-outlined">close</span></button>' : '';
     return (
       '<span class="neb-chip' + extra + '" data-neb-img="' + esc('' + id) + '"' +
-      ' data-neb-full="' + esc(full) + '" draggable="true" role="button" tabindex="0" aria-label="Attached image">' +
+      ' data-neb-full="' + esc(full) + '" draggable="true" contenteditable="false" role="button" tabindex="0" aria-label="Attached image">' +
       '<img src="' + esc(thumb) + '" alt="Image" loading="lazy" decoding="async">' + removeBtn + '</span>'
     );
   }
@@ -314,6 +328,7 @@
   var MAX_COMPOSER_IMAGES = 8;
 
   function bindEditor(editor) {
+    if (isSkipped(editor)) return;
     if (!isEnabled()) return;
     if (!editor || editor.dataset.nebBound === '1') return;
     editor.dataset.nebBound = '1';
@@ -321,7 +336,22 @@
     editor.setAttribute('role', 'textbox');
     editor.setAttribute('aria-multiline', 'true');
 
-    var dragSrcId = null, dragSrcEl = null;
+    var dragSrcId = null, dragSrcEl = null, lastDragEnd = 0;
+
+    function pointRange(x, y) {
+      try {
+        if (document.caretRangeFromPoint) return document.caretRangeFromPoint(x, y);
+        if (document.caretPositionFromPoint) {
+          var p = document.caretPositionFromPoint(x, y);
+          if (!p) return null;
+          var r = document.createRange();
+          r.setStart(p.offsetNode, p.offset);
+          r.collapse(true);
+          return r;
+        }
+      } catch (_) {}
+      return null;
+    }
 
     editor.addEventListener('dragstart', function (e) {
       var chip = e.target.closest('.neb-chip');
@@ -336,18 +366,33 @@
       chip.classList.add('neb-chip-editor-dragging');
     });
     editor.addEventListener('dragend', function (e) {
+      editor.classList.remove('neb-drop-active');
       var chip = e.target.closest && e.target.closest('.neb-chip');
       if (chip) chip.classList.remove('neb-chip-editor-dragging');
+      lastDragEnd = Date.now();
       dragSrcId = null; dragSrcEl = null;
     });
     editor.addEventListener('dragover', function (e) {
       var types = (e.dataTransfer && e.dataTransfer.types) || [];
       var hasImageFile = false;
       for (var i = 0; i < types.length; i++) if (types[i] === 'Files') hasImageFile = true;
-      if (hasImageFile || dragSrcId || (types.indexOf && types.indexOf('application/x-neb-img') >= 0)) {
-        e.preventDefault();
-        e.dataTransfer.dropEffect = hasImageFile ? 'copy' : 'move';
-        editor.classList.add('neb-drop-active');
+      var internal = !!(dragSrcId || (types.indexOf && types.indexOf('application/x-neb-img') >= 0));
+      if (!hasImageFile && !internal) return;
+      e.preventDefault();
+      e.dataTransfer.dropEffect = hasImageFile ? 'copy' : 'move';
+      editor.classList.add('neb-drop-active');
+      if (internal && e.clientX && e.clientY) {
+        var r = pointRange(e.clientX, e.clientY);
+        if (r) {
+          try {
+            var inside = editor.contains(r.startContainer) || r.startContainer === editor;
+            if (inside) {
+              var sel2 = window.getSelection();
+              sel2.removeAllRanges();
+              sel2.addRange(r);
+            }
+          } catch (_) {}
+        }
       }
     });
     editor.addEventListener('dragleave', function (e) {
@@ -371,7 +416,7 @@
       var nebId = (dt.getData && dt.getData('application/x-neb-img')) || dragSrcId;
       if (nebId) {
         e.preventDefault();
-        if (dragSrcEl && editor.contains(dragSrcEl)) dragSrcEl.remove();
+        if (dragSrcEl && dragSrcEl.parentNode) dragSrcEl.remove();
         insertChipAtCaret(editor, parseInt(nebId, 10));
         dispatchInput(editor);
         dragSrcId = null; dragSrcEl = null;
@@ -444,9 +489,21 @@
       var rmBtn = e.target.closest('[data-neb-remove]');
       if (rmBtn && editor.contains(rmBtn)) {
         e.preventDefault(); e.stopPropagation();
-        var chip = rmBtn.closest('.neb-chip');
-        if (chip) chip.remove();
+        var chipR = rmBtn.closest('.neb-chip');
+        if (chipR) chipR.remove();
         dispatchInput(editor);
+        return;
+      }
+      if (Date.now() - lastDragEnd < 300) return;
+      var chip = e.target.closest('.neb-chip[data-neb-full]');
+      if (chip && editor.contains(chip)) {
+        e.preventDefault(); e.stopPropagation();
+        openLightbox(chip.getAttribute('data-neb-full'));
+      }
+    });
+    editor.addEventListener('input', function () {
+      if (!editor.querySelector('.neb-chip') && editor.textContent === '') {
+        if (editor.firstChild) { editor.innerHTML = ''; }
       }
     });
     editor.addEventListener('keydown', function (e) {
@@ -516,6 +573,7 @@
   }
 
   function enhanceTextarea(ta) {
+    if (isSkipped(ta)) return;
     if (!isEnabled()) return;
     if (!ta || ta.dataset.nebEnhanced === '1') return;
     if (ta.tagName !== 'TEXTAREA') {
@@ -523,93 +581,85 @@
       return;
     }
     ta.dataset.nebEnhanced = '1';
-    var wrap = document.createElement('div');
-    wrap.className = 'neb-inline-editor';
-    wrap.style.position = 'relative';
-    var editor = document.createElement('div');
-    editor.className = 'neb-inline-editor-rich';
+
+    var ed = document.createElement('div');
+    ed.className = 'neb-seamless';
+    ed.contentEditable = 'true';
+    ed.setAttribute('role', 'textbox');
+    ed.setAttribute('aria-multiline', 'true');
     var ph = ta.getAttribute('placeholder') || '';
-    if (ph) editor.setAttribute('data-placeholder', ph);
-    ta.parentNode.insertBefore(wrap, ta);
-    wrap.appendChild(editor);
+    if (ph) ed.setAttribute('data-placeholder', ph);
 
-    var initial = ta.value || '';
-    loadEditor(editor, initial);
+    var cs = getComputedStyle(ta);
+    ['fontFamily','fontSize','fontWeight','fontStyle','lineHeight','letterSpacing','textTransform',
+     'color','backgroundColor',
+     'borderTopWidth','borderTopStyle','borderTopColor',
+     'borderRightWidth','borderRightStyle','borderRightColor',
+     'borderBottomWidth','borderBottomStyle','borderBottomColor',
+     'borderLeftWidth','borderLeftStyle','borderLeftColor',
+     'borderTopLeftRadius','borderTopRightRadius','borderBottomRightRadius','borderBottomLeftRadius',
+     'paddingTop','paddingRight','paddingBottom','paddingLeft',
+     'marginTop','marginRight','marginBottom','marginLeft',
+     'minHeight','maxWidth','textAlign','boxSizing'
+    ].forEach(function (p) { try { ed.style[p] = cs[p]; } catch (_) {} });
+    ed.style.height = 'auto';
+    ed.style.overflowY = 'hidden';
+    ed.style.overflowX = 'hidden';
+    ed.style.resize = 'none';
+    ed.style.display = 'block';
+    if (!(parseFloat(cs.minHeight) > 0)) {
+      var rows = parseInt(ta.getAttribute('rows'), 10);
+      var lh = parseFloat(cs.lineHeight) || parseFloat(cs.fontSize) * 1.4 || 20;
+      ed.style.minHeight = (((rows > 0) ? rows : 2) * lh) + 'px';
+    }
+    try {
+      var pd = getComputedStyle(ta.parentNode).display;
+      if (pd.indexOf('flex') >= 0 || pd.indexOf('grid') >= 0) {
+        ed.style.flex = cs.flex;
+        ed.style.alignSelf = cs.alignSelf;
+      } else {
+        ed.style.width = cs.width;
+      }
+    } catch (_) {}
+
+    ta.parentNode.insertBefore(ed, ta);
+    loadEditor(ed, ta.value || '');
     ta.style.display = 'none';
-    ta._nebEditor = editor;
-    editor._nebPairedTA = ta;
-    bindEditor(editor);
+    ta._nebEditor = ed;
+    ed._nebPairedTA = ta;
+    bindEditor(ed);
+    ed.addEventListener('focus', function () { ed.classList.add('neb-focus'); });
+    ed.addEventListener('blur', function () { ed.classList.remove('neb-focus'); });
 
-    var rawDesc = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value');
     Object.defineProperty(ta, 'value', {
-      get: function () { return serializeEditor(editor); },
-      set: function (v) { loadEditor(editor, v || ''); },
+      get: function () { return serializeEditor(ed); },
+      set: function (v) { loadEditor(ed, v || ''); },
       configurable: true
     });
     ta.getAttribute = (function (orig) {
       return function (name) {
-        if (name === 'value') return serializeEditor(editor);
+        if (name === 'value') return serializeEditor(ed);
         return orig.call(this, name);
       };
     })(ta.getAttribute.bind(ta));
 
-    ta._nebGetSerialize = function () { return serializeEditor(editor); };
+    ta._nebGetSerialize = function () { return serializeEditor(ed); };
     var origFocus = ta.focus.bind(ta);
-    ta.focus = function () { editor.focus(); };
+    ta.focus = function () { ed.focus(); };
     ta._origFocus = origFocus;
-
-    function syncToTA() { }
-    editor.addEventListener('input', function () { syncToTA(); });
-    editor.addEventListener('change', function () { syncToTA(); });
 
     var fileInput = document.createElement('input');
     fileInput.type = 'file';
     fileInput.accept = 'image/jpeg,image/png,image/webp,image/gif';
     fileInput.style.display = 'none';
-    wrap.appendChild(fileInput);
+    document.body.appendChild(fileInput);
     ta._nebFileInput = fileInput;
-    ta._nebEditorWrap = wrap;
     fileInput.addEventListener('change', function () {
       var fs = Array.from(fileInput.files || []);
       fileInput.value = '';
-      if (fs.length) editor._nebHandleFiles(fs);
+      if (fs.length && ed._nebHandleFiles) ed._nebHandleFiles(fs);
     });
     ta._nebPickImage = function () { fileInput.click(); };
-
-    var attachBtn = document.createElement('button');
-    attachBtn.type = 'button';
-    attachBtn.className = 'neb-inline-inline-btn';
-    attachBtn.title = 'Add image';
-    attachBtn.setAttribute('aria-label', 'Add image');
-    attachBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size:18px">image</span>';
-    attachBtn.addEventListener('click', function () { fileInput.click(); });
-    var tb = document.createElement('div');
-    tb.className = 'neb-inline-toolbar';
-    tb.appendChild(attachBtn);
-    wrap.appendChild(tb);
-    ta._nebToolbar = tb;
-    tb.style.display = 'none';
-    wrap.addEventListener('focusin', function () { tb.style.display = ''; });
-    wrap.addEventListener('focusout', function (e) {
-      setTimeout(function () {
-        if (!wrap.contains(document.activeElement)) tb.style.display = 'none';
-      }, 180);
-    });
-
-    var overlay = document.createElement('div');
-    overlay.className = 'neb-inline-file-overlay';
-    overlay.innerHTML = '<span class="material-symbols-outlined" style="font-size:20px;color:var(--md-primary)">image</span><span>Drop image here</span>';
-    wrap.appendChild(overlay);
-    ta._nebOverlay = overlay;
-    var _dragDepth = 0;
-    editor.addEventListener('dragenter', function (e) {
-      _dragDepth++;
-      if (e.dataTransfer && e.dataTransfer.types && Array.prototype.indexOf.call(e.dataTransfer.types, 'Files') >= 0) {
-        overlay.classList.add('visible');
-      }
-    });
-    editor.addEventListener('dragleave', function () { _dragDepth--; if (_dragDepth <= 0) overlay.classList.remove('visible'); });
-    editor.addEventListener('drop', function () { _dragDepth = 0; overlay.classList.remove('visible'); });
   }
 
   function enhanceAll(root) {
@@ -621,7 +671,8 @@
   document.addEventListener('click', function (e) {
     var chip = e.target.closest && e.target.closest('.neb-chip[data-neb-full]');
     if (!chip) return;
-    if (chip.closest('.neb-inline-editor') || chip.classList.contains('neb-chip-editor')) return;
+    if (chip.classList.contains('neb-chip-editor')) return;
+    try { if (chip.closest('[contenteditable="true"]')) return; } catch (_) {}
     e.preventDefault();
     var full = chip.getAttribute('data-neb-full');
     if (full) openLightbox(full);

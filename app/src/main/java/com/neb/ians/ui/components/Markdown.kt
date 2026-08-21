@@ -18,6 +18,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
@@ -42,6 +43,9 @@ import androidx.compose.material3.Surface
  * Lightweight markdown & LaTeX math renderer matching web formatting
  * (headings, bold, italic, inline code, code blocks, lists, blockquotes,
  * links, @mentions, LaTeX formulas \(...\), \[...\], $$...$$).
+ *
+ * Inline image tokens (`[[img:ID]]`) render as small tappable thumbnails
+ * flowing with the text (Meta-style chips) via [rememberInlineImageContents].
  */
 @Composable
 fun MarkdownText(
@@ -50,12 +54,14 @@ fun MarkdownText(
     style: TextStyle = MaterialTheme.typography.bodyMedium,
     color: Color = MaterialTheme.colorScheme.onSurface,
     onMentionClick: (String) -> Unit = {},
-    onLinkClick: (String) -> Unit = {}
+    onLinkClick: (String) -> Unit = {},
+    onInlineImageClick: (String) -> Unit = {}
 ) {
     val blocks = remember(markdown) { parseMarkdownBlocks(markdown) }
     val primary = MaterialTheme.colorScheme.primary
     val codeBg = MaterialTheme.colorScheme.surfaceContainerHigh
     val onSurfaceVariant = MaterialTheme.colorScheme.onSurfaceVariant
+    val inlineContents = rememberInlineImageContents(markdown, onInlineImageClick)
 
     Column(modifier = modifier) {
         blocks.forEachIndexed { index, block ->
@@ -74,7 +80,8 @@ fun MarkdownText(
                         primary = primary,
                         codeBg = codeBg,
                         onMentionClick = onMentionClick,
-                        onLinkClick = onLinkClick
+                        onLinkClick = onLinkClick,
+                        inlineContents = inlineContents
                     )
                 }
                 is MdBlock.Quote -> {
@@ -93,7 +100,8 @@ fun MarkdownText(
                             primary = primary,
                             codeBg = codeBg,
                             onMentionClick = onMentionClick,
-                            onLinkClick = onLinkClick
+                            onLinkClick = onLinkClick,
+                            inlineContents = inlineContents
                         )
                     }
                 }
@@ -112,7 +120,8 @@ fun MarkdownText(
                             primary = primary,
                             codeBg = codeBg,
                             onMentionClick = onMentionClick,
-                            onLinkClick = onLinkClick
+                            onLinkClick = onLinkClick,
+                            inlineContents = inlineContents
                         )
                     }
                 }
@@ -169,7 +178,8 @@ fun MarkdownText(
                         primary = primary,
                         codeBg = codeBg,
                         onMentionClick = onMentionClick,
-                        onLinkClick = onLinkClick
+                        onLinkClick = onLinkClick,
+                        inlineContents = inlineContents
                     )
                 }
             }
@@ -185,7 +195,8 @@ private fun InlineMdText(
     primary: Color,
     codeBg: Color,
     onMentionClick: (String) -> Unit,
-    onLinkClick: (String) -> Unit
+    onLinkClick: (String) -> Unit,
+    inlineContents: Map<String, InlineTextContent> = emptyMap()
 ) {
     val errorBg = MaterialTheme.colorScheme.errorContainer
     val errorFg = MaterialTheme.colorScheme.onErrorContainer
@@ -193,13 +204,14 @@ private fun InlineMdText(
     val annotated = remember(formatted, color, primary, codeBg, errorBg, errorFg) {
         buildInlineAnnotatedString(formatted, color, primary, codeBg, errorBg, errorFg)
     }
-    ClickableText(
+    NebAnnotatedText(
         text = annotated,
         style = style.copy(color = color),
+        inlineContent = inlineContents,
         onClick = { offset ->
             annotated.getStringAnnotations("mention", offset, offset).firstOrNull()?.let {
                 onMentionClick(it.item)
-                return@ClickableText
+                return@NebAnnotatedText
             }
             annotated.getStringAnnotations("url", offset, offset).firstOrNull()?.let {
                 onLinkClick(it.item)
@@ -379,11 +391,43 @@ internal fun buildInlineAnnotatedString(
     codeBg: Color,
     errorBg: Color = Color(0xFFFFD8E4),
     errorFg: Color = Color(0xFF31111D)
-): AnnotatedString = buildAnnotatedString {
+): AnnotatedString {
+    // Inline image tokens are emitted as inline-content placeholders; the
+    // remaining markdown styling runs per text segment between tokens.
+    if (!text.contains("[[img:")) {
+        return buildAnnotatedString { appendStyledSegment(text, primary, codeBg, errorBg, errorFg) }
+    }
+    return buildAnnotatedString {
+        var cursor = 0
+        InlineImageTokens.REGEX.findAll(text).forEach { tokenMatch ->
+            if (tokenMatch.range.first > cursor) {
+                appendStyledSegment(
+                    text.substring(cursor, tokenMatch.range.first),
+                    primary, codeBg, errorBg, errorFg
+                )
+            }
+            val id = tokenMatch.groupValues[1].toIntOrNull()
+            if (id != null) appendInlineContent(INLINE_IMG_PREFIX + id, "[image]")
+            cursor = tokenMatch.range.last + 1
+        }
+        if (cursor < text.length) {
+            appendStyledSegment(text.substring(cursor), primary, codeBg, errorBg, errorFg)
+        }
+    }
+}
+
+private fun androidx.compose.ui.text.AnnotatedString.Builder.appendStyledSegment(
+    segment: String,
+    primary: Color,
+    codeBg: Color,
+    errorBg: Color,
+    errorFg: Color
+) {
+    if (segment.isEmpty()) return
     var cursor = 0
-    inlinePattern.findAll(text).forEach { match ->
+    inlinePattern.findAll(segment).forEach { match ->
         if (match.range.first > cursor) {
-            append(text.substring(cursor, match.range.first))
+            append(segment.substring(cursor, match.range.first))
         }
         val g = match.groups
         when {
@@ -426,7 +470,7 @@ internal fun buildInlineAnnotatedString(
         }
         cursor = match.range.last + 1
     }
-    if (cursor < text.length) append(text.substring(cursor))
+    if (cursor < segment.length) append(segment.substring(cursor))
 }
 
 private fun androidx.compose.ui.text.AnnotatedString.Builder.withStyleAppend(style: SpanStyle, text: String) {
@@ -437,7 +481,7 @@ private fun androidx.compose.ui.text.AnnotatedString.Builder.withStyleAppend(sty
 
 /** Strip markdown markers for inline previews (post cards). Mirrors web render_content_inline. */
 fun markdownToPlainPreview(markdown: String): String {
-    return markdown
+    return InlineImageTokens.plainText(markdown)
         .replace(Regex("!\\[[^\\]]*\\]\\([^)]*\\)"), "")
         .replace(Regex("\\[([^\\]]+)\\]\\([^)]*\\)"), "$1")
         .replace(Regex("[*_~`#>]+"), "")
@@ -453,7 +497,8 @@ fun ExpandableMarkdownText(
     color: Color = MaterialTheme.colorScheme.onSurface,
     onMentionClick: (String) -> Unit = {},
     onLinkClick: (String) -> Unit = {},
-    minimizedMaxLines: Int = 3
+    minimizedMaxLines: Int = 3,
+    onInlineImageClick: (String) -> Unit = {}
 ) {
     var isExpanded by remember { mutableStateOf(false) }
     var hasOverflow by remember { mutableStateOf(false) }
@@ -465,7 +510,8 @@ fun ExpandableMarkdownText(
                 style = style,
                 color = color,
                 onMentionClick = onMentionClick,
-                onLinkClick = onLinkClick
+                onLinkClick = onLinkClick,
+                onInlineImageClick = onInlineImageClick
             )
         } else {
             // Collapsed preview stays fully formatted: block structure is
@@ -480,7 +526,7 @@ fun ExpandableMarkdownText(
             val annotated = remember(flatText, color, primary, codeBg, errorBg, errorFg) {
                 buildInlineAnnotatedString(flatText, color, primary, codeBg, errorBg, errorFg)
             }
-            ClickableText(
+            NebAnnotatedText(
                 text = annotated,
                 style = style.copy(color = color),
                 maxLines = minimizedMaxLines,
@@ -491,7 +537,7 @@ fun ExpandableMarkdownText(
                 onClick = { offset ->
                     annotated.getStringAnnotations("mention", offset, offset).firstOrNull()?.let {
                         onMentionClick(it.item)
-                        return@ClickableText
+                        return@NebAnnotatedText
                     }
                     annotated.getStringAnnotations("url", offset, offset).firstOrNull()?.let {
                         onLinkClick(it.item)
@@ -522,7 +568,7 @@ fun ExpandableMarkdownText(
  */
 fun markdownToInlinePreview(markdown: String): String {
     if (markdown.isBlank()) return ""
-    return parseMarkdownBlocks(markdown).joinToString("\n") { block ->
+    return parseMarkdownBlocks(InlineImageTokens.plainText(markdown)).joinToString("\n") { block ->
         when (block) {
             is MdBlock.Heading -> block.text
             is MdBlock.Quote -> block.text
@@ -548,7 +594,8 @@ fun MarkdownInlineText(
     modifier: Modifier = Modifier,
     maxLines: Int = Int.MAX_VALUE,
     onMentionClick: (String) -> Unit = {},
-    onLinkClick: (String) -> Unit = {}
+    onLinkClick: (String) -> Unit = {},
+    onInlineImageClick: (String) -> Unit = {}
 ) {
     val primary = MaterialTheme.colorScheme.primary
     val codeBg = MaterialTheme.colorScheme.surfaceContainerHigh
@@ -561,16 +608,18 @@ fun MarkdownInlineText(
     val annotated = remember(flattened, color, primary, codeBg, errorBg, errorFg) {
         buildInlineAnnotatedString(flattened, color, primary, codeBg, errorBg, errorFg)
     }
-    ClickableText(
+    val inlineContents = rememberInlineImageContents(flattened, onInlineImageClick)
+    NebAnnotatedText(
         text = annotated,
         modifier = modifier,
         style = style.copy(color = color),
+        inlineContent = inlineContents,
         overflow = TextOverflow.Ellipsis,
         maxLines = maxLines,
         onClick = { offset ->
             annotated.getStringAnnotations("mention", offset, offset).firstOrNull()?.let {
                 onMentionClick(it.item)
-                return@ClickableText
+                return@NebAnnotatedText
             }
             annotated.getStringAnnotations("url", offset, offset).firstOrNull()?.let {
                 onLinkClick(it.item)

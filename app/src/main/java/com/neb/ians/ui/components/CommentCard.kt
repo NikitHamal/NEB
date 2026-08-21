@@ -50,12 +50,13 @@ fun CommentCard(
     onEditClick: (() -> Unit)? = null,
     onArchiveClick: (() -> Unit)? = null,
     onDeleteClick: (() -> Unit)? = null,
-    replyingToUsername: String? = null,
-    quotedContent: String? = null,
-    children: List<ApiReply> = emptyList(),
-    onRepliesBarClick: (() -> Unit)? = null,
-    modifier: Modifier = Modifier
-) {
+      replyingToUsername: String? = null,
+      quotedContent: String? = null,
+      children: List<ApiReply> = emptyList(),
+      onRepliesBarClick: (() -> Unit)? = null,
+      onInlineImageClick: (String) -> Unit = {},
+      modifier: Modifier = Modifier
+  ) {
     Surface(
         shape = RoundedCornerShape(8.dp),
         color = MaterialTheme.colorScheme.surfaceContainerLowest,
@@ -224,7 +225,8 @@ fun CommentCard(
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurface,
                 onMentionClick = onProfileClick,
-                onLinkClick = onLinkClick
+                onLinkClick = onLinkClick,
+                onInlineImageClick = onInlineImageClick
             )
 
             if (reply.attachments.isNotEmpty()) {

@@ -205,6 +205,21 @@ data class UploadImageResponse(
     val error: String? = null
 )
 
+/** Response of POST /api/content-images/upload/ — inline text-image chip upload. */
+@Serializable
+data class InlineImageUploadResponse(
+    val id: Int = 0,
+    val url: String = "",
+    @SerialName("thumbUrl") val thumbUrl: String = "",
+    val width: Int = 0,
+    val height: Int = 0,
+    val error: String? = null
+) {
+    /** Deterministic media path for the full-size image (mirrors web image_url()). */
+    val fullUrl: String get() = if (url.isNotBlank()) url else "/media/content_images/$id.webp"
+    val thumbnailUrl: String get() = if (thumbUrl.isNotBlank()) thumbUrl else "/media/content_images/${id}t.webp"
+}
+
 @Serializable
 data class PostUpdateRequest(
     val title: String? = null,
@@ -1456,6 +1471,14 @@ interface ApiService {
         @Part file: okhttp3.MultipartBody.Part,
         @Part("kind_hint") kindHint: okhttp3.RequestBody? = null
     ): ForumMediaUploadResponse
+
+    /** Inline text-image chip upload (Meta-style [[img:ID]] tokens). */
+    @Multipart
+    @POST("api/content-images/upload/")
+    suspend fun uploadContentImage(
+        @Header("Authorization") bearerToken: String,
+        @Part file: okhttp3.MultipartBody.Part
+    ): InlineImageUploadResponse
 
     @POST("api/posts/")
     suspend fun createPost(
