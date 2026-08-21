@@ -34,11 +34,11 @@ fun rememberInlineImageContents(
     text: String,
     onClick: (String) -> Unit
 ): Map<String, InlineTextContent> {
-    if (!text.contains("[[img:")) return emptyMap()
+    if (!text.contains("[[img:")) return emptyMap<String, InlineTextContent>()
     val outline = MaterialTheme.colorScheme.outlineVariant
     val surfaceHigh = MaterialTheme.colorScheme.surfaceContainerHigh
     val ids = remember(text) { InlineImageTokens.extractIds(text) }
-    if (ids.isEmpty()) return emptyMap()
+    if (ids.isEmpty()) return emptyMap<String, InlineTextContent>()
     return remember(ids, outline, surfaceHigh) {
         ids.associateWith { id ->
             InlineTextContent(
