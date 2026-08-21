@@ -65,6 +65,8 @@ if not CONSICA_BRIDGE_KEY:
     else:
         raise ImproperlyConfigured('CONSICA_BRIDGE_KEY must be set when DEBUG=False')
 
+ASTROWEB_BRIDGE_KEY = os.environ.get('ASTROWEB_BRIDGE_KEY', '') or CONSICA_BRIDGE_KEY
+
 ALLOWED_HOSTS = env_list(
     'ALLOWED_HOSTS',
     'localhost,127.0.0.1,nebians.consica.com.np,www.nebians.consica.com.np',
