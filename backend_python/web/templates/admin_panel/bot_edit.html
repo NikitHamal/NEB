@@ -111,21 +111,11 @@
       <div style="margin-bottom:16px;">
         <label for="id_provider" class="admin-form-label">AI Provider</label>
         <select name="provider" id="id_provider" data-action="provider-change" class="admin-form-input" style="cursor:pointer;">
-          <option value="qwen"      {% if config.provider == 'qwen' %}selected{% endif %}>Qwen (chat.qwen.ai)</option>
-          <option value="egov"      {% if config.provider == 'egov' %}selected{% endif %}>eGov Chat AI (Philippines)</option>
-          <option value="deepai"    {% if config.provider == 'deepai' %}selected{% endif %}>DeepAI (deepai.org)</option>
-          <option value="inception" {% if config.provider == 'inception' %}selected{% endif %}>Inception Labs (Mercury 2)</option>
-          <option value="k2think"   {% if config.provider == 'k2think' %}selected{% endif %}>K2 Think (k2think.ai — MBZUAI K2 Think V2)</option>
-          <option value="poolside"  {% if config.provider == 'poolside' %}selected{% endif %}>Poolside (chat.poolside.ai — Laguna 2.1)</option>
-          <option value="motiftech" {% if config.provider == 'motiftech' %}selected{% endif %}>Motif (chat.motiftech.io — Motif 3)</option>
-          <option value="custom"    {% if config.provider == 'custom' %}selected{% endif %}>Custom (any OpenAI-compatible endpoint)</option>
-          <optgroup label="Official APIs (real API formats, BYOK or shared key)">
-            <option value="agnes"     {% if config.provider == 'agnes' %}selected{% endif %}>Agnes 2.0 Flash (Sapiens AI — currently free)</option>
-            <option value="openai"    {% if config.provider == 'openai' %}selected{% endif %}>OpenAI (ChatGPT official API)</option>
-            <option value="anthropic" {% if config.provider == 'anthropic' %}selected{% endif %}>Anthropic (Claude official API)</option>
-            <option value="gemini"    {% if config.provider == 'gemini' %}selected{% endif %}>Google Gemini (official API)</option>
-            <option value="deepseek"  {% if config.provider == 'deepseek' %}selected{% endif %}>DeepSeek (official API)</option>
-          </optgroup>
+          {% for p in scraper_options %}<option value="{{ p.slug }}" {% if config.provider == p.slug %}selected{% endif %}>{{ p.label }}</option>{% endfor %}
+          <option value="custom" {% if config.provider == 'custom' %}selected{% endif %}>Custom (any OpenAI-compatible endpoint)</option>
+          {% if official_options %}<optgroup label="Official APIs (real API formats, BYOK or shared key)">
+            {% for p in official_options %}<option value="{{ p.slug }}" {% if config.provider == p.slug %}selected{% endif %}>{{ p.label }}</option>{% endfor %}
+          </optgroup>{% endif %}
         </select>
         <p class="admin-form-hint" id="id_provider_help">Choose which AI backend powers this bot. You can switch at any time.</p>
       </div>
@@ -446,6 +436,17 @@
     }
   })();
 
+  // Registry-driven providers (single source of truth: api/llm/registry.py).
+  // Only fills gaps — hand-tuned entries above keep their richer help text.
+  (function mergeRegistryProviders() {
+    try {
+      var reg = JSON.parse('{{ provider_config_json|escapejs }}');
+      for (var slug in reg) {
+        if (!PROVIDER_CONFIG[slug]) PROVIDER_CONFIG[slug] = reg[slug];
+      }
+    } catch(e) { console.warn('registry provider merge failed:', e); }
+  })();
+
   let userTouchedUrl = false;
   const urlEl = document.getElementById('id_api_url');
   if (urlEl) {
@@ -555,22 +556,26 @@
     }
   });
 
-  var FALLBACK_PROVIDERS = [
-    { value: 'qwen',      label: 'Qwen (chat.qwen.ai)' },
-    { value: 'k2think',   label: 'K2 Think (k2think.ai)' },
-    { value: 'poolside',  label: 'Poolside (Laguna 2.1)' },
-    { value: 'motiftech', label: 'Motif (Motif 3)' },
-    { value: 'egov',      label: 'eGov Chat AI (Philippines)' },
-    { value: 'deepai',    label: 'DeepAI (deepai.org)' },
-    { value: 'inception', label: 'Inception (Mercury 2)' },
-    { value: 'custom',    label: 'Custom OpenAI-compatible' },
-    { value: 'agnes',     label: 'Agnes (official)' },
-    { value: 'openai',    label: 'OpenAI (official)' },
-    { value: 'anthropic', label: 'Anthropic (official)' },
-    { value: 'gemini',    label: 'Gemini (official)' },
-    { value: 'deepseek',  label: 'DeepSeek (official)' },
-    { value: 'agentrouter', label: 'AgentRouter (official)' },
-  ];
+  var FALLBACK_PROVIDERS = [];
+  (function buildFallbackProviders() {
+    try {
+      var reg = JSON.parse('{{ provider_config_json|escapejs }}');
+      var labels = {
+        'qwen': 'Qwen (chat.qwen.ai)', 'k2think': 'K2 Think (k2think.ai)',
+        'poolside': 'Poolside (Laguna 2.1)', 'motiftech': 'Motif (Motif 3)',
+        'egov': 'eGov Chat AI (Philippines)', 'deepai': 'DeepAI (deepai.org)',
+        'inception': 'Inception (Mercury 2)', 'custom': 'Custom OpenAI-compatible',
+        'agnes': 'Agnes (official)', 'openai': 'OpenAI (official)',
+        'anthropic': 'Anthropic (official)', 'gemini': 'Gemini (official)',
+        'deepseek': 'DeepSeek (official)', 'agentrouter': 'AgentRouter (official)'
+      };
+      for (var slug in reg) {
+        FALLBACK_PROVIDERS.push({ value: slug, label: labels[slug] || slug });
+      }
+    } catch(e) {
+      FALLBACK_PROVIDERS = [{ value: 'qwen', label: 'Qwen (chat.qwen.ai)' }];
+    }
+  })();
 
   function parseFallbackChain() {
     var raw = document.getElementById('id_fallback_chain').value || '[]';

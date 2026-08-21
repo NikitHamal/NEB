@@ -76,4 +76,19 @@ class Command(BaseCommand):
         if not dry_run:
             abandoned.delete()
 
+        # 5. Remove unused inline content images (orphan uploads, 48h old)
+        cutoff_48h = now_ms - 48 * 3600 * 1000
+        try:
+            from api.models import ContentImage
+            from api.content_images import delete_files
+            stale = ContentImage.objects.filter(used=False, created_at__lt=cutoff_48h)
+            count = stale.count()
+            self.stdout.write(f'{prefix}Removing {count} unused inline images (older than 48h).')
+            if not dry_run:
+                for row in stale[:500]:
+                    delete_files(row)
+                stale.delete()
+        except Exception as exc:
+            self.stdout.write(self.style.WARNING(f'Skipped inline-image cleanup: {exc}'))
+
         self.stdout.write(self.style.SUCCESS(f'{prefix}Cleanup complete.'))

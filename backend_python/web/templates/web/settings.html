@@ -162,6 +162,31 @@
     </div>
   </div>
 
+  <!-- Experimental Section -->
+  <div style="margin-bottom: 24px;">
+    <h2 style="font-size:0.875rem;font-weight:600;color:var(--md-primary);text-transform:uppercase;letter-spacing:0.5px;margin:0 0 12px 4px;">Experimental</h2>
+    <div class="md-card" style="overflow:hidden; display: flex; flex-direction: column; gap: 0;">
+      <div style="display:flex;align-items:center;padding:16px;justify-content:space-between;">
+        <div style="display:flex;align-items:center;flex-grow:1;margin-right:16px;">
+          <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;margin-right:16px;color:var(--md-on-surface-variant);">
+            <span class="material-symbols-outlined">image</span>
+          </div>
+          <div>
+            <h4 style="margin:0;font-size:0.9375rem;font-weight:600;">Inline Images in Posts</h4>
+            <p style="margin:2px 0 0;font-size:0.8125rem;color:var(--md-on-surface-variant);" id="inline-images-status">{% if user.enable_inline_images is not False %}Enabled — images flow inside text{% else %}Disabled — classic attachments only{% endif %}</p>
+          </div>
+        </div>
+        <label class="md-switch">
+          <input type="checkbox" id="inline-images-switch" {% if user.enable_inline_images is not False %}checked{% endif %}>
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div style="padding:0 16px 14px 72px;">
+        <p style="margin:0;font-size:0.75rem;color:var(--md-on-surface-variant);line-height:1.5;">When enabled, images sit inline with text like Meta AI — tap to view fullscreen, drag to move inside the composer. Copy keeps <code>[image]</code> for other apps but pastes back as a real image inside NEBians. Turn off to keep the classic gallery-only composer.</p>
+      </div>
+    </div>
+  </div>
+
   <!-- About Section -->
   <div style="margin-bottom: 24px;">
     <h2 style="font-size:0.875rem;font-weight:600;color:var(--md-primary);text-transform:uppercase;letter-spacing:0.5px;margin:0 0 12px 4px;">About</h2>
@@ -349,6 +374,30 @@
         const val = wifiSwitch.checked;
         localStorage.setItem('web_wifi_only_downloads', val);
         if (wifiStatus) wifiStatus.textContent = val ? 'Wi-Fi only' : 'Any network';
+      });
+    }
+
+    // 4. Experimental — Inline Images
+    const inlineSwitch = document.getElementById('inline-images-switch');
+    const inlineStatus = document.getElementById('inline-images-status');
+    function _snack(m){ if(window.showSnackbar) window.showSnackbar(m); else if(window.showToast) window.showToast(m); else alert(m); }
+    if (inlineSwitch) {
+      inlineSwitch.addEventListener('change', function () {
+        const enabled = inlineSwitch.checked;
+        inlineSwitch.disabled = true;
+        if (inlineStatus) inlineStatus.textContent = enabled ? 'Enabled — images flow inside text' : 'Disabled — classic attachments only';
+        window.NEB_INLINE_ENABLED = enabled;
+        try { localStorage.setItem('neb_inline_enabled', enabled ? '1' : '0'); } catch(_){}
+        fetch('{% url "web:ajax_toggle_inline_images" %}', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+          credentials: 'same-origin',
+          body: JSON.stringify({ enabled: enabled })
+        }).then(function(r){ return r.json(); }).then(function(d){
+          if (d && d.error) { inlineSwitch.checked = !enabled; window.NEB_INLINE_ENABLED = !enabled; if(inlineStatus) inlineStatus.textContent = !enabled ? 'Enabled — images flow inside text' : 'Disabled — classic attachments only'; _snack(d.error); }
+          else { _snack(enabled ? 'Inline images enabled' : 'Inline images disabled'); }
+        }).catch(function(){ inlineSwitch.checked = !enabled; window.NEB_INLINE_ENABLED = !enabled; if(inlineStatus) inlineStatus.textContent = !enabled ? 'Enabled — images flow inside text' : 'Disabled — classic attachments only'; _snack('Failed to update setting'); })
+        .finally(function(){ inlineSwitch.disabled = false; });
       });
     }
   });

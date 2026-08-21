@@ -94,6 +94,10 @@
             <span class="material-symbols-outlined">image</span>
             Image
           </button>
+          <button type="button" class="cp-attach-btn" data-action="attach-inline-image" title="Insert image inside text">
+            <span class="material-symbols-outlined">photo_library</span>
+            Inline
+          </button>
           <button type="button" class="cp-attach-btn" data-action="toggle-poll" title="Add poll">
             <span class="material-symbols-outlined">poll</span>
             Poll
@@ -106,6 +110,7 @@
         </div>
       </div>
       <input type="file" id="cp-file-input" accept="image/jpeg,image/png,image/webp,image/gif" style="display:none">
+      <input type="file" id="cp-inline-file-input" accept="image/jpeg,image/png,image/webp,image/gif" style="display:none">
       <input type="file" id="cp-media-input" multiple style="display:none"
              accept="video/mp4,video/webm,video/quicktime,audio/mpeg,audio/mp4,audio/aac,audio/ogg,audio/opus,audio/wav,audio/flac,.m4v,.mov,.m4a,.pdf,.txt,.md,.csv,.json,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.zip">
     </div>
@@ -370,13 +375,21 @@
   }
 
   function updateCharCount() {
-    var len = (editorBody.textContent || '').length;
+    var len = (function () {
+      if (window.InlineMedia && typeof window.InlineMedia.serializeEditor === 'function' && editorBody && editorBody.querySelector) {
+        try { return window.InlineMedia.serializeEditor(editorBody).length; } catch (_) {}
+      }
+      return (editorBody.textContent || '').length;
+    })();
     charCount.textContent = len.toLocaleString() + ' / 20,000';
     charCount.classList.toggle('warn', len > MAX_CONTENT * 0.9);
   }
   editorBody.addEventListener('input', updateCharCount);
 
   function getContentText() {
+    if (window.InlineMedia && typeof window.InlineMedia.serializeEditor === 'function') {
+      try { return window.InlineMedia.serializeEditor(editorBody); } catch (_) {}
+    }
     return editorBody.innerText || '';
   }
 
@@ -617,6 +630,55 @@
     }
     fileInput.click();
   });
+
+  document.querySelector('[data-action="attach-inline-image"]')?.addEventListener('click', function() {
+    var inlineInput = document.getElementById('cp-inline-file-input');
+    if (!inlineInput) return;
+    var chips = (window.InlineMedia && window.InlineMedia.extractIds) ? (window.InlineMedia.extractIds(editorBody.innerHTML || getContentText()) || window.InlineMedia.extractIds(getContentText())).length : (getContentText().match(/\[\[img:\d+\]\]/g) || []).length;
+    var fallbackChips = (getContentText().match(/\[\[img:\d+\]\]/g) || []).length;
+    if (Math.max(chips, fallbackChips) >= 8) { showError('Maximum 8 inline images per post'); return; }
+    inlineInput.click();
+  });
+  (function bindInlineImageEditor(){
+    var inlineInput = document.getElementById('cp-inline-file-input');
+    if (!inlineInput) return;
+    inlineInput.addEventListener('change', function(){
+      if (!window.InlineMedia) return;
+      var files = Array.from(inlineInput.files || []);
+      inlineInput.value = '';
+      files.forEach(function(file){
+        if (!file.type.match(/^image\//)) return;
+        if (file.size > MAX_IMAGE_SIZE) { showError(file.name + ' is too large (max 10 MB per image)'); return; }
+        var curChips = (window.InlineMedia.extractIds(getContentText())).length;
+        if (curChips >= 8) { showError('Maximum 8 inline images per post'); return; }
+        if (window.InlineMedia && editorBody._nebHandleFiles) {
+          // use InlineMedia's upload placeholder+queue via DOM insertion then replace with fake event
+          window.InlineMedia.bindEditor(editorBody);
+          editorBody._nebHandleFiles([file]);
+        } else {
+          // fallback: direct upload then insert chip
+          window.InlineMedia.upload(file, function(err, data){
+            if (err || !data || !data.id) { showError(err ? err.message : 'Inline image upload failed'); return; }
+            if (typeof window.InlineMedia !== 'undefined' && window.InlineMedia.bindEditor) window.InlineMedia.bindEditor(editorBody);
+            var chip = document.createElement('span');
+            chip.className = 'neb-chip neb-chip-editor';
+            chip.setAttribute('data-neb-img', data.id);
+            chip.setAttribute('data-neb-full', data.url);
+            chip.setAttribute('draggable', 'true');
+            chip.innerHTML = '<img src="' + data.thumbUrl + '" alt="Image"><button type="button" class="neb-chip-remove" data-neb-remove="' + data.id + '"><span class="material-symbols-outlined">close</span></button>';
+            editorBody.focus();
+            var sel = window.getSelection();
+            if (sel && sel.rangeCount) { var r = sel.getRangeAt(0); r.deleteContents(); r.insertNode(chip); }
+            else editorBody.appendChild(chip);
+            updateCharCount();
+          });
+        }
+        updateCharCount();
+      });
+    });
+    if (window.InlineMedia) { window.InlineMedia.bindEditor(editorBody); updateCharCount(); }
+    else { window.addEventListener('load', function(){ try{window.InlineMedia.bindEditor(editorBody);}catch(_){} }); }
+  })();
 
   document.querySelector('[data-action="attach-media"]').addEventListener('click', function() {
     if (pendingAttachments.length >= MAX_ATTACHMENTS) {
@@ -1026,6 +1088,15 @@
   });
 
   function renderMarkdown(text) {
+    var hasInline = window.InlineMedia && text && text.indexOf('[[img:') >= 0;
+    if (hasInline && window.InlineMedia && window.InlineMedia.splitRender) {
+      return window.InlineMedia.splitRender(text, function (piece) {
+        return _renderMarkdownBase(piece, false);
+      });
+    }
+    return _renderMarkdownBase(text, false);
+  }
+  function _renderMarkdownBase(text) {
     text = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
     text = text.replace(/\*([^*]+?)\*/g, '<em>$1</em>');

@@ -212,11 +212,12 @@ def search_all(request):
 
     serialized_users = []
     for user in user_list:
+        from .services import avatar_or_photo_url
         serialized_users.append({
             'id': str(user.id),
             'username': user.username,
             'display_name': user.display_name or '',
-            'photo_url': user.photo_url or '',
+            'photo_url': avatar_or_photo_url(user) or '',
             'bio': user.bio or '',
             'school': user.school or '',
             'class_level': user.class_level or '',

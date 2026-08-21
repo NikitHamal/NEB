@@ -327,12 +327,13 @@ def _build_stats_batch(user_qs):
     Build stats for a queryset of users using denormalized counters.
     Returns a dict mapping user_id -> stats dict.
     """
+    from .services import avatar_or_photo_url
     result = {}
     for u in user_qs:
         result[u.id] = {
             'username': u.username,
             'display_name': u.display_name or u.username,
-            'photo_url': u.photo_url or '',
+            'photo_url': avatar_or_photo_url(u) or '',
             'post_count': u.post_count,
             'reply_count': u.reply_count,
             'follower_count': u.follower_count,

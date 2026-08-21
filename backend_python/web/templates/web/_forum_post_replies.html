@@ -2,7 +2,7 @@
 {% if top_level_replies %}
 <div style="display:flex;flex-direction:column;gap:10px;">
   {% for reply in top_level_replies %}
-  <div class="fp-reply" id="reply-card-{{ reply.id }}">
+  <div class="fp-reply" id="reply-card-{{ reply.id }}" data-raw-content="{{ reply.content|escape }}">
     <div class="fp-reply-header">
       <div class="fp-reply-avatar">
         {% if reply.authorName == 'neby' or reply.authorIsBot %}

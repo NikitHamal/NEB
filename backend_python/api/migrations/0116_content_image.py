@@ -30,6 +30,6 @@ class Migration(migrations.Migration):
         ),
         migrations.AddIndex(
             model_name='contentimage',
-            index=models.Index(fields=['used', 'created_at'], name='content_im_used_id_idx'),
+            index=models.Index(fields=['used', 'created_at'], name='content_ima_used_891f8f_idx'),
         ),
     ]

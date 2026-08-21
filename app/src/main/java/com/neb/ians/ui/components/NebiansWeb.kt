@@ -1054,6 +1054,7 @@ fun Avatar(
     isAdmin: Boolean = false
 ) {
     val isNebians = remember(name) { name.equals("NEBians", ignoreCase = true) || name.equals("nebians", ignoreCase = true) }
+    val isNeby = remember(name) { name.equals("Neby", ignoreCase = true) || name.equals("neby", ignoreCase = true) }
     val isAnon = remember(name) { name.equals("Anonymous", ignoreCase = true) || name.equals("Anonymous Nebian", ignoreCase = true) }
     val effectiveVerificationLevel = verificationLevel
     val resolvedUrl = remember(imageUrl) {
@@ -1070,7 +1071,7 @@ fun Avatar(
     }
     var isError by remember(resolvedUrl) { mutableStateOf(false) }
     val avatarAnim = remember(resolvedUrl) { com.neb.ians.ui.avatar.avatarAnimFromUrl(resolvedUrl) }
-    val hasImageBg = !resolvedUrl.isNullOrBlank() && !isError && !isAnon && !isNebians
+    val hasImageBg = !isNeby && !resolvedUrl.isNullOrBlank() && !isError && !isAnon && !isNebians
     Box(modifier = modifier.size(size)) {
         Surface(
             modifier = Modifier
@@ -1096,6 +1097,14 @@ fun Avatar(
                         contentDescription = "Anonymous",
                         tint = MaterialTheme.colorScheme.onPrimary,
                         modifier = Modifier.size(size * 0.55f)
+                    )
+                }
+            } else if (isNeby) {
+                Box(contentAlignment = Alignment.Center) {
+                    com.neb.ians.ui.avatar.neby.NebyAvatarMini(
+                        animation = "idle",
+                        size = size,
+                        interactive = false
                     )
                 }
             } else if (!resolvedUrl.isNullOrBlank() && !isError) {

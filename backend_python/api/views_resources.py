@@ -596,7 +596,11 @@ def _resource_comment_payload(comment, viewer=None, liked_comment_ids=None):
             from api.models import ResourceCommentLike
             is_liked = ResourceCommentLike.objects.filter(comment_id=comment.id, user_id=viewer.id).exists()
     author_name = user.username if user else ''
-    author_photo = user.photo_url if user else ''
+    if user:
+        from .services import avatar_or_photo_url
+        author_photo = avatar_or_photo_url(user) or ''
+    else:
+        author_photo = ''
     author_badge = None
     if user:
         from .badges import user_badge_info

@@ -134,6 +134,7 @@ urlpatterns = [
     path('ajax/set-password/', views.ajax_set_password, name='ajax_set_password'),
     path('ajax/change-password/', views.ajax_change_password, name='ajax_change_password'),
     path('ajax/settings/toggle-visibility/', views.ajax_toggle_profile_visibility, name='ajax_toggle_profile_visibility'),
+    path('ajax/settings/toggle-inline-images/', views.ajax_toggle_inline_images, name='ajax_toggle_inline_images'),
 
     path('ajax/neby-arena/sessions/', views.ajax_arena_sessions, name='ajax_arena_sessions'),
     path('ajax/neby-arena/sessions/<str:session_id>/', views.ajax_arena_session_detail, name='ajax_arena_session_detail'),

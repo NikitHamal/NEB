@@ -282,3 +282,29 @@ def default_model_for(slug: str, override: str = '') -> str:
     if override:
         return override
     return p.default_model if p else override
+
+
+def admin_catalog() -> dict:
+    """Provider/model catalog for admin UIs (bot editor + admin AI chat).
+
+    Single source of truth: every picker renders from this so a new proxy
+    only needs a preset here to show up everywhere.
+    """
+    def _entry(p: ProviderPreset) -> dict:
+        return {
+            'slug': p.slug,
+            'label': p.label,
+            'official': p.official,
+            'base_url': p.base_url,
+            'default_model': p.default_model,
+            'key_required': p.key_required,
+            'models': [
+                {'id': m.id, 'label': (f'{m.label} ({m.note})' if m.note else m.label)}
+                for m in p.models
+            ],
+        }
+
+    return {
+        'scrapers': [_entry(p) for p in SCRAPER_PRESETS],
+        'official': [_entry(p) for p in OFFICIAL_PRESETS],
+    }

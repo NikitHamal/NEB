@@ -447,6 +447,7 @@
       var actionRow = parentCard.querySelector('.fp-reply-actions');
       if (actionRow) actionRow.after(box); else parentCard.appendChild(box);
       var ta = box.querySelector('textarea');
+      if (window.InlineMedia && window.InlineMedia.enhanceTextarea) { try{ window.InlineMedia.enhanceTextarea(ta); }catch(_){} }
       ta.focus();
       var sendBtn = box.querySelector('.reply-send-btn');
       function sendReply() {

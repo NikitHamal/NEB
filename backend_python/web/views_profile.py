@@ -1093,6 +1093,35 @@ def ajax_toggle_profile_visibility(request):
 
     return JsonResponse({'status': 'ok', 'is_locked': db_user.is_locked})
 
+
+@require_POST
+def ajax_toggle_inline_images(request):
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
+    try:
+        db_user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'User not found.'}, status=404)
+    try:
+        data = json.loads(request.body)
+        enabled = bool(data.get('enabled', True))
+        db_user.enable_inline_images = enabled
+        db_user.save(update_fields=['enable_inline_images'])
+        try:
+            sess = api.get_session_user(request)
+            if sess:
+                sess['enable_inline_images'] = enabled
+                sess['enableInlineImages'] = enabled
+                tok = api.get_session_token(request)
+                if tok:
+                    api.set_session_auth(request, tok, sess)
+        except Exception:
+            pass
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
+    return JsonResponse({'status': 'ok', 'enabled': db_user.enable_inline_images})
+
 def _require_auth_user(request):
     user_id = _get_user_id(request)
     if not user_id:
