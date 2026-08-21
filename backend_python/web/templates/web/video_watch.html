@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+{% load static web_extras %}
+
+{% block title %}{{ video_data.title }} — Watch Video | NEBians{% endblock %}
+{% block description %}{{ video_data.description|truncatechars:160 }}{% endblock %}
+{% block keywords %}{{ video_data.category }}, NEBians video, watch, {{ video_data.title }}{% endblock %}
+{% block og_title %}{{ video_data.title }} — NEBians Videos{% endblock %}
+{% block og_description %}{{ video_data.description|truncatechars:200 }}{% endblock %}
+{% block og_type %}video.other{% endblock %}
+{% block og_image %}{{ thumb_url }}{% endblock %}
+{% block og_image_secure %}{{ thumb_url }}{% endblock %}
+{% block og_image_type %}image/jpeg{% endblock %}
+{% block og_image_alt %}Thumbnail for {{ video_data.title }}{% endblock %}
+{% block tw_image %}{{ thumb_url }}{% endblock %}
+{% block nav_videos %}md-nav-active{% endblock %}
+{% block bnav_videos %}md-nav-active{% endblock %}
+{% block canonical %}https://nebians.consica.com.np{% url 'web:video_watch' media_id=media_id %}{% endblock %}
+
+{% block head_extra %}
+<meta property="og:video" content="{{ video_url }}">
+<meta property="og:video:secure_url" content="{{ video_url }}">
+<meta property="og:video:type" content="{{ video.mime_type|default:'video/mp4' }}">
+<script type="application/ld+json" nonce="{{ csp_nonce }}">
+{
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  "@id": "https://nebians.consica.com.np{% url 'web:video_watch' media_id=media_id %}#video",
+  "name": "{{ video_data.title|escapejs }}",
+  "description": "{{ video_data.description|escapejs }}",
+  "thumbnailUrl": ["{{ thumb_url|escapejs }}"],
+  "uploadDate": "{{ upload_iso }}",
+  "contentUrl": "{{ video_url|escapejs }}",
+  "embedUrl": "https://nebians.consica.com.np{% url 'web:video_watch' media_id=media_id %}",
+  "publisher": { "@id": "https://nebians.consica.com.np/#organization" },
+  "author": { "@type": "Person", "name": "{{ video_data.author_name|escapejs }}" },
+  "interactionStatistic": { "@type": "InteractionCounter", "interactionType": "https://schema.org/WatchAction", "userInteractionCount": 0 }
+}
+</script>
+<script type="application/ld+json" nonce="{{ csp_nonce }}">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://nebians.consica.com.np/" },
+    { "@type": "ListItem", "position": 2, "name": "Videos", "item": "https://nebians.consica.com.np/videos/" },
+    { "@type": "ListItem", "position": 3, "name": "{{ video_data.title|escapejs }}" }
+  ]
+}
+</script>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/pages/videos.css' %}?v=1">
+{% endblock %}
+
+{% block content %}
+<div class="md-container watch-page" style="padding-bottom: 24px;">
+  <div class="videos-breadcrumb" style="margin-top: 16px;">
+    <a href="{% url 'web:home' %}">Home</a> <span class="material-symbols-outlined" style="font-size: 16px; vertical-align: -3px;">chevron_right</span>
+    <a href="{% url 'web:videos' %}">Videos</a> <span class="material-symbols-outlined" style="font-size: 16px; vertical-align: -3px;">chevron_right</span>
+    <span style="color: var(--md-on-surface); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 42vw;">{{ video_data.title|truncatechars:48 }}</span>
+  </div>
+
+  <a href="{% url 'web:videos' %}" class="watch-back"><span class="material-symbols-outlined">arrow_back</span> Back to Videos</a>
+
+  <div class="watch-layout">
+    <div class="watch-main">
+      <div class="watch-player-wrap">
+        <video
+          controls
+          playsinline
+          preload="metadata"
+          poster="{{ thumb_url }}"
+          style="width: 100%;"
+        >
+          <source src="{{ video_url }}" type="{{ video.mime_type|default:'video/mp4' }}">
+          Your browser does not support the video tag. <a href="{{ video_url }}" target="_blank" rel="noopener">Open video directly</a>.
+        </video>
+      </div>
+
+      <h1 class="watch-title">{{ video_data.title }}</h1>
+
+      <div class="watch-meta">
+        {% if video_data.author_name %}
+          {% if video_data.author_photo %}
+            <img src="{{ video_data.author_photo }}" alt="" style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 1px solid var(--md-outline-variant);">
+          {% else %}
+            <span style="width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--md-surface-container-high); border: 1px solid var(--md-outline-variant); font-weight: 700; font-size: 0.8rem;">{{ video_data.author_name|slice:":1"|upper }}</span>
+          {% endif %}
+          <span style="font-weight: 600; color: var(--md-on-surface);">{{ video_data.author_name }}</span>
+          <span class="dot" style="opacity: 0.4;">·</span>
+        {% endif %}
+        <span>{{ video.created_at|time_ago }}</span>
+        {% if video_data.category %}<span class="dot" style="opacity: 0.4;">·</span><a href="{% url 'web:videos' %}?category={{ video_data.category|urlencode }}">{{ video_data.category }}</a>{% endif %}
+        {% if video_data.size_bytes %}<span class="dot" style="opacity: 0.4;">·</span><span>{{ video_data.size_bytes|filesizeformat }}</span>{% endif %}
+      </div>
+
+      <div class="watch-chips">
+        {% if video_data.category %}<span class="watch-chip"><span class="material-symbols-outlined" style="font-size: 16px;">category</span> {{ video_data.category }}</span>{% endif %}
+        <span class="watch-chip"><span class="material-symbols-outlined" style="font-size: 16px;">smart_display</span> Video</span>
+      </div>
+
+      {% if video_data.description %}
+      <div class="watch-description">{{ video_data.description }}</div>
+      {% endif %}
+
+      <div class="watch-actions">
+        {% if post %}
+          <a href="{% url 'web:forum_post' post_id=post.id %}" class="watch-action-btn primary"><span class="material-symbols-outlined">forum</span> View Discussion</a>
+        {% endif %}
+        <a href="{{ video_url }}" target="_blank" rel="noopener" class="watch-action-btn"><span class="material-symbols-outlined">open_in_new</span> Open file</a>
+        <button class="watch-action-btn" data-action="share-video" data-url="https://nebians.consica.com.np{% url 'web:video_watch' media_id=media_id %}"><span class="material-symbols-outlined">share</span> Share</button>
+      </div>
+
+      {% if post %}
+      <div style="margin-top: 14px; padding: 12px 14px; background: var(--md-surface-container-low); border: 1px solid var(--md-outline-variant); border-radius: 12px; font-size: 0.875rem; color: var(--md-on-surface-variant);">
+        <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: -3px; margin-right: 6px;">info</span>
+        This video was shared in the discussion <a href="{% url 'web:forum_post' post_id=post.id %}" style="color: var(--md-primary); font-weight: 600; text-decoration: none;">“{{ post.title|truncatechars:64 }}”</a>. Watch here is the canonical watch page for Google Video indexing.
+      </div>
+      {% endif %}
+    </div>
+
+    <aside class="watch-sidebar">
+      <div>
+        <h3>Up next</h3>
+        {% if related %}
+        <div class="watch-related-list">
+          {% for r in related %}
+          <a href="{% url 'web:video_watch' media_id=r.id %}" class="watch-related-card">
+            <div class="watch-related-thumb">
+              {% if r.thumbnail_url %}
+                <img src="{{ r.thumbnail_url }}" alt="" loading="lazy">
+              {% else %}
+                <div style="width: 100%; height: 100%; display: grid; place-items: center; background: #0b1220; color: var(--md-primary);"><span class="material-symbols-outlined">smart_display</span></div>
+              {% endif %}
+            </div>
+            <div class="watch-related-info">
+              <div class="watch-related-title">{{ r.title }}</div>
+              <div class="watch-related-meta">{{ r.author_name }} · {{ r.created_at|time_ago }}</div>
+              {% if r.category %}<div style="margin-top: 2px;"><span class="video-card-category" style="font-size: 0.68rem;">{{ r.category }}</span></div>{% endif %}
+            </div>
+          </a>
+          {% endfor %}
+        </div>
+        {% else %}
+          <p style="color: var(--md-on-surface-variant); font-size: 0.875rem;">No related videos yet.</p>
+        {% endif %}
+        <a href="{% url 'web:videos' %}" class="md-btn md-btn-tonal" style="width: 100%; margin-top: 12px; justify-content: center; text-decoration: none;"><span class="material-symbols-outlined">video_library</span> Browse all videos</a>
+      </div>
+    </aside>
+  </div>
+</div>
+{% endblock %}
+
+{% block bottomnav %}
+<nav class="md-bottomnav">
+  <div class="md-bottomnav-pill">
+    <a href="{% url 'web:home' %}" class="md-bottomnav-item" aria-label="Home">
+      <div class="md-bottomnav-icon-wrapper"><span class="material-symbols-outlined">home</span></div>
+      <span class="md-bottomnav-label">Home</span>
+    </a>
+    <a href="{% url 'web:library' %}" class="md-bottomnav-item" aria-label="Library">
+      <div class="md-bottomnav-icon-wrapper"><span class="material-symbols-outlined">menu_book</span></div>
+      <span class="md-bottomnav-label">Library</span>
+    </a>
+    <a href="{% url 'web:videos' %}" class="md-bottomnav-item md-nav-active" aria-label="Videos">
+      <div class="md-bottomnav-icon-wrapper"><span class="material-symbols-outlined">smart_display</span></div>
+      <span class="md-bottomnav-label">Videos</span>
+    </a>
+    <a href="{% url 'web:forum' %}" class="md-bottomnav-item" aria-label="Forum">
+      <div class="md-bottomnav-icon-wrapper"><span class="material-symbols-outlined">forum</span></div>
+      <span class="md-bottomnav-label">Forum</span>
+    </a>
+    <a href="{% url 'web:news_list' %}" class="md-bottomnav-item" aria-label="News">
+      <div class="md-bottomnav-icon-wrapper"><span class="material-symbols-outlined">newspaper</span></div>
+      <span class="md-bottomnav-label">News</span>
+    </a>
+  </div>
+</nav>
+{% endblock %}
+
+{% block extra_js %}
+<script nonce="{{ csp_nonce }}">
+registerActions({
+  'share-video': function(btn) {
+    var url = btn.dataset.url || window.location.href;
+    if (navigator.share) { navigator.share({ title: document.title, url: url }).catch(function(){}); }
+    else if (navigator.clipboard) { navigator.clipboard.writeText(url).then(function(){ showSnackbar('Link copied'); }); }
+    else { showSnackbar(url); }
+  }
+});
+</script>
+{% endblock %}

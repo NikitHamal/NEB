@@ -11,24 +11,24 @@ logger = logging.getLogger(__name__)
 
 ALLOWED_TOOLS = {'search_resources', 'find_notes', 'get_forum_posts', 'get_subjects'}
 
-CLOUD_SYSTEM_PROMPT = """You are Neby, the AI assistant inside the NEBians app (a Nepali study platform for the NEB curriculum).
+CLOUD_SYSTEM_PROMPT = """You are Neby, the AI assistant inside NEBians — a Nepali learning community platform for teachers, learners, explorers, students, and parents across all levels, faculties, disciplines, and fields (not restricted to NEB curriculum or NEB grades).
 You have access to platform tools but NOT native function calling, so you must emit tool requests as strict JSON.
 Decide which of these fits the user's intent:
 
 Tools (emit ONE of these when the user wants that action):
-- search_resources: arguments {"query": "...", "subject"?: "...", "resource_type"?: "PDF|Note|Past Paper|Textbook|Video|Link"} — find study resources
-- find_notes: arguments {"subject": "...", "grade_level"?: "e.g. Class 11, Class 12, SEE", "exam_type"?: "Notes|Board|Final|SEE|Mock|Reference"} — find notes or past papers for a subject and grade
-- get_forum_posts: arguments {"category"?: "...", "sort"?: "recent|popular"} — forum discussions
-- get_subjects: arguments {} — list all available subjects
+- search_resources: arguments {"query": "...", "subject"?: "...", "resource_type"?: "PDF|Note|Past Paper|Textbook|Video|Link"} — find learning materials and resources
+- find_notes: arguments {"subject": "...", "grade_level"?: "e.g. Class 11, Class 12, SEE, Bachelor, Master", "exam_type"?: "Notes|Board|Final|SEE|Mock|Reference"} — find notes or past papers for a subject and level
+- get_forum_posts: arguments {"category"?: "...", "sort"?: "recent|popular"} — forum discussions across topics
+- get_subjects: arguments {} — list all available subjects and topics
 - navigate_to: arguments {"page": "home|library|forum|search|news|settings|bookmarks|upload|results|leaderboard|tools"} — move the user to a page
 
 Rules:
 1. If the user's request maps to a tool, reply with EXACTLY one JSON object and nothing else:
    {"tool_call": {"name": "find_notes", "arguments": {"subject": "Physics", "grade_level": "Class 12"}}}
-2. Otherwise reply as a friendly, helpful chatbot. Your reply MUST be a JSON object:
+2. Otherwise reply as a friendly, helpful AI assistant for all learners, educators, and explorers. Your reply MUST be a JSON object:
    {"chat": "your friendly reply here"}
 3. Never wrap JSON in markdown fences. Never add text outside the JSON object.
-4. Keep chat replies short (1-3 sentences). For resource searches, extract the subject and grade the user mentions."""
+4. Keep chat replies concise, clear, and informative. When users ask what platform this is or what it covers, clarify that NEBians is a Nepali learning community platform for teachers, learners, explorers, students, and parents across all levels, faculties, and fields."""
 
 
 @require_POST
@@ -79,11 +79,6 @@ def ajax_neby_cloud(request):
 
 
 def _cloud_route(query, local_guess=None):
-    """Ask Mercury 2 (Inception diffusion LLM) and return (mode, payload).
-
-    mode is 'tool' (payload: tool/args/result) or 'chat' (payload: text).
-    Falls back to Qwen chat if Inception is unreachable.
-    """
     system_prompt = CLOUD_SYSTEM_PROMPT
     if local_guess:
         guess_json = json.dumps(local_guess)
@@ -94,16 +89,25 @@ def _cloud_route(query, local_guess=None):
             "the correct tool_call or a chat reply."
         )
 
+    raw = None
     try:
-        from api import inception_proxy
-        raw = inception_proxy.simple_chat(
-            user_message=query,
-            system_prompt=system_prompt,
-            reasoning_effort='low',
-        )
+        from api import tembo_proxy
+        raw = tembo_proxy.simple_chat(query, system_prompt=system_prompt)
     except Exception as exc:
-        logger.warning('neby cloud: inception failed: %s', exc)
+        logger.warning('neby cloud: tembo failed: %s', exc)
         raw = None
+
+    if not raw:
+        try:
+            from api import inception_proxy
+            raw = inception_proxy.simple_chat(
+                user_message=query,
+                system_prompt=system_prompt,
+                reasoning_effort='low',
+            )
+        except Exception as exc:
+            logger.warning('neby cloud: inception failed: %s', exc)
+            raw = None
 
     if raw:
         parsed = _parse_cloud_reply(raw)
@@ -142,11 +146,11 @@ def _cloud_route(query, local_guess=None):
                     result = _execute_tool(name, args)
                     return 'tool', {'tool': name, 'args': args, 'result': result}
                 except Exception as exc:
-                    logger.warning('neby cloud fallback: tool %s failed: %s', name, exc)
+                    logger.warning('neby cloud: fallback tool %s failed: %s', name, exc)
             if kind == 'tool' and name == 'navigate_to':
                 return 'tool', {'tool': 'navigate_to', 'args': args, 'result': None}
-            return 'chat', {'text': text}
-        return 'chat', {'text': fallback.strip()[:800]}
+            if kind == 'chat' and text:
+                return 'chat', {'text': text}
 
     return None, {}
 
@@ -272,6 +276,8 @@ def _search_resources(args, limit=5):
 
 
 def _execute_tool(tool, args):
+    import os
+    os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
     from api.models import Resource, Post
 
     if tool == 'search_resources':

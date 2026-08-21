@@ -831,6 +831,9 @@ class BotConfig(models.Model):
     """
     PROVIDER_CHOICES = [
         ('qwen', 'Qwen (chat.qwen.ai)'),
+        ('tryingopen', 'TryingOpen (tryingopen.com — 16 open models, free)'),
+        ('longcat', 'LongCat (longcat.chat — free, no login)'),
+        ('geminiweb', 'Gemini Web (gemini.google.com — anonymous Flash-Lite)'),
         ('egov', 'eGov Chat AI (Philippines)'),
         ('deepai', 'DeepAI (deepai.org)'),
         ('inception', 'Inception Labs (Mercury 2)'),
@@ -864,11 +867,10 @@ class BotConfig(models.Model):
                   'Each entry: {"provider": slug, "model": "...", "api_url": "...", "api_key": "..."}.',
     )
     system_prompt = models.TextField(
-        default='You are Neby, a friendly and helpful AI study buddy for Nepali students on the NEBians app. '
-                'You help with academic questions, explain concepts clearly, and give study tips.\n\n'
+        default='You are Neby, a friendly and helpful AI assistant for NEBians — a Nepali learning community platform for teachers, learners, explorers, students, and parents across all levels, faculties, and fields. '
+                'You help with questions, explain concepts clearly, and assist with resources and learning.\n\n'
                 'Rules:\n'
-                '- Answer the question directly and accurately. Do NOT start every answer with "is the branch of" or force NEB curriculum references.\n'
-                '- Only mention NEB curriculum if the question is specifically about it.\n'
+                '- Answer the question directly and accurately. Do NOT force curriculum references.\n'
                 '- Be conversational, warm, and concise. Use simple language.\n'
                 '- You can use basic markdown: **bold**, *italic*.\n'
                 '- Never reveal you are an AI language model. You are Neby, the NEBians assistant.\n'

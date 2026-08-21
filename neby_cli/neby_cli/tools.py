@@ -191,12 +191,23 @@ Available Tools:
    Find files matching glob pattern (e.g. '*.py').
 7. run_command(command: str)
    Run a shell command (e.g. tests, linters, git).
-8. done(summary: str)
-   Mark task complete and summarize changes.
+8. ask_user(question: str, options: List[str], allow_custom: bool = True)
+   Ask the user a multiple-choice question to confirm an action or resolve ambiguity.
+9. spawn_subagent(role: str, task: str, context: Optional[str] = None)
+   Delegate a subtask to a specialized subagent (roles: 'researcher', 'coder', 'reviewer', 'tester', 'planner').
+10. inspect_image(path: str)
+    Inspect image metadata, dimensions, and terminal preview.
+11. done(summary: str)
+    Mark task complete and summarize changes.
 """
 
 
-def execute_tool_call(name: str, args: Dict[str, Any]) -> str:
+def execute_tool_call(
+    name: str,
+    args: Dict[str, Any],
+    session: Any = None,
+    ui: Any = None,
+) -> str:
     name = (name or "").strip().lower()
     if name == "read_file":
         return read_file(args.get("path", ""), args.get("start_line"), args.get("end_line"))
@@ -214,6 +225,38 @@ def execute_tool_call(name: str, args: Dict[str, Any]) -> str:
         return run_command(args.get("command", ""))
     elif name == "git_diff":
         return git_diff()
+    elif name in ("ask_user", "ask_question"):
+        from .interactive import ask_question_interactive
+        question = args.get("question") or args.get("prompt") or "Please select an option:"
+        options = args.get("options") or ["Yes", "No"]
+        allow_custom = args.get("allow_custom", True)
+        is_multi = args.get("is_multi_select", False)
+        return ask_question_interactive(question, options, allow_custom, is_multi, ui=ui)
+    elif name in ("spawn_subagent", "delegate_task", "invoke_subagent"):
+        from .subagents import run_subagent
+        role = args.get("role") or "researcher"
+        task = args.get("task") or args.get("instruction") or ""
+        ctx = args.get("context") or ""
+        return run_subagent(role, task, ctx, parent_session=session, ui=ui)
+    elif name in ("inspect_image", "read_image"):
+        from .images import load_image_from_path, render_ascii_preview, format_image_description
+        path = args.get("path") or args.get("file_path") or ""
+        ok, msg, info = load_image_from_path(path)
+        if not ok:
+            return msg
+        desc = format_image_description(info)
+        preview = render_ascii_preview(info["path"])
+        return f"{desc}\n{preview}"
+    elif name in ("get_clipboard_image", "paste_clipboard_image"):
+        from .images import grab_clipboard_image, format_image_description, render_ascii_preview
+        ok, msg, info = grab_clipboard_image()
+        if not ok:
+            return msg
+        if session and hasattr(session, "attach_image"):
+            session.attach_image(info)
+        desc = format_image_description(info)
+        preview = render_ascii_preview(info["path"])
+        return f"{desc}\n{preview}\n(Image attached to session context)"
     elif name == "done":
         return f"Task completed: {args.get('summary', 'Done')}"
     return f"Error: Tool '{name}' is not recognized."

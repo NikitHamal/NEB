@@ -69,6 +69,28 @@ CATALOG = [
         "default_model": "motif-102b",
     },
     {
+        "provider": "deepai",
+        "label": "DeepAI (deepai.org)",
+        "type": "reverse",
+        "models": [
+            {"id": "gpt-4.1-nano", "name": "DeepAI GPT-4.1 Nano", "desc": "Fast free tier model"},
+            {"id": "deepseek-v3.2", "name": "DeepSeek V3.2", "desc": "Coding & reasoning"},
+            {"id": "gemini-2.5-flash-lite", "name": "Gemini 2.5 Flash Lite", "desc": "Fast reasoning"},
+        ],
+        "default_model": "gpt-4.1-nano",
+    },
+    {
+        "provider": "deepseek",
+        "label": "DeepSeek (api.deepseek.com)",
+        "type": "api",
+        "models": [
+            {"id": "deepseek-v4-flash", "name": "DeepSeek V4 Flash", "desc": "High speed flagship model"},
+            {"id": "deepseek-v4-pro", "name": "DeepSeek V4 Pro", "desc": "Advanced coding & reasoning"},
+            {"id": "deepseek-v4", "name": "DeepSeek V4", "desc": "Balanced general intelligence"},
+        ],
+        "default_model": "deepseek-v4-flash",
+    },
+    {
         "provider": "openai",
         "label": "OpenAI / Custom BYOK",
         "type": "api",
@@ -136,6 +158,24 @@ def stream_chat(
     elif provider == "motiftech":
         from api import motiftech_proxy
         yield from motiftech_proxy.stream_chat(messages, model=model or "motif-102b")
+        return
+
+    elif provider == "deepai":
+        from api import deepai_proxy
+        user_msg = next((m.get("content", "") for m in reversed(messages) if m.get("role") == "user"), "")
+        sys_msg = next((m.get("content", "") for m in messages if m.get("role") == "system"), "")
+        try:
+            res = deepai_proxy.chat(user_message=user_msg, system_prompt=sys_msg, model=model or "gpt-4.1-nano")
+            if res:
+                yield {"type": "text", "content": res}
+            yield {"type": "done"}
+        except Exception as exc:
+            yield {"type": "error", "error": str(exc)}
+        return
+
+    elif provider == "deepseek":
+        from .deepseek_provider import stream_chat as deepseek_stream
+        yield from deepseek_stream(messages, model=model or "deepseek-v4-flash")
         return
 
     # Fallback to Meta AI

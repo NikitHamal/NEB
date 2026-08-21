@@ -264,10 +264,7 @@
     actionsEl.className = 'ai-stream-actions';
     actionsEl.hidden = true;
     actionsEl.innerHTML =
-      '<button type="button" class="ai-stream-action" data-action="copy" aria-label="Copy">' + streamSvg() + '</button>' +
-      '<button type="button" class="ai-stream-action" data-action="retry" aria-label="Retry">' + retrySvg() + '</button>' +
-      '<button type="button" class="ai-stream-action" data-action="up" aria-label="Helpful">' + thumbsSvg(true) + '</button>' +
-      '<button type="button" class="ai-stream-action" data-action="down" aria-label="Not helpful">' + thumbsSvg(false) + '</button>';
+      '<button type="button" class="ai-stream-action" data-action="copy" aria-label="Copy" title="Copy">' + streamSvg() + '</button>';
     actionsEl.addEventListener('click', function (event) {
       var btn = event.target.closest('.ai-stream-action');
       if (!btn) return;
@@ -278,11 +275,6 @@
           btn.classList.add('ai-stream-action-on');
           setTimeout(function () { btn.classList.remove('ai-stream-action-on'); }, 1200);
         }).catch(function () {});
-      } else if (action === 'retry' && opts.onRetry) opts.onRetry();
-      else if (action === 'up' || action === 'down') {
-        if (opts.onVote) opts.onVote(action === 'up' ? 1 : -1);
-        btn.classList.add('ai-stream-action-on');
-        setTimeout(function () { btn.classList.remove('ai-stream-action-on'); }, 1200);
       }
     });
     return actionsEl;
@@ -350,12 +342,16 @@
     function tick() {
       if (done) return;
       if (count >= words.length) { finish(); return; }
-      var html = '';
-      for (var i = 0; i < count; i++) {
-        html += '<span class="ai-stream-word" style="animation-delay:' + (i * 12) + 'ms">' + escapeHtml(words[i]) + '</span> ';
+      var span = document.createElement('span');
+      span.className = 'ai-stream-word';
+      span.textContent = words[count] + ' ';
+      wordsEl.appendChild(span);
+
+      if (citeAfter >= 0 && count === citeAfter && sources.length) {
+        var chipContainer = document.createElement('span');
+        chipContainer.innerHTML = citeChip(sources[0]) + ' ';
+        wordsEl.appendChild(chipContainer);
       }
-      if (citeAfter >= 0 && count === citeAfter && sources.length) html += citeChip(sources[0]);
-      wordsEl.innerHTML = html + '<span class="ai-stream-word" style="animation-delay:0ms">' + escapeHtml(words[count]) + '</span> ';
       count += 1;
       timer = setTimeout(tick, wordMs);
     }
@@ -363,12 +359,18 @@
     function finish() {
       done = true;
       clearTimeout(timer);
-      var html = '';
-      for (var i = 0; i < words.length; i++) {
-        html += '<span class="ai-stream-word" style="animation-delay:' + (i * 12) + 'ms">' + escapeHtml(words[i]) + '</span> ';
+      while (count < words.length) {
+        var span = document.createElement('span');
+        span.className = 'ai-stream-word';
+        span.textContent = words[count] + ' ';
+        wordsEl.appendChild(span);
+        count += 1;
       }
-      if (citeAfter >= 0 && sources.length) html += citeChip(sources[0]);
-      wordsEl.innerHTML = html;
+      if (citeAfter >= 0 && sources.length && !wordsEl.querySelector('.ai-stream-cite')) {
+        var chipContainer = document.createElement('span');
+        chipContainer.innerHTML = citeChip(sources[0]) + ' ';
+        wordsEl.appendChild(chipContainer);
+      }
       cursorEl.style.display = 'none';
       if (actionsEl) actionsEl.hidden = false;
       if (onDone) onDone();

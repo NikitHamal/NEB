@@ -11,9 +11,9 @@ from django.conf import settings
 logger = logging.getLogger(__name__)
 
 MODELS = [
-    {"id": "metaai-instant", "name": "Meta AI (Instant)", "reasoning": False, "vision": False, "web_search": True},
-    {"id": "metaai-thinking", "name": "Meta AI (Thinking)", "reasoning": True, "vision": False, "web_search": True},
-    {"id": "metaai-imagine", "name": "Meta AI Imagine (Image)", "reasoning": False, "vision": False, "web_search": False},
+    {"id": "metaai-instant", "name": "Meta AI (Instant)", "reasoning": False, "vision": True, "web_search": True},
+    {"id": "metaai-thinking", "name": "Meta AI (Thinking)", "reasoning": True, "vision": True, "web_search": True},
+    {"id": "metaai-imagine", "name": "Meta AI Imagine (Image)", "reasoning": False, "vision": True, "web_search": False},
 ]
 
 MODEL_MAP = {m["id"]: m for m in MODELS}
@@ -64,7 +64,6 @@ class _MetaAIPlaywrightSession:
     def __init__(self, cookies: Dict[str, str]):
         self.cookies = cookies
         self.playwright = None
-        self.browser = None
         self.context = None
         self.page = None
         self.ready = False
@@ -72,41 +71,80 @@ class _MetaAIPlaywrightSession:
     def start(self):
         from playwright.sync_api import sync_playwright
         self.playwright = sync_playwright().start()
-        self.browser = self.playwright.chromium.launch(
+        profile_dir = os.path.expanduser("~/.metaai_profile")
+        os.makedirs(profile_dir, exist_ok=True)
+        self.context = self.playwright.chromium.launch_persistent_context(
+            user_data_dir=profile_dir,
             headless=True,
-            args=["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage", "--disable-gpu"],
-        )
-        self.context = self.browser.new_context(
             user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
             viewport={"width": 1280, "height": 720},
+            args=["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage", "--disable-gpu"],
         )
         cookie_list = []
         for k, v in self.cookies.items():
             cookie_list.append({"name": k, "value": v, "domain": ".meta.ai", "path": "/"})
         if cookie_list:
-            self.context.add_cookies(cookie_list)
+            try:
+                self.context.add_cookies(cookie_list)
+            except Exception:
+                pass
 
-        self.page = self.context.new_page()
-        self.page.goto("https://www.meta.ai/", wait_until="domcontentloaded", timeout=45000)
-        time.sleep(3)
+        pages = self.context.pages
+        self.page = pages[0] if pages else self.context.new_page()
+        if "meta.ai" not in (self.page.url or ""):
+            self.page.goto("https://www.meta.ai/", wait_until="domcontentloaded", timeout=45000)
+            time.sleep(2)
         self._dismiss_overlays()
         self.ready = True
 
     def _dismiss_overlays(self):
+        if not self.page:
+            return
         for text in ["Dismiss", "Connect", "Accept all", "Accept", "Got it", "Close", "OK"]:
             try:
                 btn = self.page.query_selector(f'button:has-text("{text}")')
                 if btn and btn.is_visible():
                     btn.click()
-                    time.sleep(0.5)
+                    time.sleep(0.3)
             except Exception:
                 pass
 
-    def prompt(self, message: str, thinking: bool = False, timeout: int = 90) -> Generator[Dict, None, None]:
+    def _try_upload_images(self, image_paths: List[str]) -> bool:
+        if not image_paths or not self.page:
+            return False
+        try:
+            file_inputs = self.page.query_selector_all('input[type="file"]')
+            for inp in file_inputs:
+                try:
+                    inp.set_input_files(image_paths)
+                    time.sleep(1.0)
+                    return True
+                except Exception:
+                    continue
+            attach_btns = self.page.query_selector_all('button[aria-label*="Attach"], button[aria-label*="attach"], button:has-text("Attach")')
+            for btn in attach_btns:
+                try:
+                    if btn.is_visible():
+                        with self.page.expect_file_chooser(timeout=5000) as fc_info:
+                            btn.click()
+                        fc = fc_info.value
+                        fc.set_files(image_paths)
+                        time.sleep(1.0)
+                        return True
+                except Exception:
+                    continue
+        except Exception as exc:
+            logger.debug(f"MetaAI image upload attempt failed: {exc}")
+        return False
+
+    def prompt(self, message: str, thinking: bool = False, timeout: int = 90, image_paths: Optional[List[str]] = None) -> Generator[Dict, None, None]:
         if not self.ready or not self.page:
             self.start()
 
         self._dismiss_overlays()
+
+        if image_paths:
+            self._try_upload_images(image_paths)
 
         typed = False
         selectors = [
@@ -206,8 +244,8 @@ class _MetaAIPlaywrightSession:
         try:
             if self.page:
                 self.page.close()
-            if self.browser:
-                self.browser.close()
+            if self.context:
+                self.context.close()
             if self.playwright:
                 self.playwright.stop()
         except Exception:
@@ -215,10 +253,59 @@ class _MetaAIPlaywrightSession:
         self.ready = False
 
 
-def _stream_direct_llama(messages: List[Dict[str, str]], model: str = "metaai-instant") -> Generator[Dict, None, None]:
+def _extract_text_content(content) -> str:
+    if isinstance(content, str):
+        return content
+    if isinstance(content, list):
+        parts = []
+        for p in content:
+            if isinstance(p, dict):
+                if p.get("type") == "text":
+                    parts.append(p.get("text", ""))
+                elif p.get("type") == "image_url":
+                    parts.append("[image attached]")
+        return "\n".join(parts)
+    return str(content or "")
+
+
+def _extract_image_paths(messages: List[Dict], images: Optional[List[Dict]] = None) -> List[str]:
+    if images:
+        return [img.get("path", "") for img in images if img.get("path") and os.path.exists(img.get("path", ""))]
+    paths: List[str] = []
+    for m in messages:
+        content = m.get("content")
+        if isinstance(content, list):
+            for part in content:
+                if isinstance(part, dict) and part.get("type") == "image_url":
+                    url = part.get("image_url", {}).get("url", "") if isinstance(part.get("image_url"), dict) else part.get("image_url", "")
+                    if url and not url.startswith("data:") and os.path.exists(url):
+                        paths.append(url)
+                    elif url.startswith("data:"):
+                        try:
+                            header, b64 = url.split(",", 1)
+                            import base64 as _b64, tempfile
+                            raw = _b64.b64decode(b64)
+                            fd, path = tempfile.mkstemp(suffix=".png", prefix="neby_meta_")
+                            os.write(fd, raw)
+                            os.close(fd)
+                            paths.append(path)
+                        except Exception:
+                            pass
+    return paths
+
+
+def _stream_direct_llama(messages: List[Dict[str, str]], model: str = "metaai-instant", images: Optional[List[Dict]] = None) -> Generator[Dict, None, None]:
+    text_messages = []
+    for m in messages:
+        c = _extract_text_content(m.get("content", ""))
+        text_messages.append({"role": m.get("role", "user"), "content": c})
+    if images:
+        img_note = "\n".join(f"[Image {i+1}: {img.get('filename','image')} {img.get('width',0)}x{img.get('height',0)} at {img.get('path','')}]" for i, img in enumerate(images))
+        if text_messages and text_messages[-1].get("role") == "user":
+            text_messages[-1]["content"] = img_note + "\n\n" + text_messages[-1]["content"]
     try:
         from api import k2think_proxy
-        yield from k2think_proxy.stream_chat(messages, model="MBZUAI-IFM/K2-Think-v2")
+        yield from k2think_proxy.stream_chat(text_messages, model="MBZUAI-IFM/K2-Think-v2")
     except Exception as exc:
         yield {"type": "error", "error": str(exc)}
 
@@ -226,8 +313,10 @@ def _stream_direct_llama(messages: List[Dict[str, str]], model: str = "metaai-in
 def stream_chat(
     messages: List[Dict[str, str]],
     model: str = "metaai-instant",
+    images: Optional[List[Dict]] = None,
 ) -> Generator[Dict, None, None]:
     cookies = _get_cookies()
+    image_paths = _extract_image_paths(messages, images)
     if os.getenv("META_AI_USE_BROWSER") == "1" and cookies.get("datr") and cookies.get("ecto_1_sess"):
         global _BROWSER_SESSION
         if _BROWSER_SESSION is None or not _BROWSER_SESSION.ready:
@@ -239,11 +328,10 @@ def stream_chat(
 
         if _BROWSER_SESSION and _BROWSER_SESSION.ready:
             last_msg = next((m.get("content", "") for m in reversed(messages) if m.get("role") == "user"), "")
-            if isinstance(last_msg, list):
-                last_msg = "".join(str(p.get("text", "")) if isinstance(p, dict) else str(p) for p in last_msg)
+            last_msg = _extract_text_content(last_msg)
             thinking = model == "metaai-thinking"
             try:
-                for chunk in _BROWSER_SESSION.prompt(str(last_msg), thinking=thinking):
+                for chunk in _BROWSER_SESSION.prompt(str(last_msg), thinking=thinking, image_paths=image_paths or None):
                     yield chunk
                 return
             except Exception as exc:
@@ -253,7 +341,7 @@ def stream_chat(
                     pass
                 _BROWSER_SESSION = None
 
-    yield from _stream_direct_llama(messages, model=model)
+    yield from _stream_direct_llama(messages, model=model, images=images)
 
 
 def simple_chat(

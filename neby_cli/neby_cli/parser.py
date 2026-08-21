@@ -12,6 +12,8 @@ class ToolCall:
 
 
 _FENCE_RE = re.compile(r"```(?:tool|json|yaml)?\s*\n([\s\S]*?)\n```", re.IGNORECASE)
+# Catches truncated opening fence (e.g. streaming dropped the leading ```)
+_PARTIAL_FENCE_RE = re.compile(r"(?:^|\n)(?:```(?:tool|json|yaml)?\s*\n)?(name\s*[:=]\s*\w[\w_\-]*\s*\nargs\s*[:=][\s\S]*?)(?:\n```|$)", re.IGNORECASE)
 _XML_RE = re.compile(r"<tool_call>([\s\S]*?)</tool_call>", re.IGNORECASE)
 _JSON_TOOL_RE = re.compile(r'\{[\s\r\n]*"(?:name|tool|function)"[\s\r\n]*:[\s\S]*?\}')
 
@@ -132,5 +134,16 @@ def parse_tool_calls(text: str) -> Tuple[str, List[ToolCall]]:
                         clean_text = clean_text.replace(raw, "")
             except Exception:
                 pass
+
+    # Last-resort: bare "name: X\nargs:\n  key: val" blocks (handles dropped opening fence from streaming)
+    if not calls:
+        for m in _PARTIAL_FENCE_RE.finditer(text):
+            raw = m.group(1).strip() if m.group(1) else ""
+            if not raw:
+                continue
+            name, args = _parse_yaml_lines(raw)
+            if name:
+                calls.append(ToolCall(name=name, args=args, raw=raw))
+                clean_text = clean_text.replace(m.group(0), "")
 
     return clean_text.strip(), calls

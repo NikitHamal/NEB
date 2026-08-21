@@ -1,6 +1,7 @@
 import argparse
 import logging
 import os
+import subprocess
 import sys
 import warnings
 
@@ -12,41 +13,23 @@ logging.disable(logging.CRITICAL)
 from prompt_toolkit import PromptSession
 from prompt_toolkit.formatted_text import HTML
 from prompt_toolkit.history import FileHistory
+from prompt_toolkit.key_binding import KeyBindings
 
 from .agent import run_agent_turn
+from .completer import NebyCompleter
 from .providers import CATALOG, get_default_provider, list_providers
+from .selector import keyboard_select_model
 from .session import Session
 from .tools import git_diff, list_dir
-from .ui import console, print_banner, print_help, print_info, print_status
+from .ui import console, print_banner, print_help, print_info
 
 
 def interactive_model_picker(session: Session):
-    console.print("\n[bold]Select Provider & Model:[/bold]")
-    providers = list_providers()
-    for idx, p in enumerate(providers, 1):
-        console.print(f"[bold cyan]{idx}.[/bold cyan] [bold white]{p['label']}[/bold white] ({p['provider']})")
-        for m in p["models"]:
-            console.print(f"    • [cyan]{m['id']}[/cyan] - [dim]{m['name']} ({m.get('desc', '')})[/dim]")
-    
-    choice = input("\nEnter provider number or name (or press Enter to cancel): ").strip()
-    if not choice:
-        return
-    
-    selected_p = None
-    if choice.isdigit():
-        num = int(choice)
-        if 1 <= num <= len(providers):
-            selected_p = providers[num - 1]
-    else:
-        for p in providers:
-            if p["provider"].lower() == choice.lower():
-                selected_p = p
-                break
-                
-    if selected_p:
-        session.provider = selected_p["provider"]
-        session.model = selected_p["default_model"]
-        print_info(f"switched to {selected_p['label']} ({session.model})")
+    selected = keyboard_select_model(CATALOG, session.provider, session.model)
+    if selected:
+        session.provider = selected["provider"]
+        session.model = selected["model"]
+        print_info(f"switched to {session.provider}:{session.model}")
         session.reset()
 
 
@@ -76,10 +59,27 @@ def handle_slash_command(cmd: str, session: Session) -> bool:
     return False
 
 
+def get_bottom_toolbar(session: Session):
+    pct = session.get_context_percent()
+    model_name = session.get_model_display_name()
+    mode_name = session.mode
+    files_edited = session.files_edited_count
+    
+    stats = f"{model_name} · {pct}%"
+    if files_edited > 0:
+        stats += f" · {files_edited} files edited"
+        
+    return HTML(
+        f"<ansigreen><b>◉ {mode_name} (shift+tab to cycle)</b></ansigreen>\n"
+        f"<ansigray>{stats}</ansigray>\n"
+        f"<ansigray>/ commands  ·  @ files  ·  ! shell</ansigray>"
+    )
+
+
 def main():
-    parser = argparse.ArgumentParser(description="Neby CLI - Minimal Autonomous Coding Agent")
+    parser = argparse.ArgumentParser(description="Neby Agent - Minimal Autonomous Coding CLI")
     parser.add_argument("prompt", nargs="*", help="Direct prompt instruction for single-shot execution")
-    parser.add_argument("--provider", "-p", default="k2think", help="LLM Provider (k2think, qwen, poolside, metaai, motiftech)")
+    parser.add_argument("--provider", "-p", default="metaai", help="LLM Provider (metaai, k2think, qwen, poolside, motiftech, deepai)")
     parser.add_argument("--model", "-m", default=None, help="Model ID")
     parser.add_argument("--cwd", "-d", default=".", help="Working directory path")
     args = parser.parse_args()
@@ -94,18 +94,51 @@ def main():
 
     # Interactive REPL mode
     print_banner()
-    print_status(session.model, session.provider, session.cwd)
 
     history_file = os.path.expanduser("~/.neby_history")
-    pt_session = PromptSession(history=FileHistory(history_file))
+    completer = NebyCompleter()
+    
+    # Key bindings for Shift+Tab to cycle mode
+    kb = KeyBindings()
+    
+    @kb.add("s-tab")
+    def _cycle_mode(event):
+        session.cycle_mode()
+        event.app.invalidate()
+
+    pt_session = PromptSession(
+        history=FileHistory(history_file),
+        completer=completer,
+        complete_while_typing=True,
+        key_bindings=kb,
+    )
 
     while True:
         try:
-            prompt_html = HTML(f"<ansicyan>neby</ansicyan> <ansigray>({session.provider})</ansigray> <b>&gt;</b> ")
-            user_input = pt_session.prompt(prompt_html).strip()
+            prompt_html = HTML("<ansigray><b>→</b></ansigray> ")
+            rprompt_html = HTML("<ansigray>esc to stop</ansigray>")
+            
+            user_input = pt_session.prompt(
+                prompt_html,
+                rprompt=rprompt_html,
+                placeholder=HTML("<ansigray>Add a follow-up</ansigray>"),
+                bottom_toolbar=lambda: get_bottom_toolbar(session),
+            ).strip()
             
             if not user_input:
                 continue
+
+            # Shell command shortcut with !
+            if user_input.startswith("!"):
+                sh_cmd = user_input[1:].strip()
+                if sh_cmd:
+                    console.print(f"[dim]running shell: {sh_cmd}[/dim]")
+                    res = subprocess.run(sh_cmd, shell=True, text=True, capture_output=True)
+                    if res.stdout:
+                        console.print(res.stdout.strip())
+                    if res.stderr:
+                        console.print(f"[red]{res.stderr.strip()}[/red]")
+                    continue
 
             if user_input.startswith("/") or user_input in ("exit", "quit", "help", "diff", "files"):
                 if handle_slash_command(user_input, session):

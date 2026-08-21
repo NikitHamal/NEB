@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+{% load static web_extras %}
+
+{% block title %}{% if query %}“{{ query }}” — {% endif %}Videos — Watch Learning Videos | NEBians{% endblock %}
+{% block description %}Watch learning videos from the NEBians community — lessons, explainers, and discussions. Browse by subject, search, and watch on a dedicated player with transcripts and related videos.{% endblock %}
+{% block keywords %}NEBians videos, watch page, learning videos, Nepal education videos, NEB videos{% endblock %}
+{% block og_title %}Videos — NEBians{% endblock %}
+{% block og_description %}A dedicated watch hub for community learning videos — browse, search, and play on a true watch page.{% endblock %}
+{% block og_type %}website{% endblock %}
+{% block nav_videos %}md-nav-active{% endblock %}
+{% block bnav_videos %}md-nav-active{% endblock %}
+{% block canonical %}https://nebians.consica.com.np{{ request.path }}{% if query or current_category or current_sort != 'newest' %}?{% if query %}q={{ query|urlencode }}{% endif %}{% if current_category %}&category={{ current_category|urlencode }}{% endif %}{% if current_sort %}&sort={{ current_sort }}{% endif %}{% endif %}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/pages/videos.css' %}?v=1">
+{% endblock %}
+
+{% block content %}
+<div class="md-container videos-page" style="padding-top: 10px;">
+  <div class="videos-header">
+    <div>
+      <h1><span class="material-symbols-outlined">smart_display</span> Videos</h1>
+      <p>A dedicated watch hub — every video lives on its own watch page so Google can index it as a <em>Video</em>. Browse by subject, search, and play.</p>
+    </div>
+    <form method="get" action="{% url 'web:videos' %}" class="videos-header-actions" style="flex: 1; max-width: 380px; min-width: 260px;">
+      <div class="videos-search" style="width: 100%;">
+        <span class="material-symbols-outlined">search</span>
+        <input type="search" name="q" value="{{ query }}" placeholder="Search videos, posts, topics…" aria-label="Search videos">
+        {% if current_category %}<input type="hidden" name="category" value="{{ current_category }}">{% endif %}
+        {% if current_sort %}<input type="hidden" name="sort" value="{{ current_sort }}">{% endif %}
+        {% if query %}<a href="{% url 'web:videos' %}{% if current_category %}?category={{ current_category|urlencode }}{% endif %}" style="color: var(--md-on-surface-variant); display: inline-flex;" aria-label="Clear search"><span class="material-symbols-outlined" style="font-size: 18px;">close</span></a>{% endif %}
+      </div>
+      <button type="submit" class="md-btn md-btn-filled" style="border-radius: 999px; white-space: nowrap;">
+        <span class="material-symbols-outlined" style="font-size: 18px;">search</span> Search
+      </button>
+    </form>
+  </div>
+
+  <div class="videos-controls">
+    <div class="videos-sort-tabs">
+      <a href="{% url 'web:videos' %}?sort=newest{% if query %}&q={{ query|urlencode }}{% endif %}{% if current_category %}&category={{ current_category|urlencode }}{% endif %}" class="videos-sort-tab {% if current_sort == 'newest' %}active{% endif %}"><span class="material-symbols-outlined">schedule</span> Newest</a>
+      <a href="{% url 'web:videos' %}?sort=popular{% if query %}&q={{ query|urlencode }}{% endif %}{% if current_category %}&category={{ current_category|urlencode }}{% endif %}" class="videos-sort-tab {% if current_sort == 'popular' %}active{% endif %}"><span class="material-symbols-outlined">trending_up</span> Popular</a>
+      <a href="{% url 'web:videos' %}?sort=oldest{% if query %}&q={{ query|urlencode }}{% endif %}{% if current_category %}&category={{ current_category|urlencode }}{% endif %}" class="videos-sort-tab {% if current_sort == 'oldest' %}active{% endif %}"><span class="material-symbols-outlined">history</span> Oldest</a>
+    </div>
+    {% if categories_data %}
+    <div class="videos-category-chips">
+      <a href="{% url 'web:videos' %}?{% if query %}q={{ query|urlencode }}&{% endif %}{% if current_sort %}sort={{ current_sort }}&{% endif %}" class="videos-chip {% if not current_category %}active{% endif %}">All{% if not current_category and total_count %} <span class="count">{{ total_count }}</span>{% endif %}</a>
+      {% for c in categories_data %}
+        <a href="{% url 'web:videos' %}?category={{ c.name|urlencode }}{% if query %}&q={{ query|urlencode }}{% endif %}{% if current_sort %}&sort={{ current_sort }}{% endif %}" class="videos-chip {% if current_category == c.name %}active{% endif %}">{{ c.name }} <span class="count">{{ c.count }}</span></a>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+
+  {% if query or current_category %}
+  <div style="margin-bottom: 12px; font-size: 0.875rem; color: var(--md-on-surface-variant);">
+    {% if total_count == 0 %}No results{% else %}{{ total_count }} video{{ total_count|pluralize }}{% endif %}
+    {% if query %} for “<strong style="color: var(--md-on-surface);">{{ query }}</strong>”{% endif %}
+    {% if current_category %} in <strong style="color: var(--md-on-surface);">{{ current_category }}</strong>{% endif %}
+    · <a href="{% url 'web:videos' %}" style="color: var(--md-primary); font-weight: 600; text-decoration: none;">Clear filters</a>
+  </div>
+  {% endif %}
+
+  {% if videos %}
+  <div class="videos-grid">
+    {% for v in videos %}
+    <a href="{% url 'web:video_watch' media_id=v.id %}" class="video-card" aria-label="Watch {{ v.title }}">
+      <div class="video-thumb-wrap">
+        {% if v.thumbnail_url %}
+          <img src="{{ v.thumbnail_url }}" alt="" loading="lazy" decoding="async">
+        {% else %}
+          <div class="video-thumb-fallback"><span class="material-symbols-outlined">smart_display</span></div>
+        {% endif %}
+        <span class="video-play-badge"><span class="material-symbols-outlined">play_arrow</span> Watch</span>
+      </div>
+      <div class="video-card-body">
+        <div class="video-card-title">{{ v.title }}</div>
+        <div class="video-card-meta">
+          {% if v.category %}<span class="video-card-category">{{ v.category }}</span> <span class="dot">·</span>{% endif %}
+          <span>{{ v.created_at|time_ago }}</span>
+          {% if v.size_bytes %}<span class="dot">·</span> <span>{{ v.size_bytes|filesizeformat }}</span>{% endif %}
+        </div>
+        {% if v.post_id %}
+        <div style="font-size: 0.78rem; color: var(--md-on-surface-variant); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+          From: {{ v.post_title|truncatechars:48|default:"Discussion" }}
+        </div>
+        {% endif %}
+        <div class="video-card-author">
+          {% if v.author_photo %}
+            <img src="{{ v.author_photo }}" alt="" loading="lazy">
+          {% else %}
+            <span class="letter">{{ v.author_name|slice:":1"|upper }}</span>
+          {% endif %}
+          <span class="name">{{ v.author_name }}</span>
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+
+  {% if page_obj.has_other_pages %}
+  <div class="videos-pagination">
+    {% if page_obj.has_previous %}
+      <a href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query|urlencode }}{% endif %}{% if current_category %}&category={{ current_category|urlencode }}{% endif %}&sort={{ current_sort }}"><span class="material-symbols-outlined">chevron_left</span> Previous</a>
+    {% endif %}
+    <span style="font-size: 0.875rem; color: var(--md-on-surface-variant);">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query|urlencode }}{% endif %}{% if current_category %}&category={{ current_category|urlencode }}{% endif %}&sort={{ current_sort }}">Next <span class="material-symbols-outlined">chevron_right</span></a>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  {% else %}
+  <div class="videos-empty">
+    <span class="material-symbols-outlined">video_library</span>
+    <h3>No videos yet{% if query or current_category %} matching filters{% endif %}</h3>
+    <p>When community members attach a video to a discussion, it appears here on a dedicated watch page — perfect for Google Video results and easy browsing.</p>
+    {% if query or current_category %}
+      <a href="{% url 'web:videos' %}" class="md-btn md-btn-tonal" style="text-decoration: none; margin-top: 10px;"><span class="material-symbols-outlined">clear</span> Clear filters</a>
+    {% else %}
+      <a href="{% url 'web:forum' %}" class="md-btn md-btn-tonal" style="text-decoration: none; margin-top: 10px;"><span class="material-symbols-outlined">forum</span> Browse Forum</a>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  {% if trending and not query and not current_category and videos %}
+  <div style="margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--md-outline-variant);">
+    <h3 style="font-size: 1rem; font-weight: 700; margin: 0 0 8px; color: var(--md-on-surface); display: flex; align-items: center; gap: 8px;"><span class="material-symbols-outlined" style="color: var(--md-primary);">local_fire_department</span> Trending</h3>
+    <p style="margin: 0 0 12px; color: var(--md-on-surface-variant); font-size: 0.875rem;">Recently added videos — Google sees each one on a true watch page.</p>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block bottomnav %}
+<nav class="md-bottomnav">
+  <div class="md-bottomnav-pill">
+    <a href="{% url 'web:home' %}" class="md-bottomnav-item" aria-label="Home">
+      <div class="md-bottomnav-icon-wrapper"><span class="material-symbols-outlined">home</span></div>
+      <span class="md-bottomnav-label">Home</span>
+    </a>
+    <a href="{% url 'web:library' %}" class="md-bottomnav-item" aria-label="Library">
+      <div class="md-bottomnav-icon-wrapper"><span class="material-symbols-outlined">menu_book</span></div>
+      <span class="md-bottomnav-label">Library</span>
+    </a>
+    <a href="{% url 'web:videos' %}" class="md-bottomnav-item md-nav-active" aria-label="Videos">
+      <div class="md-bottomnav-icon-wrapper"><span class="material-symbols-outlined">smart_display</span></div>
+      <span class="md-bottomnav-label">Videos</span>
+    </a>
+    <a href="{% url 'web:forum' %}" class="md-bottomnav-item" aria-label="Forum">
+      <div class="md-bottomnav-icon-wrapper"><span class="material-symbols-outlined">forum</span></div>
+      <span class="md-bottomnav-label">Forum</span>
+    </a>
+    <a href="{% url 'web:news_list' %}" class="md-bottomnav-item" aria-label="News">
+      <div class="md-bottomnav-icon-wrapper"><span class="material-symbols-outlined">newspaper</span></div>
+      <span class="md-bottomnav-label">News</span>
+    </a>
+  </div>
+</nav>
+{% endblock %}

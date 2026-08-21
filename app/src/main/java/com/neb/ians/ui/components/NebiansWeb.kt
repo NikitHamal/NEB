@@ -67,6 +67,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import com.neb.ians.ui.avatar.blobatarAnim
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.style.TextAlign
@@ -1055,29 +1056,39 @@ fun Avatar(
     val isNebians = remember(name) { name.equals("NEBians", ignoreCase = true) || name.equals("nebians", ignoreCase = true) }
     val isAnon = remember(name) { name.equals("Anonymous", ignoreCase = true) || name.equals("Anonymous Nebian", ignoreCase = true) }
     val effectiveVerificationLevel = verificationLevel
-
+    val resolvedUrl = remember(imageUrl) {
+        if (imageUrl.isNullOrBlank()) null
+        else {
+            var url = imageUrl.trim()
+            if (url.startsWith("http://127.0.0.1:8000/") || url.startsWith("http://localhost:8000/")) {
+                url = url.replace("http://127.0.0.1:8000/", "https://nebians.consica.com.np/")
+                    .replace("http://localhost:8000/", "https://nebians.consica.com.np/")
+            }
+            if (url.startsWith("http://") || url.startsWith("https://")) url
+            else "https://nebians.consica.com.np${if (url.startsWith("/")) "" else "/"}$url"
+        }
+    }
+    var isError by remember(resolvedUrl) { mutableStateOf(false) }
+    val avatarAnim = remember(resolvedUrl) { com.neb.ians.ui.avatar.avatarAnimFromUrl(resolvedUrl) }
+    val hasImageBg = !resolvedUrl.isNullOrBlank() && !isError && !isAnon && !isNebians
     Box(modifier = modifier.size(size)) {
         Surface(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .then(
+                    if (hasImageBg) Modifier.border(
+                        1.5.dp,
+                        androidx.compose.material3.MaterialTheme.colorScheme.outlineVariant,
+                        CircleShape
+                    ) else Modifier
+                ),
             shape = CircleShape,
-            color = if (isNebians) Color(0xFF1D65D8) else MaterialTheme.colorScheme.primary
-        ) {
-            val resolvedUrl = remember(imageUrl) {
-                if (imageUrl.isNullOrBlank()) null
-                else {
-                    var url = imageUrl.trim()
-                    if (url.startsWith("http://127.0.0.1:8000/") || url.startsWith("http://localhost:8000/")) {
-                        url = url.replace("http://127.0.0.1:8000/", "https://nebians.consica.com.np/")
-                                 .replace("http://localhost:8000/", "https://nebians.consica.com.np/")
-                    }
-                    if (url.startsWith("http://") || url.startsWith("https://")) {
-                        url
-                    } else {
-                        "https://nebians.consica.com.np${if (url.startsWith("/")) "" else "/"}$url"
-                    }
-                }
+            color = when {
+                isNebians -> Color(0xFF1D65D8)
+                hasImageBg -> MaterialTheme.colorScheme.surfaceContainerLowest
+                else -> MaterialTheme.colorScheme.primary
             }
-            var isError by remember(resolvedUrl) { mutableStateOf(false) }
+        ) {
             if (isAnon) {
                 Box(contentAlignment = Alignment.Center) {
                     Icon(
@@ -1091,7 +1102,7 @@ fun Avatar(
                 AsyncImage(
                     model = resolvedUrl,
                     contentDescription = name,
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize().blobatarAnim(avatarAnim),
                     contentScale = ContentScale.Crop,
                     onError = { isError = true }
                 )
