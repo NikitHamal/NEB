@@ -22,7 +22,7 @@ class Session:
         self.attached_images: List[Dict[str, Any]] = []
         self.max_steps_per_turn: int = 10
         self.mode_index: int = 0
-        self.tryingopen_effort: str = "balanced"  # quick | balanced | deep
+        self.thinking_effort: str = "balanced"  # quick | balanced | deep
         self.files_edited_count: int = 0
         self.reset()
 
@@ -37,17 +37,17 @@ class Session:
     def cycle_effort(self) -> str:
         order = ["quick", "balanced", "deep"]
         try:
-            idx = order.index(self.tryingopen_effort)
+            idx = order.index(self.thinking_effort)
         except ValueError:
             idx = 1
-        self.tryingopen_effort = order[(idx + 1) % len(order)]
-        return self.tryingopen_effort
+        self.thinking_effort = order[(idx + 1) % len(order)]
+        return self.thinking_effort
 
     def set_effort(self, effort: str) -> str:
         e = (effort or "").strip().lower()
         if e in ("quick", "balanced", "deep"):
-            self.tryingopen_effort = e
-        return self.tryingopen_effort
+            self.thinking_effort = e
+        return self.thinking_effort
 
     def reset(self):
         sys_prompt = build_system_prompt(
@@ -119,7 +119,7 @@ class Session:
     def is_vision_supported(self) -> bool:
         p = self.provider.lower()
         m = (self.model or "").lower()
-        if p in ("qwen", "tryingopen", "openai", "gemini", "anthropic", "egov", "metaai", "deepai"):
+        if p in ("qwen", "openai", "gemini", "anthropic", "egov", "metaai", "deepai"):
             return True
         if "vl" in m or "vision" in m or "vision" in p or "4o" in m:
             return True
@@ -151,3 +151,4 @@ class Session:
         new_base = list(base)
         new_base[last_user_idx] = {"role": "user", "content": parts}
         return new_base
+

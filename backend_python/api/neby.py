@@ -243,18 +243,6 @@ def _call_single_provider(system_prompt, user_message, config):
             system_prompt=system_prompt or '',
             max_tokens=max_tokens,
         )
-    if provider == 'tryingopen':
-        from . import tryingopen_proxy
-        # effort maps to thinking level; stored in BotConfig.model or api_url? Use config's extra?
-        # We piggyback on api_key field for effort if needed, but default to balanced.
-        effort = (getattr(config, 'effort', '') or 'balanced') if hasattr(config, 'effort') else 'balanced'
-        return tryingopen_proxy.simple_chat(
-            user_message=user_message,
-            model=config.model or tryingopen_proxy.DEFAULT_MODEL,
-            system_prompt=system_prompt or '',
-            effort=effort,
-            max_tokens=max_tokens,
-        )
     if provider == 'longcat':
         from . import longcat_proxy
         return longcat_proxy.simple_chat(

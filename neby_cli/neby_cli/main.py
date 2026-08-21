@@ -48,7 +48,7 @@ def handle_slash_command(cmd: str, session: Session, ui=None) -> bool:
         return True
     elif cmd_lower in ("/help", "help"):
         if ui:
-            ui.append_history("[dim]Commands: /model, /tryingopen, /think, /paste-img, /image, /clear-img, /agents, /diff, /files, /clear, /help, /exit[/dim]")
+            ui.append_history("[dim]Commands: /model, /think, /paste-img, /image, /clear-img, /agents, /diff, /files, /clear, /help, /exit[/dim]")
         else:
             print_help()
         return True
@@ -77,7 +77,7 @@ def handle_slash_command(cmd: str, session: Session, ui=None) -> bool:
             else:
                 console.print(f"[dim cyan]Thinking effort → {new}[/dim cyan]")
             return True
-        eff = getattr(session, "tryingopen_effort", "balanced")
+        eff = getattr(session, "thinking_effort", "balanced")
         if ui:
             ui.append_history(f"[dim cyan]TryingOpen effort set to {eff}[/dim cyan] (quick/balanced/deep)")
         else:
@@ -250,3 +250,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

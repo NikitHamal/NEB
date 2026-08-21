@@ -56,7 +56,7 @@ def run_agent_turn(
         try:
             msgs = session.get_vision_messages() if hasattr(session, "get_vision_messages") else session.get_trimmed_messages()
             imgs = getattr(session, "attached_images", None)
-            effort = getattr(session, "tryingopen_effort", "balanced") if (session.provider or "").lower() == "tryingopen" else None
+            effort = getattr(session, "thinking_effort", None)
             for chunk in stream_chat(msgs, provider=session.provider, model=session.model, images=imgs, effort=effort):
                 if should_stop():
                     break
@@ -167,3 +167,4 @@ def run_agent_turn(
 
         if is_done or should_stop():
             break
+

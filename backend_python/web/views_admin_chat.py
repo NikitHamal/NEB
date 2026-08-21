@@ -24,7 +24,6 @@ _CAPS = {
     'poolside':  {'stream': True,  'thinking': False, 'web_search': True,  'files': False},
     'motiftech': {'stream': True,  'thinking': True,  'web_search': False, 'files': False},
     'metaai':    {'stream': True,  'thinking': True,  'web_search': False, 'files': False},
-    'tryingopen': {'stream': True, 'thinking': True,  'web_search': False, 'files': False},
     'longcat':   {'stream': True,  'thinking': True,  'web_search': True,  'files': False},
     'geminiweb': {'stream': True,  'thinking': False, 'web_search': False, 'files': False},
 }
@@ -58,13 +57,11 @@ _SCRAPER_DISPATCH = {
     'poolside':  ('messages', 'poolside_proxy'),
     'motiftech': ('messages', 'motiftech_proxy'),
     'metaai':    ('messages', 'metaai_proxy'),
-    'tryingopen': ('messages', 'tryingopen_proxy'),
     'longcat':   ('messages', 'longcat_proxy'),
     'geminiweb': ('messages', 'geminiweb_proxy'),
 }
 
 _INCEPTION_SLUGS = ('inception',)
-_TRYINGOPEN_SLUGS = ('tryingopen',)
 
 
 def _iter_scraper_chunks(slug, message, history, model, reasoning, web_search):
@@ -92,8 +89,6 @@ def _iter_scraper_chunks(slug, message, history, model, reasoning, web_search):
     if slug in _INCEPTION_SLUGS:
         kwargs['reasoning_effort'] = 'high' if reasoning else 'low'
         kwargs['web_search'] = web_search
-    elif slug in _TRYINGOPEN_SLUGS:
-        kwargs['effort'] = 'deep' if reasoning else 'quick'
     for chunk in mod.stream_chat(**kwargs):
         t = chunk.get('type')
         if t == 'text':
