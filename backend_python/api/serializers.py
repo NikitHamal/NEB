@@ -649,7 +649,7 @@ class BookmarkSerializer(serializers.ModelSerializer):
 class ReportSerializer(serializers.ModelSerializer):
     reporter_username = serializers.CharField(source='reporter.username', read_only=True, allow_null=True)
     reporter_display_name = serializers.CharField(source='reporter.display_name', read_only=True, allow_null=True)
-    reporter_photo_url = serializers.CharField(source='reporter.photo_url', read_only=True, allow_null=True)
+    reporter_photo_url = serializers.SerializerMethodField()
     target_summary = serializers.SerializerMethodField()
     target_author_username = serializers.SerializerMethodField()
     target_author_id = serializers.SerializerMethodField()
@@ -753,6 +753,13 @@ class ReportSerializer(serializers.ModelSerializer):
         if obj.target_type == 'user':
             return f'/profile/{target.username}/'
         return ''
+
+    def get_reporter_photo_url(self, obj):
+        reporter = getattr(obj, 'reporter', None)
+        if not reporter:
+            return None
+        from .services import avatar_or_photo_url
+        return avatar_or_photo_url(reporter) or None
 
 
 class NotificationSerializer(serializers.ModelSerializer):

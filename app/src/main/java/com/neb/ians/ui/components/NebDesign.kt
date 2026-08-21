@@ -276,8 +276,9 @@ fun NebAvatar(
     }
 
     var isError by remember(resolvedUrl) { mutableStateOf(false) }
+    val isNeby = remember(name) { name.equals("Neby", ignoreCase = true) || name.equals("neby", ignoreCase = true) }
     val nebAnim = remember(resolvedUrl) { com.neb.ians.ui.avatar.avatarAnimFromUrl(resolvedUrl) }
-    val hasImageBgNeb = !resolvedUrl.isNullOrBlank() && !isError
+    val hasImageBgNeb = !isNeby && !resolvedUrl.isNullOrBlank() && !isError
 
     Box(modifier = modifier.then(ringMod), contentAlignment = Alignment.Center) {
         Box(
@@ -294,7 +295,15 @@ fun NebAvatar(
                 ),
             contentAlignment = Alignment.Center
         ) {
-            if (!resolvedUrl.isNullOrBlank() && !isError) {
+            if (isNeby) {
+                Box(contentAlignment = Alignment.Center) {
+                    com.neb.ians.ui.avatar.neby.NebyAvatarMini(
+                        animation = "idle",
+                        size = size,
+                        interactive = false
+                    )
+                }
+            } else if (!resolvedUrl.isNullOrBlank() && !isError) {
                 AsyncImage(
                     model = resolvedUrl,
                     contentDescription = name,

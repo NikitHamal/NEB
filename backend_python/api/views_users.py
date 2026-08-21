@@ -546,6 +546,7 @@ def user_follow_requests_list(request):
         return err
     
     from .models import FollowRequest
+    from .services import avatar_or_photo_url
     reqs = FollowRequest.objects.filter(receiver=current_user).select_related('sender')
     data = []
     for r in reqs:
@@ -555,7 +556,7 @@ def user_follow_requests_list(request):
                 'id': r.sender.id,
                 'username': r.sender.username,
                 'display_name': r.sender.display_name or r.sender.username,
-                'photo_url': r.sender.photo_url or '',
+                'photo_url': avatar_or_photo_url(r.sender) or '',
             },
             'created_at': r.created_at
         })
@@ -624,6 +625,7 @@ def user_follow_request_reject(request, request_id):
 @permission_classes([AllowAny])
 def institutions_list(request):
     """GET /api/users/institutions/"""
+    from .services import avatar_or_photo_url
     insts = User.objects.filter(role='institution')
     data = []
     for inst in insts:
@@ -631,7 +633,7 @@ def institutions_list(request):
             'id': inst.id,
             'username': inst.username,
             'displayName': inst.display_name or inst.username,
-            'photoUrl': inst.photo_url or ''
+            'photoUrl': avatar_or_photo_url(inst) or ''
         })
     return Response({'institutions': data})
 

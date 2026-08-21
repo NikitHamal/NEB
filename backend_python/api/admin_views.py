@@ -387,13 +387,14 @@ def admin_post_detail(request, post_id):
     if request.method == 'GET':
         data = PostSerializer(post, context={'request': request}).data
         from api.models import PostView, User
+        from .services import avatar_or_photo_url
         viewers_qs = PostView.objects.filter(post_id=post_id).select_related('user').order_by('-viewed_at')[:50]
         data['viewers'] = [
             {
                 'userId': v.user_id,
                 'username': v.user.username,
                 'displayName': v.user.display_name,
-                'photoUrl': v.user.photo_url or '',
+                'photoUrl': avatar_or_photo_url(v.user) or '',
                 'viewedAt': v.viewed_at,
             }
             for v in viewers_qs

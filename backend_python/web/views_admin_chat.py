@@ -4,6 +4,8 @@ from django.http import StreamingHttpResponse, JsonResponse
 from django.views.decorators.http import require_POST
 from .view_helpers import _require_staff_admin
 
+from api.llm.registry import admin_catalog
+
 def _sse(obj):
     return f"data: {json.dumps(obj, ensure_ascii=False)}\n\n"
 
@@ -13,27 +15,95 @@ def _sse_done():
 def _uuid():
     return str(uuid.uuid4())
 
-PROVIDERS = [
-    {'id': 'qwen',       'label': 'Qwen (chat.qwen.ai)',                           'stream': True,  'thinking': True,  'web_search': True,  'files': True},
-    {'id': 'egov',       'label': 'eGov Chat AI (Philippines)',                    'stream': True,  'thinking': False, 'web_search': False, 'files': True},
-    {'id': 'deepai',     'label': 'DeepAI (deepai.org)',                           'stream': True,  'thinking': True,  'web_search': False, 'files': True},
-    {'id': 'inception',  'label': 'Inception Labs (Mercury 2)',                    'stream': True,  'thinking': True,  'web_search': True,  'files': False},
-    {'id': 'k2think',    'label': 'K2 Think (k2think.ai — MBZUAI K2 Think V2)',    'stream': True,  'thinking': True,  'web_search': False, 'files': False},
-    {'id': 'poolside',   'label': 'Poolside (chat.poolside.ai — Laguna 2.1)',      'stream': True,  'thinking': False, 'web_search': True,  'files': False},
-    {'id': 'motiftech',  'label': 'Motif (chat.motiftech.io — Motif 3)',           'stream': True,  'thinking': True,  'web_search': False, 'files': False},
-    {'id': 'custom',     'label': 'Custom OpenAI-compatible endpoint',             'stream': False, 'thinking': False, 'web_search': False, 'files': False},
-]
-
-MODEL_OPTIONS = {
-    'qwen':      [{'id': 'qwen3.8-max', 'label': 'Qwen 3.8 Max'}, {'id': 'qwen3.7-plus', 'label': 'Qwen 3.7 Plus'}, {'id': 'qwen3.7-max', 'label': 'Qwen 3.7 Max'}, {'id': 'qwen3.6-plus', 'label': 'Qwen 3.6 Plus'}],
-    'egov':      [{'id': 'AI1', 'label': 'eGov AI1 (Global)'}, {'id': 'AI1-ph', 'label': 'eGov AI1 (Philippines)'}, {'id': 'AI2', 'label': 'eGov AI2 (Global)'}, {'id': 'AI2-ph', 'label': 'eGov AI2 (Philippines)'}],
-    'deepai':    [{'id': 'standard', 'label': 'DeepAI Standard'}, {'id': 'deepseek-v3.2', 'label': 'DeepSeek V3.2'}, {'id': 'gemma-4', 'label': 'Gemma 4'}, {'id': 'gpt-4.1-nano', 'label': 'GPT-4.1 Nano'}, {'id': 'gpt-5-nano', 'label': 'GPT-5 Nano'}, {'id': 'gemini-2.5-flash-lite', 'label': 'Gemini 2.5 Flash Lite'}, {'id': 'llama-3.3-70b-instruct', 'label': 'Llama 3.3 70B'}, {'id': 'o4-mini', 'label': 'o4 Mini'}, {'id': 'gpt-4o-mini', 'label': 'GPT-4o Mini'}, {'id': 'gpt-oss-120b', 'label': 'GPT OSS 120B (Reasoning)'}],
-    'inception': [{'id': 'mercury-2', 'label': 'Mercury 2'}],
-    'k2think':   [{'id': 'MBZUAI-IFM/K2-Think-v2', 'label': 'K2 Think V2'}],
-    'poolside':  [{'id': 'laguna-s-2.1', 'label': 'Laguna S 2.1'}, {'id': 'laguna-xs-2.1', 'label': 'Laguna XS 2.1'}],
-    'motiftech': [{'id': 'motif-102b', 'label': 'Motif 3'}, {'id': 'motif-12-7b', 'label': 'Motif 12.7B'}, {'id': 'motif-12-7b-reasoning', 'label': 'Motif 12.7B Reasoning'}, {'id': 'motif-tiny', 'label': 'Motif Tiny'}],
-    'custom':    [],
+_CAPS = {
+    'qwen':      {'stream': True,  'thinking': True,  'web_search': True,  'files': True},
+    'egov':      {'stream': True,  'thinking': False, 'web_search': False, 'files': True},
+    'deepai':    {'stream': True,  'thinking': True,  'web_search': False, 'files': True},
+    'inception': {'stream': True,  'thinking': True,  'web_search': True,  'files': False},
+    'k2think':   {'stream': True,  'thinking': True,  'web_search': False, 'files': False},
+    'poolside':  {'stream': True,  'thinking': False, 'web_search': True,  'files': False},
+    'motiftech': {'stream': True,  'thinking': True,  'web_search': False, 'files': False},
+    'metaai':    {'stream': True,  'thinking': True,  'web_search': False, 'files': False},
+    'tryingopen': {'stream': True, 'thinking': True,  'web_search': False, 'files': False},
+    'longcat':   {'stream': True,  'thinking': True,  'web_search': True,  'files': False},
+    'geminiweb': {'stream': True,  'thinking': False, 'web_search': False, 'files': False},
 }
+
+
+def _build_provider_lists():
+    catalog = admin_catalog()
+    providers = []
+    model_options = {}
+    for entry in catalog['scrapers'] + catalog['official']:
+        slug = entry['slug']
+        caps = _CAPS.get(slug, {'stream': True, 'thinking': False, 'web_search': False, 'files': False})
+        providers.append({'id': slug, 'label': entry['label'], **caps})
+        model_options[slug] = [{'id': m['id'], 'label': m['label']} for m in entry['models']]
+    providers.append({'id': 'custom', 'label': 'Custom OpenAI-compatible endpoint',
+                      'stream': False, 'thinking': False, 'web_search': False, 'files': False})
+    model_options['custom'] = []
+    return providers, model_options
+
+
+PROVIDERS, MODEL_OPTIONS = _build_provider_lists()
+
+# Dispatch table for community proxies. Each entry:
+#   kind='legacy'  -> stream_chat(user_message=, model=, history=, system_prompt=), chunks {type:'content', text}
+#   kind='messages'-> stream_chat(messages=, model=...), chunks {type:'text'|'error', content/error}
+_SCRAPER_DISPATCH = {
+    'egov':      ('legacy', 'egov_proxy'),
+    'deepai':    ('legacy', 'deepai_proxy'),
+    'inception': ('messages', 'inception_proxy'),
+    'k2think':   ('messages', 'k2think_proxy'),
+    'poolside':  ('messages', 'poolside_proxy'),
+    'motiftech': ('messages', 'motiftech_proxy'),
+    'metaai':    ('messages', 'metaai_proxy'),
+    'tryingopen': ('messages', 'tryingopen_proxy'),
+    'longcat':   ('messages', 'longcat_proxy'),
+    'geminiweb': ('messages', 'geminiweb_proxy'),
+}
+
+_INCEPTION_SLUGS = ('inception',)
+_TRYINGOPEN_SLUGS = ('tryingopen',)
+
+
+def _iter_scraper_chunks(slug, message, history, model, reasoning, web_search):
+    kind, mod_name = _SCRAPER_DISPATCH[slug]
+    import importlib
+    mod = importlib.import_module(f'api.{mod_name}')
+    if kind == 'legacy':
+        for chunk in mod.stream_chat(
+            user_message=message,
+            model=model,
+            history=history,
+            system_prompt='You are a helpful assistant.',
+        ):
+            t = chunk.get('type')
+            if t == 'content':
+                yield {'type': 'text', 'content': chunk.get('text', '')}
+            elif t == 'done':
+                return
+            elif t == 'error':
+                yield {'type': 'error', 'error': chunk.get('message', 'upstream error')}
+                return
+        return
+    msgs = history + [{'role': 'user', 'content': message}]
+    kwargs = {'messages': msgs, 'model': model}
+    if slug in _INCEPTION_SLUGS:
+        kwargs['reasoning_effort'] = 'high' if reasoning else 'low'
+        kwargs['web_search'] = web_search
+    elif slug in _TRYINGOPEN_SLUGS:
+        kwargs['effort'] = 'deep' if reasoning else 'quick'
+    for chunk in mod.stream_chat(**kwargs):
+        t = chunk.get('type')
+        if t == 'text':
+            yield {'type': 'text', 'content': chunk.get('content', '')}
+        elif t == 'done':
+            return
+        elif t == 'error':
+            yield {'type': 'error', 'error': chunk.get('error', 'upstream error')}
+            return
+
 
 def admin_chat(request):
     redirect_response = _require_staff_admin(request)
@@ -87,119 +157,16 @@ def ajax_admin_chat_send(request):
             except Exception as e:
                 yield _sse({'type': 'error', 'message': str(e)})
 
-        elif provider == 'egov':
-            from api import egov_proxy
+        elif provider in _SCRAPER_DISPATCH:
             try:
-                for chunk in egov_proxy.stream_chat(
-                    user_message=message,
-                    model=model or 'AI1',
-                    history=history,
-                    system_prompt='You are a helpful assistant.',
+                default_model = MODEL_OPTIONS.get(provider, [{}])[0].get('id', '')
+                for chunk in _iter_scraper_chunks(
+                    provider, message, history,
+                    model or default_model, reasoning, web_search,
                 ):
-                    t = chunk.get('type')
-                    if t == 'content':
-                        yield _sse({'type': 'text', 'content': chunk.get('text', '')})
-                    elif t == 'done':
-                        break
-                    elif t == 'error':
-                        yield _sse({'type': 'error', 'message': chunk.get('message', 'upstream error')})
-                        break
-            except Exception as e:
-                yield _sse({'type': 'error', 'message': str(e)})
-
-        elif provider == 'deepai':
-            from api import deepai_proxy
-            try:
-                for chunk in deepai_proxy.stream_chat(
-                    user_message=message,
-                    model=model or 'standard',
-                    history=history,
-                    system_prompt='You are a helpful assistant.',
-                ):
-                    t = chunk.get('type')
-                    if t == 'content':
-                        yield _sse({'type': 'text', 'content': chunk.get('text', '')})
-                    elif t == 'done':
-                        break
-                    elif t == 'error':
-                        yield _sse({'type': 'error', 'message': chunk.get('message', 'upstream error')})
-                        break
-            except Exception as e:
-                yield _sse({'type': 'error', 'message': str(e)})
-
-        elif provider == 'inception':
-            from api import inception_proxy
-            try:
-                msgs = history + [{'role': 'user', 'content': message}]
-                for chunk in inception_proxy.stream_chat(
-                    messages=msgs,
-                    model=model or 'mercury-2',
-                    reasoning_effort='high' if reasoning else 'low',
-                    web_search=web_search,
-                ):
-                    t = chunk.get('type')
-                    if t == 'text':
+                    if chunk.get('type') == 'text':
                         yield _sse({'type': 'text', 'content': chunk.get('content', '')})
-                    elif t == 'done':
-                        break
-                    elif t == 'error':
-                        yield _sse({'type': 'error', 'message': chunk.get('error', 'upstream error')})
-                        break
-            except Exception as e:
-                yield _sse({'type': 'error', 'message': str(e)})
-
-        elif provider == 'k2think':
-            from api import k2think_proxy
-            try:
-                msgs = history + [{'role': 'user', 'content': message}]
-                for chunk in k2think_proxy.stream_chat(
-                    messages=msgs,
-                    model=model or 'MBZUAI-IFM/K2-Think-v2',
-                ):
-                    t = chunk.get('type')
-                    if t == 'text':
-                        yield _sse({'type': 'text', 'content': chunk.get('content', '')})
-                    elif t == 'done':
-                        break
-                    elif t == 'error':
-                        yield _sse({'type': 'error', 'message': chunk.get('error', 'upstream error')})
-                        break
-            except Exception as e:
-                yield _sse({'type': 'error', 'message': str(e)})
-
-        elif provider == 'poolside':
-            from api import poolside_proxy
-            try:
-                msgs = history + [{'role': 'user', 'content': message}]
-                for chunk in poolside_proxy.stream_chat(
-                    messages=msgs,
-                    model=model or 'laguna-s-2.1',
-                ):
-                    t = chunk.get('type')
-                    if t == 'text':
-                        yield _sse({'type': 'text', 'content': chunk.get('content', '')})
-                    elif t == 'done':
-                        break
-                    elif t == 'error':
-                        yield _sse({'type': 'error', 'message': chunk.get('error', 'upstream error')})
-                        break
-            except Exception as e:
-                yield _sse({'type': 'error', 'message': str(e)})
-
-        elif provider == 'motiftech':
-            from api import motiftech_proxy
-            try:
-                msgs = history + [{'role': 'user', 'content': message}]
-                for chunk in motiftech_proxy.stream_chat(
-                    messages=msgs,
-                    model=model or 'motif-102b',
-                ):
-                    t = chunk.get('type')
-                    if t == 'text':
-                        yield _sse({'type': 'text', 'content': chunk.get('content', '')})
-                    elif t == 'done':
-                        break
-                    elif t == 'error':
+                    elif chunk.get('type') == 'error':
                         yield _sse({'type': 'error', 'message': chunk.get('error', 'upstream error')})
                         break
             except Exception as e:

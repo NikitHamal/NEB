@@ -2,10 +2,10 @@
 {% load static web_extras %}
 
 {% block title %}{{ post.title|default:"Discussion" }} - NEBians{% endblock %}
-{% block description %}{{ post.content|truncatechars:160|default:"Discussion on NEBians forum" }}{% endblock %}
+{% block description %}{{ post.content|strip_inline|truncatechars:160|default:"Discussion on NEBians forum" }}{% endblock %}
 {% block keywords %}NEBians, discussion, forum, {{ post.category }}, {{ post.authorName }}{% endblock %}
 {% block og_title %}{{ post.title|default:"Discussion" }} - NEBians Forum{% endblock %}
-{% block og_description %}{{ post.content|truncatechars:200|default:"Discussion on NEBians forum" }}{% endblock %}
+{% block og_description %}{{ post.content|strip_inline|truncatechars:200|default:"Discussion on NEBians forum" }}{% endblock %}
 {% block og_type %}article{% endblock %}
 {% block og_image %}{% if post.images %}{{ post.images.0.imageUrl }}{% elif post.attachments.0.thumbnailUrl %}{{ post.attachments.0.thumbnailUrl }}{% elif post.attachments.0.thumbnail_url %}{{ post.attachments.0.thumbnail_url }}{% else %}https://nebians.consica.com.np{% static 'web/img/n-logo-social-1200.png' %}{% endif %}{% endblock %}
 {% block og_image_secure %}{% if post.images %}{{ post.images.0.imageUrl }}{% elif post.attachments.0.thumbnailUrl %}{{ post.attachments.0.thumbnailUrl }}{% elif post.attachments.0.thumbnail_url %}{{ post.attachments.0.thumbnail_url }}{% else %}https://nebians.consica.com.np{% static 'web/img/n-logo-social-1200.png' %}{% endif %}{% endblock %}
@@ -14,7 +14,7 @@
 {% block tw_image %}{% if post.images %}{{ post.images.0.imageUrl }}{% elif post.attachments.0.thumbnailUrl %}{{ post.attachments.0.thumbnailUrl }}{% elif post.attachments.0.thumbnail_url %}{{ post.attachments.0.thumbnail_url }}{% else %}https://nebians.consica.com.np{% static 'web/img/n-logo-social-1200.png' %}{% endif %}{% endblock %}
 {% block tw_image_alt %}{% if post.images or post.attachments.0.thumbnailUrl or post.attachments.0.thumbnail_url %}Preview from: {{ post.title|default:"Discussion" }} on NEBians{% else %}NEBians logo{% endif %}{% endblock %}
 {% block tw_title %}{{ post.title|default:"Discussion" }} - NEBians{% endblock %}
-{% block tw_description %}{{ post.content|truncatechars:200|default:"Discussion on NEBians forum" }}{% endblock %}
+{% block tw_description %}{{ post.content|strip_inline|truncatechars:200|default:"Discussion on NEBians forum" }}{% endblock %}
 {% block nav_forum %}md-nav-active{% endblock %}
 {% block bnav_forum %}md-nav-active{% endblock %}
 
@@ -27,7 +27,7 @@
   "url": "{{ request.scheme }}://{{ request.get_host }}{{ request.path }}",
   "mainEntityOfPage": "{{ request.scheme }}://{{ request.get_host }}{{ request.path }}",
   "headline": "{{ post.title|escapejs }}",
-  "description": "{{ post.content|truncatechars:220|escapejs }}",
+  "description": "{{ post.content|strip_inline|truncatechars:220|escapejs }}",
   "datePublished": "{{ post.createdAt|timestamp_to_iso }}",
   "dateModified": "{% if post.isEdited and post.editedAt %}{{ post.editedAt|timestamp_to_iso }}{% else %}{{ post.createdAt|timestamp_to_iso }}{% endif %}",
   "publisher": { "@id": "https://nebians.consica.com.np/#organization" },
@@ -383,6 +383,21 @@ function isMobile() { return window.innerWidth <= 768; }
 
 function renderMentions(text) {
   if (!text) return '';
+  if (window.InlineMedia && text && text.indexOf('[[img:') >= 0) {
+    var IM = window.InlineMedia;
+    return IM.splitRender(text, function(piece){
+      if (!piece) return '';
+      let md = piece.replace(/@(\w+)/g, function(match, username) {
+        const lower = username.toLowerCase();
+        const found = ALL_USERNAMES.find(function(u) { return u.toLowerCase() === lower; });
+        if (found) {
+          return '[@' + found + '](/profile/' + encodeURIComponent(found) + '/)';
+        }
+        return match;
+      });
+      return renderMarkdown(md);
+    });
+  }
   let md = text.replace(/@(\w+)/g, function(match, username) {
     const lower = username.toLowerCase();
     const found = ALL_USERNAMES.find(function(u) { return u.toLowerCase() === lower; });
@@ -505,9 +520,26 @@ function deletePost() {
 }
 
 function startEditReply(replyId) {
+  var card = document.getElementById('reply-card-' + replyId);
+  var raw = card ? card.getAttribute('data-raw-content') : '';
   var contentEl = document.getElementById('reply-content-' + replyId);
+  var text = raw || '';
+  if (!text && contentEl) {
+    if (contentEl.querySelector && contentEl.querySelector('.neb-chip')) {
+      try { text = window.InlineMedia ? window.InlineMedia.serializeEditor(contentEl) : contentEl.textContent || ''; } catch(_){ text = contentEl.textContent || ''; }
+    } else {
+      text = contentEl.textContent || '';
+    }
+  }
   document.getElementById('editReplyId').value = replyId;
-  document.getElementById('editReplyContent').value = contentEl ? contentEl.textContent : '';
+  var ta = document.getElementById('editReplyContent');
+  if (ta) {
+    ta.value = text;
+    if (window.InlineMedia && window.InlineMedia.enhanceTextarea) {
+      try { window.InlineMedia.enhanceTextarea(ta); } catch(_){}
+      if (ta._nebEditor) { try { window.InlineMedia.loadEditor(ta._nebEditor, text); } catch(_){} }
+    }
+  }
   document.getElementById('editReplyModal').classList.add('active');
 }
 function closeEditReplyModal() { document.getElementById('editReplyModal').classList.remove('active'); }
@@ -1044,7 +1076,9 @@ function renderThreadParent(parent) {
 
 function truncateQuote(text, maxLen) {
   if (!text) return '';
-  let clean = text.replace(/@\w+/g, '').replace(/\*\*|__|\*|_|~~|`/g, '').replace(/\n+/g, ' ').replace(/\s+/g, ' ').trim();
+  var _plain = text;
+  if (window.InlineMedia && window.InlineMedia.stripTokens) _plain = window.InlineMedia.plainText(_plain || '');
+  let clean = _plain.replace(/@\w+/g, '').replace(/\*\*|__|\*|_|~~|`/g, '').replace(/\n+/g, ' ').replace(/\s+/g, ' ').trim();
   if (clean.length <= maxLen) return clean;
   return clean.substring(0, maxLen).replace(/\s+\S*$/, '') + '…';
 }
@@ -1247,6 +1281,19 @@ document.querySelectorAll('.modal-overlay').forEach(overlay => {
     if (e.target === overlay) overlay.classList.remove('active');
   });
 });
+
+(function bindNebComposers(){
+  function enhanceAllFP(){
+    if (!window.InlineMedia) return;
+    var _ids = ['mainReplyContent','threadSidebarTextarea','threadSheetTextarea','editPostContent','editReplyContent'];
+    _ids.forEach(function(id){ var el=document.getElementById(id); if(el) window.InlineMedia.enhanceTextarea(el); });
+  }
+  if (document.readyState !== 'loading') setTimeout(enhanceAllFP, 60);
+  else document.addEventListener('DOMContentLoaded', function(){ setTimeout(enhanceAllFP, 60); });
+  // Watch for thread sheet/sidebar being re-rendered (loadThreadReplies replaces innerHTML)
+  var _origOpenThread = window.openThread || null;
+  setInterval(function(){ try{ enhanceAllFP(); }catch(_){} }, 1200);
+})();
 
 // User popup on hover for username links
 let popupShowTimer = null;

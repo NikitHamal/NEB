@@ -295,14 +295,23 @@ fun ProfileHeaderCard(
                         .background(MaterialTheme.colorScheme.surfaceContainerLowest, CircleShape)
                         .padding(4.dp)
                 ) {
-                    Avatar(
-                        name = profile.displayName ?: profile.username,
-                        imageUrl = profile.photoUrl,
-                        size = 84.dp,
-                        modifier = Modifier
-                            .clip(CircleShape)
-                            .clickable(onClick = onAvatarClick)
-                    )
+                    if (profile.isBot) {
+                        com.neb.ians.ui.avatar.neby.NebyAvatar(
+                            animation = "idle",
+                            size = 84.dp,
+                            interactive = true,
+                            modifier = Modifier.clip(CircleShape)
+                        )
+                    } else {
+                        Avatar(
+                            name = profile.displayName ?: profile.username,
+                            imageUrl = profile.photoUrl,
+                            size = 84.dp,
+                            modifier = Modifier
+                                .clip(CircleShape)
+                                .clickable(onClick = onAvatarClick)
+                        )
+                    }
                 }
             }
 
@@ -347,26 +356,6 @@ fun ProfileHeaderCard(
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
-
-                if (profile.isBot) {
-                    Spacer(modifier = Modifier.height(14.dp))
-                    Column(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        com.neb.ians.ui.avatar.neby.NebyAvatarHero(
-                            animation = "idle",
-                            size = 110.dp,
-                            interactive = true
-                        )
-                        Spacer(modifier = Modifier.height(6.dp))
-                        Text(
-                            text = "Tap Neby for a reaction",
-                            style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                }
 
                 Spacer(modifier = Modifier.height(16.dp))
 

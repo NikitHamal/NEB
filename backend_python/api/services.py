@@ -807,12 +807,17 @@ def _serialize_media_payload(media_iterable):
 def _serialize_resource_comment(comment):
     """Serialize a ResourceComment to a dict for JSON responses."""
     media = comment.media.all() if hasattr(comment, 'media') else []
+    user = getattr(comment, 'user', None)
+    if user:
+        author_photo = avatar_or_photo_url(user) or ''
+    else:
+        author_photo = ''
     return {
         'id': comment.id,
         'resourceId': comment.resource_id,
         'authorId': comment.user_id or '',
         'authorName': comment.user.username if hasattr(comment, 'user') and comment.user else 'Anonymous',
-        'authorPhoto': comment.user.photo_url if hasattr(comment, 'user') and comment.user else '',
+        'authorPhoto': author_photo,
         'parentCommentId': comment.parent_comment_id or '',
         'content': comment.content,
         'likeCount': comment.like_count,

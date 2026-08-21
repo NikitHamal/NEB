@@ -828,6 +828,8 @@ def _ctx(request, **extra):
                 user['is_admin'] = db_user.is_admin
                 user['verification_level'] = db_user.verification_level
                 user['moderator_level'] = db_user.moderator_level
+                user['enable_inline_images'] = getattr(db_user, 'enable_inline_images', True)
+                user['enableInlineImages'] = getattr(db_user, 'enable_inline_images', True)
                 if db_user.avatar_use_pp:
                     user['photo_url'] = _blobatar_url_for(db_user)
                     user['avatar_url'] = _blobatar_url_for(db_user)
@@ -1094,6 +1096,7 @@ def _normalize_user_data(user):
         'displayName': 'display_name',
         'photoUrl': 'photo_url',
         'isNewUser': 'is_new_user',
+        'enableInlineImages': 'enable_inline_images',
     }
     for old_key, new_key in mapping.items():
         if old_key in user and new_key not in user:
@@ -1108,6 +1111,11 @@ def _normalize_user_data(user):
         user['avatar_url'] = user['photoUrl'] or _blobatar_url_for(user)
     else:
         user['avatar_url'] = _blobatar_url_for(user)
+
+    if 'enable_inline_images' not in user:
+        user['enable_inline_images'] = True
+    if 'enableInlineImages' not in user:
+        user['enableInlineImages'] = user.get('enable_inline_images', True)
 
     return user
 

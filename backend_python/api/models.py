@@ -91,6 +91,7 @@ class User(models.Model):
     school_username = models.CharField(max_length=50, blank=True, default='')
     bio = models.TextField(blank=True, default='')
     is_locked = models.BooleanField(default=False)
+    enable_inline_images = models.BooleanField(default=True)
     password_hash = models.CharField(max_length=255, blank=True, null=True)
     email_verified = models.BooleanField(default=False)
     # Stores a Django password-hash of the short email verification/reset code.

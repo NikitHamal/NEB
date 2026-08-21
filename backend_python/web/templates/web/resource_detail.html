@@ -2,10 +2,10 @@
 {% load static web_extras %}
 
 {% block title %}{{ resource.title|default:"Resource" }}{% endblock %}
-{% block description %}{{ resource.description|truncatechars:160|default:"Study resource on NEBians" }}{% endblock %}
+{% block description %}{{ resource.description|strip_inline|truncatechars:160|default:"Study resource on NEBians" }}{% endblock %}
 {% block keywords %}NEBians, {{ resource.subject }}, {{ resource.tags|default:"" }}, {{ resource.type }}, {{ resource.grade_level }}, study resource{% endblock %}
 {% block og_title %}{{ resource.title|default:"Resource" }} - NEBians{% endblock %}
-{% block og_description %}{{ resource.description|truncatechars:200|default:"Study resource on NEBians" }}{% endblock %}
+{% block og_description %}{{ resource.description|strip_inline|truncatechars:200|default:"Study resource on NEBians" }}{% endblock %}
 {% block og_type %}article{% endblock %}
 {% block nav_library %}md-nav-active{% endblock %}
 {% block bnav_library %}md-nav-active{% endblock %}
@@ -24,7 +24,7 @@
   "@context": "https://schema.org",
   "@type": ["LearningResource", "DigitalDocument"],
   "name": "{{ resource.title|default:'Resource'|escapejs }}",
-  "description": "{{ resource.description|truncatechars:240|default:'Study resource on NEBians'|escapejs }}",
+  "description": "{{ resource.description|strip_inline|truncatechars:240|default:'Study resource on NEBians'|escapejs }}",
   "url": "https://nebians.consica.com.np{% url 'web:reader' resource_id=resource.id %}",
   "educationalLevel": "{{ resource.grade_level|default:'General'|escapejs }}",
   "learningResourceType": "{{ resource.type|default:'Resource'|escapejs }}",
@@ -745,6 +745,7 @@ registerActions({
       parentCard.appendChild(box);
     }
     var ta = box.querySelector('textarea');
+    if (window.InlineMedia && window.InlineMedia.enhanceTextarea) { try{ window.InlineMedia.enhanceTextarea(ta); }catch(_){} }
     ta.focus();
     var sendBtn = box.querySelector('.reply-send-btn');
     var wrapper = box.querySelector('.reply-input-wrapper');

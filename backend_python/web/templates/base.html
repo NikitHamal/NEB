@@ -95,6 +95,7 @@
   <link rel="stylesheet" href="{% static 'web/css/ai-widgets.css' %}">
   <link rel="stylesheet" href="{% static 'web/css/pages/neby-assist.css' %}">
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/delegated-events.js' %}"></script>
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/inline-media.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/forum-media.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/media-player.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/htmx.min.js' %}"></script>
@@ -110,6 +111,7 @@
     {% if ws_url %}
     window.WS_CONFIG.url = "{{ ws_url|escapejs }}";
     {% endif %}
+    window.NEB_INLINE_ENABLED = {% if user and user.enable_inline_images is False %}false{% else %}true{% endif %};
   </script>
 
   <!-- Google Play Store App Promo Banner -->

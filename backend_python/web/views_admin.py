@@ -1206,7 +1206,9 @@ def admin_bot_edit(request, bot_id=None):
         config.display_name = request.POST.get('display_name', '').strip()[:100]
         config.avatar_url = request.POST.get('avatar_url', '').strip()
         provider = (request.POST.get('provider') or 'qwen').strip().lower()
-        if provider not in ('qwen', 'egov', 'deepai', 'inception', 'custom', 'k2think', 'poolside', 'motiftech', 'agnes', 'openai', 'anthropic', 'gemini', 'deepseek', 'agentrouter'):
+        from api.llm.registry import ALL_PRESETS
+        allowed_providers = set(ALL_PRESETS.keys()) | {'custom'}
+        if provider not in allowed_providers:
             provider = 'qwen'
         config.provider = provider
         config.api_url = request.POST.get('api_url', config.api_url).strip()
@@ -1224,7 +1226,7 @@ def admin_bot_edit(request, bot_id=None):
                 raw_chain = []
         except (ValueError, TypeError):
             raw_chain = []
-        chain_allowed = {'agnes', 'agentrouter', 'anthropic', 'custom', 'deepai', 'deepseek', 'egov', 'gemini', 'inception', 'k2think', 'motiftech', 'openai', 'poolside', 'qwen'}
+        chain_allowed = allowed_providers
         clean_chain = []
         for entry in raw_chain[:5]:
             if not isinstance(entry, dict):
@@ -1257,7 +1259,8 @@ def admin_bot_edit(request, bot_id=None):
         if existing.exists():
             messages.error(request, f'A bot with username @{config.bot_username} already exists.')
             bot_user = BotConfig.get_bot_user(config) if config.pk else None
-            ctx = _ctx(request, active_page='bot', config=config, bot_user=bot_user, is_new=not config.pk)
+            ctx = _ctx(request, active_page='bot', config=config, bot_user=bot_user, is_new=not config.pk,
+                       **_bot_provider_catalog_ctx())
             return render(request, 'admin_panel/bot_edit.html', ctx)
         config.save()
         from django.core.cache import cache
@@ -1266,8 +1269,41 @@ def admin_bot_edit(request, bot_id=None):
         return redirect(f'/admin/bots/{config.pk}/')
 
     bot_user = BotConfig.get_bot_user(config) if config else None
-    ctx = _ctx(request, active_page='bot', config=config, bot_user=bot_user, is_new=config is None)
+    ctx = _ctx(request, active_page='bot', config=config, bot_user=bot_user, is_new=config is None,
+               **_bot_provider_catalog_ctx())
     return render(request, 'admin_panel/bot_edit.html', ctx)
+
+
+def _bot_provider_catalog_ctx():
+    """Registry-driven provider catalog for the bot editor UI."""
+    import json as _json
+    from api.llm.registry import admin_catalog
+    catalog = admin_catalog()
+    scraper_options = [{'slug': e['slug'], 'label': e['label']} for e in catalog['scrapers']]
+    official_options = [{'slug': e['slug'], 'label': e['label']} for e in catalog['official']]
+    provider_config = {}
+    for entry in catalog['scrapers'] + catalog['official']:
+        provider_config[entry['slug']] = {
+            'urlLabel': 'API URL',
+            'urlHelp': f"{entry['label']} endpoint (leave default).",
+            'urlDefault': entry['base_url'],
+            'modelControl': 'select' if entry['models'] else 'text',
+            'modelHelp': f"Pick a model (default: {entry['default_model']}).",
+            'options': [{'value': m['id'], 'label': m['label']} for m in entry['models']],
+        }
+    provider_config['custom'] = {
+        'urlLabel': 'API URL',
+        'urlHelp': 'Full URL to any OpenAI-compatible /chat/completions endpoint.',
+        'urlDefault': '',
+        'modelControl': 'text',
+        'modelHelp': 'Free-form model name as required by the provider.',
+        'options': [],
+    }
+    return {
+        'scraper_options': scraper_options,
+        'official_options': official_options,
+        'provider_config_json': _json.dumps(provider_config),
+    }
 
 def admin_bot_create_user(request, bot_id):
     redirect_response = _require_staff_admin(request)
