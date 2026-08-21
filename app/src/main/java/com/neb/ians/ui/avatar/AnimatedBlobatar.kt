@@ -24,7 +24,7 @@ fun BlobatarCanvas(
     sizePx: Int = 256
 ) {
     Canvas(modifier = modifier) {
-        val px = size.minDimension.toPx().toInt().coerceIn(32, 512)
+        val px = size.minDimension.toInt().coerceIn(32, 512)
         drawBlobatar(
             canvas = drawContext.canvas.nativeCanvas,
             seed = seed,

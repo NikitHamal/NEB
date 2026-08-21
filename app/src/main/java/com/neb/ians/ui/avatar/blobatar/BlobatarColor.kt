@@ -165,7 +165,7 @@ fun palette(hue: Double, enforce: Boolean = true, tone: Double = 0.0): Map<Strin
     ramp(hue, enforce, tone).mapValues { (_, v) -> oklchToHex(v.first, v.second, v.third) }
 
 private const val TINT_FLOOR = 4.55
-private data class TintDef(val h: Double, val l: Double, val pull: Double, val c: Double)
+data class TintDef(val h: Double, val l: Double, val pull: Double, val c: Double)
 private val HOT = TintDef(27.0, 0.58, 0.6, 0.18)
 private val ROSE = TintDef(358.0, 0.72, 0.55, 0.16)
 private val BLUSH = TintDef(12.0, 0.84, 0.4, 0.1)
