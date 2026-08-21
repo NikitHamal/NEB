@@ -27,38 +27,42 @@
 .cb-container canvas.cb-cursor-move { cursor: move; }
 .cb-container canvas.cb-cursor-text { cursor: text; }
 
-/* ── Floating toolbar ── */
+/* ── Floating toolbar — minimal pill at left-bottom (screenshot ref) ── */
 .cb-toolbar {
   position: absolute;
-  top: 12px;
-  left: 50%;
-  transform: translateX(-50%);
+  top: auto;
+  bottom: 16px;
+  left: 16px;
+  right: auto;
+  transform: none;
   display: flex;
   align-items: center;
   gap: 2px;
-  padding: 4px 6px;
-  background: var(--md-surface-container, rgba(255,255,255,0.88));
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--md-outline-variant, rgba(0,0,0,0.1));
-  border-radius: 14px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.03);
+  padding: 6px 8px;
+  background: #0b0c0e;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 999px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.06), 0 0 0 1px rgba(255,255,255,0.06);
   z-index: 20;
-  flex-wrap: wrap;
-  justify-content: center;
-  max-width: calc(100% - 24px);
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  max-width: calc(100% - 32px);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
+.cb-toolbar::-webkit-scrollbar { display: none; }
 [data-theme="dark"] .cb-toolbar {
-  background: rgba(30,30,30,0.9);
-  border-color: rgba(255,255,255,0.08);
-  box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  background: #0b0c0e;
+  border-color: rgba(255,255,255,0.12);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.06);
 }
 
 .cb-toolbar-sep {
   width: 1px;
-  height: 24px;
-  background: var(--md-outline-variant, rgba(0,0,0,0.1));
-  margin: 0 4px;
+  height: 20px;
+  background: rgba(255,255,255,0.12);
+  margin: 0 6px;
   flex-shrink: 0;
 }
 
@@ -66,27 +70,31 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   border: none;
-  border-radius: 10px;
+  border-radius: 999px;
   background: transparent;
-  color: var(--md-on-surface-variant, #5f6368);
+  color: #9aa0a8;
   cursor: pointer;
-  transition: background 0.15s, color 0.15s;
+  transition: background 0.15s, color 0.15s, transform 0.12s;
   flex-shrink: 0;
   position: relative;
 }
 .cb-tool-btn:hover {
-  background: var(--md-surface-container-high, rgba(0,0,0,0.06));
+  background: rgba(255,255,255,0.08);
+  color: #e5e7eb;
+}
+.cb-tool-btn:active {
+  transform: scale(0.96);
 }
 .cb-tool-btn.cb-active {
-  background: var(--md-primary-container, #d3e3fd);
-  color: var(--md-on-primary-container, #041e49);
+  background: #2a2d34;
+  color: #ffffff;
 }
 [data-theme="dark"] .cb-tool-btn.cb-active {
-  background: var(--md-primary-container, #004a77);
-  color: var(--md-on-primary-container, #d3e3fd);
+  background: #2a2d34;
+  color: #ffffff;
 }
 .cb-tool-btn .material-symbols-outlined {
   font-size: 20px;
@@ -180,23 +188,21 @@
 /* ── Zoom controls ── */
 .cb-zoom-controls {
   position: absolute;
-  bottom: 12px;
-  right: 12px;
+  bottom: 16px;
+  right: 16px;
   display: flex;
   align-items: center;
   gap: 2px;
   padding: 4px;
-  background: var(--md-surface-container, rgba(255,255,255,0.88));
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--md-outline-variant, rgba(0,0,0,0.1));
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  background: #0b0c0e;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 999px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.35);
   z-index: 20;
 }
 [data-theme="dark"] .cb-zoom-controls {
-  background: rgba(30,30,30,0.9);
-  border-color: rgba(255,255,255,0.08);
+  background: #0b0c0e;
+  border-color: rgba(255,255,255,0.12);
 }
 .cb-zoom-btn {
   display: flex;
@@ -205,14 +211,15 @@
   width: 32px;
   height: 32px;
   border: none;
-  border-radius: 8px;
+  border-radius: 999px;
   background: transparent;
-  color: var(--md-on-surface-variant, #5f6368);
+  color: #9aa0a8;
   cursor: pointer;
-  transition: background 0.12s;
+  transition: background 0.12s, color 0.12s;
 }
 .cb-zoom-btn:hover {
-  background: var(--md-surface-container-high, rgba(0,0,0,0.06));
+  background: rgba(255,255,255,0.08);
+  color: #e5e7eb;
 }
 .cb-zoom-btn .material-symbols-outlined {
   font-size: 18px;
@@ -226,27 +233,27 @@
   user-select: none;
 }
 
-/* ── Status bar ── */
+/* ── Status bar — nudge up so it never sits under the left pill ── */
 .cb-status {
   position: absolute;
-  bottom: 12px;
-  left: 12px;
+  bottom: 62px;
+  left: 16px;
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 4px 10px;
-  background: var(--md-surface-container, rgba(255,255,255,0.88));
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--md-outline-variant, rgba(0,0,0,0.1));
-  border-radius: 10px;
+  padding: 6px 10px;
+  background: #0b0c0e;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 999px;
   font-size: 11px;
-  color: var(--md-on-surface-variant, #5f6368);
+  color: #9aa0a8;
   z-index: 20;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.28);
 }
 [data-theme="dark"] .cb-status {
-  background: rgba(30,30,30,0.9);
-  border-color: rgba(255,255,255,0.08);
+  background: #0b0c0e;
+  border-color: rgba(255,255,255,0.12);
+  color: #9aa0a8;
 }
 .cb-status-dot {
   width: 6px;
@@ -326,26 +333,35 @@
 /* ── Mobile adjustments ── */
 @media (max-width: 600px) {
   .cb-toolbar {
-    top: 8px;
-    padding: 3px 4px;
+    bottom: 12px;
+    left: 12px;
+    padding: 4px 6px;
     gap: 1px;
-    border-radius: 12px;
+    border-radius: 999px;
   }
   .cb-tool-btn {
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
+    width: 30px;
+    height: 30px;
+    border-radius: 999px;
   }
   .cb-tool-btn .material-symbols-outlined {
     font-size: 18px;
   }
   .cb-toolbar-sep {
-    height: 20px;
-    margin: 0 2px;
+    height: 18px;
+    margin: 0 4px;
   }
   .cb-container {
     height: calc(100vh - 104px);
     border-radius: 8px;
+  }
+  .cb-zoom-controls {
+    bottom: 12px;
+    right: 12px;
+  }
+  .cb-status {
+    bottom: 56px;
+    left: 12px;
   }
 }
 
