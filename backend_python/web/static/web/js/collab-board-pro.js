@@ -233,6 +233,16 @@
     var normalized = false;
     for (var initialIndex = 0; initialIndex < board.elements.length; initialIndex++) {
       var converted = normalizeMedia(board.elements[initialIndex]);
+      var current = board.elements[initialIndex];
+      // Heal legacy chalk-era strokes: near-white ink on a light canvas
+      if (current && current.type === 'pen' &&
+          (current.color === '#f6f0dc' || current.color === '#fff' || current.color === '#ffffff' ||
+           current.brush === 'chalk')) {
+        converted = JSON.parse(JSON.stringify(current));
+        converted.color = '#1f1f1f';
+        converted.lineWidth = Math.max(converted.lineWidth || 4, 3);
+        delete converted.brush;
+      }
       if (converted !== board.elements[initialIndex]) {
         board.elements[initialIndex] = converted;
         normalized = true;
@@ -271,7 +281,7 @@
 
     var originalDrawPen = board._drawPen.bind(board);
     board._drawPen = function(ctx, el) {
-      if (!el || el.brush === 'pen' || !el.brush) return originalDrawPen(ctx, el);
+      if (!el || el.brush === 'pen' || !el.brush || el.brush === 'chalk' || el.brush === 'pencil') return originalDrawPen(ctx, el);
       var points = el.points || [];
       if (points.length < 2) return;
       ctx.save();

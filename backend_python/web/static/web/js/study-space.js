@@ -101,7 +101,7 @@
       .then(function (data) {
         SPACE_DATA = data;
         var clearBtn = document.querySelector('.cb-clear-board-btn');
-        if (clearBtn && (data.canModerate || data.isOwner)) clearBtn.style.display = '';
+        if (clearBtn && (data.canModerate || data.canManage || data.isOwner)) clearBtn.style.display = '';
         renderFiles();
         renderMembers();
         renderPresence();
@@ -396,7 +396,7 @@
         if (typeof CollabBoard !== 'undefined') CollabBoard.setGridMode(nextMode);
         break;
       case 'cb-clear-board':
-        if (!(SPACE_DATA && (SPACE_DATA.canModerate || SPACE_DATA.isOwner))) break;
+        if (!(SPACE_DATA && (SPACE_DATA.canModerate || SPACE_DATA.canManage || SPACE_DATA.isOwner))) break;
         if (typeof CollabBoard !== 'undefined' && CollabBoard.clearAll()) {
           toast('Board cleared for everyone');
         }
