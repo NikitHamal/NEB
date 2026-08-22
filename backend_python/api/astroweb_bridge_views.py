@@ -91,11 +91,18 @@ def _cors_json(body, status=200):
 
 # ── Models ───────────────────────────────────────────────────────────
 
+# Providers hidden from the AstroWeb bridge (private / token-costly).
+# They remain available inside NEBians (admin bots, Neby, CLI).
+ASTROWEB_HIDDEN_PROVIDERS = {"metaai"}
+
+
 def _catalog() -> List[Dict]:
     from api.llm.registry import ALL_PRESETS
 
     out = []
     for slug, preset in ALL_PRESETS.items():
+        if slug in ASTROWEB_HIDDEN_PROVIDERS:
+            continue
         for m in preset.models:
             out.append({
                 "id": m.id,
@@ -135,11 +142,15 @@ def _find_preset(model_id: str):
     if not mid:
         return None, None
     for slug, preset in ALL_PRESETS.items():
+        if slug in ASTROWEB_HIDDEN_PROVIDERS:
+            continue
         for spec in preset.models:
             if spec.id == mid or spec.id.lower() == mid.lower():
                 return preset, spec
     low = mid.lower()
     for slug, preset in ALL_PRESETS.items():
+        if slug in ASTROWEB_HIDDEN_PROVIDERS:
+            continue
         if low.startswith(slug + "/") or low == slug:
             return preset, (preset.models[0] if preset.models else None)
     return None, None
