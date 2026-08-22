@@ -1,15 +1,21 @@
 """CI auto-fix watcher.
 
 For every project with ``autofix_enabled`` set, new *failed* GitHub Actions
-runs are turned into background-agent repair sessions: the failing job log
-is captured, a task is queued with the log attached, and the normal worker
-pipeline works the fix and pushes the branch on completion.
+runs **on agent-created task branches** are turned into background-agent
+repair sessions: the failing job log is captured, a task is queued with the
+log attached, and the normal worker pipeline works the fix and pushes the
+branch on completion.
+
+Failures on the base/default branch (main/master) NEVER trigger auto-fix —
+the watcher only scans branches that background-agent sessions previously
+created (``BackgroundAgentSession.work_branch``).
 
 Guards against runaway loops:
   * one session per failing workflow run (unique ``run_id``)
   * one session per ``head_sha`` (re-runs of the same commit are skipped)
   * max DAILY_LIMIT auto-fix sessions per project per 24h
   * no new session while the project already has an active one
+  * base/default branches are always excluded from scanning
 """
 from __future__ import annotations
 
@@ -17,6 +23,7 @@ import logging
 
 from django.conf import settings
 from django.db import transaction
+from django.db.models import Max
 
 from api.background_agent.crypto import decrypt_secret
 from api.background_agent.events import add_message, emit
@@ -34,6 +41,8 @@ logger = logging.getLogger(__name__)
 ACTIVE_SESSION_STATUSES = ('queued', 'preparing', 'running')
 LOG_TAIL_CHARS = 6000
 DAILY_LIMIT = 3
+# How many most-recent agent work branches to scan per project per cycle.
+MAX_WORK_BRANCHES = 10
 
 # Matches the provider resolution the mobile API uses for user-created tasks.
 # Any enabled qwen bot counts (bot_config is nullable and only feeds the
@@ -65,6 +74,31 @@ def scan_failed_runs(max_sessions: int = 3) -> int:
         except Exception:  # noqa: BLE001
             logger.exception('autofix scan failed for project %s', project.repo_full_name)
     return created
+
+
+def _base_branches(project) -> set:
+    """Branch names that must NEVER trigger auto-fix."""
+    return {
+        b for b in (
+            project.preferred_base_branch,
+            project.default_branch,
+            'main',
+            'master',
+        ) if b
+    }
+
+
+def _agent_work_branches(project) -> list:
+    """Agent-created task branches for this project (base branches excluded),
+    most-recently-used first."""
+    rows = (
+        BackgroundAgentSession.objects.filter(project=project)
+        .exclude(work_branch='')
+        .values('work_branch')
+        .annotate(latest=Max('updated_at'))
+        .order_by('-latest')
+    )
+    return [row['work_branch'] for row in rows]
 
 
 @transaction.atomic
@@ -117,58 +151,76 @@ def _scan_project(project) -> int:
         token = decrypt_secret(credential.encrypted_access_token)
     except ValueError:
         return 0
+
+    base_branches = _base_branches(project)
+    work_branches = [b for b in _agent_work_branches(project) if b not in base_branches]
+    if not work_branches:
+        # No agent-created task branches yet — nothing to auto-fix.
+        return 0
+
     provider = _provider()
     if not _backend_usable(project.admin_user):
         logger.warning('autofix: no usable LLM backend; skipping %s', project.repo_full_name)
         return 0
 
     client = GitHubClient(token)
-    branch_filter = project.preferred_base_branch or project.default_branch or ''
-    try:
-        runs = client.list_workflow_runs(project.repo_full_name, status_filter='failure', per_page=5, branch=branch_filter)
-    except GitHubError as exc:
-        logger.info('autofix: workflow runs unavailable for %s: %s', project.repo_full_name, exc)
-        return 0
-    if not runs:
-        return 0
-
     now = now_ms()
     day_ago = now - 86_400_000
-    for run in runs:
-        run_id = int(run.get('id') or 0)
-        head_sha = (run.get('head_sha') or '').strip()
-        if not run_id:
-            continue
-        if BackgroundAgentAutofixRun.objects.filter(project=project, run_id=run_id).exists():
-            continue
-        if head_sha and BackgroundAgentAutofixRun.objects.filter(project=project, head_sha=head_sha).exists():
-            continue
-        if BackgroundAgentAutofixRun.objects.filter(project=project, created_at__gte=day_ago).count() >= DAILY_LIMIT:
-            break
-        if BackgroundAgentSession.objects.filter(
-            project=project, archived_at=0, status__in=ACTIVE_SESSION_STATUSES
-        ).exists():
-            break
 
-        failing_jobs: list[dict] = []
-        log_tail = ''
+    created = 0
+    for work_branch in work_branches[:MAX_WORK_BRANCHES]:
         try:
-            jobs = client.list_run_jobs(project.repo_full_name, run_id)
-            failing_jobs = [
-                job for job in jobs
-                if (job.get('conclusion') or '').lower() in ('failure', 'timed_out')
-            ]
-            target = failing_jobs[0] if failing_jobs else (jobs[0] if jobs else None)
-            if target:
-                log_tail = client.get_job_log_text(project.repo_full_name, int(target.get('id') or 0))[-LOG_TAIL_CHARS:]
+            runs = client.list_workflow_runs(
+                project.repo_full_name, status_filter='failure', per_page=5, branch=work_branch
+            )
         except GitHubError as exc:
-            logger.info('autofix: job logs unavailable for run %s: %s', run_id, exc)
+            logger.info('autofix: workflow runs unavailable for %s@%s: %s', project.repo_full_name, work_branch, exc)
+            continue
+        if not runs:
+            continue
 
-        goal = _build_goal(project, run, failing_jobs, log_tail)
-        _queue_autofix_session(project, run, provider, goal, now)
-        logger.info('autofix: queued repair session for %s run %s', project.repo_full_name, run_id)
-        return 1
-    return 0
+        for run in runs:
+            run_id = int(run.get('id') or 0)
+            head_sha = (run.get('head_sha') or '').strip()
+            head_branch = (run.get('head_branch') or '').strip()
+            if not run_id:
+                continue
+            # Hard guard: base/default branch failures never trigger auto-fix.
+            if head_branch and head_branch in base_branches:
+                continue
+            if BackgroundAgentAutofixRun.objects.filter(project=project, run_id=run_id).exists():
+                continue
+            if head_sha and BackgroundAgentAutofixRun.objects.filter(project=project, head_sha=head_sha).exists():
+                continue
+            if BackgroundAgentAutofixRun.objects.filter(project=project, created_at__gte=day_ago).count() >= DAILY_LIMIT:
+                break
+            if BackgroundAgentSession.objects.filter(
+                project=project, archived_at=0, status__in=ACTIVE_SESSION_STATUSES
+            ).exists():
+                break
+
+            failing_jobs: list[dict] = []
+            log_tail = ''
+            try:
+                jobs = client.list_run_jobs(project.repo_full_name, run_id)
+                failing_jobs = [
+                    job for job in jobs
+                    if (job.get('conclusion') or '').lower() in ('failure', 'timed_out')
+                ]
+                target = failing_jobs[0] if failing_jobs else (jobs[0] if jobs else None)
+                if target:
+                    log_tail = client.get_job_log_text(project.repo_full_name, int(target.get('id') or 0))[-LOG_TAIL_CHARS:]
+            except GitHubError as exc:
+                logger.info('autofix: job logs unavailable for run %s: %s', run_id, exc)
+
+            goal = _build_goal(project, run, failing_jobs, log_tail)
+            _queue_autofix_session(project, run, provider, goal, now)
+            logger.info('autofix: queued repair session for %s run %s (branch %s)', project.repo_full_name, run_id, head_branch)
+            created += 1
+            break  # one new session per scan; next branch on the following cycle
+        if created >= 1:
+            break
+    return created
 
 
 def _build_goal(project, run: dict, failing_jobs: list[dict], log_tail: str) -> str:
