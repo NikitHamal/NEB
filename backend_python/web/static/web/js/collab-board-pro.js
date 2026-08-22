@@ -203,7 +203,7 @@
 
   function loop(now) {
     frame = requestAnimationFrame(loop);
-    if (!activeBoard || now - lastFrameAt < 32) return;
+    if (!scene || !activeBoard || now - lastFrameAt < 32) return;
     lastFrameAt = now;
     var signature = boardSignature(activeBoard);
     if (signature === lastSignature) return;
@@ -229,10 +229,7 @@
     if (!board || board.__proInstalled) return;
     board.__proInstalled = true;
     activeBoard = board;
-    scene = initThree(board.container);
-    board.container.classList.add('cb-chalk-theme');
-    board.brush = 'chalk';
-    board.color = '#f6f0dc';
+    scene = null;
     var normalized = false;
     for (var initialIndex = 0; initialIndex < board.elements.length; initialIndex++) {
       var converted = normalizeMedia(board.elements[initialIndex]);
@@ -337,28 +334,7 @@
       });
       var pen = toolbar.querySelector('[data-tool="pen"]');
       if (pen) {
-        pen.title = 'Chalk';
-        pen.querySelector('.material-symbols-outlined').textContent = 'stylus_note';
-        pen.dataset.brush = 'chalk';
-        var pencil = pen.cloneNode(true);
-        pencil.title = 'Pencil';
-        pencil.dataset.brush = 'pencil';
-        pencil.querySelector('.material-symbols-outlined').textContent = 'edit';
-        pen.parentNode.insertBefore(pencil, pen.nextSibling);
-        var ink = pen.cloneNode(true);
-        ink.title = 'Pen';
-        ink.dataset.brush = 'pen';
-        ink.querySelector('.material-symbols-outlined').textContent = 'draw';
-        pencil.parentNode.insertBefore(ink, pencil.nextSibling);
-        toolbar.addEventListener('click', function(e) {
-          var b = e.target.closest('[data-brush]');
-          if (!b) return;
-          board.brush = b.dataset.brush;
-          board.tool = 'pen';
-          toolbar.querySelectorAll('[data-brush]').forEach(function(item) {
-            item.classList.toggle('cb-active', item === b);
-          });
-        }, true);
+        pen.title = 'Pen';
       }
     }
 
