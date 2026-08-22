@@ -3,7 +3,7 @@
 .cb-container {
   position: relative;
   width: 100%;
-  height: calc(100vh - 112px);
+  height: min(calc(100vh - 128px), 880px);
   overflow: hidden;
   background: var(--md-surface-container-lowest, #fafafa);
   border-radius: 12px;

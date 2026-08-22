@@ -64,6 +64,39 @@
   align-items: start;
 }
 
+/* ── App shell (desktop): fixed viewport — only the right pane scrolls,
+      sidebar stays pinned and scrolls internally when long. ── */
+@media (min-width: 901px) {
+  .ss-page {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .ss-topbar { flex-shrink: 0; }
+  .ss-layout {
+    flex: 1;
+    min-height: 0;
+    align-items: stretch;
+  }
+  .ss-sidebar {
+    position: relative;
+    top: auto;
+    height: 100%;
+    max-height: none;
+    align-self: stretch;
+    overscroll-behavior: contain;
+  }
+  .ss-main {
+    height: 100%;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    padding-right: 2px;
+  }
+}
+
 /* ── Sidebar ── */
 .ss-sidebar {
   background: var(--md-surface-container-low);
@@ -711,10 +744,17 @@
   font-size: 0.75rem; font-weight: 800; overflow: hidden; flex-shrink: 0; position: relative;
 }
 .ss-member-avatar img { width: 100%; height: 100%; object-fit: cover; }
+/* ── Live presence dot ── */
 .ss-live-dot {
-  position: absolute; bottom: 0; right: 0; width: 9px; height: 9px;
-  background: var(--md-tertiary, #16a34a); border-radius: 50%;
-  border: 2px solid var(--md-surface); z-index: 1;
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 0 2.5px var(--md-surface-container-low, #fff), 0 0 0 3.5px rgba(0,0,0,0.05);
+  z-index: 2;
 }
 .ss-member-info { min-width: 0; display: flex; flex-direction: column; flex: 1; }
 .ss-member-name { font-size: 0.8125rem; font-weight: 600; color: var(--md-on-surface); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
