@@ -1,0 +1,152 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" {% if dark_mode %}data-theme="dark"{% endif %}>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Canvas — NEBians</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,0&display=swap">
+<link rel="stylesheet" href="{% static 'web/css/material3.css' %}">
+<link rel="stylesheet" href="{% static 'web/css/canvas.css' %}?v=2">
+<meta name="theme-color" content="#faf7f0">
+</head>
+<body class="canvas-body" data-board-id="{{ current_board_id|default:'' }}" data-authenticated="{{ is_authenticated|yesno:'true,false' }}">
+<div class="canvas-app" id="canvasApp">
+  <aside class="canvas-sidebar" id="canvasSidebar">
+    <div class="cs-top">
+      <a class="cs-back" href="/" aria-label="Back to NEBians" title="Back">
+        <span class="material-symbols-outlined">arrow_back</span>
+      </a>
+      <div class="cs-brand">
+        <div class="cs-logo-mark">
+          <svg viewBox="0 0 1024 1024" width="16" height="16"><g transform="translate(210.601 86.137) scale(0.610119)"><path d="M51 228 L51 1132 L263 1346 L267 812 L775 1353 L775 887 L691 800 L685 902 Z" fill="#1a3a5c"/><path d="M306 320 L307 377 L613 706 L613 485 Z" fill="#8ab0f0"/><path d="M441 191 L441 282 L691 447 L691 799 L774 886 L775 408 Z" fill="#0e2a4d"/><path d="M500 42 L501 135 L856 370 L858 1287 L943 1219 L943 331 Z" fill="#08204a"/></g></svg>
+        </div>
+        <span class="cs-brand-name">Canvas</span>
+      </div>
+      <button class="cs-icon-btn" id="csCollapseBtn" aria-label="Collapse sidebar"><span class="material-symbols-outlined">dock_to_left</span></button>
+    </div>
+
+    <div class="cs-section">
+      <div class="cs-section-head">
+        <span>My canvases</span>
+        <button class="cs-plus" id="csNewBoardBtn" title="New canvas" aria-label="New canvas"><span class="material-symbols-outlined">add</span></button>
+      </div>
+      <div class="cs-boards" id="csBoards">
+        {% for b in boards %}
+        <button class="cs-board-item {% if b.id == current_board_id %}active{% endif %}" data-board-id="{{ b.id }}">
+          <span class="cs-board-dot"></span>
+          <span class="cs-board-title">{{ b.title|truncatechars:30 }}</span>
+        </button>
+        {% empty %}
+        <div class="cs-empty">No canvases yet.<br>Ask something below to begin.</div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="cs-spacer"></div>
+
+    <div class="cs-footer" id="csFooter">
+      {% if is_authenticated %}
+      <div class="cs-user">
+        <span class="cs-avatar">{% if user.avatar_url %}<img src="{{ user.avatar_url }}" alt="">{% else %}{{ user.username|first|upper }}{% endif %}</span>
+        <div class="cs-user-info">
+          <span class="cs-user-name">{{ user.username }}</span>
+          <span class="cs-user-sub">{% if user.display_name %}{{ user.display_name }}{% else %}Nebian{% endif %}</span>
+        </div>
+      </div>
+      {% else %}
+      <a href="/login/" class="cs-login-cta"><span class="material-symbols-outlined">login</span> Sign in to save canvases</a>
+      {% endif %}
+    </div>
+  </aside>
+
+  <button class="cs-sidebar-mobile-toggle" id="csMobileToggle" aria-label="Open menu"><span class="material-symbols-outlined">menu</span></button>
+
+  <div class="canvas-main">
+    <div class="canvas-viewport" id="canvasViewport">
+      <svg class="canvas-edges" id="canvasEdges">
+        <defs>
+          <marker id="edgeArrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+            <path d="M 0 1 L 9 5 L 0 9 z" fill="#b9c3d6"/>
+          </marker>
+        </defs>
+        <g id="edgeLayer"></g>
+        <path id="tempWire" class="edge-temp" d="" style="display:none"></path>
+      </svg>
+      <div class="canvas-world" id="canvasWorld"></div>
+      <div class="canvas-empty-hint" id="canvasEmptyHint">
+        <h1>Canvas</h1>
+        <p>A visual way to understand things in parallel</p>
+        <div class="canvas-hint-key"><span class="material-symbols-outlined">south</span></div>
+      </div>
+    </div>
+
+    <div class="canvas-bottom-bar" id="canvasBottomBar">
+      <div class="cb-bar-inner">
+        <textarea id="globalPrompt" rows="1" placeholder="What do you want to understand?"></textarea>
+        <div class="cb-bar-controls">
+          <label class="cb-web-toggle" id="webToggleLabel" title="Toggle web search">
+            <span class="material-symbols-outlined">language</span>
+            <span class="cb-toggle-text">Web search</span>
+            <input type="checkbox" id="webSearchToggle">
+            <span class="cb-switch"><span class="cb-knob"></span></span>
+          </label>
+          <div class="cb-divider"></div>
+          <div class="cb-speed-wrap" id="speedWrap">
+            <button class="cb-speed-btn" id="speedBtn" aria-haspopup="listbox" aria-expanded="false">
+              <span class="material-symbols-outlined cb-speed-ico">bolt</span>
+              <span id="speedLabel">Fast</span>
+              <span class="material-symbols-outlined cb-caret">expand_more</span>
+            </button>
+            <div class="cb-speed-menu" id="speedMenu" role="listbox" hidden>
+              <button class="cb-speed-item" role="option" data-speed="fast"><span>Fast</span><span class="material-symbols-outlined">check</span></button>
+              <button class="cb-speed-item" role="option" data-speed="deep"><span>Deep</span><span class="material-symbols-outlined">check</span></button>
+            </div>
+          </div>
+          <button class="cb-send" id="globalSendBtn" aria-label="Send" disabled><span class="material-symbols-outlined">arrow_upward</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="canvas-selection-pop" id="selectionPop" hidden>
+  <button data-action="dig-deeper" class="sel-btn sel-primary"><span class="material-symbols-outlined">travel_explore</span> Dig deeper</button>
+  <button data-action="save-highlight" class="sel-btn"><span class="material-symbols-outlined">bookmark_add</span> Save highlight</button>
+</div>
+
+<div class="mini-prompt" id="miniPrompt" hidden>
+  <span class="mp-dot"></span>
+  <input id="miniPromptInput" placeholder="Ask a follow-up…" autocomplete="off">
+  <button class="mp-send" id="miniPromptSend" aria-label="Send" disabled><span class="material-symbols-outlined">arrow_upward</span></button>
+</div>
+
+<div class="modal-overlay" id="boardModal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="boardModalTitle">
+    <h3 class="modal-title" id="boardModalTitle">New canvas</h3>
+    <p class="modal-sub">Name your workspace. You can rename it anytime.</p>
+    <input type="text" id="boardModalInput" maxlength="80" placeholder="e.g. How do world models work?" autocomplete="off">
+    <div class="modal-actions">
+      <button class="md-btn-o" id="boardModalCancel">Cancel</button>
+      <button class="md-btn-f" id="boardModalCreate" disabled>Create</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-pill" id="toastPill" hidden></div>
+
+<script nonce="{{ csp_nonce }}">
+window.CANVAS_CONFIG = {
+  boardId: "{{ current_board_id|escapejs }}",
+  isAuthenticated: {{ is_authenticated|yesno:"true,false" }},
+  csrfToken: "{{ csrf_token|escapejs }}",
+  username: "{{ user.username|default:''|escapejs }}"
+};
+</script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/canvas/core.js' %}"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/canvas/ui.js' %}"></script>
+</body>
+</html>

@@ -11,6 +11,7 @@ from . import views_needle
 from . import views_avatar
 from . import views_videos
 from . import views_content_images
+from . import views_canvas
 
 app_name = 'web'
 
@@ -241,6 +242,20 @@ urlpatterns = [
     path('ajax/study-space/<str:space_id>/tutor/', views.ajax_space_tutor, name='ajax_space_tutor'),
     path('ajax/study-space/<str:space_id>/canvas-ai/', views.ajax_space_canvas_ai, name='ajax_space_canvas_ai'),
     path('ajax/llm/models/', views.ajax_llm_models, name='ajax_llm_models'),
+
+    # Wondering Canvas — spatial research environment
+    path('canvas/', views_canvas.canvas_page, name='canvas'),
+    path('ajax/canvas/boards/', views_canvas.ajax_canvas_boards, name='ajax_canvas_boards'),
+    path('ajax/canvas/boards/create/', views_canvas.ajax_canvas_create_board, name='ajax_canvas_create_board'),
+    path('ajax/canvas/boards/<str:board_id>/', views_canvas.ajax_canvas_board_detail, name='ajax_canvas_board_detail'),
+    path('ajax/canvas/boards/<str:board_id>/update/', views_canvas.ajax_canvas_board_update, name='ajax_canvas_board_update'),
+    path('ajax/canvas/boards/<str:board_id>/delete/', views_canvas.ajax_canvas_board_delete, name='ajax_canvas_board_delete'),
+    path('ajax/canvas/boards/<str:board_id>/nodes/', views_canvas.ajax_canvas_create_node, name='ajax_canvas_create_node'),
+    path('ajax/canvas/nodes/<str:node_id>/move/', views_canvas.ajax_canvas_node_move, name='ajax_canvas_node_move'),
+    path('ajax/canvas/nodes/<str:node_id>/delete/', views_canvas.ajax_canvas_node_delete, name='ajax_canvas_node_delete'),
+    path('ajax/canvas/nodes/<str:node_id>/retry/', views_canvas.ajax_canvas_node_retry, name='ajax_canvas_node_retry'),
+    path('ajax/canvas/nodes/<str:node_id>/followup/', views_canvas.ajax_canvas_node_followup, name='ajax_canvas_node_followup'),
+    path('ajax/canvas/nodes/<str:node_id>/dig-deeper/', views_canvas.ajax_canvas_node_dig_deeper, name='ajax_canvas_node_dig_deeper'),
     path('ajax/study-space/<str:space_id>/learning-path/', views.ajax_space_learning_path, name='ajax_space_learning_path'),
     path('ajax/study-space/<str:space_id>/members/<str:member_user_id>/role/', views.ajax_space_member_role, name='ajax_space_member_role'),
     path('ajax/study-space/<str:space_id>/members/<str:member_user_id>/remove/', views.ajax_space_member_remove, name='ajax_space_member_remove'),
