@@ -255,7 +255,7 @@ def execute_quiz(job):
 
     result, err = _generate_two_turn(
         outline_prompt, full_prompt, combined,
-        system_prompt=quiz_system_prompt.format(count=count),
+        system_prompt=quiz_system_prompt(count),
         exclusion_text=exclusion_text,
     )
     if err:
@@ -362,7 +362,7 @@ def execute_flashcard(job):
 
     result, err = _generate_two_turn(
         outline_prompt, full_prompt, combined,
-        system_prompt=flashcard_system_prompt.format(count=count),
+        system_prompt=flashcard_system_prompt(count),
         exclusion_text=exclusion_text,
     )
     if err:
