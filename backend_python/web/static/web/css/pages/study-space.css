@@ -109,6 +109,61 @@
   overflow-y: auto;
   scrollbar-width: thin;
 }
+.ss-collapse-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  color: var(--md-on-surface-variant);
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  transition: background 0.15s, color 0.15s;
+}
+.ss-collapse-btn:hover { background: var(--md-surface-container-high); color: var(--md-on-surface); }
+.ss-collapse-btn .material-symbols-outlined { font-size: 18px; }
+
+/* Collapsed rail — icons only */
+.ss-sidebar.ss-collapsed {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.ss-sidebar.ss-collapsed .ss-sidebar-section-title,
+.ss-sidebar.ss-collapsed .ss-member-info,
+.ss-sidebar.ss-collapsed .ss-member-actions,
+.ss-sidebar.ss-collapsed .ss-file-info,
+.ss-sidebar.ss-collapsed .ss-file-remove,
+.ss-sidebar.ss-collapsed .ss-gen-btn span:not(.material-symbols-outlined),
+.ss-sidebar.ss-collapsed .ss-section-head .ss-text-xs,
+.ss-sidebar.ss-collapsed .ss-sidebar-close {
+  display: none;
+}
+.ss-sidebar.ss-collapsed .ss-gen-btn,
+.ss-sidebar.ss-collapsed .ss-upload-btn {
+  justify-content: center;
+  gap: 0;
+  font-size: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+.ss-sidebar.ss-collapsed .ss-gen-btn .material-symbols-outlined,
+.ss-sidebar.ss-collapsed .ss-upload-btn .material-symbols-outlined {
+  font-size: 18px;
+  margin: 0;
+}
+.ss-sidebar.ss-collapsed .ss-member-item { justify-content: center; padding: 6px 0; }
+.ss-sidebar.ss-collapsed .ss-file-item { justify-content: center; }
+.ss-sidebar.ss-collapsed .ss-section-head { justify-content: center; }
+.ss-sidebar.ss-collapsed .ss-collapse-btn .material-symbols-outlined { transform: rotate(180deg); }
+
+/* Shrink the grid's sidebar column when the rail is collapsed */
+.ss-layout:has(> .ss-collapsed) { grid-template-columns: 64px minmax(0, 1fr); }
 .ss-sidebar-close { display: none; }
 .ss-sidebar-scrim {
   display: none;
@@ -942,6 +997,8 @@
     transform: translateX(0);
     visibility: visible;
   }
+  /* collapse toggle is desktop-only */
+  .ss-collapse-btn { display: none; }
   .ss-sidebar-scrim.ss-sidebar-scrim-open { display: block; }
   .ss-sidebar-close {
     display: inline-grid;
@@ -987,6 +1044,8 @@
    ============================================================ */
 @media (min-width: 901px) {
   .ss-sidebar-head { display: none; }
+  .ss-collapse-btn { display: inline-flex; }
+  .ss-layout:has(> .ss-collapsed) > .ss-sidebar { border-radius: 16px; }
 }
 
 /* ── Remote cursors (Yjs collaboration) ── */

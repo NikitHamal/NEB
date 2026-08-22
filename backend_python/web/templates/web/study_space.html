@@ -46,6 +46,9 @@
   <div class="ss-layout">
     <div class="ss-sidebar-scrim" id="ssSidebarScrim" data-action="ss-toggle-sidebar"></div>
     <aside class="ss-sidebar" id="ssSidebar">
+      <button class="ss-collapse-btn" data-action="ss-toggle-collapse" title="Minimize panel" aria-label="Toggle panel">
+        <span class="material-symbols-outlined">left_panel_close</span>
+      </button>
       <div class="ss-sidebar-head">
         <span class="ss-sidebar-section-title" style="margin:0;">Space panel</span>
         <button class="ss-sidebar-close" data-action="ss-toggle-sidebar" aria-label="Close panel">
@@ -250,6 +253,7 @@
             <button class="cb-zoom-btn" data-action="cb-zoom-fit" title="Reset view"><span class="material-symbols-outlined">fit_screen</span></button>
             <div class="cb-toolbar-sep" style="height:18px;"></div>
             <button class="cb-zoom-btn" data-action="cb-grid-mode" data-mode="dots" title="Canvas Style: Dots"><span class="material-symbols-outlined">grid_4x4</span></button>
+            <button class="cb-zoom-btn cb-clear-board-btn" data-action="cb-clear-board" title="Clear entire board"><span class="material-symbols-outlined">delete_sweep</span></button>
           </div>
           <div class="cb-status">
             <div class="cb-status-dot" id="cbStatusDot"></div>

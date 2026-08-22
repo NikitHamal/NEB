@@ -1567,6 +1567,34 @@
     this._updateZoomLabel();
   };
 
+  CollabBoard.prototype.clearAll = function() {
+    if (!this.elements.length) {
+      if (typeof window.showSnackbar === 'function') window.showSnackbar('Board is already empty');
+      return false;
+    }
+    if (!window.confirm('Clear the entire board? Everything will be removed for all members.')) return false;
+    this.elements = [];
+    this.selectedIdx = -1;
+    this.selected = null;
+    this.drawing = false;
+    this.currentPath = [];
+    this.shapeStart = null;
+    if (this.yarray && this.yjsInst && this.yjsInst.doc) {
+      var self = this;
+      try {
+        this.yjsInst.doc.transact(function() {
+          if (self.yarray.length > 0) self.yarray.delete(0, self.yarray.length);
+        }, 'local');
+      } catch (e) {}
+    }
+    var oc = this.container ? this.container.querySelector('.cb-ai-overlay-container') : null;
+    if (oc) oc.innerHTML = '';
+    this._removeTextInput();
+    this._scheduleSave();
+    this.dirty = true;
+    return true;
+  };
+
   // ── Static Modal helpers ──
 
   CollabBoard.openFilePicker = function() {
@@ -1703,7 +1731,7 @@
           '</select>' +
         '</div>' +
         '<p style="font-size:13px; color:var(--md-on-surface-variant); margin-bottom:10px;">Ask for math solutions, explanations, formulas, or diagrams to place directly on the canvas.</p>' +
-        '<textarea class="cb-ai-input" id="cbAiInput" placeholder="e.g. Solve integral of x^2 * sin(x) dx step by step with LaTeX formulas..."></textarea>' +
+        '<textarea class="cb-ai-input" id="cbAiInput" data-neb-skip="1" placeholder="e.g. Solve integral of x^2 * sin(x) dx step by step with LaTeX formulas..."></textarea>' +
         '<div class="cb-ai-actions">' +
           '<button class="md-btn md-btn-outlined" id="cbAiCancel">Cancel</button>' +
           '<button class="md-btn md-btn-filled" id="cbAiSubmit" style="display:flex; align-items:center; gap:6px;">' +
@@ -1831,6 +1859,7 @@
     zoomIn: function() { if (_board) _board.zoomIn(); },
     zoomOut: function() { if (_board) _board.zoomOut(); },
     zoomFit: function() { if (_board) _board.zoomFit(); },
+    clearAll: function() { return _board ? _board.clearAll() : false; },
     openFilePicker: function() { CollabBoard.openFilePicker(); },
     switchFileTab: function(tab) { CollabBoard.switchFileTab(tab); },
     selectFileItem: function(id, type, title, url, sizeText) { CollabBoard.selectFileItem(id, type, title, url, sizeText); },
