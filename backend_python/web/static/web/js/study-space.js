@@ -435,6 +435,11 @@
         el.title = 'Canvas Style: ' + nextMode.charAt(0).toUpperCase() + nextMode.slice(1);
         if (typeof CollabBoard !== 'undefined') CollabBoard.setGridMode(nextMode);
         break;
+      case 'cb-clear-board':
+        if (typeof CollabBoard !== 'undefined' && CollabBoard.clearAll()) {
+          toast('Board cleared for everyone');
+        }
+        break;
       case 'cb-file-tab':
         if (typeof CollabBoard !== 'undefined') CollabBoard.switchFileTab(el.dataset.tab);
         break;
@@ -506,6 +511,9 @@
         break;
       case 'ss-toggle-sidebar':
         toggleMobileSidebar();
+        break;
+      case 'ss-toggle-collapse':
+        toggleSidebarCollapse();
         break;
       case 'ss-remove-member':
         removeMember(el.dataset.memberId);
@@ -1425,6 +1433,25 @@
     sidebar.classList.toggle('ss-sidebar-mobile-open', open);
     if (scrim) scrim.classList.toggle('ss-sidebar-scrim-open', open);
   }
+
+  function toggleSidebarCollapse() {
+    var sidebar = $('ssSidebar');
+    if (!sidebar) return;
+    sidebar.classList.toggle('ss-collapsed');
+    var collapsed = sidebar.classList.contains('ss-collapsed');
+    try { localStorage.setItem('ss_sidebar_collapsed', collapsed ? '1' : '0'); } catch (e) {}
+    var icon = sidebar.querySelector('.ss-collapse-btn .material-symbols-outlined');
+    if (icon) icon.textContent = collapsed ? 'left_panel_open' : 'left_panel_close';
+  }
+
+  (function restoreSidebarCollapse() {
+    try {
+      if (localStorage.getItem('ss_sidebar_collapsed') === '1') {
+        var sb = document.getElementById('ssSidebar');
+        if (sb) sb.classList.add('ss-collapsed');
+      }
+    } catch (e) {}
+  })();
 
   // ── Share ──
   function copyShareLink() {
