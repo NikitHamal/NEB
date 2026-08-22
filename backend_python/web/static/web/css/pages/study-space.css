@@ -154,10 +154,16 @@
 .ss-sidebar.ss-collapsed {
   padding-left: 10px;
   padding-right: 10px;
+  /* clear the absolutely-positioned collapse toggle */
+  padding-top: 44px;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
 .ss-sidebar.ss-collapsed::-webkit-scrollbar { display: none; }
+.ss-sidebar.ss-collapsed .ss-collapse-btn {
+  background: var(--md-surface-container-high);
+  color: var(--md-on-surface);
+}
 .ss-sidebar.ss-collapsed .ss-sidebar-section-title,
 .ss-sidebar.ss-collapsed .ss-member-info,
 .ss-sidebar.ss-collapsed .ss-member-actions,
