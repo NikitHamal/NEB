@@ -83,41 +83,85 @@ def _qwen():
 
 
 FALLBACK_MAX_TOKENS = 4000
+FALLBACK_PROVIDERS = [
+    ('longcat', 'api.longcat_proxy', 'longcat/LongCat-2.0'),
+    ('geminiweb', 'api.geminiweb_proxy', 'geminiweb/gemini-flash-lite'),
+    ('inception', 'api.inception_proxy', 'mercury-2'),
+    ('k2think', 'api.k2think_proxy', 'MBZUAI-IFM/K2-Think-v2'),
+    ('poolside', 'api.poolside_proxy', 'laguna-s-2.1'),
+    ('motiftech', 'api.motiftech_proxy', 'motif-102b'),
+    ('egov', 'api.egov_proxy', 'AI1'),
+    ('deepai', 'api.deepai_proxy', 'standard'),
+]
+QWEN_BUDGET_SECONDS = 120
 
 
 def _fallback_generate(system_prompt, user_message):
-    """Route a generation through the shared Neby provider chain
-    (enabled BotConfig + its fallback providers) when the Qwen web
-    proxy is unavailable. Returns text or None."""
+    """Walk keyless community providers directly, then the enabled
+    BotConfig's chain. Returns text or None."""
+    import importlib
+    for name, module, model in FALLBACK_PROVIDERS:
+        try:
+            mod = importlib.import_module(module)
+            text = mod.simple_chat(
+                user_message=user_message,
+                model=model,
+                system_prompt=system_prompt or '',
+                max_tokens=FALLBACK_MAX_TOKENS,
+            )
+            if text:
+                logger.info('generation: fallback provider %s succeeded', name)
+                return text
+            logger.warning('generation: fallback %s returned empty', name)
+        except Exception as exc:
+            logger.warning('generation: fallback %s failed: %s', name, str(exc)[:200])
     try:
         from api.models import BotConfig
         from api.neby import call_ai_api
         cfg = BotConfig.objects.filter(enabled=True).first()
-        if not cfg:
-            return None
-        cfg.response_max_length = FALLBACK_MAX_TOKENS
-        return call_ai_api(system_prompt, user_message, cfg)
+        if cfg:
+            cfg.response_max_length = FALLBACK_MAX_TOKENS
+            return call_ai_api(system_prompt, user_message, cfg)
     except Exception as exc:
-        logger.warning('generation fallback failed: %s', exc)
-        return None
+        logger.warning('generation botconfig fallback failed: %s', exc)
+    return None
 
 
 def _generate_two_turn(outline_prompt, full_prompt, combined, system_prompt=None, exclusion_text=None):
-    """Qwen two-turn generation with provider-chain fallback.
+    """Qwen two-turn generation with a hard timeout and a provider-chain
+    fallback (keyless community proxies + neby BotConfig chain).
 
     Returns (text, err) — same contract as QwenClient.two_turn_generation.
     """
-    try:
-        result, err = _generate_two_turn(
-            outline_prompt, full_prompt, combined,
-            system_prompt=system_prompt,
-        )
-        if not err and result:
-            return result, None
-        last_err = err or 'empty response'
-    except Exception as exc:
-        logger.warning('qwen generation errored: %s', exc)
-        last_err = str(exc)[:500]
+    import threading
+
+    box = {}
+
+    def _attempt():
+        try:
+            r, e = _qwen().two_turn_generation(
+                outline_prompt, full_prompt, combined,
+                system_prompt=system_prompt,
+                exclusion_text=exclusion_text or '',
+            )
+            box['r'] = r
+            box['e'] = e
+        except Exception as exc:
+            box['e'] = str(exc)[:500]
+
+    t = threading.Thread(target=_attempt, daemon=True)
+    t.start()
+    t.join(QWEN_BUDGET_SECONDS)
+
+    if t.is_alive():
+        result = None
+        last_err = f'qwen timeout after {QWEN_BUDGET_SECONDS}s'
+    else:
+        result = box.get('r')
+        last_err = box.get('e') or ('empty response' if not result else None)
+
+    if result and not last_err:
+        return result, None
 
     fused = f"{outline_prompt}\n\n{full_prompt}\n\n=== SOURCE MATERIAL ===\n{combined}"
     text = _fallback_generate(system_prompt, fused[:MAX_TEXT_CHARS + 4000])
