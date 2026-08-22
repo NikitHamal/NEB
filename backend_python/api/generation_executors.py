@@ -82,6 +82,50 @@ def _qwen():
     return QwenClient()
 
 
+FALLBACK_MAX_TOKENS = 4000
+
+
+def _fallback_generate(system_prompt, user_message):
+    """Route a generation through the shared Neby provider chain
+    (enabled BotConfig + its fallback providers) when the Qwen web
+    proxy is unavailable. Returns text or None."""
+    try:
+        from api.models import BotConfig
+        from api.neby import call_ai_api
+        cfg = BotConfig.objects.filter(enabled=True).first()
+        if not cfg:
+            return None
+        cfg.response_max_length = FALLBACK_MAX_TOKENS
+        return call_ai_api(system_prompt, user_message, cfg)
+    except Exception as exc:
+        logger.warning('generation fallback failed: %s', exc)
+        return None
+
+
+def _generate_two_turn(outline_prompt, full_prompt, combined, system_prompt=None, exclusion_text=None):
+    """Qwen two-turn generation with provider-chain fallback.
+
+    Returns (text, err) — same contract as QwenClient.two_turn_generation.
+    """
+    try:
+        result, err = _generate_two_turn(
+            outline_prompt, full_prompt, combined,
+            system_prompt=system_prompt,
+        )
+        if not err and result:
+            return result, None
+        last_err = err or 'empty response'
+    except Exception as exc:
+        logger.warning('qwen generation errored: %s', exc)
+        last_err = str(exc)[:500]
+
+    fused = f"{outline_prompt}\n\n{full_prompt}\n\n=== SOURCE MATERIAL ===\n{combined}"
+    text = _fallback_generate(system_prompt, fused[:MAX_TEXT_CHARS + 4000])    if text:
+        logger.info('generation: primary qwen unavailable (%s), used fallback provider', last_err)
+        return text, None
+    return None, f'All AI providers failed (last error: {last_err})'
+
+
 def _normalize_mindmap(mindmap, space):
     """Normalize a mindmap dict, injecting space title if needed."""
     if not mindmap:
@@ -109,7 +153,7 @@ def execute_summary(job):
     combined = _combine_texts(texts)
     mark_progress(job, 30, 'Generating outline...')
 
-    result, err = _qwen().two_turn_generation(
+    result, err = _generate_two_turn(
         summary_outline_prompt(mode), summary_full_prompt(mode), combined,
         system_prompt=summary_system_prompt(mode),
     )
@@ -150,7 +194,7 @@ def execute_mindmap(job):
     combined = _combine_texts(texts)
     mark_progress(job, 30, 'Generating mindmap outline...')
 
-    result, err = _qwen().two_turn_generation(
+    result, err = _generate_two_turn(
         MINDMAP_OUTLINE_PROMPT, MINDMAP_FULL_PROMPT, combined,
         system_prompt=MINDMAP_SYSTEM_PROMPT,
     )
@@ -208,7 +252,7 @@ def execute_quiz(job):
         + exclusion_text
     )
 
-    result, err = _qwen().two_turn_generation(
+    result, err = _generate_two_turn(
         outline_prompt, full_prompt, combined,
         system_prompt=quiz_system_prompt.format(count=count),
         exclusion_text=exclusion_text,
@@ -315,7 +359,7 @@ def execute_flashcard(job):
         + exclusion_text
     )
 
-    result, err = _qwen().two_turn_generation(
+    result, err = _generate_two_turn(
         outline_prompt, full_prompt, combined,
         system_prompt=flashcard_system_prompt.format(count=count),
         exclusion_text=exclusion_text,
