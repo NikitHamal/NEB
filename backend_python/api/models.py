@@ -2236,6 +2236,58 @@ class UserLLMProvider(models.Model):
         return f"{self.name or self.provider} ({self.user_id})"
 
 
+class CanvasBoard(models.Model):
+    id = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='canvas_boards', db_index=True)
+    title = models.CharField(max_length=200, blank=True, default='Untitled canvas')
+    created_at = models.BigIntegerField(default=0)
+    updated_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'canvas_boards'
+        ordering = ['-updated_at']
+        indexes = [
+            models.Index(fields=['user', '-updated_at']),
+        ]
+
+    def __str__(self):
+        return f"{self.title} ({self.user_id})"
+
+
+class CanvasNode(models.Model):
+    STATUS_CHOICES = [
+        ('generating', 'Generating'),
+        ('done', 'Done'),
+        ('failed', 'Failed'),
+    ]
+    id = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
+    board = models.ForeignKey(CanvasBoard, on_delete=models.CASCADE, related_name='nodes', db_index=True)
+    parent = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='children', db_index=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='canvas_nodes', null=True, blank=True)
+    prompt = models.TextField(blank=True, default='')
+    title = models.CharField(max_length=300, blank=True, default='')
+    content = models.TextField(blank=True, default='')
+    status = models.CharField(max_length=12, choices=STATUS_CHOICES, default='generating', db_index=True)
+    x = models.FloatField(default=0)
+    y = models.FloatField(default=0)
+    web_search_enabled = models.BooleanField(default=False)
+    model_used = models.CharField(max_length=100, blank=True, default='')
+    error = models.TextField(blank=True, default='')
+    created_at = models.BigIntegerField(default=0)
+    updated_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'canvas_nodes'
+        ordering = ['created_at']
+        indexes = [
+            models.Index(fields=['board', 'created_at']),
+            models.Index(fields=['parent', 'created_at']),
+        ]
+
+    def __str__(self):
+        return f"Node {self.title[:30]} ({self.board_id})"
+
+
 class PaymentVerification(models.Model):
     """Buyers submit QR payment proof (screenshots & transaction ID) for paid resources/classes.
     Admins verify and approve these payments manually to credit the seller.
