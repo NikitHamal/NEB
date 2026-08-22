@@ -203,12 +203,12 @@
 
   function loop(now) {
     frame = requestAnimationFrame(loop);
-    if (!scene || !activeBoard || now - lastFrameAt < 32) return;
+    if (!activeBoard || now - lastFrameAt < 32) return;
     lastFrameAt = now;
     var signature = boardSignature(activeBoard);
     if (signature === lastSignature) return;
     lastSignature = signature;
-    updateThree(activeBoard);
+    if (scene) updateThree(activeBoard);
     syncOverlays(activeBoard);
   }
 
@@ -353,6 +353,27 @@
       });
       board.dirty = true;
     }, { passive: true });
+
+    var originalRemove = board._removeElement.bind(board);
+    board._removeElement = function(idx) {
+      var target = this.elements[idx];
+      originalRemove(idx);
+      if (target && overlays.has(target.id)) {
+        var dead = overlays.get(target.id);
+        if (dead && dead.parentNode) dead.parentNode.removeChild(dead);
+        overlays.delete(target.id);
+      }
+    };
+
+    var originalClear = board.clearAll ? board.clearAll.bind(board) : null;
+    board.clearAll = function() {
+      var ok = originalClear ? originalClear() : false;
+      if (ok) {
+        overlays.forEach(function(node) { if (node && node.parentNode) node.parentNode.removeChild(node); });
+        overlays.clear();
+      }
+      return ok;
+    };
 
     lastSignature = '';
     if (!frame) frame = requestAnimationFrame(loop);
