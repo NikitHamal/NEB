@@ -120,7 +120,8 @@ def _generate_two_turn(outline_prompt, full_prompt, combined, system_prompt=None
         last_err = str(exc)[:500]
 
     fused = f"{outline_prompt}\n\n{full_prompt}\n\n=== SOURCE MATERIAL ===\n{combined}"
-    text = _fallback_generate(system_prompt, fused[:MAX_TEXT_CHARS + 4000])    if text:
+    text = _fallback_generate(system_prompt, fused[:MAX_TEXT_CHARS + 4000])
+    if text:
         logger.info('generation: primary qwen unavailable (%s), used fallback provider', last_err)
         return text, None
     return None, f'All AI providers failed (last error: {last_err})'
