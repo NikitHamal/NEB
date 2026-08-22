@@ -1074,7 +1074,7 @@
       this.dirty = true;
     }
 
-    if (this.dragState && this.selected && this.tool === 'select') {
+    if (this.dragState && this.selected) {
       var dx = wp.x - this.dragState.startX;
       var dy = wp.y - this.dragState.startY;
       var orig = this.dragState.origEl;
@@ -1148,8 +1148,25 @@
       }
     }
 
-    if (this.dragState && this.selectedIdx >= 0) {
-      this._updateElement(this.selectedIdx, this.elements[this.selectedIdx]);
+    if (this.dragState && this.selected) {
+      var movedIdx = -1;
+      if (this.selected.id) {
+        for (var mi = 0; mi < this.elements.length; mi++) {
+          if (this.elements[mi] && this.elements[mi].id === this.selected.id) { movedIdx = mi; break; }
+        }
+      }
+      if (movedIdx < 0) movedIdx = this.selectedIdx;
+      if (movedIdx >= 0) this._updateElement(movedIdx, this.elements[movedIdx]);
+      else if (typeof CollabBoard !== 'undefined' && this.yarray) {
+        var selfUp = this;
+        this.yjsInst.doc.transact(function() {
+          selfUp.yarray.delete(0, selfUp.yarray.length);
+          for (var ri = 0; ri < selfUp.elements.length; ri++) {
+            selfUp.yarray.push([JSON.parse(JSON.stringify(selfUp.elements[ri]))]);
+          }
+        }, 'local');
+        this._scheduleSave();
+      }
     }
 
     this.drawing = false;
