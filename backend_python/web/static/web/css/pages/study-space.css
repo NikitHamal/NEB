@@ -92,8 +92,29 @@
     min-height: 0;
     overflow-y: auto;
     overscroll-behavior: contain;
-    scrollbar-width: thin;
     padding-right: 2px;
+  }
+
+  /* No visible scrollbar indicators anywhere in the shell */
+  .ss-sidebar, .ss-main { scrollbar-width: none; -ms-overflow-style: none; }
+  .ss-sidebar::-webkit-scrollbar, .ss-main::-webkit-scrollbar { display: none; }
+
+  /* Board tab fills the pane exactly — never scrolls */
+  .ss-main:has(#ssTabNotes.ss-tab-content-active) {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .ss-main:has(#ssTabNotes.ss-tab-content-active) #ssTabNotes {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+  }
+  .ss-main:has(#ssTabNotes.ss-tab-content-active) .cb-container {
+    flex: 1;
+    width: 100%;
+    height: auto;
+    min-height: 0;
   }
 }
 
@@ -133,7 +154,10 @@
 .ss-sidebar.ss-collapsed {
   padding-left: 10px;
   padding-right: 10px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
+.ss-sidebar.ss-collapsed::-webkit-scrollbar { display: none; }
 .ss-sidebar.ss-collapsed .ss-sidebar-section-title,
 .ss-sidebar.ss-collapsed .ss-member-info,
 .ss-sidebar.ss-collapsed .ss-member-actions,
@@ -796,9 +820,9 @@
   width: 30px; height: 30px; border-radius: 50%;
   display: inline-grid; place-items: center;
   background: var(--md-primary-container); color: var(--md-on-primary-container);
-  font-size: 0.75rem; font-weight: 800; overflow: hidden; flex-shrink: 0; position: relative;
+  font-size: 0.75rem; font-weight: 800; flex-shrink: 0; position: relative;
 }
-.ss-member-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.ss-member-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
 /* ── Live presence dot ── */
 .ss-live-dot {
   position: absolute;

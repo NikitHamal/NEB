@@ -67,22 +67,6 @@
         Select existing file
       </button>
 
-      <div class="ss-sidebar-gen" id="ssLinkedGen">
-        <div class="ss-sidebar-section-title">Linked generation</div>
-        <button class="ss-gen-btn" data-action="ss-gen-linked-summary" id="ssGenSummaryBtn">
-          <span class="material-symbols-outlined">summarize</span><span>Generate summary</span>
-        </button>
-        <button class="ss-gen-btn" data-action="ss-gen-linked-mindmap" id="ssGenMindmapBtn">
-          <span class="material-symbols-outlined">account_tree</span><span>Generate mindmap</span>
-        </button>
-        <button class="ss-gen-btn" data-action="ss-gen-linked-quiz" id="ssGenQuizBtn">
-          <span class="material-symbols-outlined">quiz</span><span>Generate quiz</span>
-        </button>
-        <button class="ss-gen-btn" data-action="ss-gen-linked-flashcards" id="ssGenFlashBtn">
-          <span class="material-symbols-outlined">style</span><span>Generate flashcards</span>
-        </button>
-      </div>
-
       <div class="ss-sidebar-gen">
         <div class="ss-section-head">
           <div class="ss-sidebar-section-title" style="margin:0;">Members</div>
@@ -110,17 +94,8 @@
         <button class="ss-tab" data-tab="notes" data-action="ss-switch-tab">
           <span class="material-symbols-outlined">draw</span> Board
         </button>
-        <button class="ss-tab" data-tab="tutor" data-action="ss-switch-tab">
-          <span class="material-symbols-outlined">school</span> AI Tutor
-        </button>
         <button class="ss-tab" data-tab="learningPath" data-action="ss-switch-tab">
           <span class="material-symbols-outlined">route</span> Learning Path
-        </button>
-        <button class="ss-tab" data-tab="analytics" data-action="ss-switch-tab">
-          <span class="material-symbols-outlined">monitoring</span> Analytics
-        </button>
-        <button class="ss-tab" data-tab="examMode" data-action="ss-switch-tab">
-          <span class="material-symbols-outlined">timer</span> Exam Mode
         </button>
       </div>
       </div>
@@ -253,26 +228,12 @@
             <button class="cb-zoom-btn" data-action="cb-zoom-fit" title="Reset view"><span class="material-symbols-outlined">fit_screen</span></button>
             <div class="cb-toolbar-sep" style="height:18px;"></div>
             <button class="cb-zoom-btn" data-action="cb-grid-mode" data-mode="dots" title="Canvas Style: Dots"><span class="material-symbols-outlined">grid_4x4</span></button>
-            <button class="cb-zoom-btn cb-clear-board-btn" data-action="cb-clear-board" title="Clear entire board"><span class="material-symbols-outlined">delete_sweep</span></button>
+            <button class="cb-zoom-btn cb-clear-board-btn" data-action="cb-clear-board" title="Clear entire board" style="display:none;"><span class="material-symbols-outlined">delete_sweep</span></button>
           </div>
           <div class="cb-status">
             <div class="cb-status-dot" id="cbStatusDot"></div>
             <span id="cbStatusText">Synced</span>
           </div>
-        </div>
-      </div>
-
-      <div class="ss-tab-content" id="ssTabTutor">
-        <div class="ss-ai-card">
-          <div style="font-weight:700; margin-bottom:8px;">AI tutor with citations</div>
-          <div class="ss-text-xs">Ask questions grounded in the documents inside this StudySpace.</div>
-          <textarea class="ss-ai-input" id="ssTutorQuestion" data-neb-skip="1" rows="4" placeholder="Ask anything from your study materials..."></textarea>
-          <div class="ss-ai-actions">
-            <button class="md-btn md-btn-filled" data-action="ss-ask-tutor">Ask tutor</button>
-            <span class="ss-text-xs" id="ssTutorStatus"></span>
-          </div>
-          <div class="ss-ai-answer" id="ssTutorAnswer" style="display:none;"></div>
-          <div class="ss-ai-citations" id="ssTutorCitations"></div>
         </div>
       </div>
 
@@ -306,36 +267,6 @@
             <div style="text-align:center; margin-top:12px;"><span class="ss-text-xs">Planning your study path&hellip;</span></div>
           </div>
           <div class="ss-learning-plan" id="ssLearningPlan" style="display:none;"></div>
-        </div>
-      </div>
-
-      <div class="ss-tab-content" id="ssTabAnalytics">
-        <div class="ss-kpi-grid" id="ssAnalyticsGrid"></div>
-      </div>
-
-      <div class="ss-tab-content" id="ssTabExamMode">
-        <div class="ss-ai-card">
-          <div style="font-weight:700; margin-bottom:8px;">Exam mode</div>
-          <div class="ss-text-xs">Generate a timed mock test from this StudySpace and practice under exam conditions.</div>
-          <div class="ss-ai-actions">
-            <span class="filter-section-label">Questions</span>
-            <div class="ss-count-picker" id="ssExamQCountPicker" data-target="ssExamQuestionCount">
-              <button type="button" class="ss-count-choice active" data-action="ss-count-choice" data-value="10">10</button>
-              <button type="button" class="ss-count-choice" data-action="ss-count-choice" data-value="20">20</button>
-              <button type="button" class="ss-count-choice" data-action="ss-count-choice" data-value="30">30</button>
-            </div>
-            <input type="hidden" id="ssExamQuestionCount" value="10">
-            <span class="filter-section-label">Minutes</span>
-            <div class="ss-count-picker" id="ssExamMinPicker" data-target="ssExamMinutes">
-              <button type="button" class="ss-count-choice active" data-action="ss-count-choice" data-value="10">10</button>
-              <button type="button" class="ss-count-choice" data-action="ss-count-choice" data-value="20">20</button>
-              <button type="button" class="ss-count-choice" data-action="ss-count-choice" data-value="30">30</button>
-              <button type="button" class="ss-count-choice" data-action="ss-count-choice" data-value="45">45</button>
-            </div>
-            <input type="hidden" id="ssExamMinutes" value="10">
-            <button class="md-btn md-btn-filled" data-action="ss-start-exam-mode">Start exam quiz</button>
-          </div>
-          <p class="ss-text-xs">This uses the StudySpace quiz generator and opens the Quiz tab.</p>
         </div>
       </div>
     </main>
