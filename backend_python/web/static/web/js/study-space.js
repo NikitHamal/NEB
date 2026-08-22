@@ -15,9 +15,6 @@
   var PRESENCE_TIMER = null;
   var NOTES_SAVE_TIMER = null;
   var SSYJS_INST = null;
-  var EXAM_ACTIVE = false;
-  var EXAM_DEADLINE = 0;
-  var EXAM_TIMER = null;
   var GENERATION_POLL_INTERVAL = 2000;
   var GENERATION_POLLS = {};
 
@@ -103,11 +100,11 @@
       .then(function (r) { return r.json() })
       .then(function (data) {
         SPACE_DATA = data;
+        var clearBtn = document.querySelector('.cb-clear-board-btn');
+        if (clearBtn && (data.canModerate || data.isOwner)) clearBtn.style.display = '';
         renderFiles();
-        renderLinkedGen();
         renderMembers();
         renderPresence();
-        renderAnalytics();
         hydrateNotes();
         loadExistingContent();
         loadSavedFlashcards();
@@ -164,12 +161,6 @@
     _pollParsingDocs();
   }
 
-  function renderLinkedGen() {
-    var section = $('ssLinkedGen');
-    if (!section) return;
-    var docs = SPACE_DATA.documents || [];
-    section.style.display = docs.length ? '' : 'none';
-  }
 
   function renderMemberList(targetId, manage) {
     var list = $(targetId);
@@ -241,27 +232,6 @@
       return '<div class="ss-member-item' + (online ? ' ss-member-online' : '') + '"><span class="ss-member-avatar">' + dot + avatar + '</span>'
         + '<span class="ss-member-info"><span class="ss-member-name">' + esc(m.displayName || m.username) + '</span><span class="ss-member-role">' + esc(m.role) + (detail ? ' · ' : '. ') + detail + '</span></span>'
         + actions + '</div>';
-    }).join('');
-  }
-
-  function renderAnalytics() {
-    var grid = $('ssAnalyticsGrid');
-    if (!grid || !SPACE_DATA || !SPACE_DATA.analytics) return;
-    var a = SPACE_DATA.analytics;
-    var cards = [
-      ['Active now', a.activeNow || 0],
-      ['Members', a.memberCount || 0],
-      ['Documents', a.docCount || 0],
-      ['Quizzes created', a.quizCount || 0],
-      ['Quiz attempts', a.attemptCount || 0],
-      ['Avg quiz completion', (a.avgQuizCompletion || 0) + '%'],
-      ['Flashcards', a.flashcardCount || 0],
-      ['Reviews done', a.reviewsCount || 0],
-      ['Due flashcards', a.dueFlashcards || 0],
-      ['Resource views (est.)', a.resourceViews || 0]
-    ];
-    grid.innerHTML = cards.map(function (c) {
-      return '<div class="ss-kpi"><div class="ss-kpi-label">' + esc(c[0]) + '</div><div class="ss-kpi-value">' + esc(String(c[1])) + '</div></div>';
     }).join('');
   }
 
@@ -382,22 +352,12 @@
         generateMindmap();
         break;
       case 'ss-generate-quiz':
-      case 'ss-gen-linked-quiz':
         switchTab('quiz');
         generateQuiz();
         break;
       case 'ss-generate-flashcards':
-      case 'ss-gen-linked-flashcards':
         switchTab('flashcards');
         generateFlashcards();
-        break;
-      case 'ss-gen-linked-summary':
-        switchTab('summary');
-        generateSummary();
-        break;
-      case 'ss-gen-linked-mindmap':
-        switchTab('mindmap');
-        generateMindmap();
         break;
       case 'ss-count-choice':
         selectCountChoice(el);
@@ -436,6 +396,7 @@
         if (typeof CollabBoard !== 'undefined') CollabBoard.setGridMode(nextMode);
         break;
       case 'cb-clear-board':
+        if (!(SPACE_DATA && (SPACE_DATA.canModerate || SPACE_DATA.isOwner))) break;
         if (typeof CollabBoard !== 'undefined' && CollabBoard.clearAll()) {
           toast('Board cleared for everyone');
         }
@@ -496,18 +457,8 @@
       case 'ss-save-notes':
         saveNotes(true);
         break;
-      case 'ss-ask-tutor':
-        askTutor();
-        break;
       case 'ss-generate-learning-path':
         generateLearningPath();
-        break;
-      case 'ss-start-exam-mode':
-        startExamMode();
-        break;
-      case 'ss-exam-stop':
-        stopExamTimer();
-        toast('Exam mode ended. You can keep answering without the timer.');
         break;
       case 'ss-toggle-sidebar':
         toggleMobileSidebar();
@@ -689,7 +640,6 @@
           });
       })).then(function () {
         renderFiles();
-        renderLinkedGen();
         // Keep polling if any still parsing
         var stillParsing = (SPACE_DATA.documents || []).filter(function (d) {
           var ps = d.parseStatus || 'pending';
@@ -781,7 +731,6 @@
       var fHint = $('ssFlashKeyHint');
       if (fHint) fHint.style.display = 'none';
     }
-    if (tab === 'analytics') renderAnalytics();
     sendPresence(activityStatus(), activityDetail(), false);
   }
 
@@ -1055,7 +1004,6 @@
 
   // ── Quiz ──
   function generateQuiz() {
-    stopExamTimer();
     $('ssQuizPrompt').style.display = 'none';
     $('ssQuizHistorySection').style.display = 'none';
     $('ssQuizLoading').style.display = 'block';
@@ -1088,13 +1036,12 @@
     }).then(function (data) {
       if (!data) return;
       $('ssQuizLoading').style.display = 'none';
-      if (data.error) { $('ssQuizPrompt').style.display = ''; $('ssQuizHistorySection').style.display = ''; EXAM_PENDING_MINUTES = 0; showParseStatusMessage(data.error); return; }
+      if (data.error) { $('ssQuizPrompt').style.display = ''; $('ssQuizHistorySection').style.display = ''; showParseStatusMessage(data.error); return; }
       handleQuizResult(data);
     }).catch(function (e) {
       $('ssQuizLoading').style.display = 'none';
       $('ssQuizPrompt').style.display = '';
       $('ssQuizHistorySection').style.display = '';
-      EXAM_PENDING_MINUTES = 0;
       showParseStatusMessage('Failed to generate quiz. Please try again.');
     });
   }
@@ -1105,11 +1052,7 @@
     QUIZ_ANSWERS = {};
     QUIZ_CURRENT = 0;
     renderQuiz();
-    if (EXAM_PENDING_MINUTES > 0) {
-      startExamTimer(EXAM_PENDING_MINUTES);
-      toast('Exam started — ' + EXAM_PENDING_MINUTES + ' minutes on the clock.');
-      EXAM_PENDING_MINUTES = 0;
-    }
+
   }
 
   function answeredCount() {
@@ -1261,7 +1204,6 @@
   function submitQuiz() {
     if (!QUIZ_DATA || QUIZ_SUBMITTING) return;
     QUIZ_SUBMITTING = true;
-    stopExamTimer();
     fetch('/ajax/study-space/quiz/' + QUIZ_DATA.id + '/submit/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrf() },
@@ -1324,38 +1266,6 @@
     renderQuiz();
   }
 
-  // ── Exam mode timer ──
-  function startExamTimer(minutes) {
-    EXAM_ACTIVE = true;
-    EXAM_DEADLINE = Date.now() + minutes * 60 * 1000;
-    var bar = $('ssExamTimer');
-    if (bar) { bar.classList.add('ss-exam-timer-on'); bar.classList.remove('ss-exam-timer-low'); }
-    if (EXAM_TIMER) clearInterval(EXAM_TIMER);
-    updateExamClock();
-    EXAM_TIMER = setInterval(updateExamClock, 1000);
-  }
-
-  function updateExamClock() {
-    var clock = $('ssExamTimerClock');
-    var remaining = Math.max(0, EXAM_DEADLINE - Date.now());
-    var mins = Math.floor(remaining / 60000);
-    var secs = Math.floor((remaining % 60000) / 1000);
-    if (clock) clock.textContent = mins + ':' + (secs < 10 ? '0' : '') + secs;
-    var bar = $('ssExamTimer');
-    if (bar && remaining < 60 * 1000) bar.classList.add('ss-exam-timer-low');
-    if (remaining <= 0) {
-      stopExamTimer();
-      toast('Time is up — submitting your answers.');
-      submitQuiz();
-    }
-  }
-
-  function stopExamTimer() {
-    EXAM_ACTIVE = false;
-    if (EXAM_TIMER) { clearInterval(EXAM_TIMER); EXAM_TIMER = null; }
-    var bar = $('ssExamTimer');
-    if (bar) bar.classList.remove('ss-exam-timer-on');
-  }
 
   function loadQuizHistory() {
     if (!SPACE_ID) return;
@@ -1555,11 +1465,8 @@
 
   function activityDetail() {
     if (CURRENT_TAB === 'notes') return 'editing shared notes';
-    if (CURRENT_TAB === 'tutor') return 'asking the AI tutor';
-    if (CURRENT_TAB === 'analytics') return 'reviewing analytics';
-    if (CURRENT_TAB === 'learningPath') return 'planning study path';
-    if (CURRENT_TAB === 'examMode') return 'setting up exam mode';
-    return 'browsing ' + CURRENT_TAB;
+        if (CURRENT_TAB === 'learningPath') return 'planning study path';
+        return 'browsing ' + CURRENT_TAB;
   }
 
   function loadSavedLearningPlan() {
@@ -1614,9 +1521,7 @@
       .then(function (data) {
         if (data.presence) {
           SPACE_DATA.presence = data.presence;
-          if (SPACE_DATA.analytics) SPACE_DATA.analytics.activeNow = data.activeNow || data.presence.length;
-          renderPresence();
-          renderAnalytics();
+                  renderPresence();
         }
       }).catch(function () { });
   }
@@ -1657,7 +1562,6 @@
         SPACE_DATA = data;
         $('ssTitle').textContent = data.title || 'Untitled Space';
         $('ssSettingsModal').style.display = 'none';
-        renderAnalytics();
       });
   }
 
@@ -1680,24 +1584,6 @@
       }).catch(function () { });
   }
 
-  function askTutor() {
-    var q = $('ssTutorQuestion').value.trim();
-    if (!q) { toast('Enter a question first'); return; }
-    $('ssTutorStatus').textContent = 'Thinking...';
-    $('ssTutorAnswer').style.display = 'none';
-    fetch('/ajax/study-space/' + SPACE_ID + '/tutor/', {
-      method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrf() }, body: JSON.stringify({ question: q })
-    }).then(function (r) { return r.json() })
-      .then(function (data) {
-        $('ssTutorStatus').textContent = '';
-        if (data.error) { toast(data.error); return; }
-        $('ssTutorAnswer').style.display = 'block';
-        $('ssTutorAnswer').innerHTML = renderMarkdown(data.answer || '');
-        renderMathInElement($('ssTutorAnswer'));
-        $('ssTutorCitations').textContent = 'Sources: ' + (data.citations || []).map(function (c) { return c.title; }).join(', ');
-        sendPresence('generating', 'asking the AI tutor', false);
-      }).catch(function () { $('ssTutorStatus').textContent = ''; toast('Tutor request failed'); });
-  }
 
   function generateLearningPath() {
     var days = parseInt($('ssLearningDays')?.value || '10', 10);
@@ -1718,18 +1604,6 @@
         $('ssLearningLoading').style.display = 'none';
         $('ssLearningEmpty').style.display = 'block';
       });
-  }
-  var EXAM_PENDING_MINUTES = 0;
-  function startExamMode() {
-    var count = parseInt($('ssExamQuestionCount')?.value || '10', 10);
-    var mins = parseInt($('ssExamMinutes')?.value || '10', 10);
-    switchTab('quiz');
-    $('ssQuizCount').value = String(count);
-    $$('.ss-count-choice').forEach(function (b) {
-      if (b.closest('#ssQuizCountPicker')) b.classList.toggle('active', b.dataset.value === String(count));
-    });
-    EXAM_PENDING_MINUTES = mins;
-    generateQuiz();
   }
   // ── Rename ──
   function openRenameModal() {
