@@ -947,6 +947,15 @@
 
     this._removeTextInput();
 
+    var wpSelect = this._screenToWorld(pos.x, pos.y);
+    var hitForMove = this._hitTest(wpSelect.x, wpSelect.y);
+    var draggingSelected = hitForMove >= 0 && hitForMove === this.selectedIdx && this.selected && this.tool !== 'eraser' && this.tool !== 'image' && this.tool !== 'pan';
+    if (draggingSelected) {
+      var bMove = this._getBounds(this.selected);
+      this.dragState = { startX: wpSelect.x, startY: wpSelect.y, origEl: JSON.parse(JSON.stringify(this.selected)) };
+      return;
+    }
+
     switch (this.tool) {
       case 'select':
         var idx = this._hitTest(wp.x, wp.y);
@@ -1286,25 +1295,63 @@
   };
 
   CollabBoard.prototype._updateElement = function(idx, el) {
+    if (idx < 0 || idx >= this.elements.length) return;
+    var target = this.elements[idx];
     this.elements[idx] = el;
-    if (this.yarray && idx < this.yarray.length) {
+    if (this.yarray) {
       var self = this;
-      this.yjsInst.doc.transact(function() {
-        self.yarray.delete(idx, 1);
-        self.yarray.insert(idx, [JSON.parse(JSON.stringify(el))]);
-      }, 'local');
+      var yIdx = -1;
+      if (target && target.id) {
+        for (var k = 0; k < self.yarray.length; k++) {
+          try {
+            var cur = self.yarray.get(k);
+            if (cur && cur.id === target.id) { yIdx = k; break; }
+          } catch(e) {}
+        }
+      }
+      if (yIdx < 0) yIdx = idx < self.yarray.length ? idx : -1;
+      if (yIdx >= 0) {
+        this.yjsInst.doc.transact(function() {
+          self.yarray.delete(yIdx, 1);
+          self.yarray.insert(yIdx, [JSON.parse(JSON.stringify(el))]);
+        }, 'local');
+      }
     }
     this._scheduleSave();
     this.dirty = true;
   };
 
   CollabBoard.prototype._removeElement = function(idx) {
+    if (idx < 0 || idx >= this.elements.length) return;
+    var victims = this.elements[idx];
     this.elements.splice(idx, 1);
-    if (this.yarray && idx < this.yarray.length) {
-      var self = this;
-      this.yjsInst.doc.transact(function() {
-        self.yarray.delete(idx, 1);
-      }, 'local');
+    if (this.selectedIdx === idx) { this.selectedIdx = -1; this.selected = null; }
+    else if (this.selectedIdx > idx) { this.selectedIdx--; }
+    if (this.yarray) {
+      var yIdx = -1;
+      if (victims && victims.id) {
+        for (var k = 0; k < this.yarray.length; k++) {
+          try {
+            var cur2 = this.yarray.get(k);
+            if (cur2 && cur2.id === victims.id) { yIdx = k; break; }
+          } catch(e) {}
+        }
+      }
+      if (yIdx < 0 && idx < this.yarray.length) yIdx = idx;
+      if (yIdx >= 0) {
+        var self = this;
+        this.yjsInst.doc.transact(function() {
+          self.yarray.delete(yIdx, 1);
+        }, 'local');
+      } else if (this.yarray.length !== this.elements.length) {
+        var self2 = this;
+        this.yjsInst.doc.transact(function() {
+          self2.yarray.delete(0, self2.yarray.length);
+          for (var i = 0; i < self2.elements.length; i++) {
+            self2.yarray.push([JSON.parse(JSON.stringify(self2.elements[i]))]);
+          }
+        }, 'local');
+      }
     }
     this._scheduleSave();
     this.dirty = true;
