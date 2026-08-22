@@ -1,7 +1,9 @@
 """Auto-fix watcher daemon.
 
-Polls GitHub Actions for failed runs on every auto-fix-enabled project and
-queues background-agent repair sessions with the failing job log attached.
+Polls GitHub Actions for *failed* runs on agent-created task branches of
+every auto-fix-enabled project and queues background-agent repair sessions
+with the failing job log attached. Failures on main/master (or any base
+branch) are never picked up.
 
 Run under cron:
   */2 * * * * cd /path && python manage.py run_autofix_watch --once

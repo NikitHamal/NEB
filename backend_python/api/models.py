@@ -1884,7 +1884,7 @@ class BackgroundAgentProject(models.Model):
     is_private = models.BooleanField(default=False)
     autofix_enabled = models.BooleanField(
         default=True,
-        help_text='When a GitHub Actions run fails for this repo, queue an agent session with the failing job log.',
+        help_text='When a GitHub Actions run fails on an agent-created task branch (never main), queue an agent session with the failing job log.',
     )
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='new', db_index=True)
     mirror_path = models.TextField(blank=True, default='')
