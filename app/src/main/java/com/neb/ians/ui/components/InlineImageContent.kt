@@ -40,8 +40,9 @@ fun rememberInlineImageContents(
     val ids = remember(text) { InlineImageTokens.extractIds(text) }
     if (ids.isEmpty()) return emptyMap<String, InlineTextContent>()
     return remember(ids, outline, surfaceHigh) {
-        ids.associateWith { id ->
-            InlineTextContent(
+        ids.associate { id ->
+            val key = INLINE_IMG_PREFIX + id
+            key to InlineTextContent(
                 placeholder = Placeholder(
                     width = 2.2f.em,
                     height = 1.55f.em,
@@ -64,7 +65,7 @@ fun rememberInlineImageContents(
                     )
                 }
             }
-        }
+        }.toMap()
     }
 }
 
@@ -73,7 +74,7 @@ fun NebAnnotatedText(
     text: AnnotatedString,
     style: TextStyle,
     modifier: Modifier = Modifier,
-    inlineContent: Map<String, InlineTextContent> = emptyMap(),
+    inlineContent: Map<String, InlineTextContent> = emptyMap<String, InlineTextContent>(),
     maxLines: Int = Int.MAX_VALUE,
     overflow: TextOverflow = TextOverflow.Clip,
     onTextLayout: (TextLayoutResult) -> Unit = {},
