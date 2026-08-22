@@ -151,9 +151,9 @@ pkill -f run_autofix_watch 2>/dev/null || true
 nohup python manage.py run_background_agent_worker >> logs/worker.log 2>&1 & disown
 nohup python manage.py run_autofix_watch >> logs/autofix.log 2>&1 & disown
 
-echo 'Restarting Phusion Passenger application...'
-rm -rf tmp/*
-touch tmp/restart.txt
+echo 'Restarting LSAPI workers (touch restart.txt alone does NOT recycle healthy workers)...'
+pkill -f 'lswsgi -m ${remoteDir}/passenger_wsgi.py' 2>/dev/null || true
+sleep 2
 
 echo 'DEPLOYMENT SUCCESSFUL'
 "@
