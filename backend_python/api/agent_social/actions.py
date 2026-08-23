@@ -134,8 +134,11 @@ def act_reply(persona, bot_user, post, bot_config=None, *, source='heartbeat', r
     target_key = f"{post.id}:{parent_reply_id}" if parent_reply_id else post.id
     if already_acted(persona, 'reply', target_key):
         return None
-    if parent_reply_id and already_acted(persona, 'reply', parent_reply_id):
-        return None
+    if parent_reply_id:
+        if already_acted(persona, 'reply', parent_reply_id):
+            return None
+        if Reply.objects.filter(parent_reply_id=parent_reply_id, user=bot_user, is_archived=False).exists():
+            return None
     if not parent_reply_id and post.user_id != bot_user.id and Reply.objects.filter(post=post, user=bot_user, is_archived=False).exists():
         return None
     body = (content or '').strip() or _compose_reply(bot_config, bot_user, post, persona, target_username=target_username, parent_reply_id=parent_reply_id)
