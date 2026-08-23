@@ -8,6 +8,7 @@
 {% block og_description %}Get study notes, textbook solutions, model questions, and past papers for {{ grade }} {{ subject }}.{% endblock %}
 
 {% block extra_css %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" nonce="{{ csp_nonce }}">
 <link rel="stylesheet" href="{% static 'web/css/pages/subject-page.css' %}">
 {% endblock %}
 
@@ -79,6 +80,11 @@
     
     <!-- STUDY MATERIALS TAB -->
     <div class="subj-tab-content active" id="tab-materials">
+      <div class="subject-learning-search">
+        <span class="material-symbols-outlined">search</span>
+        <input type="search" id="subject-learning-search-input" placeholder="Search {{ subject }} topics, formulas, concepts and questions…" autocomplete="off">
+        <span class="subject-search-status" id="subject-learning-search-status"></span>
+      </div>
       <div class="subject-study-layout">
         
         <!-- Left Side: Chapter Navigation Sidebar -->
@@ -88,7 +94,7 @@
           </div>
           <div class="sidebar-menu">
             {% for ch in grouped_resources %}
-            <button type="button" class="sidebar-nav-item {% if forloop.first %}active{% endif %}" data-action="select-chapter" data-chapter-id="{{ ch.id }}">
+            <button type="button" class="sidebar-nav-item {% if forloop.first %}active{% endif %}" data-action="select-chapter" data-chapter-id="{{ ch.id }}" data-search-text="{{ ch.search_text|escape }}">
               <span class="chapter-name">{{ ch.name }}</span>
             </button>
             {% endfor %}
@@ -110,7 +116,7 @@
             
             <!-- Sub-Tabs Navigation (plain text, no icons) -->
             <div class="chapter-subtabs">
-              <button type="button" class="subtab-btn active" data-action="select-subtab" data-chapter-id="{{ ch.id }}" data-subtab="guide">Chapter Guide</button>
+              <button type="button" class="subtab-btn active" data-action="select-subtab" data-chapter-id="{{ ch.id }}" data-subtab="guide">{% if ch.rich_content.has_blocks %}Interactive Guide{% else %}Chapter Guide{% endif %}</button>
               <button type="button" class="subtab-btn" data-action="select-subtab" data-chapter-id="{{ ch.id }}" data-subtab="qas">Solved Q&As</button>
               <button type="button" class="subtab-btn" data-action="select-subtab" data-chapter-id="{{ ch.id }}" data-subtab="files">Study Files</button>
             </div>
@@ -118,7 +124,9 @@
             <div class="pane-body">
               <!-- SUBTAB 1: CHAPTER GUIDE -->
               <div class="subtab-content active" id="subtab-guide-{{ ch.id }}">
-                {% if ch.syllabus_text %}
+                {% if ch.rich_content.has_blocks %}
+                  {% include 'web/partials/syllabus_rich_blocks.html' with ch=ch %}
+                {% elif ch.syllabus_text %}
                 {% if ch.syllabus_sections|length > 1 %}
                 <div class="section-toc">
                   <div class="section-toc-title">In this chapter</div>
@@ -585,7 +593,11 @@
 {% endblock %}
 
 {% block extra_js %}
+<script nonce="{{ csp_nonce }}" src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script nonce="{{ csp_nonce }}" src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/syllabus-interactive.js' %}"></script>
 <script nonce="{{ csp_nonce }}">
+  if (window.NebiansSyllabus) window.NebiansSyllabus.init(document);
   // ── Tab Navigation ──
   document.querySelectorAll('.subj-tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -602,8 +614,42 @@
     });
   });
 
+  // ── Subject-wide syllabus search ──
+  (function() {
+    var input = document.getElementById('subject-learning-search-input');
+    var status = document.getElementById('subject-learning-search-status');
+    if (!input) return;
+    input.addEventListener('input', function() {
+      var q = (input.value || '').trim().toLowerCase();
+      var buttons = Array.from(document.querySelectorAll('.sidebar-nav-item[data-search-text]'));
+      var visible = [];
+      buttons.forEach(function(btn) {
+        var hay = (btn.dataset.searchText || '').toLowerCase();
+        var show = !q || hay.indexOf(q) !== -1;
+        btn.dataset.searchHidden = show ? 'false' : 'true';
+        if (show) visible.push(btn);
+      });
+      if (status) status.textContent = q ? (visible.length + ' matching chapter' + (visible.length === 1 ? '' : 's')) : '';
+      var active = document.querySelector('.sidebar-nav-item.active[data-search-text]');
+      if (q && (!active || active.dataset.searchHidden === 'true') && visible.length) visible[0].click();
+    });
+  })();
+
   // ── Event Delegation & Actions ──
   registerActions({
+    'ask-neby-syllabus': function(el) {
+      var prompt = el.dataset.nebyPrompt || 'Explain this syllabus topic.';
+      var tabBtn = document.querySelector('.subj-tab-btn[data-tab="neby-ai"]');
+      if (tabBtn) tabBtn.click();
+      window.setTimeout(function() {
+        var input = document.getElementById('ai-message-input');
+        if (input) {
+          input.value = prompt;
+          input.dispatchEvent(new Event('input', { bubbles: true }));
+          input.focus();
+        }
+      }, 80);
+    },
     'scroll-to-section': function(el) {
       const targetId = el.dataset.target;
       if (!targetId) return;

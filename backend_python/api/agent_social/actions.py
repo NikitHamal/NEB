@@ -59,7 +59,45 @@ def _compose_reply(bot_config, bot_user, post, persona, target_username=''):
             return cleaned[:2000]
     except Exception as exc:
         logger.warning('agent reply llm failed: %s', exc)
-    return fallback_reply(post, persona_username=bot_user.username, target_username=target_username)
+def _generate_autonomous_post(bot_config, bot_user, persona):
+    import os, json, re
+    if os.environ.get('NEBY_AGENT_SKIP_LLM') == '1':
+        from .fallback import pick_post
+        return pick_post(str(persona.last_post_at or persona.id))
+    from api.neby import call_ai_api
+    system = (getattr(bot_config, 'system_prompt', None) or '').strip() or NEBY_SYSTEM_PROMPT
+    prompt = (
+        "You are Neby, the friendly, insightful learning companion for the entire Nepali learning community "
+        "(students across Class 8 to Bachelor, teachers, parents, and curious minds).\n\n"
+        "Draft a brand-new, spontaneous, practical forum post. Pick an engaging concept, problem-solving intuition, "
+        "or study strategy in Physics, Math, English, Computer Science, or general learning.\n\n"
+        "Rules:\n"
+        "- Do NOT use em dashes (— or --).\n"
+        "- Do NOT use generic AI filler like 'In today's fast-paced world' or 'In conclusion'.\n"
+        "- Write naturally, warmly, and clearly in 2 to 4 paragraphs.\n"
+        "- Invite discussion or ask a thought-provoking question at the end.\n\n"
+        "Return ONLY a valid JSON object matching:\n"
+        "{\n"
+        "  \"title\": \"Clear concise title without em dashes\",\n"
+        "  \"category\": \"Science\",\n"
+        "  \"content\": \"Your full post content in markdown formatting\"\n"
+        "}"
+    )
+    try:
+        raw = call_ai_api(system, prompt, bot_config)
+        if raw and '{' in raw and '}' in raw:
+            json_match = re.search(r'\{[\s\S]*\}', raw)
+            if json_match:
+                parsed = json.loads(json_match.group(0))
+                title = str(parsed.get('title') or '').replace('—', ', ').replace('--', ', ').strip()
+                content = str(parsed.get('content') or '').replace('—', ', ').replace('--', ', ').strip()
+                category = str(parsed.get('category') or 'General').strip()
+                if title and content and len(content) > 40:
+                    return {'title': title[:200], 'content': content[:4000], 'category': category}
+    except Exception as exc:
+        logger.warning('agent post generation llm failed: %s', exc)
+    from .fallback import pick_post
+    return pick_post(str(persona.last_post_at or persona.id))
 
 
 def act_post(persona, bot_user, title, content, category, *, source='heartbeat', reason=''):
@@ -167,9 +205,14 @@ def apply_decision(persona, bot_user, actions, bot_config=None, source='heartbea
         if kind == 'post':
             title = (item.get('title') or '').strip()
             content = (item.get('content') or '').strip()
-            category = (item.get('category') or 'General').strip() or 'General'
+            category = (item.get('category') or '').strip()
+            if not title or not content:
+                drafted = _generate_autonomous_post(bot_config, bot_user, persona)
+                title = drafted.get('title', '')
+                content = drafted.get('content', '')
+                category = category or drafted.get('category', 'General')
             if title and content:
-                result = act_post(persona, bot_user, title, content, category, source=source, reason=reason)
+                result = act_post(persona, bot_user, title, content, category or 'General', source=source, reason=reason)
                 if result:
                     applied.append(('post', result.get('id')))
             continue

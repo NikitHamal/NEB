@@ -1,0 +1,977 @@
+[
+  {
+    "grade_level": "Class 12",
+    "subject": "Physics",
+    "chapter_id": "class-12-physics-electrons-and-electron-beams",
+    "chapter_title": "Unit 1: Electrons and Electron Beams",
+    "text_content": "## Overview\nThese pages cover the electron, Millikan's oil-drop experiment, gas discharge and cathode rays, electron motion in electric and magnetic fields, crossed fields, and J. J. Thomson's determination of $e/m$.\n\n## Core relations\n- $q=ne$\n- $r=mv/(eB)$\n- $T=2\\pi m/(eB)$\n- $v=E/B$\n- $e/m=E^2/(2VB^2)$\n\n## Source\nConverted from *Physics_compressed.pdf*, pages 1-31.",
+    "question_answers": "## Source-based checks\n#### What conclusion does the Millikan experiment support about electric charge?\nThe notes conclude that the charge on an oil drop occurs as an integral multiple of the elementary charge: $q=ne$.\n\n#### What path does an electron follow when it enters a uniform magnetic field perpendicular to its velocity?\nA circular path, because the magnetic force acts as the centripetal force.\n\n#### What is the undeflected velocity in crossed electric and magnetic fields?\n$v=E/B$.",
+    "order": 1,
+    "source_label": "Physics_compressed.pdf",
+    "source_resource_id": "",
+    "rich_content": {
+      "version": 1,
+      "source": {
+        "label": "Physics_compressed.pdf",
+        "page_count": 150,
+        "note": "Structured from the uploaded handwritten physics notes. Page references point to the source PDF pages. The Class 12 label follows the supplied project context; the PDF itself does not visibly state a class on its opening pages."
+      },
+      "topics": [
+        "Electron",
+        "Millikan oil-drop experiment",
+        "Cathode rays",
+        "Electric-field motion",
+        "Magnetic-field motion",
+        "Crossed fields",
+        "Specific charge e/m"
+      ],
+      "learning_objectives": [
+        "Recall the charge, mass and basic properties of the electron from the notes.",
+        "Explain how Millikan's oil-drop experiment quantizes charge.",
+        "Describe electron motion in uniform electric and magnetic fields.",
+        "Use the crossed-field and J. J. Thomson relations recorded in the source."
+      ],
+      "blocks": [
+        {
+          "type": "section",
+          "title": "Electron: charge, mass and properties",
+          "markdown": "The notes introduce the electron as a negatively charged particle. They record charge magnitude about **$1.602\\times10^{-19}\\,\\mathrm{C}$** and mass about **$9.1\\times10^{-31}\\,\\mathrm{kg}$**, and list particle-like/wave-like behaviour and spin.",
+          "source_pages": "1"
+        },
+        {
+          "type": "section",
+          "title": "Millikan oil-drop experiment",
+          "markdown": "The apparatus uses charged oil drops viewed between parallel plates. The notes first balance gravity with buoyancy and viscous drag, then apply an electric field so the electric force changes the terminal motion. The measured drop charge is found to be an integral multiple of the elementary charge.",
+          "source_pages": "2-9"
+        },
+        {
+          "type": "formula",
+          "title": "Charge quantization",
+          "latex": "q = n e",
+          "markdown": "The conclusion written in the notes is that the total charge on a drop is an integral multiple of the smallest electronic charge.",
+          "source_pages": "6-7",
+          "variables": [
+            {
+              "symbol": "q",
+              "meaning": "charge on the oil drop"
+            },
+            {
+              "symbol": "n",
+              "meaning": "integer 1, 2, 3, …"
+            },
+            {
+              "symbol": "e",
+              "meaning": "elementary electronic charge"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "title": "Electrical discharge in gases and cathode rays",
+          "markdown": "At sufficiently low gas pressure, a discharge tube conducts. As pressure is reduced, the notes describe luminous regions and dark spaces; at very low pressure, cathode rays are produced. Listed cathode-ray properties include straight-line travel, penetration of thin matter, sharp shadows, negative charge, magnetic/electric deflection, kinetic energy and heating effects.",
+          "source_pages": "10-16"
+        },
+        {
+          "type": "formula",
+          "title": "Electron path in a uniform electric field",
+          "latex": "y = \\frac{eV}{2mdu^2}x^2",
+          "markdown": "For an electron entering between parallel plates with horizontal speed $u$, the source derives a parabolic trajectory under the transverse electric field $E=V/d$.",
+          "source_pages": "16-19",
+          "variables": [
+            {
+              "symbol": "V",
+              "meaning": "potential difference across plates"
+            },
+            {
+              "symbol": "d",
+              "meaning": "plate separation"
+            },
+            {
+              "symbol": "u",
+              "meaning": "initial horizontal speed"
+            }
+          ]
+        },
+        {
+          "type": "formula",
+          "title": "Circular motion in a magnetic field",
+          "latex": "r = \\frac{mv}{eB}",
+          "markdown": "With velocity perpendicular to a uniform magnetic field, magnetic force supplies centripetal force and the electron follows a circular path.",
+          "source_pages": "20-23",
+          "variables": [
+            {
+              "symbol": "r",
+              "meaning": "orbit radius"
+            },
+            {
+              "symbol": "B",
+              "meaning": "magnetic-field magnitude"
+            },
+            {
+              "symbol": "v",
+              "meaning": "electron speed"
+            }
+          ]
+        },
+        {
+          "type": "formula",
+          "title": "Cyclotron period",
+          "latex": "T = \\frac{2\\pi m}{eB}",
+          "markdown": "The source also derives the period of circular motion. For a velocity with parallel and perpendicular components, the motion becomes helical and the pitch equals the parallel component times the period.",
+          "source_pages": "23-24"
+        },
+        {
+          "type": "interactive",
+          "title": "Explore electron curvature in a magnetic field",
+          "kind": "electron-magnetic-field",
+          "markdown": "Move the sliders to see how the source relation $r=mv/(eB)$ changes the circular path.",
+          "source_pages": "20-24",
+          "config": {
+            "B": 0.2,
+            "v_million": 1.0
+          }
+        },
+        {
+          "type": "callout",
+          "title": "Magnetic bottle and Van Allen belts",
+          "markdown": "The notes connect helical motion and magnetic trapping to magnetic bottles and the Van Allen belts around Earth, and mention aurora as an example of charged-particle interactions in Earth's magnetic environment.",
+          "source_pages": "24-26"
+        },
+        {
+          "type": "formula",
+          "title": "Crossed-field velocity selector",
+          "latex": "v = \\frac{E}{B}",
+          "markdown": "When electric and magnetic fields are perpendicular and adjusted so the charged particle passes undeflected, the forces are equal in magnitude.",
+          "source_pages": "27"
+        },
+        {
+          "type": "formula",
+          "title": "Specific charge in J. J. Thomson's method",
+          "latex": "\\frac{e}{m} = \\frac{E^2}{2VB^2}",
+          "markdown": "The source combines acceleration through potential $V$ with crossed electric/magnetic deflection to obtain the electron's specific charge.",
+          "source_pages": "28-31"
+        }
+      ]
+    }
+  },
+  {
+    "grade_level": "Class 12",
+    "subject": "Physics",
+    "chapter_id": "class-12-physics-photons-photoelectric-effect",
+    "chapter_title": "Unit 2: Photons and the Photoelectric Effect",
+    "text_content": "## Overview\nThis unit converts the photon and photoelectric-effect pages into searchable concepts, formulas and an interactive threshold model.\n\n## Core relations\n- $E=hf=hc/\\lambda$\n- $\\phi_0=hf_0=hc/\\lambda_0$\n- $hf=\\phi_0+K_{max}$\n- $eV_0=K_{max}$\n\n## Source\n*Physics_compressed.pdf*, pages 31-49.",
+    "question_answers": "## Source-based checks\n#### What is work function?\nThe minimum energy required to liberate an electron from the surface of a metal.\n\n#### What is threshold frequency?\nThe minimum frequency of incident light that can eject electrons from the metal surface.\n\n#### What does stopping potential measure?\nIt is the reverse potential that reduces the photocurrent to zero; the notes use $eV_0=K_{max}$.",
+    "order": 2,
+    "source_label": "Physics_compressed.pdf",
+    "source_resource_id": "",
+    "rich_content": {
+      "version": 1,
+      "source": {
+        "label": "Physics_compressed.pdf",
+        "page_count": 150,
+        "note": "Structured from the uploaded handwritten physics notes. Page references point to the source PDF pages. The Class 12 label follows the supplied project context; the PDF itself does not visibly state a class on its opening pages."
+      },
+      "topics": [
+        "Photon",
+        "Planck quantum theory",
+        "Photoelectric effect",
+        "Work function",
+        "Threshold frequency",
+        "Stopping potential",
+        "Photoelectric experiments",
+        "Photocell"
+      ],
+      "learning_objectives": [
+        "Relate photon energy to frequency and wavelength.",
+        "Define work function, threshold frequency and threshold wavelength as used in the notes.",
+        "Use Einstein's photoelectric equation and stopping potential.",
+        "Interpret the experimental trends described for intensity, frequency and plate potential."
+      ],
+      "blocks": [
+        {
+          "type": "section",
+          "title": "Photon and quantum theory of radiation",
+          "markdown": "The notes state that radiation energy is emitted in discrete packets (quanta). Each quantum is a photon and its energy is proportional to frequency.",
+          "source_pages": "31-33"
+        },
+        {
+          "type": "formula",
+          "title": "Photon energy",
+          "latex": "E = hf = \\frac{hc}{\\lambda}",
+          "markdown": "This relation links the energy of a photon to frequency $f$ and wavelength $\\lambda$.",
+          "source_pages": "31-33",
+          "variables": [
+            {
+              "symbol": "h",
+              "meaning": "Planck constant"
+            },
+            {
+              "symbol": "f",
+              "meaning": "frequency"
+            },
+            {
+              "symbol": "c",
+              "meaning": "speed of light"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "title": "Photoelectric effect and terms",
+          "markdown": "The notes define the photoelectric effect as emission of electrons from a metallic surface under suitable incident radiation. They introduce **work function** $\\phi_0$, **threshold frequency** $f_0$, and **threshold wavelength** $\\lambda_0$.",
+          "source_pages": "33-35"
+        },
+        {
+          "type": "formula",
+          "title": "Threshold relations",
+          "latex": "\\phi_0 = hf_0 = \\frac{hc}{\\lambda_0}",
+          "markdown": "At threshold, the emitted electron has no kinetic energy in the source treatment.",
+          "source_pages": "33-35"
+        },
+        {
+          "type": "formula",
+          "title": "Einstein photoelectric equation",
+          "latex": "hf = \\phi_0 + K_{\\max} = hf_0 + \\frac{1}{2}mv_{\\max}^2",
+          "markdown": "The incoming photon energy is split into the energy needed to liberate the electron and the maximum kinetic energy of the emitted photoelectron.",
+          "source_pages": "35-38"
+        },
+        {
+          "type": "formula",
+          "title": "Stopping potential",
+          "latex": "eV_0 = K_{\\max}",
+          "markdown": "The notes define stopping potential as the reverse potential just sufficient to stop the most energetic photoelectrons and reduce photocurrent to zero.",
+          "source_pages": "38-39"
+        },
+        {
+          "type": "interactive",
+          "title": "Explore the photoelectric threshold",
+          "kind": "photoelectric-effect",
+          "markdown": "Change frequency and work function. Emission begins only when photon energy is at least the work function; then the excess appears as maximum kinetic energy.",
+          "source_pages": "33-40",
+          "config": {
+            "frequency_1e14": 8,
+            "work_function_ev": 2.2
+          }
+        },
+        {
+          "type": "section",
+          "title": "Experimental study",
+          "markdown": "The source describes a photoelectric tube with cathode and anode. It records that photocurrent rises with light intensity, reaches saturation with sufficiently positive anode potential, and can be reduced to zero by a negative stopping potential. It also states that stopping potential depends on incident frequency rather than intensity.",
+          "source_pages": "41-45"
+        },
+        {
+          "type": "section",
+          "title": "Millikan verification and photocell",
+          "markdown": "The later pages describe Millikan's experimental verification of Einstein's equation and then a photoelectric cell in which light on a photosensitive cathode produces current. The notes mention use of a photocell for converting light energy into electrical current.",
+          "source_pages": "46-49"
+        }
+      ]
+    }
+  },
+  {
+    "grade_level": "Class 12",
+    "subject": "Physics",
+    "chapter_id": "class-12-physics-physical-optics",
+    "chapter_title": "Unit 3: Physical Optics",
+    "text_content": "## Overview\nPhysical optics in the source runs from wave theories through interference, diffraction, grating resolution and polarization.\n\n## Core relations\n- $\\phi=2\\pi\\Delta/\\lambda$\n- $\\beta=\\lambda D/d$\n- $a\\sin\\theta=n\\lambda$\n- $d\\sin\\theta=n\\lambda$\n- $\\lambda/\\Delta\\lambda=nN$\n- $\\mu=\\tan i_p$\n\n## Source\n*Physics_compressed.pdf*, pages 50-79.",
+    "question_answers": "## Source-based checks\n#### What is a coherent source?\nThe notes describe coherent sources as sources with the same frequency/wavelength and a constant phase difference.\n\n#### What is the Young double-slit fringe-width relation?\n$\\beta=\\lambda D/d$.\n\n#### What does polarization show about light?\nThe notes use polarization as evidence that light waves are transverse.",
+    "order": 3,
+    "source_label": "Physics_compressed.pdf",
+    "source_resource_id": "",
+    "rich_content": {
+      "version": 1,
+      "source": {
+        "label": "Physics_compressed.pdf",
+        "page_count": 150,
+        "note": "Structured from the uploaded handwritten physics notes. Page references point to the source PDF pages. The Class 12 label follows the supplied project context; the PDF itself does not visibly state a class on its opening pages."
+      },
+      "topics": [
+        "Wave theory of light",
+        "Electromagnetic waves",
+        "Superposition",
+        "Interference",
+        "Young's double slit",
+        "Diffraction",
+        "Diffraction grating",
+        "Resolving power",
+        "Polarization",
+        "Brewster law"
+      ],
+      "learning_objectives": [
+        "Distinguish the wave ideas discussed in the physical-optics notes.",
+        "Relate phase difference to path difference and identify interference conditions.",
+        "Calculate Young's double-slit fringe width.",
+        "Use single-slit diffraction, grating and polarization relations recorded in the source."
+      ],
+      "blocks": [
+        {
+          "type": "section",
+          "title": "Wave descriptions of light",
+          "markdown": "The notes briefly compare corpuscular theory, Huygens' wave theory, Maxwell's electromagnetic theory and quantum theory. They describe electromagnetic waves as transverse and composed of oscillating electric and magnetic fields.",
+          "source_pages": "50-54"
+        },
+        {
+          "type": "section",
+          "title": "Superposition and interference",
+          "markdown": "Interference is introduced as redistribution of energy when waves superpose. The source distinguishes constructive and destructive interference and notes that coherent sources maintain a constant phase relationship.",
+          "source_pages": "54-57"
+        },
+        {
+          "type": "formula",
+          "title": "Phase difference and path difference",
+          "latex": "\\phi = \\frac{2\\pi}{\\lambda}\\,\\Delta",
+          "markdown": "The source relates angular phase difference $\\phi$ to path difference $\\Delta$.",
+          "source_pages": "56"
+        },
+        {
+          "type": "formula",
+          "title": "Resultant amplitude for equal waves",
+          "latex": "A = 2a\\cos\\left(\\frac{\\phi}{2}\\right)",
+          "markdown": "For two equal-amplitude waves, the notes derive a resultant amplitude that depends on phase difference.",
+          "source_pages": "58-60"
+        },
+        {
+          "type": "section",
+          "title": "Young's double-slit experiment",
+          "markdown": "Two coherent slits produce alternating bright and dark fringes on a screen. The notes derive positions of bright/dark fringes and the constant separation between successive fringes.",
+          "source_pages": "57-65"
+        },
+        {
+          "type": "formula",
+          "title": "Young fringe width",
+          "latex": "\\beta = \\frac{\\lambda D}{d}",
+          "markdown": "$D$ is the slit-to-screen distance and $d$ is the slit separation in the source notation.",
+          "source_pages": "61-65"
+        },
+        {
+          "type": "interactive",
+          "title": "Young's double-slit fringe spacing",
+          "kind": "young-double-slit",
+          "markdown": "Adjust $\\lambda$, $D$ and $d$ to see how the fringe spacing $\\beta=\\lambda D/d$ changes.",
+          "source_pages": "57-65",
+          "config": {
+            "wavelength_nm": 550,
+            "screen_m": 1.0,
+            "slit_mm": 0.5
+          }
+        },
+        {
+          "type": "section",
+          "title": "Diffraction",
+          "markdown": "The notes define diffraction as bending/spreading of light near obstacles or narrow openings, distinguish Fresnel and Fraunhofer diffraction, and then treat a single slit with minima and maxima.",
+          "source_pages": "66-72"
+        },
+        {
+          "type": "formula",
+          "title": "Single-slit minima",
+          "latex": "a\\sin\\theta = n\\lambda",
+          "markdown": "For a slit width $a$, the source derives minima when the path difference across the slit satisfies the integer-order condition.",
+          "source_pages": "67-71"
+        },
+        {
+          "type": "interactive",
+          "title": "Single-slit central maximum",
+          "kind": "single-slit-diffraction",
+          "markdown": "Use the sliders to visualize the source result that the central maximum broadens for larger wavelength and narrows for a wider slit.",
+          "source_pages": "66-72",
+          "config": {
+            "wavelength_nm": 600,
+            "slit_mm": 0.2,
+            "screen_m": 1.0
+          }
+        },
+        {
+          "type": "section",
+          "title": "Diffraction grating and resolving power",
+          "markdown": "A plane transmission grating is described as many equally spaced parallel lines. The source gives the grating condition and then introduces resolving power as the ability to separate close images/spectral lines.",
+          "source_pages": "72-75"
+        },
+        {
+          "type": "formula",
+          "title": "Grating equation",
+          "latex": "d\\sin\\theta = n\\lambda",
+          "markdown": "$d$ is the grating element (distance between successive lines) in the notes.",
+          "source_pages": "72-75"
+        },
+        {
+          "type": "formula",
+          "title": "Resolving power of a grating",
+          "latex": "\\frac{\\lambda}{\\Delta\\lambda} = nN",
+          "markdown": "The source states resolving power as order $n$ multiplied by the number of illuminated lines $N$.",
+          "source_pages": "73-75"
+        },
+        {
+          "type": "section",
+          "title": "Polarization and Brewster law",
+          "markdown": "Polarization is used to show the transverse nature of light. The notes describe polarized/unpolarized light, reflection polarization and the polarizing angle, then state Brewster's relation.",
+          "source_pages": "76-79"
+        },
+        {
+          "type": "formula",
+          "title": "Brewster law",
+          "latex": "\\mu = \\tan i_p",
+          "markdown": "At the polarizing angle $i_p$, the refractive index of the medium is related to the tangent of that angle.",
+          "source_pages": "77-79"
+        }
+      ]
+    }
+  },
+  {
+    "grade_level": "Class 12",
+    "subject": "Physics",
+    "chapter_id": "class-12-physics-atomic-quantization",
+    "chapter_title": "Unit 4: Quantization of Energy and Atomic Physics",
+    "text_content": "## Overview\nThese pages cover Bohr's model, hydrogen energy levels and spectra, excitation/ionization, de Broglie waves and uncertainty.\n\n## Core relations\n- $mvr=nh/(2\\pi)$\n- $r_n\\propto n^2$\n- $E_n=-13.6/n^2$ eV\n- $1/\\lambda=R_H(1/n_1^2-1/n_2^2)$\n- $\\lambda=h/p$\n\n## Source\n*Physics_compressed.pdf*, pages 80-93.",
+    "question_answers": "## Source-based checks\n#### What happens when an electron moves from a higher Bohr orbit to a lower orbit?\nThe energy difference is emitted as radiation.\n\n#### What is the ground-state energy written for hydrogen?\nAbout $-13.6$ eV.\n\n#### What is the de Broglie relation?\n$\\lambda=h/p$.",
+    "order": 4,
+    "source_label": "Physics_compressed.pdf",
+    "source_resource_id": "",
+    "rich_content": {
+      "version": 1,
+      "source": {
+        "label": "Physics_compressed.pdf",
+        "page_count": 150,
+        "note": "Structured from the uploaded handwritten physics notes. Page references point to the source PDF pages. The Class 12 label follows the supplied project context; the PDF itself does not visibly state a class on its opening pages."
+      },
+      "topics": [
+        "Bohr model",
+        "Hydrogen atom",
+        "Quantized radius",
+        "Quantized energy",
+        "Hydrogen spectrum",
+        "Excitation potential",
+        "de Broglie wavelength",
+        "Heisenberg uncertainty"
+      ],
+      "learning_objectives": [
+        "State the Bohr-model ideas written in the notes.",
+        "Use the source expressions for orbit radius and energy.",
+        "Connect transitions with hydrogen spectral series.",
+        "Apply de Broglie's wavelength relation and state the uncertainty principle."
+      ],
+      "blocks": [
+        {
+          "type": "section",
+          "title": "Bohr atomic model",
+          "markdown": "The source presents Bohr's atomic model with electrons in stationary orbits, no radiation in a stationary orbit, and radiation emitted or absorbed when an electron changes between allowed energy states.",
+          "source_pages": "80-81"
+        },
+        {
+          "type": "formula",
+          "title": "Quantized angular momentum",
+          "latex": "mvr = \\frac{nh}{2\\pi}",
+          "markdown": "This is the angular-momentum condition used in the notes to derive the allowed orbit radius.",
+          "source_pages": "80-82"
+        },
+        {
+          "type": "formula",
+          "title": "Radius of the nth orbit",
+          "latex": "r_n = \\frac{\\varepsilon_0 h^2}{\\pi m e^2}n^2",
+          "markdown": "For hydrogen, the notes obtain $r_1\\approx5.29\\times10^{-11}\\,\\mathrm{m}$ and show that the orbit radius grows as $n^2$.",
+          "source_pages": "81-83"
+        },
+        {
+          "type": "formula",
+          "title": "Energy of the nth orbit",
+          "latex": "E_n = -\\frac{13.6}{n^2}\\,\\mathrm{eV}",
+          "markdown": "The notes identify the negative sign with a bound electron and calculate the hydrogen ground-state energy near $-13.6$ eV.",
+          "source_pages": "84-85"
+        },
+        {
+          "type": "interactive",
+          "title": "Explore Bohr orbits",
+          "kind": "bohr-atom",
+          "markdown": "Change $n$ to see the $n^2$ radius scaling and the $-13.6/n^2$ eV energy values recorded in the source.",
+          "source_pages": "80-85",
+          "config": {
+            "n": 1
+          }
+        },
+        {
+          "type": "section",
+          "title": "Hydrogen spectrum",
+          "markdown": "When an electron moves from a higher to a lower orbit, the energy difference is emitted as radiation. The source lists Lyman, Balmer, Paschen, Brackett and Pfund series by their lower orbit.",
+          "source_pages": "86-89"
+        },
+        {
+          "type": "formula",
+          "title": "Hydrogen spectral-line relation",
+          "latex": "\\frac{1}{\\lambda}=R_H\\left(\\frac{1}{n_1^2}-\\frac{1}{n_2^2}\\right)",
+          "markdown": "The source writes the Rydberg form for emitted spectral lines with $n_2>n_1$.",
+          "source_pages": "86-89"
+        },
+        {
+          "type": "section",
+          "title": "Excitation and ionization potentials",
+          "markdown": "The notes define excitation potential as the energy per unit charge required to raise an atom from the ground state to an excited state, and ionization potential as the energy per unit charge needed to remove an electron to the free state.",
+          "source_pages": "89-90"
+        },
+        {
+          "type": "section",
+          "title": "de Broglie matter waves",
+          "markdown": "The source presents de Broglie's idea that a moving particle has an associated wavelength and derives the wavelength for an electron accelerated through a potential difference.",
+          "source_pages": "90-92"
+        },
+        {
+          "type": "formula",
+          "title": "de Broglie wavelength",
+          "latex": "\\lambda = \\frac{h}{p} = \\frac{h}{mv}",
+          "markdown": "The wavelength is inversely proportional to particle momentum in the notes.",
+          "source_pages": "90-92"
+        },
+        {
+          "type": "formula",
+          "title": "Electron accelerated through potential V",
+          "latex": "\\lambda = \\frac{h}{\\sqrt{2emV}}",
+          "markdown": "The source combines $eV=\\tfrac12mv^2$ with the de Broglie relation.",
+          "source_pages": "91-92"
+        },
+        {
+          "type": "section",
+          "title": "Heisenberg uncertainty principle",
+          "markdown": "The notes state that position and momentum cannot both be measured exactly at the same time and write a minimum product for their uncertainties.",
+          "source_pages": "92-93"
+        }
+      ]
+    }
+  },
+  {
+    "grade_level": "Class 12",
+    "subject": "Physics",
+    "chapter_id": "class-12-physics-x-rays",
+    "chapter_title": "Unit 5: X-rays",
+    "text_content": "## Overview\nThis unit structures the X-ray pages into production, properties, wavelength control and Bragg diffraction.\n\n## Core relations\n- $eV=\\tfrac12mv^2$\n- $\\lambda_{min}=hc/(eV)$\n- $2d\\sin\\theta=n\\lambda$\n\n## Source\n*Physics_compressed.pdf*, pages 93-98.",
+    "question_answers": "## Source-based checks\n#### How are X-rays produced in the Coolidge-tube description?\nFast electrons accelerated through a high potential strike a heavy target and X-rays are produced when the electrons are rapidly decelerated.\n\n#### What is Bragg's law?\n$2d\\sin\\theta=n\\lambda$.",
+    "order": 5,
+    "source_label": "Physics_compressed.pdf",
+    "source_resource_id": "",
+    "rich_content": {
+      "version": 1,
+      "source": {
+        "label": "Physics_compressed.pdf",
+        "page_count": 150,
+        "note": "Structured from the uploaded handwritten physics notes. Page references point to the source PDF pages. The Class 12 label follows the supplied project context; the PDF itself does not visibly state a class on its opening pages."
+      },
+      "topics": [
+        "X-ray production",
+        "Coolidge tube",
+        "X-ray properties",
+        "Intensity and quality",
+        "Minimum wavelength",
+        "Bragg law"
+      ],
+      "learning_objectives": [
+        "Describe X-ray production in the Coolidge-tube notes.",
+        "List the X-ray properties stated in the source.",
+        "Relate accelerating voltage to minimum X-ray wavelength.",
+        "Use Bragg's law for crystal diffraction."
+      ],
+      "blocks": [
+        {
+          "type": "section",
+          "title": "What the notes call X-rays",
+          "markdown": "The source describes X-rays as short-wavelength electromagnetic radiation produced when fast electrons strike a heavy-metal target, and calls the production tube a Coolidge tube.",
+          "source_pages": "93-94"
+        },
+        {
+          "type": "section",
+          "title": "Properties and uses",
+          "markdown": "The listed properties include no deflection by electric or magnetic fields, straight-line travel, reflection/refraction/diffraction effects, penetration, ionization, photographic action and fluorescence. The notes mention imaging bones/foreign bodies as a use.",
+          "source_pages": "97-98"
+        },
+        {
+          "type": "section",
+          "title": "Production in a Coolidge tube",
+          "markdown": "A heated filament emits electrons, which are accelerated by a high potential difference toward a heavy target. Their sudden deceleration at the target produces X-rays.",
+          "source_pages": "93-97"
+        },
+        {
+          "type": "formula",
+          "title": "Energy gained by the electron",
+          "latex": "eV = \\frac{1}{2}mv^2",
+          "markdown": "The source uses the accelerating potential to relate electron energy to its speed before striking the target.",
+          "source_pages": "94-97"
+        },
+        {
+          "type": "formula",
+          "title": "Minimum X-ray wavelength",
+          "latex": "\\lambda_{\\min} = \\frac{hc}{eV}",
+          "markdown": "The notes derive the shortest wavelength by converting the maximum electron kinetic energy into one X-ray photon.",
+          "source_pages": "94-95"
+        },
+        {
+          "type": "section",
+          "title": "X-ray intensity and quality",
+          "markdown": "The source says intensity depends on the number of electrons striking the target, while quality/penetrating power is controlled by the target potential difference.",
+          "source_pages": "94-95"
+        },
+        {
+          "type": "formula",
+          "title": "Bragg law",
+          "latex": "2d\\sin\\theta = n\\lambda",
+          "markdown": "For X-ray diffraction by crystal planes, the path difference between reflected rays gives Bragg's condition.",
+          "source_pages": "95-96"
+        }
+      ]
+    }
+  },
+  {
+    "grade_level": "Class 12",
+    "subject": "Physics",
+    "chapter_id": "class-12-physics-radioactivity-nuclear-physics",
+    "chapter_title": "Unit 6: Radioactivity and Nuclear Physics",
+    "text_content": "## Overview\nThe radioactivity section includes the decay law, half-life, mean life, dating, alpha/beta/gamma properties and nuclear-reaction energy.\n\n## Core relations\n- $dN/dt=-\\lambda N$\n- $N=N_0e^{-\\lambda t}$\n- $T_{1/2}=0.693/\\lambda$\n- $\\tau=1/\\lambda$\n\n## Source\n*Physics_compressed.pdf*, pages 98-113.",
+    "question_answers": "## Source-based checks\n#### State the radioactive decay law in differential form.\n$dN/dt=-\\lambda N$.\n\n#### How are half-life and decay constant related?\n$T_{1/2}=0.693/\\lambda$.\n\n#### Which of alpha, beta and gamma radiation is described as uncharged electromagnetic radiation?\nGamma radiation.",
+    "order": 6,
+    "source_label": "Physics_compressed.pdf",
+    "source_resource_id": "",
+    "rich_content": {
+      "version": 1,
+      "source": {
+        "label": "Physics_compressed.pdf",
+        "page_count": 150,
+        "note": "Structured from the uploaded handwritten physics notes. Page references point to the source PDF pages. The Class 12 label follows the supplied project context; the PDF itself does not visibly state a class on its opening pages."
+      },
+      "topics": [
+        "Radioactivity",
+        "Rutherford-Soddy law",
+        "Decay constant",
+        "Half-life",
+        "Mean life",
+        "Radioactive dating",
+        "Alpha rays",
+        "Beta rays",
+        "Gamma rays",
+        "Nuclear reactions",
+        "Q-value"
+      ],
+      "learning_objectives": [
+        "Explain radioactive disintegration as described in the notes.",
+        "Use the exponential decay, half-life and mean-life relations.",
+        "Compare the alpha, beta and gamma properties listed in the source.",
+        "Interpret the energy/Q-value idea for nuclear reactions."
+      ],
+      "blocks": [
+        {
+          "type": "section",
+          "title": "Radioactive disintegration",
+          "markdown": "The source describes spontaneous emission from unstable nuclei and lists three radiations: $\\alpha$, $\\beta$ and $\\gamma$. It notes that decay is not controlled by ordinary external conditions such as temperature or pressure.",
+          "source_pages": "98-100"
+        },
+        {
+          "type": "formula",
+          "title": "Radioactive decay law",
+          "latex": "\\frac{dN}{dt}=-\\lambda N",
+          "markdown": "The number of nuclei disintegrating per unit time is proportional to the number of undecayed nuclei remaining.",
+          "source_pages": "99-101"
+        },
+        {
+          "type": "formula",
+          "title": "Number remaining",
+          "latex": "N = N_0 e^{-\\lambda t}",
+          "markdown": "Integration of the decay law gives the exponential form recorded in the source.",
+          "source_pages": "100-102"
+        },
+        {
+          "type": "formula",
+          "title": "Half-life",
+          "latex": "T_{1/2}=\\frac{0.693}{\\lambda}",
+          "markdown": "Half-life is the time required for the number of radioactive nuclei to fall to half the initial value.",
+          "source_pages": "101-105"
+        },
+        {
+          "type": "formula",
+          "title": "Mean life",
+          "latex": "\\tau = \\frac{1}{\\lambda}",
+          "markdown": "The notes derive mean life as the reciprocal of the decay constant.",
+          "source_pages": "102-105"
+        },
+        {
+          "type": "interactive",
+          "title": "Explore exponential radioactive decay",
+          "kind": "radioactive-decay",
+          "markdown": "Adjust half-life and elapsed time to see how $N/N_0$ changes according to the decay law.",
+          "source_pages": "99-105",
+          "config": {
+            "half_life": 10,
+            "time": 30
+          }
+        },
+        {
+          "type": "section",
+          "title": "Radioactive dating",
+          "markdown": "The source calls the use of the activity/decay relation to determine the age of a substance radioactive dating.",
+          "source_pages": "104-105"
+        },
+        {
+          "type": "section",
+          "title": "Alpha, beta and gamma radiation",
+          "markdown": "The notes list: alpha rays as positively charged helium nuclei with low penetration and strong ionization; beta rays as fast electrons with greater penetration; and gamma rays as high-energy photons with no charge, strong penetration and no electric/magnetic deflection.",
+          "source_pages": "107-110"
+        },
+        {
+          "type": "section",
+          "title": "Nuclear reactions",
+          "markdown": "A nuclear reaction is represented in the notes using projectile, target, product and emitted particle notation. Conservation of momentum and total energy are discussed, and the mass difference is connected with released/absorbed energy.",
+          "source_pages": "110-113"
+        },
+        {
+          "type": "formula",
+          "title": "Reaction energy / Q-value",
+          "latex": "Q = (m_{initial}-m_{final})c^2",
+          "markdown": "This summarizes the mass-equivalent energy idea used in the source discussion of nuclear reaction energetics.",
+          "source_pages": "110-113"
+        }
+      ]
+    }
+  },
+  {
+    "grade_level": "Class 12",
+    "subject": "Physics",
+    "chapter_id": "class-12-physics-semiconductor-electronics",
+    "chapter_title": "Unit 7: Semiconductor Electronics",
+    "text_content": "## Overview\nThese pages cover the PN junction, diode biasing and characteristics, rectification, Zener regulation, transistors and basic logic gates.\n\n## Source\n*Physics_compressed.pdf*, pages 114-125.",
+    "question_answers": "## Source-based checks\n#### What happens to the depletion layer in forward bias according to the notes?\nIt decreases/narrows, allowing current to rise after the barrier is overcome.\n\n#### What is the transistor current relation written in the source?\n$I_E=I_B+I_C$.\n\n#### Which gates are shown in the notes?\nNOT, OR, AND, NOR and NAND.",
+    "order": 7,
+    "source_label": "Physics_compressed.pdf",
+    "source_resource_id": "",
+    "rich_content": {
+      "version": 1,
+      "source": {
+        "label": "Physics_compressed.pdf",
+        "page_count": 150,
+        "note": "Structured from the uploaded handwritten physics notes. Page references point to the source PDF pages. The Class 12 label follows the supplied project context; the PDF itself does not visibly state a class on its opening pages."
+      },
+      "topics": [
+        "PN junction",
+        "Depletion layer",
+        "Forward bias",
+        "Reverse bias",
+        "Diode characteristics",
+        "Rectifier",
+        "Half-wave rectifier",
+        "Full-wave rectifier",
+        "Zener diode",
+        "Transistor",
+        "Logic gates"
+      ],
+      "learning_objectives": [
+        "Explain depletion-layer formation and PN-junction biasing.",
+        "Read the forward/reverse characteristic descriptions in the source.",
+        "Distinguish half-wave and full-wave rectification.",
+        "Identify the Zener regulator, transistor terminals and basic logic-gate truth tables shown in the notes."
+      ],
+      "blocks": [
+        {
+          "type": "section",
+          "title": "PN junction and depletion layer",
+          "markdown": "When p-type and n-type semiconductor regions are joined, electrons and holes diffuse across the junction and recombine. The notes identify the resulting carrier-depleted region and the junction barrier potential.",
+          "source_pages": "114-115"
+        },
+        {
+          "type": "section",
+          "title": "Forward and reverse bias",
+          "markdown": "Forward bias connects p-type to the positive terminal and n-type to the negative terminal, reducing the barrier and allowing current to rise. Reverse bias does the opposite; only a small reverse current flows until breakdown.",
+          "source_pages": "114-117"
+        },
+        {
+          "type": "interactive",
+          "title": "Explore PN-junction biasing",
+          "kind": "pn-junction",
+          "markdown": "Toggle forward/reverse bias to visualize the source's qualitative depletion-layer change. This widget intentionally shows the trend rather than an exact diode I-V law.",
+          "source_pages": "114-117",
+          "config": {
+            "mode": "forward",
+            "voltage": 1
+          }
+        },
+        {
+          "type": "section",
+          "title": "Diode characteristics",
+          "markdown": "The notes describe a forward knee voltage after which current increases sharply, and a reverse breakdown voltage at which reverse current increases strongly.",
+          "source_pages": "115-117"
+        },
+        {
+          "type": "section",
+          "title": "Rectification",
+          "markdown": "A rectifier converts AC voltage to DC. The source explains a half-wave rectifier using one diode and full-wave rectification using center-tapped and bridge arrangements.",
+          "source_pages": "116-120"
+        },
+        {
+          "type": "callout",
+          "title": "Half-wave vs full-wave",
+          "markdown": "In the half-wave circuit, only one half-cycle contributes to output. In the full-wave arrangements in the source, both half-cycles produce output of the same polarity across the load.",
+          "source_pages": "117-120"
+        },
+        {
+          "type": "section",
+          "title": "Zener diode as voltage regulator",
+          "markdown": "The source describes a heavily doped Zener diode operated in reverse breakdown and shows a regulator circuit where the Zener is connected across the load to keep output voltage approximately fixed while input varies.",
+          "source_pages": "120-121"
+        },
+        {
+          "type": "section",
+          "title": "Transistor",
+          "markdown": "The notes introduce a three-terminal transistor with emitter, base and collector, and show NPN and PNP structures. They record the current relation $I_E=I_B+I_C$.",
+          "source_pages": "121-123"
+        },
+        {
+          "type": "formula",
+          "title": "Transistor current relation",
+          "latex": "I_E = I_B + I_C",
+          "markdown": "Emitter current equals base current plus collector current in the notation used in the source.",
+          "source_pages": "122-123"
+        },
+        {
+          "type": "section",
+          "title": "Logic gates",
+          "markdown": "The final electronics pages show NOT, OR, AND, NOR and NAND gates with their truth tables and Boolean expressions.",
+          "source_pages": "123-125"
+        }
+      ]
+    }
+  },
+  {
+    "grade_level": "Class 12",
+    "subject": "Physics",
+    "chapter_id": "class-12-physics-thermodynamics",
+    "chapter_title": "Unit 8: Thermodynamics and Heat Engines",
+    "text_content": "## Overview\nThe final part of the source covers the first law, thermodynamic processes, heat capacities, ideal-gas relations, isothermal/adiabatic work, the second law, heat engines, the Carnot cycle and a four-stroke engine sketch.\n\n## Core relations\n- $dQ=dU+dW$ and $dW=P\\,dV$\n- $C_p-C_v=R$\n- $\\gamma=C_p/C_v$\n- $W=nRT\\ln(V_2/V_1)$ (isothermal)\n- $PV^\\gamma=\\text{constant}$ (adiabatic)\n- $\\eta=1-Q_2/Q_1$\n\n## Source\n*Physics_compressed.pdf*, pages 126-150.",
+    "question_answers": "## Source-based checks\n#### State the first law in the notation used in the notes.\n$dQ=dU+dW$.\n\n#### What is the relation between molar heat capacities for an ideal gas?\n$C_p-C_v=R$.\n\n#### State the adiabatic pressure-volume relation.\n$PV^\\gamma=\\text{constant}$.\n\n#### What is the heat-engine work relation?\n$W=Q_1-Q_2$.",
+    "order": 8,
+    "source_label": "Physics_compressed.pdf",
+    "source_resource_id": "",
+    "rich_content": {
+      "version": 1,
+      "source": {
+        "label": "Physics_compressed.pdf",
+        "page_count": 150,
+        "note": "Structured from the uploaded handwritten physics notes. Page references point to the source PDF pages. The Class 12 label follows the supplied project context; the PDF itself does not visibly state a class on its opening pages."
+      },
+      "topics": [
+        "Thermodynamic variables",
+        "Internal energy",
+        "First law",
+        "Isobaric process",
+        "Isochoric process",
+        "Isothermal process",
+        "Adiabatic process",
+        "Heat capacities",
+        "Equation of state",
+        "Second law",
+        "Heat engine",
+        "Carnot cycle",
+        "Four-stroke engine"
+      ],
+      "learning_objectives": [
+        "Classify intensive and extensive variables as the notes do.",
+        "Apply the first law to common thermodynamic processes.",
+        "Use the ideal-gas, heat-capacity and isothermal/adiabatic relations in the source.",
+        "State Kelvin-Planck and Clausius forms of the second law and describe the heat-engine/Carnot-cycle pages."
+      ],
+      "blocks": [
+        {
+          "type": "section",
+          "title": "Thermodynamic variables and internal energy",
+          "markdown": "The source separates thermodynamic variables into extensive quantities (dependent on size/mass) and intensive quantities (independent of size/mass). It defines internal energy as the total microscopic kinetic plus potential energy of the system.",
+          "source_pages": "126-128"
+        },
+        {
+          "type": "formula",
+          "title": "First law of thermodynamics",
+          "latex": "dQ = dU + dW",
+          "markdown": "The notes state that heat supplied to a system goes into changing internal energy and doing external work. For pressure-volume work they use $dW=P\\,dV$.",
+          "source_pages": "127-130"
+        },
+        {
+          "type": "section",
+          "title": "Thermodynamic processes",
+          "markdown": "The notes treat isochoric, isobaric, isothermal and adiabatic processes and apply the first law to each. In an isochoric process $dV=0$ so no pressure-volume work is done; in an adiabatic process $dQ=0$.",
+          "source_pages": "128-131"
+        },
+        {
+          "type": "section",
+          "title": "Heat capacities",
+          "markdown": "Specific/molar heat capacities at constant volume and constant pressure are introduced. The source derives the ideal-gas relation between them and defines their ratio.",
+          "source_pages": "130-133"
+        },
+        {
+          "type": "formula",
+          "title": "Mayer relation",
+          "latex": "C_p - C_v = R",
+          "markdown": "For one mole of ideal gas, the source obtains the difference between molar heat capacities as the gas constant.",
+          "source_pages": "131-133"
+        },
+        {
+          "type": "formula",
+          "title": "Heat-capacity ratio",
+          "latex": "\\gamma = \\frac{C_p}{C_v}",
+          "markdown": "The notes denote the ratio of molar heat capacities by $\\gamma$.",
+          "source_pages": "133"
+        },
+        {
+          "type": "section",
+          "title": "Equation of state and isothermal work",
+          "markdown": "The source uses the ideal-gas equation and derives work done during isothermal expansion/compression by integrating $P\\,dV$.",
+          "source_pages": "132-135"
+        },
+        {
+          "type": "formula",
+          "title": "Isothermal work",
+          "latex": "W = nRT\\ln\\left(\\frac{V_2}{V_1}\\right)",
+          "markdown": "The handwritten derivation also gives the common-log form with the factor 2.303.",
+          "source_pages": "133-135"
+        },
+        {
+          "type": "section",
+          "title": "Adiabatic relations",
+          "markdown": "For an ideal gas undergoing an adiabatic process, the notes derive the familiar pressure-volume relation and equivalent temperature forms.",
+          "source_pages": "135-141"
+        },
+        {
+          "type": "formula",
+          "title": "Adiabatic state relation",
+          "latex": "PV^{\\gamma}=\\text{constant}",
+          "markdown": "Equivalent forms shown/derived in the source include $TV^{\\gamma-1}=\\text{constant}$.",
+          "source_pages": "136-141"
+        },
+        {
+          "type": "interactive",
+          "title": "Compare isothermal and adiabatic expansion",
+          "kind": "thermodynamic-process",
+          "markdown": "Switch between the two process types and change the expansion ratio to compare the shape implied by $PV=\\text{constant}$ and $PV^{\\gamma}=\\text{constant}$.",
+          "source_pages": "132-141",
+          "config": {
+            "process": "isothermal",
+            "volume_ratio": 2
+          }
+        },
+        {
+          "type": "section",
+          "title": "Second law of thermodynamics",
+          "markdown": "The source gives Kelvin-Planck and Clausius statements: complete conversion of heat from a single source into mechanical work is impossible in a cycle, and heat cannot flow from a colder body to a hotter body without external work.",
+          "source_pages": "141"
+        },
+        {
+          "type": "section",
+          "title": "Heat engine and efficiency",
+          "markdown": "A heat engine absorbs heat $Q_1$ from a hot source, rejects $Q_2$ to a sink and produces work $W=Q_1-Q_2$. The notes write efficiency as the ratio of output work to input heat.",
+          "source_pages": "142-144"
+        },
+        {
+          "type": "formula",
+          "title": "Heat-engine efficiency",
+          "latex": "\\eta = \\frac{W}{Q_1} = 1-\\frac{Q_2}{Q_1}",
+          "markdown": "This is the efficiency expression written on the heat-engine pages.",
+          "source_pages": "142-143"
+        },
+        {
+          "type": "section",
+          "title": "Carnot cycle and four-stroke engine",
+          "markdown": "The notes then illustrate a Carnot engine/cycle with isothermal and adiabatic stages using P-V diagrams. The final page sketches a four-stroke petrol engine cycle with cylinder, valves, piston and spark plug positions.",
+          "source_pages": "143-150"
+        }
+      ]
+    }
+  }
+]

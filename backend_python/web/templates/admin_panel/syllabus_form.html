@@ -147,6 +147,33 @@
       </div>
     </div>
 
+    <div class="upload-section">
+      <div class="upload-section-header">
+        <span class="material-symbols-outlined">account_tree</span>
+        <h2>Interactive / Structured Content</h2>
+        <span class="upload-details-badge">advanced</span>
+      </div>
+
+      <div class="upload-row">
+        <div class="upload-field upload-field-half">
+          <label class="md-label" for="source_label">Source label</label>
+          <input type="text" id="source_label" name="source_label" class="md-input" value="{% if form_data.source_label %}{{ form_data.source_label }}{% elif is_edit %}{{ syllabus.source_label }}{% endif %}" placeholder="e.g., Physics_compressed.pdf" style="width:100%;">
+          <div class="upload-hint">Human-readable name of the PDF or source used to build this chapter.</div>
+        </div>
+        <div class="upload-field upload-field-half">
+          <label class="md-label" for="source_resource_id">Library resource ID</label>
+          <input type="text" id="source_resource_id" name="source_resource_id" class="md-input" value="{% if form_data.source_resource_id %}{{ form_data.source_resource_id }}{% elif is_edit %}{{ syllabus.source_resource_id }}{% endif %}" placeholder="Optional resource UUID" style="width:100%;">
+          <div class="upload-hint">When set, source-page chips can jump back to the PDF reader.</div>
+        </div>
+      </div>
+
+      <div class="upload-field" style="margin-bottom:0;">
+        <label class="md-label" for="rich_content_json">Rich content JSON</label>
+        <textarea id="rich_content_json" name="rich_content_json" class="md-input" rows="14" placeholder='{"version":1,"topics":[],"blocks":[]}' style="width:100%;resize:vertical;font-family:'Courier New',monospace;font-size:0.8125rem;line-height:1.5;">{% if form_data.rich_content_json %}{{ form_data.rich_content_json }}{% elif rich_content_json %}{{ rich_content_json }}{% else %}{}{% endif %}</textarea>
+        <div class="upload-hint">Supports <code>section</code>, <code>formula</code>, <code>callout</code>, and <code>interactive</code> blocks. Existing Markdown content remains supported.</div>
+      </div>
+    </div>
+
     <div class="upload-actions">
       <a href="{% url 'web:admin_syllabus_list' %}" class="md-btn md-btn-text" style="text-decoration:none;">Cancel</a>
       <button type="submit" class="md-btn md-btn-filled">

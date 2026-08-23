@@ -90,14 +90,9 @@ def _heuristic(persona, bot_user, observations):
         and hours_since(persona.last_post_at) >= persona.min_hours_between_posts
     )
     if can_post and (not post_obs or hours_since(persona.last_post_at) >= 8):
-        seed = str(persona.last_post_at or persona.id)
-        drafted = pick_post(seed)
         actions.append({
             'type': 'post',
-            'title': drafted['title'],
-            'content': drafted['content'],
-            'category': drafted['category'],
-            'reason': 'Keep a living presence with a useful post.',
+            'reason': 'Spontaneously share a learning thought or discussion topic with the community.',
         })
     return actions[:8]
 
