@@ -48,12 +48,21 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.input.TransformedText
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.em
 import coil.compose.AsyncImage
 import com.neb.ians.data.api.InlineImageUploadResponse
 import kotlinx.coroutines.launch
@@ -113,8 +122,6 @@ fun InlineImageField(
     val scope = rememberCoroutineScope()
     val currentValue by rememberUpdatedState(value)
     var layout by remember { mutableStateOf<TextLayoutResult?>(null) }
-    val transformation = remember { InlineImageVisualTransformation() }
-
     val pendingMeta = remember { mutableStateMapOf<String, Pair<Int, Int>?>() }
     val pendingUris = remember { mutableStateMapOf<String, Uri>() }
     val uploadedMeta = remember { mutableStateMapOf<Int, Pair<Int, Int>>() }
@@ -123,20 +130,6 @@ fun InlineImageField(
     fun bumpPending(delta: Int) {
         pendingCount = (pendingCount + delta).coerceAtLeast(0)
         onPendingCountChange(pendingCount)
-    }
-
-    val mapping = remember(value.text) { transformation.map(value.text) }
-    val chips = remember(
-        mapping, value.text,
-        uploadedMeta.keys.toList(), pendingMeta.keys.toList(), pendingUris.keys.toList()
-    ) {
-        buildChips(
-            text = value.text,
-            ranges = mapping.tokenRanges,
-            pendingMeta = pendingMeta,
-            pendingUris = pendingUris,
-            uploadedMeta = uploadedMeta
-        )
     }
 
     fun insertToken(token: String) {
@@ -219,6 +212,130 @@ fun InlineImageField(
                 if (current.isSp && current.value >= chipLine.value) current else chipLine
             textStyle.copy(lineHeight = lineHeight)
         }
+    }
+
+    val textMeasurer = rememberTextMeasurer()
+    val glyphAdvancePx = remember(editorTextStyle, textMeasurer) {
+        try {
+            val r = textMeasurer.measure(
+                text = AnnotatedString(InlineImageTokens.PLACEHOLDER_CHAR.toString()),
+                style = editorTextStyle,
+            )
+            val w = r.size.width.toFloat()
+            if (w > 1f) w else emPx * 0.62f
+        } catch (_: Exception) {
+            emPx * 0.62f
+        }
+    }
+
+    val mapping: InlineImageVisualTransformation.Mapping = run {
+        val raw = value.text
+        val matches = InlineImageTokens.REGEX.findAll(raw).toList()
+        if (matches.isEmpty()) {
+            InlineImageVisualTransformation.Mapping(
+                TransformedText(AnnotatedString(raw), OffsetMapping.Identity),
+                emptyList(),
+                emptyList()
+            )
+        } else {
+            val ranges = matches.map { it.range.first..it.range.last }
+            val desiredWidthsPx = ranges.map { r ->
+                val token = raw.substring(r.first, r.last + 1)
+                val inner = token.removeSurrounding("[[img:", "]]")
+                val numeric = inner.toIntOrNull()
+                val aspect: Float? = if (numeric != null) {
+                    uploadedMeta[numeric]?.let { (w, h) -> if (h > 0) w.toFloat() / h else null }
+                } else {
+                    pendingMeta[inner]?.let { d -> d?.let { (w, h) -> if (h > 0) w.toFloat() / h else null } }
+                }
+                val a = aspect ?: 2.2f
+                val hPx = (emPx * INLINE_CHIP_HEIGHT_EM).coerceAtLeast(minChipHeightPx)
+                val maxW = emPx * INLINE_CHIP_MAX_WIDTH_EM
+                val minW = hPx * 1.05f
+                (hPx * a).coerceIn(minW, maxW)
+            }
+            val pieces = mutableListOf<Pair<String, Boolean>>()
+            var cursor = 0
+            ranges.forEach { r ->
+                if (r.first > cursor) pieces.add(raw.substring(cursor, r.first) to false)
+                pieces.add(raw.substring(r.first, r.last + 1) to true)
+                cursor = r.last + 1
+            }
+            if (cursor < raw.length) pieces.add(raw.substring(cursor) to false)
+            var tokenIdxForSpacing = 0
+            val annotated = buildAnnotatedString {
+                pieces.forEach { (segment, isToken) ->
+                    if (isToken) {
+                        val desired = desiredWidthsPx[tokenIdxForSpacing]
+                        val defaultRun = glyphAdvancePx * InlineImageTokens.PLACEHOLDER_LEN
+                        val extraPerGap = if (desired > defaultRun) (desired - defaultRun) / (InlineImageTokens.PLACEHOLDER_LEN - 1) else 0f
+                        val spacing: TextUnit = if (extraPerGap > 0.5f) (extraPerGap / emPx).em else TextUnit.Unspecified
+                        val style = if (spacing != TextUnit.Unspecified) SpanStyle(color = Color.Transparent, letterSpacing = spacing) else SpanStyle(color = Color.Transparent)
+                        pushStyle(style)
+                        append(InlineImageTokens.PLACEHOLDER)
+                        pop()
+                        tokenIdxForSpacing++
+                    } else {
+                        append(segment)
+                    }
+                }
+            }
+            val origToTrans = IntArray(raw.length + 1)
+            val transToOrig = IntArray(annotated.length + 1)
+            val placeholders = mutableListOf<Int>()
+            var o = 0
+            var t = 0
+            pieces.forEach { (segment, isToken) ->
+                if (isToken) {
+                    val startO = o
+                    val endO = o + segment.length
+                    placeholders.add(t)
+                    origToTrans[startO] = t
+                    for (i in startO until endO) origToTrans[i] = t
+                    origToTrans[endO] = t + InlineImageTokens.PLACEHOLDER_LEN
+                    repeat(InlineImageTokens.PLACEHOLDER_LEN) { k -> transToOrig[t + k] = startO }
+                    transToOrig[t + InlineImageTokens.PLACEHOLDER_LEN] = endO
+                    o = endO
+                    t += InlineImageTokens.PLACEHOLDER_LEN
+                } else {
+                    repeat(segment.length) { _ ->
+                        origToTrans[o] = t
+                        transToOrig[t] = o
+                        o += 1
+                        t += 1
+                    }
+                    origToTrans[o] = t
+                    transToOrig[t] = o
+                }
+            }
+            val offsetMapping = object : OffsetMapping {
+                override fun originalToTransformed(offset: Int): Int = origToTrans[offset.coerceIn(0, raw.length)]
+                override fun transformedToOriginal(offset: Int): Int = transToOrig[offset.coerceIn(0, annotated.length)]
+            }
+            InlineImageVisualTransformation.Mapping(
+                TransformedText(annotated, offsetMapping),
+                placeholders.toList(),
+                ranges
+            )
+        }
+    }
+    val transformation = remember(mapping) {
+        object : VisualTransformation {
+            override fun filter(text: AnnotatedString): TransformedText = mapping.transformed
+        }
+    }
+
+    val chips = remember(
+        mapping, value.text,
+        uploadedMeta.keys.toList(), pendingMeta.keys.toList(), pendingUris.keys.toList()
+    ) {
+        buildChips(
+            text = value.text,
+            ranges = mapping.tokenRanges,
+            pendingMeta = pendingMeta,
+            pendingUris = pendingUris,
+            uploadedMeta = uploadedMeta
+        )
     }
 
     Box(modifier = modifier) {
