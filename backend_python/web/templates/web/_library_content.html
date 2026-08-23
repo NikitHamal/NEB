@@ -4,15 +4,14 @@
   {% for r in resources %}
   <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card subject-{{ r.subject|split:','|first|subject_slug }}">
     <div class="resource-card-art">
+      <svg viewBox="0 0 300 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="300" height="120" fill="var(--art-c1)"/>
+        <path d="M0,120 L0,70 Q40,20 100,55 Q160,90 220,45 Q270,10 300,50 L300,120Z" fill="var(--art-c2)" opacity="0.5"/>
+        <path d="M0,120 L0,85 Q60,40 130,70 Q200,100 260,60 L300,75 L300,120Z" fill="var(--art-c3)" opacity="0.35"/>
+        <path d="M0,120 L0,95 Q80,65 160,85 Q240,105 300,80 L300,120Z" fill="var(--art-c4)" opacity="0.2"/>
+      </svg>
       {% if r.thumbnail_url %}
-        <img src="{{ r.thumbnail_url }}" alt="{{ r.title }}" class="resource-card-art-img" loading="lazy">
-      {% else %}
-        <svg viewBox="0 0 300 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="300" height="120" fill="var(--art-c1)"/>
-          <path d="M0,120 L0,70 Q40,20 100,55 Q160,90 220,45 Q270,10 300,50 L300,120Z" fill="var(--art-c2)" opacity="0.5"/>
-          <path d="M0,120 L0,85 Q60,40 130,70 Q200,100 260,60 L300,75 L300,120Z" fill="var(--art-c3)" opacity="0.35"/>
-          <path d="M0,120 L0,95 Q80,65 160,85 Q240,105 300,80 L300,120Z" fill="var(--art-c4)" opacity="0.2"/>
-        </svg>
+        <img src="{{ r.thumbnail_url }}" alt="" class="resource-card-art-img" loading="lazy" onerror="this.remove();">
       {% endif %}
       {% if r.is_paid or r.isPaid %}
         <span class="resource-card-paid-pill" style="position:absolute;top:10px;right:10px;background:#16a34a;color:#fff;font-size:0.75rem;font-weight:700;padding:3px 10px;border-radius:20px;display:inline-flex;align-items:center;gap:4px;z-index:2;">

@@ -77,12 +77,20 @@ Rules:
 
 def _resolve_user(request):
     token = _get_valid_token(request)
-    if not token:
-        return None
-    try:
-        return get_user_by_auth_token(token)
-    except User.DoesNotExist:
-        return None
+    if token:
+        try:
+            return get_user_by_auth_token(token)
+        except User.DoesNotExist:
+            pass
+    if hasattr(request, 'user') and request.user and request.user.is_authenticated:
+        return request.user
+    user_id = request.session.get('user_id')
+    if user_id:
+        try:
+            return User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            pass
+    return None
 
 
 def _get_user_or_none(request):

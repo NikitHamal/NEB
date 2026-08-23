@@ -30,13 +30,25 @@ var E={
 var listeners={};
 function on(ev,fn){(listeners[ev]=listeners[ev]||[]).push(fn)}
 function emit(ev,d){(listeners[ev]||[]).forEach(function(fn){try{fn(d)}catch(e){}})}
+function getCookie(name){
+  var v=document.cookie.match('(^|;) ?'+name+'=([^;]*)(;|$)');
+  if(v) return decodeURIComponent(v[2]);
+  var inp=document.querySelector('input[name=csrfmiddlewaretoken]');
+  return inp?inp.value:(S.csrf||"");
+}
 function api(path,opts){
   opts=opts||{};
   opts.headers=opts.headers||{};
-  opts.headers["X-CSRFToken"]=S.csrf;
+  var csrf=getCookie("csrftoken")||S.csrf||"";
+  if(csrf) opts.headers["X-CSRFToken"]=csrf;
   opts.headers["Content-Type"]="application/json";
   opts.credentials="same-origin";
-  return fetch(path,opts).then(function(r){return r.json().then(function(j){if(!r.ok) throw j;return j})})
+  return fetch(path,opts).then(function(r){
+    return r.json().catch(function(){return {error:"HTTP "+r.status}}).then(function(j){
+      if(!r.ok) throw j;
+      return j;
+    });
+  });
 }
 function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
 function md(s){return esc(s).replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>").replace(/\*(?!\s)([^*]+?)\*/g,"<em>$1</em>").replace(/\n/g,"<br>")}
@@ -136,7 +148,13 @@ function switchBoard(id){
 function createBoard(title){
   title=(title||"Untitled canvas").trim().slice(0,80)||"Untitled canvas";
   if(S.isAuth){
-    return api("/ajax/canvas/boards/create/",{method:"POST",body:JSON.stringify({title:title})}).then(function(d){S.boards.set(d.board.id,d.board);renderBoards();switchBoard(d.board.id);return d.board});
+    return api("/ajax/canvas/boards/create/",{method:"POST",body:JSON.stringify({title:title})}).then(function(d){
+      S.boards.set(d.board.id,d.board);renderBoards();switchBoard(d.board.id);return d.board;
+    }).catch(function(err){
+      var b={id:"local_"+Date.now(),title:title,nodeCount:0};
+      var a=loadBoardsLocal();a.unshift(b);saveBoardsLocal(a);renderBoards();switchBoard(b.id);
+      return b;
+    });
   }
   var b={id:"local_"+Date.now(),title:title,nodeCount:0};
   var a=loadBoardsLocal();a.unshift(b);saveBoardsLocal(a);renderBoards();switchBoard(b.id);return Promise.resolve(b);
@@ -686,9 +704,15 @@ E.viewport.addEventListener("wheel",function(e){
 
 /* ── creation ────────────────────────────────────────────── */
 function ensureBoardForRoot(prompt,cb){
-  if(S.boardId){cb(S.boardId);return}
+  if(S.boardId&&String(S.boardId).indexOf("local_")===-1){cb(S.boardId);return}
+  if(S.boardId&&String(S.boardId).indexOf("local_")===0&&!S.isAuth){cb(S.boardId);return}
   if(S.isAuth){
-    createBoard((prompt||"New thread").slice(0,32)).then(function(b){cb(b.id)},function(){cb("")});
+    createBoard((prompt||"New thread").slice(0,32)).then(function(b){cb(b&&b.id?b.id:"")},function(){
+      var b={id:"local_"+Date.now(),title:(prompt||"Untitled").slice(0,32)};
+      var a=loadBoardsLocal();a.unshift(b);saveBoardsLocal(a);renderBoards();
+      S.boardId=b.id;document.body.dataset.boardId=b.id;
+      cb(b.id);
+    });
   }else{
     var b={id:"local_"+Date.now(),title:(prompt||"Untitled").slice(0,32)};
     var a=loadBoardsLocal();a.unshift(b);saveBoardsLocal(a);renderBoards();
@@ -749,25 +773,27 @@ function createRoot(prompt,wx,wy){
     wx=c.x+count*18;wy=c.y+(count%3)*12;
   }
   ensureBoardForRoot(prompt,function(brdId){
-    var ph=makePlaceholder(prompt,"",wx,wy);reveal(ph);
-    if(!S.isAuth){
+    var activeId=brdId||S.boardId;
+    if(!activeId){showToast("Please create or select a canvas first",true);return}
+    var ph=makePlaceholder(prompt,"",wx,wy);ph.boardId=activeId;reveal(ph);
+    if(!S.isAuth||String(activeId).indexOf("local_")===0){
       setTimeout(function(){
         var low=prompt.toLowerCase(),m;
         if(low.indexOf("world")!==-1)m=mockLocal("world model");
         else if(low.indexOf("control")!==-1)m=mockLocal("control");
         else if(low.indexOf("chair")!==-1||low.indexOf("danish")!==-1)m=mockLocal("chair");
         else m=mockLocal(prompt);
-        var real={id:"local_"+Date.now(),boardId:S.boardId,parentId:"",prompt:prompt,title:m.title,content:m,status:"done",x:wx,y:wy};
+        var real={id:"local_"+Date.now(),boardId:activeId,parentId:"",prompt:prompt,title:m.title,content:m,status:"done",x:wx,y:wy};
         swapIn(ph.id,real);saveNodesLocal();
-        var lst=loadBoardsLocal(),b=lst.find(function(x){return x.id===S.boardId});
+        var lst=loadBoardsLocal(),b=lst.find(function(x){return x.id===activeId});
         if(b){b.title=prompt.slice(0,36);saveBoardsLocal(lst);renderBoards()}
       },620);
       return;
     }
-    api("/ajax/canvas/boards/"+S.boardId+"/nodes/",{method:"POST",body:JSON.stringify({prompt:prompt,x:wx,y:wy})}).then(function(d){
+    api("/ajax/canvas/boards/"+encodeURIComponent(activeId)+"/nodes/",{method:"POST",body:JSON.stringify({prompt:prompt,x:wx,y:wy})}).then(function(d){
       d.node.x=wx;d.node.y=wy;swapIn(ph.id,d.node);
       if(S.nodes.size===1){
-        api("/ajax/canvas/boards/"+S.boardId+"/update/",{method:"POST",body:JSON.stringify({title:prompt.slice(0,36)})}).then(function(){if(S.boards.has(S.boardId)){S.boards.get(S.boardId).title=prompt.slice(0,36);renderBoards()}}).catch(function(){});
+        api("/ajax/canvas/boards/"+encodeURIComponent(activeId)+"/update/",{method:"POST",body:JSON.stringify({title:prompt.slice(0,36)})}).then(function(){if(S.boards.has(activeId)){S.boards.get(activeId).title=prompt.slice(0,36);renderBoards()}}).catch(function(){});
       }
     }).catch(function(err){failIn(ph,(err&&err.error)||"Generation failed")});
   });

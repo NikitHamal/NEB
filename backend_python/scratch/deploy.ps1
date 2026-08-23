@@ -147,10 +147,17 @@ echo 'Backfilling video thumbnails...'
 python manage.py backfill_video_thumbnails || true
 
 echo 'Restarting background agent worker and autofix watcher...'
-pkill -f run_background_agent_worker 2>/dev/null || true
-pkill -f run_autofix_watch 2>/dev/null || true
-nohup python manage.py run_background_agent_worker >> logs/worker.log 2>&1 & disown
-nohup python manage.py run_autofix_watch >> logs/autofix.log 2>&1 & disown
+cd ${remoteDir}
+source /home/consicac/virtualenv/nebians_api/3.13/bin/activate
+for pid in `$(pgrep -f run_background_agent_worker); do kill -TERM `$pid 2>/dev/null || true; done
+for pid in `$(pgrep -f run_autofix_watch); do kill -TERM `$pid 2>/dev/null || true; done
+sleep 3
+for pid in `$(pgrep -f run_background_agent_worker); do kill -KILL `$pid 2>/dev/null || true; done
+for pid in `$(pgrep -f run_autofix_watch); do kill -KILL `$pid 2>/dev/null || true; done
+setsid nohup python manage.py run_background_agent_worker --recover-after 120 >> logs/worker.log 2>&1 < /dev/null &
+setsid nohup python manage.py run_autofix_watch >> logs/autofix.log 2>&1 < /dev/null &
+sleep 4
+echo "watcher: `$(pgrep -f run_autofix_watch | wc -l) process(es); worker: `$(pgrep -f run_background_agent_worker | wc -l) process(es)"
 
 echo 'Restarting LSAPI workers (touch restart.txt alone does NOT recycle healthy workers)...'
 pkill -f 'lswsgi -m ${remoteDir}/passenger_wsgi.py' 2>/dev/null || true

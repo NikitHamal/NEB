@@ -635,7 +635,7 @@
                 {% if r.thumbnail_url or r.type == 'Image' %}
                 <div class="pf-res-image-preview">
                   <a href="{% url 'web:reader' resource_id=r.id %}">
-                    <img src="{{ r.thumbnail_url|default:r.file_url }}" alt="{{ r.title }}">
+                    <img src="{{ r.thumbnail_url|default:r.file_url }}" alt="" onerror="this.closest('.pf-res-image-preview').style.display='none';">
                     <span class="pf-res-preview-badge">Preview</span>
                   </a>
                 </div>
