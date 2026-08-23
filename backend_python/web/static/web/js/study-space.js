@@ -832,6 +832,21 @@
     text = text.replace(/\$+/g, '');
     var out = '', i = 0;
     while (i < text.length) {
+      var orb = text.slice(i).match(/^[1-6][spdf]\s*\^\s*(?:\{\s*\d+\s*\}|\d+)/);
+      if (orb) {
+        out += '$' + orb[0].replace(/\\([{}^])/g, '$1').trim() + '$';
+        i += orb[0].length;
+        continue;
+      }
+      var unitSlice = text.slice(i);
+      var um = unitSlice.match(/^(?:kJ\s+)?mol\s*\\?\^\s*\\?\{?\s*-1\s*\\?\}?/i);
+      if (um && um[0].indexOf('^') !== -1) {
+        var rawU = um[0];
+        var cleanU = rawU.replace(/\\([{}^])/g, '$1').trim();
+        out += '$' + cleanU + '$';
+        i += um[0].length;
+        continue;
+      }
       if (text[i] === '\\') {
         if (text.slice(i, i + 4) === '\\ce{') {
           var depth = 1, j = i + 4;
