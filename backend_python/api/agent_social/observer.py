@@ -57,7 +57,7 @@ def observe(persona, bot_user, window_hours=720, limit=100):
         )
         .exclude(user_id=bot_user.id)
         .select_related('user', 'post')
-        .order_by('-created_at')[:60]
+        .order_by('-created_at')[:200]
     )
 
     liked_reply_ids = set(
@@ -138,7 +138,7 @@ def observe(persona, bot_user, window_hours=720, limit=100):
 
     return {
         'posts': scored[:limit],
-        'replies': scored_replies[:10],
+        'replies': scored_replies[:50],
     }
 
 
