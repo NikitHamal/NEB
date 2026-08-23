@@ -59,6 +59,9 @@ def _compose_reply(bot_config, bot_user, post, persona, target_username=''):
             return cleaned[:2000]
     except Exception as exc:
         logger.warning('agent reply llm failed: %s', exc)
+    return fallback_reply(post, persona_username=bot_user.username, target_username=target_username)
+
+
 def _generate_autonomous_post(bot_config, bot_user, persona):
     import os, json, re
     if os.environ.get('NEBY_AGENT_SKIP_LLM') == '1':
