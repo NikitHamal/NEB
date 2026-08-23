@@ -303,7 +303,6 @@ def call_ai_api(system_prompt, user_message, config=None):
     fallbacks = config.get_fallback_chain()
     if not fallbacks:
         fallbacks = [
-            {'provider': 'motiftech', 'model': 'motif-12-7b-reasoning'},
             {'provider': 'motiftech', 'model': 'motif-102b'},
             {'provider': 'geminiweb', 'model': 'geminiweb/gemini-flash-lite'},
             {'provider': 'tryingopen', 'model': 'qwen/qwen3.8-27b'},

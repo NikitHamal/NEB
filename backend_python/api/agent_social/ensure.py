@@ -46,8 +46,7 @@ def ensure_bot_user(username=NEBY_USERNAME, display_name=NEBY_DISPLAY_NAME):
 def ensure_bot_config(username=NEBY_USERNAME, display_name=NEBY_DISPLAY_NAME, enabled=True):
     username = (username or NEBY_USERNAME).strip().lower()
     default_chain = (
-        '[{"provider": "motiftech", "model": "motif-12-7b-reasoning"}, '
-        '{"provider": "motiftech", "model": "motif-102b"}, '
+        '[{"provider": "motiftech", "model": "motif-102b"}, '
         '{"provider": "tryingopen", "model": "qwen/qwen3.8-27b"}, '
         '{"provider": "tryingopen", "model": "deepseek/deepseek-v4-flash-0731"}, '
         '{"provider": "tryingopen", "model": "z-ai/glm-5.3"}, '
