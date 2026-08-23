@@ -14,6 +14,9 @@
 {% block tw_image %}https://nebians.consica.com.np{% url 'web:profile_card_image' username=profile_user.username %}?v=13{% endblock %}
 {% block tw_image_alt %}{{ profile_user.display_name|default:profile_user.username }} profile card on NEBians{% endblock %}
 {% block robots %}{% if profile_private or profile_user.is_bot %}<meta name="robots" content="noindex,nofollow">{% endif %}{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/pages/agents.css' %}">
+{% endblock %}
 
 {% block head_extra %}
 {% if not profile_private and not profile_user.is_bot %}
@@ -142,7 +145,7 @@
               {% if profile_user.is_bot or profile_user.username == 'neby' %}
                 <span class="pf-bot-tagline">
                   <span class="material-symbols-outlined">auto_awesome</span>
-                  AI Companion
+                  {% if agent_persona and agent_persona.tagline %}{{ agent_persona.tagline }}{% else %}Autonomous Agent{% endif %}
                 </span>
               {% else %}
                 {% if profile_user.role == 'teacher' %}
@@ -282,6 +285,7 @@
                   {% endif %}
                 {% endif %}
               </p>
+              {% include "web/_agent_persona_card.html" %}
             </div>
 
             {% if not profile_user.is_bot %}
@@ -422,7 +426,9 @@
               <div class="post-card" data-action="open-post" data-post-url="{% url 'web:forum_post' post_id=post.id %}" style="cursor: pointer;">
                 <div class="post-card-header">
                   <div class="post-card-avatar">
-                    {% if profile_user.photo_url %}
+                    {% if profile_user.username == 'neby' or profile_user.is_bot %}
+                      <div class="neby-avatar-mini" data-neby-avatar data-animation="idle" title="Neby"></div>
+                    {% elif profile_user.photo_url %}
                       <img src="{{ profile_user.photo_url }}" alt="{{ profile_user.display_name|default:profile_user.username }}" data-fallback="inline-flex">
                       <span class="contributor-avatar-letter" style="display:none;">{{ profile_user.display_name|default:profile_user.username|slice:":1" }}</span>
                     {% else %}
@@ -524,8 +530,10 @@
               <div class="pf-reply-card">
                 <div class="pf-reply-card-header">
                   <div class="pf-reply-card-avatar">
-                    {% if profile_user.photo_url %}
-<img src="{{ profile_user.photo_url }}" alt="{{ profile_user.display_name|default:profile_user.username }}" data-fallback="inline-flex">
+                    {% if profile_user.username == 'neby' or profile_user.is_bot %}
+                      <div class="neby-avatar-mini neby-size-reply" data-neby-avatar data-animation="idle" title="Neby"></div>
+                    {% elif profile_user.photo_url %}
+                      <img src="{{ profile_user.photo_url }}" alt="{{ profile_user.display_name|default:profile_user.username }}" data-fallback="inline-flex">
                       <span class="contributor-avatar-letter" style="display:none;">{{ profile_user.display_name|default:profile_user.username|slice:":1" }}</span>
                     {% else %}
                       <span class="contributor-avatar-letter">{{ profile_user.display_name|default:profile_user.username|slice:":1" }}</span>
@@ -584,13 +592,15 @@
                 <!-- Card Header -->
 <div class="post-card-header">
                    <div class="post-card-avatar">
-                     {% if profile_user.photo_url %}
-                       <img src="{{ profile_user.photo_url }}" alt="{{ profile_user.display_name|default:profile_user.username }}" data-fallback="inline-flex">
-                       <span class="contributor-avatar-letter" style="display:none;">{{ profile_user.display_name|default:profile_user.username|slice:":1" }}</span>
-                     {% else %}
-                       <span class="contributor-avatar-letter">{{ profile_user.display_name|default:profile_user.username|slice:":1" }}</span>
-                     {% endif %}
-                   </div>
+                      {% if profile_user.username == 'neby' or profile_user.is_bot %}
+                        <div class="neby-avatar-mini" data-neby-avatar data-animation="idle" title="Neby"></div>
+                      {% elif profile_user.photo_url %}
+                        <img src="{{ profile_user.photo_url }}" alt="{{ profile_user.display_name|default:profile_user.username }}" data-fallback="inline-flex">
+                        <span class="contributor-avatar-letter" style="display:none;">{{ profile_user.display_name|default:profile_user.username|slice:":1" }}</span>
+                      {% else %}
+                        <span class="contributor-avatar-letter">{{ profile_user.display_name|default:profile_user.username|slice:":1" }}</span>
+                      {% endif %}
+                    </div>
                    <div class="post-card-meta">
                      <div class="post-card-meta-line">
                        <a href="{% url 'web:profile' username=profile_user.username %}" style="font-weight:700;cursor:pointer;text-decoration:none;color:inherit;">{{ profile_user.display_name|default:profile_user.username }}</a>
@@ -1255,10 +1265,13 @@ async function loadMoreActivity() {
         const item = document.createElement('div');
         item.className = 'post-card';
         
+        const isBotUser = {{ profile_user.is_bot|yesno:"true,false" }} || '{{ profile_user.username|escapejs }}' === 'neby';
         const photoUrl = safeClientUrl('{{ profile_user.photo_url|default:""|escapejs }}');
         const displayName = '{{ profile_user.display_name|default:profile_user.username|escapejs }}';
         const displayNameHtml = escapeHtml(displayName);
-        const avatarHtml = photoUrl ? `<img src="${photoUrl}" alt="${displayNameHtml}" data-fallback="inline-flex"><span class="contributor-avatar-letter" style="display:none;">${escapeHtml(displayName.slice(0, 1))}</span>` : `<span class="contributor-avatar-letter">${escapeHtml(displayName.slice(0, 1))}</span>`;
+        const avatarHtml = isBotUser
+          ? `<div class="neby-avatar-mini" data-neby-avatar data-animation="idle" title="Neby"></div>`
+          : (photoUrl ? `<img src="${photoUrl}" alt="${displayNameHtml}" data-fallback="inline-flex"><span class="contributor-avatar-letter" style="display:none;">${escapeHtml(displayName.slice(0, 1))}</span>` : `<span class="contributor-avatar-letter">${escapeHtml(displayName.slice(0, 1))}</span>`);
         
         let badgeHtml = '';
         const badgeInfo = {{ badge_info_json|default:'null'|safe }};
@@ -1380,10 +1393,13 @@ async function loadMoreReplies() {
         const item = document.createElement('div');
         item.className = 'pf-reply-card';
 
+        const isBotUser = {{ profile_user.is_bot|yesno:"true,false" }} || '{{ profile_user.username|escapejs }}' === 'neby';
         const photoUrl = safeClientUrl('{{ profile_user.photo_url|default:""|escapejs }}');
         const displayName = '{{ profile_user.display_name|default:profile_user.username|escapejs }}';
         const displayNameHtml = escapeHtml(displayName);
-        const avatarHtml = photoUrl ? `<img src="${photoUrl}" alt="${displayNameHtml}" data-fallback="inline-flex"><span class="contributor-avatar-letter" style="display:none;">${escapeHtml(displayName.slice(0, 1))}</span>` : `<span class="contributor-avatar-letter">${escapeHtml(displayName.slice(0, 1))}</span>`;
+        const avatarHtml = isBotUser
+          ? `<div class="neby-avatar-mini neby-size-reply" data-neby-avatar data-animation="idle" title="Neby"></div>`
+          : (photoUrl ? `<img src="${photoUrl}" alt="${displayNameHtml}" data-fallback="inline-flex"><span class="contributor-avatar-letter" style="display:none;">${escapeHtml(displayName.slice(0, 1))}</span>` : `<span class="contributor-avatar-letter">${escapeHtml(displayName.slice(0, 1))}</span>`);
 
         let badgeHtml = '';
         const badgeInfo = {{ badge_info_json|default:'null'|safe }};

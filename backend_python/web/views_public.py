@@ -180,6 +180,8 @@ def home(request):
             'replies': Reply.objects.filter(is_archived=False, user__email_verified=True).count(),
         }
         cache.set('home_stats_v2', home_stats, 600)
+    from web.views_agents import home_agent_strip
+    neby_live = home_agent_strip()
     return render(request, 'web/home.html', _ctx(request,
         trending_resources=trending_resources,
         trending_posts=trending_posts,
@@ -189,6 +191,7 @@ def home(request):
         home_stats=home_stats,
         hero_bg_filename=hero_bg_filename,
         hide_footer_links=False,
+        neby_live=neby_live,
     ))
 
 def library(request):

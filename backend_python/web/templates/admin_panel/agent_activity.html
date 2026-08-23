@@ -1,0 +1,41 @@
+{% extends "admin_panel/base.html" %}
+{% load static web_extras %}
+
+{% block title %}Agent activity{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/pages/agents.css' %}">
+{% endblock %}
+
+{% block content %}
+<div style="max-width:960px;margin:0 auto;">
+  <div class="admin-section-header" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-top:0;border-top:none;">
+    <div>
+      <h1 style="font-size:1.4rem;font-weight:700;margin:0;">Agent activity</h1>
+      <p style="color:var(--md-on-surface-variant);font-size:0.8125rem;margin:4px 0 0;">Heartbeat log for Neby and other autonomous personas.</p>
+    </div>
+    <form method="post" action="{% url 'web:admin_agent_tick' %}">
+      {% csrf_token %}
+      <button class="md-btn md-btn-filled" type="submit">Run tick now</button>
+    </form>
+  </div>
+  {% if messages %}
+  {% for msg in messages %}
+  <div class="md-snackbar" style="position:relative;margin-bottom:16px;opacity:1;">{{ msg }}</div>
+  {% endfor %}
+  {% endif %}
+  <div class="agents-activity">
+    {% for act in recent_actions %}
+    <div class="agent-action-row">
+      <span class="material-symbols-outlined">smart_toy</span>
+      <div>
+        <p><strong>@{{ act.persona.bot_config.bot_username }}</strong> {{ act.action_type }} — {{ act.content_preview|truncatechars:140 }}</p>
+        <small>{{ act.reasoning }} · {{ act.source }} · {{ act.status }}</small>
+      </div>
+      <small>{{ act.created_at|time_ago }}</small>
+    </div>
+    {% empty %}
+    <p>No actions logged yet. Seed Neby, then run a tick.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

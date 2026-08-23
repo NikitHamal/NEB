@@ -12,6 +12,8 @@ from . import views_avatar
 from . import views_videos
 from . import views_content_images
 from . import views_canvas
+from . import views_canvas_features
+from . import views_agents
 
 app_name = 'web'
 
@@ -40,6 +42,10 @@ urlpatterns = [
     path('ajax/news/<slug:slug>/comments/', views.ajax_blog_comments, name='ajax_blog_comments'),
     path('ajax/search/', views.ajax_instant_search, name='ajax_instant_search'),
     path('forum/', views.forum, name='forum'),
+    path('agents/', views_agents.agents_directory, name='agents_directory'),
+    path('agents/activity/', views_agents.agents_activity, name='agents_activity'),
+    path('agents/skill.md', views_agents.agents_skill, name='agents_skill'),
+    path('agents/<str:username>/', views_agents.agent_profile_redirect, name='agent_profile'),
     path('forum/categories/', views.forum_categories, name='forum_categories'),
     path('forum/leaderboard/', views.leaderboard, name='leaderboard'),
     path('videos/', views_videos.videos, name='videos'),
@@ -196,6 +202,8 @@ urlpatterns = [
     path('admin/bots/new/', views.admin_bot_edit, name='admin_bot_new'),
     path('admin/bots/<int:bot_id>/', views.admin_bot_edit, name='admin_bot_edit'),
     path('admin/bots/<int:bot_id>/create-user/', views.admin_bot_create_user, name='admin_bot_create_user'),
+    path('admin/agents/activity/', views.admin_agent_activity, name='admin_agent_activity'),
+    path('admin/agents/tick/', views.admin_agent_tick, name='admin_agent_tick'),
     path('admin/study-spaces/', views.admin_study_spaces, name='admin_study_spaces'),
     path('admin/study-spaces/<str:space_id>/delete/', views.admin_study_space_delete, name='admin_study_space_delete'),
     path('admin/announcements/', views.admin_announcements, name='admin_announcements'),
@@ -253,6 +261,19 @@ urlpatterns = [
     path('ajax/canvas/boards/<str:board_id>/share/', views_canvas.ajax_canvas_board_share, name='ajax_canvas_board_share'),
     path('canvas/shared/<str:token>/', views_canvas.canvas_shared, name='canvas_shared'),
     path('ajax/canvas/shared/<str:token>/detail/', views_canvas.ajax_canvas_shared_detail, name='ajax_canvas_shared_detail'),
+    path('ajax/canvas/templates/', views_canvas_features.ajax_canvas_templates, name='ajax_canvas_templates'),
+    path('ajax/canvas/templates/create/', views_canvas_features.ajax_canvas_create_from_template, name='ajax_canvas_create_from_template'),
+    path('ajax/canvas/boards/<str:board_id>/notes/', views_canvas_features.ajax_canvas_create_note, name='ajax_canvas_create_note'),
+    path('ajax/canvas/nodes/<str:node_id>/update/', views_canvas_features.ajax_canvas_node_update, name='ajax_canvas_node_update'),
+    path('ajax/canvas/boards/<str:board_id>/batch-move/', views_canvas_features.ajax_canvas_batch_move, name='ajax_canvas_batch_move'),
+    path('ajax/canvas/boards/<str:board_id>/snapshots/', views_canvas_features.ajax_canvas_snapshots, name='ajax_canvas_snapshots'),
+    path('ajax/canvas/boards/<str:board_id>/snapshots/create/', views_canvas_features.ajax_canvas_snapshot_create, name='ajax_canvas_snapshot_create'),
+    path('ajax/canvas/boards/<str:board_id>/snapshots/<str:snapshot_id>/restore/', views_canvas_features.ajax_canvas_snapshot_restore, name='ajax_canvas_snapshot_restore'),
+    path('ajax/canvas/boards/<str:board_id>/export/', views_canvas_features.ajax_canvas_export, name='ajax_canvas_export'),
+    path('ajax/canvas/boards/<str:board_id>/import/', views_canvas_features.ajax_canvas_import, name='ajax_canvas_import'),
+    path('ajax/canvas/shared/<str:token>/clone/', views_canvas_features.ajax_canvas_clone_shared, name='ajax_canvas_clone_shared'),
+    path('ajax/canvas/boards/<str:board_id>/neby-explore/', views_canvas_features.ajax_canvas_neby_explore, name='ajax_canvas_neby_explore'),
+    path('ajax/canvas/boards/<str:board_id>/suggestions/', views_canvas_features.ajax_canvas_suggestions, name='ajax_canvas_suggestions'),
     path('ajax/canvas/boards/<str:board_id>/nodes/', views_canvas.ajax_canvas_create_node, name='ajax_canvas_create_node'),
     path('ajax/canvas/nodes/<str:node_id>/move/', views_canvas.ajax_canvas_node_move, name='ajax_canvas_node_move'),
     path('ajax/canvas/nodes/<str:node_id>/delete/', views_canvas.ajax_canvas_node_delete, name='ajax_canvas_node_delete'),

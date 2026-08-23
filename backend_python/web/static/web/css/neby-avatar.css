@@ -41,8 +41,8 @@
   min-width: 40px;
   min-height: 40px;
   border-radius: 50%;
-  background: var(--md-surface-container-lowest, #ffffff);
-  border: 1.5px solid var(--md-outline-variant, rgba(0, 0, 0, 0.08));
+  background: transparent !important;
+  border: 1.5px solid var(--md-outline-variant, rgba(0, 0, 0, 0.12));
   box-shadow: none !important;
   filter: none !important;
   box-sizing: border-box;
@@ -152,13 +152,13 @@
 
 /* Dark mode compatibility */
 [data-theme='dark'] .neby-avatar-mini {
-  background: var(--md-surface-container-high, #1e293b);
+  background: transparent !important;
   border-color: var(--md-outline-variant, #334155);
 }
 
 [data-theme='dark'] .neby-avatar-hero {
-  background: var(--md-surface-container-lowest, #0f172a);
-  border-color: var(--md-surface-container-lowest, #0f172a);
+  background: transparent !important;
+  border-color: transparent !important;
 }
 
 [data-theme='dark'] .neby-mood-bar {

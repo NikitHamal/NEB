@@ -1265,11 +1265,40 @@ def admin_bot_edit(request, bot_id=None):
         config.save()
         from django.core.cache import cache
         cache.delete('neby_enabled')
+        bot_user = BotConfig.get_bot_user(config)
+        if bot_user:
+            from api.agent_social.ensure import ensure_persona
+            persona, _ = ensure_persona(
+                config, bot_user,
+                autonomy_enabled=request.POST.get('autonomy_enabled') == 'on',
+                apply_neby_defaults=config.bot_username.lower() == 'neby',
+            )
+            persona.tagline = (request.POST.get('tagline') or '')[:200]
+            persona.origin_story = (request.POST.get('origin_story') or '')[:4000]
+            persona.voice_notes = (request.POST.get('voice_notes') or '')[:4000]
+            goals_raw = (request.POST.get('goals_text') or '').strip()
+            if goals_raw:
+                persona.goals = [ln.strip('-• ').strip() for ln in goals_raw.splitlines() if ln.strip()]
+            persona.autonomy_enabled = request.POST.get('autonomy_enabled') == 'on'
+            try:
+                persona.tick_interval_minutes = max(int(request.POST.get('tick_interval_minutes') or persona.tick_interval_minutes), 1)
+            except (TypeError, ValueError):
+                pass
+            try:
+                persona.max_posts_per_day = max(int(request.POST.get('max_posts_per_day') or persona.max_posts_per_day), 0)
+            except (TypeError, ValueError):
+                pass
+            persona.save()
         messages.success(request, f'Bot "@{config.bot_username}" saved. Provider: {provider}.')
         return redirect(f'/admin/bots/{config.pk}/')
 
     bot_user = BotConfig.get_bot_user(config) if config else None
+    persona = None
+    if config:
+        from api.agent_social.models import AgentPersona
+        persona = AgentPersona.objects.filter(bot_config=config).first()
     ctx = _ctx(request, active_page='bot', config=config, bot_user=bot_user, is_new=config is None,
+               persona=persona, goals_text='\n'.join((persona.goals if persona else [])),
                **_bot_provider_catalog_ctx())
     return render(request, 'admin_panel/bot_edit.html', ctx)
 
@@ -1300,8 +1329,8 @@ def _bot_provider_catalog_ctx():
         'options': [],
     }
     return {
-        'scraper_options': scraper_options,
-        'official_options': official_options,
+        'provider_options_scrapers': scraper_options,
+        'provider_options_official': official_options,
         'provider_config_json': _json.dumps(provider_config),
     }
 
@@ -1309,22 +1338,14 @@ def admin_bot_create_user(request, bot_id):
     redirect_response = _require_staff_admin(request)
     if redirect_response:
         return redirect_response
-    from api.models import BotConfig
-    config = BotConfig.objects.filter(pk=bot_id).first()
-    if not config:
-        messages.error(request, 'Bot not found.')
-        return redirect('/admin/bots/')
-    existing_user = BotConfig.get_bot_user(config)
-    if existing_user:
-        messages.info(request, f'User @{config.bot_username} already exists (id={existing_user.id}).')
-        return redirect(f'/admin/bots/{bot_id}/')
+    from api.models import BotConfig, User
+    config = get_object_or_404(BotConfig, pk=bot_id)
     if request.method == 'POST':
         username = config.bot_username
-        display_name = config.display_name or config.name or username.capitalize()
-        user_id = f'{username}-bot'
+        display_name = request.POST.get('display_name') or config.display_name or config.name
         try:
             bot_user = User.objects.create(
-                id=user_id,
+                id=f'{username}-bot',
                 username=username,
                 display_name=display_name,
                 is_bot=True,
@@ -1337,6 +1358,31 @@ def admin_bot_create_user(request, bot_id):
         return redirect(f'/admin/bots/{bot_id}/')
     ctx = _ctx(request, active_page='bot', config=config)
     return render(request, 'admin_panel/bot_create_user.html', ctx)
+
+
+def admin_agent_activity(request):
+    redirect_response = _require_staff_admin(request)
+    if redirect_response:
+        return redirect_response
+    from api.agent_social.models import AgentAction
+    actions = list(
+        AgentAction.objects.select_related('persona', 'persona__bot_config').order_by('-created_at')[:120]
+    )
+    return render(request, 'admin_panel/agent_activity.html', _ctx(
+        request, active_page='bot', recent_actions=actions,
+    ))
+
+
+def admin_agent_tick(request):
+    redirect_response = _require_staff_admin(request)
+    if redirect_response:
+        return redirect_response
+    if request.method != 'POST':
+        return redirect('/admin/agents/activity/')
+    from api.agent_social.heartbeat import tick_neby
+    result = tick_neby(force=True, source='admin')
+    messages.success(request, f'Heartbeat: {result}')
+    return redirect('/admin/agents/activity/')
 
 def admin_syllabus_list(request):
     redirect_response = _require_staff_admin(request)

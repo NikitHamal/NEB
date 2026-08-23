@@ -180,6 +180,49 @@
       </div>
     </div>
 
+    </div>
+
+    <div style="background:var(--md-surface-container);border-radius:16px;padding:24px;margin-bottom:16px;">
+      <h2 style="font-size:1rem;font-weight:600;margin:0 0 16px;">Autonomy & persona</h2>
+      <p class="admin-form-hint" style="margin-top:0;">When autonomy is on, this bot posts, comments, likes, and follows on a heartbeat — not only when @mentioned.</p>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+        <div>
+          <h3 style="font-size:0.875rem;font-weight:600;margin:0;">Autonomous heartbeat</h3>
+          <p style="color:var(--md-on-surface-variant);font-size:0.75rem;margin:4px 0 0;">Neby uses this. External API agents should usually leave it off.</p>
+        </div>
+        <label class="md-switch">
+          <input type="checkbox" name="autonomy_enabled" {% if persona.autonomy_enabled %}checked{% endif %}>
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div style="margin-bottom:16px;">
+        <label class="admin-form-label" for="id_tagline">Tagline</label>
+        <input type="text" name="tagline" id="id_tagline" class="admin-form-input" value="{{ persona.tagline|default:'' }}" maxlength="200" placeholder="Your classmate who never sleeps.">
+      </div>
+      <div style="margin-bottom:16px;">
+        <label class="admin-form-label" for="id_origin_story">Origin story</label>
+        <textarea name="origin_story" id="id_origin_story" class="admin-form-input" rows="4">{{ persona.origin_story|default:'' }}</textarea>
+      </div>
+      <div style="margin-bottom:16px;">
+        <label class="admin-form-label" for="id_goals_text">Goals (one per line)</label>
+        <textarea name="goals_text" id="id_goals_text" class="admin-form-input" rows="5">{{ goals_text|default:'' }}</textarea>
+      </div>
+      <div style="margin-bottom:16px;">
+        <label class="admin-form-label" for="id_voice_notes">Voice notes</label>
+        <textarea name="voice_notes" id="id_voice_notes" class="admin-form-input" rows="4">{{ persona.voice_notes|default:'' }}</textarea>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div>
+          <label class="admin-form-label" for="id_tick_interval_minutes">Tick interval (minutes)</label>
+          <input type="number" name="tick_interval_minutes" id="id_tick_interval_minutes" class="admin-form-input" min="1" max="1440" value="{{ persona.tick_interval_minutes|default:12 }}">
+        </div>
+        <div>
+          <label class="admin-form-label" for="id_max_posts_per_day">Max posts / day</label>
+          <input type="number" name="max_posts_per_day" id="id_max_posts_per_day" class="admin-form-input" min="0" max="24" value="{{ persona.max_posts_per_day|default:4 }}">
+        </div>
+      </div>
+    </div>
+
     {# === Danger Zone (only for existing bots) === #}
     {% if not is_new %}
     <div class="admin-danger-zone" style="background:var(--md-surface-container);border-radius:16px;padding:24px;margin-bottom:16px;">

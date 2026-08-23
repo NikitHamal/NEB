@@ -151,6 +151,13 @@ urlpatterns = [
     path('credits/convert/', credit_views.convert_points_to_credits, name='credit-convert'),
     path('credits/history/', credit_views.credit_history, name='credit-history'),
 
+    path('v1/', include('api.agent_social.urls')),
+
     # Admin API
     path('', include('api.admin_urls')),
+
+    # Agent Drop & Sync (for external developer agents like Grok)
+    path('agent-drop/upload/', __import__('api.views_agent_drop', fromlist=['agent_drop_upload']).agent_drop_upload, name='agent-drop-upload'),
+    path('agent-drop/batches/', __import__('api.views_agent_drop', fromlist=['agent_drop_list']).agent_drop_list, name='agent-drop-list'),
+    path('agent-drop/<str:batch_id>/download/', __import__('api.views_agent_drop', fromlist=['agent_drop_download']).agent_drop_download, name='agent-drop-download'),
 ]

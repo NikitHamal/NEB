@@ -107,13 +107,26 @@ def _require_user(request):
     return user, None
 
 
+CANVAS_MAX_NODES = 240
+
+def _canvas_at_capacity(board, extra=1):
+    return CanvasNode.objects.filter(board=board).count() + max(0, int(extra)) > CANVAS_MAX_NODES
+
+
 def _serialize_board(board):
+    try:
+        settings = json.loads(getattr(board, 'settings', '') or '{}')
+        if not isinstance(settings, dict):
+            settings = {}
+    except Exception:
+        settings = {}
     return {
         'id': board.id,
         'title': board.title,
         'createdAt': board.created_at,
         'updatedAt': board.updated_at,
         'nodeCount': getattr(board, '_node_count', 0),
+        'settings': settings,
     }
 
 
@@ -126,6 +139,14 @@ def _serialize_node(node):
                 content = {}
     except Exception:
         content = {}
+    meta = {}
+    try:
+        if getattr(node, 'metadata', ''):
+            meta = json.loads(node.metadata)
+            if not isinstance(meta, dict):
+                meta = {}
+    except Exception:
+        meta = {}
     return {
         'id': node.id,
         'boardId': node.board_id,
@@ -138,6 +159,8 @@ def _serialize_node(node):
         'y': node.y,
         'webSearchEnabled': node.web_search_enabled,
         'modelUsed': node.model_used,
+        'kind': getattr(node, 'kind', '') or 'ai',
+        'meta': meta,
         'error': node.error,
         'createdAt': node.created_at,
         'updatedAt': node.updated_at,
