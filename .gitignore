@@ -93,3 +93,9 @@ tmp_*.pem
 *.pem
 tmp_*.pem
 *.pem
+
+# Python bytecode / caches
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyc
