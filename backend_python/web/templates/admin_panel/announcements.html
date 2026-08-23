@@ -26,55 +26,64 @@
   <table class="admin-table">
     <thead>
       <tr>
-        <th>Title</th>
-        <th>Category</th>
-        <th>Status</th>
-        <th>Pinned</th>
-        <th>Views</th>
-        <th>Date</th>
-        <th>Actions</th>
+        <th style="min-width:280px;">Title &amp; Slug</th>
+        <th style="width:150px;">Category</th>
+        <th style="width:120px;">Status</th>
+        <th style="width:70px;text-align:center;">Pinned</th>
+        <th style="width:80px;text-align:center;">Views</th>
+        <th style="width:110px;">Date</th>
+        <th style="width:120px;text-align:right;">Actions</th>
       </tr>
     </thead>
     <tbody>
       {% for a in announcements %}
       <tr>
         <td>
-          <a href="{% url 'web:admin_announcement_edit' announcement_id=a.id %}" style="font-weight:500;">{{ a.title }}</a>
-          <div class="md-body-small" style="color:var(--md-on-surface-variant);">/{{ a.slug }}</div>
+          <a href="{% url 'web:admin_announcement_edit' announcement_id=a.id %}" style="font-weight:600;font-size:0.9375rem;color:var(--md-primary);text-decoration:none;display:block;margin-bottom:2px;">{{ a.title }}</a>
+          <div style="font-size:0.75rem;color:var(--md-on-surface-variant);font-family:monospace;">/{{ a.slug }}</div>
         </td>
         <td>
-          <span class="admin-chip" style="background:{{ a.category_color }}22;color:{{ a.category_color }};">
+          <span class="admin-chip" style="background:{{ a.category_color }}18;color:{{ a.category_color }};border:1px solid {{ a.category_color }}33;">
             <span class="material-symbols-outlined" style="font-size:14px;">{{ a.category_icon }}</span>
             {{ a.category_label }}
           </span>
         </td>
         <td>
-          <span class="admin-chip admin-chip-{{ a.status }}">{{ a.status|title }}</span>
+          <span class="admin-chip admin-chip-{{ a.status }}">
+            {% if a.status == 'published' %}<span class="material-symbols-outlined" style="font-size:13px;">check_circle</span>{% elif a.status == 'draft' %}<span class="material-symbols-outlined" style="font-size:13px;">edit_document</span>{% endif %}
+            {{ a.status|title }}
+          </span>
         </td>
-        <td>{% if a.is_pinned %}<span class="material-symbols-outlined" style="color:var(--md-primary);">push_pin</span>{% else %}—{% endif %}</td>
-        <td>{{ a.view_count }}</td>
-        <td class="md-body-small" style="color:var(--md-on-surface-variant);">
+        <td style="text-align:center;">
+          {% if a.is_pinned %}
+          <span class="material-symbols-outlined" style="color:var(--md-primary);font-variation-settings:'FILL' 1;font-size:20px;" title="Pinned">push_pin</span>
+          {% else %}
+          <span style="color:var(--md-outline);">—</span>
+          {% endif %}
+        </td>
+        <td style="text-align:center;font-weight:500;color:var(--md-on-surface);">{{ a.view_count }}</td>
+        <td style="font-size:0.8125rem;color:var(--md-on-surface-variant);white-space:nowrap;">
           {% if a.published_at %}{{ a.published_at|time_ago }}{% else %}—{% endif %}
         </td>
-        <td>
-          <div style="display:flex;gap:4px;">
-            <a href="{% url 'web:admin_announcement_edit' announcement_id=a.id %}" class="md-btn-icon" title="Edit">
-              <span class="material-symbols-outlined">edit</span>
+        <td style="text-align:right;">
+          <div style="display:inline-flex;gap:4px;align-items:center;">
+            <a href="{% url 'web:admin_announcement_edit' announcement_id=a.id %}" class="md-btn-icon" title="Edit Announcement" style="width:32px;height:32px;border-radius:8px;">
+              <span class="material-symbols-outlined" style="font-size:18px;">edit</span>
             </a>
-            <form method="post" style="display:inline;">
+            <form method="post" style="display:inline;margin:0;">
               {% csrf_token %}
               <input type="hidden" name="action" value="toggle_pin">
               <input type="hidden" name="announcement_id" value="{{ a.id }}">
-              <button type="submit" class="md-btn-icon" title="{% if a.is_pinned %}Unpin{% else %}Pin{% endif %}">
-                <span class="material-symbols-outlined" style="{% if a.is_pinned %}color:var(--md-primary);font-variation-settings:'FILL' 1;{% endif %}">push_pin</span>
+              <button type="submit" class="md-btn-icon" title="{% if a.is_pinned %}Unpin{% else %}Pin to top{% endif %}" style="width:32px;height:32px;border-radius:8px;">
+                <span class="material-symbols-outlined" style="font-size:18px;{% if a.is_pinned %}color:var(--md-primary);font-variation-settings:'FILL' 1;{% endif %}">push_pin</span>
               </button>
             </form>
-            <form method="post" style="display:inline;" data-action="confirm-delete" data-confirm-msg="Delete announcement '{{ a.title }}'? This cannot be undone.">
+            <form method="post" style="display:inline;margin:0;" data-action="confirm-delete" data-confirm-msg="Delete announcement '{{ a.title }}'? This cannot be undone.">
               {% csrf_token %}
               <input type="hidden" name="action" value="delete">
               <input type="hidden" name="announcement_id" value="{{ a.id }}">
-              <button type="submit" class="md-btn-icon" title="Delete" style="color:var(--md-error);">
-                <span class="material-symbols-outlined">delete</span>
+              <button type="submit" class="md-btn-icon" title="Delete Announcement" style="width:32px;height:32px;border-radius:8px;color:var(--md-error);">
+                <span class="material-symbols-outlined" style="font-size:18px;">delete</span>
               </button>
             </form>
           </div>
