@@ -89,10 +89,9 @@ Respond ONLY with a valid JSON object in this exact format:
 
     try:
         raw_response = call_ai_api(
-            prompt=user_prompt,
             system_prompt=system_prompt,
+            user_message=user_prompt,
             config=bot_config,
-            max_tokens=2200,
         )
 
         parsed = _clean_json_output(raw_response)
