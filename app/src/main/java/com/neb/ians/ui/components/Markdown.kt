@@ -582,8 +582,6 @@ fun markdownToInlinePreview(markdown: String, stripTokens: Boolean = true): Stri
         }
     }.replace(Regex("!\\[[^]]*]\\([^)]*\\)"), "").let { if (stripTokens) InlineImageTokens.plainText(it) else it }.trim()
 }
-    }.replace(Regex("!\\[[^]]*]\\([^)]*\\)"), "").trim()
-}
 
 /**
  * Compact single-flow inline markdown for cards (suggested feed, lists):
