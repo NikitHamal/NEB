@@ -295,7 +295,7 @@
       </div>
 
       {% if batches %}
-      <form method="post" onsubmit="return confirm('Are you sure you want to delete all {{ total_batches }} batches?');" style="margin:0;">
+      <form method="post" class="js-confirm-form" data-confirm-msg="Are you sure you want to delete all {{ total_batches }} batches?" style="margin:0;">
         {% csrf_token %}
         <input type="hidden" name="action" value="delete_all">
         <button type="submit" class="btn btn-danger">
@@ -371,7 +371,7 @@
               Download .ZIP
             </a>
 
-            <form method="post" onsubmit="return confirm('Delete batch {{ b.batch_id }}?');" style="display:inline;margin:0;">
+            <form method="post" class="js-confirm-form" data-confirm-msg="Delete batch '{{ b.batch_id }}'?" style="display:inline;margin:0;">
               {% csrf_token %}
               <input type="hidden" name="action" value="delete">
               <input type="hidden" name="batch_id" value="{{ b.batch_id }}">
@@ -423,36 +423,52 @@
     {% endif %}
   </main>
 
-  <script>
-    // Copy token helper
-    const copyBtn = document.getElementById('copyTokenBtn');
-    if (copyBtn) {
-      copyBtn.addEventListener('click', function() {
-        const token = this.getAttribute('data-token');
-        navigator.clipboard.writeText(token).then(() => {
-          const original = copyBtn.innerHTML;
-          copyBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size:16px;color:#34d399;">check</span> Copied!';
-          setTimeout(() => { copyBtn.innerHTML = original; }, 2000);
+  <script nonce="{{ request.csp_nonce }}">
+    document.addEventListener('DOMContentLoaded', function() {
+      // Copy token helper
+      const copyBtn = document.getElementById('copyTokenBtn');
+      if (copyBtn) {
+        copyBtn.addEventListener('click', function() {
+          const token = this.getAttribute('data-token');
+          navigator.clipboard.writeText(token).then(() => {
+            const original = copyBtn.innerHTML;
+            copyBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size:16px;color:#34d399;">check</span> Copied!';
+            setTimeout(() => { copyBtn.innerHTML = original; }, 2000);
+          });
+        });
+      }
+
+      // Theme toggle
+      const themeBtn = document.getElementById('themeToggleBtn');
+      const themeIcon = document.getElementById('themeIcon');
+      const savedTheme = localStorage.getItem('agent_drop_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      if (themeIcon) {
+        themeIcon.textContent = savedTheme === 'dark' ? 'light_mode' : 'dark_mode';
+      }
+
+      if (themeBtn) {
+        themeBtn.addEventListener('click', () => {
+          const current = document.documentElement.getAttribute('data-theme');
+          const next = current === 'dark' ? 'light' : 'dark';
+          document.documentElement.setAttribute('data-theme', next);
+          localStorage.setItem('agent_drop_theme', next);
+          if (themeIcon) {
+            themeIcon.textContent = next === 'dark' ? 'light_mode' : 'dark_mode';
+          }
+        });
+      }
+
+      // Form confirmations without inline onsubmit
+      document.querySelectorAll('.js-confirm-form').forEach(form => {
+        form.addEventListener('submit', function(e) {
+          const msg = this.getAttribute('data-confirm-msg') || 'Are you sure?';
+          if (!window.confirm(msg)) {
+            e.preventDefault();
+          }
         });
       });
-    }
-
-    // Theme toggle
-    const themeBtn = document.getElementById('themeToggleBtn');
-    const themeIcon = document.getElementById('themeIcon');
-    const savedTheme = localStorage.getItem('agent_drop_theme') || 'dark';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-    themeIcon.textContent = savedTheme === 'dark' ? 'light_mode' : 'dark_mode';
-
-    if (themeBtn) {
-      themeBtn.addEventListener('click', () => {
-        const current = document.documentElement.getAttribute('data-theme');
-        const next = current === 'dark' ? 'light' : 'dark';
-        document.documentElement.setAttribute('data-theme', next);
-        localStorage.setItem('agent_drop_theme', next);
-        themeIcon.textContent = next === 'dark' ? 'light_mode' : 'dark_mode';
-      });
-    }
+    });
   </script>
 </body>
 </html>
