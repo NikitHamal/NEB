@@ -51,7 +51,30 @@ function api(path,opts){
   });
 }
 function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
-function md(s){return esc(s).replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>").replace(/\*(?!\s)([^*]+?)\*/g,"<em>$1</em>").replace(/\n/g,"<br>")}
+function md(s){
+  if(!s) return "";
+  var str = String(s);
+  var codeBlocks = [];
+  str = str.replace(/```([a-zA-Z0-9_#+-]*)\r?\n?([\s\S]*?)```/g, function(_, lang, code){
+    var idx = codeBlocks.length;
+    var l = (lang || "code").trim().toUpperCase();
+    var cleanCode = code.replace(/^\r?\n+|\r?\n+$/g, '');
+    var blockHtml = '<div class="code-block"><div class="code-block-head"><span class="code-lang">' +
+      esc(l) + '</span><button class="code-copy" title="Copy code" aria-label="Copy code"><span class="material-symbols-outlined">content_copy</span></button></div><pre class="code-pre">' +
+      esc(cleanCode) + '</pre></div>';
+    codeBlocks.push(blockHtml);
+    return "___CV_CODE_BLOCK_" + idx + "___";
+  });
+  str = esc(str);
+  str = str.replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>');
+  str = str.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+           .replace(/\*(?!\s)([^*]+?)\*/g, "<em>$1</em>")
+           .replace(/\r?\n/g, "<br>");
+  for(var i = 0; i < codeBlocks.length; i++){
+    str = str.replace("___CV_CODE_BLOCK_" + i + "___", codeBlocks[i]);
+  }
+  return str;
+}
 function w2s(wx,wy){return{x:wx*S.view.scale+S.view.x,y:wy*S.view.scale+S.view.y}}
 function s2w(sx,sy){return{x:(sx-S.view.x)/S.view.scale,y:(sy-S.view.y)/S.view.scale}}
 function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
@@ -325,10 +348,13 @@ var TONES=["blue","green","amber","rose","slate"];
 function rFlow(sec){
   var h='<div class="flow-wrap"><div class="flow-title">'+esc(sec.title||"Flow")+'</div><div class="flow-col">';
   var links=sec.links||[];
-  (sec.nodes||[]).forEach(function(nd,i){
+  var nodes=sec.nodes||sec.steps||[];
+  nodes.forEach(function(nd,i){
+    var label=typeof nd==="string"?nd:(nd.label||nd.title||nd.name||"");
+    var desc=typeof nd==="object"&&nd?(nd.desc||nd.description||""):"";
     var tone=(nd.tone&&TONES.indexOf(nd.tone)>-1)?nd.tone:TONES[i%TONES.length];
-    h+='<div class="flow-node t-'+tone+'"'+(nd.desc?' title="'+esc(nd.desc)+'"':'')+'>'+esc(nd.label)+(nd.desc?'<span class="fn-desc">'+esc(nd.desc)+'</span>':'')+'</div>';
-    if(i<(sec.nodes||[]).length-1){
+    h+='<div class="flow-node t-'+tone+'"'+(desc?' title="'+esc(desc)+'"':'')+'>'+esc(label)+(desc?'<span class="fn-desc">'+esc(desc)+'</span>':'')+'</div>';
+    if(i<nodes.length-1){
       h+='<div class="flow-arrow">'+(links[i]?'<span class="fa-label">'+esc(links[i])+'</span>':'')+'<span class="fa-head"></span></div>';
     }
   });
@@ -336,21 +362,32 @@ function rFlow(sec){
 }
 function rTimeline(sec){
   var h='<div class="tl-wrap"><div class="tl-title">'+esc(sec.title||"Timeline")+'</div><div class="tl-row">';
-  (sec.steps||[]).forEach(function(st,i){
-    h+='<div class="tl-item"><span class="tl-dot">'+(i+1)+'</span><span class="tl-label">'+esc(st.title)+'</span>'+(st.sub?'<span class="tl-sub">'+esc(st.sub)+'</span>':'')+'</div>';
+  var steps=sec.steps||sec.items||[];
+  steps.forEach(function(st,i){
+    var title=typeof st==="string"?st:(st.title||st.name||st.label||"");
+    var sub=typeof st==="object"&&st?(st.sub||st.subtitle||st.desc||""):"";
+    h+='<div class="tl-item"><span class="tl-dot">'+(i+1)+'</span><span class="tl-label">'+esc(title)+'</span>'+(sub?'<span class="tl-sub">'+esc(sub)+'</span>':'')+'</div>';
   });
   return h+'</div></div>';
 }
 function rStats(sec){
   var h='<div class="stats-grid">';
-  (sec.items||[]).forEach(function(it){h+='<div class="stat-chip"><div class="stat-k">'+esc(it.k)+'</div><div class="stat-v">'+esc(it.v)+'</div></div>'});
+  (sec.items||[]).forEach(function(it){
+    var k=it.k||it.key||it.label||it.name||"";
+    var v=it.v||it.val||it.value||it.stat||"";
+    h+='<div class="stat-chip"><div class="stat-k">'+esc(k)+'</div><div class="stat-v">'+esc(v)+'</div></div>';
+  });
   return h+'</div>';
 }
 function rQuote(sec){
-  return '<div class="quote-block"><div class="quote-text">'+esc(sec.text||"")+'</div>'+(sec.cite?'<div class="quote-cite">'+esc(sec.cite)+'</div>':'')+'</div>';
+  var txt=sec.text||sec.quote||sec.content||"";
+  var cite=sec.cite||sec.author||sec.source||"";
+  return '<div class="quote-block"><div class="quote-text">'+esc(txt)+'</div>'+(cite?'<div class="quote-cite">'+esc(cite)+'</div>':'')+'</div>';
 }
 function rCode(sec){
-  return '<div class="code-block"><div class="code-block-head"><span class="code-lang">'+esc((sec.lang||"code").toUpperCase())+'</span><button class="code-copy" title="Copy code" aria-label="Copy code"><span class="material-symbols-outlined">content_copy</span></button></div><pre class="code-pre">'+esc(sec.text||"")+'</pre></div>';
+  var txt=sec.text||sec.code||sec.content||sec.snippet||"";
+  var lang=sec.lang||sec.language||"code";
+  return '<div class="code-block"><div class="code-block-head"><span class="code-lang">'+esc(lang.toUpperCase())+'</span><button class="code-copy" title="Copy code" aria-label="Copy code"><span class="material-symbols-outlined">content_copy</span></button></div><pre class="code-pre">'+esc(txt)+'</pre></div>';
 }
 function rProsCons(sec){
   function li(t){return '<li>'+esc(t)+'</li>'}
@@ -372,45 +409,60 @@ function rAskUser(sec,nodeId){
   return h;
 }
 function renderSection(sec,idx,nodeId){
-  if(sec.type==="text"&&sec.content) return '<div class="text-block">'+md(sec.content)+'</div>';
-  if(sec.type==="flow"&&sec.nodes) return rFlow(sec);
-  if(sec.type==="timeline"&&sec.steps) return rTimeline(sec);
-  if(sec.type==="stats"&&sec.items) return rStats(sec);
-  if(sec.type==="quote"&&sec.text) return rQuote(sec);
-  if(sec.type==="code"&&sec.text) return rCode(sec);
-  if(sec.type==="proscons"&&(sec.pros||sec.cons)) return rProsCons(sec);
-  if(sec.type==="diagram"&&sec.nodes){
+  if(!sec) return "";
+  var t=String(sec.type||"").toLowerCase().trim();
+  if((t==="text"||t==="summary"||t==="paragraph"||t==="note")&&(sec.content||sec.text||sec.body)){
+    var c=sec.content||sec.text||sec.body||"";
+    return '<div class="text-block">'+(sec.title?'<strong class="sec-subtitle">'+esc(sec.title)+'</strong><br>':'')+md(c)+'</div>';
+  }
+  if((t==="flow"||t==="pipeline"||t==="process"||t==="workflow")&&(sec.nodes||sec.steps)) return rFlow(sec);
+  if((t==="timeline"||t==="steps"||t==="history")&&(sec.steps||sec.items)) return rTimeline(sec);
+  if((t==="stats"||t==="metrics"||t==="numbers")&&sec.items) return rStats(sec);
+  if((t==="quote"||t==="callout"||t==="definition")&&(sec.text||sec.quote||sec.content)) return rQuote(sec);
+  if((t==="code"||t==="snippet"||t==="script"||t==="program")&&(sec.text||sec.code||sec.content||sec.snippet)) return rCode(sec);
+  if((t==="proscons"||t==="tradeoffs")&&(sec.pros||sec.cons)) return rProsCons(sec);
+  if((t==="diagram"||t==="chart"||t==="graph")&&sec.nodes){
     var h='<div class="diagram-wrap"><div class="diagram-title">'+esc(sec.title||"Diagram")+'</div><div class="diagram-grid">';
-    sec.nodes.forEach(function(dn){h+='<div class="diagram-node" data-diag="'+idx+'" data-nid="'+esc(dn.id)+'"><div class="diagram-node-label">'+esc(dn.label)+'</div><div class="diagram-node-desc">'+esc(dn.desc||"")+'</div></div>'});
+    sec.nodes.forEach(function(dn){h+='<div class="diagram-node" data-diag="'+idx+'" data-nid="'+esc(dn.id||dn.label||"")+'"><div class="diagram-node-label">'+esc(dn.label||dn.title||"")+'</div><div class="diagram-node-desc">'+esc(dn.desc||dn.description||"")+'</div></div>'});
     return h+'</div><div class="diagram-detail" id="diag_'+nodeId+'_'+idx+'"></div></div>';
   }
-  if(sec.type==="comparison"&&sec.rows){
+  if((t==="comparison"||t==="table")&&(sec.rows||sec.items)){
     var h2='<div class="comp-wrap"><div class="comp-title">'+esc(sec.title||"Comparison")+'</div><div class="comp-table-wrap"><table class="comp-table"><thead><tr>';
     (sec.headers||["Aspect","A","B"]).forEach(function(hh){h2+='<th>'+esc(hh)+'</th>'});
     h2+='</tr></thead><tbody>';
-    sec.rows.forEach(function(row){h2+='<tr>';row.forEach(function(v){h2+='<td>'+esc(v)+'</td>'});h2+='</tr>'});
+    (sec.rows||sec.items||[]).forEach(function(row){
+      h2+='<tr>';
+      if(Array.isArray(row)) row.forEach(function(v){h2+='<td>'+esc(v)+'</td>'});
+      else if(typeof row==="object"&&row) Object.values(row).forEach(function(v){h2+='<td>'+esc(v)+'</td>'});
+      h2+='</tr>';
+    });
     return h2+'</tbody></table></div></div>';
   }
-  if(sec.type==="cards"&&sec.items){
+  if((t==="cards"||t==="references"||t==="sources")&&sec.items){
+    if(t==="references"||t==="sources"||(sec.items[0]&&(sec.items[0].url||sec.items[0].source))){
+      var h5='<div class="refs-wrap"><div class="refs-title"><span class="material-symbols-outlined">travel_explore</span> '+esc(sec.title||"Sources")+'</div>';
+      sec.items.forEach(function(rf){
+        var title=esc(rf.title||rf.url||"Source"),u=String(rf.url||"");
+        if(u&&/^https?:\/\//i.test(u)) h5+='<a class="ref-item" href="'+esc(u)+'" target="_blank" rel="noopener noreferrer nofollow"><span class="ref-fav" aria-hidden="true">'+esc((rf.source||hostOf(u)).charAt(0).toUpperCase())+'</span><span class="ref-main"><span class="ref-t">'+title+'</span><span class="ref-s">'+esc(hostOf(u)||rf.source||"")+'</span></span><span class="material-symbols-outlined ref-arrow">north_east</span></a>';
+        else h5+='<span class="ref-item static"><span class="ref-fav">'+esc((rf.source||"S").charAt(0).toUpperCase())+'</span><span class="ref-main"><span class="ref-t">'+title+'</span>'+(rf.source?'<span class="ref-s">'+esc(rf.source)+'</span>':'')+'</span></span>';
+      });
+      return h5+'</div>';
+    }
     var h3='<div class="comp-wrap"><div class="comp-title">'+esc(sec.title||"References")+'</div><div class="cards-grid">';
-    sec.items.forEach(function(it){h3+='<div class="card-ref"><div class="card-ref-title">'+esc(it.title)+'</div><div class="card-ref-sub">'+esc(it.subtitle||"")+'</div>';if(it.bullets){h3+='<ul class="card-ref-bullets">';it.bullets.forEach(function(b){h3+='<li>'+esc(b)+'</li>'});h3+='</ul>'}if(it.desc)h3+='<div class="card-ref-desc">'+esc(it.desc)+'</div>';h3+='</div>'});
+    sec.items.forEach(function(it){h3+='<div class="card-ref"><div class="card-ref-title">'+esc(it.title||"")+'</div><div class="card-ref-sub">'+esc(it.subtitle||"")+'</div>';if(it.bullets){h3+='<ul class="card-ref-bullets">';it.bullets.forEach(function(b){h3+='<li>'+esc(b)+'</li>'});h3+='</ul>'}if(it.desc||it.description)h3+='<div class="card-ref-desc">'+esc(it.desc||it.description)+'</div>';h3+='</div>'});
     return h3+'</div></div>';
   }
-  if(sec.type==="bullets"&&sec.items){
+  if((t==="bullets"||t==="list"||t==="points"||t==="key_points")&&sec.items){
     var h4='<div><div class="bullets-title">'+esc(sec.title||"")+'</div><ul class="bullets-list">';
-    sec.items.forEach(function(v){h4+='<li>'+md(v)+'</li>'});
+    sec.items.forEach(function(v){h4+='<li>'+(typeof v==="string"?md(v):(v.text?md(v.text):esc(JSON.stringify(v))))+'</li>'});
     return h4+'</ul></div>';
   }
-  if(sec.type==="references"&&sec.items&&sec.items.length){
-    var h5='<div class="refs-wrap"><div class="refs-title"><span class="material-symbols-outlined">travel_explore</span> Sources</div>';
-    sec.items.forEach(function(rf){
-      var t=esc(rf.title||rf.url||"Source"),u=String(rf.url||"");
-      if(u&&/^https?:\/\//i.test(u)) h5+='<a class="ref-item" href="'+esc(u)+'" target="_blank" rel="noopener noreferrer nofollow"><span class="ref-fav" aria-hidden="true">'+esc((rf.source||hostOf(u)).charAt(0).toUpperCase())+'</span><span class="ref-main"><span class="ref-t">'+t+'</span><span class="ref-s">'+esc(hostOf(u)||rf.source||"")+'</span></span><span class="material-symbols-outlined ref-arrow">north_east</span></a>';
-      else h5+='<span class="ref-item static"><span class="ref-fav">'+esc((rf.source||"S").charAt(0).toUpperCase())+'</span><span class="ref-main"><span class="ref-t">'+t+'</span>'+(rf.source?'<span class="ref-s">'+esc(rf.source)+'</span>':'')+'</span></span>';
-    });
-    return h5+'</div>';
+  if(t==="ask_user"&&(sec.question||sec.prompt)) return rAskUser(sec,nodeId);
+  if(sec.code||sec.snippet) return rCode(sec);
+  if(sec.content||sec.text||sec.body||sec.desc||sec.description){
+    var txt=sec.content||sec.text||sec.body||sec.desc||sec.description||"";
+    return '<div class="text-block">'+(sec.title?'<strong class="sec-subtitle">'+esc(sec.title)+'</strong><br>':'')+md(txt)+'</div>';
   }
-  if(sec.type==="ask_user"&&sec.question) return rAskUser(sec,nodeId);
   return "";
 }
 
@@ -815,14 +867,18 @@ E.viewport.addEventListener("wheel",function(e){
     zoomAt(e.clientX-r.left,e.clientY-r.top,e.deltaY>0?0.92:1.08);
     return;
   }
-  var body=e.target.closest&&e.target.closest(".card-body, .code-pre");
-  if(body && body.scrollHeight>body.clientHeight+2){
+  var scrollable=e.target.closest&&e.target.closest(".card-body, .code-pre, .cs-boards, .cv-panel-body, .comp-table-wrap, .tl-wrap");
+  if(scrollable){
     return;
   }
   var inCard=e.target.closest&&e.target.closest(".canvas-card");
-  if(inCard && !body){
-    // card with no scrollable body — treat wheel as viewport pan/zoom for discoverability
-    // (lets tall auto-height cards be panned even when hovering them)
+  if(inCard){
+    var b=inCard.querySelector(".card-body");
+    if(b && b.scrollHeight>b.clientHeight){
+      b.scrollTop += e.deltaY;
+      e.preventDefault();
+      return;
+    }
   }
   e.preventDefault();
   var r2=E.viewport.getBoundingClientRect();

@@ -908,6 +908,7 @@ def ajax_canvas_board_share(request, board_id):
     return JsonResponse({'enabled': True, 'url': f'/canvas/shared/{board.share_token}/'})
 
 
+@never_cache
 def canvas_shared(request, token):
     board = get_object_or_404(CanvasBoard, share_token=token)
     owner_name = ''
@@ -930,6 +931,7 @@ def canvas_shared(request, token):
     return render(request, 'web/canvas.html', ctx)
 
 
+@never_cache
 @require_GET
 def ajax_canvas_shared_detail(request, token):
     board = get_object_or_404(CanvasBoard, share_token=token)
