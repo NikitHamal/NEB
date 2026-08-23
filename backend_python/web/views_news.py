@@ -12,7 +12,7 @@ from api import services
 from api.models import Announcement, BlogComment, BlogCommentLike, Bookmark, User
 from api.utils import now_ms, uuid_str
 
-from .view_helpers import _ctx, _get_user_id, _user_badge_info
+from .view_helpers import _avatar_url, _ctx, _get_user_id, _user_badge_info
 
 
 CATEGORY_META = {
