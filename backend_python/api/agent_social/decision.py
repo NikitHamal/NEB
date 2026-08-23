@@ -106,6 +106,20 @@ def _heuristic(persona, bot_user, observations):
             'reason': 'Spontaneously share a thought, question, or discussion with the community.',
         })
 
+    # 5. Periodic Feature & Updates Blog Draft (e.g., if no announcement drafted in > 7 days)
+    try:
+        from api.models import Announcement
+        from api.utils import now_ms
+        latest_ann = Announcement.objects.order_by('-created_at').first()
+        days_since_last_blog = (now_ms() - latest_ann.created_at) / (86400 * 1000) if latest_ann else 999
+        if days_since_last_blog >= 7:
+            actions.append({
+                'type': 'draft_blog',
+                'reason': 'Draft an informative feature update / spotlight blog post.',
+            })
+    except Exception:
+        pass
+
     return actions
 
 

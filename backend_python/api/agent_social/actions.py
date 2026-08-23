@@ -283,4 +283,20 @@ def apply_decision(persona, bot_user, actions, bot_config=None, source='heartbea
                 result = act_follow(persona, bot_user, target, source=source, reason=reason)
                 if result:
                     applied.append(('follow', target.id))
+            continue
+        if kind == 'draft_blog':
+            try:
+                from api.agent_blog import services as blog_services
+                ann = blog_services.draft_blog_from_git(publish=False)
+                if not ann:
+                    ann = blog_services.draft_blog_from_spotlight(publish=False)
+                if ann:
+                    log_action(
+                        persona, 'draft_blog', source=source, target_type='announcement', target_id=ann.id,
+                        content_preview=ann.title[:400], reasoning=reason,
+                    )
+                    applied.append(('draft_blog', ann.id))
+            except Exception as e:
+                logger.error('apply_decision: draft_blog failed: %s', e)
+            continue
     return applied

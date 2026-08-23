@@ -208,6 +208,7 @@ urlpatterns = [
     path('admin/study-spaces/<str:space_id>/delete/', views.admin_study_space_delete, name='admin_study_space_delete'),
     path('admin/announcements/', views.admin_announcements, name='admin_announcements'),
     path('admin/announcements/new/', views.admin_announcement_edit, name='admin_announcement_new'),
+    path('admin/announcements/draft-neby/', views.admin_announcement_draft_neby, name='admin_announcement_draft_neby'),
     path('admin/announcements/<str:announcement_id>/', views.admin_announcement_edit, name='admin_announcement_edit'),
     path('admin/chat/', views_admin_chat.admin_chat, name='admin_chat'),
     path('admin/chat/send/', views_admin_chat.ajax_admin_chat_send, name='admin_chat_send'),

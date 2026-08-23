@@ -9,10 +9,16 @@
     <h1 class="md-headline-medium" style="margin:0;">Blog &amp; Updates</h1>
     <p class="md-body-small" style="color:var(--md-on-surface-variant);margin:4px 0 0;">Publish blog articles, exam result updates, and notices for the NEBians community.</p>
   </div>
-  <a href="{% url 'web:admin_announcement_new' %}" class="md-btn md-btn-filled">
-    <span class="material-symbols-outlined">add</span>
-    New Blog Post
-  </a>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <button type="button" class="md-btn md-btn-outlined" id="openNebyDraftModalBtn" style="border-color:var(--md-primary);color:var(--md-primary);display:inline-flex;align-items:center;gap:6px;">
+      <span class="material-symbols-outlined" style="font-size:18px;">auto_awesome</span>
+      Draft with Neby
+    </button>
+    <a href="{% url 'web:admin_announcement_new' %}" class="md-btn md-btn-filled">
+      <span class="material-symbols-outlined">add</span>
+      New Blog Post
+    </a>
+  </div>
 </div>
 
 {% if announcements %}
@@ -98,4 +104,199 @@
   </a>
 </div>
 {% endif %}
+
+<!-- Neby Blog Drafting Modal -->
+<div id="nebyDraftModal" class="admin-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:1000;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(3px);">
+  <div style="background:var(--md-surface);border-radius:20px;max-width:560px;width:100%;box-shadow:0 12px 32px rgba(0,0,0,0.25);border:1px solid var(--md-outline-variant);overflow:hidden;animation:modalIn 0.2s ease-out;">
+    <div style="padding:20px 24px;border-bottom:1px solid var(--md-outline-variant);display:flex;align-items:center;justify-content:space-between;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--md-primary),#6366f1);display:flex;align-items:center;justify-content:center;color:#fff;">
+          <span class="material-symbols-outlined" style="font-size:20px;">auto_awesome</span>
+        </div>
+        <div>
+          <h2 style="margin:0;font-size:1.15rem;font-weight:600;">Draft with Neby</h2>
+          <p style="margin:2px 0 0;font-size:0.8rem;color:var(--md-on-surface-variant);">AI-powered blog and feature update generation</p>
+        </div>
+      </div>
+      <button type="button" id="closeNebyDraftModalBtn" class="md-btn-icon" style="color:var(--md-on-surface-variant);">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <form id="nebyDraftForm" style="padding:20px 24px;">
+      {% csrf_token %}
+      <div style="margin-bottom:16px;">
+        <label class="md-label" style="display:block;margin-bottom:8px;font-weight:500;">Drafting Mode</label>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;" id="nebySourceSelectors">
+          <label style="border:1px solid var(--md-outline-variant);border-radius:12px;padding:10px;text-align:center;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:0.8125rem;background:var(--md-surface-variant);border-color:var(--md-primary);" class="neby-source-card" data-val="git">
+            <input type="radio" name="draft_source" value="git" checked style="display:none;">
+            <span class="material-symbols-outlined" style="color:var(--md-primary);font-size:20px;">commit</span>
+            <span style="font-weight:500;">Git Commits</span>
+            <span style="font-size:0.7rem;color:var(--md-on-surface-variant);">Recent code</span>
+          </label>
+          <label style="border:1px solid var(--md-outline-variant);border-radius:12px;padding:10px;text-align:center;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:0.8125rem;" class="neby-source-card" data-val="spotlight">
+            <input type="radio" name="draft_source" value="spotlight" style="display:none;">
+            <span class="material-symbols-outlined" style="font-size:20px;color:var(--md-primary);">stars</span>
+            <span style="font-weight:500;">Spotlight</span>
+            <span style="font-size:0.7rem;color:var(--md-on-surface-variant);">Feature guide</span>
+          </label>
+          <label style="border:1px solid var(--md-outline-variant);border-radius:12px;padding:10px;text-align:center;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:0.8125rem;" class="neby-source-card" data-val="prompt">
+            <input type="radio" name="draft_source" value="prompt" style="display:none;">
+            <span class="material-symbols-outlined" style="font-size:20px;color:var(--md-primary);">edit_note</span>
+            <span style="font-weight:500;">Custom</span>
+            <span style="font-size:0.7rem;color:var(--md-on-surface-variant);">Custom topic</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Spotlight feature selector -->
+      <div id="spotlightOptions" style="display:none;margin-bottom:16px;">
+        <label class="md-label" style="display:block;margin-bottom:6px;">Select Feature</label>
+        <select id="spotlightFeatureSelect" class="md-select" style="width:100%;">
+          <option value="">✨ Random / Smart Feature Spotlight</option>
+          <option value="canvas">Neby Canvas — Knowledge Maps</option>
+          <option value="3d_labs">Interactive 3D Labs & Simulations</option>
+          <option value="pdf_reader">Smart PDF Reader & Annotations</option>
+          <option value="study_spaces">Study Spaces & Focus Timers</option>
+          <option value="cosmetics_store">Cosmetics Store & Themes</option>
+          <option value="forum_community">Forum & Community Collaboration</option>
+        </select>
+      </div>
+
+      <!-- Custom topic input -->
+      <div id="customPromptOptions" style="display:none;margin-bottom:16px;">
+        <label class="md-label" style="display:block;margin-bottom:6px;">Topic / Announcement Notes</label>
+        <textarea id="customPromptText" class="md-input" rows="3" placeholder="e.g. Announce Grade 12 Model Question solutions with step-by-step video walkthroughs..." style="width:100%;resize:vertical;"></textarea>
+      </div>
+
+      <div style="margin-bottom:20px;">
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:0.875rem;">
+          <input type="checkbox" id="nebyPublishNow">
+          <span>Publish immediately (if unchecked, saves as Draft for your review)</span>
+        </label>
+      </div>
+
+      <div id="draftStatusMsg" style="display:none;padding:10px 14px;border-radius:10px;font-size:0.875rem;margin-bottom:16px;"></div>
+
+      <div style="display:flex;justify-content:flex-end;gap:10px;">
+        <button type="button" id="cancelDraftBtn" class="md-btn md-btn-text">Cancel</button>
+        <button type="submit" id="submitDraftBtn" class="md-btn md-btn-filled" style="display:inline-flex;align-items:center;gap:6px;">
+          <span class="material-symbols-outlined" style="font-size:18px;">auto_awesome</span>
+          <span>Generate Blog Draft</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const modal = document.getElementById('nebyDraftModal');
+  const openBtn = document.getElementById('openNebyDraftModalBtn');
+  const closeBtn = document.getElementById('closeNebyDraftModalBtn');
+  const cancelBtn = document.getElementById('cancelDraftBtn');
+  const form = document.getElementById('nebyDraftForm');
+  const cards = document.querySelectorAll('.neby-source-card');
+  const spotlightOpts = document.getElementById('spotlightOptions');
+  const customOpts = document.getElementById('customPromptOptions');
+  const statusMsg = document.getElementById('draftStatusMsg');
+  const submitBtn = document.getElementById('submitDraftBtn');
+
+  function openModal() {
+    modal.style.display = 'flex';
+    statusMsg.style.display = 'none';
+  }
+  function closeModal() {
+    modal.style.display = 'none';
+  }
+
+  if (openBtn) openBtn.addEventListener('click', openModal);
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  if (cancelBtn) cancelBtn.addEventListener('click', closeModal);
+
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) closeModal();
+  });
+
+  cards.forEach(card => {
+    card.addEventListener('click', function() {
+      cards.forEach(c => {
+        c.style.background = 'transparent';
+        c.style.borderColor = 'var(--md-outline-variant)';
+      });
+      this.style.background = 'var(--md-surface-variant)';
+      this.style.borderColor = 'var(--md-primary)';
+      const val = this.dataset.val;
+      const radio = this.querySelector('input[type="radio"]');
+      if (radio) radio.checked = true;
+
+      spotlightOpts.style.display = val === 'spotlight' ? 'block' : 'none';
+      customOpts.style.display = val === 'prompt' ? 'block' : 'none';
+    });
+  });
+
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const sourceRadio = form.querySelector('input[name="draft_source"]:checked');
+    const source = sourceRadio ? sourceRadio.value : 'git';
+    const featureId = document.getElementById('spotlightFeatureSelect').value;
+    const promptText = document.getElementById('customPromptText').value.trim();
+    const publish = document.getElementById('nebyPublishNow').checked;
+
+    if (source === 'prompt' && !promptText) {
+      statusMsg.style.display = 'block';
+      statusMsg.style.background = 'color-mix(in srgb, var(--md-error) 15%, transparent)';
+      statusMsg.style.color = 'var(--md-error)';
+      statusMsg.textContent = 'Please enter a topic or notes for Neby.';
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size:18px;animation:spin 1s linear infinite;">progress_activity</span> Generating with Motif 3 / Gemini...';
+    statusMsg.style.display = 'block';
+    statusMsg.style.background = 'color-mix(in srgb, var(--md-primary) 12%, transparent)';
+    statusMsg.style.color = 'var(--md-primary)';
+    statusMsg.textContent = 'Neby is reading updates and drafting rich markdown content. This takes ~5-10s...';
+
+    const csrfToken = form.querySelector('input[name="csrfmiddlewaretoken"]').value;
+
+    try {
+      const resp = await fetch("{% url 'web:admin_announcement_draft_neby' %}", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': csrfToken,
+        },
+        body: JSON.stringify({
+          source: source,
+          feature_id: featureId,
+          prompt: promptText,
+          publish: publish,
+        }),
+      });
+      const data = await resp.json();
+      if (data.success && data.edit_url) {
+        statusMsg.style.background = 'color-mix(in srgb, #22c55e 15%, transparent)';
+        statusMsg.style.color = '#16a34a';
+        statusMsg.textContent = 'Draft created! Redirecting to editor...';
+        setTimeout(() => {
+          window.location.href = data.edit_url;
+        }, 600);
+      } else {
+        throw new Error(data.error || 'Failed to generate blog draft');
+      }
+    } catch (err) {
+      statusMsg.style.background = 'color-mix(in srgb, var(--md-error) 15%, transparent)';
+      statusMsg.style.color = 'var(--md-error)';
+      statusMsg.textContent = err.message || 'Error occurred while generating.';
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size:18px;">auto_awesome</span> Generate Blog Draft';
+    }
+  });
+});
+</script>
+<style>
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes modalIn { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+</style>
 {% endblock %}
