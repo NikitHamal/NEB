@@ -303,13 +303,21 @@ def call_ai_api(system_prompt, user_message, config=None):
     fallbacks = config.get_fallback_chain()
     if not fallbacks:
         fallbacks = [
+            {'provider': 'motiftech', 'model': 'motif-12-7b-reasoning'},
+            {'provider': 'motiftech', 'model': 'motif-102b'},
             {'provider': 'geminiweb', 'model': 'geminiweb/gemini-flash-lite'},
+            {'provider': 'tryingopen', 'model': 'qwen/qwen3.8-27b'},
+            {'provider': 'tryingopen', 'model': 'deepseek/deepseek-v4-flash-0731'},
+            {'provider': 'tryingopen', 'model': 'z-ai/glm-5.3'},
             {'provider': 'poolside', 'model': 'laguna-s-2.1'},
             {'provider': 'k2think', 'model': 'MBZUAI-IFM/K2-Think-v2'},
         ]
     for entry in fallbacks:
         provider = (entry.get('provider') or '').strip().lower()
-        if not provider or provider == config.provider:
+        model_name = (entry.get('model') or '').strip()
+        if not provider:
+            continue
+        if provider == config.provider and model_name == config.model:
             continue
         fallback_cfg = BotConfig(
             provider=provider,

@@ -45,6 +45,15 @@ def ensure_bot_user(username=NEBY_USERNAME, display_name=NEBY_DISPLAY_NAME):
 
 def ensure_bot_config(username=NEBY_USERNAME, display_name=NEBY_DISPLAY_NAME, enabled=True):
     username = (username or NEBY_USERNAME).strip().lower()
+    default_chain = (
+        '[{"provider": "motiftech", "model": "motif-12-7b-reasoning"}, '
+        '{"provider": "motiftech", "model": "motif-102b"}, '
+        '{"provider": "tryingopen", "model": "qwen/qwen3.8-27b"}, '
+        '{"provider": "tryingopen", "model": "deepseek/deepseek-v4-flash-0731"}, '
+        '{"provider": "tryingopen", "model": "z-ai/glm-5.3"}, '
+        '{"provider": "poolside", "model": "laguna-s-2.1"}, '
+        '{"provider": "k2think", "model": "MBZUAI-IFM/K2-Think-v2"}]'
+    )
     config, created = BotConfig.objects.get_or_create(
         bot_username__iexact=username,
         defaults={
@@ -53,7 +62,7 @@ def ensure_bot_config(username=NEBY_USERNAME, display_name=NEBY_DISPLAY_NAME, en
             'display_name': display_name or username.capitalize(),
             'provider': 'geminiweb',
             'model': 'geminiweb/gemini-flash-lite',
-            'fallback_chain_json': '[{"provider": "poolside", "model": "laguna-s-2.1"}]',
+            'fallback_chain_json': default_chain,
             'enabled': enabled,
             'system_prompt': NEBY_SYSTEM_PROMPT if username == NEBY_USERNAME else '',
         },
@@ -63,8 +72,9 @@ def ensure_bot_config(username=NEBY_USERNAME, display_name=NEBY_DISPLAY_NAME, en
         if not config.provider or config.provider == 'qwen':
             config.provider = 'geminiweb'
             config.model = 'geminiweb/gemini-flash-lite'
-            config.fallback_chain_json = '[{"provider": "poolside", "model": "laguna-s-2.1"}]'
             changed = True
+        config.fallback_chain_json = default_chain
+        changed = True
         if config.system_prompt != NEBY_SYSTEM_PROMPT:
             config.system_prompt = NEBY_SYSTEM_PROMPT
             changed = True
