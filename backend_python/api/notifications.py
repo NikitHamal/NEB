@@ -691,11 +691,13 @@ def has_at_all(text):
     return bool(re.search(r'(?<!\w)@all(?!\w)', text or '', re.IGNORECASE))
 
 def send_mention_all_if_eligible(user, text, target_type, target_id='', message=''):
-    """If user is admin/moderator and text contains @all, notify all users."""
+    """If user is admin/moderator/bot and text contains @all, notify all users."""
     if not has_at_all(text):
         return
     is_mod = getattr(user, 'moderator_level', 0) or 0
-    if not getattr(user, 'is_admin', False) and is_mod < 1:
+    is_admin = getattr(user, 'is_admin', False)
+    is_bot = getattr(user, 'is_bot', False)
+    if not is_admin and is_mod < 1 and not is_bot:
         return
     notify_mention_all(user.id, target_type, target_id, message)
 
