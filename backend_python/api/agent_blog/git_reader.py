@@ -83,7 +83,13 @@ def get_recent_commits(limit: int = 35, repo_dir: str = None) -> List[Dict[str, 
 def format_commits_for_prompt(commits: List[Dict[str, str]], max_items: int = 15) -> str:
     """Format commits into a human-readable list for LLM context."""
     if not commits:
-        return "Recent updates across the NEBians platform (UI improvements, performance optimizations, and study tool enhancements)."
+        return (
+            "- Neby Canvas: Living knowledge maps, interactive concept reasoning, and markdown notes.\n"
+            "- Interactive 3D Labs: Physics mechanics, Optics, and Biology 3D simulations.\n"
+            "- Smart PDF Viewer: In-book highlighting, bookmarks, and offline study materials.\n"
+            "- Study Spaces & Focus Timers: Pomodoro sessions and peer collaborative rooms.\n"
+            "- Cosmetics Store: Dynamic Material 3 themes, animated profile banners, and subject badges."
+        )
 
     lines = []
     for c in commits[:max_items]:
