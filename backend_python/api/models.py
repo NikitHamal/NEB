@@ -832,6 +832,7 @@ class BotConfig(models.Model):
     """
     PROVIDER_CHOICES = [
         ('qwen', 'Qwen (chat.qwen.ai)'),
+        ('tryingopen', 'TryingOpen (tryingopen.com — 16 open models, free)'),
         ('longcat', 'LongCat (longcat.chat — free, no login)'),
         ('geminiweb', 'Gemini Web (gemini.google.com — anonymous Flash-Lite)'),
         ('egov', 'eGov Chat AI (Philippines)'),
@@ -973,6 +974,7 @@ class ArenaChatSession(models.Model):
     """
     PROVIDER_CHOICES = [
         ('qwen', 'Qwen (chat.qwen.ai)'),
+        ('tryingopen', 'TryingOpen (tryingopen.com — 16 open models, free)'),
         ('egov', 'eGov Chat AI (Philippines)'),
         ('deepai', 'DeepAI (deepai.org)'),
         ('inception', 'Inception Labs (Mercury 2)'),
