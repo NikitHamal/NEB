@@ -198,3 +198,52 @@ def admin_announcement_edit(request, announcement_id=None):
         'categories': [{'key': k, 'label': v['label'], 'icon': v['icon']} for k, v in CATEGORY_META.items()],
         'errors': [],
     })
+
+
+def admin_announcement_draft_neby(request):
+    """AJAX endpoint to trigger Neby AI blog post drafting."""
+    redirect_response = _require_staff_admin(request)
+    if redirect_response:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+    import json
+    try:
+        data = json.loads(request.body.decode('utf-8')) if request.body else request.POST
+    except Exception:
+        data = request.POST
+
+    source = (data.get('source') or 'git').strip().lower()
+    prompt = (data.get('prompt') or '').strip()
+    feature_id = (data.get('feature_id') or '').strip()
+    publish = bool(data.get('publish', False))
+
+    from api.agent_blog import services as blog_services
+
+    ann = None
+    if source == 'git':
+        ann = blog_services.draft_blog_from_git(publish=publish)
+    elif source == 'spotlight':
+        ann = blog_services.draft_blog_from_spotlight(feature_id=feature_id or None, publish=publish)
+    elif source == 'prompt' and prompt:
+        ann = blog_services.draft_blog_from_prompt(prompt_text=prompt, publish=publish)
+    else:
+        ann = blog_services.draft_blog_from_git(publish=publish)
+
+    if not ann:
+        return JsonResponse({'error': 'Failed to generate blog draft with Neby. Please try again.'}, status=500)
+
+    _clear_news_cache()
+    from django.urls import reverse
+    return JsonResponse({
+        'success': True,
+        'announcement_id': ann.id,
+        'title': ann.title,
+        'slug': ann.slug,
+        'summary': ann.summary,
+        'category': ann.category,
+        'tags': ann.tags,
+        'edit_url': reverse('web:admin_announcement_edit', kwargs={'announcement_id': ann.id}),
+    })

@@ -103,6 +103,7 @@ class AgentAction(models.Model):
         ('like_reply', 'Like reply'),
         ('follow', 'Follow'),
         ('unfollow', 'Unfollow'),
+        ('draft_blog', 'Draft blog'),
         ('tick', 'Heartbeat tick'),
         ('skip', 'Skip'),
     ]
