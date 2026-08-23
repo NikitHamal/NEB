@@ -26,10 +26,7 @@ CHAT_ENDPOINT = f"{MOTIF_URL}/api/v1/enterprise/chat"
 REQUEST_TIMEOUT = 300
 
 MODELS = [
-    {"id": "motif-102b", "name": "Motif 3", "reasoning": False, "vision": False, "web_search": False},
-    {"id": "motif-12-7b", "name": "Motif 12.7B", "reasoning": False, "vision": False, "web_search": False},
-    {"id": "motif-12-7b-reasoning", "name": "Motif 12.7B Reasoning", "reasoning": True, "vision": False, "web_search": False},
-    {"id": "motif-tiny", "name": "Motif Tiny", "reasoning": False, "vision": False, "web_search": False},
+    {"id": "motif-102b", "name": "Motif 3", "reasoning": True, "vision": False, "web_search": False},
 ]
 
 MODEL_MAP = {m["id"]: m for m in MODELS}
@@ -69,7 +66,7 @@ def stream_chat(
     messages: List[Dict[str, str]],
     model: str = "motif-102b",
     conversation_id: Optional[str] = None,
-    reasoning_effort: str = "small",
+    reasoning_effort: str = "high",
 ) -> Generator[Dict, None, None]:
     """Stream a chat turn. Yields dicts: text / done / error.
 
@@ -167,6 +164,7 @@ def simple_chat(
     model: str = "motif-102b",
     system_prompt: str = "",
     max_tokens: int = 500,
+    reasoning_effort: str = "high",
     **kwargs,
 ) -> Optional[str]:
     messages = []
@@ -175,7 +173,7 @@ def simple_chat(
     messages.append({"role": "user", "content": user_message})
 
     collected = []
-    for chunk in stream_chat(messages=messages, model=model):
+    for chunk in stream_chat(messages=messages, model="motif-102b", reasoning_effort=reasoning_effort):
         t = chunk.get("type")
         if t == "text":
             collected.append(chunk.get("content", ""))
