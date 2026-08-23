@@ -251,56 +251,53 @@ def _call_single_provider(system_prompt, user_message, config):
             system_prompt=system_prompt or '',
             max_tokens=max_tokens,
         )
-    if provider == 'geminiweb':
+    if provider == 'geminiweb' or not provider:
         from . import geminiweb_proxy
         return geminiweb_proxy.simple_chat(
             user_message=user_message,
-            model=config.model or geminiweb_proxy.MODELS[0]["id"],
+            model=config.model if (config.model and 'gemini' in config.model) else geminiweb_proxy.MODELS[0]["id"],
             system_prompt=system_prompt or '',
             max_tokens=max_tokens,
         )
-    if provider == 'custom':
-        from .custom_provider import call_custom
-        return call_custom(
-            api_url=config.api_url or '',
-            api_key=config.api_key or '',
-            model=config.model or '',
-            system_prompt=system_prompt or '',
-            user_message=user_message,
-            max_tokens=max_tokens,
-        )
-    # default: qwen
-    from .qwen_proxy import call_qwen
-    model = config.model or 'qwen3.8-max'
-    return call_qwen(system_prompt, user_message, model=model, max_tokens=max_tokens)
+    if provider == 'qwen':
+        from .qwen_proxy import call_qwen
+        model = config.model or 'qwen3.8-max'
+        return call_qwen(system_prompt, user_message, model=model, max_tokens=max_tokens)
+    # default fallback: geminiweb
+    from . import geminiweb_proxy
+    return geminiweb_proxy.simple_chat(
+        user_message=user_message,
+        model=geminiweb_proxy.MODELS[0]["id"],
+        system_prompt=system_prompt or '',
+        max_tokens=max_tokens,
+    )
 
 
 def call_ai_api(system_prompt, user_message, config=None):
     """Dispatch to the configured AI provider, walking the bot's fallback
     chain when the primary provider fails.
-
-    Supports:
-      - 'qwen'      → Qwen web chat (chat.qwen.ai), via qwen_proxy.call_qwen
-      - 'egov'      → eGov Chat AI (Philippines), via egov_proxy.simple_chat
-      - 'inception' → Inception Labs (Mercury 2 diffusion LLM)
-      - 'custom'    → any OpenAI-compatible /chat/completions endpoint
-      - 'agnes' / 'openai' / 'anthropic' / 'gemini' / 'deepseek'
-                    → official APIs via the shared api.llm client
-    Returns response text or None.
     """
     if config is None:
         config = BotConfig.objects.filter(enabled=True).first()
         if not config:
-            return None
+            config = BotConfig(provider='geminiweb', model='geminiweb/gemini-flash-lite')
     try:
         text = _call_single_provider(system_prompt, user_message, config)
         if text:
             return text
     except Exception as exc:
         logger.warning('neby: primary provider %s failed: %s', config.provider, exc)
-    for entry in config.get_fallback_chain():
+    
+    fallbacks = config.get_fallback_chain()
+    if not fallbacks:
+        fallbacks = [
+            {'provider': 'geminiweb', 'model': 'geminiweb/gemini-flash-lite'},
+            {'provider': 'poolside', 'model': 'laguna-s-2.1'},
+            {'provider': 'k2think', 'model': 'MBZUAI-IFM/K2-Think-v2'},
+        ]
+    for entry in fallbacks:
         provider = (entry.get('provider') or '').strip().lower()
-        if not provider:
+        if not provider or provider == config.provider:
             continue
         fallback_cfg = BotConfig(
             provider=provider,
