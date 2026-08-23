@@ -205,12 +205,28 @@ fun InlineImageField(
     val emPx = with(density) { textStyle.fontSize.toPx() }
     val minChipHeightPx = with(density) { INLINE_CHIP_MIN_HEIGHT_DP.dp.toPx() }
 
+    val hasInlineImages = remember(value.text) { InlineImageTokens.countTokens(value.text) > 0 }
+    val editorTextStyle = remember(textStyle, hasInlineImages, density) {
+        if (!hasInlineImages) {
+            textStyle
+        } else {
+            val chipFromFont = textStyle.fontSize * (INLINE_CHIP_HEIGHT_EM + 0.15f)
+            val chipMin = with(density) { INLINE_CHIP_MIN_HEIGHT_DP.dp.toSp() } * 1.15f
+            val chipLine =
+                if (chipFromFont.isSp && chipMin.isSp && chipFromFont.value < chipMin.value) chipMin else chipFromFont
+            val current = textStyle.lineHeight
+            val lineHeight =
+                if (current.isSp && current.value >= chipLine.value) current else chipLine
+            textStyle.copy(lineHeight = lineHeight)
+        }
+    }
+
     Box(modifier = modifier) {
         BasicTextField(
             value = value,
             onValueChange = onValueChange,
             enabled = enabled,
-            textStyle = textStyle.copy(color = MaterialTheme.colorScheme.onSurface),
+            textStyle = editorTextStyle.copy(color = MaterialTheme.colorScheme.onSurface),
             cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
             minLines = minLines,
             maxLines = maxLines,
@@ -221,7 +237,7 @@ fun InlineImageField(
                     if (value.text.isEmpty() && placeholder.isNotEmpty()) {
                         Text(
                             text = placeholder,
-                            style = textStyle.copy(color = MaterialTheme.colorScheme.onSurfaceVariant),
+                            style = editorTextStyle.copy(color = MaterialTheme.colorScheme.onSurfaceVariant),
                             maxLines = 1
                         )
                     }
@@ -298,7 +314,7 @@ fun InlineImageField(
 }
 
 private const val INLINE_CHIP_HEIGHT_EM = 2.1f
-private const val INLINE_CHIP_MAX_WIDTH_EM = 7f
+private const val INLINE_CHIP_MAX_WIDTH_EM = 5.5f
 private const val INLINE_CHIP_MIN_HEIGHT_DP = 36f
 
 @Composable
