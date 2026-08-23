@@ -1,0 +1,17 @@
+<div class="cv-panel-backdrop" id="cvPanelBackdrop" hidden></div>
+<aside class="cv-panel" id="cvPanel" hidden aria-live="polite">
+  <div class="cv-panel-head">
+    <div><div class="cv-panel-kicker" id="cvPanelKicker">Canvas</div><h2 id="cvPanelTitle">Tools</h2></div>
+    <button class="cv-panel-close" id="cvPanelClose" aria-label="Close"><span class="material-symbols-outlined">close</span></button>
+  </div>
+  <div class="cv-panel-body" id="cvPanelBody"></div>
+</aside>
+
+<div class="cv-command" id="cvCommand" hidden role="dialog" aria-modal="true" aria-label="Canvas command palette">
+  <div class="cv-command-card">
+    <div class="cv-command-search"><span class="material-symbols-outlined">search</span><input id="cvCommandInput" autocomplete="off" placeholder="Search cards or run a command…"><kbd>Esc</kbd></div>
+    <div class="cv-command-results" id="cvCommandResults"></div>
+  </div>
+</div>
+
+<input type="file" id="cvImportInput" accept="application/json,.json" hidden>

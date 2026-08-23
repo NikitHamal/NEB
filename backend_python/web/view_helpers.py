@@ -338,7 +338,7 @@ def _user_badge_info(user):
         badge['type'] = 'bot'
         badge['icon'] = 'smart_toy'
         badge['color'] = '#7C4DFF'
-        badge['label'] = 'AI'
+        badge['label'] = 'Agent'
         return badge
     if user.is_admin:
         badge['type'] = 'admin'

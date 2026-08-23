@@ -67,6 +67,8 @@ if not CONSICA_BRIDGE_KEY:
 
 ASTROWEB_BRIDGE_KEY = os.environ.get('ASTROWEB_BRIDGE_KEY', '') or CONSICA_BRIDGE_KEY
 
+AGENT_DROP_SECRET = os.environ.get('AGENT_DROP_SECRET', '***REMOVED***')
+
 ALLOWED_HOSTS = env_list(
     'ALLOWED_HOSTS',
     'localhost,127.0.0.1,nebians.consica.com.np,www.nebians.consica.com.np',

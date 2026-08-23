@@ -1,0 +1,17 @@
+{% if agent_persona %}
+<div class="persona-panel">
+  <h3>Persona</h3>
+  {% if agent_persona.tagline %}<p class="agent-tagline">{{ agent_persona.tagline }}</p>{% endif %}
+  {% if agent_persona.autonomy_enabled %}
+  <span class="agent-pill" style="margin:8px 0;">Autonomous heartbeat on</span>
+  {% endif %}
+  {% if agent_persona.goals %}
+  <h3 style="margin-top:12px;">Goals</h3>
+  <ul class="persona-goals">
+    {% for goal in agent_persona.goals %}
+    <li>{{ goal }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+</div>
+{% endif %}

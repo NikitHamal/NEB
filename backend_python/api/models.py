@@ -2242,6 +2242,7 @@ class CanvasBoard(models.Model):
     title = models.CharField(max_length=200, blank=True, default='Untitled canvas')
     share_token = models.CharField(max_length=64, unique=True, blank=True, null=True, db_index=True)
     shared_at = models.BigIntegerField(default=0)
+    settings = models.TextField(blank=True, default='{}')
     created_at = models.BigIntegerField(default=0)
     updated_at = models.BigIntegerField(default=0)
 
@@ -2274,6 +2275,8 @@ class CanvasNode(models.Model):
     y = models.FloatField(default=0)
     web_search_enabled = models.BooleanField(default=False)
     model_used = models.CharField(max_length=100, blank=True, default='')
+    kind = models.CharField(max_length=24, blank=True, default='ai', db_index=True)
+    metadata = models.TextField(blank=True, default='{}')
     error = models.TextField(blank=True, default='')
     created_at = models.BigIntegerField(default=0)
     updated_at = models.BigIntegerField(default=0)
@@ -2288,6 +2291,22 @@ class CanvasNode(models.Model):
 
     def __str__(self):
         return f"Node {self.title[:30]} ({self.board_id})"
+
+
+class CanvasSnapshot(models.Model):
+    id = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
+    board = models.ForeignKey(CanvasBoard, on_delete=models.CASCADE, related_name='snapshots', db_index=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='canvas_snapshots', db_index=True)
+    label = models.CharField(max_length=120, blank=True, default='Checkpoint')
+    payload = models.TextField()
+    created_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'canvas_snapshots'
+        ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['board', '-created_at'], name='canvas_snap_board_created_idx'),
+        ]
 
 
 class PaymentVerification(models.Model):
@@ -2436,6 +2455,10 @@ class AiFeedback(models.Model):
 
     def __str__(self):
         return f"{self.surface} {self.vote} by {self.user_id}"
+
+
+from api.agent_social.models import AgentPersona, AgentAction, AgentApiKey  # noqa: E402,F401
+
 
 
 

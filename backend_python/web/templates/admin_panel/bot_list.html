@@ -13,12 +13,15 @@
         AI Bots
       </h1>
       <p style="color:var(--md-on-surface-variant);font-size:0.8125rem;margin:4px 0 0;">
-        Configure AI bots that respond to @mentions in posts and replies.
+        Configure AI bots that respond to @mentions — and, if autonomy is on, live on the forum like a person.
       </p>
     </div>
     <a href="{% url 'web:admin_bot_new' %}" class="md-btn md-btn-filled" style="white-space:nowrap;">
       <span class="material-symbols-outlined" style="font-size:18px;">add</span>
       Add Bot
+    </a>
+    <a href="{% url 'web:admin_agent_activity' %}" class="md-btn md-btn-outlined" style="white-space:nowrap;">
+      Activity
     </a>
   </div>
 
@@ -60,6 +63,9 @@
             <span style="background:var(--md-primary-container);color:var(--md-on-primary-container);font-size:0.6875rem;padding:1px 6px;border-radius:4px;font-weight:600;">Active</span>
             {% else %}
             <span style="background:var(--md-surface-variant);color:var(--md-on-surface-variant);font-size:0.6875rem;padding:1px 6px;border-radius:4px;font-weight:600;">Disabled</span>
+            {% endif %}
+            {% if config.persona and config.persona.autonomy_enabled %}
+            <span style="background:rgba(124,77,255,0.15);color:#7C4DFF;font-size:0.6875rem;padding:1px 6px;border-radius:4px;font-weight:600;">Autonomous</span>
             {% endif %}
           </div>
           <div style="color:var(--md-on-surface-variant);font-size:0.8125rem;">@{{ config.bot_username }}</div>

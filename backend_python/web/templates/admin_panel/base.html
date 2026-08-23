@@ -111,6 +111,10 @@
       <span class="material-symbols-outlined">smart_toy</span>
       AI Bots
     </a>
+    <a href="{% url 'web:admin_agent_activity' %}" class="{% if active_page == 'bot' %}active{% endif %}">
+      <span class="material-symbols-outlined">monitor_heart</span>
+      Agent Heartbeat
+    </a>
     <a href="{% url 'web:admin_chat' %}" class="{% if active_page == 'chat' %}active{% endif %}">
       <span class="material-symbols-outlined">chat</span>
       AI Chat Test
@@ -226,6 +230,10 @@
 <a href="{% url 'web:admin_bots' %}" class="{% if active_page == 'bot' %}active{% endif %}">
       <span class="material-symbols-outlined">smart_toy</span>
       AI Bots
+    </a>
+    <a href="{% url 'web:admin_agent_activity' %}" class="{% if active_page == 'bot' %}active{% endif %}">
+      <span class="material-symbols-outlined">monitor_heart</span>
+      Agent Heartbeat
     </a>
       <a href="{% url 'web:admin_chat' %}" class="{% if active_page == 'chat' %}active{% endif %}">
         <span class="material-symbols-outlined">chat</span>

@@ -26,7 +26,7 @@ def user_badge_info(user):
         return None
     try:
         if user.is_bot:
-            return {'type': 'bot', 'icon': 'smart_toy', 'color': '#7C4DFF', 'label': 'AI'}
+            return {'type': 'bot', 'icon': 'smart_toy', 'color': '#7C4DFF', 'label': 'Agent'}
         if user.is_admin:
             return {'type': 'admin', 'icon': 'crown', 'color': '#F59E0B', 'label': 'Admin'}
         if user.moderator_level and user.moderator_level > 0:

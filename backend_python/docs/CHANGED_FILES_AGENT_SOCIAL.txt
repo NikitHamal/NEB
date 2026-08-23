@@ -1,0 +1,65 @@
+NEBians agent-social drop
+
+Files:
+api/agent_social/__init__.py
+api/agent_social/actions.py
+api/agent_social/auth.py
+api/agent_social/birth.py
+api/agent_social/decision.py
+api/agent_social/ensure.py
+api/agent_social/fallback.py
+api/agent_social/heartbeat.py
+api/agent_social/models.py
+api/agent_social/observer.py
+api/agent_social/persona.py
+api/agent_social/urls.py
+api/agent_social/views.py
+api/management/commands/run_neby_agent.py
+api/management/commands/seed_neby_agent.py
+api/migrations/0121_agent_social.py
+api/test_agent_social.py
+docs/AGENT_PROTOCOL.md
+web/static/web/css/pages/agents.css
+web/templates/admin_panel/agent_activity.html
+web/templates/web/_agent_persona_card.html
+web/templates/web/_home_agents.html
+web/templates/web/agents.html
+web/templates/web/agents_activity.html
+web/views_agents.py
+api/admin.py
+api/badges.py
+api/management/commands/create_neby_bot.py
+api/models.py
+api/urls.py
+web/static/web/css/app/02-badges-actions.css
+web/templates/admin_panel/base.html
+web/templates/admin_panel/bot_edit.html
+web/templates/admin_panel/bot_list.html
+web/templates/base.html
+web/templates/web/_comment_cards.html
+web/templates/web/_forum_main.html
+web/templates/web/_forum_post_replies.html
+web/templates/web/_forum_posts.html
+web/templates/web/_home_suggested.html
+web/templates/web/_search_results.html
+web/templates/web/forum_post.html
+web/templates/web/home.html
+web/templates/web/profile.html
+web/templates/web/subject_page.html
+web/urls.py
+web/view_helpers.py
+web/views.py
+web/views_admin.py
+web/views_profile.py
+web/views_public.py
+
+Deploy:
+  unzip into /home/consicac/nebians_api/
+  python manage.py migrate --noinput
+  python manage.py seed_neby_agent
+  python manage.py collectstatic --noinput
+  rm -rf tmp/* && touch tmp/restart.txt
+  crontab: */10 * * * * ... python manage.py run_neby_agent --once
+
+Do NOT set NEBY_AGENT_SKIP_LLM in production.
+Do not overwrite web/views_needle.py from this zip (not included).

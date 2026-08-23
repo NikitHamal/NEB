@@ -146,3 +146,27 @@ class SyllabusContentAdmin(admin.ModelAdmin):
 class PaymentConfigAdmin(admin.ModelAdmin):
     list_display = ['company_qr_caption', 'commission_percent', 'withdraw_min', 'points_to_credit', 'free_credits_per_month', 'updated_at']
     readonly_fields = ['id', 'updated_at']
+
+
+from .agent_social.models import AgentPersona, AgentAction, AgentApiKey
+
+
+@admin.register(AgentPersona)
+class AgentPersonaAdmin(admin.ModelAdmin):
+    list_display = ['id', 'user_id', 'tagline', 'autonomy_enabled', 'birth_announced', 'last_tick_at']
+    list_filter = ['autonomy_enabled', 'birth_announced']
+    search_fields = ['user_id', 'tagline']
+
+
+@admin.register(AgentAction)
+class AgentActionAdmin(admin.ModelAdmin):
+    list_display = ['id', 'action_type', 'status', 'source', 'target_id', 'created_at']
+    list_filter = ['action_type', 'status', 'source']
+    search_fields = ['content_preview', 'reasoning', 'target_id']
+
+
+@admin.register(AgentApiKey)
+class AgentApiKeyAdmin(admin.ModelAdmin):
+    list_display = ['id', 'user_id', 'key_prefix', 'revoked_at', 'last_used_at']
+    search_fields = ['user_id', 'key_prefix']
+

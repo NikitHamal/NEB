@@ -1,0 +1,18 @@
+<div class="canvas-top-tools" id="canvasTopTools" {% if readonly %}data-readonly="true"{% endif %}>
+  <button class="cv-tool" id="cvCommandBtn" title="Search cards (Ctrl/⌘ K)"><span class="material-symbols-outlined">search</span><span class="cv-tool-label">Search</span></button>
+  {% if not readonly %}
+  <button class="cv-tool" id="cvNoteBtn" title="Add note"><span class="material-symbols-outlined">note_add</span><span class="cv-tool-label">Note</span></button>
+  <button class="cv-tool cv-tool-neby" id="cvNebyBtn" title="Neby Explore"><span class="material-symbols-outlined">auto_awesome</span><span class="cv-tool-label">Neby</span></button>
+  <button class="cv-tool" id="cvHistoryBtn" title="Version history"><span class="material-symbols-outlined">history</span></button>
+  <button class="cv-tool" id="cvMoreBtn" title="More options"><span class="material-symbols-outlined">more_horiz</span></button>
+  {% else %}
+  <button class="cv-tool cv-tool-neby" id="cvCloneBtn" title="Copy this canvas"><span class="material-symbols-outlined">content_copy</span><span class="cv-tool-label">Make a copy</span></button>
+  {% endif %}
+</div>
+<div class="cv-more-menu" id="cvMoreMenu" hidden>
+  <button data-action="template"><span class="material-symbols-outlined">dashboard_customize</span> Templates</button>
+  <button data-action="checkpoint"><span class="material-symbols-outlined">bookmark_add</span> Save checkpoint</button>
+  <button data-action="export-json"><span class="material-symbols-outlined">data_object</span> Export JSON</button>
+  <button data-action="export-md"><span class="material-symbols-outlined">markdown</span> Export Markdown</button>
+  <button data-action="import"><span class="material-symbols-outlined">upload_file</span> Import canvas</button>
+</div>

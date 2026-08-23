@@ -4,13 +4,14 @@
 
   var SKIP_SELECTOR = '[data-neb-skip],#neby-input,#chat-input,#bs-followup,#ba-goal,'
     + '#agent_chat_input,#agent_new_task,#agent_home_task_input,'
-    + '#ssTutorQuestion,#cbAiInput,.ss-ai-input,.cb-ai-input';
+    + '#ssTutorQuestion,#cbAiInput,.ss-ai-input,.cb-ai-input,'
+    + '.reply-input-wrapper textarea,.reply-input-wrapper,#mainReplyContent,#threadSidebarTextarea,#threadSheetTextarea';
 
   function isSkipped(el) {
     if (!el || el.nodeType !== 1) return false;
     if (el.hasAttribute && el.hasAttribute('data-neb-skip')) return true;
     try {
-      if (el.closest && el.closest('[data-neb-skip]')) return true;
+      if (el.closest && (el.closest('[data-neb-skip]') || el.closest('.reply-input-wrapper') || el.closest('.fp-compose'))) return true;
       if (el.matches && el.matches(SKIP_SELECTOR)) return true;
     } catch (_) {}
     return false;

@@ -265,6 +265,11 @@ def profile(request, username):
     if not profile_private and not profile_user.is_bot:
         social_links_data = get_user_links(profile_user.id)
 
+    agent_persona = None
+    if profile_user.is_bot:
+        from api.agent_social.models import AgentPersona
+        agent_persona = AgentPersona.objects.filter(user_id=profile_user.id).first()
+
     return render(request, 'web/profile.html', _ctx(request,
         profile_user=profile_data,
         username=username,
@@ -284,6 +289,7 @@ def profile(request, username):
         seller_balance=seller_balance,
         sales_history=sales_history,
         withdrawal_history=withdrawal_history,
+        agent_persona=agent_persona,
     ))
 
 
