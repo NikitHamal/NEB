@@ -51,13 +51,21 @@ def ensure_bot_config(username=NEBY_USERNAME, display_name=NEBY_DISPLAY_NAME, en
             'name': display_name or username.capitalize(),
             'bot_username': username,
             'display_name': display_name or username.capitalize(),
+            'provider': 'geminiweb',
+            'model': 'geminiweb/gemini-flash-lite',
+            'fallback_chain_json': '[{"provider": "poolside", "model": "laguna-s-2.1"}]',
             'enabled': enabled,
             'system_prompt': NEBY_SYSTEM_PROMPT if username == NEBY_USERNAME else '',
         },
     )
     changed = False
-    if username == NEBY_USERNAME and (not config.system_prompt or 'autonomous' not in config.system_prompt.lower()):
-        if 'language model' in (config.system_prompt or '') or not config.system_prompt:
+    if username == NEBY_USERNAME:
+        if not config.provider or config.provider == 'qwen':
+            config.provider = 'geminiweb'
+            config.model = 'geminiweb/gemini-flash-lite'
+            config.fallback_chain_json = '[{"provider": "poolside", "model": "laguna-s-2.1"}]'
+            changed = True
+        if config.system_prompt != NEBY_SYSTEM_PROMPT:
             config.system_prompt = NEBY_SYSTEM_PROMPT
             changed = True
     if enabled and not config.enabled:

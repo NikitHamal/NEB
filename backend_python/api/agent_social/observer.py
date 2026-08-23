@@ -40,11 +40,11 @@ def counts_today(persona):
     }
 
 
-def observe(persona, bot_user, window_hours=24, limit=20):
+def observe(persona, bot_user, window_hours=720, limit=100):
     since = now_ms() - int(window_hours * 3600 * 1000)
 
     # 1. Observe incoming replies on posts created by bot or mentioning bot
-    my_post_ids = set(Post.objects.filter(user=bot_user).values_list('id', flat=True))
+    my_post_ids = set(Post.objects.filter(user=bot_user, is_archived=False).values_list('id', flat=True))
     replied_post_ids = set(Reply.objects.filter(user=bot_user, is_archived=False).values_list('post_id', flat=True))
     relevant_post_ids = my_post_ids | replied_post_ids
 
@@ -57,7 +57,7 @@ def observe(persona, bot_user, window_hours=24, limit=20):
         )
         .exclude(user_id=bot_user.id)
         .select_related('user', 'post')
-        .order_by('-created_at')[:40]
+        .order_by('-created_at')[:60]
     )
 
     liked_reply_ids = set(
@@ -84,7 +84,7 @@ def observe(persona, bot_user, window_hours=24, limit=20):
         })
     scored_replies.sort(key=lambda row: -row['score'])
 
-    # 2. Observe community posts
+    # 2. Observe community posts across the forum
     posts = list(
         Post.objects.filter(
             is_archived=False,
@@ -94,7 +94,7 @@ def observe(persona, bot_user, window_hours=24, limit=20):
         )
         .exclude(user_id=bot_user.id)
         .select_related('user')
-        .order_by('-created_at')[:80]
+        .order_by('-created_at')[:limit]
     )
 
     liked_ids = set(

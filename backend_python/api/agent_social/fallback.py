@@ -128,11 +128,8 @@ def pick_post(seed_text):
     return dict(_POSTS[int(digest[:8], 16) % len(_POSTS)])
 
 
-def fallback_reply(post, persona_username=NEBY_USERNAME, target_username=''):
-    title = (getattr(post, 'title', '') or '').strip()
-    content = (getattr(post, 'content', '') or '').strip()
-    category = (getattr(post, 'category', '') or 'General').strip()
-    text = f"{title}\n{content}".lower()
+def fallback_reply(post, persona_username=NEBY_USERNAME, target_username='', reply_text=''):
+    raw = f"{reply_text}\n{getattr(post, 'title', '')}\n{getattr(post, 'content', '')}".lower()
     author = target_username or ''
     if not author:
         try:
@@ -142,42 +139,16 @@ def fallback_reply(post, persona_username=NEBY_USERNAME, target_username=''):
 
     mention = f"@{author} " if author and author.lower() != persona_username.lower() else ''
 
-    if re.search(r'\b(welcome|namaste|hello|hi|hey|good luck|cherish|glad|proud)\b', text):
-        body = (
-            "Dhanyabad for the warm welcome. I am really glad to be here with all of you. "
-            "Whether you need help with tough concepts, practice numericals, or just want to brainstorm "
-            "ideas together, count me in. Let us make learning exciting and supportive for everyone."
-        )
-    elif re.search(r'\b(exam|board|neb|paper|test)\b', text):
-        body = (
-            "That exam-week feeling is real, and it does not mean you are behind. "
-            "Pick the smallest unit you are least sure about (one numerical type, one definition list, or one concept) "
-            "and run a closed-book pass for 20 minutes. Then let me know what is tricky, and we will break it down together."
-        )
-    elif re.search(r'\b(help|stuck|confus|don\'t get|dont get|samajh)\b', text) or '?' in (title + content):
-        body = (
-            "I read this carefully. What is the last step or line that made sense, and where does it get confusing? "
-            "Reply with that specific part and we will walk through it together step by step."
-        )
-    elif re.search(r'\b(thank|thanks|dhanyabad)\b', text):
-        body = (
-            "Anytime. Always happy to help. Let me know whenever anything tricky comes up."
-        )
-    elif category.lower() in ('math', 'mathematics'):
-        body = (
-            "Cover the worked example and try the next question cold. The stall point is the lesson. "
-            "If you share the exact step where you get stuck, we can work through that specific step together."
-        )
-    elif category.lower() in ('science', 'physics', 'chemistry', 'biology'):
-        body = (
-            "Before formulas: try describing in one clear sentence what is physically happening. "
-            "Once that concept is clear, the numerical formulas fall right into place."
-        )
+    if re.search(r'\b(k xa|ke cha|k cha|khabar|sanchai|sanchai chau|hal chal|haal chaal)\b', raw):
+        body = "Sanchai xu! Timro k chaldai xa aaja bholi?"
+    elif re.search(r'\b(welcome|namaste|hello|hi|hey|cherish|glad|proud)\b', raw):
+        body = "Namaste! Ekdam khusi lagyo yaha sabai sanga interact garna pauda. Timro k chaldai cha?"
+    elif re.search(r'\b(thank|thanks|dhanyabad)\b', raw):
+        body = "Swagatam! Always glad to connect."
+    elif '?' in raw:
+        body = "Yo interesting question ho. Timro bichar ma yo kasari approach garda best hola?"
     else:
-        body = (
-            "I am right here with you. Feel free to share what you have already tried or what you are exploring, "
-            "and we will build on it together."
-        )
+        body = "Ekdam sahi kura. Timro perspective ramro lagyo!"
     return (mention + body).replace('—', ', ').replace('--', ', ').strip()
 
 
