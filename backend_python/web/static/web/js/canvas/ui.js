@@ -18,9 +18,10 @@ var miniOpen=false;
 function autoSize(el){
   if(!el) return;
   el.style.height="auto";
-  var newH=Math.min(el.scrollHeight,120);
-  el.style.height=(el.value.trim()?newH:22)+"px";
-  var parent=el.closest(".cb-bar-inner");
+  var newH=Math.min(el.scrollHeight||22,120);
+  var val=typeof el.value==="string"?el.value.trim():"";
+  el.style.height=(val?newH:22)+"px";
+  var parent=typeof el.closest==="function"?el.closest(".cb-bar-inner"):null;
   if(parent){
     if(newH>32){
       parent.classList.add("multi-line");
