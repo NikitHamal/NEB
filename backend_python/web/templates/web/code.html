@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Neby Code — local AI IDE{% endblock %}
+{% block description %}Neby Code: an agentic AI IDE that runs against your local projects — full file access, terminal access, powered by Neby cloud models.{% endblock %}
+{% block canonical %}https://nebians.consica.com.np/code/{% endblock %}
+{% block robots %}<meta name="robots" content="noindex">{% endblock %}
+
+{% block topbar %}{% endblock %}
+{% block footer %}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/pages/web-code.css' %}">
+<link rel="stylesheet" href="{% static 'web/css/ai-widgets.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="nc-app" id="ncApp">
+  <aside class="nc-rail" id="ncRail">
+    <div class="nc-rail-top">
+      <a class="nc-brand" href="/">
+        <svg viewBox="0 0 1024 1024" class="nc-brand-logo" aria-hidden="true"><circle cx="512" cy="512" r="470" fill="var(--md-primary)"/><text x="512" y="660" text-anchor="middle" font-size="520" font-family="inherit" font-weight="700" fill="var(--md-on-primary)">N</text></svg>
+        <span>Neby Code</span>
+      </a>
+      <button class="nc-btn-new" id="ncNewSession">
+        <span class="material-symbols-outlined">add</span>New agent
+      </button>
+    </div>
+    <div class="nc-sessions-label">Sessions</div>
+    <nav class="nc-session-list" id="ncSessionList"></nav>
+    <div class="nc-user-card">
+      <div class="nc-daemon-dot" id="ncDaemonDot" title="daemon status"></div>
+      <img class="nc-user-avatar" src="{{ avatar_url|default:'/avatar/nebian/?size=64' }}" alt="">
+      <div class="nc-user-meta">
+        <div class="nc-user-name">{{ user_data.username|default:'nebian' }}</div>
+        <button class="nc-connect-btn" id="ncConnectBtn">Connect machine</button>
+      </div>
+    </div>
+  </aside>
+  <div class="nc-rail-scrim" id="ncRailScrim"></div>
+
+  <main class="nc-main">
+    <header class="nc-chat-head">
+      <button class="nc-iconbtn nc-only-mobile" id="ncMenuBtn"><span class="material-symbols-outlined">menu</span></button>
+      <div class="nc-session-title" id="ncSessionTitle">Neby Code</div>
+      <div class="nc-head-spacer"></div>
+      <label class="nc-select-wrap">
+        <select id="ncModelSel">
+          <option value="tryingopen|qwen/qwen3.8-27b">Qwen 3.8 27B · tryingopen</option>
+          <option value="tryingopen|qwen/qwen3.8-max">Qwen 3.8 Max · tryingopen</option>
+          <option value="k2think|MBZUAI-IFM/K2-Think-v2">K2 Think</option>
+          <option value="poolside|laguna-s-2.1">Laguna S · poolside</option>
+          <option value="motiftech|motif-102b">Motif 102B</option>
+          <option value="longcat|longcat/LongCat-2.0">LongCat 2.0</option>
+          <option value="geminiweb|geminiweb/gemini-flash-lite">Gemini Flash-Lite</option>
+        </select>
+      </label>
+      <label class="nc-select-wrap">
+        <select id="ncEffortSel">
+          <option value="quick">Quick</option>
+          <option value="balanced" selected>Balanced</option>
+          <option value="deep">Deep</option>
+        </select>
+      </label>
+      <button class="nc-iconbtn nc-only-narrow" id="ncPanelToggle" title="Files / Terminal"><span class="material-symbols-outlined">terminal</span></button>
+    </header>
+
+    <section class="nc-transcript" id="ncTranscript"></section>
+
+    <footer class="nc-composer-wrap">
+      <div class="nc-composer" id="ncComposer">
+        <textarea id="ncInput" rows="1" placeholder="Describe a task… (Enter to send, Shift+Enter for newline)"></textarea>
+        <div class="nc-composer-actions">
+          <span class="nc-hint" id="ncHint"></span>
+          <button class="nc-send" id="ncStopBtn" hidden title="Cancel"><span class="material-symbols-outlined">stop_circle</span></button>
+          <button class="nc-send" id="ncSendBtn" title="Send"><span class="material-symbols-outlined">arrow_upward</span></button>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <section class="nc-panel" id="ncPanel">
+    <header class="nc-panel-tabs">
+      <button class="nc-ptab active" data-tab="files"><span class="material-symbols-outlined">folder_open</span>Files</button>
+      <button class="nc-ptab" data-tab="term"><span class="material-symbols-outlined">terminal</span>Terminal</button>
+      <div class="nc-head-spacer"></div>
+      <button class="nc-iconbtn" id="ncPanelClose" title="Collapse"><span class="material-symbols-outlined">right_panel_close</span></button>
+    </header>
+
+    <div class="nc-tabpage" data-page="files">
+      <div class="nc-file-toolbar">
+        <button class="nc-mini-btn" id="ncTreeRefresh" title="Refresh"><span class="material-symbols-outlined">refresh</span></button>
+        <div class="nc-cwd" id="ncCwd" title="">—</div>
+        <button class="nc-mini-btn" id="ncNewFile" title="New file"><span class="material-symbols-outlined">note_add</span></button>
+      </div>
+      <div class="nc-tree" id="ncTree"></div>
+      <div class="nc-editor-zone">
+        <div class="nc-edtabs" id="ncEdTabs"></div>
+        <div class="nc-editor-empty" id="ncEditorEmpty">Open a file from the tree</div>
+        <div class="nc-editor" id="ncEditor" hidden>
+          <div class="nc-editor-bar">
+            <span class="nc-editor-path" id="ncEditorPath"></span>
+            <div class="nc-head-spacer"></div>
+            <button class="nc-mini-btn" id="ncEditToggle"><span class="material-symbols-outlined">edit</span>Edit</button>
+            <button class="nc-mini-btn nc-accent" id="ncSaveBtn" hidden><span class="material-symbols-outlined">save</span>Save</button>
+          </div>
+          <div class="nc-code-wrap" id="ncCodeWrap">
+            <pre class="nc-code-pre" id="ncCodePre"><code id="ncCodeEl"></code></pre>
+            <textarea class="nc-code-input" id="ncCodeTa" spellcheck="false" hidden></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nc-tabpage" data-page="term" hidden>
+      <div class="nc-term-toolbar">
+        <span class="nc-term-title">Terminal</span>
+        <div class="nc-head-spacer"></div>
+        <button class="nc-mini-btn" id="ncTermClear" title="Clear"><span class="material-symbols-outlined">delete_sweep</span></button>
+      </div>
+      <div class="nc-term-log" id="ncTermLog"><div class="nc-term-line nc-term-muted">neby terminal ready — commands run on your machine.</div></div>
+      <form class="nc-term-form" id="ncTermForm">
+        <span class="material-symbols-outlined nc-term-chevron">chevron_right</span>
+        <input id="ncTermInput" autocomplete="off" spellcheck="false" placeholder="type a command…">
+        <button type="submit" class="nc-mini-btn nc-accent" title="Run"><span class="material-symbols-outlined">play_arrow</span></button>
+      </form>
+    </div>
+  </section>
+</div>
+
+<div class="nc-modal-scrim" id="ncModalScrim" hidden>
+  <div class="nc-modal" role="dialog" aria-modal="true">
+    <h3>Connect your machine</h3>
+    <p class="nc-modal-sub">Run this in a terminal inside your project folder. The daemon connects back over WebSocket — nothing else leaves your machine except what the agent explicitly reads.</p>
+    <ol class="nc-steps">
+      <li><code>pip install websockets</code></li>
+      <li><code>python neby_code.py --workspace . --token &lt;TOKEN&gt;</code></li>
+    </ol>
+    <div class="nc-token-row">
+      <input readonly id="ncTokenField" placeholder="loading token…">
+      <button class="nc-mini-btn nc-accent" id="ncTokenCopy"><span class="material-symbols-outlined">content_copy</span>Copy</button>
+    </div>
+    <p class="nc-modal-note" id="ncDaemonState">Checking daemon…</p>
+    <button class="nc-btn-new nc-modal-close" id="ncModalClose">Done</button>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script nonce="{{ csp_nonce|default:request.csp_nonce }}">window.CODE_BOOT = {
+  sessions: JSON.parse('{{ code_sessions_json|escapejs }}'),
+  daemonOnline: {{ daemon_online|yesno:'true,false' }},
+  daemonInfo: JSON.parse('{{ daemon_info_json|escapejs }}'),
+  csrf: '{{ csrf_token }}',
+};</script>
+<script nonce="{{ csp_nonce|default:request.csp_nonce }}" src="{% static 'web/js/ai-widgets.js' %}"></script>
+<script nonce="{{ csp_nonce|default:request.csp_nonce }}" src="{% static 'web/js/code_panels.js' %}"></script>
+<script nonce="{{ csp_nonce|default:request.csp_nonce }}" src="{% static 'web/js/code_ide.js' %}"></script>
+{% endblock %}
