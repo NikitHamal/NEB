@@ -519,7 +519,7 @@ fun ExpandableMarkdownText(
             // flattened but inline markdown (bold, italic, code, strike,
             // colored/links and highlighted @mentions) keeps rendering, so
             // the preview never looks like raw unprocessed text.
-            val flatText = remember(markdown) { markdownToInlinePreview(markdown) }
+            val flatText = remember(markdown) { markdownToInlinePreview(markdown, stripTokens = false) }
             val primary = MaterialTheme.colorScheme.primary
             val codeBg = MaterialTheme.colorScheme.surfaceContainerHigh
             val errorBg = MaterialTheme.colorScheme.errorContainer
@@ -527,9 +527,11 @@ fun ExpandableMarkdownText(
             val annotated = remember(flatText, color, primary, codeBg, errorBg, errorFg) {
                 buildInlineAnnotatedString(flatText, color, primary, codeBg, errorBg, errorFg)
             }
+            val inlineContents = rememberInlineImageContents(flatText, onInlineImageClick)
             NebAnnotatedText(
                 text = annotated,
                 style = style.copy(color = color),
+                inlineContent = inlineContents,
                 maxLines = minimizedMaxLines,
                 overflow = TextOverflow.Ellipsis,
                 onTextLayout = { textLayoutResult ->
@@ -567,9 +569,9 @@ fun ExpandableMarkdownText(
  * keeping inline markers so [buildInlineAnnotatedString] can still style
  * bold/italic/code/links/mentions. Block markers become readable bullets.
  */
-fun markdownToInlinePreview(markdown: String): String {
+fun markdownToInlinePreview(markdown: String, stripTokens: Boolean = true): String {
     if (markdown.isBlank()) return ""
-    return parseMarkdownBlocks(InlineImageTokens.plainText(markdown)).joinToString("\n") { block ->
+    return parseMarkdownBlocks(markdown).joinToString("\n") { block ->
         when (block) {
             is MdBlock.Heading -> block.text
             is MdBlock.Quote -> block.text
@@ -578,6 +580,8 @@ fun markdownToInlinePreview(markdown: String): String {
             is MdBlock.MathBlock -> block.formula
             is MdBlock.Paragraph -> block.text
         }
+    }.replace(Regex("!\\[[^]]*]\\([^)]*\\)"), "").let { if (stripTokens) InlineImageTokens.plainText(it) else it }.trim()
+}
     }.replace(Regex("!\\[[^]]*]\\([^)]*\\)"), "").trim()
 }
 
