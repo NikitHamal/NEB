@@ -72,9 +72,19 @@ def normalize_formulas(text: str) -> str:
       Handles nested braces (e.g. \\ce{^{235}U}) and does NOT double-wrap
       occurrences that are already inside $...$ or $$...$$ math.
     - Ensures $$ display math starts on its own line.
+    - Heals bare unit/orbital LaTeX that leaked outside math (e.g.
+      ``kJ mol^{-1}`` or ``2p^3``) by wrapping in $...$ and stripping stray
+      escapes (e.g. ``\\^{-1\\}`` → ``^{-1}``).
     """
     if not text:
         return text
+
+    # Heal the common broken split: "kJ mol$^{-1}$" → "$kJ mol^{-1}$"
+    text = re.sub(r'kJ\s+mol\s*\$\s*\^\s*\{-1\}\s*\$', r'$kJ mol^{-1}$', text)
+    text = re.sub(r'kJ\s+mol\s*\\\$\s*\\\^\s*\\?\{?\s*-1\s*\\?\}?\s*\\\$', r'$kJ mol^{-1}$', text)
+
+    _BARE_ORBITAL_RE = re.compile(r'[1-6][spdf]\s*\^\s*(?:\{\s*\d+\s*\}|\d+)')
+    _BARE_UNIT_RE = re.compile(r'(?:kJ\s+)?mol\s*\\?\^\s*\\?\{?\s*-1\s*\\?\}?', re.IGNORECASE)
 
     out = []
     i = 0
@@ -92,6 +102,24 @@ def normalize_formulas(text: str) -> str:
             out.append('$')
             i += 1
             continue
+        if not in_inline and not in_display:
+            m = _BARE_ORBITAL_RE.match(text, i)
+            if m:
+                raw = m.group(0)
+                clean = re.sub(r'\\([{}^])', r'\1', raw)
+                out.append('$' + clean.strip() + '$')
+                i = m.end()
+                continue
+            m = _BARE_UNIT_RE.match(text, i)
+            if m:
+                raw = m.group(0)
+                # Only wrap if it actually contains ^ (plain kJ/mol stays plain)
+                if '^' in raw or '\\^' in raw:
+                    clean = re.sub(r'\\([{}^])', r'\1', raw)
+                    # Normalize "kJ mol^{-1}" → keep as is inside $
+                    out.append('$' + clean.strip() + '$')
+                    i = m.end()
+                    continue
         if text[i] == '\\' and i + 1 < n:
             if (not in_inline and not in_display) and text.startswith('\\ce', i):
                 j = i + 3
