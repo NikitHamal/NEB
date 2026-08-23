@@ -62,7 +62,7 @@ def ensure_bot_config(username=NEBY_USERNAME, display_name=NEBY_DISPLAY_NAME, en
             'display_name': display_name or username.capitalize(),
             'provider': 'geminiweb',
             'model': 'geminiweb/gemini-flash-lite',
-            'fallback_chain_json': default_chain,
+            'fallback_chain': default_chain,
             'enabled': enabled,
             'system_prompt': NEBY_SYSTEM_PROMPT if username == NEBY_USERNAME else '',
         },
@@ -73,7 +73,7 @@ def ensure_bot_config(username=NEBY_USERNAME, display_name=NEBY_DISPLAY_NAME, en
             config.provider = 'geminiweb'
             config.model = 'geminiweb/gemini-flash-lite'
             changed = True
-        config.fallback_chain_json = default_chain
+        config.fallback_chain = default_chain
         changed = True
         if config.system_prompt != NEBY_SYSTEM_PROMPT:
             config.system_prompt = NEBY_SYSTEM_PROMPT

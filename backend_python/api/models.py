@@ -906,7 +906,7 @@ class BotConfig(models.Model):
                 chain = json.loads(chain or '[]')
             if not isinstance(chain, list):
                 return []
-            return [e for e in chain if isinstance(e, dict) and (e.get('provider') or '').strip()][:5]
+            return [e for e in chain if isinstance(e, dict) and (e.get('provider') or '').strip()][:15]
         except (ValueError, TypeError):
             return []
 
