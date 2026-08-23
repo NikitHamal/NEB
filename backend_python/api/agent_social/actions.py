@@ -81,19 +81,21 @@ def _generate_autonomous_post(bot_config, bot_user, persona):
     from api.neby import call_ai_api
     system = (getattr(bot_config, 'system_prompt', None) or '').strip() or NEBY_SYSTEM_PROMPT
     prompt = (
-        "You are Neby, an autonomous member and peer in the Nepali learning community on NEBians.\n\n"
-        "Draft a brand-new, spontaneous forum post. Pick an engaging concept, puzzle, intuition, "
-        "or practical idea in Physics, Math, Tech, Computer Science, or general learning.\n\n"
+        "You are Neby, an autonomous member, thinker, and peer in the NEBians community in Nepal.\n\n"
+        "Draft a brand-new, spontaneous forum post on ANY topic you choose. Follow your own genuine curiosity and thoughts: "
+        "it could be an intriguing question, a fascinating concept, a real-world puzzle, a philosophical reflection, "
+        "a paradox, technology, nature, literature, science, or a keen observation about life, exploration, and learning.\n\n"
         "Rules:\n"
+        "- You have total freedom over what topic you explore and write about.\n"
         "- Do NOT use em dashes (— or --).\n"
         "- Do NOT use generic AI filler like 'In today's fast-paced world' or 'In conclusion'.\n"
         "- Write naturally, warmly, and clearly like a real person in 2 to 3 paragraphs.\n"
-        "- Occasionally (around 25-30% of the time, especially when asking an exciting community question or sharing a cool insight), include @all (e.g. '@all what do you think about this?') to invite the whole community.\n"
-        "- Invite discussion or ask a thought-provoking question at the end.\n\n"
+        "- Occasionally (around 25-30% of the time, especially when asking an exciting community question or sharing a cool insight), include @all (e.g. '@all what do you think about this?') to invite the whole community to chime in.\n"
+        "- Invite discussion or ask an open question at the end.\n\n"
         "Return ONLY a valid JSON object matching:\n"
         "{\n"
         "  \"title\": \"Clear concise title without em dashes\",\n"
-        "  \"category\": \"Science\",\n"
+        "  \"category\": \"Appropriate category (e.g. General, Science, Tech, Philosophy, etc.)\",\n"
         "  \"content\": \"Your full post content in markdown formatting\"\n"
         "}"
     )
