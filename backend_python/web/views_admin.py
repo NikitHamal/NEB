@@ -1427,6 +1427,19 @@ def admin_syllabus_list(request):
         'active_page': 'syllabus',
     })
 
+def _parse_syllabus_rich_json(raw_text):
+    text = (raw_text or '').strip()
+    if not text:
+        return {}, None
+    try:
+        parsed = json.loads(text)
+    except json.JSONDecodeError as exc:
+        return None, 'Interactive content JSON is invalid: {}'.format(exc)
+    if not isinstance(parsed, dict):
+        return None, 'Interactive content JSON must be a JSON object.'
+    return parsed, None
+
+
 def admin_syllabus_create(request):
     redirect_response = _require_staff_admin(request)
     if redirect_response:
@@ -1469,6 +1482,9 @@ def admin_syllabus_create(request):
         chapter_id = request.POST.get('chapter_id', '').strip()
         text_content = request.POST.get('text_content', '').strip()
         question_answers = request.POST.get('question_answers', '').strip()
+        rich_content, rich_error = _parse_syllabus_rich_json(request.POST.get('rich_content_json', ''))
+        source_resource_id = request.POST.get('source_resource_id', '').strip()[:36]
+        source_label = request.POST.get('source_label', '').strip()[:255]
         order_val = request.POST.get('order', '0').strip()
         
         if not grade_level or not subject or not chapter_title or not chapter_id:
@@ -1484,6 +1500,19 @@ def admin_syllabus_create(request):
                 'form_data': request.POST,
             })
             
+        if rich_error:
+            return render(request, 'admin_panel/syllabus_form.html', {
+                'is_admin': True,
+                'education_levels': education_levels,
+                'grade_subjects_json': grade_subjects_json,
+                'existing_subjects': existing_subjects,
+                'existing_ids_json': existing_ids_json,
+                'active_page': 'syllabus',
+                'is_edit': False,
+                'form_error': rich_error,
+                'form_data': request.POST,
+            })
+
         if chapter_id in existing_ids:
             return render(request, 'admin_panel/syllabus_form.html', {
                 'is_admin': True,
@@ -1511,6 +1540,9 @@ def admin_syllabus_create(request):
             chapter_title=chapter_title,
             text_content=text_content,
             question_answers=question_answers,
+            rich_content=rich_content or {},
+            source_resource_id=source_resource_id,
+            source_label=source_label,
             order=order,
             created_at=_now,
             updated_at=_now
@@ -1541,6 +1573,8 @@ def admin_syllabus_edit(request, entry_id):
     except SyllabusContent.DoesNotExist:
         return redirect('web:admin_syllabus_list')
         
+    rich_content_json = json.dumps(syllabus_obj.rich_content or {}, ensure_ascii=False, indent=2)
+
     education_levels = [
         'Class 8', 'Class 9', 'Class 10 / SEE', 'Class 11', 'Class 12',
         'Diploma', 'Bachelor', 'Master', 'PhD',
@@ -1574,6 +1608,9 @@ def admin_syllabus_edit(request, entry_id):
         chapter_id = request.POST.get('chapter_id', '').strip()
         text_content = request.POST.get('text_content', '').strip()
         question_answers = request.POST.get('question_answers', '').strip()
+        rich_content, rich_error = _parse_syllabus_rich_json(request.POST.get('rich_content_json', ''))
+        source_resource_id = request.POST.get('source_resource_id', '').strip()[:36]
+        source_label = request.POST.get('source_label', '').strip()[:255]
         order_val = request.POST.get('order', '0').strip()
         
         if not grade_level or not subject or not chapter_title or not chapter_id:
@@ -1587,8 +1624,25 @@ def admin_syllabus_edit(request, entry_id):
                 'active_page': 'syllabus',
                 'is_edit': True,
                 'form_error': 'All required fields (Level, Subject, Chapter Title, Chapter ID) must be filled.',
+                'form_data': request.POST,
+                'rich_content_json': rich_content_json,
             })
             
+        if rich_error:
+            return render(request, 'admin_panel/syllabus_form.html', {
+                'is_admin': True,
+                'syllabus': syllabus_obj,
+                'education_levels': education_levels,
+                'grade_subjects_json': grade_subjects_json,
+                'existing_subjects': existing_subjects,
+                'existing_ids_json': existing_ids_json,
+                'active_page': 'syllabus',
+                'is_edit': True,
+                'form_error': rich_error,
+                'form_data': request.POST,
+                'rich_content_json': rich_content_json,
+            })
+
         if chapter_id in existing_ids:
             return render(request, 'admin_panel/syllabus_form.html', {
                 'is_admin': True,
@@ -1600,6 +1654,8 @@ def admin_syllabus_edit(request, entry_id):
                 'active_page': 'syllabus',
                 'is_edit': True,
                 'form_error': 'Chapter ID "{}" already exists. Please use a unique identifier.'.format(chapter_id),
+                'form_data': request.POST,
+                'rich_content_json': rich_content_json,
             })
             
         try:
@@ -1613,6 +1669,9 @@ def admin_syllabus_edit(request, entry_id):
         syllabus_obj.chapter_id = chapter_id
         syllabus_obj.text_content = text_content
         syllabus_obj.question_answers = question_answers
+        syllabus_obj.rich_content = rich_content or {}
+        syllabus_obj.source_resource_id = source_resource_id
+        syllabus_obj.source_label = source_label
         syllabus_obj.order = order
         syllabus_obj.updated_at = now_ms()
         syllabus_obj.save()
@@ -1627,6 +1686,7 @@ def admin_syllabus_edit(request, entry_id):
         'existing_ids_json': existing_ids_json,
         'active_page': 'syllabus',
         'is_edit': True,
+        'rich_content_json': rich_content_json,
     })
 
 def admin_syllabus_delete(request, entry_id):
@@ -1719,6 +1779,13 @@ def admin_syllabus_import(request):
                         
                         content = str(item.get('text_content', '')).strip()
                         qa = str(item.get('question_answers', '')).strip()
+                        rich_content = item.get('rich_content', {})
+                        if not isinstance(rich_content, dict):
+                            errors.append('Row {}: rich_content must be a JSON object.'.format(i + 1))
+                            skipped += 1
+                            continue
+                        source_resource_id = str(item.get('source_resource_id', '')).strip()[:36]
+                        source_label = str(item.get('source_label', '')).strip()[:255]
                         order = int(item.get('order', 0))
                         
                         if overwrite:
@@ -1729,6 +1796,9 @@ def admin_syllabus_import(request):
                                 existing.chapter_title = title
                                 existing.text_content = content
                                 existing.question_answers = qa
+                                existing.rich_content = rich_content
+                                existing.source_resource_id = source_resource_id
+                                existing.source_label = source_label
                                 existing.order = order
                                 existing.updated_at = _now
                                 existing.save()
@@ -1744,6 +1814,9 @@ def admin_syllabus_import(request):
                                 'chapter_title': title,
                                 'text_content': content,
                                 'question_answers': qa,
+                                'rich_content': rich_content,
+                                'source_resource_id': source_resource_id,
+                                'source_label': source_label,
                                 'order': order,
                                 'created_at': _now,
                                 'updated_at': _now,
@@ -1758,6 +1831,9 @@ def admin_syllabus_import(request):
                                 obj.chapter_title = title
                                 obj.text_content = content
                                 obj.question_answers = qa
+                                obj.rich_content = rich_content
+                                obj.source_resource_id = source_resource_id
+                                obj.source_label = source_label
                                 obj.order = order
                                 obj.updated_at = _now
                                 obj.save()
@@ -1812,6 +1888,9 @@ def admin_syllabus_export(request):
             'chapter_title': item.chapter_title,
             'text_content': item.text_content,
             'question_answers': item.question_answers,
+            'rich_content': item.rich_content or {},
+            'source_resource_id': item.source_resource_id,
+            'source_label': item.source_label,
             'order': item.order,
         })
     

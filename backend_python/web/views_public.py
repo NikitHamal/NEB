@@ -1477,7 +1477,9 @@ def subject_page(request, grade_slug, subject_slug):
     chapter_map = {}
     
     if syllabus_entries.exists():
+        from web.syllabus_rich import prepare_rich_content, syllabus_search_text
         for entry in syllabus_entries:
+            rich_content = prepare_rich_content(entry)
             ch_entry = {
                 'id': entry.chapter_id,
                 'name': entry.chapter_title,
@@ -1490,6 +1492,10 @@ def subject_page(request, grade_slug, subject_slug):
                 'count': 0,
                 'syllabus_text': entry.text_content,
                 'syllabus_sections': parse_sections(entry.text_content),
+                'rich_content': rich_content,
+                'source_resource_id': entry.source_resource_id,
+                'source_label': entry.source_label,
+                'search_text': syllabus_search_text(entry),
                 'question_answers': entry.question_answers,
                 'question_answers_parsed': parse_qas(entry.question_answers),
                 'qa_sections': parse_sections(entry.question_answers),
@@ -1511,6 +1517,10 @@ def subject_page(request, grade_slug, subject_slug):
                 'other': [],
                 'count': 0,
                 'syllabus_text': '',
+                'rich_content': {'blocks': [], 'has_blocks': False, 'topics': [], 'learning_objectives': []},
+                'source_resource_id': '',
+                'source_label': '',
+                'search_text': (ch['name'] + ' ' + ' '.join(ch.get('keywords', []))).lower(),
                 'question_answers': '',
                 'question_answers_parsed': []
             }

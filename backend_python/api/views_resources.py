@@ -220,6 +220,7 @@ def syllabus_subject_detail(request, grade_slug, subject_slug):
     chapter_map = {}
 
     if syllabus_entries.exists():
+        from web.syllabus_rich import prepare_rich_content, syllabus_search_text
         for entry in syllabus_entries:
             qa_sections = sections(entry.question_answers)
             parsed_qas = qas(entry.question_answers)
@@ -235,6 +236,10 @@ def syllabus_subject_detail(request, grade_slug, subject_slug):
                 'name': entry.chapter_title,
                 'keywords': [entry.chapter_title.lower(), entry.chapter_id.replace('-', ' ')],
                 'guide_sections': sections(entry.text_content),
+                'rich_content': prepare_rich_content(entry),
+                'source_resource_id': entry.source_resource_id,
+                'source_label': entry.source_label,
+                'search_text': syllabus_search_text(entry),
                 'qa_sections': qa_sections,
                 'notes': [],
                 'solutions': [],
@@ -252,6 +257,10 @@ def syllabus_subject_detail(request, grade_slug, subject_slug):
                 'name': chapter_item['name'],
                 'keywords': chapter_item['keywords'],
                 'guide_sections': [],
+                'rich_content': {'blocks': [], 'has_blocks': False, 'topics': [], 'learning_objectives': []},
+                'source_resource_id': '',
+                'source_label': '',
+                'search_text': (chapter_item['name'] + ' ' + ' '.join(chapter_item.get('keywords', []))).lower(),
                 'qa_sections': [],
                 'notes': [],
                 'solutions': [],

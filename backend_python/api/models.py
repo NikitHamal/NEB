@@ -1571,6 +1571,9 @@ class SyllabusContent(models.Model):
     chapter_title = models.CharField(max_length=200) # e.g., "Story 1: The Selfish Giant"
     text_content = models.TextField()               # Text syllabus/summary/details
     question_answers = models.TextField(blank=True, default='') # Solved Question & Answers text
+    rich_content = models.JSONField(default=dict, blank=True)
+    source_resource_id = models.CharField(max_length=36, blank=True, default='')
+    source_label = models.CharField(max_length=255, blank=True, default='')
     order = models.IntegerField(default=0)
     created_at = models.BigIntegerField(default=0)
     updated_at = models.BigIntegerField(default=0)

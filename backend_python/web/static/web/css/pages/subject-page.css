@@ -1,3 +1,4 @@
 /* Subject page styles entrypoint. */
 @import url("subject-page/01-header-tabs-materials-syllabus.css");
 @import url("subject-page/02-qa-resources-forum-ai.css");
+@import url("subject-page/03-interactive-syllabus.css");

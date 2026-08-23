@@ -1,0 +1,78 @@
+{% load web_extras %}
+<div class="rich-syllabus" data-rich-chapter="{{ ch.id }}">
+  {% if ch.rich_content.source_label or ch.rich_content.topics %}
+  <div class="rich-syllabus-meta">
+    <div class="rich-topic-row">
+      {% for topic in ch.rich_content.topics %}
+      <span class="rich-topic-chip">{{ topic }}</span>
+      {% endfor %}
+    </div>
+    {% if ch.rich_content.source_label %}
+    <div class="rich-source-label">
+      <span class="material-symbols-outlined">picture_as_pdf</span>
+      Converted from {{ ch.rich_content.source_label }}
+    </div>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  {% if ch.rich_content.learning_objectives %}
+  <details class="rich-objectives" open>
+    <summary>What you should be able to do</summary>
+    <ul>
+      {% for objective in ch.rich_content.learning_objectives %}<li>{{ objective }}</li>{% endfor %}
+    </ul>
+  </details>
+  {% endif %}
+
+  <div class="rich-block-list">
+    {% for block in ch.rich_content.blocks %}
+    <article class="rich-block rich-block-{{ block.type }}" data-rich-search="{{ block.search_text|escape }}">
+      <div class="rich-block-head">
+        <div>
+          {% if block.type == 'formula' %}<span class="rich-block-kicker">Formula</span>{% endif %}
+          {% if block.type == 'interactive' %}<span class="rich-block-kicker">Interactive</span>{% endif %}
+          {% if block.type == 'callout' %}<span class="rich-block-kicker">Key idea</span>{% endif %}
+          {% if block.title %}<h3>{{ block.title }}</h3>{% endif %}
+        </div>
+        <div class="rich-block-actions">
+          {% if block.source_pages %}
+            {% if ch.rich_content.source_resource_id and block.source_page_start %}
+            <a class="rich-source-chip" href="{% url 'web:reader' resource_id=ch.rich_content.source_resource_id %}?page={{ block.source_page_start }}" title="Open the source PDF around this page">
+              <span class="material-symbols-outlined">description</span>p. {{ block.source_pages }}
+            </a>
+            {% else %}
+            <span class="rich-source-chip" title="Source page in {{ ch.rich_content.source_label|default:'the uploaded PDF' }}">
+              <span class="material-symbols-outlined">description</span>p. {{ block.source_pages }}
+            </span>
+            {% endif %}
+          {% endif %}
+          <button type="button" class="rich-ai-btn" data-action="ask-neby-syllabus" data-neby-prompt="{{ block.ai_prompt }}">
+            <span class="material-symbols-outlined">smart_toy</span>Ask Neby
+          </button>
+        </div>
+      </div>
+
+      {% if block.type == 'formula' %}
+        {% if block.latex %}<div class="rich-formula" data-latex="{{ block.latex|escape }}">{{ block.latex }}</div>{% endif %}
+        {% if block.markdown %}<div class="rich-block-copy">{{ block.markdown|markdown_format }}</div>{% endif %}
+        {% if block.variables %}
+        <div class="rich-variable-grid">
+          {% for variable in block.variables %}
+          <div class="rich-variable"><strong>{{ variable.symbol }}</strong><span>{{ variable.meaning }}</span></div>
+          {% endfor %}
+        </div>
+        {% endif %}
+      {% elif block.type == 'interactive' %}
+        {% if block.markdown %}<div class="rich-block-copy">{{ block.markdown|markdown_format }}</div>{% endif %}
+        <div class="syllabus-interactive" data-interactive-kind="{{ block.kind }}" data-config-id="{{ block.dom_id }}">
+          <div class="interactive-loading">Loading interactive diagram…</div>
+        </div>
+        {{ block.config|json_script:block.dom_id }}
+      {% else %}
+        {% if block.markdown %}<div class="rich-block-copy">{{ block.markdown|markdown_format }}</div>{% endif %}
+      {% endif %}
+    </article>
+    {% endfor %}
+  </div>
+</div>
