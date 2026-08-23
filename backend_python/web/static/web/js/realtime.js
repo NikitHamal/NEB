@@ -290,15 +290,31 @@
     if (heartbeatTimer) { clearInterval(heartbeatTimer); heartbeatTimer = null; }
   }
 
-  // ----- tab visibility -----------------------------------------------------
+  // ----- tab visibility & Back-Forward Cache (bfcache) lifecycle ------------
 
   document.addEventListener('visibilitychange', function () {
     if (document.visibilityState === 'visible') {
       if (paused) { paused = false; start(); }
-      else if (state === STATE.DISCONNECTED) start();
-    } else {
-      // Don't tear down immediately — give the user 60s to come back.
-      // If they don't, the server's idle watchdog will close us anyway.
+      else if (state === STATE.DISCONNECTED || state === STATE.CLOSED) start();
+    }
+  });
+
+  // When page enters Back-Forward Cache (bfcache), close socket cleanly.
+  window.addEventListener('pagehide', function (ev) {
+    if (ev.persisted || socket) {
+      try {
+        if (socket && socket.readyState === WebSocket.OPEN) {
+          socket.close(1000, 'pagehide');
+        }
+      } catch (e) { /* ignore */ }
+    }
+  });
+
+  // When restored from Back-Forward Cache (bfcache), resume realtime connection.
+  window.addEventListener('pageshow', function (ev) {
+    if (ev.persisted) {
+      paused = false;
+      start();
     }
   });
 
