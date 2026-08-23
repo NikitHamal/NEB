@@ -199,17 +199,19 @@ fun InlineImageField(
     val minChipHeightPx = with(density) { INLINE_CHIP_MIN_HEIGHT_DP.dp.toPx() }
 
     val hasInlineImages = remember(value.text) { InlineImageTokens.countTokens(value.text) > 0 }
+    val horizontalGapPx = emPx * 0.36f
     val editorTextStyle = remember(textStyle, hasInlineImages, density) {
         if (!hasInlineImages) {
             textStyle
         } else {
-            val chipFromFont = textStyle.fontSize * (INLINE_CHIP_HEIGHT_EM + 0.15f)
-            val chipMin = with(density) { INLINE_CHIP_MIN_HEIGHT_DP.dp.toSp() } * 1.15f
+            val chipFromFont = textStyle.fontSize * INLINE_CHIP_HEIGHT_EM
+            val chipMin = with(density) { INLINE_CHIP_MIN_HEIGHT_DP.dp.toSp() }
             val chipLine =
                 if (chipFromFont.isSp && chipMin.isSp && chipFromFont.value < chipMin.value) chipMin else chipFromFont
             val current = textStyle.lineHeight
+            val desired = if (chipLine.isSp) chipLine * 1.03f else chipLine
             val lineHeight =
-                if (current.isSp && current.value >= chipLine.value) current else chipLine
+                if (current.isSp && current.value >= desired.value) current else desired
             textStyle.copy(lineHeight = lineHeight)
         }
     }
@@ -252,7 +254,8 @@ fun InlineImageField(
                 val hPx = (emPx * INLINE_CHIP_HEIGHT_EM).coerceAtLeast(minChipHeightPx)
                 val maxW = emPx * INLINE_CHIP_MAX_WIDTH_EM
                 val minW = hPx * 1.05f
-                (hPx * a).coerceIn(minW, maxW)
+                val w = (hPx * a).coerceIn(minW, maxW)
+                w + horizontalGapPx
             }
             val pieces = mutableListOf<Pair<String, Boolean>>()
             var cursor = 0
@@ -372,7 +375,7 @@ fun InlineImageField(
                     runCatching { layoutResult.getBoundingBox(slot + k) }.getOrNull()
                 }
                 if (boxes.isEmpty()) return@forEachIndexed
-                val leftPx = boxes.first().left
+                val leftPx = boxes.first().left + horizontalGapPx / 2f
                 val chipHeightPx = (emPx * INLINE_CHIP_HEIGHT_EM).coerceAtLeast(minChipHeightPx)
                 val topPx = boxes.first().top + (boxes.first().bottom - boxes.first().top - chipHeightPx) / 2f
                 InlineChipOverlay(
