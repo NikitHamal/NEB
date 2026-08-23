@@ -119,7 +119,7 @@ class Session:
     def is_vision_supported(self) -> bool:
         p = self.provider.lower()
         m = (self.model or "").lower()
-        if p in ("qwen", "openai", "gemini", "anthropic", "egov", "metaai", "deepai"):
+        if p in ("qwen", "tryingopen", "openai", "gemini", "anthropic", "egov", "metaai", "deepai"):
             return True
         if "vl" in m or "vision" in m or "vision" in p or "4o" in m:
             return True
