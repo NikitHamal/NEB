@@ -13,6 +13,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
@@ -41,8 +42,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextLayoutResult
@@ -200,6 +203,7 @@ fun InlineImageField(
 
     val density = LocalDensity.current
     val emPx = with(density) { textStyle.fontSize.toPx() }
+    val minChipHeightPx = with(density) { INLINE_CHIP_MIN_HEIGHT_DP.dp.toPx() }
 
     Box(modifier = modifier) {
         BasicTextField(
@@ -236,13 +240,14 @@ fun InlineImageField(
                 }
                 if (boxes.isEmpty()) return@forEachIndexed
                 val leftPx = boxes.first().left
-                val topPx = boxes.first().top + (boxes.first().bottom - boxes.first().top - emPx * 1.55f) / 2f
+                val chipHeightPx = (emPx * INLINE_CHIP_HEIGHT_EM).coerceAtLeast(minChipHeightPx)
+                val topPx = boxes.first().top + (boxes.first().bottom - boxes.first().top - chipHeightPx) / 2f
                 InlineChipOverlay(
                     chip = chip,
                     leftPx = leftPx,
                     topPx = topPx,
-                    heightEm = 1.55f,
-                    maxWidthEm = 5.5f,
+                    heightEm = INLINE_CHIP_HEIGHT_EM,
+                    maxWidthEm = INLINE_CHIP_MAX_WIDTH_EM,
                     radiusEm = 0.42f,
                     onRemove = {
                         val range = mapping.tokenRanges.getOrNull(index) ?: return@InlineChipOverlay
@@ -255,12 +260,46 @@ fun InlineImageField(
                         )
                     },
                     onClick = { if (chip.id != null) onImageClick(chip.fullUrl) },
+                    onDrop = { center ->
+                        val sourceRange = mapping.tokenRanges.getOrNull(index)
+                        if (sourceRange != null) {
+                            val targetTransformed = layoutResult.getOffsetForPosition(center)
+                            val targetOriginal = mapping.transformed.offsetMapping
+                                .transformedToOriginal(targetTransformed)
+                            val sourceEndExclusive = sourceRange.last + 1
+                            if (targetOriginal !in sourceRange.first..sourceEndExclusive) {
+                                val token = currentValue.text.substring(sourceRange.first, sourceEndExclusive)
+                                val textWithoutToken = currentValue.text.removeRange(sourceRange)
+                                val adjustedTarget = (if (targetOriginal > sourceEndExclusive) {
+                                    targetOriginal - token.length
+                                } else {
+                                    targetOriginal
+                                }).coerceIn(0, textWithoutToken.length)
+                                val movedText = buildString(currentValue.text.length) {
+                                    append(textWithoutToken, 0, adjustedTarget)
+                                    append(token)
+                                    append(textWithoutToken, adjustedTarget, textWithoutToken.length)
+                                }
+                                onValueChange(
+                                    TextFieldValue(
+                                        text = movedText,
+                                        selection = TextRange(adjustedTarget + token.length)
+                                    )
+                                )
+                            }
+                        }
+                    },
+                    enabled = enabled,
                     fontSizePx = emPx
                 )
             }
         }
     }
 }
+
+private const val INLINE_CHIP_HEIGHT_EM = 2.1f
+private const val INLINE_CHIP_MAX_WIDTH_EM = 7f
+private const val INLINE_CHIP_MIN_HEIGHT_DP = 36f
 
 @Composable
 private fun InlineChipOverlay(
@@ -272,15 +311,29 @@ private fun InlineChipOverlay(
     radiusEm: Float,
     fontSizePx: Float,
     onRemove: () -> Unit,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    onDrop: (Offset) -> Unit,
+    enabled: Boolean
 ) {
     val density = androidx.compose.ui.platform.LocalDensity.current.density
-    val heightDp = (fontSizePx * heightEm / density).dp
+    val heightDp = (fontSizePx * heightEm / density)
+        .coerceAtLeast(INLINE_CHIP_MIN_HEIGHT_DP)
+        .dp
     val widthDp = (heightDp.value * (chip.aspectRatio ?: 2.2f))
         .coerceAtMost(fontSizePx * maxWidthEm / density)
         .coerceAtLeast(heightDp.value * 1.05f)
         .dp
     val shape = RoundedCornerShape((radiusEm * fontSizePx / density).dp.coerceAtLeast(4.dp))
+    var dragOffset by remember(chip.token) { mutableStateOf(Offset.Zero) }
+    var isDragging by remember(chip.token) { mutableStateOf(false) }
+    val localDensity = LocalDensity.current
+    val widthPx = with(localDensity) { widthDp.toPx() }
+    val heightPx = with(localDensity) { heightDp.toPx() }
+    val currentLeftPx by rememberUpdatedState(leftPx)
+    val currentTopPx by rememberUpdatedState(topPx)
+    val currentWidthPx by rememberUpdatedState(widthPx)
+    val currentHeightPx by rememberUpdatedState(heightPx)
+    val currentOnDrop by rememberUpdatedState(onDrop)
 
     val shimmer = rememberInfiniteTransition(label = "nebChipShimmer")
     val alpha by shimmer.animateFloat(
@@ -292,26 +345,55 @@ private fun InlineChipOverlay(
 
     Box(
         modifier = Modifier
-            .offsetPx(leftPx, topPx)
-            .alpha(if (chip.pendingKey != null) alpha else 1f)
+            .offsetPx(leftPx + dragOffset.x, topPx + dragOffset.y)
+            .alpha(if (chip.pendingKey != null) alpha else if (isDragging) 0.72f else 1f)
             .size(width = widthDp, height = heightDp)
             .clip(shape)
             .background(MaterialTheme.colorScheme.surfaceContainerHigh)
             .border(BorderStroke(0.75.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.7f)), shape)
-            .clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = null,
-                onClick = onClick
-            )
+            .pointerInput(chip.token, enabled) {
+                if (!enabled) return@pointerInput
+                detectDragGestures(
+                    onDragStart = {
+                        dragOffset = Offset.Zero
+                        isDragging = true
+                    },
+                    onDrag = { change, amount ->
+                        change.consume()
+                        dragOffset += amount
+                    },
+                    onDragEnd = {
+                        val dropCenter = Offset(
+                            currentLeftPx + dragOffset.x + currentWidthPx / 2f,
+                            currentTopPx + dragOffset.y + currentHeightPx / 2f
+                        )
+                        isDragging = false
+                        dragOffset = Offset.Zero
+                        currentOnDrop(dropCenter)
+                    },
+                    onDragCancel = {
+                        isDragging = false
+                        dragOffset = Offset.Zero
+                    }
+                )
+            }
     ) {
         AsyncImage(
             model = chip.imageModel,
             contentDescription = "Attached image",
-            modifier = Modifier.size(width = widthDp, height = heightDp),
+            modifier = Modifier
+                .size(width = widthDp, height = heightDp)
+                .clickable(
+                    enabled = enabled && chip.id != null,
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null,
+                    onClick = onClick
+                ),
             contentScale = ContentScale.Crop
         )
         Surface(
             onClick = onRemove,
+            enabled = enabled,
             shape = CircleShape,
             color = Color.Black.copy(alpha = 0.65f),
             modifier = Modifier

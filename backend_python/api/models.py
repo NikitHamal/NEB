@@ -2240,6 +2240,8 @@ class CanvasBoard(models.Model):
     id = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='canvas_boards', db_index=True)
     title = models.CharField(max_length=200, blank=True, default='Untitled canvas')
+    share_token = models.CharField(max_length=64, unique=True, blank=True, null=True, db_index=True)
+    shared_at = models.BigIntegerField(default=0)
     created_at = models.BigIntegerField(default=0)
     updated_at = models.BigIntegerField(default=0)
 

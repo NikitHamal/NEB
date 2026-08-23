@@ -61,8 +61,6 @@
     <span style="color: var(--md-on-surface); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 42vw;">{{ video_data.title|truncatechars:48 }}</span>
   </div>
 
-  <a href="{% url 'web:videos' %}" class="watch-back"><span class="material-symbols-outlined">arrow_back</span> Back to Videos</a>
-
   <div class="watch-layout">
     <div class="watch-main">
       <div class="watch-player-wrap">
@@ -115,7 +113,7 @@
       {% if post %}
       <div style="margin-top: 14px; padding: 12px 14px; background: var(--md-surface-container-low); border: 1px solid var(--md-outline-variant); border-radius: 12px; font-size: 0.875rem; color: var(--md-on-surface-variant);">
         <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: -3px; margin-right: 6px;">info</span>
-        This video was shared in the discussion <a href="{% url 'web:forum_post' post_id=post.id %}" style="color: var(--md-primary); font-weight: 600; text-decoration: none;">“{{ post.title|truncatechars:64 }}”</a>. Watch here is the canonical watch page for Google Video indexing.
+        This video was shared in the discussion <a href="{% url 'web:forum_post' post_id=post.id %}" style="color: var(--md-primary); font-weight: 600; text-decoration: none;">“{{ post.title|truncatechars:64 }}”</a>.
       </div>
       {% endif %}
     </div>

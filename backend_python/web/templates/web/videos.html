@@ -18,10 +18,6 @@
 {% block content %}
 <div class="md-container videos-page" style="padding-top: 10px;">
   <div class="videos-header">
-    <div>
-      <h1><span class="material-symbols-outlined">smart_display</span> Videos</h1>
-      <p>A dedicated watch hub — every video lives on its own watch page so Google can index it as a <em>Video</em>. Browse by subject, search, and play.</p>
-    </div>
     <form method="get" action="{% url 'web:videos' %}" class="videos-header-actions" style="flex: 1; max-width: 380px; min-width: 260px;">
       <div class="videos-search" style="width: 100%;">
         <span class="material-symbols-outlined">search</span>
@@ -120,13 +116,6 @@
     {% else %}
       <a href="{% url 'web:forum' %}" class="md-btn md-btn-tonal" style="text-decoration: none; margin-top: 10px;"><span class="material-symbols-outlined">forum</span> Browse Forum</a>
     {% endif %}
-  </div>
-  {% endif %}
-
-  {% if trending and not query and not current_category and videos %}
-  <div style="margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--md-outline-variant);">
-    <h3 style="font-size: 1rem; font-weight: 700; margin: 0 0 8px; color: var(--md-on-surface); display: flex; align-items: center; gap: 8px;"><span class="material-symbols-outlined" style="color: var(--md-primary);">local_fire_department</span> Trending</h3>
-    <p style="margin: 0 0 12px; color: var(--md-on-surface-variant); font-size: 0.875rem;">Recently added videos — Google sees each one on a true watch page.</p>
   </div>
   {% endif %}
 </div>

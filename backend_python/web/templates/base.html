@@ -178,7 +178,6 @@
     <nav class="md-nav-pill md-topbar-nav">
       <a href="{% url 'web:home' %}" class="{% block nav_home %}{% endblock %}">Home</a>
       <a href="{% url 'web:library' %}" class="{% block nav_library %}{% endblock %}">Library</a>
-      <a href="{% url 'web:canvas' %}" class="{% block nav_canvas %}{% endblock %}">Canvas</a>
       <a href="{% url 'web:videos' %}" class="{% block nav_videos %}{% endblock %}">Videos</a>
       <a href="{% url 'web:forum' %}" class="{% block nav_forum %}{% endblock %}">Forum</a>
       <a href="{% url 'web:news_list' %}" class="{% block nav_news %}{% endblock %}">Blog</a>
@@ -226,11 +225,11 @@
                 {{ user.username|first|upper }}
                 {% endif %}
               </span>
-              <div class="profile-dropdown-info" style="flex-grow: 1;">
-                <div class="profile-dropdown-name-row" style="display: flex; align-items: center; gap: 4px; flex-wrap: wrap;">
+              <div class="profile-dropdown-info" style="flex-grow: 1; min-width: 0;">
+                <div class="profile-dropdown-name-row" style="display: flex; align-items: center; gap: 6px; flex-wrap: nowrap; min-width: 0;">
                   <span class="profile-dropdown-name">{{ user.username }}</span>
                   {% if badge_info %}
-                    <span class="role-badge role-badge-{{ badge_info.type }}" title="{{ badge_info.label }}">
+                    <span class="role-badge role-badge-{{ badge_info.type }}" title="{{ badge_info.label }}" style="flex-shrink: 0; margin-left: 0;">
                       <span class="material-symbols-outlined" style="font-size: 14px;">{{ badge_info.icon }}</span>
                     </span>
                   {% endif %}

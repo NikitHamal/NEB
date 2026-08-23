@@ -107,6 +107,32 @@
   font-variation-settings: 'FILL' 1;
 }
 
+/* Mobile: compact icon-only rail */
+@media (max-width: 768px) {
+  .md-bottomnav {
+    width: auto;
+    max-width: 264px;
+    padding: 6px;
+  }
+
+  .md-bottomnav-item {
+    flex: 1 1 0;
+    justify-content: center;
+    padding: 0;
+    min-width: 40px;
+  }
+
+  .md-bottomnav-item .md-bottomnav-label {
+    display: none !important;
+  }
+
+  .md-bottomnav-item.md-nav-active {
+    gap: 0;
+    padding: 0;
+    border-radius: 16px;
+  }
+}
+
 /* Nav pill (shared for topbar and bottomnav) */
 .md-nav-pill {
   display: inline-flex;
@@ -332,4 +358,32 @@
     width: 0;
     margin-left: 100%;
   }
+}
+
+/* Empty state for comments/forum/replies */
+.fp-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 36px 20px;
+  color: var(--md-on-surface-variant);
+  border-radius: var(--md-radius-md);
+  background: var(--md-surface-container-low);
+  margin: 16px 0;
+  gap: 8px;
+}
+
+.fp-empty .material-symbols-outlined {
+  font-size: 38px;
+  color: var(--md-outline);
+  opacity: 0.75;
+}
+
+.fp-empty p {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--md-on-surface-variant);
 }
