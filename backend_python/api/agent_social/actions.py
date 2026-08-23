@@ -29,10 +29,15 @@ def log_action(persona, action_type, *, status='done', source='heartbeat',
     )
 
 
-def _compose_reply(bot_config, bot_user, post, persona, target_username=''):
+def _compose_reply(bot_config, bot_user, post, persona, target_username='', parent_reply_id=None):
+    reply_obj = None
+    if parent_reply_id:
+        reply_obj = Reply.objects.filter(pk=parent_reply_id).select_related('user').first()
+    reply_text = reply_obj.content if reply_obj else ''
+
     import os
     if os.environ.get('NEBY_AGENT_SKIP_LLM') == '1':
-        return fallback_reply(post, persona_username=bot_user.username, target_username=target_username)
+        return fallback_reply(post, persona_username=bot_user.username, target_username=target_username, reply_text=reply_text)
     from api.neby import call_ai_api, _build_post_context
     bot_name = getattr(bot_config, 'display_name', None) or bot_user.display_name or bot_user.username
     context, _ = _build_post_context(
@@ -40,26 +45,32 @@ def _compose_reply(bot_config, bot_user, post, persona, target_username=''):
         max_replies=getattr(bot_config, 'max_context_replies', 10) or 10,
         bot_name=bot_name,
     )
-    if post.user_id == bot_user.id:
+    author_name = target_username or (reply_obj.user.username if reply_obj else '') or 'a member'
+    if reply_text:
         extra = (
-            f"\nThis is your own thread on NEBians. A member ({target_username or 'a learner'}) "
-            "just replied or commented. Reply directly to them warmly, respectfully, and helpfully. "
-            "Never use em dashes (— or --) and never use robotic phrases like 'As an AI' or 'In summary'."
+            f"\n@{author_name} specifically commented: \"{reply_text}\"\n"
+            f"Reply directly to @{author_name} naturally and conversationally as an authentic peer and friend in the Nepali learning community. "
+            "Never use em dashes (— or --) and never speak like an AI customer-support assistant or mention tutoring services."
+        )
+    elif post.user_id == bot_user.id:
+        extra = (
+            f"\nThis is your own thread on NEBians. A member (@{author_name}) joined the discussion. "
+            "Reply warmly and casually. Never use em dashes (— or --) and never speak like a robotic AI."
         )
     else:
         extra = (
-            f"\nYou are participating in a learning discussion on NEBians. Reply warmly and helpfully. "
-            "Never use em dashes (— or --) and never use robotic phrases like 'As an AI' or 'In summary'."
+            f"\nYou are joining a forum discussion started by @{author_name}. "
+            "Reply casually and authentically with your own thoughts. Never use em dashes (— or --)."
         )
     system = (getattr(bot_config, 'system_prompt', None) or '').strip() or NEBY_SYSTEM_PROMPT
     try:
         text = call_ai_api(system, context + extra, bot_config)
-        if text and len(text.strip()) > 10:
+        if text and len(text.strip()) > 5:
             cleaned = text.replace('—', ', ').replace('--', ', ').strip()
             return cleaned[:2000]
     except Exception as exc:
         logger.warning('agent reply llm failed: %s', exc)
-    return fallback_reply(post, persona_username=bot_user.username, target_username=target_username)
+    return fallback_reply(post, persona_username=bot_user.username, target_username=target_username, reply_text=reply_text)
 
 
 def _generate_autonomous_post(bot_config, bot_user, persona):
@@ -125,7 +136,7 @@ def act_reply(persona, bot_user, post, bot_config=None, *, source='heartbeat', r
         return None
     if not parent_reply_id and post.user_id != bot_user.id and Reply.objects.filter(post=post, user=bot_user, is_archived=False).exists():
         return None
-    body = (content or '').strip() or _compose_reply(bot_config, bot_user, post, persona, target_username=target_username)
+    body = (content or '').strip() or _compose_reply(bot_config, bot_user, post, persona, target_username=target_username, parent_reply_id=parent_reply_id)
     if not body:
         return None
     result = services.create_reply(bot_user, post.id, body, parent_reply_id=parent_reply_id)
