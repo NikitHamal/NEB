@@ -1,12 +1,13 @@
-<div class="canvas-top-tools" id="canvasTopTools" {% if readonly %}data-readonly="true"{% endif %}>
-  <button class="cv-tool" id="cvCommandBtn" title="Search cards (Ctrl/⌘ K)"><span class="material-symbols-outlined">search</span><span class="cv-tool-label">Search</span></button>
+﻿<div class="canvas-top-tools" id="canvasTopTools" {% if readonly %}data-readonly="true"{% endif %}>
+  <button class="cv-tool" id="cvCommandBtn" title="Search cards (Ctrl+K)" aria-label="Search cards"><span class="material-symbols-outlined">search</span></button>
   {% if not readonly %}
-  <button class="cv-tool" id="cvNoteBtn" title="Add note"><span class="material-symbols-outlined">note_add</span><span class="cv-tool-label">Note</span></button>
-  <button class="cv-tool cv-tool-neby" id="cvNebyBtn" title="Neby Explore"><span class="material-symbols-outlined">auto_awesome</span><span class="cv-tool-label">Neby</span></button>
-  <button class="cv-tool" id="cvHistoryBtn" title="Version history"><span class="material-symbols-outlined">history</span></button>
-  <button class="cv-tool" id="cvMoreBtn" title="More options"><span class="material-symbols-outlined">more_horiz</span></button>
+  <button class="cv-tool" id="cvNoteBtn" title="Add note" aria-label="Add note"><span class="material-symbols-outlined">note_add</span></button>
+  <button class="cv-tool" id="cvHighlightsBtn" title="Highlights" aria-label="Highlights"><span class="material-symbols-outlined">bookmarks</span></button>
+  <button class="cv-tool cv-tool-neby" id="cvNebyBtn" title="Neby Explore" aria-label="Neby Explore"><span class="material-symbols-outlined">auto_awesome</span></button>
+  <button class="cv-tool" id="cvHistoryBtn" title="Version history" aria-label="Version history"><span class="material-symbols-outlined">history</span></button>
+  <button class="cv-tool" id="cvMoreBtn" title="More options" aria-label="More options"><span class="material-symbols-outlined">more_horiz</span></button>
   {% else %}
-  <button class="cv-tool cv-tool-neby" id="cvCloneBtn" title="Copy this canvas"><span class="material-symbols-outlined">content_copy</span><span class="cv-tool-label">Make a copy</span></button>
+  <button class="cv-tool cv-tool-neby" id="cvCloneBtn" title="Copy this canvas" aria-label="Copy this canvas"><span class="material-symbols-outlined">content_copy</span></button>
   {% endif %}
 </div>
 <div class="cv-more-menu" id="cvMoreMenu" hidden>

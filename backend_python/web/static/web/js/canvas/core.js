@@ -111,31 +111,126 @@ function saveNodesLocal(){if(!S.boardId||String(S.boardId).indexOf("local_")!==0
 function renderBoards(){
   if(!E.boardsEl) return;
   E.boardsEl.innerHTML="";
+  var mk=function(b){
+    var item=document.createElement("div");
+    item.className="cs-board-item"+(b.id===S.boardId?" active":"");
+    item.dataset.boardId=b.id;
+    item.title=b.title||"Untitled canvas";
+    item.setAttribute("role","button");item.tabIndex=0;
+    item.innerHTML='<span class="cs-board-dot"></span><span class="cs-board-title"></span><button type="button" class="cs-board-more" title="Canvas options" aria-label="Canvas options"><span class="material-symbols-outlined">more_vert</span></button>';
+    item.querySelector(".cs-board-title").textContent=b.title;
+    var open=function(){switchBoard(b.id)};
+    item.addEventListener("click",function(e){if(e.target.closest(".cs-board-more"))return;open()});
+    item.addEventListener("keydown",function(e){if(e.key==="Enter"&&!e.target.closest(".cs-board-more"))open()});
+    item.querySelector(".cs-board-more").addEventListener("click",function(e){e.stopPropagation();openBoardMenu(b,this)});
+    E.boardsEl.appendChild(item);
+  };
   if(S.isAuth){
     if(S.boards.size===0){E.boardsEl.innerHTML='<div class="cs-empty">No canvases yet.<br>Ask something below to begin.</div>';return}
-    S.boards.forEach(function(b){
-      var btn=document.createElement("button");
-      btn.className="cs-board-item"+(b.id===S.boardId?" active":"");
-      btn.dataset.boardId=b.id;
-      btn.title=b.title||"Untitled canvas";
-      btn.innerHTML='<span class="cs-board-dot"></span><span class="cs-board-title"></span>';
-      btn.querySelector(".cs-board-title").textContent=b.title;
-      btn.addEventListener("click",function(){switchBoard(b.id)});
-      E.boardsEl.appendChild(btn);
-    });
+    S.boards.forEach(mk);
   }else{
     var list=loadBoardsLocal();
     if(!list.length){E.boardsEl.innerHTML='<div class="cs-empty">Local canvas — sign in to save.</div>';return}
     list.forEach(function(b){
-      var btn=document.createElement("button");
-      btn.className="cs-board-item"+(b.id===S.boardId?" active":"");
-      btn.dataset.boardId=b.id;
-      btn.title=b.title||"Untitled canvas";
-      btn.innerHTML='<span class="cs-board-dot"></span><span class="cs-board-title"></span>';
-      btn.querySelector(".cs-board-title").textContent=b.title;
-      btn.addEventListener("click",function(){switchBoard(b.id)});
-      E.boardsEl.appendChild(btn);
+      if(!S.boards.has(b.id)) S.boards.set(b.id,b);
+      mk(b);
     });
+  }
+}
+function isRemoteBoard(b){return S.isAuth&&String(b.id).indexOf("local_")!==0}
+function closeBoardMenu(){
+  var m=document.getElementById("csBmenu");if(m) m.remove();
+}
+function openBoardMenu(b,anchor){
+  closeBoardMenu();
+  var items=[{act:"rename",ic:"edit",t:"Rename"}];
+  if(isRemoteBoard(b)) items.push({act:"share",ic:"link",t:"Copy share link"});
+  items.push({act:"delete",ic:"delete",t:"Delete",danger:true});
+  var m=document.createElement("div");m.className="cs-bmenu";m.id="csBmenu";
+  m.innerHTML=items.map(function(it,i){return '<button type="button" class="cs-bmenu-item'+(it.danger?" danger":"")+'" data-i="'+i+'"><span class="material-symbols-outlined">'+it.ic+'</span>'+esc(it.t)+'</button>'}).join("");
+  document.body.appendChild(m);
+  var r=anchor.getBoundingClientRect();
+  var mw=m.offsetWidth||160,mh=m.offsetHeight||110;
+  var left=Math.max(8,Math.min(r.left,window.innerWidth-mw-10));
+  var top=r.bottom+6;
+  if(top+mh>window.innerHeight-8) top=Math.max(8,r.top-mh-6);
+  m.style.left=left+"px";m.style.top=top+"px";
+  m.addEventListener("click",function(e){
+    var bi=e.target.closest(".cs-bmenu-item");if(!bi) return;
+    var it=items[+bi.dataset.i];
+    closeBoardMenu();
+    if(it.act==="rename") startInlineRename(b);
+    else if(it.act==="share") copyBoardShare(b);
+    else deleteBoardFlow(b);
+  });
+  setTimeout(function(){
+    var off=function(ev){if(ev.target.closest&&ev.target.closest("#csBmenu"))return;closeBoardMenu()};
+    document.addEventListener("mousedown",off,{once:true});
+    document.addEventListener("keydown",function(es){if(es.key==="Escape")closeBoardMenu()},{once:true});
+  },0);
+}
+function startInlineRename(b){
+  var el=document.querySelector('.cs-board-item[data-board-id="'+b.id+'"] .cs-board-title');
+  if(!el) return;
+  var inp=document.createElement("input");
+  inp.type="text";inp.className="cs-rename-input";inp.maxLength=80;inp.value=b.title||"";
+  el.replaceWith(inp);
+  inp.focus();inp.select();
+  var done=false;
+  var finish=function(save){
+    if(done) return;done=true;
+    var v=inp.value.trim().slice(0,80);
+    if(save&&v&&v!==(b.title||"")) setBoardTitle(b,v);
+    else renderBoards();
+  };
+  inp.addEventListener("keydown",function(e){
+    if(e.key==="Enter"){e.preventDefault();finish(true)}
+    else if(e.key==="Escape"){e.preventDefault();finish(false)}
+  });
+  inp.addEventListener("blur",function(){finish(true)});
+  inp.addEventListener("click",function(e){e.stopPropagation()});
+  inp.addEventListener("keydown",function(e){e.stopPropagation()});
+}
+function setBoardTitle(b,v){
+  b.title=v;
+  var fin=function(){renderBoards();showToast("Renamed")};
+  if(isRemoteBoard(b)){
+    api("/ajax/canvas/boards/"+b.id+"/update/",{method:"POST",body:JSON.stringify({title:b.title})}).then(function(d){
+      if(d&&d.board) S.boards.set(b.id,d.board);
+      fin();
+    }).catch(function(err){showToast((err&&err.error)||"Rename failed",true);renderBoards()});
+  }else{
+    var a=loadBoardsLocal();
+    a.forEach(function(x){if(x.id===b.id)x.title=v});
+    saveBoardsLocal(a);fin();
+  }
+}
+function copyBoardShare(b){
+  api("/ajax/canvas/boards/"+b.id+"/share/",{method:"POST",body:"{}"}).then(function(d){
+    var url=location.origin+d.url;
+    return copyText(url).then(function(){showToast("Share link copied — anyone can view")},function(){showToast("Link: "+url)});
+  }).catch(function(err){showToast((err&&err.error)||"Share failed",true)});
+}
+function deleteBoardFlow(b){
+  var name=b.title||"Untitled canvas";
+  if(!window.confirm('Delete "'+name+'"? This cannot be undone.')) return;
+  var wasCurrent=(b.id===S.boardId);
+  var after=function(){
+    S.boards.delete(b.id);
+    try{localStorage.removeItem("canvas_nodes_"+b.id)}catch(e){}
+    renderBoards();updateEmpty();renderEdges();
+    showToast("Canvas deleted");
+    if(wasCurrent){
+      var rest=[];S.boards.forEach(function(v,k){rest.push(k)});
+      if(rest.length) switchBoard(rest[0]);
+      else location.href="/canvas/";
+    }
+  };
+  if(isRemoteBoard(b)){
+    api("/ajax/canvas/boards/"+b.id+"/delete/",{method:"POST",body:"{}"}).then(after).catch(function(err){showToast((err&&err.error)||"Delete failed",true)});
+  }else{
+    saveBoardsLocal(loadBoardsLocal().filter(function(x){return x.id!==b.id}));
+    after();
   }
 }
 function switchBoard(id){
@@ -198,7 +293,17 @@ function loadBoard(id){
     _populate(a);return;
   }
   if(!S.isAuth) return;
-  api("/ajax/canvas/boards/"+id+"/",{method:"GET"}).then(function(d){_populate(d.nodes)}).catch(function(e){showToast((e&&e.error)||"Failed to load",true)});
+  var reqId=id;
+  api("/ajax/canvas/boards/"+id+"/",{method:"GET"}).then(function(d){
+    if(S.boardId!==reqId) return;
+    var nodes=d.nodes||[];
+    if(nodes.length===0&&S.nodes.size>0){
+      var hasPending=false;
+      S.nodes.forEach(function(n){ if(n.boardId===reqId&&(n.status==="generating"||String(n.id).indexOf("tmp_")===0)) hasPending=true; });
+      if(hasPending) return;
+    }
+    _populate(nodes);
+  }).catch(function(e){showToast((e&&e.error)||"Failed to load",true)});
 }
 function loadShared(){
   if(!S.sharedToken) return;
@@ -245,7 +350,7 @@ function rQuote(sec){
   return '<div class="quote-block"><div class="quote-text">'+esc(sec.text||"")+'</div>'+(sec.cite?'<div class="quote-cite">'+esc(sec.cite)+'</div>':'')+'</div>';
 }
 function rCode(sec){
-  return '<pre class="code-block">'+(sec.lang?'<div class="code-lang">'+esc(sec.lang)+'</div>':'')+esc(sec.text||"")+'</pre>';
+  return '<div class="code-block"><div class="code-block-head"><span class="code-lang">'+esc((sec.lang||"code").toUpperCase())+'</span><button class="code-copy" title="Copy code" aria-label="Copy code"><span class="material-symbols-outlined">content_copy</span></button></div><pre class="code-pre">'+esc(sec.text||"")+'</pre></div>';
 }
 function rProsCons(sec){
   function li(t){return '<li>'+esc(t)+'</li>'}
@@ -293,7 +398,7 @@ function renderSection(sec,idx,nodeId){
   }
   if(sec.type==="bullets"&&sec.items){
     var h4='<div><div class="bullets-title">'+esc(sec.title||"")+'</div><ul class="bullets-list">';
-    sec.items.forEach(function(v){h4+='<li>'+esc(v)+'</li>'});
+    sec.items.forEach(function(v){h4+='<li>'+md(v)+'</li>'});
     return h4+'</ul></div>';
   }
   if(sec.type==="references"&&sec.items&&sec.items.length){
@@ -323,13 +428,15 @@ function renderNode(n){
   card.style.left=n.x+"px";card.style.top=n.y+"px";card.tabIndex=0;
   var c=n.content||{};
   var isEmpty=n.status==="empty";
+  if(isEmpty) card.classList.add("is-empty");
+  else if(n.status==="generating") card.classList.add("is-generating");
   var title=isEmpty?"New thread":(c.title||n.title||n.prompt.slice(0,48));
   var gen=n.status==="generating";
   var head;
   if(isEmpty){
     head='<div class="card-head"><div class="card-title">New thread</div><div class="card-actions"><button class="card-icon-btn" data-action="delete" title="Delete"><span class="material-symbols-outlined">close</span></button></div></div>';
   }else{
-    head='<div class="card-head"><div class="card-title">'+esc(title)+'</div>'+(n.prompt?'<div class="card-prompt-pill" title="'+esc(n.prompt)+'"><span>'+esc(n.prompt.slice(0,48))+'</span></div>':'')+'<div class="card-actions"><button class="card-icon-btn" data-action="focus" title="Center (F)"><span class="material-symbols-outlined">center_focus_strong</span></button><button class="card-icon-btn" data-action="copy" title="Copy prompt"><span class="material-symbols-outlined">content_copy</span></button><button class="card-icon-btn" data-action="delete" title="Delete (Del)"><span class="material-symbols-outlined">delete</span></button></div></div>';
+    head='<div class="card-head"><div class="card-title">'+esc(title)+'</div><div class="card-actions"><button class="card-icon-btn" data-action="focus" title="Center (F)"><span class="material-symbols-outlined">center_focus_strong</span></button><button class="card-icon-btn" data-action="copy" title="Copy prompt"><span class="material-symbols-outlined">content_copy</span></button><button class="card-icon-btn" data-action="delete" title="Delete (Del)"><span class="material-symbols-outlined">delete</span></button></div></div>';
   }
   var body="";
   if(isEmpty){
@@ -349,6 +456,21 @@ function renderNode(n){
     '<button class="anchor right" data-dir="right" aria-label="New thread right"></button>';
   E.world.appendChild(card);
   S.heights[n.id]=card.offsetHeight;
+  card.querySelectorAll(".code-copy").forEach(function(btn){
+    btn.addEventListener("click", function(e){
+      e.stopPropagation();
+      var block=btn.closest(".code-block");
+      if(!block) return;
+      var preEl=block.querySelector(".code-pre");
+      var txt=preEl?preEl.textContent:"";
+      copyText(txt.trim()).then(function(){
+        btn.classList.add("copied");
+        btn.innerHTML='<span class="material-symbols-outlined">check</span>';
+        showToast("Code copied");
+        setTimeout(function(){ btn.classList.remove("copied"); btn.innerHTML='<span class="material-symbols-outlined">content_copy</span>'; }, 1400);
+      }, function(){ showToast("Copy failed",true); });
+    });
+  });
   if(isEmpty&&!S.readOnly){
     var dInp=card.querySelector(".draft-input"),dBtn=card.querySelector(".cf-send");
     if(dInp&&dBtn){
@@ -685,7 +807,7 @@ E.viewport.addEventListener("pointerdown",function(e){
   emit("pan-start");
 });
 
-/* ── wheel: ctrl/cmd = zoom; over card = native scroll only (never pan canvas) ── */
+/* ── wheel: allow native scroll only when card body is actually scrollable ── */
 E.viewport.addEventListener("wheel",function(e){
   if(e.ctrlKey||e.metaKey){
     e.preventDefault();
@@ -693,9 +815,14 @@ E.viewport.addEventListener("wheel",function(e){
     zoomAt(e.clientX-r.left,e.clientY-r.top,e.deltaY>0?0.92:1.08);
     return;
   }
-  var inCard=e.target.closest&&e.target.closest(".canvas-card");
-  if(inCard){
+  var body=e.target.closest&&e.target.closest(".card-body, .code-pre");
+  if(body && body.scrollHeight>body.clientHeight+2){
     return;
+  }
+  var inCard=e.target.closest&&e.target.closest(".canvas-card");
+  if(inCard && !body){
+    // card with no scrollable body — treat wheel as viewport pan/zoom for discoverability
+    // (lets tall auto-height cards be panned even when hovering them)
   }
   e.preventDefault();
   var r2=E.viewport.getBoundingClientRect();
