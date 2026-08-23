@@ -149,9 +149,10 @@ body.dragging-card,.canvas-viewport.dragging-card{cursor:grabbing!important}
 
 .canvas-world{position:absolute;left:0;top:0;width:0;height:0;transform-origin:0 0;z-index:2;will-change:transform;backface-visibility:hidden;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 
-.canvas-empty-hint{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;user-select:none;z-index:0}
-.canvas-empty-hint h1{margin:0;font-size:30px;font-weight:600;letter-spacing:-.02em;color:var(--cv-ink)}
-.canvas-empty-hint p{margin:8px 0 0;color:var(--cv-ink-3);font-size:14px;font-weight:400}
+.canvas-empty-hint{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;user-select:none;z-index:0;max-width:540px;padding:0 20px}
+.canvas-empty-hint h1{margin:0;font-size:32px;font-weight:700;letter-spacing:-.02em;color:var(--cv-ink)}
+.canvas-empty-hint .canvas-tagline{margin:8px 0 0;font-size:16px;font-weight:600;color:var(--cv-primary);letter-spacing:-.01em}
+.canvas-empty-hint .canvas-sub{margin:8px 0 0;color:var(--cv-ink-3);font-size:13.5px;font-weight:400;line-height:1.55}
 .canvas-hint-key{margin-top:26px;color:#a8b8d8;animation:hintBob 2.2s ease-in-out infinite}
 .canvas-hint-key .material-symbols-outlined{font-size:26px}
 @keyframes hintBob{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
