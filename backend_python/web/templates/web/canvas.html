@@ -10,10 +10,22 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,0&display=swap">
 <link rel="stylesheet" href="{% static 'web/css/material3.css' %}">
-<link rel="stylesheet" href="{% static 'web/css/canvas.css' %}?v=2">
-<meta name="theme-color" content="#faf7f0">
+<link rel="stylesheet" href="{% static 'web/css/canvas.css' %}?v=11">
+<meta name="theme-color" content="#f5f7fb">
 </head>
-<body class="canvas-body" data-board-id="{{ current_board_id|default:'' }}" data-authenticated="{{ is_authenticated|yesno:'true,false' }}">
+<body class="canvas-body{% if readonly %} readonly{% endif %}" data-board-id="{{ current_board_id|default:'' }}" data-authenticated="{{ is_authenticated|yesno:'true,false' }}">
+
+{% if shared %}
+<div class="shared-banner">
+  <span class="sb-dot"></span>
+  <div class="sb-info">
+    <strong>{{ shared_title }}</strong>
+    <span>View-only canvas{% if shared_owner %} by {{ shared_owner }}{% endif %} · explore with drag &amp; scroll</span>
+  </div>
+  <a class="sb-cta" href="/canvas/">Make your own →</a>
+</div>
+{% endif %}
+
 <div class="canvas-app" id="canvasApp">
   <aside class="canvas-sidebar" id="canvasSidebar">
     <div class="cs-top">
@@ -31,12 +43,15 @@
 
     <div class="cs-section">
       <div class="cs-section-head">
-        <span>My canvases</span>
-        <button class="cs-plus" id="csNewBoardBtn" title="New canvas" aria-label="New canvas"><span class="material-symbols-outlined">add</span></button>
+        <span class="cs-section-label">My canvases</span>
+        <span class="cs-head-actions">
+          <button class="cs-plus" id="csShareBtn" title="Share view-only link" aria-label="Share"><span class="material-symbols-outlined">link</span></button>
+          <button class="cs-plus" id="csNewBoardBtn" title="New canvas" aria-label="New canvas"><span class="material-symbols-outlined">add</span></button>
+        </span>
       </div>
       <div class="cs-boards" id="csBoards">
         {% for b in boards %}
-        <button class="cs-board-item {% if b.id == current_board_id %}active{% endif %}" data-board-id="{{ b.id }}">
+        <button class="cs-board-item {% if b.id == current_board_id %}active{% endif %}" data-board-id="{{ b.id }}" title="{{ b.title }}">
           <span class="cs-board-dot"></span>
           <span class="cs-board-title">{{ b.title|truncatechars:30 }}</span>
         </button>
@@ -56,6 +71,28 @@
           <span class="cs-user-name">{{ user.username }}</span>
           <span class="cs-user-sub">{% if user.display_name %}{{ user.display_name }}{% else %}Nebian{% endif %}</span>
         </div>
+      </div>
+      <div class="cs-credits">
+        <div class="cs-credits-expanded">
+          <div class="cs-credits-head">
+            <span class="cs-credits-label">{% if canvas_credits.is_admin %}Admin · unlimited{% else %}Neby credits{% endif %}</span>
+            <span class="cs-credits-val">{% if canvas_credits.unlimited %}&infin;{% else %}{{ canvas_credits.remaining }} left{% endif %}</span>
+          </div>
+          {% if not canvas_credits.unlimited %}
+          <div class="cs-meter" title="{{ canvas_credits.remaining }} of {{ canvas_credits.allowance }} credits remaining">
+            <div class="cs-meter-fill{% if canvas_credits.low %} low{% endif %}" style="width:{{ canvas_credits.pct }}%"></div>
+          </div>
+          <a class="cs-credits-link" href="/credits/">Get more credits</a>
+          {% endif %}
+        </div>
+
+        <a class="cs-circle-meter" href="/credits/" title="{% if canvas_credits.is_admin %}Admin · Unlimited credits{% else %}{{ canvas_credits.remaining }} of {{ canvas_credits.allowance }} credits remaining ({{ canvas_credits.pct }}%){% endif %}" aria-label="Credits: {% if canvas_credits.is_admin %}Unlimited{% else %}{{ canvas_credits.remaining }} left{% endif %}">
+          <svg viewBox="0 0 36 36" class="cs-circle-svg">
+            <path class="cs-circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+            <path class="cs-circle-fill{% if canvas_credits.low %} low{% endif %}" stroke-dasharray="{% if canvas_credits.unlimited %}100, 100{% else %}{{ canvas_credits.pct }}, 100{% endif %}" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+          </svg>
+          <span class="cs-circle-val">{% if canvas_credits.unlimited %}&infin;{% else %}{{ canvas_credits.remaining }}{% endif %}</span>
+        </a>
       </div>
       {% else %}
       <a href="/login/" class="cs-login-cta"><span class="material-symbols-outlined">login</span> Sign in to save canvases</a>
@@ -87,31 +124,13 @@
     <div class="canvas-bottom-bar" id="canvasBottomBar">
       <div class="cb-bar-inner">
         <textarea id="globalPrompt" rows="1" placeholder="What do you want to understand?"></textarea>
-        <div class="cb-bar-controls">
-          <label class="cb-web-toggle" id="webToggleLabel" title="Toggle web search">
-            <span class="material-symbols-outlined">language</span>
-            <span class="cb-toggle-text">Web search</span>
-            <input type="checkbox" id="webSearchToggle">
-            <span class="cb-switch"><span class="cb-knob"></span></span>
-          </label>
-          <div class="cb-divider"></div>
-          <div class="cb-speed-wrap" id="speedWrap">
-            <button class="cb-speed-btn" id="speedBtn" aria-haspopup="listbox" aria-expanded="false">
-              <span class="material-symbols-outlined cb-speed-ico">bolt</span>
-              <span id="speedLabel">Fast</span>
-              <span class="material-symbols-outlined cb-caret">expand_more</span>
-            </button>
-            <div class="cb-speed-menu" id="speedMenu" role="listbox" hidden>
-              <button class="cb-speed-item" role="option" data-speed="fast"><span>Fast</span><span class="material-symbols-outlined">check</span></button>
-              <button class="cb-speed-item" role="option" data-speed="deep"><span>Deep</span><span class="material-symbols-outlined">check</span></button>
-            </div>
-          </div>
-          <button class="cb-send" id="globalSendBtn" aria-label="Send" disabled><span class="material-symbols-outlined">arrow_upward</span></button>
-        </div>
+        <button class="cb-send" id="globalSendBtn" aria-label="Send" disabled><span class="material-symbols-outlined">arrow_upward</span></button>
       </div>
     </div>
   </div>
 </div>
+
+<div class="ctx-menu" id="ctxMenu" hidden></div>
 
 <div class="canvas-selection-pop" id="selectionPop" hidden>
   <button data-action="dig-deeper" class="sel-btn sel-primary"><span class="material-symbols-outlined">travel_explore</span> Dig deeper</button>
@@ -143,10 +162,13 @@ window.CANVAS_CONFIG = {
   boardId: "{{ current_board_id|escapejs }}",
   isAuthenticated: {{ is_authenticated|yesno:"true,false" }},
   csrfToken: "{{ csrf_token|escapejs }}",
-  username: "{{ user.username|default:''|escapejs }}"
+  username: "{{ user.username|default:''|escapejs }}",
+  readOnly: {% if readonly %}true{% else %}false{% endif %},
+  sharedToken: "{{ shared_token|escapejs }}",
+  boards: {{ boards_json|default:'[]'|safe }}
 };
 </script>
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/canvas/core.js' %}"></script>
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/canvas/ui.js' %}"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/canvas/core.js' %}?v=9"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/canvas/ui.js' %}?v=9"></script>
 </body>
 </html>

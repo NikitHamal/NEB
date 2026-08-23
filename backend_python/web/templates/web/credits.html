@@ -96,10 +96,6 @@
                     <span class="credits-contact-value">{{ whatsapp_contact.name }}</span>
                 </div>
                 <div class="credits-contact-row">
-                    <span>Phone / WhatsApp:</span>
-                    <span class="credits-contact-value credits-contact-green">{{ whatsapp_contact.phone }}</span>
-                </div>
-                <div class="credits-contact-row">
                     <span>Monthly Refresh:</span>
                     <span class="credits-contact-value credits-contact-blue">10 Free Credits / Month</span>
                 </div>
@@ -207,7 +203,8 @@ async function handleConvertPoints(e) {
         if (resp.ok) {
             msg.className = 'credits-msg credits-msg-ok block';
             msg.innerText = data.message || 'Successfully converted points to credits!';
-            document.getElementById('total-credits-val').innerText = data.total_credits;
+            const totalEl = document.getElementById('total-credits-val');
+            if (totalEl) totalEl.innerText = data.total_credits;
             document.getElementById('user-points-val').innerText = data.nebians_points + ' pts';
             setTimeout(() => window.location.reload(), 1500);
         } else {

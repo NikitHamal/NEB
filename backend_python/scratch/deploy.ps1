@@ -114,6 +114,7 @@ cp -rf web/static/web/img/* public/static/web/img/
 
 echo 'Deploying favicon.ico to site root for /favicon.ico serving...'
 cp -f web/static/web/img/favicon.ico public/favicon.ico
+cp -f web/static/web/img/favicon.ico /home/consicac/nebians.consica.com.np/favicon.ico 2>/dev/null || true
 
 echo 'Deploying .htaccess security rules...'
 cp -f public/.htaccess public/.htaccess

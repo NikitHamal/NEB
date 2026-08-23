@@ -1,18 +1,13 @@
 import json
-import time
 import uuid
 
-from django.conf import settings
-from django.core.cache import cache
 from django.http import JsonResponse, Http404
-from django.shortcuts import render, redirect
+from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_GET, require_POST
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.html import escape
 
 from api.models import CanvasBoard, CanvasNode, User
 from api.utils import now_ms, uuid_str
-from .view_helpers import _ctx, _get_valid_token, _get_user_id, _avatar_url, _user_badge_info, _rate_limit
+from .view_helpers import _ctx, _get_valid_token, _rate_limit, _blobatar_url_for
 from api.security import get_user_by_auth_token
 
 SYSTEM_PROMPT = """You are Wondering Canvas — a spatial research engine that turns any question into a rich, visual, node-based explanation.
@@ -24,11 +19,26 @@ You output ONLY a single JSON object (no markdown fences, no extra text) with th
   "sections": [
     {"type": "text", "content": "Markdown paragraph. Use **bold** for key terms. 40-70 words. No lists."},
     {
+      "type": "flow",
+      "title": "Pipeline / architecture title",
+      "nodes": [{"label": "1-3 word stage", "tone": "blue|green|amber|rose|slate", "desc": "optional one-liner"}],
+      "links": ["label on arrow into next node", "..."]  
+    },
+    {
       "type": "diagram",
-      "title": "Diagram title (e.g., 'Core Architecture')",
+      "title": "System map title",
       "nodes": [{"id": "slug", "label": "Short label", "desc": "One-line meaning"}],
       "edges": [{"from": "id", "to": "id"}],
-      "note": "Optional small caption below diagram."
+      "note": "Optional caption"
+    },
+    {
+      "type": "timeline",
+      "title": "History / process title",
+      "steps": [{"title": "Step or year", "sub": "one-line detail"}]
+    },
+    {
+      "type": "stats",
+      "items": [{"k": "Metric name", "v": "Value"}]
     },
     {
       "type": "comparison",
@@ -36,31 +46,32 @@ You output ONLY a single JSON object (no markdown fences, no extra text) with th
       "headers": ["Aspect", "Column A", "Column B"],
       "rows": [["Row label", "Col A value", "Col B value"]]
     },
+    {"type": "quote", "text": "A crisp defining sentence.", "cite": "optional source"},
+    {"type": "code", "lang": "python", "text": "short snippet when topic is programming"},
+    {"type": "proscons", "title": "Trade-off title", "pros": ["..."], "cons": ["..."]},
     {
       "type": "cards",
       "title": "Visual reference title",
-      "items": [
-        {"title": "Item name", "subtitle": "Designer / year / tagline", "bullets": ["Material: ...", "Philosophy: ..."], "desc": "One sentence."}
-      ]
+      "items": [{"title": "Name", "subtitle": "Who · year · tagline", "bullets": ["Attr: ..."], "desc": "One sentence."}]
     },
-    {
-      "type": "bullets",
-      "title": "Optional bullet list title",
-      "items": ["Point 1", "Point 2", "Point 3"]
-    }
+    {"type": "bullets", "title": "List title", "items": ["Point 1", "Point 2"]},
+    {"type": "ask_user", "question": "What context do you mean?", "options": ["Option A", "Option B"], "placeholder": "Or type your context..."}
   ]
 }
 
 Rules:
-- Always include at least 1 text section.
-- Include a diagram when the topic has a system/process/architecture (use 3-5 nodes). Include comparison when topic has alternatives. Include cards/visual refs only when topic is about objects/products/people.
-- Keep total sections 2-4.
-- Diagram nodes: ids are lowercase slugs without spaces, labels 1-3 words, desc max 10 words.
-- Edges must reference valid node ids.
-- Comparison: 3-5 rows, headers length 3 (first is Aspect).
-- Cards: 2-4 items if used.
-- Write in clear, concise, educational English. No repetition.
-- Do NOT wrap output in markdown. Output raw JSON only.
+- Always include at least 1 text section and be GENEROUS with visuals — pick 3-5 sections total.
+- Use "flow" for any pipeline/architecture (3-6 nodes; tones cycle blue→green→amber→rose→slate; links array length = nodes-1, each a 1-2 word verb like "predicts", "encodes", "routes to").
+- Use "diagram" when relationships branch or loop (interactive tap-to-explain).
+- Use "timeline" for histories, lifecycles, multi-step processes (3-6 steps).
+- Use "stats" for striking numbers/scales (2-4 items).
+- Use "proscons" for trade-offs. Use "comparison" for head-to-head alternatives (3-5 rows).
+- Sprinkle one "quote" (crisp definition) when natural. "code" ONLY for programming topics.
+- "cards" only for objects/products/people. "bullets" sparingly.
+- Use "ask_user" when the prompt is vague, ambiguous, or lacks context — do NOT hallucinate. Ask for clarification with 2-4 concise options. This is PREFERRED over guessing. Be truthful: if you don't know, say so and ask.
+- Flow node labels are Title Case, 1-3 words. Timeline sub max 12 words.
+- Web search is ALWAYS available to you. When any fact came from web results, add a top-level "references" array: "references": [{"title": "Page title", "url": "https://...", "source": "site name"}] — max 4, ONLY real URLs you actually saw. Never invent URLs; omit references if none were used.
+- Be truthful, concise, educational. No repetition. No generic filler like "An overview of X broken into a visual structure". Raw JSON only.
 """
 
 
@@ -161,109 +172,213 @@ def _mock_content(prompt, parent_context=""):
         title = title[:38].rsplit(" ", 1)[0] + "…"
     title_cap = title.title() if len(title.split()) <= 6 else title.capitalize()
 
+    vague = p.strip().lower()
+    if vague in ["define environment", "what is environment", "environment", "explain environment", "define environment?", "what is an environment"] or (len(vague.split()) <= 3 and vague.startswith("define ") and "environment" in vague):
+        return {
+            "title": "Which environment?",
+            "summary": "I'd like to be precise — **which environment** are you asking about?",
+            "sections": [
+                {"type": "ask_user", "question": "Which environment would you like to explore?", "options": ["Natural environment — ecosystems & conservation", "Programming / software environment", "World model / AI environment", "Learning / study environment"], "placeholder": "Or describe your context…"}
+            ]
+        }
+    if len(p.strip().split()) <= 2 and not parent_context:
+        clean = p.strip()
+        if clean and len(clean) < 20:
+            return {
+                "title": "Could you clarify?",
+                "summary": f"You asked **\"{prompt.strip()}\"** — could you share a bit more context so I can be precise?",
+                "sections": [
+                    {"type": "ask_user", "question": f"What would you like to know about \"{prompt.strip()}\" ?", "options": ["Give me a definition", "Show me an example", "Explain how it works", "Compare it to something else"], "placeholder": "Add more detail…"}
+                ]
+            }
+
     if "raw sensory" in p:
         return {
             "title": "Raw Sensory Data",
-            "summary": "**Raw sensory data** is the unprocessed stream from the environment — pixels, audio waves, or proprioceptive signals before any abstraction.",
+            "summary": "**Raw sensory data** is the unprocessed stream from the environment — pixels, audio waves, proprioceptive signals — before any abstraction.",
             "sections": [
-                {"type": "text", "content": "Sensors deliver high-dimensional, noisy observations. **Perception** compresses this into a compact latent code that the **world model** can predict forward, filtering noise while preserving task-relevant structure."},
-                {"type": "bullets", "title": "Why it matters", "items": ["Basis for every prediction the agent makes.", "Quality of encoding limits planning accuracy.", "Better compression → more imagined rollouts per second."]},
-                {"type": "comparison", "title": "Raw vs Latent", "headers": ["Aspect", "Raw sensory", "Latent state"], "rows": [["Size", "Megabytes per second", "Hundreds of floats"], ["Noise", "High", "Filtered"], ["Use for planning", "No — too heavy", "Yes — compact rollouts"]]},
+                {"type": "flow", "title": "From photons to plans", "nodes": [
+                    {"label": "Sensors", "tone": "slate"},
+                    {"label": "Encoder", "tone": "blue", "desc": "CNN / ViT"},
+                    {"label": "Latent State", "tone": "green"},
+                    {"label": "World Model", "tone": "amber"},
+                ], "links": ["captures", "compresses", "feeds"]},
+                {"type": "stats", "items": [
+                    {"k": "Raw video", "v": "~1 Gbps"},
+                    {"k": "Latent state", "v": "~4 KB"},
+                    {"k": "Compression", "v": "100000x"},
+                ]},
+                {"type": "comparison", "title": "Raw vs Latent", "headers": ["Aspect", "Raw", "Latent"], "rows": [
+                    ["Size", "MB per frame", "Hundreds of floats"],
+                    ["Noise", "High", "Filtered"],
+                    ["Planning", "Too heavy", "Compact rollouts"],
+                ]},
             ],
         }
     if "dynamics" in p and "predict" in p:
         return {
             "title": "Dynamics Predictor",
-            "summary": "The **dynamics predictor** learns how the latent world state evolves when an action is taken — the core foresight module of a world model.",
+            "summary": "The **dynamics predictor** learns how latent state evolves under an action — the foresight engine of a world model.",
             "sections": [
-                {"type": "text", "content": "Given the current **latent state** and an **action**, the dynamics predictor outputs the next state distribution. Training minimizes the gap between predicted and actual future encodings, forcing the model to internalize physics and causality."},
-                {"type": "diagram", "title": "Prediction step", "nodes": [{"id": "state", "label": "State", "desc": "Current latent state"}, {"id": "action", "label": "Action", "desc": "Agent's choice"}, {"id": "next", "label": "Next State", "desc": "Predicted future"}], "edges": [{"from": "state", "to": "next"}, {"from": "action", "to": "next"}]},
+                {"type": "text", "content": "Given current **latent state** and an **action**, it outputs the next-state distribution. Training minimizes prediction gap against real futures, forcing internalized **causality**."},
+                {"type": "flow", "title": "One imagination step", "nodes": [
+                    {"label": "State z(t)", "tone": "blue"},
+                    {"label": "Action a(t)", "tone": "slate"},
+                    {"label": "Next State", "tone": "green"},
+                    {"label": "Reward r(t)", "tone": "amber"},
+                ], "links": ["plus", "predicts", "scores"]},
+                {"type": "proscons", "title": "Deterministic vs stochastic heads", "pros": ["Stable rollouts", "Cheap to sample"], "cons": ["Misses multimodality", "Blur on uncertainty"]},
             ],
         }
     if "world model" in p:
         return {
             "title": "World Models",
-            "summary": "A **world model** is an internal, predictive simulation of the environment that lets an agent imagine future states, evaluate actions, and plan without touching the real world.",
+            "summary": "A **world model** is an internal, predictive simulation of the environment — an agent imagines futures, evaluates actions, and plans without touching reality.",
             "sections": [
-                {"type": "text", "content": "World models compress **raw sensory data** into a compact latent state, then simulate how that state evolves. Unlike **LLMs** that predict the next token, world models predict the next *world state* and the **reward** that follows, enabling **model-based planning** and safer exploration."},
-                {"type": "diagram", "title": "World Model Architecture", "nodes": [
-                    {"id": "perception", "label": "Perception", "desc": "Encodes raw sensory data"},
-                    {"id": "memory", "label": "Memory / State", "desc": "Latent world representation"},
-                    {"id": "dynamics", "label": "Dynamics Predictor", "desc": "Predicts next state"},
-                    {"id": "reward", "label": "Reward Estimator", "desc": "Predicts reward signal"},
-                    {"id": "policy", "label": "Action Policy", "desc": "Chooses best action"},
-                ], "edges": [
-                    {"from": "perception", "to": "memory"},
-                    {"from": "memory", "to": "dynamics"},
-                    {"from": "dynamics", "to": "reward"},
-                    {"from": "memory", "to": "policy"},
-                    {"from": "reward", "to": "policy"},
-                ], "note": "Tap any block to see what it does."},
+                {"type": "quote", "text": "Instead of reacting purely on instinct, a world model can mentally 'play out' scenarios, anticipate consequences, and plan long-term."},
+                {"type": "flow", "title": "Components of a World Model", "nodes": [
+                    {"label": "Perception", "tone": "green", "desc": "encodes raw data"},
+                    {"label": "Dynamics Predictor", "tone": "blue", "desc": "imagines next state"},
+                    {"label": "Reward Estimator", "tone": "amber"},
+                    {"label": "Action Policy", "tone": "rose", "desc": "picks best move"},
+                ], "links": ["encodes", "predicts", "informs"]},
+                {"type": "diagram", "title": "The learning loop", "nodes": [
+                    {"id": "act", "label": "Act", "desc": "policy acts in world"},
+                    {"id": "sense", "label": "Sense", "desc": "observe result"},
+                    {"id": "train", "label": "Train", "desc": "update model"},
+                    {"id": "imagine", "label": "Imagine", "desc": "dream rollouts"},
+                    {"id": "plan", "label": "Plan", "desc": "pick better action"},
+                ], "edges": [{"from": "act", "to": "sense"}, {"from": "sense", "to": "train"}, {"from": "train", "to": "imagine"}, {"from": "imagine", "to": "plan"}, {"from": "plan", "to": "act"}], "note": "Tap any stage to unpack it."},
+                {"type": "timeline", "title": "Milestones", "steps": [
+                    {"title": "1989", "sub": "Sutton's Dyna — learn, imagine, plan"},
+                    {"title": "2018", "sub": "World Models paper dreams in VAE space"},
+                    {"title": "2023", "sub": "DreamerV3 masters 150+ tasks"},
+                    {"title": "2025", "sub": "Video world models scale to games"},
+                ]},
                 {"type": "comparison", "title": "World Models vs LLMs", "headers": ["Aspect", "World Models", "LLMs"], "rows": [
-                    ["Core objective", "Predict future world states", "Predict next token"],
-                    ["Representation", "Latent dynamics + reward", "Statistical language distribution"],
-                    ["Planning", "Imagined rollouts, then act", "Generate text, no simulation"],
-                    ["Data efficiency", "High (imagination)", "High but needs huge text"],
+                    ["Objective", "Predict next state", "Predict next token"],
+                    ["Grounding", "Physics of environment", "Human text"],
+                    ["Planning", "Imagined rollouts", "Chain-of-thought"],
+                ]},
+                {"type": "stats", "items": [
+                    {"k": "Rollout speed", "v": "1000x realtime"},
+                    {"k": "Dreamer tasks", "v": "150+"},
                 ]},
             ],
         }
-    if "control theory" in p or "control" in p:
+    if "control theory" in p or ("control" in p and "loop" not in p):
         return {
             "title": "Control Theory",
-            "summary": "**Control theory** is the mathematics of steering systems toward desired behavior by adjusting inputs based on feedback from the environment.",
+            "summary": "**Control theory** is the mathematics of steering systems toward desired behavior by adjusting inputs based on measured feedback.",
             "sections": [
-                {"type": "text", "content": "Every controlled system has a **plant** (what you steer), a **sensor** that measures output, and a **controller** that decides the next input. The controller closes the **feedback loop**, comparing the measured output to the **reference** and correcting the error over time."},
-                {"type": "diagram", "title": "Feedback Loop", "nodes": [
-                    {"id": "reference", "label": "Reference", "desc": "Desired value"},
-                    {"id": "controller", "label": "Controller", "desc": "Computes correction"},
-                    {"id": "plant", "label": "Plant", "desc": "System being controlled"},
-                    {"id": "sensor", "label": "Sensor", "desc": "Measures output"},
-                ], "edges": [
-                    {"from": "reference", "to": "controller"},
-                    {"from": "controller", "to": "plant"},
-                    {"from": "plant", "to": "sensor"},
-                    {"from": "sensor", "to": "controller"},
+                {"type": "flow", "title": "Closed loop", "nodes": [
+                    {"label": "Reference", "tone": "slate", "desc": "goal"},
+                    {"label": "Controller", "tone": "blue", "desc": "computes input"},
+                    {"label": "Plant", "tone": "green", "desc": "the system"},
+                    {"label": "Sensor", "tone": "amber", "desc": "measures output"},
+                ], "links": ["setpoint", "drives", "produces"]},
+                {"type": "diagram", "title": "Feedback path", "nodes": [
+                    {"id": "err", "label": "Error", "desc": "reference minus measured"},
+                    {"id": "pid", "label": "PID", "desc": "P·I·D terms summed"},
+                    {"id": "out", "label": "Output", "desc": "physical response"},
+                    {"id": "fb", "label": "Feedback", "desc": "sensor closes loop"},
+                ], "edges": [{"from": "err", "to": "pid"}, {"from": "pid", "to": "out"}, {"from": "out", "to": "fb"}, {"from": "fb", "to": "err"}]},
+                {"type": "timeline", "title": "From governor to Mars", "steps": [
+                    {"title": "1788", "sub": "Watt's centrifugal governor"},
+                    {"title": "1942", "sub": "Ziegler-Nichols PID tuning rules"},
+                    {"title": "1969", "sub": "Apollo lunar module guidance"},
+                    {"title": "Now", "sub": "Every drone, rocket and thermostat"},
                 ]},
-                {"type": "comparison", "title": "Open vs Closed Loop", "headers": ["Aspect", "Open Loop", "Closed Loop"], "rows": [
-                    ["Feedback", "None — fixed sequence", "Continuous measurement"],
-                    ["Robustness", "Fragile to disturbances", "Corrects for noise"],
-                    ["Example", "Toaster timer", "Thermostat"],
-                ]},
+                {"type": "proscons", "title": "Open vs closed loop", "pros": ["Rejects disturbances", "Self-correcting"], "cons": ["Sensor noise risk", "Can oscillate if mistuned"]},
             ],
         }
-    if "chair" in p or "danish" in p or "design" in p:
+    if "chair" in p or "danish" in p:
         return {
             "title": "Iconic Danish Chairs",
-            "summary": "Danish modern chairs distilled function to its purest form — honest materials, human proportions, and quiet craft that still feels contemporary today.",
+            "summary": "Danish modern distilled function to its purest form — honest materials, human proportions, quiet craft that still feels contemporary.",
             "sections": [
-                {"type": "text", "content": "The golden age of **Danish design** (1940s-60s) prized **material honesty**, **ergonomic clarity**, and restrained joinery. Designers like **Hans Wegner** and **Arne Vodder** let wood, rattan, and leather speak without ornament, producing chairs that are light to the eye but deeply engineered."},
+                {"type": "quote", "text": "A chair should be beautiful from all sides and angles.", "cite": "Hans J. Wegner"},
                 {"type": "cards", "title": "Four icons", "items": [
-                    {"title": "CH07 Shell Chair", "subtitle": "Hans Wegner · 1963", "bullets": ["Material: Molded plywood + steel", "Philosophy: Floating lightness"], "desc": "Three curved shell forms give winged comfort with minimal structure."},
-                    {"title": "Wishbone Chair (CH24)", "subtitle": "Hans Wegner · 1949", "bullets": ["Material: Solid wood + paper cord", "Philosophy: Perfected craft"], "desc": "Steamed Y-back and woven seat; 100+ steps by hand."},
-                    {"title": "PK22 Chair", "subtitle": "Poul Kjærholm · 1956", "bullets": ["Material: Steel + wicker/leather", "Philosophy: Industrial elegance"], "desc": "Thin steel frame contrasts soft, suspended seating."},
-                    {"title": "Sibast No. 8", "subtitle": "Helge Sibast · 1953", "bullets": ["Material: Teak + leather", "Philosophy: Quiet luxury"], "desc": "Subtle curves and stitched back emphasize upholstery craft."},
+                    {"title": "CH07 Shell Chair", "subtitle": "Wegner · 1963", "bullets": ["Molded plywood + steel", "Floating lightness"], "desc": "Three curved shells give winged comfort."},
+                    {"title": "Wishbone CH24", "subtitle": "Wegner · 1949", "bullets": ["Solid wood + paper cord", "100+ hand steps"], "desc": "Steamed Y-back, woven seat."},
+                    {"title": "PK22", "subtitle": "Kjærholm · 1956", "bullets": ["Steel + wicker", "Industrial elegance"], "desc": "Thin frame, suspended comfort."},
+                    {"title": "Sibast No 8", "subtitle": "Sibast · 1953", "bullets": ["Teak + leather", "Quiet luxury"], "desc": "Stitched back, soft curves."},
+                ]},
+                {"type": "timeline", "title": "Golden age", "steps": [
+                    {"title": "1944", "sub": "China chair series begins"},
+                    {"title": "1949", "sub": "Wishbone enters production"},
+                    {"title": "1956", "sub": "PK22 wins Milan Triennale"},
+                    {"title": "1963", "sub": "Shell chair debuts"},
                 ]},
             ],
         }
-    # Generic fallback
-    base_title = title_cap if title_cap else "Understanding " + (prompt[:30] if prompt else "the topic")
+    base_title = title_cap if title_cap else "Understanding"
     return {
         "title": base_title,
-        "summary": f"An overview of **{prompt[:80]}** — key ideas broken down into a visual structure you can explore in parallel.",
+        "summary": f"**{prompt.strip()[:60]}** — here's a concise, structured view. If you share a bit more context, I can tailor the next card precisely.",
         "sections": [
-            {"type": "text", "content": f"**{prompt.strip()[:60]}** can be understood as a system of interacting parts. The core idea is to separate *what the system perceives*, *how it predicts change*, and *how it evaluates outcomes*. Each part is simple alone; together they enable coherent behaviour in complex environments."},
-            {"type": "bullets", "title": "Key ideas", "items": [
-                "Compress the world into a compact internal state.",
-                "Model how actions change that state over time.",
-                "Use the model to imagine futures before acting.",
+            {"type": "text", "content": f"**{prompt.strip()[:60]}** can be viewed as a system of parts. The key is to separate *what's being described*, *how it behaves*, and *why it matters*. This structure lets you drill into any part via the thread or ask a follow-up below."},
+            {"type": "flow", "title": "Core pipeline", "nodes": [
+                {"label": "Input", "tone": "slate"},
+                {"label": "Encode", "tone": "blue"},
+                {"label": "Predict", "tone": "green"},
+                {"label": "Decide", "tone": "amber"},
+            ], "links": ["arrives as", "into state", "forward"]},
+            {"type": "stats", "items": [
+                {"k": "Core idea", "v": "Model → Imagine → Act"},
+                {"k": "Key lever", "v": "Prediction quality"},
             ]},
-            {"type": "comparison", "title": "Two perspectives", "headers": ["Aspect", "Approach A", "Approach B"], "rows": [
-                ["Focus", "Structure & simulation", "Data & pattern matching"],
-                ["Strength", "Planning and foresight", "Breadth and fluency"],
-                ["Trade-off", "Needs a good model", "Needs huge data"],
-            ]},
+            {"type": "proscons", "title": "Two lenses", "pros": ["Structure & foresight", "Data efficient"], "cons": ["Needs a good model", "Harder to debug"]},
         ],
     }
+
+
+def _parse_canvas_json(prompt, raw):
+    """Parse LLM output into canvas card content. Returns dict or None if unusable."""
+    raw = (raw or "").strip()
+    if not raw:
+        return None
+    if raw.startswith("```"):
+        raw = raw.strip("`")
+        if raw.lstrip().lower().startswith("json"):
+            raw = raw.lstrip()[4:].strip()
+    try:
+        data = json.loads(raw)
+        if not isinstance(data, dict) or "title" not in data:
+            return None
+        if not data.get("sections"):
+            data["sections"] = [{"type": "text", "content": raw[:800]}]
+        refs = data.get("references")
+        if isinstance(refs, list) and refs and not any(s.get("type") == "references" for s in data["sections"]):
+            items = []
+            for r in refs[:6]:
+                if isinstance(r, str):
+                    items.append({"title": r[:120], "url": "", "source": ""})
+                elif isinstance(r, dict) and (r.get("url") or r.get("title")):
+                    items.append({
+                        "title": (r.get("title") or r.get("url") or "")[:140],
+                        "url": (r.get("url") or "")[:500],
+                        "source": (r.get("source") or "")[:80],
+                    })
+            if items:
+                data["sections"].append({"type": "references", "items": items})
+        return data
+    except Exception:
+        return None
+
+
+def _wrap_raw_text(prompt, raw):
+    raw = (raw or "").strip()
+    return {
+        "title": prompt.strip().split("?")[0][:40] or "Result",
+        "summary": raw[:260] + ("…" if len(raw) > 260 else ""),
+        "sections": [{"type": "text", "content": raw[:1800]}],
+    }
+
+
+# Primary provider: Poolside Laguna S 2.1 (free web proxy; webSearch is always
+# enabled upstream in poolside_proxy). Official key-backed providers are fallbacks.
+_CANVAS_PRIMARY_MODEL = 'laguna-s-2.1'
 
 
 def _call_llm_for_canvas(user, prompt, parent_context, web_search_enabled, speed_mode):
@@ -273,14 +388,39 @@ def _call_llm_for_canvas(user, prompt, parent_context, web_search_enabled, speed
     user_prompt = prompt.strip()
     if parent_context:
         user_prompt = f"Ancestor context (use to keep drill-downs consistent):\n{parent_context}\n\n---\n\nNew question to answer as a new child card: {prompt.strip()}"
-        if selected_hint := parent_context[:120]:
-            pass
-    if web_search_enabled:
-        user_prompt += "\n\n[Web search is enabled — cite what you can, but do not hallucinate URLs. Prefer concise, grounded explanations.]"
     speed_note = "Fast" if (speed_mode or "fast").lower() == "fast" else "Deep"
     user_prompt = f"[{speed_note} mode — answer quickly but thoroughly]\n" + user_prompt
 
-    # Try official providers in priority order
+    # ── 1. Primary: Poolside Laguna S 2.1 (web search always on upstream) ──
+    raw = None
+    try:
+        from api.poolside_proxy import simple_chat as _poolside_chat
+        from concurrent.futures import ThreadPoolExecutor
+        ex = ThreadPoolExecutor(max_workers=1)
+        try:
+            fut = ex.submit(
+                _poolside_chat,
+                user_prompt,
+                _CANVAS_PRIMARY_MODEL,
+                SYSTEM_PROMPT,
+                3600,
+            )
+            raw = fut.result(timeout=50)
+        except Exception:
+            raw = None
+        finally:
+            ex.shutdown(wait=False)
+        data = _parse_canvas_json(prompt, raw)
+        if data:
+            return {'slug': 'poolside', 'model': _CANVAS_PRIMARY_MODEL}, data, 'poolside'
+        # Unparseable but substantial text → wrap so content isn't lost
+        if raw and len(raw.strip()) > 200:
+            return {'slug': 'poolside', 'model': _CANVAS_PRIMARY_MODEL}, _wrap_raw_text(prompt, raw), 'poolside'
+        # else fall through to official providers
+    except Exception:
+        pass
+
+    # ── 2. Fallback: official key-backed providers in priority order ──
     candidates = [
         ('agnes', ''),
         ('openai', ''),
@@ -297,60 +437,82 @@ def _call_llm_for_canvas(user, prompt, parent_context, web_search_enabled, speed
                 break
         except Exception:
             continue
-    if not resolved:
-        # Try qwen bot presence (scraper fallback — but we want JSON, so use scraper via LLM client is not available)
-        # Fall back to mock so canvas still works offline/demo.
-        return None, _mock_content(prompt, parent_context), "mock"
 
-    try:
-        result = chat(
-            format=resolved.format,
-            base_url=resolved.base_url,
-            api_key=resolved.api_key,
-            model=resolved.model,
-            messages=[
-                {'role': 'system', 'content': SYSTEM_PROMPT},
-                {'role': 'user', 'content': user_prompt},
-            ],
-            max_tokens=2600 if speed_note == "Fast" else 3600,
-            timeout=45,
-            temperature=0.45,
-            provider=resolved.slug,
-        )
-        raw = (result.text or "").strip()
-        # Strip fences if model adds them despite instructions
-        if raw.startswith("```"):
-            raw = raw.strip("`")
-            # remove first line if it's json
-            if raw.lstrip().lower().startswith("json"):
-                raw = raw.lstrip()[4:].strip()
+    if resolved:
         try:
-            data = json.loads(raw)
-            if not isinstance(data, dict) or "title" not in data:
-                raise ValueError("invalid shape")
-            # Light validation
-            if not data.get("sections"):
-                data["sections"] = [{"type": "text", "content": raw[:800]}]
-            return resolved, data, resolved.slug
-        except Exception:
-            # Fall back to wrapping raw as text section
-            return resolved, {
-                "title": prompt.strip().split("?")[0][:40] or "Result",
-                "summary": raw[:260] + ("…" if len(raw) > 260 else ""),
-                "sections": [{"type": "text", "content": raw[:1800]}],
-            }, resolved.slug
-    except LLMError as e:
-        # On provider error, return mock so UI doesn't hang
-        return None, _mock_content(prompt, parent_context), f"mock-fallback:{e}"
-    except Exception as e:
-        return None, _mock_content(prompt, parent_context), f"mock-error:{e}"
+            result = chat(
+                format=resolved.format,
+                base_url=resolved.base_url,
+                api_key=resolved.api_key,
+                model=resolved.model,
+                messages=[
+                    {'role': 'system', 'content': SYSTEM_PROMPT},
+                    {'role': 'user', 'content': user_prompt},
+                ],
+                max_tokens=2600 if speed_note == "Fast" else 3600,
+                timeout=45,
+                temperature=0.45,
+                provider=resolved.slug,
+            )
+            raw = (result.text or "").strip()
+            data = _parse_canvas_json(prompt, raw)
+            if data:
+                return resolved, data, resolved.slug
+            if raw:
+                return resolved, _wrap_raw_text(prompt, raw), resolved.slug
+        except (LLMError, Exception):
+            pass
+
+    # ── 3. Last resort: offline mock so canvas still works ──
+    return None, _mock_content(prompt, parent_context), "mock"
+
+
+def _canvas_credit_state(user):
+    """Returns (unlimited, remaining, monthly_allowance)."""
+    if user is None:
+        return True, 0, 0
+    if getattr(user, 'is_admin', False) or getattr(user, 'is_staff', False):
+        return True, 0, 0
+    try:
+        from api.marketplace import total_ai_credits, get_payment_config
+        cfg = get_payment_config()
+        allowance = ((cfg.free_credits_per_month if cfg else 10)) + (user.ai_credits or 0)
+        return False, total_ai_credits(user, cfg), allowance
+    except Exception:
+        return False, 0, 10
+
+
+def _spend_canvas_credit(user):
+    """Deduct one Neby credit for a generation. Admins are unlimited.
+    Returns (ok, unlimited, remaining)."""
+    unlimited, remaining, _ = _canvas_credit_state(user)
+    if unlimited or user is None:
+        return True, True, remaining
+    if remaining <= 0:
+        return False, False, 0
+    try:
+        from api.marketplace import consume_ai_credit
+        ok = consume_ai_credit(user)
+        _, left, _ = _canvas_credit_state(user)
+        return ok, False, left
+    except Exception:
+        return True, False, remaining
+
+
+_CREDIT_ERROR = ("You're out of Neby credits — top up by converting NEBians points "
+                 "on the Credits page, or wait for next month's free credits.")
 
 
 def canvas_page(request):
+    user = _get_user_or_none(request)
+    if not user:
+        from django.shortcuts import redirect
+        from django.urls import reverse
+        login_url = reverse('web:login')
+        return redirect(f"{login_url}?next=/canvas/")
     boards = []
     current_board = None
     current_board_id = request.GET.get('board') or request.GET.get('b') or ''
-    user = _get_user_or_none(request)
     if user:
         qs = CanvasBoard.objects.filter(user=user).order_by('-updated_at')
         boards = list(qs[:50])
@@ -367,6 +529,35 @@ def canvas_page(request):
 
     ctx = _ctx(request, boards=boards, current_board=current_board, current_board_id=getattr(current_board, 'id', '') if current_board else '')
     ctx['hide_footer_links'] = True
+    try:
+        ctx['boards_json'] = json.dumps([_serialize_board(b) for b in boards])
+    except Exception:
+        ctx['boards_json'] = '[]'
+    if user and not ctx.get('user'):
+        # Bearer/API-style page load: session is empty, so populate footer user + auth flag
+        ctx['is_authenticated'] = True
+        photo = user.photo_url or ''
+        try:
+            avatar = _blobatar_url_for(user) if (getattr(user, 'avatar_use_pp', False) or not photo) else photo
+        except Exception:
+            avatar = photo
+        ctx['user'] = {
+            'id': str(user.id),
+            'username': user.username,
+            'display_name': getattr(user, 'display_name', '') or '',
+            'photo_url': photo,
+            'avatar_url': avatar,
+        }
+    unlimited, remaining, allowance = _canvas_credit_state(user)
+    pct = 100 if unlimited else int(round((max(0, remaining) / max(1, allowance)) * 100))
+    ctx['canvas_credits'] = {
+        'unlimited': unlimited,
+        'remaining': max(0, remaining),
+        'allowance': max(1, allowance),
+        'pct': max(0, min(100, pct)),
+        'is_admin': bool(getattr(user, 'is_admin', False)),
+        'low': (not unlimited) and remaining <= max(1, allowance) * 0.25,
+    }
     return render(request, 'web/canvas.html', ctx)
 
 
@@ -431,6 +622,66 @@ def ajax_canvas_board_detail(request, board_id):
 
 
 @require_POST
+def ajax_canvas_board_share(request, board_id):
+    board, user, err = _get_board_for_user(request, board_id)
+    if err:
+        return err
+    try:
+        payload = json.loads(request.body or '{}')
+    except Exception:
+        payload = {}
+    if payload.get('revoke'):
+        board.share_token = None
+        board.shared_at = 0
+        board.save(update_fields=['share_token', 'shared_at'])
+        return JsonResponse({'enabled': False})
+    if not board.share_token:
+        board.share_token = (uuid.uuid4().hex + uuid.uuid4().hex)[:48]
+        board.shared_at = now_ms()
+        board.save(update_fields=['share_token', 'shared_at'])
+    return JsonResponse({'enabled': True, 'url': f'/canvas/shared/{board.share_token}/'})
+
+
+def canvas_shared(request, token):
+    board = get_object_or_404(CanvasBoard, share_token=token)
+    owner_name = ''
+    try:
+        owner_name = board.user.username or ''
+    except Exception:
+        pass
+    ctx = _ctx(
+        request,
+        boards=[],
+        current_board=None,
+        current_board_id=board.id,
+        shared=True,
+        readonly=True,
+        shared_token=token,
+        shared_title=board.title,
+        shared_owner=owner_name,
+    )
+    ctx['hide_footer_links'] = True
+    return render(request, 'web/canvas.html', ctx)
+
+
+@require_GET
+def ajax_canvas_shared_detail(request, token):
+    board = get_object_or_404(CanvasBoard, share_token=token)
+    nodes = CanvasNode.objects.filter(board=board).order_by('created_at')
+    owner_name = ''
+    try:
+        owner_name = board.user.username or ''
+    except Exception:
+        pass
+    return JsonResponse({
+        'board': {'id': board.id, 'title': board.title},
+        'owner': owner_name,
+        'readonly': True,
+        'nodes': [_serialize_node(n) for n in nodes],
+    })
+
+
+@require_POST
 def ajax_canvas_board_update(request, board_id):
     board, user, err = _get_board_for_user(request, board_id)
     if err:
@@ -487,14 +738,17 @@ def ajax_canvas_create_node(request, board_id):
         y = float(payload.get('y', 0))
     except Exception:
         x, y = 0, 0
-    # clamp canvas positions sanity
-    x = max(-8000, min(8000, x))
-    y = max(-8000, min(8000, y))
+    x = max(-100000, min(100000, x))
+    y = max(-100000, min(100000, y))
 
     web_search_enabled = bool(payload.get('web_search_enabled') or payload.get('webSearchEnabled'))
     speed_mode = (payload.get('speed_mode') or payload.get('speedMode') or 'fast').strip().lower()
     if speed_mode not in ('fast', 'deep'):
         speed_mode = 'fast'
+
+    ok, unlimited, remaining = _spend_canvas_credit(user)
+    if not ok:
+        return JsonResponse({'error': _CREDIT_ERROR, 'need_credits': True}, status=402)
 
     now = now_ms()
     # Default placement if not supplied: stagger
@@ -563,8 +817,8 @@ def ajax_canvas_node_move(request, node_id):
         y = float(payload.get('y', node.y))
     except Exception:
         return JsonResponse({'error': 'Invalid coordinates'}, status=400)
-    node.x = max(-10000, min(10000, x))
-    node.y = max(-10000, min(10000, y))
+    node.x = max(-100000, min(100000, x))
+    node.y = max(-100000, min(100000, y))
     node.updated_at = now_ms()
     node.save(update_fields=['x', 'y', 'updated_at'])
     node.board.updated_at = now_ms()
@@ -605,6 +859,12 @@ def ajax_canvas_node_retry(request, node_id):
     node.error = ''
     node.updated_at = now_ms()
     node.save(update_fields=['status', 'error', 'updated_at'])
+    ok, unlimited, remaining = _spend_canvas_credit(user)
+    if not ok:
+        node.status = 'failed'
+        node.error = _CREDIT_ERROR
+        node.save(update_fields=['status', 'error'])
+        return JsonResponse({'error': _CREDIT_ERROR, 'need_credits': True}, status=402)
     parent_ctx = _parent_chain_context(node.board, node.parent_id) if node.parent_id else ""
     resolved, content_data, model_slug = _call_llm_for_canvas(user, node.prompt, parent_ctx, node.web_search_enabled, node.model_used or 'fast')
     node.title = (content_data.get('title') or node.prompt[:50]).strip()[:300]
@@ -679,7 +939,19 @@ def ajax_canvas_node_followup(request, node_id):
     speed_mode = (payload.get('speed_mode') or payload.get('speedMode') or 'fast').strip().lower()
     if speed_mode not in ('fast', 'deep'):
         speed_mode = 'fast'
-    node = _create_node_from_prompt(user, parent.board, prompt, parent, None, None, web_search_enabled, speed_mode)
+    try:
+        x = float(payload.get('x')) if payload.get('x') is not None else None
+        y = float(payload.get('y')) if payload.get('y') is not None else None
+    except Exception:
+        x, y = None, None
+    if x is not None:
+        x = max(-100000, min(100000, x))
+    if y is not None:
+        y = max(-100000, min(100000, y))
+    ok, unlimited, remaining = _spend_canvas_credit(user)
+    if not ok:
+        return JsonResponse({'error': _CREDIT_ERROR, 'need_credits': True}, status=402)
+    node = _create_node_from_prompt(user, parent.board, prompt, parent, x, y, web_search_enabled, speed_mode)
     return JsonResponse({'node': _serialize_node(node)})
 
 
@@ -711,12 +983,24 @@ def ajax_canvas_node_dig_deeper(request, node_id):
     speed_mode = (payload.get('speed_mode') or payload.get('speedMode') or 'fast').strip().lower()
     if speed_mode not in ('fast', 'deep'):
         speed_mode = 'fast'
-    x = parent.x + 560
-    y = parent.y + 70
     try:
-        siblings = CanvasNode.objects.filter(board=parent.board, parent=parent).count()
-        y += siblings * 18
+        x = float(payload.get('x')) if payload.get('x') is not None else None
+        y = float(payload.get('y')) if payload.get('y') is not None else None
     except Exception:
-        pass
+        x, y = None, None
+    if x is None or y is None:
+        x = parent.x + 580
+        y = parent.y + 70
+        try:
+            siblings = CanvasNode.objects.filter(board=parent.board, parent=parent).count()
+            y += siblings * 18
+        except Exception:
+            pass
+    else:
+        x = max(-100000, min(100000, x))
+        y = max(-100000, min(100000, y))
+    ok, unlimited, remaining = _spend_canvas_credit(user)
+    if not ok:
+        return JsonResponse({'error': _CREDIT_ERROR, 'need_credits': True}, status=402)
     node = _create_node_from_prompt(user, parent.board, prompt, parent, x, y, web_search_enabled, speed_mode)
     return JsonResponse({'node': _serialize_node(node)})

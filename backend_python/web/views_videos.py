@@ -114,11 +114,6 @@ def videos(request):
         sort = "newest"
     page_num = request.GET.get("page", 1)
 
-    qs = PostMedia.objects.filter(kind="video").select_related("post", "post__user", "reply", "reply__post", "reply__user")
-
-    qs = qs.filter(post__is_archived=False) | qs.filter(reply__post__is_archived=False, post__isnull=True)
-    # The OR above via queryset union: simpler to just exclude archived via python filter
-    # Rebuild cleanly: start unfiltered, then python-side filter for indexed set count small
     qs = PostMedia.objects.filter(kind="video").select_related("post", "post__user", "reply", "reply__post", "reply__user").order_by("-created_at")
 
     # In-memory post filter for correctness (keeps query simple, videos count is small < few k)
@@ -138,16 +133,12 @@ def videos(request):
                     post = None
         if not post:
             continue
-        # Allow archived posts — watch pages must exist even for archived
-        # (GSC flagged an archived post's video). Archived items are still
-        # watchable, just ranked lower.
-        # skip unverified authors for SEO cleanliness — but keep the flagged
-        # archived video even if unverified, we already allow anon handling
+        if getattr(post, "is_archived", False):
+            continue
+        # skip unverified authors for SEO cleanliness
         try:
             if post.user and not post.user.email_verified:
-                # Keep archived/admin videos even if unverified so watch page exists
-                if not getattr(post, "is_archived", False):
-                    continue
+                continue
         except Exception:
             pass
         if category and (post.category or "").lower() != category.lower():

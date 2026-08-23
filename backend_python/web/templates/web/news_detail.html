@@ -229,7 +229,7 @@
 
       {% if user.is_authenticated %}
       <div class="comment-input-row" id="comment-form" data-slug="{{ announcement.slug }}">
-        <textarea id="comment-input" placeholder="Write a comment..." rows="2"></textarea>
+        <textarea id="comment-input" placeholder="Write something..." rows="2"></textarea>
         <button type="submit" class="md-btn md-btn-filled" id="comment-submit-btn" style="align-self:flex-end;white-space:nowrap">Post</button>
       </div>
       {% else %}
@@ -443,7 +443,7 @@
       var box = document.createElement('div');
       box.className = 'rd-inline-reply-box';
       box.style.cssText = 'display:flex;align-items:center;gap:8px;margin-top:8px;';
-      box.innerHTML = '<div class="reply-input-wrapper" style="flex:1;"><textarea placeholder="Reply to ' + escapeHtml(authorName) + '..." rows="1"></textarea><button class="reply-send-btn" disabled><span class="material-symbols-outlined">arrow_upward</span></button></div><button class="md-btn md-btn-text rd-cancel-reply-btn" style="min-height:32px;height:32px;font-size:.75rem;padding:0 8px;align-self:flex-end;">Cancel</button>';
+      box.innerHTML = '<div class="reply-input-wrapper" style="flex:1;"><textarea placeholder="Write something..." rows="1"></textarea><button class="reply-send-btn" disabled><span class="material-symbols-outlined">arrow_upward</span></button></div><button class="md-btn md-btn-text rd-cancel-reply-btn" style="min-height:32px;height:32px;font-size:.75rem;padding:0 8px;align-self:flex-end;">Cancel</button>';
       var actionRow = parentCard.querySelector('.fp-reply-actions');
       if (actionRow) actionRow.after(box); else parentCard.appendChild(box);
       var ta = box.querySelector('textarea');

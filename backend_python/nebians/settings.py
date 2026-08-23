@@ -192,7 +192,15 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# WhiteNoise compression WITHOUT manifest hashing. The manifest variant is
+# brittle behind LiteSpeed's multi-worker LSAPI: a stale worker holds the old
+# manifest index and 404s every newly-hashed name until it respawns. Plain
+# filenames keep every worker consistent across deploys (gz/br still served).
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+STORAGES = {
+    "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+    "staticfiles": {"BACKEND": "whitenoise.storage.CompressedStaticFilesStorage"},
+}
 
 def _immutable_file_test(path, _url=None):
     p = path.replace('\\', '/')

@@ -345,7 +345,7 @@
       <button type="button" class="fp-inline-tool" id="rdCommentAttachBtn" title="Add video, audio or file">
         <span class="material-symbols-outlined">add</span>
       </button>
-      <textarea id="comment-input" placeholder="Share your thoughts about this resource..." rows="3"></textarea>
+      <textarea id="comment-input" placeholder="Write something..." rows="3"></textarea>
       <button class="reply-send-btn" id="comment-submit-btn" data-action="submit-comment" disabled>
         <span class="material-symbols-outlined">arrow_upward</span>
       </button>
@@ -737,7 +737,7 @@ registerActions({
     var box = document.createElement('div');
     box.className = 'rd-inline-reply-box';
     box.style.cssText = 'display:flex;align-items:center;gap:8px;margin-top:8px;';
-    box.innerHTML = '<div class="reply-input-wrapper" style="flex:1;"><textarea placeholder="Reply to ' + escapeHtml(authorName) + '..." rows="1"></textarea><button class="reply-send-btn" disabled><span class="material-symbols-outlined">arrow_upward</span></button></div><button class="md-btn md-btn-text rd-cancel-reply-btn" style="min-height:32px;height:32px;font-size:.75rem;padding:0 8px;align-self:flex-end;">Cancel</button>';
+    box.innerHTML = '<div class="reply-input-wrapper" style="flex:1;"><textarea placeholder="Write something..." rows="1"></textarea><button class="reply-send-btn" disabled><span class="material-symbols-outlined">arrow_upward</span></button></div><button class="md-btn md-btn-text rd-cancel-reply-btn" style="min-height:32px;height:32px;font-size:.75rem;padding:0 8px;align-self:flex-end;">Cancel</button>';
     var actionRow = parentCard.querySelector('.fp-reply-actions');
     if (actionRow) {
       actionRow.after(box);

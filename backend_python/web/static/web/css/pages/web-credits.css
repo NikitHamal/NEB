@@ -7,7 +7,7 @@
   border-radius: var(--md-radius-xl);
   overflow: hidden;
   margin-bottom: 24px;
-  background: linear-gradient(135deg, #1d4ed8 0%, #4338ca 55%, #6d28d9 100%);
+  background: #004bd4;
   color: #fff;
 }
 

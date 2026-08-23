@@ -295,6 +295,9 @@ Verify with:
 ps aux | grep -E 'run_background_agent_worker|run_autofix_watch' | grep -v grep
 ```
 
+### CRITICAL: Auto-fix watcher only watches agent task branches (never main)
+`api/background_agent/autofix.py` scans failed GitHub Actions runs **only on agent-created work branches** (`BackgroundAgentSession.work_branch`, most-recent first, max 10 per cycle). Base branches (`preferred_base_branch`, `default_branch`, `main`, `master`) are hard-excluded both by the branch-filtered API query and a `head_branch in base_branches` guard — a failing CI run on main NEVER queues an auto-fix session. Repair sessions get `source_branch` = the failed run's head_branch, so fixes land on the same task branch that broke.
+
 ---
 
 ## Web Backend â€” Architecture
