@@ -1,0 +1,154 @@
+{% extends "admin_panel/base.html" %}
+{% load static %}
+
+{% block title %}Agent Sync Drops{% endblock %}
+
+{% block content %}
+<div class="admin-header-bar" style="margin-bottom:20px;flex-wrap:wrap;gap:12px;">
+  <div>
+    <h1 class="md-headline-medium" style="margin:0;">Agent Sync Drops</h1>
+    <p class="md-body-small" style="color:var(--md-on-surface-variant);margin:4px 0 0;">
+      Inspect, download, and manage workspace file uploads pushed by external AI agents (Grok, Claude, Cursor).
+    </p>
+  </div>
+  <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+    <button type="button" class="md-btn md-btn-outlined" id="copyTokenBtn" data-token="{{ agent_token }}" style="display:inline-flex;align-items:center;gap:6px;">
+      <span class="material-symbols-outlined" style="font-size:18px;">key</span>
+      Copy Agent Token
+    </button>
+    {% if batches %}
+    <form method="post" style="display:inline;margin:0;" data-action="confirm-delete" data-confirm-msg="Are you sure you want to delete ALL {{ total_batches }} upload batches? This cannot be undone.">
+      {% csrf_token %}
+      <input type="hidden" name="action" value="delete_all">
+      <button type="submit" class="md-btn md-btn-outlined" style="color:var(--md-error);border-color:var(--md-error);display:inline-flex;align-items:center;gap:6px;">
+        <span class="material-symbols-outlined" style="font-size:18px;">delete_sweep</span>
+        Delete All
+      </button>
+    </form>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Stats Bar -->
+<div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));gap:12px;margin-bottom:24px;">
+  <div class="admin-stat-card">
+    <div class="md-body-small" style="color:var(--md-on-surface-variant);">Total Batches</div>
+    <div style="font-size:1.5rem;font-weight:700;margin-top:4px;color:var(--md-primary);">{{ total_batches }}</div>
+  </div>
+  <div class="admin-stat-card">
+    <div class="md-body-small" style="color:var(--md-on-surface-variant);">Total Files Stored</div>
+    <div style="font-size:1.5rem;font-weight:700;margin-top:4px;color:var(--md-on-surface);">{{ total_files }}</div>
+  </div>
+  <div class="admin-stat-card">
+    <div class="md-body-small" style="color:var(--md-on-surface-variant);">Total Disk Space</div>
+    <div style="font-size:1.5rem;font-weight:700;margin-top:4px;color:var(--md-on-surface);">{{ total_size }}</div>
+  </div>
+</div>
+
+{% if batches %}
+<div style="display:flex;flex-direction:column;gap:16px;">
+  {% for b in batches %}
+  <div class="admin-table-wrap" style="padding:0;overflow:hidden;border:1px solid var(--md-outline-variant);border-radius:16px;background:var(--md-surface);">
+    <!-- Batch Header -->
+    <div style="padding:16px 20px;background:var(--md-surface-container);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;border-bottom:1px solid var(--md-outline-variant);">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="width:40px;height:40px;border-radius:10px;background:rgba(99,102,241,0.14);color:#6366f1;display:flex;align-items:center;justify-content:center;">
+          <span class="material-symbols-outlined" style="font-size:22px;">folder_zip</span>
+        </div>
+        <div>
+          <div style="font-weight:600;font-size:0.95rem;color:var(--md-on-surface);font-family:monospace;">
+            {{ b.batch_id }}
+          </div>
+          <div style="font-size:0.75rem;color:var(--md-on-surface-variant);margin-top:2px;">
+            Uploaded: {{ b.created_at }}
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+        <span class="admin-chip" style="background:rgba(99,102,241,0.12);color:#6366f1;border:1px solid rgba(99,102,241,0.25);">
+          <span class="material-symbols-outlined" style="font-size:13px;">description</span>
+          {{ b.file_count }} file{{ b.file_count|pluralize }}
+        </span>
+        <span class="admin-chip" style="background:rgba(16,185,129,0.12);color:#10b981;border:1px solid rgba(16,185,129,0.25);">
+          <span class="material-symbols-outlined" style="font-size:13px;">hard_drive</span>
+          {{ b.size_formatted }}
+        </span>
+
+        <a href="{{ b.download_url }}" class="md-btn md-btn-filled" style="padding:6px 14px;font-size:0.8125rem;display:inline-flex;align-items:center;gap:6px;text-decoration:none;">
+          <span class="material-symbols-outlined" style="font-size:16px;">download</span>
+          Download .ZIP
+        </a>
+
+        <form method="post" style="display:inline;margin:0;" data-action="confirm-delete" data-confirm-msg="Delete batch '{{ b.batch_id }}'?">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="delete">
+          <input type="hidden" name="batch_id" value="{{ b.batch_id }}">
+          <button type="submit" class="md-btn-icon" title="Delete Batch" style="width:34px;height:34px;border-radius:8px;color:var(--md-error);">
+            <span class="material-symbols-outlined" style="font-size:18px;">delete</span>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Collapsible File List Table -->
+    <details style="padding:0;" {% if forloop.first %}open{% endif %}>
+      <summary style="padding:10px 20px;font-size:0.8125rem;font-weight:500;color:var(--md-on-surface-variant);cursor:pointer;user-select:none;background:var(--md-surface);">
+        View {{ b.file_count }} file{{ b.file_count|pluralize }} in this batch
+      </summary>
+      <div style="max-height:280px;overflow-y:auto;border-top:1px solid var(--md-outline-variant);">
+        <table class="admin-table" style="font-size:0.8125rem;">
+          <thead>
+            <tr>
+              <th style="padding:10px 20px;font-size:0.7rem;">Relative File Path</th>
+              <th style="padding:10px 20px;font-size:0.7rem;text-align:right;width:120px;">Size</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for f in b.files %}
+            <tr>
+              <td style="padding:8px 20px;font-family:monospace;color:var(--md-on-surface);">
+                <span class="material-symbols-outlined" style="font-size:15px;vertical-align:middle;margin-right:6px;color:var(--md-primary);">article</span>
+                {{ f.path }}
+              </td>
+              <td style="padding:8px 20px;text-align:right;color:var(--md-on-surface-variant);white-space:nowrap;">
+                {{ f.size }}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </details>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="empty-state" style="padding:48px 24px;text-align:center;background:var(--md-surface);border:1px solid var(--md-outline-variant);border-radius:16px;">
+  <span class="material-symbols-outlined" style="font-size:48px;color:var(--md-on-surface-variant);">cloud_upload</span>
+  <h3 style="margin:12px 0 6px;">No agent drops yet</h3>
+  <p style="color:var(--md-on-surface-variant);max-width:480px;margin:0 auto 16px;">
+    When Grok, Claude, or other AI agents push files via the upload endpoint, their batches will appear here for instant download and review.
+  </p>
+  <a href="{% url 'web:admin_dashboard' %}" class="md-btn md-btn-filled">
+    Back to Dashboard
+  </a>
+</div>
+{% endif %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const copyBtn = document.getElementById('copyTokenBtn');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', function() {
+      const token = this.getAttribute('data-token');
+      navigator.clipboard.writeText(token).then(() => {
+        const origText = copyBtn.innerHTML;
+        copyBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size:18px;color:#10b981;">check</span> Copied!';
+        setTimeout(() => { copyBtn.innerHTML = origText; }, 2000);
+      });
+    });
+  }
+});
+</script>
+{% endblock %}

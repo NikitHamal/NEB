@@ -172,12 +172,35 @@ def agent_drop_list(request):
         bpath = os.path.join(sync_root, name)
         if os.path.isdir(bpath):
             file_count = sum(len(files) for _, _, files in os.walk(bpath))
+            total_size = sum(os.path.getsize(os.path.join(root, f)) for root, _, files in os.walk(bpath) for f in files)
             mtime = os.path.getmtime(bpath)
             batches.append({
                 'batch_id': name,
                 'file_count': file_count,
+                'total_size_bytes': total_size,
                 'created_at': time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(mtime)),
                 'download_url': f'/api/agent-drop/{name}/download/?token={token_param}'
             })
 
-    return JsonResponse({'batches': batches[:30]})
+    return JsonResponse({'batches': batches[:50]})
+
+
+@csrf_exempt
+@require_http_methods(["POST", "DELETE"])
+def agent_drop_delete(request, batch_id):
+    if not _is_authorized(request):
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+
+    import shutil
+    clean_batch_id = ''.join(c for c in batch_id if c.isalnum() or c in ('-', '_'))
+    base_dir = os.path.join(settings.MEDIA_ROOT, 'agent_sync', clean_batch_id)
+
+    if not os.path.exists(base_dir):
+        return JsonResponse({'error': 'Batch not found'}, status=404)
+
+    try:
+        shutil.rmtree(base_dir)
+        return JsonResponse({'status': 'deleted', 'batch_id': clean_batch_id})
+    except Exception as e:
+        return JsonResponse({'error': f'Failed to delete batch: {str(e)}'}, status=500)
+

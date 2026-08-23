@@ -160,4 +160,5 @@ urlpatterns = [
     path('agent-drop/upload/', __import__('api.views_agent_drop', fromlist=['agent_drop_upload']).agent_drop_upload, name='agent-drop-upload'),
     path('agent-drop/batches/', __import__('api.views_agent_drop', fromlist=['agent_drop_list']).agent_drop_list, name='agent-drop-list'),
     path('agent-drop/<str:batch_id>/download/', __import__('api.views_agent_drop', fromlist=['agent_drop_download']).agent_drop_download, name='agent-drop-download'),
+    path('agent-drop/<str:batch_id>/delete/', __import__('api.views_agent_drop', fromlist=['agent_drop_delete']).agent_drop_delete, name='agent-drop-delete'),
 ]
