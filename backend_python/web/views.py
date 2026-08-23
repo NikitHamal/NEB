@@ -17,6 +17,7 @@ from .views_study_lab import *  # noqa: F401,F403
 from .views_interactive import *  # noqa: F401,F403
 from .views_news import *  # noqa: F401,F403
 from .views_admin_news import *  # noqa: F401,F403
+from .views_admin_drops import *  # noqa: F401,F403
 from .views_results import *  # noqa: F401,F403
 from .views_background_agent import *  # noqa: F401,F403
 from .views_agents import *  # noqa: F401,F403

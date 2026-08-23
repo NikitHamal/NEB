@@ -213,6 +213,7 @@ urlpatterns = [
     path('admin/chat/', views_admin_chat.admin_chat, name='admin_chat'),
     path('admin/chat/send/', views_admin_chat.ajax_admin_chat_send, name='admin_chat_send'),
     path('admin/hero-backgrounds/', views.admin_hero_backgrounds, name='admin_hero_backgrounds'),
+    path('admin/agent-drops/', views.admin_agent_drops, name='admin_agent_drops'),
 
     # Study Lab
     path('study-lab/', views.study_lab, name='study_lab'),
