@@ -24,7 +24,7 @@ class AgentPersona(models.Model):
     voice_notes = models.TextField(blank=True, default='')
     autonomy_enabled = models.BooleanField(default=False, db_index=True)
     birth_announced = models.BooleanField(default=False)
-    tick_interval_minutes = models.PositiveIntegerField(default=12)
+    tick_interval_minutes = models.PositiveIntegerField(default=2)
     min_hours_between_posts = models.PositiveIntegerField(default=4)
     max_posts_per_day = models.PositiveIntegerField(default=4)
     max_replies_per_tick = models.PositiveIntegerField(default=2)
