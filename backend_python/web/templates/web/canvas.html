@@ -4,14 +4,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Canvas — NEBians</title>
+<title>Neby Canvas — Explore it. Prove it. Teach it. — NEBians</title>
+<meta name="description" content="Turn any question, document, lesson, or idea into a living knowledge map you can verify, practise, teach, and build together.">
+<meta property="og:title" content="Neby Canvas — Explore it. Prove it. Teach it.">
+<meta property="og:description" content="Turn any question, document, lesson, or idea into a living knowledge map you can verify, practise, teach, and build together.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,0&display=swap">
 <link rel="stylesheet" href="{% static 'web/css/material3.css' %}">
-<link rel="stylesheet" href="{% static 'web/css/canvas.css' %}?v=12">
-<link rel="stylesheet" href="{% static 'web/css/canvas-advanced.css' %}?v=1">
+<link rel="stylesheet" href="{% static 'web/css/canvas.css' %}?v=13">
+<link rel="stylesheet" href="{% static 'web/css/canvas-advanced.css' %}?v=2">
 <meta name="theme-color" content="#f5f7fb">
 </head>
 <body class="canvas-body{% if readonly %} readonly{% endif %}" data-board-id="{{ current_board_id|default:'' }}" data-authenticated="{{ is_authenticated|yesno:'true,false' }}">
@@ -38,7 +41,7 @@
         <div class="cs-logo-mark">
           <svg viewBox="0 0 1024 1024" width="16" height="16"><g transform="translate(210.601 86.137) scale(0.610119)"><path d="M51 228 L51 1132 L263 1346 L267 812 L775 1353 L775 887 L691 800 L685 902 Z" fill="#1a3a5c"/><path d="M306 320 L307 377 L613 706 L613 485 Z" fill="#8ab0f0"/><path d="M441 191 L441 282 L691 447 L691 799 L774 886 L775 408 Z" fill="#0e2a4d"/><path d="M500 42 L501 135 L856 370 L858 1287 L943 1219 L943 331 Z" fill="#08204a"/></g></svg>
         </div>
-        <span class="cs-brand-name">Canvas</span>
+        <span class="cs-brand-name">Neby Canvas</span>
       </div>
       <button class="cs-icon-btn" id="csCollapseBtn" aria-label="Collapse sidebar"><span class="material-symbols-outlined">dock_to_left</span></button>
     </div>
@@ -118,8 +121,9 @@
       </svg>
       <div class="canvas-world" id="canvasWorld"></div>
       <div class="canvas-empty-hint" id="canvasEmptyHint">
-        <h1>Canvas</h1>
-        <p>A visual way to understand things in parallel</p>
+        <h1>Neby Canvas</h1>
+        <p class="canvas-tagline">Explore it. Prove it. Teach it.</p>
+        <p class="canvas-sub">Turn any question, document, lesson, or idea into a living knowledge map you can verify, practise, teach, and build together.</p>
         <div class="canvas-hint-key"><span class="material-symbols-outlined">south</span></div>
       </div>
     </div>
