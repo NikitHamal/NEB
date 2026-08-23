@@ -89,13 +89,15 @@ echo 'Cache cleared.'
 
 echo 'Removing retired files no longer shipped in the ZIP...'
 rm -f api/ai4bharat_proxy.py
-rm -f api/tryingopen_proxy.py
 rm -f api/management/commands/arena_smoke_test.py
 rm -f api/management/commands/arena_e2e_test.py
 rm -f api/coding_agent/queue.py
 echo 'Retired files cleaned.'
 
 source /home/consicac/virtualenv/nebians_api/3.13/bin/activate
+
+echo 'Sanity: Django check (catches missing/broken modules early)...'
+python manage.py check 2>&1 | tail -2 || echo 'WARNING: manage.py check reported issues'
 
 echo 'Installing dependencies...'
 pip install -r requirements.txt
