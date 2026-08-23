@@ -64,6 +64,10 @@ def observe(persona, bot_user, window_hours=720, limit=100):
         ReplyLike.objects.filter(user=bot_user, reply_id__in=[r.id for r in incoming_replies])
         .values_list('reply_id', flat=True)
     )
+    my_replied_parent_ids = set(
+        Reply.objects.filter(user=bot_user, parent_reply_id__isnull=False, is_archived=False)
+        .values_list('parent_reply_id', flat=True)
+    )
 
     scored_replies = []
     for r in incoming_replies:
@@ -74,12 +78,17 @@ def observe(persona, bot_user, window_hours=720, limit=100):
             score += 6
         if f"@{bot_user.username}".lower() in r.content.lower() or "neby" in r.content.lower():
             score += 5
+        already_replied = (
+            r.id in my_replied_parent_ids
+            or already_acted(persona, 'reply', r.id)
+            or already_acted(persona, 'reply', f"{r.post_id}:{r.id}")
+        )
         scored_replies.append({
             'reply': r,
             'post': r.post,
             'score': score,
             'already_liked': r.id in liked_reply_ids or already_acted(persona, 'like_reply', r.id),
-            'already_replied': already_acted(persona, 'reply', r.id) or already_acted(persona, 'reply', f"{r.post_id}:{r.id}"),
+            'already_replied': already_replied,
             'already_following_author': False,
         })
     scored_replies.sort(key=lambda row: -row['score'])
