@@ -3,6 +3,7 @@ import uuid
 
 from django.http import JsonResponse, Http404
 from django.shortcuts import render, get_object_or_404
+from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_GET, require_POST
 
 from api.models import CanvasBoard, CanvasNode, User
@@ -364,38 +365,107 @@ def _mock_content(prompt, parent_context=""):
     }
 
 
+def _extract_json_str(s):
+    """Return substring from first '{' to matching '}' accounting for strings."""
+    start = s.find('{')
+    if start == -1:
+        return None
+    depth = 0
+    in_str = None
+    esc = False
+    for i in range(start, len(s)):
+        ch = s[i]
+        if in_str:
+            if esc:
+                esc = False
+            elif ch == '\\':
+                esc = True
+            elif ch == in_str:
+                in_str = None
+        else:
+            if ch in ('"', "'"):
+                in_str = ch
+            elif ch == '{':
+                depth += 1
+            elif ch == '}':
+                depth -= 1
+                if depth == 0:
+                    return s[start:i+1]
+    return None
+
+
+def _try_lenient_loads(s):
+    import re, ast
+    try:
+        return json.loads(s)
+    except Exception:
+        pass
+    # trailing commas before } or ]
+    try:
+        fixed = re.sub(r',\s*([}\]])', r'\1', s)
+        return json.loads(fixed)
+    except Exception:
+        pass
+    # Python-literal fallback (single quotes, True/False/None)
+    try:
+        v = ast.literal_eval(s)
+        if isinstance(v, dict):
+            return v
+    except Exception:
+        pass
+    # single-quote to double-quote heuristic (only if no double quotes inside)
+    try:
+        fixed = re.sub(r",\s*([}\]])", r"\1", s)
+        # very naive: replace single quotes wrapping keys/values when safe
+        # use ast again after normalising
+        v = ast.literal_eval(fixed)
+        if isinstance(v, dict):
+            return v
+    except Exception:
+        pass
+    return None
+
+
 def _parse_canvas_json(prompt, raw):
     """Parse LLM output into canvas card content. Returns dict or None if unusable."""
     raw = (raw or "").strip()
     if not raw:
         return None
-    if raw.startswith("```"):
-        raw = raw.strip("`")
-        if raw.lstrip().lower().startswith("json"):
-            raw = raw.lstrip()[4:].strip()
-    try:
-        data = json.loads(raw)
-        if not isinstance(data, dict) or "title" not in data:
-            return None
-        if not data.get("sections"):
-            data["sections"] = [{"type": "text", "content": raw[:800]}]
-        refs = data.get("references")
-        if isinstance(refs, list) and refs and not any(s.get("type") == "references" for s in data["sections"]):
-            items = []
-            for r in refs[:6]:
-                if isinstance(r, str):
-                    items.append({"title": r[:120], "url": "", "source": ""})
-                elif isinstance(r, dict) and (r.get("url") or r.get("title")):
-                    items.append({
-                        "title": (r.get("title") or r.get("url") or "")[:140],
-                        "url": (r.get("url") or "")[:500],
-                        "source": (r.get("source") or "")[:80],
-                    })
-            if items:
-                data["sections"].append({"type": "references", "items": items})
-        return data
-    except Exception:
+    # strip markdown fences
+    if "```" in raw:
+        import re
+        m = re.search(r'```(?:json)?\s*([\s\S]*?)```', raw, re.I)
+        if m:
+            raw = m.group(1).strip()
+        elif raw.strip().startswith("```"):
+            raw = raw.strip().strip("`")
+            if raw.lstrip().lower().startswith("json"):
+                raw = raw.lstrip()[4:].strip()
+    # extract the JSON object if there's surrounding text
+    jstr = _extract_json_str(raw)
+    candidate = jstr if jstr else raw
+    data = _try_lenient_loads(candidate)
+    if data is None and jstr and jstr != raw:
+        data = _try_lenient_loads(raw)
+    if not isinstance(data, dict) or "title" not in data:
         return None
+    if not data.get("sections"):
+        data["sections"] = [{"type": "text", "content": raw[:800]}]
+    refs = data.get("references")
+    if isinstance(refs, list) and refs and not any(s.get("type") == "references" for s in data.get("sections", [])):
+        items = []
+        for r in refs[:6]:
+            if isinstance(r, str):
+                items.append({"title": r[:120], "url": "", "source": ""})
+            elif isinstance(r, dict) and (r.get("url") or r.get("title")):
+                items.append({
+                    "title": (r.get("title") or r.get("url") or "")[:140],
+                    "url": (r.get("url") or "")[:500],
+                    "source": (r.get("source") or "")[:80],
+                })
+        if items:
+            data["sections"].append({"type": "references", "items": items})
+    return data
 
 
 def _wrap_raw_text(prompt, raw):
@@ -407,9 +477,105 @@ def _wrap_raw_text(prompt, raw):
     }
 
 
-# Primary provider: Poolside Laguna S 2.1 (free web proxy; webSearch is always
-# enabled upstream in poolside_proxy). Official key-backed providers are fallbacks.
+# Fused primary: Gemini Web (primary) + Motif 3 High + Laguna S 2.1
+# All three are free web proxies; their outputs are scored and fused.
 _CANVAS_PRIMARY_MODEL = 'laguna-s-2.1'
+_GEMINIWEB_MODEL = 'geminiweb/gemini-flash-lite'
+_MOTIF_MODEL = 'motif-102b'
+_FUSION_MODEL_LABEL = 'fusion:geminiweb+motif-high+laguna-s-2.1'
+
+
+def _score_canvas_data(data):
+    if not isinstance(data, dict):
+        return -1
+    sections = data.get('sections') or []
+    if not isinstance(sections, list):
+        return -1
+    score = len(sections) * 10
+    types = set()
+    for s in sections:
+        if isinstance(s, dict) and isinstance(s.get('type'), str):
+            types.add(s['type'])
+    for t in ('flow', 'diagram', 'timeline', 'stats', 'proscons', 'comparison', 'quote'):
+        if t in types:
+            score += 5
+    # penalize vague ask_user when not needed — small penalty
+    if types == {'ask_user'} or (len(types) == 1 and 'ask_user' in types):
+        score -= 2
+    summary = data.get('summary') or ''
+    if isinstance(summary, str) and 20 < len(summary.split()) < 90:
+        score += 4
+    title = data.get('title') or ''
+    if isinstance(title, str) and 2 <= len(title.split()) <= 8:
+        score += 3
+    refs = data.get('references')
+    if isinstance(refs, list) and refs:
+        score += 4
+    # bonus for rich visual mix
+    if len(types) >= 4:
+        score += 4
+    return score
+
+
+def _merge_fusion_references(winner, candidates):
+    """Merge unique references from all candidates into winner (in-place)."""
+    try:
+        seen = set()
+        merged = []
+        # collect existing
+        for sec in winner.get('sections') or []:
+            if isinstance(sec, dict) and sec.get('type') == 'references':
+                for it in sec.get('items') or []:
+                    u = (it.get('url') or '').strip().lower()
+                    if u:
+                        seen.add(u)
+        # collect from candidates' raw references + sections
+        for cand in candidates:
+            if not isinstance(cand, dict):
+                continue
+            # top-level references array
+            for r in (cand.get('references') or [])[:4]:
+                if isinstance(r, dict):
+                    u = (r.get('url') or '').strip()
+                    key = (u or r.get('title') or '').strip().lower()
+                    if key and key not in seen:
+                        seen.add(key)
+                        merged.append({
+                            'title': (r.get('title') or r.get('url') or '')[:140],
+                            'url': (r.get('url') or '')[:500],
+                            'source': (r.get('source') or '')[:80],
+                        })
+            # references section items
+            for sec in cand.get('sections') or []:
+                if isinstance(sec, dict) and sec.get('type') == 'references':
+                    for it in sec.get('items') or []:
+                        u = (it.get('url') or '').strip().lower()
+                        if u and u not in seen:
+                            seen.add(u)
+                            merged.append(it)
+                        elif not u:
+                            t = (it.get('title') or '').strip().lower()
+                            if t and t not in seen:
+                                seen.add(t)
+                                merged.append(it)
+        if merged:
+            # cap at 4, prefer those with URLs
+            merged = sorted(merged, key=lambda x: (0 if x.get('url') else 1))[:4]
+            # append or create references section
+            has_ref_sec = False
+            for sec in winner.get('sections') or []:
+                if isinstance(sec, dict) and sec.get('type') == 'references':
+                    # merge into existing
+                    existing_urls = set((it.get('url') or '').strip().lower() for it in sec.get('items') or [])
+                    for it in merged:
+                        if (it.get('url') or '').strip().lower() not in existing_urls:
+                            sec.setdefault('items', []).append(it)
+                    has_ref_sec = True
+                    break
+            if not has_ref_sec:
+                winner.setdefault('sections', []).append({'type': 'references', 'items': merged})
+    except Exception:
+        pass
 
 
 def _call_llm_for_canvas(user, prompt, parent_context, web_search_enabled, speed_mode):
@@ -422,33 +588,101 @@ def _call_llm_for_canvas(user, prompt, parent_context, web_search_enabled, speed
     speed_note = "Fast" if (speed_mode or "fast").lower() == "fast" else "Deep"
     user_prompt = f"[{speed_note} mode — answer quickly but thoroughly]\n" + user_prompt
 
-    # ── 1. Primary: Poolside Laguna S 2.1 (web search always on upstream) ──
-    raw = None
-    try:
-        from api.poolside_proxy import simple_chat as _poolside_chat
-        from concurrent.futures import ThreadPoolExecutor
-        ex = ThreadPoolExecutor(max_workers=1)
+    # ── 1. Fused primary: Gemini Web + Motif 3 High + Laguna S 2.1 ──
+    import logging as _logging
+    _log = _logging.getLogger(__name__)
+
+    def _call_gemini():
         try:
-            fut = ex.submit(
-                _poolside_chat,
-                user_prompt,
-                _CANVAS_PRIMARY_MODEL,
-                SYSTEM_PROMPT,
-                3600,
-            )
-            raw = fut.result(timeout=50)
-        except Exception:
-            raw = None
+            from api.geminiweb_proxy import simple_chat as _g
+            return _g(user_prompt, _GEMINIWEB_MODEL, SYSTEM_PROMPT, 3600)
+        except Exception as e:
+            _log.warning("Canvas geminiweb call failed: %s", e)
+            return None
+
+    def _call_motif():
+        try:
+            from api.motiftech_proxy import simple_chat as _m
+            return _m(user_prompt, _MOTIF_MODEL, SYSTEM_PROMPT, 3600, reasoning_effort="high")
+        except Exception as e:
+            _log.warning("Canvas motif-high call failed: %s", e)
+            return None
+
+    def _call_laguna():
+        try:
+            from api.poolside_proxy import simple_chat as _p
+            return _p(user_prompt, _CANVAS_PRIMARY_MODEL, SYSTEM_PROMPT, 3600)
+        except Exception as e:
+            _log.warning("Canvas laguna call failed: %s", e)
+            return None
+
+    raw_by = {}
+    data_by = {}
+    score_by = {}
+    try:
+        from concurrent.futures import ThreadPoolExecutor, as_completed
+        ex = ThreadPoolExecutor(max_workers=3)
+        fut_map = {
+            ex.submit(_call_gemini): 'geminiweb',
+            ex.submit(_call_motif): 'motif',
+            ex.submit(_call_laguna): 'poolside',
+        }
+        try:
+            for fut in as_completed(fut_map, timeout=58):
+                key = fut_map[fut]
+                try:
+                    raw = fut.result(timeout=1)
+                except Exception as e:
+                    _log.warning("Canvas %s future error: %s", key, e)
+                    raw = None
+                raw_by[key] = raw
+                if raw:
+                    d = _parse_canvas_json(prompt, raw)
+                    if d:
+                        data_by[key] = d
+                        score_by[key] = _score_canvas_data(d)
+                    else:
+                        score_by[key] = -1
+                else:
+                    score_by[key] = -1
+        except Exception as e:
+            _log.warning("Canvas fusion as_completed timeout/error: %s", e)
         finally:
-            ex.shutdown(wait=False)
-        data = _parse_canvas_json(prompt, raw)
-        if data:
-            return {'slug': 'poolside', 'model': _CANVAS_PRIMARY_MODEL}, data, 'poolside'
-        # Unparseable but substantial text → wrap so content isn't lost
-        if raw and len(raw.strip()) > 200:
-            return {'slug': 'poolside', 'model': _CANVAS_PRIMARY_MODEL}, _wrap_raw_text(prompt, raw), 'poolside'
+            try:
+                ex.shutdown(wait=False, cancel_futures=True)
+            except TypeError:
+                ex.shutdown(wait=False)
+
+        # pick best valid candidate (geminiweb wins ties as primary)
+        best_key = None
+        best_score = -1
+        priority = {'geminiweb': 3, 'motif': 2, 'poolside': 1}
+        for k, sc in score_by.items():
+            if k not in data_by:
+                continue
+            prio = priority.get(k, 0)
+            # score + tiny tie-breaker
+            adj = sc + prio * 0.1
+            if adj > best_score:
+                best_score = adj
+                best_key = k
+        if best_key and best_key in data_by:
+            winner = data_by[best_key]
+            # collect all valid candidates for reference merging
+            all_valid = [data_by[k] for k in data_by]
+            # also include raw-parsed fallback for raw that had references but not scored?
+            _merge_fusion_references(winner, all_valid)
+            return {'slug': 'fusion', 'model': _FUSION_MODEL_LABEL}, winner, 'fusion'
+
+        # no valid JSON — fall back to best substantial raw (prefer geminiweb)
+        for k in ('geminiweb', 'motif', 'poolside'):
+            raw = raw_by.get(k)
+            if raw and len(raw.strip()) > 200:
+                _log.info("Canvas fusion no valid JSON, wrapping raw from %s", k)
+                return {'slug': 'fusion', 'model': _FUSION_MODEL_LABEL}, _wrap_raw_text(prompt, raw), 'fusion'
         # else fall through to official providers
-    except Exception:
+    except Exception as e:
+        _log.warning("Canvas fusion block error: %s", e)
         pass
 
     # ── 2. Fallback: official key-backed providers in priority order ──
@@ -534,6 +768,7 @@ _CREDIT_ERROR = ("You're out of Neby credits — top up by converting NEBians po
                  "on the Credits page, or wait for next month's free credits.")
 
 
+@never_cache
 def canvas_page(request):
     user = _get_user_or_none(request)
     if not user:

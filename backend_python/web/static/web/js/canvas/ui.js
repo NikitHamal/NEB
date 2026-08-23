@@ -8,7 +8,7 @@ var G={
   selPop:$("selectionPop"),mini:$("miniPrompt"),miniInput:$("miniPromptInput"),miniSend:$("miniPromptSend"),
   boardModal:$("boardModal"),boardInput:$("boardModalInput"),boardCreate:$("boardModalCreate"),boardCancel:$("boardModalCancel"),
   newBtn:$("csNewBoardBtn"),shareBtn:$("csShareBtn"),collapseBtn:$("csCollapseBtn"),mobileToggle:$("csMobileToggle"),
-  viewport:$("canvasViewport"),ctxMenu:$("ctxMenu")
+  viewport:$("canvasViewport"),ctxMenu:$("ctxMenu"),highlightsBtn:$("cvHighlightsBtn")
 };
 var selData={text:"",nodeId:""};
 var miniData={parentId:"",dir:"",x:0,y:0,sx:0,sy:0};
@@ -174,40 +174,150 @@ C.on&&C.on("view",hideSel);C.on&&C.on("pan-start",hideSel);C.on&&C.on("card-drag
 if(G.selPop){
   G.selPop.querySelector('[data-action="dig-deeper"]').addEventListener("click",function(){
     var t=selData.text,nid=selData.nodeId;
+    var sel=window.getSelection();
+    var rng=(sel&&sel.rangeCount)?sel.getRangeAt(0).cloneRange():null;
     hideSel();window.getSelection().removeAllRanges();
     if(!t||!nid) return;
     var p=S.nodes.get(nid);if(!p) return;
-    digDeeper(nid,t,p);
+    digDeeper(nid,t,p,rng);
   });
   G.selPop.querySelector('[data-action="save-highlight"]').addEventListener("click",function(){
     var t=selData.text;hideSel();
     if(!t) return;
-    try{var a=JSON.parse(localStorage.getItem("canvas_highlights")||"[]");a.push({text:t,at:Date.now(),nodeId:selData.nodeId});localStorage.setItem("canvas_highlights",JSON.stringify(a))}catch(e){}
+    try{var a=JSON.parse(localStorage.getItem("canvas_highlights")||"[]");a.push({text:t,at:Date.now(),nodeId:selData.nodeId,boardId:S.boardId});localStorage.setItem("canvas_highlights",JSON.stringify(a))}catch(e){}
     C.showToast("Highlight saved");window.getSelection().removeAllRanges();
   });
 }
 function nodeW(id){var el=document.getElementById("node_"+id);return el&&el.offsetWidth?el.offsetWidth:560}
 function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
-function digDeeper(parentNode,text,p){
+function _wrapRangeWithDig(range, parentId, tmpId, text){
+  if(!range) return null;
+  try{
+    var span=document.createElement("span");
+    span.className="cv-dig-source";
+    span.dataset.child=tmpId;
+    span.dataset.parent=parentId;
+    span.title="Open linked card";
+    span.addEventListener("click",function(e){
+      e.stopPropagation();
+      var cid=span.dataset.child;
+      if(cid&&S.nodes.has(cid)){
+        C.selectNode(cid);
+        var n=S.nodes.get(cid);
+        if(n){
+          var el=document.getElementById("node_"+cid);
+          var h=C.state.heights[cid]||420;
+          var vw=G.viewport.clientWidth,vh=G.viewport.clientHeight;
+          var sc=Math.max(.65,Math.min(1.05,C.state.view.scale));
+          var w=el&&el.offsetWidth?el.offsetWidth:560;
+          C.animateTo(vw/2-(n.x+w/2)*sc, vh/2-(n.y+h/2)*sc, sc);
+          el&&el.classList.add("selected");
+          setTimeout(function(){el&&el.classList.remove("selected")},1600);
+        }
+      }else{
+        // try to find by text if tmp still pending
+        C.showToast("Linked card opening…");
+      }
+    });
+    try{
+      span.appendChild(range.extractContents());
+      range.insertNode(span);
+    }catch(e){
+      try{ range.surroundContents(span);}catch(e2){ return null; }
+    }
+    try{
+      var links=JSON.parse(localStorage.getItem("canvas_dig_links")||"[]");
+      links.push({boardId:S.boardId, parentId:parentId, childId:tmpId, text:text, at:Date.now()});
+      localStorage.setItem("canvas_dig_links", JSON.stringify(links.slice(-200)));
+    }catch(e){}
+    return span;
+  }catch(e){ return null; }
+}
+function _updateDigLink(tmpId, realId){
+  try{
+    var links=JSON.parse(localStorage.getItem("canvas_dig_links")||"[]");
+    var changed=false;
+    links.forEach(function(l){ if(l.childId===tmpId){ l.childId=realId; changed=true; }});
+    if(changed) localStorage.setItem("canvas_dig_links", JSON.stringify(links));
+  }catch(e){}
+  try{
+    var span=document.querySelector('.cv-dig-source[data-child="'+tmpId+'"]');
+    if(span) span.dataset.child=realId;
+  }catch(e){}
+}
+function _reapplyDigHighlights(){
+  try{
+    var links=JSON.parse(localStorage.getItem("canvas_dig_links")||"[]");
+    links.forEach(function(l){
+      if(l.boardId!==S.boardId) return;
+      if(document.querySelector('.cv-dig-source[data-child="'+l.childId+'"]')) return;
+      var parentEl=document.getElementById("node_"+l.parentId);
+      if(!parentEl) return;
+      var body=parentEl.querySelector(".card-body");
+      if(!body||!l.text) return;
+      var walker=document.createTreeWalker(body, NodeFilter.SHOW_TEXT, null);
+      var node, found=false;
+      while(node=walker.nextNode()){
+        var idx=node.nodeValue.indexOf(l.text);
+        if(idx!==-1){
+          var range=document.createRange();
+          range.setStart(node, idx);
+          range.setEnd(node, idx+l.text.length);
+          var span=document.createElement("span");
+          span.className="cv-dig-source";
+          span.dataset.child=l.childId;
+          span.dataset.parent=l.parentId;
+          span.title="Open linked card";
+          span.textContent=l.text;
+          span.addEventListener("click",function(e){
+            e.stopPropagation();
+            var cid=span.dataset.child;
+            if(cid&&S.nodes.has(cid)){
+              var n=S.nodes.get(cid);
+              var el=document.getElementById("node_"+cid);
+              var h=C.state.heights[cid]||420;
+              var vw=G.viewport.clientWidth,vh=G.viewport.clientHeight;
+              var sc=Math.max(.65,Math.min(1.05,C.state.view.scale));
+              var w=el&&el.offsetWidth?el.offsetWidth:560;
+              C.animateTo(vw/2-(n.x+w/2)*sc, vh/2-(n.y+h/2)*sc, sc);
+              C.selectNode(cid);
+            }
+          });
+          try{
+            range.deleteContents();
+            range.insertNode(span);
+          }catch(e){}
+          found=true;
+          break;
+        }
+      }
+    });
+  }catch(e){}
+}
+function digDeeper(parentNode,text,p,range){
   var wx=p.x+nodeW(parentNode)+48,wy=p.y+64;
   var sib=0;S.nodes.forEach(function(v){if(v.parentId===parentNode)sib++});wy+=sib*14;
   var ph={id:"tmp_"+Date.now(),boardId:S.boardId,parentId:parentNode,prompt:"Explain '"+text+"'",title:"",content:{title:"",summary:"",sections:[]},status:"generating",x:wx,y:wy};
+  var digSpan=_wrapRangeWithDig(range, parentNode, ph.id, text);
   S.nodes.set(ph.id,ph);C.renderNode(ph);C.updateEmpty();C.renderEdges();
   centerOn(ph,wx,wy);
   if(!S.isAuth){
     setTimeout(function(){
       var m=C.mockLocal(text.toLowerCase().indexOf("world")>-1?"world model":text.toLowerCase());
-      swap(ph,{id:"local_"+Date.now(),boardId:S.boardId,parentId:parentNode,prompt:"Explain '"+text+"'",title:m.title,content:m,status:"done",x:wx,y:wy});
+      var real={id:"local_"+Date.now(),boardId:S.boardId,parentId:parentNode,prompt:"Explain '"+text+"'",title:m.title,content:m,status:"done",x:wx,y:wy};
+      _updateDigLink(ph.id, real.id);
+      swap(ph,real);
     },600);
     return;
   }
   C.api("/ajax/canvas/nodes/"+parentNode+"/dig-deeper/",{method:"POST",body:JSON.stringify({selected_text:text,x:wx,y:wy})}).then(function(d){
-    d.node.x=wx;d.node.y=wy;swap(ph,d.node);
+    d.node.x=wx;d.node.y=wy;_updateDigLink(ph.id, d.node.id);swap(ph,d.node);
   }).catch(function(err){
     ph.status="done";
     ph.content={title:"Failed",summary:(err&&err.error)||"Dig deeper failed",sections:[]};
     var old=document.getElementById("node_"+ph.id);if(old) old.remove();
     S.nodes.set(ph.id,ph);C.renderNode(ph);C.showToast((err&&err.error)||"Dig deeper failed",true);
+    try{ var s=document.querySelector('.cv-dig-source[data-child="'+ph.id+'"]'); if(s) s.remove(); }catch(e){}
   });
 }
 function centerOn(ph,wx,wy){
@@ -400,5 +510,92 @@ document.addEventListener("click",function(e){
   }
 },true);
 
+function openHighlightsViewer(){
+  var A=window.CanvasAdvanced;
+  if(!A||!A.openPanel){ C.showToast("Highlights panel unavailable"); return; }
+  var boardId=S.boardId;
+  var hl=[]; try{ hl=JSON.parse(localStorage.getItem("canvas_highlights")||"[]"); }catch(e){ hl=[]; }
+  var dig=[]; try{ dig=JSON.parse(localStorage.getItem("canvas_dig_links")||"[]"); }catch(e){ dig=[]; }
+  var hlFiltered=hl.filter(function(h){ return !boardId||h.boardId===boardId||!h.boardId; });
+  var digFiltered=dig.filter(function(l){ return !boardId||l.boardId===boardId; });
+  if(!hlFiltered.length&&!digFiltered.length){
+    A.openPanel("Highlights","Your canvas highlights",'<div class="cv-empty-state">No highlights yet. Select text on any card → <strong>Save highlight</strong> or <strong>Dig deeper</strong> to create highlights.</div>');
+    return;
+  }
+  var html='<div style="display:flex;flex-direction:column;gap:14px">';
+  if(hlFiltered.length){
+    html+='<div class="cv-subhead">Saved highlights</div>';
+    hlFiltered.slice(-30).reverse().forEach(function(h){
+      var txt=C.esc(h.text);
+      var node=S.nodes.get(h.nodeId);
+      var title=node?C.esc(node.title||node.prompt.slice(0,40)):"Card";
+      var dt=new Date(h.at||Date.now()).toLocaleDateString();
+      html+='<div class="cv-suggestion"><div class="cv-suggestion-main"><div class="cv-suggestion-title" style="-webkit-line-clamp:3">'+txt+'</div><div class="cv-suggestion-why">From: '+title+' · '+dt+'</div></div><button data-jump-hl="'+C.esc(h.nodeId)+'" title="Go to card"><span class="material-symbols-outlined">center_focus_strong</span></button></div>';
+    });
+  }
+  if(digFiltered.length){
+    html+='<div class="cv-subhead">Dig deeper links</div>';
+    digFiltered.slice(-30).reverse().forEach(function(l){
+      var txt=C.esc(l.text);
+      var p=S.nodes.get(l.parentId);
+      var c=S.nodes.get(l.childId);
+      var pTitle=p?C.esc(p.title||p.prompt.slice(0,30)):"Parent";
+      var cTitle=c?C.esc(c.title||c.prompt.slice(0,30)):"Child";
+      html+='<div class="cv-suggestion"><div class="cv-suggestion-main"><div class="cv-suggestion-title" style="-webkit-line-clamp:2">'+txt+'</div><div class="cv-suggestion-why">'+pTitle+' → '+cTitle+'</div></div><button data-jump-hl="'+C.esc(l.childId||l.parentId)+'" title="Open linked card"><span class="material-symbols-outlined">open_in_new</span></button></div>';
+    });
+  }
+  html+='</div>';
+  A.openPanel("Highlights","Your canvas highlights",html);
+  setTimeout(function(){
+    var body=document.getElementById("cvPanelBody");
+    if(!body) return;
+    body.querySelectorAll("[data-jump-hl]").forEach(function(b){
+      b.addEventListener("click", function(){
+        var nid=b.getAttribute("data-jump-hl");
+        if(nid&&S.nodes.has(nid)){
+          A.closePanel();
+          var n=S.nodes.get(nid);
+          var el=document.getElementById("node_"+nid);
+          var h=C.state.heights[nid]||420;
+          var vw=G.viewport.clientWidth, vh=G.viewport.clientHeight;
+          var sc=Math.max(.65,Math.min(1.05,C.state.view.scale));
+          var w=el&&el.offsetWidth?el.offsetWidth:560;
+          C.animateTo(vw/2-(n.x+w/2)*sc, vh/2-(n.y+h/2)*sc, sc);
+          C.selectNode(nid);
+        } else {
+          C.showToast("Card not found on this board");
+        }
+      });
+    });
+  },80);
+}
+if(G.highlightsBtn) G.highlightsBtn.addEventListener("click", openHighlightsViewer);
+(function(){
+  var fab=document.getElementById("cvNebyFab");
+  if(!fab) return;
+  var avatar=fab.querySelector("[data-neby-avatar]");
+  var fallback=fab.querySelector(".cv-neby-fab-icon");
+  if(avatar){
+    var obs=new MutationObserver(function(){
+      if(avatar.querySelector("canvas, svg")){
+        if(fallback) fallback.style.display="none";
+        avatar.style.display="block";
+        obs.disconnect();
+      }
+    });
+    try{ obs.observe(avatar,{childList:true,subtree:true}); }catch(e){}
+    setTimeout(function(){ if(avatar.querySelector("canvas,svg")&&fallback){ fallback.style.display="none"; avatar.style.display="block"; } },1400);
+  }
+  fab.addEventListener("click", function(){
+    var topBtn=document.getElementById("cvNebyBtn");
+    if(topBtn){ topBtn.click(); return; }
+    var A2=window.CanvasAdvanced;
+    if(A2&&A2.openNeby) A2.openNeby();
+  });
+})();
+if(C.on){ C.on("board", function(){ setTimeout(_reapplyDigHighlights, 320); }); }
+setTimeout(_reapplyDigHighlights, 750);
+var _origRenderHL=C.renderNode;
+C.renderNode=function(n){ _origRenderHL(n); setTimeout(_reapplyDigHighlights, 50); };
 function selectCard(id){C.selectNode(id,true)}
 })();
