@@ -362,10 +362,6 @@
 {% endblock %}
 
 {% block extra_js %}
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" nonce="{{ csp_nonce }}"></script>
-<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/mhchem.min.js" nonce="{{ csp_nonce }}"></script>
-<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" nonce="{{ csp_nonce }}"></script>
 <script src="{% static 'web/js/composer_voice.js' %}" nonce="{{ csp_nonce }}"></script>
 <script nonce="{{ csp_nonce }}">
 const POST_ID = '{{ post.id }}';
@@ -849,6 +845,7 @@ async function submitMainReply(e) {
           requestAnimationFrame(function () {
             card.style.transition = 'opacity 0.3s';
             card.style.opacity = '1';
+            if (window.renderAllMath) window.renderAllMath(card);
           });
         }
         // Increment the counter
@@ -1013,6 +1010,9 @@ async function loadThreadReplies(replyId) {
       if (totalReplies > 0) { countEl.textContent = countText; countEl.style.display = ''; } else { countEl.style.display = 'none'; }
       document.getElementById('threadSidebarScroll').innerHTML = html;
       document.getElementById('threadSidebarCompose').style.display = IS_AUTHENTICATED ? '' : 'none';
+    }
+    if (window.renderAllMath) {
+      window.renderAllMath(document.getElementById(isMobile() ? 'threadSheetScroll' : 'threadSidebarScroll'));
     }
     if (IS_AUTHENTICATED) {
       const sidebarTA = document.getElementById('threadSidebarTextarea');
@@ -1871,28 +1871,9 @@ registerActions({
 
 // KaTeX rendering
 document.addEventListener('DOMContentLoaded', function() {
-  var postContent = document.getElementById('post-content-{{ post.id }}');
-  if (postContent && typeof renderMathInElement === 'function') {
-    renderMathInElement(postContent, {
-      delimiters: [
-        {left: '$$', right: '$$', display: true},
-        {left: '\\(', right: '\\)', display: false}
-      ],
-      throwOnError: false
-    });
+  if (window.renderAllMath) {
+    window.renderAllMath();
   }
-  // Render math in all reply bodies
-  document.querySelectorAll('.fp-reply-body').forEach(function(el) {
-    if (typeof renderMathInElement === 'function') {
-      renderMathInElement(el, {
-        delimiters: [
-          {left: '$$', right: '$$', display: true},
-          {left: '\\(', right: '\\)', display: false}
-        ],
-        throwOnError: false
-      });
-    }
-  });
 });
 
 async function votePoll(btn) {

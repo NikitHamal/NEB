@@ -418,8 +418,11 @@ def library(request):
         interactive_stats=interactive_stats,
     )
 
-    if getattr(request, 'htmx', False) and current_tab in ['digital', 'community']:
-        return render(request, 'web/_library_main.html', ctx)
+    if getattr(request, 'htmx', False) and not getattr(request.htmx, 'history_restore_request', False) and current_tab in ['digital', 'community']:
+        res = render(request, 'web/_library_main.html', ctx)
+        res['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+        res['Vary'] = 'HX-Request'
+        return res
 
     return render(request, 'web/library.html', ctx)
 
@@ -583,8 +586,11 @@ def search(request):
         current_type=rtype,
         meilisearch_enabled=meilisearch_enabled() if query else False,
     )
-    if getattr(request, 'htmx', False):
-        return render(request, 'web/_search_results.html', ctx)
+    if getattr(request, 'htmx', False) and not getattr(request.htmx, 'history_restore_request', False):
+        res = render(request, 'web/_search_results.html', ctx)
+        res['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+        res['Vary'] = 'HX-Request'
+        return res
     return render(request, 'web/search.html', ctx)
 
 

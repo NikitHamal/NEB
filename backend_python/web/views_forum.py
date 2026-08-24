@@ -233,8 +233,11 @@ def forum(request):
         page_obj=page_obj,
     )
 
-    if getattr(request, 'htmx', False):
-        return render(request, 'web/_forum_main.html', ctx)
+    if getattr(request, 'htmx', False) and not getattr(request.htmx, 'history_restore_request', False):
+        res = render(request, 'web/_forum_main.html', ctx)
+        res['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+        res['Vary'] = 'HX-Request'
+        return res
 
     return render(request, 'web/forum.html', ctx)
 
@@ -318,8 +321,11 @@ def forum_post(request, post_id):
     ))
     ctx = _ctx(request, post=post, replies=all_replies, top_level_replies=top_level, children_map=children_map, post_id=post_id, is_owner=is_owner, is_following=is_following, post_author_id=post_obj.user_id, all_usernames=all_usernames, reply_sort=reply_sort)
 
-    if getattr(request, 'htmx', False):
-        return render(request, 'web/_forum_post_replies_section.html', ctx)
+    if getattr(request, 'htmx', False) and not getattr(request.htmx, 'history_restore_request', False):
+        res = render(request, 'web/_forum_post_replies_section.html', ctx)
+        res['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+        res['Vary'] = 'HX-Request'
+        return res
 
     return render(request, 'web/forum_post.html', ctx)
 
