@@ -128,7 +128,7 @@ class AgentAction(models.Model):
     status = models.CharField(max_length=12, choices=STATUS_CHOICES, default='done')
     source = models.CharField(max_length=12, choices=SOURCE_CHOICES, default='heartbeat')
     target_type = models.CharField(max_length=20, blank=True, default='')
-    target_id = models.CharField(max_length=64, blank=True, default='')
+    target_id = models.CharField(max_length=128, blank=True, default='')
     content_preview = models.CharField(max_length=400, blank=True, default='')
     reasoning = models.CharField(max_length=400, blank=True, default='')
     extra_json = models.TextField(blank=True, default='{}')

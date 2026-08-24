@@ -65,7 +65,7 @@ def observe(persona, bot_user, window_hours=720, limit=100):
         .values_list('reply_id', flat=True)
     )
     my_replied_parent_ids = set(
-        Reply.objects.filter(user=bot_user, parent_reply_id__isnull=False, is_archived=False)
+        str(pid).strip() for pid in Reply.objects.filter(user=bot_user, parent_reply_id__isnull=False, is_archived=False)
         .values_list('parent_reply_id', flat=True)
     )
 
@@ -78,10 +78,13 @@ def observe(persona, bot_user, window_hours=720, limit=100):
             score += 6
         if f"@{bot_user.username}".lower() in r.content.lower() or "neby" in r.content.lower():
             score += 5
+        rid_str = str(r.id).strip()
+        pid_str = str(r.post_id).strip()
         already_replied = (
-            r.id in my_replied_parent_ids
-            or already_acted(persona, 'reply', r.id)
-            or already_acted(persona, 'reply', f"{r.post_id}:{r.id}")
+            rid_str in my_replied_parent_ids
+            or already_acted(persona, 'reply', rid_str)
+            or already_acted(persona, 'reply', f"{pid_str}:{rid_str}")
+            or already_acted(persona, 'reply', f"{pid_str}:{rid_str}"[:64])
         )
         scored_replies.append({
             'reply': r,

@@ -131,20 +131,25 @@ def act_post(persona, bot_user, title, content, category, *, source='heartbeat',
 
 
 def act_reply(persona, bot_user, post, bot_config=None, *, source='heartbeat', reason='', content=None, parent_reply_id=None, target_username=''):
-    target_key = f"{post.id}:{parent_reply_id}" if parent_reply_id else post.id
+    p_id = str(parent_reply_id).strip() if parent_reply_id else None
+    post_id = str(post.id).strip()
+    target_key = p_id or post_id
+
     if already_acted(persona, 'reply', target_key):
         return None
-    if parent_reply_id:
-        if already_acted(persona, 'reply', parent_reply_id):
+    if p_id:
+        if already_acted(persona, 'reply', f"{post_id}:{p_id}") or already_acted(persona, 'reply', f"{post_id}:{p_id}"[:64]):
             return None
-        if Reply.objects.filter(parent_reply_id=parent_reply_id, user=bot_user, is_archived=False).exists():
+        if Reply.objects.filter(parent_reply_id=p_id, user=bot_user, is_archived=False).exists():
             return None
-    if not parent_reply_id and post.user_id != bot_user.id and Reply.objects.filter(post=post, user=bot_user, is_archived=False).exists():
-        return None
-    body = (content or '').strip() or _compose_reply(bot_config, bot_user, post, persona, target_username=target_username, parent_reply_id=parent_reply_id)
+    else:
+        if post.user_id != bot_user.id and Reply.objects.filter(post_id=post_id, parent_reply__isnull=True, user=bot_user, is_archived=False).exists():
+            return None
+
+    body = (content or '').strip() or _compose_reply(bot_config, bot_user, post, persona, target_username=target_username, parent_reply_id=p_id)
     if not body:
         return None
-    result = services.create_reply(bot_user, post.id, body, parent_reply_id=parent_reply_id)
+    result = services.create_reply(bot_user, post.id, body, parent_reply_id=p_id)
     if not result:
         log_action(persona, 'reply', status='failed', source=source,
                    target_type='post', target_id=target_key, reasoning=reason)
@@ -155,6 +160,11 @@ def act_reply(persona, bot_user, post, bot_config=None, *, source='heartbeat', r
         persona, 'reply', source=source, target_type='post', target_id=target_key,
         content_preview=body[:400], reasoning=reason,
     )
+    if p_id:
+        log_action(
+            persona, 'reply', source=source, target_type='post', target_id=f"{post_id}:{p_id}"[:128],
+            content_preview=body[:400], reasoning=reason,
+        )
     return result
 
 
