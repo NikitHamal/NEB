@@ -425,14 +425,20 @@ async function toggleReplyLike(replyId) {
   if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
   const result = await (await fetch('/ajax/like/reply/' + replyId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }, credentials: 'same-origin' })).json();
   if (result && result.thumbsUpCount !== undefined) {
-    const el = document.getElementById('reply-like-count-' + replyId);
-    if (el) el.textContent = result.thumbsUpCount;
-    const btn = document.getElementById('reply-like-btn-' + replyId);
-    if (btn) {
+    const escaped = CSS.escape(replyId);
+    const btnSelector = 'button[data-action="toggle-reply-like"][data-reply-id="' + escaped + '"], #reply-like-btn-' + escaped;
+    document.querySelectorAll(btnSelector).forEach(function(btn) {
       btn.classList.toggle('liked', result.isThumbedUp);
       const icon = btn.querySelector('.material-symbols-outlined');
-      if (icon) { icon.textContent = 'thumb_up'; icon.style.fontVariationSettings = result.isThumbedUp ? "'FILL' 1" : ''; }
-    }
+      if (icon) {
+        icon.textContent = 'thumb_up';
+        icon.style.fontVariationSettings = result.isThumbedUp ? "'FILL' 1" : '';
+      }
+    });
+    const countSelector = '#reply-like-count-' + escaped + ', [data-reply-id="' + escaped + '"] [id^="reply-like-count-"], [data-reply-like-count="' + escaped + '"]';
+    document.querySelectorAll(countSelector).forEach(function(el) {
+      el.textContent = result.thumbsUpCount;
+    });
   }
 }
 
