@@ -91,6 +91,7 @@
   <link rel="stylesheet" href="{% static 'web/css/forum-media.css' %}">
   <link rel="stylesheet" href="{% static 'web/css/pages/media-player.css' %}">
   <link rel="stylesheet" href="{% static 'web/css/neby-avatar.css' %}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
   {% block extra_css %}{% endblock %}
   <link rel="stylesheet" href="{% static 'web/css/ai-widgets.css' %}">
   <link rel="stylesheet" href="{% static 'web/css/pages/neby-assist.css' %}">
@@ -100,8 +101,8 @@
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/media-player.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/htmx.min.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/marked.min.js' %}"></script>
-<!-- HTMX global config: use full URL for pushState, allow CSS transitions -->
-  <meta name="htmx-config" content='{"historyEnabled":true,"refreshOnHistoryMiss":true}'>
+<!-- HTMX global config: disable history cache to ensure clean full page back navigation -->
+  <meta name="htmx-config" content='{"historyEnabled":false,"refreshOnHistoryMiss":true}'>
 </head>
 
 <body class="{% block body_class %}{% endblock %}"{% if ws_url %} data-ws-url="{{ ws_url }}"{% endif %}>
@@ -378,6 +379,7 @@
       document.body.setAttribute('hx-headers', JSON.stringify({'X-CSRFToken': CSRF_TOKEN}));
       if (typeof htmx !== 'undefined') {
         htmx.config.inlineScriptNonce = '{{ csp_nonce }}';
+        htmx.config.historyEnabled = false;
       }
     });
 
@@ -871,11 +873,38 @@
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/ai-widgets.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neby-assist.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neby-avatar.js' %}"></script>
+  <script nonce="{{ csp_nonce }}" src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script nonce="{{ csp_nonce }}" src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/mhchem.min.js"></script>
+  <script nonce="{{ csp_nonce }}" src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
   <script nonce="{{ csp_nonce }}">
-    document.addEventListener('htmx:afterSwap', function() {
+    window.KATEX_CONFIG = {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '\\[', right: '\\]', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\(', right: '\\)', display: false}
+      ],
+      throwOnError: false,
+      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code', 'option', 'input']
+    };
+
+    window.renderAllMath = function(root) {
+      if (typeof renderMathInElement === 'function') {
+        try {
+          renderMathInElement(root || document.body, window.KATEX_CONFIG);
+        } catch(e) {}
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', function() {
+      window.renderAllMath();
+    });
+
+    document.addEventListener('htmx:afterSwap', function(e) {
       if (window.NebyAvatar && window.NebyAvatar.initAll) {
         window.NebyAvatar.initAll();
       }
+      window.renderAllMath(e.detail && e.detail.target ? e.detail.target : document.body);
     });
   </script>
   {% block extra_js %}{% endblock %}
