@@ -65,7 +65,10 @@ jobs:
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
+        # Best-effort: shared account storage quota can block uploads; the
+        # purpose of this workflow is validating the build stays green.
+        continue-on-error: true
         with:
           name: ConsicaCode-${{ env.build_variant }}-v${{ steps.info.outputs.version }}-${{ steps.info.outputs.hash }}
           path: consica-code/dist/*.apk
-          retention-days: 30
+          retention-days: 7
