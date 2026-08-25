@@ -31,9 +31,21 @@ jobs:
         with:
           cache-read-only: false
 
-      - name: Build Signed Release APK
-        run: ./gradlew assembleRelease --build-cache
+      - name: Build APK (signed release when secrets are configured, debug otherwise)
+        run: |
+          if [ -n "$CCODE_KEYSTORE_PASSWORD" ] && [ -n "$CCODE_KEY_PASSWORD" ]; then
+            echo "Signing secrets present - building signed release"
+            ./gradlew assembleRelease --build-cache
+            echo "build_variant=release" >> "$GITHUB_ENV"
+          else
+            echo "CCODE_* secrets not configured - building debug APK for CI validation"
+            ./gradlew assembleDebug --build-cache
+            echo "build_variant=debug" >> "$GITHUB_ENV"
+          fi
         env:
+          CCODE_KEYSTORE_PASSWORD: ${{ secrets.CCODE_KEYSTORE_PASSWORD }}
+          CCODE_KEY_PASSWORD: ${{ secrets.CCODE_KEY_PASSWORD }}
+          CCODE_KEY_ALIAS: ${{ secrets.CCODE_KEY_ALIAS }}
           GRADLE_OPTS: -Dorg.gradle.jvmargs="-Xmx4g -XX:+UseParallelGC -XX:MaxMetaspaceSize=1g" -Dorg.gradle.parallel=true -Dorg.gradle.caching=true
 
       - name: Get version and commit info
@@ -46,14 +58,14 @@ jobs:
 
       - name: Rename APK with commit hash
         run: |
-          APK=$(ls app/build/outputs/apk/release/*.apk | head -1)
+          APK=$(ls app/build/outputs/apk/$build_variant/*.apk | head -1)
           mkdir -p dist
-          cp "$APK" "dist/ConsicaCode-v${{ steps.info.outputs.version }}-${{ steps.info.outputs.hash }}.apk"
+          cp "$APK" "dist/ConsicaCode-$build_variant-v${{ steps.info.outputs.version }}-${{ steps.info.outputs.hash }}.apk"
           ls -la dist/
 
-      - name: Upload Signed APK
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: ConsicaCode-v${{ steps.info.outputs.version }}-${{ steps.info.outputs.hash }}
+          name: ConsicaCode-${{ env.build_variant }}-v${{ steps.info.outputs.version }}-${{ steps.info.outputs.hash }}
           path: consica-code/dist/*.apk
           retention-days: 30
