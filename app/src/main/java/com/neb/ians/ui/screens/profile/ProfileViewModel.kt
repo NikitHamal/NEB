@@ -59,16 +59,19 @@ data class ProfileUiState(
     val postsLoading: Boolean = false,
     val postsHasMore: Boolean = false,
     val postsLoaded: Boolean = false,
+    val postsError: String? = null,
     val replies: List<ApiReply> = emptyList(),
     val repliesLoading: Boolean = false,
     val repliesHasMore: Boolean = false,
     val repliesLoaded: Boolean = false,
     val repliesCount: Int = 0,
+    val repliesError: String? = null,
     val resources: List<ApiResource> = emptyList(),
     val resourcesLoading: Boolean = false,
     val resourcesHasMore: Boolean = false,
     val resourcesLoaded: Boolean = false,
     val resourcesCount: Int = 0,
+    val resourcesError: String? = null,
     val showPhotoGallery: Boolean = false,
     val photos: List<ApiUserPhoto> = emptyList(),
     val photosLoading: Boolean = false,
@@ -281,6 +284,7 @@ class ProfileViewModel @Inject constructor(
             _uiState.update {
                 it.copy(
                     postsLoading = true,
+                    postsError = null,
                     posts = if (reset) emptyList() else it.posts
                 )
             }
@@ -302,8 +306,14 @@ class ProfileViewModel @Inject constructor(
                     )
                 }
                 saveToCache()
-            } catch (_: Exception) {
-                _uiState.update { it.copy(postsLoading = false, postsLoaded = true) }
+            } catch (e: Exception) {
+                _uiState.update {
+                    it.copy(
+                        postsLoading = false,
+                        postsLoaded = true,
+                        postsError = e.message ?: "Couldn't load posts"
+                    )
+                }
             }
         }
     }
@@ -318,6 +328,7 @@ class ProfileViewModel @Inject constructor(
             _uiState.update {
                 it.copy(
                     repliesLoading = true,
+                    repliesError = null,
                     replies = if (reset) emptyList() else it.replies
                 )
             }
@@ -340,8 +351,14 @@ class ProfileViewModel @Inject constructor(
                     )
                 }
                 saveToCache()
-            } catch (_: Exception) {
-                _uiState.update { it.copy(repliesLoading = false, repliesLoaded = true) }
+            } catch (e: Exception) {
+                _uiState.update {
+                    it.copy(
+                        repliesLoading = false,
+                        repliesLoaded = true,
+                        repliesError = e.message ?: "Couldn't load replies"
+                    )
+                }
             }
         }
     }
@@ -356,6 +373,7 @@ class ProfileViewModel @Inject constructor(
             _uiState.update {
                 it.copy(
                     resourcesLoading = true,
+                    resourcesError = null,
                     resources = if (reset) emptyList() else it.resources
                 )
             }
@@ -375,8 +393,14 @@ class ProfileViewModel @Inject constructor(
                     )
                 }
                 saveToCache()
-            } catch (_: Exception) {
-                _uiState.update { it.copy(resourcesLoading = false, resourcesLoaded = true) }
+            } catch (e: Exception) {
+                _uiState.update {
+                    it.copy(
+                        resourcesLoading = false,
+                        resourcesLoaded = true,
+                        resourcesError = e.message ?: "Couldn't load resources"
+                    )
+                }
             }
         }
     }

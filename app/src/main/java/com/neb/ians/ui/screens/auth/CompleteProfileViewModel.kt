@@ -24,7 +24,7 @@ data class CompleteProfileUiState(
     val email: String = "",
     val bio: String = "",
     val dob: String = "",
-    val gender: String = "Male",
+    val gender: String = "",
     val role: String = "student",
     val classLevel: String = "Class 11",
     val subjects: List<String> = emptyList(),
@@ -83,7 +83,7 @@ class CompleteProfileViewModel @Inject constructor(
                         email = cached.email ?: "",
                         bio = cached.bio ?: "",
                         dob = cached.dob,
-                        gender = cached.gender ?: "Male",
+                        gender = cached.gender ?: "",
                         role = cached.role ?: "student",
                         classLevel = cached.classLevel ?: "Class 11",
                         subjects = cached.subjects?.split(",")?.filter { it.isNotBlank() } ?: emptyList(),
@@ -305,8 +305,13 @@ class CompleteProfileViewModel @Inject constructor(
         }
     }
 
-    fun submitProfile() {
-        val state = _uiState.value
+    fun skipForNow() {
+        viewModelScope.launch {
+            authRepository.setProfileSkipped(true)
+        }
+    }
+
+    fun submitProfile() {        val state = _uiState.value
         if (state.isSubmitting) return
 
         _uiState.update { it.copy(isSubmitting = true, submissionResult = null, submissionError = null) }

@@ -11,19 +11,15 @@ object SecurePrefs {
     private const val FILE_NAME = "nebians_secure_prefs"
     private const val KEY_AUTH_TOKEN = "auth_token"
     private const val FALLBACK_FILE = "nebians_secure_prefs_fallback"
-    private const val FALLBACK_AUTH_TOKEN = "auth_token"
 
     @Volatile
     private var prefs: SharedPreferences? = null
 
-    @Volatile
-    private var fallbackPrefs: SharedPreferences? = null
-
-    private fun getFallback(context: Context): SharedPreferences {
-        fallbackPrefs?.let { return it }
-        val sp = context.getSharedPreferences(FALLBACK_FILE, Context.MODE_PRIVATE)
-        fallbackPrefs = sp
-        return sp
+    private fun clearLegacyFallback(context: Context) {
+        context.getSharedPreferences(FALLBACK_FILE, Context.MODE_PRIVATE)
+            .edit()
+            .clear()
+            .apply()
     }
 
     fun init(context: Context): SharedPreferences? {
@@ -40,9 +36,11 @@ object SecurePrefs {
                 EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
             )
             prefs = sp
+            clearLegacyFallback(context)
             return sp
         } catch (e: Exception) {
-            Log.w("SecurePrefs", "EncryptedSharedPreferences init failed, using fallback", e)
+            clearLegacyFallback(context)
+            Log.e("SecurePrefs", "EncryptedSharedPreferences init failed", e)
             return null
         }
     }
@@ -56,7 +54,7 @@ object SecurePrefs {
                 Log.w("SecurePrefs", "Failed to read from EncryptedSharedPreferences", e)
             }
         }
-        return getFallback(context).getString(FALLBACK_AUTH_TOKEN, null)
+        return null
     }
 
     fun setAuthToken(context: Context, token: String?) {
@@ -71,9 +69,7 @@ object SecurePrefs {
                 Log.w("SecurePrefs", "Failed to write to EncryptedSharedPreferences", e)
             }
         }
-        getFallback(context).edit().apply {
-            if (token != null) putString(FALLBACK_AUTH_TOKEN, token) else remove(FALLBACK_AUTH_TOKEN)
-        }.apply()
+        throw IllegalStateException("Secure credential storage is unavailable")
     }
 
     fun clearAuthToken(context: Context) {
@@ -85,6 +81,6 @@ object SecurePrefs {
                 Log.w("SecurePrefs", "Failed to clear from EncryptedSharedPreferences", e)
             }
         }
-        getFallback(context).edit().remove(FALLBACK_AUTH_TOKEN).apply()
+        clearLegacyFallback(context)
     }
 }

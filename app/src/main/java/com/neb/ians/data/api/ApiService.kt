@@ -28,6 +28,9 @@ data class GitHubAuthRequest(
 )
 
 @Serializable
+data class MobileOAuthExchangeRequest(val code: String)
+
+@Serializable
 data class EmailSignupRequest(
     val email: String,
     val password: String,
@@ -332,6 +335,16 @@ data class GoogleAuthResponse(
 )
 
 @Serializable
+data class MobileOAuthExchangeResponse(
+    val status: String = "",
+    @SerialName("isNewUser") val isNewUser: Boolean = false,
+    @SerialName("authToken") val authToken: String? = null,
+    @SerialName("profileComplete") val profileComplete: Boolean? = null,
+    val username: String = "",
+    val error: String? = null
+)
+
+@Serializable
 data class EmailSignupResponse(
     val status: String = "",
     val message: String = "",
@@ -430,7 +443,8 @@ data class UserProfileResponse(
     @SerialName("is_requested") val isRequested: Boolean? = null,
     @SerialName("is_self") val isSelf: Boolean? = null,
     @SerialName("achievement_badges") val achievementBadges: String? = null,
-    @SerialName("social_links") val socialLinks: List<ApiSocialLink> = emptyList()
+    @SerialName("social_links") val socialLinks: List<ApiSocialLink> = emptyList(),
+    @SerialName("profileComplete") val profileComplete: Boolean? = null,
 )
 
 @Serializable
@@ -1152,6 +1166,9 @@ interface ApiService {
     @POST("api/auth/github/")
     suspend fun authenticateGitHub(@Body request: GitHubAuthRequest): GoogleAuthResponse
 
+    @POST("api/auth/mobile/exchange/")
+    suspend fun exchangeMobileOAuthCode(@Body request: MobileOAuthExchangeRequest): MobileOAuthExchangeResponse
+
     @POST("api/auth/email/signup/")
     suspend fun emailSignup(@Body request: EmailSignupRequest): EmailSignupResponse
 
@@ -1558,16 +1575,22 @@ interface ApiService {
         @Path("targetId") targetId: String
     ): List<ApiEditHistory>
 
-    // --- News / Announcements (public web parity) ---
-    @GET("news/")
-    suspend fun getNewsPage(
-        @Query("category") category: String? = null
-    ): ResponseBody
+    // --- News / Announcements (JSON API) ---
+    @GET("api/news/")
+    suspend fun getNewsList(
+        @Query("category") category: String? = null,
+        @Query("page") page: Int = 1
+    ): NewsListResponse
 
-    @GET("news/{slug}/")
-    suspend fun getNewsDetailPage(
+    @GET("api/news/{slug}/")
+    suspend fun getNewsDetail(
         @Path("slug") slug: String
-    ): ResponseBody
+    ): NewsDetailResponse
+
+    @POST("api/news/{slug}/view/")
+    suspend fun trackNewsView(
+        @Path("slug") slug: String
+    ): NewsViewTrackResponse
 
     @GET("ajax/news/{slug}/comments/")
     suspend fun getNewsComments(
@@ -2103,6 +2126,9 @@ interface ApiService {
             val json = Json {
                 ignoreUnknownKeys = true
                 coerceInputValues = true
+                // The backend mixes DRF and legacy web serializers; a stray
+                // number-into-String field must not blank an entire tab.
+                isLenient = true
             }
 
             return Retrofit.Builder()

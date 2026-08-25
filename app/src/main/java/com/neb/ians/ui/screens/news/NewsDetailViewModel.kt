@@ -89,6 +89,10 @@ class NewsDetailViewModel @Inject constructor(
         }
         load()
         collectCacheSignals()
+        // One real-open view count per screen entry (server de-dupes web separately).
+        if (slug.isNotBlank()) {
+            viewModelScope.launch { newsRepository.trackView(slug) }
+        }
     }
 
     /** Cache-first with silent background updates: when the repository's SWR

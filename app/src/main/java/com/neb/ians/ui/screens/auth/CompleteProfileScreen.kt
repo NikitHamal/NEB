@@ -76,6 +76,7 @@ private val TEACHER_CLASS_OPTIONS = listOf(
 @Composable
 fun CompleteProfileScreen(
     onNavigateToHome: () -> Unit,
+    onSkipLater: () -> Unit = onNavigateToHome,
     onNavigateBack: (() -> Unit)? = null,
     isEditing: Boolean = false,
     viewModel: CompleteProfileViewModel = hiltViewModel()
@@ -103,6 +104,7 @@ fun CompleteProfileScreen(
         (uiState.usernameAvailable == true || (uiState.isEditing && uiState.username.isNotEmpty())) &&
         uiState.dob.isNotEmpty() &&
         uiState.displayName.isNotEmpty() &&
+        uiState.gender.isNotEmpty() &&
         (uiState.role != "student" || uiState.classLevel.isNotEmpty()) &&
         (uiState.role != "teacher" || uiState.teachingSubjects.isNotEmpty()) &&
         (uiState.role != "institution" || uiState.school.isNotEmpty())
@@ -117,6 +119,7 @@ fun CompleteProfileScreen(
                 if (uiState.isEditing && onNavigateBack != null) {
                     onNavigateBack()
                 } else {
+                    kotlinx.coroutines.delay(1100)
                     onNavigateToHome()
                 }
             }
@@ -171,7 +174,7 @@ fun CompleteProfileScreen(
 
             Card(
                 colors = CardDefaults.cardColors(
-                    containerColor = Color.White
+                    containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
                 ),
                 shape = RoundedCornerShape(22.dp),
                 border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
@@ -1069,6 +1072,23 @@ fun CompleteProfileScreen(
                 }
             }
 
+            if (!uiState.isEditing) {
+                Spacer(modifier = Modifier.height(6.dp))
+                TextButton(
+                    onClick = {
+                        viewModel.skipForNow()
+                        onSkipLater()
+                    },
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                ) {
+                    Text(
+                        text = "I'll do this later",
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+
             if (uiState.submissionResult == false) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
@@ -1077,6 +1097,29 @@ fun CompleteProfileScreen(
                     style = MaterialTheme.typography.bodySmall,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
+            }
+
+            if (uiState.submissionResult == true && !uiState.isEditing) {
+                Spacer(modifier = Modifier.height(12.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.CheckCircle,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = "You're all set. Welcome to NEBians!",
+                        style = MaterialTheme.typography.labelLarge,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
             }
 
             Spacer(modifier = Modifier.navigationBarsPadding().height(48.dp))
@@ -1107,7 +1150,7 @@ private fun ProfileRoleOption(
             .fillMaxWidth()
             .clickable(onClick = onClick),
         shape = RoundedCornerShape(16.dp),
-        color = if (selected) MaterialTheme.colorScheme.primaryContainer else Color.White,
+        color = if (selected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceContainerLowest,
         border = BorderStroke(1.dp, if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant)
     ) {
         Row(

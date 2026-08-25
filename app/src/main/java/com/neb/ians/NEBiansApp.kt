@@ -53,6 +53,25 @@ class NEBiansApp : Application(), Configuration.Provider, ImageLoaderFactory {
         super.onCreate()
         com.neb.ians.util.CrashHandler.init(this)
         createNotificationChannels()
+        scheduleProfileNudge()
+    }
+
+    /**
+     * Daily check-in; the worker itself throttles reminders to one per
+     * AuthRepository.NUDGE_INTERVAL_MS and only for users who skipped
+     * completing their profile.
+     */
+    private fun scheduleProfileNudge() {
+        val request = androidx.work.PeriodicWorkRequestBuilder<com.neb.ians.worker.ProfileNudgeWorker>(
+            1, java.util.concurrent.TimeUnit.DAYS
+        )
+            .setInitialDelay(12, java.util.concurrent.TimeUnit.HOURS)
+            .build()
+        androidx.work.WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+            "profile_nudge_daily",
+            androidx.work.ExistingPeriodicWorkPolicy.KEEP,
+            request
+        )
     }
 
     private fun createNotificationChannels() {

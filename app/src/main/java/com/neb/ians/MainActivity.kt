@@ -114,13 +114,11 @@ class MainActivity : ComponentActivity() {
         val data = intent.data
         if (data != null && data.toString().startsWith("nebians://auth-callback")) {
             val error = data.getQueryParameter("error")
-            val authToken = data.getQueryParameter("authToken")
-            val isNewUser = data.getQueryParameter("isNewUser")?.toBoolean() ?: false
-            val username = data.getQueryParameter("username")
+            val code = data.getQueryParameter("code")
 
-            if (authToken != null) {
+            if (code != null) {
                 lifecycleScope.launch {
-                    val success = authRepository.signInWithWebToken(authToken, isNewUser, username)
+                    val success = authRepository.signInWithWebCode(code)
                     if (!success) {
                         Toast.makeText(this@MainActivity, "Sign-in failed. Please try again.", Toast.LENGTH_SHORT).show()
                     }

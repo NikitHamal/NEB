@@ -404,6 +404,11 @@ fun NEBiansNavHost(
                             popUpTo(Screen.CompleteProfile.route) { inclusive = true }
                         }
                     },
+                    onSkipLater = {
+                        navController.navigate(Screen.Home.route) {
+                            popUpTo(Screen.CompleteProfile.route) { inclusive = true }
+                        }
+                    },
                     onNavigateBack = { navController.popBackStack() }
                 )
             }

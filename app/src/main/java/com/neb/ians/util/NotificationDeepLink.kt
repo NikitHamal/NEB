@@ -132,6 +132,9 @@ data class NotificationDeepLink(
             if (verb == "follow_request") {
                 return Screen.Profile.createRoute("me", showRequests = true)
             }
+            if (verb == "profile_nudge") {
+                return Screen.CompleteProfile.route
+            }
             if (targetId.isBlank() && actorUsername.isNullOrBlank()) return null
 
             return when (verb) {

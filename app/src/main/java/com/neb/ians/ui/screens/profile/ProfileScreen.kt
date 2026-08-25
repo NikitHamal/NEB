@@ -65,6 +65,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.R
 import com.neb.ians.data.api.ApiSocialLink
 import com.neb.ians.ui.components.WebEmptyState
+import com.neb.ians.ui.components.ErrorCard
 import com.neb.ians.ui.components.WebResourceCard
 import com.neb.ians.ui.components.ZoomableImageDialog
 
@@ -332,7 +333,16 @@ private fun ProfileContent(
 
             when (uiState.selectedTab) {
                 0 -> {
-                    if (uiState.posts.isEmpty() && !uiState.postsLoading && uiState.postsLoaded) {
+                    if (uiState.postsError != null && uiState.posts.isEmpty() && !uiState.postsLoading) {
+                        item(key = "posts_error") {
+                            Box(modifier = Modifier.padding(horizontal = 8.dp)) {
+                                ErrorCard(
+                                    message = uiState.postsError ?: "Couldn't load posts",
+                                    onRetry = { viewModel.loadPosts(reset = true) }
+                                )
+                            }
+                        }
+                    } else if (uiState.posts.isEmpty() && !uiState.postsLoading && uiState.postsLoaded) {
                         item(key = "posts_empty") {
                             Box(modifier = Modifier.padding(horizontal = 8.dp)) {
                                 ProfileEmptyTabBox(
@@ -360,7 +370,16 @@ private fun ProfileContent(
                     }
                 }
                 1 -> {
-                    if (uiState.replies.isEmpty() && !uiState.repliesLoading && uiState.repliesLoaded) {
+                    if (uiState.repliesError != null && uiState.replies.isEmpty() && !uiState.repliesLoading) {
+                        item(key = "replies_error") {
+                            Box(modifier = Modifier.padding(horizontal = 8.dp)) {
+                                ErrorCard(
+                                    message = uiState.repliesError ?: "Couldn't load replies",
+                                    onRetry = { viewModel.loadReplies(reset = true) }
+                                )
+                            }
+                        }
+                    } else if (uiState.replies.isEmpty() && !uiState.repliesLoading && uiState.repliesLoaded) {
                         item(key = "replies_empty") {
                             Box(modifier = Modifier.padding(horizontal = 8.dp)) {
                                 ProfileEmptyTabBox(
@@ -388,7 +407,16 @@ private fun ProfileContent(
                     }
                 }
                 2 -> {
-                    if (uiState.resources.isEmpty() && !uiState.resourcesLoading && uiState.resourcesLoaded) {
+                    if (uiState.resourcesError != null && uiState.resources.isEmpty() && !uiState.resourcesLoading) {
+                        item(key = "resources_error") {
+                            Box(modifier = Modifier.padding(horizontal = 8.dp)) {
+                                ErrorCard(
+                                    message = uiState.resourcesError ?: "Couldn't load resources",
+                                    onRetry = { viewModel.loadResources(reset = true) }
+                                )
+                            }
+                        }
+                    } else if (uiState.resources.isEmpty() && !uiState.resourcesLoading && uiState.resourcesLoaded) {
                         item(key = "resources_empty") {
                             Box(modifier = Modifier.padding(horizontal = 8.dp)) {
                                 ProfileEmptyTabBox(

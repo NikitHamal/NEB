@@ -1,14 +1,15 @@
 package com.neb.ians.data.repository
 
 import android.content.Context
-import android.text.Html
 import com.neb.ians.data.api.ApiService
+import com.neb.ians.data.news.ApiAnnouncement
 import com.neb.ians.data.news.NewsAnnouncement
 import com.neb.ians.data.news.NewsCategories
 import com.neb.ians.data.news.NewsDetail
 import com.neb.ians.data.news.NewsComment
 import com.neb.ians.data.news.NewsCommentLikeResponse
 import com.neb.ians.data.news.NewsCommentRequest
+import com.neb.ians.util.formatTimeAgo
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -19,10 +20,10 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
- * News/announcements feed. Stale-while-revalidate: cached pages render
- * instantly (even past their TTL, e.g. offline), a background fetch
- * refreshes them, and the [CacheBus] notifies open screens so the UI
- * updates silently without a manual pull-to-refresh.
+ * News/announcements feed over the public JSON API (/api/news/).
+ * Stale-while-revalidate: cached pages render instantly (even past their TTL,
+ * e.g. offline), a background fetch refreshes them, and the [CacheBus]
+ * notifies open screens so the UI updates silently without pull-to-refresh.
  */
 @Singleton
 class NewsRepository @Inject constructor(
@@ -56,8 +57,9 @@ class NewsRepository @Inject constructor(
                     return@runCatching cached.items
                 }
 
-                val html = apiService.getNewsPage(category).string()
-                val parsed = parseNewsList(html)
+                val response = apiService.getNewsList(category)
+                if (!response.ok) error(response.error ?: "Couldn't load blog posts")
+                val parsed = response.items.map { it.toDomain() }
                 cache[key] = CacheEntry(now, parsed)
                 parsed
             }
@@ -67,11 +69,13 @@ class NewsRepository @Inject constructor(
         val key = category.orEmpty()
         bgScope.launch {
             try {
-                val html = apiService.getNewsPage(category).string()
-                val parsed = parseNewsList(html)
-                if (parsed.isNotEmpty() || cache[key] == null) {
-                    cache[key] = CacheEntry(System.currentTimeMillis(), parsed)
-                    cacheBus.publish(listKey(category))
+                val response = apiService.getNewsList(category)
+                if (response.ok) {
+                    val parsed = response.items.map { it.toDomain() }
+                    if (parsed.isNotEmpty() || cache[key] == null) {
+                        cache[key] = CacheEntry(System.currentTimeMillis(), parsed)
+                        cacheBus.publish(listKey(category))
+                    }
                 }
             } catch (_: Exception) {}
         }
@@ -87,20 +91,34 @@ class NewsRepository @Inject constructor(
                     if (!cacheOnly) refreshDetailInBackground(slug)
                     return@runCatching cached.item
                 }
-                val html = apiService.getNewsDetailPage(slug).string()
-                val parsed = parseNewsDetail(slug, html)
+                val response = apiService.getNewsDetail(slug)
+                if (!response.ok) error(response.error ?: "Couldn't load article")
+                val item = response.item ?: error("Article was empty")
+                val parsed = item.toDetail(response.related)
                 detailCache[slug] = DetailCacheEntry(now, parsed)
                 parsed
+            }
+        }
+
+    /** Count one real article open (server de-dupes web sessions separately). */
+    suspend fun trackView(slug: String): Result<Boolean> =
+        withContext(Dispatchers.IO) {
+            runCatching {
+                val response = apiService.trackNewsView(slug)
+                if (!response.ok) error(response.error ?: "Couldn't track view")
+                response.counted
             }
         }
 
     private fun refreshDetailInBackground(slug: String) {
         bgScope.launch {
             try {
-                val html = apiService.getNewsDetailPage(slug).string()
-                val parsed = parseNewsDetail(slug, html)
-                detailCache[slug] = DetailCacheEntry(System.currentTimeMillis(), parsed)
-                cacheBus.publish(detailKey(slug))
+                val response = apiService.getNewsDetail(slug)
+                if (response.ok && response.item != null) {
+                    val parsed = response.item.toDetail(response.related)
+                    detailCache[slug] = DetailCacheEntry(System.currentTimeMillis(), parsed)
+                    cacheBus.publish(detailKey(slug))
+                }
             } catch (_: Exception) {}
         }
     }
@@ -178,197 +196,37 @@ class NewsRepository @Inject constructor(
             }
         }
 
-    private fun parseNewsList(html: String): List<NewsAnnouncement> {
-        val cardRegex = Regex(
-            pattern = "<a\\s+href=\"(?<href>[^\"]+)\"\\s+class=\"news-card(?<classes>[^\"]*)\"[^>]*>(?<body>.*?)</a>",
-            option = RegexOption.DOT_MATCHES_ALL
-        )
-        return cardRegex.findAll(html)
-            .mapIndexedNotNull { index, match -> parseCard(index, match) }
-            .take(60)
-            .toList()
-    }
-
-    private fun parseNewsDetail(slug: String, html: String): NewsDetail {
-        val header = html.firstGroup("<div[^>]*class=\"news-detail-header\"[^>]*>(.*?)</div>\\s*(?:<div class=\"news-detail-cover\"|<div class=\"news-detail-content)")
-            .ifBlank { html }
-        val title = header.firstGroup("<h1[^>]*class=\"[^\"]*news-detail-title[^\"]*\"[^>]*>(.*?)</h1>").cleanHtml()
-            .ifBlank { html.firstGroup("<title>(.*?)</title>").cleanHtml().substringBefore(" — ") }
-        val summary = header.firstGroup("<p[^>]*class=\"[^\"]*news-detail-summary[^\"]*\"[^>]*>(.*?)</p>").cleanHtml()
-        val badge = Regex("<span[^>]*class=\"news-category-badge\"[^>]*style=\"background:([^\"]+)\"[^>]*>\\s*<span[^>]*>(.*?)</span>\\s*([^<]+)", setOf(RegexOption.DOT_MATCHES_ALL, RegexOption.IGNORE_CASE)).find(html)
-        val icon = badge?.groups?.get(2)?.value?.cleanHtml().orEmpty().ifBlank { "info" }
-        val label = badge?.groups?.get(3)?.value?.cleanHtml().orEmpty().ifBlank { "General" }
-        val color = badge?.groups?.get(1)?.value.orEmpty().ifBlank { label.toCategoryColor() }
-        val cover = html.firstGroup("<div[^>]*class=\"news-detail-cover\"[^>]*>\\s*<img\\s+src=\"([^\"]+)\"").absoluteMediaUrl()
-        val content = html.firstGroup("<div[^>]*class=\"news-detail-content[^\"]*\"[^>]*id=\"news-content\"[^>]*>(.*?)</div>").cleanArticleContent()
-        val external = html.firstGroup("<a\\s+href=\"([^\"]+)\"[^>]*class=\"[^\"]*news-detail-cta[^\"]*\"").cleanHtml()
-        val authorBlock = html.firstGroup("<span[^>]*class=\"news-card-author\"[^>]*>(.*?)</span>")
-        val authorPhoto = authorBlock.firstGroup("<img\\s+src=\"([^\"]+)\"").absoluteMediaUrl()
-        val authorName = authorBlock.replace(Regex("<img[^>]*>", RegexOption.DOT_MATCHES_ALL), "").cleanHtml().ifBlank { "NEBians Team" }
-        val publishedAgo = html.findTimeAgo()
-        val views = html.findViews()
-        val announcement = NewsAnnouncement(
-            id = slug,
-            slug = slug,
-            title = title,
-            summary = summary,
-            categoryKey = NewsCategories.firstOrNull { it.label.equals(label, ignoreCase = true) }?.key ?: "general",
-            categoryLabel = label,
-            categoryIcon = icon,
-            categoryColorHex = color.trim(),
-            isPinned = html.contains("news-pin-badge"),
-            coverImageUrl = cover,
-            authorName = authorName,
-            authorPhotoUrl = authorPhoto,
-            publishedAgo = publishedAgo,
-            viewCount = views
-        )
-        val relatedBlock = html.substringAfter("<div class=\"news-related\"", missingDelimiterValue = "")
-        val related = if (relatedBlock.isNotBlank()) parseNewsList(relatedBlock) else emptyList()
-        return NewsDetail(announcement = announcement, content = content, externalUrl = external, related = related)
-    }
-
-    private fun parseCard(index: Int, match: MatchResult): NewsAnnouncement? {
-        val href = match.groups["href"]?.value.orEmpty()
-        val body = match.groups["body"]?.value.orEmpty()
-        val classes = match.groups["classes"]?.value.orEmpty()
-        val slug = href.trim('/').substringAfterLast('/').takeIf { it.isNotBlank() } ?: return null
-        val title = body.firstGroup("<h2[^>]*class=\"news-card-title\"[^>]*>(.*?)</h2>").cleanHtml()
-        if (title.isBlank()) return null
-        val summary = body.firstGroup("<p[^>]*class=\"news-card-summary\"[^>]*>(.*?)</p>").cleanHtml()
-        val badgeMatch = Regex(
-            "<span[^>]*class=\"news-category-badge\"[^>]*style=\"background:([^\"]+)\"[^>]*>\\s*<span[^>]*>(.*?)</span>\\s*([^<]+)",
-            setOf(RegexOption.DOT_MATCHES_ALL, RegexOption.IGNORE_CASE)
-        ).find(body)
-        val icon = badgeMatch?.groups?.get(2)?.value?.cleanHtml().orEmpty().ifBlank { "info" }
-        val categoryLabel = badgeMatch?.groups?.get(3)?.value?.cleanHtml().orEmpty().ifBlank { "General" }
-        val color = badgeMatch?.groups?.get(1)?.value.orEmpty().ifBlank {
-            body.firstGroup("--accent-color:\\s*([^;\"]+)")
-        }.ifBlank { categoryLabel.toCategoryColor() }
-        val cover = body.firstGroup("<img\\s+src=\"([^\"]+)\"").absoluteMediaUrl()
-        val authorBlock = body.firstGroup("<span[^>]*class=\"news-card-author\"[^>]*>(.*?)</span>")
-        val authorPhoto = authorBlock.firstGroup("<img\\s+src=\"([^\"]+)\"").absoluteMediaUrl()
-        val authorName = authorBlock.replace(Regex("<img[^>]*>", RegexOption.DOT_MATCHES_ALL), "").cleanHtml().ifBlank { "NEBians Team" }
-        val publishedAgo = body.findTimeAgo()
-        val views = body.findViews()
-        val categoryKey = NewsCategories.firstOrNull { it.label.equals(categoryLabel, ignoreCase = true) }?.key ?: "general"
-
-        return NewsAnnouncement(
-            id = slug.ifBlank { "news-$index" },
-            slug = slug,
-            title = title,
-            summary = summary,
-            categoryKey = categoryKey,
-            categoryLabel = categoryLabel,
-            categoryIcon = icon,
-            categoryColorHex = color.trim(),
-            isPinned = classes.contains("pinned", ignoreCase = true) || body.contains("news-pin-badge"),
-            coverImageUrl = cover,
-            authorName = authorName,
-            authorPhotoUrl = authorPhoto,
-            publishedAgo = publishedAgo,
-            viewCount = views
-        )
-    }
-
-    private fun String.firstGroup(pattern: String): String {
-        return Regex(pattern, RegexOption.DOT_MATCHES_ALL).find(this)?.groups?.get(1)?.value.orEmpty()
-    }
-
-    private fun String.cleanHtml(): String {
-        if (isBlank()) return ""
-        val stripped = replace(Regex("<br\\s*/?>", RegexOption.IGNORE_CASE), "\n")
-            .replace(Regex("</p>", RegexOption.IGNORE_CASE), "\n\n")
-            .replace(Regex("<[^>]+>"), " ")
-            .replace(Regex("[ \\t]+"), " ")
-            .replace(Regex("\\n\\s+"), "\n")
-            .replace(Regex("\\n{3,}"), "\n\n")
-            .trim()
-        return Html.fromHtml(stripped, Html.FROM_HTML_MODE_LEGACY).toString().trim()
-    }
-
     /**
-     * Convert the article HTML into real markdown so the reader renders rich
-     * formatting (headings, bold/italic/code/strike, blockquotes, lists,
-     * clickable links) instead of a flat text dump. Relative link URLs are
-     * absolutized against the site origin.
+     * Raw markdown from the API; screens render it with MarkdownText so
+     * headings, bold/italic, lists, code and LaTeX formulas all display.
      */
-    private fun String.cleanArticleContent(): String {
-        if (isBlank()) return ""
-        return replace(Regex("<script[\\s\\S]*?</script>", RegexOption.IGNORE_CASE), "")
-            .replace(Regex("<style[\\s\\S]*?</style>", RegexOption.IGNORE_CASE), "")
-            // Inline formatting first (before generic tag stripping).
-            .replace(Regex("<(b|strong)[^>]*>([\\s\\S]*?)</\\1>", RegexOption.IGNORE_CASE), "**$2**")
-            .replace(Regex("<(i|em)[^>]*>([\\s\\S]*?)</\\1>", RegexOption.IGNORE_CASE), "*$2*")
-            .replace(Regex("<(s|del|strike)[^>]*>([\\s\\S]*?)</\\1>", RegexOption.IGNORE_CASE), "~~$2~~")
-            .replace(Regex("<code[^>]*>([\\s\\S]*?)</code>", RegexOption.IGNORE_CASE), "`$1`")
-            .replace(Regex("<a[^>]*href=[\"']([^\"']+)[\"'][^>]*>([\\s\\S]*?)</a>", RegexOption.IGNORE_CASE)) { m ->
-                val href = absolutizeUrl(m.groups[1]?.value.orEmpty())
-                val label = m.groups[2]?.value.orEmpty()
-                    .replace(Regex("<[^>]+>"), "").trim()
-                    .ifBlank { href }
-                "[$label]($href)"
-            }
-            .replace(Regex("<img[^>]*alt=[\"']([^\"']*)[\"'][^>]*>", RegexOption.IGNORE_CASE), " $1 ")
-            .replace(Regex("<img[^>]*>", RegexOption.IGNORE_CASE), " ")
-            // Block structure → markdown blocks.
-            .replace(Regex("<br\\s*/?>", RegexOption.IGNORE_CASE), "\n")
-            .replace(Regex("</(p|div|h1|h2|h3|h4|li|ul|ol|blockquote|pre)>", RegexOption.IGNORE_CASE), "\n")
-            .replace(Regex("<h1[^>]*>", RegexOption.IGNORE_CASE), "\n# ")
-            .replace(Regex("<h2[^>]*>", RegexOption.IGNORE_CASE), "\n## ")
-            .replace(Regex("<h3[^>]*>", RegexOption.IGNORE_CASE), "\n### ")
-            .replace(Regex("<h4[^>]*>", RegexOption.IGNORE_CASE), "\n### ")
-            .replace(Regex("<li[^>]*>", RegexOption.IGNORE_CASE), "- ")
-            .replace(Regex("<blockquote[^>]*>", RegexOption.IGNORE_CASE), "\n> ")
-            .replace(Regex("<[^>]+>"), "")
-            .let { Html.fromHtml(it, Html.FROM_HTML_MODE_LEGACY).toString() }
-            .replace(Regex("[ \\t]+\\n"), "\n")
-            .replace(Regex("\\n{3,}"), "\n\n")
-            .trim()
-    }
+    private fun ApiAnnouncement.toDomain(): NewsAnnouncement = NewsAnnouncement(
+        id = slug.ifBlank { id.toString() },
+        slug = slug,
+        title = title,
+        summary = summary,
+        categoryKey = NewsCategories.firstOrNull { it.key == category }?.key ?: category,
+        categoryLabel = categoryLabel,
+        categoryIcon = categoryIcon,
+        categoryColorHex = categoryColor,
+        isPinned = isPinned,
+        coverImageUrl = coverImageUrl,
+        authorName = authorName,
+        authorPhotoUrl = authorPhoto,
+        publishedAgo = formatTimeAgo(publishedAt),
+        viewCount = formatCount(viewCount)
+    )
 
-    private fun absolutizeUrl(raw: String): String {
-        val value = raw.trim()
-        if (value.isBlank()) return value
-        return when {
-            value.startsWith("http://") || value.startsWith("https://") -> value
-            value.startsWith("//") -> "https:$value"
-            value.startsWith("/") -> "https://nebians.consica.com.np$value"
-            value.startsWith("mailto:") || value.startsWith("tel:") -> value
-            else -> "https://nebians.consica.com.np/$value"
-        }
-    }
+    private fun ApiAnnouncement.toDetail(related: List<ApiAnnouncement> = emptyList()): NewsDetail = NewsDetail(
+        announcement = toDomain(),
+        content = content.orEmpty(),
+        externalUrl = externalUrl,
+        related = related.map { it.toDomain() }
+    )
 
-    private fun String.absoluteMediaUrl(): String {
-        val raw = cleanHtml()
-        if (raw.isBlank()) return ""
-        return when {
-            raw.startsWith("http://") || raw.startsWith("https://") -> raw
-            raw.startsWith("/") -> "https://nebians.consica.com.np$raw"
-            else -> raw
-        }
-    }
-
-    private fun String.findTimeAgo(): String {
-        val matches = Regex("<span[^>]*>([^<]*(?:ago|just now|Yesterday)[^<]*)</span>", RegexOption.IGNORE_CASE)
-            .findAll(this)
-            .map { it.groups[1]?.value.orEmpty().cleanHtml() }
-            .filter { it.isNotBlank() }
-            .toList()
-        return matches.lastOrNull().orEmpty()
-    }
-
-    private fun String.findViews(): String {
-        val afterVisibility = substringAfter("visibility", missingDelimiterValue = "")
-        return Regex("([0-9.,KkMm]+)").find(afterVisibility)?.value.orEmpty()
-    }
-
-    private fun String.toCategoryColor(): String = when (lowercase()) {
-        "exam results" -> "#dc2626"
-        "notice" -> "#2563eb"
-        "event" -> "#7c3aed"
-        "update" -> "#059669"
-        "alert" -> "#d97706"
-        else -> "#6b7280"
+    private fun formatCount(n: Int): String = when {
+        n >= 1_000_000 -> String.format(java.util.Locale.US, "%.1fM", n / 1_000_000.0)
+        n >= 1_000 -> String.format(java.util.Locale.US, "%.1fK", n / 1_000.0)
+        else -> n.toString()
     }
 }

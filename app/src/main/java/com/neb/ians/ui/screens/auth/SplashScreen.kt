@@ -17,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.neb.ians.data.repository.AuthState
 import com.neb.ians.data.repository.AuthRepository
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 
 @Composable
@@ -39,13 +38,13 @@ fun SplashScreen(
                 1.1f at 800 with FastOutSlowInEasing
             }
         )
-        
-        delay(1200)
-        
+
+        // Route as soon as the brand animation finishes; auth state is read
+        // instantly from DataStore so no artificial delay is needed.
         when (val state = authRepository.authState.first()) {
             is AuthState.Guest -> onNavigateToHome()
             is AuthState.Authenticated -> {
-                if (state.isProfileComplete) {
+                if (state.isProfileComplete || authRepository.isProfileSkippedFlow.first()) {
                     onNavigateToHome()
                 } else {
                     onNavigateToCompleteProfile()

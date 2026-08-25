@@ -54,6 +54,9 @@ class AuthRepository @Inject constructor(
     companion object {
         private val AUTH_STATUS = stringPreferencesKey("auth_status")
         private val PROFILE_COMPLETED = booleanPreferencesKey("profile_completed")
+        private val PROFILE_SKIPPED = booleanPreferencesKey("profile_skipped")
+        private val PROFILE_NUDGE_LAST = longPreferencesKey("profile_nudge_last_ms")
+        const val NUDGE_INTERVAL_MS = 7L * 24 * 60 * 60 * 1000
 
         val USER_ID = stringPreferencesKey("user_id")
         val USER_NAME = stringPreferencesKey("user_name")
@@ -108,6 +111,30 @@ class AuthRepository @Inject constructor(
 
     val tokenFlow: Flow<String?> = dataStore.data.map { SecurePrefs.getAuthToken(appContext) }
     val isProfileCompletedFlow: Flow<Boolean> = dataStore.data.map { it[PROFILE_COMPLETED] ?: false }
+    val isProfileSkippedFlow: Flow<Boolean> = dataStore.data.map { it[PROFILE_SKIPPED] ?: false }
+
+    suspend fun setProfileSkipped(skipped: Boolean) {
+        dataStore.edit { prefs -> prefs[PROFILE_SKIPPED] = skipped }
+    }
+
+    /**
+     * True when an authenticated user skipped onboarding and the last
+     * "Customize your profile" reminder is older than [NUDGE_INTERVAL_MS].
+     */
+    suspend fun nudgeDue(): Boolean {
+        val prefs = dataStore.data.first()
+        val status = prefs[AUTH_STATUS] ?: "unauthenticated"
+        if (status != "authenticated") return false
+        val token = SecurePrefs.getAuthToken(appContext)
+        if (token.isNullOrBlank()) return false
+        if (prefs[PROFILE_COMPLETED] ?: false) return false
+        val last = prefs[PROFILE_NUDGE_LAST] ?: 0L
+        return System.currentTimeMillis() - last >= NUDGE_INTERVAL_MS
+    }
+
+    suspend fun markNudged() {
+        dataStore.edit { prefs -> prefs[PROFILE_NUDGE_LAST] = System.currentTimeMillis() }
+    }
     private val ioScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
     private fun firstName(prefs: Preferences): String =
@@ -201,12 +228,31 @@ class AuthRepository @Inject constructor(
         }
     }
 
-    suspend fun signInWithWebToken(token: String, isNewUser: Boolean, username: String?): Boolean {
+    suspend fun signInWithWebCode(code: String): Boolean {
+        return try {
+            val response = withContext(Dispatchers.IO) {
+                apiService.exchangeMobileOAuthCode(
+                    com.neb.ians.data.api.MobileOAuthExchangeRequest(code)
+                )
+            }
+            val token = response.authToken ?: return false
+            signInWithWebToken(token, response.isNewUser, response.username, response.profileComplete)
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    suspend fun signInWithWebToken(
+        token: String,
+        isNewUser: Boolean,
+        username: String?,
+        serverProfileComplete: Boolean? = null
+    ): Boolean {
         return try {
             SecurePrefs.setAuthToken(appContext, token)
             dataStore.edit { prefs ->
                 prefs[AUTH_STATUS] = "authenticated"
-                prefs[PROFILE_COMPLETED] = !isNewUser
+                prefs[PROFILE_COMPLETED] = serverProfileComplete ?: !isNewUser
                 prefs[USER_NAME] = username ?: ""
                 prefs.remove(USER_ID)
             }
@@ -231,10 +277,10 @@ class AuthRepository @Inject constructor(
             prefs[USER_BANNER_URL] = user.bannerUrl ?: ""
             prefs[USER_BIO] = user.bio ?: ""
             if (isNewUser) {
-                prefs[PROFILE_COMPLETED] = false
+                prefs[PROFILE_COMPLETED] = user.profileComplete ?: false
                 prefs[USER_NAME] = user.username
             } else {
-                prefs[PROFILE_COMPLETED] = true
+                prefs[PROFILE_COMPLETED] = user.profileComplete ?: true
                 prefs[USER_NAME] = user.username
                 prefs[USER_DOB] = user.dob
                 prefs[USER_GENDER] = user.gender ?: ""
@@ -262,12 +308,13 @@ class AuthRepository @Inject constructor(
 
     suspend fun continueAsGuest() {
         SecurePrefs.clearAuthToken(appContext)
-        dataStore.edit { prefs ->
-            prefs[AUTH_STATUS] = "guest"
-            prefs[PROFILE_COMPLETED] = false
-            prefs[USER_ID] = "guest_user"
-            prefs[USER_NAME] = "Guest"
-        }
+            dataStore.edit { prefs ->
+                prefs[AUTH_STATUS] = "guest"
+                prefs[PROFILE_COMPLETED] = false
+                prefs.remove(PROFILE_SKIPPED)
+                prefs[USER_ID] = "guest_user"
+                prefs[USER_NAME] = "Guest"
+            }
     }
 
     suspend fun emailSignup(email: String, password: String, username: String, role: String = "student"): EmailAuthResult {
@@ -401,7 +448,8 @@ class AuthRepository @Inject constructor(
             withContext(Dispatchers.IO) {
                 dataStore.edit { prefs ->
                     prefs[USER_ID] = user.id
-                    prefs[PROFILE_COMPLETED] = true
+                    prefs[PROFILE_COMPLETED] = user.profileComplete ?: true
+                    prefs.remove(PROFILE_SKIPPED)
                     prefs[USER_NAME] = user.username
                     prefs[USER_EMAIL] = user.email ?: ""
                     prefs[USER_PHOTO_URL] = user.photoUrl ?: ""
@@ -454,6 +502,9 @@ class AuthRepository @Inject constructor(
             withContext(Dispatchers.IO) {
                 dataStore.edit { prefs ->
                     prefs[USER_ID] = response.id
+                    // Server is the source of truth for onboarding state; keep
+                    // the old flag when the payload predates profileComplete.
+                    response.profileComplete?.let { prefs[PROFILE_COMPLETED] = it }
                     prefs[USER_EMAIL] = response.email ?: ""
                     prefs[USER_PHOTO_URL] = response.photoUrl ?: ""
                     prefs[USER_DISPLAY_NAME] = response.displayName ?: ""
@@ -509,12 +560,13 @@ class AuthRepository @Inject constructor(
             }
         } catch (_: Exception) {}
         SecurePrefs.clearAuthToken(appContext)
-        dataStore.edit { prefs ->
-            prefs[AUTH_STATUS] = "unauthenticated"
-            prefs[PROFILE_COMPLETED] = false
-            prefs[USER_ID] = ""
-            prefs[USER_NAME] = "Student"
-            prefs[USER_EMAIL] = ""
+            dataStore.edit { prefs ->
+                prefs[AUTH_STATUS] = "unauthenticated"
+                prefs[PROFILE_COMPLETED] = false
+                prefs.remove(PROFILE_SKIPPED)
+                prefs[USER_ID] = ""
+                prefs[USER_NAME] = "Student"
+                prefs[USER_EMAIL] = ""
             prefs[USER_PHOTO_URL] = ""
             prefs[USER_DISPLAY_NAME] = ""
             prefs[USER_BANNER_URL] = ""
