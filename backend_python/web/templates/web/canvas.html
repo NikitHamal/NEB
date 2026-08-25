@@ -13,9 +13,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,0&display=swap">
 <link rel="stylesheet" href="{% static 'web/css/material3.css' %}">
-<link rel="stylesheet" href="{% static 'web/css/canvas.css' %}?v=26">
-<link rel="stylesheet" href="{% static 'web/css/canvas-advanced.css' %}?v=26">
-<link rel="stylesheet" href="{% static 'web/css/neby-avatar.css' %}?v=26">
+<link rel="stylesheet" href="{% static 'web/css/canvas.css' %}?v=42">
+<link rel="stylesheet" href="{% static 'web/css/canvas-advanced.css' %}?v=42">
+<link rel="stylesheet" href="{% static 'web/css/tool-groups.css' %}?v=42">
+<link rel="stylesheet" href="{% static 'web/css/widgets.css' %}?v=42">
+<link rel="stylesheet" href="{% static 'web/css/neby-avatar.css' %}?v=40">
 <meta name="theme-color" content="#f5f7fb">
 </head>
 <body class="canvas-body{% if readonly %} readonly{% endif %}" data-board-id="{{ current_board_id|default:'' }}" data-authenticated="{{ is_authenticated|yesno:'true,false' }}">
@@ -166,8 +168,7 @@
 
 <div class="toast-pill" id="toastPill" hidden></div>
 <button id="cvNebyFab" class="cv-neby-fab" aria-label="Neby AI" title="Neby AI">
-  <span class="cv-neby-fab-icon" aria-hidden="true" style="display:grid;place-items:center;width:36px;height:36px"><span class="material-symbols-outlined" style="font-size:26px">smart_toy</span></span>
-  <div class="neby-avatar-mini" data-neby-avatar data-animation="idle" style="width:36px;height:36px;pointer-events:none;display:none"></div>
+  <div class="neby-avatar-mini" data-neby-avatar data-animation="idle" style="width:54px;height:54px;pointer-events:none;"></div>
 </button>
 
 <script nonce="{{ csp_nonce }}">
@@ -181,11 +182,17 @@ window.CANVAS_CONFIG = {
   boards: {{ boards_json|default:'[]'|safe }}
 };
 </script>
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/canvas/core.js' %}?v=26"></script>
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/canvas/ui.js' %}?v=26"></script>
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/canvas/workspace.js' %}?v=26"></script>
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/canvas/agent.js' %}?v=26"></script>
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/canvas/history-export.js' %}?v=26"></script>
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/neby-avatar.js' %}?v=26"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/canvas/core.js' %}?v=40"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/canvas/ui.js' %}?v=40"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/canvas/workspace.js' %}?v=40"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/tools/tool-groups.js' %}?v=42"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/canvas/widgets.js' %}?v=42"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/canvas/draw-layer.js' %}?v=42"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/yjs.bundle.js' %}?v=1.1"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/yjs-provider.js' %}?v=1.4"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/canvas/collab.js' %}?v=40"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/canvas/agent-loop.js' %}?v=40"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/canvas/history-export.js' %}?v=40"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/neby-avatar.js' %}?v=40"></script>
 </body>
 </html>

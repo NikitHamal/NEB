@@ -141,6 +141,8 @@
 .ba-mono-anthropic { background: linear-gradient(135deg, #e08a63, #c96f47); }
 .ba-mono-gemini    { background: linear-gradient(135deg, #4d9aff, #2b6fe0); }
 .ba-mono-deepseek  { background: linear-gradient(135deg, #5b6ef0, #3d4fc7); }
+.ba-mono-agentrouter { background: linear-gradient(135deg, #f59e0b, #d97706); }
+.ba-mono-empero    { background: linear-gradient(135deg, #0ea5e9, #0284c7); }
 .ba-mono-qwen      { background: linear-gradient(135deg, #7868e6, #5a4fcf); }
 .ba-mono-custom    { background: linear-gradient(135deg, #8a94a6, #6b7484); }
 .ba-mono-default   { background: var(--ba-accent); }

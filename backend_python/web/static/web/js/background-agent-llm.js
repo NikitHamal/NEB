@@ -122,11 +122,11 @@
   }
 
   function monoFor(slug) {
-    var map = { agnes: 'Ag', openai: 'OA', anthropic: 'An', gemini: 'Gm', deepseek: 'DS', qwen: 'Qw' };
+    var map = { agnes: 'Ag', openai: 'OA', anthropic: 'An', gemini: 'Gm', deepseek: 'DS', qwen: 'Qw', agentrouter: 'AR', empero: 'Em' };
     return map[slug] || 'Cu';
   }
   function slugClass(slug) {
-    return ['agnes', 'openai', 'anthropic', 'gemini', 'deepseek', 'qwen'].includes(slug) ? slug : 'custom';
+    return ['agnes', 'openai', 'anthropic', 'gemini', 'deepseek', 'qwen', 'agentrouter', 'empero'].includes(slug) ? slug : 'custom';
   }
 
   function presetRow(preset, row) {

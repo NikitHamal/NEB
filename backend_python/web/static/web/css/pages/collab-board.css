@@ -27,35 +27,33 @@
 .cb-container canvas.cb-cursor-move { cursor: move; }
 .cb-container canvas.cb-cursor-text { cursor: text; }
 
-/* ── Floating toolbar — minimal pill at left-bottom (screenshot ref) ── */
+/* ── Floating toolbar — grouped tools, top right ── */
 .cb-toolbar {
   position: absolute;
-  top: auto;
-  bottom: 16px;
-  left: 16px;
-  right: auto;
+  top: 12px;
+  right: 12px;
+  left: auto;
+  bottom: auto;
   transform: none;
   display: flex;
   align-items: center;
   gap: 2px;
-  padding: 6px 8px;
-  background: #0b0c0e;
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 999px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.06), 0 0 0 1px rgba(255,255,255,0.06);
+  padding: 4px;
+  background: #ffffff;
+  border: 1px solid #e2e6f0;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(11, 28, 48, 0.08);
   z-index: 20;
   flex-wrap: nowrap;
-  justify-content: flex-start;
-  max-width: calc(100% - 32px);
-  overflow-x: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  justify-content: flex-end;
+  max-width: calc(100% - 24px);
+  overflow: visible;
 }
 .cb-toolbar::-webkit-scrollbar { display: none; }
 [data-theme="dark"] .cb-toolbar {
-  background: #0b0c0e;
-  border-color: rgba(255,255,255,0.12);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.06);
+  background: #131d2e;
+  border-color: #1e2b40;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.35);
 }
 
 .cb-toolbar-sep {
@@ -333,11 +331,14 @@
 /* ── Mobile adjustments ── */
 @media (max-width: 600px) {
   .cb-toolbar {
-    bottom: 12px;
-    left: 12px;
-    padding: 4px 6px;
+    top: 10px;
+    right: 10px;
+    left: auto;
+    bottom: auto;
+    padding: 4px;
     gap: 1px;
-    border-radius: 999px;
+    border-radius: 18px;
+    max-width: calc(100% - 20px);
   }
   .cb-tool-btn {
     width: 30px;

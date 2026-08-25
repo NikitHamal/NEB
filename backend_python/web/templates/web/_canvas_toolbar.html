@@ -1,9 +1,10 @@
-﻿<div class="canvas-top-tools" id="canvasTopTools" {% if readonly %}data-readonly="true"{% endif %}>
+<div class="canvas-top-tools" id="canvasTopTools" {% if readonly %}data-readonly="true"{% endif %}>
   <button class="cv-tool" id="cvCommandBtn" title="Search cards (Ctrl+K)" aria-label="Search cards"><span class="material-symbols-outlined">search</span></button>
   {% if not readonly %}
+  <div id="cvToolGroups" class="cv-tool-groups tg-host tg-bare"></div>
+  <span class="cv-tool-sep" aria-hidden="true"></span>
   <button class="cv-tool" id="cvNoteBtn" title="Add note" aria-label="Add note"><span class="material-symbols-outlined">note_add</span></button>
   <button class="cv-tool" id="cvHighlightsBtn" title="Highlights" aria-label="Highlights"><span class="material-symbols-outlined">bookmarks</span></button>
-  <button class="cv-tool cv-tool-neby" id="cvNebyBtn" title="Neby Explore" aria-label="Neby Explore"><span class="material-symbols-outlined">auto_awesome</span></button>
   <button class="cv-tool" id="cvHistoryBtn" title="Version history" aria-label="Version history"><span class="material-symbols-outlined">history</span></button>
   <button class="cv-tool" id="cvMoreBtn" title="More options" aria-label="More options"><span class="material-symbols-outlined">more_horiz</span></button>
   {% else %}

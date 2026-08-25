@@ -173,8 +173,8 @@ def _call_single_provider(system_prompt, user_message, config):
 
     # Official API providers share one client; BotConfig carries the key,
     # base URL override and chosen model — the same registry Zeus sessions use.
-    if provider in ('agnes', 'openai', 'anthropic', 'gemini', 'deepseek'):
-        from api.llm import registry, client
+    from api.llm import registry, client
+    if registry.is_official_slug(provider):
         preset = registry.preset(provider)
         try:
             result = client.chat(
@@ -303,6 +303,7 @@ def call_ai_api(system_prompt, user_message, config=None):
     fallbacks = config.get_fallback_chain()
     if not fallbacks:
         fallbacks = [
+            {'provider': 'empero', 'model': 'Qwen/Qwen3.8-27B-FP8'},
             {'provider': 'motiftech', 'model': 'motif-102b'},
             {'provider': 'geminiweb', 'model': 'geminiweb/gemini-flash-lite'},
             {'provider': 'tryingopen', 'model': 'qwen/qwen3.8-27b'},

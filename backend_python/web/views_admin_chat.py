@@ -27,6 +27,7 @@ _CAPS = {
     'tryingopen': {'stream': True, 'thinking': True,  'web_search': False, 'files': False},
     'longcat':   {'stream': True,  'thinking': True,  'web_search': True,  'files': False},
     'geminiweb': {'stream': True,  'thinking': False, 'web_search': False, 'files': False},
+    'empero':    {'stream': True,  'thinking': True,  'web_search': False, 'files': False},
 }
 
 
@@ -197,7 +198,33 @@ def ajax_admin_chat_send(request):
                 yield _sse({'type': 'error', 'message': str(e)})
 
         else:
-            yield _sse({'type': 'error', 'message': f'Unknown provider: {provider}'})
+            from api.llm.registry import is_official_slug, preset as _preset
+            from api.llm import client as llm_client
+            from api.astroweb_bridge_views import _official_api_key
+            if is_official_slug(provider):
+                p = _preset(provider)
+                default_m = p.default_model if p else ''
+                target_model = model or default_m
+                msgs = history + [{'role': 'user', 'content': message}]
+                try:
+                    for chunk in llm_client.chat_stream(
+                        format=p.format if p else 'openai',
+                        base_url=p.base_url if p else '',
+                        api_key=_official_api_key(provider) or (p.key_env if p else '') or 'free',
+                        model=target_model,
+                        messages=msgs,
+                        provider=provider,
+                        max_tokens=2000,
+                    ):
+                        if chunk.get('type') == 'text':
+                            yield _sse({'type': 'text', 'content': chunk.get('content', '')})
+                        elif chunk.get('type') == 'error':
+                            yield _sse({'type': 'error', 'message': chunk.get('error', 'upstream error')})
+                            break
+                except Exception as e:
+                    yield _sse({'type': 'error', 'message': str(e)})
+            else:
+                yield _sse({'type': 'error', 'message': f'Unknown provider: {provider}'})
 
         yield _sse({'type': 'done', 'finishReason': 'stop'})
         yield _sse_done()

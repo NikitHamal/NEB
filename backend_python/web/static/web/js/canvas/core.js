@@ -105,7 +105,7 @@ function animateTo(tx,ty,sc){
   requestAnimationFrame(tick);
 }
 function zoomAt(cx,cy,factor){
-  var ns=clamp(S.view.scale*factor,0.3,2.6);
+  var ns=clamp(S.view.scale*factor,0.08,8);
   var wx=(cx-S.view.x)/S.view.scale, wy=(cy-S.view.y)/S.view.scale;
   S.view.scale=ns;S.view.x=cx-wx*ns;S.view.y=cy-wy*ns;
   applyView();
@@ -123,7 +123,7 @@ function fitView(){
     maxX=Math.max(maxX,n.x+560);maxY=Math.max(maxY,n.y+h);
   });
   var vw=E.viewport.clientWidth,vh=E.viewport.clientHeight;
-  var sc=clamp(Math.min(vw/(maxX-minX+160),vh/(maxY-minY+220)),0.3,1.1);
+  var sc=clamp(Math.min(vw/(maxX-minX+160),vh/(maxY-minY+220)),0.12,1.4);
   var cx=(minX+maxX)/2,cy=(minY+maxY)/2;
   animateTo(vw/2-cx*sc,vh/2-cy*sc,sc);
 }
@@ -498,7 +498,13 @@ function renderNode(n){
   }else{
     body='<div class="card-body">';
     if(c.summary) body+='<div class="text-block">'+md(c.summary)+'</div>';
-    (c.sections||[]).forEach(function(sec,idx){body+=renderSection(sec,idx,n.id)});
+    (c.sections||[]).forEach(function(sec,idx){
+      try{
+        body+=renderSection(sec,idx,n.id);
+      }catch(err){
+        console.error("renderSection error:", err, sec);
+      }
+    });
     body+='</div><div class="card-followup"><input placeholder="Ask a follow-up…" aria-label="Ask follow-up"><button class="cf-send" aria-label="Send" disabled><span class="material-symbols-outlined">arrow_upward</span></button></div>';
   }
   card.innerHTML=head+body+
@@ -697,7 +703,7 @@ window.addEventListener("pointermove",function(e){
   if(PTRS.has(e.pointerId)) PTRS.set(e.pointerId,{x:e.clientX,y:e.clientY});
   if(PINCH&&PTRS.size>=2){
     var info=pinchInfo();if(!info) return;
-    var k=clamp(PINCH.scale*(info.d/PINCH.d),0.25,3);
+    var k=clamp(PINCH.scale*(info.d/PINCH.d),0.08,8);
     var r=E.viewport.getBoundingClientRect();
     var wx=(PINCH.mx-r.left-PINCH.vx)/PINCH.scale,wy=(PINCH.my-r.top-PINCH.vy)/PINCH.scale;
     S.view.scale=k;

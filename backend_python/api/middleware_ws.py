@@ -24,6 +24,8 @@ from api.authentication import get_user_by_auth_token
 
 WS_TICKET_SALT = 'ws-ticket'
 WS_TICKET_MAX_AGE = 86400  # seconds (24h) — page may stay open a long time; reconnect should still auth
+CODE_TICKET_SALT = 'code-daemon'
+CODE_TICKET_MAX_AGE = 60 * 60 * 24 * 30
 
 logger = logging.getLogger(__name__)
 
@@ -130,12 +132,17 @@ class JWTAuthMiddleware(BaseMiddleware):
             qs = scope.get('query_string', b'').decode('latin-1', errors='replace')
             token = ''
             ticket = ''
+            code_ticket = ''
             for part in qs.split('&'):
                 if part.startswith('token='):
                     token = unquote(part[6:].strip())
                 elif part.startswith('ticket='):
                     ticket = unquote(part[7:].strip())
-            if ticket:
+                elif part.startswith('code_ticket='):
+                    code_ticket = unquote(part[12:].strip())
+            if code_ticket:
+                bearer_user = await database_sync_to_async(self._resolve_code_ticket)(code_ticket)
+            if bearer_user is None and ticket:
                 bearer_user = await database_sync_to_async(self._resolve_ticket)(ticket)
             if bearer_user is None and token:
                 bearer_user = await database_sync_to_async(self._resolve_bearer)(token)
@@ -159,6 +166,25 @@ class JWTAuthMiddleware(BaseMiddleware):
             return None
 
     @staticmethod
+    def _resolve_code_ticket(ticket):
+        from api.models import User
+        try:
+            user_id = TimestampSigner(salt=CODE_TICKET_SALT).unsign(
+                ticket, max_age=CODE_TICKET_MAX_AGE
+            )
+        except (BadSignature, SignatureExpired):
+            return None
+        try:
+            user = User.objects.get(pk=user_id)
+        except User.DoesNotExist:
+            return None
+        if user.is_locked:
+            return None
+        if not (getattr(user, 'is_admin', False) or getattr(user, 'is_staff', False) or getattr(user, 'moderator_level', 0) >= 3):
+            return None
+        return user
+
+    @staticmethod
     def _resolve_ticket(ticket):
         """Resolve a short-lived signed WS ticket (?ticket=) to a User.
 
@@ -178,4 +204,4 @@ class JWTAuthMiddleware(BaseMiddleware):
             return None
         if u.is_locked:
             return None
-        return u
+        return u

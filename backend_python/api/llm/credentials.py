@@ -122,7 +122,7 @@ def resolve(user, slug: str, model: str = '', user_provider_id: str = '') -> Opt
             bot = bot_qs.filter(model__iexact=model).first() or bot_qs.first()
         else:
             bot = bot_qs.first()
-        if not bot and slug not in ('k2think', 'poolside', 'motiftech'):
+        if not bot and slug not in ('k2think', 'poolside', 'motiftech', 'tryingopen', 'longcat', 'geminiweb', 'metaai'):
             return None
         return ResolvedProvider(
             slug=slug, label=(bot.display_name or bot.name or p.label) if bot else p.label, format=p.format,
@@ -159,15 +159,15 @@ def resolve(user, slug: str, model: str = '', user_provider_id: str = '') -> Opt
             free_note=p.free_note,
         )
 
-    # --- Server environment key --------------------------------------------
+    # --- Server environment key or free preset -----------------------------
     key = _env_key(slug)
-    if key:
+    if key or not p.key_required:
         return ResolvedProvider(
             slug=slug, label=p.label, format=p.format,
-            base_url=p.base_url, api_key=key,
+            base_url=p.base_url, api_key=key or 'free',
             model=model or p.default_model,
             context_window=p.context_window, max_output_tokens=p.max_output_tokens,
-            source='env', official=True, preset=p, free_note=p.free_note,
+            source='env' if key else 'free', official=True, preset=p, free_note=p.free_note,
         )
     return None
 
@@ -245,8 +245,9 @@ def catalog_for_user(user) -> dict:
         byok = byok_rows.get(p.slug)
         bot = (bots_by_provider.get(p.slug) or [None])[0]
         env_key = _env_key(p.slug)
-        available = bool(byok and (byok.api_key or byok.base_url)) or \
+        available = bool(not p.key_required) or bool(byok and (byok.api_key or byok.base_url)) or \
             bool(bot and (bot.api_key.strip() or bot.api_url.strip())) or bool(env_key)
+        key_source = 'byok' if byok else ('bot' if bot and (bot.api_key.strip() or bot.api_url.strip()) else ('env' if env_key else ('free' if not p.key_required else '')))
         official.append({
             'slug': p.slug,
             'label': p.label,
@@ -256,7 +257,7 @@ def catalog_for_user(user) -> dict:
             'freeNote': p.free_note,
             'official': True,
             'available': available,
-            'keySource': 'byok' if byok else ('bot' if bot and (bot.api_key.strip() or bot.api_url.strip()) else ('env' if env_key else '')),
+            'keySource': key_source,
             'keyMasked': _masked_row_key(byok) if byok else ('' if not bot else ('set' if bot.api_key.strip() else '')),
             'byokProviderId': str(byok.id) if byok else '',
             'defaultModel': byok.default_model if byok and byok.default_model else p.default_model,
@@ -285,7 +286,7 @@ def catalog_for_user(user) -> dict:
         # k2think/poolside/motiftech are direct public web proxies — the agent runner
         # calls them with no key and no BotConfig row. Everything else
         # community needs an enabled BotConfig to serve.
-        proxy_served = p.slug in ('k2think', 'poolside', 'motiftech')
+        proxy_served = p.slug in ('k2think', 'poolside', 'motiftech', 'tryingopen', 'longcat', 'geminiweb', 'metaai')
         community.append({
             'slug': p.slug,
             'label': p.label,
@@ -298,7 +299,7 @@ def catalog_for_user(user) -> dict:
             # Community models with a background-agent runner adapter can
             # drive agent sessions. The other web models serve Neby
             # bots/arena — pickers must hide them for agent tasks.
-            'selectableForAgent': p.slug in ('qwen', 'k2think', 'poolside', 'motiftech'),
+            'selectableForAgent': p.slug in ('qwen', 'tryingopen', 'k2think', 'poolside', 'motiftech', 'metaai', 'longcat', 'geminiweb'),
             'keySource': 'scraper' if (bots or proxy_served) else '',
             'keyMasked': '',
             'byokProviderId': '',

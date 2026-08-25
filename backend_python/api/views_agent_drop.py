@@ -4,6 +4,7 @@ import zipfile
 import json
 import time
 import uuid
+import shutil
 from django.conf import settings
 from django.http import JsonResponse, HttpResponse, Http404
 from django.views.decorators.csrf import csrf_exempt
@@ -131,7 +132,7 @@ def agent_drop_upload(request):
 
 
 @csrf_exempt
-@require_http_methods(["GET"])
+@require_http_methods(["GET", "HEAD"])
 def agent_drop_download(request, batch_id):
     if not _is_authorized(request):
         return HttpResponse('Unauthorized', status=401)
@@ -157,7 +158,7 @@ def agent_drop_download(request, batch_id):
 
 
 @csrf_exempt
-@require_http_methods(["GET"])
+@require_http_methods(["GET", "HEAD"])
 def agent_drop_list(request):
     if not _is_authorized(request):
         return JsonResponse({'error': 'Unauthorized'}, status=401)
@@ -191,7 +192,6 @@ def agent_drop_delete(request, batch_id):
     if not _is_authorized(request):
         return JsonResponse({'error': 'Unauthorized'}, status=401)
 
-    import shutil
     clean_batch_id = ''.join(c for c in batch_id if c.isalnum() or c in ('-', '_'))
     base_dir = os.path.join(settings.MEDIA_ROOT, 'agent_sync', clean_batch_id)
 
@@ -204,3 +204,134 @@ def agent_drop_delete(request, batch_id):
     except Exception as e:
         return JsonResponse({'error': f'Failed to delete batch: {str(e)}'}, status=500)
 
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def agent_drop_apply(request, batch_id):
+    """Applies / merges the dropped batch into the live codebase root."""
+    if not _is_authorized(request):
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+
+    clean_batch_id = ''.join(c for c in batch_id if c.isalnum() or c in ('-', '_'))
+    batch_dir = os.path.join(settings.MEDIA_ROOT, 'agent_sync', clean_batch_id)
+
+    if not os.path.exists(batch_dir):
+        return JsonResponse({'error': 'Batch not found'}, status=404)
+
+    base_dir = settings.BASE_DIR
+    applied_files = []
+
+    try:
+        for root, _, files in os.walk(batch_dir):
+            for file in files:
+                src_path = os.path.join(root, file)
+                rel_path = os.path.relpath(src_path, batch_dir)
+                dst_path = _sanitize_path(base_dir, rel_path)
+                if not dst_path:
+                    continue
+                os.makedirs(os.path.dirname(dst_path), exist_ok=True)
+                shutil.copy2(src_path, dst_path)
+                applied_files.append(rel_path)
+
+        return JsonResponse({
+            'status': 'ok',
+            'batch_id': clean_batch_id,
+            'applied_count': len(applied_files),
+            'files': applied_files[:100]
+        })
+    except Exception as e:
+        return JsonResponse({'error': f'Failed to apply batch: {str(e)}'}, status=500)
+
+
+# ── Bidirectional: Outgoing Codebase to Agent ───────────────────────────────
+
+IGNORE_DIRS = {
+    '.git', '.github', '.idea', '.vscode', '__pycache__', 'staticfiles',
+    'media', 'virtualenv', 'node_modules', 'scratch', '.venv', 'env', 'logs'
+}
+
+IGNORE_EXTENSIONS = {'.pyc', '.pyo', '.pyd', '.DS_Store', '.sqlite3'}
+
+
+def _should_include_file(rel_path):
+    parts = rel_path.replace('\\', '/').split('/')
+    for p in parts:
+        if p in IGNORE_DIRS:
+            return False
+    _, ext = os.path.splitext(rel_path)
+    if ext in IGNORE_EXTENSIONS:
+        return False
+    return True
+
+
+@csrf_exempt
+@require_http_methods(["GET", "HEAD"])
+def agent_drop_codebase_download(request):
+    """Exports a clean zip of the latest live codebase so the agent can fetch updates."""
+    if not _is_authorized(request):
+        return HttpResponse('Unauthorized', status=401)
+
+    base_dir = settings.BASE_DIR
+    mem_zip = io.BytesIO()
+
+    with zipfile.ZipFile(mem_zip, mode='w', compression=zipfile.ZIP_DEFLATED) as zf:
+        for root, dirs, files in os.walk(base_dir):
+            # Prune ignored directories
+            dirs[:] = [d for d in dirs if d not in IGNORE_DIRS]
+            for file in files:
+                abs_path = os.path.join(root, file)
+                rel_path = os.path.relpath(abs_path, base_dir).replace('\\', '/')
+                if _should_include_file(rel_path):
+                    zf.write(abs_path, rel_path)
+
+    mem_zip.seek(0)
+    stamp = time.strftime("%Y%m%d_%H%M%S")
+    response = HttpResponse(mem_zip.getvalue(), content_type='application/zip')
+    response['Content-Disposition'] = f'attachment; filename="nebians_codebase_{stamp}.zip"'
+    return response
+
+
+@csrf_exempt
+@require_http_methods(["GET", "HEAD"])
+def agent_drop_codebase_manifest(request):
+    """Returns a JSON manifest of all codebase files with mtime & size."""
+    if not _is_authorized(request):
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+
+    base_dir = settings.BASE_DIR
+    manifest = []
+
+    for root, dirs, files in os.walk(base_dir):
+        dirs[:] = [d for d in dirs if d not in IGNORE_DIRS]
+        for file in files:
+            abs_path = os.path.join(root, file)
+            rel_path = os.path.relpath(abs_path, base_dir).replace('\\', '/')
+            if _should_include_file(rel_path):
+                manifest.append({
+                    'path': rel_path,
+                    'size': os.path.getsize(abs_path),
+                    'mtime': int(os.path.getmtime(abs_path)),
+                })
+
+    return JsonResponse({'files': manifest, 'total_files': len(manifest)})
+
+
+@csrf_exempt
+@require_http_methods(["GET", "HEAD"])
+def agent_drop_fetch_file(request):
+    """Fetches the live content of a specific file."""
+    if not _is_authorized(request):
+        return HttpResponse('Unauthorized', status=401)
+
+    rel_path = request.GET.get('path', '').strip()
+    if not rel_path:
+        return HttpResponse('Missing path parameter', status=400)
+
+    target = _sanitize_path(settings.BASE_DIR, rel_path)
+    if not target or not os.path.isfile(target):
+        raise Http404('File not found')
+
+    with open(target, 'rb') as f:
+        content = f.read()
+
+    return HttpResponse(content, content_type='text/plain; charset=utf-8')

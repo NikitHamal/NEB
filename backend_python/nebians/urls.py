@@ -11,6 +11,7 @@ handler404 = 'web.views.custom_404'
 handler500 = 'web.views.custom_500'
 
 urlpatterns = [
+    path('favicon.ico', RedirectView.as_view(url=settings.STATIC_URL + 'web/img/favicon.ico', permanent=True)),
     path('admin-django/', admin.site.urls),
     path('api/', include('api.urls')),
     path('', include('web.urls')),

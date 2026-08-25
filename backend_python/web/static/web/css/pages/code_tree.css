@@ -1,0 +1,370 @@
+/* ==========================================================================
+   Neby Code — Interactive Tree Navigation Component
+   Pixel-perfect recreation of the animated reference video:
+   - Sliding rail indicator on the far left with dynamic accent colors
+   - Muted/bold category titles for Workspaces & Projects
+   - Mathematical SVG curved branch tree connecting child sessions/tasks
+   - Active accent illumination from parent spine into active child item
+   ========================================================================== */
+
+:root {
+  --nc-tree-font: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --nc-tree-track-color: #e5e7eb;
+  --nc-tree-branch-inactive: #e2e8f0;
+  --nc-tree-header-inactive: #8c94a0;
+  --nc-tree-header-active: #111827;
+  --nc-tree-item-inactive: #64748b;
+  --nc-tree-item-active: #111827;
+  --nc-tree-icon-inactive: #94a3b8;
+}
+
+[data-theme="dark"],
+.dark-theme {
+  --nc-tree-track-color: rgba(255, 255, 255, 0.08);
+  --nc-tree-branch-inactive: rgba(255, 255, 255, 0.12);
+  --nc-tree-header-inactive: #64748b;
+  --nc-tree-header-active: #f8fafc;
+  --nc-tree-item-inactive: #94a3b8;
+  --nc-tree-item-active: #ffffff;
+  --nc-tree-icon-inactive: #64748b;
+}
+
+/* Palette variants matching reference video */
+.nc-tree-group.theme-orange {
+  --nc-accent: #ea580c;
+  --nc-accent-glow: rgba(234, 88, 12, 0.3);
+}
+.nc-tree-group.theme-blue {
+  --nc-accent: #2563eb;
+  --nc-accent-glow: rgba(37, 99, 235, 0.3);
+}
+.nc-tree-group.theme-purple {
+  --nc-accent: #8b5cf6;
+  --nc-accent-glow: rgba(139, 92, 246, 0.3);
+}
+.nc-tree-group.theme-emerald {
+  --nc-accent: #059669;
+  --nc-accent-glow: rgba(5, 150, 105, 0.3);
+}
+.nc-tree-group.theme-rose {
+  --nc-accent: #e11d48;
+  --nc-accent-glow: rgba(225, 29, 72, 0.3);
+}
+.nc-tree-group.theme-cyan {
+  --nc-accent: #0891b2;
+  --nc-accent-glow: rgba(8, 145, 178, 0.3);
+}
+.nc-tree-group.theme-amber {
+  --nc-accent: #d97706;
+  --nc-accent-glow: rgba(217, 119, 6, 0.3);
+}
+
+/* Outer Tree Component Layout */
+.nc-tree-container {
+  position: relative;
+  width: 100%;
+  padding-left: 28px;
+  box-sizing: border-box;
+  font-family: var(--nc-tree-font);
+  user-select: none;
+}
+
+/* Left Guideline Track */
+.nc-tree-rail-track {
+  position: absolute;
+  left: 3px;
+  top: 4px;
+  bottom: 4px;
+  width: 1.5px;
+  background: var(--nc-tree-track-color);
+  border-radius: 1px;
+  pointer-events: none;
+}
+
+/* Sliding Left Pill Indicator */
+.nc-tree-indicator {
+  position: absolute;
+  left: 2px;
+  top: 0;
+  width: 3.5px;
+  height: 24px;
+  border-radius: 99px;
+  background: var(--nc-accent, #ea580c);
+  pointer-events: none;
+  transform: translateY(0);
+  transition:
+    transform 0.34s cubic-bezier(0.16, 1, 0.3, 1),
+    height 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.2s ease;
+  z-index: 3;
+  opacity: 0;
+}
+.nc-tree-indicator.visible {
+  opacity: 1;
+}
+
+/* Workspace Group Block */
+.nc-tree-group {
+  position: relative;
+  margin-bottom: 12px;
+  --nc-accent: #ea580c;
+}
+
+/* Category / Workspace Header */
+.nc-tree-group-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 32px;
+  padding: 4px 6px 4px 0;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nc-tree-group-title {
+  font-size: 16.5px;
+  font-weight: 500;
+  color: var(--nc-tree-header-inactive);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.24s cubic-bezier(0.16, 1, 0.3, 1),
+              font-weight 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nc-tree-group-header:hover .nc-tree-group-title {
+  color: var(--nc-tree-header-active);
+}
+
+/* Active / Expanded Header */
+.nc-tree-group.expanded > .nc-tree-group-header .nc-tree-group-title {
+  font-size: 16.5px;
+  font-weight: 600;
+  color: var(--nc-tree-header-active);
+}
+
+/* Group Action Buttons */
+.nc-tree-group-actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.nc-tree-group-header:hover .nc-tree-group-actions,
+.nc-tree-group.expanded:hover .nc-tree-group-actions {
+  opacity: 1;
+}
+
+.nc-tree-iconbtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--nc-tree-icon-inactive);
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.15s ease;
+}
+.nc-tree-iconbtn:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--nc-tree-header-active);
+}
+[data-theme="dark"] .nc-tree-iconbtn:hover,
+.dark-theme .nc-tree-iconbtn:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+.nc-tree-iconbtn .material-symbols-outlined {
+  font-size: 16px;
+}
+
+/* Accordion Smooth Body */
+.nc-tree-group-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.22s ease,
+              margin 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  margin-top: 0;
+  overflow: hidden;
+}
+.nc-tree-group.expanded > .nc-tree-group-body {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  margin-top: 4px;
+  margin-bottom: 8px;
+}
+
+.nc-tree-group-inner {
+  min-height: 0;
+  position: relative;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+/* SVG Tree Branch Lines Container */
+.nc-tree-svg-branches {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 24px;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+.nc-tree-svg-branches path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke 0.25s ease, stroke-width 0.25s ease;
+}
+.nc-tree-svg-branches path.branch-inactive {
+  stroke: var(--nc-tree-branch-inactive);
+  stroke-width: 1.5px;
+}
+.nc-tree-svg-branches path.branch-active {
+  stroke: var(--nc-accent, #ea580c);
+  stroke-width: 1.5px;
+}
+
+/* Child Sessions List */
+.nc-tree-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+  padding-left: 24px;
+}
+
+/* Child Session Row */
+.nc-tree-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 28px;
+  padding: 3px 6px 3px 4px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--nc-tree-item-inactive);
+  font-size: 13.5px;
+  font-weight: 450;
+  transition: color 0.18s ease, background-color 0.18s ease;
+  box-sizing: border-box;
+}
+
+.nc-tree-item:hover {
+  color: var(--nc-tree-header-active);
+  background: rgba(0, 0, 0, 0.025);
+}
+[data-theme="dark"] .nc-tree-item:hover,
+.dark-theme .nc-tree-item:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* Active Child Item */
+.nc-tree-item.active {
+  color: var(--nc-tree-item-active);
+  font-weight: 600;
+}
+
+/* Item Icon */
+.nc-tree-item-icon {
+  font-size: 16px;
+  flex: none;
+  color: var(--nc-tree-icon-inactive);
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+.nc-tree-item:hover .nc-tree-item-icon {
+  color: var(--nc-tree-item-inactive);
+}
+.nc-tree-item.active .nc-tree-item-icon {
+  color: var(--nc-accent, #ea580c);
+}
+
+/* Item Title */
+.nc-tree-item-label {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: -0.01em;
+}
+
+/* Delete Button */
+.nc-tree-item-del {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--nc-tree-icon-inactive);
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.15s ease;
+  flex: none;
+}
+.nc-tree-item-del:hover {
+  background: rgba(239, 68, 68, 0.12);
+  color: #ef4444;
+}
+.nc-tree-item-del .material-symbols-outlined {
+  font-size: 14px;
+}
+.nc-tree-item:hover .nc-tree-item-del,
+.nc-tree-item:focus-within .nc-tree-item-del {
+  display: inline-flex;
+}
+
+/* Running/queued pulse dot */
+.nc-tree-item-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex: none;
+  background: var(--nc-accent, #ea580c);
+  animation: ncTreePulse 1.2s ease-in-out infinite;
+}
+@keyframes ncTreePulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(0.8); }
+}
+
+/* "+ New session" Row inside branch */
+.nc-tree-new-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 26px;
+  padding: 2px 6px 2px 4px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--nc-tree-icon-inactive);
+  font-size: 12.5px;
+  font-weight: 500;
+  transition: color 0.18s ease, background 0.18s ease;
+  box-sizing: border-box;
+}
+.nc-tree-new-row:hover {
+  color: var(--nc-accent, #ea580c);
+  background: rgba(0, 0, 0, 0.025);
+}
+[data-theme="dark"] .nc-tree-new-row:hover,
+.dark-theme .nc-tree-new-row:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+.nc-tree-new-row .material-symbols-outlined {
+  font-size: 15px;
+}

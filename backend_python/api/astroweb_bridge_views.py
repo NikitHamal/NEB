@@ -542,8 +542,12 @@ def _official_api_key(slug: str) -> str:
     if k:
         return k
     import os as _os
-    env_map = {"agnes": "AGNES_API_KEY", "openai": "OPENAI_API_KEY", "anthropic": "ANTHROPIC_API_KEY", "gemini": "GEMINI_API_KEY", "deepseek": "DEEPSEEK_API_KEY", "agentrouter": "AGENTROUTER_API_KEY"}
+    env_map = {"agnes": "AGNES_API_KEY", "openai": "OPENAI_API_KEY", "anthropic": "ANTHROPIC_API_KEY", "gemini": "GEMINI_API_KEY", "deepseek": "DEEPSEEK_API_KEY", "agentrouter": "AGENTROUTER_API_KEY", "empero": "EMPERO_API_KEY"}
     env_name = env_map.get(slug, "")
     if env_name:
-        return (_os.environ.get(env_name) or "").strip()
+        k = (_os.environ.get(env_name) or "").strip()
+        if k:
+            return k
+    if slug == "empero":
+        return "free"
     return ""

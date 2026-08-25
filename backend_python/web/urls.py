@@ -2,6 +2,7 @@ from django.urls import path, include
 from django.views.generic import RedirectView
 from . import views
 from . import views_admin_chat
+from . import views_admin_media
 from . import views_background_agent as ba_views
 from . import views_background_agent_lifecycle as ba_lifecycle_views
 from . import views_background_agent_mobile as ba_mobile_views
@@ -13,7 +14,9 @@ from . import views_videos
 from . import views_content_images
 from . import views_canvas
 from . import views_canvas_features
+from . import views_canvas_objects
 from . import views_agents
+from . import views_code
 
 app_name = 'web'
 
@@ -66,6 +69,19 @@ urlpatterns = [
     path('credits/', views.credits_page, name='credits'),
     path('settings/', views.settings_page, name='settings'),
     path('my-avatar/', views_avatar.my_avatar, name='my_avatar'),
+    path('code/', views_code.code_home, name='code'),
+    path('ajax/code/sessions/', views_code.ajax_code_sessions, name='ajax_code_sessions'),
+    path('ajax/code/sessions/create/', views_code.ajax_code_create_session, name='ajax_code_create_session'),
+    path('ajax/code/sessions/<str:session_id>/detail/', views_code.ajax_code_session_detail, name='ajax_code_session_detail'),
+    path('ajax/code/sessions/<str:session_id>/send/', views_code.ajax_code_send, name='ajax_code_send'),
+    path('ajax/code/sessions/<str:session_id>/update/', views_code.ajax_code_update_session, name='ajax_code_update_session'),
+    path('ajax/code/sessions/<str:session_id>/cancel/', views_code.ajax_code_cancel, name='ajax_code_cancel'),
+    path('ajax/code/sessions/<str:session_id>/delete/', views_code.ajax_code_delete_session, name='ajax_code_delete_session'),
+    path('ajax/code/status/', views_code.ajax_code_status, name='ajax_code_status'),
+    path('ajax/code/token/', views_code.ajax_code_token, name='ajax_code_token'),
+    path('ajax/code/fs/', views_code.ajax_code_fs, name='ajax_code_fs'),
+    path('ajax/code/git/', views_code.ajax_code_git, name='ajax_code_git'),
+    path('ajax/code/term/', views_code.ajax_code_term, name='ajax_code_term'),
     path('avatar/', views_avatar.avatar_svg_index, name='avatar_index'),
     path('avatar/<str:name>/', views_avatar.avatar_svg, name='avatar_svg'),
     path('ajax/avatar/change-username/', views_avatar.ajax_avatar_change_username, name='ajax_avatar_change_username'),
@@ -212,6 +228,8 @@ urlpatterns = [
     path('admin/announcements/<str:announcement_id>/', views.admin_announcement_edit, name='admin_announcement_edit'),
     path('admin/chat/', views_admin_chat.admin_chat, name='admin_chat'),
     path('admin/chat/send/', views_admin_chat.ajax_admin_chat_send, name='admin_chat_send'),
+    path('admin/media-test/', views_admin_media.admin_media_test, name='admin_media_test'),
+    path('ajax/admin/media/tts/', views_admin_media.ajax_admin_media_tts, name='ajax_admin_media_tts'),
     path('admin/hero-backgrounds/', views.admin_hero_backgrounds, name='admin_hero_backgrounds'),
     path('admin/agent-drops/', views.admin_agent_drops, name='admin_agent_drops'),
 
@@ -276,6 +294,9 @@ urlpatterns = [
     path('ajax/canvas/shared/<str:token>/clone/', views_canvas_features.ajax_canvas_clone_shared, name='ajax_canvas_clone_shared'),
     path('ajax/canvas/boards/<str:board_id>/neby-explore/', views_canvas_features.ajax_canvas_neby_explore, name='ajax_canvas_neby_explore'),
     path('ajax/canvas/boards/<str:board_id>/suggestions/', views_canvas_features.ajax_canvas_suggestions, name='ajax_canvas_suggestions'),
+    path('ajax/canvas/boards/<str:board_id>/agent/run/', views_canvas_objects.ajax_canvas_agent_run, name='ajax_canvas_agent_run'),
+    path('ajax/canvas/boards/<str:board_id>/objects/', views_canvas_objects.ajax_canvas_objects_save, name='ajax_canvas_objects_save'),
+    path('ajax/canvas/boards/<str:board_id>/objects/list/', views_canvas_objects.ajax_canvas_objects, name='ajax_canvas_objects'),
     path('ajax/canvas/boards/<str:board_id>/nodes/', views_canvas.ajax_canvas_create_node, name='ajax_canvas_create_node'),
     path('ajax/canvas/nodes/<str:node_id>/move/', views_canvas.ajax_canvas_node_move, name='ajax_canvas_node_move'),
     path('ajax/canvas/nodes/<str:node_id>/delete/', views_canvas.ajax_canvas_node_delete, name='ajax_canvas_node_delete'),

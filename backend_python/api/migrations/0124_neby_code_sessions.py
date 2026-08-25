@@ -1,4 +1,6 @@
-from django.db import migrations, models
+﻿from django.db import migrations, models
+
+import api.models
 
 
 class Migration(migrations.Migration):
@@ -10,7 +12,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="CodeSession",
             fields=[
-                ("id", models.CharField(default=lambda: __import__("uuid").uuid4().hex, max_length=32, primary_key=True, serialize=False)),
+                ("id", models.CharField(default=api.models._new_code_session_id, max_length=32, primary_key=True, serialize=False)),
                 ("user_id", models.CharField(blank=True, db_index=True, default="", max_length=255)),
                 ("name", models.CharField(blank=True, default="New session", max_length=200)),
                 ("provider", models.CharField(blank=True, default="", max_length=40)),
@@ -31,11 +33,11 @@ class Migration(migrations.Migration):
         ),
         migrations.AddIndex(
             model_name="codesession",
-            index=models.Index(fields=["user_id", "-updated_at"], name="code_session_user_upd_idx"),
+            index=models.Index(fields=["user_id", "-updated_at"], name="code_sessio_user_id_c7f142_idx"),
         ),
         migrations.AddIndex(
             model_name="codesession",
-            index=models.Index(fields=["status", "updated_at"], name="code_session_status_upd_idx"),
+            index=models.Index(fields=["status", "updated_at"], name="code_sessio_status_c01fb3_idx"),
         ),
         migrations.CreateModel(
             name="CodeMessage",
@@ -54,6 +56,6 @@ class Migration(migrations.Migration):
         ),
         migrations.AddIndex(
             model_name="codemessage",
-            index=models.Index(fields=["session", "created_at"], name="code_msg_sess_created_idx"),
+            index=models.Index(fields=["session", "created_at"], name="code_messag_session_260060_idx"),
         ),
     ]

@@ -1,0 +1,3 @@
+[console_scripts]
+neby-code = daemon:main
+neby_code = daemon:main

@@ -84,6 +84,7 @@
             <option value="anthropic" {% if config.provider == 'anthropic' %}selected{% endif %}>Anthropic (Claude official API)</option>
             <option value="gemini"    {% if config.provider == 'gemini' %}selected{% endif %}>Google Gemini (official API)</option>
             <option value="deepseek"  {% if config.provider == 'deepseek' %}selected{% endif %}>DeepSeek (official API)</option>
+            <option value="empero"    {% if config.provider == 'empero' %}selected{% endif %}>Empero (free hosted Qwen3.8 27B)</option>
           </optgroup>
         </select>
         <p style="font-size:0.75rem;color:var(--md-on-surface-variant);margin:4px 0 0;" id="id_provider_help">
@@ -249,6 +250,17 @@
       modelControl: 'text',
       modelHelp: 'Free-form model name as required by the provider.',
       options: [],
+    },
+    empero: {
+      urlLabel: 'Base URL',
+      urlHelp: 'Empero free endpoint (leave default). Free hosted Qwen 3.8 27B FP8.',
+      urlDefault: 'https://free.empero.org/v1',
+      modelControl: 'select',
+      modelHelp: 'Pick an Empero model.',
+      options: [
+        { value: 'Qwen/Qwen3.8-27B-FP8', label: 'Qwen 3.8 27B FP8 (131K ctx, free, reasoning)' },
+        { value: 'qwen3.8-27b', label: 'Qwen 3.8 27B (alias)' },
+      ],
     },
     egov: {
       urlLabel: 'API URL',

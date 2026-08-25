@@ -354,6 +354,17 @@
       modelHelp: 'Free-form model name as required by the provider.',
       options: [],
     },
+    empero: {
+      urlLabel: 'Base URL',
+      urlHelp: 'Empero free endpoint (leave default). Free hosted Qwen 3.8 27B FP8.',
+      urlDefault: 'https://free.empero.org/v1',
+      modelControl: 'select',
+      modelHelp: 'Pick an Empero model.',
+      options: [
+        { value: 'Qwen/Qwen3.8-27B-FP8', label: 'Qwen 3.8 27B FP8 (131K ctx, free, reasoning)' },
+        { value: 'qwen3.8-27b', label: 'Qwen 3.8 27B (alias)' },
+      ],
+    },
     egov: {
       urlLabel: 'API URL',
       urlHelp: 'eGov Chat AI endpoint (leave default).',
@@ -610,7 +621,8 @@
         'inception': 'Inception (Mercury 2)', 'custom': 'Custom OpenAI-compatible',
         'agnes': 'Agnes (official)', 'openai': 'OpenAI (official)',
         'anthropic': 'Anthropic (official)', 'gemini': 'Gemini (official)',
-        'deepseek': 'DeepSeek (official)', 'agentrouter': 'AgentRouter (official)'
+        'deepseek': 'DeepSeek (official)', 'agentrouter': 'AgentRouter (official)',
+        'empero': 'Empero (free hosted Qwen3.8)'
       };
       for (var slug in reg) {
         FALLBACK_PROVIDERS.push({ value: slug, label: labels[slug] || slug });

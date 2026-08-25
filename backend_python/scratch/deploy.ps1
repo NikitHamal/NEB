@@ -31,24 +31,41 @@ Write-Host "Setting strict file permissions on the SSH key..."
 & icacls $keyPath /inheritance:r
 & icacls $keyPath /grant "${env:USERNAME}:R"
 
-# Create a local zip archive of deployment files
-$zipPath = Join-Path $projectDir "deploy.zip"
+# Create a local zip archive of deployment files in TEMP
+$zipPath = Join-Path $env:TEMP ("nebians_deploy_" + [guid]::NewGuid().ToString("N") + ".zip")
 if (Test-Path $zipPath) {
-    Remove-Item $zipPath -Force
+    Remove-Item $zipPath -Force -ErrorAction SilentlyContinue
 }
-Write-Host "Creating local ZIP archive of deployment files..."
+Write-Host "Creating local ZIP archive of deployment files at $zipPath..."
 Push-Location $projectDir
-# Clean local __pycache__ before zipping
-Get-ChildItem -Path api, nebians, web, services -Directory -Recurse -Filter '__pycache__' -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
 
-Compress-Archive -Path api, nebians, web, services, public, manage.py, requirements.txt, passenger_wsgi.py -DestinationPath $zipPath -Force
+python -c "
+import os, zipfile, sys
+zip_path = sys.argv[1]
+items = ['api', 'nebians', 'web', 'services', 'public', 'manage.py', 'requirements.txt', 'passenger_wsgi.py']
+with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as zf:
+    for item in items:
+        if os.path.isfile(item):
+            zf.write(item, item)
+        elif os.path.isdir(item):
+            for root, dirs, files in os.walk(item):
+                dirs[:] = [d for d in dirs if d != '__pycache__']
+                for f in files:
+                    full = os.path.join(root, f)
+                    rel = os.path.relpath(full, '.')
+                    try:
+                        zf.write(full, rel)
+                    except Exception as e:
+                        print(f'Warning skipping {full}: {e}')
+" "$zipPath"
+
 Pop-Location
 
 # Upload the ZIP file
 Write-Host "Uploading ZIP file via SCP..."
 $uploadSuccess = $false
 for ($attempt = 1; $attempt -le 3; $attempt++) {
-    & scp -o StrictHostKeyChecking=no -i $keyPath -P 22 $zipPath "${username}@${hostIp}:${remoteDir}/"
+    & scp -o StrictHostKeyChecking=no -i $keyPath -P 22 $zipPath "${username}@${hostIp}:${remoteDir}/deploy.zip"
     if ($LASTEXITCODE -eq 0) {
         $uploadSuccess = $true
         break
@@ -151,6 +168,8 @@ PYEOF
 echo 'Backfilling video thumbnails...'
 python manage.py backfill_video_thumbnails || true
 
+
+
 echo 'Restarting background agent worker and autofix watcher...'
 tr -d '\r' < /tmp/restart_workers.sh | bash
 
@@ -164,12 +183,15 @@ echo 'DEPLOYMENT SUCCESSFUL'
 # Execute remote script via SSH
 & ssh -o StrictHostKeyChecking=no -i $keyPath -p 22 "${username}@${hostIp}" $remoteScript
 
-# Cleanup key
-Write-Host "Cleaning up temporary SSH key file..."
+# Cleanup key and temp zip
+Write-Host "Cleaning up temporary SSH key and ZIP files..."
 if (Test-Path $keyPath) {
     & icacls $keyPath /grant "${env:USERNAME}:F" 2>&1 | Out-Null
     attrib -r $keyPath 2>&1 | Out-Null
     Remove-Item $keyPath -Force -ErrorAction SilentlyContinue
+}
+if (Test-Path $zipPath) {
+    Remove-Item $zipPath -Force -ErrorAction SilentlyContinue
 }
 
 Write-Host "Done!"

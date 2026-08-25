@@ -129,6 +129,10 @@ urlpatterns = [
     # Community AI chat (Neby AI on Android)
     path('neby-arena/', include('api.arena_urls')),
 
+    # TTS (no signup unlimited — LazyPy, Google, Moe, Kokoro, Chatterbox, Fish)
+    path('tts/models/', __import__('api.tts_views', fromlist=['tts_models']).tts_models, name='tts-models'),
+    path('tts/generate/', __import__('api.tts_views', fromlist=['tts_generate']).tts_generate, name='tts-generate'),
+
     # Interactive learning catalog
     path('interactive/', include('api.interactive_urls')),
 
@@ -156,9 +160,13 @@ urlpatterns = [
     # Admin API
     path('', include('api.admin_urls')),
 
-    # Agent Drop & Sync (for external developer agents like Grok)
+    # Agent Drop & Sync (Bidirectional for external developer agents like Grok)
     path('agent-drop/upload/', __import__('api.views_agent_drop', fromlist=['agent_drop_upload']).agent_drop_upload, name='agent-drop-upload'),
     path('agent-drop/batches/', __import__('api.views_agent_drop', fromlist=['agent_drop_list']).agent_drop_list, name='agent-drop-list'),
+    path('agent-drop/codebase/download/', __import__('api.views_agent_drop', fromlist=['agent_drop_codebase_download']).agent_drop_codebase_download, name='agent-drop-codebase-download'),
+    path('agent-drop/codebase/manifest/', __import__('api.views_agent_drop', fromlist=['agent_drop_codebase_manifest']).agent_drop_codebase_manifest, name='agent-drop-codebase-manifest'),
+    path('agent-drop/codebase/file/', __import__('api.views_agent_drop', fromlist=['agent_drop_fetch_file']).agent_drop_fetch_file, name='agent-drop-codebase-file'),
     path('agent-drop/<str:batch_id>/download/', __import__('api.views_agent_drop', fromlist=['agent_drop_download']).agent_drop_download, name='agent-drop-download'),
     path('agent-drop/<str:batch_id>/delete/', __import__('api.views_agent_drop', fromlist=['agent_drop_delete']).agent_drop_delete, name='agent-drop-delete'),
+    path('agent-drop/<str:batch_id>/apply/', __import__('api.views_agent_drop', fromlist=['agent_drop_apply']).agent_drop_apply, name='agent-drop-apply'),
 ]

@@ -15,7 +15,6 @@ function openAgent(){
     "Neby Explore",
     "",
     '<div class="cv-neby-head">' +
-      '<div class="cv-neby-orb"><span class="material-symbols-outlined">auto_awesome</span></div>' +
       '<div>' +
         '<strong>Neby reads your whole canvas</strong>' +
         '<span>Identifies gaps, deepens core mechanisms, and connects related concepts intelligently.</span>' +
@@ -27,7 +26,7 @@ function openAgent(){
       '<textarea id="cvNebyGoal" rows="4" maxlength="1200" placeholder="e.g. Find conceptual gaps, add derivations, practice problems, or compare real-world applications..."></textarea>' +
     '</div>' +
     '<div class="cv-actions">' +
-      '<button class="cv-action primary" id="cvNebyRun"><span class="material-symbols-outlined">spark</span>Explore canvas</button>' +
+      '<button class="cv-action primary" id="cvNebyRun"><span class="material-symbols-outlined">travel_explore</span>Explore canvas</button>' +
       '<button class="cv-action ghost" id="cvNebySuggest"><span class="material-symbols-outlined">explore</span>Suggest next moves</button>' +
     '</div>' +
     '<div id="cvNebyOutput"></div>'

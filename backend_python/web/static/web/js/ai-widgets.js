@@ -844,11 +844,355 @@
     };
   }
 
+  /* ── TaskRows (Image 4) ─────────────────────────────────────────────────── */
+  function TaskRows(opts) {
+    opts = opts || {};
+    var variant = opts.variant || 'List';
+    var rows = (opts.rows || []).slice();
+    var manualOpen = {};
+
+    var el = document.createElement('div');
+    el.className = 'ai-widget ai-task-rows ' + (variant === 'List' ? 'ai-task-list' : 'ai-task-capsules');
+    render();
+
+    function render() {
+      el.innerHTML = '';
+      rows.forEach(function (row, i) {
+        var open = !!manualOpen[row.key];
+        var itemEl = document.createElement('div');
+        itemEl.className = 'ai-task-row-item' + (open ? ' open' : '');
+        itemEl.style.animation = 'ai-fade-up 450ms cubic-bezier(0.23,1,0.32,1) ' + (i * 80) + 'ms both';
+
+        var badgeHtml = '';
+        if (row.status === 'done' || row.status === 'completed') {
+          badgeHtml = '<span class="ai-task-badge green"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>';
+        } else if (row.status === 'failed') {
+          badgeHtml = '<span class="ai-task-badge red"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></span>';
+        } else if (row.active || row.status === 'running' || row.status === 'in_progress') {
+          badgeHtml = '<span class="ai-task-ring active"><svg width="24" height="24" class="ai-task-spin"><circle cx="12" cy="12" r="10" fill="none" stroke="var(--ai-line)" stroke-width="2"/><circle cx="12" cy="12" r="10" fill="none" stroke="var(--ai-ink-3)" stroke-width="2" stroke-linecap="round" stroke-dasharray="18 45"/></svg><span class="ai-task-ring-num">' + (row.index || (i + 1)) + '</span></span>';
+        } else {
+          badgeHtml = '<span class="ai-task-ring"><svg width="24" height="24"><circle cx="12" cy="12" r="10" fill="none" stroke="var(--ai-line)" stroke-width="2"/></svg><span class="ai-task-ring-num">' + (row.index || (i + 1)) + '</span></span>';
+        }
+
+        var pillHtml = '';
+        if (row.status === 'done' || row.status === 'completed') {
+          pillHtml = '<span class="ai-task-pill green">Completed</span>';
+        } else if (row.status === 'failed') {
+          pillHtml = '<span class="ai-task-pill red">Failed <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="ai-task-spin"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v6h-6"/></svg></span>';
+        }
+
+        var detailsHtml = (row.details || []).map(function (d) {
+          return '<div class="ai-task-detail-row"><span class="ai-task-detail-label">' + escapeHtml(d.label || '') + '</span><span class="ai-task-detail-meta">' + escapeHtml(d.meta || '') + '</span></div>';
+        }).join('');
+
+        itemEl.innerHTML =
+          '<button type="button" class="ai-task-row-btn" aria-expanded="' + (open ? 'true' : 'false') + '">' +
+          '<span class="ai-task-badge-wrap">' + badgeHtml + '</span>' +
+          '<span class="ai-task-row-label">' + escapeHtml(row.label || '') + '</span>' +
+          (row.amount ? '<span class="ai-task-row-amount">' + escapeHtml(row.amount) + '</span>' : '') +
+          pillHtml +
+          '<span class="ai-task-row-chevron"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>' +
+          '</button>' +
+          '<div class="ai-task-dropdown" style="grid-template-rows:' + (open ? '1fr' : '0fr') + ';opacity:' + (open ? '1' : '0') + '">' +
+          '<div class="ai-task-dropdown-clip">' +
+          '<div class="ai-task-dropdown-grid"><span class="ai-task-dropdown-line"></span><div class="ai-task-dropdown-items">' + detailsHtml + '</div></div>' +
+          '</div></div>';
+
+        itemEl.querySelector('.ai-task-row-btn').addEventListener('click', function () {
+          manualOpen[row.key] = !manualOpen[row.key];
+          render();
+        });
+
+        el.appendChild(itemEl);
+      });
+    }
+
+    return {
+      el: el,
+      setRows: function (nextRows) {
+        rows = (nextRows || []).slice();
+        render();
+      },
+      setVariant: function (v) {
+        variant = v;
+        el.className = 'ai-widget ai-task-rows ' + (variant === 'List' ? 'ai-task-list' : 'ai-task-capsules');
+        render();
+      },
+      destroy: function () {
+        if (el.parentNode) el.parentNode.removeChild(el);
+      }
+    };
+  }
+
+  /* ── RecommendationCard ─────────────────────────────────────────────────── */
+  function RecommendationCard(opts) {
+    opts = opts || {};
+    var title = opts.title || 'Recommendation';
+    var options = (opts.options || []).slice();
+    var selected = typeof opts.selected === 'number' ? opts.selected : 0;
+    var open = false;
+    var accepted = false;
+
+    var el = document.createElement('div');
+    el.className = 'ai-widget ai-rec-card';
+    render();
+
+    function renderMeter(signal, tone) {
+      var html = '<span class="ai-rec-meter">';
+      for (var bar = 0; bar < 3; bar++) {
+        var fill = bar < signal ? (tone || 'var(--ai-green)') : 'var(--ai-line)';
+        html += '<span class="ai-rec-meter-bar" style="background:' + fill + '"></span>';
+      }
+      return html + '</span>';
+    }
+
+    function render() {
+      var active = options[selected] || { label: 'High confidence', body: '', signal: 3, tone: 'var(--ai-green)', cta: 'Accept' };
+      var others = options.map(function (o, i) { return { o: o, i: i }; }).filter(function (x) { return x.i !== selected; });
+
+      var othersHtml = others.map(function (item) {
+        return '<button type="button" class="ai-rec-alt-row" data-idx="' + item.i + '">' +
+          renderMeter(item.o.signal, item.o.tone) +
+          '<span class="ai-rec-alt-short">' + escapeHtml(item.o.short || '') + '</span>' +
+          '<span class="ai-rec-alt-label">' + escapeHtml(item.o.label || '') + '</span>' +
+          '</button>';
+      }).join('');
+
+      el.innerHTML =
+        '<div class="ai-rec-pad">' +
+        '<span class="ai-rec-title">' + escapeHtml(title) + '</span>' +
+        '<p class="ai-rec-body">' + (active.bodyHtml || escapeHtml(active.body || '')) + '</p>' +
+        '</div>' +
+        '<div class="ai-rec-drawer" style="grid-template-rows:' + (open ? '1fr' : '0fr') + ';opacity:' + (open ? '1' : '0') + '">' +
+        '<div class="ai-rec-drawer-clip"><div class="ai-rec-alts">' +
+        '<p class="ai-rec-alts-head">Other options</p>' +
+        othersHtml +
+        '</div></div></div>' +
+        '<div class="ai-rec-footer">' +
+        '<span class="ai-rec-foot-meta">' + renderMeter(active.signal, active.tone) + '<span class="ai-rec-foot-label">' + escapeHtml(active.label || '') + '</span></span>' +
+        '<span class="ai-rec-foot-actions">' +
+        (others.length ? '<button type="button" class="ai-rec-btn-alt" aria-expanded="' + (open ? 'true' : 'false') + '">Alternatives</button>' : '') +
+        '<button type="button" class="ai-rec-btn-cta' + (accepted ? ' accepted' : '') + '">' + (accepted ? 'Accepted' : escapeHtml(active.cta || 'Accept')) + '</button>' +
+        '</span>' +
+        '</div>';
+
+      if (el.querySelector('.ai-rec-btn-alt')) {
+        el.querySelector('.ai-rec-btn-alt').addEventListener('click', function () {
+          open = !open;
+          render();
+        });
+      }
+      el.querySelector('.ai-rec-btn-cta').addEventListener('click', function () {
+        accepted = true;
+        render();
+        if (opts.onAccept) opts.onAccept(options[selected]);
+      });
+      el.querySelectorAll('.ai-rec-alt-row').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          selected = Number(btn.getAttribute('data-idx'));
+          accepted = false;
+          render();
+        });
+      });
+    }
+
+    return {
+      el: el,
+      destroy: function () {
+        if (el.parentNode) el.parentNode.removeChild(el);
+      }
+    };
+  }
+
+  /* ── CodeBlock (Code & Unified Diff) ─────────────────────────────────────── */
+  var KEYWORDS_SET = new Set(["import", "from", "export", "default", "async", "function", "const", "let", "var", "await", "return", "if", "else", "for", "while", "new", "throw", "try", "catch", "null", "true", "false", "undefined"]);
+  var CODE_TOKEN_RE = /("(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|`[^`]*`|\b\d+(?:\.\d+)?\b|\b(?:import|from|export|default|async|function|const|let|var|await|return|if|else|for|while|new|throw|try|catch|null|true|false|undefined)\b|[A-Za-z_$][\w$]*(?=\s*\())/g;
+
+  function highlightCode(text) {
+    text = String(text || '');
+    var html = '';
+    var last = 0;
+    var match;
+    CODE_TOKEN_RE.lastIndex = 0;
+    while ((match = CODE_TOKEN_RE.exec(text)) !== null) {
+      var idx = match.index;
+      var t = match[0];
+      if (idx > last) html += escapeHtml(text.slice(last, idx));
+      if (/^["'`]/.test(t) || /^\d/.test(t)) {
+        html += '<span class="ai-tok-str">' + escapeHtml(t) + '</span>';
+      } else if (KEYWORDS_SET.has(t)) {
+        html += '<span class="ai-tok-kw">' + escapeHtml(t) + '</span>';
+      } else {
+        html += '<span class="ai-tok-fn">' + escapeHtml(t) + '</span>';
+      }
+      last = idx + t.length;
+    }
+    if (last < text.length) html += escapeHtml(text.slice(last));
+    return html;
+  }
+
+  function renderPiecesHtml(pieces) {
+    return (pieces || []).map(function (p) {
+      if (p.change) {
+        var add = p.change === 'add';
+        return '<span class="ai-codeblock-piece ' + (add ? 'add' : 'del') + '">' + highlightCode(p.text) + '</span>';
+      }
+      return highlightCode(p.text);
+    }).join('');
+  }
+
+  function CodeBlock(opts) {
+    opts = opts || {};
+    var file = opts.file || 'code.ts';
+    var variant = opts.variant || 'Code';
+    var codeLines = Array.isArray(opts.code) ? opts.code : (typeof opts.code === 'string' ? opts.code.split('\n') : []);
+    var diffRows = (opts.diff || []).slice();
+    var copied = false;
+
+    var el = document.createElement('div');
+    el.className = 'ai-widget ai-codeblock';
+    render();
+
+    function render() {
+      var isDiff = variant === 'Diff';
+      var raw = isDiff
+        ? diffRows.filter(function (r) { return r.type !== 'del'; }).map(function (r) { return (r.pieces || []).map(function (p) { return p.text; }).join(''); }).join('\n')
+        : codeLines.join('\n');
+
+      var addedCount = diffRows.filter(function (r) { return r.type === 'add'; }).length;
+      var removedCount = diffRows.filter(function (r) { return r.type === 'del'; }).length;
+
+      var headRightHtml = '';
+      if (isDiff) {
+        headRightHtml = '<span class="ai-codeblock-stats"><span class="stat-add">+' + addedCount + '</span><span class="stat-del">-' + removedCount + '</span></span>';
+      } else {
+        headRightHtml = '<button type="button" class="ai-codeblock-copy' + (copied ? ' copied' : '') + '">' +
+          (copied
+            ? '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Copied'
+            : '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy') +
+          '</button>';
+      }
+
+      var rowsHtml = '';
+      if (isDiff) {
+        rowsHtml = diffRows.map(function (r) {
+          var add = r.type === 'add';
+          var del = r.type === 'del';
+          var num = del ? r.old : r.cur;
+          var accentHtml = (add || del) ? '<span class="ai-codeblock-accent ' + (add ? 'add' : 'del') + '"></span>' : '';
+          return '<div class="ai-codeblock-row ' + (add ? 'add' : del ? 'del' : '') + '">' +
+            accentHtml +
+            '<span class="ai-codeblock-num">' + (num != null ? num : '') + '</span>' +
+            '<code class="ai-codeblock-code">' + renderPiecesHtml(r.pieces) + '</code>' +
+            '</div>';
+        }).join('');
+      } else {
+        rowsHtml = codeLines.map(function (line, i) {
+          return '<div class="ai-codeblock-row">' +
+            '<span class="ai-codeblock-num">' + (i + 1) + '</span>' +
+            '<code class="ai-codeblock-code">' + highlightCode(line) + '</code>' +
+            '</div>';
+        }).join('');
+      }
+
+      el.innerHTML =
+        '<div class="ai-codeblock-head">' +
+        '<span class="ai-codeblock-file">' +
+        '<svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5"/></svg>' +
+        '<span class="ai-codeblock-filename">' + escapeHtml(file) + '</span>' +
+        '</span>' +
+        headRightHtml +
+        '</div>' +
+        '<div class="ai-codeblock-body">' +
+        '<span class="ai-codeblock-divider"></span>' +
+        rowsHtml +
+        '</div>';
+
+      var copyBtn = el.querySelector('.ai-codeblock-copy');
+      if (copyBtn) {
+        copyBtn.addEventListener('click', function () {
+          navigator.clipboard.writeText(raw).then(function () {
+            copied = true;
+            render();
+            setTimeout(function () { copied = false; render(); }, 1500);
+          });
+        });
+      }
+    }
+
+    return {
+      el: el,
+      setVariant: function (v) {
+        variant = v;
+        render();
+      },
+      destroy: function () {
+        if (el.parentNode) el.parentNode.removeChild(el);
+      }
+    };
+  }
+
+  /* ── Flowchart ───────────────────────────────────────────────────────────── */
+  function Flowchart(opts) {
+    opts = opts || {};
+    var title = opts.title || 'Process Flow';
+    var nodes = (opts.nodes || []).slice();
+
+    var el = document.createElement('div');
+    el.className = 'ai-widget ai-flowchart';
+    render();
+
+    function render() {
+      var nodesHtml = nodes.map(function (node, i) {
+        var isLast = i === nodes.length - 1;
+        var iconHtml = node.icon ? '<span class="material-symbols-outlined">' + escapeHtml(node.icon) + '</span>' : '<span class="material-symbols-outlined">schema</span>';
+        var arrowHtml = isLast ? '' : '<div class="ai-flowchart-arrow"><span class="ai-flowchart-arrow-line"></span><span class="ai-flowchart-arrow-head"></span></div>';
+
+        return '<div class="ai-flowchart-node' + (node.active ? ' active' : '') + '" data-id="' + escapeHtml(node.id || String(i)) + '">' +
+          '<span class="ai-flowchart-node-icon">' + iconHtml + '</span>' +
+          '<div class="ai-flowchart-node-text">' +
+          '<div class="ai-flowchart-node-label">' + escapeHtml(node.label || '') + '</div>' +
+          (node.desc ? '<div class="ai-flowchart-node-desc">' + escapeHtml(node.desc) + '</div>' : '') +
+          '</div>' +
+          '</div>' + arrowHtml;
+      }).join('');
+
+      el.innerHTML =
+        '<div class="ai-flowchart-head">' +
+        '<span class="ai-flowchart-title">' +
+        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="6" height="6" rx="1"/><rect x="15" y="3" width="6" height="6" rx="1"/><rect x="9" y="15" width="6" height="6" rx="1"/><path d="M6 9v3a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V9M12 13v2"/></svg>' +
+        escapeHtml(title) +
+        '</span>' +
+        '</div>' +
+        '<div class="ai-flowchart-canvas">' +
+        nodesHtml +
+        '</div>';
+
+      el.querySelectorAll('.ai-flowchart-node').forEach(function (nodeEl) {
+        nodeEl.addEventListener('click', function () {
+          var id = nodeEl.getAttribute('data-id');
+          if (opts.onSelect) opts.onSelect(id);
+        });
+      });
+    }
+
+    return {
+      el: el,
+      destroy: function () {
+        if (el.parentNode) el.parentNode.removeChild(el);
+      }
+    };
+  }
+
   PixelLoader.create = PixelLoader;
   Trace.create = Trace;
   StreamingText.create = StreamingText;
   ApprovalCard.create = ApprovalCard;
   ToolChips.create = ToolChips;
+  TaskRows.create = TaskRows;
+  RecommendationCard.create = RecommendationCard;
+  CodeBlock.create = CodeBlock;
+  Flowchart.create = Flowchart;
 
   window.AIWidgets = {
     PixelLoader: PixelLoader,
@@ -856,6 +1200,10 @@
     StreamingText: StreamingText,
     ApprovalCard: ApprovalCard,
     ToolChips: ToolChips,
+    TaskRows: TaskRows,
+    RecommendationCard: RecommendationCard,
+    CodeBlock: CodeBlock,
+    Flowchart: Flowchart,
     actionRow: function (opts) {
       var row = buildActions(String(opts && opts.text || ''), opts || {});
       row.hidden = false;

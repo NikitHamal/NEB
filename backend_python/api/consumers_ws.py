@@ -72,6 +72,7 @@ GRP_POST_FMT = 'post.{post_id}'
 GRP_RESOURCE_FMT = 'resource.{resource_id}'
 GRP_RESOURCE_REQUEST_FMT = 'resource_request.{request_id}'
 GRP_STUDY_SPACE_FMT = 'studyspace.{space_id}'
+GRP_CODE_DAEMON_FMT = 'code.daemon.{user_id}'
 
 
 def _is_authenticated(user):
@@ -220,6 +221,19 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
         return False
 
     @database_sync_to_async
+    def _can_see_canvas(self, board_id: str) -> bool:
+        from api.models import CanvasBoard
+        try:
+            b = CanvasBoard.objects.only('id', 'user_id', 'share_token', 'shared_at').get(pk=board_id)
+        except CanvasBoard.DoesNotExist:
+            return False
+        if self._user_id and str(b.user_id) == str(self._user_id):
+            return True
+        if b.share_token and b.shared_at:
+            return True
+        return False
+
+    @database_sync_to_async
     def _can_see_resource(self, resource_id: str) -> bool:
         from api.models import Resource
         try:
@@ -227,6 +241,16 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
         except Resource.DoesNotExist:
             return False
         return r.approval_status == 'approved'
+
+    @database_sync_to_async
+    def _owns_code_session(self, session_id: str) -> bool:
+        if not self._user_id or not session_id:
+            return False
+        from api.models import CodeSession
+        try:
+            return CodeSession.objects.filter(pk=session_id, user_id=self._user_id).exists()
+        except Exception:
+            return False
 
     @database_sync_to_async
     def _user_track_open(self, user_id: str, channel_name: str):
@@ -256,6 +280,13 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
     def _user_should_evict(self, channel_name: str) -> bool:
         return bool(cache.get(f'ws:evict:{channel_name}'))
 
+    @database_sync_to_async
+    def _owns_code_session(self, session_id: str) -> bool:
+        from api.models import CodeSession
+        if not self._user_id or not session_id:
+            return False
+        return CodeSession.objects.filter(id=session_id, user_id=self._user_id).exists()
+
     # ------------------------------------------------------------------ lifecycle
 
     async def connect(self):
@@ -277,6 +308,7 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
         await self.accept()
         self._groups: Set[str] = set()
         self._client_subscriptions = {}
+        self._code_role = ''  # '' | 'daemon'
         self._last_activity = time.monotonic()
         self._rate = _RateLimiter(self.RATE_PER_SECOND, self.RATE_PER_HOUR)
         self._batcher = _EventBatcher(self._send_json)
@@ -304,6 +336,8 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
                     await self.channel_layer.group_discard(group, self.channel_name)
                 except Exception:  # noqa: BLE001
                     pass
+            if getattr(self, '_code_role', '') == 'daemon' and self._user_id:
+                await self._code_daemon_offline()
             if self._user_id:
                 await self._user_track_close(self._user_id, self.channel_name)
             logger.info('WS disconnect user=%s code=%s', self._user_id, code)
@@ -311,7 +345,9 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
             logger.exception('WS disconnect cleanup failed: %s', e)
 
     async def receive(self, text_data=None, bytes_data=None):
-        self._last_activity = time.monotonic()
+        now = time.monotonic()
+        self._last_activity = now
+        self._last_pong_at = now
         if not text_data:
             return
         try:
@@ -327,20 +363,30 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
             await self._send_json({'type': 'error', 'code': 'rate_limited', 'message': 'too many messages'})
             return
 
-        action = msg.get('action')
+        action = msg.get('action') or msg.get('type')
         if action == 'subscribe':
             await self._handle_subscribe(msg.get('channel', ''), msg.get('last_seen_ts'))
         elif action == 'unsubscribe':
             await self._handle_unsubscribe(msg.get('channel', ''))
         elif action == 'ping':
-            await self._send_json({'type': 'pong', 'ts': msg.get('ts')})
+            await self._send_json({'type': 'pong', 'ts': msg.get('ts') or int(time.time() * 1000)})
         elif action == 'pong':
-            self._last_pong_at = time.monotonic()
+            pass
         elif action == 'since':
             # Future: replay events from a timestamp. For now just acknowledge.
             await self._send_json({'type': 'since_ack', 'ts': msg.get('ts')})
         elif action == 'note_content':
             await self._handle_note_content(msg)
+        elif action == 'code.daemon.hello':
+            await self._handle_code_daemon_hello(msg)
+        elif action == 'code.daemon.ping':
+            self._code_daemon_touch()
+        elif action == 'code.result':
+            self._handle_code_result(msg)
+        elif action == 'code.term.data':
+            await self._handle_code_term(msg, final=False)
+        elif action == 'code.term.exit':
+            await self._handle_code_term(msg, final=True)
         elif action == 'note_cursor':
             await self._handle_note_cursor(msg)
         elif action == 'yjs_update':
@@ -387,6 +433,12 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
         elif channel.startswith('studyspace.'):
             space_id = channel[len('studyspace.'):]
             ok = await self._can_see_study_space(space_id) if self._user_id else False
+        elif channel.startswith('canvas.'):
+            board_id = channel[len('canvas.'):]
+            ok = await self._can_see_canvas(board_id) if self._user_id else False
+        elif channel.startswith('code.ui.'):
+            session_id = channel[len('code.ui.'):]
+            ok = await self._owns_code_session(session_id)
         else:
             await self._send_json({'type': 'error', 'code': 'unknown_channel', 'message': f'unsupported: {channel}'})
             return
@@ -405,9 +457,9 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
         self._client_subscriptions[group_name] = channel
 
         await self._send_json({'type': 'subscribed', 'channel': channel})
-        if channel.startswith('studyspace.'):
-            space_id = channel[len('studyspace.'):]
-            snapshot = cache.get(f'yjs:snapshot:{space_id}')
+        if channel.startswith('studyspace.') or channel.startswith('canvas.'):
+            room_id = channel.split('.', 1)[-1]
+            snapshot = cache.get(f'yjs:snapshot:{channel}') or cache.get(f'yjs:snapshot:{room_id}')
             if snapshot:
                 await self._send_json({
                     'type': 'event',
@@ -523,15 +575,27 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
 
     # ------------------------------------------------------------------ Yjs CRDT collaboration
 
+    def _yjs_group(self, msg):
+        channel = msg.get('channel')
+        if channel and channel in self._groups:
+            return channel
+        space_id = msg.get('spaceId') or msg.get('roomId') or ''
+        if not space_id:
+            return ''
+        for prefix in ('studyspace.', 'canvas.'):
+            group = f'{prefix}{space_id}'
+            if group in self._groups:
+                return group
+        return f'studyspace.{space_id}'
+
     async def _handle_yjs_update(self, msg):
-        """Receive Yjs incremental update from a StudySpace member and relay to others."""
-        space_id = msg.get('spaceId')
+        """Receive Yjs incremental update and relay to others in the room."""
         update_b64 = msg.get('update', '')
-        if not space_id or not update_b64 or not isinstance(update_b64, str):
+        group = self._yjs_group(msg)
+        if not group or not update_b64 or not isinstance(update_b64, str):
             return
         if len(update_b64) > 500000:
             return
-        group = f'studyspace.{space_id}'
         if group in self._groups:
             await self.channel_layer.group_send(
                 group,
@@ -547,16 +611,15 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
             )
 
     async def _handle_yjs_snapshot(self, msg):
-        space_id = msg.get('spaceId')
         update_b64 = msg.get('update', '')
-        if not space_id or not update_b64 or not isinstance(update_b64, str):
+        group = self._yjs_group(msg)
+        if not group or not update_b64 or not isinstance(update_b64, str):
             return
         if len(update_b64) > 2000000:
             return
-        group = f'studyspace.{space_id}'
         if group not in self._groups:
             return
-        cache.set(f'yjs:snapshot:{space_id}', update_b64, timeout=604800)
+        cache.set(f'yjs:snapshot:{group}', update_b64, timeout=604800)
         await self.channel_layer.group_send(
             group,
             {
@@ -568,13 +631,10 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
         )
 
     async def _handle_yjs_sync_request(self, msg):
-        space_id = msg.get('spaceId')
-        if not space_id:
+        group = self._yjs_group(msg)
+        if not group or group not in self._groups:
             return
-        group = f'studyspace.{space_id}'
-        if group not in self._groups:
-            return
-        snapshot = cache.get(f'yjs:snapshot:{space_id}')
+        snapshot = cache.get(f'yjs:snapshot:{group}')
         if snapshot:
             await self._send_json({
                 'type': 'event',
@@ -594,12 +654,11 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
         )
 
     async def _handle_yjs_awareness(self, msg):
-        """Broadcast Yjs awareness (cursor/selection) to other StudySpace members."""
-        space_id = msg.get('spaceId')
+        """Broadcast Yjs awareness (cursor/selection) to other room members."""
         state = msg.get('state', {})
-        if not space_id or not isinstance(state, dict):
+        group = self._yjs_group(msg)
+        if not group or not isinstance(state, dict):
             return
-        group = f'studyspace.{space_id}'
         if group in self._groups:
             await self.channel_layer.group_send(
                 group,
@@ -613,6 +672,92 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
                     },
                 }
             )
+
+    # ------------------------------------------------------------------ neby code daemon
+
+    def _code_daemon_touch(self):
+        from api import code_realtime
+        if self._code_role == 'daemon' and self._user_id:
+            info = getattr(self, '_code_info', {}) or {}
+            info['_ch'] = self.channel_name
+            code_realtime.set_presence(self._user_id, info)
+
+    def _handle_code_result(self, msg):
+        if self._code_role != 'daemon':
+            return
+        call_id = str(msg.get('call_id') or '')
+        if not call_id or len(call_id) > 64:
+            return
+        from api import code_realtime
+        payload = {'ok': bool(msg.get('ok')), 'data': msg.get('data'), 'error': msg.get('error') or ''}
+        code_realtime.store_result(call_id, payload)
+
+    async def _handle_code_daemon_hello(self, msg):
+        if not self._user_id:
+            await self._send_json({'type': 'error', 'code': 'auth_required', 'message': 'daemon needs auth'})
+            return
+        self._code_role = 'daemon'
+        info = msg.get('info') or {}
+        if not isinstance(info, dict):
+            info = {}
+        info['_ch'] = self.channel_name
+        self._code_info = info
+        group = GRP_CODE_DAEMON_FMT.format(user_id=self._user_id)
+        await self.channel_layer.group_add(group, self.channel_name)
+        self._groups.add(group)
+        from api import code_realtime
+        code_realtime.set_presence(self._user_id, info)
+        await self.channel_layer.group_send(f'user.{self._user_id}', {
+            'type': 'realtime.event',
+            'channel': f'user.{self._user_id}',
+            'event': 'daemon.status',
+            'data': {'online': True, 'info': {k: v for k, v in info.items() if k != '_ch'}},
+        })
+        await self._send_json({'type': 'code.hello_ok'})
+
+    async def _code_daemon_offline(self):
+        try:
+            from api import code_realtime
+            ch = (getattr(self, '_code_info', {}) or {}).get('_ch', '')
+            presence = code_realtime.get_presence(self._user_id) or {}
+            if ch and presence.get('_ch') != ch:
+                return
+            code_realtime.clear_presence(self._user_id, ch)
+            await self.channel_layer.group_send(f'user.{self._user_id}', {
+                'type': 'realtime.event',
+                'channel': f'user.{self._user_id}',
+                'event': 'daemon.status',
+                'data': {'online': False},
+            })
+        except Exception:  # noqa: BLE001
+            pass
+
+    async def _handle_code_term(self, msg, final=False):
+        if self._code_role != 'daemon':
+            return
+        session_id = str(msg.get('session_id') or '')
+        if not session_id or not self._user_id:
+            return
+        if not await self._owns_code_session(session_id):
+            return
+        data = {
+            'call_id': msg.get('call_id'),
+            'chunk': msg.get('chunk', ''),
+            'stream': msg.get('stream', 'out'),
+        }
+        if final:
+            data['exit_code'] = msg.get('exit_code')
+            data['duration_ms'] = msg.get('duration_ms')
+        await self.channel_layer.group_send(f'code.ui.{session_id}', {
+            'type': 'realtime.event',
+            'channel': f'code.ui.{session_id}',
+            'event': 'term.exit' if final else 'term.data',
+            'data': data,
+        })
+
+    async def code_event(self, event):
+        """Frames pushed by views/worker via the channel layer for this daemon."""
+        await self._send_json(event.get('payload') or {})
 
     # ------------------------------------------------------------------ internal
 

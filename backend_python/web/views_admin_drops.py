@@ -32,6 +32,20 @@ def admin_agent_drops(request):
     if request.method == 'POST':
         action = request.POST.get('action', '').strip()
         batch_id = request.POST.get('batch_id', '').strip()
+
+        if action == 'apply' and batch_id:
+            clean_id = ''.join(c for c in batch_id if c.isalnum() or c in ('-', '_'))
+            bpath = os.path.join(sync_root, clean_id)
+            if os.path.exists(bpath):
+                base_dir = settings.BASE_DIR
+                for root, _, files in os.walk(bpath):
+                    for f in files:
+                        src_f = os.path.join(root, f)
+                        rel_f = os.path.relpath(src_f, bpath)
+                        dst_f = os.path.join(base_dir, rel_f)
+                        os.makedirs(os.path.dirname(dst_f), exist_ok=True)
+                        shutil.copy2(src_f, dst_f)
+            return redirect('web:admin_agent_drops')
         
         if action == 'delete' and batch_id:
             clean_id = ''.join(c for c in batch_id if c.isalnum() or c in ('-', '_'))
@@ -89,5 +103,9 @@ def admin_agent_drops(request):
         'total_batches': len(batches),
         'total_files': total_files_all,
         'total_size': _format_size(total_size_all),
+        'token': token_param,
         'agent_token': token_param,
+        'codebase_download_url': f'/api/agent-drop/codebase/download/?token={token_param}',
+        'manifest_url': f'/api/agent-drop/codebase/manifest/?token={token_param}',
     })
+

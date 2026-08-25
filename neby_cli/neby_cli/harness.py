@@ -156,6 +156,7 @@ CONTEXT_WINDOWS: Dict[str, int] = {
     "tembo": 64_000,
     "openai": 128_000,
     "anthropic": 200_000,
+    "empero": 131_072,
 }
 
 

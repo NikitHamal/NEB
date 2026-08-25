@@ -97,14 +97,25 @@ def _http_post_json(url: str, *, headers: dict, payload: dict, timeout: int, pro
         raise LLMError(f'{provider}: non-JSON response: {resp.text[:200]}', provider=provider)
 
 
+def _normalize_openai_model(provider: str, base_url: str, model: str) -> str:
+    prov = (provider or '').strip().lower()
+    m = (model or '').strip()
+    if prov == 'empero' or 'free.empero.org' in (base_url or '').lower():
+        if m.lower() in ('qwen3.8-27b', 'qwen/qwen3.8-27b', 'qwen-3.8-27b', 'qwen3.8', 'qwen', 'default', ''):
+            return 'Qwen/Qwen3.8-27B-FP8'
+    return m
+
+
 def _openai_chat(*, base_url: str, api_key: str, model: str, messages: List[Dict[str, str]],
                  max_tokens: int, timeout: int, temperature: float, provider: str) -> ChatResult:
+    model = _normalize_openai_model(provider, base_url, model)
     url = base_url.rstrip('/')
     if not url.endswith('/chat/completions'):
         url += '/chat/completions'
     headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
-    if api_key.strip():
-        headers['Authorization'] = f'Bearer {api_key.strip()}'
+    effective_key = api_key.strip() or ('free' if (provider == 'empero' or 'free.empero.org' in url.lower()) else '')
+    if effective_key:
+        headers['Authorization'] = f'Bearer {effective_key}'
     payload = {
         'model': model,
         'messages': messages,
@@ -290,12 +301,14 @@ def quick_test(*, format: str, base_url: str, api_key: str, model: str,
 
 def _openai_stream(*, base_url: str, api_key: str, model: str, messages: List[Dict[str, str]],
                    max_tokens: int, timeout: int, temperature: float, provider: str):
+    model = _normalize_openai_model(provider, base_url, model)
     url = base_url.rstrip('/')
     if not url.endswith('/chat/completions'):
         url += '/chat/completions'
     headers = {'Content-Type': 'application/json', 'Accept': 'text/event-stream'}
-    if api_key.strip():
-        headers['Authorization'] = f'Bearer {api_key.strip()}'
+    effective_key = api_key.strip() or ('free' if (provider == 'empero' or 'free.empero.org' in url.lower()) else '')
+    if effective_key:
+        headers['Authorization'] = f'Bearer {effective_key}'
     payload = {
         'model': model,
         'messages': messages,
