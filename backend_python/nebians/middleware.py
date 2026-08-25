@@ -367,7 +367,7 @@ class SecurityHeadersMiddleware:
             "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://accounts.google.com https://cdn.jsdelivr.net; "
             "font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net; "
             f"{img_sources_blob} "
-            "media-src 'self' https: blob:; "
+            "media-src 'self' https: blob: data:; "
             "frame-src 'self' https:; "
             f"{connect_src_str} "
             "base-uri 'self'; form-action 'self'; frame-ancestors 'none'"

@@ -62,6 +62,7 @@ PROVIDER_MAX_OUTPUT_TOKENS = {
     'deepai': 4096,
     'egov': 2048,
     'custom': 8192,
+    'empero': 8192,
 }
 
 PROVIDER_DEFAULT_MODEL = {
@@ -70,6 +71,7 @@ PROVIDER_DEFAULT_MODEL = {
     'deepai': 'gpt-4.1-nano',
     'egov': 'AI1',
     'custom': 'gpt-4o-mini',
+    'empero': 'Qwen/Qwen3.8-27B-FP8',
 }
 
 AGENT_DEFAULT_SYSTEM_PROMPT = """\

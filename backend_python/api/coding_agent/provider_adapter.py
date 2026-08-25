@@ -260,6 +260,15 @@ def call_for_agent(
             return _call_egov(truncated, model, max_tokens)
         if provider == 'custom':
             return _safe_json_chat(api_url, api_key, model, truncated, max_tokens, timeout)
+        if provider == 'empero':
+            return _safe_json_chat(
+                api_url='https://free.empero.org/v1/chat/completions',
+                api_key='free',
+                model=model or 'Qwen/Qwen3.8-27B-FP8',
+                messages=truncated,
+                max_tokens=max_tokens,
+                timeout=timeout,
+            )
     except ProviderError:
         raise
     except Exception as e:

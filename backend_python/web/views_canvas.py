@@ -589,13 +589,16 @@ def _call_llm_for_canvas(user, prompt, parent_context, web_search_enabled, speed
     user_prompt = f"[{speed_note} mode — answer quickly but thoroughly]\n" + user_prompt
 
     # ── 1. Fused primary: Gemini Web + Motif 3 High + Laguna S 2.1 ──
+    # Fast: one primary, then fallbacks only if it misses quality.
+    # Deep: three-way race with early exit once a high-scoring JSON lands.
     import logging as _logging
     _log = _logging.getLogger(__name__)
+    is_fast = speed_note == "Fast"
 
     def _call_gemini():
         try:
             from api.geminiweb_proxy import simple_chat as _g
-            return _g(user_prompt, _GEMINIWEB_MODEL, SYSTEM_PROMPT, 3600)
+            return _g(user_prompt, _GEMINIWEB_MODEL, SYSTEM_PROMPT, 2200 if is_fast else 3600)
         except Exception as e:
             _log.warning("Canvas geminiweb call failed: %s", e)
             return None
@@ -603,7 +606,7 @@ def _call_llm_for_canvas(user, prompt, parent_context, web_search_enabled, speed
     def _call_motif():
         try:
             from api.motiftech_proxy import simple_chat as _m
-            return _m(user_prompt, _MOTIF_MODEL, SYSTEM_PROMPT, 3600, reasoning_effort="high")
+            return _m(user_prompt, _MOTIF_MODEL, SYSTEM_PROMPT, 2200 if is_fast else 3600, reasoning_effort="high")
         except Exception as e:
             _log.warning("Canvas motif-high call failed: %s", e)
             return None
@@ -611,79 +614,116 @@ def _call_llm_for_canvas(user, prompt, parent_context, web_search_enabled, speed
     def _call_laguna():
         try:
             from api.poolside_proxy import simple_chat as _p
-            return _p(user_prompt, _CANVAS_PRIMARY_MODEL, SYSTEM_PROMPT, 3600)
+            return _p(user_prompt, _CANVAS_PRIMARY_MODEL, SYSTEM_PROMPT, 2200 if is_fast else 3600)
         except Exception as e:
             _log.warning("Canvas laguna call failed: %s", e)
             return None
 
-    raw_by = {}
-    data_by = {}
-    score_by = {}
-    try:
-        from concurrent.futures import ThreadPoolExecutor, as_completed
-        ex = ThreadPoolExecutor(max_workers=3)
-        fut_map = {
-            ex.submit(_call_gemini): 'geminiweb',
-            ex.submit(_call_motif): 'motif',
-            ex.submit(_call_laguna): 'poolside',
-        }
-        try:
-            for fut in as_completed(fut_map, timeout=58):
-                key = fut_map[fut]
-                try:
-                    raw = fut.result(timeout=1)
-                except Exception as e:
-                    _log.warning("Canvas %s future error: %s", key, e)
-                    raw = None
-                raw_by[key] = raw
-                if raw:
-                    d = _parse_canvas_json(prompt, raw)
-                    if d:
-                        data_by[key] = d
-                        score_by[key] = _score_canvas_data(d)
-                    else:
-                        score_by[key] = -1
-                else:
-                    score_by[key] = -1
-        except Exception as e:
-            _log.warning("Canvas fusion as_completed timeout/error: %s", e)
-        finally:
-            try:
-                ex.shutdown(wait=False, cancel_futures=True)
-            except TypeError:
-                ex.shutdown(wait=False)
+    GOOD_ENOUGH = 18 if is_fast else 22
+    RACE_TIMEOUT = 16 if is_fast else 40
 
-        # pick best valid candidate (geminiweb wins ties as primary)
+    def _score_raw(key, raw):
+        if not raw:
+            return None, -1
+        d = _parse_canvas_json(prompt, raw)
+        if d:
+            return d, _score_canvas_data(d)
+        return None, -1
+
+    def _pick_winner(data_by, score_by):
         best_key = None
         best_score = -1
         priority = {'geminiweb': 3, 'motif': 2, 'poolside': 1}
         for k, sc in score_by.items():
             if k not in data_by:
                 continue
-            prio = priority.get(k, 0)
-            # score + tiny tie-breaker
-            adj = sc + prio * 0.1
+            adj = sc + priority.get(k, 0) * 0.1
             if adj > best_score:
                 best_score = adj
                 best_key = k
+        return best_key
+
+    try:
+        from concurrent.futures import ThreadPoolExecutor, as_completed, wait, FIRST_COMPLETED
+        workers = 1 if is_fast else 3
+        ex = ThreadPoolExecutor(max_workers=workers)
+        if is_fast:
+            fut_map = {ex.submit(_call_gemini): 'geminiweb'}
+        else:
+            fut_map = {
+                ex.submit(_call_gemini): 'geminiweb',
+                ex.submit(_call_motif): 'motif',
+                ex.submit(_call_laguna): 'poolside',
+            }
+        raw_by, data_by, score_by = {}, {}, {}
+        pending = set(fut_map)
+        try:
+            while pending:
+                done, pending = wait(pending, timeout=RACE_TIMEOUT, return_when=FIRST_COMPLETED)
+                if not done:
+                    break
+                for fut in done:
+                    key = fut_map.get(fut)
+                    try:
+                        raw = fut.result(timeout=0.1)
+                    except Exception as e:
+                        _log.warning("Canvas %s future error: %s", key, e)
+                        raw = None
+                    raw_by[key] = raw
+                    data, sc = _score_raw(key, raw)
+                    if data:
+                        data_by[key] = data
+                    score_by[key] = sc
+                    if sc >= GOOD_ENOUGH:
+                        pending = set()
+                        break
+        except Exception as e:
+            _log.warning("Canvas fusion wait error: %s", e)
+        finally:
+            try:
+                ex.shutdown(wait=False, cancel_futures=True)
+            except TypeError:
+                ex.shutdown(wait=False)
+
+        if is_fast and not data_by:
+            ex2 = ThreadPoolExecutor(max_workers=2)
+            try:
+                fmap = {ex2.submit(_call_motif): 'motif', ex2.submit(_call_laguna): 'poolside'}
+                for fut in as_completed(fmap, timeout=14):
+                    key = fmap[fut]
+                    try:
+                        raw = fut.result(timeout=1)
+                    except Exception:
+                        raw = None
+                    raw_by[key] = raw
+                    data, sc = _score_raw(key, raw)
+                    if data:
+                        data_by[key] = data
+                    score_by[key] = sc
+                    if sc >= GOOD_ENOUGH:
+                        break
+            except Exception as e:
+                _log.warning("Canvas fast-fallback error: %s", e)
+            finally:
+                try:
+                    ex2.shutdown(wait=False, cancel_futures=True)
+                except TypeError:
+                    ex2.shutdown(wait=False)
+
+        best_key = _pick_winner(data_by, score_by)
         if best_key and best_key in data_by:
             winner = data_by[best_key]
-            # collect all valid candidates for reference merging
-            all_valid = [data_by[k] for k in data_by]
-            # also include raw-parsed fallback for raw that had references but not scored?
-            _merge_fusion_references(winner, all_valid)
-            return {'slug': 'fusion', 'model': _FUSION_MODEL_LABEL}, winner, 'fusion'
+            _merge_fusion_references(winner, list(data_by.values()))
+            label = 'fast:' + best_key if is_fast else 'fusion'
+            return {'slug': 'fusion', 'model': _FUSION_MODEL_LABEL}, winner, label
 
-        # no valid JSON — fall back to best substantial raw (prefer geminiweb)
         for k in ('geminiweb', 'motif', 'poolside'):
             raw = raw_by.get(k)
             if raw and len(raw.strip()) > 200:
-                _log.info("Canvas fusion no valid JSON, wrapping raw from %s", k)
+                _log.info("Canvas fusion wrapping raw from %s", k)
                 return {'slug': 'fusion', 'model': _FUSION_MODEL_LABEL}, _wrap_raw_text(prompt, raw), 'fusion'
-        # else fall through to official providers
     except Exception as e:
         _log.warning("Canvas fusion block error: %s", e)
-        pass
 
     # ── 2. Fallback: official key-backed providers in priority order ──
     candidates = [

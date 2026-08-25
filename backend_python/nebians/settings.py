@@ -135,23 +135,33 @@ LOGIN_URL = '/admin/'
 WSGI_APPLICATION = 'nebians.wsgi.application'
 ASGI_APPLICATION = 'nebians.asgi.application'
 
-# Channels layer: Redis-backed so broadcasts fan out across daphne + any
-# Passenger workers. Falls back to in-memory if Redis isn't configured
-# (single-process dev only).
-if os.environ.get('CACHE_BACKEND') == 'django.core.cache.backends.redis.RedisCache':
+# Redis Cache & Channels layers (Daphne + LiteSpeed + Workers)
+CACHE_LOCATION = str(os.environ.get('CACHE_LOCATION') or os.environ.get('REDIS_URL') or 'redis://127.0.0.1:6379/0').strip()
+if CACHE_LOCATION and not CACHE_LOCATION.startswith(('redis://', 'rediss://', 'unix://')):
+    CACHE_LOCATION = 'redis://' + CACHE_LOCATION
+REDIS_URL = CACHE_LOCATION
+
+CACHES = {
+    'default': {
+        'BACKEND': os.environ.get('CACHE_BACKEND', 'django.core.cache.backends.redis.RedisCache'),
+        'LOCATION': CACHE_LOCATION,
+    }
+}
+
+if os.environ.get('CHANNEL_LAYER_BACKEND') == 'inmemory':
+    CHANNEL_LAYERS = {
+        'default': {'BACKEND': 'channels.layers.InMemoryChannelLayer'},
+    }
+else:
     CHANNEL_LAYERS = {
         'default': {
             'BACKEND': 'channels_redis.core.RedisChannelLayer',
             'CONFIG': {
-                'hosts': [os.environ.get('CACHE_LOCATION', 'redis://127.0.0.1:6379/0')],
+                'hosts': [CACHE_LOCATION],
                 'capacity': 1500,
                 'expiry': 30,
             },
         },
-    }
-else:
-    CHANNEL_LAYERS = {
-        'default': {'BACKEND': 'channels.layers.InMemoryChannelLayer'},
     }
 
 # Database - MySQL in production, SQLite only when explicitly requested.
@@ -318,6 +328,7 @@ LLM_PROVIDER_KEYS = {
     'gemini': os.environ.get('GEMINI_API_KEY', ''),
     'deepseek': os.environ.get('DEEPSEEK_API_KEY', ''),
     'agentrouter': os.environ.get('AGENTROUTER_API_KEY', ''),
+    'empero': os.environ.get('EMPERO_API_KEY', 'free'),
 }
 
 # LLM call time budget for background-agent official providers (seconds).

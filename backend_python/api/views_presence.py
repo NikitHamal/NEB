@@ -49,10 +49,17 @@ def presence_heartbeat(request):
         from api.models import User
         User.objects.filter(pk=uid).update(last_active=now_ms)
 
-        _REDIS.sadd('presence:online', uid)
-        _REDIS.expire('presence:online', 300)
-        cache.set(f'presence:user:{uid}', now_ms, 300)
-        cache.set(f'presence:user:{uid}:screen', request.data.get('screen', ''), 300)
+        try:
+            _REDIS.sadd('presence:online', uid)
+            _REDIS.expire('presence:online', 300)
+        except Exception:
+            pass
+
+        try:
+            cache.set(f'presence:user:{uid}', now_ms, 300)
+            cache.set(f'presence:user:{uid}:screen', request.data.get('screen', ''), 300)
+        except Exception:
+            pass
 
         return Response({'status': 'ok', 'server_time': now_ms})
     except Exception:

@@ -751,6 +751,10 @@ def _resolve_ws_public_url():
     import glob, re
     log_paths = [
         os.path.join(settings.BASE_DIR, 'ws_url.txt'),
+        # start_ws_tunnel.log is where the CURRENT tunnel starter logs its URL;
+        # cloudflared.log is only written by the @reboot invocation and can be
+        # stale (a dead quick tunnel from a previous boot).
+        '/home/consicac/nebians_api/logs/start_ws_tunnel.log',
         '/home/consicac/nebians_api/logs/cloudflared.log',
     ] + sorted(glob.glob('/tmp/cf_quick*.log'), reverse=True)
     for path in log_paths:
@@ -879,7 +883,14 @@ def _admin_token(request):
     return None
 
 def _is_staff_admin(request):
-    return bool(getattr(request, 'user', None) and request.user.is_authenticated and request.user.is_staff)
+    user = getattr(request, 'user', None)
+    if user and getattr(user, 'is_authenticated', False):
+        if getattr(user, 'is_staff', False) or getattr(user, 'is_superuser', False) or getattr(user, 'is_admin', False):
+            return True
+    session = getattr(request, 'session', None)
+    if session and (session.get('is_staff') or session.get('is_admin')):
+        return True
+    return False
 
 def _require_staff_admin(request):
     return None if _is_staff_admin(request) else redirect('web:admin_login')

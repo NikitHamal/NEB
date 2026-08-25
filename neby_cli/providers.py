@@ -101,6 +101,16 @@ CATALOG = [
         "default_model": "gpt-5.4-mini",
     },
     {
+        "provider": "empero",
+        "label": "Empero (free.empero.org — Qwen3.8 27B free)",
+        "type": "api",
+        "models": [
+            {"id": "Qwen/Qwen3.8-27B-FP8", "name": "Qwen 3.8 27B (FP8)", "desc": "Free hosted · reasoning · 131k"},
+            {"id": "qwen3.8-27b", "name": "Qwen 3.8 27B", "desc": "Alias for Qwen3.8-27B-FP8"},
+        ],
+        "default_model": "Qwen/Qwen3.8-27B-FP8",
+    },
+    {
         "provider": "anthropic",
         "label": "Anthropic (Claude)",
         "type": "api",
@@ -176,6 +186,29 @@ def stream_chat(
     elif provider == "deepseek":
         from .deepseek_provider import stream_chat as deepseek_stream
         yield from deepseek_stream(messages, model=model or "deepseek-v4-flash")
+        return
+
+    elif provider == "empero":
+        from api.llm import client as llm_client
+        target_model = model or "Qwen/Qwen3.8-27B-FP8"
+        try:
+            for chunk in llm_client.chat_stream(
+                format="openai",
+                base_url="https://free.empero.org/v1",
+                api_key="free",
+                model=target_model,
+                messages=messages,
+                provider="empero",
+                max_tokens=8192,
+            ):
+                if chunk.get("type") == "reasoning":
+                    yield {"type": "reasoning", "content": chunk.get("content", "")}
+                elif chunk.get("type") == "text":
+                    yield {"type": "text", "content": chunk.get("content", "")}
+                elif chunk.get("type") == "done":
+                    yield {"type": "done"}
+        except Exception as exc:
+            yield {"type": "error", "error": f"Empero stream error: {exc}"}
         return
 
     # Fallback to Meta AI

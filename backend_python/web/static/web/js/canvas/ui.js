@@ -529,9 +529,19 @@ function openHighlightsViewer(){
     hlFiltered.slice(-30).reverse().forEach(function(h){
       var txt=C.esc(h.text);
       var node=S.nodes.get(h.nodeId);
-      var title=node?C.esc(node.title||node.prompt.slice(0,40)):"Card";
+      if(!node && h.text){
+        var low=h.text.toLowerCase().slice(0,30);
+        S.nodes.forEach(function(n){
+          if(node) return;
+          var c=n.content||{};
+          var allTxt=((c.title||"")+" "+(c.summary||"")+" "+JSON.stringify(c.sections||[])).toLowerCase();
+          if(allTxt.indexOf(low)>-1) node=n;
+        });
+      }
+      var title=node?C.esc(node.title||(node.content&&node.content.title)||node.prompt.slice(0,40)):"Card";
       var dt=new Date(h.at||Date.now()).toLocaleDateString();
-      html+='<div class="cv-suggestion"><div class="cv-suggestion-main"><div class="cv-suggestion-title" style="-webkit-line-clamp:3">'+txt+'</div><div class="cv-suggestion-why">From: '+title+' · '+dt+'</div></div><button data-jump-hl="'+C.esc(h.nodeId)+'" title="Go to card"><span class="material-symbols-outlined">center_focus_strong</span></button></div>';
+      var actualId=(node&&node.id)||h.nodeId||"";
+      html+='<div class="cv-suggestion cv-highlight-jump" data-jump-hl="'+C.esc(actualId)+'" data-hl-text="'+C.esc(h.text)+'" style="cursor:pointer"><div class="cv-suggestion-main"><div class="cv-suggestion-title" style="-webkit-line-clamp:3">'+txt+'</div><div class="cv-suggestion-why">From: '+title+' · '+dt+'</div></div><button data-jump-btn title="Go to card"><span class="material-symbols-outlined">center_focus_strong</span></button></div>';
     });
   }
   if(digFiltered.length){
@@ -542,54 +552,67 @@ function openHighlightsViewer(){
       var c=S.nodes.get(l.childId);
       var pTitle=p?C.esc(p.title||p.prompt.slice(0,30)):"Parent";
       var cTitle=c?C.esc(c.title||c.prompt.slice(0,30)):"Child";
-      html+='<div class="cv-suggestion"><div class="cv-suggestion-main"><div class="cv-suggestion-title" style="-webkit-line-clamp:2">'+txt+'</div><div class="cv-suggestion-why">'+pTitle+' → '+cTitle+'</div></div><button data-jump-hl="'+C.esc(l.childId||l.parentId)+'" title="Open linked card"><span class="material-symbols-outlined">open_in_new</span></button></div>';
+      var targetId=l.childId||l.parentId||"";
+      html+='<div class="cv-suggestion cv-highlight-jump" data-jump-hl="'+C.esc(targetId)+'" data-hl-text="'+C.esc(l.text)+'" style="cursor:pointer"><div class="cv-suggestion-main"><div class="cv-suggestion-title" style="-webkit-line-clamp:2">'+txt+'</div><div class="cv-suggestion-why">'+pTitle+' → '+cTitle+'</div></div><button data-jump-btn title="Open linked card"><span class="material-symbols-outlined">open_in_new</span></button></div>';
     });
   }
   html+='</div>';
-  A.openPanel("Highlights","Your canvas highlights",html);
+  A.openPanel("Highlights","",html);
   setTimeout(function(){
     var body=document.getElementById("cvPanelBody");
     if(!body) return;
-    body.querySelectorAll("[data-jump-hl]").forEach(function(b){
-      b.addEventListener("click", function(){
-        var nid=b.getAttribute("data-jump-hl");
-        if(nid&&S.nodes.has(nid)){
+    body.querySelectorAll(".cv-highlight-jump").forEach(function(row){
+      row.addEventListener("click", function(){
+        var nid=row.getAttribute("data-jump-hl");
+        var hlText=(row.getAttribute("data-hl-text")||"").trim().toLowerCase();
+        var targetNode=S.nodes.get(nid);
+        if(!targetNode && nid){
+          S.nodes.forEach(function(node, key){
+            if(!targetNode && (key===nid || String(key).indexOf(nid)>-1 || String(nid).indexOf(key)>-1)){
+              targetNode=node;
+            }
+          });
+        }
+        if(!targetNode && hlText){
+          var snippet=hlText.slice(0, 30);
+          S.nodes.forEach(function(node){
+            if(targetNode) return;
+            var c=node.content||{};
+            var allTxt=((c.title||"")+" "+(c.summary||"")+" "+JSON.stringify(c.sections||[])).toLowerCase();
+            if(allTxt.indexOf(snippet)>-1){
+              targetNode=node;
+            }
+          });
+        }
+        if(targetNode){
           A.closePanel();
-          var n=S.nodes.get(nid);
-          var el=document.getElementById("node_"+nid);
-          var h=C.state.heights[nid]||420;
+          var targetId=targetNode.id;
+          C.selectNode(targetId);
+          var el=document.getElementById("node_"+targetId);
           var vw=G.viewport.clientWidth, vh=G.viewport.clientHeight;
           var sc=Math.max(.65,Math.min(1.05,C.state.view.scale));
           var w=el&&el.offsetWidth?el.offsetWidth:560;
-          C.animateTo(vw/2-(n.x+w/2)*sc, vh/2-(n.y+h/2)*sc, sc);
-          C.selectNode(nid);
+          var h=(C.state.heights&&C.state.heights[targetId])||(el&&el.offsetHeight)||420;
+          C.animateTo(vw/2-(targetNode.x+w/2)*sc, vh/2-(targetNode.y+h/2)*sc, sc);
+          if(el){
+            el.classList.add("cv-search-hit");
+            setTimeout(function(){ el.classList.remove("cv-search-hit"); }, 1600);
+          }
         } else {
           C.showToast("Card not found on this board");
         }
       });
     });
-  },80);
+  },20);
 }
 if(G.highlightsBtn) G.highlightsBtn.addEventListener("click", openHighlightsViewer);
 (function(){
   var fab=document.getElementById("cvNebyFab");
   if(!fab) return;
-  var avatar=fab.querySelector("[data-neby-avatar]");
-  var fallback=fab.querySelector(".cv-neby-fab-icon");
-  if(avatar){
-    var obs=new MutationObserver(function(){
-      if(avatar.querySelector("canvas, svg")){
-        if(fallback) fallback.style.display="none";
-        avatar.style.display="block";
-        obs.disconnect();
-      }
-    });
-    try{ obs.observe(avatar,{childList:true,subtree:true}); }catch(e){}
-    setTimeout(function(){ if(avatar.querySelector("canvas,svg")&&fallback){ fallback.style.display="none"; avatar.style.display="block"; } },1400);
+  if(window.NebyAvatar&&typeof window.NebyAvatar.init==="function"){
+    window.NebyAvatar.init();
   }
   fab.addEventListener("click", function(){
-    var topBtn=document.getElementById("cvNebyBtn");
-    if(topBtn){ topBtn.click(); return; }
     var A2=window.CanvasAdvanced;
     if(A2&&A2.openNeby) A2.openNeby();
   });

@@ -1,0 +1,11 @@
+__main__.py
+daemon.py
+fsops.py
+setup.py
+term.py
+neby_code.egg-info/PKG-INFO
+neby_code.egg-info/SOURCES.txt
+neby_code.egg-info/dependency_links.txt
+neby_code.egg-info/entry_points.txt
+neby_code.egg-info/requires.txt
+neby_code.egg-info/top_level.txt

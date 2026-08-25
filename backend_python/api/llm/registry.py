@@ -30,7 +30,7 @@ FORMAT_SCRAPER = 'scraper'      # Existing NEBians web proxies (qwen & friends)
 
 OFFICIAL_FORMATS = (FORMAT_OPENAI, FORMAT_ANTHROPIC, FORMAT_GEMINI)
 
-SCRAPER_PROVIDERS = ('qwen', 'egov', 'deepai', 'inception', 'k2think', 'poolside', 'motiftech', 'metaai', 'tryingopen', 'longcat', 'geminiweb')
+SCRAPER_PROVIDERS = ('qwen', 'egov', 'deepai', 'inception', 'k2think', 'poolside', 'motiftech', 'metaai', 'tryingopen', 'longcat', 'geminiweb', 'lazypy', 'googletts', 'moetts', 'kokoro', 'chatterbox', 'fishaudio')
 
 
 @dataclass(frozen=True)
@@ -149,6 +149,37 @@ OFFICIAL_PRESETS: List[ProviderPreset] = [
         context_window=200000,
         key_env='AGENTROUTER_API_KEY',
     ),
+    ProviderPreset(
+        slug='gmi',
+        label='GMI Cloud (MiniMax M3 — free, multimodal)',
+        format=FORMAT_OPENAI,
+        base_url='https://api.gmi-serving.com/v1',
+        default_model='MiniMaxAI/MiniMax-M3',
+        models=[
+            ModelSpec('MiniMaxAI/MiniMax-M3', 'MiniMax M3', 'Multimodal · vision · free on GMI'),
+        ],
+        context_window=200000,
+        max_output_tokens=8192,
+        key_env='GMI_API_KEY',
+        key_required=True,
+        free_note='Free unlimited via GMI Cloud model hub',
+    ),
+    ProviderPreset(
+        slug='empero',
+        label='Empero (free.empero.org — Qwen3.8 27B free)',
+        format=FORMAT_OPENAI,
+        base_url='https://free.empero.org/v1',
+        default_model='Qwen/Qwen3.8-27B-FP8',
+        models=[
+            ModelSpec('Qwen/Qwen3.8-27B-FP8', 'Qwen 3.8 27B (FP8)', 'Free hosted · reasoning · 131k'),
+            ModelSpec('qwen3.8-27b', 'Qwen 3.8 27B', 'Alias for Qwen3.8-27B-FP8'),
+        ],
+        context_window=131072,
+        max_output_tokens=8192,
+        key_env='EMPERO_API_KEY',
+        key_required=False,
+        free_note='Free hosted by Empero (no key needed)',
+    ),
 ]
 
 SCRAPER_PRESETS: List[ProviderPreset] = [
@@ -189,25 +220,25 @@ SCRAPER_PRESETS: List[ProviderPreset] = [
         slug='k2think', label='K2 Think (k2think.ai)', format=FORMAT_SCRAPER,
         base_url='https://www.k2think.ai', default_model='MBZUAI-IFM/K2-Think-v2',
         models=[ModelSpec('MBZUAI-IFM/K2-Think-v2', 'K2 Think V2', 'Reasoning model (MBZUAI)')],
-        context_window=32000, max_output_tokens=6000,
+        context_window=128000, max_output_tokens=8192,
         key_required=False, official=False, scraper_module='k2think_proxy',
     ),
     ProviderPreset(
         slug='poolside', label='Poolside (chat.poolside.ai)', format=FORMAT_SCRAPER,
         base_url='https://chat.poolside.ai', default_model='laguna-s-2.1',
-        models=[ModelSpec('laguna-s-2.1', 'Laguna S 2.1'),
-                ModelSpec('laguna-xs-2.1', 'Laguna XS 2.1')],
-        context_window=32000, max_output_tokens=6000,
+        models=[ModelSpec('laguna-s-2.1', 'Laguna S 2.1', '128K context · agent coding'),
+                ModelSpec('laguna-xs-2.1', 'Laguna XS 2.1', '128K context · fast')],
+        context_window=128000, max_output_tokens=8192,
         key_required=False, official=False, scraper_module='poolside_proxy',
     ),
     ProviderPreset(
         slug='motiftech', label='Motif (chat.motiftech.io)', format=FORMAT_SCRAPER,
         base_url='https://chat.motiftech.io', default_model='motif-102b',
-        models=[ModelSpec('motif-102b', 'Motif 3', 'Flagship (Korean-optimized)'),
-                ModelSpec('motif-12-7b', 'Motif 12.7B'),
-                ModelSpec('motif-12-7b-reasoning', 'Motif 12.7B Reasoning'),
-                ModelSpec('motif-tiny', 'Motif Tiny')],
-        context_window=32000, max_output_tokens=6000,
+        models=[ModelSpec('motif-102b', 'Motif 3', 'Flagship (Korean-optimized) · 128K'),
+                ModelSpec('motif-12-7b', 'Motif 12.7B', '128K context'),
+                ModelSpec('motif-12-7b-reasoning', 'Motif 12.7B Reasoning', 'Deep thinking · 128K'),
+                ModelSpec('motif-tiny', 'Motif Tiny', 'Fast')],
+        context_window=128000, max_output_tokens=8192,
         key_required=False, official=False, scraper_module='motiftech_proxy',
     ),
     ProviderPreset(
@@ -262,6 +293,65 @@ SCRAPER_PRESETS: List[ProviderPreset] = [
         ],
         context_window=32000, max_output_tokens=4000,
         key_required=False, official=False, scraper_module='geminiweb_proxy',
+    ),
+    ProviderPreset(
+        slug='lazypy', label='LazyPy TTS (lazypy.ro — 11 services, Microsoft/Google)', format=FORMAT_SCRAPER,
+        base_url='https://lazypy.ro/tts', default_model='lazypy/bing-translator',
+        models=[
+            ModelSpec('lazypy/bing-translator', 'LazyPy Bing (Microsoft)', '313 voices · 3000 chars · best quality'),
+            ModelSpec('lazypy/google-translate', 'LazyPy Google', '64 voices · 200 chars'),
+            ModelSpec('lazypy/ispeech', 'LazyPy iSpeech', '41 voices · 600 chars'),
+        ],
+        context_window=3000, max_output_tokens=0,
+        key_required=False, official=False, scraper_module='lazypy_proxy',
+    ),
+    ProviderPreset(
+        slug='googletts', label='Google Translate TTS (direct, no proxy)', format=FORMAT_SCRAPER,
+        base_url='https://translate.google.com', default_model='google/translate-en',
+        models=[
+            ModelSpec('google/translate-en', 'Google EN', '200 chars/chunk · unlimited via chunking'),
+            ModelSpec('google/translate-multi', 'Google Multi (64 langs)', 'auto-chunked'),
+        ],
+        context_window=2000, max_output_tokens=0,
+        key_required=False, official=False, scraper_module='google_tts_proxy',
+    ),
+    ProviderPreset(
+        slug='moetts', label='Moe TTS (skytnt/moe-tts — anime)', format=FORMAT_SCRAPER,
+        base_url='https://skytnt-moe-tts.hf.space', default_model='moe/moe-tts',
+        models=[
+            ModelSpec('moe/moe-tts', 'Moe TTS', 'Anime voices · HF Space · free'),
+        ],
+        context_window=1000, max_output_tokens=0,
+        key_required=False, official=False, scraper_module='moe_tts_proxy',
+    ),
+    ProviderPreset(
+        slug='kokoro', label='Kokoro TTS (hexgrad/Kokoro-82M — 82M)', format=FORMAT_SCRAPER,
+        base_url='https://hexgrad-kokoro-tts.hf.space', default_model='kokoro/kokoro-82m',
+        models=[
+            ModelSpec('kokoro/kokoro-82m', 'Kokoro 82M', '82M · 8+ voices · very natural · no signup'),
+            ModelSpec('kokoro/kokoro-82m-af-heart', 'Kokoro Heart', 'af_heart · warm female'),
+            ModelSpec('kokoro/kokoro-82m-af-bella', 'Kokoro Bella', 'af_bella · bright female'),
+        ],
+        context_window=2000, max_output_tokens=0,
+        key_required=False, official=False, scraper_module='kokoro_proxy',
+    ),
+    ProviderPreset(
+        slug='chatterbox', label='Chatterbox TTS (ResembleAI)', format=FORMAT_SCRAPER,
+        base_url='https://resembleai-chatterbox.hf.space', default_model='chatterbox/chatterbox',
+        models=[
+            ModelSpec('chatterbox/chatterbox', 'Chatterbox', 'Expressive · reference audio · no signup'),
+        ],
+        context_window=3000, max_output_tokens=0,
+        key_required=False, official=False, scraper_module='chatterbox_proxy',
+    ),
+    ProviderPreset(
+        slug='fishaudio', label='Fish Audio (fish.audio — S1)', format=FORMAT_SCRAPER,
+        base_url='https://api.fish.audio', default_model='fishaudio/s1',
+        models=[
+            ModelSpec('fishaudio/s1', 'Fish S1', 'High quality · many voices · no signup demo'),
+        ],
+        context_window=2000, max_output_tokens=0,
+        key_required=False, official=False, scraper_module='fish_proxy',
     ),
 ]
 

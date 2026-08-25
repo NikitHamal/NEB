@@ -1,0 +1,323 @@
+/* ==========================================
+   Admin polish — minimal, flat, no fanciness.
+   Scoped to admin surfaces only; never touches the public site.
+   ========================================== */
+
+/* --- Sticky layout fix ---
+   material3 sets body { overflow-y: scroll; overflow-x: hidden } which turns
+   body into a scroll container — that silently disables position:sticky for
+   everything inside (topbar, sidebar). Admin pages opt back out so the html
+   element is the sole scroller again. */
+body.admin-body {
+  overflow: visible;
+}
+
+/* --- Flat surfaces: kill shadows, calm radii --- */
+.admin-content .md-card,
+.admin-content .md-card-elevated {
+  box-shadow: none;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 12px;
+  background: var(--md-surface);
+}
+
+.admin-section-card {
+  border-radius: 12px;
+}
+
+.admin-table-wrap {
+  border-radius: 12px;
+  box-shadow: none;
+}
+
+/* --- Page header --- */
+.admin-page-header h1 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0 0 2px;
+}
+
+.admin-page-header p {
+  margin: 0;
+}
+
+.admin-content h3 {
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+.admin-content h4 {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+/* --- Sidebar: tighter, quieter, properly sticky ---
+   align-self:flex-start stops the flex stretch (a stretched item has no
+   sticky travel); explicit viewport height + overflow makes long nav lists
+   scroll inside the pinned rail. */
+.admin-sidebar {
+  width: 232px;
+  padding: 10px 0;
+  position: sticky;
+  top: 64px;
+  align-self: flex-start;
+  height: calc(100vh - 64px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.admin-sidebar a {
+  padding: 7px 16px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  gap: 10px;
+  border-left: 2px solid transparent;
+}
+
+.admin-sidebar a .material-symbols-outlined {
+  font-size: 18px;
+  color: var(--md-on-surface-variant);
+}
+
+.admin-sidebar a:hover {
+  background: var(--md-surface-container-low);
+  color: var(--md-on-surface);
+}
+
+.admin-sidebar a.active {
+  background: var(--md-surface-container-low);
+  color: var(--md-primary);
+  border-left-color: var(--md-primary);
+  font-weight: 600;
+}
+
+.admin-sidebar a.active .material-symbols-outlined {
+  color: var(--md-primary);
+}
+
+.admin-mobile-nav a {
+  font-size: 0.875rem;
+}
+
+/* --- Forms: consistent compact controls --- */
+.admin-content label {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--md-on-surface-variant);
+  margin-bottom: 12px;
+}
+
+.admin-content label > span,
+.admin-content label > .md-body-small {
+  display: block;
+  font-weight: 400;
+  margin-top: 3px;
+}
+
+.admin-content .md-input,
+.admin-content select.md-input,
+.admin-content textarea.md-input {
+  display: block;
+  width: 100%;
+  min-height: 36px;
+  padding: 7px 10px;
+  margin-top: 4px;
+  font-size: 0.8438rem;
+  font-family: inherit;
+  line-height: 1.45;
+  color: var(--md-on-surface);
+  background: var(--md-surface);
+  border: 1px solid var(--md-outline);
+  border-radius: 8px;
+  box-shadow: none;
+  transition: none;
+}
+
+.admin-content textarea.md-input {
+  min-height: 64px;
+  resize: vertical;
+}
+
+.admin-content .md-input:focus {
+  outline: none;
+  border-color: var(--md-primary);
+  box-shadow: none;
+}
+
+.admin-content .md-input::placeholder {
+  color: var(--md-on-surface-variant);
+  opacity: 0.75;
+}
+
+.admin-content select.md-input {
+  appearance: auto;
+}
+
+/* Inline field rows */
+.admin-field-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+}
+
+.admin-field-row label {
+  margin-bottom: 0;
+}
+
+/* --- Buttons: compact, flat --- */
+.admin-content .md-btn {
+  min-height: 34px;
+  padding: 6px 14px;
+  font-size: 0.8125rem;
+  border-radius: 8px;
+  box-shadow: none;
+  gap: 6px;
+}
+
+.admin-content .md-btn .material-symbols-outlined {
+  font-size: 16px;
+}
+
+.admin-content .md-btn-filled {
+  box-shadow: none;
+}
+
+.admin-content .md-btn[disabled] {
+  opacity: 0.55;
+  cursor: default;
+}
+
+/* --- Tabs: quiet underline instead of pill --- */
+.admin-content .md-tabs {
+  gap: 2px;
+  border-bottom: 1px solid var(--md-outline-variant);
+  margin-bottom: 16px;
+}
+
+.admin-content .md-tab {
+  min-height: 36px;
+  padding: 6px 12px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--md-on-surface-variant);
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.admin-content .md-tab:hover {
+  color: var(--md-on-surface);
+  background: transparent;
+}
+
+.admin-content .md-tab.active {
+  color: var(--md-primary);
+  border-bottom-color: var(--md-primary);
+  background: transparent;
+}
+
+.admin-content .md-tab .material-symbols-outlined {
+  font-size: 16px;
+}
+
+/* --- Status / result lines --- */
+.admin-status-line {
+  font-size: 0.8125rem;
+  color: var(--md-on-surface-variant);
+  min-height: 18px;
+}
+
+.admin-status-line.ok {
+  color: var(--md-primary);
+}
+
+.admin-status-line.err {
+  color: var(--md-error);
+}
+
+/* --- Result previews --- */
+.admin-media-preview {
+  margin-top: 12px;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--md-surface-container-lowest, var(--md-surface));
+}
+
+.admin-media-preview img {
+  display: block;
+  max-width: 100%;
+  max-height: 420px;
+  margin: 0 auto;
+}
+
+.admin-media-preview audio {
+  display: block;
+  width: 100%;
+}
+
+.admin-media-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--md-outline-variant);
+  font-size: 0.75rem;
+  color: var(--md-on-surface-variant);
+}
+
+.admin-media-meta .md-btn {
+  margin-left: auto;
+  min-height: 28px;
+  padding: 3px 10px;
+  font-size: 0.75rem;
+}
+
+/* --- Model reference list --- */
+.admin-model-list {
+  margin: 0;
+  padding-left: 16px;
+  font-size: 0.8125rem;
+  color: var(--md-on-surface-variant);
+  line-height: 1.7;
+}
+
+.admin-model-list code {
+  font-size: 0.75rem;
+  color: var(--md-on-surface);
+}
+
+/* --- Scrollbars --- */
+.admin-sidebar::-webkit-scrollbar,
+.admin-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.admin-sidebar::-webkit-scrollbar-thumb,
+.admin-content::-webkit-scrollbar-thumb {
+  background: var(--md-outline-variant);
+  border-radius: 4px;
+}
+
+/* --- Code inline --- */
+.admin-content code {
+  font-size: 0.8125rem;
+  background: var(--md-surface-container-low);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 5px;
+  padding: 1px 5px;
+}
+
+@media (max-width: 768px) {
+  .admin-sidebar {
+    width: 220px;
+  }
+
+  .admin-field-row {
+    grid-template-columns: 1fr;
+  }
+}

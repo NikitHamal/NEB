@@ -274,6 +274,10 @@
     </div>
 
     <div style="display:flex;align-items:center;gap:10px;">
+      <a href="{{ codebase_download_url }}" class="btn btn-primary" title="Export clean live codebase for external AI agent" style="padding:6px 14px;font-size:0.8125rem;">
+        <span class="material-symbols-outlined" style="font-size:16px;">cloud_download</span>
+        Export Codebase (.ZIP)
+      </a>
       <button type="button" class="btn btn-outline" id="themeToggleBtn" title="Toggle Dark/Light Mode" style="padding:6px 12px;">
         <span class="material-symbols-outlined" id="themeIcon" style="font-size:18px;">light_mode</span>
       </button>
@@ -288,9 +292,9 @@
     <!-- Hero Title -->
     <div class="hero-banner">
       <div>
-        <h1 style="font-size:1.6rem;font-weight:700;letter-spacing:-0.02em;">Exported Workspace Drops</h1>
+        <h1 style="font-size:1.6rem;font-weight:700;letter-spacing:-0.02em;">Bidirectional Agent Workspace</h1>
         <p style="color:var(--text-secondary);font-size:0.875rem;margin-top:4px;">
-          Directly inspect, browse files, and download project archives pushed by Grok, Claude, or Cursor agents.
+          Seamless two-way bridge between external AI agents (Grok, Cursor, Claude) and this codebase: export snapshots & merge drops in one click.
         </p>
       </div>
 
@@ -365,6 +369,16 @@
               <span class="material-symbols-outlined" style="font-size:13px;">hard_drive</span>
               {{ b.size_formatted }}
             </span>
+
+            <form method="post" class="js-confirm-form" data-confirm-msg="Merge all {{ b.file_count }} files from batch '{{ b.batch_id }}' directly into the live codebase?" style="display:inline;margin:0;">
+              {% csrf_token %}
+              <input type="hidden" name="action" value="apply">
+              <input type="hidden" name="batch_id" value="{{ b.batch_id }}">
+              <button type="submit" class="btn btn-outline" style="border-color:rgba(52,211,153,0.4);color:var(--accent-emerald);padding:6px 14px;font-size:0.8125rem;" title="Merge batch files into live codebase">
+                <span class="material-symbols-outlined" style="font-size:16px;">merge</span>
+                Merge into Codebase
+              </button>
+            </form>
 
             <a href="{{ b.download_url }}" class="btn btn-primary" style="padding:6px 14px;font-size:0.8125rem;">
               <span class="material-symbols-outlined" style="font-size:16px;">download</span>

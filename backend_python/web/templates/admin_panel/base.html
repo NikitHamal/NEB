@@ -29,7 +29,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js" nonce="{{ csp_nonce }}"></script>
   {% block extra_css %}{% endblock %}
 </head>
-<body>
+<body class="admin-body">
   <a href="#main-content" class="skip-link">Skip to content</a>
   <!-- Mobile Nav Overlay -->
   <div class="admin-mobile-overlay" id="mobileOverlay" data-action="close-mobile-nav"></div>
@@ -118,6 +118,10 @@
     <a href="{% url 'web:admin_chat' %}" class="{% if active_page == 'chat' %}active{% endif %}">
       <span class="material-symbols-outlined">chat</span>
       AI Chat Test
+    </a>
+    <a href="{% url 'web:admin_media_test' %}" class="{% if active_page == 'media_test' %}active{% endif %}">
+      <span class="material-symbols-outlined">perm_media</span>
+      Media Test
     </a>
     <a href="{% url 'web:admin_study_spaces' %}" class="{% if active_page == 'study_spaces' %}active{% endif %}">
       <span class="material-symbols-outlined">science</span>
@@ -238,6 +242,10 @@
       <a href="{% url 'web:admin_chat' %}" class="{% if active_page == 'chat' %}active{% endif %}">
         <span class="material-symbols-outlined">chat</span>
         AI Chat Test
+      </a>
+      <a href="{% url 'web:admin_media_test' %}" class="{% if active_page == 'media_test' %}active{% endif %}">
+        <span class="material-symbols-outlined">perm_media</span>
+        Media Test
       </a>
       <a href="{% url 'web:admin_study_spaces' %}" class="{% if active_page == 'study_spaces' %}active{% endif %}">
         <span class="material-symbols-outlined">science</span>

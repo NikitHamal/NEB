@@ -59,8 +59,13 @@
   }
 
   SSYjs.prototype.init = function(spaceId, initialContent, userName) {
+    this.initWithChannel('studyspace.' + spaceId, initialContent, userName, spaceId);
+  };
+
+  SSYjs.prototype.initWithChannel = function(channel, initialContent, userName, roomId) {
     var self = this;
-    this.spaceId = spaceId;
+    this.spaceId = roomId || (channel && channel.split('.').slice(1).join('.')) || '';
+    this._channel = channel || ('studyspace.' + this.spaceId);
     this.userName = userName || 'Anonymous';
     if (typeof window.Y === 'undefined') {
       console.warn('SSYjs: Yjs library not loaded');
@@ -112,7 +117,7 @@
       // consumer because it intentionally only relays updates to joined groups.
       self._connected = false;
       try {
-        self.ws.send(JSON.stringify({ action: 'subscribe', channel: 'studyspace.' + self.spaceId }));
+        self.ws.send(JSON.stringify({ action: 'subscribe', channel: self._channel || ('studyspace.' + self.spaceId) }));
       } catch(e) {}
       self.color = pickColor(self.userId || self.clientId || self.spaceId);
     };
@@ -134,7 +139,7 @@
         } else if (msg.type === 'subscribed') {
           self._connected = true;
           self._setStatus(true);
-          try { self.ws.send(JSON.stringify({ action: 'yjs_sync_request', spaceId: self.spaceId, clientId: self.clientId })); } catch(_) {}
+          try { self.ws.send(JSON.stringify({ action: 'yjs_sync_request', spaceId: self.spaceId, channel: self._channel, clientId: self.clientId })); } catch(_) {}
           if (self._pendingUpdates.length) {
             var pending = self._pendingUpdates.splice(0, self._pendingUpdates.length);
             pending.forEach(function(updateB64) {
@@ -142,6 +147,7 @@
                 self.ws.send(JSON.stringify({
                   action: 'yjs_update',
                   spaceId: self.spaceId,
+                  channel: self._channel,
                   update: updateB64,
                   clientId: self.clientId,
                 }));
@@ -256,6 +262,7 @@
       this.ws.send(JSON.stringify({
         action: 'yjs_update',
         spaceId: this.spaceId,
+        channel: this._channel,
         update: updateB64,
         clientId: this.clientId,
       }));
@@ -280,6 +287,7 @@
       this.ws.send(JSON.stringify({
         action: 'yjs_snapshot',
         spaceId: this.spaceId,
+        channel: this._channel,
         update: arrayToBase64(Y.encodeStateAsUpdate(this.doc)),
         clientId: this.clientId
       }));
@@ -299,6 +307,7 @@
       this.ws.send(JSON.stringify({
         action: 'yjs_awareness',
         spaceId: this.spaceId,
+        channel: this._channel,
         clientId: this.clientId,
         state: {
           cursorStart: start,

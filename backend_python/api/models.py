@@ -849,6 +849,7 @@ class BotConfig(models.Model):
         ('gemini', 'Google Gemini (official API)'),
         ('deepseek', 'DeepSeek (official API)'),
         ('agentrouter', 'AgentRouter (proxy/router)'),
+        ('empero', 'Empero (free.empero.org — Qwen 3.8 27B free)'),
     ]
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100, default='Neby', help_text='Display name shown in the admin panel.')
@@ -980,6 +981,7 @@ class ArenaChatSession(models.Model):
         ('inception', 'Inception Labs (Mercury 2)'),
         ('k2think', 'K2 Think (k2think.ai — MBZUAI K2 Think V2)'),
         ('poolside', 'Poolside (chat.poolside.ai — Laguna 2.1)'),
+        ('empero', 'Empero (free.empero.org)'),
     ]
     id = models.CharField(max_length=36, primary_key=True)
     user = models.ForeignKey(
@@ -2314,6 +2316,29 @@ class CanvasSnapshot(models.Model):
         ]
 
 
+class CanvasObject(models.Model):
+    id = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
+    board = models.ForeignKey(CanvasBoard, on_delete=models.CASCADE, related_name='canvas_objects', db_index=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_canvas_objects', null=True, blank=True)
+    obj_type = models.CharField(max_length=24, default='pen', db_index=True)
+    payload = models.TextField(blank=True, default='{}')
+    x = models.FloatField(default=0)
+    y = models.FloatField(default=0)
+    z = models.IntegerField(default=0)
+    created_at = models.BigIntegerField(default=0)
+    updated_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'canvas_objects'
+        ordering = ['z', 'created_at']
+        indexes = [
+            models.Index(fields=['board', 'z'], name='canvas_obj_board_z_idx'),
+        ]
+
+    def __str__(self):
+        return f"{self.obj_type} ({self.board_id})"
+
+
 class PaymentVerification(models.Model):
     """Buyers submit QR payment proof (screenshots & transaction ID) for paid resources/classes.
     Admins verify and approve these payments manually to credit the seller.
@@ -2460,6 +2485,71 @@ class AiFeedback(models.Model):
 
     def __str__(self):
         return f"{self.surface} {self.vote} by {self.user_id}"
+
+
+def _new_code_session_id() -> str:
+    return uuid.uuid4().hex
+
+
+class CodeSession(models.Model):
+    """Neby Code — a remote-controlled local coding agent session.
+
+    The web IDE at /code talks to the user's locally running neby_code
+    daemon over WebSocket; the LLM agent loop runs server-side in the
+    code agent worker and dispatches tool calls (file ops, terminal)
+    to the daemon.
+    """
+    STATUS_IDLE = 'idle'
+    STATUS_QUEUED = 'queued'
+    STATUS_RUNNING = 'running'
+    STATUS_ERROR = 'error'
+
+    id = models.CharField(max_length=32, primary_key=True, default=_new_code_session_id)
+    user_id = models.CharField(max_length=255, blank=True, default='', db_index=True)
+    name = models.CharField(max_length=200, blank=True, default='New session')
+    provider = models.CharField(max_length=40, blank=True, default='')
+    provider_id = models.CharField(max_length=40, blank=True, default='')
+    model = models.CharField(max_length=200, blank=True, default='')
+    effort = models.CharField(max_length=16, blank=True, default='balanced')
+    mode = models.CharField(max_length=16, blank=True, default='agent')
+    status = models.CharField(max_length=16, default=STATUS_IDLE)
+    error = models.TextField(blank=True, default='')
+    workspace_label = models.CharField(max_length=300, blank=True, default='')
+    daemon_info = models.JSONField(null=True, blank=True)
+    cancel_flag = models.BooleanField(default=False)
+    created_at = models.BigIntegerField(default=0)
+    updated_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'code_sessions'
+        ordering = ['-updated_at']
+        indexes = [
+            models.Index(fields=['user_id', '-updated_at']),
+            models.Index(fields=['status', 'updated_at']),
+        ]
+
+    def __str__(self):
+        return f"{self.name} ({self.status})"
+
+
+class CodeMessage(models.Model):
+    """One transcript row of a CodeSession (user/assistant/event)."""
+    id = models.BigAutoField(primary_key=True)
+    session = models.ForeignKey(CodeSession, on_delete=models.CASCADE, related_name='messages')
+    role = models.CharField(max_length=12, default='user')
+    content = models.TextField(blank=True, default='')
+    meta = models.JSONField(null=True, blank=True)
+    created_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'code_messages'
+        ordering = ['created_at', 'id']
+        indexes = [
+            models.Index(fields=['session', 'created_at']),
+        ]
+
+    def __str__(self):
+        return f"{self.role}: {self.content[:40]}"
 
 
 from api.agent_social.models import AgentPersona, AgentAction, AgentApiKey  # noqa: E402,F401

@@ -9,8 +9,8 @@
   ];
   var STROKE_WIDTHS = [2, 4, 8, 14];
   var STICKY_COLORS = ['#fff9c4','#c8e6c9','#bbdefb','#f8bbd0','#e1bee7','#ffe0b2'];
-  var MIN_ZOOM = 0.1;
-  var MAX_ZOOM = 5;
+  var MIN_ZOOM = 0.08;
+  var MAX_ZOOM = 8;
   var GRID_SIZE = 40;
 
   var _board = null;
@@ -143,6 +143,9 @@
     this._bindEvents();
     this._buildToolbar();
     this._startLoop();
+    if (window.CanvasWidgets && !this.widgets) {
+      this.widgets = new window.CanvasWidgets(this);
+    }
     
     // Bind local file input upload handler
     var localInput = document.getElementById('cbLocalFileInput');
@@ -244,10 +247,12 @@
     for (var i = 0; i < this.elements.length; i++) {
       this._drawElement(ctx, this.elements[i], i === this.selectedIdx);
     }
+    if (this.widgets) this.widgets.sync();
 
-    if (this.drawing && this.tool === 'pen' && this.currentPath.length > 1) {
+    if (this.drawing && (this.tool === 'pen' || this.tool === 'highlighter' || this.tool === 'marker') && this.currentPath.length > 1) {
+      ctx.globalAlpha = this.tool === 'highlighter' ? 0.38 : 1;
       ctx.strokeStyle = this.color;
-      ctx.lineWidth = this.strokeWidth / cam.zoom;
+      ctx.lineWidth = (this.tool === 'highlighter' ? 18 : this.strokeWidth) / cam.zoom;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
       ctx.beginPath();
@@ -256,6 +261,7 @@
         ctx.lineTo(this.currentPath[p].x, this.currentPath[p].y);
       }
       ctx.stroke();
+      ctx.globalAlpha = 1;
     }
 
     if (this.drawing && this.shapeStart && (this.tool === 'rect' || this.tool === 'ellipse' || this.tool === 'line' || this.tool === 'arrow')) {
@@ -294,9 +300,14 @@
 
   CollabBoard.prototype._drawElement = function(ctx, el, isSelected) {
     if (!el) return;
+    if (this.widgets && window.CanvasWidgets && window.CanvasWidgets.isHtml(el)) {
+      return;
+    }
     ctx.save();
     switch (el.type) {
-      case 'pen': this._drawPen(ctx, el); break;
+      case 'pen':
+      case 'highlighter':
+      case 'marker': this._drawPen(ctx, el); break;
       case 'rect': this._drawRect(ctx, el); break;
       case 'ellipse': this._drawEllipse(ctx, el); break;
       case 'line': this._drawLine(ctx, el); break;
@@ -313,14 +324,16 @@
 
   CollabBoard.prototype._drawPen = function(ctx, el) {
     if (!el.points || el.points.length < 2) return;
+    ctx.globalAlpha = el.opacity != null ? el.opacity : (el.type === 'highlighter' ? 0.38 : 1);
     ctx.strokeStyle = el.color || '#1f1f1f';
-    ctx.lineWidth = el.lineWidth || 4;
+    ctx.lineWidth = el.lineWidth || (el.type === 'highlighter' ? 18 : 4);
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
     ctx.beginPath();
     ctx.moveTo(el.points[0].x, el.points[0].y);
     for (var i = 1; i < el.points.length; i++) ctx.lineTo(el.points[i].x, el.points[i].y);
     ctx.stroke();
+    ctx.globalAlpha = 1;
   };
 
   CollabBoard.prototype._drawRect = function(ctx, el) {
@@ -800,7 +813,9 @@
   CollabBoard.prototype._getBounds = function(el) {
     if (!el) return null;
     switch (el.type) {
-      case 'pen': {
+      case 'pen':
+      case 'highlighter':
+      case 'marker': {
         if (!el.points || !el.points.length) return null;
         var mnx = Infinity, mny = Infinity, mxx = -Infinity, mxy = -Infinity;
         for (var i = 0; i < el.points.length; i++) {
@@ -811,8 +826,8 @@
         }
         return { x: mnx, y: mny, w: mxx - mnx, h: mxy - mny };
       }
-      case 'rect': case 'ellipse': case 'sticky': case 'image': case 'document_card': case 'ai_card':
-        return { x: el.x, y: el.y, w: el.w || (el.type === 'ai_card' ? 420 : el.type === 'document_card' ? 200 : 160), h: el.h || (el.type === 'ai_card' ? 260 : el.type === 'document_card' ? 64 : 120) };
+      case 'rect': case 'ellipse': case 'sticky': case 'image': case 'document_card': case 'ai_card': case 'widget': case 'file':
+        return { x: el.x, y: el.y, w: el.w || (el.type === 'ai_card' ? 420 : el.type === 'widget' ? 320 : el.type === 'document_card' ? 200 : 160), h: el.h || (el.type === 'ai_card' ? 260 : el.type === 'widget' ? 200 : el.type === 'document_card' ? 64 : 120) };
       case 'text': {
         var tw = (el.text || '').length * (el.fontSize || 16) * 0.6;
         var th = ((el.text || '').split('\n').length) * (el.fontSize || 16) * 1.4;
@@ -947,6 +962,17 @@
 
     this._removeTextInput();
 
+    if (this.tool && this.tool.indexOf('w-') === 0 && window.CanvasWidgets) {
+      var wdg = window.CanvasWidgets.create(this.tool, wp.x, wp.y);
+      wdg.x -= (wdg.w || 280) / 2;
+      wdg.y -= (wdg.h || 180) / 2;
+      this._addElement(wdg);
+      this.tool = 'select';
+      if (this._wheel && this._wheel.setActive) this._wheel.setActive('select');
+      this.dirty = true;
+      return;
+    }
+
     var wpSelect = this._screenToWorld(pos.x, pos.y);
     var hitForMove = this._hitTest(wpSelect.x, wpSelect.y);
     var draggingSelected = hitForMove >= 0 && hitForMove === this.selectedIdx && this.selected && this.tool !== 'eraser' && this.tool !== 'image' && this.tool !== 'pan';
@@ -993,6 +1019,8 @@
         this.dirty = true;
         break;
       case 'pen':
+      case 'highlighter':
+      case 'marker':
         this.drawing = true;
         this.currentPath = [{ x: wp.x, y: wp.y }];
         break;
@@ -1026,6 +1054,7 @@
         CollabBoard.openFilePicker();
         break;
       case 'eraser':
+      case 'lasso':
         this.drawing = true;
         var eidx = this._hitTest(wp.x, wp.y);
         if (eidx >= 0) {
@@ -1056,12 +1085,12 @@
       if (self.yjsInst) self.yjsInst._sendAwareness(Math.round(wp.x), Math.round(wp.y));
     }, 60);
 
-    if (this.drawing && this.tool === 'pen') {
+    if (this.drawing && (this.tool === 'pen' || this.tool === 'highlighter' || this.tool === 'marker')) {
       this.currentPath.push({ x: wp.x, y: wp.y });
       this.dirty = true;
     }
 
-    if (this.drawing && this.tool === 'eraser') {
+    if (this.drawing && (this.tool === 'eraser' || this.tool === 'lasso')) {
       var eidx = this._hitTest(wp.x, wp.y);
       if (eidx >= 0) {
         this._removeElement(eidx);
@@ -1110,15 +1139,18 @@
       return;
     }
 
-    if (this.drawing && this.tool === 'pen' && this.currentPath.length > 1) {
+    if (this.drawing && (this.tool === 'pen' || this.tool === 'highlighter' || this.tool === 'marker') && this.currentPath.length > 1) {
       var cleanPoints = [];
       for (var pIdx = 0; pIdx < this.currentPath.length; pIdx++) {
         var pt = this.currentPath[pIdx];
         cleanPoints.push({ x: Math.round(pt.x * 10) / 10, y: Math.round(pt.y * 10) / 10 });
       }
       this._addElement({
-        type: 'pen', points: cleanPoints,
-        color: this.color, lineWidth: this.strokeWidth, id: this._uid()
+        type: this.tool, points: cleanPoints,
+        color: this.color,
+        lineWidth: this.tool === 'highlighter' ? 18 : (this.tool === 'marker' ? Math.max(this.strokeWidth, 8) : this.strokeWidth),
+        opacity: this.tool === 'highlighter' ? 0.38 : 1,
+        id: this._uid()
       });
     }
 
@@ -1294,6 +1326,11 @@
   };
 
   // ── Element CRUD (synced via Yjs) ──
+
+  CollabBoard.prototype.persist = function() {
+    if (this.selectedIdx >= 0) this._updateElement(this.selectedIdx, this.elements[this.selectedIdx]);
+    else this._scheduleSave();
+  };
 
   CollabBoard.prototype._uid = function() {
     return Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
@@ -1499,106 +1536,51 @@
 
   CollabBoard.prototype._buildToolbar = function() {
     var tb = document.getElementById('cbToolbar');
-    if (!tb) return;
     var self = this;
+    if (!tb) return;
+    tb.classList.remove('rw-hidden-toolbar');
+    tb.innerHTML = '';
+    var Ctor = window.ToolGroups || window.RadialWheel;
+    if (Ctor && !this._wheel) {
+      this._wheel = new Ctor({
+        host: tb,
+        active: this.tool || 'select',
+        onChange: function(id) {
+          self.tool = id === 'file' ? 'image' : id;
+          self.selectedIdx = -1;
+          self.selected = null;
+          self.dirty = true;
+          self._updateCanvasCursor();
+          self._paintWheelDock();
+        }
+      });
+      this._paintWheelDock();
+    }
+  };
 
-    var tools = [
-      { id: 'select', icon: 'near_me', title: 'Select / Move' },
-      { id: 'pan', icon: 'pan_tool', title: 'Pan / Hand' },
-      { sep: true },
-      { id: 'pen', icon: 'draw', title: 'Pen' },
-      { id: 'rect', icon: 'rectangle', title: 'Rectangle' },
-      { id: 'ellipse', icon: 'circle', title: 'Ellipse' },
-      { id: 'line', icon: 'horizontal_rule', title: 'Line' },
-      { id: 'arrow', icon: 'arrow_right_alt', title: 'Arrow' },
-      { sep: true },
-      { id: 'sticky', icon: 'sticky_note_2', title: 'Sticky Note' },
-      { id: 'text', icon: 'text_fields', title: 'Text' },
-      { id: 'image', icon: 'image', title: 'Place File / Image' },
-      { sep: true },
-      { id: 'ai', icon: 'auto_awesome', title: 'Neby AI (Canvas Assistant)' },
-      { sep: true },
-      { id: 'eraser', icon: 'ink_eraser', title: 'Eraser' },
-      { sep: true },
-      { id: 'color', icon: 'palette', title: 'Color' },
-      { id: 'stroke', icon: 'line_weight', title: 'Stroke Width' },
-    ];
-
+  CollabBoard.prototype._paintWheelDock = function() {
+    if (!this._wheel || !this._wheel.setDock) return;
+    var t = this.tool;
+    var drawish = t === 'pen' || t === 'highlighter' || t === 'marker' || t === 'rect' || t === 'ellipse' || t === 'line' || t === 'arrow' || t === 'text';
+    if (!drawish) { this._wheel.setDock(''); return; }
     var html = '';
-    for (var i = 0; i < tools.length; i++) {
-      var t = tools[i];
-      if (t.sep) { html += '<div class="cb-toolbar-sep"></div>'; continue; }
-      var active = t.id === this.tool ? ' cb-active' : '';
-      html += '<button class="cb-tool-btn' + active + '" data-tool="' + t.id + '" title="' + t.title + '">' +
-        '<span class="material-symbols-outlined">' + t.icon + '</span></button>';
-    }
-
-    html += '<div class="cb-color-picker" id="cbColorPicker">';
     for (var c = 0; c < COLORS.length; c++) {
-      var act = COLORS[c] === this.color ? ' cb-swatch-active' : '';
-      html += '<div class="cb-color-swatch' + act + '" data-color="' + COLORS[c] + '" style="background:' + COLORS[c] + '"></div>';
+      html += '<button type="button" class="rw-swatch' + (COLORS[c] === this.color ? ' is-on' : '') + '" data-color="' + COLORS[c] + '" style="background:' + COLORS[c] + '"></button>';
     }
-    html += '</div>';
-
-    html += '<div class="cb-stroke-picker" id="cbStrokePicker">';
     for (var s = 0; s < STROKE_WIDTHS.length; s++) {
-      var sa = STROKE_WIDTHS[s] === this.strokeWidth ? ' cb-stroke-active' : '';
-      html += '<div class="cb-stroke-opt' + sa + '" data-width="' + STROKE_WIDTHS[s] + '"><span style="width:' + Math.min(STROKE_WIDTHS[s] * 2, 20) + 'px;height:' + STROKE_WIDTHS[s] + 'px"></span></div>';
+      html += '<button type="button" class="rw-stroke' + (STROKE_WIDTHS[s] === this.strokeWidth ? ' is-on' : '') + '" data-width="' + STROKE_WIDTHS[s] + '"><i style="width:' + Math.min(STROKE_WIDTHS[s] * 1.6, 16) + 'px;height:' + Math.max(2, STROKE_WIDTHS[s] / 2) + 'px"></i></button>';
     }
-    html += '</div>';
-
-    tb.innerHTML = html;
-
-    tb.addEventListener('click', function(e) {
-      var btn = e.target.closest('[data-tool]');
-      if (btn) {
-        var tid = btn.dataset.tool;
-        if (tid === 'ai') {
-          self.openAiPrompt();
-          return;
-        }
-        if (tid === 'color') {
-          var cp = document.getElementById('cbColorPicker');
-          if (cp) cp.classList.toggle('cb-open');
-          var sp = document.getElementById('cbStrokePicker');
-          if (sp) sp.classList.remove('cb-open');
-          return;
-        }
-        if (tid === 'stroke') {
-          var sp2 = document.getElementById('cbStrokePicker');
-          if (sp2) sp2.classList.toggle('cb-open');
-          var cp2 = document.getElementById('cbColorPicker');
-          if (cp2) cp2.classList.remove('cb-open');
-          return;
-        }
-        self.tool = tid;
-        self.selectedIdx = -1;
-        self.selected = null;
-        self.dirty = true;
-        tb.querySelectorAll('.cb-tool-btn').forEach(function(b) {
-          b.classList.toggle('cb-active', b.dataset.tool === tid);
-        });
-        document.getElementById('cbColorPicker')?.classList.remove('cb-open');
-        document.getElementById('cbStrokePicker')?.classList.remove('cb-open');
-        self._updateCanvasCursor();
-      }
-
-      var swatch = e.target.closest('[data-color]');
-      if (swatch) {
-        self.color = swatch.dataset.color;
-        tb.querySelectorAll('.cb-color-swatch').forEach(function(s) {
-          s.classList.toggle('cb-swatch-active', s.dataset.color === self.color);
-        });
-      }
-
-      var strokeOpt = e.target.closest('[data-width]');
-      if (strokeOpt) {
-        self.strokeWidth = parseInt(strokeOpt.dataset.width, 10);
-        tb.querySelectorAll('.cb-stroke-opt').forEach(function(s) {
-          s.classList.toggle('cb-stroke-active', parseInt(s.dataset.width, 10) === self.strokeWidth);
-        });
-      }
-    });
+    this._wheel.setDock(html);
+    var dock = this._wheel._dock;
+    var self = this;
+    if (dock) {
+      dock.onclick = function(e) {
+        var sw = e.target.closest('[data-color]');
+        if (sw) { self.color = sw.dataset.color; self._paintWheelDock(); }
+        var st = e.target.closest('[data-width]');
+        if (st) { self.strokeWidth = parseInt(st.dataset.width, 10); self._paintWheelDock(); }
+      };
+    }
   };
 
   CollabBoard.prototype._updateCanvasCursor = function() {
