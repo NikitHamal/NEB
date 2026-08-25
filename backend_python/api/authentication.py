@@ -60,8 +60,12 @@ def verify_google_token(id_token: str):
                     last_error = f"Invalid issuer: {issuer}"
                     continue
 
-                logger.info("Google token verified (audience=%s, issuer=%s, email=%s)",
-                            audience, issuer, idinfo.get('email'))
+                logger.info(
+                    "Google token verified (audience=%s, issuer=%s, subject=%s)",
+                    audience,
+                    issuer,
+                    idinfo.get('sub'),
+                )
                 return {
                     'userId': idinfo.get('sub'),
                     'email': idinfo.get('email'),

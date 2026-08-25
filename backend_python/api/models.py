@@ -159,6 +159,23 @@ class User(models.Model):
         return True
 
     @property
+    def profile_complete(self):
+        """Single source of truth for onboarding completeness (role-aware).
+
+        display_name + gender are required for every role; each role then
+        adds its own mandatory field. Explorers need nothing role-specific.
+        """
+        if not self.display_name or not self.gender:
+            return False
+        if self.role == 'student' and not self.class_level:
+            return False
+        if self.role == 'teacher' and not self.teaching_subjects:
+            return False
+        if self.role == 'institution' and not self.school:
+            return False
+        return True
+
+    @property
     def is_anonymous(self):
         return False
 

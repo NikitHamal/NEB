@@ -22,6 +22,7 @@ from .security import (
     verify_password,
     verify_verification_code,
 )
+from .mobile_oauth import issue_mobile_oauth_code
 
 
 def _create_user(**kwargs):
@@ -81,6 +82,37 @@ class PasswordAndCodeSecurityTests(TestCase):
     def test_url_validation_rejects_credentials_in_url(self):
         with self.assertRaises(ValidationError):
             validate_external_https_url('https://user:pass@example.com/file.pdf')
+
+
+class MobileOAuthExchangeTests(TestCase):
+    def test_exchange_code_returns_token_once(self):
+        code = issue_mobile_oauth_code('raw-token', True, 'new-user')
+
+        response = self.client.post(
+            '/api/auth/mobile/exchange/',
+            {'code': code},
+            content_type='application/json',
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()['authToken'], 'raw-token')
+        self.assertTrue(response.json()['isNewUser'])
+        self.assertEqual(response.json()['username'], 'new-user')
+
+        replay = self.client.post(
+            '/api/auth/mobile/exchange/',
+            {'code': code},
+            content_type='application/json',
+        )
+        self.assertEqual(replay.status_code, 400)
+
+    def test_exchange_rejects_missing_code(self):
+        response = self.client.post(
+            '/api/auth/mobile/exchange/',
+            {},
+            content_type='application/json',
+        )
+
+        self.assertEqual(response.status_code, 400)
 
 
 class AdminAndPrivacyRegressionTests(TestCase):
@@ -152,7 +184,12 @@ class AdminAndPrivacyRegressionTests(TestCase):
 class UserProfileTests(TestCase):
     def setUp(self):
         self.client = Client()
-        self.user = _create_user(display_name='Test', gender='Other', class_level='12')
+        self.user = _create_user(
+            display_name='Test',
+            gender='Other',
+            class_level='12',
+            email_verified=True,
+        )
         self.auth_header = {'HTTP_AUTHORIZATION': f'Bearer {self.user.auth_token}'}
 
     def test_profile_update_requires_auth(self):
@@ -187,6 +224,23 @@ class UserProfileTests(TestCase):
             **self.auth_header,
         )
         self.assertEqual(response.status_code, 400)
+
+    def test_profile_update_rejects_unverified_email_change(self):
+        response = self.client.post(
+            '/api/users/profile/',
+            {
+                'username': self.user.username,
+                'dob': '2005-06-15',
+                'email': 'replacement@example.test',
+            },
+            content_type='application/json',
+            **self.auth_header,
+        )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json()['error'], 'Email changes require verification')
+        self.user.refresh_from_db()
+        self.assertNotEqual(self.user.email, 'replacement@example.test')
 
     def test_username_conflict_returns_409(self):
         other_user = _create_user(username='takenname')

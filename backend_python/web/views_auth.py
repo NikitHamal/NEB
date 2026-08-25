@@ -7,6 +7,7 @@ from api.background_agent.oauth import (
     exchange_and_store as store_background_agent_github,
     parse_state as parse_background_agent_state,
 )
+from api.mobile_oauth import issue_mobile_oauth_code
 from .background_agent_auth import SESSION_KEY as BACKGROUND_AGENT_ADMIN_SESSION_KEY
 
 
@@ -16,6 +17,12 @@ class DeepLinkRedirect(HttpResponseRedirect):
 
 def deep_link(url):
     return DeepLinkRedirect(url)
+
+
+def _mobile_auth_redirect(auth_token, is_new_user, username, profile_complete=None):
+    code = issue_mobile_oauth_code(auth_token, is_new_user, username, profile_complete)
+    return deep_link(f'nebians://auth-callback?code={code}')
+
 
 def login_page(request):
     if api.get_session_token(request):
@@ -56,7 +63,7 @@ def google_auth(request):
             token = email_auth_token
             user_data = _normalize_user_data(UserSerializer(user).data)
             user_data['isNewUser'] = data.get('emailUser', {}).get('isNewUser', False)
-            profile_incomplete = not user.display_name or not user.gender or not user.class_level
+            profile_incomplete = not user.profile_complete
             user_data['profileIncomplete'] = data.get('emailUser', {}).get('profileIncomplete', profile_incomplete)
             api.set_session_auth(request, token, user_data)
             return JsonResponse({'status': 'success', 'user': user_data, 'isNewUser': user_data.get('isNewUser', False), 'profileIncomplete': user_data.get('profileIncomplete', False)})
@@ -84,7 +91,7 @@ def google_auth(request):
         user_data['isNewUser'] = False
         api.set_session_auth(request, token, user_data)
         logger.info('google_auth: existing user signed in: %s', db_user.username or db_user.id)
-        return JsonResponse({'status': 'success', 'user': user_data, 'isNewUser': False})
+        return JsonResponse({'status': 'success', 'user': user_data, 'isNewUser': False, 'profileIncomplete': not db_user.profile_complete})
     except User.DoesNotExist:
         pass
     if email:
@@ -95,7 +102,7 @@ def google_auth(request):
             user_data['isNewUser'] = False
             api.set_session_auth(request, token, user_data)
             logger.info('google_auth: linked %s to existing user %s (email=%s)', user_id, existing.id, email)
-            return JsonResponse({'status': 'success', 'user': user_data, 'isNewUser': False})
+            return JsonResponse({'status': 'success', 'user': user_data, 'isNewUser': False, 'profileIncomplete': not existing.profile_complete})
         except User.DoesNotExist:
             pass
     auth_token = User.generate_token()
@@ -200,7 +207,7 @@ def google_oauth_callback(request):
         api.set_session_auth(request, token, user_data)
         logger.info('google_oauth_callback: existing user signed in: %s', db_user.username or db_user.id)
         if is_mobile:
-            return deep_link(f'nebians://auth-callback?authToken={token}&isNewUser=false&username={db_user.username}')
+            return _mobile_auth_redirect(token, False, db_user.username, db_user.profile_complete)
         if next_url:
             return redirect(next_url)
         return redirect('web:home')
@@ -211,11 +218,10 @@ def google_oauth_callback(request):
         if is_mobile:
             linked_token = api.get_session_token(request) or ''
             linked_user = User.objects.get(email__iexact=email)
-            return deep_link(f'nebians://auth-callback?authToken={linked_token}&isNewUser=false&username={linked_user.username}')
+            return _mobile_auth_redirect(linked_token, False, linked_user.username, linked_user.profile_complete)
         if next_url:
             return redirect(next_url)
         return redirect_result
-    auth_token = User.generate_token()
     temp_username = f"user_{user_id[:8]}"
     db_user = User(
         pk=user_id,
@@ -226,15 +232,14 @@ def google_oauth_callback(request):
         email_verified=True,
         created_at=now_ms()
     )
-    db_user.auth_token = hash_auth_token(auth_token)
     db_user.save()
-    token = auth_token
+    token = issue_auth_token(db_user)
     user_data = _normalize_user_data(UserSerializer(db_user).data)
     user_data['isNewUser'] = True
     api.set_session_auth(request, token, user_data)
     logger.info('google_oauth_callback: new user created: %s (temp_username=%s)', user_id, temp_username)
     if is_mobile:
-        return deep_link(f'nebians://auth-callback?authToken={auth_token}&isNewUser=true&username={temp_username}')
+        return _mobile_auth_redirect(token, True, temp_username, False)
     if next_url:
         return redirect(f"{reverse('web:edit_profile')}?next={next_url}")
     return redirect('web:edit_profile')
@@ -375,7 +380,7 @@ def github_callback(request):
         api.set_session_auth(request, token, user_data)
         logger.info('github_callback: existing user signed in: %s', db_user.username or db_user.id)
         if is_mobile:
-            return deep_link(f'nebians://auth-callback?authToken={token}&isNewUser=false&username={db_user.username}')
+            return _mobile_auth_redirect(token, False, db_user.username, db_user.profile_complete)
         if next_url:
             return redirect(next_url)
         return redirect('web:home')
@@ -386,11 +391,10 @@ def github_callback(request):
         if is_mobile:
             linked_token = api.get_session_token(request) or ''
             linked_user = User.objects.get(email__iexact=email)
-            return deep_link(f'nebians://auth-callback?authToken={linked_token}&isNewUser=false&username={linked_user.username}')
+            return _mobile_auth_redirect(linked_token, False, linked_user.username, linked_user.profile_complete)
         if next_url:
             return redirect(next_url)
         return redirect_result
-    auth_token = User.generate_token()
     temp_username = f"github_{github_id[:8]}"
     base_username = temp_username
     suffix = 1
@@ -406,15 +410,14 @@ def github_callback(request):
         email_verified=True,
         created_at=now_ms(),
     )
-    db_user.auth_token = hash_auth_token(auth_token)
     db_user.save()
-    token = auth_token
+    token = issue_auth_token(db_user)
     user_data = _normalize_user_data(UserSerializer(db_user).data)
     user_data['isNewUser'] = True
     api.set_session_auth(request, token, user_data)
     logger.info('github_callback: new user created: %s', user_pk)
     if is_mobile:
-        return deep_link(f'nebians://auth-callback?authToken={auth_token}&isNewUser=true&username={temp_username}')
+        return _mobile_auth_redirect(token, True, temp_username, False)
     if next_url:
         return redirect(f"{reverse('web:edit_profile')}?next={next_url}")
     return redirect('web:edit_profile')

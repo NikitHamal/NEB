@@ -6,6 +6,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {# Apply the saved/system theme BEFORE first paint to avoid a light-mode flash for dark users. #}
+  <script nonce="{{ csp_nonce }}">
+    (function () {
+      try {
+        var saved = localStorage.getItem('theme');
+        if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      } catch (e) { /* storage blocked - fall back to server-rendered state */ }
+    })();
+  </script>
   <link rel="icon" type="image/svg+xml" href="{% static 'web/img/favicon.svg' %}">
   <link rel="icon" type="image/png" sizes="192x192" href="{% static 'web/img/n-logo-192.png' %}">
   <link rel="icon" type="image/png" sizes="48x48" href="{% static 'web/img/n-logo-48.png' %}">
@@ -189,7 +200,7 @@
       </a>
 
       <button class="md-btn-icon" data-action="toggle-theme" title="Toggle dark mode" aria-label="Toggle dark mode">
-        <span class="material-symbols-outlined" id="theme-icon">dark_mode</span>
+        <span class="material-symbols-outlined" id="theme-icon">{% if dark_mode %}light_mode{% else %}dark_mode{% endif %}</span>
       </button>
       {% if is_authenticated %}
       <div class="profile-dropdown-container" id="profileDropdown">
@@ -282,6 +293,20 @@
   <!-- HTMX loading indicator -->
   <div id="htmx-loading-bar" class="htmx-loading-bar" style="display:none;"></div>
 
+  {% if profile_nudge %}
+  <div class="profile-nudge-banner" id="profile-nudge-banner" role="status">
+    <span class="material-symbols-outlined" aria-hidden="true">person_celebrate</span>
+    <div class="profile-nudge-copy">
+      <strong>Customize your profile</strong>
+      <span>Add your details so the community knows you. It takes about a minute.</span>
+    </div>
+    <a href="{% url 'web:edit_profile' %}" class="md-btn md-btn-filled profile-nudge-cta">Customize</a>
+    <button type="button" class="profile-nudge-dismiss" data-action="dismiss-profile-nudge" aria-label="Dismiss reminder">
+      <span class="material-symbols-outlined">close</span>
+    </button>
+  </div>
+  {% endif %}
+
   <!-- Main Content -->
   <main class="site-main">
     {% block content %}{% endblock %}
@@ -307,7 +332,7 @@
   {% endblock %}
 
   <!-- Snackbar container -->
-  <div id="snackbar-container"></div>
+  <div id="snackbar-container" role="status" aria-live="polite"></div>
 
   <!-- Neby AI Assistant (home + library only) -->
   {% if request.path == '/' or '/library' in request.path %}
@@ -421,6 +446,15 @@
         localStorage.setItem('theme', isDark ? 'light' : 'dark');
         fetch('/ajax/theme/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN } });
       },
+      'dismiss-profile-nudge': function () {
+        const banner = document.getElementById('profile-nudge-banner');
+        if (banner) banner.remove();
+        fetch('{% url "web:ajax_profile_nudge_dismiss" %}', {
+          method: 'POST',
+          headers: { 'X-CSRFToken': CSRF_TOKEN },
+          credentials: 'same-origin'
+        }).catch(function () { });
+      },
       'toggle-profile-dropdown': function (el, e) {
         e.stopPropagation();
         const dropdown = document.getElementById('profileDropdown');
@@ -488,12 +522,12 @@
       }
     });
 
+    // Sync the toggle icon with the effective theme; the head script may have
+    // applied a saved/system theme the server-rendered state didn't know about.
     (function () {
-      const saved = localStorage.getItem('theme');
-      if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.setAttribute('data-theme', 'dark');
-        const themeIcon = document.getElementById('theme-icon');
-        if (themeIcon) themeIcon.textContent = 'light_mode';
+      var themeIcon = document.getElementById('theme-icon');
+      if (themeIcon) {
+        themeIcon.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light_mode' : 'dark_mode';
       }
     })();
 
@@ -512,6 +546,61 @@
       }[ch]));
     }
 
+    function sanitizeRenderedHtml(html) {
+      const allowedTags = new Set([
+        'A', 'BLOCKQUOTE', 'BR', 'CODE', 'DEL', 'EM', 'H1', 'H2', 'H3', 'H4',
+        'H5', 'H6', 'HR', 'LI', 'OL', 'P', 'PRE', 'SPAN', 'STRONG', 'TABLE',
+        'TBODY', 'TD', 'TH', 'THEAD', 'TR', 'UL'
+      ]);
+      const removeTags = new Set([
+        'BUTTON', 'EMBED', 'FORM', 'IFRAME', 'INPUT', 'LINK', 'MATH', 'META',
+        'OBJECT', 'SCRIPT', 'STYLE', 'SVG'
+      ]);
+      const template = document.createElement('template');
+      template.innerHTML = String(html || '');
+      template.content.querySelectorAll('*').forEach(function (element) {
+        if (removeTags.has(element.tagName)) {
+          element.remove();
+          return;
+        }
+        if (!allowedTags.has(element.tagName)) {
+          element.replaceWith(...element.childNodes);
+          return;
+        }
+        Array.from(element.attributes).forEach(function (attribute) {
+          const name = attribute.name.toLowerCase();
+          if (element.tagName === 'A' && ['href', 'target', 'rel', 'title', 'class'].includes(name)) return;
+          if (element.tagName === 'SPAN' && name === 'class') return;
+          if (element.tagName === 'CODE' && name === 'class') return;
+          element.removeAttribute(attribute.name);
+        });
+        if (element.tagName === 'A') {
+          const href = String(element.getAttribute('href') || '').trim();
+          let safeHref = '';
+          if (href.startsWith('/') || href.startsWith('#')) {
+            safeHref = href;
+          } else {
+            try {
+              const parsed = new URL(href, window.location.origin);
+              if (parsed.protocol === 'https:' || parsed.protocol === 'mailto:') safeHref = parsed.href;
+            } catch (e) {}
+          }
+          if (safeHref) element.setAttribute('href', safeHref);
+          else element.removeAttribute('href');
+          if (element.getAttribute('target') !== '_blank') element.removeAttribute('target');
+          if (element.getAttribute('target') === '_blank') element.setAttribute('rel', 'noopener noreferrer');
+          const linkClass = element.getAttribute('class');
+          if (linkClass !== 'fp-mention') element.removeAttribute('class');
+        } else if (element.tagName === 'SPAN') {
+          if (element.getAttribute('class') !== 'mention-all') element.removeAttribute('class');
+        } else if (element.tagName === 'CODE') {
+          const codeClass = element.getAttribute('class') || '';
+          if (!/^language-[a-z0-9_-]+$/i.test(codeClass)) element.removeAttribute('class');
+        }
+      });
+      return template.innerHTML;
+    }
+
     function renderMarkdown(text) {
       if (!text) return '';
       if (typeof marked !== 'undefined') {
@@ -528,13 +617,13 @@
           }
           return html;
         };
-        return marked.parse(text, { breaks: true, gfm: true, renderer: renderer });
+        return sanitizeRenderedHtml(marked.parse(text, { breaks: true, gfm: true, renderer: renderer }));
       }
       let s = escapeHtml(text);
       s = s.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
       s = s.replace(/(?<!\w)\*(.+?)\*(?!\w)/g, '<em>$1</em>');
       s = s.replace(/\n/g, '<br>');
-      return s;
+      return sanitizeRenderedHtml(s);
     }
 
     function safeClientUrl(value) {
@@ -602,6 +691,8 @@
       const host = document.getElementById('toast-host') || (function () {
         const h = document.createElement('div');
         h.id = 'toast-host';
+        h.setAttribute('role', 'status');
+        h.setAttribute('aria-live', 'polite');
         h.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:9999;display:flex;flex-direction:column;gap:8px;';
         document.body.appendChild(h);
         return h;
@@ -733,6 +824,21 @@
         ['other', 'Other']
       ];
 
+      // Keep Tab cycling inside the dialog while it is open; Escape closes it.
+      function trapFocus(container, event) {
+        var focusables = container.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        if (!focusables.length) return;
+        var first = focusables[0];
+        var last = focusables[focusables.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
+
       function ensureReportModal() {
         var existing = document.getElementById('global-report-modal');
         if (existing) return existing;
@@ -770,6 +876,15 @@
           }
           if (event.target.closest && event.target.closest('[data-action="global-report-submit"]')) {
             submitReportDialog();
+          }
+        });
+        modal.addEventListener('keydown', function (event) {
+          if (event.key === 'Escape') {
+            event.stopPropagation();
+            closeReportDialog();
+          } else if (event.key === 'Tab') {
+            var dialog = modal.querySelector('[role="dialog"]');
+            if (dialog) trapFocus(dialog, event);
           }
         });
         return modal;
@@ -869,7 +984,7 @@
     });
 
   </script>
-  <script nonce="{{ csp_nonce }}" src="{% load static %}{% static 'web/js/realtime.js' %}"></script>
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/realtime.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/ai-widgets.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neby-assist.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neby-avatar.js' %}"></script>
@@ -907,6 +1022,15 @@
       window.renderAllMath(e.detail && e.detail.target ? e.detail.target : document.body);
     });
   </script>
+  {% if messages %}
+  <script nonce="{{ csp_nonce }}">
+    document.addEventListener('DOMContentLoaded', function () {
+      {% for message in messages %}
+      showSnackbar("{{ message|escapejs }}", 4000);
+      {% endfor %}
+    });
+  </script>
+  {% endif %}
   {% block extra_js %}{% endblock %}
 </body>
 

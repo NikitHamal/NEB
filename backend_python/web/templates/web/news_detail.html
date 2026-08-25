@@ -137,7 +137,7 @@
   z-index: 101;
   background: var(--md-surface-container-high);
   border-radius: 20px 20px 0 0;
-  padding: 8px 0 24px;
+  padding: 8px 0 calc(24px + env(safe-area-inset-bottom, 0px));
   animation: slideUp 0.2s ease;
 }
 @keyframes slideUp {
@@ -208,7 +208,7 @@
     </div>
     {% endif %}
 
-    <div class="news-detail-content md-content" id="news-content">{{ announcement.content|safe }}</div>
+    <div class="news-detail-content md-content" id="news-content">{{ announcement.content_html|safe }}</div>
 
     <div class="news-share-bottom">
       <button class="md-btn md-btn-outlined" id="share-btn" data-action="share-news" data-url="{{ request.build_absolute_uri }}" data-title="{{ announcement.title }}">
@@ -272,15 +272,15 @@
 
 <!-- More options bottom sheet -->
 <div id="more-menu-overlay" class="more-menu-overlay" style="display:none" onclick="closeMoreMenu()"></div>
-<div id="more-menu-sheet" class="more-menu-sheet" style="display:none">
+<div id="more-menu-sheet" class="more-menu-sheet" role="dialog" aria-modal="true" aria-label="Article options" style="display:none">
   <div class="more-menu-handle"></div>
-  <button class="more-menu-item" onclick="shareNews(); closeMoreMenu();">
+  <button type="button" class="more-menu-item" onclick="shareNews(); closeMoreMenu();">
     <span class="material-symbols-outlined">share</span> Share
   </button>
-  <button class="more-menu-item" onclick="bookmarkNews(); closeMoreMenu();">
+  <button type="button" class="more-menu-item" id="sheet-bookmark-btn" data-target-type="announcement" data-target-id="{{ announcement.id }}" onclick="bookmarkNews(this); closeMoreMenu();">
     <span class="material-symbols-outlined">bookmark</span> Bookmark
   </button>
-  <button class="more-menu-item" onclick="reportNews(); closeMoreMenu();">
+  <button type="button" class="more-menu-item" onclick="reportNews(); closeMoreMenu();">
     <span class="material-symbols-outlined">flag</span> Report
   </button>
 </div>
@@ -291,23 +291,6 @@
 (function() {
   var IS_AUTH = {{ user.is_authenticated|yesno:"true,false" }};
   var SLUG = '{{ announcement.slug }}';
-
-  var content = document.getElementById('news-content');
-  if (content) {
-    var raw = content.textContent.trim();
-    if (raw && typeof marked !== 'undefined') {
-      var renderer = new marked.Renderer();
-      var origLink = renderer.link.bind(renderer);
-      renderer.link = function(token) {
-        var html = origLink(token);
-        if (token.href && !token.href.startsWith('/') && !token.href.startsWith(window.location.origin)) {
-          return html.replace('<a ', '<a target="_blank" rel="noopener noreferrer" ');
-        }
-        return html;
-      };
-      content.innerHTML = marked.parse(raw, { breaks: true, gfm: true, renderer: renderer });
-    }
-  }
 
   function shareNews() {
     var url = window.location.href;
@@ -320,20 +303,53 @@
       }).catch(function() { showSnackbar('Could not copy link'); });
     }
   }
-  function bookmarkNews() {
-    showSnackbar('Bookmarking coming soon');
+
+  function bookmarkNews(btn) {
+    if (!IS_AUTH) { window.location.href = '{% url "web:login" %}'; return; }
+    fetch('/ajax/bookmark/toggle/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+      credentials: 'same-origin',
+      body: JSON.stringify({ target_type: btn.dataset.targetType, target_id: btn.dataset.targetId })
+    }).then(function(r) { return r.json(); }).then(function(data) {
+      if (data.error) { showSnackbar(data.error); return; }
+      showSnackbar(data.isBookmarked ? 'Bookmarked' : 'Bookmark removed');
+    }).catch(function() { showSnackbar('Something went wrong'); });
   }
+
   function reportNews() {
-    showSnackbar('Reporting coming soon');
+    if (!IS_AUTH) { window.location.href = '{% url "web:login" %}'; return; }
+    if (window.openReportDialog) window.openReportDialog('announcement', '{{ announcement.id }}');
   }
+
   function closeMoreMenu() {
     document.getElementById('more-menu-overlay').style.display = 'none';
-    document.getElementById('more-menu-sheet').style.display = 'none';
+    var sheet = document.getElementById('more-menu-sheet');
+    sheet.style.display = 'none';
+    document.removeEventListener('keydown', sheetKeyHandler, true);
+  }
+
+  function trapSheetFocus(e) {
+    var sheet = document.getElementById('more-menu-sheet');
+    var focusables = sheet.querySelectorAll('button, [href]');
+    if (!focusables.length) return;
+    var first = focusables[0], last = focusables[focusables.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
+
+  function sheetKeyHandler(e) {
+    if (e.key === 'Escape') { e.stopPropagation(); closeMoreMenu(); }
+    else if (e.key === 'Tab') trapSheetFocus(e);
   }
 
   document.getElementById('news-more-btn')?.addEventListener('click', function() {
     document.getElementById('more-menu-overlay').style.display = 'block';
-    document.getElementById('more-menu-sheet').style.display = 'block';
+    var sheet = document.getElementById('more-menu-sheet');
+    sheet.style.display = 'block';
+    document.addEventListener('keydown', sheetKeyHandler, true);
+    var firstBtn = sheet.querySelector('.more-menu-item');
+    if (firstBtn) firstBtn.focus();
   });
 
   document.getElementById('share-btn')?.addEventListener('click', function(e) {

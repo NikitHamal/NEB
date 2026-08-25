@@ -232,7 +232,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!data || !data.post_id || data.isThumbedUp === undefined) return;
     const icon = document.querySelector('.forum-post-card[data-post-id="' + data.post_id + '"] .like-icon');
     if (icon) {
-      icon.textContent = data.isThumbedUp ? 'thumb_up' : 'thumb_up';
+      icon.textContent = 'thumb_up';
       icon.classList.toggle('material-symbols-filled', data.isThumbedUp);
       icon.classList.toggle('material-symbols-outlined', !data.isThumbedUp);
     }

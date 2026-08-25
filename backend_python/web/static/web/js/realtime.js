@@ -168,9 +168,9 @@
         try {
           var data = JSON.parse(xhr.responseText);
           if (data.ws_url) {
-            baseWsUrl = data.ws_url;
-            var ticket = getTicketFromUrl(wsUrl);
-            wsUrl = baseWsUrl + (ticket ? ticket : '');
+            wsUrl = data.ws_url;
+            var qidx = wsUrl.indexOf('?');
+            baseWsUrl = qidx >= 0 ? wsUrl.substring(0, qidx) : wsUrl;
             if (global.WS_CONFIG) global.WS_CONFIG.url = wsUrl;
             if (document.body) document.body.setAttribute('data-ws-url', wsUrl);
           }
@@ -180,11 +180,6 @@
     };
     xhr.onerror = function () { callback(); };
     xhr.send();
-  }
-
-  function getTicketFromUrl(url) {
-    var idx = url.indexOf('?');
-    return idx >= 0 ? url.substring(idx) : '';
   }
 
   function scheduleReconnect() {

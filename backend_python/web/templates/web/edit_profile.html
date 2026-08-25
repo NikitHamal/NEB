@@ -285,7 +285,11 @@
 
       <div class="form-actions">
         <button type="submit" class="md-btn md-btn-filled">Save Profile</button>
+        {% if profile_incomplete %}
+        <a href="{% url 'web:profile_setup_later' %}" class="md-btn md-btn-text">I'll do this later</a>
+        {% else %}
         <a href="{% url 'web:home' %}" class="md-btn md-btn-text">Cancel</a>
+        {% endif %}
       </div>
     </form>
   </div>

@@ -1,6 +1,18 @@
 """Views Auth extracted from views.py."""
 import uuid
 from .view_helpers import *  # noqa: F401,F403
+from .mobile_oauth import exchange_mobile_oauth_code
+
+
+@api_view(['POST'])
+@throttle_classes([AuthRateThrottle])
+@authentication_classes([])
+@permission_classes([AllowAny])
+def auth_mobile_exchange(request):
+    payload = exchange_mobile_oauth_code(request.data.get('code'))
+    if not payload:
+        return Response({'error': 'Invalid or expired sign-in code'}, status=400)
+    return Response({'status': 'success', **payload})
 
 @api_view(['POST'])
 @permission_classes([AllowAny])

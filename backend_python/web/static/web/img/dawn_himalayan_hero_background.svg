@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 1152" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Dawn over layered Himalayan ridgelines">
+  <defs>
+    <linearGradient id="dh-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#031a4e"/>
+      <stop offset="0.38" stop-color="#06327c"/>
+      <stop offset="0.62" stop-color="#004bd4"/>
+      <stop offset="0.82" stop-color="#2f7ae0"/>
+      <stop offset="1" stop-color="#ffd9a8"/>
+    </linearGradient>
+    <radialGradient id="dh-glow" cx="0.72" cy="0.66" r="0.42">
+      <stop offset="0" stop-color="#ffedb8" stop-opacity="0.95"/>
+      <stop offset="0.35" stop-color="#f9c86b" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#f9c86b" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="dh-far" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7fa7ee" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#5b86d8" stop-opacity="0.55"/>
+    </linearGradient>
+    <linearGradient id="dh-mid" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0058df"/>
+      <stop offset="1" stop-color="#04308f"/>
+    </linearGradient>
+    <linearGradient id="dh-near" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#04308f"/>
+      <stop offset="1" stop-color="#021b54"/>
+    </linearGradient>
+    <linearGradient id="dh-fore" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#021b54"/>
+      <stop offset="1" stop-color="#01133d"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="2048" height="1152" fill="url(#dh-sky)"/>
+
+  <circle cx="1476" cy="758" r="330" fill="url(#dh-glow)"/>
+  <circle cx="1476" cy="758" r="96" fill="#ffe9ad"/>
+  <circle cx="1476" cy="758" r="96" fill="none" stroke="#fff6d8" stroke-opacity="0.55" stroke-width="3"/>
+
+  <g fill="none" stroke="#dce9ff" stroke-opacity="0.5" stroke-width="5" stroke-linecap="round">
+    <path d="M300 250 q26 -22 52 0 q26 -22 52 0"/>
+    <path d="M420 190 q20 -17 40 0 q20 -17 40 0"/>
+    <path d="M1180 160 q18 -15 36 0 q18 -15 36 0"/>
+  </g>
+
+  <path fill="url(#dh-far)" d="M0 700 L180 640 L340 682 L520 596 L700 660 L880 604 L1060 668 L1240 612 L1420 664 L1620 600 L1800 656 L2048 608 L2048 1152 L0 1152 Z"/>
+  <path fill="url(#dh-mid)" opacity="0.94" d="M0 812 L210 748 L400 800 L610 706 L830 782 L1050 720 L1260 792 L1490 716 L1700 786 L1880 744 L2048 776 L2048 1152 L0 1152 Z"/>
+  <g fill="#ffffff" opacity="0.16">
+    <path d="M610 706 l58 -46 l54 46 l-24 -8 l-28 22 l-26 -14 Z"/>
+    <path d="M1050 720 l52 -42 l50 42 l-22 -7 l-25 20 l-24 -13 Z"/>
+    <path d="M1490 716 l56 -45 l52 45 l-23 -8 l-27 21 l-25 -13 Z"/>
+  </g>
+  <path fill="url(#dh-near)" d="M0 946 L240 884 L430 932 L660 852 L900 926 L1140 864 L1380 934 L1640 868 L1860 928 L2048 892 L2048 1152 L0 1152 Z"/>
+  <path fill="url(#dh-fore)" d="M0 1064 C260 1010 520 1078 780 1044 C1040 1010 1300 1080 1560 1050 C1760 1027 1920 1058 2048 1038 L2048 1152 L0 1152 Z"/>
+</svg>

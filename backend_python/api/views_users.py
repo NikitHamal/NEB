@@ -48,7 +48,10 @@ def user_profile_create_or_update(request):
     else:
         user.username = username
 
-    email = data.get('email', '') or user.email or ''
+    submitted_email = str(data.get('email', '') or '').strip()
+    if submitted_email and submitted_email.casefold() != str(user.email or '').casefold():
+        return Response({'error': 'Email changes require verification'}, status=400)
+    email = user.email or ''
     photo_url = data.get('photoUrl', '') or user.photo_url or ''
     if photo_url and not str(photo_url).startswith(request.build_absolute_uri('/media/')):
         try:

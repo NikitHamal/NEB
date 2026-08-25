@@ -271,7 +271,8 @@ def _serialize_resource(r, _uploaded_by_map=None):
         'uploadedByUsername': uploaded_by_username,
         'approvalStatus': r.approval_status, 'approval_status': r.approval_status,
         'isPaid': is_paid, 'is_paid': is_paid,
-        'price': raw_price,
+        # Mobile contract: price is a normalised STRING (mirrors DRF ResourceSerializer).
+        'price': ('%g' % raw_price) if raw_price else '0',
         'priceFormatted': price_formatted, 'price_formatted': price_formatted,
     }
 
@@ -863,6 +864,19 @@ def _ctx(request, **extra):
         separator = '&' if '?' in ws_url else '?'
         ws_url = f'{ws_url}{separator}ticket={ticket}'
     from api.models import NEPAL_DISTRICTS
+    # 'Customize your profile' nudge: only after the user has used
+    # "I'll do this later" once, then on a 7-day snooze cycle until done.
+    profile_nudge = False
+    if token and isinstance(user, dict) and request.session.get('profile_gate_skipped'):
+        try:
+            _nudge_user = User.objects.get(pk=user.get('id'))
+            profile_nudge = (
+                not _nudge_user.profile_complete
+                and now_ms() >= int(request.session.get('profile_nudge_after_ms', 0))
+            )
+        except (User.DoesNotExist, TypeError, ValueError):
+            profile_nudge = False
+
     ctx = {
         'is_authenticated': bool(token),
         'user': user,
@@ -872,6 +886,7 @@ def _ctx(request, **extra):
         'csp_nonce': getattr(request, 'csp_nonce', ''),
         'ws_url': ws_url,
         'nepal_districts': NEPAL_DISTRICTS,
+        'profile_nudge': profile_nudge,
     }
     ctx.update(extra)
     return ctx

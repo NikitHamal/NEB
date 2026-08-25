@@ -83,6 +83,7 @@
   border: 1px solid var(--md-outline-variant);
   border-radius: 24px;
   padding: 8px 16px;
+  min-height: 40px;
   font-size: 0.85rem;
   font-weight: 500;
   color: var(--md-on-surface-variant);
@@ -507,6 +508,7 @@
 
 .news-detail-cover {
   width: 100%;
+  aspect-ratio: 16 / 9;
   max-height: 440px;
   overflow: hidden;
   border-bottom: 1px solid var(--md-outline-variant);
@@ -743,4 +745,25 @@
     width: 16px;
     height: 16px;
   }
+}
+/* -- Pagination -- */
+.news-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.news-page-indicator {
+  font-size: 0.875rem;
+  color: var(--md-on-surface-variant);
+  font-weight: 500;
+}
+
+.news-page-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 40px;
 }

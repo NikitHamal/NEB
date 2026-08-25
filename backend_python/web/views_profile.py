@@ -1,5 +1,6 @@
 """Views Profile extracted from views.py."""
 from .view_helpers import *  # noqa: F401,F403
+from django.contrib import messages
 from api.services import record_username_change
 from api.view_helpers import _profile_incomplete, _can_view_locked_profile
 from api.models import Follow, FollowRequest, NEPAL_DISTRICTS, SocialLink, SocialLinkClick
@@ -878,6 +879,7 @@ def edit_profile(request):
         return redirect(f"{reverse('web:login')}?next={request.get_full_path()}")
     has_password = bool(db_user.password_hash)
     if request.method == 'POST':
+        profile_complete_before_save = db_user.profile_complete
         username = request.POST.get('username', '').strip()
         dob = request.POST.get('dob', '').strip()
         display_name = request.POST.get('display_name', '').strip()
@@ -906,7 +908,10 @@ def edit_profile(request):
             record_username_change(db_user)
         else:
             db_user.username = username
-        db_user.email = request.POST.get('email', '').strip() or db_user.email or ''
+        submitted_email = request.POST.get('email', '').strip()
+        if submitted_email and submitted_email.casefold() != str(db_user.email or '').casefold():
+            return render(request, 'web/edit_profile.html', _ctx(request, error='Email changes require verification.'))
+        db_user.email = submitted_email or db_user.email or ''
         db_user.display_name = display_name or db_user.display_name or ''
         db_user.role = role
         db_user.dob = dob
@@ -949,6 +954,10 @@ def edit_profile(request):
             'created_at': db_user.created_at,
         }
         api.set_session_auth(request, token, updated_data)
+        if profile_complete_before_save and request.session.get('profile_gate_skipped'):
+            messages.success(request, "Profile saved. You're all set!")
+        elif not profile_complete_before_save:
+            messages.success(request, "Profile saved — welcome to NEBians!")
         next_url = request.GET.get('next') or request.POST.get('next')
         if next_url and next_url.startswith('/') and not next_url.startswith('//'):
             return redirect(next_url)
@@ -1127,6 +1136,29 @@ def ajax_toggle_inline_images(request):
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
     return JsonResponse({'status': 'ok', 'enabled': db_user.enable_inline_images})
+
+PROFILE_NUDGE_COOLDOWN_MS = 7 * 24 * 60 * 60 * 1000
+
+
+def _mark_profile_gate_skipped(request):
+    request.session['profile_gate_skipped'] = True
+    request.session['profile_nudge_after_ms'] = now_ms() + PROFILE_NUDGE_COOLDOWN_MS
+
+
+def profile_setup_later(request):
+    """'I'll do this later' escape hatch from the forced onboarding form."""
+    if api.get_session_token(request):
+        _mark_profile_gate_skipped(request)
+    return redirect('web:home')
+
+
+@require_POST
+def ajax_profile_nudge_dismiss(request):
+    """Dismiss the 'Customize your profile' banner and snooze it a cycle."""
+    if not api.get_session_token(request):
+        return JsonResponse({'error': 'Authentication required'}, status=401)
+    _mark_profile_gate_skipped(request)
+    return JsonResponse({'status': 'ok'})
 
 def _require_auth_user(request):
     user_id = _get_user_id(request)

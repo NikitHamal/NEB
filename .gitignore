@@ -79,6 +79,7 @@ local.properties
 
 # Release keystore (stored on GitHub Secrets, not in repo)
 nebians-release.keystore
+consica-code/ccode-release.keystore
 
 # Firebase service accounts
 nebiansnepal-firebase-adminsdk-*.json

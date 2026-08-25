@@ -66,6 +66,8 @@ urlpatterns = [
     path('requests/', views.resource_requests_page, name='resource_requests'),
 
     path('profile/edit/', views.edit_profile, name='edit_profile'),
+    path('profile/setup-later/', views.profile_setup_later, name='profile_setup_later'),
+    path('ajax/profile/nudge-dismiss/', views.ajax_profile_nudge_dismiss, name='ajax_profile_nudge_dismiss'),
     path('credits/', views.credits_page, name='credits'),
     path('settings/', views.settings_page, name='settings'),
     path('my-avatar/', views_avatar.my_avatar, name='my_avatar'),

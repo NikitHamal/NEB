@@ -8,6 +8,20 @@ plugins {
 android {
     namespace = "com.consica.code"
     compileSdk = 36
+    val releaseKeystore = file("${rootProject.projectDir}/ccode-release.keystore")
+    val releaseStorePassword = System.getenv("CCODE_KEYSTORE_PASSWORD")
+        ?: project.findProperty("CCODE_KEYSTORE_PASSWORD") as? String
+    val releaseKeyPassword = System.getenv("CCODE_KEY_PASSWORD")
+        ?: project.findProperty("CCODE_KEY_PASSWORD") as? String
+    val releaseKeyAlias = System.getenv("CCODE_KEY_ALIAS")
+        ?: project.findProperty("CCODE_KEY_ALIAS") as? String
+        ?: "ccode"
+    val releaseRequested = gradle.startParameter.taskNames.any {
+        it.contains("release", ignoreCase = true)
+    }
+    val releaseSigningReady = releaseKeystore.exists()
+        && !releaseStorePassword.isNullOrBlank()
+        && !releaseKeyPassword.isNullOrBlank()
 
     defaultConfig {
         applicationId = "com.consica.code"
@@ -24,24 +38,32 @@ android {
 
     signingConfigs {
         create("release") {
-            storeFile = file("${rootProject.projectDir}/ccode-release.keystore")
-            storePassword = System.getenv("CCODE_KEYSTORE_PASSWORD")
-                ?: project.findProperty("CCODE_KEYSTORE_PASSWORD") as? String ?: "ccode123"
-            keyAlias = "ccode"
-            keyPassword = System.getenv("CCODE_KEY_PASSWORD")
-                ?: project.findProperty("CCODE_KEY_PASSWORD") as? String ?: "ccode123"
+            if (releaseSigningReady) {
+                storeFile = releaseKeystore
+                storePassword = releaseStorePassword
+                keyAlias = releaseKeyAlias
+                keyPassword = releaseKeyPassword
+            }
         }
     }
 
     buildTypes {
         release {
+            if (!releaseSigningReady && releaseRequested) {
+                throw GradleException(
+                    "Consica Code release signing requires ccode-release.keystore, " +
+                        "CCODE_KEYSTORE_PASSWORD, and CCODE_KEY_PASSWORD"
+                )
+            }
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("release")
+            if (releaseSigningReady) {
+                signingConfig = signingConfigs.getByName("release")
+            }
         }
         debug {
             isMinifyEnabled = false

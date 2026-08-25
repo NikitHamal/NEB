@@ -33,8 +33,7 @@ logger = logging.getLogger(__name__)
 def _origin_allowed(origin):
     """Check if a WebSocket Origin header is allowed."""
     if not origin:
-        # Same-origin requests don't send Origin. Allow.
-        return True
+        return False
     try:
         parsed = urlparse(origin)
     except ValueError:
@@ -81,7 +80,11 @@ class OriginValidatorMiddleware:
             if name == b'origin':
                 origin = value.decode('latin-1', errors='replace')
                 break
-        if not _origin_allowed(origin):
+        has_bearer = any(
+            name == b'authorization' and value.lower().startswith(b'bearer ')
+            for name, value in scope.get('headers', [])
+        )
+        if (not origin and not has_bearer) or (origin and not _origin_allowed(origin)):
             logger.warning('WS origin rejected: %r (path=%s)', origin, scope.get('path'))
             await send({'type': 'websocket.close', 'code': 1008})
             return
@@ -110,9 +113,6 @@ class JWTAuthMiddleware(BaseMiddleware):
         # session cookie (if present). We override with the bearer token
         # if Authorization: Bearer <token> is provided. This is the
         # primary auth path for the Android app.
-        # Also check ?token= query param — used when the WS is on a
-        # different domain (e.g. trycloudflare.com) and the browser cannot
-        # send the session cookie cross-domain.
         existing = scope.get('user')
         bearer_user = None
 

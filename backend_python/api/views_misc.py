@@ -404,6 +404,12 @@ def realtime_config(request):
                     continue
         except Exception:
             ws_url = ''
+    user = _get_user_from_request(request)
+    if ws_url and user and 'trycloudflare.com' in ws_url:
+        from django.core.signing import TimestampSigner
+        ticket = TimestampSigner(salt='ws-ticket').sign(str(user.id))
+        separator = '&' if '?' in ws_url else '?'
+        ws_url = f'{ws_url}{separator}ticket={ticket}'
     return Response({'ws_url': ws_url, 'heartbeat_interval': 25})
 
 

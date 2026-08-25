@@ -87,7 +87,7 @@ class BearerCsrfExemptMiddleware:
 
     def __call__(self, request):
         auth = request.META.get('HTTP_AUTHORIZATION', '')
-        if auth.startswith('Bearer '):
+        if request.path.startswith(('/api/', '/ajax/')) and auth.startswith('Bearer '):
             request._dont_enforce_csrf_checks = True
         return self.get_response(request)
 

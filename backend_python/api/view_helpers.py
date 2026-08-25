@@ -85,16 +85,7 @@ MAX_REPORT_DESCRIPTION_LENGTH = 2_000
 
 def _profile_incomplete(user):
     """Check if user profile is missing mandatory fields."""
-    if not user.display_name or not user.gender:
-        return True
-    if user.role == 'student' and not user.class_level:
-        return True
-    if user.role == 'teacher' and not user.teaching_subjects:
-        return True
-    if user.role == 'institution' and not user.school:
-        return True
-    # Explorers have no role-specific required fields.
-    return False
+    return not user.profile_complete
 
 def _is_mutual_follow(viewer, target_user):
     """True when viewer and target follow each other.

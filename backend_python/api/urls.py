@@ -10,11 +10,17 @@ from . import views_wallet
 from . import credit_views
 from . import views_avatar_api
 from . import views_content_images
+from . import views_news as _news_views
 
 urlpatterns = [
+    # News / announcements (public, mobile + web parity)
+    path('news/', _news_views.news_list_api, name='api-news-list'),
+    path('news/<slug:slug>/', _news_views.news_detail_api, name='api-news-detail'),
+    path('news/<slug:slug>/view/', _news_views.news_track_view, name='api-news-view'),
     # Auth
     path('auth/google/', views.auth_google, name='auth-google'),
     path('auth/github/', views.auth_github, name='auth-github'),
+    path('auth/mobile/exchange/', views.auth_mobile_exchange, name='auth-mobile-exchange'),
     path('auth/email/signup/', views.auth_email_signup, name='auth-email-signup'),
     path('auth/email/verify/', views.auth_email_verify, name='auth-email-verify'),
     path('auth/email/resend/', views.auth_email_resend, name='auth-email-resend'),

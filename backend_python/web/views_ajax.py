@@ -2,6 +2,7 @@
 from django.views.decorators.http import require_http_methods
 
 from .view_helpers import *  # noqa: F401,F403
+from api.models import Announcement
 from api.view_helpers import _can_view_locked_profile
 from api.security import POST_IMAGE_MAX_COUNT, validate_forum_attachments
 from django.core.exceptions import ValidationError
@@ -259,7 +260,7 @@ def ajax_bookmark_toggle(request):
         return JsonResponse({'error': 'Invalid request'}, status=400)
     target_type = data.get('target_type', '').strip()
     target_id = data.get('target_id', '').strip()
-    if target_type not in ('post', 'reply', 'resource'):
+    if target_type not in ('post', 'reply', 'resource', 'announcement'):
         return JsonResponse({'error': 'Invalid target type'}, status=400)
     if not target_id:
         return JsonResponse({'error': 'target_id required'}, status=400)
@@ -272,6 +273,9 @@ def ajax_bookmark_toggle(request):
     elif target_type == 'resource':
         if not Resource.objects.filter(pk=target_id).exists():
             return JsonResponse({'error': 'Resource not found'}, status=404)
+    elif target_type == 'announcement':
+        if not Announcement.objects.filter(pk=target_id).exists():
+            return JsonResponse({'error': 'Article not found'}, status=404)
     existing = Bookmark.objects.filter(user=user, target_type=target_type, target_id=target_id).first()
     if existing:
         existing.delete()
@@ -329,7 +333,7 @@ def ajax_report(request):
     target_id = str(data.get('target_id', '') or '').strip()
     reason = str(data.get('reason', 'other') or 'other').strip()
     description = str(data.get('description', '') or '').strip()
-    valid_types = {'post', 'reply', 'user', 'resource'}
+    valid_types = {'post', 'reply', 'user', 'resource', 'announcement'}
     if target_type not in valid_types:
         return JsonResponse({'error': 'Invalid target type'}, status=400)
     if not target_id:
@@ -342,6 +346,7 @@ def ajax_report(request):
         'reply': lambda pk: Reply.objects.filter(pk=pk).exists(),
         'user': lambda pk: User.objects.filter(pk=pk).exists(),
         'resource': lambda pk: Resource.objects.filter(pk=pk).exists(),
+        'announcement': lambda pk: Announcement.objects.filter(pk=pk).exists(),
     }[target_type](target_id)
     if not target_exists:
         return JsonResponse({'error': 'Reported target no longer exists'}, status=404)

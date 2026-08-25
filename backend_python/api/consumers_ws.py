@@ -42,6 +42,7 @@ Optimizations:
 import asyncio
 import json
 import logging
+import secrets
 import time
 from collections import deque
 from typing import Set
@@ -187,7 +188,9 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
     def _can_see_study_space(self, space_id: str) -> bool:
         from api.models import StudySpace, StudySpaceMember, StudySpaceShare
         try:
-            s = StudySpace.objects.only('id', 'user_id', 'visibility', 'share_mode', 'shared_at').get(pk=space_id)
+            s = StudySpace.objects.only(
+                'id', 'user_id', 'visibility', 'share_mode', 'share_token', 'shared_at'
+            ).get(pk=space_id)
         except StudySpace.DoesNotExist:
             return False
 
@@ -195,9 +198,12 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
         if s.visibility == getattr(StudySpace, 'VISIBILITY_PUBLIC', 'public'):
             return True
 
-        # Link-shared spaces are readable/subscribable by anyone with the link
+        # Link-shared spaces require the share token established by the HTTP view.
         if s.share_mode == getattr(StudySpace, 'SHARE_LINK', 'link') and s.shared_at:
-            return True
+            session = self.scope.get('session')
+            session_token = session.get(f'space_token_{s.id}') if session is not None else None
+            if session_token and secrets.compare_digest(str(session_token), str(s.share_token)):
+                return True
 
         if not self._user_id:
             return False
@@ -526,8 +532,8 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
         version = int(msg.get('version') or 0)
         if not space_id or not isinstance(content, str):
             return
-        if len(content) > 20000000:
-            await self._send_json({'type': 'error', 'code': 'note_too_large', 'message': 'Note exceeds 20M chars'})
+        if len(content) > 500000:
+            await self._send_json({'type': 'error', 'code': 'note_too_large', 'message': 'Note exceeds 500K chars'})
             return
         # Save to Redis for fast cross-worker access
         cache.set(f'studynote:content:{space_id}', content, timeout=86400)

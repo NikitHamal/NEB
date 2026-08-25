@@ -59,11 +59,18 @@ def manifest_json(request):
 
 def home(request):
     token = api.get_session_token(request)
-    if token:
-        user_data = api.get_session_user(request)
-        if user_data and (not user_data.get('display_name') or not user_data.get('gender') or not user_data.get('class_level')):
-            return redirect('web:edit_profile')
     user_id = _get_user_id(request)
+    # Role-aware onboarding gate: force the profile form once per session
+    # until the server-side completeness check passes. "I'll do this later"
+    # sets profile_gate_skipped so the user keeps browsing; a timed nudge
+    # banner takes over from there.
+    if token and user_id and not request.session.get('profile_gate_skipped'):
+        try:
+            gate_user = User.objects.get(id=user_id)
+            if not gate_user.profile_complete:
+                return redirect('web:edit_profile')
+        except User.DoesNotExist:
+            pass
     
     hero_bg_filename = cache.get('active_hero_background_filename')
     if hero_bg_filename is None:

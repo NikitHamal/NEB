@@ -39,16 +39,15 @@ Open the `consica-code/` folder in Android Studio, or:
 
 ```bash
 cd consica-code
-./gradlew assembleRelease   # signed with the bundled dev keystore
+./gradlew assembleRelease
 ./gradlew assembleDebug
 ```
 
 ### Signing
 
-A development/release keystore is bundled at `ccode-release.keystore`
-(PKCS12, alias `ccode`, password `ccode123`) so the project builds out of the box
-and produces reproducible signed APKs in CI. Override via env vars
-`CCODE_KEYSTORE_PASSWORD` / `CCODE_KEY_PASSWORD` for production use.
+Release signing requires `ccode-release.keystore` outside version control plus
+`CCODE_KEYSTORE_PASSWORD` and `CCODE_KEY_PASSWORD` environment variables.
+`CCODE_KEY_ALIAS` is optional and defaults to `ccode`.
 
 ### CI
 

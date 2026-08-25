@@ -8,6 +8,7 @@ from .models import User, Resource, ResourceLike, ResourceRequest, ResourceReque
 class UserSerializer(serializers.ModelSerializer):
     hasPassword = serializers.SerializerMethodField()
     social_links = serializers.SerializerMethodField()
+    profileComplete = serializers.SerializerMethodField()
 
     class Meta:
         model = User
@@ -21,12 +22,16 @@ class UserSerializer(serializers.ModelSerializer):
             'is_bot', 'teacher_verified', 'institution_verified',
             'avatar_use_pp',
             'social_links',
+            'profileComplete',
         ]
         read_only_fields = ['id', 'created_at', 'email_verified', 'hasPassword',
                             'verification_level', 'moderator_level', 'is_admin', 'achievement_badges', 'is_bot', 'teacher_verified', 'institution_verified', 'social_links']
 
     def get_hasPassword(self, obj):
         return bool(obj.password_hash)
+
+    def get_profileComplete(self, obj):
+        return obj.profile_complete
 
     def get_social_links(self, obj):
         from .social_links import get_user_links

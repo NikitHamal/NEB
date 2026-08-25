@@ -10,19 +10,19 @@ from django.views.decorators.http import require_GET, require_POST
 
 from api import services
 from api.models import Announcement, BlogComment, BlogCommentLike, Bookmark, User
+from api.news_serializers import (
+    CATEGORY_META,
+    render_content_html,
+    serialize_announcement as _serialize_announcement_base,
+)
 from api.utils import now_ms, uuid_str
 
 from .view_helpers import _avatar_url, _ctx, _get_user_id, _user_badge_info
 
 
-CATEGORY_META = {
-    'exam_results': {'icon': 'fact_check', 'label': 'Exam Results', 'color': '#dc2626'},
-    'notice':       {'icon': 'campaign',     'label': 'Notice',       'color': '#2563eb'},
-    'event':        {'icon': 'event',       'label': 'Event',        'color': '#7c3aed'},
-    'update':       {'icon': 'upgrade',     'label': 'Update',       'color': '#059669'},
-    'alert':        {'icon': 'warning',     'label': 'Alert',        'color': '#d97706'},
-    'general':      {'icon': 'info',        'label': 'General',      'color': '#6b7280'},
-}
+def _serialize_announcement(a, include_content=False):
+    """Thin wrapper over the shared API serializer (web templates consume it)."""
+    return _serialize_announcement_base(a, include_content=include_content)
 
 
 def _slugify(text):
@@ -44,52 +44,51 @@ def _unique_slug(base_slug, exclude_id=None):
     return slug
 
 
-def _serialize_announcement(a, include_content=False):
-    meta = CATEGORY_META.get(a.category, CATEGORY_META['general'])
-    data = {
-        'id': a.id,
-        'title': a.title,
-        'slug': a.slug,
-        'summary': a.summary or '',
-        'category': a.category,
-        'category_icon': meta['icon'],
-        'category_label': meta['label'],
-        'category_color': meta['color'],
-        'is_pinned': a.is_pinned,
-        'cover_image_url': a.cover_image_url or '',
-        'external_url': a.external_url or '',
-        'tags': a.tags or '',
-        'author_name': (a.author.display_name or a.author.username) if a.author else 'NEBians Team',
-        'author_photo': _avatar_url(a.author) if a.author else '',
-        'published_at': a.published_at,
-        'created_at': a.created_at,
-        'view_count': a.view_count,
-    }
-    if include_content:
-        data['content'] = a.content or ''
-    return data
-
-
 def news_list(request):
+    from django.core.paginator import Paginator
+
     category = request.GET.get('category', '').strip()
     tag = request.GET.get('tag', '').strip()
-    cache_key = f'news_list:{category}:{tag}'
-    items = cache.get(cache_key)
-    if items is None:
+    try:
+        page_num = max(1, int(request.GET.get('page', '1')))
+    except (TypeError, ValueError):
+        page_num = 1
+    cache_key = f'news_list:v2:{category}:{tag}'
+    all_items = cache.get(cache_key)
+    if all_items is None:
         qs = Announcement.objects.select_related('author').filter(status='published')
         if category:
             qs = qs.filter(category=category)
         if tag:
             qs = qs.filter(tags__icontains=tag)
         qs = qs.order_by('-is_pinned', '-published_at')
-        items = [_serialize_announcement(a) for a in qs[:60]]
-        cache.set(cache_key, items, 120)
+        all_items = [_serialize_announcement(a) for a in qs[:300]]
+        cache.set(cache_key, all_items, 120)
+    paginator = Paginator(all_items, 12)
+    page_obj = paginator.get_page(page_num)
     categories = [
         {'key': k, 'icon': v['icon'], 'label': v['label'], 'color': v['color']}
         for k, v in CATEGORY_META.items()
     ]
+
+    def _page_url(p):
+        params = {}
+        if category:
+            params['category'] = category
+        if tag:
+            params['tag'] = tag
+        if p > 1:
+            params['page'] = p
+        query = '&'.join(f'{k}={v}' for k, v in params.items())
+        return f'{request.path}?{query}' if query else request.path
+
     return render(request, 'web/news.html', _ctx(request,
-        announcements=items,
+        announcements=page_obj.object_list,
+        page_obj=page_obj,
+        page_urls={
+            'prev': _page_url(page_obj.previous_page_number()) if page_obj.has_previous() else None,
+            'next': _page_url(page_obj.next_page_number()) if page_obj.has_next() else None,
+        },
         categories=categories,
         current_category=category,
         current_tag=tag,

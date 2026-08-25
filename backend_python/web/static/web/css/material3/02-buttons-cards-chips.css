@@ -94,6 +94,24 @@
   line-height: 1;
 }
 
+/* Touch targets: keep the 36px visual size but extend the hit area to 44px
+   on touch devices (WCAG 2.5.5 / Material guidance) without layout shift. */
+@media (pointer: coarse) {
+
+  .md-btn-icon,
+  .md-icon-btn {
+    position: relative;
+  }
+
+  .md-btn-icon::after,
+  .md-icon-btn::after {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border-radius: inherit;
+  }
+}
+
 /* Material 3 Cards */
 .md-card {
   background: var(--md-surface-container-lowest);

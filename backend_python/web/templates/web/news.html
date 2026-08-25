@@ -111,6 +111,23 @@
         </a>
         {% endfor %}
       </div>
+
+      {% if page_obj.has_previous or page_obj.has_next %}
+      <nav class="news-pagination" aria-label="Blog pages">
+        {% if page_urls.prev %}
+        <a href="{{ page_urls.prev }}" class="md-btn md-btn-outlined news-page-btn">
+          <span class="material-symbols-outlined">chevron_left</span> Prev
+        </a>
+        {% endif %}
+        <span class="news-page-indicator">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+        {% if page_urls.next %}
+        <a href="{{ page_urls.next }}" class="md-btn md-btn-outlined news-page-btn">
+          Next <span class="material-symbols-outlined">chevron_right</span>
+        </a>
+        {% endif %}
+      </nav>
+      {% endif %}
+
       {% else %}
       <div class="empty-state">
         <span class="material-symbols-outlined">newspaper</span>
