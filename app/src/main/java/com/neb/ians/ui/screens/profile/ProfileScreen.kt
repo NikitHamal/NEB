@@ -223,7 +223,7 @@ private fun ProfileContent(
     onFollowingClick: () -> Unit,
     onFollowRequestsClick: () -> Unit,
     onProfileClick: (String) -> Unit = {},
-    viewModel: ProfileViewModel? = null
+    viewModel: ProfileViewModel
 ) {
     val profile = uiState.profile ?: return
     val isSelf = profile.isSelf == true
