@@ -10,6 +10,9 @@ import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import retrofit2.http.*
 import com.neb.ians.BuildConfig
 import kotlinx.serialization.json.Json
+import com.neb.ians.data.news.NewsDetailResponse
+import com.neb.ians.data.news.NewsListResponse
+import com.neb.ians.data.news.NewsViewTrackResponse
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.ResponseBody
 import com.neb.ians.data.repository.SecurePrefs
