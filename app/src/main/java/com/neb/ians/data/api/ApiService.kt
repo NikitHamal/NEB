@@ -1829,7 +1829,7 @@ interface ApiService {
     ): ApiUserPopup
 
     /** Paginated posts by a user, for the profile Posts tab. */
-    @GET("ajax/profile/{username}/activity/")
+    @GET("api/users/profile/{username}/activity/")
     suspend fun getProfileActivity(
         @Header("Authorization") bearerToken: String?,
         @Path("username") username: String,
@@ -1837,7 +1837,7 @@ interface ApiService {
         @Query("limit") limit: Int = 10
     ): ApiProfileActivityResponse
 
-    @GET("ajax/profile/{username}/replies/")
+    @GET("api/users/profile/{username}/replies/")
     suspend fun getProfileReplies(
         @Header("Authorization") bearerToken: String?,
         @Path("username") username: String,
@@ -1845,7 +1845,7 @@ interface ApiService {
         @Query("limit") limit: Int = 10
     ): ApiProfileRepliesResponse
 
-    @GET("ajax/profile/{username}/resources/")
+    @GET("api/users/profile/{username}/resources/")
     suspend fun getProfileResources(
         @Header("Authorization") bearerToken: String?,
         @Path("username") username: String,

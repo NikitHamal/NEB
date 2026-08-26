@@ -11,6 +11,7 @@ from . import credit_views
 from . import views_avatar_api
 from . import views_content_images
 from . import views_news as _news_views
+from . import views_profile_api as _profile_views
 
 urlpatterns = [
     # News / announcements (public, mobile + web parity)
@@ -36,6 +37,9 @@ urlpatterns = [
     path('users/profile/', views.user_profile_create_or_update, name='profile-create-update'),
     path('users/profile/<str:username>/', views.user_profile_get, name='profile-get'),
     path('users/profile/<str:username>/stats/', views.user_profile_stats, name='profile-stats'),
+    path('users/profile/<str:username>/activity/', _profile_views.user_profile_activity_api, name='api-profile-activity'),
+    path('users/profile/<str:username>/replies/', _profile_views.user_profile_replies_api, name='api-profile-replies'),
+    path('users/profile/<str:username>/resources/', _profile_views.user_profile_resources_api, name='api-profile-resources'),
     path('users/institutions/', views.institutions_list, name='institutions-list'),
 
     # Users — avatar customization (auth required)
