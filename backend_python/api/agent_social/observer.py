@@ -180,8 +180,10 @@ def follow_candidates(persona, bot_user, observations, limit=5):
     post_obs = observations.get('posts', []) if isinstance(observations, dict) else observations
     reply_obs = observations.get('replies', []) if isinstance(observations, dict) else []
     for row in (reply_obs + post_obs):
-        user = row.get('reply', row.get('post', None))
-        user = getattr(user, 'user', None)
+        obj = row.get('reply') or row.get('post')
+        if not obj or getattr(obj, 'is_anonymous', False):
+            continue
+        user = getattr(obj, 'user', None)
         if not user or user.id in seen or user.id == bot_user.id:
             continue
         if getattr(user, 'is_bot', False) or user.is_locked:

@@ -8,13 +8,14 @@ from django.views.decorators.http import require_GET, require_POST
 
 from api.models import LazyDocMessage, LazyDocSession, User
 from api.utils import now_ms, uuid_str
-from . import lazy_agent
+from . import lazy_agent, toolstore
 from .api_client import get_session_token
 from .lazy_io import export_docx, export_pdf, extract_docx, extract_pdf_text, fix_html, text_to_html
 from .view_helpers import _ctx, _rate_limit
 from .views_canvas import _require_user, _canvas_credit_state, _spend_canvas_credit
 
 MAX_UPLOAD = 8 * 1024 * 1024
+_MAX_TOOL_FILES = 6
 
 
 def _get_user_or_none(request):
@@ -71,6 +72,7 @@ def _serialize_message(m):
     except Exception:
         meta = {}
     atts = [a.get('name', '') for a in (meta.get('attachments') or []) if isinstance(a, dict)]
+    files = [f for f in (meta.get('files') or []) if isinstance(f, dict)]
     return {
         'id': str(m.id),
         'role': m.role,
@@ -78,6 +80,7 @@ def _serialize_message(m):
         'tools': meta.get('tools') or [],
         'docUpdated': bool(meta.get('docUpdated')),
         'attachments': atts,
+        'files': files,
         'createdAt': m.created_at,
     }
 
@@ -192,28 +195,48 @@ def ajax_lazy_upload(request):
         return JsonResponse({'error': 'File required'}, status=400)
     name = (getattr(f, 'name', '') or '').lower()
     ext = os.path.splitext(name)[1]
-    if ext not in ('.docx', '.pdf', '.txt'):
-        return JsonResponse({'error': 'Supported: .docx, .pdf, .txt'}, status=400)
+    if ext not in ('.docx', '.pdf', '.txt', '.png', '.jpg', '.jpeg', '.gif', '.webp'):
+        return JsonResponse({'error': 'Supported: .docx, .pdf, .txt, images'}, status=400)
     if getattr(f, 'size', 0) > MAX_UPLOAD:
         return JsonResponse({'error': 'Max 8 MB'}, status=413)
     data = f.read(MAX_UPLOAD + 1)
     if len(data) > MAX_UPLOAD:
         return JsonResponse({'error': 'Max 8 MB'}, status=413)
     display_name = os.path.splitext(getattr(f, 'name', 'file'))[0][:80]
+    img_key = {
+        '.png': 'png', '.jpg': 'jpg', '.jpeg': 'jpeg', '.gif': 'gif', '.webp': 'webp',
+    }
     try:
         if ext == '.docx':
             text, t = extract_docx(data)
+            kind = 'docx'
         elif ext == '.txt':
             t = ''
             text = data.decode('utf-8', errors='replace')
+            kind = 'txt'
+        elif ext in img_key:
+            t = ''
+            text = ''
+            kind = img_key[ext]
         else:
             text, t = extract_pdf_text(data)
+            kind = 'pdf'
     except Exception as exc:
         return JsonResponse({'error': f'Could not read file: {exc}'}, status=400)
-    if not (text or '').strip():
+    if not (text or '').strip() and kind not in ('png', 'jpg', 'jpeg', 'gif', 'webp'):
         return JsonResponse({'error': 'No readable text found'}, status=400)
     excerpt = ' '.join(text.split())[:16000]
-    out = {'name': display_name, 'text': excerpt, 'chars': len(excerpt), 'suggestedTitle': (t or display_name)[:120]}
+    src_id = toolstore.put_source(user.id, getattr(f, 'name', 'file'), kind, data)
+    out = {
+        'name': display_name,
+        'text': excerpt,
+        'chars': len(excerpt),
+        'kind': kind,
+        'fullName': getattr(f, 'name', 'file'),
+        'suggestedTitle': (t or display_name)[:120],
+    }
+    if src_id:
+        out['srcId'] = src_id
     if ext == '.txt' and text.strip():
         out['asDocumentHtml'] = text_to_html(text)[:60000]
     return JsonResponse(out)
@@ -235,9 +258,14 @@ def ajax_lazy_chat(request, session_id):
         return JsonResponse({'error': 'Message required'}, status=400)
     attachments = payload.get('attachments') if isinstance(payload.get('attachments'), list) else []
     clean_atts = []
-    for a in attachments[:3]:
+    for a in attachments[:_MAX_TOOL_FILES]:
         if isinstance(a, dict) and a.get('name'):
-            clean_atts.append({'name': str(a['name'])[:80], 'text': str(a.get('text') or '')[:16000]})
+            clean_atts.append({
+                'name': str(a['name'])[:80],
+                'text': str(a.get('text') or '')[:16000],
+                'srcId': a.get('srcId') or a.get('src_id') or '',
+                'kind': a.get('kind') or '',
+            })
     ok, _, _ = _spend_canvas_credit(user)
     if not ok:
         return JsonResponse({'error': "You're out of Neby credits — top up on the Credits page.", 'need_credits': True}, status=402)
@@ -261,7 +289,7 @@ def ajax_lazy_chat(request, session_id):
         yield f"data: {json.dumps({'type': 'user', 'id': str(user_msg.id), 'title': new_title}, ensure_ascii=False)}\n\n"
         box = {}
         try:
-            for frame in lazy_agent.stream_turn(session, user, text, box):
+            for frame in lazy_agent.stream_turn(session, user, text, box, sources=clean_atts):
                 yield f"data: {json.dumps(frame, ensure_ascii=False)}\n\n"
             turn = box.get('turn')
             if turn is None:
@@ -282,4 +310,21 @@ def ajax_lazy_chat(request, session_id):
     resp = StreamingHttpResponse(event_stream(), content_type='text/event-stream')
     resp['Cache-Control'] = 'no-cache'
     resp['X-Accel-Buffering'] = 'no'
+    return resp
+
+
+@require_GET
+def ajax_lazy_file(request, token):
+    user, err = _require_user(request)
+    if err:
+        return err
+    art = toolstore.get_artifact(token)
+    if art is None:
+        return HttpResponse('File expired or not found', status=404)
+    if str(art['owner']) != str(user.id):
+        return HttpResponse('Forbidden', status=403)
+    resp = HttpResponse(art['data'], content_type=art['mime'] or 'application/octet-stream')
+    safe = ''.join(ch if ch.isalnum() or ch in '-_' else '-' for ch in art['name'])[:80].strip('-') or 'file'
+    resp['Content-Disposition'] = f'attachment; filename="{safe}"'
+    resp['Content-Length'] = str(len(art['data']))
     return resp

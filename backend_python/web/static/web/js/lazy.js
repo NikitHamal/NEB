@@ -141,6 +141,21 @@ function copyText(t){
     try{var ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove();res()}catch(e){rej(e)}
   });
 }
+function fileCard(f){
+  var el=document.createElement("a");
+  el.className="lz-file-chip";
+  el.href=f.url||"#";
+  el.setAttribute("download","");
+  el.target="_blank";el.rel="noopener";
+  el.innerHTML='<span class="material-symbols-outlined">download</span><span></span>';
+  el.querySelector("span:nth-child(2)").textContent=f.name||"file";
+  return el;
+}
+function appendFiles(shell,files){
+  if(!shell||!files||!files.length)return;
+  var col=shell.querySelector(".msg-col");
+  files.forEach(function(f){if(f&&f.url)col.appendChild(fileCard(f))});
+}
 function scheduleLiveRender(){
   if(S.renderTimer)return;
   S.renderTimer=setTimeout(function(){
@@ -204,6 +219,7 @@ function loadSession(id){
         var shell=newAssistantShell();
         var row=shell.querySelector(".tool-row");
         (m.tools||[]).forEach(function(t){addToolChip(row,t.name,t.summary,false)});
+        appendFiles(shell,m.files||[]);
         var holder=shell.querySelector(".md-content");
         setMdContent(holder,m.content||"");
         shell.querySelector(".caret").remove();
@@ -300,6 +316,8 @@ function send(){
       if(window.LazyDoc)LazyDoc.setDoc(f.html,f.title||"",true);
       $("lzDocBtn").hidden=false;
       upsertSession({id:S.sessionId,hasDoc:true,docTitle:f.title||""});
+    }else if(f.type==="file"){
+      appendFiles(S.liveEl,[{name:f.name,url:f.url}]);
     }else if(f.type==="done"){
       if(f.tools&&f.tools.length){
         row.innerHTML="";
@@ -362,10 +380,10 @@ function renderAttachRow(){
 }
 function uploadFile(file){
   if(!file)return;
-  var ok=/\.(docx|pdf|txt)$/i.test(file.name);
-  if(!ok){toast("Supported: .docx, .pdf, .txt",true);return}
+  var ok=/\.(docx|pdf|txt|png|jpe?g|gif|webp)$/i.test(file.name);
+  if(!ok){toast("Supported: .docx, .pdf, .txt, images",true);return}
   if(file.size>8*1024*1024){toast("Max file size is 8 MB",true);return}
-  if(S.attachments.length>=3){toast("Up to 3 files per message",true);return}
+  if(S.attachments.length>=6){toast("Up to 6 files per message",true);return}
   toast("Reading "+file.name+"…");
   var fd=new FormData();fd.append("file",file);
   fetch("/ajax/lazy/upload/",{method:"POST",credentials:"same-origin",headers:{"X-CSRFToken":getCsrf()},body:fd})

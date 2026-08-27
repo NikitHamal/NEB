@@ -63,6 +63,39 @@
 {% endblock %}
 
 {% block content %}
+{% if needs_profile %}
+<div class="profile-complete-banner" id="pcBanner">
+  <span class="material-symbols-outlined pc-icon">badge</span>
+  <div class="pc-text">
+    <strong>Make NEBians yours</strong>
+    <span>Add your name and gender so teachers and classmates can recognise you.</span>
+  </div>
+  <a class="pc-link" href="{% url 'web:edit_profile' %}">Complete profile</a>
+  <button type="button" class="pc-later" id="pcLater">I'll do it later</button>
+</div>
+<style nonce="{{ csp_nonce }}">
+  .profile-complete-banner{display:flex;align-items:center;gap:12px;flex-wrap:wrap;max-width:1080px;margin:12px auto 0;padding:12px 16px;border-radius:14px;border:1px solid var(--md-primary);background:var(--md-primary-container)}
+  .profile-complete-banner.hidden{display:none}
+  .pc-icon{font-size:24px;color:var(--md-primary);flex-shrink:0}
+  .pc-text{flex:1;min-width:200px;color:var(--md-on-primary-container)}
+  .pc-text strong{display:block;font-size:.95rem}
+  .pc-text span{font-size:.82rem;opacity:.85}
+  .pc-link{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:10px;background:var(--md-primary);color:var(--md-on-primary);font-size:.82rem;font-weight:600;text-decoration:none}
+  .pc-later{border:0;background:transparent;color:var(--md-on-primary-container);font-size:.82rem;cursor:pointer;text-decoration:underline;padding:6px}
+</style>
+<script nonce="{{ csp_nonce }}">
+  (function(){
+    var b=document.getElementById('pcBanner');
+    if(!b)return;
+    try{ if(localStorage.getItem('neb_profile_prompt')==='later'){b.remove();return;} }catch(e){}
+    var later=document.getElementById('pcLater');
+    if(later)later.addEventListener('click',function(){
+      try{localStorage.setItem('neb_profile_prompt','later');}catch(e){}
+      b.remove();
+    });
+  })();
+</script>
+{% endif %}
 {% include "web/_home_hero.html" %}
 
 <div class="md-container">

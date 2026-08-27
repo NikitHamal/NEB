@@ -477,12 +477,14 @@ def _wrap_raw_text(prompt, raw):
     }
 
 
-# Fused primary: Gemini Web (primary) + Motif 3 High + Laguna S 2.1
-# All three are free web proxies; their outputs are scored and fused.
-_CANVAS_PRIMARY_MODEL = 'laguna-s-2.1'
+# Fused primary: Qwen (primary #1) + Gemini Web + Motif 3 High + Laguna S 2.1
+# Free web proxies; their outputs are scored and fused with Qwen prioritized.
+_QWEN_MODEL = 'qwen3.8-max'
+_CANVAS_PRIMARY_MODEL = 'qwen3.8-max'
 _GEMINIWEB_MODEL = 'geminiweb/gemini-flash-lite'
 _MOTIF_MODEL = 'motif-102b'
-_FUSION_MODEL_LABEL = 'fusion:geminiweb+motif-high+laguna-s-2.1'
+_LAGUNA_MODEL = 'laguna-s-2.1'
+_FUSION_MODEL_LABEL = 'fusion:qwen+geminiweb+motif-high+laguna-s-2.1'
 
 
 def _score_canvas_data(data):
@@ -588,12 +590,23 @@ def _call_llm_for_canvas(user, prompt, parent_context, web_search_enabled, speed
     speed_note = "Fast" if (speed_mode or "fast").lower() == "fast" else "Deep"
     user_prompt = f"[{speed_note} mode — answer quickly but thoroughly]\n" + user_prompt
 
-    # ── 1. Fused primary: Gemini Web + Motif 3 High + Laguna S 2.1 ──
-    # Fast: one primary, then fallbacks only if it misses quality.
-    # Deep: three-way race with early exit once a high-scoring JSON lands.
+    # ── 1. Fused primary: Qwen (#1 Priority) + Gemini Web + Motif 3 High + Laguna S 2.1 ──
     import logging as _logging
     _log = _logging.getLogger(__name__)
     is_fast = speed_note == "Fast"
+
+    def _call_qwen():
+        try:
+            from api import qwen_proxy
+            return qwen_proxy.call_qwen(
+                system_prompt=SYSTEM_PROMPT,
+                user_message=user_prompt,
+                model=_QWEN_MODEL,
+                max_tokens=2200 if is_fast else 3600,
+            )
+        except Exception as e:
+            _log.warning("Canvas qwen call failed: %s", e)
+            return None
 
     def _call_gemini():
         try:
@@ -614,7 +627,7 @@ def _call_llm_for_canvas(user, prompt, parent_context, web_search_enabled, speed
     def _call_laguna():
         try:
             from api.poolside_proxy import simple_chat as _p
-            return _p(user_prompt, _CANVAS_PRIMARY_MODEL, SYSTEM_PROMPT, 2200 if is_fast else 3600)
+            return _p(user_prompt, _LAGUNA_MODEL, SYSTEM_PROMPT, 2200 if is_fast else 3600)
         except Exception as e:
             _log.warning("Canvas laguna call failed: %s", e)
             return None
@@ -633,7 +646,7 @@ def _call_llm_for_canvas(user, prompt, parent_context, web_search_enabled, speed
     def _pick_winner(data_by, score_by):
         best_key = None
         best_score = -1
-        priority = {'geminiweb': 3, 'motif': 2, 'poolside': 1}
+        priority = {'qwen': 5, 'geminiweb': 3, 'motif': 2, 'poolside': 1}
         for k, sc in score_by.items():
             if k not in data_by:
                 continue
@@ -645,17 +658,36 @@ def _call_llm_for_canvas(user, prompt, parent_context, web_search_enabled, speed
 
     try:
         from concurrent.futures import ThreadPoolExecutor, as_completed, wait, FIRST_COMPLETED
-        workers = 1 if is_fast else 3
-        ex = ThreadPoolExecutor(max_workers=workers)
+        raw_by, data_by, score_by = {}, {}, {}
+
         if is_fast:
-            fut_map = {ex.submit(_call_gemini): 'geminiweb'}
-        else:
+            # Fast mode: Attempt Qwen first
+            qwen_raw = _call_qwen()
+            if qwen_raw:
+                raw_by['qwen'] = qwen_raw
+                qdata, qscore = _score_raw('qwen', qwen_raw)
+                if qdata and qscore >= GOOD_ENOUGH:
+                    data_by['qwen'] = qdata
+                    score_by['qwen'] = qscore
+                    return {'slug': 'qwen', 'model': _QWEN_MODEL}, qdata, 'fast:qwen'
+
+            # If Qwen didn't meet threshold or failed, race gemini/motif/poolside
+            ex = ThreadPoolExecutor(max_workers=3)
             fut_map = {
                 ex.submit(_call_gemini): 'geminiweb',
                 ex.submit(_call_motif): 'motif',
                 ex.submit(_call_laguna): 'poolside',
             }
-        raw_by, data_by, score_by = {}, {}, {}
+        else:
+            # Deep mode: 4-way race with Qwen prioritized
+            ex = ThreadPoolExecutor(max_workers=4)
+            fut_map = {
+                ex.submit(_call_qwen): 'qwen',
+                ex.submit(_call_gemini): 'geminiweb',
+                ex.submit(_call_motif): 'motif',
+                ex.submit(_call_laguna): 'poolside',
+            }
+
         pending = set(fut_map)
         try:
             while pending:
@@ -674,7 +706,7 @@ def _call_llm_for_canvas(user, prompt, parent_context, web_search_enabled, speed
                     if data:
                         data_by[key] = data
                     score_by[key] = sc
-                    if sc >= GOOD_ENOUGH:
+                    if sc >= GOOD_ENOUGH and key == 'qwen':
                         pending = set()
                         break
         except Exception as e:
@@ -685,39 +717,14 @@ def _call_llm_for_canvas(user, prompt, parent_context, web_search_enabled, speed
             except TypeError:
                 ex.shutdown(wait=False)
 
-        if is_fast and not data_by:
-            ex2 = ThreadPoolExecutor(max_workers=2)
-            try:
-                fmap = {ex2.submit(_call_motif): 'motif', ex2.submit(_call_laguna): 'poolside'}
-                for fut in as_completed(fmap, timeout=14):
-                    key = fmap[fut]
-                    try:
-                        raw = fut.result(timeout=1)
-                    except Exception:
-                        raw = None
-                    raw_by[key] = raw
-                    data, sc = _score_raw(key, raw)
-                    if data:
-                        data_by[key] = data
-                    score_by[key] = sc
-                    if sc >= GOOD_ENOUGH:
-                        break
-            except Exception as e:
-                _log.warning("Canvas fast-fallback error: %s", e)
-            finally:
-                try:
-                    ex2.shutdown(wait=False, cancel_futures=True)
-                except TypeError:
-                    ex2.shutdown(wait=False)
-
         best_key = _pick_winner(data_by, score_by)
         if best_key and best_key in data_by:
             winner = data_by[best_key]
             _merge_fusion_references(winner, list(data_by.values()))
             label = 'fast:' + best_key if is_fast else 'fusion'
-            return {'slug': 'fusion', 'model': _FUSION_MODEL_LABEL}, winner, label
+            return {'slug': best_key if is_fast else 'fusion', 'model': _FUSION_MODEL_LABEL}, winner, label
 
-        for k in ('geminiweb', 'motif', 'poolside'):
+        for k in ('qwen', 'geminiweb', 'motif', 'poolside'):
             raw = raw_by.get(k)
             if raw and len(raw.strip()) > 200:
                 _log.info("Canvas fusion wrapping raw from %s", k)

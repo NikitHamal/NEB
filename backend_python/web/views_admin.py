@@ -1329,6 +1329,8 @@ def _bot_provider_catalog_ctx():
         'options': [],
     }
     return {
+        'scraper_options': scraper_options,
+        'official_options': official_options,
         'provider_options_scrapers': scraper_options,
         'provider_options_official': official_options,
         'provider_config_json': _json.dumps(provider_config),

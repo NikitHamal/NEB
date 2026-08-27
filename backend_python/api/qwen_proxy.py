@@ -57,7 +57,8 @@ def _check_waf_response(resp):
             try:
                 text = (resp.text if hasattr(resp, "text")
                         else resp.content.decode("utf-8", "replace"))
-                if any(k in text for k in ("aliyun_waf_aa", "acw_sc__v2", "captcha", "Challenge", "x5secdata")):
+                # Only check for actual WAF challenge artifacts, not generic words like captchaType=qwen
+                if any(k in text for k in ("aliyun_waf_aa", "acw_sc__v2", "x5secdata", "RGV587_ERROR", "_____tmd_____")):
                     return "Aliyun WAF JS challenge"
             except Exception:
                 pass

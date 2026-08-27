@@ -45,23 +45,49 @@ def _compose_reply(bot_config, bot_user, post, persona, target_username='', pare
         max_replies=getattr(bot_config, 'max_context_replies', 10) or 10,
         bot_name=bot_name,
     )
-    author_name = target_username or (reply_obj.user.username if reply_obj else '') or 'a member'
-    if reply_text:
-        extra = (
-            f"\n@{author_name} specifically commented: \"{reply_text}\"\n"
-            f"Reply directly to @{author_name} naturally and conversationally as an authentic peer and friend in the Nepali learning community. "
-            "Never use em dashes (— or --) and never speak like an AI customer-support assistant or mention tutoring services."
-        )
-    elif post.user_id == bot_user.id:
-        extra = (
-            f"\nThis is your own thread on NEBians. A member (@{author_name}) joined the discussion. "
-            "Reply warmly and casually. Never use em dashes (— or --) and never speak like a robotic AI."
-        )
+    is_anon = bool(getattr(reply_obj, 'is_anonymous', False) if reply_obj else getattr(post, 'is_anonymous', False))
+    if is_anon:
+        target_username = ''
+        author_name = 'Anonymous Nebian'
     else:
-        extra = (
-            f"\nYou are joining a forum discussion started by @{author_name}. "
-            "Reply casually and authentically with your own thoughts. Never use em dashes (— or --)."
-        )
+        author_name = target_username or (reply_obj.user.username if reply_obj else post.user.username) or 'a member'
+
+    if reply_text:
+        if is_anon:
+            extra = (
+                f"\nAn anonymous member commented: \"{reply_text}\"\n"
+                "Reply naturally and conversationally to their point as an authentic peer and friend in the Nepali learning community. "
+                "PRIVACY RULE: They posted anonymously — do NOT use or guess any personal name or username. "
+                "Never use em dashes (— or --) and never speak like an AI customer-support assistant or mention tutoring services."
+            )
+        else:
+            extra = (
+                f"\n@{author_name} specifically commented: \"{reply_text}\"\n"
+                f"Reply directly to @{author_name} naturally and conversationally as an authentic peer and friend in the Nepali learning community. "
+                "Never use em dashes (— or --) and never speak like an AI customer-support assistant or mention tutoring services."
+            )
+    elif post.user_id == bot_user.id:
+        if is_anon:
+            extra = (
+                "\nThis is your own thread on NEBians. An anonymous member joined the discussion. "
+                "Reply warmly and casually without using personal names. Never use em dashes (— or --) and never speak like a robotic AI."
+            )
+        else:
+            extra = (
+                f"\nThis is your own thread on NEBians. A member (@{author_name}) joined the discussion. "
+                "Reply warmly and casually. Never use em dashes (— or --) and never speak like a robotic AI."
+            )
+    else:
+        if is_anon:
+            extra = (
+                "\nYou are joining a forum discussion started anonymously. "
+                "Reply casually and authentically with your own thoughts. Never use em dashes (— or --)."
+            )
+        else:
+            extra = (
+                f"\nYou are joining a forum discussion started by @{author_name}. "
+                "Reply casually and authentically with your own thoughts. Never use em dashes (— or --)."
+            )
     system = (getattr(bot_config, 'system_prompt', None) or '').strip() or NEBY_SYSTEM_PROMPT
     try:
         text = call_ai_api(system, context + extra, bot_config)

@@ -58,12 +58,8 @@ def manifest_json(request):
     return response
 
 def home(request):
-    token = api.get_session_token(request)
-    if token:
-        user_data = api.get_session_user(request)
-        if user_data and (not user_data.get('display_name') or not user_data.get('gender') or not user_data.get('class_level')):
-            return redirect('web:edit_profile')
     user_id = _get_user_id(request)
+    needs_profile = False
     
     hero_bg_filename = cache.get('active_hero_background_filename')
     if hero_bg_filename is None:
@@ -85,6 +81,8 @@ def home(request):
     if user_id:
         try:
             user_profile = User.objects.get(id=user_id)
+            if user_profile and not (user_profile.display_name and user_profile.gender):
+                needs_profile = True
         except User.DoesNotExist:
             pass
     posts_qs = Post.objects.select_related('user').filter(is_archived=False, user__email_verified=True).order_by('-created_at')[:20]
@@ -192,6 +190,7 @@ def home(request):
         hero_bg_filename=hero_bg_filename,
         hide_footer_links=False,
         neby_live=neby_live,
+        needs_profile=needs_profile,
     ))
 
 def library(request):
