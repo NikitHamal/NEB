@@ -4,13 +4,13 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.views.decorators.http import require_GET, require_POST
 
-from api.models import CanvasBoard, CanvasNode, CanvasSnapshot
+from api.models import CanvasBoard, CanvasNebyRun, CanvasNode, CanvasSnapshot
 from api.utils import now_ms, uuid_str
 from .canvas_agent import create_plan_nodes, generate_plan, suggest_questions
 from .canvas_history import board_payload, markdown_export, replace_board_from_payload, restore_snapshot, snapshot_board, snapshot_summary
 from .canvas_templates import apply_template, template_catalog
 from .view_helpers import _rate_limit
-from .views_canvas import _canvas_credit_state, _require_user, _serialize_board, _serialize_node, _spend_canvas_credit
+from .views_canvas import _call_llm_for_canvas, _canvas_credit_state, _require_user, _serialize_board, _serialize_node, _spend_canvas_credit
 
 
 MAX_BOARD_NODES = 240
@@ -319,11 +319,21 @@ def ajax_canvas_neby_explore(request, board_id):
     snapshot_board(board, user, 'Before Neby Explore')
     plan, provider = generate_plan(board, goal, anchor=anchor)
     nodes = create_plan_nodes(board, user, plan, anchor=anchor)
+    next_questions = [str(q)[:500] for q in (plan.get('nextQuestions') or [])[:6]]
+    try:
+        CanvasNebyRun.objects.create(
+            board=board, user=user, kind='explore', goal=goal[:1200],
+            summary=str(plan.get('summary') or '')[:500],
+            questions=next_questions, provider=str(provider or '')[:60],
+            created_at=now_ms(),
+        )
+    except Exception:
+        pass
     unlimited2, remaining2, allowance = _canvas_credit_state(user)
     return JsonResponse({
         'summary': str(plan.get('summary') or '')[:500],
         'nodes': [_serialize_node(node) for node in nodes],
-        'nextQuestions': [str(q)[:500] for q in (plan.get('nextQuestions') or [])[:6]],
+        'nextQuestions': next_questions,
         'provider': provider,
         'credits': {'unlimited': unlimited2, 'remaining': remaining2, 'allowance': allowance},
     })
@@ -342,9 +352,250 @@ def ajax_canvas_suggestions(request, board_id):
     if not ok:
         return JsonResponse({'error': 'You are out of Neby credits.', 'need_credits': True}, status=402)
     suggestions, provider = suggest_questions(board, goal)
+    try:
+        CanvasNebyRun.objects.create(
+            board=board, user=user, kind='suggest', goal=goal[:1200],
+            summary='', questions=[str(q)[:500] for q in (suggestions or [])[:6]],
+            provider=str(provider or '')[:60], created_at=now_ms(),
+        )
+    except Exception:
+        pass
     unlimited2, remaining2, allowance = _canvas_credit_state(user)
     return JsonResponse({
         'suggestions': suggestions,
         'provider': provider,
+        'credits': {'unlimited': unlimited2, 'remaining': remaining2, 'allowance': allowance},
+    })
+
+
+@require_GET
+def ajax_canvas_neby_history(request, board_id):
+    user, err = _require_user(request)
+    if err:
+        return err
+    board = _owned_board(user, board_id)
+    if request.method == 'DELETE' or request.GET.get('action') == 'clear':
+        CanvasNebyRun.objects.filter(board=board).delete()
+        return JsonResponse({'ok': True, 'runs': []})
+    runs = CanvasNebyRun.objects.filter(board=board)[:30]
+    return JsonResponse({'runs': [{
+        'id': r.id,
+        'kind': r.kind,
+        'goal': r.goal,
+        'summary': r.summary,
+        'questions': r.questions or [],
+        'provider': r.provider,
+        'created_at': r.created_at,
+    } for r in runs]})
+
+
+WIDGET_SYSTEM = """You generate study-widget content for a learning canvas. Return ONLY compact JSON — no markdown fences.
+Schemas by kind:
+quiz: {"q": "...", "options": ["...","...","...","..."], "answer": 0}
+flash: {"cards": [{"q": "...", "a": "..."}, ...] }  (3-5 cards)
+timeline: {"events": [{"t": "label", "d": "one-line detail"}, ...]}  (3-5, chronological)
+flow: {"start": {"label": "...", "desc": "..."}, "steps": [{"label": "...", "desc": "..."}, ...], "decision": {"cond": "...", "yes": "...", "no": "..."}}  (study process or reasoning flow)
+Keep every string under 90 characters. Content must be factually accurate and study-appropriate for the topic."""
+
+
+@require_POST
+def ajax_canvas_widget_content(request):
+    """Generate study content for a canvas widget (quiz/flash/timeline/flow) from a topic."""
+    user, err = _require_user(request)
+    if err:
+        return err
+    if _rate_limit(request, 'canvas_widget_content', 20, 60):
+        return JsonResponse({'error': 'Rate limited'}, status=429)
+    data = _payload(request)
+    kind = str(data.get('kind') or '').strip().lower()
+    topic = str(data.get('topic') or '').strip()[:300]
+    if kind not in ('quiz', 'flash', 'timeline', 'flow'):
+        return JsonResponse({'error': 'Invalid widget kind'}, status=400)
+    if not topic:
+        return JsonResponse({'error': 'Topic required'}, status=400)
+    ok, unlimited, remaining = _spend_canvas_credit(user)
+    if not ok:
+        return JsonResponse({'error': 'You are out of Neby credits.', 'need_credits': True}, status=402)
+
+    from api.llm.credentials import resolve
+    from api.llm.client import chat as llm_chat
+    resolved = resolve(user, 'tryingopen') or resolve(user, 'gmi') or resolve(user, 'geminiweb')
+    if not resolved:
+        return JsonResponse({'error': 'No AI provider available'}, status=503)
+    prompt = f"Create {kind} widget content about: {topic}"
+    try:
+        result = llm_chat(
+            format='openai', base_url=resolved.base_url, api_key=resolved.api_key,
+            model=resolved.model,
+            messages=[{'role': 'system', 'content': WIDGET_SYSTEM}, {'role': 'user', 'content': prompt}],
+            max_tokens=900, timeout=60, provider='widget-content',
+        )
+        raw = (result.text or '').strip()
+        if raw.startswith('```'):
+            raw = raw.split('```')[1]
+            if raw.startswith('json'):
+                raw = raw[4:]
+        content = json.loads(raw.strip())
+    except Exception as exc:
+        return JsonResponse({'error': f'Generation failed: {exc}'}, status=502)
+
+    # Sanitize per kind
+    if kind == 'quiz':
+        opts = [str(o)[:120] for o in (content.get('options') or [])[:4]]
+        if not content.get('q') or len(opts) < 2:
+            return JsonResponse({'error': 'Model returned incomplete quiz'}, status=502)
+        while len(opts) < 4:
+            opts.append('None of the above')
+        content = {'q': str(content['q'])[:200], 'options': opts, 'answer': max(0, min(3, int(content.get('answer') or 0)))}
+    elif kind == 'flash':
+        cards = [{'q': str(c.get('q'))[:160], 'a': str(c.get('a'))[:240]} for c in (content.get('cards') or [])[:5] if c.get('q') and c.get('a')]
+        if not cards:
+            return JsonResponse({'error': 'Model returned incomplete flashcards'}, status=502)
+        content = {'cards': cards}
+    elif kind == 'timeline':
+        events = [{'t': str(e.get('t'))[:80], 'd': str(e.get('d'))[:140]} for e in (content.get('events') or [])[:5] if e.get('t')]
+        if not events:
+            return JsonResponse({'error': 'Model returned incomplete timeline'}, status=502)
+        content = {'events': events}
+    else:
+        st = content.get('start') or {}
+        dec = content.get('decision') or {}
+        steps = [{'label': str(s.get('label'))[:80], 'desc': str(s.get('desc'))[:140]} for s in (content.get('steps') or [])[:3] if s.get('label')]
+        if not st.get('label') or not dec.get('cond'):
+            return JsonResponse({'error': 'Model returned incomplete flow'}, status=502)
+        content = {
+            'start': {'label': str(st['label'])[:80], 'desc': str(st.get('desc') or '')[:140]},
+            'steps': steps,
+            'decision': {'cond': str(dec['cond'])[:120], 'yes': str(dec.get('yes') or 'Yes')[:80], 'no': str(dec.get('no') or 'No')[:80]},
+        }
+    unlimited2, remaining2, allowance = _canvas_credit_state(user)
+    return JsonResponse({'content': content, 'provider': resolved.model, 'credits': {'unlimited': unlimited2, 'remaining': remaining2, 'allowance': allowance}})
+
+
+@require_POST
+def ajax_canvas_agent_prompt(request, board_id):
+    """Agentic multi-step canvas prompt: plans, then executes tools
+    (add_card / update_card / add_widget / connect / finish) over several turns."""
+    user, err = _require_user(request)
+    if err:
+        return err
+    if _rate_limit(request, 'canvas_agent_prompt', 6, 60):
+        return JsonResponse({'error': 'Agent cooling down. Try again shortly.'}, status=429)
+    board = _owned_board(user, board_id)
+    data = _payload(request)
+    prompt = str(data.get('prompt') or '').strip()[:2000]
+    if not prompt:
+        return JsonResponse({'error': 'Prompt required'}, status=400)
+    ok, unlimited, remaining = _spend_canvas_credit(user)
+    if not ok:
+        return JsonResponse({'error': 'You are out of Neby credits.', 'need_credits': True}, status=402)
+
+    from api.llm.credentials import resolve
+    from api.llm.client import chat as llm_chat
+
+    def _nodes_ctx():
+        nodes = CanvasNode.objects.filter(board=board).order_by('created_at')[:40]
+        return [{'id': n.id, 'title': n.title[:80], 'parent': n.parent_id or ''} for n in nodes]
+
+    TOOLS_DESC = """You are Neby, an agentic study-canvas builder. Respond ONLY with JSON:
+{"think": "one line", "tool": "...", "args": {...}}
+Tools:
+- add_card: {"prompt": "...", "parent_id": "<existing id or empty>"} — creates one knowledge card (AI-generated content)
+- add_widget: {"kind": "quiz|flash|timeline|flow", "topic": "..."} — creates an interactive study widget
+- connect: {"parent_id": "...", "child_id": "..."} — link two existing cards
+- finish: {"summary": "..."} — call when the user's request is fully handled
+Rules: 1 tool per response. Use add_card for explanatory content, add_widget for practice/interactive content. Prefer 2-4 total steps. Always end with finish."""
+
+    steps = []
+    created_nodes = []
+    history_msgs = [{'role': 'system', 'content': TOOLS_DESC},
+                    {'role': 'user', 'content': f"Canvas request: {prompt}\nExisting cards: {json.dumps(_nodes_ctx())}"}]
+    resolved = resolve(user, 'tryingopen') or resolve(user, 'gmi') or resolve(user, 'geminiweb')
+    if not resolved:
+        return JsonResponse({'error': 'No AI provider available'}, status=503)
+
+    summary = ''
+    for step_i in range(5):
+        try:
+            result = llm_chat(
+                format='openai', base_url=resolved.base_url, api_key=resolved.api_key,
+                model=resolved.model, messages=history_msgs,
+                max_tokens=400, timeout=60, provider='canvas-agent',
+            )
+            raw = (result.text or '').strip()
+            if raw.startswith('```'):
+                raw = raw.split('```')[1]
+                if raw.startswith('json'):
+                    raw = raw[4:]
+            action = json.loads(raw.strip())
+        except Exception as exc:
+            steps.append({'tool': 'error', 'detail': str(exc)[:160]})
+            break
+        tool = str(action.get('tool') or '').strip()
+        args = action.get('args') or {}
+        steps.append({'tool': tool, 'think': str(action.get('think') or '')[:160]})
+        if tool == 'finish':
+            summary = str(args.get('summary') or '')[:500]
+            break
+        if tool == 'add_card':
+            nprompt = str(args.get('prompt') or '').strip()[:500]
+            if not nprompt:
+                steps[-1]['error'] = 'empty prompt'
+                continue
+            parent_id = str(args.get('parent_id') or '').strip() or None
+            parent = CanvasNode.objects.filter(id=parent_id, board=board).first() if parent_id else None
+            existing = CanvasNode.objects.filter(board=board).count()
+            if parent:
+                siblings = CanvasNode.objects.filter(board=board, parent=parent).count()
+                nx, ny = parent.x + siblings * 32, parent.y + 460
+            else:
+                nx, ny = 420 + existing * 80, 120 + (existing % 3) * 24
+            now = now_ms()
+            node = CanvasNode.objects.create(
+                id=uuid_str(), board=board, parent=parent, user=user, prompt=nprompt,
+                title=nprompt[:60], content='', status='generating', x=nx, y=ny,
+                created_at=now, updated_at=now,
+            )
+            created_nodes.append(node.id)
+            try:
+                r2, content_data, _slug = _call_llm_for_canvas(user, nprompt, '', False, 'fast')
+                node.title = (content_data.get('title') or nprompt[:50])[:300]
+                node.content = json.dumps(content_data, ensure_ascii=False)
+                node.status = 'done'
+                node.updated_at = now_ms()
+                node.save(update_fields=['title', 'content', 'status', 'updated_at'])
+            except Exception:
+                node.status = 'failed'
+                node.save(update_fields=['status'])
+            history_msgs.append({'role': 'assistant', 'content': json.dumps({'tool': 'add_card', 'id': node.id})})
+        elif tool == 'add_widget':
+            wkind = str(args.get('kind') or 'quiz')
+            wtopic = str(args.get('topic') or prompt)[:200]
+            steps[-1]['topic'] = wtopic
+            steps[-1]['kind'] = wkind
+            history_msgs.append({'role': 'assistant', 'content': json.dumps({'tool': 'add_widget', 'kind': wkind, 'topic': wtopic})})
+        elif tool == 'connect':
+            pid, cid = str(args.get('parent_id') or ''), str(args.get('child_id') or '')
+            child = CanvasNode.objects.filter(id=cid, board=board).first()
+            if child and CanvasNode.objects.filter(id=pid, board=board).exists():
+                child.parent_id = pid
+                child.save(update_fields=['parent'])
+                history_msgs.append({'role': 'assistant', 'content': json.dumps({'tool': 'connect', 'ok': True})})
+            else:
+                history_msgs.append({'role': 'assistant', 'content': json.dumps({'tool': 'connect', 'ok': False})})
+        else:
+            history_msgs.append({'role': 'assistant', 'content': json.dumps({'tool': 'unknown'})})
+
+    board.updated_at = now_ms()
+    board.save(update_fields=['updated_at'])
+    unlimited2, remaining2, allowance = _canvas_credit_state(user)
+    nodes_out = [json.loads(n.content) if n.content else {} for n in []]
+    out_nodes = []
+    for nid in created_nodes:
+        n = CanvasNode.objects.filter(id=nid).first()
+        if n:
+            out_nodes.append(_serialize_node(n))
+    return JsonResponse({
+        'steps': steps, 'summary': summary, 'nodes': out_nodes,
         'credits': {'unlimited': unlimited2, 'remaining': remaining2, 'allowance': allowance},
     })

@@ -284,8 +284,12 @@ function paintDock(){
   };
 }
 
-function promptText(seed, done){
-  var v = window.prompt("Text", seed || "");
+function promptText(seed, done, opts){
+  if(C.promptModal){
+    C.promptModal(Object.assign({seed:seed||""}, opts||{})).then(function(v){ if(v!==null) done(v); });
+    return;
+  }
+  var v = window.prompt(opts&&opts.title||"Text", seed || "");
   if (v === null) return;
   done(v);
 }
@@ -328,6 +332,24 @@ layer.addEventListener("pointerdown", function(e){
     add(wdg);
     setTool("select");
     if (window.canvasWheel && window.canvasWheel.setActive) window.canvasWheel.setActive("select");
+    var kindTitle = (window.CanvasWidgets.CATALOG.find(function(c){return c.kind===wdg.kind})||{}).title || wdg.kind;
+    promptText("", function(t){
+      t = (t||"").trim();
+      if (!t) { S.drawDirty = true; return; }
+      wdg.topic = t.slice(0, 120);
+      S.drawDirty = true;
+      if (!S.isAuth || !S.boardId || String(S.boardId).indexOf("local_")===0){ S.drawDirty = true; return; }
+      C.api("/ajax/canvas/boards/"+encodeURIComponent(S.boardId)+"/widget-content/", {
+        method: "POST",
+        body: JSON.stringify({ kind: wdg.kind, topic: wdg.topic })
+      }).then(function(d){
+        var c = d && d.content;
+        if (!c) return;
+        if (wdg.kind === "flow") wdg.state = { start: c.start, steps: c.steps || [], decision: c.decision };
+        else wdg.state = c;
+        S.drawDirty = true;
+      }).catch(function(){ /* keep editable draft template on failure */ });
+    }, { title: kindTitle, sub: "What should this "+kindTitle.toLowerCase()+" be about?", placeholder: "e.g. photosynthesis, supply & demand, the water cycle…", ok: "Create" });
     return;
   }
   if (S.tool === "image" || S.tool === "file"){

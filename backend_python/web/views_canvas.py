@@ -1054,6 +1054,8 @@ def ajax_canvas_create_node(request, board_id):
     if speed_mode not in ('fast', 'deep'):
         speed_mode = 'fast'
 
+    if _canvas_at_capacity(board, 1):
+        return JsonResponse({'error': f'A canvas is limited to {CANVAS_MAX_NODES} cards'}, status=400)
     ok, unlimited, remaining = _spend_canvas_credit(user)
     if not ok:
         return JsonResponse({'error': _CREDIT_ERROR, 'need_credits': True}, status=402)

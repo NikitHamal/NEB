@@ -29,12 +29,68 @@ function openAgent(){
       '<button class="cv-action primary" id="cvNebyRun"><span class="material-symbols-outlined">travel_explore</span>Explore canvas</button>' +
       '<button class="cv-action ghost" id="cvNebySuggest"><span class="material-symbols-outlined">explore</span>Suggest next moves</button>' +
     '</div>' +
-    '<div id="cvNebyOutput"></div>'
+    '<div id="cvNebyOutput"></div>' +
+    '<div class="cv-subhead" id="cvHistoryHead" hidden>History</div>' +
+    '<div id="cvNebyHistory"></div>'
   );
   var run=document.getElementById("cvNebyRun"),suggest=document.getElementById("cvNebySuggest");
   if(run)run.addEventListener("click",runExplore);
   if(suggest)suggest.addEventListener("click",runSuggestions);
+  loadHistory();
   setTimeout(function(){var x=document.getElementById("cvNebyGoal");if(x)x.focus()},40);
+}
+
+function timeAgo(ms){
+  var s=Math.max(1,Math.floor((Date.now()-Number(ms||0))/1000));
+  if(s<60)return s+"s ago";
+  if(s<3600)return Math.floor(s/60)+"m ago";
+  if(s<86400)return Math.floor(s/3600)+"h ago";
+  return Math.floor(s/86400)+"d ago";
+}
+
+function loadHistory(){
+  var box=document.getElementById("cvNebyHistory"),head=document.getElementById("cvHistoryHead");
+  if(!box)return;
+  ensureBoard().then(function(boardId){
+    return C.api("/ajax/canvas/boards/"+encodeURIComponent(boardId)+"/neby-history/");
+  }).then(function(d){
+    var runs=(d&&d.runs)||[];
+    if(head)head.hidden=!runs.length;
+    if(!runs.length){box.innerHTML="";return}
+    box.innerHTML=runs.map(function(r,i){
+      var label=r.kind==="suggest"?"Suggest":"Explore";
+      return '<div class="cv-history-item" data-idx="'+i+'">' +
+        '<button type="button" class="cv-history-head" data-toggle="'+i+'">' +
+          '<span class="material-symbols-outlined cv-history-chev">chevron_right</span>' +
+          '<span class="cv-history-kind '+r.kind+'">'+label+'</span>' +
+          '<span class="cv-history-goal">'+C.esc((r.goal||"Untitled").slice(0,90))+'</span>' +
+          '<span class="cv-history-time">'+timeAgo(r.created_at)+'</span>' +
+        '</button>' +
+        '<div class="cv-history-body" hidden>' +
+          (r.summary?'<p class="cv-history-summary">'+C.esc(r.summary)+'</p>':'') +
+          ((r.questions||[]).length?'<div class="cv-history-qs">'+r.questions.map(function(q){
+            return '<button type="button" class="cv-history-q" data-follow="'+C.esc(q)+'"><span>'+C.esc(q)+'</span><span class="material-symbols-outlined">add</span></button>';
+          }).join('')+'</div>':'<div class="cv-history-none">No suggestions recorded</div>') +
+        '</div>' +
+      '</div>';
+    }).join("");
+    box.querySelectorAll("[data-toggle]").forEach(function(b){
+      b.addEventListener("click",function(){
+        var item=b.closest(".cv-history-item");
+        if(item)item.classList.toggle("open");
+        var body=item&&item.querySelector(".cv-history-body");
+        if(body)body.hidden=!body.hidden;
+      });
+    });
+    box.querySelectorAll("[data-follow]").forEach(function(b){
+      b.addEventListener("click",function(){
+        var q=b.dataset.follow;
+        if(S.selectedId&&S.nodes.has(S.selectedId))C.createChild(S.selectedId,q,{});
+        else C.createRoot(q);
+        A.closePanel();
+      });
+    });
+  }).catch(function(){box.innerHTML=""});
 }
 
 function loading(label){
@@ -100,6 +156,7 @@ function runExplore(){
     addNodes(d.nodes||[]);
     renderNext(d.summary,d.nextQuestions||[]);
     setButtons(false);
+    loadHistory();
     C.showToast((d.nodes||[]).length+" Neby branches added");
   }).catch(function(err){
     setButtons(false);
@@ -142,6 +199,7 @@ function runSuggestions(){
   }).then(function(d){
     renderSuggestions(d.suggestions||[]);
     setButtons(false);
+    loadHistory();
   }).catch(function(err){
     setButtons(false);
     var out=document.getElementById("cvNebyOutput");

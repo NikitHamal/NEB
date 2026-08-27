@@ -221,3 +221,30 @@ code.bad,code.good{font:500 11.5px/1 ui-monospace,Menlo,monospace}
 @media (prefers-reduced-motion:reduce){
   .w-seg3 i,.w-opt,.w-fwrap,.w-shimmer,.w-spin{transition:none;animation:none}
 }
+
+/* flow: stacked layout inside a white card (was absolute-positioned demo) */
+.w-flow{background:transparent;border:none;display:flex;flex-direction:column;gap:8px;padding:10px;overflow-y:auto}
+.w-flow-node{position:static;display:flex;flex-direction:column;align-items:stretch;gap:6px;width:100%!important}
+.w-flow-arrow{text-align:center;color:var(--cw-ink-3);font-size:13px;line-height:1;margin:-2px 0}
+.w-kind{align-self:flex-start}
+.w-step b, .w-cond [data-edit] { cursor:text; }
+
+/* widget full-content editor */
+.cw-editor { width: min(520px, 100%); max-height: 86vh; overflow-y: auto; }
+.cw-form { display: flex; flex-direction: column; gap: 12px; }
+.cw-form-row { display: flex; flex-direction: column; gap: 5px; }
+.cw-form-row > label { font-size: 11.5px; font-weight: 600; color: var(--cw-ink-2, #475569); text-transform: uppercase; letter-spacing: .04em; }
+.cw-in { width: 100%; border: 1.5px solid var(--cw-line, #e2e8f0); border-radius: 11px; padding: 9px 12px; font-family: inherit; font-size: 13px; outline: none; color: var(--cw-ink, #0f172a); background: #f8faff; transition: border-color .15s, background .15s; box-sizing: border-box; }
+.cw-in:focus { border-color: var(--cw-primary, #2563eb); background: #fff; box-shadow: 0 0 0 3px rgba(0,74,198,.12); }
+.cw-in.is-answer { border-color: #0a8a5f; background: #f0fdf7; }
+.cw-repeat { display: flex; flex-direction: column; gap: 7px; }
+.cw-rep-row { display: grid; grid-template-columns: 1fr 1fr 26px; gap: 6px; align-items: center; }
+.cw-rep-x { border: 0; background: transparent; color: var(--cw-ink-3, #94a3b8); cursor: pointer; font-size: 12px; padding: 4px; }
+.cw-rep-x:hover { color: #b3261e; }
+.cw-rep-add { border: 1px dashed var(--cw-line, #cbd5e1); background: transparent; border-radius: 9px; padding: 7px; font: inherit; font-size: 12px; font-weight: 550; color: var(--cw-ink-2, #475569); cursor: pointer; }
+.cw-rep-add:hover { border-color: var(--cw-primary, #2563eb); color: var(--cw-primary, #2563eb); background: #f6f9ff; }
+.cw-editor-actions { justify-content: space-between; margin-top: 20px; }
+.cw-editor-actions .cv-action .material-symbols-outlined { font-size: 15px; }
+/* bar edit button */
+.cw-bar-btn { border: 0; background: transparent; color: var(--cw-ink-3, #94a3b8); cursor: pointer; font-size: 12px; padding: 0 2px; line-height: 1; }
+.cw-bar-btn:hover { color: var(--cw-primary, #2563eb); }

@@ -2,17 +2,13 @@
   "use strict";
 
   var CATALOG = [
-    { id: "w-filter", kind: "filter-table", title: "Filter table", w: 440, h: 276 },
-    { id: "w-records", kind: "records", title: "Records", w: 680, h: 340 },
-    { id: "w-flow", kind: "flow", title: "Flow", w: 440, h: 320 },
-    { id: "w-insights", kind: "insights", title: "Insights", w: 344, h: 420 },
-    { id: "w-tune", kind: "tune", title: "Fine-tune", w: 248, h: 292 },
-    { id: "w-selbar", kind: "selbar", title: "Selection AI", w: 460, h: 156 },
-    { id: "w-quiz", kind: "quiz", title: "Quiz", w: 320, h: 268 },
-    { id: "w-flash", kind: "flash", title: "Flashcards", w: 292, h: 228 },
-    { id: "w-timeline", kind: "timeline", title: "Timeline", w: 340, h: 248 },
+    { id: "w-quiz", kind: "quiz", title: "Quiz", w: 340, h: 280 },
+    { id: "w-flash", kind: "flash", title: "Flashcards", w: 320, h: 240 },
+    { id: "w-flow", kind: "flow", title: "Process flow", w: 440, h: 320 },
+    { id: "w-timeline", kind: "timeline", title: "Timeline", w: 360, h: 260 },
     { id: "w-poll", kind: "poll", title: "Poll", w: 300, h: 248 }
   ];
+  var HIDDEN_KINDS = { "filter-table": 1, "records": 1, "insights": 1, "tune": 1, "selbar": 1 };
 
   var HTML_TYPES = { widget: 1, card: 1, sticky: 1, file: 1 };
   var BOX_TYPES = { widget: 1, card: 1, sticky: 1, file: 1, image: 1, rect: 1, ellipse: 1, text: 1 };
@@ -148,26 +144,23 @@
 
   function htmlFlow(el) {
     var st = el.state || {};
-    var flavor = st.flavor || "Rocky Road";
-    var prop = st.prop || "flavor";
-    var open = st.open || "";
-    function chip(id, value, opts) {
-      opts = opts || [];
-      var menu = "";
-      if (open === id) {
-        menu = '<div class="w-menu" data-ui>' + opts.map(function (n) {
-          return '<button type="button" data-ui data-pick="' + id + '" data-val="' + esc(n) + '">' + esc(n) + "</button>";
-        }).join("") + "</div>";
-      }
-      return '<span class="w-selchip" data-ui><button type="button" data-ui data-open="' + id + '">' + esc(value) + ' <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m6 9 6 6 6-6"/></svg></button>' + menu + "</span>";
+    var topic = (el.topic || "").trim();
+    var start = st.start || { label: topic ? "Start: " + topic : "Start", desc: "Double-click any text to edit" };
+    var steps = st.steps && st.steps.length ? st.steps : [{ label: "Step 1", desc: "Key stage of the process" }, { label: "Step 2", desc: "What changes / is produced" }];
+    var dec = st.decision || { cond: topic ? "Is " + topic + " understood?" : "Decision?", yes: "Move to practice", no: "Review the card again" };
+    function stepHtml(s, i) {
+      return '<div class="w-step"><span class="w-ico i-purple">' + (i + 1) + '</span><span><b data-edit="steps.' + i + '.label">' + esc(s.label || "Step") + '</b><span class="w-muted" data-edit="steps.' + i + '.desc">' + esc(s.desc || "") + '</span></span></div>';
     }
-    return '<div class="w-flow">' +
-      '<svg class="w-flow-svg" viewBox="0 0 440 320" preserveAspectRatio="none"><path d="M 220 108 C 220 148, 220 156, 220 176" fill="none" stroke="#c5cdd8" stroke-width="1.25"/></svg>' +
-      '<div class="w-flow-node" style="left:70px;top:16px;width:300px"><span class="w-kind k-purple">Trigger</span>' +
-      '<div class="w-step"><span class="w-ico i-purple"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m7 11 4.08 10.35a1 1 0 0 0 1.84 0L17 11"/><path d="M17 7A5 5 0 0 0 7 7"/><path d="M17 7a2 2 0 0 1 0 4H7a2 2 0 0 1 0-4"/></svg></span><span><b>New order created</b><span class="w-muted">Trigger when a new order is created</span></span></div></div>' +
-      '<div class="w-flow-node" style="left:42px;top:176px;width:356px"><span class="w-kind k-amber">If / Else</span>' +
-      '<div class="w-cond" data-ui><div class="w-cline">If <span class="w-src" data-ui>order</span> ' + chip("prop", prop, ["flavor", "topping", "size", "scoops"]) + " is " + chip("val", flavor, ["Rocky Road", "Mint Chip", "Pistachio", "Bubblegum"]) + "</div>" +
-      '<div class="w-cline">and <span class="w-src" data-ui>order</span> topping is Brown butter bourbon</div></div></div></div>';
+    var mid = steps.map(stepHtml).join('<div class="w-flow-arrow">↓</div>');
+    return '<div class="w-card w-flow">' +
+      '<div class="w-flow-node"><span class="w-kind k-purple">Start</span>' +
+      '<div class="w-step"><span class="w-ico i-purple"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span><span><b data-edit="start.label">' + esc(start.label) + '</b><span class="w-muted" data-edit="start.desc">' + esc(start.desc || "") + '</span></span></div></div>' +
+      (mid ? '<div class="w-flow-arrow">↓</div>' + mid : '') +
+      '<div class="w-flow-arrow">↓</div>' +
+      '<div class="w-flow-node"><span class="w-kind k-amber">Decision</span>' +
+      '<div class="w-cond"><div class="w-cline" data-edit="decision.cond">' + esc(dec.cond) + '</div>' +
+      '<div class="w-cline">Yes → <span data-edit="decision.yes">' + esc(dec.yes) + '</span></div>' +
+      '<div class="w-cline">No → <span data-edit="decision.no">' + esc(dec.no) + '</span></div></div></div></div>';
   }
 
   function htmlInsights(el) {
@@ -236,38 +229,43 @@
   }
 
   function htmlQuiz(el) {
-    var pick = el.state && el.state.pick;
-    var opts = ["Next token prediction", "An inner simulator of the world", "A larger vocabulary", "A search index"];
-    var answer = 1;
+    var st = el.state || {};
+    var pick = st.pick;
+    var topic = (el.topic || "this topic");
+    var opts = (st.options && st.options.length) ? st.options : ["Key principle of " + topic, "An unrelated fact", "A common misconception", "Only a definition"];
+    var answer = st.answer != null ? st.answer : 0;
+    var q = st.q || ("What is the key idea of " + topic + "?");
     var buttons = opts.map(function (o, i) {
       var cls = pick == null ? "" : i === answer ? " ok" : i === pick ? " no" : "";
-      return '<button type="button" class="w-opt' + cls + '" data-ui data-quiz="' + i + '">' + esc(o) + "</button>";
+      return '<button type="button" class="w-opt' + cls + '" data-ui data-quiz="' + i + '" data-edit="options.' + i + '">' + esc(o) + "</button>";
     }).join("");
-    var foot = pick == null ? "" : (pick === answer ? '<div class="w-ok-msg">Correct — a world model predicts the next state.</div>' : '<div class="w-no-msg">Not quite. Think simulation, not autocomplete.</div>');
-    return '<div class="w-card w-quiz"><div class="q">What is a world model?</div>' + buttons + foot + "</div>";
+    var foot = pick == null ? '<div class="w-muted" style="font-size:11px">Double-click any option to edit</div>' : (pick === answer ? '<div class="w-ok-msg">Correct!</div>' : '<div class="w-no-msg">Not quite — try again.</div>');
+    return '<div class="w-card w-quiz"><div class="q" data-edit="q">' + esc(q) + '</div>' + buttons + foot + "</div>";
   }
 
   function htmlFlash(el) {
     var i = (el.state && el.state.i) || 0;
     var flip = !!(el.state && el.state.flip);
-    var cards = [
-      { q: "World model", a: "A compact inner simulator that predicts the next state — not the next token." },
-      { q: "Failure mode", a: "When the inner map drifts, actions look confident and land wrong." },
-      { q: "Retrieval", a: "Draw the loop from memory. Name the signal that proves the model is wrong." }
+    var topic = (el.topic || "this topic");
+    var cards = (st.cards && st.cards.length) ? st.cards : [
+      { q: topic + " — definition?", a: "Double-click to edit this answer." },
+      { q: "Why does it matter?", a: "Double-click to edit." },
+      { q: "Common misconception?", a: "Double-click to edit." }
     ];
     var c = cards[i % cards.length];
-    return '<div class="w-card w-flash"><div class="w-face' + (flip ? " is-back" : "") + '" data-ui data-flip="1">' + esc(flip ? c.a : c.q) + '</div><div class="w-flash-nav"><button type="button" data-ui data-flash="-1">Prev</button><span>' + ((i % 3) + 1) + ' / 3</span><button type="button" data-ui data-flash="1">Next</button></div></div>';
+    return '<div class="w-card w-flash"><div class="w-face' + (flip ? " is-back" : "") + '" data-ui data-flip="1"><span data-edit="cards.' + (i % cards.length) + '.' + (flip ? 'a' : 'q') + '">' + esc(flip ? c.a : c.q) + '</span></div><div class="w-flash-nav"><button type="button" data-ui data-flash="-1">Prev</button><span>' + ((i % cards.length) + 1) + ' / ' + cards.length + '</span><button type="button" data-ui data-flash="1">Next</button></div></div>';
   }
 
-  function htmlTimeline() {
-    var items = [
-      { t: "Sense", d: "Read the board and name the current state." },
-      { t: "Predict", d: "The inner model forecasts the next move." },
-      { t: "Act", d: "Place a card, a trap, or a practice prompt." },
-      { t: "Update", d: "Tighten the map from what actually happened." }
+  function htmlTimeline(el) {
+    var st = el.state || {};
+    var topic = (el.topic || "");
+    var items = (st.events && st.events.length) ? st.events : [
+      { t: "Phase 1", d: "Beginning of " + topic },
+      { t: "Phase 2", d: "Key development" },
+      { t: "Phase 3", d: "Outcome / impact" }
     ];
-    return '<div class="w-card w-time"><h4>Action loop</h4>' + items.map(function (it) {
-      return '<div class="w-titem"><i></i><div><b>' + esc(it.t) + '</b><div class="w-muted">' + esc(it.d) + "</div></div></div>";
+    return '<div class="w-card w-time"><h4>' + esc(topic ? "Timeline: " + topic : "Timeline") + '</h4>' + items.map(function (it, i) {
+      return '<div class="w-titem"><i></i><div><b data-edit="events.' + i + '.t">' + esc(it.t) + '</b><div class="w-muted" data-edit="events.' + i + '.d">' + esc(it.d) + "</div></div></div>";
     }).join("") + "</div>";
   }
 
@@ -348,16 +346,40 @@
   CanvasWidgets.prototype._bind = function () {
     var self = this, board = this.board;
     this.el.addEventListener("pointerdown", function (e) {
+      var tool = board.tool || "select";
+      if (tool !== "select" && tool.indexOf("w-") !== 0) return;
       var handle = e.target.closest("[data-h]");
       var node = e.target.closest(".cw-node");
       var ui = e.target.closest("[data-ui]");
       var edit = e.target.closest("[data-edit]");
+      var bar = e.target.closest("[data-drag]");
+      var del = e.target.closest("[data-del]");
+      var editw = e.target.closest("[data-editw]");
       if (handle) {
         var item = self._item();
         if (!item || item.w == null) return;
         var xy = xyOf(board, e);
         board.resizeDrag = { h: handle.getAttribute("data-h"), start: s2wOf(board, xy.x, xy.y), orig: { x: item.x, y: item.y, w: item.w, h: item.h } };
         try { handle.setPointerCapture(e.pointerId); } catch (err) {}
+        e.stopPropagation(); e.preventDefault(); return;
+      }
+      if (del) {
+        var dnode = e.target.closest(".cw-node");
+        if (dnode) self._remove(dnode.getAttribute("data-id"));
+        e.stopPropagation(); e.preventDefault(); return;
+      }
+      if (editw && node) {
+        var ehit = self._find(node.getAttribute("data-id"));
+        if (ehit) self._openEditor(ehit.el);
+        e.stopPropagation(); e.preventDefault(); return;
+      }
+      if (bar && node) {
+        var bhit = self._find(node.getAttribute("data-id"));
+        if (!bhit) return;
+        setSel(board, bhit.i);
+        var bw = s2wOf(board, xyOf(board, e).x, xyOf(board, e).y);
+        board.drag = { start: bw, orig: JSON.parse(JSON.stringify(bhit.el)), moved: false };
+        mark(board);
         e.stopPropagation(); e.preventDefault(); return;
       }
       if (edit && e.detail === 2) {
@@ -387,6 +409,14 @@
         e.stopPropagation();
       }
     });
+    this.el.addEventListener("click", function (e) {
+      var editw = e.target.closest("[data-editw]");
+      if (!editw) return;
+      var node = editw.closest(".cw-node");
+      if (!node) return;
+      var hit = self._find(node.getAttribute("data-id"));
+      if (hit) this._openEditor(hit.el);
+    }.bind(this));
     this.el.addEventListener("dblclick", function (e) {
       var edit = e.target.closest("[data-edit]");
       if (!edit) return;
@@ -449,10 +479,20 @@
     node.focus();
     wrap._editing = true;
     var self = this;
+    function setPath(obj, path, val) {
+      var parts = path.split(".");
+      var cur = obj;
+      for (var i = 0; i < parts.length - 1; i++) {
+        var k = parts[i];
+        if (cur[k] == null) cur[k] = {};
+        cur = cur[k];
+      }
+      cur[parts[parts.length - 1]] = val;
+    }
     function done() {
       node.contentEditable = "false";
       wrap._editing = false;
-      hit.el[field] = node.textContent;
+      setPath(hit.el, field, node.textContent);
       persistOf(self.board);
       mark(self.board);
       node.removeEventListener("blur", done);
@@ -462,6 +502,14 @@
       if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); node.blur(); }
       e.stopPropagation();
     });
+  };
+
+  CanvasWidgets.prototype._remove = function (id) {
+    var hit = this._find(id);
+    if (!hit) return;
+    this.board.elements.splice(hit.i, 1);
+    persistOf(this.board);
+    mark(this.board);
   };
 
   CanvasWidgets.prototype._onUi = function (ui, e) {
@@ -515,11 +563,172 @@
     e.preventDefault();
   };
 
+
+  /* -- full content editor: kind-specific form + regenerate -- */
+  CanvasWidgets.prototype._openEditor = function (el) {
+    var self = this;
+    el.state = el.state || {};
+    var kind = el.kind;
+    var ov = document.createElement("div");
+    ov.className = "modal-overlay";
+    function esc2(s) { return esc(s); }
+    function frow(label, inner) {
+      return '<div class="cw-form-row"><label>' + esc2(label) + '</label>' + inner + '</div>';
+    }
+    function fin(path, val, ph, cls) {
+      return '<input class="cw-in ' + (cls || "") + '" data-path="' + path + '" value="' + esc2(val == null ? "" : val) + '" placeholder="' + esc2(ph || "") + '">';
+    }
+    var body = "";
+    body += frow("Topic (used by Regenerate)", fin("__topic", el.topic || "", "e.g. photosynthesis"));
+    if (kind === "quiz") {
+      var stq = el.state;
+      body += frow("Question", fin("q", stq.q || "", "Question"));
+      var opts = (stq.options && stq.options.length) ? stq.options : ["", "", "", ""];
+      opts.slice(0, 4).forEach(function (o, i) {
+        body += frow("Option " + (i + 1) + (stq.answer === i ? " (correct)" : ""), fin("options." + i, o, "", stq.answer === i ? "is-answer" : ""));
+      });
+      body += frow("Correct answer", '<select class="cw-in" data-path="answer">' + [0, 1, 2, 3].map(function (i2) {
+        return '<option value="' + i2 + '"' + (stq.answer === i2 ? " selected" : "") + ">Option " + (i2 + 1) + "</option>";
+      }).join("") + "</select>");
+    } else if (kind === "flash") {
+      var cards = (st.cards && st.cards.length) ? st.cards : [{ q: "", a: "" }];
+      body += '<div class="cw-form-row"><label>Cards</label><div class="cw-repeat" data-rep="cards">' +
+        cards.map(function (c, i) {
+          return '<div class="cw-rep-row">' + fin("cards." + i + ".q", c.q, "Front") + fin("cards." + i + ".a", c.a, "Back") + '<button type="button" class="cw-rep-x" data-rm>\u2715</button></div>';
+        }).join("") +
+        '<button type="button" class="cw-rep-add" data-add="cards">+ Add card</button></div></div>';
+    } else if (kind === "timeline") {
+      var evs = (st.events && st.events.length) ? st.events : [{ t: "", d: "" }];
+      body += '<div class="cw-form-row"><label>Events</label><div class="cw-repeat" data-rep="events">' +
+        evs.map(function (c, i) {
+          return '<div class="cw-rep-row">' + fin("events." + i + ".t", c.t, "Label") + fin("events." + i + ".d", c.d, "Detail") + '<button type="button" class="cw-rep-x" data-rm>\u2715</button></div>';
+        }).join("") +
+        '<button type="button" class="cw-rep-add" data-add="events">+ Add event</button></div></div>';
+    } else if (kind === "flow") {
+      var s0 = st.start || {};
+      body += frow("Start label", fin("start.label", s0.label || "", "Start"));
+      body += frow("Start detail", fin("start.desc", s0.desc || "", "Detail"));
+      var steps = (st.steps && st.steps.length) ? st.steps : [{ label: "", desc: "" }];
+      body += '<div class="cw-form-row"><label>Steps</label><div class="cw-repeat" data-rep="steps">' +
+        steps.map(function (c, i) {
+          return '<div class="cw-rep-row">' + fin("steps." + i + ".label", c.label, "Step") + fin("steps." + i + ".desc", c.desc, "Detail") + '<button type="button" class="cw-rep-x" data-rm>\u2715</button></div>';
+        }).join("") +
+        '<button type="button" class="cw-rep-add" data-add="steps">+ Add step</button></div></div>';
+      var d0 = st.decision || {};
+      body += frow("Decision condition", fin("decision.cond", d0.cond || "", "If ..."));
+      body += frow("Yes branch", fin("decision.yes", d0.yes || "", "Yes"));
+      body += frow("No branch", fin("decision.no", d0.no || "", "No"));
+    }
+    ov.innerHTML =
+      '<div class="modal-card cw-editor">' +
+      '<h3 class="modal-title">Edit ' + esc2(defFor(kind).title || "widget") + '</h3>' +
+      '<p class="modal-sub">Edit fields directly, or change the topic and regenerate with Neby.</p>' +
+      '<div class="cw-form">' + body + '</div>' +
+      '<div class="modal-actions cw-editor-actions">' +
+      '<button type="button" class="cv-action ghost" data-regen><span class="material-symbols-outlined">autorenew</span>Regenerate</button>' +
+      '<span style="display:flex;gap:9px">' +
+      '<button type="button" class="cv-action ghost" data-x>Cancel</button>' +
+      '<button type="button" class="cv-action primary" data-save>Save</button></span>' +
+      '</div></div>';
+    document.body.appendChild(ov);
+
+    function collect() {
+      el.state = el.state || {};
+      ov.querySelectorAll("[data-path]").forEach(function (inp) {
+        var path = inp.getAttribute("data-path");
+        if (path === "__topic") { el.topic = inp.value.trim().slice(0, 120); return; }
+        var parts = path.split(".");
+        var cur = el.state;
+        for (var i = 0; i < parts.length - 1; i++) {
+          var k = parts[i];
+          if (cur[k] == null) cur[k] = {};
+          cur = cur[k];
+        }
+        var last = parts[parts.length - 1];
+        cur[last] = (kind === "quiz" && last === "answer") ? (parseInt(inp.value, 10) || 0) : inp.value;
+      });
+      ["cards", "events", "steps"].forEach(function (k) {
+        if (Array.isArray(el.state[k])) el.state[k] = el.state[k].filter(function (row) {
+          return Object.values(row).some(function (v) { return String(v || "").trim(); });
+        });
+      });
+      if (kind === "quiz" && (!Array.isArray(el.state.options) || !el.state.options.length)) el.state.options = ["", "", "", ""];
+    }
+    function close() { ov.remove(); }
+    ov.addEventListener("click", function (e) { if (e.target === ov) close(); });
+    ov.querySelector("[data-x]").addEventListener("click", close);
+    ov.querySelector("[data-save]").addEventListener("click", function () {
+      collect();
+      persistOf(self.board);
+      mark(self.board);
+      close();
+    });
+    ov.querySelector("[data-regen]").addEventListener("click", function () {
+      collect();
+      var topic = (el.topic || "").trim();
+      if (!topic) return;
+      var btn = ov.querySelector("[data-regen]");
+      btn.disabled = true;
+      btn.innerHTML = '<span class="w-spin"></span>Regenerating...';
+      var api = window.CanvasCore && window.CanvasCore.api;
+      var boardId = window.CanvasCore && window.CanvasCore.state && window.CanvasCore.state.boardId;
+      if (!api || !boardId || String(boardId).indexOf("local_") === 0) {
+        btn.disabled = false;
+        btn.innerHTML = '<span class="material-symbols-outlined">autorenew</span>Regenerate';
+        return;
+      }
+      api("/ajax/canvas/boards/" + encodeURIComponent(boardId) + "/widget-content/", {
+        method: "POST", body: JSON.stringify({ kind: kind, topic: topic })
+      }).then(function (d) {
+        var c = d && d.content;
+        if (!c) throw new Error("empty");
+        if (kind === "flow") el.state = { start: c.start, steps: c.steps || [], decision: c.decision };
+        else el.state = c;
+        persistOf(self.board);
+        mark(self.board);
+        close();
+      }).catch(function () {
+        btn.disabled = false;
+        btn.innerHTML = '<span class="material-symbols-outlined">autorenew</span>Regenerate';
+      });
+    });
+    ov.addEventListener("click", function (e) {
+      var add = e.target.closest("[data-add]");
+      var rm = e.target.closest("[data-rm]");
+      if (add) {
+        var rep = add.closest("[data-rep]");
+        var key = rep.getAttribute("data-rep");
+        var n = rep.querySelectorAll(".cw-rep-row").length;
+        var row = document.createElement("div");
+        row.className = "cw-rep-row";
+        if (key === "cards") row.innerHTML = fin("cards." + n + ".q", "", "Front") + fin("cards." + n + ".a", "", "Back") + '<button type="button" class="cw-rep-x" data-rm>\u2715</button>';
+        else if (key === "events") row.innerHTML = fin("events." + n + ".t", "", "Label") + fin("events." + n + ".d", "", "Detail") + '<button type="button" class="cw-rep-x" data-rm>\u2715</button>';
+        else row.innerHTML = fin("steps." + n + ".label", "", "Step") + fin("steps." + n + ".desc", "", "Detail") + '<button type="button" class="cw-rep-x" data-rm>\u2715</button>';
+        rep.insertBefore(row, add);
+      }
+      if (rm) {
+        var rrow = rm.closest(".cw-rep-row");
+        var rep2 = rm.closest("[data-rep]");
+        rrow.remove();
+        rep2.querySelectorAll(".cw-rep-row").forEach(function (r, i) {
+          r.querySelectorAll("[data-path]").forEach(function (inp) {
+            var parts = inp.getAttribute("data-path").split(".");
+            parts[1] = String(i);
+            inp.setAttribute("data-path", parts.join("."));
+          });
+        });
+      }
+    });
+    var firstIn = ov.querySelector(".cw-form input");
+    if (firstIn) setTimeout(function () { firstIn.focus(); }, 40);
+  };
+
   CanvasWidgets.prototype.sync = function () {
+
     var board = this.board, cam = camOf(board);
     this.el.style.transform = "translate(" + cam.x + "px," + cam.y + "px) scale(" + cam.zoom + ")";
     var tool = board.tool || "select";
-    var interact = tool === "select" || tool === "pan" || (tool && tool.indexOf("w-") === 0);
+    var interact = tool === "select" || (tool && tool.indexOf("w-") === 0);
     this.el.classList.toggle("is-interact", interact);
 
     var live = {};
@@ -541,7 +750,8 @@
       node.style.width = (el.w || 280) + "px";
       node.style.height = (el.h || 180) + "px";
       if (node._sig !== sig && !node._editing) {
-        node.innerHTML = renderEl(el);
+        var title = el.type === "widget" ? (defFor(el.kind).title || "Widget") : (el.type || "Item");
+        node.innerHTML = '<div class="cw-bar" data-drag><span class="cw-bar-grip">⠿</span><span class="cw-bar-title">' + esc((el.topic ? title + " · " + el.topic : title)) + '</span><button type="button" class="cw-bar-btn" data-editw title="Edit content">✎</button><button type="button" class="cw-bar-x" data-del title="Delete">✕</button></div>' + renderEl(el);
         node._sig = sig;
       }
     }
