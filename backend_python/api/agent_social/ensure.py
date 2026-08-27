@@ -46,10 +46,12 @@ def ensure_bot_user(username=NEBY_USERNAME, display_name=NEBY_DISPLAY_NAME):
 def ensure_bot_config(username=NEBY_USERNAME, display_name=NEBY_DISPLAY_NAME, enabled=True):
     username = (username or NEBY_USERNAME).strip().lower()
     default_chain = (
-        '[{"provider": "motiftech", "model": "motif-102b"}, '
+        '[{"provider": "empero", "model": "qwen3.8-fp8"}, '
+        '{"provider": "motiftech", "model": "motif-102b"}, '
         '{"provider": "tryingopen", "model": "qwen/qwen3.8-27b"}, '
         '{"provider": "tryingopen", "model": "deepseek/deepseek-v4-flash-0731"}, '
         '{"provider": "tryingopen", "model": "z-ai/glm-5.3"}, '
+        '{"provider": "geminiweb", "model": "geminiweb/gemini-flash-lite"}, '
         '{"provider": "poolside", "model": "laguna-s-2.1"}, '
         '{"provider": "k2think", "model": "MBZUAI-IFM/K2-Think-v2"}]'
     )
@@ -59,8 +61,8 @@ def ensure_bot_config(username=NEBY_USERNAME, display_name=NEBY_DISPLAY_NAME, en
             'name': display_name or username.capitalize(),
             'bot_username': username,
             'display_name': display_name or username.capitalize(),
-            'provider': 'geminiweb',
-            'model': 'geminiweb/gemini-flash-lite',
+            'provider': 'empero',
+            'model': 'qwen3.8-fp8',
             'fallback_chain': default_chain,
             'enabled': enabled,
             'system_prompt': NEBY_SYSTEM_PROMPT if username == NEBY_USERNAME else '',
@@ -68,12 +70,16 @@ def ensure_bot_config(username=NEBY_USERNAME, display_name=NEBY_DISPLAY_NAME, en
     )
     changed = False
     if username == NEBY_USERNAME:
-        if not config.provider or config.provider == 'qwen':
-            config.provider = 'geminiweb'
-            config.model = 'geminiweb/gemini-flash-lite'
+        if not config.provider or config.provider in ('qwen', 'geminiweb'):
+            config.provider = 'empero'
+            config.model = 'qwen3.8-fp8'
             changed = True
-        config.fallback_chain = default_chain
-        changed = True
+        if 'empero' not in (config.fallback_chain or ''):
+            config.fallback_chain = default_chain
+            changed = True
+        elif config.fallback_chain != default_chain:
+            config.fallback_chain = default_chain
+            changed = True
         if config.system_prompt != NEBY_SYSTEM_PROMPT:
             config.system_prompt = NEBY_SYSTEM_PROMPT
             changed = True

@@ -1062,12 +1062,8 @@ def call_qwen(system_prompt, user_message, model="qwen3.8-max", max_tokens=500,
                 logger.info(f"Qwen response received ({len(result)} chars)")
                 return result
 
-            logger.warning(f"Qwen empty response (attempt {attempt + 1})")
+            logger.warning(f"Qwen empty response (attempt {attempt + 1}) -> fallback will be tried")
             _mark_failed(session)
-            # A cached OSS upload may have expired mid-run (STS URLs are
-            # short-lived) — the chat endpoint silently drops those
-            # attachments, yielding an instant empty stream. Drop the cache
-            # so the next attempt re-uploads fresh URLs.
             if file_paths:
                 from .qwen_utils import file_upload as _fu
                 from pathlib import Path
@@ -1077,24 +1073,24 @@ def call_qwen(system_prompt, user_message, model="qwen3.8-max", max_tokens=500,
                         _fu._drop_upload(hashlib.md5(data).hexdigest())
                     except Exception:
                         pass
-            # An instant empty 200 is upstream throttling during high-demand
-            # windows — give it more room to recover than the old 2/4/6s
-            # schedule before exhausting the session.
-            time.sleep(5 * (attempt + 1))
+            time.sleep(1)
+            # empty on qwen -> fast-fallback to next provider (empero/geminiweb) instead of retrying qwen 3x
+            if attempt >= 1:
+                return None
         except QwenPunishedError as e:
             logger.warning(
-                f"Qwen WAF punish (attempt {attempt + 1}): {str(e)[:200]}"
+                f"Qwen WAF punish (attempt {attempt + 1}): {str(e)[:200]} -> fast fallback"
             )
             if session:
                 _mark_failed(session)
-            # WAF captcha challenges are IP-scoped and typically clear within
-            # 30-120s. Wait longer than normal retries so the punishment
-            # expires instead of hammering the endpoint.
-            time.sleep(30 * (attempt + 1))
+            time.sleep(2)
+            return None
         except Exception as e:
             logger.error(f"Qwen call exception (attempt {attempt + 1}): {e}")
             if session:
                 _mark_failed(session)
-            time.sleep(2 * (attempt + 1))
+            time.sleep(1)
+            if attempt >= 1:
+                return None
 
     return None
