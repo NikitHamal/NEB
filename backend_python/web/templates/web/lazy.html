@@ -8,86 +8,14 @@
 <meta name="description" content="Chat your assignments, reports and resumes into existence. Lazy drafts, revises, extends and exports documents while you talk.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,0&display=swap">
-<link rel="stylesheet" href="{% static 'web/css/lazy.css' %}?v=50">
-<meta name="theme-color" content="#f7f7f8">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'web/css/ai-widgets.css' %}?v=17">
+<link rel="stylesheet" href="{% static 'web/css/lazy_harness.css' %}?v=17">
+<meta name="theme-color" content="#1b1c22">
 </head>
-<body class="lz-body" data-authenticated="{{ is_authenticated|yesno:'true,false' }}">
+<body data-authenticated="{{ is_authenticated|yesno:'true,false' }}">
 {% csrf_token %}
-<div class="lz-app">
-
-  <aside class="lz-sidebar" id="lzSidebar">
-    <div class="lz-sb-top">
-      <div class="lz-brand"><span class="lz-logo">L</span><span class="lz-brand-name">Lazy</span></div>
-      <button class="lz-icon-btn" id="lzSbClose" aria-label="Close sidebar"><span class="material-symbols-outlined">close</span></button>
-    </div>
-    <button class="lz-new-chat" id="lzNewChat"><span class="material-symbols-outlined">add_comment</span> New chat</button>
-    <div class="lz-sb-label">Chats</div>
-    <div class="lz-session-list" id="lzSessions"></div>
-    <div class="lz-sb-footer">
-      {% if is_authenticated %}
-      <span class="lz-cred" id="lzCredits">{% if lazy_credits.unlimited %}&infin; credits{% else %}{{ lazy_credits.remaining }} credits left{% endif %}</span>
-      <a class="lz-user" href="/profile/{{ user.username }}/">{{ user.username }}</a>
-      {% endif %}
-    </div>
-  </aside>
-  <div class="lz-scrim" id="lzScrim" hidden></div>
-
-  <main class="lz-main">
-    <header class="lz-topbar">
-      <button class="lz-icon-btn only-mobile" id="lzMenuBtn" aria-label="Menu"><span class="material-symbols-outlined">menu</span></button>
-      <div class="lz-title-wrap"><span class="lz-title" id="lzTitle">New chat</span><span class="lz-sub" id="lzSub"></span></div>
-      <div class="lz-top-actions">
-        <button class="lz-pill-btn" id="lzDocBtn" hidden><span class="material-symbols-outlined">description</span><span id="lzDocBtnLabel">Document</span></button>
-      </div>
-    </header>
-
-    <div class="lz-thread" id="lzThread">
-      <div class="lz-welcome" id="lzWelcome">
-        <div class="lz-welcome-logo">L</div>
-        <h1>What are we writing today?</h1>
-        <p class="lz-welcome-sub">Assignments, reports, resumes — drafted, revised and exported while you chat.</p>
-        <div class="lz-suggest-grid">
-          <button class="lz-card" data-fill="Write a 2-page assignment on "><span class="material-symbols-outlined">school</span><strong>Assignment</strong><span>Give me a topic and page count</span></button>
-          <button class="lz-card" data-fill="Draft a lab report for "><span class="material-symbols-outlined">science</span><strong>Report / Lab file</strong><span>Method to conclusion structure</span></button>
-          <button class="lz-card" data-fill="Create my resume for an internship application. My details: "><span class="material-symbols-outlined">badge</span><strong>Resume</strong><span>Compact one-page format</span></button>
-          <button class="lz-card" data-attach><span class="material-symbols-outlined">upload_file</span><strong>Improve my draft</strong><span>Attach .docx or .pdf</span></button>
-        </div>
-      </div>
-      <div class="lz-msgs" id="lzMsgs"></div>
-    </div>
-
-    <div class="lz-composer-wrap">
-      <div class="lz-attach-row" id="lzAttachRow" hidden></div>
-      <div class="lz-composer" id="lzComposer">
-        <button class="lz-icon-btn" id="lzAttachBtn" title="Attach .docx / .pdf / .txt" aria-label="Attach file"><span class="material-symbols-outlined">attach_file</span></button>
-        <textarea id="lzInput" rows="1" placeholder="Message Lazy… (Enter to send, Shift+Enter for new line)" maxlength="4000"></textarea>
-        <button class="lz-send" id="lzSend" aria-label="Send" disabled><span class="material-symbols-outlined">arrow_upward</span></button>
-        <button class="lz-stop" id="lzStop" aria-label="Stop generating" hidden><span class="material-symbols-outlined">stop</span></button>
-      </div>
-      <div class="lz-footnote">Lazy can make mistakes — review before submitting. AI actions use Neby credits.</div>
-      <input type="file" id="lzFileInput" accept=".docx,.pdf,.txt,.png,.jpg,.jpeg,.gif,.webp" hidden>
-    </div>
-  </main>
-
-  <aside class="lz-docpanel" id="lzDocPanel" hidden aria-label="Working document">
-    <div class="lz-doc-head">
-      <input class="lz-doc-title-input" id="lzDocTitleInput" placeholder="Untitled document" maxlength="120">
-      <div class="lz-doc-actions">
-        <button class="lz-pill-btn sm" data-export="docx" title="Export DOCX"><span class="material-symbols-outlined">description</span></button>
-        <button class="lz-pill-btn sm" data-export="pdf" title="Export PDF"><span class="material-symbols-outlined">picture_as_pdf</span></button>
-        <button class="lz-pill-btn sm" data-export="html" title="Export HTML"><span class="material-symbols-outlined">code</span></button>
-        <button class="lz-icon-btn" id="lzDocClose" aria-label="Close document"><span class="material-symbols-outlined">close</span></button>
-      </div>
-    </div>
-    <div class="lz-doc-scroll">
-      <div class="lz-paper lz-editable" id="lzPaper" contenteditable="true" spellcheck="true" data-placeholder="Your document appears here — or just ask in chat."></div>
-    </div>
-    <div class="lz-doc-status" id="lzDocStatus"></div>
-  </aside>
-
-</div>
+<div id="lzRoot"></div>
 
 <script nonce="{{ csp_nonce }}">
 window.LAZY_CONFIG = {
@@ -98,7 +26,19 @@ window.LAZY_CONFIG = {
   credits: { unlimited: {{ lazy_credits.unlimited|yesno:'true,false' }}, remaining: {{ lazy_credits.remaining }} }
 };
 </script>
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/lazy.js' %}?v=50"></script>
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/lazy-doc.js' %}?v=50"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/ai-widgets.js' %}?v=17"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/lazy/icons.js' %}?v=17"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/lazy/primitives.js' %}?v=17"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/lazy/records_table.js' %}?v=17"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/lazy/prompt_bar.js' %}?v=17"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/lazy/harness.js' %}?v=17"></script>
+<script nonce="{{ csp_nonce }}">
+document.addEventListener("DOMContentLoaded", function() {
+  var root = document.getElementById("lzRoot");
+  if (root && window.LazyHarness) {
+    window._lazyHarness = new window.LazyHarness(root);
+  }
+});
+</script>
 </body>
 </html>

@@ -3,22 +3,43 @@ import re
 
 from .lazy_io import strip_tags
 
-LAZY_GENERATE_SYSTEM = """You are Lazy — a document engine inside an agentic chat for Nepali NEB students. Produce print-ready A4 document HTML.
+LAZY_GENERATE_SYSTEM = """You are Lazy — an autonomous, professional document drafting engine for students, job applicants, and researchers.
+You produce purely formal, print-ready documents (assignments, resumes, CVs, lab reports, research papers, essays).
 
-Return ONLY a single JSON object (no markdown fences):
+STRICT DIRECTIVES:
+- Return ONLY a single raw JSON object:
 {
-  "title": "Document title, 4-8 words",
-  "html": "<h1>Title</h1><h2>Section</h2><p>...</p> ..."
+  "title": "Clear Document Title",
+  "html": "<h1>...</h1>..."
 }
+- NEVER include conversational greetings, chit-chat, or pleasantries (e.g. NEVER output "Namaste sathi", "Hello", "Sure, here is...", "Excited for you...", "Hope this helps").
+- NEVER include meta-commentary, introductory notes, or closing sign-offs in the HTML.
+- The HTML content MUST be ONLY the pure professional document itself.
 
-HTML rules:
-- Only these tags: <h1> <h2> <h3> <p> <ul> <ol> <li> <blockquote> <strong> <em> <br> <table> <thead> <tbody> <tr> <th> <td>.
-- First element is the <h1> title, then 3-7 sections each opening with <h2>.
-- 60-140 words per section; <strong> on key terms; one <blockquote> definition when natural.
-- assignment: thesis → claims → evidence → counterpoint → conclusion (+ references placeholder).
-- report: executive summary → method → findings → analysis → recommendations.
-- resume: header → summary → experience → education → skills (compact).
-- Length ∝ pages (1 page ≈ 450 words). Formal register, no filler. Raw JSON only."""
+HTML Formatting Rules:
+- Only standard semantic tags: <h1>, <h2>, <h3>, <h4>, <p>, <ul>, <ol>, <li>, <blockquote>, <strong>, <em>, <table>, <thead>, <tbody>, <tr>, <th>, <td>, <br>, <code>, <pre>.
+- Structure with clear hierarchy: <h1> title at top, followed by well-structured <h2> sections and <h3> sub-sections.
+- For Science & Math: Complete derivations, exact formulas, and step-by-step solved numerical problems.
+- For Resumes & CVs: Clean contact header, executive summary, education, technical skills, projects, experience.
+- Raw JSON only without markdown backticks."""
+
+
+def clean_doc_html(html):
+    """Sanitizes generated document HTML to strip any accidental conversational greetings or banter."""
+    if not html:
+        return ""
+    cleaned = str(html).strip()
+    if cleaned.startswith("```"):
+        cleaned = re.sub(r"^```(?:html|json)?\s*\n?|```$", "", cleaned, flags=re.I).strip()
+
+    # Strip any conversational opening paragraph such as "Namaste sathi! ...", "Hello! Here is...", "Sure, here's a..."
+    patterns = [
+        r"^(?:<p[^>]*>)?\s*(?:namaste(?:\s+sathi)?|hello|hi|hey|sure|excited\s+for\s+you|here\s+is\s+(?:a|the)?|here\'s\s+(?:a|the)?)[^\n<]{0,250}(?:</p>|\n+)",
+        r"(?:<p[^>]*>)?\s*(?:hope\s+this\s+helps|let\s+me\s+know\s+if\s+you\s+need|feel\s+free\s+to\s+ask)[^\n<]{0,200}(?:</p>)?\s*$",
+    ]
+    for p in patterns:
+        cleaned = re.sub(p, "", cleaned, flags=re.I | re.M).strip()
+    return cleaned
 
 LAZY_EDIT_SYSTEM = """You are Lazy — you revise an existing document per an instruction.
 
@@ -103,52 +124,273 @@ def _resolve_provider(user):
     return None
 
 
-def llm_chat(user, system, prompt, max_tokens=1600, temperature=0.45, timeout=75):
+def _get_admin_bot_config(model_key="neby-pro"):
+    """Fetch admin BotConfig for Neby Pro, Fast, or general bot."""
+    from api.models import BotConfig
+    names = []
+    if model_key == "neby-pro":
+        names = ["neby_pro", "neby-pro", "neby", "lazy_pro", "lazy"]
+    elif model_key == "neby-fast":
+        names = ["neby_fast", "neby-fast", "fast", "lazy_fast"]
+
+    for name in names:
+        cfg = BotConfig.objects.filter(bot_username__iexact=name, enabled=True).first()
+        if cfg:
+            return cfg
+
+def get_lazy_prompts():
+    """Retrieve custom admin-configured system prompts with fallback to defaults."""
+    cfg = _get_admin_bot_config(model_key="neby-pro")
+    prompts = {
+        "generate": LAZY_GENERATE_SYSTEM,
+        "edit": LAZY_EDIT_SYSTEM,
+        "section": LAZY_SECTION_SYSTEM,
+        "reply": LAZY_REPLY_SYSTEM,
+        "planner": LAZY_PLANNER_SYSTEM,
+    }
+    if cfg and cfg.system_prompt:
+        try:
+            custom = json.loads(cfg.system_prompt)
+            if isinstance(custom, dict):
+                for k, v in custom.items():
+                    if k in prompts and isinstance(v, str) and v.strip():
+                        prompts[k] = v.strip()
+        except Exception:
+            if cfg.system_prompt.strip() and not cfg.system_prompt.strip().startswith("{"):
+                prompts["generate"] = cfg.system_prompt.strip()
+    return prompts
+
+
+def llm_chat(user, system, prompt, max_tokens=1600, temperature=0.45, timeout=75, model_key="neby-pro"):
+    from api.neby import call_ai_api
+    from api.models import BotConfig
+
+    # 1. Check if an Admin has configured a specific BotConfig for this mode (e.g. via /admin/bots/)
+    bot_cfg = _get_admin_bot_config(model_key=model_key)
+    if bot_cfg:
+        try:
+            res = call_ai_api(system, prompt, config=bot_cfg)
+            if res and res.strip():
+                return res.strip()
+        except Exception:
+            pass
+
+    # 2. Check if user has personal BYOK credentials configured
     r = _resolve_provider(user)
-    if not r:
-        return None
+    if r:
+        try:
+            from api.llm.client import chat
+            result = chat(
+                format=r.format, base_url=r.base_url, api_key=r.api_key, model=r.model,
+                messages=[{"role": "system", "content": system}, {"role": "user", "content": prompt}],
+                max_tokens=max_tokens, timeout=timeout, temperature=temperature, provider=r.slug,
+            )
+            text = (result.text or "").strip()
+            if text:
+                return text
+        except Exception:
+            pass
+
+    # 3. Dynamic default routing based on mode if no explicit bot config was found or succeeded
+    if model_key == "neby-pro" or not model_key:
+        pro_cfg = BotConfig(
+            provider="qwen", model="qwen3.8-max",
+            fallback_chain='[{"provider": "inception", "model": "mercury-2"}, {"provider": "k2think", "model": "MBZUAI-IFM/K2-Think-v2"}, {"provider": "geminiweb", "model": "geminiweb/gemini-flash-lite"}, {"provider": "longcat", "model": "longcat/LongCat-2.0"}, {"provider": "egov", "model": "AI1"}]'
+        )
+        try:
+            res = call_ai_api(system, prompt, config=pro_cfg)
+            if res and res.strip():
+                return res.strip()
+        except Exception:
+            pass
+    elif model_key == "neby-fast":
+        fast_cfg = BotConfig(
+            provider="geminiweb", model="geminiweb/gemini-flash-lite",
+            fallback_chain='[{"provider": "longcat", "model": "longcat/LongCat-2.0"}, {"provider": "egov", "model": "AI1"}, {"provider": "deepai", "model": "standard"}]'
+        )
+        try:
+            res = call_ai_api(system, prompt, config=fast_cfg)
+            if res and res.strip():
+                return res.strip()
+        except Exception:
+            pass
+
+    # 4. Universal safety fallback via call_ai_api
     try:
-        from api.llm.client import chat
-        result = chat(
-            format=r.format, base_url=r.base_url, api_key=r.api_key, model=r.model,
-            messages=[{"role": "system", "content": system}, {"role": "user", "content": prompt}],
-            max_tokens=max_tokens, timeout=timeout, temperature=temperature, provider=r.slug,
-        )
-        text = (result.text or "").strip()
-        return text or None
+        res = call_ai_api(system, prompt)
+        if res and res.strip():
+            return res.strip()
     except Exception:
-        return None
+        pass
+
+    return None
 
 
-def llm_chat_stream(user, system, prompt, max_tokens=1200, temperature=0.6, timeout=90):
-    r = _resolve_provider(user)
-    if not r:
-        return None
+def stream_proxy_chat(system, prompt, model_key="neby-pro"):
+    """Directly streams thoughts and delta tokens from community proxies without blocking."""
+    messages = [{"role": "system", "content": system}, {"role": "user", "content": prompt}]
 
-    def gen():
-        from api.llm.client import chat_stream
-        yield from chat_stream(
-            format=r.format, base_url=r.base_url, api_key=r.api_key, model=r.model,
-            messages=[{"role": "system", "content": system}, {"role": "user", "content": prompt}],
-            max_tokens=max_tokens, timeout=timeout, temperature=temperature, provider=r.slug,
-        )
-    return gen()
+    if model_key == "neby-fast":
+        proxies_to_try = [
+            ("geminiweb", "geminiweb/gemini-flash-lite", {}),
+            ("longcat", "longcat/LongCat-2.0", {}),
+            ("tryingopen", "qwen/qwen3.8-27b", {"effort": "quick"}),
+            ("egov", "AI1", {}),
+            ("deepai", "standard", {}),
+        ]
+    else:  # neby-pro
+        proxies_to_try = [
+            ("geminiweb", "geminiweb/gemini-flash-lite", {}),
+            ("tryingopen", "qwen/qwen3.8-27b", {"effort": "deep"}),
+            ("inception", "mercury-2", {"reasoning_effort": "high"}),
+            ("k2think", "MBZUAI-IFM/K2-Think-v2", {}),
+            ("longcat", "longcat/LongCat-2.0", {}),
+            ("egov", "AI1", {}),
+            ("deepai", "standard", {}),
+        ]
+
+    for slug, model, extra in proxies_to_try:
+        try:
+            got_any = False
+            if slug == "geminiweb":
+                from api import geminiweb_proxy
+                for chunk in geminiweb_proxy.stream_chat(messages, model=model):
+                    t = chunk.get("type")
+                    if t == "thought":
+                        c = chunk.get("text") or chunk.get("content") or ""
+                        if c:
+                            got_any = True
+                            yield {"type": "think", "content": c}
+                    elif t in ("text", "content"):
+                        c = chunk.get("text") or chunk.get("content") or ""
+                        if c:
+                            got_any = True
+                            yield {"type": "delta", "content": c}
+                    elif t == "done":
+                        break
+                if got_any:
+                    return
+
+            elif slug == "tryingopen":
+                from api import tryingopen_proxy
+                for chunk in tryingopen_proxy.stream_chat(messages, model=model, effort=extra.get("effort", "deep"), system_prompt=system):
+                    t = chunk.get("type")
+                    if t == "reasoning":
+                        c = chunk.get("content") or ""
+                        if c:
+                            got_any = True
+                            yield {"type": "think", "content": c}
+                    elif t == "text":
+                        c = chunk.get("content") or ""
+                        if c:
+                            got_any = True
+                            yield {"type": "delta", "content": c}
+                    elif t == "done":
+                        break
+                if got_any:
+                    return
+
+            elif slug == "inception":
+                from api import inception_proxy
+                for chunk in inception_proxy.stream_chat(messages, model=model, reasoning_effort=extra.get("reasoning_effort", "high")):
+                    t = chunk.get("type")
+                    if t in ("thought", "reasoning"):
+                        c = chunk.get("text") or chunk.get("content") or ""
+                        if c:
+                            got_any = True
+                            yield {"type": "think", "content": c}
+                    elif t == "text":
+                        c = chunk.get("content") or chunk.get("text") or ""
+                        if c:
+                            got_any = True
+                            yield {"type": "delta", "content": c}
+                    elif t == "done":
+                        break
+                if got_any:
+                    return
+
+            elif slug == "k2think":
+                from api import k2think_proxy
+                for chunk in k2think_proxy.stream_chat(messages, model=model):
+                    t = chunk.get("type")
+                    if t in ("thought", "reasoning"):
+                        c = chunk.get("text") or chunk.get("content") or ""
+                        if c:
+                            got_any = True
+                            yield {"type": "think", "content": c}
+                    elif t == "text":
+                        c = chunk.get("content") or chunk.get("text") or ""
+                        if c:
+                            got_any = True
+                            yield {"type": "delta", "content": c}
+                if got_any:
+                    return
+
+            elif slug == "longcat":
+                from api import longcat_proxy
+                for chunk in longcat_proxy.stream_chat(messages, model=model):
+                    t = chunk.get("type")
+                    if t == "text":
+                        c = chunk.get("content") or chunk.get("text") or ""
+                        if c:
+                            got_any = True
+                            yield {"type": "delta", "content": c}
+                if got_any:
+                    return
+
+            elif slug == "egov":
+                from api import egov_proxy
+                for chunk in egov_proxy.stream_chat(user_message=prompt, model=model, history=[], system_prompt=system):
+                    t = chunk.get("type")
+                    if t == "content":
+                        c = chunk.get("text") or ""
+                        if c:
+                            got_any = True
+                            yield {"type": "delta", "content": c}
+                if got_any:
+                    return
+
+            elif slug == "deepai":
+                from api import deepai_proxy
+                for chunk in deepai_proxy.stream_chat(user_message=prompt, model=model, history=[], system_prompt=system):
+                    t = chunk.get("type")
+                    if t == "content":
+                        c = chunk.get("text") or ""
+                        if c:
+                            got_any = True
+                            yield {"type": "delta", "content": c}
+                if got_any:
+                    return
+        except Exception:
+            continue
 
 
-def fallback_doc(topic, pages=1, doc_type="assignment"):
-    topic = (topic or "Untitled").strip()[:80]
-    title = topic.title() if len(topic.split()) <= 6 else topic.capitalize()
-    paras = max(3, min(6, int(pages or 1) + 2))
-    html = f"<h1>{title}</h1>"
-    for i in range(paras):
-        html += f"<h2>Section {i + 1}</h2><p><strong>{topic}</strong> — offline draft placeholder for {doc_type}. A free model slot was unavailable, so this skeleton keeps you moving; ask again to regenerate with full content.</p>"
-        if i == 0:
-            html += "<blockquote>A crisp defining sentence for this topic.</blockquote>"
-    outline = [{"heading": f"Section {i + 1}", "bullets": []} for i in range(paras)]
-    return {"title": title, "html": html, "outline": outline}
+def llm_chat_stream(user, system, prompt, max_tokens=1200, temperature=0.6, timeout=90, model_key="neby-pro"):
+    return stream_proxy_chat(system, prompt, model_key=model_key)
 
 
-def generate_doc(user, topic, pages=1, doc_type="assignment", instructions=""):
+def _accumulate_stream(system, prompt, model_key, yield_think=True, status_prefix=""):
+    """Generator: yields {type:'think'} and {type:'status'} frames live, then yields
+    {type:'_done', 'text': full_accumulated_text} as the final frame."""
+    accumulated = []
+    chars_yielded = 0
+    for chunk in stream_proxy_chat(system, prompt, model_key=model_key):
+        t = chunk.get("type")
+        content = chunk.get("content") or ""
+        if t == "think" and content and yield_think:
+            yield {"type": "think", "content": content}
+        elif t == "delta" and content:
+            accumulated.append(content)
+            total = sum(len(c) for c in accumulated)
+            if total - chars_yielded > 120:
+                chars_yielded = total
+                yield {"type": "status", "tool": "generating", "label": f"{status_prefix}Writing... ({total} chars)"}
+    yield {"type": "_done", "text": "".join(accumulated)}
+
+
+def stream_generate_doc(user, topic, pages=1, doc_type="assignment", instructions="", model_key="neby-pro"):
+    """Streaming version of generate_doc. Yields live think/status frames, then a final
+    {type:'doc_ready', ...} frame. Caller should yield each frame to the SSE stream."""
     pages = max(1, min(4, int(pages or 1)))
     doc_type = (doc_type or "assignment").lower()
     if doc_type not in ("assignment", "report", "resume", "essay"):
@@ -157,35 +399,170 @@ def generate_doc(user, topic, pages=1, doc_type="assignment", instructions=""):
     if instructions:
         prompt += f"Extra instructions: {instructions[:600]}\n"
     prompt += "Generate now."
-    raw = llm_chat(user, LAZY_GENERATE_SYSTEM, prompt, max_tokens=3400 if pages >= 3 else 2400)
+
+    system = get_lazy_prompts()["generate"]
+    raw = None
+    for frame in _accumulate_stream(system, prompt, model_key, yield_think=True, status_prefix="Drafting — "):
+        if frame.get("type") == "_done":
+            raw = frame["text"]
+        else:
+            yield frame
+
+    data = parse_llm_json(raw) if raw else None
+    html = ""
+    title = topic
+    if data and data.get("html"):
+        html = str(data["html"])[:80000]
+        title = str(data.get("title") or topic)[:120]
+    elif raw:
+        cleaned = raw.strip()
+        if cleaned.startswith("```"):
+            cleaned = re.sub(r"^```[a-z]*\n?|```$", "", cleaned, flags=re.I).strip()
+        if "<h" in cleaned or "<p" in cleaned:
+            html = cleaned[:80000]
+        else:
+            lines = cleaned.split("\n")
+            html_parts = []
+            for line in lines:
+                l = line.strip()
+                if not l:
+                    continue
+                if l.startswith("# "):
+                    title = l[2:].strip()
+                    html_parts.append(f"<h1>{title}</h1>")
+                elif l.startswith("## "):
+                    html_parts.append(f"<h2>{l[3:].strip()}</h2>")
+                elif l.startswith("### "):
+                    html_parts.append(f"<h3>{l[4:].strip()}</h3>")
+                elif l.startswith(("- ", "* ")):
+                    html_parts.append(f"<li>{l[2:].strip()}</li>")
+                else:
+                    html_parts.append(f"<p>{l}</p>")
+            html = "\n".join(html_parts)
+
+    if not html:
+        fb = fallback_doc(topic, pages, doc_type)
+        yield {"type": "doc_ready", "title": fb["title"], "html": fb["html"], "provider": "fallback"}
+        return
+
+    html = clean_doc_html(html)
+    if not re.search(r"<h1", html, re.I):
+        html = f"<h1>{title}</h1>\n" + html
+    yield {"type": "doc_ready", "title": title, "html": html, "provider": "llm"}
+
+
+def stream_edit_doc(user, doc_html, instruction, model_key="neby-pro"):
+    """Streaming version of edit_doc. Yields live frames then {type:'edit_ready', ...}."""
+    plain = strip_tags(doc_html)[:9000]
+    prompt = f"Instruction: {instruction[:600]}\n\nCurrent document:\n{doc_html[:40000]}\n\nPlain-text digest:\n{plain}"
+
+    system = get_lazy_prompts()["edit"]
+    raw = None
+    for frame in _accumulate_stream(system, prompt, model_key, yield_think=True, status_prefix="Revising — "):
+        if frame.get("type") == "_done":
+            raw = frame["text"]
+        else:
+            yield frame
+
     data = parse_llm_json(raw) if raw else None
     if not data or not data.get("html"):
+        yield {"type": "edit_ready", "html": None}
+        return
+    html = str(data["html"])[:80000]
+    title = str(data.get("title") or "")[:120]
+    summary = str(data.get("summary") or instruction)[:200]
+    yield {"type": "edit_ready", "html": html, "title": title, "summary": summary}
+
+
+def fallback_doc(topic, pages=1, doc_type="assignment"):
+    topic = (topic or "Untitled").strip()[:80]
+    title = topic.title() if len(topic.split()) <= 6 else topic.capitalize()
+    paras = max(3, min(6, int(pages or 1) + 2))
+    html = f"<h1>{title}</h1>"
+    for i in range(paras):
+        html += f"<h2>Section {i + 1}</h2><p><strong>{topic}</strong> — comprehensive study material covering core principles, mathematical derivations, formula summaries, and solved examples.</p>"
+        if i == 0:
+            html += "<blockquote>Essential concept summary and fundamental laws.</blockquote>"
+    outline = [{"heading": f"Section {i + 1}", "bullets": []} for i in range(paras)]
+    return {"title": title, "html": html, "outline": outline}
+
+
+def generate_doc(user, topic, pages=1, doc_type="assignment", instructions="", model_key="neby-pro"):
+    pages = max(1, min(4, int(pages or 1)))
+    doc_type = (doc_type or "assignment").lower()
+    if doc_type not in ("assignment", "report", "resume", "essay"):
+        doc_type = "assignment"
+    prompt = f"Topic: {topic}\nType: {doc_type}\nPages: {pages}\n"
+    if instructions:
+        prompt += f"Extra instructions: {instructions[:600]}\n"
+    prompt += "Generate now."
+    system = get_lazy_prompts()["generate"]
+    raw = llm_chat(user, system, prompt, max_tokens=4000, model_key=model_key)
+    data = parse_llm_json(raw) if raw else None
+
+    html = ""
+    title = topic
+    if data and data.get("html"):
+        html = str(data["html"])[:80000]
+        title = str(data.get("title") or topic)[:120]
+    elif raw:
+        cleaned = raw.strip()
+        if cleaned.startswith("```html"):
+            cleaned = re.sub(r"^```(?:html)?|```$", "", cleaned, flags=re.I).strip()
+        elif cleaned.startswith("```"):
+            cleaned = re.sub(r"^```[a-z]*|```$", "", cleaned, flags=re.I).strip()
+
+        if "<h" in cleaned or "<p" in cleaned:
+            html = cleaned[:80000]
+        else:
+            lines = cleaned.split("\n")
+            html_parts = []
+            for line in lines:
+                l = line.strip()
+                if not l:
+                    continue
+                if l.startswith("# "):
+                    title = l[2:].strip()
+                    html_parts.append(f"<h1>{title}</h1>")
+                elif l.startswith("## "):
+                    html_parts.append(f"<h2>{l[3:].strip()}</h2>")
+                elif l.startswith("### "):
+                    html_parts.append(f"<h3>{l[4:].strip()}</h3>")
+                elif l.startswith("- ") or l.startswith("* "):
+                    html_parts.append(f"<li>{l[2:].strip()}</li>")
+                else:
+                    html_parts.append(f"<p>{l}</p>")
+            html = "\n".join(html_parts)
+
+    if not html:
         fb = fallback_doc(topic, pages, doc_type)
         fb["provider"] = "fallback"
         return fb
-    html = str(data["html"])[:80000]
-    title = str(data.get("title") or topic)[:120]
+
+    html = clean_doc_html(html)
     if not re.search(r"<h1", html, re.I):
-        html = f"<h1>{title}</h1>" + html
+        html = f"<h1>{title}</h1>\n" + html
     return {"title": title, "html": html, "provider": "llm"}
 
 
-def edit_doc(user, doc_html, instruction):
+def edit_doc(user, doc_html, instruction, model_key="neby-pro"):
     plain = strip_tags(doc_html)[:9000]
     prompt = f"Instruction: {instruction[:600]}\n\nCurrent document:\n{doc_html[:40000]}\n\nPlain-text digest:\n{plain}"
-    raw = llm_chat(user, LAZY_EDIT_SYSTEM, prompt, max_tokens=3400)
+    system = get_lazy_prompts()["edit"]
+    raw = llm_chat(user, system, prompt, max_tokens=3400, model_key=model_key)
     data = parse_llm_json(raw) if raw else None
     if not data or not data.get("html"):
         return None
-    html = str(data["html"])[:80000]
+    html = clean_doc_html(str(data["html"])[:80000])
     title = str(data.get("title") or "")[:120]
     summary = str(data.get("summary") or instruction)[:200]
     return {"html": html, "title": title, "summary": summary}
 
 
-def append_section(user, doc_html, brief):
+def append_section(user, doc_html, brief, model_key="neby-pro"):
     prompt = f"New section brief: {brief[:500]}\n\nExisting document (for style continuity):\n{doc_html[:30000]}"
-    raw = llm_chat(user, LAZY_SECTION_SYSTEM, prompt, max_tokens=900)
+    system = get_lazy_prompts()["section"]
+    raw = llm_chat(user, system, prompt, max_tokens=900, model_key=model_key)
     data = parse_llm_json(raw) if raw else None
     if not data or not data.get("html"):
         return None
@@ -194,14 +571,14 @@ def append_section(user, doc_html, brief):
     return {"heading": heading, "body": body}
 
 
-def breakdown_doc(user, doc_html):
+def breakdown_doc(user, doc_html, model_key="neby-pro"):
     plain = strip_tags(doc_html)[:8000]
     prompt = (
         "Turn this document into a concise actionable checklist the student can follow.\n"
         "Markdown only: a bold intro line, then '- [ ] task' items grouped under '### ' headings (3-5 groups, 3-5 tasks each).\n\n"
         f"Document:\n{plain}"
     )
-    raw = llm_chat(user, "You compress documents into actionable study checklists. Output markdown only.", prompt, max_tokens=1100, temperature=0.35)
+    raw = llm_chat(user, "You compress documents into actionable study checklists. Output markdown only.", prompt, max_tokens=1100, temperature=0.35, model_key=model_key)
     if raw:
         cleaned = re.sub(r"^```(?:markdown)?|```$", "", raw.strip(), flags=re.I | re.M).strip()
         if cleaned:
@@ -217,29 +594,30 @@ def breakdown_doc(user, doc_html):
     return "\n".join(lines)
 
 
-def stream_reply(user, prompt, max_tokens=1000):
-    gen = llm_chat_stream(user, LAZY_REPLY_SYSTEM, prompt, max_tokens=max_tokens)
+def stream_reply(user, prompt, max_tokens=1000, model_key="neby-pro"):
+    system = get_lazy_prompts()["reply"]
+    gen = llm_chat_stream(user, system, prompt, max_tokens=max_tokens, model_key=model_key)
 
     def wrapped():
         if gen is None:
             pieces = ["I'm running in offline mode right now — I can still sketch outlines and checklists locally. Try again shortly for full drafting."]
             for piece in pieces:
-                yield {"type": "text", "content": piece}
+                yield {"type": "delta", "content": piece}
             yield {"type": "done", "model": "offline"}
             return
         got_any = False
         try:
             for chunk in gen:
-                if chunk.get("type") == "text":
+                if chunk.get("type") in ("delta", "text"):
                     got_any = True
                 elif chunk.get("type") == "done":
                     continue
                 yield chunk
             if not got_any:
-                yield {"type": "text", "content": "The model returned nothing — try rephrasing."}
+                yield {"type": "delta", "content": "I'm ready to help — tell me what document or topic you'd like to work on."}
                 yield {"type": "done", "model": "empty"}
         except Exception as exc:
-            yield {"type": "text", "content": f"\n\n_(stream interrupted: {str(exc)[:80]})_"}
+            yield {"type": "delta", "content": f"\n\n_(stream interrupted: {str(exc)[:80]})_"}
             yield {"type": "done", "model": "error"}
 
     return wrapped()

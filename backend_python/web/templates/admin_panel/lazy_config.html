@@ -1,0 +1,268 @@
+{% extends "admin_panel/base.html" %}
+{% load static %}
+
+{% block title %}Lazy AI Configuration{% endblock %}
+
+{% block content %}
+<div style="max-width:1000px;margin:0 auto;">
+  <!-- Header -->
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:24px;">
+    <div>
+      <h1 style="font-size:1.5rem;font-weight:700;margin:0 0 6px;display:flex;align-items:center;gap:10px;">
+        <span class="material-symbols-outlined" style="font-size:30px;color:#7C4DFF;">edit_document</span>
+        Lazy AI Engine Configuration
+      </h1>
+      <p style="color:var(--md-on-surface-variant);margin:0;font-size:0.875rem;">
+        Configure models, fallback provider chains, system prompts, and reasoning modes for the <code>/lazy/</code> agentic document workspace.
+      </p>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <a href="/lazy/" target="_blank" class="md-btn md-btn-filled" style="background:#7C4DFF;display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-weight:600;">
+        <span class="material-symbols-outlined" style="font-size:18px;">open_in_new</span>
+        Open Lazy Workspace
+      </a>
+    </div>
+  </div>
+
+  {% if messages %}
+  {% for msg in messages %}
+  <div class="md-snackbar" style="position:relative;margin-bottom:20px;opacity:1;background:var(--md-surface-container-high);color:var(--md-on-surface);border-left:4px solid #7C4DFF;padding:12px 16px;border-radius:8px;">
+    {{ msg }}
+  </div>
+  {% endfor %}
+  {% endif %}
+
+  <!-- KPI Stat Cards -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:14px;margin-bottom:28px;">
+    <div style="background:var(--md-surface-container);border-radius:14px;padding:18px;border:1px solid rgba(255,255,255,0.06);">
+      <div style="color:var(--md-on-surface-variant);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Total Workspace Sessions</div>
+      <div style="font-size:1.75rem;font-weight:700;color:var(--md-on-surface);">{{ total_sessions }}</div>
+    </div>
+    <div style="background:var(--md-surface-container);border-radius:14px;padding:18px;border:1px solid rgba(255,255,255,0.06);">
+      <div style="color:var(--md-on-surface-variant);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Documents Drafted</div>
+      <div style="font-size:1.75rem;font-weight:700;color:#00E676;">{{ total_docs }}</div>
+    </div>
+    <div style="background:var(--md-surface-container);border-radius:14px;padding:18px;border:1px solid rgba(255,255,255,0.06);">
+      <div style="color:var(--md-on-surface-variant);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Total Messages Processed</div>
+      <div style="font-size:1.75rem;font-weight:700;color:#7C4DFF;">{{ total_messages }}</div>
+    </div>
+  </div>
+
+  <!-- Form 1: Mode Configuration -->
+  <form method="post" action="{% url 'web:admin_lazy_config' %}" style="margin-bottom:32px;">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="save_modes">
+
+    <!-- Neby Pro (Smart Mode) Card -->
+    <div style="background:var(--md-surface-container);border-radius:16px;padding:24px;margin-bottom:20px;border:1px solid rgba(124, 77, 255, 0.2);">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="material-symbols-outlined" style="color:#7C4DFF;font-size:24px;">auto_awesome</span>
+          <div>
+            <h2 style="font-size:1.125rem;font-weight:600;margin:0;">Neby Pro (Smart / Research Mode)</h2>
+            <p style="color:var(--md-on-surface-variant);font-size:0.8125rem;margin:2px 0 0;">
+              High-intelligence reasoning engine for assignments, solved numericals, mathematical derivations, and research papers.
+            </p>
+          </div>
+        </div>
+        <label class="md-switch">
+          <input type="checkbox" name="pro_enabled" {% if pro_cfg.enabled %}checked{% endif %}>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+        <div>
+          <label style="display:block;font-size:0.8125rem;font-weight:500;margin-bottom:6px;">Primary AI Provider</label>
+          <select name="pro_provider" class="md-select" style="width:100%;padding:10px;border-radius:8px;background:var(--md-surface-container-high);color:var(--md-on-surface);border:1px solid rgba(255,255,255,0.1);">
+            {% for code, label in provider_choices %}
+            <option value="{{ code }}" {% if pro_cfg.provider == code %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div>
+          <label style="display:block;font-size:0.8125rem;font-weight:500;margin-bottom:6px;">Model Name / ID</label>
+          <input type="text" name="pro_model" value="{{ pro_cfg.model }}" class="md-input" style="width:100%;padding:10px;border-radius:8px;background:var(--md-surface-container-high);color:var(--md-on-surface);border:1px solid rgba(255,255,255,0.1);" placeholder="e.g. qwen3.8-max, mercury-2, gpt-4o">
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+        <div>
+          <label style="display:block;font-size:0.8125rem;font-weight:500;margin-bottom:6px;">Custom API Base URL (optional)</label>
+          <input type="text" name="pro_api_url" value="{{ pro_cfg.api_url }}" class="md-input" style="width:100%;padding:10px;border-radius:8px;background:var(--md-surface-container-high);color:var(--md-on-surface);border:1px solid rgba(255,255,255,0.1);" placeholder="https://api.openai.com/v1">
+        </div>
+        <div>
+          <label style="display:block;font-size:0.8125rem;font-weight:500;margin-bottom:6px;">API Key (optional / BYOK)</label>
+          <input type="password" name="pro_api_key" value="{{ pro_cfg.api_key }}" class="md-input" style="width:100%;padding:10px;border-radius:8px;background:var(--md-surface-container-high);color:var(--md-on-surface);border:1px solid rgba(255,255,255,0.1);" placeholder="sk-...">
+        </div>
+      </div>
+
+      <div>
+        <label style="display:block;font-size:0.8125rem;font-weight:500;margin-bottom:6px;">Fallback Chain (JSON List)</label>
+        <textarea name="pro_fallback_chain" rows="3" class="md-textarea" style="width:100%;padding:10px;font-family:monospace;font-size:0.8125rem;border-radius:8px;background:var(--md-surface-container-high);color:var(--md-on-surface);border:1px solid rgba(255,255,255,0.1);">{{ pro_cfg.fallback_chain }}</textarea>
+        <p style="color:var(--md-on-surface-variant);font-size:0.75rem;margin:4px 0 0;">
+          Ordered list of backup providers tried automatically if the primary model fails or times out.
+        </p>
+      </div>
+    </div>
+
+    <!-- Neby Fast (Speed Mode) Card -->
+    <div style="background:var(--md-surface-container);border-radius:16px;padding:24px;margin-bottom:24px;border:1px solid rgba(0, 230, 118, 0.2);">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="material-symbols-outlined" style="color:#00E676;font-size:24px;">bolt</span>
+          <div>
+            <h2 style="font-size:1.125rem;font-weight:600;margin:0;">Neby Fast (Instant Speed Mode)</h2>
+            <p style="color:var(--md-on-surface-variant);font-size:0.8125rem;margin:2px 0 0;">
+              Ultra-low latency streaming model for quick drafts, summaries, outline restructuring, and light editing.
+            </p>
+          </div>
+        </div>
+        <label class="md-switch">
+          <input type="checkbox" name="fast_enabled" {% if fast_cfg.enabled %}checked{% endif %}>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+        <div>
+          <label style="display:block;font-size:0.8125rem;font-weight:500;margin-bottom:6px;">Primary AI Provider</label>
+          <select name="fast_provider" class="md-select" style="width:100%;padding:10px;border-radius:8px;background:var(--md-surface-container-high);color:var(--md-on-surface);border:1px solid rgba(255,255,255,0.1);">
+            {% for code, label in provider_choices %}
+            <option value="{{ code }}" {% if fast_cfg.provider == code %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div>
+          <label style="display:block;font-size:0.8125rem;font-weight:500;margin-bottom:6px;">Model Name / ID</label>
+          <input type="text" name="fast_model" value="{{ fast_cfg.model }}" class="md-input" style="width:100%;padding:10px;border-radius:8px;background:var(--md-surface-container-high);color:var(--md-on-surface);border:1px solid rgba(255,255,255,0.1);" placeholder="e.g. geminiweb/gemini-flash-lite, longcat/LongCat-2.0">
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+        <div>
+          <label style="display:block;font-size:0.8125rem;font-weight:500;margin-bottom:6px;">Custom API Base URL (optional)</label>
+          <input type="text" name="fast_api_url" value="{{ fast_cfg.api_url }}" class="md-input" style="width:100%;padding:10px;border-radius:8px;background:var(--md-surface-container-high);color:var(--md-on-surface);border:1px solid rgba(255,255,255,0.1);" placeholder="https://api.openai.com/v1">
+        </div>
+        <div>
+          <label style="display:block;font-size:0.8125rem;font-weight:500;margin-bottom:6px;">API Key (optional / BYOK)</label>
+          <input type="password" name="fast_api_key" value="{{ fast_cfg.api_key }}" class="md-input" style="width:100%;padding:10px;border-radius:8px;background:var(--md-surface-container-high);color:var(--md-on-surface);border:1px solid rgba(255,255,255,0.1);" placeholder="sk-...">
+        </div>
+      </div>
+
+      <div>
+        <label style="display:block;font-size:0.8125rem;font-weight:500;margin-bottom:6px;">Fallback Chain (JSON List)</label>
+        <textarea name="fast_fallback_chain" rows="3" class="md-textarea" style="width:100%;padding:10px;font-family:monospace;font-size:0.8125rem;border-radius:8px;background:var(--md-surface-container-high);color:var(--md-on-surface);border:1px solid rgba(255,255,255,0.1);">{{ fast_cfg.fallback_chain }}</textarea>
+      </div>
+    </div>
+
+    <div style="text-align:right;">
+      <button type="submit" class="md-btn md-btn-filled" style="background:#7C4DFF;padding:10px 24px;font-weight:600;border-radius:8px;">
+        Save AI Mode Settings
+      </button>
+    </div>
+  </form>
+
+  <!-- Form 2: System Prompts Configuration -->
+  <form method="post" action="{% url 'web:admin_lazy_config' %}" style="margin-bottom:32px;">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="save_prompts">
+
+    <div style="background:var(--md-surface-container);border-radius:16px;padding:24px;margin-bottom:16px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+        <div>
+          <h2 style="font-size:1.125rem;font-weight:600;margin:0;display:flex;align-items:center;gap:8px;">
+            <span class="material-symbols-outlined" style="color:#7C4DFF;font-size:22px;">terminal</span>
+            Academic Engine Prompts &amp; Personas
+          </h2>
+          <p style="color:var(--md-on-surface-variant);font-size:0.8125rem;margin:2px 0 0;">
+            Customize instructions for document drafting, derivations, step-by-step numerical solving, and conversational replies.
+          </p>
+        </div>
+      </div>
+
+      <div style="margin-bottom:18px;">
+        <label style="display:block;font-size:0.8125rem;font-weight:600;margin-bottom:6px;">1. Full Document Generation System Prompt (HTML JSON Output)</label>
+        <textarea name="prompt_generate" rows="6" class="md-textarea" style="width:100%;padding:10px;font-family:monospace;font-size:0.8125rem;border-radius:8px;background:var(--md-surface-container-high);color:var(--md-on-surface);border:1px solid rgba(255,255,255,0.1);">{{ prompts.generate }}</textarea>
+      </div>
+
+      <div style="margin-bottom:18px;">
+        <label style="display:block;font-size:0.8125rem;font-weight:600;margin-bottom:6px;">2. Document Revision &amp; Edit Prompt</label>
+        <textarea name="prompt_edit" rows="4" class="md-textarea" style="width:100%;padding:10px;font-family:monospace;font-size:0.8125rem;border-radius:8px;background:var(--md-surface-container-high);color:var(--md-on-surface);border:1px solid rgba(255,255,255,0.1);">{{ prompts.edit }}</textarea>
+      </div>
+
+      <div style="margin-bottom:18px;">
+        <label style="display:block;font-size:0.8125rem;font-weight:600;margin-bottom:6px;">3. Section Appending Prompt</label>
+        <textarea name="prompt_section" rows="3" class="md-textarea" style="width:100%;padding:10px;font-family:monospace;font-size:0.8125rem;border-radius:8px;background:var(--md-surface-container-high);color:var(--md-on-surface);border:1px solid rgba(255,255,255,0.1);">{{ prompts.section }}</textarea>
+      </div>
+
+      <div style="margin-bottom:18px;">
+        <label style="display:block;font-size:0.8125rem;font-weight:600;margin-bottom:6px;">4. Conversational Assistant Reply Prompt</label>
+        <textarea name="prompt_reply" rows="3" class="md-textarea" style="width:100%;padding:10px;font-family:monospace;font-size:0.8125rem;border-radius:8px;background:var(--md-surface-container-high);color:var(--md-on-surface);border:1px solid rgba(255,255,255,0.1);">{{ prompts.reply }}</textarea>
+      </div>
+
+      <div style="margin-bottom:20px;">
+        <label style="display:block;font-size:0.8125rem;font-weight:600;margin-bottom:6px;">5. Agent Planner &amp; Tool Decision Prompt</label>
+        <textarea name="prompt_planner" rows="4" class="md-textarea" style="width:100%;padding:10px;font-family:monospace;font-size:0.8125rem;border-radius:8px;background:var(--md-surface-container-high);color:var(--md-on-surface);border:1px solid rgba(255,255,255,0.1);">{{ prompts.planner }}</textarea>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <button type="submit" name="action" value="reset_prompts" onclick="return confirm('Reset all prompts to the standard academic defaults?')" class="md-btn md-btn-text" style="color:var(--md-error);">
+          Reset Prompts to Defaults
+        </button>
+        <button type="submit" class="md-btn md-btn-filled" style="background:#7C4DFF;padding:10px 24px;font-weight:600;border-radius:8px;">
+          Save System Prompts
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <!-- Recent Lazy Sessions -->
+  <div style="background:var(--md-surface-container);border-radius:16px;padding:24px;margin-bottom:32px;">
+    <h2 style="font-size:1.125rem;font-weight:600;margin:0 0 16px;display:flex;align-items:center;gap:8px;">
+      <span class="material-symbols-outlined" style="font-size:22px;color:#7C4DFF;">history</span>
+      Recent Lazy Sessions
+    </h2>
+    {% if recent_sessions %}
+    <div style="overflow-x:auto;">
+      <table class="md-table" style="width:100%;border-collapse:collapse;font-size:0.875rem;">
+        <thead>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.1);text-align:left;">
+            <th style="padding:10px;">User</th>
+            <th style="padding:10px;">Session Title</th>
+            <th style="padding:10px;">Document Title</th>
+            <th style="padding:10px;text-align:center;">Messages</th>
+            <th style="padding:10px;text-align:center;">Has Doc</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for s in recent_sessions %}
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.04);">
+            <td style="padding:10px;">
+              {% if s.user %}
+              <strong>@{{ s.user.username }}</strong>
+              {% else %}
+              <span style="color:var(--md-on-surface-variant);">Anonymous</span>
+              {% endif %}
+            </td>
+            <td style="padding:10px;">{{ s.title|default:"New chat"|truncatechars:40 }}</td>
+            <td style="padding:10px;color:#7C4DFF;">{{ s.doc_title|default:"—"|truncatechars:40 }}</td>
+            <td style="padding:10px;text-align:center;">{{ s.message_count }}</td>
+            <td style="padding:10px;text-align:center;">
+              {% if s.doc_html %}
+              <span style="color:#00E676;font-weight:600;">✓ Yes</span>
+              {% else %}
+              <span style="color:var(--md-on-surface-variant);">No</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p style="color:var(--md-on-surface-variant);font-size:0.875rem;margin:0;">No sessions recorded yet.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
