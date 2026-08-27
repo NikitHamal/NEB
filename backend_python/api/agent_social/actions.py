@@ -116,7 +116,24 @@ def _generate_autonomous_post(bot_config, bot_user, persona):
     return pick_post(str(persona.last_post_at or persona.id))
 
 
+def _is_duplicate_post(bot_user, title):
+    try:
+        recent = Post.objects.filter(user=bot_user, created_at__gte=now_ms() - 7*24*3600*1000).values_list('title', flat=True)
+        norm = (title or '').strip().lower()
+        for t in recent:
+            if (t or '').strip().lower() == norm:
+                return True
+            if norm and t and (norm in t.lower() or t.lower() in norm) and len(norm) > 20:
+                return True
+    except Exception:
+        pass
+    return False
+
+
 def act_post(persona, bot_user, title, content, category, *, source='heartbeat', reason=''):
+    if _is_duplicate_post(bot_user, title):
+        log_action(persona, 'post', status='skipped', source=source, reasoning='duplicate title within 7 days: ' + (title or '')[:80])
+        return None
     result = services.create_post(bot_user, title, content, category)
     if not result:
         log_action(persona, 'post', status='failed', source=source, reasoning=reason or 'create_post failed')
@@ -131,6 +148,7 @@ def act_post(persona, bot_user, title, content, category, *, source='heartbeat',
 
 
 def act_reply(persona, bot_user, post, bot_config=None, *, source='heartbeat', reason='', content=None, parent_reply_id=None, target_username=''):
+    from django.db import transaction as _tx
     p_id = str(parent_reply_id).strip() if parent_reply_id else None
     post_id = str(post.id).strip()
     target_key = p_id or post_id
@@ -140,32 +158,57 @@ def act_reply(persona, bot_user, post, bot_config=None, *, source='heartbeat', r
     if p_id:
         if already_acted(persona, 'reply', f"{post_id}:{p_id}") or already_acted(persona, 'reply', f"{post_id}:{p_id}"[:64]):
             return None
-        if Reply.objects.filter(parent_reply_id=p_id, user=bot_user, is_archived=False).exists():
-            return None
-    else:
-        if post.user_id != bot_user.id and Reply.objects.filter(post_id=post_id, parent_reply__isnull=True, user=bot_user, is_archived=False).exists():
-            return None
-
-    body = (content or '').strip() or _compose_reply(bot_config, bot_user, post, persona, target_username=target_username, parent_reply_id=p_id)
-    if not body:
+    try:
+        with _tx.atomic():
+            if p_id:
+                try:
+                    Reply.objects.select_for_update().get(pk=p_id)
+                except Reply.DoesNotExist:
+                    return None
+                if Reply.objects.filter(parent_reply_id=p_id, user=bot_user, is_archived=False).exists():
+                    return None
+                try:
+                    from api.models import NebyTask
+                    if NebyTask.objects.filter(reply_id=p_id, status__in=('pending', 'processing')).exists():
+                        return None
+                except Exception:
+                    pass
+            else:
+                try:
+                    Post.objects.select_for_update().get(pk=post_id)
+                except Post.DoesNotExist:
+                    return None
+                if post.user_id != bot_user.id and Reply.objects.filter(post_id=post_id, parent_reply__isnull=True, user=bot_user, is_archived=False).exists():
+                    return None
+                try:
+                    from api.models import NebyTask
+                    if NebyTask.objects.filter(post_id=post_id, reply_id__isnull=True, status__in=('pending', 'processing')).exists():
+                        return None
+                except Exception:
+                    pass
+            body = (content or '').strip() or _compose_reply(bot_config, bot_user, post, persona, target_username=target_username, parent_reply_id=p_id)
+            if not body:
+                return None
+            result = services.create_reply(bot_user, post.id, body, parent_reply_id=p_id)
+            if not result:
+                log_action(persona, 'reply', status='failed', source=source,
+                           target_type='post', target_id=target_key, reasoning=reason)
+                return None
+            persona.last_reply_at = now_ms()
+            persona.save(update_fields=['last_reply_at', 'updated_at'])
+            log_action(
+                persona, 'reply', source=source, target_type='post', target_id=target_key,
+                content_preview=body[:400], reasoning=reason,
+            )
+            if p_id:
+                log_action(
+                    persona, 'reply', source=source, target_type='post', target_id=f"{post_id}:{p_id}"[:128],
+                    content_preview=body[:400], reasoning=reason,
+                )
+            return result
+    except Exception as exc:
+        logger.warning('act_reply transaction failed: %s', exc)
         return None
-    result = services.create_reply(bot_user, post.id, body, parent_reply_id=p_id)
-    if not result:
-        log_action(persona, 'reply', status='failed', source=source,
-                   target_type='post', target_id=target_key, reasoning=reason)
-        return None
-    persona.last_reply_at = now_ms()
-    persona.save(update_fields=['last_reply_at', 'updated_at'])
-    log_action(
-        persona, 'reply', source=source, target_type='post', target_id=target_key,
-        content_preview=body[:400], reasoning=reason,
-    )
-    if p_id:
-        log_action(
-            persona, 'reply', source=source, target_type='post', target_id=f"{post_id}:{p_id}"[:128],
-            content_preview=body[:400], reasoning=reason,
-        )
-    return result
 
 
 def act_like_reply(persona, bot_user, reply, *, source='heartbeat', reason=''):

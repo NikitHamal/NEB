@@ -1,0 +1,165 @@
+{% extends "admin_panel/base.html" %}
+{% load web_extras %}
+{% block title %}Neby Manager{% endblock %}
+{% block content %}
+<div class="admin-header-bar" style="flex-direction:column;align-items:flex-start;gap:12px;">
+  <div style="display:flex;align-items:center;gap:12px;width:100%;justify-content:space-between;flex-wrap:wrap;">
+    <div>
+      <h1 class="md-headline-medium" style="display:flex;align-items:center;gap:8px;margin:0;"><span class="material-symbols-outlined" style="color:#7C4DFF;">psychology</span> Neby Manager</h1>
+      <p style="color:var(--md-on-surface-variant);font-size:0.8125rem;margin:4px 0 0;">Manage @neby replies, bot posts, and pending mention tasks. Admin can delete any Neby content.</p>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <form method="post" style="display:inline;">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="clear_pending">
+        <button type="submit" class="md-btn md-btn-outlined" data-action="confirm-delete" data-confirm-msg="Clear all pending & processing tasks?"><span class="material-symbols-outlined" style="font-size:16px;">clear_all</span> Clear Pending</button>
+      </form>
+      <form method="post" style="display:inline;">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="clear_failed">
+        <button type="submit" class="md-btn md-btn-text" data-action="confirm-delete" data-confirm-msg="Clear all failed tasks?">Clear Failed</button>
+      </form>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;width:100%;margin-top:8px;">
+    <div style="background:var(--md-surface-container);padding:12px 14px;border-radius:12px;border:1px solid var(--md-outline-variant);">
+      <div style="font-size:0.75rem;color:var(--md-on-surface-variant);">Pending</div><div style="font-size:1.5rem;font-weight:700;">{{ stats.pending }}</div>
+    </div>
+    <div style="background:var(--md-surface-container);padding:12px 14px;border-radius:12px;border:1px solid var(--md-outline-variant);">
+      <div style="font-size:0.75rem;color:var(--md-on-surface-variant);">Processing</div><div style="font-size:1.5rem;font-weight:700;">{{ stats.processing }}</div>
+    </div>
+    <div style="background:var(--md-surface-container);padding:12px 14px;border-radius:12px;border:1px solid var(--md-outline-variant);">
+      <div style="font-size:0.75rem;color:var(--md-on-surface-variant);">Failed</div><div style="font-size:1.5rem;font-weight:700;">{{ stats.failed }}</div>
+    </div>
+    <div style="background:var(--md-surface-container);padding:12px 14px;border-radius:12px;border:1px solid var(--md-outline-variant);">
+      <div style="font-size:0.75rem;color:var(--md-on-surface-variant);">Done</div><div style="font-size:1.5rem;font-weight:700;">{{ stats.done }}</div>
+    </div>
+    <div style="background:var(--md-surface-container);padding:12px 14px;border-radius:12px;border:1px solid var(--md-outline-variant);">
+      <div style="font-size:0.75rem;color:var(--md-on-surface-variant);">Bot Posts</div><div style="font-size:1.5rem;font-weight:700;">{{ stats.bot_posts_total }}</div>
+    </div>
+    <div style="background:var(--md-surface-container);padding:12px 14px;border-radius:12px;border:1px solid var(--md-outline-variant);">
+      <div style="font-size:0.75rem;color:var(--md-on-surface-variant);">Bot Replies</div><div style="font-size:1.5rem;font-weight:700;">{{ stats.bot_replies_total }}</div>
+    </div>
+  </div>
+  {% if bot_user %}
+  <div style="font-size:0.8125rem;color:var(--md-on-surface-variant);">Bot user: <strong>@{{ bot_user.username }}</strong> ({{ bot_user.display_name }}) · Config: {{ bot_config.provider }}/{{ bot_config.model }} · {% if bot_config.enabled %}<span style="color:var(--md-primary);">Enabled</span>{% else %}<span style="color:var(--md-error);">Disabled</span>{% endif %}</div>
+  {% else %}
+  <div style="color:var(--md-error);font-size:0.875rem;">No bot user found for @neby. Create it in AI Bots.</div>
+  {% endif %}
+</div>
+
+<div style="margin:24px 0 8px;display:flex;align-items:center;justify-content:space-between;">
+  <h2 style="font-size:1.125rem;font-weight:600;margin:0;display:flex;align-items:center;gap:8px;"><span class="material-symbols-outlined">pending</span> Pending Tasks <span style="font-weight:400;color:var(--md-on-surface-variant);">({{ pending_tasks|length }} shown, up to 50)</span></h2>
+</div>
+{% if pending_tasks %}
+<div class="md-table-responsive">
+  <table class="md-table">
+    <thead>
+      <tr><th>Status</th><th>Trigger</th><th>Post</th><th>Reply</th><th>Created</th><th>Error</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+      {% for t in pending_tasks %}
+      <tr>
+        <td>
+          {% if t.status == 'pending' %}<span class="md-chip" style="background:var(--md-secondary-container);font-size:0.7rem;">pending</span>
+          {% elif t.status == 'processing' %}<span class="md-chip" style="background:var(--md-primary-container);font-size:0.7rem;">processing</span>
+          {% elif t.status == 'failed' %}<span class="md-chip" style="background:var(--md-error-container);font-size:0.7rem;">failed</span>
+          {% else %}<span class="md-chip" style="font-size:0.7rem;">{{ t.status }}</span>{% endif %}
+        </td>
+        <td style="font-size:0.8125rem;">{{ t.trigger }}</td>
+        <td style="font-size:0.75rem;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><a href="{% url 'web:forum_post' post_id=t.post_id %}" target="_blank">{{ t.post_id|truncate_chars:8 }}</a></td>
+        <td style="font-size:0.75rem;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{% if t.reply_id %}<a href="{% url 'web:forum_post' post_id=t.post_id %}#reply-{{ t.reply_id }}" target="_blank">{{ t.reply_id|truncate_chars:8 }}</a>{% else %}—{% endif %}</td>
+        <td style="font-size:0.75rem;">{{ t.created_at|time_ago }}</td>
+        <td style="font-size:0.75rem;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="{{ t.error_message }}">{{ t.error_message|truncate_chars:60 }}</td>
+        <td>
+          <div style="display:flex;gap:4px;flex-wrap:wrap;">
+            {% if t.status == 'failed' %}
+            <form method="post" style="display:inline;">{% csrf_token %}<input type="hidden" name="action" value="retry_task"><input type="hidden" name="task_id" value="{{ t.id }}"><button type="submit" class="md-btn md-btn-text" style="padding:4px 8px;font-size:0.7rem;">Retry</button></form>
+            {% endif %}
+            <form method="post" style="display:inline;" data-action="confirm-delete" data-confirm-msg="Cancel this task?">{% csrf_token %}<input type="hidden" name="action" value="cancel_task"><input type="hidden" name="task_id" value="{{ t.id }}"><button type="submit" class="md-btn md-btn-text" style="padding:4px 8px;font-size:0.7rem;color:var(--md-error);">Cancel</button></form>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="admin-empty" style="padding:24px;">
+  <p style="color:var(--md-on-surface-variant);font-size:0.875rem;">No tasks. All clear.</p>
+</div>
+{% endif %}
+
+<div style="margin:32px 0 8px;display:flex;align-items:center;justify-content:space-between;">
+  <h2 style="font-size:1.125rem;font-weight:600;margin:0;display:flex;align-items:center;gap:8px;"><span class="material-symbols-outlined">article</span> Bot Posts ({{ stats.bot_posts_total }})</h2>
+  <span style="font-size:0.75rem;color:var(--md-on-surface-variant);">Page {{ bot_posts_page.number }} of {{ bot_posts_page.paginator.num_pages }}</span>
+</div>
+{% if bot_posts %}
+<div class="md-table-responsive">
+  <table class="md-table">
+    <thead><tr><th>Title</th><th>Category</th><th>Replies</th><th>Likes</th><th>Created</th><th>Actions</th></tr></thead>
+    <tbody>
+      {% for p in bot_posts %}
+      <tr>
+        <td style="max-width:320px;"><a href="{% url 'web:admin_post_detail' post_id=p.id %}" style="font-weight:600;">{{ p.title|truncate_chars:80 }}</a></td>
+        <td><span class="md-chip" style="font-size:0.7rem;">{{ p.category }}</span></td>
+        <td>{{ p.replyCount }}</td>
+        <td>{{ p.thumbsUpCount }}</td>
+        <td style="font-size:0.75rem;">{{ p.createdAt|time_ago }}</td>
+        <td>
+          <div style="display:flex;gap:4px;">
+            <a href="{% url 'web:forum_post' post_id=p.id %}" target="_blank" class="md-btn md-btn-text" style="padding:4px 8px;font-size:0.7rem;">View</a>
+            <form method="post" style="display:inline;" data-action="confirm-delete" data-confirm-msg="Delete this bot post? This also removes all its replies.">{% csrf_token %}<input type="hidden" name="action" value="delete_post"><input type="hidden" name="post_id" value="{{ p.id }}"><button type="submit" class="md-btn md-btn-text" style="padding:4px 8px;font-size:0.7rem;color:var(--md-error);">Delete</button></form>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<div class="admin-pagination" style="margin-top:8px;">
+  {% if bot_posts_page.has_previous %}<a href="?posts_page={{ bot_posts_page.previous_page_number }}#posts" class="md-btn md-btn-text">Prev</a>{% endif %}
+  {% if bot_posts_page.has_next %}<a href="?posts_page={{ bot_posts_page.next_page_number }}#posts" class="md-btn md-btn-text">Next</a>{% endif %}
+</div>
+{% else %}
+<div class="admin-empty" style="padding:24px;"><p style="color:var(--md-on-surface-variant);">No bot posts yet.</p></div>
+{% endif %}
+
+<div id="replies" style="margin:32px 0 8px;display:flex;align-items:center;justify-content:space-between;">
+  <h2 style="font-size:1.125rem;font-weight:600;margin:0;display:flex;align-items:center;gap:8px;"><span class="material-symbols-outlined">chat_bubble</span> Bot Replies ({{ stats.bot_replies_total }})</h2>
+  <span style="font-size:0.75rem;color:var(--md-on-surface-variant);">Page {{ bot_replies_page.number }} of {{ bot_replies_page.paginator.num_pages }}</span>
+</div>
+{% if bot_replies %}
+<div class="md-table-responsive">
+  <table class="md-table">
+    <thead><tr><th>Post</th><th>Content</th><th>Likes</th><th>Created</th><th>Actions</th></tr></thead>
+    <tbody>
+      {% for r in bot_replies %}
+      <tr>
+        <td style="max-width:180px;"><a href="{% url 'web:forum_post' post_id=r.post_id %}" target="_blank" style="font-size:0.8125rem;">{{ r.post_title|truncate_chars:40 }}</a><div style="font-size:0.7rem;color:var(--md-on-surface-variant);">{{ r.post_id|truncate_chars:8 }}</div></td>
+        <td style="max-width:360px;font-size:0.8125rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="{{ r.content }}">{{ r.content|truncate_chars:100 }}</td>
+        <td>{{ r.thumbsUpCount }}</td>
+        <td style="font-size:0.75rem;">{{ r.createdAt|time_ago }}</td>
+        <td>
+          <div style="display:flex;gap:4px;">
+            <a href="{% url 'web:forum_post' post_id=r.post_id %}#reply-{{ r.id }}" target="_blank" class="md-btn md-btn-text" style="padding:4px 8px;font-size:0.7rem;">View</a>
+            <form method="post" style="display:inline;" data-action="confirm-delete" data-confirm-msg="Delete this bot reply?">{% csrf_token %}<input type="hidden" name="action" value="delete_reply"><input type="hidden" name="reply_id" value="{{ r.id }}"><button type="submit" class="md-btn md-btn-text" style="padding:4px 8px;font-size:0.7rem;color:var(--md-error);">Delete</button></form>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<div class="admin-pagination" style="margin-top:8px;">
+  {% if bot_replies_page.has_previous %}<a href="?replies_page={{ bot_replies_page.previous_page_number }}#replies" class="md-btn md-btn-text">Prev</a>{% endif %}
+  {% if bot_replies_page.has_next %}<a href="?replies_page={{ bot_replies_page.next_page_number }}#replies" class="md-btn md-btn-text">Next</a>{% endif %}
+</div>
+{% else %}
+<div class="admin-empty" style="padding:24px;"><p style="color:var(--md-on-surface-variant);">No bot replies yet.</p></div>
+{% endif %}
+
+<div style="margin:24px 0;padding:12px 16px;background:var(--md-surface-container);border-radius:12px;border:1px solid var(--md-outline-variant);font-size:0.8125rem;color:var(--md-on-surface-variant);">
+  <strong>Tip:</strong> Forum Posts → view any post/reply and use Delete as admin. This Neby Manager is a shortcut for bulk bot content. All deletes use <code>delete_post_with_cleanup</code> / <code>delete_reply_with_cleanup</code> (counters + notifications cleaned).
+</div>
+{% endblock %}

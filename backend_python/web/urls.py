@@ -3,6 +3,7 @@ from django.views.generic import RedirectView
 from . import views
 from . import views_admin_chat
 from . import views_admin_media
+from . import views_admin_neby
 from . import views_background_agent as ba_views
 from . import views_background_agent_lifecycle as ba_lifecycle_views
 from . import views_background_agent_mobile as ba_mobile_views
@@ -15,6 +16,7 @@ from . import views_content_images
 from . import views_canvas
 from . import views_canvas_features
 from . import views_canvas_objects
+from . import views_lazy
 from . import views_agents
 from . import views_code
 
@@ -218,6 +220,8 @@ urlpatterns = [
     path('admin/bots/new/', views.admin_bot_edit, name='admin_bot_new'),
     path('admin/bots/<int:bot_id>/', views.admin_bot_edit, name='admin_bot_edit'),
     path('admin/bots/<int:bot_id>/create-user/', views.admin_bot_create_user, name='admin_bot_create_user'),
+    path('admin/neby/', views_admin_neby.admin_neby_manager, name='admin_neby_manager'),
+    path('admin/neby/task/<str:task_id>/delete/', views_admin_neby.admin_neby_task_delete, name='admin_neby_task_delete'),
     path('admin/agents/activity/', views.admin_agent_activity, name='admin_agent_activity'),
     path('admin/agents/tick/', views.admin_agent_tick, name='admin_agent_tick'),
     path('admin/study-spaces/', views.admin_study_spaces, name='admin_study_spaces'),
@@ -293,6 +297,9 @@ urlpatterns = [
     path('ajax/canvas/boards/<str:board_id>/import/', views_canvas_features.ajax_canvas_import, name='ajax_canvas_import'),
     path('ajax/canvas/shared/<str:token>/clone/', views_canvas_features.ajax_canvas_clone_shared, name='ajax_canvas_clone_shared'),
     path('ajax/canvas/boards/<str:board_id>/neby-explore/', views_canvas_features.ajax_canvas_neby_explore, name='ajax_canvas_neby_explore'),
+    path('ajax/canvas/boards/<str:board_id>/neby-history/', views_canvas_features.ajax_canvas_neby_history, name='ajax_canvas_neby_history'),
+    path('ajax/canvas/boards/<str:board_id>/widget-content/', views_canvas_features.ajax_canvas_widget_content, name='ajax_canvas_widget_content'),
+    path('ajax/canvas/boards/<str:board_id>/agent-prompt/', views_canvas_features.ajax_canvas_agent_prompt, name='ajax_canvas_agent_prompt'),
     path('ajax/canvas/boards/<str:board_id>/suggestions/', views_canvas_features.ajax_canvas_suggestions, name='ajax_canvas_suggestions'),
     path('ajax/canvas/boards/<str:board_id>/agent/run/', views_canvas_objects.ajax_canvas_agent_run, name='ajax_canvas_agent_run'),
     path('ajax/canvas/boards/<str:board_id>/objects/', views_canvas_objects.ajax_canvas_objects_save, name='ajax_canvas_objects_save'),
@@ -303,6 +310,17 @@ urlpatterns = [
     path('ajax/canvas/nodes/<str:node_id>/retry/', views_canvas.ajax_canvas_node_retry, name='ajax_canvas_node_retry'),
     path('ajax/canvas/nodes/<str:node_id>/followup/', views_canvas.ajax_canvas_node_followup, name='ajax_canvas_node_followup'),
     path('ajax/canvas/nodes/<str:node_id>/dig-deeper/', views_canvas.ajax_canvas_node_dig_deeper, name='ajax_canvas_node_dig_deeper'),
+
+    # Lazy — standalone agentic document chat
+    path('lazy/', views_lazy.lazy_page, name='lazy'),
+    path('ajax/lazy/sessions/', views_lazy.ajax_lazy_sessions, name='ajax_lazy_sessions'),
+    path('ajax/lazy/sessions/create/', views_lazy.ajax_lazy_session_create, name='ajax_lazy_session_create'),
+    path('ajax/lazy/sessions/<str:session_id>/', views_lazy.ajax_lazy_session_detail, name='ajax_lazy_session_detail'),
+    path('ajax/lazy/sessions/<str:session_id>/delete/', views_lazy.ajax_lazy_session_delete, name='ajax_lazy_session_delete'),
+    path('ajax/lazy/sessions/<str:session_id>/chat/', views_lazy.ajax_lazy_chat, name='ajax_lazy_chat'),
+    path('ajax/lazy/sessions/<str:session_id>/save/', views_lazy.ajax_lazy_doc_save, name='ajax_lazy_doc_save'),
+    path('ajax/lazy/sessions/<str:session_id>/export/', views_lazy.ajax_lazy_export, name='lazy_export'),
+    path('ajax/lazy/upload/', views_lazy.ajax_lazy_upload, name='ajax_lazy_upload'),
     path('ajax/study-space/<str:space_id>/learning-path/', views.ajax_space_learning_path, name='ajax_space_learning_path'),
     path('ajax/study-space/<str:space_id>/members/<str:member_user_id>/role/', views.ajax_space_member_role, name='ajax_space_member_role'),
     path('ajax/study-space/<str:space_id>/members/<str:member_user_id>/remove/', views.ajax_space_member_remove, name='ajax_space_member_remove'),
