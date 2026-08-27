@@ -13,7 +13,6 @@ Task queue architecture:
 This avoids blocking the request and avoids daemon threads that Passenger kills.
 """
 import logging
-import random
 import re
 
 from django.db import transaction
@@ -30,53 +29,81 @@ _SHORT_RE = re.compile(r'^\s*(hi|hello|hey|ok|thanks|thank you|nice|\.+|!+|👍|
 
 def _is_mention_low_quality(text):
     t = (text or '').strip()
-    if len(t) < 8:
-        return True
-    if _SHORT_RE.match(t):
+    if len(t) < 3:
         return True
     if _SPAM_RE.search(t):
         return True
     return False
 
 
+def _persona_block_for_mention(persona):
+    lines = []
+    if getattr(persona, 'tagline', ''):
+        lines.append(f"Tagline: {persona.tagline}")
+    if getattr(persona, 'traits', None):
+        try:
+            if persona.traits:
+                lines.append(f"Traits: {', '.join(persona.traits)}")
+        except Exception:
+            pass
+    if getattr(persona, 'goals', None):
+        try:
+            if persona.goals:
+                lines.append(f"Goals: {'; '.join(persona.goals)}")
+        except Exception:
+            pass
+    if getattr(persona, 'voice_notes', ''):
+        lines.append(f"Voice: {persona.voice_notes[:300]}")
+    return '\n'.join(lines) if lines else ''
+
+
 def _should_reply_to_mention(persona, text, trigger):
-    """Personality-driven: Neby doesn't reply to every @mention. Returns True if she feels like it."""
-    if not persona:
-        return random.random() < 0.85
+    """Neby herself decides — via her LLM persona — whether to reply. No dice."""
     t = (text or '').strip()
     if _is_mention_low_quality(t):
-        return random.random() < 0.25
-    base = 0.82
-    if '?' in t:
-        base += 0.10
-    if len(t) > 60:
-        base += 0.05
-    if any(w in t.lower() for w in ('help', 'please', 'how', 'why', 'exam', 'explain')):
-        base += 0.06
-    traits = [s.lower() for s in (getattr(persona, 'traits', []) or [])]
-    if any('curious' in tr for tr in traits) and '?' in t:
-        base += 0.04
-    # if she just replied very recently, be quieter
+        logger.info(f"neby mention decide: obvious spam/short, skip without LLM")
+        return False
+    if not persona:
+        return True
     try:
-        from api.agent_social.observer import hours_since
-        if hours_since(getattr(persona, 'last_reply_at', 0)) < 0.3:
-            base -= 0.22
-    except Exception:
-        pass
-    # per-day soft limit: if she already replied a lot today, tone down
-    try:
-        from api.agent_social.observer import counts_today
-        today = counts_today(persona)
-        if today.get('reply', 0) >= 12:
-            base -= 0.25
-        elif today.get('reply', 0) >= 8:
-            base -= 0.12
-    except Exception:
-        pass
-    p = max(0.12, min(0.96, base))
-    roll = random.random()
-    logger.info(f"neby mention decide: trigger={trigger} p={p:.2f} roll={roll:.2f} -> {'reply' if roll < p else 'skip'}")
-    return roll < p
+        # Build persona-aware prompt
+        system = (
+            f"You are Neby, a peer on NEBians. { _persona_block_for_mention(persona) }\n\n"
+            "Someone mentioned you. Decide as Neby — human-like, not a bot. "
+            "You may stay quiet if it feels forced, spammy, or you have nothing genuine to add. "
+            "Be warm but selective. Reply only when it feels natural.\n"
+            "Return ONLY JSON: {\"should_reply\": true/false, \"reason\": \"1 sentence\"}"
+        )
+        user = f"Trigger: {trigger}\nMention text: {t[:600]}\n\nShould you reply?"
+        # Use her own provider
+        from api.models import BotConfig
+        bot_config = None
+        try:
+            # persona -> bot_config
+            bot_config = getattr(persona, 'bot_config', None)
+            if bot_config is None:
+                bot_config = BotConfig.objects.filter(pk=getattr(persona, 'bot_config_id', None)).first()
+            if bot_config is None:
+                bot_config = BotConfig.objects.filter(bot_username__iexact='neby').first()
+        except Exception:
+            bot_config = None
+        text_resp = call_ai_api(system, user, bot_config)
+        if not text_resp:
+            logger.warning("neby mention decide: LLM empty, default to reply")
+            return True
+        import json as _json, re as _re
+        m = _re.search(r'\{[\s\S]*\}', text_resp)
+        if not m:
+            logger.warning(f"neby mention decide: no JSON {text_resp[:300]}")
+            return True
+        data = _json.loads(m.group(0))
+        should = bool(data.get('should_reply', True))
+        reason = (data.get('reason') or '')[:120]
+        logger.info(f"neby mention decide: trigger={trigger} should_reply={should} reason={reason}")
+        return should
+    except Exception as e:
+        logger.warning(f"neby mention decide LLM failed: {e}, default reply")
+        return True
 
 
 def is_neby_enabled():
