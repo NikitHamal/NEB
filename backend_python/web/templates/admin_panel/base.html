@@ -115,6 +115,10 @@
       <span class="material-symbols-outlined">psychology</span>
       Neby Manager
     </a>
+    <a href="{% url 'web:admin_lazy_config' %}" class="{% if active_page == 'lazy' %}active{% endif %}">
+      <span class="material-symbols-outlined">edit_document</span>
+      Lazy Config
+    </a>
     <a href="{% url 'web:admin_agent_activity' %}" class="{% if active_page == 'bot' %}active{% endif %}">
       <span class="material-symbols-outlined">monitor_heart</span>
       Agent Heartbeat
@@ -242,6 +246,10 @@
     <a href="{% url 'web:admin_neby_manager' %}" class="{% if active_page == 'neby' %}active{% endif %}">
       <span class="material-symbols-outlined">psychology</span>
       Neby Manager
+    </a>
+    <a href="{% url 'web:admin_lazy_config' %}" class="{% if active_page == 'lazy' %}active{% endif %}">
+      <span class="material-symbols-outlined">edit_document</span>
+      Lazy Config
     </a>
     <a href="{% url 'web:admin_agent_activity' %}" class="{% if active_page == 'bot' %}active{% endif %}">
       <span class="material-symbols-outlined">monitor_heart</span>

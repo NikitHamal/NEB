@@ -77,8 +77,11 @@ def _serialize_message(m):
         'id': str(m.id),
         'role': m.role,
         'content': m.content or '',
+        'think': meta.get('think'),
+        'steps': meta.get('steps') or [],
         'tools': meta.get('tools') or [],
         'docUpdated': bool(meta.get('docUpdated')),
+        'docTitle': meta.get('docTitle') or '',
         'attachments': atts,
         'files': files,
         'createdAt': m.created_at,
@@ -133,10 +136,14 @@ def ajax_lazy_session_detail(request, session_id):
 
 @require_POST
 def ajax_lazy_session_delete(request, session_id):
-    user, session, err = _owned(request, session_id)
-    if err:
-        return err
-    session.delete()
+    user = _get_user_or_none(request)
+    if not user:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+    try:
+        session = LazyDocSession.objects.get(id=session_id, user=user)
+        session.delete()
+    except LazyDocSession.DoesNotExist:
+        pass
     return JsonResponse({'ok': True})
 
 
@@ -285,11 +292,13 @@ def ajax_lazy_chat(request, session_id):
     session.save(update_fields=['title', 'message_count', 'updated_at'])
     new_title = session.title
 
+    model_key = str(payload.get('model') or 'neby-pro')
+
     def event_stream():
         yield f"data: {json.dumps({'type': 'user', 'id': str(user_msg.id), 'title': new_title}, ensure_ascii=False)}\n\n"
         box = {}
         try:
-            for frame in lazy_agent.stream_turn(session, user, text, box, sources=clean_atts):
+            for frame in lazy_agent.stream_turn(session, user, text, box, sources=clean_atts, model_key=model_key):
                 yield f"data: {json.dumps(frame, ensure_ascii=False)}\n\n"
             turn = box.get('turn')
             if turn is None:

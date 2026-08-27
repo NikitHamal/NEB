@@ -752,12 +752,31 @@
       diffsEl.hidden = false;
       diffsEl.innerHTML = '';
       diffs.forEach(function (d, i) {
-        var chip = document.createElement('span');
+        var chip = document.createElement('div');
         chip.className = 'ai-chips-diff';
+        chip.style.position = 'relative';
         chip.style.animation = 'ai-pop-in 250ms cubic-bezier(0.23,1,0.32,1) ' + (i * 80) + 'ms both';
         var add = typeof d.add === 'number' && d.add > 0 ? '<span class="ai-chips-diff-add">+' + d.add + '</span>' : '';
         var del = typeof d.del === 'number' && d.del > 0 ? '<span class="ai-chips-diff-del">\u2212' + d.del + '</span>' : '';
         chip.innerHTML = '<span class="ai-chips-diff-file">' + escapeHtml(d.file) + '</span>' + add + del;
+
+        if (d.preview || d.lines) {
+          var popover = document.createElement('div');
+          popover.className = 'ai-chips-diff-popover';
+          var popHeader = '<div class="ai-chips-diff-pop-head"><span class="font-mono">' + escapeHtml(d.file) + '</span><span class="ai-chips-diff-pop-counts">' + add + (del ? ' ' + del : '') + '</span></div>';
+          var linesHtml = '<div class="ai-chips-diff-pop-lines">';
+          var previewLines = d.preview || d.lines || [];
+          previewLines.forEach(function(pl) {
+            var isAdd = pl.indexOf('+') === 0;
+            var isDel = pl.indexOf('-') === 0;
+            var cls = isAdd ? 'ai-pop-line-add' : (isDel ? 'ai-pop-line-del' : 'ai-pop-line-ctx');
+            linesHtml += '<div class="ai-pop-line ' + cls + '">' + escapeHtml(pl) + '</div>';
+          });
+          linesHtml += '</div>';
+          popover.innerHTML = popHeader + linesHtml;
+          chip.appendChild(popover);
+        }
+
         diffsEl.appendChild(chip);
       });
       if (moreCount > 0) {

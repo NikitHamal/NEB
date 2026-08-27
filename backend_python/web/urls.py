@@ -4,6 +4,7 @@ from . import views
 from . import views_admin_chat
 from . import views_admin_media
 from . import views_admin_neby
+from . import views_admin_lazy
 from . import views_background_agent as ba_views
 from . import views_background_agent_lifecycle as ba_lifecycle_views
 from . import views_background_agent_mobile as ba_mobile_views
@@ -225,6 +226,7 @@ urlpatterns = [
     path('admin/bots/<int:bot_id>/create-user/', views.admin_bot_create_user, name='admin_bot_create_user'),
     path('admin/neby/', views_admin_neby.admin_neby_manager, name='admin_neby_manager'),
     path('admin/neby/task/<str:task_id>/delete/', views_admin_neby.admin_neby_task_delete, name='admin_neby_task_delete'),
+    path('admin/lazy/', views_admin_lazy.admin_lazy_config, name='admin_lazy_config'),
     path('admin/agents/activity/', views.admin_agent_activity, name='admin_agent_activity'),
     path('admin/agents/tick/', views.admin_agent_tick, name='admin_agent_tick'),
     path('admin/study-spaces/', views.admin_study_spaces, name='admin_study_spaces'),

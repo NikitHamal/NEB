@@ -623,7 +623,8 @@ button.ai-trace-row.selected { background: var(--ai-inset); }
 
 /* ── ToolChips ──────────────────────────────────────────────────────────── */
 .ai-chips {
-  max-width: 20rem;
+  max-width: 560px;
+  width: 100%;
   padding-bottom: 4px;
   color: var(--ai-ink);
   font-family: inherit;
@@ -772,6 +773,72 @@ button.ai-trace-row.selected { background: var(--ai-inset); }
 .ai-chips-diff-file { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
 .ai-chips-diff-add { flex-shrink: 0; color: var(--ai-green, #16a34a); font-variant-numeric: tabular-nums; }
 .ai-chips-diff-del { flex-shrink: 0; color: var(--ai-red, #dc2626); font-variant-numeric: tabular-nums; }
+
+.ai-chips-diff-popover {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 0;
+  min-width: 280px;
+  max-width: 440px;
+  background: var(--surface, #1e1e24);
+  border: 1px solid var(--ai-line, rgba(255, 255, 255, 0.12));
+  border-radius: 10px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  padding: 10px 12px;
+  z-index: 1000;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  font-family: ui-monospace, "SF Mono", "Cascadia Mono", Consolas, monospace;
+}
+
+.ai-chips-diff:hover .ai-chips-diff-popover {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.ai-chips-diff-pop-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--ai-line, rgba(255, 255, 255, 0.08));
+  font-size: 11.5px;
+  color: var(--ai-ink, #e5e5eb);
+  margin-bottom: 6px;
+}
+
+.ai-chips-diff-pop-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.ai-pop-line {
+  white-space: pre;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 1px 4px;
+  border-radius: 4px;
+}
+
+.ai-pop-line-add {
+  color: #4ade80;
+  background: rgba(34, 197, 94, 0.12);
+}
+
+.ai-pop-line-del {
+  color: #f87171;
+  background: rgba(239, 68, 68, 0.12);
+}
+
+.ai-pop-line-ctx {
+  color: var(--ai-ink-2, #a1a1aa);
+}
 .ai-chips-more {
   display: inline-flex;
   align-items: center;
