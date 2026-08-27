@@ -49,18 +49,43 @@ class Command(BaseCommand):
         retry_failed = options['retry']
         max_attempts = options['max_attempts']
 
+        from django.db import transaction
+        from django.db.models import F
+        from api.utils import now_ms
+
         queryset = NebyTask.objects.filter(status='pending')
         if retry_failed:
             queryset = queryset | NebyTask.objects.filter(
                 status='failed', attempts__lt=max_attempts
             )
 
-        tasks = queryset.order_by('created_at')[:max_tasks]
+        task_ids = list(queryset.order_by('created_at').values_list('id', flat=True)[:max_tasks])
 
         processed = 0
-        for task in tasks:
+        for task_id in task_ids:
             start = time.time()
-            self.stdout.write(f'Processing task {task.id} ({task.trigger}, post={task.post_id})...')
+            task = None
+            try:
+                with transaction.atomic():
+                    obj = NebyTask.objects.filter(pk=task_id).select_for_update(skip_locked=True).first()
+                    if not obj:
+                        continue
+                    if obj.status == 'failed' and not retry_failed:
+                        continue
+                    if obj.status == 'failed' and obj.attempts >= max_attempts:
+                        continue
+                    if obj.status not in ('pending', 'failed'):
+                        continue
+                    if obj.status == 'pending':
+                        self.stdout.write(f'Processing task {obj.id} ({obj.trigger}, post={obj.post_id})...')
+                    else:
+                        self.stdout.write(f'Retrying task {obj.id} ({obj.trigger}, post={obj.post_id})...')
+                    task = obj
+            except Exception as e:
+                logger.error(f'Neby claim failed for {task_id}: {e}', exc_info=True)
+                continue
+            if task is None:
+                continue
             try:
                 process_neby_task(task)
                 task.refresh_from_db()

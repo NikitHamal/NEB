@@ -40,8 +40,27 @@ def counts_today(persona):
     }
 
 
+def _pending_neby_reply_ids():
+    try:
+        from api.models import NebyTask
+        return set(NebyTask.objects.filter(status__in=('pending', 'processing')).exclude(reply_id__isnull=True).exclude(reply_id='').values_list('reply_id', flat=True))
+    except Exception:
+        return set()
+
+
+def _pending_neby_post_ids():
+    try:
+        from api.models import NebyTask
+        return set(NebyTask.objects.filter(status__in=('pending', 'processing'), reply_id__isnull=True).values_list('post_id', flat=True))
+    except Exception:
+        return set()
+
+
 def observe(persona, bot_user, window_hours=720, limit=100):
     since = now_ms() - int(window_hours * 3600 * 1000)
+
+    pending_reply_ids = _pending_neby_reply_ids()
+    pending_post_ids = _pending_neby_post_ids()
 
     # 1. Observe incoming replies on posts created by bot or mentioning bot
     my_post_ids = set(Post.objects.filter(user=bot_user, is_archived=False).values_list('id', flat=True))
@@ -81,7 +100,8 @@ def observe(persona, bot_user, window_hours=720, limit=100):
         rid_str = str(r.id).strip()
         pid_str = str(r.post_id).strip()
         already_replied = (
-            rid_str in my_replied_parent_ids
+            rid_str in pending_reply_ids
+            or rid_str in my_replied_parent_ids
             or already_acted(persona, 'reply', rid_str)
             or already_acted(persona, 'reply', f"{pid_str}:{rid_str}")
             or already_acted(persona, 'reply', f"{pid_str}:{rid_str}"[:64])
@@ -143,7 +163,7 @@ def observe(persona, bot_user, window_hours=720, limit=100):
             'post': post,
             'score': score,
             'already_liked': post.id in liked_ids,
-            'already_replied': post.id in replied_ids or already_acted(persona, 'reply', post.id),
+            'already_replied': post.id in replied_ids or post.id in pending_post_ids or already_acted(persona, 'reply', post.id),
             'already_following_author': post.user_id in following_ids,
         })
     scored.sort(key=lambda row: -row['score'])

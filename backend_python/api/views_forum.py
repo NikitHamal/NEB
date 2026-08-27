@@ -118,14 +118,15 @@ def post_detail(request, post_id):
         user, err = _require_user(request)
         if err:
             return err
-        if post.user_id != user.id:
+        is_admin = bool(getattr(user, 'is_admin', False) or getattr(user, 'moderator_level', 0) > 0)
+        if post.user_id != user.id and not is_admin:
             return Response({'error': 'Forbidden'}, status=403)
         try:
             _cleanup.delete_post_with_cleanup(post_id)
         except Post.DoesNotExist:
             return Response({'error': 'Post not found'}, status=404)
         _rt.broadcast_post_deleted(post_id)
-        logger.info("post_detail DELETE: deleted post %s by user %s", post_id, user.username)
+        logger.info("post_detail DELETE: deleted post %s by user %s (admin=%s)", post_id, user.username, is_admin)
         return Response({'success': True})
 
     if request.method == 'PATCH':
@@ -323,16 +324,19 @@ def reply_detail(request, reply_id):
     except Reply.DoesNotExist:
         return Response({'error': 'Reply not found'}, status=404)
 
-    if reply.user_id != user.id:
-        return Response({'error': 'Forbidden'}, status=403)
-
     if request.method == 'DELETE':
+        is_admin = bool(getattr(user, 'is_admin', False) or getattr(user, 'moderator_level', 0) > 0)
+        if reply.user_id != user.id and not is_admin:
+            return Response({'error': 'Forbidden'}, status=403)
         try:
             _cleanup.delete_reply_with_cleanup(reply.id)
         except Reply.DoesNotExist:
             return Response({'error': 'Reply not found'}, status=404)
         _rt.broadcast_reply_deleted(reply.post_id, reply.id, deleted_by=str(user.id))
         return Response({'success': True})
+
+    if reply.user_id != user.id:
+        return Response({'error': 'Forbidden'}, status=403)
 
     content = request.data.get('content', '').strip()
     if content:

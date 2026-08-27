@@ -13,6 +13,7 @@ Task queue architecture:
 This avoids blocking the request and avoids daemon threads that Passenger kills.
 """
 import logging
+import random
 import re
 
 from django.db import transaction
@@ -22,6 +23,60 @@ from .models import BotConfig, User, Post, Reply, NebyTask
 from .utils import now_ms, uuid_str
 
 logger = logging.getLogger(__name__)
+
+_SPAM_RE = re.compile(r'(http[s]?://|www\.|buy now|click here|free money)', re.I)
+_SHORT_RE = re.compile(r'^\s*(hi|hello|hey|ok|thanks|thank you|nice|\.+|!+|👍|🙏)+\s*$', re.I)
+
+
+def _is_mention_low_quality(text):
+    t = (text or '').strip()
+    if len(t) < 8:
+        return True
+    if _SHORT_RE.match(t):
+        return True
+    if _SPAM_RE.search(t):
+        return True
+    return False
+
+
+def _should_reply_to_mention(persona, text, trigger):
+    """Personality-driven: Neby doesn't reply to every @mention. Returns True if she feels like it."""
+    if not persona:
+        return random.random() < 0.85
+    t = (text or '').strip()
+    if _is_mention_low_quality(t):
+        return random.random() < 0.25
+    base = 0.82
+    if '?' in t:
+        base += 0.10
+    if len(t) > 60:
+        base += 0.05
+    if any(w in t.lower() for w in ('help', 'please', 'how', 'why', 'exam', 'explain')):
+        base += 0.06
+    traits = [s.lower() for s in (getattr(persona, 'traits', []) or [])]
+    if any('curious' in tr for tr in traits) and '?' in t:
+        base += 0.04
+    # if she just replied very recently, be quieter
+    try:
+        from api.agent_social.observer import hours_since
+        if hours_since(getattr(persona, 'last_reply_at', 0)) < 0.3:
+            base -= 0.22
+    except Exception:
+        pass
+    # per-day soft limit: if she already replied a lot today, tone down
+    try:
+        from api.agent_social.observer import counts_today
+        today = counts_today(persona)
+        if today.get('reply', 0) >= 12:
+            base -= 0.25
+        elif today.get('reply', 0) >= 8:
+            base -= 0.12
+    except Exception:
+        pass
+    p = max(0.12, min(0.96, base))
+    roll = random.random()
+    logger.info(f"neby mention decide: trigger={trigger} p={p:.2f} roll={roll:.2f} -> {'reply' if roll < p else 'skip'}")
+    return roll < p
 
 
 def is_neby_enabled():
@@ -57,6 +112,24 @@ def _find_matching_bots(text):
     return configs
 
 
+def _has_existing_bot_reply(post_id, reply_id, bot_user):
+    """Check if bot already replied to this post/reply."""
+    if reply_id:
+        return Reply.objects.filter(parent_reply_id=reply_id, user=bot_user, is_archived=False).exists()
+    return Reply.objects.filter(post_id=post_id, parent_reply_id__isnull=True, user=bot_user, is_archived=False).exists()
+
+
+def _has_pending_task(post_id, reply_id, bot_config):
+    qs = NebyTask.objects.filter(status__in=('pending', 'processing'))
+    if bot_config and bot_config.pk:
+        qs = qs.filter(bot_config=bot_config)
+    if reply_id:
+        qs = qs.filter(reply_id=reply_id)
+    else:
+        qs = qs.filter(post_id=post_id, reply_id__isnull=True)
+    return qs.exists()
+
+
 def enqueue_neby_task(trigger, post_id, reply_id=None, bot_config=None):
     """Create a pending NebyTask and return it. Called from request cycle."""
     if not is_neby_enabled():
@@ -68,15 +141,41 @@ def enqueue_neby_task(trigger, post_id, reply_id=None, bot_config=None):
     if not bot_user:
         logger.debug(f'Neby: enqueue skipped (no user for @{bot_config.bot_username})')
         return None
-    task = NebyTask.objects.create(
-        id=uuid_str(),
-        bot_config=bot_config,
-        status='pending',
-        trigger=trigger,
-        post_id=post_id,
-        reply_id=reply_id,
-        created_at=now_ms(),
-    )
+    if _has_pending_task(post_id, reply_id, bot_config):
+        logger.debug(f'Neby: enqueue skipped duplicate pending task for bot @{bot_config.bot_username}, post {post_id} reply {reply_id}')
+        return None
+    if _has_existing_bot_reply(post_id, reply_id, bot_user):
+        logger.debug(f'Neby: enqueue skipped bot already replied for bot @{bot_config.bot_username}, post {post_id} reply {reply_id}')
+        return None
+    try:
+        from api.agent_social.models import AgentAction
+        target_key = str(reply_id).strip() if reply_id else str(post_id).strip()
+        if reply_id:
+            post_key = str(post_id).strip()
+            if AgentAction.objects.filter(action_type='reply', target_id=target_key, status='done').exists():
+                logger.debug(f'Neby: enqueue skipped AgentAction already replied for {target_key}')
+                return None
+            if AgentAction.objects.filter(action_type='reply', target_id=f"{post_key}:{target_key}", status='done').exists():
+                return None
+        else:
+            if AgentAction.objects.filter(action_type='reply', target_id=target_key, status='done').exists():
+                return None
+    except Exception:
+        pass
+    with transaction.atomic():
+        if _has_pending_task(post_id, reply_id, bot_config):
+            return None
+        if _has_existing_bot_reply(post_id, reply_id, bot_user):
+            return None
+        task = NebyTask.objects.create(
+            id=uuid_str(),
+            bot_config=bot_config,
+            status='pending',
+            trigger=trigger,
+            post_id=post_id,
+            reply_id=reply_id,
+            created_at=now_ms(),
+        )
     logger.info(f'Neby: enqueued {trigger} task {task.id} for bot @{bot_config.bot_username}, post {post_id}')
     return task
 
@@ -395,12 +494,33 @@ def _process_post_mention(task, config, bot_user):
         task.save(update_fields=['status', 'error_message', 'finished_at'])
         return
 
+    if _has_existing_bot_reply(task.post_id, None, bot_user):
+        task.status = 'done'
+        task.error_message = 'Bot already replied to this post'
+        task.finished_at = now_ms()
+        task.save(update_fields=['status', 'error_message', 'finished_at'])
+        return
+
     if not detect_mention(post.content, config.bot_username) and not detect_mention(post.title, config.bot_username):
         task.status = 'failed'
         task.error_message = f'No @{config.bot_username} mention found in post'
         task.finished_at = now_ms()
         task.save(update_fields=['status', 'error_message', 'finished_at'])
         return
+
+    # Personality: not every mention gets a reply — be humane
+    try:
+        from api.agent_social.models import AgentPersona
+        persona = AgentPersona.objects.filter(bot_config=config).first()
+        if persona and not _should_reply_to_mention(persona, f"{post.title} {post.content}", 'post_mention'):
+            task.status = 'done'
+            task.error_message = 'Ignored by personality (chose not to reply)'
+            task.finished_at = now_ms()
+            task.save(update_fields=['status', 'error_message', 'finished_at'])
+            logger.info(f"Neby task {task.id}: ignored post mention by personality")
+            return
+    except Exception as e:
+        logger.warning(f"neby personality check failed: {e}")
 
     bot_name = config.display_name or config.name or 'Neby'
     context, _ = _build_post_context(post, max_replies=config.max_context_replies, bot_name=bot_name)
@@ -417,6 +537,13 @@ def _process_post_mention(task, config, bot_user):
         response_text = f'@{author_username} {response_text}'
 
     with transaction.atomic():
+        Post.objects.select_for_update().get(pk=post.pk)
+        if _has_existing_bot_reply(task.post_id, None, bot_user):
+            task.status = 'done'
+            task.error_message = 'Bot already replied to this post (race)'
+            task.finished_at = now_ms()
+            task.save(update_fields=['status', 'error_message', 'finished_at'])
+            return
         reply = Reply.objects.create(
             id=uuid_str(),
             post=post,
@@ -451,11 +578,25 @@ def _process_reply_mention(task, config, bot_user):
         task.save(update_fields=['status', 'error_message', 'finished_at'])
         return
 
+    if _has_existing_bot_reply(task.post_id, task.reply_id, bot_user):
+        task.status = 'done'
+        task.error_message = 'Bot already replied to this reply'
+        task.finished_at = now_ms()
+        task.save(update_fields=['status', 'error_message', 'finished_at'])
+        return
+
     try:
         reply = Reply.objects.select_related('post', 'user').get(pk=task.reply_id)
     except Reply.DoesNotExist:
         task.status = 'failed'
         task.error_message = f'Reply {task.reply_id} not found'
+        task.finished_at = now_ms()
+        task.save(update_fields=['status', 'error_message', 'finished_at'])
+        return
+
+    if _has_existing_bot_reply(task.post_id, task.reply_id, bot_user):
+        task.status = 'done'
+        task.error_message = 'Bot already replied to this reply'
         task.finished_at = now_ms()
         task.save(update_fields=['status', 'error_message', 'finished_at'])
         return
@@ -474,6 +615,19 @@ def _process_reply_mention(task, config, bot_user):
         task.save(update_fields=['status', 'error_message', 'finished_at'])
         return
 
+    try:
+        from api.agent_social.models import AgentPersona
+        persona = AgentPersona.objects.filter(bot_config=config).first()
+        if persona and not _should_reply_to_mention(persona, reply.content, 'reply_mention'):
+            task.status = 'done'
+            task.error_message = 'Ignored by personality (chose not to reply)'
+            task.finished_at = now_ms()
+            task.save(update_fields=['status', 'error_message', 'finished_at'])
+            logger.info(f"Neby task {task.id}: ignored reply mention by personality")
+            return
+    except Exception as e:
+        logger.warning(f"neby personality check failed: {e}")
+
     bot_name = config.display_name or config.name or 'Neby'
     context, reply_username = _build_reply_context(reply, max_context_replies=config.max_context_replies, bot_name=bot_name)
     response_text = call_ai_api(config.system_prompt, context, config)
@@ -488,6 +642,13 @@ def _process_reply_mention(task, config, bot_user):
         response_text = f'@{reply_username} {response_text}'
 
     with transaction.atomic():
+        Reply.objects.select_for_update().get(pk=reply.id)
+        if _has_existing_bot_reply(task.post_id, task.reply_id, bot_user):
+            task.status = 'done'
+            task.error_message = 'Bot already replied to this reply (race)'
+            task.finished_at = now_ms()
+            task.save(update_fields=['status', 'error_message', 'finished_at'])
+            return
         neby_reply = Reply.objects.create(
             id=uuid_str(),
             post_id=reply.post_id,

@@ -400,7 +400,12 @@ def ajax_delete_post(request, post_id):
         post = Post.objects.get(pk=post_id)
     except Post.DoesNotExist:
         return JsonResponse({'error': 'Post not found'}, status=404)
-    if post.user_id != user_id:
+    try:
+        cur_user = User.objects.get(pk=user_id)
+        is_admin = bool(getattr(cur_user, 'is_admin', False) or getattr(cur_user, 'moderator_level', 0) > 0)
+    except User.DoesNotExist:
+        is_admin = False
+    if post.user_id != user_id and not is_admin:
         return JsonResponse({'error': 'Forbidden'}, status=403)
     try:
         _cleanup.delete_post_with_cleanup(post_id)
@@ -549,7 +554,12 @@ def ajax_delete_reply(request, reply_id):
         reply = Reply.objects.get(pk=reply_id)
     except Reply.DoesNotExist:
         return JsonResponse({'error': 'Reply not found'}, status=404)
-    if reply.user_id != user_id:
+    try:
+        cur_user = User.objects.get(pk=user_id)
+        is_admin = bool(getattr(cur_user, 'is_admin', False) or getattr(cur_user, 'moderator_level', 0) > 0)
+    except User.DoesNotExist:
+        is_admin = False
+    if reply.user_id != user_id and not is_admin:
         return JsonResponse({'error': 'Forbidden'}, status=403)
     try:
         _cleanup.delete_reply_with_cleanup(reply_id)
