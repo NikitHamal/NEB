@@ -1074,9 +1074,8 @@ def call_qwen(system_prompt, user_message, model="qwen3.8-max", max_tokens=500,
                     except Exception:
                         pass
             time.sleep(1)
-            # empty on qwen -> fast-fallback to next provider (empero/geminiweb) instead of retrying qwen 3x
             if attempt >= 1:
-                return None
+                break
         except QwenPunishedError as e:
             logger.warning(
                 f"Qwen WAF punish (attempt {attempt + 1}): {str(e)[:200]} -> fast fallback"
@@ -1084,13 +1083,36 @@ def call_qwen(system_prompt, user_message, model="qwen3.8-max", max_tokens=500,
             if session:
                 _mark_failed(session)
             time.sleep(2)
-            return None
+            break
         except Exception as e:
             logger.error(f"Qwen call exception (attempt {attempt + 1}): {e}")
             if session:
                 _mark_failed(session)
             time.sleep(1)
             if attempt >= 1:
-                return None
+                break
 
+    # Qwen direct failed -> seamless fallback to Empero free Qwen (same 3.8 model, no WAF, same provider label)
+    logger.warning("Qwen: direct failed, trying Empero free Qwen as seamless fallback")
+    try:
+        import requests as _req
+        empero_payload = {
+            "model": "qwen3.8-fp8",
+            "messages": [{"role": "user", "content": full_message}],
+            "max_tokens": max_tokens,
+            "temperature": 0.7,
+        }
+        _headers = {"Content-Type": "application/json", "x-ridge-gui": "1"}
+        _resp = _req.post("https://free.empero.org/v1/chat/completions", json=empero_payload, headers=_headers, timeout=30)
+        if _resp.status_code == 200:
+            _data = _resp.json()
+            _text = (_data.get("choices") or [{}])[0].get("message", {}).get("content", "")
+            if _text and len(_text.strip()) > 5:
+                logger.info(f"Qwen->Empero fallback succeeded ({len(_text)} chars)")
+                return _text.strip()
+            logger.warning(f"Empero fallback empty: {_resp.text[:400]}")
+        else:
+            logger.warning(f"Empero fallback status {_resp.status_code}: {_resp.text[:400]}")
+    except Exception as _e:
+        logger.warning(f"Empero fallback exception: {_e}")
     return None
