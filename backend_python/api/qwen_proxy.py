@@ -57,10 +57,57 @@ def _check_waf_response(resp):
             try:
                 text = (resp.text if hasattr(resp, "text")
                         else resp.content.decode("utf-8", "replace"))
-                if any(k in text for k in ("aliyun_waf_aa", "captcha", "Challenge")):
+                if any(k in text for k in ("aliyun_waf_aa", "acw_sc__v2", "captcha", "Challenge", "x5secdata")):
                     return "Aliyun WAF JS challenge"
             except Exception:
                 pass
+    return None
+
+
+def _solve_acw_sc_v2(html, url="https://chat.qwen.ai/"):
+    """Try to solve Aliyun acw_sc__v2 JS challenge via js2py.
+    Returns cookie value or None. Uses REA-traceable JS evaluation (no browser needed).
+    REA evidence: main.js 0.2.87 sets ssxmod_itna/bx-ua, but WAF sets acw_sc__v2 via eval'd JS
+    that writes document.cookie. We evaluate that JS in a sandboxed JS engine.
+    """
+    try:
+        import re as _re
+        import js2py as _js2py
+        # Find the <script> that sets acw_sc__v2
+        # Typical pattern: document.cookie = "acw_sc__v2=" + value
+        # Challenge JS is often: var acw_sc__v2 = '...'; or eval(function(p,a,c,k,e,d){...})
+        # Try to extract the JS block containing acw_sc__v2
+        scripts = _re.findall(r'<script[^>]*>(.*?)</script>', html, _re.S | _re.I)
+        target_js = ""
+        for s in scripts:
+            if "acw_sc__v2" in s or "acw_sc" in s or "x5secdata" in s:
+                target_js = s
+                break
+        if not target_js:
+            return None
+        # If it's an eval-packed script, js2py can handle it
+        # Create a minimal document mock
+        js_code = f"""
+        var document = {{cookie: ""}};
+        var window = {{}};
+        var navigator = {{userAgent: "Mozilla/5.0"}};
+        var location = {{href: "{url}", reload: function(){{}}}};
+        {target_js}
+        document.cookie;
+        """
+        result = _js2py.eval_js(js_code)
+        # result is like "acw_sc__v2=xxx; path=/"
+        m = _re.search(r'acw_sc__v2=([^;]+)', str(result))
+        if m:
+            return m.group(1).strip()
+        # fallback: try to find x5secdata
+        m2 = _re.search(r'x5secdata=([^;]+)', str(result))
+        if m2:
+            return m2.group(1).strip()
+    except ImportError:
+        logger.debug("js2py not installed, cannot solve acw_sc__v2")
+    except Exception as e:
+        logger.debug(f"acw_sc__v2 solve failed: {e}")
     return None
 
 
@@ -501,7 +548,7 @@ _BROWSER_PROFILES = (
     },
 )
 
-_WEB_CLIENT_VERSION = "0.2.86"
+_WEB_CLIENT_VERSION = "0.2.87"
 
 
 def build_session_headers(bx_ua="", profile=None):
@@ -602,6 +649,23 @@ def _create_session_with_profile(profile):
     warmup = session.get(f"{QWEN_URL}/", timeout=20, allow_redirects=True)
     waf_err = _check_waf_response(warmup)
     if waf_err:
+        # Try to solve Aliyun acw_sc__v2 / x5secdata JS challenge via REA-traced JS evaluation
+        try:
+            html = warmup.text if hasattr(warmup, 'text') else warmup.content.decode('utf-8', 'replace')
+            solved = _solve_acw_sc_v2(html, url=f"{QWEN_URL}/")
+            if solved:
+                session.cookies.set("acw_sc__v2", solved, domain="chat.qwen.ai")
+                # also try x5secdata name
+                if "x5secdata" in html and "acw_sc__v2" not in solved:
+                    session.cookies.set("x5secdata", solved, domain="chat.qwen.ai")
+                logger.info(f"Qwen WAF solved acw_sc__v2 len={len(solved)} via js2py, retrying warmup")
+                warmup = session.get(f"{QWEN_URL}/", timeout=20, allow_redirects=True)
+                waf_err = _check_waf_response(warmup)
+                if not waf_err:
+                    logger.debug("Qwen warmup after WAF solve %s via %s: %s", profile["impersonate"], profile["platform"], warmup.status_code)
+                    return session, cookies_data
+        except Exception as e:
+            logger.debug(f"WAF solve attempt failed: {e}")
         raise RuntimeError(f"warmup blocked: {waf_err} (HTTP {warmup.status_code})")
     logger.debug("Qwen warmup %s via %s: %s", profile["impersonate"], profile["platform"], warmup.status_code)
     return session, cookies_data
