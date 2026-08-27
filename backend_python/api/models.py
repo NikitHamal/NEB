@@ -2339,6 +2339,33 @@ class CanvasObject(models.Model):
         return f"{self.obj_type} ({self.board_id})"
 
 
+class CanvasNebyRun(models.Model):
+    """Persistent history of Neby agent runs (explore/suggest) on a canvas."""
+    KIND_CHOICES = [
+        ('explore', 'Explore'),
+        ('suggest', 'Suggest'),
+    ]
+    id = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
+    board = models.ForeignKey(CanvasBoard, on_delete=models.CASCADE, related_name='neby_runs', db_index=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='canvas_neby_runs', db_index=True)
+    kind = models.CharField(max_length=10, choices=KIND_CHOICES, default='explore', db_index=True)
+    goal = models.TextField(blank=True, default='')
+    summary = models.TextField(blank=True, default='')
+    questions = models.JSONField(default=list, blank=True)
+    provider = models.CharField(max_length=60, blank=True, default='')
+    created_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'canvas_neby_runs'
+        ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['board', '-created_at'], name='canvas_run_board_created_idx'),
+        ]
+
+    def __str__(self):
+        return f"{self.kind} on {self.board_id} at {self.created_at}"
+
+
 class PaymentVerification(models.Model):
     """Buyers submit QR payment proof (screenshots & transaction ID) for paid resources/classes.
     Admins verify and approve these payments manually to credit the seller.
@@ -2485,6 +2512,54 @@ class AiFeedback(models.Model):
 
     def __str__(self):
         return f"{self.surface} {self.vote} by {self.user_id}"
+
+
+class LazyDocSession(models.Model):
+    """One Lazy chat thread: conversation + the working document it edits."""
+    id = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='lazy_sessions', db_index=True)
+    title = models.CharField(max_length=200, blank=True, default='New chat')
+    doc_title = models.CharField(max_length=200, blank=True, default='')
+    doc_html = models.TextField(blank=True, default='')
+    meta = models.TextField(blank=True, default='{}')
+    message_count = models.PositiveIntegerField(default=0)
+    created_at = models.BigIntegerField(default=0)
+    updated_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'lazy_doc_sessions'
+        ordering = ['-updated_at']
+        indexes = [
+            models.Index(fields=['user', '-updated_at'], name='lazy_doc_user_updated_idx'),
+        ]
+
+    def __str__(self):
+        return f"Lazy {self.title} ({self.user_id})"
+
+
+class LazyDocMessage(models.Model):
+    ROLE_CHOICES = [
+        ('user', 'User'),
+        ('assistant', 'Assistant'),
+    ]
+    id = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
+    session = models.ForeignKey(LazyDocSession, on_delete=models.CASCADE, related_name='messages', db_index=True)
+    role = models.CharField(max_length=12, choices=ROLE_CHOICES)
+    content = models.TextField(blank=True, default='')
+    # JSON: {"tools":[{"name":"generate_doc","summary":"..."}], "docUpdated":true,
+    #        "attachments":[{"name":"notes.pdf"}], "attachmentText":"..."}
+    meta = models.TextField(blank=True, default='{}')
+    created_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'lazy_doc_messages'
+        ordering = ['created_at', 'id']
+        indexes = [
+            models.Index(fields=['session', 'created_at'], name='lazy_msg_session_created_idx'),
+        ]
+
+    def __str__(self):
+        return f"{self.role}: {self.content[:40]}"
 
 
 def _new_code_session_id() -> str:

@@ -172,26 +172,34 @@ body.dragging-card,.canvas-viewport.dragging-card{cursor:grabbing!important}
 
 /* ── Cards ───────────────────────────────────────────────── */
 .canvas-card{
-  position:absolute;width:520px;background:var(--cv-surface);
+  position:absolute;width:480px;height:480px;
+  background:var(--cv-surface);
   border:1px solid var(--cv-border);border-radius:20px;
   box-shadow:var(--cv-shadow-card);display:flex;flex-direction:column;
   transition:box-shadow .18s,border-color .18s;cursor:auto;
   overflow:visible;
-  height:auto;
-  max-height:none;
 }
 .card-body{
-  flex:1;
+  flex:1 1 0;
   min-height:0;
-  overflow:visible;
-  padding:14px 16px;
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  padding:12px 14px;
   display:flex;
   flex-direction:column;
   gap:12px;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(11,28,48,.18) transparent;
 }
+/* never let flex squeeze sections — the body scrolls instead */
+.card-body > *{flex-shrink:0}
+.card-body::-webkit-scrollbar{width:8px}
+.card-body::-webkit-scrollbar-thumb{background:rgba(11,28,48,.16);border-radius:8px;border:2px solid transparent;background-clip:content-box}
+.card-body::-webkit-scrollbar-thumb:hover{background:rgba(11,28,48,.28);border:2px solid transparent;background-clip:content-box}
+.card-body::-webkit-scrollbar-track{background:transparent}
 .canvas-card:hover{box-shadow:0 2px 5px rgba(11,28,48,.08),0 16px 40px rgba(11,28,48,.12)}
 .canvas-card.dragging{opacity:.92;box-shadow:0 4px 10px rgba(11,28,48,.1),0 24px 56px rgba(11,28,48,.18)}
-.canvas-card.wide{width:620px}
+.canvas-card.wide{width:560px}
 .card-head{padding:14px 16px 12px;display:flex;align-items:flex-start;gap:12px;border-bottom:1px solid var(--cv-border-soft);cursor:move;user-select:none;border-radius:20px 20px 0 0}
 .canvas-card.dragging .card-head{cursor:grabbing}
 .card-title{font-size:15px;font-weight:600;letter-spacing:-.01em;line-height:1.35;flex:1;min-width:0;word-break:break-word}

@@ -42,7 +42,63 @@ function doSend(){
   if(!G.prompt||S.readOnly) return;
   var v=G.prompt.value.trim();if(!v) return;
   G.prompt.value="";autoSize(G.prompt);if(G.send)G.send.disabled=true;
-  C.createRoot(v);
+  runAgent(v);
+}
+
+/* ── agentic bottom bar: multi-step plan → tools (add_card / add_widget / connect) ── */
+var agentBusy=false;
+function agentChip(text){
+  var old=document.getElementById("cvAgentChip");if(old)old.remove();
+  var el=document.createElement("div");el.id="cvAgentChip";el.className="cv-agent-chip";
+  el.innerHTML='<span class="cv-agent-spin"></span>'+C.esc(text);
+  document.body.appendChild(el);return el;
+}
+function agentChipDone(text,ok){
+  var el=document.getElementById("cvAgentChip");if(!el)return;
+  el.innerHTML='<span class="material-symbols-outlined" style="font-size:14px">'+(ok?"check":"error")+'</span>'+C.esc(text);
+  el.classList.add(ok?"done":"err");
+  setTimeout(function(){el.remove()},2600);
+}
+function placeWidget(kind,topic){
+  var def=(window.CanvasWidgets&&window.CanvasWidgets.CATALOG.find(function(c){return c.kind===kind}))||null;
+  if(!def)return;
+  var c=C.s2w(E.viewport.clientWidth-320,E.viewport.clientHeight/3);
+  var wdg=window.CanvasWidgets.create("w-"+kind,c.x+Object.keys(S.nodes).length*24,c.y);
+  wdg.topic=topic;
+  S.objects.push(wdg);S.drawDirty=true;
+  if(S.isAuth&&S.boardId&&String(S.boardId).indexOf("local_")!==0){
+    C.api("/ajax/canvas/boards/"+encodeURIComponent(S.boardId)+"/widget-content/",{method:"POST",body:JSON.stringify({kind:kind,topic:topic})})
+      .then(function(d){if(d&&d.content){wdg.state=(kind==="flow")?{start:d.content.start,steps:d.content.steps||[],decision:d.content.decision}:d.content;S.drawDirty=true}}).catch(function(){});
+  }
+}
+function runAgent(v){
+  if(agentBusy){C.showToast("Neby is already working — one moment",true);return}
+  var ensure=(S.boardId&&String(S.boardId).indexOf("local_")!==0)?Promise.resolve(S.boardId):C.createBoard(v.slice(0,36)).then(function(b){return b.id});
+  ensure.then(function(boardId){
+    if(!boardId){C.showToast("Could not create canvas",true);return}
+    agentBusy=true;
+    var chip=agentChip("Neby is planning…");
+    var stepN=0;
+    return C.api("/ajax/canvas/boards/"+encodeURIComponent(boardId)+"/agent-prompt/",{
+      method:"POST",body:JSON.stringify({prompt:v})
+    }).then(function(d){
+      (d.steps||[]).forEach(function(st,i){
+        stepN=i+1;
+        chip.innerHTML='<span class="cv-agent-spin"></span>Step '+stepN+' · '+C.esc(st.tool||"…")+(st.topic?' · '+C.esc(st.topic.slice(0,26)):'');
+        (st._nodes||[]);
+      });
+      (d.nodes||[]).forEach(function(n){n.x=n.x;n.y=n.y;S.nodes.set(n.id,n);C.renderNode(n)});
+      C.renderEdges();
+      (d.steps||[]).filter(function(st){return st.tool==="add_widget"&&st.kind}).slice(0,3).forEach(function(st){placeWidget(st.kind,st.topic||v)});
+      C.fitView&&setTimeout(C.fitView,120);
+      agentBusy=false;
+      agentChipDone(d.summary||("Done — "+(d.steps||[]).length+" steps"),true);
+    });
+  }).catch(function(err){
+    agentBusy=false;
+    agentChipDone((err&&err.error)||"Agent failed",false);
+    C.showToast((err&&err.error)||"Agent failed",true);
+  });
 }
 
 /* ── sidebar buttons ─────────────────────────────────────── */

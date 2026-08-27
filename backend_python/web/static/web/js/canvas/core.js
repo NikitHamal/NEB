@@ -988,6 +988,35 @@ function createRoot(prompt,wx,wy){
   });
 }
 
+/* ── reusable in-canvas prompt dialog (never window.prompt) ── */
+function promptModal(opts){
+  opts=opts||{};
+  return new Promise(function(resolve){
+    var ov=document.createElement("div");
+    ov.className="modal-overlay";
+    ov.innerHTML=
+      '<div class="modal-card">' +
+      '<h3 class="modal-title">'+esc(opts.title||"Input")+'</h3>' +
+      (opts.sub?'<p class="modal-sub">'+esc(opts.sub)+'</p>':'') +
+      '<input class="cv-pm-input" placeholder="'+esc(opts.placeholder||"")+'" value="'+esc(opts.seed||"")+'" maxlength="160">' +
+      '<div class="modal-actions">' +
+      '<button type="button" class="cv-action ghost" data-x>Cancel</button>' +
+      '<button type="button" class="cv-action primary" data-ok>'+esc(opts.ok||"OK")+'</button>' +
+      '</div></div>';
+    document.body.appendChild(ov);
+    var input=ov.querySelector(".cv-pm-input");
+    function close(val){ ov.remove(); resolve(val); }
+    ov.querySelector("[data-ok]").addEventListener("click",function(){close(input.value.trim())});
+    ov.querySelector("[data-x]").addEventListener("click",function(){close(null)});
+    ov.addEventListener("click",function(e){if(e.target===ov)close(null)});
+    input.addEventListener("keydown",function(e){
+      if(e.key==="Enter"){e.preventDefault();close(input.value.trim())}
+      if(e.key==="Escape"){e.preventDefault();close(null)}
+    });
+    setTimeout(function(){input.focus()},40);
+  });
+}
+
 /* ── init ────────────────────────────────────────────────── */
 window.CanvasCore={
   state:S,els:E,api:api,on:on,emit:emit,
@@ -995,7 +1024,8 @@ window.CanvasCore={
   createBoard:createBoard,switchBoard:switchBoard,loadBoards:loadBoards,loadBoard:loadBoard,loadShared:loadShared,
   createRoot:createRoot,createEmptyRoot:createEmptyRoot,createChild:createChild,deleteNode:deleteNode,duplicateNode:duplicateNode,
   selectNode:selectNode,zoomAt:zoomAt,zoomCenter:zoomCenter,fitView:fitView,animateTo:animateTo,
-  showToast:showToast,copyText:copyText,esc:esc,md:md,mockLocal:mockLocal,updateEmpty:updateEmpty,startWire:startWire
+  showToast:showToast,copyText:copyText,esc:esc,md:md,mockLocal:mockLocal,updateEmpty:updateEmpty,startWire:startWire,
+  promptModal:promptModal
 };
 document.addEventListener("DOMContentLoaded",function(){
   applyView();
