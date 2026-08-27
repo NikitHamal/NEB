@@ -49,8 +49,22 @@ Tools:
 - edit_doc         {"instruction": "how to change it"}         — revise the existing document (tone, length, section fixes, restructuring)
 - append_section   {"brief": "what this section covers"}       — add one new section at the end
 - breakdown        {}                                          — turn the current document into a markdown task checklist in chat
+- run_tool         {"id": "<tool id>", "params": {...}}        — operate on ATTACHED files with the tools listed below
+
+Available tools for run_tool (id → params):
+- pdf_to_docx {}          — convert an attached PDF into an editable Word (.docx), layout preserved
+- pdf_merge {}            — merge all attached PDFs into one
+- pdf_extract_pages {"pages": "2-5,8"}
+- pdf_split {"every": 5}  or {"ranges": "1-10,11-20"}
+- pdf_rotate {"angle": "90|180|270", "pages": "" for all}
+- pdf_compress {}
+- pdf_info {}
+- pdf_extract_images {}
+- images_to_pdf {"page": "auto|a4"}
+- word_count {}           — words/chars/read-time of attached doc or pasted text
 
 Decision rules:
+- If the user asks to convert/merge/split/extract/rotate/compress attached files or asks about them → run_tool with the right id.
 - If there is NO existing document and the user asks to write/draft/create anything → generate_doc.
 - If a document EXISTS and the user asks to improve/shorten/expand/reword/restructure/fix → edit_doc.
 - If they want more content added without touching the rest → append_section.

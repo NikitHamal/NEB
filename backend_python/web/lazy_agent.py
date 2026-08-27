@@ -3,6 +3,9 @@ import re
 
 from api.models import LazyDocMessage
 from api.utils import now_ms, uuid_str
+from . import toolstore as tstore
+from . import study_tools
+from .study_tools import ToolError
 from .lazy_io import strip_tags
 from .lazy_service import (
     LAZY_PLANNER_SYSTEM, append_section, breakdown_doc, edit_doc,
@@ -46,7 +49,71 @@ EDIT_RE = re.compile(r"\b(improve|fix|shorten|expand|reword|formal|restructure|p
 ADD_RE = re.compile(r"\b(add|append|another)\b.*\bsection\b|\bsection (about|on|for)\b", re.I)
 PLAN_RE = re.compile(r"checklist|breakdown|to-?do|\bplan\b|\bsteps\b", re.I)
 
+CONV_RE = re.compile(r"(convert|export|save|transform|turn|change)[^.?!]{0,40}\b(word|docx)\b|\bpdf\b[^.?!]{0,20}\b(to|into|as)\b[^.?!]{0,10}\b(word|docx)\b", re.I)
+MERGE_RE = re.compile(r"\b(merge|combine|join|stitch)\b", re.I)
+SPLIT_RE = re.compile(r"\b(split|chop)\b[^.?!]{0,30}\b(pages?|parts?|halves?)\b", re.I)
+EXTRACT_PAGES_RE = re.compile(r"\b(extract|pull|take out)\b[^.?!]{0,30}\bpages?\b", re.I)
+ROTATE_RE = re.compile(r"\brotate\b", re.I)
+COMPRESS_RE = re.compile(r"\b(compress|shrink|reduce\s+(the\s+)?size)\b", re.I)
+INFO_RE = re.compile(r"how many pages|page count|\bpdf info\b", re.I)
+EXTRACT_IMG_RE = re.compile(r"\b(extract|pull out|get)\b[^.?!]{0,25}\b(images?|photos?|pictures?|diagrams?)\b", re.I)
+IMG2PDF_RE = re.compile(r"\bimages?\b[^.?!]{0,30}\bpdf\b|\b(jpgs?|jpegs?|pngs?)\b[^.?!]{0,30}\bpdf\b", re.I)
+WCOUNT_RE = re.compile(r"@word\s*count\b|word\s*count\s*:|how many words", re.I)
 
+
+def _extract_pages_param(low):
+    m = re.search(r"(\d+)\s*(?:-|–|to)\s*(\d+)", low)
+    if m:
+        return f"{m.group(1)}-{m.group(2)}"
+    singles = [s for s in re.findall(r"\b(\d{1,4})\b", low)]
+    if len(singles) >= 2 and (re.search(r"\band\b", low) or "," in low):
+        return ",".join(singles[:6])
+    if singles:
+        return singles[0]
+    return ""
+
+
+def _quick_intent(text, kinds):
+    low = (text or "")
+    has_pdf = "pdf" in kinds
+    has_img = any(k in ("png", "jpg", "jpeg") for k in kinds)
+    r = CONV_RE.search(low)
+    if r and has_pdf:
+        return ("pdf_to_docx", {})
+    r = MERGE_RE.search(low)
+    if r and has_pdf:
+        return ("pdf_merge", {})
+    r = EXTRACT_PAGES_RE.search(low)
+    if r and has_pdf:
+        return ("pdf_extract_pages", {"pages": _extract_pages_param(low)})
+    r = SPLIT_RE.search(low)
+    if r and has_pdf:
+        m = re.search(r"every\s+(\d{1,3})", low)
+        params = {"ranges": "" if m else _extract_pages_param(low), "every": m.group(1) if m else ""}
+        return ("pdf_split", params)
+    r = ROTATE_RE.search(low)
+    if r and has_pdf:
+        ang = re.findall(r"(90|180|270)", low)
+        page_spec = ""
+        if re.search(r"\d+\s*-\s*\d+", low) or re.search(r"\bpages?\b", low):
+            page_spec = _extract_pages_param(low)
+        return ("pdf_rotate", {"angle": ang[0] if ang else "90", "pages": page_spec})
+    r = COMPRESS_RE.search(low)
+    if r and has_pdf:
+        return ("pdf_compress", {})
+    r = EXTRACT_IMG_RE.search(low)
+    if r and has_pdf:
+        return ("pdf_extract_images", {})
+    r = IMG2PDF_RE.search(low)
+    if r and has_img:
+        return ("images_to_pdf", {"page": "a4" if re.search(r"\ba4\b", low, re.I) else "auto"})
+    r = INFO_RE.search(low)
+    if r and has_pdf:
+        return ("pdf_info", {})
+    r = WCOUNT_RE.search(low)
+    if r and kinds:
+        return ("word_count", {})
+    return None
 def plan(user, session, user_text):
     history, doc_state = build_context(session)
     prompt = (
@@ -71,7 +138,7 @@ def plan(user, session, user_text):
         return {"think": "heuristic fallback", "tool": tool, "args": args}
     think = str(data.get("think") or "")[:280]
     tool = str(data.get("tool") or "reply").strip().lower()[:24]
-    if tool not in ("reply", "generate_doc", "edit_doc", "append_section", "breakdown"):
+    if tool not in ("reply", "generate_doc", "edit_doc", "append_section", "breakdown", "run_tool"):
         tool = "reply"
     args = data.get("args") if isinstance(data.get("args"), dict) else {}
     return {"think": think, "tool": tool, "args": args}
@@ -91,7 +158,49 @@ def chunk_text(text, size=90):
     return out
 
 
-def stream_turn(session, user, user_text, sink):
+def _materialize_sources(refs, user_id):
+    out = []
+    for ref in refs:
+        rec = tstore.get_source(ref.get("srcId"), user_id)
+        if rec:
+            out.append({"name": rec["name"], "kind": rec["kind"], "data": rec["data"], "srcId": ref.get("srcId")})
+    return out
+
+
+def _run_tool_turn(user, session, tool_id, params, sources, tools, say):
+    try:
+        result = study_tools.run_tool(tool_id, sources, params)
+    except ToolError as exc:
+        msg = str(exc)
+        tools.append({"name": tool_id or "tool", "summary": f"Blocked: {msg[:70]}"})
+        for piece in chunk_text(msg):
+            yield {"type": "delta", "content": piece}
+            say(piece)
+        return
+    except Exception:
+        msg = "That file operation didn't complete cleanly — please retry with a smaller or simpler file."
+        tools.append({"name": tool_id or "tool", "summary": "Failed"})
+        for piece in chunk_text(msg):
+            yield {"type": "delta", "content": piece}
+            say(piece)
+        return
+    collected = []
+    for art in result.get("artifacts") or []:
+        token = tstore.put_artifact(user.id, art["name"], art.get("mime", ""), art.get("bytes", b""))
+        frame = {
+            "type": "file",
+            "name": art["name"],
+            "url": f"/ajax/lazy/file/{token}/",
+            "size": len(art.get("bytes", b"")),
+        }
+        collected.append(frame)
+        yield frame
+    summary = result.get("text") or result.get("summary") or ""
+    for piece in chunk_text(summary or "Done."):
+        yield {"type": "delta", "content": piece}
+        say(piece)
+    tools.append({"name": tool_id, "summary": summary[:90]})
+def stream_turn(session, user, user_text, sink, sources=None):
     """Generator: yields SSE-ready dict frames; on completion sets sink['turn']."""
     tools = []
     reply = []
@@ -100,11 +209,49 @@ def stream_turn(session, user, user_text, sink):
         reply.append(text)
         return {"type": "delta", "content": text}
 
+    srcs = list(sources or [])
+    kinds = sorted({s.get("kind", "") for s in srcs})
+    collected_files = []
+
+    quick = _quick_intent(user_text, kinds)
+    if quick is not None:
+        tool_id, params = quick
+        yield {"type": "status", "tool": tool_id, "label": f"Running {tool_id.replace('_', ' ')}…"}
+        materialized = _materialize_sources(srcs, user.id)
+        for frame in _run_tool_turn(user, session, tool_id, params, materialized, tools, say):
+            if frame.get("type") == "file":
+                collected_files.append(frame)
+            yield frame
+        sink["turn"] = {
+            "tools": tools,
+            "reply": "".join(reply).strip() or "(no output)",
+            "doc_updated": False,
+            "files": collected_files,
+        }
+        return
+
     decision = plan(user, session, user_text)
     yield {"type": "think", "content": decision["think"]}
     tool = decision["tool"]
     args = decision.get("args") or {}
 
+    if tool == "run_tool":
+        tid = str(args.get("id") or args.get("tool") or "").strip().lower()
+        params = args.get("params") if isinstance(args.get("params"), dict) else {}
+        label = (tid.replace("_", " ") or "tool").title()
+        yield {"type": "status", "tool": tid or "tools", "label": f"Running {label}…"}
+        materialized = _materialize_sources(srcs, user.id)
+        for frame in _run_tool_turn(user, session, tid, params, materialized, tools, say):
+            if frame.get("type") == "file":
+                collected_files.append(frame)
+            yield frame
+        sink["turn"] = {
+            "tools": tools,
+            "reply": "".join(reply).strip() or "(no output)",
+            "doc_updated": False,
+            "files": collected_files,
+        }
+        return
     if tool == "generate_doc":
         topic = str(args.get("topic") or user_text)[:300]
         pages = args.get("pages") or 2
@@ -144,7 +291,6 @@ def stream_turn(session, user, user_text, sink):
             else:
                 tools.append({"name": "edit_doc", "summary": "Revision failed — previous version kept"})
                 yield say("I couldn't apply that revision cleanly, so your previous version is untouched. Try a narrower instruction.")
-
     elif tool == "append_section":
         brief = str(args.get("brief") or user_text)[:400]
         if not session.doc_html:
@@ -199,6 +345,7 @@ def stream_turn(session, user, user_text, sink):
         "tools": tools,
         "reply": "".join(reply).strip() or "(no output)",
         "doc_updated": bool(session.doc_html and any(t["name"] in ("generate_doc", "edit_doc", "append_section") for t in tools)),
+        "files": collected_files,
     }
 
 
@@ -207,7 +354,11 @@ def persist_turn(session, turn_result):
     assistant = LazyDocMessage.objects.create(
         id=uuid_str(), session=session, role="assistant",
         content=turn_result["reply"][:40000],
-        meta=json.dumps({"tools": turn_result["tools"], "docUpdated": turn_result["doc_updated"]}, ensure_ascii=False),
+        meta=json.dumps({
+            "tools": turn_result["tools"],
+            "docUpdated": turn_result["doc_updated"],
+            "files": turn_result.get("files") or [],
+        }, ensure_ascii=False),
         created_at=now,
     )
     session.message_count = LazyDocMessage.objects.filter(session=session).count()

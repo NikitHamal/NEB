@@ -17,6 +17,7 @@ from . import views_canvas
 from . import views_canvas_features
 from . import views_canvas_objects
 from . import views_lazy
+from . import views_tools
 from . import views_agents
 from . import views_code
 
@@ -42,6 +43,8 @@ urlpatterns = [
     path('results/', views.results_guide, name='results_guide'),
     path('results/check/', views.result_check_page, name='result_check'),
     path('tools/', views.tools_hub, name='tools_hub'),
+    path('tools/docs/', views_tools.doc_tools_page, name='doc_tools'),
+    path('tools/run/', views_tools.ajax_tools_run, name='tools_run'),
     path('ajax/results/check/', views.ajax_check_result, name='ajax_check_result'),
     path('ajax/news/comment/', views.ajax_blog_comment, name='ajax_blog_comment'),
     path('ajax/news/<slug:slug>/comments/', views.ajax_blog_comments, name='ajax_blog_comments'),
@@ -321,6 +324,7 @@ urlpatterns = [
     path('ajax/lazy/sessions/<str:session_id>/save/', views_lazy.ajax_lazy_doc_save, name='ajax_lazy_doc_save'),
     path('ajax/lazy/sessions/<str:session_id>/export/', views_lazy.ajax_lazy_export, name='lazy_export'),
     path('ajax/lazy/upload/', views_lazy.ajax_lazy_upload, name='ajax_lazy_upload'),
+    path('ajax/lazy/file/<str:token>/', views_lazy.ajax_lazy_file, name='ajax_lazy_file'),
     path('ajax/study-space/<str:space_id>/learning-path/', views.ajax_space_learning_path, name='ajax_space_learning_path'),
     path('ajax/study-space/<str:space_id>/members/<str:member_user_id>/role/', views.ajax_space_member_role, name='ajax_space_member_role'),
     path('ajax/study-space/<str:space_id>/members/<str:member_user_id>/remove/', views.ajax_space_member_remove, name='ajax_space_member_remove'),

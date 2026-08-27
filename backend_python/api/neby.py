@@ -237,7 +237,10 @@ def enqueue_if_reply_mention(reply):
 def _build_post_context(post, max_replies=10, bot_name='Neby'):
     lines = []
     try:
-        author_name = post.user.display_name or post.user.username
+        if getattr(post, 'is_anonymous', False):
+            author_name = 'Anonymous Nebian'
+        else:
+            author_name = post.user.display_name or post.user.username
     except Exception:
         author_name = 'Unknown'
     lines.append(f"Post by {author_name} (in category: {post.category}):")
@@ -249,12 +252,18 @@ def _build_post_context(post, max_replies=10, bot_name='Neby'):
         lines.append(f"Replies ({replies.count()} shown):")
         for r in replies:
             try:
-                r_name = r.user.display_name or r.user.username
+                if getattr(r, 'is_anonymous', False):
+                    r_name = 'Anonymous Nebian'
+                else:
+                    r_name = r.user.display_name or r.user.username
             except Exception:
                 r_name = 'Unknown'
             lines.append(f"  {r_name}: {r.content}")
         lines.append("")
-    lines.append(f"Please write a helpful reply to this post as {bot_name}. Keep it concise and relevant to the student's question.")
+    lines.append(
+        f"Please write a helpful reply to this post as {bot_name}. Keep it concise and relevant to the student's question. "
+        "PRIVACY REQUIREMENT: If the post or any comment is from 'Anonymous Nebian', NEVER reveal or guess any real identity/username."
+    )
     return '\n'.join(lines), None
 
 
@@ -262,14 +271,20 @@ def _build_reply_context(reply, max_context_replies=10, bot_name='Neby'):
     lines = []
     post = reply.post
     try:
-        post_author = post.user.display_name or post.user.username
+        if getattr(post, 'is_anonymous', False):
+            post_author = 'Anonymous Nebian'
+        else:
+            post_author = post.user.display_name or post.user.username
     except Exception:
         post_author = 'Unknown'
     try:
-        reply_author = reply.user.display_name or reply.user.username
+        if getattr(reply, 'is_anonymous', False):
+            reply_author = 'Anonymous Nebian'
+        else:
+            reply_author = reply.user.display_name or reply.user.username
     except Exception:
         reply_author = 'Unknown'
-    reply_username = reply.user.username
+    reply_username = None if getattr(reply, 'is_anonymous', False) else reply.user.username
     lines.append(f"Post by {post_author} (category: {post.category}):")
     lines.append(f"Title: {post.title}")
     lines.append(f"Content: {post.content}")
@@ -281,14 +296,20 @@ def _build_reply_context(reply, max_context_replies=10, bot_name='Neby'):
         lines.append("Recent replies before this one:")
         for r in reversed(list(recent_replies)):
             try:
-                r_name = r.user.display_name or r.user.username
+                if getattr(r, 'is_anonymous', False):
+                    r_name = 'Anonymous Nebian'
+                else:
+                    r_name = r.user.display_name or r.user.username
             except Exception:
                 r_name = 'Unknown'
             lines.append(f"  {r_name}: {r.content}")
         lines.append("")
     lines.append(f"{reply_author} just wrote (mentioning you): {reply.content}")
     lines.append("")
-    lines.append(f"Please write a helpful reply as {bot_name}. Keep it concise and relevant.")
+    lines.append(
+        f"Please write a helpful reply as {bot_name}. Keep it concise and relevant. "
+        "PRIVACY REQUIREMENT: If the commenter is 'Anonymous Nebian', treat them as an anonymous member. NEVER mention or reveal their real name or personal username."
+    )
     return '\n'.join(lines), reply_username
 
 

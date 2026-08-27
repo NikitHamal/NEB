@@ -16,6 +16,17 @@ $username = $info.username
 $remoteDir = $info.remote_project_dir
 $privateKey = $info.ssh_private_key
 
+Write-Host "Checking server reachability (${hostIp}:22)..."
+try {
+    $tcp = Test-NetConnection -ComputerName $hostIp -Port 22 -WarningAction SilentlyContinue -InformationLevel Quiet
+    if (-not $tcp) {
+        Write-Error "Server ${hostIp} is currently unreachable on port 22 (offline or connection timed out). Aborting deploy."
+        exit 1
+    }
+} catch {
+    # If Test-NetConnection is unavailable, continue to SCP
+}
+
 # Write SSH key to temp file
 $keyPath = "$env:TEMP\nebians_deploy_key_temp.pem"
 if (Test-Path $keyPath) {
@@ -65,7 +76,7 @@ Pop-Location
 Write-Host "Uploading ZIP file via SCP..."
 $uploadSuccess = $false
 for ($attempt = 1; $attempt -le 3; $attempt++) {
-    & scp -o StrictHostKeyChecking=no -i $keyPath -P 22 $zipPath "${username}@${hostIp}:${remoteDir}/deploy.zip"
+    & scp -o ConnectTimeout=10 -o StrictHostKeyChecking=no -i $keyPath -P 22 $zipPath "${username}@${hostIp}:${remoteDir}/deploy.zip"
     if ($LASTEXITCODE -eq 0) {
         $uploadSuccess = $true
         break
@@ -85,7 +96,7 @@ if (-not $uploadSuccess) {
 Write-Host "ZIP upload completed successfully."
 
 # Upload the worker-restart script alongside (plain bash file — avoids PS escaping issues)
-& scp -o StrictHostKeyChecking=no -i $keyPath -P 22 (Join-Path $PSScriptRoot "restart_workers.sh") "${username}@${hostIp}:/tmp/restart_workers.sh" | Out-Null
+& scp -o ConnectTimeout=10 -o StrictHostKeyChecking=no -i $keyPath -P 22 (Join-Path $PSScriptRoot "restart_workers.sh") "${username}@${hostIp}:/tmp/restart_workers.sh" | Out-Null
 
 # Remove local zip archive
 Remove-Item $zipPath -Force
@@ -181,7 +192,7 @@ echo 'DEPLOYMENT SUCCESSFUL'
 "@
 
 # Execute remote script via SSH
-& ssh -o StrictHostKeyChecking=no -i $keyPath -p 22 "${username}@${hostIp}" $remoteScript
+& ssh -o ConnectTimeout=15 -o StrictHostKeyChecking=no -i $keyPath -p 22 "${username}@${hostIp}" $remoteScript
 
 # Cleanup key and temp zip
 Write-Host "Cleaning up temporary SSH key and ZIP files..."

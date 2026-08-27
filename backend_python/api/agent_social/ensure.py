@@ -69,18 +69,17 @@ def ensure_bot_config(username=NEBY_USERNAME, display_name=NEBY_DISPLAY_NAME, en
         },
     )
     changed = False
-    if username == NEBY_USERNAME:
-        if not config.provider or config.provider in ('qwen', 'geminiweb'):
-            config.provider = 'empero'
-            config.model = 'qwen3.8-fp8'
+    if created:
+        pass
+    else:
+        if not config.provider:
+            config.provider = 'qwen'
+            config.model = 'qwen3.8-max'
             changed = True
-        if 'empero' not in (config.fallback_chain or ''):
+        if not (config.fallback_chain or '').strip():
             config.fallback_chain = default_chain
             changed = True
-        elif config.fallback_chain != default_chain:
-            config.fallback_chain = default_chain
-            changed = True
-        if config.system_prompt != NEBY_SYSTEM_PROMPT:
+        if username == NEBY_USERNAME and not (config.system_prompt or '').strip():
             config.system_prompt = NEBY_SYSTEM_PROMPT
             changed = True
     if enabled and not config.enabled:
@@ -114,15 +113,24 @@ def ensure_persona(config, user, *, autonomy_enabled=True, apply_neby_defaults=T
             persona.user_id = user.id
             changed = True
         if apply_neby_defaults and config.bot_username.lower() == NEBY_USERNAME:
-            persona.tagline = NEBY_TAGLINE
-            persona.origin_story = NEBY_ORIGIN
-            persona.goals = NEBY_GOALS
-            persona.traits = NEBY_TRAITS
-            persona.preferred_categories = NEBY_CATEGORIES
-            persona.voice_notes = NEBY_VOICE
-            if autonomy_enabled and not persona.autonomy_enabled:
-                persona.autonomy_enabled = True
-            changed = True
+            if not persona.tagline:
+                persona.tagline = NEBY_TAGLINE
+                changed = True
+            if not persona.origin_story:
+                persona.origin_story = NEBY_ORIGIN
+                changed = True
+            if not persona.goals:
+                persona.goals = NEBY_GOALS
+                changed = True
+            if not persona.traits:
+                persona.traits = NEBY_TRAITS
+                changed = True
+            if not persona.preferred_categories:
+                persona.preferred_categories = NEBY_CATEGORIES
+                changed = True
+            if not persona.voice_notes:
+                persona.voice_notes = NEBY_VOICE
+                changed = True
         if changed:
             persona.save()
     return persona, created
