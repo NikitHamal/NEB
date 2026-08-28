@@ -517,9 +517,7 @@ async function doScanOCR(){
     var lang=$("scanLang").value||"eng";
     if(!scanWorker){
       scanWorker=await T.createWorker(lang, 1, {
-        workerPath:"https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/worker.min.js",
-        corePath:"https://cdn.jsdelivr.net/npm/tesseract.js-core@5/dist/tesseract-core.wasm.js",
-        cacheMethod:"readOnly", cachePath: CACHE_NAME,
+        cacheMethod:"readOnly",
         logger:function(m){ if(m.status==="recognizing text") out.value="Reading… "+Math.round((m.progress||0)*100)+"%"; }
       });
     }
@@ -648,7 +646,7 @@ function renderTable(root, tool){
     var btn=this; btn.disabled=true; btn.innerHTML='<span class="material-symbols-outlined">hourglass_top</span> Reading…';
     try{
       var T=await ensureTesseract();
-      if(!scanWorker) scanWorker=await T.createWorker("eng",1,{cacheMethod:"readOnly",cachePath:CACHE_NAME});
+      if(!scanWorker) scanWorker=await T.createWorker("eng",1,{cacheMethod:"readOnly"});
       var ret=await scanWorker.recognize(scanFileObj);
       var txt=(ret.data.text||"").trim();
       var rows=txt.split("\n").map(function(l){return l.trim().split(/\s{2,}|\t/).map(function(c){return '"'+c.replace(/"/g,'""')+'"';}).join(",");});
