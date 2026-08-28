@@ -18,6 +18,7 @@ from . import views_canvas
 from . import views_canvas_features
 from . import views_canvas_objects
 from . import views_lazy
+from . import views_lazy_agent
 from . import views_tools
 from . import views_agents
 from . import views_code
@@ -45,6 +46,7 @@ urlpatterns = [
     path('results/check/', views.result_check_page, name='result_check'),
     path('tools/', views.tools_hub, name='tools_hub'),
     path('tools/docs/', views_tools.doc_tools_page, name='doc_tools'),
+    path('tools/intelligence/', views_tools.intelligence_tools_page, name='intelligence_tools'),
     path('tools/run/', views_tools.ajax_tools_run, name='tools_run'),
     path('ajax/results/check/', views.ajax_check_result, name='ajax_check_result'),
     path('ajax/news/comment/', views.ajax_blog_comment, name='ajax_blog_comment'),
@@ -316,8 +318,9 @@ urlpatterns = [
     path('ajax/canvas/nodes/<str:node_id>/followup/', views_canvas.ajax_canvas_node_followup, name='ajax_canvas_node_followup'),
     path('ajax/canvas/nodes/<str:node_id>/dig-deeper/', views_canvas.ajax_canvas_node_dig_deeper, name='ajax_canvas_node_dig_deeper'),
 
-    # Lazy — standalone agentic document chat
-    path('lazy/', views_lazy.lazy_page, name='lazy'),
+    # Lazy — autonomous agentic workspace. /lazy is the product surface; the
+    # legacy single-shot endpoints below stay wired for existing clients.
+    path('lazy/', views_lazy_agent.lazy_agent_page, name='lazy'),
     path('ajax/lazy/sessions/', views_lazy.ajax_lazy_sessions, name='ajax_lazy_sessions'),
     path('ajax/lazy/sessions/create/', views_lazy.ajax_lazy_session_create, name='ajax_lazy_session_create'),
     path('ajax/lazy/sessions/<str:session_id>/', views_lazy.ajax_lazy_session_detail, name='ajax_lazy_session_detail'),
@@ -327,6 +330,18 @@ urlpatterns = [
     path('ajax/lazy/sessions/<str:session_id>/export/', views_lazy.ajax_lazy_export, name='lazy_export'),
     path('ajax/lazy/upload/', views_lazy.ajax_lazy_upload, name='ajax_lazy_upload'),
     path('ajax/lazy/file/<str:token>/', views_lazy.ajax_lazy_file, name='ajax_lazy_file'),
+
+    # Lazy agent — autonomous, plan-act-observe loop
+    path('lazy/agent/', views_lazy_agent.lazy_agent_page, name='lazy_agent'),
+    path('ajax/lazy/agent/run/', views_lazy_agent.agent_run_create, name='ajax_lazy_agent_run'),
+    path('ajax/lazy/agent/runs/', views_lazy_agent.agent_runs_list, name='ajax_lazy_agent_runs'),
+    path('ajax/lazy/agent/stream/<str:run_id>/', views_lazy_agent.agent_run_stream, name='ajax_lazy_agent_stream'),
+    path('ajax/lazy/agent/cancel/<str:run_id>/', views_lazy_agent.agent_run_cancel, name='ajax_lazy_agent_cancel'),
+    path('ajax/lazy/agent/run/<str:run_id>/', views_lazy_agent.agent_run_detail, name='ajax_lazy_agent_detail'),
+    path('ajax/lazy/agent/run/<str:run_id>/files/', views_lazy_agent.agent_workspace_files, name='ajax_lazy_agent_files'),
+    path('ajax/lazy/agent/session/<str:session_id>/history/', views_lazy_agent.agent_session_history, name='ajax_lazy_agent_history'),
+    path('ajax/lazy/agent-artifact/<str:run_id>/<path:path>', views_lazy_agent.agent_artifact, name='ajax_lazy_agent_artifact'),
+    path('ajax/lazy/artifact/<str:artifact_id>/', views_lazy_agent.agent_artifact_raw, name='ajax_lazy_artifact_raw'),
     path('ajax/study-space/<str:space_id>/learning-path/', views.ajax_space_learning_path, name='ajax_space_learning_path'),
     path('ajax/study-space/<str:space_id>/members/<str:member_user_id>/role/', views.ajax_space_member_role, name='ajax_space_member_role'),
     path('ajax/study-space/<str:space_id>/members/<str:member_user_id>/remove/', views.ajax_space_member_remove, name='ajax_space_member_remove'),
