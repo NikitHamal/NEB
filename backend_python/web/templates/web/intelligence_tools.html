@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% load static web_extras %}
+
+{% block title %}Doc Intelligence — NEBians{% endblock %}
+{% block description %}On-device document intelligence: scanned paper to clean text, handwritten math to LaTeX, photo to perfect scan. One-time setup, forever offline.{% endblock %}
+
+{% block content %}
+<div class="md-container di-wrap">
+  <header style="margin-bottom: 18px; display: flex; align-items: center; gap: 12px;">
+    <a href="{% url 'web:tools_hub' %}" class="md-btn-icon" style="color: var(--md-on-surface); text-decoration: none; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;" title="Back">
+      <span class="material-symbols-outlined">arrow_back</span>
+    </a>
+    <div style="flex:1">
+      <p class="di-kicker"><span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle">neurology</span> On-Device · Offline Forever · Tiny ML</p>
+      <h1 class="md-headline-large" style="margin: 0; line-height: 1.2;">Doc Intelligence</h1>
+      <p style="margin:4px 0 0 0;color:var(--md-on-surface-variant);font-size:.9rem">Scanned papers to clean text, handwritten math to LaTeX, photos to perfect scans. Models download once to <em>your</em> device, never leave it.</p>
+    </div>
+    <div class="di-storage" id="diStorageBadge" title="On-device storage">
+      <span class="material-symbols-outlined" style="font-size:16px">hard_drive_2</span>
+      <span id="diStorageText">—</span>
+    </div>
+  </header>
+
+  <div class="di-notice">
+    <span class="material-symbols-outlined" style="font-size:18px">offline_bolt</span>
+    <div><strong>One-time setup.</strong> Pick a tool → <em>Setup</em> downloads its tiny model (7MB or less) → it stays on your device forever in IndexedDB + Cache. No internet after. Works in airplane mode. <a href="#" id="diClearCache" style="color:var(--md-primary);text-decoration:underline">Clear on-device models</a></div>
+  </div>
+
+  <div class="di-layout">
+    <aside class="di-tools" id="diToolNav">
+      <div class="di-tools-label">Intelligence Tools</div>
+      <div id="diToolList" class="di-tool-list"></div>
+      <div style="margin-top:14px;padding:10px;border-radius:10px;background:var(--md-surface-container);border:1px solid var(--md-outline-variant)">
+        <div style="font-size:.78rem;font-weight:600;color:var(--md-on-surface-variant);margin-bottom:6px">How it works</div>
+        <ul style="margin:0;padding-left:16px;font-size:.8rem;color:var(--md-on-surface-variant);line-height:1.6">
+          <li>Tiny ML (< 7.2MB) quantized INT8</li>
+          <li>WASM SIMD · WebGPU where available</li>
+          <li>IndexedDB + Cache forever</li>
+          <li>Web Worker — no UI jank</li>
+          <li>Zero data leaves device</li>
+        </ul>
+      </div>
+    </aside>
+
+    <section class="di-panel" id="diPanel">
+      <div class="di-panel-head">
+        <div style="display:flex;align-items:center;gap:10px">
+          <span class="material-symbols-outlined" id="diPanelIcon" style="font-size:26px;color:var(--md-primary)">function</span>
+          <h2 class="di-panel-title" id="diPanelTitle">Select a tool</h2>
+          <span class="di-badge" id="diPanelBadge">ON-DEVICE</span>
+        </div>
+        <p class="di-panel-desc" id="diPanelDesc">Choose a tool on the left.</p>
+      </div>
+
+      <div id="diModelBar" class="di-model-bar" style="display:none">
+        <div class="di-model-meta">
+          <span class="material-symbols-outlined" style="font-size:18px">memory</span>
+          <span id="diModelSize">7.2 MB</span>
+          <span class="di-dot">·</span>
+          <span id="diModelStatus">Not installed</span>
+        </div>
+        <div class="di-model-actions">
+          <button class="md-btn md-btn-primary" id="diSetupBtn"><span class="material-symbols-outlined">download</span> Setup</button>
+          <button class="md-btn md-btn-outlined" id="diRemoveBtn" style="display:none">Remove</button>
+        </div>
+        <div class="di-progress" id="diProgressWrap" style="display:none">
+          <div class="di-progress-bar"><div id="diProgressFill"></div></div>
+          <div class="di-progress-text" id="diProgressText">0%</div>
+        </div>
+      </div>
+
+      <div id="diWorkspace" style="margin-top:16px"></div>
+    </section>
+  </div>
+</div>
+
+<style nonce="{{ csp_nonce }}">
+  .di-wrap{max-width:1120px;margin:0 auto;padding:24px 16px;min-height:72vh}
+  .di-kicker{font-size:.78rem;color:var(--md-primary);font-weight:600;margin:0 0 4px 0;text-transform:uppercase;letter-spacing:.5px;display:flex;align-items:center;gap:6px}
+  .di-storage{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;border:1px solid var(--md-outline-variant);background:var(--md-surface-container-lowest);font-size:.82rem;color:var(--md-on-surface-variant);flex-shrink:0}
+  .di-notice{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:12px;border:1px solid var(--md-outline-variant);background:color-mix(in srgb,var(--md-primary) 6%,var(--md-surface-container-lowest));color:var(--md-on-surface-variant);font-size:.85rem;line-height:1.5;margin-bottom:16px}
+  .di-layout{display:grid;grid-template-columns:280px 1fr;gap:18px}
+  @media (max-width:780px){.di-layout{grid-template-columns:1fr}}
+  .di-tools{background:var(--md-surface-container-lowest);border:1px solid var(--md-outline-variant);border-radius:14px;padding:14px;align-self:start;position:sticky;top:14px}
+  .di-tools-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;color:var(--md-on-surface-variant);font-weight:700;margin:0 0 10px 6px}
+  .di-tool-list{display:flex;flex-direction:column;gap:6px}
+  .di-tool{display:flex;gap:10px;align-items:center;width:100%;text-align:left;padding:10px 12px;border-radius:12px;border:1px solid transparent;background:transparent;color:var(--md-on-surface);cursor:pointer;transition:.14s;position:relative}
+  .di-tool:hover{background:var(--md-surface-variant)}
+  .di-tool.active{background:var(--md-primary-container);color:var(--md-on-primary-container);border-color:var(--md-primary)}
+  .di-tool .material-symbols-outlined{font-size:20px;flex-shrink:0}
+  .di-tool-main{flex:1;min-width:0}
+  .di-tool-title{font-weight:600;font-size:.92rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .di-tool-sub{font-size:.74rem;opacity:.7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .di-tool-state{font-size:.68rem;font-weight:700;letter-spacing:.3px;padding:3px 6px;border-radius:6px;flex-shrink:0}
+  .di-tool-state.ready{background:#0f7a3d;color:#fff}
+  .di-tool-state.setup{background:var(--md-primary);color:var(--md-on-primary)}
+  .di-tool-state.off{border:1px solid var(--md-outline-variant);color:var(--md-on-surface-variant)}
+  .di-panel{background:var(--md-surface-container-lowest);border:1px solid var(--md-outline-variant);border-radius:14px;padding:22px;min-height:420px}
+  .di-panel-title{margin:0;font-size:1.35rem;font-weight:700}
+  .di-panel-desc{margin:4px 0 0 0;color:var(--md-on-surface-variant);font-size:.9rem;line-height:1.5}
+  .di-badge{font-size:.65rem;font-weight:700;letter-spacing:.4px;padding:3px 7px;border-radius:6px;background:var(--md-primary);color:var(--md-on-primary)}
+  .di-model-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:12px 14px;border-radius:12px;border:1px solid var(--md-outline-variant);background:var(--md-surface-container);margin-top:14px}
+  .di-model-meta{display:flex;align-items:center;gap:7px;font-size:.85rem;color:var(--md-on-surface-variant);font-weight:500}
+  .di-dot{opacity:.4}
+  .di-model-actions{margin-left:auto;display:flex;gap:8px}
+  .di-model-actions .md-btn{padding:6px 12px;font-size:.82rem;gap:6px}
+  .di-model-actions .material-symbols-outlined{font-size:16px}
+  .di-progress{display:flex;align-items:center;gap:10px;width:100%;margin-top:4px}
+  .di-progress-bar{flex:1;height:8px;border-radius:999px;background:var(--md-outline-variant);overflow:hidden}
+  .di-progress-bar div{height:100%;width:0;background:var(--md-primary);transition:.2s;border-radius:999px}
+  .di-progress-text{font-size:.78rem;font-weight:600;color:var(--md-primary);min-width:38px;text-align:right}
+  .di-work{display:flex;flex-direction:column;gap:14px}
+  .di-drop{border:1.6px dashed var(--md-outline);border-radius:14px;padding:28px;text-align:center;cursor:pointer;color:var(--md-on-surface-variant);transition:.14s;background:var(--md-surface)}
+  .di-drop:hover{border-color:var(--md-primary);background:var(--md-primary-container);color:var(--md-on-primary-container)}
+  .di-drop .material-symbols-outlined{font-size:32px;display:block;margin-bottom:8px;color:var(--md-primary)}
+  .di-canvas-wrap{border:1px solid var(--md-outline-variant);border-radius:14px;overflow:hidden;background:#0f1115;position:relative}
+  .di-canvas-wrap canvas{touch-action:none;display:block;width:100%}
+  .di-canvas-toolbar{display:flex;gap:8px;flex-wrap:wrap;padding:10px;background:var(--md-surface-container);border-top:1px solid var(--md-outline-variant)}
+  .di-result{border:1px solid var(--md-outline-variant);border-radius:12px;padding:14px;background:var(--md-surface);min-height:56px}
+  .di-result-label{font-size:.72rem;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--md-on-surface-variant);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+  .di-latex{font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.9rem; background:var(--md-surface-container); padding:10px 12px; border-radius:8px; overflow:auto; white-space:pre-wrap; word-break:break-all}
+  .di-actions{display:flex;gap:8px;flex-wrap:wrap}
+  .di-actions .md-btn{gap:6px}
+  .di-katex{padding:12px;background:#fff;border-radius:10px;border:1px solid #e5e7eb;overflow:auto}
+  .di-scan-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media (max-width:640px){.di-scan-grid{grid-template-columns:1fr}}
+  .di-enhance-preview{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media (max-width:640px){.di-enhance-preview{grid-template-columns:1fr}}
+  .di-enhance-preview img, .di-enhance-preview canvas{width:100%;border-radius:10px;border:1px solid var(--md-outline-variant)}
+</style>
+
+<script nonce="{{ csp_nonce }}">
+window.DI_CONFIG = {
+  registry: {{ intelligence_registry_json|safe }},
+  csrf: "{{ csrf_token|escapejs }}",
+  authenticated: {{ is_authenticated|yesno:"true,false" }}
+};
+</script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/tools/intelligence-tools.js' %}?v=1"></script>
+{% endblock %}

@@ -25,6 +25,62 @@ def doc_tools_page(request):
     return render(request, 'web/doc_tools.html', ctx)
 
 
+@require_GET
+def intelligence_tools_page(request):
+    ctx = _ctx(request)
+    on_device_registry = [
+        {
+            "id": "handwritten_math",
+            "label": "Handwritten Math → LaTeX",
+            "icon": "function",
+            "desc": "Photo or draw a formula → LaTeX. Tiny 7.2MB CoMER model runs fully offline.",
+            "size": "7.2 MB",
+            "badge": "ON-DEVICE",
+            "files": [
+                {"name": "encoder_int8.onnx", "size": 3500000, "url": "https://huggingface.co/kimseungdae/ink-on/resolve/main/encoder_int8.onnx"},
+                {"name": "decoder_int8.onnx", "size": 4000000, "url": "https://huggingface.co/kimseungdae/ink-on/resolve/main/decoder_int8.onnx"},
+                {"name": "vocab.json", "size": 4096, "url": "https://huggingface.co/kimseungdae/ink-on/resolve/main/vocab.json"},
+            ],
+            "params": [],
+        },
+        {
+            "id": "scan_clean",
+            "label": "Scan → Clean Text",
+            "icon": "document_scanner",
+            "desc": "Printed NEB papers to editable text. Keeps headings, tables and layout. Tesseract offline.",
+            "size": "~4 MB",
+            "badge": "ON-DEVICE",
+            "files": [
+                {"name": "tesseract-core.wasm", "size": 2100000, "url": "https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/worker.min.js"},
+            ],
+            "params": [],
+        },
+        {
+            "id": "photo_scan",
+            "label": "Photo → Perfect Scan",
+            "icon": "crop",
+            "desc": "Fix tilted/dark notes: 4-point crop, auto-contrast, denoise. No download — instant.",
+            "size": "0 MB",
+            "badge": "ON-DEVICE",
+            "files": [],
+            "params": [],
+        },
+        {
+            "id": "table_extract",
+            "label": "Table Snap → Excel",
+            "icon": "table",
+            "desc": "Photo of a table → CSV. Uses same offline OCR with line detection.",
+            "size": "Shares OCR",
+            "badge": "ON-DEVICE",
+            "files": [],
+            "params": [],
+        },
+    ]
+    ctx['intelligence_registry_json'] = json.dumps(on_device_registry, ensure_ascii=False)
+    ctx['intelligence_registry'] = on_device_registry
+    return render(request, 'web/intelligence_tools.html', ctx)
+
+
 def _tool_defs():
     return {t['id']: t for t in study_tools.REGISTRY}
 
