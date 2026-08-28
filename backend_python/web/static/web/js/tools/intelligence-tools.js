@@ -503,7 +503,7 @@ function handleScanFile(file, imgEl, prev){
 }
 async function ensureTesseract(){
   if(window.Tesseract) return window.Tesseract;
-  await loadScript("https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js");
+  await loadScript("https://cdn.jsdelivr.net/npm/tesseract.js@v5.0.0/dist/tesseract.min.js");
   return window.Tesseract;
 }
 async function doScanOCR(){
@@ -517,6 +517,8 @@ async function doScanOCR(){
     var lang=$("scanLang").value||"eng";
     if(!scanWorker){
       scanWorker=await T.createWorker(lang, 1, {
+        workerPath: "https://cdn.jsdelivr.net/npm/tesseract.js@v5.0.0/dist/worker.min.js",
+        corePath: "https://cdn.jsdelivr.net/npm/tesseract.js-core@v5.0.0",
         cacheMethod:"readOnly",
         logger:function(m){ if(m.status==="recognizing text") out.value="Reading… "+Math.round((m.progress||0)*100)+"%"; }
       });
@@ -646,7 +648,7 @@ function renderTable(root, tool){
     var btn=this; btn.disabled=true; btn.innerHTML='<span class="material-symbols-outlined">hourglass_top</span> Reading…';
     try{
       var T=await ensureTesseract();
-      if(!scanWorker) scanWorker=await T.createWorker("eng",1,{cacheMethod:"readOnly"});
+      if(!scanWorker) scanWorker=await T.createWorker("eng",1,{workerPath:"https://cdn.jsdelivr.net/npm/tesseract.js@v5.0.0/dist/worker.min.js", corePath:"https://cdn.jsdelivr.net/npm/tesseract.js-core@v5.0.0", cacheMethod:"readOnly"});
       var ret=await scanWorker.recognize(scanFileObj);
       var txt=(ret.data.text||"").trim();
       var rows=txt.split("\n").map(function(l){return l.trim().split(/\s{2,}|\t/).map(function(c){return '"'+c.replace(/"/g,'""')+'"';}).join(",");});
