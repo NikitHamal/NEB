@@ -150,8 +150,7 @@ def _enrich_notification(n):
         body = n.message or "New activity on your account."
         icon_name = 'notifications'
         icon_theme = 'blue'
-        if url and url != '#':
-            secondary_action = {'label': 'View details', 'url': url, 'action': 'view'}
+    has_avatar_actor = bool(actor_photo or (actor_name and verb not in ('system', 'resource_approved', 'resource_rejected')))
 
     return {
         'id': n.id,
@@ -172,6 +171,7 @@ def _enrich_notification(n):
         'actor_photo_url': actor_photo,
         'actor_id': n.actor_id if (n.actor and not n.actor_anonymous) else None,
         'actor_badge_info': actor_badge,
+        'has_avatar_actor': has_avatar_actor,
         'url': url,
         'primary_action': primary_action,
         'secondary_action': secondary_action,

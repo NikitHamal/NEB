@@ -8,10 +8,18 @@ speaker notes so the deck is presentable, not a set of stubs.
 import io
 import re
 
-from pptx import Presentation
-from pptx.dml.color import RGBColor
-from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
-from pptx.util import Emu, Inches, Pt
+try:
+    from pptx import Presentation
+    from pptx.dml.color import RGBColor
+    from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
+    from pptx.util import Emu, Inches, Pt
+    HAS_PPTX = True
+except ImportError:
+    Presentation = None
+    RGBColor = None
+    PP_ALIGN = MSO_ANCHOR = None
+    Emu = Inches = Pt = None
+    HAS_PPTX = False
 
 THEMES = {
     'neb': {'bg': 'FFFFFF', 'accent': '1F4E5F', 'text': '1A1A1A', 'muted': '5A6470', 'soft': 'EAF1F4', 'title_bg': '1F4E5F'},
@@ -20,11 +28,13 @@ THEMES = {
     'minimal': {'bg': 'FFFFFF', 'accent': '111111', 'text': '222222', 'muted': '777777', 'soft': 'F5F5F5', 'title_bg': '111111'},
 }
 
-SLIDE_W = Inches(13.333)
-SLIDE_H = Inches(7.5)
+SLIDE_W = Inches(13.333) if Inches else 0
+SLIDE_H = Inches(7.5) if Inches else 0
 
 
 def _rgb(hex_color):
+    if not RGBColor:
+        return None
     return RGBColor.from_string(str(hex_color).lstrip('#').upper())
 
 
@@ -158,28 +168,43 @@ def _blank_slide(prs, blank, theme, fill=None):
 
 
 def _textbox(slide, left, top, width, height, text, size=20, bold=False, color=None,
-             align=PP_ALIGN.LEFT, italic=False, font='Calibri', anchor=MSO_ANCHOR.TOP):
+             align=None, italic=False, font='Calibri', anchor=None):
+    if align is None and PP_ALIGN:
+        align = PP_ALIGN.LEFT
+    if anchor is None and MSO_ANCHOR:
+        anchor = MSO_ANCHOR.TOP
     box = slide.shapes.add_textbox(left, top, width, height)
     frame = box.text_frame
     frame.word_wrap = True
-    frame.vertical_anchor = anchor
+    if anchor:
+        frame.vertical_anchor = anchor
     lines = str(text or '').split('\n')
     for idx, line in enumerate(lines):
         para = frame.paragraphs[0] if idx == 0 else frame.add_paragraph()
         para.text = line
-        para.alignment = align
-        para.space_after = Pt(6)
+        if align:
+            para.alignment = align
+        if Pt:
+            para.space_after = Pt(6)
         for run in para.runs:
-            run.font.size = Pt(size)
+            if Pt:
+                run.font.size = Pt(size)
             run.font.bold = bold
             run.font.italic = italic
             run.font.name = font
-            run.font.color.rgb = _rgb(color or '1A1A1A')
+            if color or not color:
+                rgb_val = _rgb(color or '1A1A1A')
+                if rgb_val:
+                    run.font.color.rgb = rgb_val
     return box
 
 
-def _accent_bar(slide, theme, left=Inches(0.9), top=Inches(0.62), width=Inches(1.5), height=Inches(0.07)):
+def _accent_bar(slide, theme, left=None, top=None, width=None, height=None):
     from pptx.enum.shapes import MSO_SHAPE
+    left = left if left is not None else Inches(0.9)
+    top = top if top is not None else Inches(0.62)
+    width = width if width is not None else Inches(1.5)
+    height = height if height is not None else Inches(0.07)
     shape = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, left, top, width, height)
     shape.fill.solid()
     shape.fill.fore_color.rgb = _rgb(theme['accent'])
@@ -320,19 +345,19 @@ def _quote_slide(prs, blank, slide, theme):
     s = _blank_slide(prs, blank, theme, fill=theme['soft'])
     _textbox(s, Inches(1.6), Inches(2.2), Inches(10.1), Inches(2.6),
              f"\u201C{slide.get('quote') or slide.get('title') or ''}\u201D",
-             size=28, italic=True, color=theme['accent'], align=PP_ALIGN.CENTER)
+             size=28, italic=True, color=theme['accent'], align=PP_ALIGN.CENTER if PP_ALIGN else None)
     if slide.get('cite'):
         _textbox(s, Inches(1.6), Inches(5.0), Inches(10.1), Inches(0.6),
-                 f"— {slide['cite']}", size=15, color=theme['muted'], align=PP_ALIGN.CENTER)
+                 f"— {slide['cite']}", size=15, color=theme['muted'], align=PP_ALIGN.CENTER if PP_ALIGN else None)
 
 
 def _closing_slide(prs, blank, slide, theme):
     s = _blank_slide(prs, blank, theme, fill=theme['title_bg'])
     _textbox(s, Inches(1.0), Inches(2.8), Inches(11.3), Inches(1.6),
-             slide.get('title') or 'Thank You', size=40, bold=True, color='FFFFFF', align=PP_ALIGN.CENTER)
+             slide.get('title') or 'Thank You', size=40, bold=True, color='FFFFFF', align=PP_ALIGN.CENTER if PP_ALIGN else None)
     if slide.get('subtitle'):
         _textbox(s, Inches(1.0), Inches(4.4), Inches(11.3), Inches(0.8),
-                 slide['subtitle'], size=18, color='D6E2E7', align=PP_ALIGN.CENTER)
+                 slide['subtitle'], size=18, color='D6E2E7', align=PP_ALIGN.CENTER if PP_ALIGN else None)
 
 
 def _callout(slide, theme, text):

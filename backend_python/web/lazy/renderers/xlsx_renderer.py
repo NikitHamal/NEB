@@ -8,23 +8,30 @@ native Excel charts (bar / line / pie) rather than static dumps.
 import io
 import re
 
-from openpyxl import Workbook
-from openpyxl.chart import BarChart, LineChart, PieChart, Reference
-from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
-from openpyxl.utils import get_column_letter
+try:
+    from openpyxl import Workbook
+    from openpyxl.chart import BarChart, LineChart, PieChart, Reference
+    from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
+    from openpyxl.utils import get_column_letter
+    HAS_OPENPYXL = True
+except ImportError:
+    Workbook = BarChart = LineChart = PieChart = Reference = None
+    Alignment = Border = Font = PatternFill = Side = None
+    get_column_letter = None
+    HAS_OPENPYXL = False
 
 ACCENT = '1F4E5F'
 ACCENT_SOFT = 'EAF1F4'
 BORDER_COLOR = 'C9D2D8'
 
-HEADER_FONT = Font(bold=True, color='FFFFFF', size=11)
-HEADER_FILL = PatternFill('solid', fgColor=ACCENT)
-TITLE_FONT = Font(bold=True, size=14, color=ACCENT)
-NOTE_FONT = Font(italic=True, size=9, color='5A6470')
-TOTAL_FONT = Font(bold=True, size=11)
+HEADER_FONT = Font(bold=True, color='FFFFFF', size=11) if Font else None
+HEADER_FILL = PatternFill('solid', fgColor=ACCENT) if PatternFill else None
+TITLE_FONT = Font(bold=True, size=14, color=ACCENT) if Font else None
+NOTE_FONT = Font(italic=True, size=9, color='5A6470') if Font else None
+TOTAL_FONT = Font(bold=True, size=11) if Font else None
 
-THIN = Side(style='thin', color=BORDER_COLOR)
-BOX_BORDER = Border(left=THIN, right=THIN, top=THIN, bottom=THIN)
+THIN = Side(style='thin', color=BORDER_COLOR) if Side else None
+BOX_BORDER = Border(left=THIN, right=THIN, top=THIN, bottom=THIN) if Border else None
 
 
 def _clean(value, limit=None):
