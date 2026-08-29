@@ -30,7 +30,7 @@ FORMAT_SCRAPER = 'scraper'      # Existing NEBians web proxies (qwen & friends)
 
 OFFICIAL_FORMATS = (FORMAT_OPENAI, FORMAT_ANTHROPIC, FORMAT_GEMINI)
 
-SCRAPER_PROVIDERS = ('qwen', 'egov', 'deepai', 'inception', 'k2think', 'poolside', 'motiftech', 'metaai', 'tryingopen', 'longcat', 'geminiweb', 'lazypy', 'googletts', 'moetts', 'kokoro', 'chatterbox', 'fishaudio')
+SCRAPER_PROVIDERS = ('qwenfast', 'qwen', 'egov', 'deepai', 'inception', 'k2think', 'poolside', 'motiftech', 'metaai', 'tryingopen', 'longcat', 'geminiweb', 'lazypy', 'googletts', 'moetts', 'kokoro', 'chatterbox', 'fishaudio')
 
 
 @dataclass(frozen=True)
@@ -183,6 +183,13 @@ OFFICIAL_PRESETS: List[ProviderPreset] = [
 ]
 
 SCRAPER_PRESETS: List[ProviderPreset] = [
+    ProviderPreset(
+        slug='qwenfast', label='QwenFast (qwenfast-demo.vercel.app — Qwen3.8-27B superfast)', format=FORMAT_SCRAPER,
+        base_url='https://qwenfast-demo.vercel.app/api/chat', default_model='qwen3.8-27b',
+        models=[ModelSpec('qwen3.8-27b', 'Qwen 3.8 27B (Fast)', 'Speculative decoding · ~49 t/s per stream · world fastest')],
+        context_window=131072, max_output_tokens=8000,
+        key_required=False, official=False, scraper_module='qwenfast_proxy',
+    ),
     ProviderPreset(
         slug='qwen', label='Qwen (chat.qwen.ai)', format=FORMAT_SCRAPER,
         base_url='https://chat.qwen.ai/api/v2', default_model='qwen3.8-max',

@@ -343,6 +343,14 @@ def _call_single_provider(system_prompt, user_message, config):
             logger.error('neby: %s call failed: %s', provider, e)
             return None
 
+    if provider == 'qwenfast':
+        from . import qwenfast_proxy
+        return qwenfast_proxy.simple_chat(
+            user_message=user_message,
+            model=config.model or 'qwen3.8-27b',
+            system_prompt=system_prompt or '',
+            max_tokens=max_tokens,
+        )
     if provider == 'egov':
         from . import egov_proxy
         return egov_proxy.simple_chat(
@@ -450,6 +458,7 @@ def call_ai_api(system_prompt, user_message, config=None):
     fallbacks = config.get_fallback_chain()
     if not fallbacks:
         fallbacks = [
+            {'provider': 'qwenfast', 'model': 'qwen3.8-27b'},
             {'provider': 'empero', 'model': 'Qwen/Qwen3.8-27B-FP8'},
             {'provider': 'motiftech', 'model': 'motif-102b'},
             {'provider': 'geminiweb', 'model': 'geminiweb/gemini-flash-lite'},
