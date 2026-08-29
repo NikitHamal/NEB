@@ -2562,6 +2562,161 @@ class LazyDocMessage(models.Model):
         return f"{self.role}: {self.content[:40]}"
 
 
+class LazyAgentRun(models.Model):
+    """One autonomous Lazy agent run: goal in, artifacts out.
+
+    Unlike the legacy single-shot dispatcher, a run executes a real
+    plan -> act -> observe loop, persisting every step so the UI can
+    stream a live plan and the run can be resumed or audited.
+    """
+    STATUS_QUEUED = 'queued'
+    STATUS_RUNNING = 'running'
+    STATUS_DONE = 'done'
+    STATUS_FAILED = 'failed'
+    STATUS_CANCELLED = 'cancelled'
+    STATUS_CHOICES = [
+        (STATUS_QUEUED, 'Queued'),
+        (STATUS_RUNNING, 'Running'),
+        (STATUS_DONE, 'Done'),
+        (STATUS_FAILED, 'Failed'),
+        (STATUS_CANCELLED, 'Cancelled'),
+    ]
+
+    id = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='lazy_runs', db_index=True)
+    session = models.ForeignKey(
+        LazyDocSession, on_delete=models.CASCADE, related_name='agent_runs',
+        null=True, blank=True, db_index=True,
+    )
+    goal = models.TextField(blank=True, default='')
+    title = models.CharField(max_length=200, blank=True, default='')
+    status = models.CharField(max_length=12, choices=STATUS_CHOICES, default=STATUS_QUEUED, db_index=True)
+    # JSON: {"summary": "...", "items": [{"id": "t1", "text": "...", "status": "pending|active|done|failed"}]}
+    plan_json = models.TextField(blank=True, default='{}')
+    # JSON list of compacted loop turns: {"n": 1, "thought": "...", "calls": [...], "observations": [...]}
+    transcript_json = models.TextField(blank=True, default='[]')
+    iteration = models.PositiveIntegerField(default=0)
+    max_iterations = models.PositiveIntegerField(default=14)
+    model_key = models.CharField(max_length=32, blank=True, default='neby-pro')
+    llm_provider = models.CharField(max_length=64, blank=True, default='')
+    llm_model = models.CharField(max_length=160, blank=True, default='')
+    tool_calls = models.PositiveIntegerField(default=0)
+    workspace = models.CharField(max_length=200, blank=True, default='')
+    error = models.TextField(blank=True, default='')
+    meta = models.TextField(blank=True, default='{}')
+    created_at = models.BigIntegerField(default=0)
+    updated_at = models.BigIntegerField(default=0)
+    finished_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'lazy_agent_runs'
+        ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['user', '-created_at'], name='lazy_run_user_created_idx'),
+            models.Index(fields=['session', '-created_at'], name='lazy_run_session_created_idx'),
+        ]
+
+    def __str__(self):
+        return f"LazyRun {self.title or self.goal[:40]} ({self.status})"
+
+
+class LazyAgentStep(models.Model):
+    """A single visible unit of work inside a run (thought, tool call, artifact)."""
+    KIND_THINK = 'think'
+    KIND_PLAN = 'plan'
+    KIND_TOOL = 'tool'
+    KIND_ARTIFACT = 'artifact'
+    KIND_STATUS = 'status'
+    KIND_FINAL = 'final'
+    KIND_ERROR = 'error'
+    KIND_CHOICES = [
+        (KIND_THINK, 'Thought'),
+        (KIND_PLAN, 'Plan'),
+        (KIND_TOOL, 'Tool'),
+        (KIND_ARTIFACT, 'Artifact'),
+        (KIND_STATUS, 'Status'),
+        (KIND_FINAL, 'Final'),
+        (KIND_ERROR, 'Error'),
+    ]
+
+    id = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
+    run = models.ForeignKey(LazyAgentRun, on_delete=models.CASCADE, related_name='steps', db_index=True)
+    index = models.PositiveIntegerField(default=0)
+    iteration = models.PositiveIntegerField(default=0)
+    kind = models.CharField(max_length=16, choices=KIND_CHOICES, default=KIND_STATUS)
+    title = models.CharField(max_length=300, blank=True, default='')
+    # JSON: tool name/args/result summary, artifact refs, error text
+    detail = models.TextField(blank=True, default='{}')
+    status = models.CharField(max_length=12, blank=True, default='ok')
+    created_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'lazy_agent_steps'
+        ordering = ['index', 'created_at']
+        indexes = [
+            models.Index(fields=['run', 'index'], name='lazy_step_run_index_idx'),
+        ]
+
+    def __str__(self):
+        return f"{self.kind}: {self.title[:50]}"
+
+
+class LazyArtifact(models.Model):
+    """A downloadable product of a run: document, deck, sheet, code file, archive."""
+    KIND_DOC = 'doc'
+    KIND_SLIDES = 'slides'
+    KIND_SHEET = 'sheet'
+    KIND_PDF = 'pdf'
+    KIND_CODE = 'code'
+    KIND_DATA = 'data'
+    KIND_IMAGE = 'image'
+    KIND_ARCHIVE = 'archive'
+    KIND_OTHER = 'other'
+    KIND_CHOICES = [
+        (KIND_DOC, 'Document'),
+        (KIND_SLIDES, 'Slides'),
+        (KIND_SHEET, 'Spreadsheet'),
+        (KIND_PDF, 'PDF'),
+        (KIND_CODE, 'Code'),
+        (KIND_DATA, 'Data'),
+        (KIND_IMAGE, 'Image'),
+        (KIND_ARCHIVE, 'Archive'),
+        (KIND_OTHER, 'Other'),
+    ]
+
+    id = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='lazy_artifacts', db_index=True)
+    run = models.ForeignKey(
+        LazyAgentRun, on_delete=models.CASCADE, related_name='artifacts',
+        null=True, blank=True, db_index=True,
+    )
+    session = models.ForeignKey(
+        LazyDocSession, on_delete=models.CASCADE, related_name='artifacts',
+        null=True, blank=True, db_index=True,
+    )
+    kind = models.CharField(max_length=16, choices=KIND_CHOICES, default=KIND_OTHER)
+    name = models.CharField(max_length=260, blank=True, default='')
+    mime = models.CharField(max_length=140, blank=True, default='')
+    size = models.PositiveIntegerField(default=0)
+    # 'workspace' = file under the run workspace, 'blob' = Django cache token
+    storage = models.CharField(max_length=16, blank=True, default='workspace')
+    path = models.CharField(max_length=500, blank=True, default='')
+    blob_token = models.CharField(max_length=80, blank=True, default='')
+    meta = models.TextField(blank=True, default='{}')
+    created_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'lazy_artifacts'
+        ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['run', '-created_at'], name='lazy_art_run_created_idx'),
+            models.Index(fields=['user', '-created_at'], name='lazy_art_user_created_idx'),
+        ]
+
+    def __str__(self):
+        return f"{self.kind}: {self.name[:60]}"
+
+
 def _new_code_session_id() -> str:
     return uuid.uuid4().hex
 

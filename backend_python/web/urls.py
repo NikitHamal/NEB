@@ -318,9 +318,8 @@ urlpatterns = [
     path('ajax/canvas/nodes/<str:node_id>/followup/', views_canvas.ajax_canvas_node_followup, name='ajax_canvas_node_followup'),
     path('ajax/canvas/nodes/<str:node_id>/dig-deeper/', views_canvas.ajax_canvas_node_dig_deeper, name='ajax_canvas_node_dig_deeper'),
 
-    # Lazy — autonomous agentic workspace. /lazy is the product surface; the
-    # legacy single-shot endpoints below stay wired for existing clients.
-    path('lazy/', views_lazy_agent.lazy_agent_page, name='lazy'),
+    # Lazy — autonomous agentic workspace. /lazy loads the Ice Cream UI Harness
+    path('lazy/', views_lazy.lazy_page, name='lazy'),
     path('ajax/lazy/sessions/', views_lazy.ajax_lazy_sessions, name='ajax_lazy_sessions'),
     path('ajax/lazy/sessions/create/', views_lazy.ajax_lazy_session_create, name='ajax_lazy_session_create'),
     path('ajax/lazy/sessions/<str:session_id>/', views_lazy.ajax_lazy_session_detail, name='ajax_lazy_session_detail'),

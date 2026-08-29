@@ -218,6 +218,13 @@ function loadSession(id){
       }else{
         var shell=newAssistantShell();
         var row=shell.querySelector(".tool-row");
+        if(m.think){
+          var oldThink=document.createElement("details");
+          oldThink.className="lz-think-details";
+          oldThink.innerHTML='<summary class="lz-think-summary"><span class="material-symbols-outlined" style="font-size:15px;color:var(--lz-accent)">psychology</span> Thought process</summary><div class="lz-think-body"></div>';
+          oldThink.querySelector(".lz-think-body").textContent=m.think;
+          row.parentNode.insertBefore(oldThink,row);
+        }
         (m.tools||[]).forEach(function(t){addToolChip(row,t.name,t.summary,false)});
         appendFiles(shell,m.files||[]);
         var holder=shell.querySelector(".md-content");
@@ -260,7 +267,12 @@ function send(){
   var text=inputEl.value.trim();
   if(!text&&!S.attachments.length)return;
   var attNames=S.attachments.map(function(a){return a.name});
-  var payload={text:text||"(see attachments)",attachments:S.attachments.slice()};
+  var modelSelect=$("lzModelSelect");
+  var payload={
+    text:text||"(see attachments)",
+    attachments:S.attachments.slice(),
+    model:modelSelect?modelSelect.value:"neby-pro"
+  };
   inputEl.value="";autosize();sendBtn.disabled=true;
   S.attachments=[];renderAttachRow();
   newUserBubble(payload.text,attNames);
@@ -295,7 +307,7 @@ function send(){
     finalize(true);
   });
 
-  var thinkShown=false,statusChip=null;
+  var thinkEl=null,statusChip=null;
   function handleFrame(line){
     line=line.trim();if(!line)return;
     if(line.indexOf("data:")!==0)return;
@@ -305,7 +317,17 @@ function send(){
     if(f.type==="user"){
       if(f.title){titleEl.textContent=f.title;upsertSession({id:S.sessionId,title:f.title})}
     }else if(f.type==="think"){
-      if(f.content&&!thinkShown){thinkShown=true;var tl=document.createElement("div");tl.className="think-line";tl.textContent=f.content;row.parentNode.insertBefore(tl,row)}
+      if(f.content){
+        if(!thinkEl){
+          thinkEl=document.createElement("details");
+          thinkEl.className="lz-think-details";
+          thinkEl.innerHTML='<summary class="lz-think-summary"><span class="material-symbols-outlined" style="font-size:15px;color:var(--lz-accent)">psychology</span> Thinking…</summary><div class="lz-think-body"></div>';
+          row.parentNode.insertBefore(thinkEl,row);
+        }
+        var b=thinkEl.querySelector(".lz-think-body");
+        if(b)b.textContent += f.content;
+        scrollBottom();
+      }
     }else if(f.type==="status"){
       if(statusChip)statusChip.remove();
       statusChip=addToolChip(row,f.tool,f.label,true);scrollBottom();

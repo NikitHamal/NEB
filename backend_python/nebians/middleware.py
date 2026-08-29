@@ -340,7 +340,7 @@ class SecurityHeadersMiddleware:
 
         nonce = getattr(request, 'csp_nonce', '')
         img_sources = "img-src 'self' data: https:;"
-        connect_sources = ["'self'", "https://accounts.google.com", "https://cdn.jsdelivr.net", "https://tessdata.projectnaptha.com", "https://huggingface.co", "https://*.huggingface.co", "https://github.com", "https://*.githubusercontent.com", "wss://*.trycloudflare.com", "https://*.trycloudflare.com"]
+        connect_sources = ["'self'", "data:", "blob:", "https://accounts.google.com", "https://cdn.jsdelivr.net", "https://tessdata.projectnaptha.com", "https://huggingface.co", "https://*.huggingface.co", "https://github.com", "https://*.githubusercontent.com", "wss://*.trycloudflare.com", "https://*.trycloudflare.com"]
 
         ws_url = _get_ws_public_url_cached()
 
@@ -356,14 +356,14 @@ class SecurityHeadersMiddleware:
 
         if settings.DEBUG:
             img_sources = "img-src 'self' data: http: https:;"
-            connect_src_str = "connect-src 'self' http: https: wss:;"
+            connect_src_str = "connect-src 'self' data: blob: http: https: wss:;"
 
         img_sources_blob = img_sources.replace("img-src ", "img-src blob: ")
         csp = (
             "default-src 'self'; "
-            f"script-src 'self' 'nonce-{nonce}' https://accounts.google.com https://www.gstatic.com https://cdn.jsdelivr.net; "
-            "worker-src 'self' blob: https://cdn.jsdelivr.net; "
-            "child-src 'self' blob: https://cdn.jsdelivr.net; "
+            f"script-src 'self' 'nonce-{nonce}' 'wasm-unsafe-eval' https://accounts.google.com https://www.gstatic.com https://cdn.jsdelivr.net; "
+            "worker-src 'self' blob: data: https://cdn.jsdelivr.net; "
+            "child-src 'self' blob: data: https://cdn.jsdelivr.net; "
             "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://accounts.google.com https://cdn.jsdelivr.net; "
             "font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net; "
             f"{img_sources_blob} "
