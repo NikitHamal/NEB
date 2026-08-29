@@ -320,6 +320,7 @@ urlpatterns = [
 
     # Lazy — autonomous agentic workspace. /lazy loads the Ice Cream UI Harness
     path('lazy/', views_lazy.lazy_page, name='lazy'),
+    path('lazy/<str:session_id>/', views_lazy.lazy_page, name='lazy_session'),
     path('ajax/lazy/sessions/', views_lazy.ajax_lazy_sessions, name='ajax_lazy_sessions'),
     path('ajax/lazy/sessions/create/', views_lazy.ajax_lazy_session_create, name='ajax_lazy_session_create'),
     path('ajax/lazy/sessions/<str:session_id>/', views_lazy.ajax_lazy_session_detail, name='ajax_lazy_session_detail'),

@@ -1,351 +1,742 @@
 {% extends "base.html" %}
 {% load static web_extras %}
 
-{% block title %}Notifications{% endblock %}
-{% block description %}View your notifications on NEBians - likes, replies, follows, and system updates.{% endblock %}
-{% block og_title %}Notifications - NEBians{% endblock %}
+{% block title %}Notifications — NEBians{% endblock %}
+{% block description %}View your notifications on NEBians - mentions, likes, replies, follows, and system updates.{% endblock %}
+{% block og_title %}Notifications — NEBians{% endblock %}
 {% block og_description %}View your notifications on NEBians.{% endblock %}
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'web/css/pages/web-notifications.css' %}">
 
 <div class="notif-container">
-  <div class="notif-header">
-    <h1>Notifications</h1>
-    <button class="notif-mark-all" id="markAllBtn" data-action="mark-all-read" style="display:none;">Mark all as read</button>
-  </div>
-
-  <div class="notif-list" id="notifList">
-    {% if notifications %}
-      {% for n in notifications %}
-        <div class="notif-item {% if not n.isRead %}unread{% endif %}" data-id="{{ n.id }}" data-read="{{ n.isRead|yesno:'true,false' }}" data-url="{{ n.url }}">
-          {% if n.verb == 'system' %}
-            <div class="notif-icon-avatar">
-              <span class="material-symbols-outlined">campaign</span>
-            </div>
-            <div class="notif-body">
-              <div class="notif-text">{{ n.text|safe }}</div>
-              <div class="notif-time">{{ n.createdAt|time_ago }}</div>
-            </div>
-          {% else %}
-            <a class="notif-avatar-link" href="{% url 'web:profile' username=n.actorName %}" title="View {{ n.actorName }}'s profile">
-              <div class="notif-avatar">
-                {% if n.actorPhotoUrl %}
-                  <img src="{{ n.actorPhotoUrl }}" alt="{{ n.actorName }}" data-fallback="flex">
-                  <span style="display:none;align-items:center;justify-content:center;width:100%;height:100%;">{{ n.actorName|first|upper }}</span>
-                {% else %}
-                  {{ n.actorName|first|upper }}
-                {% endif %}
-              </div>
-            </a>
-            <div class="notif-body">
-              <div class="notif-text">
-                {% if n.verb == 'follow' %}
-                  <strong><a class="notif-actor-link" href="{% url 'web:profile' username=n.actorName %}">{{ n.actorName }}</a></strong> <span class="notif-verb">started following you</span>
-                {% else %}
-                  <strong><a class="notif-actor-link" href="{% url 'web:profile' username=n.actorName %}">{{ n.actorName }}</a></strong>{% if n.url and n.url != '#' %} <a class="notif-target-link" href="{{ n.url }}"><span class="notif-verb">
-                    {% if n.verb == 'like_post' %}liked your post
-                    {% elif n.verb == 'like_reply' %}liked your reply
-                    {% elif n.verb == 'like_resource' %}liked your resource
-                    {% elif n.verb == 'like_resource_comment' %}liked your comment
-                    {% elif n.verb == 'reply' %}replied to your post
-                    {% elif n.verb == 'reply_reply' %}replied to your comment
-                    {% elif n.verb == 'resource_comment' %}commented on your resource
-                    {% elif n.verb == 'resource_comment_reply' %}replied to your comment
-                    {% elif n.verb == 'mention' %}mentioned you
-                    {% else %}{{ n.verb }}
-                    {% endif %}
-                  </span></a>{% else %} <span class="notif-verb">
-                    {% if n.verb == 'like_post' %}liked your post
-                    {% elif n.verb == 'like_reply' %}liked your reply
-                    {% elif n.verb == 'like_resource' %}liked your resource
-                    {% elif n.verb == 'like_resource_comment' %}liked your comment
-                    {% elif n.verb == 'reply' %}replied to your post
-                    {% elif n.verb == 'reply_reply' %}replied to your comment
-                    {% elif n.verb == 'resource_comment' %}commented on your resource
-                    {% elif n.verb == 'resource_comment_reply' %}replied to your comment
-                    {% elif n.verb == 'mention' %}mentioned you
-                    {% else %}{{ n.verb }}
-                    {% endif %}
-                  </span>{% endif %}
-                {% endif %}
-              </div>
-              <div class="notif-time">{{ n.createdAt|time_ago }}</div>
-            </div>
-          {% endif %}
-        </div>
-      {% endfor %}
-    {% else %}
-      <div class="notif-empty">
-        <span class="material-symbols-outlined">notifications_off</span>
-        <h3>No notifications yet</h3>
-        <p>When someone likes your post, replies to you, or follows you, you'll see it here.</p>
+  <div class="notif-card-wrapper">
+    <!-- Header -->
+    <div class="notif-header">
+      <div class="notif-header-left">
+        <h1>Notifications</h1>
+        <span class="notif-unread-subtitle" id="unreadSubtitle">
+          {% if unread_count and unread_count > 0 %}{{ unread_count }} unread{% else %}All caught up{% endif %}
+        </span>
       </div>
-    {% endif %}
+      <button class="notif-mark-all-btn" id="markAllBtn" data-action="mark-all-read" {% if not unread_count or unread_count == 0 %}style="display:none;"{% endif %}>
+        Mark all read
+      </button>
+    </div>
+
+    <!-- Filter Tabs (Segmented Control) -->
+    <div class="notif-tabs" id="notifTabs">
+      <a href="?tab=all" class="notif-tab-item {% if current_tab == 'all' %}active{% endif %}" data-tab="all">
+        <span>All</span>
+        <span class="notif-tab-count" id="count-all">{{ counts.all|default:"0" }}</span>
+      </a>
+      <a href="?tab=mentions" class="notif-tab-item {% if current_tab == 'mentions' %}active{% endif %}" data-tab="mentions">
+        <span>Mentions</span>
+        <span class="notif-tab-count" id="count-mentions">{{ counts.mentions|default:"0" }}</span>
+      </a>
+      <a href="?tab=system" class="notif-tab-item {% if current_tab == 'system' %}active{% endif %}" data-tab="system">
+        <span>System</span>
+        <span class="notif-tab-count" id="count-system">{{ counts.system|default:"0" }}</span>
+      </a>
+      <a href="?tab=activity" class="notif-tab-item {% if current_tab == 'activity' %}active{% endif %}" data-tab="activity">
+        <span>Activity</span>
+        <span class="notif-tab-count" id="count-activity">{{ counts.activity|default:"0" }}</span>
+      </a>
+      <a href="?tab=unread" class="notif-tab-item {% if current_tab == 'unread' %}active{% endif %}" data-tab="unread">
+        <span>Unread</span>
+        <span class="notif-tab-count" id="count-unread">{{ counts.unread|default:"0" }}</span>
+      </a>
+    </div>
+
+    <!-- Notifications List Container -->
+    <div class="notif-list" id="notifList">
+      {% if notifications %}
+        {% for n in notifications %}
+          <div class="notif-card {% if not n.is_read %}unread{% endif %}" data-id="{{ n.id }}" data-read="{{ n.is_read|yesno:'true,false' }}" data-url="{{ n.url }}">
+            <!-- Left Avatar / Icon -->
+            <div class="notif-avatar-col notif-icon-{{ n.icon_theme }}">
+              {% if n.actor_photo_url %}
+                <a class="notif-avatar-link" href="{% if n.actor_name %}{% url 'web:profile' username=n.actor_name %}{% else %}#{% endif %}" title="View {{ n.actor_name }}'s profile">
+                  <img src="{{ n.actor_photo_url }}" alt="{{ n.actor_name }}" onerror="this.style.display='none'; this.parentElement.parentElement.classList.add('notif-icon-{{ n.icon_theme }}'); this.parentElement.parentElement.innerHTML='<span class=\'material-symbols-outlined\'>{{ n.icon_name }}</span>';">
+                </a>
+              {% elif n.actor_name and n.verb != 'system' and n.verb != 'resource_approved' and n.verb != 'resource_rejected' %}
+                <a class="notif-avatar-link" href="{% url 'web:profile' username=n.actor_name %}" title="View {{ n.actor_name }}'s profile">
+                  <div class="notif-avatar-fallback">{{ n.actor_name|first|upper }}</div>
+                </a>
+              {% else %}
+                <span class="material-symbols-outlined">{{ n.icon_name }}</span>
+              {% endif %}
+            </div>
+
+            <!-- Content Area -->
+            <div class="notif-content">
+              <div class="notif-card-header">
+                <h4 class="notif-title">
+                  {% if n.actor_name and n.verb != 'system' and n.verb != 'resource_approved' and n.verb != 'resource_rejected' %}
+                    <a class="notif-actor-link" href="{% url 'web:profile' username=n.actor_name %}">{{ n.actor_name }}</a>
+                    {% if n.verb == 'mention' %}mentioned you
+                    {% elif n.verb == 'like_post' %}liked your post
+                    {% elif n.verb == 'like_reply' %}liked your reply
+                    {% elif n.verb == 'like_resource' %}liked your resource
+                    {% elif n.verb == 'like_resource_comment' %}liked your comment
+                    {% elif n.verb == 'reply' %}replied to your post
+                    {% elif n.verb == 'reply_reply' %}replied to your comment
+                    {% elif n.verb == 'resource_comment' %}commented on your resource
+                    {% elif n.verb == 'resource_comment_reply' %}replied to your comment
+                    {% elif n.verb == 'follow' %}started following you
+                    {% else %}{{ n.title }}
+                    {% endif %}
+                  {% else %}
+                    {{ n.title }}
+                  {% endif %}
+                </h4>
+                <div class="notif-meta">
+                  <span class="notif-time">{{ n.compact_time }}</span>
+                  {% if not n.is_read %}
+                    <span class="notif-dot-unread" title="Unread"></span>
+                  {% endif %}
+                </div>
+              </div>
+
+              {% if n.body %}
+                <div class="notif-body-text">{{ n.body }}</div>
+              {% endif %}
+
+              <!-- Action buttons -->
+              {% if n.primary_action or n.secondary_action %}
+                <div class="notif-actions">
+                  {% if n.primary_action %}
+                    <a href="{{ n.primary_action.url }}" class="notif-btn-primary" data-action-btn="true">{{ n.primary_action.label }}</a>
+                  {% endif %}
+                  {% if n.secondary_action %}
+                    <a href="{{ n.secondary_action.url }}" class="notif-btn-secondary" data-action-btn="true">{{ n.secondary_action.label }}</a>
+                  {% endif %}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="notif-empty-state" id="notifEmptyState">
+          <div class="notif-empty-icon">
+            <span class="material-symbols-outlined">notifications_off</span>
+          </div>
+          <h3>
+            {% if current_tab == 'mentions' %}No mentions yet
+            {% elif current_tab == 'system' %}No system notifications
+            {% elif current_tab == 'activity' %}No activity yet
+            {% elif current_tab == 'unread' %}All caught up!
+            {% else %}No notifications yet
+            {% endif %}
+          </h3>
+          <p>
+            {% if current_tab == 'mentions' %}When someone mentions you with @{{ user.username }}, it will appear here.
+            {% elif current_tab == 'system' %}Important platform announcements and updates will be listed here.
+            {% elif current_tab == 'activity' %}Likes, replies, and new followers will show up here.
+            {% elif current_tab == 'unread' %}You have no unread notifications right now.
+            {% else %}When people interact with your posts, mention you, or send updates, you'll see them here.
+            {% endif %}
+          </p>
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="notif-pagination-container" id="notifPagination" {% if not page_obj or page_obj.paginator.num_pages <= 1 %}style="display:none;"{% endif %}>
+      <div class="notif-pagination-info" id="paginationInfo">
+        {% if page_obj and page_obj.paginator.count > 0 %}
+          Showing {{ page_obj.start_index }}–{{ page_obj.end_index }} of {{ page_obj.paginator.count }}
+        {% endif %}
+      </div>
+      <div class="notif-pagination-pages" id="paginationPages">
+        {% if page_obj and page_obj.paginator.num_pages > 1 %}
+          {% if page_obj.has_previous %}
+            <button class="notif-page-btn" data-page="{{ page_obj.previous_page_number }}" title="Previous page">
+              <span class="material-symbols-outlined" style="font-size:18px;">chevron_left</span>
+            </button>
+          {% else %}
+            <button class="notif-page-btn disabled" disabled>
+              <span class="material-symbols-outlined" style="font-size:18px;">chevron_left</span>
+            </button>
+          {% endif %}
+
+          {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+              <button class="notif-page-btn active" data-page="{{ num }}">{{ num }}</button>
+            {% elif num > page_obj.number|add:"-3" and num < page_obj.number|add:"3" %}
+              <button class="notif-page-btn" data-page="{{ num }}">{{ num }}</button>
+            {% elif num == 1 or num == page_obj.paginator.num_pages %}
+              <button class="notif-page-btn" data-page="{{ num }}">{{ num }}</button>
+            {% endif %}
+          {% endfor %}
+
+          {% if page_obj.has_next %}
+            <button class="notif-page-btn" data-page="{{ page_obj.next_page_number }}" title="Next page">
+              <span class="material-symbols-outlined" style="font-size:18px;">chevron_right</span>
+            </button>
+          {% else %}
+            <button class="notif-page-btn disabled" disabled>
+              <span class="material-symbols-outlined" style="font-size:18px;">chevron_right</span>
+            </button>
+          {% endif %}
+        {% endif %}
+      </div>
+    </div>
   </div>
 </div>
 
 <script nonce="{{ csp_nonce }}">
-  const UNREAD_COUNT = {{ unread_notifications|default:"0" }};
-  const VERB_LABELS = {
-    'like_post': 'liked your post',
-    'like_reply': 'liked your reply',
-    'like_resource': 'liked your resource',
-    'like_resource_comment': 'liked your comment',
-    'reply': 'replied to your post',
-    'reply_reply': 'replied to your comment',
-    'resource_comment': 'commented on your resource',
-    'resource_comment_reply': 'replied to your comment',
-    'follow': 'started following you',
-    'mention': 'mentioned you',
-    'resource_approved': '',
-    'resource_rejected': '',
-    'system': '',
-  };
+  let currentTab = "{{ current_tab|default:'all' }}";
+  let currentPage = {{ page_obj.number|default:1 }};
+  let pageSize = {{ page_size|default:10 }};
 
-  const VERB_ICONS = {
-    'like_post': 'thumb_up',
-    'like_reply': 'thumb_up',
-    'like_resource': 'thumb_up',
-    'like_resource_comment': 'thumb_up',
-    'reply': 'chat_bubble',
-    'reply_reply': 'reply',
-    'resource_comment': 'description',
-    'resource_comment_reply': 'reply',
-    'follow': 'person_add',
-    'mention': 'alternate_email',
-    'resource_approved': 'done',
-    'resource_rejected': 'cancel',
-    'system': 'campaign',
-  };
-
-  function formatNotifText(n) {
-    const label = VERB_LABELS[n.verb] || n.verb;
-    if (n.verb === 'system') {
-      return escapeHtml(n.message || 'System notification');
-    }
-    const name = escapeHtml(n.actorName || 'Someone');
-    return '<strong>' + name + '</strong> <span class="notif-verb">' + label + '</span>';
-  }
-
-  function formatNotifUrl(n) {
-    if (n.verb === 'follow') {
-      return '/profile/' + encodeURIComponent(n.actorName || '') + '/';
-    }
-    if (n.verb === 'system' || n.verb === 'resource_approved' || n.verb === 'resource_rejected') {
-      if (n.targetType === 'resource' && n.targetId) {
-        return '/resource/' + n.targetId + '/';
-      }
-      return '#';
-    }
-    if (n.targetType === 'resource' || n.referenceType === 'resource') {
-      const resourceId = n.targetType === 'resource' ? n.targetId : n.referenceId;
-      return '/resource/' + resourceId + '/';
-    }
-    if (n.targetType === 'resource_comment') {
-      const resourceId = n.referenceType === 'resource' ? n.referenceId : (n.referenceId || '');
-      if (resourceId) {
-        return '/resource/' + resourceId + '/';
-      }
-    }
-    if (n.targetType === 'post' || n.referenceType === 'post') {
-      const postId = n.targetType === 'post' ? n.targetId : n.referenceId;
-      return '/forum/post/' + postId + '/';
-    }
-    if (n.targetType === 'reply') {
-      if (n.referenceType === 'post' && n.referenceId) {
-        return '/forum/post/' + n.referenceId + '/';
-      }
-      return '/forum/post/' + (n.referenceId || '') + '/';
-    }
-    return '#';
-  }
-
-  function timeAgo(ms) {
+  function formatCompactTime(ms) {
     if (!ms) return '';
     const seconds = Math.floor((Date.now() - ms) / 1000);
     if (seconds < 60) return 'just now';
     const minutes = Math.floor(seconds / 60);
-    if (minutes < 60) return minutes + 'm ago';
+    if (minutes < 60) return minutes + 'm';
     const hours = Math.floor(minutes / 60);
-    if (hours < 24) return hours + 'h ago';
+    if (hours < 24) return hours + 'h';
     const days = Math.floor(hours / 24);
-    if (days < 30) return days + 'd ago';
-    const months = Math.floor(days / 30);
-    if (months < 12) return months + 'mo ago';
-    return Math.floor(months / 12) + 'y ago';
+    if (days < 7) {
+      const date = new Date(ms);
+      return date.toLocaleDateString('en-US', { weekday: 'short' });
+    }
+    if (days < 30) return days + 'd';
+    const d = new Date(ms);
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   }
 
-  // Click handlers — make row clickable to go to target URL (post/comment),
-  // but allow inner links (avatar, username) to navigate to profile.
-  document.querySelectorAll('.notif-item').forEach(el => {
-    const id = el.dataset.id;
-    const read = el.dataset.read === 'true';
-    const targetUrl = el.dataset.url;
-    el.addEventListener('click', function(e) {
-      // If click is on an inner link, let the link navigate naturally
-      if (e.target.closest('a')) return;
-      if (!read) markRead(id);
-      if (targetUrl && targetUrl !== '#') {
-        window.location.href = targetUrl;
-      }
+  function escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  // Attach card click handlers
+  function bindCardEvents() {
+    document.querySelectorAll('.notif-card').forEach(function(card) {
+      card.addEventListener('click', function(e) {
+        // If clicking on inner link or button, let it trigger without parent handler
+        if (e.target.closest('a') || e.target.closest('button')) {
+          const notifId = card.dataset.id;
+          const isRead = card.dataset.read === 'true';
+          if (!isRead && notifId) {
+            markReadSingle(notifId, card);
+          }
+          return;
+        }
+        
+        const notifId = card.dataset.id;
+        const isRead = card.dataset.read === 'true';
+        const targetUrl = card.dataset.url;
+        
+        if (!isRead && notifId) {
+          markReadSingle(notifId, card);
+        }
+        
+        if (targetUrl && targetUrl !== '#' && targetUrl !== 'javascript:void(0)') {
+          window.location.href = targetUrl;
+        }
+      });
+    });
+  }
+
+  bindCardEvents();
+
+  // Tab click switching with AJAX & URL sync
+  document.querySelectorAll('.notif-tab-item').forEach(function(tabLink) {
+    tabLink.addEventListener('click', function(e) {
+      e.preventDefault();
+      const selectedTab = this.dataset.tab;
+      if (selectedTab === currentTab) return;
+      
+      document.querySelectorAll('.notif-tab-item').forEach(function(t) { t.classList.remove('active'); });
+      this.classList.add('active');
+      
+      currentTab = selectedTab;
+      currentPage = 1;
+      
+      // Update browser URL query
+      const url = new URL(window.location);
+      url.searchParams.set('tab', currentTab);
+      url.searchParams.set('page', '1');
+      window.history.pushState({}, '', url);
+      
+      loadNotifications();
     });
   });
 
-  // Show "Mark all as read" button if there are unread
-  if (UNREAD_COUNT > 0) {
-    document.getElementById('markAllBtn').style.display = '';
-  }
+  // Pagination button click delegation
+  document.getElementById('paginationPages').addEventListener('click', function(e) {
+    const btn = e.target.closest('.notif-page-btn');
+    if (!btn || btn.disabled || btn.classList.contains('disabled') || btn.classList.contains('active')) return;
+    const pageNum = parseInt(btn.dataset.page, 10);
+    if (!pageNum) return;
+    
+    currentPage = pageNum;
+    
+    const url = new URL(window.location);
+    url.searchParams.set('page', currentPage);
+    url.searchParams.set('tab', currentTab);
+    window.history.pushState({}, '', url);
+    
+    loadNotifications();
+    
+    // Smooth scroll back to top of card wrapper
+    const wrapper = document.querySelector('.notif-card-wrapper');
+    if (wrapper) {
+      wrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
 
-  async function markRead(notifId) {
-    await fetch('/ajax/notifications/mark-read/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
-      body: JSON.stringify({ notification_ids: [notifId] }),
-      credentials: 'same-origin',
+  // Handle browser back/forward
+  window.addEventListener('popstate', function() {
+    const params = new URLSearchParams(window.location.search);
+    currentTab = params.get('tab') || 'all';
+    currentPage = parseInt(params.get('page') || '1', 10);
+    
+    document.querySelectorAll('.notif-tab-item').forEach(function(t) {
+      t.classList.toggle('active', t.dataset.tab === currentTab);
     });
-    // Update parent badge
-    updateUnreadBadge();
-  }
+    
+    loadNotifications();
+  });
 
-  async function markAllRead() {
-    var btn = document.getElementById('markAllBtn');
-    btn.textContent = 'Marking...';
-    btn.disabled = true;
-    await fetch('/ajax/notifications/mark-read/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
-      body: JSON.stringify({ mark_all: true }),
-      credentials: 'same-origin',
-    });
-    document.querySelectorAll('.notif-item.unread').forEach(function(el) {
-      el.classList.remove('unread');
-    });
-    btn.style.display = 'none';
-    updateUnreadBadge();
-  }
+  // Fetch notifications for currentTab & currentPage
+  async function loadNotifications() {
+    const listEl = document.getElementById('notifList');
+    listEl.style.opacity = '0.5';
+    listEl.style.pointerEvents = 'none';
 
-  function updateUnreadBadge() {
-    fetch('/ajax/notifications/unread-count/', { credentials: 'same-origin' })
-      .then(function(r) { return r.json(); })
-      .then(function(data) {
-        var count = data.count || 0;
-        var badge = document.getElementById('notif-badge');
-        var popupBadge = document.getElementById('notif-popup-badge');
-        if (badge) {
-          badge.textContent = count > 9 ? '9+' : count;
-          badge.style.display = count > 0 ? '' : 'none';
-        }
-        if (popupBadge) {
-          popupBadge.textContent = count > 9 ? '9+' : count;
-          popupBadge.style.display = count > 0 ? '' : 'none';
-        }
-        var dot = document.getElementById('profile-notif-dot');
-        if (dot) {
-          dot.style.display = count > 0 ? '' : 'none';
-        }
+    try {
+      const resp = await fetch(`/ajax/notifications/?tab=${encodeURIComponent(currentTab)}&page=${currentPage}&page_size=${pageSize}`, {
+        credentials: 'same-origin',
+        headers: { 'Accept': 'application/json' }
       });
+      if (!resp.ok) throw new Error('Failed to load');
+      const data = await resp.json();
+      
+      renderNotificationList(data.results || []);
+      renderPagination(data);
+      updateCounts(data.counts, data.unread_count);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      listEl.style.opacity = '1';
+      listEl.style.pointerEvents = '';
+    }
+  }
+
+  // Render cards into DOM
+  function renderNotificationList(items) {
+    const listEl = document.getElementById('notifList');
+    if (!items || items.length === 0) {
+      let emptyTitle = 'No notifications yet';
+      let emptyDesc = "When people interact with your posts, mention you, or send updates, you'll see them here.";
+      if (currentTab === 'mentions') {
+        emptyTitle = 'No mentions yet';
+        emptyDesc = 'When someone mentions you in discussions or comments, it will appear here.';
+      } else if (currentTab === 'system') {
+        emptyTitle = 'No system notifications';
+        emptyDesc = 'Important platform announcements and updates will be listed here.';
+      } else if (currentTab === 'activity') {
+        emptyTitle = 'No activity yet';
+        emptyDesc = 'Likes, replies, and new followers will show up here.';
+      } else if (currentTab === 'unread') {
+        emptyTitle = 'All caught up!';
+        emptyDesc = 'You have no unread notifications right now.';
+      }
+      
+      listEl.innerHTML = `
+        <div class="notif-empty-state" id="notifEmptyState">
+          <div class="notif-empty-icon">
+            <span class="material-symbols-outlined">notifications_off</span>
+          </div>
+          <h3>${emptyTitle}</h3>
+          <p>${emptyDesc}</p>
+        </div>
+      `;
+      return;
+    }
+
+    let html = '';
+    items.forEach(function(n) {
+      const unreadClass = n.is_read ? '' : 'unread';
+      const isReadVal = n.is_read ? 'true' : 'false';
+      const actorName = escapeHtml(n.actor_name || '');
+      const profileUrl = actorName ? `/profile/${encodeURIComponent(actorName)}/` : '#';
+      
+      let avatarHtml = '';
+      if (n.actor_photo_url) {
+        avatarHtml = `
+          <a class="notif-avatar-link" href="${profileUrl}" title="View ${actorName}'s profile">
+            <img src="${escapeHtml(n.actor_photo_url)}" alt="${actorName}" onerror="this.style.display='none'; this.parentElement.parentElement.classList.add('notif-icon-${n.icon_theme}'); this.parentElement.parentElement.innerHTML='<span class=\\'material-symbols-outlined\\'>${escapeHtml(n.icon_name)}</span>';">
+          </a>
+        `;
+      } else if (actorName && n.verb !== 'system' && n.verb !== 'resource_approved' && n.verb !== 'resource_rejected') {
+        const initial = actorName.charAt(0).toUpperCase();
+        avatarHtml = `
+          <a class="notif-avatar-link" href="${profileUrl}" title="View ${actorName}'s profile">
+            <div class="notif-avatar-fallback">${initial}</div>
+          </a>
+        `;
+      } else {
+        avatarHtml = `<span class="material-symbols-outlined">${escapeHtml(n.icon_name)}</span>`;
+      }
+
+      let actionsHtml = '';
+      if (n.primary_action || n.secondary_action) {
+        actionsHtml = '<div class="notif-actions">';
+        if (n.primary_action) {
+          actionsHtml += `<a href="${escapeHtml(n.primary_action.url)}" class="notif-btn-primary" data-action-btn="true">${escapeHtml(n.primary_action.label)}</a>`;
+        }
+        if (n.secondary_action) {
+          actionsHtml += `<a href="${escapeHtml(n.secondary_action.url)}" class="notif-btn-secondary" data-action-btn="true">${escapeHtml(n.secondary_action.label)}</a>`;
+        }
+        actionsHtml += '</div>';
+      }
+
+      const dotHtml = n.is_read ? '' : '<span class="notif-dot-unread" title="Unread"></span>';
+
+      html += `
+        <div class="notif-card ${unreadClass}" data-id="${escapeHtml(n.id)}" data-read="${isReadVal}" data-url="${escapeHtml(n.url || '#')}">
+          <div class="notif-avatar-col notif-icon-${escapeHtml(n.icon_theme)}">
+            ${avatarHtml}
+          </div>
+          <div class="notif-content">
+            <div class="notif-card-header">
+              <h4 class="notif-title">${escapeHtml(n.title)}</h4>
+              <div class="notif-meta">
+                <span class="notif-time">${escapeHtml(n.compact_time)}</span>
+                ${dotHtml}
+              </div>
+            </div>
+            ${n.body ? `<div class="notif-body-text">${escapeHtml(n.body)}</div>` : ''}
+            ${actionsHtml}
+          </div>
+        </div>
+      `;
+    });
+
+    listEl.innerHTML = html;
+    bindCardEvents();
+  }
+
+  // Render pagination bar
+  function renderPagination(data) {
+    const container = document.getElementById('notifPagination');
+    const info = document.getElementById('paginationInfo');
+    const pages = document.getElementById('paginationPages');
+    
+    if (!data.num_pages || data.num_pages <= 1) {
+      container.style.display = 'none';
+      return;
+    }
+    
+    container.style.display = 'flex';
+    info.textContent = `Showing ${data.start_index}–${data.end_index} of ${data.total}`;
+    
+    let pagesHtml = '';
+    
+    // Prev button
+    if (data.has_prev) {
+      pagesHtml += `<button class="notif-page-btn" data-page="${data.page - 1}" title="Previous page"><span class="material-symbols-outlined" style="font-size:18px;">chevron_left</span></button>`;
+    } else {
+      pagesHtml += `<button class="notif-page-btn disabled" disabled><span class="material-symbols-outlined" style="font-size:18px;">chevron_left</span></button>`;
+    }
+    
+    // Page numbers
+    for (let i = 1; i <= data.num_pages; i++) {
+      if (i === data.page) {
+        pagesHtml += `<button class="notif-page-btn active" data-page="${i}">${i}</button>`;
+      } else if (i > data.page - 3 && i < data.page + 3) {
+        pagesHtml += `<button class="notif-page-btn" data-page="${i}">${i}</button>`;
+      } else if (i === 1 || i === data.num_pages) {
+        pagesHtml += `<button class="notif-page-btn" data-page="${i}">${i}</button>`;
+      }
+    }
+    
+    // Next button
+    if (data.has_more) {
+      pagesHtml += `<button class="notif-page-btn" data-page="${data.page + 1}" title="Next page"><span class="material-symbols-outlined" style="font-size:18px;">chevron_right</span></button>`;
+    } else {
+      pagesHtml += `<button class="notif-page-btn disabled" disabled><span class="material-symbols-outlined" style="font-size:18px;">chevron_right</span></button>`;
+    }
+    
+    pages.innerHTML = pagesHtml;
+  }
+
+  // Update tab counts and unread subtitle
+  function updateCounts(counts, unreadCount) {
+    if (counts) {
+      if (document.getElementById('count-all')) document.getElementById('count-all').textContent = counts.all || '0';
+      if (document.getElementById('count-mentions')) document.getElementById('count-mentions').textContent = counts.mentions || '0';
+      if (document.getElementById('count-system')) document.getElementById('count-system').textContent = counts.system || '0';
+      if (document.getElementById('count-activity')) document.getElementById('count-activity').textContent = counts.activity || '0';
+      if (document.getElementById('count-unread')) document.getElementById('count-unread').textContent = counts.unread || '0';
+    }
+    
+    const unread = typeof unreadCount === 'number' ? unreadCount : (counts ? counts.unread : 0);
+    const subtitle = document.getElementById('unreadSubtitle');
+    if (subtitle) {
+      subtitle.textContent = unread > 0 ? `${unread} unread` : 'All caught up';
+    }
+    
+    const markAllBtn = document.getElementById('markAllBtn');
+    if (markAllBtn) {
+      markAllBtn.style.display = unread > 0 ? 'inline-flex' : 'none';
+      markAllBtn.disabled = false;
+      markAllBtn.textContent = 'Mark all read';
+    }
+    
+    // Sync sitewide badge
+    syncBadges(unread);
+  }
+
+  // Mark single card as read
+  async function markReadSingle(notifId, cardEl) {
+    if (cardEl) {
+      cardEl.classList.remove('unread');
+      cardEl.dataset.read = 'true';
+      const dot = cardEl.querySelector('.notif-dot-unread');
+      if (dot) dot.remove();
+    }
+    
+    try {
+      const resp = await fetch('/ajax/notifications/mark-read/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+        body: JSON.stringify({ notification_ids: [notifId] }),
+        credentials: 'same-origin',
+      });
+      if (resp.ok) {
+        const data = await resp.json();
+        const newUnread = typeof data.unread_count === 'number' ? data.unread_count : 0;
+        
+        const unreadTabCount = document.getElementById('count-unread');
+        if (unreadTabCount) unreadTabCount.textContent = newUnread;
+        
+        const subtitle = document.getElementById('unreadSubtitle');
+        if (subtitle) {
+          subtitle.textContent = newUnread > 0 ? `${newUnread} unread` : 'All caught up';
+        }
+        
+        const markAllBtn = document.getElementById('markAllBtn');
+        if (markAllBtn && newUnread <= 0) {
+          markAllBtn.style.display = 'none';
+        }
+        
+        syncBadges(newUnread);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  // Mark all read
+  async function markAllRead() {
+    const btn = document.getElementById('markAllBtn');
+    if (btn) {
+      btn.textContent = 'Marking...';
+      btn.disabled = true;
+    }
+    
+    // Optimistic UI update
+    document.querySelectorAll('.notif-card.unread').forEach(function(el) {
+      el.classList.remove('unread');
+      el.dataset.read = 'true';
+      const dot = el.querySelector('.notif-dot-unread');
+      if (dot) dot.remove();
+    });
+    
+    try {
+      await fetch('/ajax/notifications/mark-read/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+        body: JSON.stringify({ mark_all: true }),
+        credentials: 'same-origin',
+      });
+      
+      const unreadTabCount = document.getElementById('count-unread');
+      if (unreadTabCount) unreadTabCount.textContent = '0';
+      
+      const subtitle = document.getElementById('unreadSubtitle');
+      if (subtitle) subtitle.textContent = 'All caught up';
+      
+      if (btn) btn.style.display = 'none';
+      
+      syncBadges(0);
+      
+      if (currentTab === 'unread') {
+        loadNotifications();
+      }
+    } catch (err) {
+      console.error(err);
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = 'Mark all read';
+      }
+    }
+  }
+
+  function syncBadges(count) {
+    const badge = document.getElementById('notif-badge');
+    const popupBadge = document.getElementById('notif-popup-badge');
+    const dot = document.getElementById('profile-notif-dot');
+    
+    if (badge) {
+      badge.textContent = count > 9 ? '9+' : count;
+      badge.style.display = count > 0 ? '' : 'none';
+    }
+    if (popupBadge) {
+      popupBadge.textContent = count > 9 ? '9+' : count;
+      popupBadge.style.display = count > 0 ? '' : 'none';
+    }
+    if (dot) {
+      dot.style.display = count > 0 ? '' : 'none';
+    }
   }
 
   registerActions({
     'mark-all-read': function() { markAllRead(); }
   });
 
-  // ── Live notifications: append a new row without refresh ──
+  // Real-time live notification append
   function __appendNotification(payload) {
     if (!payload) return;
     const list = document.getElementById('notifList');
     if (!list) return;
-    // Simple dedupe: if a row with this data-id already exists, skip
-    if (payload.id && document.querySelector('.notif-item[data-id="' + CSS.escape(payload.id) + '"]')) return;
+    if (payload.id && document.querySelector('.notif-card[data-id="' + CSS.escape(payload.id) + '"]')) return;
     
-    const verb = payload.verb || 'activity';
-    const messages = {
-      like_post: 'liked your post',
-      like_reply: 'liked your reply',
-      reply: 'replied to your post',
-      reply_reply: 'replied to your comment',
-      follow: 'started following you',
-      mention: 'mentioned you',
-      like_resource: 'liked your resource',
-      like_resource_comment: 'liked your comment',
-      resource_comment: 'commented on your resource',
-      resource_comment_reply: 'replied to your comment',
-      system: payload.message || 'New announcement',
-    };
+    const emptyState = document.getElementById('notifEmptyState');
+    if (emptyState) emptyState.remove();
 
-    // Use URL computed by the backend if available
-    let url = payload.url;
-    if (!url) {
-      url = (payload.target_type === 'post' || payload.target_type === 'reply')
-        ? (payload.reference_id ? '/forum/post/' + encodeURIComponent(payload.target_id) + '/' : '/forum/post/' + encodeURIComponent(payload.target_id) + '/')
-        : (payload.target_type === 'user' ? '/profile/' + encodeURIComponent(payload.actor_id || '') + '/' : '#');
-    }
+    const verb = payload.verb || 'system';
+    const actorName = payload.actor_name || 'Someone';
+    const actorPhoto = payload.actor_photo_url || '';
+    const profileUrl = actorName ? `/profile/${encodeURIComponent(actorName)}/` : '#';
+    let url = payload.url || '#';
+    let title = payload.title || '';
+    let body = payload.message || '';
+    let iconName = 'notifications';
+    let iconTheme = 'emerald';
+    let primaryAction = null;
+    let secondaryAction = null;
 
-    const node = document.createElement('div');
-    node.className = 'notif-item unread';
-    node.dataset.id = payload.id || '';
-    node.dataset.read = 'false';
-    node.dataset.url = url;
-    node.style.background = 'var(--md-secondary-container)';
-
-    if (verb === 'system') {
-      node.innerHTML =
-        '<div class="notif-icon-avatar">' +
-          '<span class="material-symbols-outlined">campaign</span>' +
-        '</div>' +
-        '<div class="notif-body">' +
-          '<div class="notif-text">' + escapeHtml(payload.message || 'System notification') + '</div>' +
-          '<div class="notif-time">just now</div>' +
-        '</div>';
+    if (verb === 'mention') {
+      title = `${actorName} mentioned you`;
+      body = payload.message || 'Mentioned you in a conversation.';
+      iconName = 'alternate_email';
+      iconTheme = 'blue';
+      primaryAction = { label: 'Reply', url: url };
+      secondaryAction = { label: 'View thread', url: url };
+    } else if (verb === 'reply' || verb === 'reply_reply') {
+      title = `${actorName} replied to your post`;
+      body = payload.message || 'Replied to your discussion thread.';
+      iconName = 'chat_bubble';
+      iconTheme = 'purple';
+      primaryAction = { label: 'Reply', url: url };
+      secondaryAction = { label: 'View thread', url: url };
+    } else if (verb === 'like_post' || verb === 'like_reply' || verb === 'like_resource') {
+      title = `${actorName} liked your post`;
+      body = payload.message || 'Gave a thumbs up to your activity.';
+      iconName = 'thumb_up';
+      iconTheme = 'amber';
+      secondaryAction = { label: 'View post', url: url };
+    } else if (verb === 'follow') {
+      title = `${actorName} started following you`;
+      body = 'You have a new follower on NEBians.';
+      iconName = 'person_add';
+      iconTheme = 'blue';
+      secondaryAction = { label: 'View profile', url: profileUrl };
+    } else if (verb === 'system') {
+      title = (payload.message && payload.message.toLowerCase().includes('backup')) ? 'Workspace backup is ready' : 'System Announcement';
+      body = payload.message || 'Platform update from NEBians team.';
+      iconName = (payload.message && payload.message.toLowerCase().includes('backup')) ? 'cloud_download' : 'campaign';
+      iconTheme = 'emerald';
+      if (url && url !== '#') secondaryAction = { label: 'View details', url: url };
     } else {
-      const actorName = payload.actor_name || 'Someone';
-      const actorPhotoUrl = payload.actor_photo_url || '';
-      const profileUrl = '/profile/' + encodeURIComponent(actorName) + '/';
-      const firstLetter = actorName.charAt(0).toUpperCase() || '?';
-
-      let avatarHtml = '';
-      if (actorPhotoUrl) {
-        avatarHtml = '<img src="' + escapeHtml(actorPhotoUrl) + '" alt="' + escapeHtml(actorName) + '" onerror="this.style.display=\'none\'; if(this.nextElementSibling) this.nextElementSibling.style.display=\'flex\';">' +
-                     '<span style="display:none;align-items:center;justify-content:center;width:100%;height:100%;">' + escapeHtml(firstLetter) + '</span>';
-      } else {
-        avatarHtml = escapeHtml(firstLetter);
-      }
-
-      let textHtml = '';
-      if (verb === 'follow') {
-        textHtml = '<strong><a class="notif-actor-link" href="' + profileUrl + '">' + escapeHtml(actorName) + '</a></strong> <span class="notif-verb">started following you</span>';
-      } else {
-        const verbLabel = messages[verb] || verb;
-        if (url && url !== '#') {
-          textHtml = '<strong><a class="notif-actor-link" href="' + profileUrl + '">' + escapeHtml(actorName) + '</a></strong>' +
-                     ' <a class="notif-target-link" href="' + url + '"><span class="notif-verb">' + escapeHtml(verbLabel) + '</span></a>';
-        } else {
-          textHtml = '<strong><a class="notif-actor-link" href="' + profileUrl + '">' + escapeHtml(actorName) + '</a></strong> <span class="notif-verb">' + escapeHtml(verbLabel) + '</span>';
-        }
-      }
-
-      node.innerHTML =
-        '<a class="notif-avatar-link" href="' + profileUrl + '" title="View ' + escapeHtml(actorName) + '\'s profile">' +
-          '<div class="notif-avatar">' + avatarHtml + '</div>' +
-        '</a>' +
-        '<div class="notif-body">' +
-          '<div class="notif-text">' + textHtml + '</div>' +
-          '<div class="notif-time">just now</div>' +
-        '</div>';
+      title = `Update from ${actorName}`;
+      body = payload.message || '';
+      iconName = 'notifications';
+      iconTheme = 'blue';
+      if (url && url !== '#') secondaryAction = { label: 'View details', url: url };
     }
 
-    list.insertBefore(node, list.firstChild);
-    node.addEventListener('click', function(e) {
-      if (e.target.closest('a')) return;
-      if (url !== '#') window.location.href = url;
-    });
-    setTimeout(function () { node.style.transition = 'background 1.5s'; node.style.background = ''; }, 1500);
+    let avatarHtml = '';
+    if (actorPhoto) {
+      avatarHtml = `
+        <a class="notif-avatar-link" href="${profileUrl}" title="View ${escapeHtml(actorName)}'s profile">
+          <img src="${escapeHtml(actorPhoto)}" alt="${escapeHtml(actorName)}" onerror="this.style.display='none'; this.parentElement.parentElement.classList.add('notif-icon-${iconTheme}'); this.parentElement.parentElement.innerHTML='<span class=\\'material-symbols-outlined\\'>${iconName}</span>';">
+        </a>
+      `;
+    } else if (actorName && verb !== 'system') {
+      avatarHtml = `
+        <a class="notif-avatar-link" href="${profileUrl}" title="View ${escapeHtml(actorName)}'s profile">
+          <div class="notif-avatar-fallback">${escapeHtml(actorName.charAt(0).toUpperCase())}</div>
+        </a>
+      `;
+    } else {
+      avatarHtml = `<span class="material-symbols-outlined">${iconName}</span>`;
+    }
+
+    let actionsHtml = '';
+    if (primaryAction || secondaryAction) {
+      actionsHtml = '<div class="notif-actions">';
+      if (primaryAction) {
+        actionsHtml += `<a href="${escapeHtml(primaryAction.url)}" class="notif-btn-primary" data-action-btn="true">${escapeHtml(primaryAction.label)}</a>`;
+      }
+      if (secondaryAction) {
+        actionsHtml += `<a href="${escapeHtml(secondaryAction.url)}" class="notif-btn-secondary" data-action-btn="true">${escapeHtml(secondaryAction.label)}</a>`;
+      }
+      actionsHtml += '</div>';
+    }
+
+    const card = document.createElement('div');
+    card.className = 'notif-card unread live-new';
+    card.dataset.id = payload.id || '';
+    card.dataset.read = 'false';
+    card.dataset.url = url;
+
+    card.innerHTML = `
+      <div class="notif-avatar-col notif-icon-${iconTheme}">
+        ${avatarHtml}
+      </div>
+      <div class="notif-content">
+        <div class="notif-card-header">
+          <h4 class="notif-title">${escapeHtml(title)}</h4>
+          <div class="notif-meta">
+            <span class="notif-time">just now</span>
+            <span class="notif-dot-unread" title="Unread"></span>
+          </div>
+        </div>
+        ${body ? `<div class="notif-body-text">${escapeHtml(body)}</div>` : ''}
+        ${actionsHtml}
+      </div>
+    `;
+
+    list.insertBefore(card, list.firstChild);
+    bindCardEvents();
+
+    // Increment counters
+    const countAll = document.getElementById('count-all');
+    if (countAll) countAll.textContent = (parseInt(countAll.textContent || '0', 10) + 1);
+    const countUnread = document.getElementById('count-unread');
+    if (countUnread) countUnread.textContent = (parseInt(countUnread.textContent || '0', 10) + 1);
+    
+    const subtitle = document.getElementById('unreadSubtitle');
+    if (subtitle && countUnread) subtitle.textContent = `${countUnread.textContent} unread`;
+    
     const markAllBtn = document.getElementById('markAllBtn');
-    if (markAllBtn) markAllBtn.style.display = '';
-    const pageCount = document.getElementById('notif-page-count');
-    if (pageCount) pageCount.textContent = (parseInt(pageCount.textContent || '0', 10) || 0) + 1;
+    if (markAllBtn) markAllBtn.style.display = 'inline-flex';
   }
+
   window.__appendNotification = __appendNotification;
 </script>
 {% endblock %}

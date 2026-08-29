@@ -16,6 +16,10 @@ if APP_DIR not in sys.path:
     sys.path.insert(0, APP_DIR)
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'nebians.settings')
+os.environ.setdefault('OPENBLAS_NUM_THREADS', '1')
+os.environ.setdefault('NUMEXPR_MAX_THREADS', '1')
+os.environ.setdefault('MKL_NUM_THREADS', '1')
+os.environ.setdefault('QWEN_FORCE_REQUESTS', '1')
 
 from nebians.wsgi import application
 

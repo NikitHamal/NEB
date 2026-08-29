@@ -27,7 +27,7 @@ _CAPS = {
     'metaai':    {'stream': True,  'thinking': True,  'web_search': False, 'files': False},
     'tryingopen': {'stream': True, 'thinking': True,  'web_search': False, 'files': False},
     'longcat':   {'stream': True,  'thinking': True,  'web_search': True,  'files': False},
-    'geminiweb': {'stream': True,  'thinking': False, 'web_search': False, 'files': False},
+    'geminiweb': {'stream': True,  'thinking': False, 'web_search': True,  'files': False},
     'empero':    {'stream': True,  'thinking': True,  'web_search': False, 'files': False},
 }
 
@@ -97,10 +97,16 @@ def _iter_scraper_chunks(slug, message, history, model, reasoning, web_search):
         kwargs['web_search'] = web_search
     elif slug in _TRYINGOPEN_SLUGS:
         kwargs['effort'] = 'deep' if reasoning else 'quick'
+    elif slug == 'geminiweb':
+        kwargs['enable_search'] = web_search
     for chunk in mod.stream_chat(**kwargs):
         t = chunk.get('type')
         if t == 'text':
             yield {'type': 'text', 'content': chunk.get('content', '')}
+        elif t in ('thought', 'thinking', 'reasoning'):
+            yield {'type': 'thought', 'content': chunk.get('content') or chunk.get('thought') or chunk.get('thinking') or ''}
+        elif t == 'search':
+            yield {'type': 'search', 'content': chunk.get('text') or chunk.get('content') or '', 'results': chunk.get('results') or []}
         elif t == 'done':
             return
         elif t == 'error':
@@ -169,6 +175,10 @@ def ajax_admin_chat_send(request):
                 ):
                     if chunk.get('type') == 'text':
                         yield _sse({'type': 'text', 'content': chunk.get('content', '')})
+                    elif chunk.get('type') == 'thought':
+                        yield _sse({'type': 'thought', 'content': chunk.get('content', '')})
+                    elif chunk.get('type') == 'search':
+                        yield _sse({'type': 'search', 'content': chunk.get('content', ''), 'results': chunk.get('results', [])})
                     elif chunk.get('type') == 'error':
                         yield _sse({'type': 'error', 'message': chunk.get('error', 'upstream error')})
                         break
@@ -220,6 +230,8 @@ def ajax_admin_chat_send(request):
                     ):
                         if chunk.get('type') == 'text':
                             yield _sse({'type': 'text', 'content': chunk.get('content', '')})
+                        elif chunk.get('type') in ('reasoning', 'thought', 'thinking'):
+                            yield _sse({'type': 'thought', 'content': chunk.get('content', '')})
                         elif chunk.get('type') == 'error':
                             yield _sse({'type': 'error', 'message': chunk.get('error', 'upstream error')})
                             break

@@ -112,6 +112,9 @@ rm -f api/coding_agent/queue.py
 echo 'Retired files cleaned.'
 
 source /home/consicac/virtualenv/nebians_api/3.13/bin/activate
+export OPENBLAS_NUM_THREADS=1
+export OMP_NUM_THREADS=1
+export MKL_NUM_THREADS=1
 
 echo 'Sanity: Django check (catches missing/broken modules early)...'
 python manage.py check 2>&1 | tail -2 || echo 'WARNING: manage.py check reported issues'

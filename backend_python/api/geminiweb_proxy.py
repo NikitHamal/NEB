@@ -78,7 +78,7 @@ class _GeminiSession:
         self.proxy = proxy
         self.session = CurlSession(impersonate="chrome", timeout=REQUEST_TIMEOUT)
         self.fsid = ""
-        self.bl = "boq_assistant-bard-web-server_20260819.10_p0"
+        self.bl = "boq_assistant-bard-web-server_20260827.05_p0"
         self.conversation_id = ""
         self.response_id = ""
         self.reqid = random.randint(100000, 999999)
