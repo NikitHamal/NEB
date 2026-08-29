@@ -8,9 +8,9 @@
 <meta name="description" content="Chat your assignments, reports and resumes into existence. Lazy drafts, revises, extends and exports documents while you talk.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{% static 'web/css/ai-widgets.css' %}?v=35">
-<link rel="stylesheet" href="{% static 'web/css/lazy_harness.css' %}?v=35">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'web/css/ai-widgets.css' %}?v=70">
+<link rel="stylesheet" href="{% static 'web/css/lazy_harness.css' %}?v=70">
 <meta name="theme-color" content="#1b1c22">
 </head>
 <body data-authenticated="{{ is_authenticated|yesno:'true,false' }}">
@@ -26,12 +26,12 @@ window.LAZY_CONFIG = {
   credits: { unlimited: {{ lazy_credits.unlimited|yesno:'true,false' }}, remaining: {{ lazy_credits.remaining }} }
 };
 </script>
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/ai-widgets.js' %}?v=35"></script>
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/lazy/icons.js' %}?v=35"></script>
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/lazy/primitives.js' %}?v=35"></script>
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/lazy/records_table.js' %}?v=35"></script>
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/lazy/prompt_bar.js' %}?v=35"></script>
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/lazy/harness.js' %}?v=35"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/ai-widgets.js' %}?v=70"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/lazy/icons.js' %}?v=70"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/lazy/primitives.js' %}?v=70"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/lazy/records_table.js' %}?v=70"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/lazy/prompt_bar.js' %}?v=70"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/lazy/harness.js' %}?v=70"></script>
 <script nonce="{{ csp_nonce }}">
 document.addEventListener("DOMContentLoaded", function() {
   var root = document.getElementById("lzRoot");

@@ -17,6 +17,7 @@ def _uuid():
 
 _CAPS = {
     'qwen':      {'stream': True,  'thinking': True,  'web_search': True,  'files': True},
+    'qwenfast':  {'stream': True,  'thinking': False, 'web_search': False, 'files': False},
     'egov':      {'stream': True,  'thinking': False, 'web_search': False, 'files': True},
     'deepai':    {'stream': True,  'thinking': True,  'web_search': False, 'files': True},
     'inception': {'stream': True,  'thinking': True,  'web_search': True,  'files': False},
@@ -52,6 +53,7 @@ PROVIDERS, MODEL_OPTIONS = _build_provider_lists()
 #   kind='legacy'  -> stream_chat(user_message=, model=, history=, system_prompt=), chunks {type:'content', text}
 #   kind='messages'-> stream_chat(messages=, model=...), chunks {type:'text'|'error', content/error}
 _SCRAPER_DISPATCH = {
+    'qwenfast':  ('messages', 'qwenfast_proxy'),
     'egov':      ('legacy', 'egov_proxy'),
     'deepai':    ('legacy', 'deepai_proxy'),
     'inception': ('messages', 'inception_proxy'),

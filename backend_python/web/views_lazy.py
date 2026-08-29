@@ -84,6 +84,7 @@ def _serialize_message(m):
         'docTitle': meta.get('docTitle') or '',
         'attachments': atts,
         'files': files,
+        'model': meta.get('model') or '',
         'createdAt': m.created_at,
     }
 
@@ -315,6 +316,7 @@ def ajax_lazy_chat(request, session_id):
             done = {
                 'type': 'done', 'id': str(assistant.id), 'content': assistant.content,
                 'tools': turn['tools'], 'docUpdated': turn['doc_updated'],
+                'model': turn.get('model') or '',
                 'credits': {'unlimited': unlimited2, 'remaining': remaining2, 'allowance': allowance},
             }
             yield f"data: {json.dumps(done, ensure_ascii=False)}\n\n"

@@ -320,6 +320,7 @@ def stream_turn(session, user, user_text, sink, sources=None, model_key="neby-pr
     """Generator: yields SSE-ready dict frames; on completion sets sink['turn']."""
     tools = []
     reply = []
+    used_model = ""
 
     def say(text):
         reply.append(text)
@@ -348,6 +349,7 @@ def stream_turn(session, user, user_text, sink, sources=None, model_key="neby-pr
             "reply": "".join(reply).strip() or "(no output)",
             "doc_updated": False,
             "files": collected_files,
+            "model": used_model or f"tool/{tool_id}",
         }
         return
 
@@ -449,6 +451,11 @@ def stream_turn(session, user, user_text, sink, sources=None, model_key="neby-pr
         for frame in stream_generate_doc(user, topic, pages=pages, doc_type=doc_type, model_key=model_key):
             if frame.get("type") == "doc_ready":
                 doc_result = frame
+                if frame.get("model"):
+                    used_model = frame.get("model") or used_model
+            elif frame.get("type") == "model":
+                used_model = frame.get("model") or used_model
+                yield frame
             else:
                 yield frame
         if doc_result:
@@ -490,6 +497,11 @@ def stream_turn(session, user, user_text, sink, sources=None, model_key="neby-pr
             for frame in stream_edit_doc(user, session.doc_html, instruction, model_key=model_key):
                 if frame.get("type") == "edit_ready":
                     edit_result = frame
+                    if frame.get("model"):
+                        used_model = frame.get("model") or used_model
+                elif frame.get("type") == "model":
+                    used_model = frame.get("model") or used_model
+                    yield frame
                 else:
                     yield frame
             if edit_result and edit_result.get("html"):
@@ -559,11 +571,16 @@ def stream_turn(session, user, user_text, sink, sources=None, model_key="neby-pr
                 else:
                     decision["think"] += content
                 yield {"type": "think", "content": content}
+            elif ctype == "model":
+                used_model = chunk.get("model") or chunk.get("content") or used_model
+                yield chunk
             elif (ctype in ("delta", "text")) and content:
                 got_any = True
                 reply.append(content)
                 yield {"type": "delta", "content": content}
             elif ctype == "done":
+                if chunk.get("model"):
+                    used_model = chunk.get("model") or used_model
                 break
         if not got_any:
             yield say("Here's where we stand — tell me what to draft or revise next.")
@@ -575,6 +592,7 @@ def stream_turn(session, user, user_text, sink, sources=None, model_key="neby-pr
         "reply": "".join(reply).strip() or "(no output)",
         "doc_updated": bool(session.doc_html and any(t["name"] in ("generate_doc", "edit_doc", "append_section") for t in tools)),
         "files": collected_files,
+        "model": used_model or "qwenfast/qwen3.8-27b",
     }
 
 
@@ -590,6 +608,7 @@ def persist_turn(session, turn_result):
             "docUpdated": turn_result["doc_updated"],
             "docTitle": session.doc_title or "",
             "files": turn_result.get("files") or [],
+            "model": turn_result.get("model") or "",
         }, ensure_ascii=False),
         created_at=now,
     )

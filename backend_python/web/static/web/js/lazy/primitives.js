@@ -38,121 +38,151 @@ function formatToolLabel(raw) {
 }
 
 var Primitives = {
-  /* ── Dot Matrix Thinking State with Live Timer ────────── */
+  /* ── ThinkingState — 4-variant expandable agent trace (Reasoning, Steps, Search, Coding) ── */
   createThinkingState: function(opts) {
     opts = opts || {};
-    var variant = opts.variant || "Steps";
-    var title = opts.title || (variant === "Search" ? "Searching the web" : "Thinking");
-    var doneTitle = opts.doneTitle || "Thought for a few moments";
-    var steps = opts.steps || [];
-    var isDone = opts.isDone === true;
+    var variant = opts.variant || (opts.think ? "Reasoning" : "Steps");
+    var activeTitle = opts.active || (variant === "Search" ? "Searching the web" : (variant === "Coding" ? "Running tools" : "Thinking"));
+    var doneTitle = opts.done || opts.doneTitle || "Thought for a few moments";
+    var working = opts.isDone !== true;
     var expanded = opts.expanded === true;
-    var startTime = Date.now();
-    var timerInterval = null;
+    var query = opts.query || "";
+    var rows = [];
+
+    if (opts.rows && opts.rows.length) {
+      rows = opts.rows.slice();
+    } else if (opts.steps && opts.steps.length) {
+      rows = opts.steps.map(function(s) {
+        if (typeof s === "string") return { primary: s };
+        return { primary: s.text || s.primary || "", secondary: s.secondary, done: s.done };
+      });
+    } else if (opts.think) {
+      var rawLines = String(opts.think).split(/\n+/).map(function(s){ return s.trim(); }).filter(Boolean);
+      rows = rawLines.map(function(l) { return { primary: l }; });
+    }
 
     var wrap = document.createElement("div");
-    wrap.className = "lz-think-container";
+    wrap.className = "lz-thinking-state";
 
     var btn = document.createElement("button");
     btn.type = "button";
-    btn.className = "lz-tool-header-btn" + (isDone ? " is-done" : "");
+    btn.className = "lz-think-header-btn" + (working ? " is-working" : "");
+    btn.setAttribute("aria-expanded", String(expanded));
 
-    var matrixHtml = '<span class="lz-matrix-dots">' +
-      '<span class="lz-matrix-dot"></span><span class="lz-matrix-dot"></span>' +
-      '<span class="lz-matrix-dot"></span><span class="lz-matrix-dot"></span>' +
-      '<span class="lz-matrix-dot"></span><span class="lz-matrix-dot"></span>' +
-      '</span>';
-
-    var durationSpan = document.createElement("span");
-    durationSpan.className = "lz-think-duration";
-    durationSpan.textContent = isDone ? "" : "0.1s";
+    var sparkleSvg = '<svg width="16" height="16" viewBox="0 0 24 24" class="lz-think-sparkle" fill="' + (working ? "var(--ink-2)" : "var(--ink-3)") + '"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8z"/></svg>';
+    var chevronSvg = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ink-3)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="lz-think-chevron" style="transform:' + (expanded ? 'rotate(180deg)' : 'rotate(0)') + '"><path d="M6 9l6 6 6-6"/></svg>';
 
     var labelSpan = document.createElement("span");
-    labelSpan.className = "lz-think-label";
-    labelSpan.textContent = isDone ? doneTitle : title;
+    labelSpan.className = "lz-think-label-holder";
+    if (working) {
+      labelSpan.innerHTML = '<span class="lz-think-shimmer">' + esc(activeTitle) + '</span>';
+    } else {
+      labelSpan.innerHTML = '<span class="lz-think-done-text">' + esc(doneTitle) + '</span>';
+    }
 
-    btn.innerHTML = matrixHtml;
+    btn.innerHTML = sparkleSvg;
     btn.appendChild(labelSpan);
-    btn.appendChild(durationSpan);
+    btn.insertAdjacentHTML('beforeend', chevronSvg);
 
-    var chevron = document.createElement("span");
-    chevron.className = "lz-chevron-icon";
-    chevron.innerHTML = I.chevronDown({ size: 12 });
-    btn.appendChild(chevron);
+    var grid = document.createElement("div");
+    grid.className = "lz-think-grid";
+    grid.style.gridTemplateRows = expanded ? "1fr" : "0fr";
+    grid.style.opacity = expanded ? "1" : "0";
 
-    var body = document.createElement("div");
-    body.className = "lz-think-box";
-    body.style.display = (expanded && steps.length > 0) ? "flex" : "none";
+    var clip = document.createElement("div");
+    clip.className = "lz-think-clip";
 
-    steps.forEach(function(st) {
-      var row = document.createElement("div");
-      row.className = "lz-think-step" + (st.done || isDone ? " done" : "");
-      var iconHtml = (st.done || isDone) ? I.check({ size: 12, className: "text-green" }) : '<span class="lz-tool-spin"></span>';
-      row.innerHTML = iconHtml + '<span>' + esc(st.text || st) + '</span>';
-      body.appendChild(row);
-    });
+    var trace = document.createElement("div");
+    trace.className = "lz-think-trace";
 
-    function updateDuration() {
-      if (isDone) return;
-      var sec = ((Date.now() - startTime) / 1000).toFixed(1);
-      durationSpan.textContent = sec + "s";
+    function renderRows() {
+      trace.innerHTML = "";
+      if (query && variant === "Search") {
+        var qEl = document.createElement("div");
+        qEl.className = "lz-think-row";
+        qEl.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ink-3)" stroke-width="2" stroke-linecap="round" style="flex-shrink:0"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><span class="lz-think-secondary">' + esc(query) + '</span>';
+        trace.appendChild(qEl);
+      }
+      rows.forEach(function(row, i) {
+        var rowEl = document.createElement("div");
+        var animStyle = 'animation:fade-up 320ms cubic-bezier(0.23,1,0.32,1) ' + (i * 80) + 'ms both;';
+        rowEl.setAttribute("style", animStyle);
+
+        if (variant === "Reasoning") {
+          rowEl.className = "lz-think-row lz-think-reasoning";
+          rowEl.innerHTML = '<span class="lz-think-primary">' + esc(row.primary) + '</span>';
+        } else if (variant === "Search") {
+          rowEl.className = "lz-think-row lz-think-row-search";
+          var tone = (i % 3 === 0) ? "bg-accent" : ((i % 3 === 1) ? "bg-orange" : "bg-green");
+          var dotHtml = '<span class="lz-think-dot ' + tone + '"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><path d="M3.5 12h17M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></span>';
+          var secHtml = row.secondary ? '<span class="lz-think-secondary">' + esc(row.secondary) + '</span>' : '';
+          rowEl.innerHTML = dotHtml + '<span class="lz-think-primary">' + esc(row.primary) + '</span>' + secHtml;
+          if (row.href) {
+            var a = document.createElement("a");
+            a.className = rowEl.className;
+            a.href = row.href;
+            a.target = "_blank";
+            a.rel = "noreferrer";
+            a.setAttribute("style", animStyle);
+            a.innerHTML = rowEl.innerHTML;
+            rowEl = a;
+          }
+        } else if (variant === "Coding") {
+          rowEl.className = "lz-think-row lz-think-row-coding";
+          var secMono = row.secondary ? '<span class="lz-think-secondary font-mono">' + esc(row.secondary) + '</span>' : '';
+          var diffHtml = '';
+          if (row.add != null) {
+            diffHtml = '<span class="lz-think-diff-nums"><span class="text-green">+' + row.add + '</span> <span class="text-red">−' + row.del + '</span></span>';
+          }
+          rowEl.innerHTML = '<span class="lz-think-primary">' + esc(row.primary) + '</span>' + secMono + diffHtml;
+        } else {
+          // Steps
+          rowEl.className = "lz-think-row";
+          var isDoneRow = row.done || !working;
+          var iconHtml = isDoneRow
+            ? '<svg class="lz-think-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ink-3)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M20 6L9 17l-5-5"/></svg>'
+            : '<span class="lz-think-step-spin"></span>';
+          var secText = row.secondary ? '<span class="lz-think-secondary">' + esc(row.secondary) + '</span>' : '';
+          rowEl.innerHTML = iconHtml + '<span class="lz-think-primary">' + esc(row.primary) + '</span>' + secText;
+        }
+        trace.appendChild(rowEl);
+      });
     }
 
-    if (!isDone) {
-      timerInterval = setInterval(updateDuration, 100);
-    }
+    renderRows();
+    clip.appendChild(trace);
+    grid.appendChild(clip);
 
+    var chevronEl = btn.querySelector(".lz-think-chevron");
     btn.addEventListener("click", function() {
-      if (!body.children.length) return;
+      if (!rows.length) return;
       expanded = !expanded;
-      body.style.display = expanded ? "flex" : "none";
-      chevron.style.transform = expanded ? "rotate(180deg)" : "rotate(0)";
+      btn.setAttribute("aria-expanded", String(expanded));
+      if (chevronEl) chevronEl.style.transform = expanded ? "rotate(180deg)" : "rotate(0)";
+      grid.style.gridTemplateRows = expanded ? "1fr" : "0fr";
+      grid.style.opacity = expanded ? "1" : "0";
     });
 
     wrap.appendChild(btn);
-    wrap.appendChild(body);
+    wrap.appendChild(grid);
 
     return {
       el: wrap,
       addStep: function(text, done) {
-        body.querySelectorAll(".lz-think-step:not(.done)").forEach(function(el) {
-          el.classList.add("done");
-          var spin = el.querySelector(".lz-tool-spin");
-          if (spin) spin.outerHTML = I.check({ size: 12, className: "text-green" });
-        });
-
-        var row = document.createElement("div");
-        row.className = "lz-think-step" + (done ? " done" : "");
-        var iconHtml = done ? I.check({ size: 12, className: "text-green" }) : '<span class="lz-tool-spin"></span>';
-        row.innerHTML = iconHtml + '<span>' + esc(text) + '</span>';
-        body.appendChild(row);
-
-        if (expanded) {
-          body.style.display = "flex";
-        }
+        rows.push({ primary: text, done: done });
+        renderRows();
+      },
+      addRow: function(rowObj) {
+        rows.push(rowObj);
+        renderRows();
       },
       setDone: function(finalTitle) {
-        isDone = true;
-        if (timerInterval) {
-          clearInterval(timerInterval);
-          timerInterval = null;
-        }
-        var totalSec = ((Date.now() - startTime) / 1000).toFixed(1);
-        btn.classList.add("is-done");
-        labelSpan.textContent = finalTitle || ("Thought for " + totalSec + "s");
-        durationSpan.textContent = "";
-        
-        var dots = btn.querySelectorAll(".lz-matrix-dot");
-        dots.forEach(function(d) {
-          d.style.animation = "none";
-          d.style.opacity = "0.5";
-        });
-
-        body.querySelectorAll(".lz-think-step").forEach(function(el) {
-          el.classList.add("done");
-          var spin = el.querySelector(".lz-tool-spin");
-          if (spin) spin.outerHTML = I.check({ size: 12, className: "text-green" });
-        });
+        working = false;
+        btn.classList.remove("is-working");
+        var sparkle = btn.querySelector(".lz-think-sparkle");
+        if (sparkle) sparkle.setAttribute("fill", "var(--ink-3)");
+        labelSpan.innerHTML = '<span class="lz-think-done-text">' + esc(finalTitle || doneTitle) + '</span>';
+        renderRows();
       }
     };
   },
