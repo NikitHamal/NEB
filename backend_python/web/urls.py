@@ -46,6 +46,7 @@ urlpatterns = [
     path('results/check/', views.result_check_page, name='result_check'),
     path('tools/', views.tools_hub, name='tools_hub'),
     path('tools/docs/', views_tools.doc_tools_page, name='doc_tools'),
+    path('tools/p5-art/', views_tools.p5_art_studio_page, name='p5_art_studio'),
     path('tools/intelligence/', views_tools.intelligence_tools_page, name='intelligence_tools'),
     path('tools/run/', views_tools.ajax_tools_run, name='tools_run'),
     path('ajax/results/check/', views.ajax_check_result, name='ajax_check_result'),

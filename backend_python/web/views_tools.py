@@ -26,6 +26,12 @@ def doc_tools_page(request):
 
 
 @require_GET
+def p5_art_studio_page(request):
+    ctx = _ctx(request)
+    return render(request, 'web/p5_art_studio.html', ctx)
+
+
+@require_GET
 def intelligence_tools_page(request):
     ctx = _ctx(request)
     on_device_registry = [
