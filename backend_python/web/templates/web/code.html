@@ -1,155 +1,46 @@
-{% extends 'base.html' %}
 {% load static %}
-{% block title %}Neby Code — local AI IDE{% endblock %}
-{% block description %}Neby Code connects Neby models to your local workspace with file, terminal, and Git access.{% endblock %}
-{% block canonical %}https://nebians.consica.com.np/code/{% endblock %}
-{% block robots %}<meta name="robots" content="noindex">{% endblock %}
-{% block topbar %}{% endblock %}
-{% block footer %}{% endblock %}
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'web/css/pages/code_ui.css' %}">
-<link rel="stylesheet" href="{% static 'web/css/pages/code_tree.css' %}">
-<link rel="stylesheet" href="{% static 'web/css/pages/web-code.css' %}">
-{% endblock %}
-{% block content %}
-<div class="nc-app" id="ncApp" data-theme="light">
-  <aside class="nc-rail" id="ncRail" aria-label="Neby Code navigation">
-    <div class="nc-rail-top">
-      <div class="nc-account-row">
-        <a class="nc-account" href="{% url 'web:profile' user_data.username|default:'nebian' %}">
-          <img class="nc-avatar" id="ncRailAvatarImg" src="{{ avatar_url|default:'/avatar/nebian/?size=64' }}" alt="">
-          <span class="nc-account-copy">
-            <strong>{{ user_data.username|default:'nebian' }}</strong>
-            <span class="nc-machine-state"><i id="ncDaemonDot"></i><span id="ncDaemonLabel">Local machine offline</span></span>
-          </span>
-        </a>
-        <button type="button" class="ncu-iconbtn nc-search-trigger" id="ncRailSearchBtn" aria-label="Search sessions"><span class="material-symbols-outlined">search</span></button>
-      </div>
-      <div id="ncSearchMount"></div>
-      <nav class="nc-primary-nav" aria-label="Workspace actions">
-        <button type="button" class="nc-nav-row" id="ncNewSessionBtn"><span class="material-symbols-outlined">add</span><span>New session</span></button>
-        <button type="button" class="nc-nav-row" id="ncOpenWorkspaceBtn"><span class="material-symbols-outlined">folder_open</span><span>Workspace files</span></button>
-        <button type="button" class="nc-nav-row" id="ncConnectRailBtn"><span class="material-symbols-outlined">computer</span><span>Connect local machine</span></button>
-      </nav>
-    </div>
+<!DOCTYPE html>
+<html lang="en" {% if dark_mode %}data-theme="dark"{% endif %}>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neby Code — local AI IDE — NEBians</title>
+<meta name="description" content="Neby Code connects Neby models to your local workspace with file, terminal, and Git access.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'web/css/ai-widgets.css' %}?v=88">
+<link rel="stylesheet" href="{% static 'web/css/lazy_harness.css' %}?v=88">
+<link rel="stylesheet" href="{% static 'web/css/code_harness.css' %}?v=88">
+<meta name="theme-color" content="#1b1c22">
+</head>
+<body data-authenticated="{{ is_authenticated|yesno:'true,false' }}">
+{% csrf_token %}
+<div id="codeRoot"></div>
 
-    <div class="nc-rail-scroll">
-      <div id="ncWorkspaceMount"></div>
-    </div>
-
-    <div class="nc-rail-bottom">
-      <div id="ncThemeMount"></div>
-      <a class="nc-nav-row" href="{% url 'web:settings' %}"><span class="material-symbols-outlined">settings</span><span>Settings</span></a>
-      <button type="button" class="nc-machine-card" id="ncConnectBtn">
-        <span class="nc-machine-icon"><span class="material-symbols-outlined">terminal</span></span>
-        <span><strong>Local runtime</strong><small id="ncMachineCardCopy">Connect to code on this machine</small></span>
-        <span class="material-symbols-outlined">chevron_right</span>
-      </button>
-    </div>
-  </aside>
-  <button type="button" class="nc-scrim" id="ncRailScrim" aria-label="Close navigation"></button>
-
-  <main class="nc-main" id="ncMain">
-    <header class="nc-mobile-head">
-      <button type="button" class="ncu-iconbtn" id="ncMenuBtnMobile" aria-label="Open navigation"><span class="material-symbols-outlined">menu</span></button>
-      <strong>Neby Code</strong>
-      <button type="button" class="ncu-iconbtn" id="ncPanelBtnMobile" aria-label="Open workspace panel"><span class="material-symbols-outlined">code</span></button>
-    </header>
-
-    <header class="nc-chat-head">
-      <div class="nc-breadcrumb" aria-label="Current coding session">
-        <span class="material-symbols-outlined">folder</span>
-        <span id="ncCrumbRoot">local workspace</span>
-        <span class="nc-separator">›</span>
-        <strong id="ncCrumbName">New session</strong>
-      </div>
-      <div class="nc-head-actions">
-        <button type="button" class="ncu-iconbtn" id="ncShareBtn" title="Copy session link"><span class="material-symbols-outlined">ios_share</span></button>
-        <button type="button" class="ncu-iconbtn" id="ncMoreBtn" title="Session actions"><span class="material-symbols-outlined">more_horiz</span></button>
-        <button type="button" class="ncu-iconbtn" id="ncTogglePanelBtn" title="Toggle workspace panel"><span class="material-symbols-outlined">dock_to_right</span></button>
-      </div>
-    </header>
-
-    <section class="nc-transcript" id="ncTranscript" aria-live="polite"></section>
-
-    <footer class="nc-composer-zone">
-      <div class="nc-composer-shell" id="ncComposerOuter">
-        <div class="nc-composer-glow" aria-hidden="true"></div>
-        <div class="nc-composer">
-          <button type="button" class="nc-add-btn" id="ncAttachBtn" aria-label="Workspace actions"><span class="material-symbols-outlined">add</span></button>
-          <textarea id="ncInput" rows="1" maxlength="48000" placeholder="Ask Neby to inspect, edit, run, or verify your code…" aria-label="Message Neby Code"></textarea>
-          <button type="button" class="nc-model-chip" id="ncModelChip"><span id="ncModelChipLabel">Model</span><span class="material-symbols-outlined">expand_less</span></button>
-          <button type="button" class="ncu-iconbtn nc-mic" id="ncMicBtn" aria-label="Voice input"><span class="material-symbols-outlined">mic</span></button>
-          <button type="button" class="nc-send" id="ncSendBtn" aria-label="Send"><span class="material-symbols-outlined">arrow_upward</span></button>
-        </div>
-      </div>
-      <div class="nc-runtime-bar">
-        <div>
-          <button type="button" class="nc-runtime-chip" id="ncBranchChip" title="Current Git branch"><span class="material-symbols-outlined">account_tree</span><span id="ncBranchLabel">—</span></button>
-          <button type="button" class="nc-runtime-chip" id="ncProjectChip" title="Local workspace"><span class="material-symbols-outlined">folder</span><span id="ncProjectLabel">No workspace</span></button>
-        </div>
-        <div>
-          <button type="button" class="nc-runtime-chip" id="ncAgentChip"><span class="material-symbols-outlined">all_inclusive</span><span id="ncAgentLabel">Agent</span><span class="material-symbols-outlined">expand_more</span></button>
-          <div id="ncRingMount"></div>
-        </div>
-      </div>
-    </footer>
-  </main>
-
-  <aside class="nc-panel" id="ncPanel" aria-label="Local workspace">
-    <header class="nc-panel-head">
-      <div class="nc-panel-tabs" role="tablist">
-        <button type="button" class="nc-ptab active" data-tab="changes"><span class="material-symbols-outlined">difference</span>Changes</button>
-        <button type="button" class="nc-ptab" data-tab="files"><span class="material-symbols-outlined">folder_open</span>Files</button>
-        <button type="button" class="nc-ptab" data-tab="term"><span class="material-symbols-outlined">terminal</span>Terminal</button>
-      </div>
-      <div class="nc-panel-actions">
-        <button type="button" class="ncu-iconbtn sm" id="ncPanelRefresh" title="Refresh active panel"><span class="material-symbols-outlined">refresh</span></button>
-        <button type="button" class="ncu-iconbtn sm" id="ncPanelClose" title="Hide panel"><span class="material-symbols-outlined">right_panel_close</span></button>
-      </div>
-    </header>
-
-    <section class="nc-panel-page" data-page="changes">
-      <div class="nc-changes-layout">
-        <div id="ncChangesMount" class="nc-changes-list"></div>
-        <div class="nc-diff" id="ncDiffView">
-          <div class="nc-panel-empty"><span class="material-symbols-outlined">difference</span><strong>No change selected</strong><span>Select a changed file to inspect its Git diff.</span></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="nc-panel-page" data-page="files" hidden>
-      <div class="nc-file-toolbar">
-        <span class="nc-cwd" id="ncCwd">Local workspace</span>
-        <button type="button" class="ncu-iconbtn sm" id="ncNewFolder" title="New folder"><span class="material-symbols-outlined">create_new_folder</span></button>
-        <button type="button" class="ncu-iconbtn sm" id="ncNewFile" title="New file"><span class="material-symbols-outlined">note_add</span></button>
-      </div>
-      <div class="nc-files-layout">
-        <div class="nc-filetree" id="ncTreeMount"></div>
-        <div class="nc-editor-mount" id="ncEditorMount"></div>
-      </div>
-    </section>
-
-    <section class="nc-panel-page" data-page="term" hidden>
-      <div id="ncTermMount" class="nc-terminal-mount"></div>
-    </section>
-  </aside>
-  <button type="button" class="nc-panel-scrim" id="ncPanelScrim" aria-label="Close workspace panel"></button>
-</div>
-{% endblock %}
-{% block extra_js %}
-<script nonce="{{ csp_nonce|default:request.csp_nonce }}">window.CODE_BOOT = {
-  sessions: JSON.parse('{{ code_sessions_json|escapejs }}'),
+<script nonce="{{ csp_nonce|default:request.csp_nonce }}">
+window.CODE_BOOT = {
+  sessions: {{ code_sessions_json|default:'[]'|safe }},
+  initial_session_id: "{{ initial_session_id|default:''|escapejs }}",
   daemonOnline: {{ daemon_online|yesno:'true,false' }},
-  daemonInfo: JSON.parse('{{ daemon_info_json|escapejs }}'),
-  models: JSON.parse('{{ code_models_json|escapejs }}'),
+  daemonInfo: {{ daemon_info_json|default:'{}'|safe }},
+  models: {{ code_models_json|default:'{}'|safe }},
   csrf: '{{ csrf_token }}',
   username: '{{ user_data.username|default:"nebian"|escapejs }}'
-};</script>
-<script nonce="{{ csp_nonce|default:request.csp_nonce }}" src="{% static 'web/js/code_ui.js' %}?v=20260825i"></script>
-<script nonce="{{ csp_nonce|default:request.csp_nonce }}" src="{% static 'web/js/code_panels.js' %}?v=20260825i"></script>
-<script nonce="{{ csp_nonce|default:request.csp_nonce }}" src="{% static 'web/js/code_api.js' %}?v=20260825i"></script>
-<script nonce="{{ csp_nonce|default:request.csp_nonce }}" src="{% static 'web/js/code_chat.js' %}?v=20260825i"></script>
-<script nonce="{{ csp_nonce|default:request.csp_nonce }}" src="{% static 'web/js/code_tree.js' %}?v=20260825i"></script>
-<script nonce="{{ csp_nonce|default:request.csp_nonce }}" src="{% static 'web/js/code_ide.js' %}?v=20260825i"></script>
-{% endblock %}
+};
+</script>
+<script nonce="{{ csp_nonce|default:request.csp_nonce }}" src="{% static 'web/js/ai-widgets.js' %}?v=88"></script>
+<script nonce="{{ csp_nonce|default:request.csp_nonce }}" src="{% static 'web/js/lazy/icons.js' %}?v=88"></script>
+<script nonce="{{ csp_nonce|default:request.csp_nonce }}" src="{% static 'web/js/lazy/primitives.js' %}?v=88"></script>
+<script nonce="{{ csp_nonce|default:request.csp_nonce }}" src="{% static 'web/js/code_api.js' %}?v=88"></script>
+<script nonce="{{ csp_nonce|default:request.csp_nonce }}" src="{% static 'web/js/code/code_harness.js' %}?v=88"></script>
+<script nonce="{{ csp_nonce|default:request.csp_nonce }}">
+document.addEventListener("DOMContentLoaded", function() {
+  var root = document.getElementById("codeRoot");
+  if (root && window.CodeHarness) {
+    window._codeHarness = new window.CodeHarness(root);
+  }
+});
+</script>
+</body>
+</html>

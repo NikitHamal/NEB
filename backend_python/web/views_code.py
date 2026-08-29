@@ -101,8 +101,19 @@ def _serialize_message(message):
     }
 
 
+DISALLOWED_MODEL_SUBSTRINGS = (
+    'tts', 'whisper', 'audio', 'speech', 'voice',
+    'flux', 'stable-diffusion', 'sdxl', 'dall-e', 'midjourney',
+    'embedding', 'embed', 'realtime', 'moderation',
+)
+
+
+def _is_valid_code_model(model_id: str, label: str) -> bool:
+    low = (str(model_id or '') + ' ' + str(label or '')).lower()
+    return not any(sub in low for sub in DISALLOWED_MODEL_SUBSTRINGS)
+
+
 PROVIDER_EFFORT_LEVELS = {
-    # provider slug -> effort keys the backend actually accepts, ordered fast -> smart
     'tryingopen': ['quick', 'balanced', 'deep'],
     'inception': ['low', 'medium', 'high'],
 }
@@ -113,19 +124,24 @@ def _code_model_catalog(user):
     groups = []
     for section in ('official', 'community'):
         for provider in raw.get(section) or []:
-            selectable = provider.get('available') and (
-                section == 'official' or provider.get('selectableForAgent', True)
-            )
+            available = bool(provider.get('available'))
+            if not available:
+                continue
+            selectable = section == 'official' or provider.get('selectableForAgent', True)
             effort_levels = PROVIDER_EFFORT_LEVELS.get(provider.get('slug'), [])
             models = []
             for model in provider.get('models') or []:
+                m_id = model.get('id') or ''
+                m_label = model.get('label') or m_id
+                if not _is_valid_code_model(m_id, m_label):
+                    continue
                 cw = model.get('context_window') or provider.get('contextWindow') or 131072
                 models.append({
-                    'value': f'{provider["slug"]}||{model.get("id") or ""}',
+                    'value': f'{provider["slug"]}||{m_id}',
                     'provider': provider['slug'],
                     'provider_id': '',
-                    'model': model.get('id') or '',
-                    'label': model.get('label') or model.get('id') or '',
+                    'model': m_id,
+                    'label': m_label,
                     'note': model.get('note') or provider.get('freeNote') or '',
                     'available': bool(selectable),
                     'context_window': int(cw),
@@ -144,13 +160,17 @@ def _code_model_catalog(user):
         models = []
         custom_id = str(provider.get('id') or '')
         for model in provider.get('models') or []:
+            m_id = model.get('id') or ''
+            m_label = model.get('label') or m_id
+            if not _is_valid_code_model(m_id, m_label):
+                continue
             cw = model.get('context_window') or provider.get('contextWindow') or 131072
             models.append({
-                'value': f'custom|{custom_id}|{model.get("id") or ""}',
+                'value': f'custom|{custom_id}|{m_id}',
                 'provider': 'custom',
                 'provider_id': custom_id,
-                'model': model.get('id') or '',
-                'label': model.get('label') or model.get('id') or 'Custom model',
+                'model': m_id,
+                'label': m_label or 'Custom model',
                 'note': provider.get('label') or 'Custom provider',
                 'available': bool(provider.get('available')),
                 'context_window': int(cw),
@@ -174,10 +194,11 @@ def _code_model_catalog(user):
     }
 
 
-def code_home(request):
+def code_home(request, session_id=None):
     user, _ = _current_user(request)
     if not user:
-        return redirect('%s?next=%s' % (reverse('web:login'), '/code/'))
+        next_url = f"/code/{session_id}/" if session_id else "/code/"
+        return redirect('%s?next=%s' % (reverse('web:login'), next_url))
     if not _is_admin_user(user, request):
         return HttpResponseForbidden("Access restricted to administrators.")
     sessions = list(CodeSession.objects.filter(user_id=str(user.id))[:80])
@@ -195,6 +216,7 @@ def code_home(request):
         code_models_json=json.dumps(catalog),
     )
     ctx['page_title'] = 'Neby Code'
+    ctx['initial_session_id'] = str(session_id or request.GET.get('session') or '')
     return render(request, 'web/code.html', ctx)
 
 

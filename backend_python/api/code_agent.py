@@ -24,14 +24,15 @@ _QWEN_FN_RE = re.compile(r'✿FUNCTION✿\s*:\s*([A-Za-z_][\w\-]*)\s*✿ARGS✿\
 
 REFUSAL_PATTERNS = [
     r"no\s+filesystem",
+    r"reality\s+check",
+    r"don(?:'t|not)\s+(?:actually\s+)?have\s+(?:live\s+)?(?:filesystem|local|file|repo)\s+access",
     r"can(?:'t|not)\s+(?:directly\s+)?(?:browse|inspect|access|read|view)\s+(?:your|the)?\s*(?:local|repo|workspace|files|code)",
     r"looking\s+at\s+my\s+available\s+tools",
-    r"reality\s+check\s+on\s+my\s+access",
     r"don(?:'t|not)\s+(?:actually\s+)?see\s+the\s+local",
-    r"paste\s+(?:the|your)\s+code",
+    r"paste\s+(?:the|your)\s+(?:relevant\s+)?(?:files|code|directory)",
     r"share\s+(?:the|your)\s+snippets",
     r"i(?:'ve| have)\s+got\s*:\s*web_search",
-    r"only\s+have\s+access\s+to\s+web",
+    r"only\s+have\s+(?:access\s+to\s+web|web\s+search)",
     r"no\s+worries\s+though\s*[—–-]\s*here\s+are\s+your\s+options",
 ]
 REFUSAL_RE = re.compile('|'.join(REFUSAL_PATTERNS), re.IGNORECASE)
