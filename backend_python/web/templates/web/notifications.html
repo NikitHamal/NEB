@@ -54,19 +54,22 @@
         {% for n in notifications %}
           <div class="notif-card {% if not n.is_read %}unread{% endif %}" data-id="{{ n.id }}" data-read="{{ n.is_read|yesno:'true,false' }}" data-url="{{ n.url }}">
             <!-- Left Avatar / Icon -->
-            <div class="notif-avatar-col notif-icon-{{ n.icon_theme }}">
-              {% if n.actor_photo_url %}
-                <a class="notif-avatar-link" href="{% if n.actor_name %}{% url 'web:profile' username=n.actor_name %}{% else %}#{% endif %}" title="View {{ n.actor_name }}'s profile">
-                  <img src="{{ n.actor_photo_url }}" alt="{{ n.actor_name }}" onerror="this.style.display='none'; this.parentElement.parentElement.classList.add('notif-icon-{{ n.icon_theme }}'); this.parentElement.parentElement.innerHTML='<span class=\'material-symbols-outlined\'>{{ n.icon_name }}</span>';">
-                </a>
-              {% elif n.actor_name and n.verb != 'system' and n.verb != 'resource_approved' and n.verb != 'resource_rejected' %}
-                <a class="notif-avatar-link" href="{% url 'web:profile' username=n.actor_name %}" title="View {{ n.actor_name }}'s profile">
-                  <div class="notif-avatar-fallback">{{ n.actor_name|first|upper }}</div>
-                </a>
-              {% else %}
+            {% if n.actor_photo_url or (n.actor_name and n.verb != 'system' and n.verb != 'resource_approved' and n.verb != 'resource_rejected') %}
+              <a class="notif-avatar-link" href="{% if n.actor_name %}{% url 'web:profile' username=n.actor_name %}{% else %}#{% endif %}" title="View {{ n.actor_name }}'s profile">
+                <div class="notif-avatar-col notif-avatar-real">
+                  {% if n.actor_photo_url %}
+                    <img src="{{ n.actor_photo_url }}" alt="{{ n.actor_name }}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="notif-avatar-fallback" style="display:none;">{{ n.actor_name|first|upper }}</div>
+                  {% else %}
+                    <div class="notif-avatar-fallback">{{ n.actor_name|first|upper }}</div>
+                  {% endif %}
+                </div>
+              </a>
+            {% else %}
+              <div class="notif-avatar-col notif-icon-{{ n.icon_theme }}">
                 <span class="material-symbols-outlined">{{ n.icon_name }}</span>
-              {% endif %}
-            </div>
+              </div>
+            {% endif %}
 
             <!-- Content Area -->
             <div class="notif-content">
@@ -373,21 +376,32 @@
       const profileUrl = actorName ? `/profile/${encodeURIComponent(actorName)}/` : '#';
       
       let avatarHtml = '';
-      if (n.actor_photo_url) {
-        avatarHtml = `
-          <a class="notif-avatar-link" href="${profileUrl}" title="View ${actorName}'s profile">
-            <img src="${escapeHtml(n.actor_photo_url)}" alt="${actorName}" onerror="this.style.display='none'; this.parentElement.parentElement.classList.add('notif-icon-${n.icon_theme}'); this.parentElement.parentElement.innerHTML='<span class=\\'material-symbols-outlined\\'>${escapeHtml(n.icon_name)}</span>';">
-          </a>
-        `;
-      } else if (actorName && n.verb !== 'system' && n.verb !== 'resource_approved' && n.verb !== 'resource_rejected') {
-        const initial = actorName.charAt(0).toUpperCase();
-        avatarHtml = `
-          <a class="notif-avatar-link" href="${profileUrl}" title="View ${actorName}'s profile">
-            <div class="notif-avatar-fallback">${initial}</div>
-          </a>
-        `;
+      if (n.actor_photo_url || (actorName && n.verb !== 'system' && n.verb !== 'resource_approved' && n.verb !== 'resource_rejected')) {
+        const initial = actorName ? actorName.charAt(0).toUpperCase() : '?';
+        if (n.actor_photo_url) {
+          avatarHtml = `
+            <a class="notif-avatar-link" href="${profileUrl}" title="View ${actorName}'s profile">
+              <div class="notif-avatar-col notif-avatar-real">
+                <img src="${escapeHtml(n.actor_photo_url)}" alt="${actorName}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="notif-avatar-fallback" style="display:none;">${initial}</div>
+              </div>
+            </a>
+          `;
+        } else {
+          avatarHtml = `
+            <a class="notif-avatar-link" href="${profileUrl}" title="View ${actorName}'s profile">
+              <div class="notif-avatar-col notif-avatar-real">
+                <div class="notif-avatar-fallback">${initial}</div>
+              </div>
+            </a>
+          `;
+        }
       } else {
-        avatarHtml = `<span class="material-symbols-outlined">${escapeHtml(n.icon_name)}</span>`;
+        avatarHtml = `
+          <div class="notif-avatar-col notif-icon-${escapeHtml(n.icon_theme || 'emerald')}">
+            <span class="material-symbols-outlined">${escapeHtml(n.icon_name || 'notifications')}</span>
+          </div>
+        `;
       }
 
       let actionsHtml = '';
@@ -406,9 +420,7 @@
 
       html += `
         <div class="notif-card ${unreadClass}" data-id="${escapeHtml(n.id)}" data-read="${isReadVal}" data-url="${escapeHtml(n.url || '#')}">
-          <div class="notif-avatar-col notif-icon-${escapeHtml(n.icon_theme)}">
-            ${avatarHtml}
-          </div>
+          ${avatarHtml}
           <div class="notif-content">
             <div class="notif-card-header">
               <h4 class="notif-title">${escapeHtml(n.title)}</h4>
@@ -670,20 +682,32 @@
     }
 
     let avatarHtml = '';
-    if (actorPhoto) {
-      avatarHtml = `
-        <a class="notif-avatar-link" href="${profileUrl}" title="View ${escapeHtml(actorName)}'s profile">
-          <img src="${escapeHtml(actorPhoto)}" alt="${escapeHtml(actorName)}" onerror="this.style.display='none'; this.parentElement.parentElement.classList.add('notif-icon-${iconTheme}'); this.parentElement.parentElement.innerHTML='<span class=\\'material-symbols-outlined\\'>${iconName}</span>';">
-        </a>
-      `;
-    } else if (actorName && verb !== 'system') {
-      avatarHtml = `
-        <a class="notif-avatar-link" href="${profileUrl}" title="View ${escapeHtml(actorName)}'s profile">
-          <div class="notif-avatar-fallback">${escapeHtml(actorName.charAt(0).toUpperCase())}</div>
-        </a>
-      `;
+    if (actorPhoto || (actorName && verb !== 'system' && verb !== 'resource_approved' && verb !== 'resource_rejected')) {
+      const initial = actorName ? actorName.charAt(0).toUpperCase() : '?';
+      if (actorPhoto) {
+        avatarHtml = `
+          <a class="notif-avatar-link" href="${profileUrl}" title="View ${escapeHtml(actorName)}'s profile">
+            <div class="notif-avatar-col notif-avatar-real">
+              <img src="${escapeHtml(actorPhoto)}" alt="${escapeHtml(actorName)}" loading="lazy" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='flex';">
+              <div class="notif-avatar-fallback" style="display:none;">${initial}</div>
+            </div>
+          </a>
+        `;
+      } else {
+        avatarHtml = `
+          <a class="notif-avatar-link" href="${profileUrl}" title="View ${escapeHtml(actorName)}'s profile">
+            <div class="notif-avatar-col notif-avatar-real">
+              <div class="notif-avatar-fallback">${initial}</div>
+            </div>
+          </a>
+        `;
+      }
     } else {
-      avatarHtml = `<span class="material-symbols-outlined">${iconName}</span>`;
+      avatarHtml = `
+        <div class="notif-avatar-col notif-icon-${iconTheme}">
+          <span class="material-symbols-outlined">${iconName}</span>
+        </div>
+      `;
     }
 
     let actionsHtml = '';
@@ -705,9 +729,7 @@
     card.dataset.url = url;
 
     card.innerHTML = `
-      <div class="notif-avatar-col notif-icon-${iconTheme}">
-        ${avatarHtml}
-      </div>
+      ${avatarHtml}
       <div class="notif-content">
         <div class="notif-card-header">
           <h4 class="notif-title">${escapeHtml(title)}</h4>

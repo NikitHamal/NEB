@@ -1,8 +1,8 @@
-/* Notifications Page & Card UI - Next-Level Polish */
+/* Notifications Page & Card UI - Minimal & Clean */
 
 .notif-container {
   max-width: 660px;
-  margin: 28px auto 48px;
+  margin: 24px auto 48px;
   padding: 0 16px;
   font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
@@ -10,15 +10,13 @@
 .notif-card-wrapper {
   background: var(--md-surface, #ffffff);
   border: 1px solid var(--md-outline-variant, #f1f5f9);
-  border-radius: 24px;
+  border-radius: 20px;
   padding: 24px;
-  box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.04), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
 }
 
 [data-theme="dark"] .notif-card-wrapper {
   background: var(--md-surface, #1e293b);
   border-color: rgba(255, 255, 255, 0.08);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
 }
 
 /* Header */
@@ -63,25 +61,17 @@
   cursor: pointer;
   padding: 8px 16px;
   border-radius: 12px;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   white-space: nowrap;
+  transition: background 0.15s ease;
 }
 
 .notif-mark-all-btn:hover {
   background: #d1fae5;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(22, 163, 74, 0.15);
-}
-
-.notif-mark-all-btn:active {
-  transform: translateY(0);
 }
 
 .notif-mark-all-btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
 }
 
 [data-theme="dark"] .notif-mark-all-btn {
@@ -91,13 +81,12 @@
 
 [data-theme="dark"] .notif-mark-all-btn:hover {
   background: rgba(34, 197, 94, 0.24);
-  box-shadow: 0 2px 8px rgba(74, 222, 128, 0.15);
 }
 
-/* Filter Tabs / Segmented Control */
+/* Filter Tabs (Segmented Control) */
 .notif-tabs {
   background: var(--md-surface-container-low, #f1f5f9);
-  border-radius: 14px;
+  border-radius: 12px;
   padding: 4px;
   display: flex;
   gap: 4px;
@@ -119,7 +108,7 @@
   align-items: center;
   justify-content: center;
   padding: 8px 16px;
-  border-radius: 10px;
+  border-radius: 9px;
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--md-on-surface-variant, #64748b);
@@ -127,9 +116,9 @@
   border: none;
   background: transparent;
   text-decoration: none;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   white-space: nowrap;
   user-select: none;
+  transition: color 0.15s ease, background 0.15s ease;
 }
 
 .notif-tab-item:hover {
@@ -146,13 +135,13 @@
   background: var(--md-surface, #ffffff);
   color: var(--md-on-surface, #0f172a);
   font-weight: 600;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 [data-theme="dark"] .notif-tab-item.active {
   background: #334155;
   color: #f8fafc;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  box-shadow: none;
 }
 
 .notif-tab-count {
@@ -185,15 +174,15 @@
 .notif-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   position: relative;
 }
 
-/* Notification Card */
+/* Notification Card - Minimal & Clean (No Hover Transform) */
 .notif-card {
   background: var(--md-surface, #ffffff);
   border: 1px solid var(--md-outline-variant, #f1f5f9);
-  border-radius: 18px;
+  border-radius: 16px;
   padding: 16px 18px;
   display: flex;
   gap: 14px;
@@ -202,27 +191,22 @@
   position: relative;
   text-decoration: none;
   color: inherit;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+  transition: background 0.15s ease, border-color 0.15s ease;
 }
 
 .notif-card:hover {
-  background: #ffffff;
+  background: #f8fafc;
   border-color: #e2e8f0;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
-  transform: translateY(-1px);
 }
 
 [data-theme="dark"] .notif-card {
   background: var(--md-surface-container, #1e293b);
   border-color: rgba(255, 255, 255, 0.06);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
 }
 
 [data-theme="dark"] .notif-card:hover {
   background: #24334a;
   border-color: rgba(255, 255, 255, 0.12);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
 .notif-card.unread {
@@ -235,26 +219,9 @@
   border-color: rgba(255, 255, 255, 0.1);
 }
 
-/* Newly added / live highlight */
 .notif-card.live-new {
-  animation: notifHighlight 2.5s ease-out forwards;
-}
-
-@keyframes notifHighlight {
-  0% {
-    background: #ecfdf5;
-    border-color: #a7f3d0;
-    transform: scale(0.98);
-  }
-  50% {
-    background: #f0fdf4;
-    border-color: #bbf7d0;
-  }
-  100% {
-    background: var(--md-surface, #ffffff);
-    border-color: var(--md-outline-variant, #f1f5f9);
-    transform: scale(1);
-  }
+  background: #f0fdf4;
+  border-color: #bbf7d0;
 }
 
 /* Avatar / Icon Column */
@@ -271,6 +238,16 @@
   font-size: 1rem;
 }
 
+.notif-avatar-real {
+  background: #e2e8f0;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="dark"] .notif-avatar-real {
+  background: #334155;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
 .notif-avatar-col img {
   width: 100%;
   height: 100%;
@@ -283,14 +260,21 @@
   display: block;
   border-radius: 50%;
   text-decoration: none;
-  transition: opacity 0.15s;
 }
 
-.notif-avatar-link:hover {
-  opacity: 0.88;
+.notif-avatar-fallback {
+  width: 100%;
+  height: 100%;
+  background: var(--md-primary-container, #dbeafe);
+  color: var(--md-on-primary-container, #1e40af);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1rem;
 }
 
-/* Themed Icon Avatars (Emerald, Blue, Purple, Amber, Rose) */
+/* Themed Icon Circles */
 .notif-icon-emerald {
   background: #ecfdf5;
   color: #059669;
@@ -341,18 +325,6 @@
   color: #f87171;
 }
 
-.notif-avatar-fallback {
-  width: 100%;
-  height: 100%;
-  background: var(--md-primary-container, #dbeafe);
-  color: var(--md-on-primary-container, #1e40af);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-  font-size: 1rem;
-}
-
 /* Card Content */
 .notif-content {
   flex: 1;
@@ -379,7 +351,6 @@
   color: inherit;
   text-decoration: none;
   font-weight: 600;
-  transition: color 0.15s;
 }
 
 .notif-actor-link:hover {
@@ -408,8 +379,6 @@
   background: #10b981;
   flex-shrink: 0;
   display: inline-block;
-  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
-  transition: transform 0.2s, opacity 0.2s;
 }
 
 .notif-body-text {
@@ -424,7 +393,7 @@
   color: #cbd5e1;
 }
 
-/* Action Buttons inside Card */
+/* Action Buttons inside Card - Minimal */
 .notif-actions {
   display: flex;
   align-items: center;
@@ -446,20 +415,14 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
   line-height: 1.25;
+  transition: background 0.15s ease;
 }
 
 .notif-btn-primary:hover {
   background: #047857;
   color: #ffffff;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(5, 150, 105, 0.25);
   text-decoration: none;
-}
-
-.notif-btn-primary:active {
-  transform: translateY(0);
 }
 
 .notif-btn-secondary {
@@ -475,15 +438,14 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.15s;
   line-height: 1.25;
+  transition: background 0.15s ease, border-color 0.15s ease;
 }
 
 .notif-btn-secondary:hover {
   background: #f8fafc;
   border-color: #cbd5e1;
   color: #0f172a;
-  transform: translateY(-1px);
   text-decoration: none;
 }
 
@@ -541,7 +503,7 @@
   border: 1px solid transparent;
   cursor: pointer;
   text-decoration: none;
-  transition: all 0.15s;
+  transition: background 0.15s ease;
   padding: 0 8px;
 }
 
@@ -564,7 +526,6 @@
   background: var(--md-primary, #0058df);
   color: #ffffff !important;
   border-color: var(--md-primary, #0058df);
-  box-shadow: 0 2px 6px rgba(0, 88, 223, 0.25);
 }
 
 .notif-page-btn:disabled,
@@ -628,12 +589,12 @@
   }
   .notif-card-wrapper {
     padding: 16px;
-    border-radius: 20px;
+    border-radius: 16px;
   }
   .notif-card {
     padding: 14px;
     gap: 12px;
-    border-radius: 16px;
+    border-radius: 14px;
   }
   .notif-avatar-col {
     width: 38px;
