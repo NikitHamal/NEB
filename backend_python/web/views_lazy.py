@@ -202,8 +202,9 @@ def ajax_lazy_upload(request):
         return JsonResponse({'error': 'File required'}, status=400)
     name = (getattr(f, 'name', '') or '').lower()
     ext = os.path.splitext(name)[1]
-    if ext not in ('.docx', '.pdf', '.txt', '.png', '.jpg', '.jpeg', '.gif', '.webp'):
-        return JsonResponse({'error': 'Supported: .docx, .pdf, .txt, images'}, status=400)
+    if ext not in ('.docx', '.pdf', '.txt', '.md', '.csv', '.xlsx', '.xls',
+                   '.png', '.jpg', '.jpeg', '.gif', '.webp'):
+        return JsonResponse({'error': 'Supported: .docx, .pdf, .txt, .md, .csv, .xlsx, images'}, status=400)
     if getattr(f, 'size', 0) > MAX_UPLOAD:
         return JsonResponse({'error': 'Max 8 MB'}, status=413)
     data = f.read(MAX_UPLOAD + 1)
@@ -217,10 +218,16 @@ def ajax_lazy_upload(request):
         if ext == '.docx':
             text, t = extract_docx(data)
             kind = 'docx'
-        elif ext == '.txt':
+        elif ext in ('.txt', '.md'):
             t = ''
             text = data.decode('utf-8', errors='replace')
             kind = 'txt'
+        elif ext in ('.csv', '.xlsx', '.xls'):
+            t = ''
+            # Spreadsheets are handed to the agent as real files on disk —
+            # pandas reads them far more faithfully than a text excerpt would.
+            text = data.decode('utf-8', errors='replace') if ext == '.csv' else ''
+            kind = ext.lstrip('.')
         elif ext in img_key:
             t = ''
             text = ''
@@ -230,7 +237,7 @@ def ajax_lazy_upload(request):
             kind = 'pdf'
     except Exception as exc:
         return JsonResponse({'error': f'Could not read file: {exc}'}, status=400)
-    if not (text or '').strip() and kind not in ('png', 'jpg', 'jpeg', 'gif', 'webp'):
+    if not (text or '').strip() and kind not in ('png', 'jpg', 'jpeg', 'gif', 'webp', 'xlsx', 'xls'):
         return JsonResponse({'error': 'No readable text found'}, status=400)
     excerpt = ' '.join(text.split())[:16000]
     src_id = toolstore.put_source(user.id, getattr(f, 'name', 'file'), kind, data)

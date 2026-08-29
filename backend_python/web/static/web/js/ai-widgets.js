@@ -660,14 +660,16 @@
     var stepMs = typeof opts.stepMs === 'number' ? opts.stepMs : 700;
     var reveal = opts.reveal || 'stagger';
     var runOpen = opts.open !== false;
-    var header = { calls: opts.calls || 0, messages: opts.messages || 0 };
+    var header = {
+      calls: typeof opts.calls === 'number' ? opts.calls : (rows.length || 0),
+      messages: typeof opts.messages === 'number' ? opts.messages : 1
+    };
     var rows = (opts.rows || []).slice();
     var diffs = (opts.diffs || []).slice();
     var moreCount = opts.more || 0;
     var shown = 0;
     var timer = null;
     var rowSeq = 0;
-    if (!opts.calls && rows.length) header.calls = rows.length;
 
     var el = document.createElement('div');
     el.className = 'ai-widget ai-chips';
@@ -690,6 +692,9 @@
     var openRows = {};
 
     function headerLabel() {
+      if (header.calls === 0) {
+        return header.messages + ' message' + (header.messages === 1 ? '' : 's');
+      }
       return header.calls + ' tool call' + (header.calls === 1 ? '' : 's') + ', ' + header.messages + ' message' + (header.messages === 1 ? '' : 's');
     }
 

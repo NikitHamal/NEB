@@ -503,7 +503,7 @@ function handleScanFile(file, imgEl, prev){
 }
 async function ensureTesseract(){
   if(window.Tesseract) return window.Tesseract;
-  await loadScript("https://cdn.jsdelivr.net/npm/tesseract.js@v5.0.0/dist/tesseract.min.js");
+  await loadScript("https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js");
   return window.Tesseract;
 }
 async function doScanOCR(){
@@ -515,13 +515,17 @@ async function doScanOCR(){
   try{
     var T=await ensureTesseract();
     var lang=$("scanLang").value||"eng";
+    if(scanWorker && scanWorker._currentLang !== lang){
+      try{ await scanWorker.terminate(); }catch(_){}
+      scanWorker=null;
+    }
     if(!scanWorker){
       scanWorker=await T.createWorker(lang, 1, {
-        workerPath: "https://cdn.jsdelivr.net/npm/tesseract.js@v5.0.0/dist/worker.min.js",
-        corePath: "https://cdn.jsdelivr.net/npm/tesseract.js-core@v5.0.0",
-        cacheMethod:"readOnly",
+        workerPath: "https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/worker.min.js",
+        corePath: "https://cdn.jsdelivr.net/npm/tesseract.js-core@5.1.1",
         logger:function(m){ if(m.status==="recognizing text") out.value="Reading… "+Math.round((m.progress||0)*100)+"%"; }
       });
+      scanWorker._currentLang = lang;
     }
     var imageSource = scanFileObj;
     if(scanFileObj.type==="application/pdf"){
@@ -648,7 +652,17 @@ function renderTable(root, tool){
     var btn=this; btn.disabled=true; btn.innerHTML='<span class="material-symbols-outlined">hourglass_top</span> Reading…';
     try{
       var T=await ensureTesseract();
-      if(!scanWorker) scanWorker=await T.createWorker("eng",1,{workerPath:"https://cdn.jsdelivr.net/npm/tesseract.js@v5.0.0/dist/worker.min.js", corePath:"https://cdn.jsdelivr.net/npm/tesseract.js-core@v5.0.0", cacheMethod:"readOnly"});
+      if(scanWorker && scanWorker._currentLang !== "eng"){
+        try{ await scanWorker.terminate(); }catch(_){}
+        scanWorker=null;
+      }
+      if(!scanWorker){
+        scanWorker=await T.createWorker("eng",1,{
+          workerPath:"https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/worker.min.js",
+          corePath:"https://cdn.jsdelivr.net/npm/tesseract.js-core@5.1.1"
+        });
+        scanWorker._currentLang = "eng";
+      }
       var ret=await scanWorker.recognize(scanFileObj);
       var txt=(ret.data.text||"").trim();
       var rows=txt.split("\n").map(function(l){return l.trim().split(/\s{2,}|\t/).map(function(c){return '"'+c.replace(/"/g,'""')+'"';}).join(",");});

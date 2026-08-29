@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Lazy — Autonomous Agent · NEBians</title>
+  <meta name="description" content="Lazy is an autonomous agent that researches, plans, writes and ships assignments, reports, presentations, spreadsheets and code.">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% load static %}{% static 'web/css/lazy_agent.css' %}?v=31">
+  <meta name="csrf-token" content="{{ csrf_token }}">
+</head>
+<body class="lz-body">
+  <div id="lzRoot" class="lz-app">
+
+    <header class="lz-topbar">
+      <button class="lz-rail-toggle" id="lzRailToggle" type="button" aria-label="Toggle threads">☰</button>
+      <div class="lz-brand">
+        <span class="lz-mark" aria-hidden="true"></span>
+        <div class="lz-titles">
+          <strong>Lazy</strong>
+          <span class="lz-thread-name" id="lzThreadName">New thread</span>
+        </div>
+      </div>
+      <div class="lz-status" id="lzStatus">
+        <span class="lz-dot lz-dot--idle"></span>
+        <span class="lz-status-text">Idle</span>
+      </div>
+      <div class="lz-topbar-actions">
+        <select class="lz-model" id="lzModel" aria-label="Model">
+          <option value="neby-pro">Lazy Pro · deepest work</option>
+          <option value="neby-fast">Lazy Fast · quicker</option>
+        </select>
+        <button class="lz-btn" id="lzNew" type="button">New thread</button>
+      </div>
+    </header>
+
+    <div class="lz-shell">
+      <aside class="lz-rail" id="lzRail" aria-label="Threads">
+        <div class="lz-rail-head">
+          <span>Threads</span>
+          <button class="lz-icon" id="lzNewThread" type="button" title="New thread">＋</button>
+        </div>
+        <ul class="lz-threads" id="lzThreads"></ul>
+        <div class="lz-rail-foot">
+          <span class="lz-credit" id="lzCredits"></span>
+        </div>
+      </aside>
+
+      <main class="lz-main">
+        <div class="lz-stream" id="lzStream" aria-live="polite"></div>
+        <div class="lz-composer" id="lzComposer">
+          <div class="lz-composer-box">
+            <div class="lz-attachments" id="lzAttachments" hidden></div>
+            <textarea id="lzPrompt" rows="1" placeholder="Tell Lazy what you need — an assignment, a report, a deck, a spreadsheet, a project. It will plan, research, build and deliver the finished file."></textarea>
+            <div class="lz-composer-row">
+              <div class="lz-chips" id="lzChips">
+                <button class="lz-chip" type="button" data-template="assignment">Assignment</button>
+                <button class="lz-chip" type="button" data-template="lab">Lab report</button>
+                <button class="lz-chip" type="button" data-template="slides">Slides</button>
+                <button class="lz-chip" type="button" data-template="sheet">Spreadsheet</button>
+                <button class="lz-chip" type="button" data-template="code">Build a project</button>
+                <button class="lz-chip" type="button" data-template="research">Research</button>
+              </div>
+              <div class="lz-composer-actions">
+                <button class="lz-icon-btn" id="lzAttach" type="button" title="Attach files">📎</button>
+                <input type="file" id="lzFileInput" multiple hidden>
+                <button class="lz-send" id="lzSend" type="button">
+                  <span class="lz-send-text">Send</span>
+                  <span class="lz-spinner" hidden></span>
+                </button>
+                <button class="lz-stop" id="lzCancel" type="button" hidden>Stop</button>
+              </div>
+            </div>
+          </div>
+          <p class="lz-hint" id="lzPill">Lazy never asks what to do next — it works until the file is real.</p>
+        </div>
+      </main>
+
+      <aside class="lz-side" id="lzSide" aria-label="Plan, activity and files">
+        <section class="lz-side-block" data-block="plan">
+          <header><span class="lz-side-label">Plan</span><span class="lz-side-meta" id="lzPlanMeta"></span></header>
+          <ol class="lz-plan" id="lzPlan"></ol>
+        </section>
+        <section class="lz-side-block" data-block="activity">
+          <header><span class="lz-side-label">Activity</span><span class="lz-side-meta" id="lzActivityMeta">0</span></header>
+          <ol class="lz-activity" id="lzActivity"></ol>
+        </section>
+        <section class="lz-side-block" data-block="files">
+          <header><span class="lz-side-label">Files</span><span class="lz-side-meta" id="lzFilesMeta">0</span></header>
+          <ul class="lz-files" id="lzFiles"></ul>
+        </section>
+      </aside>
+    </div>
+  </div>
+
+  <div class="lz-viewer" id="lzViewer" hidden>
+    <div class="lz-viewer-panel">
+      <header class="lz-viewer-head">
+        <div class="lz-viewer-title" id="lzViewerTitle">Preview</div>
+        <div class="lz-viewer-actions">
+          <a class="lz-btn" id="lzViewerOpen" href="#" target="_blank" rel="noopener">Open</a>
+          <a class="lz-btn lz-btn--solid" id="lzViewerDownload" href="#" download>Download</a>
+          <button class="lz-icon" id="lzViewerClose" type="button" aria-label="Close">✕</button>
+        </div>
+      </header>
+      <div class="lz-viewer-body" id="lzViewerBody"></div>
+    </div>
+  </div>
+
+  <script>
+    window.LAZY_AGENT_CONFIG = {
+      csrfToken: "{{ csrf_token|escapejs }}",
+      isAuthenticated: {{ is_authenticated|yesno:"true,false" }},
+      username: "{{ username|escapejs }}",
+      sessions: {{ sessions_json|safe }},
+      credits: {{ credits_json|safe }},
+      endpoints: {
+        run: "{% url 'web:ajax_lazy_agent_run' %}",
+        runs: "{% url 'web:ajax_lazy_agent_runs' %}",
+        upload: "{% url 'web:ajax_lazy_upload' %}",
+        stream: "/ajax/lazy/agent/stream/__ID__/",
+        cancel: "/ajax/lazy/agent/cancel/__ID__/",
+        detail: "/ajax/lazy/agent/run/__ID__/",
+        files: "/ajax/lazy/agent/run/__ID__/files/",
+        history: "/ajax/lazy/agent/session/__ID__/history/",
+        artifact: "/ajax/lazy/agent-artifact/__RID__/"
+      }
+    };
+  </script>
+  <script src="{% load static %}{% static 'web/js/lazy_agent/api.js' %}?v=31" defer></script>
+  <script src="{% load static %}{% static 'web/js/lazy_agent/dom.js' %}?v=31" defer></script>
+  <script src="{% load static %}{% static 'web/js/lazy_agent/stream.js' %}?v=31" defer></script>
+  <script src="{% load static %}{% static 'web/js/lazy_agent/workspace.js' %}?v=31" defer></script>
+</body>
+</html>

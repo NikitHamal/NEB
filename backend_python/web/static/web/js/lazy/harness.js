@@ -847,32 +847,60 @@ function buildDiffsForMsg(msg) {
   return diffs;
 }
 
+function renderStandaloneThinking(thinkText) {
+  var rawLines = String(thinkText || "").split(/\n+/).map(function(s){ return s.trim(); }).filter(Boolean);
+  var firstLine = rawLines[0] || "Thought for a moment";
+  var chipText = firstLine;
+  if (chipText.length > 48) chipText = chipText.slice(0, 46) + "…";
+  var detailLines = rawLines;
+
+  var wrap = document.createElement("div");
+  wrap.className = "ai-think-standalone";
+  wrap.innerHTML =
+    '<button type="button" class="ai-think-btn" aria-expanded="false">' +
+    '<span class="ai-think-chevron">' + (I.chevronDown ? I.chevronDown({ size: 12 }) : '▾') + '</span>' +
+    '<span class="ai-think-title">Thinking</span>' +
+    '<span class="ai-think-snippet">' + esc(chipText) + '</span>' +
+    '</button>' +
+    '<div class="ai-think-detail" style="display:none">' +
+    detailLines.map(function(l) { return '<div class="ai-think-detail-line">' + esc(l) + '</div>'; }).join("") +
+    '</div>';
+
+  var btn = wrap.querySelector(".ai-think-btn");
+  var detail = wrap.querySelector(".ai-think-detail");
+  var chevron = wrap.querySelector(".ai-think-chevron");
+  btn.addEventListener("click", function() {
+    var isOpen = detail.style.display !== "none";
+    detail.style.display = isOpen ? "none" : "block";
+    btn.setAttribute("aria-expanded", String(!isOpen));
+    if (chevron) chevron.style.transform = isOpen ? "rotate(0deg)" : "rotate(180deg)";
+  });
+  return wrap;
+}
+
 IceCreamHarness.prototype.appendAssistantResponse = function(msg) {
   var self = this;
   var msgWrap = document.createElement("div");
   msgWrap.className = "lz-assistant-msg";
 
-  // 1. ToolChips / Thinking / Actions at TOP
+  // 1. ToolChips if multiple tools, or Standalone Thinking if only thought exists
+  var toolList = (msg.tools || []).filter(Boolean);
   var rows = buildChipRows(msg);
-  if (rows.length && window.AIWidgets && window.AIWidgets.ToolChips) {
+
+  if (toolList.length > 0 && window.AIWidgets && window.AIWidgets.ToolChips) {
     var diffs = buildDiffsForMsg(msg);
     var tc = window.AIWidgets.ToolChips.create({
       reveal: "instant",
       open: true,
-      calls: (msg.tools ? msg.tools.length : 0) || (rows.length - (msg.think ? 1 : 0)),
+      calls: toolList.length,
       messages: 1,
       rows: rows,
       diffs: diffs
     });
     msgWrap.appendChild(tc.el);
   } else if (msg.think) {
-    var thinkEl = P.createThinkingState({
-      title: "Thought for a few moments",
-      steps: [{ text: msg.think, done: true }],
-      isDone: true,
-      expanded: false
-    });
-    msgWrap.appendChild(thinkEl.el);
+    var thinkEl = renderStandaloneThinking(msg.think);
+    msgWrap.appendChild(thinkEl);
   }
 
   // 2. Text content BELOW tools
@@ -1061,28 +1089,32 @@ IceCreamHarness.prototype.handleUserPrompt = function(payload) {
     } else if (f.type === "done") {
       if (loader) { loader.destroy(); loader = null; }
 
+      var toolList = (f.tools || liveTools || []).filter(Boolean);
       var turnMsg = {
         content: liveBuf,
         think: liveThink,
-        tools: f.tools || liveTools,
+        tools: toolList,
         docUpdated: f.docUpdated,
         docTitle: f.docTitle,
         diffs: liveDiffs
       };
 
       var rows = buildChipRows(turnMsg);
-      if (rows.length && window.AIWidgets && window.AIWidgets.ToolChips) {
+      toolsHolder.innerHTML = "";
+      if (toolList.length > 0 && window.AIWidgets && window.AIWidgets.ToolChips) {
         var diffs = buildDiffsForMsg(turnMsg);
-        toolsHolder.innerHTML = "";
         var tc = window.AIWidgets.ToolChips.create({
           reveal: "instant",
           open: true,
-          calls: (turnMsg.tools ? turnMsg.tools.length : 0) || (rows.length - (turnMsg.think ? 1 : 0)),
+          calls: toolList.length,
           messages: 1,
           rows: rows,
           diffs: diffs
         });
         toolsHolder.appendChild(tc.el);
+      } else if (turnMsg.think) {
+        var thinkEl = renderStandaloneThinking(turnMsg.think);
+        toolsHolder.appendChild(thinkEl);
       }
 
       // Final render for markdown text without caret

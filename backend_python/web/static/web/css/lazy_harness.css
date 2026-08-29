@@ -1822,3 +1822,85 @@ input:focus-visible, textarea:focus-visible {
     border: none;
   }
 }
+
+/* ── Standalone Thinking Component ──────────────────────── */
+.ai-think-standalone {
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.ai-think-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px 6px 8px;
+  border-radius: 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--ink-2);
+  font-family: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+  width: fit-content;
+  max-width: 100%;
+  transition: background-color 140ms ease, border-color 140ms ease, box-shadow 140ms ease;
+  user-select: none;
+}
+
+.ai-think-btn:hover {
+  background: var(--surface-2, var(--hover-bg));
+  border-color: var(--line-strong, var(--accent));
+  color: var(--ink);
+}
+
+.ai-think-chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-3);
+  transition: transform 200ms ease;
+  flex-shrink: 0;
+}
+
+.ai-think-title {
+  font-weight: 600;
+  color: var(--ink);
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.ai-think-snippet {
+  color: var(--ink-3);
+  font-size: 11.5px;
+  background: var(--page);
+  padding: 2px 8px;
+  border-radius: 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 480px;
+  border: 1px solid var(--line);
+}
+
+.ai-think-detail {
+  margin-top: 6px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: var(--field, var(--surface));
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent, #688df5);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  animation: ai-fade-up 180ms ease both;
+}
+
+.ai-think-detail-line {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
