@@ -9,7 +9,7 @@ from web.rate_limit import web_rate_limit
 
 logger = logging.getLogger(__name__)
 
-ALLOWED_TOOLS = {'search_resources', 'find_notes', 'get_forum_posts', 'get_subjects'}
+ALLOWED_TOOLS = {'search_resources', 'find_notes', 'get_forum_posts', 'get_subjects', 'generate_p5_art'}
 
 CLOUD_SYSTEM_PROMPT = """You are Neby, the AI assistant inside NEBians — a Nepali learning community platform for teachers, learners, explorers, students, and parents across all levels, faculties, disciplines, and fields (not restricted to NEB curriculum or NEB grades).
 You have access to platform tools but NOT native function calling, so you must emit tool requests as strict JSON.
@@ -21,6 +21,7 @@ Tools (emit ONE of these when the user wants that action):
 - get_forum_posts: arguments {"category"?: "...", "sort"?: "recent|popular"} — forum discussions across topics
 - get_subjects: arguments {} — list all available subjects and topics
 - navigate_to: arguments {"page": "home|library|forum|search|news|settings|bookmarks|upload|results|leaderboard|tools"} — move the user to a page
+- generate_p5_art: arguments {"prompt": "...", "style"?: "generative|fractal|landscape|pattern|animated|abstract", "color_palette"?: "vibrant|neon|pastel|monochrome|cyberpunk|warm|cool", "complexity"?: "low|medium|high|extreme", "code"?: "..."} — generate interactive p5.js paintings, drawings, and generative art
 
 Rules:
 1. If the user's request maps to a tool, reply with EXACTLY one JSON object and nothing else:
@@ -317,4 +318,164 @@ def _execute_tool(tool, args):
         )
         return {'subjects': data}
 
+    if tool == 'generate_p5_art':
+        prompt = str(args.get('prompt', 'Generative Art'))[:200]
+        style = str(args.get('style', 'generative')).lower()
+        palette = str(args.get('color_palette', 'vibrant')).lower()
+        complexity = str(args.get('complexity', 'medium')).lower()
+        custom_code = args.get('code')
+
+        if custom_code and isinstance(custom_code, str) and custom_code.strip():
+            code = custom_code.strip()
+        else:
+            code = _generate_p5_code_template(prompt, style, palette, complexity)
+
+        return {
+            'title': prompt.capitalize(),
+            'style': style,
+            'color_palette': palette,
+            'complexity': complexity,
+            'code': code,
+        }
+
     return {}
+
+
+def _generate_p5_code_template(prompt, style, palette, complexity):
+    """Generates procedural p5.js sketch code tailored to prompt, style, and palette."""
+    palette_colors = {
+        'neon': "['#ff007f', '#00f6ff', '#7000ff', '#ffeb3b', '#00ff66']",
+        'cyberpunk': "['#05d9e8', '#ff2a6d', '#005670', '#d1f7ff', '#ffc4d6']",
+        'pastel': "['#ffb3ba', '#ffdfba', '#ffffba', '#baffc9', '#bae1ff']",
+        'monochrome': "['#ffffff', '#cccccc', '#999999', '#666666', '#333333']",
+        'warm': "['#ff4e50', '#fc913a', '#f9d423', '#ede580', '#e1f5c4']",
+        'cool': "['#4abdac', '#fc4a1a', '#f7b733', '#0072ff', '#00c6ff']",
+        'vibrant': "['#e63946', '#f1faee', '#a8dadc', '#457b9d', '#1d3557']",
+    }
+    cols = palette_colors.get(palette, palette_colors['vibrant'])
+
+    if 'fractal' in style or 'tree' in prompt.lower() or 'branch' in prompt.lower():
+        return f"""
+          let palette = {cols};
+          let angle = 0;
+
+          setup = function() {{
+            background(15, 17, 23);
+            strokeWeight(2);
+          }};
+
+          draw = function() {{
+            background(15, 17, 23, 40);
+            translate(width / 2, height);
+            angle = sin(frameCount * 0.02) * 0.4 + 0.4;
+            branch(70, 0);
+          }};
+
+          function branch(len, depth) {{
+            stroke(color(palette[depth % palette.length]));
+            line(0, 0, 0, -len);
+            translate(0, -len);
+            if (len > 8) {{
+              push();
+              rotate(angle);
+              branch(len * 0.67, depth + 1);
+              pop();
+              push();
+              rotate(-angle);
+              branch(len * 0.67, depth + 1);
+              pop();
+            }}
+          }}
+        """
+
+    if 'mandala' in style or 'mandala' in prompt.lower() or 'pattern' in style:
+        return f"""
+          let palette = {cols};
+
+          setup = function() {{
+            background(15, 17, 23);
+            noFill();
+          }};
+
+          draw = function() {{
+            background(15, 17, 23, 20);
+            translate(width / 2, height / 2);
+            let numSymmetries = 8;
+            let angleStep = TWO_PI / numSymmetries;
+
+            for (let i = 0; i < numSymmetries; i++) {{
+              push();
+              rotate(i * angleStep + frameCount * 0.005);
+              for (let r = 20; r < min(width, height) * 0.45; r += 25) {{
+                let c = color(palette[floor(r / 25) % palette.length]);
+                stroke(c);
+                strokeWeight(1.5);
+                let x = sin(frameCount * 0.03 + r) * 30 + r;
+                ellipse(x, 0, 20 + sin(frameCount * 0.05) * 10, 20);
+              }}
+              pop();
+            }}
+          }};
+        """
+
+    if 'landscape' in style or 'wave' in prompt.lower() or 'sunset' in prompt.lower() or 'mountain' in prompt.lower():
+        return f"""
+          let palette = {cols};
+
+          setup = function() {{
+            background(15, 17, 23);
+          }};
+
+          draw = function() {{
+            background(15, 17, 23);
+            noStroke();
+
+            for (let layer = 0; layer < 5; layer++) {{
+              fill(color(palette[layer % palette.length]));
+              beginShape();
+              vertex(0, height);
+              for (let x = 0; x <= width; x += 10) {{
+                let y = height * (0.4 + layer * 0.12) + noise(x * 0.005 + layer * 10, frameCount * 0.005 + layer) * 60;
+                vertex(x, y);
+              }}
+              vertex(width, height);
+              endShape(CLOSE);
+            }}
+          }};
+        """
+
+    # Default: Flow Field & Particles Art
+    return f"""
+      let particles = [];
+      let palette = {cols};
+
+      setup = function() {{
+        background(15, 17, 23);
+        let count = 150;
+        for (let i = 0; i < count; i++) {{
+          particles.push({{
+            x: random(width),
+            y: random(height),
+            col: color(palette[floor(random(palette.length))])
+          }});
+        }}
+      }};
+
+      draw = function() {{
+        background(15, 17, 23, 15);
+        for (let p of particles) {{
+          let angle = noise(p.x * 0.004, p.y * 0.004, frameCount * 0.003) * TWO_PI * 4;
+          p.x += cos(angle) * 1.8;
+          p.y += sin(angle) * 1.8;
+
+          if (p.x < 0) p.x = width;
+          if (p.x > width) p.x = 0;
+          if (p.y < 0) p.y = height;
+          if (p.y > height) p.y = 0;
+
+          stroke(p.col);
+          strokeWeight(2);
+          point(p.x, p.y);
+        }}
+      }};
+    """

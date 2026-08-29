@@ -20,6 +20,7 @@ const tools = JSON.stringify([
   { name: 'get_forum_posts', description: 'Get forum posts from the NEBians discussion forum.', parameters: { type: 'object', properties: { category: { type: 'string', description: 'category to filter e.g. Science, Math, Help, General' }, sort: { type: 'string', enum: ['recent', 'popular'], description: 'sort order' } }, required: [] } },
   { name: 'navigate_to', description: 'Navigate the user to a specific page on NEBians.', parameters: { type: 'object', properties: { page: { type: 'string', enum: ['home', 'library', 'forum', 'search', 'news', 'settings', 'bookmarks', 'upload', 'results', 'leaderboard', 'tools'], description: 'destination page' } }, required: ['page'] } },
   { name: 'get_subjects', description: 'List all available subjects on NEBians.', parameters: { type: 'object', properties: {}, required: [] } },
+  { name: 'generate_p5_art', description: 'Generate dynamic, interactive 2D/3D paintings, drawings, and generative art using p5.js canvas.', parameters: { type: 'object', properties: { prompt: { type: 'string', description: 'art description or topic e.g. cosmic nebula, flow field, mandala, sunset wave' }, style: { type: 'string', enum: ['generative', 'fractal', 'landscape', 'pattern', 'animated', 'abstract', ''], description: 'artistic technique' }, color_palette: { type: 'string', enum: ['vibrant', 'neon', 'pastel', 'monochrome', 'cyberpunk', 'warm', 'cool', ''], description: 'color scheme' }, complexity: { type: 'string', enum: ['low', 'medium', 'high', 'extreme', ''], description: 'level of visual detail' }, code: { type: 'string', description: 'optional custom p5.js sketch code' } }, required: ['prompt'] } },
 ]);
 
 const cases = [
@@ -30,6 +31,7 @@ const cases = [
   ['find chemistry past papers', ['search_resources', 'find_notes'], (a) => /chemistry/i.test(JSON.stringify(a)) && /past paper|board/i.test(JSON.stringify(a))],
   ['what subjects are available', ['get_subjects'], () => true],
   ['search for english textbooks', ['search_resources'], (a) => /english/i.test(JSON.stringify(a)) && /textbook/i.test(JSON.stringify(a))],
+  ['paint a glowing cosmic nebula with p5js', ['generate_p5_art'], (a) => Boolean(a.prompt)],
 ];
 
 function now() {

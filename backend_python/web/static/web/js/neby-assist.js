@@ -79,6 +79,21 @@
       description: 'List all available subjects on NEBians.',
       parameters: { type: 'object', properties: {}, required: [] },
     },
+    {
+      name: 'generate_p5_art',
+      description: 'Generate dynamic, interactive 2D/3D paintings, drawings, and generative art using p5.js canvas.',
+      parameters: {
+        type: 'object',
+        properties: {
+          prompt: { type: 'string', description: 'art description or topic e.g. cosmic nebula, flow field, mandala, sunset wave' },
+          style: { type: 'string', enum: ['generative', 'fractal', 'landscape', 'pattern', 'animated', 'abstract', ''], description: 'artistic technique' },
+          color_palette: { type: 'string', enum: ['vibrant', 'neon', 'pastel', 'monochrome', 'cyberpunk', 'warm', 'cool', ''], description: 'color scheme' },
+          complexity: { type: 'string', enum: ['low', 'medium', 'high', 'extreme', ''], description: 'level of visual detail' },
+          code: { type: 'string', description: 'optional custom p5.js sketch code' },
+        },
+        required: ['prompt'],
+      },
+    },
   ]);
 
   var fab, panel, chatArea, textarea, sendBtn, suggestionsEl;
@@ -477,6 +492,11 @@
       return;
     }
 
+    if (toolName === 'generate_p5_art') {
+      renderP5Art(args, result);
+      return;
+    }
+
     appendAiBubble(JSON.stringify(result));
   }
 
@@ -571,6 +591,162 @@
       });
     });
     appendEl(el);
+  }
+
+  function renderP5Art(args, result) {
+    var title = result.title || args.prompt || 'p5.js Artwork';
+    var style = result.style || args.style || 'generative';
+    var palette = result.color_palette || args.color_palette || 'vibrant';
+    var code = result.code || args.code || generateClientP5Code(title, style, palette);
+
+    var el = createAiMsgEl();
+    var artId = 'p5-art-' + Math.random().toString(36).substring(2, 9);
+
+    var html = '<div class="neby-bubble neby-p5-art-card" style="width:100%;max-width:340px;padding:12px;box-sizing:border-box;">';
+    html += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">';
+    html += '  <div style="font-weight:600;font-size:0.9rem;display:flex;align-items:center;gap:6px;"><span class="material-symbols-outlined" style="font-size:1.1rem;color:#7c4dff;">palette</span> ' + escapeHtml(title) + '</div>';
+    html += '  <span style="font-size:0.7rem;background:rgba(124,77,255,0.12);color:#7c4dff;padding:2px 6px;border-radius:12px;font-weight:500;">p5.js</span>';
+    html += '</div>';
+    html += '<div id="' + artId + '-container" style="width:100%;height:240px;border-radius:8px;overflow:hidden;background:#0f1117;position:relative;box-shadow:inset 0 0 10px rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;"></div>';
+    html += '<div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;gap:4px;">';
+    html += '  <button id="' + artId + '-toggle" class="neby-chip" style="font-size:0.75rem;padding:4px 8px;"><span class="material-symbols-outlined" style="font-size:0.9rem;vertical-align:middle;">pause</span> Pause</button>';
+    html += '  <button id="' + artId + '-reseed" class="neby-chip" style="font-size:0.75rem;padding:4px 8px;"><span class="material-symbols-outlined" style="font-size:0.9rem;vertical-align:middle;">refresh</span> Re-seed</button>';
+    html += '  <button id="' + artId + '-export" class="neby-chip" style="font-size:0.75rem;padding:4px 8px;"><span class="material-symbols-outlined" style="font-size:0.9rem;vertical-align:middle;">download</span> Save</button>';
+    html += '  <button id="' + artId + '-code-btn" class="neby-chip" style="font-size:0.75rem;padding:4px 8px;"><span class="material-symbols-outlined" style="font-size:0.9rem;vertical-align:middle;">code</span> Code</button>';
+    html += '</div>';
+    html += '<div id="' + artId + '-code-box" style="display:none;margin-top:8px;background:#181b24;color:#a9b7c6;font-family:monospace;font-size:0.7rem;padding:8px;border-radius:6px;max-height:140px;overflow-y:auto;white-space:pre-wrap;">' + escapeHtml(code) + '</div>';
+    html += '</div>';
+
+    el.innerHTML = html;
+    appendEl(el);
+
+    ensureP5Loaded(function () {
+      initP5Instance(artId, code);
+    });
+  }
+
+  function ensureP5Loaded(callback) {
+    if (window.p5) {
+      callback();
+      return;
+    }
+    var existing = document.getElementById('p5-cdn-script');
+    if (existing) {
+      existing.addEventListener('load', callback);
+      return;
+    }
+    var script = document.createElement('script');
+    script.id = 'p5-cdn-script';
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js';
+    script.onload = callback;
+    script.onerror = function () {
+      console.error('Failed to load p5.js library');
+    };
+    document.head.appendChild(script);
+  }
+
+  function initP5Instance(artId, code) {
+    var container = document.getElementById(artId + '-container');
+    if (!container) return;
+
+    try {
+      var sketchFn = new Function('p', 'container', 'artId',
+        'var setup, draw;\n' +
+        'with (p) {\n' +
+        '  var isLooping = true;\n' +
+        '  ' + code + '\n' +
+        '  if (typeof setup === "function") p.setup = setup;\n' +
+        '  if (typeof draw === "function") p.draw = draw;\n' +
+        '  var origSetup = p.setup;\n' +
+        '  p.setup = function() {\n' +
+        '    var w = container.clientWidth || 300;\n' +
+        '    var h = container.clientHeight || 240;\n' +
+        '    p.createCanvas(w, h);\n' +
+        '    if (origSetup && origSetup !== p.setup) origSetup.call(p);\n' +
+        '  };\n' +
+        '}\n' +
+        'var toggleBtn = document.getElementById(artId + "-toggle");\n' +
+        'if (toggleBtn) {\n' +
+        '  toggleBtn.onclick = function() {\n' +
+        '    if (isLooping) {\n' +
+        '      p.noLoop();\n' +
+        '      isLooping = false;\n' +
+        '      toggleBtn.innerHTML = \'<span class="material-symbols-outlined" style="font-size:0.9rem;vertical-align:middle;">play_arrow</span> Play\';\n' +
+        '    } else {\n' +
+        '      p.loop();\n' +
+        '      isLooping = true;\n' +
+        '      toggleBtn.innerHTML = \'<span class="material-symbols-outlined" style="font-size:0.9rem;vertical-align:middle;">pause</span> Pause\';\n' +
+        '    }\n' +
+        '  };\n' +
+        '}\n' +
+        'var reseedBtn = document.getElementById(artId + "-reseed");\n' +
+        'if (reseedBtn) {\n' +
+        '  reseedBtn.onclick = function() {\n' +
+        '    p.noiseSeed(p.floor(p.random(10000)));\n' +
+        '    p.randomSeed(p.floor(p.random(10000)));\n' +
+        '    if (typeof p.setup === "function") p.setup();\n' +
+        '    p.redraw();\n' +
+        '  };\n' +
+        '}\n' +
+        'var exportBtn = document.getElementById(artId + "-export");\n' +
+        'if (exportBtn) {\n' +
+        '  exportBtn.onclick = function() {\n' +
+        '    p.saveCanvas(artId + "-artwork", "png");\n' +
+        '  };\n' +
+        '}\n' +
+        'var codeBtn = document.getElementById(artId + "-code-btn");\n' +
+        'var codeBox = document.getElementById(artId + "-code-box");\n' +
+        'if (codeBtn && codeBox) {\n' +
+        '  codeBtn.onclick = function() {\n' +
+        '    codeBox.style.display = codeBox.style.display === "none" ? "block" : "none";\n' +
+        '  };\n' +
+        '}'
+      );
+
+      new window.p5(function (p) {
+        sketchFn(p, container, artId);
+      }, container);
+    } catch (e) {
+      console.error('Error running p5 sketch:', e);
+      container.innerHTML = '<div style="color:#ff5252;padding:12px;font-size:0.8rem;text-align:center;">Error initializing artwork sketch.</div>';
+    }
+  }
+
+  function generateClientP5Code(prompt, style, palette) {
+    return `
+      let particles = [];
+      let num = 120;
+
+      setup = function() {
+        background(15, 17, 23);
+        for(let i=0; i<num; i++) {
+          particles.push({
+            x: random(width),
+            y: random(height),
+            vx: random(-1, 1),
+            vy: random(-1, 1),
+            color: color(random(100,255), random(100,220), random(200,255), 180)
+          });
+        }
+      };
+
+      draw = function() {
+        background(15, 17, 23, 25);
+        for(let p of particles) {
+          let angle = noise(p.x * 0.005, p.y * 0.005, frameCount * 0.005) * TWO_PI * 2;
+          p.vx = cos(angle) * 1.5;
+          p.vy = sin(angle) * 1.5;
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < 0) p.x = width; if (p.x > width) p.x = 0;
+          if (p.y < 0) p.y = height; if (p.y > height) p.y = 0;
+
+          stroke(p.color);
+          strokeWeight(2);
+          point(p.x, p.y);
+        }
+      };
+    `;
   }
 
   function appendStreamingAi(text) {
