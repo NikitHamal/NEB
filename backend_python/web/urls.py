@@ -78,6 +78,7 @@ urlpatterns = [
     path('settings/', views.settings_page, name='settings'),
     path('my-avatar/', views_avatar.my_avatar, name='my_avatar'),
     path('code/', views_code.code_home, name='code'),
+    path('code/<str:session_id>/', views_code.code_home, name='code_session'),
     path('ajax/code/sessions/', views_code.ajax_code_sessions, name='ajax_code_sessions'),
     path('ajax/code/sessions/create/', views_code.ajax_code_create_session, name='ajax_code_create_session'),
     path('ajax/code/sessions/<str:session_id>/detail/', views_code.ajax_code_session_detail, name='ajax_code_session_detail'),
