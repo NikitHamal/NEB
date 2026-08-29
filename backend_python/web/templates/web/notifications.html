@@ -54,7 +54,7 @@
         {% for n in notifications %}
           <div class="notif-card {% if not n.is_read %}unread{% endif %}" data-id="{{ n.id }}" data-read="{{ n.is_read|yesno:'true,false' }}" data-url="{{ n.url }}">
             <!-- Left Avatar / Icon -->
-            {% if n.actor_photo_url or (n.actor_name and n.verb != 'system' and n.verb != 'resource_approved' and n.verb != 'resource_rejected') %}
+            {% if n.has_avatar_actor %}
               <a class="notif-avatar-link" href="{% if n.actor_name %}{% url 'web:profile' username=n.actor_name %}{% else %}#{% endif %}" title="View {{ n.actor_name }}'s profile">
                 <div class="notif-avatar-col notif-avatar-real">
                   {% if n.actor_photo_url %}
@@ -75,7 +75,7 @@
             <div class="notif-content">
               <div class="notif-card-header">
                 <h4 class="notif-title">
-                  {% if n.actor_name and n.verb != 'system' and n.verb != 'resource_approved' and n.verb != 'resource_rejected' %}
+                  {% if n.has_avatar_actor and n.actor_name %}
                     <a class="notif-actor-link" href="{% url 'web:profile' username=n.actor_name %}">{{ n.actor_name }}</a>
                     {% if n.verb == 'mention' %}mentioned you
                     {% elif n.verb == 'like_post' %}liked your post
