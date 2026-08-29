@@ -831,6 +831,7 @@ class BotConfig(models.Model):
     responds to @username mentions in posts and replies.
     """
     PROVIDER_CHOICES = [
+        ('qwenfast', 'QwenFast (qwenfast-demo.vercel.app — Qwen3.8-27B superfast)'),
         ('qwen', 'Qwen (chat.qwen.ai)'),
         ('tryingopen', 'TryingOpen (tryingopen.com — 16 open models, free)'),
         ('longcat', 'LongCat (longcat.chat — free, no login)'),
