@@ -55,9 +55,10 @@ LAZY_SECTION_SYSTEM = """You write ONE new section appended to an existing docum
 Return ONLY JSON: { "heading": "Section heading", "html": "<p>...</p>" }
 60-140 words, formal, same style as the surrounding document. Raw JSON only."""
 
-LAZY_REPLY_SYSTEM = """You are Lazy, a warm, sharp writing assistant chatting with a Nepali student about the document you co-write.
-Reply in tight markdown (short paragraphs, **bold** key terms, bullets when listing). Max ~180 words unless asked for depth.
-You can reference the working document shown in context. Never invent that you edited it — say what you *can* do: draft, revise, extend, restructure, export."""
+LAZY_REPLY_SYSTEM = """You are Lazy, a focused, professional AI writing partner.
+Reply directly, clearly, and concisely in markdown (short paragraphs, **bold** key terms, clean bullet lists). Max ~160 words unless in-depth analysis is requested.
+NEVER start with greetings, pleasantries, or phrases like "Namaste!", "Hello!", or "Sure!".
+You can reference the working document shown in context. Never invent that you edited it — state what you can do: draft, revise, extend, restructure, export."""
 
 LAZY_PLANNER_SYSTEM = """You are the planner for Lazy, an agentic document chat. Pick exactly ONE next action.
 
@@ -232,6 +233,7 @@ def stream_proxy_chat(system, prompt, model_key="neby-pro"):
 
     if model_key == "neby-fast":
         proxies_to_try = [
+            ("qwenfast", "qwen3.8-27b", {}),
             ("geminiweb", "geminiweb/gemini-flash-lite", {}),
             ("longcat", "longcat/LongCat-2.0", {}),
             ("tryingopen", "qwen/qwen3.8-27b", {"effort": "quick"}),
@@ -241,6 +243,7 @@ def stream_proxy_chat(system, prompt, model_key="neby-pro"):
     else:  # neby-pro
         proxies_to_try = [
             ("geminiweb", "geminiweb/gemini-flash-lite", {}),
+            ("qwenfast", "qwen3.8-27b", {}),
             ("tryingopen", "qwen/qwen3.8-27b", {"effort": "deep"}),
             ("inception", "mercury-2", {"reasoning_effort": "high"}),
             ("k2think", "MBZUAI-IFM/K2-Think-v2", {}),
@@ -252,7 +255,23 @@ def stream_proxy_chat(system, prompt, model_key="neby-pro"):
     for slug, model, extra in proxies_to_try:
         try:
             got_any = False
-            if slug == "geminiweb":
+            if slug == "qwenfast":
+                from api import qwenfast_proxy
+                for chunk in qwenfast_proxy.stream_chat(messages=messages, model=model):
+                    t = chunk.get("type")
+                    if t == "text":
+                        c = chunk.get("content") or ""
+                        if c:
+                            got_any = True
+                            yield {"type": "delta", "content": c}
+                    elif t == "done":
+                        break
+                    elif t == "error":
+                        break
+                if got_any:
+                    yield {"type": "model", "model": f"{slug}/{model}"}
+                    return
+            elif slug == "geminiweb":
                 from api import geminiweb_proxy
                 for chunk in geminiweb_proxy.stream_chat(messages, model=model):
                     t = chunk.get("type")
@@ -269,6 +288,7 @@ def stream_proxy_chat(system, prompt, model_key="neby-pro"):
                     elif t == "done":
                         break
                 if got_any:
+                    yield {"type": "model", "model": f"{slug}/{model}"}
                     return
 
             elif slug == "tryingopen":
@@ -288,6 +308,7 @@ def stream_proxy_chat(system, prompt, model_key="neby-pro"):
                     elif t == "done":
                         break
                 if got_any:
+                    yield {"type": "model", "model": f"{slug}/{model}"}
                     return
 
             elif slug == "inception":
@@ -307,6 +328,7 @@ def stream_proxy_chat(system, prompt, model_key="neby-pro"):
                     elif t == "done":
                         break
                 if got_any:
+                    yield {"type": "model", "model": f"{slug}/{model}"}
                     return
 
             elif slug == "k2think":
@@ -324,6 +346,7 @@ def stream_proxy_chat(system, prompt, model_key="neby-pro"):
                             got_any = True
                             yield {"type": "delta", "content": c}
                 if got_any:
+                    yield {"type": "model", "model": f"{slug}/{model}"}
                     return
 
             elif slug == "longcat":
@@ -336,6 +359,7 @@ def stream_proxy_chat(system, prompt, model_key="neby-pro"):
                             got_any = True
                             yield {"type": "delta", "content": c}
                 if got_any:
+                    yield {"type": "model", "model": f"{slug}/{model}"}
                     return
 
             elif slug == "egov":
@@ -348,6 +372,7 @@ def stream_proxy_chat(system, prompt, model_key="neby-pro"):
                             got_any = True
                             yield {"type": "delta", "content": c}
                 if got_any:
+                    yield {"type": "model", "model": f"{slug}/{model}"}
                     return
 
             elif slug == "deepai":
@@ -360,6 +385,7 @@ def stream_proxy_chat(system, prompt, model_key="neby-pro"):
                             got_any = True
                             yield {"type": "delta", "content": c}
                 if got_any:
+                    yield {"type": "model", "model": f"{slug}/{model}"}
                     return
         except Exception:
             continue
@@ -371,13 +397,17 @@ def llm_chat_stream(user, system, prompt, max_tokens=1200, temperature=0.6, time
 
 def _accumulate_stream(system, prompt, model_key, yield_think=True, status_prefix=""):
     """Generator: yields {type:'think'} and {type:'status'} frames live, then yields
-    {type:'_done', 'text': full_accumulated_text} as the final frame."""
+    {type:'_done', 'text': full_accumulated_text, 'model': 'provider/model'} as the final frame."""
     accumulated = []
     chars_yielded = 0
+    used_model = ""
     for chunk in stream_proxy_chat(system, prompt, model_key=model_key):
         t = chunk.get("type")
         content = chunk.get("content") or ""
-        if t == "think" and content and yield_think:
+        if t == "model":
+            used_model = content or chunk.get("model") or ""
+            yield {"type": "model", "model": used_model}
+        elif t == "think" and content and yield_think:
             yield {"type": "think", "content": content}
         elif t == "delta" and content:
             accumulated.append(content)
@@ -385,7 +415,7 @@ def _accumulate_stream(system, prompt, model_key, yield_think=True, status_prefi
             if total - chars_yielded > 120:
                 chars_yielded = total
                 yield {"type": "status", "tool": "generating", "label": f"{status_prefix}Writing... ({total} chars)"}
-    yield {"type": "_done", "text": "".join(accumulated)}
+    yield {"type": "_done", "text": "".join(accumulated), "model": used_model}
 
 
 def stream_generate_doc(user, topic, pages=1, doc_type="assignment", instructions="", model_key="neby-pro"):
@@ -402,9 +432,14 @@ def stream_generate_doc(user, topic, pages=1, doc_type="assignment", instruction
 
     system = get_lazy_prompts()["generate"]
     raw = None
+    used_model = ""
     for frame in _accumulate_stream(system, prompt, model_key, yield_think=True, status_prefix="Drafting — "):
         if frame.get("type") == "_done":
             raw = frame["text"]
+            used_model = frame.get("model") or used_model
+        elif frame.get("type") == "model":
+            used_model = frame.get("model") or ""
+            yield frame
         else:
             yield frame
 
@@ -442,13 +477,13 @@ def stream_generate_doc(user, topic, pages=1, doc_type="assignment", instruction
 
     if not html:
         fb = fallback_doc(topic, pages, doc_type)
-        yield {"type": "doc_ready", "title": fb["title"], "html": fb["html"], "provider": "fallback"}
+        yield {"type": "doc_ready", "title": fb["title"], "html": fb["html"], "provider": "fallback", "model": used_model or "fallback"}
         return
 
     html = clean_doc_html(html)
     if not re.search(r"<h1", html, re.I):
         html = f"<h1>{title}</h1>\n" + html
-    yield {"type": "doc_ready", "title": title, "html": html, "provider": "llm"}
+    yield {"type": "doc_ready", "title": title, "html": html, "provider": "llm", "model": used_model or "qwenfast/qwen3.8-27b"}
 
 
 def stream_edit_doc(user, doc_html, instruction, model_key="neby-pro"):
@@ -458,20 +493,25 @@ def stream_edit_doc(user, doc_html, instruction, model_key="neby-pro"):
 
     system = get_lazy_prompts()["edit"]
     raw = None
+    used_model = ""
     for frame in _accumulate_stream(system, prompt, model_key, yield_think=True, status_prefix="Revising — "):
         if frame.get("type") == "_done":
             raw = frame["text"]
+            used_model = frame.get("model") or used_model
+        elif frame.get("type") == "model":
+            used_model = frame.get("model") or ""
+            yield frame
         else:
             yield frame
 
     data = parse_llm_json(raw) if raw else None
     if not data or not data.get("html"):
-        yield {"type": "edit_ready", "html": None}
+        yield {"type": "edit_ready", "html": None, "model": used_model}
         return
     html = str(data["html"])[:80000]
     title = str(data.get("title") or "")[:120]
     summary = str(data.get("summary") or instruction)[:200]
-    yield {"type": "edit_ready", "html": html, "title": title, "summary": summary}
+    yield {"type": "edit_ready", "html": html, "title": title, "summary": summary, "model": used_model or "qwenfast/qwen3.8-27b"}
 
 
 def fallback_doc(topic, pages=1, doc_type="assignment"):

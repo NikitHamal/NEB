@@ -847,43 +847,12 @@ function buildDiffsForMsg(msg) {
   return diffs;
 }
 
-function renderStandaloneThinking(thinkText) {
-  var rawLines = String(thinkText || "").split(/\n+/).map(function(s){ return s.trim(); }).filter(Boolean);
-  var firstLine = rawLines[0] || "Thought for a moment";
-  var chipText = firstLine;
-  if (chipText.length > 48) chipText = chipText.slice(0, 46) + "…";
-  var detailLines = rawLines;
-
-  var wrap = document.createElement("div");
-  wrap.className = "ai-think-standalone";
-  wrap.innerHTML =
-    '<button type="button" class="ai-think-btn" aria-expanded="false">' +
-    '<span class="ai-think-chevron">' + (I.chevronDown ? I.chevronDown({ size: 12 }) : '▾') + '</span>' +
-    '<span class="ai-think-title">Thinking</span>' +
-    '<span class="ai-think-snippet">' + esc(chipText) + '</span>' +
-    '</button>' +
-    '<div class="ai-think-detail" style="display:none">' +
-    detailLines.map(function(l) { return '<div class="ai-think-detail-line">' + esc(l) + '</div>'; }).join("") +
-    '</div>';
-
-  var btn = wrap.querySelector(".ai-think-btn");
-  var detail = wrap.querySelector(".ai-think-detail");
-  var chevron = wrap.querySelector(".ai-think-chevron");
-  btn.addEventListener("click", function() {
-    var isOpen = detail.style.display !== "none";
-    detail.style.display = isOpen ? "none" : "block";
-    btn.setAttribute("aria-expanded", String(!isOpen));
-    if (chevron) chevron.style.transform = isOpen ? "rotate(0deg)" : "rotate(180deg)";
-  });
-  return wrap;
-}
-
 IceCreamHarness.prototype.appendAssistantResponse = function(msg) {
   var self = this;
   var msgWrap = document.createElement("div");
   msgWrap.className = "lz-assistant-msg";
 
-  // 1. ToolChips if multiple tools, or Standalone Thinking if only thought exists
+  // 1. ToolChips / Thinking / Actions at TOP
   var toolList = (msg.tools || []).filter(Boolean);
   var rows = buildChipRows(msg);
 
@@ -899,8 +868,14 @@ IceCreamHarness.prototype.appendAssistantResponse = function(msg) {
     });
     msgWrap.appendChild(tc.el);
   } else if (msg.think) {
-    var thinkEl = renderStandaloneThinking(msg.think);
-    msgWrap.appendChild(thinkEl);
+    var thinkEl = P.createThinkingState({
+      variant: "Reasoning",
+      doneTitle: "Thought for a few moments",
+      think: msg.think,
+      isDone: true,
+      expanded: false
+    });
+    msgWrap.appendChild(thinkEl.el);
   }
 
   // 2. Text content BELOW tools
@@ -926,6 +901,14 @@ IceCreamHarness.prototype.appendAssistantResponse = function(msg) {
       self.openArtifactPane();
     });
     msgWrap.appendChild(docPill);
+  }
+
+  if (msg.model) {
+    var modelBadge = document.createElement("div");
+    modelBadge.className = "lz-model-badge";
+    modelBadge.textContent = "via " + msg.model;
+    modelBadge.title = msg.model;
+    msgWrap.appendChild(modelBadge);
   }
 
   this.threadWrap.appendChild(msgWrap);
@@ -996,6 +979,7 @@ IceCreamHarness.prototype.handleUserPrompt = function(payload) {
   var liveThink = "";
   var liveTools = [];
   var liveDiffs = [];
+  var liveModel = "";
 
   var sidPromise = this.activeSessionId ? Promise.resolve(this.activeSessionId) : api("/ajax/lazy/sessions/create/", { method: "POST", body: "{}" }).then(function(d) {
     self.activeSessionId = d.session.id;
@@ -1045,7 +1029,9 @@ IceCreamHarness.prototype.handleUserPrompt = function(payload) {
     if (data === "[DONE]") return;
     var f; try { f = JSON.parse(data); } catch(e) { return; }
 
-    if (f.type === "think") {
+    if (f.type === "model") {
+      liveModel = f.model || f.content || "";
+    } else if (f.type === "think") {
       liveThink += (f.content || "");
       if (loader) {
         var cleanSnippet = (f.content || "").replace(/[\n\r]+/g, " ").trim();
@@ -1088,6 +1074,7 @@ IceCreamHarness.prototype.handleUserPrompt = function(payload) {
       self.openArtifactPane(f.html, f.title || "Document");
     } else if (f.type === "done") {
       if (loader) { loader.destroy(); loader = null; }
+      if (f.model) liveModel = f.model;
 
       var toolList = (f.tools || liveTools || []).filter(Boolean);
       var turnMsg = {
@@ -1096,7 +1083,8 @@ IceCreamHarness.prototype.handleUserPrompt = function(payload) {
         tools: toolList,
         docUpdated: f.docUpdated,
         docTitle: f.docTitle,
-        diffs: liveDiffs
+        diffs: liveDiffs,
+        model: f.model || liveModel || ""
       };
 
       var rows = buildChipRows(turnMsg);
@@ -1113,8 +1101,14 @@ IceCreamHarness.prototype.handleUserPrompt = function(payload) {
         });
         toolsHolder.appendChild(tc.el);
       } else if (turnMsg.think) {
-        var thinkEl = renderStandaloneThinking(turnMsg.think);
-        toolsHolder.appendChild(thinkEl);
+        var thinkEl = P.createThinkingState({
+          variant: "Reasoning",
+          doneTitle: "Thought for a few moments",
+          think: turnMsg.think,
+          isDone: true,
+          expanded: false
+        });
+        toolsHolder.appendChild(thinkEl.el);
       }
 
       // Final render for markdown text without caret
@@ -1139,6 +1133,14 @@ IceCreamHarness.prototype.handleUserPrompt = function(payload) {
       if (f.credits) {
         self.credits = f.credits;
         self.buildSidebar();
+      }
+      var displayModel = (turnMsg.model || f.model || liveModel || "").trim();
+      if (displayModel) {
+        var modelBadge = document.createElement("div");
+        modelBadge.className = "lz-model-badge";
+        modelBadge.textContent = "via " + displayModel;
+        modelBadge.title = displayModel;
+        msgWrap.appendChild(modelBadge);
       }
     }
   }

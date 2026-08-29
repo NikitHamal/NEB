@@ -102,22 +102,49 @@ def simple_chat(user_message, model=DEFAULT_MODEL, system_prompt="", max_tokens=
         return None
 
 
-def stream_chat(user_message, model=DEFAULT_MODEL, system_prompt="", max_tokens=800, timeout=TIMEOUT):
-    """Generator yielding content chunks."""
-    messages = _build_messages(system_prompt, user_message)
-    body = {"messages": messages}
+def stream_chat(user_message=None, model=DEFAULT_MODEL, system_prompt="", max_tokens=800, timeout=TIMEOUT, messages=None, **kwargs):
+    """Generator yielding chunks.
+
+    - When called with messages=[{role,content},...] (admin chat) yields dicts
+      {'type':'text'|'done'|'error', ...} as expected by the dispatcher.
+    - When called legacy style with user_message= yields plain text strings
+      (keeps simple callers working).
+    """
+    use_dict_mode = messages is not None
+    if messages is not None:
+        body_messages = list(messages)
+    else:
+        if not user_message:
+            if use_dict_mode:
+                yield {"type": "error", "error": "user_message or messages required"}
+            else:
+                yield ""
+            return
+        body_messages = _build_messages(system_prompt, user_message)
+    body = {"messages": body_messages}
     if max_tokens:
         body["max_tokens"] = max_tokens
     try:
         resp = requests.post(QWENFAST_URL, json=body, headers=HEADERS, timeout=timeout, stream=True)
         if resp.status_code != 200:
-            yield f"[error {resp.status_code}]"
+            if use_dict_mode:
+                yield {"type": "error", "error": f"qwenfast status {resp.status_code}"}
+            else:
+                yield f"[error {resp.status_code}]"
             return
         for chunk in _parse_sse_response(resp):
-            yield chunk
+            if use_dict_mode:
+                yield {"type": "text", "content": chunk}
+            else:
+                yield chunk
+        if use_dict_mode:
+            yield {"type": "done", "finish_reason": "stop"}
     except Exception as e:
         logger.warning(f"qwenfast stream failed: {e}")
-        yield ""
+        if use_dict_mode:
+            yield {"type": "error", "error": str(e)}
+        else:
+            yield ""
 
 
 def fetch_metrics(timeout=10):
