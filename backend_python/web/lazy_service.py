@@ -230,6 +230,7 @@ def llm_chat(user, system, prompt, max_tokens=1600, temperature=0.45, timeout=75
 def stream_proxy_chat(system, prompt, model_key="neby-pro"):
     """Directly streams thoughts and delta tokens from community proxies without blocking."""
     messages = [{"role": "system", "content": system}, {"role": "user", "content": prompt}]
+    PROVIDERS_WITH_INTERNAL_SEARCH = {"geminiweb", "longcat", "inception", "poolside", "qwen", "gmi"}
 
     if model_key == "neby-fast":
         proxies_to_try = [
@@ -252,12 +253,61 @@ def stream_proxy_chat(system, prompt, model_key="neby-pro"):
             ("deepai", "standard", {}),
         ]
 
+    # Pre-compute external search augmentation for providers WITHOUT internal search
+    external_search_ctx = ""
+    external_search_results = []
+    try:
+        from api.web_search import web_search, format_search_context, needs_search
+        import re as _re
+        if needs_search(prompt):
+            raw_q = (prompt or "").strip()
+            q = _re.sub(r'(?i)\b(search the web|please search|web search|browse|look up|on the web|from the web)\b', '', raw_q)
+            q = _re.sub(r'(?i)^(what is|what\'s|who is|when is|where is|how to|what are|who won|tell me|give me|show me)\s+', '', q)
+            q = _re.sub(r'\s*\?\s*$', '', q)
+            q = " ".join(q.split())
+            if len(q.split()) > 8:
+                stop = {"what","is","the","a","an","is","are","was","were","be","been","being","have","has","had","do","does","did","will","would","should","could","can","may","might","must","shall","to","of","and","or","but","if","then","else","when","where","why","how","for","in","on","at","with","about","latest","current","today","please"}
+                toks = _re.findall(r'\w+', q)
+                kept = []
+                for t in toks:
+                    low = t.lower()
+                    if low in stop and not t.isdigit():
+                        continue
+                    if len(t) < 2 and not t.isdigit():
+                        continue
+                    kept.append(t)
+                    if len(kept) >= 10:
+                        break
+                if kept:
+                    q = " ".join(kept)
+            q = q[:120].strip()
+            if q:
+                external_search_results = web_search(q, num=3)
+                if external_search_results:
+                    external_search_ctx = format_search_context(external_search_results)
+    except Exception:
+        external_search_ctx = ""
+        external_search_results = []
+
+    search_yielded = False
     for slug, model, extra in proxies_to_try:
         try:
             got_any = False
+            # For providers WITHOUT internal web search, inject our free search (Exa→DDG→Bing) if needed.
+            # Providers WITH internal search (geminiweb, longcat, inception, etc.) use their own — no prompt injection.
+            use_messages = messages
+            use_prompt = prompt
+            use_system = system
+            if external_search_ctx and slug not in PROVIDERS_WITH_INTERNAL_SEARCH:
+                if not search_yielded:
+                    yield {"type": "search", "content": external_search_ctx, "results": external_search_results}
+                    search_yielded = True
+                augmented = f"{prompt}\n\n{external_search_ctx}\n\nUse the search results above if relevant, cite sources as [1] [2]."
+                use_messages = [{"role": "system", "content": system}, {"role": "user", "content": augmented}]
+                use_prompt = augmented
             if slug == "qwenfast":
                 from api import qwenfast_proxy
-                for chunk in qwenfast_proxy.stream_chat(messages=messages, model=model):
+                for chunk in qwenfast_proxy.stream_chat(messages=use_messages, model=model):
                     t = chunk.get("type")
                     if t == "text":
                         c = chunk.get("content") or ""
@@ -273,7 +323,7 @@ def stream_proxy_chat(system, prompt, model_key="neby-pro"):
                     return
             elif slug == "geminiweb":
                 from api import geminiweb_proxy
-                for chunk in geminiweb_proxy.stream_chat(messages, model=model):
+                for chunk in geminiweb_proxy.stream_chat(use_messages, model=model):
                     t = chunk.get("type")
                     if t == "thought":
                         c = chunk.get("text") or chunk.get("content") or ""
@@ -293,7 +343,7 @@ def stream_proxy_chat(system, prompt, model_key="neby-pro"):
 
             elif slug == "tryingopen":
                 from api import tryingopen_proxy
-                for chunk in tryingopen_proxy.stream_chat(messages, model=model, effort=extra.get("effort", "deep"), system_prompt=system):
+                for chunk in tryingopen_proxy.stream_chat(use_messages, model=model, effort=extra.get("effort", "deep"), system_prompt=use_system):
                     t = chunk.get("type")
                     if t == "reasoning":
                         c = chunk.get("content") or ""
@@ -313,7 +363,7 @@ def stream_proxy_chat(system, prompt, model_key="neby-pro"):
 
             elif slug == "inception":
                 from api import inception_proxy
-                for chunk in inception_proxy.stream_chat(messages, model=model, reasoning_effort=extra.get("reasoning_effort", "high")):
+                for chunk in inception_proxy.stream_chat(use_messages, model=model, reasoning_effort=extra.get("reasoning_effort", "high")):
                     t = chunk.get("type")
                     if t in ("thought", "reasoning"):
                         c = chunk.get("text") or chunk.get("content") or ""
@@ -333,7 +383,7 @@ def stream_proxy_chat(system, prompt, model_key="neby-pro"):
 
             elif slug == "k2think":
                 from api import k2think_proxy
-                for chunk in k2think_proxy.stream_chat(messages, model=model):
+                for chunk in k2think_proxy.stream_chat(use_messages, model=model):
                     t = chunk.get("type")
                     if t in ("thought", "reasoning"):
                         c = chunk.get("text") or chunk.get("content") or ""
@@ -351,7 +401,7 @@ def stream_proxy_chat(system, prompt, model_key="neby-pro"):
 
             elif slug == "longcat":
                 from api import longcat_proxy
-                for chunk in longcat_proxy.stream_chat(messages, model=model):
+                for chunk in longcat_proxy.stream_chat(use_messages, model=model):
                     t = chunk.get("type")
                     if t == "text":
                         c = chunk.get("content") or chunk.get("text") or ""
@@ -364,7 +414,7 @@ def stream_proxy_chat(system, prompt, model_key="neby-pro"):
 
             elif slug == "egov":
                 from api import egov_proxy
-                for chunk in egov_proxy.stream_chat(user_message=prompt, model=model, history=[], system_prompt=system):
+                for chunk in egov_proxy.stream_chat(user_message=use_prompt, model=model, history=[], system_prompt=use_system):
                     t = chunk.get("type")
                     if t == "content":
                         c = chunk.get("text") or ""
@@ -377,7 +427,7 @@ def stream_proxy_chat(system, prompt, model_key="neby-pro"):
 
             elif slug == "deepai":
                 from api import deepai_proxy
-                for chunk in deepai_proxy.stream_chat(user_message=prompt, model=model, history=[], system_prompt=system):
+                for chunk in deepai_proxy.stream_chat(user_message=use_prompt, model=model, history=[], system_prompt=use_system):
                     t = chunk.get("type")
                     if t == "content":
                         c = chunk.get("text") or ""
@@ -396,8 +446,8 @@ def llm_chat_stream(user, system, prompt, max_tokens=1200, temperature=0.6, time
 
 
 def _accumulate_stream(system, prompt, model_key, yield_think=True, status_prefix=""):
-    """Generator: yields {type:'think'} and {type:'status'} frames live, then yields
-    {type:'_done', 'text': full_accumulated_text, 'model': 'provider/model'} as the final frame."""
+    """Generator: yields {type:'think'}, {type:'delta'} live, and {type:'status'} periodically,
+    then yields {type:'_done', 'text': full_accumulated_text, 'model': 'provider/model'} as final."""
     accumulated = []
     chars_yielded = 0
     used_model = ""
@@ -409,12 +459,18 @@ def _accumulate_stream(system, prompt, model_key, yield_think=True, status_prefi
             yield {"type": "model", "model": used_model}
         elif t == "think" and content and yield_think:
             yield {"type": "think", "content": content}
+        elif t == "search" and content:
+            yield {"type": "search", "content": content, "results": chunk.get("results") or []}
+            yield {"type": "think", "content": content[:200]}
         elif t == "delta" and content:
             accumulated.append(content)
+            yield {"type": "delta", "content": content}
             total = sum(len(c) for c in accumulated)
             if total - chars_yielded > 120:
                 chars_yielded = total
                 yield {"type": "status", "tool": "generating", "label": f"{status_prefix}Writing... ({total} chars)"}
+        elif t == "status" and content:
+            yield chunk
     yield {"type": "_done", "text": "".join(accumulated), "model": used_model}
 
 

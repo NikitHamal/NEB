@@ -23,15 +23,16 @@ window.LAZY_CONFIG = {
   csrfToken: "{{ csrf_token|escapejs }}",
   username: "{{ user.username|default:''|escapejs }}",
   sessions: {{ sessions_json|default:'[]'|safe }},
+  initialSessionId: "{{ initial_session_id|default:''|escapejs }}",
   credits: { unlimited: {{ lazy_credits.unlimited|yesno:'true,false' }}, remaining: {{ lazy_credits.remaining }} }
 };
 </script>
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/ai-widgets.js' %}?v=70"></script>
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/lazy/icons.js' %}?v=70"></script>
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/lazy/primitives.js' %}?v=70"></script>
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/lazy/records_table.js' %}?v=70"></script>
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/lazy/prompt_bar.js' %}?v=70"></script>
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/lazy/harness.js' %}?v=70"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/ai-widgets.js' %}?v=80"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/lazy/icons.js' %}?v=80"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/lazy/primitives.js' %}?v=80"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/lazy/records_table.js' %}?v=80"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/lazy/prompt_bar.js' %}?v=80"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/lazy/harness.js' %}?v=80"></script>
 <script nonce="{{ csp_nonce }}">
 document.addEventListener("DOMContentLoaded", function() {
   var root = document.getElementById("lzRoot");

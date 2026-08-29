@@ -39,14 +39,16 @@ def _get_user_or_none(request):
     return None
 
 
-def lazy_page(request):
+def lazy_page(request, session_id=None):
     user = _get_user_or_none(request)
     if not user:
         login_url = reverse('web:login')
-        return redirect(f"{login_url}?next=/lazy/")
+        next_url = f"/lazy/{session_id}/" if session_id else "/lazy/"
+        return redirect(f"{login_url}?next={next_url}")
     sessions = LazyDocSession.objects.filter(user=user)[:60]
     ctx = _ctx(request, hide_footer_links=True)
     ctx['sessions_json'] = json.dumps([_serialize_session(s) for s in sessions])
+    ctx['initial_session_id'] = str(session_id or request.GET.get('session') or '')
     unlimited, remaining, allowance = _canvas_credit_state(user)
     ctx['lazy_credits'] = {'unlimited': unlimited, 'remaining': max(0, remaining), 'allowance': allowance}
     return render(request, 'web/lazy.html', ctx)
@@ -325,9 +327,13 @@ def ajax_lazy_chat(request, session_id):
             yield f"data: {json.dumps({'type': 'error', 'message': str(exc)[:300]}, ensure_ascii=False)}\n\n"
             yield "data: [DONE]\n\n"
 
-    resp = StreamingHttpResponse(event_stream(), content_type='text/event-stream')
-    resp['Cache-Control'] = 'no-cache'
+    resp = StreamingHttpResponse(event_stream(), content_type='text/event-stream; charset=utf-8')
+    resp['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    resp['Pragma'] = 'no-cache'
+    resp['Expires'] = '0'
     resp['X-Accel-Buffering'] = 'no'
+    resp['X-LiteSpeed-Cache-Control'] = 'no-cache'
+    resp['Connection'] = 'keep-alive'
     return resp
 
 

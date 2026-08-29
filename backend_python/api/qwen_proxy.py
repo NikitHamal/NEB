@@ -10,6 +10,7 @@ import base64
 import hashlib
 import json
 import logging
+import os
 import random
 import re
 import threading
@@ -23,6 +24,9 @@ try:
     _USE_CURL_CFFI = True
 except ImportError:
     import requests as _requests
+    _USE_CURL_CFFI = False
+
+if os.environ.get("QWEN_FORCE_REQUESTS") == "1":
     _USE_CURL_CFFI = False
 
 import requests  # kept for midtoken helper which uses a plain requests.Session
@@ -68,7 +72,7 @@ def _check_waf_response(resp):
 def _solve_acw_sc_v2(html, url="https://chat.qwen.ai/"):
     """Try to solve Aliyun acw_sc__v2 JS challenge via js2py.
     Returns cookie value or None. Uses REA-traceable JS evaluation (no browser needed).
-    REA evidence: main.js 0.2.87 sets ssxmod_itna/bx-ua, but WAF sets acw_sc__v2 via eval'd JS
+    REA evidence: main.js 0.2.89 sets ssxmod_itna/bx-ua, but WAF sets acw_sc__v2 via eval'd JS
     that writes document.cookie. We evaluate that JS in a sandboxed JS engine.
     """
     try:
@@ -549,7 +553,7 @@ _BROWSER_PROFILES = (
     },
 )
 
-_WEB_CLIENT_VERSION = "0.2.87"
+_WEB_CLIENT_VERSION = "0.2.89"
 
 
 def build_session_headers(bx_ua="", profile=None):
@@ -614,10 +618,10 @@ def get_midtoken(session, force_refresh=False):
 _session_pool = []   # list of dicts: {session, cookies, created_at, msg_count}
 _pool_lock = threading.Lock()
 
-POOL_TARGET_SIZE = 6
+POOL_TARGET_SIZE = 3
 SESSION_MSG_LIMIT = 14   # retire at 14 to stay under Qwen's ~20-msg per-identity cap
 SESSION_TTL = 900        # 15 minutes absolute TTL
-_POOL_REFILL_INTERVAL = 120
+_POOL_REFILL_INTERVAL = 300
 _pool_refill_thread_started = False
 
 
@@ -864,14 +868,22 @@ def send_message(session, chat_id, message, model=None, parent_id=None,
         thinking_enabled = True
     elif mode == "auto":
         mode = None
-    feature_config = build_feature_config(thinking_enabled=thinking_enabled, mode=mode)
+    # Enable qwen's internal web search when prompt needs live data (no prompt injection needed)
+    chat_type = "t2t"
+    try:
+        from api.web_search import needs_search
+        if needs_search(full_prompt):
+            chat_type = "search"
+    except Exception:
+        chat_type = "t2t"
+    feature_config = build_feature_config(thinking_enabled=thinking_enabled, mode=mode, chat_type=chat_type)
     payload = build_msg_payload(
         chat_id=chat_id,
         model=model,
         full_prompt=full_prompt,
         parent_id=parent_id,
         uploaded_files=uploaded_files or [],
-        chat_type="t2t",
+        chat_type=chat_type,
         chat_mode="normal",
         feature_config=feature_config,
         stream=True,
@@ -1155,5 +1167,20 @@ def call_qwen(system_prompt, user_message, model="qwen3.8-max", max_tokens=500,
             time.sleep(1)
             continue
 
-    logger.warning("Qwen: all direct attempts failed, returning empty (no fallback)")
+    logger.warning("Qwen: all direct attempts failed, trying qwenfast gateway as qwen backup")
+    try:
+        from .qwenfast_proxy import simple_chat as _qwenfast_simple
+        fb = _qwenfast_simple(
+            user_message=user_message,
+            system_prompt=system_prompt or "",
+            model="qwen3.8-27b",
+            max_tokens=max_tokens or 800,
+        )
+        if fb and fb.strip():
+            logger.info(f"Qwen via qwenfast backup succeeded ({len(fb)} chars)")
+            return fb.strip()
+        logger.warning("Qwen qwenfast backup empty")
+    except Exception as e:
+        logger.warning(f"Qwen qwenfast backup failed: {e}")
+    logger.warning("Qwen: all attempts failed, returning empty")
     return None

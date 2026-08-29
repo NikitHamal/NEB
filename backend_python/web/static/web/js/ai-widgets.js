@@ -1208,6 +1208,164 @@
     };
   }
 
+  /* ── ThinkingState — 4-variant expandable agent trace (Reasoning, Steps, Search, Coding) ── */
+  function ThinkingState(opts) {
+    opts = opts || {};
+    var variant = opts.variant || (opts.think ? "Reasoning" : "Steps");
+    var activeTitle = opts.active || (variant === "Search" ? "Searching the web" : (variant === "Coding" ? "Running tools" : "Thinking"));
+    var doneTitle = opts.done || opts.doneTitle || "Thought for a few moments";
+    var working = opts.isDone !== true;
+    var expanded = opts.expanded === true;
+    var query = opts.query || "";
+    var rows = [];
+
+    if (opts.rows && opts.rows.length) {
+      rows = opts.rows.slice();
+    } else if (opts.steps && opts.steps.length) {
+      rows = opts.steps.map(function(s) {
+        if (typeof s === "string") return { primary: s };
+        return { primary: s.text || s.primary || "", secondary: s.secondary, done: s.done };
+      });
+    } else if (opts.think) {
+      var rawLines = String(opts.think).split(/\n+/).map(function(s){ return s.trim(); }).filter(Boolean);
+      rows = rawLines.map(function(l) { return { primary: l }; });
+    }
+
+    var wrap = document.createElement("div");
+    wrap.className = "ai-thinking-state lz-thinking-state";
+
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "ai-think-header-btn lz-think-header-btn" + (working ? " is-working" : "");
+    btn.setAttribute("aria-expanded", String(expanded));
+
+    var sparkleSvg = '<svg width="16" height="16" viewBox="0 0 24 24" class="lz-think-sparkle" fill="' + (working ? "var(--ai-ink-2, #888)" : "var(--ai-ink-3, #aaa)") + '"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8z"/></svg>';
+    var chevronSvg = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ai-ink-3, #aaa)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="lz-think-chevron" style="transform:' + (expanded ? 'rotate(180deg)' : 'rotate(0)') + '"><path d="M6 9l6 6 6-6"/></svg>';
+
+    var labelSpan = document.createElement("span");
+    labelSpan.className = "lz-think-label-holder";
+    if (working) {
+      labelSpan.innerHTML = '<span class="lz-think-shimmer">' + escapeHtml(activeTitle) + '</span>';
+    } else {
+      labelSpan.innerHTML = '<span class="lz-think-done-text">' + escapeHtml(doneTitle) + '</span>';
+    }
+
+    btn.innerHTML = sparkleSvg;
+    btn.appendChild(labelSpan);
+    btn.insertAdjacentHTML('beforeend', chevronSvg);
+
+    var grid = document.createElement("div");
+    grid.className = "lz-think-grid";
+    grid.style.gridTemplateRows = expanded ? "1fr" : "0fr";
+    grid.style.opacity = expanded ? "1" : "0";
+
+    var clip = document.createElement("div");
+    clip.className = "lz-think-clip";
+
+    var trace = document.createElement("div");
+    trace.className = "lz-think-trace";
+
+    function renderRows() {
+      trace.innerHTML = "";
+      if (query && variant === "Search") {
+        var qEl = document.createElement("div");
+        qEl.className = "lz-think-row";
+        qEl.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ai-ink-3, #aaa)" stroke-width="2" stroke-linecap="round" style="flex-shrink:0"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><span class="lz-think-secondary">' + escapeHtml(query) + '</span>';
+        trace.appendChild(qEl);
+      }
+      rows.forEach(function(row, i) {
+        var rowEl = document.createElement("div");
+        var animStyle = 'animation:ai-fade-up 320ms cubic-bezier(0.23,1,0.32,1) ' + (i * 80) + 'ms both;';
+        rowEl.setAttribute("style", animStyle);
+
+        if (variant === "Reasoning") {
+          rowEl.className = "lz-think-row lz-think-reasoning";
+          rowEl.innerHTML = '<span class="lz-think-primary">' + escapeHtml(row.primary) + '</span>';
+        } else if (variant === "Search") {
+          rowEl.className = "lz-think-row lz-think-row-search";
+          var tone = (i % 3 === 0) ? "bg-accent" : ((i % 3 === 1) ? "bg-orange" : "bg-green");
+          var dotHtml = '<span class="lz-think-dot ' + tone + '"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><path d="M3.5 12h17M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></span>';
+          var secHtml = row.secondary ? '<span class="lz-think-secondary">' + escapeHtml(row.secondary) + '</span>' : '';
+          rowEl.innerHTML = dotHtml + '<span class="lz-think-primary">' + escapeHtml(row.primary) + '</span>' + secHtml;
+          if (row.href) {
+            var a = document.createElement("a");
+            a.className = rowEl.className;
+            a.href = row.href;
+            a.target = "_blank";
+            a.rel = "noreferrer";
+            a.setAttribute("style", animStyle);
+            a.innerHTML = rowEl.innerHTML;
+            rowEl = a;
+          }
+        } else if (variant === "Coding") {
+          rowEl.className = "lz-think-row lz-think-row-coding";
+          var secMono = row.secondary ? '<span class="lz-think-secondary font-mono">' + escapeHtml(row.secondary) + '</span>' : '';
+          var diffHtml = '';
+          if (row.add != null) {
+            diffHtml = '<span class="lz-think-diff-nums"><span class="text-green">+' + row.add + '</span> <span class="text-red">−' + row.del + '</span></span>';
+          }
+          rowEl.innerHTML = '<span class="lz-think-primary">' + escapeHtml(row.primary) + '</span>' + secMono + diffHtml;
+        } else {
+          // Steps
+          rowEl.className = "lz-think-row";
+          var isDoneRow = row.done || !working;
+          var iconHtml = isDoneRow
+            ? '<svg class="lz-think-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ai-ink-3, #aaa)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M20 6L9 17l-5-5"/></svg>'
+            : '<span class="lz-think-step-spin"></span>';
+          var secText = row.secondary ? '<span class="lz-think-secondary">' + escapeHtml(row.secondary) + '</span>' : '';
+          rowEl.innerHTML = iconHtml + '<span class="lz-think-primary">' + escapeHtml(row.primary) + '</span>' + secText;
+        }
+        trace.appendChild(rowEl);
+      });
+    }
+
+    renderRows();
+    clip.appendChild(trace);
+    grid.appendChild(clip);
+
+    var chevronEl = btn.querySelector(".lz-think-chevron");
+    btn.addEventListener("click", function() {
+      if (!rows.length) return;
+      expanded = !expanded;
+      btn.setAttribute("aria-expanded", String(expanded));
+      if (chevronEl) chevronEl.style.transform = expanded ? "rotate(180deg)" : "rotate(0)";
+      grid.style.gridTemplateRows = expanded ? "1fr" : "0fr";
+      grid.style.opacity = expanded ? "1" : "0";
+    });
+
+    wrap.appendChild(btn);
+    wrap.appendChild(grid);
+
+    return {
+      el: wrap,
+      addStep: function(text, done) {
+        rows.push({ primary: text, done: done });
+        renderRows();
+      },
+      addRow: function(rowObj) {
+        rows.push(rowObj);
+        renderRows();
+      },
+      appendThought: function(chunk) {
+        if (!rows.length) {
+          rows.push({ primary: chunk });
+        } else {
+          rows[0].primary += chunk;
+        }
+        renderRows();
+      },
+      setDone: function(finalTitle) {
+        working = false;
+        btn.classList.remove("is-working");
+        var sparkle = btn.querySelector(".lz-think-sparkle");
+        if (sparkle) sparkle.setAttribute("fill", "var(--ai-ink-3, #aaa)");
+        labelSpan.innerHTML = '<span class="lz-think-done-text">' + escapeHtml(finalTitle || doneTitle) + '</span>';
+        renderRows();
+      }
+    };
+  }
+  ThinkingState.create = ThinkingState;
+
   PixelLoader.create = PixelLoader;
   Trace.create = Trace;
   StreamingText.create = StreamingText;
@@ -1220,6 +1378,7 @@
 
   window.AIWidgets = {
     PixelLoader: PixelLoader,
+    ThinkingState: ThinkingState,
     Trace: Trace,
     StreamingText: StreamingText,
     ApprovalCard: ApprovalCard,

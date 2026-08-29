@@ -230,11 +230,26 @@ IceCreamHarness.prototype.init = function() {
 
   this.renderSidebarSessions();
 
-  if (CFG.sessions && CFG.sessions.length > 0) {
-    this.openSession(CFG.sessions[0].id);
+  var pathMatch = window.location.pathname.match(/\/lazy\/([a-zA-Z0-9_-]+)/);
+  var targetSid = (pathMatch && pathMatch[1] !== "agent") ? pathMatch[1] : (CFG.initialSessionId || "");
+
+  if (targetSid && (self.sessions.has(targetSid) || targetSid.length > 8)) {
+    this.openSession(targetSid, true);
+  } else if (CFG.sessions && CFG.sessions.length > 0) {
+    this.openSession(CFG.sessions[0].id, true);
   } else {
-    this.newChat();
+    this.newChat(true);
   }
+
+  window.addEventListener("popstate", function(e) {
+    var m = window.location.pathname.match(/\/lazy\/([a-zA-Z0-9_-]+)/);
+    var popSid = (m && m[1] !== "agent") ? m[1] : (e.state && e.state.sessionId);
+    if (popSid && popSid !== self.activeSessionId) {
+      self.openSession(popSid, true);
+    } else if (!popSid && self.activeSessionId) {
+      self.newChat(true);
+    }
+  });
 };
 
 IceCreamHarness.prototype.buildSidebar = function() {
@@ -560,18 +575,22 @@ IceCreamHarness.prototype.closeTab = function(id) {
   }
 };
 
-IceCreamHarness.prototype.newChat = function() {
+IceCreamHarness.prototype.newChat = function(skipPushState) {
   var self = this;
   this.activeSessionId = "";
   this.workspaceMode = false;
   this.closeArtifactPane();
   this.closeMobileSidebar();
+  document.title = "Lazy — NEBians";
 
   api("/ajax/lazy/sessions/create/", { method: "POST", body: "{}" }).then(function(d) {
     var ses = d.session;
     self.sessions.set(ses.id, ses);
     self.tabs.push(ses);
     self.activeSessionId = ses.id;
+    if (!skipPushState && window.location.pathname !== "/lazy/" + ses.id + "/") {
+      history.pushState({ sessionId: ses.id }, "", "/lazy/" + ses.id + "/");
+    }
     self.renderTabs();
     self.renderSidebarSessions();
     self.renderEmptyState();
@@ -580,11 +599,16 @@ IceCreamHarness.prototype.newChat = function() {
   });
 };
 
-IceCreamHarness.prototype.openSession = function(id) {
+IceCreamHarness.prototype.openSession = function(id, skipPushState) {
   var self = this;
+  if (!id) return;
   this.activeSessionId = id;
   this.workspaceMode = false;
   this.closeMobileSidebar();
+
+  if (!skipPushState && window.location.pathname !== "/lazy/" + id + "/") {
+    history.pushState({ sessionId: id }, "", "/lazy/" + id + "/");
+  }
 
   var existingTab = this.tabs.find(function(t){ return t.id === id; });
   if (!existingTab) {
@@ -598,7 +622,13 @@ IceCreamHarness.prototype.openSession = function(id) {
 
   api("/ajax/lazy/sessions/" + id + "/", { method: "GET" }).then(function(d) {
     self.sessions.set(id, d);
+    if (d.title) {
+      document.title = d.title + " — NEBians";
+      var t = self.tabs.find(function(tab){ return tab.id === id; });
+      if (t) t.title = d.title;
+    }
     self.renderTabs();
+    self.renderSidebarSessions();
     self.threadWrap.innerHTML = "";
     if (d.docHtml) {
       self.openArtifactPane(d.docHtml, d.docTitle);
@@ -1029,7 +1059,24 @@ IceCreamHarness.prototype.handleUserPrompt = function(payload) {
     if (data === "[DONE]") return;
     var f; try { f = JSON.parse(data); } catch(e) { return; }
 
-    if (f.type === "model") {
+    if (f.type === "user") {
+      if (f.title) {
+        var ses = self.sessions.get(self.activeSessionId) || { id: self.activeSessionId };
+        ses.title = f.title;
+        ses.updatedAt = Date.now();
+        self.sessions.set(self.activeSessionId, ses);
+
+        var tab = self.tabs.find(function(t){ return t.id === self.activeSessionId; });
+        if (tab) tab.title = f.title;
+
+        document.title = f.title + " — NEBians";
+        self.renderSidebarSessions();
+        self.renderTabs();
+      }
+      if (self.activeSessionId && window.location.pathname !== "/lazy/" + self.activeSessionId + "/") {
+        history.replaceState({ sessionId: self.activeSessionId }, "", "/lazy/" + self.activeSessionId + "/");
+      }
+    } else if (f.type === "model") {
       liveModel = f.model || f.content || "";
     } else if (f.type === "think") {
       liveThink += (f.content || "");
@@ -1039,6 +1086,21 @@ IceCreamHarness.prototype.handleUserPrompt = function(payload) {
           loader.setLabel(cleanSnippet.slice(0, 32) + "…");
         }
       }
+    } else if (f.type === "search") {
+      var searchText = f.content || "";
+      var searchResults = f.results || [];
+      if (searchResults.length && window.AIWidgets && window.AIWidgets.ToolChips) {
+        var sRows = searchResults.map(function(r, idx){
+          return { icon: "search", label: "Source " + (idx+1), chip: (r.title || r.url || "").slice(0,40), detail: [{text: (r.snippet||"").slice(0,120)}], mono: false };
+        });
+        var sChips = window.AIWidgets.ToolChips.create({ rows: sRows, diffs: [], header: {calls: searchResults.length, messages: 1}, reveal: "instant", open: false });
+        toolsHolder.appendChild(sChips.el);
+      } else if (searchText) {
+        liveThink += "\n" + searchText;
+        if (loader) loader.setLabel("Searching the web…");
+      }
+      // also keep search in think for final chips
+      liveTools.push({ name: "web_search", summary: "Searched " + (searchResults.length || 0) + " sources" });
     } else if (f.type === "status") {
       liveTools.push({ name: f.tool || "tool", summary: f.label || f.tool || "Working…" });
       if (loader) {
