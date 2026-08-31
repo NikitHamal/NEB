@@ -4,6 +4,7 @@ import { DRACOLoader } from 'three/addons/DRACOLoader.js';
 import { createEngine, createOrbitControls, basicLights, makeLabelSprite } from '../core/engine.js';
 import { createPanel, createHud, showInfoCard, hideInfoCard } from '../core/sim-ui.js';
 import { addScanGradeEnhancement } from '../core/bio3d-scan-grade.js';
+import { mergeWithPickMap, pickSource } from '../core/bio3d-batch.js';
 
 const LAYERS = ['skin', 'muscle', 'skeleton', 'organs'];
 const LAYER_LABEL = { skin: 'Skin', muscle: 'Muscles', skeleton: 'Skeleton', organs: 'Organs' };
@@ -270,7 +271,9 @@ export default function init(stage) {
     raycaster.setFromCamera(pointer, camera);
     const hits = raycaster.intersectObjects(clickableMeshes, false);
     if (hits.length) {
-      const obj = hits[0].object;
+      // Merged anatomy buffers keep a face->source table, so a tap still resolves to the
+      // individual bone or muscle that produced the hit rather than the whole merged mesh.
+      const obj = pickSource(hits[0].object, hits[0].faceIndex) || hits[0].object;
       selected = obj;
       highlight(obj);
 
@@ -379,18 +382,19 @@ export default function init(stage) {
         }
       });
 
+      // The anatomy model ships as 826 separate meshes sharing just 2 materials, so it costs
+      // 826 draw calls a frame. They are parked in one temporary group per anatomical layer
+      // and merged after every other enhancement has run - merging first would make the
+      // scan-grade pass operate on a handful of huge buffers instead of the original parts.
+      const gltfBuckets = new Map();
       meshesToProcess.forEach(child => {
         const type = child.userData.type;
-        if (type === 'bone') {
-          layerGroups.skeleton.add(child);
-        } else if (type === 'muscle') {
-          layerGroups.muscle.add(child);
-        } else if (type === 'organ' || type === 'skin') {
-          layerGroups.organs.add(child);
-        } else {
-          layerGroups.organs.add(child);
-        }
-        clickableMeshes.push(child);
+        let layer = layerGroups.organs;
+        if (type === 'bone') layer = layerGroups.skeleton;
+        else if (type === 'muscle') layer = layerGroups.muscle;
+        let bucket = gltfBuckets.get(layer);
+        if (!bucket) { bucket = new THREE.Group(); layer.add(bucket); gltfBuckets.set(layer, bucket); }
+        bucket.add(child);
         child.castShadow = true;
         child.receiveShadow = true;
         if (!child.userData.originalMaterial) {
@@ -405,6 +409,19 @@ export default function init(stage) {
       labels.forEach(l => layerGroups.organs.add(l));
 
       addScanGradeEnhancement(root, { kind: 'humanBody', quality, seed: 'human-body-explorer' });
+
+      // Merge each layer once the model has been fully enhanced. Procedural organs sit
+      // outside these buckets on purpose: the heart and lungs are animated individually.
+      for (const bucket of gltfBuckets.values()) {
+        try {
+          mergeWithPickMap(bucket, { mergeLines: true });
+        } catch (e) {
+          // A merge failure must never cost the student the model: parts stay unmerged, which
+          // is slow but renders correctly.
+          console.error('Anatomy merge failed, rendering unmerged:', e);
+        }
+        for (const child of bucket.children) if (child.isMesh) clickableMeshes.push(child);
+      }
 
       labels.forEach(l => { l.visible = false; });
       modelLoaded = true;

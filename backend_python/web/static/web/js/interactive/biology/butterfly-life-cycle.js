@@ -1,6 +1,7 @@
 import { THREE, createEngine, createOrbitControls, basicLights } from '../core/engine.js';
 import { createPanel, createHud, showInfoCard } from '../core/sim-ui.js';
 import { makeScanMaterial } from '../core/bio3d-scan-grade.js';
+import { batchStaticGeometry } from '../core/bio3d-batch.js';
 import { Particles, skyDome, applyEnvironmentLighting, glowTexture } from '../core/bio-fx.js';
 
 const STAGES = [
@@ -139,8 +140,9 @@ export default function init(stage) {
   }
   const head = new THREE.Mesh(new THREE.SphereGeometry(0.26, 16, 14), segMat);
   head.position.set(0.05, 0.42, 0); head.castShadow = true; catGroup.add(head);
+  const eyeMat = new THREE.MeshStandardMaterial({ color: 0x111111 });
   [-0.08, 0.08].forEach((dz) => {
-    const eye = new THREE.Mesh(new THREE.SphereGeometry(0.04, 8, 8), new THREE.MeshStandardMaterial({ color: 0x111111 }));
+    const eye = new THREE.Mesh(new THREE.SphereGeometry(0.04, 8, 8), eyeMat);
     eye.position.set(-0.05, 0.47, dz); catGroup.add(eye);
   });
   const legMat = new THREE.MeshStandardMaterial({ color: 0x1b4332, roughness: 0.75 });
@@ -230,7 +232,14 @@ export default function init(stage) {
   });
   builders.butterfly.add(bfGroup);
 
-  Object.values(builders).forEach((g) => { root.add(g); g.visible = false; });
+  // Each stage is a self-contained body built from dozens of individually placed primitives.
+  // They are merged per stage group rather than across the whole root, because stage
+  // visibility is toggled per group - a merged buffer spanning two stages could never hide.
+  Object.values(builders).forEach((g) => {
+    batchStaticGeometry(g, { mergeLines: true });
+    root.add(g);
+    g.visible = false;
+  });
 
   // Ambient pollen motes
   const pollen = new Particles(scene, { max: low ? 26 : 48, size: 0.16, texture: glowTexture('pollen', { inner: 'rgba(255,244,200,1)', mid: 'rgba(250,220,130,0.4)' }) });

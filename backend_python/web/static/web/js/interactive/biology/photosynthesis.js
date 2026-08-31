@@ -1,6 +1,7 @@
 import { THREE, createEngine, createOrbitControls, basicLights } from '../core/engine.js';
 import { createPanel, createHud, showInfoCard } from '../core/sim-ui.js';
 import { makeScanMaterial } from '../core/bio3d-scan-grade.js';
+import { batchStaticGeometry } from '../core/bio3d-batch.js';
 import {
   Particles, skyDome, applyEnvironmentLighting, lightShafts,
   glowTexture, moleculeTexture,
@@ -162,7 +163,9 @@ export default function init(stage) {
     leaves.push({ group, halo, phase: idx * 1.7, baseRotY: def.ang });
   });
 
-  // Chloroplast organelles clustered on leaf surfaces
+  // Chloroplast organelles clustered on leaf surfaces.
+  // One shared material (the previous build cloned it per mesh, which both cost 35 draw
+  // calls and disconnected the rate-driven glow below - it animated a material nothing used).
   const chloroGeo = new THREE.SphereGeometry(0.09, 10, 8);
   chloroGeo.scale(1.5, 0.75, 0.6);
   const chloroMat = new THREE.MeshStandardMaterial({ color: 0x7bd66a, emissive: 0x3f9142, emissiveIntensity: 0.2, roughness: 0.4 });
@@ -170,7 +173,7 @@ export default function init(stage) {
   leaves.forEach(({ group }, li) => {
     const n = low ? 4 : 7;
     for (let i = 0; i < n; i++) {
-      const m = new THREE.Mesh(chloroGeo, chloroMat.clone());
+      const m = new THREE.Mesh(chloroGeo, chloroMat);
       const t = 0.3 + (i / n) * 1.7;
       const side = i % 2 ? 1 : -1;
       m.position.set(side * (0.35 + (i % 3) * 0.22) * (1.2 - t / 3), t, 0.10 + Math.sin(t) * 0.06);
@@ -196,11 +199,19 @@ export default function init(stage) {
       });
       const pore = new THREE.Mesh(new THREE.CircleGeometry(0.045, 10), poreMat);
       pore.scale.set(0.4, 1, 1);
+      // Pores open and shut with the stomatal aperture, so they must stay individually
+      // addressable - the guard cells around them are static and get merged.
+      pore.userData.noBatch = true;
       stoma.add(pore);
       group.add(stoma);
       stomata.push({ group: stoma, pore });
     }
   });
+
+  // Each leaf carries 7 chloroplasts, 6 guard cells and 8 vein strands. Merging them inside
+  // the leaf group collapses ~21 draw calls per leaf into 4 while keeping the leaf sway,
+  // because the merged buffers stay children of the same swaying group.
+  for (const { group } of leaves) batchStaticGeometry(group, { mergeLines: true });
 
   // ---- Sun disc + volumetric shafts ----
   const sunSprite = new THREE.Sprite(new THREE.SpriteMaterial({

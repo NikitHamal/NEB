@@ -164,11 +164,21 @@ function makeAlbedoTexture(seedKey, baseColor, family = 'tissue', size = 256) {
         ctx.stroke();
       }
     }
-    ctx.globalAlpha = 0.12;
-    for (let i = 0; i < 900; i++) {
-      const v = Math.floor(160 + rand() * 70);
-      ctx.fillStyle = `rgba(${v},${v},${v},${0.05 + rand() * 0.18})`;
-      ctx.fillRect(rand() * s, rand() * s, 1, 1);
+    // Speckle noise is written straight into the pixel buffer: the previous version issued
+    // 900 individual fillRect calls per material, which dominated first-build time.
+    if (ctx.getImageData) {
+      const img = ctx.getImageData(0, 0, s, s);
+      const d = img.data;
+      for (let i = 0; i < 900; i++) {
+        const px = ((((rand() * s) | 0) + (((rand() * s) | 0) * s)) * 4) | 0;
+        const v = 160 + rand() * 70;
+        const a = 0.05 + rand() * 0.18;
+        const ia = 1 - a;
+        d[px] = d[px] * ia + v * a;
+        d[px + 1] = d[px + 1] * ia + v * a;
+        d[px + 2] = d[px + 2] * ia + v * a;
+      }
+      ctx.putImageData(img, 0, 0);
     }
     ctx.globalAlpha = 1;
   }, { kind: 'albedo', size, repeat: family === 'fur' ? 2 : 1, colorSpace: THREE.SRGBColorSpace });
@@ -212,6 +222,19 @@ function makeRoughnessTexture(seedKey, family = 'tissue', size = 128) {
   const rand = seeded(`${seedKey}:rough:${family}`);
   return canvasTexture(`${seedKey}:${family}:rough`, (ctx, s) => {
     const base = family === 'wet' ? 80 : family === 'chitin' ? 135 : family === 'bone' ? 170 : 150;
+    // Whole map is composed in one pixel buffer - the previous version issued 1800
+    // fillRect calls per material.
+    if (ctx.createImageData) {
+      const img = ctx.createImageData(s, s);
+      const d = img.data;
+      for (let i = 0; i < s * s; i++) {
+        const v = base - 45 + rand() * 90;
+        const p = i * 4;
+        d[p] = v; d[p + 1] = v; d[p + 2] = v; d[p + 3] = 255;
+      }
+      ctx.putImageData(img, 0, 0);
+      return;
+    }
     ctx.fillStyle = `rgb(${base},${base},${base})`;
     ctx.fillRect(0, 0, s, s);
     for (let i = 0; i < 1800; i++) {
@@ -266,8 +289,13 @@ export function makeScanMaterial(key, baseColor, opts = {}) {
 }
 function shouldSkipMesh(obj) {
   if (!obj || !obj.isMesh || !obj.geometry || !obj.geometry.attributes || !obj.geometry.attributes.position) return true;
-  const type = obj.geometry.type || '';
-  if (type.includes('BoxGeometry') || type.includes('PlaneGeometry') || type.includes('CircleGeometry')) return true;
+  // Batching records whether a merged buffer came from flat panels or curved primitives,
+  // which preserves the original rule that flat panels are never displaced.
+  if (obj.userData && obj.userData.mergeClass === 'flat') return true;
+  if (!obj.userData || !obj.userData.mergeClass) {
+    const type = obj.geometry.type || '';
+    if (type.includes('BoxGeometry') || type.includes('PlaneGeometry') || type.includes('CircleGeometry')) return true;
+  }
   if (obj.userData && obj.userData.noScan) return true;
   const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
   if (mats.some((m) => m && ((m.metalness || 0) > 0.42 || (m.transparent && (m.opacity || 1) < 0.23)))) return true;
@@ -282,23 +310,37 @@ export function applyOrganicDisplacement(object, opts = {}) {
     const type = obj.geometry.type || '';
     const intensity = type.includes('Sphere') ? baseIntensity : baseIntensity * 0.72;
     if (intensity <= 0) return;
+    // Displacement runs over merged buffers that can hold tens of thousands of vertices,
+    // so read and write the typed arrays directly instead of going through the slow
+    // BufferAttribute get/set accessors.
     const geo = obj.geometry.clone();
     if (!geo.attributes.normal) geo.computeVertexNormals();
     const pos = geo.attributes.position;
     const normal = geo.attributes.normal;
+    const pArr = pos.array;
+    const nArr = normal.array;
     const localSeed = (seed ^ hashString(obj.uuid || obj.name || type)) >>> 0;
-    for (let i = 0; i < pos.count; i++) {
-      TMP_V.set(pos.getX(i), pos.getY(i), pos.getZ(i));
-      TMP_N.set(normal.getX(i), normal.getY(i), normal.getZ(i)).normalize();
-      const ridge = fbm(TMP_V.x * freq + 3.7, TMP_V.y * freq - 2.2, TMP_V.z * freq + 0.91, localSeed);
-      const pore = fbm(TMP_V.x * freq * 5.0, TMP_V.y * freq * 5.0, TMP_V.z * freq * 5.0, localSeed + 93);
-      const band = Math.sin((TMP_V.y + TMP_V.x * 0.18) * 18.0 + localSeed * 0.0001) * 0.5 + 0.5;
+    for (let i = 0, n = pos.count; i < n; i++) {
+      const i3 = i * 3;
+      const x = pArr[i3];
+      const y = pArr[i3 + 1];
+      const z = pArr[i3 + 2];
+      let nx = nArr[i3];
+      let ny = nArr[i3 + 1];
+      let nz = nArr[i3 + 2];
+      const nlen = Math.sqrt(nx * nx + ny * ny + nz * nz) || 1;
+      nx /= nlen; ny /= nlen; nz /= nlen;
+      const ridge = fbm(x * freq + 3.7, y * freq - 2.2, z * freq + 0.91, localSeed);
+      const pore = fbm(x * freq * 5.0, y * freq * 5.0, z * freq * 5.0, localSeed + 93);
+      const band = Math.sin((y + x * 0.18) * 18.0 + localSeed * 0.0001) * 0.5 + 0.5;
       const disp = ((ridge - 0.5) * 1.15 + (pore - 0.5) * 0.40 + (band - 0.5) * 0.22) * intensity;
-      TMP_V.addScaledVector(TMP_N, disp);
-      pos.setXYZ(i, TMP_V.x, TMP_V.y, TMP_V.z);
+      pArr[i3] = x + nx * disp;
+      pArr[i3 + 1] = y + ny * disp;
+      pArr[i3 + 2] = z + nz * disp;
     }
     pos.needsUpdate = true;
     geo.computeVertexNormals();
+    obj.geometry.dispose();
     obj.geometry = geo;
     obj.userData.scanDisplaced = true;
   });
