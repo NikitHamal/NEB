@@ -852,6 +852,9 @@ fun NEBiansNavHost(
                         restoreState = true
                     }
                 },
+                photoUrl = userProfile?.photoUrl,
+                username = userProfile?.displayName ?: userProfile?.username ?: "",
+                onProfileClick = navigateToOwnProfile,
                 modifier = Modifier.align(Alignment.BottomCenter)
             )
         }
