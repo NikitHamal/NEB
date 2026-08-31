@@ -1,10 +1,15 @@
 package com.neb.ians
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.core.view.WindowCompat
@@ -32,11 +37,11 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        configureSystemBars()
+        configureEdgeToEdge()
         handleIntent(intent)
         inAppUpdateHelper.checkForUpdate(this)
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (androidx.core.content.ContextCompat.checkSelfPermission(
                     this,
                     android.Manifest.permission.POST_NOTIFICATIONS
@@ -64,6 +69,31 @@ class MainActivity : ComponentActivity() {
             val settingsViewModel: SettingsViewModel = hiltViewModel()
             val isDarkMode by settingsViewModel.isDarkMode.collectAsState()
 
+            DisposableEffect(isDarkMode) {
+                enableEdgeToEdge(
+                    statusBarStyle = if (isDarkMode) {
+                        SystemBarStyle.dark(android.graphics.Color.TRANSPARENT)
+                    } else {
+                        SystemBarStyle.light(
+                            android.graphics.Color.TRANSPARENT,
+                            android.graphics.Color.TRANSPARENT
+                        )
+                    },
+                    navigationBarStyle = if (isDarkMode) {
+                        SystemBarStyle.dark(android.graphics.Color.TRANSPARENT)
+                    } else {
+                        SystemBarStyle.light(
+                            android.graphics.Color.TRANSPARENT,
+                            android.graphics.Color.TRANSPARENT
+                        )
+                    }
+                )
+                val insetsController = WindowInsetsControllerCompat(window, window.decorView)
+                insetsController.isAppearanceLightStatusBars = !isDarkMode
+                insetsController.isAppearanceLightNavigationBars = !isDarkMode
+                onDispose {}
+            }
+
             NEBiansTheme(darkTheme = isDarkMode) {
                 NEBiansNavHost(
                     settingsViewModel = settingsViewModel,
@@ -73,8 +103,12 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun configureSystemBars() {
-        WindowCompat.setDecorFitsSystemWindows(window, true)
+    private fun configureEdgeToEdge() {
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            window.attributes.layoutInDisplayCutoutMode =
+                WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+        }
         val controller = WindowInsetsControllerCompat(window, window.decorView)
         controller.systemBarsBehavior =
             WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE

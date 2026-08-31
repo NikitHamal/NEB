@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!--
         Base Material3 DayNight theme for NEBians.
         Compose theming handles most of the visual styling;
         this XML theme is only needed for the splash/activity window.
     -->
     <style name="Theme.NEBians" parent="android:Theme.Material.Light.NoActionBar">
-        <!-- Minimal overrides - Compose theming is primary -->
+        <!-- Transparent system bars for modern edge-to-edge -->
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:enforceStatusBarContrast" tools:targetApi="q">false</item>
+        <item name="android:enforceNavigationBarContrast" tools:targetApi="q">false</item>
     </style>
 </resources>
