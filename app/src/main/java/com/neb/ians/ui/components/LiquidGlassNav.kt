@@ -155,6 +155,9 @@ fun LiquidGlassBottomNav(
     currentRoute: String?,
     onSelect: (NebNavItem) -> Unit,
     modifier: Modifier = Modifier,
+    photoUrl: String? = null,
+    username: String = "",
+    onProfileClick: (() -> Unit)? = null,
 ) {
     val isDark = MaterialTheme.colorScheme.surface.luminanceIsDark()
     val glassBase = MaterialTheme.colorScheme.surfaceContainerLowest
@@ -170,22 +173,51 @@ fun LiquidGlassBottomNav(
         modifier = modifier
             .fillMaxWidth()
             .navigationBarsPadding()
-            .padding(horizontal = 36.dp, vertical = 14.dp),
+            .padding(horizontal = 24.dp, vertical = 14.dp),
         contentAlignment = Alignment.Center
     ) {
         Row(
-            modifier = Modifier
-                .shadow(18.dp, CircleShape, clip = false, ambientColor = Color.Black.copy(alpha = 0.18f), spotColor = Color.Black.copy(alpha = 0.22f))
-                .clip(CircleShape)
-                .background(glassBrush)
-                .border(1.dp, borderColor, CircleShape)
-                .padding(horizontal = 8.dp, vertical = 8.dp),
-            horizontalArrangement = Arrangement.spacedBy(4.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            items.forEach { item ->
-                val selected = currentRoute == item.route
-                GlassNavItem(item = item, selected = selected, onClick = { onSelect(item) })
+            Row(
+                modifier = Modifier
+                    .shadow(18.dp, CircleShape, clip = false, ambientColor = Color.Black.copy(alpha = 0.18f), spotColor = Color.Black.copy(alpha = 0.22f))
+                    .clip(CircleShape)
+                    .background(glassBrush)
+                    .border(1.dp, borderColor, CircleShape)
+                    .padding(horizontal = 8.dp, vertical = 8.dp),
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                items.forEach { item ->
+                    val selected = currentRoute == item.route
+                    GlassNavItem(item = item, selected = selected, onClick = { onSelect(item) })
+                }
+            }
+
+            if (onProfileClick != null) {
+                Box(
+                    modifier = Modifier
+                        .shadow(18.dp, CircleShape, clip = false, ambientColor = Color.Black.copy(alpha = 0.18f), spotColor = Color.Black.copy(alpha = 0.22f))
+                        .clip(CircleShape)
+                        .background(glassBrush)
+                        .border(1.dp, borderColor, CircleShape)
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = null,
+                            onClick = onProfileClick
+                        )
+                        .padding(6.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    NebAvatar(
+                        photoUrl = photoUrl,
+                        name = username.ifBlank { "User" },
+                        size = 38.dp,
+                        ring = false
+                    )
+                }
             }
         }
     }
