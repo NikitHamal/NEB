@@ -250,6 +250,7 @@ fun NebAvatar(
     name: String,
     size: Dp = 40.dp,
     ring: Boolean = false,
+    showBorder: Boolean = true,
     verificationLevel: Int = 0,
     modifier: Modifier = Modifier,
 ) {
@@ -290,7 +291,7 @@ fun NebAvatar(
                     else MaterialTheme.colorScheme.primaryContainer
                 )
                 .then(
-                    if (hasImageBgNeb) Modifier.border(1.5.dp, MaterialTheme.colorScheme.outlineVariant, CircleShape)
+                    if (hasImageBgNeb && showBorder) Modifier.border(1.5.dp, MaterialTheme.colorScheme.outlineVariant, CircleShape)
                     else Modifier
                 ),
             contentAlignment = Alignment.Center
