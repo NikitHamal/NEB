@@ -1,6 +1,7 @@
 import { THREE, makeLabelSprite } from './engine.js';
 import { getBiologyMetricRows, getBiologyFormula } from './bio3d-science.js';
 import { addScanGradeEnhancement, disposeScanGradeAssets } from './bio3d-scan-grade.js';
+import { batchStaticGeometry } from './bio3d-batch.js';
 
 // Production-grade procedural biology models for NEB practicals.
 // No external meshes are required: every model is generated from optimized Three.js primitives,
@@ -484,7 +485,13 @@ export function buildBiologyModel(root, config, state, actors = {}) {
   addMetricPlaque(root, config, state);
   addCalibrationReference(root, kind);
   addStamp(root, 'scan-grade scientific PBR - responsive/optimized');
+  // Collapse the hundreds of individually transformed primitives into one buffer per
+  // material before the scan-grade pass, so material/texture generation and vertex
+  // displacement run on a handful of meshes instead of several hundred.
+  batchStaticGeometry(root, { mergeLines: true });
   addScanGradeEnhancement(root, { kind, config, state, quality: actors.quality, seed: config.slug || kind });
+  // The scan-grade pass scatters many small micro-detail pieces; batch those too.
+  batchStaticGeometry(root, { mergeLines: true });
 }
 
 export function disposeBioMaterials() {

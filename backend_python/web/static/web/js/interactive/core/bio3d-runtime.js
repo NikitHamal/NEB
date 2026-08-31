@@ -1,4 +1,4 @@
-import { THREE, createEngine, createOrbitControls, basicLights } from './engine.js';
+import { THREE, createEngine, createOrbitControls, basicLights, makeContactShadow } from './engine.js';
 import { createPanel, createHud, showInfoCard } from './sim-ui.js';
 import { getBiologyPractical } from './bio3d-data.js';
 import { buildBiologyModel } from './bio3d-models.js';
@@ -78,12 +78,15 @@ export function initBio3DLab(stage, opts = {}) {
   const config = getBiologyPractical(opts.lessonSlug);
   stage.classList.add('bio3d-stage');
   stage.dataset.bioKind = config.kind;
-  const engine = createEngine(stage, { fov: 44, shadows: true });
+  const engine = createEngine(stage, { fov: 44, shadows: true, environment: true, exposure: 1.05 });
   if (!engine) return null;
   const { scene, camera, quality } = engine;
   scene.background = new THREE.Color(0x050816);
   scene.fog = new THREE.Fog(0x050816, 8, 24);
-  basicLights(scene, { ambient: 0.65, key: 1.9, fill: 0.65, keyPos: [4, 8, 6] });
+  basicLights(scene, { ambient: 0.45, key: 1.9, fill: 0.65, keyPos: [4, 8, 6], rim: 0.55, rimPos: [-5, 5, -7] });
+  // Grounding contact occlusion under the bench, for one draw call and no extra render pass.
+  const contactShadow = makeContactShadow({ y: 0.715, width: 6.2, depth: 4.4, opacity: 0.66 });
+  scene.add(contactShadow);
   const view = cameraViewFor(config.kind, quality.mobile);
   camera.position.set(...view.pos);
   const target = new THREE.Vector3(...view.target);
@@ -99,28 +102,33 @@ export function initBio3DLab(stage, opts = {}) {
   let records = [];
   let group = null;
   let needsRebuild = true;
+  let readoutsDirty = true;
+  let builtStateKey = null;
+  let lastRebuildAt = -Infinity;
 
   const panel = createPanel(stage, { title: config.title, compact: true, collapseOnMobile: true, startCollapsed: window.innerWidth < 720 });
   panel.info(config.aim);
   const stepInfo = panel.readout({ label: 'Step', value: `1/${config.steps.length}: ${config.steps[0]}` });
   const handles = new Map();
+  // Readouts are no longer recomputed every frame, so every state mutation flags them.
+  function markDirty() { needsRebuild = true; readoutsDirty = true; }
   (config.controls || []).slice(0, 3).forEach((control) => {
     if (control.type === 'select') {
-      const h = panel.select({ label: control.label, options: control.options, value: control.value, onChange: (v) => { state[control.id] = v; needsRebuild = true; } });
+      const h = panel.select({ label: control.label, options: control.options, value: control.value, onChange: (v) => { state[control.id] = v; markDirty(); } });
       handles.set(control.id, h);
     } else {
-      const h = panel.slider({ label: control.label, min: control.min, max: control.max, step: control.step, value: control.value, unit: control.unit || '', format: (v) => `${v}${control.unit || ''}`, onChange: (v) => { state[control.id] = v; needsRebuild = true; } });
+      const h = panel.slider({ label: control.label, min: control.min, max: control.max, step: control.step, value: control.value, unit: control.unit || '', format: (v) => `${v}${control.unit || ''}`, onChange: (v) => { state[control.id] = v; markDirty(); } });
       handles.set(control.id, h);
     }
   });
   panel.buttonRow([
     { label: 'Step', icon: 'skip_next', onClick: () => { stepIndex = (stepIndex + 1) % config.steps.length; stepInfo.set(`${stepIndex + 1}/${config.steps.length}: ${config.steps[stepIndex]}`); } },
     { label: 'Record', icon: 'playlist_add', onClick: () => recordCurrent() },
-    { label: 'Trial', icon: 'experiment', onClick: () => { randomize(config, state, handles); needsRebuild = true; updateReadouts(); } },
+    { label: 'Trial', icon: 'experiment', onClick: () => { randomize(config, state, handles); markDirty(); updateReadouts(); } },
   ]);
   panel.buttonRow([
     { label: 'View', icon: 'center_focus_strong', onClick: resetView },
-    { label: 'Clear', icon: 'delete_sweep', onClick: () => { records = []; table.clear(); updateReadouts(); } },
+    { label: 'Clear', icon: 'delete_sweep', onClick: () => { records = []; table.clear(); readoutsDirty = true; updateReadouts(); } },
     { label: 'Help', icon: 'help', onClick: () => showInfoCard(stage, { title: config.record, body: `${config.aim} Scientific model: ${getBiologyFormula(config, state)}. Record observations with units, compare against the result, then write a reasoned conclusion.`, color: '#22c55e' }) },
   ]);
   panel.section('Live readings');
@@ -134,12 +142,15 @@ export function initBio3DLab(stage, opts = {}) {
   const table = makeTable(panel.body);
 
   function resetView() { controls.setView(new THREE.Vector3(...view.pos), target); }
+  function stateKey() { return JSON.stringify(state); }
   function rebuild() {
     if (group) { scene.remove(group); disposeObject(group); }
     group = new THREE.Group();
     buildBiologyModel(group, config, state, { quality });
     scene.add(group);
     needsRebuild = false;
+    readoutsDirty = true;
+    builtStateKey = stateKey();
   }
   function updateReadouts() {
     const rows = getMetricRows(config, state, records.length);
@@ -160,11 +171,22 @@ export function initBio3DLab(stage, opts = {}) {
     showInfoCard(stage, { title: 'Observation recorded', body: `${main}. ${result}.`, color: '#22c55e' });
   }
 
+  // Rebuilding the model costs real time, so a dragging slider must not trigger a rebuild on
+  // every input event. Coalesce to at most one rebuild per REBUILD_INTERVAL and skip entirely
+  // when the state has not actually changed (e.g. re-picking the current dropdown option).
+  const REBUILD_INTERVAL = 0.12;
   engine.setUpdate((dt, t) => {
     controls.update(dt);
-    if (needsRebuild) rebuild();
+    if (needsRebuild && t - lastRebuildAt >= REBUILD_INTERVAL) {
+      if (stateKey() !== builtStateKey) {
+        lastRebuildAt = t;
+        rebuild();
+      } else {
+        needsRebuild = false;
+      }
+    }
     if (group && state.running) group.rotation.y += Math.sin(t * 0.5) * dt * 0.008;
-    updateReadouts();
+    if (readoutsDirty) { readoutsDirty = false; updateReadouts(); }
   });
   rebuild();
   engine.start();

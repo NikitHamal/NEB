@@ -1,6 +1,7 @@
-import { THREE, createEngine, createOrbitControls, basicLights } from '../core/engine.js';
+import { THREE, createEngine, createOrbitControls, basicLights, makeSignalPoints } from '../core/engine.js';
 import { createPanel, createHud, showInfoCard } from '../core/sim-ui.js';
 import { makeScanMaterial } from '../core/bio3d-scan-grade.js';
+import { batchStaticGeometry } from '../core/bio3d-batch.js';
 import {
   Particles, skyDome, applyEnvironmentLighting,
   cellTexture, glowTexture, ringTexture,
@@ -58,6 +59,9 @@ export default function init(stage) {
   sternum.position.set(0, 1.45, 0.86);
   sternum.rotation.x = -0.12;
   ribcage.add(sternum);
+  // 14 rib tubes and the sternum share one bone material, so they collapse into a single
+  // buffer. The ribcage never moves, so baking its transforms is loss-free.
+  batchStaticGeometry(ribcage, { mergeLines: true });
   scene.add(ribcage);
 
   const root = new THREE.Group();
@@ -107,6 +111,9 @@ export default function init(stage) {
       0.017, coronary, 20, 6
     ));
   }
+  // Batching inside the heart group keeps the beat animation intact: the merged buffers are
+  // children of a group whose scale is driven per frame.
+  batchStaticGeometry(heart, { mergeLines: true });
   root.add(heart);
 
   // ---- Lungs with internal bronchial tree ----
@@ -151,21 +158,25 @@ export default function init(stage) {
     }
     const alveoliTips = [];
     branch([x * 0.42, 1.55, 0.02], [x > 0 ? 0.30 : -0.30, -0.65, 0.05], 0.55, 0.062, low ? 1 : 2);
-    const alvMat = new THREE.SpriteMaterial({
-      map: glowTexture('alveolus', { inner: 'rgba(255,214,228,0.95)', mid: 'rgba(240,150,180,0.4)' }),
-      transparent: true, opacity: 0.5, depthWrite: false, blending: THREE.AdditiveBlending,
-    });
-    alvMat.userData.sharedFx = true;
-    const alveoli = [];
-    alveoliTips.forEach((p) => {
-      const s = new THREE.Sprite(alvMat.clone());
-      s.material.userData.sharedFx = true;
-      s.position.set(...p);
-      s.scale.setScalar(0.34);
-      lung.add(s);
-      alveoli.push(s);
-    });
+    // Every alveolus glows with the same intensity, so one additive points cloud replaces a
+    // sprite per tip - same soft round glow, one draw call instead of one per alveolus.
+    const alveoli = makeSignalPoints(alveoliTips.length, { size: 0.34, opacity: 0.5 });
+    for (let i = 0; i < alveoliTips.length; i++) {
+      const p = alveoliTips[i];
+      alveoli.position[i * 3] = p[0];
+      alveoli.position[i * 3 + 1] = p[1];
+      alveoli.position[i * 3 + 2] = p[2];
+      alveoli.color[i * 3] = 1.0;
+      alveoli.color[i * 3 + 1] = 0.82;
+      alveoli.color[i * 3 + 2] = 0.88;
+    }
+    alveoli.geo.setDrawRange(0, alveoliTips.length);
+    alveoli.points.renderOrder = 4;
+    lung.add(alveoli.points);
     lung.position.set(x, 0.78, -0.05);
+    // Merges the bronchial tree (7 tubes) and the fissure lines inside the lung group, so the
+    // breathing scale applied to the group still drives them.
+    batchStaticGeometry(lung, { mergeLines: true });
     return { lung, meshes: [um, lm], alveoli };
   }
   const left = buildLung(-1.02);
@@ -175,15 +186,21 @@ export default function init(stage) {
 
   // Trachea with cartilage rings
   const tracheaMat = makeScanMaterial('trachea-pbr', 0xd7c3b0, { family: 'tissue', roughness: 0.58, textureSize: 128 });
+  // Trachea and its cartilage rings are one structure: they now merge into a single buffer
+  // inside a group, so the rings travel with the airway as it bobs during breathing (they
+  // used to be welded to the scene while the cylinder moved).
+  const tracheaGroup = new THREE.Group();
   const trachea = new THREE.Mesh(new THREE.CylinderGeometry(0.105, 0.105, 1.15, 14), tracheaMat);
   trachea.position.set(0, 2.15, 0.02);
-  root.add(trachea);
+  tracheaGroup.add(trachea);
   for (let i = 0; i < 7; i++) {
     const ring = new THREE.Mesh(new THREE.TorusGeometry(0.108, 0.011, 6, 20), tracheaMat);
     ring.rotation.x = Math.PI / 2;
     ring.position.set(0, 1.68 + i * 0.155, 0.02);
-    root.add(ring);
+    tracheaGroup.add(ring);
   }
+  root.add(tracheaGroup);
+  batchStaticGeometry(tracheaGroup, { mergeLines: true });
 
   // Diaphragm dome
   const diaphragmGeo = new THREE.SphereGeometry(1, 36, 14, 0, Math.PI * 2, 0, Math.PI / 2);
@@ -325,9 +342,9 @@ export default function init(stage) {
     right.lung.scale.set(lungScale, lungScale * 0.96, lungScale);
     left.meshes[0].material.emissiveIntensity = 0.10 + inflate * 0.28;
     const alvGlow = 0.25 + inflate * 0.55;
-    left.alveoli.forEach((s) => { s.material.opacity = alvGlow; });
-    right.alveoli.forEach((s) => { s.material.opacity = alvGlow; });
-    trachea.position.y = 2.15 + inflate * 0.05;
+    left.alveoli.mat.opacity = alvGlow;
+    right.alveoli.mat.opacity = alvGlow;
+    tracheaGroup.position.y = inflate * 0.05;
     diaphragm.position.y = -0.44 - inflate * 0.34;
     diaphragm.scale.y = 1.10 - inflate * 0.40;
 

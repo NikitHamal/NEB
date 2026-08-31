@@ -70,7 +70,7 @@ export default function init(stage) {
 
   const panel = createPanel(stage, { title: 'AI Ethics & Your Future' });
   panel.info('AI is powerful, but it inherits human bias and raises hard questions about accountability and privacy. Read each scenario, choose the best response, and learn the lesson.');
-  panel.button({ label: 'Previous', icon: 'arrow_back', onClick: () => { idx = (idx - 1 + SCENARIOS.length) % SCENARIOS.length); } });
+  panel.button({ label: 'Previous', icon: 'arrow_back', onClick: () => { idx = (idx - 1 + SCENARIOS.length) % SCENARIOS.length; } });
   panel.button({ label: 'Next scenario', icon: 'arrow_forward', onClick: () => { idx = (idx + 1) % SCENARIOS.length; } });
   panel.button({ label: 'Reset score', icon: 'refresh', variant: 'ghost', onClick: () => { answered = new Array(SCENARIOS.length).fill(null); score = 0; total = 0; } });
   panel.divider();
