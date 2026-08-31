@@ -121,20 +121,6 @@ fun NebTopBar(
         if (onSearch != null) {
             NebIconButton(Icons.Outlined.Search, "Search", onSearch)
         }
-        if (isAuthenticated && onProfile != null) {
-            Box {
-                NebAvatar(photoUrl = photoUrl, name = username, size = 34.dp, ring = true,
-                    modifier = Modifier.clickable(onClick = onProfile))
-                if (unread > 0) {
-                    UnreadCountBadge(
-                        count = unread,
-                        modifier = Modifier
-                            .align(Alignment.TopEnd)
-                            .padding(top = 1.dp, end = 1.dp)
-                    )
-                }
-            }
-        }
     }
 }
 
@@ -168,6 +154,7 @@ fun LiquidGlassBottomNav(
         )
     )
     val borderColor = if (isDark) Color.White.copy(alpha = 0.10f) else Color.White.copy(alpha = 0.55f)
+    val navHeight = 56.dp
 
     Box(
         modifier = modifier
@@ -182,11 +169,12 @@ fun LiquidGlassBottomNav(
         ) {
             Row(
                 modifier = Modifier
+                    .height(navHeight)
                     .shadow(18.dp, CircleShape, clip = false, ambientColor = Color.Black.copy(alpha = 0.18f), spotColor = Color.Black.copy(alpha = 0.22f))
                     .clip(CircleShape)
                     .background(glassBrush)
                     .border(1.dp, borderColor, CircleShape)
-                    .padding(horizontal = 8.dp, vertical = 8.dp),
+                    .padding(horizontal = 6.dp),
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -199,23 +187,22 @@ fun LiquidGlassBottomNav(
             if (onProfileClick != null) {
                 Box(
                     modifier = Modifier
+                        .size(navHeight)
                         .shadow(18.dp, CircleShape, clip = false, ambientColor = Color.Black.copy(alpha = 0.18f), spotColor = Color.Black.copy(alpha = 0.22f))
                         .clip(CircleShape)
-                        .background(glassBrush)
-                        .border(1.dp, borderColor, CircleShape)
                         .clickable(
                             interactionSource = remember { MutableInteractionSource() },
                             indication = null,
                             onClick = onProfileClick
-                        )
-                        .padding(6.dp),
+                        ),
                     contentAlignment = Alignment.Center
                 ) {
                     NebAvatar(
                         photoUrl = photoUrl,
                         name = username.ifBlank { "User" },
-                        size = 38.dp,
-                        ring = false
+                        size = navHeight,
+                        ring = false,
+                        showBorder = false
                     )
                 }
             }

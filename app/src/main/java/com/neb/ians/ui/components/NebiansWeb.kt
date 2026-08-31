@@ -195,16 +195,7 @@ fun WebTopBar(
                     )
                 }
             } else if (title == null) {
-                // Home screen specific dashboard header layout (Avatar on left,Greeting,Name)
-                Avatar(
-                    name = name,
-                    imageUrl = photo,
-                    modifier = Modifier.clickable(onClick = onProfileClick),
-                    size = 40.dp,
-                    verificationLevel = verificationLevel,
-                    isAdmin = isAdmin
-                )
-
+                // Home screen specific dashboard header layout (Greeting,Name)
                 Column(
                     modifier = Modifier.weight(1f),
                     verticalArrangement = Arrangement.Center
@@ -309,17 +300,6 @@ fun WebTopBar(
                         )
                     }
                 }
-            }
-
-            if (showBack || title != null) {
-                Avatar(
-                    name = name,
-                    imageUrl = photo,
-                    modifier = Modifier.clickable(onClick = onProfileClick),
-                    size = 40.dp,
-                    verificationLevel = verificationLevel,
-                    isAdmin = isAdmin
-                )
             }
         }
     }
