@@ -287,11 +287,12 @@ fun NebAvatar(
                 .size(size)
                 .clip(CircleShape)
                 .background(
-                    if (hasImageBgNeb) MaterialTheme.colorScheme.surfaceContainerLowest
+                    if (isNeby) Color.Transparent
+                    else if (hasImageBgNeb) MaterialTheme.colorScheme.surfaceContainerLowest
                     else MaterialTheme.colorScheme.primaryContainer
                 )
                 .then(
-                    if (hasImageBgNeb && showBorder) Modifier.border(1.5.dp, MaterialTheme.colorScheme.outlineVariant, CircleShape)
+                    if ((isNeby || hasImageBgNeb) && showBorder) Modifier.border(1.5.dp, MaterialTheme.colorScheme.outlineVariant, CircleShape)
                     else Modifier
                 ),
             contentAlignment = Alignment.Center

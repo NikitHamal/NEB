@@ -1057,7 +1057,7 @@ fun Avatar(
             modifier = Modifier
                 .fillMaxSize()
                 .then(
-                    if (hasImageBg) Modifier.border(
+                    if (isNeby || hasImageBg) Modifier.border(
                         1.5.dp,
                         androidx.compose.material3.MaterialTheme.colorScheme.outlineVariant,
                         CircleShape
@@ -1065,6 +1065,7 @@ fun Avatar(
                 ),
             shape = CircleShape,
             color = when {
+                isNeby -> Color.Transparent
                 isNebians -> Color(0xFF1D65D8)
                 hasImageBg -> MaterialTheme.colorScheme.surfaceContainerLowest
                 else -> MaterialTheme.colorScheme.primary
