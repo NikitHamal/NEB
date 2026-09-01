@@ -77,10 +77,51 @@ def intelligence_tools_page(request):
             "files": [],
             "params": [],
         },
+        {
+            "id": "whisper_stt",
+            "label": "Voice → Text (Whisper)",
+            "icon": "mic",
+            "desc": "100% on-device STT — tiny.en 39MB to large-v3-turbo 400MB. English+Hindi, VAD, timestamps, offline forever.",
+            "size": "39 MB – 400 MB",
+            "badge": "ON-DEVICE",
+            "files": [],
+            "params": [],
+        },
+        {
+            "id": "kokoro_tts",
+            "label": "Text → Voice (Kokoro)",
+            "icon": "volume_up",
+            "desc": "100% on-device TTS — Kokoro 82M tiny 70MB to medium 300MB, MMS Hindi/English 38MB, streaming.",
+            "size": "3.4 MB – 300 MB",
+            "badge": "ON-DEVICE",
+            "files": [],
+            "params": [],
+        },
     ]
     ctx['intelligence_registry_json'] = json.dumps(on_device_registry, ensure_ascii=False)
     ctx['intelligence_registry'] = on_device_registry
     return render(request, 'web/intelligence_tools.html', ctx)
+
+
+@require_GET
+def whisper_tool_page(request):
+    ctx = _ctx(request)
+    resp = render(request, 'web/tools_whisper.html', ctx)
+    # Enable crossOriginIsolated for WASM threads (like whisper-web serve.py)
+    resp['Cross-Origin-Opener-Policy'] = 'same-origin'
+    resp['Cross-Origin-Embedder-Policy'] = 'credentialless'
+    resp['Cross-Origin-Resource-Policy'] = 'cross-origin'
+    return resp
+
+
+@require_GET
+def tts_tool_page(request):
+    ctx = _ctx(request)
+    resp = render(request, 'web/tools_tts.html', ctx)
+    resp['Cross-Origin-Opener-Policy'] = 'same-origin'
+    resp['Cross-Origin-Embedder-Policy'] = 'credentialless'
+    resp['Cross-Origin-Resource-Policy'] = 'cross-origin'
+    return resp
 
 
 def _tool_defs():
