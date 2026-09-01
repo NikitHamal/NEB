@@ -214,7 +214,37 @@ function renderWorkspace(t){
   else if(t.id==="scan_clean") renderScan(w,t);
   else if(t.id==="photo_scan") renderPhotoScan(w,t);
   else if(t.id==="table_extract") renderTable(w,t);
+  else if(t.id==="whisper_stt") renderWhisperSTT(w,t);
+  else if(t.id==="kokoro_tts") renderKokoroTTS(w,t);
   else w.innerHTML='<div style="color:var(--md-on-surface-variant)">Tool coming soon.</div>';
+}
+function renderWhisperSTT(root, tool){
+  root.innerHTML='\
+  <div class="di-work">\
+    <div style="padding:14px;border-radius:12px;background:var(--md-surface);border:1px solid var(--md-outline-variant);display:flex;gap:12px;align-items:center">\
+      <span class="material-symbols-outlined" style="font-size:28px;color:var(--md-primary)">mic</span>\
+      <div style="flex:1"><div style="font-weight:700">Voice → Text — Whisper</div><div style="font-size:.82rem;color:var(--md-on-surface-variant)">tiny.en 39MB to turbo 400MB · English+Hindi · VAD · timestamps · 100% offline</div></div>\
+      <a href="/tools/whisper/" target="_blank" class="md-btn md-btn-primary" style="gap:6px"><span class="material-symbols-outlined">open_in_new</span> Open</a>\
+    </div>\
+    <div style="border:1px solid var(--md-outline-variant);border-radius:12px;overflow:hidden;height:72vh;min-height:520px;background:var(--md-surface-container-lowest)">\
+      <iframe src="/tools/whisper/" style="width:100%;height:100%;border:0" loading="lazy" title="Whisper STT"></iframe>\
+    </div>\
+    <div style="font-size:.82rem;color:var(--md-on-surface-variant)">Opens the full Whisper page — also available directly at <a href="/tools/whisper/" style="color:var(--md-primary)">/tools/whisper/</a>. One-time model download, then offline forever.</div>\
+  </div>';
+}
+function renderKokoroTTS(root, tool){
+  root.innerHTML='\
+  <div class="di-work">\
+    <div style="padding:14px;border-radius:12px;background:var(--md-surface);border:1px solid var(--md-outline-variant);display:flex;gap:12px;align-items:center">\
+      <span class="material-symbols-outlined" style="font-size:28px;color:var(--md-primary)">volume_up</span>\
+      <div style="flex:1"><div style="font-weight:700">Text → Voice — Kokoro</div><div style="font-size:.82rem;color:var(--md-on-surface-variant)">Kokoro 82M tiny 70MB to medium 300MB · MMS Hindi 38MB · 11 voices · streaming · offline</div></div>\
+      <a href="/tools/tts/" target="_blank" class="md-btn md-btn-primary" style="gap:6px"><span class="material-symbols-outlined">open_in_new</span> Open</a>\
+    </div>\
+    <div style="border:1px solid var(--md-outline-variant);border-radius:12px;overflow:hidden;height:72vh;min-height:520px;background:var(--md-surface-container-lowest)">\
+      <iframe src="/tools/tts/" style="width:100%;height:100%;border:0" loading="lazy" title="Kokoro TTS"></iframe>\
+    </div>\
+    <div style="font-size:.82rem;color:var(--md-on-surface-variant)">Opens the full Kokoro page — also at <a href="/tools/tts/" style="color:var(--md-primary)">/tools/tts/</a>. Voices: af_heart/bella/sky/nicole/sarah/adam/michael/bf_emma/…</div>\
+  </div>';
 }
 
 // HANDWRITTEN MATH

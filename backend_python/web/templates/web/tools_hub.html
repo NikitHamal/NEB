@@ -67,6 +67,32 @@
         Open Intelligence <span class="material-symbols-outlined" style="font-size: 18px;">arrow_forward</span>
       </div>
     </a>
+    <a href="{% url 'web:whisper_tool' %}" class="md-card tools-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; padding: 20px; border-radius: 12px; border: 1px solid var(--md-outline-variant); background: var(--md-surface-container-lowest); cursor: pointer; transition: background var(--md-transition), border-color var(--md-transition); position: relative; overflow: hidden;">
+      <div style="position: absolute; top: 12px; right: 12px; background: #0f7a3d; color: #fff; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.5px; padding: 3px 7px; border-radius: 6px;">STT • ON-DEVICE</div>
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+        <span class="material-symbols-outlined" style="font-size: 32px; color: var(--md-primary);">mic</span>
+        <h2 class="md-title-large" style="margin: 0; font-size: 1.25rem; font-weight: 600;">Voice → Text</h2>
+      </div>
+      <p class="md-body-medium" style="color: var(--md-on-surface-variant); margin: 0 0 16px 0; flex-grow: 1;">
+        Whisper tiny.en 39MB to turbo 400MB, Hindi+English. 100% on-device, VAD, timestamps, offline forever. No audio leaves device.
+      </p>
+      <div style="display: flex; align-items: center; justify-content: flex-end; color: var(--md-primary); font-weight: 600; font-size: 0.875rem; gap: 4px;">
+        Open Whisper <span class="material-symbols-outlined" style="font-size: 18px;">arrow_forward</span>
+      </div>
+    </a>
+    <a href="{% url 'web:tts_tool' %}" class="md-card tools-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; padding: 20px; border-radius: 12px; border: 1px solid var(--md-outline-variant); background: var(--md-surface-container-lowest); cursor: pointer; transition: background var(--md-transition), border-color var(--md-transition); position: relative; overflow: hidden;">
+      <div style="position: absolute; top: 12px; right: 12px; background: #7c3aed; color: #fff; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.5px; padding: 3px 7px; border-radius: 6px;">TTS • ON-DEVICE</div>
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+        <span class="material-symbols-outlined" style="font-size: 32px; color: var(--md-primary);">volume_up</span>
+        <h2 class="md-title-large" style="margin: 0; font-size: 1.25rem; font-weight: 600;">Text → Voice</h2>
+      </div>
+      <p class="md-body-medium" style="color: var(--md-on-surface-variant); margin: 0 0 16px 0; flex-grow: 1;">
+        Kokoro 82M tiny 70MB to medium 300MB, MMS Hindi 38MB, streaming. 100% on-device, 11 voices, mp4/wav/ogg.
+      </p>
+      <div style="display: flex; align-items: center; justify-content: flex-end; color: var(--md-primary); font-weight: 600; font-size: 0.875rem; gap: 4px;">
+        Open Kokoro <span class="material-symbols-outlined" style="font-size: 18px;">arrow_forward</span>
+      </div>
+    </a>
   </div>
   </div>
 </div>
