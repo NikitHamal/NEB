@@ -4,7 +4,7 @@
 {% block extra_head %}
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-<script type="importmap">
+<script nonce="{{ csp_nonce }}" type="importmap">
 {
   "imports": {
     "kokoro-js": "https://esm.sh/kokoro-js@1.2.1?bundle",
@@ -12,7 +12,7 @@
   }
 }
 </script>
-<style>
+<style nonce="{{ csp_nonce }}">
 
 /* Reuse WhisperWeb minimal Poppins theme - same as index.html */
 :root {
@@ -364,7 +364,7 @@ html, body{ overflow-x:clip; }
   </div>
 </div>
 <div id="toasts"></div>
-<script>
+<script nonce="{{ csp_nonce }}">
 (function(){
   const btn=document.querySelector('.theme-toggle');
   const icon=document.getElementById('themeIcon');
@@ -380,7 +380,7 @@ html, body{ overflow-x:clip; }
   if(btn) btn.addEventListener('click',()=>{ cur=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'; apply(cur); });
 })();
 </script>
-<script type="module">
+<script nonce="{{ csp_nonce }}" type="module">
 import { KokoroTTS, TextSplitterStream } from "https://esm.sh/kokoro-js@1.2.1?bundle";
 import * as transformers from "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.5.1/dist/transformers.min.js";
 
@@ -1005,7 +1005,7 @@ function showCustomDialog({title='Confirm', message='', confirmText='Confirm', c
 
 {% endblock %}
 {% block extra_js %}
-<script type="importmap">
+<script nonce="{{ csp_nonce }}" type="importmap">
 {
   "imports": {
     "kokoro-js": "https://esm.sh/kokoro-js@1.2.1?bundle",
@@ -1013,10 +1013,10 @@ function showCustomDialog({title='Confirm', message='', confirmText='Confirm', c
   }
 }
 </script>
-<script>
+<script nonce="{{ csp_nonce }}">
 (function(){var t=localStorage.getItem('theme');if(!t){t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t);var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',t==='dark'?'#0e0e10':'#faf9f6')})();
 </script>
-<script>
+<script nonce="{{ csp_nonce }}">
 (function(){
   const btn=document.querySelector('.theme-toggle');
   const icon=document.getElementById('themeIcon');

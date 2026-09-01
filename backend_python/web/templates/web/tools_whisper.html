@@ -4,7 +4,7 @@
 {% block extra_head %}
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-<style>
+<style nonce="{{ csp_nonce }}">
 
 /*
   MINIMALIST PORTFOLIO - Nikit Hamal
@@ -1212,7 +1212,7 @@ html, body{ overflow-x:clip; }
 </div>
 <div id="toasts"></div>
 <div id="drop">⬇ Drop audio to transcribe (wav · mp3 · flac · m4a · ogg · webm)</div>
-<script>
+<script nonce="{{ csp_nonce }}">
 (function(){
   const btn=document.querySelector('.theme-toggle');
   const icon=document.getElementById('themeIcon');
@@ -1228,7 +1228,7 @@ html, body{ overflow-x:clip; }
   if(btn) btn.addEventListener('click',()=>{ cur=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'; apply(cur); });
 })();
 </script>
-<script type="module">
+<script nonce="{{ csp_nonce }}" type="module">
 
 /* ============================================================================
    WhisperWeb — single-file on-device Whisper (tiny/base) transcriber
@@ -2303,10 +2303,10 @@ const _embedQ=document.getElementById('embedQuery'); if(_embedQ) _embedQ.addEven
 
 {% endblock %}
 {% block extra_js %}
-<script>
+<script nonce="{{ csp_nonce }}">
 (function(){var t=localStorage.getItem('theme');if(!t){t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t);var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',t==='dark'?'#0e0e10':'#faf9f6')})();
 </script>
-<script>
+<script nonce="{{ csp_nonce }}">
 (function(){
   const btn=document.querySelector('.theme-toggle');
   const icon=document.getElementById('themeIcon');
