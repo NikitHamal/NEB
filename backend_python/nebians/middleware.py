@@ -340,7 +340,7 @@ class SecurityHeadersMiddleware:
 
         nonce = getattr(request, 'csp_nonce', '')
         img_sources = "img-src 'self' data: https:;"
-        connect_sources = ["'self'", "data:", "blob:", "https://accounts.google.com", "https://cdn.jsdelivr.net", "https://tessdata.projectnaptha.com", "https://huggingface.co", "https://*.huggingface.co", "https://github.com", "https://*.githubusercontent.com", "wss://*.trycloudflare.com", "https://*.trycloudflare.com"]
+        connect_sources = ["'self'", "data:", "blob:", "https://accounts.google.com", "https://cdn.jsdelivr.net", "https://esm.sh", "https://tessdata.projectnaptha.com", "https://huggingface.co", "https://*.huggingface.co", "https://github.com", "https://*.githubusercontent.com", "wss://*.trycloudflare.com", "https://*.trycloudflare.com"]
 
         ws_url = _get_ws_public_url_cached()
 
@@ -361,7 +361,7 @@ class SecurityHeadersMiddleware:
         img_sources_blob = img_sources.replace("img-src ", "img-src blob: ")
         csp = (
             "default-src 'self'; "
-            f"script-src 'self' 'nonce-{nonce}' 'wasm-unsafe-eval' https://accounts.google.com https://www.gstatic.com https://cdn.jsdelivr.net; "
+            f"script-src 'self' 'nonce-{nonce}' 'wasm-unsafe-eval' https://accounts.google.com https://www.gstatic.com https://cdn.jsdelivr.net https://esm.sh; "
             "worker-src 'self' blob: data: https://cdn.jsdelivr.net; "
             "child-src 'self' blob: data: https://cdn.jsdelivr.net; "
             "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://accounts.google.com https://cdn.jsdelivr.net; "
