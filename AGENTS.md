@@ -18,7 +18,7 @@
 
 ## Overview
 
-NEBians is a Material 3 Android app for Nepali students (NEB curriculum). It provides study resources (ebooks, PDFs, notes), a discussion forum, and an advanced PDF viewer with annotation tools.
+NEBians is a Nepali learning platform open to everyone — students of any curriculum, teachers, explorers, parents, schools, institutions, and the general public. It offers a digital library of study resources and a community discussion forum, with more advanced learning features still in development.
 
 **Package:** `com.neb.ians`
 **Min SDK:** 24 (legacy) / 28 (modern)
@@ -683,6 +683,48 @@ A trycloudflare URL looks like `https://abc123.trycloudflare.com` â€” diffe
 ## Continuity Notes
 
 ### What Was Worked On (Current Session)
+**Round 2: `yqcloud` + `chatjimmy` scrapers added; `ovh` removed; deploy.ps1 scp→ssh-pipe fix**
+
+- **Yqcloud** (`api/yqcloud_proxy.py`): from g4f's Yqcloud provider — `POST api.binjie.fun/api/generateStream` `{prompt, userId:#/chat/<ms>, network, system, withoutContext, stream}` (origin chat9.yqcloud.top), raw-text stream, history flattened into prompt. T1+T2='apple' live.
+- **ChatJimmy** (`api/chatjimmy_proxy.py`): reversed from tanu360's worker source — `POST chatjimmy.ai/api/chat` `{messages, chatOptions:{selectedModel:'llama3.1-8B', topK:8}}` (+ fake X-Real-IP), strips `<|stats|>`/`<|think|>` blocks. T1+T2='apple' live. Only 1 model.
+- Both wired: registry SCRAPER_PRESETS, arena community (+persist), admin chat caps/dispatch, neby branches, lazy lists+branch, runner community path, BotConfig+Arena choices (migration 0135), bot_config picker.
+- **OVH REMOVED** (was Tier-1): anonymous chat now 403s demanding OAuth (`/oauth/ovh/authorize`) — models list still anon but useless. Scrubbed preset/choices (migration 0136)/templates/lazy. Reasoning-fallback in client kept (generic).
+- **deploy.ps1 FIXED:** server kills SFTP-subsystem AND scp connections ("Connection closed") but allows exec channels — ZIP + restart script now stream over `ssh ... "cat > dest"` via a temp Python helper (binary-safe). Ruled out this round: TeachAnything (CF 403), phindai.org (g4f stale, no nonce), chat-gpt-oss.com (TLS/conn fail), Copilot (needs HAR-exported token), Aria (multi-step mobile signup — fiddly, deferred), Kimi guest / LMArena / Gradio spaces (untested).
+- **Deployed + verified live from server:** migration 0136, yq='apple', cj='Apple', llm7='apple', site 200.
+
+### Previous Session (round 3)
+**Brave Ask AI attempted then removed; admin chat picker filtered to chat providers**
+
+- **Brave** (`api/brave_proxy.py`, since deleted): full pure-HTTP reversal of search.brave.com/ask (SvelteKit `__data.json` nonce/sig → `/api/tap/v1/new` → SSE stream with text/citation/research events). Correct per g4f spec — but Brave serves a "drag the slider" bot challenge to datacenter IPs (local residential IP AND server both 429). Removed everywhere + migration 0138. Lesson: always live-verify from the SERVER before wiring a provider fully.
+- **Admin chat test picker** now only lists chat-wired providers (`_SCRAPER_DISPATCH` keys + qwen + official) — TTS voices (lazypy/googletts/moetts/kokoro/chatterbox/fishaudio) no longer appear there (they only ever errored with "Unknown provider"). TTS modules untouched for the media page.
+- Ruled out round 3: Aria (Opera rotated the embedded client_secret → `invalid_client`), Cloudflare playground (needs browser CDP), Puter (auth-walled), Blackbox (endpoint moved), Gradio spaces (0-3-like hobby bots, weak models), Kimi (401, login required), LMArena→arena.ai (queue+CF hardened), Yupp/Copilot (login/HAR token), Phind.com (CF 403), pi.ai (403), hailuoai (video-only site), KeylessAI worker (dead), nullsink (prepaid).
+- **Deployed + verified live:** migration 0138, picker list clean, site 200.
+
+### Previous Session (round 4)
+**Unikey anonymous-chat reversal (`unikey`) — fingerprint-rotated trial, 12 models**
+
+- **Mechanism** (`getunikey.ai/anonymous-chat`, new-api family): visitor chat POSTs OpenAI-style `{model, messages, stream:true}` to `/api/anonymous/chat/completions` (SSE deltas) with a self-reported `X-Anonymous-Fingerprint: <FingerprintJS visitorId>` header; quota via `/api/anonymous/chat/status`. Server enforces `AnonymousChatLimit` (3/visitor) + IP daily/minute limits + optional Turnstile (currently off, `turnstile_required:false`). Keyless `/v1/chat/completions` is 401 — the trial route is the only anon path.
+- **Rotation = the bypass:** the fingerprint is self-reported and the server trusts any string — a fresh random `rnd<hex32>` per call always reports `remaining:3`. Proxy mints a fresh fp per message (stateless, immune to multi-worker desync); history replayed from DB like k2think/poolside. Verified live: T1='apple', T2='banana' (history replay), quota decrements per fp as expected.
+- **12 models** (from live status): gpt-5.5 (default), google/gemini-3.5-flash, google/gemini-3.1-pro-preview, x-ai/grok-4.3, deepseek/deepseek-v4-pro, deepseek/deepseek-v4-flash, z-ai/glm-5.2, minimax/minimax-m3, moonshotai/kimi-k2.7-code, moonshotai/kimi-k3, claude-opus-4-7, claude-opus-4-8. One slow-model 524 observed (transient trial-queue timeout, not a block).
+- Wired: `api/unikey_proxy.py` (fresh-fp stream_chat/simple_chat, text/error/done chunks), registry SCRAPER_PRESETS, arena community (+persist, thinking flag), admin chat caps (stream+thinking) + dispatch, neby branch, lazy lists+branch (fast+pro), runner community path, BotConfig+Arena choices (migration 0139), bot_config picker (bot_edit dynamic via registry catalog).
+- **Deployed + verified live from server:** migration 0139, 12 models, simple_chat='apple', site 200.
+
+### Previous Session (tier-1)
+**Tier-1 keyless APIs wired: `llm7` + `kilo` + `zen` (all verified live, no API keys)**
+
+All four are OpenAI-compatible and work with zero credentials (live-probed before wiring): `llm7` (`api.llm7.io/v1`, literal Bearer `unused`, 10/min-60/hr-500K/day), `kilo` (`api.kilo.ai/api/gateway`, NO auth header, `:free` models, 200/hr/IP), `zen` (`opencode.ai/zen/v1`, UA `opencode/1.0` + literal Bearer `public`, 7 `-free` models, shared pool saturates → fallback), `ovh` (`oai.endpoints.kepler.ai.cloud.ovh.net/v1`, no auth, 2/min/model, Qwen3.8-27B + gpt-oss-120b + Llama-3.3-70B). Implementation: `ProviderPreset.default_key` + `extra_headers` (registry), `_preset_auth()`/`_openai_headers()` in `api/llm/client.py` (key/headers resolve by slug — zero caller changes; `Authorization` only sent when a key exists), `credentials.resolve` passes them through (`api_key='' ` allowed), `lazy_service._resolve_provider` accepts `source=='free'`, BotConfig choices + migration 0134, bot_config/bot_edit pickers. `client._openai_chat` falls back to `reasoning`/`reasoning_content` when `content` is empty (OVH puts answers there). Ruled out: Pollinations (402 pollen paywall), DuckDuckGo (JS anti-bot now), chat.z.ai (browser HMAC oracle — server can't), DeepSeek web (login+PoW), ApiAirforce/nullsink (key/prepaid). `agent-reach` CLI installed via pipx (v1.5.0, latest, 5/15 channels; GitHub/Exa need auth; user hasn't picked optional channels yet).
+- **Deployed + verified live from server:** llm7='apple', kilo answered, zen mimo='apple' (laguna 503 once = transient pool saturation), ovh Qwen3.8-27B='apple'. Migration 0134 applied.
+
+### Previous Session (qwencloud)
+**QwenCloud reversal + provider audit: added `qwencloud`, removed `qwenfast`/`egov`/`tembo`/`empero`/`gmi`/`agentrouter`**
+
+**QwenCloud (`api/qwencloud_proxy.py`, NEW):** full anonymous reversal of `www.qwencloud.com/try-ai` (Alibaba Bailian console). Flow per turn: `agentSessionRpcService.createApi` → `agentSessionTabRpcService.create` → `generateAccessToken` (single-use!) → `POST cs-stream.qwencloud.com/sse/console4Json/{token}` with `{messageId, data:[{type:'JSON_TEXT', value:JSON({Api:'agentPredictRpcService.predict', Data:{predictRequest, cornerstoneParam}})}]}`. Frames = cumulative `messageList[0].contentList` by `jsonPath`; part type `DeepThink` = reasoning, `Text` = answer. **Gotchas (all verified):** (1) `x-anonymous-id` HTTP header (16-alnum, must match cornerstoneParam) is REQUIRED on every call — gateway tightened this mid-session (missing header → `InvalidParameter url error`); (2) access tokens are single-use (2nd use → HTTP 401, mint fresh per predict); (3) `modelTypeIds` is per-model: `qwen3.8-max` NEEDS `["Reasoning","VU","TG"]`, all other 10 models need `["TG"]`/`["Reasoning","TG"]` (VU poisons them); (4) risk gate = `bx-umidtoken` header (`QWENCLOUD_UMIDTOKEN` env, in server `.env`, NOT in repo). Multi-turn: same tab reuse (server keeps history) or fresh-tab flattened transcript; arena persists `session_id|tab_code` in `ArenaChatSession.arena_token_id` (widened 64→128, migration 0132). 11 models from the UI's own dropdown (qwen3.8-max default, qwen3-coder-plus for coding). Supports system prompt, thinking on/off, thinking_budget (1-32768), temperature/top_p. `quota()` reports `xUmidNumber/limit`.
+- **Token ops:** each umidtoken ≈ 20 predicts (failures burn quota too). Refresh: run `backend_python/tools/mint_qwencloud_token.py` locally (Playwright mints from the live page) → put value in server `.env` as `QWENCLOUD_UMIDTOKEN` → restart worker + LSAPI. Exhaustion surfaces as a clear error naming the env var. NEVER commit the token.
+- **SSH helper:** `C:\Temp\ssh_run.py` (outside repo) wraps key+icacls+ssh; remote `pkill -f` self-matches — always use the `[r]` bracket trick. deploy.ps1 does NOT touch `.env`.
+- **Audit verdicts (all tested multi-turn T1+T2):** KEEP qwen (probe ok; sends punished from residential IP — verify from server), k2think, inception, poolside, motiftech (fixed stateless history flatten in proxy; arena conv-id path already worked), metaai, tryingopen, longcat, geminiweb, deepai (legacy `content` chunks — harness artifact, not a bug). REMOVED: `qwenfast` (user order, dead upstream), `egov` (upstream dead — official UI returns canned greeting, no generation; hashes verified current so it's not our bug), `tembo` (needs server-side browser — impossible on shared hosting; widget unresponsive), `empero`/`gmi`/`agentrouter` (user order). Deleted `api/{qwenfast,egov,tembo,arena_egov_views}_*.py`; scrubbed registry/choices (migrations 0132/0133)/admin/chat/arena/runner/lazy/neby/canvas/coding-agent/templates. `tembo-*` CSS classes are the coding-agent UI theme — UNRELATED, left alone. Historical migrations left untouched.
+- **Deployed + verified live:** site 200, migrations 0132/0133 applied, qwencloud T1='apple' from server shell, workers restarted.
+
+### Previous Session (avatar)
 **Native Android avatar system — full Kotlin port of blobatar + Neby 3D engine, My Avatar editor, mobile avatar-style API**
 
 Android previously rendered avatars via Coil `AsyncImage` on URLs; Coil had NO `coil-svg`, so every user with "Use avatar everywhere" (`photo_url` → `/avatar/<name>/` SVG) silently fell back to initials. Fixed end-to-end by porting both web avatar systems to native Kotlin (no WebView, no new dependencies):

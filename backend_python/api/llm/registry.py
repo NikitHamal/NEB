@@ -30,7 +30,7 @@ FORMAT_SCRAPER = 'scraper'      # Existing NEBians web proxies (qwen & friends)
 
 OFFICIAL_FORMATS = (FORMAT_OPENAI, FORMAT_ANTHROPIC, FORMAT_GEMINI)
 
-SCRAPER_PROVIDERS = ('qwenfast', 'qwen', 'egov', 'deepai', 'inception', 'k2think', 'poolside', 'motiftech', 'metaai', 'tryingopen', 'longcat', 'geminiweb', 'lazypy', 'googletts', 'moetts', 'kokoro', 'chatterbox', 'fishaudio')
+SCRAPER_PROVIDERS = ('qwen', 'qwencloud', 'deepai', 'inception', 'k2think', 'poolside', 'motiftech', 'metaai', 'tryingopen', 'longcat', 'geminiweb', 'yqcloud', 'chatjimmy', 'unikey', 'lazypy', 'googletts', 'moetts', 'kokoro', 'chatterbox', 'fishaudio')
 
 
 @dataclass(frozen=True)
@@ -56,6 +56,10 @@ class ProviderPreset:
     official: bool = True              # False => community web model (scraper)
     # Scraper presets keep their proxy module name for routing.
     scraper_module: str = ''
+    # Keyless official presets: key sent when the caller has none, '' = none.
+    default_key: str = ''
+    # Extra HTTP headers merged into every call (e.g. a fixed User-Agent).
+    extra_headers: dict = field(default_factory=dict)
 
 
 OFFICIAL_PRESETS: List[ProviderPreset] = [
@@ -134,61 +138,73 @@ OFFICIAL_PRESETS: List[ProviderPreset] = [
         key_env='DEEPSEEK_API_KEY',
     ),
     ProviderPreset(
-        slug='agentrouter',
-        label='AgentRouter',
-        format=FORMAT_OPENAI,
-        base_url='https://agentrouter.org/v1',
-        default_model='gpt-5.5',
+        slug='llm7', label='LLM7 (llm7.io — free, anonymous)',
+        format=FORMAT_OPENAI, base_url='https://api.llm7.io/v1',
+        default_model='default',
         models=[
-            ModelSpec('gpt-5.5', 'GPT-5.5', 'Fast general-purpose'),
-            ModelSpec('claude-opus-4-6', 'Claude Opus 4.6', 'Strong coding & reasoning'),
-            ModelSpec('claude-opus-4-8', 'Claude Opus 4.8', 'Latest Claude flagship'),
-            ModelSpec('claude-haiku-4-5', 'Claude Haiku 4.5', 'Fastest Claude'),
-            ModelSpec('glm-5.2', 'GLM-5.2'),
+            ModelSpec('default', 'Default (auto)', 'Rotating capable model'),
+            ModelSpec('fast', 'Fast', 'Low-latency tier'),
+            ModelSpec('pro', 'Pro', 'Strongest tier'),
         ],
-        context_window=200000,
-        key_env='AGENTROUTER_API_KEY',
+        context_window=128000, max_output_tokens=4000,
+        key_required=False, default_key='unused',
+        free_note='Anonymous: 10/min, 60/hr, 500K tokens/day — no key needed',
     ),
     ProviderPreset(
-        slug='gmi',
-        label='GMI Cloud (MiniMax M3 — free, multimodal)',
-        format=FORMAT_OPENAI,
-        base_url='https://api.gmi-serving.com/v1',
-        default_model='MiniMaxAI/MiniMax-M3',
+        slug='kilo', label='Kilo Gateway (kilo.ai — free :free models, anonymous)',
+        format=FORMAT_OPENAI, base_url='https://api.kilo.ai/api/gateway',
+        default_model='stepfun/step-3.7-flash:free',
         models=[
-            ModelSpec('MiniMaxAI/MiniMax-M3', 'MiniMax M3', 'Multimodal · vision · free on GMI'),
+            ModelSpec('stepfun/step-3.7-flash:free', 'Step 3.7 Flash', 'Fast reasoning'),
+            ModelSpec('nvidia/nemotron-3-ultra-550b-a55b:free', 'Nemotron 3 Ultra 550B'),
+            ModelSpec('openrouter/free', 'OpenRouter Free', 'Best available free model'),
+            ModelSpec('kilo-auto/free', 'Kilo Auto Free', 'Auto-routed free pool'),
+            ModelSpec('poolside/laguna-s-2.1:free', 'Laguna S 2.1', '128K context'),
+            ModelSpec('tencent/hy3:free', 'Tencent Hy3'),
         ],
-        context_window=200000,
-        max_output_tokens=8192,
-        key_env='GMI_API_KEY',
-        key_required=True,
-        free_note='Free unlimited via GMI Cloud model hub',
-    ),
-    ProviderPreset(
-        slug='empero',
-        label='Empero (free.empero.org — Qwen3.8 27B free)',
-        format=FORMAT_OPENAI,
-        base_url='https://free.empero.org/v1',
-        default_model='Qwen/Qwen3.8-27B-FP8',
-        models=[
-            ModelSpec('Qwen/Qwen3.8-27B-FP8', 'Qwen 3.8 27B (FP8)', 'Free hosted · reasoning · 131k'),
-            ModelSpec('qwen3.8-27b', 'Qwen 3.8 27B', 'Alias for Qwen3.8-27B-FP8'),
-        ],
-        context_window=131072,
-        max_output_tokens=8192,
-        key_env='EMPERO_API_KEY',
+        context_window=128000, max_output_tokens=4000,
         key_required=False,
-        free_note='Free hosted by Empero (no key needed)',
+        free_note='Anonymous: 200/hr per IP — no key needed',
+    ),
+    ProviderPreset(
+        slug='zen', label='OpenCode Zen (opencode.ai — free -free models, anonymous)',
+        format=FORMAT_OPENAI, base_url='https://opencode.ai/zen/v1',
+        default_model='laguna-s-2.1-free',
+        models=[
+            ModelSpec('laguna-s-2.1-free', 'Laguna S 2.1', 'Clean answers · 128K'),
+            ModelSpec('mimo-v2.5-free', 'MiMo V2.5'),
+            ModelSpec('nemotron-3-ultra-free', 'Nemotron 3 Ultra'),
+            ModelSpec('nemotron-3.5-lightning-free', 'Nemotron 3.5 Lightning'),
+            ModelSpec('big-pickle', 'Big Pickle'),
+            ModelSpec('ling-3.0-flash-fin-free', 'Ling 3.0 Flash'),
+            ModelSpec('deepseek-v4-flash-free', 'DeepSeek V4 Flash', 'Saturates often — has fallbacks'),
+        ],
+        context_window=128000, max_output_tokens=4000,
+        key_required=False, default_key='public',
+        extra_headers={'User-Agent': 'opencode/1.0'},
+        free_note='Anonymous shared pool (Bearer public) — retries advised',
     ),
 ]
 
 SCRAPER_PRESETS: List[ProviderPreset] = [
     ProviderPreset(
-        slug='qwenfast', label='QwenFast (qwenfast-demo.vercel.app — Qwen3.8-27B superfast)', format=FORMAT_SCRAPER,
-        base_url='https://qwenfast-demo.vercel.app/api/chat', default_model='qwen3.8-27b',
-        models=[ModelSpec('qwen3.8-27b', 'Qwen 3.8 27B (Fast)', 'Speculative decoding · ~49 t/s per stream · world fastest')],
-        context_window=131072, max_output_tokens=8000,
-        key_required=False, official=False, scraper_module='qwenfast_proxy',
+        slug='qwencloud', label='Qwen Cloud (qwencloud.com — 11 models, free)', format=FORMAT_SCRAPER,
+        base_url='https://www.qwencloud.com/try-ai', default_model='qwen3.8-max',
+        models=[
+            ModelSpec('qwen3.8-max', 'Qwen3.8 Max', 'Flagship · reasoning + budget control'),
+            ModelSpec('qwen3.7-max', 'Qwen3.7 Max'),
+            ModelSpec('qwen3.6-plus', 'Qwen3.6 Plus'),
+            ModelSpec('qwen3.6-plus-2026-04-02', 'Qwen3.6 Plus (2026-04-02)'),
+            ModelSpec('qwen3.7-plus', 'Qwen3.7 Plus'),
+            ModelSpec('qwen3.5-plus', 'Qwen3.5 Plus'),
+            ModelSpec('qwen3-max', 'Qwen3 Max'),
+            ModelSpec('qwen-plus', 'Qwen Plus'),
+            ModelSpec('qwen-flash', 'Qwen Flash', 'Fast'),
+            ModelSpec('qwen3-coder-plus', 'Qwen3 Coder Plus', 'Coding flagship · tool calling'),
+            ModelSpec('qwen3-coder-flash', 'Qwen3 Coder Flash', 'Fast coding'),
+        ],
+        context_window=262144, max_output_tokens=8000,
+        key_required=False, official=False, scraper_module='qwencloud_proxy',
     ),
     ProviderPreset(
         slug='qwen', label='Qwen (chat.qwen.ai)', format=FORMAT_SCRAPER,
@@ -203,15 +219,6 @@ SCRAPER_PRESETS: List[ProviderPreset] = [
         key_required=False, official=False, scraper_module='qwen_proxy',
     ),
     ProviderPreset(
-        slug='egov', label='eGov Chat AI', format=FORMAT_SCRAPER,
-        base_url='https://chat.gov.ph', default_model='AI1',
-        models=[
-            ModelSpec('AI1', 'eGov AI1'),
-            ModelSpec('standard', 'Standard'),
-        ],
-        key_required=False, official=False, scraper_module='egov_proxy',
-    ),
-    ProviderPreset(
         slug='deepai', label='DeepAI (deepai.org)', format=FORMAT_SCRAPER,
         base_url='https://api.deepai.org', default_model='standard',
         models=[ModelSpec('standard', 'Standard')],
@@ -224,9 +231,9 @@ SCRAPER_PRESETS: List[ProviderPreset] = [
         key_required=False, official=False, scraper_module='inception_proxy',
     ),
     ProviderPreset(
-        slug='k2think', label='K2 Think (k2think.ai)', format=FORMAT_SCRAPER,
-        base_url='https://www.k2think.ai', default_model='MBZUAI-IFM/K2-Think-v2',
-        models=[ModelSpec('MBZUAI-IFM/K2-Think-v2', 'K2 Think V2', 'Reasoning model (MBZUAI)')],
+        slug='k2think', label='K2 Horizon (chat.ifm.ai)', format=FORMAT_SCRAPER,
+        base_url='https://chat.ifm.ai', default_model='IFM/K2-Horizon-375B-A23B',
+        models=[ModelSpec('IFM/K2-Horizon-375B-A23B', 'K2 Horizon 375B', 'Reasoning model (MBZUAI IFM)')],
         context_window=128000, max_output_tokens=8192,
         key_required=False, official=False, scraper_module='k2think_proxy',
     ),
@@ -300,6 +307,44 @@ SCRAPER_PRESETS: List[ProviderPreset] = [
         ],
         context_window=32000, max_output_tokens=4000,
         key_required=False, official=False, scraper_module='geminiweb_proxy',
+    ),
+    ProviderPreset(
+        slug='yqcloud', label='Yqcloud (chat9.yqcloud.top — free, no login)', format=FORMAT_SCRAPER,
+        base_url='https://chat9.yqcloud.top', default_model='yqcloud-default',
+        models=[
+            ModelSpec('yqcloud-default', 'Yqcloud Chat', 'Free · web search'),
+        ],
+        context_window=32000, max_output_tokens=4000,
+        key_required=False, official=False, scraper_module='yqcloud_proxy',
+    ),
+    ProviderPreset(
+        slug='chatjimmy', label='ChatJimmy (chatjimmy.ai — Llama 3.1 8B, no login)', format=FORMAT_SCRAPER,
+        base_url='https://chatjimmy.ai', default_model='llama3.1-8B',
+        models=[
+            ModelSpec('llama3.1-8B', 'Llama 3.1 8B'),
+        ],
+        context_window=32000, max_output_tokens=4000,
+        key_required=False, official=False, scraper_module='chatjimmy_proxy',
+    ),
+    ProviderPreset(
+        slug='unikey', label='Unikey (getunikey.ai — 12 models, free trial, no login)', format=FORMAT_SCRAPER,
+        base_url='https://www.getunikey.ai', default_model='gpt-5.5',
+        models=[
+            ModelSpec('gpt-5.5', 'GPT 5.5'),
+            ModelSpec('google/gemini-3.5-flash', 'Gemini 3.5 Flash'),
+            ModelSpec('google/gemini-3.1-pro-preview', 'Gemini 3.1 Pro Preview'),
+            ModelSpec('x-ai/grok-4.3', 'Grok 4.3'),
+            ModelSpec('deepseek/deepseek-v4-pro', 'DeepSeek V4 Pro'),
+            ModelSpec('deepseek/deepseek-v4-flash', 'DeepSeek V4 Flash'),
+            ModelSpec('z-ai/glm-5.2', 'GLM 5.2'),
+            ModelSpec('minimax/minimax-m3', 'MiniMax M3'),
+            ModelSpec('moonshotai/kimi-k2.7-code', 'Kimi K2.7 Code'),
+            ModelSpec('moonshotai/kimi-k3', 'Kimi K3'),
+            ModelSpec('claude-opus-4-7', 'Claude Opus 4.7'),
+            ModelSpec('claude-opus-4-8', 'Claude Opus 4.8'),
+        ],
+        context_window=32000, max_output_tokens=4000,
+        key_required=False, official=False, scraper_module='unikey_proxy',
     ),
     ProviderPreset(
         slug='lazypy', label='LazyPy TTS (lazypy.ro — 11 services, Microsoft/Google)', format=FORMAT_SCRAPER,

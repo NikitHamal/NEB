@@ -41,7 +41,7 @@ logger = logging.getLogger(__name__)
 # Community (scraper) providers surfaced in the generic /models/ list and
 # routed here for session create + streaming. Their proxies are stateless:
 # we replay the session history on every call.
-_COMMUNITY_SLUGS = ('k2think', 'poolside', 'motiftech')
+_COMMUNITY_SLUGS = ('k2think', 'poolside', 'motiftech', 'qwencloud', 'yqcloud', 'chatjimmy', 'unikey')
 
 
 def _community_models():
@@ -56,7 +56,7 @@ def _community_models():
                 'code': spec.id,
                 'name': spec.label,
                 'provider': preset.slug,
-                'thinking': preset.slug == 'k2think',
+                'thinking': preset.slug in ('k2think', 'qwencloud', 'motiftech', 'unikey'),
                 'randomOnly': False,
                 'active': True,
             })
@@ -77,6 +77,18 @@ def _community_proxy(provider):
     if provider == 'motiftech':
         from . import motiftech_proxy
         return motiftech_proxy
+    if provider == 'qwencloud':
+        from . import qwencloud_proxy
+        return qwencloud_proxy
+    if provider == 'yqcloud':
+        from . import yqcloud_proxy
+        return yqcloud_proxy
+    if provider == 'chatjimmy':
+        from . import chatjimmy_proxy
+        return chatjimmy_proxy
+    if provider == 'unikey':
+        from . import unikey_proxy
+        return unikey_proxy
     return None
 
 
@@ -174,7 +186,7 @@ def arena_sessions(request):
             status=status.HTTP_400_BAD_REQUEST,
         )
 
-    # Community providers (K2 Think / Poolside) — stateless proxies, no token.
+    # Community providers (K2 Horizon / Poolside) — stateless proxies, no token.
     community_meta = _community_model_meta(model_id)
     if not community_meta:
         return Response(
@@ -362,7 +374,7 @@ def _build_history(sess, stop_at_msg_id=None):
 def _stream_community(sess, user_msg_id: str, asst_msg_id: str, asst_started_at: int,
                       upstream_kwargs: dict, bump_session_counter: bool,
                       preinsert_assistant: bool = True):
-    """SSE streaming body for stateless community proxies (K2 Think / Poolside).
+    """SSE streaming body for stateless community proxies (K2 Horizon / Poolside).
 
     History is replayed from the session rows, so send and regenerate both work
     without upstream session state. Reasoning (thought) chunks are dropped.
@@ -404,6 +416,8 @@ def _stream_community(sess, user_msg_id: str, asst_msg_id: str, asst_started_at:
     error_text = ''
     # Motif tracks context server-side via conversation_id — we keep it in
     # arena_token_id (unused for community sessions) and persist the fresh one.
+    # QwenCloud likewise keeps server-side tab history; arena_token_id stores
+    # "session_id|tab_code" for it.
     conv_id = sess.arena_token_id or None
     # Upstreams occasionally cut the stream after reasoning without an answer —
     # retry once before reporting failure.
@@ -414,6 +428,11 @@ def _stream_community(sess, user_msg_id: str, asst_msg_id: str, asst_started_at:
             kwargs = {}
             if sess.provider == 'motiftech':
                 kwargs['conversation_id'] = conv_id
+            elif sess.provider == 'qwencloud' and conv_id and '|' in conv_id:
+                sid, _, tab = conv_id.partition('|')
+                if sid and tab:
+                    kwargs['session_id'] = sid
+                    kwargs['tab_code'] = tab
             for chunk in proxy.stream_chat(messages=history, model=model, **kwargs):
                 t = chunk.get('type')
                 if t == 'text':
@@ -424,6 +443,14 @@ def _stream_community(sess, user_msg_id: str, asst_msg_id: str, asst_started_at:
                     yield _sse_format({
                         'choices': [{'index': 0, 'delta': {'content': text}}],
                     })
+                elif t == 'session':
+                    sid, tab = chunk.get('session_id') or '', chunk.get('tab_code') or ''
+                    if sid and tab and f'{sid}|{tab}' != (conv_id or ''):
+                        conv_id = f'{sid}|{tab}'
+                        try:
+                            ArenaChatSession.objects.filter(pk=sess.id).update(arena_token_id=conv_id)
+                        except Exception as e:
+                            logger.warning("stream[%s]: session persist failed: %s", sess.provider, e)
                 elif t == 'done':
                     finish_reason = chunk.get('finish_reason', 'stop')
                     new_conv = chunk.get('conversation_id')
@@ -496,7 +523,7 @@ def _stream_assistant(sess, user_msg_id: str, asst_msg_id: str, asst_started_at:
                        preinsert_assistant: bool = True):
     """Shared SSE streaming body for both send and regenerate.
 
-    Community providers (K2 Think / Poolside / Motiftech) are stateless —
+    Community providers (K2 Horizon / Poolside / Motiftech) are stateless —
     history is replayed from the session rows, so send and regenerate both
     work without upstream session state.
     """

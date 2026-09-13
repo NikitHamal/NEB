@@ -419,7 +419,7 @@ def ajax_canvas_widget_content(request):
 
     from api.llm.credentials import resolve
     from api.llm.client import chat as llm_chat
-    resolved = resolve(user, 'tryingopen') or resolve(user, 'gmi') or resolve(user, 'geminiweb')
+    resolved = resolve(user, 'tryingopen') or resolve(user, 'geminiweb')
     if not resolved:
         return JsonResponse({'error': 'No AI provider available'}, status=503)
     prompt = f"Create {kind} widget content about: {topic}"
@@ -510,7 +510,7 @@ Rules: 1 tool per response. Use add_card for explanatory content, add_widget for
     created_nodes = []
     history_msgs = [{'role': 'system', 'content': TOOLS_DESC},
                     {'role': 'user', 'content': f"Canvas request: {prompt}\nExisting cards: {json.dumps(_nodes_ctx())}"}]
-    resolved = resolve(user, 'tryingopen') or resolve(user, 'gmi') or resolve(user, 'geminiweb')
+    resolved = resolve(user, 'tryingopen') or resolve(user, 'geminiweb')
     if not resolved:
         return JsonResponse({'error': 'No AI provider available'}, status=503)
 

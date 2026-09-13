@@ -61,31 +61,62 @@ with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as zf:
 
 Pop-Location
 
-# Upload the ZIP file
-Write-Host "Uploading ZIP file via SCP..."
-$uploadSuccess = $false
-for ($attempt = 1; $attempt -le 5; $attempt++) {
-    & scp -o ConnectTimeout=30 -o ServerAliveInterval=15 -o ServerAliveCountMax=3 -o StrictHostKeyChecking=no -i $keyPath -P 22 $zipPath "${username}@${hostIp}:${remoteDir}/deploy.zip"
-    if ($LASTEXITCODE -eq 0) {
-        $uploadSuccess = $true
+# Upload the ZIP file.
+# NOTE (Sep 2026): the server kills SFTP-subsystem and SCP connections
+# ("Connection closed"), but plain SSH exec channels work. Files are streamed
+# over `ssh ... "cat > dest"` (Python subprocess, binary-safe) instead of scp.
+Write-Host "Uploading ZIP file via SSH pipe..."
+$uploadScript = Join-Path $env:TEMP ("ssh_upload_" + [guid]::NewGuid().ToString("N") + ".py")
+@'
+import subprocess, sys
+zip_path, key_path, target = sys.argv[1], sys.argv[2], sys.argv[3]
+with open(zip_path, 'rb') as fh:
+    data = fh.read()
+for attempt in range(1, 6):
+    r = subprocess.run(
+        ['ssh', '-o', 'ConnectTimeout=30', '-o', 'ServerAliveInterval=15',
+         '-o', 'ServerAliveCountMax=3', '-o', 'StrictHostKeyChecking=no',
+         '-i', key_path, '-p', '22', target.split('@')[0] + '@' + target.split('@')[1].split(':')[0],
+         'cat > ' + target.split(':', 1)[1]],
+        input=data, capture_output=True, timeout=300)
+    if r.returncode == 0:
+        print(f'UPLOAD OK attempt={attempt} bytes={len(data)}')
         break
-    }
-    Write-Host "SCP upload attempt $attempt failed, retrying in 4 seconds..."
-    Start-Sleep -Seconds 4
-}
-
-if (-not $uploadSuccess) {
-    Write-Error "Failed to upload ZIP archive after 3 attempts!"
+    print(f'UPLOAD attempt {attempt} failed rc={r.returncode}: {r.stderr.decode()[:200]}')
+else:
+    sys.exit(1)
+'@ | Out-File -FilePath $uploadScript -Encoding ascii -NoNewline
+$uploadTarget = "${username}@${hostIp}:${remoteDir}/deploy.zip"
+& python $uploadScript $zipPath $keyPath $uploadTarget
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Failed to upload ZIP archive after 5 attempts!"
     & icacls $keyPath /grant "${env:USERNAME}:F" 2>&1 | Out-Null
     attrib -r $keyPath 2>&1 | Out-Null
     Remove-Item $keyPath -Force -ErrorAction SilentlyContinue
     Remove-Item $zipPath -Force -ErrorAction SilentlyContinue
+    Remove-Item $uploadScript -Force -ErrorAction SilentlyContinue
     exit 1
 }
+Remove-Item $uploadScript -Force -ErrorAction SilentlyContinue
 Write-Host "ZIP upload completed successfully."
 
 # Upload the worker-restart script alongside (plain bash file — avoids PS escaping issues)
-& scp -o ConnectTimeout=10 -o StrictHostKeyChecking=no -i $keyPath -P 22 (Join-Path $PSScriptRoot "restart_workers.sh") "${username}@${hostIp}:/tmp/restart_workers.sh" | Out-Null
+$restartLocal = Join-Path $PSScriptRoot "restart_workers.sh"
+$uploadScript2 = Join-Path $env:TEMP ("ssh_upload_" + [guid]::NewGuid().ToString("N") + ".py")
+@'
+import subprocess, sys
+local_path, key_path, target = sys.argv[1], sys.argv[2], sys.argv[3]
+with open(local_path, 'rb') as fh:
+    data = fh.read()
+r = subprocess.run(
+    ['ssh', '-o', 'ConnectTimeout=10', '-o', 'StrictHostKeyChecking=no',
+     '-i', key_path, '-p', '22', target.split('@')[0] + '@' + target.split('@')[1].split(':')[0],
+     'cat > ' + target.split(':', 1)[1]],
+    input=data, capture_output=True, timeout=60)
+sys.exit(r.returncode)
+'@ | Out-File -FilePath $uploadScript2 -Encoding ascii -NoNewline
+& python $uploadScript2 $restartLocal $keyPath "${username}@${hostIp}:/tmp/restart_workers.sh" | Out-Null
+Remove-Item $uploadScript2 -Force -ErrorAction SilentlyContinue
 
 # Remove local zip archive
 Remove-Item $zipPath -Force

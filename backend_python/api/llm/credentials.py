@@ -43,6 +43,7 @@ class ResolvedProvider:
     max_output_tokens: int
     source: str               # custom | byok | bot | env | scraper | unavailable
     official: bool
+    extra_headers: dict = field(default_factory=dict)
     preset: Optional[ProviderPreset] = None
     user_provider_id: str = ''
     bot_config_id: int = 0
@@ -164,10 +165,12 @@ def resolve(user, slug: str, model: str = '', user_provider_id: str = '') -> Opt
     if key or not p.key_required:
         return ResolvedProvider(
             slug=slug, label=p.label, format=p.format,
-            base_url=p.base_url, api_key=key or 'free',
+            base_url=p.base_url, api_key=key or p.default_key or '',
             model=model or p.default_model,
             context_window=p.context_window, max_output_tokens=p.max_output_tokens,
-            source='env' if key else 'free', official=True, preset=p, free_note=p.free_note,
+            source='env' if key else 'free', official=True,
+            extra_headers=dict(p.extra_headers or {}),
+            preset=p, free_note=p.free_note,
         )
     return None
 

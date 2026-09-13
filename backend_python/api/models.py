@@ -831,15 +831,17 @@ class BotConfig(models.Model):
     responds to @username mentions in posts and replies.
     """
     PROVIDER_CHOICES = [
-        ('qwenfast', 'QwenFast (qwenfast-demo.vercel.app — Qwen3.8-27B superfast)'),
         ('qwen', 'Qwen (chat.qwen.ai)'),
-        ('tryingopen', 'TryingOpen (tryingopen.com — 16 open models, free)'),
-        ('longcat', 'LongCat (longcat.chat — free, no login)'),
-        ('geminiweb', 'Gemini Web (gemini.google.com — anonymous Flash-Lite)'),
-        ('egov', 'eGov Chat AI (Philippines)'),
+        ('qwencloud', 'Qwen Cloud (qwencloud.com ??? 11 models, free)'),
+        ('tryingopen', 'TryingOpen (tryingopen.com ??? 16 open models, free)'),
+        ('longcat', 'LongCat (longcat.chat ??? free, no login)'),
+        ('geminiweb', 'Gemini Web (gemini.google.com ??? anonymous Flash-Lite)'),
+        ('yqcloud', 'Yqcloud (chat9.yqcloud.top — free, no login)'),
+        ('chatjimmy', 'ChatJimmy (chatjimmy.ai — Llama 3.1 8B, no login)'),
+        ('unikey', 'Unikey (getunikey.ai — 12 models, free trial, no login)'),
         ('deepai', 'DeepAI (deepai.org)'),
         ('inception', 'Inception Labs (Mercury 2)'),
-        ('k2think', 'K2 Think (k2think.ai — MBZUAI K2 Think V2)'),
+        ('k2think', 'K2 Horizon (chat.ifm.ai — MBZUAI 375B reasoning)'),
         ('poolside', 'Poolside (chat.poolside.ai — Laguna 2.1)'),
         ('custom', 'Custom OpenAI-compatible endpoint'),
         # Official API providers (handled through api.llm — real API formats,
@@ -849,8 +851,9 @@ class BotConfig(models.Model):
         ('anthropic', 'Anthropic (Claude official API)'),
         ('gemini', 'Google Gemini (official API)'),
         ('deepseek', 'DeepSeek (official API)'),
-        ('agentrouter', 'AgentRouter (proxy/router)'),
-        ('empero', 'Empero (free.empero.org — Qwen 3.8 27B free)'),
+        ('llm7', 'LLM7 (llm7.io — free, no key)'),
+        ('kilo', 'Kilo Gateway (kilo.ai — free :free models, no key)'),
+        ('zen', 'OpenCode Zen (opencode.ai — free -free models, no key)'),
     ]
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100, default='Neby', help_text='Display name shown in the admin panel.')
@@ -968,7 +971,8 @@ class ArenaChatSession(models.Model):
 
     Supports multiple providers via web proxies:
       - 'qwen': the Qwen proxy (browser-spoofed session, supports file uploads)
-      - 'egov', 'deepai', 'inception': other arena-style proxies
+      - 'qwencloud', 'deepai', 'inception': other arena-style proxies
+        (qwencloud keeps "session_id|tab_code" in arena_token_id)
 
     Each session maps to one remote session ID and is bound to provider-specific
     credentials. For Qwen, qwen_chat_id is the Qwen chat ID; for others,
@@ -976,13 +980,15 @@ class ArenaChatSession(models.Model):
     """
     PROVIDER_CHOICES = [
         ('qwen', 'Qwen (chat.qwen.ai)'),
+        ('qwencloud', 'Qwen Cloud (qwencloud.com — 11 models, free)'),
         ('tryingopen', 'TryingOpen (tryingopen.com — 16 open models, free)'),
-        ('egov', 'eGov Chat AI (Philippines)'),
         ('deepai', 'DeepAI (deepai.org)'),
         ('inception', 'Inception Labs (Mercury 2)'),
-        ('k2think', 'K2 Think (k2think.ai — MBZUAI K2 Think V2)'),
+        ('k2think', 'K2 Horizon (chat.ifm.ai — MBZUAI 375B reasoning)'),
         ('poolside', 'Poolside (chat.poolside.ai — Laguna 2.1)'),
-        ('empero', 'Empero (free.empero.org)'),
+        ('yqcloud', 'Yqcloud (chat9.yqcloud.top — free, no login)'),
+        ('chatjimmy', 'ChatJimmy (chatjimmy.ai — Llama 3.1 8B, no login)'),
+        ('unikey', 'Unikey (getunikey.ai — 12 models, free trial, no login)'),
     ]
     id = models.CharField(max_length=36, primary_key=True)
     user = models.ForeignKey(
@@ -990,7 +996,7 @@ class ArenaChatSession(models.Model):
     )
     provider = models.CharField(max_length=20, choices=PROVIDER_CHOICES, default='qwen')
     arena_session_id = models.CharField(max_length=64, db_index=True)
-    arena_token_id = models.CharField(max_length=64, blank=True, default='')
+    arena_token_id = models.CharField(max_length=128, blank=True, default='')
     qwen_chat_id = models.CharField(max_length=64, blank=True, default='')
     model_id = models.CharField(max_length=64)
     model_code = models.CharField(max_length=100, blank=True, default='')

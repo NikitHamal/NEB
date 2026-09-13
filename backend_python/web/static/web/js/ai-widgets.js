@@ -392,7 +392,7 @@
   /* ── streamSSE (avatar-lab technique) ────────────────────────────────────── */
   function streamSSE(url, opts) {
     opts = opts || {};
-    var callbacks = opts.onEvent || opts;
+    var callbacks = opts;
     var controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
 
     function handle(event) {

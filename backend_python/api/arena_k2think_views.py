@@ -1,4 +1,4 @@
-"""Arena views for K2 Think (k2think.ai/guest — MBZUAI K2 Think V2 reasoning)."""
+"""Arena views for K2 Horizon (chat.ifm.ai/guest — MBZUAI 375B reasoning)."""
 import json
 import logging
 
@@ -65,10 +65,10 @@ def arena_create_k2think_session(request):
     if err:
         return err
 
-    model_id = (request.data.get('modelId') or 'MBZUAI-IFM/K2-Think-v2').strip()
+    model_id = (request.data.get('modelId') or 'IFM/K2-Horizon-375B-A23B').strip()
 
     model_info = k2think_proxy.MODEL_MAP.get(model_id)
-    display_name = (model_info or {}).get('name', f'K2 Think {model_id}')
+    display_name = (model_info or {}).get('name', f'K2 Horizon {model_id}')
 
     now = now_ms()
     import secrets as _secrets
@@ -121,7 +121,7 @@ def arena_send_message_k2think(request, session_id):
 
     if sess.provider != 'k2think':
         return Response(
-            {'error': 'This endpoint only works with K2 Think sessions.'},
+            {'error': 'This endpoint only works with K2 Horizon sessions.'},
             status=status.HTTP_400_BAD_REQUEST,
         )
 

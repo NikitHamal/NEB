@@ -41,6 +41,51 @@
 </div>
 
 <div class="admin-section-card" style="max-width:720px;margin-top:12px">
+  <h4 style="margin:0 0 6px">Inception Mercury — Separate STT</h4>
+  <p class="md-body-small" style="color:var(--md-on-surface-variant)">Upload <code>audio/webm</code> (&gt;1200 bytes) to <code>/api/stt</code> — returns transcript. Works standalone.</p>
+  <input type="file" id="stt-file" accept="audio/*" class="md-input" style="margin-top:8px">
+  <div style="display:flex;align-items:center;gap:12px;margin-top:8px">
+    <button id="stt-transcribe" class="md-btn md-btn-filled"><span class="material-symbols-outlined">mic</span>Transcribe</button>
+    <span id="stt-status" class="admin-status-line"></span>
+  </div>
+  <div id="stt-result" style="display:none;margin-top:10px;padding:10px;background:var(--md-surface-variant);border-radius:8px;">
+    <strong>Transcript:</strong>
+    <p id="stt-text" style="margin:6px 0 0;white-space:pre-wrap;"></p>
+  </div>
+  <div style="margin-top:10px;display:flex;gap:8px;">
+    <button id="stt-record" class="md-btn md-btn-outlined"><span class="material-symbols-outlined">record_voice_over</span>Record 3s</button>
+    <span class="md-body-small" style="color:var(--md-on-surface-variant);align-self:center;">or record via mic (webm)</span>
+  </div>
+</div>
+
+<div class="admin-section-card" style="max-width:720px;margin-top:12px">
+  <h4 style="margin:0 0 6px">Inception Mercury — Full Voice Pipeline</h4>
+  <p class="md-body-small" style="color:var(--md-on-surface-variant)">Scenario agents with live tool calls — <code>/api/voice/turn</code> + <code>/api/tts</code> streaming. Choose scenario, speak or type.</p>
+  <label>Scenario
+    <select id="voice-scenario" class="md-input">
+      <option value="open">Open conversation (general)</option>
+      <option value="dental-front-desk">Dental front desk — patient_name, reason</option>
+      <option value="drive-thru">Drive-thru — items, modifications</option>
+      <option value="roadside-assistance">Roadside assistance — caller_name, location</option>
+    </select>
+  </label>
+  <label>Text (or record)
+    <textarea id="voice-text" class="md-input" rows="2" placeholder="e.g. I need to book a cleaning for tomorrow at 3pm, my name is John Doe">I need to book a dental cleaning for tomorrow at 3pm, my name is John Doe</textarea>
+  </label>
+  <div style="display:flex;align-items:center;gap:12px;margin-top:8px;flex-wrap:wrap;">
+    <button id="voice-send-text" class="md-btn md-btn-filled"><span class="material-symbols-outlined">chat</span>Send as Voice Turn</button>
+    <button id="voice-record" class="md-btn md-btn-outlined"><span class="material-symbols-outlined">mic</span>Record & Send Voice</button>
+    <span id="voice-status" class="admin-status-line"></span>
+  </div>
+  <div id="voice-result" style="display:none;margin-top:10px;">
+    <div id="voice-tools" style="margin-bottom:8px;"></div>
+    <div id="voice-reply" style="padding:10px;background:var(--md-surface-variant);border-radius:8px;white-space:pre-wrap;"></div>
+    <audio id="voice-audio" controls style="width:100%;margin-top:8px;"></audio>
+    <a id="voice-download" href="#" download="mercury-voice.mp3" class="md-btn md-btn-text" style="margin-top:6px;">Download</a>
+  </div>
+</div>
+
+<div class="admin-section-card" style="max-width:720px;margin-top:12px">
   <h4 style="margin:0 0 6px">Registered models</h4>
   <ul id="tts-model-list" class="admin-model-list"></ul>
 </div>
@@ -127,6 +172,131 @@
       return URL.createObjectURL(new Blob([bytes], { type: mime }));
     } catch (e) { return dataUrl; }
   }
+
+  // ── Inception STT (separate) ──
+  $('stt-transcribe').addEventListener('click', function(){
+    var f = $('stt-file').files[0];
+    if(!f){ setStatus('stt-status','Pick an audio file (webm/mp3/wav)','err'); return; }
+    setStatus('stt-status','Transcribing…');
+    $('stt-result').style.display='none';
+    var fd = new FormData();
+    fd.append('file', f);
+    fetch('/ajax/admin/media/stt/', {method:'POST', headers:{'X-CSRFToken': CSRF}, body: fd, credentials:'same-origin'})
+      .then(function(r){ return r.json().then(function(j){ if(!r.ok) throw new Error(j.error||r.statusText); return j; }); })
+      .then(function(j){
+        setStatus('stt-status','Done — '+ (j.bytes||0)+' bytes', 'ok');
+        $('stt-text').textContent = j.text || '(empty)';
+        $('stt-result').style.display='';
+      })
+      .catch(function(e){ setStatus('stt-status', e.message, 'err'); });
+  });
+
+  var sttRecBtn = $('stt-record');
+  if(sttRecBtn){
+    var rec = null, chunks = [], isRec = false;
+    sttRecBtn.addEventListener('click', async function(){
+      if(isRec){
+        if(rec && rec.state !== 'inactive') rec.stop();
+        return;
+      }
+      try{
+        var stream = await navigator.mediaDevices.getUserMedia({audio:true});
+        chunks = [];
+        rec = new MediaRecorder(stream, {mimeType:'audio/webm'});
+        rec.ondataavailable = function(e){ if(e.data.size>0) chunks.push(e.data); };
+        rec.onstop = async function(){
+          stream.getTracks().forEach(function(t){ t.stop(); });
+          isRec=false;
+          sttRecBtn.innerHTML = '<span class="material-symbols-outlined">record_voice_over</span>Record 3s';
+          if(chunks.length===0) return;
+          var blob = new Blob(chunks, {type:'audio/webm'});
+          if(blob.size < 1200){ setStatus('stt-status','Too short', 'err'); return; }
+          setStatus('stt-status','Transcribing recorded…');
+          var fd2 = new FormData();
+          fd2.append('file', blob, 'audio.webm');
+          try{
+            var r = await fetch('/ajax/admin/media/stt/', {method:'POST', headers:{'X-CSRFToken': CSRF}, body: fd2, credentials:'same-origin'});
+            var j = await r.json();
+            if(!r.ok) throw new Error(j.error||'STT failed');
+            setStatus('stt-status','Done', 'ok');
+            $('stt-text').textContent = j.text || '(empty)';
+            $('stt-result').style.display='';
+          }catch(e){ setStatus('stt-status', e.message, 'err'); }
+        };
+        rec.start(150);
+        isRec=true;
+        sttRecBtn.innerHTML = '<span class="material-symbols-outlined">stop</span>Stop';
+        setTimeout(function(){ if(rec && rec.state==='recording') rec.stop(); }, 3000);
+      }catch(e){ setStatus('stt-status','Mic: '+e.message, 'err'); }
+    });
+  }
+
+  // ── Inception Voice (full pipeline) ──
+  function playDataUrl(dataUrl, audioEl){
+    var src = dataUrl.indexOf('data:')===0 ? dataUrlToBlobUrl(dataUrl) : dataUrl;
+    audioEl.src = src;
+    audioEl.play().catch(function(){});
+    return src;
+  }
+
+  $('voice-send-text').addEventListener('click', function(){
+    var text = $('voice-text').value.trim();
+    if(!text){ setStatus('voice-status','Text required','err'); return; }
+    var scenario = $('voice-scenario').value;
+    setStatus('voice-status','Thinking + synthesizing…');
+    $('voice-result').style.display='none';
+    post('/ajax/admin/media/voice/', {text: text, scenarioId: scenario})
+      .then(function(j){
+        setStatus('voice-status','Done — '+ (j.bytes||0)+' bytes', 'ok');
+        $('voice-reply').textContent = j.text || '';
+        if(j.sttText) $('voice-reply').textContent = '[STT] '+j.sttText+'\n\n'+ j.text;
+        if(j.dataUrl){
+          var src = playDataUrl(j.dataUrl, $('voice-audio'));
+          $('voice-download').href = src;
+          $('voice-result').style.display='';
+        } else {
+          $('voice-result').style.display='';
+        }
+        // tools
+        if(j.text) $('voice-text').value = j.text.slice(0,200);
+      })
+      .catch(function(e){ setStatus('voice-status', e.message, 'err'); });
+  });
+
+  $('voice-record').addEventListener('click', async function(){
+    var scenario = $('voice-scenario').value;
+    try{
+      var stream = await navigator.mediaDevices.getUserMedia({audio:true});
+      var recChunks = [];
+      var rec2 = new MediaRecorder(stream, {mimeType:'audio/webm'});
+      rec2.ondataavailable = function(e){ if(e.data.size>0) recChunks.push(e.data); };
+      rec2.onstop = async function(){
+        stream.getTracks().forEach(function(t){ t.stop(); });
+        var blob = new Blob(recChunks, {type:'audio/webm'});
+        if(blob.size < 1200){ setStatus('voice-status','Too short','err'); return; }
+        setStatus('voice-status','Transcribing + thinking + synthesizing…');
+        var fd = new FormData();
+        fd.append('file', blob, 'audio.webm');
+        fd.append('scenarioId', scenario);
+        fd.append('text', $('voice-text').value.trim());
+        try{
+          var r = await fetch('/ajax/admin/media/voice/', {method:'POST', headers:{'X-CSRFToken': CSRF}, body: fd, credentials:'same-origin'});
+          var j = await r.json();
+          if(!r.ok) throw new Error(j.error||'Voice failed');
+          setStatus('voice-status','Done', 'ok');
+          $('voice-reply').textContent = (j.sttText ? '[Heard] '+j.sttText+'\n\n' : '') + (j.text||'');
+          $('voice-result').style.display='';
+          if(j.dataUrl){
+            var src2 = playDataUrl(j.dataUrl, $('voice-audio'));
+            $('voice-download').href = src2;
+          }
+        }catch(e){ setStatus('voice-status', e.message, 'err'); }
+      };
+      rec2.start(150);
+      setStatus('voice-status','Listening… (3s)');
+      setTimeout(function(){ if(rec2.state==='recording') rec2.stop(); }, 3500);
+    }catch(e){ setStatus('voice-status','Mic: '+e.message,'err'); }
+  });
 })();
 </script>
 {% endblock %}

@@ -74,9 +74,12 @@
         <label for="id_provider" style="display:block;font-size:0.8125rem;font-weight:500;margin-bottom:4px;color:var(--md-on-surface-variant);">AI Provider</label>
         <select name="provider" id="id_provider" data-action="provider-change" style="width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--md-outline);background:var(--md-surface);color:var(--md-on-surface);font-family:var(--md-font);font-size:0.875rem;cursor:pointer;">
           <option value="qwen"      {% if config.provider == 'qwen' %}selected{% endif %}>Qwen (chat.qwen.ai)</option>
-          <option value="egov"      {% if config.provider == 'egov' %}selected{% endif %}>eGov Chat AI (Philippines)</option>
+          <option value="qwencloud" {% if config.provider == 'qwencloud' %}selected{% endif %}>Qwen Cloud (qwencloud.com — 11 models)</option>
           <option value="deepai"    {% if config.provider == 'deepai' %}selected{% endif %}>DeepAI (deepai.org)</option>
           <option value="inception" {% if config.provider == 'inception' %}selected{% endif %}>Inception Labs (Mercury 2)</option>
+          <option value="yqcloud"   {% if config.provider == 'yqcloud' %}selected{% endif %}>Yqcloud (free, no key)</option>
+          <option value="chatjimmy" {% if config.provider == 'chatjimmy' %}selected{% endif %}>ChatJimmy Llama 3.1 8B (free, no key)</option>
+          <option value="unikey" {% if config.provider == 'unikey' %}selected{% endif %}>Unikey 12 models (free trial, no key)</option>
           <option value="custom"    {% if config.provider == 'custom' %}selected{% endif %}>Custom (any OpenAI-compatible endpoint)</option>
           <optgroup label="Official APIs (real API formats, BYOK or shared key)">
             <option value="agnes"     {% if config.provider == 'agnes' %}selected{% endif %}>Agnes 2.0 Flash (Sapiens AI — currently free)</option>
@@ -84,7 +87,10 @@
             <option value="anthropic" {% if config.provider == 'anthropic' %}selected{% endif %}>Anthropic (Claude official API)</option>
             <option value="gemini"    {% if config.provider == 'gemini' %}selected{% endif %}>Google Gemini (official API)</option>
             <option value="deepseek"  {% if config.provider == 'deepseek' %}selected{% endif %}>DeepSeek (official API)</option>
-            <option value="empero"    {% if config.provider == 'empero' %}selected{% endif %}>Empero (free hosted Qwen3.8 27B)</option>
+            <option value="llm7"      {% if config.provider == 'llm7' %}selected{% endif %}>LLM7 (free, no key)</option>
+            <option value="kilo"      {% if config.provider == 'kilo' %}selected{% endif %}>Kilo Gateway (free, no key)</option>
+            <option value="zen"       {% if config.provider == 'zen' %}selected{% endif %}>OpenCode Zen (free, no key)</option>
+
           </optgroup>
         </select>
         <p style="font-size:0.75rem;color:var(--md-on-surface-variant);margin:4px 0 0;" id="id_provider_help">
@@ -107,7 +113,7 @@
 
       <div style="margin-bottom:16px;">
         <label for="id_model" style="display:block;font-size:0.8125rem;font-weight:500;margin-bottom:4px;color:var(--md-on-surface-variant);" id="id_model_label">Model</label>
-        <!-- Select is shown for qwen / egov / deepai / inception; text input is swapped in for custom. -->
+        <!-- Select is shown for qwen / qwencloud / deepai / inception; text input is swapped in for custom. -->
         <select name="model_select" id="id_model_select" style="width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--md-outline);background:var(--md-surface);color:var(--md-on-surface);font-family:var(--md-font);font-size:0.875rem;">
         </select>
         <input type="text" name="model_text" id="id_model_text" placeholder="model-name-or-uuid" style="display:none;width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--md-outline);background:var(--md-surface);color:var(--md-on-surface);font-family:var(--md-font);font-size:0.875rem;">
@@ -235,6 +241,46 @@
         { value: 'deepseek-reasoner', label: 'DeepSeek Reasoner / R1' },
       ],
     },
+    llm7: {
+      urlLabel: 'Base URL',
+      urlHelp: 'LLM7 endpoint (leave default). Free, no key needed.',
+      urlDefault: 'https://api.llm7.io/v1',
+      modelControl: 'select',
+      modelHelp: 'Pick an LLM7 tier.',
+      options: [
+        { value: 'default', label: 'Default (default)' },
+        { value: 'fast',    label: 'Fast' },
+        { value: 'pro',     label: 'Pro' },
+      ],
+    },
+    kilo: {
+      urlLabel: 'Base URL',
+      urlHelp: 'Kilo gateway (leave default). Free :free models, no key needed.',
+      urlDefault: 'https://api.kilo.ai/api/gateway',
+      modelControl: 'select',
+      modelHelp: 'Pick a Kilo free model.',
+      options: [
+        { value: 'stepfun/step-3.7-flash:free',          label: 'Step 3.7 Flash (default)' },
+        { value: 'nvidia/nemotron-3-ultra-550b-a55b:free', label: 'Nemotron 3 Ultra 550B' },
+        { value: 'openrouter/free',                       label: 'OpenRouter Free' },
+        { value: 'kilo-auto/free',                        label: 'Kilo Auto Free' },
+        { value: 'poolside/laguna-s-2.1:free',            label: 'Laguna S 2.1' },
+      ],
+    },
+    zen: {
+      urlLabel: 'Base URL',
+      urlHelp: 'OpenCode Zen (leave default). Free -free models, no key needed.',
+      urlDefault: 'https://opencode.ai/zen/v1',
+      modelControl: 'select',
+      modelHelp: 'Pick a Zen free model.',
+      options: [
+        { value: 'laguna-s-2.1-free',            label: 'Laguna S 2.1 (default)' },
+        { value: 'mimo-v2.5-free',               label: 'MiMo V2.5' },
+        { value: 'nemotron-3-ultra-free',        label: 'Nemotron 3 Ultra' },
+        { value: 'nemotron-3.5-lightning-free',  label: 'Nemotron 3.5 Lightning' },
+        { value: 'deepseek-v4-flash-free',       label: 'DeepSeek V4 Flash' },
+      ],
+    },
     qwen: {
       urlLabel: 'API URL',
       urlHelp: 'Qwen endpoint (leave default).',
@@ -251,26 +297,16 @@
       modelHelp: 'Free-form model name as required by the provider.',
       options: [],
     },
-    empero: {
-      urlLabel: 'Base URL',
-      urlHelp: 'Empero free endpoint (leave default). Free hosted Qwen 3.8 27B FP8.',
-      urlDefault: 'https://free.empero.org/v1',
-      modelControl: 'select',
-      modelHelp: 'Pick an Empero model.',
-      options: [
-        { value: 'Qwen/Qwen3.8-27B-FP8', label: 'Qwen 3.8 27B FP8 (131K ctx, free, reasoning)' },
-        { value: 'qwen3.8-27b', label: 'Qwen 3.8 27B (alias)' },
-      ],
-    },
-    egov: {
+    qwencloud: {
       urlLabel: 'API URL',
-      urlHelp: 'eGov Chat AI endpoint (leave default).',
-      urlDefault: 'https://chat.gov.ph',
+      urlHelp: 'Qwen Cloud try-ai endpoint (leave default).',
+      urlDefault: 'https://www.qwencloud.com/try-ai',
       modelControl: 'select',
-      modelHelp: 'Pick an eGov model.',
+      modelHelp: 'Pick a Qwen Cloud model.',
       options: [
-        { value: 'standard', label: 'Standard (default)' },
-        { value: 'creative', label: 'Creative' },
+        { value: 'qwen3.8-max', label: 'Qwen3.8 Max (default)' },
+        { value: 'qwen3-coder-plus', label: 'Qwen3 Coder Plus' },
+        { value: 'qwen-flash', label: 'Qwen Flash' },
       ],
     },
     deepai: {

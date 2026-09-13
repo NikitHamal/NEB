@@ -592,7 +592,7 @@ def stream_turn(session, user, user_text, sink, sources=None, model_key="neby-pr
         "reply": "".join(reply).strip() or "(no output)",
         "doc_updated": bool(session.doc_html and any(t["name"] in ("generate_doc", "edit_doc", "append_section") for t in tools)),
         "files": collected_files,
-        "model": used_model or "qwenfast/qwen3.8-27b",
+        "model": used_model or "qwencloud/qwen3.8-max",
     }
 
 

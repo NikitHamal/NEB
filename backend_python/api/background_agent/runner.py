@@ -519,7 +519,7 @@ class BackgroundAgentRunner:
         if slug == 'tryingopen':
             return 'qwen/qwen3.8-27b'
         if slug == 'k2think':
-            return 'MBZUAI-IFM/K2-Think-v2'
+            return 'IFM/K2-Horizon-375B-A23B'
         if slug == 'poolside':
             return 'laguna-s-2.1'
         if slug == 'motiftech':
@@ -576,7 +576,7 @@ class BackgroundAgentRunner:
                     resolved, prompt, system_prompt=system_prompt, file_paths=file_paths, max_tokens=max_tokens,
                 )
             slug = (self.session.llm_provider or '').strip().lower()
-            if slug in ('k2think', 'poolside', 'motiftech', 'metaai'):
+            if slug in ('k2think', 'poolside', 'motiftech', 'metaai', 'yqcloud', 'chatjimmy', 'unikey'):
                 return self._call_community_proxy(
                     slug, prompt, system_prompt=system_prompt, file_paths=file_paths, max_tokens=max_tokens,
                 )
@@ -678,7 +678,7 @@ class BackgroundAgentRunner:
             if not answer:
                 raise WorkspaceError('GeminiWeb returned no content')
             return answer
-        if slug in ('egov', 'deepai', 'inception'):
+        if slug in ('qwencloud', 'deepai', 'inception'):
             return self._call_scraper_proxy(
                 slug, prompt, system_prompt=system_prompt, file_paths=file_paths,
                 max_tokens=max_tokens, model_override=model or None,
@@ -744,12 +744,28 @@ class BackgroundAgentRunner:
             pass
 
     def _call_community_proxy(self, slug: str, prompt: str, *, system_prompt: str, file_paths=None, max_tokens=None, model_override: str = None) -> str:
-        """Community web proxies (k2think / poolside / motiftech / metaai) — no keys, no
-        native file upload; new upload contents are inlined into the prompt."""
-        if slug == 'k2think':
+        """Community web proxies (k2think / poolside / motiftech / metaai / yqcloud /
+        chatjimmy / unikey) — no keys, no native file upload; new upload contents are
+        inlined into the prompt."""
+        if slug == 'unikey':
+            from api import unikey_proxy
+            model = model_override or (self.session.llm_model or '').strip() or 'gpt-5.5'
+            label = 'Unikey'
+            fn = unikey_proxy.simple_chat
+        elif slug == 'yqcloud':
+            from api import yqcloud_proxy
+            model = model_override or (self.session.llm_model or '').strip() or 'yqcloud-default'
+            label = 'Yqcloud'
+            fn = yqcloud_proxy.simple_chat
+        elif slug == 'chatjimmy':
+            from api import chatjimmy_proxy
+            model = model_override or (self.session.llm_model or '').strip() or 'llama3.1-8B'
+            label = 'ChatJimmy'
+            fn = chatjimmy_proxy.simple_chat
+        elif slug == 'k2think':
             from api import k2think_proxy
-            model = model_override or (self.session.llm_model or '').strip() or 'MBZUAI-IFM/K2-Think-v2'
-            label = 'K2 Think'
+            model = model_override or (self.session.llm_model or '').strip() or 'IFM/K2-Horizon-375B-A23B'
+            label = 'K2 Horizon'
             fn = k2think_proxy.simple_chat
         elif slug == 'motiftech':
             from api import motiftech_proxy
@@ -927,14 +943,14 @@ class BackgroundAgentRunner:
         raise WorkspaceError(f'GeminiWeb {model} failed after {attempts} attempt(s): {last_error}') from last_error
 
     def _call_scraper_proxy(self, slug: str, prompt: str, *, system_prompt: str, file_paths=None, max_tokens=None, model_override: str = None) -> str:
-        """Scraper proxies (egov / deepai / inception) — no keys, no native
+        """Scraper proxies (qwencloud / deepai / inception) — no keys, no native
         file upload; new upload contents are inlined into the prompt."""
         output_tokens = int(max_tokens or getattr(settings, 'BACKGROUND_AGENT_MODEL_MAX_TOKENS', 6000))
-        if slug == 'egov':
-            from api import egov_proxy
-            model = model_override or (self.session.llm_model or '').strip() or 'AI1'
-            label = 'eGov'
-            fn = lambda **kw: egov_proxy.simple_chat(max_tokens=output_tokens, **kw)
+        if slug == 'qwencloud':
+            from api import qwencloud_proxy
+            model = model_override or (self.session.llm_model or '').strip() or 'qwen3.8-max'
+            label = 'QwenCloud'
+            fn = lambda **kw: qwencloud_proxy.simple_chat(**kw)
         elif slug == 'deepai':
             from api import deepai_proxy
             model = model_override or (self.session.llm_model or '').strip() or 'standard'

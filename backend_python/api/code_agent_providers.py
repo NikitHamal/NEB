@@ -88,7 +88,7 @@ class CodeProviderAdapter:
         fallbacks = getattr(
             settings,
             'CODE_AGENT_FALLBACKS',
-            ['tryingopen', 'empero', 'qwen', 'longcat', 'geminiweb', 'k2think'],
+            ['tryingopen', 'qwencloud', 'qwen', 'longcat', 'geminiweb', 'k2think'],
         )
         if isinstance(fallbacks, str):
             fallbacks = [item.strip() for item in fallbacks.split(',') if item.strip()]
@@ -209,7 +209,7 @@ def _call_community(slug: str, model: str, system: str, prompt: str, effort: str
         return geminiweb_proxy.simple_chat(prompt, model=model or 'geminiweb/gemini-flash-lite', system_prompt=system, max_tokens=max_tokens)
     if slug == 'k2think':
         from api import k2think_proxy
-        return k2think_proxy.simple_chat(prompt, model=model or 'MBZUAI-IFM/K2-Think-v2', system_prompt=system, max_tokens=max_tokens)
+        return k2think_proxy.simple_chat(prompt, model=model or 'IFM/K2-Horizon-375B-A23B', system_prompt=system, max_tokens=max_tokens)
     if slug == 'poolside':
         from api import poolside_proxy
         return poolside_proxy.simple_chat(prompt, model=model or 'laguna-s-2.1', system_prompt=system, max_tokens=max_tokens)
@@ -219,9 +219,9 @@ def _call_community(slug: str, model: str, system: str, prompt: str, effort: str
     if slug == 'inception':
         from api import inception_proxy
         return inception_proxy.simple_chat(prompt, model=model or 'mercury-2', system_prompt=system, reasoning_effort=deep)
-    if slug == 'egov':
-        from api import egov_proxy
-        return egov_proxy.simple_chat(prompt, model=model or 'AI1', system_prompt=system, max_tokens=max_tokens)
+    if slug == 'qwencloud':
+        from api import qwencloud_proxy
+        return qwencloud_proxy.simple_chat(prompt, model=model or 'qwen3.8-max', system_prompt=system)
     if slug == 'deepai':
         from api import deepai_proxy
         return deepai_proxy.simple_chat(prompt, model=model or 'standard', system_prompt=system)

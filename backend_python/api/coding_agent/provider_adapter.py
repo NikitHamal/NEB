@@ -200,8 +200,8 @@ def _call_deepai(messages: List[Dict[str, str]], model: str, max_tokens: int) ->
     )
 
 
-def _call_egov(messages: List[Dict[str, str]], model: str, max_tokens: int) -> ProviderCompletion:
-    from api.egov_proxy import simple_chat
+def _call_qwencloud(messages: List[Dict[str, str]], model: str, max_tokens: int) -> ProviderCompletion:
+    from api.qwencloud_proxy import simple_chat
 
     sys = ''
     user_parts: List[str] = []
@@ -217,17 +217,16 @@ def _call_egov(messages: List[Dict[str, str]], model: str, max_tokens: int) -> P
     t0 = time.time()
     text = simple_chat(
         user_message=user_msg,
-        model=model or 'AI1',
+        model=model or 'qwen3-coder-plus',
         system_prompt=sys,
-        max_tokens=max_tokens,
     )
     dt_ms = int((time.time() - t0) * 1000)
-    if not text:
-        raise ProviderError('eGov returned no text')
+    if not text or text.startswith('[Error]'):
+        raise ProviderError(f'QwenCloud returned no text: {text[:120]}')
     return ProviderCompletion(
         text=text,
-        provider='egov',
-        model=model or 'AI1',
+        provider='qwencloud',
+        model=model or 'qwen3-coder-plus',
         duration_ms=dt_ms,
         input_tokens=len(user_msg) // 4,
         output_tokens=len(text) // 4,
@@ -256,19 +255,10 @@ def call_for_agent(
             return _call_inception(truncated, model, max_tokens)
         if provider == 'deepai':
             return _call_deepai(truncated, model, max_tokens)
-        if provider == 'egov':
-            return _call_egov(truncated, model, max_tokens)
+        if provider == 'qwencloud':
+            return _call_qwencloud(truncated, model, max_tokens)
         if provider == 'custom':
             return _safe_json_chat(api_url, api_key, model, truncated, max_tokens, timeout)
-        if provider == 'empero':
-            return _safe_json_chat(
-                api_url='https://free.empero.org/v1/chat/completions',
-                api_key='free',
-                model=model or 'Qwen/Qwen3.8-27B-FP8',
-                messages=truncated,
-                max_tokens=max_tokens,
-                timeout=timeout,
-            )
     except ProviderError:
         raise
     except Exception as e:

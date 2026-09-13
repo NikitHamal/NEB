@@ -98,12 +98,29 @@ def _http_post_json(url: str, *, headers: dict, payload: dict, timeout: int, pro
 
 
 def _normalize_openai_model(provider: str, base_url: str, model: str) -> str:
-    prov = (provider or '').strip().lower()
-    m = (model or '').strip()
-    if prov == 'empero' or 'free.empero.org' in (base_url or '').lower():
-        if m.lower() in ('qwen3.8-27b', 'qwen/qwen3.8-27b', 'qwen-3.8-27b', 'qwen3.8', 'qwen', 'default', ''):
-            return 'Qwen/Qwen3.8-27B-FP8'
-    return m
+    return (model or '').strip()
+
+
+def _preset_auth(provider: str):
+    """Keyless-preset auth: (default_key, extra_headers) for the slug."""
+    try:
+        from .registry import preset
+        p = preset((provider or '').strip().lower())
+        if p is not None:
+            return p.default_key or '', dict(p.extra_headers or {})
+    except Exception:
+        pass
+    return '', {}
+
+
+def _openai_headers(api_key: str, provider: str, accept: str) -> dict:
+    default_key, extra = _preset_auth(provider)
+    headers = {'Content-Type': 'application/json', 'Accept': accept}
+    headers.update(extra)
+    effective_key = (api_key or '').strip() or default_key
+    if effective_key:
+        headers['Authorization'] = f'Bearer {effective_key}'
+    return headers
 
 
 def _openai_chat(*, base_url: str, api_key: str, model: str, messages: List[Dict[str, str]],
@@ -112,10 +129,7 @@ def _openai_chat(*, base_url: str, api_key: str, model: str, messages: List[Dict
     url = base_url.rstrip('/')
     if not url.endswith('/chat/completions'):
         url += '/chat/completions'
-    headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
-    effective_key = api_key.strip() or ('free' if (provider == 'empero' or 'free.empero.org' in url.lower()) else '')
-    if effective_key:
-        headers['Authorization'] = f'Bearer {effective_key}'
+    headers = _openai_headers(api_key, provider, 'application/json')
     payload = {
         'model': model,
         'messages': messages,
@@ -134,15 +148,17 @@ def _openai_chat(*, base_url: str, api_key: str, model: str, messages: List[Dict
         raise LLMError(f'{provider}: unexpected response shape: {str(data)[:300]}', provider=provider)
     if isinstance(content, list):  # content-parts style
         content = ''.join(p.get('text', '') if isinstance(p, dict) else str(p) for p in content)
-    text = (content or '').strip()
-    if not text:
-        raise LLMError(f'{provider}: empty completion', provider=provider)
-    # OpenAI-compatible reasoning channels (DeepSeek, Agnes, Qwen-API, etc.).
+    # OpenAI-compatible reasoning channels (DeepSeek, Agnes, etc.).
     reasoning = message.get('reasoning_content') or message.get('reasoning') or ''
     if isinstance(reasoning, list):
         reasoning = ''.join(
             p.get('text', '') if isinstance(p, dict) else str(p) for p in reasoning
         )
+    # Some gateways put the whole answer in the reasoning channel with
+    # empty content — fall back to it rather than failing.
+    text = (content or '').strip() or str(reasoning or '').strip()
+    if not text:
+        raise LLMError(f'{provider}: empty completion', provider=provider)
     usage = data.get('usage') or {}
     return ChatResult(
         text=text, model=data.get('model') or model, provider=provider,
@@ -305,10 +321,7 @@ def _openai_stream(*, base_url: str, api_key: str, model: str, messages: List[Di
     url = base_url.rstrip('/')
     if not url.endswith('/chat/completions'):
         url += '/chat/completions'
-    headers = {'Content-Type': 'application/json', 'Accept': 'text/event-stream'}
-    effective_key = api_key.strip() or ('free' if (provider == 'empero' or 'free.empero.org' in url.lower()) else '')
-    if effective_key:
-        headers['Authorization'] = f'Bearer {effective_key}'
+    headers = _openai_headers(api_key, provider, 'text/event-stream')
     payload = {
         'model': model,
         'messages': messages,

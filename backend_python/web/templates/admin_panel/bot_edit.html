@@ -330,6 +330,46 @@
         { value: 'deepseek-reasoner', label: 'DeepSeek Reasoner / R1' },
       ],
     },
+    llm7: {
+      urlLabel: 'Base URL',
+      urlHelp: 'LLM7 endpoint (leave default). Free, no key needed.',
+      urlDefault: 'https://api.llm7.io/v1',
+      modelControl: 'select',
+      modelHelp: 'Pick an LLM7 tier.',
+      options: [
+        { value: 'default', label: 'Default (default)' },
+        { value: 'fast',    label: 'Fast' },
+        { value: 'pro',     label: 'Pro' },
+      ],
+    },
+    kilo: {
+      urlLabel: 'Base URL',
+      urlHelp: 'Kilo gateway (leave default). Free :free models, no key needed.',
+      urlDefault: 'https://api.kilo.ai/api/gateway',
+      modelControl: 'select',
+      modelHelp: 'Pick a Kilo free model.',
+      options: [
+        { value: 'stepfun/step-3.7-flash:free',          label: 'Step 3.7 Flash (default)' },
+        { value: 'nvidia/nemotron-3-ultra-550b-a55b:free', label: 'Nemotron 3 Ultra 550B' },
+        { value: 'openrouter/free',                       label: 'OpenRouter Free' },
+        { value: 'kilo-auto/free',                        label: 'Kilo Auto Free' },
+        { value: 'poolside/laguna-s-2.1:free',            label: 'Laguna S 2.1' },
+      ],
+    },
+    zen: {
+      urlLabel: 'Base URL',
+      urlHelp: 'OpenCode Zen (leave default). Free -free models, no key needed.',
+      urlDefault: 'https://opencode.ai/zen/v1',
+      modelControl: 'select',
+      modelHelp: 'Pick a Zen free model.',
+      options: [
+        { value: 'laguna-s-2.1-free',            label: 'Laguna S 2.1 (default)' },
+        { value: 'mimo-v2.5-free',               label: 'MiMo V2.5' },
+        { value: 'nemotron-3-ultra-free',        label: 'Nemotron 3 Ultra' },
+        { value: 'nemotron-3.5-lightning-free',  label: 'Nemotron 3.5 Lightning' },
+        { value: 'deepseek-v4-flash-free',       label: 'DeepSeek V4 Flash' },
+      ],
+    },
     qwen: {
       urlLabel: 'API URL',
       urlHelp: 'Qwen endpoint (leave default).',
@@ -346,36 +386,16 @@
       modelHelp: 'Free-form model name as required by the provider.',
       options: [],
     },
-    agentrouter: {
+    qwencloud: {
       urlLabel: 'API URL',
-      urlHelp: 'AgentRouter endpoint (leave default).',
-      urlDefault: 'https://agentrouter.org/v1',
-      modelControl: 'text',
-      modelHelp: 'Free-form model name as required by the provider.',
-      options: [],
-    },
-    empero: {
-      urlLabel: 'Base URL',
-      urlHelp: 'Empero free endpoint (leave default). Free hosted Qwen 3.8 27B FP8.',
-      urlDefault: 'https://free.empero.org/v1',
+      urlHelp: 'Qwen Cloud try-ai endpoint (leave default).',
+      urlDefault: 'https://www.qwencloud.com/try-ai',
       modelControl: 'select',
-      modelHelp: 'Pick an Empero model.',
+      modelHelp: 'Pick a Qwen Cloud model.',
       options: [
-        { value: 'Qwen/Qwen3.8-27B-FP8', label: 'Qwen 3.8 27B FP8 (131K ctx, free, reasoning)' },
-        { value: 'qwen3.8-27b', label: 'Qwen 3.8 27B (alias)' },
-      ],
-    },
-    egov: {
-      urlLabel: 'API URL',
-      urlHelp: 'eGov Chat AI endpoint (leave default).',
-      urlDefault: 'https://egov-chat-ai.e.gov.ph',
-      modelControl: 'select',
-      modelHelp: 'Pick an eGov model.',
-      options: [
-        { value: 'AI1', label: 'eGov AI1 (Global)' },
-        { value: 'AI1-ph', label: 'eGov AI1 (Philippines)' },
-        { value: 'AI2', label: 'eGov AI2 (Global)' },
-        { value: 'AI2-ph', label: 'eGov AI2 (Philippines)' },
+        { value: 'qwen3.8-max', label: 'Qwen3.8 Max (default)' },
+        { value: 'qwen3-coder-plus', label: 'Qwen3 Coder Plus' },
+        { value: 'qwen-flash', label: 'Qwen Flash' },
       ],
     },
     deepai: {
@@ -424,12 +444,12 @@
     },
     k2think: {
       urlLabel: 'API URL',
-      urlHelp: 'K2 Think guest endpoint (leave default).',
-      urlDefault: 'https://www.k2think.ai',
+      urlHelp: 'K2 Horizon guest endpoint (leave default).',
+      urlDefault: 'https://chat.ifm.ai',
       modelControl: 'select',
-      modelHelp: 'Pick a K2 Think model.',
+      modelHelp: 'Pick a K2 Horizon model.',
       options: [
-        { value: 'MBZUAI-IFM/K2-Think-v2', label: 'K2 Think V2 (default)' },
+        { value: 'IFM/K2-Horizon-375B-A23B', label: 'K2 Horizon 375B (default)' },
       ],
     },
     poolside: {
@@ -615,14 +635,13 @@
     try {
       var reg = JSON.parse('{{ provider_config_json|escapejs }}');
       var labels = {
-        'qwen': 'Qwen (chat.qwen.ai)', 'k2think': 'K2 Think (k2think.ai)',
+        'qwen': 'Qwen (chat.qwen.ai)', 'k2think': 'K2 Horizon (chat.ifm.ai)',
         'poolside': 'Poolside (Laguna 2.1)', 'motiftech': 'Motif (Motif 3)',
-        'egov': 'eGov Chat AI (Philippines)', 'deepai': 'DeepAI (deepai.org)',
+        'qwencloud': 'Qwen Cloud (qwencloud.com)', 'deepai': 'DeepAI (deepai.org)',
         'inception': 'Inception (Mercury 2)', 'custom': 'Custom OpenAI-compatible',
         'agnes': 'Agnes (official)', 'openai': 'OpenAI (official)',
         'anthropic': 'Anthropic (official)', 'gemini': 'Gemini (official)',
-        'deepseek': 'DeepSeek (official)', 'agentrouter': 'AgentRouter (official)',
-        'empero': 'Empero (free hosted Qwen3.8)'
+        'deepseek': 'DeepSeek (official)'
       };
       for (var slug in reg) {
         FALLBACK_PROVIDERS.push({ value: slug, label: labels[slug] || slug });

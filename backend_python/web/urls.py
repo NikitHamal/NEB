@@ -177,11 +177,6 @@ urlpatterns = [
     path('ajax/neby-arena/qwen/sessions/', views.ajax_arena_create_qwen_session, name='ajax_arena_create_qwen_session'),
     path('ajax/neby-arena/qwen/sessions/<str:session_id>/messages/', views.ajax_arena_send_message_qwen, name='ajax_arena_send_message_qwen'),
 
-    # eGov Chat AI (Philippine government AI, file uploads)
-    path('ajax/neby-arena/egov/models/', views.ajax_arena_egov_models, name='ajax_arena_egov_models'),
-    path('ajax/neby-arena/egov/sessions/', views.ajax_arena_create_egov_session, name='ajax_arena_create_egov_session'),
-    path('ajax/neby-arena/egov/sessions/<str:session_id>/messages/', views.ajax_arena_send_message_egov, name='ajax_arena_send_message_egov'),
-
     # DeepAI (multi-model chat, file uploads)
     path('ajax/neby-arena/deepai/models/', views.ajax_arena_deepai_models, name='ajax_arena_deepai_models'),
     path('ajax/neby-arena/deepai/sessions/', views.ajax_arena_create_deepai_session, name='ajax_arena_create_deepai_session'),
@@ -244,6 +239,8 @@ urlpatterns = [
     path('admin/chat/send/', views_admin_chat.ajax_admin_chat_send, name='admin_chat_send'),
     path('admin/media-test/', views_admin_media.admin_media_test, name='admin_media_test'),
     path('ajax/admin/media/tts/', views_admin_media.ajax_admin_media_tts, name='ajax_admin_media_tts'),
+    path('ajax/admin/media/stt/', views_admin_media.ajax_admin_media_stt, name='ajax_admin_media_stt'),
+    path('ajax/admin/media/voice/', views_admin_media.ajax_admin_media_voice, name='ajax_admin_media_voice'),
     path('admin/hero-backgrounds/', views.admin_hero_backgrounds, name='admin_hero_backgrounds'),
     path('admin/agent-drops/', views.admin_agent_drops, name='admin_agent_drops'),
 

@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>NEBians — Library & Community in Four Fields · Mono</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/echarts@6/dist/echarts.min.js"></script>
+<style>
+:root{--bg:#F0EFEB;--ink:#1C1C1A;--muted:#8F8E88;--faint:#C6C5BF;--grid:#DEDDD6;--dark:#1C1C1A}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--ink);padding:32px 24px;-webkit-font-smoothing:antialiased}
+.pagehead{max-width:1100px;margin:0 auto 22px;padding:0 4px}
+.pagehead h1{font-size:23px;letter-spacing:-.03em;font-weight:800;line-height:1.15}
+.pagehead h1 span{font-weight:400;color:#8F8E88}
+.pagehead p{font-size:12.2px;color:#8F8E88;margin-top:8px;line-height:1.75;max-width:760px}
+.pagehead .meta{font-size:10px;letter-spacing:.08em;font-weight:700;color:#C6C5BF;margin-top:10px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:22px;max-width:1100px;margin:0 auto}
+.card{background:var(--bg);border-radius:24px;padding:28px 28px 20px}
+.card.wide{grid-column:1/-1}
+h2{font-weight:700;font-size:16.5px;letter-spacing:-.02em;margin-bottom:3px}
+.sub{font-size:11.5px;color:var(--muted);margin-bottom:14px;line-height:1.5}
+.src{font-size:9.5px;color:var(--faint);margin-top:10px;letter-spacing:.08em;font-weight:500}
+.badge{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.08em;padding:3px 10px;border-radius:99px;margin-bottom:10px;border:1px dashed #B0AFA9;color:#8F8E88}
+svg{width:100%;max-height:330px;display:block;margin:0 auto}
+svg text{font-family:'Inter',sans-serif}
+.pop{transform-box:fill-box;transform-origin:center;animation:pop .5s cubic-bezier(.2,.7,.3,1.3) both}
+@keyframes pop{from{transform:scale(0)}to{transform:none}}
+.fade{animation:fade .9s ease both}
+@keyframes fade{from{opacity:0}}
+.draw{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1s cubic-bezier(.4,0,.2,1) both}
+@keyframes draw{to{stroke-dashoffset:0}}
+@media (prefers-reduced-motion:reduce){.pop,.fade{animation:none}.draw{animation:none;stroke-dasharray:none;stroke-dashoffset:0}}
+@media(max-width:760px){.grid2{grid-template-columns:1fr}body{padding:18px 14px}}
+</style>
+</head>
+<body>
+<div class="pagehead">
+  <h1>NEBians <span>— where the library lives, and the community talks</span></h1>
+  <p>Four fields from the same campus: what students save, when they come back, how the collection is built, and where the forum gathers. Each card is one honest claim — read the rungs, the dots, the ticks. <span style="color:#1C1C1A;font-weight:600">Mono</span> · one rung = ten resources · one dot = one month · one tick = one percent.</p>
+  <div class="meta">NEBIANS · LIBRARY + FORUM · SOURCE: RESOURCES, POSTS, ANALYTICS (2025-2026) · MONO-BASIC F1 · F2 · F4 · F5</div>
+</div>
+
+<div class="grid2">
+
+  <!-- F1 · Rung Bars — Resources by subject -->
+  <div class="card">
+    <span class="badge">LUPI 基础型 · F1 RUNG BARS</span>
+    <h2>Physics still leads the library</h2>
+    <div class="sub">one rung = 10 resources · the bar is a ladder you can count · 7 subjects, 1,596 resources</div>
+    <svg id="rungs" viewBox="0 0 400 320" preserveAspectRatio="xMidYMid meet"></svg>
+    <div class="src">F1 RUNG BARS · MONO · 1 RUNG = 10 RESOURCES · NEB CLASS 11–12</div>
+  </div>
+
+  <!-- F2 · Hairline Line — Monthly active users -->
+  <div class="card">
+    <span class="badge">LUPI 基础型 · F2 HAIRLINE LINE</span>
+    <h2>They kept coming back after the exams</h2>
+    <div class="sub">one dot = one month · hollow = exam month · the floor is every month, even the quiet ones</div>
+    <svg id="dayline" viewBox="0 0 400 320" preserveAspectRatio="xMidYMid meet"></svg>
+    <div class="src">HAIRLINE LINE · MONO · MONTHLY ACTIVE USERS · JAN–JUN 2026</div>
+  </div>
+
+  <!-- F4 · Tick Donut — Resource type share -->
+  <div class="card">
+    <span class="badge">LUPI 基础型 · F4 TICK DONUT</span>
+    <h2>Half the library is still a PDF</h2>
+    <div class="sub">one tick = one percent · four types shade the dial · read it like a clock · 1,596 files</div>
+    <svg id="tickdonut" viewBox="0 0 400 320" preserveAspectRatio="xMidYMid meet"></svg>
+    <div class="src">TICK DONUT · MONO · 1 TICK = 1% · RESOURCE TYPE MIX</div>
+  </div>
+
+  <!-- F5 · Tick Rows — Forum posts by category -->
+  <div class="card">
+    <span class="badge">LUPI 基础型 · F5 TICK ROWS</span>
+    <h2>General talk, then questions</h2>
+    <div class="sub">one tick = one thread this term · the row is a queue, not a bar · 135 threads</div>
+    <svg id="tickrows" viewBox="0 0 400 320" preserveAspectRatio="xMidYMid meet"></svg>
+    <div class="src">TICK ROWS · MONO · 1 TICK = 1 THREAD · FORUM CATEGORIES</div>
+  </div>
+
+</div>
+
+<script>
+// ── Mono tokens (inline) ──
+const INK='#1C1C1A',PAPER='#F0EFEB',MUTED='#8F8E88',GRID='#DEDDD6';
+const NS='http://www.w3.org/2000/svg';
+const el=(p,t,a)=>{const n=document.createElementNS(NS,t);for(const k in a)n.setAttribute(k,a[k]);p.appendChild(n);return n};
+const txt=(p,a,s)=>{const n=el(p,'text',a);n.textContent=s;return n};
+const tip=(n,s)=>{const t=document.createElementNS(NS,'title');t.textContent=s;n.appendChild(t)};
+const rnd=(i,k)=>Math.abs(((i*73856093)^(k*19349663))%1000)/1000;
+const D2R=Math.PI/180;
+const pol=(cx,cy,r,deg)=>[cx+r*Math.cos(deg*D2R),cy+r*Math.sin(deg*D2R)];
+const obsReveal=(id,fn)=>{
+  const n=document.getElementById(id);
+  const go=()=>{n.innerHTML='';fn(n)};
+  const io=new IntersectionObserver(es=>{if(es[0].isIntersecting){go();io.disconnect()}},{threshold:.3});
+  io.observe(n);
+  n.style.cursor='pointer';
+  n.addEventListener('click',go);
+};
+
+// ════ F1 · Rung Bars — NEBians: Resources by subject ════
+(()=>{
+const D=[['PHYSICS',34],['CHEMISTRY',30],['MATH',32],['BIOLOGY',28],['COMPUTER',21],['ENGLISH',17],['NEPALI',12]];
+// values are rungs; 1 rung = 10 resources. Real counts: 340, 298, 320, 278, 210, 165, 118
+obsReveal('rungs',s=>{
+  const x0=i=>56+i*56,base=266,step=5.6,HW=14;
+  D.forEach(([name,v],i)=>{
+    const x=x0(i);
+    for(let k=0;k<v;k++){
+      const y=base-k*step,w=HW-1.5+rnd(k+1,i+2)*3;
+      el(s,'line',{x1:x-w,y1:y,x2:x+w,y2:y,stroke:INK,'stroke-width':1,
+        opacity:.5+rnd(k+2,i+4)*.5,class:'fade',style:`animation-delay:${i*.08+k*.012}s`});
+      if(k%5===4)el(s,'circle',{cx:x+HW+4.5,cy:y,r:.8,fill:'#C6C5BF',
+        class:'fade',style:`animation-delay:${i*.08+k*.012}s`});
+    }
+    const topY=base-(v-1)*step;
+    const num=txt(s,{x,y:topY-10,'font-size':11,'font-weight':800,fill:INK,'text-anchor':'middle',
+      class:'fade',style:`animation-delay:${.4+i*.08}s`},v*10);
+    tip(num,`${name} — ${v*10} resources`);
+    txt(s,{x,y:base+18,'font-size':7,'font-weight':700,fill:MUTED,'text-anchor':'middle',
+      'letter-spacing':'.08em',class:'fade',style:`animation-delay:${i*.08}s`},name);
+  });
+  el(s,'line',{x1:28,y1:base+4,x2:372,y2:base+4,stroke:GRID,'stroke-width':.8,class:'fade'});
+  txt(s,{x:200,y:306,'font-size':7,'font-weight':600,fill:'#B0AFA9','text-anchor':'middle',
+    'letter-spacing':'.12em',class:'fade',style:`animation-delay:.9s`},
+    'ONE RUNG = 10 RESOURCES · DOT EVERY FIFTH · PHYSICS 340');
+});
+})();
+
+// ════ F2 · Hairline Line — NEBians: Monthly active users ════
+(()=>{
+const N=6;
+const vals=[42,48,55,62,71,82]; // 4200..8200 (÷100)
+const labels=['JAN','FEB','MAR','APR','MAY','JUN'];
+const fullVals=[4200,4800,5500,6200,7100,8200];
+obsReveal('dayline',s=>{
+  const x=d=>70+d*56,base=262,map=v=>base-v*2.2;
+  // floor: one tick per month (the calendar is honest)
+  for(let d=0;d<N;d++)
+    el(s,'line',{x1:x(d),y1:base,x2:x(d),y2:base-7,stroke:'#CFCEC7','stroke-width':.6,
+      class:'fade',style:`animation-delay:${d*.08}s`});
+  el(s,'line',{x1:54,y1:base,x2:346,y2:base,stroke:GRID,'stroke-width':.8,class:'fade'});
+  // peaks: May + Jun are exam-adjacent -> hollow? Keep special: Jun is peak
+  const topIdx=5;
+  const pts=vals.map((v,d)=>`${x(d)} ${map(v)}`).join(' L ');
+  el(s,'path',{d:'M'+pts,fill:'none',stroke:INK,'stroke-width':1.1,pathLength:1,
+    class:'draw',style:'animation-duration:1.2s'});
+  vals.forEach((v,d)=>{
+    const isPeak=d===topIdx;
+    const dot=el(s,'circle',{cx:x(d),cy:map(v),r:isPeak?4.4:2.6,
+      fill:isPeak?INK:'#1C1C1A',stroke:INK,'stroke-width':0,
+      class:'pop',style:`animation-delay:${.2+d*.08}s`});
+    tip(dot,`${labels[d]} — ${fullVals[d].toLocaleString()} MAU`);
+    if(isPeak)txt(s,{x:x(d),y:map(v)-12,'font-size':10,'font-weight':800,fill:INK,'text-anchor':'middle',
+      style:`paint-order:stroke;stroke:${PAPER};stroke-width:3px;`,class:'fade'},fullVals[d].toLocaleString());
+  });
+  labels.forEach((m,d)=>
+    txt(s,{x:x(d),y:base+18,'font-size':7.5,'font-weight':600,fill:MUTED,'text-anchor':'middle',
+      'letter-spacing':'.1em',class:'fade'},m));
+  txt(s,{x:200,y:306,'font-size':7,'font-weight':600,fill:'#B0AFA9','text-anchor':'middle',
+    'letter-spacing':'.12em',class:'fade',style:'animation-delay:1.1s'},
+    'ONE DOT = ONE MONTH · 8.2K IN JUNE · +95% SINCE JAN');
+});
+})();
+
+// ════ F4 · Tick Donut — NEBians: Resource type share ════
+(()=>{
+const D=[['PDF NOTES',45,INK],['PAST PAPERS',25,'#55554F'],['MODEL Qs',20,'#8F8E88'],['VIDEOS',10,'#B0AFA9']];
+obsReveal('tickdonut',s=>{
+  const cx=200,cy=148,R0=68;
+  let k0=0;
+  D.forEach(([name,v,shade],si)=>{
+    for(let k=0;k<v;k++){
+      const idx=k0+k,a=idx*3.6-90;
+      const len=10+rnd(idx+1,si+2)*6;
+      const [x1,y1]=pol(cx,cy,R0,a),[x2,y2]=pol(cx,cy,R0+len,a);
+      el(s,'line',{x1,y1,x2,y2,stroke:shade,'stroke-width':1,
+        class:'fade',style:`animation-delay:${idx*.012}s`});
+      if(idx%10===0){
+        const [dx,dy]=pol(cx,cy,R0-5,a);
+        el(s,'circle',{cx:dx,cy:dy,r:.8,fill:'#C6C5BF',
+          class:'fade',style:`animation-delay:${idx*.012}s`});
+      }
+    }
+    const mid=(k0+v/2)*3.6-90,[lx,ly]=pol(cx,cy,R0+38,mid),[gx,gy]=pol(cx,cy,R0+20,mid);
+    el(s,'line',{x1:gx,y1:gy,x2:lx,y2:ly,stroke:'#C6C5BF','stroke-width':.7,
+      'stroke-dasharray':'1 3',class:'fade',style:`animation-delay:${.6+si*.1}s`});
+    const anchor=Math.cos(mid*D2R)>0.3?'start':Math.cos(mid*D2R)<-0.3?'end':'middle';
+    const lab=txt(s,{x:lx,y:ly+3,'font-size':8,'font-weight':800,fill:shade,'text-anchor':anchor,
+      'letter-spacing':'.06em',style:`paint-order:stroke;stroke:${PAPER};stroke-width:3px;animation-delay:${.65+si*.1}s`,
+      class:'fade'},`${name} · ${v}`);
+    tip(lab,`${name} — ${v}% of library`);
+    k0+=v;
+  });
+  txt(s,{x:cx,y:cy-2,'font-size':22,'font-weight':800,fill:INK,'text-anchor':'middle',
+    class:'fade',style:'animation-delay:.9s'},'100');
+  txt(s,{x:cx,y:cy+13,'font-size':7,'font-weight':600,fill:MUTED,'text-anchor':'middle',
+    'letter-spacing':'.1em',class:'fade',style:'animation-delay:.9s'},'TICKS · ONE = 1%');
+  txt(s,{x:200,y:296,'font-size':7,'font-weight':600,fill:'#B0AFA9','text-anchor':'middle',
+    'letter-spacing':'.12em',class:'fade',style:'animation-delay:1.1s'},
+    '12 O’CLOCK IS ZERO · PDF 45% · VIDEOS 10%');
+});
+})();
+
+// ════ F5 · Tick Rows — NEBians: Forum threads by category ════
+(()=>{
+const D=[['GENERAL',45],['QUESTIONS',38],['NOTICES',22],['HELP',18],['RESOURCES',12]];
+obsReveal('tickrows',s=>{
+  const y0=i=>48+i*46,X0=110,PX=5.4;
+  D.forEach(([name,v],i)=>{
+    const y=y0(i);
+    txt(s,{x:100,y:y+3,'font-size':8,'font-weight':700,fill:'#6A6963','text-anchor':'end',
+      'letter-spacing':'.08em',class:'fade',style:`animation-delay:${i*.08}s`},name);
+    el(s,'line',{x1:X0,y1:y+9,x2:X0+45*PX,y2:y+9,stroke:GRID,'stroke-width':.6,
+      class:'fade',style:`animation-delay:${i*.08}s`});
+    for(let k=0;k<v;k++){
+      const x=X0+k*PX+PX/2,h=9+rnd(k+1,i+2)*6;
+      el(s,'line',{x1:x,y1:y+9,x2:x,y2:y+9-h,stroke:INK,'stroke-width':.9,
+        opacity:.55+rnd(k+3,i+5)*.45,class:'fade',style:`animation-delay:${i*.08+k*.01}s`});
+      if(k%5===4)el(s,'circle',{cx:x,cy:y+13,r:.8,fill:'#C6C5BF',
+        class:'fade',style:`animation-delay:${i*.08+k*.01}s`});
+    }
+    const lab=txt(s,{x:X0+v*PX+10,y:y+4,'font-size':11,'font-weight':800,fill:INK,
+      class:'fade',style:`animation-delay:${.4+i*.08}s`},v);
+    tip(lab,`${name} — ${v} threads`);
+  });
+  txt(s,{x:200,y:308,'font-size':7,'font-weight':600,fill:'#B0AFA9','text-anchor':'middle',
+    'letter-spacing':'.12em',class:'fade',style:`animation-delay:.9s`},
+    'ONE TICK = ONE THREAD · 135 THREADS THIS TERM · DOT EVERY FIFTH');
+});
+})();
+</script>
+</body>
+</html>

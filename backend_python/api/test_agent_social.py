@@ -1,13 +1,17 @@
 from django.test import TestCase, override_settings
 from rest_framework.test import APIClient
+from unittest import mock
 import os
 
+from api.agent_social.actions import act_reply
 from api.agent_social.auth import issue_agent_key
 from api.agent_social.birth import announce_if_needed
 from api.agent_social.ensure import ensure_neby
 from api.agent_social.heartbeat import tick_neby
 from api.agent_social.models import AgentAction, AgentPersona
-from api.models import Follow, Post, PostLike, Reply, User
+from api.agent_social.observer import observe
+from api.models import Follow, NebyTask, Post, PostLike, Reply, User
+from api.neby import process_neby_task
 from api.utils import now_ms, uuid_str
 
 
@@ -97,3 +101,224 @@ class AgentSocialTests(TestCase):
         client = APIClient()
         res = client.post('/api/v1/agents/register/', {'name': 'neby'}, format='json')
         self.assertEqual(res.status_code, 400)
+
+    def _mention_thread(self):
+        user, config, persona = ensure_neby()
+        student_reply = Reply.objects.create(
+            id=uuid_str(),
+            post=self.question,
+            parent_reply_id=None,
+            user=self.student,
+            content='@neby please explain this in simple words, sathi?',
+            created_at=now_ms(),
+        )
+        return user, config, persona, student_reply
+
+    def test_reply_mention_logs_agent_action(self):
+        user, config, persona, student_reply = self._mention_thread()
+        task = NebyTask.objects.create(
+            id=uuid_str(),
+            bot_config=config,
+            status='pending',
+            trigger='reply_mention',
+            post_id=self.question.id,
+            reply_id=student_reply.id,
+            created_at=now_ms(),
+        )
+        with mock.patch('api.neby.call_ai_api', return_value='Sure, here is the simple idea.'):
+            process_neby_task(task)
+        task.refresh_from_db()
+        self.assertEqual(task.status, 'done')
+        self.assertTrue(
+            Reply.objects.filter(parent_reply_id=student_reply.id, user=user, is_archived=False).exists()
+        )
+        self.assertTrue(
+            AgentAction.objects.filter(
+                persona=persona, action_type='reply', source='mention', status='done',
+                target_id=student_reply.id,
+            ).exists()
+        )
+        self.assertTrue(
+            AgentAction.objects.filter(
+                persona=persona, action_type='reply', source='mention', status='done',
+                target_id=f'{self.question.id}:{student_reply.id}',
+            ).exists()
+        )
+
+    def test_autonomous_skips_done_mention_task(self):
+        user, config, persona, student_reply = self._mention_thread()
+        Reply.objects.create(
+            id=uuid_str(),
+            post=self.question,
+            parent_reply_id=student_reply.id,
+            user=user,
+            content='Archived mention reply.',
+            is_archived=True,
+            created_at=now_ms(),
+        )
+        NebyTask.objects.create(
+            id=uuid_str(),
+            bot_config=config,
+            status='done',
+            trigger='reply_mention',
+            post_id=self.question.id,
+            reply_id=student_reply.id,
+            created_at=now_ms(),
+            finished_at=now_ms(),
+        )
+        before = Reply.objects.filter(post=self.question).count()
+        result = act_reply(
+            persona, user, self.question, config,
+            source='heartbeat', reason='regression',
+            parent_reply_id=student_reply.id,
+        )
+        self.assertIsNone(result)
+        self.assertEqual(Reply.objects.filter(post=self.question).count(), before)
+
+    def test_autonomous_skips_mention_agent_action(self):
+        user, config, persona, student_reply = self._mention_thread()
+        AgentAction.objects.create(
+            persona=persona, action_type='reply', status='done', source='mention',
+            target_type='post', target_id=student_reply.id,
+            content_preview='Mention reply.', reasoning='regression',
+        )
+        before = Reply.objects.filter(post=self.question).count()
+        result = act_reply(
+            persona, user, self.question, config,
+            source='heartbeat', reason='regression',
+            parent_reply_id=student_reply.id,
+        )
+        self.assertIsNone(result)
+        self.assertEqual(Reply.objects.filter(post=self.question).count(), before)
+
+    def test_observe_marks_done_mention_handled(self):
+        user, config, persona, student_reply = self._mention_thread()
+        NebyTask.objects.create(
+            id=uuid_str(),
+            bot_config=config,
+            status='done',
+            trigger='reply_mention',
+            post_id=self.question.id,
+            reply_id=student_reply.id,
+            created_at=now_ms(),
+            finished_at=now_ms(),
+        )
+        obs = observe(persona, user)
+        row = next((r for r in obs['replies'] if r['reply'].id == student_reply.id), None)
+        self.assertIsNotNone(row)
+        self.assertTrue(row['already_replied'])
+
+    def test_autonomous_skips_done_post_mention(self):
+        user, config, persona = ensure_neby()
+        Reply.objects.create(
+            id=uuid_str(),
+            post=self.question,
+            parent_reply_id=None,
+            user=user,
+            content='Archived mention reply.',
+            is_archived=True,
+            created_at=now_ms(),
+        )
+        NebyTask.objects.create(
+            id=uuid_str(),
+            bot_config=config,
+            status='done',
+            trigger='post_mention',
+            post_id=self.question.id,
+            reply_id=None,
+            created_at=now_ms(),
+            finished_at=now_ms(),
+        )
+        before = Reply.objects.filter(post=self.question).count()
+        result = act_reply(
+            persona, user, self.question, config,
+            source='heartbeat', reason='regression',
+        )
+        self.assertIsNone(result)
+        self.assertEqual(Reply.objects.filter(post=self.question).count(), before)
+
+    def test_observe_marks_done_post_mention_handled(self):
+        user, config, persona = ensure_neby()
+        NebyTask.objects.create(
+            id=uuid_str(),
+            bot_config=config,
+            status='done',
+            trigger='post_mention',
+            post_id=self.question.id,
+            reply_id=None,
+            created_at=now_ms(),
+            finished_at=now_ms(),
+        )
+        obs = observe(persona, user)
+        row = next((r for r in obs['posts'] if r['post'].id == self.question.id), None)
+        self.assertIsNotNone(row)
+        self.assertTrue(row['already_replied'])
+
+    def test_autonomous_proceeds_on_failed_task(self):
+        user, config, persona, student_reply = self._mention_thread()
+        NebyTask.objects.create(
+            id=uuid_str(),
+            bot_config=config,
+            status='failed',
+            trigger='reply_mention',
+            post_id=self.question.id,
+            reply_id=student_reply.id,
+            error_message='No response from AI',
+            created_at=now_ms(),
+            finished_at=now_ms(),
+        )
+        before = Reply.objects.filter(post=self.question).count()
+        result = act_reply(
+            persona, user, self.question, config,
+            source='heartbeat', reason='regression',
+            parent_reply_id=student_reply.id,
+        )
+        self.assertIsNotNone(result)
+        self.assertEqual(Reply.objects.filter(post=self.question).count(), before + 1)
+
+    def test_autonomous_proceeds_on_personality_skip(self):
+        user, config, persona, student_reply = self._mention_thread()
+        NebyTask.objects.create(
+            id=uuid_str(),
+            bot_config=config,
+            status='done',
+            trigger='reply_mention',
+            post_id=self.question.id,
+            reply_id=student_reply.id,
+            error_message='Ignored by personality (chose not to reply)',
+            created_at=now_ms(),
+            finished_at=now_ms(),
+        )
+        before = Reply.objects.filter(post=self.question).count()
+        result = act_reply(
+            persona, user, self.question, config,
+            source='heartbeat', reason='regression',
+            parent_reply_id=student_reply.id,
+        )
+        self.assertIsNotNone(result)
+        self.assertEqual(Reply.objects.filter(post=self.question).count(), before + 1)
+
+    def test_enqueue_skips_heartbeat_action(self):
+        from api.neby import enqueue_neby_task
+        user, config, persona = ensure_neby()
+        AgentAction.objects.create(
+            persona=persona, action_type='reply', status='done', source='heartbeat',
+            target_type='post', target_id=self.question.id,
+            content_preview='Autonomous reply.', reasoning='regression',
+        )
+        task = enqueue_neby_task('post_mention', self.question.id, bot_config=config)
+        self.assertIsNone(task)
+
+    def test_tick_skips_when_locked(self):
+        from django.core.cache import cache
+        user, config, persona = ensure_neby()
+        persona.last_tick_at = 0
+        persona.save(update_fields=['last_tick_at'])
+        lock_key = f'agent_tick_lock:{persona.id}'
+        cache.add(lock_key, now_ms(), timeout=60)
+        try:
+            result = tick_neby(source='heartbeat')
+            self.assertTrue(result.get('ok'))
+            self.assertEqual(result.get('skipped'), 'tick already running')
+        finally:
+            cache.delete(lock_key)

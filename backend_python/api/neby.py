@@ -16,7 +16,7 @@ import logging
 import re
 
 from django.db import transaction
-from django.db.models import F
+from django.db.models import F, Q
 
 from .models import BotConfig, User, Post, Reply, NebyTask
 from .utils import now_ms, uuid_str
@@ -153,8 +153,101 @@ def _has_pending_task(post_id, reply_id, bot_config):
     if reply_id:
         qs = qs.filter(reply_id=reply_id)
     else:
-        qs = qs.filter(post_id=post_id, reply_id__isnull=True)
+        qs = qs.filter(Q(reply_id__isnull=True) | Q(reply_id=''), post_id=post_id)
     return qs.exists()
+
+
+_HANDLED_DONE_PREFIX = 'Bot already replied'
+
+
+def _done_task_means_replied(qs):
+    """A done task counts as handled only when a bot reply exists for the target."""
+    return qs.filter(status='done').filter(
+        Q(error_message='') | Q(error_message__isnull=True)
+        | Q(error_message__startswith=_HANDLED_DONE_PREFIX)
+    ).exists()
+
+
+def done_handled_reply_ids():
+    """Reply ids whose @mention was already answered (in-flight or done-with-reply)."""
+    pending = set(
+        NebyTask.objects.filter(status__in=('pending', 'processing'))
+        .exclude(reply_id__isnull=True).exclude(reply_id='')
+        .values_list('reply_id', flat=True)
+    )
+    done = set(
+        NebyTask.objects.filter(status='done')
+        .exclude(reply_id__isnull=True).exclude(reply_id='')
+        .filter(
+            Q(error_message='') | Q(error_message__isnull=True)
+            | Q(error_message__startswith=_HANDLED_DONE_PREFIX)
+        )
+        .values_list('reply_id', flat=True)
+    )
+    return pending | done
+
+
+def _post_level_tasks():
+    return NebyTask.objects.filter(Q(reply_id__isnull=True) | Q(reply_id=''))
+
+
+def done_handled_post_ids():
+    """Post ids whose @mention was already answered (in-flight or done-with-reply)."""
+    pending = set(
+        _post_level_tasks().filter(status__in=('pending', 'processing'))
+        .values_list('post_id', flat=True)
+    )
+    done = set(
+        _post_level_tasks().filter(status='done')
+        .filter(
+            Q(error_message='') | Q(error_message__isnull=True)
+            | Q(error_message__startswith=_HANDLED_DONE_PREFIX)
+        )
+        .values_list('post_id', flat=True)
+    )
+    return pending | done
+
+
+def is_mention_handled(post_id, reply_id=None):
+    """Shared cross-path ledger: True when a mention task already covers this target."""
+    if reply_id:
+        rid = str(reply_id).strip()
+        if NebyTask.objects.filter(reply_id=rid, status__in=('pending', 'processing')).exists():
+            return True
+        return _done_task_means_replied(NebyTask.objects.filter(reply_id=rid))
+    pid = str(post_id).strip()
+    if _post_level_tasks().filter(post_id=pid, status__in=('pending', 'processing')).exists():
+        return True
+    return _done_task_means_replied(_post_level_tasks().filter(post_id=pid))
+
+
+def _log_mention_action(config, target_ids, content_preview, reason):
+    """Record a mention-path reply in the AgentAction ledger so autonomy skips it."""
+    try:
+        if config is None or not getattr(config, 'pk', None):
+            logger.warning('neby: mention AgentAction skipped (no bot config)')
+            return
+        from api.agent_social.models import AgentAction, AgentPersona
+        persona = AgentPersona.objects.filter(bot_config=config).first()
+        if persona is None:
+            logger.warning(f'neby: mention AgentAction skipped (no persona for @{config.bot_username})')
+            return
+        for tid in target_ids or []:
+            tid = str(tid or '').strip()
+            if not tid:
+                continue
+            AgentAction.objects.create(
+                persona=persona,
+                action_type='reply',
+                status='done',
+                source='mention',
+                target_type='post',
+                target_id=tid[:128],
+                content_preview=(content_preview or '')[:400],
+                reasoning=(reason or '')[:400],
+            )
+    except Exception:
+        logger.warning('neby: failed to log mention AgentAction', exc_info=True)
 
 
 def enqueue_neby_task(trigger, post_id, reply_id=None, bot_config=None):
@@ -182,13 +275,16 @@ def enqueue_neby_task(trigger, post_id, reply_id=None, bot_config=None):
             if AgentAction.objects.filter(action_type='reply', target_id=target_key, status='done').exists():
                 logger.debug(f'Neby: enqueue skipped AgentAction already replied for {target_key}')
                 return None
-            if AgentAction.objects.filter(action_type='reply', target_id=f"{post_key}:{target_key}", status='done').exists():
+            composite = f"{post_key}:{target_key}"
+            if AgentAction.objects.filter(action_type='reply', target_id=composite, status='done').exists():
+                return None
+            if AgentAction.objects.filter(action_type='reply', target_id=composite[:64], status='done').exists():
                 return None
         else:
             if AgentAction.objects.filter(action_type='reply', target_id=target_key, status='done').exists():
                 return None
     except Exception:
-        pass
+        logger.warning('Neby: AgentAction dedup check failed; proceeding to enqueue', exc_info=True)
     with transaction.atomic():
         if _has_pending_task(post_id, reply_id, bot_config):
             return None
@@ -343,21 +439,13 @@ def _call_single_provider(system_prompt, user_message, config):
             logger.error('neby: %s call failed: %s', provider, e)
             return None
 
-    if provider == 'qwenfast':
-        from . import qwenfast_proxy
-        return qwenfast_proxy.simple_chat(
+    if provider == 'qwencloud':
+        from . import qwencloud_proxy
+        return qwencloud_proxy.simple_chat(
             user_message=user_message,
-            model=config.model or 'qwen3.8-27b',
+            model=config.model or 'qwen3.8-max',
             system_prompt=system_prompt or '',
-            max_tokens=max_tokens,
-        )
-    if provider == 'egov':
-        from . import egov_proxy
-        return egov_proxy.simple_chat(
-            user_message=user_message,
-            model=config.model or 'AI1',
-            system_prompt=system_prompt or '',
-            max_tokens=max_tokens,
+            thinking=False,
         )
     if provider == 'deepai':
         from . import deepai_proxy
@@ -378,7 +466,7 @@ def _call_single_provider(system_prompt, user_message, config):
         from . import k2think_proxy
         return k2think_proxy.simple_chat(
             user_message=user_message,
-            model=config.model or 'MBZUAI-IFM/K2-Think-v2',
+            model=config.model or 'IFM/K2-Horizon-375B-A23B',
             system_prompt=system_prompt or '',
             max_tokens=max_tokens,
         )
@@ -426,6 +514,30 @@ def _call_single_provider(system_prompt, user_message, config):
             system_prompt=system_prompt or '',
             max_tokens=max_tokens,
         )
+    if provider == 'yqcloud':
+        from . import yqcloud_proxy
+        return yqcloud_proxy.simple_chat(
+            user_message=user_message,
+            model=config.model or yqcloud_proxy.DEFAULT_MODEL,
+            system_prompt=system_prompt or '',
+            max_tokens=max_tokens,
+        )
+    if provider == 'chatjimmy':
+        from . import chatjimmy_proxy
+        return chatjimmy_proxy.simple_chat(
+            user_message=user_message,
+            model=config.model or chatjimmy_proxy.DEFAULT_MODEL,
+            system_prompt=system_prompt or '',
+            max_tokens=max_tokens,
+        )
+    if provider == 'unikey':
+        from . import unikey_proxy
+        return unikey_proxy.simple_chat(
+            user_message=user_message,
+            model=config.model or unikey_proxy.DEFAULT_MODEL,
+            system_prompt=system_prompt or '',
+            max_tokens=max_tokens,
+        )
     if provider == 'qwen':
         from .qwen_proxy import call_qwen
         model = config.model or 'qwen3.8-max'
@@ -458,15 +570,14 @@ def call_ai_api(system_prompt, user_message, config=None):
     fallbacks = config.get_fallback_chain()
     if not fallbacks:
         fallbacks = [
-            {'provider': 'qwenfast', 'model': 'qwen3.8-27b'},
-            {'provider': 'empero', 'model': 'Qwen/Qwen3.8-27B-FP8'},
+            {'provider': 'qwencloud', 'model': 'qwen3.8-max'},
             {'provider': 'motiftech', 'model': 'motif-102b'},
             {'provider': 'geminiweb', 'model': 'geminiweb/gemini-flash-lite'},
             {'provider': 'tryingopen', 'model': 'qwen/qwen3.8-27b'},
             {'provider': 'tryingopen', 'model': 'deepseek/deepseek-v4-flash-0731'},
             {'provider': 'tryingopen', 'model': 'z-ai/glm-5.3'},
             {'provider': 'poolside', 'model': 'laguna-s-2.1'},
-            {'provider': 'k2think', 'model': 'MBZUAI-IFM/K2-Think-v2'},
+            {'provider': 'k2think', 'model': 'IFM/K2-Horizon-375B-A23B'},
         ]
     for entry in fallbacks:
         provider = (entry.get('provider') or '').strip().lower()
@@ -553,7 +664,7 @@ def _process_post_mention(task, config, bot_user):
 
     if _has_existing_bot_reply(task.post_id, None, bot_user):
         task.status = 'done'
-        task.error_message = 'Bot already replied to this post'
+        task.error_message = f'{_HANDLED_DONE_PREFIX} to this post'
         task.finished_at = now_ms()
         task.save(update_fields=['status', 'error_message', 'finished_at'])
         return
@@ -597,7 +708,7 @@ def _process_post_mention(task, config, bot_user):
         Post.objects.select_for_update().get(pk=post.pk)
         if _has_existing_bot_reply(task.post_id, None, bot_user):
             task.status = 'done'
-            task.error_message = 'Bot already replied to this post (race)'
+            task.error_message = f'{_HANDLED_DONE_PREFIX} to this post (race)'
             task.finished_at = now_ms()
             task.save(update_fields=['status', 'error_message', 'finished_at'])
             return
@@ -622,8 +733,10 @@ def _process_post_mention(task, config, bot_user):
     _rt.broadcast_reply_created(post.id, ReplySerializer(reply).data)
 
     task.status = 'done'
+    task.error_message = ''
     task.finished_at = now_ms()
-    task.save(update_fields=['status', 'finished_at'])
+    task.save(update_fields=['status', 'error_message', 'finished_at'])
+    _log_mention_action(config, [post.id], response_text, f'Mention reply to post {post.id}')
     logger.info(f'Neby task {task.id}: bot @{config.bot_username} replied to post {post.id}')
 
 
@@ -637,7 +750,7 @@ def _process_reply_mention(task, config, bot_user):
 
     if _has_existing_bot_reply(task.post_id, task.reply_id, bot_user):
         task.status = 'done'
-        task.error_message = 'Bot already replied to this reply'
+        task.error_message = f'{_HANDLED_DONE_PREFIX} to this reply'
         task.finished_at = now_ms()
         task.save(update_fields=['status', 'error_message', 'finished_at'])
         return
@@ -653,7 +766,7 @@ def _process_reply_mention(task, config, bot_user):
 
     if _has_existing_bot_reply(task.post_id, task.reply_id, bot_user):
         task.status = 'done'
-        task.error_message = 'Bot already replied to this reply'
+        task.error_message = f'{_HANDLED_DONE_PREFIX} to this reply'
         task.finished_at = now_ms()
         task.save(update_fields=['status', 'error_message', 'finished_at'])
         return
@@ -702,7 +815,7 @@ def _process_reply_mention(task, config, bot_user):
         Reply.objects.select_for_update().get(pk=reply.id)
         if _has_existing_bot_reply(task.post_id, task.reply_id, bot_user):
             task.status = 'done'
-            task.error_message = 'Bot already replied to this reply (race)'
+            task.error_message = f'{_HANDLED_DONE_PREFIX} to this reply (race)'
             task.finished_at = now_ms()
             task.save(update_fields=['status', 'error_message', 'finished_at'])
             return
@@ -730,6 +843,11 @@ def _process_reply_mention(task, config, bot_user):
     _rt.broadcast_reply_created(reply.post_id, ReplySerializer(neby_reply).data)
 
     task.status = 'done'
+    task.error_message = ''
     task.finished_at = now_ms()
-    task.save(update_fields=['status', 'finished_at'])
+    task.save(update_fields=['status', 'error_message', 'finished_at'])
+    _log_mention_action(
+        config, [reply.id, f"{reply.post_id}:{reply.id}"],
+        response_text, f'Mention reply to reply {reply.id}',
+    )
     logger.info(f'Neby task {task.id}: bot @{config.bot_username} replied to reply {reply.id}')
