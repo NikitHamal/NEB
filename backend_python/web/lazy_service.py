@@ -115,10 +115,10 @@ def parse_llm_json(raw):
 
 def _resolve_provider(user):
     from api.llm.credentials import resolve
-    for slug in ("agnes", "openai", "gemini", "deepseek", "gmi", "empero"):
+    for slug in ("agnes", "openai", "gemini", "deepseek", "llm7", "kilo", "zen"):
         try:
             r = resolve(user, slug)
-            if r and r.api_key:
+            if r and (r.api_key or r.source == 'free'):
                 return r
         except Exception:
             continue
@@ -196,7 +196,7 @@ def llm_chat(user, system, prompt, max_tokens=1600, temperature=0.45, timeout=75
     if model_key == "neby-pro" or not model_key:
         pro_cfg = BotConfig(
             provider="qwen", model="qwen3.8-max",
-            fallback_chain='[{"provider": "inception", "model": "mercury-2"}, {"provider": "k2think", "model": "MBZUAI-IFM/K2-Think-v2"}, {"provider": "geminiweb", "model": "geminiweb/gemini-flash-lite"}, {"provider": "longcat", "model": "longcat/LongCat-2.0"}, {"provider": "egov", "model": "AI1"}]'
+            fallback_chain='[{"provider": "inception", "model": "mercury-2"}, {"provider": "k2think", "model": "IFM/K2-Horizon-375B-A23B"}, {"provider": "geminiweb", "model": "geminiweb/gemini-flash-lite"}, {"provider": "longcat", "model": "longcat/LongCat-2.0"}, {"provider": "qwencloud", "model": "qwen3.8-max"}]'
         )
         try:
             res = call_ai_api(system, prompt, config=pro_cfg)
@@ -207,7 +207,7 @@ def llm_chat(user, system, prompt, max_tokens=1600, temperature=0.45, timeout=75
     elif model_key == "neby-fast":
         fast_cfg = BotConfig(
             provider="geminiweb", model="geminiweb/gemini-flash-lite",
-            fallback_chain='[{"provider": "longcat", "model": "longcat/LongCat-2.0"}, {"provider": "egov", "model": "AI1"}, {"provider": "deepai", "model": "standard"}]'
+            fallback_chain='[{"provider": "longcat", "model": "longcat/LongCat-2.0"}, {"provider": "qwencloud", "model": "qwen-flash"}, {"provider": "deepai", "model": "standard"}]'
         )
         try:
             res = call_ai_api(system, prompt, config=fast_cfg)
@@ -230,27 +230,31 @@ def llm_chat(user, system, prompt, max_tokens=1600, temperature=0.45, timeout=75
 def stream_proxy_chat(system, prompt, model_key="neby-pro"):
     """Directly streams thoughts and delta tokens from community proxies without blocking."""
     messages = [{"role": "system", "content": system}, {"role": "user", "content": prompt}]
-    PROVIDERS_WITH_INTERNAL_SEARCH = {"geminiweb", "longcat", "inception", "poolside", "qwen", "gmi"}
+    PROVIDERS_WITH_INTERNAL_SEARCH = {"geminiweb", "longcat", "inception", "poolside", "qwen"}
 
     if model_key == "neby-fast":
         proxies_to_try = [
-            ("qwenfast", "qwen3.8-27b", {}),
+            ("qwencloud", "qwen-flash", {}),
             ("geminiweb", "geminiweb/gemini-flash-lite", {}),
             ("longcat", "longcat/LongCat-2.0", {}),
             ("tryingopen", "qwen/qwen3.8-27b", {"effort": "quick"}),
-            ("egov", "AI1", {}),
             ("deepai", "standard", {}),
+            ("yqcloud", "yqcloud-default", {}),
+            ("chatjimmy", "llama3.1-8B", {}),
+            ("unikey", "gpt-5.5", {}),
         ]
     else:  # neby-pro
         proxies_to_try = [
             ("geminiweb", "geminiweb/gemini-flash-lite", {}),
-            ("qwenfast", "qwen3.8-27b", {}),
+            ("qwencloud", "qwen3.8-max", {}),
             ("tryingopen", "qwen/qwen3.8-27b", {"effort": "deep"}),
             ("inception", "mercury-2", {"reasoning_effort": "high"}),
-            ("k2think", "MBZUAI-IFM/K2-Think-v2", {}),
+            ("k2think", "IFM/K2-Horizon-375B-A23B", {}),
             ("longcat", "longcat/LongCat-2.0", {}),
-            ("egov", "AI1", {}),
             ("deepai", "standard", {}),
+            ("yqcloud", "yqcloud-default", {}),
+            ("chatjimmy", "llama3.1-8B", {}),
+            ("unikey", "gpt-5.5", {}),
         ]
 
     # Pre-compute external search augmentation for providers WITHOUT internal search
@@ -305,11 +309,16 @@ def stream_proxy_chat(system, prompt, model_key="neby-pro"):
                 augmented = f"{prompt}\n\n{external_search_ctx}\n\nUse the search results above if relevant, cite sources as [1] [2]."
                 use_messages = [{"role": "system", "content": system}, {"role": "user", "content": augmented}]
                 use_prompt = augmented
-            if slug == "qwenfast":
-                from api import qwenfast_proxy
-                for chunk in qwenfast_proxy.stream_chat(messages=use_messages, model=model):
+            if slug == "qwencloud":
+                from api import qwencloud_proxy
+                for chunk in qwencloud_proxy.stream_chat(use_messages, model=model):
                     t = chunk.get("type")
-                    if t == "text":
+                    if t == "thought":
+                        c = chunk.get("content") or ""
+                        if c:
+                            got_any = True
+                            yield {"type": "think", "content": c}
+                    elif t == "text":
                         c = chunk.get("content") or ""
                         if c:
                             got_any = True
@@ -412,9 +421,9 @@ def stream_proxy_chat(system, prompt, model_key="neby-pro"):
                     yield {"type": "model", "model": f"{slug}/{model}"}
                     return
 
-            elif slug == "egov":
-                from api import egov_proxy
-                for chunk in egov_proxy.stream_chat(user_message=use_prompt, model=model, history=[], system_prompt=use_system):
+            elif slug == "deepai":
+                from api import deepai_proxy
+                for chunk in deepai_proxy.stream_chat(user_message=use_prompt, model=model, history=[], system_prompt=use_system):
                     t = chunk.get("type")
                     if t == "content":
                         c = chunk.get("text") or ""
@@ -425,15 +434,20 @@ def stream_proxy_chat(system, prompt, model_key="neby-pro"):
                     yield {"type": "model", "model": f"{slug}/{model}"}
                     return
 
-            elif slug == "deepai":
-                from api import deepai_proxy
-                for chunk in deepai_proxy.stream_chat(user_message=use_prompt, model=model, history=[], system_prompt=use_system):
+            elif slug in ("yqcloud", "chatjimmy", "unikey"):
+                from api import yqcloud_proxy, chatjimmy_proxy, unikey_proxy
+                mod = {"yqcloud": yqcloud_proxy, "chatjimmy": chatjimmy_proxy, "unikey": unikey_proxy}[slug]
+                for chunk in mod.stream_chat(use_messages, model=model):
                     t = chunk.get("type")
-                    if t == "content":
-                        c = chunk.get("text") or ""
+                    if t == "text":
+                        c = chunk.get("content") or ""
                         if c:
                             got_any = True
                             yield {"type": "delta", "content": c}
+                    elif t == "done":
+                        break
+                    elif t == "error":
+                        break
                 if got_any:
                     yield {"type": "model", "model": f"{slug}/{model}"}
                     return
@@ -539,7 +553,7 @@ def stream_generate_doc(user, topic, pages=1, doc_type="assignment", instruction
     html = clean_doc_html(html)
     if not re.search(r"<h1", html, re.I):
         html = f"<h1>{title}</h1>\n" + html
-    yield {"type": "doc_ready", "title": title, "html": html, "provider": "llm", "model": used_model or "qwenfast/qwen3.8-27b"}
+    yield {"type": "doc_ready", "title": title, "html": html, "provider": "llm", "model": used_model or "qwencloud/qwen3.8-max"}
 
 
 def stream_edit_doc(user, doc_html, instruction, model_key="neby-pro"):
@@ -567,7 +581,7 @@ def stream_edit_doc(user, doc_html, instruction, model_key="neby-pro"):
     html = str(data["html"])[:80000]
     title = str(data.get("title") or "")[:120]
     summary = str(data.get("summary") or instruction)[:200]
-    yield {"type": "edit_ready", "html": html, "title": title, "summary": summary, "model": used_model or "qwenfast/qwen3.8-27b"}
+    yield {"type": "edit_ready", "html": html, "title": title, "summary": summary, "model": used_model or "qwencloud/qwen3.8-max"}
 
 
 def fallback_doc(topic, pages=1, doc_type="assignment"):

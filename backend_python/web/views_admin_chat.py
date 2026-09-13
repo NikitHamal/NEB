@@ -17,8 +17,7 @@ def _uuid():
 
 _CAPS = {
     'qwen':      {'stream': True,  'thinking': True,  'web_search': True,  'files': True},
-    'qwenfast':  {'stream': True,  'thinking': False, 'web_search': False, 'files': False},
-    'egov':      {'stream': True,  'thinking': False, 'web_search': False, 'files': True},
+    'qwencloud': {'stream': True,  'thinking': True,  'web_search': False, 'files': False},
     'deepai':    {'stream': True,  'thinking': True,  'web_search': False, 'files': True},
     'inception': {'stream': True,  'thinking': True,  'web_search': True,  'files': False},
     'k2think':   {'stream': True,  'thinking': True,  'web_search': False, 'files': False},
@@ -28,7 +27,9 @@ _CAPS = {
     'tryingopen': {'stream': True, 'thinking': True,  'web_search': False, 'files': False},
     'longcat':   {'stream': True,  'thinking': True,  'web_search': True,  'files': False},
     'geminiweb': {'stream': True,  'thinking': False, 'web_search': True,  'files': False},
-    'empero':    {'stream': True,  'thinking': True,  'web_search': False, 'files': False},
+    'yqcloud':   {'stream': True,  'thinking': False, 'web_search': True,  'files': False},
+    'chatjimmy': {'stream': False, 'thinking': False, 'web_search': False, 'files': False},
+    'unikey':    {'stream': True,  'thinking': True,  'web_search': False, 'files': False},
 }
 
 
@@ -36,8 +37,11 @@ def _build_provider_lists():
     catalog = admin_catalog()
     providers = []
     model_options = {}
+    official_slugs = {e['slug'] for e in catalog['official']}
     for entry in catalog['scrapers'] + catalog['official']:
         slug = entry['slug']
+        if slug not in official_slugs and slug != 'qwen' and slug not in _SCRAPER_DISPATCH:
+            continue  # non-chat presets (TTS voices etc.) don't belong in the chat test
         caps = _CAPS.get(slug, {'stream': True, 'thinking': False, 'web_search': False, 'files': False})
         providers.append({'id': slug, 'label': entry['label'], **caps})
         model_options[slug] = [{'id': m['id'], 'label': m['label']} for m in entry['models']]
@@ -47,14 +51,11 @@ def _build_provider_lists():
     return providers, model_options
 
 
-PROVIDERS, MODEL_OPTIONS = _build_provider_lists()
-
 # Dispatch table for community proxies. Each entry:
 #   kind='legacy'  -> stream_chat(user_message=, model=, history=, system_prompt=), chunks {type:'content', text}
 #   kind='messages'-> stream_chat(messages=, model=...), chunks {type:'text'|'error', content/error}
 _SCRAPER_DISPATCH = {
-    'qwenfast':  ('messages', 'qwenfast_proxy'),
-    'egov':      ('legacy', 'egov_proxy'),
+    'qwencloud': ('messages', 'qwencloud_proxy'),
     'deepai':    ('legacy', 'deepai_proxy'),
     'inception': ('messages', 'inception_proxy'),
     'k2think':   ('messages', 'k2think_proxy'),
@@ -64,10 +65,17 @@ _SCRAPER_DISPATCH = {
     'tryingopen': ('messages', 'tryingopen_proxy'),
     'longcat':   ('messages', 'longcat_proxy'),
     'geminiweb': ('messages', 'geminiweb_proxy'),
+    'yqcloud':   ('messages', 'yqcloud_proxy'),
+    'chatjimmy': ('messages', 'chatjimmy_proxy'),
+    'unikey':    ('messages', 'unikey_proxy'),
 }
+
+PROVIDERS, MODEL_OPTIONS = _build_provider_lists()
 
 _INCEPTION_SLUGS = ('inception',)
 _TRYINGOPEN_SLUGS = ('tryingopen',)
+_K2THINK_SLUGS = ('k2think',)
+_QWENCLOUD_SLUGS = ('qwencloud',)
 
 
 def _iter_scraper_chunks(slug, message, history, model, reasoning, web_search):
@@ -97,6 +105,10 @@ def _iter_scraper_chunks(slug, message, history, model, reasoning, web_search):
         kwargs['web_search'] = web_search
     elif slug in _TRYINGOPEN_SLUGS:
         kwargs['effort'] = 'deep' if reasoning else 'quick'
+    elif slug in _K2THINK_SLUGS:
+        kwargs['reasoning_effort'] = 'high' if reasoning else 'low'
+    elif slug in _QWENCLOUD_SLUGS:
+        kwargs['thinking'] = reasoning
     elif slug == 'geminiweb':
         kwargs['enable_search'] = web_search
     for chunk in mod.stream_chat(**kwargs):
@@ -132,7 +144,9 @@ def ajax_admin_chat_send(request):
     message = (request.POST.get('message') or '').strip()
     reasoning = request.POST.get('reasoning') == 'true'
     web_search = request.POST.get('web_search') == 'true'
-    files = request.FILES.getlist('files') if provider in ('qwen', 'egov', 'deepai') else []
+    voice_mode = request.POST.get('voice_mode') == 'true'
+    voice_scenario = (request.POST.get('voice_scenario') or '').strip() or None
+    files = request.FILES.getlist('files') if provider in ('qwen', 'deepai') else []
 
     if not message:
         return JsonResponse({'error': 'Message is required'}, status=400)
@@ -167,23 +181,65 @@ def ajax_admin_chat_send(request):
                 yield _sse({'type': 'error', 'message': str(e)})
 
         elif provider in _SCRAPER_DISPATCH:
-            try:
-                default_model = MODEL_OPTIONS.get(provider, [{}])[0].get('id', '')
-                for chunk in _iter_scraper_chunks(
-                    provider, message, history,
-                    model or default_model, reasoning, web_search,
-                ):
-                    if chunk.get('type') == 'text':
-                        yield _sse({'type': 'text', 'content': chunk.get('content', '')})
-                    elif chunk.get('type') == 'thought':
-                        yield _sse({'type': 'thought', 'content': chunk.get('content', '')})
-                    elif chunk.get('type') == 'search':
-                        yield _sse({'type': 'search', 'content': chunk.get('content', ''), 'results': chunk.get('results', [])})
-                    elif chunk.get('type') == 'error':
-                        yield _sse({'type': 'error', 'message': chunk.get('error', 'upstream error')})
-                        break
-            except Exception as e:
-                yield _sse({'type': 'error', 'message': str(e)})
+            # Inception voice mode — full pipeline with scenario + tools + TTS
+            if provider == 'inception' and voice_mode:
+                try:
+                    from api.inception_proxy import voice_turn, get_voice_config, synthesize
+                    import base64
+                    # Resolve scenario
+                    scenario_id = voice_scenario
+                    if not scenario_id:
+                        cfg = get_voice_config()
+                        if cfg and cfg.get("scenarios"):
+                            scenario_id = cfg["scenarios"][0].get("id")
+                    if not scenario_id:
+                        scenario_id = "open"
+                    msgs = history + [{"role": "user", "content": message}]
+                    collected_text = []
+                    for chunk in voice_turn(msgs, scenario_id=scenario_id):
+                        t = chunk.get("type")
+                        if t == "text":
+                            c = chunk.get("content","")
+                            collected_text.append(c)
+                            yield _sse({'type': 'text', 'content': c})
+                        elif t == "tool_start":
+                            yield _sse({'type': 'thought', 'content': f"Tool: {chunk.get('name')} {chunk.get('args') or ''}"})
+                        elif t == "tool_end":
+                            yield _sse({'type': 'thought', 'content': f"Tool {chunk.get('name')} done"})
+                        elif t == "error":
+                            yield _sse({'type': 'error', 'message': chunk.get('error')})
+                            break
+                    # After text streaming, synthesize to audio (separate, so voice is reusable)
+                    full_text = "".join(collected_text).strip()
+                    if full_text:
+                        try:
+                            audio = synthesize(full_text[:5000])
+                            if audio:
+                                b64 = base64.b64encode(audio).decode()
+                                data_url = f"data:audio/mpeg;base64,{b64}"
+                                yield _sse({'type': 'audio', 'dataUrl': data_url, 'bytes': len(audio), 'contentType': 'audio/mpeg'})
+                        except Exception as tts_e:
+                            yield _sse({'type': 'thought', 'content': f"TTS failed: {tts_e}"})
+                except Exception as e:
+                    yield _sse({'type': 'error', 'message': str(e)})
+            else:
+                try:
+                    default_model = MODEL_OPTIONS.get(provider, [{}])[0].get('id', '')
+                    for chunk in _iter_scraper_chunks(
+                        provider, message, history,
+                        model or default_model, reasoning, web_search,
+                    ):
+                        if chunk.get('type') == 'text':
+                            yield _sse({'type': 'text', 'content': chunk.get('content', '')})
+                        elif chunk.get('type') == 'thought':
+                            yield _sse({'type': 'thought', 'content': chunk.get('content', '')})
+                        elif chunk.get('type') == 'search':
+                            yield _sse({'type': 'search', 'content': chunk.get('content', ''), 'results': chunk.get('results', [])})
+                        elif chunk.get('type') == 'error':
+                            yield _sse({'type': 'error', 'message': chunk.get('error', 'upstream error')})
+                            break
+                except Exception as e:
+                    yield _sse({'type': 'error', 'message': str(e)})
 
         elif provider == 'custom':
             from api.custom_provider import call_custom

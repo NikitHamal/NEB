@@ -1,4 +1,5 @@
 """Scan the forum for things an autonomous agent might care about."""
+import logging
 from datetime import timedelta
 
 from django.db.models import Q
@@ -7,6 +8,8 @@ from api.models import Follow, Post, PostLike, Reply, ReplyLike, User
 from api.utils import now_ms
 
 from .models import AgentAction
+
+logger = logging.getLogger(__name__)
 
 QUESTION_RE = r'\?|\b(help|stuck|how do|how to|why does|anyone|please|exam|neb|board)\b'
 
@@ -61,6 +64,14 @@ def observe(persona, bot_user, window_hours=720, limit=100):
 
     pending_reply_ids = _pending_neby_reply_ids()
     pending_post_ids = _pending_neby_post_ids()
+    try:
+        from api.neby import done_handled_post_ids, done_handled_reply_ids
+        handled_reply_ids = done_handled_reply_ids()
+        handled_post_ids = done_handled_post_ids()
+    except Exception:
+        logger.warning('observer mention-ledger check failed; flags may be stale', exc_info=True)
+        handled_reply_ids = set()
+        handled_post_ids = set()
 
     # 1. Observe incoming replies on posts created by bot or mentioning bot
     my_post_ids = set(Post.objects.filter(user=bot_user, is_archived=False).values_list('id', flat=True))
@@ -102,6 +113,7 @@ def observe(persona, bot_user, window_hours=720, limit=100):
         already_replied = (
             rid_str in pending_reply_ids
             or rid_str in my_replied_parent_ids
+            or rid_str in handled_reply_ids
             or already_acted(persona, 'reply', rid_str)
             or already_acted(persona, 'reply', f"{pid_str}:{rid_str}")
             or already_acted(persona, 'reply', f"{pid_str}:{rid_str}"[:64])
@@ -163,7 +175,7 @@ def observe(persona, bot_user, window_hours=720, limit=100):
             'post': post,
             'score': score,
             'already_liked': post.id in liked_ids,
-            'already_replied': post.id in replied_ids or post.id in pending_post_ids or already_acted(persona, 'reply', post.id),
+            'already_replied': post.id in replied_ids or post.id in pending_post_ids or post.id in handled_post_ids or already_acted(persona, 'reply', post.id),
             'already_following_author': post.user_id in following_ids,
         })
     scored.sort(key=lambda row: -row['score'])

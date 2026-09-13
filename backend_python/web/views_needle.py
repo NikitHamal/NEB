@@ -91,10 +91,13 @@ def _cloud_route(query, local_guess=None):
 
     raw = None
     try:
-        from api import tembo_proxy
-        raw = tembo_proxy.simple_chat(query, system_prompt=system_prompt)
+        from api import qwencloud_proxy
+        raw = qwencloud_proxy.simple_chat(query, system_prompt=system_prompt,
+                                          model='qwen-flash', thinking=False)
+        if raw and raw.startswith('[Error]'):
+            raw = None
     except Exception as exc:
-        logger.warning('neby cloud: tembo failed: %s', exc)
+        logger.warning('neby cloud: qwencloud failed: %s', exc)
         raw = None
 
     if not raw:

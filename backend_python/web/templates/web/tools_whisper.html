@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 {% load static %}
 {% block title %}Voice → Text — Whisper — NEBians{% endblock %}
-{% block extra_head %}
+{% block body_class %}tools-audio-page tools-stt-page{% endblock %}
+{% block head_extra %}
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
 <style nonce="{{ csp_nonce }}">
@@ -1014,7 +1015,7 @@ html, body{ overflow-x:clip; }
   <header>
     <div class="logo">
       <div class="dot"><i class="ri-mic-line"></i></div>
-      <div>WhisperWeb<small>100% on-device · English only · minimal Poppins</small></div>
+      <div>WhisperWeb<small>100% on-device · Hindi + English · private by default</small></div>
     </div>
     <div class="pills">
       <span class="pill"><span class="led" id="ledNet"></span><span id="netTxt">engine…</span></span>
@@ -1022,6 +1023,7 @@ html, body{ overflow-x:clip; }
       <span class="pill">cache <b id="cacheTxt">—</b></span>
       <span class="pill">model <b id="mdlTxt">none</b></span>
     </div>
+  </header>
   <div class="steps" aria-hidden="true" style="margin-top:4px">
     <div class="step active" id="step1"><span class="dot">1</span> Model</div>
     <div class="bar"></div>
@@ -1079,7 +1081,7 @@ html, body{ overflow-x:clip; }
 
       <footer>
         Shortcuts: <kbd>R</kbd> record/stop · <kbd>C</kbd> copy · <kbd>S</kbd> .srt · <kbd>?</kbd> about<br>
-        Engine: <a href="https://huggingface.co/docs/transformers.js" target="_blank" rel="noopener">Transformers.js</a> + onnxruntime-web · Models: <a href="https://huggingface.co/onnx-community/whisper-tiny.en" target="_blank" rel="noopener">whisper-tiny.en</a> / <a href="https://github.com/usefulsensors/moonshine" target="_blank" rel="noopener">moonshine</a> · Theme: Poppins + NikitHamal minimal · Apache-2.0
+        Engine: <a href="https://huggingface.co/docs/transformers.js" target="_blank" rel="noopener">Transformers.js</a> + onnxruntime-web · Models: <a href="https://huggingface.co/onnx-community/whisper-tiny.en" target="_blank" rel="noopener">whisper-tiny.en</a> / <a href="https://github.com/usefulsensors/moonshine" target="_blank" rel="noopener">moonshine</a> · Theme: Nebians Material 3 · Apache-2.0
       </footer>
     </div>
 
@@ -1171,7 +1173,7 @@ html, body{ overflow-x:clip; }
           <span class="mini-chip"><i class="ri-volume-up-line"></i> TTS Kokoro 82M</span>
           <span class="mini-chip"><i class="ri-lock-line"></i> 100% on-device</span>
         </div>
-        <p style="font-size:0.84rem;color:var(--text-secondary);margin-bottom:10px">Post-process your transcript locally — no server, all WASM/WebGPU. <a href="tts.html" style="text-decoration:underline;text-underline-offset:3px;font-weight:600">Open TTS Studio →</a></p>
+        <p style="font-size:0.84rem;color:var(--text-secondary);margin-bottom:10px">Post-process your transcript locally — no server, all WASM/WebGPU. <a href="{% url 'web:tts_tool' %}" style="text-decoration:underline;text-underline-offset:3px;font-weight:600">Open TTS Studio →</a></p>
         <div class="hint" style="margin-bottom:12px">New: turbo 809M & moonshine 30MB in Model dropdown above — try them. <b>TTS now has its own page</b> with tiny/small/medium Kokoro models.</div>
         <div class="field" style="margin-bottom:10px">
           <label>Tools — run on current transcript</label>
@@ -1179,7 +1181,7 @@ html, body{ overflow-x:clip; }
             <button class="btn small" id="btnSentiment"><i class="ri-emotion-line"></i> Sentiment</button>
             <button class="btn small" id="btnKeywords"><i class="ri-hashtag"></i> Keywords</button>
             <button class="btn small" id="btnEmbed"><i class="ri-search-line"></i> Embed & search</button>
-            <a href="tts.html" class="btn small primary" style="text-decoration:none"><i class="ri-volume-up-line"></i> TTS Studio</a>
+            <a href="{% url 'web:tts_tool' %}" class="btn small primary" style="text-decoration:none"><i class="ri-volume-up-line"></i> TTS Studio</a>
           </div>
           <div id="toolOut" class="sumOut" style="display:none"></div>
           <div id="embedBox" style="display:none;margin-top:10px">
@@ -1978,7 +1980,7 @@ addEventListener("keydown",(e)=>{
   } else if(okEngine && !iso){
     console.warn("[boot] not crossOriginIsolated — WASM will run single-threaded. Use serve.py for threads.");
   }
-  
+
 /* friendly steps updater */
 function updateSteps(){
   const hasModel = !!pipe;

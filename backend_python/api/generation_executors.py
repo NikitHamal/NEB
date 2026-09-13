@@ -87,10 +87,10 @@ FALLBACK_PROVIDERS = [
     ('longcat', 'api.longcat_proxy', 'longcat/LongCat-2.0'),
     ('geminiweb', 'api.geminiweb_proxy', 'geminiweb/gemini-flash-lite'),
     ('inception', 'api.inception_proxy', 'mercury-2'),
-    ('k2think', 'api.k2think_proxy', 'MBZUAI-IFM/K2-Think-v2'),
+    ('k2think', 'api.k2think_proxy', 'IFM/K2-Horizon-375B-A23B'),
     ('poolside', 'api.poolside_proxy', 'laguna-s-2.1'),
     ('motiftech', 'api.motiftech_proxy', 'motif-102b'),
-    ('egov', 'api.egov_proxy', 'AI1'),
+    ('qwencloud', 'api.qwencloud_proxy', 'qwen3.8-max'),
     ('deepai', 'api.deepai_proxy', 'standard'),
 ]
 QWEN_BUDGET_SECONDS = 120

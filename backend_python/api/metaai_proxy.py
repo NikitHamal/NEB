@@ -305,7 +305,7 @@ def _stream_direct_llama(messages: List[Dict[str, str]], model: str = "metaai-in
             text_messages[-1]["content"] = img_note + "\n\n" + text_messages[-1]["content"]
     try:
         from api import k2think_proxy
-        yield from k2think_proxy.stream_chat(text_messages, model="MBZUAI-IFM/K2-Think-v2")
+        yield from k2think_proxy.stream_chat(text_messages, model="IFM/K2-Horizon-375B-A23B")
     except Exception as exc:
         yield {"type": "error", "error": str(exc)}
 

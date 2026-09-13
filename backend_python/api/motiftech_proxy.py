@@ -85,6 +85,16 @@ def stream_chat(
     if not last_user:
         yield {"type": "error", "error": "no user message to send"}
         return
+    if conversation_id is None:
+        prior = [m for m in (messages or [])
+                 if isinstance(m, dict) and (m.get('content') or '').strip()
+                 and (m.get('role') or '').lower() in ('user', 'assistant')]
+        prior = prior[:-1] if prior and (prior[-1].get('role') or '').lower() == 'user' else prior
+        if prior:
+            transcript = "\n\n".join(
+                f"{'User' if (m.get('role') or '').lower() == 'user' else 'Assistant'}: "
+                f"{m['content'].strip()}" for m in prior)
+            last_user = f"Previous conversation:\n{transcript}\n\nCurrent message: {last_user}"
 
     payload = {
         "query": last_user,

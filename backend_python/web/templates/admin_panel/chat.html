@@ -54,6 +54,25 @@
         <span>Web Search</span>
       </label>
     </div>
+    <div class="chat-config-section" id="chat-voice-row" style="display:none;">
+      <label class="md-switch-label">
+        <span class="md-switch">
+          <input type="checkbox" id="chat-voice-mode">
+          <span class="slider"></span>
+        </span>
+        <span>Voice Mode (Mercury)</span>
+      </label>
+    </div>
+    <div class="chat-config-section" id="chat-voice-scenario-row" style="display:none;">
+      <label class="chat-label">Voice Scenario</label>
+      <select id="chat-voice-scenario" class="chat-select">
+        <option value="">Open conversation</option>
+        <option value="dental-front-desk">Dental front desk</option>
+        <option value="drive-thru">Drive-thru order taker</option>
+        <option value="roadside-assistance">Roadside assistance</option>
+        <option value="open">Open (general)</option>
+      </select>
+    </div>
     <div class="chat-config-divider"></div>
     <div class="chat-config-section">
       <button id="chat-clear-btn" class="md-btn md-btn-outlined" style="width:100%;">
@@ -83,7 +102,13 @@
         <span class="material-symbols-outlined">attach_file</span>
         <input type="file" id="chat-file-input" multiple hidden>
       </label>
+      <button id="chat-mic-btn" class="md-btn md-btn-outlined" title="Hold to record (STT) — Inception" style="display:none;min-width:42px;">
+        <span class="material-symbols-outlined">mic</span>
+      </button>
       <textarea id="chat-input" class="chat-input-field" rows="1" placeholder="Type a message…" data-action="chat-send-enter"></textarea>
+      <button id="chat-tts-btn" class="md-btn md-btn-outlined" title="Speak last response (TTS) — Mercury" style="display:none;min-width:42px;">
+        <span class="material-symbols-outlined">volume_up</span>
+      </button>
       <button id="chat-send-btn" class="md-btn md-btn-filled chat-send-btn" title="Send">
         <span class="material-symbols-outlined">send</span>
       </button>
@@ -161,11 +186,127 @@ function updateModelOptions() {
   // Show/hide custom URL/key
   customUrlRow.style.display = p === 'custom' ? '' : 'none';
   customKeyRow.style.display = p === 'custom' ? '' : 'none';
+  // Show/hide voice controls for Inception
+  var voiceRow = document.getElementById('chat-voice-row');
+  var voiceScenarioRow = document.getElementById('chat-voice-scenario-row');
+  var micBtn = document.getElementById('chat-mic-btn');
+  var ttsBtn = document.getElementById('chat-tts-btn');
+  var isInception = (p === 'inception');
+  if (voiceRow) voiceRow.style.display = isInception ? '' : 'none';
+  if (voiceScenarioRow) voiceScenarioRow.style.display = isInception ? '' : 'none';
+  if (micBtn) micBtn.style.display = isInception ? '' : 'none';
+  if (ttsBtn) ttsBtn.style.display = isInception ? '' : 'none';
   // Auto-uncheck websearch if not supported
   if (!caps.webSearch) websearchEl.checked = false;
 }
 providerEl.addEventListener('change', updateModelOptions);
 updateModelOptions();
+
+// ── Inception Voice: STT (mic) / TTS (speaker) / Voice Mode ──
+(function(){
+  var micBtn = document.getElementById('chat-mic-btn');
+  var ttsBtn = document.getElementById('chat-tts-btn');
+  var voiceModeEl = document.getElementById('chat-voice-mode');
+  var voiceScenarioEl = document.getElementById('chat-voice-scenario');
+  var isRecording = false;
+  var mediaRecorder = null;
+  var audioChunks = [];
+  var lastAssistantText = "";
+
+  // Keep last assistant text for TTS
+  var origAddMessage = window.addMessage;
+  // Hook into history push for TTS
+  function updateLastAssistant(text){
+    if(text) lastAssistantText = text;
+  }
+
+  if(micBtn){
+    micBtn.addEventListener('click', async function(){
+      if(isRecording){
+        if(mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+        return;
+      }
+      try{
+        var stream = await navigator.mediaDevices.getUserMedia({audio:true});
+        audioChunks = [];
+        mediaRecorder = new MediaRecorder(stream, {mimeType: 'audio/webm'});
+        mediaRecorder.ondataavailable = function(e){ if(e.data.size>0) audioChunks.push(e.data); };
+        mediaRecorder.onstop = async function(){
+          stream.getTracks().forEach(function(t){ t.stop(); });
+          isRecording = false;
+          micBtn.innerHTML = '<span class="material-symbols-outlined">mic</span>';
+          micBtn.style.background = '';
+          if(audioChunks.length===0) return;
+          var blob = new Blob(audioChunks, {type:'audio/webm'});
+          if(blob.size < 1200){ showStatus('Audio too short', true); return; }
+          showStatus('Transcribing…');
+          var fd = new FormData();
+          fd.append('file', blob, 'audio.webm');
+          try{
+            var r = await fetch('/ajax/admin/media/stt/', {method:'POST', headers:{'X-CSRFToken': CSRF_TOKEN}, body: fd, credentials:'same-origin'});
+            var j = await r.json();
+            if(!r.ok) throw new Error(j.error||'STT failed');
+            inputEl.value = j.text || '';
+            inputEl.dispatchEvent(new Event('input'));
+            showStatus('Transcribed: ' + (j.text||'').slice(0,60), false);
+          }catch(e){ showStatus('STT error: '+e.message, true); }
+        };
+        mediaRecorder.start(150);
+        isRecording = true;
+        micBtn.innerHTML = '<span class="material-symbols-outlined">stop</span>';
+        micBtn.style.background = 'var(--md-error-container)';
+        showStatus('Listening… click stop to transcribe');
+      }catch(e){ showStatus('Mic error: '+e.message, true); }
+    });
+  }
+
+  if(ttsBtn){
+    ttsBtn.addEventListener('click', async function(){
+      var text = lastAssistantText || (history.length ? history[history.length-1].content : "");
+      if(!text || history.length===0 || history[history.length-1].role!=='assistant'){
+        // fallback to last assistant bubble text
+        var bubbles = document.querySelectorAll('.chat-bubble-assistant .chat-text');
+        if(bubbles.length) text = bubbles[bubbles.length-1].textContent || text;
+      }
+      if(!text || !text.trim()){ showStatus('No assistant text to speak', true); return; }
+      showStatus('Synthesizing…');
+      ttsBtn.disabled = true;
+      try{
+        var r = await fetch('/ajax/admin/media/tts/', {method:'POST', headers:{'Content-Type':'application/json','X-CSRFToken': CSRF_TOKEN}, credentials:'same-origin', body: JSON.stringify({provider:'inception/mercury-tts', text: text.slice(0,5000)})});
+        var j = await r.json();
+        if(!r.ok) throw new Error(j.error||'TTS failed');
+        var src = j.dataUrl || j.audioUrl;
+        if(!src) throw new Error('No audio');
+        var audio = new Audio(src);
+        audio.play().catch(function(){});
+        showStatus('Playing… ('+ (j.bytes||0) +' bytes)', false);
+        audio.onended = function(){ showStatus('', false); };
+      }catch(e){ showStatus('TTS error: '+e.message, true); }
+      ttsBtn.disabled = false;
+    });
+
+    // Hook to capture last assistant text for TTS
+    var origPush = history.push;
+    // Instead, watch for new assistant messages via mutation or via sendMessage
+  }
+
+  // Expose for sendMessage hook
+  window.__voiceScenarioEl = voiceScenarioEl;
+  window.__voiceModeEl = voiceModeEl;
+  window.__updateLastAssistant = updateLastAssistant;
+
+  // Patch addMessage to capture assistant text
+  var origAdd = window.addMessage;
+  if(typeof origAdd === 'function'){
+    window.addMessage = function(role, content, extra){
+      var res = origAdd(role, content, extra);
+      if(role==='assistant' && content) updateLastAssistant(content);
+      return res;
+    };
+  }
+  // Also watch for history
+  var origSend = window.sendMessage;
+})();
 
 function esc(s) {
   return String(s == null ? "" : s).replace(/[&<>"']/g, function(c) {
@@ -350,12 +491,19 @@ function sendMessage(text) {
   sendBtn.disabled = true;
   showStatus('Streaming…');
 
+  var voiceModeEl = document.getElementById('chat-voice-mode');
+  var voiceScenarioEl = document.getElementById('chat-voice-scenario');
+  var isVoiceMode = voiceModeEl && voiceModeEl.checked && p === 'inception';
+  var voiceScenario = voiceScenarioEl ? voiceScenarioEl.value : '';
+
   var formData = new FormData();
   formData.append('provider', p);
   formData.append('model', m);
   formData.append('message', queryText);
   formData.append('reasoning', reasoning ? 'true' : 'false');
   formData.append('web_search', websearch ? 'true' : 'false');
+  formData.append('voice_mode', isVoiceMode ? 'true' : 'false');
+  formData.append('voice_scenario', voiceScenario);
   formData.append('history', JSON.stringify(history.slice(0, -1)));
   if (p === 'custom') {
     formData.append('api_url', apiUrlEl.value.trim());
@@ -419,6 +567,28 @@ function sendMessage(text) {
         thinkingState.appendThought(chunk);
       }
       scrollToBottom();
+    },
+    onEvent: function(ev){
+      if(ev && ev.type === 'audio' && ev.dataUrl){
+        var audioWrap = document.createElement('div');
+        audioWrap.style.marginTop = '10px';
+        var audioEl = document.createElement('audio');
+        audioEl.controls = true;
+        audioEl.src = ev.dataUrl;
+        audioEl.style.width = '100%';
+        audioWrap.appendChild(audioEl);
+        var dl = document.createElement('a');
+        dl.href = ev.dataUrl;
+        dl.download = 'mercury-voice.mp3';
+        dl.textContent = 'Download audio (' + (ev.bytes||0) + ' bytes)';
+        dl.className = 'md-btn md-btn-text';
+        dl.style.marginTop = '6px';
+        dl.style.display = 'inline-block';
+        audioWrap.appendChild(dl);
+        asst.inner.appendChild(audioWrap);
+        try{ audioEl.play(); }catch(e){}
+        scrollToBottom();
+      }
     },
     onError: function(message) {
       if (!gotFirstChunk) { gotFirstChunk = true; if (loader) loader.destroy(); }

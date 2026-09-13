@@ -60,18 +60,16 @@ PROVIDER_MAX_OUTPUT_TOKENS = {
     'qwen': 8192,
     'inception': 4096,
     'deepai': 4096,
-    'egov': 2048,
+    'qwencloud': 4096,
     'custom': 8192,
-    'empero': 8192,
 }
 
 PROVIDER_DEFAULT_MODEL = {
     'qwen': 'qwen3.8-max',
     'inception': 'mercury-2',
     'deepai': 'gpt-4.1-nano',
-    'egov': 'AI1',
+    'qwencloud': 'qwen3-coder-plus',
     'custom': 'gpt-4o-mini',
-    'empero': 'Qwen/Qwen3.8-27B-FP8',
 }
 
 AGENT_DEFAULT_SYSTEM_PROMPT = """\

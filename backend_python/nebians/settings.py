@@ -327,8 +327,6 @@ LLM_PROVIDER_KEYS = {
     'anthropic': os.environ.get('ANTHROPIC_API_KEY', ''),
     'gemini': os.environ.get('GEMINI_API_KEY', ''),
     'deepseek': os.environ.get('DEEPSEEK_API_KEY', ''),
-    'agentrouter': os.environ.get('AGENTROUTER_API_KEY', ''),
-    'empero': os.environ.get('EMPERO_API_KEY', 'free'),
 }
 
 # LLM call time budget for background-agent official providers (seconds).

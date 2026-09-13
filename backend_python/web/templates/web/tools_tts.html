@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 {% load static %}
 {% block title %}Text → Voice — Kokoro — NEBians{% endblock %}
-{% block extra_head %}
+{% block body_class %}tools-audio-page tools-tts-page{% endblock %}
+{% block head_extra %}
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
 <script nonce="{{ csp_nonce }}" type="importmap">
@@ -60,7 +61,7 @@
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-body { font-family: var(--font-body); background-color: var(--bg); color: var(--text-primary); line-height: 1.6; min-height: 100vh; transition: background-color 0.3s ease, color 0.3s ease; }
+body { font-family: var(--font-body); background-color: var(--bg); color: var(--text-primary); line-height: 1.6; min-height: 100vh; transition: none; }
 a { color: inherit; text-decoration: none; }
 button { font-family: inherit; border: none; background: none; cursor: pointer; }
 img { max-width: 100%; height: auto; display: block; }
@@ -98,10 +99,10 @@ header{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; padding:6px 
 .dlrow.done .bar>i{ background:#16a34a; }
 .statusline{ font-family:var(--font-mono); font-size:0.75rem; margin-top:8px; min-height:18px; color:var(--text-muted); }
 .statusline b{ color:var(--text-primary); }
-.btn{ font-family:var(--font-mono); font-size:0.78rem; font-weight:500; border:1px solid var(--border-line); background:var(--bg-elevated); color:var(--text-primary); border-radius:9999px; padding:8px 14px; display:inline-flex; gap:6px; align-items:center; transition: background .15s, border-color .15s, transform .15s; }
+.btn{ font-family:var(--font-mono); font-size:0.78rem; font-weight:500; border:1px solid var(--border-line); background:var(--bg-elevated); color:var(--text-primary); border-radius:9999px; padding:8px 14px; display:inline-flex; gap:6px; align-items:center; transition: none; }
 .btn:hover{ background:var(--bg-hover); border-color:var(--border-strong); }
 .btn.primary{ background:var(--pill-bg); color:var(--pill-text); border-color:var(--pill-bg); }
-.btn.primary:hover{ background:var(--pill-hover); border-color:var(--pill-hover); transform:translateY(-1px); }
+.btn.primary:hover{ background:var(--pill-hover); border-color:var(--pill-hover); transform:none; }
 .btn.ghost{ background:transparent; border-color:transparent; color:var(--text-secondary); }
 .btn.ghost:hover{ background:var(--bg-hover); color:var(--text-primary); }
 .btn:disabled{ opacity:.45; cursor:not-allowed; }
@@ -119,7 +120,7 @@ header{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; padding:6px 
 .chip-group{ display:flex; flex-wrap:wrap; gap:8px; margin-top:16px; min-width:0; }
 .mini-chip{ font-family:var(--font-mono); font-size:0.76rem; padding:4px 10px; background:var(--bg-hover); border:1px solid var(--border-line); border-radius:6px; color:var(--text-primary); }
 #toasts{ position:fixed; right:18px; bottom:18px; display:flex; flex-direction:column; gap:8px; z-index:99; }
-.toast{ background:var(--bg-elevated); border:1px solid var(--border-line); border-left:3px solid var(--text-primary); border-radius:10px; padding:10px 14px; font-family:var(--font-mono); font-size:0.82rem; max-width:340px; box-shadow:0 8px 30px rgba(0,0,0,0.08); animation:tin .2s ease; color:var(--text-primary); }
+.toast{ background:var(--bg-elevated); border:1px solid var(--border-line); border-left:3px solid var(--text-primary); border-radius:10px; padding:10px 14px; font-family:var(--font-mono); font-size:0.82rem; max-width:340px; box-shadow:0 8px 30px rgba(0,0,0,0.08); animation:none; color:var(--text-primary); }
 [data-theme="dark"] .toast{ box-shadow:0 8px 30px rgba(0,0,0,0.35); }
 .toast.ok{ border-left-color:#16a34a; } .toast.err{ border-left-color:#ef4444; } .toast.warn{ border-left-color:#f59e0b; }
 @keyframes tin{from{transform:translateY(8px);opacity:0}to{transform:none;opacity:1}}
@@ -136,7 +137,7 @@ textarea:focus{ outline:none; border-color:var(--text-primary); box-shadow:0 0 0
 [data-theme="dark"] textarea:focus{ box-shadow:0 0 0 3px rgba(255,255,255,0.08); }
 select.cs-native{ position:absolute !important; left:-9999px !important; width:1px !important; height:1px !important; overflow:hidden !important; }
 .cs{ position:relative; width:100%; min-width:0; }
-.cs-trigger{ width:100%; display:flex; align-items:center; justify-content:space-between; gap:10px; padding:10px 12px; border:1px solid var(--border-line); background:var(--bg-elevated); border-radius:10px; font-family:var(--font-mono); font-size:0.82rem; line-height:1.3; color:var(--text-primary); cursor:pointer; transition:border-color .15s, background .15s; text-align:left; min-height:44px; }
+.cs-trigger{ width:100%; display:flex; align-items:center; justify-content:space-between; gap:10px; padding:10px 12px; border:1px solid var(--border-line); background:var(--bg-elevated); border-radius:10px; font-family:var(--font-mono); font-size:0.82rem; line-height:1.3; color:var(--text-primary); cursor:pointer; transition:none; text-align:left; min-height:44px; }
 .cs-trigger:hover{ background:var(--bg-hover); border-color:var(--border-strong); }
 .cs-trigger:focus-visible{ outline:none; border-color:var(--text-primary); box-shadow:0 0 0 3px rgba(0,0,0,0.06); }
 .cs-trigger[aria-expanded="true"]{ border-color:var(--text-primary); background:var(--bg-hover); }
@@ -147,7 +148,7 @@ select.cs-native{ position:absolute !important; left:-9999px !important; width:1
 .cs-trigger[aria-expanded="true"] .cs-chevron{ transform:rotate(180deg); color:var(--text-primary); }
 .cs-list{ position:absolute; top:calc(100% + 8px); left:0; right:0; background:var(--bg-elevated); border:1px solid var(--border-line); border-radius:12px; box-shadow:0 16px 40px rgba(0,0,0,0.12); padding:6px; z-index:40; max-height:280px; overflow:auto; display:flex; flex-direction:column; gap:4px; }
 [data-theme="dark"] .cs-list{ box-shadow:0 16px 40px rgba(0,0,0,0.5); }
-.cs-option{ text-align:left; padding:10px 12px; border-radius:8px; font-family:var(--font-mono); font-size:0.78rem; line-height:1.4; color:var(--text-secondary); background:transparent; border:1px solid transparent; cursor:pointer; transition:.12s; overflow-wrap:anywhere; }
+.cs-option{ text-align:left; padding:10px 12px; border-radius:8px; font-family:var(--font-mono); font-size:0.78rem; line-height:1.4; color:var(--text-secondary); background:transparent; border:1px solid transparent; cursor:pointer; transition:none; overflow-wrap:anywhere; }
 .cs-option:hover{ background:var(--bg-hover); color:var(--text-primary); border-color:var(--border-line); }
 .cs-option.is-selected{ background:var(--pill-bg); color:var(--pill-text); border-color:var(--pill-bg); }
 .cs-option small{ display:block; font-size:0.7rem; color:var(--text-muted); margin-top:2px; }
@@ -157,7 +158,7 @@ select.cs-native{ position:absolute !important; left:-9999px !important; width:1
 .chunk-control{ background:var(--bg-elevated); border:1px solid var(--border-line); border-radius:12px; padding:12px; display:flex; flex-direction:column; gap:10px; min-width:0; }
 .chunk-head{ display:flex; align-items:center; gap:12px; }
 .chunk-btn{ width:36px; height:36px; border-radius:8px; border:1px solid var(--border-line); background:var(--bg-hover); display:grid; place-items:center; color:var(--text-primary); cursor:pointer; transition:.15s; flex:0 0 auto; }
-.chunk-btn:hover{ background:var(--bg-elevated); border-color:var(--border-strong); transform:translateY(-1px); }
+.chunk-btn:hover{ background:var(--bg-elevated); border-color:var(--border-strong); transform:none; }
 .chunk-btn:active{ transform:none; }
 .chunk-display{ flex:1; text-align:center; font-family:var(--font-mono); font-size:1.4rem; font-weight:700; color:var(--text-primary); background:var(--bg-hover); border:1px solid var(--border-line); border-radius:8px; padding:6px 0; display:flex; align-items:baseline; justify-content:center; gap:4px; min-width:0; }
 .chunk-display .unit{ font-size:0.8rem; font-weight:500; color:var(--text-muted); }
@@ -168,7 +169,7 @@ select.cs-native{ position:absolute !important; left:-9999px !important; width:1
 .chunk-labels{ display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:0.65rem; color:var(--text-muted); }
 .dialog-overlay{ position:fixed; inset:0; background:var(--modal-overlay); backdrop-filter:blur(6px); display:grid; place-items:center; z-index:100; padding:20px; }
 .dialog-overlay[hidden]{ display:none !important; }
-.dialog-card{ background:var(--modal-bg); border:1px solid var(--border-line); border-radius:16px; padding:22px; width:min(440px, 92vw); box-shadow:0 20px 50px rgba(0,0,0,0.18); animation:dialogIn .22s cubic-bezier(.16,1,.3,1); }
+.dialog-card{ background:var(--modal-bg); border:1px solid var(--border-line); border-radius:16px; padding:22px; width:min(440px, 92vw); box-shadow:0 20px 50px rgba(0,0,0,0.18); animation:none; }
 @keyframes dialogIn{ from{ opacity:0; transform:scale(.96) translateY(8px);} to{opacity:1; transform:none;} }
 .dialog-card h3{ font-family:var(--font-mono); font-size:0.95rem; font-weight:700; color:var(--text-primary); margin-bottom:8px; }
 .dialog-card p{ font-size:0.88rem; color:var(--text-secondary); line-height:1.6; margin-bottom:16px; overflow-wrap:anywhere; }
@@ -183,8 +184,8 @@ html, body{ overflow-x:clip; }
 <div class="wrap" id="main">
   <div class="top-bar" style="justify-content:flex-end">
     <div style="display:flex;gap:8px;align-items:center">
-      <a href="index.html" class="btn small ghost" style="border:1px solid var(--border-line)"><i class="ri-mic-line"></i> STT</a>
-      <a href="tts.html" class="btn small primary"><i class="ri-volume-up-line"></i> TTS</a>
+      <a href="{% url 'web:whisper_tool' %}" class="btn small ghost" style="border:1px solid var(--border-line)"><i class="ri-mic-line"></i> STT</a>
+      <a href="{% url 'web:tts_tool' %}" class="btn small primary"><i class="ri-volume-up-line"></i> TTS</a>
       <button class="theme-toggle" aria-label="Toggle theme" title="Toggle theme"><i class="ri-sun-line" id="themeIcon"></i></button>
     </div>
   </div>
@@ -255,7 +256,7 @@ html, body{ overflow-x:clip; }
       </div>
 
       <footer>
-        TTS Engine: <a href="https://huggingface.co/onnx-community/Kokoro-82M-v1.0-ONNX" target="_blank" rel="noopener">Kokoro-82M</a> via <a href="https://github.com/hexgrad/kokoro" target="_blank" rel="noopener">kokoro-js</a> + <a href="https://huggingface.co/docs/transformers.js" target="_blank" rel="noopener">Transformers.js</a> · <a href="index.html">STT →</a> · Theme: Poppins + NikitHamal minimal
+        TTS Engine: <a href="https://huggingface.co/onnx-community/Kokoro-82M-v1.0-ONNX" target="_blank" rel="noopener">Kokoro-82M</a> via <a href="https://github.com/hexgrad/kokoro" target="_blank" rel="noopener">kokoro-js</a> + <a href="https://huggingface.co/docs/transformers.js" target="_blank" rel="noopener">Transformers.js</a> · <a href="{% url 'web:whisper_tool' %}">STT →</a> · Theme: Nebians Material 3
       </footer>
     </div>
 
@@ -411,7 +412,11 @@ const CDN_TTS = "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3";
 const $ = (id)=>document.getElementById(id);
 const now=()=>performance.now();
 const fmtMB=(b)=>(b/1048576).toFixed(1);
-function toast(msg,kind="",ms=3400){ const t=document.createElement("div"); t.className="toast "+kind; t.innerHTML=msg; $("toasts").appendChild(t); setTimeout(()=>{t.style.opacity="0";t.style.transition="opacity .3s";setTimeout(()=>t.remove(),320)},ms); }
+function toast(msg,kind="",ms=3400){
+  const lower=String(msg).toLowerCase();
+  if(lower.includes("voice") && (lower.includes("updated") || lower.includes("single-voice model"))) return;
+  const t=document.createElement("div"); t.className="toast "+kind; t.innerHTML=msg; $("toasts").appendChild(t); setTimeout(()=>{t.style.opacity="0";t.style.transition="opacity .3s";setTimeout(()=>t.remove(),320)},ms);
+}
 function banner(html){ const b=$("banner"); if(!html){b.classList.remove("show");return;} b.innerHTML=html; b.classList.add("show"); }
 function escapeHtml(s){ return s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
 
@@ -521,7 +526,6 @@ async function loadKokoro(modelId, dtype, device){
     $("devTxt").textContent = device==="webgpu" ? "WebGPU ⚡" : (isIsolated()?"WASM ⚡ (threads)":"WASM (CPU)");
     $("dlStatus").innerHTML=`✅ <b>${modelId.split("/").pop()}</b> (${dtype}, ${device}) ready — cached`;
     $("btnLoad").innerHTML="✓ TTS ready — reload / switch";
-    toast("TTS ready","ok");
     updateCacheInfo();
     return kokoro;
   }catch(e){
@@ -553,7 +557,6 @@ async function loadMMS(modelId){
     pipeKey=key;
     $("dlStatus").innerHTML=`✅ <b>${modelId.split("/").pop()}</b> ready — try Generate below`;
     $("btnLoad").innerHTML="✓ TTS ready";
-    toast("TTS ready — Hindi/English VITS 38MB","ok");
     return pipeTTS;
   }catch(e){
     const msg=String(e?.message||e);
@@ -573,7 +576,6 @@ async function loadMMS(modelId){
         pipeKey=key;
         $("dlStatus").innerHTML=`✅ <b>${modelId.split("/").pop()}</b> ready (manual VITS)`;
         $("btnLoad").innerHTML="✓ TTS ready";
-        toast("TTS ready — Hindi VITS manual","ok");
         return pipeTTS;
       }catch(e2){
         console.error("Manual VITS fallback also failed", e2);
@@ -876,7 +878,7 @@ function updateVoiceOptionsForModel(modelId){
   sel.disabled=single;
   const cs=document.querySelector('.cs[data-target="selVoice"] .cs-trigger');
   if(cs){ cs.style.opacity= single ? "0.6" : "1"; cs.style.pointerEvents= single ? "none" : "auto"; }
-  toast(single? `Voice: single-voice model (${opts[0].value})` : `Voices updated for ${key} — ${opts.length} voices`,"",2000);
+  // Single-voice models keep the selector disabled; availability is shown inline.
 }
 
 // UI wiring

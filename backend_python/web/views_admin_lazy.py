@@ -37,15 +37,15 @@ def admin_lazy_config(request):
         '[{"provider": "geminiweb", "model": "geminiweb/gemini-flash-lite"}, '
         '{"provider": "tryingopen", "model": "qwen/qwen3.8-27b"}, '
         '{"provider": "inception", "model": "mercury-2"}, '
-        '{"provider": "k2think", "model": "MBZUAI-IFM/K2-Think-v2"}, '
+        '{"provider": "k2think", "model": "IFM/K2-Horizon-375B-A23B"}, '
         '{"provider": "longcat", "model": "longcat/LongCat-2.0"}, '
-        '{"provider": "egov", "model": "AI1"}]'
+        '{"provider": "qwencloud", "model": "qwen3.8-max"}]'
     )
     default_fast_chain = (
         '[{"provider": "geminiweb", "model": "geminiweb/gemini-flash-lite"}, '
         '{"provider": "longcat", "model": "longcat/LongCat-2.0"}, '
         '{"provider": "tryingopen", "model": "qwen/qwen3.8-27b"}, '
-        '{"provider": "egov", "model": "AI1"}, '
+        '{"provider": "qwencloud", "model": "qwen-flash"}, '
         '{"provider": "deepai", "model": "standard"}]'
     )
 

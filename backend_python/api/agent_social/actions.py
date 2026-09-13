@@ -193,12 +193,16 @@ def act_reply(persona, bot_user, post, bot_config=None, *, source='heartbeat', r
                     return None
                 if Reply.objects.filter(parent_reply_id=p_id, user=bot_user, is_archived=False).exists():
                     return None
+                if already_acted(persona, 'reply', target_key):
+                    return None
+                if already_acted(persona, 'reply', f"{post_id}:{p_id}") or already_acted(persona, 'reply', f"{post_id}:{p_id}"[:64]):
+                    return None
                 try:
-                    from api.models import NebyTask
-                    if NebyTask.objects.filter(reply_id=p_id, status__in=('pending', 'processing')).exists():
+                    from api.neby import is_mention_handled
+                    if is_mention_handled(post_id, p_id):
                         return None
                 except Exception:
-                    pass
+                    logger.warning('act_reply mention-ledger check failed; replying anyway', exc_info=True)
             else:
                 try:
                     Post.objects.select_for_update().get(pk=post_id)
@@ -206,12 +210,14 @@ def act_reply(persona, bot_user, post, bot_config=None, *, source='heartbeat', r
                     return None
                 if post.user_id != bot_user.id and Reply.objects.filter(post_id=post_id, parent_reply__isnull=True, user=bot_user, is_archived=False).exists():
                     return None
+                if already_acted(persona, 'reply', target_key):
+                    return None
                 try:
-                    from api.models import NebyTask
-                    if NebyTask.objects.filter(post_id=post_id, reply_id__isnull=True, status__in=('pending', 'processing')).exists():
+                    from api.neby import is_mention_handled
+                    if is_mention_handled(post_id):
                         return None
                 except Exception:
-                    pass
+                    logger.warning('act_reply mention-ledger check failed; replying anyway', exc_info=True)
             body = (content or '').strip() or _compose_reply(bot_config, bot_user, post, persona, target_username=target_username, parent_reply_id=p_id)
             if not body:
                 return None

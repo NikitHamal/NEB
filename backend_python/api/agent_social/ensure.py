@@ -46,14 +46,14 @@ def ensure_bot_user(username=NEBY_USERNAME, display_name=NEBY_DISPLAY_NAME):
 def ensure_bot_config(username=NEBY_USERNAME, display_name=NEBY_DISPLAY_NAME, enabled=True):
     username = (username or NEBY_USERNAME).strip().lower()
     default_chain = (
-        '[{"provider": "empero", "model": "qwen3.8-fp8"}, '
+        '[{"provider": "qwencloud", "model": "qwen3.8-max"}, '
         '{"provider": "motiftech", "model": "motif-102b"}, '
         '{"provider": "tryingopen", "model": "qwen/qwen3.8-27b"}, '
         '{"provider": "tryingopen", "model": "deepseek/deepseek-v4-flash-0731"}, '
         '{"provider": "tryingopen", "model": "z-ai/glm-5.3"}, '
         '{"provider": "geminiweb", "model": "geminiweb/gemini-flash-lite"}, '
         '{"provider": "poolside", "model": "laguna-s-2.1"}, '
-        '{"provider": "k2think", "model": "MBZUAI-IFM/K2-Think-v2"}]'
+        '{"provider": "k2think", "model": "IFM/K2-Horizon-375B-A23B"}]'
     )
     config, created = BotConfig.objects.get_or_create(
         bot_username__iexact=username,
@@ -61,8 +61,8 @@ def ensure_bot_config(username=NEBY_USERNAME, display_name=NEBY_DISPLAY_NAME, en
             'name': display_name or username.capitalize(),
             'bot_username': username,
             'display_name': display_name or username.capitalize(),
-            'provider': 'empero',
-            'model': 'qwen3.8-fp8',
+            'provider': 'qwencloud',
+            'model': 'qwen3.8-max',
             'fallback_chain': default_chain,
             'enabled': enabled,
             'system_prompt': NEBY_SYSTEM_PROMPT if username == NEBY_USERNAME else '',

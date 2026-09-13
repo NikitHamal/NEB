@@ -1167,20 +1167,19 @@ def call_qwen(system_prompt, user_message, model="qwen3.8-max", max_tokens=500,
             time.sleep(1)
             continue
 
-    logger.warning("Qwen: all direct attempts failed, trying qwenfast gateway as qwen backup")
+    logger.warning("Qwen: all direct attempts failed, trying qwencloud gateway as qwen backup")
     try:
-        from .qwenfast_proxy import simple_chat as _qwenfast_simple
-        fb = _qwenfast_simple(
+        from .qwencloud_proxy import simple_chat as _qwencloud_simple
+        fb = _qwencloud_simple(
             user_message=user_message,
             system_prompt=system_prompt or "",
-            model="qwen3.8-27b",
-            max_tokens=max_tokens or 800,
+            model="qwen3.8-max",
         )
-        if fb and fb.strip():
-            logger.info(f"Qwen via qwenfast backup succeeded ({len(fb)} chars)")
+        if fb and fb.strip() and not fb.startswith("[Error]"):
+            logger.info(f"Qwen via qwencloud backup succeeded ({len(fb)} chars)")
             return fb.strip()
-        logger.warning("Qwen qwenfast backup empty")
+        logger.warning("Qwen qwencloud backup empty")
     except Exception as e:
-        logger.warning(f"Qwen qwenfast backup failed: {e}")
+        logger.warning(f"Qwen qwencloud backup failed: {e}")
     logger.warning("Qwen: all attempts failed, returning empty")
     return None

@@ -880,8 +880,9 @@ def ajax_llm_models(request):
             {"id": "qwen:qwen3.5-flash", "name": "Qwen 3.5 Flash", "provider": "Qwen (chat.qwen.ai)"},
         ]
 
-    egov_models = [
-        {"id": "egov:AI1", "name": "eGov Chat AI (Primary)", "provider": "eGov Chat AI (Philippines)"},
+    qwencloud_models = [
+        {"id": "qwencloud:qwen3.8-max", "name": "Qwen3.8 Max", "provider": "Qwen Cloud (qwencloud.com)"},
+        {"id": "qwencloud:qwen3-coder-plus", "name": "Qwen3 Coder Plus", "provider": "Qwen Cloud (qwencloud.com)"},
     ]
 
     deepai_models = [
@@ -892,7 +893,7 @@ def ajax_llm_models(request):
         {"id": "inception:mercury-2", "name": "Mercury 2 (Diffusion LLM)", "provider": "Inception Labs (Mercury 2)"},
     ]
 
-    all_models = qwen_models + egov_models + deepai_models + inception_models
+    all_models = qwen_models + qwencloud_models + deepai_models + inception_models
 
     return JsonResponse({
         "models": all_models,
@@ -944,10 +945,10 @@ def ajax_space_canvas_ai(request, space_id):
     result = None
     err = None
 
-    if model_id.startswith('egov:'):
-        egov_model = model_id.split(':', 1)[1]
-        from api import egov_proxy
-        result = egov_proxy.simple_chat(user_message=full_prompt, model=egov_model, system_prompt=CANVAS_AI_SYSTEM_PROMPT)
+    if model_id.startswith('qwencloud:'):
+        qwencloud_model = model_id.split(':', 1)[1]
+        from api import qwencloud_proxy
+        result = qwencloud_proxy.simple_chat(user_message=full_prompt, model=qwencloud_model, system_prompt=CANVAS_AI_SYSTEM_PROMPT)
     elif model_id.startswith('deepai:'):
         deepai_model = model_id.split(':', 1)[1]
         from api import deepai_proxy
