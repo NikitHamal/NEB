@@ -50,6 +50,8 @@
   var lastEventTs = 0;
   var baseWsUrl = null; // extracted from wsUrl (without query string)
   var haveRefetched = false; // prevent infinite refetch loops
+  var consecutiveFailures = 0;
+  var lastFailedBase = '';
 
   // ----- URL derivation -----------------------------------------------------
 
@@ -119,6 +121,11 @@
   // ----- internals ----------------------------------------------------------
 
   function connect() {
+    if (!wsUrl) {
+      // No tunnel URL available — rely on polling fallback, retry later.
+      scheduleReconnect();
+      return;
+    }
     setState(STATE.CONNECTING);
     if (!baseWsUrl) {
       var qidx = wsUrl.indexOf('?');
@@ -134,6 +141,8 @@
 
     socket.addEventListener('open', function () {
       reconnectDelay = minReconnectDelay;
+      consecutiveFailures = 0;
+      lastFailedBase = '';
       setState(STATE.CONNECTED);
       // Re-subscribe to all channels on (re)connect.
       channels.forEach(function (ch) {
@@ -150,7 +159,15 @@
       stopHeartbeat();
       if (state !== STATE.CLOSED) {
         setState(STATE.DISCONNECTED);
+        var failedBase = baseWsUrl || wsUrl;
+        if (failedBase) {
+          if (failedBase === lastFailedBase) consecutiveFailures += 1;
+          else { consecutiveFailures = 1; lastFailedBase = failedBase; }
+        }
         if (!paused) scheduleReconnect();
+      } else {
+        consecutiveFailures = 0;
+        lastFailedBase = '';
       }
     });
 
@@ -168,11 +185,30 @@
         try {
           var data = JSON.parse(xhr.responseText);
           if (data.ws_url) {
-            baseWsUrl = data.ws_url;
-            var ticket = getTicketFromUrl(wsUrl);
-            wsUrl = baseWsUrl + (ticket ? ticket : '');
+            var newBase = data.ws_url;
+            // Fresh URL from server resets failure streak if host changed
+            if (newBase !== baseWsUrl) {
+              consecutiveFailures = 0;
+              lastFailedBase = '';
+            }
+            baseWsUrl = newBase;
+            if (data.ticket) {
+              wsUrl = baseWsUrl + '?ticket=' + data.ticket;
+            } else {
+              var ticket = getTicketFromUrl(wsUrl);
+              wsUrl = baseWsUrl + (ticket ? ticket : '');
+            }
             if (global.WS_CONFIG) global.WS_CONFIG.url = wsUrl;
             if (document.body) document.body.setAttribute('data-ws-url', wsUrl);
+          } else if (data.hasOwnProperty('ws_url') && !data.ws_url) {
+            // Server explicitly says no tunnel — don't keep hammering a dead host.
+            // Clear URL so we fall back to polling until tunnel recovers.
+            if (consecutiveFailures >= 2) {
+              baseWsUrl = '';
+              wsUrl = '';
+              if (global.WS_CONFIG) global.WS_CONFIG.url = '';
+              if (document.body) document.body.removeAttribute('data-ws-url');
+            }
           }
         } catch (e) { /* ignore parse errors */ }
       }
@@ -190,8 +226,18 @@
   function scheduleReconnect() {
     if (paused) return;
     if (reconnectTimer) return;
-    var jitter = Math.random() * 0.3 * reconnectDelay;
-    var delay = reconnectDelay + jitter;
+    // If we've had several consecutive failures to the same host, back off harder
+    // to avoid spamming the console and the dead tunnel.
+    var effectiveDelay = reconnectDelay;
+    if (consecutiveFailures >= 3) {
+      effectiveDelay = Math.min(reconnectDelay * 2, maxReconnectDelay);
+    }
+    if (!wsUrl && consecutiveFailures >= 2) {
+      // No valid URL — poll for recovery every 30s instead of tight loop.
+      effectiveDelay = maxReconnectDelay;
+    }
+    var jitter = Math.random() * 0.3 * effectiveDelay;
+    var delay = effectiveDelay + jitter;
     reconnectTimer = setTimeout(function () {
       reconnectTimer = null;
       reconnectDelay = Math.min(reconnectDelay * 2, maxReconnectDelay);

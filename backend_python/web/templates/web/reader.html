@@ -1,7 +1,39 @@
 {% extends "base.html" %}
 {% load static web_extras %}
 
-{% block title %}{{ resource.title|default:"Reader" }} - NEBians{% endblock %}
+{% block title %}{{ resource.title|default:"Reader" }} — {{ resource.subject|default:"Study" }} {{ resource.grade_level|default:"" }} {{ resource.type|default:"Resource" }} | NEBians{% endblock %}
+{% block description %}{{ resource.description|strip_inline|truncatechars:140|default:"Free study resource on NEBians" }} — {{ resource.subject }} {{ resource.grade_level }} {{ resource.type }}. Free Nepal online study: NEB past papers, model questions & notes.{% endblock %}
+{% block keywords %}NEBians, {{ resource.subject }}, {{ resource.grade_level }}, {{ resource.type }}, NEB past papers, NEB model questions, Nepal online study{% endblock %}
+{% block og_title %}{{ resource.title|default:"Reader" }} - NEBians{% endblock %}
+{% block og_description %}{{ resource.description|strip_inline|truncatechars:200|default:"Study resource on NEBians" }}{% endblock %}
+{% block head_extra %}
+<script type="application/ld+json" nonce="{{ csp_nonce }}">
+{
+  "@context": "https://schema.org",
+  "@type": ["LearningResource", "DigitalDocument"],
+  "name": "{{ resource.title|default:'Resource'|escapejs }}",
+  "description": "{{ resource.description|strip_inline|truncatechars:240|default:'Study resource on NEBians'|escapejs }}",
+  "url": "https://nebians.consica.com.np{% url 'web:reader' resource_id=resource.id %}",
+  "educationalLevel": "{{ resource.grade_level|default:'General'|escapejs }}",
+  "learningResourceType": "{{ resource.type|default:'Resource'|escapejs }}",
+  "keywords": "{{ resource.subject|default:''|escapejs }}, NEB past papers, NEB model questions, Nepal online study",
+  "provider": {"@type": "Organization", "name": "NEBians", "url": "https://nebians.consica.com.np/"},
+  "isAccessibleForFree": true,
+  "inLanguage": "en-NP"
+}
+</script>
+<script type="application/ld+json" nonce="{{ csp_nonce }}">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://nebians.consica.com.np/"},
+    {"@type": "ListItem", "position": 2, "name": "Library", "item": "https://nebians.consica.com.np/library/"},
+    {"@type": "ListItem", "position": 3, "name": "{{ resource.title|default:'Resource'|escapejs }}", "item": "https://nebians.consica.com.np{% url 'web:reader' resource_id=resource.id %}"}
+  ]
+}
+</script>
+{% endblock %}
 
 {% block extra_css %}
 {% if resource.media_type == 'video' or resource.media_type == 'audio' %}

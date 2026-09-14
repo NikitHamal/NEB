@@ -1,0 +1,1157 @@
+/* NEBians — Blog article page (news_detail.html)
+   Loaded after web-news.css. Owns everything scoped to .news-detail-page.
+   The shared blog-comment partial (web/_comment_cards.html) emits forum reply
+   markup (.fp-reply*). Those rules live in pages/forum-post.css, which is NOT
+   loaded here — so the .nd-comments block below re-skins that markup against
+   the blog page's own card layout instead of pulling in the whole forum sheet. */
+
+/* ── Reading progress ─────────────────────────────────────────────── */
+.nd-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 120;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+
+.nd-progress.is-visible {
+  opacity: 1;
+}
+
+.nd-progress span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--md-primary);
+  border-radius: 0 2px 2px 0;
+  transition: width 90ms linear;
+}
+
+/* ── Page shell ───────────────────────────────────────────────────── */
+/* md-container sets max-width:1400px and the horizontal gutter; only the
+   vertical rhythm and the reading width are overridden here. */
+.news-detail-page {
+  max-width: 1168px;
+  padding-block: 20px 72px;
+}
+
+/* ── Breadcrumb + back link ───────────────────────────────────────── */
+.nd-crumbs {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+  margin-bottom: 14px;
+  font-size: 0.8125rem;
+  color: var(--md-on-surface-variant);
+}
+
+.nd-crumbs a {
+  color: var(--md-on-surface-variant);
+  text-decoration: none;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.nd-crumbs a:hover {
+  color: var(--md-primary);
+}
+
+.nd-crumbs .material-symbols-outlined {
+  font-size: 16px;
+  opacity: 0.55;
+  flex-shrink: 0;
+}
+
+.nd-crumb-current {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--md-on-surface);
+  font-weight: 600;
+}
+
+.nd-back {
+  margin-bottom: 20px;
+}
+
+/* ── Layout ───────────────────────────────────────────────────────── */
+.nd-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+}
+
+.nd-main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+@media (min-width: 1080px) {
+  .nd-layout {
+    grid-template-columns: minmax(0, 1fr) 260px;
+    gap: 36px;
+  }
+}
+
+/* ── Article card ─────────────────────────────────────────────────── */
+.news-detail {
+  margin: 0;
+  background: var(--md-surface-container-lowest);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-radius-xl);
+  overflow: hidden;
+  box-shadow: var(--md-elevation-1);
+}
+
+.news-detail-header {
+  position: relative;
+  padding: 32px 36px 22px;
+}
+
+.news-detail-badges {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+  padding-right: 44px;
+}
+
+/* Badges are absolutely positioned for cover images on the list page — reset
+   them to normal flow inside the article header. */
+.news-detail-badges .news-category-badge,
+.news-detail-badges .news-pin-badge {
+  position: static;
+  top: auto;
+  right: auto;
+  left: auto;
+  padding: 5px 12px;
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.news-detail-badges .news-category-badge {
+  background: color-mix(in srgb, var(--cat-color, var(--md-primary)) 14%, transparent);
+  color: var(--cat-color, var(--md-primary));
+  border: 1px solid color-mix(in srgb, var(--cat-color, var(--md-primary)) 30%, transparent);
+}
+
+.news-detail-badges .news-pin-badge {
+  background: color-mix(in srgb, var(--md-primary) 12%, transparent);
+  color: var(--md-primary);
+}
+
+.news-detail-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(1.5rem, 1.15rem + 1.5vw, 2.125rem);
+  font-weight: 700;
+  line-height: 1.28;
+  letter-spacing: -0.02em;
+  color: var(--md-on-surface);
+  margin: 0 0 14px;
+}
+
+.news-detail-summary {
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--md-on-surface-variant);
+  margin: 0 0 22px;
+  max-width: 66ch;
+}
+
+.news-detail-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding-top: 18px;
+  border-top: 1px solid var(--md-outline-variant);
+  font-size: 0.8125rem;
+  color: var(--md-on-surface-variant);
+}
+
+.news-detail-meta .news-card-author img {
+  width: 26px;
+  height: 26px;
+}
+
+.news-detail-meta .icon-sm {
+  font-size: 15px;
+}
+
+.news-detail-more-btn {
+  position: absolute;
+  top: 26px;
+  right: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--md-on-surface-variant);
+  cursor: pointer;
+  transition: background-color var(--md-transition), color var(--md-transition);
+}
+
+.news-detail-more-btn:hover {
+  background: var(--md-surface-container-high);
+  color: var(--md-on-surface);
+}
+
+.news-detail-cover {
+  width: 100%;
+  max-height: 420px;
+  overflow: hidden;
+  background: var(--md-surface-container);
+  border-top: 1px solid var(--md-outline-variant);
+  border-bottom: 1px solid var(--md-outline-variant);
+}
+
+.news-detail-cover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ── Article body ─────────────────────────────────────────────────── */
+.news-detail-content {
+  padding: 32px 36px 8px;
+  font-size: 1.0625rem;
+  line-height: 1.85;
+  color: var(--md-on-surface);
+  overflow-wrap: break-word;
+}
+
+/* Keep a comfortable measure even if the card ever grows wider. */
+.news-detail-content > * {
+  max-width: 74ch;
+}
+
+.news-detail-content > img,
+.news-detail-content > figure,
+.news-detail-content > table,
+.news-detail-content > pre {
+  max-width: 100%;
+}
+
+.news-detail-content h1,
+.news-detail-content h2,
+.news-detail-content h3,
+.news-detail-content h4 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--md-on-surface);
+  margin: 34px 0 14px;
+  scroll-margin-top: 88px;
+}
+
+.news-detail-content h1 { font-size: 1.5rem; }
+.news-detail-content h2 { font-size: 1.375rem; }
+.news-detail-content h3 { font-size: 1.1875rem; }
+.news-detail-content h4 { font-size: 1.0625rem; }
+
+.news-detail-content > :first-child {
+  margin-top: 0;
+}
+
+.news-detail-content p {
+  margin: 0 0 20px;
+}
+
+.news-detail-content a {
+  color: var(--md-primary);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.news-detail-content a:hover {
+  text-decoration-thickness: 2px;
+}
+
+.news-detail-content ul,
+.news-detail-content ol {
+  margin: 0 0 20px;
+  padding-left: 24px;
+}
+
+.news-detail-content li {
+  margin-bottom: 8px;
+}
+
+.news-detail-content blockquote {
+  margin: 24px 0;
+  padding: 14px 22px;
+  border-left: 4px solid var(--md-primary);
+  border-radius: 0 14px 14px 0;
+  background: var(--md-surface-container-low);
+  color: var(--md-on-surface-variant);
+  font-style: italic;
+}
+
+.news-detail-content blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.news-detail-content code {
+  padding: 3px 7px;
+  border-radius: 6px;
+  background: var(--md-surface-container-high);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.875em;
+}
+
+.news-detail-content pre {
+  margin: 0 0 20px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  background: var(--md-surface-container-low);
+  border: 1px solid var(--md-outline-variant);
+  overflow-x: auto;
+}
+
+.news-detail-content pre code {
+  padding: 0;
+  background: none;
+}
+
+.news-detail-content img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 24px 0;
+  border-radius: 16px;
+}
+
+.news-detail-content hr {
+  margin: 32px 0;
+  border: none;
+  border-top: 1px solid var(--md-outline-variant);
+}
+
+.news-detail-content table {
+  display: block;
+  width: 100%;
+  margin: 0 0 20px;
+  border-collapse: collapse;
+  overflow-x: auto;
+}
+
+.news-detail-content th,
+.news-detail-content td {
+  padding: 10px 14px;
+  border: 1px solid var(--md-outline-variant);
+  text-align: left;
+}
+
+.news-detail-content th {
+  background: var(--md-surface-container-low);
+  font-weight: 600;
+}
+
+/* ── Action bar (share / source) ──────────────────────────────────── */
+.nd-actionbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+  padding: 20px 36px 26px;
+  border-top: 1px solid var(--md-outline-variant);
+}
+
+.nd-actionbar-spacer {
+  flex: 1;
+}
+
+.nd-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 16px;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--md-on-surface-variant);
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--md-transition), border-color var(--md-transition), color var(--md-transition);
+}
+
+.nd-action:hover {
+  background: var(--md-surface-container-high);
+  border-color: var(--md-outline);
+  color: var(--md-on-surface);
+}
+
+.nd-action .material-symbols-outlined {
+  font-size: 19px;
+}
+
+.nd-action-primary {
+  border-color: transparent;
+  background: var(--md-primary);
+  color: var(--md-on-primary);
+}
+
+.nd-action-primary:hover {
+  background: var(--md-primary);
+  border-color: transparent;
+  color: var(--md-on-primary);
+  filter: brightness(1.08);
+}
+
+.nd-action-icon {
+  width: 40px;
+  padding: 0;
+  justify-content: center;
+}
+
+/* ── Comments ─────────────────────────────────────────────────────── */
+.nd-comments {
+  padding: 26px 28px 30px;
+  background: var(--md-surface-container-lowest);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-radius-xl);
+  box-shadow: var(--md-elevation-1);
+  scroll-margin-top: 88px;
+}
+
+.nd-comments-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.nd-comments-head h2 {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--md-on-surface);
+}
+
+.nd-comments-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 22px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: var(--md-surface-container-high);
+  color: var(--md-on-surface-variant);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+/* Composer — reuses the site-wide .reply-input-wrapper pill (see
+   app/09-global-overrides-markdown-messaging.css). That class is also on
+   inline-media.js's skip list, so the textarea stays a real textarea. */
+.nd-composer {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.nd-composer-avatar {
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  margin-top: 3px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--md-surface-container-high);
+  border: 1px solid var(--md-outline-variant);
+}
+
+.nd-composer-body {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Let the pill grow past one line up to the global 120px cap. */
+.nd-composer .reply-input-wrapper {
+  align-items: flex-end !important;
+}
+
+.nd-composer .reply-input-wrapper textarea {
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+  line-height: 20px !important;
+  overflow-y: auto !important;
+}
+
+.nd-composer-hint {
+  display: none;
+  margin-top: 8px;
+  padding-left: 4px;
+  font-size: 0.75rem;
+  color: var(--md-on-surface-variant);
+}
+
+.nd-composer-hint.is-visible {
+  display: block;
+}
+
+.nd-composer-hint.is-warn {
+  color: var(--md-error);
+}
+
+.nd-composer .reply-send-btn.is-posting .material-symbols-outlined {
+  animation: ndSpin 900ms linear infinite;
+}
+
+@keyframes ndSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* Signed-out prompt */
+.nd-signin {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 16px 18px;
+  margin-bottom: 22px;
+  border: 1px dashed var(--md-outline);
+  border-radius: 16px;
+  background: var(--md-surface-container-low);
+}
+
+.nd-signin-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--md-primary) 12%, transparent);
+  color: var(--md-primary);
+}
+
+.nd-signin-text {
+  flex: 1;
+  min-width: 190px;
+}
+
+.nd-signin-text strong {
+  display: block;
+  margin-bottom: 2px;
+  font-size: 0.9375rem;
+  color: var(--md-on-surface);
+}
+
+.nd-signin-text span {
+  font-size: 0.8125rem;
+  color: var(--md-on-surface-variant);
+}
+
+/* ── Comment cards (re-skin of web/_comment_cards.html) ───────────── */
+.nd-comments .fp-reply {
+  padding: 16px 18px;
+  margin-bottom: 10px;
+  background: var(--md-surface-container-low);
+  border: 1px solid transparent;
+  border-radius: 16px;
+  transition: border-color var(--md-transition);
+}
+
+.nd-comments .fp-reply:hover {
+  border-color: var(--md-outline-variant);
+}
+
+.nd-comments .fp-reply-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.nd-comments .fp-reply-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--md-primary);
+}
+
+.nd-comments .fp-reply-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.nd-comments .fp-reply-avatar-letter {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--md-on-primary);
+}
+
+.nd-comments .fp-reply-meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.nd-comments .fp-reply-author {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--md-on-surface);
+  text-decoration: none;
+}
+
+.nd-comments .fp-reply-author:hover {
+  color: var(--md-primary);
+}
+
+.nd-comments .fp-reply-time {
+  font-size: 0.6875rem;
+  color: var(--md-on-surface-variant);
+}
+
+.nd-comments .fp-reply-body {
+  margin-bottom: 8px;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--md-on-surface);
+  overflow-wrap: break-word;
+}
+
+.nd-comments .fp-reply-actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--md-outline-variant);
+}
+
+.nd-comments .fp-reply-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--md-on-surface-variant);
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--md-transition), color var(--md-transition);
+}
+
+.nd-comments .fp-reply-action:hover {
+  background: var(--md-surface-container-high);
+  color: var(--md-primary);
+}
+
+.nd-comments .fp-reply-action.liked,
+.nd-comments .fp-reply-action.bookmark-active {
+  color: var(--md-primary);
+}
+
+.nd-comments .fp-reply-action .material-symbols-outlined {
+  font-size: 16px;
+}
+
+.nd-comments .fp-action-spacer {
+  flex: 1;
+}
+
+.nd-comments .fp-reply-actions .fp-reply-action {
+  min-height: 30px;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* Nested replies */
+.nd-comments .fp-comment-children {
+  margin-top: 10px;
+  margin-left: 16px;
+  padding-left: 14px;
+  border-left: 2px solid var(--md-outline-variant);
+}
+
+.nd-comments .fp-comment-children .fp-reply {
+  margin-bottom: 8px;
+  padding: 12px 14px;
+  background: var(--md-surface-container);
+}
+
+/* Collapsed-thread affordance */
+.nd-comments .fp-thread-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  margin-top: 4px;
+  padding: 8px 12px;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 12px;
+  background: transparent;
+  color: var(--md-on-surface-variant);
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.nd-comments .fp-thread-indicator:hover {
+  background: var(--md-surface-container-high);
+}
+
+.nd-comments .fp-thread-avatars {
+  display: flex;
+}
+
+.nd-comments .fp-thread-avatar {
+  width: 22px;
+  height: 22px;
+  margin-right: -7px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--md-primary);
+  border: 2px solid var(--md-surface-container-lowest);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nd-comments .fp-thread-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.nd-comments .fp-thread-avatar-letter {
+  font-size: 0.5625rem;
+  font-weight: 700;
+  color: var(--md-on-primary);
+}
+
+.nd-comments .fp-thread-label {
+  margin-left: 10px;
+}
+
+/* Empty state — flat, no filled panel bleeding into the card corners */
+.nd-comments .fp-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0;
+  padding: 40px 20px;
+  border: 1px dashed var(--md-outline-variant);
+  border-radius: 16px;
+  background: transparent;
+  text-align: center;
+  color: var(--md-on-surface-variant);
+}
+
+.nd-comments .fp-empty .material-symbols-outlined {
+  font-size: 36px;
+  color: var(--md-outline);
+}
+
+.nd-comments .fp-empty p {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--md-on-surface-variant);
+}
+
+/* Inline reply composer injected by the page JS */
+.nd-comments .rd-inline-reply-box {
+  margin-top: 10px;
+}
+
+/* ── Sidebar ──────────────────────────────────────────────────────── */
+.nd-sidebar {
+  display: none;
+  flex-direction: column;
+  gap: 18px;
+}
+
+@media (min-width: 1080px) {
+  .nd-sidebar {
+    display: flex;
+    position: sticky;
+    top: 84px;
+  }
+}
+
+.nd-toc {
+  padding: 18px 14px;
+  background: var(--md-surface-container-lowest);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-radius-lg);
+}
+
+.nd-toc[hidden] {
+  display: none;
+}
+
+.nd-toc-title {
+  margin: 0 0 10px;
+  padding: 0 10px;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--md-on-surface-variant);
+}
+
+.nd-toc-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  max-height: 48vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.nd-toc-link {
+  display: block;
+  padding: 7px 10px;
+  border-left: 2px solid transparent;
+  border-radius: 10px;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--md-on-surface-variant);
+  text-decoration: none;
+  transition: background-color var(--md-transition), color var(--md-transition);
+}
+
+.nd-toc-link:hover {
+  background: var(--md-surface-container-low);
+  color: var(--md-on-surface);
+}
+
+.nd-toc-link.is-h3 {
+  padding-left: 22px;
+  font-size: 0.78125rem;
+}
+
+.nd-toc-link.active {
+  background: color-mix(in srgb, var(--md-primary) 10%, transparent);
+  border-left-color: var(--md-primary);
+  color: var(--md-primary);
+  font-weight: 600;
+}
+
+.nd-side-cta .md-btn {
+  width: 100%;
+  justify-content: center;
+}
+
+/* ── Related ──────────────────────────────────────────────────────── */
+.nd-related-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.nd-related-head h2 {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--md-on-surface);
+}
+
+.nd-related-head a {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--md-primary);
+  text-decoration: none;
+}
+
+.nd-related-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 560px) {
+  .nd-related-grid {
+    grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr));
+  }
+}
+
+.nd-related-grid .news-card {
+  height: 100%;
+}
+
+.nd-related-grid .news-card-compact .news-card-cover {
+  padding-top: 62.5%;
+}
+
+.nd-related-grid .news-card-compact .news-card-body {
+  padding: 14px 16px;
+}
+
+.nd-related-grid .news-card-compact .news-card-title {
+  font-size: 0.9375rem;
+  margin-bottom: 6px;
+}
+
+/* ── Bottom sheet (more options) ──────────────────────────────────── */
+.more-menu-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.more-menu-sheet {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 101;
+  padding: 8px 0 24px;
+  background: var(--md-surface-container-high);
+  border-radius: 20px 20px 0 0;
+  animation: ndSheetUp 0.2s cubic-bezier(0.2, 0, 0, 1);
+}
+
+@keyframes ndSheetUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.more-menu-handle {
+  width: 32px;
+  height: 4px;
+  margin: 8px auto 12px;
+  border-radius: 2px;
+  background: var(--md-outline);
+}
+
+.more-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 14px 20px;
+  border: none;
+  background: none;
+  color: var(--md-on-surface);
+  font-family: inherit;
+  font-size: 1rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.more-menu-item:hover {
+  background: var(--md-surface-container);
+}
+
+@media (min-width: 641px) {
+  .more-menu-sheet {
+    left: 0;
+    right: 0;
+    bottom: 24px;
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+    padding-bottom: 8px;
+    border-radius: 20px;
+    box-shadow: var(--md-elevation-3);
+  }
+
+  .more-menu-handle {
+    display: none;
+  }
+}
+
+/* ── Tablet ───────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .news-detail-header {
+    padding: 26px 24px 20px;
+  }
+  .news-detail-content {
+    padding: 26px 24px 8px;
+  }
+  .nd-actionbar {
+    padding: 18px 24px 22px;
+  }
+  .news-detail-more-btn {
+    top: 18px;
+    right: 14px;
+  }
+}
+
+/* ── Mobile ───────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .news-detail-page {
+    padding-block: 12px 88px;
+  }
+
+  .nd-crumbs {
+    margin-bottom: 10px;
+  }
+
+  .nd-back {
+    margin-bottom: 14px;
+  }
+
+  .nd-main {
+    gap: 18px;
+  }
+
+  .news-detail,
+  .nd-comments {
+    border-radius: 18px;
+  }
+
+  .news-detail-header {
+    padding: 20px 18px 16px;
+  }
+
+  .news-detail-badges {
+    margin-bottom: 12px;
+    padding-right: 40px;
+  }
+
+  .news-detail-summary {
+    font-size: 0.9375rem;
+  }
+
+  .news-detail-meta {
+    gap: 6px;
+    font-size: 0.75rem;
+  }
+
+  .news-detail-cover {
+    max-height: 240px;
+  }
+
+  .news-detail-content {
+    padding: 20px 18px 4px;
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+
+  .news-detail-content h1 { font-size: 1.3125rem; }
+  .news-detail-content h2 { font-size: 1.1875rem; }
+  .news-detail-content h3 { font-size: 1.0625rem; }
+
+  .news-detail-content img {
+    margin: 18px 0;
+    border-radius: 12px;
+  }
+
+  /* Full-width, thumb-friendly action buttons */
+  .nd-actionbar {
+    gap: 8px;
+    padding: 16px 18px 20px;
+  }
+
+  .nd-actionbar-spacer {
+    display: none;
+  }
+
+  .nd-action-primary {
+    flex: 1;
+    justify-content: center;
+  }
+
+  /* Keep the action row to a single thumb-friendly line */
+  .nd-label-long {
+    display: none;
+  }
+
+  .nd-action {
+    padding: 0 14px;
+  }
+
+  .nd-action-icon {
+    padding: 0;
+  }
+
+  .nd-comments {
+    padding: 20px 18px 24px;
+  }
+
+  .nd-composer {
+    gap: 10px;
+  }
+
+  .nd-composer-avatar {
+    width: 34px;
+    height: 34px;
+  }
+
+  .nd-composer .reply-input-wrapper textarea {
+    font-size: 0.9375rem !important;
+  }
+
+  .nd-signin {
+    padding: 14px;
+    gap: 12px;
+  }
+
+  .nd-comments .fp-reply {
+    padding: 14px;
+  }
+
+  .nd-comments .fp-comment-children {
+    margin-left: 8px;
+    padding-left: 10px;
+  }
+
+  .nd-related-grid {
+    gap: 12px;
+  }
+}
+
+/* ── Dark theme tweaks ────────────────────────────────────────────── */
+[data-theme="dark"] .nd-comments .fp-reply {
+  background: var(--md-surface-container);
+}
+
+[data-theme="dark"] .nd-comments .fp-comment-children .fp-reply {
+  background: var(--md-surface-container-high);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nd-progress span,
+  .more-menu-sheet {
+    transition: none;
+    animation: none;
+  }
+}

@@ -873,7 +873,7 @@ class BotConfig(models.Model):
                   'Each entry: {"provider": slug, "model": "...", "api_url": "...", "api_key": "..."}.',
     )
     system_prompt = models.TextField(
-        default='You are Neby, a friendly and helpful AI assistant for NEBians — a Nepali learning community platform for teachers, learners, explorers, students, and parents across all levels, faculties, and fields. '
+        default="You are Neby, a friendly and helpful AI assistant for NEBians — Nepal's learning community platform for teachers, learners, explorers, students, and parents across all levels, faculties, and fields. "
                 'You help with questions, explain concepts clearly, and assist with resources and learning.\n\n'
                 'Rules:\n'
                 '- Answer the question directly and accurately. Do NOT force curriculum references.\n'

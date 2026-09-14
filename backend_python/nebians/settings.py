@@ -141,12 +141,29 @@ if CACHE_LOCATION and not CACHE_LOCATION.startswith(('redis://', 'rediss://', 'u
     CACHE_LOCATION = 'redis://' + CACHE_LOCATION
 REDIS_URL = CACHE_LOCATION
 
-CACHES = {
-    'default': {
-        'BACKEND': os.environ.get('CACHE_BACKEND', 'django.core.cache.backends.redis.RedisCache'),
-        'LOCATION': CACHE_LOCATION,
+# Cache: Redis when explicitly requested, otherwise LocMem (safe for local dev without redis).
+_cache_backend = os.environ.get('CACHE_BACKEND', '').strip()
+if _cache_backend == 'django.core.cache.backends.redis.RedisCache':
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+            'LOCATION': CACHE_LOCATION,
+        }
     }
-}
+elif _cache_backend:
+    CACHES = {
+        'default': {
+            'BACKEND': _cache_backend,
+            'LOCATION': os.environ.get('CACHE_LOCATION', 'nebians-default-cache'),
+        }
+    }
+else:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+            'LOCATION': 'nebians-default-cache',
+        }
+    }
 
 if os.environ.get('CHANNEL_LAYER_BACKEND') == 'inmemory':
     CHANNEL_LAYERS = {
@@ -228,20 +245,11 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = int(os.environ.get('DATA_UPLOAD_MAX_MEMORY_SIZE', 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CACHES = {
-    'default': {
-        'BACKEND': os.environ.get('CACHE_BACKEND', 'django.core.cache.backends.locmem.LocMemCache'),
-        'LOCATION': os.environ.get('CACHE_LOCATION', 'nebians-default-cache'),
-    },
-}
-
-# Redis cache configuration (set CACHE_BACKEND=django.core.cache.backends.redis.RedisCache
-# and CACHE_LOCATION=redis://localhost:6379/0 in .env to enable)
-if os.environ.get('CACHE_BACKEND') == 'django.core.cache.backends.redis.RedisCache':
-    CACHES['default'] = {
-        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
-        'LOCATION': os.environ.get('CACHE_LOCATION', 'redis://127.0.0.1:6379/0'),
-    }
+# CACHES and CHANNEL_LAYERS are already defined above (Redis-first, line 138ff).
+# The old duplicate LocMem block was removed — see history — to avoid silently
+# downgrading to LocMem when CHANNEL_LAYERS still expects Redis.
+WS_PUBLIC_URL = os.environ.get('WS_PUBLIC_URL', '').strip()
+WS_URL_TXT = os.path.join(BASE_DIR, 'ws_url.txt')
 
 # Session backend — cached_db writes to both DB and cache, so existing sessions
 # survive cache clears and Redis restarts. Falls back to DB-only when no Redis.

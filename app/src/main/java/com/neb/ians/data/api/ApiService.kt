@@ -897,6 +897,7 @@ data class ApiProfileResourcesResponse(
 @Serializable
 data class ApiRealtimeConfig(
     @SerialName("ws_url") val wsUrl: String = "",
+    @SerialName("ticket") val ticket: String = "",
     @SerialName("heartbeat_interval") val heartbeatInterval: Int = 25
 )
 

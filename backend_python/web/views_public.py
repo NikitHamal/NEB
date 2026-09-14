@@ -40,9 +40,9 @@ def _get_library_filter_options():
 def manifest_json(request):
     from django.http import JsonResponse
     data = {
-        'name': 'NEBians - Nepali Learning Community',
+        'name': "NEBians - Nepal's Learning Community",
         'short_name': 'NEBians',
-        'description': 'A Nepali learning community for students, teachers, and lifelong learners with resources, discussions, AI summaries, quizzes, flashcards, and mindmaps.',
+        'description': "Nepal's learning community for students, teachers, and lifelong learners with resources, discussions, AI summaries, quizzes, flashcards, and mindmaps.",
         'start_url': '/',
         'scope': '/',
         'display': 'standalone',
@@ -193,7 +193,7 @@ def home(request):
         needs_profile=needs_profile,
     ))
 
-def library(request):
+def library(request, seo_title=None, seo_description=None, page_h1=None, canonical_url=None, default_type=None):
     from api.models import User as _LocalUser
     user_id = _get_user_id(request)
     user_profile = None
@@ -207,6 +207,8 @@ def library(request):
     grades = [g.strip() for g in request.GET.getlist('grade') if g.strip()]
 
     types = [t.strip() for t in request.GET.getlist('type') if t.strip()]
+    if not types and default_type:
+        types = [default_type]
     faculties = [f.strip() for f in request.GET.getlist('faculty') if f.strip()]
     exam_types = [e.strip() for e in request.GET.getlist('exam_type') if e.strip()]
     sort_by = request.GET.get('sort', 'relevant')
@@ -415,6 +417,10 @@ def library(request):
         categories_list=categories_list,
         interactive_categories=interactive_categories,
         interactive_stats=interactive_stats,
+        seo_title=seo_title,
+        seo_description=seo_description,
+        page_h1=page_h1,
+        canonical_url=canonical_url,
     )
 
     if getattr(request, 'htmx', False) and not getattr(request.htmx, 'history_restore_request', False) and current_tab in ['digital', 'community']:
@@ -424,6 +430,30 @@ def library(request):
         return res
 
     return render(request, 'web/library.html', ctx)
+
+def past_papers(request):
+    return library(
+        request,
+        seo_title="NEB Past Papers (Class 11 & 12) PDF Download — NEBians",
+        seo_description="Download free NEB Class 11 and Class 12 previous years board exam question papers in PDF. Science, Management, Humanities, and Law past papers.",
+        page_h1="NEB Past Papers (Class 11 &amp; 12)",
+        canonical_url="https://nebians.consica.com.np/past-papers/",
+        default_type="Past Paper",
+    )
+
+def model_questions(request):
+    return library(
+        request,
+        seo_title="NEB Model Questions (Class 11 & 12) with Solutions PDF — NEBians",
+        seo_description="Download official NEB model questions with answers and blueprints for Class 11 and Class 12 exams. Practice latest syllabus question sets.",
+        page_h1="NEB Model Questions &amp; Solutions",
+        canonical_url="https://nebians.consica.com.np/model-questions/",
+        default_type="Model Paper",
+    )
+
+def online_learning(request):
+    ctx = _ctx(request)
+    return render(request, 'web/online_learning.html', ctx)
 
 def search(request):
     from api.models import User as _LocalUser
@@ -1754,19 +1784,28 @@ def sitemap_xml(request):
     uploads, placeholders, or low-value empty pages.
     """
     sitemap_content = cache.get('sitemap_xml')
-    if sitemap_content is not None:
+    if sitemap_content is not None and not request.GET.get('fresh'):
         return HttpResponse(sitemap_content, content_type='application/xml')
 
     from api.models import Resource, Post, User
     from django.utils import timezone
+    from urllib.parse import quote
     from xml.sax.saxutils import escape as xml_escape
 
     base = 'https://nebians.consica.com.np'
     now = timezone.now().isoformat()
     urls = [
         {'loc': f'{base}/', 'changefreq': 'daily', 'priority': '1.0', 'lastmod': now},
-        {'loc': f'{base}/library/', 'changefreq': 'daily', 'priority': '0.8', 'lastmod': now},
+        {'loc': f'{base}/past-papers/', 'changefreq': 'daily', 'priority': '0.95', 'lastmod': now},
+        {'loc': f'{base}/model-questions/', 'changefreq': 'daily', 'priority': '0.95', 'lastmod': now},
+        {'loc': f'{base}/online-learning/', 'changefreq': 'weekly', 'priority': '0.9', 'lastmod': now},
+        {'loc': f'{base}/library/', 'changefreq': 'daily', 'priority': '0.9', 'lastmod': now},
+        {'loc': f'{base}/videos/', 'changefreq': 'daily', 'priority': '0.85', 'lastmod': now},
         {'loc': f'{base}/forum/', 'changefreq': 'daily', 'priority': '0.8', 'lastmod': now},
+        {'loc': f'{base}/news/', 'changefreq': 'daily', 'priority': '0.7', 'lastmod': now},
+        {'loc': f'{base}/results/', 'changefreq': 'monthly', 'priority': '0.7', 'lastmod': now},
+        {'loc': f'{base}/results/check/', 'changefreq': 'monthly', 'priority': '0.7', 'lastmod': now},
+        {'loc': f'{base}/tools/', 'changefreq': 'monthly', 'priority': '0.5', 'lastmod': now},
         {'loc': f'{base}/library/?tab=interactive', 'changefreq': 'weekly', 'priority': '0.8', 'lastmod': now},
     ]
 
@@ -1776,12 +1815,103 @@ def sitemap_xml(request):
         for lesson in course.get('lessons', []):
             urls.append({'loc': f'{base}/interactive/{course["slug"]}/{lesson["slug"]}/', 'changefreq': 'monthly', 'priority': '0.6', 'lastmod': now})
 
+    def _slugify(value):
+        import re
+        value = (value or '').lower().strip()
+        value = re.sub(r'[^a-z0-9]+', '-', value)
+        return value.strip('-')
+
     def _lastmod(ts):
         if isinstance(ts, int) and ts:
             return timezone.datetime.fromtimestamp(ts / 1000, tz=timezone.get_current_timezone()).isoformat()
         if hasattr(ts, 'isoformat') and ts:
             return ts.isoformat()
         return now
+
+    def _grade_slug(grade):
+        slug = _slugify(grade).replace('see', 'see')
+        if '10' in slug and 'see' in slug:
+            return 'class-10-see'
+        return slug or 'other'
+
+    seen_subject_urls = set()
+
+    def _add_subject_url(grade, subject):
+        grade_slug = _grade_slug(grade)
+        subject_slug = _slugify(subject)
+        if not grade_slug or not subject_slug or grade_slug == 'other':
+            return
+        loc = f'{base}/subject/{grade_slug}/{subject_slug}/'
+        if loc in seen_subject_urls:
+            return
+        seen_subject_urls.add(loc)
+        urls.append({'loc': loc, 'changefreq': 'weekly', 'priority': '0.75', 'lastmod': now})
+
+    try:
+        for (grade_val, subject_val) in curriculum.CURRICULUM_MAP.keys():
+            _add_subject_url(grade_val, subject_val)
+    except Exception:
+        pass
+
+    try:
+        rows = Resource.objects.filter(
+            approval_status='approved', is_lead=True
+        ).values_list('grade_level', 'subject')[:1000]
+        for grade, subjects in rows:
+            if not grade or not subjects:
+                continue
+            for subject in subjects.split(','):
+                subject = subject.strip()
+                if subject:
+                    _add_subject_url(grade, subject)
+    except Exception:
+        pass
+
+    try:
+        from api.models import Announcement
+        announcements = Announcement.objects.filter(
+            status='published'
+        ).order_by('-published_at').values_list('slug', 'published_at')[:500]
+        for slug, published_at in announcements:
+            if not slug:
+                continue
+            urls.append({
+                'loc': f'{base}/news/{quote(str(slug), safe="")}/',
+                'changefreq': 'weekly',
+                'priority': '0.6',
+                'lastmod': _lastmod(published_at),
+            })
+    except Exception:
+        pass
+
+    try:
+        from api.models import PostMedia
+        videos = (PostMedia.objects
+                  .filter(kind='video')
+                  .select_related('post', 'post__user')
+                  .order_by('-created_at')[:1000])
+        for media in videos:
+            post = getattr(media, 'post', None)
+            if not post or getattr(post, 'is_archived', False):
+                continue
+            author = getattr(post, 'user', None)
+            if author and (getattr(author, 'is_locked', False) or getattr(author, 'is_bot', False)):
+                continue
+            try:
+                if author and not getattr(author, 'email_verified', True):
+                    continue
+            except Exception:
+                pass
+            if not getattr(media, 'id', None):
+                continue
+            urls.append({
+                'loc': f'{base}/videos/{quote(str(media.id), safe="")}/',
+                'changefreq': 'weekly',
+                'priority': '0.65',
+                'lastmod': _lastmod(getattr(media, 'created_at', None) or getattr(post, 'created_at', None)),
+            })
+    except Exception:
+        pass
 
     def _clean_text(value):
         return (value or '').strip().lower()
@@ -1861,6 +1991,8 @@ def robots_txt(request):
     lines = [
         'User-agent: *',
         'Allow: /',
+        'Allow: /profile/',
+        'Disallow: /profile/edit/',
         'Disallow: /admin/',
         'Disallow: /admin-django/',
         'Disallow: /api/',
@@ -1868,7 +2000,9 @@ def robots_txt(request):
         'Disallow: /auth/',
         'Disallow: /login/',
         'Disallow: /logout/',
-        'Disallow: /profile/edit/',
+        'Disallow: /settings/',
+        'Disallow: /*?next=*',
+        'Disallow: /*?*next=*',
         '',
         'Sitemap: https://nebians.consica.com.np/sitemap.xml',
     ]

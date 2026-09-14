@@ -1,18 +1,14 @@
 {% extends "base.html" %}
 {% load static web_extras %}
 
-{% block title %}{% if current_tab == 'interactive' %}Interactive Learning — Free 3D Models, Simulations & Coding
-Games{% else %}Study Resources Library{% endif %}{% endblock %}
-{% block description %}{% if current_tab == 'interactive' %}Explore free interactive lessons - real-time 3D models,
-virtual lab simulations and coding games for curious students.{% else %}Browse study resources - notes, past papers,
-textbooks and more for students and teachers.{% endif %}{% endblock %}
-{% block keywords %}{% if current_tab == 'interactive' %}interactive learning, 3D models, simulations, coding games, virtual labs, free education{% else %}study resources, notes, past papers, textbooks, education, library{% endif %}{% endblock %}
-{% block og_title %}{% if current_tab == 'interactive' %}NEBians Interactive — 3D Models, Simulations & Coding Games{% else %}NEBians Library - Study Resources{% endif %}{% endblock %}
-{% block og_description %}{% if current_tab == 'interactive' %}Explore free interactive lessons - 3D models, virtual
-labs and coding games.{% else %}Browse study resources - notes, past papers, textbooks and more.{% endif %}{% endblock %}
+{% block title %}{% if seo_title %}{{ seo_title }}{% elif current_tab == 'interactive' %}Interactive Learning — Free 3D Models, Simulations & Coding Games | NEBians{% else %}NEB Past Papers, Model Questions & Notes Library — NEBians{% endif %}{% endblock %}
+{% block description %}{% if seo_description %}{{ seo_description }}{% elif current_tab == 'interactive' %}Explore free interactive lessons — real-time 3D models, virtual lab simulations and coding games for curious students on NEBians.{% else %}Download free NEB past papers, model questions, Class 11 and 12 notes, textbooks, and syllabus guides for students across Nepal on NEBians.{% endif %}{% endblock %}
+{% block keywords %}{% if current_tab == 'interactive' %}interactive learning, 3D models, simulations, coding games, virtual labs, free education nepal{% else %}NEB past papers, NEB model questions, notes library, Class 11 notes, Class 12 notes, nepal online study, textbooks{% endif %}{% endblock %}
+{% block og_title %}{% if seo_title %}{{ seo_title }}{% elif current_tab == 'interactive' %}NEBians Interactive — 3D Models, Simulations & Coding Games{% else %}NEB Past Papers, Model Questions & Notes Library — NEBians{% endif %}{% endblock %}
+{% block og_description %}{% if seo_description %}{{ seo_description }}{% elif current_tab == 'interactive' %}Explore free interactive lessons — 3D models, virtual labs and coding games.{% else %}Browse and download NEB past papers, model questions, notes, and study resources.{% endif %}{% endblock %}
 {% block nav_library %}md-nav-active{% endblock %}
 {% block bnav_library %}md-nav-active{% endblock %}
-{% block canonical %}https://nebians.consica.com.np{{ request.path }}{% if current_tab == 'interactive' %}?tab=interactive{% else %}{% if page_obj and page_obj.number > 1 %}?page={{ page_obj.number }}{% endif %}{% endif %}{% endblock %}
+{% block canonical %}{% if canonical_url %}{{ canonical_url }}{% else %}https://nebians.consica.com.np{{ request.path }}{% if current_tab == 'interactive' %}?tab=interactive{% else %}{% if page_obj and page_obj.number > 1 %}?page={{ page_obj.number }}{% endif %}{% endif %}{% endif %}{% endblock %}
 
 {% block bottomnav %}
 <nav class="md-bottomnav">
@@ -61,7 +57,7 @@ labs and coding games.{% else %}Browse study resources - notes, past papers, tex
 <div class="md-container">
   <!-- Header + Upload button -->
   <div class="lib-header-row" style="margin-bottom: 12px;">
-    <h1 class="md-headline-medium">Digital Library</h1>
+    <h1 class="md-headline-medium">{% if page_h1 %}{{ page_h1 }}{% elif current_tab == 'interactive' %}Interactive Learning Lab{% else %}Digital Library{% endif %}</h1>
     {% if current_tab != 'interactive' %}
     <div class="lib-header-actions">
       <a href="{% url 'web:upload_resource' %}" class="md-btn md-btn-tonal" style="text-decoration:none;">

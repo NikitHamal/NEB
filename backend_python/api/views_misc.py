@@ -373,38 +373,90 @@ def notifications_unread_count(request):
 @permission_classes([AllowAny])
 def realtime_config(request):
     """
-    GET /api/realtime/config — public discovery endpoint for mobile clients.
+    GET /api/realtime/config — public discovery endpoint for mobile and web clients.
 
-    Returns the public WebSocket URL so native apps (Android) can connect to
-    the realtime layer without scraping HTML pages.
+    Returns the public WebSocket URL and, when the request is authenticated via
+    session cookie, a short-lived signed ticket for cross-domain (trycloudflare)
+    WebSocket auth. Web clients refetch this on every reconnect so a tunnel
+    restart + ticket rotation is picked up without a page reload.
     """
     import os as _os
+    from django.conf import settings as _settings
+    from django.core.cache import cache as _cache
+    from django.core.signing import TimestampSigner as _Signer
+    # Resolve WS URL using the same newest-mtime logic as the page renderer
     ws_url = _os.environ.get('WS_PUBLIC_URL', '').strip()
-    if not ws_url:
-        ws_url_txt = _os.path.join(_os.path.dirname(_os.path.dirname(__file__)), 'ws_url.txt')
-        try:
-            with open(ws_url_txt, 'r', errors='ignore') as fh:
-                url = fh.read().strip().rstrip('/')
-                if url:
-                    base = url.replace('https://', 'wss://')
-                    ws_url = base.rstrip('/ws').rstrip('/') + '/ws/'
-        except (OSError, IOError):
-            pass
+    if not ws_url and hasattr(_settings, 'WS_PUBLIC_URL'):
+        ws_url = (_settings.WS_PUBLIC_URL or '').strip()
     if not ws_url:
         try:
             import glob as _glob, re as _re
-            for path in [_os.path.join(_os.path.dirname(_os.path.dirname(__file__)), 'logs', 'cloudflared.log')] + sorted(_glob.glob('/tmp/cf_quick*.log'), reverse=True):
+            candidates = []
+            base_dir = _os.path.dirname(_os.path.dirname(__file__))
+            paths = [
+                '/home/consicac/nebians_api/logs/start_ws_tunnel.log',
+                _os.path.join(base_dir, 'logs', 'cloudflared.log'),
+                '/home/consicac/nebians_api/logs/cloudflared.log',
+            ] + sorted(_glob.glob('/tmp/cf_quick*.log'), reverse=True)
+            for path in paths:
                 try:
                     with open(path, 'r', errors='ignore') as fh:
-                        matches = _re.findall(r'https://[a-z0-9-]+\.trycloudflare\.com', fh.read())
+                        content = fh.read()
+                    matches = _re.findall(r'(?:wss?|https?)://([a-z0-9-]+\.trycloudflare\.com)', content)
                     if matches:
-                        ws_url = matches[-1].replace('https://', 'wss://') + '/ws/'
-                        break
+                        host = matches[-1].rstrip('/').rstrip('/ws').rstrip('/')
+                        url = 'wss://' + host + '/ws/'
+                        try:
+                            mtime = _os.path.getmtime(path)
+                        except OSError:
+                            mtime = 0
+                        candidates.append((mtime, url))
                 except OSError:
                     continue
+            if candidates:
+                candidates.sort(key=lambda x: x[0], reverse=True)
+                ws_url = candidates[0][1]
+            else:
+                # Fallback ws_url.txt cache
+                try:
+                    with open(_os.path.join(base_dir, 'ws_url.txt'), 'r', errors='ignore') as fh:
+                        content = fh.read().strip()
+                    if content:
+                        m = _re.search(r'([a-z0-9-]+\.trycloudflare\.com)', content)
+                        if m:
+                            ws_url = 'wss://' + m.group(1) + '/ws/'
+                        elif content.startswith('wss://'):
+                            ws_url = content.strip()
+                except OSError:
+                    pass
         except Exception:
             ws_url = ''
-    return Response({'ws_url': ws_url, 'heartbeat_interval': 25})
+    # Generate a fresh ticket when the caller is authenticated and the tunnel is cross-domain.
+    ticket = ''
+    if ws_url and 'trycloudflare.com' in ws_url:
+        user_id = None
+        # 1) DRF's request.user if session auth succeeded (when authentication not empty)
+        try:
+            u = getattr(request, 'user', None)
+            if u and getattr(u, 'is_authenticated', False) and not getattr(u, 'is_locked', False):
+                user_id = str(u.pk if hasattr(u, 'pk') else u.id)
+        except Exception:
+            pass
+        # 2) Fallback: resolve via session token (web cookies don't go through DRF auth here because we AllowAny)
+        if not user_id:
+            try:
+                from web.view_helpers import _get_user_id as _resolve_uid
+                uid = _resolve_uid(request)
+                if uid:
+                    user_id = str(uid)
+            except Exception:
+                pass
+        if user_id:
+            try:
+                ticket = _Signer(salt='ws-ticket').sign(user_id)
+            except Exception:
+                ticket = ''
+    return Response({'ws_url': ws_url, 'ticket': ticket, 'heartbeat_interval': 25})
 
 
 @api_view(['POST'])

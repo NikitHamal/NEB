@@ -19,22 +19,22 @@
   <link rel="canonical" href="{% block canonical %}https://nebians.consica.com.np{{ request.path }}{% endblock %}">
   {% block robots %}{% endblock %}
   <meta name="description"
-    content="{% block description %}NEBians is a Nepali learning community for students, teachers, and lifelong learners to share resources, discuss questions, and study smarter with AI tools.{% endblock %}">
+    content="{% block description %}NEBians is Nepal's open learning platform, social community, and knowledge-sharing network for teachers, students, lifelong learners, schools, institutions, and curious explorers across all disciplines and levels.{% endblock %}">
   <meta name="application-name" content="NEBians">
   <meta name="apple-mobile-web-app-title" content="NEBians">
   <meta name="keywords"
-    content="{% block keywords %}NEBians, Nepali learning platform, Nepal education, study resources, notes, past papers, textbooks, teachers, students, discussion forum, AI study tools, quizzes, flashcards, mindmaps{% endblock %}">
-  <meta property="og:title" content="{% block og_title %}NEBians — Nepali Learning Community{% endblock %}">
+    content="{% block keywords %}NEBians, Nepal learning platform, Nepal learning community, education social network Nepal, teachers, students, explorers, schools, institutions, study resources, discussion forum, AI study tools{% endblock %}">
+  <meta property="og:title" content="{% block og_title %}NEBians — Nepal's Learning Community{% endblock %}">
   <meta property="og:description"
-    content="{% block og_description %}A Nepali learning community for students, teachers, and learners to share resources, discuss questions, and study smarter with AI tools.{% endblock %}">
+    content="{% block og_description %}Nepal's open learning community and social network for teachers, students, learners, institutions, and explorers to share knowledge, discuss ideas, and learn together.{% endblock %}">
   <meta property="og:type" content="{% block og_type %}website{% endblock %}">
   <meta property="og:url" content="https://nebians.consica.com.np{{ request.path }}">
   <meta property="og:site_name" content="NEBians">
   <meta property="og:locale" content="en_NP">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="{% block tw_title %}NEBians — Nepali Learning Community{% endblock %}">
+  <meta name="twitter:title" content="{% block tw_title %}NEBians — Nepal's Learning Community{% endblock %}">
   <meta name="twitter:description"
-    content="{% block tw_description %}A Nepali learning community for students, teachers, and learners to share resources, discuss questions, and study smarter with AI tools.{% endblock %}">
+    content="{% block tw_description %}Nepal's open learning community and social network for teachers, students, learners, institutions, and explorers to share knowledge, discuss ideas, and learn together.{% endblock %}">
   <meta property="og:image" content="{% block og_image %}https://nebians.consica.com.np{% static 'web/img/n-logo-social-1200.png' %}{% endblock %}">
   <meta property="og:image:secure_url" content="{% block og_image_secure %}https://nebians.consica.com.np{% static 'web/img/n-logo-social-1200.png' %}{% endblock %}">
   <meta property="og:image:type" content="{% block og_image_type %}image/png{% endblock %}">
@@ -43,7 +43,7 @@
   <meta property="og:image:alt" content="{% block og_image_alt %}NEBians logo{% endblock %}">
   <meta name="twitter:image" content="{% block tw_image %}https://nebians.consica.com.np{% static 'web/img/n-logo-social-1200.png' %}{% endblock %}">
   <meta name="twitter:image:alt" content="{% block tw_image_alt %}NEBians logo{% endblock %}">
-  <title>{% block title %}NEBians — Nepali Learning Community{% endblock %}</title>
+  <title>{% block title %}NEBians — Nepal's Learning Community{% endblock %}</title>
   {# Sitewide structured data: the canonical Organization entity and WebSite search action. #}
   <script type="application/ld+json" nonce="{{ csp_nonce }}">
   {
@@ -62,7 +62,7 @@
           "height": 512
         },
         "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'web/img/n-logo-social-1200.png' %}",
-        "description": "A Nepali learning community for students, teachers, and lifelong learners to share resources, discuss questions, and study smarter with AI tools."
+        "description": "Nepal's open learning platform and social network connecting teachers, students, schools, institutions, and explorers across all academic levels and subjects."
       },
       {
         "@type": "WebSite",
@@ -262,19 +262,19 @@
             <span class="material-symbols-outlined">newspaper</span>
             <span>Blog</span>
           </a>
-          <a href="{% url 'web:settings' %}">
+          <a href="{% url 'web:settings' %}" rel="nofollow">
             <span class="material-symbols-outlined">settings</span>
             <span>Settings</span>
           </a>
-          <a href="{% url 'web:logout' %}" class="menu-logout">
+          <a href="{% url 'web:logout' %}" rel="nofollow" class="menu-logout">
             <span class="material-symbols-outlined">logout</span>
             <span>Sign Out</span>
           </a>
         </div>
       </div>
       {% else %}
-      <a href="{% url 'web:login' %}" class="md-btn md-btn-outlined" aria-label="Sign in">Sign In</a>
-      <a href="{% url 'web:email_signup' %}" class="md-btn md-btn-filled md-hide-mobile" aria-label="Register">Register</a>
+      <a href="{% url 'web:login' %}" rel="nofollow" class="md-btn md-btn-outlined" aria-label="Sign in">Sign In</a>
+      <a href="{% url 'web:email_signup' %}" rel="nofollow" class="md-btn md-btn-filled md-hide-mobile" aria-label="Register">Register</a>
       {% endif %}
     </div>
   </header>
@@ -295,15 +295,61 @@
   {% block footer %}
   <footer class="site-footer">
     {% if not hide_footer_links %}
-    <div class="site-footer-links">
-      <a href="{% url 'web:news_list' %}">Blog</a>
-      <a href="{% url 'web:result_check' %}">Result Checker</a>
-      <a href="{% url 'web:privacy_policy' %}">Privacy Policy</a>
-      <a href="{% url 'web:terms_of_service' %}">Terms of Service</a>
-      <a href="{% url 'web:copyright_takedown' %}">Copyright Policy &amp; Takedown</a>
+    <div class="site-footer-inner">
+      <div class="site-footer-brand">
+        <span class="site-footer-logo">NEBians</span>
+        <p class="site-footer-tagline">Nepal's Learning Community — An open learning platform, social network, and knowledge exchange uniting teachers, students, schools, institutions, and curious explorers across all subjects and fields in Nepal.</p>
+      </div>
+      <div class="site-footer-columns">
+        <div class="site-footer-col">
+          <h4 class="site-footer-heading">NEB Resources</h4>
+          <ul class="site-footer-list">
+            <li><a href="{% url 'web:past_papers' %}">NEB Past Papers</a></li>
+            <li><a href="{% url 'web:model_questions' %}">NEB Model Questions</a></li>
+            <li><a href="{% url 'web:online_learning' %}">Nepal Online Learning</a></li>
+            <li><a href="{% url 'web:library' %}">Study Notes Library</a></li>
+            <li><a href="{% url 'web:library' %}?grade=Class+11">Class 11 Study Materials</a></li>
+            <li><a href="{% url 'web:library' %}?grade=Class+12">Class 12 Study Materials</a></li>
+            <li><a href="{% url 'web:resource_requests' %}">Resource Requests</a></li>
+          </ul>
+        </div>
+        <div class="site-footer-col">
+          <h4 class="site-footer-heading">Popular Subjects</h4>
+          <ul class="site-footer-list">
+            <li><a href="/subject/class-12/physics/">Class 12 Physics</a></li>
+            <li><a href="/subject/class-12/chemistry/">Class 12 Chemistry</a></li>
+            <li><a href="/subject/class-12/mathematics/">Class 12 Mathematics</a></li>
+            <li><a href="/subject/class-12/english/">Class 12 English</a></li>
+            <li><a href="/subject/class-11/physics/">Class 11 Physics</a></li>
+            <li><a href="/subject/class-11/chemistry/">Class 11 Chemistry</a></li>
+          </ul>
+        </div>
+        <div class="site-footer-col">
+          <h4 class="site-footer-heading">Community &amp; Tools</h4>
+          <ul class="site-footer-list">
+            <li><a href="{% url 'web:forum' %}">Discussion Forum</a></li>
+            <li><a href="{% url 'web:videos' %}">Study Videos</a></li>
+            <li><a href="{% url 'web:result_check' %}">NEB Result Checker</a></li>
+            <li><a href="{% url 'web:tools_hub' %}">Free Study Tools</a></li>
+            <li><a href="{% url 'web:news_list' %}">Educational News &amp; Blog</a></li>
+            <li><a href="{% url 'web:leaderboard' %}">Community Leaderboard</a></li>
+          </ul>
+        </div>
+        <div class="site-footer-col">
+          <h4 class="site-footer-heading">About &amp; Legal</h4>
+          <ul class="site-footer-list">
+            <li><a href="{% url 'web:privacy_policy' %}">Privacy Policy</a></li>
+            <li><a href="{% url 'web:terms_of_service' %}">Terms of Service</a></li>
+            <li><a href="{% url 'web:copyright_takedown' %}">Copyright Policy &amp; Takedown</a></li>
+            <li><a href="{% url 'web:agents_directory' %}">AI Study Agents</a></li>
+          </ul>
+        </div>
+      </div>
     </div>
     {% endif %}
-    <p>&copy; 2026 NEBians. All rights reserved.</p>
+    <div class="site-footer-bottom">
+      <p>&copy; 2026 NEBians — Nepal's Learning Community. All rights reserved.</p>
+    </div>
   </footer>
   {% endblock %}
 

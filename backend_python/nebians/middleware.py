@@ -14,15 +14,20 @@ def _resolve_ws_public_url():
 
     Duplicated from web.view_helpers (small wrapper) to avoid a circular
     import between project middleware and the web app's view helpers.
+    Picks the NEWEST file by mtime that contains a trycloudflare host, so a
+    fresh start_ws_tunnel.log wins over a stale ws_url.txt.
     """
-    ws_url = getattr(settings, 'WS_PUBLIC_URL', '') or ''
+    ws_url = (getattr(settings, 'WS_PUBLIC_URL', '') or '').strip()
+    if not ws_url:
+        ws_url = (os.environ.get('WS_PUBLIC_URL', '') or '').strip()
     if ws_url:
         return ws_url
     import glob as _glob, re as _re
-    ws_url_txt = getattr(settings, 'WS_URL_TXT', '') or os.path.join(
-        getattr(settings, 'BASE_DIR', ''), 'ws_url.txt')
-    log_paths = [ws_url_txt] + [
+    candidates = []
+    log_paths = [
+        '/home/consicac/nebians_api/logs/start_ws_tunnel.log',
         '/home/consicac/nebians_api/logs/cloudflared.log',
+        os.path.join(getattr(settings, 'BASE_DIR', ''), 'logs', 'cloudflared.log'),
     ] + sorted(_glob.glob('/tmp/cf_quick*.log'), reverse=True)
     for path in log_paths:
         try:
@@ -30,15 +35,45 @@ def _resolve_ws_public_url():
                 content = f.read()
             matches = _re.findall(r'(?:wss?|https?)://([a-z0-9-]+\.trycloudflare\.com)', content)
             if matches:
-                return 'wss://' + matches[-1].rstrip('/').rstrip('/ws').rstrip('/') + '/ws/'
+                host = matches[-1].rstrip('/').rstrip('/ws').rstrip('/')
+                url = 'wss://' + host + '/ws/'
+                try:
+                    mtime = os.path.getmtime(path)
+                except OSError:
+                    mtime = 0
+                candidates.append((mtime, url))
         except OSError:
             continue
+    if candidates:
+        candidates.sort(key=lambda x: x[0], reverse=True)
+        return candidates[0][1]
+    # Fallback: ws_url.txt cache (not authoritative — logs win even if ws_url.txt newer)
+    ws_url_txt = getattr(settings, 'WS_URL_TXT', '') or os.path.join(
+        getattr(settings, 'BASE_DIR', ''), 'ws_url.txt')
+    try:
+        with open(ws_url_txt) as f:
+            content = f.read().strip()
+        if content:
+            m = _re.search(r'([a-z0-9-]+\.trycloudflare\.com)', content)
+            if m:
+                return 'wss://' + m.group(1) + '/ws/'
+            if content.startswith('wss://'):
+                return content.strip()
+    except OSError:
+        pass
     return ''
 
 
 def _get_ws_public_url_cached():
-    """Cached (60s) resolution of the public WS URL — avoids per-request file I/O."""
-    return cache.get_or_set('ws_public_url_resolved', _resolve_ws_public_url, 60)
+    """Cached (15s) resolution of the public WS URL — avoids per-request file I/O."""
+    # Don't cache empty — next request should retry immediately to pick up a new tunnel.
+    url = cache.get('ws_public_url_resolved')
+    if url is not None:
+        return url
+    url = _resolve_ws_public_url()
+    if url:
+        cache.set('ws_public_url_resolved', url, 15)
+    return url
 
 SENSITIVE_PATHS_404 = (
     '/.git/',
@@ -110,10 +145,18 @@ class AllowedHostMiddleware:
         self.suffixes = list(getattr(settings, 'ALLOWED_HOST_SUFFIXES', []))
 
     def __call__(self, request):
-        host = request.get_host().split(':')[0].lower()
+        # Use raw HTTP_HOST to avoid get_host() raising DisallowedHost before we
+        # can rewrite the trycloudflare wildcard. ALLOWED_HOSTS now also contains
+        # '.trycloudflare.com' so get_host() would pass, but raw header is safer
+        # and avoids a validation round-trip.
+        raw_host = request.META.get('HTTP_HOST', '') or request.META.get('SERVER_NAME', '')
+        host = raw_host.split(':')[0].lower()
+        # Refresh suffixes from settings each request so a .env change without
+        # code deploy still takes effect (settings are reloaded per worker).
+        suffixes = list(getattr(settings, 'ALLOWED_HOST_SUFFIXES', [])) or self.suffixes
         matched_suffix = False
         original_host = None
-        for suffix in self.suffixes:
+        for suffix in suffixes:
             if host.endswith('.' + suffix) or host == suffix:
                 matched_suffix = True
                 original_host = request.META.get('HTTP_HOST')

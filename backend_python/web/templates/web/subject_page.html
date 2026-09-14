@@ -1,15 +1,29 @@
 {% extends "base.html" %}
 {% load static web_extras %}
 
-{% block title %}{{ grade }} {{ subject }} - Syllabus & Resources{% endblock %}
-{% block description %}Access study notes, textbook solutions, model questions, past papers and discuss topics for {{ grade }} {{ subject }} on NEBians.{% endblock %}
-{% block keywords %}{{ subject }}, {{ grade }}, notes, solutions, past papers, questions, class notes, NEB{% endblock %}
-{% block og_title %}{{ grade }} {{ subject }} - NEBians{% endblock %}
-{% block og_description %}Get study notes, textbook solutions, model questions, and past papers for {{ grade }} {{ subject }}.{% endblock %}
+{% block title %}{{ grade }} {{ subject }} Notes, Past Papers & Syllabus — NEBians{% endblock %}
+{% block description %}Free {{ grade }} {{ subject }} study notes, NEB past papers, model questions, textbook solutions, and syllabus guide for students on NEBians.{% endblock %}
+{% block keywords %}{{ subject }}, {{ grade }}, {{ grade }} {{ subject }} past papers, {{ grade }} {{ subject }} notes, model questions, NEB syllabus, nepal online study{% endblock %}
+{% block og_title %}{{ grade }} {{ subject }} Notes, Past Papers & Syllabus — NEBians{% endblock %}
+{% block og_description %}Get free {{ grade }} {{ subject }} study notes, NEB past papers, model questions, and syllabus resources on NEBians.{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" nonce="{{ csp_nonce }}">
 <link rel="stylesheet" href="{% static 'web/css/pages/subject-page.css' %}">
+{% endblock %}
+
+{% block head_extra %}
+<script type="application/ld+json" nonce="{{ csp_nonce }}">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://nebians.consica.com.np/"},
+    {"@type": "ListItem", "position": 2, "name": "Library", "item": "https://nebians.consica.com.np/library/"},
+    {"@type": "ListItem", "position": 3, "name": "{{ grade|escapejs }} {{ subject|escapejs }}", "item": "https://nebians.consica.com.np/subject/{{ grade_slug }}/{{ subject_slug }}/"}
+  ]
+}
+</script>
 {% endblock %}
 
 {% block content %}
