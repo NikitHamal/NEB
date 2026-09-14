@@ -1342,6 +1342,12 @@ UI/UX revamp â€” home page, library, search, and design system consistency 
 
 21. **Django 5.2 template tag multi-line pitfall** â€” The template parser treats `{% endblock %}` as invalid when the keyword and closing `%}` are on different lines. Both `{% endblock\n%}` (keyword on one line, `%}` on next) AND `{%\nendblock %}` (`{%` on one line, `endblock %}` on next) fail with `Unclosed tag on line N: 'block'`. This applies to all block tags (`{% endblock %}`, `{% else %}`, `{% elif %}`, `{% endif %}`, etc.) inside `{% block %}` regions. Always keep the entire tag on a single line. This bug was hit on `library.html` after a deploy and took 3 rounds of fixes to fully resolve.
 
+22. **SEO Architecture & High-Intent Pillar Pages** — Added dedicated high-authority pillar routes in `web/urls.py` and `views_public.py` targeting primary educational search queries in Nepal:
+    - `/past-papers/`: Targets `neb past papers`, Class 11 & 12 exam papers with pre-filtered resources and dedicated canonical and metadata.
+    - `/model-questions/`: Targets `neb model questions` (590 searches/mo), official blueprints, and solutions.
+    - `/online-learning/`: Dedicated portal targeting `nepal online learning`, `elearning nepal`, `nepal online study`, `online learning nepal`, and `online learning sites in nepal`, complete with `EducationalOrganization` and `FAQPage` JSON-LD structured data schemas.
+    - Added high-priority entries (`0.95`, `0.95`, `0.90`) into `sitemap_xml` and deep semantic internal links in `base.html` footer and `home.html`.
+
 ---
 
 ## Long-Term Platform Vision â€” The SaaS Transition

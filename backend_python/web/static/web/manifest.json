@@ -1,7 +1,7 @@
 {
-  "name": "NEBians - Nepali Learning Community",
+  "name": "NEBians - Nepal's Learning Community",
   "short_name": "NEBians",
-  "description": "A Nepali learning community for students, teachers, and lifelong learners with resources, discussions, AI summaries, quizzes, flashcards, and mindmaps.",
+  "description": "Nepal's learning community for students, teachers, and lifelong learners with resources, discussions, AI summaries, quizzes, flashcards, and mindmaps.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

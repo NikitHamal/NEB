@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Nepal Online Learning & Study Platform — Free eLearning Portal | NEBians{% endblock %}
+{% block description %}NEBians is Nepal's leading free online learning platform. Access NEB Class 11 and 12 past papers, model questions, notes, and study community across Nepal.{% endblock %}
+{% block keywords %}nepal online learning, elearning nepal, nepal online study, online learning nepal, online learning sites in nepal, neb past papers, neb model questions{% endblock %}
+{% block canonical %}https://nebians.consica.com.np/online-learning/{% endblock %}
+{% block og_title %}Nepal Online Learning & Study Platform — NEBians{% endblock %}
+{% block og_description %}Discover the best free online learning and study portal in Nepal. Access syllabus notes, NEB past papers, and interactive student discussions.{% endblock %}
+
+{% block head_extra %}
+<!-- Structured Data: FAQPage & EducationalOrganization -->
+<script type="application/ld+json" nonce="{{ csp_nonce }}">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "EducationalOrganization",
+      "name": "NEBians",
+      "alternateName": "Nepal's Learning Community",
+      "url": "https://nebians.consica.com.np",
+      "logo": "https://nebians.consica.com.np{% static 'web/img/favicon.png' %}",
+      "description": "Nepal's premier open educational platform providing free study materials, NEB past questions, model solutions, and community forums.",
+      "sameAs": [
+        "https://www.facebook.com/nebiansnepal"
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the best free online learning platform in Nepal for NEB students?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "NEBians (nebians.consica.com.np) is widely recognized as Nepal's top free learning community and study portal for NEB Class 11, Class 12, and SEE students, offering syllabus notes, solved past papers, model questions, and peer discussion."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Where can I find free NEB past papers and model questions online in Nepal?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "You can download verified NEB past papers and official model question solutions in PDF format directly from NEBians without any subscription or payment."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does eLearning benefit students in Nepal?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "eLearning bridges educational disparities in Nepal by allowing students across all 7 provinces to access standard curriculum resources, question banks, and teacher explanations from anywhere with an internet connection."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can students ask academic questions and collaborate on NEBians?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes! NEBians features an open student discussion forum where learners and educators post academic queries, share problem solutions, and exchange subject tips."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="content-container py-5">
+    <!-- Hero Header -->
+    <header class="text-center max-w-4xl mx-auto mb-12">
+        <span class="badge badge-primary px-3 py-1 mb-3 text-sm font-semibold rounded-full bg-primary-100 text-primary-800">
+            Nepal's Open Educational &amp; Social Platform
+        </span>
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-neutral-900 tracking-tight leading-tight mb-4">
+            Online Learning &amp; Study Portal in Nepal
+        </h1>
+        <p class="text-lg text-neutral-600 max-w-2xl mx-auto leading-relaxed">
+            Welcome to NEBians — <strong>Nepal's Learning Community</strong>. We are an open learning platform, educational social network, and knowledge exchange designed not just for exams, but for <strong>teachers, students, schools, institutions, and curious explorers</strong> across all subjects and learning levels throughout Nepal.
+        </p>
+        <div class="mt-6 flex flex-wrap justify-center gap-3">
+            <a href="{% url 'web:past_papers' %}" class="btn btn-primary px-5 py-2.5 rounded-lg shadow font-medium">
+                Browse NEB Past Papers
+            </a>
+            <a href="{% url 'web:model_questions' %}" class="btn btn-outline px-5 py-2.5 rounded-lg font-medium border border-neutral-300">
+                NEB Model Questions
+            </a>
+            <a href="{% url 'web:library' %}" class="btn btn-secondary px-5 py-2.5 rounded-lg font-medium">
+                Full Digital Library
+            </a>
+            <a href="{% url 'web:forum' %}" class="btn btn-outline px-5 py-2.5 rounded-lg font-medium border border-neutral-300">
+                Community Discussions
+            </a>
+        </div>
+    </header>
+
+    <!-- Scope Clarification Notice -->
+    <div class="max-w-4xl mx-auto mb-12 p-6 bg-blue-50 border border-blue-200 rounded-2xl">
+        <div class="flex items-start gap-4">
+            <span class="material-symbols-outlined text-blue-600 text-3xl" style="font-size:32px;">hub</span>
+            <div>
+                <h2 class="text-lg font-bold text-blue-900 mb-1">More Than Just Exam Preparation</h2>
+                <p class="text-blue-800 text-sm leading-relaxed">
+                    Despite our name, <strong>NEBians is NOT limited to NEB, Class 11, or Class 12</strong>. We are a social learning ecosystem open to everyone in Nepal: educators sharing lesson plans, students discovering study resources, researchers collaborating on ideas, and explorers pursuing lifelong learning across every academic field.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Why eLearning Nepal Section -->
+    <section class="max-w-4xl mx-auto mb-16">
+        <h2 class="text-2xl font-bold text-neutral-800 mb-6">Why NEBians for Online Study &amp; Knowledge Sharing?</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="card p-6 bg-white border border-neutral-200 rounded-xl shadow-sm">
+                <div class="text-primary text-2xl font-bold mb-2">Open Access</div>
+                <h3 class="font-semibold text-lg mb-2">Free for Everyone</h3>
+                <p class="text-neutral-600 text-sm">
+                    No paywalls or subscriptions. Digital textbooks, user-uploaded notes, solutions, and learning tools accessible to any learner in Nepal.
+                </p>
+            </div>
+            <div class="card p-6 bg-white border border-neutral-200 rounded-xl shadow-sm">
+                <div class="text-primary text-2xl font-bold mb-2">All Levels</div>
+                <h3 class="font-semibold text-lg mb-2">Broad Curriculum Coverage</h3>
+                <p class="text-neutral-600 text-sm">
+                    From school curricula (SEE, Class 11 &amp; 12) to university degrees, competitive entrance prep, and general curiosity across arts and sciences.
+                </p>
+            </div>
+            <div class="card p-6 bg-white border border-neutral-200 rounded-xl shadow-sm">
+                <div class="text-primary text-2xl font-bold mb-2">Social Network</div>
+                <h3 class="font-semibold text-lg mb-2">Community &amp; Interaction</h3>
+                <p class="text-neutral-600 text-sm">
+                    Connect with teachers, fellow students, schools, and institutions. Post academic questions, share articles, and collaborate in real time.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Top Categories & Study Pillars -->
+    <section class="max-w-4xl mx-auto mb-16 bg-neutral-50 p-8 rounded-2xl border border-neutral-200">
+        <h2 class="text-2xl font-bold text-neutral-900 mb-4">Core Knowledge &amp; Study Areas</h2>
+        <p class="text-neutral-600 mb-6">Explore the diverse tools and study collections hosted on NEBians:</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <a href="{% url 'web:past_papers' %}" class="flex items-start p-4 bg-white rounded-lg border border-neutral-200 hover:border-primary transition">
+                <div>
+                    <h3 class="font-bold text-neutral-800 text-base">NEB Past Papers Collection</h3>
+                    <p class="text-neutral-500 text-sm mt-1">Previous years' board examination question papers for Science, Management, Humanities, and Law.</p>
+                </div>
+            </a>
+            <a href="{% url 'web:model_questions' %}" class="flex items-start p-4 bg-white rounded-lg border border-neutral-200 hover:border-primary transition">
+                <div>
+                    <h3 class="font-bold text-neutral-800 text-base">Model Questions &amp; Blueprints</h3>
+                    <p class="text-neutral-500 text-sm mt-1">Practice with official curriculum model question sets and step-by-step solutions.</p>
+                </div>
+            </a>
+            <a href="{% url 'web:library' %}" class="flex items-start p-4 bg-white rounded-lg border border-neutral-200 hover:border-primary transition">
+                <div>
+                    <h3 class="font-bold text-neutral-800 text-base">Universal Study Library</h3>
+                    <p class="text-neutral-500 text-sm mt-1">Notes, formulas, research papers, and guides across Science, Commerce, Arts, and Technology.</p>
+                </div>
+            </a>
+            <a href="{% url 'web:forum' %}" class="flex items-start p-4 bg-white rounded-lg border border-neutral-200 hover:border-primary transition">
+                <div>
+                    <h3 class="font-bold text-neutral-800 text-base">Social Discussion &amp; Q&amp;A</h3>
+                    <p class="text-neutral-500 text-sm mt-1">Share ideas, ask tough problems, debate concepts, and network with educators across Nepal.</p>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- FAQ Accordion / Content Section for Search Engines -->
+    <section class="max-w-4xl mx-auto mb-12">
+        <h2 class="text-2xl font-bold text-neutral-900 mb-6">Frequently Asked Questions About NEBians &amp; Learning in Nepal</h2>
+        <div class="space-y-4">
+            <div class="p-5 bg-white border border-neutral-200 rounded-xl">
+                <h3 class="font-bold text-neutral-800 text-lg mb-2">Is NEBians only for NEB (Class 11 &amp; 12) students?</h3>
+                <p class="text-neutral-600 text-sm leading-relaxed">
+                    <strong>No.</strong> While the name originated from the high demand for NEB exam resources, NEBians is an open learning community and social platform for all of Nepal. It serves school students (SEE), higher secondary students, university learners, teachers, parents, educational institutions, and independent explorers.
+                </p>
+            </div>
+            <div class="p-5 bg-white border border-neutral-200 rounded-xl">
+                <h3 class="font-bold text-neutral-800 text-lg mb-2">Who can join and use NEBians?</h3>
+                <p class="text-neutral-600 text-sm leading-relaxed">
+                    Anyone interested in learning or teaching! Teachers can share lecture notes and guide students; institutions can engage with learners; and curious minds can explore science, technology, mathematics, and literature.
+                </p>
+            </div>
+            <div class="p-5 bg-white border border-neutral-200 rounded-xl">
+                <h3 class="font-bold text-neutral-800 text-lg mb-2">Are resources on NEBians free to access?</h3>
+                <p class="text-neutral-600 text-sm leading-relaxed">
+                    Yes, public notes, past question papers, and discussions are completely free to view and download with our built-in PDF viewer and tools.
+                </p>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

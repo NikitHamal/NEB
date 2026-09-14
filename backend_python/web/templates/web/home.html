@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 {% load static web_extras %}
 
-{% block title %}NEBians — Nepali Learning Community{% endblock %}
-{% block description %}NEBians — Nepali learning community for students & teachers. Share resources, discuss questions, and study smarter with AI-powered summaries, quizzes & flashcards.{% endblock %}
-{% block og_title %}NEBians — Nepali Learning Community{% endblock %}
-{% block og_description %}Share resources, join discussions, and study smarter with AI tools built for Nepal's learning community.{% endblock %}
-{% block tw_title %}NEBians — Nepali Learning Community{% endblock %}
-{% block tw_description %}A Nepali learning community for students, teachers, and lifelong learners.{% endblock %}
+{% block title %}NEBians — Nepal's Learning Community &amp; Educational Social Platform{% endblock %}
+{% block description %}NEBians is Nepal's open learning platform and social community for teachers, students, explorers, schools, and institutions. Share study materials, discuss questions, and learn together.{% endblock %}
+{% block og_title %}NEBians — Nepal's Learning Community &amp; Educational Social Platform{% endblock %}
+{% block og_description %}Nepal's open learning platform and social network for teachers, students, schools, institutions, and curious explorers across all subjects.{% endblock %}
+{% block tw_title %}NEBians — Nepal's Learning Community{% endblock %}
+{% block tw_description %}Nepal's open learning community and social platform for teachers, students, institutions, and explorers.{% endblock %}
 {% block nav_home %}md-nav-active{% endblock %}
 {% block body_class %}home-page{% endblock %}
 {% block bnav_home %}md-nav-active{% endblock %}
@@ -70,7 +70,7 @@
     <strong>Make NEBians yours</strong>
     <span>Add your name and gender so teachers and classmates can recognise you.</span>
   </div>
-  <a class="pc-link" href="{% url 'web:edit_profile' %}">Complete profile</a>
+  <a class="pc-link" href="{% url 'web:edit_profile' %}" rel="nofollow">Complete profile</a>
   <button type="button" class="pc-later" id="pcLater">I'll do it later</button>
 </div>
 <style nonce="{{ csp_nonce }}">
@@ -235,7 +235,60 @@
     <p>Resources and discussions will appear here once they're available.</p>
   </div>
   {% endif %}
+
+  <section class="home-seo" aria-label="About NEBians" style="margin-top:32px;">
+    <h2>Nepal's Open Learning Community &amp; Educational Social Network</h2>
+    <p>NEBians is Nepal's universal learning platform and educational social network. While we provide comprehensive study materials including NEB past papers, model questions, and syllabi, <strong>NEBians is not limited to NEB or Classes 11 and 12</strong>. We are a community built for everyone — school and college students, teachers, parents, educational institutions, and curious explorers across all subjects, disciplines, and learning stages in Nepal.</p>
+    <nav class="home-seo-links" aria-label="Popular study links">
+      <a href="{% url 'web:past_papers' %}">NEB Past Papers</a>
+      <a href="{% url 'web:model_questions' %}">NEB Model Questions</a>
+      <a href="{% url 'web:online_learning' %}">Nepal Online Learning Portal</a>
+      <a href="{% url 'web:library' %}">Nepal Online Study Library</a>
+      <a href="/subject/class-12/physics/">Class 12 Physics Notes &amp; Past Papers</a>
+      <a href="/subject/class-12/chemistry/">Class 12 Chemistry Notes &amp; Past Papers</a>
+      <a href="/subject/class-12/mathematics/">Class 12 Mathematics Notes &amp; Past Papers</a>
+      <a href="/subject/class-12/english/">Class 12 English Notes</a>
+      <a href="/subject/class-12/computer-science/">Class 12 Computer Science</a>
+      <a href="/subject/class-11/physics/">Class 11 Physics Notes</a>
+      <a href="/subject/class-11/chemistry/">Class 11 Chemistry Notes</a>
+      <a href="/subject/class-11/mathematics/">Class 11 Mathematics Notes</a>
+      <a href="/subject/class-11/english/">Class 11 English Notes</a>
+      <a href="/subject/class-10-see/science/">SEE Science Past Papers</a>
+      <a href="{% url 'web:videos' %}">Study Videos</a>
+      <a href="{% url 'web:forum' %}">Discussion Forum</a>
+      <a href="{% url 'web:result_check' %}">NEB Result Checker</a>
+    </nav>
+    <div class="home-faq">
+      <h3>Frequently asked questions</h3>
+      <details>
+        <summary>Where can I find NEB past papers?</summary>
+        <p>Browse the <a href="/library/?type=Past+Paper">NEB past papers library</a> filtered by subject and grade, or open a subject page for Class 11, Class 12 or SEE to see papers, notes and solutions together.</p>
+      </details>
+      <details>
+        <summary>Where are NEB model questions?</summary>
+        <p>All model sets live in the <a href="/library/?type=Model+Paper">NEB model questions collection</a>, grouped with notes, solutions and discussions per subject.</p>
+      </details>
+      <details>
+        <summary>Is NEBians free for online learning in Nepal?</summary>
+        <p>Yes. The library, videos, forum and AI study tools are free, making NEBians one of the most accessible eLearning options in Nepal for Nepal online study.</p>
+      </details>
+    </div>
+  </section>
 </div>
+{% endblock %}
+
+{% block head_extra %}
+<script type="application/ld+json" nonce="{{ csp_nonce }}">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "Where can I find NEB past papers?", "acceptedAnswer": {"@type": "Answer", "text": "Browse the NEBians library filtered by Past Paper type, or open a Class 11, Class 12 or SEE subject page to see papers, notes and solutions together."}},
+    {"@type": "Question", "name": "Where are NEB model questions?", "acceptedAnswer": {"@type": "Answer", "text": "All model sets live in the NEBians library Model Paper collection, grouped with notes, solutions and discussions per subject."}},
+    {"@type": "Question", "name": "Is NEBians free for online learning in Nepal?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The library, videos, forum and AI study tools are free for Nepal online study."}}
+  ]
+}
+</script>
 {% endblock %}
 
 {% block extra_js %}

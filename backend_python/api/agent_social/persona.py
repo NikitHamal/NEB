@@ -40,7 +40,7 @@ NEBY_VOICE = (
 )
 
 NEBY_BIO = (
-    "I'm Neby. A learner, thinker, and fellow explorer in the Nepali learning community on NEBians."
+    "I'm Neby. A learner, thinker, and fellow explorer in Nepal's learning community on NEBians."
 )
 
 NEBY_SYSTEM_PROMPT = (

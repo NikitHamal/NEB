@@ -44,6 +44,12 @@ def _unique_slug(base_slug, exclude_id=None):
     return slug
 
 
+def _read_minutes(text):
+    """Estimated reading time in whole minutes (~200 wpm), minimum 1."""
+    words = len(re.findall(r'\S+', text or ''))
+    return max(1, round(words / 200))
+
+
 def _serialize_announcement(a, include_content=False):
     meta = CATEGORY_META.get(a.category, CATEGORY_META['general'])
     data = {
@@ -51,6 +57,7 @@ def _serialize_announcement(a, include_content=False):
         'title': a.title,
         'slug': a.slug,
         'summary': a.summary or '',
+        'read_time': _read_minutes(a.content),
         'category': a.category,
         'category_icon': meta['icon'],
         'category_label': meta['label'],
@@ -117,6 +124,7 @@ def news_detail(request, slug):
 
     # Serialize blog comments in forum–reply format
     top_level_replies, children_map, all_usernames = _serialize_blog_comments(a, user_id)
+    comment_count = len(top_level_replies) + sum(len(v) for v in children_map.values())
 
     related = Announcement.objects.filter(
         status='published', category=a.category
@@ -129,6 +137,7 @@ def news_detail(request, slug):
         top_level_replies=top_level_replies,
         children_map=children_map,
         all_usernames=all_usernames,
+        comment_count=comment_count,
         comment_target_type='blog_comment',
     ))
 

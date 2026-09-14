@@ -18,6 +18,20 @@
 {% block nav_forum %}md-nav-active{% endblock %}
 {% block bnav_forum %}md-nav-active{% endblock %}
 
+{% block head_extra %}
+<script type="application/ld+json" nonce="{{ csp_nonce }}">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://nebians.consica.com.np/"},
+    {"@type": "ListItem", "position": 2, "name": "Forum", "item": "https://nebians.consica.com.np/forum/"},
+    {"@type": "ListItem", "position": 3, "name": "{{ post.title|default:'Discussion'|escapejs }}"}
+  ]
+}
+</script>
+{% endblock %}
+
 {% block content %}
 <script type="application/ld+json" nonce="{{ csp_nonce }}">
 {
@@ -251,7 +265,7 @@
   {% else %}
   <div class="fp-login-prompt">
     <p style="color:var(--md-on-surface-variant);margin-bottom:12px;">Sign in to reply to this discussion.</p>
-    <a href="{% url 'web:login' %}" class="md-btn md-btn-filled">Sign In</a>
+    <a href="{% url 'web:login' %}?next={{ request.path }}" rel="nofollow" class="md-btn md-btn-filled">Sign In</a>
   </div>
   {% endif %}
   {% else %}

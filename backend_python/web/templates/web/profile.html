@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 {% load static web_extras %}
 
-{% block title %}{{ profile_user.display_name|default:profile_user.username }} - NEBians Profile{% endblock %}
-{% block description %}{{ profile_user.display_name|default:profile_user.username }}'s profile, discussions, resources, and achievements on NEBians — a Nepali learning community.{% endblock %}
+{% block title %}{{ profile_user.display_name|default:profile_user.username }}{% if profile_user.display_name %} (@{{ profile_user.username }}){% endif %} — Profile | NEBians{% endblock %}
+{% block description %}{{ profile_user.display_name|default:profile_user.username }}'s profile, discussions, resources, and achievements on NEBians — Nepal's learning community.{% endblock %}
 {% block og_title %}{{ profile_user.display_name|default:profile_user.username }} on NEBians{% endblock %}
-{% block og_description %}{% if profile_user.bio %}{{ profile_user.bio }}{% else %}Check out {{ profile_user.display_name|default:profile_user.username }}'s profile on NEBians — a Nepali learning community for students, teachers, and learners.{% endif %}{% endblock %}
+{% block og_description %}{% if profile_user.bio %}{{ profile_user.bio }}{% else %}Check out {{ profile_user.display_name|default:profile_user.username }}'s profile on NEBians — Nepal's learning community for students, teachers, and learners.{% endif %}{% endblock %}
 {% block og_type %}profile{% endblock %}
 {% block tw_title %}{{ profile_user.display_name|default:profile_user.username }} on NEBians{% endblock %}
-{% block tw_description %}{% if profile_user.bio %}{{ profile_user.bio }}{% else %}Check out {{ profile_user.display_name|default:profile_user.username }}'s profile on NEBians — a Nepali learning community.{% endif %}{% endblock %}
+{% block tw_description %}{% if profile_user.bio %}{{ profile_user.bio }}{% else %}Check out {{ profile_user.display_name|default:profile_user.username }}'s profile on NEBians — Nepal's learning community.{% endif %}{% endblock %}
 {% block og_image %}https://nebians.consica.com.np{% url 'web:profile_card_image' username=profile_user.username %}?v=13{% endblock %}
 {% block og_image_secure %}https://nebians.consica.com.np{% url 'web:profile_card_image' username=profile_user.username %}?v=13{% endblock %}
 {% block og_image_alt %}{{ profile_user.display_name|default:profile_user.username }} profile card on NEBians{% endblock %}
@@ -114,7 +114,7 @@
                 <span class="material-symbols-outlined">link</span>
               </button>
               {% if user and user.username == profile_user.username %}
-                <a href="{% url 'web:edit_profile' %}" class="pf-action-icon-btn" title="Edit Profile Details">
+                <a href="{% url 'web:edit_profile' %}" rel="nofollow" class="pf-action-icon-btn" title="Edit Profile Details">
                   <span class="material-symbols-outlined">settings</span>
                 </a>
               {% else %}
@@ -228,11 +228,11 @@
             <!-- Outlined Action Buttons Row -->
             <div class="pf-buttons-row">
               {% if user and user.username == profile_user.username %}
-                <a href="{% url 'web:edit_profile' %}" class="pf-btn pf-btn-outlined pf-btn-primary">
+                <a href="{% url 'web:edit_profile' %}" rel="nofollow" class="pf-btn pf-btn-outlined pf-btn-primary">
                   <span class="material-symbols-outlined">edit</span>
                   Edit
                 </a>
-                <a href="{% url 'web:analytics' %}" class="pf-btn pf-btn-outlined">
+                <a href="{% url 'web:analytics' %}" rel="nofollow" class="pf-btn pf-btn-outlined">
                   <span class="material-symbols-outlined">monitoring</span>
                   Analytics
                 </a>
@@ -244,7 +244,7 @@
                     <span id="followText">{% if stats.is_following %}Following{% elif stats.is_requested %}Requested{% else %}Follow{% endif %}</span>
                   </button>
                 {% else %}
-                  <a href="{% url 'web:login' %}?next={{ request.path }}" class="pf-btn pf-btn-filled" style="text-decoration:none;">
+                  <a href="{% url 'web:login' %}?next={{ request.path }}" rel="nofollow" class="pf-btn pf-btn-filled" style="text-decoration:none;">
                     <span class="material-symbols-outlined">add</span>
                     Follow
                   </a>

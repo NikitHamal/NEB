@@ -195,7 +195,7 @@
             {% elif u.isSelf %}
               <a href="{% url 'web:profile' username=u.username %}" class="user-search-self-tag">You</a>
             {% else %}
-              <a href="{% url 'web:login' %}?next={{ request.path }}" class="follow-btn-small not-following" style="text-decoration:none;">Follow</a>
+              <a href="{% url 'web:login' %}?next={{ request.path }}" rel="nofollow" class="follow-btn-small not-following" style="text-decoration:none;">Follow</a>
             {% endif %}
           </div>
         </div>
@@ -306,7 +306,7 @@
               {% elif u.isSelf %}
                 <a href="{% url 'web:profile' username=u.username %}" class="user-search-self-tag">You</a>
               {% else %}
-                <a href="{% url 'web:login' %}?next={{ request.path }}" class="follow-btn-small not-following" style="text-decoration:none;">Follow</a>
+                <a href="{% url 'web:login' %}?next={{ request.path }}" rel="nofollow" class="follow-btn-small not-following" style="text-decoration:none;">Follow</a>
               {% endif %}
             </div>
           </div>

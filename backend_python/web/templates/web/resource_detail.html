@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% load static web_extras %}
 
-{% block title %}{{ resource.title|default:"Resource" }}{% endblock %}
-{% block description %}{{ resource.description|strip_inline|truncatechars:160|default:"Study resource on NEBians" }}{% endblock %}
-{% block keywords %}NEBians, {{ resource.subject }}, {{ resource.tags|default:"" }}, {{ resource.type }}, {{ resource.grade_level }}, study resource{% endblock %}
+{% block title %}{{ resource.title|default:"Resource" }} — {{ resource.subject|default:"Study" }} {{ resource.grade_level|default:"" }} {{ resource.type|default:"Resource" }} | NEBians{% endblock %}
+{% block description %}{{ resource.description|strip_inline|truncatechars:140|default:"Free study resource on NEBians" }} — {{ resource.subject }} {{ resource.grade_level }} {{ resource.type }}. Free Nepal online study: NEB past papers, model questions & notes.{% endblock %}
+{% block keywords %}NEBians, {{ resource.subject }}, {{ resource.tags|default:"" }}, {{ resource.type }}, {{ resource.grade_level }}, NEB past papers, NEB model questions, Nepal online study{% endblock %}
 {% block og_title %}{{ resource.title|default:"Resource" }} - NEBians{% endblock %}
 {% block og_description %}{{ resource.description|strip_inline|truncatechars:200|default:"Study resource on NEBians" }}{% endblock %}
 {% block og_type %}article{% endblock %}
@@ -19,7 +19,7 @@
 <meta property="article:tag" content="{{ tag }}">
 {% endfor %}
 {% endwith %}
-<script type="application/ld+json">
+<script type="application/ld+json" nonce="{{ csp_nonce }}">
 {
   "@context": "https://schema.org",
   "@type": ["LearningResource", "DigitalDocument"],
@@ -28,8 +28,22 @@
   "url": "https://nebians.consica.com.np{% url 'web:reader' resource_id=resource.id %}",
   "educationalLevel": "{{ resource.grade_level|default:'General'|escapejs }}",
   "learningResourceType": "{{ resource.type|default:'Resource'|escapejs }}",
-  "keywords": "{{ resource.tags|default:resource.subject|escapejs }}",
-  "provider": {"@type": "Organization", "name": "NEBians", "url": "https://nebians.consica.com.np/"}
+  "teaches": "{{ resource.subject|default:''|escapejs }}",
+  "keywords": "{{ resource.tags|default:resource.subject|escapejs }}, NEB past papers, NEB model questions, Nepal online study",
+  "provider": {"@type": "Organization", "name": "NEBians", "url": "https://nebians.consica.com.np/"},
+  "isAccessibleForFree": true,
+  "inLanguage": "en-NP"
+}
+</script>
+<script type="application/ld+json" nonce="{{ csp_nonce }}">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://nebians.consica.com.np/"},
+    {"@type": "ListItem", "position": 2, "name": "Library", "item": "https://nebians.consica.com.np/library/"},
+    {"@type": "ListItem", "position": 3, "name": "{{ resource.title|default:'Resource'|escapejs }}", "item": "https://nebians.consica.com.np{% url 'web:reader' resource_id=resource.id %}"}
+  ]
 }
 </script>
 {% endblock %}
@@ -229,7 +243,7 @@
           <div style="text-align:center;padding:24px 12px;">
             <span class="material-symbols-outlined" style="font-size:36px;color:var(--md-primary);">account_circle</span>
             <p style="margin:8px 0 16px 0;font-size:0.9375rem;">Sign in to submit payment proof and access this paid content.</p>
-            <a href="{% url 'web:login' %}?next={{ request.path }}" class="md-btn md-btn-filled" style="width:100%;">Sign In to Purchase</a>
+            <a href="{% url 'web:login' %}?next={{ request.path }}" rel="nofollow" class="md-btn md-btn-filled" style="width:100%;">Sign In to Purchase</a>
           </div>
           {% endif %}
         </div>

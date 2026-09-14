@@ -56,14 +56,14 @@ def _compose_reply(bot_config, bot_user, post, persona, target_username='', pare
         if is_anon:
             extra = (
                 f"\nAn anonymous member commented: \"{reply_text}\"\n"
-                "Reply naturally and conversationally to their point as an authentic peer and friend in the Nepali learning community. "
+                "Reply naturally and conversationally to their point as an authentic peer and friend in Nepal's learning community. "
                 "PRIVACY RULE: They posted anonymously — do NOT use or guess any personal name or username. "
                 "Never use em dashes (— or --) and never speak like an AI customer-support assistant or mention tutoring services."
             )
         else:
             extra = (
                 f"\n@{author_name} specifically commented: \"{reply_text}\"\n"
-                f"Reply directly to @{author_name} naturally and conversationally as an authentic peer and friend in the Nepali learning community. "
+                f"Reply directly to @{author_name} naturally and conversationally as an authentic peer and friend in Nepal's learning community. "
                 "Never use em dashes (— or --) and never speak like an AI customer-support assistant or mention tutoring services."
             )
     elif post.user_id == bot_user.id:

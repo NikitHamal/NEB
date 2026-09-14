@@ -175,25 +175,51 @@ cp -f web/static/web/img/favicon.ico /home/consicac/nebians.consica.com.np/favic
 echo 'Deploying .htaccess security rules...'
 cp -f public/.htaccess public/.htaccess
 
-echo 'Resolving current WebSocket tunnel URL...'
+echo 'Resolving current WebSocket tunnel URL (newest mtime wins, ws_url.txt is fallback)...'
 python3 << 'PYEOF'
 import glob, re, os
-paths = sorted(glob.glob('/tmp/cf_quick*.log'), reverse=True) + ['/home/consicac/nebians_api/logs/cloudflared.log']
+candidates = []
+paths = [
+    '/home/consicac/nebians_api/logs/start_ws_tunnel.log',
+    '/home/consicac/nebians_api/logs/cloudflared.log',
+    'logs/cloudflared.log',
+] + sorted(glob.glob('/tmp/cf_quick*.log'), reverse=True)
 for p in paths:
     try:
         with open(p) as f:
             c = f.read()
-        m = re.search(r'https://([a-z0-9-]+\.trycloudflare\.com)', c)
-        if m:
-            u = 'wss://' + m.group(1) + '/ws/'
-            with open('ws_url.txt', 'w') as wf:
-                wf.write(u + '\n')
-            print('WS URL:', u)
-            break
+        import re as _re2
+        ms = _re2.findall(r'(?:wss?|https?)://([a-z0-9-]+\.trycloudflare\.com)', c)
+        if ms:
+            host = ms[-1]
+            u = 'wss://' + host + '/ws/'
+            try:
+                mtime = os.path.getmtime(p)
+            except:
+                mtime = 0
+            candidates.append((mtime, u, p))
     except Exception:
         continue
+if candidates:
+    candidates.sort(key=lambda x: x[0], reverse=True)
+    u = candidates[0][1]
+    src = candidates[0][2]
+    with open('ws_url.txt', 'w') as wf:
+        wf.write(u + '\n')
+    print(f'WS URL: {u} (from {src} mtime={candidates[0][0]})')
 else:
-    print('WARNING: could not resolve WS tunnel URL')
+    # Fallback to existing ws_url.txt if logs have no URL
+    try:
+        with open('ws_url.txt') as f:
+            c = f.read().strip()
+        m = re.search(r'([a-z0-9-]+\.trycloudflare\.com)', c)
+        if m:
+            u = 'wss://' + m.group(1) + '/ws/'
+            print(f'WS URL (fallback ws_url.txt): {u}')
+        else:
+            print('WARNING: could not resolve WS tunnel URL from logs or ws_url.txt')
+    except Exception:
+        print('WARNING: could not resolve WS tunnel URL')
     if not os.path.exists('ws_url.txt'):
         with open('ws_url.txt', 'w') as wf:
             wf.write('\n')

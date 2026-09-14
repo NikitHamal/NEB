@@ -326,7 +326,7 @@
     <span class="material-symbols-outlined sl-signin-icon">lock_open</span>
     <h2>Sign in to get started</h2>
     <p>Upload your notes and PDFs to generate AI summaries, mindmaps, quizzes, and flashcards.</p>
-    <a href="{% url 'web:login' %}" class="md-btn md-btn-filled">Sign in</a>
+    <a href="{% url 'web:login' %}?next={{ request.path }}" rel="nofollow" class="md-btn md-btn-filled">Sign in</a>
     <div class="sl-signin-features">
       <div class="sl-signin-feature"><span class="material-symbols-outlined">summarize</span><span>Smart Summaries</span></div>
       <div class="sl-signin-feature"><span class="material-symbols-outlined">account_tree</span><span>Mindmaps</span></div>

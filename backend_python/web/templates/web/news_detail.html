@@ -6,281 +6,267 @@
 {% block og_title %}{{ announcement.title }}{% endblock %}
 {% block og_description %}{{ announcement.summary|default:announcement.title }}{% endblock %}
 
+{% block nav_news %}md-nav-active{% endblock %}
+{% block bnav_news %}md-nav-active{% endblock %}
+
+{% block head_extra %}
+<script type="application/ld+json" nonce="{{ csp_nonce }}">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://nebians.consica.com.np/"},
+    {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://nebians.consica.com.np/news/"},
+    {"@type": "ListItem", "position": 3, "name": "{{ announcement.title|escapejs }}"}
+  ]
+}
+</script>
+<script type="application/ld+json" nonce="{{ csp_nonce }}">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "{{ announcement.title|escapejs }}",
+  "description": "{{ announcement.summary|default:announcement.title|escapejs }}",
+  "author": {"@type": "Person", "name": "{{ announcement.author_name|default:'NEBians Team'|escapejs }}"},
+  "publisher": {"@id": "https://nebians.consica.com.np/#organization"},
+  "mainEntityOfPage": "https://nebians.consica.com.np/news/{{ announcement.slug }}/"
+}
+</script>
+{% endblock %}
+
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'web/css/pages/web-news.css' %}">
-<style>
-.news-detail-header {
-  position: relative;
-}
-.news-detail-more-btn {
-  position: absolute;
-  top: 0;
-  right: 0;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 8px;
-  color: var(--md-on-surface-variant);
-  border-radius: 50%;
-}
-.news-detail-more-btn:hover {
-  background: var(--md-state-hover);
-}
-.news-detail-content {
-  margin-top: 20px;
-  line-height: 1.7;
-  font-size: 1.05rem;
-}
-.news-detail-content h1, .news-detail-content h2, .news-detail-content h3 {
-  margin-top: 1.5em;
-  margin-bottom: 0.5em;
-}
-.news-detail-content p {
-  margin-bottom: 1em;
-}
-.news-detail-content ul, .news-detail-content ol {
-  margin-bottom: 1em;
-  padding-left: 1.5em;
-}
-.news-detail-content blockquote {
-  border-left: 3px solid var(--md-primary);
-  padding-left: 1em;
-  margin-left: 0;
-  color: var(--md-on-surface-variant);
-}
-.news-detail-content img {
-  max-width: 100%;
-  border-radius: 12px;
-  margin: 1em 0;
-}
-.news-comments {
-  margin-top: 32px;
-  padding-top: 24px;
-  border-top: 1px solid var(--md-outline-variant);
-}
-.news-comments h2 {
-  margin-bottom: 16px;
-}
-.comment-input-row {
-  display: flex;
-  gap: 8px;
-  align-items: flex-start;
-}
-.comment-input-row textarea {
-  flex: 1;
-  resize: vertical;
-  min-height: 60px;
-  padding: 10px 14px;
-  border-radius: 12px;
-  border: 1px solid var(--md-outline);
-  background: var(--md-surface);
-  color: var(--md-on-surface);
-  font-family: inherit;
-  font-size: 0.95rem;
-}
-.comment-input-row textarea:focus {
-  outline: 2px solid var(--md-primary);
-  outline-offset: -1px;
-}
-.comment-item {
-  display: flex;
-  gap: 10px;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--md-outline-variant);
-}
-.comment-avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: var(--md-primary-container);
-  color: var(--md-on-primary-container);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 0.85rem;
-  flex-shrink: 0;
-}
-.comment-body {
-  flex: 1;
-  min-width: 0;
-}
-.comment-author {
-  font-weight: 600;
-  font-size: 0.9rem;
-}
-.comment-time {
-  font-size: 0.8rem;
-  color: var(--md-on-surface-variant);
-}
-.comment-text {
-  margin-top: 4px;
-  font-size: 0.95rem;
-  line-height: 1.5;
-}
-.news-share-bottom {
-  margin-top: 24px;
-  display: flex;
-  gap: 8px;
-}
-.more-menu-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  background: rgba(0,0,0,0.3);
-}
-.more-menu-sheet {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 101;
-  background: var(--md-surface-container-high);
-  border-radius: 20px 20px 0 0;
-  padding: 8px 0 24px;
-  animation: slideUp 0.2s ease;
-}
-@keyframes slideUp {
-  from { transform: translateY(100%); }
-  to { transform: translateY(0); }
-}
-.more-menu-item {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 14px 20px;
-  cursor: pointer;
-  color: var(--md-on-surface);
-  font-size: 1rem;
-  border: none;
-  background: none;
-  width: 100%;
-  text-align: left;
-}
-.more-menu-item:hover {
-  background: var(--md-state-hover);
-}
-.more-menu-handle {
-  width: 32px;
-  height: 4px;
-  border-radius: 2px;
-  background: var(--md-outline);
-  margin: 8px auto 12px;
-}
-</style>
+<link rel="stylesheet" href="{% static 'web/css/pages/web-news-detail.css' %}">
+{% endblock %}
+
+{% block bottomnav %}
+<nav class="md-bottomnav">
+  <div class="md-bottomnav-pill">
+    <a href="{% url 'web:home' %}" class="md-bottomnav-item" aria-label="Home">
+      <div class="md-bottomnav-icon-wrapper">
+        <span class="material-symbols-outlined">home</span>
+      </div>
+      <span class="md-bottomnav-label">Home</span>
+    </a>
+    <a href="{% url 'web:library' %}" class="md-bottomnav-item" aria-label="Library">
+      <div class="md-bottomnav-icon-wrapper">
+        <span class="material-symbols-outlined">menu_book</span>
+      </div>
+      <span class="md-bottomnav-label">Library</span>
+    </a>
+    <a href="{% url 'web:videos' %}" class="md-bottomnav-item" aria-label="Videos">
+      <div class="md-bottomnav-icon-wrapper">
+        <span class="material-symbols-outlined">smart_display</span>
+      </div>
+      <span class="md-bottomnav-label">Videos</span>
+    </a>
+    <a href="{% url 'web:forum' %}" class="md-bottomnav-item" aria-label="Forum">
+      <div class="md-bottomnav-icon-wrapper">
+        <span class="material-symbols-outlined">forum</span>
+      </div>
+      <span class="md-bottomnav-label">Forum</span>
+    </a>
+    <a href="{% url 'web:news_list' %}" class="md-bottomnav-item md-nav-active" aria-label="Blog">
+      <div class="md-bottomnav-icon-wrapper">
+        <span class="material-symbols-outlined">newspaper</span>
+      </div>
+      <span class="md-bottomnav-label">Blog</span>
+    </a>
+  </div>
+</nav>
 {% endblock %}
 
 {% block content %}
+<div class="nd-progress" id="nd-progress" aria-hidden="true"><span id="nd-progress-bar"></span></div>
+
 <div class="md-container news-detail-page">
 
-  <article class="news-detail">
-    <div class="news-detail-header">
-      <div class="news-detail-badges">
-        <span class="news-category-badge" style="background:{{ announcement.category_color }}">
-          <span class="material-symbols-outlined">{{ announcement.category_icon }}</span>
-          {{ announcement.category_label }}
-        </span>
-        {% if announcement.is_pinned %}<span class="news-pin-badge"><span class="material-symbols-outlined">push_pin</span> Pinned</span>{% endif %}
-      </div>
-      <h1 class="md-headline-medium news-detail-title">{{ announcement.title }}</h1>
+  <nav class="nd-crumbs" aria-label="Breadcrumb">
+    <a href="{% url 'web:home' %}">Home</a>
+    <span class="material-symbols-outlined">chevron_right</span>
+    <a href="{% url 'web:news_list' %}">Blog</a>
+    <span class="material-symbols-outlined">chevron_right</span>
+    <span class="nd-crumb-current">{{ announcement.title }}</span>
+  </nav>
 
-      <button class="news-detail-more-btn" id="news-more-btn" aria-label="More options">
-        <span class="material-symbols-outlined">more_vert</span>
-      </button>
+  <a href="{% url 'web:news_list' %}" class="back-link nd-back" data-action="go-back">
+    <span class="material-symbols-outlined">arrow_back</span>
+    Back to Blog
+  </a>
 
-      {% if announcement.summary %}<p class="news-detail-summary">{{ announcement.summary }}</p>{% endif %}
-      <div class="news-detail-meta">
-        <span class="news-card-author">
-          {% if announcement.author_photo %}<img src="{{ announcement.author_photo }}" alt="">{% endif %}
-          {{ announcement.author_name|mention_links_plain }}
-        </span>
-        <span class="dot-sep">&middot;</span>
-        <span>{{ announcement.published_at|time_ago }}</span>
-        <span class="dot-sep">&middot;</span>
-        <span class="material-symbols-outlined icon-sm">visibility</span>
-        {{ announcement.view_count|short_number }} views
-      </div>
-    </div>
+  <div class="nd-layout">
+    <div class="nd-main">
 
-    {% if announcement.cover_image_url %}
-    <div class="news-detail-cover">
-      <img src="{{ announcement.cover_image_url }}" alt="{{ announcement.title }}">
-    </div>
-    {% endif %}
+      <article class="news-detail">
+        <header class="news-detail-header">
+          <div class="news-detail-badges">
+            <span class="news-category-badge" style="--cat-color:{{ announcement.category_color }}">
+              <span class="material-symbols-outlined">{{ announcement.category_icon }}</span>
+              {{ announcement.category_label }}
+            </span>
+            {% if announcement.is_pinned %}
+            <span class="news-pin-badge">
+              <span class="material-symbols-outlined">push_pin</span>
+              Pinned
+            </span>
+            {% endif %}
+          </div>
 
-    <div class="news-detail-content md-content" id="news-content">{{ announcement.content|safe }}</div>
+          <h1 class="news-detail-title">{{ announcement.title }}</h1>
 
-    <div class="news-share-bottom">
-      <button class="md-btn md-btn-outlined" id="share-btn" data-action="share-news" data-url="{{ request.build_absolute_uri }}" data-title="{{ announcement.title }}">
-        <span class="material-symbols-outlined">share</span>
-        Share this article
-      </button>
-    </div>
+          <button type="button" class="news-detail-more-btn" id="news-more-btn" aria-label="More options">
+            <span class="material-symbols-outlined">more_vert</span>
+          </button>
 
-    {% if announcement.external_url %}
-    <a href="{{ announcement.external_url }}" target="_blank" rel="noopener" class="md-btn md-btn-filled news-detail-cta" style="margin-top:12px">
-      <span class="material-symbols-outlined">open_in_new</span>
-      View Original Source
-    </a>
-    {% endif %}
+          {% if announcement.summary %}
+          <p class="news-detail-summary">{{ announcement.summary }}</p>
+          {% endif %}
 
-    <div class="news-comments" id="news-comments">
-      <h2 class="md-title-medium" style="font-weight:600">Comments</h2>
+          <div class="news-detail-meta">
+            <span class="news-card-author">
+              {% if announcement.author_photo %}<img src="{{ announcement.author_photo }}" alt="">{% endif %}
+              {{ announcement.author_name|mention_links_plain }}
+            </span>
+            <span class="dot-sep">&middot;</span>
+            <span>{{ announcement.published_at|time_ago }}</span>
+            <span class="dot-sep">&middot;</span>
+            <span class="material-symbols-outlined icon-sm">visibility</span>
+            <span>{{ announcement.view_count|short_number }} views</span>
+            <span class="dot-sep">&middot;</span>
+            <span class="material-symbols-outlined icon-sm">schedule</span>
+            <span>{{ announcement.read_time }} min read</span>
+          </div>
+        </header>
 
-      {% if user.is_authenticated %}
-      <div class="comment-input-row" id="comment-form" data-slug="{{ announcement.slug }}">
-        <textarea id="comment-input" placeholder="Write something..." rows="2"></textarea>
-        <button type="submit" class="md-btn md-btn-filled" id="comment-submit-btn" style="align-self:flex-end;white-space:nowrap">Post</button>
-      </div>
-      {% else %}
-      <p style="color:var(--md-on-surface-variant);margin-bottom:16px">
-        <a href="{% url 'web:login' %}" style="color:var(--md-primary)">Sign in</a> to leave a comment.
-      </p>
-      {% endif %}
-
-      <div id="comment-list">
-        {% include "web/_comment_cards.html" %}
-      </div>
-    </div>
-  </article>
-
-  {% if related %}
-  <div class="news-related">
-    <h2 class="md-headline-small">Related</h2>
-    <div class="news-related-grid">
-      {% for r in related %}
-      <a href="{% url 'web:news_detail' slug=r.slug %}" class="news-card news-card-compact">
-        {% if r.cover_image_url %}
-        <div class="news-card-cover">
-          <img src="{{ r.cover_image_url }}" alt="{{ r.title }}" loading="lazy">
-        </div>
-        {% else %}
-        <div class="news-card-cover news-card-cover-placeholder" style="background:linear-gradient(135deg, {{ r.category_color }}22, {{ r.category_color }}08);">
-          <span class="material-symbols-outlined news-card-cover-icon" style="color:{{ r.category_color }}">{{ r.category_icon }}</span>
+        {% if announcement.cover_image_url %}
+        <div class="news-detail-cover">
+          <img src="{{ announcement.cover_image_url }}" alt="{{ announcement.title }}">
         </div>
         {% endif %}
-        <div class="news-card-body">
-          <h3 class="news-card-title">{{ r.title }}</h3>
-          <div class="news-card-meta"><span>{{ r.published_at|time_ago }}</span></div>
+
+        <div class="news-detail-content md-content" id="news-content">{{ announcement.content|safe }}</div>
+
+        <div class="nd-actionbar">
+          <button type="button" class="nd-action nd-action-primary" id="share-btn"
+                  data-url="{{ request.build_absolute_uri }}" data-title="{{ announcement.title }}">
+            <span class="material-symbols-outlined">share</span>
+            <span>Share<span class="nd-label-long"> this article</span></span>
+          </button>
+
+          <button type="button" class="nd-action" id="copy-link-btn" aria-label="Copy link">
+            <span class="material-symbols-outlined">link</span>
+            <span class="nd-label-long">Copy link</span>
+          </button>
+
+          {% if announcement.external_url %}
+          <a href="{{ announcement.external_url }}" target="_blank" rel="noopener" class="nd-action">
+            <span class="material-symbols-outlined">open_in_new</span>
+            <span>Source</span>
+          </a>
+          {% endif %}
+
+          <span class="nd-actionbar-spacer"></span>
+
+          <button type="button" class="nd-action nd-action-icon" id="news-more-btn-bottom" aria-label="More options">
+            <span class="material-symbols-outlined">more_horiz</span>
+          </button>
         </div>
-      </a>
-      {% endfor %}
+      </article>
+
+      <section class="nd-comments" id="news-comments" aria-labelledby="nd-comments-title">
+        <div class="nd-comments-head">
+          <h2 id="nd-comments-title">Comments</h2>
+          <span class="nd-comments-count">{{ comment_count }}</span>
+        </div>
+
+        {% if is_authenticated %}
+        <div class="nd-composer" id="comment-form" data-slug="{{ announcement.slug }}">
+          <img class="nd-composer-avatar" src="{{ user.avatar_url }}" alt="" data-fallback="flex">
+          <div class="nd-composer-body">
+            <div class="reply-input-wrapper" id="comment-wrapper">
+              <textarea id="comment-input" maxlength="4000" rows="1"
+                        placeholder="Share your thoughts, ask a question, or add something useful…"></textarea>
+              <button type="button" class="reply-send-btn" id="comment-submit-btn" disabled aria-label="Post comment">
+                <span class="material-symbols-outlined">arrow_upward</span>
+              </button>
+            </div>
+            <div class="nd-composer-hint" id="comment-hint" role="status" aria-live="polite"></div>
+          </div>
+        </div>
+        {% else %}
+        <div class="nd-signin">
+          <span class="nd-signin-icon"><span class="material-symbols-outlined">forum</span></span>
+          <div class="nd-signin-text">
+            <strong>Join the discussion</strong>
+            <span>Sign in to leave a comment and reply to other NEBians.</span>
+          </div>
+          <a href="{% url 'web:login' %}?next={{ request.path }}" rel="nofollow" class="md-btn md-btn-filled">Sign in</a>
+        </div>
+        {% endif %}
+
+        <div id="comment-list">
+          {% include "web/_comment_cards.html" %}
+        </div>
+      </section>
+
+      {% if related %}
+      <section class="nd-related">
+        <div class="nd-related-head">
+          <h2>More in {{ announcement.category_label }}</h2>
+          <a href="{% url 'web:news_list' %}?category={{ announcement.category }}">View all</a>
+        </div>
+        <div class="nd-related-grid">
+          {% for r in related %}
+          <a href="{% url 'web:news_detail' slug=r.slug %}" class="news-card news-card-compact">
+            {% if r.cover_image_url %}
+            <div class="news-card-cover">
+              <img src="{{ r.cover_image_url }}" alt="{{ r.title }}" loading="lazy">
+            </div>
+            {% else %}
+            <div class="news-card-cover news-card-cover-placeholder" style="background:linear-gradient(135deg, {{ r.category_color }}22, {{ r.category_color }}08);">
+              <span class="material-symbols-outlined news-card-cover-icon" style="color:{{ r.category_color }}">{{ r.category_icon }}</span>
+            </div>
+            {% endif %}
+            <div class="news-card-body">
+              <h3 class="news-card-title">{{ r.title }}</h3>
+              <div class="news-card-meta"><span>{{ r.published_at|time_ago }}</span></div>
+            </div>
+          </a>
+          {% endfor %}
+        </div>
+      </section>
+      {% endif %}
+
     </div>
+
+    <aside class="nd-sidebar">
+      <nav class="nd-toc" id="nd-toc" hidden aria-label="In this article">
+        <h2 class="nd-toc-title">In this article</h2>
+        <div class="nd-toc-list" id="nd-toc-list"></div>
+      </nav>
+
+      <div class="news-sidebar-card news-sidebar-cta nd-side-cta">
+        <div class="news-sidebar-cta-icon-wrapper">
+          <span class="material-symbols-outlined">school</span>
+        </div>
+        <h4>Keep learning</h4>
+        <p>Past papers, notes, and model questions for every NEB subject — all free in the library.</p>
+        <a href="{% url 'web:library' %}" class="md-btn md-btn-tonal">Browse library</a>
+      </div>
+    </aside>
   </div>
-  {% endif %}
 </div>
 
-<!-- More options bottom sheet -->
-<div id="more-menu-overlay" class="more-menu-overlay" style="display:none" onclick="closeMoreMenu()"></div>
-<div id="more-menu-sheet" class="more-menu-sheet" style="display:none">
+<div id="more-menu-overlay" class="more-menu-overlay" style="display:none"></div>
+<div id="more-menu-sheet" class="more-menu-sheet" style="display:none" role="dialog" aria-label="Article options">
   <div class="more-menu-handle"></div>
-  <button class="more-menu-item" onclick="shareNews(); closeMoreMenu();">
+  <button type="button" class="more-menu-item" data-nd-menu="share">
     <span class="material-symbols-outlined">share</span> Share
   </button>
-  <button class="more-menu-item" onclick="bookmarkNews(); closeMoreMenu();">
-    <span class="material-symbols-outlined">bookmark</span> Bookmark
+  <button type="button" class="more-menu-item" data-nd-menu="copy">
+    <span class="material-symbols-outlined">link</span> Copy link
   </button>
-  <button class="more-menu-item" onclick="reportNews(); closeMoreMenu();">
+  <button type="button" class="more-menu-item" data-nd-menu="report">
     <span class="material-symbols-outlined">flag</span> Report
   </button>
 </div>
@@ -289,9 +275,13 @@
 {% block extra_js %}
 <script nonce="{{ csp_nonce }}">
 (function() {
-  var IS_AUTH = {{ user.is_authenticated|yesno:"true,false" }};
+  var IS_AUTH = {{ is_authenticated|yesno:"true,false" }};
   var SLUG = '{{ announcement.slug }}';
+  var LOGIN_URL = '{% url "web:login" %}';
+  var SHARE_URL = '{{ request.build_absolute_uri|escapejs }}';
+  var SHARE_TITLE = '{{ announcement.title|escapejs }}';
 
+  /* ── Markdown rendering ───────────────────────────────────────── */
   var content = document.getElementById('news-content');
   if (content) {
     var raw = content.textContent.trim();
@@ -309,76 +299,248 @@
     }
   }
 
+  /* ── Table of contents + scrollspy ────────────────────────────── */
+  (function buildToc() {
+    var toc = document.getElementById('nd-toc');
+    var list = document.getElementById('nd-toc-list');
+    if (!toc || !list || !content) return;
+
+    var heads = content.querySelectorAll('h2, h3');
+    if (heads.length < 2) return;
+
+    var used = {};
+    var links = [];
+    Array.prototype.forEach.call(heads, function(h) {
+      var text = (h.textContent || '').trim();
+      if (!text) return;
+      var base = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'section';
+      var id = base;
+      if (used[base] != null) { used[base] += 1; id = base + '-' + used[base]; }
+      else { used[base] = 0; }
+      h.id = id;
+
+      var a = document.createElement('a');
+      a.className = 'nd-toc-link' + (h.tagName === 'H3' ? ' is-h3' : '');
+      a.href = '#' + id;
+      a.textContent = text;
+      list.appendChild(a);
+      links.push({ link: a, head: h });
+    });
+
+    if (!links.length) return;
+    toc.hidden = false;
+
+    list.addEventListener('click', function(e) {
+      var a = e.target.closest('.nd-toc-link');
+      if (!a) return;
+      e.preventDefault();
+      var target = document.getElementById(a.getAttribute('href').slice(1));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      history.replaceState(null, '', a.getAttribute('href'));
+    });
+
+    var current = null;
+    function sync() {
+      var offset = 110;
+      var active = links[0];
+      for (var i = 0; i < links.length; i++) {
+        if (links[i].head.getBoundingClientRect().top <= offset) active = links[i];
+        else break;
+      }
+      if (active === current) return;
+      if (current) current.link.classList.remove('active');
+      active.link.classList.add('active');
+      current = active;
+    }
+
+    var ticking = false;
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function() { sync(); ticking = false; });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    sync();
+  })();
+
+  /* ── Reading progress ─────────────────────────────────────────── */
+  (function readingProgress() {
+    var wrap = document.getElementById('nd-progress');
+    var bar = document.getElementById('nd-progress-bar');
+    if (!wrap || !bar) return;
+
+    var ticking = false;
+    function update() {
+      var article = content || document.querySelector('.news-detail');
+      if (!article) return;
+      var rect = article.getBoundingClientRect();
+      var total = rect.height - window.innerHeight;
+      var scrolled = -rect.top;
+      var pct = total > 0 ? Math.max(0, Math.min(1, scrolled / total)) : (scrolled > 0 ? 1 : 0);
+      bar.style.width = (pct * 100).toFixed(2) + '%';
+      wrap.classList.toggle('is-visible', scrolled > 40);
+    }
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function() { update(); ticking = false; });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    update();
+  })();
+
+  /* ── Share / copy ─────────────────────────────────────────────── */
   function shareNews() {
-    var url = window.location.href;
-    var title = document.querySelector('.news-detail-title')?.textContent || '';
+    var url = SHARE_URL || window.location.href;
     if (navigator.share) {
-      navigator.share({ title: title, url: url }).catch(function() {});
+      navigator.share({ title: SHARE_TITLE, url: url }).catch(function() {});
     } else {
-      navigator.clipboard.writeText(url).then(function() {
-        showSnackbar('Link copied!');
-      }).catch(function() { showSnackbar('Could not copy link'); });
+      copyLink();
     }
   }
-  function bookmarkNews() {
-    showSnackbar('Bookmarking coming soon');
+
+  function copyLink() {
+    var url = SHARE_URL || window.location.href;
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(url)
+        .then(function() { showSnackbar('Link copied'); })
+        .catch(function() { showSnackbar('Could not copy link'); });
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = url;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:-1000px;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); showSnackbar('Link copied'); }
+      catch (e) { showSnackbar('Could not copy link'); }
+      document.body.removeChild(ta);
+    }
   }
-  function reportNews() {
-    showSnackbar('Reporting coming soon');
+
+  document.getElementById('share-btn')?.addEventListener('click', shareNews);
+  document.getElementById('copy-link-btn')?.addEventListener('click', copyLink);
+
+  /* ── More-options sheet ───────────────────────────────────────── */
+  function openMoreMenu() {
+    document.getElementById('more-menu-overlay').style.display = 'block';
+    document.getElementById('more-menu-sheet').style.display = 'block';
   }
   function closeMoreMenu() {
     document.getElementById('more-menu-overlay').style.display = 'none';
     document.getElementById('more-menu-sheet').style.display = 'none';
   }
 
-  document.getElementById('news-more-btn')?.addEventListener('click', function() {
-    document.getElementById('more-menu-overlay').style.display = 'block';
-    document.getElementById('more-menu-sheet').style.display = 'block';
+  document.getElementById('news-more-btn')?.addEventListener('click', openMoreMenu);
+  document.getElementById('news-more-btn-bottom')?.addEventListener('click', openMoreMenu);
+  document.getElementById('more-menu-overlay')?.addEventListener('click', closeMoreMenu);
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeMoreMenu();
   });
 
-  document.getElementById('share-btn')?.addEventListener('click', function(e) {
-    var btn = e.currentTarget;
-    var url = btn.dataset.url;
-    var title = btn.dataset.title;
-    if (navigator.share) {
-      navigator.share({ title: title, url: url }).catch(function() {});
-    } else {
-      navigator.clipboard.writeText(url).then(function() {
-        showSnackbar('Link copied!');
-      }).catch(function() { showSnackbar('Could not copy link'); });
-    }
+  Array.prototype.forEach.call(document.querySelectorAll('[data-nd-menu]'), function(btn) {
+    btn.addEventListener('click', function() {
+      var kind = btn.dataset.ndMenu;
+      closeMoreMenu();
+      if (kind === 'share') shareNews();
+      else if (kind === 'copy') copyLink();
+      else showSnackbar('Reporting coming soon');
+    });
   });
 
-  // Top-level comment form
-  document.getElementById('comment-submit-btn')?.addEventListener('click', function() {
-    if (!IS_AUTH) { window.location.href = '{% url "web:login" %}'; return; }
+  /* ── Comment composer ─────────────────────────────────────────── */
+  (function commentComposer() {
     var input = document.getElementById('comment-input');
-    var text = input.value.trim();
-    if (!text) return;
-    var btn = this;
-    btn.disabled = true;
-    fetch('/ajax/news/comment/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
-      credentials: 'same-origin',
-      body: JSON.stringify({ slug: SLUG, text: text })
-    }).then(function(r) { return r.json(); }).then(function(data) {
-      if (data.ok) {
-        input.value = '';
-        showSnackbar('Comment posted!');
-        window.location.reload();
-      } else {
-        showSnackbar(data.error || 'Could not post comment');
+    var btn = document.getElementById('comment-submit-btn');
+    var hint = document.getElementById('comment-hint');
+    if (!input || !btn) return;
+
+    var MAX = 4000;
+    var MAX_H = 120;
+
+    function autoGrow() {
+      input.style.height = 'auto';
+      input.style.height = Math.min(input.scrollHeight, MAX_H) + 'px';
+    }
+
+    function refresh() {
+      var len = input.value.trim().length;
+      btn.disabled = len === 0;
+      var used = input.value.length;
+      if (hint) {
+        if (used > MAX * 0.75) {
+          var left = MAX - used;
+          hint.textContent = left + (left === 1 ? ' character left' : ' characters left');
+          hint.classList.add('is-visible');
+          hint.classList.toggle('is-warn', left < 200);
+        } else {
+          hint.textContent = '';
+          hint.classList.remove('is-visible', 'is-warn');
+        }
       }
-    }).catch(function() { showSnackbar('Network error'); })
-    .finally(function() { btn.disabled = false; });
+      autoGrow();
+    }
+
+    input.addEventListener('input', refresh);
+    input.addEventListener('paste', function() { setTimeout(refresh, 0); });
+    refresh();
+
+    input.addEventListener('keydown', function(e) {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'Enter' && !btn.disabled) {
+        e.preventDefault();
+        btn.click();
+      }
+    });
+
+    btn.addEventListener('click', function() {
+      if (!IS_AUTH) { window.location.href = LOGIN_URL; return; }
+      var text = input.value.trim();
+      if (!text) return;
+      btn.disabled = true;
+      btn.classList.add('is-posting');
+      var icon = btn.querySelector('.material-symbols-outlined');
+      if (icon) icon.textContent = 'progress_activity';
+      fetch('/ajax/news/comment/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+        credentials: 'same-origin',
+        body: JSON.stringify({ slug: SLUG, text: text })
+      }).then(function(r) { return r.json(); }).then(function(data) {
+        if (data.ok) {
+          input.value = '';
+          showSnackbar('Comment posted!');
+          window.location.reload();
+        } else {
+          showSnackbar(data.error || 'Could not post comment');
+          btn.classList.remove('is-posting');
+          if (icon) icon.textContent = 'arrow_upward';
+          refresh();
+        }
+      }).catch(function() {
+        showSnackbar('Network error');
+        btn.classList.remove('is-posting');
+        if (icon) icon.textContent = 'arrow_upward';
+        refresh();
+      });
+    });
+  })();
+
+  /* Auto-grow every composer in the comments card (top-level + inline replies).
+     The global .reply-input-wrapper caps height at 120px, so mirror that cap. */
+  document.getElementById('comment-list')?.addEventListener('input', function(e) {
+    var ta = e.target;
+    if (!ta || ta.tagName !== 'TEXTAREA') return;
+    ta.style.height = 'auto';
+    ta.style.height = Math.min(ta.scrollHeight, 120) + 'px';
   });
 
-  // Comment card handlers
+  /* ── Comment card actions ─────────────────────────────────────── */
   registerActions({
     'share-news': function() { shareNews(); },
     'toggle-comment-like': function(btn) {
-      if (!IS_AUTH) { window.location.href = '{% url "web:login" %}'; return; }
+      if (!IS_AUTH) { window.location.href = LOGIN_URL; return; }
       var commentId = btn.dataset.commentId;
       var countEl = document.getElementById('comment-like-count-' + commentId);
       fetch('/ajax/like/blog-comment/' + commentId + '/', {
@@ -392,7 +554,7 @@
       }).catch(function() { showSnackbar('Something went wrong'); });
     },
     'toggle-bookmark': function(btn) {
-      if (!IS_AUTH) { window.location.href = '{% url "web:login" %}'; return; }
+      if (!IS_AUTH) { window.location.href = LOGIN_URL; return; }
       fetch('/ajax/bookmark/toggle/', {
         method: 'POST',
         headers: {'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN},
@@ -413,9 +575,15 @@
       }).catch(function() { showSnackbar('Something went wrong'); });
     },
     'share-comment': function(btn) {
+      var card = btn.closest('.fp-reply');
       var url = window.location.href.split('?')[0];
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(url).then(function() { showSnackbar('Link copied'); }).catch(function() {});
+      if (card && card.id) url += '#' + card.id;
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(url)
+          .then(function() { showSnackbar('Link copied'); })
+          .catch(function() { showSnackbar('Could not copy link'); });
+      } else {
+        showSnackbar('Copy not supported');
       }
     },
     'comment-like': function(btn) { /* legacy */ },
@@ -433,36 +601,42 @@
       }).catch(function() { showSnackbar('Something went wrong'); });
     },
     'reply-to-comment': function(btn) {
-      if (!IS_AUTH) { window.location.href = '{% url "web:login" %}'; return; }
+      if (!IS_AUTH) { window.location.href = LOGIN_URL; return; }
       var commentId = btn.dataset.commentId;
-      var authorName = btn.dataset.authorName;
       var parentCard = document.getElementById('comment-card-' + commentId);
       if (!parentCard) return;
       var existing = parentCard.querySelector('.rd-inline-reply-box');
       if (existing) { existing.remove(); return; }
+
       var box = document.createElement('div');
       box.className = 'rd-inline-reply-box';
-      box.style.cssText = 'display:flex;align-items:center;gap:8px;margin-top:8px;';
-      box.innerHTML = '<div class="reply-input-wrapper" style="flex:1;"><textarea placeholder="Write something..." rows="1"></textarea><button class="reply-send-btn" disabled><span class="material-symbols-outlined">arrow_upward</span></button></div><button class="md-btn md-btn-text rd-cancel-reply-btn" style="min-height:32px;height:32px;font-size:.75rem;padding:0 8px;align-self:flex-end;">Cancel</button>';
+      box.style.cssText = 'display:flex;align-items:flex-end;gap:8px;';
+      box.innerHTML = '<div class="reply-input-wrapper" style="flex:1;min-width:0;">'
+        + '<textarea placeholder="Write a reply…" rows="1"></textarea>'
+        + '<button type="button" class="reply-send-btn" disabled><span class="material-symbols-outlined">arrow_upward</span></button>'
+        + '</div>'
+        + '<button type="button" class="md-btn md-btn-text rd-cancel-reply-btn" style="min-height:36px;font-size:.8125rem;">Cancel</button>';
       var actionRow = parentCard.querySelector('.fp-reply-actions');
       if (actionRow) actionRow.after(box); else parentCard.appendChild(box);
+
       var ta = box.querySelector('textarea');
-      if (window.InlineMedia && window.InlineMedia.enhanceTextarea) { try{ window.InlineMedia.enhanceTextarea(ta); }catch(_){} }
+      if (window.InlineMedia && window.InlineMedia.enhanceTextarea) { try { window.InlineMedia.enhanceTextarea(ta); } catch (_) {} }
       ta.focus();
+
       var sendBtn = box.querySelector('.reply-send-btn');
       function sendReply() {
-        var content = ta.value.trim(); if (!content) return;
+        var value = ta.value.trim();
+        if (!value) return;
         sendBtn.disabled = true;
         fetch('/ajax/news/comment/', {
           method: 'POST',
           headers: {'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN},
           credentials: 'same-origin',
-          body: JSON.stringify({ slug: SLUG, text: content, parentCommentId: commentId })
+          body: JSON.stringify({ slug: SLUG, text: value, parentCommentId: commentId })
         }).then(function(r) { return r.json(); }).then(function(data) {
           if (data.ok) { ta.value = ''; showSnackbar('Reply posted!'); window.location.reload(); }
-          else { showSnackbar(data.error || 'Could not reply'); }
-        }).catch(function() { showSnackbar('Network error'); })
-        .finally(function() { sendBtn.disabled = !ta.value.trim(); });
+          else { showSnackbar(data.error || 'Could not reply'); sendBtn.disabled = !ta.value.trim(); }
+        }).catch(function() { showSnackbar('Network error'); sendBtn.disabled = !ta.value.trim(); });
       }
       ta.addEventListener('input', function() { sendBtn.disabled = !ta.value.trim(); });
       sendBtn.addEventListener('click', sendReply);
@@ -470,12 +644,6 @@
     },
     'edit-comment': function() { showSnackbar('Edit coming soon'); }
   });
-
-  function escapeHtml(str) {
-    var div = document.createElement('div');
-    div.appendChild(document.createTextNode(str));
-    return div.innerHTML;
-  }
 })();
 </script>
 {% endblock %}

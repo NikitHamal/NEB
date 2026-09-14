@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% load static web_extras %}
 
-{% block title %}Search{% endblock %}
-{% block description %}Search study resources, notes, past papers, and forum discussions.{% endblock %}
-{% block keywords %}search study resources, find notes, past papers, education search{% endblock %}
+{% block title %}{% if query %}“{{ query }}” — {% endif %}Search NEB Past Papers, Model Questions & Notes — NEBians{% endblock %}
+{% block description %}Search free NEB past papers, model questions, Class 11 and 12 subject notes, textbooks, and forum questions on NEBians.{% endblock %}
+{% block keywords %}search NEB past papers, neb model questions search, find notes nepal, study materials, class 11, class 12{% endblock %}
 {% block nav_search %}md-nav-active{% endblock %}
 {% block bnav_search %}md-nav-active{% endblock %}
 

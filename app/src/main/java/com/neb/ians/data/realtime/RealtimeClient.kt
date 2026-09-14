@@ -249,7 +249,11 @@ class RealtimeClient @Inject constructor(
     private suspend fun resolveUrl(): String? {
         return try {
             val cfg = apiService.getRealtimeConfig()
-            cfg.wsUrl.ifBlank { null }
+            val base = cfg.wsUrl.ifBlank { null } ?: return null
+            if (cfg.ticket.isNotBlank() && base.contains("trycloudflare.com")) {
+                val sep = if (base.contains("?")) "&" else "?"
+                "$base${sep}ticket=${cfg.ticket}"
+            } else base
         } catch (e: Exception) {
             Log.d(TAG, "realtime config fetch failed: ${e.message}")
             null

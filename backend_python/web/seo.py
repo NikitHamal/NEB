@@ -123,7 +123,52 @@ def sitemap_entries() -> Iterator[Dict[str, str]]:
     yield {'loc': f'{SITE_BASE_URL}/library/', 'changefreq': 'daily', 'priority': '0.9', 'lastmod': now}
     yield {'loc': f'{SITE_BASE_URL}/videos/', 'changefreq': 'daily', 'priority': '0.85', 'lastmod': now}
     yield {'loc': f'{SITE_BASE_URL}/forum/', 'changefreq': 'daily', 'priority': '0.8', 'lastmod': now}
-    yield {'loc': f'{SITE_BASE_URL}/search/', 'changefreq': 'weekly', 'priority': '0.4', 'lastmod': now}
+    yield {'loc': f'{SITE_BASE_URL}/news/', 'changefreq': 'daily', 'priority': '0.7', 'lastmod': now}
+    yield {'loc': f'{SITE_BASE_URL}/results/', 'changefreq': 'monthly', 'priority': '0.7', 'lastmod': now}
+    yield {'loc': f'{SITE_BASE_URL}/results/check/', 'changefreq': 'monthly', 'priority': '0.7', 'lastmod': now}
+    yield {'loc': f'{SITE_BASE_URL}/tools/', 'changefreq': 'monthly', 'priority': '0.5', 'lastmod': now}
+    yield {'loc': f'{SITE_BASE_URL}/library/?tab=interactive', 'changefreq': 'weekly', 'priority': '0.8', 'lastmod': now}
+
+    try:
+        from web import curriculum as _curriculum
+        import re as _re
+
+        def _slug(value):
+            value = (value or '').lower().strip()
+            value = _re.sub(r'[^a-z0-9]+', '-', value)
+            return value.strip('-')
+
+        seen = set()
+        for (grade_val, subject_val) in _curriculum.CURRICULUM_MAP.keys():
+            grade_slug = _slug(grade_val)
+            if '10' in grade_slug and 'see' in grade_slug:
+                grade_slug = 'class-10-see'
+            subject_slug = _slug(subject_val)
+            if not grade_slug or not subject_slug or grade_slug == 'other':
+                continue
+            loc = f'{SITE_BASE_URL}/subject/{grade_slug}/{subject_slug}/'
+            if loc not in seen:
+                seen.add(loc)
+                yield {'loc': loc, 'changefreq': 'weekly', 'priority': '0.75', 'lastmod': now}
+    except Exception:
+        pass
+
+    try:
+        from api.models import Announcement
+        announcements = Announcement.objects.filter(
+            status='published'
+        ).order_by('-published_at')[:500]
+        for announcement in announcements:
+            if not getattr(announcement, 'slug', None):
+                continue
+            yield {
+                'loc': f'{SITE_BASE_URL}/news/{quote(str(announcement.slug), safe="")}/',
+                'changefreq': 'weekly',
+                'priority': '0.6',
+                'lastmod': _to_lastmod(getattr(announcement, 'published_at', None), now),
+            }
+    except Exception:
+        pass
 
     resources = (Resource.objects
                  .filter(approval_status='approved')
