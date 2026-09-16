@@ -122,6 +122,13 @@ sealed class Screen(val route: String) {
         }
     }
     data object Notifications : Screen("notifications")
+    data object Canvas : Screen("canvas?board={boardId}") {
+        fun createRoute(boardId: String? = null) =
+            if (boardId.isNullOrBlank()) "canvas" else "canvas?board=$boardId"
+    }
+    data object CanvasShared : Screen("canvas/shared/{token}") {
+        fun createRoute(token: String) = "canvas/shared/$token"
+    }
     data object StudyLab : Screen("study_lab")
     data object StudySpace : Screen("study_space/{spaceId}") {
         fun createRoute(spaceId: String) = "study_space/$spaceId"
@@ -744,6 +751,7 @@ fun NEBiansNavHost(
                     onNavigateToBookmarks = { navController.navigate(Screen.Bookmarks.route) },
                     onNavigateToNebyCredits = { navController.navigate(Screen.NebyCredits.route) },
                     onNavigateToLocalNeby = { navController.navigate(Screen.LocalNeby.route) },
+                    onNavigateToCanvas = { navController.navigate(Screen.Canvas.createRoute()) },
                     onNavigateToMyAvatar = { navController.navigate(Screen.MyAvatar.route) },
                     onNavigateToDeleteAccount = { navController.navigate(Screen.DeleteAccount.route) },
                     onNavigateToLogin = {
@@ -753,6 +761,42 @@ fun NEBiansNavHost(
                     },
                     onNavigateToWebPortal = { url ->
                         navController.navigate(Screen.WebPortal.createRoute(url))
+                    }
+                )
+            }
+            composable(
+                route = Screen.Canvas.route,
+                arguments = listOf(navArgument("boardId") { type = NavType.StringType; nullable = true; defaultValue = null })
+            ) { backStackEntry ->
+                val boardArg = backStackEntry.arguments?.getString("boardId")
+                if (boardArg.isNullOrBlank()) {
+                    com.neb.ians.ui.screens.canvas.CanvasListScreen(
+                        onNavigateBack = { navController.popBackStack() },
+                        onOpenBoard = { boardId ->
+                            navController.navigate(Screen.Canvas.createRoute(boardId))
+                        }
+                    )
+                } else {
+                    com.neb.ians.ui.screens.canvas.CanvasBoardScreen(
+                        onNavigateBack = { navController.popBackStack() },
+                        onOpenBoard = { boardId ->
+                            navController.navigate(Screen.Canvas.createRoute(boardId)) {
+                                popUpTo(Screen.Canvas.route) { inclusive = true }
+                            }
+                        }
+                    )
+                }
+            }
+            composable(
+                route = Screen.CanvasShared.route,
+                arguments = listOf(navArgument("token") { type = NavType.StringType })
+            ) {
+                com.neb.ians.ui.screens.canvas.CanvasBoardScreen(
+                    onNavigateBack = { navController.popBackStack() },
+                    onOpenBoard = { boardId ->
+                        navController.navigate(Screen.Canvas.createRoute(boardId)) {
+                            popUpTo(Screen.CanvasShared.route) { inclusive = true }
+                        }
                     }
                 )
             }
