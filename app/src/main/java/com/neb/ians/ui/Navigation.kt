@@ -216,8 +216,11 @@ fun NEBiansNavHost(
             is AuthState.Unauthenticated -> {
                 showMiniPlayer = false
                 mediaPlayerViewModel.stopPlayback()
-                navController.navigate(Screen.Login.route) {
-                    popUpTo(navController.graph.findStartDestination().id) { inclusive = true }
+                val guardRoute = navController.currentBackStackEntry?.destination?.route
+                if (guardRoute != Screen.Splash.route && guardRoute != Screen.Onboarding.route) {
+                    navController.navigate(Screen.Login.route) {
+                        popUpTo(navController.graph.findStartDestination().id) { inclusive = true }
+                    }
                 }
             }
             is AuthState.Authenticated -> {
