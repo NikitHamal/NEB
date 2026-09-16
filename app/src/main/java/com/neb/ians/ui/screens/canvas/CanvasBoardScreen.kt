@@ -8,7 +8,6 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.detectTransformGestures
@@ -20,7 +19,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -34,21 +32,22 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Circle
+import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material.icons.filled.CropSquare
-import androidx.compose.material.icons.filled.Draw
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Fullscreen
 import androidx.compose.material.icons.filled.Highlight
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.NoteAdd
 import androidx.compose.material.icons.filled.PanTool
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Send
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.TextFields
 import androidx.compose.material.icons.filled.TouchApp
 import androidx.compose.material.icons.filled.Widgets
+import androidx.compose.material.icons.outlined.Circle
 import androidx.compose.material.icons.outlined.DeleteSweep
 import androidx.compose.material.icons.outlined.StickyNote2
 import androidx.compose.material3.AlertDialog
@@ -56,6 +55,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
@@ -89,12 +89,10 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.neb.ians.R
+import com.neb.ians.data.api.CanvasNode
 import com.neb.ians.ui.components.ErrorCard
 import com.neb.ians.ui.components.NebTopBar
 import com.neb.ians.ui.components.luminanceIsDark
@@ -211,6 +209,30 @@ fun CanvasBoardScreen(
     fun viewportCenterWorld(): Offset =
         screenToWorld(Offset(viewportWpx / 2f, viewportHpx / 2f))
 
+    val anchorColor = MaterialTheme.colorScheme.primary
+
+    fun anchorCenters(node: CanvasNode): List<Offset> {
+        val h = cardHeights[node.id] ?: 220f
+        val x = node.x.toFloat()
+        val y = node.y.toFloat()
+        return listOf(
+            worldToScreenLocal(x + 170f, y),
+            worldToScreenLocal(x + 170f, y + h),
+            worldToScreenLocal(x, y + h / 2f),
+            worldToScreenLocal(x + 340f, y + h / 2f)
+        )
+    }
+
+    fun findAnchorHit(tap: Offset): String? {
+        val slop = 28f * d
+        nodes.forEach { node ->
+            anchorCenters(node).forEach { c ->
+                if ((tap - c).getDistance() <= slop) return node.id
+            }
+        }
+        return null
+    }
+
     LaunchedEffect(viewportWpx, nodes.isNotEmpty()) {
         if (nodes.isNotEmpty() && !fittedOnce && viewportWpx > 0f) {
             fittedOnce = true
@@ -236,11 +258,40 @@ fun CanvasBoardScreen(
         },
         containerColor = if (MaterialTheme.colorScheme.surface.luminanceIsDark()) Color(0xFF0B1320) else Color(0xFFF5F7FB)
     ) { innerPadding ->
-        BoxWithConstraints(
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
+            if (!uiState.readOnly) {
+                Surface(color = MaterialTheme.colorScheme.surface) {
+                    Column {
+                        CanvasToolbar(
+                            tool = tool,
+                            onTool = { tool = it },
+                            onNote = {
+                                val c = viewportCenterWorld()
+                                noteAt = c
+                                showNoteComposer = true
+                            },
+                            onWidgets = { showWidgetPicker = true },
+                            onHistory = {
+                                viewModel.refreshSnapshots()
+                                showHistory = true
+                            },
+                            onShare = { showShare = true },
+                            onPalette = { showPalette = true },
+                            onMore = { showMoreMenu = true }
+                        )
+                        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
+                    }
+                }
+            }
+            BoxWithConstraints(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+            ) {
             LaunchedEffect(maxWidth, maxHeight) {
                 viewportWpx = with(density) { maxWidth.toPx() }
                 viewportHpx = with(density) { maxHeight.toPx() }
@@ -272,7 +323,14 @@ fun CanvasBoardScreen(
             )
 
             Canvas(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .pointerInput(nodeById, scale, viewX, viewY) {
+                        detectTapGestures(onTap = { tap ->
+                            val hit = findAnchorHit(tap)
+                            if (hit != null) inspectorNodeId = hit
+                        })
+                    },
                 onDraw = {
                     nodeById.values.forEach { node ->
                         val parentId = node.parentId
@@ -293,6 +351,12 @@ fun CanvasBoardScreen(
                         val ah = 9f * d
                         drawLine(wireColor, Offset(p3.x - ah, p3.y - ah), p3, strokeWidth = 2f * d, cap = StrokeCap.Round)
                         drawLine(wireColor, Offset(p3.x + ah, p3.y - ah), p3, strokeWidth = 2f * d, cap = StrokeCap.Round)
+                    }
+                    nodes.forEach { node ->
+                        anchorCenters(node).forEach { c ->
+                            drawCircle(Color.White, radius = 8f * d, center = c)
+                            drawCircle(anchorColor, radius = 6f * d, center = c)
+                        }
                     }
                 }
             )
@@ -348,7 +412,6 @@ fun CanvasBoardScreen(
                                     onDelete = { viewModel.deleteNode(node.id) },
                                     onRetry = { viewModel.retryNode(node.id) },
                                     onFollowup = { prompt -> viewModel.followupNode(node.id, prompt) },
-                                    onAnchorTap = { inspectorNodeId = node.id },
                                     onReportHeight = { h ->
                                         if (cardHeights[node.id] != h) cardHeights[node.id] = h
                                     }
@@ -395,47 +458,6 @@ fun CanvasBoardScreen(
                     onTapAnnotate = { t, world -> annotate = t to world },
                     modifier = Modifier.fillMaxSize()
                 )
-            }
-
-            Column(modifier = Modifier.fillMaxSize()) {
-                if (!uiState.readOnly) {
-                    CanvasToolbar(
-                        tool = tool,
-                        onTool = { tool = it },
-                        onNote = {
-                            val c = viewportCenterWorld()
-                            noteAt = c
-                            showNoteComposer = true
-                        },
-                        onWidgets = { showWidgetPicker = true },
-                        onHistory = {
-                            viewModel.refreshSnapshots()
-                            showHistory = true
-                        },
-                        onShare = { showShare = true },
-                        onPalette = { showPalette = true },
-                        onMore = { showMoreMenu = true }
-                    )
-                }
-                Spacer(Modifier.weight(1f))
-                if (!uiState.readOnly) {
-                    CanvasBottomBar(
-                        draft = promptDraft,
-                        onDraft = { promptDraft = it },
-                        generating = uiState.isGenerating,
-                        onSend = {
-                            val goal = promptDraft.trim()
-                            if (goal.isNotBlank()) {
-                                promptDraft = ""
-                                viewModel.sendGoal(goal) { newNodes ->
-                                    newNodes.firstOrNull()?.let { n ->
-                                        centerOn(n.x.toFloat() + 170f, n.y.toFloat() + 110f)
-                                    }
-                                }
-                            }
-                        }
-                    )
-                }
             }
 
             Column(
@@ -517,7 +539,27 @@ fun CanvasBoardScreen(
                     }
                 }
             }
-        }
+            } // BoxWithConstraints viewport
+
+            if (!uiState.readOnly) {
+                CanvasBottomBar(
+                    draft = promptDraft,
+                    onDraft = { promptDraft = it },
+                    generating = uiState.isGenerating,
+                    onSend = {
+                        val goal = promptDraft.trim()
+                        if (goal.isNotBlank()) {
+                            promptDraft = ""
+                            viewModel.sendGoal(goal) { newNodes ->
+                                newNodes.firstOrNull()?.let { n ->
+                                    centerOn(n.x.toFloat() + 170f, n.y.toFloat() + 110f)
+                                }
+                            }
+                        }
+                    }
+                )
+            }
+        } // outer Column
     }
 
     inspectorNode?.let { node ->
@@ -639,30 +681,30 @@ private fun CanvasToolbar(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 12.dp, vertical = 8.dp)
+            .padding(horizontal = 12.dp, vertical = 6.dp)
             .horizontalScroll(rememberScrollState()),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(2.dp)
     ) {
-        ToolButton(icon = { Icon(Icons.Filled.TouchApp, contentDescription = "Select", modifier = Modifier.size(22.dp)) }, selected = tool == CanvasTool.SELECT, onClick = { onTool(CanvasTool.SELECT) })
-        ToolButton(icon = { Icon(Icons.Filled.PanTool, contentDescription = "Pan", modifier = Modifier.size(22.dp)) }, selected = tool == CanvasTool.PAN, onClick = { onTool(CanvasTool.PAN) })
+        ToolButton(icon = Icons.Filled.TouchApp, desc = "Select", selected = tool == CanvasTool.SELECT, onClick = { onTool(CanvasTool.SELECT) })
+        ToolButton(icon = Icons.Filled.PanTool, desc = "Pan", selected = tool == CanvasTool.PAN, onClick = { onTool(CanvasTool.PAN) })
         ToolbarDivider()
-        ToolButton(icon = { Icon(Icons.Filled.Draw, contentDescription = "Pen", modifier = Modifier.size(22.dp)) }, selected = tool == CanvasTool.PEN, onClick = { onTool(CanvasTool.PEN) })
-        ToolButton(icon = { Icon(Icons.Filled.Highlight, contentDescription = "Highlighter", modifier = Modifier.size(22.dp)) }, selected = tool == CanvasTool.HIGHLIGHTER, onClick = { onTool(CanvasTool.HIGHLIGHTER) })
-        ToolButton(icon = { Icon(Icons.Filled.CropSquare, contentDescription = "Rectangle", modifier = Modifier.size(22.dp)) }, selected = tool == CanvasTool.RECT, onClick = { onTool(CanvasTool.RECT) })
-        ToolButton(icon = { Icon(Icons.Filled.Circle, contentDescription = "Ellipse", modifier = Modifier.size(22.dp)) }, selected = tool == CanvasTool.ELLIPSE, onClick = { onTool(CanvasTool.ELLIPSE) })
-        ToolButton(icon = { Icon(Icons.Filled.Remove, contentDescription = "Line", modifier = Modifier.size(22.dp)) }, selected = tool == CanvasTool.LINE, onClick = { onTool(CanvasTool.LINE) })
-        ToolButton(icon = { Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = "Arrow", modifier = Modifier.size(22.dp)) }, selected = tool == CanvasTool.ARROW, onClick = { onTool(CanvasTool.ARROW) })
-        ToolButton(icon = { Icon(Icons.Filled.TextFields, contentDescription = "Text", modifier = Modifier.size(22.dp)) }, selected = tool == CanvasTool.TEXT, onClick = { onTool(CanvasTool.TEXT) })
-        ToolButton(icon = { Icon(Icons.Outlined.StickyNote2, contentDescription = "Sticky", modifier = Modifier.size(22.dp)) }, selected = tool == CanvasTool.STICKY, onClick = { onTool(CanvasTool.STICKY) })
-        ToolButton(icon = { Icon(Icons.Outlined.DeleteSweep, contentDescription = "Eraser", modifier = Modifier.size(22.dp)) }, selected = tool == CanvasTool.ERASER, onClick = { onTool(CanvasTool.ERASER) })
+        ToolButton(icon = Icons.Filled.Edit, desc = "Pen", selected = tool == CanvasTool.PEN, onClick = { onTool(CanvasTool.PEN) })
+        ToolButton(icon = Icons.Filled.Highlight, desc = "Highlighter", selected = tool == CanvasTool.HIGHLIGHTER, onClick = { onTool(CanvasTool.HIGHLIGHTER) })
+        ToolButton(icon = Icons.Filled.CropSquare, desc = "Rectangle", selected = tool == CanvasTool.RECT, onClick = { onTool(CanvasTool.RECT) })
+        ToolButton(icon = Icons.Outlined.Circle, desc = "Ellipse", selected = tool == CanvasTool.ELLIPSE, onClick = { onTool(CanvasTool.ELLIPSE) })
+        ToolButton(icon = Icons.Filled.Remove, desc = "Line", selected = tool == CanvasTool.LINE, onClick = { onTool(CanvasTool.LINE) })
+        ToolButton(icon = Icons.AutoMirrored.Filled.ArrowForward, desc = "Arrow", selected = tool == CanvasTool.ARROW, onClick = { onTool(CanvasTool.ARROW) })
+        ToolButton(icon = Icons.Filled.TextFields, desc = "Text", selected = tool == CanvasTool.TEXT, onClick = { onTool(CanvasTool.TEXT) })
+        ToolButton(icon = Icons.Outlined.StickyNote2, desc = "Sticky", selected = tool == CanvasTool.STICKY, onClick = { onTool(CanvasTool.STICKY) })
+        ToolButton(icon = Icons.Outlined.DeleteSweep, desc = "Eraser", selected = tool == CanvasTool.ERASER, onClick = { onTool(CanvasTool.ERASER) })
         ToolbarDivider()
-        ToolButton(icon = { Icon(painterResource(R.drawable.ic_rune_pencil), contentDescription = "Note", tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(22.dp)) }, selected = false, onClick = onNote)
-        ToolButton(icon = { Icon(Icons.Filled.Widgets, contentDescription = "Widgets", modifier = Modifier.size(22.dp)) }, selected = false, onClick = onWidgets)
-        ToolButton(icon = { Icon(Icons.Filled.History, contentDescription = "History", modifier = Modifier.size(22.dp)) }, selected = false, onClick = onHistory)
-        ToolButton(icon = { Icon(Icons.Filled.Share, contentDescription = "Share", modifier = Modifier.size(22.dp)) }, selected = false, onClick = onShare)
-        ToolButton(icon = { Icon(Icons.Filled.Search, contentDescription = "Find card", modifier = Modifier.size(22.dp)) }, selected = false, onClick = onPalette)
-        ToolButton(icon = { Icon(Icons.Filled.MoreVert, contentDescription = "More", modifier = Modifier.size(22.dp)) }, selected = false, onClick = onMore)
+        ToolButton(icon = Icons.Filled.NoteAdd, desc = "Note", selected = false, onClick = onNote)
+        ToolButton(icon = Icons.Filled.Widgets, desc = "Widgets", selected = false, onClick = onWidgets)
+        ToolButton(icon = Icons.Filled.History, desc = "History", selected = false, onClick = onHistory)
+        ToolButton(icon = Icons.Filled.Share, desc = "Share", selected = false, onClick = onShare)
+        ToolButton(icon = Icons.Filled.Search, desc = "Find card", selected = false, onClick = onPalette)
+        ToolButton(icon = Icons.Filled.MoreVert, desc = "More", selected = false, onClick = onMore)
     }
 }
 
@@ -679,10 +721,14 @@ private fun ToolbarDivider() {
 
 @Composable
 private fun ToolButton(
-    icon: @Composable () -> Unit,
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    desc: String,
     selected: Boolean,
     onClick: () -> Unit
 ) {
+    val contentColor =
+        if (selected) MaterialTheme.colorScheme.primary
+        else MaterialTheme.colorScheme.onSurfaceVariant
     Box(
         modifier = Modifier
             .size(40.dp)
@@ -691,7 +737,12 @@ private fun ToolButton(
             .clickable(onClick = onClick),
         contentAlignment = Alignment.Center
     ) {
-        icon()
+        Icon(
+            imageVector = icon,
+            contentDescription = desc,
+            tint = contentColor,
+            modifier = Modifier.size(22.dp)
+        )
     }
 }
 
@@ -706,35 +757,61 @@ private fun CanvasBottomBar(
         if (generating) {
             LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
         }
-        Row(
+        Surface(
+            shape = RoundedCornerShape(28.dp),
+            color = MaterialTheme.colorScheme.surfaceContainerLowest,
+            shadowElevation = 8.dp,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 12.dp, vertical = 8.dp),
-            verticalAlignment = Alignment.CenterVertically
+                .padding(horizontal = 16.dp, vertical = 12.dp)
+                .border(1.dp, MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(28.dp))
         ) {
             OutlinedTextField(
                 value = draft,
                 onValueChange = onDraft,
-                placeholder = { Text("Ask Neby to map something…") },
+                placeholder = { Text("What do you want to understand?") },
                 singleLine = true,
                 textStyle = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.weight(1f),
-                shape = RoundedCornerShape(24.dp)
-            )
-            Spacer(Modifier.width(8.dp))
-            Surface(
-                shape = CircleShape,
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.size(48.dp)
-            ) {
-                IconButton(onClick = onSend, enabled = !generating && draft.isNotBlank()) {
-                    if (generating) {
-                        CircularProgressIndicator(color = MaterialTheme.colorScheme.onPrimary, modifier = Modifier.size(20.dp), strokeWidth = 2.dp)
-                    } else {
-                        Icon(Icons.Filled.Send, contentDescription = "Send", tint = MaterialTheme.colorScheme.onPrimary)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp),
+                shape = RoundedCornerShape(28.dp),
+                colors = androidx.compose.material3.TextFieldDefaults.colors(
+                    focusedContainerColor = Color.Transparent,
+                    unfocusedContainerColor = Color.Transparent,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent
+                ),
+                trailingIcon = {
+                    Box(
+                        modifier = Modifier
+                            .size(32.dp)
+                            .clip(CircleShape)
+                            .background(
+                                if (draft.isBlank() || generating) MaterialTheme.colorScheme.surfaceContainerHigh
+                                else MaterialTheme.colorScheme.primary
+                            )
+                            .clickable(enabled = !generating && draft.isNotBlank(), onClick = onSend),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        if (generating) {
+                            CircularProgressIndicator(
+                                color = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.size(16.dp),
+                                strokeWidth = 2.dp
+                            )
+                        } else {
+                            Icon(
+                                imageVector = Icons.Filled.ArrowUpward,
+                                contentDescription = "Send",
+                                tint = if (draft.isBlank()) MaterialTheme.colorScheme.onSurfaceVariant
+                                else MaterialTheme.colorScheme.onPrimary,
+                                modifier = Modifier.size(18.dp)
+                            )
+                        }
                     }
                 }
-            }
+            )
         }
     }
 }

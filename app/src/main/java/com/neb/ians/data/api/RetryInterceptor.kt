@@ -31,6 +31,8 @@ class RetryInterceptor(private val maxRetries: Int = 3, private val initialBacko
                 if (attempt < maxRetries) {
                     Thread.sleep(initialBackoffMs * (1L shl attempt))
                 }
+            } catch (e: ApiClientException) {
+                throw e
             } catch (e: SocketTimeoutException) {
                 lastException = e
                 if (attempt < maxRetries) {

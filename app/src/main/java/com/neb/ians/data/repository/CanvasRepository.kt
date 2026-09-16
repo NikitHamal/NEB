@@ -30,6 +30,8 @@ import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
+import kotlinx.coroutines.TimeoutCancellationException
+import kotlinx.coroutines.withTimeout
 import retrofit2.HttpException
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -55,7 +57,8 @@ class CanvasRepository @Inject constructor(
     suspend fun getBoards(): Result<List<CanvasBoard>> {
         return try {
         val t = token() ?: return Result.failure(IllegalStateException("Not authenticated"))
-        Result.success(apiService.getCanvasBoards(t).boards)
+        Result.success(withTimeout(30_000) { apiService.getCanvasBoards(t) }.boards)
+    } catch (e: TimeoutCancellationException) { Result.failure(IllegalStateException("Request timed out. Check your connection and retry."))
     } catch (e: Exception) { fail(e) }
     }
 
@@ -71,7 +74,7 @@ class CanvasRepository @Inject constructor(
     suspend fun getBoard(boardId: String): Result<Pair<CanvasBoard, List<CanvasNode>>> {
         return try {
         val t = token() ?: return Result.failure(IllegalStateException("Not authenticated"))
-        val res = apiService.getCanvasBoard(t, boardId)
+        val res = withTimeout(30_000) { apiService.getCanvasBoard(t, boardId) }
         val board = res.board?.takeIf { it.id.isNotBlank() }
             ?: return Result.failure(IllegalStateException(res.error ?: "Board not found"))
         Result.success(board to res.nodes)

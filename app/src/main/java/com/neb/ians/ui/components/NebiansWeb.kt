@@ -315,11 +315,12 @@ fun WebTopBar(
                         .clickable(onClick = onProfileClick),
                     contentAlignment = Alignment.Center
                 ) {
-                    NebAvatar(
-                        photoUrl = photo,
+                    Avatar(
                         name = name.ifBlank { "User" },
+                        imageUrl = photo,
                         size = 40.dp,
-                        verificationLevel = verificationLevel
+                        verificationLevel = verificationLevel,
+                        isAdmin = isAdmin
                     )
                 }
             }
