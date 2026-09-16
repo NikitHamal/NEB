@@ -3,25 +3,27 @@ package com.neb.ians.ui.screens.canvas
 import androidx.compose.ui.graphics.Color
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 
-internal fun JsonObject.str(key: String): String =
-    (this[key] as? JsonPrimitive)?.contentOrNull?.takeIf { it != "null" } ?: ""
+internal fun JsonElement?.asStr(): String {
+    if (this == null || this is JsonNull) return ""
+    return (this as? JsonPrimitive)?.content ?: ""
+}
+
+internal fun JsonObject.str(key: String): String = this[key].asStr()
 
 internal fun JsonObject.bool(key: String): Boolean =
-    (this[key] as? JsonPrimitive)?.contentOrNull?.toBooleanStrictOrNull() ?: false
+    this[key].asStr().toBooleanStrictOrNull() ?: false
 
 internal fun JsonObject.num(key: String): Double =
-    (this[key] as? JsonPrimitive)?.contentOrNull?.toDoubleOrNull() ?: 0.0
+    this[key].asStr().toDoubleOrNull() ?: 0.0
 
 internal fun JsonObject.arr(key: String): JsonArray =
     (this[key] as? JsonArray) ?: JsonArray(emptyList())
 
 internal fun JsonObject.obj(key: String): JsonObject? = this[key] as? JsonObject
-
-internal fun JsonElement.asStr(): String =
-    (this as? JsonPrimitive)?.contentOrNull?.takeIf { it != "null" } ?: ""
 
 internal fun String.toComposeColor(fallback: Color): Color = try {
     val hex = trim().removePrefix("#")
