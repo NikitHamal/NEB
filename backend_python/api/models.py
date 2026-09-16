@@ -839,6 +839,7 @@ class BotConfig(models.Model):
         ('yqcloud', 'Yqcloud (chat9.yqcloud.top — free, no login)'),
         ('chatjimmy', 'ChatJimmy (chatjimmy.ai — Llama 3.1 8B, no login)'),
         ('unikey', 'Unikey (getunikey.ai — 12 models, free trial, no login)'),
+        ('ptero', 'Ptero (ptero.pro — 12 models, free, no login)'),
         ('deepai', 'DeepAI (deepai.org)'),
         ('inception', 'Inception Labs (Mercury 2)'),
         ('k2think', 'K2 Horizon (chat.ifm.ai — MBZUAI 375B reasoning)'),
@@ -989,6 +990,7 @@ class ArenaChatSession(models.Model):
         ('yqcloud', 'Yqcloud (chat9.yqcloud.top — free, no login)'),
         ('chatjimmy', 'ChatJimmy (chatjimmy.ai — Llama 3.1 8B, no login)'),
         ('unikey', 'Unikey (getunikey.ai — 12 models, free trial, no login)'),
+        ('ptero', 'Ptero (ptero.pro — 12 models, free, no login)'),
     ]
     id = models.CharField(max_length=36, primary_key=True)
     user = models.ForeignKey(

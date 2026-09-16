@@ -576,7 +576,7 @@ class BackgroundAgentRunner:
                     resolved, prompt, system_prompt=system_prompt, file_paths=file_paths, max_tokens=max_tokens,
                 )
             slug = (self.session.llm_provider or '').strip().lower()
-            if slug in ('k2think', 'poolside', 'motiftech', 'metaai', 'yqcloud', 'chatjimmy', 'unikey'):
+            if slug in ('k2think', 'poolside', 'motiftech', 'metaai', 'yqcloud', 'chatjimmy', 'unikey', 'ptero'):
                 return self._call_community_proxy(
                     slug, prompt, system_prompt=system_prompt, file_paths=file_paths, max_tokens=max_tokens,
                 )
@@ -745,13 +745,18 @@ class BackgroundAgentRunner:
 
     def _call_community_proxy(self, slug: str, prompt: str, *, system_prompt: str, file_paths=None, max_tokens=None, model_override: str = None) -> str:
         """Community web proxies (k2think / poolside / motiftech / metaai / yqcloud /
-        chatjimmy / unikey) — no keys, no native file upload; new upload contents are
+        chatjimmy / unikey / ptero) — no keys, no native file upload; new upload contents are
         inlined into the prompt."""
         if slug == 'unikey':
             from api import unikey_proxy
             model = model_override or (self.session.llm_model or '').strip() or 'gpt-5.5'
             label = 'Unikey'
             fn = unikey_proxy.simple_chat
+        elif slug == 'ptero':
+            from api import ptero_proxy
+            model = model_override or (self.session.llm_model or '').strip() or 'mercury-2.5:free'
+            label = 'Ptero'
+            fn = ptero_proxy.simple_chat
         elif slug == 'yqcloud':
             from api import yqcloud_proxy
             model = model_override or (self.session.llm_model or '').strip() or 'yqcloud-default'

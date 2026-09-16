@@ -41,7 +41,7 @@ logger = logging.getLogger(__name__)
 # Community (scraper) providers surfaced in the generic /models/ list and
 # routed here for session create + streaming. Their proxies are stateless:
 # we replay the session history on every call.
-_COMMUNITY_SLUGS = ('k2think', 'poolside', 'motiftech', 'qwencloud', 'yqcloud', 'chatjimmy', 'unikey')
+_COMMUNITY_SLUGS = ('k2think', 'poolside', 'motiftech', 'qwencloud', 'yqcloud', 'chatjimmy', 'unikey', 'ptero')
 
 
 def _community_models():
@@ -89,6 +89,9 @@ def _community_proxy(provider):
     if provider == 'unikey':
         from . import unikey_proxy
         return unikey_proxy
+    if provider == 'ptero':
+        from . import ptero_proxy
+        return ptero_proxy
     return None
 
 

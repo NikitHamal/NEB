@@ -30,6 +30,7 @@ _CAPS = {
     'yqcloud':   {'stream': True,  'thinking': False, 'web_search': True,  'files': False},
     'chatjimmy': {'stream': False, 'thinking': False, 'web_search': False, 'files': False},
     'unikey':    {'stream': True,  'thinking': True,  'web_search': False, 'files': False},
+    'ptero':     {'stream': False, 'thinking': False, 'web_search': False, 'files': False},
 }
 
 
@@ -68,6 +69,7 @@ _SCRAPER_DISPATCH = {
     'yqcloud':   ('messages', 'yqcloud_proxy'),
     'chatjimmy': ('messages', 'chatjimmy_proxy'),
     'unikey':    ('messages', 'unikey_proxy'),
+    'ptero':     ('messages', 'ptero_proxy'),
 }
 
 PROVIDERS, MODEL_OPTIONS = _build_provider_lists()

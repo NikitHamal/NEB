@@ -242,6 +242,7 @@ def stream_proxy_chat(system, prompt, model_key="neby-pro"):
             ("yqcloud", "yqcloud-default", {}),
             ("chatjimmy", "llama3.1-8B", {}),
             ("unikey", "gpt-5.5", {}),
+            ("ptero", "mercury-2.5:free", {}),
         ]
     else:  # neby-pro
         proxies_to_try = [
@@ -255,6 +256,7 @@ def stream_proxy_chat(system, prompt, model_key="neby-pro"):
             ("yqcloud", "yqcloud-default", {}),
             ("chatjimmy", "llama3.1-8B", {}),
             ("unikey", "gpt-5.5", {}),
+            ("ptero", "mercury-2.5:free", {}),
         ]
 
     # Pre-compute external search augmentation for providers WITHOUT internal search
@@ -434,9 +436,9 @@ def stream_proxy_chat(system, prompt, model_key="neby-pro"):
                     yield {"type": "model", "model": f"{slug}/{model}"}
                     return
 
-            elif slug in ("yqcloud", "chatjimmy", "unikey"):
-                from api import yqcloud_proxy, chatjimmy_proxy, unikey_proxy
-                mod = {"yqcloud": yqcloud_proxy, "chatjimmy": chatjimmy_proxy, "unikey": unikey_proxy}[slug]
+            elif slug in ("yqcloud", "chatjimmy", "unikey", "ptero"):
+                from api import yqcloud_proxy, chatjimmy_proxy, unikey_proxy, ptero_proxy
+                mod = {"yqcloud": yqcloud_proxy, "chatjimmy": chatjimmy_proxy, "unikey": unikey_proxy, "ptero": ptero_proxy}[slug]
                 for chunk in mod.stream_chat(use_messages, model=model):
                     t = chunk.get("type")
                     if t == "text":
