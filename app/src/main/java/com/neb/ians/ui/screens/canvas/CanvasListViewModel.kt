@@ -17,6 +17,7 @@ data class CanvasListUiState(
     val boards: List<CanvasBoard> = emptyList(),
     val templates: List<CanvasTemplate> = emptyList(),
     val isLoading: Boolean = true,
+    val isRefreshing: Boolean = false,
     val isWorking: Boolean = false,
     val error: String? = null,
     val snackbarMessage: String? = null
@@ -32,14 +33,19 @@ class CanvasListViewModel @Inject constructor(
 
     init { refresh() }
 
-    fun refresh() {
+    fun refresh(pull: Boolean = false) {
         viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = it.boards.isEmpty(), error = null) }
+            if (pull) {
+                _uiState.update { it.copy(isRefreshing = true) }
+            } else {
+                _uiState.update { it.copy(isLoading = it.boards.isEmpty(), error = null) }
+            }
             val boards = repository.getBoards()
             val templates = repository.getTemplates()
             _uiState.update {
                 it.copy(
                     isLoading = false,
+                    isRefreshing = false,
                     boards = boards.getOrDefault(it.boards),
                     templates = templates.getOrDefault(it.templates),
                     error = if (boards.isFailure && it.boards.isEmpty()) {

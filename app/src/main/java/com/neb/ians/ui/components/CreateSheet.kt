@@ -1,6 +1,5 @@
 package com.neb.ians.ui.components
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -16,6 +15,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Upload
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -27,11 +29,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.neb.ians.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -74,13 +75,13 @@ fun CreateSheet(
                 modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
             )
             CreateSheetRow(
-                iconRes = R.drawable.ic_rune_pencil,
+                icon = Icons.Filled.Edit,
                 title = "New post",
                 subtitle = "Ask a question or start a discussion",
                 onClick = onNewPostClick
             )
             CreateSheetRow(
-                iconRes = R.drawable.ic_rune_upload,
+                icon = Icons.Filled.Upload,
                 title = "Upload materials",
                 subtitle = "Share notes, papers or books",
                 onClick = onUploadClick
@@ -91,7 +92,7 @@ fun CreateSheet(
 
 @Composable
 private fun CreateSheetRow(
-    @DrawableRes iconRes: Int,
+    icon: ImageVector,
     title: String,
     subtitle: String,
     onClick: () -> Unit
@@ -113,7 +114,7 @@ private fun CreateSheetRow(
             contentAlignment = Alignment.Center
         ) {
             Icon(
-                painter = painterResource(id = iconRes),
+                imageVector = icon,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.size(26.dp)

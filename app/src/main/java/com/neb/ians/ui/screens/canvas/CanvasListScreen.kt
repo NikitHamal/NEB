@@ -52,6 +52,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.data.api.CanvasBoard
+import com.neb.ians.ui.components.ErrorCard
 import com.neb.ians.ui.components.NebCard
 import com.neb.ians.ui.components.NebEmptyState
 import com.neb.ians.ui.components.NebTopBar
@@ -87,8 +88,8 @@ fun CanvasListScreen(
         containerColor = MaterialTheme.colorScheme.surface
     ) { innerPadding ->
         PullToRefreshBox(
-            isRefreshing = uiState.isLoading,
-            onRefresh = { viewModel.refresh() },
+            isRefreshing = uiState.isRefreshing,
+            onRefresh = { viewModel.refresh(pull = true) },
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
@@ -97,6 +98,14 @@ fun CanvasListScreen(
                 uiState.isLoading && uiState.boards.isEmpty() -> {
                     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                         CircularProgressIndicator()
+                    }
+                }
+                uiState.error != null && uiState.boards.isEmpty() -> {
+                    Box(Modifier.fillMaxSize().padding(16.dp), contentAlignment = Alignment.Center) {
+                        ErrorCard(
+                            message = uiState.error ?: "Something went wrong",
+                            onRetry = { viewModel.refresh() }
+                        )
                     }
                 }
                 else -> {

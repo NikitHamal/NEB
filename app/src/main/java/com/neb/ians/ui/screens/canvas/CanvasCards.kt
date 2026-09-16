@@ -43,8 +43,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.graphics.Color
@@ -70,7 +68,6 @@ fun CanvasCard(
     onDelete: () -> Unit,
     onRetry: () -> Unit,
     onFollowup: (String) -> Unit,
-    onAnchorTap: () -> Unit,
     onReportHeight: (Float) -> Unit
 ) {
     val primary = MaterialTheme.colorScheme.primary
@@ -111,7 +108,10 @@ fun CanvasCard(
                         modifier = Modifier
                             .fillMaxWidth()
                             .pointerInput(node.id) {
-                                detectTapGestures(onDoubleTap = { onOpenInspector() })
+                                detectTapGestures(
+                                    onTap = { onOpenInspector() },
+                                    onDoubleTap = { onOpenInspector() }
+                                )
                             }
                             .pointerInput(node.id) {
                                 detectDragGestures(
@@ -185,23 +185,7 @@ fun CanvasCard(
                 }
             }
         }
-        CanvasAnchor(Modifier.align(Alignment.TopCenter), onAnchorTap)
-        CanvasAnchor(Modifier.align(Alignment.BottomCenter), onAnchorTap)
-        CanvasAnchor(Modifier.align(Alignment.CenterStart), onAnchorTap)
-        CanvasAnchor(Modifier.align(Alignment.CenterEnd), onAnchorTap)
     }
-}
-
-@Composable
-private fun CanvasAnchor(modifier: Modifier, onTap: () -> Unit) {
-    Box(
-        modifier = modifier
-            .size(14.dp)
-            .shadow(2.dp, CircleShape)
-            .clip(CircleShape)
-            .background(MaterialTheme.colorScheme.primary)
-            .clickable(onClick = onTap)
-    )
 }
 
 @Composable
