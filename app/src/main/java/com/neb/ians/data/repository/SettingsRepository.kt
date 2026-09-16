@@ -19,12 +19,14 @@ class SettingsRepository @Inject constructor(
         val USER_NAME = stringPreferencesKey("user_name")
         val NOTIFICATIONS_ENABLED = booleanPreferencesKey("notifications_enabled")
         val DOWNLOAD_WIFI_ONLY = booleanPreferencesKey("download_wifi_only")
+        val ONBOARDING_SEEN = booleanPreferencesKey("onboarding_seen")
     }
 
     val isDarkMode: Flow<Boolean> = dataStore.data.map { it[DARK_MODE] ?: false }
     val userName: Flow<String> = dataStore.data.map { it[USER_NAME] ?: "Student" }
     val notificationsEnabled: Flow<Boolean> = dataStore.data.map { it[NOTIFICATIONS_ENABLED] ?: true }
     val downloadWifiOnly: Flow<Boolean> = dataStore.data.map { it[DOWNLOAD_WIFI_ONLY] ?: true }
+    val isOnboardingSeen: Flow<Boolean> = dataStore.data.map { it[ONBOARDING_SEEN] ?: false }
 
     suspend fun setDarkMode(enabled: Boolean) {
         dataStore.edit { it[DARK_MODE] = enabled }
@@ -40,5 +42,9 @@ class SettingsRepository @Inject constructor(
 
     suspend fun setDownloadWifiOnly(enabled: Boolean) {
         dataStore.edit { it[DOWNLOAD_WIFI_ONLY] = enabled }
+    }
+
+    suspend fun setOnboardingSeen(seen: Boolean) {
+        dataStore.edit { it[ONBOARDING_SEEN] = seen }
     }
 }

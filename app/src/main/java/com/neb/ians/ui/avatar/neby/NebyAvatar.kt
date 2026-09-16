@@ -2,6 +2,7 @@ package com.neb.ians.ui.avatar.neby
 
 import android.graphics.Color
 import android.graphics.Paint
+import android.provider.Settings
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -18,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -105,7 +107,16 @@ fun NebyAvatar(
         }
     }
 
+    val context = LocalContext.current
+    val animatorsEnabled = remember {
+        Settings.Global.getFloat(
+            context.contentResolver,
+            Settings.Global.ANIMATOR_DURATION_SCALE, 1f
+        ) != 0f
+    }
+
     LaunchedEffect(Unit) {
+        if (!animatorsEnabled) return@LaunchedEffect
         var last = System.nanoTime()
         while (true) {
             delay(16)
@@ -138,6 +149,14 @@ fun NebyAvatar(
     val viewScale = px / 300f
 
     val renderer = remember { NebyRenderer() }
+    val bodyPaint = remember { Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.FILL } }
+    val eyePaint = remember {
+        Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = Color.parseColor("#0a1c4d")
+            style = Paint.Style.FILL
+        }
+    }
+    val decalPaint = remember { Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.FILL } }
 
     Box(
         modifier = modifier
@@ -174,14 +193,7 @@ fun NebyAvatar(
                 nc.translate(frame.bodyOffsetX.toFloat(), frame.bodyOffsetY.toFloat())
 
                 val bodyColorHex = ambientExpr.bodyColor ?: "#cce2ff"
-                val bodyPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                    color = try { Color.parseColor(bodyColorHex) } catch (_: Exception) { Color.parseColor("#cce2ff") }
-                    style = Paint.Style.FILL
-                }
-                val eyePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                    color = Color.parseColor("#0a1c4d"); style = Paint.Style.FILL
-                }
-                val decalPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.FILL }
+                bodyPaint.color = try { Color.parseColor(bodyColorHex) } catch (_: Exception) { Color.parseColor("#cce2ff") }
 
                 nc.drawPath(frame.headPath, bodyPaint)
                 for ((path, col) in frame.decals) {

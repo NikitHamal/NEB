@@ -34,6 +34,13 @@ class SettingsViewModel @Inject constructor(
     val downloadWifiOnly: StateFlow<Boolean> = settingsRepository.downloadWifiOnly
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
 
+    val isOnboardingSeen: StateFlow<Boolean> = settingsRepository.isOnboardingSeen
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+
+    fun setOnboardingSeen(seen: Boolean) {
+        viewModelScope.launch { settingsRepository.setOnboardingSeen(seen) }
+    }
+
     val userProfile: StateFlow<UserProfileCache?> = authRepository.userProfileFlow
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
 

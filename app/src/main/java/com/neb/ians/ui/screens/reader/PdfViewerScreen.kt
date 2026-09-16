@@ -84,7 +84,11 @@ fun PdfViewerScreen(
                             contentPadding = PaddingValues(12.dp),
                             verticalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
-                            items((0 until uiState.pageCount).toList()) { index ->
+                            items(
+                                count = uiState.pageCount,
+                                key = { index -> "pdf_page_$index" },
+                                contentType = { "pdf_page" }
+                            ) { index ->
                                 PdfPage(index = index, render = viewModel::renderPage)
                             }
                         }

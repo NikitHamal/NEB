@@ -41,6 +41,8 @@ import androidx.navigation.navArgument
 import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.data.repository.AuthState
 import com.neb.ians.util.DeepLinkBus
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import com.neb.ians.ui.components.LiquidGlassBottomNav
 import com.neb.ians.ui.components.LiquidGlassProfileSheet
@@ -74,6 +76,7 @@ import com.neb.ians.ui.screens.study.StudySpaceScreen
 import com.neb.ians.ui.screens.interactive.InteractiveCourseScreen
 import com.neb.ians.ui.screens.interactive.InteractiveLessonScreen
 import com.neb.ians.ui.screens.auth.SplashScreen
+import com.neb.ians.ui.screens.onboarding.OnboardingScreen
 import com.neb.ians.ui.screens.auth.LoginScreen
 import com.neb.ians.ui.screens.auth.EmailSignupScreen
 import com.neb.ians.ui.screens.auth.EmailLoginScreen
@@ -88,6 +91,7 @@ import com.neb.ians.ui.screens.credits.NebyCreditsScreen
 
 sealed class Screen(val route: String) {
     data object Splash : Screen("splash")
+    data object Onboarding : Screen("onboarding")
     data object Login : Screen("login")
     data object EmailSignup : Screen("email_signup")
     data object EmailLogin : Screen("email_login")
@@ -197,8 +201,13 @@ fun NEBiansNavHost(
 ) {
     val authState by settingsViewModel.authState.collectAsStateWithLifecycle()
     val userProfile by settingsViewModel.userProfile.collectAsStateWithLifecycle()
+    val onboardingSeen by settingsViewModel.isOnboardingSeen.collectAsStateWithLifecycle()
     val mediaPlayerViewModel: MediaPlayerViewModel = hiltViewModel()
-    val mediaPlayerState by mediaPlayerViewModel.uiState.collectAsStateWithLifecycle()
+    val miniPlayerSignal by remember(mediaPlayerViewModel) {
+        mediaPlayerViewModel.uiState
+            .map { Triple(it.resource?.id.orEmpty(), it.isPlaying, it.currentTimeMs > 0L) }
+            .distinctUntilChanged()
+    }.collectAsStateWithLifecycle(initialValue = Triple("", false, false))
     var showMiniPlayer by remember { mutableStateOf(false) }
     val isAuthenticated = authState is AuthState.Authenticated
     LaunchedEffect(authState) {
@@ -253,12 +262,12 @@ fun NEBiansNavHost(
         if (currentRoute != "library") hideLibraryDetailChrome = false
     }
     val showBottomBar = currentRoute in glassNavItems.map { it.route } && !hideLibraryDetailChrome
-    LaunchedEffect(currentRoute, mediaPlayerState.resource?.id, mediaPlayerState.isPlaying, mediaPlayerState.currentTimeMs) {
+    LaunchedEffect(currentRoute, miniPlayerSignal) {
+        val (signalResourceId, signalIsPlaying, signalHasProgress) = miniPlayerSignal
         showMiniPlayer = when {
             currentRoute == Screen.ResourceDetail.route -> false
-            mediaPlayerState.resource == null -> false
-            mediaPlayerState.isPlaying -> true
-            mediaPlayerState.currentTimeMs > 0L -> true
+            signalResourceId.isEmpty() -> false
+            signalIsPlaying || signalHasProgress -> true
             else -> showMiniPlayer
         }
     }
@@ -283,6 +292,12 @@ fun NEBiansNavHost(
             composable(Screen.Splash.route) {
                 SplashScreen(
                     authRepository = authRepository,
+                    onboardingSeen = onboardingSeen,
+                    onNavigateToOnboarding = {
+                        navController.navigate(Screen.Onboarding.route) {
+                            popUpTo(Screen.Splash.route) { inclusive = true }
+                        }
+                    },
                     onNavigateToHome = {
                         navController.navigate(Screen.Home.route) {
                             popUpTo(Screen.Splash.route) { inclusive = true }
@@ -296,6 +311,27 @@ fun NEBiansNavHost(
                     onNavigateToCompleteProfile = {
                         navController.navigate(Screen.CompleteProfile.route) {
                             popUpTo(Screen.Splash.route) { inclusive = true }
+                        }
+                    }
+                )
+            }
+            composable(Screen.Onboarding.route) {
+                OnboardingScreen(
+                    authRepository = authRepository,
+                    settingsViewModel = settingsViewModel,
+                    onNavigateToHome = {
+                        navController.navigate(Screen.Home.route) {
+                            popUpTo(Screen.Onboarding.route) { inclusive = true }
+                        }
+                    },
+                    onNavigateToLogin = {
+                        navController.navigate(Screen.Login.route) {
+                            popUpTo(Screen.Onboarding.route) { inclusive = true }
+                        }
+                    },
+                    onNavigateToCompleteProfile = {
+                        navController.navigate(Screen.CompleteProfile.route) {
+                            popUpTo(Screen.Onboarding.route) { inclusive = true }
                         }
                     }
                 )
@@ -742,11 +778,12 @@ fun NEBiansNavHost(
                 val resourceId = backStackEntry.arguments?.getString("resourceId") ?: return@composable
                 ResourceDetailScreen(
                     onNavigateBack = {
-                        val keepPlayback = mediaPlayerState.resource?.id == resourceId &&
-                            (mediaPlayerState.isPlaying || mediaPlayerState.currentTimeMs > 0L)
+                        val playerState = mediaPlayerViewModel.uiState.value
+                        val keepPlayback = playerState.resource?.id == resourceId &&
+                            (playerState.isPlaying || playerState.currentTimeMs > 0L)
                         if (keepPlayback) {
                             showMiniPlayer = true
-                        } else if (mediaPlayerState.resource?.id == resourceId) {
+                        } else if (playerState.resource?.id == resourceId) {
                             mediaPlayerViewModel.stopPlayback()
                         }
                         navController.popBackStack()
@@ -859,16 +896,13 @@ fun NEBiansNavHost(
             )
         }
 
-        if (showMiniPlayer && currentRoute != Screen.ResourceDetail.route && mediaPlayerState.resource != null) {
-            MiniMediaPlayer(
-                uiState = mediaPlayerState,
+        if (showMiniPlayer && currentRoute != Screen.ResourceDetail.route) {
+            MiniMediaPlayerHost(
                 viewModel = mediaPlayerViewModel,
-                onExpand = {
-                    mediaPlayerState.resource?.id?.let { resourceId ->
-                        showMiniPlayer = false
-                        navController.navigate(Screen.ResourceDetail.createRoute(resourceId)) {
-                            launchSingleTop = true
-                        }
+                onExpand = { resourceId ->
+                    showMiniPlayer = false
+                    navController.navigate(Screen.ResourceDetail.createRoute(resourceId)) {
+                        launchSingleTop = true
                     }
                 },
                 onClose = {
@@ -922,4 +956,22 @@ fun NEBiansNavHost(
             }
         }
     }
+}
+
+@Composable
+private fun MiniMediaPlayerHost(
+    viewModel: MediaPlayerViewModel,
+    onExpand: (String) -> Unit,
+    onClose: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val resource = uiState.resource ?: return
+    MiniMediaPlayer(
+        uiState = uiState,
+        viewModel = viewModel,
+        onExpand = { onExpand(resource.id) },
+        onClose = onClose,
+        modifier = modifier
+    )
 }

@@ -11,8 +11,10 @@ class RetryInterceptor(private val maxRetries: Int = 3, private val initialBacko
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest = chain.request()
         var lastException: IOException? = null
+        val isIdempotent = originalRequest.method in IDEMPOTENT_METHODS
+        val maxAttempts = if (isIdempotent) maxRetries else 0
 
-        for (attempt in 0..maxRetries) {
+        for (attempt in 0..maxAttempts) {
             try {
                 val response = chain.proceed(originalRequest)
 
@@ -49,5 +51,6 @@ class RetryInterceptor(private val maxRetries: Int = 3, private val initialBacko
 
     companion object {
         private val RETRYABLE_STATUS_CODES = listOf(408, 429, 500, 502, 503, 504)
+        private val IDEMPOTENT_METHODS = setOf("GET", "HEAD", "OPTIONS", "TRACE")
     }
 }
