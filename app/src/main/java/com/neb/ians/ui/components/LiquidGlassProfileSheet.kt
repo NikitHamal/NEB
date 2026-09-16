@@ -242,7 +242,3 @@ private fun roleLabel(role: String?): String = when (role) {
     "explorer" -> "Explorer"
     else -> "Student"
 }
-
-private fun Color.luminanceIsDark(): Boolean {
-    return 0.299f * red + 0.587f * green + 0.114f * blue < 0.5f
-}
