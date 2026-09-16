@@ -11,6 +11,8 @@ import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 import coil.ImageLoader
 import coil.ImageLoaderFactory
+import coil.disk.DiskCache
+import coil.memory.MemoryCache
 import okhttp3.OkHttpClient
 import com.neb.ians.data.api.WafChallengeInterceptor
 
@@ -45,7 +47,18 @@ class NEBiansApp : Application(), Configuration.Provider, ImageLoaderFactory {
                     }
                     .build()
             }
-            .crossfade(true)
+            .memoryCache {
+                MemoryCache.Builder(this@NEBiansApp)
+                    .maxSizePercent(0.25)
+                    .build()
+            }
+            .diskCache {
+                DiskCache.Builder()
+                    .directory(this@NEBiansApp.cacheDir.resolve("image_cache"))
+                    .maxSizePercent(0.02)
+                    .build()
+            }
+            .crossfade(false)
             .build()
     }
 

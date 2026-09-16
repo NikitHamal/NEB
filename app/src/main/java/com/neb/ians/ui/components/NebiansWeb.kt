@@ -96,6 +96,8 @@ val WebCardShape = RoundedCornerShape(8.dp)
 val WebPanelShape = RoundedCornerShape(16.dp)
 val WebPillShape = RoundedCornerShape(999.dp)
 
+private val CARD_VIDEO_EXT_RE = Regex("\\.(mp4|mkv|webm|3gp|mov)$", RegexOption.IGNORE_CASE)
+
 @Composable
 fun NebiansLogo(
     modifier: Modifier = Modifier
@@ -618,7 +620,7 @@ fun WebResourceCard(
     }
     val isVideo = remember(resource.type, resource.fileUrl) {
         resource.type.contains("video", ignoreCase = true) ||
-            Regex("\\.(mp4|mkv|webm|3gp|mov)$", RegexOption.IGNORE_CASE).containsMatchIn(resource.fileUrl)
+            CARD_VIDEO_EXT_RE.containsMatchIn(resource.fileUrl)
     }
 
     Card(

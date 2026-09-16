@@ -45,24 +45,34 @@ data class NewsDetailUiState(
             }
         }
 
+    /** Direct children grouped by parent id, built once per state instance. */
+    val childrenByParent: Map<String, List<NewsComment>> by lazy {
+        val map = mutableMapOf<String, MutableList<NewsComment>>()
+        for (c in comments) {
+            val parentId = c.parentCommentId
+            if (parentId.isNotBlank()) {
+                map.getOrPut(parentId) { mutableListOf() }.add(c)
+            }
+        }
+        map.mapValues { (_, v) -> v.sortedBy { it.createdAt } }
+    }
+
     /** Children and deeper descendants of a comment, oldest first (same rule as the forum thread sheet). */
     fun childrenOf(commentId: String): List<NewsComment> {
         val result = mutableListOf<NewsComment>()
-        val descendants = mutableSetOf<String>()
-        var addedAny: Boolean
-        do {
-            addedAny = false
-            for (c in comments) {
-                val parentId = c.parentCommentId
-                if (parentId.isNotBlank() && !descendants.contains(c.id)) {
-                    if (parentId == commentId || descendants.contains(parentId)) {
-                        descendants.add(c.id)
-                        result.add(c)
-                        addedAny = true
-                    }
+        val seen = mutableSetOf(commentId)
+        val queue = ArrayDeque<String>()
+        queue.add(commentId)
+        while (queue.isNotEmpty()) {
+            val parentId = queue.removeFirst()
+            val kids = childrenByParent[parentId] ?: continue
+            for (k in kids) {
+                if (seen.add(k.id)) {
+                    result.add(k)
+                    queue.add(k.id)
                 }
             }
-        } while (addedAny)
+        }
         return result.sortedBy { it.createdAt }
     }
 }

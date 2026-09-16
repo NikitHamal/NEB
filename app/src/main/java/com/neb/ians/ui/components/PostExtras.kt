@@ -122,6 +122,8 @@ import javax.inject.Inject
 
 private const val WEB_BASE = "https://nebians.consica.com.np"
 
+private val POST_VIDEO_URL_RE = Regex("""https?://[^\s<"]+?\.(?:mp4|webm|mov|m4v|mkv)(?:\?[^\s<"]*)?""", RegexOption.IGNORE_CASE)
+
 fun resolveMediaUrl(url: String?): String? {
     if (url.isNullOrBlank()) return null
     return if (url.startsWith("http://") || url.startsWith("https://")) url
@@ -153,8 +155,7 @@ fun extractPostAttachments(post: ApiPost): List<com.neb.ians.data.api.ApiMediaAt
         }
     }
 
-    val videoRegex = Regex("""https?://[^\s<"]+?\.(?:mp4|webm|mov|m4v|mkv)(?:\?[^\s<"]*)?""", RegexOption.IGNORE_CASE)
-    videoRegex.findAll(post.content).forEach { match ->
+    POST_VIDEO_URL_RE.findAll(post.content).forEach { match ->
         val vUrl = match.value
         if (result.none { it.url == vUrl }) {
             result.add(

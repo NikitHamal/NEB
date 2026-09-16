@@ -24,6 +24,7 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        resConfigs("en", "ne")
     }
 
     signingConfigs {
@@ -47,7 +48,7 @@ android {
             )
             signingConfig = signingConfigs.getByName("release")
             ndk {
-                debugSymbolLevel = "FULL"
+                debugSymbolLevel = "SYMBOL_TABLE"
             }
         }
         debug {

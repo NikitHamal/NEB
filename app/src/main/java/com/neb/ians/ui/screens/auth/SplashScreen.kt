@@ -23,12 +23,15 @@ import kotlinx.coroutines.flow.first
 @Composable
 fun SplashScreen(
     authRepository: AuthRepository,
+    onboardingSeen: Boolean,
+    onNavigateToOnboarding: () -> Unit,
     onNavigateToHome: () -> Unit,
     onNavigateToLogin: () -> Unit,
     onNavigateToCompleteProfile: () -> Unit
 ) {
     val scale = remember { Animatable(0f) }
-    
+    val latestOnboardingSeen by rememberUpdatedState(onboardingSeen)
+
     LaunchedEffect(key1 = true) {
         scale.animateTo(
             targetValue = 1.1f,
@@ -41,7 +44,12 @@ fun SplashScreen(
         )
         
         delay(1200)
-        
+
+        if (!latestOnboardingSeen) {
+            onNavigateToOnboarding()
+            return@LaunchedEffect
+        }
+
         when (val state = authRepository.authState.first()) {
             is AuthState.Guest -> onNavigateToHome()
             is AuthState.Authenticated -> {
