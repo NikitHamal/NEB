@@ -197,14 +197,37 @@ fun WebTopBar(
                     )
                 }
             } else if (title == null) {
-                // Home: brand logo only on the left; greeting + profile live on the right.
-                NebiansLogo(
-                    modifier = Modifier
-                        .size(40.dp)
-                        .clip(CircleShape)
-                        .clickable(onClick = onLogoClick)
-                )
-                Spacer(modifier = Modifier.weight(1f))
+                // Home screen specific dashboard header layout (Greeting,Name)
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    val greeting = remember {
+                        val hour = java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY)
+                        when (hour) {
+                            in 0..11 -> "Good Morning,"
+                            in 12..16 -> "Good Afternoon,"
+                            else -> "Good Evening,"
+                        }
+                    }
+                    val firstName = remember(name) {
+                        name.trim().split(Regex("\\s+")).firstOrNull().orEmpty().ifBlank { "User" }
+                    }
+                    Text(
+                        text = greeting,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        maxLines = 1
+                    )
+                    Text(
+                        text = firstName,
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
             } else {
                 Row(
                     modifier = Modifier
@@ -285,38 +308,7 @@ fun WebTopBar(
             }
 
             if (title == null && !showBack) {
-                // Home: greeting + profile on the right, after the action icons.
-                Column(
-                    horizontalAlignment = Alignment.End,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    val greeting = remember {
-                        val hour = java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY)
-                        when (hour) {
-                            in 0..11 -> "Good Morning,"
-                            in 12..16 -> "Good Afternoon,"
-                            else -> "Good Evening,"
-                        }
-                    }
-                    val firstName = remember(name) {
-                        name.trim().split(Regex("\\s+")).firstOrNull().orEmpty().ifBlank { "User" }
-                    }
-                    Text(
-                        text = greeting,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        maxLines = 1
-                    )
-                    Text(
-                        text = firstName,
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        textAlign = TextAlign.End,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                }
+                // Home: profile avatar on the far right, after the action icons.
                 Box(
                     modifier = Modifier
                         .clip(CircleShape)
@@ -326,7 +318,8 @@ fun WebTopBar(
                     NebAvatar(
                         photoUrl = photo,
                         name = name.ifBlank { "User" },
-                        size = 40.dp
+                        size = 40.dp,
+                        verificationLevel = verificationLevel
                     )
                 }
             }

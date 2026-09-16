@@ -11,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.BookmarkBorder
+import androidx.compose.material.icons.outlined.Dashboard
 import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Info
@@ -47,6 +48,7 @@ fun SettingsScreen(
     onNavigateToBookmarks: () -> Unit = {},
     onNavigateToNebyCredits: () -> Unit = {},
     onNavigateToLocalNeby: () -> Unit = {},
+    onNavigateToCanvas: () -> Unit = {},
     onNavigateToMyAvatar: () -> Unit = {},
     onNavigateToDeleteAccount: () -> Unit = {},
     onNavigateToLogin: () -> Unit = {},
@@ -277,6 +279,26 @@ fun SettingsScreen(
                 leadingContent = {
                     Icon(
                         imageVector = Icons.Outlined.AutoAwesome,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(22.dp)
+                    )
+                },
+                colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest)
+            )
+
+            HorizontalDivider(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+            )
+
+            ListItem(
+                modifier = Modifier.clickable { onNavigateToCanvas() },
+                headlineContent = { Text("Canvas", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium) },
+                supportingContent = { Text("AI knowledge maps · cards, drawings and study widgets", style = MaterialTheme.typography.bodySmall) },
+                leadingContent = {
+                    Icon(
+                        imageVector = Icons.Outlined.Dashboard,
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.size(22.dp)
