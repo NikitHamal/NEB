@@ -538,6 +538,14 @@ def _call_single_provider(system_prompt, user_message, config):
             system_prompt=system_prompt or '',
             max_tokens=max_tokens,
         )
+    if provider == 'ptero':
+        from . import ptero_proxy
+        return ptero_proxy.simple_chat(
+            user_message=user_message,
+            model=config.model or ptero_proxy.DEFAULT_MODEL,
+            system_prompt=system_prompt or '',
+            max_tokens=max_tokens,
+        )
     if provider == 'qwen':
         from .qwen_proxy import call_qwen
         model = config.model or 'qwen3.8-max'

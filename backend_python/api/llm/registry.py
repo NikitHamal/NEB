@@ -30,7 +30,7 @@ FORMAT_SCRAPER = 'scraper'      # Existing NEBians web proxies (qwen & friends)
 
 OFFICIAL_FORMATS = (FORMAT_OPENAI, FORMAT_ANTHROPIC, FORMAT_GEMINI)
 
-SCRAPER_PROVIDERS = ('qwen', 'qwencloud', 'deepai', 'inception', 'k2think', 'poolside', 'motiftech', 'metaai', 'tryingopen', 'longcat', 'geminiweb', 'yqcloud', 'chatjimmy', 'unikey', 'lazypy', 'googletts', 'moetts', 'kokoro', 'chatterbox', 'fishaudio')
+SCRAPER_PROVIDERS = ('qwen', 'qwencloud', 'deepai', 'inception', 'k2think', 'poolside', 'motiftech', 'metaai', 'tryingopen', 'longcat', 'geminiweb', 'yqcloud', 'chatjimmy', 'unikey', 'ptero', 'lazypy', 'googletts', 'moetts', 'kokoro', 'chatterbox', 'fishaudio')
 
 
 @dataclass(frozen=True)
@@ -345,6 +345,26 @@ SCRAPER_PRESETS: List[ProviderPreset] = [
         ],
         context_window=32000, max_output_tokens=4000,
         key_required=False, official=False, scraper_module='unikey_proxy',
+    ),
+    ProviderPreset(
+        slug='ptero', label='Ptero (ptero.pro — 12 models, free, no login)', format=FORMAT_SCRAPER,
+        base_url='https://ptero.pro', default_model='mercury-2.5:free',
+        models=[
+            ModelSpec('mercury-2.5:free', 'Mercury 2.5'),
+            ModelSpec('qwen3.7-flash:free', 'Qwen 3.7 Flash'),
+            ModelSpec('deepseek-v4.1-flash:free', 'DeepSeek V4.1 Flash'),
+            ModelSpec('deepseek-v4-flash-0731:free', 'DeepSeek V4 Flash'),
+            ModelSpec('gpt-oss-20b:free', 'GPT-OSS 20B'),
+            ModelSpec('gpt-5-nano:free', 'GPT-5 Nano'),
+            ModelSpec('mercury-2:free', 'Mercury 2'),
+            ModelSpec('qwen3.6-35b-a3b:free', 'Qwen 3.6 35B'),
+            ModelSpec('qwen2.5-1.5b:local', 'Qwen 2.5 1.5B'),
+            ModelSpec('agnes-2.5-flash:free', 'Agnes 2.5 Flash'),
+            ModelSpec('nemotron-3.5-lightning:free', 'Nemotron 3.5 Lightning'),
+            ModelSpec('nova-micro:free', 'Nova Micro'),
+        ],
+        context_window=32000, max_output_tokens=4000,
+        key_required=False, official=False, scraper_module='ptero_proxy',
     ),
     ProviderPreset(
         slug='lazypy', label='LazyPy TTS (lazypy.ro — 11 services, Microsoft/Google)', format=FORMAT_SCRAPER,
