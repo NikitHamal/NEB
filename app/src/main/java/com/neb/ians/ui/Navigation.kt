@@ -44,6 +44,7 @@ import com.neb.ians.util.DeepLinkBus
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import com.neb.ians.ui.components.CreateSheet
 import com.neb.ians.ui.components.LiquidGlassBottomNav
 import com.neb.ians.ui.components.LiquidGlassProfileSheet
 import com.neb.ians.ui.components.NebNavItem
@@ -275,6 +276,7 @@ fun NEBiansNavHost(
         }
     }
     var showProfileDropdown by remember { mutableStateOf(false) }
+    var showCreateSheet by remember { mutableStateOf(false) }
     val navigateToOwnProfile = {
         val username = userProfile?.username?.takeIf { it.isNotBlank() && it != "Guest" }
         if (username != null) {
@@ -892,10 +894,22 @@ fun NEBiansNavHost(
                         restoreState = true
                     }
                 },
-                photoUrl = userProfile?.photoUrl,
-                username = userProfile?.displayName ?: userProfile?.username ?: "",
-                onProfileClick = navigateToOwnProfile,
+                onCreateClick = { showCreateSheet = true },
                 modifier = Modifier.align(Alignment.BottomCenter)
+            )
+        }
+
+        if (showCreateSheet) {
+            CreateSheet(
+                onDismiss = { showCreateSheet = false },
+                onNewPostClick = {
+                    showCreateSheet = false
+                    navController.navigate(Screen.CreatePost.route)
+                },
+                onUploadClick = {
+                    showCreateSheet = false
+                    navController.navigate(Screen.Upload.route)
+                }
             )
         }
 
