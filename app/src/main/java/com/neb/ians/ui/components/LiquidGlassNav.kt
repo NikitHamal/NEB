@@ -141,9 +141,7 @@ fun LiquidGlassBottomNav(
     currentRoute: String?,
     onSelect: (NebNavItem) -> Unit,
     modifier: Modifier = Modifier,
-    photoUrl: String? = null,
-    username: String = "",
-    onProfileClick: (() -> Unit)? = null,
+    onCreateClick: (() -> Unit)? = null,
 ) {
     val isDark = MaterialTheme.colorScheme.surface.luminanceIsDark()
     val glassBase = MaterialTheme.colorScheme.surfaceContainerLowest
@@ -184,25 +182,25 @@ fun LiquidGlassBottomNav(
                 }
             }
 
-            if (onProfileClick != null) {
+            if (onCreateClick != null) {
                 Box(
                     modifier = Modifier
                         .size(navHeight)
                         .shadow(18.dp, CircleShape, clip = false, ambientColor = Color.Black.copy(alpha = 0.18f), spotColor = Color.Black.copy(alpha = 0.22f))
                         .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.primary)
                         .clickable(
                             interactionSource = remember { MutableInteractionSource() },
                             indication = null,
-                            onClick = onProfileClick
+                            onClick = onCreateClick
                         ),
                     contentAlignment = Alignment.Center
                 ) {
-                    NebAvatar(
-                        photoUrl = photoUrl,
-                        name = username.ifBlank { "User" },
-                        size = navHeight,
-                        ring = false,
-                        showBorder = false
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_rune_plus),
+                        contentDescription = "Create",
+                        tint = MaterialTheme.colorScheme.onPrimary,
+                        modifier = Modifier.size(26.dp)
                     )
                 }
             }
@@ -246,7 +244,7 @@ private fun GlassNavItem(item: NebNavItem, selected: Boolean, onClick: () -> Uni
     }
 }
 
-private fun Color.luminanceIsDark(): Boolean {
+internal fun Color.luminanceIsDark(): Boolean {
     val l = 0.299f * red + 0.587f * green + 0.114f * blue
     return l < 0.5f
 }
