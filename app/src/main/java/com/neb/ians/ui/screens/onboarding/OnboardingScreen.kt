@@ -1,6 +1,6 @@
 package com.neb.ians.ui.screens.onboarding
 
-import androidx.compose.animation.AnimatedContent
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateDpAsState
@@ -8,12 +8,9 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,8 +23,12 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Forum
@@ -41,9 +42,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -95,11 +95,23 @@ fun OnboardingScreen(
     onNavigateToLogin: () -> Unit,
     onNavigateToCompleteProfile: () -> Unit
 ) {
-    var page by remember { mutableIntStateOf(0) }
+    val pagerState = rememberPagerState(pageCount = { PAGES.size })
+    val scope = rememberCoroutineScope()
+    val page = pagerState.currentPage
     val isLast = page == PAGES.lastIndex
 
-    fun finish() {
+    fun finishAndGo() {
         settingsViewModel.setOnboardingSeen(true)
+        navigateAfterOnboarding(
+            authRepository = authRepository,
+            onNavigateToHome = onNavigateToHome,
+            onNavigateToLogin = onNavigateToLogin,
+            onNavigateToCompleteProfile = onNavigateToCompleteProfile
+        )
+    }
+
+    BackHandler(enabled = page > 0) {
+        scope.launch { pagerState.animateScrollToPage(page - 1) }
     }
 
     val blobShift by rememberInfiniteTransition(label = "onboarding_blobs").animateFloat(
@@ -156,19 +168,37 @@ fun OnboardingScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(horizontal = 24.dp)
-                    .padding(top = 56.dp, bottom = 32.dp),
+                    .padding(top = 12.dp, bottom = 32.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                AnimatedContent(
-                    targetState = page,
-                    transitionSpec = {
-                        (slideInHorizontally(animationSpec = tween(300)) { it / 3 } + fadeIn(tween(300)))
-                            .togetherWith(slideOutHorizontally(animationSpec = tween(200)) { -it / 3 } + fadeOut(tween(200)))
-                    },
-                    label = "onboarding_page"
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    if (!isLast) {
+                        TextButton(onClick = { finishAndGo() }) {
+                            Text(text = "Skip", style = MaterialTheme.typography.labelLarge)
+                        }
+                    } else {
+                        Spacer(modifier = Modifier.height(40.dp))
+                    }
+                }
+
+                HorizontalPager(
+                    state = pagerState,
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth(),
+                    pageSpacing = 16.dp,
+                    verticalAlignment = Alignment.CenterVertically
                 ) { index ->
                     val item = PAGES[index]
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
                         Surface(
                             modifier = Modifier.size(120.dp),
                             shape = CircleShape,
@@ -203,8 +233,6 @@ fun OnboardingScreen(
                     }
                 }
 
-                Spacer(modifier = Modifier.weight(1f))
-
                 Row(
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
@@ -224,62 +252,66 @@ fun OnboardingScreen(
                                     if (index == page) MaterialTheme.colorScheme.primary
                                     else MaterialTheme.colorScheme.outlineVariant
                                 )
+                                .clickable(
+                                    interactionSource = remember { MutableInteractionSource() },
+                                    indication = null
+                                ) {
+                                    scope.launch { pagerState.animateScrollToPage(index) }
+                                }
                         )
                     }
                 }
 
                 Spacer(modifier = Modifier.height(28.dp))
 
-                if (isLast) {
-                    Button(
-                        onClick = {
-                            finish()
-                            navigateAfterOnboarding(
-                                authRepository = authRepository,
-                                onNavigateToHome = onNavigateToHome,
-                                onNavigateToLogin = onNavigateToLogin,
-                                onNavigateToCompleteProfile = onNavigateToCompleteProfile
-                            )
-                        },
-                        modifier = Modifier.fillMaxWidth(),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.primary,
-                            contentColor = MaterialTheme.colorScheme.onPrimary
-                        )
-                    ) {
-                        Text(
-                            text = "Get Started",
-                            style = MaterialTheme.typography.labelLarge,
-                            modifier = Modifier.padding(vertical = 4.dp)
-                        )
-                    }
-                } else {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    if (page > 0) {
                         TextButton(
-                            onClick = {
-                                finish()
-                                navigateAfterOnboarding(
-                                    authRepository = authRepository,
-                                    onNavigateToHome = onNavigateToHome,
-                                    onNavigateToLogin = onNavigateToLogin,
-                                    onNavigateToCompleteProfile = onNavigateToCompleteProfile
-                                )
-                            }
+                            onClick = { scope.launch { pagerState.animateScrollToPage(page - 1) } }
                         ) {
-                            Text(text = "Skip", style = MaterialTheme.typography.labelLarge)
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                contentDescription = null,
+                                modifier = Modifier.size(18.dp)
+                            )
+                            Spacer(modifier = Modifier.size(4.dp))
+                            Text(text = "Back", style = MaterialTheme.typography.labelLarge)
                         }
+                    } else {
+                        Box {}
+                    }
+                    if (isLast) {
                         Button(
-                            onClick = { page += 1 },
+                            onClick = { finishAndGo() },
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = MaterialTheme.colorScheme.primary,
+                                contentColor = MaterialTheme.colorScheme.onPrimary
+                            )
+                        ) {
+                            Text(
+                                text = "Get Started",
+                                style = MaterialTheme.typography.labelLarge
+                            )
+                        }
+                    } else {
+                        Button(
+                            onClick = { scope.launch { pagerState.animateScrollToPage(page + 1) } },
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = MaterialTheme.colorScheme.primary,
                                 contentColor = MaterialTheme.colorScheme.onPrimary
                             )
                         ) {
                             Text(text = "Next", style = MaterialTheme.typography.labelLarge)
+                            Spacer(modifier = Modifier.size(4.dp))
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                                contentDescription = null,
+                                modifier = Modifier.size(18.dp)
+                            )
                         }
                     }
                 }
