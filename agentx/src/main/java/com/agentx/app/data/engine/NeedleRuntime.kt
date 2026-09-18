@@ -86,10 +86,12 @@ class NeedleRuntime @Inject constructor(
     }
 
     fun systemPrompt(): String {
+        // NOTE: date-only on purpose. The worker keys its persisted runtime snapshot on
+        // system + tools, so anything more granular (time of day) would invalidate the
+        // snapshot on every launch and force a full cold init each time.
         val now = Date()
-        val dateFmt = SimpleDateFormat("yyyy-MM-dd EEE HH:mm", Locale.US)
-        val dayFmt = SimpleDateFormat("EEEE", Locale.US)
-        return "date: " + dateFmt.format(now) + "; day: " + dayFmt.format(now) +
+        val dateFmt = SimpleDateFormat("yyyy-MM-dd EEE", Locale.US)
+        return "date: " + dateFmt.format(now) +
             "; device: Android phone; locale: en; capabilities: fully on-device, no internet access"
     }
 
