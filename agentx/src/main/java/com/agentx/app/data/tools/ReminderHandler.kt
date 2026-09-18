@@ -17,9 +17,19 @@ class ReminderHandler @Inject constructor(
         val rawWhen = spec.arg("trigger_at")
             ?: return ToolExecution.fail("When? Give a time like 2026-09-19 07:30, tomorrow 7am, or in 20 minutes.")
         val at = TimeParser.parse(rawWhen)
-            ?: return ToolExecution.fail("I could not understand that time. Try 2026-09-19 07:30, tomorrow 7am, or in 20 minutes.")
+            ?: return ToolExecution(
+                ok = false,
+                message = "I could not understand that time. Try 2026-09-19 07:30, tomorrow 7am, or in 20 minutes.",
+                repairable = true,
+                repairHint = "trigger_at must be a future time as YYYY-MM-DD HH:MM in 24-hour time. Try the call again with a valid trigger_at."
+            )
         if (at <= System.currentTimeMillis() + 30_000L) {
-            return ToolExecution.fail("That time already passed. Pick a future time.")
+            return ToolExecution(
+                ok = false,
+                message = "That time already passed. Pick a future time.",
+                repairable = true,
+                repairHint = "trigger_at was in the past. Try the call again with a future YYYY-MM-DD HH:MM time."
+            )
         }
         val note = spec.arg("note").orEmpty()
         val id = dao.upsert(ReminderEntity(title = title, note = note, triggerAt = at))

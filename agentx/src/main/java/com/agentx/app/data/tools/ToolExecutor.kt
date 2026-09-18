@@ -9,7 +9,9 @@ data class ToolExecution(
     val message: String,
     val needsPermission: String? = null,
     val permissionLabel: String? = null,
-    val options: List<String> = emptyList()
+    val options: List<String> = emptyList(),
+    val repairable: Boolean = false,
+    val repairHint: String? = null
 ) {
     companion object {
         fun done(message: String, options: List<String> = emptyList()) =
