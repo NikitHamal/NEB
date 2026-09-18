@@ -160,9 +160,10 @@ def auth_google(request):
     display_name = google_info.get('displayName') or ''
     photo_url = google_info.get('photoUrl') or ''
 
+    provider_verified = bool(google_info.get('email_verified', False))
     try:
         user = User.objects.get(pk=user_id)
-        if not user.email_verified:
+        if provider_verified and not user.email_verified:
             user.email_verified = True
             user.save(update_fields=['email_verified'])
         auth_token = issue_auth_token(user)
@@ -175,6 +176,8 @@ def auth_google(request):
         })
     except User.DoesNotExist:
         # New user — create with auth token, temporary username placeholder
+        if email and User.objects.filter(email__iexact=email).exists():
+            return Response({'error': 'An account with this email already exists. Please log in with your original sign-in method first.'}, status=409)
         temp_username = f"user_{user_id[:8]}"
         user = User(
             pk=user_id,
@@ -182,7 +185,7 @@ def auth_google(request):
             email=email,
             display_name=display_name,
             photo_url=photo_url,
-            email_verified=True,
+            email_verified=provider_verified,
             created_at=_now_ms()
         )
         user.save()

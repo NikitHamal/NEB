@@ -57,6 +57,9 @@ app/google-services.json
 # Local SSH deployment secrets
 .ssh_deploy_info.json
 
+# Rotated production secrets (Sep 2026) - NEVER commit
+.secrets.local.json
+
 # Google OAuth client secret JSONs (downloaded from Google Cloud Console)
 client_secret_*.json
 *_oauth_client_secret*.json

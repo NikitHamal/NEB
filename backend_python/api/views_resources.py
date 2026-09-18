@@ -556,6 +556,14 @@ def resource_purchase(request, resource_id):
     if not transaction_id and not proof_file:
         return Response({'error': 'Please provide a transaction reference or upload a payment screenshot.'}, status=400)
 
+    if proof_file:
+        from api.security import save_payment_proof_upload
+        from django.core.exceptions import ValidationError as DjangoValidationError
+        try:
+            proof_file = save_payment_proof_upload(proof_file)
+        except DjangoValidationError as exc:
+            return Response({'error': ' '.join(exc.messages)}, status=400)
+
     commission_dec = (price_dec * Decimal('0.10')).quantize(Decimal('0.01'))
     earnings_dec = price_dec - commission_dec
 

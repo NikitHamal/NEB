@@ -246,6 +246,7 @@ urlpatterns = [
     path('ajax/admin/media/voice/', views_admin_media.ajax_admin_media_voice, name='ajax_admin_media_voice'),
     path('admin/hero-backgrounds/', views.admin_hero_backgrounds, name='admin_hero_backgrounds'),
     path('admin/agent-drops/', views.admin_agent_drops, name='admin_agent_drops'),
+    path('staff/agent-drops/', views.admin_agent_drops, name='staff_agent_drops'),
 
     # Study Lab
     path('study-lab/', views.study_lab, name='study_lab'),

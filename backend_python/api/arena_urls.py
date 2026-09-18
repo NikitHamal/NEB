@@ -4,6 +4,7 @@ Mounted under /api/neby-arena/ by api/urls.py.
 """
 from django.urls import path
 from . import arena_views
+from . import arena_agent_views
 from . import arena_qwen_views
 from . import arena_deepai_views
 from . import arena_inception_views
@@ -17,6 +18,9 @@ urlpatterns = [
     path('sessions/<str:session_id>/', arena_views.arena_session_detail, name='arena-session-detail'),
     path('sessions/<str:session_id>/messages/', arena_views.arena_send_message, name='arena-send-message'),
     path('messages/<str:message_id>/regenerate/', arena_views.arena_regenerate, name='arena-regenerate'),
+
+    # Stateless single-shot chat for LLM clients (no session rows kept)
+    path('agent/', arena_agent_views.arena_agent_chat, name='arena-agent-chat'),
 
     # Qwen provider (file upload support — images, PDFs, audio, video)
     path('qwen/models/', arena_qwen_views.arena_qwen_models, name='arena-qwen-models'),

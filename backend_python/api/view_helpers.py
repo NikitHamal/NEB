@@ -271,20 +271,26 @@ def _paginated_response(request, queryset, serializer_class, *, context=None, de
     serializer = serializer_class(page, many=True, context=ctx)
     return paginator.get_paginated_response(serializer.data)
 
-def _link_oauth_user_model(email, user_pk, display_name, photo_url):
+def _link_oauth_user_model(email, user_pk, display_name, photo_url, provider_verified=True):
     """Link an OAuth user to an existing account by verified email.
 
     Instead of changing the existing account's PK (which is dangerous with InnoDB FKs),
     we transfer the OAuth identifiers to the existing account and delete the duplicate.
     This preserves all FK references to the existing account.
+
+    Links ONLY when the provider asserts a verified email AND the existing
+    account already verified that email (blocks pre-account-takeover via
+    squatted unverified signups).
     """
-    if not email:
+    if not email or not provider_verified:
         return None
     try:
         existing = User.objects.get(email__iexact=email)
         # Don't link to self
         if existing.pk == user_pk:
             return existing
+        if not existing.email_verified:
+            return None
         # Transfer display name and photo from OAuth account if existing doesn't have them
         update_fields = []
         if display_name and not existing.display_name:

@@ -180,7 +180,6 @@
     <nav class="md-nav-pill md-topbar-nav">
       <a href="{% url 'web:home' %}" class="{% block nav_home %}{% endblock %}">Home</a>
       <a href="{% url 'web:library' %}" class="{% block nav_library %}{% endblock %}">Library</a>
-      <a href="{% url 'web:videos' %}" class="{% block nav_videos %}{% endblock %}">Videos</a>
       <a href="{% url 'web:forum' %}" class="{% block nav_forum %}{% endblock %}">Forum</a>
       <a href="{% url 'web:news_list' %}" class="{% block nav_news %}{% endblock %}">Blog</a>
     </nav>
@@ -328,7 +327,6 @@
           <h4 class="site-footer-heading">Community &amp; Tools</h4>
           <ul class="site-footer-list">
             <li><a href="{% url 'web:forum' %}">Discussion Forum</a></li>
-            <li><a href="{% url 'web:videos' %}">Study Videos</a></li>
             <li><a href="{% url 'web:result_check' %}">NEB Result Checker</a></li>
             <li><a href="{% url 'web:tools_hub' %}">Free Study Tools</a></li>
             <li><a href="{% url 'web:news_list' %}">Educational News &amp; Blog</a></li>
@@ -341,7 +339,6 @@
             <li><a href="{% url 'web:privacy_policy' %}">Privacy Policy</a></li>
             <li><a href="{% url 'web:terms_of_service' %}">Terms of Service</a></li>
             <li><a href="{% url 'web:copyright_takedown' %}">Copyright Policy &amp; Takedown</a></li>
-            <li><a href="{% url 'web:agents_directory' %}">AI Study Agents</a></li>
           </ul>
         </div>
       </div>

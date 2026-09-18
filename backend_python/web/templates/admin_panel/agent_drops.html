@@ -274,16 +274,12 @@
     </div>
 
     <div style="display:flex;align-items:center;gap:10px;">
-      <a href="{{ codebase_download_url }}" class="btn btn-primary" title="Export clean live codebase for external AI agent" style="padding:6px 14px;font-size:0.8125rem;">
+      <a href="/api/agent-drop/codebase/download/" class="btn btn-primary" title="Export clean live codebase for external AI agent" style="padding:6px 14px;font-size:0.8125rem;">
         <span class="material-symbols-outlined" style="font-size:16px;">cloud_download</span>
         Export Codebase (.ZIP)
       </a>
       <button type="button" class="btn btn-outline" id="themeToggleBtn" title="Toggle Dark/Light Mode" style="padding:6px 12px;">
         <span class="material-symbols-outlined" id="themeIcon" style="font-size:18px;">light_mode</span>
-      </button>
-      <button type="button" class="btn btn-outline" id="copyTokenBtn" data-token="{{ agent_token }}">
-        <span class="material-symbols-outlined" style="font-size:16px;">key</span>
-        Copy Token
       </button>
     </div>
   </header>
@@ -380,7 +376,7 @@
               </button>
             </form>
 
-            <a href="{{ b.download_url }}" class="btn btn-primary" style="padding:6px 14px;font-size:0.8125rem;">
+            <a href="/api/agent-drop/{{ b.batch_id }}/download/" class="btn btn-primary" style="padding:6px 14px;font-size:0.8125rem;">
               <span class="material-symbols-outlined" style="font-size:16px;">download</span>
               Download .ZIP
             </a>
@@ -439,19 +435,6 @@
 
   <script nonce="{{ request.csp_nonce }}">
     document.addEventListener('DOMContentLoaded', function() {
-      // Copy token helper
-      const copyBtn = document.getElementById('copyTokenBtn');
-      if (copyBtn) {
-        copyBtn.addEventListener('click', function() {
-          const token = this.getAttribute('data-token');
-          navigator.clipboard.writeText(token).then(() => {
-            const original = copyBtn.innerHTML;
-            copyBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size:16px;color:#34d399;">check</span> Copied!';
-            setTimeout(() => { copyBtn.innerHTML = original; }, 2000);
-          });
-        });
-      }
-
       // Theme toggle
       const themeBtn = document.getElementById('themeToggleBtn');
       const themeIcon = document.getElementById('themeIcon');

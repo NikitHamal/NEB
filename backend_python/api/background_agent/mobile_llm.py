@@ -134,30 +134,46 @@ def llm_chat(request):
     if resolved is None:
         return _error(f'Provider "{slug}" cannot be resolved. Please verify credentials/model in Settings.', 400)
 
-    # Community scrapers / proxies
+    # Community scrapers / proxies (simple_chat returns Optional[str], not a dict)
     if not resolved.official:
+        user_msg = messages[-1].get('content', '') if messages else ''
+        if not isinstance(user_msg, str):
+            user_msg = ''
+        sys_msg = next((m['content'] for m in messages if m.get('role') == 'system'), '')
+        if not isinstance(sys_msg, str):
+            sys_msg = ''
         if resolved.slug == 'motiftech':
             from api import motiftech_proxy
-            resp = motiftech_proxy.simple_chat(messages, model=resolved.model or 'motif-102b')
-            if resp.get('type') == 'error':
-                return _json({'ok': False, 'error': resp.get('error', 'Motif request failed')})
-            return _json({'ok': True, 'reply': resp.get('content', ''), 'model': resolved.model})
+            reply = motiftech_proxy.simple_chat(
+                user_message=user_msg,
+                model=resolved.model or 'motif-102b',
+                system_prompt=sys_msg,
+            )
+            if not reply:
+                return _json({'ok': False, 'error': 'Motif request failed. Please retry.'})
+            return _json({'ok': True, 'reply': reply, 'model': resolved.model})
         elif resolved.slug == 'k2think':
             from api import k2think_proxy
-            resp = k2think_proxy.simple_chat(messages, model=resolved.model)
-            if resp.get('type') == 'error':
-                return _json({'ok': False, 'error': resp.get('error', 'K2Think request failed')})
-            return _json({'ok': True, 'reply': resp.get('content', ''), 'model': resolved.model})
+            reply = k2think_proxy.simple_chat(
+                user_message=user_msg,
+                model=resolved.model or 'IFM/K2-Horizon-375B-A23B',
+                system_prompt=sys_msg,
+            )
+            if not reply:
+                return _json({'ok': False, 'error': 'K2Think request failed. Please retry.'})
+            return _json({'ok': True, 'reply': reply, 'model': resolved.model})
         elif resolved.slug == 'poolside':
             from api import poolside_proxy
-            resp = poolside_proxy.simple_chat(messages, model=resolved.model)
-            if resp.get('type') == 'error':
-                return _json({'ok': False, 'error': resp.get('error', 'Poolside request failed')})
-            return _json({'ok': True, 'reply': resp.get('content', ''), 'model': resolved.model})
+            reply = poolside_proxy.simple_chat(
+                user_message=user_msg,
+                model=resolved.model or 'laguna-s-2.1',
+                system_prompt=sys_msg,
+            )
+            if not reply:
+                return _json({'ok': False, 'error': 'Poolside request failed. Please retry.'})
+            return _json({'ok': True, 'reply': reply, 'model': resolved.model})
         else:
             from api import qwen_proxy
-            user_msg = messages[-1].get('content', '') if messages else ''
-            sys_msg = next((m['content'] for m in messages if m.get('role') == 'system'), '')
             reply = qwen_proxy.call_qwen(
                 system_prompt=sys_msg,
                 user_message=user_msg,
@@ -182,7 +198,15 @@ def llm_chat(request):
             timeout=int(payload.get('timeout', 120)),
             provider=resolved.slug
         )
-        return _json({'ok': True, 'reply': res.text, 'model': res.model, 'usage': res.usage})
+        return _json({
+            'ok': True,
+            'reply': res.text,
+            'model': res.model,
+            'usage': {
+                'input_tokens': getattr(res, 'input_tokens', 0) or 0,
+                'output_tokens': getattr(res, 'output_tokens', 0) or 0,
+            },
+        })
     except LLMError as e:
         return _json({'ok': False, 'error': str(e), 'status': e.status})
 

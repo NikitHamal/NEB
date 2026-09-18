@@ -3,15 +3,15 @@ import { readFileSync, writeFileSync, unlinkSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { dirname, join } from 'node:path';
 import { tmpdir } from 'node:os';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const require = createRequire(import.meta.url);
 const root = dirname(fileURLToPath(import.meta.url));
-const assets = join(root, '..', 'web', 'static', 'web', 'js', 'needle2');
+const assets = join(root, '..', 'web', 'static', 'web', 'js', 'needle3');
 const gluePath = join(assets, 'needle.js');
 const wasmBytes = readFileSync(join(assets, 'needle.wasm'));
-const modelBytes = readFileSync(join(assets, 'needle2.cact'));
-const createNeedleModule = await import(gluePath);
+const modelBytes = readFileSync(join(assets, 'needle3.cact'));
+const createNeedleModule = await import(pathToFileURL(gluePath).href);
 const createNeedle = createNeedleModule.default || createNeedleModule;
 
 const tools = JSON.stringify([
@@ -76,7 +76,7 @@ function complete(runtime, outputPointer, query) {
 }
 
 const cold = await coldRuntime();
-const snapshotPath = join(tmpdir(), 'nebians-needle2-' + process.pid + '.snapshot');
+const snapshotPath = join(tmpdir(), 'nebians-needle3-' + process.pid + '.snapshot');
 const saveStarted = now();
 const snapshot = cold.runtime.HEAPU8.slice();
 writeFileSync(snapshotPath, snapshot);
@@ -128,7 +128,7 @@ const p95 = sorted[Math.ceil(sorted.length * 0.95) - 1];
 const mib = (bytes) => (bytes / (1024 * 1024)).toFixed(2);
 
 console.log('\n========================================================');
-console.log(' Needle 2 persisted-runtime benchmark');
+console.log(' Needle 3 persisted-runtime benchmark');
 console.log('========================================================');
 console.log(` cold load + tool init       : ${cold.milliseconds.toFixed(1)} ms`);
 console.log(` snapshot save (memory+disk) : ${saveMs.toFixed(1)} ms`);

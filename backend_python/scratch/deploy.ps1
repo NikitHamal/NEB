@@ -1,4 +1,7 @@
 # NEBians cPanel ZIP-based Deployment Script
+# Optional: -TargetHost <ip> deploys to a different box with the same layout
+# (e.g. the live box 202.63.243.186 instead of the default from .ssh_deploy_info.json).
+param([string]$TargetHost = "")
 
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $projectDir = Split-Path -Parent $scriptDir
@@ -12,6 +15,10 @@ if (-not (Test-Path $infoPath)) {
 Write-Host "Reading deployment configuration..."
 $info = Get-Content $infoPath | ConvertFrom-Json
 $hostIp = $info.host
+if ($TargetHost -ne "") {
+    $hostIp = $TargetHost
+    Write-Host "Overriding target host: $hostIp"
+}
 $username = $info.username
 $remoteDir = $info.remote_project_dir
 $privateKey = $info.ssh_private_key
@@ -230,7 +237,7 @@ python manage.py backfill_video_thumbnails || true
 
 
 
-echo 'Restarting background agent worker and autofix watcher...'
+echo 'Restarting background agent worker (autofix watcher removed Sep 2026)...'
 tr -d '\r' < /tmp/restart_workers.sh | bash
 
 echo 'Restarting LSAPI workers (touch restart.txt alone does NOT recycle healthy workers)...'

@@ -87,9 +87,13 @@ def google_auth(request):
         return JsonResponse({'status': 'success', 'user': user_data, 'isNewUser': False})
     except User.DoesNotExist:
         pass
-    if email:
+    provider_verified = bool(google_info.get('email_verified', False))
+    if email and provider_verified:
         try:
             existing = User.objects.get(email__iexact=email)
+            if not existing.email_verified:
+                logger.warning('google_auth: refusing link to unverified account (email=%s)', email)
+                return JsonResponse({'error': 'An account with this email exists but is not verified. Please verify it or log in with your password first.'}, status=409)
             token = issue_auth_token(existing)
             user_data = _normalize_user_data(UserSerializer(existing).data)
             user_data['isNewUser'] = False
@@ -98,6 +102,8 @@ def google_auth(request):
             return JsonResponse({'status': 'success', 'user': user_data, 'isNewUser': False})
         except User.DoesNotExist:
             pass
+    if email and User.objects.filter(email__iexact=email).exists():
+        return JsonResponse({'error': 'An account with this email already exists. Please log in with your original sign-in method first.'}, status=409)
     auth_token = User.generate_token()
     temp_username = f"user_{user_id[:8]}"
     db_user = User(
@@ -106,6 +112,7 @@ def google_auth(request):
         email=email,
         display_name=display_name,
         photo_url=photo_url,
+        email_verified=provider_verified,
         created_at=now_ms()
     )
     db_user.auth_token = hash_auth_token(auth_token)
@@ -206,7 +213,7 @@ def google_oauth_callback(request):
         return redirect('web:home')
     except User.DoesNotExist:
         pass
-    redirect_result, linked = _link_oauth_user(request, email, user_id, display_name, photo_url, 'google_oauth_callback')
+    redirect_result, linked = _link_oauth_user(request, email, user_id, display_name, photo_url, 'google_oauth_callback', provider_verified=bool(google_info.get('email_verified', False)))
     if linked:
         if is_mobile:
             linked_token = api.get_session_token(request) or ''
@@ -217,13 +224,16 @@ def google_oauth_callback(request):
         return redirect_result
     auth_token = User.generate_token()
     temp_username = f"user_{user_id[:8]}"
+    if email and User.objects.filter(email__iexact=email).exists():
+        messages.error(request, 'An account with this email already exists. Please log in with your original sign-in method first.')
+        return redirect('web:login')
     db_user = User(
         pk=user_id,
         username=temp_username,
         email=email,
         display_name=display_name,
         photo_url=photo_url,
-        email_verified=True,
+        email_verified=bool(google_info.get('email_verified', False)),
         created_at=now_ms()
     )
     db_user.auth_token = hash_auth_token(auth_token)
@@ -345,6 +355,7 @@ def github_callback(request):
             return deep_link('nebians://auth-callback?error=no_user_id')
         return HttpResponse('Could not retrieve GitHub user ID.', status=502)
     email = github_user.get('email') or ''
+    github_email_verified = False
     if not email:
         try:
             emails_resp = _req.get(
@@ -356,11 +367,13 @@ def github_callback(request):
             for e in emails:
                 if e.get('primary') and e.get('verified'):
                     email = e['email']
+                    github_email_verified = True
                     break
             if not email:
                 for e in emails:
                     if e.get('verified'):
                         email = e['email']
+                        github_email_verified = True
                         break
         except Exception:
             pass
@@ -381,7 +394,7 @@ def github_callback(request):
         return redirect('web:home')
     except User.DoesNotExist:
         pass
-    redirect_result, linked = _link_oauth_user(request, email, user_pk, display_name, photo_url, 'github_callback')
+    redirect_result, linked = _link_oauth_user(request, email, user_pk, display_name, photo_url, 'github_callback', provider_verified=github_email_verified)
     if linked:
         if is_mobile:
             linked_token = api.get_session_token(request) or ''
@@ -397,13 +410,16 @@ def github_callback(request):
     while User.objects.filter(username=temp_username).exists():
         temp_username = f"{base_username}_{suffix}"
         suffix += 1
+    if email and User.objects.filter(email__iexact=email).exists():
+        messages.error(request, 'An account with this email already exists. Please log in with your original sign-in method first.')
+        return redirect('web:login')
     db_user = User(
         pk=user_pk,
         username=temp_username,
         email=email,
         display_name=display_name,
         photo_url=photo_url,
-        email_verified=True,
+        email_verified=github_email_verified,
         created_at=now_ms(),
     )
     db_user.auth_token = hash_auth_token(auth_token)

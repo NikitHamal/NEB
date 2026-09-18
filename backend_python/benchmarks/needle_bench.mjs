@@ -1,20 +1,20 @@
 #!/usr/bin/env node
-/* Needle 2 (WASM) benchmark harness for NEBians Neby AI.
+/* Needle 3 (WASM) benchmark harness for NEBians Neby AI.
  * Loads the SAME engine+model shipped to the browser and runs it in Node
  * for reproducible load/init/latency/memory numbers.
  */
 import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { dirname, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const require = createRequire(import.meta.url);
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-const ASSET_DIR = join(__dirname, '..', 'web', 'static', 'web', 'js', 'needle2');
+const ASSET_DIR = join(__dirname, '..', 'web', 'static', 'web', 'js', 'needle3');
 const GLUE_JS = join(ASSET_DIR, 'needle.js');
 const WASM = join(ASSET_DIR, 'needle.wasm');
-const MODEL = join(ASSET_DIR, 'needle2.cact');
+const MODEL = join(ASSET_DIR, 'needle3.cact');
 
 const NEBY_TOOLS = JSON.stringify([
   { name: 'search_resources', description: 'Search for study resources on NEBians -- notes, past papers, textbooks, PDFs.', parameters: { type: 'object', properties: { query: { type: 'string', description: 'search keywords' }, subject: { type: 'string', description: 'subject name e.g. Mathematics, Physics, English' }, resource_type: { type: 'string', enum: ['PDF', 'Note', 'Past Paper', 'Textbook', 'Video', 'Link', ''], description: 'optional type filter' } }, required: ['query'] } },
@@ -69,7 +69,7 @@ function runOne(runtime, outPtr, query, maxNewTokens) {
 }
 
 async function main() {
-  const mod = await import(GLUE_JS);
+  const mod = await import(pathToFileURL(GLUE_JS).href);
   const createNeedle = mod.default || mod;
   const wasmBytes = readFileSync(WASM);
   const modelBytes = readFileSync(MODEL);
@@ -97,12 +97,12 @@ async function main() {
   const ms = (a, b) => Number(b - a) / 1e6;
 
   console.log('========================================================');
-  console.log(' Needle 2 WASM benchmark - NEBians Neby AI');
+  console.log(' Needle 3 WASM benchmark - NEBians Neby AI');
   console.log('========================================================');
   console.log(' assets:');
   console.log('   needle.js      ' + sizeMB(glueBytes.length));
   console.log('   needle.wasm    ' + sizeMB(wasmBytes.length));
-  console.log('   needle2.cact   ' + sizeMB(modelBytes.length) + '  (model)');
+  console.log('   needle3.cact   ' + sizeMB(modelBytes.length) + '  (model)');
   console.log('   TOTAL transfer ' + sizeMB(glueBytes.length + wasmBytes.length + modelBytes.length));
   console.log(' engine+glue init : ' + ms(t0, t1).toFixed(1) + ' ms');
   console.log(' model load       : ' + ms(t2, t3).toFixed(1) + ' ms');

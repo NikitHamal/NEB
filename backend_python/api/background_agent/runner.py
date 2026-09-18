@@ -65,8 +65,7 @@ Response schema:
     {"tool": "git_restore", "arguments": {"paths": ["src/app.py"], "staged": false}},
     {"tool": "git_stage", "arguments": {"paths": ["src/app.py"]}},
     {"tool": "git_commit", "arguments": {"message": "concise conventional commit message"}},
-    {"tool": "git_push", "arguments": {"branch": "task-branch-name"}},
-    {"tool": "deploy_live_hotfix", "arguments": {"reason": "Fix 500 error in resource upload"}}
+    {"tool": "git_push", "arguments": {"branch": "task-branch-name"}}
   ],
   "final": "set ONLY when the goal is genuinely complete; summarize the implementation and validation",
   "needs_input": false,

@@ -78,6 +78,8 @@ def user_profile_create_or_update(request):
     institution_type = data.get('institutionType', '') or data.get('institution_type', '')
 
     user.username = username
+    if email and email.lower() != (user.email or '').lower():
+        user.email_verified = False
     user.email = email
     user.photo_url = photo_url
     user.banner_url = banner_url

@@ -561,7 +561,6 @@ class ToolExecutor:
             'git_push': self.git_push,
             'git_pull': self.git_pull,
             'git_restore': self.git_restore,
-            'deploy_live_hotfix': self.deploy_live_hotfix,
         }
         handler = handlers.get(tool)
         if not handler:
@@ -1008,47 +1007,6 @@ class ToolExecutor:
     def git_restore(self, paths=None, staged=False):
         return {'status': self.workspace.restore(paths, staged=staged)}
 
-    def deploy_live_hotfix(self, reason=''):
-        """Deploys verified changes from the workspace directly to the live server
-        and restarts the application (LiteSpeed/Passenger) without needing SSH keys."""
-        import shutil
-        from django.conf import settings
-        
-        live_root = Path(getattr(settings, 'BASE_DIR', '.'))
-        ws_repo = self.workspace.worktree
-        
-        if not ws_repo or not ws_repo.exists():
-            return {'ok': False, 'error': 'Workspace repository is unavailable'}
-
-        copied_files = []
-        changed = self.workspace.changed_files()
-        for rel_file in changed:
-            src = ws_repo / rel_file
-            if rel_file.startswith('backend_python/'):
-                target_rel = rel_file[len('backend_python/'):]
-            else:
-                target_rel = rel_file
-                
-            dst = live_root / target_rel
-            if src.is_file():
-                dst.parent.mkdir(parents=True, exist_ok=True)
-                shutil.copy2(src, dst)
-                copied_files.append(str(target_rel))
-
-        # Restart LiteSpeed / WSGI by touching restart.txt
-        tmp_dir = live_root / 'tmp'
-        tmp_dir.mkdir(parents=True, exist_ok=True)
-        restart_file = tmp_dir / 'restart.txt'
-        restart_file.touch()
-
-        return {
-            'ok': True,
-            'message': f'Live hotfix deployed ({len(copied_files)} files updated on live server)',
-            'copied_files': copied_files,
-            'restarted': True,
-            'reason': reason or 'Autonomous hotfix by background agent'
-        }
-
     def _validate_patch_paths(self, patch):
         paths = set()
         for line in patch.splitlines():
@@ -1085,9 +1043,25 @@ class ToolExecutor:
             target.unlink()
         return {'path': path, 'deleted': True}
 
+    _SENSITIVE_NAMES = {'.env', 'id_rsa', 'id_ed25519', '.ssh_deploy_info.json'}
+
+    def _argv_paths_inside_workspace(self, argv):
+        for arg in argv[1:]:
+            if not arg or arg.startswith('-') or ' ' in arg.strip('\'"'):
+                continue
+            low = arg.lower().replace('\\', '/')
+            base = low.rsplit('/', 1)[-1]
+            if base in self._SENSITIVE_NAMES:
+                raise WorkspaceError(f'Command argument targets a protected file: {arg}')
+            if low.startswith(('~', '/etc/', '/home/', '/root/', '/var/', '/proc/', '/sys/')) or '..' in low:
+                resolved = self.workspace.safe_path(arg, must_exist=False)
+                if not resolved:
+                    raise WorkspaceError(f'Command argument is outside the workspace: {arg}')
+
     def run_command(self, argv, cwd='.', timeout=300):
         if not isinstance(argv, list) or not argv or not all(isinstance(v, str) for v in argv):
             raise WorkspaceError('run_command requires a non-empty argv string array')
+        self._argv_paths_inside_workspace(argv)
         executable = Path(argv[0]).name
         configured = getattr(settings, 'BACKGROUND_AGENT_ALLOWED_COMMANDS', '')
         allowed = {x.strip() for x in configured.split(',') if x.strip()} or self.DEFAULT_ALLOWED

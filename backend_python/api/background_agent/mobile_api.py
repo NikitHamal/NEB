@@ -118,7 +118,7 @@ def _project_data(project):
         'preferredBaseBranch': project.preferred_base_branch or project.default_branch,
         'private': project.is_private,
         'status': project.status,
-        'autofixEnabled': bool(getattr(project, 'autofix_enabled', True)),
+        'autofixEnabled': False,
         'lastSyncedAt': project.last_synced_at,
         'lastError': project.last_error,
         'createdAt': project.created_at,
@@ -490,7 +490,7 @@ def project_settings(request, project_id):
         return _error('Project not found', 404, 'not_found')
     try:
         payload = json_body(request)
-        project.autofix_enabled = bool(payload.get('autofixEnabled', True))
+        project.autofix_enabled = False
         project.updated_at = now_ms()
         project.save(update_fields=['autofix_enabled', 'updated_at'])
         return _json({'ok': True, 'project': _project_data(project)})

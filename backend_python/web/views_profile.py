@@ -906,7 +906,10 @@ def edit_profile(request):
             record_username_change(db_user)
         else:
             db_user.username = username
-        db_user.email = request.POST.get('email', '').strip() or db_user.email or ''
+        new_email = request.POST.get('email', '').strip() or db_user.email or ''
+        if new_email and new_email.lower() != (db_user.email or '').lower():
+            db_user.email_verified = False
+        db_user.email = new_email
         db_user.display_name = display_name or db_user.display_name or ''
         db_user.role = role
         db_user.dob = dob
