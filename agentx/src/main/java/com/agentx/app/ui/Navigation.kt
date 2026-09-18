@@ -26,18 +26,23 @@ import com.agentx.app.ui.components.AxGlassBottomNav
 import com.agentx.app.ui.components.AxNavItem
 import com.agentx.app.ui.screens.activity.ActivityScreen
 import com.agentx.app.ui.screens.assistant.AssistantScreen
+import com.agentx.app.ui.screens.chat.ChatScreen
 import com.agentx.app.ui.screens.routines.RoutinesScreen
 import com.agentx.app.ui.screens.settings.SettingsScreen
 import com.agentx.app.ui.screens.setup.SetupScreen
 import com.agentx.app.ui.screens.tools.ToolsScreen
 
-const val ASSISTANT_ROUTE_PATTERN = "assistant?prefill={prefill}"
+const val ASSISTANT_ROUTE_PATTERN = "assistant"
+const val CHAT_ROUTE_PATTERN = "chat/{conversationId}?prefill={prefill}"
+
+fun chatRoute(conversationId: String, prefill: String = ""): String {
+    return "chat/" + conversationId + "?prefill=" + java.net.URLEncoder.encode(prefill, "UTF-8")
+}
 
 sealed class AxScreen(val route: String) {
     data object Setup : AxScreen("setup")
-    data object Assistant : AxScreen(ASSISTANT_ROUTE_PATTERN) {
-        fun route(prefill: String = "") = "assistant?prefill=" + java.net.URLEncoder.encode(prefill, "UTF-8")
-    }
+    data object Assistant : AxScreen(ASSISTANT_ROUTE_PATTERN)
+    data object Chat : AxScreen(CHAT_ROUTE_PATTERN)
     data object Routines : AxScreen("routines")
     data object Tools : AxScreen("tools")
     data object Activity : AxScreen("activity")
@@ -85,12 +90,22 @@ fun Navigation() {
                         }
                     })
                 }
-                composable(
-                    route = ASSISTANT_ROUTE_PATTERN,
-                    arguments = listOf(navArgument("prefill") { type = NavType.StringType; defaultValue = "" })
-                ) { entry ->
+                composable(route = ASSISTANT_ROUTE_PATTERN) {
                     AssistantScreen(
+                        onOpenChat = { id -> controller.navigate(chatRoute(id)) },
+                        onOpenSettings = { controller.navigate("settings") }
+                    )
+                }
+                composable(
+                    route = CHAT_ROUTE_PATTERN,
+                    arguments = listOf(
+                        navArgument("conversationId") { type = NavType.StringType },
+                        navArgument("prefill") { type = NavType.StringType; defaultValue = "" }
+                    )
+                ) { entry ->
+                    ChatScreen(
                         prefill = entry.arguments?.getString("prefill").orEmpty(),
+                        onBack = { controller.popBackStack() },
                         onOpenSettings = { controller.navigate("settings") },
                         onNeedSetup = { controller.navigate("setup") }
                     )
@@ -98,7 +113,7 @@ fun Navigation() {
                 composable("routines") { RoutinesScreen() }
                 composable("tools") {
                     ToolsScreen(onTryInAssistant = { text ->
-                        controller.navigate(AxScreen.Assistant.route(text))
+                        controller.navigate(chatRoute("new", text))
                     })
                 }
                 composable("activity") { ActivityScreen() }

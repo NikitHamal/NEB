@@ -1,8 +1,5 @@
 package com.agentx.app.ui.screens.assistant
 
-import android.Manifest
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,356 +9,211 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.Send
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Bolt
-import androidx.compose.material.icons.filled.ExpandLess
-import androidx.compose.material.icons.filled.ExpandMore
+import androidx.compose.material.icons.filled.ChatBubbleOutline
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.SmartToy
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Surface
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.agentx.app.data.engine.AxMessage
-import com.agentx.app.data.engine.AxModelState
-import com.agentx.app.data.engine.NeedleRuntimeState
-import com.agentx.app.data.tools.ToolCatalog
+import com.agentx.app.data.local.entity.ConversationEntity
 import com.agentx.app.ui.components.AxCard
-import com.agentx.app.ui.components.AxChip
 import com.agentx.app.ui.components.AxEmptyState
 import com.agentx.app.ui.components.AxFilledButton
-import com.agentx.app.ui.components.AxOutlinedButton
-import com.agentx.app.ui.components.ConfirmActionSheet
-import com.agentx.app.ui.components.EngineStatusPill
-import com.agentx.app.ui.components.EngineUiState
-
-private val suggestions = listOf(
-    "Dim the screen to 20%",
-    "Set an alarm for 7 AM",
-    "Remind me to drink water in 20 minutes",
-    "What apps can you open?",
-    "Show device status"
-)
+import com.agentx.app.ui.components.AxTextButton
+import com.agentx.app.util.FormatUtils
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AssistantScreen(
-    prefill: String,
+    onOpenChat: (String) -> Unit,
     onOpenSettings: () -> Unit,
-    onNeedSetup: () -> Unit,
-    viewModel: AssistantViewModel = hiltViewModel()
+    viewModel: ConversationsViewModel = hiltViewModel()
 ) {
-    val messages by viewModel.messages.collectAsStateWithLifecycle()
-    val running by viewModel.running.collectAsStateWithLifecycle()
-    val pendingConfirm by viewModel.pendingConfirm.collectAsStateWithLifecycle()
-    val modelState by viewModel.modelState.collectAsStateWithLifecycle()
-    val runtimeState by viewModel.runtimeState.collectAsStateWithLifecycle()
-    val stalled by viewModel.stalled.collectAsStateWithLifecycle()
-    var input by remember { mutableStateOf("") }
-    val listState = rememberLazyListState()
+    val conversations by viewModel.conversations.collectAsStateWithLifecycle()
+    val scope = rememberCoroutineScope()
+    var menuFor by remember { mutableStateOf<String?>(null) }
+    var renameFor by remember { mutableStateOf<ConversationEntity?>(null) }
 
-    LaunchedEffect(prefill) {
-        if (prefill.isNotBlank()) input = prefill
-    }
-    LaunchedEffect(messages.size) {
-        if (messages.isNotEmpty()) listState.animateScrollToItem(messages.size - 1)
-    }
-
-    var lastAskedPermission by remember { mutableStateOf<String?>(null) }
-    val permissionLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { granted ->
-        lastAskedPermission?.let { viewModel.onPermissionResult(it, granted) }
-    }
-    LaunchedEffect(Unit) {
-        viewModel.permissionAsk.collect { permission ->
-            lastAskedPermission = permission
-            permissionLauncher.launch(permission)
-        }
-    }
-
-    val engineUiState = when {
-        modelState !is AxModelState.Ready -> EngineUiState.MISSING
-        runtimeState is NeedleRuntimeState.Ready -> EngineUiState.READY
-        runtimeState is NeedleRuntimeState.Error -> EngineUiState.ERROR
-        else -> EngineUiState.LOADING
-    }
-
-    Column(modifier = Modifier.fillMaxSize().statusBarsPadding()) {
-        TopAppBar(
-            title = {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(Icons.Filled.Bolt, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
-                    Spacer(Modifier.width(8.dp))
-                    Text("AgentX", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold)
-                }
-            },
-            actions = {
-                EngineStatusPill(engineUiState, modifier = Modifier.padding(end = 4.dp))
-                IconButton(onClick = onOpenSettings) {
-                    Icon(Icons.Filled.Settings, contentDescription = "Settings")
-                }
-            }
-        )
-
-        if (modelState !is AxModelState.Ready && modelState !is AxModelState.Checking) {
-            AxCard(modifier = Modifier.padding(horizontal = 16.dp)) {
-                Text("The on-device model is not installed.", style = MaterialTheme.typography.bodyMedium)
-                Spacer(Modifier.height(8.dp))
-                AxFilledButton(text = "Set up the model", onClick = onNeedSetup)
-            }
-            Spacer(Modifier.height(8.dp))
-        }
-
-        if (engineUiState == EngineUiState.LOADING || engineUiState == EngineUiState.ERROR) {
-            EngineLoadingCard(
-                runtimeState = runtimeState,
-                stalled = stalled,
-                failed = engineUiState == EngineUiState.ERROR,
-                onRetry = { viewModel.retryEngine() }
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(Icons.Filled.Bolt, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                        Spacer(Modifier.width(8.dp))
+                        Text("AgentX", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold)
+                    }
+                },
+                actions = {
+                    IconButton(onClick = onOpenSettings) {
+                        Icon(Icons.Filled.Settings, contentDescription = "Settings")
+                    }
+                },
+                modifier = Modifier.statusBarsPadding()
             )
-            Spacer(Modifier.height(8.dp))
+        },
+        floatingActionButton = {
+            FloatingActionButton(onClick = {
+                scope.launch { onOpenChat(viewModel.createNew()) }
+            }) {
+                Icon(Icons.Filled.Add, contentDescription = "New chat")
+            }
         }
-
-        if (messages.isEmpty()) {
+    ) { padding ->
+        if (conversations.isEmpty()) {
             AxEmptyState(
                 icon = Icons.Filled.SmartToy,
-                title = "What should I do?",
-                subtitle = "I control this phone directly - brightness, volume, apps, calls, alarms, reminders, notes and routines. All offline.",
-                modifier = Modifier.weight(1f)
+                title = "No conversations yet",
+                subtitle = "Start a new chat and tell AgentX what to do on this phone. All offline.",
+                modifier = Modifier.padding(padding).fillMaxSize(),
+                action = {
+                    AxFilledButton(text = "New chat", onClick = {
+                        scope.launch { onOpenChat(viewModel.createNew()) }
+                    })
+                }
             )
         } else {
             LazyColumn(
-                state = listState,
-                modifier = Modifier.weight(1f),
-                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+                modifier = Modifier.padding(padding).fillMaxSize(),
+                contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                items(messages, key = { it.id }) { message ->
-                    if (message.isUser) UserBubble(message) else AgentCard(message, onOption = { viewModel.send(it) })
-                }
-            }
-        }
-
-        if (messages.isEmpty()) {
-            androidx.compose.foundation.lazy.LazyRow(
-                contentPadding = PaddingValues(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                items(suggestions.size) { index ->
-                    AxChip(label = suggestions[index], selected = false, onClick = { viewModel.send(suggestions[index]) })
-                }
-            }
-            Spacer(Modifier.height(8.dp))
-        }
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-                .navigationBarsPadding()
-                .imePadding()
-                .padding(bottom = 12.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            OutlinedTextField(
-                value = input,
-                onValueChange = { input = it },
-                modifier = Modifier.weight(1f),
-                placeholder = { Text(if (running) "Working…" else "Ask AgentX…") },
-                singleLine = false,
-                maxLines = 4,
-                shape = MaterialTheme.shapes.extraLarge,
-                enabled = !running
-            )
-            Spacer(Modifier.width(8.dp))
-            androidx.compose.material3.FilledIconButton(
-                onClick = {
-                    viewModel.send(input)
-                    input = ""
-                },
-                enabled = !running && input.isNotBlank()
-            ) {
-                Icon(Icons.AutoMirrored.Filled.Send, contentDescription = "Send")
-            }
-        }
-    }
-
-    pendingConfirm?.let { pending ->
-        val meta = ToolCatalog.metas[pending.spec.name]
-        ConfirmActionSheet(
-            title = meta?.title ?: pending.spec.name,
-            description = describeSpec(pending.spec.name, pending.spec.args),
-            detailLines = pending.spec.args.entries.map { (key, value) -> key + ": " + value },
-            confidence = pending.confidence,
-            onConfirm = { viewModel.confirmPending() },
-            onDismiss = { viewModel.dismissPending() }
-        )
-    }
-}
-
-@Composable
-private fun EngineLoadingCard(
-    runtimeState: NeedleRuntimeState,
-    stalled: Boolean,
-    failed: Boolean,
-    onRetry: () -> Unit
-) {
-    val loading = runtimeState as? NeedleRuntimeState.Loading
-    val error = runtimeState as? NeedleRuntimeState.Error
-    AxCard(modifier = Modifier.padding(horizontal = 16.dp).fillMaxWidth()) {
-        Text(
-            if (failed) "Engine failed to start" else "Starting on-device engine",
-            style = MaterialTheme.typography.titleSmall
-        )
-        Spacer(Modifier.height(4.dp))
-        Text(
-            if (failed) {
-                error?.message ?: "Something went wrong while starting."
-            } else {
-                loading?.label ?: "Preparing…"
-            },
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-        Spacer(Modifier.height(8.dp))
-        val progress = loading?.progress
-        if (progress != null) {
-            LinearProgressIndicator(progress = { progress.coerceIn(0f, 1f) }, modifier = Modifier.fillMaxWidth())
-            Spacer(Modifier.height(4.dp))
-            Text(
-                (progress * 100).toInt().toString() + "%",
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-        } else if (!failed) {
-            LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
-        }
-        if (!failed) {
-            Spacer(Modifier.height(8.dp))
-            Text(
-                "First launch compiles 26 device tools on your phone (one-time, a few minutes). Later launches restore in under a second.",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-        }
-        if (stalled || failed) {
-            Spacer(Modifier.height(8.dp))
-            Text(
-                if (failed) "Tap retry to start the engine again." else "Still working with no progress for a while. You can wait, or restart the engine.",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.tertiary
-            )
-            Spacer(Modifier.height(8.dp))
-            AxOutlinedButton(text = "Retry", onClick = onRetry)
-        }
-    }
-}
-
-@Composable
-private fun UserBubble(message: AxMessage) {
-    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-        Surface(
-            shape = MaterialTheme.shapes.large,
-            color = MaterialTheme.colorScheme.primaryContainer
-        ) {
-            Text(
-                message.text,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onPrimaryContainer,
-                modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp)
-            )
-        }
-    }
-}
-
-@Composable
-private fun AgentCard(message: AxMessage, onOption: (String) -> Unit) {
-    var expanded by remember { mutableStateOf(false) }
-    AxCard(modifier = Modifier.fillMaxWidth()) {
-        Text(message.text, style = MaterialTheme.typography.bodyMedium)
-        if (message.toolCalls.isNotEmpty()) {
-            Spacer(Modifier.height(8.dp))
-            message.toolCalls.forEach { call ->
-                val meta = ToolCatalog.metas[call.name]
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(Icons.Filled.Bolt, contentDescription = null, modifier = Modifier.size(14.dp), tint = MaterialTheme.colorScheme.primary)
-                    Spacer(Modifier.width(6.dp))
-                    Text(
-                        (meta?.title ?: call.name) + if (message.confidence != null) " · " + (message.confidence * 100).toInt() + "%" else "",
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                items(conversations, key = { it.id }) { conversation ->
+                    ConversationRow(
+                        conversation = conversation,
+                        menuOpen = menuFor == conversation.id,
+                        onOpen = { onOpenChat(conversation.id) },
+                        onMenu = { menuFor = conversation.id },
+                        onDismissMenu = { menuFor = null },
+                        onRename = { renameFor = conversation; menuFor = null },
+                        onClear = { viewModel.clear(conversation.id); menuFor = null },
+                        onDelete = { viewModel.delete(conversation.id); menuFor = null }
                     )
                 }
             }
         }
-        if (!message.reasoning.isNullOrBlank()) {
-            Spacer(Modifier.height(4.dp))
-            Row(
-                modifier = Modifier.clickable { expanded = !expanded },
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    if (expanded) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
-                    contentDescription = null,
-                    modifier = Modifier.size(16.dp),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+    }
+
+    renameFor?.let { conversation ->
+        var title by remember(conversation.id) { mutableStateOf(conversation.title) }
+        AlertDialog(
+            onDismissRequest = { renameFor = null },
+            title = { Text("Rename conversation") },
+            text = {
+                OutlinedTextField(
+                    value = title,
+                    onValueChange = { title = it.take(80) },
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth()
                 )
-                Text("Why this action", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            }
-            if (expanded) {
-                Text(message.reasoning, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            }
-        }
-        if (message.options.isNotEmpty()) {
-            Spacer(Modifier.height(8.dp))
-            Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                message.options.forEach { option ->
-                    AxChip(label = optionLabel(option), selected = false, onClick = { onOption(option) })
-                }
-            }
-        }
+            },
+            confirmButton = {
+                AxFilledButton(text = "Save", onClick = {
+                    if (title.isNotBlank()) viewModel.rename(conversation.id, title.trim())
+                    renameFor = null
+                })
+            },
+            dismissButton = { AxTextButton(text = "Cancel", onClick = { renameFor = null }) }
+        )
     }
 }
 
-private fun optionLabel(option: String): String = when {
-    option == "action:retry" -> "Retry"
-    option == "action:force_run" -> "Run it anyway"
-    option.startsWith("action:open_settings:") -> "Open settings"
-    else -> option
-}
-
-private fun describeSpec(name: String, args: Map<String, String>): String {
-    return when (name) {
-        "place_call" -> "Call " + (args["target"] ?: "this contact") + " now."
-        "send_message" -> "Send an SMS to " + (args["target"] ?: "this contact") + "."
-        else -> "Run " + (ToolCatalog.metas[name]?.title ?: name) + " with these arguments."
+@Composable
+private fun ConversationRow(
+    conversation: ConversationEntity,
+    menuOpen: Boolean,
+    onOpen: () -> Unit,
+    onMenu: () -> Unit,
+    onDismissMenu: () -> Unit,
+    onRename: () -> Unit,
+    onClear: () -> Unit,
+    onDelete: () -> Unit
+) {
+    AxCard(modifier = Modifier.fillMaxWidth().clickable(onClick = onOpen)) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                Icons.Filled.ChatBubbleOutline,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.size(22.dp)
+            )
+            Spacer(Modifier.width(12.dp))
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    conversation.title.ifBlank { "New chat" },
+                    style = MaterialTheme.typography.titleSmall,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Spacer(Modifier.height(2.dp))
+                Text(
+                    conversation.lastPreview.ifBlank { "No messages yet" },
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Spacer(Modifier.height(2.dp))
+                Text(
+                    FormatUtils.formatTimeAgo(conversation.updatedAt) + " · " + conversation.messageCount + " messages",
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+            IconButton(onClick = onMenu) {
+                Icon(Icons.Filled.MoreVert, contentDescription = "Conversation options")
+                DropdownMenu(expanded = menuOpen, onDismissRequest = onDismissMenu) {
+                    DropdownMenuItem(
+                        text = { Text("Rename") },
+                        leadingIcon = { Icon(Icons.Filled.Edit, contentDescription = null) },
+                        onClick = onRename
+                    )
+                    DropdownMenuItem(
+                        text = { Text("Clear messages") },
+                        onClick = onClear
+                    )
+                    DropdownMenuItem(
+                        text = { Text("Delete", color = MaterialTheme.colorScheme.error) },
+                        leadingIcon = { Icon(Icons.Filled.Delete, contentDescription = null, tint = MaterialTheme.colorScheme.error) },
+                        onClick = onDelete
+                    )
+                }
+            }
+        }
     }
 }
