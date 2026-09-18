@@ -4,12 +4,13 @@
 {% block content %}
 <div class="admin-page-header">
   <h1>TTS Providers</h1>
-  <p class="md-body-small" style="color:var(--md-on-surface-variant)">Test free no-signup TTS — LazyPy (Bing/Google/iSpeech), Google direct, Moe, Kokoro, Chatterbox, Fish.</p>
+  <p class="md-body-small" style="color:var(--md-on-surface-variant)">Test free no-signup TTS — Airy (104 voices, en+ko), LazyPy (Bing/Google/iSpeech), Google direct, Moe, Kokoro, Chatterbox, Fish.</p>
 </div>
 
 <div class="admin-section-card" style="max-width:720px">
   <label>Provider
     <select id="tts-provider" class="md-input">
+      <option value="airy/airy-tts-v1">Airy TTS v1 — 104 voices, en+ko, auto-batched past 640 chars</option>
       <option value="lazypy/bing-translator">LazyPy Bing (Microsoft) — 313 voices, 3000 chars</option>
       <option value="lazypy/google-translate">LazyPy Google — 64 voices, 200 chars</option>
       <option value="lazypy/ispeech">LazyPy iSpeech — 41 voices, 600 chars</option>
@@ -24,6 +25,31 @@
   <label>Voice <span class="md-body-small" style="color:var(--md-on-surface-variant)">Optional — e.g. en-US-JennyNeural (Bing), en-gb (Google), Hoshino (Moe), af_heart (Kokoro)</span>
     <input id="tts-voice" class="md-input" placeholder="default">
   </label>
+  <div id="airy-opts" style="display:none;margin-bottom:10px">
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end">
+      <label style="flex:2 1 220px">Airy voice
+        <select id="airy-voice" class="md-input"><option value="">Loading voices…</option></select>
+      </label>
+      <label style="flex:1 1 120px">Style
+        <select id="airy-style" class="md-input">
+          <option value="normal">normal</option>
+          <option value="bright">bright</option>
+          <option value="calm">calm</option>
+          <option value="whisper">whisper</option>
+        </select>
+      </label>
+      <label style="flex:1 1 100px">Lang
+        <select id="airy-lang" class="md-input">
+          <option value="en">en</option>
+          <option value="ko">ko</option>
+        </select>
+      </label>
+      <label style="flex:1 1 130px">Speed <span id="airy-speed-val">1.0</span>
+        <input id="airy-speed" class="md-input" type="range" min="0.5" max="2" step="0.05" value="1">
+      </label>
+    </div>
+    <p class="md-body-small" id="airy-note" style="color:var(--md-on-surface-variant);margin:6px 0 0"></p>
+  </div>
   <label>Text
     <textarea id="tts-text" class="md-input" rows="3">Hello from NEBians! This is a test of our free TTS providers.</textarea>
   </label>
@@ -118,13 +144,55 @@
     list.appendChild(li);
   });
 
+  // ── Airy: 104-voice picker, batched past 640 chars ──
+  var airyVoices = null;
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function isAiry() { return $('tts-provider').value.indexOf('airy') === 0; }
+
+  function fillAiryVoices() {
+    var sel = $('airy-voice');
+    fetch('/ajax/admin/media/airy-voices/', { credentials: 'same-origin' })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        airyVoices = d.voices || [];
+        if (!airyVoices.length) { sel.innerHTML = '<option value="">No voices (upstream down)</option>'; return; }
+        sel.innerHTML = airyVoices.map(function (v) {
+          var nm = esc(v.name), gid = esc(v.id);
+          return '<option value="' + gid + '">' + nm + ' · ' + esc(v.gender || '') + ' · ' + esc((v.langs || []).join('+')) + '</option>';
+        }).join('');
+        $('airy-note').textContent = airyVoices.length + ' voices · ' + (d.charLimit || 640) +
+          ' chars per batch, up to ' + (d.maxChunks || 8) + ' batches (~' + (d.maxText || 4800) +
+          ' chars). Long text is split at sentence ends and stitched into one MP3; Airy allows ' +
+          '12 requests/min, so multi-batch text takes ~5s per batch.';
+      })
+      .catch(function () { sel.innerHTML = '<option value="">Voice load failed</option>'; });
+  }
+
+  function syncAiryUI() {
+    var airy = isAiry();
+    $('airy-opts').style.display = airy ? '' : 'none';
+    if (airy && !airyVoices) fillAiryVoices();
+  }
+  $('tts-provider').addEventListener('change', syncAiryUI);
+  $('airy-speed').addEventListener('input', function () { $('airy-speed-val').textContent = Number(this.value).toFixed(2); });
+  syncAiryUI();
+
   $('tts-generate').addEventListener('click', function () {
     var text = $('tts-text').value.trim();
     if (!text) { setStatus('tts-status', 'Text required', 'err'); return; }
     var provider = $('tts-provider').value;
     var voice = $('tts-voice').value.trim();
     var body = { provider: provider, text: text, voice: voice };
-    if (provider.indexOf('lazypy') === 0) {
+    if (provider.indexOf('airy') === 0) {
+      body.voice = $('airy-voice').value;
+      body.style = $('airy-style').value;
+      body.lang = $('airy-lang').value;
+      body.speed = parseFloat($('airy-speed').value);
+    } else if (provider.indexOf('lazypy') === 0) {
       body.service = provider.indexOf('google') >= 0 ? 'Google Translate' : provider.indexOf('ispeech') >= 0 ? 'iSpeech' : 'Bing Translator';
     } else if (provider.indexOf('google') === 0) {
       body.lang = voice || 'en';
@@ -137,7 +205,7 @@
     } else if (provider.indexOf('fish') === 0) {
       body.voice = voice || 'default';
     }
-    setStatus('tts-status', 'Synthesizing…');
+    setStatus('tts-status', provider.indexOf('airy') === 0 && text.length > 640 ? 'Batching (up to ~5s per 640 chars)…' : 'Synthesizing…');
     $('tts-generate').disabled = true;
     $('tts-result').style.display = 'none';
     post('/ajax/admin/media/tts/', body)
@@ -145,8 +213,11 @@
         var src = data.dataUrl || data.audioUrl || '';
         if (src.indexOf('/') === 0) src = 'https://lazypy.ro' + src;
         if (src.indexOf('data:') === 0) src = dataUrlToBlobUrl(src);
-        setStatus('tts-status', 'Done — ' + [data.provider, data.service, data.voice].filter(Boolean).join(' · ') + ' · ' + (data.bytes || 0) + ' bytes', 'ok');
-        $('tts-meta').textContent = [data.provider, data.service, data.voice].filter(Boolean).join(' · ');
+        var meta = [data.provider, data.service, data.voice].filter(Boolean).join(' · ');
+        var extra = (data.batches ? data.batches + ' batch' + (data.batches > 1 ? 'es' : '') : '') +
+                    (data.durationSec ? ' · ' + Math.round(data.durationSec) + 's audio' : '');
+        setStatus('tts-status', 'Done — ' + meta + (extra ? ' · ' + extra : '') + ' · ' + (data.bytes || 0) + ' bytes', 'ok');
+        $('tts-meta').textContent = meta;
         $('tts-audio').src = src;
         $('tts-download').href = src;
         $('tts-result').style.display = '';

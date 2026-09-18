@@ -19,6 +19,7 @@ def tts_models(request):
     user = _require_user(request)
     if isinstance(user, Response):
         return user
+    from .airy_proxy import get_models as airy_models
     from .chatterbox_proxy import get_models as ch_models
     from .fish_proxy import get_models as fish_models
     from .google_tts_proxy import get_models as g_models
@@ -28,7 +29,7 @@ def tts_models(request):
 
     return Response(
         {
-            "tts": lz_models() + g_models() + moe_models() + k_models() + ch_models() + fish_models(),
+            "tts": airy_models() + lz_models() + g_models() + moe_models() + k_models() + ch_models() + fish_models(),
             "image": [],
         }
     )
@@ -49,7 +50,17 @@ def tts_generate(request):
         return Response({"error": "text too long (max 5000)"}, status=400)
 
     # Route by provider string
-    if provider.startswith("lazypy") or provider in ("bing", "microsoft", "edge"):
+    if provider.startswith("airy"):
+        from .airy_proxy import generate_tts as airy_tts
+
+        result = airy_tts(
+            text=text,
+            voice=voice,
+            style=request.data.get("style") or "normal",
+            speed=request.data.get("speed") or 1.0,
+            language=request.data.get("lang") or request.data.get("language") or "en",
+        )
+    elif provider.startswith("lazypy") or provider in ("bing", "microsoft", "edge"):
         from .lazypy_proxy import generate_tts
 
         voice = request.data.get("voice")
@@ -111,6 +122,8 @@ def tts_generate(request):
             "dataUrl": result.get("dataUrl"),
             "bytes": result.get("bytes"),
             "contentType": result.get("contentType", "audio/mpeg"),
+            "batches": result.get("batches"),
+            "durationSec": result.get("durationSec"),
             "text": result.get("text"),
         }
     )
