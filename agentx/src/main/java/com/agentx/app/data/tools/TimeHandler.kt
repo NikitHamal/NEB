@@ -15,7 +15,14 @@ class TimeHandler @Inject constructor(
     fun setAlarm(spec: ToolCallSpec): ToolExecution {
         val hour = spec.argInt("hour") ?: return ToolExecution.fail("What hour? Use 0-23.")
         val minute = spec.argInt("minute") ?: 0
-        if (hour !in 0..23 || minute !in 0..59) return ToolExecution.fail("That time is out of range")
+        if (hour !in 0..23 || minute !in 0..59) {
+            return ToolExecution(
+                ok = false,
+                message = "That time is out of range",
+                repairable = true,
+                repairHint = "hour must be 0-23 and minute 0-59 in 24-hour time (2:57 pm is hour 14, minute 57). Try the call again with valid numbers."
+            )
+        }
         val intent = Intent(AlarmClock.ACTION_SET_ALARM).apply {
             putExtra(AlarmClock.EXTRA_HOUR, hour)
             putExtra(AlarmClock.EXTRA_MINUTES, minute)

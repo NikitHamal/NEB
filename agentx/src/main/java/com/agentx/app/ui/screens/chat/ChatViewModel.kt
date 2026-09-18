@@ -168,7 +168,7 @@ class ChatViewModel @Inject constructor(
                     handleEmptyResult(id, parsed.suppressed_calls.map { it.toSpec() }, parsed.reasoning)
                     return@launch
                 }
-                handleCalls(id, calls, parsed.confidence, parsed.reasoning, outcome.durationMs)
+                handleCalls(id, input, calls, parsed.confidence, parsed.reasoning, outcome.durationMs)
             } finally {
                 _running.value = false
             }
@@ -177,6 +177,7 @@ class ChatViewModel @Inject constructor(
 
     private suspend fun handleCalls(
         conversationId: String,
+        input: String,
         calls: List<ToolCallSpec>,
         confidence: Double?,
         reasoning: String?,
@@ -194,7 +195,13 @@ class ChatViewModel @Inject constructor(
             val mustConfirm = meta.confirmAlways && confirmDestructive
             when {
                 mustConfirm -> _pendingConfirm.value = PendingConfirm(spec, confidence)
-                conf >= SettingsRepository.ACT_THRESHOLD -> executeAndRecord(conversationId, spec, confidence, durationMs, reasoning)
+                conf >= SettingsRepository.ACT_THRESHOLD -> {
+                    var result = executor.execute(spec)
+                    if (!result.ok && result.repairable) {
+                        result = attemptRepair(input, result)
+                    }
+                    recordExecution(conversationId, spec, confidence, durationMs, reasoning, result)
+                }
                 conf >= threshold -> _pendingConfirm.value = PendingConfirm(spec, confidence)
                 else -> {
                     pendingRetry = spec
@@ -262,6 +269,17 @@ class ChatViewModel @Inject constructor(
         }
     }
 
+    private suspend fun attemptRepair(input: String, failed: ToolExecution): ToolExecution {
+        val hint = failed.repairHint ?: return failed
+        val retryQuery = input + " (Correction: " + hint + " Reply with one corrected call.)"
+        val outcome = runtime.runAndAwait(java.util.UUID.randomUUID().toString(), retryQuery, 60_000L)
+            ?: return failed
+        val parsed = parseEngineResult(outcome.resultJson) ?: return failed
+        val calls = parsed.function_calls.filter { it.name.isNotBlank() }.map { it.toSpec() }
+        if (calls.isEmpty()) return failed
+        return executor.execute(calls.first())
+    }
+
     private suspend fun executeAndRecord(
         conversationId: String,
         spec: ToolCallSpec,
@@ -269,8 +287,17 @@ class ChatViewModel @Inject constructor(
         durationMs: Double,
         reasoning: String?
     ) {
-        val meta = ToolCatalog.metas[spec.name]
-        val result = executor.execute(spec)
+        recordExecution(conversationId, spec, confidence, durationMs, reasoning, executor.execute(spec))
+    }
+
+    private suspend fun recordExecution(
+        conversationId: String,
+        spec: ToolCallSpec,
+        confidence: Double?,
+        durationMs: Double,
+        reasoning: String?,
+        result: ToolExecution
+    ) {
         if (result.needsPermission != null) {
             pendingRetry = spec
             pendingRetryConfidence = confidence
