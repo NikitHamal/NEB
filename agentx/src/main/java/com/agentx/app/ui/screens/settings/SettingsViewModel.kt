@@ -2,8 +2,8 @@ package com.agentx.app.ui.screens.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.agentx.app.data.chat.ChatRepository
 import com.agentx.app.data.engine.AxModelState
-import com.agentx.app.data.engine.NeedleChatStore
 import com.agentx.app.data.engine.NeedleModelManager
 import com.agentx.app.data.engine.NeedleRuntime
 import com.agentx.app.data.local.dao.ActivityDao
@@ -20,7 +20,7 @@ class SettingsViewModel @Inject constructor(
     val manager: NeedleModelManager,
     private val runtime: NeedleRuntime,
     private val settings: SettingsRepository,
-    private val chatStore: NeedleChatStore,
+    private val chatRepository: ChatRepository,
     private val activityDao: ActivityDao
 ) : ViewModel() {
 
@@ -59,7 +59,9 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch { settings.setConfirmDestructive(value) }
     }
 
-    fun clearChat() = chatStore.clear()
+    fun clearChat() {
+        viewModelScope.launch { chatRepository.clearAll() }
+    }
 
     fun clearActivity() {
         viewModelScope.launch { activityDao.clear() }

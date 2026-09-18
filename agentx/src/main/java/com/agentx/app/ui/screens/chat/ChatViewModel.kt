@@ -1,13 +1,16 @@
-package com.agentx.app.ui.screens.assistant
+package com.agentx.app.ui.screens.chat
 
 import android.content.Context
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.agentx.app.data.chat.AxToolCallRecord
+import com.agentx.app.data.chat.ChatRepository
+import com.agentx.app.data.chat.UiChatMessage
 import com.agentx.app.data.engine.AxModelState
-import com.agentx.app.data.engine.AxMessage
-import com.agentx.app.data.engine.AxToolCallRecord
-import com.agentx.app.data.engine.NeedleChatStore
 import com.agentx.app.data.engine.NeedleModelManager
 import com.agentx.app.data.engine.NeedleRuntime
-import androidx.lifecycle.viewModelScope
+import com.agentx.app.data.engine.NeedleRuntimeState
 import com.agentx.app.data.engine.ToolCallSpec
 import com.agentx.app.data.engine.parseEngineResult
 import com.agentx.app.data.engine.toSpec
@@ -20,33 +23,48 @@ import com.agentx.app.data.tools.ToolExecutor
 import com.agentx.app.util.PermissionUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import java.util.UUID
 import javax.inject.Inject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 @HiltViewModel
-class AssistantViewModel @Inject constructor(
+class ChatViewModel @Inject constructor(
     private val manager: NeedleModelManager,
     private val runtime: NeedleRuntime,
-    private val store: NeedleChatStore,
+    private val chatRepo: ChatRepository,
     private val executor: ToolExecutor,
     private val activityDao: ActivityDao,
     private val settings: SettingsRepository,
-    @ApplicationContext private val context: Context
-) : androidx.lifecycle.ViewModel() {
+    @ApplicationContext private val context: Context,
+    savedStateHandle: SavedStateHandle
+) : ViewModel() {
+
+    private val argId: String = savedStateHandle["conversationId"] ?: "new"
 
     val modelState = manager.state
     val runtimeState = runtime.state
-    val messages = store.messages
+
+    private val _conversationId = MutableStateFlow<String?>(if (argId == "new") null else argId)
+    val conversationId: StateFlow<String?> = _conversationId.asStateFlow()
+
+    private val _title = MutableStateFlow("New chat")
+    val title: StateFlow<String> = _title.asStateFlow()
+
+    val messages: StateFlow<List<UiChatMessage>> = conversationId.flatMapLatest { id ->
+        if (id == null) flowOf(emptyList()) else chatRepo.observeMessages(id)
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     private val _running = MutableStateFlow(false)
     val running: StateFlow<Boolean> = _running.asStateFlow()
@@ -76,7 +94,7 @@ class AssistantViewModel @Inject constructor(
         viewModelScope.launch {
             runtime.errors.collect { (id, message) ->
                 if (id == null) {
-                    store.add(AxMessage(id = uuid(), isUser = false, text = "Engine error: " + message))
+                    _conversationId.value?.let { chatRepo.addAssistantMessage(it, "Engine error: " + message) }
                 }
             }
         }
@@ -85,16 +103,17 @@ class AssistantViewModel @Inject constructor(
                 stallJob?.cancel()
                 stallJob = null
                 _stalled.value = false
-                if (state is com.agentx.app.data.engine.NeedleRuntimeState.Loading) {
+                if (state is NeedleRuntimeState.Loading) {
                     stallJob = viewModelScope.launch {
                         delay(90_000)
-                        if (runtime.state.value is com.agentx.app.data.engine.NeedleRuntimeState.Loading) {
+                        if (runtime.state.value is NeedleRuntimeState.Loading) {
                             _stalled.value = true
                         }
                     }
                 }
             }
         }
+        viewModelScope.launch { refreshTitle() }
     }
 
     fun retryEngine() {
@@ -102,6 +121,18 @@ class AssistantViewModel @Inject constructor(
         stallJob = null
         _stalled.value = false
         runtime.restart()
+    }
+
+    private suspend fun refreshTitle() {
+        val id = _conversationId.value ?: return
+        chatRepo.conversation(id)?.let { _title.value = it.title.ifBlank { "New chat" } }
+    }
+
+    private suspend fun ensureConversation(): String {
+        _conversationId.value?.let { return it }
+        val id = chatRepo.createConversation()
+        _conversationId.value = id
+        return id
     }
 
     fun send(rawInput: String) {
@@ -114,23 +145,30 @@ class AssistantViewModel @Inject constructor(
         viewModelScope.launch {
             _running.value = true
             try {
-                store.add(AxMessage(id = uuid(), isUser = true, text = input))
-                val outcome = runtime.runAndAwait(uuid(), input)
+                val id = ensureConversation()
+                val isFirst = (chatRepo.conversation(id)?.messageCount ?: 0) == 0
+                chatRepo.addUserMessage(id, input)
+                if (isFirst) {
+                    chatRepo.retitleFromFirstMessage(id, input)
+                    refreshTitle()
+                }
+                val runId = java.util.UUID.randomUUID().toString()
+                val outcome = runtime.runAndAwait(runId, input)
                 if (outcome == null) {
-                    store.add(AxMessage(id = uuid(), isUser = false, text = "The engine is still starting. Try again in a moment."))
+                    chatRepo.addAssistantMessage(id, "The engine is still starting. Try again in a moment.")
                     return@launch
                 }
                 val parsed = parseEngineResult(outcome.resultJson)
                 if (parsed == null) {
-                    store.add(AxMessage(id = uuid(), isUser = false, text = "I could not understand the engine reply. Try rephrasing."))
+                    chatRepo.addAssistantMessage(id, "I could not understand the engine reply. Try rephrasing.")
                     return@launch
                 }
                 val calls = parsed.function_calls.filter { it.name.isNotBlank() }.map { it.toSpec() }
                 if (calls.isEmpty()) {
-                    handleEmptyResult(parsed.suppressed_calls.map { it.toSpec() }, parsed.reasoning)
+                    handleEmptyResult(id, parsed.suppressed_calls.map { it.toSpec() }, parsed.reasoning)
                     return@launch
                 }
-                handleCalls(calls, parsed.confidence, parsed.reasoning, outcome.durationMs)
+                handleCalls(id, calls, parsed.confidence, parsed.reasoning, outcome.durationMs)
             } finally {
                 _running.value = false
             }
@@ -138,6 +176,7 @@ class AssistantViewModel @Inject constructor(
     }
 
     private suspend fun handleCalls(
+        conversationId: String,
         calls: List<ToolCallSpec>,
         confidence: Double?,
         reasoning: String?,
@@ -148,27 +187,23 @@ class AssistantViewModel @Inject constructor(
         for (spec in calls) {
             val meta = ToolCatalog.metas[spec.name]
             if (meta == null) {
-                store.add(AxMessage(id = uuid(), isUser = false, text = "Unknown action " + spec.name))
+                chatRepo.addAssistantMessage(conversationId, "Unknown action " + spec.name)
                 continue
             }
             val conf = confidence ?: 1.0
             val mustConfirm = meta.confirmAlways && confirmDestructive
             when {
                 mustConfirm -> _pendingConfirm.value = PendingConfirm(spec, confidence)
-                conf >= SettingsRepository.ACT_THRESHOLD -> executeAndRecord(spec, confidence, durationMs, reasoning)
+                conf >= SettingsRepository.ACT_THRESHOLD -> executeAndRecord(conversationId, spec, confidence, durationMs, reasoning)
                 conf >= threshold -> _pendingConfirm.value = PendingConfirm(spec, confidence)
                 else -> {
                     pendingRetry = spec
                     pendingRetryConfidence = confidence
-                    store.add(
-                        AxMessage(
-                            id = uuid(),
-                            isUser = false,
-                            text = "Not sure I got that. I think you want: " + meta.title + " (" + (conf * 100).toInt() + "%).",
-                            reasoning = reasoning,
-                            confidence = confidence,
-                            options = listOf("action:force_run")
-                        )
+                    chatRepo.addAssistantMessage(
+                        conversationId,
+                        "Not sure I got that. I think you want: " + meta.title + " (" + (conf * 100).toInt() + "% confident).",
+                        reasoning, confidence,
+                        options = listOf("action:force_run")
                     )
                 }
             }
@@ -176,46 +211,42 @@ class AssistantViewModel @Inject constructor(
         }
     }
 
-    private suspend fun handleEmptyResult(suppressed: List<ToolCallSpec>, reasoning: String?) {
+    private suspend fun handleEmptyResult(conversationId: String, suppressed: List<ToolCallSpec>, reasoning: String?) {
         if (suppressed.isNotEmpty()) {
             val guess = suppressed.first()
             val meta = ToolCatalog.metas[guess.name]
             pendingRetry = guess
             pendingRetryConfidence = null
             val what = if (meta != null) meta.title else guess.name
-            store.add(
-                AxMessage(
-                    id = uuid(),
-                    isUser = false,
-                    text = "I held that back - it looks off-topic for this device. My guess was: " + what + ".",
-                    reasoning = reasoning,
-                    options = listOf("action:force_run")
-                )
+            chatRepo.addAssistantMessage(
+                conversationId,
+                "I held that back - it looks off-topic for this device. My guess was: " + what + ".",
+                reasoning, options = listOf("action:force_run")
             )
             return
         }
-        store.add(
-            AxMessage(
-                id = uuid(),
-                isUser = false,
-                text = "I can only act on this device, fully offline: settings and sound, apps, calls and texts, alarms and timers, reminders, notes, routines and device status. Try one of those.",
-                reasoning = reasoning,
-                options = listOf("Show device status", "List my routines")
-            )
+        chatRepo.addAssistantMessage(
+            conversationId,
+            "I can only act on this device, fully offline: settings and sound, apps, calls and texts, alarms and timers, reminders, notes, routines and device status. Try one of those.",
+            reasoning,
+            options = listOf("Show device status", "List my routines")
         )
     }
 
     fun confirmPending() {
         val pending = _pendingConfirm.value ?: return
+        val id = _conversationId.value ?: return
         _pendingConfirm.value = null
         viewModelScope.launch {
-            executeAndRecord(pending.spec, pending.confidence, 0.0, null)
+            executeAndRecord(id, pending.spec, pending.confidence, 0.0, null)
         }
     }
 
     fun dismissPending() {
         val pending = _pendingConfirm.value ?: return
+        val id = _conversationId.value
         _pendingConfirm.value = null
+        if (id == null) return
         viewModelScope.launch {
             val meta = ToolCatalog.metas[pending.spec.name]
             activityDao.insert(
@@ -227,50 +258,46 @@ class AssistantViewModel @Inject constructor(
                     status = "denied"
                 )
             )
-            store.add(AxMessage(id = uuid(), isUser = false, text = "Skipped. Nothing was changed."))
+            chatRepo.addAssistantMessage(id, "Skipped. Nothing was changed.")
         }
     }
 
-    private suspend fun executeAndRecord(spec: ToolCallSpec, confidence: Double?, durationMs: Double, reasoning: String?) {
+    private suspend fun executeAndRecord(
+        conversationId: String,
+        spec: ToolCallSpec,
+        confidence: Double?,
+        durationMs: Double,
+        reasoning: String?
+    ) {
         val meta = ToolCatalog.metas[spec.name]
         val result = executor.execute(spec)
         if (result.needsPermission != null) {
             pendingRetry = spec
             pendingRetryConfidence = confidence
             if (isSpecialPermission(result.needsPermission)) {
-                store.add(
-                    AxMessage(
-                        id = uuid(),
-                        isUser = false,
-                        text = result.message,
-                        options = listOf("action:open_settings:" + result.needsPermission)
-                    )
+                chatRepo.addAssistantMessage(
+                    conversationId, result.message,
+                    options = listOf("action:open_settings:" + result.needsPermission)
                 )
             } else {
-                store.add(
-                    AxMessage(
-                        id = uuid(),
-                        isUser = false,
-                        text = result.message + ". Grant " + (result.permissionLabel ?: "the permission") + " to continue.",
-                        options = listOf("action:retry")
-                    )
+                chatRepo.addAssistantMessage(
+                    conversationId,
+                    result.message + ". Grant " + (result.permissionLabel ?: "the permission") + " to continue.",
+                    options = listOf("action:retry")
                 )
                 _permissionAsk.emit(result.needsPermission)
             }
             logActivity(spec, confidence, result, "denied")
             return
         }
-        store.add(
-            AxMessage(
-                id = uuid(),
-                isUser = false,
-                text = result.message,
-                reasoning = reasoning,
-                confidence = confidence,
-                durationMs = durationMs.takeIf { it > 0 },
-                toolCalls = listOf(AxToolCallRecord(spec.name, specToJson(spec.args))),
-                options = result.options
-            )
+        chatRepo.addAssistantMessage(
+            conversationId,
+            result.message,
+            reasoning,
+            confidence,
+            durationMs.takeIf { it > 0 },
+            toolCalls = listOf(AxToolCallRecord(spec.name, specToJson(spec.args))),
+            options = result.options
         )
         logActivity(spec, confidence, result, if (result.ok) "done" else "failed")
     }
@@ -290,35 +317,37 @@ class AssistantViewModel @Inject constructor(
     }
 
     fun onPermissionResult(permission: String, granted: Boolean) {
+        val id = _conversationId.value
         if (!granted) {
+            if (id == null) return
             viewModelScope.launch {
-                store.add(
-                    AxMessage(
-                        id = uuid(),
-                        isUser = false,
-                        text = PermissionUtils.labelFor(permission) + " was denied. You can grant it later from Settings.",
-                        options = listOf("action:retry")
-                    )
+                chatRepo.addAssistantMessage(
+                    id,
+                    PermissionUtils.labelFor(permission) + " was denied. You can grant it later from Settings.",
+                    options = listOf("action:retry")
                 )
             }
             return
         }
         val spec = pendingRetry ?: return
+        if (id == null) return
         pendingRetry = null
         viewModelScope.launch {
-            executeAndRecord(spec, pendingRetryConfidence, 0.0, null)
+            executeAndRecord(id, spec, pendingRetryConfidence, 0.0, null)
         }
     }
 
     private fun handleLocalAction(action: String) {
         viewModelScope.launch {
+            val id = _conversationId.value
             when {
                 action == "action:retry" -> {
+                    if (id == null) return@launch
                     val spec = pendingRetry ?: return@launch
                     pendingRetry = null
                     _running.value = true
                     try {
-                        executeAndRecord(spec, pendingRetryConfidence, 0.0, null)
+                        executeAndRecord(id, spec, pendingRetryConfidence, 0.0, null)
                     } finally {
                         _running.value = false
                     }
@@ -328,19 +357,17 @@ class AssistantViewModel @Inject constructor(
                     _pendingConfirm.value = PendingConfirm(spec, pendingRetryConfidence)
                 }
                 action.startsWith("action:open_settings:") -> {
+                    if (id == null) return@launch
                     when (action.removePrefix("action:open_settings:")) {
                         PermissionUtils.SPECIAL_WRITE_SETTINGS -> PermissionUtils.openWriteSettings(context)
                         PermissionUtils.SPECIAL_DND_ACCESS -> PermissionUtils.openDndSettings(context)
                         PermissionUtils.SPECIAL_EXACT_ALARM -> PermissionUtils.openExactAlarmSettings(context)
                         else -> PermissionUtils.openAppSettings(context)
                     }
-                    store.add(
-                        AxMessage(
-                            id = uuid(),
-                            isUser = false,
-                            text = "Settings opened. Flip the switch, come back, and tap retry.",
-                            options = listOf("action:retry")
-                        )
+                    chatRepo.addAssistantMessage(
+                        id,
+                        "Settings opened. Flip the switch, come back, and tap retry.",
+                        options = listOf("action:retry")
                     )
                 }
             }
@@ -358,10 +385,4 @@ class AssistantViewModel @Inject constructor(
         if (args.isEmpty()) return "{}"
         return "{" + args.entries.joinToString(", ") { (key, value) -> key + ": " + value } + "}"
     }
-
-    private fun uuid(): String = UUID.randomUUID().toString()
-
-    fun clearChat() = store.clear()
-
-    fun removeMessage(id: String) = store.remove(id)
 }

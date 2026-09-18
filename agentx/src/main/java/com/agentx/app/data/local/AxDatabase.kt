@@ -3,10 +3,13 @@ package com.agentx.app.data.local
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.agentx.app.data.local.dao.ActivityDao
+import com.agentx.app.data.local.dao.ChatDao
 import com.agentx.app.data.local.dao.NoteDao
 import com.agentx.app.data.local.dao.ReminderDao
 import com.agentx.app.data.local.dao.RoutineDao
 import com.agentx.app.data.local.entity.ActivityEntity
+import com.agentx.app.data.local.entity.ChatMessageEntity
+import com.agentx.app.data.local.entity.ConversationEntity
 import com.agentx.app.data.local.entity.NoteEmbeddingEntity
 import com.agentx.app.data.local.entity.NoteEntity
 import com.agentx.app.data.local.entity.ReminderEntity
@@ -18,9 +21,11 @@ import com.agentx.app.data.local.entity.RoutineEntity
         RoutineEntity::class,
         ActivityEntity::class,
         NoteEntity::class,
-        NoteEmbeddingEntity::class
+        NoteEmbeddingEntity::class,
+        ConversationEntity::class,
+        ChatMessageEntity::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class AxDatabase : RoomDatabase() {
@@ -28,4 +33,5 @@ abstract class AxDatabase : RoomDatabase() {
     abstract fun routineDao(): RoutineDao
     abstract fun activityDao(): ActivityDao
     abstract fun noteDao(): NoteDao
+    abstract fun chatDao(): ChatDao
 }
