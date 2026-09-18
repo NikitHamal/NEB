@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AgentX Runtime</title>
+</head>
+<body>
+<script>
+(function () {
+  'use strict';
+
+  var tools = '[]';
+  var system = '';
+  var worker = null;
+
+  function emit(message) {
+    if (window.AxAndroid && window.AxAndroid.onMessage) {
+      window.AxAndroid.onMessage(JSON.stringify(message));
+    }
+  }
+
+  window.AxRuntime = {
+    initialize: function (toolsJson, systemPrompt) {
+      tools = String(toolsJson || '[]');
+      system = String(systemPrompt || '');
+      if (worker) return;
+      try {
+        worker = new Worker('./needle.worker.js?v=1');
+        worker.onmessage = function (event) { emit(event.data || {}); };
+        worker.onerror = function (event) {
+          emit({ type: 'error', message: (event && event.message) || 'Needle worker failed' });
+        };
+        worker.postMessage({
+          type: 'initialize',
+          tools: tools,
+          system: system,
+          wasmUrl: './needle.wasm?v=1',
+          cactUrl: '/model/needle3.cact',
+          snapshotNamespace: 'agentx-android-c9d915ec',
+          cacheAssets: false
+        });
+      } catch (error) {
+        emit({ type: 'error', message: String((error && error.message) || error) });
+      }
+    },
+    run: function (id, query) {
+      if (!worker) {
+        emit({ type: 'error', id: id, message: 'Runtime is not ready' });
+        return;
+      }
+      worker.postMessage({
+        type: 'run',
+        id: id,
+        query: String(query || ''),
+        tools: tools,
+        system: system,
+        maxNewTokens: 128
+      });
+    },
+    embed: function (id, text) {
+      if (!worker) {
+        emit({ type: 'error', id: id, message: 'Runtime is not ready' });
+        return;
+      }
+      worker.postMessage({
+        type: 'embed',
+        id: id,
+        text: String(text || ''),
+        tools: tools,
+        system: system
+      });
+    },
+    clearCache: function () {
+      if (worker) worker.postMessage({ type: 'clear-cache', tools: tools });
+    }
+  };
+
+  emit({ type: 'bridge-ready' });
+})();
+</script>
+</body>
+</html>

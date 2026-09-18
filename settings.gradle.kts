@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "NEBians"
 include(":app")
+include(":agentx")
