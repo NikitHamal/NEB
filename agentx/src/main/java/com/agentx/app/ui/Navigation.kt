@@ -38,10 +38,11 @@ import com.agentx.app.ui.screens.setup.SetupScreen
 import com.agentx.app.ui.screens.tools.ToolsScreen
 import com.agentx.app.ui.theme.AxPillShape
 
+const val ASSISTANT_ROUTE_PATTERN = "assistant?prefill={prefill}"
+
 sealed class AxScreen(val route: String) {
     data object Setup : AxScreen("setup")
-    data object Assistant : AxScreen(PATTERN) {
-        const val PATTERN = "assistant?prefill={prefill}"
+    data object Assistant : AxScreen(ASSISTANT_ROUTE_PATTERN) {
         fun route(prefill: String = "") = "assistant?prefill=" + java.net.URLEncoder.encode(prefill, "UTF-8")
     }
     data object Routines : AxScreen("routines")
@@ -91,7 +92,7 @@ fun Navigation() {
                                 onClick = {
                                     if (!selected) {
                                         controller.navigate(item.base) {
-                                            popUpTo(AxScreen.Assistant.PATTERN) { inclusive = false }
+                                            popUpTo(ASSISTANT_ROUTE_PATTERN) { inclusive = false }
                                             launchSingleTop = true
                                         }
                                     }
@@ -111,7 +112,7 @@ fun Navigation() {
         }
     ) { padding ->
         Box(modifier = Modifier.fillMaxSize().padding(padding)) {
-            NavHost(navController = controller, startDestination = AxScreen.Assistant.PATTERN) {
+            NavHost(navController = controller, startDestination = ASSISTANT_ROUTE_PATTERN) {
                 composable("setup") {
                     SetupScreen(onReady = {
                         controller.navigate("assistant") {
@@ -120,7 +121,7 @@ fun Navigation() {
                     })
                 }
                 composable(
-                    route = AxScreen.Assistant.PATTERN,
+                    route = ASSISTANT_ROUTE_PATTERN,
                     arguments = listOf(navArgument("prefill") { type = NavType.StringType; defaultValue = "" })
                 ) { entry ->
                     AssistantScreen(
