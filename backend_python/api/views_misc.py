@@ -431,6 +431,13 @@ def realtime_config(request):
                     pass
         except Exception:
             ws_url = ''
+    if ws_url:
+        try:
+            from nebians.tunnel_health import is_tunnel_healthy
+            if not is_tunnel_healthy():
+                ws_url = ''
+        except Exception:
+            pass
     # Generate a fresh ticket when the caller is authenticated and the tunnel is cross-domain.
     ticket = ''
     if ws_url and 'trycloudflare.com' in ws_url:

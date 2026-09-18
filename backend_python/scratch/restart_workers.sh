@@ -3,29 +3,37 @@
 cd /home/consicac/nebians_api || exit 1
 source /home/consicac/virtualenv/nebians_api/3.13/bin/activate
 
+# Realtime port override: a box whose 8001 is taken (e.g. live box .186, where a
+# foreign uvicorn squats 8001) keeps its port in .realtime_port (e.g. "8003").
+# Default 8001 everywhere else.
+REALTIME_PORT="$(cat .realtime_port 2>/dev/null || echo 8001)"
+REALTIME_PORT="$(echo "$REALTIME_PORT" | tr -cd '0-9')"
+[ -z "$REALTIME_PORT" ] && REALTIME_PORT=8001
+echo "realtime port: $REALTIME_PORT"
+
 for pid in $(pgrep -f run_background_agent_worker); do kill -TERM "$pid" 2>/dev/null; done
 for pid in $(pgrep -f run_autofix_watch); do kill -TERM "$pid" 2>/dev/null; done
 for pid in $(pgrep -f run_code_agent_worker); do kill -TERM "$pid" 2>/dev/null; done
-for pid in $(pgrep -f "daphne.*8001"); do kill -TERM "$pid" 2>/dev/null; done
+for pid in $(pgrep -f "daphne.*${REALTIME_PORT}"); do kill -TERM "$pid" 2>/dev/null; done
 sleep 2
 for pid in $(pgrep -f run_background_agent_worker); do kill -KILL "$pid" 2>/dev/null; done
 for pid in $(pgrep -f run_autofix_watch); do kill -KILL "$pid" 2>/dev/null; done
 for pid in $(pgrep -f run_code_agent_worker); do kill -KILL "$pid" 2>/dev/null; done
-for pid in $(pgrep -f "daphne.*8001"); do kill -KILL "$pid" 2>/dev/null; done
+for pid in $(pgrep -f "daphne.*${REALTIME_PORT}"); do kill -KILL "$pid" 2>/dev/null; done
 
 setsid nohup python manage.py run_background_agent_worker --recover-after 120 >> logs/worker.log 2>&1 < /dev/null &
-setsid nohup python manage.py run_autofix_watch >> logs/autofix.log 2>&1 < /dev/null &
+echo "autofix watcher removed (Sep 2026) - not started; old processes killed above." >> logs/autofix.log 2>&1
 setsid nohup python manage.py run_code_agent_worker >> logs/code_worker.log 2>&1 < /dev/null &
-setsid nohup daphne -b 127.0.0.1 -p 8001 nebians.asgi:application >> logs/daphne.log 2>&1 < /dev/null &
+setsid nohup daphne -b 127.0.0.1 -p "${REALTIME_PORT}" nebians.asgi:application >> logs/daphne.log 2>&1 < /dev/null &
 
-# Deduplicate cloudflared — quick tunnel should be single process; old logs remain valid but extra workers waste RAM
-if [ $(pgrep -f "cloudflared.*8001" | wc -l) -gt 1 ]; then
+# Deduplicate cloudflared - quick tunnel should be single process; old logs remain valid but extra workers waste RAM
+if [ $(pgrep -f "cloudflared.*${REALTIME_PORT}" | wc -l) -gt 1 ]; then
     echo "killing duplicate cloudflared processes..."
-    pkill -f "cloudflared.*8001"; sleep 2
+    pkill -f "cloudflared.*${REALTIME_PORT}"; sleep 2
 fi
-if ! pgrep -f "cloudflared.*8001" >/dev/null; then
-    echo "cloudflared not running — starting ..."
-    setsid nohup /home/consicac/.local/bin/cloudflared --protocol http2 --url http://127.0.0.1:8001 >> logs/cloudflared.log 2>&1 < /dev/null &
+if ! pgrep -f "cloudflared.*${REALTIME_PORT}" >/dev/null; then
+    echo "cloudflared not running - starting ..."
+    setsid nohup /home/consicac/.local/bin/cloudflared --protocol http2 --url "http://127.0.0.1:${REALTIME_PORT}" >> logs/cloudflared.log 2>&1 < /dev/null &
     # Wait for quick tunnel URL to appear, then refresh ws_url.txt
     for i in 1 2 3 4 5 6 7 8 9 10; do
         sleep 2

@@ -121,7 +121,6 @@ def sitemap_entries() -> Iterator[Dict[str, str]]:
     now = timezone.now().isoformat()
     yield {'loc': f'{SITE_BASE_URL}/', 'changefreq': 'daily', 'priority': '1.0', 'lastmod': now}
     yield {'loc': f'{SITE_BASE_URL}/library/', 'changefreq': 'daily', 'priority': '0.9', 'lastmod': now}
-    yield {'loc': f'{SITE_BASE_URL}/videos/', 'changefreq': 'daily', 'priority': '0.85', 'lastmod': now}
     yield {'loc': f'{SITE_BASE_URL}/forum/', 'changefreq': 'daily', 'priority': '0.8', 'lastmod': now}
     yield {'loc': f'{SITE_BASE_URL}/news/', 'changefreq': 'daily', 'priority': '0.7', 'lastmod': now}
     yield {'loc': f'{SITE_BASE_URL}/results/', 'changefreq': 'monthly', 'priority': '0.7', 'lastmod': now}
@@ -198,32 +197,6 @@ def sitemap_entries() -> Iterator[Dict[str, str]]:
             'priority': '0.6',
             'lastmod': _to_lastmod(post.edited_at or post.created_at, now),
         }
-
-    # Video watch pages — each PostMedia video gets its own canonical watch URL
-    try:
-        from api.models import PostMedia
-        _MAX_VIDEOS = 20000
-        vids = (PostMedia.objects
-                .filter(kind='video')
-                .select_related('post', 'post__user')
-                .order_by('-created_at')[:_MAX_VIDEOS])
-        for m in vids:
-            post = getattr(m, 'post', None)
-            if not post or getattr(post, 'is_archived', False):
-                continue
-            # reply-attached videos still have post==None; skip those without a parent post for sitemap cleanliness
-            if not is_indexable_post(post):
-                continue
-            if not m.url:
-                continue
-            yield {
-                'loc': f'{SITE_BASE_URL}/videos/{quote(str(m.id), safe="")}/',
-                'changefreq': 'weekly',
-                'priority': '0.65',
-                'lastmod': _to_lastmod(m.created_at or post.created_at, now),
-            }
-    except Exception:
-        pass
 
     users = (User.objects
               .filter(is_locked=False, is_bot=False, email_verified=True)

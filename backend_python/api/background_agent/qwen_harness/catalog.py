@@ -17,7 +17,7 @@ CONTROL_TOOLS = frozenset({'done', 'ask_user'})
 
 HIDDEN_TOOLS = frozenset({
     'apply_patch', 'copy_file', 'move_file', 'create_directory',
-    'git_stage', 'git_pull', 'git_restore', 'deploy_live_hotfix', 'web_extractor',
+    'git_stage', 'git_pull', 'git_restore', 'web_extractor',
 })
 
 _TOOLS: list[dict] = [

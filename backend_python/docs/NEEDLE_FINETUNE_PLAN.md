@@ -1,25 +1,28 @@
-# Needle 2 fine-tuning plan (NEBians Neby AI)
+# Needle 3 fine-tuning plan (NEBians Neby AI)
 
 Goal: improve Neby AI's tool-calling accuracy on the NEB domain (resources,
-notes, forum, navigation) by LoRA fine-tuning the frozen 45M base model, then
-merging + quantizing to a new `.cact` that runs on the **same** WASM engine —
+notes, forum, navigation) by LoRA fine-tuning the frozen 121M (20-layer) base
+model, then merging to a new `.cact` that runs on the **same** WASM engine —
 no engine re-compilation needed.
 
 ## Pipeline (from the official cactus-compute/needle repo)
 ```bash
-pip install cactus-needle          # inference + finetune + build
+pip install "cactus-needle[train]"   # runtime + JAX training deps
+export OPENROUTER_API_KEY=sk-or-...
 # 1) (optional) synthesize training examples from the NEB tool schema
 needle generate-data --tools neb_tools.json --num-samples 500 --output neb_data.jsonl
-#    needs OPENROUTER_API_KEY.
-# 2) LoRA fine-tune (base checkpoint auto-downloads from HF)
+# 2) LoRA fine-tune at the full 20 layers (base checkpoint auto-downloads from HF)
 needle finetune neb_data.jsonl --epochs 3 --lora-rank 16 --lora-alpha 32 \
-    --out neb_lora.pkl --generate 200
-# 3) merge adapter + quantize to a tuned .cact (default 4-bit; --bits 2 smaller)
-needle build checkpoints/needle2.pkl --lora neb_lora.pkl --out neb_needle.cact
+    --generate 200
+# 3) merge adapter + export a tuned .cact (local export is 4-bit;
+#    the shipped 2-bit model comes from the Cactus Platform).
+#    --layers N optionally slices a smaller 2..20-layer rung.
+needle build checkpoints/needle3.safetensors \
+    --lora checkpoints/needle_lora.safetensors --out neb_needle3.cact
 # 4) smoke test the tuned model
 python - <<'PY'
 import needle
-agent = needle.Needle(tools=TOOLS, weights="neb_needle.cact")
+agent = needle.Needle(tools=TOOLS, weights="neb_needle3.cact")
 print(agent.complete("find physics notes for class 12"))
 PY
 ```
@@ -40,19 +43,31 @@ The engine compiles the same schema at runtime, so fine-tune on the identical
 grammar to close the train/serve gap.
 
 ## Deploying a tuned model (browser)
-1. Back up `web/static/web/js/needle2/needle2.cact`.
-2. Copy the tuned `neb_needle.cact` to `web/static/web/js/needle2/needle2.cact`.
+1. Back up `web/static/web/js/needle3/needle3.cact`.
+2. Copy the tuned `neb_needle3.cact` to `web/static/web/js/needle3/needle3.cact`.
    Same filename, same engine — nothing else changes.
 3. In `needle.worker.js`, bump `RUNTIME_VERSION` and the `CACT_URL` query
    version. This invalidates the initialized IndexedDB snapshot and fetches the
    new model without evicting the unchanged WASM engine.
-4. In Android `NeedleModelManager`, update `MODEL_SIZE_BYTES`, `MODEL_SHA256`,
-   and the model URL query version. Bump the Android `snapshotNamespace` in
-   `assets/needle2/bootstrap.html`, then copy the updated worker into app assets.
-5. Redeploy static files (collectstatic + copy to public/static per AGENTS.md).
-6. Re-run both `node benchmarks/needle_bench.mjs` and
+4. Redeploy static files (collectstatic per AGENTS.md).
+5. Re-run both `node benchmarks/needle_bench.mjs` and
    `node benchmarks/needle_snapshot_bench.mjs` to confirm quality, restored
    output equivalence, and latency.
+
+Android is intentionally left on Needle 2 for now; it will get its own
+tuned-model/model-swap pass with the next APK.
+
+## Tuned-model caveats (Needle 3)
+- An agent constructed with `weights=` reports `confidence` as **None**
+  (fine-tuning does not update the calibration head). `neby-assist.js` routes
+  on `confidence >= 0.35`, so a tuned model needs an alternate routing rule
+  (e.g. act on `function_calls`, confirm on `suppressed_calls`) before shipping.
+- The engine cannot unload weights: once a tuned `.cact` is bound, a base-model
+  agent in the same process raises instead of answering. Keep tuned and base
+  agents in separate processes.
+- `needle.Needle(tools=[...], generation=2)` keeps running Needle 2 for
+  existing deployments (this is how the unchanged Android runtime stays
+  compatible).
 
 ## Quality gates before shipping a tuned model
 - Accuracy on a held-out set of ~50 real user-style queries.

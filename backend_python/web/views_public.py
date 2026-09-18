@@ -178,8 +178,6 @@ def home(request):
             'replies': Reply.objects.filter(is_archived=False, user__email_verified=True).count(),
         }
         cache.set('home_stats_v2', home_stats, 600)
-    from web.views_agents import home_agent_strip
-    neby_live = home_agent_strip()
     return render(request, 'web/home.html', _ctx(request,
         trending_resources=trending_resources,
         trending_posts=trending_posts,
@@ -189,7 +187,6 @@ def home(request):
         home_stats=home_stats,
         hero_bg_filename=hero_bg_filename,
         hide_footer_links=False,
-        neby_live=neby_live,
         needs_profile=needs_profile,
     ))
 
@@ -891,6 +888,15 @@ def submit_payment_proof(request, resource_id):
         price_dec = resource_obj.price
         commission_dec = (price_dec * Decimal('0.10')).quantize(Decimal('0.01'))
         earnings_dec = price_dec - commission_dec
+
+        if proof_file:
+            from api.security import save_payment_proof_upload
+            from django.core.exceptions import ValidationError as DjangoValidationError
+            try:
+                proof_file = save_payment_proof_upload(proof_file)
+            except DjangoValidationError as exc:
+                messages.error(request, ' '.join(exc.messages))
+                return redirect('web:reader', resource_id=resource_id)
 
         existing_pending = PaymentVerification.objects.filter(buyer=buyer, resource=resource_obj, status='pending').first()
         if existing_pending:
@@ -1800,7 +1806,6 @@ def sitemap_xml(request):
         {'loc': f'{base}/model-questions/', 'changefreq': 'daily', 'priority': '0.95', 'lastmod': now},
         {'loc': f'{base}/online-learning/', 'changefreq': 'weekly', 'priority': '0.9', 'lastmod': now},
         {'loc': f'{base}/library/', 'changefreq': 'daily', 'priority': '0.9', 'lastmod': now},
-        {'loc': f'{base}/videos/', 'changefreq': 'daily', 'priority': '0.85', 'lastmod': now},
         {'loc': f'{base}/forum/', 'changefreq': 'daily', 'priority': '0.8', 'lastmod': now},
         {'loc': f'{base}/news/', 'changefreq': 'daily', 'priority': '0.7', 'lastmod': now},
         {'loc': f'{base}/results/', 'changefreq': 'monthly', 'priority': '0.7', 'lastmod': now},
@@ -1880,35 +1885,6 @@ def sitemap_xml(request):
                 'changefreq': 'weekly',
                 'priority': '0.6',
                 'lastmod': _lastmod(published_at),
-            })
-    except Exception:
-        pass
-
-    try:
-        from api.models import PostMedia
-        videos = (PostMedia.objects
-                  .filter(kind='video')
-                  .select_related('post', 'post__user')
-                  .order_by('-created_at')[:1000])
-        for media in videos:
-            post = getattr(media, 'post', None)
-            if not post or getattr(post, 'is_archived', False):
-                continue
-            author = getattr(post, 'user', None)
-            if author and (getattr(author, 'is_locked', False) or getattr(author, 'is_bot', False)):
-                continue
-            try:
-                if author and not getattr(author, 'email_verified', True):
-                    continue
-            except Exception:
-                pass
-            if not getattr(media, 'id', None):
-                continue
-            urls.append({
-                'loc': f'{base}/videos/{quote(str(media.id), safe="")}/',
-                'changefreq': 'weekly',
-                'priority': '0.65',
-                'lastmod': _lastmod(getattr(media, 'created_at', None) or getattr(post, 'created_at', None)),
             })
     except Exception:
         pass
@@ -2008,34 +1984,39 @@ def robots_txt(request):
     ]
     return HttpResponse('\n'.join(lines), content_type='text/plain')
 
+def _no_store(response):
+    response['Cache-Control'] = 'no-store'
+    return response
+
+
 def custom_404(request, exception):
     is_api = request.path.startswith('/api/') or 'application/json' in request.headers.get('Accept', '')
     if is_api:
         from django.http import JsonResponse
-        return JsonResponse({'detail': 'Not found.'}, status=404)
-        
+        return _no_store(JsonResponse({'detail': 'Not found.'}, status=404))
+
     try:
         ctx = _ctx(request)
     except Exception:
         ctx = {}
     try:
-        return render(request, '404.html', ctx, status=404)
+        return _no_store(render(request, '404.html', ctx, status=404))
     except Exception:
         from django.http import HttpResponse
-        return HttpResponse("<h1>404 Not Found</h1>", status=404, content_type="text/html")
+        return _no_store(HttpResponse("<h1>404 Not Found</h1>", status=404, content_type="text/html"))
 
 def custom_500(request):
     is_api = request.path.startswith('/api/') or 'application/json' in request.headers.get('Accept', '')
     if is_api:
         from django.http import JsonResponse
-        return JsonResponse({'detail': 'Internal server error. We are experiencing technical difficulties.'}, status=500)
+        return _no_store(JsonResponse({'detail': 'Internal server error. We are experiencing technical difficulties.'}, status=500))
 
     try:
         ctx = _ctx(request)
     except Exception:
         ctx = {}
     try:
-        return render(request, '500.html', ctx, status=500)
+        return _no_store(render(request, '500.html', ctx, status=500))
     except Exception:
         from django.http import HttpResponse
         html = """<!DOCTYPE html>
@@ -2100,4 +2081,4 @@ def custom_500(request):
     </div>
 </body>
 </html>"""
-        return HttpResponse(html, status=500, content_type="text/html")
+        return _no_store(HttpResponse(html, status=500, content_type="text/html"))

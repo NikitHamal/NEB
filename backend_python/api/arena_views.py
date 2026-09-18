@@ -555,9 +555,9 @@ def arena_send_message(request, session_id: str):
     content = (request.data.get('content') or '').strip()
     if not content:
         return Response({'error': 'content is required'}, status=status.HTTP_400_BAD_REQUEST)
-    if len(content) > 8000:
+    if len(content) > 32000:
         return Response(
-            {'error': 'Message too long (max 8000 chars)'},
+            {'error': 'Message too long (max 32000 chars)'},
             status=status.HTTP_400_BAD_REQUEST,
         )
     if sess.provider not in _COMMUNITY_SLUGS:

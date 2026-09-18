@@ -65,6 +65,7 @@ def verify_google_token(id_token: str):
                 return {
                     'userId': idinfo.get('sub'),
                     'email': idinfo.get('email'),
+                    'email_verified': bool(idinfo.get('email_verified', False)),
                     'displayName': idinfo.get('name'),
                     'photoUrl': idinfo.get('picture'),
                 }

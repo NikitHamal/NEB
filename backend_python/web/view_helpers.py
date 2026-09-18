@@ -798,14 +798,22 @@ def _get_ws_public_url():
 
     Empty results are NOT cached so the next request retries immediately and can
     pick up a freshly-started tunnel. Short TTL ensures a tunnel restart
-    propagates within seconds instead of a minute.
+    propagates within seconds instead of a minute. When the tunnel is down
+    (see nebians.tunnel_health) an empty string is returned so clients use the
+    polling fallback instead of hammering a dead host.
     """
     url = cache.get('ws_public_url_resolved')
-    if url is not None:
-        return url
-    url = _resolve_ws_public_url()
+    if url is None:
+        url = _resolve_ws_public_url()
+        if url:
+            cache.set('ws_public_url_resolved', url, 15)
     if url:
-        cache.set('ws_public_url_resolved', url, 15)
+        try:
+            from nebians.tunnel_health import is_tunnel_healthy
+            if not is_tunnel_healthy():
+                return ''
+        except Exception:
+            pass
     return url
 
 def _client_ip(request):
@@ -1095,21 +1103,22 @@ def _compute_hot_score(post_or_dict, now_ms_val=None):
         score = math.log2(max(engagement, 1)) - age_hours / 168.0
     return score
 
-def _link_oauth_user(request, email, user_pk, display_name, photo_url, provider_name):
+def _link_oauth_user(request, email, user_pk, display_name, photo_url, provider_name, provider_verified=False):
     """Auto-link OAuth accounts by verified email.
 
-    If a user with the same verified email already exists, log them into that
-    account instead of creating a new one. This prevents duplicate accounts
-    when the same person signs in via different providers.
+    Links ONLY when the provider asserts a verified email AND the existing
+    account already verified that email. This blocks pre-account-takeover via
+    squatted (unverified) email signups: linking to an unverified account is
+    refused, and the verified flag is never granted by linking.
 
     Returns (HttpResponseRedirect, linked: bool).
     """
-    if email:
+    if email and provider_verified:
         try:
             existing = User.objects.get(email__iexact=email)
             if not existing.email_verified:
-                existing.email_verified = True
-                existing.save(update_fields=['email_verified'])
+                logger.warning('%s: refusing OAuth link to unverified account (email=%s)', provider_name, email)
+                return None, False
             token = issue_auth_token(existing)
             user_data = _normalize_user_data(UserSerializer(existing).data)
             user_data['isNewUser'] = False

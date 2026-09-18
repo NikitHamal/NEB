@@ -1,3 +1,4 @@
+import hmac
 import os
 import io
 import zipfile
@@ -11,6 +12,15 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 
 
+def _expected_secret():
+    expected = (getattr(settings, 'AGENT_DROP_SECRET', '') or '').strip()
+    if not expected:
+        return ''
+    if expected == 'dev-agent-drop-secret-change-me' and not settings.DEBUG:
+        return ''
+    return expected
+
+
 def _is_authorized(request):
     token = (
         request.headers.get('X-Agent-Token') or
@@ -22,10 +32,16 @@ def _is_authorized(request):
         auth_hdr = request.headers.get('Authorization', '') or request.META.get('HTTP_AUTHORIZATION', '')
         if auth_hdr.startswith('Bearer '):
             token = auth_hdr[7:].strip()
-    expected = getattr(settings, 'AGENT_DROP_SECRET', None) or os.environ.get('AGENT_DROP_SECRET') or '***REMOVED***'
-    if not expected or not token:
-        return False
-    return token.strip() == expected.strip()
+    expected = _expected_secret()
+    if expected and token and hmac.compare_digest(token.strip(), expected):
+        return True
+    try:
+        user = getattr(request, 'user', None)
+        if user is not None and user.is_authenticated and (user.is_staff or user.is_superuser):
+            return True
+    except Exception:
+        pass
+    return False
 
 
 def _sanitize_path(base_dir, user_path):
@@ -90,13 +106,11 @@ def agent_drop_upload(request):
                         f.write(chunk)
                 saved_files.append(rel_path)
 
-        token_param = request.GET.get('token') or request.headers.get('X-Agent-Token', '')
         return JsonResponse({
             'status': 'ok',
             'batch_id': batch_id,
             'file_count': len(saved_files),
             'files': saved_files[:50],
-            'download_url': f'/api/agent-drop/{batch_id}/download/?token={token_param}'
         })
 
     # 2. Raw JSON batch upload: { "files": { "path/to/file.py": "content..." } }
@@ -119,13 +133,11 @@ def agent_drop_upload(request):
                 f.write(content if isinstance(content, str) else str(content))
             saved_files.append(rel_path)
 
-        token_param = request.GET.get('token') or request.headers.get('X-Agent-Token', '')
         return JsonResponse({
             'status': 'ok',
             'batch_id': batch_id,
             'file_count': len(saved_files),
             'files': saved_files[:50],
-            'download_url': f'/api/agent-drop/{batch_id}/download/?token={token_param}'
         })
 
     return JsonResponse({'error': 'No file or JSON payload received'}, status=400)
@@ -167,7 +179,6 @@ def agent_drop_list(request):
     if not os.path.exists(sync_root):
         return JsonResponse({'batches': []})
 
-    token_param = request.GET.get('token') or request.headers.get('X-Agent-Token', '')
     batches = []
     for name in sorted(os.listdir(sync_root), reverse=True):
         bpath = os.path.join(sync_root, name)
@@ -180,7 +191,6 @@ def agent_drop_list(request):
                 'file_count': file_count,
                 'total_size_bytes': total_size,
                 'created_at': time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(mtime)),
-                'download_url': f'/api/agent-drop/{name}/download/?token={token_param}'
             })
 
     return JsonResponse({'batches': batches[:50]})
@@ -247,10 +257,24 @@ def agent_drop_apply(request, batch_id):
 
 IGNORE_DIRS = {
     '.git', '.github', '.idea', '.vscode', '__pycache__', 'staticfiles',
-    'media', 'virtualenv', 'node_modules', 'scratch', '.venv', 'env', 'logs'
+    'media', 'virtualenv', 'node_modules', 'scratch', '.venv', 'env', 'logs', 'tmp'
 }
 
-IGNORE_EXTENSIONS = {'.pyc', '.pyo', '.pyd', '.DS_Store', '.sqlite3'}
+IGNORE_EXTENSIONS = {'.pyc', '.pyo', '.pyd', '.DS_Store', '.sqlite3', '.keystore', '.jks', '.key', '.pem'}
+
+SENSITIVE_BASENAMES = {
+    '.env', '.env.example', '.ssh_deploy_info.json',
+    'nebians-release.keystore', 'id_rsa', 'id_ed25519',
+}
+
+
+def _is_sensitive_path(rel_path):
+    name = rel_path.replace('\\', '/').split('/')[-1].lower()
+    if name in SENSITIVE_BASENAMES:
+        return True
+    if name.endswith(('.pem', '.key')):
+        return True
+    return False
 
 
 def _should_include_file(rel_path):
@@ -258,6 +282,8 @@ def _should_include_file(rel_path):
     for p in parts:
         if p in IGNORE_DIRS:
             return False
+    if _is_sensitive_path(rel_path):
+        return False
     _, ext = os.path.splitext(rel_path)
     if ext in IGNORE_EXTENSIONS:
         return False
@@ -326,6 +352,9 @@ def agent_drop_fetch_file(request):
     rel_path = request.GET.get('path', '').strip()
     if not rel_path:
         return HttpResponse('Missing path parameter', status=400)
+
+    if not _should_include_file(rel_path.replace('\\', '/').lstrip('/')):
+        raise Http404('File not found')
 
     target = _sanitize_path(settings.BASE_DIR, rel_path)
     if not target or not os.path.isfile(target):

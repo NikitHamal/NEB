@@ -67,7 +67,9 @@ if not CONSICA_BRIDGE_KEY:
 
 ASTROWEB_BRIDGE_KEY = os.environ.get('ASTROWEB_BRIDGE_KEY', '') or CONSICA_BRIDGE_KEY
 
-AGENT_DROP_SECRET = os.environ.get('AGENT_DROP_SECRET', '***REMOVED***')
+AGENT_DROP_SECRET = os.environ.get('AGENT_DROP_SECRET', '')
+if not AGENT_DROP_SECRET and DEBUG:
+    AGENT_DROP_SECRET = 'dev-agent-drop-secret-change-me'
 
 ALLOWED_HOSTS = env_list(
     'ALLOWED_HOSTS',
@@ -142,11 +144,13 @@ if CACHE_LOCATION and not CACHE_LOCATION.startswith(('redis://', 'rediss://', 'u
 REDIS_URL = CACHE_LOCATION
 
 # Cache: Redis when explicitly requested, otherwise LocMem (safe for local dev without redis).
+# The Redis backend is wrapped in nebians.cache_fallback.ResilientRedisCache so
+# a Redis outage degrades to cache misses instead of HTTP 500s (Sep 2026 incident).
 _cache_backend = os.environ.get('CACHE_BACKEND', '').strip()
 if _cache_backend == 'django.core.cache.backends.redis.RedisCache':
     CACHES = {
         'default': {
-            'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+            'BACKEND': 'nebians.cache_fallback.ResilientRedisCache',
             'LOCATION': CACHE_LOCATION,
         }
     }
@@ -233,7 +237,7 @@ STORAGES = {
 
 def _immutable_file_test(path, _url=None):
     p = path.replace('\\', '/')
-    return 'web/js/needle2/' in p or (_url is not None and 'web/js/needle2/' in _url)
+    return 'web/js/needle3/' in p or (_url is not None and 'web/js/needle3/' in _url)
 
 WHITENOISE_IMMUTABLE_FILE_TEST = _immutable_file_test
 
@@ -251,12 +255,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 WS_PUBLIC_URL = os.environ.get('WS_PUBLIC_URL', '').strip()
 WS_URL_TXT = os.path.join(BASE_DIR, 'ws_url.txt')
 
-# Session backend — cached_db writes to both DB and cache, so existing sessions
-# survive cache clears and Redis restarts. Falls back to DB-only when no Redis.
+# Session backend - plain DB sessions. cached_db was used before, but it does NOT
+# fall back to the DB when Redis is down (it raises, 500ing every logged-in page
+# - Sep 2026 incident). DB sessions cost one indexed lookup per request.
 SESSION_ENGINE = os.environ.get(
     'SESSION_ENGINE',
-    'django.contrib.sessions.backends.cached_db' if os.environ.get('CACHE_BACKEND') == 'django.core.cache.backends.redis.RedisCache'
-    else 'django.contrib.sessions.backends.db'
+    'django.contrib.sessions.backends.db',
 )
 SESSION_CACHE_ALIAS = 'default'
 
@@ -341,7 +345,7 @@ LLM_PROVIDER_KEYS = {
 BACKGROUND_AGENT_PROVIDER_TIMEOUT = int(os.environ.get('BACKGROUND_AGENT_PROVIDER_TIMEOUT', '300'))
 # Context window for agent sessions (default 1M — Qwen models all support 1M).
 BACKGROUND_AGENT_CONTEXT_WINDOW_TOKENS = int(os.environ.get('BACKGROUND_AGENT_CONTEXT_WINDOW_TOKENS', '1000000'))
-BACKGROUND_AGENT_ALLOW_LOCAL_EXECUTION = os.environ.get('BACKGROUND_AGENT_ALLOW_LOCAL_EXECUTION', 'True').lower() in ('1', 'true', 'yes')
+BACKGROUND_AGENT_ALLOW_LOCAL_EXECUTION = os.environ.get('BACKGROUND_AGENT_ALLOW_LOCAL_EXECUTION', 'False').lower() in ('1', 'true', 'yes')
 BACKGROUND_AGENT_QWEN_HARNESS = os.environ.get('BACKGROUND_AGENT_QWEN_HARNESS', 'True').lower() in ('1', 'true', 'yes')
 BACKGROUND_AGENT_QWEN_MAX_TOKENS = int(os.environ.get('BACKGROUND_AGENT_QWEN_MAX_TOKENS', '8192'))
 BACKGROUND_AGENT_FORMAT_RETRIES = int(os.environ.get('BACKGROUND_AGENT_FORMAT_RETRIES', '2'))
@@ -386,6 +390,7 @@ LOGGING = {
     'disable_existing_loggers': False,
     'filters': {
         'redact_sensitive': {'()': 'nebians.settings.SensitiveDataFilter'},
+        'skip_redis_noise': {'()': 'nebians.log_filters.SkipRedisNoiseFilter'},
     },
     'formatters': {
         'verbose': {'format': '[{asctime}] {levelname} {name} {message}', 'style': '{'},
@@ -410,6 +415,7 @@ LOGGING = {
             'class': 'django.utils.log.AdminEmailHandler',
             'level': 'ERROR',
             'include_html': False,
+            'filters': ['skip_redis_noise'],
         },
     },
     'loggers': {

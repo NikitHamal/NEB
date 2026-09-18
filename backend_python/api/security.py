@@ -420,6 +420,62 @@ def save_post_image_upload(request, file_obj, order=0) -> str:
     return request.build_absolute_uri(settings.MEDIA_URL + path)
 
 
+def save_payment_proof_upload(file_obj) -> str:
+    """Validate a payment-proof screenshot and store it, returning the storage path.
+
+    Same guarantees as profile/post image uploads: 10 MB cap, JPG/PNG/WEBP
+    only (no GIF/SVG/HTML), PIL-verified, fully re-encoded with metadata
+    stripped, random filename under payments/. Raises ValidationError.
+    """
+    if not file_obj:
+        raise ValidationError('Image file is required')
+    if getattr(file_obj, 'size', 0) > POST_IMAGE_MAX_BYTES:
+        raise ValidationError('Proof image is too large. Maximum size is 10 MB.')
+
+    original_name = get_valid_filename(getattr(file_obj, 'name', 'payment-proof'))
+    ext = os.path.splitext(original_name)[1].lower()
+    if ext not in PROFILE_PHOTO_ALLOWED_EXTENSIONS:
+        raise ValidationError('Invalid image format. Only JPG, PNG, and WEBP are allowed.')
+    content_type = getattr(file_obj, 'content_type', '')
+    if content_type and content_type not in PROFILE_PHOTO_CONTENT_TYPES:
+        raise ValidationError('Invalid image MIME type.')
+
+    data = file_obj.read(POST_IMAGE_MAX_BYTES + 1)
+    if len(data) > POST_IMAGE_MAX_BYTES:
+        raise ValidationError('Proof image is too large. Maximum size is 10 MB.')
+
+    try:
+        image = Image.open(BytesIO(data))
+        image.verify()
+    except (UnidentifiedImageError, OSError):
+        raise ValidationError('Uploaded file is not a valid image.')
+
+    image = Image.open(BytesIO(data))
+    image_format = image.format
+    if image_format not in PROFILE_PHOTO_ALLOWED_FORMATS:
+        raise ValidationError('Invalid image format. Only JPG, PNG, and WEBP are allowed.')
+
+    output = BytesIO()
+    if image_format == 'PNG':
+        safe_ext = '.png'
+        if image.mode not in ('RGB', 'RGBA'):
+            image = image.convert('RGBA')
+        image.save(output, format='PNG', optimize=True)
+    elif image_format == 'WEBP':
+        safe_ext = '.webp'
+        if image.mode not in ('RGB', 'RGBA'):
+            image = image.convert('RGBA')
+        image.save(output, format='WEBP', quality=90, method=6)
+    else:
+        safe_ext = '.jpg'
+        if image.mode != 'RGB':
+            image = image.convert('RGB')
+        image.save(output, format='JPEG', quality=88, optimize=True)
+
+    filename = f"proof_{secrets.token_urlsafe(16)}{safe_ext}"
+    return default_storage.save(os.path.join('payments', filename), ContentFile(output.getvalue()))
+
+
 RESOURCE_ALLOWED_EXTENSIONS = {
     '.pdf', '.doc', '.docx', '.ppt', '.pptx', '.xls', '.xlsx',
     '.txt', '.rtf', '.odt', '.ods', '.odp', '.csv',

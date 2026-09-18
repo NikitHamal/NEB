@@ -6,8 +6,8 @@ You can upload and sync your code modifications or generated assets directly bac
 
 ### 🔑 Endpoint & Credentials
 * **Upload URL:** `https://nebians.consica.com.np/api/agent-drop/upload/`
-* **Auth Header:** `X-Agent-Token: ***REMOVED***`
-* **Alternative Auth:** `Authorization: Bearer ***REMOVED***` or URL query `?token=***REMOVED***`
+* **Auth Header:** `X-Agent-Token: <AGENT_DROP_SECRET from server .env - ask an admin, never commit it>`
+* **Alternative Auth:** `Authorization: Bearer <secret>` (prefer the header; avoid `?token=` URLs - they land in logs)
 
 ---
 
@@ -20,7 +20,7 @@ Bundle the workspace and upload in a single command (excluding cache/git noise):
 zip -r build.zip . -x "node_modules/*" -x ".git/*" -x "__pycache__/*" -x "*.pyc" -x ".venv/*"
 
 curl -X POST "https://nebians.consica.com.np/api/agent-drop/upload/" \
-  -H "X-Agent-Token: ***REMOVED***" \
+  -H "X-Agent-Token: $AGENT_DROP_SECRET" \
   -F "file=@build.zip"
 ```
 
@@ -31,7 +31,7 @@ Upload individual files while preserving their path inside the project tree:
 
 ```bash
 curl -X POST "https://nebians.consica.com.np/api/agent-drop/upload/" \
-  -H "X-Agent-Token: ***REMOVED***" \
+  -H "X-Agent-Token: $AGENT_DROP_SECRET" \
   -F "path=web/templates/web/canvas.html" \
   -F "file=@web/templates/web/canvas.html"
 ```
@@ -46,7 +46,7 @@ import os
 import requests
 
 URL = "https://nebians.consica.com.np/api/agent-drop/upload/"
-TOKEN = "***REMOVED***"
+TOKEN = os.environ["AGENT_DROP_SECRET"]  # export AGENT_DROP_SECRET=<secret from an admin>
 
 IGNORED_DIRS = {".git", "node_modules", "__pycache__", ".venv", "venv", ".idea", ".vscode"}
 IGNORED_EXTS = {".pyc", ".pyo", ".zip", ".tar.gz", ".png", ".jpg", ".jpeg"}
@@ -80,7 +80,7 @@ print("Response:", response.json())
 ---
 
 ### 📥 Server Response Format
-On successful upload, the server returns a JSON response containing a unique `batch_id` and a single `download_url`:
+On successful upload, the server returns a JSON response containing a unique `batch_id`:
 
 ```json
 {
@@ -91,8 +91,9 @@ On successful upload, the server returns a JSON response containing a unique `ba
     "web/templates/web/canvas.html",
     "web/static/web/js/canvas/agent.js"
   ],
-  "download_url": "/api/agent-drop/20260823_173000_a1b2c3/download/?token=***REMOVED***"
+  "batch_id": "20260823_173000_a1b2c3",
+  "file_count": 14
 }
 ```
 
-Opening `https://nebians.consica.com.np` + `download_url` in a browser will download the complete batch as a `.zip` archive.
+Staff can download batches from the staff-only page (`/staff/agent-drops/`, Django staff login required); API downloads accept the same `X-Agent-Token` header.

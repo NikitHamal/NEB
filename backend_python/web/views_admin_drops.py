@@ -1,4 +1,11 @@
-"""Internal Admin View for managing Agent Drop batches."""
+"""Staff-only view for managing Agent Drop batches.
+
+Standalone page (NOT part of the /admin/ panel navigation). Access requires
+a Django staff/admin session - the shared AGENT_DROP_SECRET is never displayed
+here and no ?token= bypass exists. Admins who need API access can read the
+secret from the server .env (AGENT_DROP_SECRET) and pass it via the
+X-Agent-Token header.
+"""
 import os
 import shutil
 import time
@@ -20,11 +27,7 @@ def _format_size(num_bytes):
 def admin_agent_drops(request):
     redirect_response = _require_staff_admin(request)
     if redirect_response:
-        # Check if authorized via agent token in query string
-        token = request.GET.get('token', '').strip()
-        expected = getattr(settings, 'AGENT_DROP_SECRET', None) or os.environ.get('AGENT_DROP_SECRET') or '***REMOVED***'
-        if not token or token != expected:
-            return redirect_response
+        return redirect_response
 
     sync_root = os.path.join(settings.MEDIA_ROOT, 'agent_sync')
     os.makedirs(sync_root, exist_ok=True)
@@ -61,8 +64,6 @@ def admin_agent_drops(request):
                     shutil.rmtree(target)
             return redirect('web:admin_agent_drops')
 
-    token_param = getattr(settings, 'AGENT_DROP_SECRET', None) or os.environ.get('AGENT_DROP_SECRET') or '***REMOVED***'
-
     batches = []
     total_files_all = 0
     total_size_all = 0
@@ -93,7 +94,6 @@ def admin_agent_drops(request):
                 'files': file_list,
                 'size_formatted': _format_size(batch_bytes),
                 'created_at': time.strftime("%b %d, %Y • %I:%M %p", time.localtime(mtime)),
-                'download_url': f'/api/agent-drop/{name}/download/?token={token_param}',
             })
 
     return render(request, 'admin_panel/agent_drops.html', {
@@ -103,9 +103,5 @@ def admin_agent_drops(request):
         'total_batches': len(batches),
         'total_files': total_files_all,
         'total_size': _format_size(total_size_all),
-        'token': token_param,
-        'agent_token': token_param,
-        'codebase_download_url': f'/api/agent-drop/codebase/download/?token={token_param}',
-        'manifest_url': f'/api/agent-drop/codebase/manifest/?token={token_param}',
     })
 

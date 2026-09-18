@@ -106,7 +106,7 @@
           routeToCloud(lastQuery, null);
         }
       });
-      worker.postMessage({ type: 'initialize', tools: NEBY_TOOLS, snapshotNamespace: 'nebians-web-v1' });
+      worker.postMessage({ type: 'initialize', tools: NEBY_TOOLS, snapshotNamespace: 'nebians-web-v3' });
     } catch (e) {
       console.error('Failed to create worker:', e);
       workerLoading = false;
@@ -116,7 +116,7 @@
   }
 
   function getWorkerUrl() {
-    return '/static/web/js/needle2/needle.worker.js?v=3';
+    return '/static/web/js/needle3/needle.worker.js?v=3';
   }
 
   function statusLabel(msg) {

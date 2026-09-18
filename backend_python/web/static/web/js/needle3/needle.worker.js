@@ -2,11 +2,11 @@
 
 importScripts("./needle.js");
 
-var RUNTIME_VERSION = "needle2-runtime-v3";
-var BINARY_CACHE = "needle2-assets-v2";
-var WASM_URL = "./needle.wasm?v=2";
-var CACT_URL = "./needle2.cact?v=2";
-var SNAPSHOT_DB = "neby-needle2";
+var RUNTIME_VERSION = "needle3-runtime-v1";
+var BINARY_CACHE = "needle3-assets-v1";
+var WASM_URL = "./needle.wasm?v=3";
+var CACT_URL = "./needle3.cact?v=3";
+var SNAPSHOT_DB = "neby-needle3";
 var SNAPSHOT_STORE = "runtime-snapshots";
 var SNAPSHOT_CHUNK_BYTES = 2 * 1024 * 1024;
 
@@ -77,13 +77,13 @@ async function idbPut(key, value) {
   var db = await openSnapshotDb();
   return new Promise(function (resolve, reject) {
     var transaction = db.transaction(SNAPSHOT_STORE, "readwrite");
-    transaction.objectStore(SNAPSHOT_STORE).put(value, key);
-    transaction.oncomplete = function () { db.close(); resolve(); };
-    transaction.onerror = function () {
+    var request = transaction.objectStore(SNAPSHOT_STORE).put(value, key);
+    request.oncomplete = function () { db.close(); resolve(); };
+    request.onerror = function () {
       db.close();
       reject(transaction.error || new Error("IndexedDB write failed"));
     };
-    transaction.onabort = transaction.onerror;
+    request.onabort = request.onerror;
   });
 }
 
@@ -91,12 +91,11 @@ async function idbDelete(key) {
   var db = await openSnapshotDb();
   return new Promise(function (resolve, reject) {
     var transaction = db.transaction(SNAPSHOT_STORE, "readwrite");
-    transaction.objectStore(SNAPSHOT_STORE).delete(key);
-    transaction.oncomplete = function () { db.close(); resolve(); };
-    transaction.onerror = function () {
-      db.close();
-      reject(transaction.error || new Error("IndexedDB delete failed"));
-    };
+    var request = transaction.objectStore(SNAPSHOT_STORE).delete(key);
+    request.onsuccess = function () { resolve(request.result); };
+    request.onerror = function () { reject(request.error || new Error("IndexedDB delete failed")); };
+    transaction.oncomplete = function () { db.close(); };
+    transaction.onerror = function () { db.close(); };
   });
 }
 
@@ -114,7 +113,7 @@ async function idbDeleteExcept(prefix) {
     transaction.oncomplete = function () { db.close(); resolve(); };
     transaction.onerror = function () {
       db.close();
-      reject(transaction.error || new Error("IndexedDB cleanup failed"));
+      reject(new Error("IndexedDB cleanup failed"));
     };
   });
 }

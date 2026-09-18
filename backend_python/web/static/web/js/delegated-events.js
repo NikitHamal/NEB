@@ -95,7 +95,12 @@
 
   document.addEventListener('error', function(e) {
     var img = e.target;
-    if (img && img.tagName === 'IMG' && img.dataset.fallback) {
+    if (!img || img.tagName !== 'IMG') return;
+    if (img.classList && img.classList.contains('resource-card-art-img')) {
+      img.remove();
+      return;
+    }
+    if (img.dataset.fallback) {
       img.style.display = 'none';
       var next = img.nextElementSibling;
       if (next) next.style.display = img.dataset.fallback || 'inline-flex';

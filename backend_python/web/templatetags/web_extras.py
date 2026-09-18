@@ -9,6 +9,38 @@ from urllib.parse import quote
 import markdown as md_lib
 from api import content_images
 
+try:
+    import bleach as _bleach
+except ImportError:
+    _bleach = None
+
+_USER_HTML_TAGS = [
+    'p', 'br', 'strong', 'em', 'b', 'i', 'u', 's', 'code', 'pre',
+    'blockquote', 'ul', 'ol', 'li', 'table', 'thead', 'tbody',
+    'tr', 'th', 'td', 'a', 'span', 'h1', 'h2', 'h3', 'h4',
+]
+_USER_HTML_ATTRS = {
+    'a': ['href', 'title', 'target', 'rel', 'class'],
+    'span': ['class'],
+    'code': ['class'],
+    'pre': ['class'],
+    'th': ['colspan', 'rowspan'],
+    'td': ['colspan', 'rowspan'],
+}
+_USER_HTML_PROTOCOLS = ['http', 'https', 'mailto']
+
+
+def _sanitize_user_html(html):
+    if _bleach is not None:
+        return _bleach.clean(
+            html,
+            tags=_USER_HTML_TAGS,
+            attributes=_USER_HTML_ATTRS,
+            protocols=_USER_HTML_PROTOCOLS,
+            strip=True,
+        )
+    return escape(html)
+
 register = template.Library()
 
 
@@ -290,7 +322,12 @@ def format_count(value):
 def to_json(value):
     if value is None:
         return mark_safe('null')
-    json_str = json.dumps(value, ensure_ascii=True)
+    if getattr(value, 'is_anonymous', False):
+        return mark_safe('null')
+    try:
+        json_str = json.dumps(value, ensure_ascii=True, default=str)
+    except Exception:
+        return mark_safe('null')
     json_str = json_str.replace('<', '\\u003c').replace('>', '\\u003e').replace('&', '\\u0026')
     return mark_safe(json_str)
 
@@ -447,6 +484,8 @@ def _render_user_content(value):
     )
 
     html = _linkify_html(html)
+
+    html = _sanitize_user_html(html)
 
     html = content_images.detokenize_html(html)
 

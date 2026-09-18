@@ -26,12 +26,7 @@
       </div>
       <span class="md-bottomnav-label">Library</span>
     </a>
-    <a href="{% url 'web:videos' %}" class="md-bottomnav-item {% block bnav_videos %}{% endblock %}" aria-label="Videos">
-      <div class="md-bottomnav-icon-wrapper">
-        <span class="material-symbols-outlined">smart_display</span>
-      </div>
-      <span class="md-bottomnav-label">Videos</span>
-    </a>
+
     <a href="{% url 'web:forum' %}" class="md-bottomnav-item" aria-label="Forum">
       <div class="md-bottomnav-icon-wrapper">
         <span class="material-symbols-outlined">forum</span>
@@ -52,7 +47,7 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'web/css/pages/web-home.css' %}">
-<link rel="stylesheet" href="{% static 'web/css/pages/agents.css' %}">
+
 {% if hero_bg_filename %}
 <style nonce="{{ csp_nonce }}">
   .home-landing {
@@ -122,7 +117,7 @@
                 <path d="M0,120 L0,95 Q80,65 160,85 Q240,105 300,80 L300,120Z" fill="var(--art-c4)" opacity="0.2" />
               </svg>
               {% if r.thumbnail_url %}
-              <img src="{{ r.thumbnail_url }}" alt="" class="resource-card-art-img" loading="lazy" onerror="this.remove();">
+              <img src="{{ r.thumbnail_url }}" alt="" class="resource-card-art-img" loading="lazy">
               {% endif %}
               {% if r.is_paid or r.isPaid %}
               <span class="resource-card-paid-pill" style="position:absolute;top:10px;right:10px;background:#16a34a;color:#fff;font-size:0.75rem;font-weight:700;padding:3px 10px;border-radius:20px;display:inline-flex;align-items:center;gap:4px;z-index:2;">
@@ -254,7 +249,6 @@
       <a href="/subject/class-11/mathematics/">Class 11 Mathematics Notes</a>
       <a href="/subject/class-11/english/">Class 11 English Notes</a>
       <a href="/subject/class-10-see/science/">SEE Science Past Papers</a>
-      <a href="{% url 'web:videos' %}">Study Videos</a>
       <a href="{% url 'web:forum' %}">Discussion Forum</a>
       <a href="{% url 'web:result_check' %}">NEB Result Checker</a>
     </nav>

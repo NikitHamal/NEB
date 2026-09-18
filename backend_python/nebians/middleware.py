@@ -67,12 +67,19 @@ def _resolve_ws_public_url():
 def _get_ws_public_url_cached():
     """Cached (15s) resolution of the public WS URL — avoids per-request file I/O."""
     # Don't cache empty — next request should retry immediately to pick up a new tunnel.
+    # A down tunnel resolves to '' so clients use polling instead of a dead host.
     url = cache.get('ws_public_url_resolved')
-    if url is not None:
-        return url
-    url = _resolve_ws_public_url()
+    if url is None:
+        url = _resolve_ws_public_url()
+        if url:
+            cache.set('ws_public_url_resolved', url, 15)
     if url:
-        cache.set('ws_public_url_resolved', url, 15)
+        try:
+            from nebians.tunnel_health import is_tunnel_healthy
+            if not is_tunnel_healthy():
+                return ''
+        except Exception:
+            pass
     return url
 
 SENSITIVE_PATHS_404 = (
@@ -221,7 +228,7 @@ def _resolve_geo(ip_address):
         import urllib.request as _urlopen
         url = f'http://ip-api.com/json/{ip_address}?fields=country,city'
         req = _urlopen.Request(url, headers={'User-Agent': 'NEBians/1.0'})
-        with _urlopen(req, timeout=3) as resp:
+        with _urlopen.urlopen(req, timeout=3) as resp:
             data = __import__('json').loads(resp.read().decode())
             if data.get('status') == 'success':
                 country = data.get('country', '') or ''
@@ -449,13 +456,19 @@ class ApiUnhandledExceptionMiddleware:
         return response
 
     def process_exception(self, request, exception):
+        from django.core.exceptions import PermissionDenied
+        from django.http import Http404
+        # Http404/403 are normal web traffic (mistyped URLs, bot probes, locked
+        # profiles) — let Django's default handling render the error page. Logging
+        # them here at ERROR would fire an admin email for every stray hit.
+        if isinstance(exception, (Http404, PermissionDenied)):
+            return None
         import logging
         import traceback
         from django.http import JsonResponse
         
         logger = logging.getLogger('django.request')
         logger.exception("Unhandled server exception at %s: %s", request.path, exception)
-        
         try:
             log_dir = Path(getattr(settings, 'BASE_DIR', '.')) / 'logs'
             log_dir.mkdir(parents=True, exist_ok=True)
@@ -470,9 +483,11 @@ class ApiUnhandledExceptionMiddleware:
             pass
 
         if request.path.startswith('/api/') or 'application/json' in request.META.get('HTTP_ACCEPT', ''):
-            return JsonResponse({
+            resp = JsonResponse({
                 'error': f'Server error: {exception.__class__.__name__}',
                 'detail': str(exception) or 'An unexpected error occurred.',
                 'path': request.path
             }, status=500)
+            resp['Cache-Control'] = 'no-store'
+            return resp
         return None
