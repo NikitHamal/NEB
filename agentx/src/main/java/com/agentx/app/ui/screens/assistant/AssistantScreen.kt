@@ -31,6 +31,7 @@ import androidx.compose.material.icons.filled.SmartToy
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
@@ -51,11 +52,13 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.agentx.app.data.engine.AxMessage
 import com.agentx.app.data.engine.AxModelState
 import com.agentx.app.data.engine.NeedleRuntimeState
+import com.agentx.app.data.engine.NeedleRuntimeState
 import com.agentx.app.data.tools.ToolCatalog
 import com.agentx.app.ui.components.AxCard
 import com.agentx.app.ui.components.AxChip
 import com.agentx.app.ui.components.AxEmptyState
 import com.agentx.app.ui.components.AxFilledButton
+import com.agentx.app.ui.components.AxOutlinedButton
 import com.agentx.app.ui.components.ConfirmActionSheet
 import com.agentx.app.ui.components.EngineStatusPill
 import com.agentx.app.ui.components.EngineUiState
@@ -81,6 +84,7 @@ fun AssistantScreen(
     val pendingConfirm by viewModel.pendingConfirm.collectAsStateWithLifecycle()
     val modelState by viewModel.modelState.collectAsStateWithLifecycle()
     val runtimeState by viewModel.runtimeState.collectAsStateWithLifecycle()
+    val stalled by viewModel.stalled.collectAsStateWithLifecycle()
     var input by remember { mutableStateOf("") }
     val listState = rememberLazyListState()
 
@@ -134,6 +138,16 @@ fun AssistantScreen(
                 Spacer(Modifier.height(8.dp))
                 AxFilledButton(text = "Set up the model", onClick = onNeedSetup)
             }
+            Spacer(Modifier.height(8.dp))
+        }
+
+        if (engineUiState == EngineUiState.LOADING || engineUiState == EngineUiState.ERROR) {
+            EngineLoadingCard(
+                runtimeState = runtimeState,
+                stalled = stalled,
+                failed = engineUiState == EngineUiState.ERROR,
+                onRetry = { viewModel.retryEngine() }
+            )
             Spacer(Modifier.height(8.dp))
         }
 
@@ -211,6 +225,64 @@ fun AssistantScreen(
             onConfirm = { viewModel.confirmPending() },
             onDismiss = { viewModel.dismissPending() }
         )
+    }
+}
+
+@Composable
+private fun EngineLoadingCard(
+    runtimeState: NeedleRuntimeState,
+    stalled: Boolean,
+    failed: Boolean,
+    onRetry: () -> Unit
+) {
+    val loading = runtimeState as? NeedleRuntimeState.Loading
+    val error = runtimeState as? NeedleRuntimeState.Error
+    AxCard(modifier = Modifier.padding(horizontal = 16.dp).fillMaxWidth()) {
+        Text(
+            if (failed) "Engine failed to start" else "Starting on-device engine",
+            style = MaterialTheme.typography.titleSmall
+        )
+        Spacer(Modifier.height(4.dp))
+        Text(
+            if (failed) {
+                error?.message ?: "Something went wrong while starting."
+            } else {
+                loading?.label ?: "Preparing…"
+            },
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        Spacer(Modifier.height(8.dp))
+        val progress = loading?.progress
+        if (progress != null) {
+            LinearProgressIndicator(progress = { progress.coerceIn(0f, 1f) }, modifier = Modifier.fillMaxWidth())
+            Spacer(Modifier.height(4.dp))
+            Text(
+                (progress * 100).toInt().toString() + "%",
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        } else if (!failed) {
+            LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+        }
+        if (!failed) {
+            Spacer(Modifier.height(8.dp))
+            Text(
+                "First launch compiles 26 device tools on your phone (one-time, a few minutes). Later launches restore in under a second.",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+        if (stalled || failed) {
+            Spacer(Modifier.height(8.dp))
+            Text(
+                if (failed) "Tap retry to start the engine again." else "Still working with no progress for a while. You can wait, or restart the engine.",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.tertiary
+            )
+            Spacer(Modifier.height(8.dp))
+            AxOutlinedButton(text = "Retry", onClick = onRetry)
+        }
     }
 }
 
