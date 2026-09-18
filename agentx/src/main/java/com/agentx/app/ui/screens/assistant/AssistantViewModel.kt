@@ -7,8 +7,10 @@ import com.agentx.app.data.engine.AxToolCallRecord
 import com.agentx.app.data.engine.NeedleChatStore
 import com.agentx.app.data.engine.NeedleModelManager
 import com.agentx.app.data.engine.NeedleRuntime
+import androidx.lifecycle.viewModelScope
 import com.agentx.app.data.engine.ToolCallSpec
 import com.agentx.app.data.engine.parseEngineResult
+import com.agentx.app.data.engine.toSpec
 import com.agentx.app.data.local.dao.ActivityDao
 import com.agentx.app.data.local.entity.ActivityEntity
 import com.agentx.app.data.repository.SettingsRepository
