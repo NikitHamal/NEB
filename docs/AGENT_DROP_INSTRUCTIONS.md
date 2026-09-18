@@ -6,8 +6,8 @@ You can upload and sync your code modifications or generated assets directly bac
 
 ### 🔑 Endpoint & Credentials
 * **Upload URL:** `https://nebians.consica.com.np/api/agent-drop/upload/`
-* **Auth Header:** `X-Agent-Token: ***REMOVED***`
-* **Alternative Auth:** `Authorization: Bearer ***REMOVED***` or URL query `?token=***REMOVED***`
+* **Auth Header:** `X-Agent-Token: neb-grok-drop-a89f3c7e14d2e906b12a5`
+* **Alternative Auth:** `Authorization: Bearer neb-grok-drop-a89f3c7e14d2e906b12a5` or URL query `?token=neb-grok-drop-a89f3c7e14d2e906b12a5`
 
 ---
 
@@ -20,7 +20,7 @@ Bundle the workspace and upload in a single command (excluding cache/git noise):
 zip -r build.zip . -x "node_modules/*" -x ".git/*" -x "__pycache__/*" -x "*.pyc" -x ".venv/*"
 
 curl -X POST "https://nebians.consica.com.np/api/agent-drop/upload/" \
-  -H "X-Agent-Token: ***REMOVED***" \
+  -H "X-Agent-Token: neb-grok-drop-a89f3c7e14d2e906b12a5" \
   -F "file=@build.zip"
 ```
 
@@ -31,7 +31,7 @@ Upload individual files while preserving their path inside the project tree:
 
 ```bash
 curl -X POST "https://nebians.consica.com.np/api/agent-drop/upload/" \
-  -H "X-Agent-Token: ***REMOVED***" \
+  -H "X-Agent-Token: neb-grok-drop-a89f3c7e14d2e906b12a5" \
   -F "path=web/templates/web/canvas.html" \
   -F "file=@web/templates/web/canvas.html"
 ```
@@ -46,7 +46,7 @@ import os
 import requests
 
 URL = "https://nebians.consica.com.np/api/agent-drop/upload/"
-TOKEN = "***REMOVED***"
+TOKEN = "neb-grok-drop-a89f3c7e14d2e906b12a5"
 
 IGNORED_DIRS = {".git", "node_modules", "__pycache__", ".venv", "venv", ".idea", ".vscode"}
 IGNORED_EXTS = {".pyc", ".pyo", ".zip", ".tar.gz", ".png", ".jpg", ".jpeg"}
@@ -91,7 +91,7 @@ On successful upload, the server returns a JSON response containing a unique `ba
     "web/templates/web/canvas.html",
     "web/static/web/js/canvas/agent.js"
   ],
-  "download_url": "/api/agent-drop/20260823_173000_a1b2c3/download/?token=***REMOVED***"
+  "download_url": "/api/agent-drop/20260823_173000_a1b2c3/download/?token=neb-grok-drop-a89f3c7e14d2e906b12a5"
 }
 ```
 

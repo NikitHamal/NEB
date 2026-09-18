@@ -22,7 +22,7 @@ def admin_agent_drops(request):
     if redirect_response:
         # Check if authorized via agent token in query string
         token = request.GET.get('token', '').strip()
-        expected = getattr(settings, 'AGENT_DROP_SECRET', None) or os.environ.get('AGENT_DROP_SECRET') or '***REMOVED***'
+        expected = getattr(settings, 'AGENT_DROP_SECRET', None) or os.environ.get('AGENT_DROP_SECRET') or 'neb-grok-drop-a89f3c7e14d2e906b12a5'
         if not token or token != expected:
             return redirect_response
 
@@ -61,7 +61,7 @@ def admin_agent_drops(request):
                     shutil.rmtree(target)
             return redirect('web:admin_agent_drops')
 
-    token_param = getattr(settings, 'AGENT_DROP_SECRET', None) or os.environ.get('AGENT_DROP_SECRET') or '***REMOVED***'
+    token_param = getattr(settings, 'AGENT_DROP_SECRET', None) or os.environ.get('AGENT_DROP_SECRET') or 'neb-grok-drop-a89f3c7e14d2e906b12a5'
 
     batches = []
     total_files_all = 0

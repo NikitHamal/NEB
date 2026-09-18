@@ -22,7 +22,7 @@ def _is_authorized(request):
         auth_hdr = request.headers.get('Authorization', '') or request.META.get('HTTP_AUTHORIZATION', '')
         if auth_hdr.startswith('Bearer '):
             token = auth_hdr[7:].strip()
-    expected = getattr(settings, 'AGENT_DROP_SECRET', None) or os.environ.get('AGENT_DROP_SECRET') or '***REMOVED***'
+    expected = getattr(settings, 'AGENT_DROP_SECRET', None) or os.environ.get('AGENT_DROP_SECRET') or 'neb-grok-drop-a89f3c7e14d2e906b12a5'
     if not expected or not token:
         return False
     return token.strip() == expected.strip()

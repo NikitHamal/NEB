@@ -53,6 +53,7 @@ jobs:
 
       - name: Upload Signed APK
         uses: actions/upload-artifact@v4
+        continue-on-error: true
         with:
           name: ConsicaCode-v${{ steps.info.outputs.version }}-${{ steps.info.outputs.hash }}
           path: consica-code/dist/*.apk

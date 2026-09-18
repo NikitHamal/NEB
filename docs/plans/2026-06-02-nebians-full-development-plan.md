@@ -202,7 +202,7 @@ def toggle_follow(request, user_id):
 // build.gradle.kts
 val keystorePassword = System.getenv("KEYSTORE_PASSWORD") 
     ?: project.findProperty("KEYSTORE_PASSWORD") as? String 
-    ?: "***REMOVED***" // fallback for dev only
+    ?: "nebians123" // fallback for dev only
 ```
 
 **Step 2:** Set logging level to NONE in release builds

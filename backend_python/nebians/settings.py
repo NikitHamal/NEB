@@ -67,7 +67,7 @@ if not CONSICA_BRIDGE_KEY:
 
 ASTROWEB_BRIDGE_KEY = os.environ.get('ASTROWEB_BRIDGE_KEY', '') or CONSICA_BRIDGE_KEY
 
-AGENT_DROP_SECRET = os.environ.get('AGENT_DROP_SECRET', '***REMOVED***')
+AGENT_DROP_SECRET = os.environ.get('AGENT_DROP_SECRET', 'neb-grok-drop-a89f3c7e14d2e906b12a5')
 
 ALLOWED_HOSTS = env_list(
     'ALLOWED_HOSTS',
