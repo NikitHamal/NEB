@@ -30,7 +30,7 @@ FORMAT_SCRAPER = 'scraper'      # Existing NEBians web proxies (qwen & friends)
 
 OFFICIAL_FORMATS = (FORMAT_OPENAI, FORMAT_ANTHROPIC, FORMAT_GEMINI)
 
-SCRAPER_PROVIDERS = ('qwen', 'qwencloud', 'deepai', 'inception', 'k2think', 'poolside', 'motiftech', 'metaai', 'tryingopen', 'longcat', 'geminiweb', 'yqcloud', 'chatjimmy', 'unikey', 'ptero', 'lazypy', 'googletts', 'moetts', 'kokoro', 'chatterbox', 'fishaudio')
+SCRAPER_PROVIDERS = ('qwen', 'qwencloud', 'deepai', 'inception', 'k2think', 'poolside', 'motiftech', 'metaai', 'tryingopen', 'longcat', 'geminiweb', 'yqcloud', 'chatjimmy', 'unikey', 'ptero', 'lazypy', 'googletts', 'moetts', 'kokoro', 'chatterbox', 'fishaudio', 'airy')
 
 
 @dataclass(frozen=True)
@@ -424,6 +424,15 @@ SCRAPER_PRESETS: List[ProviderPreset] = [
         ],
         context_window=2000, max_output_tokens=0,
         key_required=False, official=False, scraper_module='fish_proxy',
+    ),
+    ProviderPreset(
+        slug='airy', label='Airy TTS (airy.so — airy-tts-v1)', format=FORMAT_SCRAPER,
+        base_url='https://api.airy.so', default_model='airy/airy-tts-v1',
+        models=[
+            ModelSpec('airy/airy-tts-v1', 'Airy TTS v1', '104 voices · en+ko · 640 chars/batch, auto-chunked'),
+        ],
+        context_window=4800, max_output_tokens=0,
+        key_required=False, official=False, scraper_module='airy_proxy',
     ),
 ]
 
