@@ -22,6 +22,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.UUID
 import javax.inject.Inject
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -57,6 +59,10 @@ class AssistantViewModel @Inject constructor(
     private val _permissionAsk = MutableSharedFlow<String>(extraBufferCapacity = 1)
     val permissionAsk: SharedFlow<String> = _permissionAsk.asSharedFlow()
 
+    private val _stalled = MutableStateFlow(false)
+    val stalled: StateFlow<Boolean> = _stalled.asStateFlow()
+    private var stallJob: Job? = null
+
     private var pendingRetry: ToolCallSpec? = null
     private var pendingRetryConfidence: Double? = null
 
@@ -74,6 +80,28 @@ class AssistantViewModel @Inject constructor(
                 }
             }
         }
+        viewModelScope.launch {
+            runtime.state.collect { state ->
+                stallJob?.cancel()
+                stallJob = null
+                _stalled.value = false
+                if (state is com.agentx.app.data.engine.NeedleRuntimeState.Loading) {
+                    stallJob = viewModelScope.launch {
+                        delay(90_000)
+                        if (runtime.state.value is com.agentx.app.data.engine.NeedleRuntimeState.Loading) {
+                            _stalled.value = true
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun retryEngine() {
+        stallJob?.cancel()
+        stallJob = null
+        _stalled.value = false
+        runtime.restart()
     }
 
     fun send(rawInput: String) {

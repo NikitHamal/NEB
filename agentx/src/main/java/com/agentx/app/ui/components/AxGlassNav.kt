@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -29,9 +28,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 
 data class AxNavItem(
     val route: String,
@@ -94,7 +91,7 @@ private fun AxGlassNavItem(item: AxNavItem, selected: Boolean, onClick: () -> Un
         targetValue = if (selected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurfaceVariant,
         animationSpec = tween(220), label = "navContent"
     )
-    val hPad by animateDpAsState(if (selected) 18.dp else 16.dp, tween(220), label = "navPad")
+    val hPad by animateDpAsState(if (selected) 20.dp else 18.dp, tween(220), label = "navPad")
     Row(
         modifier = Modifier
             .clip(CircleShape)
@@ -105,8 +102,7 @@ private fun AxGlassNavItem(item: AxNavItem, selected: Boolean, onClick: () -> Un
                 onClick = onClick
             )
             .padding(horizontal = hPad, vertical = 10.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
             if (selected) item.selectedIcon else item.unselectedIcon,
@@ -114,9 +110,6 @@ private fun AxGlassNavItem(item: AxNavItem, selected: Boolean, onClick: () -> Un
             tint = contentColor,
             modifier = Modifier.size(24.dp)
         )
-        if (selected) {
-            Text(item.label, color = contentColor, fontWeight = FontWeight.SemiBold, fontSize = 13.sp)
-        }
     }
 }
 
