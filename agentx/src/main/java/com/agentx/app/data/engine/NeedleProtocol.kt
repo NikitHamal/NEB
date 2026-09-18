@@ -3,8 +3,7 @@ package com.agentx.app.data.engine
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.contentOrNull
-import kotlinx.serialization.json.jsonPrimitive
+import kotlinx.serialization.json.JsonPrimitive
 
 @Serializable
 data class EngineToolCall(
@@ -12,7 +11,10 @@ data class EngineToolCall(
     val arguments: Map<String, JsonElement> = emptyMap()
 ) {
     fun stringArgs(): Map<String, String> = arguments.mapValues { (_, value) ->
-        runCatching { value.jsonPrimitive.contentOrNull ?: value.toString() }.getOrDefault(value.toString())
+        when (value) {
+            is JsonPrimitive -> if (value.isString) value.content else value.toString()
+            else -> value.toString()
+        }
     }
 }
 

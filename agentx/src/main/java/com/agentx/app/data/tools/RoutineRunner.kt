@@ -8,6 +8,9 @@ import javax.inject.Inject
 import javax.inject.Provider
 import javax.inject.Singleton
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.contentOrNull
@@ -26,19 +29,37 @@ class RoutineRunner @Inject constructor(
     private val json = Json { ignoreUnknownKeys = true; isLenient = true }
 
     fun parseSteps(raw: String): List<ToolCallSpec>? {
-        return runCatching {
-            val array = json.parseToJsonElement(raw).jsonArray
-            array.map { element ->
-                val obj = element.jsonObject
-                val tool = obj["tool"]?.jsonPrimitive?.contentOrNull?.trim().orEmpty()
-                if (tool.isEmpty()) throw IllegalArgumentException("A step is missing its tool name")
-                val argsObj = obj["args"]?.jsonObject
-                val args = argsObj?.entries?.associate { (key, value) ->
-                    key to (value.jsonPrimitive.contentOrNull ?: value.toString())
-                } ?: emptyMap()
-                ToolCallSpec(tool, args)
+        val element = runCatching { json.parseToJsonElement(raw) }.getOrNull() ?: return null
+        val array = when (element) {
+            is JsonArray -> element
+            is JsonObject -> JsonArray(listOf(element))
+            is JsonPrimitive -> {
+                if (!element.isString) return null
+                val inner = runCatching { json.parseToJsonElement(element.content) }.getOrNull()
+                    ?: return null
+                when (inner) {
+                    is JsonArray -> inner
+                    is JsonObject -> JsonArray(listOf(inner))
+                    else -> return null
+                }
             }
-        }.getOrNull()
+        }
+        if (array.isEmpty()) return null
+        val steps = ArrayList<ToolCallSpec>()
+        for (item in array) {
+            val obj = item as? JsonObject ?: continue
+            val tool = (obj["tool"] as? JsonPrimitive)?.contentOrNull?.trim().orEmpty()
+            if (tool.isEmpty()) continue
+            val argsObj = obj["args"] as? JsonObject
+            val args = argsObj?.entries?.associate { (key, value) ->
+                key to when (value) {
+                    is JsonPrimitive -> if (value.isString) value.content else value.toString()
+                    else -> value.toString()
+                }
+            } ?: emptyMap()
+            steps.add(ToolCallSpec(tool, args))
+        }
+        return steps.ifEmpty { null }
     }
 
     fun stepsToJson(steps: List<ToolCallSpec>): String {
