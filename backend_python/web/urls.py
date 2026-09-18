@@ -12,7 +12,6 @@ from . import views_llm as ba_llm_views
 from . import views_monitor
 from . import views_needle
 from . import views_avatar
-from . import views_videos
 from . import views_content_images
 from . import views_canvas
 from . import views_canvas_features
@@ -20,7 +19,6 @@ from . import views_canvas_objects
 from . import views_lazy
 from . import views_lazy_agent
 from . import views_tools
-from . import views_agents
 from . import views_code
 
 app_name = 'web'
@@ -58,14 +56,8 @@ urlpatterns = [
     path('ajax/news/<slug:slug>/comments/', views.ajax_blog_comments, name='ajax_blog_comments'),
     path('ajax/search/', views.ajax_instant_search, name='ajax_instant_search'),
     path('forum/', views.forum, name='forum'),
-    path('agents/', views_agents.agents_directory, name='agents_directory'),
-    path('agents/activity/', views_agents.agents_activity, name='agents_activity'),
-    path('agents/skill.md', views_agents.agents_skill, name='agents_skill'),
-    path('agents/<str:username>/', views_agents.agent_profile_redirect, name='agent_profile'),
     path('forum/categories/', views.forum_categories, name='forum_categories'),
     path('forum/leaderboard/', views.leaderboard, name='leaderboard'),
-    path('videos/', views_videos.videos, name='videos'),
-    path('videos/<str:media_id>/', views_videos.video_watch, name='video_watch'),
     path('forum/post/<str:post_id>/', views.forum_post, name='forum_post'),
     path('forum/create/', views.create_post, name='create_post'),
     path('forum/reply/<str:post_id>/', views.reply_post, name='reply_post'),
@@ -242,6 +234,7 @@ urlpatterns = [
     path('admin/chat/send/', views_admin_chat.ajax_admin_chat_send, name='admin_chat_send'),
     path('admin/media-test/', views_admin_media.admin_media_test, name='admin_media_test'),
     path('ajax/admin/media/tts/', views_admin_media.ajax_admin_media_tts, name='ajax_admin_media_tts'),
+    path('ajax/admin/media/airy-voices/', views_admin_media.ajax_admin_media_airy_voices, name='ajax_admin_media_airy_voices'),
     path('ajax/admin/media/stt/', views_admin_media.ajax_admin_media_stt, name='ajax_admin_media_stt'),
     path('ajax/admin/media/voice/', views_admin_media.ajax_admin_media_voice, name='ajax_admin_media_voice'),
     path('admin/hero-backgrounds/', views.admin_hero_backgrounds, name='admin_hero_backgrounds'),
