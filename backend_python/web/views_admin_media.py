@@ -1,13 +1,14 @@
-"""Admin media test — TTS (LazyPy/Google/Moe/Kokoro/Chatterbox/Fish)
+"""Admin media test — TTS (Airy/LazyPy/Google/Moe/Kokoro/Chatterbox/Fish)
 
 Session-authenticated (staff) AJAX endpoint so the admin panel can test
 without Bearer tokens:
-  POST /ajax/admin/media/tts/     {provider, text, voice, service, lang, speaker}
+  POST /ajax/admin/media/tts/           {provider, text, voice, service, lang, speaker}
+  GET  /ajax/admin/media/airy-voices/   Airy voice catalogue (?refresh=1)
 """
 import json
 
 from django.http import JsonResponse
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_GET, require_POST
 
 from api.llm.registry import SCRAPER_PRESETS
 
@@ -19,7 +20,7 @@ def admin_media_test(request):
     if resp:
         return resp
 
-    tts_presets = [p for p in SCRAPER_PRESETS if p.slug in ("lazypy", "googletts", "moetts", "kokoro", "chatterbox", "fishaudio")]
+    tts_presets = [p for p in SCRAPER_PRESETS if p.slug in ("lazypy", "googletts", "moetts", "kokoro", "chatterbox", "fishaudio", "airy")]
 
     tts_models = []
     for p in tts_presets:
@@ -89,7 +90,19 @@ def _run_tts(payload):
             return JsonResponse({"error": f"{type(exc).__name__}: {exc}"}, status=502)
 
     try:
-        if provider.startswith("lazypy") or provider in ("bing", "microsoft", "edge"):
+        if provider.startswith("airy"):
+            from api.airy_proxy import MAX_TEXT, generate_tts as airy_tts
+
+            if len(text) > MAX_TEXT:
+                return JsonResponse({"error": f"Airy batches {MAX_TEXT} chars max (got {len(text)})"}, status=400)
+            result = airy_tts(
+                text=text,
+                voice=voice,
+                style=payload.get("style") or "normal",
+                speed=payload.get("speed") or 1.0,
+                language=payload.get("lang") or payload.get("language") or "en",
+            )
+        elif provider.startswith("lazypy") or provider in ("bing", "microsoft", "edge"):
             from api.lazypy_proxy import generate_tts
 
             service = payload.get("service") or "Bing Translator"
@@ -144,6 +157,8 @@ def _run_tts(payload):
             "dataUrl": result.get("dataUrl"),
             "bytes": result.get("bytes"),
             "contentType": result.get("contentType", "audio/mpeg"),
+            "batches": result.get("batches"),
+            "durationSec": result.get("durationSec"),
             "text": result.get("text"),
         }
     )
@@ -159,6 +174,28 @@ def ajax_admin_media_tts(request):
     except Exception:
         payload = request.POST.dict()
     return _run_tts(payload)
+
+
+@require_GET
+def ajax_admin_media_airy_voices(request):
+    """Airy voice catalogue (104 voices) for the media-test picker."""
+    resp = _require_staff_admin(request)
+    if resp:
+        return JsonResponse({"error": "staff only"}, status=403)
+    try:
+        from api.airy_proxy import CHAR_LIMIT, MAX_CHUNKS, MAX_TEXT, STYLES, get_voices
+
+        voices = get_voices(refresh=bool(request.GET.get("refresh")))
+        return JsonResponse({
+            "status": "success",
+            "voices": voices,
+            "styles": list(STYLES),
+            "charLimit": CHAR_LIMIT,
+            "maxChunks": MAX_CHUNKS,
+            "maxText": MAX_TEXT,
+        })
+    except Exception as exc:
+        return JsonResponse({"error": f"{type(exc).__name__}: {exc}", "voices": []}, status=502)
 
 
 @require_POST
