@@ -50,26 +50,38 @@ class RoutinesViewModel @Inject constructor(
         viewModelScope.launch {
             _busy.value = true
             try {
-                val prompt = "Define the device routine named " + name.trim() + ". The user wants: " +
-                    description.trim() + ". Reply with exactly one create_routine call for this routine."
-                val outcome = runtime.runAndAwait(UUID.randomUUID().toString(), prompt, 90_000L)
-                val parsed = outcome?.let { com.agentx.app.data.engine.parseEngineResult(it.resultJson) }
-                val call = parsed?.function_calls?.firstOrNull { it.name == "create_routine" }
-                if (call == null) {
-                    _message.emit("The model did not return a routine. Try a simpler description.")
+                val cleanName = name.trim()
+                val prompt = "Define the device routine named " + cleanName + ". The user wants: " +
+                    description.trim() + ". Steps is a JSON array; each step has a tool name from the catalog " +
+                    "and an args object. Reply with exactly one create_routine call for this routine."
+                var draft = requestDraft(prompt, cleanName)
+                if (draft == null) {
+                    val repair = "Your last create_routine call had steps I could not parse. " +
+                        "Steps must be a JSON array of objects, each with a tool name and an args object. " +
+                        "Reply with exactly one corrected create_routine call for routine " + cleanName + "."
+                    draft = requestDraft(repair, cleanName)
+                }
+                if (draft == null) {
+                    _message.emit("I could not turn that into routine steps. Try a simpler description with concrete actions.")
                     return@launch
                 }
-                val stepsRaw = call.stringArgs()["steps"].orEmpty()
-                val steps = runner.parseSteps(stepsRaw)
-                if (steps.isNullOrEmpty()) {
-                    _message.emit("Those steps did not parse. Try again.")
-                    return@launch
-                }
-                _draft.value = Draft(call.stringArgs()["name"]?.takeIf { it.isNotBlank() } ?: name.trim(), steps)
+                _draft.value = draft
             } finally {
                 _busy.value = false
             }
         }
+    }
+
+    private suspend fun requestDraft(prompt: String, fallbackName: String): Draft? {
+        val outcome = runtime.runAndAwait(UUID.randomUUID().toString(), prompt, 90_000L) ?: return null
+        val parsed = com.agentx.app.data.engine.parseEngineResult(outcome.resultJson) ?: return null
+        val call = parsed.function_calls.firstOrNull { it.name == "create_routine" } ?: return null
+        val args = call.stringArgs()
+        val stepsRaw = args["steps"].orEmpty()
+        if (stepsRaw.isBlank()) return null
+        val steps = runner.parseSteps(stepsRaw) ?: return null
+        val draftName = args["name"]?.takeIf { it.isNotBlank() } ?: fallbackName
+        return Draft(draftName, steps)
     }
 
     fun stepTitle(step: ToolCallSpec): String {
