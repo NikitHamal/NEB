@@ -233,7 +233,8 @@ class CommsHandler @Inject constructor(
         }
         val sms = SmsManager.getSmsManagerForSubscriptionId(subId)
         ensureSmsReceiver()
-        val parts = if (text.length > 160) sms.divideMessage(text) else listOf(text)
+        val parts: ArrayList<String> =
+            if (text.length > 160) sms.divideMessage(text) else ArrayList(listOf(text))
         val keys = parts.map { UUID.randomUUID().toString() }
         val deferreds = keys.map { key ->
             CompletableDeferred<Int>().also { smsPending[key] = it }
