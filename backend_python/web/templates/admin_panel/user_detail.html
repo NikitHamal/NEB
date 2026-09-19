@@ -281,6 +281,13 @@
         </label>
         <label for="is_locked" class="md-label" style="margin-bottom:0;">Lock Profile</label>
       </div>
+      <div class="form-group" style="display:flex;align-items:center;gap:12px;">
+        <label class="md-switch">
+          <input type="checkbox" name="is_banned" id="is_banned" {% if user_is_banned %}checked{% endif %}>
+          <span class="slider"></span>
+        </label>
+        <label for="is_banned" class="md-label" style="margin-bottom:0;">Ban Account (blocks all sign-ins, revokes sessions)</label>
+      </div>
       <div class="form-actions">
         <button type="submit" class="md-btn md-btn-filled">Save Changes</button>
       </div>

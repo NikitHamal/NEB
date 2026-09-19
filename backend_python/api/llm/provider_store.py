@@ -26,6 +26,28 @@ def err(message, code='request_failed'):
     return {'ok': False, 'error': str(message), 'code': code}
 
 
+def validate_custom_base_url(base_url: str) -> str:
+    """Validate a user-supplied custom/BYOK endpoint URL.
+
+    Server-side requests go to this URL with the user's key, so private /
+    internal hosts are blocked (SSRF): only public HTTPS endpoints are
+    accepted in production. Local HTTP endpoints are allowed in DEBUG for
+    developers running a local gateway (e.g. Ollama on their dev box).
+    Raises ValueError with a user-facing message.
+    """
+    from django.conf import settings as _settings
+    from api.security import validate_external_https_url as _validate_https
+    value = (base_url or '').strip()
+    if not value.startswith(('http://', 'https://')):
+        raise ValueError('Base URL must start with http:// or https://')
+    if _settings.DEBUG:
+        return value
+    try:
+        return _validate_https(value, allow_http=False)
+    except Exception as exc:
+        raise ValueError('Base URL must be a public HTTPS endpoint (no local/private hosts)') from exc
+
+
 def row_payload(row) -> dict:
     """Public shape of a saved provider row (key masked only)."""
     try:
@@ -77,8 +99,10 @@ def create_provider(user, payload: dict):
         if api_format not in VALID_FORMATS:
             return err('apiFormat must be openai, anthropic or gemini'), 400
         base_url = (payload.get('baseUrl') or '').strip()
-        if not base_url.startswith(('http://', 'https://')):
-            return err('Base URL must start with http:// or https://'), 400
+        try:
+            base_url = validate_custom_base_url(base_url)
+        except ValueError as exc:
+            return err(str(exc)), 400
         models = [str(m).strip() for m in (payload.get('models') or []) if str(m).strip()][:40]
         default_model = (payload.get('defaultModel') or (models[0] if models else '')).strip()[:200]
         if not default_model:
@@ -108,8 +132,11 @@ def create_provider(user, payload: dict):
         return err(f'An API key is required for {p.label}'), 400
     default_model = (payload.get('defaultModel') or '').strip()[:200]
     base_url = (payload.get('baseUrl') or '').strip()
-    if base_url and not base_url.startswith(('http://', 'https://')):
-        return err('Base URL must start with http:// or https://'), 400
+    if base_url:
+        try:
+            base_url = validate_custom_base_url(base_url)
+        except ValueError as exc:
+            return err(str(exc)), 400
     row = UserLLMProvider.objects.filter(user=user, provider=p.slug).first()
     now = now_ms()
     if row is None:
@@ -146,8 +173,11 @@ def update_provider(row, payload: dict):
             changed.append('api_format')
     if 'baseUrl' in payload:
         url = (payload.get('baseUrl') or '').strip()
-        if url and not url.startswith(('http://', 'https://')):
-            return err('Base URL must start with http:// or https://'), 400
+        if url:
+            try:
+                url = validate_custom_base_url(url)
+            except ValueError as exc:
+                return err(str(exc)), 400
         # Allowed on preset rows too, so proxies/gateways can override a
         # preset's default endpoint without re-entering the key.
         row.base_url = url
@@ -202,8 +232,10 @@ def run_test(user, payload: dict):
         label = p.label if p else 'Custom provider'
         if fmt not in VALID_FORMATS:
             return err('apiFormat must be openai, anthropic or gemini'), 400
-        if not base_url.startswith(('http://', 'https://')):
-            return err('Base URL must start with http:// or https://'), 400
+        try:
+            base_url = validate_custom_base_url(base_url)
+        except ValueError as exc:
+            return err(str(exc)), 400
         if not model:
             return err('A model id is required for the test'), 400
 

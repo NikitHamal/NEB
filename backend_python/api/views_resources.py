@@ -764,6 +764,11 @@ def resource_upload(request):
     if not title or not subject:
         return Response({'error': 'title and subject are required'}, status=400)
 
+    try:
+        source_url = clean_source_url(data.get('source_url', ''))
+    except ValidationError as exc:
+        return Response({'error': ' '.join(getattr(exc, 'messages', [str(exc)]))}, status=400)
+
     uploaded_file = request.FILES.get('file')
     file_url = data.get('file_url', '').strip()
 
@@ -838,7 +843,7 @@ def resource_upload(request):
             source_type='user',
             uploaded_by=user,
             source_label=data.get('source_label', '').strip(),
-            source_url=data.get('source_url', '').strip(),
+            source_url=source_url,
             approval_status='pending',
         )
         # Marketplace: uploader can list this as paid with a price.
@@ -867,6 +872,11 @@ def resource_upload_anonymous(request):
 
     if not title or not subject:
         return Response({'error': 'title and subject are required'}, status=400)
+
+    try:
+        source_url = clean_source_url(data.get('source_url', ''))
+    except ValidationError as exc:
+        return Response({'error': ' '.join(getattr(exc, 'messages', [str(exc)]))}, status=400)
 
     uploaded_file = request.FILES.get('file')
     file_url = data.get('file_url', '').strip()
@@ -943,7 +953,7 @@ def resource_upload_anonymous(request):
             source_type='anonymous',
             approval_status='pending',
             source_label=data.get('source_label', '').strip(),
-            source_url=data.get('source_url', '').strip(),
+            source_url=source_url,
         )
         resource.save()
         if not resource.thumbnail_url:

@@ -91,6 +91,9 @@ class User(models.Model):
     school_username = models.CharField(max_length=50, blank=True, default='')
     bio = models.TextField(blank=True, default='')
     is_locked = models.BooleanField(default=False)
+    # Administrative ban. DISTINCT from is_locked (which is the user's own
+    # private-profile toggle): banned users cannot authenticate anywhere.
+    is_banned = models.BooleanField(default=False)
     enable_inline_images = models.BooleanField(default=True)
     password_hash = models.CharField(max_length=255, blank=True, null=True)
     email_verified = models.BooleanField(default=False)
@@ -175,6 +178,9 @@ class UserAuthToken(models.Model):
     created_at = models.BigIntegerField(default=0)
     last_used_at = models.BigIntegerField(default=0)
     revoked_at = models.BigIntegerField(default=0)
+    # Milliseconds epoch after which the token is refused. 0 means "unset"
+    # and is treated as expired (fail closed); the migration backfills it.
+    expires_at = models.BigIntegerField(default=0)
 
     class Meta:
         db_table = 'user_auth_tokens'

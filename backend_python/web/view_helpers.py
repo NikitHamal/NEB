@@ -1116,6 +1116,9 @@ def _link_oauth_user(request, email, user_pk, display_name, photo_url, provider_
     if email and provider_verified:
         try:
             existing = User.objects.get(email__iexact=email)
+            if getattr(existing, 'is_banned', False):
+                logger.warning('%s: refusing OAuth link to banned account (email=%s)', provider_name, email)
+                return None, False
             if not existing.email_verified:
                 logger.warning('%s: refusing OAuth link to unverified account (email=%s)', provider_name, email)
                 return None, False

@@ -1129,9 +1129,16 @@ def upload_resource(request):
         description = request.POST.get('description', '').strip()
         rtype = request.POST.get('type', 'PDF').strip() or 'PDF'
         author_name = request.POST.get('author_name', '').strip()
-        source_url = request.POST.get('source_url', '').strip()
         source_label = request.POST.get('source_label', '').strip()
         thumbnail_url = request.POST.get('thumbnail_url', '').strip()
+        source_url_error = None
+        try:
+            from api.security import clean_source_url
+            source_url = clean_source_url(request.POST.get('source_url', ''))
+        except Exception as exc:
+            messages_list = getattr(exc, 'messages', [str(exc)])
+            source_url_error = ' '.join(messages_list)
+            source_url = ''
 
         uploaded_files = request.FILES.getlist('file')
         file_url = request.POST.get('file_url', '').strip()
@@ -1147,6 +1154,8 @@ def upload_resource(request):
             price_val = Decimal('0.00')
 
         errors = []
+        if source_url_error:
+            errors.append(source_url_error)
         if len(uploaded_files) > 5:
             errors.append('You can upload at most 5 files per request.')
             uploaded_files = uploaded_files[:5]
@@ -1426,7 +1435,13 @@ def edit_resource(request, resource_id):
         resource_obj.description = request.POST.get('description', '').strip()
         resource_obj.author_name = request.POST.get('author_name', '').strip()
         resource_obj.source_label = request.POST.get('source_label', '').strip()
-        resource_obj.source_url = request.POST.get('source_url', '').strip()
+        try:
+            from api.security import clean_source_url
+            resource_obj.source_url = clean_source_url(request.POST.get('source_url', ''))
+        except Exception as exc:
+            messages_list = getattr(exc, 'messages', [str(exc)])
+            messages.error(request, ' '.join(messages_list))
+            return redirect('web:edit_resource', resource_id=resource_id)
 
         from decimal import Decimal
         is_paid = request.POST.get('is_paid') in ['on', 'true', '1', True]

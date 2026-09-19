@@ -40,9 +40,8 @@ class AvatarSessionTests(TestCase):
             dob='2005-01-01',
             role='student',
         )
-        self.raw_token = User.generate_token()
-        self.user.auth_token = hash_auth_token(self.raw_token)
-        self.user.save(update_fields=['auth_token'])
+        from api.security import issue_auth_token
+        self.raw_token = issue_auth_token(self.user)
 
     def _login_session(self, client, user_data):
         s = client.session

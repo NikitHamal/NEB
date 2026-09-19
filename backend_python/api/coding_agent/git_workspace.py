@@ -76,7 +76,8 @@ def project_repo_dir(project: CodingAgentProject) -> Path:
 
 
 def project_auth_url(project: CodingAgentProject) -> str:
-    token = urllib.parse.quote(project.access_token or '', safe='')
+    from .crypto import read_project_token
+    token = urllib.parse.quote(read_project_token(project), safe='')
     return f'https://x-access-token:{token}@github.com/{project.repo_owner}/{project.repo_name}.git'
 
 
@@ -89,9 +90,10 @@ def fetch_default_branch(project: CodingAgentProject) -> str:
     """Read repo info via GitHub API to learn its default branch."""
     import requests
 
+    from .crypto import read_project_token
     url = f'https://api.github.com/repos/{project.repo_owner}/{project.repo_name}'
     headers = {
-        'Authorization': f'Bearer {project.access_token}',
+        'Authorization': f'Bearer {read_project_token(project)}',
         'Accept': 'application/vnd.github+json',
         'X-GitHub-Api-Version': '2022-11-28',
     }
@@ -287,9 +289,10 @@ def open_pull_request(project: CodingAgentProject, session: CodingAgentSession, 
 
     head = f'{project.repo_owner}:{session.branch}'
     base = project.default_branch
+    from .crypto import read_project_token
     url = f'https://api.github.com/repos/{project.repo_owner}/{project.repo_name}/pulls'
     headers = {
-        'Authorization': f'Bearer {project.access_token}',
+        'Authorization': f'Bearer {read_project_token(project)}',
         'Accept': 'application/vnd.github+json',
         'X-GitHub-Api-Version': '2022-11-28',
     }

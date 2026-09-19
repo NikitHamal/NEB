@@ -104,6 +104,8 @@ def authenticate_bg_admin(identifier: str, password: str):
     ok, needs_rehash = verify_password(password, user.password_hash)
     if not ok:
         return None, 'Invalid credentials.'
+    if getattr(user, 'is_banned', False):
+        return None, 'This account has been banned.'
     if not _is_admin(user):
         return None, 'This account is not an administrator.'
     if needs_rehash:

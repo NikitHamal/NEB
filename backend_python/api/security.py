@@ -14,6 +14,7 @@ import socket
 import time
 import uuid
 from io import BytesIO
+from pathlib import Path
 from urllib.parse import urlparse
 
 from django.conf import settings
@@ -78,13 +79,28 @@ def hash_auth_token(raw_token: str) -> str:
     return hashlib.sha256(raw_token.encode('utf-8')).hexdigest()
 
 
+AUTH_TOKEN_TTL_MS = int(os.environ.get('AUTH_TOKEN_TTL_MS', str(30 * 24 * 3600 * 1000)))
+
+
+def _token_usable(user, expires_at: int) -> bool:
+    """A resolved token is usable only before expiry and for non-bot,
+    non-banned accounts. is_locked is the user's own privacy toggle and
+    does NOT invalidate sessions."""
+    if not user or getattr(user, 'is_bot', False) or getattr(user, 'is_banned', False):
+        return False
+    if not expires_at:
+        return False
+    return expires_at > int(time.time() * 1000)
+
+
 def issue_auth_token(user, *, save: bool = True) -> str:
     """Create a new bearer token, store only its SHA-256 hash, and return the raw token once.
 
-    Always creates a UserAuthToken row for the new session. When save=True,
-    also persists the user.auth_token field immediately. When save=False, the
-    caller is responsible for saving user.auth_token later (e.g. as part of a
-    larger update_fields batch).
+    Always creates a UserAuthToken row for the new session with an expiry
+    (AUTH_TOKEN_TTL_MS, default 30 days). When save=True, also persists the
+    user.auth_token field immediately. When save=False, the caller is
+    responsible for saving user.auth_token later (e.g. as part of a larger
+    update_fields batch).
     """
     raw_token = user.generate_token()
     token_hash = hash_auth_token(raw_token)
@@ -97,6 +113,7 @@ def issue_auth_token(user, *, save: bool = True) -> str:
         created_at=now,
         last_used_at=now,
         revoked_at=0,
+        expires_at=now + AUTH_TOKEN_TTL_MS,
     )
     user.auth_token = token_hash
     if save:
@@ -105,7 +122,11 @@ def issue_auth_token(user, *, save: bool = True) -> str:
 
 
 def get_user_by_auth_token(raw_token: str, *, migrate_legacy: bool = True):
-    """Resolve a bearer token against hashed storage, accepting legacy plain tokens during rollout."""
+    """Resolve a bearer token against hashed storage, accepting legacy plain tokens during rollout.
+
+    Raises User.DoesNotExist for unknown, revoked, expired, bot, or banned
+    tokens (callers treat all of these as unauthenticated).
+    """
     if not raw_token:
         raise ValueError('auth token is required')
 
@@ -114,19 +135,27 @@ def get_user_by_auth_token(raw_token: str, *, migrate_legacy: bool = True):
     token_hash = hash_auth_token(raw_token)
     try:
         token_row = UserAuthToken.objects.select_related('user').get(token_hash=token_hash, revoked_at=0)
+        if not _token_usable(token_row.user, token_row.expires_at):
+            raise UserAuthToken.DoesNotExist
         return token_row.user
     except UserAuthToken.DoesNotExist:
         pass
 
     try:
-        return User.objects.get(auth_token=token_hash)
+        user = User.objects.get(auth_token=token_hash)
+        if not _token_usable(user, 0):
+            raise User.DoesNotExist
     except User.DoesNotExist:
         pass
+    else:
+        return user
 
     # Backward compatibility for rows created before auth_token hashing. Once a
     # legacy token is used successfully, replace it with its hash and add it to
     # the per-session token table.
     user = User.objects.get(auth_token=raw_token)
+    if not _token_usable(user, 0):
+        raise User.DoesNotExist
     if migrate_legacy:
         now = int(time.time() * 1000)
         user.auth_token = token_hash
@@ -139,9 +168,39 @@ def get_user_by_auth_token(raw_token: str, *, migrate_legacy: bool = True):
                 'created_at': now,
                 'last_used_at': now,
                 'revoked_at': 0,
+                'expires_at': now + AUTH_TOKEN_TTL_MS,
             },
         )
     return user
+
+
+def revoke_all_user_tokens(user) -> int:
+    """Revoke every bearer token of a user (password change/reset, ban).
+
+    Returns the number of token rows revoked. Also clears the auth caches
+    so revocation takes effect immediately (no 5-minute stale window).
+    """
+    if user is None:
+        return 0
+    from .models import UserAuthToken
+    now = int(time.time() * 1000)
+    rows = UserAuthToken.objects.filter(user=user, revoked_at=0)
+    count = 0
+    hashes = []
+    for row in rows.only('id', 'token_hash'):
+        hashes.append(row.token_hash)
+    if hashes:
+        count = UserAuthToken.objects.filter(token_hash__in=hashes, revoked_at=0).update(revoked_at=now)
+    token_hash = getattr(user, 'auth_token', '') or ''
+    if token_hash:
+        hashes.append(token_hash)
+    for token_hash in hashes:
+        cache.delete_many([
+            f'auth_user:{token_hash}',
+            f'valid_token:{token_hash}',
+            f'user_id_{token_hash}',
+        ])
+    return count
 
 
 def revoke_auth_token(raw_token: str) -> None:
@@ -191,7 +250,12 @@ def _is_private_or_local_host(hostname: str) -> bool:
     try:
         addresses = socket.getaddrinfo(host, None, proto=socket.IPPROTO_TCP)
     except socket.gaierror:
-        return False
+        # Fail CLOSED: an unresolvable host cannot be proven public, so it
+        # is treated as blocked. (Previous `return False` allowed it.)
+        # Note: validation and fetch resolve DNS separately (TOCTOU); the
+        # fetch path re-validates every redirect hop, shrinking the window
+        # to a single resolution. Full pinning would need a custom adapter.
+        return True
     for item in addresses:
         ip = ipaddress.ip_address(item[4][0])
         if ip.is_private or ip.is_loopback or ip.is_link_local or ip.is_reserved or ip.is_multicast:
@@ -219,6 +283,19 @@ def validate_external_https_url(url: str, *, allow_http: bool = False) -> str:
 
 def validate_profile_photo_url(url: str) -> str:
     return validate_external_https_url(url, allow_http=False)
+
+
+def clean_source_url(value) -> str:
+    """Validate an optional external source URL (resource attribution).
+
+    Returns '' for blank input, otherwise the URL itself after enforcing
+    HTTPS + public host. `javascript:`/`data:`/private-host URLs raise
+    ValidationError instead of being stored and rendered as links.
+    """
+    value = (value or '').strip()
+    if not value:
+        return ''
+    return validate_external_https_url(value, allow_http=False)
 
 
 def validate_resource_file_url(url: str) -> str:
@@ -652,6 +729,46 @@ def find_ffprobe_bin() -> str | None:
     return None
 
 
+def _resolve_media_file(value: str):
+    """Resolve a media URL/path to an absolute file strictly under MEDIA_ROOT.
+
+    Returns the absolute path, or None. Strict rules (fail closed):
+    - relative URLs, or absolute http(s) URLs whose host is this site
+      (ALLOWED_HOSTS); anything else (external hosts, other schemes such
+      as file:/javascript:/data:) is rejected;
+    - the URL path must START WITH MEDIA_URL (substring matches like
+      https://evil.com/media/x are rejected);
+    - the normalized path must resolve inside MEDIA_ROOT (no ../ escapes)
+      and be an existing file.
+    """
+    if not value or not isinstance(value, str):
+        return None
+    from django.conf import settings
+    raw = value.split('?', 1)[0].split('#', 1)[0].strip()
+    if not raw:
+        return None
+    parsed = urlparse(raw)
+    if parsed.scheme and parsed.scheme not in ('http', 'https'):
+        return None
+    if parsed.netloc:
+        host = (parsed.hostname or '').lower()
+        allowed = {h.lstrip('.').lower() for h in (getattr(settings, 'ALLOWED_HOSTS', []) or []) if h}
+        if host not in allowed:
+            return None
+    path = parsed.path or ''
+    media_prefix = getattr(settings, 'MEDIA_URL', '/media/') or '/media/'
+    if not path.startswith(media_prefix):
+        return None
+    try:
+        media_root = Path(settings.MEDIA_ROOT).resolve()
+        candidate = (media_root / path[len(media_prefix):].lstrip('/')).resolve()
+    except Exception:
+        return None
+    if not candidate.is_relative_to(media_root) or not candidate.is_file():
+        return None
+    return str(candidate)
+
+
 def generate_video_thumbnail(rel_path: str) -> str:
     """Extract a JPEG thumbnail frame from an uploaded video file using ffmpeg."""
     if not rel_path:
@@ -660,28 +777,8 @@ def generate_video_thumbnail(rel_path: str) -> str:
         import subprocess
         import shutil
         from django.conf import settings
-        
-        path_only = rel_path
-        if '://' in path_only:
-            path_only = path_only.split('://', 1)[1]
-            if '/' in path_only:
-                path_only = '/' + path_only.split('/', 1)[1]
 
-        media_prefix = getattr(settings, 'MEDIA_URL', '/media/')
-        rel_clean = path_only.replace(media_prefix, '').lstrip('/')
-
-        candidate_paths = [
-            os.path.join(settings.MEDIA_ROOT, rel_clean),
-            os.path.join('/home/consicac/nebians.consica.com.np/media', rel_clean),
-            os.path.join('/home/consicac/nebians_api/public/media', rel_clean),
-            os.path.join('/home/consicac/nebians_api/media', rel_clean),
-        ]
-        
-        abs_video = None
-        for p in candidate_paths:
-            if os.path.exists(p):
-                abs_video = p
-                break
+        abs_video = _resolve_media_file(rel_path)
 
         if not abs_video:
             logger.warning("generate_video_thumbnail: video file not found for input %s", rel_path)
@@ -737,28 +834,11 @@ def auto_transcode_video_to_h264(rel_path: str) -> bool:
         import subprocess
         import shutil
         from django.conf import settings
-        
-        path_only = rel_path
-        if '://' in path_only:
-            path_only = path_only.split('://', 1)[1]
-            if '/' in path_only:
-                path_only = '/' + path_only.split('/', 1)[1]
 
-        media_prefix = getattr(settings, 'MEDIA_URL', '/media/')
-        rel_clean = path_only.replace(media_prefix, '').lstrip('/')
-
-        candidate_paths = [
-            os.path.join(settings.MEDIA_ROOT, rel_clean),
-            os.path.join('/home/consicac/nebians.consica.com.np/media', rel_clean),
-            os.path.join('/home/consicac/nebians_api/public/media', rel_clean),
-        ]
-        abs_video = None
-        for p in candidate_paths:
-            if os.path.exists(p):
-                abs_video = p
-                break
+        abs_video = _resolve_media_file(rel_path)
         if not abs_video:
             return False
+        rel_clean = os.path.relpath(abs_video, settings.MEDIA_ROOT)
 
         dir_name = os.path.dirname(abs_video)
         base_name = os.path.splitext(os.path.basename(abs_video))[0]
@@ -804,16 +884,11 @@ def get_video_qualities(video_url: str, request=None) -> list:
     ext = base_url[ext_idx:]
 
     from django.conf import settings
-    path_only = base_url
-    if '://' in path_only:
-        path_only = path_only.split('://', 1)[1]
-        if '/' in path_only:
-            path_only = '/' + path_only.split('/', 1)[1]
-    
-    media_prefix = getattr(settings, 'MEDIA_URL', '/media/')
-    rel_clean = path_only.replace(media_prefix, '').lstrip('/')
-    dir_name = os.path.dirname(rel_clean)
-    base_filename = os.path.splitext(os.path.basename(rel_clean))[0]
+    abs_base = _resolve_media_file(base_url)
+    if not abs_base:
+        return []
+    dir_name = os.path.dirname(os.path.relpath(abs_base, settings.MEDIA_ROOT))
+    base_filename = os.path.splitext(os.path.basename(abs_base))[0]
 
     for suffix in ('_720p', '_480p', '_360p', '_h264'):
         if base_filename.endswith(suffix):
@@ -875,25 +950,7 @@ def auto_transcode_video_qualities(rel_path: str) -> list:
         import shutil
         from django.conf import settings
 
-        path_only = rel_path
-        if '://' in path_only:
-            path_only = path_only.split('://', 1)[1]
-            if '/' in path_only:
-                path_only = '/' + path_only.split('/', 1)[1]
-
-        media_prefix = getattr(settings, 'MEDIA_URL', '/media/')
-        rel_clean = path_only.replace(media_prefix, '').lstrip('/')
-
-        candidate_paths = [
-            os.path.join(settings.MEDIA_ROOT, rel_clean),
-            os.path.join('/home/consicac/nebians.consica.com.np/media', rel_clean),
-            os.path.join('/home/consicac/nebians_api/public/media', rel_clean),
-        ]
-        abs_video = None
-        for p in candidate_paths:
-            if os.path.exists(p):
-                abs_video = p
-                break
+        abs_video = _resolve_media_file(rel_path)
         if not abs_video:
             return []
 
@@ -928,7 +985,7 @@ def auto_transcode_video_qualities(rel_path: str) -> list:
 
         dir_name = os.path.dirname(abs_video)
         base_name, ext = os.path.splitext(os.path.basename(abs_video))
-        pub_dir = os.path.join('/home/consicac/nebians.consica.com.np/media', os.path.dirname(rel_clean))
+        pub_dir = os.path.join('/home/consicac/nebians.consica.com.np/media', os.path.dirname(os.path.relpath(abs_video, settings.MEDIA_ROOT)))
 
         for label, height, crfval, abit in targets:
             out_name = f"{base_name}_{label}{ext}"
@@ -1087,7 +1144,12 @@ def validate_forum_attachments(raw) -> list:
         path = parsed.path or url
         if parsed.scheme and parsed.scheme not in ('http', 'https'):
             raise ValidationError('Invalid attachment url')
-        if media_prefix not in path:
+        if parsed.netloc:
+            host = (parsed.hostname or '').lower()
+            allowed = {h.lstrip('.').lower() for h in (getattr(settings, 'ALLOWED_HOSTS', []) or []) if h}
+            if host not in allowed:
+                raise ValidationError('Attachments must be uploaded through the forum upload endpoint first')
+        if not path.startswith(media_prefix):
             raise ValidationError('Attachments must be uploaded through the forum upload endpoint first')
         name = str(item.get('name') or '')[:255]
         mime_type = str(item.get('mime') or item.get('mime_type') or '')[:120]

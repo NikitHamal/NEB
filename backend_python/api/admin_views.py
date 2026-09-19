@@ -149,6 +149,19 @@ def admin_user_detail(request, user_id):
                 setattr(user, field, val)
         if 'isLocked' in data:
             user.is_locked = bool(data['isLocked'])
+        if 'isBanned' in data:
+            ban = bool(data['isBanned'])
+            if ban and not user.is_banned:
+                user.is_banned = True
+                user.save(update_fields=['is_banned'])
+                try:
+                    from .security import revoke_all_user_tokens
+                    revoke_all_user_tokens(user)
+                except Exception:
+                    pass
+            elif not ban and user.is_banned:
+                user.is_banned = False
+                user.save(update_fields=['is_banned'])
         if 'verification_level' in data:
             try:
                 user.verification_level = max(0, min(4, int(data['verification_level'])))

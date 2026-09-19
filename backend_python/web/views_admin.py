@@ -322,6 +322,16 @@ def admin_user_detail(request, user_id):
             except Exception as upload_err:
                 return HttpResponse(f'Banner upload failed: {upload_err}', status=400)
         user_obj.is_locked = request.POST.get('is_locked') == 'on'
+        ban = request.POST.get('is_banned') == 'on'
+        if ban and not user_obj.is_banned:
+            user_obj.is_banned = True
+            try:
+                from api.security import revoke_all_user_tokens
+                revoke_all_user_tokens(user_obj)
+            except Exception:
+                pass
+        elif not ban:
+            user_obj.is_banned = False
         user_obj.verification_level = int(request.POST.get('verification_level', '0'))
         user_obj.moderator_level = int(request.POST.get('moderator_level', '0'))
         user_obj.is_admin = request.POST.get('is_admin') == 'on'
@@ -339,6 +349,7 @@ def admin_user_detail(request, user_id):
     return render(request, 'admin_panel/user_detail.html', {
         'is_admin': True,
         'user_detail': user_data,
+        'user_is_banned': bool(user_obj.is_banned),
         'achievement_badges_list': achievement_badges_list,
         'active_page': 'users',
         'nepal_districts': NEPAL_DISTRICTS,
@@ -380,7 +391,7 @@ def admin_resources(request):
 
         if title and subject and (file_path or file_url):
             try:
-                from api.security import validate_resource_file_url as _validate
+                from api.security import validate_resource_file_url as _validate, clean_source_url as _clean_src
                 safe_url = ''
                 if file_url and not file_path:
                     safe_url = _validate(file_url)
@@ -389,6 +400,7 @@ def admin_resources(request):
                 safe_thumb = ''
                 if thumbnail_url:
                     safe_thumb = _validate(thumbnail_url)
+                source_url = _clean_src(source_url)
                 Resource.objects.create(
                     id=uuid_str(),
                     title=title,
@@ -534,7 +546,14 @@ def admin_resource_create(request):
         description = request.POST.get('description', '').strip()
         rtype = request.POST.get('type', 'PDF').strip() or 'PDF'
         author_name = request.POST.get('author_name', '').strip()
-        source_url = request.POST.get('source_url', '').strip()
+        source_url_error = None
+        try:
+            from api.security import clean_source_url as _clean_src2
+            source_url = _clean_src2(request.POST.get('source_url', ''))
+        except Exception as exc:
+            messages_list = getattr(exc, 'messages', [str(exc)])
+            source_url_error = ' '.join(messages_list)
+            source_url = ''
         source_label = request.POST.get('source_label', '').strip()
         source_type = request.POST.get('source_type', 'admin').strip() or 'admin'
         thumbnail_url = request.POST.get('thumbnail_url', '').strip()
@@ -565,6 +584,8 @@ def admin_resource_create(request):
         file_url = request.POST.get('file_url', '').strip()
 
         errors = []
+        if source_url_error:
+            errors.append(source_url_error)
         if not title:
             errors.append('Title is required.')
         if not subject:

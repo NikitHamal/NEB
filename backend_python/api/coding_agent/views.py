@@ -475,6 +475,7 @@ def ajax_project_create(request: HttpRequest) -> JsonResponse:
     scope = request.session.pop('coding_agent_gh_scope', 'repo')
     if not access_token:
         return JsonResponse({'error': 'GitHub account not connected.'}, status=400)
+    from .crypto import store_project_token
     project, created = CodingAgentProject.objects.get_or_create(
         owner_user=admin,
         repo_full_name=repo_full_name,
@@ -482,17 +483,17 @@ def ajax_project_create(request: HttpRequest) -> JsonResponse:
             'id': uuid_str(),
             'repo_owner': owner_login,
             'repo_name': repo_name,
-            'access_token': access_token,
+            'access_token': '',
             'token_scope': scope,
             'github_user_login': request.session.pop('coding_agent_gh_login', '') or owner_login,
         },
     )
+    store_project_token(project, access_token)
     if not created:
-        project.access_token = access_token
         project.token_scope = scope
         project.repo_owner = owner_login
         project.repo_name = repo_name
-        project.save()
+    project.save()
     try:
         fetch_default_branch(project)
         ensure_clone(project)

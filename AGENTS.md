@@ -683,6 +683,20 @@ A trycloudflare URL looks like `https://abc123.trycloudflare.com` â€” diffe
 ## Continuity Notes
 
 ### What Was Worked On (Current Session)
+**HIGH findings fixed end-to-end + deployed (Sep 2026): H1/H2/H3/H4/H5/H6/H7/H8/H9/H11/H12/H14. H10 + H13 skipped per user.**
+
+- **H1:** `verify_google_token` is GIS-only now (Firebase audience/issuer removed - no client uses Firebase Auth) and rejects tokens without provider-verified email.
+- **H2/H3:** new `User.is_banned` (admin ban; `is_locked` stays the privacy toggle) + `UserAuthToken.expires_at` (migration `0141`, 30d TTL, backfilled; 203 rows, 0 unset). `get_user_by_auth_token` rejects expired/bot/banned; DRF auth, `_require_user`, logins, OAuth, bg-admin auth, WS middleware enforce; `revoke_all_user_tokens` on password change/reset/ban; admin ban UI (API `isBanned` + web checkbox). Verified live: issue-has-expiry, revoke count, banned token dead, temp users cleaned.
+- **H4/H5:** `user.<id>` WS subscribe owner-only (web only uses `user`); `note_content` + `yjs_snapshot` re-check membership before Redis writes.
+- **H6:** DNS fail-closed (`gaierror` -> blocked); redirect hops already re-validated.
+- **H7:** new `_resolve_media_file` (same-host, startswith MEDIA_URL, resolve inside MEDIA_ROOT) used by all 4 ffmpeg paths; attachment check strict. Fixed live 500 from a dangling `rel_clean` (redeployed, site 200).
+- **H8:** `clean_source_url` (HTTPS+public only) wired into API uploads x2, web upload/edit, admin create/edit.
+- **H9:** `validate_custom_base_url` (public HTTPS; HTTP/private only in DEBUG) on create/update/test.
+- **H11:** Secure cookies on in prod (edge 301s http->https, HSTS already live); SSL redirect stays off (edge handles).
+- **H12/H14:** coding-agent `run_shell` clean env, `fetch_web_page`/MCP URL-validated at tool + bridge; `CodingAgentProject.access_token` AES-GCM (`api/coding_agent/crypto.py`, plaintext fallback); no backfill needed (`coding_agent_projects` table absent since 0089).
+- **Deploy:** migration `0141` applied OK after dropping the broken coding `apps.get_model` step (model absent from migration state post-0089) and repairing partial columns. Tests updated to `issue_auth_token`. Pre-existing `botconfig system_prompt` drift left alone. Live battery all True (19 checks).
+
+### Previous Session
 **Security audit criticals fixed + deployed (Sep 2026): C1 agent-drop secret, C2/C3/C4 XSS chain, C5 OAuth takeover, C7 sandbox + autofix removal, C8 credential scrub. C6 (mobile LLM) intentionally unchanged per user.**
 
 - **C1:** `AGENT_DROP_SECRET` hardcoded default removed everywhere (settings/views_admin_drops/views_agent_drop/docs). Now `''` + dev-only placeholder; auth via `hmac.compare_digest`, fail-closed when unset; staff session accepted as alt auth. `.env`/keys/tmp blocked from codebase export + `fetch_file`; token no longer echoed in URLs/responses/docs. Drops page strict staff-only, mirrored at NEW standalone `/staff/agent-drops/` (outside `/admin/` panel nav). Server `.env` rotated to fresh CSPRNG secret (value with server operator - never in repo).

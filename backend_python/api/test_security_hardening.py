@@ -25,15 +25,21 @@ from .security import (
 
 
 def _create_user(**kwargs):
+    from .security import issue_auth_token
     defaults = {
         'id': str(uuid.uuid4()),
-        'auth_token': uuid.uuid4().hex + uuid.uuid4().hex,
         'username': f'testuser_{uuid.uuid4().hex[:8]}',
         'email': f'{uuid.uuid4().hex[:8]}@test.com',
         'created_at': int(time.time() * 1000),
     }
     defaults.update(kwargs)
-    return User.objects.create(**defaults)
+    user = User.objects.create(**defaults)
+    # Issue a real Bearer session (row + expiry) so authenticated requests
+    # behave like production. The in-memory auth_token holds the RAW token
+    # for `Bearer` headers; the DB stores only its hash.
+    raw_token = issue_auth_token(user)
+    user.auth_token = raw_token
+    return user
 
 
 class PasswordAndCodeSecurityTests(TestCase):
