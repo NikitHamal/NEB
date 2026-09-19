@@ -509,7 +509,12 @@ def _run_shell(args: Dict[str, Any], ctx: ToolContext) -> ToolResult:
         'GIT_ASKPASS': 'echo',
         'LANG': 'C.UTF-8',
     }
-    full_env = {**os.environ, **env_overrides}
+    full_env = {k: v for k, v in os.environ.items() if k in (
+        'PATH', 'HOME', 'LANG', 'LC_ALL', 'TMPDIR', 'TEMP', 'TMP',
+        'SYSTEMROOT', 'COMSPEC',
+    )}
+    full_env.setdefault('LANG', 'C.UTF-8')
+    full_env.update(env_overrides)
 
     try:
         proc = subprocess.run(
@@ -586,7 +591,11 @@ def _git_commit(args: Dict[str, Any], ctx: ToolContext) -> ToolResult:
 
     committer_name = 'NEBians Coding Agent'
     committer_email = 'coding-agent@nebians.local'
-    env = os.environ.copy()
+    env = {k: v for k, v in os.environ.items() if k in (
+        'PATH', 'HOME', 'LANG', 'LC_ALL', 'TMPDIR', 'TEMP', 'TMP',
+        'SYSTEMROOT', 'COMSPEC', 'GIT_CONFIG_NOSYSTEM',
+    )}
+    env.setdefault('LANG', 'C.UTF-8')
     env['GIT_AUTHOR_NAME'] = committer_name
     env['GIT_AUTHOR_EMAIL'] = committer_email
     env['GIT_COMMITTER_NAME'] = committer_name
@@ -652,6 +661,13 @@ def _call_mcp_tool(args: Dict[str, Any], ctx: ToolContext) -> ToolResult:
         return ToolResult(text='server_url is required for MCP call', status='error')
     if not tool_name:
         return ToolResult(text='tool_name is required for MCP call', status='error')
+    try:
+        from api.security import validate_external_https_url
+        from django.conf import settings as _settings
+        server_url = validate_external_https_url(
+            server_url, allow_http=bool(_settings.DEBUG))
+    except Exception as exc:
+        return ToolResult(text=f'MCP server URL blocked: {exc}', status='denied')
 
     from .mcp_bridge import McpBridgeClient
     headers = {'Authorization': f'Bearer {api_key}'} if api_key else {}
@@ -672,6 +688,12 @@ def _fetch_web_page(args: Dict[str, Any], ctx: ToolContext) -> ToolResult:
     url = args.get('url')
     if not url:
         return ToolResult(text='url is required', status='error')
+    try:
+        from api.security import validate_external_https_url
+        from django.conf import settings as _settings
+        url = validate_external_https_url(url, allow_http=bool(_settings.DEBUG))
+    except Exception as exc:
+        return ToolResult(text=f'URL blocked: {exc}', status='denied')
     import urllib.request
     import urllib.error
     req = urllib.request.Request(

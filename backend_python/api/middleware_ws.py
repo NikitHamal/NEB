@@ -150,8 +150,9 @@ class JWTAuthMiddleware(BaseMiddleware):
         if bearer_user is not None:
             scope['user'] = bearer_user
         elif existing is not None and not getattr(existing, 'is_anonymous', True):
-            # Session auth worked. Make sure the user is not locked.
-            if getattr(existing, 'is_locked', False):
+            # Session auth worked. Barred accounts (locked legacy path and
+            # banned) get no socket.
+            if getattr(existing, 'is_locked', False) or getattr(existing, 'is_banned', False):
                 scope['user'] = AnonymousUser()
         return await super().__call__(scope, receive, send)
 
@@ -159,7 +160,7 @@ class JWTAuthMiddleware(BaseMiddleware):
     def _resolve_bearer(token):
         try:
             u = get_user_by_auth_token(token)
-            if u.is_locked:
+            if u.is_locked or getattr(u, 'is_banned', False):
                 return None
             return u
         except Exception:  # noqa: BLE001
@@ -178,7 +179,7 @@ class JWTAuthMiddleware(BaseMiddleware):
             user = User.objects.get(pk=user_id)
         except User.DoesNotExist:
             return None
-        if user.is_locked:
+        if user.is_locked or getattr(user, 'is_banned', False):
             return None
         if not (getattr(user, 'is_admin', False) or getattr(user, 'is_staff', False) or getattr(user, 'moderator_level', 0) >= 3):
             return None
@@ -202,6 +203,6 @@ class JWTAuthMiddleware(BaseMiddleware):
             u = User.objects.get(pk=user_id)
         except User.DoesNotExist:
             return None
-        if u.is_locked:
+        if u.is_locked or getattr(u, 'is_banned', False):
             return None
         return u

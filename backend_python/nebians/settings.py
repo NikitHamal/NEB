@@ -306,10 +306,14 @@ CSRF_TRUSTED_ORIGINS = env_list(
 )
 
 # HTTPS, cookies, browser hardening.
+# Verified live (Sep 2026): the edge 301-redirects http:// to https://, so
+# browsers only ever speak HTTPS and Secure cookies are safe in production.
+# Django-level SECURE_SSL_REDIRECT stays OFF - the edge already redirects,
+# and flipping it on risks redirect loops behind the SSL-terminating proxy.
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SECURE_SSL_REDIRECT = env_bool('SECURE_SSL_REDIRECT', False)
-SESSION_COOKIE_SECURE = env_bool('SESSION_COOKIE_SECURE', False)
-CSRF_COOKIE_SECURE = env_bool('CSRF_COOKIE_SECURE', False)
+SESSION_COOKIE_SECURE = env_bool('SESSION_COOKIE_SECURE', not DEBUG)
+CSRF_COOKIE_SECURE = env_bool('CSRF_COOKIE_SECURE', not DEBUG)
 SESSION_COOKIE_HTTPONLY = True
 CSRF_COOKIE_HTTPONLY = False
 SESSION_COOKIE_SAMESITE = 'Lax'

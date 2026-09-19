@@ -421,7 +421,12 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
                 await self._send_json({'type': 'subscribed', 'channel': channel})
                 return
         elif channel.startswith('user.'):
-            ok = True  # public profile subscriptions (follow/stats updates)
+            # Private per-user channel (notifications, unread counts,
+            # per-viewer like hints, follow/stats updates). Only the owner
+            # may subscribe - anything else leaks another user's private
+            # events. Web clients subscribe to 'user' (auto-mapped below).
+            target_id = channel[len('user.'):].split('.', 1)[0]
+            ok = bool(self._user_id and target_id and str(target_id) == str(self._user_id))
         elif channel.startswith('post.'):
             post_id = channel[len('post.'):]
             ok = await self._can_see_post(post_id)
@@ -529,26 +534,33 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
         if len(content) > 20000000:
             await self._send_json({'type': 'error', 'code': 'note_too_large', 'message': 'Note exceeds 20M chars'})
             return
+        # Authorize BEFORE touching shared state: the sender must currently
+        # hold read access to the space (subscription alone is not enough -
+        # membership may have been revoked since subscribing).
+        group = f'studyspace.{space_id}'
+        if group not in self._groups or not self._user_id:
+            return
+        if not await self._can_see_study_space(space_id):
+            await self._send_json({'type': 'error', 'code': 'forbidden', 'message': 'no access to study space'})
+            return
         # Save to Redis for fast cross-worker access
         cache.set(f'studynote:content:{space_id}', content, timeout=86400)
         cache.set(f'studynote:version:{space_id}', version, timeout=86400)
         cache.set(f'studynote:updated_by:{space_id}', self._user_id, timeout=86400)
         # Broadcast to all space subscribers (clients filter own messages by senderId)
-        group = f'studyspace.{space_id}'
-        if group in self._groups:
-            await self.channel_layer.group_send(
-                group,
-                {
-                    'type': 'realtime.event',
-                    'channel': group,
-                    'event': 'note_content',
-                    'data': {
-                        'content': content,
-                        'version': version,
-                        'senderId': self._user_id,
-                    },
-                }
-            )
+        await self.channel_layer.group_send(
+            group,
+            {
+                'type': 'realtime.event',
+                'channel': group,
+                'event': 'note_content',
+                'data': {
+                    'content': content,
+                    'version': version,
+                    'senderId': self._user_id,
+                },
+            }
+        )
 
     async def _handle_note_cursor(self, msg):
         """Broadcast cursor position to other StudySpace members."""
@@ -615,9 +627,15 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
         group = self._yjs_group(msg)
         if not group or not update_b64 or not isinstance(update_b64, str):
             return
-        if len(update_b64) > 2000000:
+        if group not in self._groups or not self._user_id:
             return
-        if group not in self._groups:
+        # Authorize before persisting shared state (see _handle_note_content).
+        room_id = group.split('.', 1)[-1]
+        if group.startswith('canvas.'):
+            allowed = await self._can_see_canvas(room_id)
+        else:
+            allowed = await self._can_see_study_space(room_id)
+        if not allowed:
             return
         cache.set(f'yjs:snapshot:{group}', update_b64, timeout=604800)
         await self.channel_layer.group_send(

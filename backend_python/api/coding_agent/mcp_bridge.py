@@ -18,7 +18,10 @@ logger = logging.getLogger(__name__)
 
 class McpBridgeClient:
     def __init__(self, endpoint_url: str, headers: Optional[Dict[str, str]] = None, timeout: int = 30):
-        self.endpoint_url = endpoint_url.strip()
+        from django.conf import settings as _settings
+        from api.security import validate_external_https_url
+        self.endpoint_url = validate_external_https_url(
+            (endpoint_url or '').strip(), allow_http=bool(_settings.DEBUG))
         self.headers = headers or {}
         self.timeout = timeout
 

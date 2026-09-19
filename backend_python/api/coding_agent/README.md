@@ -132,9 +132,10 @@ message additions in real time.
   same project never collide. The worker advances sessions serially per poll
   cycle by default; bump `--max-sessions` if you need fan-out.
 - **Token storage** — `Project.access_token` is a long-lived OAuth token scoped
-  to the OAuth flow used at connect time (default `repo`). Rotate by hitting
-  the _Refresh_ button on the project page (re-fetches repo metadata + runs a
-  fresh `git fetch` from upstream).
+  to the OAuth flow used at connect time (default `repo`), stored AES-GCM
+  encrypted at rest (see `crypto.py`; never logged or returned). Rotate by
+  hitting the _Refresh_ button on the project page (re-fetches repo metadata
+  + runs a fresh `git fetch` from upstream).
 - **PR body** — auto-generated; includes the task, list of changed files,
   model name, iteration count and session id.
 - **Diff source for ZIP** — `git diff origin/<base>...<branch>`; callers get a

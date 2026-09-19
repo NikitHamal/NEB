@@ -38,9 +38,9 @@ from rest_framework.permissions import AllowAny
 from .authentication import verify_google_token
 from .security import (
     hash_password, verify_password, hash_verification_code, verify_verification_code,
-    hash_auth_token, issue_auth_token, revoke_auth_token,
+    hash_auth_token, issue_auth_token, revoke_auth_token, revoke_all_user_tokens,
     validate_profile_photo_url, save_profile_image_upload,
-    validate_external_https_url,
+    validate_external_https_url, clean_source_url,
     validate_and_save_resource_file, validate_resource_file_url,
     save_resource_thumbnail_upload, maybe_autoset_video_thumbnail,
 )
@@ -154,6 +154,8 @@ def _require_user(request):
     user = _get_user_from_request(request)
     if user is None:
         return None, Response({'error': 'Unauthorized — please sign in again'}, status=401)
+    if getattr(user, 'is_banned', False):
+        return None, Response({'error': 'This account has been banned'}, status=403)
     return user, None
 
 def _require_verified_user(request):
@@ -289,6 +291,8 @@ def _link_oauth_user_model(email, user_pk, display_name, photo_url, provider_ver
         # Don't link to self
         if existing.pk == user_pk:
             return existing
+        if getattr(existing, 'is_banned', False):
+            return None
         if not existing.email_verified:
             return None
         # Transfer display name and photo from OAuth account if existing doesn't have them

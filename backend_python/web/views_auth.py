@@ -79,6 +79,8 @@ def google_auth(request):
     photo_url = google_info.get('photoUrl') or ''
     try:
         db_user = User.objects.get(pk=user_id)
+        if getattr(db_user, 'is_banned', False):
+            return JsonResponse({'error': 'This account has been banned'}, status=403)
         token = issue_auth_token(db_user)
         user_data = _normalize_user_data(UserSerializer(db_user).data)
         user_data['isNewUser'] = False
@@ -201,6 +203,9 @@ def google_oauth_callback(request):
     photo_url = google_info.get('photoUrl') or ''
     try:
         db_user = User.objects.get(pk=user_id)
+        if getattr(db_user, 'is_banned', False):
+            messages.error(request, 'This account has been banned.')
+            return redirect('web:login')
         token = issue_auth_token(db_user)
         user_data = _normalize_user_data(UserSerializer(db_user).data)
         user_data['isNewUser'] = False
@@ -382,6 +387,9 @@ def github_callback(request):
     user_pk = f'github_{github_id}'
     try:
         db_user = User.objects.get(pk=user_pk)
+        if getattr(db_user, 'is_banned', False):
+            messages.error(request, 'This account has been banned.')
+            return redirect('web:login')
         token = issue_auth_token(db_user)
         user_data = _normalize_user_data(UserSerializer(db_user).data)
         user_data['isNewUser'] = False

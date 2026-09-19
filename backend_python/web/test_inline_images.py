@@ -57,18 +57,17 @@ class ContentImagesHelpersTest(TestCase):
 @override_settings(MEDIA_ROOT=tempfile.gettempdir())
 class InlineUploadViewTest(TestCase):
     def setUp(self):
-        from api.security import hash_auth_token
+        from api.security import issue_auth_token
         self.client = Client()
-        self.raw_token = User.generate_token()
         self.user = User.objects.create(
             id='u_test_inline',
             username='test_inline_user',
             display_name='Tester',
             email='test_inline@example.com',
             email_verified=True,
-            auth_token=hash_auth_token(self.raw_token),
             created_at=now_ms(),
         )
+        self.raw_token = issue_auth_token(self.user)
         s = self.client.session
         s['auth_token'] = self.raw_token
         s['user_data'] = {'id': self.user.id, 'username': self.user.username, 'email_verified': True, 'email': self.user.email}

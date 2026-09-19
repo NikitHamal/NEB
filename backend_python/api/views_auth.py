@@ -163,6 +163,8 @@ def auth_google(request):
     provider_verified = bool(google_info.get('email_verified', False))
     try:
         user = User.objects.get(pk=user_id)
+        if getattr(user, 'is_banned', False):
+            return Response({'error': 'This account has been banned'}, status=403)
         if provider_verified and not user.email_verified:
             user.email_verified = True
             user.save(update_fields=['email_verified'])
@@ -360,6 +362,9 @@ def auth_email_login(request):
     except User.MultipleObjectsReturned:
         return Response({'error': 'Multiple accounts found. Please use your email address.'}, status=400)
 
+    if getattr(user, 'is_banned', False):
+        return Response({'error': 'This account has been banned'}, status=403)
+
     if not user.email_verified:
         if not _verification_resend_blocked(user):
             code = _issue_verification_code(user, 'signup')
@@ -470,6 +475,7 @@ def auth_email_reset_password(request):
     user.password_hash = hash_password(new_password)
     user.email_verified = True
     _clear_verification_code(user)
+    revoke_all_user_tokens(user)
     auth_token = issue_auth_token(user, save=False)
     user.save()
 
@@ -547,6 +553,7 @@ def auth_change_password(request):
         return Response({'error': 'Current password is incorrect'}, status=401)
 
     user.password_hash = hash_password(new_password)
+    revoke_all_user_tokens(user)
     auth_token = issue_auth_token(user, save=False)
     user.save(update_fields=['password_hash', 'auth_token'])
 
