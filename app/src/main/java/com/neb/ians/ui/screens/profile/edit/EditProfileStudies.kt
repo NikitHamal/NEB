@@ -1,7 +1,6 @@
 package com.neb.ians.ui.screens.profile.edit
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
@@ -40,7 +39,7 @@ import coil.compose.AsyncImage
 import com.neb.ians.data.api.ApiInstitution
 import com.neb.ians.ui.components.NebAuthField
 import com.neb.ians.ui.components.NebAuthType
-import com.neb.ians.ui.components.NebChoiceRow
+import com.neb.ians.ui.components.NebSegmentedChoice
 import com.neb.ians.ui.components.NebFieldGroupLabel
 import com.neb.ians.ui.components.NebOutlinePillButton
 import com.neb.ians.ui.components.NebPickerRow
@@ -51,7 +50,7 @@ import com.neb.ians.ui.screens.auth.CompleteProfileUiState
 import com.neb.ians.ui.screens.auth.CompleteProfileViewModel
 import com.neb.ians.ui.theme.LocalNebAuthPalette
 import com.neb.ians.ui.theme.NebAuthTokens
-import com.neb.ians.ui.theme.NebMotion
+import com.neb.ians.ui.theme.nebEffectsSpec
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -65,12 +64,11 @@ internal fun EditStudiesSection(state: CompleteProfileUiState, viewModel: Comple
         else -> "What you study"
     }
 
+    val fade = nebEffectsSpec<Float>()
     EditSection(title = heading) {
         AnimatedContent(
             targetState = state.role,
-            transitionSpec = {
-                fadeIn(tween(NebMotion.Standard)) togetherWith fadeOut(tween(NebMotion.Instant))
-            },
+            transitionSpec = { fadeIn(fade) togetherWith fadeOut(fade) },
             label = "neb_edit_role_fields"
         ) { role ->
             Column(verticalArrangement = Arrangement.spacedBy(NebAuthTokens.StackGap)) {
@@ -78,7 +76,7 @@ internal fun EditStudiesSection(state: CompleteProfileUiState, viewModel: Comple
                     "institution" -> {
                         NebFieldGroupLabel(text = "Type")
                         Spacer(modifier = Modifier.height(10.dp))
-                        NebChoiceRow(
+                        NebSegmentedChoice(
                             options = EDIT_INSTITUTION_TYPES,
                             selected = state.institutionType.replaceFirstChar { it.uppercase() }
                                 .takeIf { state.institutionType.isNotBlank() },
@@ -260,13 +258,13 @@ private fun EditInstitutionSheet(
                                 modifier = Modifier
                                     .size(36.dp)
                                     .clip(CircleShape)
-                                    .background(palette.sapphireSoft),
+                                    .background(palette.accentSoft),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
                                     text = institution.displayName.take(1).uppercase(),
                                     style = NebAuthType.Label,
-                                    color = palette.sapphire
+                                    color = palette.accent
                                 )
                             }
                         } else {

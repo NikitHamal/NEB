@@ -90,8 +90,7 @@ fun NebStateArt(
     val scheme = MaterialTheme.colorScheme
     val accent = when (kind) {
         NebStateKind.Error -> scheme.error
-        NebStateKind.Success -> Color(0xFF16A34A)
-        else -> scheme.primary
+        else -> scheme.onSurface
     }
     val sheet = scheme.surfaceContainerHigh
     val line = scheme.outline.copy(alpha = 0.26f)
@@ -106,7 +105,6 @@ fun NebStateArt(
             .height(height)
     ) {
         val center = Offset(size.width / 2f, size.height * 0.5f)
-        nebGlow(center, size.minDimension * 0.62f, accent, 0.09f)
         when (kind) {
             NebStateKind.Empty -> drawEmpty(center, sheet, line, faint, accent, breath)
             NebStateKind.Error -> drawError(center, sheet, line, accent, breath)
@@ -177,7 +175,6 @@ private fun DrawScope.drawError(
         )
     }
     val badge = Offset(center.x + w * 0.42f, center.y - h * 0.44f)
-    nebRings(badge, size.minDimension * 0.06f, breath, accent, count = 2, spread = 1.9f)
     drawCircle(color = accent, radius = size.minDimension * 0.062f, center = badge)
     val stemTop = badge.copy(y = badge.y - size.minDimension * 0.026f)
     val stemBottom = badge.copy(y = badge.y + size.minDimension * 0.008f)
@@ -247,7 +244,6 @@ private fun DrawScope.drawSuccess(
     breath: Float
 ) {
     val radius = size.minDimension * 0.24f
-    nebRings(center, radius, phase, accent, count = 2, spread = 1.7f)
     nebOrbit(center, radius * 1.42f, line.copy(alpha = 0.4f), strokeWidth = 1.4f)
     drawCircle(color = accent.copy(alpha = 0.14f), radius = radius, center = center)
     drawCircle(
@@ -305,7 +301,7 @@ private fun DrawScope.drawSearching(
         }
     }
 
-    val sweep = orbitPoint(center, size.minDimension * 0.22f, phase * 360f)
+    val sweep = orbitPoint(center, size.minDimension * 0.22f, 142f)
     val lens = size.minDimension * 0.11f
     drawCircle(color = accent.copy(alpha = 0.12f), radius = lens, center = sweep)
     drawCircle(color = accent, radius = lens, center = sweep, style = Stroke(width = 2.4f))
@@ -335,8 +331,6 @@ fun NebIconHalo(
     Canvas(modifier = modifier.size(diameter)) {
         val center = Offset(size.width / 2f, size.height / 2f)
         val base = size.minDimension * 0.34f
-        nebGlow(center, size.minDimension * 0.5f, color, 0.12f)
-        nebRings(center, base, phase, color, count = 3, spread = 1.45f, strokeWidth = 1.3f)
         drawCircle(color = fill, radius = base * (0.98f + breath * 0.04f), center = center)
     }
 }

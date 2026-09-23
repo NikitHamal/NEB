@@ -1,7 +1,6 @@
 package com.neb.ians.ui.screens.profile.edit
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
@@ -25,7 +24,6 @@ import androidx.compose.material.icons.outlined.Cake
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.ExpandMore
 import androidx.compose.material.icons.outlined.PersonOutline
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -42,21 +40,24 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.neb.ians.ui.components.NebLoadingIndicator
 import com.neb.ians.ui.components.NebAuthField
 import com.neb.ians.ui.components.NebAuthType
-import com.neb.ians.ui.components.NebChoiceRow
 import com.neb.ians.ui.components.NebFieldGroupLabel
 import com.neb.ians.ui.components.NebGlyphTile
 import com.neb.ians.ui.components.NebOptionCard
 import com.neb.ians.ui.components.NebPickerField
 import com.neb.ians.ui.components.NebProgressRail
+import com.neb.ians.ui.components.NebShapes
+import com.neb.ians.ui.components.NebSegmentedChoice
 import com.neb.ians.ui.components.NebToggleRow
 import com.neb.ians.ui.components.nebPressable
+import com.neb.ians.ui.screens.onboarding.NEB_GENDER_SEGMENTS
 import com.neb.ians.ui.screens.auth.CompleteProfileUiState
 import com.neb.ians.ui.screens.auth.CompleteProfileViewModel
 import com.neb.ians.ui.theme.LocalNebAuthPalette
 import com.neb.ians.ui.theme.NebAuthTokens
-import com.neb.ians.ui.theme.NebMotion
+import com.neb.ians.ui.theme.nebEffectsSpec
 import java.util.Calendar
 
 /** A titled block. Every section on the editor is one of these and nothing else. */
@@ -100,7 +101,7 @@ internal fun EditIdentityHeader(
                     .size(96.dp)
                     .clip(CircleShape)
                     .background(palette.field)
-                    .border(1.5.dp, palette.sapphireSoft, CircleShape),
+                    .border(1.5.dp, palette.accentSoft, CircleShape),
                 contentAlignment = Alignment.Center
             ) {
                 if (state.photoUrl.isNotBlank()) {
@@ -115,7 +116,7 @@ internal fun EditIdentityHeader(
                         text = state.displayName.trim().take(1).uppercase()
                             .ifBlank { state.username.take(1).uppercase().ifBlank { "N" } },
                         style = NebAuthType.Headline,
-                        color = palette.sapphire
+                        color = palette.accent
                     )
                 }
                 if (state.isPhotoUploading) {
@@ -123,10 +124,9 @@ internal fun EditIdentityHeader(
                         modifier = Modifier.size(96.dp).clip(CircleShape).background(palette.page.copy(alpha = 0.72f)),
                         contentAlignment = Alignment.Center
                     ) {
-                        CircularProgressIndicator(
-                            modifier = Modifier.size(22.dp),
-                            color = palette.sapphire,
-                            strokeWidth = 2.dp
+                        NebLoadingIndicator(
+                            modifier = Modifier.size(28.dp),
+                            color = palette.accent
                         )
                     }
                 }
@@ -136,13 +136,13 @@ internal fun EditIdentityHeader(
                     .align(Alignment.BottomEnd)
                     .size(32.dp)
                     .clip(CircleShape)
-                    .background(palette.sapphire),
+                    .background(palette.accent),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     imageVector = Icons.Outlined.AddAPhoto,
                     contentDescription = null,
-                    tint = palette.onSapphire,
+                    tint = palette.onAccent,
                     modifier = Modifier.size(16.dp)
                 )
             }
@@ -159,7 +159,7 @@ internal fun EditIdentityHeader(
         Text(
             text = "@" + state.username.ifBlank { "username" },
             style = NebAuthType.Caption,
-            color = palette.sapphire
+            color = palette.accent
         )
 
         Spacer(modifier = Modifier.height(18.dp))
@@ -173,7 +173,7 @@ internal fun EditIdentityHeader(
             Text(
                 text = "${(strength * 100).toInt()}%",
                 style = NebAuthType.Caption,
-                color = palette.sapphire
+                color = palette.accent
             )
         }
         Spacer(modifier = Modifier.height(8.dp))
@@ -186,7 +186,7 @@ internal fun EditRoleSection(state: CompleteProfileUiState, viewModel: CompleteP
     val palette = LocalNebAuthPalette.current
     EditSection(title = "You on NEBians") {
         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            EDIT_ROLES.forEach { role ->
+            EDIT_ROLES.forEachIndexed { index, role ->
                 val selected = state.role == role.key
                 NebOptionCard(
                     title = role.title,
@@ -194,11 +194,11 @@ internal fun EditRoleSection(state: CompleteProfileUiState, viewModel: CompleteP
                     selected = selected,
                     onClick = { viewModel.onRoleChange(role.key) },
                     leading = {
-                        NebGlyphTile(selected = selected) {
+                        NebGlyphTile(selected = selected, polygon = NebShapes.option(index)) {
                             Icon(
                                 imageVector = role.icon,
                                 contentDescription = null,
-                                tint = if (selected) palette.sapphire else palette.inkMuted,
+                                tint = if (selected) palette.accent else palette.inkMuted,
                                 modifier = Modifier.size(20.dp)
                             )
                         }
@@ -249,10 +249,9 @@ internal fun EditBasicsSection(
                 helperTone = palette.success,
                 trailing = {
                     when {
-                        state.isCheckingUsername -> CircularProgressIndicator(
-                            modifier = Modifier.size(16.dp),
-                            color = palette.inkFaint,
-                            strokeWidth = 2.dp
+                        state.isCheckingUsername -> NebLoadingIndicator(
+                            modifier = Modifier.size(20.dp),
+                            color = palette.inkFaint
                         )
                         state.usernameAvailable == true -> Icon(
                             imageVector = Icons.Outlined.Check,
@@ -337,8 +336,8 @@ internal fun EditPersonalSection(
             Column {
                 NebFieldGroupLabel(text = "Gender")
                 Spacer(modifier = Modifier.height(10.dp))
-                NebChoiceRow(
-                    options = EDIT_GENDERS,
+                NebSegmentedChoice(
+                    segments = NEB_GENDER_SEGMENTS,
                     selected = state.gender.takeIf { it.isNotBlank() },
                     onSelect = viewModel::onGenderChange
                 )
@@ -366,8 +365,8 @@ internal fun EditPrivacySection(state: CompleteProfileUiState, viewModel: Comple
         }
         AnimatedVisibility(
             visible = state.isLocked,
-            enter = fadeIn(tween(NebMotion.Standard)),
-            exit = fadeOut(tween(NebMotion.Instant))
+            enter = fadeIn(nebEffectsSpec()),
+            exit = fadeOut(nebEffectsSpec())
         ) {
             Text(
                 text = "Your name, photo and handle stay visible so people can find and request you.",

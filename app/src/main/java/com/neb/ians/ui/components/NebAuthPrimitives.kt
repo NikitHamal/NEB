@@ -4,7 +4,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
@@ -37,7 +36,6 @@ import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -65,6 +63,10 @@ import androidx.compose.ui.unit.sp
 import com.neb.ians.ui.theme.LocalNebAuthPalette
 import com.neb.ians.ui.theme.NebAuthTokens
 import com.neb.ians.ui.theme.NebMotion
+import com.neb.ians.ui.theme.nebEffectsSpec
+import com.neb.ians.ui.theme.nebFastEffectsSpec
+import com.neb.ians.ui.theme.nebFastSpatialSpec
+import com.neb.ians.ui.theme.nebSpatialSpec
 import com.neb.ians.ui.theme.Poppins
 import com.neb.ians.util.TactileType
 import com.neb.ians.util.rememberTactileFeedback
@@ -88,7 +90,7 @@ fun Modifier.nebPressable(
     val feedback = rememberTactileFeedback()
     val target by animateFloatAsState(
         targetValue = if (pressed && enabled) scale else 1f,
-        animationSpec = tween(NebMotion.Instant, easing = NebMotion.Standard_),
+        animationSpec = nebFastSpatialSpec(),
         label = "neb_press"
     )
     return this
@@ -236,7 +238,7 @@ fun NebProgressRail(
     val palette = LocalNebAuthPalette.current
     val animated by animateFloatAsState(
         targetValue = progress.coerceIn(0f, 1f),
-        animationSpec = tween(NebMotion.Emphasized, easing = NebMotion.Decelerate),
+        animationSpec = nebSpatialSpec(),
         label = "neb_rail"
     )
     Box(
@@ -253,7 +255,7 @@ fun NebProgressRail(
                     transformOrigin = androidx.compose.ui.graphics.TransformOrigin(0f, 0.5f)
                 }
                 .clip(CircleShape)
-                .background(palette.sapphire)
+                .background(palette.accent)
         )
     }
 }
@@ -262,7 +264,7 @@ fun NebProgressRail(
 // Buttons
 // ---------------------------------------------------------------------------
 
-/** The one primary action per screen: sapphire pill, full width, optional spinner. */
+/** The one primary action per screen: accent pill, full width, optional spinner. */
 @Composable
 fun NebPillButton(
     text: String,
@@ -275,8 +277,8 @@ fun NebPillButton(
     val palette = LocalNebAuthPalette.current
     val active = enabled && !loading
     val container by animateColorAsState(
-        targetValue = if (active) palette.sapphire else palette.sapphire.copy(alpha = 0.32f),
-        animationSpec = tween(NebMotion.Short),
+        targetValue = if (active) palette.accent else palette.accent.copy(alpha = 0.32f),
+        animationSpec = nebFastEffectsSpec(),
         label = "neb_pill_bg"
     )
     Box(
@@ -289,24 +291,23 @@ fun NebPillButton(
         contentAlignment = Alignment.Center
     ) {
         if (loading) {
-            CircularProgressIndicator(
-                modifier = Modifier.size(22.dp),
-                color = palette.onSapphire,
-                strokeWidth = 2.dp
+            NebLoadingIndicator(
+                modifier = Modifier.size(28.dp),
+                color = palette.onAccent
             )
         } else {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     text = text,
                     style = NebAuthType.Button,
-                    color = if (active) palette.onSapphire else palette.onSapphire.copy(alpha = 0.7f)
+                    color = if (active) palette.onAccent else palette.onAccent.copy(alpha = 0.7f)
                 )
                 if (trailingIcon != null) {
                     Spacer(modifier = Modifier.width(8.dp))
                     Icon(
                         imageVector = trailingIcon,
                         contentDescription = null,
-                        tint = if (active) palette.onSapphire else palette.onSapphire.copy(alpha = 0.7f),
+                        tint = if (active) palette.onAccent else palette.onAccent.copy(alpha = 0.7f),
                         modifier = Modifier.size(18.dp)
                     )
                 }
@@ -351,7 +352,7 @@ fun NebOutlinePillButton(
     }
 }
 
-/** An inline link. Sapphire is the only colour text is ever allowed to take. */
+/** An inline link. Accent is the only colour text is ever allowed to take. */
 @Composable
 fun NebTextLink(
     text: String,
@@ -363,7 +364,7 @@ fun NebTextLink(
     Text(
         text = text,
         style = NebAuthType.Body.copy(fontWeight = FontWeight.SemiBold),
-        color = if (enabled) palette.sapphire else palette.inkFaint,
+        color = if (enabled) palette.accent else palette.inkFaint,
         modifier = modifier
             .clip(RoundedCornerShape(8.dp))
             .nebPressable(enabled = enabled, scale = 0.96f, tactile = TactileType.LightTap, onClick = onClick)
@@ -408,15 +409,15 @@ fun NebAuthField(
     val borderColor by animateColorAsState(
         targetValue = when {
             error != null -> palette.danger
-            focused -> palette.sapphire
+            focused -> palette.accent
             else -> palette.hairline
         },
-        animationSpec = tween(NebMotion.Quick),
+        animationSpec = nebFastEffectsSpec(),
         label = "neb_field_border"
     )
     val borderWidth by animateDpAsState(
         targetValue = if (focused || error != null) 1.6.dp else NebAuthTokens.Hairline,
-        animationSpec = tween(NebMotion.Quick),
+        animationSpec = nebFastSpatialSpec(),
         label = "neb_field_border_w"
     )
 
@@ -439,7 +440,7 @@ fun NebAuthField(
                 color = if (enabled) palette.ink else palette.inkMuted,
                 fontSize = 15.5.sp
             ),
-            cursorBrush = SolidColor(palette.sapphire),
+            cursorBrush = SolidColor(palette.accent),
             interactionSource = interaction,
             visualTransformation = if (isPassword && !revealed) {
                 PasswordVisualTransformation()
@@ -469,7 +470,7 @@ fun NebAuthField(
                         Icon(
                             imageVector = leadingIcon,
                             contentDescription = null,
-                            tint = if (focused) palette.sapphire else palette.inkFaint,
+                            tint = if (focused) palette.accent else palette.inkFaint,
                             modifier = Modifier.size(20.dp)
                         )
                         Spacer(modifier = Modifier.width(12.dp))
@@ -501,10 +502,8 @@ fun NebAuthField(
         val note = error ?: helper
         AnimatedVisibility(
             visible = note != null,
-            enter = expandVertically(tween(NebMotion.Quick, easing = NebMotion.Decelerate)) +
-                fadeIn(tween(NebMotion.Short)),
-            exit = fadeOut(tween(NebMotion.Instant)) +
-                shrinkVertically(tween(NebMotion.Quick, easing = NebMotion.Accelerate))
+            enter = expandVertically(nebFastSpatialSpec()) + fadeIn(nebFastEffectsSpec()),
+            exit = fadeOut(nebFastEffectsSpec()) + shrinkVertically(nebFastSpatialSpec())
         ) {
             Text(
                 text = note ?: "",
@@ -611,16 +610,14 @@ fun NebInlineNote(
     val palette = LocalNebAuthPalette.current
     AnimatedVisibility(
         visible = !text.isNullOrBlank(),
-        enter = expandVertically(tween(NebMotion.Short, easing = NebMotion.Decelerate)) +
-            fadeIn(tween(NebMotion.Standard)),
-        exit = fadeOut(tween(NebMotion.Instant)) +
-            shrinkVertically(tween(NebMotion.Quick, easing = NebMotion.Accelerate)),
+        enter = expandVertically(nebSpatialSpec()) + fadeIn(nebEffectsSpec()),
+        exit = fadeOut(nebEffectsSpec()) + shrinkVertically(nebSpatialSpec()),
         modifier = modifier
     ) {
         val (bg, fg) = when (tone) {
             NebNoteTone.Error -> palette.dangerSoft to palette.danger
             NebNoteTone.Success -> palette.successSoft to palette.success
-            NebNoteTone.Info -> palette.sapphireSoft to palette.sapphire
+            NebNoteTone.Info -> palette.accentSoft to palette.accent
         }
         Box(
             modifier = Modifier

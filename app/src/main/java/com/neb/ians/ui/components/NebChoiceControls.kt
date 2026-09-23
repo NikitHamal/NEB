@@ -3,7 +3,6 @@ package com.neb.ians.ui.components
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -35,17 +34,22 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
+import androidx.graphics.shapes.RoundedPolygon
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.neb.ians.ui.theme.LocalNebAuthPalette
 import com.neb.ians.ui.theme.NebAuthTokens
-import com.neb.ians.ui.theme.NebMotion
+import com.neb.ians.ui.theme.nebEffectsSpec
+import com.neb.ians.ui.theme.nebFastEffectsSpec
+import com.neb.ians.ui.theme.nebFastSpatialSpec
+import com.neb.ians.ui.theme.nebSpatialSpec
 import com.neb.ians.util.TactileType
 
 // ---------------------------------------------------------------------------
-// Choosing. Three shapes cover every pick the app asks for: a row for a choice
-// that needs explaining, a token for a set, and a segmented bank for two to four
-// one-word answers.
+// Choosing. Two shapes cover every pick that needs prose: a row for a choice
+// with a line of explanation under it, and a token for a set. Two to four
+// one-word answers are not here — those are Expressive's own segmented bank, in
+// NebExpressive.kt.
 //
 // None of them is outlined while resting. An unselected choice is a quiet filled
 // surface with no border at all; selection is what draws a line, lifts the fill
@@ -64,7 +68,7 @@ fun NebSelectionMark(
     val palette = LocalNebAuthPalette.current
     val progress by animateFloatAsState(
         targetValue = if (selected) 1f else 0f,
-        animationSpec = tween(NebMotion.Short, easing = NebMotion.Decelerate),
+        animationSpec = nebFastSpatialSpec(),
         label = "neb_mark"
     )
     Canvas(modifier = modifier.size(diameter)) {
@@ -81,7 +85,7 @@ fun NebSelectionMark(
             )
         }
         if (progress > 0.001f) {
-            drawCircle(color = palette.sapphire, radius = r * progress, center = center)
+            drawCircle(color = palette.accent, radius = r * progress, center = center)
         }
         if (progress > 0.35f) {
             val t = ((progress - 0.35f) / 0.65f).coerceIn(0f, 1f)
@@ -101,7 +105,7 @@ fun NebSelectionMark(
             }
             drawPath(
                 path = tick,
-                color = palette.onSapphire,
+                color = palette.onAccent,
                 style = Stroke(width = r * 0.17f, cap = StrokeCap.Round)
             )
         }
@@ -126,27 +130,27 @@ fun NebOptionCard(
     val palette = LocalNebAuthPalette.current
     val fill by animateColorAsState(
         targetValue = if (selected) palette.card else palette.field,
-        animationSpec = tween(NebMotion.Short),
+        animationSpec = nebEffectsSpec(),
         label = "neb_option_fill"
     )
     val edge by animateColorAsState(
-        targetValue = if (selected) palette.sapphire else Color.Transparent,
-        animationSpec = tween(NebMotion.Short),
+        targetValue = if (selected) palette.accent else Color.Transparent,
+        animationSpec = nebEffectsSpec(),
         label = "neb_option_edge"
     )
     val edgeWidth by animateDpAsState(
         targetValue = if (selected) 1.6.dp else 0.dp,
-        animationSpec = tween(NebMotion.Short),
+        animationSpec = nebSpatialSpec(),
         label = "neb_option_edge_w"
     )
     val radius by animateDpAsState(
         targetValue = if (selected) 22.dp else 16.dp,
-        animationSpec = tween(NebMotion.Standard, easing = NebMotion.Decelerate),
+        animationSpec = nebSpatialSpec(),
         label = "neb_option_radius"
     )
     val titleColor by animateColorAsState(
-        targetValue = if (selected) palette.sapphire else palette.ink,
-        animationSpec = tween(NebMotion.Short),
+        targetValue = if (selected) palette.accent else palette.ink,
+        animationSpec = nebEffectsSpec(),
         label = "neb_option_title"
     )
     val shape = RoundedCornerShape(radius)
@@ -183,7 +187,7 @@ fun NebOptionCard(
 
 /**
  * A token in a set: subjects, levels, provinces. Unselected it is a bare label on
- * the field tint; selected it takes a sapphire edge, a sapphire wash and a tick
+ * the field tint; selected it takes a accent edge, a accent wash and a tick
  * that slides its own width open ahead of the text.
  */
 @Composable
@@ -195,23 +199,23 @@ fun NebSelectChip(
 ) {
     val palette = LocalNebAuthPalette.current
     val fill by animateColorAsState(
-        targetValue = if (selected) palette.sapphireSoft else palette.field,
-        animationSpec = tween(NebMotion.Quick),
+        targetValue = if (selected) palette.accentSoft else palette.field,
+        animationSpec = nebFastEffectsSpec(),
         label = "neb_chip_fill"
     )
     val content by animateColorAsState(
-        targetValue = if (selected) palette.sapphire else palette.inkMuted,
-        animationSpec = tween(NebMotion.Quick),
+        targetValue = if (selected) palette.accent else palette.inkMuted,
+        animationSpec = nebFastEffectsSpec(),
         label = "neb_chip_fg"
     )
     val edge by animateColorAsState(
-        targetValue = if (selected) palette.sapphire else Color.Transparent,
-        animationSpec = tween(NebMotion.Quick),
+        targetValue = if (selected) palette.accent else Color.Transparent,
+        animationSpec = nebFastEffectsSpec(),
         label = "neb_chip_edge"
     )
     val tickWidth by animateDpAsState(
         targetValue = if (selected) 18.dp else 0.dp,
-        animationSpec = tween(NebMotion.Short, easing = NebMotion.Decelerate),
+        animationSpec = nebFastSpatialSpec(),
         label = "neb_chip_tick"
     )
     val shape = RoundedCornerShape(14.dp)
@@ -241,66 +245,6 @@ fun NebSelectChip(
     }
 }
 
-/**
- * Two to four one-word answers side by side, sharing one track. A stacked list of
- * cards for three words is a form; a single bank of equal tiles is an answer.
- */
-@Composable
-fun NebChoiceRow(
-    options: List<String>,
-    selected: String?,
-    onSelect: (String) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    val palette = LocalNebAuthPalette.current
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(18.dp))
-            .background(palette.field)
-            .padding(5.dp),
-        horizontalArrangement = Arrangement.spacedBy(5.dp)
-    ) {
-        options.forEach { option ->
-            val isOn = option == selected
-            val fill by animateColorAsState(
-                targetValue = if (isOn) palette.card else Color.Transparent,
-                animationSpec = tween(NebMotion.Short),
-                label = "neb_seg_fill"
-            )
-            val edge by animateColorAsState(
-                targetValue = if (isOn) palette.sapphire else Color.Transparent,
-                animationSpec = tween(NebMotion.Short),
-                label = "neb_seg_edge"
-            )
-            val content by animateColorAsState(
-                targetValue = if (isOn) palette.sapphire else palette.inkMuted,
-                animationSpec = tween(NebMotion.Short),
-                label = "neb_seg_fg"
-            )
-            val shape = RoundedCornerShape(14.dp)
-            Box(
-                modifier = Modifier
-                    .weight(1f)
-                    .heightIn(min = 52.dp)
-                    .clip(shape)
-                    .background(fill)
-                    .border(if (isOn) 1.4.dp else 0.dp, edge, shape)
-                    .nebPressable(scale = 0.97f, tactile = TactileType.SelectionChange) { onSelect(option) },
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = option,
-                    style = NebAuthType.Body.copy(fontWeight = FontWeight.SemiBold, fontSize = 14.sp),
-                    color = content,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(horizontal = 6.dp)
-                )
-            }
-        }
-    }
-}
-
 /** A bare tick, for anywhere a chip or a row needs one without a disc behind it. */
 @Composable
 fun NebTick(color: Color, modifier: Modifier = Modifier) {
@@ -316,27 +260,26 @@ fun NebTick(color: Color, modifier: Modifier = Modifier) {
     }
 }
 
-/** A rounded glyph tile, for the leading slot of an option card. */
+/**
+ * The glyph tile in the leading slot of an option card, cut to one of the
+ * Expressive polygons rather than to a rounded rectangle. Pass a different
+ * silhouette per option and the bank stops reading as a form.
+ */
 @Composable
 fun NebGlyphTile(
     selected: Boolean,
     modifier: Modifier = Modifier,
     size: Dp = 40.dp,
+    polygon: RoundedPolygon = NebShapes.Tile,
     content: @Composable () -> Unit
 ) {
     val palette = LocalNebAuthPalette.current
-    val fill by animateColorAsState(
-        targetValue = if (selected) palette.sapphireSoft else palette.card,
-        animationSpec = tween(NebMotion.Short),
-        label = "neb_glyph_fill"
-    )
-    Box(
-        modifier = modifier
-            .size(size)
-            .clip(RoundedCornerShape(size / 3f))
-            .background(fill),
-        contentAlignment = Alignment.Center,
-        content = { content() }
+    NebShapedBox(
+        polygon = polygon,
+        modifier = modifier,
+        diameter = size,
+        fill = if (selected) palette.accentSoft else palette.card,
+        content = content
     )
 }
 
@@ -366,18 +309,18 @@ fun NebToggleRow(
 ) {
     val palette = LocalNebAuthPalette.current
     val track by animateColorAsState(
-        targetValue = if (checked) palette.sapphire else palette.field,
-        animationSpec = tween(NebMotion.Short),
+        targetValue = if (checked) palette.accent else palette.field,
+        animationSpec = nebFastEffectsSpec(),
         label = "neb_toggle_track"
     )
     val knob by animateColorAsState(
-        targetValue = if (checked) palette.onSapphire else palette.hairlineStrong,
-        animationSpec = tween(NebMotion.Short),
+        targetValue = if (checked) palette.onAccent else palette.hairlineStrong,
+        animationSpec = nebFastEffectsSpec(),
         label = "neb_toggle_knob"
     )
     val knobOffset by animateDpAsState(
         targetValue = if (checked) 20.dp else 0.dp,
-        animationSpec = tween(NebMotion.Short, easing = NebMotion.Decelerate),
+        animationSpec = nebFastSpatialSpec(),
         label = "neb_toggle_offset"
     )
 

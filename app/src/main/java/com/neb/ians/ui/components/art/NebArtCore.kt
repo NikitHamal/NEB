@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathEffect
@@ -85,24 +84,6 @@ fun seeded(seed: Int): Float {
 // Shared marks
 // ---------------------------------------------------------------------------
 
-/** A soft radial glow. The only light source any illustration gets. */
-fun DrawScope.nebGlow(
-    center: Offset,
-    radius: Float,
-    color: Color,
-    intensity: Float = 0.24f
-) {
-    drawCircle(
-        brush = Brush.radialGradient(
-            colors = listOf(color.copy(alpha = intensity), color.copy(alpha = 0f)),
-            center = center,
-            radius = radius
-        ),
-        radius = radius,
-        center = center
-    )
-}
-
 /** Concentric rings that fade outward — a ping, a pin, a signal. */
 fun DrawScope.nebRings(
     center: Offset,
@@ -123,29 +104,6 @@ fun DrawScope.nebRings(
             radius = radius,
             center = center,
             style = Stroke(width = strokeWidth)
-        )
-    }
-}
-
-/** Motes of light drifting upward — the journey's ambient texture. */
-fun DrawScope.nebMotes(
-    phase: Float,
-    colors: List<Color>,
-    count: Int = 14,
-    maxRadius: Float = 3.4f
-) {
-    for (i in 0 until count) {
-        val seedX = seeded(i * 7 + 3)
-        val seedR = seeded(i * 11 + 5)
-        val drift = wrap(phase * (0.6f + seedR * 0.7f) + seeded(i * 13 + 1))
-        val x = size.width * (0.06f + seedX * 0.88f) +
-            sin((drift + seedX) * 2f * PI.toFloat()) * size.width * 0.035f
-        val y = size.height * (1.05f - drift * 1.12f)
-        val fade = kotlin.math.min(drift * 4f, (1f - drift) * 3f).coerceIn(0f, 1f)
-        drawCircle(
-            color = colors[i % colors.size].copy(alpha = 0.16f + fade * 0.4f),
-            radius = maxRadius * (0.35f + seedR * 0.65f),
-            center = Offset(x, y)
         )
     }
 }

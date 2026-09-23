@@ -1,7 +1,6 @@
 package com.neb.ians.ui.components.art
 
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,7 +18,8 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.neb.ians.ui.theme.LocalNebAuthPalette
-import com.neb.ians.ui.theme.NebMotion
+import com.neb.ians.ui.theme.nebSpatialSpec
+import com.neb.ians.ui.theme.nebSlowSpatialSpec
 import kotlin.math.min
 
 // ---------------------------------------------------------------------------
@@ -45,7 +45,7 @@ fun NebAscentArt(
         targetValue = if (stepCount <= 1) 0f else {
             (stepIndex.toFloat() / (stepCount - 1) * (visible - 1)).coerceIn(0f, (visible - 1).toFloat())
         },
-        animationSpec = tween(NebMotion.Emphasized, easing = NebMotion.Decelerate),
+        animationSpec = nebSpatialSpec(),
         label = "neb_ascent"
     )
 
@@ -62,7 +62,7 @@ fun NebAscentArt(
                 val topY = stepBase - rise * (i + 1)
                 val active = kotlin.math.abs(marker - i) < 0.5f
                 drawRoundRect(
-                    color = if (active) palette.sapphire else palette.artFaint,
+                    color = if (active) palette.accent else palette.artFaint,
                     topLeft = Offset(left + i * stepW, topY),
                     size = Size(stepW - 3f, stepBase - topY),
                     cornerRadius = CornerRadius(5f, 5f)
@@ -80,7 +80,6 @@ fun NebAscentArt(
 
             val mx = left + stepW * (marker + 0.5f) - 1.5f
             val my = stepBase - rise * (marker + 1) - h * 0.075f
-            nebGlow(Offset(mx, my), h * 0.20f, palette.sapphire, 0.22f)
             val flagPole = h * 0.13f
             drawRoundRect(
                 color = palette.artInk,
@@ -95,7 +94,7 @@ fun NebAscentArt(
                 lineTo(mx + 1.2f, top + h * 0.056f)
                 close()
             }
-            drawPath(flag, palette.sapphire)
+            drawPath(flag, palette.accent)
             drawCircle(color = palette.artInk, radius = 3.2f, center = Offset(mx, my))
         }
     }
@@ -113,11 +112,10 @@ fun NebOrbitsArt(
     height: Dp = 150.dp
 ) {
     val palette = LocalNebAuthPalette.current
-    val phase by rememberNebArtPhase(18000)
     val breath by rememberNebBreathPhase(2600)
     val filled by animateFloatAsState(
         targetValue = selectedCount.coerceIn(0, nodeCount).toFloat(),
-        animationSpec = tween(NebMotion.Emphasized, easing = NebMotion.Decelerate),
+        animationSpec = nebSpatialSpec(),
         label = "neb_orbits"
     )
 
@@ -126,12 +124,11 @@ fun NebOrbitsArt(
             val center = Offset(size.width / 2f, size.height / 2f)
             val r = min(size.width, size.height) * 0.36f
 
-            nebGlow(center, r * 1.7f, palette.sapphire, 0.14f)
             nebOrbit(center, r, palette.artSoft, strokeWidth = 1.2f)
             if (filled > 0.01f) {
                 drawArc(
-                    color = palette.sapphire.copy(alpha = 0.55f),
-                    startAngle = -90f + phase * 360f,
+                    color = palette.accent.copy(alpha = 0.55f),
+                    startAngle = -90f,
                     sweepAngle = 360f * (filled / nodeCount),
                     useCenter = false,
                     topLeft = Offset(center.x - r, center.y - r),
@@ -141,12 +138,11 @@ fun NebOrbitsArt(
             }
 
             for (i in 0 until nodeCount) {
-                val angle = i * (360f / nodeCount) + phase * 360f
+                val angle = i * (360f / nodeCount)
                 val p = orbitPoint(center, r, angle)
                 val active = i < filled
-                val color = palette.sapphire
+                val color = palette.accent
                 if (active) {
-                    drawCircle(color = color.copy(alpha = 0.22f), radius = 9f, center = p)
                     drawCircle(color = color, radius = 4.6f * lerp(0.94f, 1.06f, breath), center = p)
                 } else {
                     drawCircle(color = palette.page, radius = 4.2f, center = p)
@@ -159,9 +155,9 @@ fun NebOrbitsArt(
                 }
             }
 
-            drawCircle(color = palette.sapphireSoft, radius = r * 0.34f, center = center)
+            drawCircle(color = palette.accentSoft, radius = r * 0.34f, center = center)
             drawCircle(
-                color = palette.sapphire,
+                color = palette.accent,
                 radius = r * 0.34f,
                 center = center,
                 style = Stroke(width = 1.6f)
@@ -177,7 +173,7 @@ fun NebOrbitsArt(
                 lineTo(center.x - bw, center.y + bh)
                 close()
             }
-            drawPath(book, palette.sapphire)
+            drawPath(book, palette.accent)
         }
     }
 }
@@ -197,7 +193,7 @@ fun NebProvinceArt(
     val breath by rememberNebBreathPhase(2600)
     val selected by animateFloatAsState(
         targetValue = provinceIndex.coerceAtLeast(0).toFloat(),
-        animationSpec = tween(NebMotion.Emphasized, easing = NebMotion.Decelerate),
+        animationSpec = nebSpatialSpec(),
         label = "neb_province"
     )
 
@@ -215,7 +211,7 @@ fun NebProvinceArt(
                 val barH = h * tallness * lerp(1f, 1.22f, strength)
                 val x = left + i * barW
                 drawRoundRect(
-                    color = if (strength > 0.5f) palette.sapphire else palette.artFaint,
+                    color = if (strength > 0.5f) palette.accent else palette.artFaint,
                     topLeft = Offset(x + 2f, baseline - barH),
                     size = Size(barW - 4f, barH),
                     cornerRadius = CornerRadius(6f, 6f)
@@ -250,7 +246,7 @@ fun NebProvinceArt(
                 )
                 close()
             }
-            drawPath(pin, palette.sapphire)
+            drawPath(pin, palette.accent)
             drawCircle(color = palette.page, radius = pinR * 0.38f, center = pinCenter)
 
             drawRoundRect(
@@ -278,7 +274,7 @@ fun NebCampusArt(
     val breath by rememberNebBreathPhase(3000)
     val lit by animateFloatAsState(
         targetValue = if (named) 1f else 0f,
-        animationSpec = tween(NebMotion.Slow, easing = NebMotion.Decelerate),
+        animationSpec = nebSlowSpatialSpec(),
         label = "neb_campus"
     )
 
@@ -325,7 +321,7 @@ fun NebCampusArt(
                     val index = row * winCols + col
                     val alpha = if (index < lit * winCols * winRows) 1f else 0.25f
                     drawRoundRect(
-                        color = palette.sapphire.copy(alpha = alpha * lerp(0.82f, 1f, breath)),
+                        color = palette.accent.copy(alpha = alpha * lerp(0.82f, 1f, breath)),
                         topLeft = Offset(
                             gridLeft + col * (winW + bodyW * 0.08f),
                             bodyTop + bodyH * 0.16f + row * (winH + bodyH * 0.16f)
@@ -336,7 +332,7 @@ fun NebCampusArt(
                 }
             }
             drawRoundRect(
-                color = palette.sapphire,
+                color = palette.accent,
                 topLeft = Offset(w / 2f - bodyW * 0.09f, bodyTop + bodyH * 0.62f),
                 size = Size(bodyW * 0.18f, bodyH * 0.38f),
                 cornerRadius = CornerRadius(4f, 4f)
@@ -375,7 +371,7 @@ fun NebCampusArt(
 /**
  * The frame a face goes in. An aperture of neutral blades around an empty ring
  * while there is no photo; once there is one, the blades retract and the ring
- * closes in sapphire.
+ * closes in accent.
  */
 @Composable
 fun NebApertureArt(
@@ -384,11 +380,10 @@ fun NebApertureArt(
     height: Dp = 150.dp
 ) {
     val palette = LocalNebAuthPalette.current
-    val phase by rememberNebArtPhase(20000)
     val breath by rememberNebBreathPhase(2800)
     val closed by animateFloatAsState(
         targetValue = if (hasPhoto) 1f else 0f,
-        animationSpec = tween(NebMotion.Slow, easing = NebMotion.Decelerate),
+        animationSpec = nebSlowSpatialSpec(),
         label = "neb_aperture"
     )
 
@@ -397,11 +392,10 @@ fun NebApertureArt(
             val center = Offset(size.width / 2f, size.height / 2f)
             val r = min(size.width, size.height) * 0.30f
 
-            nebGlow(center, r * 2.3f, palette.sapphire, if (hasPhoto) 0.18f else 0.10f)
 
             val tones = palette.artTones
             for (i in 0 until 6) {
-                val angle = i * 60f + phase * 360f
+                val angle = i * 60f
                 val dist = r * lerp(1.62f, 1.18f, closed)
                 val p = orbitPoint(center, dist, angle)
                 val blade = Path().apply {
@@ -416,7 +410,7 @@ fun NebApertureArt(
             }
 
             drawCircle(
-                color = if (hasPhoto) palette.sapphire else palette.artMid,
+                color = if (hasPhoto) palette.accent else palette.artMid,
                 radius = r * lerp(1f, 1.03f, breath),
                 center = center,
                 style = Stroke(width = r * 0.10f)
@@ -425,7 +419,7 @@ fun NebApertureArt(
 
             val headR = r * 0.26f
             val headCenter = Offset(center.x, center.y - r * 0.20f)
-            val figureColor = if (hasPhoto) palette.sapphire else palette.artMid
+            val figureColor = if (hasPhoto) palette.accent else palette.artMid
             drawCircle(color = figureColor.copy(alpha = 0.85f), radius = headR, center = headCenter)
             val shoulders = Path().apply {
                 moveTo(center.x - r * 0.46f, center.y + r * 0.58f)

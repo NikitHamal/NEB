@@ -98,7 +98,7 @@ ksp {
 
 dependencies {
     // Compose BOM
-    val composeBom = platform("androidx.compose:compose-bom:2024.12.01")
+    val composeBom = platform("androidx.compose:compose-bom:2025.10.00")
     implementation(composeBom)
     androidTestImplementation(composeBom)
 
@@ -111,8 +111,8 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
 
     // Material 3
-    implementation("androidx.compose.material3:material3")
-    implementation("androidx.compose.material:material-icons-extended")
+    implementation("androidx.compose.material3:material3:1.5.0-alpha10")
+    implementation("androidx.compose.material:material-icons-extended:1.7.8")
 
 // Activity Compose
     implementation("androidx.activity:activity-compose:1.9.3")

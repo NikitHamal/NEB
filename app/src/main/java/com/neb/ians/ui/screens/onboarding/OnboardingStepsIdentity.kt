@@ -13,7 +13,6 @@ import androidx.compose.material.icons.outlined.AlternateEmail
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.PersonOutline
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,10 +21,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.neb.ians.ui.components.NebLoadingIndicator
 import com.neb.ians.ui.components.NebArtSlot
 import com.neb.ians.ui.components.NebAuthField
 import com.neb.ians.ui.components.NebAuthType
-import com.neb.ians.ui.components.NebChoiceRow
+import com.neb.ians.ui.components.NebGlyphTile
+import com.neb.ians.ui.components.NebSegmentedChoice
+import com.neb.ians.ui.components.NebShapes
 import com.neb.ians.ui.components.NebDateWheel
 import com.neb.ians.ui.components.NebDotTile
 import com.neb.ians.ui.components.NebOptionCard
@@ -71,7 +73,7 @@ fun WelcomeStep() {
                     .height(56.dp),
                 verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
             ) {
-                NebDotTile(color = palette.sapphire)
+                NebDotTile(color = palette.accent)
                 Spacer(modifier = Modifier.width(14.dp))
                 Column {
                     Text(text = title, style = NebAuthType.Body, color = palette.ink)
@@ -84,6 +86,7 @@ fun WelcomeStep() {
 
 @Composable
 fun RoleStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewModel) {
+    val palette = LocalNebAuthPalette.current
     val selectedIndex = NEB_ROLES.indexOfFirst { it.key == state.role }
     Column(modifier = Modifier.fillMaxWidth()) {
         NebArtSlot { NebPathsArt(selectedIndex = selectedIndex, pathCount = NEB_ROLES.size) }
@@ -94,12 +97,23 @@ fun RoleStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewModel)
         )
         Spacer(modifier = Modifier.height(22.dp))
         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            NEB_ROLES.forEach { role ->
+            NEB_ROLES.forEachIndexed { index, role ->
+                val selected = state.role == role.key
                 NebOptionCard(
                     title = role.title,
                     subtitle = role.subtitle,
-                    selected = state.role == role.key,
-                    onClick = { viewModel.onRoleChange(role.key) }
+                    selected = selected,
+                    onClick = { viewModel.onRoleChange(role.key) },
+                    leading = {
+                        NebGlyphTile(selected = selected, polygon = NebShapes.option(index)) {
+                            Icon(
+                                imageVector = role.icon,
+                                contentDescription = null,
+                                tint = if (selected) palette.accent else palette.inkMuted,
+                                modifier = Modifier.size(20.dp)
+                            )
+                        }
+                    }
                 )
             }
         }
@@ -168,10 +182,9 @@ fun HandleStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewMode
             helperTone = if (state.usernameAvailable == true) palette.success else null,
             trailing = {
                 when {
-                    state.isCheckingUsername -> CircularProgressIndicator(
-                        modifier = Modifier.size(18.dp),
-                        color = palette.sapphire,
-                        strokeWidth = 2.dp
+                    state.isCheckingUsername -> NebLoadingIndicator(
+                        modifier = Modifier.size(22.dp),
+                        color = palette.accent
                     )
                     state.usernameAvailable == true -> Icon(
                         imageVector = Icons.Outlined.Check,
@@ -228,8 +241,8 @@ fun GenderStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewMode
             subtitle = "Optional detail for your profile. Pick whichever fits."
         )
         Spacer(modifier = Modifier.height(22.dp))
-        NebChoiceRow(
-            options = NEB_GENDERS,
+        NebSegmentedChoice(
+            segments = NEB_GENDER_SEGMENTS,
             selected = state.gender,
             onSelect = viewModel::onGenderChange
         )

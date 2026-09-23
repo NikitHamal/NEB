@@ -5,7 +5,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
@@ -33,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.neb.ians.ui.components.NebAuthTopBar
@@ -44,6 +45,9 @@ import com.neb.ians.ui.components.nebKeyboardOpen
 import com.neb.ians.ui.screens.auth.CompleteProfileViewModel
 import com.neb.ians.ui.theme.NebAuthTokens
 import com.neb.ians.ui.theme.NebMotion
+import com.neb.ians.ui.theme.nebEffectsSpec
+import com.neb.ians.ui.theme.nebFastEffectsSpec
+import com.neb.ians.ui.theme.nebSpatialSpec
 
 /**
  * Profile creation, one question at a time. Every step owns the whole screen: an
@@ -113,9 +117,11 @@ fun OnboardingScreen(
             progress = (safeIndex + 1).toFloat() / steps.size
         )
 
+        val stepSlide = nebSpatialSpec<IntOffset>()
+        val stepFade = nebEffectsSpec<Float>()
         AnimatedContent(
             targetState = step,
-            transitionSpec = { stepTransition(movingForward) },
+            transitionSpec = { stepTransition(movingForward, stepSlide, stepFade) },
             label = "neb_onboarding_step",
             modifier = Modifier
                 .fillMaxWidth()
@@ -148,8 +154,8 @@ fun OnboardingScreen(
 
             AnimatedVisibility(
                 visible = uiState.submissionError != null,
-                enter = fadeIn(tween(NebMotion.Short)),
-                exit = fadeOut(tween(NebMotion.Instant))
+                enter = fadeIn(nebFastEffectsSpec()),
+                exit = fadeOut(nebFastEffectsSpec())
             ) {
                 Spacer(modifier = Modifier.height(12.dp))
             }
@@ -169,8 +175,8 @@ fun OnboardingScreen(
 
             AnimatedVisibility(
                 visible = isStepSkippable(step) && !keyboardOpen,
-                enter = fadeIn(tween(NebMotion.Standard)),
-                exit = fadeOut(tween(NebMotion.Instant))
+                enter = fadeIn(nebEffectsSpec()),
+                exit = fadeOut(nebEffectsSpec())
             ) {
                 Box(
                     modifier = Modifier
@@ -189,19 +195,27 @@ fun OnboardingScreen(
     }
 }
 
-/** Steps travel sideways: forward slides in from the right, back from the left. */
-private fun stepTransition(forward: Boolean) =
-    (slideInHorizontally(
-        animationSpec = tween(NebMotion.Emphasized, easing = NebMotion.Decelerate),
-        initialOffsetX = { full ->
+/**
+ * Steps travel sideways: forward slides in from the right, back from the left.
+ * The slide runs on a spatial spring so an impatient second tap retargets from
+ * wherever the step currently is instead of restarting it; the crossfade runs on
+ * a critically damped effects spring, because opacity must not overshoot.
+ */
+private fun stepTransition(
+    forward: Boolean,
+    slide: FiniteAnimationSpec<IntOffset>,
+    fade: FiniteAnimationSpec<Float>
+) = (slideInHorizontally(
+    animationSpec = slide,
+    initialOffsetX = { full ->
+        val offset = (full * NebMotion.StepSlideFraction).toInt()
+        if (forward) offset else -offset
+    }
+) + fadeIn(fade)) togetherWith
+    (slideOutHorizontally(
+        animationSpec = slide,
+        targetOffsetX = { full ->
             val offset = (full * NebMotion.StepSlideFraction).toInt()
-            if (forward) offset else -offset
+            if (forward) -offset else offset
         }
-    ) + fadeIn(tween(NebMotion.Standard))) togetherWith
-        (slideOutHorizontally(
-            animationSpec = tween(NebMotion.Standard, easing = NebMotion.Accelerate),
-            targetOffsetX = { full ->
-                val offset = (full * NebMotion.StepSlideFraction).toInt()
-                if (forward) -offset else offset
-            }
-        ) + fadeOut(tween(NebMotion.Quick)))
+    ) + fadeOut(fade))

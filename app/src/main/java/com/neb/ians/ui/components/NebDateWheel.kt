@@ -99,7 +99,7 @@ fun NebDateWheel(
                 .fillMaxWidth()
                 .height(itemHeight)
                 .clip(RoundedCornerShape(14.dp))
-                .background(palette.sapphireSoft)
+                .background(palette.accentSoft)
         )
 
         Row(
@@ -212,7 +212,7 @@ private fun NebWheelColumn(
                         fontSize = 17.sp,
                         fontWeight = if (distance < 0.5f) FontWeight.SemiBold else FontWeight.Medium
                     ),
-                    color = if (distance < 0.5f) palette.sapphire else palette.inkMuted,
+                    color = if (distance < 0.5f) palette.accent else palette.inkMuted,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(horizontal = 2.dp)
                 )
