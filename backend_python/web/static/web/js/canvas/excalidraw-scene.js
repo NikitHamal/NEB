@@ -1,25 +1,90 @@
 window.NebScene = (function () {
-  var CARD_W = 340;
+  var CARD_W = 360;
   var FONT = 6;
-  var EDGE_COLOR = "#9aa7bd";
+  var FONT_PX = 18;
+  var EDGE_COLOR = "#8fa0b8";
+  var CARD_BG = "#ffffff";
+  var CARD_INK = "#1e293b";
 
-  var KIND_STYLE = {
-    ai: { stroke: "#1d4ed8", bg: "#dbeafe" },
-    note: { stroke: "#b45309", bg: "#fef3c7" },
-    question: { stroke: "#7c3aed", bg: "#ede9fe" },
-    source: { stroke: "#0f766e", bg: "#ccfbf1" },
-    comparison: { stroke: "#be185d", bg: "#fce7f3" },
-    practice: { stroke: "#15803d", bg: "#dcfce7" },
-    summary: { stroke: "#334155", bg: "#f1f5f9" },
-    task: { stroke: "#c2410c", bg: "#ffedd5" },
-    decision: { stroke: "#6d28d9", bg: "#ede9fe" },
-    warning: { stroke: "#dc2626", bg: "#fee2e2" },
+  var KIND_STROKE = {
+    ai: "#1d4ed8", note: "#b45309", question: "#7c3aed", source: "#0f766e",
+    comparison: "#be185d", practice: "#15803d", summary: "#475569", task: "#c2410c",
+    decision: "#6d28d9", warning: "#dc2626",
   };
 
-  var META_BG = {
-    blue: "#dbeafe", green: "#dcfce7", amber: "#fef3c7",
-    rose: "#ffe4e6", purple: "#ede9fe", slate: "#f1f5f9", default: "",
-  };
+  var measureCtx = null;
+  function measurer() {
+    if (!measureCtx) {
+      try { measureCtx = document.createElement("canvas").getContext("2d"); } catch (e) { measureCtx = null; }
+    }
+    return measureCtx;
+  }
+
+  function stripMd(s) {
+    return String(s === undefined || s === null ? "" : s)
+      .replace(/!\[([^\]]*)\]\([^)]+\)/g, "$1")
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+      .replace(/(\*\*|__)(.*?)\1/g, "$2")
+      .replace(/(^|\s)[*_]([^*_]+)[*_](\s|$)/g, "$1$2$3")
+      .replace(/`([^`]+)`/g, "$1")
+      .replace(/^#{1,6}\s+/gm, "")
+      .replace(/^>\s?/gm, "")
+      .replace(/^\s*[-*+]\s+/gm, "• ")
+      .replace(/^\s*\d+[.)]\s+/gm, "")
+      .replace(/\r/g, "")
+      .replace(/[ \t]+/g, " ")
+      .replace(/\n{3,}/g, "\n\n")
+      .trim();
+  }
+
+  function wrapLines(text, maxWidth) {
+    var ctx = measurer();
+    var out = [];
+    String(text).split("\n").forEach(function (para) {
+      if (!para.trim()) { out.push(""); return; }
+      if (!ctx) {
+        var approx = Math.max(12, Math.floor(maxWidth / (FONT_PX * 0.52)));
+        for (var i = 0; i < para.length; i += approx) out.push(para.slice(i, i + approx));
+        return;
+      }
+      ctx.font = FONT_PX + 'px Poppins, sans-serif';
+      var words = para.split(/\s+/);
+      var line = "";
+      words.forEach(function (w) {
+        var trial = line ? line + " " + w : w;
+        if (ctx.measureText(trial).width > maxWidth && line) {
+          out.push(line);
+          line = w;
+        } else {
+          line = trial;
+        }
+      });
+      if (line) out.push(line);
+    });
+    return out;
+  }
+
+  function cardText(node) {
+    var title = stripMd(node.title || node.prompt || "Untitled").slice(0, 120);
+    var content = node.content || {};
+    var summary = stripMd(content.summary || node.prompt || "").slice(0, 500);
+    if (summary === title) summary = "";
+    return { title: title || "Untitled", summary: summary };
+  }
+
+  function layoutCard(title, summary) {
+    var inner = CARD_W - 64;
+    var titleLines = wrapLines(title, inner).slice(0, 2);
+    var bodyLines = [];
+    if (summary) {
+      bodyLines = wrapLines(summary, inner).slice(0, 9);
+      if (wrapLines(summary, inner).length > 9) bodyLines[bodyLines.length - 1] += " …";
+    }
+    var h = 30 + titleLines.length * 27 + (bodyLines.length ? 12 + bodyLines.length * 24 : 0) + 26;
+    h = Math.min(520, Math.max(180, h));
+    var text = titleLines.join("\n") + (bodyLines.length ? "\n\n" + bodyLines.join("\n") : "");
+    return { h: h, text: text };
+  }
 
   function hashSeed(s) {
     var h = 2166136261;
@@ -43,79 +108,63 @@ window.NebScene = (function () {
     };
   }
 
-  function styleFor(node) {
-    var meta = node.meta || {};
-    var st = KIND_STYLE[node.kind] || KIND_STYLE.ai;
-    var bg = META_BG[meta.color] || st.bg;
-    return { stroke: st.stroke, bg: bg };
-  }
-
-  function cardText(node) {
-    var title = String(node.title || node.prompt || "Untitled").slice(0, 140);
-    var content = node.content || {};
-    var summary = String(content.summary || "").slice(0, 420);
-    if (!summary && typeof node.prompt === "string") summary = node.prompt.slice(0, 420);
-    return summary ? title + "\n\n" + summary : title;
-  }
-
-  function estimateHeight(text) {
-    var lines = String(text).split("\n");
-    var rows = 0;
-    lines.forEach(function (ln, i) {
-      rows += Math.max(1, Math.ceil(ln.length / (i === 0 ? 26 : 34)));
-    });
-    return Math.min(460, Math.max(170, 56 + rows * 24));
-  }
-
   function nodeRect(node, idx) {
-    var st = styleFor(node);
-    var text = cardText(node);
-    var h = estimateHeight(text);
+    var parts = cardText(node);
+    var laid = layoutCard(parts.title, parts.summary);
     var x = Number(node.x) || 0;
     var y = Number(node.y) || 0;
     var rect = base(String(node.id), "rectangle", x, y, idx);
     rect.width = CARD_W;
-    rect.height = h;
-    rect.strokeColor = st.stroke;
-    rect.backgroundColor = st.bg;
-    rect.strokeWidth = 2.5;
+    rect.height = laid.h;
+    rect.strokeColor = KIND_STROKE[node.kind] || KIND_STROKE.ai;
+    rect.backgroundColor = CARD_BG;
+    rect.strokeWidth = 3;
     rect.customData = { neb: "node", id: String(node.id) };
-    var label = base(String(node.id) + ":t", "text", x, y, idx + "t");
-    label.width = CARD_W - 48;
-    label.height = h - 48;
-    label.strokeColor = "#1e1e1e";
+    var label = base(String(node.id) + ":t", "text", x + 32, y + 30, idx + "t");
+    label.width = CARD_W - 64;
+    label.height = laid.h - 60;
+    label.strokeColor = CARD_INK;
     label.backgroundColor = "transparent";
-    label.fontSize = 18;
+    label.fontSize = FONT_PX;
     label.fontFamily = FONT;
     label.textAlign = "left";
     label.verticalAlign = "top";
-    label.text = text;
-    label.originalText = text;
+    label.text = laid.text;
+    label.originalText = laid.text;
     label.autoResize = false;
-    label.lineHeight = 1.25;
+    label.lineHeight = 1.3;
     label.containerId = rect.id;
     label.customData = { neb: "node", id: String(node.id) };
     rect.boundElements = [{ type: "text", id: label.id }];
-    return { rect: rect, label: label, h: h };
+    return { rect: rect, label: label, h: laid.h };
   }
 
   function nodeEdge(node, pos) {
     if (!node.parentId || !pos[node.parentId] || !pos[node.id]) return null;
     var p = pos[node.parentId];
     var c = pos[node.id];
-    var x1 = p.x + CARD_W / 2;
-    var y1 = p.y + p.h;
-    var x2 = c.x + CARD_W / 2;
-    var y2 = c.y;
-    if (c.y < p.y) { y1 = p.y; y2 = c.y + c.h; }
+    var x1, y1, x2, y2;
+    if (c.y >= p.y + p.h - 60) {
+      x1 = p.x + CARD_W / 2; y1 = p.y + p.h;
+      x2 = c.x + CARD_W / 2; y2 = c.y;
+    } else if (c.y + c.h <= p.y + 60) {
+      x1 = p.x + CARD_W / 2; y1 = p.y;
+      x2 = c.x + CARD_W / 2; y2 = c.y + c.h;
+    } else if (c.x >= p.x + CARD_W - 60) {
+      x1 = p.x + CARD_W; y1 = p.y + p.h / 2;
+      x2 = c.x; y2 = c.y + c.h / 2;
+    } else {
+      x1 = p.x; y1 = p.y + p.h / 2;
+      x2 = c.x + CARD_W; y2 = c.y + c.h / 2;
+    }
     var edge = base("e" + String(node.id), "arrow", x1, y1, "e" + pos[node.id].idx);
     edge.width = Math.abs(x2 - x1) || 1;
     edge.height = Math.abs(y2 - y1) || 1;
     edge.points = [[0, 0], [x2 - x1, y2 - y1]];
     edge.strokeColor = EDGE_COLOR;
     edge.strokeWidth = 2;
-    edge.startBinding = { elementId: String(node.parentId), focus: 0, gap: 8 };
-    edge.endBinding = { elementId: String(node.id), focus: 0, gap: 8 };
+    edge.startBinding = { elementId: String(node.parentId), focus: 0, gap: 10 };
+    edge.endBinding = { elementId: String(node.id), focus: 0, gap: 10 };
     edge.startArrowhead = null;
     edge.endArrowhead = "arrow";
     edge.elbowed = false;
@@ -280,6 +329,6 @@ window.NebScene = (function () {
       return [built.rect, built.label];
     },
     sceneToPersist: sceneToPersist,
-    cardSize: function (text) { return { w: CARD_W, h: estimateHeight(text) }; },
+    cardSize: function (text) { return { w: CARD_W, h: layoutCard("", text || "").h }; },
   };
 })();

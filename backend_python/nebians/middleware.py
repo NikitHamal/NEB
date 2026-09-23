@@ -379,7 +379,7 @@ class SecurityHeadersMiddleware:
 
         request.csp_nonce = secrets.token_urlsafe(16)
         response = self.get_response(request)
-        response.setdefault('Permissions-Policy', 'geolocation=(), microphone=(self), camera=(), payment=()')
+        response.setdefault('Permissions-Policy', 'geolocation=(), microphone=(self), camera=(), payment=(), unload=(self)')
         response.setdefault('Cross-Origin-Opener-Policy', 'same-origin-allow-popups')
         response.setdefault('X-Permitted-Cross-Domain-Policies', 'none')
         response.setdefault('X-Content-Type-Options', 'nosniff')
