@@ -4,42 +4,30 @@ import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.neb.ians.R
 import com.neb.ians.data.repository.AuthRepository
-import com.neb.ians.data.repository.EmailAuthResult
-import kotlinx.coroutines.launch
+import com.neb.ians.ui.theme.Poppins
+import com.neb.ians.util.HideStatusBarEffect
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
     authRepository: AuthRepository,
@@ -49,32 +37,24 @@ fun LoginScreen(
     onNavigateToForgotPassword: (email: String) -> Unit,
     onNavigateToVerification: (email: String) -> Unit
 ) {
+    // Hide status bar on auth screen as requested
+    HideStatusBarEffect()
+
     val context = LocalContext.current
-    val scope = rememberCoroutineScope()
+    // Auth screen is consistently displayed in light mode
+    val isDark = false
 
-    var emailOrUsername by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var passwordVisible by remember { mutableStateOf(false) }
     var isLoading by remember { mutableStateOf(false) }
+    var loadingProvider by remember { mutableStateOf<String?>(null) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
-
-    // Dynamic luminance-based theme check to prevent mismatched dark/light modes
-    val isDark = MaterialTheme.colorScheme.background.luminance() < 0.5f
-
-    val bgGradient = if (isDark) {
-        Brush.linearGradient(listOf(Color(0xFF0A0A0C), Color(0xFF16161A)))
-    } else {
-        Brush.linearGradient(listOf(Color(0xFFF5F6FA), Color(0xFFEBEEF5)))
-    }
-
-    val cardColor = if (isDark) Color(0xFF131316) else Color(0xFFFFFFFF)
-    val inputBg = if (isDark) Color(0xFF1C1C20) else Color(0xFFFFFFFF)
-    val inputBorder = if (isDark) Color(0xFF2A2A30) else Color(0xFFE5E7EB)
-    val webPrimary = Color(0xFF004AC6)
-
-    val isFormValid = emailOrUsername.isNotBlank() && password.length >= 8
+    var isEmailSheetOpen by remember { mutableStateOf(false) }
+    var activeLegalSheet by remember { mutableStateOf<LegalSheetType?>(null) }
 
     fun launchOAuth(provider: String) {
+        isLoading = true
+        loadingProvider = provider
+        errorMessage = null
+
         val url = if (provider == "google") {
             "https://nebians.consica.com.np/auth/google/login/?state=mobile_google"
         } else {
@@ -86,308 +66,156 @@ fun LoginScreen(
             customTabsIntent.launchUrl(context, Uri.parse(url))
         } catch (e: Exception) {
             errorMessage = "No browser available for sign-in."
+        } finally {
+            isLoading = false
+            loadingProvider = null
         }
     }
 
-    Box(
+    val screenBgColor = if (isDark) Color(0xFF0F172A) else Color(0xFFFFFFFF)
+    val brandBlue = Color(0xFF2563EB)
+    val titleTextColor = if (isDark) Color(0xFFF8FAFC) else Color(0xFF0F172A)
+    val subtitleTextColor = if (isDark) Color(0xFF94A3B8) else Color(0xFF64748B)
+
+    BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
-            .background(cardColor)
-            .statusBarsPadding()
+            .background(screenBgColor)
             .navigationBarsPadding()
-            .imePadding(),
-        contentAlignment = Alignment.TopCenter
     ) {
+        val screenHeight = maxHeight
+        val heroHeight = (screenHeight * 0.48f).coerceIn(280.dp, 440.dp)
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
-                .padding(horizontal = 24.dp, vertical = 32.dp),
+                .padding(bottom = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = "Welcome Back",
-                style = MaterialTheme.typography.headlineMedium,
-                fontWeight = FontWeight.Bold,
-                color = if (isDark) Color(0xFFE5EEFF) else Color(0xFF0B1C30),
-                textAlign = TextAlign.Center
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Text(
-                text = "Enter your email and password to access your account.",
-                fontSize = 14.sp,
-                color = if (isDark) Color(0xFFC3C6D7) else Color(0xFF434655),
-                textAlign = TextAlign.Center
-            )
-
-            if (errorMessage != null) {
-                Spacer(modifier = Modifier.height(16.dp))
-                Text(
-                    text = errorMessage!!,
-                    fontSize = 13.sp,
-                    color = MaterialTheme.colorScheme.error,
-                    textAlign = TextAlign.Center
-                )
-            }
-
-            Spacer(modifier = Modifier.height(28.dp))
-
-            // Username or Email label + field
-            Column(modifier = Modifier.fillMaxWidth()) {
-                Text(
-                    text = "Username or email",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = if (isDark) Color(0xFFE5EEFF) else Color(0xFF0B1C30)
-                )
-                Spacer(modifier = Modifier.height(6.dp))
-                 OutlinedTextField(
-                    value = emailOrUsername,
-                    onValueChange = { emailOrUsername = it.trim() },
-                    placeholder = { Text("username or hello@example.com", color = if (isDark) Color(0xFF6B7280) else Color(0xFF9CA3AF), maxLines = 1, overflow = TextOverflow.Ellipsis) },
-                    singleLine = true,
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(10.dp),
-                    colors = OutlinedTextFieldDefaults.colors(
-                        unfocusedContainerColor = inputBg,
-                        focusedContainerColor = inputBg,
-                        unfocusedBorderColor = inputBorder,
-                        focusedBorderColor = webPrimary,
-                        unfocusedTextColor = if (isDark) Color(0xFFE5EEFF) else Color(0xFF0B1C30),
-                        focusedTextColor = if (isDark) Color(0xFFE5EEFF) else Color(0xFF0B1C30)
-                    ),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
-                )
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Password label + field
-            Column(modifier = Modifier.fillMaxWidth()) {
-                Text(
-                    text = "Password",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = if (isDark) Color(0xFFE5EEFF) else Color(0xFF0B1C30)
-                )
-                Spacer(modifier = Modifier.height(6.dp))
-                OutlinedTextField(
-                    value = password,
-                    onValueChange = { password = it },
-                    placeholder = { Text("••••••••", color = if (isDark) Color(0xFF6B7280) else Color(0xFF9CA3AF), maxLines = 1, overflow = TextOverflow.Ellipsis) },
-                    trailingIcon = {
-                        IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                            Icon(
-                                imageVector = if (passwordVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility,
-                                contentDescription = null,
-                                tint = if (isDark) Color(0xFF8D90A1) else Color(0xFF737686)
-                            )
-                        }
-                    },
-                    singleLine = true,
-                    visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(10.dp),
-                    colors = OutlinedTextFieldDefaults.colors(
-                        unfocusedContainerColor = inputBg,
-                        focusedContainerColor = inputBg,
-                        unfocusedBorderColor = inputBorder,
-                        focusedBorderColor = webPrimary,
-                        unfocusedTextColor = if (isDark) Color(0xFFE5EEFF) else Color(0xFF0B1C30),
-                        focusedTextColor = if (isDark) Color(0xFFE5EEFF) else Color(0xFF0B1C30)
-                    ),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
-                )
-            }
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // Forgot password? Link
-            Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd) {
-                Text(
-                    text = "Forgot password?",
-                    fontSize = 14.sp,
-                    color = webPrimary,
-                    fontWeight = FontWeight.Medium,
-                    modifier = Modifier.clickable {
-                        onNavigateToForgotPassword(emailOrUsername)
-                    }
-                )
-            }
-
-            Spacer(modifier = Modifier.height(20.dp))
-
-            // Log In Button
-            Button(
-                onClick = {
-                    scope.launch {
-                        isLoading = true
-                        errorMessage = null
-                        when (val result = authRepository.emailLogin(emailOrUsername, password)) {
-                            is EmailAuthResult.LoginSuccess -> {
-                                if (result.isNewUser) {
-                                    onNavigateToCompleteProfile()
-                                } else {
-                                    onNavigateToHome()
-                                }
-                            }
-                            is EmailAuthResult.Failure -> {
-                                if (result.message.contains("verify your email", ignoreCase = true)) {
-                                    // If verification is needed, trigger verification view
-                                    onNavigateToVerification(emailOrUsername)
-                                } else {
-                                    errorMessage = result.message
-                                }
-                            }
-                            else -> {
-                                errorMessage = "Unexpected error occurred."
-                            }
-                        }
-                        isLoading = false
-                    }
-                },
-                enabled = isFormValid && !isLoading,
+            // 1. Top Hero Image (Exact artwork from uploaded image, zero animations, no logo/header)
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(48.dp),
-                shape = RoundedCornerShape(10.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = webPrimary,
-                    contentColor = Color.White,
-                    disabledContainerColor = webPrimary.copy(alpha = 0.5f),
-                    disabledContentColor = Color.White.copy(alpha = 0.5f)
-                )
+                    .height(heroHeight)
             ) {
-                if (isLoading) {
-                    CircularProgressIndicator(color = Color.White, modifier = Modifier.size(24.dp))
-                } else {
-                    Text(
-                        text = "Log In",
-                        style = MaterialTheme.typography.labelLarge,
+                Image(
+                    painter = painterResource(id = R.drawable.auth_hero_sky),
+                    contentDescription = "Open Book in Sky",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize()
+                )
+
+                // Seamless gradient fade from image to screen background
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(110.dp)
+                        .align(Alignment.BottomCenter)
+                        .background(
+                            Brush.verticalGradient(
+                                colors = listOf(
+                                    Color.Transparent,
+                                    screenBgColor.copy(alpha = 0.45f),
+                                    screenBgColor.copy(alpha = 0.85f),
+                                    screenBgColor
+                                )
+                            )
+                        )
+                )
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            // 2. "Welcome to NEBians" (Poppins 600 bold, blue "NEBians")
+            val welcomeText = buildAnnotatedString {
+                append("Welcome to ")
+                val startBrand = length
+                append("NEBians")
+                val endBrand = length
+                addStyle(
+                    style = SpanStyle(
+                        color = brandBlue,
                         fontWeight = FontWeight.SemiBold
-                    )
-                }
+                    ),
+                    start = startBrand,
+                    end = endBrand
+                )
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Text(
+                text = welcomeText,
+                fontFamily = Poppins,
+                fontWeight = FontWeight.SemiBold, // Poppins 600
+                fontSize = 27.sp,
+                letterSpacing = (-0.4).sp,
+                color = titleTextColor,
+                textAlign = TextAlign.Center
+            )
 
-            // "Or login with" Divider
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                HorizontalDivider(
-                    modifier = Modifier.weight(1f),
-                    color = if (isDark) Color(0xFF2A2A30) else Color(0xFFE5E7EB)
-                )
+            Spacer(modifier = Modifier.height(10.dp))
+
+            // Subtitle in Poppins 500
+            Text(
+                text = "The open learning community for Nepal. Connect, learn, share study materials, and explore together.",
+                fontFamily = Poppins,
+                fontWeight = FontWeight.Medium, // Poppins 500
+                fontSize = 14.5.sp,
+                lineHeight = 21.sp,
+                color = subtitleTextColor,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(horizontal = 32.dp)
+            )
+
+            if (!errorMessage.isNullOrBlank()) {
+                Spacer(modifier = Modifier.height(12.dp))
                 Text(
-                    text = "  Or login with  ",
+                    text = errorMessage ?: "",
+                    fontFamily = Poppins,
+                    fontWeight = FontWeight.Medium,
                     fontSize = 13.sp,
-                    color = if (isDark) Color(0xFF8D90A1) else Color(0xFF737686)
+                    color = MaterialTheme.colorScheme.error,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(horizontal = 24.dp)
                 )
-                HorizontalDivider(
-                    modifier = Modifier.weight(1f),
-                    color = if (isDark) Color(0xFF2A2A30) else Color(0xFFE5E7EB)
-                )
-            }
-
-            Spacer(modifier = Modifier.height(20.dp))
-
-            // Social Row (Google, GitHub side-by-side)
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                // Google OAuth Button
-                Button(
-                    onClick = {
-                        errorMessage = null
-                        launchOAuth("google")
-                    },
-                    modifier = Modifier
-                        .weight(1f)
-                        .height(48.dp),
-                    contentPadding = PaddingValues(horizontal = 8.dp),
-                    shape = RoundedCornerShape(10.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = if (isDark) Color(0xFF1C1C20) else Color(0xFFFFFFFF),
-                        contentColor = if (isDark) Color(0xFFE5EEFF) else Color(0xFF0B1C30)
-                    ),
-                    border = androidx.compose.foundation.BorderStroke(
-                        1.dp,
-                        if (isDark) Color(0xFF2A2A30) else Color(0xFFE5E7EB)
-                    )
-                ) {
-                    Image(
-                        painter = painterResource(id = com.neb.ians.R.drawable.ic_google),
-                        contentDescription = "Google Logo",
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = "Google",
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Medium
-                    )
-                }
-
-                // GitHub OAuth Button
-                Button(
-                    onClick = {
-                        errorMessage = null
-                        launchOAuth("github")
-                    },
-                    modifier = Modifier
-                        .weight(1f)
-                        .height(48.dp),
-                    contentPadding = PaddingValues(horizontal = 8.dp),
-                    shape = RoundedCornerShape(10.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = if (isDark) Color(0xFF1C1C20) else Color(0xFFFFFFFF),
-                        contentColor = if (isDark) Color(0xFFE5EEFF) else Color(0xFF0B1C30)
-                    ),
-                    border = androidx.compose.foundation.BorderStroke(
-                        1.dp,
-                        if (isDark) Color(0xFF2A2A30) else Color(0xFFE5E7EB)
-                    )
-                ) {
-                    Icon(
-                        painter = painterResource(id = com.neb.ians.R.drawable.ic_github),
-                        contentDescription = "GitHub Logo",
-                        tint = if (isDark) Color.White else Color.Black,
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = "GitHub",
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Medium
-                    )
-                }
             }
 
             Spacer(modifier = Modifier.height(28.dp))
 
-            // Footer (Register link)
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(
-                    text = buildAnnotatedString {
-                        append("Don't have an account? ")
-                        withStyle(SpanStyle(color = webPrimary, fontWeight = FontWeight.SemiBold)) {
-                            append("Register now.")
-                        }
-                    },
-                    fontSize = 14.sp,
-                    color = if (isDark) Color(0xFFC3C6D7) else Color(0xFF434655),
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.clickable { onNavigateToEmailSignup() }
-                )
-            }
+            // 3. Action Buttons (Google, GitHub, Email, Terms - Poppins 600/500, no shadows)
+            AuthActionButtons(
+                isDark = isDark,
+                isLoading = isLoading,
+                loadingProvider = loadingProvider,
+                onGoogleClick = { launchOAuth("google") },
+                onGitHubClick = { launchOAuth("github") },
+                onEmailClick = { isEmailSheetOpen = true },
+                onTermsClick = { activeLegalSheet = LegalSheetType.TERMS },
+                onPrivacyClick = { activeLegalSheet = LegalSheetType.PRIVACY }
+            )
         }
+
+        // Email Sign-In & Quick Register Bottom Sheet
+        AuthEmailSheet(
+            isOpen = isEmailSheetOpen,
+            onDismiss = { isEmailSheetOpen = false },
+            isDark = isDark,
+            authRepository = authRepository,
+            onNavigateToHome = onNavigateToHome,
+            onNavigateToCompleteProfile = onNavigateToCompleteProfile,
+            onNavigateToForgotPassword = onNavigateToForgotPassword,
+            onNavigateToVerification = onNavigateToVerification,
+            onNavigateToFullSignup = {
+                isEmailSheetOpen = false
+                onNavigateToEmailSignup()
+            }
+        )
+
+        // Terms of Service & Privacy Policy Bottom Sheet
+        AuthLegalSheet(
+            sheetType = activeLegalSheet,
+            onDismiss = { activeLegalSheet = null },
+            isDark = isDark
+        )
     }
 }

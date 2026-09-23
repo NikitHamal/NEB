@@ -42,6 +42,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.neb.ians.data.news.NewsAnnouncement
 import com.neb.ians.data.news.toSafeColor
+import com.neb.ians.ui.components.CompactNewsCard
 import com.neb.ians.ui.components.WebPillShape
 
 @Composable
@@ -56,7 +57,7 @@ fun HomeNewsSection(
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(10.dp)) {
         HomeSectionTitle(
             title = "News & updates",
-            actionLabel = "View all",
+            actionLabel = "See All",
             onActionClick = onViewAllClick
         )
         LazyRow(
@@ -64,10 +65,9 @@ fun HomeNewsSection(
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             items(items.take(5), key = { it.id }) { news ->
-                HomeNewsCard(
+                CompactNewsCard(
                     item = news,
-                    onClick = { onNewsClick(news) },
-                    modifier = Modifier.fillParentMaxWidth(0.78f)
+                    onClick = { onNewsClick(news) }
                 )
             }
         }

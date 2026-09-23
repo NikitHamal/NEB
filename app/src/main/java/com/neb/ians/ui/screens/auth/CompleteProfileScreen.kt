@@ -98,6 +98,19 @@ fun CompleteProfileScreen(
     var showDistrictDialog by remember { mutableStateOf(false) }
     var showInstTypeDialog by remember { mutableStateOf(false) }
     var showSchoolDialog by remember { mutableStateOf(false) }
+    var currentStep by remember { mutableStateOf(0) }
+
+    val isStep0Valid = uiState.role.isNotBlank()
+    val isStep1Valid = uiState.username.length >= 3 &&
+        (uiState.usernameAvailable == true || (uiState.isEditing && uiState.username.isNotEmpty())) &&
+        uiState.displayName.isNotBlank() &&
+        uiState.dob.isNotBlank()
+    val isStep2Valid = when (uiState.role) {
+        "student" -> uiState.classLevel.isNotBlank()
+        "teacher" -> uiState.teachingSubjects.isNotEmpty()
+        "institution" -> uiState.school.isNotBlank()
+        else -> true
+    }
 
     val isFormValid = uiState.username.length >= 3 &&
         (uiState.usernameAvailable == true || (uiState.isEditing && uiState.username.isNotEmpty())) &&
@@ -141,6 +154,95 @@ fun CompleteProfileScreen(
                 )
             }
         },
+        bottomBar = {
+            if (!uiState.isEditing) {
+                Surface(
+                    color = MaterialTheme.colorScheme.surface,
+                    shadowElevation = 8.dp,
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .navigationBarsPadding()
+                            .padding(horizontal = 16.dp, vertical = 12.dp)
+                    ) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            if (currentStep > 0) {
+                                OutlinedButton(
+                                    onClick = { currentStep-- },
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .height(50.dp),
+                                    shape = RoundedCornerShape(25.dp)
+                                ) {
+                                    Icon(Icons.Default.ArrowBack, contentDescription = null, modifier = Modifier.size(18.dp))
+                                    Spacer(modifier = Modifier.width(6.dp))
+                                    Text("Back", fontWeight = FontWeight.Bold)
+                                }
+                            }
+
+                            val canGoForward = when (currentStep) {
+                                0 -> isStep0Valid
+                                1 -> isStep1Valid
+                                else -> isStep2Valid && isFormValid
+                            }
+
+                            Button(
+                                onClick = {
+                                    if (currentStep < 2) {
+                                        currentStep++
+                                    } else {
+                                        viewModel.submitProfile()
+                                    }
+                                },
+                                enabled = canGoForward && !uiState.isSubmitting,
+                                modifier = Modifier
+                                    .weight(if (currentStep > 0) 1.5f else 1f)
+                                    .height(50.dp),
+                                shape = RoundedCornerShape(25.dp),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = MaterialTheme.colorScheme.primary
+                                )
+                            ) {
+                                if (uiState.isSubmitting) {
+                                    CircularProgressIndicator(
+                                        color = MaterialTheme.colorScheme.onPrimary,
+                                        modifier = Modifier.size(24.dp),
+                                        strokeWidth = 2.dp
+                                    )
+                                } else {
+                                    val buttonText = if (currentStep < 2) "Continue" else "Register & Enter"
+                                    Text(
+                                        text = buttonText,
+                                        style = MaterialTheme.typography.labelLarge,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                    if (currentStep < 2) {
+                                        Spacer(modifier = Modifier.width(6.dp))
+                                        Icon(Icons.Default.ArrowForward, contentDescription = null, modifier = Modifier.size(18.dp))
+                                    }
+                                }
+                            }
+                        }
+
+                        if (uiState.submissionResult == false) {
+                            Spacer(modifier = Modifier.height(6.dp))
+                            Text(
+                                text = uiState.submissionError ?: "Failed to submit profile. Please check required fields.",
+                                color = MaterialTheme.colorScheme.error,
+                                style = MaterialTheme.typography.bodySmall,
+                                modifier = Modifier.align(Alignment.CenterHorizontally)
+                            )
+                        }
+                    }
+                }
+            }
+        },
         containerColor = MaterialTheme.colorScheme.surface
     ) { paddingValues ->
         Column(
@@ -152,19 +254,12 @@ fun CompleteProfileScreen(
                 .verticalScroll(scrollState)
         ) {
             if (!uiState.isEditing) {
-                Spacer(modifier = Modifier.statusBarsPadding().height(24.dp))
-                Text(
-                    text = "Complete Your Profile",
-                    style = MaterialTheme.typography.headlineMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary
+                Spacer(modifier = Modifier.height(12.dp))
+                RegistrationStepIndicator(
+                    currentStep = currentStep,
+                    totalSteps = 3
                 )
-                Text(
-                    text = "NEBians community requires username and basic info to provide relevant materials.",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(top = 4.dp, bottom = 24.dp)
-                )
+                Spacer(modifier = Modifier.height(16.dp))
             } else {
                 Spacer(modifier = Modifier.height(16.dp))
             }
@@ -181,6 +276,7 @@ fun CompleteProfileScreen(
                     modifier = Modifier.padding(18.dp),
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
+                    if (uiState.isEditing || currentStep == 0) {
                     // Profile Picture Section
                     Column {
                         Text(
@@ -276,7 +372,9 @@ fun CompleteProfileScreen(
                             ProfileRoleOption("Explorer", "Browse first and complete details later", uiState.role == "explorer") { viewModel.onRoleChange("explorer") }
                         }
                     }
+                    }
 
+                    if (uiState.isEditing || currentStep == 1) {
                     // Username *
                     Column {
                         Text(
@@ -477,7 +575,9 @@ fun CompleteProfileScreen(
                             }
                         }
                     }
+                    }
 
+                    if (uiState.isEditing || currentStep == 2) {
                     // Role-specific field boxes
                     when (uiState.role) {
                         "student" -> {
@@ -814,6 +914,7 @@ fun CompleteProfileScreen(
                             onCheckedChange = viewModel::onLockedChange
                         )
                     }
+                    }
                 }
             }
 
@@ -1041,42 +1142,44 @@ fun CompleteProfileScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            if (uiState.isEditing) {
+                Spacer(modifier = Modifier.height(24.dp))
 
-            Button(
-                onClick = viewModel::submitProfile,
-                enabled = isFormValid && !uiState.isSubmitting,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp),
-                shape = RoundedCornerShape(25.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary
-                )
-            ) {
-                if (uiState.isSubmitting) {
-                    CircularProgressIndicator(
-                        color = MaterialTheme.colorScheme.onPrimary,
-                        modifier = Modifier.size(24.dp),
-                        strokeWidth = 2.dp
+                Button(
+                    onClick = viewModel::submitProfile,
+                    enabled = isFormValid && !uiState.isSubmitting,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(50.dp),
+                    shape = RoundedCornerShape(25.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary
                     )
-                } else {
+                ) {
+                    if (uiState.isSubmitting) {
+                        CircularProgressIndicator(
+                            color = MaterialTheme.colorScheme.onPrimary,
+                            modifier = Modifier.size(24.dp),
+                            strokeWidth = 2.dp
+                        )
+                    } else {
+                        Text(
+                            text = "Save Profile",
+                            style = MaterialTheme.typography.labelLarge,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
+
+                if (uiState.submissionResult == false) {
+                    Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = if (uiState.isEditing) "Save Profile" else "Register & Enter NEBians",
-                        style = MaterialTheme.typography.labelLarge,
-                        fontWeight = FontWeight.Bold
+                        text = uiState.submissionError ?: "Failed to submit profile. Please check required fields.",
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.bodySmall,
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
                     )
                 }
-            }
-
-            if (uiState.submissionResult == false) {
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = uiState.submissionError ?: "Failed to submit profile. Please check required fields.",
-                    color = MaterialTheme.colorScheme.error,
-                    style = MaterialTheme.typography.bodySmall,
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
-                )
             }
 
             Spacer(modifier = Modifier.navigationBarsPadding().height(48.dp))

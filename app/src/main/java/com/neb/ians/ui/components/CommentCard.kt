@@ -34,6 +34,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.neb.ians.data.api.ApiReply
 import com.neb.ians.util.formatTimeAgo
+import com.neb.ians.util.rememberTactileFeedback
+import com.neb.ians.util.TactileType
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -57,6 +59,7 @@ fun CommentCard(
       onInlineImageClick: (String) -> Unit = {},
       modifier: Modifier = Modifier
   ) {
+    val tactile = rememberTactileFeedback()
     Surface(
         shape = RoundedCornerShape(8.dp),
         color = MaterialTheme.colorScheme.surfaceContainerLowest,
@@ -250,7 +253,10 @@ fun CommentCard(
                     Row(
                         modifier = Modifier
                             .clip(WebPillShape)
-                            .clickable(onClick = onReplyClick)
+                            .clickable(onClick = {
+                                tactile.perform(TactileType.LightTap)
+                                onReplyClick()
+                            })
                             .padding(horizontal = 8.dp, vertical = 5.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(4.dp)
@@ -279,7 +285,10 @@ fun CommentCard(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(8.dp))
-                        .clickable(onClick = onRepliesBarClick)
+                        .clickable(onClick = {
+                            tactile.perform(TactileType.SelectionChange)
+                            onRepliesBarClick()
+                        })
                         .padding(vertical = 4.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {

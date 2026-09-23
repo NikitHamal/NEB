@@ -61,34 +61,24 @@ data class ResourceDetailUiState(
             }
         }
 
-    /** Direct children grouped by parent id, built once per state instance. */
-    val childrenByParent: Map<String, List<ApiResourceComment>> by lazy {
-        val map = mutableMapOf<String, MutableList<ApiResourceComment>>()
-        for (c in comments) {
-            val parentId = c.parentCommentId
-            if (!parentId.isNullOrBlank()) {
-                map.getOrPut(parentId) { mutableListOf() }.add(c)
-            }
-        }
-        map.mapValues { (_, v) -> v.sortedBy { it.createdAt } }
-    }
-
     /** Children and descendants of a given comment, oldest first. */
     fun childrenOf(commentId: String): List<ApiResourceComment> {
         val result = mutableListOf<ApiResourceComment>()
-        val seen = mutableSetOf(commentId)
-        val queue = ArrayDeque<String>()
-        queue.add(commentId)
-        while (queue.isNotEmpty()) {
-            val parentId = queue.removeFirst()
-            val kids = childrenByParent[parentId] ?: continue
-            for (k in kids) {
-                if (seen.add(k.id)) {
-                    result.add(k)
-                    queue.add(k.id)
+        val descendants = mutableSetOf<String>()
+        var addedAny: Boolean
+        do {
+            addedAny = false
+            for (c in comments) {
+                val parentId = c.parentCommentId
+                if (!parentId.isNullOrBlank() && !descendants.contains(c.id)) {
+                    if (parentId == commentId || descendants.contains(parentId)) {
+                        descendants.add(c.id)
+                        result.add(c)
+                        addedAny = true
+                    }
                 }
             }
-        }
+        } while (addedAny)
         return result.sortedBy { it.createdAt }
     }
 }

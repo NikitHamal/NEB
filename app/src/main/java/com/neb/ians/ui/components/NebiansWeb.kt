@@ -1,11 +1,18 @@
 package com.neb.ians.ui.components
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -32,6 +39,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material.icons.filled.Verified
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Search
@@ -50,6 +58,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
@@ -63,9 +72,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
+import com.neb.ians.util.rememberTactileFeedback
+import com.neb.ians.util.TactileType
 import androidx.compose.ui.res.painterResource
 import com.neb.ians.ui.avatar.blobatarAnim
 import androidx.compose.ui.text.font.FontWeight
@@ -92,11 +105,11 @@ import javax.inject.Inject
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
-val WebCardShape = RoundedCornerShape(8.dp)
-val WebPanelShape = RoundedCornerShape(16.dp)
-val WebPillShape = RoundedCornerShape(999.dp)
+private val VideoExtensionRegex = Regex("\\.(mp4|mkv|webm|3gp|mov)$", RegexOption.IGNORE_CASE)
 
-private val CARD_VIDEO_EXT_RE = Regex("\\.(mp4|mkv|webm|3gp|mov)$", RegexOption.IGNORE_CASE)
+val WebCardShape = RoundedCornerShape(14.dp)
+val WebPanelShape = RoundedCornerShape(18.dp)
+val WebPillShape = RoundedCornerShape(999.dp)
 
 @Composable
 fun NebiansLogo(
@@ -187,7 +200,7 @@ fun WebTopBar(
                 .height(64.dp)
                 .padding(horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             if (showBack) {
                 IconButton(onClick = onBackClick) {
@@ -197,22 +210,27 @@ fun WebTopBar(
                     )
                 }
             } else if (title == null) {
-                // Home screen specific dashboard header layout (Greeting,Name)
+                // Home screen: greeting and name in the left corner (no logo)
+                val greeting = remember {
+                    val hour = java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY)
+                    when (hour) {
+                        in 0..11 -> "Good Morning,"
+                        in 12..16 -> "Good Afternoon,"
+                        else -> "Good Evening,"
+                    }
+                }
+                val firstName = remember(name) {
+                    name.trim().split(Regex("\\s+")).firstOrNull().orEmpty().ifBlank { "User" }
+                }
+
                 Column(
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier
+                        .weight(1f)
+                        .clip(RoundedCornerShape(8.dp))
+                        .clickable(onClick = onProfileClick)
+                        .padding(vertical = 4.dp),
                     verticalArrangement = Arrangement.Center
                 ) {
-                    val greeting = remember {
-                        val hour = java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY)
-                        when (hour) {
-                            in 0..11 -> "Good Morning,"
-                            in 12..16 -> "Good Afternoon,"
-                            else -> "Good Evening,"
-                        }
-                    }
-                    val firstName = remember(name) {
-                        name.trim().split(Regex("\\s+")).firstOrNull().orEmpty().ifBlank { "User" }
-                    }
                     Text(
                         text = greeting,
                         style = MaterialTheme.typography.bodySmall,
@@ -276,6 +294,7 @@ fun WebTopBar(
 
             actions()
 
+            // 3 action icons: Search, Upload, Notifications
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(2.dp)
@@ -307,20 +326,25 @@ fun WebTopBar(
                 }
             }
 
-            if (title == null && !showBack) {
-                // Home: profile avatar on the far right, after the action icons.
+            if (title == null) {
+                // User profile picture (pp) in the top right corner
                 Box(
                     modifier = Modifier
-                        .clip(CircleShape)
-                        .clickable(onClick = onProfileClick),
+                        .size(44.dp)
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = null,
+                            onClick = onProfileClick
+                        )
+                        .testTag("top_bar_profile_avatar"),
                     contentAlignment = Alignment.Center
                 ) {
-                    Avatar(
-                        name = name.ifBlank { "User" },
-                        imageUrl = photo,
-                        size = 40.dp,
+                    NebAvatar(
+                        photoUrl = photo,
+                        name = name,
+                        size = 38.dp,
                         verificationLevel = verificationLevel,
-                        isAdmin = isAdmin
+                        showBorder = true
                     )
                 }
             }
@@ -335,11 +359,15 @@ fun WebIconButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val tactile = rememberTactileFeedback()
     Box(
         modifier = modifier
             .size(40.dp)
             .clip(CircleShape)
-            .clickable(onClick = onClick),
+            .clickable(onClick = {
+                tactile.perform(TactileType.ButtonTap)
+                onClick()
+            }),
         contentAlignment = Alignment.Center
     ) {
         Icon(
@@ -357,11 +385,15 @@ fun WebIconButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val tactile = rememberTactileFeedback()
     Box(
         modifier = modifier
             .size(40.dp)
             .clip(CircleShape)
-            .clickable(onClick = onClick),
+            .clickable(onClick = {
+                tactile.perform(TactileType.ButtonTap)
+                onClick()
+            }),
         contentAlignment = Alignment.Center
     ) {
         Icon(
@@ -453,15 +485,43 @@ fun WebChip(
     onClick: (() -> Unit)? = null,
     leading: (@Composable () -> Unit)? = null
 ) {
-    val background = if (selected) MaterialTheme.colorScheme.secondaryContainer else Color.Transparent
-    val contentColor = if (selected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
-    val borderColor = if (selected) Color.Transparent else MaterialTheme.colorScheme.outline
+    val background by animateColorAsState(
+        targetValue = if (selected) MaterialTheme.colorScheme.secondaryContainer else Color.Transparent,
+        animationSpec = tween(180),
+        label = "webChipBg"
+    )
+    val contentColor by animateColorAsState(
+        targetValue = if (selected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurfaceVariant,
+        animationSpec = tween(180),
+        label = "webChipFg"
+    )
+    val borderColor = if (selected) Color.Transparent else MaterialTheme.colorScheme.outlineVariant
+    val interactionSource = remember { MutableInteractionSource() }
+    val isPressed by interactionSource.collectIsPressedAsState()
+    val scale by animateFloatAsState(
+        targetValue = if (isPressed) 0.94f else 1.0f,
+        animationSpec = spring(stiffness = Spring.StiffnessMediumLow),
+        label = "webChipScale"
+    )
+
     Row(
         modifier = modifier
+            .graphicsLayer {
+                scaleX = scale
+                scaleY = scale
+            }
             .clip(WebPillShape)
             .background(background)
             .border(1.dp, borderColor, WebPillShape)
-            .then(if (onClick != null) Modifier.clickable(onClick = onClick) else Modifier)
+            .then(
+                if (onClick != null) {
+                    Modifier.clickable(
+                        interactionSource = interactionSource,
+                        indication = ripple(bounded = true),
+                        onClick = onClick
+                    )
+                } else Modifier
+            )
             .padding(horizontal = 14.dp, vertical = 7.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(6.dp)
@@ -511,9 +571,23 @@ fun WebPrimaryButton(
     painter: Painter? = null,
     imageVector: ImageVector? = null
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val isPressed by interactionSource.collectIsPressedAsState()
+    val scale by animateFloatAsState(
+        targetValue = if (isPressed) 0.95f else 1.0f,
+        animationSpec = spring(stiffness = Spring.StiffnessMediumLow),
+        label = "primaryBtnScale"
+    )
+
     Button(
         onClick = onClick,
-        modifier = modifier.heightIn(min = 44.dp),
+        modifier = modifier
+            .graphicsLayer {
+                scaleX = scale
+                scaleY = scale
+            }
+            .heightIn(min = 44.dp),
+        interactionSource = interactionSource,
         shape = WebPillShape,
         colors = ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.primary,
@@ -522,7 +596,7 @@ fun WebPrimaryButton(
         contentPadding = PaddingValues(horizontal = 22.dp, vertical = 10.dp)
     ) {
         ButtonIcon(painter = painter, imageVector = imageVector)
-        Text(text = text, fontWeight = FontWeight.SemiBold, maxLines = 1)
+        Text(text = text, fontWeight = FontWeight.Bold, maxLines = 1)
     }
 }
 
@@ -534,9 +608,23 @@ fun WebOutlinedButton(
     painter: Painter? = null,
     imageVector: ImageVector? = null
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val isPressed by interactionSource.collectIsPressedAsState()
+    val scale by animateFloatAsState(
+        targetValue = if (isPressed) 0.95f else 1.0f,
+        animationSpec = spring(stiffness = Spring.StiffnessMediumLow),
+        label = "outlineBtnScale"
+    )
+
     OutlinedButton(
         onClick = onClick,
-        modifier = modifier.heightIn(min = 44.dp),
+        modifier = modifier
+            .graphicsLayer {
+                scaleX = scale
+                scaleY = scale
+            }
+            .heightIn(min = 44.dp),
+        interactionSource = interactionSource,
         shape = WebPillShape,
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
         colors = ButtonDefaults.outlinedButtonColors(
@@ -546,7 +634,7 @@ fun WebOutlinedButton(
         contentPadding = PaddingValues(horizontal = 22.dp, vertical = 10.dp)
     ) {
         ButtonIcon(painter = painter, imageVector = imageVector)
-        Text(text = text, fontWeight = FontWeight.SemiBold, maxLines = 1)
+        Text(text = text, fontWeight = FontWeight.Bold, maxLines = 1)
     }
 }
 
@@ -641,18 +729,22 @@ fun WebResourceCard(
     }
     val isVideo = remember(resource.type, resource.fileUrl) {
         resource.type.contains("video", ignoreCase = true) ||
-            CARD_VIDEO_EXT_RE.containsMatchIn(resource.fileUrl)
+            VideoExtensionRegex.containsMatchIn(resource.fileUrl)
     }
+    val tactile = rememberTactileFeedback()
 
     Card(
         modifier = modifier
             .then(if (minWidth != null) Modifier.width(minWidth) else Modifier.fillMaxWidth())
             .then(if (height != null) Modifier.height(height) else Modifier)
             .clip(shape)
-            .clickable(onClick = onClick),
+            .clickable(onClick = {
+                tactile.perform(TactileType.LightTap)
+                onClick()
+            }),
         shape = shape,
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest),
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.16f))
     ) {
         Box(
             modifier = Modifier
@@ -913,10 +1005,14 @@ fun WebPostCard(
 ) {
     val category = post.category.ifBlank { "General" }
     val categoryTheme = getSubjectTheme(category)
+    val tactile = rememberTactileFeedback()
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick),
+            .clickable(onClick = {
+                tactile.perform(TactileType.LightTap)
+                onClick()
+            }),
         shape = WebPanelShape,
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest),
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
@@ -1020,29 +1116,57 @@ fun WebPostCard(
 
 @Composable
 private fun PostAction(text: String, selected: Boolean, onClick: () -> Unit) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val isPressed by interactionSource.collectIsPressedAsState()
+    val scale by animateFloatAsState(
+        targetValue = if (isPressed) 0.90f else 1.0f,
+        animationSpec = spring(stiffness = Spring.StiffnessMediumLow),
+        label = "postActionScale"
+    )
+    val background by animateColorAsState(
+        targetValue = if (selected) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f) else Color.Transparent,
+        animationSpec = tween(180),
+        label = "postActionBg"
+    )
+    val contentColor by animateColorAsState(
+        targetValue = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
+        animationSpec = tween(180),
+        label = "postActionFg"
+    )
+
     Row(
         modifier = Modifier
+            .graphicsLayer {
+                scaleX = scale
+                scaleY = scale
+            }
             .clip(WebPillShape)
+            .background(background)
             .border(
                 1.dp,
                 if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant,
                 WebPillShape
             )
-            .clickable(onClick = onClick)
-            .padding(horizontal = 10.dp, vertical = 6.dp),
+            .clickable(
+                interactionSource = interactionSource,
+                indication = ripple(bounded = true, color = contentColor),
+                onClick = onClick
+            )
+            .padding(horizontal = 12.dp, vertical = 6.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(5.dp)
+        horizontalArrangement = Arrangement.spacedBy(6.dp)
     ) {
         Icon(
-            imageVector = Icons.Outlined.ThumbUp,
+            imageVector = if (selected) Icons.Filled.ThumbUp else Icons.Outlined.ThumbUp,
             contentDescription = "Like",
             modifier = Modifier.size(16.dp),
-            tint = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+            tint = contentColor
         )
         Text(
             text = text,
             style = MaterialTheme.typography.labelMedium,
-            color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+            fontWeight = if (selected) FontWeight.Bold else FontWeight.Medium,
+            color = contentColor
         )
     }
 }
@@ -1054,7 +1178,8 @@ fun Avatar(
     modifier: Modifier = Modifier,
     size: Dp = 40.dp,
     verificationLevel: Int = 0,
-    isAdmin: Boolean = false
+    isAdmin: Boolean = false,
+    animate: Boolean = false
 ) {
     val isNebians = remember(name) { name.equals("NEBians", ignoreCase = true) || name.equals("nebians", ignoreCase = true) }
     val isNeby = remember(name) { name.equals("Neby", ignoreCase = true) || name.equals("neby", ignoreCase = true) }
@@ -1073,7 +1198,7 @@ fun Avatar(
         }
     }
     var isError by remember(resolvedUrl) { mutableStateOf(false) }
-    val avatarAnim = remember(resolvedUrl) { com.neb.ians.ui.avatar.avatarAnimFromUrl(resolvedUrl) }
+    val avatarAnim = remember(resolvedUrl) { if (animate) com.neb.ians.ui.avatar.avatarAnimFromUrl(resolvedUrl) else null }
     val hasImageBg = !isNeby && !resolvedUrl.isNullOrBlank() && !isError && !isAnon && !isNebians
     Box(modifier = modifier.size(size)) {
         Surface(
@@ -1106,7 +1231,7 @@ fun Avatar(
             } else if (isNeby) {
                 Box(contentAlignment = Alignment.Center) {
                     com.neb.ians.ui.avatar.neby.NebyAvatarMini(
-                        animation = "idle",
+                        animation = if (animate) "idle" else "still",
                         size = size,
                         interactive = false
                     )
@@ -1115,7 +1240,7 @@ fun Avatar(
                 AsyncImage(
                     model = resolvedUrl,
                     contentDescription = name,
-                    modifier = Modifier.fillMaxSize().blobatarAnim(avatarAnim),
+                    modifier = Modifier.fillMaxSize().then(if (animate && avatarAnim != null) Modifier.blobatarAnim(avatarAnim) else Modifier),
                     contentScale = ContentScale.Crop,
                     onError = { isError = true }
                 )

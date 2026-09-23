@@ -15,6 +15,7 @@ import coil.disk.DiskCache
 import coil.memory.MemoryCache
 import okhttp3.OkHttpClient
 import com.neb.ians.data.api.WafChallengeInterceptor
+import com.neb.ians.util.DevicePerformance
 
 @HiltAndroidApp
 class NEBiansApp : Application(), Configuration.Provider, ImageLoaderFactory {
@@ -28,11 +29,26 @@ class NEBiansApp : Application(), Configuration.Provider, ImageLoaderFactory {
             .build()
 
     override fun newImageLoader(): ImageLoader {
+        val isLowEnd = DevicePerformance.isLowEndDevice(this)
         return ImageLoader.Builder(this)
             .components {
                 add(com.neb.ians.ui.avatar.AvatarMapper())
                 add(com.neb.ians.ui.avatar.AvatarFetcher.Factory())
             }
+            .memoryCache {
+                MemoryCache.Builder(this)
+                    .maxSizePercent(if (isLowEnd) 0.15 else 0.25)
+                    .strongReferencesEnabled(true)
+                    .build()
+            }
+            .diskCache {
+                DiskCache.Builder()
+                    .directory(cacheDir.resolve("image_cache"))
+                    .maxSizeBytes(if (isLowEnd) 50L * 1024 * 1024 else 120L * 1024 * 1024)
+                    .build()
+            }
+            .allowRgb565(isLowEnd)
+            .allowHardware(!isLowEnd)
             .okHttpClient {
                 OkHttpClient.Builder()
                     .addInterceptor(WafChallengeInterceptor(this))
@@ -47,18 +63,7 @@ class NEBiansApp : Application(), Configuration.Provider, ImageLoaderFactory {
                     }
                     .build()
             }
-            .memoryCache {
-                MemoryCache.Builder(this@NEBiansApp)
-                    .maxSizePercent(0.25)
-                    .build()
-            }
-            .diskCache {
-                DiskCache.Builder()
-                    .directory(this@NEBiansApp.cacheDir.resolve("image_cache"))
-                    .maxSizePercent(0.02)
-                    .build()
-            }
-            .crossfade(false)
+            .crossfade(150)
             .build()
     }
 

@@ -10,13 +10,12 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.delay
 import com.neb.ians.data.realtime.RealtimeClient
 import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.ui.NEBiansNavHost
@@ -40,6 +39,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         configureEdgeToEdge()
         handleIntent(intent)
+        inAppUpdateHelper.checkForUpdate(this)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (androidx.core.content.ContextCompat.checkSelfPermission(
@@ -56,10 +56,6 @@ class MainActivity : ComponentActivity() {
         }
 
         lifecycleScope.launch {
-            delay(1500)
-            try {
-                inAppUpdateHelper.checkForUpdate(this@MainActivity)
-            } catch (_: Exception) {}
             try {
                 val token = authRepository.getToken()
                 if (token != null && token.isNotBlank()) {
@@ -71,7 +67,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val settingsViewModel: SettingsViewModel = hiltViewModel()
-            val isDarkMode by settingsViewModel.isDarkMode.collectAsStateWithLifecycle()
+            val isDarkMode by settingsViewModel.isDarkMode.collectAsState()
 
             DisposableEffect(isDarkMode) {
                 enableEdgeToEdge(

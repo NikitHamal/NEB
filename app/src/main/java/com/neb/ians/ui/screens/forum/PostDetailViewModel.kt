@@ -61,34 +61,23 @@ data class PostDetailUiState(
             }
         }
 
-    /** Direct children grouped by parent id, built once per state instance. */
-    val childrenByParent: Map<String, List<ApiReply>> by lazy {
-        val map = mutableMapOf<String, MutableList<ApiReply>>()
-        for (r in replies) {
-            val parentId = r.parentReplyId
-            if (!parentId.isNullOrBlank()) {
-                map.getOrPut(parentId) { mutableListOf() }.add(r)
-            }
-        }
-        map.mapValues { (_, v) -> v.sortedBy { it.createdAt } }
-    }
-
     /** Children and descendants of a given reply, oldest first. */
     fun childrenOf(replyId: String): List<ApiReply> {
         val result = mutableListOf<ApiReply>()
-        val seen = mutableSetOf(replyId)
-        val queue = ArrayDeque<String>()
-        queue.add(replyId)
-        while (queue.isNotEmpty()) {
-            val parentId = queue.removeFirst()
-            val kids = childrenByParent[parentId] ?: continue
-            for (k in kids) {
-                if (seen.add(k.id)) {
-                    result.add(k)
-                    queue.add(k.id)
+        val descendants = mutableSetOf<String>()
+        var addedAny: Boolean
+        do {
+            addedAny = false
+            for (r in replies) {
+                if (r.parentReplyId != null && !descendants.contains(r.id)) {
+                    if (r.parentReplyId == replyId || descendants.contains(r.parentReplyId)) {
+                        descendants.add(r.id)
+                        result.add(r)
+                        addedAny = true
+                    }
                 }
             }
-        }
+        } while (addedAny)
         return result.sortedBy { it.createdAt }
     }
 }

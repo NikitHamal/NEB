@@ -18,6 +18,9 @@
     <!-- Foreground service permission -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
+    <!-- Tactile / haptic feedback -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:name=".NEBiansApp"
         android:allowBackup="true"

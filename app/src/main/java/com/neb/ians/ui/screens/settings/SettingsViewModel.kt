@@ -19,11 +19,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val settingsRepository: SettingsRepository,
+    val settingsRepository: SettingsRepository,
     private val authRepository: AuthRepository
 ) : ViewModel() {
 
     val isDarkMode: StateFlow<Boolean> = settingsRepository.isDarkMode
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+
+    val isOnboardingCompleted: StateFlow<Boolean> = settingsRepository.isOnboardingCompleted
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
     val userName: StateFlow<String> = authRepository.currentUserNameFlow
@@ -33,13 +36,6 @@ class SettingsViewModel @Inject constructor(
 
     val downloadWifiOnly: StateFlow<Boolean> = settingsRepository.downloadWifiOnly
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
-
-    val isOnboardingSeen: StateFlow<Boolean> = settingsRepository.isOnboardingSeen
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
-
-    fun setOnboardingSeen(seen: Boolean) {
-        viewModelScope.launch { settingsRepository.setOnboardingSeen(seen) }
-    }
 
     val userProfile: StateFlow<UserProfileCache?> = authRepository.userProfileFlow
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
@@ -61,6 +57,10 @@ class SettingsViewModel @Inject constructor(
 
     fun setDownloadWifiOnly(enabled: Boolean) {
         viewModelScope.launch { settingsRepository.setDownloadWifiOnly(enabled) }
+    }
+
+    fun setOnboardingCompleted(completed: Boolean) {
+        viewModelScope.launch { settingsRepository.setOnboardingCompleted(completed) }
     }
 
     fun toggleProfileLock(isLocked: Boolean) {

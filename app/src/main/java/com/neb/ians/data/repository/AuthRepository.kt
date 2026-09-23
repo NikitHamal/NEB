@@ -14,6 +14,7 @@ import kotlinx.coroutines.withContext
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 import javax.inject.Singleton
 import com.neb.ians.data.api.ApiErrorMapper
@@ -115,7 +116,9 @@ class AuthRepository @Inject constructor(
             ?: "Student"
 
     val currentUserNameFlow: StateFlow<String> = dataStore.data.map { firstName(it) }
-        .stateIn(ioScope, SharingStarted.Eagerly, "Student")
+        .stateIn(ioScope, SharingStarted.Eagerly,
+            try { runBlocking(Dispatchers.IO) { firstName(dataStore.data.first()) } }
+            catch (_: Exception) { "Student" })
     val currentUsernameHandleFlow: Flow<String> = dataStore.data.map { it[USER_NAME] ?: "" }
     val currentUserIdFlow: Flow<String?> = dataStore.data.map { it[USER_ID] }
     val currentUserPhotoUrlFlow: Flow<String?> = dataStore.data.map { it[USER_PHOTO_URL] }

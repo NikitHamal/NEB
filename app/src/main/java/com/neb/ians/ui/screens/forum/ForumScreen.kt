@@ -9,32 +9,39 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.filled.Whatshot
 import androidx.compose.material.icons.outlined.ChatBubbleOutline
+import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Schedule
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.ThumbUp
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
@@ -82,6 +89,7 @@ import com.neb.ians.ui.components.sharePost
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ForumScreen(
+    onNavigateBack: () -> Unit = {},
     onPostClick: (String) -> Unit,
     onCreatePostClick: () -> Unit,
     onSearchClick: () -> Unit = {},
@@ -139,20 +147,68 @@ fun ForumScreen(
 
     Scaffold(
         topBar = {
-            WebTopBar(
-                onSearchClick = onSearchClick,
-                onNotificationsClick = onNotificationsClick,
-                onProfileClick = onProfileClick,
-                avatarInitial = uiState.userName,
-                avatarUrl = uiState.userPhotoUrl
-            )
+            Surface(
+                color = MaterialTheme.colorScheme.surface,
+                tonalElevation = 1.dp,
+                shadowElevation = 0.5.dp,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .statusBarsPadding()
+                        .padding(horizontal = 8.dp, vertical = 6.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    IconButton(onClick = onNavigateBack) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Back",
+                            tint = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
+                    Column(
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(horizontal = 4.dp)
+                    ) {
+                        Text(
+                            text = "Community Forum",
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                        Text(
+                            text = if (uiState.selectedCategory != null) "Category: ${uiState.selectedCategory}" else "All student & peer discussions",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
+                    IconButton(onClick = onSearchClick) {
+                        Icon(
+                            imageVector = Icons.Outlined.Search,
+                            contentDescription = "Search discussions",
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                    IconButton(onClick = onNotificationsClick) {
+                        Icon(
+                            imageVector = Icons.Outlined.Notifications,
+                            contentDescription = "Notifications",
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
+            }
         },
         floatingActionButton = {
-            androidx.compose.material3.FloatingActionButton(
+            FloatingActionButton(
                 onClick = onCreatePostClick,
                 modifier = Modifier
                     .navigationBarsPadding()
-                    .padding(bottom = 92.dp, end = 4.dp)
+                    .padding(bottom = 16.dp, end = 12.dp)
                     .size(56.dp),
                 shape = CircleShape,
                 containerColor = MaterialTheme.colorScheme.primary,
@@ -235,7 +291,7 @@ fun ForumScreen(
                     LazyColumn(
                         state = listState,
                         modifier = Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(start = 16.dp, top = 4.dp, end = 16.dp, bottom = 112.dp),
+                        contentPadding = PaddingValues(start = 16.dp, top = 4.dp, end = 16.dp, bottom = 88.dp),
                         verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
                         if (uiState.error != null) {
