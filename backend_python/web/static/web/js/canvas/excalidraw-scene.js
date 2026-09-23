@@ -108,55 +108,42 @@ window.NebScene = (function () {
     };
   }
 
+  var sizes = {};
+
   function nodeRect(node, idx) {
-    var parts = cardText(node);
-    var laid = layoutCard(parts.title, parts.summary);
+    var sz = sizes[String(node.id)] || { w: CARD_W, h: 420 };
     var x = Number(node.x) || 0;
     var y = Number(node.y) || 0;
-    var th = T();
     var rect = base(String(node.id), "rectangle", x, y, idx);
-    rect.width = CARD_W;
-    rect.height = laid.h;
-    rect.strokeColor = th.border;
-    rect.backgroundColor = th.bg;
-    rect.strokeWidth = 1.5;
+    rect.width = sz.w || CARD_W;
+    rect.height = sz.h || 420;
+    rect.strokeColor = "transparent";
+    rect.backgroundColor = "transparent";
+    rect.strokeWidth = 1;
+    rect.opacity = 0;
+    rect.locked = true;
     rect.customData = { neb: "node", id: String(node.id) };
-    var label = base(String(node.id) + ":t", "text", x + 20, y + 16, idx + "t");
-    label.width = CARD_W - 40;
-    label.height = laid.h - 32;
-    label.strokeColor = th.ink;
-    label.backgroundColor = "transparent";
-    label.fontSize = FONT_PX;
-    label.fontFamily = FONT;
-    label.textAlign = "left";
-    label.verticalAlign = "top";
-    label.text = laid.text;
-    label.originalText = laid.text;
-    label.autoResize = false;
-    label.lineHeight = 1.3;
-    label.containerId = rect.id;
-    label.customData = { neb: "node", id: String(node.id) };
-    rect.boundElements = [{ type: "text", id: label.id }];
-    return { rect: rect, label: label, h: laid.h };
+    return { rect: rect, label: null, h: rect.height };
   }
 
   function nodeEdge(node, pos) {
     if (!node.parentId || !pos[node.parentId] || !pos[node.id]) return null;
     var p = pos[node.parentId];
     var c = pos[node.id];
+    var pw = p.w || CARD_W, cw = c.w || CARD_W;
     var x1, y1, x2, y2;
     if (c.y >= p.y + p.h - 60) {
-      x1 = p.x + CARD_W / 2; y1 = p.y + p.h;
-      x2 = c.x + CARD_W / 2; y2 = c.y;
+      x1 = p.x + pw / 2; y1 = p.y + p.h;
+      x2 = c.x + cw / 2; y2 = c.y;
     } else if (c.y + c.h <= p.y + 60) {
-      x1 = p.x + CARD_W / 2; y1 = p.y;
-      x2 = c.x + CARD_W / 2; y2 = c.y + c.h;
-    } else if (c.x >= p.x + CARD_W - 60) {
-      x1 = p.x + CARD_W; y1 = p.y + p.h / 2;
+      x1 = p.x + pw / 2; y1 = p.y;
+      x2 = c.x + cw / 2; y2 = c.y + c.h;
+    } else if (c.x >= p.x + pw - 60) {
+      x1 = p.x + pw; y1 = p.y + p.h / 2;
       x2 = c.x; y2 = c.y + c.h / 2;
     } else {
       x1 = p.x; y1 = p.y + p.h / 2;
-      x2 = c.x + CARD_W; y2 = c.y + c.h / 2;
+      x2 = c.x + cw; y2 = c.y + c.h / 2;
     }
     var edge = base("e" + String(node.id), "arrow", x1, y1, "e" + pos[node.id].idx);
     edge.width = Math.abs(x2 - x1) || 1;
@@ -173,16 +160,18 @@ window.NebScene = (function () {
     return edge;
   }
 
-  function boardToScene(nodes, objects, theme) {
+  function boardToScene(nodes, objects, theme, sizeMap) {
     if (theme === "dark" || theme === "light") themeName = theme;
+    sizes = sizeMap || {};
     var elements = [];
     var files = {};
     var pos = {};
     var idx = 0;
     (nodes || []).forEach(function (n) {
       var built = nodeRect(n, idx++);
-      pos[String(n.id)] = { x: built.rect.x, y: built.rect.y, h: built.h, idx: idx };
-      elements.push(built.rect, built.label);
+      pos[String(n.id)] = { x: built.rect.x, y: built.rect.y, h: built.h, w: built.rect.width, idx: idx };
+      elements.push(built.rect);
+      if (built.label) elements.push(built.label);
     });
     (nodes || []).forEach(function (n) {
       var edge = nodeEdge(n, pos);
