@@ -1,16 +1,15 @@
 window.NebScene = (function () {
-  var CARD_W = 360;
+  var CARD_W = 480;
   var FONT = 6;
-  var FONT_PX = 18;
-  var EDGE_COLOR = "#8fa0b8";
-  var CARD_BG = "#ffffff";
-  var CARD_INK = "#1e293b";
-
-  var KIND_STROKE = {
-    ai: "#1d4ed8", note: "#b45309", question: "#7c3aed", source: "#0f766e",
-    comparison: "#be185d", practice: "#15803d", summary: "#475569", task: "#c2410c",
-    decision: "#6d28d9", warning: "#dc2626",
+  var FONT_PX = 15;
+  var EDGE_COLOR = "#b9c3d6";
+  var THEMES = {
+    light: { bg: "#ffffff", ink: "#16233a", border: "#c3cede" },
+    dark: { bg: "#1f2937", ink: "#eef2f7", border: "#475569" },
   };
+  var themeName = "light";
+
+  function T() { return THEMES[themeName] || THEMES.light; }
 
   var measureCtx = null;
   function measurer() {
@@ -73,15 +72,16 @@ window.NebScene = (function () {
   }
 
   function layoutCard(title, summary) {
-    var inner = CARD_W - 64;
+    var inner = CARD_W - 40;
     var titleLines = wrapLines(title, inner).slice(0, 2);
     var bodyLines = [];
     if (summary) {
-      bodyLines = wrapLines(summary, inner).slice(0, 9);
-      if (wrapLines(summary, inner).length > 9) bodyLines[bodyLines.length - 1] += " …";
+      var all = wrapLines(summary, inner);
+      bodyLines = all.slice(0, 12);
+      if (all.length > 12) bodyLines[bodyLines.length - 1] += " …";
     }
-    var h = 30 + titleLines.length * 27 + (bodyLines.length ? 12 + bodyLines.length * 24 : 0) + 26;
-    h = Math.min(520, Math.max(180, h));
+    var h = 16 + titleLines.length * 22 + (bodyLines.length ? 10 + bodyLines.length * 20 : 0) + 16;
+    h = Math.min(560, Math.max(200, h));
     var text = titleLines.join("\n") + (bodyLines.length ? "\n\n" + bodyLines.join("\n") : "");
     return { h: h, text: text };
   }
@@ -113,17 +113,18 @@ window.NebScene = (function () {
     var laid = layoutCard(parts.title, parts.summary);
     var x = Number(node.x) || 0;
     var y = Number(node.y) || 0;
+    var th = T();
     var rect = base(String(node.id), "rectangle", x, y, idx);
     rect.width = CARD_W;
     rect.height = laid.h;
-    rect.strokeColor = KIND_STROKE[node.kind] || KIND_STROKE.ai;
-    rect.backgroundColor = CARD_BG;
-    rect.strokeWidth = 3;
+    rect.strokeColor = th.border;
+    rect.backgroundColor = th.bg;
+    rect.strokeWidth = 1.5;
     rect.customData = { neb: "node", id: String(node.id) };
-    var label = base(String(node.id) + ":t", "text", x + 32, y + 30, idx + "t");
-    label.width = CARD_W - 64;
-    label.height = laid.h - 60;
-    label.strokeColor = CARD_INK;
+    var label = base(String(node.id) + ":t", "text", x + 20, y + 16, idx + "t");
+    label.width = CARD_W - 40;
+    label.height = laid.h - 32;
+    label.strokeColor = th.ink;
     label.backgroundColor = "transparent";
     label.fontSize = FONT_PX;
     label.fontFamily = FONT;
@@ -167,12 +168,13 @@ window.NebScene = (function () {
     edge.endBinding = { elementId: String(node.id), focus: 0, gap: 10 };
     edge.startArrowhead = null;
     edge.endArrowhead = "arrow";
-    edge.elbowed = false;
+    edge.elbowed = true;
     edge.customData = { neb: "edge", child: String(node.id) };
     return edge;
   }
 
-  function boardToScene(nodes, objects) {
+  function boardToScene(nodes, objects, theme) {
+    if (theme === "dark" || theme === "light") themeName = theme;
     var elements = [];
     var files = {};
     var pos = {};

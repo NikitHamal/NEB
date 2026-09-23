@@ -53,7 +53,8 @@ window.NebCanvas = (function () {
     if (!window.NebExcali) return;
     var scene = window.NebScene.boardToScene(
       Object.keys(nodes).map(function (k) { return nodes[k]; }),
-      window.NebCanvasInk || []
+      window.NebCanvasInk || [],
+      theme()
     );
     window.NebExcali.updateScene({ elements: scene.elements, files: scene.files });
   }
