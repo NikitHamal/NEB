@@ -2,7 +2,6 @@ package com.neb.ians.ui.avatar.neby
 
 import android.graphics.Color
 import android.graphics.Paint
-import android.provider.Settings
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -15,6 +14,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
@@ -24,7 +24,9 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.shape.CircleShape
+import com.neb.ians.util.DevicePerformance
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlin.math.cos
 import kotlin.math.exp
@@ -40,6 +42,8 @@ fun NebyAvatar(
     hero: Boolean = false,
     onReaction: ((String) -> Unit)? = null
 ) {
+    val context = LocalContext.current
+    val isLowEnd = remember(context) { DevicePerformance.isLowEndDevice(context) }
     val animMap = remember { NEBY_ANIMATIONS }
     var currentAnim by remember(animation) { mutableStateOf(if (animMap.containsKey(animation)) animation else "idle") }
     var currentExprId by remember { mutableStateOf(EXPR_BY_ID.values.first().id) }
@@ -107,38 +111,59 @@ fun NebyAvatar(
         }
     }
 
-    val context = LocalContext.current
-    val animatorsEnabled = remember {
-        Settings.Global.getFloat(
-            context.contentResolver,
-            Settings.Global.ANIMATOR_DURATION_SCALE, 1f
-        ) != 0f
-    }
-
-    LaunchedEffect(Unit) {
-        if (!animatorsEnabled) return@LaunchedEffect
-        var last = System.nanoTime()
-        while (true) {
-            delay(16)
-            val now = System.nanoTime()
-            val dt = (now - last) / 1e9
-            last = now
-            timeSec += dt
-            blinkClock += dt
-            val a = resolveAnim(currentAnim)
-            if (isBlinking) {
-                blinkProgress += dt * 1000 / a.blinkDurMs.coerceAtLeast(60)
-                if (blinkProgress >= 1.0) {
-                    isBlinking = false; blinkAmount = 1.0; blinkProgress = 0.0
-                    blinkClock = 0.0
-                } else {
-                    val p = blinkProgress
-                    blinkAmount = if (p < 0.5) 1 - p / 0.5 else (p - 0.5) / 0.5
+    if (hero && !isLowEnd) {
+        LaunchedEffect(Unit) {
+            var last = System.nanoTime()
+            while (isActive) {
+                withFrameNanos { now ->
+                    val dt = ((now - last) / 1e9).coerceIn(0.001, 0.1)
+                    last = now
+                    timeSec += dt
+                    blinkClock += dt
+                    val a = resolveAnim(currentAnim)
+                    if (isBlinking) {
+                        blinkProgress += dt * 1000 / a.blinkDurMs.coerceAtLeast(60)
+                        if (blinkProgress >= 1.0) {
+                            isBlinking = false; blinkAmount = 1.0; blinkProgress = 0.0
+                            blinkClock = 0.0
+                        } else {
+                            val p = blinkProgress
+                            blinkAmount = if (p < 0.5) 1 - p / 0.5 else (p - 0.5) / 0.5
+                        }
+                    } else if (a.blinkEnabled) {
+                        val window = (a.blinkMinMs + ((a.blinkMaxMs - a.blinkMinMs) * 0.7)).toDouble()
+                        if (blinkClock * 1000 > a.blinkInitialMs + window) {
+                            isBlinking = true; blinkProgress = 0.0
+                        }
+                    }
                 }
-            } else if (a.blinkEnabled) {
-                val window = (a.blinkMinMs + ((a.blinkMaxMs - a.blinkMinMs) * 0.7)).toDouble()
-                if (blinkClock * 1000 > a.blinkInitialMs + window) {
-                    isBlinking = true; blinkProgress = 0.0
+            }
+        }
+    } else {
+        // Lightweight loop for low-end devices or non-hero avatars:
+        // Updates at 15fps or discrete intervals only, preserving battery and smooth 60fps scrolling
+        LaunchedEffect(Unit) {
+            val tickInterval = if (isLowEnd) 100L else 66L
+            while (isActive) {
+                delay(tickInterval)
+                val dt = tickInterval / 1000.0
+                timeSec += dt
+                blinkClock += dt
+                val a = resolveAnim(currentAnim)
+                if (isBlinking) {
+                    blinkProgress += dt * 1000 / a.blinkDurMs.coerceAtLeast(60)
+                    if (blinkProgress >= 1.0) {
+                        isBlinking = false; blinkAmount = 1.0; blinkProgress = 0.0
+                        blinkClock = 0.0
+                    } else {
+                        val p = blinkProgress
+                        blinkAmount = if (p < 0.5) 1 - p / 0.5 else (p - 0.5) / 0.5
+                    }
+                } else if (a.blinkEnabled) {
+                    val window = (a.blinkMinMs + ((a.blinkMaxMs - a.blinkMinMs) * 0.7)).toDouble()
+                    if (blinkClock * 1000 > a.blinkInitialMs + window) {
+                        isBlinking = true; blinkProgress = 0.0
+                    }
                 }
             }
         }
@@ -181,7 +206,7 @@ fun NebyAvatar(
                 else -> 1 - exp(-6 * rawT) * cos(8 * rawT)
             }
             val blended = lerpExpression(fromExpr, toExpr, eased)
-            val (ambientExpr, eyeOff) = applyAmbient(blended, timeSec, 1.0)
+            val (ambientExpr, eyeOff) = if (hero) applyAmbient(blended, timeSec, 1.0) else (blended to (0.0 to 0.0))
             val pose = poseFromExpression(ambientExpr)
             val frame = renderer.render(pose, blinkAmount, timeSec, eyeOff)
 

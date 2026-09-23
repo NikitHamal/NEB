@@ -92,6 +92,7 @@ import com.neb.ians.ui.components.Avatar
 import com.neb.ians.ui.components.ConfirmDeleteDialog
 import com.neb.ians.ui.components.EditContentDialog
 import com.neb.ians.ui.components.LikePill
+import com.neb.ians.ui.components.KaTeXText
 import com.neb.ians.ui.components.MarkdownText
 import com.neb.ians.ui.components.ExpandableMarkdownText
 import com.neb.ians.ui.components.NebBadge
@@ -838,7 +839,7 @@ private fun PostContentSection(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        Text(
+        KaTeXText(
             text = post.title,
             style = MaterialTheme.typography.headlineSmall,
             fontWeight = FontWeight.Bold,

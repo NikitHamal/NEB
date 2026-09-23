@@ -1,10 +1,16 @@
 package com.neb.ians.ui.components
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -33,11 +39,13 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -52,6 +60,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.neb.ians.data.api.ApiBadgeInfo
+import com.neb.ians.util.rememberTactileFeedback
+import com.neb.ians.util.TactileType
 
 // ---------------------------------------------------------------------------
 // Brand extra colors (mirrors web --md-surface-muted / --md-border-subtle and
@@ -69,7 +79,7 @@ object NebColors {
 
 /** Subtle hairline border color matching web --md-border-subtle. */
 @Composable
-fun nebBorderSubtle(): Color = MaterialTheme.colorScheme.outlineVariant
+fun nebBorderSubtle(): Color = MaterialTheme.colorScheme.outline.copy(alpha = 0.16f)
 
 // ---------------------------------------------------------------------------
 // Cards — mirrors .md-card (surface-container-lowest, 1px outline-variant,
@@ -82,16 +92,20 @@ fun NebCard(
     onClick: (() -> Unit)? = null,
     shape: RoundedCornerShape = RoundedCornerShape(16.dp),
     containerColor: Color = MaterialTheme.colorScheme.surfaceContainerLowest,
-    border: BorderStroke? = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
+    border: BorderStroke? = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.16f)),
     content: @Composable () -> Unit
 ) {
+    val tactile = rememberTactileFeedback()
     val base = modifier
         .clip(shape)
         .background(containerColor)
         .then(if (border != null) Modifier.border(border, shape) else Modifier)
     Box(
         modifier = if (onClick != null) {
-            base.clickable(onClick = onClick)
+            base.clickable(onClick = {
+                tactile.perform(TactileType.LightTap)
+                onClick()
+            })
         } else base
     ) { content() }
 }
@@ -113,13 +127,34 @@ private fun NebButtonBase(
 ) {
     val shape = CircleShape
     val bg = if (enabled) container else container.copy(alpha = 0.4f)
+    val interactionSource = remember { MutableInteractionSource() }
+    val isPressed by interactionSource.collectIsPressedAsState()
+    val scale by animateFloatAsState(
+        targetValue = if (isPressed && enabled) 0.94f else 1.0f,
+        animationSpec = spring(stiffness = Spring.StiffnessMediumLow),
+        label = "btnScale"
+    )
+    val tactile = rememberTactileFeedback()
+
     Row(
         modifier = modifier
             .defaultMinSize(minHeight = 40.dp)
+            .graphicsLayer {
+                scaleX = scale
+                scaleY = scale
+            }
             .clip(shape)
             .background(bg)
             .then(if (border != null) Modifier.border(border, shape) else Modifier)
-            .clickable(enabled = enabled, onClick = onClick)
+            .clickable(
+                enabled = enabled,
+                interactionSource = interactionSource,
+                indication = ripple(bounded = true, color = contentColor),
+                onClick = {
+                    tactile.perform(TactileType.ButtonTap)
+                    onClick()
+                }
+            )
             .padding(horizontal = 22.dp, vertical = 9.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
         verticalAlignment = Alignment.CenterVertically
@@ -130,7 +165,7 @@ private fun NebButtonBase(
         Text(
             text = text,
             color = contentColor,
-            fontWeight = FontWeight.SemiBold,
+            fontWeight = FontWeight.Bold,
             fontSize = 14.sp,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
@@ -171,7 +206,7 @@ fun NebOutlinedButton(
     leadingIcon: ImageVector? = null,
 ) = NebButtonBase(
     onClick, Color.Transparent, MaterialTheme.colorScheme.primary,
-    modifier, BorderStroke(1.dp, MaterialTheme.colorScheme.outline), enabled, leadingIcon, text
+    modifier, BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant), enabled, leadingIcon, text
 )
 
 @Composable
@@ -196,11 +231,31 @@ fun NebIconButton(
     tint: Color = MaterialTheme.colorScheme.onSurfaceVariant,
     size: Dp = 40.dp,
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val isPressed by interactionSource.collectIsPressedAsState()
+    val scale by animateFloatAsState(
+        targetValue = if (isPressed) 0.88f else 1.0f,
+        animationSpec = spring(stiffness = Spring.StiffnessMediumLow),
+        label = "iconBtnScale"
+    )
+    val tactile = rememberTactileFeedback()
+
     Box(
         modifier = modifier
             .size(size)
+            .graphicsLayer {
+                scaleX = scale
+                scaleY = scale
+            }
             .clip(CircleShape)
-            .clickable(onClick = onClick),
+            .clickable(
+                interactionSource = interactionSource,
+                indication = ripple(bounded = true, color = tint),
+                onClick = {
+                    tactile.perform(TactileType.ButtonTap)
+                    onClick()
+                }
+            ),
         contentAlignment = Alignment.Center
     ) {
         Icon(icon, contentDescription, tint = tint, modifier = Modifier.size(22.dp))
@@ -220,15 +275,43 @@ fun NebChip(
     leadingIcon: ImageVector? = null,
 ) {
     val shape = CircleShape
-    val bg = if (selected) MaterialTheme.colorScheme.secondaryContainer else Color.Transparent
-    val fg = if (selected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
-    val border = if (selected) null else BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
+    val bg by animateColorAsState(
+        targetValue = if (selected) MaterialTheme.colorScheme.secondaryContainer else Color.Transparent,
+        animationSpec = tween(180),
+        label = "chipBg"
+    )
+    val fg by animateColorAsState(
+        targetValue = if (selected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurfaceVariant,
+        animationSpec = tween(180),
+        label = "chipFg"
+    )
+    val border = if (selected) null else BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+    val interactionSource = remember { MutableInteractionSource() }
+    val isPressed by interactionSource.collectIsPressedAsState()
+    val scale by animateFloatAsState(
+        targetValue = if (isPressed) 0.94f else 1.0f,
+        animationSpec = spring(stiffness = Spring.StiffnessMediumLow),
+        label = "chipScale"
+    )
+    val tactile = rememberTactileFeedback()
+
     Row(
         modifier = modifier
+            .graphicsLayer {
+                scaleX = scale
+                scaleY = scale
+            }
             .clip(shape)
             .background(bg)
             .then(if (border != null) Modifier.border(border, shape) else Modifier)
-            .clickable(onClick = onClick)
+            .clickable(
+                interactionSource = interactionSource,
+                indication = ripple(bounded = true),
+                onClick = {
+                    tactile.perform(TactileType.SelectionChange)
+                    onClick()
+                }
+            )
             .padding(horizontal = 16.dp, vertical = 7.dp),
         horizontalArrangement = Arrangement.spacedBy(6.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -236,7 +319,7 @@ fun NebChip(
         if (leadingIcon != null) {
             Icon(leadingIcon, null, tint = fg, modifier = Modifier.size(16.dp))
         }
-        Text(label, color = fg, fontSize = 13.sp, fontWeight = FontWeight.Medium, maxLines = 1)
+        Text(label, color = fg, fontSize = 13.sp, fontWeight = FontWeight.Bold, maxLines = 1)
     }
 }
 
@@ -330,21 +413,20 @@ fun NebAvatar(
                 3 -> Color(0xFFF59E0B)
                 else -> Color(0xFF1A1A1A)
             }
-            val badgeSize = size * 0.35f
+            val badgeSize = (size * 0.38f).coerceIn(13.dp, 20.dp)
             Box(
                 modifier = Modifier
                     .size(badgeSize)
                     .align(Alignment.BottomEnd)
-                    .background(Color.White, CircleShape)
-                    .padding(1.dp)
-                    .background(badgeColor, CircleShape),
+                    .background(MaterialTheme.colorScheme.surface, CircleShape)
+                    .padding(1.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     imageVector = Icons.Filled.Verified,
                     contentDescription = "Verified",
-                    tint = Color.White,
-                    modifier = Modifier.size(badgeSize * 0.85f)
+                    tint = badgeColor,
+                    modifier = Modifier.size(badgeSize)
                 )
             }
         }

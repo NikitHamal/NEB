@@ -62,6 +62,7 @@ import com.neb.ians.data.api.ApiStudyQuizDetail
 import com.neb.ians.data.api.ApiStudyQuizQuestion
 import com.neb.ians.data.api.ApiStudyQuizSummary
 import com.neb.ians.ui.components.MarkdownText
+import com.neb.ians.ui.components.KaTeXText
 import com.neb.ians.ui.components.WebChip
 import com.neb.ians.ui.components.WebOutlinedButton
 import com.neb.ians.ui.components.WebPanelShape
@@ -686,7 +687,7 @@ fun StudyQuizPlayer(
                                 else MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         }
-                        Text(
+                        KaTeXText(
                             text = optionText,
                             style = MaterialTheme.typography.bodyMedium,
                             color = if (selected) MaterialTheme.colorScheme.onPrimaryContainer
@@ -832,13 +833,13 @@ private fun StudyQuizResultRowCard(row: StudyQuizResultRow) {
                     )
                 }
                 Column(modifier = Modifier.weight(1f)) {
-                    Text(
+                    KaTeXText(
                         text = "Q${row.number}. ${row.question}",
                         style = MaterialTheme.typography.bodyMedium,
                         fontWeight = FontWeight.SemiBold
                     )
                     Spacer(modifier = Modifier.height(4.dp))
-                    Text(
+                    KaTeXText(
                         text = if (row.isCorrect) {
                             "Your answer: ${row.userAnswer.ifBlank { "—" }} ✓"
                         } else {
@@ -1052,7 +1053,7 @@ private fun FlashcardFlip(
             },
             contentAlignment = Alignment.Center
         ) {
-            Text(
+            KaTeXText(
                 text = if (showingBack) back else front,
                 style = if (showingBack) MaterialTheme.typography.bodyLarge else MaterialTheme.typography.titleMedium,
                 fontWeight = if (showingBack) FontWeight.Normal else FontWeight.Bold,

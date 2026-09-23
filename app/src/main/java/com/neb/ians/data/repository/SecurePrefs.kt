@@ -19,21 +19,6 @@ object SecurePrefs {
     @Volatile
     private var fallbackPrefs: SharedPreferences? = null
 
-    @Volatile
-    private var masterKey: MasterKey? = null
-
-    private fun getMasterKey(context: Context): MasterKey {
-        masterKey?.let { return it }
-        return synchronized(this) {
-            masterKey?.let { return it }
-            val mk = MasterKey.Builder(context.applicationContext)
-                .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-                .build()
-            masterKey = mk
-            mk
-        }
-    }
-
     private fun getFallback(context: Context): SharedPreferences {
         fallbackPrefs?.let { return it }
         val sp = context.getSharedPreferences(FALLBACK_FILE, Context.MODE_PRIVATE)
@@ -44,10 +29,13 @@ object SecurePrefs {
     fun init(context: Context): SharedPreferences? {
         prefs?.let { return it }
         try {
+            val masterKey = MasterKey.Builder(context)
+                .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+                .build()
             val sp = EncryptedSharedPreferences.create(
-                context.applicationContext,
+                context,
                 FILE_NAME,
-                getMasterKey(context),
+                masterKey,
                 EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
                 EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
             )

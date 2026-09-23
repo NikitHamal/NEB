@@ -2,7 +2,10 @@ package com.neb.ians.ui.components
 
 import android.content.Context
 import android.content.Intent
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -10,6 +13,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.material3.ripple
+import androidx.compose.ui.graphics.graphicsLayer
+import com.neb.ians.util.rememberTactileFeedback
+import com.neb.ians.util.TactileType
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -122,8 +131,6 @@ import javax.inject.Inject
 
 private const val WEB_BASE = "https://nebians.consica.com.np"
 
-private val POST_VIDEO_URL_RE = Regex("""https?://[^\s<"]+?\.(?:mp4|webm|mov|m4v|mkv)(?:\?[^\s<"]*)?""", RegexOption.IGNORE_CASE)
-
 fun resolveMediaUrl(url: String?): String? {
     if (url.isNullOrBlank()) return null
     return if (url.startsWith("http://") || url.startsWith("https://")) url
@@ -155,7 +162,8 @@ fun extractPostAttachments(post: ApiPost): List<com.neb.ians.data.api.ApiMediaAt
         }
     }
 
-    POST_VIDEO_URL_RE.findAll(post.content).forEach { match ->
+    val videoRegex = Regex("""https?://[^\s<"]+?\.(?:mp4|webm|mov|m4v|mkv)(?:\?[^\s<"]*)?""", RegexOption.IGNORE_CASE)
+    videoRegex.findAll(post.content).forEach { match ->
         val vUrl = match.value
         if (result.none { it.url == vUrl }) {
             result.add(
@@ -404,13 +412,12 @@ fun ForumPostCard(
             }
 
             Spacer(modifier = Modifier.height(10.dp))
-            Text(
+            KaTeXText(
                 text = post.title,
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurface,
-                maxLines = 3,
-                overflow = TextOverflow.Ellipsis
+                maxLines = 3
             )
             if (preview.isNotBlank()) {
                 Spacer(modifier = Modifier.height(6.dp))
@@ -556,29 +563,61 @@ fun ForumPostCard(
 /** Like pill matching web .post-action (ThumbUp + compact count). */
 @Composable
 fun LikePill(count: Int, liked: Boolean, onClick: () -> Unit, modifier: Modifier = Modifier) {
+    val tactile = rememberTactileFeedback()
+    val interactionSource = remember { MutableInteractionSource() }
+    val isPressed by interactionSource.collectIsPressedAsState()
+    val scale by animateFloatAsState(
+        targetValue = if (isPressed) 0.90f else 1.0f,
+        animationSpec = spring(stiffness = Spring.StiffnessMediumLow),
+        label = "likePillScale"
+    )
+    val background by animateColorAsState(
+        targetValue = if (liked) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f) else Color.Transparent,
+        animationSpec = tween(180),
+        label = "likePillBg"
+    )
+    val contentColor by animateColorAsState(
+        targetValue = if (liked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
+        animationSpec = tween(180),
+        label = "likePillFg"
+    )
+
     Row(
         modifier = modifier
+            .graphicsLayer {
+                scaleX = scale
+                scaleY = scale
+            }
             .clip(WebPillShape)
+            .background(background)
             .border(
                 1.dp,
                 if (liked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant,
                 WebPillShape
             )
-            .clickable(onClick = onClick)
-            .padding(horizontal = 10.dp, vertical = 6.dp),
+            .clickable(
+                interactionSource = interactionSource,
+                indication = ripple(bounded = true, color = contentColor),
+                onClick = {
+                    tactile.perform(if (liked) TactileType.LightTap else TactileType.Success)
+                    onClick()
+                }
+            )
+            .padding(horizontal = 11.dp, vertical = 6.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(5.dp)
+        horizontalArrangement = Arrangement.spacedBy(6.dp)
     ) {
         Icon(
             imageVector = if (liked) Icons.Filled.ThumbUp else Icons.Outlined.ThumbUp,
             contentDescription = if (liked) "Remove like" else "Like",
             modifier = Modifier.size(15.dp),
-            tint = if (liked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+            tint = contentColor
         )
         Text(
             text = compactCount(count),
             style = MaterialTheme.typography.labelMedium,
-            color = if (liked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+            fontWeight = if (liked) FontWeight.Bold else FontWeight.Medium,
+            color = contentColor
         )
     }
 }

@@ -94,16 +94,26 @@ fun MarkdownText(
                                 .background(primary.copy(alpha = 0.5f), RoundedCornerShape(2.dp))
                         )
                         Spacer(modifier = Modifier.width(8.dp))
-                        InlineMdText(
-                            text = block.text,
-                            style = style.copy(fontStyle = FontStyle.Italic),
-                            color = onSurfaceVariant,
-                            primary = primary,
-                            codeBg = codeBg,
-                            onMentionClick = onMentionClick,
-                            onLinkClick = onLinkClick,
-                            inlineContents = inlineContents
-                        )
+                        if (hasLatexMath(block.text)) {
+                            KaTeXText(
+                                text = block.text,
+                                style = style.copy(fontStyle = FontStyle.Italic),
+                                color = onSurfaceVariant,
+                                onLinkClick = onLinkClick,
+                                modifier = Modifier.weight(1f)
+                            )
+                        } else {
+                            InlineMdText(
+                                text = block.text,
+                                style = style.copy(fontStyle = FontStyle.Italic),
+                                color = onSurfaceVariant,
+                                primary = primary,
+                                codeBg = codeBg,
+                                onMentionClick = onMentionClick,
+                                onLinkClick = onLinkClick,
+                                inlineContents = inlineContents
+                            )
+                        }
                     }
                 }
                 is MdBlock.ListItem -> {
@@ -114,16 +124,26 @@ fun MarkdownText(
                             color = onSurfaceVariant,
                             modifier = Modifier.padding(end = 8.dp)
                         )
-                        InlineMdText(
-                            text = block.text,
-                            style = style,
-                            color = color,
-                            primary = primary,
-                            codeBg = codeBg,
-                            onMentionClick = onMentionClick,
-                            onLinkClick = onLinkClick,
-                            inlineContents = inlineContents
-                        )
+                        if (hasLatexMath(block.text)) {
+                            KaTeXText(
+                                text = block.text,
+                                style = style,
+                                color = color,
+                                onLinkClick = onLinkClick,
+                                modifier = Modifier.weight(1f)
+                            )
+                        } else {
+                            InlineMdText(
+                                text = block.text,
+                                style = style,
+                                color = color,
+                                primary = primary,
+                                codeBg = codeBg,
+                                onMentionClick = onMentionClick,
+                                onLinkClick = onLinkClick,
+                                inlineContents = inlineContents
+                            )
+                        }
                     }
                 }
                 is MdBlock.CodeBlock -> {
@@ -159,29 +179,44 @@ fun MarkdownText(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 4.dp),
-                        shape = RoundedCornerShape(8.dp),
-                        color = primary.copy(alpha = 0.08f),
-                        border = BorderStroke(1.dp, primary.copy(alpha = 0.25f))
+                        shape = RoundedCornerShape(10.dp),
+                        color = primary.copy(alpha = 0.05f),
+                        border = BorderStroke(1.dp, primary.copy(alpha = 0.2f))
                     ) {
-                        Text(
-                            text = formatMathExpression(block.formula),
-                            style = style.copy(fontWeight = FontWeight.SemiBold, fontSize = 14.sp),
-                            color = color,
-                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
+                        KaTeXMathView(
+                            content = block.formula,
+                            displayMode = true,
+                            center = true,
+                            textColor = color,
+                            primaryColor = primary,
+                            fontSizeSp = 15f,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 10.dp, vertical = 6.dp)
                         )
                     }
                 }
                 is MdBlock.Paragraph -> {
-                    InlineMdText(
-                        text = block.text,
-                        style = style,
-                        color = color,
-                        primary = primary,
-                        codeBg = codeBg,
-                        onMentionClick = onMentionClick,
-                        onLinkClick = onLinkClick,
-                        inlineContents = inlineContents
-                    )
+                    if (hasLatexMath(block.text)) {
+                        KaTeXText(
+                            text = block.text,
+                            style = style,
+                            color = color,
+                            onLinkClick = onLinkClick,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    } else {
+                        InlineMdText(
+                            text = block.text,
+                            style = style,
+                            color = color,
+                            primary = primary,
+                            codeBg = codeBg,
+                            onMentionClick = onMentionClick,
+                            onLinkClick = onLinkClick,
+                            inlineContents = inlineContents
+                        )
+                    }
                 }
             }
         }
@@ -253,17 +288,72 @@ internal fun parseMarkdownBlocks(markdown: String): List<MdBlock> {
             continue
         }
 
-        if (trimmed.startsWith("\\[") && trimmed.endsWith("\\]")) {
-            val formula = trimmed.removePrefix("\\[").removeSuffix("\\]").trim()
-            blocks.add(MdBlock.MathBlock(formula))
-            i++
-            continue
+        if (trimmed.startsWith("\\[")) {
+            if (trimmed.endsWith("\\]") && trimmed.length > 3) {
+                val formula = trimmed.removePrefix("\\[").removeSuffix("\\]").trim()
+                blocks.add(MdBlock.MathBlock(formula))
+                i++
+                continue
+            } else {
+                val mathLines = mutableListOf<String>()
+                val first = trimmed.removePrefix("\\[").trim()
+                if (first.isNotEmpty()) mathLines.add(first)
+                i++
+                while (i < lines.size && !lines[i].trim().endsWith("\\]")) {
+                    mathLines.add(lines[i])
+                    i++
+                }
+                if (i < lines.size) {
+                    val last = lines[i].trim().removeSuffix("\\]").trim()
+                    if (last.isNotEmpty()) mathLines.add(last)
+                    i++
+                }
+                blocks.add(MdBlock.MathBlock(mathLines.joinToString("\n")))
+                continue
+            }
         }
 
-        if (trimmed.startsWith("$$") && trimmed.endsWith("$$") && trimmed.length > 2) {
-            val formula = trimmed.removePrefix("$$").removeSuffix("$$").trim()
-            blocks.add(MdBlock.MathBlock(formula))
+        if (trimmed.startsWith("$$")) {
+            if (trimmed.endsWith("$$") && trimmed.length > 2) {
+                val formula = trimmed.removePrefix("$$").removeSuffix("$$").trim()
+                blocks.add(MdBlock.MathBlock(formula))
+                i++
+                continue
+            } else {
+                val mathLines = mutableListOf<String>()
+                val first = trimmed.removePrefix("$$").trim()
+                if (first.isNotEmpty()) mathLines.add(first)
+                i++
+                while (i < lines.size && !lines[i].trim().endsWith("$$")) {
+                    mathLines.add(lines[i])
+                    i++
+                }
+                if (i < lines.size) {
+                    val last = lines[i].trim().removeSuffix("$$").trim()
+                    if (last.isNotEmpty()) mathLines.add(last)
+                    i++
+                }
+                blocks.add(MdBlock.MathBlock(mathLines.joinToString("\n")))
+                continue
+            }
+        }
+
+        if (trimmed.startsWith("\\begin{")) {
+            val envMatch = Regex("""^\\begin\{([a-zA-Z*]+)\}""").find(trimmed)
+            val env = envMatch?.groupValues?.get(1) ?: "equation"
+            val mathLines = mutableListOf<String>()
+            mathLines.add(trimmed)
             i++
+            val endTag = "\\end{$env}"
+            while (i < lines.size && !lines[i].trim().contains(endTag)) {
+                mathLines.add(lines[i])
+                i++
+            }
+            if (i < lines.size) {
+                mathLines.add(lines[i])
+                i++
+            }
+            blocks.add(MdBlock.MathBlock(mathLines.joinToString("\n")))
             continue
         }
 
@@ -279,8 +369,8 @@ internal fun parseMarkdownBlocks(markdown: String): List<MdBlock> {
             line.startsWith("- ") || line.startsWith("* ") -> {
                 blocks.add(MdBlock.ListItem(line.substring(2), ordered = false, number = 0))
             }
-            Regex("^\\d+\\.\\s").containsMatchIn(line) -> {
-                val text = line.replaceFirst(Regex("^\\d+\\.\\s"), "")
+            OrderedListPrefixRegex.containsMatchIn(line) -> {
+                val text = line.replaceFirst(OrderedListPrefixRegex, "")
                 blocks.add(MdBlock.ListItem(text, ordered = true, number = orderedIndex))
                 orderedIndex++
             }
@@ -302,19 +392,101 @@ internal fun parseMarkdownBlocks(markdown: String): List<MdBlock> {
     return result
 }
 
+private val OrderedListPrefixRegex = Regex("^\\d+\\.\\s")
+private val LatexEnvRegex = Regex("""\\begin\{(?:equation|align|gather)\*?\}([\s\S]*?)\\end\{(?:equation|align|gather)\*?\}""")
+private val LatexBlock1Regex = Regex("""\\\[([\s\S]*?)\\\]""")
+private val LatexBlock2Regex = Regex("""\$\$([\s\S]*?)\$\$""")
+private val LatexInline1Regex = Regex("""\\\(([\s\S]*?)\\\)""")
+private val LatexInline2Regex = Regex("""(?<!\\)\$([^$\n]+)\$""")
+private val MathFracRegex = Regex("""\\(?:d|t)?frac\{([^{}]+)\}\{([^{}]+)\}""")
+private val MathSqrtNthRegex = Regex("""\\sqrt\[([^\]]+)\]\{([^{}]+)\}""")
+private val MathSqrtRegex = Regex("""\\sqrt\{([^{}]+)\}""")
+private val MathTextRegex = Regex("""\\(?:text|mathrm|mathbf|mathit|textbf|textit|operatorname)\{([^{}]+)\}""")
+private val MathVecRegex = Regex("""\\vec\{([^{}]+)\}""")
+private val MathVecSingleRegex = Regex("""\\vec\s+([a-zA-Z])""")
+private val MathHatRegex = Regex("""\\hat\{([a-zA-Z])\}""")
+private val MathBarRegex = Regex("""\\(?:overline|bar)\{([^{}]+)\}""")
+private val MathDotRegex = Regex("""\\dot\{([^{}]+)\}""")
+private val MathDdotRegex = Regex("""\\ddot\{([^{}]+)\}""")
+private val MathSuperBracedRegex = Regex("""\^\{([^{}]+)\}""")
+private val MathSubBracedRegex = Regex("""\_\{([^{}]+)\}""")
+private val MathSuperSingleRegex = Regex("""\^([0-9a-zA-Z\+\-\=])""")
+private val MathSubSingleRegex = Regex("""\_([0-9a-zA-Z\+\-\=])""")
+private val PlainPreviewImageRegex = Regex("!\\[[^\\]]*\\]\\([^)]*\\)")
+private val PlainPreviewLinkRegex = Regex("\\[([^\\]]+)\\]\\([^)]*\\)")
+private val PlainPreviewMarksRegex = Regex("[*_~`#>]+")
+private val PlainPreviewNewlinesRegex = Regex("\\n{2,}")
+private val InlinePreviewImageRegex = Regex("!\\[[^]]*]\\([^)]*\\)")
+private val InlineWhitespaceNewlinesRegex = Regex("\\s*\n+\\s*")
+
+private val SuperscriptChars = mapOf(
+    '0' to "⁰", '1' to "¹", '2' to "²", '3' to "³", '4' to "⁴",
+    '5' to "⁵", '6' to "⁶", '7' to "⁷", '8' to "⁸", '9' to "⁹",
+    '+' to "⁺", '-' to "⁻", '=' to "⁼", '(' to "⁽", ')' to "⁾",
+    'n' to "ⁿ", 'i' to "ⁱ", 'x' to "ˣ", 'y' to "ʸ", 'a' to "ᵃ",
+    'b' to "ᵇ", 'c' to "ᶜ", 'd' to "ᵈ", 'e' to "ᵉ", 'm' to "ᵐ",
+    't' to "ᵗ", 'r' to "ʳ", 'k' to "ᵏ", 'p' to "ᵖ", 's' to "ˢ",
+    'v' to "ᵛ", 'w' to "ʷ", 'o' to "ᵒ", 'T' to "ᵀ"
+)
+
+private fun toSuperscript(s: String): String {
+    val trimmed = s.trim()
+    if (trimmed == "\\circ" || trimmed == "\\degree") return "°"
+    val sb = StringBuilder()
+    for (ch in trimmed) {
+        sb.append(SuperscriptChars[ch] ?: ch)
+    }
+    return sb.toString()
+}
+
+private val SubscriptChars = mapOf(
+    '0' to "₀", '1' to "₁", '2' to "₂", '3' to "₃", '4' to "₄",
+    '5' to "₅", '6' to "₆", '7' to "₇", '8' to "₈", '9' to "₉",
+    '+' to "₊", '-' to "₋", '=' to "₌", '(' to "₍", ')' to "₎",
+    'a' to "ₐ", 'e' to "ₑ", 'h' to "ₕ", 'i' to "ᵢ", 'j' to "ⱼ",
+    'k' to "ₖ", 'l' to "ₗ", 'm' to "ₘ", 'n' to "ₙ", 'o' to "ₒ",
+    'p' to "ₚ", 'r' to "ᵣ", 's' to "ₛ", 't' to "ₜ", 'u' to "ᵤ",
+    'v' to "ᵥ", 'x' to "ₓ"
+)
+
+private fun toSubscript(s: String): String {
+    val sb = StringBuilder()
+    for (ch in s.trim()) {
+        sb.append(SubscriptChars[ch] ?: ch)
+    }
+    return sb.toString()
+}
+
 fun formatLatexMath(input: String): String {
     if (input.isBlank()) return ""
     return runCatching {
         var text = input
-        text = text.replace(Regex("""\\\[([\s\S]*?)\\\]""")) { m ->
-            "\n" + formatMathExpression(m.groupValues[1].trim()) + "\n"
-        }.replace(Regex("""\$\$([\s\S]*?)\$\$""")) { m ->
-            "\n" + formatMathExpression(m.groupValues[1].trim()) + "\n"
+        text = text.replace(LatexEnvRegex) { m ->
+            "\n«m:" + formatMathExpression(m.groupValues[1].trim()) + "»\n"
         }
-        text = text.replace(Regex("""\\\(([\s\S]*?)\\\)""")) { m ->
-            formatMathExpression(m.groupValues[1].trim())
-        }.replace(Regex("""(?<!\\)\$([^$\n]+)\$""")) { m ->
-            formatMathExpression(m.groupValues[1].trim())
+        text = text.replace(LatexBlock1Regex) { m ->
+            "\n«m:" + formatMathExpression(m.groupValues[1].trim()) + "»\n"
+        }.replace(LatexBlock2Regex) { m ->
+            "\n«m:" + formatMathExpression(m.groupValues[1].trim()) + "»\n"
+        }
+        text = text.replace(LatexInline1Regex) { m ->
+            "«m:" + formatMathExpression(m.groupValues[1].trim()) + "»"
+        }.replace(LatexInline2Regex) { m ->
+            "«m:" + formatMathExpression(m.groupValues[1].trim()) + "»"
+        }
+        val rawFormulaRegex = Regex("""(\\(?:int|sum|prod|frac|sqrt|lim)\b[^\n\.\,]+=[^\n\.\,]+)""")
+        text = text.replace(rawFormulaRegex) { m ->
+            "«m:" + formatMathExpression(m.value.trim()) + "»"
+        }
+        val integralEqRegex = Regex("""(∫\s*[^=\n]+=\s*[^,\.\n]+)""")
+        text = text.replace(integralEqRegex) { m ->
+            if (!m.value.contains("«m:")) "«m:" + formatMathExpression(m.value.trim()) + "»" else m.value
+        }
+        if (text.contains("\\frac") || text.contains("\\sqrt") || text.contains("\\alpha") ||
+            text.contains("\\beta") || text.contains("\\theta") || text.contains("\\pi") ||
+            text.contains("\\pm") || text.contains("\\times") || text.contains("\\int") ||
+            text.contains("\\sum") || text.contains("\\vec") || text.contains("^{") || text.contains("_{")) {
+            text = formatMathExpression(text)
         }
         text
     }.getOrDefault(input)
@@ -324,53 +496,188 @@ fun formatMathExpression(expr: String): String {
     if (expr.isBlank()) return ""
     return runCatching {
         var s = expr
-        s = s.replace(Regex("""\\frac\{([^}]+)\}\{([^}]+)\}"""), "($1)/($2)")
-        s = s.replace(Regex("""\\sqrt\{([^}]+)\}"""), "√($1)")
+
+        var prev = ""
+        while (prev != s) {
+            prev = s
+            s = s.replace(MathTextRegex, "$1")
+        }
+
+        prev = ""
+        while (prev != s) {
+            prev = s
+            s = s.replace(MathFracRegex) { m ->
+                val num = m.groupValues[1].trim()
+                val den = m.groupValues[2].trim()
+                when {
+                    num == "1" && den == "2" -> "½"
+                    num == "1" && den == "4" -> "¼"
+                    num == "3" && den == "4" -> "¾"
+                    num == "1" && den == "3" -> "⅓"
+                    num == "2" && den == "3" -> "⅔"
+                    num.length <= 3 && den.length <= 3 && !num.contains(" ") && !den.contains(" ") -> "$num/$den"
+                    else -> "($num)/($den)"
+                }
+            }
+        }
+
+        s = s.replace(MathSqrtNthRegex) { m ->
+            val root = toSuperscript(m.groupValues[1])
+            when (root) {
+                "³" -> "∛(${m.groupValues[2]})"
+                "⁴" -> "∜(${m.groupValues[2]})"
+                else -> "${root}√(${m.groupValues[2]})"
+            }
+        }
+        s = s.replace(MathSqrtRegex, "√($1)")
         s = s.replace("\\sqrt", "√")
-        s = s.replace("\\pm", "±")
-             .replace("\\times", "×")
-             .replace("\\div", "÷")
-             .replace("\\cdot", "·")
-             .replace("\\approx", "≈")
-             .replace("\\neq", "≠")
-             .replace("\\le", "≤")
-             .replace("\\ge", "≥")
-             .replace("\\infty", "∞")
-             .replace("\\sum", "∑")
-             .replace("\\int", "∫")
-             .replace("\\partial", "∂")
-             .replace("\\rightarrow", "→")
-             .replace("\\Rightarrow", "⇒")
-             .replace("\\leftrightarrow", "↔")
-             .replace("\\in", "∈")
-             .replace("\\subset", "⊂")
-             .replace("\\cup", "∪")
-             .replace("\\cap", "∩")
+
+        s = s.replace(MathSuperBracedRegex) { m -> toSuperscript(m.groupValues[1]) }
+        s = s.replace(MathSubBracedRegex) { m -> toSubscript(m.groupValues[1]) }
+        s = s.replace(MathSuperSingleRegex) { m -> toSuperscript(m.groupValues[1]) }
+        s = s.replace(MathSubSingleRegex) { m -> toSubscript(m.groupValues[1]) }
+
+        s = s.replace(MathVecRegex, "$1⃗")
+        s = s.replace(MathVecSingleRegex, "$1⃗")
+        s = s.replace(MathHatRegex) { m ->
+            when (m.groupValues[1]) {
+                "i" -> "î"
+                "j" -> "ĵ"
+                "k" -> "k̂"
+                else -> "${m.groupValues[1]}̂"
+            }
+        }
+        s = s.replace(MathBarRegex, "$1̅")
+        s = s.replace(MathDotRegex, "$1̇")
+        s = s.replace(MathDdotRegex, "$1̈")
+
+        s = s.replace("\\iint", "∬")
+            .replace("\\iiint", "∭")
+            .replace("\\oint", "∮")
+            .replace("\\int", "∫")
+            .replace("\\sum", "∑")
+            .replace("\\prod", "∏")
+            .replace("\\lim", "lim")
+            .replace("\\partial", "∂")
+            .replace("\\nabla", "∇")
+            .replace("\\infty", "∞")
+
         s = s.replace("\\alpha", "α")
-             .replace("\\beta", "β")
-             .replace("\\gamma", "γ")
-             .replace("\\delta", "δ")
-             .replace("\\epsilon", "ε")
-             .replace("\\theta", "θ")
-             .replace("\\lambda", "λ")
-             .replace("\\mu", "μ")
-             .replace("\\pi", "π")
-             .replace("\\sigma", "σ")
-             .replace("\\phi", "φ")
-             .replace("\\omega", "ω")
-             .replace("\\Delta", "Δ")
-             .replace("\\Omega", "Ω")
-             .replace("\\Sigma", "Σ")
-             .replace("\\Pi", "Π")
-        s = s.replace(Regex("""\\text\{([^}]+)\}"""), "$1")
-        s = s.replace("^0", "⁰").replace("^1", "¹").replace("^2", "²").replace("^3", "³")
-             .replace("^4", "⁴").replace("^5", "⁵").replace("^6", "⁶").replace("^7", "⁷")
-             .replace("^8", "⁸").replace("^9", "⁹").replace("^n", "ⁿ").replace("^x", "ˣ")
-             .replace("^y", "ʸ").replace("^+", "⁺").replace("^-", "⁻").replace("^=", "⁼")
-        s = s.replace("_0", "₀").replace("_1", "₁").replace("_2", "₂").replace("_3", "₃")
-             .replace("_4", "₄").replace("_5", "₅").replace("_6", "₆").replace("_7", "₇")
-             .replace("_8", "₈").replace("_9", "₉").replace("_a", "ₐ").replace("_e", "ₑ")
-             .replace("_o", "ₒ").replace("_x", "ₓ").replace("_i", "ᵢ").replace("_n", "ₙ")
+            .replace("\\beta", "β")
+            .replace("\\gamma", "γ")
+            .replace("\\delta", "δ")
+            .replace("\\epsilon", "ε")
+            .replace("\\varepsilon", "ε")
+            .replace("\\zeta", "ζ")
+            .replace("\\eta", "η")
+            .replace("\\theta", "θ")
+            .replace("\\vartheta", "θ")
+            .replace("\\iota", "ι")
+            .replace("\\kappa", "κ")
+            .replace("\\lambda", "λ")
+            .replace("\\mu", "μ")
+            .replace("\\nu", "ν")
+            .replace("\\xi", "ξ")
+            .replace("\\pi", "π")
+            .replace("\\varpi", "ϖ")
+            .replace("\\rho", "ρ")
+            .replace("\\varrho", "ϱ")
+            .replace("\\sigma", "σ")
+            .replace("\\varsigma", "ς")
+            .replace("\\tau", "τ")
+            .replace("\\upsilon", "υ")
+            .replace("\\phi", "φ")
+            .replace("\\varphi", "φ")
+            .replace("\\chi", "χ")
+            .replace("\\psi", "ψ")
+            .replace("\\omega", "ω")
+
+        s = s.replace("\\Gamma", "Γ")
+            .replace("\\Delta", "Δ")
+            .replace("\\Theta", "Θ")
+            .replace("\\Lambda", "Λ")
+            .replace("\\Xi", "Ξ")
+            .replace("\\Pi", "Π")
+            .replace("\\Sigma", "Σ")
+            .replace("\\Upsilon", "Υ")
+            .replace("\\Phi", "Φ")
+            .replace("\\Psi", "Ψ")
+            .replace("\\Omega", "Ω")
+
+        s = s.replace("\\times", "×")
+            .replace("\\cdot", "·")
+            .replace("\\div", "÷")
+            .replace("\\pm", "±")
+            .replace("\\mp", "∓")
+            .replace("\\bullet", "•")
+            .replace("\\circ", "∘")
+            .replace("\\degree", "°")
+            .replace("\\approx", "≈")
+            .replace("\\equiv", "≡")
+            .replace("\\sim", "∼")
+            .replace("\\propto", "∝")
+            .replace("\\leq", "≤")
+            .replace("\\le", "≤")
+            .replace("\\geq", "≥")
+            .replace("\\ge", "≥")
+            .replace("\\neq", "≠")
+            .replace("\\ne", "≠")
+            .replace("\\ll", "≪")
+            .replace("\\gg", "≫")
+
+        s = s.replace("\\rightarrow", "→")
+            .replace("\\to", "→")
+            .replace("\\leftarrow", "←")
+            .replace("\\gets", "←")
+            .replace("\\Rightarrow", "⇒")
+            .replace("\\implies", "⇒")
+            .replace("\\Leftarrow", "⇐")
+            .replace("\\Leftrightarrow", "⇔")
+            .replace("\\iff", "⇔")
+            .replace("\\leftrightarrow", "↔")
+            .replace("\\uparrow", "↑")
+            .replace("\\downarrow", "↓")
+            .replace("\\rightleftharpoons", "⇌")
+
+        s = s.replace("\\in", "∈")
+            .replace("\\notin", "∉")
+            .replace("\\subset", "⊂")
+            .replace("\\subseteq", "⊆")
+            .replace("\\supset", "⊃")
+            .replace("\\supseteq", "⊇")
+            .replace("\\cap", "∩")
+            .replace("\\cup", "∪")
+            .replace("\\setminus", "\\")
+            .replace("\\forall", "∀")
+            .replace("\\exists", "∃")
+            .replace("\\emptyset", "∅")
+            .replace("\\varnothing", "∅")
+
+        s = s.replace("\\triangle", "△")
+            .replace("\\angle", "∠")
+            .replace("\\perp", "⊥")
+            .replace("\\parallel", "∥")
+
+        s = s.replace("\\left(", "(")
+            .replace("\\right)", ")")
+            .replace("\\left[", "[")
+            .replace("\\right]", "]")
+            .replace("\\left\\{", "{")
+            .replace("\\right\\}", "}")
+            .replace("\\left|", "|")
+            .replace("\\right|", "|")
+            .replace("\\{", "{")
+            .replace("\\}", "}")
+
+        s = s.replace(Regex("""\\(sin|cos|tan|cot|sec|csc|arcsin|arccos|arctan|ln|log|exp|det|max|min)"""), "$1")
+
+        s = s.replace("\\quad", " ")
+            .replace("\\qquad", " ")
+            .replace(Regex("""\\[,;:!]\s*"""), " ")
+            .replace("\\\\", " ")
+            .replace(Regex("""[ \t]{2,}"""), " ")
+            .trim()
+
         s
     }.getOrDefault(expr)
 }
@@ -382,7 +689,8 @@ private val inlinePattern = Regex(
         "|(~~([^~]+)~~)" +              // 7,8 strikethrough
         "|(\\[([^\\]]+)\\]\\(([^)]+)\\))" + // 9,10,11 link
         "|(@([A-Za-z0-9_]+))" +          // 12,13 mention
-        "|((https?://[^\\s]+|www\\.[^\\s]+))" // 14 bare url
+        "|((https?://[^\\s]+|www\\.[^\\s]+))" + // 14 bare url
+        "|(«m:([^»]+)»)"                // 15,16 math formula
 )
 
 internal fun buildInlineAnnotatedString(
@@ -468,6 +776,18 @@ private fun androidx.compose.ui.text.AnnotatedString.Builder.appendStyledSegment
                     append(g[14]!!.value)
                 }
             }
+            g[16] != null -> {
+                withStyleAppend(
+                    SpanStyle(
+                        fontFamily = androidx.compose.ui.text.font.FontFamily.Serif,
+                        fontStyle = FontStyle.Italic,
+                        fontWeight = FontWeight.Medium,
+                        color = primary,
+                        background = primary.copy(alpha = 0.08f)
+                    ),
+                    " " + g[16]!!.value.trim() + " "
+                )
+            }
         }
         cursor = match.range.last + 1
     }
@@ -483,10 +803,10 @@ private fun androidx.compose.ui.text.AnnotatedString.Builder.withStyleAppend(sty
 /** Strip markdown markers for inline previews (post cards). Mirrors web render_content_inline. */
 fun markdownToPlainPreview(markdown: String): String {
     return InlineImageTokens.plainText(markdown)
-        .replace(Regex("!\\[[^\\]]*\\]\\([^)]*\\)"), "")
-        .replace(Regex("\\[([^\\]]+)\\]\\([^)]*\\)"), "$1")
-        .replace(Regex("[*_~`#>]+"), "")
-        .replace(Regex("\\n{2,}"), "\n")
+        .replace(PlainPreviewImageRegex, "")
+        .replace(PlainPreviewLinkRegex, "$1")
+        .replace(PlainPreviewMarksRegex, "")
+        .replace(PlainPreviewNewlinesRegex, "\n")
         .trim()
 }
 
@@ -569,18 +889,25 @@ fun ExpandableMarkdownText(
  * keeping inline markers so [buildInlineAnnotatedString] can still style
  * bold/italic/code/links/mentions. Block markers become readable bullets.
  */
+private val inlinePreviewCache = android.util.LruCache<Pair<String, Boolean>, String>(256)
+
 fun markdownToInlinePreview(markdown: String, stripTokens: Boolean = true): String {
     if (markdown.isBlank()) return ""
-    return parseMarkdownBlocks(markdown).joinToString("\n") { block ->
+    val cacheKey = Pair(markdown, stripTokens)
+    inlinePreviewCache.get(cacheKey)?.let { return it }
+    val parsed = parseMarkdownBlocks(markdown).joinToString("\n") { block ->
         when (block) {
-            is MdBlock.Heading -> block.text
-            is MdBlock.Quote -> block.text
-            is MdBlock.ListItem -> (if (block.ordered) "${block.number}. " else "• ") + block.text
+            is MdBlock.Heading -> formatLatexMath(block.text)
+            is MdBlock.Quote -> formatLatexMath(block.text)
+            is MdBlock.ListItem -> (if (block.ordered) "${block.number}. " else "• ") + formatLatexMath(block.text)
             is MdBlock.CodeBlock -> block.code
-            is MdBlock.MathBlock -> block.formula
-            is MdBlock.Paragraph -> block.text
+            is MdBlock.MathBlock -> "«m:" + formatMathExpression(block.formula) + "»"
+            is MdBlock.Paragraph -> formatLatexMath(block.text)
         }
-    }.replace(Regex("!\\[[^]]*]\\([^)]*\\)"), "").let { if (stripTokens) InlineImageTokens.plainText(it) else it }.trim()
+    }.replace(InlinePreviewImageRegex, "").let { if (stripTokens) InlineImageTokens.plainText(it) else it }.trim()
+    val result = formatLatexMath(parsed)
+    inlinePreviewCache.put(cacheKey, result)
+    return result
 }
 
 /**
@@ -605,7 +932,7 @@ fun MarkdownInlineText(
     val errorBg = MaterialTheme.colorScheme.errorContainer
     val errorFg = MaterialTheme.colorScheme.onErrorContainer
     val flattened = remember(markdown) {
-        markdown.replace(Regex("\\s*\n+\\s*"), " ").trim()
+        markdown.replace(InlineWhitespaceNewlinesRegex, " ").trim()
     }
     if (flattened.isEmpty()) return
     val annotated = remember(flattened, color, primary, codeBg, errorBg, errorFg) {

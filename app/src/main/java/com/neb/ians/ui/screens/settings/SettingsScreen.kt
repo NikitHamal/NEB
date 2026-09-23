@@ -11,7 +11,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.BookmarkBorder
-import androidx.compose.material.icons.outlined.Dashboard
 import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Info
@@ -23,6 +22,7 @@ import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material.icons.outlined.SpaceDashboard
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material.icons.outlined.Wifi
@@ -47,12 +47,11 @@ fun SettingsScreen(
     onNavigateToEditProfile: () -> Unit,
     onNavigateToBookmarks: () -> Unit = {},
     onNavigateToNebyCredits: () -> Unit = {},
-    onNavigateToLocalNeby: () -> Unit = {},
-    onNavigateToCanvas: () -> Unit = {},
     onNavigateToMyAvatar: () -> Unit = {},
     onNavigateToDeleteAccount: () -> Unit = {},
     onNavigateToLogin: () -> Unit = {},
-    onNavigateToWebPortal: (String) -> Unit = {}
+    onNavigateToWebPortal: (String) -> Unit = {},
+    onNavigateToCanvas: () -> Unit = {}
 ) {
     val isDarkMode by settingsViewModel.isDarkMode.collectAsStateWithLifecycle()
     val notificationsEnabled by settingsViewModel.notificationsEnabled.collectAsStateWithLifecycle()
@@ -270,47 +269,44 @@ fun SettingsScreen(
 
             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f))
 
-            SettingsSectionLabel(label = "Preferences")
-
-            ListItem(
-                modifier = Modifier.clickable { onNavigateToLocalNeby() },
-                headlineContent = { Text("Neby Local", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium) },
-                supportingContent = { Text("Optional private AI · download once, use offline", style = MaterialTheme.typography.bodySmall) },
-                leadingContent = {
-                    Icon(
-                        imageVector = Icons.Outlined.AutoAwesome,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.size(22.dp)
-                    )
-                },
-                colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest)
-            )
-
-            HorizontalDivider(
-                modifier = Modifier.padding(horizontal = 16.dp),
-                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
-            )
+            SettingsSectionLabel(label = "Tools & Whiteboard")
 
             ListItem(
                 modifier = Modifier.clickable { onNavigateToCanvas() },
-                headlineContent = { Text("Canvas", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium) },
-                supportingContent = { Text("AI knowledge maps · cards, drawings and study widgets", style = MaterialTheme.typography.bodySmall) },
+                headlineContent = { Text("NEBians Canvas", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.SemiBold) },
+                supportingContent = {
+                    Text("Interactive visual concept mapping, diagrams & whiteboards powered by Neby", style = MaterialTheme.typography.bodySmall)
+                },
                 leadingContent = {
                     Icon(
-                        imageVector = Icons.Outlined.Dashboard,
+                        imageVector = Icons.Outlined.SpaceDashboard,
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.size(22.dp)
                     )
                 },
-                colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest)
+                trailingContent = {
+                    Surface(
+                        shape = RoundedCornerShape(99.dp),
+                        color = MaterialTheme.colorScheme.primaryContainer
+                    ) {
+                        Text(
+                            "New",
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                },
+                colors = ListItemDefaults.colors(
+                    containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
+                )
             )
 
-            HorizontalDivider(
-                modifier = Modifier.padding(horizontal = 16.dp),
-                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
-            )
+            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f))
+
+            SettingsSectionLabel(label = "Preferences")
 
             ListItem(
                 headlineContent = { Text("Dark Theme", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium) },

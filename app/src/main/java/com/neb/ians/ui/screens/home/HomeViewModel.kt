@@ -2,6 +2,7 @@ package com.neb.ians.ui.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.neb.ians.data.api.ApiService
 import com.neb.ians.data.api.ApiResource
 import com.neb.ians.data.api.ApiPost
 import com.neb.ians.data.api.ApiErrorMapper
@@ -50,7 +51,10 @@ data class HomeUiState(
     val recentPosts: List<ApiPost> = emptyList(),
     val latestNews: List<NewsAnnouncement> = emptyList(),
     val suggestedItems: List<ApiSuggestedItem> = emptyList(),
+    val selectedFilter: String = "all",
     val isLoading: Boolean = true,
+    val isLoadingMore: Boolean = false,
+    val hasMorePosts: Boolean = true,
     val error: String? = null
 ) {
     companion object {
@@ -61,9 +65,18 @@ data class HomeUiState(
     }
 }
 
+private data class HomeStatusState(
+    val isLoading: Boolean,
+    val error: String?,
+    val selectedFilter: String,
+    val isLoadingMore: Boolean,
+    val hasMorePosts: Boolean
+)
+
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val authRepository: AuthRepository,
+    private val apiService: ApiService,
     private val settingsRepository: SettingsRepository,
     private val forumRepository: ForumRepository,
     private val resourceRepository: ResourceRepository,
@@ -81,6 +94,12 @@ class HomeViewModel @Inject constructor(
     private val _recentPosts = MutableStateFlow<List<ApiPost>>(appCache.recentPosts)
     private val _latestNews = MutableStateFlow<List<NewsAnnouncement>>(appCache.latestNews)
     private val _suggestedItems = MutableStateFlow<List<ApiSuggestedItem>>(appCache.suggestedItems)
+    private val _selectedFilter = MutableStateFlow("all")
+    private val _isLoadingMore = MutableStateFlow(false)
+    private val _hasMorePosts = MutableStateFlow(true)
+    private var currentPostPage = 1
+    private var currentResourcePage = 1
+    private var hasMoreResources = true
     private val processingPostLikes = mutableSetOf<String>()
     private val processingBookmarks = mutableSetOf<String>()
     private val processingDeletions = mutableSetOf<String>()
@@ -264,7 +283,57 @@ class HomeViewModel @Inject constructor(
         return job
     }
 
-    fun refresh(): Job = loadData(forceRefresh = true)
+    fun refresh(): Job {
+        currentPostPage = 1
+        currentResourcePage = 1
+        _hasMorePosts.value = true
+        hasMoreResources = true
+        return loadData(forceRefresh = true)
+    }
+
+    fun selectFilter(filter: String) {
+        _selectedFilter.value = filter
+    }
+
+    fun loadMore() {
+        if (_isLoadingMore.value || !_hasMorePosts.value) return
+        viewModelScope.launch {
+            _isLoadingMore.value = true
+            val nextPostPage = currentPostPage + 1
+            forumRepository.getPosts(page = nextPostPage).fold(
+                onSuccess = { result ->
+                    currentPostPage = nextPostPage
+                    _hasMorePosts.value = result.hasMore
+                    _recentPosts.update { current ->
+                        val existingIds = current.map { it.id }.toSet()
+                        val newOnes = result.posts.filter { it.id !in existingIds }
+                        current + newOnes
+                    }
+                },
+                onFailure = {
+                    _hasMorePosts.value = false
+                }
+            )
+            if (hasMoreResources) {
+                val nextResPage = currentResourcePage + 1
+                resourceRepository.getResources(sort = "newest", page = nextResPage).fold(
+                    onSuccess = { result ->
+                        currentResourcePage = nextResPage
+                        hasMoreResources = result.page < result.totalPages
+                        _recentResources.update { current ->
+                            val existingIds = current.map { it.id }.toSet()
+                            val newOnes = result.resources.filter { it.id !in existingIds }
+                            current + newOnes
+                        }
+                    },
+                    onFailure = {
+                        hasMoreResources = false
+                    }
+                )
+            }
+            _isLoadingMore.value = false
+        }
+    }
 
     fun toggleThumbsUp(postId: String) {
         if (processingPostLikes.contains(postId)) return
@@ -359,6 +428,39 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    private val processingFollows = mutableSetOf<String>()
+
+    fun toggleFollowUser(userId: String) {
+        if (userId.isBlank() || processingFollows.contains(userId)) return
+        processingFollows.add(userId)
+        viewModelScope.launch {
+            try {
+                val token = authRepository.getBearerToken()
+                if (token == null) {
+                    processingFollows.remove(userId)
+                    return@launch
+                }
+                val response = apiService.toggleFollow(token, userId)
+                _recentPosts.update { posts ->
+                    val updated = posts.map { post ->
+                        if (post.authorId == userId) post.copy(isFollowingAuthor = response.isFollowing) else post
+                    }
+                    appCache.recentPosts = updated
+                    updated
+                }
+                if (response.isFollowing) {
+                    _snackbarMessage.tryEmit("Followed")
+                } else {
+                    _snackbarMessage.tryEmit("Unfollowed")
+                }
+            } catch (e: Exception) {
+                _snackbarMessage.tryEmit("Couldn't update follow status")
+            } finally {
+                processingFollows.remove(userId)
+            }
+        }
+    }
+
     val uiState: StateFlow<HomeUiState> = combine(
         combine(
             authRepository.userProfileFlow.map { it?.displayName?.takeIf { name -> name.isNotBlank() } ?: it?.username ?: "Student" },
@@ -370,7 +472,9 @@ class HomeViewModel @Inject constructor(
         _recentPosts,
         _latestNews,
         _suggestedItems,
-        combine(_isLoading, _error) { isLoading, error -> Pair(isLoading, error) }
+        combine(_isLoading, _error, _selectedFilter, _isLoadingMore, _hasMorePosts) { isLoading, error, filter, loadingMore, hasMore ->
+            HomeStatusState(isLoading, error, filter, loadingMore, hasMore)
+        }
     ) { values ->
         val user = values[0] as Triple<String, String?, String?>
         @Suppress("UNCHECKED_CAST") val recentResources = values[1] as List<ApiResource>
@@ -378,7 +482,7 @@ class HomeViewModel @Inject constructor(
         @Suppress("UNCHECKED_CAST") val recentPosts = values[3] as List<ApiPost>
         @Suppress("UNCHECKED_CAST") val latestNews = values[4] as List<NewsAnnouncement>
         @Suppress("UNCHECKED_CAST") val suggestedItems = values[5] as List<ApiSuggestedItem>
-        @Suppress("UNCHECKED_CAST") val loadingError = values[6] as Pair<Boolean, String?>
+        val status = values[6] as HomeStatusState
         HomeUiState(
             userName = user.first,
             userPhotoUrl = user.second,
@@ -388,8 +492,11 @@ class HomeViewModel @Inject constructor(
             recentPosts = recentPosts,
             latestNews = latestNews,
             suggestedItems = suggestedItems,
-            isLoading = loadingError.first,
-            error = loadingError.second
+            selectedFilter = status.selectedFilter,
+            isLoading = status.isLoading,
+            isLoadingMore = status.isLoadingMore,
+            hasMorePosts = status.hasMorePosts,
+            error = status.error
         )
     }.stateIn(viewModelScope, SharingStarted.Eagerly, HomeUiState(
         userName = (authRepository.currentUserNameFlow as StateFlow).value

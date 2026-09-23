@@ -10,7 +10,6 @@ import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import retrofit2.http.*
 import com.neb.ians.BuildConfig
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonObject
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.ResponseBody
 import com.neb.ians.data.repository.SecurePrefs
@@ -898,7 +897,6 @@ data class ApiProfileResourcesResponse(
 @Serializable
 data class ApiRealtimeConfig(
     @SerialName("ws_url") val wsUrl: String = "",
-    @SerialName("ticket") val ticket: String = "",
     @SerialName("heartbeat_interval") val heartbeatInterval: Int = 25
 )
 
@@ -2078,203 +2076,6 @@ interface ApiService {
     @GET("api/users/institutions/")
     suspend fun getInstitutions(): ApiInstitutionsResponse
 
-    // --- Canvas (knowledge-map boards; web AJAX, Bearer-auth) ---
-
-    @GET("ajax/canvas/boards/")
-    suspend fun getCanvasBoards(
-        @Header("Authorization") bearerToken: String
-    ): CanvasBoardsResponse
-
-    @POST("ajax/canvas/boards/create/")
-    suspend fun createCanvasBoard(
-        @Header("Authorization") bearerToken: String,
-        @Body request: CanvasBoardCreateRequest
-    ): CanvasBoardResponse
-
-    @GET("ajax/canvas/boards/{boardId}/")
-    suspend fun getCanvasBoard(
-        @Header("Authorization") bearerToken: String,
-        @Path("boardId") boardId: String
-    ): CanvasBoardDetailResponse
-
-    @POST("ajax/canvas/boards/{boardId}/update/")
-    suspend fun updateCanvasBoard(
-        @Header("Authorization") bearerToken: String,
-        @Path("boardId") boardId: String,
-        @Body request: CanvasBoardTitleRequest
-    ): CanvasBoardResponse
-
-    @POST("ajax/canvas/boards/{boardId}/delete/")
-    suspend fun deleteCanvasBoard(
-        @Header("Authorization") bearerToken: String,
-        @Path("boardId") boardId: String
-    ): CanvasOkResponse
-
-    @POST("ajax/canvas/boards/{boardId}/share/")
-    suspend fun shareCanvasBoard(
-        @Header("Authorization") bearerToken: String,
-        @Path("boardId") boardId: String,
-        @Body request: CanvasShareRequest
-    ): CanvasShareResponse
-
-    @POST("ajax/canvas/boards/{boardId}/nodes/")
-    suspend fun createCanvasNode(
-        @Header("Authorization") bearerToken: String,
-        @Path("boardId") boardId: String,
-        @Body request: CanvasNodeCreateRequest
-    ): CanvasNodeResponse
-
-    @POST("ajax/canvas/boards/{boardId}/notes/")
-    suspend fun createCanvasNote(
-        @Header("Authorization") bearerToken: String,
-        @Path("boardId") boardId: String,
-        @Body request: CanvasNoteCreateRequest
-    ): CanvasNodeResponse
-
-    @POST("ajax/canvas/nodes/{nodeId}/move")
-    suspend fun moveCanvasNode(
-        @Header("Authorization") bearerToken: String,
-        @Path("nodeId") nodeId: String,
-        @Body request: CanvasNodeMoveRequest
-    ): CanvasNodeResponse
-
-    @POST("ajax/canvas/nodes/{nodeId}/delete")
-    suspend fun deleteCanvasNode(
-        @Header("Authorization") bearerToken: String,
-        @Path("nodeId") nodeId: String
-    ): CanvasOkResponse
-
-    @POST("ajax/canvas/nodes/{nodeId}/retry")
-    suspend fun retryCanvasNode(
-        @Header("Authorization") bearerToken: String,
-        @Path("nodeId") nodeId: String
-    ): CanvasNodeResponse
-
-    @POST("ajax/canvas/nodes/{nodeId}/followup")
-    suspend fun followupCanvasNode(
-        @Header("Authorization") bearerToken: String,
-        @Path("nodeId") nodeId: String,
-        @Body request: CanvasFollowupRequest
-    ): CanvasNodeResponse
-
-    @POST("ajax/canvas/nodes/{nodeId}/dig-deeper")
-    suspend fun digDeeperCanvasNode(
-        @Header("Authorization") bearerToken: String,
-        @Path("nodeId") nodeId: String,
-        @Body request: CanvasDigDeeperRequest
-    ): CanvasNodeResponse
-
-    @POST("ajax/canvas/nodes/{nodeId}/update/")
-    suspend fun updateCanvasNode(
-        @Header("Authorization") bearerToken: String,
-        @Path("nodeId") nodeId: String,
-        @Body request: CanvasNodeUpdateRequest
-    ): CanvasNodeResponse
-
-    @POST("ajax/canvas/boards/{boardId}/batch-move/")
-    suspend fun batchMoveCanvasNodes(
-        @Header("Authorization") bearerToken: String,
-        @Path("boardId") boardId: String,
-        @Body request: CanvasBatchMoveRequest
-    ): CanvasOkResponse
-
-    @GET("ajax/canvas/boards/{boardId}/snapshots/")
-    suspend fun getCanvasSnapshots(
-        @Header("Authorization") bearerToken: String,
-        @Path("boardId") boardId: String
-    ): CanvasSnapshotsResponse
-
-    @POST("ajax/canvas/boards/{boardId}/snapshots/create/")
-    suspend fun createCanvasSnapshot(
-        @Header("Authorization") bearerToken: String,
-        @Path("boardId") boardId: String,
-        @Body request: CanvasSnapshotCreateRequest
-    ): CanvasSnapshotResponse
-
-    @POST("ajax/canvas/boards/{boardId}/snapshots/{snapshotId}/restore/")
-    suspend fun restoreCanvasSnapshot(
-        @Header("Authorization") bearerToken: String,
-        @Path("boardId") boardId: String,
-        @Path("snapshotId") snapshotId: String
-    ): CanvasSnapshotRestoreResponse
-
-    @GET("ajax/canvas/boards/{boardId}/export/")
-    suspend fun exportCanvasBoard(
-        @Header("Authorization") bearerToken: String,
-        @Path("boardId") boardId: String,
-        @Query("format") format: String
-    ): ResponseBody
-
-    @POST("ajax/canvas/boards/{boardId}/import/")
-    suspend fun importCanvasBoard(
-        @Header("Authorization") bearerToken: String,
-        @Path("boardId") boardId: String,
-        @Body request: CanvasImportRequest
-    ): CanvasImportResponse
-
-    @GET("ajax/canvas/templates/")
-    suspend fun getCanvasTemplates(
-        @Header("Authorization") bearerToken: String
-    ): CanvasTemplatesResponse
-
-    @POST("ajax/canvas/templates/create/")
-    suspend fun createCanvasFromTemplate(
-        @Header("Authorization") bearerToken: String,
-        @Body request: CanvasTemplateCreateRequest
-    ): CanvasTemplateCreateResponse
-
-    @POST("ajax/canvas/boards/{boardId}/neby-explore/")
-    suspend fun exploreCanvasBoard(
-        @Header("Authorization") bearerToken: String,
-        @Path("boardId") boardId: String,
-        @Body request: CanvasExploreRequest
-    ): CanvasExploreResponse
-
-    @POST("ajax/canvas/boards/{boardId}/suggestions/")
-    suspend fun getCanvasSuggestions(
-        @Header("Authorization") bearerToken: String,
-        @Path("boardId") boardId: String,
-        @Body request: CanvasExploreRequest
-    ): CanvasSuggestionsResponse
-
-    @GET("ajax/canvas/boards/{boardId}/neby-history/")
-    suspend fun getCanvasNebyHistory(
-        @Header("Authorization") bearerToken: String,
-        @Path("boardId") boardId: String
-    ): ResponseBody
-
-    @POST("ajax/canvas/boards/{boardId}/widget-content/")
-    suspend fun getCanvasWidgetContent(
-        @Header("Authorization") bearerToken: String,
-        @Path("boardId") boardId: String,
-        @Body request: CanvasWidgetRequest
-    ): CanvasWidgetResponse
-
-    @GET("ajax/canvas/boards/{boardId}/objects/list/")
-    suspend fun getCanvasObjects(
-        @Header("Authorization") bearerToken: String,
-        @Path("boardId") boardId: String
-    ): ResponseBody
-
-    @POST("ajax/canvas/boards/{boardId}/objects/")
-    suspend fun saveCanvasObjects(
-        @Header("Authorization") bearerToken: String,
-        @Path("boardId") boardId: String,
-        @Body request: CanvasObjectsSaveRequest
-    ): CanvasOkResponse
-
-    @GET("ajax/canvas/shared/{token}/detail/")
-    suspend fun getSharedCanvasDetail(
-        @Header("Authorization") bearerToken: String?,
-        @Path("token") token: String
-    ): CanvasSharedDetailResponse
-
-    @POST("ajax/canvas/shared/{token}/clone/")
-    suspend fun cloneSharedCanvas(
-        @Header("Authorization") bearerToken: String,
-        @Path("token") token: String
-    ): CanvasCloneResponse
-
     companion object {
         private const val BASE_URL = "https://nebians.consica.com.np/"
 
@@ -2294,8 +2095,8 @@ interface ApiService {
                     }
                     chain.proceed(request.build())
                 }
-                .connectTimeout(15, java.util.concurrent.TimeUnit.SECONDS)
-                .readTimeout(20, java.util.concurrent.TimeUnit.SECONDS)
+                .connectTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
+                .readTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
                 .writeTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
                 .build()
 

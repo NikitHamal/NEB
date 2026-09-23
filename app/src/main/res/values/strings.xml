@@ -36,4 +36,11 @@
     <string name="cd_navigate_back">Navigate back</string>
     <string name="cd_search">Search</string>
     <string name="cd_notifications">Notifications</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_skip">Skip</string>
+    <string name="onboarding_next">Next</string>
+    <string name="onboarding_get_started">Get Started</string>
+    <string name="onboarding_walkthrough_title">App Walkthrough &amp; Tour</string>
+    <string name="onboarding_walkthrough_subtitle">Explore features, notes library &amp; Neby AI</string>
 </resources>

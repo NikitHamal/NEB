@@ -55,6 +55,7 @@ import com.neb.ians.data.api.ApiSyllabusQaItem
 import com.neb.ians.data.api.ApiSyllabusSubjectDetailResponse
 import com.neb.ians.ui.components.ErrorCard
 import com.neb.ians.ui.components.MarkdownText
+import com.neb.ians.ui.components.KaTeXText
 import com.neb.ians.ui.components.WebEmptyState
 import com.neb.ians.ui.components.WebPanelShape
 import com.neb.ians.ui.components.WebPillShape
@@ -516,13 +517,12 @@ private fun QaAccordion(qa: ApiSyllabusQaItem) {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                Text(
+                KaTeXText(
                     text = qa.question.ifBlank { "Question" },
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.SemiBold,
                     modifier = Modifier.weight(1f),
-                    maxLines = if (expanded) 4 else 2,
-                    overflow = TextOverflow.Ellipsis
+                    maxLines = if (expanded) 4 else 2
                 )
                 Icon(
                     imageVector = Icons.Outlined.ExpandMore,

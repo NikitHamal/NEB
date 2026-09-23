@@ -15,8 +15,11 @@ class AvatarFetcher(
 ) : Fetcher {
 
     override suspend fun fetch(): FetchResult {
-        val px = 384
-        val bmp = blobatarBitmap(spec.seed, spec.opts, px)
+        val targetPx = when (val w = options.size.width) {
+            is coil.size.Dimension.Pixels -> w.px.coerceIn(48, 384)
+            else -> 128
+        }
+        val bmp = blobatarBitmap(spec.seed, spec.opts, targetPx)
         val drawable = BitmapDrawable(options.context.resources, bmp)
         return DrawableResult(drawable, false, DataSource.MEMORY)
     }
