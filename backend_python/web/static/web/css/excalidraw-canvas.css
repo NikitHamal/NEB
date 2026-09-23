@@ -1,5 +1,8 @@
 #excalidrawMount { position: absolute; inset: 0; }
 #excalidrawMount .excalidraw-wrapper { height: 100%; }
+#excalidrawMount .excalidraw {
+  --ui-font: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
 .neb-rail {
   position: fixed; right: 14px; top: 50%; transform: translateY(-50%);
   display: flex; flex-direction: column; gap: 8px; z-index: 40;
