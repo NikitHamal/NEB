@@ -49,18 +49,27 @@ window.NebCanvas = (function () {
     return (window.NebExcali && window.NebExcali.getSceneElements()) || [];
   }
 
+  function cardSizes() { return window.NebCardSizes || {}; }
+
   function refreshScene() {
     if (!window.NebExcali) return;
     var scene = window.NebScene.boardToScene(
       Object.keys(nodes).map(function (k) { return nodes[k]; }),
       window.NebCanvasInk || [],
-      theme()
+      theme(),
+      cardSizes()
     );
     window.NebExcali.updateScene({ elements: scene.elements, files: scene.files });
   }
 
   function addNodes(list, focusLast) {
-    (list || []).forEach(function (n) { nodes[String(n.id)] = n; });
+    (list || []).forEach(function (n) {
+      nodes[String(n.id)] = n;
+      if (window.NebCards) {
+        var s = window.NebCards.upsert(n);
+        if (s) { window.NebCardSizes = window.NebCardSizes || {}; window.NebCardSizes[String(n.id)] = s; }
+      }
+    });
     refreshScene();
     if (focusLast && list && list.length && window.NebExcali) {
       try { window.NebExcali.scrollToContent(); } catch (e) {}
@@ -96,6 +105,10 @@ window.NebCanvas = (function () {
   }
 
   function onSceneChange(elements, appState) {
+    if (appState && window.NebCards) {
+      var z = (appState.zoom && appState.zoom.value) || 1;
+      window.NebCards.syncView(appState.scrollX || 0, appState.scrollY || 0, z);
+    }
     var ids = (appState && appState.selectedElementIds) || {};
     var keys = Object.keys(ids).filter(function (k) { return ids[k]; });
     var found = null;
@@ -135,6 +148,9 @@ window.NebCanvas = (function () {
       var objs = (res[1] && res[1].objects) || [];
       var sceneInk = objs.filter(function (o) { return o.type === "excalidraw-ink"; });
       window.NebCanvasInk = sceneInk.length ? sceneInk : objs;
+      if (window.NebCards) {
+        window.NebCardSizes = window.NebCards.renderAll(Object.keys(nodes).map(function (k) { return nodes[k]; }));
+      }
       lastMoves = JSON.stringify(Object.keys(nodes).map(function (k) {
         return { id: k, x: Math.round(Number(nodes[k].x) || 0), y: Math.round(Number(nodes[k].y) || 0) };
       }));
@@ -264,6 +280,123 @@ window.NebCanvas = (function () {
     if (mob) mob.addEventListener("click", function () { $("canvasSidebar").classList.toggle("open"); });
   }
 
+  var drag = null;
+
+  function startDrag(id, cardEl, sx, sy) {
+    var n = nodes[String(id)];
+    if (!n || cfg.readOnly) return;
+    var z = currentZoom();
+    drag = { id: String(id), el: cardEl, sx: sx, sy: sy, ox: Number(n.x) || 0, oy: Number(n.y) || 0, z: z, moved: false, raf: 0 };
+    cardEl.classList.add("dragging");
+    window.addEventListener("pointermove", onDragMove);
+    window.addEventListener("pointerup", onDragEnd, { once: true });
+    window.addEventListener("pointercancel", onDragEnd, { once: true });
+  }
+
+  function currentZoom() {
+    try {
+      var api = window.NebExcali && window.NebExcali.api();
+      if (api && api.getAppState) return (api.getAppState().zoom && api.getAppState().zoom.value) || 1;
+    } catch (e) {}
+    return 1;
+  }
+
+  function onDragMove(e) {
+    if (!drag) return;
+    var dx = (e.clientX - drag.sx) / (drag.z || 1);
+    var dy = (e.clientY - drag.sy) / (drag.z || 1);
+    if (Math.abs(e.clientX - drag.sx) + Math.abs(e.clientY - drag.sy) > 3) drag.moved = true;
+    var nx = Math.round(drag.ox + dx);
+    var ny = Math.round(drag.oy + dy);
+    drag.nx = nx;
+    drag.ny = ny;
+    if (window.NebCards) window.NebCards.moveEl(drag.id, nx, ny);
+    if (!drag.raf) {
+      drag.raf = requestAnimationFrame(function () {
+        drag.raf = 0;
+        moveNodeRect(drag.id, drag.nx, drag.ny);
+      });
+    }
+  }
+
+  function onDragEnd() {
+    window.removeEventListener("pointermove", onDragMove);
+    if (!drag) return;
+    var d = drag;
+    drag = null;
+    if (d.el) d.el.classList.remove("dragging");
+    var n = nodes[d.id];
+    if (n && d.moved) {
+      n.x = d.nx;
+      n.y = d.ny;
+      persistMove(d.id, d.nx, d.ny);
+    }
+  }
+
+  function moveNodeRect(id, x, y) {
+    if (!window.NebExcali) return;
+    var els = currentElements().map(function (el) {
+      if (el.id === String(id)) {
+        var c = {};
+        for (var k in el) c[k] = el[k];
+        c.x = x;
+        c.y = y;
+        return c;
+      }
+      return el;
+    });
+    try { window.NebExcali.updateScene({ elements: els }); } catch (e) {}
+  }
+
+  function persistMove(id, x, y) {
+    if (!boardId || cfg.readOnly) return Promise.resolve();
+    lastMoves = JSON.stringify(Object.keys(nodes).map(function (k) {
+      return { id: k, x: Math.round(Number(nodes[k].x) || 0), y: Math.round(Number(nodes[k].y) || 0) };
+    }));
+    return api("/ajax/canvas/boards/" + boardId + "/batch-move/", {
+      method: "POST", body: { nodes: [{ id: id, x: x, y: y }] },
+    }).catch(function () {});
+  }
+
+  function followupNode(id, prompt, opts) {
+    if (!prompt) return Promise.resolve();
+    return api("/ajax/canvas/nodes/" + id + "/followup/", {
+      method: "POST",
+      body: { prompt: prompt, x: (opts && opts.x) || undefined, y: (opts && opts.y) || undefined },
+    }).then(function (n) {
+      addNodes([n.node || n], true);
+    }).catch(function () { toast("Follow-up failed."); });
+  }
+
+  function deleteNode(id) {
+    return api("/ajax/canvas/nodes/" + id + "/delete/", { method: "POST", body: {} })
+      .then(function () {
+        dropNode(id);
+        toast("Card deleted");
+      }).catch(function () { toast("Delete failed."); });
+  }
+
+  function dropLocal(id) {
+    delete nodes[String(id)];
+    if (window.NebCards) window.NebCards.remove(id);
+    refreshScene();
+  }
+
+  function focusNode(id) {
+    var n = nodes[String(id)];
+    if (!n || !window.NebExcali) return;
+    try {
+      var vp = document.getElementById("canvasViewport");
+      var z = currentZoom();
+      var sz = (window.NebCardSizes || {})[String(id)] || { w: 480, h: 420 };
+      var api = window.NebExcali.api();
+      api.updateScene({ appState: {
+        scrollX: vp.clientWidth / (2 * z) - (Number(n.x) + sz.w / 2),
+        scrollY: vp.clientHeight / (2 * z) - (Number(n.y) + sz.h / 2),
+      } });
+    } catch (e) {}
+  }
+
   return {
     mount: mount,
     esc: esc,
@@ -274,8 +407,25 @@ window.NebCanvas = (function () {
     refreshScene: refreshScene,
     persistScene: persistScene,
     getNode: function (id) { return nodes[String(id)] || null; },
-    setNode: function (n) { nodes[String(n.id)] = n; refreshScene(); },
-    dropNode: function (id) { delete nodes[String(id)]; refreshScene(); },
+    setNode: function (n) {
+      nodes[String(n.id)] = n;
+      if (window.NebCards) {
+        var s = window.NebCards.upsert(n);
+        if (s) { window.NebCardSizes = window.NebCardSizes || {}; window.NebCardSizes[String(n.id)] = s; }
+      }
+      refreshScene();
+    },
+    dropNode: function (id) {
+      delete nodes[String(id)];
+      if (window.NebCards) window.NebCards.remove(id);
+      refreshScene();
+    },
+    dropLocal: dropLocal,
+    followupNode: followupNode,
+    deleteNode: deleteNode,
+    focusNode: focusNode,
+    startDrag: startDrag,
+    moveNodeRect: moveNodeRect,
     boardId: function () { return boardId; },
     config: function () { return cfg; },
   };
