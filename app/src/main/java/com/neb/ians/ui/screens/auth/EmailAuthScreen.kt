@@ -2,7 +2,7 @@ package com.neb.ians.ui.screens.auth
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
@@ -33,6 +33,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.neb.ians.ui.components.NebArtSlot
@@ -46,7 +47,8 @@ import com.neb.ians.ui.components.NebTextLink
 import com.neb.ians.ui.components.art.NebOpenBookMark
 import com.neb.ians.ui.theme.LocalNebAuthPalette
 import com.neb.ians.ui.theme.NebAuthTokens
-import com.neb.ians.ui.theme.NebMotion
+import com.neb.ians.ui.theme.nebEffectsSpec
+import com.neb.ians.ui.theme.nebSpatialSpec
 
 /**
  * One screen for both halves of email auth. Signing in and creating an account
@@ -112,11 +114,14 @@ fun EmailAuthScreen(
                     markSize = 78.dp
                 )
             }
+            val modeSlide = nebSpatialSpec<IntOffset>()
+            val modeFade = nebEffectsSpec<Float>()
+
             Spacer(modifier = Modifier.height(18.dp))
 
             AnimatedContent(
                 targetState = isCreate,
-                transitionSpec = { modeTransition(targetState) },
+                transitionSpec = { modeTransition(targetState, modeSlide, modeFade) },
                 label = "neb_email_auth_header"
             ) { create ->
                 Column(modifier = Modifier.fillMaxWidth()) {
@@ -179,8 +184,8 @@ fun EmailAuthScreen(
 
             AnimatedVisibility(
                 visible = !isCreate,
-                enter = fadeIn(tween(NebMotion.Standard)),
-                exit = fadeOut(tween(NebMotion.Instant))
+                enter = fadeIn(nebEffectsSpec()),
+                exit = fadeOut(nebEffectsSpec())
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -202,7 +207,7 @@ fun EmailAuthScreen(
 
             AnimatedContent(
                 targetState = isCreate,
-                transitionSpec = { modeTransition(targetState) },
+                transitionSpec = { modeTransition(targetState, modeSlide, modeFade) },
                 label = "neb_email_auth_action"
             ) { create ->
                 NebPillButton(
@@ -221,7 +226,7 @@ fun EmailAuthScreen(
 
             AnimatedContent(
                 targetState = isCreate,
-                transitionSpec = { modeTransition(targetState) },
+                transitionSpec = { modeTransition(targetState, modeSlide, modeFade) },
                 label = "neb_email_auth_footer"
             ) { create ->
                 Row(
@@ -270,12 +275,15 @@ fun EmailAuthScreen(
  * down — the same spatial logic in both directions, so the user can feel which
  * way they just moved.
  */
-private fun modeTransition(toCreate: Boolean) =
-    (slideInVertically(
-        animationSpec = tween(NebMotion.Standard, easing = NebMotion.Decelerate),
-        initialOffsetY = { if (toCreate) it / 3 else -it / 3 }
-    ) + fadeIn(tween(NebMotion.Standard))) togetherWith
-        (slideOutVertically(
-            animationSpec = tween(NebMotion.Short, easing = NebMotion.Accelerate),
-            targetOffsetY = { if (toCreate) -it / 3 else it / 3 }
-        ) + fadeOut(tween(NebMotion.Quick)))
+private fun modeTransition(
+    toCreate: Boolean,
+    slide: FiniteAnimationSpec<IntOffset>,
+    fade: FiniteAnimationSpec<Float>
+) = (slideInVertically(
+    animationSpec = slide,
+    initialOffsetY = { if (toCreate) it / 3 else -it / 3 }
+) + fadeIn(fade)) togetherWith
+    (slideOutVertically(
+        animationSpec = slide,
+        targetOffsetY = { if (toCreate) -it / 3 else it / 3 }
+    ) + fadeOut(fade))

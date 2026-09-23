@@ -67,6 +67,7 @@ fun HomeScreen(
     onNotificationsClick: () -> Unit = {},
     onProfileClick: () -> Unit = {},
     onUserProfileClick: (String) -> Unit = {},
+    onSeeAllPeopleClick: () -> Unit = {},
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -226,7 +227,8 @@ fun HomeScreen(
                                         HomeSuggestedPeersRail(
                                             peers = suggestedPeers,
                                             onPeerClick = onUserProfileClick,
-                                            onFollowClick = { authorId -> viewModel.toggleFollowUser(authorId) }
+                                            onFollowClick = { authorId -> viewModel.toggleFollowUser(authorId) },
+                                            onSeeAllClick = onSeeAllPeopleClick
                                         )
                                     }
 

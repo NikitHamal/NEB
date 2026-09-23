@@ -1191,7 +1191,8 @@ internal fun HomeFeedComposerBar(
 internal fun HomeSuggestedPeersRail(
     peers: List<ApiPost>,
     onPeerClick: (String) -> Unit,
-    onFollowClick: (String) -> Unit
+    onFollowClick: (String) -> Unit,
+    onSeeAllClick: () -> Unit
 ) {
     if (peers.isEmpty()) return
 
@@ -1199,7 +1200,7 @@ internal fun HomeSuggestedPeersRail(
         HomeSectionTitle(
             title = "People You May Know",
             actionLabel = "See All",
-            onActionClick = { peers.firstOrNull()?.let { onPeerClick(it.authorName) } }
+            onActionClick = onSeeAllClick
         )
         LazyRow(
             contentPadding = PaddingValues(horizontal = 16.dp),

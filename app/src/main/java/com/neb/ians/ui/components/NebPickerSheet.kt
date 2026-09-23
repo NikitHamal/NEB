@@ -125,7 +125,7 @@ fun NebPickerRow(
             Text(
                 text = label,
                 style = NebAuthType.Body,
-                color = if (selected) palette.sapphire else palette.ink
+                color = if (selected) palette.accent else palette.ink
             )
             if (supporting != null) {
                 Spacer(modifier = Modifier.height(2.dp))

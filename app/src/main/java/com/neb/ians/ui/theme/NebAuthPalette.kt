@@ -11,16 +11,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 // ---------------------------------------------------------------------------
-// Sapphire & Snow — the palette the sign-in and onboarding journey is set in.
+// Graphite — the mono palette the sign-in and onboarding journey is set in.
 //
 // The app proper runs on MaterialTheme. The journey does not: it is the only
 // place where every surface, hairline and illustration has to agree pixel for
 // pixel, so it carries its own flat palette instead of reaching into the
 // colour scheme. Three rules hold it together.
 //
-//   Snow is the page, sapphire is the single voice of action, and every
-//   illustration is drawn in the neutral art ramp — form in ink tones, sapphire
-//   only on the one mark that carries the user's answer.
+//   Paper is the page, ink is the single voice of action, and every
+//   illustration is drawn from one neutral ramp. There is no hue anywhere in
+//   the journey except the one red kept for errors, because an error that
+//   reads as ordinary text is not an error.
 // ---------------------------------------------------------------------------
 
 @Immutable
@@ -34,9 +35,9 @@ data class NebAuthPalette(
     val inkFaint: Color,
     val hairline: Color,
     val hairlineStrong: Color,
-    val sapphire: Color,
-    val sapphireSoft: Color,
-    val onSapphire: Color,
+    val accent: Color,
+    val accentSoft: Color,
+    val onAccent: Color,
     val artInk: Color,
     val artLine: Color,
     val artMid: Color,
@@ -55,48 +56,48 @@ private val LightAuthPalette = NebAuthPalette(
     isDark = false,
     page = Color(0xFFFFFFFF),
     card = Color(0xFFFFFFFF),
-    field = Color(0xFFF7F9FC),
-    ink = Color(0xFF0B1220),
-    inkMuted = Color(0xFF5B6B85),
-    inkFaint = Color(0xFF94A3B8),
-    hairline = Color(0xFFE7ECF4),
-    hairlineStrong = Color(0xFFD3DCE8),
-    sapphire = Color(0xFF0D5CE5),
-    sapphireSoft = Color(0xFFEBF2FE),
-    onSapphire = Color(0xFFFFFFFF),
-    artInk = Color(0xFF2B3648),
-    artLine = Color(0xFF64748B),
-    artMid = Color(0xFFA7B4C8),
-    artSoft = Color(0xFFD8E0EC),
-    artFaint = Color(0xFFEFF3F9),
-    danger = Color(0xFFDC2626),
-    dangerSoft = Color(0xFFFEF0F0),
-    success = Color(0xFF16A34A),
-    successSoft = Color(0xFFEDFBF1)
+    field = Color(0xFFF4F4F5),
+    ink = Color(0xFF0A0A0B),
+    inkMuted = Color(0xFF5C5C61),
+    inkFaint = Color(0xFF9B9BA1),
+    hairline = Color(0xFFE9E9EB),
+    hairlineStrong = Color(0xFFD5D5D9),
+    accent = Color(0xFF101012),
+    accentSoft = Color(0xFFF1F1F3),
+    onAccent = Color(0xFFFFFFFF),
+    artInk = Color(0xFF141416),
+    artLine = Color(0xFF6B6B72),
+    artMid = Color(0xFFA3A3AA),
+    artSoft = Color(0xFFD9D9DE),
+    artFaint = Color(0xFFF0F0F2),
+    danger = Color(0xFFB3261E),
+    dangerSoft = Color(0xFFFBEDEC),
+    success = Color(0xFF18181B),
+    successSoft = Color(0xFFF1F1F3)
 )
 
 private val DarkAuthPalette = NebAuthPalette(
     isDark = true,
-    page = Color(0xFF0B0F17),
-    card = Color(0xFF131A25),
-    field = Color(0xFF151D2A),
-    ink = Color(0xFFEEF3FA),
-    inkMuted = Color(0xFF9BABC4),
-    inkFaint = Color(0xFF64748B),
-    hairline = Color(0xFF1F2836),
-    hairlineStrong = Color(0xFF2D3A4D),
-    sapphire = Color(0xFF7CA8FF),
-    sapphireSoft = Color(0xFF14243F),
-    onSapphire = Color(0xFF041A42),
-    artInk = Color(0xFFDCE6F5),
-    artLine = Color(0xFF90A1BB),
-    artMid = Color(0xFF5C6B84),
-    artSoft = Color(0xFF2C3849),
-    artFaint = Color(0xFF1A2231),
-    danger = Color(0xFFFF8A80),
-    dangerSoft = Color(0xFF2A1618),
-    success = Color(0xFF4ADE80),
-    successSoft = Color(0xFF12241A)
+    page = Color(0xFF0C0C0D),
+    card = Color(0xFF131315),
+    field = Color(0xFF17171A),
+    ink = Color(0xFFF5F5F6),
+    inkMuted = Color(0xFFA1A1A8),
+    inkFaint = Color(0xFF6E6E75),
+    hairline = Color(0xFF222225),
+    hairlineStrong = Color(0xFF313136),
+    accent = Color(0xFFF5F5F6),
+    accentSoft = Color(0xFF1C1C1F),
+    onAccent = Color(0xFF0A0A0B),
+    artInk = Color(0xFFE7E7E9),
+    artLine = Color(0xFF9A9AA1),
+    artMid = Color(0xFF64646B),
+    artSoft = Color(0xFF2E2E33),
+    artFaint = Color(0xFF1B1B1E),
+    danger = Color(0xFFF2716A),
+    dangerSoft = Color(0xFF2A1614),
+    success = Color(0xFFE7E7E9),
+    successSoft = Color(0xFF1C1C1F)
 )
 
 val LocalNebAuthPalette = staticCompositionLocalOf { LightAuthPalette }

@@ -1,7 +1,6 @@
 package com.neb.ians.ui.components.art
 
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,7 +19,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.neb.ians.ui.theme.LocalNebAuthPalette
-import com.neb.ians.ui.theme.NebMotion
+import com.neb.ians.ui.theme.nebSpatialSpec
 import kotlin.math.min
 
 // ---------------------------------------------------------------------------
@@ -30,7 +29,7 @@ import kotlin.math.min
 // ---------------------------------------------------------------------------
 
 /**
- * Four paths leaving one trailhead. The selected role's path is drawn in sapphire
+ * Four paths leaving one trailhead. The selected role's path is drawn in accent
  * and its summit lights up; the others stay neutral hairlines, still visible,
  * still open.
  */
@@ -45,7 +44,7 @@ fun NebPathsArt(
     val breath by rememberNebBreathPhase(2800)
     val selected by animateFloatAsState(
         targetValue = selectedIndex.coerceAtLeast(0).toFloat(),
-        animationSpec = tween(NebMotion.Emphasized, easing = NebMotion.Decelerate),
+        animationSpec = nebSpatialSpec(),
         label = "neb_paths_selected"
     )
 
@@ -60,7 +59,7 @@ fun NebPathsArt(
                 val end = Offset(w * lerp(0.13f, 0.87f, t), h * lerp(0.44f, 0.16f, kotlin.math.abs(0.5f - t) * 2f))
                 val active = kotlin.math.abs(selected - i) < 0.5f
                 val strength = (1f - kotlin.math.abs(selected - i)).coerceIn(0f, 1f)
-                val color = palette.sapphire
+                val color = palette.accent
 
                 val path = Path().apply {
                     moveTo(origin.x, origin.y)
@@ -76,7 +75,6 @@ fun NebPathsArt(
                     style = Stroke(width = lerp(1.3f, 3.2f, strength), cap = StrokeCap.Round)
                 )
                 if (strength > 0.5f) {
-                    nebGlow(end, h * 0.2f * strength, color, 0.28f * strength)
                 }
                 drawCircle(
                     color = if (active) color else palette.artMid,
@@ -87,7 +85,7 @@ fun NebPathsArt(
 
             drawCircle(color = palette.page, radius = 9f, center = origin)
             drawCircle(
-                color = palette.sapphire,
+                color = palette.accent,
                 radius = 7f,
                 center = origin,
                 style = Stroke(width = 2.4f)
@@ -111,7 +109,7 @@ fun NebNameplateArt(
     val caret by rememberNebBreathPhase(900)
     val grown by animateFloatAsState(
         targetValue = progress.coerceIn(0f, 1f),
-        animationSpec = tween(NebMotion.Standard, easing = NebMotion.Decelerate),
+        animationSpec = nebSpatialSpec(),
         label = "neb_nameplate"
     )
 
@@ -124,7 +122,6 @@ fun NebNameplateArt(
             val left = (w - cardW) / 2f
             val top = (h - cardH) / 2f
 
-            nebGlow(Offset(w / 2f, h / 2f), cardW * 0.72f, palette.sapphire, 0.14f)
             nebSheet(
                 topLeft = Offset(left, top),
                 sheetSize = Size(cardW, cardH),
@@ -135,16 +132,16 @@ fun NebNameplateArt(
 
             val badgeR = cardH * 0.24f
             val badgeCenter = Offset(left + cardH * 0.36f, top + cardH * 0.42f)
-            drawCircle(color = palette.sapphireSoft, radius = badgeR, center = badgeCenter)
+            drawCircle(color = palette.accentSoft, radius = badgeR, center = badgeCenter)
             drawCircle(
-                color = palette.sapphire.copy(alpha = 0.55f),
+                color = palette.accent.copy(alpha = 0.55f),
                 radius = badgeR,
                 center = badgeCenter,
                 style = Stroke(width = 1.4f)
             )
             if (initial != null) {
                 drawRoundRect(
-                    color = palette.sapphire,
+                    color = palette.accent,
                     topLeft = Offset(badgeCenter.x - badgeR * 0.30f, badgeCenter.y - badgeR * 0.40f),
                     size = Size(badgeR * 0.60f, badgeR * 0.80f),
                     cornerRadius = CornerRadius(badgeR * 0.18f, badgeR * 0.18f)
@@ -170,7 +167,7 @@ fun NebNameplateArt(
             }
             if (grown < 0.995f) {
                 drawRoundRect(
-                    color = palette.sapphire.copy(alpha = lerp(0.15f, 1f, caret)),
+                    color = palette.accent.copy(alpha = lerp(0.15f, 1f, caret)),
                     topLeft = Offset(lineLeft + lineMax * grown + 3f, lineY - 9f),
                     size = Size(2.4f, 18f),
                     cornerRadius = CornerRadius(1.2f, 1.2f)
@@ -191,7 +188,7 @@ enum class NebHandleState { Idle, Checking, Available, Taken }
 
 /**
  * An @ drawn as an arc inside a ring. The ring is the verdict: hairline while
- * idle, sapphire sweeping while the server is asked, then success or danger.
+ * idle, accent sweeping while the server is asked, then success or danger.
  */
 @Composable
 fun NebHandleArt(
@@ -204,7 +201,7 @@ fun NebHandleArt(
     val breath by rememberNebBreathPhase(2400)
     val target: Color = when (state) {
         NebHandleState.Idle -> palette.hairlineStrong
-        NebHandleState.Checking -> palette.sapphire
+        NebHandleState.Checking -> palette.accent
         NebHandleState.Available -> palette.success
         NebHandleState.Taken -> palette.danger
     }
@@ -214,7 +211,6 @@ fun NebHandleArt(
             val center = Offset(size.width / 2f, size.height / 2f)
             val r = min(size.width, size.height) * 0.26f
 
-            nebGlow(center, r * 2.6f, target, 0.16f)
 
             if (state == NebHandleState.Checking) {
                 drawArc(
@@ -273,10 +269,9 @@ fun NebCalendarArt(
     height: Dp = 150.dp
 ) {
     val palette = LocalNebAuthPalette.current
-    val phase by rememberNebArtPhase(16000)
     val chosen by animateFloatAsState(
         targetValue = if (dayOfMonth != null) 1f else 0f,
-        animationSpec = tween(NebMotion.Emphasized, easing = NebMotion.Decelerate),
+        animationSpec = nebSpatialSpec(),
         label = "neb_calendar"
     )
 
@@ -290,18 +285,8 @@ fun NebCalendarArt(
             val left = center.x - sheetW / 2f
             val top = center.y - sheetH / 2f
 
-            for (i in 0 until 12) {
-                val angle = i * 30f + phase * 360f
-                val p = orbitPoint(center, min(w, h) * 0.45f, angle)
-                drawCircle(
-                    color = palette.artTones[2 + i % 2].copy(alpha = 0.55f + (i % 3) * 0.15f),
-                    radius = if (i % 3 == 0) 3.2f else 2f,
-                    center = p
-                )
-            }
             nebOrbit(center, min(w, h) * 0.45f, palette.hairline, strokeWidth = 1f)
 
-            nebGlow(center, sheetW * 1.1f, palette.sapphire, 0.12f)
             nebSheet(
                 topLeft = Offset(left, top),
                 sheetSize = Size(sheetW, sheetH),
@@ -310,13 +295,13 @@ fun NebCalendarArt(
                 radius = 12f
             )
             drawRoundRect(
-                color = palette.sapphire,
+                color = palette.accent,
                 topLeft = Offset(left, top),
                 size = Size(sheetW, sheetH * 0.20f),
                 cornerRadius = CornerRadius(12f, 12f)
             )
             drawRect(
-                color = palette.sapphire,
+                color = palette.accent,
                 topLeft = Offset(left, top + sheetH * 0.12f),
                 size = Size(sheetW, sheetH * 0.08f)
             )
@@ -343,14 +328,14 @@ fun NebCalendarArt(
                     val y = gridTop + row * (cellH + sheetH * 0.045f)
                     val lit = index == litIndex
                     drawRoundRect(
-                        color = if (lit) palette.sapphire.copy(alpha = chosen) else palette.field,
+                        color = if (lit) palette.accent.copy(alpha = chosen) else palette.field,
                         topLeft = Offset(x, y),
                         size = Size(cellW, cellH),
                         cornerRadius = CornerRadius(4f, 4f)
                     )
                     if (lit && chosen > 0.4f) {
                         drawCircle(
-                            color = palette.onSapphire,
+                            color = palette.onAccent,
                             radius = cellH * 0.18f,
                             center = Offset(x + cellW / 2f, y + cellH / 2f)
                         )
@@ -364,7 +349,7 @@ fun NebCalendarArt(
 /**
  * Three pebbles, one lifted. The gender step needs a mark that carries no figure
  * and no symbol — only the fact that one of several has been chosen, so the
- * chosen one is the single sapphire object and the rest stay stone.
+ * chosen one is the single accent object and the rest stay stone.
  */
 @Composable
 fun NebFacetsArt(
@@ -377,7 +362,7 @@ fun NebFacetsArt(
     val breath by rememberNebBreathPhase(3000)
     val selected by animateFloatAsState(
         targetValue = selectedIndex.coerceAtLeast(0).toFloat(),
-        animationSpec = tween(NebMotion.Emphasized, easing = NebMotion.Decelerate),
+        animationSpec = nebSpatialSpec(),
         label = "neb_facets"
     )
 
@@ -391,7 +376,7 @@ fun NebFacetsArt(
                 val strength = (1f - kotlin.math.abs(selected - i)).coerceIn(0f, 1f)
                 val cx = w * lerp(0.26f, 0.74f, t)
                 val cy = h * 0.58f - h * 0.10f * strength * lerp(0.9f, 1.1f, breath)
-                val color = palette.sapphire
+                val color = palette.accent
 
                 drawRoundRect(
                     color = palette.artSoft,
@@ -399,7 +384,6 @@ fun NebFacetsArt(
                     size = Size(baseR * 1.4f, 4f),
                     cornerRadius = CornerRadius(2f, 2f)
                 )
-                if (strength > 0.4f) nebGlow(Offset(cx, cy), baseR * 2.2f, color, 0.24f * strength)
                 drawCircle(
                     color = if (strength > 0.5f) color else palette.artFaint,
                     radius = baseR * lerp(0.78f, 1f, strength),

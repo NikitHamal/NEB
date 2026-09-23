@@ -22,8 +22,6 @@ internal val EDIT_ROLES = listOf(
     EditRole("explorer", "Explorer", "Browse first, fill the rest in later", Icons.Outlined.Explore)
 )
 
-internal val EDIT_GENDERS = listOf("Male", "Female", "Other")
-
 internal val EDIT_PROVINCES = listOf(
     "Koshi", "Madhesh", "Bagmati", "Gandaki", "Lumbini", "Karnali", "Sudurpashchim"
 )

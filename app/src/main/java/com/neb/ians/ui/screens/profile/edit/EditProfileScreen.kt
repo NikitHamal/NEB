@@ -1,7 +1,6 @@
 package com.neb.ians.ui.screens.profile.edit
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
@@ -38,7 +37,7 @@ import com.neb.ians.ui.screens.auth.CompleteProfileViewModel
 import com.neb.ians.ui.screens.profile.PhotoGalleryDialog
 import com.neb.ians.ui.theme.LocalNebAuthPalette
 import com.neb.ians.ui.theme.NebAuthTokens
-import com.neb.ians.ui.theme.NebMotion
+import com.neb.ians.ui.theme.nebEffectsSpec
 
 /**
  * The profile editor. One scroll, six titled sections, and a save that is always
@@ -150,8 +149,8 @@ fun EditProfileScreen(
             ) {
                 AnimatedVisibility(
                     visible = generalError != null && !keyboardOpen,
-                    enter = fadeIn(tween(NebMotion.Standard)),
-                    exit = fadeOut(tween(NebMotion.Instant))
+                    enter = fadeIn(nebEffectsSpec()),
+                    exit = fadeOut(nebEffectsSpec())
                 ) {
                     NebInlineNote(text = generalError, tone = NebNoteTone.Error)
                 }

@@ -1,5 +1,15 @@
 package com.neb.ians.ui.screens.onboarding
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.MenuBook
+import androidx.compose.material.icons.outlined.AccountBalance
+import androidx.compose.material.icons.outlined.Explore
+import androidx.compose.material.icons.outlined.Female
+import androidx.compose.material.icons.outlined.Male
+import androidx.compose.material.icons.outlined.School
+import androidx.compose.material.icons.outlined.Transgender
+import androidx.compose.ui.graphics.vector.ImageVector
+import com.neb.ians.ui.components.NebSegment
 import com.neb.ians.ui.screens.auth.CompleteProfileUiState
 
 // ---------------------------------------------------------------------------
@@ -27,17 +37,24 @@ enum class OnboardingStep {
 data class OnboardingRole(
     val key: String,
     val title: String,
-    val subtitle: String
+    val subtitle: String,
+    val icon: ImageVector
 )
 
 val NEB_ROLES = listOf(
-    OnboardingRole("student", "Student", "Learn, ask questions, save resources"),
-    OnboardingRole("teacher", "Teacher", "Teach, guide, publish resources"),
-    OnboardingRole("institution", "Institution", "Represent a school, college or academy"),
-    OnboardingRole("explorer", "Explorer", "Look around first, fill this in later")
+    OnboardingRole("student", "Student", "Learn, ask questions, save resources", Icons.Outlined.School),
+    OnboardingRole("teacher", "Teacher", "Teach, guide, publish resources", Icons.AutoMirrored.Outlined.MenuBook),
+    OnboardingRole("institution", "Institution", "Represent a school, college or academy", Icons.Outlined.AccountBalance),
+    OnboardingRole("explorer", "Explorer", "Look around first, fill this in later", Icons.Outlined.Explore)
 )
 
 val NEB_GENDERS = listOf("Male", "Female", "Other")
+
+val NEB_GENDER_SEGMENTS = listOf(
+    NebSegment("Male", "Male", Icons.Outlined.Male),
+    NebSegment("Female", "Female", Icons.Outlined.Female),
+    NebSegment("Other", "Other", Icons.Outlined.Transgender)
+)
 
 val NEB_PRADESH = listOf(
     "Koshi", "Madhesh", "Bagmati", "Gandaki", "Lumbini", "Karnali", "Sudurpashchim"

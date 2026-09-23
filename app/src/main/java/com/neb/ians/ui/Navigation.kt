@@ -61,6 +61,7 @@ import com.neb.ians.ui.screens.forum.ReplyScreen
 import com.neb.ians.ui.screens.search.SearchScreen
 import com.neb.ians.ui.screens.profile.ProfileScreen
 import com.neb.ians.ui.screens.profile.edit.EditProfileScreen
+import com.neb.ians.ui.screens.people.PeopleScreen
 import com.neb.ians.ui.screens.notifications.NotificationsScreen
 import com.neb.ians.ui.screens.settings.SettingsScreen
 import com.neb.ians.ui.screens.settings.SettingsViewModel
@@ -121,6 +122,7 @@ sealed class Screen(val route: String) {
         }
     }
     data object Notifications : Screen("notifications")
+    data object People : Screen("people")
     data object StudyLab : Screen("study_lab")
     data object StudySpace : Screen("study_space/{spaceId}") {
         fun createRoute(spaceId: String) = "study_space/$spaceId"
@@ -435,7 +437,8 @@ fun NEBiansNavHost(
                     },
                     onNotificationsClick = { navController.navigate(Screen.Notifications.route) },
                     onProfileClick = navigateToOwnProfile,
-                    onUserProfileClick = { username -> navController.navigate(Screen.Profile.createRoute(username)) }
+                    onUserProfileClick = { username -> navController.navigate(Screen.Profile.createRoute(username)) },
+                    onSeeAllPeopleClick = { navController.navigate(Screen.People.route) }
                 )
             }
             composable(
@@ -523,6 +526,14 @@ fun NEBiansNavHost(
                         navController.navigate(Screen.Profile.createRoute(username))
                     },
                     onNavigateBack = { navController.popBackStack() }
+                )
+            }
+            composable(Screen.People.route) {
+                PeopleScreen(
+                    onNavigateBack = { navController.popBackStack() },
+                    onPersonClick = { username ->
+                        navController.navigate(Screen.Profile.createRoute(username))
+                    }
                 )
             }
             composable(Screen.Notifications.route) {

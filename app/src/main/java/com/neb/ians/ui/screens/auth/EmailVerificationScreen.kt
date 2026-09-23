@@ -3,7 +3,6 @@ package com.neb.ians.ui.screens.auth
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -59,7 +58,9 @@ import com.neb.ians.ui.components.nebKeyboardOpen
 import com.neb.ians.ui.components.art.NebCodeInFlightArt
 import com.neb.ians.ui.theme.LocalNebAuthPalette
 import com.neb.ians.ui.theme.NebAuthTokens
-import com.neb.ians.ui.theme.NebMotion
+import com.neb.ians.ui.theme.nebFastEffectsSpec
+import com.neb.ians.ui.theme.nebFastSpatialSpec
+import com.neb.ians.ui.theme.nebSpatialSpec
 import com.neb.ians.ui.theme.Poppins
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -95,7 +96,7 @@ fun EmailVerificationScreen(
     val maskedEmail = remember(email) { maskEmail(email) }
     val artHeight by animateDpAsState(
         targetValue = if (nebKeyboardOpen()) 108.dp else 160.dp,
-        animationSpec = tween(NebMotion.Standard, easing = NebMotion.Decelerate),
+        animationSpec = nebSpatialSpec(),
         label = "neb_verify_art"
     )
 
@@ -280,23 +281,23 @@ private fun CodeCell(
     val borderColor by animateColorAsState(
         targetValue = when {
             hasError -> palette.danger
-            active -> palette.sapphire
+            active -> palette.accent
             digit != null -> palette.hairlineStrong
             else -> palette.hairline
         },
-        animationSpec = tween(NebMotion.Quick),
+        animationSpec = nebFastEffectsSpec(),
         label = "neb_code_border"
     )
     val scale by animateFloatAsState(
         targetValue = if (digit != null) 1f else 0.94f,
-        animationSpec = tween(NebMotion.Quick, easing = NebMotion.Decelerate),
+        animationSpec = nebFastSpatialSpec(),
         label = "neb_code_scale"
     )
     Box(
         modifier = modifier
             .height(62.dp)
             .clip(RoundedCornerShape(NebAuthTokens.FieldRadius))
-            .background(if (digit != null) palette.sapphireSoft else palette.field)
+            .background(if (digit != null) palette.accentSoft else palette.field)
             .border(
                 width = if (active || hasError) 1.6.dp else NebAuthTokens.Hairline,
                 color = borderColor,

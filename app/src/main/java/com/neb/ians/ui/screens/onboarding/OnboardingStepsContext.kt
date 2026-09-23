@@ -21,7 +21,6 @@ import androidx.compose.material.icons.outlined.AddAPhoto
 import androidx.compose.material.icons.outlined.Domain
 import androidx.compose.material.icons.outlined.ExpandMore
 import androidx.compose.material.icons.outlined.Place
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -39,6 +38,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.neb.ians.ui.components.NebLoadingIndicator
 import com.neb.ians.ui.components.NebArtSlot
 import com.neb.ians.ui.components.NebAuthField
 import com.neb.ians.ui.components.NebAuthType
@@ -131,7 +131,7 @@ fun SubjectsStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewMo
         Text(
             text = if (selected.isEmpty()) "Nothing picked yet" else "${selected.size} selected",
             style = NebAuthType.Caption,
-            color = if (selected.isEmpty()) palette.inkFaint else palette.sapphire
+            color = if (selected.isEmpty()) palette.inkFaint else palette.accent
         )
     }
 }
@@ -300,7 +300,7 @@ fun PortraitStep(state: CompleteProfileUiState, onPickPhoto: () -> Unit) {
                         modifier = Modifier
                             .size(128.dp)
                             .clip(CircleShape)
-                            .border(2.dp, palette.sapphire, CircleShape)
+                            .border(2.dp, palette.accent, CircleShape)
                     )
                 }
                 if (state.isPhotoUploading) {
@@ -311,10 +311,9 @@ fun PortraitStep(state: CompleteProfileUiState, onPickPhoto: () -> Unit) {
                             .background(palette.page.copy(alpha = 0.86f)),
                         contentAlignment = Alignment.Center
                     ) {
-                        CircularProgressIndicator(
-                            modifier = Modifier.size(24.dp),
-                            color = palette.sapphire,
-                            strokeWidth = 2.dp
+                        NebLoadingIndicator(
+                            modifier = Modifier.size(30.dp),
+                            color = palette.accent
                         )
                     }
                 }

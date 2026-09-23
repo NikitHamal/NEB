@@ -2,7 +2,7 @@ package com.neb.ians.ui.screens.auth
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
@@ -33,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.data.repository.EmailAuthResult
@@ -49,7 +50,8 @@ import com.neb.ians.ui.components.NebTextLink
 import com.neb.ians.ui.components.art.NebCodeInFlightArt
 import com.neb.ians.ui.theme.LocalNebAuthPalette
 import com.neb.ians.ui.theme.NebAuthTokens
-import com.neb.ians.ui.theme.NebMotion
+import com.neb.ians.ui.theme.nebEffectsSpec
+import com.neb.ians.ui.theme.nebSpatialSpec
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -145,11 +147,14 @@ fun ForgotPasswordScreen(
                 NebCodeInFlightArt(filledCount = if (codeSent) code.length else 0, total = 6)
             }
 
+            val phaseSlide = nebSpatialSpec<IntOffset>()
+            val phaseFade = nebEffectsSpec<Float>()
+
             Spacer(modifier = Modifier.height(16.dp))
 
             AnimatedContent(
                 targetState = codeSent,
-                transitionSpec = { phaseTransition(targetState) },
+                transitionSpec = { phaseTransition(targetState, phaseSlide, phaseFade) },
                 label = "neb_forgot_header"
             ) { sent ->
                 NebStepHeader(
@@ -178,8 +183,8 @@ fun ForgotPasswordScreen(
 
             AnimatedVisibility(
                 visible = codeSent,
-                enter = fadeIn(tween(NebMotion.Standard)),
-                exit = fadeOut(tween(NebMotion.Quick))
+                enter = fadeIn(nebEffectsSpec()),
+                exit = fadeOut(nebEffectsSpec())
             ) {
                 Column(modifier = Modifier.fillMaxWidth()) {
                     Spacer(modifier = Modifier.height(NebAuthTokens.StackGap))
@@ -231,7 +236,7 @@ fun ForgotPasswordScreen(
 
             AnimatedContent(
                 targetState = codeSent,
-                transitionSpec = { phaseTransition(targetState) },
+                transitionSpec = { phaseTransition(targetState, phaseSlide, phaseFade) },
                 label = "neb_forgot_action"
             ) { sent ->
                 NebPillButton(
@@ -246,8 +251,8 @@ fun ForgotPasswordScreen(
 
             AnimatedVisibility(
                 visible = codeSent,
-                enter = fadeIn(tween(NebMotion.Standard)),
-                exit = fadeOut(tween(NebMotion.Instant))
+                enter = fadeIn(nebEffectsSpec()),
+                exit = fadeOut(nebEffectsSpec())
             ) {
                 if (resendCooldown > 0) {
                     Text(
@@ -269,10 +274,13 @@ fun ForgotPasswordScreen(
     }
 }
 
-private fun phaseTransition(toSent: Boolean) =
-    (slideInVertically(tween(NebMotion.Standard, easing = NebMotion.Decelerate)) {
-        if (toSent) it / 3 else -it / 3
-    } + fadeIn(tween(NebMotion.Standard))) togetherWith
-        (slideOutVertically(tween(NebMotion.Short, easing = NebMotion.Accelerate)) {
-            if (toSent) -it / 3 else it / 3
-        } + fadeOut(tween(NebMotion.Quick)))
+private fun phaseTransition(
+    toSent: Boolean,
+    slide: FiniteAnimationSpec<IntOffset>,
+    fade: FiniteAnimationSpec<Float>
+) = (slideInVertically(slide) {
+    if (toSent) it / 3 else -it / 3
+} + fadeIn(fade)) togetherWith
+    (slideOutVertically(slide) {
+        if (toSent) -it / 3 else it / 3
+    } + fadeOut(fade))
