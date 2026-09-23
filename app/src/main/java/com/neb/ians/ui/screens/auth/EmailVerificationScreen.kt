@@ -1,7 +1,7 @@
 package com.neb.ians.ui.screens.auth
 
-import android.app.Activity
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -10,14 +10,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -26,8 +22,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -43,7 +37,6 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -51,22 +44,23 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.view.WindowCompat
 import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.data.repository.EmailAuthResult
+import com.neb.ians.ui.components.NebArtSlot
 import com.neb.ians.ui.components.NebAuthTopBar
 import com.neb.ians.ui.components.NebAuthType
 import com.neb.ians.ui.components.NebInlineNote
+import com.neb.ians.ui.components.NebJourneySurface
 import com.neb.ians.ui.components.NebNoteTone
 import com.neb.ians.ui.components.NebPillButton
 import com.neb.ians.ui.components.NebStepHeader
 import com.neb.ians.ui.components.NebTextLink
+import com.neb.ians.ui.components.nebKeyboardOpen
 import com.neb.ians.ui.components.art.NebCodeInFlightArt
 import com.neb.ians.ui.theme.LocalNebAuthPalette
 import com.neb.ians.ui.theme.NebAuthTokens
 import com.neb.ians.ui.theme.NebMotion
 import com.neb.ians.ui.theme.Poppins
-import com.neb.ians.ui.theme.rememberNebAuthPalette
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -87,8 +81,6 @@ fun EmailVerificationScreen(
     onNavigateToOnboarding: () -> Unit,
     onNavigateBack: () -> Unit
 ) {
-    val palette = rememberNebAuthPalette()
-    val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val focusRequester = remember { FocusRequester() }
 
@@ -101,21 +93,11 @@ fun EmailVerificationScreen(
     var resendCooldown by remember { mutableIntStateOf(59) }
 
     val maskedEmail = remember(email) { maskEmail(email) }
-
-    DisposableEffect(palette.isDark) {
-        val window = (context as? Activity)?.window
-        val previous = window?.let {
-            WindowCompat.getInsetsController(it, it.decorView).isAppearanceLightStatusBars
-        }
-        window?.let {
-            WindowCompat.getInsetsController(it, it.decorView).isAppearanceLightStatusBars = !palette.isDark
-        }
-        onDispose {
-            if (window != null && previous != null) {
-                WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars = previous
-            }
-        }
-    }
+    val artHeight by animateDpAsState(
+        targetValue = if (nebKeyboardOpen()) 108.dp else 160.dp,
+        animationSpec = tween(NebMotion.Standard, easing = NebMotion.Decelerate),
+        label = "neb_verify_art"
+    )
 
     LaunchedEffect(resendCooldown) {
         if (resendCooldown > 0) {
@@ -175,77 +157,75 @@ fun EmailVerificationScreen(
         if (code.text.length == CODE_LENGTH) verify(code.text)
     }
 
-    CompositionLocalProvider(LocalNebAuthPalette provides palette) {
+    NebJourneySurface {
+        NebAuthTopBar(onBack = onNavigateBack)
+
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .background(palette.page)
-                .statusBarsPadding()
-                .navigationBarsPadding()
-                .imePadding()
+                .fillMaxWidth()
+                .weight(1f)
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = NebAuthTokens.PageGutter),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            NebAuthTopBar(onBack = onNavigateBack)
-
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-                    .padding(horizontal = NebAuthTokens.PageGutter),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                NebCodeInFlightArt(filledCount = code.text.length, total = CODE_LENGTH)
-
-                Spacer(modifier = Modifier.height(18.dp))
-
-                NebStepHeader(
-                    title = "Check your inbox",
-                    subtitle = "We sent a six digit code to $maskedEmail. Enter it below and you're in.",
-                    align = TextAlign.Center
+            NebArtSlot(collapseOnKeyboard = false) {
+                NebCodeInFlightArt(
+                    filledCount = code.text.length,
+                    total = CODE_LENGTH,
+                    height = artHeight
                 )
-
-                Spacer(modifier = Modifier.height(6.dp))
-
-                NebTextLink(text = "Use a different email", onClick = onNavigateBack)
-
-                Spacer(modifier = Modifier.height(NebAuthTokens.SectionGap))
-
-                CodeInput(
-                    value = code,
-                    onValueChange = { next ->
-                        val digits = next.text.filter { it.isDigit() }.take(CODE_LENGTH)
-                        code = TextFieldValue(digits, selection = androidx.compose.ui.text.TextRange(digits.length))
-                        if (errorMessage != null) errorMessage = null
-                    },
-                    enabled = !isVerifying,
-                    hasError = errorMessage != null,
-                    focusRequester = focusRequester
-                )
-
-                Spacer(modifier = Modifier.height(18.dp))
-
-                NebInlineNote(text = errorMessage, tone = NebNoteTone.Error)
-                NebInlineNote(text = infoMessage, tone = NebNoteTone.Success)
-
-                Spacer(modifier = Modifier.height(14.dp))
-
-                NebPillButton(
-                    text = "Verify",
-                    onClick = { verify(code.text) },
-                    enabled = code.text.length == CODE_LENGTH && !isVerifying,
-                    loading = isVerifying
-                )
-
-                Spacer(modifier = Modifier.height(20.dp))
-
-                ResendRow(
-                    attempts = resendAttempts,
-                    cooldown = resendCooldown,
-                    isResending = isResending,
-                    onResend = { resend() }
-                )
-
-                Spacer(modifier = Modifier.height(28.dp))
             }
+
+            Spacer(modifier = Modifier.height(18.dp))
+
+            NebStepHeader(
+                title = "Check your inbox",
+                subtitle = "We sent a six digit code to $maskedEmail. Enter it below and you're in.",
+                align = TextAlign.Center
+            )
+
+            Spacer(modifier = Modifier.height(6.dp))
+
+            NebTextLink(text = "Use a different email", onClick = onNavigateBack)
+
+            Spacer(modifier = Modifier.height(NebAuthTokens.SectionGap))
+
+            CodeInput(
+                value = code,
+                onValueChange = { next ->
+                    val digits = next.text.filter { it.isDigit() }.take(CODE_LENGTH)
+                    code = TextFieldValue(digits, selection = androidx.compose.ui.text.TextRange(digits.length))
+                    if (errorMessage != null) errorMessage = null
+                },
+                enabled = !isVerifying,
+                hasError = errorMessage != null,
+                focusRequester = focusRequester
+            )
+
+            Spacer(modifier = Modifier.height(18.dp))
+
+            NebInlineNote(text = errorMessage, tone = NebNoteTone.Error)
+            NebInlineNote(text = infoMessage, tone = NebNoteTone.Success)
+
+            Spacer(modifier = Modifier.height(14.dp))
+
+            NebPillButton(
+                text = "Verify",
+                onClick = { verify(code.text) },
+                enabled = code.text.length == CODE_LENGTH && !isVerifying,
+                loading = isVerifying
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            ResendRow(
+                attempts = resendAttempts,
+                cooldown = resendCooldown,
+                isResending = isResending,
+                onResend = { resend() }
+            )
+
+            Spacer(modifier = Modifier.height(28.dp))
         }
     }
 }

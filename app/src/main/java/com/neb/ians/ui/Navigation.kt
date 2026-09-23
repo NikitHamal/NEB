@@ -60,7 +60,7 @@ import com.neb.ians.ui.screens.forum.CreatePostScreen
 import com.neb.ians.ui.screens.forum.ReplyScreen
 import com.neb.ians.ui.screens.search.SearchScreen
 import com.neb.ians.ui.screens.profile.ProfileScreen
-import com.neb.ians.ui.screens.profile.EditProfileScreen
+import com.neb.ians.ui.screens.profile.edit.EditProfileScreen
 import com.neb.ians.ui.screens.notifications.NotificationsScreen
 import com.neb.ians.ui.screens.settings.SettingsScreen
 import com.neb.ians.ui.screens.settings.SettingsViewModel

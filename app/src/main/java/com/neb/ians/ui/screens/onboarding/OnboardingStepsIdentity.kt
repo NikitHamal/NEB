@@ -1,8 +1,6 @@
 package com.neb.ians.ui.screens.onboarding
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AlternateEmail
 import androidx.compose.material.icons.outlined.Check
@@ -22,13 +19,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.neb.ians.ui.components.NebArtSlot
 import com.neb.ians.ui.components.NebAuthField
 import com.neb.ians.ui.components.NebAuthType
+import com.neb.ians.ui.components.NebChoiceRow
 import com.neb.ians.ui.components.NebDateWheel
+import com.neb.ians.ui.components.NebDotTile
 import com.neb.ians.ui.components.NebOptionCard
 import com.neb.ians.ui.components.NebStepHeader
 import com.neb.ians.ui.components.formatIsoDate
@@ -54,8 +53,8 @@ import java.util.Calendar
 fun WelcomeStep() {
     val palette = LocalNebAuthPalette.current
     Column(modifier = Modifier.fillMaxWidth()) {
-        NebHorizonArt(height = 208.dp)
-        Spacer(modifier = Modifier.height(20.dp))
+        NebArtSlot { NebHorizonArt(height = 196.dp) }
+        Spacer(modifier = Modifier.height(16.dp))
         NebStepHeader(
             title = "Welcome to NEBians",
             subtitle = "Let's build the profile Nepal's learning community will see. A few short questions — one at a time, nothing crammed."
@@ -65,19 +64,14 @@ fun WelcomeStep() {
             "Your handle" to "How classmates find and mention you",
             "Your level and subjects" to "So the feed carries the right notes and papers",
             "Your district and campus" to "So local resources and results reach you first"
-        ).forEachIndexed { index, (title, detail) ->
+        ).forEach { (title, detail) ->
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(56.dp),
                 verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
             ) {
-                Box(
-                    modifier = Modifier
-                        .size(8.dp)
-                        .clip(CircleShape)
-                        .background(palette.accents[(index + 1) % palette.accents.size])
-                )
+                NebDotTile(color = palette.sapphire)
                 Spacer(modifier = Modifier.width(14.dp))
                 Column {
                     Text(text = title, style = NebAuthType.Body, color = palette.ink)
@@ -92,8 +86,8 @@ fun WelcomeStep() {
 fun RoleStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewModel) {
     val selectedIndex = NEB_ROLES.indexOfFirst { it.key == state.role }
     Column(modifier = Modifier.fillMaxWidth()) {
-        NebPathsArt(selectedIndex = selectedIndex, pathCount = NEB_ROLES.size)
-        Spacer(modifier = Modifier.height(16.dp))
+        NebArtSlot { NebPathsArt(selectedIndex = selectedIndex, pathCount = NEB_ROLES.size) }
+        Spacer(modifier = Modifier.height(14.dp))
         NebStepHeader(
             title = "Which path is yours?",
             subtitle = "This shapes the rest of the questions and what your feed leads with."
@@ -116,11 +110,13 @@ fun RoleStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewModel)
 fun NameStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewModel) {
     val name = state.displayName
     Column(modifier = Modifier.fillMaxWidth()) {
-        NebNameplateArt(
-            initial = name.trim().firstOrNull(),
-            progress = (name.trim().length / 16f).coerceIn(0f, 1f)
-        )
-        Spacer(modifier = Modifier.height(12.dp))
+        NebArtSlot {
+            NebNameplateArt(
+                initial = name.trim().firstOrNull(),
+                progress = (name.trim().length / 16f).coerceIn(0f, 1f)
+            )
+        }
+        Spacer(modifier = Modifier.height(10.dp))
         NebStepHeader(
             title = "What should we call you?",
             subtitle = "Your display name appears on everything you post. You can change it later."
@@ -147,8 +143,8 @@ fun HandleStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewMode
         else -> NebHandleState.Idle
     }
     Column(modifier = Modifier.fillMaxWidth()) {
-        NebHandleArt(state = handleState)
-        Spacer(modifier = Modifier.height(12.dp))
+        NebArtSlot { NebHandleArt(state = handleState) }
+        Spacer(modifier = Modifier.height(10.dp))
         NebStepHeader(
             title = "Claim your handle",
             subtitle = "Letters, numbers and underscores. This is how people mention you in threads."
@@ -205,8 +201,8 @@ fun BirthdayStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewMo
     val day = parsed?.third ?: 1
 
     Column(modifier = Modifier.fillMaxWidth()) {
-        NebCalendarArt(dayOfMonth = parsed?.third)
-        Spacer(modifier = Modifier.height(12.dp))
+        NebArtSlot(collapseOnKeyboard = false) { NebCalendarArt(dayOfMonth = parsed?.third) }
+        Spacer(modifier = Modifier.height(10.dp))
         NebStepHeader(
             title = "When were you born?",
             subtitle = "We use this for age-appropriate content and nothing else. Only your age band is ever shown."
@@ -225,22 +221,17 @@ fun BirthdayStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewMo
 fun GenderStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewModel) {
     val selectedIndex = NEB_GENDERS.indexOf(state.gender)
     Column(modifier = Modifier.fillMaxWidth()) {
-        NebFacetsArt(selectedIndex = selectedIndex, count = NEB_GENDERS.size)
-        Spacer(modifier = Modifier.height(12.dp))
+        NebArtSlot(collapseOnKeyboard = false) { NebFacetsArt(selectedIndex = selectedIndex, count = NEB_GENDERS.size) }
+        Spacer(modifier = Modifier.height(10.dp))
         NebStepHeader(
             title = "How do you identify?",
             subtitle = "Optional detail for your profile. Pick whichever fits."
         )
         Spacer(modifier = Modifier.height(22.dp))
-        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            NEB_GENDERS.forEach { option ->
-                NebOptionCard(
-                    title = option,
-                    subtitle = null,
-                    selected = state.gender == option,
-                    onClick = { viewModel.onGenderChange(option) }
-                )
-            }
-        }
+        NebChoiceRow(
+            options = NEB_GENDERS,
+            selected = state.gender,
+            onSelect = viewModel::onGenderChange
+        )
     }
 }
