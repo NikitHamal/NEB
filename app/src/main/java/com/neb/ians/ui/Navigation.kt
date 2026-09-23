@@ -81,11 +81,10 @@ import com.neb.ians.ui.screens.interactive.InteractiveCourseScreen
 import com.neb.ians.ui.screens.interactive.InteractiveLessonScreen
 import com.neb.ians.ui.screens.auth.SplashScreen
 import com.neb.ians.ui.screens.auth.LoginScreen
-import com.neb.ians.ui.screens.auth.EmailSignupScreen
-import com.neb.ians.ui.screens.auth.EmailLoginScreen
+import com.neb.ians.ui.screens.auth.EmailAuthScreen
 import com.neb.ians.ui.screens.auth.EmailVerificationScreen
 import com.neb.ians.ui.screens.auth.ForgotPasswordScreen
-import com.neb.ians.ui.screens.auth.CompleteProfileScreen
+import com.neb.ians.ui.screens.onboarding.OnboardingScreen
 import com.neb.ians.ui.screens.results.ResultCheckerScreen
 import com.neb.ians.ui.screens.results.ToolsScreen
 import com.neb.ians.ui.screens.news.NewsDetailScreen
@@ -95,8 +94,7 @@ import com.neb.ians.ui.screens.credits.NebyCreditsScreen
 sealed class Screen(val route: String) {
     data object Splash : Screen("splash")
     data object Login : Screen("login")
-    data object EmailSignup : Screen("email_signup")
-    data object EmailLogin : Screen("email_login")
+    data object EmailAuth : Screen("email_auth")
     data object EmailVerification : Screen("email_verification/{email}") {
         fun createRoute(email: String) = "email_verification/${if (email.isBlank()) "none" else java.net.URLEncoder.encode(email, "UTF-8")}"
     }
@@ -223,8 +221,7 @@ fun NEBiansNavHost(
                 if (currentRoute != null &&
                     currentRoute != Screen.Splash.route &&
                     currentRoute != Screen.Login.route &&
-                    currentRoute != Screen.EmailLogin.route &&
-                    currentRoute != Screen.EmailSignup.route
+                    currentRoute != Screen.EmailAuth.route
                 ) {
                     navController.navigate(Screen.Login.route) {
                         popUpTo(navController.graph.findStartDestination().id) { inclusive = true }
@@ -233,7 +230,7 @@ fun NEBiansNavHost(
             }
             is AuthState.Authenticated -> {
                 val currentRoute = navController.currentBackStackEntry?.destination?.route
-                if (currentRoute == Screen.Login.route || currentRoute == Screen.EmailLogin.route) {
+                if (currentRoute == Screen.Login.route || currentRoute == Screen.EmailAuth.route) {
                     val dest = if (state.isProfileComplete) Screen.Home.route else Screen.CompleteProfile.route
                     navController.navigate(dest) {
                         popUpTo(navController.graph.findStartDestination().id) { inclusive = true }
@@ -346,54 +343,27 @@ fun NEBiansNavHost(
             }
             composable(Screen.Login.route) {
                 LoginScreen(
-                    authRepository = authRepository,
+                    onNavigateToEmailAuth = { navController.navigate(Screen.EmailAuth.route) }
+                )
+            }
+            composable(Screen.EmailAuth.route) {
+                EmailAuthScreen(
+                    onClose = { navController.popBackStack() },
                     onNavigateToHome = {
                         navController.navigate(Screen.Home.route) {
                             popUpTo(Screen.Login.route) { inclusive = true }
                         }
                     },
-                    onNavigateToCompleteProfile = {
+                    onNavigateToOnboarding = {
                         navController.navigate(Screen.CompleteProfile.route) {
                             popUpTo(Screen.Login.route) { inclusive = true }
                         }
                     },
-                    onNavigateToEmailSignup = { navController.navigate(Screen.EmailSignup.route) },
+                    onNavigateToVerification = { email ->
+                        navController.navigate(Screen.EmailVerification.createRoute(email))
+                    },
                     onNavigateToForgotPassword = { email ->
                         navController.navigate(Screen.ForgotPassword.createRoute(email))
-                    },
-                    onNavigateToVerification = { email ->
-                        navController.navigate(Screen.EmailVerification.createRoute(email))
-                    }
-                )
-            }
-            composable(Screen.EmailSignup.route) {
-                EmailSignupScreen(
-                    authRepository = authRepository,
-                    onNavigateToVerification = { email ->
-                        navController.navigate(Screen.EmailVerification.createRoute(email))
-                    },
-                    onNavigateBack = { navController.popBackStack() }
-                )
-            }
-            composable(Screen.EmailLogin.route) {
-                LoginScreen(
-                    authRepository = authRepository,
-                    onNavigateToHome = {
-                        navController.navigate(Screen.Home.route) {
-                            popUpTo(Screen.EmailLogin.route) { inclusive = true }
-                        }
-                    },
-                    onNavigateToCompleteProfile = {
-                        navController.navigate(Screen.CompleteProfile.route) {
-                            popUpTo(Screen.EmailLogin.route) { inclusive = true }
-                        }
-                    },
-                    onNavigateToEmailSignup = { navController.navigate(Screen.EmailSignup.route) },
-                    onNavigateToForgotPassword = { email ->
-                        navController.navigate(Screen.ForgotPassword.createRoute(email))
-                    },
-                    onNavigateToVerification = { email ->
-                        navController.navigate(Screen.EmailVerification.createRoute(email))
                     }
                 )
             }
@@ -411,7 +381,7 @@ fun NEBiansNavHost(
                             popUpTo(Screen.EmailVerification.route) { inclusive = true }
                         }
                     },
-                    onNavigateToCompleteProfile = {
+                    onNavigateToOnboarding = {
                         navController.navigate(Screen.CompleteProfile.route) {
                             popUpTo(Screen.EmailVerification.route) { inclusive = true }
                         }
@@ -433,22 +403,16 @@ fun NEBiansNavHost(
                             popUpTo(Screen.ForgotPassword.route) { inclusive = true }
                         }
                     },
-                    onNavigateToCompleteProfile = {
-                        navController.navigate(Screen.CompleteProfile.route) {
-                            popUpTo(Screen.ForgotPassword.route) { inclusive = true }
-                        }
-                    },
                     onNavigateBack = { navController.popBackStack() }
                 )
             }
             composable(Screen.CompleteProfile.route) {
-                CompleteProfileScreen(
-                    onNavigateToHome = {
+                OnboardingScreen(
+                    onFinished = {
                         navController.navigate(Screen.Home.route) {
                             popUpTo(Screen.CompleteProfile.route) { inclusive = true }
                         }
-                    },
-                    onNavigateBack = { navController.popBackStack() }
+                    }
                 )
             }
             composable(Screen.Home.route) {

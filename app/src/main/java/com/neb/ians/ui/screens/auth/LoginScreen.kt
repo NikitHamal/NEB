@@ -24,18 +24,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.neb.ians.R
-import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.ui.theme.Poppins
 import com.neb.ians.util.HideStatusBarEffect
 
 @Composable
 fun LoginScreen(
-    authRepository: AuthRepository,
-    onNavigateToHome: () -> Unit,
-    onNavigateToCompleteProfile: () -> Unit,
-    onNavigateToEmailSignup: () -> Unit,
-    onNavigateToForgotPassword: (email: String) -> Unit,
-    onNavigateToVerification: (email: String) -> Unit
+    onNavigateToEmailAuth: () -> Unit
 ) {
     // Hide status bar on auth screen as requested
     HideStatusBarEffect()
@@ -47,7 +41,6 @@ fun LoginScreen(
     var isLoading by remember { mutableStateOf(false) }
     var loadingProvider by remember { mutableStateOf<String?>(null) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
-    var isEmailSheetOpen by remember { mutableStateOf(false) }
     var activeLegalSheet by remember { mutableStateOf<LegalSheetType?>(null) }
 
     fun launchOAuth(provider: String) {
@@ -189,27 +182,11 @@ fun LoginScreen(
                 loadingProvider = loadingProvider,
                 onGoogleClick = { launchOAuth("google") },
                 onGitHubClick = { launchOAuth("github") },
-                onEmailClick = { isEmailSheetOpen = true },
+                onEmailClick = onNavigateToEmailAuth,
                 onTermsClick = { activeLegalSheet = LegalSheetType.TERMS },
                 onPrivacyClick = { activeLegalSheet = LegalSheetType.PRIVACY }
             )
         }
-
-        // Email Sign-In & Quick Register Bottom Sheet
-        AuthEmailSheet(
-            isOpen = isEmailSheetOpen,
-            onDismiss = { isEmailSheetOpen = false },
-            isDark = isDark,
-            authRepository = authRepository,
-            onNavigateToHome = onNavigateToHome,
-            onNavigateToCompleteProfile = onNavigateToCompleteProfile,
-            onNavigateToForgotPassword = onNavigateToForgotPassword,
-            onNavigateToVerification = onNavigateToVerification,
-            onNavigateToFullSignup = {
-                isEmailSheetOpen = false
-                onNavigateToEmailSignup()
-            }
-        )
 
         // Terms of Service & Privacy Policy Bottom Sheet
         AuthLegalSheet(

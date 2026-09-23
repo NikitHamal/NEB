@@ -61,6 +61,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.neb.ians.data.api.ApiBadgeInfo
 import com.neb.ians.util.rememberTactileFeedback
+import com.neb.ians.ui.components.art.NebIconHalo
 import com.neb.ians.util.TactileType
 
 // ---------------------------------------------------------------------------
@@ -537,14 +538,9 @@ fun NebEmptyState(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        Surface(
-            shape = CircleShape,
-            color = MaterialTheme.colorScheme.surfaceContainerHigh,
-            modifier = Modifier.size(72.dp)
-        ) {
-            Box(contentAlignment = Alignment.Center) {
-                Icon(icon, null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(34.dp))
-            }
+        Box(contentAlignment = Alignment.Center) {
+            NebIconHalo(diameter = 82.dp)
+            Icon(icon, null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(32.dp))
         }
         Text(title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
         if (subtitle != null) {
