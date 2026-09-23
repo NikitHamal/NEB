@@ -64,29 +64,27 @@ def ajax_canvas_objects_save(request, board_id):
     items = data.get("objects") if isinstance(data.get("objects"), list) else []
     items = items[:MAX_OBJECTS]
     now = now_ms()
-    from django.db import transaction
-    with transaction.atomic():
-        CanvasObject.objects.filter(board=board).delete()
-        bulk = []
-        for i, item in enumerate(items):
-            if not isinstance(item, dict):
-                continue
-            oid = str(item.get("id") or uuid_str())[:36]
-            otype = str(item.get("type") or "pen")[:24]
-            bulk.append(CanvasObject(
-                id=oid,
-                board=board,
-                user=user,
-                obj_type=otype,
-                payload=json.dumps(item, ensure_ascii=False)[:200000],
-                x=float(item.get("x") or item.get("x1") or 0),
-                y=float(item.get("y") or item.get("y1") or 0),
-                z=i,
-                created_at=now,
-                updated_at=now,
-            ))
-        if bulk:
-            CanvasObject.objects.bulk_create(bulk)
+    CanvasObject.objects.filter(board=board).delete()
+    bulk = []
+    for i, item in enumerate(items):
+        if not isinstance(item, dict):
+            continue
+        oid = str(item.get("id") or uuid_str())[:36]
+        otype = str(item.get("type") or "pen")[:24]
+        bulk.append(CanvasObject(
+            id=oid,
+            board=board,
+            user=user,
+            obj_type=otype,
+            payload=json.dumps(item, ensure_ascii=False)[:200000],
+            x=float(item.get("x") or item.get("x1") or 0),
+            y=float(item.get("y") or item.get("y1") or 0),
+            z=i,
+            created_at=now,
+            updated_at=now,
+        ))
+    if bulk:
+        CanvasObject.objects.bulk_create(bulk)
     board.updated_at = now
     board.save(update_fields=["updated_at"])
     return JsonResponse({"ok": True, "count": len(bulk)})
