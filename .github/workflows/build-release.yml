@@ -23,20 +23,20 @@ on:
 jobs:
   build-student:
     name: Build Student App
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: '17'
           distribution: 'temurin'
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v6
         with:
           cache-read-only: false
           cache-cleanup: on-success
@@ -82,23 +82,23 @@ jobs:
           echo "hash=$HASH" >> "$GITHUB_OUTPUT"
 
       - name: Upload Modern APK
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: NEBians-modern-v${{ steps.info.outputs.version }}-${{ steps.info.outputs.hash }}
           path: app/build/outputs/apk/modern/release/*.apk
-          retention-days: 30
+          retention-days: 7
 
       - name: Upload Modern AAB (Play Store)
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: NEBians-modern-aab-v${{ steps.info.outputs.version }}-${{ steps.info.outputs.hash }}
           path: app/build/outputs/bundle/modernRelease/*.aab
-          retention-days: 30
+          retention-days: 7
 
       - name: Upload Legacy APK
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.build_legacy == 'true'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: NEBians-legacy-v${{ steps.info.outputs.version }}-${{ steps.info.outputs.hash }}
           path: app/build/outputs/apk/legacy/release/*.apk
-          retention-days: 30
+          retention-days: 7
