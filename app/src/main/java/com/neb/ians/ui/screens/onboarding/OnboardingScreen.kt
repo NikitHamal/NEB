@@ -1,0 +1,240 @@
+package com.neb.ians.ui.screens.onboarding
+
+import android.app.Activity
+import androidx.activity.compose.BackHandler
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.unit.dp
+import androidx.core.view.WindowCompat
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.neb.ians.ui.components.NebAuthTopBar
+import com.neb.ians.ui.components.NebInlineNote
+import com.neb.ians.ui.components.NebPillButton
+import com.neb.ians.ui.components.NebTextLink
+import com.neb.ians.ui.screens.auth.CompleteProfileViewModel
+import com.neb.ians.ui.theme.LocalNebAuthPalette
+import com.neb.ians.ui.theme.NebAuthTokens
+import com.neb.ians.ui.theme.NebMotion
+import com.neb.ians.ui.theme.rememberNebAuthPalette
+
+/**
+ * Profile creation, one question at a time. Every step owns the whole screen: an
+ * illustration that answers the question with the user, one headline, and the
+ * smallest control that can take the answer. The old single-form version asked
+ * for fourteen things at once, which is the fastest way to lose someone who has
+ * just verified their email.
+ */
+@Composable
+fun OnboardingScreen(
+    onFinished: () -> Unit,
+    viewModel: CompleteProfileViewModel = hiltViewModel()
+) {
+    val palette = rememberNebAuthPalette()
+    val uiState by viewModel.uiState.collectAsState()
+    val focusManager = LocalFocusManager.current
+    val context = LocalContext.current
+
+    val steps = remember(uiState.role) { stepsForRole(uiState.role) }
+    var stepIndex by rememberSaveable { mutableIntStateOf(0) }
+    var movingForward by remember { mutableStateOf(true) }
+
+    val safeIndex = stepIndex.coerceIn(0, steps.lastIndex)
+    val step = steps[safeIndex]
+
+    DisposableEffect(palette.isDark) {
+        val window = (context as? Activity)?.window
+        val previous = window?.let {
+            WindowCompat.getInsetsController(it, it.decorView).isAppearanceLightStatusBars
+        }
+        window?.let {
+            WindowCompat.getInsetsController(it, it.decorView).isAppearanceLightStatusBars = !palette.isDark
+        }
+        onDispose {
+            if (window != null && previous != null) {
+                WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars = previous
+            }
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.setIsEditing(false)
+        viewModel.fetchInstitutions()
+    }
+
+    LaunchedEffect(uiState.submissionResult) {
+        if (uiState.submissionResult == true) onFinished()
+    }
+
+    val photoPicker = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri ->
+        uri?.let {
+            val bytes = context.contentResolver.openInputStream(it)?.use { stream -> stream.readBytes() }
+            if (bytes != null) {
+                viewModel.uploadPhoto(bytes, context.contentResolver.getType(it) ?: "image/jpeg")
+            }
+        }
+    }
+
+    fun goBack() {
+        focusManager.clearFocus()
+        if (safeIndex > 0) {
+            movingForward = false
+            stepIndex = safeIndex - 1
+        }
+    }
+
+    fun goNext() {
+        focusManager.clearFocus()
+        if (safeIndex < steps.lastIndex) {
+            movingForward = true
+            stepIndex = safeIndex + 1
+        }
+    }
+
+    BackHandler(enabled = safeIndex > 0) { goBack() }
+
+    CompositionLocalProvider(LocalNebAuthPalette provides palette) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(palette.page)
+                .statusBarsPadding()
+                .navigationBarsPadding()
+                .imePadding()
+        ) {
+            NebAuthTopBar(
+                onBack = if (safeIndex > 0) ({ goBack() }) else null,
+                progress = (safeIndex + 1).toFloat() / steps.size
+            )
+
+            AnimatedContent(
+                targetState = step,
+                transitionSpec = { stepTransition(movingForward) },
+                label = "neb_onboarding_step",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+            ) { target ->
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState())
+                        .padding(horizontal = NebAuthTokens.PageGutter)
+                ) {
+                    Spacer(modifier = Modifier.height(4.dp))
+                    OnboardingStepContent(
+                        step = target,
+                        state = uiState,
+                        viewModel = viewModel,
+                        onPickPhoto = { photoPicker.launch("image/*") }
+                    )
+                    Spacer(modifier = Modifier.height(24.dp))
+                }
+            }
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = NebAuthTokens.PageGutter)
+                    .padding(top = 8.dp, bottom = 16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                NebInlineNote(text = uiState.submissionError)
+
+                AnimatedVisibility(
+                    visible = uiState.submissionError != null,
+                    enter = fadeIn(tween(NebMotion.Short)),
+                    exit = fadeOut(tween(NebMotion.Instant))
+                ) {
+                    Spacer(modifier = Modifier.height(12.dp))
+                }
+
+                NebPillButton(
+                    text = primaryLabelFor(step),
+                    onClick = {
+                        if (step == OnboardingStep.Finish) {
+                            viewModel.submitProfile()
+                        } else {
+                            goNext()
+                        }
+                    },
+                    enabled = isStepComplete(step, uiState),
+                    loading = uiState.isSubmitting
+                )
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(38.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    androidx.compose.animation.AnimatedVisibility(
+                        visible = isStepSkippable(step),
+                        enter = fadeIn(tween(NebMotion.Standard)),
+                        exit = fadeOut(tween(NebMotion.Instant))
+                    ) {
+                        NebTextLink(
+                            text = "Skip for now",
+                            onClick = { goNext() },
+                            enabled = !uiState.isSubmitting
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+/** Steps travel sideways: forward slides in from the right, back from the left. */
+private fun stepTransition(forward: Boolean) =
+    (slideInHorizontally(
+        animationSpec = tween(NebMotion.Emphasized, easing = NebMotion.Decelerate),
+        initialOffsetX = { full ->
+            val offset = (full * NebMotion.StepSlideFraction).toInt()
+            if (forward) offset else -offset
+        }
+    ) + fadeIn(tween(NebMotion.Standard))) togetherWith
+        (slideOutHorizontally(
+            animationSpec = tween(NebMotion.Standard, easing = NebMotion.Accelerate),
+            targetOffsetX = { full ->
+                val offset = (full * NebMotion.StepSlideFraction).toInt()
+                if (forward) -offset else offset
+            }
+        ) + fadeOut(tween(NebMotion.Quick)))

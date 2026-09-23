@@ -7,9 +7,5 @@ import com.neb.ians.ui.screens.auth.CompleteProfileScreen
 fun EditProfileScreen(
     onNavigateBack: () -> Unit
 ) {
-    CompleteProfileScreen(
-        onNavigateToHome = {},
-        onNavigateBack = onNavigateBack,
-        isEditing = true
-    )
+    CompleteProfileScreen(onNavigateBack = onNavigateBack)
 }
