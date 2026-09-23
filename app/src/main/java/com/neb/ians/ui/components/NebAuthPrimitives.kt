@@ -169,7 +169,7 @@ fun NebAuthTopBar(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .height(60.dp)
+            .height(56.dp)
             .padding(horizontal = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -637,108 +637,6 @@ fun NebInlineNote(
                 modifier = Modifier.fillMaxWidth()
             )
         }
-    }
-}
-
-/**
- * A choice that owns a whole row: role, intent, institution type. Selection
- * moves the hairline to sapphire and fills the card with sapphireSoft — the
- * same two-step the chips use, one size up.
- */
-@Composable
-fun NebOptionCard(
-    title: String,
-    subtitle: String?,
-    selected: Boolean,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    leading: (@Composable () -> Unit)? = null,
-    trailing: (@Composable () -> Unit)? = null
-) {
-    val palette = LocalNebAuthPalette.current
-    val border by animateColorAsState(
-        targetValue = if (selected) palette.sapphire else palette.hairline,
-        animationSpec = tween(NebMotion.Short),
-        label = "neb_option_border"
-    )
-    val fill by animateColorAsState(
-        targetValue = if (selected) palette.sapphireSoft else palette.card,
-        animationSpec = tween(NebMotion.Short),
-        label = "neb_option_fill"
-    )
-    val width by animateDpAsState(
-        targetValue = if (selected) 1.7.dp else NebAuthTokens.Hairline,
-        animationSpec = tween(NebMotion.Short),
-        label = "neb_option_border_w"
-    )
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(NebAuthTokens.CardRadius))
-            .background(fill)
-            .border(width, border, RoundedCornerShape(NebAuthTokens.CardRadius))
-            .nebPressable(scale = 0.985f, tactile = TactileType.SelectionChange, onClick = onClick)
-            .padding(horizontal = 18.dp, vertical = 16.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        if (leading != null) {
-            leading()
-            Spacer(modifier = Modifier.width(16.dp))
-        }
-        Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = title,
-                style = NebAuthType.Title.copy(fontSize = 15.5.sp),
-                color = palette.ink
-            )
-            if (!subtitle.isNullOrBlank()) {
-                Spacer(modifier = Modifier.height(2.dp))
-                Text(text = subtitle, style = NebAuthType.Caption, color = palette.inkMuted)
-            }
-        }
-        if (trailing != null) {
-            Spacer(modifier = Modifier.width(12.dp))
-            trailing()
-        }
-    }
-}
-
-/** A multi-select token: subjects, interests. */
-@Composable
-fun NebSelectChip(
-    label: String,
-    selected: Boolean,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    val palette = LocalNebAuthPalette.current
-    val fill by animateColorAsState(
-        targetValue = if (selected) palette.sapphire else palette.field,
-        animationSpec = tween(NebMotion.Quick),
-        label = "neb_chip_fill"
-    )
-    val content by animateColorAsState(
-        targetValue = if (selected) palette.onSapphire else palette.inkMuted,
-        animationSpec = tween(NebMotion.Quick),
-        label = "neb_chip_fg"
-    )
-    Box(
-        modifier = modifier
-            .clip(RoundedCornerShape(18.dp))
-            .background(fill)
-            .border(
-                NebAuthTokens.Hairline,
-                if (selected) Color.Transparent else palette.hairline,
-                RoundedCornerShape(18.dp)
-            )
-            .nebPressable(scale = 0.95f, tactile = TactileType.SelectionChange, onClick = onClick)
-            .padding(horizontal = 15.dp, vertical = 9.dp)
-    ) {
-        Text(
-            text = label,
-            style = NebAuthType.Caption.copy(fontWeight = FontWeight.SemiBold, fontSize = 13.sp),
-            color = content
-        )
     }
 }
 

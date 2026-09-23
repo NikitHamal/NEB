@@ -1,6 +1,5 @@
 package com.neb.ians.ui.screens.auth
 
-import android.app.Activity
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
@@ -9,18 +8,13 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -30,32 +24,29 @@ import androidx.compose.material.icons.outlined.AlternateEmail
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.neb.ians.ui.components.NebArtSlot
 import com.neb.ians.ui.components.NebAuthField
 import com.neb.ians.ui.components.NebAuthTopBar
 import com.neb.ians.ui.components.NebAuthType
 import com.neb.ians.ui.components.NebInlineNote
+import com.neb.ians.ui.components.NebJourneySurface
 import com.neb.ians.ui.components.NebPillButton
 import com.neb.ians.ui.components.NebTextLink
 import com.neb.ians.ui.components.art.NebOpenBookMark
 import com.neb.ians.ui.theme.LocalNebAuthPalette
 import com.neb.ians.ui.theme.NebAuthTokens
 import com.neb.ians.ui.theme.NebMotion
-import com.neb.ians.ui.theme.rememberNebAuthPalette
 
 /**
  * One screen for both halves of email auth. Signing in and creating an account
@@ -73,25 +64,8 @@ fun EmailAuthScreen(
     startInCreateMode: Boolean = false,
     viewModel: EmailAuthViewModel = hiltViewModel()
 ) {
-    val palette = rememberNebAuthPalette()
     val uiState by viewModel.uiState.collectAsState()
     val focusManager = LocalFocusManager.current
-    val context = LocalContext.current
-
-    DisposableEffect(palette.isDark) {
-        val window = (context as? Activity)?.window
-        val previous = window?.let {
-            WindowCompat.getInsetsController(it, it.decorView).isAppearanceLightStatusBars
-        }
-        window?.let {
-            WindowCompat.getInsetsController(it, it.decorView).isAppearanceLightStatusBars = !palette.isDark
-        }
-        onDispose {
-            if (window != null && previous != null) {
-                WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars = previous
-            }
-        }
-    }
 
     LaunchedEffect(startInCreateMode) {
         if (startInCreateMode) viewModel.setMode(EmailAuthMode.CreateAccount)
@@ -121,179 +95,172 @@ fun EmailAuthScreen(
 
     val isCreate = uiState.mode == EmailAuthMode.CreateAccount
 
-    CompositionLocalProvider(LocalNebAuthPalette provides palette) {
+    NebJourneySurface {
+        val palette = LocalNebAuthPalette.current
+        NebAuthTopBar(onClose = onClose)
+
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .background(palette.page)
-                .statusBarsPadding()
-                .navigationBarsPadding()
-                .imePadding()
+                .fillMaxWidth()
+                .weight(1f)
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = NebAuthTokens.PageGutter)
         ) {
-            NebAuthTopBar(onClose = onClose)
-
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-                    .verticalScroll(rememberScrollState())
-                    .padding(horizontal = NebAuthTokens.PageGutter)
-            ) {
-                Spacer(modifier = Modifier.height(8.dp))
+            NebArtSlot {
                 NebOpenBookMark(
                     modifier = Modifier.fillMaxWidth(),
                     markSize = 78.dp
                 )
-                Spacer(modifier = Modifier.height(22.dp))
+            }
+            Spacer(modifier = Modifier.height(18.dp))
 
-                AnimatedContent(
-                    targetState = isCreate,
-                    transitionSpec = { modeTransition(targetState) },
-                    label = "neb_email_auth_header"
-                ) { create ->
-                    Column(modifier = Modifier.fillMaxWidth()) {
-                        Text(
-                            text = if (create) "Create your account" else "Welcome back",
-                            style = NebAuthType.Headline,
-                            color = palette.ink
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(
-                            text = if (create) {
-                                "Your email and a password is all we need to start. You will pick a handle next."
-                            } else {
-                                "Sign in with the email or username you registered with."
-                            },
-                            style = NebAuthType.Body,
-                            color = palette.inkMuted
-                        )
-                    }
+            AnimatedContent(
+                targetState = isCreate,
+                transitionSpec = { modeTransition(targetState) },
+                label = "neb_email_auth_header"
+            ) { create ->
+                Column(modifier = Modifier.fillMaxWidth()) {
+                    Text(
+                        text = if (create) "Create your account" else "Welcome back",
+                        style = NebAuthType.Headline,
+                        color = palette.ink
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = if (create) {
+                            "Your email and a password is all we need to start. You will pick a handle next."
+                        } else {
+                            "Sign in with the email or username you registered with."
+                        },
+                        style = NebAuthType.Body,
+                        color = palette.inkMuted
+                    )
                 }
+            }
 
-                Spacer(modifier = Modifier.height(NebAuthTokens.SectionGap))
+            Spacer(modifier = Modifier.height(NebAuthTokens.SectionGap))
 
-                NebAuthField(
-                    value = uiState.identifier,
-                    onValueChange = viewModel::onIdentifierChange,
-                    label = if (isCreate) "Email address" else "Email or username",
-                    placeholder = if (isCreate) "you@example.com" else "you@example.com",
-                    leadingIcon = Icons.Outlined.AlternateEmail,
-                    keyboardType = KeyboardType.Email,
-                    imeAction = ImeAction.Next,
-                    onImeAction = { focusManager.moveFocus(androidx.compose.ui.focus.FocusDirection.Down) },
-                    enabled = !uiState.isSubmitting,
-                    error = uiState.identifierError
-                )
+            NebAuthField(
+                value = uiState.identifier,
+                onValueChange = viewModel::onIdentifierChange,
+                label = if (isCreate) "Email address" else "Email or username",
+                placeholder = if (isCreate) "you@example.com" else "you@example.com",
+                leadingIcon = Icons.Outlined.AlternateEmail,
+                keyboardType = KeyboardType.Email,
+                imeAction = ImeAction.Next,
+                onImeAction = { focusManager.moveFocus(androidx.compose.ui.focus.FocusDirection.Down) },
+                enabled = !uiState.isSubmitting,
+                error = uiState.identifierError
+            )
 
-                Spacer(modifier = Modifier.height(NebAuthTokens.StackGap))
+            Spacer(modifier = Modifier.height(NebAuthTokens.StackGap))
 
-                NebAuthField(
-                    value = uiState.password,
-                    onValueChange = viewModel::onPasswordChange,
-                    label = "Password",
-                    placeholder = if (isCreate) "At least 8 characters" else "Your password",
-                    leadingIcon = Icons.Outlined.Lock,
-                    isPassword = true,
-                    keyboardType = KeyboardType.Password,
-                    imeAction = ImeAction.Done,
-                    onImeAction = {
+            NebAuthField(
+                value = uiState.password,
+                onValueChange = viewModel::onPasswordChange,
+                label = "Password",
+                placeholder = if (isCreate) "At least 8 characters" else "Your password",
+                leadingIcon = Icons.Outlined.Lock,
+                isPassword = true,
+                keyboardType = KeyboardType.Password,
+                imeAction = ImeAction.Done,
+                onImeAction = {
+                    focusManager.clearFocus()
+                    viewModel.submit()
+                },
+                enabled = !uiState.isSubmitting,
+                error = uiState.passwordError,
+                helper = if (isCreate && uiState.password.isNotEmpty() && uiState.password.length < 8) {
+                    "${8 - uiState.password.length} more characters"
+                } else {
+                    null
+                }
+            )
+
+            AnimatedVisibility(
+                visible = !isCreate,
+                enter = fadeIn(tween(NebMotion.Standard)),
+                exit = fadeOut(tween(NebMotion.Instant))
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    NebTextLink(
+                        text = "Forgot password?",
+                        onClick = viewModel::requestForgotPassword,
+                        enabled = !uiState.isSubmitting
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(if (isCreate) 22.dp else 10.dp))
+
+            NebInlineNote(text = uiState.formError)
+
+            Spacer(modifier = Modifier.height(18.dp))
+
+            AnimatedContent(
+                targetState = isCreate,
+                transitionSpec = { modeTransition(targetState) },
+                label = "neb_email_auth_action"
+            ) { create ->
+                NebPillButton(
+                    text = if (create) "Create account" else "Sign in",
+                    onClick = {
                         focusManager.clearFocus()
                         viewModel.submit()
                     },
-                    enabled = !uiState.isSubmitting,
-                    error = uiState.passwordError,
-                    helper = if (isCreate && uiState.password.isNotEmpty() && uiState.password.length < 8) {
-                        "${8 - uiState.password.length} more characters"
-                    } else {
-                        null
-                    }
+                    enabled = uiState.canSubmit,
+                    loading = uiState.isSubmitting,
+                    trailingIcon = Icons.AutoMirrored.Outlined.ArrowForward
                 )
+            }
 
-                AnimatedVisibility(
-                    visible = !isCreate,
-                    enter = fadeIn(tween(NebMotion.Standard)),
-                    exit = fadeOut(tween(NebMotion.Instant))
+            Spacer(modifier = Modifier.height(20.dp))
+
+            AnimatedContent(
+                targetState = isCreate,
+                transitionSpec = { modeTransition(targetState) },
+                label = "neb_email_auth_footer"
+            ) { create ->
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.End
-                    ) {
-                        NebTextLink(
-                            text = "Forgot password?",
-                            onClick = viewModel::requestForgotPassword,
-                            enabled = !uiState.isSubmitting
-                        )
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(if (isCreate) 22.dp else 10.dp))
-
-                NebInlineNote(text = uiState.formError)
-
-                Spacer(modifier = Modifier.height(18.dp))
-
-                AnimatedContent(
-                    targetState = isCreate,
-                    transitionSpec = { modeTransition(targetState) },
-                    label = "neb_email_auth_action"
-                ) { create ->
-                    NebPillButton(
-                        text = if (create) "Create account" else "Sign in",
+                    Text(
+                        text = if (create) "Already a NEBian?" else "New to NEBians?",
+                        style = NebAuthType.Body,
+                        color = palette.inkMuted
+                    )
+                    Spacer(modifier = Modifier.width(2.dp))
+                    NebTextLink(
+                        text = if (create) "Sign in" else "Create account",
                         onClick = {
                             focusManager.clearFocus()
-                            viewModel.submit()
+                            viewModel.toggleMode()
                         },
-                        enabled = uiState.canSubmit,
-                        loading = uiState.isSubmitting,
-                        trailingIcon = Icons.AutoMirrored.Outlined.ArrowForward
+                        enabled = !uiState.isSubmitting
                     )
                 }
-
-                Spacer(modifier = Modifier.height(20.dp))
-
-                AnimatedContent(
-                    targetState = isCreate,
-                    transitionSpec = { modeTransition(targetState) },
-                    label = "neb_email_auth_footer"
-                ) { create ->
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = if (create) "Already a NEBian?" else "New to NEBians?",
-                            style = NebAuthType.Body,
-                            color = palette.inkMuted
-                        )
-                        Spacer(modifier = Modifier.width(2.dp))
-                        NebTextLink(
-                            text = if (create) "Sign in" else "Create account",
-                            onClick = {
-                                focusManager.clearFocus()
-                                viewModel.toggleMode()
-                            },
-                            enabled = !uiState.isSubmitting
-                        )
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(24.dp))
-
-                Text(
-                    text = if (isCreate) {
-                        "We will email you a six digit code to confirm it is really you."
-                    } else {
-                        "Not verified yet? Signing in sends you straight to the code screen."
-                    },
-                    style = NebAuthType.Caption,
-                    color = palette.inkFaint,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth()
-                )
-
-                Spacer(modifier = Modifier.height(32.dp))
             }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            Text(
+                text = if (isCreate) {
+                    "We will email you a six digit code to confirm it is really you."
+                } else {
+                    "Not verified yet? Signing in sends you straight to the code screen."
+                },
+                style = NebAuthType.Caption,
+                color = palette.inkFaint,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.height(32.dp))
         }
     }
 }

@@ -39,6 +39,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.neb.ians.ui.components.NebArtSlot
 import com.neb.ians.ui.components.NebAuthField
 import com.neb.ians.ui.components.NebAuthType
 import com.neb.ians.ui.components.NebFieldGroupLabel
@@ -69,8 +70,8 @@ fun LevelStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewModel
     val levels = remember(state.role) { levelsForRole(state.role) }
     val index = levels.indexOf(state.classLevel).coerceAtLeast(0)
     Column(modifier = Modifier.fillMaxWidth()) {
-        NebAscentArt(stepIndex = index, stepCount = levels.size)
-        Spacer(modifier = Modifier.height(12.dp))
+        NebArtSlot(collapseOnKeyboard = false) { NebAscentArt(stepIndex = index, stepCount = levels.size) }
+        Spacer(modifier = Modifier.height(10.dp))
         NebStepHeader(
             title = if (state.role == "teacher") "Which levels do you teach?" else "Where are you right now?",
             subtitle = if (state.role == "teacher") {
@@ -103,8 +104,8 @@ fun SubjectsStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewMo
     val isTeacher = state.role == "teacher"
     val selected = if (isTeacher) state.teachingSubjects else state.subjects
     Column(modifier = Modifier.fillMaxWidth()) {
-        NebOrbitsArt(selectedCount = selected.size, nodeCount = 8)
-        Spacer(modifier = Modifier.height(12.dp))
+        NebArtSlot(collapseOnKeyboard = false) { NebOrbitsArt(selectedCount = selected.size, nodeCount = 8) }
+        Spacer(modifier = Modifier.height(10.dp))
         NebStepHeader(
             title = if (isTeacher) "What do you teach?" else "What are you studying?",
             subtitle = "Pick as many as apply. These drive your feed, your notes shelf and who you get matched with."
@@ -142,8 +143,8 @@ fun PlaceStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewModel
     val provinceIndex = NEB_PRADESH.indexOf(state.pradesh).coerceAtLeast(0)
 
     Column(modifier = Modifier.fillMaxWidth()) {
-        NebProvinceArt(provinceIndex = provinceIndex, provinceCount = NEB_PRADESH.size)
-        Spacer(modifier = Modifier.height(12.dp))
+        NebArtSlot(collapseOnKeyboard = false) { NebProvinceArt(provinceIndex = provinceIndex, provinceCount = NEB_PRADESH.size) }
+        Spacer(modifier = Modifier.height(10.dp))
         NebStepHeader(
             title = "Where do you study from?",
             subtitle = "Local results, notices and study groups are found by district."
@@ -199,7 +200,7 @@ fun CampusStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewMode
     val registeredNames = remember(state.institutions) { state.institutions.map { it.displayName } }
 
     Column(modifier = Modifier.fillMaxWidth()) {
-        NebCampusArt(named = state.school.isNotBlank())
+        NebArtSlot { NebCampusArt(named = state.school.isNotBlank()) }
         Spacer(modifier = Modifier.height(10.dp))
         NebStepHeader(
             title = when (state.role) {
@@ -234,7 +235,7 @@ fun CampusStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewMode
             value = state.school,
             onValueChange = { viewModel.onSchoolChange(it) },
             label = "Institution name",
-            placeholder = "Kathmandu Model Secondary School",
+            placeholder = "Institution's name",
             leadingIcon = Icons.Outlined.Domain,
             imeAction = ImeAction.Done
         )
@@ -282,44 +283,40 @@ fun PortraitStep(state: CompleteProfileUiState, onPickPhoto: () -> Unit) {
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(170.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            if (state.photoUrl.isBlank()) {
-                NebApertureArt(hasPhoto = false, height = 170.dp)
-            } else {
-                Box(
-                    modifier = Modifier
-                        .size(132.dp)
-                        .clip(CircleShape)
-                        .border(2.dp, palette.sapphire, CircleShape)
-                ) {
+        NebArtSlot {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(164.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                if (state.photoUrl.isBlank()) {
+                    NebApertureArt(hasPhoto = false, height = 164.dp)
+                } else {
                     AsyncImage(
                         model = state.photoUrl,
                         contentDescription = "Your profile photo",
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .height(132.dp)
+                            .size(128.dp)
+                            .clip(CircleShape)
+                            .border(2.dp, palette.sapphire, CircleShape)
                     )
                 }
-            }
-            if (state.isPhotoUploading) {
-                Box(
-                    modifier = Modifier
-                        .size(60.dp)
-                        .clip(CircleShape)
-                        .background(palette.page.copy(alpha = 0.86f)),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.size(24.dp),
-                        color = palette.sapphire,
-                        strokeWidth = 2.dp
-                    )
+                if (state.isPhotoUploading) {
+                    Box(
+                        modifier = Modifier
+                            .size(60.dp)
+                            .clip(CircleShape)
+                            .background(palette.page.copy(alpha = 0.86f)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(24.dp),
+                            color = palette.sapphire,
+                            strokeWidth = 2.dp
+                        )
+                    }
                 }
             }
         }
@@ -344,7 +341,7 @@ fun BioStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewModel) 
     val palette = LocalNebAuthPalette.current
     val limit = 160
     Column(modifier = Modifier.fillMaxWidth()) {
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(NebAuthTokens.ArtClearance))
         NebStepHeader(
             title = "Say something about you",
             subtitle = "One or two lines. What you are working towards, what you like helping with."
@@ -363,7 +360,7 @@ fun BioStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewModel) 
         Text(
             text = "${state.bio.length} / $limit",
             style = NebAuthType.Caption,
-            color = if (state.bio.length >= limit) palette.marigold else palette.inkFaint,
+            color = if (state.bio.length >= limit) palette.danger else palette.inkFaint,
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.End
         )
@@ -387,8 +384,8 @@ fun FinishStep(state: CompleteProfileUiState) {
     }
 
     Column(modifier = Modifier.fillMaxWidth()) {
-        NebArrivalArt(height = 176.dp)
-        Spacer(modifier = Modifier.height(14.dp))
+        NebArtSlot { NebArrivalArt(height = 172.dp) }
+        Spacer(modifier = Modifier.height(12.dp))
         NebStepHeader(
             title = "That's your profile",
             subtitle = "Check it over. Everything here can be edited from your profile later.",

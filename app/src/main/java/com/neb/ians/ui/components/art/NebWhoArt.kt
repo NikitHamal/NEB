@@ -30,8 +30,9 @@ import kotlin.math.min
 // ---------------------------------------------------------------------------
 
 /**
- * Four paths leaving one trailhead. The selected role's path is drawn solid and
- * its summit lights up; the others stay as hairlines, still visible, still open.
+ * Four paths leaving one trailhead. The selected role's path is drawn in sapphire
+ * and its summit lights up; the others stay neutral hairlines, still visible,
+ * still open.
  */
 @Composable
 fun NebPathsArt(
@@ -53,14 +54,13 @@ fun NebPathsArt(
             val w = size.width
             val h = size.height
             val origin = Offset(w * 0.5f, h * 0.94f)
-            val accents = palette.accents
 
             for (i in 0 until pathCount) {
                 val t = if (pathCount == 1) 0.5f else i / (pathCount - 1).toFloat()
                 val end = Offset(w * lerp(0.13f, 0.87f, t), h * lerp(0.44f, 0.16f, kotlin.math.abs(0.5f - t) * 2f))
                 val active = kotlin.math.abs(selected - i) < 0.5f
                 val strength = (1f - kotlin.math.abs(selected - i)).coerceIn(0f, 1f)
-                val color = accents[(i + 1) % accents.size]
+                val color = palette.sapphire
 
                 val path = Path().apply {
                     moveTo(origin.x, origin.y)
@@ -72,14 +72,14 @@ fun NebPathsArt(
                 }
                 drawPath(
                     path = path,
-                    color = if (active) color.copy(alpha = 0.85f) else palette.hairlineStrong.copy(alpha = 0.7f),
+                    color = if (active) color else palette.artSoft,
                     style = Stroke(width = lerp(1.3f, 3.2f, strength), cap = StrokeCap.Round)
                 )
                 if (strength > 0.5f) {
                     nebGlow(end, h * 0.2f * strength, color, 0.28f * strength)
                 }
                 drawCircle(
-                    color = if (active) color else palette.hairlineStrong,
+                    color = if (active) color else palette.artMid,
                     radius = lerp(3.2f, 6.4f, strength) * lerp(0.94f, 1.06f, breath),
                     center = end
                 )
@@ -258,7 +258,6 @@ fun NebHandleArt(
                 style = Stroke(width = r * 0.11f, cap = StrokeCap.Round)
             )
 
-            nebRings(center, r * 1.3f, spin * 0.35f, target, count = 2, spread = 1.5f, strokeWidth = 1.2f)
         }
     }
 }
@@ -295,7 +294,7 @@ fun NebCalendarArt(
                 val angle = i * 30f + phase * 360f
                 val p = orbitPoint(center, min(w, h) * 0.45f, angle)
                 drawCircle(
-                    color = palette.accents[i % palette.accents.size].copy(alpha = 0.18f + (i % 3) * 0.12f),
+                    color = palette.artTones[2 + i % 2].copy(alpha = 0.55f + (i % 3) * 0.15f),
                     radius = if (i % 3 == 0) 3.2f else 2f,
                     center = p
                 )
@@ -364,7 +363,8 @@ fun NebCalendarArt(
 
 /**
  * Three pebbles, one lifted. The gender step needs a mark that carries no figure
- * and no symbol — only the fact that one of several has been chosen.
+ * and no symbol — only the fact that one of several has been chosen, so the
+ * chosen one is the single sapphire object and the rest stay stone.
  */
 @Composable
 fun NebFacetsArt(
@@ -391,23 +391,23 @@ fun NebFacetsArt(
                 val strength = (1f - kotlin.math.abs(selected - i)).coerceIn(0f, 1f)
                 val cx = w * lerp(0.26f, 0.74f, t)
                 val cy = h * 0.58f - h * 0.10f * strength * lerp(0.9f, 1.1f, breath)
-                val color = palette.accents[(i + 1) % palette.accents.size]
+                val color = palette.sapphire
 
                 drawRoundRect(
-                    color = palette.hairline.copy(alpha = 0.55f),
+                    color = palette.artSoft,
                     topLeft = Offset(cx - baseR * 0.7f, h * 0.80f),
                     size = Size(baseR * 1.4f, 4f),
                     cornerRadius = CornerRadius(2f, 2f)
                 )
                 if (strength > 0.4f) nebGlow(Offset(cx, cy), baseR * 2.2f, color, 0.24f * strength)
                 drawCircle(
-                    color = if (strength > 0.5f) color else palette.field,
+                    color = if (strength > 0.5f) color else palette.artFaint,
                     radius = baseR * lerp(0.78f, 1f, strength),
                     center = Offset(cx, cy)
                 )
                 if (strength <= 0.5f) {
                     drawCircle(
-                        color = palette.hairlineStrong,
+                        color = palette.artMid,
                         radius = baseR * 0.78f,
                         center = Offset(cx, cy),
                         style = Stroke(width = 1.3f)

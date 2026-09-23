@@ -32,8 +32,8 @@ import kotlin.math.sin
 // ---------------------------------------------------------------------------
 
 /**
- * Sunrise over the range. Nepal's own horizon, drawn in the palette's landscape
- * accents, with motes of light rising off the valley floor.
+ * Sunrise over the range. Nepal's own horizon in three neutral ranges, back to
+ * front, with one sapphire sun — the only saturated thing on the screen.
  */
 @Composable
 fun NebHorizonArt(
@@ -51,10 +51,10 @@ fun NebHorizonArt(
             val sunCenter = Offset(w * 0.5f, h * 0.60f)
             val sunRadius = min(w, h) * 0.20f * lerp(0.97f, 1.04f, breath)
 
-            nebGlow(sunCenter, sunRadius * 3.2f, palette.marigold, 0.20f)
+            nebGlow(sunCenter, sunRadius * 3.2f, palette.sapphire, 0.18f)
             drawCircle(
                 brush = Brush.verticalGradient(
-                    colors = listOf(palette.marigold, palette.rhododendron),
+                    colors = listOf(palette.sapphire, palette.sapphire.copy(alpha = 0.72f)),
                     startY = sunCenter.y - sunRadius,
                     endY = sunCenter.y + sunRadius
                 ),
@@ -66,7 +66,7 @@ fun NebHorizonArt(
                 val t = wrap(phase * 0.5f + i * 0.2f)
                 val radius = sunRadius * lerp(1.15f, 2.6f, t)
                 drawCircle(
-                    color = palette.marigold.copy(alpha = (1f - t) * 0.22f),
+                    color = palette.sapphire.copy(alpha = (1f - t) * 0.20f),
                     radius = radius,
                     center = sunCenter,
                     style = Stroke(width = 1.2f)
@@ -76,22 +76,22 @@ fun NebHorizonArt(
             nebRidge(
                 baseline = h * 0.78f,
                 peaks = listOf(0.14f to 0.30f, 0.38f to 0.44f, 0.66f to 0.34f, 0.90f to 0.26f),
-                color = palette.dusk.copy(alpha = if (palette.isDark) 0.34f else 0.16f)
+                color = palette.artSoft
             )
             nebRidge(
                 baseline = h * 0.86f,
                 peaks = listOf(0.06f to 0.22f, 0.30f to 0.34f, 0.55f to 0.26f, 0.80f to 0.32f),
-                color = palette.sapphire.copy(alpha = if (palette.isDark) 0.40f else 0.22f)
+                color = palette.artMid
             )
             nebRidge(
                 baseline = h * 0.94f,
                 peaks = listOf(0.20f to 0.16f, 0.48f to 0.22f, 0.76f to 0.18f),
-                color = palette.everest.copy(alpha = if (palette.isDark) 0.46f else 0.28f)
+                color = palette.artLine
             )
 
             nebMotes(
                 phase = phase,
-                colors = listOf(palette.marigold, palette.everest, palette.sapphire, palette.rhododendron),
+                colors = listOf(palette.artMid, palette.artLine),
                 count = 16
             )
         }
@@ -100,7 +100,9 @@ fun NebHorizonArt(
 
 /**
  * A six-digit code in flight. The slip rises out of the envelope and its cells
- * fill as the user types, so the illustration is the progress indicator.
+ * fill as the user types, so the illustration is the progress indicator. It
+ * breathes and does nothing else — a screen the user is already being timed on
+ * does not need a second thing pulsing at them.
  */
 @Composable
 fun NebCodeInFlightArt(
@@ -111,7 +113,6 @@ fun NebCodeInFlightArt(
 ) {
     val palette = LocalNebAuthPalette.current
     val breath by rememberNebBreathPhase(2600)
-    val phase by rememberNebArtPhase(9000)
     val fill by animateFloatAsState(
         targetValue = (filledCount.toFloat() / total).coerceIn(0f, 1f),
         animationSpec = tween(NebMotion.Standard, easing = NebMotion.Decelerate),
@@ -182,21 +183,12 @@ fun NebCodeInFlightArt(
                 lineTo(envLeft + envW, envTop + envH * 0.06f)
             }
             drawPath(flap, palette.hairlineStrong, style = Stroke(width = 1.6f, cap = StrokeCap.Round))
-
-            nebRings(
-                center = Offset(w / 2f, envTop + envH * 0.55f),
-                baseRadius = envW * 0.6f,
-                phase = phase,
-                color = palette.sapphire,
-                count = 3,
-                spread = 1.9f
-            )
         }
     }
 }
 
 /**
- * The landing. A ring closes, a tick draws itself, and the five accents scatter
+ * The landing. A ring closes, a tick draws itself, and a neutral scatter drifts
  * outward once — used for a verified code and a finished profile alike.
  */
 @Composable
@@ -218,9 +210,9 @@ fun NebArrivalArt(
             val center = Offset(size.width / 2f, size.height * 0.5f)
             val r = min(size.width, size.height) * 0.22f
 
-            nebGlow(center, r * 3.4f, palette.everest, 0.18f)
+            nebGlow(center, r * 3.4f, palette.sapphire, 0.16f)
 
-            val accents = palette.accents
+            val tones = palette.artTones
             for (i in 0 until 14) {
                 val angle = i * (360f / 14f) + phase * 40f
                 val seed = seeded(i * 5 + 2)
@@ -228,7 +220,7 @@ fun NebArrivalArt(
                 val p = orbitPoint(center, distance, angle)
                 val dotR = lerp(1.6f, 4.2f, seeded(i * 9 + 4))
                 drawCircle(
-                    color = accents[i % accents.size].copy(alpha = 0.22f + seed * 0.45f),
+                    color = tones[1 + i % 3].copy(alpha = 0.30f + seed * 0.45f),
                     radius = dotR * lerp(0.9f, 1.15f, breath),
                     center = p
                 )
@@ -236,9 +228,9 @@ fun NebArrivalArt(
 
             nebOrbit(center, r * 1.55f, palette.hairlineStrong, strokeWidth = 1.2f)
 
-            drawCircle(color = palette.successSoft, radius = r * 1.18f, center = center)
+            drawCircle(color = palette.sapphireSoft, radius = r * 1.18f, center = center)
             drawArc(
-                color = palette.success,
+                color = palette.sapphire,
                 startAngle = -90f,
                 sweepAngle = 360f * reveal,
                 useCenter = false,
@@ -254,7 +246,7 @@ fun NebArrivalArt(
             }
             drawPath(
                 path = tick,
-                color = palette.success,
+                color = palette.sapphire,
                 style = Stroke(width = r * 0.16f, cap = StrokeCap.Round)
             )
         }
@@ -287,7 +279,7 @@ fun NebOpenBookMark(
                 val angle = phase * 360f + i * 120f
                 val p = orbitPoint(center, s * 0.44f, angle)
                 drawCircle(
-                    color = palette.accents[(i + 1) % palette.accents.size].copy(alpha = 0.7f),
+                    color = palette.artMid,
                     radius = s * 0.035f,
                     center = p
                 )
@@ -337,7 +329,7 @@ fun NebSparkMark(modifier: Modifier = Modifier, markSize: Dp = 18.dp) {
                 if (i == 0) path.moveTo(x, y) else path.lineTo(x, y)
             }
             path.close()
-            drawPath(path, palette.marigold)
+            drawPath(path, palette.sapphire)
         }
     }
 }

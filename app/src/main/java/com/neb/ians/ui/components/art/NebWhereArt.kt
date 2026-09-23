@@ -62,14 +62,14 @@ fun NebAscentArt(
                 val topY = stepBase - rise * (i + 1)
                 val active = kotlin.math.abs(marker - i) < 0.5f
                 drawRoundRect(
-                    color = if (active) palette.sapphire else palette.field,
+                    color = if (active) palette.sapphire else palette.artFaint,
                     topLeft = Offset(left + i * stepW, topY),
                     size = Size(stepW - 3f, stepBase - topY),
                     cornerRadius = CornerRadius(5f, 5f)
                 )
                 if (!active) {
                     drawRoundRect(
-                        color = palette.hairline,
+                        color = palette.artSoft,
                         topLeft = Offset(left + i * stepW, topY),
                         size = Size(stepW - 3f, stepBase - topY),
                         cornerRadius = CornerRadius(5f, 5f),
@@ -80,10 +80,10 @@ fun NebAscentArt(
 
             val mx = left + stepW * (marker + 0.5f) - 1.5f
             val my = stepBase - rise * (marker + 1) - h * 0.075f
-            nebGlow(Offset(mx, my), h * 0.20f, palette.marigold, 0.26f)
+            nebGlow(Offset(mx, my), h * 0.20f, palette.sapphire, 0.22f)
             val flagPole = h * 0.13f
             drawRoundRect(
-                color = palette.ink.copy(alpha = 0.7f),
+                color = palette.artInk,
                 topLeft = Offset(mx - 1.2f, my - flagPole * lerp(0.96f, 1f, breath)),
                 size = Size(2.4f, flagPole),
                 cornerRadius = CornerRadius(1.2f, 1.2f)
@@ -95,8 +95,8 @@ fun NebAscentArt(
                 lineTo(mx + 1.2f, top + h * 0.056f)
                 close()
             }
-            drawPath(flag, palette.marigold)
-            drawCircle(color = palette.ink.copy(alpha = 0.7f), radius = 3.2f, center = Offset(mx, my))
+            drawPath(flag, palette.sapphire)
+            drawCircle(color = palette.artInk, radius = 3.2f, center = Offset(mx, my))
         }
     }
 }
@@ -127,7 +127,7 @@ fun NebOrbitsArt(
             val r = min(size.width, size.height) * 0.36f
 
             nebGlow(center, r * 1.7f, palette.sapphire, 0.14f)
-            nebOrbit(center, r, palette.hairline, strokeWidth = 1.2f)
+            nebOrbit(center, r, palette.artSoft, strokeWidth = 1.2f)
             if (filled > 0.01f) {
                 drawArc(
                     color = palette.sapphire.copy(alpha = 0.55f),
@@ -144,14 +144,14 @@ fun NebOrbitsArt(
                 val angle = i * (360f / nodeCount) + phase * 360f
                 val p = orbitPoint(center, r, angle)
                 val active = i < filled
-                val color = palette.accents[i % palette.accents.size]
+                val color = palette.sapphire
                 if (active) {
                     drawCircle(color = color.copy(alpha = 0.22f), radius = 9f, center = p)
                     drawCircle(color = color, radius = 4.6f * lerp(0.94f, 1.06f, breath), center = p)
                 } else {
                     drawCircle(color = palette.page, radius = 4.2f, center = p)
                     drawCircle(
-                        color = palette.hairlineStrong,
+                        color = palette.artMid,
                         radius = 4.2f,
                         center = p,
                         style = Stroke(width = 1.2f)
@@ -184,7 +184,7 @@ fun NebOrbitsArt(
 
 /**
  * A pin dropping into a province. The seven blocks stand for Nepal's seven
- * provinces without pretending to be a map, and the chosen one rises and pings.
+ * provinces without pretending to be a map, and the chosen one rises to meet it.
  */
 @Composable
 fun NebProvinceArt(
@@ -194,7 +194,6 @@ fun NebProvinceArt(
     height: Dp = 150.dp
 ) {
     val palette = LocalNebAuthPalette.current
-    val phase by rememberNebArtPhase(3600)
     val breath by rememberNebBreathPhase(2600)
     val selected by animateFloatAsState(
         targetValue = provinceIndex.coerceAtLeast(0).toFloat(),
@@ -216,14 +215,14 @@ fun NebProvinceArt(
                 val barH = h * tallness * lerp(1f, 1.22f, strength)
                 val x = left + i * barW
                 drawRoundRect(
-                    color = if (strength > 0.5f) palette.sapphire else palette.field,
+                    color = if (strength > 0.5f) palette.sapphire else palette.artFaint,
                     topLeft = Offset(x + 2f, baseline - barH),
                     size = Size(barW - 4f, barH),
                     cornerRadius = CornerRadius(6f, 6f)
                 )
                 if (strength <= 0.5f) {
                     drawRoundRect(
-                        color = palette.hairline,
+                        color = palette.artSoft,
                         topLeft = Offset(x + 2f, baseline - barH),
                         size = Size(barW - 4f, barH),
                         cornerRadius = CornerRadius(6f, 6f),
@@ -235,8 +234,6 @@ fun NebProvinceArt(
             val px = left + barW * (selected + 0.5f)
             val selectedH = h * (0.22f + seeded(selected.toInt() * 3 + 1) * 0.16f) * 1.22f
             val pinTip = baseline - selectedH - h * 0.03f
-            nebRings(Offset(px, pinTip + h * 0.02f), barW * 0.5f, phase, palette.rhododendron, count = 3, spread = 2.1f)
-
             val pinR = h * 0.062f
             val pinCenter = Offset(px, pinTip - pinR * 1.5f - lerp(0f, h * 0.012f, breath))
             val pin = Path().apply {
@@ -253,11 +250,11 @@ fun NebProvinceArt(
                 )
                 close()
             }
-            drawPath(pin, palette.rhododendron)
+            drawPath(pin, palette.sapphire)
             drawCircle(color = palette.page, radius = pinR * 0.38f, center = pinCenter)
 
             drawRoundRect(
-                color = palette.hairline,
+                color = palette.artSoft,
                 topLeft = Offset(left, baseline),
                 size = Size(barW * provinceCount, 2.2f),
                 cornerRadius = CornerRadius(1.1f, 1.1f)
@@ -268,7 +265,8 @@ fun NebProvinceArt(
 
 /**
  * A school under prayer flags: a pagoda roofline over a body of windows, lit when
- * an institution has been named. The flags are the only thing that moves.
+ * an institution has been named. The flags are cut from the art ramp rather than
+ * coloured, and they are the only thing that moves.
  */
 @Composable
 fun NebCampusArt(
@@ -307,7 +305,7 @@ fun NebCampusArt(
                     lineTo(w / 2f - spread * 0.34f, y + bodyH * 0.06f)
                     close()
                 }
-                drawPath(roof, palette.rhododendron.copy(alpha = if (tier == 0) 0.9f else 0.65f))
+                drawPath(roof, if (tier == 0) palette.artLine else palette.artMid)
             }
 
             nebSheet(
@@ -327,7 +325,7 @@ fun NebCampusArt(
                     val index = row * winCols + col
                     val alpha = if (index < lit * winCols * winRows) 1f else 0.25f
                     drawRoundRect(
-                        color = palette.marigold.copy(alpha = alpha * lerp(0.82f, 1f, breath)),
+                        color = palette.sapphire.copy(alpha = alpha * lerp(0.82f, 1f, breath)),
                         topLeft = Offset(
                             gridLeft + col * (winW + bodyW * 0.08f),
                             bodyTop + bodyH * 0.16f + row * (winH + bodyH * 0.16f)
@@ -345,14 +343,14 @@ fun NebCampusArt(
             )
 
             val flagY = h * 0.16f
-            val accents = palette.accents
+            val tones = palette.artTones
             for (i in 0 until 7) {
                 val t = i / 6f
                 val x = w * lerp(0.10f, 0.90f, t)
                 val sag = kotlin.math.sin(t * kotlin.math.PI.toFloat()) * h * 0.06f
                 val sway = kotlin.math.sin((t + breath) * 3f) * h * 0.012f
                 drawRoundRect(
-                    color = accents[i % accents.size].copy(alpha = 0.85f),
+                    color = tones[1 + i % 3],
                     topLeft = Offset(x - 4f, flagY + sag + sway),
                     size = Size(8f, h * 0.055f),
                     cornerRadius = CornerRadius(1.5f, 1.5f)
@@ -362,10 +360,10 @@ fun NebCampusArt(
                 moveTo(w * 0.06f, flagY)
                 cubicTo(w * 0.35f, flagY + h * 0.09f, w * 0.65f, flagY + h * 0.09f, w * 0.94f, flagY)
             }
-            drawPath(line, palette.hairlineStrong, style = Stroke(width = 1.2f))
+            drawPath(line, palette.artMid, style = Stroke(width = 1.2f))
 
             drawRoundRect(
-                color = palette.hairline,
+                color = palette.artSoft,
                 topLeft = Offset(w * 0.14f, bodyTop + bodyH),
                 size = Size(w * 0.72f, 2.4f),
                 cornerRadius = CornerRadius(1.2f, 1.2f)
@@ -375,7 +373,7 @@ fun NebCampusArt(
 }
 
 /**
- * The frame a face goes in. An aperture of accent blades around an empty ring
+ * The frame a face goes in. An aperture of neutral blades around an empty ring
  * while there is no photo; once there is one, the blades retract and the ring
  * closes in sapphire.
  */
@@ -399,9 +397,9 @@ fun NebApertureArt(
             val center = Offset(size.width / 2f, size.height / 2f)
             val r = min(size.width, size.height) * 0.30f
 
-            nebGlow(center, r * 2.3f, if (hasPhoto) palette.sapphire else palette.dusk, 0.16f)
+            nebGlow(center, r * 2.3f, palette.sapphire, if (hasPhoto) 0.18f else 0.10f)
 
-            val accents = palette.accents
+            val tones = palette.artTones
             for (i in 0 until 6) {
                 val angle = i * 60f + phase * 360f
                 val dist = r * lerp(1.62f, 1.18f, closed)
@@ -414,20 +412,20 @@ fun NebApertureArt(
                     lineTo(b.x, b.y)
                     close()
                 }
-                drawPath(blade, accents[i % accents.size].copy(alpha = lerp(0.55f, 0.18f, closed)))
+                drawPath(blade, tones[1 + i % 3].copy(alpha = lerp(0.9f, 0.25f, closed)))
             }
 
             drawCircle(
-                color = if (hasPhoto) palette.sapphire else palette.hairlineStrong,
+                color = if (hasPhoto) palette.sapphire else palette.artMid,
                 radius = r * lerp(1f, 1.03f, breath),
                 center = center,
                 style = Stroke(width = r * 0.10f)
             )
-            drawCircle(color = palette.field, radius = r * 0.86f, center = center)
+            drawCircle(color = palette.artFaint, radius = r * 0.86f, center = center)
 
             val headR = r * 0.26f
             val headCenter = Offset(center.x, center.y - r * 0.20f)
-            val figureColor = if (hasPhoto) palette.sapphire else palette.inkFaint
+            val figureColor = if (hasPhoto) palette.sapphire else palette.artMid
             drawCircle(color = figureColor.copy(alpha = 0.85f), radius = headR, center = headCenter)
             val shoulders = Path().apply {
                 moveTo(center.x - r * 0.46f, center.y + r * 0.58f)
