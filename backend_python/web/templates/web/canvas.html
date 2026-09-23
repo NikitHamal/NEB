@@ -15,9 +15,9 @@
 <link rel="stylesheet" href="{% static 'web/css/material3.css' %}">
 <link rel="stylesheet" href="{% static 'web/css/canvas.css' %}?v=49">
 <link rel="stylesheet" href="{% static 'web/css/canvas-advanced.css' %}?v=49">
+<link rel="stylesheet" href="{% static 'web/css/tool-groups.css' %}?v=49">
+<link rel="stylesheet" href="{% static 'web/css/widgets.css' %}?v=49">
 <link rel="stylesheet" href="{% static 'web/css/neby-avatar.css' %}?v=49">
-<link rel="stylesheet" href="{% static 'web/js/canvas/excalidraw/excalidraw.bundle.css' %}?v=50">
-<link rel="stylesheet" href="{% static 'web/css/excalidraw-canvas.css' %}?v=50">
 <meta name="theme-color" content="#f5f7fb">
 </head>
 <body class="canvas-body{% if readonly %} readonly{% endif %}" data-board-id="{{ current_board_id|default:'' }}" data-authenticated="{{ is_authenticated|yesno:'true,false' }}">
@@ -110,9 +110,24 @@
   <button class="cs-sidebar-mobile-toggle" id="csMobileToggle" aria-label="Open menu"><span class="material-symbols-outlined">menu</span></button>
 
   <div class="canvas-main">
+    {% include 'web/_canvas_toolbar.html' %}
     <div class="canvas-viewport" id="canvasViewport">
-      <div id="excalidrawMount"></div>
-      <div id="nebCards"></div>
+      <svg class="canvas-edges" id="canvasEdges">
+        <defs>
+          <marker id="edgeArrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+            <path d="M 0 1 L 9 5 L 0 9 z" fill="#b9c3d6"/>
+          </marker>
+        </defs>
+        <g id="edgeLayer"></g>
+        <path id="tempWire" class="edge-temp" d="" style="display:none"></path>
+      </svg>
+      <div class="canvas-world" id="canvasWorld"></div>
+      <div class="canvas-empty-hint" id="canvasEmptyHint">
+        <h1>Neby Canvas</h1>
+        <p class="canvas-tagline">Explore it. Prove it. Teach it.</p>
+        <p class="canvas-sub">Turn any question, document, lesson, or idea into a living knowledge map you can verify, practise, teach, and build together.</p>
+        <div class="canvas-hint-key"><span class="material-symbols-outlined">south</span></div>
+      </div>
     </div>
 
     <div class="canvas-bottom-bar" id="canvasBottomBar">
@@ -125,6 +140,31 @@
 </div>
 
 {% include 'web/_canvas_overlays.html' %}
+
+<div class="ctx-menu" id="ctxMenu" hidden></div>
+
+<div class="canvas-selection-pop" id="selectionPop" hidden>
+  <button data-action="dig-deeper" class="sel-btn sel-primary"><span class="material-symbols-outlined">travel_explore</span> Dig deeper</button>
+  <button data-action="save-highlight" class="sel-btn"><span class="material-symbols-outlined">bookmark_add</span> Save highlight</button>
+</div>
+
+<div class="mini-prompt" id="miniPrompt" hidden>
+  <span class="mp-dot"></span>
+  <input id="miniPromptInput" placeholder="Ask a follow-up…" autocomplete="off">
+  <button class="mp-send" id="miniPromptSend" aria-label="Send" disabled><span class="material-symbols-outlined">arrow_upward</span></button>
+</div>
+
+<div class="modal-overlay" id="boardModal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="boardModalTitle">
+    <h3 class="modal-title" id="boardModalTitle">New canvas</h3>
+    <p class="modal-sub">Name your workspace. You can rename it anytime.</p>
+    <input type="text" id="boardModalInput" maxlength="80" placeholder="e.g. How do world models work?" autocomplete="off">
+    <div class="modal-actions">
+      <button class="md-btn-o" id="boardModalCancel">Cancel</button>
+      <button class="md-btn-f" id="boardModalCreate" disabled>Create</button>
+    </div>
+  </div>
+</div>
 
 <div class="toast-pill" id="toastPill" hidden></div>
 <button id="cvNebyFab" class="cv-neby-fab" aria-label="Neby AI" title="Neby AI">
@@ -141,14 +181,19 @@ window.CANVAS_CONFIG = {
   sharedToken: "{{ shared_token|escapejs }}",
   boards: {{ boards_json|default:'[]'|safe }}
 };
-window.WS_CONFIG = { url: '{{ ws_url|default:""|escapejs }}' };
 </script>
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/canvas/excalidraw/excalidraw.bundle.js' %}?v=51"></script>
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/canvas/excalidraw-scene.js' %}?v=52"></script>
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/canvas/excalidraw-cards.js' %}?v=53"></script>
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/canvas/excalidraw-bridge.js' %}?v=53"></script>
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/canvas/excalidraw-panel.js' %}?v=50"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/canvas/core.js' %}?v=49"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/canvas/ui.js' %}?v=49"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/canvas/workspace.js' %}?v=49"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/tools/tool-groups.js' %}?v=49"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/canvas/widgets.js' %}?v=49"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/canvas/draw-layer.js' %}?v=49"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/yjs.bundle.js' %}?v=1.1"></script>
+<script nonce="{{ csp_nonce }}">window.WS_CONFIG = { url: '{{ ws_url|default:""|escapejs }}' };</script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/yjs-provider.js' %}?v=1.5"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/canvas/collab.js' %}?v=49"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/canvas/agent-loop.js' %}?v=49"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/canvas/history-export.js' %}?v=49"></script>
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neby-avatar.js' %}?v=49"></script>
-<script nonce="{{ csp_nonce }}">window.NebCanvas.mount();</script>
 </body>
 </html>
