@@ -88,7 +88,7 @@ window.NebCanvas = (function () {
       lastInk = inkKey;
       jobs.push(api("/ajax/canvas/boards/" + boardId + "/objects/", {
         method: "POST",
-        body: { objects: [{ id: "neb-scene-ink", type: "excalidraw-ink", x: 0, y: 0, z: 0, elements: parts.ink.slice(0, 1500) }] },
+        body: { objects: [{ type: "excalidraw-ink", x: 0, y: 0, z: 0, elements: parts.ink.slice(0, 1500) }] },
       }).catch(function () {}));
     }
     return Promise.all(jobs);
