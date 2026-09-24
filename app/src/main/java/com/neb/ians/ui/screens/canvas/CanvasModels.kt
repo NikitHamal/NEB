@@ -1,7 +1,14 @@
 package com.neb.ians.ui.screens.canvas
 
+import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.compositeOver
+import androidx.compose.ui.graphics.lerp
+import androidx.compose.ui.graphics.luminance
 
 @Immutable
 data class CanvasBoard(
@@ -102,60 +109,59 @@ data class CanvasTemplate(
 
 object CanvasColorTokens {
 
-    private val AccentOrderDark = listOf(
-        "default" to Color(0xFFE7E7E9),
-        "blue" to Color(0xFFC9C9CD),
-        "green" to Color(0xFFA1A1A8),
-        "amber" to Color(0xFFD5D5D9),
-        "rose" to Color(0xFFB4B4BA),
-        "purple" to Color(0xFF8E8E96),
-        "slate" to Color(0xFF7C7C83)
-    ).toMap()
+    val Keys = listOf("default", "blue", "green", "amber", "rose", "purple", "slate")
 
-    private val AccentOrderLight = listOf(
-        "default" to Color(0xFF101012),
-        "blue" to Color(0xFF26262A),
-        "green" to Color(0xFF47474B),
-        "amber" to Color(0xFF313136),
-        "rose" to Color(0xFF5C5C61),
-        "purple" to Color(0xFF6E6E75),
-        "slate" to Color(0xFF7C7C83)
-    ).toMap()
+    private val Tones = mapOf(
+        "default" to 0f,
+        "blue" to 0.18f,
+        "green" to 0.34f,
+        "amber" to 0.5f,
+        "rose" to 0.66f,
+        "purple" to 0.82f,
+        "slate" to 1f
+    )
 
-    fun getColors(colorKey: String, isDark: Boolean): CanvasCardColorScheme {
-        val key = colorKey.lowercase()
-        return if (isDark) {
-            val accent = AccentOrderDark[key] ?: AccentOrderDark.getValue("default")
-            CanvasCardColorScheme(
-                surface = Color(0xFF131315),
-                border = Color(0xFF26262A),
-                headerBg = Color(0xFF18181B),
-                accent = accent,
-                tagBg = Color(0xFF26262A),
-                tagText = Color(0xFFC9C9CD),
-                titleText = Color(0xFFF5F5F6),
-                bodyText = Color(0xFFC9C9CD),
-                secondaryText = Color(0xFFA1A1A8),
-                innerCardBg = Color(0xFF0C0C0D),
-                innerCardBorder = Color(0xFF26262A)
-            )
-        } else {
-            val accent = AccentOrderLight[key] ?: AccentOrderLight.getValue("default")
-            CanvasCardColorScheme(
-                surface = Color(0xFFFFFFFF),
-                border = Color(0xFFE9E9EB),
-                headerBg = Color(0xFFF7F7F9),
-                accent = accent,
-                tagBg = Color(0xFFF1F1F3),
-                tagText = Color(0xFF313136),
-                titleText = Color(0xFF0A0A0B),
-                bodyText = Color(0xFF313136),
-                secondaryText = Color(0xFF5C5C61),
-                innerCardBg = Color(0xFFFAFAFB),
-                innerCardBorder = Color(0xFFE9E9EB)
-            )
-        }
+    fun label(key: String): String = when (key.lowercase()) {
+        "blue" -> "Concept"
+        "green" -> "Formula"
+        "amber" -> "Highlight"
+        "rose" -> "Caution"
+        "purple" -> "Synthesis"
+        "slate" -> "Reference"
+        else -> "Neutral"
     }
+
+    fun tone(key: String): Float = Tones[key.lowercase()] ?: 0f
+
+    fun accent(scheme: ColorScheme, key: String): Color =
+        lerp(scheme.outline, scheme.onSurface, tone(key))
+
+    fun colors(scheme: ColorScheme, isDark: Boolean, key: String): CanvasCardColorScheme {
+        val t = tone(key)
+        val accent = accent(scheme, key)
+        val wash = if (isDark) 0.05f + t * 0.09f else 0.04f + t * 0.08f
+        return CanvasCardColorScheme(
+            surface = scheme.surfaceContainerLowest,
+            border = lerp(scheme.outlineVariant, accent, 0.15f + t * 0.35f),
+            headerBg = accent.copy(alpha = wash).compositeOver(scheme.surfaceContainerLow),
+            accent = accent,
+            tagBg = accent.copy(alpha = if (isDark) 0.22f else 0.14f)
+                .compositeOver(scheme.surfaceContainerLow),
+            tagText = if (isDark) lerp(accent, scheme.onSurface, 0.4f) else accent,
+            titleText = scheme.onSurface,
+            bodyText = scheme.onSurface.copy(alpha = 0.88f).compositeOver(scheme.surfaceContainerLowest),
+            secondaryText = scheme.onSurfaceVariant,
+            innerCardBg = scheme.surfaceContainerLow,
+            innerCardBorder = scheme.outlineVariant
+        )
+    }
+}
+
+@Composable
+fun canvasCardColors(key: String): CanvasCardColorScheme {
+    val scheme = MaterialTheme.colorScheme
+    val isDark = scheme.surface.luminance() < 0.5f
+    return remember(scheme, isDark, key) { CanvasColorTokens.colors(scheme, isDark, key) }
 }
 
 @Immutable

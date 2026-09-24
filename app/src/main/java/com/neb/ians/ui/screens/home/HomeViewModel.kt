@@ -12,6 +12,7 @@ import com.neb.ians.data.realtime.RealtimeClient
 import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.data.repository.CacheBus
 import com.neb.ians.data.repository.FeedRepository
+import com.neb.ians.data.repository.FollowStateRepository
 import com.neb.ians.data.repository.ForumRepository
 import com.neb.ians.data.repository.SettingsRepository
 import com.neb.ians.data.repository.AppCache
@@ -82,6 +83,7 @@ class HomeViewModel @Inject constructor(
     private val resourceRepository: ResourceRepository,
     private val newsRepository: NewsRepository,
     private val feedRepository: FeedRepository,
+    private val followStateRepository: FollowStateRepository,
     private val realtimeClient: RealtimeClient,
     private val appCache: AppCache,
     private val cacheBus: CacheBus
@@ -109,8 +111,11 @@ class HomeViewModel @Inject constructor(
 
     private val postJson = Json { ignoreUnknownKeys = true; coerceInputValues = true }
 
+    val followGraph: StateFlow<FollowStateRepository.Graph> = followStateRepository.graph
+
     init {
         loadData()
+        viewModelScope.launch { followStateRepository.sync() }
         unsubscribeForum = realtimeClient.subscribe("forum.public")
         viewModelScope.launch {
             realtimeClient.events.collect { event ->
@@ -145,8 +150,10 @@ class HomeViewModel @Inject constructor(
                         key.startsWith(CacheBus.PREFIX_RESOURCES) -> {
                             resourceRepository.getResources(sort = "newest", page = 1, cacheOnly = true)
                                 .onSuccess { result ->
-                                    appCache.recentResources = result.resources
-                                    _recentResources.value = result.resources
+                                    _recentResources.update { current ->
+                                        val merged = mergeHead(result.resources, current) { it.id }
+                                        if (merged == current) current else merged.also { appCache.recentResources = it }
+                                    }
                                 }
                             resourceRepository.getResources(sort = "trending", page = 1, cacheOnly = true)
                                 .onSuccess { result ->
@@ -157,12 +164,26 @@ class HomeViewModel @Inject constructor(
                         key.startsWith(CacheBus.PREFIX_POSTS_LIST) ->
                             forumRepository.getPosts(page = 1, cacheOnly = true)
                                 .onSuccess { result ->
-                                    appCache.recentPosts = result.posts
-                                    _recentPosts.value = result.posts
+                                    _recentPosts.update { current ->
+                                        val merged = mergeHead(result.posts, current) { it.id }
+                                        if (merged == current) current else merged.also { appCache.recentPosts = it }
+                                    }
                                 }
                     }
                 }
         }
+    }
+
+    /**
+     * Replaces the head of a paged list with a fresher first page while keeping
+     * everything the user has already scrolled past. A straight assignment here
+     * would truncate the feed back to page one under them.
+     */
+    private inline fun <T> mergeHead(fresh: List<T>, current: List<T>, id: (T) -> String): List<T> {
+        if (fresh.isEmpty()) return current
+        val seen = fresh.mapTo(HashSet(fresh.size), id)
+        val tail = current.filter { id(it) !in seen }
+        return fresh + tail
     }
 
     override fun onCleared() {
@@ -205,26 +226,30 @@ class HomeViewModel @Inject constructor(
             _error.value = null
 
             if (!forceRefresh) {
-                resourceRepository.getResources(sort = "newest", page = 1, cacheOnly = true)
-                    .onSuccess { result ->
+                coroutineScope {
+                    val cachedResources = async { resourceRepository.getResources(sort = "newest", page = 1, cacheOnly = true) }
+                    val cachedPopular = async { resourceRepository.getResources(sort = "trending", page = 1, cacheOnly = true) }
+                    val cachedPosts = async { forumRepository.getPosts(page = 1, cacheOnly = true) }
+                    val cachedSuggested = async { feedRepository.getSuggestedFeed(cacheOnly = true) }
+
+                    cachedResources.await().onSuccess { result ->
                         appCache.recentResources = result.resources
                         _recentResources.value = result.resources
                     }
-                resourceRepository.getResources(sort = "trending", page = 1, cacheOnly = true)
-                    .onSuccess { result ->
+                    cachedPopular.await().onSuccess { result ->
                         appCache.popularResources = result.resources
                         _popularResources.value = result.resources
                     }
-                forumRepository.getPosts(page = 1, cacheOnly = true)
-                    .onSuccess { result ->
-                        appCache.recentPosts = result.posts
-                        _recentPosts.value = result.posts
+                    cachedPosts.await().onSuccess { result ->
+                        val posts = result.posts.distinctBy { it.id }
+                        appCache.recentPosts = posts
+                        _recentPosts.value = posts
                     }
-                feedRepository.getSuggestedFeed(cacheOnly = true)
-                    .onSuccess { items ->
+                    cachedSuggested.await().onSuccess { items ->
                         appCache.suggestedItems = items
                         _suggestedItems.value = items
                     }
+                }
                 if (_recentResources.value.isNotEmpty() || _recentPosts.value.isNotEmpty() || _suggestedItems.value.isNotEmpty()) {
                     _isLoading.value = false
                 }
@@ -247,7 +272,7 @@ class HomeViewModel @Inject constructor(
 
                 val resources = results.resources.getOrNull()?.resources ?: appCache.recentResources
                 val popular = results.popular.getOrNull()?.resources ?: appCache.popularResources
-                val posts = results.posts.getOrNull()?.posts ?: appCache.recentPosts
+                val posts = (results.posts.getOrNull()?.posts ?: appCache.recentPosts).distinctBy { it.id }
                 val news = results.news
 
                 _recentResources.value = resources
@@ -300,30 +325,38 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             _isLoadingMore.value = true
             val nextPostPage = currentPostPage + 1
-            forumRepository.getPosts(page = nextPostPage).fold(
-                onSuccess = { result ->
-                    currentPostPage = nextPostPage
-                    _hasMorePosts.value = result.hasMore
-                    _recentPosts.update { current ->
-                        val existingIds = current.map { it.id }.toSet()
-                        val newOnes = result.posts.filter { it.id !in existingIds }
-                        current + newOnes
-                    }
-                },
-                onFailure = {
-                    _hasMorePosts.value = false
+            val nextResPage = currentResourcePage + 1
+            coroutineScope {
+                val morePosts = async { forumRepository.getPosts(page = nextPostPage) }
+                val moreResources = async {
+                    if (hasMoreResources) {
+                        resourceRepository.getResources(sort = "newest", page = nextResPage)
+                    } else null
                 }
-            )
-            if (hasMoreResources) {
-                val nextResPage = currentResourcePage + 1
-                resourceRepository.getResources(sort = "newest", page = nextResPage).fold(
+
+                morePosts.await().fold(
+                    onSuccess = { result ->
+                        currentPostPage = nextPostPage
+                        _hasMorePosts.value = result.hasMore
+                        _recentPosts.update { current ->
+                            val existingIds = current.mapTo(HashSet(current.size)) { it.id }
+                            val newOnes = result.posts.filter { existingIds.add(it.id) }
+                            if (newOnes.isEmpty()) current else current + newOnes
+                        }
+                    },
+                    onFailure = {
+                        _hasMorePosts.value = false
+                    }
+                )
+
+                moreResources.await()?.fold(
                     onSuccess = { result ->
                         currentResourcePage = nextResPage
                         hasMoreResources = result.page < result.totalPages
                         _recentResources.update { current ->
-                            val existingIds = current.map { it.id }.toSet()
-                            val newOnes = result.resources.filter { it.id !in existingIds }
-                            current + newOnes
+                            val existingIds = current.mapTo(HashSet(current.size)) { it.id }
+                            val newOnes = result.resources.filter { existingIds.add(it.id) }
+                            if (newOnes.isEmpty()) current else current + newOnes
                         }
                     },
                     onFailure = {
@@ -441,13 +474,18 @@ class HomeViewModel @Inject constructor(
                     return@launch
                 }
                 val response = apiService.toggleFollow(token, userId)
+                var handle: String? = null
                 _recentPosts.update { posts ->
                     val updated = posts.map { post ->
-                        if (post.authorId == userId) post.copy(isFollowingAuthor = response.isFollowing) else post
+                        if (post.authorId == userId) {
+                            handle = post.authorName
+                            post.copy(isFollowingAuthor = response.isFollowing)
+                        } else post
                     }
                     appCache.recentPosts = updated
                     updated
                 }
+                followStateRepository.record(userId, handle, response.isFollowing)
                 if (response.isFollowing) {
                     _snackbarMessage.tryEmit("Followed")
                 } else {
