@@ -1,7 +1,7 @@
 # NEBians Android — UI/UX Revamp Continuity
 
-**Last updated:** September 24, 2026
-**Working branch:** `design/nebians-onboarding-experience`
+**Last updated:** September 25, 2026
+**Working branches:** `design/nebians-onboarding-experience` (issue #44, §4), then `design/profile-revamp` (§5)
 **Scope:** the mono / Material 3 Expressive redesign of the Android app (GitHub issues #41–#44). This file is the handoff for that work; `CONTINUITY.md` covers the Django/web side and is unrelated.
 
 ---
@@ -49,7 +49,7 @@ These are the owner's stated preferences. They have been reasserted several time
 - Double bottom inset on composer bars is fixed with `WindowInsets.ime.exclude(WindowInsets.navigationBars)`.
 - `ButtonDefaults.shapesFor(height)` **renders square at ≥56dp** (its two-argument branch supplies a pressed shape whose resting shape resolves oddly). Confirmed by `javap` on the material3 AAR. `NebButton` therefore states its own `ButtonShapes` — see §4.
 
-## 4. What was delivered this session (issue #44) — all of it compiles
+## 4. What was delivered in the issue #44 session — all of it compiles
 
 Both `:app:compileModernDebugKotlin` and `:app:compileLegacyDebugKotlin` are green.
 
@@ -88,13 +88,40 @@ Editorial index rather than a stack of bordered cards: house `TopAppBar` ("Blog"
 **h) Blog reader, redesigned** (`ui/screens/news/NewsDetailScreen.kt`).
 Real `TopAppBar` (category label as the title, back, a direct Share action — the `⋮` `DropdownMenu` is gone, and so is the redundant "Share this article" button in the body). New editorial `NewsArticleHeader`: uppercase category kicker, `headlineMedium` `SemiBold` headline, `bodyLarge` standfirst at 27sp leading, byline row, rule. Cover moved below the header at 16:10 with 18dp corners. Body copy is `bodyLarge` at **30sp line height inside 20dp side padding** for a readable measure. "Read the original" is an outlined button; related articles reuse `NewsIndexRow`; the skeleton is shimmer-based. The comment-thread `NebModalSheet` and `safeOpenUri()` were left untouched.
 
-## 5. Still open from issue #44
+## 5. What was delivered in the profile session — all of it compiles
 
-1. **"Any other remaining screen or components too"** — the owner asked for a sweep. Not done. Known candidates still on the old card-heavy pattern: `ui/screens/analytics/AnalyticsScreen.kt`, `ui/screens/downloads/DownloadsScreen.kt`, and anything still calling `WebTopBar` / `WebEmptyState` (`ui/components/NebiansWeb.kt`) rather than the `TopAppBar` + `NebEmptyState` house pattern. `grep -rn "WebEmptyState\|WebTopBar" app/src/main/java` is the starting point.
-2. **Visual verification.** Nothing in §4 has been seen on a device this session — only compiled. `assembleModernDebug` and a screenshot pass would be the next sanity check.
-3. The reader's comment **loading** skeleton still uses hand-rolled boxes rather than the shimmer primitives (minor).
+Both `:app:compileModernDebugKotlin` and `:app:compileLegacyDebugKotlin` are green. Asked for: finish §6's open list, redesign the reply cards, fix the Resources tab, redesign the whole profile screen.
 
-## 6. Build and push mechanics
+**a) The Resources tab bug ("No activity yet" for everyone).**
+Not an empty-list bug — a **decode failure**. The two backend resource serialisers disagree about `price`: `backend_python/api/serializers.py:206` emits it as a string (`"150"`), `backend_python/web/view_helpers.py:222` (`_serialize_resource`) emits the raw float (`150.0`). `ApiResource.price` is a Kotlin `String`, and `coerceInputValues` rescues `null`, **not** a type mismatch, so `decodeString()` threw; because kotlinx decodes the whole response in one pass, one unquoted number emptied the entire list, and `ProfileViewModel.loadResources()`'s silent `catch` turned that into a permanent "No activity yet".
+Fixed **client-side** in new `data/api/LenientSerializers.kt`: `object LenientStringSerializer : KSerializer<String>` takes whatever primitive arrives, strips a trailing `.0`, and maps `JsonNull`/non-primitives to `""`. Applied with `@Serializable(with = ...)` on `ApiResource.price`. The client fix works against the already-deployed backend and against both serialisers.
+**The backend was deliberately left alone.** Four Django templates (`_home_suggested.html`, `_library_content.html`, `resource_detail.html`, `admin_panel/resources.html`) consume `{{ r.price|floatformat:"0" }}`, so normalising `view_helpers.py` to a string would change web rendering. If someone does unify them later, the lenient serialiser still works.
+
+**b) Per-tab error state**, so no future parse or network failure can masquerade as an empty tab. `ProfileUiState` gained `postsError` / `repliesError` / `resourcesError`; each loader clears its field on start and on success and sets `ApiErrorMapper.mapException(e)` in the `catch`. The tab then draws a `NebEmptyState` plus a "Try again" button instead of the empty-state copy.
+
+**c) The whole profile screen, rebuilt.** `ui/screens/profile/ProfileComponents.kt` (1197 lines, every screen-level card) was **deleted** after grepping every symbol in it; replaced by four focused files. `ProfileScreen`'s public signature is unchanged, so `Navigation.kt` needed no edit.
+- `ProfileScreen.kt` — solid house `TopAppBar` instead of the old transparent overlay with black scrim circles; the title cross-fades in via `derivedStateOf` on `listState` scroll. `PullToRefreshBox` → `ProfileBody`. One private `LazyListScope.feedSection(...)` now drives all three tabs in a fixed order (skeletons on first load → error + retry → empty state → rows → trailing loader / inline retry / "Show more"), which is why the tabs finally behave identically. The tab rail is a `stickyHeader`. All four dialogs are preserved verbatim.
+- `ProfileHeader.kt` — full-bleed 160dp banner with the avatar overhanging it (`offset(y = 40.dp)` inside an unclipped `Box`, repaid by a 48dp spacer), primary action beside the avatar, inline stats row, meta rows, achievement pills, social links, and `ProfileHeaderSkeleton`. Bot profiles render `NebyAvatar(animation = "idle", size = 84.dp, interactive = true)`.
+- `ProfileRows.kt` — `ProfilePostRow`, **`ProfileReplyRow`**, `ProfileResourceRow`, plus skeletons. The reply redesign was the explicit ask: the old card put "Reply on {post title}" in bold on top and the reply body in grey underneath, which inverted the two — you had to read past the heading to find out what the person said. Now the context line is quiet ("Replied to **{title}**") and the reply body is the loud part, with a hairline spine down the left tying them together the way a thread does.
+- `ProfileAbout.kt` — card-free About tab: an ACTIVITY section and a DETAILS section of label/value rows separated by hairlines. The old progress card is **gone**; it drew three bars hard-coded to zero, so it told every visitor the same untrue thing.
+- `ProfileFormatting.kt` holds the pure text helpers (`formatRoleHeadline`, `shortProvince`, `parseAchievements`, `plainTextPreview`, …) so the screen files stay about layout.
+
+**d) The §6.1 sweep, on the two screens named by name.**
+- `ui/screens/analytics/AnalyticsScreen.kt` — `WebTopBar` → house `TopAppBar`; `WebEmptyState` → `NebEmptyState` + `NebButton("Try again")`; the bordered `AnalyticsCard` became `AnalyticsSection` (a plain band with a hairline under it, because nine bordered panels on a padded list read as nine unrelated boxes); `ChartLegend`/`LegendItem` deleted (four labels for a one-series chart); every `primary` / `primaryContainer` / `onPrimaryContainer` swapped for `onSurface` / `onSurfaceVariant` / `surfaceContainerHigh`, and both `LinearProgressIndicator`s given an explicit mono `color`.
+- `ui/screens/downloads/DownloadsScreen.kt` — rewritten to the `BookmarksScreen` row idiom: `NebEmptyState`, "N saved" subtitle, 42dp rounded-square glyph tile, `nebPressable`, `NebIconButton` delete, hairline divider inset to 74dp. No `Card`, no `BorderStroke`, no `primary` tint.
+
+**e) §6.3, the reader's comment loading skeleton** (`ui/screens/news/NewsDetailScreen.kt`). It was two flat grey boxes inside a `WebCardShape` `Surface`, which reads as content rather than as absence. Replaced with `NewsCommentSkeleton()` — `ShimmerCircle` + three `ShimmerLine`s in the `BookmarkRowSkeleton` idiom. Note `ResourceCommentsLoading()` in `ResourceDetailComponents.kt` is a centred `NebLoader` and was **not** the hand-rolled one; don't go looking for it there again.
+
+**f) Encoding repair.** `NewsDetailScreen.kt` contained three raw cp1252 bytes (`0x97` em dash, two `0xb7` middle dots) — one in a comment and two in `bylineTail`'s `joinToString(" · ", prefix = "· ")`. The Kotlin compiler reads source as UTF-8, so the byline was rendering replacement characters at runtime. Rewritten as proper UTF-8. `app/src/main/java` is now clean; the check is a two-line `os.walk` + `decode('utf-8')`.
+
+## 6. Still open
+
+1. **The rest of the `WebTopBar` / `WebEmptyState` sweep.** 13 files still call them:
+   `ui/screens/study/StudySpaceScreen.kt`, `StudyLabScreen.kt`, `StudyDocumentDetailView.kt`, `ui/screens/library/LibraryScreen.kt`, `SyllabusScreen.kt`, `SyllabusSubjectDetailContent.kt`, `InteractiveLibraryContent.kt`, `ui/screens/home/HomeScreen.kt`, `ui/screens/ai/NebyAiScreen.kt`, `ui/screens/forum/ForumScreen.kt`, `ui/screens/results/ToolsScreen.kt`, `ResultCheckerScreen.kt`, `ui/screens/canvas/CanvasListScreen.kt`.
+   **Read this before starting:** on Home / Library / Forum, `WebTopBar` is not legacy chrome — it is the app's intentional global bar (greeting, avatar, notification badge, `TopBarViewModel`). Swapping it for a plain `TopAppBar` there would be a regression, not a cleanup. Only the `WebEmptyState` call sites and the genuinely secondary screens are in scope; ask the owner before touching the three main tabs.
+2. **Visual verification.** Nothing in §4 or §5 has been seen on a device — only compiled. There is no emulator or screenshot path in this environment, so this cannot be closed here. `assembleModernDebug` and a screenshot pass on real hardware is the next sanity check, and it is the only remaining unknown for the profile rewrite.
+
+## 7. Build and push mechanics
 
 **Build.** The environment does not export these; set them every time:
 
@@ -119,7 +146,7 @@ actl connector call github --url https://api.github.com/repos/NikitHamal/NEB/...
 
 **Never commit:** `google-services.json`, `app/google-services.json`, `nebians-release.keystore`, `local.properties`, `.env*`, `*.pem`, `Resources/`, `.secrets.local.json`, `client_secret_*.json`, `nebiansnepal-firebase-adminsdk-*.json`, `firebase-service-account.json`. The locally generated dummy keystore and placeholder `google-services.json` exist only to let the build run and are gitignored — keep it that way. `.claude/` and `skills-lock.json` are deliberately excluded from every push.
 
-## 7. Earlier issues in this arc (for context)
+## 8. Earlier issues in this arc (for context)
 
 - **#41** — post/forum detail KaTeX crash on "see more"; upload screen revamp; Neby credits minimalism; WhatsApp button without the number; better "People you may know" suggestions with follow-back.
 - **#42** — delivered as `6844e864`.
