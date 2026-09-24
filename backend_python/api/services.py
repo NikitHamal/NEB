@@ -5,6 +5,7 @@ instead of DRF Response objects, and accept User objects instead of DRF requests
 """
 import logging
 import re
+from collections import Counter
 
 from django.core.cache import cache
 from django.db import transaction
@@ -13,8 +14,10 @@ from django.core.exceptions import ValidationError as DjangoValidationError
 
 from .models import User, Post, PostLike, PostImage, Poll, PollOption, PollVote, Reply, ReplyLike, Follow, UserPhoto, EditHistory, FollowRequest
 from .models import Resource, ResourceLike, ResourceComment, ResourceCommentLike, Bookmark, Notification, FCMToken, ResourceRequest, AccountDeletionRequest
+from .models import BlogComment, BlogCommentLike
 from .security import hash_password, issue_auth_token, verify_password, validate_profile_photo_url, validate_external_https_url, POST_IMAGE_MAX_COUNT
 from .utils import now_ms, uuid_str
+from . import cleanup as _cleanup
 from . import counters as _counters
 from . import notifications as _notif
 from . import neby as _neby
@@ -894,45 +897,135 @@ def delete_user_account(user_id, completed_by=None):
     except User.DoesNotExist:
         return False
 
+    Resource.objects.filter(uploaded_by=user).update(
+        uploaded_by=None,
+        source_type='anonymous',
+        author_name='Anonymous'
+    )
+    ResourceRequest.objects.filter(requested_by=user).update(
+        requested_by=None,
+        requester_name='Anonymous'
+    )
+
+    for post_id in list(Post.objects.filter(user=user).values_list('id', flat=True)):
+        try:
+            _cleanup.delete_post_with_cleanup(post_id)
+        except Post.DoesNotExist:
+            continue
+
+    for reply_id in list(Reply.objects.filter(user=user).values_list('id', flat=True)):
+        try:
+            _cleanup.delete_reply_with_cleanup(reply_id)
+        except Reply.DoesNotExist:
+            continue
+
     with transaction.atomic():
-        # 1. Anonymize Resources uploaded by this user
-        Resource.objects.filter(uploaded_by=user).update(
-            uploaded_by=None,
-            source_type='anonymous',
-            author_name='Anonymous'
-        )
+        post_likes = list(PostLike.objects.filter(user=user).values_list('post_id', 'post__user_id'))
+        PostLike.objects.filter(user=user).delete()
+        for post_id, n in Counter(pid for pid, _ in post_likes).items():
+            Post.objects.filter(pk=post_id, thumbs_up_count__gte=n).update(
+                thumbs_up_count=F('thumbs_up_count') - n
+            )
+        for uid, n in Counter(uid for _, uid in post_likes if uid and uid != user.id).items():
+            User.objects.filter(pk=uid, likes_received_count__gte=n).update(
+                likes_received_count=F('likes_received_count') - n
+            )
 
-        # 2. Anonymize ResourceRequests
-        ResourceRequest.objects.filter(requested_by=user).update(
-            requested_by=None,
-            requester_name='Anonymous'
-        )
+        reply_likes = list(ReplyLike.objects.filter(user=user).values_list('reply_id', 'reply__user_id'))
+        ReplyLike.objects.filter(user=user).delete()
+        for reply_id, n in Counter(rid for rid, _ in reply_likes).items():
+            Reply.objects.filter(pk=reply_id, thumbs_up_count__gte=n).update(
+                thumbs_up_count=F('thumbs_up_count') - n
+            )
+        for uid, n in Counter(uid for _, uid in reply_likes if uid and uid != user.id).items():
+            User.objects.filter(pk=uid, likes_received_count__gte=n).update(
+                likes_received_count=F('likes_received_count') - n
+            )
 
-        # 3. Bulk delete relations that do not have Meilisearch signals
-        Bookmark.objects.filter(user=user).delete()
+        liked_resources = Counter(
+            ResourceLike.objects.filter(user=user).values_list('resource_id', flat=True)
+        )
+        ResourceLike.objects.filter(user=user).delete()
+        for resource_id, n in liked_resources.items():
+            Resource.objects.filter(pk=resource_id, like_count__gte=n).update(
+                like_count=F('like_count') - n
+            )
+
+        liked_rcomments = Counter(
+            ResourceCommentLike.objects.filter(user=user).values_list('comment_id', flat=True)
+        )
+        ResourceCommentLike.objects.filter(user=user).delete()
+        for comment_id, n in liked_rcomments.items():
+            ResourceComment.objects.filter(pk=comment_id, like_count__gte=n).update(
+                like_count=F('like_count') - n
+            )
+
+        liked_bcomments = Counter(
+            BlogCommentLike.objects.filter(user=user).values_list('comment_id', flat=True)
+        )
+        BlogCommentLike.objects.filter(user=user).delete()
+        for comment_id, n in liked_bcomments.items():
+            BlogComment.objects.filter(pk=comment_id, like_count__gte=n).update(
+                like_count=F('like_count') - n
+            )
+
+        followed_ids = list(Follow.objects.filter(follower=user).values_list('following_id', flat=True))
+        follower_ids = list(Follow.objects.filter(following=user).values_list('follower_id', flat=True))
         Follow.objects.filter(follower=user).delete()
         Follow.objects.filter(following=user).delete()
-        FCMToken.objects.filter(user=user).delete()
-        Notification.objects.filter(recipient=user).delete()
-        Notification.objects.filter(actor=user).delete()
-        PollVote.objects.filter(user=user).delete()
-        PostLike.objects.filter(user=user).delete()
-        ReplyLike.objects.filter(user=user).delete()
-        ResourceLike.objects.filter(user=user).delete()
-        ResourceCommentLike.objects.filter(user=user).delete()
+        for uid, n in Counter(followed_ids).items():
+            if uid != user.id:
+                User.objects.filter(pk=uid, follower_count__gte=n).update(
+                    follower_count=F('follower_count') - n
+                )
+        for uid, n in Counter(follower_ids).items():
+            if uid != user.id:
+                User.objects.filter(pk=uid, following_count__gte=n).update(
+                    following_count=F('following_count') - n
+                )
+
+        own_rcomments = list(
+            ResourceComment.objects.filter(user=user).values_list('id', 'resource_id', 'parent_comment_id')
+        )
         ResourceComment.objects.filter(user=user).delete()
-        BlogCommentLike.objects.filter(user=user).delete()
+        for resource_id, n in Counter(r for _, r, _ in own_rcomments if r).items():
+            Resource.objects.filter(pk=resource_id, comment_count__gte=n).update(
+                comment_count=F('comment_count') - n
+            )
+        for parent_id, n in Counter(p for _, _, p in own_rcomments if p).items():
+            ResourceComment.objects.filter(pk=parent_id, reply_count__gte=n).update(
+                reply_count=F('reply_count') - n
+            )
+
+        own_bcomments = list(
+            BlogComment.objects.filter(author=user).values_list('id', 'parent_comment_id')
+        )
         BlogComment.objects.filter(author=user).delete()
-        Reply.objects.filter(user=user).delete()
+        for parent_id, n in Counter(p for _, p in own_bcomments if p).items():
+            BlogComment.objects.filter(pk=parent_id, reply_count__gte=n).update(
+                reply_count=F('reply_count') - n
+            )
+
+        Bookmark.objects.filter(user=user).delete()
         EditHistory.objects.filter(edited_by=user).delete()
         UserPhoto.objects.filter(user=user).delete()
+        FCMToken.objects.filter(user=user).delete()
+        PollVote.objects.filter(user=user).delete()
 
-        # 4. Delete the User's posts (fires Meilisearch post_delete signals)
-        posts = Post.objects.filter(user=user)
-        for post in posts:
-            post.delete()
+        affected_recipients = set(
+            Notification.objects.filter(recipient=user).values_list('recipient_id', flat=True)
+        )
+        affected_recipients.update(
+            r for r in Notification.objects.filter(actor=user).values_list('recipient_id', flat=True) if r
+        )
+        Notification.objects.filter(recipient=user).delete()
+        Notification.objects.filter(actor=user).delete()
 
-        # 5. Delete the User object itself (fires Meilisearch user_deleted signal)
         user.delete()
-        
-        return True
+
+    _notif.batch_fix_unread_counts(affected_recipients)
+    logger.info(
+        "delete_user_account: deleted user %s (completed_by=%s)",
+        user_id, getattr(completed_by, 'id', None),
+    )
+    return True

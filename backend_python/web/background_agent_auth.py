@@ -1,16 +1,7 @@
-"""Standalone auth for the Background Agent.
+"""Authentication for the Background Agent.
 
-The Background Agent lives outside the Django admin panel. Admins sign in with
-their *platform* account (api.User) using a username or email plus a password.
-Authentication is independent of:
-
-  * Django's auth.User / the `/admin/` staff login (left untouched), and
-  * the public site's bearer-token auth (auth_token).
-
-A logged-in admin is kept in the session under SESSION_KEY and surfaced on the
-request as ``request.bg_admin``. The GitHub OAuth credential is bound to this
-same api.User account, so the same admin does not re-authorize when signing in
-from another device.
+Admins use the same validated platform-account session as the custom admin
+panel.
 """
 from __future__ import annotations
 
@@ -18,7 +9,8 @@ from django.urls import reverse
 from django.shortcuts import redirect
 
 from api.models import User
-from api.security import verify_password
+from api.security import get_user_by_auth_token
+from . import api_client
 
 SESSION_KEY = 'bg_agent_admin_id'
 _REQUEST_ATTR = '_bg_admin'
@@ -26,7 +18,12 @@ _UNSET = object()
 
 
 def _is_admin(user) -> bool:
-    return bool(user and getattr(user, 'is_admin', False) and not getattr(user, 'is_locked', False) and not getattr(user, 'is_bot', False))
+    return bool(
+        user
+        and getattr(user, 'is_admin', False)
+        and not getattr(user, 'is_banned', False)
+        and not getattr(user, 'is_bot', False)
+    )
 
 
 def get_bg_admin(request):
@@ -37,12 +34,19 @@ def get_bg_admin(request):
     cached = getattr(request, _REQUEST_ATTR, _UNSET)
     if cached is not _UNSET:
         return cached
-    user_id = request.session.get(SESSION_KEY) if hasattr(request, 'session') else None
+    if hasattr(request, 'session') and SESSION_KEY in request.session:
+        request.session.pop(SESSION_KEY, None)
+        request.session.modified = True
     user = None
-    if user_id:
-        user = User.objects.filter(pk=user_id).first()
-        if not _is_admin(user):
-            user = None
+    if hasattr(request, 'session'):
+        token = request.session.get('auth_token')
+        if token:
+            try:
+                user = get_user_by_auth_token(token)
+            except (User.DoesNotExist, ValueError):
+                api_client.clear_session_auth(request)
+    if not _is_admin(user):
+        user = None
     setattr(request, _REQUEST_ATTR, user)
     return user
 
@@ -74,46 +78,7 @@ def require_bg_admin_json(request):
     return (False, resp)
 
 
-def login_bg_admin(request, user) -> None:
-    request.session[SESSION_KEY] = str(user.id)
-    request.session.modified = True
-    setattr(request, _REQUEST_ATTR, user)
-
-
 def logout_bg_admin(request) -> None:
     request.session.pop(SESSION_KEY, None)
     request.session.modified = True
     setattr(request, _REQUEST_ATTR, None)
-
-
-def authenticate_bg_admin(identifier: str, password: str):
-    """Authenticate by username OR email + password. Returns (user, error).
-
-    Only active platform admins (is_admin, not locked, not a bot) may sign in.
-    """
-    identifier = (identifier or '').strip()
-    if not identifier or not password:
-        return None, 'Enter your username or email and password.'
-    user = (
-        User.objects.filter(username__iexact=identifier).first()
-        or User.objects.filter(email__iexact=identifier).first()
-    )
-    if not user or not user.password_hash:
-        # Identical message for unknown-user vs wrong-password to avoid leakage.
-        return None, 'Invalid credentials.'
-    ok, needs_rehash = verify_password(password, user.password_hash)
-    if not ok:
-        return None, 'Invalid credentials.'
-    if getattr(user, 'is_banned', False):
-        return None, 'This account has been banned.'
-    if not _is_admin(user):
-        return None, 'This account is not an administrator.'
-    if needs_rehash:
-        # Re-hash with the current default hasher without changing the password.
-        try:
-            from api.security import hash_password
-            user.password_hash = hash_password(password)
-            user.save(update_fields=['password_hash'])
-        except Exception:
-            pass
-    return user, None

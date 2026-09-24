@@ -7,7 +7,7 @@ from api.background_agent.oauth import (
     exchange_and_store as store_background_agent_github,
     parse_state as parse_background_agent_state,
 )
-from .background_agent_auth import SESSION_KEY as BACKGROUND_AGENT_ADMIN_SESSION_KEY
+from .background_agent_auth import get_bg_admin
 
 
 class DeepLinkRedirect(HttpResponseRedirect):
@@ -287,22 +287,20 @@ def github_callback(request):
         import secrets
         background_admin_id = parse_background_agent_state(state)
         expected_state = request.session.pop(BACKGROUND_AGENT_OAUTH_STATE_KEY, '')
-        signed_in_admin_id = request.session.get(BACKGROUND_AGENT_ADMIN_SESSION_KEY)
+        signed_in_admin = get_bg_admin(request)
         if (
             not background_admin_id
             or not expected_state
             or not secrets.compare_digest(str(state), str(expected_state))
-            or str(signed_in_admin_id or '') != str(background_admin_id)
+            or not signed_in_admin
+            or str(signed_in_admin.id) != str(background_admin_id)
         ):
             return HttpResponse('Invalid or expired background-agent OAuth state.', status=403)
         code = request.GET.get('code')
         if not code:
             messages.error(request, 'GitHub authorization was cancelled.')
             return redirect('web:background_agent')
-        try:
-            admin_user = User.objects.get(pk=background_admin_id, is_admin=True, is_locked=False, is_bot=False)
-        except User.DoesNotExist:
-            return HttpResponse('Invalid background-agent administrator.', status=403)
+        admin_user = signed_in_admin
         redirect_uri = _https_redirect_uri(request, '/auth/github/callback/')
         github_login, error = store_background_agent_github(admin_user, code=code, redirect_uri=redirect_uri)
         if error:

@@ -66,7 +66,7 @@ def _create_announcement_from_data(
     return announcement
 
 
-def draft_blog_from_git(publish: bool = False, limit_commits: int = 25) -> Optional[Announcement]:
+def draft_blog_from_git(publish: bool = False, limit_commits: int = 25, author: Optional[User] = None) -> Optional[Announcement]:
     """Inspect recent Git commits and draft a release update post."""
     commits = get_recent_commits(limit=limit_commits)
     formatted = format_commits_for_prompt(commits)
@@ -85,12 +85,13 @@ def draft_blog_from_git(publish: bool = False, limit_commits: int = 25) -> Optio
     if not data:
         logger.warning('draft_blog_from_git: failed to generate blog data')
         return None
-    return _create_announcement_from_data(data, publish=publish)
+    return _create_announcement_from_data(data, publish=publish, author=author)
 
 
 def draft_blog_from_spotlight(
     feature_id: Optional[str] = None,
     publish: bool = False,
+    author: Optional[User] = None,
 ) -> Optional[Announcement]:
     """Pick a feature spotlight and write an in-depth student guide / tutorial."""
     if feature_id:
@@ -119,13 +120,14 @@ def draft_blog_from_spotlight(
     if not data:
         logger.warning('draft_blog_from_spotlight: failed to generate blog data')
         return None
-    return _create_announcement_from_data(data, publish=publish)
+    return _create_announcement_from_data(data, publish=publish, author=author)
 
 
 def draft_blog_from_prompt(
     prompt_text: str,
     category: str = "update",
     publish: bool = False,
+    author: Optional[User] = None,
 ) -> Optional[Announcement]:
     """Draft a blog post based on custom user/admin prompt."""
     config = BotConfig.objects.filter(bot_username__iexact='neby').first()
@@ -137,4 +139,4 @@ def draft_blog_from_prompt(
     if not data:
         logger.warning('draft_blog_from_prompt: failed to generate blog data')
         return None
-    return _create_announcement_from_data(data, publish=publish)
+    return _create_announcement_from_data(data, publish=publish, author=author)

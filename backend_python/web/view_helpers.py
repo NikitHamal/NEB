@@ -5,7 +5,7 @@ import re
 
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth import authenticate, login as django_login, logout as django_logout
+from django.contrib.auth import logout as django_logout
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.core.signing import TimestampSigner
@@ -910,21 +910,29 @@ def _ctx(request, **extra):
     ctx.update(extra)
     return ctx
 
-def _admin_token(request):
-    # Custom admin pages authenticate through Django's staff session. Server-side
-    # admin API calls are additionally protected with a short-lived signed header
-    # generated in web.api_client, so no shared bearer token is exposed.
-    return None
+def _get_platform_user(request):
+    if hasattr(request, '_nebians_platform_user'):
+        return request._nebians_platform_user
+    token = api.get_session_token(request)
+    user = None
+    if token:
+        try:
+            user = get_user_by_auth_token(token)
+        except (User.DoesNotExist, ValueError):
+            api.clear_session_auth(request)
+    request._nebians_platform_user = user
+    return user
+
+def _get_platform_admin(request):
+    if hasattr(request, '_nebians_platform_admin'):
+        return request._nebians_platform_admin
+    user = _get_platform_user(request)
+    admin = user if user and user.is_admin else None
+    request._nebians_platform_admin = admin
+    return admin
 
 def _is_staff_admin(request):
-    user = getattr(request, 'user', None)
-    if user and getattr(user, 'is_authenticated', False):
-        if getattr(user, 'is_staff', False) or getattr(user, 'is_superuser', False) or getattr(user, 'is_admin', False):
-            return True
-    session = getattr(request, 'session', None)
-    if session and (session.get('is_staff') or session.get('is_admin')):
-        return True
-    return False
+    return _get_platform_admin(request) is not None
 
 def _require_staff_admin(request):
     return None if _is_staff_admin(request) else redirect('web:admin_login')
