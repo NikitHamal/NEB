@@ -698,8 +698,8 @@ internal fun buildInlineAnnotatedString(
     baseColor: Color,
     primary: Color,
     codeBg: Color,
-    errorBg: Color = Color(0xFFFFD8E4),
-    errorFg: Color = Color(0xFF31111D)
+    errorBg: Color = Color(0xFFFBEDEC),
+    errorFg: Color = Color(0xFF7A1C16)
 ): AnnotatedString {
     // Inline image tokens are emitted as inline-content placeholders; the
     // remaining markdown styling runs per text segment between tokens.

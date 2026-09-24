@@ -272,7 +272,7 @@ private fun PopoverStat(value: Int, label: String) {
  */
 @Composable
 fun RoleBadgeChip(type: String, label: String, colorHex: String?, modifier: Modifier = Modifier) {
-    val color = remember(colorHex) { parseHexColor(colorHex) ?: Color(0xFF1B9AF0) }
+    val color = remember(colorHex) { parseHexColor(colorHex) ?: Color(0xFF5C5C61) }
     val icon = when (type) {
         "moderator" -> Icons.Outlined.Shield
         "verified" -> Icons.Filled.Verified

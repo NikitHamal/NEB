@@ -93,8 +93,8 @@ import com.neb.ians.ui.components.WebTopBar
 import com.neb.ians.util.formatTimeAgo
 import kotlinx.coroutines.launch
 
-private val ArenaTint = Color(0xFF2563EB)
-private val QwenTint = Color(0xFF7C3AED)
+private val ArenaTint = Color(0xFF47474B)
+private val QwenTint = Color(0xFF7C7C83)
 
 private fun providerLabel(provider: String): String =
     if (provider == "qwen") "Qwen" else "Arena"

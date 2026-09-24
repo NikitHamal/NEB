@@ -43,16 +43,15 @@ import androidx.compose.ui.graphics.RectangleShape
 
 private val BannerTopShape = RectangleShape
 
-/** Per-preset gradient color stops, matching the web CSS presets exactly. */
+/** Per-preset gradient stops — one graphite wash per role, depth instead of hue. */
 private fun bannerColorsFor(bannerType: String): List<Color> = when (bannerType) {
-    "gradient-admin" -> listOf(Color(0xFF78350F), Color(0xFFB45309), Color(0xFFD97706), Color(0xFFF59E0B))
-    "gradient-moderator" -> listOf(Color(0xFF0F766E), Color(0xFF0D9488), Color(0xFF14B8A6), Color(0xFF06B6D4))
-    "gradient-verified" -> listOf(Color(0xFF0369A1), Color(0xFF0284C7), Color(0xFF0EA5E9), Color(0xFF38BDF8))
-    "gradient-bot" -> listOf(Color(0xFF4A148C), Color(0xFF6200EA), Color(0xFF7C4DFF), Color(0xFFB388FF))
-    "gradient-tutor" -> listOf(Color(0xFF064E3B), Color(0xFF047857), Color(0xFF10B981), Color(0xFF34D399))
-    "gradient-institution" -> listOf(Color(0xFF312E81), Color(0xFF4338CA), Color(0xFF6366F1), Color(0xFF818CF8))
-    // Default brand blue
-    else -> listOf(Color(0xFF004AC6), Color(0xFF2563EB), Color(0xFF4F46E5), Color(0xFF0EA5E9))
+    "gradient-admin" -> listOf(Color(0xFF000000), Color(0xFF131315), Color(0xFF26262A), Color(0xFF3A3A3F))
+    "gradient-moderator" -> listOf(Color(0xFF0C0C0D), Color(0xFF1F1F21), Color(0xFF313136), Color(0xFF57575C))
+    "gradient-verified" -> listOf(Color(0xFF131315), Color(0xFF26262A), Color(0xFF47474B), Color(0xFF6E6E75))
+    "gradient-bot" -> listOf(Color(0xFF0A0A0B), Color(0xFF18181B), Color(0xFF2E2E32), Color(0xFF5C5C61))
+    "gradient-tutor" -> listOf(Color(0xFF101012), Color(0xFF1F1F21), Color(0xFF3A3A3F), Color(0xFF5C5C61))
+    "gradient-institution" -> listOf(Color(0xFF070708), Color(0xFF17171A), Color(0xFF26262A), Color(0xFF47474B))
+    else -> listOf(Color(0xFF0C0C0D), Color(0xFF1F1F21), Color(0xFF2E2E32), Color(0xFF47474B))
 }
 
 /** Deco watermark text alpha per preset (web tweaks contrast per gradient). */

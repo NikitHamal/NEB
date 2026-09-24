@@ -129,12 +129,12 @@ fun mixHex(a: String, b: String, t: Double): String {
 }
 
 private val TONES = listOf(
-    0.14 to (0.82 to 0.17),
-    0.30 to (0.73 to 0.20),
-    0.50 to (0.64 to 0.22),
-    0.70 to (0.55 to 0.21),
-    0.87 to (0.46 to 0.18),
-    1.0 to (0.36 to 0.14)
+    0.14 to (0.82 to 0.0),
+    0.30 to (0.73 to 0.0),
+    0.50 to (0.64 to 0.0),
+    0.70 to (0.55 to 0.0),
+    0.87 to (0.46 to 0.0),
+    1.0 to (0.36 to 0.0)
 )
 
 private fun toneAt(v: Double): Pair<Double, Double> {
@@ -147,11 +147,14 @@ val DARK_SURFACE = Triple(0.145, 0.0, 0.0)
 
 fun ramp(hue: Double, enforce: Boolean = true, tone: Double = 0.0): Map<String, Triple<Double, Double, Double>> {
     val t = toneAt(tone)
-    var head = ensureContrast(Triple(t.first, t.second, hue), DARK_SURFACE, SURFACE_FLOOR)
+    val spread = hue / 360.0
+    val headL = (t.first + (spread - 0.5) * 0.13).coerceIn(0.16, 0.88)
+    val bgL = (0.955 - spread * 0.055).coerceIn(0.9, 0.97)
+    var head = ensureContrast(Triple(headL, t.second, hue), DARK_SURFACE, SURFACE_FLOOR)
     val r = mutableMapOf(
-        "bg" to Triple(0.965, 0.01, hue),
+        "bg" to Triple(bgL, 0.0, hue),
         "head" to head,
-        "eye" to (if (head.first >= 0.5) Triple(0.17, 0.02, hue) else Triple(0.97, 0.012, hue))
+        "eye" to (if (head.first >= 0.5) Triple(0.17, 0.0, hue) else Triple(0.97, 0.0, hue))
     )
     if (enforce) {
         for ((fg, bg, minimum) in listOf(Triple("head", "bg", 1.25), Triple("eye", "head", 4.5))) {
@@ -166,10 +169,10 @@ fun palette(hue: Double, enforce: Boolean = true, tone: Double = 0.0): Map<Strin
 
 private const val TINT_FLOOR = 4.55
 data class TintDef(val h: Double, val l: Double, val pull: Double, val c: Double)
-private val HOT = TintDef(27.0, 0.58, 0.6, 0.18)
-private val ROSE = TintDef(358.0, 0.72, 0.55, 0.16)
-private val BLUSH = TintDef(12.0, 0.84, 0.4, 0.1)
-private val BILE = TintDef(142.0, 0.66, 0.6, 0.13)
+private val HOT = TintDef(27.0, 0.58, 0.6, 0.0)
+private val ROSE = TintDef(358.0, 0.72, 0.55, 0.0)
+private val BLUSH = TintDef(12.0, 0.84, 0.4, 0.0)
+private val BILE = TintDef(142.0, 0.66, 0.6, 0.0)
 val TINT_HOT = HOT; val TINT_ROSE = ROSE; val TINT_BLUSH = BLUSH; val TINT_BILE = BILE
 
 fun tinted(head: String, eye: String, t: TintDef): Pair<String, String> {
@@ -177,7 +180,7 @@ fun tinted(head: String, eye: String, t: TintDef): Pair<String, String> {
     val baseEye = hexToOklch(eye)
     var hotHead = Triple(
         base.first + (t.l - base.first) * t.pull,
-        max(base.second, t.c),
+        min(base.second, t.c),
         t.h
     )
     hotHead = ensureContrast(hotHead, DARK_SURFACE, SURFACE_FLOOR)

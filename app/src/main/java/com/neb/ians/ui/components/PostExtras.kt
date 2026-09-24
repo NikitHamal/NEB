@@ -805,7 +805,7 @@ fun PollView(
                 )
                 if (poll.allowMultiple) {
                     Text(
-                        text = "· Multiple choice",
+                        text = "Multiple choice",
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -958,12 +958,12 @@ private fun PollResultRow(poll: PollUi, option: PollOptionUi) {
     val showCorrect = poll.isMcq && poll.hasVoted
 
     val fillColor = when {
-        showCorrect && option.correct -> Color(0xFF16A34A).copy(alpha = 0.18f)
+        showCorrect && option.correct -> MaterialTheme.colorScheme.onSurface.copy(alpha = 0.14f)
         showCorrect && isUserChoice && !option.correct -> MaterialTheme.colorScheme.error.copy(alpha = 0.15f)
         else -> MaterialTheme.colorScheme.primary.copy(alpha = 0.14f)
     }
     val borderColor = when {
-        showCorrect && option.correct -> Color(0xFF16A34A)
+        showCorrect && option.correct -> MaterialTheme.colorScheme.onSurface
         showCorrect && isUserChoice && !option.correct -> MaterialTheme.colorScheme.error
         isUserChoice -> MaterialTheme.colorScheme.primary
         else -> MaterialTheme.colorScheme.outlineVariant
@@ -1002,7 +1002,7 @@ private fun PollResultRow(poll: PollUi, option: PollOptionUi) {
                     imageVector = Icons.Filled.CheckCircle,
                     contentDescription = "Correct",
                     modifier = Modifier.size(16.dp),
-                    tint = Color(0xFF16A34A)
+                    tint = MaterialTheme.colorScheme.onSurface
                 )
             } else if (showCorrect && isUserChoice && !option.correct) {
                 Icon(

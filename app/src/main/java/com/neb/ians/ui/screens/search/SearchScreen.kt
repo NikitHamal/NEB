@@ -52,6 +52,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -85,19 +86,9 @@ import androidx.compose.material.icons.outlined.ChatBubbleOutline
 import androidx.compose.material.icons.outlined.ThumbUp
 import androidx.compose.material3.Surface
 
-private val subjectColors = mapOf(
-    "Physics" to Color(0xFF1B6EF3),
-    "Chemistry" to Color(0xFF006E1C),
-    "Mathematics" to Color(0xFFBA1A1A),
-    "Biology" to Color(0xFF006E1C),
-    "English" to Color(0xFF6F5677),
-    "Nepali" to Color(0xFFBA1A1A),
-    "Computer Science" to Color(0xFF0061A4)
-)
-
-private fun getSubjectColor(subject: String): Color {
-    return subjectColors[subject] ?: Color(0xFF565F71)
-}
+@Composable
+@ReadOnlyComposable
+private fun subjectAccent(): Color = MaterialTheme.colorScheme.onSurface
 
 private fun getSubjectIcon(subject: String): Int {
     return when (subject) {
@@ -583,7 +574,7 @@ private fun SearchResultItem(
     resource: ApiResource,
     onClick: () -> Unit
 ) {
-    val subjectColor = getSubjectColor(resource.subject)
+    val subjectColor = subjectAccent()
 
     Row(
         modifier = Modifier
@@ -634,7 +625,7 @@ private fun PostResultItem(
     post: ApiPost,
     onClick: () -> Unit
 ) {
-    val categoryColor = getSubjectColor(post.category)
+    val categoryColor = subjectAccent()
 
     Surface(
         modifier = Modifier

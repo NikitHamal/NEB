@@ -173,9 +173,9 @@ data class StudyQuizResultData(
 @Composable
 fun ParseStatusPill(status: String, modifier: Modifier = Modifier) {
     val (bg, fg) = when (status) {
-        "ready" -> Color(0x1F22C55E) to Color(0xFF15803D)
+        "ready" -> MaterialTheme.colorScheme.surfaceContainerHighest to MaterialTheme.colorScheme.onSurface
         "failed" -> MaterialTheme.colorScheme.errorContainer to MaterialTheme.colorScheme.onErrorContainer
-        else -> Color(0x1FF59E0B) to Color(0xFFB45309)
+        else -> MaterialTheme.colorScheme.surfaceContainerHigh to MaterialTheme.colorScheme.onSurfaceVariant
     }
     Row(
         modifier = modifier
@@ -311,11 +311,11 @@ fun StudySummarySection(
 // -------------------------------------------------------------
 
 private val mindmapBulletColors = listOf(
-    Color(0xFF2563EB),
-    Color(0xFF16A34A),
-    Color(0xFFD97706),
-    Color(0xFFDB2777),
-    Color(0xFF7C3AED)
+    Color(0xFF47474B),
+    Color(0xFF5C5C61),
+    Color(0xFF6E6E75),
+    Color(0xFF7C7C83),
+    Color(0xFF9B9BA1)
 )
 
 @Composable
@@ -822,13 +822,13 @@ private fun StudyQuizResultRowCard(row: StudyQuizResultRow) {
                     modifier = Modifier
                         .size(24.dp)
                         .clip(CircleShape)
-                        .background(if (row.isCorrect) Color(0x2922C55E) else MaterialTheme.colorScheme.errorContainer),
+                        .background(if (row.isCorrect) MaterialTheme.colorScheme.surfaceContainerHighest else MaterialTheme.colorScheme.errorContainer),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
                         imageVector = if (row.isCorrect) Icons.Filled.Check else Icons.Filled.Close,
                         contentDescription = if (row.isCorrect) "Correct" else "Incorrect",
-                        tint = if (row.isCorrect) Color(0xFF15803D) else MaterialTheme.colorScheme.onErrorContainer,
+                        tint = if (row.isCorrect) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onErrorContainer,
                         modifier = Modifier.size(15.dp)
                     )
                 }
@@ -846,7 +846,7 @@ private fun StudyQuizResultRowCard(row: StudyQuizResultRow) {
                             "Your answer: ${row.userAnswer.ifBlank { "—" }} · Correct: ${row.correctAnswer.ifBlank { "—" }}"
                         },
                         style = MaterialTheme.typography.labelMedium,
-                        color = if (row.isCorrect) Color(0xFF15803D) else MaterialTheme.colorScheme.error
+                        color = if (row.isCorrect) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.error
                     )
                 }
             }
@@ -979,8 +979,8 @@ fun StudyFlashcardsSection(
                         )
                         ConfidenceButton(
                             label = "Medium",
-                            container = Color(0x29F59E0B),
-                            content = Color(0xFFB45309),
+                            container = MaterialTheme.colorScheme.surfaceContainerHigh,
+                            content = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.weight(1f),
                             onClick = {
                                 onReview(card.id, "medium")
@@ -990,8 +990,8 @@ fun StudyFlashcardsSection(
                         )
                         ConfidenceButton(
                             label = "Easy",
-                            container = Color(0x2922C55E),
-                            content = Color(0xFF15803D),
+                            container = MaterialTheme.colorScheme.inverseSurface,
+                            content = MaterialTheme.colorScheme.inverseOnSurface,
                             modifier = Modifier.weight(1f),
                             onClick = {
                                 onReview(card.id, "easy")

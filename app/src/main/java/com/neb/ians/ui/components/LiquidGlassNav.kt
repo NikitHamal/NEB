@@ -162,15 +162,15 @@ fun LiquidGlassBottomNav(
         if (isDark) {
             Brush.verticalGradient(
                 listOf(
-                    Color(0xFF1B2332).copy(alpha = 0.94f),
-                    Color(0xFF121722).copy(alpha = 0.90f)
+                    Color(0xFF18181B).copy(alpha = 0.94f),
+                    Color(0xFF101012).copy(alpha = 0.90f)
                 )
             )
         } else {
             Brush.verticalGradient(
                 listOf(
                     Color.White.copy(alpha = 0.96f),
-                    Color(0xFFF1F5F9).copy(alpha = 0.92f)
+                    Color(0xFFF1F1F3).copy(alpha = 0.92f)
                 )
             )
         }
@@ -196,7 +196,7 @@ fun LiquidGlassBottomNav(
             Brush.verticalGradient(
                 listOf(
                     Color.White,
-                    Color(0xFFCBD5E1).copy(alpha = 0.6f)
+                    Color(0xFFDCDCE0).copy(alpha = 0.6f)
                 )
             )
         }

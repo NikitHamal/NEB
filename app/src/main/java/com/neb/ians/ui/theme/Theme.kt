@@ -3,17 +3,14 @@ package com.neb.ians.ui.theme
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
-import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.MaterialExpressiveTheme
+import androidx.compose.material3.MotionScheme
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
@@ -62,6 +59,19 @@ private val LightColorScheme = lightColorScheme(
     surfaceContainer = md_theme_light_surfaceContainer,
     surfaceContainerHigh = md_theme_light_surfaceContainerHigh,
     surfaceContainerHighest = md_theme_light_surfaceContainerHighest,
+    scrim = md_theme_light_scrim,
+    primaryFixed = md_theme_primaryFixed,
+    primaryFixedDim = md_theme_primaryFixedDim,
+    onPrimaryFixed = md_theme_onPrimaryFixed,
+    onPrimaryFixedVariant = md_theme_onPrimaryFixedVariant,
+    secondaryFixed = md_theme_secondaryFixed,
+    secondaryFixedDim = md_theme_secondaryFixedDim,
+    onSecondaryFixed = md_theme_onSecondaryFixed,
+    onSecondaryFixedVariant = md_theme_onSecondaryFixedVariant,
+    tertiaryFixed = md_theme_tertiaryFixed,
+    tertiaryFixedDim = md_theme_tertiaryFixedDim,
+    onTertiaryFixed = md_theme_onTertiaryFixed,
+    onTertiaryFixedVariant = md_theme_onTertiaryFixedVariant,
 )
 
 private val DarkColorScheme = darkColorScheme(
@@ -100,22 +110,36 @@ private val DarkColorScheme = darkColorScheme(
     surfaceContainer = md_theme_dark_surfaceContainer,
     surfaceContainerHigh = md_theme_dark_surfaceContainerHigh,
     surfaceContainerHighest = md_theme_dark_surfaceContainerHighest,
+    scrim = md_theme_dark_scrim,
+    primaryFixed = md_theme_primaryFixed,
+    primaryFixedDim = md_theme_primaryFixedDim,
+    onPrimaryFixed = md_theme_onPrimaryFixed,
+    onPrimaryFixedVariant = md_theme_onPrimaryFixedVariant,
+    secondaryFixed = md_theme_secondaryFixed,
+    secondaryFixedDim = md_theme_secondaryFixedDim,
+    onSecondaryFixed = md_theme_onSecondaryFixed,
+    onSecondaryFixedVariant = md_theme_onSecondaryFixedVariant,
+    tertiaryFixed = md_theme_tertiaryFixed,
+    tertiaryFixedDim = md_theme_tertiaryFixedDim,
+    onTertiaryFixed = md_theme_onTertiaryFixed,
+    onTertiaryFixedVariant = md_theme_onTertiaryFixedVariant,
 )
 
+/**
+ * The app runs on Material 3 Expressive and on one graphite scheme.
+ *
+ * Wallpaper-extracted dynamic colour is deliberately not offered. The whole
+ * point of the palette is that there is no hue in it; letting the launcher
+ * wallpaper choose a primary would put one back, and a different one on every
+ * device.
+ */
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun NEBiansTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
-    }
+    val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
 
     val view = LocalView.current
     if (!view.isInEditMode) {
@@ -131,8 +155,9 @@ fun NEBiansTheme(
         }
     }
 
-    MaterialTheme(
+    MaterialExpressiveTheme(
         colorScheme = colorScheme,
+        motionScheme = MotionScheme.expressive(),
         typography = NEBiansTypography,
         shapes = NEBiansShapes,
         content = content

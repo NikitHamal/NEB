@@ -35,13 +35,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.neb.ians.ui.components.NebLoadingIndicator
 import com.neb.ians.ui.components.NebAuthField
+import com.neb.ians.ui.components.NebDateSheet
 import com.neb.ians.ui.components.NebAuthType
 import com.neb.ians.ui.components.NebFieldGroupLabel
 import com.neb.ians.ui.components.NebGlyphTile
@@ -58,7 +58,6 @@ import com.neb.ians.ui.screens.auth.CompleteProfileViewModel
 import com.neb.ians.ui.theme.LocalNebAuthPalette
 import com.neb.ians.ui.theme.NebAuthTokens
 import com.neb.ians.ui.theme.nebEffectsSpec
-import java.util.Calendar
 
 /** A titled block. Every section on the editor is one of these and nothing else. */
 @Composable
@@ -305,8 +304,7 @@ internal fun EditPersonalSection(
     viewModel: CompleteProfileViewModel,
     dobServerError: String?
 ) {
-    val context = LocalContext.current
-    val defaultYear = remember { Calendar.getInstance().get(Calendar.YEAR) - 17 }
+    var dobSheetOpen by remember { mutableStateOf(false) }
 
     EditSection(title = "Personal") {
         Column(verticalArrangement = Arrangement.spacedBy(NebAuthTokens.StackGap)) {
@@ -316,21 +314,7 @@ internal fun EditPersonalSection(
                 placeholder = "YYYY-MM-DD",
                 leadingIcon = Icons.Outlined.Cake,
                 error = dobServerError,
-                onClick = {
-                    val parts = state.dob.split("-").mapNotNull { it.toIntOrNull() }
-                    val now = Calendar.getInstance()
-                    android.app.DatePickerDialog(
-                        context,
-                        { _, year, month, day ->
-                            viewModel.onDobChange(
-                                "%04d-%02d-%02d".format(year, month + 1, day)
-                            )
-                        },
-                        parts.getOrNull(0) ?: defaultYear,
-                        (parts.getOrNull(1)?.minus(1)) ?: now.get(Calendar.MONTH),
-                        parts.getOrNull(2) ?: now.get(Calendar.DAY_OF_MONTH)
-                    ).show()
-                }
+                onClick = { dobSheetOpen = true }
             )
 
             Column {
@@ -343,6 +327,16 @@ internal fun EditPersonalSection(
                 )
             }
         }
+    }
+
+    if (dobSheetOpen) {
+        NebDateSheet(
+            title = "Date of birth",
+            subtitle = "Only your age band is ever shown on your profile.",
+            value = state.dob,
+            onConfirm = viewModel::onDobChange,
+            onDismiss = { dobSheetOpen = false }
+        )
     }
 }
 
@@ -401,14 +395,10 @@ internal fun EditPickerRowField(
 @Composable
 internal fun EditInlineHint(text: String, modifier: Modifier = Modifier) {
     val palette = LocalNebAuthPalette.current
-    Row(modifier = modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-        Box(
-            modifier = Modifier
-                .size(4.dp)
-                .clip(CircleShape)
-                .background(palette.inkFaint)
-        )
-        Spacer(modifier = Modifier.width(8.dp))
-        Text(text = text, style = NebAuthType.Caption, color = palette.inkFaint)
-    }
+    Text(
+        text = text,
+        style = NebAuthType.Caption,
+        color = palette.inkFaint,
+        modifier = modifier.fillMaxWidth()
+    )
 }

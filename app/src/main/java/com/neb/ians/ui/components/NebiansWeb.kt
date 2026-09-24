@@ -153,7 +153,7 @@ fun UnreadCountBadge(
     Box(
         modifier = modifier
             .size(8.dp)
-            .background(Color(0xFFEF4444), CircleShape)
+            .background(MaterialTheme.colorScheme.primary, CircleShape)
             .border(1.dp, MaterialTheme.colorScheme.surface, CircleShape)
     )
 }
@@ -815,14 +815,14 @@ fun WebResourceCard(
                         .align(Alignment.TopEnd)
                         .padding(10.dp),
                     shape = WebPillShape,
-                    color = Color(0xFFF59E0B).copy(alpha = 0.92f),
+                    color = MaterialTheme.colorScheme.inverseSurface.copy(alpha = 0.92f),
                     shadowElevation = 2.dp
                 ) {
                     Text(
                         text = "Rs. ${resource.price.ifBlank { "0" }}",
                         modifier = Modifier.padding(horizontal = 9.dp, vertical = 4.dp),
                         style = MaterialTheme.typography.labelSmall,
-                        color = Color.White,
+                        color = MaterialTheme.colorScheme.inverseOnSurface,
                         fontWeight = FontWeight.Bold,
                         maxLines = 1
                     )
@@ -928,7 +928,7 @@ fun WebResourceCard(
                                 imageVector = Icons.Filled.Verified,
                                 contentDescription = "Verified Official",
                                 modifier = Modifier.size(13.dp),
-                                tint = Color(0xFF1D65D8)
+                                tint = MaterialTheme.colorScheme.onSurface
                             )
                         }
                     }
@@ -1214,7 +1214,7 @@ fun Avatar(
             shape = CircleShape,
             color = when {
                 isNeby -> Color.Transparent
-                isNebians -> Color(0xFF1D65D8)
+                isNebians -> MaterialTheme.colorScheme.primary
                 hasImageBg -> MaterialTheme.colorScheme.surfaceContainerLowest
                 else -> MaterialTheme.colorScheme.primary
             }
@@ -1271,24 +1271,23 @@ fun Avatar(
                 modifier = Modifier
                     .size(badgeSize)
                     .align(Alignment.BottomEnd)
-                    .background(Color.White, CircleShape)
+                    .background(MaterialTheme.colorScheme.surface, CircleShape)
                     .padding(1.dp)
-                    .background(Color(0xFFF59E0B), CircleShape),
+                    .background(MaterialTheme.colorScheme.inverseSurface, CircleShape),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_crown),
                     contentDescription = "Admin",
-                    tint = Color.White,
+                    tint = MaterialTheme.colorScheme.inverseOnSurface,
                     modifier = Modifier.size(badgeSize * 0.7f)
                 )
             }
         } else if (effectiveVerificationLevel > 0 && !isNebians) {
             val badgeColor = when (effectiveVerificationLevel) {
-                1 -> Color(0xFF1D65D8)
-                2 -> Color(0xFF2E7D32)
-                3 -> Color(0xFFF59E0B)
-                else -> Color(0xFF1A1A1A)
+                1 -> MaterialTheme.colorScheme.outline
+                2 -> MaterialTheme.colorScheme.onSurfaceVariant
+                else -> MaterialTheme.colorScheme.onSurface
             }
             val badgeSize = size * 0.35f
             Box(

@@ -24,6 +24,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -33,6 +34,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.neb.ians.ui.theme.LocalNebAuthPalette
 import com.neb.ians.ui.theme.NebAuthTokens
+import java.util.Calendar
 
 // ---------------------------------------------------------------------------
 // Choosing from a long list is a sheet, never a dialog. A dialog crops the list
@@ -189,5 +191,50 @@ fun NebPickerSheet(
                 modifier = Modifier.padding(horizontal = 12.dp, vertical = 14.dp)
             )
         }
+    }
+}
+
+/**
+ * Picking a date is the journey's own wheel in a sheet, never the platform
+ * dialog. The platform dialog arrives wearing the device's accent — green on a
+ * stock Pixel — with its own type scale and its own corner radius, so a screen
+ * built to one specification hands off to a control built to another. The wheel
+ * is the same one the onboarding birthday step uses, which means the answer is
+ * given the same way in both places.
+ */
+@Composable
+fun NebDateSheet(
+    title: String,
+    value: String,
+    onConfirm: (String) -> Unit,
+    onDismiss: () -> Unit,
+    subtitle: String? = null,
+    fallbackYearsAgo: Int = 17
+) {
+    val parsed = parseIsoDate(value)
+    val defaultYear = remember { Calendar.getInstance().get(Calendar.YEAR) - fallbackYearsAgo }
+    var year by remember { mutableIntStateOf(parsed?.first ?: defaultYear) }
+    var month by remember { mutableIntStateOf(parsed?.second ?: 1) }
+    var day by remember { mutableIntStateOf(parsed?.third ?: 1) }
+
+    NebSheetSurface(title = title, subtitle = subtitle, onDismiss = onDismiss) {
+        NebDateWheel(
+            year = year,
+            month = month,
+            day = day,
+            onChange = { y, m, d ->
+                year = y
+                month = m
+                day = d
+            }
+        )
+        Spacer(modifier = Modifier.height(20.dp))
+        NebPillButton(
+            text = "Done",
+            onClick = {
+                onConfirm(formatIsoDate(year, month, day))
+                onDismiss()
+            }
+        )
     }
 }

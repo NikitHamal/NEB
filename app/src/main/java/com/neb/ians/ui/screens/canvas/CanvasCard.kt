@@ -47,6 +47,7 @@ import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.neb.ians.ui.components.MarkdownInlineText
@@ -384,14 +385,14 @@ fun CanvasCardItem(
                                 .clip(CircleShape)
                                 .background(
                                     if (hasFollowup) colors.accent
-                                    else if (isDark) Color(0xFF334155)
-                                    else Color(0xFFEEF2F6)
+                                    else if (isDark) Color(0xFF26262A)
+                                    else Color(0xFFF1F1F3)
                                 )
                         ) {
                             Icon(
                                 imageVector = Icons.Filled.ArrowUpward,
                                 contentDescription = "Send",
-                                tint = if (hasFollowup) Color.White else Color(0xFF94A3B8),
+                                tint = if (hasFollowup) colors.surface else Color(0xFF9B9BA1),
                                 modifier = Modifier.size(14.dp)
                             )
                         }
@@ -810,7 +811,7 @@ private fun CardsGridRenderer(section: CanvasSection, colors: CanvasCardColorSch
                                 modifier = Modifier.padding(top = 4.dp),
                                 horizontalArrangement = Arrangement.spacedBy(4.dp)
                             ) {
-                                Text("•", color = colors.accent, style = MaterialTheme.typography.labelSmall)
+                                BulletRule(color = colors.accent, topPadding = 6.dp)
                                 Text(
                                     text = b,
                                     style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.5.sp),
@@ -852,7 +853,7 @@ private fun CardsGridRenderer(section: CanvasSection, colors: CanvasCardColorSch
                                 modifier = Modifier.padding(top = 4.dp),
                                 horizontalArrangement = Arrangement.spacedBy(4.dp)
                             ) {
-                                Text("•", color = colors.accent, style = MaterialTheme.typography.labelSmall)
+                                BulletRule(color = colors.accent, topPadding = 6.dp)
                                 Text(
                                     text = b,
                                     style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.5.sp),
@@ -884,7 +885,7 @@ private fun BulletsListRenderer(section: CanvasSection, colors: CanvasCardColorS
                 modifier = Modifier.padding(vertical = 2.dp),
                 horizontalArrangement = Arrangement.spacedBy(6.dp)
             ) {
-                Text("•", color = colors.accent, fontWeight = FontWeight.Bold)
+                BulletRule(color = colors.accent, topPadding = 8.dp)
                 Text(
                     text = b,
                     style = MaterialTheme.typography.bodySmall.copy(fontSize = 12.5.sp),
@@ -943,4 +944,15 @@ private fun TimelineSectionRenderer(section: CanvasSection, colors: CanvasCardCo
             }
         }
     }
+}
+
+@Composable
+private fun BulletRule(color: Color, topPadding: Dp) {
+    Box(
+        modifier = Modifier
+            .padding(top = topPadding)
+            .width(7.dp)
+            .height(1.5.dp)
+            .background(color)
+    )
 }

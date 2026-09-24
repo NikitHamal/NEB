@@ -576,7 +576,7 @@ fun CreatePostScreen(
                                             imageVector = if (option.isCorrect) Icons.Filled.CheckCircle
                                             else Icons.Outlined.CheckCircle,
                                             contentDescription = if (option.isCorrect) "Correct answer" else "Mark as correct",
-                                            tint = if (option.isCorrect) Color(0xFF16A34A)
+                                            tint = if (option.isCorrect) MaterialTheme.colorScheme.onSurface
                                             else MaterialTheme.colorScheme.onSurfaceVariant
                                         )
                                     }

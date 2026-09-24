@@ -74,6 +74,10 @@ fun CanvasMinimap(
                 }
             }
 
+            val nodeFill = MaterialTheme.colorScheme.onSurfaceVariant
+            val nodeStroke = MaterialTheme.colorScheme.onSurface
+            val viewportTint = MaterialTheme.colorScheme.onSurface
+
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -115,12 +119,12 @@ fun CanvasMinimap(
                         val rh = 480f * mapScale
 
                         drawRect(
-                            color = Color(0xFF688DF5).copy(alpha = 0.5f),
+                            color = nodeFill.copy(alpha = 0.32f),
                             topLeft = Offset(rx, ry),
                             size = Size(rw, rh)
                         )
                         drawRect(
-                            color = Color(0xFF004AC6),
+                            color = nodeStroke.copy(alpha = 0.55f),
                             topLeft = Offset(rx, ry),
                             size = Size(rw, rh),
                             style = Stroke(width = 1f)
@@ -139,12 +143,12 @@ fun CanvasMinimap(
                     val vh = viewH * mapScale
 
                     drawRect(
-                        color = Color(0xFFE11D48).copy(alpha = 0.15f),
+                        color = viewportTint.copy(alpha = 0.10f),
                         topLeft = Offset(vx, vy),
                         size = Size(vw, vh)
                     )
                     drawRect(
-                        color = Color(0xFFE11D48),
+                        color = viewportTint,
                         topLeft = Offset(vx, vy),
                         size = Size(vw, vh),
                         style = Stroke(width = 1.5f)
