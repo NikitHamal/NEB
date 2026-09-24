@@ -136,7 +136,7 @@ fun CrashScreen(
                     .weight(1f)
                     .fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp),
-                color = Color(0xFF1E1E1E)
+                color = Color(0xFF18181B)
             ) {
                 Box(
                     modifier = Modifier
@@ -149,7 +149,7 @@ fun CrashScreen(
                         text = stackTrace,
                         fontFamily = FontFamily.Monospace,
                         fontSize = 12.sp,
-                        color = Color(0xFF4ADE80)
+                        color = Color(0xFFC9C9CD)
                     )
                 }
             }

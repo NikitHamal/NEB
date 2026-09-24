@@ -45,7 +45,6 @@ import coil.compose.AsyncImage
 import com.neb.ians.data.api.ApiResource
 import com.neb.ians.data.news.NewsAnnouncement
 import com.neb.ians.data.news.toSafeColor
-import com.neb.ians.util.getSubjectColor
 import com.neb.ians.util.rememberTactileFeedback
 import com.neb.ians.util.TactileType
 
@@ -204,7 +203,7 @@ fun CompactResourceCard(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val color = Color(getSubjectColor(resource.subject))
+    val color = MaterialTheme.colorScheme.onSurface
 
     NebCompactCard(
         onClick = onClick,
@@ -287,7 +286,7 @@ fun CompactResourceCard(
                     text = listOfNotNull(
                         resource.gradeLevel.takeIf { it.isNotBlank() },
                         resource.type.takeIf { it.isNotBlank() }
-                    ).joinToString(" • "),
+                    ).joinToString(" · "),
                     style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 1,

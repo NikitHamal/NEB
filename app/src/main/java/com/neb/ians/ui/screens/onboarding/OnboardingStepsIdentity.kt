@@ -1,13 +1,14 @@
 package com.neb.ians.ui.screens.onboarding
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AlternateEmail
 import androidx.compose.material.icons.outlined.Check
@@ -29,7 +30,6 @@ import com.neb.ians.ui.components.NebGlyphTile
 import com.neb.ians.ui.components.NebSegmentedChoice
 import com.neb.ians.ui.components.NebShapes
 import com.neb.ians.ui.components.NebDateWheel
-import com.neb.ians.ui.components.NebDotTile
 import com.neb.ians.ui.components.NebOptionCard
 import com.neb.ians.ui.components.NebStepHeader
 import com.neb.ians.ui.components.formatIsoDate
@@ -62,23 +62,24 @@ fun WelcomeStep() {
             subtitle = "Let's build the profile Nepal's learning community will see. A few short questions — one at a time, nothing crammed."
         )
         Spacer(modifier = Modifier.height(NebAuthTokens.SectionGap))
-        listOf(
+        val ahead = listOf(
             "Your handle" to "How classmates find and mention you",
             "Your level and subjects" to "So the feed carries the right notes and papers",
             "Your district and campus" to "So local resources and results reach you first"
-        ).forEach { (title, detail) ->
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(56.dp),
-                verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
-            ) {
-                NebDotTile(color = palette.accent)
-                Spacer(modifier = Modifier.width(14.dp))
-                Column {
-                    Text(text = title, style = NebAuthType.Body, color = palette.ink)
-                    Text(text = detail, style = NebAuthType.Caption, color = palette.inkMuted)
-                }
+        )
+        ahead.forEachIndexed { index, (title, detail) ->
+            if (index > 0) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(NebAuthTokens.Hairline)
+                        .background(palette.hairline)
+                )
+            }
+            Column(modifier = Modifier.fillMaxWidth().padding(vertical = 14.dp)) {
+                Text(text = title, style = NebAuthType.Body, color = palette.ink)
+                Spacer(modifier = Modifier.height(2.dp))
+                Text(text = detail, style = NebAuthType.Caption, color = palette.inkMuted)
             }
         }
     }

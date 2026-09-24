@@ -453,9 +453,9 @@ private fun GpaBadge(gpa: String, grade: String) {
     val score = gpa.toFloatOrNull()
     val accent = when {
         score == null -> MaterialTheme.colorScheme.onSurfaceVariant
-        score >= 3.2f -> Color(0xFF16A34A)
-        score >= 2.0f -> Color(0xFFD97706)
-        else -> Color(0xFFDC2626)
+        score >= 3.2f -> MaterialTheme.colorScheme.onSurface
+        score >= 2.0f -> MaterialTheme.colorScheme.onSurfaceVariant
+        else -> MaterialTheme.colorScheme.error
     }
     Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
         Surface(
@@ -564,10 +564,10 @@ private fun TableHead(text: String, modifier: Modifier = Modifier) {
 @Composable
 private fun GradeBadge(text: String, modifier: Modifier = Modifier) {
     val color = when (text.uppercase()) {
-        "A+", "A" -> Color(0xFF16A34A)
-        "B+", "B" -> Color(0xFF65A30D)
-        "C+", "C" -> Color(0xFFD97706)
-        else -> Color(0xFFDC2626)
+        "A+", "A" -> MaterialTheme.colorScheme.onSurface
+        "B+", "B" -> MaterialTheme.colorScheme.onSurfaceVariant
+        "C+", "C" -> MaterialTheme.colorScheme.outline
+        else -> MaterialTheme.colorScheme.error
     }
     Box(modifier = modifier) {
         Surface(shape = WebPillShape, color = color.copy(alpha = 0.12f)) {
@@ -610,23 +610,23 @@ private fun GradesheetDialog(
                 Spacer(modifier = Modifier.height(12.dp))
                 Surface(
                     modifier = Modifier.fillMaxWidth().weight(1f),
-                    color = Color(0xFFFBFAF5),
+                    color = Color(0xFFFAFAFB),
                     shape = androidx.compose.foundation.shape.RoundedCornerShape(6.dp),
-                    border = BorderStroke(2.dp, Color(0xFF8B7355))
+                    border = BorderStroke(2.dp, Color(0xFF9B9BA1))
                 ) {
                     LazyColumn(contentPadding = PaddingValues(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
                         item {
                             Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
-                                Icon(Icons.Filled.FactCheck, contentDescription = null, tint = Color(0xFF1E3A8A), modifier = Modifier.size(40.dp))
+                                Icon(Icons.Filled.FactCheck, contentDescription = null, tint = Color(0xFF101012), modifier = Modifier.size(40.dp))
                                 Text(
                                     text = if (exam == ResultExam.Class10) "UNOFFICIAL SEE RESULT" else "UNOFFICIAL CLASS 12 RESULT${if (examType == ResultExamType.ReExam) " (RE-EXAM)" else ""}",
                                     style = MaterialTheme.typography.titleMedium,
                                     fontWeight = FontWeight.ExtraBold,
-                                    color = Color(0xFF1E3A8A)
+                                    color = Color(0xFF101012)
                                 )
-                                Text("nebians.consica.com.np", color = Color(0xFF57534E), style = MaterialTheme.typography.labelMedium)
-                                Surface(border = BorderStroke(1.dp, Color(0xFF1E3A8A)), color = Color.Transparent, modifier = Modifier.padding(top = 8.dp)) {
-                                    Text("UNOFFICIAL GRADE SHEET", modifier = Modifier.padding(horizontal = 14.dp, vertical = 4.dp), color = Color(0xFF1E3A8A), fontWeight = FontWeight.ExtraBold)
+                                Text("nebians.consica.com.np", color = Color(0xFF5C5C61), style = MaterialTheme.typography.labelMedium)
+                                Surface(border = BorderStroke(1.dp, Color(0xFF101012)), color = Color.Transparent, modifier = Modifier.padding(top = 8.dp)) {
+                                    Text("UNOFFICIAL GRADE SHEET", modifier = Modifier.padding(horizontal = 14.dp, vertical = 4.dp), color = Color(0xFF101012), fontWeight = FontWeight.ExtraBold)
                                 }
                             }
                         }
@@ -635,7 +635,7 @@ private fun GradesheetDialog(
                             Text(
                                 text = "THE GRADE SECURED BY THE STUDENT IN THE $examName HELD IN THE YEAR ${payload.batch.ifBlank { batch }} BS IS GIVEN BELOW.",
                                 style = MaterialTheme.typography.labelSmall,
-                                color = Color(0xFF292524),
+                                color = Color(0xFF26262A),
                                 modifier = Modifier.padding(vertical = 4.dp),
                                 textAlign = androidx.compose.ui.text.style.TextAlign.Center
                             )
@@ -643,23 +643,23 @@ private fun GradesheetDialog(
                         item { GradesheetDetails(payload, batch, dob) }
                         itemsIndexed(payload.subjects) { index, subject ->
                             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                                Text((index + 1).toString(), modifier = Modifier.weight(0.4f), color = Color(0xFF1C1917), style = MaterialTheme.typography.labelSmall)
-                                Text(subject.code.ifBlank { "—" }, modifier = Modifier.weight(0.8f), color = Color(0xFF1C1917), style = MaterialTheme.typography.labelSmall)
-                                Text(subject.name.ifBlank { "—" }, modifier = Modifier.weight(2f), color = Color(0xFF1C1917), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.SemiBold)
-                                Text(subject.creditHour.ifBlank { "—" }, modifier = Modifier.weight(0.7f), color = Color(0xFF1C1917), style = MaterialTheme.typography.labelSmall)
-                                Text(subject.grade.ifBlank { "—" }, modifier = Modifier.weight(0.7f), color = Color(0xFF1C1917), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
-                                Text(subject.gradePoint.ifBlank { "—" }, modifier = Modifier.weight(0.6f), color = Color(0xFF1C1917), style = MaterialTheme.typography.labelSmall)
+                                Text((index + 1).toString(), modifier = Modifier.weight(0.4f), color = Color(0xFF0A0A0B), style = MaterialTheme.typography.labelSmall)
+                                Text(subject.code.ifBlank { "—" }, modifier = Modifier.weight(0.8f), color = Color(0xFF0A0A0B), style = MaterialTheme.typography.labelSmall)
+                                Text(subject.name.ifBlank { "—" }, modifier = Modifier.weight(2f), color = Color(0xFF0A0A0B), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.SemiBold)
+                                Text(subject.creditHour.ifBlank { "—" }, modifier = Modifier.weight(0.7f), color = Color(0xFF0A0A0B), style = MaterialTheme.typography.labelSmall)
+                                Text(subject.grade.ifBlank { "—" }, modifier = Modifier.weight(0.7f), color = Color(0xFF0A0A0B), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
+                                Text(subject.gradePoint.ifBlank { "—" }, modifier = Modifier.weight(0.6f), color = Color(0xFF0A0A0B), style = MaterialTheme.typography.labelSmall)
                             }
-                            HorizontalDivider(color = Color(0xFFE7E5E4))
+                            HorizontalDivider(color = Color(0xFFE9E9EB))
                         }
                         item {
-                            Surface(color = Color(0xFFF5F5F4), border = BorderStroke(1.dp, Color(0xFF292524))) {
+                            Surface(color = Color(0xFFF1F1F3), border = BorderStroke(1.dp, Color(0xFF26262A))) {
                                 Row(modifier = Modifier.fillMaxWidth().padding(12.dp), horizontalArrangement = Arrangement.SpaceBetween) {
-                                    Text("GPA: ${payload.gpa.ifBlank { "—" }}", color = Color(0xFF1E3A8A), fontWeight = FontWeight.ExtraBold)
-                                    Text("GRADE: ${payload.grade.ifBlank { "—" }}", color = Color(0xFF1E3A8A), fontWeight = FontWeight.ExtraBold)
+                                    Text("GPA: ${payload.gpa.ifBlank { "—" }}", color = Color(0xFF101012), fontWeight = FontWeight.ExtraBold)
+                                    Text("GRADE: ${payload.grade.ifBlank { "—" }}", color = Color(0xFF101012), fontWeight = FontWeight.ExtraBold)
                                 }
                             }
-                            Text("Issue Date: ${batch}/04/15 BS", modifier = Modifier.padding(top = 8.dp), color = Color(0xFF57534E), style = MaterialTheme.typography.labelSmall)
+                            Text("Issue Date: ${batch}/04/15 BS", modifier = Modifier.padding(top = 8.dp), color = Color(0xFF5C5C61), style = MaterialTheme.typography.labelSmall)
                         }
                     }
                 }
@@ -673,42 +673,42 @@ private fun GradesheetDetails(payload: ResultPayload, batch: String, dob: String
     Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
         Row(modifier = Modifier.fillMaxWidth()) {
             Column(modifier = Modifier.weight(1.2f)) {
-                Text("NAME OF STUDENT", color = Color(0xFF57534E), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
-                Text(payload.studentName.uppercase().ifBlank { "—" }, color = Color(0xFF1C1917), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
+                Text("NAME OF STUDENT", color = Color(0xFF5C5C61), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
+                Text(payload.studentName.uppercase().ifBlank { "—" }, color = Color(0xFF0A0A0B), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
             }
             Column(modifier = Modifier.weight(0.8f)) {
-                Text("SYMBOL NO", color = Color(0xFF57534E), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
-                Text(payload.symbol.ifBlank { "—" }, color = Color(0xFF1C1917), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
+                Text("SYMBOL NO", color = Color(0xFF5C5C61), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
+                Text(payload.symbol.ifBlank { "—" }, color = Color(0xFF0A0A0B), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
             }
         }
         Row(modifier = Modifier.fillMaxWidth()) {
             Column(modifier = Modifier.weight(1.2f)) {
-                Text("SCHOOL/COLLEGE", color = Color(0xFF57534E), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
-                Text(payload.school.uppercase().ifBlank { "—" }, color = Color(0xFF1C1917), style = MaterialTheme.typography.labelSmall)
+                Text("SCHOOL/COLLEGE", color = Color(0xFF5C5C61), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
+                Text(payload.school.uppercase().ifBlank { "—" }, color = Color(0xFF0A0A0B), style = MaterialTheme.typography.labelSmall)
             }
             Column(modifier = Modifier.weight(0.8f)) {
-                Text("REGISTRATION NO", color = Color(0xFF57534E), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
-                Text(payload.registrationNumberOrFallback(), color = Color(0xFF1C1917), style = MaterialTheme.typography.labelSmall)
+                Text("REGISTRATION NO", color = Color(0xFF5C5C61), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
+                Text(payload.registrationNumberOrFallback(), color = Color(0xFF0A0A0B), style = MaterialTheme.typography.labelSmall)
             }
         }
         Row(modifier = Modifier.fillMaxWidth()) {
             Column(modifier = Modifier.weight(1.2f)) {
-                Text("DATE OF BIRTH", color = Color(0xFF57534E), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
-                Text(dob.ifBlank { payload.dob.ifBlank { "—" } }, color = Color(0xFF1C1917), style = MaterialTheme.typography.labelSmall)
+                Text("DATE OF BIRTH", color = Color(0xFF5C5C61), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
+                Text(dob.ifBlank { payload.dob.ifBlank { "—" } }, color = Color(0xFF0A0A0B), style = MaterialTheme.typography.labelSmall)
             }
             Column(modifier = Modifier.weight(0.8f)) {
-                Text("EXAM YEAR / BATCH", color = Color(0xFF57534E), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
-                Text("${payload.batch.ifBlank { batch }} BS", color = Color(0xFF1C1917), style = MaterialTheme.typography.labelSmall)
+                Text("EXAM YEAR / BATCH", color = Color(0xFF5C5C61), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
+                Text("${payload.batch.ifBlank { batch }} BS", color = Color(0xFF0A0A0B), style = MaterialTheme.typography.labelSmall)
             }
         }
-        HorizontalDivider(color = Color(0xFF8B7355), thickness = 1.dp, modifier = Modifier.padding(vertical = 6.dp))
+        HorizontalDivider(color = Color(0xFF9B9BA1), thickness = 1.dp, modifier = Modifier.padding(vertical = 6.dp))
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-            Text("S.N.", modifier = Modifier.weight(0.4f), color = Color(0xFF292524), fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.labelSmall)
-            Text("CODE", modifier = Modifier.weight(0.8f), color = Color(0xFF292524), fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.labelSmall)
-            Text("SUBJECT TITLE", modifier = Modifier.weight(2f), color = Color(0xFF292524), fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.labelSmall)
-            Text("CH", modifier = Modifier.weight(0.7f), color = Color(0xFF292524), fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.labelSmall)
-            Text("GRADE", modifier = Modifier.weight(0.7f), color = Color(0xFF292524), fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.labelSmall)
-            Text("GP", modifier = Modifier.weight(0.6f), color = Color(0xFF292524), fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.labelSmall)
+            Text("S.N.", modifier = Modifier.weight(0.4f), color = Color(0xFF26262A), fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.labelSmall)
+            Text("CODE", modifier = Modifier.weight(0.8f), color = Color(0xFF26262A), fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.labelSmall)
+            Text("SUBJECT TITLE", modifier = Modifier.weight(2f), color = Color(0xFF26262A), fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.labelSmall)
+            Text("CH", modifier = Modifier.weight(0.7f), color = Color(0xFF26262A), fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.labelSmall)
+            Text("GRADE", modifier = Modifier.weight(0.7f), color = Color(0xFF26262A), fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.labelSmall)
+            Text("GP", modifier = Modifier.weight(0.6f), color = Color(0xFF26262A), fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.labelSmall)
         }
     }
 }
@@ -716,8 +716,8 @@ private fun GradesheetDetails(payload: ResultPayload, batch: String, dob: String
 @Composable
 private fun CertificateLine(label: String, value: String) {
     Row(modifier = Modifier.fillMaxWidth()) {
-        Text(label.uppercase(), modifier = Modifier.weight(0.85f), color = Color(0xFF57534E), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
-        Text(value, modifier = Modifier.weight(2f), color = Color(0xFF1C1917), style = MaterialTheme.typography.labelSmall, fontFamily = FontFamily.SansSerif)
+        Text(label.uppercase(), modifier = Modifier.weight(0.85f), color = Color(0xFF5C5C61), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
+        Text(value, modifier = Modifier.weight(2f), color = Color(0xFF0A0A0B), style = MaterialTheme.typography.labelSmall, fontFamily = FontFamily.SansSerif)
     }
 }
 

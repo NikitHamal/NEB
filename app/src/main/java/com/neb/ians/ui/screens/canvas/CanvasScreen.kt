@@ -120,7 +120,7 @@ fun CanvasScreen(
                     onNavigateBack = onNavigateBack
                 )
             },
-            containerColor = if (isDark) Color(0xFF090D16) else Color(0xFFF8FAFC)
+            containerColor = if (isDark) Color(0xFF0A0A0B) else Color(0xFFF7F7F9)
         ) { innerPadding ->
             BoxWithConstraints(
                 modifier = Modifier
@@ -368,7 +368,7 @@ private fun CanvasTopBar(
 @Composable
 private fun CanvasGrid(isDark: Boolean, tx: Float, ty: Float, scale: Float) {
     val density = LocalDensity.current
-    val dotColor = if (isDark) Color(0xFF334155) else Color(0xFFB8C2D1)
+    val dotColor = if (isDark) Color(0xFF26262A) else Color(0xFFDCDCE0)
     Canvas(modifier = Modifier.fillMaxSize()) {
         val stepPx = with(density) { 26.dp.toPx() } * scale
         if (stepPx < 10f) return@Canvas
@@ -391,8 +391,8 @@ private fun CanvasGrid(isDark: Boolean, tx: Float, ty: Float, scale: Float) {
 
 @Composable
 private fun CanvasEdges(nodes: List<CanvasNode>, isDark: Boolean) {
-    val edgeColor = if (isDark) Color(0xFF64748B) else Color(0xFF94A3B8)
-    val dotColor = if (isDark) Color(0xFF94A3B8) else Color(0xFF64748B)
+    val edgeColor = if (isDark) Color(0xFF6E6E75) else Color(0xFF9B9BA1)
+    val dotColor = if (isDark) Color(0xFF9B9BA1) else Color(0xFF5C5C61)
 
     Canvas(modifier = Modifier.fillMaxSize()) {
         val drawnPairs = mutableSetOf<String>()
@@ -518,10 +518,10 @@ private fun CanvasBottomPromptBar(
                 spotColor = Color(0x1A000000)
             )
             .clip(RoundedCornerShape(99.dp)),
-        color = if (isDark) Color(0xFF1E293B) else Color.White,
+        color = if (isDark) Color(0xFF18181B) else Color.White,
         border = BorderStroke(
             1.dp,
-            if (isDark) Color(0xFF334155) else Color(0xFFE2E8F0)
+            if (isDark) Color(0xFF26262A) else Color(0xFFE9E9EB)
         )
     ) {
         Row(
@@ -538,14 +538,14 @@ private fun CanvasBottomPromptBar(
                 maxLines = 1,
                 textStyle = MaterialTheme.typography.bodyLarge.copy(
                     fontSize = 15.sp,
-                    color = if (isDark) Color(0xFFF1F5F9) else Color(0xFF0F172A)
+                    color = if (isDark) Color(0xFFF5F5F6) else Color(0xFF0A0A0B)
                 ),
                 decorationBox = { innerTextField ->
                     if (prompt.isEmpty()) {
                         Text(
                             text = "What do you want to understand?",
                             style = MaterialTheme.typography.bodyLarge.copy(fontSize = 15.sp),
-                            color = if (isDark) Color(0xFF94A3B8) else Color(0xFF64748B),
+                            color = if (isDark) Color(0xFF9B9BA1) else Color(0xFF5C5C61),
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
                         )
@@ -564,8 +564,8 @@ private fun CanvasBottomPromptBar(
                     .background(
                         when {
                             hasText && !isGenerating -> MaterialTheme.colorScheme.primary
-                            isDark -> Color(0xFF334155)
-                            else -> Color(0xFFEEF2F6)
+                            isDark -> Color(0xFF26262A)
+                            else -> Color(0xFFF1F1F3)
                         }
                     )
             ) {
@@ -581,8 +581,8 @@ private fun CanvasBottomPromptBar(
                         contentDescription = "Send",
                         tint = when {
                             hasText -> Color.White
-                            isDark -> Color(0xFF64748B)
-                            else -> Color(0xFF94A3B8)
+                            isDark -> Color(0xFF6E6E75)
+                            else -> Color(0xFF9B9BA1)
                         },
                         modifier = Modifier.size(18.dp)
                     )

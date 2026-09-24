@@ -37,12 +37,12 @@ fun AuthLegalSheet(
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,
-        containerColor = if (isDark) Color(0xFF12151B) else Color(0xFFFFFFFF),
-        contentColor = if (isDark) Color(0xFFF1F5F9) else Color(0xFF0F172A),
+        containerColor = if (isDark) Color(0xFF131315) else Color(0xFFFFFFFF),
+        contentColor = if (isDark) Color(0xFFF5F5F6) else Color(0xFF0A0A0B),
         shape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp),
         dragHandle = {
             BottomSheetDefaults.DragHandle(
-                color = if (isDark) Color(0xFF333D4F) else Color(0xFFD1D5DB)
+                color = if (isDark) Color(0xFF3A3A3F) else Color(0xFFDCDCE0)
             )
         }
     ) {
@@ -67,12 +67,12 @@ fun AuthLegalSheet(
                             fontWeight = FontWeight.Bold,
                             fontSize = 22.sp
                         ),
-                        color = if (isDark) Color(0xFFF8FAFC) else Color(0xFF0F172A)
+                        color = if (isDark) Color(0xFFFAFAFB) else Color(0xFF0A0A0B)
                     )
                     Text(
                         text = "NEBians Learning Platform • Nepal",
                         style = MaterialTheme.typography.labelMedium,
-                        color = if (isDark) Color(0xFF94A3B8) else Color(0xFF64748B)
+                        color = if (isDark) Color(0xFF9B9BA1) else Color(0xFF5C5C61)
                     )
                 }
 
@@ -85,13 +85,13 @@ fun AuthLegalSheet(
                     Icon(
                         imageVector = Icons.Default.Close,
                         contentDescription = "Close",
-                        tint = if (isDark) Color(0xFF94A3B8) else Color(0xFF64748B)
+                        tint = if (isDark) Color(0xFF9B9BA1) else Color(0xFF5C5C61)
                     )
                 }
             }
 
             HorizontalDivider(
-                color = if (isDark) Color(0xFF232A36) else Color(0xFFE5E7EB),
+                color = if (isDark) Color(0xFF26262A) else Color(0xFFE9E9EB),
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
@@ -168,8 +168,8 @@ fun AuthLegalSheet(
                     .height(48.dp),
                 shape = RoundedCornerShape(24.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = if (isDark) Color(0xFF38BDF8) else Color(0xFF0284C7),
-                    contentColor = Color.White
+                    containerColor = if (isDark) Color(0xFFF5F5F6) else Color(0xFF101012),
+                    contentColor = if (isDark) Color(0xFF0A0A0B) else Color(0xFFFFFFFF)
                 )
             ) {
                 Text(
@@ -194,7 +194,7 @@ private fun LegalSection(
                 fontWeight = FontWeight.Bold,
                 fontSize = 15.sp
             ),
-            color = if (isDark) Color(0xFFF1F5F9) else Color(0xFF0F172A)
+            color = if (isDark) Color(0xFFF5F5F6) else Color(0xFF0A0A0B)
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(
@@ -203,7 +203,7 @@ private fun LegalSection(
                 fontSize = 13.5.sp,
                 lineHeight = 19.sp
             ),
-            color = if (isDark) Color(0xFF94A3B8) else Color(0xFF475569)
+            color = if (isDark) Color(0xFF9B9BA1) else Color(0xFF5C5C61)
         )
     }
 }

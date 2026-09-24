@@ -283,20 +283,12 @@ fun NebGlyphTile(
     )
 }
 
-/** A circle, for the leading slot of a list row that wants no square. */
-@Composable
-fun NebDotTile(color: Color, modifier: Modifier = Modifier, diameter: Dp = 8.dp) {
-    Box(
-        modifier = modifier
-            .size(diameter)
-            .clip(CircleShape)
-            .background(color)
-    )
-}
-
 /**
- * A setting that is simply on or off. The track is a hairline until it is on,
- * so a row of these reads as a list rather than as a wall of coloured pills.
+ * A setting that is simply on or off. Off, the track is a bordered well with a
+ * small grey knob; on, it fills with ink and the knob grows and crosses. Both
+ * states have to be legible sitting on a filled card, which is why the border is
+ * there — a track that borrows the card's own colour is not a switch, it is a
+ * circle floating in a row.
  */
 @Composable
 fun NebToggleRow(
@@ -309,14 +301,24 @@ fun NebToggleRow(
 ) {
     val palette = LocalNebAuthPalette.current
     val track by animateColorAsState(
-        targetValue = if (checked) palette.accent else palette.field,
+        targetValue = if (checked) palette.accent else palette.hairline,
         animationSpec = nebFastEffectsSpec(),
         label = "neb_toggle_track"
     )
+    val border by animateColorAsState(
+        targetValue = if (checked) palette.accent else palette.hairlineStrong,
+        animationSpec = nebFastEffectsSpec(),
+        label = "neb_toggle_border"
+    )
     val knob by animateColorAsState(
-        targetValue = if (checked) palette.onAccent else palette.hairlineStrong,
+        targetValue = if (checked) palette.onAccent else palette.inkMuted,
         animationSpec = nebFastEffectsSpec(),
         label = "neb_toggle_knob"
+    )
+    val knobSize by animateDpAsState(
+        targetValue = if (checked) 22.dp else 16.dp,
+        animationSpec = nebFastSpatialSpec(),
+        label = "neb_toggle_knob_size"
     )
     val knobOffset by animateDpAsState(
         targetValue = if (checked) 20.dp else 0.dp,
@@ -342,17 +344,18 @@ fun NebToggleRow(
         Spacer(modifier = Modifier.width(14.dp))
         Box(
             modifier = Modifier
-                .width(46.dp)
-                .height(26.dp)
+                .width(52.dp)
+                .height(32.dp)
                 .clip(CircleShape)
-                .background(track),
+                .background(track)
+                .border(width = 2.dp, color = border, shape = CircleShape),
             contentAlignment = Alignment.CenterStart
         ) {
             Box(
                 modifier = Modifier
-                    .padding(horizontal = 3.dp)
+                    .padding(horizontal = 5.dp)
                     .offset(x = knobOffset)
-                    .size(20.dp)
+                    .size(knobSize)
                     .clip(CircleShape)
                     .background(knob)
             )

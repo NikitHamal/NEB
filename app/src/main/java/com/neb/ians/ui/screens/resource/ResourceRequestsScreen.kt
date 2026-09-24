@@ -351,9 +351,9 @@ fun ResourceRequestCard(
 
             // Status Indicator tag
             val statusColor = when (request.status.lowercase()) {
-                "open" -> Color(0xFF2E7D32)
-                "fulfilled" -> Color(0xFF1565C0)
-                else -> Color(0xFF616161)
+                "open" -> MaterialTheme.colorScheme.onSurface
+                "fulfilled" -> MaterialTheme.colorScheme.onSurfaceVariant
+                else -> MaterialTheme.colorScheme.outline
             }
             val statusBg = statusColor.copy(alpha = 0.1f)
             Surface(

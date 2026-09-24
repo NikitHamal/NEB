@@ -205,7 +205,7 @@ fun SettingsScreen(
                         Icon(
                             imageVector = Icons.Outlined.AutoAwesome,
                             contentDescription = null,
-                            tint = androidx.compose.ui.graphics.Color(0xFFF59E0B),
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.size(22.dp)
                         )
                     },

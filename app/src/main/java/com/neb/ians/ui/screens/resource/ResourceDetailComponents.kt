@@ -107,7 +107,6 @@ import com.neb.ians.ui.components.LikePill
 import com.neb.ians.ui.components.NebBadge
 
 import com.neb.ians.util.formatTimeAgo
-import com.neb.ians.util.getSubjectColor
 
 enum class ResourceMediaType { Pdf, Image, Video, Audio, Other }
 
@@ -139,7 +138,7 @@ fun ResourceHeroCard(
     onUserProfileClick: (String) -> Unit = {}
 ) {
     val subject = resource.subject.split(",").firstOrNull()?.trim().orEmpty().ifBlank { "General" }
-    val subjectColor = Color(getSubjectColor(subject))
+    val subjectColor = MaterialTheme.colorScheme.onSurface
     Surface(
         modifier = Modifier.fillMaxWidth(),
         color = MaterialTheme.colorScheme.surfaceContainerLowest,
@@ -228,9 +227,9 @@ private fun ResourceChips(resource: ApiResource, subject: String, subjectColor: 
             ResourceChip(
                 text = "Rs. ${resource.price.ifBlank { "0" }} · PAID",
                 icon = Icons.Filled.Lock,
-                contentColor = Color(0xFFB45309),
-                backgroundColor = Color(0xFFF59E0B).copy(alpha = 0.14f),
-                borderColor = Color(0xFFF59E0B).copy(alpha = 0.4f)
+                contentColor = MaterialTheme.colorScheme.onSurface,
+                backgroundColor = MaterialTheme.colorScheme.surfaceContainerHighest,
+                borderColor = MaterialTheme.colorScheme.outlineVariant
             )
         }
         if (resource.gradeLevel.isNotBlank()) {
@@ -304,7 +303,7 @@ private fun ResourceMetaBar(resource: ApiResource, onUserProfileClick: (String) 
                     imageVector = Icons.Filled.Verified,
                     contentDescription = "Verified Official",
                     modifier = Modifier.size(14.dp),
-                    tint = Color(0xFF1D65D8)
+                    tint = MaterialTheme.colorScheme.onSurface
                 )
             }
         }

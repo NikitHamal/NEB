@@ -329,6 +329,6 @@ private fun parseWebColor(raw: String): Color {
     return try {
         Color(android.graphics.Color.parseColor(raw))
     } catch (_: Exception) {
-        Color(0xFF1B6EF3)
+        Color(0xFF5C5C61)
     }
 }

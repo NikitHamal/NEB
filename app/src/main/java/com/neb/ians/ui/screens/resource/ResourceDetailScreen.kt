@@ -305,7 +305,7 @@ fun ResourceDetailScreen(
                         val resource = uiState.resource!!
                         val mediaType = detectResourceMedia(resource.fileUrl, resource.type)
                         val subject = resource.subject.split(",").firstOrNull()?.trim().orEmpty().ifBlank { "General" }
-                        val subjectColor = Color(com.neb.ians.util.getSubjectColor(subject))
+                        val subjectColor = MaterialTheme.colorScheme.onSurface
                         val locked = resource.isPaid && !resource.hasAccess
 
                         // A locked paid resource never renders the player — if another
@@ -386,9 +386,7 @@ fun ResourceDetailScreen(
                 viewModel = mediaViewModel,
                 uiState = mediaState,
                 onExit = ::exitFullscreen,
-                subjectColor = Color(com.neb.ians.util.getSubjectColor(
-                    mediaState.resource?.subject?.split(",")?.firstOrNull()?.trim().orEmpty().ifBlank { "General" }
-                ))
+                subjectColor = MaterialTheme.colorScheme.onSurface
             )
         }
 
@@ -1354,7 +1352,7 @@ private fun FsSpeedSelector(
         ) {
             Column(
                 Modifier.width(100.dp).clip(RoundedCornerShape(10.dp))
-                    .background(Color(0xFF1E1E1E)).border(1.dp, Color.White.copy(alpha = 0.12f), RoundedCornerShape(10.dp))
+                    .background(Color(0xFF18181B)).border(1.dp, Color.White.copy(alpha = 0.12f), RoundedCornerShape(10.dp))
                     .padding(4.dp)
             ) {
                 FS_SPEEDS.forEach { s ->

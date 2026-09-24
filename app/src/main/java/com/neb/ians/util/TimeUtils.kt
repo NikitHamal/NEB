@@ -16,19 +16,4 @@ fun formatTimeAgo(timestamp: Long): String {
     }
 }
 
-fun getSubjectColor(subject: String): Long {
-    return when (subject) {
-        "Physics" -> 0xFF1A73E8
-        "Chemistry" -> 0xFF188038
-        "Mathematics" -> 0xFFE8710A
-        "Biology" -> 0xFF9334E6
-        "English" -> 0xFFD93025
-        "Nepali" -> 0xFF1967D2
-        "Computer Science" -> 0xFF185ABC
-        "Economics" -> 0xFFE37400
-        "Accountancy" -> 0xFF0D652D
-        "General" -> 0xFF5F6368
-        "Exam Tips" -> 0xFFC5221F
-        else -> 0xFF5F6368
-    }
-}
+fun getSubjectColor(subject: String): Long = 0xFF57575CL

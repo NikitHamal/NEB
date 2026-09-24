@@ -1,5 +1,6 @@
 package com.neb.ians.ui.screens.settings
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -230,8 +231,14 @@ fun DeleteAccountScreen(
 
 @Composable
 private fun BulletItem(text: String) {
-    Row(verticalAlignment = Alignment.Top) {
-        Text("• ", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Bold)
+    Row(verticalAlignment = Alignment.Top, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+        Box(
+            modifier = Modifier
+                .padding(top = 9.dp)
+                .width(7.dp)
+                .height(1.5.dp)
+                .background(MaterialTheme.colorScheme.onSurfaceVariant)
+        )
         Text(text = text, style = MaterialTheme.typography.bodyMedium)
     }
 }

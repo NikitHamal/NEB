@@ -1,179 +1,184 @@
 package com.neb.ians.ui.theme
 
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.graphics.Color
 
-// Light theme colors — modern, crisp, vibrant Nepali sapphire with distinct secondary and tertiary
-val md_theme_light_primary = Color(0xFF0D5CE5)
-val md_theme_light_onPrimary = Color(0xFFFFFFFF)
-val md_theme_light_primaryContainer = Color(0xFFDBE5FF)
-val md_theme_light_onPrimaryContainer = Color(0xFF00194A)
-val md_theme_light_secondary = Color(0xFF3F5A8A)
-val md_theme_light_onSecondary = Color(0xFFFFFFFF)
-val md_theme_light_secondaryContainer = Color(0xFFE2EAF8)
-val md_theme_light_onSecondaryContainer = Color(0xFF102444)
-val md_theme_light_tertiary = Color(0xFF7C3AED)
-val md_theme_light_onTertiary = Color(0xFFFFFFFF)
-val md_theme_light_tertiaryContainer = Color(0xFFF3E8FF)
-val md_theme_light_onTertiaryContainer = Color(0xFF4C1D95)
-val md_theme_light_error = Color(0xFFBA1A1A)
+// ---------------------------------------------------------------------------
+// Graphite, for the whole app.
+//
+// One neutral ramp runs from paper to ink and every colour role is a stop on
+// it. Nothing is hue-coded: a subject is not blue, a level is not green, a
+// category is not purple. What separates two things on screen is tone, weight,
+// shape and the icon beside them — never a colour the user has to learn.
+//
+// Red survives in exactly one place, the error roles, because an error that
+// reads as ordinary text is not an error.
+//
+// The ramp is deliberately the same family as NebAuthPalette, which the sign-in
+// and onboarding journey is set in, so crossing from the journey into the feed
+// is not a change of material.
+// ---------------------------------------------------------------------------
+
+private object Graphite {
+    val N0 = Color(0xFF000000)
+    val N4 = Color(0xFF070708)
+    val N6 = Color(0xFF0A0A0B)
+    val N8 = Color(0xFF0C0C0D)
+    val N10 = Color(0xFF101012)
+    val N12 = Color(0xFF131315)
+    val N14 = Color(0xFF17171A)
+    val N16 = Color(0xFF18181B)
+    val N20 = Color(0xFF1F1F21)
+    val N24 = Color(0xFF26262A)
+    val N28 = Color(0xFF2E2E32)
+    val N32 = Color(0xFF313136)
+    val N36 = Color(0xFF3A3A3F)
+    val N40 = Color(0xFF47474B)
+    val N48 = Color(0xFF57575C)
+    val N52 = Color(0xFF5C5C61)
+    val N60 = Color(0xFF6E6E75)
+    val N66 = Color(0xFF7C7C83)
+    val N72 = Color(0xFF9B9BA1)
+    val N78 = Color(0xFFA1A1A8)
+    val N82 = Color(0xFFC9C9CD)
+    val N86 = Color(0xFFD5D5D9)
+    val N88 = Color(0xFFDCDCE0)
+    val N90 = Color(0xFFE3E3E7)
+    val N92 = Color(0xFFE9E9EB)
+    val N94 = Color(0xFFEAEAED)
+    val N95 = Color(0xFFF1F1F3)
+    val N96 = Color(0xFFF4F4F5)
+    val N97 = Color(0xFFF7F7F9)
+    val N98 = Color(0xFFFAFAFB)
+    val N100 = Color(0xFFFFFFFF)
+}
+
+// Light theme — paper, with ink as the only voice of action
+val md_theme_light_primary = Graphite.N10
+val md_theme_light_onPrimary = Graphite.N100
+val md_theme_light_primaryContainer = Graphite.N90
+val md_theme_light_onPrimaryContainer = Graphite.N10
+val md_theme_light_secondary = Graphite.N40
+val md_theme_light_onSecondary = Graphite.N100
+val md_theme_light_secondaryContainer = Graphite.N94
+val md_theme_light_onSecondaryContainer = Graphite.N24
+val md_theme_light_tertiary = Graphite.N52
+val md_theme_light_onTertiary = Graphite.N100
+val md_theme_light_tertiaryContainer = Graphite.N95
+val md_theme_light_onTertiaryContainer = Graphite.N32
+val md_theme_light_error = Color(0xFFB3261E)
 val md_theme_light_onError = Color(0xFFFFFFFF)
-val md_theme_light_errorContainer = Color(0xFFFFDAD6)
-val md_theme_light_onErrorContainer = Color(0xFF93000A)
-val md_theme_light_background = Color(0xFFF8F9FD)
-val md_theme_light_onBackground = Color(0xFF0F172A)
-val md_theme_light_surface = Color(0xFFF8F9FD)
-val md_theme_light_onSurface = Color(0xFF0F172A)
-val md_theme_light_surfaceVariant = Color(0xFFE5E9F2)
-val md_theme_light_onSurfaceVariant = Color(0xFF475569)
-val md_theme_light_outline = Color(0xFF8C95A6)
-val md_theme_light_outlineVariant = Color(0xFFE2E6EE)
-val md_theme_light_surfaceTint = Color(0xFF0D5CE5)
-val md_theme_light_inverseOnSurface = Color(0xFFF1F5F9)
-val md_theme_light_inverseSurface = Color(0xFF1E293B)
-val md_theme_light_inversePrimary = Color(0xFF7CA8FF)
-val md_theme_light_surfaceDim = Color(0xFFDCE1EA)
-val md_theme_light_surfaceBright = Color(0xFFF8F9FD)
-val md_theme_light_surfaceContainerLowest = Color(0xFFFFFFFF)
-val md_theme_light_surfaceContainerLow = Color(0xFFF1F4F9)
-val md_theme_light_surfaceContainer = Color(0xFFEAEEF5)
-val md_theme_light_surfaceContainerHigh = Color(0xFFE2E7EF)
-val md_theme_light_surfaceContainerHighest = Color(0xFFDCE2EB)
-val md_theme_light_primaryFixed = Color(0xFFDBE5FF)
-val md_theme_light_primaryFixedDim = Color(0xFF7CA8FF)
-val md_theme_light_onPrimaryFixed = Color(0xFF00194A)
-val md_theme_light_onPrimaryFixedVariant = Color(0xFF003EA8)
-val md_theme_light_secondaryFixed = Color(0xFFDAE2FD)
-val md_theme_light_secondaryFixedDim = Color(0xFFBEC6E0)
-val md_theme_light_onSecondaryFixed = Color(0xFF131B2E)
-val md_theme_light_onSecondaryFixedVariant = Color(0xFF3F465C)
-val md_theme_light_tertiaryFixed = Color(0xFFF3E8FF)
-val md_theme_light_tertiaryFixedDim = Color(0xFFD8B4FE)
-val md_theme_light_onTertiaryFixed = Color(0xFF4C1D95)
-val md_theme_light_onTertiaryFixedVariant = Color(0xFF6B21A8)
+val md_theme_light_errorContainer = Color(0xFFFBEDEC)
+val md_theme_light_onErrorContainer = Color(0xFF7A1C16)
+val md_theme_light_background = Graphite.N97
+val md_theme_light_onBackground = Graphite.N6
+val md_theme_light_surface = Graphite.N97
+val md_theme_light_onSurface = Graphite.N6
+val md_theme_light_surfaceVariant = Graphite.N92
+val md_theme_light_onSurfaceVariant = Graphite.N52
+val md_theme_light_outline = Graphite.N72
+val md_theme_light_outlineVariant = Graphite.N92
+val md_theme_light_surfaceTint = Graphite.N10
+val md_theme_light_inverseOnSurface = Graphite.N96
+val md_theme_light_inverseSurface = Graphite.N20
+val md_theme_light_inversePrimary = Graphite.N82
+val md_theme_light_scrim = Graphite.N0
+val md_theme_light_surfaceDim = Graphite.N88
+val md_theme_light_surfaceBright = Graphite.N100
+val md_theme_light_surfaceContainerLowest = Graphite.N100
+val md_theme_light_surfaceContainerLow = Graphite.N98
+val md_theme_light_surfaceContainer = Graphite.N95
+val md_theme_light_surfaceContainerHigh = Graphite.N94
+val md_theme_light_surfaceContainerHighest = Graphite.N90
 
-// Dark theme colors — modern deep obsidian with subtle blue undertones
-val md_theme_dark_primary = Color(0xFF7CA8FF)
-val md_theme_dark_onPrimary = Color(0xFF002A6F)
-val md_theme_dark_primaryContainer = Color(0xFF0D45A5)
-val md_theme_dark_onPrimaryContainer = Color(0xFFD8E2FF)
-val md_theme_dark_secondary = Color(0xFF9CB7E8)
-val md_theme_dark_onSecondary = Color(0xFF142C54)
-val md_theme_dark_secondaryContainer = Color(0xFF22324C)
-val md_theme_dark_onSecondaryContainer = Color(0xFFD6E3FF)
-val md_theme_dark_tertiary = Color(0xFFC4B5FD)
-val md_theme_dark_onTertiary = Color(0xFF371B6A)
-val md_theme_dark_tertiaryContainer = Color(0xFF5B21B6)
-val md_theme_dark_onTertiaryContainer = Color(0xFFEDE9FE)
-val md_theme_dark_error = Color(0xFFFFB4AB)
-val md_theme_dark_onError = Color(0xFF690005)
-val md_theme_dark_errorContainer = Color(0xFF93000A)
+// Dark theme — ink, with paper as the only voice of action
+val md_theme_dark_primary = Color(0xFFF5F5F6)
+val md_theme_dark_onPrimary = Graphite.N6
+val md_theme_dark_primaryContainer = Graphite.N28
+val md_theme_dark_onPrimaryContainer = Graphite.N90
+val md_theme_dark_secondary = Graphite.N82
+val md_theme_dark_onSecondary = Graphite.N20
+val md_theme_dark_secondaryContainer = Graphite.N24
+val md_theme_dark_onSecondaryContainer = Graphite.N88
+val md_theme_dark_tertiary = Graphite.N78
+val md_theme_dark_onTertiary = Graphite.N14
+val md_theme_dark_tertiaryContainer = Graphite.N20
+val md_theme_dark_onTertiaryContainer = Graphite.N86
+val md_theme_dark_error = Color(0xFFF2716A)
+val md_theme_dark_onError = Color(0xFF4A0F0B)
+val md_theme_dark_errorContainer = Color(0xFF2A1614)
 val md_theme_dark_onErrorContainer = Color(0xFFFFDAD6)
-val md_theme_dark_background = Color(0xFF0D1117)
-val md_theme_dark_onBackground = Color(0xFFF0F4FC)
-val md_theme_dark_surface = Color(0xFF0D1117)
-val md_theme_dark_onSurface = Color(0xFFF0F4FC)
-val md_theme_dark_surfaceVariant = Color(0xFF242E3E)
-val md_theme_dark_onSurfaceVariant = Color(0xFFA0ACC0)
-val md_theme_dark_outline = Color(0xFF58657E)
-val md_theme_dark_outlineVariant = Color(0xFF232D3E)
-val md_theme_dark_surfaceTint = Color(0xFF7CA8FF)
-val md_theme_dark_inverseOnSurface = Color(0xFF0D1117)
-val md_theme_dark_inverseSurface = Color(0xFFE2E8F0)
-val md_theme_dark_inversePrimary = Color(0xFF0D5CE5)
-val md_theme_dark_surfaceDim = Color(0xFF0A0D14)
-val md_theme_dark_surfaceBright = Color(0xFF202938)
-val md_theme_dark_surfaceContainerLowest = Color(0xFF080B10)
-val md_theme_dark_surfaceContainerLow = Color(0xFF131822)
-val md_theme_dark_surfaceContainer = Color(0xFF18202C)
-val md_theme_dark_surfaceContainerHigh = Color(0xFF202A3A)
-val md_theme_dark_surfaceContainerHighest = Color(0xFF29364A)
-val md_theme_dark_primaryFixed = Color(0xFFDBE5FF)
-val md_theme_dark_primaryFixedDim = Color(0xFF7CA8FF)
-val md_theme_dark_onPrimaryFixed = Color(0xFF00194A)
-val md_theme_dark_onPrimaryFixedVariant = Color(0xFF003EA8)
-val md_theme_dark_secondaryFixed = Color(0xFFDAE2FD)
-val md_theme_dark_secondaryFixedDim = Color(0xFFBEC6E0)
-val md_theme_dark_onSecondaryFixed = Color(0xFF131B2E)
-val md_theme_dark_onSecondaryFixedVariant = Color(0xFF3F465C)
-val md_theme_dark_tertiaryFixed = Color(0xFFF3E8FF)
-val md_theme_dark_tertiaryFixedDim = Color(0xFFD8B4FE)
-val md_theme_dark_onTertiaryFixed = Color(0xFF4C1D95)
-val md_theme_dark_onTertiaryFixedVariant = Color(0xFF6B21A8)
+val md_theme_dark_background = Graphite.N8
+val md_theme_dark_onBackground = Color(0xFFF5F5F6)
+val md_theme_dark_surface = Graphite.N8
+val md_theme_dark_onSurface = Color(0xFFF5F5F6)
+val md_theme_dark_surfaceVariant = Graphite.N24
+val md_theme_dark_onSurfaceVariant = Graphite.N78
+val md_theme_dark_outline = Graphite.N60
+val md_theme_dark_outlineVariant = Graphite.N24
+val md_theme_dark_surfaceTint = Color(0xFFF5F5F6)
+val md_theme_dark_inverseOnSurface = Graphite.N14
+val md_theme_dark_inverseSurface = Color(0xFFE7E7E9)
+val md_theme_dark_inversePrimary = Graphite.N40
+val md_theme_dark_scrim = Graphite.N0
+val md_theme_dark_surfaceDim = Graphite.N6
+val md_theme_dark_surfaceBright = Graphite.N36
+val md_theme_dark_surfaceContainerLowest = Graphite.N4
+val md_theme_dark_surfaceContainerLow = Graphite.N12
+val md_theme_dark_surfaceContainer = Graphite.N16
+val md_theme_dark_surfaceContainerHigh = Graphite.N24
+val md_theme_dark_surfaceContainerHighest = Graphite.N32
 
-// Subject colors (matching website .subject-* CSS classes)
+// Fixed accents — identical in both themes, for anything that must not flip
+val md_theme_primaryFixed = Graphite.N90
+val md_theme_primaryFixedDim = Graphite.N82
+val md_theme_onPrimaryFixed = Graphite.N6
+val md_theme_onPrimaryFixedVariant = Graphite.N40
+val md_theme_secondaryFixed = Graphite.N94
+val md_theme_secondaryFixedDim = Graphite.N86
+val md_theme_onSecondaryFixed = Graphite.N12
+val md_theme_onSecondaryFixedVariant = Graphite.N40
+val md_theme_tertiaryFixed = Graphite.N95
+val md_theme_tertiaryFixedDim = Graphite.N88
+val md_theme_onTertiaryFixed = Graphite.N20
+val md_theme_onTertiaryFixedVariant = Graphite.N52
+
+/**
+ * How a subject, category or level is dressed.
+ *
+ * It used to be a hue per subject — Physics blue, Chemistry green, Mathematics
+ * red — which meant eleven colours competing on one screen and a legend the
+ * user had to hold in their head. Every subject now wears the same ink, and
+ * what tells them apart is the icon and the words, which were already there.
+ */
 data class SubjectTheme(
     val color: Color,
     val container: Color,
     val onContainer: Color
 )
 
-val SubjectColors = mapOf(
-    "Physics" to SubjectTheme(Color(0xFF2563EB), Color(0xFFDBEAFE), Color(0xFF1E40AF)),
-    "Chemistry" to SubjectTheme(Color(0xFF16A34A), Color(0xFFDCFCE7), Color(0xFF15803D)),
-    "Mathematics" to SubjectTheme(Color(0xFFDC2626), Color(0xFFFEE2E2), Color(0xFFB91C1C)),
-    "Biology" to SubjectTheme(Color(0xFF0D9488), Color(0xFFCCFBF1), Color(0xFF0F766E)),
-    "English" to SubjectTheme(Color(0xFF9333EA), Color(0xFFF3E8FF), Color(0xFF7E22CE)),
-    "Nepali" to SubjectTheme(Color(0xFFCA8A04), Color(0xFFFEF9C3), Color(0xFFA16207)),
-    "Computer Science" to SubjectTheme(Color(0xFF0891B2), Color(0xFFCFFAFE), Color(0xFF0E7490)),
-    "Economics" to SubjectTheme(Color(0xFFEA580C), Color(0xFFFFEDD5), Color(0xFFC2410C)),
-    "Accountancy" to SubjectTheme(Color(0xFFBE185D), Color(0xFFFCE7F3), Color(0xFF9D174D)),
-    "Exam Tips" to SubjectTheme(Color(0xFF7C3AED), Color(0xFFEDE9FE), Color(0xFF6D28D9)),
-    "General" to SubjectTheme(Color(0xFF525657), Color(0xFFF1F5F9), Color(0xFF334155)),
-)
-
+@Composable
+@ReadOnlyComposable
 fun getSubjectTheme(subject: String): SubjectTheme {
-    val normalized = subject.trim()
-    val resolvedKey = when {
-        normalized.contains("Physics", ignoreCase = true) -> "Physics"
-        normalized.contains("Chemistry", ignoreCase = true) -> "Chemistry"
-        normalized.contains("Mathematics", ignoreCase = true) || normalized.contains("Math", ignoreCase = true) -> "Mathematics"
-        normalized.contains("Biology", ignoreCase = true) || normalized.contains("Microbiology", ignoreCase = true) || normalized.contains("Zoology", ignoreCase = true) -> "Biology"
-        normalized.contains("English", ignoreCase = true) -> "English"
-        normalized.contains("Nepali", ignoreCase = true) || normalized.contains("अध्ययन", ignoreCase = true) -> "Nepali"
-        normalized.contains("Computer", ignoreCase = true) || normalized.contains("Software", ignoreCase = true) || normalized.contains("Programming", ignoreCase = true) -> "Computer Science"
-        normalized.contains("Economics", ignoreCase = true) -> "Economics"
-        normalized.contains("Accountancy", ignoreCase = true) -> "Accountancy"
-        normalized.contains("Exam Tips", ignoreCase = true) -> "Exam Tips"
-        else -> "General"
-    }
-    return SubjectColors[resolvedKey] ?: SubjectColors["General"]!!
+    val scheme = MaterialTheme.colorScheme
+    return SubjectTheme(
+        color = scheme.onSurface,
+        container = scheme.surfaceContainerHigh,
+        onContainer = scheme.onSurface
+    )
 }
 
-fun getSubjectColor(subject: String): Color = getSubjectTheme(subject).color
+@Composable
+@ReadOnlyComposable
+fun getSubjectColor(subject: String): Color = MaterialTheme.colorScheme.onSurface
 
-// Badge colors (matching website .role-badge-* CSS)
-data class BadgeTheme(
-    val background: Color,
-    val text: Color,
-    val icon: String
-)
+/**
+ * The same accent where there is no composition to read it from — a media
+ * notification, a service, a value cached in a view model. Chosen to hold up on
+ * both paper and ink, since whatever reads it cannot know which one it is on.
+ */
+val SubjectAccentStatic: Color = Graphite.N48
 
-val BadgeThemes = mapOf(
-    "admin" to BadgeTheme(Color(0xFFFFF7ED), Color(0xFF92400E), "crown"),
-    "moderator-blue" to BadgeTheme(Color(0xFFDBEAFE), Color(0xFF1E40AF), "shield"),
-    "moderator-teal" to BadgeTheme(Color(0xFFCCFBF1), Color(0xFF0F766E), "shield"),
-    "moderator-purple" to BadgeTheme(Color(0xFFF3E8FF), Color(0xFF7E22CE), "shield"),
-    "verified-blue" to BadgeTheme(Color(0xFFDBEAFE), Color(0xFF1E40AF), "verified"),
-    "verified-green" to BadgeTheme(Color(0xFFDCFCE7), Color(0xFF15803D), "verified"),
-    "verified-gold" to BadgeTheme(Color(0xFFFEF9C3), Color(0xFFA16207), "verified"),
-    "verified-black" to BadgeTheme(Color(0xFFF1F5F9), Color(0xFF1E293B), "verified"),
-)
-
-fun getBadgeTheme(badgeInfo: com.neb.ians.data.api.ApiBadgeInfo?): BadgeTheme? {
-    if (badgeInfo == null) return null
-    return BadgeThemes[badgeInfo.type]
-}
-
-fun getBadgeKey(user: com.neb.ians.data.api.UserProfileResponse): String? {
-    return when {
-        user.isAdmin -> "admin"
-        user.moderatorLevel == 1 -> "moderator-blue"
-        user.moderatorLevel == 2 -> "moderator-teal"
-        user.moderatorLevel == 3 -> "moderator-purple"
-        user.verificationLevel == 1 -> "verified-blue"
-        user.verificationLevel == 2 -> "verified-green"
-        user.verificationLevel == 3 -> "verified-gold"
-        user.verificationLevel >= 4 -> "verified-black"
-        else -> null
-    }
-}
+fun subjectAccentArgb(): Long = 0xFF57575CL

@@ -128,9 +128,9 @@ fun NebyCreditsScreen(
                                 .background(
                                     Brush.horizontalGradient(
                                         colors = listOf(
-                                            Color(0xFF1D65D8),
-                                            Color(0xFF4F46E5),
-                                            Color(0xFF7C3AED)
+                                            Color(0xFF26262A),
+                                            Color(0xFF17171A),
+                                            Color(0xFF0A0A0B)
                                         )
                                     )
                                 )
@@ -144,7 +144,7 @@ fun NebyCreditsScreen(
                                     Icon(
                                         imageVector = Icons.Filled.Bolt,
                                         contentDescription = null,
-                                        tint = Color(0xFFFBBF24),
+                                        tint = Color(0xFFF4F4F5),
                                         modifier = Modifier.size(20.dp)
                                     )
                                     Text(
@@ -193,13 +193,13 @@ fun NebyCreditsScreen(
                                     modifier = Modifier
                                         .size(38.dp)
                                         .clip(RoundedCornerShape(10.dp))
-                                        .background(Color(0xFFF59E0B).copy(alpha = 0.15f)),
+                                        .background(MaterialTheme.colorScheme.surfaceContainerHighest),
                                     contentAlignment = Alignment.Center
                                 ) {
                                     Icon(
                                         imageVector = Icons.Filled.AutoAwesome,
                                         contentDescription = null,
-                                        tint = Color(0xFFF59E0B),
+                                        tint = MaterialTheme.colorScheme.onSurface,
                                         modifier = Modifier.size(20.dp)
                                     )
                                 }
@@ -274,7 +274,7 @@ fun NebyCreditsScreen(
                                 text = "You will receive: +$creditsYield ${if (creditsYield == 1) "Credit" else "Credits"}",
                                 style = MaterialTheme.typography.bodySmall,
                                 fontWeight = FontWeight.SemiBold,
-                                color = Color(0xFFD97706)
+                                color = MaterialTheme.colorScheme.onSurface
                             )
 
                             Spacer(Modifier.height(12.dp))
@@ -329,13 +329,13 @@ fun NebyCreditsScreen(
                                     modifier = Modifier
                                         .size(38.dp)
                                         .clip(RoundedCornerShape(10.dp))
-                                        .background(Color(0xFF22C55E).copy(alpha = 0.15f)),
+                                        .background(MaterialTheme.colorScheme.surfaceContainerHighest),
                                     contentAlignment = Alignment.Center
                                 ) {
                                     Icon(
                                         imageVector = Icons.Filled.Chat,
                                         contentDescription = null,
-                                        tint = Color(0xFF16A34A),
+                                        tint = MaterialTheme.colorScheme.onSurface,
                                         modifier = Modifier.size(20.dp)
                                     )
                                 }
@@ -369,7 +369,7 @@ fun NebyCreditsScreen(
                                 modifier = Modifier.fillMaxWidth(),
                                 shape = RoundedCornerShape(12.dp),
                                 colors = androidx.compose.material3.ButtonDefaults.buttonColors(
-                                    containerColor = Color(0xFF16A34A)
+                                    containerColor = MaterialTheme.colorScheme.primary
                                 )
                             ) {
                                 Icon(Icons.Filled.Chat, contentDescription = null, modifier = Modifier.size(18.dp))
@@ -427,7 +427,7 @@ fun NebyCreditsScreen(
                                     text = if (tx.amount > 0) "+${tx.amount}" else "${tx.amount}",
                                     style = MaterialTheme.typography.titleSmall,
                                     fontWeight = FontWeight.Bold,
-                                    color = if (tx.amount > 0) Color(0xFF16A34A) else Color(0xFFD97706)
+                                    color = if (tx.amount > 0) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant
                                 )
                             }
                         }

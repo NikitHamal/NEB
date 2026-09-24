@@ -109,7 +109,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.ui.components.NebTopBar
-import com.neb.ians.util.getSubjectColor
 import kotlin.math.abs
 import kotlinx.coroutines.delay
 
@@ -153,7 +152,7 @@ fun MediaPlayerScreen(
     }
 
     val subjectName = uiState.resource?.subject?.split(",")?.firstOrNull()?.trim().orEmpty().ifBlank { "General" }
-    val sc = Color(getSubjectColor(subjectName))
+    val sc = MaterialTheme.colorScheme.onSurface
 
     DisposableEffect(uiState.speed) {
         player?.setPlaybackSpeed(uiState.speed)
@@ -946,7 +945,7 @@ private fun NmpVideoStage(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .background(Color(0xFF0A0F18))
+            .background(Color(0xFF0A0A0B))
             .pointerInput(Unit) {
                 detectTapGestures(
                     onDoubleTap = { onDoubleTap() },
@@ -1026,7 +1025,7 @@ private fun NmpVideoStage(
                     .align(Alignment.BottomStart)
                     .padding(12.dp)
                     .clip(RoundedCornerShape(999.dp))
-                    .background(Color(0xFF0F172A).copy(alpha = 0.88f))
+                    .background(Color(0xFF101012).copy(alpha = 0.88f))
                     .border(1.dp, Color.White.copy(alpha = 0.08f), RoundedCornerShape(999.dp))
                     .padding(start = 12.dp, end = 4.dp, top = 4.dp, bottom = 4.dp),
                 verticalAlignment = Alignment.CenterVertically,
@@ -1081,7 +1080,7 @@ private fun NmpAudioBody(
             modifier = Modifier
                 .width(148.dp)
                 .fillMaxHeight()
-                .background(Color(0xFF0A0F18))
+                .background(Color(0xFF0A0A0B))
         ) {
             Box(
                 modifier = Modifier
@@ -1102,7 +1101,7 @@ private fun NmpAudioBody(
                     )
                     .background(
                         Brush.linearGradient(
-                            colors = listOf(subjectColor.copy(alpha = 0.18f), Color(0xFF0A0F18)),
+                            colors = listOf(subjectColor.copy(alpha = 0.18f), Color(0xFF0A0A0B)),
                             start = Offset.Zero, end = Offset(1f, 1f)
                         )
                     )
@@ -1405,7 +1404,7 @@ private fun NmpErrorOverlay(
         if (fileUrl.isNotBlank()) {
             Button(
                 onClick = { onOpen(fileUrl) },
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFB4C5FF), contentColor = Color(0xFF00174B)),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFF1F1F3), contentColor = Color(0xFF101012)),
                 shape = RoundedCornerShape(999.dp),
                 contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
             ) {

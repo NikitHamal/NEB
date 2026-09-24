@@ -9,8 +9,10 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonGroup
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
@@ -37,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.graphics.shapes.RoundedPolygon
 import com.neb.ians.ui.theme.LocalNebAuthPalette
+import com.neb.ians.ui.theme.NebAuthTokens
 import com.neb.ians.ui.theme.nebEffectsSpec
 
 // ---------------------------------------------------------------------------
@@ -50,6 +53,9 @@ import com.neb.ians.ui.theme.nebEffectsSpec
 // a control and never a colour.
 // ---------------------------------------------------------------------------
 
+/** How far the chosen pill sits inside the track that carries it. */
+private val TrackInset = 4.dp
+
 /** One member of a segmented bank: the stored value, the word on it, an optional glyph. */
 @Immutable
 data class NebSegment(
@@ -62,11 +68,16 @@ data class NebSegment(
  * Two to four one-word answers in a single connected bank — gender, a unit, a
  * yes/no that deserves more presence than a switch.
  *
- * This is Expressive's [ButtonGroup] and [ToggleButton], so the segment under
- * the thumb widens while its neighbours give way, and the corners morph from
- * rounded at rest to square while pressed and back to full round once checked.
- * None of that is drawn here; it is the components' own behaviour, which is the
- * point of using them instead of hand-rolling a track of boxes.
+ * It reads as one continuous control because it is one: a track in the field
+ * colour carries the segments, and the segments themselves are transparent
+ * until chosen, so there is no seam and no gap between the answers. The pill
+ * that marks the choice slides inside the track rather than replacing a tile.
+ *
+ * Underneath it is still Expressive's [ButtonGroup] and [ToggleButton], so the
+ * segment under the thumb widens while its neighbours give way and its corners
+ * morph from round at rest to square while pressed. None of that is drawn here;
+ * it is the components' own behaviour, which is the point of using them instead
+ * of hand-rolling a row of boxes.
  */
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -79,7 +90,7 @@ fun NebSegmentedChoice(
 ) {
     val palette = LocalNebAuthPalette.current
     val colors = ToggleButtonDefaults.toggleButtonColors(
-        containerColor = palette.field,
+        containerColor = Color.Transparent,
         contentColor = palette.inkMuted,
         checkedContainerColor = palette.accent,
         checkedContentColor = palette.onAccent
@@ -87,8 +98,12 @@ fun NebSegmentedChoice(
     val interactions = remember(segments) { segments.map { MutableInteractionSource() } }
 
     ButtonGroup(
-        modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(ToggleButtonDefaults.IconSpacing)
+        modifier = modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(NebAuthTokens.PillRadius))
+            .background(palette.field)
+            .padding(TrackInset),
+        horizontalArrangement = Arrangement.spacedBy(0.dp)
     ) {
         segments.forEachIndexed { index, segment ->
             val checked = segment.value == selected
@@ -98,11 +113,11 @@ fun NebSegmentedChoice(
                 modifier = Modifier
                     .weight(1f)
                     .animateWidth(interactions[index])
-                    .heightIn(min = minHeight),
+                    .heightIn(min = minHeight - TrackInset * 2),
                 shapes = ToggleButtonDefaults.shapes(),
                 colors = colors,
                 interactionSource = interactions[index],
-                contentPadding = PaddingValues(horizontal = 10.dp, vertical = 12.dp)
+                contentPadding = PaddingValues(horizontal = 8.dp, vertical = 10.dp)
             ) {
                 if (segment.icon != null) {
                     Icon(

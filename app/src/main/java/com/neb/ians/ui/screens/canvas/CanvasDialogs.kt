@@ -265,7 +265,13 @@ fun NodeDetailDialog(
                             modifier = Modifier.padding(vertical = 2.dp),
                             horizontalArrangement = Arrangement.spacedBy(6.dp)
                         ) {
-                            Text("•", color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold)
+                            Box(
+                                modifier = Modifier
+                                    .padding(top = 8.dp)
+                                    .width(7.dp)
+                                    .height(1.5.dp)
+                                    .background(MaterialTheme.colorScheme.onSurfaceVariant)
+                            )
                             Text(b, style = MaterialTheme.typography.bodySmall)
                         }
                     }

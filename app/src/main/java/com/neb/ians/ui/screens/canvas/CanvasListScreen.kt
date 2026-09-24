@@ -423,14 +423,14 @@ private fun EmptyCanvasState(
                     title = "Concept Mastery",
                     subtitle = "Feynman Technique for breaking down difficult concepts simply",
                     icon = Icons.Outlined.Psychology,
-                    badgeColor = Color(0xFF1A73E8),
+                    badgeColor = MaterialTheme.colorScheme.onSurface,
                     onClick = { onSelectTemplate("concept-master", "Concept Mastery") }
                 )
                 TemplateQuickCard(
                     title = "Blank Canvas",
                     subtitle = "Freeform exploration with custom node connections & Neby AI",
                     icon = Icons.Outlined.SpaceDashboard,
-                    badgeColor = Color(0xFF7C3AED),
+                    badgeColor = MaterialTheme.colorScheme.onSurfaceVariant,
                     onClick = { onSelectTemplate("blank", "Untitled Canvas") }
                 )
             }
@@ -576,7 +576,7 @@ private fun CanvasBoardCard(
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(
-                                text = "•",
+                                text = "·",
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )

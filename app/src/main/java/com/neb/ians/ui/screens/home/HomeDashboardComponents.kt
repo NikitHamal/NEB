@@ -78,7 +78,6 @@ import com.neb.ians.ui.components.WebResourceCard
 import com.neb.ians.ui.components.compactCount
 import com.neb.ians.ui.theme.getSubjectTheme
 import com.neb.ians.util.formatTimeAgo
-import com.neb.ians.util.getSubjectColor
 
 @Composable
 internal fun HomeWelcomePanel(
@@ -264,7 +263,7 @@ internal fun HomeSubjectStrip(
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(subjects, key = { it }) { subject ->
-            val color = Color(getSubjectColor(subject))
+            val color = MaterialTheme.colorScheme.onSurface
             Row(
                 modifier = Modifier
                     .clip(RoundedCornerShape(999.dp))
@@ -952,7 +951,7 @@ internal fun HomeFeedResourceHighlight(
     resource: ApiResource,
     onClick: () -> Unit
 ) {
-    val color = Color(getSubjectColor(resource.subject))
+    val color = MaterialTheme.colorScheme.onSurface
     val displaySubject = remember(resource.subject) {
         val raw = resource.subject.trim()
         when {
@@ -1035,7 +1034,7 @@ internal fun HomeFeedResourceHighlight(
                     text = listOfNotNull(
                         resource.type.takeIf { it.isNotBlank() },
                         "Study Guide"
-                    ).joinToString(" • "),
+                    ).joinToString(" · "),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 1,

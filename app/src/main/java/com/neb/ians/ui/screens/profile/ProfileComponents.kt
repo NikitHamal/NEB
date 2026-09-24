@@ -83,7 +83,7 @@ private fun buildBadgeInfo(p: UserProfileResponse): ApiBadgeInfo? = when {
     else -> null
 }
 
-data class AchievementPill(val key: String, val label: String, val color: Color)
+data class AchievementPill(val key: String, val label: String)
 
 fun parseAchievements(raw: String?): List<AchievementPill> {
     if (raw.isNullOrBlank()) return emptyList()
@@ -92,14 +92,14 @@ fun parseAchievements(raw: String?): List<AchievementPill> {
         .filter { it.isNotBlank() }
         .mapNotNull { key ->
             when (key) {
-                "top_contributor" -> AchievementPill(key, "Top Contributor", Color(0xFFF59E0B))
-                "helpful" -> AchievementPill(key, "Helpful", Color(0xFFEC407A))
-                "scholar" -> AchievementPill(key, "Scholar", Color(0xFF1B9AF0))
-                "streak" -> AchievementPill(key, "Streak", Color(0xFFFF6D00))
-                "first_post" -> AchievementPill(key, "First Post", Color(0xFF2E7D32))
-                "100_likes" -> AchievementPill(key, "100 Likes", Color(0xFFE53935))
-                "bookworm" -> AchievementPill(key, "Bookworm", Color(0xFF00897B))
-                "problem_solver" -> AchievementPill(key, "Problem Solver", Color(0xFFF9A825))
+                "top_contributor" -> AchievementPill(key, "Top Contributor")
+                "helpful" -> AchievementPill(key, "Helpful")
+                "scholar" -> AchievementPill(key, "Scholar")
+                "streak" -> AchievementPill(key, "Streak")
+                "first_post" -> AchievementPill(key, "First Post")
+                "100_likes" -> AchievementPill(key, "100 Likes")
+                "bookworm" -> AchievementPill(key, "Bookworm")
+                "problem_solver" -> AchievementPill(key, "Problem Solver")
                 else -> null
             }
         }
@@ -519,14 +519,14 @@ fun ProfileHeaderCard(
                         achievements.forEach { pill ->
                             Surface(
                                 shape = WebPillShape,
-                                color = pill.color.copy(alpha = 0.15f)
+                                color = MaterialTheme.colorScheme.surfaceContainerHigh
                             ) {
                                 Text(
                                     text = pill.label,
                                     modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
                                     style = MaterialTheme.typography.labelSmall,
                                     fontWeight = FontWeight.Bold,
-                                    color = pill.color,
+                                    color = MaterialTheme.colorScheme.onSurface,
                                     maxLines = 1
                                 )
                             }
@@ -1026,16 +1026,16 @@ fun AboutAchievementsCard(profile: UserProfileResponse) {
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     achievements.forEach { ach ->
-                        AchievementBadgePill(label = ach.label, color = ach.color, icon = Icons.Outlined.WorkspacePremium)
+                        AchievementBadgePill(label = ach.label, icon = Icons.Outlined.WorkspacePremium)
                     }
                     if (postCount >= 1) {
-                        AchievementBadgePill(label = "First Discussion", color = Color(0xFF1B9AF0), icon = Icons.Outlined.Chat)
+                        AchievementBadgePill(label = "First Discussion", icon = Icons.Outlined.Chat)
                     }
                     if (replyCount >= 1) {
-                        AchievementBadgePill(label = "First Reply", color = Color(0xFF2E7D32), icon = Icons.Outlined.ChatBubble)
+                        AchievementBadgePill(label = "First Reply", icon = Icons.Outlined.ChatBubble)
                     }
                     if (likesReceived >= 1) {
-                        AchievementBadgePill(label = "First Thumb Received", color = Color(0xFFF59E0B), icon = Icons.Outlined.ThumbUp)
+                        AchievementBadgePill(label = "First Thumb Received", icon = Icons.Outlined.ThumbUp)
                     }
                 }
             }
@@ -1044,11 +1044,12 @@ fun AboutAchievementsCard(profile: UserProfileResponse) {
 }
 
 @Composable
-private fun AchievementBadgePill(label: String, color: Color, icon: ImageVector) {
+private fun AchievementBadgePill(label: String, icon: ImageVector) {
+    val accent = MaterialTheme.colorScheme.onSurface
     Surface(
         shape = WebPillShape,
-        color = color.copy(alpha = 0.12f),
-        border = BorderStroke(1.dp, color.copy(alpha = 0.25f))
+        color = MaterialTheme.colorScheme.surfaceContainerHigh,
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
     ) {
         Row(
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
@@ -1058,14 +1059,14 @@ private fun AchievementBadgePill(label: String, color: Color, icon: ImageVector)
             Icon(
                 imageVector = icon,
                 contentDescription = null,
-                tint = color,
+                tint = accent,
                 modifier = Modifier.size(16.dp)
             )
             Text(
                 text = label,
                 style = MaterialTheme.typography.labelMedium,
                 fontWeight = FontWeight.Bold,
-                color = color
+                color = accent
             )
         }
     }
