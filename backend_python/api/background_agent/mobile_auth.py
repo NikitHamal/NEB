@@ -106,7 +106,7 @@ def authenticate_device(request):
     if not device or device.revoked_at or (device.expires_at and device.expires_at <= now):
         return None
     admin = device.admin_user
-    if not admin.is_admin or admin.is_locked or admin.is_bot:
+    if not admin.is_admin or admin.is_banned or admin.is_bot:
         return None
     if now - device.last_used_at >= 60_000:
         BackgroundAgentDeviceToken.objects.filter(pk=device.pk).update(last_used_at=now)

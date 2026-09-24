@@ -17,15 +17,6 @@ def _clear_news_cache():
             pass
 
 
-def _get_admin_user(request):
-    if hasattr(request, 'user') and request.user.is_authenticated:
-        try:
-            return User.objects.get(username=request.user.username)
-        except User.DoesNotExist:
-            pass
-    return None
-
-
 def admin_announcements(request):
     redirect_response = _require_staff_admin(request)
     if redirect_response:
@@ -126,7 +117,7 @@ def admin_announcement_edit(request, announcement_id=None):
                 'errors': errors,
             })
 
-        admin_user = _get_admin_user(request)
+        admin_user = _get_platform_admin(request)
         if not slug:
             slug = _unique_slug(_slugify(title), exclude_id=ann.id if ann else None)
         else:
@@ -222,15 +213,16 @@ def admin_announcement_draft_neby(request):
 
     from api.agent_blog import services as blog_services
 
+    admin_user = _get_platform_admin(request)
     ann = None
     if source == 'git':
-        ann = blog_services.draft_blog_from_git(publish=publish)
+        ann = blog_services.draft_blog_from_git(publish=publish, author=admin_user)
     elif source == 'spotlight':
-        ann = blog_services.draft_blog_from_spotlight(feature_id=feature_id or None, publish=publish)
+        ann = blog_services.draft_blog_from_spotlight(feature_id=feature_id or None, publish=publish, author=admin_user)
     elif source == 'prompt' and prompt:
-        ann = blog_services.draft_blog_from_prompt(prompt_text=prompt, publish=publish)
+        ann = blog_services.draft_blog_from_prompt(prompt_text=prompt, publish=publish, author=admin_user)
     else:
-        ann = blog_services.draft_blog_from_git(publish=publish)
+        ann = blog_services.draft_blog_from_git(publish=publish, author=admin_user)
 
     if not ann:
         return JsonResponse({'error': 'Failed to generate blog draft with Neby. Please try again.'}, status=500)

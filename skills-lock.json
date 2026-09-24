@@ -1,6 +1,13 @@
 {
   "version": 1,
   "skills": {
+    "bulk-classify": {
+      "source": "classifier.dev",
+      "sourceUrl": "https://classifier.dev",
+      "sourceType": "well-known",
+      "computedHash": "067c3686aff525abd36270aea074c26e75e4910127c2197249b829884c885125",
+      "wellKnownDigest": "sha256:729ba6f637147eb109cbd4b10b1f4a8f6ac2aaa8dd9989dd515de203270f4c60"
+    },
     "lieflat-charts": {
       "source": "larashero3-dotcom/lieflat-charts",
       "sourceType": "github",

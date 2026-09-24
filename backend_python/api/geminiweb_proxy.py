@@ -263,6 +263,7 @@ def stream_chat(
     messages: List[Dict[str, str]],
     model: str = "geminiweb/gemini-flash-lite",
     proxy: Optional[str] = None,
+    **kwargs,
 ) -> Generator[Dict, None, None]:
     if model not in MODEL_MAP:
         yield {"type": "error", "error": f"Unknown model '{model}'"}

@@ -13,13 +13,8 @@ def admin_pending_resources(request):
         action = request.POST.get('action', '').strip()
         try:
             resource_obj = Resource.objects.get(pk=resource_id)
-            admin_user = None
-            if hasattr(request, 'user') and request.user.is_authenticated:
-                try:
-                    admin_user = User.objects.get(username=request.user.username)
-                except User.DoesNotExist:
-                    pass
-            
+            admin_user = _get_platform_admin(request)
+
             # Identify all resources in the same upload group (or just the resource itself if no group)
             if resource_obj.upload_group_id:
                 group_resources = Resource.objects.filter(upload_group_id=resource_obj.upload_group_id)
@@ -161,19 +156,18 @@ def admin_resource_requests(request):
 def admin_login(request):
     if _is_staff_admin(request):
         return redirect('web:admin_dashboard')
-    if request.method == 'POST':
-        username = request.POST.get('username', '').strip()
-        password = request.POST.get('password', '')
-        user = authenticate(request, username=username, password=password)
-        if user and user.is_active and user.is_staff:
-            django_login(request, user)
-            return redirect('web:admin_dashboard')
-        return render(request, 'admin_panel/login.html', {'error': 'Invalid staff credentials'})
-    return render(request, 'admin_panel/login.html')
+    if _get_platform_user(request):
+        return HttpResponse('Administrator access is required.', status=403)
+    next_url = quote(reverse('web:admin_dashboard'), safe='/')
+    return redirect(f"{reverse('web:login')}?next={next_url}")
 
 def admin_logout(request):
+    token = api.get_session_token(request)
+    if token:
+        revoke_auth_token(token)
+    api.clear_session_auth(request)
     django_logout(request)
-    return redirect('web:admin_login')
+    return redirect('web:home')
 
 def admin_dashboard(request):
     redirect_response = _require_staff_admin(request)
@@ -292,7 +286,8 @@ def admin_user_detail(request, user_id):
         return redirect('web:admin_users')
     if request.method == 'POST':
         if request.POST.get('_method') == 'delete':
-            user_obj.delete()
+            from api.services import delete_user_account
+            delete_user_account(user_obj.id, completed_by=_get_platform_admin(request))
             return redirect('web:admin_users')
         new_username = request.POST.get('username', '').strip()
         if new_username and new_username != user_obj.username:
@@ -636,13 +631,7 @@ def admin_resource_create(request):
             if approval_status not in ('approved', 'pending', 'rejected'):
                 approval_status = 'approved'
 
-            admin_user = None
-            if hasattr(request, 'user') and request.user.is_authenticated:
-                try:
-                    admin_user = User.objects.get(username=request.user.username)
-                except User.DoesNotExist:
-                    pass
-
+            admin_user = _get_platform_admin(request)
             effective_uploader = behalf_user or admin_user
             if behalf_user:
                 source_type = 'user'
@@ -822,12 +811,7 @@ def admin_resource_edit(request, resource_id):
         if new_status in ('approved', 'pending', 'rejected'):
             old_status = resource_obj.approval_status
             resource_obj.approval_status = new_status
-            resource_obj.reviewed_by = None
-            if hasattr(request, 'user') and request.user.is_authenticated:
-                try:
-                    resource_obj.reviewed_by = User.objects.get(username=request.user.username)
-                except User.DoesNotExist:
-                    pass
+            resource_obj.reviewed_by = _get_platform_admin(request)
             resource_obj.reviewed_at = now_ms()
             if new_status == 'rejected':
                 resource_obj.rejection_reason = request.POST.get('rejection_reason', '').strip()[:500]
@@ -1076,13 +1060,7 @@ def admin_report_detail(request, report_id):
             report.status = status
             if status in ('resolved', 'dismissed'):
                 report.resolved_at = now_ms()
-                admin_user = None
-                if hasattr(request, 'user') and request.user.is_authenticated:
-                    try:
-                        admin_user = User.objects.get(username=request.user.username)
-                    except User.DoesNotExist:
-                        admin_user = None
-                report.resolved_by = admin_user
+                report.resolved_by = _get_platform_admin(request)
             elif status in ('open', 'reviewing'):
                 report.resolved_at = 0
                 report.resolved_by = None
@@ -2025,7 +2003,7 @@ def admin_process_deletion(request, request_id):
         return redirect('web:admin_deletions')
 
     action = request.POST.get('action', '').strip()
-    admin_user = getattr(request, 'user', None)
+    admin_user = _get_platform_admin(request)
 
     if action == 'delete':
         # Execute the deletion service
@@ -2742,12 +2720,7 @@ def admin_pending_payments(request):
     if redirect_response:
         return redirect_response
 
-    admin_user = None
-    if hasattr(request, 'user') and request.user.is_authenticated:
-        try:
-            admin_user = User.objects.get(username=request.user.username)
-        except User.DoesNotExist:
-            pass
+    admin_user = _get_platform_admin(request)
 
     if request.method == 'POST':
         payment_id = request.POST.get('payment_id', '').strip()
@@ -2822,12 +2795,7 @@ def admin_withdrawals(request):
     if redirect_response:
         return redirect_response
 
-    admin_user = None
-    if hasattr(request, 'user') and request.user.is_authenticated:
-        try:
-            admin_user = User.objects.get(username=request.user.username)
-        except User.DoesNotExist:
-            pass
+    admin_user = _get_platform_admin(request)
 
     if request.method == 'POST':
         request_id = request.POST.get('request_id', '').strip()

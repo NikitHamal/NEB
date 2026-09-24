@@ -253,6 +253,12 @@
             <span class="material-symbols-outlined">bookmark</span>
             <span>Bookmarks</span>
           </a>
+          {% if user.is_admin %}
+          <a href="{% url 'web:admin_dashboard' %}">
+            <span class="material-symbols-outlined">admin_panel_settings</span>
+            <span>Admin Panel</span>
+          </a>
+          {% endif %}
           <a href="{% url 'web:tools_hub' %}">
             <span class="material-symbols-outlined">build</span>
             <span>Tools</span>

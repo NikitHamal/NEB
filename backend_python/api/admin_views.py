@@ -136,7 +136,8 @@ def admin_user_detail(request, user_id):
         return Response(UserSerializer(user).data)
 
     if request.method == 'DELETE':
-        user.delete()
+        from .services import delete_user_account
+        delete_user_account(user.pk)
         return Response({'success': True})
 
     if request.method == 'PATCH':

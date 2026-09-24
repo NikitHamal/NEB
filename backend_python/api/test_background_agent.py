@@ -23,9 +23,8 @@ from api.models import (
     BotConfig,
     User,
 )
-from api.security import hash_password
+from api.security import hash_password, issue_auth_token
 from api.utils import now_ms, uuid_str
-from web.background_agent_auth import SESSION_KEY
 
 
 def create_api_user(username, *, is_admin=True):
@@ -41,8 +40,9 @@ def create_api_user(username, *, is_admin=True):
 
 
 def login_background_admin(client, user):
+    raw_token = issue_auth_token(user)
     session = client.session
-    session[SESSION_KEY] = str(user.id)
+    session['auth_token'] = raw_token
     session.save()
 
 
@@ -462,8 +462,12 @@ class BackgroundAgentAdminViewTests(TestCase):
         login_background_admin(member_client, self.member)
         self.assertEqual(member_client.get(url).status_code, 302)
         admin_client = Client()
-        login_background_admin(admin_client, self.admin)
+        raw_token = issue_auth_token(self.admin)
+        session = admin_client.session
+        session['auth_token'] = raw_token
+        session.save()
         self.assertEqual(admin_client.get(url).status_code, 200)
+        self.assertEqual(admin_client.get(reverse('web:background_agent_login')).url, url)
 
 
     @override_settings(GITHUB_CLIENT_ID='test-github-client', GITHUB_CLIENT_SECRET='test-secret')

@@ -4,6 +4,7 @@ import json
 import logging
 import time
 from pathlib import Path
+from urllib.parse import quote
 
 from django.conf import settings
 from django.contrib import messages
@@ -45,9 +46,7 @@ from .background_agent_serializers import (
     serialize_session_summary as _serialize_session_summary,
 )
 from .background_agent_auth import (
-    authenticate_bg_admin,
     get_bg_admin,
-    login_bg_admin,
     logout_bg_admin,
     require_bg_admin,
     require_bg_admin_json,
@@ -154,35 +153,19 @@ def _base_context(request, **extra):
 
 
 def background_agent_login(request):
-    """Standalone sign-in: username OR email + password, platform admins only."""
-    admin = get_bg_admin(request)
-    if admin:
-        return redirect(request.GET.get('next') or 'web:background_agent')
-    if request.method == 'POST':
-        identifier = request.POST.get('identifier', '').strip()
-        password = request.POST.get('password', '')
-        next_url = request.POST.get('next') or reverse('web:background_agent')
-        # Only allow same-origin relative redirects.
-        if not (str(next_url).startswith('/') and not str(next_url).startswith('//')):
-            next_url = reverse('web:background_agent')
-        user, error = authenticate_bg_admin(identifier, password)
-        if user:
-            login_bg_admin(request, user)
-            return redirect(next_url)
-        return render(request, 'background_agent/login.html', {
-            'csp_nonce': getattr(request, 'csp_nonce', ''),
-            'error': error or 'Sign in failed.',
-            'next': next_url,
-        })
-    return render(request, 'background_agent/login.html', {
-        'csp_nonce': getattr(request, 'csp_nonce', ''),
-        'next': request.GET.get('next', ''),
-    })
+    next_url = request.GET.get('next') or request.POST.get('next') or reverse('web:background_agent')
+    if not (str(next_url).startswith('/') and not str(next_url).startswith('//')):
+        next_url = reverse('web:background_agent')
+    if get_bg_admin(request):
+        return redirect(next_url)
+    if request.session.get('auth_token'):
+        return JsonResponse({'error': 'Administrator access is required.'}, status=403)
+    return redirect(f"{reverse('web:login')}?next={quote(next_url, safe='/')}")
 
 
 def background_agent_logout(request):
     logout_bg_admin(request)
-    return redirect('web:background_agent_login')
+    return redirect('web:logout')
 
 
 
