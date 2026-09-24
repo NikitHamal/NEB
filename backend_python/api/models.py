@@ -75,6 +75,10 @@ class User(models.Model):
     avatar_eye_color = models.CharField(max_length=7, default='', blank=True)
     avatar_use_pp = models.BooleanField(default=False)
     email = models.EmailField(blank=True, null=True, db_index=True)
+    # Address awaiting confirmation during an email change. `email` only
+    # moves once a code sent to this address is handed back, so an account
+    # can never end up pointing at a mailbox its owner does not control.
+    pending_email = models.EmailField(blank=True, null=True)
     photo_url = models.TextField(blank=True, null=True)
     banner_url = models.TextField(blank=True, null=True)
     display_name = models.CharField(max_length=150, blank=True, null=True)

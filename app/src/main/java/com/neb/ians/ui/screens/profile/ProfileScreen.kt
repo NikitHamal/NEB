@@ -66,6 +66,7 @@ import com.neb.ians.ui.components.NebLoader
 import com.neb.ians.ui.components.NebLoaderSize
 import com.neb.ians.ui.components.NebRailTab
 import com.neb.ians.ui.components.NebTabRail
+import com.neb.ians.ui.components.WebResourceCard
 import com.neb.ians.ui.components.ZoomableImageDialog
 import kotlinx.coroutines.launch
 
@@ -391,15 +392,11 @@ private fun ProfileBody(
                 errorTitle = "Couldn't load posts",
                 onRetry = onRetryPosts,
                 onLoadMore = onLoadMorePosts,
-                skeleton = { ProfileRowSkeleton() },
+                skeleton = { ProfileCardSkeleton() },
                 key = { idx -> uiState.posts[idx].id },
-                row = { idx, showDivider ->
+                row = { idx ->
                     val post = uiState.posts[idx]
-                    ProfilePostRow(
-                        post = post,
-                        onClick = { onPostClick(post.id) },
-                        showDivider = showDivider
-                    )
+                    ProfilePostCard(post = post, onClick = { onPostClick(post.id) })
                 }
             )
 
@@ -422,13 +419,9 @@ private fun ProfileBody(
                 onLoadMore = onLoadMoreReplies,
                 skeleton = { ProfileReplySkeleton() },
                 key = { idx -> uiState.replies[idx].id },
-                row = { idx, showDivider ->
+                row = { idx ->
                     val reply = uiState.replies[idx]
-                    ProfileReplyRow(
-                        reply = reply,
-                        onClick = { onPostClick(reply.postId) },
-                        showDivider = showDivider
-                    )
+                    ProfileReplyCard(reply = reply, onClick = { onPostClick(reply.postId) })
                 }
             )
 
@@ -449,26 +442,31 @@ private fun ProfileBody(
                 errorTitle = "Couldn't load resources",
                 onRetry = onRetryResources,
                 onLoadMore = onLoadMoreResources,
-                skeleton = { ProfileRowSkeleton(leading = true) },
+                skeleton = { ProfileCardSkeleton() },
                 key = { idx -> uiState.resources[idx].id },
-                row = { idx, showDivider ->
+                row = { idx ->
                     val resource = uiState.resources[idx]
-                    ProfileResourceRow(
+                    WebResourceCard(
                         resource = resource,
                         onClick = { onResourceClick(resource.id) },
-                        showDivider = showDivider
+                        minWidth = null
                     )
                 }
             )
 
-            3 -> item(key = "about") {
-                Spacer(modifier = Modifier.height(18.dp))
-                ProfileAbout(
-                    profile = profile,
-                    followerCount = uiState.followerCount,
-                    repliesCount = uiState.repliesCount,
-                    resourcesCount = uiState.resourcesCount
-                )
+            3 -> {
+                item(key = "about_stats") {
+                    CardSlot { AboutStatsCard(profile = profile, followerCount = uiState.followerCount) }
+                }
+                item(key = "about_achievements") {
+                    CardSlot { AboutAchievementsCard(profile = profile) }
+                }
+                item(key = "about_details") {
+                    CardSlot { AboutDetailsCard(profile = profile, onProfileClick = onProfileClick) }
+                }
+                item(key = "about_progress") {
+                    CardSlot { AboutProgressCard(profile = profile) }
+                }
             }
         }
 
@@ -502,11 +500,11 @@ private fun LazyListScope.feedSection(
     onLoadMore: () -> Unit,
     skeleton: @Composable () -> Unit,
     key: (Int) -> String,
-    row: @Composable (Int, Boolean) -> Unit
+    row: @Composable (Int) -> Unit
 ) {
     // First load: show the shape of what is coming rather than a spinner.
     if (count == 0 && isLoading) {
-        items(4, key = { idx -> "${prefix}_skeleton_$idx" }) { skeleton() }
+        items(4, key = { idx -> "${prefix}_skeleton_$idx" }) { CardSlot { skeleton() } }
         return
     }
 
@@ -537,7 +535,7 @@ private fun LazyListScope.feedSection(
     }
 
     items(count, key = { idx -> "${prefix}_${key(idx)}" }) { idx ->
-        row(idx, idx < count - 1 || hasMore)
+        CardSlot { row(idx) }
     }
 
     when {
@@ -591,6 +589,16 @@ private fun LazyListScope.feedSection(
             }
         }
     }
+}
+
+/**
+ * Where a card sits in the feed. The header runs edge to edge, so the cards
+ * need their own inset -- the same 16dp the forum and library use, with 6dp
+ * above and below so stacked cards sit 12dp apart.
+ */
+@Composable
+private fun CardSlot(content: @Composable () -> Unit) {
+    Box(modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp)) { content() }
 }
 
 private fun postsLabel(count: Int): String = when (count) {
