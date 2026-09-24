@@ -27,13 +27,17 @@ import androidx.compose.ui.platform.LocalContext
 // how a user says they do not want to watch anything move.
 // ---------------------------------------------------------------------------
 
+/** True when the user has asked the system not to animate anything. */
 @Composable
-private fun animationsOff(): Boolean {
+fun nebAnimationsReduced(): Boolean {
     val resolver = LocalContext.current.contentResolver
     return remember(resolver) {
         Settings.Global.getFloat(resolver, Settings.Global.ANIMATOR_DURATION_SCALE, 1f) == 0f
     }
 }
+
+@Composable
+private fun animationsOff(): Boolean = nebAnimationsReduced()
 
 /** Small things that move: a toggle, a chip, a pressed button. */
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)

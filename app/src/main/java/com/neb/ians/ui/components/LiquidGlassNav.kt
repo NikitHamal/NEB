@@ -51,6 +51,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.neb.ians.R
+import com.neb.ians.ui.theme.nebFastSpatialSpec
 
 // ---------------------------------------------------------------------------
 // NEBians "N" logo as a Compose drawable.
@@ -152,6 +153,9 @@ fun LiquidGlassBottomNav(
     onSelect: (NebNavItem) -> Unit,
     modifier: Modifier = Modifier,
     onCreateClick: (() -> Unit)? = null,
+    menuActions: List<NebFabAction> = emptyList(),
+    menuExpanded: Boolean = false,
+    onMenuDismiss: () -> Unit = {},
     photoUrl: String? = null,
     username: String = "",
     onProfileClick: (() -> Unit)? = null,
@@ -212,99 +216,18 @@ fun LiquidGlassBottomNav(
             .padding(horizontal = 20.dp, vertical = 14.dp),
         contentAlignment = Alignment.Center
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
+        NebFabMenu(
+            actions = menuActions,
+            expanded = menuExpanded,
+            onDismissRequest = onMenuDismiss
         ) {
             Row(
-                modifier = Modifier
-                    .height(navHeight)
-                    .shadow(
-                        shadowElevation,
-                        CircleShape,
-                        clip = false,
-                        ambientColor = Color.Black.copy(alpha = shadowAlpha),
-                        spotColor = Color.Black.copy(alpha = shadowAlpha)
-                    )
-                    .clip(CircleShape)
-                    .background(glassBrush)
-                    .border(1.dp, borderBrush, CircleShape)
-                    .padding(horizontal = 6.dp),
-                horizontalArrangement = Arrangement.spacedBy(4.dp),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                items.forEach { item ->
-                    val selected = currentRoute == item.route
-                    GlassNavItem(item = item, selected = selected, onClick = { onSelect(item) })
-                }
-            }
-
-            if (onCreateClick != null) {
-                val tactile = rememberTactileFeedback()
-                val createInteractionSource = remember { MutableInteractionSource() }
-                val isCreatePressed by createInteractionSource.collectIsPressedAsState()
-                val createScale by animateFloatAsState(
-                    targetValue = if (isCreatePressed) 0.90f else 1.0f,
-                    animationSpec = spring(stiffness = Spring.StiffnessMediumLow),
-                    label = "createScale"
-                )
-
-                Box(
+                Row(
                     modifier = Modifier
-                        .size(navHeight)
-                        .graphicsLayer {
-                            scaleX = createScale
-                            scaleY = createScale
-                        }
-                        .shadow(
-                            shadowElevation,
-                            CircleShape,
-                            clip = false,
-                            ambientColor = Color.Black.copy(alpha = shadowAlpha),
-                            spotColor = primaryColor.copy(alpha = 0.35f)
-                        )
-                        .clip(CircleShape)
-                        .background(createBrush)
-                        .border(
-                            1.dp,
-                            if (isDark) Color.White.copy(alpha = 0.25f) else Color.White.copy(alpha = 0.65f),
-                            CircleShape
-                        )
-                        .clickable(
-                            interactionSource = createInteractionSource,
-                            indication = ripple(bounded = true, color = Color.White),
-                            onClick = {
-                                tactile.perform(TactileType.ButtonTap)
-                                onCreateClick()
-                            }
-                        )
-                        .testTag("bottom_nav_create_button"),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_rune_plus),
-                        contentDescription = "Create",
-                        tint = MaterialTheme.colorScheme.onPrimary,
-                        modifier = Modifier.size(24.dp)
-                    )
-                }
-            } else if (onProfileClick != null) {
-                val tactile = rememberTactileFeedback()
-                val profileInteractionSource = remember { MutableInteractionSource() }
-                val isProfilePressed by profileInteractionSource.collectIsPressedAsState()
-                val profileScale by animateFloatAsState(
-                    targetValue = if (isProfilePressed) 0.92f else 1.0f,
-                    animationSpec = spring(stiffness = Spring.StiffnessMediumLow),
-                    label = "profileScale"
-                )
-
-                Box(
-                    modifier = Modifier
-                        .size(navHeight)
-                        .graphicsLayer {
-                            scaleX = profileScale
-                            scaleY = profileScale
-                        }
+                        .height(navHeight)
                         .shadow(
                             shadowElevation,
                             CircleShape,
@@ -313,23 +236,110 @@ fun LiquidGlassBottomNav(
                             spotColor = Color.Black.copy(alpha = shadowAlpha)
                         )
                         .clip(CircleShape)
-                        .clickable(
-                            interactionSource = profileInteractionSource,
-                            indication = ripple(bounded = true),
-                            onClick = {
-                                tactile.perform(TactileType.LightTap)
-                                onProfileClick()
-                            }
-                        ),
-                    contentAlignment = Alignment.Center
+                        .background(glassBrush)
+                        .border(1.dp, borderBrush, CircleShape)
+                        .padding(horizontal = 6.dp),
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    NebAvatar(
-                        photoUrl = photoUrl,
-                        name = username.ifBlank { "User" },
-                        size = navHeight,
-                        ring = false,
-                        showBorder = false
+                    items.forEach { item ->
+                        val selected = currentRoute == item.route
+                        GlassNavItem(item = item, selected = selected, onClick = { onSelect(item) })
+                    }
+                }
+
+                if (onCreateClick != null) {
+                    val tactile = rememberTactileFeedback()
+                    val createInteractionSource = remember { MutableInteractionSource() }
+                    val isCreatePressed by createInteractionSource.collectIsPressedAsState()
+                    val createScale by animateFloatAsState(
+                        targetValue = if (isCreatePressed) 0.90f else 1.0f,
+                        animationSpec = spring(stiffness = Spring.StiffnessMediumLow),
+                        label = "createScale"
                     )
+
+                    Box(
+                        modifier = Modifier
+                            .size(navHeight)
+                            .graphicsLayer {
+                                scaleX = createScale
+                                scaleY = createScale
+                            }
+                            .shadow(
+                                shadowElevation,
+                                CircleShape,
+                                clip = false,
+                                ambientColor = Color.Black.copy(alpha = shadowAlpha),
+                                spotColor = primaryColor.copy(alpha = 0.35f)
+                            )
+                            .clip(CircleShape)
+                            .background(createBrush)
+                            .border(
+                                1.dp,
+                                if (isDark) Color.White.copy(alpha = 0.25f) else Color.White.copy(alpha = 0.65f),
+                                CircleShape
+                            )
+                            .clickable(
+                                interactionSource = createInteractionSource,
+                                indication = ripple(bounded = true, color = Color.White),
+                                onClick = {
+                                    tactile.perform(TactileType.ButtonTap)
+                                    onCreateClick()
+                                }
+                            )
+                            .testTag("bottom_nav_create_button"),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_rune_plus),
+                            contentDescription = "Create",
+                            tint = MaterialTheme.colorScheme.onPrimary,
+                            modifier = Modifier.size(24.dp)
+                        )
+                    }
+                } else if (onProfileClick != null) {
+                    val tactile = rememberTactileFeedback()
+                    val profileInteractionSource = remember { MutableInteractionSource() }
+                    val isProfilePressed by profileInteractionSource.collectIsPressedAsState()
+                    val profileScale by animateFloatAsState(
+                        targetValue = if (isProfilePressed) 0.92f else 1.0f,
+                        animationSpec = spring(stiffness = Spring.StiffnessMediumLow),
+                        label = "profileScale"
+                    )
+
+                    Box(
+                        modifier = Modifier
+                            .size(navHeight)
+                            .graphicsLayer {
+                                scaleX = profileScale
+                                scaleY = profileScale
+                            }
+                            .shadow(
+                                shadowElevation,
+                                CircleShape,
+                                clip = false,
+                                ambientColor = Color.Black.copy(alpha = shadowAlpha),
+                                spotColor = Color.Black.copy(alpha = shadowAlpha)
+                            )
+                            .clip(CircleShape)
+                            .clickable(
+                                interactionSource = profileInteractionSource,
+                                indication = ripple(bounded = true),
+                                onClick = {
+                                    tactile.perform(TactileType.LightTap)
+                                    onProfileClick()
+                                }
+                            ),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        NebAvatar(
+                            photoUrl = photoUrl,
+                            name = username.ifBlank { "User" },
+                            size = navHeight,
+                            ring = false,
+                            showBorder = false
+                        )
+                    }
                 }
             }
         }

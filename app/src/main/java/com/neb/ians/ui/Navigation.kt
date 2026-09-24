@@ -48,7 +48,8 @@ import com.neb.ians.util.DeepLinkBus
 import kotlinx.coroutines.launch
 import com.neb.ians.ui.components.LiquidGlassBottomNav
 import com.neb.ians.ui.components.LiquidGlassProfileSheet
-import com.neb.ians.ui.components.CreateActionBottomSheet
+import com.neb.ians.ui.components.NebFabAction
+import com.neb.ians.ui.components.NebFabMenuScrim
 import com.neb.ians.ui.components.NebNavItem
 import com.neb.ians.ui.screens.home.HomeScreen
 import com.neb.ians.ui.screens.library.LibraryScreen
@@ -91,6 +92,10 @@ import com.neb.ians.ui.screens.results.ToolsScreen
 import com.neb.ians.ui.screens.news.NewsDetailScreen
 import com.neb.ians.ui.screens.news.NewsScreen
 import com.neb.ians.ui.screens.credits.NebyCreditsScreen
+import androidx.compose.material.icons.outlined.SpaceDashboard
+import androidx.compose.material.icons.outlined.RateReview
+import androidx.compose.material.icons.outlined.CloudUpload
+import androidx.activity.compose.BackHandler
 
 sealed class Screen(val route: String) {
     data object Splash : Screen("splash")
@@ -285,7 +290,31 @@ fun NEBiansNavHost(
         }
     }
     var showProfileDropdown by remember { mutableStateOf(false) }
-    var showCreateSheet by remember { mutableStateOf(false) }
+    var showCreateMenu by remember { mutableStateOf(false) }
+    val createMenuActions = remember(navController) {
+        listOf(
+            NebFabAction(
+                label = "New canvas",
+                icon = Icons.Outlined.SpaceDashboard,
+                onClick = { navController.navigate(Screen.Canvas.createRoute()) },
+                testTag = "create_menu_new_canvas"
+            ),
+            NebFabAction(
+                label = "Upload materials",
+                icon = Icons.Outlined.CloudUpload,
+                onClick = { navController.navigate(Screen.Upload.route) },
+                testTag = "create_menu_upload_materials"
+            ),
+            NebFabAction(
+                label = "New post",
+                icon = Icons.Outlined.RateReview,
+                onClick = { navController.navigate(Screen.CreatePost.route) },
+                testTag = "create_menu_new_post"
+            )
+        )
+    }
+    BackHandler(enabled = showCreateMenu) { showCreateMenu = false }
+    LaunchedEffect(currentRoute) { showCreateMenu = false }
     val navigateToOwnProfile = {
         val username = userProfile?.username?.takeIf { it.isNotBlank() && it != "Guest" }
         if (username != null) {
@@ -870,6 +899,11 @@ fun NEBiansNavHost(
             }
         }
 
+        NebFabMenuScrim(
+            expanded = showCreateMenu && showBottomBar,
+            onDismissRequest = { showCreateMenu = false }
+        )
+
         if (showBottomBar) {
             LiquidGlassBottomNav(
                 items = glassNavItems,
@@ -881,7 +915,10 @@ fun NEBiansNavHost(
                         restoreState = true
                     }
                 },
-                onCreateClick = { showCreateSheet = true },
+                onCreateClick = { showCreateMenu = !showCreateMenu },
+                menuActions = createMenuActions,
+                menuExpanded = showCreateMenu,
+                onMenuDismiss = { showCreateMenu = false },
                 modifier = Modifier.align(Alignment.BottomCenter)
             )
         }
@@ -905,21 +942,6 @@ fun NEBiansNavHost(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .padding(bottom = if (showBottomBar) 92.dp else 12.dp)
-            )
-        }
-
-        if (showCreateSheet) {
-            CreateActionBottomSheet(
-                onDismiss = { showCreateSheet = false },
-                onNewPostClick = {
-                    navController.navigate(Screen.CreatePost.route)
-                },
-                onUploadMaterialsClick = {
-                    navController.navigate(Screen.Upload.route)
-                },
-                onNewCanvasClick = {
-                    navController.navigate(Screen.Canvas.createRoute())
-                }
             )
         }
 

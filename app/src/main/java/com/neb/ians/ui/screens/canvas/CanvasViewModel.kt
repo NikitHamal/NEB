@@ -84,6 +84,21 @@ class CanvasViewModel @Inject constructor(
     private val _toastMessage = MutableStateFlow<String?>(null)
     val toastMessage: StateFlow<String?> = _toastMessage.asStateFlow()
 
+    private val _nodeHeights = MutableStateFlow<Map<String, Float>>(emptyMap())
+    val nodeHeights: StateFlow<Map<String, Float>> = _nodeHeights.asStateFlow()
+
+    fun reportNodeHeight(nodeId: String, heightDp: Float) {
+        if (heightDp <= 0f) return
+        val known = _nodeHeights.value[nodeId]
+        if (known != null && kotlin.math.abs(known - heightDp) < 1f) return
+        _nodeHeights.value = _nodeHeights.value + (nodeId to heightDp)
+    }
+
+    private fun boundsFor(node: CanvasNode): CanvasBounds = boundsOf(node, _nodeHeights.value)
+
+    private fun heightFor(nodeId: String): Float =
+        _nodeHeights.value[nodeId] ?: CanvasCardFallbackHeight
+
     private var _containerWidth: Float = 1080f
     private var _containerHeight: Float = 1920f
     private var _containerDensity: Float = 2.75f
@@ -297,9 +312,11 @@ class CanvasViewModel @Inject constructor(
         viewModelScope.launch {
             _isGenerating.value = true
             val roots = _nodes.value.filter { it.parentId.isNullOrBlank() }
-            val cardWidth = 340f
-            val gapX = 40f
-            val baseX = if (roots.isEmpty()) 40f else (roots.maxOfOrNull { it.x } ?: 0f) + cardWidth + gapX
+            val baseX = if (roots.isEmpty()) {
+                40f
+            } else {
+                (roots.maxOfOrNull { it.x } ?: 0f) + CanvasCardWidth + CanvasGapX
+            }
             val baseY = 40f
 
             val placeholder = CanvasNode(
@@ -347,17 +364,7 @@ class CanvasViewModel @Inject constructor(
 
         viewModelScope.launch {
             val siblings = _nodes.value.count { it.parentId == parentId }
-            val cardWidth = 340f
-            val cardHeight = 480f
-            val gapX = 40f
-            val gapY = 60f
-
-            val (baseX, baseY) = when (direction.lowercase()) {
-                "right" -> Pair(parent.x + cardWidth + gapX, parent.y + siblings * 40f)
-                "left" -> Pair(parent.x - cardWidth - gapX, parent.y + siblings * 40f)
-                "top" -> Pair(parent.x + siblings * (cardWidth + gapX), parent.y - cardHeight - gapY)
-                else -> Pair(parent.x + siblings * (cardWidth + gapX), parent.y + cardHeight + gapY)
-            }
+            val (baseX, baseY) = childOrigin(boundsFor(parent), direction, siblings)
 
             val placeholder = CanvasNode(
                 id = "tmp_${System.currentTimeMillis()}",
@@ -509,10 +516,9 @@ class CanvasViewModel @Inject constructor(
 
         val newNodes = mutableListOf<CanvasNode>()
         var currentRootX = 40f
-        val cardWidth = 340f
-        val cardHeight = 480f
-        val gapX = 40f
-        val gapY = 60f
+        val cardWidth = CanvasCardWidth
+        val gapX = CanvasGapX
+        val gapY = CanvasGapY
 
         roots.forEach { root ->
             val children = nonRoots.filter { it.parentId == root.id }
@@ -525,15 +531,13 @@ class CanvasViewModel @Inject constructor(
             val rootCenterX = currentRootX + (totalSpanWidth - cardWidth) / 2f
             newNodes.add(root.copy(x = rootCenterX, y = 40f))
 
+            val childY = 40f + heightFor(root.id) + gapY
             children.forEachIndexed { idx, child ->
-                val childX = currentRootX + idx * (cardWidth + gapX)
-                val childY = 40f + cardHeight + gapY
-                newNodes.add(child.copy(x = childX, y = childY))
+                newNodes.add(child.copy(x = currentRootX + idx * (cardWidth + gapX), y = childY))
             }
             currentRootX += totalSpanWidth + 80f
         }
 
-        // Add any disconnected leftovers
         nonRoots.filterNot { nr -> roots.any { r -> r.id == nr.parentId } }.forEachIndexed { idx, orphan ->
             newNodes.add(orphan.copy(x = currentRootX + idx * (cardWidth + gapX), y = 40f))
         }
@@ -566,8 +570,8 @@ class CanvasViewModel @Inject constructor(
         nodeList.forEach { n ->
             minXDp = min(minXDp, n.x)
             minYDp = min(minYDp, n.y)
-            maxXDp = max(maxXDp, n.x + 340f)
-            maxYDp = max(maxYDp, n.y + 480f)
+            maxXDp = max(maxXDp, n.x + CanvasCardWidth)
+            maxYDp = max(maxYDp, n.y + heightFor(n.id))
         }
 
         val contentWidthPx = (maxXDp - minXDp) * d
