@@ -37,7 +37,6 @@ import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.ContentCopy
 import androidx.compose.material.icons.outlined.CropFree
-import androidx.compose.material.icons.outlined.DeleteOutline
 import androidx.compose.material.icons.outlined.Hub
 import androidx.compose.material.icons.outlined.OpenInFull
 import androidx.compose.material.icons.outlined.Palette
@@ -48,13 +47,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.geometry.CornerRadius
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.luminance
@@ -78,12 +73,12 @@ fun CanvasCardItem(
     isSelected: Boolean,
     isConnectingSource: Boolean = false,
     connectingDirection: String? = null,
+    onDragStart: () -> Unit = {},
     onDrag: (dx: Float, dy: Float) -> Unit,
     onDragEnd: () -> Unit,
     onSelect: () -> Unit,
     onExpand: () -> Unit,
     onDuplicate: () -> Unit,
-    onDelete: () -> Unit,
     onColorChange: (String) -> Unit,
     onBranch: (direction: String, prompt: String) -> Unit,
     onConnect: (direction: String) -> Unit = {},
@@ -107,6 +102,7 @@ fun CanvasCardItem(
     val density = LocalDensity.current.density
     val bodyScroll = rememberScrollState()
 
+    val currentOnDragStart by rememberUpdatedState(onDragStart)
     val currentOnDrag by rememberUpdatedState(onDrag)
     val currentOnDragEnd by rememberUpdatedState(onDragEnd)
     val currentOnSelect by rememberUpdatedState(onSelect)
@@ -118,23 +114,15 @@ fun CanvasCardItem(
         Box(
             modifier = Modifier
                 .padding(handleRadius)
-                .width(CanvasCardWidth.dp)
+                .requiredWidth(CanvasCardWidth.dp)
                 .onSizeChanged { onMeasured(it.height / density) }
                 .shadow(
-                    elevation = if (isSelected) 14.dp else 4.dp,
+                    elevation = if (isSelected) 10.dp else 2.dp,
                     shape = RoundedCornerShape(20.dp),
-                    spotColor = colors.accent.copy(alpha = 0.25f)
+                    spotColor = colors.accent.copy(alpha = 0.18f)
                 )
                 .clip(RoundedCornerShape(20.dp))
                 .background(colors.surface)
-                .drawBehind {
-                    drawRoundRect(
-                        color = colors.accent,
-                        topLeft = Offset.Zero,
-                        size = Size(4.dp.toPx(), size.height),
-                        cornerRadius = CornerRadius(2.dp.toPx(), 2.dp.toPx())
-                    )
-                }
                 .border(
                     BorderStroke(
                         width = if (isSelected) 2.dp else 1.dp,
@@ -153,6 +141,7 @@ fun CanvasCardItem(
                         onDragStart = {
                             tactile.perform(TactileType.LightTap)
                             currentOnSelect()
+                            currentOnDragStart()
                         },
                         onDrag = { change, dragAmount ->
                             change.consume()
@@ -178,6 +167,7 @@ fun CanvasCardItem(
                             onDragStart = {
                                 tactile.perform(TactileType.LightTap)
                                 currentOnSelect()
+                                currentOnDragStart()
                             },
                             onDrag = { change, dragAmount ->
                                 change.consume()
@@ -242,7 +232,6 @@ fun CanvasCardItem(
                     }
                 }
 
-                // Header actions matching reference image: Expand + Duplicate + Delete
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(0.dp)
@@ -259,29 +248,6 @@ fun CanvasCardItem(
                         )
                     }
 
-                    IconButton(
-                        onClick = onDuplicate,
-                        modifier = Modifier.size(28.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Outlined.ContentCopy,
-                            contentDescription = "Duplicate",
-                            tint = colors.secondaryText,
-                            modifier = Modifier.size(15.dp)
-                        )
-                    }
-
-                    IconButton(
-                        onClick = onDelete,
-                        modifier = Modifier.size(28.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Outlined.DeleteOutline,
-                            contentDescription = "Delete",
-                            tint = colors.secondaryText,
-                            modifier = Modifier.size(16.dp)
-                        )
-                    }
 
                     Box {
                         IconButton(
@@ -314,7 +280,7 @@ fun CanvasCardItem(
                                             modifier = Modifier
                                                 .size(18.dp)
                                                 .clip(RoundedCornerShape(6.dp))
-                                                .background(CanvasColorTokens.accent(MaterialTheme.colorScheme, key))
+                                                .background(CanvasColorTokens.accent(isDark, key))
                                         )
                                     },
                                     trailingIcon = {
@@ -333,6 +299,20 @@ fun CanvasCardItem(
                                 )
                             }
                             HorizontalDivider(modifier = Modifier.padding(vertical = 6.dp))
+                            DropdownMenuItem(
+                                text = { Text("Duplicate card") },
+                                leadingIcon = {
+                                    Icon(
+                                        imageVector = Icons.Outlined.ContentCopy,
+                                        contentDescription = null,
+                                        modifier = Modifier.size(18.dp)
+                                    )
+                                },
+                                onClick = {
+                                    showMoreMenu = false
+                                    onDuplicate()
+                                }
+                            )
                             DropdownMenuItem(
                                 text = { Text("Link to another card") },
                                 leadingIcon = {
