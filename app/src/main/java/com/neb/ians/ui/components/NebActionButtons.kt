@@ -11,7 +11,9 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ButtonShapes
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LoadingIndicator
 import androidx.compose.material3.MaterialTheme
@@ -60,13 +62,23 @@ enum class NebButtonTone { Primary, Tonal, Outlined, Text, Danger }
  * row of other controls.
  */
 @Immutable
-enum class NebButtonSize(val height: Dp) {
-    Compact(32.dp),
-    Small(40.dp),
-    Standard(48.dp),
-    Hero(56.dp),
-    Feature(96.dp)
+enum class NebButtonSize(val height: Dp, val pressedCorner: Dp) {
+    Compact(32.dp, 10.dp),
+    Small(40.dp, 12.dp),
+    Standard(48.dp, 14.dp),
+    Hero(56.dp, 18.dp),
+    Feature(96.dp, 28.dp)
 }
+
+/**
+ * Round at rest, squarer under the thumb. Stated here rather than taken from
+ * [ButtonDefaults.shapesFor], which hands back a container that draws square
+ * at the taller heights.
+ */
+private fun nebButtonShapes(size: NebButtonSize) = ButtonShapes(
+    shape = RoundedCornerShape(percent = 50),
+    pressedShape = RoundedCornerShape(size.pressedCorner)
+)
 
 /**
  * The button.
@@ -111,7 +123,7 @@ fun NebButton(
             tactile.perform(TactileType.ButtonTap)
             onClick()
         },
-        shapes = ButtonDefaults.shapesFor(height),
+        shapes = nebButtonShapes(size),
         modifier = modifier
             .then(if (fillWidth) Modifier.fillMaxWidth() else Modifier)
             .heightIn(min = height),

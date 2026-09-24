@@ -113,8 +113,6 @@ import com.neb.ians.ui.components.NebButtonSize
 import com.neb.ians.ui.components.NebButtonTone
 import com.neb.ians.ui.components.NebLoaderSize
 import com.neb.ians.ui.components.NebLoader
-import com.neb.ians.ui.components.art.NebStateArt
-import com.neb.ians.ui.components.art.NebStateKind
 
 enum class ResourceMediaType { Pdf, Image, Video, Audio, Other }
 
@@ -171,7 +169,12 @@ fun ResourceEmptyComments() {
             .padding(vertical = 22.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        NebStateArt(kind = NebStateKind.Empty, height = 108.dp)
+        Icon(
+            imageVector = Icons.Outlined.ChatBubbleOutline,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.size(26.dp)
+        )
         Spacer(Modifier.height(10.dp))
         Text(
             text = "No comments yet",
