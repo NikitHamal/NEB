@@ -16,6 +16,11 @@
 - Always check `requirements.txt` before adding new dependencies.
 - **Django 5.2 templates:** `{% endblock %}`, `{% else %}`, and similar block tags MUST be on a single line. Multi-line splits (`{% endblock\n%}` or `{%\nendblock %}`) cause cryptic "Unclosed tag" errors.
 
+## Handoff Documents
+
+- **`ANDROID_UI_CONTINUITY.md`** — the Android mono / Material 3 Expressive redesign (GitHub issues #41–#44): the owner's design contract, the house component signatures, platform constraints, what has shipped, what is still open, and the build/push recipe. **Read it before touching anything under `app/src/main/java/com/neb/ians/ui/`.**
+- **`CONTINUITY.md`** — Django/web backend, auth and deployment state.
+
 ## Overview
 
 NEBians is a Nepali learning platform open to everyone — students of any curriculum, teachers, explorers, parents, schools, institutions, and the general public. It offers a digital library of study resources and a community discussion forum, with more advanced learning features still in development.

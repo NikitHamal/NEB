@@ -1,241 +1,99 @@
+@file:OptIn(
+    androidx.compose.material3.ExperimentalMaterial3Api::class,
+    androidx.compose.material3.ExperimentalMaterial3ExpressiveApi::class
+)
+
 package com.neb.ians.ui.screens.search
 
-import com.neb.ians.ui.components.LinkifyText
-
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.BorderStroke
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ArrowBack
-import androidx.compose.material.icons.outlined.Clear
-import androidx.compose.material.icons.outlined.FilterList
-import androidx.compose.material.icons.outlined.Search
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material.icons.rounded.History
+import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material.icons.rounded.SearchOff
+import androidx.compose.material.icons.rounded.Tune
+import androidx.compose.material3.ButtonGroup
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SuggestionChip
-import androidx.compose.material3.SuggestionChipDefaults
-import androidx.compose.material3.Tab
-import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.ToggleButton
+import androidx.compose.material3.ToggleButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.neb.ians.R
-import com.neb.ians.data.api.ApiPost
-import com.neb.ians.data.api.ApiResource
-import com.neb.ians.data.api.ApiUserSearchResult
-import com.neb.ians.ui.components.Avatar
+import com.neb.ians.ui.components.FilterDialog
 import com.neb.ians.ui.components.ErrorCard
-import com.neb.ians.ui.components.NebBadge
-import com.neb.ians.ui.components.WebResourceCard
-import com.neb.ians.ui.components.WebPostCard
-import com.neb.ians.ui.components.compactCount
-import com.neb.ians.util.formatTimeAgo
-import androidx.compose.material.icons.filled.ThumbUp
-import androidx.compose.material.icons.outlined.ChatBubbleOutline
-import androidx.compose.material.icons.outlined.ThumbUp
-import androidx.compose.material3.Surface
+import com.neb.ians.ui.components.NebEmptyState
+import com.neb.ians.ui.components.NebFilterChip
+import com.neb.ians.ui.components.NebChipRow
+import com.neb.ians.ui.components.NebSectionLabel
+import com.neb.ians.ui.components.ShimmerSearchList
+import com.neb.ians.ui.components.nebPressable
+import com.neb.ians.ui.screens.library.LibraryUiState
+import com.neb.ians.ui.theme.nebEffectsSpec
+import com.neb.ians.ui.theme.nebFastSpatialSpec
+import com.neb.ians.ui.theme.nebSpatialSpec
 
-private val subjectColors = mapOf(
-    "Physics" to Color(0xFF1B6EF3),
-    "Chemistry" to Color(0xFF006E1C),
-    "Mathematics" to Color(0xFFBA1A1A),
-    "Biology" to Color(0xFF006E1C),
-    "English" to Color(0xFF6F5677),
-    "Nepali" to Color(0xFFBA1A1A),
-    "Computer Science" to Color(0xFF0061A4)
-)
-
-private fun getSubjectColor(subject: String): Color {
-    return subjectColors[subject] ?: Color(0xFF565F71)
-}
-
-private fun getSubjectIcon(subject: String): Int {
-    return when (subject) {
-        "Physics" -> R.drawable.ic_school
-        "Chemistry" -> R.drawable.ic_school
-        "Mathematics" -> R.drawable.ic_book
-        "Biology" -> R.drawable.ic_school
-        "English" -> R.drawable.ic_book
-        "Nepali" -> R.drawable.ic_book
-        "Computer Science" -> R.drawable.ic_document
-        else -> R.drawable.ic_document
-    }
-}
-
-private val TAB_LABELS = listOf("All", "Resources", "Posts", "Users")
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun SearchHeader(
-    query: String,
-    selectedTab: Int,
-    focusRequester: FocusRequester,
-    onQueryChange: (String) -> Unit,
-    onClear: () -> Unit,
-    onTabSelected: (Int) -> Unit,
-    onNavigateBack: () -> Unit,
-    onFilterClick: () -> Unit
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.surface)
-            .windowInsetsPadding(WindowInsets.statusBars)
-            .padding(top = 6.dp)
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 10.dp, vertical = 8.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            IconButton(onClick = onNavigateBack) {
-                Icon(
-                    imageVector = Icons.Outlined.ArrowBack,
-                    contentDescription = "Back",
-                    tint = MaterialTheme.colorScheme.onSurface
-                )
-            }
-            Surface(
-                modifier = Modifier.weight(1f),
-                shape = CircleShape,
-                color = MaterialTheme.colorScheme.surfaceContainerLowest,
-                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
-            ) {
-                OutlinedTextField(
-                    value = query,
-                    onValueChange = onQueryChange,
-                    placeholder = {
-                        Text(
-                            text = "Search resources and posts...",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                    },
-                    leadingIcon = {
-                        Icon(
-                            imageVector = Icons.Outlined.Search,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.primary
-                        )
-                    },
-                    trailingIcon = {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.padding(end = 4.dp)
-                        ) {
-                            if (query.isNotEmpty()) {
-                                IconButton(onClick = onClear) {
-                                    Icon(
-                                        imageVector = Icons.Outlined.Clear,
-                                        contentDescription = "Clear",
-                                        tint = MaterialTheme.colorScheme.onSurfaceVariant
-                                    )
-                                }
-                            }
-                            IconButton(onClick = onFilterClick) {
-                                Icon(
-                                    imageVector = Icons.Outlined.FilterList,
-                                    contentDescription = "Filters",
-                                    tint = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                        }
-                    },
-                    singleLine = true,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .focusRequester(focusRequester),
-                    shape = CircleShape,
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = Color.Transparent,
-                        unfocusedBorderColor = Color.Transparent,
-                        disabledBorderColor = Color.Transparent,
-                        focusedContainerColor = Color.Transparent,
-                        unfocusedContainerColor = Color.Transparent
-                    )
-                )
-            }
-        }
-        if (query.length >= 2) {
-            ScrollableTabRow(
-                selectedTabIndex = selectedTab,
-                containerColor = MaterialTheme.colorScheme.surface,
-                contentColor = MaterialTheme.colorScheme.onSurface,
-                edgePadding = 16.dp,
-                divider = { HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant) }
-            ) {
-                TAB_LABELS.forEachIndexed { index, label ->
-                    Tab(
-                        selected = selectedTab == index,
-                        onClick = { onTabSelected(index) },
-                        text = {
-                            Text(
-                                label,
-                                fontWeight = if (selectedTab == index) FontWeight.ExtraBold else FontWeight.SemiBold
-                            )
-                        }
-                    )
-                }
-            }
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+/**
+ * One field, one bank of scopes, one list.
+ *
+ * The old screen asked the user to read a tab strip before they had results and
+ * gave a spinner while they waited. This one keeps the field as the only thing
+ * on screen until there is something to show, reveals the scope bank with the
+ * counts already in it, and remembers what was searched before so a repeat
+ * search is a tap rather than a retype.
+ */
 @Composable
 fun SearchScreen(
     initialQuery: String = "",
@@ -247,7 +105,7 @@ fun SearchScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val focusRequester = remember { FocusRequester() }
-    var selectedTab by remember { mutableStateOf(0) }
+    val keyboard = LocalSoftwareKeyboardController.current
     var showFilters by remember { mutableStateOf(false) }
 
     BackHandler { onNavigateBack() }
@@ -256,149 +114,85 @@ fun SearchScreen(
         if (initialQuery.isNotBlank() && uiState.query != initialQuery) {
             viewModel.onQueryChange(initialQuery)
         } else {
-            focusRequester.requestFocus()
+            runCatching { focusRequester.requestFocus() }
         }
     }
 
     Scaffold(
+        containerColor = MaterialTheme.colorScheme.surface,
         topBar = {
             SearchHeader(
-                query = uiState.query,
-                selectedTab = selectedTab,
+                state = uiState,
                 focusRequester = focusRequester,
                 onQueryChange = viewModel::onQueryChange,
+                onSubmit = {
+                    keyboard?.hide()
+                    viewModel.submitQuery()
+                },
                 onClear = viewModel::clearSearch,
-                onTabSelected = { selectedTab = it },
+                onScopeChange = viewModel::onScopeChange,
                 onNavigateBack = onNavigateBack,
                 onFilterClick = { showFilters = true }
             )
-        },
-        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
-    ) { paddingValues ->
-        Column(
+        }
+    ) { padding ->
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
+                .padding(padding)
         ) {
             when {
-                uiState.isSearching -> {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        CircularProgressIndicator()
-                    }
-                }
+                uiState.isSearching && uiState.totalCount == 0 -> ShimmerSearchList()
 
-                uiState.error != null && uiState.query.length >= 2 -> {
-                    ErrorCard(
-                        message = uiState.error ?: "Search failed",
-                        onRetry = { viewModel.onQueryChange(uiState.query) },
-                        modifier = Modifier.padding(16.dp)
-                    )
-                }
+                uiState.error != null -> ErrorCard(
+                    message = uiState.error ?: "Search failed",
+                    onRetry = viewModel::retry,
+                    modifier = Modifier.padding(16.dp)
+                )
 
-                uiState.query.isEmpty() -> {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 16.dp)
-                    ) {
-                        Text(
-                            text = "Popular Searches",
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.SemiBold,
-                            color = MaterialTheme.colorScheme.onSurface
-                        )
-                        Spacer(modifier = Modifier.height(12.dp))
-                        FlowRow(
-                            horizontalArrangement = Arrangement.spacedBy(8.dp),
-                            verticalArrangement = Arrangement.spacedBy(8.dp)
-                        ) {
-                            SearchUiState.SUGGESTIONS.forEach { suggestion ->
-                                SuggestionChip(
-                                    onClick = { viewModel.onQueryChange(suggestion) },
-                                    label = {
-                                        Text(
-                                            text = suggestion,
-                                            style = MaterialTheme.typography.labelLarge,
-                                            maxLines = 1,
-                                            overflow = TextOverflow.Ellipsis
-                                        )
-                                    },
-                                    shape = CircleShape,
-                                    colors = SuggestionChipDefaults.suggestionChipColors(
-                                        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                                        labelColor = MaterialTheme.colorScheme.onSurface
-                                    ),
-                                    border = SuggestionChipDefaults.suggestionChipBorder(
-                                        borderColor = MaterialTheme.colorScheme.outlineVariant,
-                                        enabled = true
-                                    )
-                                )
-                            }
-                        }
-                    }
-                }
+                uiState.query.trim().length < SearchUiState.MIN_QUERY_LENGTH -> SearchIdleState(
+                    recents = uiState.recentQueries,
+                    onQueryPick = { picked ->
+                        viewModel.onQueryChange(picked)
+                        viewModel.submitQuery()
+                        keyboard?.hide()
+                    },
+                    onRemoveRecent = viewModel::removeRecent,
+                    onClearRecents = viewModel::clearRecents
+                )
 
-                uiState.query.length >= 2 -> {
-                    val hasResources = uiState.resources.isNotEmpty()
-                    val hasPosts = uiState.posts.isNotEmpty()
-                    val hasUsers = uiState.users.isNotEmpty()
-                    val hasAny = hasResources || hasPosts || hasUsers
-
-                    if (!hasAny) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .weight(1f),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                text = "No results found",
-                                style = MaterialTheme.typography.bodyLarge,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
+                uiState.isEmptyResult -> NebEmptyState(
+                    icon = Icons.Rounded.SearchOff,
+                    title = "Nothing for “${uiState.query.trim()}”",
+                    subtitle = if (uiState.activeFilterCount > 0) {
+                        "Try different words, or clear the ${uiState.activeFilterCount} filter" +
+                            if (uiState.activeFilterCount > 1) "s." else "."
                     } else {
-                        when (selectedTab) {
-                            0 -> AllResultsTab(
-                                resources = uiState.resources,
-                                posts = uiState.posts,
-                                users = uiState.users,
-                                onResourceClick = onResourceClick,
-                                onPostClick = onPostClick,
-                                onProfileClick = onProfileClick,
-                                onTabSelected = { selectedTab = it }
-                            )
-                            1 -> ResourcesTab(
-                                resources = uiState.resources,
-                                onResourceClick = onResourceClick
-                            )
-                            2 -> PostsTab(
-                                posts = uiState.posts,
-                                onPostClick = onPostClick
-                            )
-                            3 -> PeopleTab(
-                                users = uiState.users,
-                                onProfileClick = onProfileClick
-                            )
-                        }
-                    }
-                }
+                        "Try fewer words, or check the spelling."
+                    },
+                    modifier = Modifier.align(Alignment.Center)
+                )
+
+                else -> SearchResultsList(
+                    state = uiState,
+                    onResourceClick = onResourceClick,
+                    onPostClick = onPostClick,
+                    onProfileClick = onProfileClick,
+                    onScopeChange = viewModel::onScopeChange
+                )
             }
         }
     }
 
     if (showFilters) {
-        com.neb.ians.ui.components.FilterDialog(
+        FilterDialog(
             onDismissRequest = { showFilters = false },
             selectedSubject = uiState.selectedSubject,
             selectedGradeLevel = uiState.selectedGradeLevel,
             selectedType = uiState.selectedType,
-            subjects = com.neb.ians.ui.screens.library.LibraryUiState.SUBJECTS,
-            gradeLevels = com.neb.ians.ui.screens.library.LibraryUiState.GRADE_LEVELS,
-            types = com.neb.ians.ui.screens.library.LibraryUiState.TYPES,
+            subjects = LibraryUiState.SUBJECTS,
+            gradeLevels = LibraryUiState.GRADE_LEVELS,
+            types = LibraryUiState.TYPES,
             onSubjectSelected = viewModel::selectSubject,
             onGradeLevelSelected = viewModel::selectGradeLevel,
             onTypeSelected = viewModel::selectType,
@@ -409,439 +203,339 @@ fun SearchScreen(
 }
 
 @Composable
-private fun AllResultsTab(
-    resources: List<ApiResource>,
-    posts: List<ApiPost>,
-    users: List<ApiUserSearchResult>,
-    onResourceClick: (String) -> Unit,
-    onPostClick: (String) -> Unit,
-    onProfileClick: (String) -> Unit,
-    onTabSelected: (Int) -> Unit
+private fun SearchHeader(
+    state: SearchUiState,
+    focusRequester: FocusRequester,
+    onQueryChange: (String) -> Unit,
+    onSubmit: () -> Unit,
+    onClear: () -> Unit,
+    onScopeChange: (SearchScope) -> Unit,
+    onNavigateBack: () -> Unit,
+    onFilterClick: () -> Unit
 ) {
-    LazyColumn(
-        modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(vertical = 8.dp)
-    ) {
-        if (resources.isNotEmpty()) {
-            item(key = "resources_header") {
-                SectionHeader("Resources", onViewAllClick = { onTabSelected(1) })
-            }
-            items(resources.take(3), key = { it.id }) { resource ->
-                WebResourceCard(
-                    resource = resource,
-                    onClick = { onResourceClick(resource.id) },
-                    minWidth = null,
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp)
-                )
-            }
-        }
-        if (posts.isNotEmpty()) {
-            item(key = "posts_header") {
-                SectionHeader("Posts", onViewAllClick = { onTabSelected(2) })
-            }
-            items(posts.take(3), key = { it.id }) { post ->
-                WebPostCard(
-                    post = post,
-                    onClick = { onPostClick(post.id) },
-                    onLikeClick = {},
-                    compact = true,
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp)
-                )
-            }
-        }
-        if (users.isNotEmpty()) {
-            item(key = "people_header") {
-                SectionHeader("Users", onViewAllClick = { onTabSelected(3) })
-            }
-            items(users.take(3), key = { it.id }) { user ->
-                UserResultItem(
-                    user = user,
-                    onClick = { onProfileClick(user.username) }
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun ResourcesTab(
-    resources: List<ApiResource>,
-    onResourceClick: (String) -> Unit
-) {
-    if (resources.isEmpty()) {
-        EmptyTabMessage("No resources found")
-    } else {
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(vertical = 8.dp)
-        ) {
-            items(resources, key = { it.id }) { resource ->
-                WebResourceCard(
-                    resource = resource,
-                    onClick = { onResourceClick(resource.id) },
-                    minWidth = null,
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp)
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun PostsTab(
-    posts: List<ApiPost>,
-    onPostClick: (String) -> Unit
-) {
-    if (posts.isEmpty()) {
-        EmptyTabMessage("No posts found")
-    } else {
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(vertical = 8.dp)
-        ) {
-            items(posts, key = { it.id }) { post ->
-                WebPostCard(
-                    post = post,
-                    onClick = { onPostClick(post.id) },
-                    onLikeClick = {},
-                    compact = false,
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp)
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun PeopleTab(
-    users: List<ApiUserSearchResult>,
-    onProfileClick: (String) -> Unit
-) {
-    if (users.isEmpty()) {
-        EmptyTabMessage("No people found")
-    } else {
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(vertical = 8.dp)
-        ) {
-            items(users, key = { it.id }) { user ->
-                UserResultItem(
-                    user = user,
-                    onClick = { onProfileClick(user.username) }
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun SectionHeader(
-    title: String,
-    onViewAllClick: (() -> Unit)? = null
-) {
-    Row(
+    Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            text = title,
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onSurface
-        )
-        if (onViewAllClick != null) {
-            Text(
-                text = "View all",
-                style = MaterialTheme.typography.labelLarge,
-                fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.clickable(onClick = onViewAllClick)
-            )
-        }
-    }
-}
-
-@Composable
-private fun EmptyTabMessage(message: String) {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = message,
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-    }
-}
-
-@Composable
-private fun SearchResultItem(
-    resource: ApiResource,
-    onClick: () -> Unit
-) {
-    val subjectColor = getSubjectColor(resource.subject)
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onClick() }
-            .padding(horizontal = 16.dp, vertical = 8.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Box(
-            modifier = Modifier
-                .size(40.dp)
-                .clip(CircleShape)
-                .background(subjectColor.copy(alpha = 0.12f)),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                painter = painterResource(id = getSubjectIcon(resource.subject)),
-                contentDescription = null,
-                modifier = Modifier.size(20.dp),
-                tint = subjectColor
-            )
-        }
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .padding(start = 12.dp)
-        ) {
-            Text(
-                text = resource.title,
-                style = MaterialTheme.typography.bodyLarge,
-                fontWeight = FontWeight.Medium,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-            Text(
-                text = "${resource.subject} · ${resource.type} · ${resource.gradeLevel}",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-        }
-    }
-}
-
-@Composable
-private fun PostResultItem(
-    post: ApiPost,
-    onClick: () -> Unit
-) {
-    val categoryColor = getSubjectColor(post.category)
-
-    Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onClick() },
-        color = MaterialTheme.colorScheme.surfaceContainerLowest,
-        tonalElevation = 1.dp,
-        shape = RoundedCornerShape(12.dp)
-    ) {
-        Column(
-            modifier = Modifier.padding(12.dp)
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                Avatar(
-                    name = post.authorName,
-                    imageUrl = post.authorPhotoUrl,
-                    size = 28.dp
-                )
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = post.authorName,
-                        style = MaterialTheme.typography.labelMedium,
-                        fontWeight = FontWeight.Medium
-                    )
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(4.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Surface(
-                            shape = RoundedCornerShape(4.dp),
-                            color = categoryColor.copy(alpha = 0.08f)
-                        ) {
-                            Text(
-                                text = post.category,
-                                modifier = Modifier.padding(horizontal = 4.dp, vertical = 1.dp),
-                                style = MaterialTheme.typography.labelSmall,
-                                color = categoryColor,
-                                fontWeight = FontWeight.Medium
-                            )
-                        }
-                        Text(
-                            text = "·",
-                            style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.3f)
-                        )
-                        Text(
-                            text = formatTimeAgo(post.createdAt),
-                            style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                }
-            }
-            Spacer(modifier = Modifier.height(6.dp))
-            Text(
-                text = post.title,
-                style = MaterialTheme.typography.bodyLarge,
-                fontWeight = FontWeight.SemiBold,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis
-            )
-            if (post.content.isNotBlank()) {
-                LinkifyText(
-                    text = post.content.take(100) + if (post.content.length > 100) "..." else "",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.padding(top = 2.dp)
-                )
-            }
-            Spacer(modifier = Modifier.height(6.dp))
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    Icon(
-                        imageVector = if (post.isThumbedUp) Icons.Filled.ThumbUp else Icons.Outlined.ThumbUp,
-                        contentDescription = null,
-                        modifier = Modifier.size(14.dp),
-                        tint = if (post.isThumbedUp) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    Text(
-                        text = "${post.thumbsUpCount}",
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    Icon(
-                        Icons.Outlined.ChatBubbleOutline,
-                        contentDescription = null,
-                        modifier = Modifier.size(14.dp),
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    Text(
-                        text = "${post.replyCount}",
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
-        }
-    }
-    Spacer(modifier = Modifier.height(8.dp))
-}
-
-@Composable
-private fun UserResultItem(
-    user: ApiUserSearchResult,
-    onClick: () -> Unit
-) {
-    Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 5.dp)
-            .clickable { onClick() },
-        shape = RoundedCornerShape(16.dp),
-        color = MaterialTheme.colorScheme.surfaceContainerLowest,
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+            .background(MaterialTheme.colorScheme.surface)
+            .windowInsetsPadding(WindowInsets.statusBars)
     ) {
         Row(
-            modifier = Modifier.padding(14.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 4.dp, end = 12.dp, top = 6.dp, bottom = 6.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Avatar(
-                name = user.displayName ?: user.username,
-                imageUrl = user.photoUrl,
-                size = 48.dp
+            IconButton(onClick = onNavigateBack) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                    contentDescription = "Back",
+                    tint = MaterialTheme.colorScheme.onSurface
+                )
+            }
+            SearchField(
+                query = state.query,
+                activeFilterCount = state.activeFilterCount,
+                focusRequester = focusRequester,
+                onQueryChange = onQueryChange,
+                onSubmit = onSubmit,
+                onClear = onClear,
+                onFilterClick = onFilterClick,
+                modifier = Modifier.weight(1f)
             )
-            Column(modifier = Modifier.weight(1f)) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(
-                        text = user.displayName ?: user.username,
-                        style = MaterialTheme.typography.titleSmall,
-                        fontWeight = FontWeight.ExtraBold,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.weight(1f, fill = false)
-                    )
-                    user.badgeInfo?.let { badge ->
-                        Spacer(modifier = Modifier.size(6.dp))
-                        NebBadge(badge)
-                    }
-                }
+        }
+
+        AnimatedVisibility(
+            visible = state.hasSearched && state.totalCount > 0,
+            enter = expandVertically(nebSpatialSpec()) + fadeIn(nebEffectsSpec()),
+            exit = shrinkVertically(nebSpatialSpec()) + fadeOut(nebEffectsSpec())
+        ) {
+            SearchScopeBank(
+                state = state,
+                onScopeChange = onScopeChange,
+                modifier = Modifier.padding(start = 14.dp, end = 14.dp, bottom = 10.dp)
+            )
+        }
+    }
+}
+
+@Composable
+private fun SearchField(
+    query: String,
+    activeFilterCount: Int,
+    focusRequester: FocusRequester,
+    onQueryChange: (String) -> Unit,
+    onSubmit: () -> Unit,
+    onClear: () -> Unit,
+    onFilterClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val interaction = remember { MutableInteractionSource() }
+    val focused by interaction.collectIsFocusedAsState()
+    val corner by animateDpAsState(
+        targetValue = if (focused) 18.dp else 26.dp,
+        animationSpec = nebFastSpatialSpec(),
+        label = "search_field_corner"
+    )
+    val container by animateColorAsState(
+        targetValue = if (focused) {
+            MaterialTheme.colorScheme.surfaceContainerHighest
+        } else {
+            MaterialTheme.colorScheme.surfaceContainerHigh
+        },
+        animationSpec = nebEffectsSpec(),
+        label = "search_field_container"
+    )
+
+    Row(
+        modifier = modifier
+            .heightIn(min = 52.dp)
+            .clip(RoundedCornerShape(corner))
+            .background(container)
+            .padding(start = 16.dp, end = 6.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            imageVector = Icons.Rounded.Search,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.size(20.dp)
+        )
+        Box(
+            modifier = Modifier
+                .weight(1f)
+                .padding(start = 12.dp, end = 6.dp),
+            contentAlignment = Alignment.CenterStart
+        ) {
+            if (query.isEmpty()) {
                 Text(
-                    text = "@${user.username} · ${compactCount(user.followerCount)} followers",
-                    style = MaterialTheme.typography.bodySmall,
+                    text = "Search notes, posts, people",
+                    style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
-                val subtitle = listOfNotNull(
-                    user.school?.takeIf { it.isNotBlank() },
-                    user.classLevel?.takeIf { it.isNotBlank() }
-                ).joinToString(" · ")
-                if (subtitle.isNotBlank()) {
-                    Text(
-                        text = subtitle,
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                }
-                if (!user.bio.isNullOrBlank()) {
-                    Text(
-                        text = user.bio.take(90) + if (user.bio.length > 90) "..." else "",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.padding(top = 2.dp)
-                    )
-                }
             }
-            val label = when {
-                user.isSelf == true -> "You"
-                user.isFollowing == true -> "Following"
-                else -> null
+            BasicTextField(
+                value = query,
+                onValueChange = onQueryChange,
+                singleLine = true,
+                textStyle = MaterialTheme.typography.bodyLarge.copy(
+                    color = MaterialTheme.colorScheme.onSurface
+                ),
+                cursorBrush = SolidColor(MaterialTheme.colorScheme.onSurface),
+                interactionSource = interaction,
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                keyboardActions = KeyboardActions(onSearch = { onSubmit() }),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .focusRequester(focusRequester)
+            )
+        }
+        AnimatedVisibility(
+            visible = query.isNotEmpty(),
+            enter = fadeIn(nebEffectsSpec()),
+            exit = fadeOut(nebEffectsSpec())
+        ) {
+            IconButton(onClick = onClear, modifier = Modifier.size(40.dp)) {
+                Icon(
+                    imageVector = Icons.Rounded.Close,
+                    contentDescription = "Clear search",
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.size(18.dp)
+                )
             }
-            if (label != null) {
-                Surface(
-                    shape = RoundedCornerShape(999.dp),
-                    color = if (user.isSelf == true) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceVariant
-                ) {
-                    Text(
-                        text = label,
-                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
-                        style = MaterialTheme.typography.labelSmall,
-                        fontWeight = FontWeight.Bold,
-                        color = if (user.isSelf == true) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant,
-                        maxLines = 1
-                    )
-                }
+        }
+        FilterAction(count = activeFilterCount, onClick = onFilterClick)
+    }
+}
+
+@Composable
+private fun FilterAction(count: Int, onClick: () -> Unit) {
+    val active = count > 0
+    val container by animateColorAsState(
+        targetValue = if (active) {
+            MaterialTheme.colorScheme.onSurface
+        } else {
+            MaterialTheme.colorScheme.surfaceContainerLowest
+        },
+        animationSpec = nebEffectsSpec(),
+        label = "search_filter_container"
+    )
+    val content by animateColorAsState(
+        targetValue = if (active) {
+            MaterialTheme.colorScheme.surface
+        } else {
+            MaterialTheme.colorScheme.onSurfaceVariant
+        },
+        animationSpec = nebEffectsSpec(),
+        label = "search_filter_content"
+    )
+
+    Row(
+        modifier = Modifier
+            .heightIn(min = 40.dp)
+            .nebPressable(onClick = onClick)
+            .clip(RoundedCornerShape(50))
+            .background(container)
+            .padding(horizontal = if (active) 12.dp else 10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(5.dp)
+    ) {
+        Icon(
+            imageVector = Icons.Rounded.Tune,
+            contentDescription = "Filters",
+            tint = content,
+            modifier = Modifier.size(18.dp)
+        )
+        if (active) {
+            Text(
+                text = count.toString(),
+                style = MaterialTheme.typography.labelLargeEmphasized,
+                color = content
+            )
+        }
+    }
+}
+
+@Composable
+private fun SearchScopeBank(
+    state: SearchUiState,
+    onScopeChange: (SearchScope) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val scopes = remember { SearchScope.entries.toList() }
+    val interactions = remember { scopes.map { MutableInteractionSource() } }
+    val colors = ToggleButtonDefaults.toggleButtonColors(
+        containerColor = Color.Transparent,
+        contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+        checkedContainerColor = MaterialTheme.colorScheme.onSurface,
+        checkedContentColor = MaterialTheme.colorScheme.surface
+    )
+
+    ButtonGroup(
+        modifier = modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(50))
+            .background(MaterialTheme.colorScheme.surfaceContainerHigh)
+            .padding(3.dp),
+        horizontalArrangement = Arrangement.spacedBy(0.dp)
+    ) {
+        scopes.forEachIndexed { index, scope ->
+            val count = state.countFor(scope)
+            ToggleButton(
+                checked = state.scope == scope,
+                onCheckedChange = { onScopeChange(scope) },
+                modifier = Modifier
+                    .weight(1f)
+                    .heightIn(min = 40.dp)
+                    .animateWidth(interactions[index]),
+                shapes = ToggleButtonDefaults.shapes(),
+                colors = colors,
+                interactionSource = interactions[index],
+                contentPadding = PaddingValues(horizontal = 6.dp, vertical = 8.dp)
+            ) {
+                Text(
+                    text = if (count > 0) "${scope.label} $count" else scope.label,
+                    style = MaterialTheme.typography.labelMediumEmphasized,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
             }
+        }
+    }
+}
+
+@Composable
+private fun SearchIdleState(
+    recents: List<String>,
+    onQueryPick: (String) -> Unit,
+    onRemoveRecent: (String) -> Unit,
+    onClearRecents: () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(horizontal = 16.dp)
+            .padding(top = 10.dp, bottom = 32.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        if (recents.isNotEmpty()) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                NebSectionLabel(text = "Recent", modifier = Modifier.weight(1f))
+                Text(
+                    text = "Clear",
+                    style = MaterialTheme.typography.labelLargeEmphasized,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier
+                        .nebPressable(onClick = onClearRecents)
+                        .clip(RoundedCornerShape(50))
+                        .padding(horizontal = 10.dp, vertical = 6.dp)
+                )
+            }
+            recents.forEach { entry ->
+                RecentQueryRow(
+                    query = entry,
+                    onClick = { onQueryPick(entry) },
+                    onRemove = { onRemoveRecent(entry) }
+                )
+            }
+            Spacer(modifier = Modifier.height(10.dp))
+        }
+
+        NebSectionLabel(text = "Popular right now")
+        NebChipRow {
+            SearchUiState.SUGGESTIONS.forEach { suggestion ->
+                NebFilterChip(
+                    label = suggestion,
+                    selected = false,
+                    onClick = { onQueryPick(suggestion) }
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun RecentQueryRow(
+    query: String,
+    onClick: () -> Unit,
+    onRemove: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 52.dp)
+            .nebPressable(onClick = onClick)
+            .clip(RoundedCornerShape(18.dp))
+            .padding(start = 4.dp, end = 4.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            imageVector = Icons.Rounded.History,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.size(19.dp)
+        )
+        Spacer(modifier = Modifier.width(14.dp))
+        Text(
+            text = query,
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurface,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.weight(1f)
+        )
+        IconButton(onClick = onRemove, modifier = Modifier.size(40.dp)) {
+            Icon(
+                imageVector = Icons.Rounded.Close,
+                contentDescription = "Remove “$query” from recent searches",
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.size(16.dp)
+            )
         }
     }
 }

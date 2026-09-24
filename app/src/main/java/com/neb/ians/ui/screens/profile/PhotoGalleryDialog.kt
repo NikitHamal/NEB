@@ -26,7 +26,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Upload
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -51,6 +50,8 @@ import com.neb.ians.data.api.ApiUserPhoto
 import com.neb.ians.ui.components.WebPanelShape
 import com.neb.ians.ui.components.WebPrimaryButton
 import com.neb.ians.ui.components.ZoomableImageDialog
+import com.neb.ians.ui.components.NebLoaderSize
+import com.neb.ians.ui.components.NebLoader
 
 /**
  * Own-profile photo gallery — mirrors the web profile photo modal:
@@ -96,10 +97,7 @@ fun PhotoGalleryDialog(
                         modifier = Modifier.weight(1f)
                     )
                     if (isBusy) {
-                        CircularProgressIndicator(
-                            modifier = Modifier.size(18.dp),
-                            strokeWidth = 2.dp
-                        )
+                        NebLoader(size = NebLoaderSize.Inline)
                         Spacer(modifier = Modifier.size(8.dp))
                     }
                     IconButton(onClick = onDismiss) {
@@ -116,7 +114,7 @@ fun PhotoGalleryDialog(
                             .height(160.dp),
                         contentAlignment = Alignment.Center
                     ) {
-                        CircularProgressIndicator(modifier = Modifier.size(28.dp), strokeWidth = 3.dp)
+                        NebLoader(size = NebLoaderSize.Small)
                     }
                     photos.isEmpty() -> Box(
                         modifier = Modifier

@@ -18,6 +18,7 @@ import kotlin.math.min
 @HiltViewModel
 class CanvasViewModel @Inject constructor(
     private val repository: CanvasRepository,
+    private val aiGenerator: CanvasAiGenerator,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -62,9 +63,6 @@ class CanvasViewModel @Inject constructor(
     private val _deleteBoardTarget = MutableStateFlow<CanvasBoard?>(null)
     val deleteBoardTarget: StateFlow<CanvasBoard?> = _deleteBoardTarget.asStateFlow()
 
-    private val _minimapVisible = MutableStateFlow(false)
-    val minimapVisible: StateFlow<Boolean> = _minimapVisible.asStateFlow()
-
     private val _globalPrompt = MutableStateFlow("")
     val globalPrompt: StateFlow<String> = _globalPrompt.asStateFlow()
 
@@ -82,6 +80,83 @@ class CanvasViewModel @Inject constructor(
 
     private val _toastMessage = MutableStateFlow<String?>(null)
     val toastMessage: StateFlow<String?> = _toastMessage.asStateFlow()
+
+    private val _nodeHeights = MutableStateFlow<Map<String, Float>>(emptyMap())
+    val nodeHeights: StateFlow<Map<String, Float>> = _nodeHeights.asStateFlow()
+
+    private val undoStack = ArrayDeque<List<CanvasNode>>()
+    private val redoStack = ArrayDeque<List<CanvasNode>>()
+
+    private val _canUndo = MutableStateFlow(false)
+    val canUndo: StateFlow<Boolean> = _canUndo.asStateFlow()
+
+    private val _canRedo = MutableStateFlow(false)
+    val canRedo: StateFlow<Boolean> = _canRedo.asStateFlow()
+
+    private fun pushHistory() {
+        undoStack.addLast(_nodes.value)
+        while (undoStack.size > HISTORY_LIMIT) undoStack.removeFirst()
+        redoStack.clear()
+        syncHistory()
+    }
+
+    private fun syncHistory() {
+        _canUndo.value = undoStack.isNotEmpty()
+        _canRedo.value = redoStack.isNotEmpty()
+    }
+
+    private fun clearHistory() {
+        undoStack.clear()
+        redoStack.clear()
+        syncHistory()
+    }
+
+    /** A drag is one step, so the snapshot is taken when the finger lands, not on every pixel. */
+    fun beginNodeDrag() = pushHistory()
+
+    fun undo() {
+        val restored = undoStack.removeLastOrNull() ?: return
+        redoStack.addLast(_nodes.value)
+        applyHistory(restored, "Undone")
+    }
+
+    fun redo() {
+        val restored = redoStack.removeLastOrNull() ?: return
+        undoStack.addLast(_nodes.value)
+        applyHistory(restored, "Redone")
+    }
+
+    private fun applyHistory(list: List<CanvasNode>, message: String) {
+        _nodes.value = list
+        if (list.none { it.id == _selectedNodeId.value }) _selectedNodeId.value = null
+        cancelConnecting()
+        syncHistory()
+        val board = _activeBoard.value
+        if (board != null) {
+            viewModelScope.launch { repository.saveNodesForBoard(board.id, list) }
+        }
+        showToast(message)
+    }
+
+    fun deleteSelectedNode() {
+        _selectedNodeId.value?.let { deleteNode(it) }
+    }
+
+    fun duplicateSelectedNode() {
+        _selectedNodeId.value?.let { duplicateNode(it) }
+    }
+
+    fun reportNodeHeight(nodeId: String, heightDp: Float) {
+        if (heightDp <= 0f) return
+        val known = _nodeHeights.value[nodeId]
+        if (known != null && kotlin.math.abs(known - heightDp) < 1f) return
+        _nodeHeights.value = _nodeHeights.value + (nodeId to heightDp)
+    }
+
+    private fun boundsFor(node: CanvasNode): CanvasBounds = boundsOf(node, _nodeHeights.value)
+
+    private fun heightFor(nodeId: String): Float =
+        _nodeHeights.value[nodeId] ?: CanvasCardFallbackHeight
 
     private var _containerWidth: Float = 1080f
     private var _containerHeight: Float = 1920f
@@ -120,6 +195,7 @@ class CanvasViewModel @Inject constructor(
     fun selectBoard(board: CanvasBoard) {
         _activeBoard.value = board
         _sidebarOpen.value = false
+        clearHistory()
         viewModelScope.launch {
             val list = repository.getNodesForBoard(board.id)
             _nodes.value = list
@@ -145,10 +221,6 @@ class CanvasViewModel @Inject constructor(
 
     fun setDeleteBoardTarget(board: CanvasBoard?) {
         _deleteBoardTarget.value = board
-    }
-
-    fun setMinimapVisible(visible: Boolean) {
-        _minimapVisible.value = visible
     }
 
     fun setGlobalPrompt(text: String) {
@@ -202,6 +274,7 @@ class CanvasViewModel @Inject constructor(
         val source = currentNodes.find { it.id == sourceId } ?: return
         val target = currentNodes.find { it.id == targetId } ?: return
 
+        pushHistory()
         val isAlreadyConnected = source.connections.contains(targetId) ||
                 target.connections.contains(sourceId) ||
                 target.parentId == sourceId ||
@@ -295,10 +368,13 @@ class CanvasViewModel @Inject constructor(
 
         viewModelScope.launch {
             _isGenerating.value = true
+            pushHistory()
             val roots = _nodes.value.filter { it.parentId.isNullOrBlank() }
-            val cardWidth = 340f
-            val gapX = 40f
-            val baseX = if (roots.isEmpty()) 40f else (roots.maxOfOrNull { it.x } ?: 0f) + cardWidth + gapX
+            val baseX = if (roots.isEmpty()) {
+                40f
+            } else {
+                (roots.maxOfOrNull { it.x } ?: 0f) + CanvasCardWidth + CanvasGapX
+            }
             val baseY = 40f
 
             val placeholder = CanvasNode(
@@ -316,23 +392,21 @@ class CanvasViewModel @Inject constructor(
             val withPlaceholder = _nodes.value + placeholder
             _nodes.value = withPlaceholder
 
-            delay(450)
-            val generated = CanvasKnowledgeEngine.generateNode(
+            val outcome = generateNode(
                 prompt = prompt,
                 boardId = currentBoard.id,
                 parentId = null,
                 baseX = baseX,
                 baseY = baseY,
-                webSearch = _webSearch.value,
-                speedMode = _speedMode.value
+                contextTitle = null
             )
 
-            val finalized = _nodes.value.filterNot { it.id == placeholder.id } + generated
+            val finalized = _nodes.value.filterNot { it.id == placeholder.id } + outcome.node
             _nodes.value = finalized
             repository.saveNodesForBoard(currentBoard.id, finalized)
             _isGenerating.value = false
             fitContent(finalized)
-            showToast("Visual knowledge generated")
+            showToast(outcome.message)
 
             if (_nodes.value.size == 1 && currentBoard.title.startsWith("Untitled")) {
                 val newTitle = prompt.take(28)
@@ -347,18 +421,9 @@ class CanvasViewModel @Inject constructor(
         val parent = _nodes.value.find { it.id == parentId } ?: return
 
         viewModelScope.launch {
+            pushHistory()
             val siblings = _nodes.value.count { it.parentId == parentId }
-            val cardWidth = 340f
-            val cardHeight = 480f
-            val gapX = 40f
-            val gapY = 60f
-
-            val (baseX, baseY) = when (direction.lowercase()) {
-                "right" -> Pair(parent.x + cardWidth + gapX, parent.y + siblings * 40f)
-                "left" -> Pair(parent.x - cardWidth - gapX, parent.y + siblings * 40f)
-                "top" -> Pair(parent.x + siblings * (cardWidth + gapX), parent.y - cardHeight - gapY)
-                else -> Pair(parent.x + siblings * (cardWidth + gapX), parent.y + cardHeight + gapY)
-            }
+            val (baseX, baseY) = childOrigin(boundsFor(parent), direction, siblings)
 
             val placeholder = CanvasNode(
                 id = "tmp_${System.currentTimeMillis()}",
@@ -374,22 +439,69 @@ class CanvasViewModel @Inject constructor(
             )
             _nodes.value = _nodes.value + placeholder
 
-            delay(400)
-            val generated = CanvasKnowledgeEngine.generateNode(
+            val outcome = generateNode(
                 prompt = prompt,
                 boardId = currentBoard.id,
+                parentId = parentId,
+                baseX = baseX,
+                baseY = baseY,
+                contextTitle = parent.title
+            )
+
+            val finalized = _nodes.value.filterNot { it.id == placeholder.id } + outcome.node
+            _nodes.value = finalized
+            repository.saveNodesForBoard(currentBoard.id, finalized)
+            fitContent(finalized)
+            showToast(outcome.message)
+        }
+    }
+
+    private data class GenerationOutcome(val node: CanvasNode, val message: String)
+
+    private suspend fun generateNode(
+        prompt: String,
+        boardId: String,
+        parentId: String?,
+        baseX: Float,
+        baseY: Float,
+        contextTitle: String?
+    ): GenerationOutcome {
+        return try {
+            val node = aiGenerator.generate(
+                prompt = prompt,
+                boardId = boardId,
+                parentId = parentId,
+                baseX = baseX,
+                baseY = baseY,
+                webSearch = _webSearch.value,
+                speedMode = _speedMode.value,
+                context = contextTitle
+            )
+            GenerationOutcome(node, "Neby mapped it out")
+        } catch (e: Exception) {
+            val fallback = CanvasKnowledgeEngine.generateNode(
+                prompt = prompt,
+                boardId = boardId,
                 parentId = parentId,
                 baseX = baseX,
                 baseY = baseY,
                 webSearch = _webSearch.value,
                 speedMode = _speedMode.value
             )
+            val reason = (e as? CanvasAiException)?.message ?: "Neby is unreachable"
+            GenerationOutcome(fallback, "$reason — showing an offline outline")
+        }
+    }
 
-            val finalized = _nodes.value.filterNot { it.id == placeholder.id } + generated
-            _nodes.value = finalized
-            repository.saveNodesForBoard(currentBoard.id, finalized)
-            fitContent(finalized)
-            showToast("Branched concept created")
+    fun dragNodeBy(nodeId: String, dxPx: Float, dyPx: Float) {
+        val scale = _viewportScale.value.coerceAtLeast(0.05f)
+        val density = _containerDensity.coerceAtLeast(0.5f)
+        val dxDp = dxPx / density / scale
+        val dyDp = dyPx / density / scale
+        if (dxDp == 0f && dyDp == 0f) return
+        val now = System.currentTimeMillis()
+        _nodes.value = _nodes.value.map {
+            if (it.id == nodeId) it.copy(x = it.x + dxDp, y = it.y + dyDp, updatedAt = now) else it
         }
     }
 
@@ -409,6 +521,7 @@ class CanvasViewModel @Inject constructor(
 
     fun updateNodeColor(nodeId: String, colorKey: String) {
         val board = _activeBoard.value ?: return
+        pushHistory()
         val updated = _nodes.value.map {
             if (it.id == nodeId) it.copy(color = colorKey, updatedAt = System.currentTimeMillis())
             else it
@@ -422,6 +535,7 @@ class CanvasViewModel @Inject constructor(
     fun duplicateNode(nodeId: String) {
         val board = _activeBoard.value ?: return
         val target = _nodes.value.find { it.id == nodeId } ?: return
+        pushHistory()
         val dup = target.copy(
             id = "node_${System.currentTimeMillis()}_${UUID.randomUUID().toString().take(4)}",
             x = target.x + 60f,
@@ -438,6 +552,7 @@ class CanvasViewModel @Inject constructor(
 
     fun deleteNode(nodeId: String) {
         val board = _activeBoard.value ?: return
+        pushHistory()
         val updated = _nodes.value.filterNot { it.id == nodeId }.map {
             it.copy(
                 parentId = if (it.parentId == nodeId) null else it.parentId,
@@ -457,16 +572,16 @@ class CanvasViewModel @Inject constructor(
         val board = _activeBoard.value ?: return
         val currentNodes = _nodes.value
         if (currentNodes.isEmpty()) return
+        pushHistory()
 
         val roots = currentNodes.filter { it.parentId.isNullOrBlank() }
         val nonRoots = currentNodes.filterNot { it.parentId.isNullOrBlank() }
 
         val newNodes = mutableListOf<CanvasNode>()
         var currentRootX = 40f
-        val cardWidth = 340f
-        val cardHeight = 480f
-        val gapX = 40f
-        val gapY = 60f
+        val cardWidth = CanvasCardWidth
+        val gapX = CanvasGapX
+        val gapY = CanvasGapY
 
         roots.forEach { root ->
             val children = nonRoots.filter { it.parentId == root.id }
@@ -479,15 +594,13 @@ class CanvasViewModel @Inject constructor(
             val rootCenterX = currentRootX + (totalSpanWidth - cardWidth) / 2f
             newNodes.add(root.copy(x = rootCenterX, y = 40f))
 
+            val childY = 40f + heightFor(root.id) + gapY
             children.forEachIndexed { idx, child ->
-                val childX = currentRootX + idx * (cardWidth + gapX)
-                val childY = 40f + cardHeight + gapY
-                newNodes.add(child.copy(x = childX, y = childY))
+                newNodes.add(child.copy(x = currentRootX + idx * (cardWidth + gapX), y = childY))
             }
             currentRootX += totalSpanWidth + 80f
         }
 
-        // Add any disconnected leftovers
         nonRoots.filterNot { nr -> roots.any { r -> r.id == nr.parentId } }.forEachIndexed { idx, orphan ->
             newNodes.add(orphan.copy(x = currentRootX + idx * (cardWidth + gapX), y = 40f))
         }
@@ -520,8 +633,8 @@ class CanvasViewModel @Inject constructor(
         nodeList.forEach { n ->
             minXDp = min(minXDp, n.x)
             minYDp = min(minYDp, n.y)
-            maxXDp = max(maxXDp, n.x + 340f)
-            maxYDp = max(maxYDp, n.y + 480f)
+            maxXDp = max(maxXDp, n.x + CanvasCardWidth)
+            maxYDp = max(maxYDp, n.y + heightFor(n.id))
         }
 
         val contentWidthPx = (maxXDp - minXDp) * d
@@ -562,6 +675,13 @@ class CanvasViewModel @Inject constructor(
         _viewportTy.value = newTy
     }
 
+    fun resetZoom() {
+        applyZoomAt(
+            Offset(_containerWidth / 2f, _containerHeight / 2f),
+            1f / _viewportScale.value.coerceAtLeast(0.05f)
+        )
+    }
+
     fun zoomIn() {
         applyZoomAt(Offset(_containerWidth / 2f, _containerHeight / 2f), 1.25f)
     }
@@ -586,3 +706,5 @@ class CanvasViewModel @Inject constructor(
         _viewportTy.value = newTy
     }
 }
+
+private const val HISTORY_LIMIT = 30

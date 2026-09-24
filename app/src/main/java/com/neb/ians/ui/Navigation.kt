@@ -48,7 +48,8 @@ import com.neb.ians.util.DeepLinkBus
 import kotlinx.coroutines.launch
 import com.neb.ians.ui.components.LiquidGlassBottomNav
 import com.neb.ians.ui.components.LiquidGlassProfileSheet
-import com.neb.ians.ui.components.CreateActionBottomSheet
+import com.neb.ians.ui.components.NebFabAction
+import com.neb.ians.ui.components.NebFabMenuScrim
 import com.neb.ians.ui.components.NebNavItem
 import com.neb.ians.ui.screens.home.HomeScreen
 import com.neb.ians.ui.screens.library.LibraryScreen
@@ -60,7 +61,8 @@ import com.neb.ians.ui.screens.forum.CreatePostScreen
 import com.neb.ians.ui.screens.forum.ReplyScreen
 import com.neb.ians.ui.screens.search.SearchScreen
 import com.neb.ians.ui.screens.profile.ProfileScreen
-import com.neb.ians.ui.screens.profile.EditProfileScreen
+import com.neb.ians.ui.screens.profile.edit.EditProfileScreen
+import com.neb.ians.ui.screens.people.PeopleScreen
 import com.neb.ians.ui.screens.notifications.NotificationsScreen
 import com.neb.ians.ui.screens.settings.SettingsScreen
 import com.neb.ians.ui.screens.settings.SettingsViewModel
@@ -81,22 +83,25 @@ import com.neb.ians.ui.screens.interactive.InteractiveCourseScreen
 import com.neb.ians.ui.screens.interactive.InteractiveLessonScreen
 import com.neb.ians.ui.screens.auth.SplashScreen
 import com.neb.ians.ui.screens.auth.LoginScreen
-import com.neb.ians.ui.screens.auth.EmailSignupScreen
-import com.neb.ians.ui.screens.auth.EmailLoginScreen
+import com.neb.ians.ui.screens.auth.EmailAuthScreen
 import com.neb.ians.ui.screens.auth.EmailVerificationScreen
 import com.neb.ians.ui.screens.auth.ForgotPasswordScreen
-import com.neb.ians.ui.screens.auth.CompleteProfileScreen
+import com.neb.ians.ui.screens.onboarding.OnboardingScreen
 import com.neb.ians.ui.screens.results.ResultCheckerScreen
 import com.neb.ians.ui.screens.results.ToolsScreen
 import com.neb.ians.ui.screens.news.NewsDetailScreen
 import com.neb.ians.ui.screens.news.NewsScreen
 import com.neb.ians.ui.screens.credits.NebyCreditsScreen
+import androidx.compose.material.icons.outlined.SpaceDashboard
+import androidx.compose.material.icons.outlined.RateReview
+import androidx.compose.material.icons.outlined.CloudUpload
+import androidx.activity.compose.BackHandler
+import com.neb.ians.ui.theme.NebAccents
 
 sealed class Screen(val route: String) {
     data object Splash : Screen("splash")
     data object Login : Screen("login")
-    data object EmailSignup : Screen("email_signup")
-    data object EmailLogin : Screen("email_login")
+    data object EmailAuth : Screen("email_auth")
     data object EmailVerification : Screen("email_verification/{email}") {
         fun createRoute(email: String) = "email_verification/${if (email.isBlank()) "none" else java.net.URLEncoder.encode(email, "UTF-8")}"
     }
@@ -123,6 +128,7 @@ sealed class Screen(val route: String) {
         }
     }
     data object Notifications : Screen("notifications")
+    data object People : Screen("people")
     data object StudyLab : Screen("study_lab")
     data object StudySpace : Screen("study_space/{spaceId}") {
         fun createRoute(spaceId: String) = "study_space/$spaceId"
@@ -176,6 +182,9 @@ sealed class Screen(val route: String) {
     data object WebPortal : Screen("web_portal/{url}") {
         fun createRoute(url: String) = "web_portal/${java.net.URLEncoder.encode(url, "UTF-8")}"
     }
+    data object Legal : Screen("legal/{doc}") {
+        fun createRoute(doc: String) = "legal/$doc"
+    }
 }
 
 val glassNavItems = listOf(
@@ -223,8 +232,7 @@ fun NEBiansNavHost(
                 if (currentRoute != null &&
                     currentRoute != Screen.Splash.route &&
                     currentRoute != Screen.Login.route &&
-                    currentRoute != Screen.EmailLogin.route &&
-                    currentRoute != Screen.EmailSignup.route
+                    currentRoute != Screen.EmailAuth.route
                 ) {
                     navController.navigate(Screen.Login.route) {
                         popUpTo(navController.graph.findStartDestination().id) { inclusive = true }
@@ -233,7 +241,7 @@ fun NEBiansNavHost(
             }
             is AuthState.Authenticated -> {
                 val currentRoute = navController.currentBackStackEntry?.destination?.route
-                if (currentRoute == Screen.Login.route || currentRoute == Screen.EmailLogin.route) {
+                if (currentRoute == Screen.Login.route || currentRoute == Screen.EmailAuth.route) {
                     val dest = if (state.isProfileComplete) Screen.Home.route else Screen.CompleteProfile.route
                     navController.navigate(dest) {
                         popUpTo(navController.graph.findStartDestination().id) { inclusive = true }
@@ -283,7 +291,34 @@ fun NEBiansNavHost(
         }
     }
     var showProfileDropdown by remember { mutableStateOf(false) }
-    var showCreateSheet by remember { mutableStateOf(false) }
+    var showCreateMenu by remember { mutableStateOf(false) }
+    val createMenuActions = remember(navController) {
+        listOf(
+            NebFabAction(
+                label = "New canvas",
+                icon = Icons.Outlined.Draw,
+                onClick = { navController.navigate(Screen.Canvas.createRoute()) },
+                accent = NebAccents.Teal,
+                testTag = "create_menu_new_canvas"
+            ),
+            NebFabAction(
+                label = "Upload materials",
+                icon = Icons.Outlined.CloudUpload,
+                onClick = { navController.navigate(Screen.Upload.route) },
+                accent = NebAccents.Amber,
+                testTag = "create_menu_upload_materials"
+            ),
+            NebFabAction(
+                label = "New post",
+                icon = Icons.Outlined.RateReview,
+                onClick = { navController.navigate(Screen.CreatePost.route) },
+                accent = NebAccents.Indigo,
+                testTag = "create_menu_new_post"
+            )
+        )
+    }
+    BackHandler(enabled = showCreateMenu) { showCreateMenu = false }
+    LaunchedEffect(currentRoute) { showCreateMenu = false }
     val navigateToOwnProfile = {
         val username = userProfile?.username?.takeIf { it.isNotBlank() && it != "Guest" }
         if (username != null) {
@@ -346,54 +381,27 @@ fun NEBiansNavHost(
             }
             composable(Screen.Login.route) {
                 LoginScreen(
-                    authRepository = authRepository,
+                    onNavigateToEmailAuth = { navController.navigate(Screen.EmailAuth.route) }
+                )
+            }
+            composable(Screen.EmailAuth.route) {
+                EmailAuthScreen(
+                    onClose = { navController.popBackStack() },
                     onNavigateToHome = {
                         navController.navigate(Screen.Home.route) {
                             popUpTo(Screen.Login.route) { inclusive = true }
                         }
                     },
-                    onNavigateToCompleteProfile = {
+                    onNavigateToOnboarding = {
                         navController.navigate(Screen.CompleteProfile.route) {
                             popUpTo(Screen.Login.route) { inclusive = true }
                         }
                     },
-                    onNavigateToEmailSignup = { navController.navigate(Screen.EmailSignup.route) },
+                    onNavigateToVerification = { email ->
+                        navController.navigate(Screen.EmailVerification.createRoute(email))
+                    },
                     onNavigateToForgotPassword = { email ->
                         navController.navigate(Screen.ForgotPassword.createRoute(email))
-                    },
-                    onNavigateToVerification = { email ->
-                        navController.navigate(Screen.EmailVerification.createRoute(email))
-                    }
-                )
-            }
-            composable(Screen.EmailSignup.route) {
-                EmailSignupScreen(
-                    authRepository = authRepository,
-                    onNavigateToVerification = { email ->
-                        navController.navigate(Screen.EmailVerification.createRoute(email))
-                    },
-                    onNavigateBack = { navController.popBackStack() }
-                )
-            }
-            composable(Screen.EmailLogin.route) {
-                LoginScreen(
-                    authRepository = authRepository,
-                    onNavigateToHome = {
-                        navController.navigate(Screen.Home.route) {
-                            popUpTo(Screen.EmailLogin.route) { inclusive = true }
-                        }
-                    },
-                    onNavigateToCompleteProfile = {
-                        navController.navigate(Screen.CompleteProfile.route) {
-                            popUpTo(Screen.EmailLogin.route) { inclusive = true }
-                        }
-                    },
-                    onNavigateToEmailSignup = { navController.navigate(Screen.EmailSignup.route) },
-                    onNavigateToForgotPassword = { email ->
-                        navController.navigate(Screen.ForgotPassword.createRoute(email))
-                    },
-                    onNavigateToVerification = { email ->
-                        navController.navigate(Screen.EmailVerification.createRoute(email))
                     }
                 )
             }
@@ -411,7 +419,7 @@ fun NEBiansNavHost(
                             popUpTo(Screen.EmailVerification.route) { inclusive = true }
                         }
                     },
-                    onNavigateToCompleteProfile = {
+                    onNavigateToOnboarding = {
                         navController.navigate(Screen.CompleteProfile.route) {
                             popUpTo(Screen.EmailVerification.route) { inclusive = true }
                         }
@@ -433,22 +441,16 @@ fun NEBiansNavHost(
                             popUpTo(Screen.ForgotPassword.route) { inclusive = true }
                         }
                     },
-                    onNavigateToCompleteProfile = {
-                        navController.navigate(Screen.CompleteProfile.route) {
-                            popUpTo(Screen.ForgotPassword.route) { inclusive = true }
-                        }
-                    },
                     onNavigateBack = { navController.popBackStack() }
                 )
             }
             composable(Screen.CompleteProfile.route) {
-                CompleteProfileScreen(
-                    onNavigateToHome = {
+                OnboardingScreen(
+                    onFinished = {
                         navController.navigate(Screen.Home.route) {
                             popUpTo(Screen.CompleteProfile.route) { inclusive = true }
                         }
-                    },
-                    onNavigateBack = { navController.popBackStack() }
+                    }
                 )
             }
             composable(Screen.Home.route) {
@@ -471,7 +473,8 @@ fun NEBiansNavHost(
                     },
                     onNotificationsClick = { navController.navigate(Screen.Notifications.route) },
                     onProfileClick = navigateToOwnProfile,
-                    onUserProfileClick = { username -> navController.navigate(Screen.Profile.createRoute(username)) }
+                    onUserProfileClick = { username -> navController.navigate(Screen.Profile.createRoute(username)) },
+                    onSeeAllPeopleClick = { navController.navigate(Screen.People.route) }
                 )
             }
             composable(
@@ -559,6 +562,14 @@ fun NEBiansNavHost(
                         navController.navigate(Screen.Profile.createRoute(username))
                     },
                     onNavigateBack = { navController.popBackStack() }
+                )
+            }
+            composable(Screen.People.route) {
+                PeopleScreen(
+                    onNavigateBack = { navController.popBackStack() },
+                    onPersonClick = { username ->
+                        navController.navigate(Screen.Profile.createRoute(username))
+                    }
                 )
             }
             composable(Screen.Notifications.route) {
@@ -699,6 +710,16 @@ fun NEBiansNavHost(
                 )
             }
             composable(
+                route = Screen.Legal.route,
+                arguments = listOf(navArgument("doc") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val doc = backStackEntry.arguments?.getString("doc") ?: com.neb.ians.ui.screens.legal.NebLegal.PRIVACY
+                com.neb.ians.ui.screens.legal.LegalScreen(
+                    documentKey = doc,
+                    onClose = { navController.popBackStack() }
+                )
+            }
+            composable(
                 route = Screen.WebPortal.route,
                 arguments = listOf(navArgument("url") { type = NavType.StringType })
             ) { backStackEntry ->
@@ -724,6 +745,9 @@ fun NEBiansNavHost(
                     },
                     onNavigateToWebPortal = { url ->
                         navController.navigate(Screen.WebPortal.createRoute(url))
+                    },
+                    onNavigateToLegal = { doc ->
+                        navController.navigate(Screen.Legal.createRoute(doc))
                     },
                     onNavigateToCanvas = {
                         navController.navigate(Screen.Canvas.createRoute())
@@ -879,6 +903,11 @@ fun NEBiansNavHost(
             }
         }
 
+        NebFabMenuScrim(
+            expanded = showCreateMenu && showBottomBar,
+            onDismissRequest = { showCreateMenu = false }
+        )
+
         if (showBottomBar) {
             LiquidGlassBottomNav(
                 items = glassNavItems,
@@ -890,7 +919,10 @@ fun NEBiansNavHost(
                         restoreState = true
                     }
                 },
-                onCreateClick = { showCreateSheet = true },
+                onCreateClick = { showCreateMenu = !showCreateMenu },
+                menuActions = createMenuActions,
+                menuExpanded = showCreateMenu,
+                onMenuDismiss = { showCreateMenu = false },
                 modifier = Modifier.align(Alignment.BottomCenter)
             )
         }
@@ -914,21 +946,6 @@ fun NEBiansNavHost(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .padding(bottom = if (showBottomBar) 92.dp else 12.dp)
-            )
-        }
-
-        if (showCreateSheet) {
-            CreateActionBottomSheet(
-                onDismiss = { showCreateSheet = false },
-                onNewPostClick = {
-                    navController.navigate(Screen.CreatePost.route)
-                },
-                onUploadMaterialsClick = {
-                    navController.navigate(Screen.Upload.route)
-                },
-                onNewCanvasClick = {
-                    navController.navigate(Screen.Canvas.createRoute())
-                }
             )
         }
 

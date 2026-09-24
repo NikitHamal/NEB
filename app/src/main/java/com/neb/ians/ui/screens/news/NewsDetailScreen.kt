@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -36,6 +37,7 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
@@ -51,10 +53,16 @@ import com.neb.ians.ui.components.ConfirmDeleteDialog
 import com.neb.ians.ui.components.ErrorCard
 import com.neb.ians.ui.components.NebCommentComposerBar
 import com.neb.ians.ui.components.MarkdownText
+import com.neb.ians.ui.components.ShimmerCard
+import com.neb.ians.ui.components.ShimmerLine
+import com.neb.ians.ui.components.NebModalSheet
 import com.neb.ians.ui.components.WebCardShape
 import com.neb.ians.ui.components.WebPillShape
 import com.neb.ians.ui.screens.home.NewsCategoryBadge
 import com.neb.ians.ui.screens.home.newsIcon
+import com.neb.ians.ui.components.NebButton
+import com.neb.ians.ui.components.NebButtonSize
+import com.neb.ians.ui.components.NebButtonTone
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -67,7 +75,6 @@ fun NewsDetailScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val uriHandler = LocalUriHandler.current
-    var showMoreMenu by remember { mutableStateOf(false) }
     var activeThreadParentId by remember { mutableStateOf<String?>(null) }
     var activeThreadTargetId by remember { mutableStateOf<String?>(null) }
     var deletingCommentId by remember { mutableStateOf<String?>(null) }
@@ -81,42 +88,30 @@ fun NewsDetailScreen(
 
     Scaffold(
         topBar = {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 4.dp, vertical = 4.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                IconButton(onClick = onNavigateBack) {
-                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
-                }
-                Spacer(Modifier.weight(1f))
-                uiState.detail?.let { detail ->
-                    Box {
-                        IconButton(onClick = { showMoreMenu = true }) {
-                            Icon(Icons.Filled.MoreVert, contentDescription = "More")
-                        }
-                        DropdownMenu(
-                            expanded = showMoreMenu,
-                            onDismissRequest = { showMoreMenu = false }
-                        ) {
-                            DropdownMenuItem(
-                                text = { Text("Share") },
-                                onClick = {
-                                    showMoreMenu = false
-                                    val intent = Intent(Intent.ACTION_SEND).apply {
-                                        type = "text/plain"
-                                        putExtra(Intent.EXTRA_SUBJECT, detail.announcement.title)
-                                        putExtra(Intent.EXTRA_TEXT, detail.announcement.url)
-                                    }
-                                    context.startActivity(Intent.createChooser(intent, "Share Post"))
-                                },
-                                leadingIcon = { Icon(Icons.Filled.Share, null) }
-                            )
+            TopAppBar(
+                title = {
+                    Text(
+                        text = uiState.detail?.announcement?.categoryLabel ?: "Blog",
+                        style = MaterialTheme.typography.titleSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                },
+                navigationIcon = {
+                    IconButton(onClick = onNavigateBack) {
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                    }
+                },
+                actions = {
+                    uiState.detail?.let { detail ->
+                        IconButton(onClick = { shareArticle(context, detail.announcement) }) {
+                            Icon(Icons.Filled.Share, contentDescription = "Share article")
                         }
                     }
-                }
-            }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
+                )
+            )
         },
         bottomBar = {
             if (uiState.detail != null && !uiState.isLoading) {
@@ -163,61 +158,41 @@ fun NewsDetailScreen(
                             model = detail.announcement.coverImageUrl,
                             contentDescription = detail.announcement.title,
                             modifier = Modifier
-                                .padding(horizontal = 16.dp)
+                                .padding(horizontal = 20.dp)
                                 .fillMaxWidth()
-                                .aspectRatio(16f / 9f)
-                                .clip(WebPillShape),
+                                .aspectRatio(16f / 10f)
+                                .clip(RoundedCornerShape(18.dp)),
                             contentScale = ContentScale.Crop
                         )
-                        Spacer(modifier = Modifier.height(18.dp))
+                        Spacer(modifier = Modifier.height(24.dp))
                     }
 
                     MarkdownText(
                         markdown = detail.content.ifBlank { detail.announcement.summary.ifBlank { detail.announcement.title } },
-                        modifier = Modifier.padding(horizontal = 16.dp),
-                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.padding(horizontal = 20.dp),
+                        style = MaterialTheme.typography.bodyLarge.copy(lineHeight = 30.sp),
                         onLinkClick = { url -> safeOpenUri(uriHandler, context, url) }
                     )
 
-                    Spacer(modifier = Modifier.height(16.dp))
-                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
-                    Spacer(modifier = Modifier.height(12.dp))
-
-                    OutlinedButton(
-                        onClick = {
-                            val intent = Intent(Intent.ACTION_SEND).apply {
-                                type = "text/plain"
-                                putExtra(Intent.EXTRA_SUBJECT, detail.announcement.title)
-                                putExtra(Intent.EXTRA_TEXT, detail.announcement.url)
-                            }
-                            context.startActivity(Intent.createChooser(intent, "Share Post"))
-                        },
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp)
-                            .fillMaxWidth(),
-                        shape = WebPillShape
-                    ) {
-                        Icon(Icons.Filled.Share, contentDescription = null, modifier = Modifier.size(18.dp))
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text("Share this article")
-                    }
-
                     if (detail.externalUrl.isNotBlank()) {
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Button(
+                        Spacer(modifier = Modifier.height(24.dp))
+                        NebButton(
+                            text = "Read the original",
                             onClick = { safeOpenUri(uriHandler, context, detail.externalUrl) },
-                            modifier = Modifier
-                                .padding(horizontal = 16.dp)
-                                .fillMaxWidth(),
-                            shape = WebPillShape
-                        ) {
-                            Icon(Icons.Filled.OpenInNew, contentDescription = null, modifier = Modifier.size(18.dp))
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Text("View Original Source")
-                        }
+                            modifier = Modifier.padding(horizontal = 20.dp),
+                            icon = Icons.Filled.OpenInNew,
+                            tone = NebButtonTone.Outlined,
+                            fillWidth = true
+                        )
                     }
 
-                    Spacer(modifier = Modifier.height(28.dp))
+                    Spacer(modifier = Modifier.height(32.dp))
+                    HorizontalDivider(
+                        color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.6f),
+                        modifier = Modifier.padding(horizontal = 20.dp)
+                    )
+                    Spacer(modifier = Modifier.height(24.dp))
+
                     NewsCommentsSection(
                         uiState = uiState,
                         onLikeClick = viewModel::toggleCommentLike,
@@ -233,26 +208,28 @@ fun NewsDetailScreen(
                         onOpenThread = { comment -> activeThreadParentId = comment.id },
                         onDeleteClick = { comment -> deletingCommentId = comment.id },
                         onLinkClick = { url -> safeOpenUri(uriHandler, context, url) },
-                        modifier = Modifier.padding(horizontal = 16.dp)
+                        modifier = Modifier.padding(horizontal = 20.dp)
                     )
 
                     if (detail.related.isNotEmpty()) {
-                        Spacer(modifier = Modifier.height(28.dp))
+                        Spacer(modifier = Modifier.height(32.dp))
                         Text(
-                            text = "Related",
-                            style = MaterialTheme.typography.titleLarge,
-                            fontWeight = FontWeight.Bold,
-                            modifier = Modifier.padding(horizontal = 16.dp)
+                            text = "More from the blog",
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.SemiBold,
+                            modifier = Modifier.padding(horizontal = 20.dp)
                         )
-                        Spacer(modifier = Modifier.height(12.dp))
-                        detail.related.forEach { related ->
-                            RelatedNewsCard(
+                        Spacer(modifier = Modifier.height(4.dp))
+                        detail.related.forEachIndexed { index, related ->
+                            NewsIndexRow(
                                 item = related,
                                 onClick = { onRelatedNewsClick(related.slug) },
-                                modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp)
+                                showDivider = index < detail.related.lastIndex
                             )
                         }
                     }
+
+                    Spacer(modifier = Modifier.height(24.dp))
                 }
             }
         }
@@ -268,13 +245,12 @@ fun NewsDetailScreen(
                 uiState.comments.firstOrNull { it.id == targetId }
             }
 
-            ModalBottomSheet(
-                onDismissRequest = {
+            NebModalSheet(
+                onDismiss = {
                     activeThreadParentId = null
                     activeThreadTargetId = null
                 },
-                sheetState = sheetState,
-                containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
+                sheetState = sheetState
             ) {
                 Column(
                     modifier = Modifier
@@ -521,25 +497,29 @@ private fun NewsCommentsSection(
                 }
             }
             uiState.comments.isEmpty() -> {
-                Surface(
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = WebCardShape,
-                    color = MaterialTheme.colorScheme.surfaceContainerLow,
-                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 26.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    Column(
-                        modifier = Modifier.padding(24.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        Icon(Icons.Outlined.Forum, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
-                        Text("No comments yet", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
-                        Text(
-                            "Be the first NEBian to share a thought.",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
+                    Icon(
+                        imageVector = Icons.Outlined.Forum,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Text(
+                        text = "No comments yet",
+                        style = MaterialTheme.typography.titleSmall,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    Text(
+                        text = "Be the first NEBian to share a thought.",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
                 }
             }
             else -> uiState.topLevelComments.forEach { comment ->
@@ -562,93 +542,97 @@ private fun NewsCommentsSection(
     }
 }
 
+private fun shareArticle(context: android.content.Context, item: NewsAnnouncement) {
+    val intent = Intent(Intent.ACTION_SEND).apply {
+        type = "text/plain"
+        putExtra(Intent.EXTRA_SUBJECT, item.title)
+        putExtra(Intent.EXTRA_TEXT, item.url)
+    }
+    context.startActivity(Intent.createChooser(intent, "Share article"))
+}
+
+/**
+ * The masthead of one article: what kind of piece it is, its headline, its
+ * standfirst, and who filed it. Grey line, black headline, rule underneath —
+ * the order a reader expects from a page of prose.
+ */
 @Composable
 private fun NewsArticleHeader(item: NewsAnnouncement) {
-    val accent = remember(item.categoryColorHex) { item.categoryColorHex.toSafeColor() }
-    Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)) {
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
-            NewsCategoryBadge(label = item.categoryLabel, icon = item.categoryIcon.newsIcon(), accent = accent)
+    val scheme = MaterialTheme.colorScheme
+    Column(modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 8.dp, bottom = 22.dp)) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(5.dp)
+        ) {
             if (item.isPinned) {
-                Surface(shape = WebPillShape, color = MaterialTheme.colorScheme.primary.copy(alpha = 0.10f)) {
-                    Row(modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp), verticalAlignment = Alignment.CenterVertically) {
-                        Icon(Icons.Filled.PushPin, contentDescription = null, modifier = Modifier.size(13.dp), tint = MaterialTheme.colorScheme.primary)
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Text("Pinned", style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
-                    }
-                }
+                Icon(
+                    imageVector = Icons.Filled.PushPin,
+                    contentDescription = "Pinned",
+                    tint = scheme.onSurface,
+                    modifier = Modifier.size(12.dp)
+                )
             }
+            Text(
+                text = item.categoryLabel.uppercase(),
+                style = MaterialTheme.typography.labelSmall,
+                color = scheme.onSurfaceVariant
+            )
         }
-        Spacer(modifier = Modifier.height(14.dp))
-        Text(item.title, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.ExtraBold, color = MaterialTheme.colorScheme.onSurface)
+        Spacer(modifier = Modifier.height(10.dp))
+        Text(
+            text = item.title,
+            style = MaterialTheme.typography.headlineMedium,
+            fontWeight = FontWeight.SemiBold,
+            color = scheme.onSurface
+        )
         if (item.summary.isNotBlank()) {
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(item.summary, style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onSurfaceVariant, lineHeight = MaterialTheme.typography.bodyLarge.lineHeight)
+            Spacer(modifier = Modifier.height(12.dp))
+            Text(
+                text = item.summary,
+                style = MaterialTheme.typography.bodyLarge.copy(lineHeight = 27.sp),
+                color = scheme.onSurfaceVariant
+            )
         }
-        Spacer(modifier = Modifier.height(14.dp))
-        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Text(item.authorName, style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold)
-            Text("â€¢", color = MaterialTheme.colorScheme.onSurfaceVariant)
-            Text(item.publishedAgo.ifBlank { "Latest" }, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            if (item.viewCount.isNotBlank()) {
-                Text("â€¢", color = MaterialTheme.colorScheme.onSurfaceVariant)
-                Icon(Icons.Outlined.Visibility, contentDescription = null, modifier = Modifier.size(15.dp), tint = MaterialTheme.colorScheme.onSurfaceVariant)
-                Text("${item.viewCount} views", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            }
+        Spacer(modifier = Modifier.height(18.dp))
+        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+            Text(
+                text = item.authorName,
+                style = MaterialTheme.typography.labelLarge,
+                fontWeight = FontWeight.Medium,
+                color = scheme.onSurface
+            )
+            Text(
+                text = bylineTail(item),
+                style = MaterialTheme.typography.labelMedium,
+                color = scheme.onSurfaceVariant
+            )
         }
+        Spacer(modifier = Modifier.height(18.dp))
+        HorizontalDivider(color = scheme.outlineVariant.copy(alpha = 0.6f))
     }
 }
 
-@Composable
-private fun RelatedNewsCard(item: NewsAnnouncement, onClick: () -> Unit, modifier: Modifier = Modifier) {
-    val accent = remember(item.categoryColorHex) { item.categoryColorHex.toSafeColor() }
-    Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .clip(WebCardShape)
-            .clickable(onClick = onClick),
-        shape = WebCardShape,
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest),
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
-    ) {
-        Row(modifier = Modifier.padding(12.dp), horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.CenterVertically) {
-            Box(
-                modifier = Modifier
-                    .size(72.dp)
-                    .clip(WebCardShape)
-                    .background(Brush.linearGradient(listOf(accent.copy(alpha = 0.18f), accent.copy(alpha = 0.06f))))
-            ) {
-                Icon(item.categoryIcon.newsIcon(), contentDescription = null, modifier = Modifier.align(Alignment.Center).size(32.dp), tint = accent.copy(alpha = 0.8f))
-            }
-            Column(modifier = Modifier.weight(1f)) {
-                Text(item.title, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold, maxLines = 2, overflow = TextOverflow.Ellipsis)
-                Spacer(modifier = Modifier.height(6.dp))
-                Text(item.publishedAgo.ifBlank { item.categoryLabel }, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            }
-        }
-    }
-}
+private fun bylineTail(item: NewsAnnouncement): String = listOf(
+    item.publishedAgo.ifBlank { "Latest" },
+    if (item.viewCount.isBlank()) "" else "${item.viewCount} views"
+).filter { it.isNotBlank() }.joinToString(" · ", prefix = "· ")
 
 @Composable
 private fun NewsDetailSkeleton(modifier: Modifier = Modifier) {
-    Column(modifier = modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
-        repeat(5) { index ->
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth(if (index == 0) 0.45f else 1f)
-                    .height(if (index == 1) 34.dp else 18.dp)
-                    .clip(WebPillShape)
-                    .background(MaterialTheme.colorScheme.surfaceContainerHigh)
-            )
-        }
-        HorizontalDivider()
-        repeat(8) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(16.dp)
-                    .clip(WebPillShape)
-                    .background(MaterialTheme.colorScheme.surfaceContainerHigh)
-            )
+    Column(
+        modifier = modifier.padding(horizontal = 20.dp, vertical = 12.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        ShimmerLine(widthFraction = 0.24f, height = 9.dp)
+        ShimmerLine(widthFraction = 0.95f, height = 26.dp)
+        ShimmerLine(widthFraction = 0.7f, height = 26.dp)
+        Spacer(modifier = Modifier.height(2.dp))
+        ShimmerLine(widthFraction = 0.4f, height = 11.dp)
+        Spacer(modifier = Modifier.height(6.dp))
+        ShimmerCard(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(18.dp), height = 190.dp)
+        Spacer(modifier = Modifier.height(6.dp))
+        repeat(7) { index ->
+            ShimmerLine(widthFraction = if (index == 6) 0.55f else 1f, height = 14.dp)
         }
     }
 }

@@ -1,6 +1,12 @@
+@file:OptIn(
+    androidx.compose.material3.ExperimentalMaterial3Api::class,
+    androidx.compose.material3.ExperimentalMaterial3ExpressiveApi::class
+)
+
 package com.neb.ians.ui.screens.canvas
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -8,9 +14,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -21,6 +29,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.ArrowForward
 import androidx.compose.material.icons.automirrored.outlined.OpenInNew
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Clear
@@ -37,19 +46,15 @@ import androidx.compose.material.icons.outlined.SpaceDashboard
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilledTonalButton
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -64,6 +69,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -71,8 +77,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.neb.ians.ui.components.NebChipRow
+import com.neb.ians.ui.components.NebConfirmDialog
+import com.neb.ians.ui.components.NebDialog
+import com.neb.ians.ui.components.NebDialogAction
+import com.neb.ians.ui.components.NebDialogTextField
+import com.neb.ians.ui.components.NebFilterChip
+import com.neb.ians.ui.components.NebSectionLabel
 import com.neb.ians.ui.components.WebTopBar
+import com.neb.ians.ui.components.nebPressable
 import com.neb.ians.util.formatTimeAgo
+import com.neb.ians.ui.components.NebButton
+import com.neb.ians.ui.components.NebButtonSize
+import com.neb.ians.ui.components.NebButtonTone
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -101,25 +118,7 @@ fun CanvasListScreen(
                 onProfileClick = onProfileClick
             )
         },
-        containerColor = MaterialTheme.colorScheme.surface,
-        floatingActionButton = {
-            if (allBoards.isNotEmpty()) {
-                FloatingActionButton(
-                    onClick = { viewModel.openCreateDialog() },
-                    modifier = Modifier
-                        .navigationBarsPadding()
-                        .padding(bottom = 88.dp, end = 12.dp),
-                    shape = CircleShape,
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.Add,
-                        contentDescription = "Create New Canvas"
-                    )
-                }
-            }
-        }
+        containerColor = MaterialTheme.colorScheme.surface
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -127,54 +126,51 @@ fun CanvasListScreen(
                 .padding(innerPadding)
         ) {
             if (allBoards.isNotEmpty()) {
-                Row(
+                OutlinedTextField(
+                    value = searchQuery,
+                    onValueChange = { viewModel.onSearchQueryChange(it) },
+                    placeholder = {
+                        Text(
+                            text = "Search canvases",
+                            style = MaterialTheme.typography.bodyLarge,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    },
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Outlined.Search,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.size(20.dp)
+                        )
+                    },
+                    trailingIcon = {
+                        if (searchQuery.isNotEmpty()) {
+                            IconButton(onClick = { viewModel.onSearchQueryChange("") }) {
+                                Icon(
+                                    imageVector = Icons.Filled.Clear,
+                                    contentDescription = "Clear search",
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            }
+                        }
+                    },
+                    singleLine = true,
+                    maxLines = 1,
+                    textStyle = MaterialTheme.typography.bodyLarge,
+                    shape = RoundedCornerShape(50),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedContainerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                        unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                        focusedBorderColor = MaterialTheme.colorScheme.onSurface,
+                        unfocusedBorderColor = Color.Transparent
+                    ),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    OutlinedTextField(
-                        value = searchQuery,
-                        onValueChange = { viewModel.onSearchQueryChange(it) },
-                        placeholder = { Text("Search canvases...") },
-                        leadingIcon = {
-                            Icon(
-                                imageVector = Icons.Outlined.Search,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        },
-                        trailingIcon = {
-                            if (searchQuery.isNotEmpty()) {
-                                IconButton(onClick = { viewModel.onSearchQueryChange("") }) {
-                                    Icon(Icons.Filled.Clear, contentDescription = "Clear search")
-                                }
-                            }
-                        },
-                        singleLine = true,
-                        shape = RoundedCornerShape(12.dp),
-                        modifier = Modifier.weight(1f)
-                    )
-
-                    FilledTonalButton(
-                        onClick = { viewModel.openCreateDialog() },
-                        contentPadding = PaddingValues(horizontal = 14.dp, vertical = 14.dp),
-                        shape = RoundedCornerShape(12.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Filled.Add,
-                            contentDescription = null,
-                            modifier = Modifier.size(18.dp)
-                        )
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Text(
-                            text = "New",
-                            style = MaterialTheme.typography.labelLarge,
-                            fontWeight = FontWeight.SemiBold
-                        )
-                    }
-                }
+                        .padding(horizontal = 16.dp, vertical = 8.dp)
+                        .heightIn(min = 52.dp)
+                )
             }
 
             Box(
@@ -217,9 +213,11 @@ fun CanvasListScreen(
                                 color = MaterialTheme.colorScheme.onSurface
                             )
                             Spacer(modifier = Modifier.height(8.dp))
-                            TextButton(onClick = { viewModel.onSearchQueryChange("") }) {
-                                Text("Clear search")
-                            }
+                            NebButton(
+                                text = "Clear search",
+                                onClick = { viewModel.onSearchQueryChange("") },
+                                tone = NebButtonTone.Text
+                            )
                         }
                     }
                 } else {
@@ -229,13 +227,21 @@ fun CanvasListScreen(
                         verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
                         item {
-                            Text(
-                                text = "My Canvases (${filteredBoards.size})",
-                                style = MaterialTheme.typography.titleSmall,
-                                fontWeight = FontWeight.SemiBold,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp)
-                            )
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 4.dp, vertical = 2.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = "My Canvases (${filteredBoards.size})",
+                                    style = MaterialTheme.typography.titleSmall,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    modifier = Modifier.weight(1f)
+                                )
+                                NewCanvasButton(onClick = { viewModel.openCreateDialog() })
+                            }
                         }
 
                         items(filteredBoards, key = { it.id }) { board ->
@@ -280,45 +286,40 @@ fun CanvasListScreen(
     }
 
     deleteBoardTarget?.let { board ->
-        AlertDialog(
-            onDismissRequest = { viewModel.setDeleteBoardTarget(null) },
-            icon = {
-                Icon(
-                    imageVector = Icons.Outlined.Delete,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.error
-                )
-            },
-            title = {
-                Text(
-                    text = "Delete Canvas?",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold
-                )
-            },
-            text = {
-                Text(
-                    text = "Are you sure you want to delete \"${board.title}\"? All nodes and diagrams in this canvas will be permanently removed.",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            },
-            confirmButton = {
-                Button(
-                    onClick = { viewModel.deleteCanvas(board.id) },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.error,
-                        contentColor = MaterialTheme.colorScheme.onError
-                    )
-                ) {
-                    Text("Delete")
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = { viewModel.setDeleteBoardTarget(null) }) {
-                    Text("Cancel")
-                }
-            }
+        NebConfirmDialog(
+            title = "Delete canvas?",
+            message = "\"${board.title}\" and every node in it will be permanently removed.",
+            confirmLabel = "Delete",
+            onConfirm = { viewModel.deleteCanvas(board.id) },
+            onDismiss = { viewModel.setDeleteBoardTarget(null) },
+            icon = Icons.Outlined.Delete,
+            destructive = true
+        )
+    }
+}
+
+@Composable
+private fun NewCanvasButton(onClick: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .defaultMinSize(minHeight = 38.dp)
+            .nebPressable(onClick = onClick)
+            .clip(RoundedCornerShape(50))
+            .background(MaterialTheme.colorScheme.onSurface)
+            .padding(start = 12.dp, end = 15.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(6.dp)
+    ) {
+        Icon(
+            imageVector = Icons.Filled.Add,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.surface,
+            modifier = Modifier.size(17.dp)
+        )
+        Text(
+            text = "New",
+            style = MaterialTheme.typography.labelLargeEmphasized,
+            color = MaterialTheme.colorScheme.surface
         )
     }
 }
@@ -380,23 +381,12 @@ private fun EmptyCanvasState(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            Button(
+            NebButton(
+                text = "Create new canvas",
                 onClick = onCreateNew,
-                shape = RoundedCornerShape(14.dp),
-                contentPadding = PaddingValues(horizontal = 24.dp, vertical = 12.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.Add,
-                    contentDescription = null,
-                    modifier = Modifier.size(18.dp)
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(
-                    text = "Create New Canvas",
-                    style = MaterialTheme.typography.labelLarge,
-                    fontWeight = FontWeight.SemiBold
-                )
-            }
+                icon = Icons.Filled.Add,
+                size = NebButtonSize.Hero
+            )
 
             Spacer(modifier = Modifier.height(36.dp))
 
@@ -423,14 +413,14 @@ private fun EmptyCanvasState(
                     title = "Concept Mastery",
                     subtitle = "Feynman Technique for breaking down difficult concepts simply",
                     icon = Icons.Outlined.Psychology,
-                    badgeColor = Color(0xFF1A73E8),
+                    badgeColor = MaterialTheme.colorScheme.onSurface,
                     onClick = { onSelectTemplate("concept-master", "Concept Mastery") }
                 )
                 TemplateQuickCard(
                     title = "Blank Canvas",
                     subtitle = "Freeform exploration with custom node connections & Neby AI",
                     icon = Icons.Outlined.SpaceDashboard,
-                    badgeColor = Color(0xFF7C3AED),
+                    badgeColor = MaterialTheme.colorScheme.onSurfaceVariant,
                     onClick = { onSelectTemplate("blank", "Untitled Canvas") }
                 )
             }
@@ -442,63 +432,56 @@ private fun EmptyCanvasState(
 private fun TemplateQuickCard(
     title: String,
     subtitle: String,
-    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    icon: ImageVector,
     badgeColor: Color,
     onClick: () -> Unit
 ) {
-    Card(
+    Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick),
-        shape = RoundedCornerShape(14.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-        ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+            .nebPressable(onClick = onClick)
+            .clip(RoundedCornerShape(20.dp))
+            .background(MaterialTheme.colorScheme.surfaceContainerLow)
+            .border(1.dp, MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(20.dp))
+            .padding(14.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Row(
+        Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
+                .size(42.dp)
+                .clip(RoundedCornerShape(14.dp))
+                .background(MaterialTheme.colorScheme.surfaceContainerHighest),
+            contentAlignment = Alignment.Center
         ) {
-            Box(
-                modifier = Modifier
-                    .size(44.dp)
-                    .clip(RoundedCornerShape(10.dp))
-                    .background(badgeColor.copy(alpha = 0.12f)),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = icon,
-                    contentDescription = null,
-                    tint = badgeColor,
-                    modifier = Modifier.size(24.dp)
-                )
-            }
-            Spacer(modifier = Modifier.width(14.dp))
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = title,
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-                Spacer(modifier = Modifier.height(2.dp))
-                Text(
-                    text = subtitle,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    lineHeight = 16.sp
-                )
-            }
             Icon(
-                imageVector = Icons.AutoMirrored.Outlined.OpenInNew,
-                contentDescription = "Use template",
-                tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.size(18.dp)
+                imageVector = icon,
+                contentDescription = null,
+                tint = badgeColor,
+                modifier = Modifier.size(21.dp)
             )
         }
+        Spacer(modifier = Modifier.width(14.dp))
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleSmallEmphasized,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            Spacer(modifier = Modifier.height(3.dp))
+            Text(
+                text = subtitle,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                lineHeight = 16.sp
+            )
+        }
+        Spacer(modifier = Modifier.width(10.dp))
+        Icon(
+            imageVector = Icons.AutoMirrored.Outlined.ArrowForward,
+            contentDescription = "Use template",
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.size(18.dp)
+        )
     }
 }
 
@@ -512,171 +495,154 @@ private fun CanvasBoardCard(
 ) {
     var menuExpanded by remember { mutableStateOf(false) }
 
-    Card(
+    Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick),
-        shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+            .nebPressable(onClick = onClick)
+            .clip(RoundedCornerShape(20.dp))
+            .background(MaterialTheme.colorScheme.surface)
+            .border(1.dp, MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(20.dp))
+            .padding(start = 14.dp, top = 12.dp, bottom = 12.dp, end = 4.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Column(
+        Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
+                .size(42.dp)
+                .clip(RoundedCornerShape(14.dp))
+                .background(MaterialTheme.colorScheme.surfaceContainerHighest),
+            contentAlignment = Alignment.Center
         ) {
+            Icon(
+                imageVector = Icons.Outlined.Draw,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.size(20.dp)
+            )
+        }
+        Spacer(modifier = Modifier.width(14.dp))
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = board.title,
+                style = MaterialTheme.typography.titleSmallEmphasized,
+                color = MaterialTheme.colorScheme.onSurface,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+            Spacer(modifier = Modifier.height(4.dp))
             Row(
-                modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.spacedBy(14.dp)
             ) {
-                Row(
-                    modifier = Modifier.weight(1f),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .size(38.dp)
-                            .clip(RoundedCornerShape(10.dp))
-                            .background(MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.6f)),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            imageVector = Icons.Outlined.Draw,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.size(20.dp)
-                        )
-                    }
-                    Spacer(modifier = Modifier.width(12.dp))
-                    Column {
-                        Text(
-                            text = board.title,
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.onSurface,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                        Spacer(modifier = Modifier.height(2.dp))
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Icon(
-                                imageVector = Icons.Outlined.AccountTree,
-                                contentDescription = null,
-                                modifier = Modifier.size(13.dp),
-                                tint = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                            Spacer(modifier = Modifier.width(4.dp))
-                            Text(
-                                text = if (board.nodeCount > 0) "${board.nodeCount} nodes" else "Blank canvas",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Text(
-                                text = "•",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Icon(
-                                imageVector = Icons.Outlined.Schedule,
-                                contentDescription = null,
-                                modifier = Modifier.size(13.dp),
-                                tint = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                            Spacer(modifier = Modifier.width(4.dp))
-                            Text(
-                                text = formatTimeAgo(board.updatedAt),
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-                    }
-                }
-
-                Box {
-                    IconButton(onClick = { menuExpanded = true }) {
-                        Icon(
-                            imageVector = Icons.Filled.MoreVert,
-                            contentDescription = "Options",
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-
-                    DropdownMenu(
-                        expanded = menuExpanded,
-                        onDismissRequest = { menuExpanded = false }
-                    ) {
-                        DropdownMenuItem(
-                            text = { Text("Open Canvas") },
-                            leadingIcon = {
-                                Icon(
-                                    Icons.AutoMirrored.Outlined.OpenInNew,
-                                    contentDescription = null,
-                                    modifier = Modifier.size(18.dp)
-                                )
-                            },
-                            onClick = {
-                                menuExpanded = false
-                                onClick()
-                            }
-                        )
-                        DropdownMenuItem(
-                            text = { Text("Rename") },
-                            leadingIcon = {
-                                Icon(
-                                    Icons.Outlined.Edit,
-                                    contentDescription = null,
-                                    modifier = Modifier.size(18.dp)
-                                )
-                            },
-                            onClick = {
-                                menuExpanded = false
-                                onRename()
-                            }
-                        )
-                        DropdownMenuItem(
-                            text = { Text("Duplicate") },
-                            leadingIcon = {
-                                Icon(
-                                    Icons.Outlined.ContentCopy,
-                                    contentDescription = null,
-                                    modifier = Modifier.size(18.dp)
-                                )
-                            },
-                            onClick = {
-                                menuExpanded = false
-                                onDuplicate()
-                            }
-                        )
-                        HorizontalDivider()
-                        DropdownMenuItem(
-                            text = {
-                                Text(
-                                    "Delete",
-                                    color = MaterialTheme.colorScheme.error
-                                )
-                            },
-                            leadingIcon = {
-                                Icon(
-                                    Icons.Outlined.Delete,
-                                    contentDescription = null,
-                                    tint = MaterialTheme.colorScheme.error,
-                                    modifier = Modifier.size(18.dp)
-                                )
-                            },
-                            onClick = {
-                                menuExpanded = false
-                                onDelete()
-                            }
-                        )
-                    }
-                }
+                CanvasBoardMeta(
+                    icon = Icons.Outlined.AccountTree,
+                    text = if (board.nodeCount > 0) "${board.nodeCount} nodes" else "Blank canvas"
+                )
+                CanvasBoardMeta(
+                    icon = Icons.Outlined.Schedule,
+                    text = formatTimeAgo(board.updatedAt)
+                )
             }
         }
+
+        Box {
+            IconButton(onClick = { menuExpanded = true }) {
+                Icon(
+                    imageVector = Icons.Filled.MoreVert,
+                    contentDescription = "Options",
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.size(20.dp)
+                )
+            }
+
+            DropdownMenu(
+                expanded = menuExpanded,
+                onDismissRequest = { menuExpanded = false },
+                shape = RoundedCornerShape(18.dp),
+                containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+            ) {
+                DropdownMenuItem(
+                    text = { Text("Open canvas") },
+                    leadingIcon = {
+                        Icon(
+                            Icons.AutoMirrored.Outlined.OpenInNew,
+                            contentDescription = null,
+                            modifier = Modifier.size(18.dp)
+                        )
+                    },
+                    onClick = {
+                        menuExpanded = false
+                        onClick()
+                    }
+                )
+                DropdownMenuItem(
+                    text = { Text("Rename") },
+                    leadingIcon = {
+                        Icon(
+                            Icons.Outlined.Edit,
+                            contentDescription = null,
+                            modifier = Modifier.size(18.dp)
+                        )
+                    },
+                    onClick = {
+                        menuExpanded = false
+                        onRename()
+                    }
+                )
+                DropdownMenuItem(
+                    text = { Text("Duplicate") },
+                    leadingIcon = {
+                        Icon(
+                            Icons.Outlined.ContentCopy,
+                            contentDescription = null,
+                            modifier = Modifier.size(18.dp)
+                        )
+                    },
+                    onClick = {
+                        menuExpanded = false
+                        onDuplicate()
+                    }
+                )
+                HorizontalDivider()
+                DropdownMenuItem(
+                    text = {
+                        Text(
+                            "Delete",
+                            color = MaterialTheme.colorScheme.error
+                        )
+                    },
+                    leadingIcon = {
+                        Icon(
+                            Icons.Outlined.Delete,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.error,
+                            modifier = Modifier.size(18.dp)
+                        )
+                    },
+                    onClick = {
+                        menuExpanded = false
+                        onDelete()
+                    }
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun CanvasBoardMeta(icon: ImageVector, text: String) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            modifier = Modifier.size(13.dp),
+            tint = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        Spacer(modifier = Modifier.width(5.dp))
+        Text(
+            text = text,
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
     }
 }
 
@@ -696,94 +662,43 @@ private fun CreateCanvasDialog(
         )
     }
 
-    AlertDialog(
+    NebDialog(
         onDismissRequest = { if (!isCreating) onDismiss() },
-        title = {
-            Text(
-                text = "New Canvas",
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold
-            )
-        },
-        text = {
-            Column(modifier = Modifier.fillMaxWidth()) {
-                OutlinedTextField(
-                    value = title,
-                    onValueChange = { title = it },
-                    label = { Text("Canvas Title") },
-                    placeholder = { Text("e.g. Physics Optics, Organic Reactions") },
-                    modifier = Modifier.fillMaxWidth(),
-                    singleLine = true,
-                    shape = RoundedCornerShape(12.dp),
-                    enabled = !isCreating
-                )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Text(
-                    text = "Starting Template",
-                    style = MaterialTheme.typography.labelMedium,
-                    fontWeight = FontWeight.SemiBold,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                LazyRow(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    items(templates) { (key, name) ->
-                        val isSelected = selectedTemplateKey == key || (key == "blank" && selectedTemplateKey == null)
-                        Surface(
-                            modifier = Modifier.clickable(enabled = !isCreating) {
-                                selectedTemplateKey = key
-                            },
-                            shape = RoundedCornerShape(10.dp),
-                            color = if (isSelected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceContainerHigh,
-                            border = if (isSelected) androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.primary) else null
-                        ) {
-                            Text(
-                                text = name,
-                                style = MaterialTheme.typography.bodySmall,
-                                fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-                                color = if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurface,
-                                modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
-                            )
-                        }
-                    }
+        title = "New canvas",
+        supportingText = "Name the board and pick a starting shape.",
+        icon = Icons.Outlined.SpaceDashboard,
+        dismissOnClickOutside = !isCreating,
+        confirm = NebDialogAction(
+            label = if (isCreating) "Creating…" else "Create & open",
+            onClick = {
+                val finalTitle = title.trim().ifBlank {
+                    if (selectedTemplateKey == "concept-master") "Concept Mastery" else "Untitled Canvas"
                 }
-            }
-        },
-        confirmButton = {
-            Button(
-                onClick = {
-                    val finalTitle = title.trim().ifBlank {
-                        if (selectedTemplateKey == "concept-master") "Concept Mastery" else "Untitled Canvas"
-                    }
-                    onCreate(finalTitle, selectedTemplateKey)
-                },
-                enabled = !isCreating
-            ) {
-                if (isCreating) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.size(18.dp),
-                        strokeWidth = 2.dp,
-                        color = MaterialTheme.colorScheme.onPrimary
-                    )
-                } else {
-                    Text("Create & Open")
-                }
-            }
-        },
-        dismissButton = {
-            TextButton(
-                onClick = onDismiss,
-                enabled = !isCreating
-            ) {
-                Text("Cancel")
+                onCreate(finalTitle, selectedTemplateKey)
+            },
+            enabled = !isCreating
+        ),
+        dismiss = NebDialogAction("Cancel", onDismiss, enabled = !isCreating)
+    ) {
+        NebDialogTextField(
+            value = title,
+            onValueChange = { title = it },
+            label = "Canvas title",
+            placeholder = "e.g. Physics Optics"
+        )
+        NebSectionLabel(text = "Starting template")
+        NebChipRow {
+            templates.forEach { (key, name) ->
+                val isSelected = selectedTemplateKey == key || (key == "blank" && selectedTemplateKey == null)
+                NebFilterChip(
+                    label = name,
+                    selected = isSelected,
+                    enabled = !isCreating,
+                    onClick = { selectedTemplateKey = key }
+                )
             }
         }
-    )
+    }
 }
 
 @Composable
@@ -794,41 +709,21 @@ private fun RenameCanvasDialog(
 ) {
     var title by remember { mutableStateOf(currentTitle) }
 
-    AlertDialog(
+    NebDialog(
         onDismissRequest = onDismiss,
-        title = {
-            Text(
-                text = "Rename Canvas",
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold
-            )
-        },
-        text = {
-            OutlinedTextField(
-                value = title,
-                onValueChange = { title = it },
-                label = { Text("Title") },
-                modifier = Modifier.fillMaxWidth(),
-                singleLine = true,
-                shape = RoundedCornerShape(12.dp)
-            )
-        },
-        confirmButton = {
-            Button(
-                onClick = {
-                    if (title.isNotBlank()) {
-                        onConfirm(title.trim())
-                    }
-                },
-                enabled = title.isNotBlank()
-            ) {
-                Text("Save")
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text("Cancel")
-            }
-        }
-    )
+        title = "Rename canvas",
+        icon = Icons.Outlined.Edit,
+        confirm = NebDialogAction(
+            label = "Save",
+            onClick = { if (title.isNotBlank()) onConfirm(title.trim()) },
+            enabled = title.isNotBlank()
+        ),
+        dismiss = NebDialogAction("Cancel", onDismiss)
+    ) {
+        NebDialogTextField(
+            value = title,
+            onValueChange = { title = it },
+            label = "Title"
+        )
+    }
 }

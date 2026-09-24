@@ -137,14 +137,14 @@ fun CommentCard(
                         )
                         if (reply.isArchived == true) {
                             Text(
-                                text = " · archived",
+                                text = ", archived",
                                 style = MaterialTheme.typography.labelSmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         }
                         if (reply.isEdited == true) {
                             Text(
-                                text = " · edited",
+                                text = ", edited",
                                 style = MaterialTheme.typography.labelSmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )

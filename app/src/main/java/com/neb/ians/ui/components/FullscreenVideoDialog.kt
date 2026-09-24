@@ -27,7 +27,6 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.FullscreenExit
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -220,12 +219,7 @@ fun FullscreenVideoDialog(
             )
 
             if (isBuffering) {
-                CircularProgressIndicator(
-                    color = Color.White,
-                    strokeWidth = 2.5.dp,
-                    trackColor = Color.White.copy(alpha = 0.2f),
-                    modifier = Modifier.size(36.dp)
-                )
+                NebLoader(size = NebLoaderSize.Standard, color = Color.White)
             }
 
             AnimatedVisibility(

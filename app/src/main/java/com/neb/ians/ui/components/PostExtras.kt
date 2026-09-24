@@ -49,6 +49,7 @@ import androidx.compose.material.icons.outlined.Archive
 import androidx.compose.material.icons.outlined.ChatBubbleOutline
 import androidx.compose.material.icons.outlined.Code
 import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.DeleteOutline
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Flag
 import androidx.compose.material.icons.outlined.FormatBold
@@ -73,15 +74,12 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -124,6 +122,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.neb.ians.ui.components.NebButton
+import com.neb.ians.ui.components.NebButtonSize
+import com.neb.ians.ui.components.NebButtonTone
 
 // ---------------------------------------------------------------------------
 // URL + share helpers
@@ -301,7 +302,7 @@ fun ForumPostCard(
         shape = WebPanelShape
     ) {
         Column(modifier = Modifier.padding(14.dp)) {
-            // ----- Meta row: avatar + author + badge + "posted" + category · time -----
+            // ----- Meta row: avatar + author + badge + "posted" + category and time -----
             Row(
                 verticalAlignment = Alignment.Top,
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
@@ -372,7 +373,7 @@ fun ForumPostCard(
                             )
                         }
                         Text(
-                            text = " · ",
+                            text = ",  ",
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
                         )
@@ -676,18 +677,8 @@ fun PostMoreMenu(
         )
     }
     if (showSheet) {
-        ModalBottomSheet(
-            onDismissRequest = { showSheet = false },
-            containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-            dragHandle = {
-                Surface(
-                    modifier = Modifier.padding(vertical = 10.dp),
-                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f),
-                    shape = RoundedCornerShape(3.dp)
-                ) {
-                    Box(Modifier.size(width = 32.dp, height = 4.dp))
-                }
-            }
+        NebModalSheet(
+            onDismiss = { showSheet = false }
         ) {
             Column(modifier = Modifier.padding(bottom = 8.dp)) {
                 BottomSheetItem(
@@ -805,7 +796,7 @@ fun PollView(
                 )
                 if (poll.allowMultiple) {
                     Text(
-                        text = "· Multiple choice",
+                        text = "Multiple choice",
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -860,21 +851,13 @@ fun PollView(
                         }
                     }
                     Spacer(modifier = Modifier.height(8.dp))
-                    Button(
+                    NebButton(
+                        text = "Vote",
                         onClick = { onVote(selected.toList()) },
-                        enabled = selected.isNotEmpty() && !isVoting,
-                        shape = WebPillShape
-                    ) {
-                        if (isVoting) {
-                            CircularProgressIndicator(
-                                modifier = Modifier.size(16.dp),
-                                strokeWidth = 2.dp,
-                                color = MaterialTheme.colorScheme.onPrimary
-                            )
-                            Spacer(modifier = Modifier.width(8.dp))
-                        }
-                        Text("Vote")
-                    }
+                        enabled = selected.isNotEmpty(),
+                        loading = isVoting,
+                        size = NebButtonSize.Small
+                    )
                 } else {
                     poll.options.forEach { option ->
                         Row(
@@ -935,7 +918,7 @@ fun PollView(
                 )
                 if (poll.isExpired) {
                     Text(
-                        text = " · Poll ended",
+                        text = ", poll ended",
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -958,12 +941,12 @@ private fun PollResultRow(poll: PollUi, option: PollOptionUi) {
     val showCorrect = poll.isMcq && poll.hasVoted
 
     val fillColor = when {
-        showCorrect && option.correct -> Color(0xFF16A34A).copy(alpha = 0.18f)
+        showCorrect && option.correct -> MaterialTheme.colorScheme.onSurface.copy(alpha = 0.14f)
         showCorrect && isUserChoice && !option.correct -> MaterialTheme.colorScheme.error.copy(alpha = 0.15f)
         else -> MaterialTheme.colorScheme.primary.copy(alpha = 0.14f)
     }
     val borderColor = when {
-        showCorrect && option.correct -> Color(0xFF16A34A)
+        showCorrect && option.correct -> MaterialTheme.colorScheme.onSurface
         showCorrect && isUserChoice && !option.correct -> MaterialTheme.colorScheme.error
         isUserChoice -> MaterialTheme.colorScheme.primary
         else -> MaterialTheme.colorScheme.outlineVariant
@@ -1002,7 +985,7 @@ private fun PollResultRow(poll: PollUi, option: PollOptionUi) {
                     imageVector = Icons.Filled.CheckCircle,
                     contentDescription = "Correct",
                     modifier = Modifier.size(16.dp),
-                    tint = Color(0xFF16A34A)
+                    tint = MaterialTheme.colorScheme.onSurface
                 )
             } else if (showCorrect && isUserChoice && !option.correct) {
                 Icon(
@@ -1021,7 +1004,7 @@ private fun PollResultRow(poll: PollUi, option: PollOptionUi) {
             )
             val pct = if (poll.totalVotes > 0) (option.votes * 100 / poll.totalVotes) else 0
             Text(
-                text = "${option.votes} · $pct%",
+                text = "${option.votes} votes, $pct%",
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -1050,49 +1033,35 @@ fun ReportDialog(
     var reason by rememberSaveable { mutableStateOf("spam") }
     var description by rememberSaveable { mutableStateOf("") }
 
-    AlertDialog(
+    NebDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Report content", fontWeight = FontWeight.Bold) },
-        text = {
-            Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-                REPORT_REASONS.forEach { (value, label) ->
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clip(RoundedCornerShape(8.dp))
-                            .clickable { reason = value }
-                            .padding(vertical = 2.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        RadioButton(selected = reason == value, onClick = { reason = value })
-                        Text(label, style = MaterialTheme.typography.bodyMedium)
-                    }
-                }
-                Spacer(modifier = Modifier.height(8.dp))
-                OutlinedTextField(
-                    value = description,
-                    onValueChange = { if (it.length <= 2000) description = it },
-                    label = { Text("Description (optional)") },
-                    modifier = Modifier.fillMaxWidth(),
-                    minLines = 2,
-                    maxLines = 4,
-                    shape = RoundedCornerShape(12.dp)
+        title = "Report content",
+        supportingText = "Pick the closest reason. Moderators see every report.",
+        icon = Icons.Outlined.Flag,
+        confirm = NebDialogAction(
+            label = if (isSubmitting) "Submitting…" else "Submit report",
+            onClick = { onSubmit(reason, description) },
+            enabled = !isSubmitting
+        ),
+        dismiss = NebDialogAction("Cancel", onDismiss)
+    ) {
+        NebChipRow {
+            REPORT_REASONS.forEach { (value, label) ->
+                NebFilterChip(
+                    label = label,
+                    selected = reason == value,
+                    onClick = { reason = value }
                 )
             }
-        },
-        confirmButton = {
-            Button(
-                onClick = { onSubmit(reason, description) },
-                enabled = !isSubmitting,
-                shape = WebPillShape
-            ) {
-                Text(if (isSubmitting) "Submitting..." else "Submit report")
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) { Text("Cancel") }
         }
-    )
+        NebDialogTextField(
+            value = description,
+            onValueChange = { if (it.length <= 2000) description = it },
+            label = "Description (optional)",
+            singleLine = false,
+            minLines = 2
+        )
+    }
 }
 
 // ---------------------------------------------------------------------------
@@ -1111,72 +1080,49 @@ fun EditContentDialog(
     var title by rememberSaveable { mutableStateOf(initialTitle ?: "") }
     var content by rememberSaveable { mutableStateOf(initialContent) }
 
-    AlertDialog(
+    NebDialog(
         onDismissRequest = onDismiss,
-        title = { Text(dialogTitle, fontWeight = FontWeight.Bold) },
-        text = {
-            Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-                if (initialTitle != null) {
-                    OutlinedTextField(
-                        value = title,
-                        onValueChange = { if (it.length <= 200) title = it },
-                        label = { Text("Title") },
-                        singleLine = true,
-                        modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(12.dp)
-                    )
-                    Spacer(modifier = Modifier.height(10.dp))
-                }
-                OutlinedTextField(
-                    value = content,
-                    onValueChange = { if (it.length <= 20_000) content = it },
-                    label = { Text("Content") },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .heightIn(min = 120.dp, max = 280.dp),
-                    shape = RoundedCornerShape(12.dp)
-                )
-            }
-        },
-        confirmButton = {
-            Button(
-                onClick = { onSave(if (initialTitle != null) title else null, content) },
-                enabled = content.isNotBlank() && (initialTitle == null || title.isNotBlank()) && !isSaving,
-                shape = WebPillShape
-            ) {
-                Text(if (isSaving) "Saving..." else "Save")
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) { Text("Cancel") }
+        title = dialogTitle,
+        icon = Icons.Outlined.Edit,
+        confirm = NebDialogAction(
+            label = if (isSaving) "Saving…" else "Save",
+            onClick = { onSave(if (initialTitle != null) title else null, content) },
+            enabled = content.isNotBlank() && (initialTitle == null || title.isNotBlank()) && !isSaving
+        ),
+        dismiss = NebDialogAction("Cancel", onDismiss)
+    ) {
+        if (initialTitle != null) {
+            NebDialogTextField(
+                value = title,
+                onValueChange = { if (it.length <= 200) title = it },
+                label = "Title"
+            )
         }
-    )
+        NebDialogTextField(
+            value = content,
+            onValueChange = { if (it.length <= 20_000) content = it },
+            label = "Content",
+            singleLine = false,
+            minLines = 4,
+            modifier = Modifier.heightIn(min = 120.dp, max = 280.dp)
+        )
+    }
 }
 
-/** Confirmation dialog for destructive deletes. */
 @Composable
 fun ConfirmDeleteDialog(
     message: String,
     onDismiss: () -> Unit,
     onConfirm: () -> Unit
 ) {
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = { Text("Delete?", fontWeight = FontWeight.Bold) },
-        text = { Text(message) },
-        confirmButton = {
-            Button(
-                onClick = onConfirm,
-                shape = WebPillShape,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.error,
-                    contentColor = MaterialTheme.colorScheme.onError
-                )
-            ) { Text("Delete") }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) { Text("Cancel") }
-        }
+    NebConfirmDialog(
+        title = "Delete?",
+        message = message,
+        confirmLabel = "Delete",
+        onConfirm = onConfirm,
+        onDismiss = onDismiss,
+        icon = Icons.Outlined.DeleteOutline,
+        destructive = true
     )
 }
 

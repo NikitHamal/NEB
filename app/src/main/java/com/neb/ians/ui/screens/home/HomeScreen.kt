@@ -13,9 +13,8 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -48,6 +47,10 @@ import com.neb.ians.ui.components.WebEmptyState
 import com.neb.ians.ui.components.WebTopBar
 import com.neb.ians.ui.components.sharePost
 import kotlinx.coroutines.launch
+import com.neb.ians.ui.components.NebLoaderSize
+import com.neb.ians.ui.components.NebLoader
+
+private const val FEED_PREFETCH_DISTANCE = 6
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -67,9 +70,11 @@ fun HomeScreen(
     onNotificationsClick: () -> Unit = {},
     onProfileClick: () -> Unit = {},
     onUserProfileClick: (String) -> Unit = {},
+    onSeeAllPeopleClick: () -> Unit = {},
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val suggestedPeers by viewModel.suggestedPeers.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
@@ -79,13 +84,14 @@ fun HomeScreen(
     val listState = rememberLazyListState()
     val shouldLoadMore by remember {
         derivedStateOf {
-            val totalItems = listState.layoutInfo.totalItemsCount
-            val lastVisibleItemIndex = listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: 0
-            totalItems > 0 && lastVisibleItemIndex >= totalItems - 3
+            val layout = listState.layoutInfo
+            val totalItems = layout.totalItemsCount
+            val lastVisibleItemIndex = layout.visibleItemsInfo.lastOrNull()?.index ?: 0
+            totalItems > 0 && lastVisibleItemIndex >= totalItems - FEED_PREFETCH_DISTANCE
         }
     }
 
-    LaunchedEffect(shouldLoadMore) {
+    LaunchedEffect(shouldLoadMore, uiState.hasMorePosts, uiState.isLoadingMore) {
         if (shouldLoadMore && uiState.hasMorePosts && !uiState.isLoadingMore) {
             viewModel.loadMore()
         }
@@ -139,17 +145,22 @@ fun HomeScreen(
                     val suggestedResources = remember(uiState.recentResources, uiState.popularResources) {
                         (uiState.popularResources + uiState.recentResources).distinctBy { it.id }
                     }
-                    val suggestedPeers = remember(uiState.recentPosts, uiState.currentUserId) {
-                        uiState.recentPosts
-                            .filter {
-                                it.authorName.isNotBlank() &&
-                                it.authorId != uiState.currentUserId &&
-                                !it.isAnonymous &&
-                                !it.authorName.contains("Anonymous", ignoreCase = true) &&
-                                it.isFollowingAuthor != true
-                            }
-                            .distinctBy { it.authorId.ifBlank { it.authorName } }
-                            .take(8)
+                    val feedEntries = remember(
+                        feedPosts,
+                        uiState.currentUserId,
+                        suggestedResources,
+                        uiState.recentResources,
+                        uiState.latestNews,
+                        suggestedPeers
+                    ) {
+                        buildHomeFeed(
+                            posts = feedPosts,
+                            currentUserId = uiState.currentUserId,
+                            suggestedResources = suggestedResources,
+                            recentResources = uiState.recentResources,
+                            news = uiState.latestNews,
+                            peers = suggestedPeers
+                        )
                     }
 
                     LazyColumn(
@@ -168,7 +179,7 @@ fun HomeScreen(
                             }
                         }
 
-                        if (feedPosts.isEmpty()) {
+                        if (feedEntries.isEmpty()) {
                             item(key = "feed_empty") {
                                 WebEmptyState(
                                     title = "No posts available",
@@ -178,61 +189,54 @@ fun HomeScreen(
                                 )
                             }
                         } else {
-                            itemsIndexed(
-                                items = feedPosts,
-                                key = { _, post -> "post_${post.id}" }
-                            ) { index, post ->
-                                Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                                    ForumPostCard(
-                                        post = post,
-                                        isOwnPost = post.isOwner || (uiState.currentUserId != null && post.authorId == uiState.currentUserId),
-                                        onClick = { onPostClick(post.id) },
-                                        onLikeClick = { viewModel.toggleThumbsUp(post.id) },
-                                        onBookmarkClick = { viewModel.toggleBookmark(post.id) },
-                                        onShareClick = { sharePost(context, post.id) },
+                            items(
+                                items = feedEntries,
+                                key = { it.key },
+                                contentType = { it.contentType }
+                            ) { entry ->
+                                when (entry) {
+                                    is HomeFeedEntry.Post -> ForumPostCard(
+                                        post = entry.post,
+                                        isOwnPost = entry.isOwnPost,
+                                        onClick = { onPostClick(entry.post.id) },
+                                        onLikeClick = { viewModel.toggleThumbsUp(entry.post.id) },
+                                        onBookmarkClick = { viewModel.toggleBookmark(entry.post.id) },
+                                        onShareClick = { sharePost(context, entry.post.id) },
                                         onReportClick = {},
-                                        onEditClick = { onEditPostClick(post.id) },
-                                        onDeleteClick = { deletingPostId = post.id },
-                                        onAuthorClick = { onUserProfileClick(post.authorName) },
+                                        onEditClick = { onEditPostClick(entry.post.id) },
+                                        onDeleteClick = { deletingPostId = entry.post.id },
+                                        onAuthorClick = { onUserProfileClick(entry.post.authorName) },
                                         modifier = Modifier.padding(horizontal = 16.dp)
                                     )
 
-                                    // Interstitial 1: After 1st post card, show suggested for you library resources
-                                    if (index == 0 && suggestedResources.isNotEmpty()) {
-                                        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                                            HomeSectionTitle(
-                                                title = "Suggested for you",
-                                                actionLabel = "See All",
-                                                onActionClick = onViewAllClick
-                                            )
-                                            HomeResourceCarousel(
-                                                resources = suggestedResources,
-                                                onResourceClick = onResourceClick
-                                            )
-                                        }
-                                    }
-
-                                    // Interstitial 2: After 3rd post card (index 2), show news and academic updates
-                                    if (index == 2 && uiState.latestNews.isNotEmpty()) {
-                                        HomeNewsSection(
-                                            items = uiState.latestNews,
-                                            onViewAllClick = onNewsClick,
-                                            onNewsClick = { news -> onNewsItemClick(news.slug) }
+                                    is HomeFeedEntry.ResourceCarousel -> Column(
+                                        verticalArrangement = Arrangement.spacedBy(10.dp)
+                                    ) {
+                                        HomeSectionTitle(
+                                            title = "Suggested for you",
+                                            actionLabel = "See All",
+                                            onActionClick = onViewAllClick
+                                        )
+                                        HomeResourceCarousel(
+                                            resources = entry.resources,
+                                            onResourceClick = onResourceClick
                                         )
                                     }
 
-                                    // Interstitial 3: After 5th post card (index 4), show friend suggestions (People you may know)
-                                    if (index == 4 && suggestedPeers.isNotEmpty()) {
-                                        HomeSuggestedPeersRail(
-                                            peers = suggestedPeers,
-                                            onPeerClick = onUserProfileClick,
-                                            onFollowClick = { authorId -> viewModel.toggleFollowUser(authorId) }
-                                        )
-                                    }
+                                    is HomeFeedEntry.News -> HomeNewsSection(
+                                        items = entry.items,
+                                        onViewAllClick = onNewsClick,
+                                        onNewsClick = { news -> onNewsItemClick(news.slug) }
+                                    )
 
-                                    // Interstitial 4: After 7th post card (index 6), show featured study guide card
-                                    if (index == 6 && suggestedResources.isNotEmpty()) {
-                                        val highlight = suggestedResources.first()
+                                    is HomeFeedEntry.Peers -> HomeSuggestedPeersRail(
+                                        peers = entry.peers,
+                                        onPeerClick = onUserProfileClick,
+                                        onFollowClick = { authorId -> viewModel.toggleFollowUser(authorId) },
+                                        onSeeAllClick = onSeeAllPeopleClick
+                                    )
+
+                                    is HomeFeedEntry.ResourceHighlight -> if (entry.titled) {
                                         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                                             HomeSectionTitle(
                                                 title = "Featured Study Guide",
@@ -240,29 +244,22 @@ fun HomeScreen(
                                                 onActionClick = onViewAllClick
                                             )
                                             HomeFeedResourceHighlight(
-                                                resource = highlight,
-                                                onClick = { onResourceClick(highlight.id) }
+                                                resource = entry.resource,
+                                                onClick = { onResourceClick(entry.resource.id) }
                                             )
                                         }
-                                    }
-
-                                    // Interstitial 5: After 9th post card (index 8), show "New in Library" resources
-                                    if (index == 8 && uiState.recentResources.isNotEmpty()) {
-                                        HomeNewResourcesRail(
-                                            resources = uiState.recentResources,
-                                            onViewAllClick = onViewAllClick,
-                                            onResourceClick = onResourceClick
-                                        )
-                                    }
-
-                                    // Interstitial 6: Repeating after post 10 every 5 posts, interleave another resource
-                                    if (index > 9 && (index - 9) % 5 == 0 && suggestedResources.isNotEmpty()) {
-                                        val highlight = suggestedResources[(index / 5) % suggestedResources.size]
+                                    } else {
                                         HomeFeedResourceHighlight(
-                                            resource = highlight,
-                                            onClick = { onResourceClick(highlight.id) }
+                                            resource = entry.resource,
+                                            onClick = { onResourceClick(entry.resource.id) }
                                         )
                                     }
+
+                                    is HomeFeedEntry.NewResources -> HomeNewResourcesRail(
+                                        resources = entry.resources,
+                                        onViewAllClick = onViewAllClick,
+                                        onResourceClick = onResourceClick
+                                    )
                                 }
                             }
                         }
@@ -277,11 +274,7 @@ fun HomeScreen(
                                     horizontalArrangement = Arrangement.Center,
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
-                                    CircularProgressIndicator(
-                                        modifier = Modifier.size(20.dp),
-                                        strokeWidth = 2.dp,
-                                        color = MaterialTheme.colorScheme.primary
-                                    )
+                                    NebLoader(size = NebLoaderSize.Inline, color = MaterialTheme.colorScheme.primary)
                                     Spacer(Modifier.size(10.dp))
                                     Text(
                                         text = "Loading more updates...",

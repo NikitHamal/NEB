@@ -1,3 +1,5 @@
+@file:OptIn(androidx.compose.material3.ExperimentalMaterial3ExpressiveApi::class)
+
 package com.neb.ians.ui.screens.resource
 
 import android.content.Intent
@@ -50,6 +52,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.neb.ians.ui.components.NebModalSheet
 import com.neb.ians.ui.components.NebPlayerView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -77,6 +80,11 @@ import com.neb.ians.ui.screens.reader.MediaPlayerViewModel
 import com.neb.ians.util.formatTimeAgo
 import kotlinx.coroutines.delay
 import kotlin.math.abs
+import com.neb.ians.ui.components.NebButton
+import com.neb.ians.ui.components.NebButtonSize
+import com.neb.ians.ui.components.NebButtonTone
+import com.neb.ians.ui.components.NebLoaderSize
+import com.neb.ians.ui.components.NebLoader
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -290,7 +298,7 @@ fun ResourceDetailScreen(
                     uiState.isLoading && uiState.resource == null -> Box(
                         Modifier.fillMaxSize().padding(padding),
                         contentAlignment = Alignment.Center
-                    ) { CircularProgressIndicator() }
+                    ) { NebLoader() }
 
                     uiState.resource == null -> Box(
                         Modifier.fillMaxSize().padding(padding),
@@ -305,7 +313,7 @@ fun ResourceDetailScreen(
                         val resource = uiState.resource!!
                         val mediaType = detectResourceMedia(resource.fileUrl, resource.type)
                         val subject = resource.subject.split(",").firstOrNull()?.trim().orEmpty().ifBlank { "General" }
-                        val subjectColor = Color(com.neb.ians.util.getSubjectColor(subject))
+                        val subjectColor = MaterialTheme.colorScheme.onSurface
                         val locked = resource.isPaid && !resource.hasAccess
 
                         // A locked paid resource never renders the player — if another
@@ -386,9 +394,7 @@ fun ResourceDetailScreen(
                 viewModel = mediaViewModel,
                 uiState = mediaState,
                 onExit = ::exitFullscreen,
-                subjectColor = Color(com.neb.ians.util.getSubjectColor(
-                    mediaState.resource?.subject?.split(",")?.firstOrNull()?.trim().orEmpty().ifBlank { "General" }
-                ))
+                subjectColor = MaterialTheme.colorScheme.onSurface
             )
         }
 
@@ -442,13 +448,12 @@ fun ResourceDetailScreen(
                     uiState.comments.firstOrNull { it.id == targetId }
                 }
 
-                ModalBottomSheet(
-                    onDismissRequest = {
+                NebModalSheet(
+                    onDismiss = {
                         activeThreadParentId = null
                         activeThreadTargetId = null
                     },
-                    sheetState = sheetState,
-                    containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
+                    sheetState = sheetState
                 ) {
                     Column(
                         modifier = Modifier
@@ -717,30 +722,15 @@ private fun VideoYouTubeLayout(
             ) {
                 Text(
                     text = resource.title,
-                    style = MaterialTheme.typography.headlineSmall,
-                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.headlineSmallEmphasized,
                     color = MaterialTheme.colorScheme.onSurface
                 )
-                Spacer(Modifier.height(8.dp))
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(6.dp)
-                ) {
-                    Text(
-                        text = "${resource.viewCount} views",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    Text(
-                        "·",
-                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
-                    )
-                    Text(
-                        text = formatTimeAgo(resource.addedAt),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
+                Spacer(Modifier.height(6.dp))
+                Text(
+                    text = "${resource.viewCount} views, ${formatTimeAgo(resource.addedAt)}",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
             }
         }
 
@@ -782,9 +772,12 @@ private fun VideoYouTubeLayout(
                     }
                 }
                 if (uploadUsername.isNotBlank() && !isSelf) {
-                    TextButton(onClick = { onUserProfileClick(uploadUsername) }) {
-                        Text("Follow", fontWeight = FontWeight.Bold, fontSize = 13.sp)
-                    }
+                    NebButton(
+                        text = "Follow",
+                        onClick = { onUserProfileClick(uploadUsername) },
+                        tone = NebButtonTone.Text,
+                        size = NebButtonSize.Small
+                    )
                 }
             }
             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
@@ -1170,11 +1163,7 @@ private fun FullscreenVideoOverlay(
         )
 
         if (uiState.isBuffering) {
-            CircularProgressIndicator(
-                color = Color.White, strokeWidth = 2.5.dp,
-                trackColor = Color.White.copy(alpha = 0.2f),
-                modifier = Modifier.size(36.dp)
-            )
+            NebLoader(size = NebLoaderSize.Standard, color = Color.White)
         }
 
         AnimatedVisibility(
@@ -1354,7 +1343,7 @@ private fun FsSpeedSelector(
         ) {
             Column(
                 Modifier.width(100.dp).clip(RoundedCornerShape(10.dp))
-                    .background(Color(0xFF1E1E1E)).border(1.dp, Color.White.copy(alpha = 0.12f), RoundedCornerShape(10.dp))
+                    .background(Color(0xFF18181B)).border(1.dp, Color.White.copy(alpha = 0.12f), RoundedCornerShape(10.dp))
                     .padding(4.dp)
             ) {
                 FS_SPEEDS.forEach { s ->

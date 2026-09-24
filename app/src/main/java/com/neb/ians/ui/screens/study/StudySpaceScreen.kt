@@ -20,7 +20,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -81,6 +80,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import javax.inject.Inject
+import com.neb.ians.ui.components.NebLoader
 
 data class StudySpaceUiState(
     val space: ApiStudySpaceDetail? = null,
@@ -535,7 +535,7 @@ fun StudySpaceScreen(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    CircularProgressIndicator()
+                    NebLoader()
                 }
             }
             uiState.error != null -> {
@@ -792,7 +792,7 @@ private fun StudyDocumentRow(
                     Text(
                         text = listOf(fileSizeLabel(doc.fileSize), "${doc.parsedTextLength} chars")
                             .filter { it.isNotBlank() }
-                            .joinToString(" · "),
+                            .joinToString(", "),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         maxLines = 1,

@@ -21,14 +21,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ChatBubbleOutline
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.FolderOpen
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Tab
-import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
@@ -67,6 +64,9 @@ import com.neb.ians.data.api.ApiSocialLink
 import com.neb.ians.ui.components.WebEmptyState
 import com.neb.ians.ui.components.WebResourceCard
 import com.neb.ians.ui.components.ZoomableImageDialog
+import com.neb.ians.ui.components.NebRailTab
+import com.neb.ians.ui.components.NebTabRail
+import com.neb.ians.ui.components.NebLoader
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -118,7 +118,7 @@ fun ProfileScreen(
             contentAlignment = Alignment.Center
         ) {
             when {
-                uiState.isLoading -> CircularProgressIndicator()
+                uiState.isLoading -> NebLoader()
                 uiState.error != null -> WebEmptyState(
                     title = "Profile unavailable",
                     message = uiState.error ?: "Try again later.",
@@ -275,59 +275,17 @@ private fun ProfileContent(
             }
         } else {
             item(key = "tabs") {
-                ScrollableTabRow(
-                    selectedTabIndex = uiState.selectedTab,
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    edgePadding = 16.dp,
-                    divider = { HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant) }
-                ) {
-                    listOf("Posts", "Replies", "Resources", "About").forEachIndexed { index, label ->
-                        val isSelected = uiState.selectedTab == index
-                        val count = when (index) {
-                            0 -> profile.postCount
-                            1 -> uiState.repliesCount
-                            2 -> uiState.resourcesCount
-                            else -> 0
-                        }
-                        Tab(
-                            selected = isSelected,
-                            onClick = { onTabSelected(index) },
-                            text = {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.spacedBy(6.dp)
-                                ) {
-                                    Text(
-                                        text = label,
-                                        fontWeight = if (isSelected) FontWeight.ExtraBold else FontWeight.SemiBold,
-                                        style = MaterialTheme.typography.labelLarge
-                                    )
-                                    if (index < 3) {
-                                        Surface(
-                                            shape = CircleShape,
-                                            color = if (isSelected) MaterialTheme.colorScheme.primary
-                                                    else MaterialTheme.colorScheme.surfaceContainerHigh,
-                                            contentColor = if (isSelected) Color.White
-                                                          else MaterialTheme.colorScheme.onSurfaceVariant,
-                                            modifier = Modifier.defaultMinSize(minWidth = 18.dp, minHeight = 18.dp)
-                                        ) {
-                                            Box(
-                                                contentAlignment = Alignment.Center,
-                                                modifier = Modifier.padding(horizontal = 4.dp)
-                                            ) {
-                                                Text(
-                                                    text = count.toString(),
-                                                    style = MaterialTheme.typography.labelSmall,
-                                                    fontWeight = FontWeight.Bold
-                                                )
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        )
-                    }
-                }
+                NebTabRail(
+                    tabs = listOf(
+                        NebRailTab("Posts", count = profile.postCount),
+                        NebRailTab("Replies", count = uiState.repliesCount),
+                        NebRailTab("Resources", count = uiState.resourcesCount),
+                        NebRailTab("About")
+                    ),
+                    selectedIndex = uiState.selectedTab,
+                    onSelect = onTabSelected,
+                    modifier = Modifier.padding(vertical = 2.dp)
+                )
             }
 
             when (uiState.selectedTab) {

@@ -44,6 +44,9 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.neb.ians.ui.components.NebButton
+import com.neb.ians.ui.components.NebButtonSize
+import com.neb.ians.ui.components.NebButtonTone
 
 @Composable
 fun ShimmerBrush(): Brush {
@@ -393,15 +396,11 @@ fun ErrorCard(
                 color = MaterialTheme.colorScheme.onErrorContainer
             )
             Spacer(modifier = Modifier.height(12.dp))
-            Button(
+            NebButton(
+                text = "Retry",
                 onClick = onRetry,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.error,
-                    contentColor = MaterialTheme.colorScheme.onError
-                )
-            ) {
-                Text(text = "Retry")
-            }
+                tone = NebButtonTone.Danger
+            )
         }
     }
 }

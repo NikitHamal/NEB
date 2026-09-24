@@ -2,6 +2,8 @@
 
 **Last updated:** May 30, 2026
 
+> **Android UI work lives in [`ANDROID_UI_CONTINUITY.md`](ANDROID_UI_CONTINUITY.md).** This file covers the Django/web side only.
+
 ---
 
 ## Current Status

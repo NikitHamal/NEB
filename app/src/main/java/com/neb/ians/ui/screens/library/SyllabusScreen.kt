@@ -32,7 +32,6 @@ import androidx.compose.material.icons.outlined.Folder
 import androidx.compose.material.icons.outlined.MenuBook
 import androidx.compose.material.icons.outlined.Quiz
 import androidx.compose.material.icons.outlined.School
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.HorizontalDivider
@@ -70,6 +69,8 @@ import com.neb.ians.ui.components.WebEmptyState
 import com.neb.ians.ui.components.WebPanelShape
 import com.neb.ians.ui.components.WebPillShape
 import com.neb.ians.ui.components.WebResourceCard
+import com.neb.ians.ui.components.NebLoaderSize
+import com.neb.ians.ui.components.NebLoader
 
 @Composable
 fun SyllabusContent(
@@ -141,7 +142,7 @@ private fun SyllabusDetailLoading() {
                 border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
             ) {
                 Box(contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator(modifier = Modifier.size(26.dp), strokeWidth = 2.dp)
+                    NebLoader(size = NebLoaderSize.Small)
                 }
             }
         }
@@ -232,7 +233,7 @@ private fun SyllabusIntroCard(isLoading: Boolean) {
                 )
             }
             if (isLoading) {
-                CircularProgressIndicator(modifier = Modifier.size(22.dp), strokeWidth = 2.dp)
+                NebLoader(size = NebLoaderSize.Inline)
             }
         }
     }

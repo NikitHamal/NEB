@@ -1,3 +1,5 @@
+@file:OptIn(androidx.compose.material3.ExperimentalMaterial3ExpressiveApi::class)
+
 package com.neb.ians.ui.screens.resource
 
 import androidx.compose.foundation.BorderStroke
@@ -42,13 +44,11 @@ import androidx.compose.material.icons.outlined.Verified
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -93,6 +93,7 @@ import androidx.compose.material.icons.outlined.Info
 import coil.compose.AsyncImage
 import android.content.Context
 import android.net.Uri
+import com.neb.ians.ui.components.NebModalSheet
 import java.io.File
 import java.io.FileOutputStream
 import com.neb.ians.data.api.ApiResource
@@ -107,7 +108,11 @@ import com.neb.ians.ui.components.LikePill
 import com.neb.ians.ui.components.NebBadge
 
 import com.neb.ians.util.formatTimeAgo
-import com.neb.ians.util.getSubjectColor
+import com.neb.ians.ui.components.NebButton
+import com.neb.ians.ui.components.NebButtonSize
+import com.neb.ians.ui.components.NebButtonTone
+import com.neb.ians.ui.components.NebLoaderSize
+import com.neb.ians.ui.components.NebLoader
 
 enum class ResourceMediaType { Pdf, Image, Video, Audio, Other }
 
@@ -124,443 +129,63 @@ fun detectResourceMedia(fileUrl: String, type: String): ResourceMediaType {
 }
 
 @Composable
-fun ResourceHeroCard(
-    resource: ApiResource,
-    isLiked: Boolean,
-    likeCount: Int,
-    isBookmarked: Boolean,
-    canLike: Boolean,
-    canBookmark: Boolean,
-    onRead: () -> Unit,
-    onDownload: () -> Unit,
-    onLike: () -> Unit,
-    onBookmark: () -> Unit,
-    onShare: () -> Unit,
-    onUserProfileClick: (String) -> Unit = {}
-) {
-    val subject = resource.subject.split(",").firstOrNull()?.trim().orEmpty().ifBlank { "General" }
-    val subjectColor = Color(getSubjectColor(subject))
-    Surface(
-        modifier = Modifier.fillMaxWidth(),
-        color = MaterialTheme.colorScheme.surfaceContainerLowest,
-        shape = RoundedCornerShape(8.dp),
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
-        tonalElevation = 0.dp,
-        shadowElevation = 0.dp
-    ) {
-        Box {
-            ResourceHeroArt(subjectColor = subjectColor, modifier = Modifier.align(Alignment.TopEnd))
-            Column(modifier = Modifier.padding(18.dp)) {
-                ResourceChips(resource = resource, subject = subject, subjectColor = subjectColor)
-                Spacer(Modifier.height(14.dp))
-                Text(
-                    text = resource.title,
-                    style = MaterialTheme.typography.headlineSmall,
-                    fontWeight = FontWeight.ExtraBold,
-                    lineHeight = 31.sp,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-                Spacer(Modifier.height(10.dp))
-                ResourceMetaBar(resource = resource, onUserProfileClick = onUserProfileClick)
-                if (resource.description.isNotBlank()) {
-                    Spacer(Modifier.height(18.dp))
-                    ExpandableText(
-                        text = resource.description,
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        fontSize = 15.sp
-                    )
-                }
-                ResourceFilesSection(
-                    resource = resource,
-                    onRead = onRead,
-                    onDownload = onDownload,
-                    modifier = Modifier.padding(top = 24.dp)
-                )
-                ResourceActionBar(
-                    isLiked = isLiked,
-                    likeCount = likeCount,
-                    isBookmarked = isBookmarked,
-                    canLike = canLike,
-                    canBookmark = canBookmark,
-                    onLike = onLike,
-                    onBookmark = onBookmark,
-                    onShare = onShare,
-                    modifier = Modifier.padding(top = 14.dp)
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun ResourceHeroArt(subjectColor: Color, modifier: Modifier = Modifier) {
-    Box(
-        modifier = modifier
-            .size(width = 170.dp, height = 260.dp)
-            .clip(RoundedCornerShape(bottomStart = 180.dp))
-            .background(subjectColor.copy(alpha = 0.045f))
-    )
-}
-
-@Composable
-private fun ResourceChips(resource: ApiResource, subject: String, subjectColor: Color) {
-    Row(
-        modifier = Modifier.horizontalScroll(rememberScrollState()),
-        horizontalArrangement = Arrangement.spacedBy(6.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        ResourceChip(
-            text = subject,
-            icon = Icons.Outlined.Description,
-            contentColor = subjectColor,
-            backgroundColor = subjectColor.copy(alpha = 0.06f),
-            borderColor = subjectColor.copy(alpha = 0.22f)
-        )
-        ResourceChip(
-            text = resource.type.ifBlank { "Resource" },
-            icon = if (detectResourceMedia(resource.fileUrl, resource.type) == ResourceMediaType.Pdf) Icons.Outlined.Description else Icons.Outlined.Folder,
-            contentColor = MaterialTheme.colorScheme.primary,
-            backgroundColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.06f),
-            borderColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.22f)
-        )
-        if (resource.isPaid) {
-            ResourceChip(
-                text = "Rs. ${resource.price.ifBlank { "0" }} · PAID",
-                icon = Icons.Filled.Lock,
-                contentColor = Color(0xFFB45309),
-                backgroundColor = Color(0xFFF59E0B).copy(alpha = 0.14f),
-                borderColor = Color(0xFFF59E0B).copy(alpha = 0.4f)
-            )
-        }
-        if (resource.gradeLevel.isNotBlank()) {
-            ResourceChip(
-                text = resource.gradeLevel,
-                contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                backgroundColor = MaterialTheme.colorScheme.surfaceContainerLow,
-                borderColor = MaterialTheme.colorScheme.outlineVariant
-            )
-        }
-    }
-}
-
-@Composable
-private fun ResourceChip(
-    text: String,
-    contentColor: Color,
-    backgroundColor: Color,
-    borderColor: Color,
-    icon: ImageVector? = null
-) {
-    Row(
-        modifier = Modifier
-            .clip(RoundedCornerShape(999.dp))
-            .background(backgroundColor)
-            .border(1.dp, borderColor, RoundedCornerShape(999.dp))
-            .padding(horizontal = 10.dp, vertical = 5.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(5.dp)
-    ) {
-        if (icon != null) Icon(icon, null, modifier = Modifier.size(14.dp), tint = contentColor)
-        Text(text, color = contentColor, fontSize = 12.sp, fontWeight = FontWeight.SemiBold, maxLines = 1)
-    }
-}
-
-@Composable
-private fun ResourceMetaBar(resource: ApiResource, onUserProfileClick: (String) -> Unit) {
-    val uploaderName = resource.uploadedByName.ifBlank { resource.uploadedByUsername.ifBlank { resource.authorName.orEmpty().ifBlank { "NEBians" } } }
-    val photo = resource.uploadedByPhoto
-    val isNebians = uploaderName.equals("NEBians", ignoreCase = true) || uploaderName.equals("nebians", ignoreCase = true)
-    val isAnon = resource.isAnonymous || uploaderName.equals("Anonymous", ignoreCase = true)
-    val uploadUsername = resource.uploadedByUsername.ifBlank { resource.authorUsernameSnake ?: "" }
-
-    Row(
-        modifier = Modifier.horizontalScroll(rememberScrollState()),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(6.dp),
-            modifier = if (uploadUsername.isNotBlank() && !isAnon) Modifier
-                .clip(RoundedCornerShape(999.dp))
-                .clickable { onUserProfileClick(uploadUsername) }
-                .padding(horizontal = 4.dp, vertical = 2.dp)
-            else Modifier
-        ) {
-            Avatar(
-                name = uploaderName,
-                imageUrl = photo,
-                size = 24.dp
-            )
-            Text(
-                text = uploaderName,
-                style = MaterialTheme.typography.labelMedium,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-            if (isNebians) {
-                Icon(
-                    imageVector = Icons.Filled.Verified,
-                    contentDescription = "Verified Official",
-                    modifier = Modifier.size(14.dp),
-                    tint = Color(0xFF1D65D8)
-                )
-            }
-        }
-        ResourceDot()
-        ResourceMetaItem(Icons.Outlined.Schedule, formatTimeAgo(resource.addedAt))
-        ResourceDot()
-        ResourceMetaItem(Icons.Outlined.Visibility, "${resource.viewCount} views")
-        if (resource.fileSize > 0) {
-            ResourceDot()
-            ResourceMetaItem(Icons.Outlined.Folder, fileSizeHuman(resource.fileSize))
-        }
-    }
-}
-
-@Composable
-private fun ResourceMetaItem(icon: ImageVector?, text: String, highlight: Color? = null, onClick: (() -> Unit)? = null) {
-    val color = highlight ?: MaterialTheme.colorScheme.onSurfaceVariant
-    val modifier = if (onClick != null) {
-        Modifier
-            .clip(RoundedCornerShape(999.dp))
-            .clickable(onClick = onClick)
-            .padding(horizontal = 3.dp, vertical = 2.dp)
-    } else {
-        Modifier
-    }
-    Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-        if (icon != null) Icon(icon, null, tint = color, modifier = Modifier.size(16.dp))
-        Text(
-            text = text,
-            style = MaterialTheme.typography.labelMedium,
-            color = color,
-            fontWeight = if (highlight != null) FontWeight.SemiBold else FontWeight.Medium
-        )
-    }
-}
-
-@Composable
-private fun ResourceDot() {
-    Text("·", color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.45f))
-}
-
-@Composable
-private fun ResourceFilesSection(resource: ApiResource, onRead: () -> Unit, onDownload: () -> Unit, modifier: Modifier = Modifier) {
-    Column(modifier = modifier.fillMaxWidth()) {
-        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
-        Row(
-            modifier = Modifier.padding(top = 20.dp, bottom = 14.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            Icon(Icons.Outlined.Description, null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(20.dp))
-            Text("Available Files (${if (resource.fileUrl.isBlank()) 0 else 1})", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
-        }
-        if (resource.fileUrl.isNotBlank()) {
-            ResourceFileCard(resource = resource, onRead = onRead, onDownload = onDownload)
-        }
-    }
-}
-
-@Composable
-private fun ResourceFileCard(resource: ApiResource, onRead: () -> Unit, onDownload: () -> Unit) {
-    val mediaType = detectResourceMedia(resource.fileUrl, resource.type)
-    Surface(
-        modifier = Modifier.fillMaxWidth(),
-        color = MaterialTheme.colorScheme.surfaceContainerLow,
-        shape = RoundedCornerShape(12.dp),
-        tonalElevation = 0.dp
-    ) {
-        Column(
-            modifier = Modifier.padding(14.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                Box(
-                    modifier = Modifier
-                        .size(46.dp)
-                        .clip(RoundedCornerShape(9.dp))
-                        .background(MaterialTheme.colorScheme.surfaceContainerHighest),
-                    contentAlignment = Alignment.Center
-                ) {
-                    val cardIcon = when (mediaType) {
-                        ResourceMediaType.Pdf -> Icons.Outlined.Description
-                        ResourceMediaType.Image -> Icons.Outlined.Image
-                        ResourceMediaType.Video -> Icons.Outlined.PlayCircle
-                        ResourceMediaType.Audio -> Icons.Outlined.Headphones
-                        else -> Icons.Outlined.Folder
-                    }
-                    Icon(
-                        imageVector = cardIcon,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.size(25.dp)
-                    )
-                }
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = resource.title,
-                        style = MaterialTheme.typography.titleSmall,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                    Spacer(Modifier.height(4.dp))
-                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
-                        Text(
-                            resource.type.ifBlank { "File" }.uppercase(),
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(5.dp))
-                                .background(MaterialTheme.colorScheme.surfaceContainerHighest)
-                                .padding(horizontal = 6.dp, vertical = 2.dp),
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            fontSize = 11.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-                        if (resource.fileSize > 0) Text("· ${fileSizeHuman(resource.fileSize)}", color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 13.sp)
-                    }
-                }
-            }
-            Row(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
-                Button(
-                    onClick = onRead,
-                    modifier = Modifier.weight(1f),
-                    shape = RoundedCornerShape(999.dp),
-                    contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 14.dp, vertical = 10.dp)
-                ) {
-                    val buttonIcon = when (mediaType) {
-                        ResourceMediaType.Pdf -> Icons.Filled.MenuBook
-                        ResourceMediaType.Image -> Icons.Outlined.Image
-                        ResourceMediaType.Video, ResourceMediaType.Audio -> Icons.Outlined.PlayCircle
-                        else -> Icons.Outlined.Public
-                    }
-                    val buttonText = when (mediaType) {
-                        ResourceMediaType.Pdf -> "Read"
-                        ResourceMediaType.Image -> "View"
-                        ResourceMediaType.Video, ResourceMediaType.Audio -> "Play"
-                        else -> "Open"
-                    }
-                    Icon(buttonIcon, null, modifier = Modifier.size(17.dp))
-                    Spacer(Modifier.width(7.dp))
-                    Text(buttonText, fontWeight = FontWeight.Bold)
-                }
-                if (mediaType != ResourceMediaType.Pdf) {
-                    Button(
-                        onClick = onDownload,
-                        modifier = Modifier.weight(1f),
-                        shape = RoundedCornerShape(999.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                            contentColor = MaterialTheme.colorScheme.onSecondaryContainer
-                        ),
-                        contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 14.dp, vertical = 10.dp)
-                    ) {
-                        Icon(Icons.Filled.Download, null, modifier = Modifier.size(17.dp))
-                        Spacer(Modifier.width(7.dp))
-                        Text("Download", fontWeight = FontWeight.Bold)
-                    }
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun ResourceActionBar(
-    isLiked: Boolean,
-    likeCount: Int,
-    isBookmarked: Boolean,
-    canLike: Boolean,
-    canBookmark: Boolean,
-    onLike: () -> Unit,
-    onBookmark: () -> Unit,
-    onShare: () -> Unit,
-    modifier: Modifier = Modifier
-) {
+fun ResourceCommentsHeader(count: Int, modifier: Modifier = Modifier) {
     Row(
         modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.End),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        ResourcePillAction(
-            icon = if (isLiked) Icons.Filled.ThumbUp else Icons.Outlined.ThumbUp,
-            text = likeCount.toString(),
-            selected = isLiked,
-            enabled = canLike,
-            onClick = onLike
+        Text(
+            text = "Comments",
+            style = MaterialTheme.typography.titleMediumEmphasized,
+            color = MaterialTheme.colorScheme.onSurface
         )
-        ResourceIconAction(
-            icon = if (isBookmarked) Icons.Filled.Bookmark else Icons.Outlined.BookmarkBorder,
-            selected = isBookmarked,
-            enabled = canBookmark,
-            contentDescription = "Bookmark",
-            onClick = onBookmark
-        )
-        ResourceIconAction(icon = Icons.Filled.Share, selected = false, contentDescription = "Share", onClick = onShare)
-    }
-}
-
-@Composable
-private fun ResourcePillAction(icon: ImageVector, text: String, selected: Boolean, enabled: Boolean, onClick: () -> Unit) {
-    val color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
-    Row(
-        modifier = Modifier
-            .clip(RoundedCornerShape(999.dp))
-            .border(1.dp, if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(999.dp))
-            .background(if (selected) MaterialTheme.colorScheme.primary.copy(alpha = 0.07f) else Color.Transparent)
-            .clickable(enabled = enabled, onClick = onClick)
-            .padding(horizontal = 14.dp, vertical = 8.dp),
-        horizontalArrangement = Arrangement.spacedBy(6.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Icon(icon, null, tint = color, modifier = Modifier.size(18.dp))
-        Text(text, color = color, fontWeight = FontWeight.Bold, fontSize = 13.sp)
-    }
-}
-
-@Composable
-private fun ResourceIconAction(icon: ImageVector, selected: Boolean, contentDescription: String, enabled: Boolean = true, onClick: () -> Unit) {
-    val color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
-    Box(
-        modifier = Modifier
-            .size(38.dp)
-            .clip(CircleShape)
-            .border(1.dp, if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant, CircleShape)
-            .background(if (selected) MaterialTheme.colorScheme.primary.copy(alpha = 0.07f) else Color.Transparent)
-            .clickable(enabled = enabled, onClick = onClick),
-        contentAlignment = Alignment.Center
-    ) {
-        Icon(icon, contentDescription, tint = color, modifier = Modifier.size(20.dp))
-    }
-}
-
-@Composable
-fun ResourceCommentsHeader(count: Int, modifier: Modifier = Modifier) {
-    Row(modifier = modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-        Text("Comments", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.ExtraBold)
-        Text("($count)", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        if (count > 0) {
+            Text(
+                text = count.toString(),
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .background(MaterialTheme.colorScheme.surfaceContainerHigh)
+                    .padding(horizontal = 9.dp, vertical = 3.dp)
+            )
+        }
     }
 }
 
 @Composable
 fun ResourceCommentsLoading() {
     Box(modifier = Modifier.fillMaxWidth().padding(22.dp), contentAlignment = Alignment.Center) {
-        CircularProgressIndicator(modifier = Modifier.size(24.dp), strokeWidth = 2.5.dp)
+        NebLoader(size = NebLoaderSize.Small)
     }
 }
 
 @Composable
 fun ResourceEmptyComments() {
     Column(
-        modifier = Modifier.fillMaxWidth().padding(vertical = 34.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 22.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Icon(Icons.Outlined.ChatBubbleOutline, null, tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.45f), modifier = Modifier.size(38.dp))
-        Text("No comments yet. Be the first!", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Icon(
+            imageVector = Icons.Outlined.ChatBubbleOutline,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.size(26.dp)
+        )
+        Spacer(Modifier.height(10.dp))
+        Text(
+            text = "No comments yet",
+            style = MaterialTheme.typography.titleSmallEmphasized,
+            color = MaterialTheme.colorScheme.onSurface
+        )
+        Text(
+            text = "Say what you thought of this resource",
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
     }
 }
 
@@ -663,7 +288,7 @@ fun ResourceCommentItem(
     }
 }
 
-private fun fileSizeHuman(bytes: Long): String {
+internal fun fileSizeHuman(bytes: Long): String {
     if (bytes <= 0) return ""
     val units = arrayOf("B", "KB", "MB", "GB")
     var value = bytes.toDouble()
@@ -918,10 +543,9 @@ fun ResourcePurchaseSheet(
     val isRejected = purchaseStatus.equals("rejected", ignoreCase = true)
     val canSubmit = !submitting && (transactionId.isNotBlank() || proofUri != null)
 
-    ModalBottomSheet(
-        onDismissRequest = onDismiss,
-        sheetState = sheetState,
-        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
+    NebModalSheet(
+        onDismiss = onDismiss,
+        sheetState = sheetState
     ) {
         Column(
             modifier = Modifier
@@ -1043,29 +667,21 @@ fun ResourcePurchaseSheet(
                 }
             }
 
-            Button(
+            NebButton(
+                text = "Submit payment proof",
                 onClick = {
-                    if (!isAuthenticated) {
+                    if (isAuthenticated) {
+                        onSubmit(transactionId, proofUri?.let { uriToCacheFile(context, it) })
+                    } else {
                         onSignInPrompt()
-                        return@Button
                     }
-                    val file = proofUri?.let { uriToCacheFile(context, it) }
-                    onSubmit(transactionId, file)
                 },
+                icon = Icons.Outlined.CloudUpload,
                 enabled = canSubmit,
-                shape = RoundedCornerShape(999.dp),
-                modifier = Modifier.fillMaxWidth().height(50.dp)
-            ) {
-                if (submitting) {
-                    CircularProgressIndicator(modifier = Modifier.size(20.dp), color = MaterialTheme.colorScheme.onPrimary, strokeWidth = 2.5.dp)
-                    Spacer(Modifier.width(10.dp))
-                    Text("Submitting…", fontWeight = FontWeight.Bold)
-                } else {
-                    Icon(Icons.Outlined.CloudUpload, null, modifier = Modifier.size(18.dp))
-                    Spacer(Modifier.width(8.dp))
-                    Text("Submit payment proof", fontWeight = FontWeight.Bold)
-                }
-            }
+                loading = submitting,
+                size = NebButtonSize.Hero,
+                fillWidth = true
+            )
         }
     }
 }

@@ -220,8 +220,12 @@ class AuthRepository @Inject constructor(
         }
     }
 
+    private fun needsOnboarding(user: com.neb.ians.data.api.UserProfileResponse, isNewUser: Boolean): Boolean =
+        isNewUser || user.username.isBlank() || user.dob.isBlank()
+
     private suspend fun cacheUser(user: com.neb.ians.data.api.UserProfileResponse, authToken: String, isNewUser: Boolean) {
         SecurePrefs.setAuthToken(appContext, authToken)
+        val onboarding = needsOnboarding(user, isNewUser)
         dataStore.edit { prefs ->
             prefs[AUTH_STATUS] = "authenticated"
             prefs[USER_ID] = user.id
@@ -230,7 +234,7 @@ class AuthRepository @Inject constructor(
             prefs[USER_DISPLAY_NAME] = user.displayName ?: ""
             prefs[USER_BANNER_URL] = user.bannerUrl ?: ""
             prefs[USER_BIO] = user.bio ?: ""
-            if (isNewUser) {
+            if (onboarding) {
                 prefs[PROFILE_COMPLETED] = false
                 prefs[USER_NAME] = user.username
             } else {
@@ -294,7 +298,7 @@ class AuthRepository @Inject constructor(
                 val user = response.user
                 val authToken = response.authToken!!
                 withContext(Dispatchers.IO) { cacheUser(user, authToken, response.isNewUser) }
-                EmailAuthResult.VerifySuccess(response.isNewUser, authToken, user)
+                EmailAuthResult.VerifySuccess(needsOnboarding(user, response.isNewUser), authToken, user)
             } else {
                 EmailAuthResult.Failure("Verification failed")
             }
@@ -321,7 +325,7 @@ class AuthRepository @Inject constructor(
                 val user = response.user
                 val authToken = response.authToken!!
                 withContext(Dispatchers.IO) { cacheUser(user, authToken, response.isNewUser) }
-                EmailAuthResult.LoginSuccess(response.isNewUser, authToken, user)
+                EmailAuthResult.LoginSuccess(needsOnboarding(user, response.isNewUser), authToken, user)
             } else {
                 EmailAuthResult.Failure("Login failed")
             }

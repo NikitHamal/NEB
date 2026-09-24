@@ -2,7 +2,6 @@ package com.neb.ians.ui.screens.upload
 
 import android.content.Context
 import android.net.Uri
-import android.provider.OpenableColumns
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -34,6 +33,8 @@ data class UploadFormState(
     val subject: String = "",
     val description: String = "",
     val gradeLevel: String = "",
+    /** Levels the user typed in because the list did not have theirs. */
+    val customLevels: List<String> = emptyList(),
     val type: String = "PDF",
     val examType: String = "",
     val faculty: String = "",
@@ -53,6 +54,15 @@ data class UploadFormState(
     val isPaid: Boolean = false,
     val price: String = "",
     val selectedFiles: List<SelectedFile> = emptyList(),
+    /** Page photos are published as one document unless the user says otherwise. */
+    val combinePages: Boolean = true,
+    /** Pages written so far while the document is being assembled. */
+    val pagesPrepared: Int = 0,
+    val isPreparing: Boolean = false,
+    /** Set once the type has been chosen by hand, so picking files stops guessing. */
+    val typeDirty: Boolean = false,
+    /** Subject, level and place carried over from the last upload. */
+    val reusedDefaults: Boolean = false,
     val titleError: String? = null,
     val subjectError: String? = null,
     val fileError: String? = null,
@@ -74,12 +84,51 @@ data class UploadFormState(
     val fileUrlDirty: Boolean = false,
     /** Cover changes only PATCH when the user touched the URL or picked a new image. */
     val thumbnailDirty: Boolean = false
-)
+) {
+    /** True when the selection is a set of page photos — one document, many pages. */
+    val isPageSet: Boolean
+        get() = selectedFiles.size > 1 && selectedFiles.all { it.isImage }
+
+    /** True when the upload will be assembled into a single PDF before sending. */
+    val willCombine: Boolean
+        get() = isPageSet && combinePages && !isEditMode
+
+    /** What the user still has to supply, in the order the screen asks for it. */
+    val missing: List<String>
+        get() = buildList {
+            if (!isEditMode && selectedFiles.isEmpty() && fileUrl.isBlank()) add("a file")
+            if (title.isBlank()) add("a title")
+            if (subject.isBlank()) add("a subject")
+            if (isPaid && (price.toDoubleOrNull() ?: 0.0) <= 0.0) add("a price")
+        }
+
+    val canSubmit: Boolean
+        get() = missing.isEmpty() && !isSubmitting && !isPreparing
+
+    /** True once the first step has everything it needs to move on. */
+    val essentialsReady: Boolean
+        get() = (isEditMode || selectedFiles.isNotEmpty() || fileUrl.isNotBlank()) &&
+            title.isNotBlank() && subject.isNotBlank()
+
+    /** True when the optional step has been given something, so it offers Next instead of Skip. */
+    val hasDetails: Boolean
+        get() = description.isNotBlank() || examType.isNotBlank() || school.isNotBlank() ||
+            year.isNotBlank() || pradesh.isNotBlank() || tags.isNotBlank() ||
+            authorName.isNotBlank() || sourceUrl.isNotBlank() ||
+            thumbnailUri != null || thumbnailUrl.isNotBlank() || isPaid
+
+    /** Levels offered by the picker: the built in list plus anything the user added. */
+    val levelOptions: List<String>
+        get() = (UploadOptions.GRADE_LEVELS + customLevels + gradeLevel)
+            .filter { it.isNotBlank() }
+            .distinct()
+}
 
 data class SelectedFile(
     val uri: Uri,
     val name: String,
-    val size: Long
+    val size: Long,
+    val isImage: Boolean = false
 )
 
 @HiltViewModel
@@ -87,7 +136,8 @@ class UploadViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val apiService: ApiService,
     private val authRepository: AuthRepository,
-    private val resourceRepository: ResourceRepository
+    private val resourceRepository: ResourceRepository,
+    private val draftStore: UploadDraftStore
 ) : ViewModel() {
 
     /** Present when the wizard was opened as an edit (owner editing own resource). */
@@ -97,7 +147,42 @@ class UploadViewModel @Inject constructor(
     val uiState: StateFlow<UploadFormState> = _uiState.asStateFlow()
 
     init {
-        editResourceId?.let { loadEditResource(it) }
+        if (editResourceId != null) loadEditResource(editResourceId) else restoreDefaults()
+    }
+
+    /** Offer back the subject, level and place the last upload used. */
+    private fun restoreDefaults() {
+        viewModelScope.launch {
+            val defaults = draftStore.lastUsed()
+            if (defaults.isEmpty) return@launch
+            _uiState.update { state ->
+                if (state.subject.isNotBlank() || state.gradeLevel.isNotBlank()) return@update state
+                state.copy(
+                    subject = defaults.subject,
+                    gradeLevel = defaults.gradeLevel,
+                    school = defaults.school,
+                    pradesh = defaults.pradesh,
+                    district = defaults.district,
+                    tags = defaults.tags,
+                    reusedDefaults = true
+                )
+            }
+        }
+    }
+
+    /** Drop the carried-over answers when this upload is about something else. */
+    fun clearReusedDefaults() {
+        _uiState.update {
+            it.copy(
+                subject = "",
+                gradeLevel = "",
+                school = "",
+                pradesh = "",
+                district = "",
+                tags = "",
+                reusedDefaults = false
+            )
+        }
     }
 
     /** Prefill the wizard with everything the existing resource stores. */
@@ -154,42 +239,6 @@ class UploadViewModel @Inject constructor(
         }
     }
 
-    companion object {
-        val VIDEO_EXTENSIONS = setOf("mp4", "mkv", "mov", "webm", "avi", "m4v", "3gp", "wmv", "flv")
-
-        fun isVideoFileName(name: String): Boolean =
-            name.substringAfterLast('.', "").lowercase() in VIDEO_EXTENSIONS
-
-        val SUBJECTS = listOf(
-            "Accountancy", "Biology", "Chemistry", "Computer Science", "Economics",
-            "English", "Exam Tips", "Mathematics", "Microbiology", "Nepali",
-            "Physics", "Physics - Technical Stream", "Science", "Social Studies",
-            "Software Engineering", "Software Engineering and Project Management",
-            "Visual Programming", "Zoology", "सामाजिक अध्ययन"
-        )
-        val GRADE_LEVELS = listOf(
-            "Bachelor", "Class 10 / SEE", "Class 11", "Class 12", "Class 8",
-            "Entrance Prep", "Other"
-        )
-        val RESOURCE_TYPES = listOf(
-            "PDF", "Note", "Video", "Audio", "Image", "Link", "Textbook",
-            "Past Paper", "Model Paper", "Guide", "Solution", "Presentation"
-        )
-        val EXAM_TYPES = listOf(
-            "Final", "Midterm", "Board", "Entrance", "SEE", "Mock", "Assignment", "Notes", "Reference", "Other"
-        )
-        val PROVINCES = listOf(
-            "Koshi", "Madhesh", "Bagmati", "Gandaki", "Lumbini", "Karnali", "Sudurpashchim"
-        )
-        val COMMON_TAGS = listOf(
-            "NEB", "SEE", "Class 11", "Class 12", "Important Questions",
-            "Past Paper", "Notes", "Solution", "Guide", "Textbook",
-            "Formula", "Practical", "Project", "Tips", "Revision"
-        )
-        val MAX_FILE_SIZE = 50L * 1024 * 1024
-        val MAX_FILES = 5
-    }
-
     fun updateTitle(title: String) {
         _uiState.update { it.copy(title = title, titleError = null) }
     }
@@ -206,8 +255,38 @@ class UploadViewModel @Inject constructor(
         _uiState.update { it.copy(gradeLevel = gradeLevel) }
     }
 
+    fun addCustomLevel(level: String) {
+        val trimmed = level.trim()
+        if (trimmed.isBlank()) return
+        _uiState.update { state ->
+            val known = UploadOptions.GRADE_LEVELS + state.customLevels
+            if (known.any { it.equals(trimmed, ignoreCase = true) }) state
+            else state.copy(customLevels = state.customLevels + trimmed)
+        }
+    }
+
     fun updateType(type: String) {
-        _uiState.update { it.copy(type = type) }
+        _uiState.update { it.copy(type = type, typeDirty = true) }
+    }
+
+    fun setCombinePages(combine: Boolean) {
+        _uiState.update { it.copy(combinePages = combine) }
+        refreshDerivedType()
+    }
+
+    fun reorderFiles(from: Int, to: Int) {
+        val current = _uiState.value.selectedFiles
+        if (from !in current.indices || to !in current.indices || from == to) return
+        val moved = current.toMutableList().apply { add(to, removeAt(from)) }
+        _uiState.update { it.copy(selectedFiles = moved) }
+    }
+
+    /** Keep the type honest about what was picked, until the user overrides it. */
+    private fun refreshDerivedType() {
+        _uiState.update { state ->
+            if (state.typeDirty || state.selectedFiles.isEmpty()) return@update state
+            state.copy(type = UploadAutofill.typeFor(state.selectedFiles.map { it.name }, state.willCombine))
+        }
     }
 
     fun updateExamType(examType: String) {
@@ -264,7 +343,7 @@ class UploadViewModel @Inject constructor(
         val state = _uiState.value
         return state.thumbnailUri == null &&
             state.thumbnailUrl.isBlank() &&
-            state.selectedFiles.any { isVideoFileName(it.name) }
+            state.selectedFiles.any { UploadOptions.isVideoFileName(it.name) }
     }
 
     fun updateAuthorName(authorName: String) {
@@ -297,15 +376,29 @@ class UploadViewModel @Inject constructor(
             return
         }
         val current = _uiState.value.selectedFiles
-        val newFiles = files.filterNot { f -> current.any { it.name == f.name && it.size == f.size } }
-        if (current.size + newFiles.size > MAX_FILES) return
-        _uiState.update { it.copy(selectedFiles = current + newFiles, fileError = null) }
+        val incoming = files.filterNot { f -> current.any { it.uri == f.uri } }
+        if (incoming.isEmpty()) return
+        val merged = (current + incoming).take(UploadOptions.MAX_PAGES)
+        val dropped = current.size + incoming.size - merged.size
+        _uiState.update { state ->
+            val firstName = merged.first().name
+            state.copy(
+                selectedFiles = merged,
+                title = state.title.ifBlank { UploadAutofill.titleFrom(firstName) },
+                subject = state.subject.ifBlank { UploadAutofill.subjectFrom(firstName, UploadOptions.SUBJECTS) },
+                titleError = null,
+                subjectError = null,
+                fileError = if (dropped > 0) "One upload holds up to ${UploadOptions.MAX_PAGES} pages — the rest were left out." else null
+            )
+        }
+        refreshDerivedType()
     }
 
     fun removeFileAt(index: Int) {
         val current = _uiState.value.selectedFiles
         if (index in current.indices) {
             _uiState.update { it.copy(selectedFiles = current.toMutableList().apply { removeAt(index) }) }
+            refreshDerivedType()
         }
     }
 
@@ -353,10 +446,10 @@ class UploadViewModel @Inject constructor(
                 val bearerToken = "Bearer $token"
 
                 val files = state.selectedFiles
-                if (files.isNotEmpty()) {
-                    uploadMultipleFiles(context, bearerToken, files, state)
-                } else {
-                    uploadWithUrl(context, bearerToken, state)
+                when {
+                    state.willCombine -> uploadCombinedPages(context, bearerToken, files, state)
+                    files.isNotEmpty() -> uploadMultipleFiles(context, bearerToken, files, state)
+                    else -> uploadWithUrl(context, bearerToken, state)
                 }
             } catch (e: Exception) {
                 _uiState.update { it.copy(isSubmitting = false, submitError = ApiErrorMapper.mapExceptionVerbose(e, "Upload resource")) }
@@ -397,12 +490,12 @@ class UploadViewModel @Inject constructor(
 
                 val replacement = state.selectedFiles.firstOrNull()
                 val filePart = replacement?.let { selected ->
-                    val file = uriToFile(context, selected.uri, selected.name)
+                    val file = UploadMedia.uriToFile(context, selected.uri, selected.name)
                         ?: throw IllegalStateException("Couldn't read the selected file")
-                    MultipartBody.Part.createFormData("file", file.name, file.asRequestBody(contentTypeFromName(file.name)))
+                    MultipartBody.Part.createFormData("file", file.name, file.asRequestBody(UploadMedia.contentTypeFromName(file.name)))
                 }
                 val thumbnailPart = state.thumbnailUri?.let { uri ->
-                    buildThumbnailPart(context, uri, "cover")
+                    UploadMedia.buildThumbnailPart(context, uri, "cover")
                 }
 
                 resourceRepository.updateResource(
@@ -425,6 +518,110 @@ class UploadViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Page photos leave as one PDF.
+     *
+     * The old path posted every picked file as its own resource, which turned a
+     * set of note pages into a shelf of single-page junk. Here the pages are
+     * assembled first, uploaded once, and the first page doubles as the cover.
+     */
+    private suspend fun uploadCombinedPages(
+        context: Context,
+        bearerToken: String,
+        files: List<SelectedFile>,
+        state: UploadFormState
+    ) {
+        _uiState.update { it.copy(isPreparing = true, pagesPrepared = 0) }
+        val destination = File(context.cacheDir, "uploads/${documentFileName(state.title)}")
+        val document = PageDocumentBuilder.combine(context, files.map { it.uri }, destination) { done ->
+            _uiState.update { it.copy(pagesPrepared = done, uploadProgress = done.toFloat() / files.size * 0.5f) }
+        }
+        _uiState.update { it.copy(isPreparing = false) }
+        if (document == null) {
+            _uiState.update {
+                it.copy(isSubmitting = false, submitError = "Couldn't read those pages. Try picking them again.")
+            }
+            return
+        }
+        if (document.length() > UploadOptions.MAX_FILE_SIZE) {
+            document.delete()
+            _uiState.update {
+                it.copy(
+                    isSubmitting = false,
+                    submitError = "That document came to ${document.length() / (1024 * 1024)} MB, over the 50 MB limit. " +
+                        "Split it into two uploads."
+                )
+            }
+            return
+        }
+
+        val filePart = MultipartBody.Part.createFormData(
+            "file",
+            document.name,
+            document.asRequestBody("application/pdf".toMediaTypeOrNull())
+        )
+        val thumbnailPart = when {
+            state.thumbnailUri != null -> UploadMedia.buildThumbnailPart(context, state.thumbnailUri, "cover")
+            state.thumbnailUrl.isBlank() -> UploadMedia.buildThumbnailPart(context, files.first().uri, "cover")
+            else -> null
+        }
+        _uiState.update { it.copy(uploadProgress = 0.6f) }
+
+        val response = apiService.uploadResource(
+            bearerToken = bearerToken,
+            file = filePart,
+            thumbnail = thumbnailPart,
+            title = state.title.toRequestBody(TEXT_PLAIN),
+            subject = state.subject.toRequestBody(TEXT_PLAIN),
+            description = state.description.toRequestBody(TEXT_PLAIN),
+            gradeLevel = state.gradeLevel.toRequestBody(TEXT_PLAIN),
+            type = state.type.ifBlank { "Note" }.toRequestBody(TEXT_PLAIN),
+            examType = state.examType.toRequestBody(TEXT_PLAIN),
+            faculty = state.faculty.toRequestBody(TEXT_PLAIN),
+            program = state.program.toRequestBody(TEXT_PLAIN),
+            year = state.year.toRequestBody(TEXT_PLAIN),
+            school = state.school.toRequestBody(TEXT_PLAIN),
+            pradesh = state.pradesh.toRequestBody(TEXT_PLAIN),
+            district = state.district.toRequestBody(TEXT_PLAIN),
+            tags = state.tags.toRequestBody(TEXT_PLAIN),
+            fileUrl = null,
+            thumbnailUrl = state.thumbnailUrl.toRequestBody(TEXT_PLAIN),
+            authorName = state.authorName.toRequestBody(TEXT_PLAIN),
+            sourceLabel = state.sourceLabel.toRequestBody(TEXT_PLAIN),
+            sourceUrl = state.sourceUrl.toRequestBody(TEXT_PLAIN),
+            isPaid = (if (state.isPaid) "true" else "false").toRequestBody(TEXT_PLAIN),
+            price = (state.price.ifBlank { "0" }).toRequestBody(TEXT_PLAIN)
+        )
+        document.delete()
+
+        if (response.error != null) {
+            _uiState.update { it.copy(isSubmitting = false, submitError = response.error) }
+        } else {
+            rememberDefaults(state)
+            _uiState.update { it.copy(isSubmitting = false, uploadProgress = 1f, submitSuccess = true) }
+        }
+    }
+
+    private fun documentFileName(title: String): String {
+        val stem = title.trim().replace(Regex("[^A-Za-z0-9\\u0900-\\u097F ]"), "").replace(' ', '_')
+        return (stem.take(48).ifBlank { "notes" }) + ".pdf"
+    }
+
+    private fun rememberDefaults(state: UploadFormState) {
+        viewModelScope.launch {
+            draftStore.remember(
+                UploadDefaults(
+                    subject = state.subject,
+                    gradeLevel = state.gradeLevel,
+                    school = state.school,
+                    pradesh = state.pradesh,
+                    district = state.district,
+                    tags = state.tags
+                )
+            )
+        }
+    }
+
     private suspend fun uploadMultipleFiles(
         context: Context,
         bearerToken: String,
@@ -433,16 +630,16 @@ class UploadViewModel @Inject constructor(
     ) {
         val totalFiles = files.size
         for ((index, selectedFile) in files.withIndex()) {
-            val file = uriToFile(context, selectedFile.uri, selectedFile.name) ?: continue
-            val requestBody = file.asRequestBody(contentTypeFromName(file.name))
+            val file = UploadMedia.uriToFile(context, selectedFile.uri, selectedFile.name) ?: continue
+            val requestBody = file.asRequestBody(UploadMedia.contentTypeFromName(file.name))
             val multipartPart = MultipartBody.Part.createFormData("file", file.name, requestBody)
 
             // Cover image: manual pick wins; videos get an auto frame when the
             // user supplied neither an upload nor a URL.
             val thumbnailPart = when {
-                state.thumbnailUri != null -> buildThumbnailPart(context, state.thumbnailUri, "cover")
-                state.thumbnailUrl.isBlank() && isVideoFileName(selectedFile.name) ->
-                    videoFrameThumbnailPart(context, selectedFile.uri, selectedFile.name)
+                state.thumbnailUri != null -> UploadMedia.buildThumbnailPart(context, state.thumbnailUri, "cover")
+                state.thumbnailUrl.isBlank() && UploadOptions.isVideoFileName(selectedFile.name) ->
+                    UploadMedia.videoFrameThumbnailPart(context, selectedFile.uri, selectedFile.name)
                 else -> null
             }
 
@@ -479,6 +676,7 @@ class UploadViewModel @Inject constructor(
 
             _uiState.update { it.copy(uploadProgress = (index + 1).toFloat() / totalFiles) }
         }
+        rememberDefaults(state)
         _uiState.update { it.copy(isSubmitting = false, submitSuccess = true) }
     }
 
@@ -487,7 +685,7 @@ class UploadViewModel @Inject constructor(
         bearerToken: String,
         state: UploadFormState
     ) {
-        val thumbnailPart = state.thumbnailUri?.let { buildThumbnailPart(context, it, "cover") }
+        val thumbnailPart = state.thumbnailUri?.let { UploadMedia.buildThumbnailPart(context, it, "cover") }
         val response = apiService.uploadResource(
             bearerToken = bearerToken,
             file = null,
@@ -517,121 +715,27 @@ class UploadViewModel @Inject constructor(
         if (response.error != null) {
             _uiState.update { it.copy(isSubmitting = false, submitError = response.error) }
         } else {
+            rememberDefaults(state)
             _uiState.update { it.copy(isSubmitting = false, submitSuccess = true) }
         }
     }
 
     fun resetSuccess() {
-        _uiState.update { it.copy(submitSuccess = false, submitError = null) }
-    }
-
-    private fun uriToFile(context: Context, uri: Uri, fileName: String): File? {
-        return try {
-            val tempFile = File(context.cacheDir, fileName)
-            context.contentResolver.openInputStream(uri)?.use { input ->
-                FileOutputStream(tempFile).use { output -> input.copyTo(output) }
-            }
-            tempFile
-        } catch (e: Exception) {
-            null
-        }
-    }
-
-    /** Build the "thumbnail" multipart part from a user-picked cover image. */
-    private fun buildThumbnailPart(context: Context, uri: Uri, baseName: String): MultipartBody.Part? {
-        return try {
-            val bytes = context.contentResolver.openInputStream(uri)?.use { it.readBytes() } ?: return null
-            if (bytes.isEmpty() || bytes.size > 10L * 1024 * 1024) return null
-            val mime = context.contentResolver.getType(uri) ?: "image/jpeg"
-            val ext = when (mime) {
-                "image/png" -> "png"
-                "image/webp" -> "webp"
-                "image/gif" -> "gif"
-                else -> "jpg"
-            }
-            MultipartBody.Part.createFormData("thumbnail", "$baseName.$ext", bytes.toRequestBody(mime.toMediaTypeOrNull()))
-        } catch (_: Exception) {
-            null
-        }
-    }
-
-    /** Capture a frame (~1s in, fallback first frame) from a picked video as
-     * the resource cover. Returns null on any failure — never blocks upload. */
-    private fun videoFrameThumbnailPart(context: Context, videoUri: Uri, baseName: String): MultipartBody.Part? {
-        return try {
-            val retriever = android.media.MediaMetadataRetriever()
-            val rawBitmap = try {
-                retriever.setDataSource(context, videoUri)
-                retriever.getFrameAtTime(1_000_000L, android.media.MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
-                    ?: retriever.frameAtTime
-                        ?: retriever.getFrameAtTime(0L, android.media.MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
-            } catch (_: Exception) {
-                null
-            } finally {
-                try { retriever.release() } catch (_: Exception) {}
-            } ?: return null
-            var bitmap: android.graphics.Bitmap = rawBitmap
-            // Keep covers small — 1280px on the long edge is plenty for cards.
-            val maxDim = 1280
-            if (maxOf(bitmap.width, bitmap.height) > maxDim) {
-                val scale = maxDim.toFloat() / maxOf(bitmap.width, bitmap.height)
-                val scaled = android.graphics.Bitmap.createScaledBitmap(
-                    bitmap,
-                    (bitmap.width * scale).toInt().coerceAtLeast(1),
-                    (bitmap.height * scale).toInt().coerceAtLeast(1),
-                    true
-                )
-                if (scaled != bitmap) bitmap.recycle()
-                bitmap = scaled
-            }
-            val out = java.io.ByteArrayOutputStream()
-            bitmap.compress(android.graphics.Bitmap.CompressFormat.JPEG, 88, out)
-            bitmap.recycle()
-            val bytes = out.toByteArray()
-            if (bytes.isEmpty()) return null
-            MultipartBody.Part.createFormData(
-                "thumbnail",
-                "${baseName.substringBeforeLast('.')}_cover.jpg",
-                bytes.toRequestBody("image/jpeg".toMediaTypeOrNull())
+        _uiState.update {
+            UploadFormState(
+                subject = it.subject,
+                gradeLevel = it.gradeLevel,
+                school = it.school,
+                pradesh = it.pradesh,
+                district = it.district,
+                tags = it.tags,
+                reusedDefaults = true
             )
-        } catch (_: Exception) {
-            null
         }
     }
 
-    private fun contentTypeFromName(name: String): okhttp3.MediaType? {
-        val ext = name.substringAfterLast('.', "").lowercase()
-        val mime = android.webkit.MimeTypeMap.getSingleton().getMimeTypeFromExtension(ext)
-            ?: when (ext) {
-                "pdf" -> "application/pdf"
-                "doc" -> "application/msword"
-                "docx" -> "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                "ppt" -> "application/vnd.ms-powerpoint"
-                "pptx" -> "application/vnd.openxmlformats-officedocument.presentationml.presentation"
-                "xls" -> "application/vnd.ms-excel"
-                "xlsx" -> "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                "zip" -> "application/zip"
-                "rar" -> "application/x-rar-compressed"
-                "7z" -> "application/x-7z-compressed"
-                "epub" -> "application/epub+zip"
-                else -> "application/octet-stream"
-            }
-        return mime.toMediaTypeOrNull()
+    fun dismissError() {
+        _uiState.update { it.copy(submitError = null, fileError = null) }
     }
 
-    fun getFileInfo(context: Context, uri: Uri): Pair<String, Long>? {
-        return try {
-            context.contentResolver.query(uri, null, null, null, null)?.use { cursor ->
-                val nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-                val sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE)
-                if (cursor.moveToFirst() && nameIndex >= 0) {
-                    val name = cursor.getString(nameIndex)
-                    val size = if (sizeIndex >= 0) cursor.getLong(sizeIndex) else 0L
-                    Pair(name, size)
-                } else null
-            }
-        } catch (e: Exception) {
-            null
-        }
-    }
 }

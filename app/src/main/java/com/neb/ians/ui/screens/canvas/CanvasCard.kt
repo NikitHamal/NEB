@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
@@ -16,6 +17,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
@@ -27,31 +29,43 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowUpward
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.DragIndicator
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.ContentCopy
 import androidx.compose.material.icons.outlined.CropFree
-import androidx.compose.material.icons.outlined.DeleteOutline
+import androidx.compose.material.icons.outlined.Hub
 import androidx.compose.material.icons.outlined.OpenInFull
 import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material3.*
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.*
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.neb.ians.ui.components.MarkdownInlineText
+import com.neb.ians.ui.theme.nebFastSpatialSpec
 import com.neb.ians.util.rememberTactileFeedback
 import com.neb.ians.util.TactileType
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.foundation.verticalScroll
 
 @Composable
 fun CanvasCardItem(
@@ -59,25 +73,39 @@ fun CanvasCardItem(
     isSelected: Boolean,
     isConnectingSource: Boolean = false,
     connectingDirection: String? = null,
+    onDragStart: () -> Unit = {},
     onDrag: (dx: Float, dy: Float) -> Unit,
     onDragEnd: () -> Unit,
     onSelect: () -> Unit,
     onExpand: () -> Unit,
     onDuplicate: () -> Unit,
-    onDelete: () -> Unit,
     onColorChange: (String) -> Unit,
     onBranch: (direction: String, prompt: String) -> Unit,
     onConnect: (direction: String) -> Unit = {},
+    onMeasured: (Float) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val isDark = MaterialTheme.colorScheme.surface.luminance() < 0.5f
-    val colors = CanvasColorTokens.getColors(node.color, isDark)
+    val colors = canvasCardColors(node.color)
     val tactile = rememberTactileFeedback()
     var activeDiagNodeId by remember { mutableStateOf<String?>(null) }
     var followupText by remember { mutableStateOf("") }
     var showMoreMenu by remember { mutableStateOf(false) }
+    var branchDirection by remember { mutableStateOf<String?>(null) }
+    val composerFocus = remember { FocusRequester() }
+
+    LaunchedEffect(isSelected) {
+        if (!isSelected) branchDirection = null
+    }
 
     val handleRadius = 20.dp
+    val density = LocalDensity.current.density
+    val bodyScroll = rememberScrollState()
+
+    val currentOnDragStart by rememberUpdatedState(onDragStart)
+    val currentOnDrag by rememberUpdatedState(onDrag)
+    val currentOnDragEnd by rememberUpdatedState(onDragEnd)
+    val currentOnSelect by rememberUpdatedState(onSelect)
 
     Box(
         modifier = modifier.offset(-handleRadius, -handleRadius)
@@ -86,11 +114,12 @@ fun CanvasCardItem(
         Box(
             modifier = Modifier
                 .padding(handleRadius)
-                .width(340.dp)
+                .requiredWidth(CanvasCardWidth.dp)
+                .onSizeChanged { onMeasured(it.height / density) }
                 .shadow(
-                    elevation = if (isSelected) 14.dp else 4.dp,
+                    elevation = if (isSelected) 10.dp else 2.dp,
                     shape = RoundedCornerShape(20.dp),
-                    spotColor = colors.accent.copy(alpha = 0.25f)
+                    spotColor = colors.accent.copy(alpha = 0.18f)
                 )
                 .clip(RoundedCornerShape(20.dp))
                 .background(colors.surface)
@@ -104,8 +133,23 @@ fun CanvasCardItem(
                 .pointerInput(node.id) {
                     detectTapGestures(onTap = {
                         tactile.perform(TactileType.SelectionChange)
-                        onSelect()
+                        currentOnSelect()
                     })
+                }
+                .pointerInput(node.id) {
+                    detectDragGesturesAfterLongPress(
+                        onDragStart = {
+                            tactile.perform(TactileType.LightTap)
+                            currentOnSelect()
+                            currentOnDragStart()
+                        },
+                        onDrag = { change, dragAmount ->
+                            change.consume()
+                            currentOnDrag(dragAmount.x, dragAmount.y)
+                        },
+                        onDragEnd = { currentOnDragEnd() },
+                        onDragCancel = { currentOnDragEnd() }
+                    )
                 }
         ) {
             Column(modifier = Modifier.fillMaxWidth()) {
@@ -122,14 +166,15 @@ fun CanvasCardItem(
                         detectDragGestures(
                             onDragStart = {
                                 tactile.perform(TactileType.LightTap)
-                                onSelect()
+                                currentOnSelect()
+                                currentOnDragStart()
                             },
                             onDrag = { change, dragAmount ->
                                 change.consume()
-                                onDrag(dragAmount.x, dragAmount.y)
+                                currentOnDrag(dragAmount.x, dragAmount.y)
                             },
-                            onDragEnd = onDragEnd,
-                            onDragCancel = onDragEnd
+                            onDragEnd = { currentOnDragEnd() },
+                            onDragCancel = { currentOnDragEnd() }
                         )
                     }
                     .padding(horizontal = 12.dp, vertical = 10.dp),
@@ -187,7 +232,6 @@ fun CanvasCardItem(
                     }
                 }
 
-                // Header actions matching reference image: Expand + Duplicate + Delete
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(0.dp)
@@ -204,29 +248,6 @@ fun CanvasCardItem(
                         )
                     }
 
-                    IconButton(
-                        onClick = onDuplicate,
-                        modifier = Modifier.size(28.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Outlined.ContentCopy,
-                            contentDescription = "Duplicate",
-                            tint = colors.secondaryText,
-                            modifier = Modifier.size(15.dp)
-                        )
-                    }
-
-                    IconButton(
-                        onClick = onDelete,
-                        modifier = Modifier.size(28.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Outlined.DeleteOutline,
-                            contentDescription = "Delete",
-                            tint = colors.secondaryText,
-                            modifier = Modifier.size(16.dp)
-                        )
-                    }
 
                     Box {
                         IconButton(
@@ -245,24 +266,67 @@ fun CanvasCardItem(
                             expanded = showMoreMenu,
                             onDismissRequest = { showMoreMenu = false }
                         ) {
-                            val colorOptions = listOf(
-                                "default" to "Default (Neutral)",
-                                "blue" to "Blue (Concept)",
-                                "green" to "Green (Formula/Example)",
-                                "amber" to "Amber (Highlight)",
-                                "rose" to "Rose (Warning/Trap)",
-                                "purple" to "Purple (Synthesis)",
-                                "slate" to "Slate (Reference)"
+                            Text(
+                                text = "Card theme",
+                                style = MaterialTheme.typography.labelMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier.padding(start = 14.dp, top = 10.dp, bottom = 6.dp)
                             )
-                            colorOptions.forEach { (key, label) ->
+                            CanvasColorTokens.Keys.forEach { key ->
                                 DropdownMenuItem(
-                                    text = { Text(label) },
+                                    text = { Text(CanvasColorTokens.label(key)) },
+                                    leadingIcon = {
+                                        Box(
+                                            modifier = Modifier
+                                                .size(18.dp)
+                                                .clip(RoundedCornerShape(6.dp))
+                                                .background(CanvasColorTokens.accent(isDark, key))
+                                        )
+                                    },
+                                    trailingIcon = {
+                                        if (node.color.equals(key, ignoreCase = true)) {
+                                            Icon(
+                                                imageVector = Icons.Filled.Check,
+                                                contentDescription = null,
+                                                modifier = Modifier.size(16.dp)
+                                            )
+                                        }
+                                    },
                                     onClick = {
                                         onColorChange(key)
                                         showMoreMenu = false
                                     }
                                 )
                             }
+                            HorizontalDivider(modifier = Modifier.padding(vertical = 6.dp))
+                            DropdownMenuItem(
+                                text = { Text("Duplicate card") },
+                                leadingIcon = {
+                                    Icon(
+                                        imageVector = Icons.Outlined.ContentCopy,
+                                        contentDescription = null,
+                                        modifier = Modifier.size(18.dp)
+                                    )
+                                },
+                                onClick = {
+                                    showMoreMenu = false
+                                    onDuplicate()
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = { Text("Link to another card") },
+                                leadingIcon = {
+                                    Icon(
+                                        imageVector = Icons.Outlined.Hub,
+                                        contentDescription = null,
+                                        modifier = Modifier.size(18.dp)
+                                    )
+                                },
+                                onClick = {
+                                    showMoreMenu = false
+                                    onConnect("link")
+                                }
+                            )
                         }
                     }
                 }
@@ -272,6 +336,8 @@ fun CanvasCardItem(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .heightIn(max = CanvasCardMaxBodyHeight.dp)
+                    .verticalScroll(bodyScroll)
                     .padding(14.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
@@ -330,13 +396,62 @@ fun CanvasCardItem(
                 }
             }
 
-            // In-card follow-up input bar matching reference
+            // Branch composer: turns this card into the context for a new one
             if (node.status != "generating") {
-                Box(
+                Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 12.dp, vertical = 8.dp)
+                        .padding(horizontal = 12.dp, vertical = 8.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
+                    AnimatedVisibility(visible = branchDirection != null) {
+                        Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(6.dp)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Outlined.AutoAwesome,
+                                    contentDescription = null,
+                                    tint = colors.accent,
+                                    modifier = Modifier.size(13.dp)
+                                )
+                                Text(
+                                    text = "New card ${directionLabel(branchDirection)} from this one",
+                                    style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.5.sp),
+                                    color = colors.secondaryText,
+                                    modifier = Modifier.weight(1f)
+                                )
+                                IconButton(
+                                    onClick = { branchDirection = null },
+                                    modifier = Modifier.size(18.dp)
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Filled.Close,
+                                        contentDescription = "Cancel branch",
+                                        tint = colors.secondaryText,
+                                        modifier = Modifier.size(12.dp)
+                                    )
+                                }
+                            }
+                            Row(
+                                modifier = Modifier.horizontalScroll(rememberScrollState()),
+                                horizontalArrangement = Arrangement.spacedBy(6.dp)
+                            ) {
+                                BranchPresets.forEach { preset ->
+                                    BranchPresetChip(
+                                        label = preset.first,
+                                        colors = colors,
+                                        onClick = {
+                                            onBranch(branchDirection ?: "bottom", preset.second)
+                                            branchDirection = null
+                                            followupText = ""
+                                        }
+                                    )
+                                }
+                            }
+                        }
+                    }
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -350,7 +465,9 @@ fun CanvasCardItem(
                         BasicTextField(
                             value = followupText,
                             onValueChange = { followupText = it },
-                            modifier = Modifier.weight(1f),
+                            modifier = Modifier
+                                .weight(1f)
+                                .focusRequester(composerFocus),
                             singleLine = true,
                             maxLines = 1,
                             textStyle = MaterialTheme.typography.bodySmall.copy(
@@ -360,7 +477,11 @@ fun CanvasCardItem(
                             decorationBox = { innerTextField ->
                                 if (followupText.isEmpty()) {
                                     Text(
-                                        text = "Ask a follow-up...",
+                                        text = if (branchDirection == null) {
+                                            "Ask a follow-up..."
+                                        } else {
+                                            "What should the new card cover?"
+                                        },
                                         style = MaterialTheme.typography.bodySmall.copy(fontSize = 12.sp),
                                         color = colors.secondaryText,
                                         maxLines = 1
@@ -374,8 +495,9 @@ fun CanvasCardItem(
                         IconButton(
                             onClick = {
                                 if (hasFollowup) {
-                                    onBranch("bottom", followupText.trim())
+                                    onBranch(branchDirection ?: "bottom", followupText.trim())
                                     followupText = ""
+                                    branchDirection = null
                                 }
                             },
                             enabled = hasFollowup,
@@ -384,14 +506,14 @@ fun CanvasCardItem(
                                 .clip(CircleShape)
                                 .background(
                                     if (hasFollowup) colors.accent
-                                    else if (isDark) Color(0xFF334155)
-                                    else Color(0xFFEEF2F6)
+                                    else if (isDark) Color(0xFF26262A)
+                                    else Color(0xFFF1F1F3)
                                 )
                         ) {
                             Icon(
                                 imageVector = Icons.Filled.ArrowUpward,
                                 contentDescription = "Send",
-                                tint = if (hasFollowup) Color.White else Color(0xFF94A3B8),
+                                tint = if (hasFollowup) colors.surface else Color(0xFF9B9BA1),
                                 modifier = Modifier.size(14.dp)
                             )
                         }
@@ -401,94 +523,111 @@ fun CanvasCardItem(
         }
     }
 
-        // Connector Ports on top, bottom, left, right - Visible when card is selected or connecting
         if (isSelected || isConnectingSource) {
-            ConnectorPort(
-                direction = "top",
-                accent = colors.accent,
-                surfaceColor = colors.surface,
-                isConnectingSource = isConnectingSource && (connectingDirection == "top" || connectingDirection == null),
-                modifier = Modifier
-                    .align(Alignment.TopCenter)
-                    .offset(y = 8.dp),
-                onClick = { onConnect("top") }
-            )
-            ConnectorPort(
-                direction = "bottom",
-                accent = colors.accent,
-                surfaceColor = colors.surface,
-                isConnectingSource = isConnectingSource && (connectingDirection == "bottom" || connectingDirection == null),
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .offset(y = (-8).dp),
-                onClick = { onConnect("bottom") }
-            )
-            ConnectorPort(
-                direction = "left",
-                accent = colors.accent,
-                surfaceColor = colors.surface,
-                isConnectingSource = isConnectingSource && (connectingDirection == "left" || connectingDirection == null),
-                modifier = Modifier
-                    .align(Alignment.CenterStart)
-                    .offset(x = 8.dp),
-                onClick = { onConnect("left") }
-            )
-            ConnectorPort(
-                direction = "right",
-                accent = colors.accent,
-                surfaceColor = colors.surface,
-                isConnectingSource = isConnectingSource && (connectingDirection == "right" || connectingDirection == null),
-                modifier = Modifier
-                    .align(Alignment.CenterEnd)
-                    .offset(x = (-8).dp),
-                onClick = { onConnect("right") }
-            )
+            listOf(
+                "top" to Alignment.TopCenter,
+                "bottom" to Alignment.BottomCenter,
+                "left" to Alignment.CenterStart,
+                "right" to Alignment.CenterEnd
+            ).forEach { (dir, alignment) ->
+                BranchPort(
+                    accent = colors.accent,
+                    surfaceColor = colors.surface,
+                    isActive = branchDirection == dir,
+                    modifier = Modifier
+                        .align(alignment)
+                        .offset(
+                            x = when (dir) {
+                                "left" -> 8.dp
+                                "right" -> (-8).dp
+                                else -> 0.dp
+                            },
+                            y = when (dir) {
+                                "top" -> 8.dp
+                                "bottom" -> (-8).dp
+                                else -> 0.dp
+                            }
+                        ),
+                    onClick = {
+                        onSelect()
+                        branchDirection = if (branchDirection == dir) null else dir
+                    }
+                )
+            }
+        }
+    }
+
+    LaunchedEffect(branchDirection) {
+        if (branchDirection != null) {
+            runCatching { composerFocus.requestFocus() }
         }
     }
 }
 
+private val BranchPresets = listOf(
+    "Go deeper" to "Explain this in more depth, building on the card above.",
+    "Example" to "Give a worked example based on the card above.",
+    "Simplify" to "Explain the card above in the simplest possible terms.",
+    "Practice" to "Create practice questions from the card above.",
+    "Mistakes" to "List the common mistakes students make with the card above."
+)
+
+private fun directionLabel(direction: String?): String = when (direction) {
+    "top" -> "above"
+    "left" -> "to the left"
+    "right" -> "to the right"
+    else -> "below"
+}
+
 @Composable
-private fun ConnectorPort(
-    direction: String,
+private fun BranchPresetChip(
+    label: String,
+    colors: CanvasCardColorScheme,
+    onClick: () -> Unit
+) {
+    Text(
+        text = label,
+        style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.5.sp, fontWeight = FontWeight.Medium),
+        color = colors.tagText,
+        modifier = Modifier
+            .clip(RoundedCornerShape(99.dp))
+            .background(colors.tagBg)
+            .clickable(onClick = onClick)
+            .padding(horizontal = 10.dp, vertical = 5.dp)
+    )
+}
+
+@Composable
+private fun BranchPort(
     accent: Color,
     surfaceColor: Color,
-    isConnectingSource: Boolean,
+    isActive: Boolean,
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
     val tactile = rememberTactileFeedback()
-    val transition = rememberInfiniteTransition(label = "pulse")
-    val pulseScale by if (isConnectingSource) {
-        transition.animateFloat(
-            initialValue = 1f,
-            targetValue = 1.25f,
-            animationSpec = infiniteRepeatable(tween(550, easing = FastOutSlowInEasing), RepeatMode.Reverse),
-            label = "pulseScale"
-        )
-    } else {
-        remember { mutableStateOf(1f) }
-    }
+    val scale by animateFloatAsState(
+        targetValue = if (isActive) 1.18f else 1f,
+        animationSpec = nebFastSpatialSpec(),
+        label = "branch_port_scale"
+    )
+    val rotation by animateFloatAsState(
+        targetValue = if (isActive) 45f else 0f,
+        animationSpec = nebFastSpatialSpec(),
+        label = "branch_port_rotation"
+    )
 
     Box(
         modifier = modifier
-            .size(24.dp)
+            .size(26.dp)
             .graphicsLayer {
-                scaleX = pulseScale
-                scaleY = pulseScale
+                scaleX = scale
+                scaleY = scale
             }
-            .shadow(
-                elevation = if (isConnectingSource) 4.dp else 2.dp,
-                shape = CircleShape
-            )
+            .shadow(elevation = if (isActive) 6.dp else 2.dp, shape = CircleShape)
             .clip(CircleShape)
-            .background(if (isConnectingSource) accent else surfaceColor)
-            .border(
-                BorderStroke(
-                    width = if (isConnectingSource) 2.dp else 1.5.dp,
-                    color = accent
-                ),
-                CircleShape
-            )
+            .background(if (isActive) accent else surfaceColor)
+            .border(BorderStroke(if (isActive) 2.dp else 1.5.dp, accent), CircleShape)
             .clickable(onClick = {
                 tactile.perform(TactileType.SelectionChange)
                 onClick()
@@ -497,9 +636,11 @@ private fun ConnectorPort(
     ) {
         Icon(
             imageVector = Icons.Filled.Add,
-            contentDescription = "Connect card",
-            tint = if (isConnectingSource) Color.White else accent,
-            modifier = Modifier.size(13.dp)
+            contentDescription = "New card from this one",
+            tint = if (isActive) surfaceColor else accent,
+            modifier = Modifier
+                .size(14.dp)
+                .graphicsLayer { rotationZ = rotation }
         )
     }
 }
@@ -810,7 +951,7 @@ private fun CardsGridRenderer(section: CanvasSection, colors: CanvasCardColorSch
                                 modifier = Modifier.padding(top = 4.dp),
                                 horizontalArrangement = Arrangement.spacedBy(4.dp)
                             ) {
-                                Text("•", color = colors.accent, style = MaterialTheme.typography.labelSmall)
+                                BulletRule(color = colors.accent, topPadding = 6.dp)
                                 Text(
                                     text = b,
                                     style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.5.sp),
@@ -852,7 +993,7 @@ private fun CardsGridRenderer(section: CanvasSection, colors: CanvasCardColorSch
                                 modifier = Modifier.padding(top = 4.dp),
                                 horizontalArrangement = Arrangement.spacedBy(4.dp)
                             ) {
-                                Text("•", color = colors.accent, style = MaterialTheme.typography.labelSmall)
+                                BulletRule(color = colors.accent, topPadding = 6.dp)
                                 Text(
                                     text = b,
                                     style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.5.sp),
@@ -884,7 +1025,7 @@ private fun BulletsListRenderer(section: CanvasSection, colors: CanvasCardColorS
                 modifier = Modifier.padding(vertical = 2.dp),
                 horizontalArrangement = Arrangement.spacedBy(6.dp)
             ) {
-                Text("•", color = colors.accent, fontWeight = FontWeight.Bold)
+                BulletRule(color = colors.accent, topPadding = 8.dp)
                 Text(
                     text = b,
                     style = MaterialTheme.typography.bodySmall.copy(fontSize = 12.5.sp),
@@ -943,4 +1084,15 @@ private fun TimelineSectionRenderer(section: CanvasSection, colors: CanvasCardCo
             }
         }
     }
+}
+
+@Composable
+private fun BulletRule(color: Color, topPadding: Dp) {
+    Box(
+        modifier = Modifier
+            .padding(top = topPadding)
+            .width(7.dp)
+            .height(1.5.dp)
+            .background(color)
+    )
 }

@@ -108,7 +108,7 @@ fun LiquidGlassProfileSheet(
                     )
                     Spacer(Modifier.height(3.dp))
                     Text(
-                        text = "@$username · ${roleLabel(role)}",
+                        text = "@$username, ${roleLabel(role)}",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         maxLines = 1,

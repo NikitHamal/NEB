@@ -69,9 +69,9 @@ import com.neb.ians.util.TactileType
 // ---------------------------------------------------------------------------
 
 object NebColors {
-    val BrandGradientStart = Color(0xFF0058DF)
-    val BrandGradientMid = Color(0xFF004BD4)
-    val BrandGradientEnd = Color(0xFF003CC3)
+    val BrandGradientStart = Color(0xFF313136)
+    val BrandGradientMid = Color(0xFF1F1F21)
+    val BrandGradientEnd = Color(0xFF0A0A0B)
 
     val brandBrush: Brush
         get() = Brush.linearGradient(listOf(BrandGradientStart, BrandGradientMid, BrandGradientEnd))
@@ -109,117 +109,6 @@ fun NebCard(
         } else base
     ) { content() }
 }
-
-// ---------------------------------------------------------------------------
-// Buttons — pill shaped, height 40, weight 600 (mirrors .md-btn*).
-// ---------------------------------------------------------------------------
-
-@Composable
-private fun NebButtonBase(
-    onClick: () -> Unit,
-    container: Color,
-    contentColor: Color,
-    modifier: Modifier = Modifier,
-    border: BorderStroke? = null,
-    enabled: Boolean = true,
-    leadingIcon: ImageVector? = null,
-    text: String,
-) {
-    val shape = CircleShape
-    val bg = if (enabled) container else container.copy(alpha = 0.4f)
-    val interactionSource = remember { MutableInteractionSource() }
-    val isPressed by interactionSource.collectIsPressedAsState()
-    val scale by animateFloatAsState(
-        targetValue = if (isPressed && enabled) 0.94f else 1.0f,
-        animationSpec = spring(stiffness = Spring.StiffnessMediumLow),
-        label = "btnScale"
-    )
-    val tactile = rememberTactileFeedback()
-
-    Row(
-        modifier = modifier
-            .defaultMinSize(minHeight = 40.dp)
-            .graphicsLayer {
-                scaleX = scale
-                scaleY = scale
-            }
-            .clip(shape)
-            .background(bg)
-            .then(if (border != null) Modifier.border(border, shape) else Modifier)
-            .clickable(
-                enabled = enabled,
-                interactionSource = interactionSource,
-                indication = ripple(bounded = true, color = contentColor),
-                onClick = {
-                    tactile.perform(TactileType.ButtonTap)
-                    onClick()
-                }
-            )
-            .padding(horizontal = 22.dp, vertical = 9.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        if (leadingIcon != null) {
-            Icon(leadingIcon, null, tint = contentColor, modifier = Modifier.size(18.dp))
-        }
-        Text(
-            text = text,
-            color = contentColor,
-            fontWeight = FontWeight.Bold,
-            fontSize = 14.sp,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis
-        )
-    }
-}
-
-@Composable
-fun NebFilledButton(
-    text: String,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    leadingIcon: ImageVector? = null,
-) = NebButtonBase(
-    onClick, MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.onPrimary,
-    modifier, null, enabled, leadingIcon, text
-)
-
-@Composable
-fun NebTonalButton(
-    text: String,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    leadingIcon: ImageVector? = null,
-) = NebButtonBase(
-    onClick, MaterialTheme.colorScheme.secondaryContainer, MaterialTheme.colorScheme.onSecondaryContainer,
-    modifier, null, enabled, leadingIcon, text
-)
-
-@Composable
-fun NebOutlinedButton(
-    text: String,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    leadingIcon: ImageVector? = null,
-) = NebButtonBase(
-    onClick, Color.Transparent, MaterialTheme.colorScheme.primary,
-    modifier, BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant), enabled, leadingIcon, text
-)
-
-@Composable
-fun NebTextButton(
-    text: String,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    leadingIcon: ImageVector? = null,
-) = NebButtonBase(
-    onClick, Color.Transparent, MaterialTheme.colorScheme.primary,
-    modifier, null, enabled, leadingIcon, text
-)
 
 /** Round icon button mirroring .md-btn-icon (40dp, on-surface-variant). */
 @Composable
@@ -408,10 +297,9 @@ fun NebAvatar(
 
         if (verificationLevel > 0) {
             val badgeColor = when (verificationLevel) {
-                1 -> Color(0xFF1B9AF0)
-                2 -> Color(0xFF2E7D32)
-                3 -> Color(0xFFF59E0B)
-                else -> Color(0xFF1A1A1A)
+                1 -> MaterialTheme.colorScheme.outline
+                2 -> MaterialTheme.colorScheme.onSurfaceVariant
+                else -> MaterialTheme.colorScheme.onSurface
             }
             val badgeSize = (size * 0.38f).coerceIn(13.dp, 20.dp)
             Box(
@@ -473,13 +361,41 @@ private data class BadgeStyle(val bg: Color, val fg: Color, val icon: ImageVecto
 
 @Composable
 private fun badgeStyle(badge: ApiBadgeInfo): BadgeStyle = when (badge.type) {
-    "admin" -> BadgeStyle(Color(0xFFFEF3C7), Color(0xFF92400E), drawableRes = R.drawable.ic_crown)
-    "moderator" -> BadgeStyle(Color(0xFFDBEAFE), Color(0xFF1E40AF), icon = Icons.Outlined.Shield)
-    "verified" -> BadgeStyle(Color(0xFFDBEAFE), Color(0xFF1E40AF), icon = Icons.Filled.Verified)
-    "teacher" -> BadgeStyle(Color(0xFFD1FAE5), Color(0xFF047857), icon = Icons.Filled.School)
-    "institution" -> BadgeStyle(Color(0xFFE0E7FF), Color(0xFF4338CA), icon = Icons.Filled.AccountBalance)
-    "explorer" -> BadgeStyle(Color(0xFFFEF3C7), Color(0xFFB45309), icon = Icons.Filled.Explore)
-    "bot" -> BadgeStyle(Color(0xFFF3E8FF), Color(0xFF7E22CE), icon = Icons.Filled.AutoAwesome)
+    "admin" -> BadgeStyle(
+        MaterialTheme.colorScheme.inverseSurface,
+        MaterialTheme.colorScheme.inverseOnSurface,
+        drawableRes = R.drawable.ic_crown
+    )
+    "moderator" -> BadgeStyle(
+        MaterialTheme.colorScheme.surfaceContainerHighest,
+        MaterialTheme.colorScheme.onSurface,
+        icon = Icons.Outlined.Shield
+    )
+    "verified" -> BadgeStyle(
+        MaterialTheme.colorScheme.surfaceContainerHighest,
+        MaterialTheme.colorScheme.onSurface,
+        icon = Icons.Filled.Verified
+    )
+    "teacher" -> BadgeStyle(
+        MaterialTheme.colorScheme.surfaceContainerHigh,
+        MaterialTheme.colorScheme.onSurface,
+        icon = Icons.Filled.School
+    )
+    "institution" -> BadgeStyle(
+        MaterialTheme.colorScheme.surfaceContainerHigh,
+        MaterialTheme.colorScheme.onSurface,
+        icon = Icons.Filled.AccountBalance
+    )
+    "explorer" -> BadgeStyle(
+        MaterialTheme.colorScheme.surfaceContainer,
+        MaterialTheme.colorScheme.onSurfaceVariant,
+        icon = Icons.Filled.Explore
+    )
+    "bot" -> BadgeStyle(
+        MaterialTheme.colorScheme.surfaceContainer,
+        MaterialTheme.colorScheme.onSurfaceVariant,
+        icon = Icons.Filled.AutoAwesome
+    )
     else -> BadgeStyle(
         MaterialTheme.colorScheme.secondaryContainer,
         MaterialTheme.colorScheme.onSecondaryContainer,
@@ -537,14 +453,14 @@ fun NebEmptyState(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        Surface(
-            shape = CircleShape,
-            color = MaterialTheme.colorScheme.surfaceContainerHigh,
-            modifier = Modifier.size(72.dp)
+        Box(
+            modifier = Modifier
+                .size(64.dp)
+                .clip(CircleShape)
+                .background(MaterialTheme.colorScheme.surfaceContainerHigh),
+            contentAlignment = Alignment.Center
         ) {
-            Box(contentAlignment = Alignment.Center) {
-                Icon(icon, null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(34.dp))
-            }
+            Icon(icon, null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(28.dp))
         }
         Text(title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
         if (subtitle != null) {

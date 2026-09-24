@@ -1,5 +1,10 @@
 package com.neb.ians.ui.screens.resource
 
+import com.neb.ians.ui.components.NebChipGroup
+import com.neb.ians.ui.components.NebDialog
+import com.neb.ians.ui.components.NebDialogAction
+import com.neb.ians.ui.components.NebDialogTextField
+import com.neb.ians.ui.components.NebSectionLabel
 import com.neb.ians.ui.components.LinkifyText
 
 import androidx.compose.foundation.BorderStroke
@@ -36,6 +41,10 @@ import com.neb.ians.ui.components.WebPanelShape
 import com.neb.ians.ui.components.WebPillShape
 import com.neb.ians.util.formatTimeAgo
 import kotlinx.coroutines.launch
+import com.neb.ians.ui.components.NebButton
+import com.neb.ians.ui.components.NebButtonSize
+import com.neb.ians.ui.components.NebButtonTone
+import com.neb.ians.ui.components.NebLoader
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -112,17 +121,11 @@ fun ResourceRequestsScreen(
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                             Spacer(modifier = Modifier.height(16.dp))
-                            Button(
+                            NebButton(
+                                text = "New request",
                                 onClick = { showCreateDialog = true },
-                                shape = WebPillShape,
-                                colors = ButtonDefaults.buttonColors(
-                                    containerColor = MaterialTheme.colorScheme.primary
-                                )
-                            ) {
-                                Icon(Icons.Default.Add, contentDescription = null, modifier = Modifier.size(18.dp))
-                                Spacer(modifier = Modifier.width(6.dp))
-                                Text("New Request", fontWeight = FontWeight.SemiBold)
-                            }
+                                icon = Icons.Default.Add
+                            )
                         }
                     }
                 }
@@ -176,7 +179,7 @@ fun ResourceRequestsScreen(
                                 .padding(48.dp),
                             contentAlignment = Alignment.Center
                         ) {
-                            CircularProgressIndicator()
+                            NebLoader()
                         }
                     }
                 } else if (uiState.requests.isEmpty()) {
@@ -323,22 +326,12 @@ fun ResourceRequestCard(
                         TagChip(label = request.gradeLevel)
                     }
                     Text(
-                        text = "·",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
-                    )
-                    Text(
                         text = request.requestedByName ?: "Anonymous",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         fontWeight = FontWeight.Medium,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
-                    )
-                    Text(
-                        text = "·",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
                     )
                     Text(
                         text = formatTimeAgo(request.createdAt),
@@ -351,9 +344,9 @@ fun ResourceRequestCard(
 
             // Status Indicator tag
             val statusColor = when (request.status.lowercase()) {
-                "open" -> Color(0xFF2E7D32)
-                "fulfilled" -> Color(0xFF1565C0)
-                else -> Color(0xFF616161)
+                "open" -> MaterialTheme.colorScheme.onSurface
+                "fulfilled" -> MaterialTheme.colorScheme.onSurfaceVariant
+                else -> MaterialTheme.colorScheme.outline
             }
             val statusBg = statusColor.copy(alpha = 0.1f)
             Surface(
@@ -400,98 +393,46 @@ fun CreateRequestDialog(
     var subject by remember { mutableStateOf("") }
     var gradeLevel by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
-    var showGradeDropdown by remember { mutableStateOf(false) }
+    val grades = remember { listOf("Grade 11", "Grade 12", "Both") }
 
-    AlertDialog(
+    NebDialog(
         onDismissRequest = onDismiss,
-        title = { Text("New Request", fontWeight = FontWeight.Bold) },
-        text = {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                OutlinedTextField(
-                    value = title,
-                    onValueChange = { title = it },
-                    label = { Text("What do you need? *") },
-                    placeholder = { Text("e.g. Grade 12 Physics past papers") },
-                    modifier = Modifier.fillMaxWidth()
-                )
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    OutlinedTextField(
-                        value = subject,
-                        onValueChange = { subject = it },
-                        label = { Text("Subject") },
-                        placeholder = { Text("e.g. Physics") },
-                        modifier = Modifier.weight(1f)
-                    )
-
-                    Box(modifier = Modifier.weight(1f)) {
-                        OutlinedTextField(
-                            value = gradeLevel.ifEmpty { "Any" },
-                            onValueChange = {},
-                            readOnly = true,
-                            label = { Text("Grade") },
-                            trailingIcon = {
-                                ExposedDropdownMenuDefaults.TrailingIcon(expanded = showGradeDropdown)
-                            },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable { showGradeDropdown = true }
-                        )
-                        DropdownMenu(
-                            expanded = showGradeDropdown,
-                            onDismissRequest = { showGradeDropdown = false }
-                        ) {
-                            listOf("", "Grade 11", "Grade 12", "Both").forEach { option ->
-                                DropdownMenuItem(
-                                    text = { Text(option.ifEmpty { "Any" }) },
-                                    onClick = {
-                                        gradeLevel = option
-                                        showGradeDropdown = false
-                                    }
-                                )
-                            }
-                        }
-                    }
-                }
-
-                OutlinedTextField(
-                    value = description,
-                    onValueChange = { description = it },
-                    label = { Text("Details (optional)") },
-                    placeholder = { Text("More details about what you're looking for...") },
-                    modifier = Modifier.fillMaxWidth(),
-                    minLines = 2
-                )
-            }
-        },
-        confirmButton = {
-            Button(
-                onClick = { onSubmit(title, description, subject, gradeLevel) },
-                enabled = title.isNotBlank() && !isSubmitting,
-                shape = WebPillShape
-            ) {
-                if (isSubmitting) {
-                    CircularProgressIndicator(modifier = Modifier.size(18.dp), color = MaterialTheme.colorScheme.onPrimary)
-                } else {
-                    Text("Submit")
-                }
-            }
-        },
-        dismissButton = {
-            TextButton(
-                onClick = onDismiss,
-                enabled = !isSubmitting
-            ) {
-                Text("Cancel")
-            }
-        }
-    )
+        title = "Request a resource",
+        supportingText = "Tell the community what you are looking for.",
+        icon = Icons.Default.Inbox,
+        dismissOnClickOutside = !isSubmitting,
+        confirm = NebDialogAction(
+            label = if (isSubmitting) "Sending…" else "Submit",
+            onClick = { onSubmit(title, description, subject, gradeLevel) },
+            enabled = title.isNotBlank() && !isSubmitting
+        ),
+        dismiss = NebDialogAction("Cancel", onDismiss, enabled = !isSubmitting)
+    ) {
+        NebDialogTextField(
+            value = title,
+            onValueChange = { title = it },
+            label = "What do you need?",
+            placeholder = "e.g. Grade 12 Physics past papers"
+        )
+        NebDialogTextField(
+            value = subject,
+            onValueChange = { subject = it },
+            label = "Subject",
+            placeholder = "e.g. Physics"
+        )
+        NebSectionLabel(text = "Grade")
+        NebChipGroup(
+            options = grades,
+            selected = gradeLevel.ifEmpty { null },
+            onSelect = { gradeLevel = it.orEmpty() }
+        )
+        NebDialogTextField(
+            value = description,
+            onValueChange = { description = it },
+            label = "Details (optional)",
+            placeholder = "More about what you're looking for",
+            singleLine = false,
+            minLines = 2
+        )
+    }
 }

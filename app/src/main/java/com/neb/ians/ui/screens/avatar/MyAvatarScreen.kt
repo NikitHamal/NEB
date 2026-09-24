@@ -21,7 +21,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -47,6 +46,10 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.neb.ians.ui.avatar.BlobatarImage
 import com.neb.ians.ui.screens.avatar.MyAvatarUiState
+import com.neb.ians.ui.components.NebButton
+import com.neb.ians.ui.components.NebButtonSize
+import com.neb.ians.ui.components.NebButtonTone
+import com.neb.ians.ui.components.NebLoader
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -81,7 +84,7 @@ fun MyAvatarScreen(
     ) { padding ->
         if (uiState.loading && uiState.username.isBlank()) {
             Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) {
-                CircularProgressIndicator()
+                NebLoader()
             }
             return@Scaffold
         }
@@ -148,18 +151,14 @@ fun MyAvatarScreen(
                 Switch(checked = uiState.usePp, onCheckedChange = { viewModel.setUsePp(it) })
             }
 
-            Button(
+            NebButton(
+                text = if (uiState.dirty) "Save avatar style" else "Saved",
                 onClick = { viewModel.save() },
-                enabled = uiState.dirty && !uiState.saving,
-                modifier = Modifier.fillMaxWidth().height(52.dp),
-                shape = RoundedCornerShape(16.dp)
-            ) {
-                if (uiState.saving) {
-                    CircularProgressIndicator(modifier = Modifier.size(22.dp), strokeWidth = 2.dp, color = MaterialTheme.colorScheme.onPrimary)
-                } else {
-                    Text(if (uiState.dirty) "Save avatar style" else "Saved", fontWeight = FontWeight.SemiBold)
-                }
-            }
+                enabled = uiState.dirty,
+                loading = uiState.saving,
+                size = NebButtonSize.Hero,
+                fillWidth = true
+            )
 
             Spacer(Modifier.height(24.dp))
         }

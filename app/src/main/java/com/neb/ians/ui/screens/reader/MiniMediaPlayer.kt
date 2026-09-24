@@ -44,7 +44,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.neb.ians.ui.components.NebPlayerView
-import com.neb.ians.util.getSubjectColor
 import kotlin.math.abs
 
 @Composable
@@ -57,7 +56,7 @@ fun MiniMediaPlayer(
 ) {
     val resource = uiState.resource ?: return
     val subject = resource.subject.split(",").firstOrNull()?.trim().orEmpty().ifBlank { "General" }
-    val accent = Color(getSubjectColor(subject))
+    val accent = MaterialTheme.colorScheme.onSurface
     val isDark = MaterialTheme.colorScheme.surface.red + MaterialTheme.colorScheme.surface.green + MaterialTheme.colorScheme.surface.blue < 1.5f
     val shape = RoundedCornerShape(22.dp)
     var dragX by remember { mutableFloatStateOf(0f) }
@@ -154,7 +153,7 @@ fun MiniMediaPlayer(
                 )
                 Spacer(Modifier.height(2.dp))
                 Text(
-                    text = if (uiState.isVideo) "Video · $subject" else "Audio · $subject",
+                    text = if (uiState.isVideo) "Video, $subject" else "Audio, $subject",
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 1,
