@@ -1,3 +1,5 @@
+@file:OptIn(androidx.compose.material3.ExperimentalMaterial3ExpressiveApi::class)
+
 package com.neb.ians.ui.screens.library
 
 import androidx.compose.foundation.BorderStroke
@@ -94,6 +96,17 @@ import com.neb.ians.ui.components.WebPillShape
 import com.neb.ians.ui.components.WebResourceCard
 import com.neb.ians.ui.components.WebTopBar
 import com.neb.ians.ui.components.getMaterialIcon
+import com.neb.ians.ui.components.NebButton
+import com.neb.ians.ui.components.NebButtonSize
+import com.neb.ians.ui.components.NebButtonTone
+import com.neb.ians.ui.theme.nebEffectsSpec
+import com.neb.ians.ui.components.NebTab
+import com.neb.ians.ui.components.NebSegmentedTabs
+import androidx.compose.ui.draw.clip
+import androidx.compose.material.icons.outlined.PlayLesson
+import androidx.compose.material.icons.automirrored.outlined.MenuBook
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.AnimatedVisibility
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -239,74 +252,72 @@ private fun LibraryTabs(
     activeFilterCount: Int = 0,
     onFilterClick: () -> Unit = {}
 ) {
-    val tabs = listOf("library" to "Library", "syllabus" to "Syllabus", "interactive" to "Interactive")
-    val scrollState = rememberScrollState()
-    Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Row(
-                modifier = Modifier
-                    .weight(1f)
-                    .horizontalScroll(scrollState),
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
-            ) {
-                tabs.forEach { (key, label) ->
-                    TabButton(
-                        text = label,
-                        selected = currentTab == key,
-                        onClick = { onTabSelected(key) }
-                    )
-                }
-            }
-            if (currentTab == "library") {
-                val hasActiveFilters = activeFilterCount > 0
-                IconButton(onClick = onFilterClick) {
-                    Box {
-                        Icon(
-                            imageVector = Icons.Outlined.Tune,
-                            contentDescription = "Filters",
-                            tint = if (hasActiveFilters) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                        if (hasActiveFilters) {
-                            Box(
-                                modifier = Modifier
-                                    .size(8.dp)
-                                    .align(Alignment.TopEnd)
-                                    .background(MaterialTheme.colorScheme.primary, CircleShape)
-                            )
-                        }
-                    }
-                }
-            }
+    val keys = remember { listOf("library", "syllabus", "interactive") }
+    val tabs = remember {
+        listOf(
+            NebTab("Library", Icons.Outlined.Inventory2),
+            NebTab("Syllabus", Icons.AutoMirrored.Outlined.MenuBook),
+            NebTab("Interactive", Icons.Outlined.PlayLesson)
+        )
+    }
+    val selected = keys.indexOf(currentTab).coerceAtLeast(0)
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 6.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        NebSegmentedTabs(
+            tabs = tabs,
+            selectedIndex = selected,
+            onSelect = { onTabSelected(keys[it]) },
+            modifier = Modifier.weight(1f)
+        )
+        AnimatedVisibility(visible = currentTab == "library") {
+            FilterButton(activeFilterCount = activeFilterCount, onClick = onFilterClick)
         }
-        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
     }
 }
 
 @Composable
-private fun TabButton(text: String, selected: Boolean, onClick: () -> Unit) {
-    Column(
+private fun FilterButton(activeFilterCount: Int, onClick: () -> Unit) {
+    val active = activeFilterCount > 0
+    val container by animateColorAsState(
+        targetValue = if (active) {
+            MaterialTheme.colorScheme.onSurface
+        } else {
+            MaterialTheme.colorScheme.surfaceContainerHigh
+        },
+        animationSpec = nebEffectsSpec(),
+        label = "library_filter_bg"
+    )
+    val content = if (active) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.onSurfaceVariant
+
+    Row(
         modifier = Modifier
+            .height(48.dp)
+            .clip(CircleShape)
+            .background(container)
             .clickable(onClick = onClick)
-            .padding(horizontal = 8.dp, vertical = 4.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .padding(horizontal = if (active) 14.dp else 13.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(5.dp)
     ) {
-        Text(
-            text = text,
-            style = MaterialTheme.typography.labelLarge,
-            fontWeight = FontWeight.Bold,
-            color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+        Icon(
+            imageVector = Icons.Outlined.Tune,
+            contentDescription = "Filters",
+            modifier = Modifier.size(20.dp),
+            tint = content
         )
-        Spacer(modifier = Modifier.height(4.dp))
-        Surface(
-            modifier = Modifier
-                .width(28.dp)
-                .height(3.dp),
-            color = if (selected) MaterialTheme.colorScheme.primary else Color.Transparent,
-            shape = WebPillShape
-        ) {}
+        if (active) {
+            Text(
+                text = activeFilterCount.toString(),
+                style = MaterialTheme.typography.labelLargeEmphasized,
+                color = content
+            )
+        }
     }
 }
 
@@ -438,22 +449,12 @@ private fun LibraryContent(
                                         textAlign = TextAlign.Center
                                     )
                                     Spacer(modifier = Modifier.height(16.dp))
-                                    Button(
+                                    NebButton(
+                                        text = "Request a resource",
                                         onClick = onRequestResourceClick,
-                                        shape = WebPillShape,
-                                        colors = ButtonDefaults.buttonColors(
-                                            containerColor = MaterialTheme.colorScheme.primaryContainer,
-                                            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
-                                        )
-                                    ) {
-                                        Icon(
-                                            imageVector = Icons.Outlined.ContactSupport,
-                                            contentDescription = null,
-                                            modifier = Modifier.size(18.dp)
-                                        )
-                                        Spacer(modifier = Modifier.width(6.dp))
-                                        Text("Request a Resource", fontWeight = FontWeight.Bold)
-                                    }
+                                        icon = Icons.Outlined.ContactSupport,
+                                        tone = NebButtonTone.Tonal
+                                    )
                                 }
                             }
                         }

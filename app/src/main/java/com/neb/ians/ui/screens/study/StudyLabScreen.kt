@@ -88,6 +88,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import javax.inject.Inject
+import androidx.compose.material.icons.outlined.School
 
 data class StudyLabUiState(
     val mySpaces: List<ApiStudySpace> = emptyList(),
@@ -364,7 +365,7 @@ fun StudyLabScreen(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 WebPrimaryButton(text = "New Space", imageVector = Icons.Filled.Add, onClick = { showCreate = true })
-                WebOutlinedButton(text = "Join Code", painter = painterResource(id = R.drawable.ic_school), onClick = { showJoin = true })
+                WebOutlinedButton(text = "Join Code", imageVector = Icons.Outlined.School, onClick = { showJoin = true })
             }
 
             Row(

@@ -54,6 +54,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.neb.ians.ui.components.NebButton
+import com.neb.ians.ui.components.NebButtonSize
+import com.neb.ians.ui.components.NebButtonTone
 
 data class UserPopoverState(
     val popup: ApiUserPopup? = null,
@@ -218,29 +221,27 @@ fun UserPopoverDialog(
                         Spacer(modifier = Modifier.height(14.dp))
                         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                             if (!popup.isSelf) {
-                                Button(
+                                NebButton(
+                                    text = if (popup.isFollowing) "Following" else "Follow",
                                     onClick = { viewModel.toggleFollow() },
-                                    enabled = !state.isFollowBusy,
-                                    shape = WebPillShape,
-                                    modifier = Modifier.weight(1f),
-                                    colors = if (popup.isFollowing) ButtonDefaults.buttonColors(
-                                        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                                        contentColor = MaterialTheme.colorScheme.onSurface
-                                    ) else ButtonDefaults.buttonColors()
-                                ) {
-                                    Text(if (popup.isFollowing) "Following" else "Follow")
-                                }
+                                    loading = state.isFollowBusy,
+                                    tone = if (popup.isFollowing) {
+                                        NebButtonTone.Tonal
+                                    } else {
+                                        NebButtonTone.Primary
+                                    },
+                                    modifier = Modifier.weight(1f)
+                                )
                             }
-                            OutlinedButton(
+                            NebButton(
+                                text = "View profile",
                                 onClick = {
                                     onDismiss()
                                     onViewProfile(popup.username)
                                 },
-                                shape = WebPillShape,
+                                tone = NebButtonTone.Outlined,
                                 modifier = Modifier.weight(1f)
-                            ) {
-                                Text("View profile")
-                            }
+                            )
                         }
                     }
                 }

@@ -56,6 +56,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import com.neb.ians.ui.theme.nebFastEffectsSpec
 import com.neb.ians.ui.theme.nebSpatialSpec
+import com.neb.ians.ui.components.NebButton
+import com.neb.ians.ui.components.NebButtonSize
+import com.neb.ians.ui.components.NebButtonTone
 
 @Immutable
 data class NebDialogAction(
@@ -166,42 +169,24 @@ fun NebDialog(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             if (dismiss != null) {
-                                TextButton(
+                                NebButton(
+                                    text = dismiss.label,
                                     onClick = dismiss.onClick,
                                     enabled = dismiss.enabled,
-                                    shape = RoundedCornerShape(50),
-                                    colors = ButtonDefaults.textButtonColors(
-                                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant
-                                    )
-                                ) {
-                                    Text(
-                                        text = dismiss.label,
-                                        style = MaterialTheme.typography.labelLargeEmphasized
-                                    )
-                                }
+                                    tone = NebButtonTone.Text
+                                )
                             }
                             if (confirm != null) {
-                                Button(
+                                NebButton(
+                                    text = confirm.label,
                                     onClick = confirm.onClick,
                                     enabled = confirm.enabled,
-                                    shape = RoundedCornerShape(50),
-                                    colors = if (confirm.destructive) {
-                                        ButtonDefaults.buttonColors(
-                                            containerColor = MaterialTheme.colorScheme.error,
-                                            contentColor = MaterialTheme.colorScheme.onError
-                                        )
+                                    tone = if (confirm.destructive) {
+                                        NebButtonTone.Danger
                                     } else {
-                                        ButtonDefaults.buttonColors(
-                                            containerColor = MaterialTheme.colorScheme.primary,
-                                            contentColor = MaterialTheme.colorScheme.onPrimary
-                                        )
+                                        NebButtonTone.Primary
                                     }
-                                ) {
-                                    Text(
-                                        text = confirm.label,
-                                        style = MaterialTheme.typography.labelLargeEmphasized
-                                    )
-                                }
+                                )
                             }
                         }
                     } else {

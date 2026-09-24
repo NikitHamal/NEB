@@ -18,6 +18,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.neb.ians.data.api.ApiFollowRequestItem
 import com.neb.ians.ui.components.Avatar
+import com.neb.ians.ui.components.NebButton
+import com.neb.ians.ui.components.NebButtonSize
+import com.neb.ians.ui.components.NebButtonTone
 
 @Composable
 fun FollowRequestsDialog(
@@ -141,27 +144,17 @@ fun FollowRequestsDialog(
                                             horizontalArrangement = Arrangement.spacedBy(6.dp),
                                             verticalAlignment = Alignment.CenterVertically
                                         ) {
-                                            Button(
+                                            NebButton(
+                                                text = "Confirm",
                                                 onClick = { onAccept(req.id) },
-                                                contentPadding = PaddingValues(horizontal = 10.dp),
-                                                modifier = Modifier.height(30.dp),
-                                                colors = ButtonDefaults.buttonColors(
-                                                    containerColor = MaterialTheme.colorScheme.primary,
-                                                    contentColor = MaterialTheme.colorScheme.onPrimary
-                                                )
-                                            ) {
-                                                Text("Confirm", style = MaterialTheme.typography.labelSmall)
-                                            }
-                                            OutlinedButton(
+                                                size = NebButtonSize.Compact
+                                            )
+                                            NebButton(
+                                                text = "Delete",
                                                 onClick = { onReject(req.id) },
-                                                contentPadding = PaddingValues(horizontal = 10.dp),
-                                                modifier = Modifier.height(30.dp),
-                                                colors = ButtonDefaults.outlinedButtonColors(
-                                                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant
-                                                )
-                                            ) {
-                                                Text("Delete", style = MaterialTheme.typography.labelSmall)
-                                            }
+                                                tone = NebButtonTone.Outlined,
+                                                size = NebButtonSize.Compact
+                                            )
                                         }
                                     }
                                 }

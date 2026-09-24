@@ -1,48 +1,72 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.neb.ians.ui.screens.settings
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.outlined.KeyboardArrowRight
 import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.BookmarkBorder
 import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.Description
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Lock
-import androidx.compose.material.icons.outlined.Description
-import android.content.Intent
-import android.net.Uri
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.outlined.Person
-import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.SpaceDashboard
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material.icons.outlined.Wifi
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MediumTopAppBar
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.neb.ians.data.repository.UserProfileCache
 import com.neb.ians.ui.components.Avatar
-import com.neb.ians.ui.components.NebDialog
-import com.neb.ians.ui.components.NebDialogAction
-import com.neb.ians.ui.components.NebDialogPasswordField
+import com.neb.ians.ui.components.NebButton
+import com.neb.ians.ui.components.NebButtonTone
+import com.neb.ians.ui.components.nebPressable
+import com.neb.ians.ui.screens.legal.NebLegal
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
     onNavigateBack: () -> Unit,
@@ -63,14 +87,12 @@ fun SettingsScreen(
     val userProfile by settingsViewModel.userProfile.collectAsStateWithLifecycle()
 
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-    val isGuest = userProfile == null || userProfile?.id == "guest_user"
+    val profile = userProfile?.takeIf { it.id != "guest_user" }
 
-    val context = androidx.compose.ui.platform.LocalContext.current
-    val permissionLauncher = androidx.activity.compose.rememberLauncherForActivityResult(
-        contract = androidx.activity.result.contract.ActivityResultContracts.RequestPermission()
-    ) { isGranted ->
-        settingsViewModel.setNotificationsEnabled(isGranted)
-    }
+    val context = LocalContext.current
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission()
+    ) { isGranted -> settingsViewModel.setNotificationsEnabled(isGranted) }
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -78,18 +100,10 @@ fun SettingsScreen(
             MediumTopAppBar(
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back"
-                        )
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
-                title = {
-                    Text(
-                        text = "Settings",
-                        fontWeight = FontWeight.SemiBold
-                    )
-                },
+                title = { Text("Settings", fontWeight = FontWeight.SemiBold) },
                 scrollBehavior = scrollBehavior,
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.surface,
@@ -97,7 +111,7 @@ fun SettingsScreen(
                 )
             )
         },
-        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
+        containerColor = MaterialTheme.colorScheme.surface
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -105,300 +119,101 @@ fun SettingsScreen(
                 .padding(innerPadding)
                 .verticalScroll(rememberScrollState())
         ) {
-            SettingsSectionLabel(label = "Account")
+            IdentityCard(
+                profile = profile,
+                onEditProfile = onNavigateToEditProfile,
+                onSignIn = onNavigateToLogin
+            )
 
-            if (!isGuest && userProfile != null) {
-                val profile = userProfile!!
-
-                ListItem(
-                    modifier = Modifier.clickable { onNavigateToEditProfile() },
-                    headlineContent = {
-                        Text(
-                            text = profile.displayName?.takeIf { it.isNotEmpty() } ?: profile.username,
-                            fontWeight = FontWeight.SemiBold,
-                            style = MaterialTheme.typography.bodyLarge
-                        )
-                    },
-                    supportingContent = {
-                        Text("@${profile.username}", style = MaterialTheme.typography.bodySmall)
-                    },
-                    leadingContent = {
-                        Avatar(
-                            name = profile.username,
-                            imageUrl = profile.photoUrl,
-                            size = 40.dp
-                        )
-                    },
-                    colors = ListItemDefaults.colors(
-                        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
+            if (profile != null) {
+                SettingsGroup(title = "Account") {
+                    PasswordSection(
+                        settingsViewModel = settingsViewModel,
+                        hasPassword = profile.hasPassword
                     )
-                )
-
-                HorizontalDivider(
-                    modifier = Modifier.padding(horizontal = 16.dp),
-                    color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
-                )
-
-                if (!isGuest && userProfile != null) {
-                    PasswordSection(settingsViewModel = settingsViewModel, hasPassword = userProfile!!.hasPassword)
+                    SettingsDivider()
+                    SettingsToggleRow(
+                        icon = if (profile.isLocked) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility,
+                        title = "Private profile",
+                        subtitle = if (profile.isLocked) {
+                            "Only your username is visible"
+                        } else {
+                            "Anyone can see your profile"
+                        },
+                        checked = profile.isLocked,
+                        onCheckedChange = { settingsViewModel.toggleProfileLock(it) }
+                    )
+                    SettingsDivider()
+                    SettingsRow(
+                        icon = Icons.Outlined.BookmarkBorder,
+                        title = "Bookmarks",
+                        subtitle = "Saved posts and resources",
+                        onClick = onNavigateToBookmarks
+                    )
+                    SettingsDivider()
+                    SettingsRow(
+                        icon = Icons.Outlined.AutoAwesome,
+                        title = "Neby credits",
+                        subtitle = "Balance, top-ups and point conversion",
+                        onClick = onNavigateToNebyCredits
+                    )
+                    SettingsDivider()
+                    SettingsRow(
+                        icon = Icons.Outlined.Palette,
+                        title = "My avatar",
+                        subtitle = "Shape, mood and colours",
+                        onClick = onNavigateToMyAvatar
+                    )
                 }
+            }
 
-                ListItem(
-                    headlineContent = { Text("Profile Visibility", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium) },
-                    supportingContent = {
-                        Text(
-                            if (profile.isLocked) "Private — only username visible" else "Public — profile visible to everyone",
-                            style = MaterialTheme.typography.bodySmall
-                        )
-                    },
-                    leadingContent = {
-                        Icon(
-                            imageVector = if (profile.isLocked) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.size(22.dp)
-                        )
-                    },
-                    trailingContent = {
-                        Switch(
-                            checked = profile.isLocked,
-                            onCheckedChange = { settingsViewModel.toggleProfileLock(it) }
-                        )
-                    },
-                    colors = ListItemDefaults.colors(
-                        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
-                    )
-                )
-
-                HorizontalDivider(
-                    modifier = Modifier.padding(horizontal = 16.dp),
-                    color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
-                )
-
-                ListItem(
-                    modifier = Modifier.clickable { onNavigateToBookmarks() },
-                    headlineContent = { Text("Bookmarks", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium) },
-                    supportingContent = {
-                        Text("Saved posts and resources", style = MaterialTheme.typography.bodySmall)
-                    },
-                    leadingContent = {
-                        Icon(
-                            imageVector = Icons.Outlined.BookmarkBorder,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.size(22.dp)
-                        )
-                    },
-                    colors = ListItemDefaults.colors(
-                        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
-                    )
-                )
-
-                HorizontalDivider(
-                    modifier = Modifier.padding(horizontal = 16.dp),
-                    color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
-                )
-
-                ListItem(
-                    modifier = Modifier.clickable { onNavigateToNebyCredits() },
-                    headlineContent = { Text("Neby Credits", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium) },
-                    supportingContent = {
-                        Text("10 free monthly credits, convert points & developer contact", style = MaterialTheme.typography.bodySmall)
-                    },
-                    leadingContent = {
-                        Icon(
-                            imageVector = Icons.Outlined.AutoAwesome,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.size(22.dp)
-                        )
-                    },
-                    colors = ListItemDefaults.colors(
-                        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
-                    )
-                )
-
-                HorizontalDivider(
-                    modifier = Modifier.padding(horizontal = 16.dp),
-                    color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
-                )
-
-                ListItem(
-                    modifier = Modifier.clickable { onNavigateToMyAvatar() },
-                    headlineContent = { Text("My Avatar", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium) },
-                    supportingContent = {
-                        Text("Customize your generated avatar — shape, mood, colors", style = MaterialTheme.typography.bodySmall)
-                    },
-                    leadingContent = {
-                        Icon(
-                            imageVector = Icons.Outlined.Palette,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.size(22.dp)
-                        )
-                    },
-                    colors = ListItemDefaults.colors(
-                        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
-                    )
-                )
-            } else {
-                ListItem(
-                    headlineContent = {
-                        Text("Guest Mode", fontWeight = FontWeight.SemiBold, style = MaterialTheme.typography.bodyLarge)
-                    },
-                    supportingContent = {
-                        Text("Sign in to join discussions and vote.", style = MaterialTheme.typography.bodySmall)
-                    },
-                    leadingContent = {
-                        Box(
-                            modifier = Modifier
-                                .size(40.dp)
-                                .clip(CircleShape)
-                                .background(MaterialTheme.colorScheme.surfaceContainerHigh),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Icon(
-                                imageVector = Icons.Outlined.Person,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                                modifier = Modifier.size(22.dp)
-                            )
-                        }
-                    },
-                    colors = ListItemDefaults.colors(
-                        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
-                    )
+            SettingsGroup(title = "Tools") {
+                SettingsRow(
+                    icon = Icons.Outlined.SpaceDashboard,
+                    title = "NEBians Canvas",
+                    subtitle = "Visual concept maps and whiteboards",
+                    badge = "New",
+                    onClick = onNavigateToCanvas
                 )
             }
 
-            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f))
-
-            SettingsSectionLabel(label = "Tools & Whiteboard")
-
-            ListItem(
-                modifier = Modifier.clickable { onNavigateToCanvas() },
-                headlineContent = { Text("NEBians Canvas", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.SemiBold) },
-                supportingContent = {
-                    Text("Interactive visual concept mapping, diagrams & whiteboards powered by Neby", style = MaterialTheme.typography.bodySmall)
-                },
-                leadingContent = {
-                    Icon(
-                        imageVector = Icons.Outlined.SpaceDashboard,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.size(22.dp)
-                    )
-                },
-                trailingContent = {
-                    Surface(
-                        shape = RoundedCornerShape(99.dp),
-                        color = MaterialTheme.colorScheme.primaryContainer
-                    ) {
-                        Text(
-                            "New",
-                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
-                            style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.onPrimaryContainer,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-                },
-                colors = ListItemDefaults.colors(
-                    containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
+            SettingsGroup(title = "Preferences") {
+                SettingsToggleRow(
+                    icon = Icons.Outlined.DarkMode,
+                    title = "Dark theme",
+                    subtitle = if (isDarkMode) "On" else "Off",
+                    checked = isDarkMode,
+                    onCheckedChange = { settingsViewModel.setDarkMode(it) }
                 )
-            )
-
-            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f))
-
-            SettingsSectionLabel(label = "Preferences")
-
-            ListItem(
-                headlineContent = { Text("Dark Theme", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium) },
-                supportingContent = { Text(if (isDarkMode) "On" else "Off", style = MaterialTheme.typography.bodySmall) },
-                leadingContent = {
-                    Icon(
-                        imageVector = Icons.Outlined.DarkMode,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.size(22.dp)
-                    )
-                },
-                trailingContent = {
-                    Switch(
-                        checked = isDarkMode,
-                        onCheckedChange = { settingsViewModel.setDarkMode(it) }
-                    )
-                },
-                colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest)
-            )
-
-            HorizontalDivider(
-                modifier = Modifier.padding(horizontal = 16.dp),
-                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
-            )
-
-            ListItem(
-                headlineContent = { Text("Push Notifications", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium) },
-                supportingContent = { Text(if (notificationsEnabled) "On" else "Off", style = MaterialTheme.typography.bodySmall) },
-                leadingContent = {
-                    Icon(
-                        imageVector = Icons.Outlined.Notifications,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.size(22.dp)
-                    )
-                },
-                trailingContent = {
-                    Switch(
-                        checked = notificationsEnabled,
-                        onCheckedChange = { enabled ->
-                            if (enabled && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-                                if (androidx.core.content.ContextCompat.checkSelfPermission(
-                                        context,
-                                        android.Manifest.permission.POST_NOTIFICATIONS
-                                    ) != android.content.pm.PackageManager.PERMISSION_GRANTED
-                                ) {
-                                    permissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
-                                } else {
-                                    settingsViewModel.setNotificationsEnabled(true)
-                                }
-                            } else {
-                                settingsViewModel.setNotificationsEnabled(enabled)
-                            }
+                SettingsDivider()
+                SettingsToggleRow(
+                    icon = Icons.Outlined.Notifications,
+                    title = "Push notifications",
+                    subtitle = if (notificationsEnabled) "On" else "Off",
+                    checked = notificationsEnabled,
+                    onCheckedChange = { enabled ->
+                        val needsPermission = enabled &&
+                            Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+                            ContextCompat.checkSelfPermission(
+                                context,
+                                Manifest.permission.POST_NOTIFICATIONS
+                            ) != PackageManager.PERMISSION_GRANTED
+                        if (needsPermission) {
+                            permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                        } else {
+                            settingsViewModel.setNotificationsEnabled(enabled)
                         }
-                    )
-                },
-                colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest)
-            )
-
-            HorizontalDivider(
-                modifier = Modifier.padding(horizontal = 16.dp),
-                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
-            )
-
-            ListItem(
-                headlineContent = { Text("Wi-Fi Only Downloads", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium) },
-                supportingContent = { Text(if (downloadWifiOnly) "Wi-Fi only" else "Any network", style = MaterialTheme.typography.bodySmall) },
-                leadingContent = {
-                    Icon(
-                        imageVector = Icons.Outlined.Wifi,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.size(22.dp)
-                    )
-                },
-                trailingContent = {
-                    Switch(
-                        checked = downloadWifiOnly,
-                        onCheckedChange = { settingsViewModel.setDownloadWifiOnly(it) }
-                    )
-                },
-                colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest)
-            )
-
-            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f))
-
-            SettingsSectionLabel(label = "About")
+                    }
+                )
+                SettingsDivider()
+                SettingsToggleRow(
+                    icon = Icons.Outlined.Wifi,
+                    title = "Wi-Fi only downloads",
+                    subtitle = if (downloadWifiOnly) "Wi-Fi only" else "Any network",
+                    checked = downloadWifiOnly,
+                    onCheckedChange = { settingsViewModel.setDownloadWifiOnly(it) }
+                )
+            }
 
             val appVersionName = remember(context) {
                 runCatching {
@@ -406,116 +221,48 @@ fun SettingsScreen(
                 }.getOrNull() ?: "1.0.5"
             }
 
-            ListItem(
-                headlineContent = { Text("Version", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium) },
-                supportingContent = { Text(appVersionName, style = MaterialTheme.typography.bodySmall) },
-                leadingContent = {
-                    Icon(
-                        imageVector = Icons.Outlined.Info,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.size(22.dp)
-                    )
-                },
-                colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest)
-            )
-
-            HorizontalDivider(
-                modifier = Modifier.padding(horizontal = 16.dp),
-                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
-            )
-
-            ListItem(
-                modifier = Modifier.clickable {
-                    onNavigateToLegal(com.neb.ians.ui.screens.legal.NebLegal.PRIVACY)
-                },
-                headlineContent = { Text("Privacy Policy", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium) },
-                supportingContent = { Text("How we protect your data", style = MaterialTheme.typography.bodySmall) },
-                leadingContent = {
-                    Icon(
-                        imageVector = Icons.Outlined.Lock,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.size(22.dp)
-                    )
-                },
-                colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest)
-            )
-
-            HorizontalDivider(
-                modifier = Modifier.padding(horizontal = 16.dp),
-                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
-            )
-
-            ListItem(
-                modifier = Modifier.clickable {
-                    onNavigateToLegal(com.neb.ians.ui.screens.legal.NebLegal.TERMS)
-                },
-                headlineContent = { Text("Terms of Service", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium) },
-                supportingContent = { Text("Rules and guidelines for usage", style = MaterialTheme.typography.bodySmall) },
-                leadingContent = {
-                    Icon(
-                        imageVector = Icons.Outlined.Description,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.size(22.dp)
-                    )
-                },
-                colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest)
-            )
-
-            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f))
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            if (isGuest) {
-                Button(
-                    onClick = { onNavigateToLogin() },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp)
-                        .padding(horizontal = 16.dp),
-                    shape = CircleShape
-                ) {
-                    Text("Sign In", fontWeight = FontWeight.SemiBold)
-                }
-            } else {
-                Spacer(modifier = Modifier.height(16.dp))
-                SettingsSectionLabel(label = "Danger Zone")
-                ListItem(
-                    modifier = Modifier.clickable { onNavigateToDeleteAccount() },
-                    headlineContent = { Text("Delete Account", color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium) },
-                    supportingContent = { Text("Permanently delete your profile and data", style = MaterialTheme.typography.bodySmall) },
-                    leadingContent = {
-                        Icon(
-                            imageVector = Icons.Outlined.Delete,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.error,
-                            modifier = Modifier.size(22.dp)
-                        )
-                    },
-                    colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest)
+            SettingsGroup(title = "About") {
+                SettingsRow(
+                    icon = Icons.Outlined.Lock,
+                    title = "Privacy policy",
+                    subtitle = "How we protect your data",
+                    onClick = { onNavigateToLegal(NebLegal.PRIVACY) }
                 )
-                HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f))
-                Spacer(modifier = Modifier.height(24.dp))
+                SettingsDivider()
+                SettingsRow(
+                    icon = Icons.Outlined.Description,
+                    title = "Terms of service",
+                    subtitle = "Rules and guidelines for usage",
+                    onClick = { onNavigateToLegal(NebLegal.TERMS) }
+                )
+                SettingsDivider()
+                SettingsRow(
+                    icon = Icons.Outlined.Info,
+                    title = "Version",
+                    subtitle = appVersionName
+                )
+            }
 
-                OutlinedButton(
-                    onClick = { settingsViewModel.logout() },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp)
-                        .padding(horizontal = 16.dp),
-                    shape = CircleShape,
-                    colors = ButtonDefaults.outlinedButtonColors(
-                        contentColor = MaterialTheme.colorScheme.error
-                    ),
-                    border = androidx.compose.foundation.BorderStroke(
-                        width = 1.dp,
-                        color = MaterialTheme.colorScheme.error.copy(alpha = 0.5f)
+            if (profile != null) {
+                SettingsGroup(title = "Account control") {
+                    SettingsRow(
+                        icon = Icons.Outlined.Delete,
+                        title = "Delete account",
+                        subtitle = "Permanently remove your profile and data",
+                        tint = MaterialTheme.colorScheme.error,
+                        titleColor = MaterialTheme.colorScheme.error,
+                        onClick = onNavigateToDeleteAccount
                     )
-                ) {
-                    Text("Sign Out", fontWeight = FontWeight.SemiBold)
                 }
+
+                Spacer(modifier = Modifier.height(24.dp))
+                NebButton(
+                    text = "Sign out",
+                    onClick = { settingsViewModel.logout() },
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    tone = NebButtonTone.Outlined,
+                    fillWidth = true
+                )
             }
 
             Spacer(modifier = Modifier.navigationBarsPadding().height(96.dp))
@@ -524,150 +271,62 @@ fun SettingsScreen(
 }
 
 @Composable
-private fun SettingsSectionLabel(label: String) {
-    Text(
-        text = label,
-        style = MaterialTheme.typography.labelSmall,
-        color = MaterialTheme.colorScheme.primary,
-        fontWeight = FontWeight.SemiBold,
-        modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 2.dp)
-    )
-}
-
-@Composable
-private fun PasswordSection(settingsViewModel: SettingsViewModel, hasPassword: Boolean) {
-    var showSetDialog by remember { mutableStateOf(false) }
-    var showChangeDialog by remember { mutableStateOf(false) }
-
-    ListItem(
-        headlineContent = {
-            Text(
-                if (hasPassword) "Change Password" else "Set Password",
-                style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.Medium
-            )
-        },
-        supportingContent = {
-            Text(
-                if (hasPassword) "Update your account password" else "Add a password for email sign-in",
-                style = MaterialTheme.typography.bodySmall
-            )
-        },
-        leadingContent = {
-            Icon(
-                imageVector = Icons.Outlined.Lock,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.size(22.dp)
-            )
-        },
-        modifier = Modifier.clickable {
-            if (hasPassword) showChangeDialog = true else showSetDialog = true
-        },
-        colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest)
-    )
-
-    if (showSetDialog) {
-        SetPasswordDialog(
-            onDismiss = { showSetDialog = false },
-            onSetPassword = { settingsViewModel.setPassword(it) }
-        )
-    }
-
-    if (showChangeDialog) {
-        ChangePasswordDialog(
-            onDismiss = { showChangeDialog = false },
-            onChangePassword = { current, new -> settingsViewModel.changePassword(current, new) }
-        )
-    }
-
-    val passwordState by settingsViewModel.passwordState.collectAsStateWithLifecycle()
-    LaunchedEffect(passwordState) {
-        if (passwordState is PasswordUiState.Success) {
-            showSetDialog = false
-            showChangeDialog = false
-            settingsViewModel.resetPasswordState()
+private fun IdentityCard(
+    profile: UserProfileCache?,
+    onEditProfile: () -> Unit,
+    onSignIn: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .nebPressable(onClick = if (profile != null) onEditProfile else onSignIn)
+            .clip(RoundedCornerShape(26.dp))
+            .background(MaterialTheme.colorScheme.surfaceContainerLow)
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(14.dp)
+    ) {
+        if (profile != null) {
+            Avatar(name = profile.username, imageUrl = profile.photoUrl, size = 52.dp)
+        } else {
+            Box(
+                modifier = Modifier
+                    .size(52.dp)
+                    .clip(CircleShape)
+                    .background(MaterialTheme.colorScheme.surfaceContainerHighest),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.Person,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.size(24.dp)
+                )
+            }
         }
-    }
-}
-
-@Composable
-private fun SetPasswordDialog(
-    onDismiss: () -> Unit,
-    onSetPassword: (String) -> Unit
-) {
-    var password by remember { mutableStateOf("") }
-    var confirmPassword by remember { mutableStateOf("") }
-    val mismatch = confirmPassword.isNotBlank() && password != confirmPassword
-
-    NebDialog(
-        onDismissRequest = onDismiss,
-        title = "Set a password",
-        supportingText = "Add a password so you can also sign in with your email or username.",
-        icon = Icons.Outlined.Lock,
-        confirm = NebDialogAction(
-            label = "Set password",
-            onClick = { onSetPassword(password) },
-            enabled = password.length >= 8 && password == confirmPassword
-        ),
-        dismiss = NebDialogAction("Cancel", onDismiss)
-    ) {
-        NebDialogPasswordField(
-            value = password,
-            onValueChange = { password = it },
-            label = "Password",
-            supportingText = "At least 8 characters"
-        )
-        NebDialogPasswordField(
-            value = confirmPassword,
-            onValueChange = { confirmPassword = it },
-            label = "Confirm password",
-            isError = mismatch,
-            supportingText = if (mismatch) "Passwords don't match" else null,
-            revealable = false
-        )
-    }
-}
-
-@Composable
-private fun ChangePasswordDialog(
-    onDismiss: () -> Unit,
-    onChangePassword: (String, String) -> Unit
-) {
-    var currentPassword by remember { mutableStateOf("") }
-    var newPassword by remember { mutableStateOf("") }
-    var confirmPassword by remember { mutableStateOf("") }
-    val mismatch = confirmPassword.isNotBlank() && newPassword != confirmPassword
-
-    NebDialog(
-        onDismissRequest = onDismiss,
-        title = "Change password",
-        icon = Icons.Outlined.Lock,
-        confirm = NebDialogAction(
-            label = "Change",
-            onClick = { onChangePassword(currentPassword, newPassword) },
-            enabled = currentPassword.isNotBlank() && newPassword.length >= 8 && newPassword == confirmPassword
-        ),
-        dismiss = NebDialogAction("Cancel", onDismiss)
-    ) {
-        NebDialogPasswordField(
-            value = currentPassword,
-            onValueChange = { currentPassword = it },
-            label = "Current password"
-        )
-        NebDialogPasswordField(
-            value = newPassword,
-            onValueChange = { newPassword = it },
-            label = "New password",
-            supportingText = "At least 8 characters"
-        )
-        NebDialogPasswordField(
-            value = confirmPassword,
-            onValueChange = { confirmPassword = it },
-            label = "Confirm new password",
-            isError = mismatch,
-            supportingText = if (mismatch) "Passwords don't match" else null,
-            revealable = false
-        )
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = profile?.displayName?.takeIf { it.isNotEmpty() }
+                    ?: profile?.username
+                    ?: "Guest mode",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold
+            )
+            Text(
+                text = profile?.let { "@${it.username}" } ?: "Sign in to post, vote and upload",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+        if (profile != null) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Outlined.KeyboardArrowRight,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.outline
+            )
+        } else {
+            NebButton(text = "Sign in", onClick = onSignIn)
+        }
     }
 }

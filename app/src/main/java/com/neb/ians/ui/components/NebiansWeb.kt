@@ -104,6 +104,9 @@ import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.neb.ians.ui.components.NebButton
+import com.neb.ians.ui.components.NebButtonSize
+import com.neb.ians.ui.components.NebButtonTone
 
 private val VideoExtensionRegex = Regex("\\.(mp4|mkv|webm|3gp|mov)$", RegexOption.IGNORE_CASE)
 
@@ -568,36 +571,20 @@ fun WebPrimaryButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    painter: Painter? = null,
-    imageVector: ImageVector? = null
+    imageVector: ImageVector? = null,
+    enabled: Boolean = true,
+    loading: Boolean = false,
+    fillWidth: Boolean = false
 ) {
-    val interactionSource = remember { MutableInteractionSource() }
-    val isPressed by interactionSource.collectIsPressedAsState()
-    val scale by animateFloatAsState(
-        targetValue = if (isPressed) 0.95f else 1.0f,
-        animationSpec = spring(stiffness = Spring.StiffnessMediumLow),
-        label = "primaryBtnScale"
-    )
-
-    Button(
+    NebButton(
+        text = text,
         onClick = onClick,
-        modifier = modifier
-            .graphicsLayer {
-                scaleX = scale
-                scaleY = scale
-            }
-            .heightIn(min = 44.dp),
-        interactionSource = interactionSource,
-        shape = WebPillShape,
-        colors = ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.primary,
-            contentColor = MaterialTheme.colorScheme.onPrimary
-        ),
-        contentPadding = PaddingValues(horizontal = 22.dp, vertical = 10.dp)
-    ) {
-        ButtonIcon(painter = painter, imageVector = imageVector)
-        Text(text = text, fontWeight = FontWeight.Bold, maxLines = 1)
-    }
+        modifier = modifier,
+        icon = imageVector,
+        enabled = enabled,
+        loading = loading,
+        fillWidth = fillWidth
+    )
 }
 
 @Composable
@@ -605,61 +592,19 @@ fun WebOutlinedButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    painter: Painter? = null,
-    imageVector: ImageVector? = null
+    imageVector: ImageVector? = null,
+    enabled: Boolean = true,
+    fillWidth: Boolean = false
 ) {
-    val interactionSource = remember { MutableInteractionSource() }
-    val isPressed by interactionSource.collectIsPressedAsState()
-    val scale by animateFloatAsState(
-        targetValue = if (isPressed) 0.95f else 1.0f,
-        animationSpec = spring(stiffness = Spring.StiffnessMediumLow),
-        label = "outlineBtnScale"
-    )
-
-    OutlinedButton(
+    NebButton(
+        text = text,
         onClick = onClick,
-        modifier = modifier
-            .graphicsLayer {
-                scaleX = scale
-                scaleY = scale
-            }
-            .heightIn(min = 44.dp),
-        interactionSource = interactionSource,
-        shape = WebPillShape,
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
-        colors = ButtonDefaults.outlinedButtonColors(
-            contentColor = MaterialTheme.colorScheme.primary,
-            containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
-        ),
-        contentPadding = PaddingValues(horizontal = 22.dp, vertical = 10.dp)
-    ) {
-        ButtonIcon(painter = painter, imageVector = imageVector)
-        Text(text = text, fontWeight = FontWeight.Bold, maxLines = 1)
-    }
-}
-
-@Composable
-private fun ButtonIcon(painter: Painter?, imageVector: ImageVector?) {
-    when {
-        painter != null -> {
-            Icon(
-                painter = painter,
-                contentDescription = null,
-                modifier = Modifier
-                    .padding(end = 8.dp)
-                    .size(18.dp)
-            )
-        }
-        imageVector != null -> {
-            Icon(
-                imageVector = imageVector,
-                contentDescription = null,
-                modifier = Modifier
-                    .padding(end = 8.dp)
-                    .size(18.dp)
-            )
-        }
-    }
+        modifier = modifier,
+        tone = NebButtonTone.Outlined,
+        icon = imageVector,
+        enabled = enabled,
+        fillWidth = fillWidth
+    )
 }
 
 @Composable

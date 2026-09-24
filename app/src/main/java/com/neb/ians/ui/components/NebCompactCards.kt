@@ -96,7 +96,8 @@ fun CompactPeerCard(
     isFollowing: Boolean,
     onPeerClick: () -> Unit,
     onFollowToggle: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    followLabel: String = if (isFollowing) "Following" else "Follow"
 ) {
     val tactile = rememberTactileFeedback()
 
@@ -180,12 +181,14 @@ fun CompactPeerCard(
                         Spacer(Modifier.width(3.dp))
                     }
                     Text(
-                        text = if (isFollowing) "Following" else "Follow",
+                        text = followLabel,
                         style = MaterialTheme.typography.labelSmall.copy(
                             fontWeight = FontWeight.SemiBold,
                             fontSize = 11.sp
                         ),
-                        color = btnTextColor
+                        color = btnTextColor,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
                 }
             }

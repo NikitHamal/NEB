@@ -58,6 +58,9 @@ import java.util.Date
 import java.util.Locale
 
 import androidx.compose.ui.graphics.RectangleShape
+import com.neb.ians.ui.components.NebButton
+import com.neb.ians.ui.components.NebButtonSize
+import com.neb.ians.ui.components.NebButtonTone
 
 private fun buildBadgeInfo(p: UserProfileResponse): ApiBadgeInfo? = when {
     p.isBot -> ApiBadgeInfo(type = "bot", label = "AI", color = "#7C4DFF")
@@ -383,130 +386,68 @@ fun ProfileHeaderCard(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     if (isSelf) {
-                        OutlinedButton(
+                        NebButton(
+                            text = "Edit",
                             onClick = onEditProfile,
-                            modifier = Modifier.weight(1f),
-                            shape = CircleShape,
-                            border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary),
-                            colors = ButtonDefaults.outlinedButtonColors(
-                                contentColor = MaterialTheme.colorScheme.primary
-                            ),
-                            contentPadding = PaddingValues(vertical = 12.dp)
-                        ) {
-                            Icon(
-                                imageVector = Icons.Filled.Edit,
-                                contentDescription = null,
-                                modifier = Modifier.size(16.dp)
-                            )
-                            Spacer(modifier = Modifier.width(6.dp))
-                            Text("Edit", fontWeight = FontWeight.Bold)
-                        }
+                            icon = Icons.Filled.Edit,
+                            tone = NebButtonTone.Outlined,
+                            modifier = Modifier.weight(1f)
+                        )
 
-                        OutlinedButton(
+                        NebButton(
+                            text = "Analytics",
                             onClick = onAnalyticsClick,
-                            modifier = Modifier.weight(1f),
-                            shape = CircleShape,
-                            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
-                            colors = ButtonDefaults.outlinedButtonColors(
-                                contentColor = MaterialTheme.colorScheme.onSurface
-                            ),
-                            contentPadding = PaddingValues(vertical = 12.dp)
-                        ) {
-                            Icon(
-                                imageVector = Icons.Outlined.TrendingUp,
-                                contentDescription = null,
-                                modifier = Modifier.size(16.dp),
-                                tint = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                            Spacer(modifier = Modifier.width(6.dp))
-                            Text("Analytics", fontWeight = FontWeight.Bold)
-                        }
+                            icon = Icons.Outlined.TrendingUp,
+                            tone = NebButtonTone.Outlined,
+                            modifier = Modifier.weight(1f)
+                        )
                     } else {
-                        Button(
+                        NebButton(
+                            text = when {
+                                isFollowing -> "Following"
+                                isRequested -> "Requested"
+                                else -> "Follow"
+                            },
                             onClick = onFollowClick,
-                            modifier = Modifier.weight(1f),
-                            shape = CircleShape,
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = when {
-                                    isFollowing -> MaterialTheme.colorScheme.surfaceVariant
-                                    isRequested -> MaterialTheme.colorScheme.secondaryContainer
-                                    else -> MaterialTheme.colorScheme.primary
-                                },
-                                contentColor = when {
-                                    isFollowing -> MaterialTheme.colorScheme.onSurfaceVariant
-                                    isRequested -> MaterialTheme.colorScheme.onSecondaryContainer
-                                    else -> Color.White
-                                }
-                            ),
-                            contentPadding = PaddingValues(vertical = 12.dp)
-                        ) {
-                            Icon(
-                                imageVector = when {
-                                    isFollowing -> Icons.Outlined.Check
-                                    isRequested -> Icons.Outlined.HourglassTop
-                                    else -> Icons.Outlined.Add
-                                },
-                                contentDescription = null,
-                                modifier = Modifier.size(16.dp)
-                            )
-                            Spacer(modifier = Modifier.width(6.dp))
-                            Text(
-                                text = when {
-                                    isFollowing -> "Following"
-                                    isRequested -> "Requested"
-                                    else -> "Follow"
-                                },
-                                fontWeight = FontWeight.Bold
-                            )
-                        }
+                            icon = when {
+                                isFollowing -> Icons.Outlined.Check
+                                isRequested -> Icons.Outlined.HourglassTop
+                                else -> Icons.Outlined.Add
+                            },
+                            tone = if (isFollowing || isRequested) {
+                                NebButtonTone.Tonal
+                            } else {
+                                NebButtonTone.Primary
+                            },
+                            modifier = Modifier.weight(1f)
+                        )
 
-                        OutlinedButton(
+                        NebButton(
+                            text = if (profile.isBot) "Try Neby" else "Mention",
                             onClick = {
                                 clipboard.setText(AnnotatedString("@${profile.username}"))
                                 Toast.makeText(context, "Mention handle copied", Toast.LENGTH_SHORT).show()
                             },
-                            modifier = Modifier.weight(1f),
-                            shape = CircleShape,
-                            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
-                            contentPadding = PaddingValues(vertical = 12.dp)
-                        ) {
-                            Icon(
-                                imageVector = Icons.Outlined.AlternateEmail,
-                                contentDescription = null,
-                                modifier = Modifier.size(16.dp),
-                                tint = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                            Spacer(modifier = Modifier.width(6.dp))
-                            Text(
-                                text = if (profile.isBot) "Try Neby" else "Mention",
-                                fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.onSurface
-                            )
-                        }
+                            icon = Icons.Outlined.AlternateEmail,
+                            tone = NebButtonTone.Outlined,
+                            modifier = Modifier.weight(1f)
+                        )
                     }
                 }
 
                 if (isSelf && profile.isLocked == 1) {
                     Spacer(modifier = Modifier.height(12.dp))
-                    OutlinedButton(
+                    NebButton(
+                        text = if (followRequestsCount > 0) {
+                            "Follow requests ($followRequestsCount)"
+                        } else {
+                            "Follow requests"
+                        },
                         onClick = onFollowRequestsClick,
-                        modifier = Modifier.fillMaxWidth(),
-                        shape = CircleShape,
-                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.secondary),
-                        colors = ButtonDefaults.outlinedButtonColors(
-                            contentColor = MaterialTheme.colorScheme.secondary
-                        ),
-                        contentPadding = PaddingValues(vertical = 12.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Outlined.GroupAdd,
-                            contentDescription = null,
-                            modifier = Modifier.size(16.dp)
-                        )
-                        Spacer(modifier = Modifier.width(6.dp))
-                        val label = if (followRequestsCount > 0) "Follow Requests ($followRequestsCount)" else "Follow Requests"
-                        Text(label, fontWeight = FontWeight.Bold)
-                    }
+                        icon = Icons.Outlined.GroupAdd,
+                        tone = NebButtonTone.Outlined,
+                        fillWidth = true
+                    )
                 }
 
                 if (achievements.isNotEmpty()) {
@@ -895,14 +836,12 @@ fun ProfileProgressIndicator() {
 
 @Composable
 fun ProfileLoadMoreButton(onClick: () -> Unit) {
-    OutlinedButton(
+    NebButton(
+        text = "Load more",
         onClick = onClick,
-        modifier = Modifier.fillMaxWidth(),
-        shape = WebPillShape,
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
-    ) {
-        Text("Load more", fontWeight = FontWeight.Bold)
-    }
+        tone = NebButtonTone.Outlined,
+        fillWidth = true
+    )
 }
 
 @Composable

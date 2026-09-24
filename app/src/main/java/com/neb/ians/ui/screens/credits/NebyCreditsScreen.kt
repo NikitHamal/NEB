@@ -1,15 +1,18 @@
-package com.neb.ians.ui.screens.credits
+@file:OptIn(
+    androidx.compose.material3.ExperimentalMaterial3Api::class,
+    androidx.compose.material3.ExperimentalMaterial3ExpressiveApi::class
+)
 
-import com.neb.ians.ui.components.LinkifyText
+package com.neb.ians.ui.screens.credits
 
 import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,43 +25,54 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.AutoAwesome
-import androidx.compose.material.icons.filled.Bolt
-import androidx.compose.material.icons.filled.Chat
-import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.Refresh
+import androidx.compose.material.icons.rounded.Remove
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LoadingIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.neb.ians.data.api.ApiCreditTransaction
+import com.neb.ians.ui.components.LinkifyText
+import com.neb.ians.ui.components.NebButton
+import com.neb.ians.ui.components.NebButtonSize
+import com.neb.ians.ui.components.NebButtonTone
+import com.neb.ians.ui.components.nebPressable
 import com.neb.ians.util.formatTimeAgo
 
-@OptIn(ExperimentalMaterial3Api::class)
+private const val POINTS_PER_CREDIT = 2
+
+/**
+ * Credits, said once.
+ *
+ * The screen used to open with a black gradient banner, then repeat the same
+ * four numbers across three bordered cards, then ask for the conversion amount
+ * in a text field that only accepted even numbers and rejected everything else
+ * with a toast. Here the balance is the only large thing, the conversion is a
+ * stepper that cannot produce an invalid amount, and the history is a plain
+ * list — so there is nothing to read twice and nothing to get wrong.
+ */
 @Composable
 fun NebyCreditsScreen(
     onBack: () -> Unit,
@@ -66,24 +80,27 @@ fun NebyCreditsScreen(
 ) {
     val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
-    var pointsInput by remember { mutableStateOf("2") }
-
-    val primaryColor = MaterialTheme.colorScheme.primary
     val balance = uiState.balance
+    val points = balance.nebiansPoints
+
+    var requested by remember { mutableIntStateOf(POINTS_PER_CREDIT) }
+    val maxPoints = remember(points) { points - points % POINTS_PER_CREDIT }
+    LaunchedEffect(maxPoints) {
+        requested = requested.coerceIn(POINTS_PER_CREDIT, maxOf(POINTS_PER_CREDIT, maxPoints))
+    }
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Neby Credits", fontWeight = FontWeight.Bold) },
+                title = { Text("Credits", style = MaterialTheme.typography.titleLargeEmphasized) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Rounded.ArrowBack, contentDescription = "Back")
                     }
                 },
                 actions = {
                     IconButton(onClick = { viewModel.loadData() }) {
-                        Icon(Icons.Filled.Refresh, contentDescription = "Refresh")
+                        Icon(Icons.Rounded.Refresh, contentDescription = "Refresh")
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -94,350 +111,302 @@ fun NebyCreditsScreen(
     ) { padding ->
         if (uiState.isLoading) {
             Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(padding),
+                modifier = Modifier.fillMaxSize().padding(padding),
                 contentAlignment = Alignment.Center
             ) {
-                CircularProgressIndicator()
+                LoadingIndicator(color = MaterialTheme.colorScheme.onSurface)
             }
-        } else {
-            val totalCredits = balance.totalCredits
-            val freeCredits = balance.freeCredits
-            val aiCredits = balance.aiCredits
-            val points = balance.nebiansPoints
+            return@Scaffold
+        }
 
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(padding)
-                    .padding(horizontal = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                item {
-                    Spacer(Modifier.height(4.dp))
-                    Surface(
-                        modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(20.dp),
-                        color = Color.Unspecified,
-                        border = BorderStroke(1.dp, primaryColor.copy(alpha = 0.3f))
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .background(
-                                    Brush.horizontalGradient(
-                                        colors = listOf(
-                                            Color(0xFF26262A),
-                                            Color(0xFF17171A),
-                                            Color(0xFF0A0A0B)
-                                        )
-                                    )
-                                )
-                                .padding(20.dp)
-                        ) {
-                            Column {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.spacedBy(6.dp)
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Filled.Bolt,
-                                        contentDescription = null,
-                                        tint = Color(0xFFF4F4F5),
-                                        modifier = Modifier.size(20.dp)
-                                    )
-                                    Text(
-                                        text = "NEBY AI ECONOMY",
-                                        style = MaterialTheme.typography.labelSmall,
-                                        fontWeight = FontWeight.ExtraBold,
-                                        color = Color.White.copy(alpha = 0.9f)
-                                    )
-                                }
-                                Spacer(Modifier.height(8.dp))
-                                Text(
-                                    text = "$totalCredits Credits",
-                                    fontSize = 32.sp,
-                                    fontWeight = FontWeight.Black,
-                                    color = Color.White
-                                )
-                                Text(
-                                    text = "$freeCredits free monthly + $aiCredits converted",
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = Color.White.copy(alpha = 0.85f)
-                                )
-                                Spacer(Modifier.height(12.dp))
-                                Text(
-                                    text = "Every user gets 10 free credits refreshed every month. Used for PDF AI & AI tools. @neby community mentions are always free!",
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = Color.White.copy(alpha = 0.9f)
-                                )
-                            }
-                        }
-                    }
-                }
+        LazyColumn(
+            modifier = Modifier.fillMaxSize().padding(padding),
+            contentPadding = PaddingValues(bottom = 40.dp)
+        ) {
+            item(key = "balance") {
+                BalanceHeader(
+                    total = balance.totalCredits,
+                    free = balance.freeCredits,
+                    converted = balance.aiCredits
+                )
+            }
 
-                item {
-                    Surface(
-                        modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(16.dp),
-                        color = MaterialTheme.colorScheme.surfaceContainerLowest,
-                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
-                    ) {
-                        Column(modifier = Modifier.padding(16.dp)) {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(10.dp)
-                            ) {
-                                Box(
-                                    modifier = Modifier
-                                        .size(38.dp)
-                                        .clip(RoundedCornerShape(10.dp))
-                                        .background(MaterialTheme.colorScheme.surfaceContainerHighest),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Filled.AutoAwesome,
-                                        contentDescription = null,
-                                        tint = MaterialTheme.colorScheme.onSurface,
-                                        modifier = Modifier.size(20.dp)
-                                    )
-                                }
-                                Column {
-                                    Text(
-                                        text = "Convert NEBians Points",
-                                        style = MaterialTheme.typography.titleMedium,
-                                        fontWeight = FontWeight.Bold
-                                    )
-                                    Text(
-                                        text = "Rate: 2 Points = 1 Neby Credit",
-                                        style = MaterialTheme.typography.labelSmall,
-                                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                                    )
-                                }
-                            }
-
-                            Spacer(Modifier.height(12.dp))
-                            Surface(
-                                modifier = Modifier.fillMaxWidth(),
-                                shape = RoundedCornerShape(12.dp),
-                                color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.4f)
-                            ) {
-                                Row(
-                                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp),
-                                    horizontalArrangement = Arrangement.SpaceBetween,
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Text(
-                                        text = "Your Points Balance:",
-                                        style = MaterialTheme.typography.bodySmall,
-                                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                                    )
-                                    Text(
-                                        text = "$points pts",
-                                        style = MaterialTheme.typography.titleSmall,
-                                        fontWeight = FontWeight.Bold,
-                                        color = primaryColor
-                                    )
-                                }
-                            }
-
-                            Spacer(Modifier.height(12.dp))
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(8.dp)
-                            ) {
-                                OutlinedTextField(
-                                    value = pointsInput,
-                                    onValueChange = { pointsInput = it.filter { c -> c.isDigit() } },
-                                    modifier = Modifier.weight(1f),
-                                    label = { Text("Points (Even Number)") },
-                                    singleLine = true,
-                                    shape = RoundedCornerShape(12.dp)
-                                )
-                                Button(
-                                    onClick = {
-                                        val evenMax = if (points % 2 == 0) points else points - 1
-                                        if (evenMax >= 2) pointsInput = evenMax.toString()
-                                    },
-                                    shape = RoundedCornerShape(12.dp)
-                                ) {
-                                    Text("MAX")
-                                }
-                            }
-
-                            val inputVal = pointsInput.toIntOrNull() ?: 0
-                            val creditsYield = inputVal / 2
-                            Spacer(Modifier.height(8.dp))
-                            Text(
-                                text = "You will receive: +$creditsYield ${if (creditsYield == 1) "Credit" else "Credits"}",
-                                style = MaterialTheme.typography.bodySmall,
-                                fontWeight = FontWeight.SemiBold,
-                                color = MaterialTheme.colorScheme.onSurface
-                            )
-
-                            Spacer(Modifier.height(12.dp))
-                            Button(
-                                onClick = {
-                                    val pts = pointsInput.toIntOrNull() ?: 0
-                                    if (pts < 2 || pts % 2 != 0) {
-                                        Toast.makeText(context, "Please enter an even number of points (min 2)", Toast.LENGTH_SHORT).show()
-                                        return@Button
-                                    }
-                                    if (pts > points) {
-                                        Toast.makeText(context, "Insufficient points balance", Toast.LENGTH_SHORT).show()
-                                        return@Button
-                                    }
-                                    viewModel.convertPoints(
-                                        points = pts,
-                                        onSuccess = { msg ->
-                                            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
-                                        },
-                                        onError = { err ->
-                                            Toast.makeText(context, err, Toast.LENGTH_SHORT).show()
-                                        }
-                                    )
-                                },
-                                enabled = !uiState.isConverting && inputVal >= 2 && inputVal % 2 == 0 && inputVal <= points,
-                                modifier = Modifier.fillMaxWidth(),
-                                shape = RoundedCornerShape(12.dp)
-                            ) {
-                                if (uiState.isConverting) {
-                                    CircularProgressIndicator(modifier = Modifier.size(18.dp), strokeWidth = 2.dp)
-                                } else {
-                                    Text("Convert Points to Credits", fontWeight = FontWeight.Bold)
-                                }
-                            }
-                        }
-                    }
-                }
-
-                item {
-                    Surface(
-                        modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(16.dp),
-                        color = MaterialTheme.colorScheme.surfaceContainerLowest,
-                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
-                    ) {
-                        Column(modifier = Modifier.padding(16.dp)) {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(10.dp)
-                            ) {
-                                Box(
-                                    modifier = Modifier
-                                        .size(38.dp)
-                                        .clip(RoundedCornerShape(10.dp))
-                                        .background(MaterialTheme.colorScheme.surfaceContainerHighest),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Filled.Chat,
-                                        contentDescription = null,
-                                        tint = MaterialTheme.colorScheme.onSurface,
-                                        modifier = Modifier.size(20.dp)
-                                    )
-                                }
-                                Column {
-                                    Text(
-                                        text = "Need More Credits?",
-                                        style = MaterialTheme.typography.titleMedium,
-                                        fontWeight = FontWeight.Bold
-                                    )
-                                    Text(
-                                        text = "Contact Developer on WhatsApp",
-                                        style = MaterialTheme.typography.labelSmall,
-                                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                                    )
-                                }
-                            }
-
-                            Spacer(Modifier.height(10.dp))
-                            Text(
-                                text = "Contact Nikit Hamal on WhatsApp for extra credits or project inquiries.",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-
-                            Spacer(Modifier.height(12.dp))
-                            Button(
-                                onClick = {
-                                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(balance.whatsappContact.url))
-                                    context.startActivity(intent)
-                                },
-                                modifier = Modifier.fillMaxWidth(),
-                                shape = RoundedCornerShape(12.dp),
-                                colors = androidx.compose.material3.ButtonDefaults.buttonColors(
-                                    containerColor = MaterialTheme.colorScheme.primary
-                                )
-                            ) {
-                                Icon(Icons.Filled.Chat, contentDescription = null, modifier = Modifier.size(18.dp))
-                                Spacer(Modifier.width(8.dp))
-                                Text("Chat on WhatsApp (+977 9765324034)", fontWeight = FontWeight.Bold)
-                            }
-                        }
-                    }
-                }
-
-                item {
-                    Text(
-                        text = "Credit Activity History",
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier.padding(top = 8.dp)
-                    )
-                }
-
-                if (uiState.transactions.isEmpty()) {
-                    item {
-                        Text(
-                            text = "No credit activity recorded yet.",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+            item(key = "convert") {
+                ConvertSection(
+                    points = points,
+                    requested = requested,
+                    maxPoints = maxPoints,
+                    converting = uiState.isConverting,
+                    onRequestChange = { requested = it },
+                    onConvert = {
+                        viewModel.convertPoints(
+                            points = requested,
+                            onSuccess = { Toast.makeText(context, it, Toast.LENGTH_SHORT).show() },
+                            onError = { Toast.makeText(context, it, Toast.LENGTH_SHORT).show() }
                         )
                     }
-                } else {
-                    items(uiState.transactions, key = { it.id }) { tx ->
-                        Surface(
-                            modifier = Modifier.fillMaxWidth(),
-                            shape = RoundedCornerShape(12.dp),
-                            color = MaterialTheme.colorScheme.surfaceContainerLow
-                        ) {
-                            Row(
-                                modifier = Modifier.padding(12.dp),
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.SpaceBetween
-                            ) {
-                                Column(modifier = Modifier.weight(1f)) {
-                                    LinkifyText(
-                                        text = tx.description.ifBlank { tx.transactionType },
-                                        style = MaterialTheme.typography.bodyMedium,
-                                        fontWeight = FontWeight.SemiBold,
-                                        maxLines = 1,
-                                        overflow = TextOverflow.Ellipsis
-                                    )
-                                    Text(
-                                        text = formatTimeAgo(tx.createdAt),
-                                        style = MaterialTheme.typography.labelSmall,
-                                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                                    )
-                                }
-                                Text(
-                                    text = if (tx.amount > 0) "+${tx.amount}" else "${tx.amount}",
-                                    style = MaterialTheme.typography.titleSmall,
-                                    fontWeight = FontWeight.Bold,
-                                    color = if (tx.amount > 0) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
+                )
+            }
+
+            item(key = "support") {
+                SupportSection(
+                    contactName = balance.whatsappContact.name,
+                    onOpen = {
+                        val url = balance.whatsappContact.url
+                        if (url.isNotBlank()) {
+                            context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
                         }
                     }
-                }
+                )
+            }
 
-                item {
-                    Spacer(Modifier.height(24.dp))
+            item(key = "activity_header") {
+                SectionLabel("Activity")
+            }
+
+            if (uiState.transactions.isEmpty()) {
+                item(key = "activity_empty") {
+                    Text(
+                        text = "Nothing yet. Credits you spend or earn show up here.",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp)
+                    )
                 }
+            } else {
+                items(uiState.transactions, key = { it.id }) { tx -> ActivityRow(tx) }
             }
         }
+    }
+}
+
+@Composable
+private fun BalanceHeader(total: Int, free: Int, converted: Int) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 24.dp)
+            .padding(top = 16.dp, bottom = 28.dp)
+    ) {
+        Text(
+            text = total.toString(),
+            style = MaterialTheme.typography.displayLargeEmphasized,
+            color = MaterialTheme.colorScheme.onSurface
+        )
+        Spacer(Modifier.height(2.dp))
+        Text(
+            text = if (total == 1) "Neby credit" else "Neby credits",
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        Spacer(Modifier.height(14.dp))
+        Text(
+            text = "$free free this month · $converted converted",
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        Spacer(Modifier.height(4.dp))
+        Text(
+            text = "Ten free credits arrive every month. Mentioning @neby in the forum never costs one.",
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+    }
+}
+
+@Composable
+private fun ConvertSection(
+    points: Int,
+    requested: Int,
+    maxPoints: Int,
+    converting: Boolean,
+    onRequestChange: (Int) -> Unit,
+    onConvert: () -> Unit
+) {
+    val canConvert = maxPoints >= POINTS_PER_CREDIT
+    val credits = requested / POINTS_PER_CREDIT
+
+    Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp)) {
+        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+        Spacer(Modifier.height(20.dp))
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                text = "NEBians points",
+                style = MaterialTheme.typography.titleMediumEmphasized,
+                modifier = Modifier.weight(1f)
+            )
+            Text(
+                text = points.toString(),
+                style = MaterialTheme.typography.titleMediumEmphasized,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+        Spacer(Modifier.height(2.dp))
+        Text(
+            text = "$POINTS_PER_CREDIT points make 1 credit.",
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+
+        if (canConvert) {
+            Spacer(Modifier.height(16.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                StepperButton(
+                    icon = Icons.Rounded.Remove,
+                    description = "Fewer points",
+                    enabled = requested > POINTS_PER_CREDIT && !converting,
+                    onClick = { onRequestChange(requested - POINTS_PER_CREDIT) }
+                )
+                Column(
+                    modifier = Modifier.weight(1f),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "$requested pts",
+                        style = MaterialTheme.typography.headlineSmallEmphasized,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    Text(
+                        text = if (credits == 1) "becomes 1 credit" else "becomes $credits credits",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        textAlign = TextAlign.Center
+                    )
+                }
+                StepperButton(
+                    icon = Icons.Rounded.Add,
+                    description = "More points",
+                    enabled = requested < maxPoints && !converting,
+                    onClick = { onRequestChange(requested + POINTS_PER_CREDIT) }
+                )
+            }
+            Spacer(Modifier.height(16.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                NebButton(
+                    text = "Convert",
+                    onClick = onConvert,
+                    tone = NebButtonTone.Primary,
+                    size = NebButtonSize.Hero,
+                    loading = converting,
+                    modifier = Modifier.weight(1f)
+                )
+                NebButton(
+                    text = "All $maxPoints",
+                    onClick = { onRequestChange(maxPoints) },
+                    tone = NebButtonTone.Outlined,
+                    size = NebButtonSize.Hero,
+                    enabled = requested != maxPoints && !converting
+                )
+            }
+        } else {
+            Spacer(Modifier.height(12.dp))
+            Text(
+                text = "Earn $POINTS_PER_CREDIT points to convert your first credit.",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+        Spacer(Modifier.height(24.dp))
+    }
+}
+
+@Composable
+private fun StepperButton(
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    description: String,
+    enabled: Boolean,
+    onClick: () -> Unit
+) {
+    val tint = if (enabled) {
+        MaterialTheme.colorScheme.onSurface
+    } else {
+        MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
+    }
+    Box(
+        modifier = Modifier
+            .size(52.dp)
+            .nebPressable(enabled = enabled, onClick = onClick)
+            .clip(RoundedCornerShape(18.dp))
+            .background(MaterialTheme.colorScheme.surfaceContainerHigh),
+        contentAlignment = Alignment.Center
+    ) {
+        Icon(icon, contentDescription = description, tint = tint, modifier = Modifier.size(22.dp))
+    }
+}
+
+@Composable
+private fun SupportSection(contactName: String, onOpen: () -> Unit) {
+    Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp)) {
+        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+        Spacer(Modifier.height(20.dp))
+        Text(
+            text = "Need more credits?",
+            style = MaterialTheme.typography.titleMediumEmphasized
+        )
+        Spacer(Modifier.height(2.dp))
+        Text(
+            text = "Message ${contactName.ifBlank { "the developer" }} about extra credits or a project.",
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        Spacer(Modifier.height(14.dp))
+        NebButton(
+            text = "WhatsApp",
+            onClick = onOpen,
+            tone = NebButtonTone.Tonal,
+            size = NebButtonSize.Standard
+        )
+        Spacer(Modifier.height(24.dp))
+    }
+}
+
+@Composable
+private fun SectionLabel(text: String) {
+    Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp)) {
+        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+        Spacer(Modifier.height(20.dp))
+        Text(text = text, style = MaterialTheme.typography.titleMediumEmphasized)
+        Spacer(Modifier.height(8.dp))
+    }
+}
+
+@Composable
+private fun ActivityRow(tx: ApiCreditTransaction) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 24.dp, vertical = 10.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column(modifier = Modifier.weight(1f)) {
+            LinkifyText(
+                text = tx.description.ifBlank { tx.transactionType },
+                style = MaterialTheme.typography.bodyMedium,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+            Text(
+                text = formatTimeAgo(tx.createdAt),
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+        Spacer(Modifier.width(12.dp))
+        Text(
+            text = if (tx.amount > 0) "+${tx.amount}" else tx.amount.toString(),
+            style = MaterialTheme.typography.titleSmallEmphasized,
+            color = if (tx.amount > 0) {
+                MaterialTheme.colorScheme.onSurface
+            } else {
+                MaterialTheme.colorScheme.onSurfaceVariant
+            }
+        )
     }
 }

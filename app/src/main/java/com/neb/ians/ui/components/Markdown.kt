@@ -94,26 +94,17 @@ fun MarkdownText(
                                 .background(primary.copy(alpha = 0.5f), RoundedCornerShape(2.dp))
                         )
                         Spacer(modifier = Modifier.width(8.dp))
-                        if (hasLatexMath(block.text)) {
-                            KaTeXText(
-                                text = block.text,
-                                style = style.copy(fontStyle = FontStyle.Italic),
-                                color = onSurfaceVariant,
-                                onLinkClick = onLinkClick,
-                                modifier = Modifier.weight(1f)
-                            )
-                        } else {
-                            InlineMdText(
-                                text = block.text,
-                                style = style.copy(fontStyle = FontStyle.Italic),
-                                color = onSurfaceVariant,
-                                primary = primary,
-                                codeBg = codeBg,
-                                onMentionClick = onMentionClick,
-                                onLinkClick = onLinkClick,
-                                inlineContents = inlineContents
-                            )
-                        }
+                        InlineMdText(
+                            text = block.text,
+                            style = style.copy(fontStyle = FontStyle.Italic),
+                            color = onSurfaceVariant,
+                            primary = primary,
+                            codeBg = codeBg,
+                            onMentionClick = onMentionClick,
+                            onLinkClick = onLinkClick,
+                            inlineContents = inlineContents,
+                            modifier = Modifier.weight(1f)
+                        )
                     }
                 }
                 is MdBlock.ListItem -> {
@@ -124,26 +115,17 @@ fun MarkdownText(
                             color = onSurfaceVariant,
                             modifier = Modifier.padding(end = 8.dp)
                         )
-                        if (hasLatexMath(block.text)) {
-                            KaTeXText(
-                                text = block.text,
-                                style = style,
-                                color = color,
-                                onLinkClick = onLinkClick,
-                                modifier = Modifier.weight(1f)
-                            )
-                        } else {
-                            InlineMdText(
-                                text = block.text,
-                                style = style,
-                                color = color,
-                                primary = primary,
-                                codeBg = codeBg,
-                                onMentionClick = onMentionClick,
-                                onLinkClick = onLinkClick,
-                                inlineContents = inlineContents
-                            )
-                        }
+                        InlineMdText(
+                            text = block.text,
+                            style = style,
+                            color = color,
+                            primary = primary,
+                            codeBg = codeBg,
+                            onMentionClick = onMentionClick,
+                            onLinkClick = onLinkClick,
+                            inlineContents = inlineContents,
+                            modifier = Modifier.weight(1f)
+                        )
                     }
                 }
                 is MdBlock.CodeBlock -> {
@@ -197,26 +179,17 @@ fun MarkdownText(
                     }
                 }
                 is MdBlock.Paragraph -> {
-                    if (hasLatexMath(block.text)) {
-                        KaTeXText(
-                            text = block.text,
-                            style = style,
-                            color = color,
-                            onLinkClick = onLinkClick,
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                    } else {
-                        InlineMdText(
-                            text = block.text,
-                            style = style,
-                            color = color,
-                            primary = primary,
-                            codeBg = codeBg,
-                            onMentionClick = onMentionClick,
-                            onLinkClick = onLinkClick,
-                            inlineContents = inlineContents
-                        )
-                    }
+                    InlineMdText(
+                        text = block.text,
+                        style = style,
+                        color = color,
+                        primary = primary,
+                        codeBg = codeBg,
+                        onMentionClick = onMentionClick,
+                        onLinkClick = onLinkClick,
+                        inlineContents = inlineContents,
+                        modifier = Modifier.fillMaxWidth()
+                    )
                 }
             }
         }
@@ -232,7 +205,8 @@ private fun InlineMdText(
     codeBg: Color,
     onMentionClick: (String) -> Unit,
     onLinkClick: (String) -> Unit,
-    inlineContents: Map<String, InlineTextContent> = emptyMap<String, InlineTextContent>()
+    inlineContents: Map<String, InlineTextContent> = emptyMap<String, InlineTextContent>(),
+    modifier: Modifier = Modifier
 ) {
     val errorBg = MaterialTheme.colorScheme.errorContainer
     val errorFg = MaterialTheme.colorScheme.onErrorContainer
@@ -243,6 +217,7 @@ private fun InlineMdText(
     NebAnnotatedText(
         text = annotated,
         style = style.copy(color = color),
+        modifier = modifier,
         inlineContent = inlineContents,
         onClick = { offset ->
             annotated.getStringAnnotations("mention", offset, offset).firstOrNull()?.let {
@@ -471,36 +446,62 @@ private fun toSubscript(s: String): String {
     return sb.toString()
 }
 
+private const val MathOpen = "\u00ABm:"
+private const val MathClose = "\u00BB"
+private val MathSpanRegex = Regex("\u00ABm:[^\u00BB]*\u00BB")
+
+/**
+ * Applies [transform] only to the parts of [text] that are not already a
+ * wrapped math span.
+ *
+ * Every pass below looks for math-shaped text, so without this a formula
+ * wrapped by an earlier pass gets matched again by a later one and comes out
+ * as nested sentinels the renderer then prints verbatim.
+ */
+private fun mapOutsideMath(text: String, transform: (String) -> String): String {
+    if (!text.contains(MathOpen)) return transform(text)
+    val sb = StringBuilder(text.length)
+    var cursor = 0
+    MathSpanRegex.findAll(text).forEach { span ->
+        if (span.range.first > cursor) sb.append(transform(text.substring(cursor, span.range.first)))
+        sb.append(span.value)
+        cursor = span.range.last + 1
+    }
+    if (cursor < text.length) sb.append(transform(text.substring(cursor)))
+    return sb.toString()
+}
+
+private fun wrapMath(formula: String): String {
+    val rendered = formatMathExpression(formula.trim())
+        .replace(MathOpen, "")
+        .replace(MathClose, "")
+        .trim()
+    return if (rendered.isEmpty()) "" else MathOpen + rendered + MathClose
+}
+
+private val RawFormulaRegex = Regex("""(\\(?:int|sum|prod|frac|sqrt|lim)\b[^\n\.\,]+=[^\n\.\,]+)""")
+private val IntegralEqRegex = Regex("""(\u222B\s*[^=\n]+=\s*[^,\.\n]+)""")
+private val LooseMathMarkers = listOf(
+    "\\frac", "\\sqrt", "\\alpha", "\\beta", "\\theta", "\\pi",
+    "\\pm", "\\times", "\\int", "\\sum", "\\vec", "^{", "_{"
+)
+
 fun formatLatexMath(input: String): String {
     if (input.isBlank()) return ""
     return runCatching {
-        var text = input
-        text = text.replace(LatexEnvRegex) { m ->
-            "\n«m:" + formatMathExpression(m.groupValues[1].trim()) + "»\n"
+        var text = input.replace(LatexEnvRegex) { m -> "\n" + wrapMath(m.groupValues[1]) + "\n" }
+        text = mapOutsideMath(text) { seg ->
+            seg.replace(LatexBlock1Regex) { m -> "\n" + wrapMath(m.groupValues[1]) + "\n" }
+                .replace(LatexBlock2Regex) { m -> "\n" + wrapMath(m.groupValues[1]) + "\n" }
         }
-        text = text.replace(LatexBlock1Regex) { m ->
-            "\n«m:" + formatMathExpression(m.groupValues[1].trim()) + "»\n"
-        }.replace(LatexBlock2Regex) { m ->
-            "\n«m:" + formatMathExpression(m.groupValues[1].trim()) + "»\n"
+        text = mapOutsideMath(text) { seg ->
+            seg.replace(LatexInline1Regex) { m -> wrapMath(m.groupValues[1]) }
+                .replace(LatexInline2Regex) { m -> wrapMath(m.groupValues[1]) }
         }
-        text = text.replace(LatexInline1Regex) { m ->
-            "«m:" + formatMathExpression(m.groupValues[1].trim()) + "»"
-        }.replace(LatexInline2Regex) { m ->
-            "«m:" + formatMathExpression(m.groupValues[1].trim()) + "»"
-        }
-        val rawFormulaRegex = Regex("""(\\(?:int|sum|prod|frac|sqrt|lim)\b[^\n\.\,]+=[^\n\.\,]+)""")
-        text = text.replace(rawFormulaRegex) { m ->
-            "«m:" + formatMathExpression(m.value.trim()) + "»"
-        }
-        val integralEqRegex = Regex("""(∫\s*[^=\n]+=\s*[^,\.\n]+)""")
-        text = text.replace(integralEqRegex) { m ->
-            if (!m.value.contains("«m:")) "«m:" + formatMathExpression(m.value.trim()) + "»" else m.value
-        }
-        if (text.contains("\\frac") || text.contains("\\sqrt") || text.contains("\\alpha") ||
-            text.contains("\\beta") || text.contains("\\theta") || text.contains("\\pi") ||
-            text.contains("\\pm") || text.contains("\\times") || text.contains("\\int") ||
-            text.contains("\\sum") || text.contains("\\vec") || text.contains("^{") || text.contains("_{")) {
-            text = formatMathExpression(text)
+        text = mapOutsideMath(text) { seg -> seg.replace(RawFormulaRegex) { m -> wrapMath(m.value) } }
+        text = mapOutsideMath(text) { seg -> seg.replace(IntegralEqRegex) { m -> wrapMath(m.value) } }
+        if (LooseMathMarkers.any { text.contains(it) }) {
+            text = mapOutsideMath(text) { seg -> formatMathExpression(seg) }
         }
         text
     }.getOrDefault(input)
@@ -915,7 +916,7 @@ fun markdownToInlinePreview(markdown: String, stripTokens: Boolean = true): Stri
             is MdBlock.Quote -> formatLatexMath(block.text)
             is MdBlock.ListItem -> (if (block.ordered) "${block.number}. " else "• ") + formatLatexMath(block.text)
             is MdBlock.CodeBlock -> block.code
-            is MdBlock.MathBlock -> "«m:" + formatMathExpression(block.formula) + "»"
+            is MdBlock.MathBlock -> wrapMath(block.formula)
             is MdBlock.Paragraph -> formatLatexMath(block.text)
         }
     }.replace(InlinePreviewImageRegex, "").let { if (stripTokens) InlineImageTokens.plainText(it) else it }.trim()

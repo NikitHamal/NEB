@@ -73,7 +73,7 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val followGraph by viewModel.followGraph.collectAsStateWithLifecycle()
+    val suggestedPeers by viewModel.suggestedPeers.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
@@ -143,12 +143,6 @@ fun HomeScreen(
                     val feedPosts = uiState.recentPosts
                     val suggestedResources = remember(uiState.recentResources, uiState.popularResources) {
                         (uiState.popularResources + uiState.recentResources).distinctBy { it.id }
-                    }
-                    val followBaseline = remember(feedPosts, uiState.currentUserId, followGraph.loaded) {
-                        followGraph
-                    }
-                    val suggestedPeers = remember(feedPosts, uiState.currentUserId, followBaseline) {
-                        suggestedPeersFrom(feedPosts, uiState.currentUserId, followBaseline)
                     }
                     val feedEntries = remember(
                         feedPosts,

@@ -123,6 +123,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.neb.ians.ui.components.NebButton
+import com.neb.ians.ui.components.NebButtonSize
+import com.neb.ians.ui.components.NebButtonTone
 
 // ---------------------------------------------------------------------------
 // URL + share helpers
@@ -849,21 +852,13 @@ fun PollView(
                         }
                     }
                     Spacer(modifier = Modifier.height(8.dp))
-                    Button(
+                    NebButton(
+                        text = "Vote",
                         onClick = { onVote(selected.toList()) },
-                        enabled = selected.isNotEmpty() && !isVoting,
-                        shape = WebPillShape
-                    ) {
-                        if (isVoting) {
-                            CircularProgressIndicator(
-                                modifier = Modifier.size(16.dp),
-                                strokeWidth = 2.dp,
-                                color = MaterialTheme.colorScheme.onPrimary
-                            )
-                            Spacer(modifier = Modifier.width(8.dp))
-                        }
-                        Text("Vote")
-                    }
+                        enabled = selected.isNotEmpty(),
+                        loading = isVoting,
+                        size = NebButtonSize.Small
+                    )
                 } else {
                     poll.options.forEach { option ->
                         Row(
