@@ -64,14 +64,17 @@ fun MarkdownText(
     val onSurfaceVariant = MaterialTheme.colorScheme.onSurfaceVariant
     val inlineContents = rememberInlineImageContents(markdown, onInlineImageClick)
 
+    val laidOut = remember(blocks) { layoutMarkdownBlocks(blocks) }
+
     Column(modifier = modifier) {
-        blocks.forEachIndexed { index, block ->
-            if (index > 0) Spacer(modifier = Modifier.height(4.dp))
+        laidOut.forEach { (block, spaceBefore) ->
+            if (spaceBefore > 0) Spacer(modifier = Modifier.height(spaceBefore.dp))
             when (block) {
                 is MdBlock.Heading -> {
                     val headingStyle = when (block.level) {
-                        1 -> MaterialTheme.typography.titleLarge
-                        2 -> MaterialTheme.typography.titleMedium
+                        1 -> MaterialTheme.typography.headlineSmall
+                        2 -> MaterialTheme.typography.titleLarge
+                        3 -> MaterialTheme.typography.titleMedium
                         else -> MaterialTheme.typography.titleSmall
                     }
                     InlineMdText(
@@ -178,6 +181,14 @@ fun MarkdownText(
                         )
                     }
                 }
+                MdBlock.Rule -> {
+                    Spacer(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(1.dp)
+                            .background(onSurfaceVariant.copy(alpha = 0.22f))
+                    )
+                }
                 is MdBlock.Paragraph -> {
                     InlineMdText(
                         text = block.text,
@@ -233,6 +244,7 @@ private fun InlineMdText(
 
 sealed class MdBlock {
     data class Heading(val level: Int, val text: String) : MdBlock()
+    data object Rule : MdBlock()
     data class Quote(val text: String) : MdBlock()
     data class ListItem(val text: String, val ordered: Boolean, val number: Int) : MdBlock()
     data class CodeBlock(val language: String, val code: String) : MdBlock()
@@ -351,6 +363,10 @@ internal fun parseMarkdownBlocks(markdown: String): List<MdBlock> {
                 orderedIndex = 1
                 blocks.add(MdBlock.Paragraph(""))
             }
+            HorizontalRuleRegex.matches(trimmed) -> { orderedIndex = 1; blocks.add(MdBlock.Rule) }
+            line.startsWith("###### ") -> { orderedIndex = 1; blocks.add(MdBlock.Heading(6, line.removePrefix("###### "))) }
+            line.startsWith("##### ") -> { orderedIndex = 1; blocks.add(MdBlock.Heading(5, line.removePrefix("##### "))) }
+            line.startsWith("#### ") -> { orderedIndex = 1; blocks.add(MdBlock.Heading(4, line.removePrefix("#### "))) }
             line.startsWith("### ") -> { orderedIndex = 1; blocks.add(MdBlock.Heading(3, line.removePrefix("### "))) }
             line.startsWith("## ") -> { orderedIndex = 1; blocks.add(MdBlock.Heading(2, line.removePrefix("## "))) }
             line.startsWith("# ") -> { orderedIndex = 1; blocks.add(MdBlock.Heading(1, line.removePrefix("# "))) }
@@ -381,7 +397,57 @@ internal fun parseMarkdownBlocks(markdown: String): List<MdBlock> {
     return result
 }
 
+/**
+ * Pair every visible block with the gap that should precede it. Blank lines in
+ * the source are dropped as blocks and folded into the gap instead, so a
+ * heading breathes, list items stay tight, and paragraphs keep the rhythm the
+ * author typed.
+ */
+internal fun layoutMarkdownBlocks(blocks: List<MdBlock>): List<MdSpacedBlock> {
+    val spaced = mutableListOf<MdSpacedBlock>()
+    var previous: MdBlock? = null
+    var blankBefore = false
+    blocks.forEach { block ->
+        if (block is MdBlock.Paragraph && block.text.isBlank()) {
+            blankBefore = true
+            return@forEach
+        }
+        val gap = when {
+            previous == null -> 0
+            else -> {
+                val base = maxOf(gapAfter(previous!!), gapBefore(block, previous!!))
+                if (blankBefore) maxOf(base, 10) else base
+            }
+        }
+        spaced.add(MdSpacedBlock(block, gap))
+        previous = block
+        blankBefore = false
+    }
+    return spaced
+}
+
+data class MdSpacedBlock(val block: MdBlock, val spaceBefore: Int)
+
+private fun gapAfter(block: MdBlock): Int = when (block) {
+    is MdBlock.Heading -> 6
+    MdBlock.Rule -> 14
+    is MdBlock.CodeBlock, is MdBlock.MathBlock -> 8
+    is MdBlock.Quote -> 8
+    is MdBlock.ListItem -> 2
+    is MdBlock.Paragraph -> 2
+}
+
+private fun gapBefore(block: MdBlock, previous: MdBlock): Int = when (block) {
+    is MdBlock.Heading -> if (block.level <= 2) 18 else 14
+    MdBlock.Rule -> 14
+    is MdBlock.CodeBlock, is MdBlock.MathBlock -> 8
+    is MdBlock.Quote -> if (previous is MdBlock.Quote) 2 else 8
+    is MdBlock.ListItem -> if (previous is MdBlock.ListItem) 2 else 8
+    is MdBlock.Paragraph -> 2
+}
+
 private val OrderedListPrefixRegex = Regex("^\\d+\\.\\s")
+private val HorizontalRuleRegex = Regex("^(?:-{3,}|\\*{3,}|_{3,})$")
 private val LatexEnvRegex = Regex("""\\begin\{(?:equation|align|gather)\*?\}([\s\S]*?)\\end\{(?:equation|align|gather)\*?\}""")
 private val LatexBlock1Regex = Regex("""\\\[([\s\S]*?)\\\]""")
 private val LatexBlock2Regex = Regex("""\$\$([\s\S]*?)\$\$""")
@@ -918,6 +984,7 @@ fun markdownToInlinePreview(markdown: String, stripTokens: Boolean = true): Stri
             is MdBlock.CodeBlock -> block.code
             is MdBlock.MathBlock -> wrapMath(block.formula)
             is MdBlock.Paragraph -> formatLatexMath(block.text)
+            MdBlock.Rule -> ""
         }
     }.replace(InlinePreviewImageRegex, "").let { if (stripTokens) InlineImageTokens.plainText(it) else it }.trim()
     val result = formatLatexMath(parsed)

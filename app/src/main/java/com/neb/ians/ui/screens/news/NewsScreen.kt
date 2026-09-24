@@ -1,56 +1,56 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.neb.ians.ui.screens.news
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Apps
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.PushPin
-import androidx.compose.material.icons.outlined.Visibility
-import androidx.compose.material3.*
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.outlined.CloudOff
+import androidx.compose.material.icons.outlined.Newspaper
+import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil.compose.AsyncImage
-import com.neb.ians.data.news.NewsAnnouncement
 import com.neb.ians.data.news.NewsCategories
-import com.neb.ians.data.news.toSafeColor
-import com.neb.ians.ui.components.ErrorCard
-import com.neb.ians.ui.components.WebChip
-import com.neb.ians.ui.components.WebPanelShape
-import com.neb.ians.ui.components.WebPillShape
-import com.neb.ians.ui.screens.home.NewsCategoryBadge
-import com.neb.ians.ui.screens.home.newsIcon
+import com.neb.ians.ui.components.NebButton
+import com.neb.ians.ui.components.NebButtonSize
+import com.neb.ians.ui.components.NebButtonTone
+import com.neb.ians.ui.components.NebEmptyState
+import com.neb.ians.ui.components.NebRailTab
+import com.neb.ians.ui.components.NebTabRail
+
+// ---------------------------------------------------------------------------
+// Blog.
+//
+// The list is the page: a filter rail, a lead story, then the archive. No
+// surface under the rows, so the only edges on screen belong to the covers.
+// ---------------------------------------------------------------------------
 
 @Composable
 fun NewsScreen(
@@ -62,322 +62,138 @@ fun NewsScreen(
     viewModel: NewsViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    var isRefreshing by remember { mutableStateOf(false) }
+
+    LaunchedEffect(uiState.isLoading) {
+        if (!uiState.isLoading) isRefreshing = false
+    }
 
     Scaffold(
-        containerColor = MaterialTheme.colorScheme.surface
-    ) { innerPadding ->
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding),
-            contentPadding = PaddingValues(bottom = 112.dp)
-        ) {
-            item {
-                NewsHeader(onNavigateBack = onNavigateBack)
-            }
-            item {
-                CategoryFilterRow(
-                    selected = uiState.selectedCategory,
-                    onSelect = viewModel::selectCategory
+        topBar = {
+            TopAppBar(
+                title = {
+                    Column {
+                        Text("Blog", fontWeight = FontWeight.SemiBold)
+                        Text(
+                            text = "News, notices and updates",
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                },
+                navigationIcon = {
+                    IconButton(onClick = onNavigateBack) {
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                    }
+                },
+                actions = {
+                    IconButton(onClick = onSearchClick) {
+                        Icon(Icons.Outlined.Search, contentDescription = "Search")
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.surface
                 )
-                Spacer(modifier = Modifier.height(8.dp))
-            }
-
-            when {
-                uiState.isLoading && uiState.items.isEmpty() -> {
-                    items(4) {
-                        NewsSkeletonCard()
-                    }
-                }
-                uiState.error != null && uiState.items.isEmpty() -> {
-                    item {
-                        ErrorCard(
-                            message = uiState.error ?: "Couldn't load blog posts",
-                            onRetry = viewModel::retry,
-                            modifier = Modifier.padding(16.dp)
-                        )
-                    }
-                }
-                uiState.items.isEmpty() -> {
-                    item {
-                        EmptyNewsCard()
-                    }
-                }
-                else -> {
-                    items(uiState.items, key = { it.id }) { item ->
-                        NewsListCard(
-                            item = item,
-                            onClick = { onNewsClick(item.slug) },
-                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-                        )
-                    }
-                }
+            )
+        },
+        containerColor = MaterialTheme.colorScheme.surface
+    ) { padding ->
+        Column(modifier = Modifier.fillMaxSize().padding(padding)) {
+            NewsCategoryRail(
+                selected = uiState.selectedCategory,
+                onSelect = viewModel::selectCategory
+            )
+            PullToRefreshBox(
+                isRefreshing = isRefreshing,
+                onRefresh = {
+                    isRefreshing = true
+                    viewModel.retry()
+                },
+                modifier = Modifier.fillMaxSize()
+            ) {
+                NewsIndex(
+                    uiState = uiState,
+                    onRetry = viewModel::retry,
+                    onOpen = onNewsClick
+                )
             }
         }
     }
 }
 
 @Composable
-private fun NewsHeader(onNavigateBack: () -> Unit) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 8.dp, vertical = 8.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        IconButton(onClick = onNavigateBack) {
-            Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
-        }
-        Text(
-            text = "Blog & Updates",
-            style = MaterialTheme.typography.headlineSmall,
-            fontWeight = FontWeight.ExtraBold,
-            color = MaterialTheme.colorScheme.onSurface
-        )
-    }
-}
-
-@Composable
-private fun CategoryFilterRow(
+private fun NewsCategoryRail(
     selected: String?,
     onSelect: (String?) -> Unit
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .horizontalScroll(rememberScrollState())
-            .padding(horizontal = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        NewsCategories.forEach { category ->
-            WebChip(
-                text = category.label,
-                selected = selected == category.key,
-                onClick = { onSelect(category.key) },
-                leading = {
-                    Icon(
-                        imageVector = if (category.key == null) Icons.Filled.Apps else category.icon.newsIcon(),
-                        contentDescription = null,
-                        modifier = Modifier.size(16.dp)
-                    )
-                }
-            )
-        }
-    }
+    val tabs = remember { NewsCategories.map { NebRailTab(label = it.label) } }
+    NebTabRail(
+        tabs = tabs,
+        selectedIndex = NewsCategories.indexOfFirst { it.key == selected }.coerceAtLeast(0),
+        onSelect = { onSelect(NewsCategories[it].key) }
+    )
 }
 
 @Composable
-private fun NewsListCard(
-    item: NewsAnnouncement,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
+private fun NewsIndex(
+    uiState: NewsUiState,
+    onRetry: () -> Unit,
+    onOpen: (String) -> Unit
 ) {
-    val accent = remember(item.categoryColorHex) { item.categoryColorHex.toSafeColor() }
-    Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .clip(WebPanelShape)
-            .clickable(onClick = onClick),
-        shape = WebPanelShape,
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest),
-        border = BorderStroke(1.dp, if (item.isPinned) accent else MaterialTheme.colorScheme.outlineVariant)
-    ) {
-        if (item.coverImageUrl.isNotBlank()) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(16f / 9f)
-            ) {
-                AsyncImage(
-                    model = item.coverImageUrl,
-                    contentDescription = item.title,
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Crop
-                )
-                NewsCategoryBadge(
-                    label = item.categoryLabel,
-                    icon = item.categoryIcon.newsIcon(),
-                    accent = accent,
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .padding(14.dp)
+    when {
+        uiState.isLoading && uiState.items.isEmpty() -> {
+            Column(modifier = Modifier.fillMaxSize()) {
+                NewsIndexSkeleton(lead = true)
+                repeat(3) { NewsIndexSkeleton(lead = false) }
+            }
+        }
+
+        uiState.error != null && uiState.items.isEmpty() -> {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                NebEmptyState(
+                    icon = Icons.Outlined.CloudOff,
+                    title = "Couldn't load the blog",
+                    subtitle = uiState.error,
+                    action = {
+                        NebButton(
+                            text = "Try again",
+                            onClick = onRetry,
+                            tone = NebButtonTone.Outlined,
+                            size = NebButtonSize.Small
+                        )
+                    }
                 )
             }
-        } else {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(16f / 9f)
-                    .background(
-                        Brush.linearGradient(
-                            listOf(accent.copy(alpha = 0.16f), accent.copy(alpha = 0.04f))
-                        )
-                    )
+        }
+
+        uiState.items.isEmpty() -> {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                NebEmptyState(
+                    icon = Icons.Outlined.Newspaper,
+                    title = "Nothing published here yet",
+                    subtitle = "New articles and notices will show up on this shelf."
+                )
+            }
+        }
+
+        else -> {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(bottom = 112.dp)
             ) {
-                Icon(
-                    imageVector = item.categoryIcon.newsIcon(),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                        .size(68.dp),
-                    tint = accent.copy(alpha = 0.28f)
-                )
-                NewsCategoryBadge(
-                    label = item.categoryLabel,
-                    icon = item.categoryIcon.newsIcon(),
-                    accent = accent,
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .padding(14.dp)
-                )
-                if (item.isPinned) {
-                    Box(
-                        modifier = Modifier
-                            .align(Alignment.TopEnd)
-                            .padding(14.dp)
-                            .clip(WebPillShape)
-                            .background(MaterialTheme.colorScheme.primary)
-                            .padding(horizontal = 10.dp, vertical = 6.dp)
-                    ) {
-                        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                            Icon(
-                                imageVector = Icons.Filled.PushPin,
-                                contentDescription = null,
-                                modifier = Modifier.size(13.dp),
-                                tint = MaterialTheme.colorScheme.onPrimary
-                            )
-                            Text(
-                                text = "Pinned",
-                                style = MaterialTheme.typography.labelSmall,
-                                fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.onPrimary
-                            )
-                        }
+                itemsIndexed(uiState.items, key = { _, item -> item.id }) { index, item ->
+                    if (index == 0) {
+                        NewsLeadStory(item = item, onClick = { onOpen(item.slug) })
+                        Spacer(modifier = Modifier.height(4.dp))
+                    } else {
+                        NewsIndexRow(
+                            item = item,
+                            onClick = { onOpen(item.slug) },
+                            showDivider = index < uiState.items.lastIndex
+                        )
                     }
                 }
             }
         }
-
-        Column(
-            modifier = Modifier.padding(18.dp)
-        ) {
-            Text(
-                text = item.title,
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.onSurface,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis
-            )
-            if (item.summary.isNotBlank()) {
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = item.summary,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 3,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
-            Spacer(modifier = Modifier.height(14.dp))
-            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.6f))
-            Spacer(modifier = Modifier.height(12.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                Text(
-                    text = item.authorName,
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    fontWeight = FontWeight.SemiBold,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.weight(1f, fill = false)
-                )
-                Text(
-                    text = item.publishedAgo.ifBlank { "Latest" },
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 1
-                )
-                if (item.viewCount.isNotBlank()) {
-                        Icon(
-                        imageVector = Icons.Outlined.Visibility,
-                        contentDescription = null,
-                        modifier = Modifier.size(15.dp),
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    Text(
-                        text = item.viewCount,
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        maxLines = 1
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun NewsSkeletonCard() {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
-        shape = WebPanelShape,
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest),
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
-    ) {
-        Column(modifier = Modifier.padding(18.dp)) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(150.dp)
-                    .clip(RoundedCornerShape(12.dp))
-                    .background(MaterialTheme.colorScheme.surfaceContainerHigh)
-            )
-            Spacer(modifier = Modifier.height(14.dp))
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth(0.8f)
-                    .height(18.dp)
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.surfaceContainerHigh)
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(14.dp)
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.surfaceContainer)
-            )
-        }
-    }
-}
-
-@Composable
-private fun EmptyNewsCard() {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(28.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = "No blog posts yet",
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onSurface
-        )
-        Spacer(modifier = Modifier.height(6.dp))
-        Text(
-            text = "Check back soon for articles and updates.",
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
     }
 }

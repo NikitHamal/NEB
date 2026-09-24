@@ -314,27 +314,6 @@ private fun DrawScope.drawSearching(
     )
 }
 
-/**
- * A breathing halo for an icon that already carries the meaning — used behind the
- * glyph in [com.neb.ians.ui.components.NebEmptyState] so every existing empty
- * state gains motion without changing its call site.
- */
-@Composable
-fun NebIconHalo(
-    modifier: Modifier = Modifier,
-    diameter: Dp = 78.dp,
-    color: Color = MaterialTheme.colorScheme.primary
-) {
-    val phase by rememberNebArtPhase(durationMillis = 5200)
-    val breath by rememberNebBreathPhase(durationMillis = 3400)
-    val fill = MaterialTheme.colorScheme.surfaceContainerHigh
-    Canvas(modifier = modifier.size(diameter)) {
-        val center = Offset(size.width / 2f, size.height / 2f)
-        val base = size.minDimension * 0.34f
-        drawCircle(color = fill, radius = base * (0.98f + breath * 0.04f), center = center)
-    }
-}
-
 /** A compact inline spark for row-level loading or "new" affordances. */
 @Composable
 fun NebStatePulse(

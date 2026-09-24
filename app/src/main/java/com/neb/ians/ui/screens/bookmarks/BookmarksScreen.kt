@@ -1,157 +1,67 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.neb.ians.ui.screens.bookmarks
 
-import com.neb.ians.ui.components.LinkifyText
-
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.outlined.BookmarkBorder
+import androidx.compose.material.icons.outlined.CloudOff
+import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import kotlinx.coroutines.launch
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewModelScope
-import com.neb.ians.R
-import com.neb.ians.data.api.ApiBookmark
-import com.neb.ians.data.api.ApiService
-import com.neb.ians.data.repository.AuthRepository
-import com.neb.ians.ui.components.WebChip
-import com.neb.ians.ui.components.WebEmptyState
-import com.neb.ians.ui.components.WebPanelShape
-import com.neb.ians.ui.components.WebTopBar
-import com.neb.ians.util.formatTimeAgo
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.Job
+import com.neb.ians.ui.components.NebButton
+import com.neb.ians.ui.components.NebButtonSize
+import com.neb.ians.ui.components.NebButtonTone
+import com.neb.ians.ui.components.NebEmptyState
+import com.neb.ians.ui.components.NebRailTab
+import com.neb.ians.ui.components.NebTabRail
 import kotlinx.coroutines.launch
-import javax.inject.Inject
-import com.neb.ians.ui.components.NebLoader
+import java.util.Calendar
+import java.util.concurrent.TimeUnit
 
-data class BookmarkListItem(
-    val bookmark: ApiBookmark,
-    val title: String,
-    val excerpt: String,
-    val meta: String
-)
+// ---------------------------------------------------------------------------
+// Bookmarks.
+//
+// A reading list, not a gallery: grouped by when it was saved, one row per
+// thing, and the newest at the top where you left it. The list itself is the
+// only container on the screen.
+// ---------------------------------------------------------------------------
 
-data class BookmarksUiState(
-    val items: List<BookmarkListItem> = emptyList(),
-    val selectedType: String = "all",
-    val totalCount: Int = 0,
-    val isLoading: Boolean = true,
-    val error: String? = null
-)
-
-@HiltViewModel
-class BookmarksViewModel @Inject constructor(
-    private val apiService: ApiService,
-    private val authRepository: AuthRepository
-) : ViewModel() {
-    private val _uiState = MutableStateFlow(BookmarksUiState())
-    val uiState: StateFlow<BookmarksUiState> = _uiState.asStateFlow()
-
-    init {
-        load()
-    }
-
-    fun selectType(type: String) {
-        _uiState.update { it.copy(selectedType = type) }
-    }
-
-    fun load(): Job {
-        return viewModelScope.launch {
-            val token = authRepository.getBearerToken()
-            if (token == null) {
-                _uiState.update { it.copy(isLoading = false, error = "Sign in to view bookmarks") }
-                return@launch
-            }
-            _uiState.update { it.copy(isLoading = true, error = null) }
-            try {
-                val page = apiService.getBookmarks(token)
-                val enriched = page.bookmarks.take(60).map { bookmark ->
-                    async { enrichBookmark(token, bookmark) }
-                }.awaitAll()
-                _uiState.update { it.copy(items = enriched, totalCount = page.totalCount, isLoading = false) }
-            } catch (e: Exception) {
-                _uiState.update { it.copy(isLoading = false, error = e.localizedMessage ?: "Could not load bookmarks") }
-            }
-        }
-    }
-
-    private suspend fun enrichBookmark(token: String, bookmark: ApiBookmark): BookmarkListItem {
-        return try {
-            when (bookmark.targetType) {
-                "resource" -> {
-                    val resource = apiService.getResource(token, bookmark.targetId)
-                    BookmarkListItem(
-                        bookmark = bookmark,
-                        title = resource.title,
-                        excerpt = resource.description,
-                        meta = listOf(resource.subject, resource.gradeLevel, resource.type).filter { it.isNotBlank() }.joinToString(" - ")
-                    )
-                }
-                "post" -> {
-                    val post = apiService.getPost(token, bookmark.targetId)
-                    BookmarkListItem(
-                        bookmark = bookmark,
-                        title = post.title,
-                        excerpt = post.content,
-                        meta = "${post.authorName} - ${post.replyCount} replies"
-                    )
-                }
-                else -> BookmarkListItem(
-                    bookmark = bookmark,
-                    title = "Saved reply",
-                    excerpt = "Open this saved reply from the related discussion on the web.",
-                    meta = "Reply"
-                )
-            }
-        } catch (_: Exception) {
-            BookmarkListItem(
-                bookmark = bookmark,
-                title = bookmark.targetType.replaceFirstChar { it.uppercase() },
-                excerpt = bookmark.targetId,
-                meta = "Saved ${formatTimeAgo(bookmark.createdAt)}"
-            )
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BookmarksScreen(
     onNavigateBack: () -> Unit,
@@ -161,167 +71,216 @@ fun BookmarksScreen(
     viewModel: BookmarksViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val visibleItems = uiState.items.filter { uiState.selectedType == "all" || it.bookmark.targetType == uiState.selectedType }
     val scope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
     var isRefreshing by remember { mutableStateOf(false) }
+
+    val message = uiState.message
+    LaunchedEffect(message) {
+        if (message == null) return@LaunchedEffect
+        val canUndo = uiState.undoTarget != null
+        val result = snackbarHostState.showSnackbar(
+            message = message,
+            actionLabel = if (canUndo) "Undo" else null,
+            duration = SnackbarDuration.Short
+        )
+        if (result == SnackbarResult.ActionPerformed) viewModel.undoRemove() else viewModel.consumeMessage()
+    }
 
     Scaffold(
         topBar = {
-            WebTopBar(
-                title = "Bookmarks",
-                subtitle = "${uiState.totalCount} saved",
-                showBack = true,
-                onBackClick = onNavigateBack,
-                onSearchClick = onSearchClick
+            TopAppBar(
+                title = {
+                    Column {
+                        Text("Bookmarks", fontWeight = FontWeight.SemiBold)
+                        Text(
+                            text = savedLabel(uiState.totalCount),
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                },
+                navigationIcon = {
+                    IconButton(onClick = onNavigateBack) {
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                    }
+                },
+                actions = {
+                    IconButton(onClick = onSearchClick) {
+                        Icon(Icons.Outlined.Search, contentDescription = "Search")
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.surface
+                )
             )
         },
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         containerColor = MaterialTheme.colorScheme.surface
     ) { padding ->
-        PullToRefreshBox(
-            isRefreshing = isRefreshing,
-            onRefresh = {
-                scope.launch {
-                    isRefreshing = true
-                    viewModel.load().join()
-                    isRefreshing = false
-                }
-            },
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-        ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            Row(
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                listOf("all" to "All", "post" to "Posts", "reply" to "Replies", "resource" to "Resources").forEach { (type, label) ->
-                    WebChip(text = label, selected = uiState.selectedType == type, onClick = { viewModel.selectType(type) })
-                }
-            }
-            when {
-                uiState.isLoading -> {
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) { NebLoader() }
-                }
-                uiState.error != null -> {
-                    WebEmptyState(
-                        title = "Bookmarks unavailable",
-                        message = uiState.error ?: "Try again later.",
-                        icon = painterResource(id = R.drawable.ic_bookmark),
-                        modifier = Modifier.padding(16.dp)
-                    )
-                }
-                visibleItems.isEmpty() -> {
-                    WebEmptyState(
-                        title = "No bookmarks yet",
-                        message = "Save posts, replies, and resources from across NEBians and they will appear here.",
-                        icon = painterResource(id = R.drawable.ic_bookmark),
-                        modifier = Modifier.padding(16.dp)
-                    )
-                }
-                else -> {
-                    LazyColumn(
-                        modifier = Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 4.dp),
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        items(visibleItems, key = { it.bookmark.id }) { item ->
-                            BookmarkCard(
-                                item = item,
-                                onClick = {
-                                    when (item.bookmark.targetType) {
-                                        "resource" -> onResourceClick(item.bookmark.targetId)
-                                        "post" -> onPostClick(item.bookmark.targetId)
-                                    }
-                                }
-                            )
-                        }
-                        item { Spacer(modifier = Modifier.height(32.dp)) }
+        Column(modifier = Modifier.fillMaxSize().padding(padding)) {
+            BookmarkFilterRow(
+                state = uiState,
+                onSelect = viewModel::selectType
+            )
+            PullToRefreshBox(
+                isRefreshing = isRefreshing,
+                onRefresh = {
+                    scope.launch {
+                        isRefreshing = true
+                        viewModel.load().join()
+                        isRefreshing = false
                     }
-                }
+                },
+                modifier = Modifier.fillMaxSize()
+            ) {
+                BookmarksBody(
+                    uiState = uiState,
+                    onRetry = { viewModel.load() },
+                    onOpen = { item ->
+                        when (item.bookmark.targetType) {
+                            "resource" -> onResourceClick(item.bookmark.targetId)
+                            "post", "reply" -> onPostClick(item.bookmark.targetId)
+                        }
+                    },
+                    onRemove = viewModel::remove
+                )
             }
-        } // end Column
-        } // end PullToRefreshBox
+        }
     }
 }
 
 @Composable
-private fun BookmarkCard(item: BookmarkListItem, onClick: () -> Unit) {
-    val icon = when (item.bookmark.targetType) {
-        "post" -> R.drawable.ic_forum_outlined
-        "reply" -> R.drawable.ic_forum_filled
-        else -> R.drawable.ic_book
+private fun BookmarkFilterRow(
+    state: BookmarksUiState,
+    onSelect: (String) -> Unit
+) {
+    val kinds = BookmarkKind.entries
+    val tabs = kinds.map { kind ->
+        NebRailTab(label = kind.label, count = state.countOf(kind))
     }
-    Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(onClick = onClick),
-        shape = WebPanelShape,
-        color = MaterialTheme.colorScheme.surfaceContainerLowest,
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
-    ) {
-        Row(
-            modifier = Modifier.padding(14.dp),
-            verticalAlignment = Alignment.Top,
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            Surface(
-                modifier = Modifier.size(44.dp),
-                shape = androidx.compose.foundation.shape.RoundedCornerShape(12.dp),
-                color = MaterialTheme.colorScheme.primaryContainer
+    NebTabRail(
+        tabs = tabs,
+        selectedIndex = kinds.indexOfFirst { it.key == state.selectedType }.coerceAtLeast(0),
+        onSelect = { onSelect(kinds[it].key) }
+    )
+}
+
+@Composable
+private fun BookmarksBody(
+    uiState: BookmarksUiState,
+    onRetry: () -> Unit,
+    onOpen: (BookmarkListItem) -> Unit,
+    onRemove: (BookmarkListItem) -> Unit
+) {
+    val visible = uiState.visibleItems
+
+    when {
+        uiState.isLoading && uiState.items.isEmpty() -> {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(2.dp)
             ) {
-                androidx.compose.foundation.layout.Box(contentAlignment = Alignment.Center) {
-                    Icon(
-                        painter = painterResource(id = icon),
-                        contentDescription = null,
-                        modifier = Modifier.size(22.dp),
-                        tint = MaterialTheme.colorScheme.primary
-                    )
-                }
-            }
-            Column(modifier = Modifier.weight(1f)) {
-                Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
-                    WebChip(text = item.bookmark.targetType.replaceFirstChar { it.uppercase() }, selected = true)
-                    Text(
-                        text = formatTimeAgo(item.bookmark.createdAt),
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-                Spacer(modifier = Modifier.height(6.dp))
-                Text(
-                    text = item.title,
-                    style = MaterialTheme.typography.titleSmall,
-                    fontWeight = FontWeight.Bold,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
-                if (item.excerpt.isNotBlank()) {
-                    LinkifyText(
-                        text = item.excerpt,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                }
-                if (item.meta.isNotBlank()) {
-                    Text(
-                        text = item.meta,
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                }
+                repeat(6) { BookmarkRowSkeleton() }
             }
         }
+
+        uiState.error != null && uiState.items.isEmpty() -> {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                NebEmptyState(
+                    icon = Icons.Outlined.CloudOff,
+                    title = "Couldn't load bookmarks",
+                    subtitle = uiState.error,
+                    action = {
+                        NebButton(
+                            text = "Try again",
+                            onClick = onRetry,
+                            tone = NebButtonTone.Outlined,
+                            size = NebButtonSize.Small
+                        )
+                    }
+                )
+            }
+        }
+
+        visible.isEmpty() -> {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                NebEmptyState(
+                    icon = Icons.Outlined.BookmarkBorder,
+                    title = emptyTitle(uiState.selectedType),
+                    subtitle = emptySubtitle(uiState.selectedType)
+                )
+            }
+        }
+
+        else -> {
+            val sections = remember(visible) { groupByDay(visible) }
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 2.dp, bottom = 28.dp)
+            ) {
+                sections.forEach { (label, items) ->
+                    item(key = "header_$label") { BookmarkSectionHeader(label) }
+                    itemsIndexed(items, key = { _, item -> item.bookmark.id }) { index, item ->
+                        BookmarkRow(
+                            item = item,
+                            onClick = { onOpen(item) },
+                            onRemove = { onRemove(item) },
+                            showDivider = index < items.lastIndex
+                        )
+                    }
+                }
+                item { Spacer(modifier = Modifier.height(8.dp)) }
+            }
+        }
+    }
+}
+
+private fun savedLabel(count: Int): String = when (count) {
+    0 -> "Nothing saved yet"
+    1 -> "1 saved"
+    else -> "$count saved"
+}
+
+private fun emptyTitle(type: String): String = when (type) {
+    BookmarkKind.Posts.key -> "No saved posts"
+    BookmarkKind.Replies.key -> "No saved replies"
+    BookmarkKind.Resources.key -> "No saved resources"
+    else -> "Nothing saved yet"
+}
+
+private fun emptySubtitle(type: String): String = when (type) {
+    BookmarkKind.Posts.key -> "Bookmark a discussion and it waits for you here."
+    BookmarkKind.Replies.key -> "Keep an answer worth coming back to."
+    BookmarkKind.Resources.key -> "Save notes and past papers to read later."
+    else -> "Tap the bookmark on any post or resource to keep it."
+}
+
+private fun groupByDay(items: List<BookmarkListItem>): List<Pair<String, List<BookmarkListItem>>> {
+    val ordered = items.sortedByDescending { it.bookmark.createdAt }
+    val buckets = LinkedHashMap<String, MutableList<BookmarkListItem>>()
+    ordered.forEach { item ->
+        buckets.getOrPut(dayBucket(item.bookmark.createdAt)) { mutableListOf() }.add(item)
+    }
+    return buckets.map { it.key to it.value }
+}
+
+private fun dayBucket(timestamp: Long): String {
+    val now = Calendar.getInstance()
+    val then = Calendar.getInstance().apply { timeInMillis = timestamp }
+    val sameYear = now.get(Calendar.YEAR) == then.get(Calendar.YEAR)
+    val dayDiff = if (sameYear) {
+        now.get(Calendar.DAY_OF_YEAR) - then.get(Calendar.DAY_OF_YEAR)
+    } else {
+        TimeUnit.MILLISECONDS.toDays(now.timeInMillis - timestamp).toInt() + 1
+    }
+    return when {
+        dayDiff <= 0 -> "Today"
+        dayDiff == 1 -> "Yesterday"
+        dayDiff < 7 -> "This week"
+        dayDiff < 30 -> "This month"
+        else -> "Earlier"
     }
 }
