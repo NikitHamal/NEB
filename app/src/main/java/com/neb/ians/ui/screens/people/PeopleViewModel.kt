@@ -181,7 +181,7 @@ class PeopleViewModel @Inject constructor(
             detail = listOfNotNull(
                 classLevel?.takeIf { it.isNotBlank() },
                 school?.takeIf { it.isNotBlank() }
-            ).joinToString(" · ").takeIf { it.isNotBlank() } ?: badgeInfo?.label?.takeIf { it.isNotBlank() },
+            ).joinToString(", ").takeIf { it.isNotBlank() } ?: badgeInfo?.label?.takeIf { it.isNotBlank() },
             reason = null,
             followsYou = false,
             isFollowing = isFollowing == true || graph.contains(id, username)

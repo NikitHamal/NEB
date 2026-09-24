@@ -21,7 +21,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ChatBubbleOutline
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.FolderOpen
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
@@ -65,8 +64,9 @@ import com.neb.ians.data.api.ApiSocialLink
 import com.neb.ians.ui.components.WebEmptyState
 import com.neb.ians.ui.components.WebResourceCard
 import com.neb.ians.ui.components.ZoomableImageDialog
-import com.neb.ians.ui.components.NebTab
-import com.neb.ians.ui.components.NebSegmentedTabs
+import com.neb.ians.ui.components.NebRailTab
+import com.neb.ians.ui.components.NebTabRail
+import com.neb.ians.ui.components.NebLoader
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -118,7 +118,7 @@ fun ProfileScreen(
             contentAlignment = Alignment.Center
         ) {
             when {
-                uiState.isLoading -> CircularProgressIndicator()
+                uiState.isLoading -> NebLoader()
                 uiState.error != null -> WebEmptyState(
                     title = "Profile unavailable",
                     message = uiState.error ?: "Try again later.",
@@ -275,17 +275,16 @@ private fun ProfileContent(
             }
         } else {
             item(key = "tabs") {
-                NebSegmentedTabs(
+                NebTabRail(
                     tabs = listOf(
-                        NebTab("Posts", count = profile.postCount),
-                        NebTab("Replies", count = uiState.repliesCount),
-                        NebTab("Resources", count = uiState.resourcesCount),
-                        NebTab("About")
+                        NebRailTab("Posts", count = profile.postCount),
+                        NebRailTab("Replies", count = uiState.repliesCount),
+                        NebRailTab("Resources", count = uiState.resourcesCount),
+                        NebRailTab("About")
                     ),
                     selectedIndex = uiState.selectedTab,
                     onSelect = onTabSelected,
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-                    compact = true
+                    modifier = Modifier.padding(vertical = 2.dp)
                 )
             }
 

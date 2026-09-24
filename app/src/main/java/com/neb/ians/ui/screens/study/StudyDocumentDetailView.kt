@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -50,6 +49,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.neb.ians.ui.components.NebLoader
 
 // -------------------------------------------------------------
 // Document detail (Summary / Mindmap / Quiz / Flashcards) — the
@@ -421,7 +421,7 @@ fun DocumentDetailView(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    CircularProgressIndicator()
+                    NebLoader()
                 }
             }
             doc == null -> {
@@ -483,7 +483,7 @@ fun DocumentDetailView(
                                         Text(
                                             text = listOf(doc.fileName, fileSizeLabel(doc.fileSize))
                                                 .filter { it.isNotBlank() }
-                                                .joinToString(" · "),
+                                                .joinToString(", "),
                                             style = MaterialTheme.typography.labelSmall,
                                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                                             maxLines = 1,

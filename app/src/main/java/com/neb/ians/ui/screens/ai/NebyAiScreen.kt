@@ -40,7 +40,6 @@ import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.Psychology
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -100,6 +99,8 @@ import kotlinx.coroutines.launch
 import com.neb.ians.ui.components.NebButton
 import com.neb.ians.ui.components.NebButtonSize
 import com.neb.ians.ui.components.NebButtonTone
+import com.neb.ians.ui.components.NebLoaderSize
+import com.neb.ians.ui.components.NebLoader
 
 private val ArenaTint = Color(0xFF47474B)
 private val QwenTint = Color(0xFF7C7C83)
@@ -157,7 +158,7 @@ fun NebyAiScreen(
                 title = "Neby AI",
                 subtitle = activeSession?.let {
                     val model = it.modelName.ifBlank { it.modelCode.ifBlank { "AI model" } }
-                    "$model · ${providerLabel(it.provider)}"
+                    "$model, ${providerLabel(it.provider)}"
                 } ?: "AI study chat",
                 showBack = true,
                 onBackClick = onNavigateBack,
@@ -204,7 +205,7 @@ fun NebyAiScreen(
                         modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
-                    ) { CircularProgressIndicator() }
+                    ) { NebLoader() }
                 }
                 uiState.error != null -> {
                     Column(
@@ -595,7 +596,7 @@ private fun ModelPickerPanel(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                CircularProgressIndicator(modifier = Modifier.size(18.dp), strokeWidth = 2.dp)
+                NebLoader(size = NebLoaderSize.Inline)
                 Text(
                     text = "Starting chat…",
                     style = MaterialTheme.typography.labelMedium,

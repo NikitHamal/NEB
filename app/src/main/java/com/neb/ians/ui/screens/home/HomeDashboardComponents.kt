@@ -1035,7 +1035,7 @@ internal fun HomeFeedResourceHighlight(
                     text = listOfNotNull(
                         resource.type.takeIf { it.isNotBlank() },
                         "Study Guide"
-                    ).joinToString(" · "),
+                    ).joinToString(", "),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 1,

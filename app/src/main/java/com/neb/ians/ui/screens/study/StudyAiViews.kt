@@ -30,7 +30,6 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.outlined.Tune
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -74,6 +73,8 @@ import com.neb.ians.ui.components.WebPanelShape
 import com.neb.ians.ui.components.WebPillShape
 import com.neb.ians.ui.components.WebPrimaryButton
 import retrofit2.HttpException
+import com.neb.ians.ui.components.NebLoaderSize
+import com.neb.ians.ui.components.NebLoader
 
 // -------------------------------------------------------------
 // Shared Study Lab helpers + composables used by both the
@@ -191,11 +192,7 @@ fun ParseStatusPill(status: String, modifier: Modifier = Modifier) {
         horizontalArrangement = Arrangement.spacedBy(5.dp)
     ) {
         if (status !in STUDY_TERMINAL_PARSE_STATES) {
-            CircularProgressIndicator(
-                modifier = Modifier.size(10.dp),
-                strokeWidth = 1.5.dp,
-                color = fg
-            )
+            NebLoader(size = NebLoaderSize.Inline, color = fg)
         }
         Text(
             text = status.replaceFirstChar { it.uppercase() },
@@ -278,7 +275,7 @@ fun StudySummarySection(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    CircularProgressIndicator(modifier = Modifier.size(18.dp), strokeWidth = 2.dp)
+                    NebLoader(size = NebLoaderSize.Inline)
                     Text(
                         text = "Generating ${if (mode == "detailed") "detailed" else "compact"} summary…",
                         style = MaterialTheme.typography.bodySmall,
@@ -337,7 +334,7 @@ fun StudyMindmapSection(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    CircularProgressIndicator(modifier = Modifier.size(18.dp), strokeWidth = 2.dp)
+                    NebLoader(size = NebLoaderSize.Inline)
                     Text(
                         text = "Generating mindmap…",
                         style = MaterialTheme.typography.bodySmall,
@@ -510,8 +507,8 @@ fun StudyQuizListSection(
                                 text = buildString {
                                     append("${quiz.questionCount} questions")
                                     if (quiz.attemptCount > 0) {
-                                        append(" · Best ${quiz.bestScore}/${quiz.questionCount}")
-                                        append(" · ${quiz.attemptCount} attempt${if (quiz.attemptCount == 1) "" else "s"}")
+                                        append(", best ${quiz.bestScore}/${quiz.questionCount}")
+                                        append(", ${quiz.attemptCount} attempt${if (quiz.attemptCount == 1) "" else "s"}")
                                     }
                                 },
                                 style = MaterialTheme.typography.labelSmall,
@@ -521,7 +518,7 @@ fun StudyQuizListSection(
                             )
                         }
                         if (openingQuizId == quiz.id) {
-                            CircularProgressIndicator(modifier = Modifier.size(16.dp), strokeWidth = 2.dp)
+                            NebLoader(size = NebLoaderSize.Inline)
                         }
                     }
                 }
@@ -533,7 +530,7 @@ fun StudyQuizListSection(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                CircularProgressIndicator(modifier = Modifier.size(18.dp), strokeWidth = 2.dp)
+                NebLoader(size = NebLoaderSize.Inline)
                 Text(
                     text = "Generating quiz…",
                     style = MaterialTheme.typography.bodySmall,
@@ -731,7 +728,7 @@ fun StudyQuizPlayer(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    CircularProgressIndicator(modifier = Modifier.size(18.dp), strokeWidth = 2.dp)
+                    NebLoader(size = NebLoaderSize.Inline)
                     Text(
                         text = "Submitting…",
                         style = MaterialTheme.typography.labelMedium,
@@ -853,7 +850,7 @@ private fun StudyQuizResultRowCard(row: StudyQuizResultRow) {
                         text = if (row.isCorrect) {
                             "Your answer: ${row.userAnswer.ifBlank { "—" }} ✓"
                         } else {
-                            "Your answer: ${row.userAnswer.ifBlank { "—" }} · Correct: ${row.correctAnswer.ifBlank { "—" }}"
+                            "Your answer: ${row.userAnswer.ifBlank { "—" }}, correct: ${row.correctAnswer.ifBlank { "—" }}"
                         },
                         style = MaterialTheme.typography.labelMedium,
                         color = if (row.isCorrect) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.error
@@ -902,7 +899,7 @@ fun StudyFlashcardsSection(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    CircularProgressIndicator(modifier = Modifier.size(18.dp), strokeWidth = 2.dp)
+                    NebLoader(size = NebLoaderSize.Inline)
                     Text(
                         text = "Generating flashcards…",
                         style = MaterialTheme.typography.bodySmall,

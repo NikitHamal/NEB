@@ -27,7 +27,7 @@ import com.neb.ians.ui.components.NebArtSlot
 import com.neb.ians.ui.components.NebAuthField
 import com.neb.ians.ui.components.NebAuthType
 import com.neb.ians.ui.components.NebGlyphTile
-import com.neb.ians.ui.components.NebSegmentedChoice
+import com.neb.ians.ui.components.NebChoiceTiles
 import com.neb.ians.ui.components.NebShapes
 import com.neb.ians.ui.components.NebDateWheel
 import com.neb.ians.ui.components.NebOptionCard
@@ -242,7 +242,7 @@ fun GenderStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewMode
             subtitle = "Optional detail for your profile. Pick whichever fits."
         )
         Spacer(modifier = Modifier.height(22.dp))
-        NebSegmentedChoice(
+        NebChoiceTiles(
             segments = NEB_GENDER_SEGMENTS,
             selected = state.gender,
             onSelect = viewModel::onGenderChange

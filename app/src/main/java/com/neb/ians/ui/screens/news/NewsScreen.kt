@@ -296,7 +296,6 @@ private fun NewsListCard(
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.weight(1f, fill = false)
                 )
-                Text("·", color = MaterialTheme.colorScheme.onSurfaceVariant)
                 Text(
                     text = item.publishedAgo.ifBlank { "Latest" },
                     style = MaterialTheme.typography.labelMedium,
@@ -304,8 +303,7 @@ private fun NewsListCard(
                     maxLines = 1
                 )
                 if (item.viewCount.isNotBlank()) {
-                    Text("·", color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    Icon(
+                        Icon(
                         imageVector = Icons.Outlined.Visibility,
                         contentDescription = null,
                         modifier = Modifier.size(15.dp),

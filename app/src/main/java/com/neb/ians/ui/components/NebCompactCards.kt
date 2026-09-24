@@ -289,7 +289,7 @@ fun CompactResourceCard(
                     text = listOfNotNull(
                         resource.gradeLevel.takeIf { it.isNotBlank() },
                         resource.type.takeIf { it.isNotBlank() }
-                    ).joinToString(" · "),
+                    ).joinToString(", "),
                     style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 1,

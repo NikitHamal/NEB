@@ -834,7 +834,7 @@ fun WebResourceCard(
                 Spacer(modifier = Modifier.height(8.dp))
             }
             Text(
-                text = "${resource.gradeLevel} · ${formatFileSize(resource.fileSize)}",
+                text = "${resource.gradeLevel}, ${formatFileSize(resource.fileSize)}",
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 maxLines = 1,
@@ -886,11 +886,6 @@ fun WebResourceCard(
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             maxLines = 1
-                        )
-                        Text(
-                            text = "·",
-                            style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         Icon(
                             imageVector = Icons.Outlined.Visibility,

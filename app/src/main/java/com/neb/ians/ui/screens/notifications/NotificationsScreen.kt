@@ -2,7 +2,6 @@
 
 package com.neb.ians.ui.screens.notifications
 
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,7 +14,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.outlined.CloudOff
@@ -48,8 +46,10 @@ import com.neb.ians.ui.components.NebButton
 import com.neb.ians.ui.components.NebButtonSize
 import com.neb.ians.ui.components.NebButtonTone
 import com.neb.ians.ui.components.NebEmptyState
-import com.neb.ians.ui.components.NebFilterChip
-import com.neb.ians.ui.components.NebLoadingIndicator
+import com.neb.ians.ui.components.NebLoader
+import com.neb.ians.ui.components.NebLoaderSize
+import com.neb.ians.ui.components.NebRailTab
+import com.neb.ians.ui.components.NebTabRail
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import java.util.Calendar
@@ -161,26 +161,18 @@ private fun FilterRow(
     onSelect: (NotificationFilter) -> Unit,
     unreadCount: Int
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .horizontalScroll(rememberScrollState())
-            .padding(horizontal = 16.dp, vertical = 6.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        NotificationFilter.entries.forEach { filter ->
-            val label = if (filter == NotificationFilter.Unread && unreadCount > 0) {
-                "Unread ($unreadCount)"
-            } else {
-                filter.label
-            }
-            NebFilterChip(
-                label = label,
-                selected = selected == filter,
-                onClick = { onSelect(filter) }
-            )
-        }
+    val filters = NotificationFilter.entries
+    val tabs = filters.map { filter ->
+        NebRailTab(
+            label = filter.label,
+            count = if (filter == NotificationFilter.Unread) unreadCount else 0
+        )
     }
+    NebTabRail(
+        tabs = tabs,
+        selectedIndex = filters.indexOf(selected).coerceAtLeast(0),
+        onSelect = { onSelect(filters[it]) }
+    )
 }
 
 @Composable
@@ -196,7 +188,7 @@ private fun NotificationsBody(
     when {
         uiState.isLoading && uiState.notifications.isEmpty() -> {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                NebLoadingIndicator()
+                NebLoader(size = NebLoaderSize.Screen)
             }
         }
 
@@ -267,7 +259,7 @@ private fun NotificationsBody(
                             modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp),
                             contentAlignment = Alignment.Center
                         ) {
-                            NebLoadingIndicator(modifier = Modifier.size(28.dp))
+                            NebLoader(size = NebLoaderSize.Small)
                         }
                     }
                 }

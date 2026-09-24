@@ -21,6 +21,7 @@ import java.util.Locale
 import com.neb.ians.ui.components.NebButton
 import com.neb.ians.ui.components.NebButtonSize
 import com.neb.ians.ui.components.NebButtonTone
+import com.neb.ians.ui.components.NebLoader
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -59,9 +60,7 @@ fun DeleteAccountScreen(
         ) {
             when (val state = deletionState) {
                 is DeletionRequestUiState.Loading -> {
-                    CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.Center)
-                    )
+                    NebLoader(modifier = Modifier.align(Alignment.Center))
                 }
                 is DeletionRequestUiState.Error -> {
                     Column(

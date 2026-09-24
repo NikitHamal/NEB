@@ -36,7 +36,6 @@ import androidx.compose.material.icons.outlined.Inventory2
 import androidx.compose.material.icons.outlined.Tune
 import com.neb.ians.ui.components.FilterDialog
 import androidx.compose.ui.draw.drawBehind
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Button
@@ -100,13 +99,15 @@ import com.neb.ians.ui.components.NebButton
 import com.neb.ians.ui.components.NebButtonSize
 import com.neb.ians.ui.components.NebButtonTone
 import com.neb.ians.ui.theme.nebEffectsSpec
-import com.neb.ians.ui.components.NebTab
-import com.neb.ians.ui.components.NebSegmentedTabs
+import com.neb.ians.ui.components.NebRailTab
+import com.neb.ians.ui.components.NebTabRail
 import androidx.compose.ui.draw.clip
 import androidx.compose.material.icons.outlined.PlayLesson
 import androidx.compose.material.icons.automirrored.outlined.MenuBook
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.AnimatedVisibility
+import com.neb.ians.ui.components.NebLoaderSize
+import com.neb.ians.ui.components.NebLoader
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -255,9 +256,9 @@ private fun LibraryTabs(
     val keys = remember { listOf("library", "syllabus", "interactive") }
     val tabs = remember {
         listOf(
-            NebTab("Library", Icons.Outlined.Inventory2),
-            NebTab("Syllabus", Icons.AutoMirrored.Outlined.MenuBook),
-            NebTab("Interactive", Icons.Outlined.PlayLesson)
+            NebRailTab("Library", Icons.Outlined.Inventory2),
+            NebRailTab("Syllabus", Icons.AutoMirrored.Outlined.MenuBook),
+            NebRailTab("Interactive", Icons.Outlined.PlayLesson)
         )
     }
     val selected = keys.indexOf(currentTab).coerceAtLeast(0)
@@ -265,11 +266,11 @@ private fun LibraryTabs(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 6.dp),
+            .padding(end = 14.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
-        NebSegmentedTabs(
+        NebTabRail(
             tabs = tabs,
             selectedIndex = selected,
             onSelect = { onTabSelected(keys[it]) },
@@ -398,7 +399,7 @@ private fun LibraryContent(
                                 horizontalArrangement = Arrangement.Center,
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
-                                CircularProgressIndicator(modifier = Modifier.size(26.dp))
+                                NebLoader(size = NebLoaderSize.Small)
                             }
                         }
                     } else if (!uiState.hasMore && !uiState.isLoading) {

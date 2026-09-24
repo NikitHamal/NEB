@@ -38,7 +38,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -54,12 +53,18 @@ import com.neb.ians.ui.theme.nebFastSpatialSpec
 import com.neb.ians.util.TactileType
 import com.neb.ians.util.rememberTactileFeedback
 import kotlinx.coroutines.delay
+import com.neb.ians.ui.theme.resolve
+import com.neb.ians.ui.theme.NebAccents
+import com.neb.ians.ui.theme.NebAccent
+import androidx.compose.ui.graphics.compositeOver
+import androidx.compose.foundation.border
 
 @Immutable
 data class NebFabAction(
     val label: String,
     val icon: ImageVector,
     val onClick: () -> Unit,
+    val accent: NebAccent? = null,
     val destructive: Boolean = false,
     val testTag: String? = null
 )
@@ -172,31 +177,28 @@ private fun NebFabMenuPill(
     val tactile = rememberTactileFeedback()
     val interaction = remember { MutableInteractionSource() }
 
-    val container = if (action.destructive) {
-        MaterialTheme.colorScheme.errorContainer
+    val accent = when {
+        action.destructive -> NebAccents.Rose.resolve()
+        action.accent != null -> action.accent.resolve()
+        else -> null
+    }
+    val container = if (accent != null) {
+        accent.copy(alpha = if (isDarkSurface()) 0.17f else 0.10f)
+            .compositeOver(MaterialTheme.colorScheme.surfaceContainerLow)
     } else {
         MaterialTheme.colorScheme.surfaceContainerHigh
     }
-    val content = if (action.destructive) {
-        MaterialTheme.colorScheme.onErrorContainer
-    } else {
-        MaterialTheme.colorScheme.onSurface
-    }
+    val content = accent ?: MaterialTheme.colorScheme.onSurface
+    val outline = accent?.copy(alpha = 0.34f) ?: MaterialTheme.colorScheme.outlineVariant
 
     Row(
         modifier = Modifier
             .then(action.testTag?.let { Modifier.testTag(it) } ?: Modifier)
             .heightIn(min = 56.dp)
             .widthIn(max = 280.dp)
-            .shadow(
-                elevation = 3.dp,
-                shape = RoundedCornerShape(50),
-                clip = false,
-                ambientColor = Color.Black.copy(alpha = 0.10f),
-                spotColor = Color.Black.copy(alpha = 0.10f)
-            )
             .clip(RoundedCornerShape(50))
             .background(container)
+            .border(1.dp, outline, RoundedCornerShape(50))
             .clickable(
                 interactionSource = interaction,
                 indication = ripple(bounded = true, color = content),
@@ -256,6 +258,9 @@ fun NebFabMenuScrim(
         )
     }
 }
+
+@Composable
+private fun isDarkSurface(): Boolean = MaterialTheme.colorScheme.surface.luminanceIsDark()
 
 private fun Color.luminanceIsDark(): Boolean {
     val l = 0.299f * red + 0.587f * green + 0.114f * blue

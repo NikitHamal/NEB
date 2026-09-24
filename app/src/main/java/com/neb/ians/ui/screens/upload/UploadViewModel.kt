@@ -33,6 +33,8 @@ data class UploadFormState(
     val subject: String = "",
     val description: String = "",
     val gradeLevel: String = "",
+    /** Levels the user typed in because the list did not have theirs. */
+    val customLevels: List<String> = emptyList(),
     val type: String = "PDF",
     val examType: String = "",
     val faculty: String = "",
@@ -102,6 +104,24 @@ data class UploadFormState(
 
     val canSubmit: Boolean
         get() = missing.isEmpty() && !isSubmitting && !isPreparing
+
+    /** True once the first step has everything it needs to move on. */
+    val essentialsReady: Boolean
+        get() = (isEditMode || selectedFiles.isNotEmpty() || fileUrl.isNotBlank()) &&
+            title.isNotBlank() && subject.isNotBlank()
+
+    /** True when the optional step has been given something, so it offers Next instead of Skip. */
+    val hasDetails: Boolean
+        get() = description.isNotBlank() || examType.isNotBlank() || school.isNotBlank() ||
+            year.isNotBlank() || pradesh.isNotBlank() || tags.isNotBlank() ||
+            authorName.isNotBlank() || sourceUrl.isNotBlank() ||
+            thumbnailUri != null || thumbnailUrl.isNotBlank() || isPaid
+
+    /** Levels offered by the picker: the built in list plus anything the user added. */
+    val levelOptions: List<String>
+        get() = (UploadOptions.GRADE_LEVELS + customLevels + gradeLevel)
+            .filter { it.isNotBlank() }
+            .distinct()
 }
 
 data class SelectedFile(
@@ -233,6 +253,16 @@ class UploadViewModel @Inject constructor(
 
     fun updateGradeLevel(gradeLevel: String) {
         _uiState.update { it.copy(gradeLevel = gradeLevel) }
+    }
+
+    fun addCustomLevel(level: String) {
+        val trimmed = level.trim()
+        if (trimmed.isBlank()) return
+        _uiState.update { state ->
+            val known = UploadOptions.GRADE_LEVELS + state.customLevels
+            if (known.any { it.equals(trimmed, ignoreCase = true) }) state
+            else state.copy(customLevels = state.customLevels + trimmed)
+        }
     }
 
     fun updateType(type: String) {

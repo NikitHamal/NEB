@@ -52,6 +52,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.neb.ians.R
 import com.neb.ians.ui.theme.nebFastSpatialSpec
+import androidx.compose.material.icons.rounded.Close
 
 // ---------------------------------------------------------------------------
 // NEBians "N" logo as a Compose drawable.
@@ -257,6 +258,11 @@ fun LiquidGlassBottomNav(
                         animationSpec = spring(stiffness = Spring.StiffnessMediumLow),
                         label = "createScale"
                     )
+                    val morph by animateFloatAsState(
+                        targetValue = if (menuExpanded) 1f else 0f,
+                        animationSpec = nebFastSpatialSpec(),
+                        label = "createMorph"
+                    )
 
                     Box(
                         modifier = Modifier
@@ -290,12 +296,33 @@ fun LiquidGlassBottomNav(
                             .testTag("bottom_nav_create_button"),
                         contentAlignment = Alignment.Center
                     ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_rune_plus),
-                            contentDescription = "Create",
-                            tint = MaterialTheme.colorScheme.onPrimary,
-                            modifier = Modifier.size(24.dp)
-                        )
+                        Box(
+                            modifier = Modifier.size(26.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_rune_plus),
+                                contentDescription = if (menuExpanded) null else "Create",
+                                tint = MaterialTheme.colorScheme.onPrimary,
+                                modifier = Modifier
+                                    .size(24.dp)
+                                    .graphicsLayer {
+                                        rotationZ = morph * 135f
+                                        alpha = 1f - morph
+                                    }
+                            )
+                            Icon(
+                                imageVector = Icons.Rounded.Close,
+                                contentDescription = if (menuExpanded) "Close create menu" else null,
+                                tint = MaterialTheme.colorScheme.onPrimary,
+                                modifier = Modifier
+                                    .size(26.dp)
+                                    .graphicsLayer {
+                                        rotationZ = (1f - morph) * -135f
+                                        alpha = morph
+                                    }
+                            )
+                        }
                     }
                 } else if (onProfileClick != null) {
                     val tactile = rememberTactileFeedback()

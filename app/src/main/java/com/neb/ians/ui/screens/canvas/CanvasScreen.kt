@@ -48,6 +48,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlin.math.roundToInt
 import kotlin.math.hypot
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import com.neb.ians.ui.components.NebLoaderSize
+import com.neb.ians.ui.components.NebLoader
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -581,11 +583,7 @@ private fun CanvasBottomPromptBar(
                     )
             ) {
                 if (isGenerating) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.size(18.dp),
-                        strokeWidth = 2.dp,
-                        color = MaterialTheme.colorScheme.primary
-                    )
+                    NebLoader(size = NebLoaderSize.Inline, color = MaterialTheme.colorScheme.primary)
                 } else {
                     Icon(
                         imageVector = Icons.Filled.ArrowUpward,

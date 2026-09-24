@@ -45,6 +45,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.ui.components.NebPlayerView
 import com.neb.ians.ui.screens.reader.MediaPlayerViewModel
 import kotlinx.coroutines.delay
+import com.neb.ians.ui.components.NebLoaderSize
+import com.neb.ians.ui.components.NebLoader
 
 @Composable
 fun EmbeddedMediaPlayer(
@@ -79,7 +81,7 @@ fun EmbeddedMediaPlayer(
                         .background(MaterialTheme.colorScheme.surfaceContainerHigh),
                     contentAlignment = Alignment.Center
                 ) {
-                    CircularProgressIndicator(color = subjectColor)
+                    NebLoader(color = subjectColor)
                 }
             } else if (uiState.hasError) {
                 Box(
@@ -303,13 +305,12 @@ private fun EmbeddedVideoStage(
         )
 
         if (isBuffering) {
-            CircularProgressIndicator(
-                color = subjectColor,
-                strokeWidth = 2.5.dp,
-                trackColor = Color.White.copy(alpha = 0.2f),
+            NebLoader(
                 modifier = Modifier
-                    .size(32.dp)
-                    .align(Alignment.Center)
+                    
+                    .align(Alignment.Center),
+                size = NebLoaderSize.Standard,
+                color = subjectColor
             )
         }
 

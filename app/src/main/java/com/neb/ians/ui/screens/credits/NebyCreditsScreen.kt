@@ -201,7 +201,7 @@ private fun BalanceHeader(total: Int, free: Int, converted: Int) {
         )
         Spacer(Modifier.height(14.dp))
         Text(
-            text = "$free free this month · $converted converted",
+            text = "$free free this month, $converted converted",
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )

@@ -7,10 +7,12 @@ package com.neb.ians.ui.screens.upload
 
 import android.content.Context
 import android.net.Uri
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -29,14 +31,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.automirrored.rounded.ArrowForward
 import androidx.compose.material.icons.rounded.AttachFile
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Upload
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.LoadingIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -60,22 +61,29 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.neb.ians.ui.components.NebChoiceSheet
 import com.neb.ians.ui.components.NebButton
 import com.neb.ians.ui.components.NebButtonSize
 import com.neb.ians.ui.components.NebButtonTone
+import com.neb.ians.ui.components.NebLoader
+import com.neb.ians.ui.components.NebLoaderSize
 import com.neb.ians.ui.components.nebPressable
+import com.neb.ians.ui.theme.nebEffectsSpec
 import java.io.File
 
 /**
- * One screen, in the order the upload actually happens.
+ * Three steps, in the order the upload actually happens.
  *
- * The old version was a five step wizard: basics, files, details, attribution,
- * review. Somebody who has just spent an hour photographing a hundred pages of
- * notes then had to walk through four more screens before the app would take
- * them, and their pages were posted as a hundred separate resources at the end
- * of it. Here the pages come first, the two questions that cannot be guessed
- * come second, everything else is folded away, and publish is always visible.
+ * The pages come first, because that is the work the user has already done.
+ * The two questions that cannot be guessed come second. Everything the library
+ * would merely like sits in its own optional step, which ends in Skip until it
+ * is given something. Publish is the last thing, and it stays grey until the
+ * upload would actually go through.
  */
+private enum class UploadStep { Basics, Details, Review }
+
+private enum class UploadSheet { Subject, Level, Type, Exam, Province, Tags }
+
 @Composable
 fun UploadScreen(
     onNavigateBack: () -> Unit,
@@ -85,10 +93,10 @@ fun UploadScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
-    var showSubjectPicker by remember { mutableStateOf(false) }
-    var showTagPicker by remember { mutableStateOf(false) }
-    var showMore by rememberSaveable { mutableStateOf(false) }
+    var stepIndex by rememberSaveable { mutableIntStateOf(0) }
+    var sheet by remember { mutableStateOf<UploadSheet?>(null) }
     var linkMode by rememberSaveable { mutableStateOf(false) }
+    val step = UploadStep.entries[stepIndex.coerceIn(0, UploadStep.entries.lastIndex)]
 
     val photoPicker = rememberLauncherForActivityResult(
         ActivityResultContracts.PickMultipleVisualMedia()
@@ -135,7 +143,7 @@ fun UploadScreen(
         UploadSuccessScreen(
             onUploadAnother = {
                 viewModel.resetSuccess()
-                showMore = false
+                stepIndex = 0
                 linkMode = false
             },
             onBrowseLibrary = onUploadSuccess
@@ -149,6 +157,8 @@ fun UploadScreen(
 
     if (uiState.isEditMode && EditGate(uiState, onNavigateBack, viewModel::loadEditResource)) return
 
+    BackHandler(enabled = stepIndex > 0) { stepIndex-- }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -161,7 +171,7 @@ fun UploadScreen(
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = onNavigateBack) {
+                    IconButton(onClick = { if (stepIndex > 0) stepIndex-- else onNavigateBack() }) {
                         Icon(Icons.AutoMirrored.Rounded.ArrowBack, contentDescription = "Back")
                     }
                 },
@@ -171,8 +181,11 @@ fun UploadScreen(
             )
         },
         bottomBar = {
-            PublishBar(
+            UploadActionBar(
                 state = uiState,
+                step = step,
+                onBack = { if (stepIndex > 0) stepIndex-- },
+                onAdvance = { stepIndex = (stepIndex + 1).coerceAtMost(UploadStep.entries.lastIndex) },
                 onSubmit = { viewModel.submit(context) }
             )
         }
@@ -185,6 +198,23 @@ fun UploadScreen(
             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
             verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
+            item(key = "header") {
+                UploadStepHeader(
+                    stepIndex = stepIndex,
+                    total = UploadStep.entries.size,
+                    title = when (step) {
+                        UploadStep.Basics -> if (uiState.isEditMode) "The resource" else "Bring the file in"
+                        UploadStep.Details -> "More details"
+                        UploadStep.Review -> if (uiState.isEditMode) "Check the changes" else "Ready to publish"
+                    },
+                    caption = when (step) {
+                        UploadStep.Basics -> "The file, a title and a subject. Nothing else is required."
+                        UploadStep.Details -> "All optional. Everything here helps people find it later."
+                        UploadStep.Review -> "This is how the library will show it."
+                    }
+                )
+            }
+
             item(key = "problem") {
                 ProblemBanner(
                     message = uiState.submitError ?: uiState.fileError,
@@ -192,125 +222,257 @@ fun UploadScreen(
                 )
             }
 
-            item(key = "source") {
-                if (linkMode) {
-                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        UploadLinkField(uiState, viewModel)
-                        Row(
-                            modifier = Modifier
-                                .nebPressable(onClick = { linkMode = false })
-                                .clip(RoundedCornerShape(14.dp))
-                                .padding(vertical = 8.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(8.dp)
-                        ) {
-                            Icon(
-                                imageVector = Icons.Rounded.AttachFile,
-                                contentDescription = null,
-                                modifier = Modifier.size(18.dp),
-                                tint = MaterialTheme.colorScheme.primary
-                            )
-                            Text(
-                                text = "Attach the file instead",
-                                style = MaterialTheme.typography.labelLarge,
-                                color = MaterialTheme.colorScheme.primary
+            when (step) {
+                UploadStep.Basics -> {
+                    item(key = "source") {
+                        if (linkMode) {
+                            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                                UploadLinkField(uiState, viewModel)
+                                SwitchSourceRow(
+                                    label = "Attach the file instead",
+                                    onClick = { linkMode = false }
+                                )
+                            }
+                        } else {
+                            UploadSourceSection(
+                                state = uiState,
+                                onCapturePages = { captureTick++ },
+                                onPickPhotos = {
+                                    photoPicker.launch(
+                                        PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                                    )
+                                },
+                                onPickFiles = { filePicker.launch("*/*") },
+                                onUseLink = { linkMode = true },
+                                onRemovePage = viewModel::removeFileAt,
+                                onCombineChange = viewModel::setCombinePages
                             )
                         }
                     }
-                } else {
-                    UploadSourceSection(
-                        state = uiState,
-                        onCapturePages = { captureTick++ },
-                        onPickPhotos = {
-                            photoPicker.launch(
-                                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-                            )
-                        },
-                        onPickFiles = { filePicker.launch("*/*") },
-                        onUseLink = { linkMode = true },
-                        onRemovePage = viewModel::removeFileAt,
-                        onCombineChange = viewModel::setCombinePages
-                    )
-                }
-            }
 
-            item(key = "essentials") {
-                UploadEssentials(
-                    state = uiState,
-                    viewModel = viewModel,
-                    onOpenSubjectPicker = { showSubjectPicker = true }
-                )
-            }
-
-            item(key = "divider") {
-                HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
-            }
-
-            item(key = "more") {
-                UploadMoreDetails(
-                    state = uiState,
-                    viewModel = viewModel,
-                    expanded = showMore,
-                    onToggle = { showMore = !showMore },
-                    onOpenTagPicker = { showTagPicker = true },
-                    onPickCover = {
-                        coverPicker.launch(
-                            PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                    item(key = "essentials") {
+                        UploadEssentials(
+                            state = uiState,
+                            viewModel = viewModel,
+                            onOpenSubjectPicker = { sheet = UploadSheet.Subject },
+                            onOpenLevelPicker = { sheet = UploadSheet.Level }
                         )
                     }
-                )
+                }
+
+                UploadStep.Details -> {
+                    item(key = "details") {
+                        UploadMoreDetails(
+                            state = uiState,
+                            viewModel = viewModel,
+                            onOpenTagPicker = { sheet = UploadSheet.Tags },
+                            onOpenTypePicker = { sheet = UploadSheet.Type },
+                            onOpenExamPicker = { sheet = UploadSheet.Exam },
+                            onOpenProvincePicker = { sheet = UploadSheet.Province },
+                            onPickCover = {
+                                coverPicker.launch(
+                                    PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                                )
+                            }
+                        )
+                    }
+                }
+
+                UploadStep.Review -> {
+                    item(key = "review") {
+                        UploadReviewStep(
+                            state = uiState,
+                            onEditBasics = { stepIndex = 0 },
+                            onEditDetails = { stepIndex = 1 }
+                        )
+                    }
+                }
             }
 
             item(key = "tail") { Spacer(Modifier.height(24.dp)) }
         }
     }
 
-    if (showSubjectPicker) {
-        ChipPickerDialog(
+    UploadSheets(
+        sheet = sheet,
+        state = uiState,
+        viewModel = viewModel,
+        onDismiss = { sheet = null }
+    )
+}
+
+@Composable
+private fun UploadSheets(
+    sheet: UploadSheet?,
+    state: UploadFormState,
+    viewModel: UploadViewModel,
+    onDismiss: () -> Unit
+) {
+    when (sheet) {
+        null -> Unit
+
+        UploadSheet.Subject -> NebChoiceSheet(
             title = "Subject",
-            items = UploadOptions.SUBJECTS,
-            selectedItems = uiState.subject.asCsvList(),
+            subtitle = "Pick every subject this covers, or add your own.",
+            options = UploadOptions.SUBJECTS,
+            selected = state.subject.asCsvList(),
+            multiSelect = true,
             allowCustom = true,
             customPlaceholder = "Add a subject",
-            onDismiss = { showSubjectPicker = false },
+            onDismiss = onDismiss,
             onConfirm = {
                 viewModel.updateSubject(it.joinToString(", "))
-                showSubjectPicker = false
+                onDismiss()
             }
         )
-    }
 
-    if (showTagPicker) {
-        ChipPickerDialog(
+        UploadSheet.Level -> NebChoiceSheet(
+            title = "Level",
+            subtitle = "Who is this written for? Add yours if it is not listed.",
+            options = state.levelOptions,
+            selected = listOfNotNull(state.gradeLevel.takeIf { it.isNotBlank() }),
+            multiSelect = false,
+            allowCustom = true,
+            customPlaceholder = "Add a level",
+            onAddCustom = viewModel::addCustomLevel,
+            onDismiss = onDismiss,
+            onConfirm = {
+                viewModel.updateGradeLevel(it.firstOrNull().orEmpty())
+                onDismiss()
+            }
+        )
+
+        UploadSheet.Type -> NebChoiceSheet(
+            title = "Type",
+            options = UploadOptions.RESOURCE_TYPES,
+            selected = listOfNotNull(state.type.takeIf { it.isNotBlank() }),
+            multiSelect = false,
+            onDismiss = onDismiss,
+            onConfirm = {
+                viewModel.updateType(it.firstOrNull().orEmpty())
+                onDismiss()
+            }
+        )
+
+        UploadSheet.Exam -> NebChoiceSheet(
+            title = "Exam",
+            options = UploadOptions.EXAM_TYPES,
+            selected = listOfNotNull(state.examType.takeIf { it.isNotBlank() }),
+            multiSelect = false,
+            onDismiss = onDismiss,
+            onConfirm = {
+                viewModel.updateExamType(it.firstOrNull().orEmpty())
+                onDismiss()
+            }
+        )
+
+        UploadSheet.Province -> NebChoiceSheet(
+            title = "Province",
+            options = UploadOptions.PROVINCES,
+            selected = listOfNotNull(state.pradesh.takeIf { it.isNotBlank() }),
+            multiSelect = false,
+            onDismiss = onDismiss,
+            onConfirm = {
+                viewModel.updatePradesh(it.firstOrNull().orEmpty())
+                onDismiss()
+            }
+        )
+
+        UploadSheet.Tags -> NebChoiceSheet(
             title = "Tags",
-            items = UploadOptions.COMMON_TAGS,
-            selectedItems = uiState.tags.asCsvList(),
+            subtitle = "A few words people would search for.",
+            options = UploadOptions.COMMON_TAGS,
+            selected = state.tags.asCsvList(),
+            multiSelect = true,
             allowCustom = true,
             customPlaceholder = "Add a tag",
-            onDismiss = { showTagPicker = false },
+            onDismiss = onDismiss,
             onConfirm = {
                 viewModel.updateTags(it.joinToString(", "))
-                showTagPicker = false
+                onDismiss()
             }
         )
     }
 }
 
+/** Where you are, what this step is for. Three bars, filled as you go. */
+@Composable
+private fun UploadStepHeader(
+    stepIndex: Int,
+    total: Int,
+    title: String,
+    caption: String
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 2.dp, bottom = 2.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(6.dp)
+        ) {
+            repeat(total) { index ->
+                val filled = index <= stepIndex
+                val color by animateColorAsState(
+                    targetValue = if (filled) {
+                        MaterialTheme.colorScheme.onSurface
+                    } else {
+                        MaterialTheme.colorScheme.outlineVariant
+                    },
+                    animationSpec = nebEffectsSpec(),
+                    label = "upload_step_$index"
+                )
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(4.dp)
+                        .clip(RoundedCornerShape(50))
+                        .background(color)
+                )
+            }
+        }
+        Column(verticalArrangement = Arrangement.spacedBy(3.dp)) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.headlineSmallEmphasized,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            Text(
+                text = caption,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+    }
+}
+
 /**
- * Publish, and the one sentence explaining why it would not work yet.
+ * The one action for the step you are on.
  *
- * The button stays live even when something is missing — pressing it marks the
- * fields rather than doing nothing, which is the difference between a screen
- * that answers and a screen that ignores you.
+ * On the first step it is greyed out until the upload would actually go
+ * through, so the button never lies about what pressing it will do. On the
+ * optional step it reads Skip until something is filled in, then Next. On the
+ * last step it publishes.
  */
 @Composable
-private fun PublishBar(state: UploadFormState, onSubmit: () -> Unit) {
+private fun UploadActionBar(
+    state: UploadFormState,
+    step: UploadStep,
+    onBack: () -> Unit,
+    onAdvance: () -> Unit,
+    onSubmit: () -> Unit
+) {
     val working = state.isSubmitting || state.isPreparing
     val status = when {
         state.isPreparing -> "Preparing page ${state.pagesPrepared} of ${state.selectedFiles.size}"
         state.isSubmitting -> "Uploading…"
-        state.missing.isEmpty() -> null
-        else -> "Add ${state.missing.joinToString(", ")}"
+        step == UploadStep.Basics && state.missing.isNotEmpty() ->
+            "Add ${state.missing.filterNot { it == "a price" }.joinToString(", ")}"
+        step == UploadStep.Review && state.missing.isNotEmpty() ->
+            "Add ${state.missing.joinToString(", ")}"
+        else -> null
     }
 
     Surface(color = MaterialTheme.colorScheme.surface) {
@@ -327,7 +489,7 @@ private fun PublishBar(state: UploadFormState, onSubmit: () -> Unit) {
                     modifier = Modifier.fillMaxWidth()
                 )
             }
-            if (status != null) {
+            if (status != null && status.isNotBlank()) {
                 Text(
                     text = status,
                     style = MaterialTheme.typography.bodySmall,
@@ -336,15 +498,79 @@ private fun PublishBar(state: UploadFormState, onSubmit: () -> Unit) {
                     overflow = TextOverflow.Ellipsis
                 )
             }
-            NebButton(
-                text = if (state.isEditMode) "Save changes" else "Publish",
-                onClick = onSubmit,
-                icon = Icons.Rounded.Upload,
-                size = NebButtonSize.Hero,
-                fillWidth = true,
-                loading = working
-            )
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                if (step != UploadStep.Basics) {
+                    NebButton(
+                        text = "Back",
+                        onClick = onBack,
+                        tone = NebButtonTone.Outlined,
+                        size = NebButtonSize.Hero,
+                        enabled = !working
+                    )
+                }
+                when (step) {
+                    UploadStep.Basics -> NebButton(
+                        text = "Continue",
+                        onClick = onAdvance,
+                        trailingIcon = Icons.AutoMirrored.Rounded.ArrowForward,
+                        size = NebButtonSize.Hero,
+                        fillWidth = true,
+                        enabled = state.essentialsReady,
+                        modifier = Modifier.weight(1f)
+                    )
+
+                    UploadStep.Details -> NebButton(
+                        text = if (state.hasDetails) "Next" else "Skip for now",
+                        onClick = onAdvance,
+                        trailingIcon = Icons.AutoMirrored.Rounded.ArrowForward,
+                        tone = if (state.hasDetails) NebButtonTone.Primary else NebButtonTone.Tonal,
+                        size = NebButtonSize.Hero,
+                        fillWidth = true,
+                        modifier = Modifier.weight(1f)
+                    )
+
+                    UploadStep.Review -> NebButton(
+                        text = if (state.isEditMode) "Save changes" else "Publish",
+                        onClick = onSubmit,
+                        icon = Icons.Rounded.Upload,
+                        size = NebButtonSize.Hero,
+                        fillWidth = true,
+                        enabled = state.canSubmit,
+                        loading = working,
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+            }
         }
+    }
+}
+
+@Composable
+private fun SwitchSourceRow(label: String, onClick: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .nebPressable(onClick = onClick)
+            .clip(RoundedCornerShape(14.dp))
+            .padding(vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        Icon(
+            imageVector = Icons.Rounded.AttachFile,
+            contentDescription = null,
+            modifier = Modifier.size(18.dp),
+            tint = MaterialTheme.colorScheme.onSurface
+        )
+        Text(
+            text = label,
+            style = MaterialTheme.typography.labelLarge,
+            color = MaterialTheme.colorScheme.onSurface
+        )
     }
 }
 
@@ -415,7 +641,7 @@ private fun EditGate(
             contentAlignment = Alignment.Center
         ) {
             if (message == null) {
-                LoadingIndicator()
+                NebLoader(size = NebLoaderSize.Screen)
             } else {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
