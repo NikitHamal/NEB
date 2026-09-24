@@ -3,12 +3,13 @@ package com.neb.ians.ui.screens.people
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.neb.ians.data.api.ApiErrorMapper
-import com.neb.ians.data.api.ApiPost
 import com.neb.ians.data.api.ApiService
 import com.neb.ians.data.api.ApiUserSearchResult
 import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.data.repository.FollowStateRepository
 import com.neb.ians.data.repository.ForumRepository
+import com.neb.ians.data.repository.PeopleSuggestionRepository
+import com.neb.ians.data.repository.PersonSuggestion
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
@@ -28,8 +29,17 @@ data class PeopleCandidate(
     val name: String,
     val photoUrl: String?,
     val detail: String?,
+    val reason: String?,
+    val followsYou: Boolean,
     val isFollowing: Boolean
-)
+) {
+    val followLabel: String
+        get() = when {
+            isFollowing -> "Following"
+            followsYou -> "Follow back"
+            else -> "Follow"
+        }
+}
 
 data class PeopleUiState(
     val query: String = "",
@@ -46,11 +56,10 @@ data class PeopleUiState(
 /**
  * Everyone the app can plausibly suggest, in one place.
  *
- * There is no suggestions endpoint on the server, so the list is built the same
- * way the home rail's was — the authors of recent posts the user does not follow
- * yet — only paged deep enough to be a screen rather than a strip. Typing hands
- * over to the user search endpoint, which is the one place the server does know
- * about people the feed has never mentioned.
+ * Ranking and filtering live in [PeopleSuggestionRepository] so the home rail
+ * and this screen show the same people for the same reasons. Typing hands over
+ * to the user search endpoint, which is the one place the server knows about
+ * people no signal has surfaced yet.
  */
 @OptIn(FlowPreview::class)
 @HiltViewModel
@@ -58,6 +67,7 @@ class PeopleViewModel @Inject constructor(
     private val forumRepository: ForumRepository,
     private val authRepository: AuthRepository,
     private val followStateRepository: FollowStateRepository,
+    private val peopleSuggestionRepository: PeopleSuggestionRepository,
     private val apiService: ApiService
 ) : ViewModel() {
 
@@ -88,28 +98,12 @@ class PeopleViewModel @Inject constructor(
     private fun loadSuggestions(forceRefresh: Boolean = false) {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null) }
-            followStateRepository.sync(forceRefresh = forceRefresh)
-            val selfId = authRepository.currentUserIdFlow.first()
-            val graph = followStateRepository.graph.value
-            val collected = LinkedHashMap<String, PeopleCandidate>()
-            var failure: Throwable? = null
-
-            for (page in 1..PAGE_DEPTH) {
-                val posts = forumRepository
-                    .getPosts(page = page, forceRefresh = forceRefresh && page == 1)
-                    .onFailure { error -> if (collected.isEmpty()) failure = error }
-                    .getOrNull() ?: break
-                posts.posts.forEach { post ->
-                    post.toCandidate(selfId, graph)?.let { collected.putIfAbsent(it.id, it) }
-                }
-                if (collected.size >= TARGET_COUNT || !posts.hasMore) break
-            }
-
-            _uiState.update {
-                it.copy(
-                    suggestions = collected.values.toList(),
+            val result = peopleSuggestionRepository.load(forceRefresh)
+            _uiState.update { state ->
+                state.copy(
+                    suggestions = result.getOrNull().orEmpty().map { it.toCandidate() },
                     isLoading = false,
-                    error = failure?.let { e -> ApiErrorMapper.mapException(e) }
+                    error = result.exceptionOrNull()?.let { ApiErrorMapper.mapException(it) }
                 )
             }
         }
@@ -139,15 +133,18 @@ class PeopleViewModel @Inject constructor(
         val optimistic = !candidate.isFollowing
         setFollowing(candidate.id, optimistic)
         followStateRepository.record(candidate.id, candidate.username, optimistic)
+        peopleSuggestionRepository.record(candidate.id, candidate.username, optimistic)
         viewModelScope.launch {
             try {
                 val token = authRepository.getBearerToken() ?: throw IllegalStateException("Not authenticated")
                 val response = apiService.toggleFollow(token, candidate.id)
                 setFollowing(candidate.id, response.isFollowing)
                 followStateRepository.record(candidate.id, candidate.username, response.isFollowing)
+                peopleSuggestionRepository.record(candidate.id, candidate.username, response.isFollowing)
             } catch (e: Exception) {
                 setFollowing(candidate.id, candidate.isFollowing)
                 followStateRepository.record(candidate.id, candidate.username, candidate.isFollowing)
+                peopleSuggestionRepository.record(candidate.id, candidate.username, candidate.isFollowing)
             } finally {
                 pendingFollows.remove(candidate.id)
             }
@@ -163,24 +160,16 @@ class PeopleViewModel @Inject constructor(
         }
     }
 
-    private fun ApiPost.toCandidate(
-        selfId: String?,
-        graph: FollowStateRepository.Graph
-    ): PeopleCandidate? {
-        if (authorId.isBlank() || authorName.isBlank()) return null
-        if (authorId == selfId || isAnonymous || authorIsBot) return null
-        if (authorName.contains("Anonymous", ignoreCase = true)) return null
-        if (isFollowingAuthor == true) return null
-        if (graph.contains(authorId, authorName)) return null
-        return PeopleCandidate(
-            id = authorId,
-            username = authorName,
-            name = authorName,
-            photoUrl = authorPhotoUrl,
-            detail = authorBadgeInfo?.label?.takeIf { it.isNotBlank() } ?: authorBadge,
-            isFollowing = false
-        )
-    }
+    private fun PersonSuggestion.toCandidate(): PeopleCandidate = PeopleCandidate(
+        id = id,
+        username = username,
+        name = name,
+        photoUrl = photoUrl,
+        detail = detail,
+        reason = reason,
+        followsYou = followsYou,
+        isFollowing = isFollowing
+    )
 
     private fun ApiUserSearchResult.toCandidate(graph: FollowStateRepository.Graph): PeopleCandidate? {
         if (isSelf == true || id.isBlank()) return null
@@ -193,12 +182,10 @@ class PeopleViewModel @Inject constructor(
                 classLevel?.takeIf { it.isNotBlank() },
                 school?.takeIf { it.isNotBlank() }
             ).joinToString(" · ").takeIf { it.isNotBlank() } ?: badgeInfo?.label?.takeIf { it.isNotBlank() },
+            reason = null,
+            followsYou = false,
             isFollowing = isFollowing == true || graph.contains(id, username)
         )
     }
 
-    private companion object {
-        const val PAGE_DEPTH = 4
-        const val TARGET_COUNT = 30
-    }
 }

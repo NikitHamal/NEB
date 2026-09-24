@@ -1,6 +1,5 @@
 package com.neb.ians.ui.screens.upload
 
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -28,11 +27,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.CloudUpload
-import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -40,328 +35,31 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import android.content.Intent
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.icons.outlined.Description
-import androidx.compose.material.icons.outlined.PlayCircle
-import androidx.compose.material.icons.outlined.Headphones
-import androidx.compose.material.icons.outlined.Folder
-import androidx.compose.material.icons.outlined.Image
-import androidx.compose.material.icons.outlined.Visibility
-import androidx.compose.material.icons.outlined.Delete
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathEffect
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.neb.ians.ui.components.NebCard
-import com.neb.ians.ui.components.NebFilledButton
+import com.neb.ians.ui.components.NebButton
+import com.neb.ians.ui.components.NebButtonSize
+import com.neb.ians.ui.components.NebButtonTone
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun FileDropzone(
-    selectedFiles: List<SelectedFile>,
-    fileError: String?,
-    onPickFiles: () -> Unit,
-    onRemoveFile: (Int) -> Unit,
-    onClearFiles: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    val dashedColor = MaterialTheme.colorScheme.outlineVariant
-    val dashStroke = remember(dashedColor) {
-        Stroke(
-            width = 2f,
-            pathEffect = PathEffect.dashPathEffect(floatArrayOf(16f, 12f), 0f),
-            cap = Stroke.DefaultCap
-        )
-    }
-
-    NebCard(
-        modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(16.dp),
-        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-        border = null
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp)
-                .animateContentSize(),
-            verticalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-            if (selectedFiles.isEmpty()) {
-                EmptyDropzone(
-                    dashedColor = dashedColor,
-                    dashStroke = dashStroke,
-                    onClick = onPickFiles
-                )
-            } else {
-                FileList(
-                    files = selectedFiles,
-                    onRemove = onRemoveFile,
-                    onClear = onClearFiles,
-                    onAddMore = onPickFiles
-                )
-            }
-
-            if (fileError != null) {
-                Text(
-                    text = fileError,
-                    color = MaterialTheme.colorScheme.error,
-                    style = MaterialTheme.typography.labelSmall,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun EmptyDropzone(
-    dashedColor: Color,
-    dashStroke: Stroke,
-    onClick: () -> Unit
-) {
-    val cornerRadius = 14.dp
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = 140.dp)
-            .drawBehind {
-                drawRoundRect(
-                    color = dashedColor,
-                    style = dashStroke,
-                    cornerRadius = CornerRadius(cornerRadius.toPx(), cornerRadius.toPx())
-                )
-            }
-            .clip(RoundedCornerShape(cornerRadius))
-            .clickable(onClick = onClick)
-            .padding(24.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            Surface(
-                shape = CircleShape,
-                color = MaterialTheme.colorScheme.primaryContainer,
-                modifier = Modifier.size(56.dp)
-            ) {
-                Box(contentAlignment = Alignment.Center) {
-                    Icon(
-                        imageVector = Icons.Filled.CloudUpload,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.size(28.dp)
-                    )
-                }
-            }
-            Text(
-                text = "Tap to upload files",
-                style = MaterialTheme.typography.titleSmall,
-                fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.onSurface,
-                maxLines = 1
-            )
-            Text(
-                text = "PDF, DOC, images, videos — up to 50 MB each, max 5 files",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                textAlign = TextAlign.Center,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis
-            )
-        }
-    }
-}
-
-@Composable
-private fun FileList(
-    files: List<SelectedFile>,
-    onRemove: (Int) -> Unit,
-    onClear: () -> Unit,
-    onAddMore: () -> Unit
-) {
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "${files.size} file${if (files.size == 1) "" else "s"} selected",
-                style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.onSurface,
-                fontWeight = FontWeight.SemiBold,
-                maxLines = 1
-            )
-            Row {
-                if (files.size < UploadViewModel.MAX_FILES) {
-                    TextButton(onClick = onAddMore) {
-                        Icon(
-                            imageVector = Icons.Filled.Add,
-                            contentDescription = null,
-                            modifier = Modifier.size(16.dp)
-                        )
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Text("Add", maxLines = 1)
-                    }
-                }
-                TextButton(onClick = onClear) {
-                    Icon(
-                        imageVector = Icons.Filled.Clear,
-                        contentDescription = null,
-                        modifier = Modifier.size(16.dp)
-                    )
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text("Clear", maxLines = 1)
-                }
-            }
-        }
-
-        files.forEachIndexed { index, file ->
-            val context = LocalContext.current
-            val ext = file.name.substringAfterLast('.', "").lowercase()
-            val isImage = ext in listOf("png", "jpg", "jpeg", "webp", "gif", "bmp")
-            val icon = when {
-                ext == "pdf" -> Icons.Outlined.Description
-                ext in listOf("mp4", "mkv", "avi", "mov", "webm", "3gp", "wmv", "flv") -> Icons.Outlined.PlayCircle
-                ext in listOf("mp3", "wav", "ogg", "flac", "aac", "m4a", "wma") -> Icons.Outlined.Headphones
-                else -> Icons.Outlined.Folder
-            }
-            NebCard(
-                shape = RoundedCornerShape(10.dp),
-                containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
-                border = null,
-                onClick = {
-                    runCatching {
-                        val intent = Intent(Intent.ACTION_VIEW).apply {
-                            setDataAndType(file.uri, context.contentResolver.getType(file.uri) ?: "*/*")
-                            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                        }
-                        context.startActivity(Intent.createChooser(intent, "Open file"))
-                    }
-                }
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(10.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(10.dp)
-                ) {
-                    Surface(
-                        shape = RoundedCornerShape(8.dp),
-                        color = MaterialTheme.colorScheme.primaryContainer,
-                        modifier = Modifier.size(40.dp)
-                    ) {
-                        Box(contentAlignment = Alignment.Center) {
-                            if (isImage) {
-                                coil.compose.AsyncImage(
-                                    model = file.uri,
-                                    contentDescription = null,
-                                    modifier = Modifier.fillMaxSize(),
-                                    contentScale = androidx.compose.ui.layout.ContentScale.Crop
-                                )
-                            } else {
-                                Icon(
-                                    imageVector = icon,
-                                    contentDescription = null,
-                                    tint = MaterialTheme.colorScheme.primary,
-                                    modifier = Modifier.size(22.dp)
-                                )
-                            }
-                        }
-                    }
-                    Column(
-                        modifier = Modifier.weight(1f),
-                        verticalArrangement = Arrangement.spacedBy(2.dp)
-                    ) {
-                        Text(
-                            text = file.name,
-                            style = MaterialTheme.typography.bodyMedium,
-                            fontWeight = FontWeight.SemiBold,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                        Text(
-                            text = formatFileSize(file.size),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            maxLines = 1
-                        )
-                        Row(
-                            horizontalArrangement = Arrangement.spacedBy(8.dp),
-                            modifier = Modifier.padding(top = 4.dp)
-                        ) {
-                            TextButton(
-                                onClick = {
-                                    runCatching {
-                                        val intent = Intent(Intent.ACTION_VIEW).apply {
-                                            setDataAndType(file.uri, context.contentResolver.getType(file.uri) ?: "*/*")
-                                            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                                        }
-                                        context.startActivity(Intent.createChooser(intent, "Open file"))
-                                    }
-                                },
-                                contentPadding = PaddingValues(horizontal = 4.dp, vertical = 2.dp),
-                                modifier = Modifier.height(26.dp)
-                            ) {
-                                Icon(
-                                    imageVector = if (isImage) Icons.Outlined.Image else if (ext == "pdf") Icons.Outlined.Description else Icons.Outlined.Visibility,
-                                    contentDescription = null,
-                                    modifier = Modifier.size(13.dp)
-                                )
-                                Spacer(modifier = Modifier.width(4.dp))
-                                Text("Preview", style = MaterialTheme.typography.labelSmall)
-                            }
-                            TextButton(
-                                onClick = { onRemove(index) },
-                                colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.error),
-                                contentPadding = PaddingValues(horizontal = 4.dp, vertical = 2.dp),
-                                modifier = Modifier.height(26.dp)
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Outlined.Delete,
-                                    contentDescription = null,
-                                    modifier = Modifier.size(13.dp)
-                                )
-                                Spacer(modifier = Modifier.width(4.dp))
-                                Text("Remove", style = MaterialTheme.typography.labelSmall)
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+/**
+ * Picking several things from a long list, with room to add your own.
+ *
+ * Used for subjects and tags, the two fields where the right answer is often
+ * not in the list yet.
+ */
 @Composable
 fun ChipPickerDialog(
     title: String,
@@ -607,11 +305,12 @@ fun ChipPickerDialog(
                     horizontalArrangement = Arrangement.End,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    TextButton(onClick = onDismiss) { Text("Cancel", maxLines = 1) }
+                    NebButton(text = "Cancel", onClick = onDismiss, tone = NebButtonTone.Text)
                     Spacer(modifier = Modifier.width(8.dp))
-                    NebFilledButton(
+                    NebButton(
                         text = "Done",
-                        onClick = { onConfirm(localSelected) }
+                        onClick = { onConfirm(localSelected) },
+                        size = NebButtonSize.Small
                     )
                 }
             }

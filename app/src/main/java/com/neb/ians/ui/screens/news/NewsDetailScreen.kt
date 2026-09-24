@@ -56,6 +56,9 @@ import com.neb.ians.ui.components.WebCardShape
 import com.neb.ians.ui.components.WebPillShape
 import com.neb.ians.ui.screens.home.NewsCategoryBadge
 import com.neb.ians.ui.screens.home.newsIcon
+import com.neb.ians.ui.components.NebButton
+import com.neb.ians.ui.components.NebButtonSize
+import com.neb.ians.ui.components.NebButtonTone
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -184,7 +187,8 @@ fun NewsDetailScreen(
                     HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
                     Spacer(modifier = Modifier.height(12.dp))
 
-                    OutlinedButton(
+                    NebButton(
+                        text = "Share this article",
                         onClick = {
                             val intent = Intent(Intent.ACTION_SEND).apply {
                                 type = "text/plain"
@@ -193,29 +197,21 @@ fun NewsDetailScreen(
                             }
                             context.startActivity(Intent.createChooser(intent, "Share Post"))
                         },
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp)
-                            .fillMaxWidth(),
-                        shape = WebPillShape
-                    ) {
-                        Icon(Icons.Filled.Share, contentDescription = null, modifier = Modifier.size(18.dp))
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text("Share this article")
-                    }
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        icon = Icons.Filled.Share,
+                        tone = NebButtonTone.Outlined,
+                        fillWidth = true
+                    )
 
                     if (detail.externalUrl.isNotBlank()) {
                         Spacer(modifier = Modifier.height(8.dp))
-                        Button(
+                        NebButton(
+                            text = "View original source",
                             onClick = { safeOpenUri(uriHandler, context, detail.externalUrl) },
-                            modifier = Modifier
-                                .padding(horizontal = 16.dp)
-                                .fillMaxWidth(),
-                            shape = WebPillShape
-                        ) {
-                            Icon(Icons.Filled.OpenInNew, contentDescription = null, modifier = Modifier.size(18.dp))
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Text("View Original Source")
-                        }
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                            icon = Icons.Filled.OpenInNew,
+                            fillWidth = true
+                        )
                     }
 
                     Spacer(modifier = Modifier.height(28.dp))

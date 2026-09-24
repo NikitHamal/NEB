@@ -4,7 +4,7 @@ import androidx.compose.runtime.Immutable
 import com.neb.ians.data.api.ApiPost
 import com.neb.ians.data.api.ApiResource
 import com.neb.ians.data.news.NewsAnnouncement
-import com.neb.ians.data.repository.FollowStateRepository
+import com.neb.ians.data.repository.PersonSuggestion
 
 /**
  * The home feed as a flat list of typed entries.
@@ -40,7 +40,7 @@ sealed interface HomeFeedEntry {
     }
 
     @Immutable
-    data class Peers(val peers: List<ApiPost>) : HomeFeedEntry {
+    data class Peers(val peers: List<PersonSuggestion>) : HomeFeedEntry {
         override val key: String get() = "peers"
         override val contentType: String get() = TYPE_PEERS
     }
@@ -73,31 +73,6 @@ sealed interface HomeFeedEntry {
 
 private const val HIGHLIGHT_START = 9
 private const val HIGHLIGHT_EVERY = 5
-private const val MAX_PEERS = 8
-
-/**
- * People worth suggesting: real, not the viewer, not a bot, and not already
- * followed according to either the post payload or the local follow graph.
- */
-fun suggestedPeersFrom(
-    posts: List<ApiPost>,
-    currentUserId: String?,
-    followGraph: FollowStateRepository.Graph
-): List<ApiPost> = posts.asSequence()
-    .filter { post ->
-        post.authorName.isNotBlank() &&
-            post.authorId.isNotBlank() &&
-            post.authorId != currentUserId &&
-            !post.isAnonymous &&
-            !post.authorIsBot &&
-            !post.authorName.contains("Anonymous", ignoreCase = true) &&
-            post.isFollowingAuthor != true &&
-            !followGraph.contains(post.authorId, post.authorName)
-    }
-    .distinctBy { it.authorId }
-    .take(MAX_PEERS)
-    .toList()
-
 /**
  * Interleaves posts with the standing interstitials at their anchor positions.
  *
@@ -111,7 +86,7 @@ fun buildHomeFeed(
     suggestedResources: List<ApiResource>,
     recentResources: List<ApiResource>,
     news: List<NewsAnnouncement>,
-    peers: List<ApiPost>
+    peers: List<PersonSuggestion>
 ): List<HomeFeedEntry> {
     val uniquePosts = posts.distinctBy { it.id }
     if (uniquePosts.isEmpty()) return emptyList()

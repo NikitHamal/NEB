@@ -41,6 +41,9 @@ import com.neb.ians.ui.components.WebPanelShape
 import com.neb.ians.ui.components.WebPillShape
 import com.neb.ians.util.formatTimeAgo
 import kotlinx.coroutines.launch
+import com.neb.ians.ui.components.NebButton
+import com.neb.ians.ui.components.NebButtonSize
+import com.neb.ians.ui.components.NebButtonTone
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -117,17 +120,11 @@ fun ResourceRequestsScreen(
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                             Spacer(modifier = Modifier.height(16.dp))
-                            Button(
+                            NebButton(
+                                text = "New request",
                                 onClick = { showCreateDialog = true },
-                                shape = WebPillShape,
-                                colors = ButtonDefaults.buttonColors(
-                                    containerColor = MaterialTheme.colorScheme.primary
-                                )
-                            ) {
-                                Icon(Icons.Default.Add, contentDescription = null, modifier = Modifier.size(18.dp))
-                                Spacer(modifier = Modifier.width(6.dp))
-                                Text("New Request", fontWeight = FontWeight.SemiBold)
-                            }
+                                icon = Icons.Default.Add
+                            )
                         }
                     }
                 }

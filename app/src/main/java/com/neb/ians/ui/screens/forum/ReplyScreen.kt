@@ -55,6 +55,9 @@ import com.neb.ians.ui.components.MarkdownToolbar
 import com.neb.ians.ui.components.MentionSuggestions
 import com.neb.ians.ui.components.rememberInlineImageFieldHandle
 import com.neb.ians.ui.components.ZoomableImageDialog
+import com.neb.ians.ui.components.NebButton
+import com.neb.ians.ui.components.NebButtonSize
+import com.neb.ians.ui.components.NebButtonTone
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -292,29 +295,18 @@ fun ReplyScreen(
                 )
             }
 
-            Button(
+            NebButton(
+                text = "Submit reply",
                 onClick = { viewModel.submitReply(onSuccess = onReplySubmitted) },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(56.dp)
-                    .padding(bottom = 16.dp),
-                shape = RoundedCornerShape(50),
+                modifier = Modifier.padding(bottom = 16.dp),
+                size = NebButtonSize.Hero,
+                fillWidth = true,
+                loading = uiState.isSubmitting,
                 enabled = uiState.content.text.isNotBlank() &&
-                    !uiState.isSubmitting &&
                     pendingInlineCount == 0 &&
                     !InlineImageTokens.hasPending(uiState.content.text) &&
                     uiState.mediaAttachments.none { it.uploading }
-            ) {
-                if (uiState.isSubmitting) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.size(20.dp),
-                        strokeWidth = 2.dp,
-                        color = MaterialTheme.colorScheme.onPrimary
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                }
-                Text(if (uiState.isSubmitting) "Submitting..." else "Submit Reply")
-            }
+            )
         }
     }
 }

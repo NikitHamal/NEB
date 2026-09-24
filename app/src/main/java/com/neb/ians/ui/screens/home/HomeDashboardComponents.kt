@@ -63,6 +63,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.neb.ians.data.api.ApiPost
+import com.neb.ians.data.repository.PersonSuggestion
 import com.neb.ians.data.api.ApiResource
 import com.neb.ians.data.api.ApiSuggestedItem
 import androidx.compose.animation.core.Spring
@@ -1188,7 +1189,7 @@ internal fun HomeFeedComposerBar(
 
 @Composable
 internal fun HomeSuggestedPeersRail(
-    peers: List<ApiPost>,
+    peers: List<PersonSuggestion>,
     onPeerClick: (String) -> Unit,
     onFollowClick: (String) -> Unit,
     onSeeAllClick: () -> Unit
@@ -1205,16 +1206,20 @@ internal fun HomeSuggestedPeersRail(
             contentPadding = PaddingValues(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            items(peers, key = { it.authorId.ifBlank { it.authorName } }) { post ->
-                val isFollowing = post.isFollowingAuthor == true
+            items(peers, key = { it.id }) { person ->
                 CompactPeerCard(
-                    name = post.authorName,
-                    authorId = post.authorId.ifBlank { post.authorName },
-                    avatarUrl = post.authorPhotoUrl,
-                    badge = post.authorBadge,
-                    isFollowing = isFollowing,
-                    onPeerClick = { onPeerClick(post.authorName) },
-                    onFollowToggle = { onFollowClick(post.authorId) }
+                    name = person.name,
+                    authorId = person.id,
+                    avatarUrl = person.photoUrl,
+                    badge = person.reason.ifBlank { person.detail ?: "Contributor" },
+                    isFollowing = person.isFollowing,
+                    onPeerClick = { onPeerClick(person.username) },
+                    onFollowToggle = { onFollowClick(person.id) },
+                    followLabel = when {
+                        person.isFollowing -> "Following"
+                        person.followsYou -> "Follow back"
+                        else -> "Follow"
+                    }
                 )
             }
         }

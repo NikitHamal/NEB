@@ -193,9 +193,13 @@ private fun PersonRow(
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
-                if (!person.detail.isNullOrBlank()) {
+                val subtitle = listOfNotNull(
+                    person.reason?.takeIf { it.isNotBlank() },
+                    person.detail?.takeIf { it.isNotBlank() }
+                ).joinToString(" · ")
+                if (subtitle.isNotBlank()) {
                     Text(
-                        text = person.detail,
+                        text = subtitle,
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         maxLines = 1,
@@ -204,7 +208,11 @@ private fun PersonRow(
                 }
             }
             Spacer(modifier = Modifier.width(12.dp))
-            FollowToggle(following = person.isFollowing, onToggle = onFollowToggle)
+            FollowToggle(
+                following = person.isFollowing,
+                label = person.followLabel,
+                onToggle = onFollowToggle
+            )
         }
     }
 }
@@ -216,7 +224,7 @@ private fun PersonRow(
  */
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-private fun FollowToggle(following: Boolean, onToggle: () -> Unit) {
+private fun FollowToggle(following: Boolean, label: String, onToggle: () -> Unit) {
     ToggleButton(
         checked = following,
         onCheckedChange = { onToggle() },
@@ -235,9 +243,10 @@ private fun FollowToggle(following: Boolean, onToggle: () -> Unit) {
         )
         Spacer(modifier = Modifier.width(ToggleButtonDefaults.IconSpacing))
         Text(
-            text = if (following) "Following" else "Follow",
+            text = label,
             style = MaterialTheme.typography.labelLarge,
-            fontWeight = FontWeight.SemiBold
+            fontWeight = FontWeight.SemiBold,
+            maxLines = 1
         )
     }
 }

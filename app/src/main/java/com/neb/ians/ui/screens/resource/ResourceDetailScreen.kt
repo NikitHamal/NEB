@@ -78,6 +78,9 @@ import com.neb.ians.ui.screens.reader.MediaPlayerViewModel
 import com.neb.ians.util.formatTimeAgo
 import kotlinx.coroutines.delay
 import kotlin.math.abs
+import com.neb.ians.ui.components.NebButton
+import com.neb.ians.ui.components.NebButtonSize
+import com.neb.ians.ui.components.NebButtonTone
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -780,9 +783,12 @@ private fun VideoYouTubeLayout(
                     }
                 }
                 if (uploadUsername.isNotBlank() && !isSelf) {
-                    TextButton(onClick = { onUserProfileClick(uploadUsername) }) {
-                        Text("Follow", fontWeight = FontWeight.Bold, fontSize = 13.sp)
-                    }
+                    NebButton(
+                        text = "Follow",
+                        onClick = { onUserProfileClick(uploadUsername) },
+                        tone = NebButtonTone.Text,
+                        size = NebButtonSize.Small
+                    )
                 }
             }
             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))

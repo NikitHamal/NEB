@@ -209,11 +209,15 @@ fun KaTeXMathView(
 }
 
 /**
- * Universal text component with automatic KaTeX math formula rendering.
+ * Text that may contain inline LaTeX, rendered natively.
  *
- * If [text] contains mathematical LaTeX syntax (`$$`, `$`, `\frac`, `\sqrt`, etc.),
- * it seamlessly renders formulas via KaTeX. Otherwise, it uses native Compose [Text]
- * for maximum performance with zero overhead.
+ * Prose never goes into the KaTeX WebView: a WebView cannot size itself
+ * reliably inside a scrolling Compose parent, so a paragraph that merely
+ * mentions a formula came back clipped mid-line with blank space under it,
+ * and it silently ignored [maxLines] on every card and title that asked for
+ * one. Formulas become Unicode math spans instead, so the app's own
+ * typography, line breaking and truncation all still apply. Standalone
+ * display math still goes through [KaTeXMathView].
  */
 @Composable
 fun KaTeXText(
@@ -224,51 +228,41 @@ fun KaTeXText(
     fontWeight: FontWeight? = null,
     textAlign: TextAlign? = null,
     maxLines: Int = Int.MAX_VALUE,
-    overflow: TextOverflow = TextOverflow.Clip,
+    overflow: TextOverflow = TextOverflow.Ellipsis,
     fontSize: TextUnit = TextUnit.Unspecified,
-    displayMode: Boolean = false,
     onClick: (() -> Unit)? = null,
     onLinkClick: ((String) -> Unit)? = null
 ) {
     if (text.isBlank()) return
 
-    val containsMath = remember(text) { hasLatexMath(text) }
-    val effectiveFontWeight = fontWeight ?: style.fontWeight
     val effectiveStyle = style.copy(
-        fontWeight = effectiveFontWeight,
-        fontSize = if (fontSize != TextUnit.Unspecified) fontSize else style.fontSize
+        fontWeight = fontWeight ?: style.fontWeight,
+        fontSize = if (fontSize != TextUnit.Unspecified) fontSize else style.fontSize,
+        color = color
     )
+    val primary = MaterialTheme.colorScheme.primary
+    val codeBg = MaterialTheme.colorScheme.surfaceContainerHigh
+    val errorBg = MaterialTheme.colorScheme.errorContainer
+    val errorFg = MaterialTheme.colorScheme.onErrorContainer
 
-    if (containsMath) {
-        val fontSizeSp = if (fontSize != TextUnit.Unspecified && fontSize.isSp) {
-            fontSize.value
-        } else if (effectiveStyle.fontSize.isSp) {
-            effectiveStyle.fontSize.value
-        } else {
-            15f
-        }
-
-        KaTeXMathView(
-            content = text,
-            modifier = if (onClick != null) modifier.clickable(onClick = onClick) else modifier,
-            displayMode = displayMode,
-            center = displayMode,
-            fontSizeSp = fontSizeSp,
-            textColor = color,
-            minHeight = if (displayMode) 40.dp else 22.dp,
-            onLinkClick = onLinkClick
-        )
-    } else {
-        Text(
-            text = text,
-            modifier = if (onClick != null) modifier.clickable(onClick = onClick) else modifier,
-            style = effectiveStyle,
-            color = color,
-            textAlign = textAlign,
-            maxLines = maxLines,
-            overflow = overflow
-        )
+    val formatted = remember(text) {
+        if (hasLatexMath(text)) formatLatexMath(text) else text
     }
+    val annotated = remember(formatted, color, primary, codeBg, errorBg, errorFg) {
+        buildInlineAnnotatedString(formatted, color, primary, codeBg, errorBg, errorFg)
+    }
+
+    NebAnnotatedText(
+        text = annotated,
+        style = if (textAlign != null) effectiveStyle.copy(textAlign = textAlign) else effectiveStyle,
+        modifier = modifier,
+        maxLines = maxLines,
+        overflow = overflow,
+        onClick = { offset ->
+            val link = annotated.getStringAnnotations("url", offset, offset).firstOrNull()
+            if (link != null && onLinkClick != null) onLinkClick(link.item) else onClick?.invoke()
+        }
+    )
 }
 
 private fun buildKaTeXHtml(

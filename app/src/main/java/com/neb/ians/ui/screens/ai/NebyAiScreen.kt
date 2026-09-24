@@ -97,6 +97,9 @@ import com.neb.ians.ui.components.WebPrimaryButton
 import com.neb.ians.ui.components.WebTopBar
 import com.neb.ians.util.formatTimeAgo
 import kotlinx.coroutines.launch
+import com.neb.ians.ui.components.NebButton
+import com.neb.ians.ui.components.NebButtonSize
+import com.neb.ians.ui.components.NebButtonTone
 
 private val ArenaTint = Color(0xFF47474B)
 private val QwenTint = Color(0xFF7C7C83)
@@ -874,13 +877,13 @@ private fun ChatInput(
                             PendingFileChip(file = file, onRemove = { onRemoveFile(file) })
                         }
                     }
-                    TextButton(
+                    NebButton(
+                        text = "Clear",
                         onClick = onClearFiles,
-                        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 2.dp),
+                        tone = NebButtonTone.Text,
+                        size = NebButtonSize.Compact,
                         modifier = Modifier.align(Alignment.CenterVertically)
-                    ) {
-                        Text("Clear", style = MaterialTheme.typography.labelMedium)
-                    }
+                    )
                 }
             }
             Row(

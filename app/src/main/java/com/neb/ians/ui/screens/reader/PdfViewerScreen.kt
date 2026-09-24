@@ -38,6 +38,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.ui.components.NebTopBar
+import com.neb.ians.ui.components.NebButton
+import com.neb.ians.ui.components.NebButtonSize
+import com.neb.ians.ui.components.NebButtonTone
 
 @Composable
 fun PdfViewerScreen(
@@ -164,6 +167,6 @@ private fun PdfErrorState(message: String, onRetry: () -> Unit, modifier: Modifi
     ) {
         Icon(Icons.Filled.ErrorOutline, contentDescription = null, tint = MaterialTheme.colorScheme.error)
         Text(message, style = MaterialTheme.typography.bodyLarge, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
-        Button(onClick = onRetry) { Text("Try again") }
+        NebButton(text = "Try again", onClick = onRetry)
     }
 }

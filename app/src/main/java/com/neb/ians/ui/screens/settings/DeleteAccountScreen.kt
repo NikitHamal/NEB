@@ -18,6 +18,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import com.neb.ians.ui.components.NebButton
+import com.neb.ians.ui.components.NebButtonSize
+import com.neb.ians.ui.components.NebButtonTone
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -74,9 +77,10 @@ fun DeleteAccountScreen(
                             style = MaterialTheme.typography.bodyLarge,
                             modifier = Modifier.padding(bottom = 16.dp)
                         )
-                        Button(onClick = { viewModel.fetchDeletionRequestStatus() }) {
-                            Text("Retry")
-                        }
+                        NebButton(
+                            text = "Retry",
+                            onClick = { viewModel.fetchDeletionRequestStatus() }
+                        )
                     }
                 }
                 is DeletionRequestUiState.Loaded -> {
@@ -130,17 +134,12 @@ fun DeleteAccountScreen(
                                         style = MaterialTheme.typography.bodyMedium,
                                         modifier = Modifier.padding(bottom = 16.dp)
                                     )
-                                    Button(
+                                    NebButton(
+                                        text = "Cancel deletion request",
                                         onClick = { viewModel.cancelAccountDeletion() },
-                                        colors = ButtonDefaults.buttonColors(
-                                            containerColor = MaterialTheme.colorScheme.error,
-                                            contentColor = MaterialTheme.colorScheme.onError
-                                        ),
-                                        modifier = Modifier.fillMaxWidth(),
-                                        shape = RoundedCornerShape(12.dp)
-                                    ) {
-                                        Text("Cancel Deletion Request", fontWeight = FontWeight.SemiBold)
-                                    }
+                                        tone = NebButtonTone.Danger,
+                                        fillWidth = true
+                                    )
                                 }
                             }
                         } else {
@@ -202,24 +201,14 @@ fun DeleteAccountScreen(
                                 )
                             }
 
-                            Button(
-                                onClick = {
-                                    if (confirmed) {
-                                        viewModel.requestAccountDeletion(reason)
-                                    }
-                                },
+                            NebButton(
+                                text = "Request account deletion",
+                                onClick = { viewModel.requestAccountDeletion(reason) },
                                 enabled = confirmed,
-                                colors = ButtonDefaults.buttonColors(
-                                    containerColor = MaterialTheme.colorScheme.error,
-                                    contentColor = MaterialTheme.colorScheme.onError
-                                ),
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(50.dp),
-                                shape = RoundedCornerShape(12.dp)
-                            ) {
-                                Text("Request Account Deletion", fontWeight = FontWeight.Bold)
-                            }
+                                tone = NebButtonTone.Danger,
+                                size = NebButtonSize.Hero,
+                                fillWidth = true
+                            )
                         }
                     }
                 }

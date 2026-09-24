@@ -25,6 +25,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.neb.ians.ui.components.NebButton
+import com.neb.ians.ui.components.NebButtonSize
+import com.neb.ians.ui.components.NebButtonTone
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -94,28 +97,20 @@ fun CanvasSidebarDrawer(
                     .padding(horizontal = 14.dp, vertical = 10.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Button(
+                NebButton(
+                    text = "New canvas",
                     onClick = onNewBoard,
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(12.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary
-                    )
-                ) {
-                    Icon(Icons.Filled.Add, contentDescription = null, modifier = Modifier.size(18.dp))
-                    Spacer(Modifier.width(8.dp))
-                    Text("New Canvas", fontWeight = FontWeight.SemiBold)
-                }
+                    icon = Icons.Filled.Add,
+                    fillWidth = true
+                )
 
-                OutlinedButton(
+                NebButton(
+                    text = "Browse templates",
                     onClick = onOpenTemplates,
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(12.dp)
-                ) {
-                    Icon(Icons.Outlined.SpaceDashboard, contentDescription = null, modifier = Modifier.size(18.dp))
-                    Spacer(Modifier.width(8.dp))
-                    Text("Browse Templates", fontWeight = FontWeight.Medium)
-                }
+                    icon = Icons.Outlined.SpaceDashboard,
+                    tone = NebButtonTone.Outlined,
+                    fillWidth = true
+                )
             }
 
             // Section Label

@@ -73,6 +73,9 @@ import com.neb.ians.ui.components.rememberInlineImageFieldHandle
 import com.neb.ians.ui.components.resolveMediaUrl
 import com.neb.ians.ui.components.WebPillShape
 import com.neb.ians.ui.components.ZoomableImageDialog
+import com.neb.ians.ui.components.NebButton
+import com.neb.ians.ui.components.NebButtonSize
+import com.neb.ians.ui.components.NebButtonTone
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -685,29 +688,19 @@ fun CreatePostScreen(
             }
 
             // ----- Submit -----
-            Button(
+            NebButton(
+                text = if (isEditing) "Save changes" else "Post discussion",
                 onClick = { viewModel.submitPost(onSuccess = onPostCreated) },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(52.dp),
-                shape = RoundedCornerShape(50),
+                size = NebButtonSize.Hero,
+                fillWidth = true,
+                loading = uiState.isSubmitting,
                 enabled = uiState.title.isNotBlank() && uiState.content.text.isNotBlank() &&
                     (!uiState.isCustomCategory || uiState.customCategory.isNotBlank()) &&
                     uiState.mediaAttachments.none { it.uploading } &&
                     pendingInlineCount == 0 &&
                     !InlineImageTokens.hasPending(uiState.content.text) &&
-                    !uiState.isSubmitting && !uiState.isLoadingPost
-            ) {
-                if (uiState.isSubmitting) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.size(20.dp),
-                        strokeWidth = 2.dp,
-                        color = MaterialTheme.colorScheme.onPrimary
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                }
-                Text(if (uiState.isSubmitting) { if (isEditing) "Saving..." else "Posting..." } else { if (isEditing) "Save Changes" else "Post Discussion" })
-            }
+                    !uiState.isLoadingPost
+            )
             Spacer(modifier = Modifier.height(16.dp))
             }
         }

@@ -86,6 +86,9 @@ import com.neb.ians.ui.components.WebPillShape
 import com.neb.ians.ui.components.WebTopBar
 import kotlinx.coroutines.launch
 import java.io.File
+import com.neb.ians.ui.components.NebButton
+import com.neb.ians.ui.components.NebButtonSize
+import com.neb.ians.ui.components.NebButtonTone
 
 private val Batches = listOf("2083", "2082", "2081", "2080")
 
@@ -340,24 +343,23 @@ private fun LookupCard(
                 ErrorInline(message = error)
             }
 
-            Button(
+            NebButton(
+                text = if (state.mode == ResultMode.Bulk) "Start bulk check" else "Check result",
                 onClick = onSubmit,
+                icon = Icons.Filled.Search,
                 enabled = state.canSubmit,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp),
-                shape = androidx.compose.foundation.shape.RoundedCornerShape(12.dp)
-            ) {
-                Icon(Icons.Filled.Search, contentDescription = null, modifier = Modifier.size(19.dp))
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(if (state.isChecking) "Checking..." else if (state.mode == ResultMode.Bulk) "Start Bulk Check" else "Check Result")
-            }
+                loading = state.isChecking,
+                size = NebButtonSize.Hero,
+                fillWidth = true
+            )
             if (state.isChecking && state.mode == ResultMode.Bulk) {
-                OutlinedButton(onClick = onCancelBulk, modifier = Modifier.fillMaxWidth(), shape = WebPillShape) {
-                    Icon(Icons.Filled.Close, contentDescription = null, modifier = Modifier.size(18.dp))
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text("Cancel Bulk Check")
-                }
+                NebButton(
+                    text = "Cancel bulk check",
+                    onClick = onCancelBulk,
+                    icon = Icons.Filled.Close,
+                    tone = NebButtonTone.Outlined,
+                    fillWidth = true
+                )
             }
         }
     }
@@ -399,16 +401,19 @@ private fun ResultCard(
                 )
             }
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                OutlinedButton(onClick = onShare, modifier = Modifier.weight(1f), shape = WebPillShape) {
-                    Icon(Icons.Filled.Share, contentDescription = null, modifier = Modifier.size(18.dp))
-                    Spacer(modifier = Modifier.width(6.dp))
-                    Text("Share")
-                }
-                Button(onClick = onGradesheet, modifier = Modifier.weight(1f), shape = WebPillShape) {
-                    Icon(Icons.Filled.Print, contentDescription = null, modifier = Modifier.size(18.dp))
-                    Spacer(modifier = Modifier.width(6.dp))
-                    Text("Print")
-                }
+                NebButton(
+                    text = "Share",
+                    onClick = onShare,
+                    icon = Icons.Filled.Share,
+                    tone = NebButtonTone.Outlined,
+                    modifier = Modifier.weight(1f)
+                )
+                NebButton(
+                    text = "Print",
+                    onClick = onGradesheet,
+                    icon = Icons.Filled.Print,
+                    modifier = Modifier.weight(1f)
+                )
             }
         }
     }
@@ -425,11 +430,14 @@ private fun BulkResultsCard(rows: List<BulkResultRow>, canExport: Boolean, onExp
         Column(modifier = Modifier.padding(18.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text("Bulk Results", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.ExtraBold, modifier = Modifier.weight(1f))
-                OutlinedButton(onClick = onExport, enabled = canExport, shape = WebPillShape) {
-                    Icon(Icons.Filled.Download, contentDescription = null, modifier = Modifier.size(17.dp))
-                    Spacer(modifier = Modifier.width(6.dp))
-                    Text("Export CSV")
-                }
+                NebButton(
+                    text = "Export CSV",
+                    onClick = onExport,
+                    icon = Icons.Filled.Download,
+                    enabled = canExport,
+                    tone = NebButtonTone.Outlined,
+                    size = NebButtonSize.Small
+                )
             }
             HorizontalDivider()
             rows.forEach { row ->
@@ -598,14 +606,18 @@ private fun GradesheetDialog(
                     IconButton(onClick = onDismiss) { Icon(Icons.Filled.Close, contentDescription = "Close") }
                 }
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Button(onClick = onShare, modifier = Modifier.weight(1f), shape = WebPillShape) {
-                        Icon(Icons.Filled.Share, contentDescription = null, modifier = Modifier.size(18.dp))
-                        Spacer(Modifier.width(6.dp))
-                        Text("Share")
-                    }
-                    OutlinedButton(onClick = onDismiss, modifier = Modifier.weight(1f), shape = WebPillShape) {
-                        Text("Done")
-                    }
+                    NebButton(
+                        text = "Share",
+                        onClick = onShare,
+                        icon = Icons.Filled.Share,
+                        modifier = Modifier.weight(1f)
+                    )
+                    NebButton(
+                        text = "Done",
+                        onClick = onDismiss,
+                        tone = NebButtonTone.Outlined,
+                        modifier = Modifier.weight(1f)
+                    )
                 }
                 Spacer(modifier = Modifier.height(12.dp))
                 Surface(

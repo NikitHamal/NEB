@@ -107,6 +107,9 @@ import com.neb.ians.ui.components.LikePill
 import com.neb.ians.ui.components.NebBadge
 
 import com.neb.ians.util.formatTimeAgo
+import com.neb.ians.ui.components.NebButton
+import com.neb.ians.ui.components.NebButtonSize
+import com.neb.ians.ui.components.NebButtonTone
 
 enum class ResourceMediaType { Pdf, Image, Video, Audio, Other }
 
@@ -424,43 +427,30 @@ private fun ResourceFileCard(resource: ApiResource, onRead: () -> Unit, onDownlo
                 }
             }
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
-                Button(
-                    onClick = onRead,
-                    modifier = Modifier.weight(1f),
-                    shape = RoundedCornerShape(999.dp),
-                    contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 14.dp, vertical = 10.dp)
-                ) {
-                    val buttonIcon = when (mediaType) {
-                        ResourceMediaType.Pdf -> Icons.Filled.MenuBook
-                        ResourceMediaType.Image -> Icons.Outlined.Image
-                        ResourceMediaType.Video, ResourceMediaType.Audio -> Icons.Outlined.PlayCircle
-                        else -> Icons.Outlined.Public
-                    }
-                    val buttonText = when (mediaType) {
+                NebButton(
+                    text = when (mediaType) {
                         ResourceMediaType.Pdf -> "Read"
                         ResourceMediaType.Image -> "View"
                         ResourceMediaType.Video, ResourceMediaType.Audio -> "Play"
                         else -> "Open"
-                    }
-                    Icon(buttonIcon, null, modifier = Modifier.size(17.dp))
-                    Spacer(Modifier.width(7.dp))
-                    Text(buttonText, fontWeight = FontWeight.Bold)
-                }
+                    },
+                    onClick = onRead,
+                    icon = when (mediaType) {
+                        ResourceMediaType.Pdf -> Icons.Filled.MenuBook
+                        ResourceMediaType.Image -> Icons.Outlined.Image
+                        ResourceMediaType.Video, ResourceMediaType.Audio -> Icons.Outlined.PlayCircle
+                        else -> Icons.Outlined.Public
+                    },
+                    modifier = Modifier.weight(1f)
+                )
                 if (mediaType != ResourceMediaType.Pdf) {
-                    Button(
+                    NebButton(
+                        text = "Download",
                         onClick = onDownload,
-                        modifier = Modifier.weight(1f),
-                        shape = RoundedCornerShape(999.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                            contentColor = MaterialTheme.colorScheme.onSecondaryContainer
-                        ),
-                        contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 14.dp, vertical = 10.dp)
-                    ) {
-                        Icon(Icons.Filled.Download, null, modifier = Modifier.size(17.dp))
-                        Spacer(Modifier.width(7.dp))
-                        Text("Download", fontWeight = FontWeight.Bold)
-                    }
+                        icon = Icons.Filled.Download,
+                        tone = NebButtonTone.Tonal,
+                        modifier = Modifier.weight(1f)
+                    )
                 }
             }
         }
@@ -1041,29 +1031,21 @@ fun ResourcePurchaseSheet(
                 }
             }
 
-            Button(
+            NebButton(
+                text = "Submit payment proof",
                 onClick = {
-                    if (!isAuthenticated) {
+                    if (isAuthenticated) {
+                        onSubmit(transactionId, proofUri?.let { uriToCacheFile(context, it) })
+                    } else {
                         onSignInPrompt()
-                        return@Button
                     }
-                    val file = proofUri?.let { uriToCacheFile(context, it) }
-                    onSubmit(transactionId, file)
                 },
+                icon = Icons.Outlined.CloudUpload,
                 enabled = canSubmit,
-                shape = RoundedCornerShape(999.dp),
-                modifier = Modifier.fillMaxWidth().height(50.dp)
-            ) {
-                if (submitting) {
-                    CircularProgressIndicator(modifier = Modifier.size(20.dp), color = MaterialTheme.colorScheme.onPrimary, strokeWidth = 2.5.dp)
-                    Spacer(Modifier.width(10.dp))
-                    Text("Submitting…", fontWeight = FontWeight.Bold)
-                } else {
-                    Icon(Icons.Outlined.CloudUpload, null, modifier = Modifier.size(18.dp))
-                    Spacer(Modifier.width(8.dp))
-                    Text("Submit payment proof", fontWeight = FontWeight.Bold)
-                }
-            }
+                loading = submitting,
+                size = NebButtonSize.Hero,
+                fillWidth = true
+            )
         }
     }
 }

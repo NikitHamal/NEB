@@ -13,6 +13,8 @@ import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.data.repository.CacheBus
 import com.neb.ians.data.repository.FeedRepository
 import com.neb.ians.data.repository.FollowStateRepository
+import com.neb.ians.data.repository.PeopleSuggestionRepository
+import com.neb.ians.data.repository.PersonSuggestion
 import com.neb.ians.data.repository.ForumRepository
 import com.neb.ians.data.repository.SettingsRepository
 import com.neb.ians.data.repository.AppCache
@@ -84,6 +86,7 @@ class HomeViewModel @Inject constructor(
     private val newsRepository: NewsRepository,
     private val feedRepository: FeedRepository,
     private val followStateRepository: FollowStateRepository,
+    private val peopleSuggestionRepository: PeopleSuggestionRepository,
     private val realtimeClient: RealtimeClient,
     private val appCache: AppCache,
     private val cacheBus: CacheBus
@@ -111,11 +114,11 @@ class HomeViewModel @Inject constructor(
 
     private val postJson = Json { ignoreUnknownKeys = true; coerceInputValues = true }
 
-    val followGraph: StateFlow<FollowStateRepository.Graph> = followStateRepository.graph
+    val suggestedPeers: StateFlow<List<PersonSuggestion>> = peopleSuggestionRepository.suggestions
 
     init {
         loadData()
-        viewModelScope.launch { followStateRepository.sync() }
+        viewModelScope.launch { peopleSuggestionRepository.load() }
         unsubscribeForum = realtimeClient.subscribe("forum.public")
         viewModelScope.launch {
             realtimeClient.events.collect { event ->
@@ -486,6 +489,7 @@ class HomeViewModel @Inject constructor(
                     updated
                 }
                 followStateRepository.record(userId, handle, response.isFollowing)
+                peopleSuggestionRepository.record(userId, handle, response.isFollowing)
                 if (response.isFollowing) {
                     _snackbarMessage.tryEmit("Followed")
                 } else {

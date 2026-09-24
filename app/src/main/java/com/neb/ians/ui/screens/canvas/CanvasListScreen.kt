@@ -87,6 +87,9 @@ import com.neb.ians.ui.components.NebSectionLabel
 import com.neb.ians.ui.components.WebTopBar
 import com.neb.ians.ui.components.nebPressable
 import com.neb.ians.util.formatTimeAgo
+import com.neb.ians.ui.components.NebButton
+import com.neb.ians.ui.components.NebButtonSize
+import com.neb.ians.ui.components.NebButtonTone
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -210,9 +213,11 @@ fun CanvasListScreen(
                                 color = MaterialTheme.colorScheme.onSurface
                             )
                             Spacer(modifier = Modifier.height(8.dp))
-                            TextButton(onClick = { viewModel.onSearchQueryChange("") }) {
-                                Text("Clear search")
-                            }
+                            NebButton(
+                                text = "Clear search",
+                                onClick = { viewModel.onSearchQueryChange("") },
+                                tone = NebButtonTone.Text
+                            )
                         }
                     }
                 } else {
@@ -376,23 +381,12 @@ private fun EmptyCanvasState(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            Button(
+            NebButton(
+                text = "Create new canvas",
                 onClick = onCreateNew,
-                shape = RoundedCornerShape(14.dp),
-                contentPadding = PaddingValues(horizontal = 24.dp, vertical = 12.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.Add,
-                    contentDescription = null,
-                    modifier = Modifier.size(18.dp)
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(
-                    text = "Create New Canvas",
-                    style = MaterialTheme.typography.labelLarge,
-                    fontWeight = FontWeight.SemiBold
-                )
-            }
+                icon = Icons.Filled.Add,
+                size = NebButtonSize.Hero
+            )
 
             Spacer(modifier = Modifier.height(36.dp))
 

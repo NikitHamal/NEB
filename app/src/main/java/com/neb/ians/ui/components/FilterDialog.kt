@@ -24,6 +24,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.neb.ians.ui.components.NebButton
+import com.neb.ians.ui.components.NebButtonSize
+import com.neb.ians.ui.components.NebButtonTone
 
 private data class SortOption(val key: String, val label: String)
 
@@ -110,29 +113,20 @@ fun FilterDialog(
                 .padding(horizontal = 22.dp),
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            OutlinedButton(
+            NebButton(
+                text = "Clear all",
                 onClick = onClearAll,
                 enabled = activeCount > 0,
-                shape = RoundedCornerShape(50),
-                modifier = Modifier
-                    .weight(1f)
-                    .heightIn(min = 52.dp)
-            ) {
-                Text(text = "Clear all", style = MaterialTheme.typography.labelLargeEmphasized)
-            }
-            Button(
+                tone = NebButtonTone.Outlined,
+                size = NebButtonSize.Hero,
+                modifier = Modifier.weight(1f)
+            )
+            NebButton(
+                text = "Show results",
                 onClick = onApply,
-                shape = RoundedCornerShape(50),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary
-                ),
-                modifier = Modifier
-                    .weight(1.4f)
-                    .heightIn(min = 52.dp)
-            ) {
-                Text(text = "Show results", style = MaterialTheme.typography.labelLargeEmphasized)
-            }
+                size = NebButtonSize.Hero,
+                modifier = Modifier.weight(1.4f)
+            )
         }
     }
 }
