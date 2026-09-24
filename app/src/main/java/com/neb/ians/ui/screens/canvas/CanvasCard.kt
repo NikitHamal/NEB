@@ -16,6 +16,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
@@ -80,6 +81,10 @@ fun CanvasCardItem(
 
     val handleRadius = 20.dp
 
+    val currentOnDrag by rememberUpdatedState(onDrag)
+    val currentOnDragEnd by rememberUpdatedState(onDragEnd)
+    val currentOnSelect by rememberUpdatedState(onSelect)
+
     Box(
         modifier = modifier.offset(-handleRadius, -handleRadius)
     ) {
@@ -105,8 +110,22 @@ fun CanvasCardItem(
                 .pointerInput(node.id) {
                     detectTapGestures(onTap = {
                         tactile.perform(TactileType.SelectionChange)
-                        onSelect()
+                        currentOnSelect()
                     })
+                }
+                .pointerInput(node.id) {
+                    detectDragGesturesAfterLongPress(
+                        onDragStart = {
+                            tactile.perform(TactileType.LightTap)
+                            currentOnSelect()
+                        },
+                        onDrag = { change, dragAmount ->
+                            change.consume()
+                            currentOnDrag(dragAmount.x, dragAmount.y)
+                        },
+                        onDragEnd = { currentOnDragEnd() },
+                        onDragCancel = { currentOnDragEnd() }
+                    )
                 }
         ) {
             Column(modifier = Modifier.fillMaxWidth()) {
@@ -123,14 +142,14 @@ fun CanvasCardItem(
                         detectDragGestures(
                             onDragStart = {
                                 tactile.perform(TactileType.LightTap)
-                                onSelect()
+                                currentOnSelect()
                             },
                             onDrag = { change, dragAmount ->
                                 change.consume()
-                                onDrag(dragAmount.x, dragAmount.y)
+                                currentOnDrag(dragAmount.x, dragAmount.y)
                             },
-                            onDragEnd = onDragEnd,
-                            onDragCancel = onDragEnd
+                            onDragEnd = { currentOnDragEnd() },
+                            onDragCancel = { currentOnDragEnd() }
                         )
                     }
                     .padding(horizontal = 12.dp, vertical = 10.dp),

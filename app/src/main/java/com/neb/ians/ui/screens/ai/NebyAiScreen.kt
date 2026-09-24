@@ -34,6 +34,7 @@ import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material.icons.outlined.AttachFile
 import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.DeleteOutline
 import androidx.compose.material.icons.outlined.Description
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.History
@@ -49,9 +50,7 @@ import coil.compose.AsyncImage
 import androidx.compose.material.icons.outlined.PlayCircle
 import androidx.compose.material.icons.outlined.Headphones
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -84,6 +83,12 @@ import com.neb.ians.data.api.ApiArenaMessage
 import com.neb.ians.data.api.ApiArenaModel
 import com.neb.ians.data.api.ApiArenaSession
 import com.neb.ians.ui.components.MarkdownText
+import com.neb.ians.ui.components.NebConfirmDialog
+import com.neb.ians.ui.components.NebDialog
+import com.neb.ians.ui.components.NebDialogAction
+import com.neb.ians.ui.components.NebDialogTextField
+import com.neb.ians.ui.components.NebModalSheet
+import com.neb.ians.ui.components.NebSelectIndicator
 import com.neb.ians.ui.components.WebEmptyState
 import com.neb.ians.ui.components.WebIconButton
 import com.neb.ians.ui.components.WebPanelShape
@@ -300,8 +305,8 @@ fun NebyAiScreen(
     }
 
     if (showSessions) {
-        ModalBottomSheet(
-            onDismissRequest = { showSessions = false },
+        NebModalSheet(
+            onDismiss = { showSessions = false },
             sheetState = sheetState
         ) {
             SessionsSheetContent(
@@ -323,47 +328,39 @@ fun NebyAiScreen(
 
     renameTarget?.let { target ->
         var titleText by remember(target.id) { mutableStateOf(target.title) }
-        AlertDialog(
+        NebDialog(
             onDismissRequest = { renameTarget = null },
-            title = { Text("Rename chat") },
-            text = {
-                OutlinedTextField(
-                    value = titleText,
-                    onValueChange = { titleText = it },
-                    singleLine = true,
-                    label = { Text("Title") }
-                )
-            },
-            confirmButton = {
-                TextButton(
-                    onClick = {
-                        viewModel.renameSession(target.id, titleText)
-                        renameTarget = null
-                    }
-                ) { Text("Save") }
-            },
-            dismissButton = {
-                TextButton(onClick = { renameTarget = null }) { Text("Cancel") }
-            }
-        )
+            title = "Rename chat",
+            icon = Icons.Outlined.Edit,
+            confirm = NebDialogAction(
+                label = "Save",
+                onClick = {
+                    viewModel.renameSession(target.id, titleText)
+                    renameTarget = null
+                }
+            ),
+            dismiss = NebDialogAction("Cancel", { renameTarget = null })
+        ) {
+            NebDialogTextField(
+                value = titleText,
+                onValueChange = { titleText = it },
+                label = "Title"
+            )
+        }
     }
 
     deleteTarget?.let { target ->
-        AlertDialog(
-            onDismissRequest = { deleteTarget = null },
-            title = { Text("Delete chat?") },
-            text = { Text("\"${target.title}\" and all its messages will be permanently deleted.") },
-            confirmButton = {
-                TextButton(
-                    onClick = {
-                        viewModel.deleteSession(target.id)
-                        deleteTarget = null
-                    }
-                ) { Text("Delete", color = MaterialTheme.colorScheme.error) }
+        NebConfirmDialog(
+            title = "Delete chat?",
+            message = "\"${target.title}\" and all its messages will be permanently deleted.",
+            confirmLabel = "Delete",
+            onConfirm = {
+                viewModel.deleteSession(target.id)
+                deleteTarget = null
             },
-            dismissButton = {
-                TextButton(onClick = { deleteTarget = null }) { Text("Cancel") }
-            }
+            onDismiss = { deleteTarget = null },
+            icon = Icons.Outlined.DeleteOutline,
+            destructive = true
         )
     }
 }
@@ -663,7 +660,7 @@ private fun ModelRow(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            RadioButton(selected = selected, onClick = onClick)
+            NebSelectIndicator(selected = selected)
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = model.name.ifBlank { model.code.ifBlank { "Model" } },

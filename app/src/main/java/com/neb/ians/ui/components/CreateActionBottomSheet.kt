@@ -57,7 +57,7 @@ fun CreateActionBottomSheet(
     onNewCanvasClick: () -> Unit = {}
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    val shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
+    val shape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp)
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,
@@ -65,16 +65,7 @@ fun CreateActionBottomSheet(
         shape = shape,
         containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
         tonalElevation = 0.dp,
-        dragHandle = {
-            Box(
-                modifier = Modifier
-                    .padding(top = 12.dp, bottom = 12.dp)
-                    .width(40.dp)
-                    .height(4.dp)
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f))
-            )
-        }
+        dragHandle = { NebSheetHandle() }
     ) {
         Column(
             modifier = Modifier

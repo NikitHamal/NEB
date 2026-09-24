@@ -173,9 +173,7 @@ fun CanvasScreen(
                                 isConnectingSource = node.id == connectingSourceNodeId,
                                 connectingDirection = if (node.id == connectingSourceNodeId) connectingSourceDirection else null,
                                 onDrag = { dx, dy ->
-                                    val dxDp = (dx / density) / viewportScale
-                                    val dyDp = (dy / density) / viewportScale
-                                    viewModel.moveNode(node.id, node.x + dxDp, node.y + dyDp)
+                                    viewModel.dragNodeBy(node.id, dx, dy)
                                 },
                                 onDragEnd = { viewModel.commitNodePosition(node.id) },
                                 onSelect = { viewModel.onNodeClicked(node.id) },

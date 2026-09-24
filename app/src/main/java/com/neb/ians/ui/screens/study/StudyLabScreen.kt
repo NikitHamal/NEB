@@ -20,6 +20,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.outlined.DeleteOutline
+import androidx.compose.material.icons.outlined.Groups
+import androidx.compose.material.icons.outlined.Key
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.AlertDialog
@@ -57,6 +60,10 @@ import com.neb.ians.data.api.ApiStudySpace
 import com.neb.ians.data.api.ApiStudySpaceCreateRequest
 import com.neb.ians.data.api.ApiStudySpaceJoinRequest
 import com.neb.ians.data.repository.AuthRepository
+import com.neb.ians.ui.components.NebConfirmDialog
+import com.neb.ians.ui.components.NebDialog
+import com.neb.ians.ui.components.NebDialogAction
+import com.neb.ians.ui.components.NebDialogTextField
 import com.neb.ians.ui.components.WebChip
 import com.neb.ians.ui.components.WebEmptyState
 import com.neb.ians.ui.components.WebOutlinedButton
@@ -536,21 +543,17 @@ private fun MyDocumentsTab(
 
     val candidate = deleteCandidate
     if (candidate != null) {
-        AlertDialog(
-            onDismissRequest = { deleteCandidate = null },
-            title = { Text("Delete document?") },
-            text = {
-                Text("\"${candidate.title.ifBlank { candidate.fileName }}\" and its summaries, quizzes, and flashcards will be permanently deleted.")
+        NebConfirmDialog(
+            title = "Delete document?",
+            message = "\"${candidate.title.ifBlank { candidate.fileName }}\" and its summaries, quizzes and flashcards will be permanently deleted.",
+            confirmLabel = "Delete",
+            onConfirm = {
+                viewModel.deleteDocument(candidate.id)
+                deleteCandidate = null
             },
-            confirmButton = {
-                TextButton(onClick = {
-                    viewModel.deleteDocument(candidate.id)
-                    deleteCandidate = null
-                }) { Text("Delete", color = MaterialTheme.colorScheme.error) }
-            },
-            dismissButton = {
-                TextButton(onClick = { deleteCandidate = null }) { Text("Cancel") }
-            }
+            onDismiss = { deleteCandidate = null },
+            icon = Icons.Outlined.DeleteOutline,
+            destructive = true
         )
     }
 }
@@ -734,35 +737,32 @@ private fun CreateSpaceDialog(
 ) {
     var title by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
-    AlertDialog(
+
+    NebDialog(
         onDismissRequest = onDismiss,
-        title = { Text("New Study Space") },
-        text = {
-            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                OutlinedTextField(
-                    value = title,
-                    onValueChange = { title = it.take(200) },
-                    label = { Text("Title") },
-                    singleLine = true
-                )
-                OutlinedTextField(
-                    value = description,
-                    onValueChange = { description = it.take(2000) },
-                    label = { Text("Description") },
-                    minLines = 3
-                )
-            }
-        },
-        confirmButton = {
-            TextButton(
-                enabled = title.isNotBlank() && !busy,
-                onClick = { onCreate(title.trim(), description.trim()) }
-            ) { Text("Create") }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) { Text("Cancel") }
-        }
-    )
+        title = "New study space",
+        supportingText = "Give it a name your group will recognise.",
+        icon = Icons.Outlined.Groups,
+        confirm = NebDialogAction(
+            label = "Create",
+            onClick = { onCreate(title.trim(), description.trim()) },
+            enabled = title.isNotBlank() && !busy
+        ),
+        dismiss = NebDialogAction("Cancel", onDismiss, enabled = !busy)
+    ) {
+        NebDialogTextField(
+            value = title,
+            onValueChange = { title = it.take(200) },
+            label = "Title"
+        )
+        NebDialogTextField(
+            value = description,
+            onValueChange = { description = it.take(2000) },
+            label = "Description",
+            singleLine = false,
+            minLines = 3
+        )
+    }
 }
 
 @Composable
@@ -772,25 +772,23 @@ private fun JoinCodeDialog(
     onJoin: (String) -> Unit
 ) {
     var code by remember { mutableStateOf("") }
-    AlertDialog(
+
+    NebDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Join Study Space") },
-        text = {
-            OutlinedTextField(
-                value = code,
-                onValueChange = { code = it.uppercase().filter(Char::isLetterOrDigit).take(12) },
-                label = { Text("Invite code") },
-                singleLine = true
-            )
-        },
-        confirmButton = {
-            TextButton(
-                enabled = code.isNotBlank() && !busy,
-                onClick = { onJoin(code) }
-            ) { Text("Join") }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) { Text("Cancel") }
-        }
-    )
+        title = "Join a study space",
+        supportingText = "Paste the invite code a classmate shared with you.",
+        icon = Icons.Outlined.Key,
+        confirm = NebDialogAction(
+            label = "Join",
+            onClick = { onJoin(code) },
+            enabled = code.isNotBlank() && !busy
+        ),
+        dismiss = NebDialogAction("Cancel", onDismiss, enabled = !busy)
+    ) {
+        NebDialogTextField(
+            value = code,
+            onValueChange = { code = it.uppercase().filter(Char::isLetterOrDigit).take(12) },
+            label = "Invite code"
+        )
+    }
 }

@@ -18,6 +18,7 @@ import kotlin.math.min
 @HiltViewModel
 class CanvasViewModel @Inject constructor(
     private val repository: CanvasRepository,
+    private val aiGenerator: CanvasAiGenerator,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -316,23 +317,21 @@ class CanvasViewModel @Inject constructor(
             val withPlaceholder = _nodes.value + placeholder
             _nodes.value = withPlaceholder
 
-            delay(450)
-            val generated = CanvasKnowledgeEngine.generateNode(
+            val outcome = generateNode(
                 prompt = prompt,
                 boardId = currentBoard.id,
                 parentId = null,
                 baseX = baseX,
                 baseY = baseY,
-                webSearch = _webSearch.value,
-                speedMode = _speedMode.value
+                contextTitle = null
             )
 
-            val finalized = _nodes.value.filterNot { it.id == placeholder.id } + generated
+            val finalized = _nodes.value.filterNot { it.id == placeholder.id } + outcome.node
             _nodes.value = finalized
             repository.saveNodesForBoard(currentBoard.id, finalized)
             _isGenerating.value = false
             fitContent(finalized)
-            showToast("Visual knowledge generated")
+            showToast(outcome.message)
 
             if (_nodes.value.size == 1 && currentBoard.title.startsWith("Untitled")) {
                 val newTitle = prompt.take(28)
@@ -374,22 +373,69 @@ class CanvasViewModel @Inject constructor(
             )
             _nodes.value = _nodes.value + placeholder
 
-            delay(400)
-            val generated = CanvasKnowledgeEngine.generateNode(
+            val outcome = generateNode(
                 prompt = prompt,
                 boardId = currentBoard.id,
+                parentId = parentId,
+                baseX = baseX,
+                baseY = baseY,
+                contextTitle = parent.title
+            )
+
+            val finalized = _nodes.value.filterNot { it.id == placeholder.id } + outcome.node
+            _nodes.value = finalized
+            repository.saveNodesForBoard(currentBoard.id, finalized)
+            fitContent(finalized)
+            showToast(outcome.message)
+        }
+    }
+
+    private data class GenerationOutcome(val node: CanvasNode, val message: String)
+
+    private suspend fun generateNode(
+        prompt: String,
+        boardId: String,
+        parentId: String?,
+        baseX: Float,
+        baseY: Float,
+        contextTitle: String?
+    ): GenerationOutcome {
+        return try {
+            val node = aiGenerator.generate(
+                prompt = prompt,
+                boardId = boardId,
+                parentId = parentId,
+                baseX = baseX,
+                baseY = baseY,
+                webSearch = _webSearch.value,
+                speedMode = _speedMode.value,
+                context = contextTitle
+            )
+            GenerationOutcome(node, "Neby mapped it out")
+        } catch (e: Exception) {
+            val fallback = CanvasKnowledgeEngine.generateNode(
+                prompt = prompt,
+                boardId = boardId,
                 parentId = parentId,
                 baseX = baseX,
                 baseY = baseY,
                 webSearch = _webSearch.value,
                 speedMode = _speedMode.value
             )
+            val reason = (e as? CanvasAiException)?.message ?: "Neby is unreachable"
+            GenerationOutcome(fallback, "$reason — showing an offline outline")
+        }
+    }
 
-            val finalized = _nodes.value.filterNot { it.id == placeholder.id } + generated
-            _nodes.value = finalized
-            repository.saveNodesForBoard(currentBoard.id, finalized)
-            fitContent(finalized)
-            showToast("Branched concept created")
+    fun dragNodeBy(nodeId: String, dxPx: Float, dyPx: Float) {
+        val scale = _viewportScale.value.coerceAtLeast(0.05f)
+        val density = _containerDensity.coerceAtLeast(0.5f)
+        val dxDp = dxPx / density / scale
+        val dyDp = dyPx / density / scale
+        if (dxDp == 0f && dyDp == 0f) return
+        val now = System.currentTimeMillis()
+        _nodes.value = _nodes.value.map {
+            if (it.id == nodeId) it.copy(x = it.x + dxDp, y = it.y + dyDp, updatedAt = now) else it
         }
     }
 

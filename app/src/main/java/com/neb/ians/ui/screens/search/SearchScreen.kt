@@ -1,5 +1,7 @@
 package com.neb.ians.ui.screens.search
 
+import com.neb.ians.ui.components.NebChipRow
+import com.neb.ians.ui.components.NebFilterChip
 import com.neb.ians.ui.components.LinkifyText
 
 import androidx.activity.compose.BackHandler
@@ -302,30 +304,12 @@ fun SearchScreen(
                             color = MaterialTheme.colorScheme.onSurface
                         )
                         Spacer(modifier = Modifier.height(12.dp))
-                        FlowRow(
-                            horizontalArrangement = Arrangement.spacedBy(8.dp),
-                            verticalArrangement = Arrangement.spacedBy(8.dp)
-                        ) {
+                        NebChipRow {
                             SearchUiState.SUGGESTIONS.forEach { suggestion ->
-                                SuggestionChip(
-                                    onClick = { viewModel.onQueryChange(suggestion) },
-                                    label = {
-                                        Text(
-                                            text = suggestion,
-                                            style = MaterialTheme.typography.labelLarge,
-                                            maxLines = 1,
-                                            overflow = TextOverflow.Ellipsis
-                                        )
-                                    },
-                                    shape = CircleShape,
-                                    colors = SuggestionChipDefaults.suggestionChipColors(
-                                        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                                        labelColor = MaterialTheme.colorScheme.onSurface
-                                    ),
-                                    border = SuggestionChipDefaults.suggestionChipBorder(
-                                        borderColor = MaterialTheme.colorScheme.outlineVariant,
-                                        enabled = true
-                                    )
+                                NebFilterChip(
+                                    label = suggestion,
+                                    selected = false,
+                                    onClick = { viewModel.onQueryChange(suggestion) }
                                 )
                             }
                         }
