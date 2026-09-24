@@ -295,6 +295,7 @@ internal fun parseMarkdownBlocks(markdown: String): List<MdBlock> {
                 i++
                 continue
             } else {
+                val openedAt = i
                 val mathLines = mutableListOf<String>()
                 val first = trimmed.removePrefix("\\[").trim()
                 if (first.isNotEmpty()) mathLines.add(first)
@@ -303,11 +304,15 @@ internal fun parseMarkdownBlocks(markdown: String): List<MdBlock> {
                     mathLines.add(lines[i])
                     i++
                 }
-                if (i < lines.size) {
-                    val last = lines[i].trim().removeSuffix("\\]").trim()
-                    if (last.isNotEmpty()) mathLines.add(last)
+                if (i >= lines.size) {
+                    i = openedAt
+                    blocks.add(MdBlock.Paragraph(line))
                     i++
+                    continue
                 }
+                val last = lines[i].trim().removeSuffix("\\]").trim()
+                if (last.isNotEmpty()) mathLines.add(last)
+                i++
                 blocks.add(MdBlock.MathBlock(mathLines.joinToString("\n")))
                 continue
             }
@@ -320,6 +325,7 @@ internal fun parseMarkdownBlocks(markdown: String): List<MdBlock> {
                 i++
                 continue
             } else {
+                val openedAt = i
                 val mathLines = mutableListOf<String>()
                 val first = trimmed.removePrefix("$$").trim()
                 if (first.isNotEmpty()) mathLines.add(first)
@@ -328,11 +334,15 @@ internal fun parseMarkdownBlocks(markdown: String): List<MdBlock> {
                     mathLines.add(lines[i])
                     i++
                 }
-                if (i < lines.size) {
-                    val last = lines[i].trim().removeSuffix("$$").trim()
-                    if (last.isNotEmpty()) mathLines.add(last)
+                if (i >= lines.size) {
+                    i = openedAt
+                    blocks.add(MdBlock.Paragraph(line))
                     i++
+                    continue
                 }
+                val last = lines[i].trim().removeSuffix("$$").trim()
+                if (last.isNotEmpty()) mathLines.add(last)
+                i++
                 blocks.add(MdBlock.MathBlock(mathLines.joinToString("\n")))
                 continue
             }
@@ -345,14 +355,18 @@ internal fun parseMarkdownBlocks(markdown: String): List<MdBlock> {
             mathLines.add(trimmed)
             i++
             val endTag = "\\end{$env}"
+            val openedAt = i - 1
             while (i < lines.size && !lines[i].trim().contains(endTag)) {
                 mathLines.add(lines[i])
                 i++
             }
-            if (i < lines.size) {
-                mathLines.add(lines[i])
-                i++
+            if (i >= lines.size) {
+                i = openedAt + 1
+                blocks.add(MdBlock.Paragraph(line))
+                continue
             }
+            mathLines.add(lines[i])
+            i++
             blocks.add(MdBlock.MathBlock(mathLines.joinToString("\n")))
             continue
         }

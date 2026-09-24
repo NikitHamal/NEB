@@ -42,32 +42,35 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import org.json.JSONObject
 
+private val LatexCommandRegex = Regex(
+    """\\(frac|dfrac|tfrac|sqrt|int|iint|oint|sum|prod|lim|infty|partial|nabla|vec|hat|bar|dot|ddot|overline|underline|binom|begin|end|left|right|cdot|times|div|pm|mp|leq|geq|neq|approx|equiv|propto|alpha|beta|gamma|delta|epsilon|zeta|eta|theta|iota|kappa|lambda|mu|nu|xi|rho|sigma|tau|phi|chi|psi|omega|Gamma|Delta|Theta|Lambda|Sigma|Phi|Psi|Omega|ce|text|mathrm|mathbf|mathbb)\b"""
+)
+
+private val InlineDollarRegex = Regex("""(?<!\\)\$([^$\n]{1,200})\$""")
+
+private fun looksLikeMath(candidate: String): Boolean {
+    val s = candidate.trim()
+    if (s.isEmpty() || s.length > 80) return false
+    if (s.contains('\\')) return true
+    val hasOperator = s.any { it in "=+*/^_<>" } || Regex("""\d\s*-\s*\d""").containsMatchIn(s)
+    if (!hasOperator) return false
+    return s.any { it.isDigit() || it.isLetter() }
+}
+
 /**
  * Checks if [text] contains mathematical / scientific LaTeX syntax that requires KaTeX rendering.
+ *
+ * Deliberately conservative: prose that merely mentions prices ("$5 a month and $10 a year")
+ * must never reach the WebView renderer, because that path cannot lay out ordinary
+ * paragraphs the way Compose text does.
  */
 fun hasLatexMath(text: String?): Boolean {
     if (text.isNullOrBlank()) return false
     if (text.contains("$$") || text.contains("\\[") || text.contains("\\(")) return true
     if (text.contains("\\begin{") || text.contains("\\end{")) return true
-    if (text.contains("\\frac") || text.contains("\\sqrt") || text.contains("\\int")) return true
-    if (text.contains("\\sum") || text.contains("\\prod") || text.contains("\\lim")) return true
-    if (text.contains("\\alpha") || text.contains("\\beta") || text.contains("\\gamma") || text.contains("\\theta")) return true
-    if (text.contains("\\lambda") || text.contains("\\pi") || text.contains("\\sigma") || text.contains("\\omega")) return true
-    if (text.contains("\\infty") || text.contains("\\pm") || text.contains("\\times") || text.contains("\\div")) return true
-    if (text.contains("\\leq") || text.contains("\\geq") || text.contains("\\neq") || text.contains("\\approx")) return true
-    if (text.contains("\\vec") || text.contains("\\hat") || text.contains("\\partial") || text.contains("\\ce{")) return true
-    // Inline dollar math: $formula$
-    val firstDollar = text.indexOf('$')
-    if (firstDollar != -1) {
-        val lastDollar = text.lastIndexOf('$')
-        if (lastDollar > firstDollar) {
-            val candidate = text.substring(firstDollar + 1, lastDollar)
-            if (candidate.isNotBlank() && !candidate.all { it.isDigit() || it == '.' || it == ',' }) {
-                return true
-            }
-        }
-    }
-    return false
+    if (LatexCommandRegex.containsMatchIn(text)) return true
+    val inline = InlineDollarRegex.find(text) ?: return false
+    return looksLikeMath(inline.groupValues[1])
 }
 
 private class KaTeXBridge(private val onHeight: (Int) -> Unit) {
@@ -159,7 +162,8 @@ fun KaTeXMathView(
 
                 addJavascriptInterface(
                     KaTeXBridge { px ->
-                        if (px > 0 && px != contentHeightPx) {
+                        val current = contentHeightPx
+                        if (px > 0 && (current == null || kotlin.math.abs(px - current) > 2)) {
                             contentHeightPx = px
                         }
                     },
@@ -307,6 +311,7 @@ private fun buildKaTeXHtml(
         #math-container {
             display: inline-block;
             width: 100%;
+            white-space: pre-wrap;
             padding: ${if (displayMode) "4px 2px" else "1px 0"};
         }
         .katex-display {
@@ -357,7 +362,7 @@ private fun buildKaTeXHtml(
                     el.innerText = raw;
                 }
             } else {
-                el.innerHTML = raw;
+                el.textContent = raw;
                 if (window.renderMathInElement) {
                     renderMathInElement(el, {
                         delimiters: [
@@ -373,12 +378,25 @@ private fun buildKaTeXHtml(
             reportHeight();
         }
 
+        var lastReportedHeight = 0;
+        var reportScheduled = false;
+
         function reportHeight() {
             var c = document.getElementById('math-container');
-            if (c && window.KaTeXBridge && window.KaTeXBridge.onHeightChanged) {
-                var h = Math.ceil(Math.max(c.offsetHeight, c.scrollHeight, document.body.scrollHeight));
-                window.KaTeXBridge.onHeightChanged(h);
-            }
+            if (!c || !window.KaTeXBridge || !window.KaTeXBridge.onHeightChanged) return;
+            var h = Math.ceil(Math.max(c.offsetHeight, c.scrollHeight));
+            if (h <= 0 || Math.abs(h - lastReportedHeight) <= 2) return;
+            lastReportedHeight = h;
+            window.KaTeXBridge.onHeightChanged(h);
+        }
+
+        function scheduleReport() {
+            if (reportScheduled) return;
+            reportScheduled = true;
+            (window.requestAnimationFrame || window.setTimeout)(function () {
+                reportScheduled = false;
+                reportHeight();
+            }, 0);
         }
 
         if (document.readyState === 'loading') {
@@ -386,9 +404,9 @@ private fun buildKaTeXHtml(
         } else {
             doRender();
         }
-        window.addEventListener('load', reportHeight);
+        window.addEventListener('load', scheduleReport);
         if (window.ResizeObserver) {
-            new ResizeObserver(reportHeight).observe(document.getElementById('math-container'));
+            new ResizeObserver(scheduleReport).observe(document.getElementById('math-container'));
         }
     </script>
 </body>

@@ -1,3 +1,8 @@
+@file:OptIn(
+    androidx.compose.material3.ExperimentalMaterial3Api::class,
+    androidx.compose.material3.ExperimentalMaterial3ExpressiveApi::class
+)
+
 package com.neb.ians.ui.screens.canvas
 
 import androidx.compose.foundation.background
@@ -8,6 +13,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -44,7 +50,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -80,6 +85,7 @@ import com.neb.ians.ui.components.NebDialogTextField
 import com.neb.ians.ui.components.NebFilterChip
 import com.neb.ians.ui.components.NebSectionLabel
 import com.neb.ians.ui.components.WebTopBar
+import com.neb.ians.ui.components.nebPressable
 import com.neb.ians.util.formatTimeAgo
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -109,25 +115,7 @@ fun CanvasListScreen(
                 onProfileClick = onProfileClick
             )
         },
-        containerColor = MaterialTheme.colorScheme.surface,
-        floatingActionButton = {
-            if (allBoards.isNotEmpty()) {
-                FloatingActionButton(
-                    onClick = { viewModel.openCreateDialog() },
-                    modifier = Modifier
-                        .navigationBarsPadding()
-                        .padding(bottom = 88.dp, end = 12.dp),
-                    shape = CircleShape,
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.Add,
-                        contentDescription = "Create New Canvas"
-                    )
-                }
-            }
-        }
+        containerColor = MaterialTheme.colorScheme.surface
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -234,13 +222,21 @@ fun CanvasListScreen(
                         verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
                         item {
-                            Text(
-                                text = "My Canvases (${filteredBoards.size})",
-                                style = MaterialTheme.typography.titleSmall,
-                                fontWeight = FontWeight.SemiBold,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp)
-                            )
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 4.dp, vertical = 2.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = "My Canvases (${filteredBoards.size})",
+                                    style = MaterialTheme.typography.titleSmall,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    modifier = Modifier.weight(1f)
+                                )
+                                NewCanvasButton(onClick = { viewModel.openCreateDialog() })
+                            }
                         }
 
                         items(filteredBoards, key = { it.id }) { board ->
@@ -293,6 +289,32 @@ fun CanvasListScreen(
             onDismiss = { viewModel.setDeleteBoardTarget(null) },
             icon = Icons.Outlined.Delete,
             destructive = true
+        )
+    }
+}
+
+@Composable
+private fun NewCanvasButton(onClick: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .defaultMinSize(minHeight = 38.dp)
+            .nebPressable(onClick = onClick)
+            .clip(RoundedCornerShape(50))
+            .background(MaterialTheme.colorScheme.onSurface)
+            .padding(start = 12.dp, end = 15.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(6.dp)
+    ) {
+        Icon(
+            imageVector = Icons.Filled.Add,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.surface,
+            modifier = Modifier.size(17.dp)
+        )
+        Text(
+            text = "New",
+            style = MaterialTheme.typography.labelLargeEmphasized,
+            color = MaterialTheme.colorScheme.surface
         )
     }
 }

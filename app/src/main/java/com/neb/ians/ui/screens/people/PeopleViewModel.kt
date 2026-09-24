@@ -7,6 +7,7 @@ import com.neb.ians.data.api.ApiPost
 import com.neb.ians.data.api.ApiService
 import com.neb.ians.data.api.ApiUserSearchResult
 import com.neb.ians.data.repository.AuthRepository
+import com.neb.ians.data.repository.FollowStateRepository
 import com.neb.ians.data.repository.ForumRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
@@ -56,6 +57,7 @@ data class PeopleUiState(
 class PeopleViewModel @Inject constructor(
     private val forumRepository: ForumRepository,
     private val authRepository: AuthRepository,
+    private val followStateRepository: FollowStateRepository,
     private val apiService: ApiService
 ) : ViewModel() {
 
@@ -86,7 +88,9 @@ class PeopleViewModel @Inject constructor(
     private fun loadSuggestions(forceRefresh: Boolean = false) {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null) }
+            followStateRepository.sync(forceRefresh = forceRefresh)
             val selfId = authRepository.currentUserIdFlow.first()
+            val graph = followStateRepository.graph.value
             val collected = LinkedHashMap<String, PeopleCandidate>()
             var failure: Throwable? = null
 
@@ -95,7 +99,9 @@ class PeopleViewModel @Inject constructor(
                     .getPosts(page = page, forceRefresh = forceRefresh && page == 1)
                     .onFailure { error -> if (collected.isEmpty()) failure = error }
                     .getOrNull() ?: break
-                posts.posts.forEach { post -> post.toCandidate(selfId)?.let { collected.putIfAbsent(it.id, it) } }
+                posts.posts.forEach { post ->
+                    post.toCandidate(selfId, graph)?.let { collected.putIfAbsent(it.id, it) }
+                }
                 if (collected.size >= TARGET_COUNT || !posts.hasMore) break
             }
 
@@ -118,8 +124,12 @@ class PeopleViewModel @Inject constructor(
         searchJob = viewModelScope.launch {
             _uiState.update { it.copy(isSearching = true) }
             val results = forumRepository.searchUsers(query).getOrNull().orEmpty()
+            val graph = followStateRepository.graph.value
             _uiState.update { state ->
-                state.copy(results = results.mapNotNull { it.toCandidate() }, isSearching = false)
+                state.copy(
+                    results = results.mapNotNull { it.toCandidate(graph) },
+                    isSearching = false
+                )
             }
         }
     }
@@ -128,13 +138,16 @@ class PeopleViewModel @Inject constructor(
         if (candidate.id.isBlank() || !pendingFollows.add(candidate.id)) return
         val optimistic = !candidate.isFollowing
         setFollowing(candidate.id, optimistic)
+        followStateRepository.record(candidate.id, candidate.username, optimistic)
         viewModelScope.launch {
             try {
                 val token = authRepository.getBearerToken() ?: throw IllegalStateException("Not authenticated")
                 val response = apiService.toggleFollow(token, candidate.id)
                 setFollowing(candidate.id, response.isFollowing)
+                followStateRepository.record(candidate.id, candidate.username, response.isFollowing)
             } catch (e: Exception) {
                 setFollowing(candidate.id, candidate.isFollowing)
+                followStateRepository.record(candidate.id, candidate.username, candidate.isFollowing)
             } finally {
                 pendingFollows.remove(candidate.id)
             }
@@ -150,11 +163,15 @@ class PeopleViewModel @Inject constructor(
         }
     }
 
-    private fun ApiPost.toCandidate(selfId: String?): PeopleCandidate? {
+    private fun ApiPost.toCandidate(
+        selfId: String?,
+        graph: FollowStateRepository.Graph
+    ): PeopleCandidate? {
         if (authorId.isBlank() || authorName.isBlank()) return null
         if (authorId == selfId || isAnonymous || authorIsBot) return null
         if (authorName.contains("Anonymous", ignoreCase = true)) return null
         if (isFollowingAuthor == true) return null
+        if (graph.contains(authorId, authorName)) return null
         return PeopleCandidate(
             id = authorId,
             username = authorName,
@@ -165,7 +182,7 @@ class PeopleViewModel @Inject constructor(
         )
     }
 
-    private fun ApiUserSearchResult.toCandidate(): PeopleCandidate? {
+    private fun ApiUserSearchResult.toCandidate(graph: FollowStateRepository.Graph): PeopleCandidate? {
         if (isSelf == true || id.isBlank()) return null
         return PeopleCandidate(
             id = id,
@@ -176,7 +193,7 @@ class PeopleViewModel @Inject constructor(
                 classLevel?.takeIf { it.isNotBlank() },
                 school?.takeIf { it.isNotBlank() }
             ).joinToString(" · ").takeIf { it.isNotBlank() } ?: badgeInfo?.label?.takeIf { it.isNotBlank() },
-            isFollowing = isFollowing == true
+            isFollowing = isFollowing == true || graph.contains(id, username)
         )
     }
 
