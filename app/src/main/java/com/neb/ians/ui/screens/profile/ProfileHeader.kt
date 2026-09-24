@@ -147,19 +147,25 @@ fun ProfileHeader(
 
                 Spacer(modifier = Modifier.weight(1f))
 
+                // The action clears the banner rather than sitting flush
+                // against its bottom edge: the row is bottom-aligned 40dp
+                // below the art, and a 40dp-tall button would put its top
+                // exactly on the seam. Sixteen more drops it clear.
                 PrimaryAction(
                     profile = profile,
                     isSelf = isSelf,
                     isFollowing = isFollowing,
                     isRequested = isRequested,
                     onEditProfile = onEditProfile,
-                    onFollowClick = onFollowClick
+                    onFollowClick = onFollowClick,
+                    modifier = Modifier.offset(y = 16.dp)
                 )
             }
         }
 
-        // The overhang the avatar borrowed from the column below it.
-        Spacer(modifier = Modifier.height(48.dp))
+        // The overhang the avatar and the action borrowed from the column
+        // below them.
+        Spacer(modifier = Modifier.height(64.dp))
 
         Column(modifier = Modifier.padding(horizontal = HeaderIndent)) {
 
@@ -292,7 +298,8 @@ private fun PrimaryAction(
     isFollowing: Boolean,
     isRequested: Boolean,
     onEditProfile: () -> Unit,
-    onFollowClick: () -> Unit
+    onFollowClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val clipboard = LocalClipboardManager.current
     val context = LocalContext.current
@@ -303,10 +310,11 @@ private fun PrimaryAction(
             onClick = onEditProfile,
             icon = Icons.Outlined.Edit,
             tone = NebButtonTone.Outlined,
-            size = NebButtonSize.Small
+            size = NebButtonSize.Small,
+            modifier = modifier
         )
     } else {
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        Row(modifier = modifier, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             NebButton(
                 text = if (profile.isBot) "Ask" else "Mention",
                 onClick = {
