@@ -321,11 +321,23 @@ class NewsRepository @Inject constructor(
             .replace(Regex("<li[^>]*>", RegexOption.IGNORE_CASE), "- ")
             .replace(Regex("<blockquote[^>]*>", RegexOption.IGNORE_CASE), "\n> ")
             .replace(Regex("<[^>]+>"), "")
-            .let { Html.fromHtml(it, Html.FROM_HTML_MODE_LEGACY).toString() }
+            .decodeEntitiesPerLine()
             .replace(Regex("[ \\t]+\\n"), "\n")
             .replace(Regex("\\n{3,}"), "\n\n")
             .trim()
     }
+
+    /**
+     * Decode HTML entities without letting the parser flatten the document.
+     * [Html.fromHtml] treats newlines as insignificant whitespace, so feeding it
+     * the whole article collapses every paragraph, heading and list item into a
+     * single run-on line. Decoding line by line keeps the block structure the
+     * markdown renderer depends on.
+     */
+    private fun String.decodeEntitiesPerLine(): String =
+        split('\n').joinToString("\n") { line ->
+            if (line.isBlank()) "" else Html.fromHtml(line, Html.FROM_HTML_MODE_LEGACY).toString()
+        }
 
     private fun absolutizeUrl(raw: String): String {
         val value = raw.trim()

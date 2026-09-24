@@ -39,7 +39,7 @@ val NewsCategories = listOf(
     NewsCategory("general", "General", "info", "#6b7280")
 )
 
-fun String.toSafeColor(fallback: Color = Color(0xFF6B7280)): Color {
+fun String.toSafeColor(fallback: Color = Color(0xFF5C5C61)): Color {
     return try {
         val clean = trim().removePrefix("#")
         if (clean.length == 6) Color(android.graphics.Color.parseColor("#$clean")) else fallback

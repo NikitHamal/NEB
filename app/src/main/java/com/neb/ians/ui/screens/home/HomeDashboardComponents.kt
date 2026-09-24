@@ -63,6 +63,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.neb.ians.data.api.ApiPost
+import com.neb.ians.data.repository.PersonSuggestion
 import com.neb.ians.data.api.ApiResource
 import com.neb.ians.data.api.ApiSuggestedItem
 import androidx.compose.animation.core.Spring
@@ -78,7 +79,6 @@ import com.neb.ians.ui.components.WebResourceCard
 import com.neb.ians.ui.components.compactCount
 import com.neb.ians.ui.theme.getSubjectTheme
 import com.neb.ians.util.formatTimeAgo
-import com.neb.ians.util.getSubjectColor
 
 @Composable
 internal fun HomeWelcomePanel(
@@ -264,7 +264,7 @@ internal fun HomeSubjectStrip(
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(subjects, key = { it }) { subject ->
-            val color = Color(getSubjectColor(subject))
+            val color = MaterialTheme.colorScheme.onSurface
             Row(
                 modifier = Modifier
                     .clip(RoundedCornerShape(999.dp))
@@ -952,7 +952,7 @@ internal fun HomeFeedResourceHighlight(
     resource: ApiResource,
     onClick: () -> Unit
 ) {
-    val color = Color(getSubjectColor(resource.subject))
+    val color = MaterialTheme.colorScheme.onSurface
     val displaySubject = remember(resource.subject) {
         val raw = resource.subject.trim()
         when {
@@ -1035,7 +1035,7 @@ internal fun HomeFeedResourceHighlight(
                     text = listOfNotNull(
                         resource.type.takeIf { it.isNotBlank() },
                         "Study Guide"
-                    ).joinToString(" • "),
+                    ).joinToString(", "),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 1,
@@ -1189,9 +1189,10 @@ internal fun HomeFeedComposerBar(
 
 @Composable
 internal fun HomeSuggestedPeersRail(
-    peers: List<ApiPost>,
+    peers: List<PersonSuggestion>,
     onPeerClick: (String) -> Unit,
-    onFollowClick: (String) -> Unit
+    onFollowClick: (String) -> Unit,
+    onSeeAllClick: () -> Unit
 ) {
     if (peers.isEmpty()) return
 
@@ -1199,22 +1200,26 @@ internal fun HomeSuggestedPeersRail(
         HomeSectionTitle(
             title = "People You May Know",
             actionLabel = "See All",
-            onActionClick = { peers.firstOrNull()?.let { onPeerClick(it.authorName) } }
+            onActionClick = onSeeAllClick
         )
         LazyRow(
             contentPadding = PaddingValues(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            items(peers, key = { it.authorId.ifBlank { it.authorName } }) { post ->
-                val isFollowing = post.isFollowingAuthor == true
+            items(peers, key = { it.id }) { person ->
                 CompactPeerCard(
-                    name = post.authorName,
-                    authorId = post.authorId.ifBlank { post.authorName },
-                    avatarUrl = post.authorPhotoUrl,
-                    badge = post.authorBadge,
-                    isFollowing = isFollowing,
-                    onPeerClick = { onPeerClick(post.authorName) },
-                    onFollowToggle = { onFollowClick(post.authorId) }
+                    name = person.name,
+                    authorId = person.id,
+                    avatarUrl = person.photoUrl,
+                    badge = person.reason.ifBlank { person.detail ?: "Contributor" },
+                    isFollowing = person.isFollowing,
+                    onPeerClick = { onPeerClick(person.username) },
+                    onFollowToggle = { onFollowClick(person.id) },
+                    followLabel = when {
+                        person.isFollowing -> "Following"
+                        person.followsYou -> "Follow back"
+                        else -> "Follow"
+                    }
                 )
             }
         }

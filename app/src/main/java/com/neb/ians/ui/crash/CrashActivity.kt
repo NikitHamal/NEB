@@ -30,6 +30,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.neb.ians.MainActivity
 import com.neb.ians.ui.theme.NEBiansTheme
+import com.neb.ians.ui.components.NebButton
+import com.neb.ians.ui.components.NebButtonSize
+import com.neb.ians.ui.components.NebButtonTone
 
 class CrashActivity : ComponentActivity() {
 
@@ -136,7 +139,7 @@ fun CrashScreen(
                     .weight(1f)
                     .fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp),
-                color = Color(0xFF1E1E1E)
+                color = Color(0xFF18181B)
             ) {
                 Box(
                     modifier = Modifier
@@ -149,7 +152,7 @@ fun CrashScreen(
                         text = stackTrace,
                         fontFamily = FontFamily.Monospace,
                         fontSize = 12.sp,
-                        color = Color(0xFF4ADE80)
+                        color = Color(0xFFC9C9CD)
                     )
                 }
             }
@@ -158,30 +161,25 @@ fun CrashScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                OutlinedButton(
+                NebButton(
+                    text = "Copy log",
                     onClick = {
                         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                         val clip = ClipData.newPlainText("NEBians Crash Log", stackTrace)
                         clipboard.setPrimaryClip(clip)
                         Toast.makeText(context, "Log copied to clipboard!", Toast.LENGTH_SHORT).show()
                     },
-                    modifier = Modifier.weight(1f),
-                    shape = RoundedCornerShape(12.dp)
-                ) {
-                    Icon(Icons.Filled.ContentCopy, contentDescription = null, modifier = Modifier.size(18.dp))
-                    Spacer(Modifier.width(8.dp))
-                    Text("Copy Log")
-                }
+                    icon = Icons.Filled.ContentCopy,
+                    tone = NebButtonTone.Outlined,
+                    modifier = Modifier.weight(1f)
+                )
 
-                Button(
+                NebButton(
+                    text = "Restart app",
                     onClick = onRestart,
-                    modifier = Modifier.weight(1f),
-                    shape = RoundedCornerShape(12.dp)
-                ) {
-                    Icon(Icons.Filled.Refresh, contentDescription = null, modifier = Modifier.size(18.dp))
-                    Spacer(Modifier.width(8.dp))
-                    Text("Restart App")
-                }
+                    icon = Icons.Filled.Refresh,
+                    modifier = Modifier.weight(1f)
+                )
             }
         }
     }

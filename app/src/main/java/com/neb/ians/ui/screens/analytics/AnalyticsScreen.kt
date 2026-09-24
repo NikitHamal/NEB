@@ -33,7 +33,6 @@ import androidx.compose.material.icons.outlined.Quiz
 import androidx.compose.material.icons.outlined.School
 import androidx.compose.material.icons.outlined.ThumbUp
 import androidx.compose.material.icons.outlined.Visibility
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -81,6 +80,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.max
+import com.neb.ians.ui.components.NebLoader
 
 data class AnalyticsUiState(
     val data: ApiPrivateAnalyticsResponse? = null,
@@ -152,7 +152,7 @@ fun AnalyticsScreen(
                     .fillMaxSize()
                     .padding(padding),
                 contentAlignment = Alignment.Center
-            ) { CircularProgressIndicator() }
+            ) { NebLoader() }
             uiState.error != null -> WebEmptyState(
                 title = "Analytics unavailable",
                 message = uiState.error ?: "Try again later.",
@@ -517,7 +517,7 @@ private fun DashboardTableCard(title: String, subtitle: String, emptyMessage: St
                     title = row.title,
                     meta = row.category,
                     rightTop = compactCount(row.viewCount),
-                    rightBottom = "${compactCount(row.likeCount)} likes · ${compactCount(row.replyCount)} replies"
+                    rightBottom = "${compactCount(row.likeCount)} likes, ${compactCount(row.replyCount)} replies"
                 )
             }
         }
@@ -536,9 +536,9 @@ private fun ResourceTableCard(title: String, subtitle: String, emptyMessage: Str
                 TableRow(
                     rank = index + 1,
                     title = row.title,
-                    meta = listOf(row.subject, row.type).filter { it.isNotBlank() }.joinToString(" · "),
+                    meta = listOf(row.subject, row.type).filter { it.isNotBlank() }.joinToString(", "),
                     rightTop = compactCount(row.viewCount),
-                    rightBottom = "${compactCount(row.likeCount)} likes · ${compactCount(row.commentCount)} comments"
+                    rightBottom = "${compactCount(row.likeCount)} likes, ${compactCount(row.commentCount)} comments"
                 )
             }
         }

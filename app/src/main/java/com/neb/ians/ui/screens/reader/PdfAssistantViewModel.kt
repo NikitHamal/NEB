@@ -193,7 +193,7 @@ class PdfAssistantViewModel @Inject constructor(
                 }
             }.onFailure { error ->
                 val errorMsg = if (error is retrofit2.HttpException && error.code() == 402) {
-                    "Neby Credits exhausted. You get 10 free credits every month, or convert 2 NEBians points to 1 credit or contact developer on WhatsApp (+977 9765324034)."
+                    "Neby Credits exhausted. You get 10 free credits every month, or convert 2 NEBians points into 1 credit. The credits screen has a WhatsApp link for more."
                 } else {
                     error.message ?: "PDF AI is unavailable"
                 }

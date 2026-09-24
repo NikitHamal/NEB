@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
@@ -54,6 +53,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.neb.ians.ui.components.NebButton
+import com.neb.ians.ui.components.NebButtonSize
+import com.neb.ians.ui.components.NebButtonTone
 
 data class UserPopoverState(
     val popup: ApiUserPopup? = null,
@@ -137,7 +139,7 @@ fun UserPopoverDialog(
                         .height(180.dp),
                     contentAlignment = Alignment.Center
                 ) {
-                    CircularProgressIndicator(modifier = Modifier.size(28.dp), strokeWidth = 3.dp)
+                    NebLoader(size = NebLoaderSize.Small)
                 }
                 state.error != null || state.popup == null -> Box(
                     modifier = Modifier
@@ -218,29 +220,27 @@ fun UserPopoverDialog(
                         Spacer(modifier = Modifier.height(14.dp))
                         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                             if (!popup.isSelf) {
-                                Button(
+                                NebButton(
+                                    text = if (popup.isFollowing) "Following" else "Follow",
                                     onClick = { viewModel.toggleFollow() },
-                                    enabled = !state.isFollowBusy,
-                                    shape = WebPillShape,
-                                    modifier = Modifier.weight(1f),
-                                    colors = if (popup.isFollowing) ButtonDefaults.buttonColors(
-                                        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                                        contentColor = MaterialTheme.colorScheme.onSurface
-                                    ) else ButtonDefaults.buttonColors()
-                                ) {
-                                    Text(if (popup.isFollowing) "Following" else "Follow")
-                                }
+                                    loading = state.isFollowBusy,
+                                    tone = if (popup.isFollowing) {
+                                        NebButtonTone.Tonal
+                                    } else {
+                                        NebButtonTone.Primary
+                                    },
+                                    modifier = Modifier.weight(1f)
+                                )
                             }
-                            OutlinedButton(
+                            NebButton(
+                                text = "View profile",
                                 onClick = {
                                     onDismiss()
                                     onViewProfile(popup.username)
                                 },
-                                shape = WebPillShape,
+                                tone = NebButtonTone.Outlined,
                                 modifier = Modifier.weight(1f)
-                            ) {
-                                Text("View profile")
-                            }
+                            )
                         }
                     }
                 }
@@ -272,7 +272,7 @@ private fun PopoverStat(value: Int, label: String) {
  */
 @Composable
 fun RoleBadgeChip(type: String, label: String, colorHex: String?, modifier: Modifier = Modifier) {
-    val color = remember(colorHex) { parseHexColor(colorHex) ?: Color(0xFF1B9AF0) }
+    val color = remember(colorHex) { parseHexColor(colorHex) ?: Color(0xFF5C5C61) }
     val icon = when (type) {
         "moderator" -> Icons.Outlined.Shield
         "verified" -> Icons.Filled.Verified

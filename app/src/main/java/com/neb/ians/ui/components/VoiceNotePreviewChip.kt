@@ -17,7 +17,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -208,10 +207,9 @@ fun PendingVoiceNoteChip(
             ) {
                 Box(contentAlignment = Alignment.Center) {
                     if (attachment.uploading) {
-                        CircularProgressIndicator(
-                            color = MaterialTheme.colorScheme.onPrimary,
-                            strokeWidth = 2.dp,
-                            modifier = Modifier.width(18.dp).height(18.dp)
+                        NebLoader(
+                            modifier = Modifier.width(18.dp).height(18.dp),
+                            color = MaterialTheme.colorScheme.onPrimary
                         )
                     } else {
                         Icon(
