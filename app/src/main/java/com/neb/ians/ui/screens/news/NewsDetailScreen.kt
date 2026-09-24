@@ -54,9 +54,9 @@ import com.neb.ians.ui.components.ErrorCard
 import com.neb.ians.ui.components.NebCommentComposerBar
 import com.neb.ians.ui.components.MarkdownText
 import com.neb.ians.ui.components.ShimmerCard
+import com.neb.ians.ui.components.ShimmerCircle
 import com.neb.ians.ui.components.ShimmerLine
 import com.neb.ians.ui.components.NebModalSheet
-import com.neb.ians.ui.components.WebCardShape
 import com.neb.ians.ui.components.WebPillShape
 import com.neb.ians.ui.screens.home.NewsCategoryBadge
 import com.neb.ians.ui.screens.home.newsIcon
@@ -473,28 +473,7 @@ private fun NewsCommentsSection(
         Spacer(Modifier.height(12.dp))
         when {
             uiState.commentsLoading && uiState.comments.isEmpty() -> {
-                repeat(2) {
-                    Surface(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 5.dp),
-                        shape = WebCardShape,
-                        color = MaterialTheme.colorScheme.surfaceContainerLow
-                    ) {
-                        Row(modifier = Modifier.padding(14.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                            Box(
-                                Modifier
-                                    .size(38.dp)
-                                    .clip(androidx.compose.foundation.shape.CircleShape)
-                                    .background(MaterialTheme.colorScheme.surfaceContainerHighest)
-                            )
-                            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                                Box(Modifier.fillMaxWidth(0.35f).height(12.dp).clip(WebPillShape).background(MaterialTheme.colorScheme.surfaceContainerHighest))
-                                Box(Modifier.fillMaxWidth().height(14.dp).clip(WebPillShape).background(MaterialTheme.colorScheme.surfaceContainerHighest))
-                            }
-                        }
-                    }
-                }
+                repeat(3) { NewsCommentSkeleton() }
             }
             uiState.comments.isEmpty() -> {
                 Column(
@@ -553,7 +532,7 @@ private fun shareArticle(context: android.content.Context, item: NewsAnnouncemen
 
 /**
  * The masthead of one article: what kind of piece it is, its headline, its
- * standfirst, and who filed it. Grey line, black headline, rule underneath —
+ * standfirst, and who filed it. Grey line, black headline, rule underneath â€”
  * the order a reader expects from a page of prose.
  */
 @Composable
@@ -615,7 +594,33 @@ private fun NewsArticleHeader(item: NewsAnnouncement) {
 private fun bylineTail(item: NewsAnnouncement): String = listOf(
     item.publishedAgo.ifBlank { "Latest" },
     if (item.viewCount.isBlank()) "" else "${item.viewCount} views"
-).filter { it.isNotBlank() }.joinToString(" · ", prefix = "· ")
+).filter { it.isNotBlank() }.joinToString(" Â· ", prefix = "Â· ")
+
+/**
+ * A comment that has not arrived yet. It used to be two flat grey boxes inside
+ * a card, which read as content rather than as absence; the shimmer primitives
+ * are what every other list in the app waits with, so the reader waits the
+ * same way.
+ */
+@Composable
+private fun NewsCommentSkeleton() {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 10.dp),
+        verticalAlignment = Alignment.Top,
+        horizontalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        ShimmerCircle(size = 38.dp)
+        Column(modifier = Modifier.weight(1f)) {
+            ShimmerLine(widthFraction = 0.34f, height = 10.dp)
+            Spacer(modifier = Modifier.height(8.dp))
+            ShimmerLine(widthFraction = 0.96f, height = 13.dp)
+            Spacer(modifier = Modifier.height(7.dp))
+            ShimmerLine(widthFraction = 0.62f, height = 13.dp)
+        }
+    }
+}
 
 @Composable
 private fun NewsDetailSkeleton(modifier: Modifier = Modifier) {

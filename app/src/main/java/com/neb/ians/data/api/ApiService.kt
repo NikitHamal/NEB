@@ -497,8 +497,14 @@ data class ApiResource(
     @SerialName("is_bookmarked") val isBookmarked: Boolean? = null,
     // --- Paid / marketplace state (server-gated; defaults keep old caches safe) ---
     @SerialName("isPaid") val isPaid: Boolean = false,
-    /** Normalised price string as sent by the server (e.g. "150", "149.5"). */
-    @SerialName("price") val price: String = "",
+    /**
+     * Normalised price as sent by the server. The REST app sends a string
+     * ("150"); the web ajax endpoints send a bare float (150.0), so this one
+     * field is decoded leniently — see [LenientStringSerializer].
+     */
+    @SerialName("price")
+    @kotlinx.serialization.Serializable(with = LenientStringSerializer::class)
+    val price: String = "",
     /** True when the viewer may open/download this resource (free, owner, admin or approved purchase). */
     @SerialName("hasAccess") val hasAccess: Boolean = true,
     /** "" | "pending" | "approved" | "rejected" for the viewer's purchase, if any. */

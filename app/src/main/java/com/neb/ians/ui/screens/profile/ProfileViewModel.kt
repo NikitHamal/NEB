@@ -59,15 +59,20 @@ data class ProfileUiState(
     val postsLoading: Boolean = false,
     val postsHasMore: Boolean = false,
     val postsLoaded: Boolean = false,
+    /** Non-null when the last posts request failed; keeps a failure from
+     * being drawn as an empty tab. */
+    val postsError: String? = null,
     val replies: List<ApiReply> = emptyList(),
     val repliesLoading: Boolean = false,
     val repliesHasMore: Boolean = false,
     val repliesLoaded: Boolean = false,
+    val repliesError: String? = null,
     val repliesCount: Int = 0,
     val resources: List<ApiResource> = emptyList(),
     val resourcesLoading: Boolean = false,
     val resourcesHasMore: Boolean = false,
     val resourcesLoaded: Boolean = false,
+    val resourcesError: String? = null,
     val resourcesCount: Int = 0,
     val showPhotoGallery: Boolean = false,
     val photos: List<ApiUserPhoto> = emptyList(),
@@ -281,6 +286,7 @@ class ProfileViewModel @Inject constructor(
             _uiState.update {
                 it.copy(
                     postsLoading = true,
+                    postsError = null,
                     posts = if (reset) emptyList() else it.posts
                 )
             }
@@ -298,12 +304,16 @@ class ProfileViewModel @Inject constructor(
                         },
                         postsHasMore = response.hasMore,
                         postsLoading = false,
-                        postsLoaded = true
+                        postsLoaded = true,
+                        postsError = null
                     )
                 }
                 saveToCache()
-            } catch (_: Exception) {
-                _uiState.update { it.copy(postsLoading = false, postsLoaded = true) }
+            } catch (e: Exception) {
+                val message = ApiErrorMapper.mapException(e)
+                _uiState.update {
+                    it.copy(postsLoading = false, postsLoaded = true, postsError = message)
+                }
             }
         }
     }
@@ -318,6 +328,7 @@ class ProfileViewModel @Inject constructor(
             _uiState.update {
                 it.copy(
                     repliesLoading = true,
+                    repliesError = null,
                     replies = if (reset) emptyList() else it.replies
                 )
             }
@@ -336,12 +347,16 @@ class ProfileViewModel @Inject constructor(
                         repliesHasMore = response.hasMore,
                         repliesCount = maxOf(response.totalCount, merged.size),
                         repliesLoading = false,
-                        repliesLoaded = true
+                        repliesLoaded = true,
+                        repliesError = null
                     )
                 }
                 saveToCache()
-            } catch (_: Exception) {
-                _uiState.update { it.copy(repliesLoading = false, repliesLoaded = true) }
+            } catch (e: Exception) {
+                val message = ApiErrorMapper.mapException(e)
+                _uiState.update {
+                    it.copy(repliesLoading = false, repliesLoaded = true, repliesError = message)
+                }
             }
         }
     }
@@ -356,6 +371,7 @@ class ProfileViewModel @Inject constructor(
             _uiState.update {
                 it.copy(
                     resourcesLoading = true,
+                    resourcesError = null,
                     resources = if (reset) emptyList() else it.resources
                 )
             }
@@ -371,12 +387,18 @@ class ProfileViewModel @Inject constructor(
                         resourcesHasMore = response.hasMore,
                         resourcesCount = maxOf(response.totalCount, merged.size),
                         resourcesLoading = false,
-                        resourcesLoaded = true
+                        resourcesLoaded = true,
+                        resourcesError = null
                     )
                 }
                 saveToCache()
-            } catch (_: Exception) {
-                _uiState.update { it.copy(resourcesLoading = false, resourcesLoaded = true) }
+            } catch (e: Exception) {
+                // A decode failure here is what used to make the Resources tab
+                // claim "No activity yet" for everyone; the tab now reports it.
+                val message = ApiErrorMapper.mapException(e)
+                _uiState.update {
+                    it.copy(resourcesLoading = false, resourcesLoaded = true, resourcesError = message)
+                }
             }
         }
     }

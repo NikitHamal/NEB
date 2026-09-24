@@ -1,6 +1,5 @@
 package com.neb.ians.ui.screens.analytics
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -20,9 +19,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.outlined.AccountTree
 import androidx.compose.material.icons.outlined.BookmarkBorder
 import androidx.compose.material.icons.outlined.ChatBubbleOutline
+import androidx.compose.material.icons.outlined.CloudOff
 import androidx.compose.material.icons.outlined.Description
 import androidx.compose.material.icons.outlined.FolderOpen
 import androidx.compose.material.icons.outlined.Forum
@@ -31,14 +32,20 @@ import androidx.compose.material.icons.outlined.Lightbulb
 import androidx.compose.material.icons.outlined.QueryStats
 import androidx.compose.material.icons.outlined.Quiz
 import androidx.compose.material.icons.outlined.School
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.ThumbUp
 import androidx.compose.material.icons.outlined.Visibility
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -49,7 +56,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -57,7 +63,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewModelScope
-import com.neb.ians.R
 import com.neb.ians.data.api.ApiAnalyticsDay
 import com.neb.ians.data.api.ApiAnalyticsPost
 import com.neb.ians.data.api.ApiAnalyticsResource
@@ -67,9 +72,10 @@ import com.neb.ians.data.api.ApiErrorMapper
 import com.neb.ians.data.api.ApiPrivateAnalyticsResponse
 import com.neb.ians.data.api.ApiService
 import com.neb.ians.data.repository.AuthRepository
-import com.neb.ians.ui.components.WebEmptyState
-import com.neb.ians.ui.components.WebPanelShape
-import com.neb.ians.ui.components.WebTopBar
+import com.neb.ians.ui.components.NebButton
+import com.neb.ians.ui.components.NebButtonSize
+import com.neb.ians.ui.components.NebButtonTone
+import com.neb.ians.ui.components.NebEmptyState
 import com.neb.ians.ui.components.compactCount
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -126,6 +132,7 @@ class AnalyticsViewModel @Inject constructor(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AnalyticsScreen(
     onNavigateBack: () -> Unit,
@@ -136,12 +143,34 @@ fun AnalyticsScreen(
 
     Scaffold(
         topBar = {
-            WebTopBar(
-                title = "Analytics",
-                subtitle = if (uiState.username.isBlank()) "Private insights" else "@${uiState.username}",
-                showBack = true,
-                onBackClick = onNavigateBack,
-                onSearchClick = onSearchClick
+            TopAppBar(
+                title = {
+                    Column {
+                        Text("Analytics", fontWeight = FontWeight.SemiBold)
+                        Text(
+                            text = if (uiState.username.isBlank()) {
+                                "Private insights"
+                            } else {
+                                "@${uiState.username}"
+                            },
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                },
+                navigationIcon = {
+                    IconButton(onClick = onNavigateBack) {
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                    }
+                },
+                actions = {
+                    IconButton(onClick = onSearchClick) {
+                        Icon(Icons.Outlined.Search, contentDescription = "Search")
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.surface
+                )
             )
         },
         containerColor = MaterialTheme.colorScheme.surface
@@ -153,14 +182,26 @@ fun AnalyticsScreen(
                     .padding(padding),
                 contentAlignment = Alignment.Center
             ) { NebLoader() }
-            uiState.error != null -> WebEmptyState(
-                title = "Analytics unavailable",
-                message = uiState.error ?: "Try again later.",
-                icon = painterResource(id = R.drawable.ic_school),
+            uiState.error != null -> Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(padding)
-            )
+                    .padding(padding),
+                contentAlignment = Alignment.Center
+            ) {
+                NebEmptyState(
+                    icon = Icons.Outlined.CloudOff,
+                    title = "Analytics unavailable",
+                    subtitle = uiState.error,
+                    action = {
+                        NebButton(
+                            text = "Try again",
+                            onClick = viewModel::load,
+                            tone = NebButtonTone.Outlined,
+                            size = NebButtonSize.Small
+                        )
+                    }
+                )
+            }
             uiState.data != null -> AnalyticsContent(
                 data = uiState.data!!,
                 modifier = Modifier.padding(padding)
@@ -174,8 +215,7 @@ private fun AnalyticsContent(data: ApiPrivateAnalyticsResponse, modifier: Modifi
     val stats = data.stats
     LazyColumn(
         modifier = modifier.fillMaxSize(),
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 18.dp),
-        verticalArrangement = Arrangement.spacedBy(14.dp)
+        contentPadding = PaddingValues(bottom = 8.dp)
     ) {
         item {
             AnalyticsHero(stats)
@@ -223,7 +263,7 @@ private fun AnalyticsContent(data: ApiPrivateAnalyticsResponse, modifier: Modifi
 
 @Composable
 private fun AnalyticsHero(stats: ApiAnalyticsStats) {
-    AnalyticsCard {
+    AnalyticsSection {
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
@@ -231,8 +271,8 @@ private fun AnalyticsHero(stats: ApiAnalyticsStats) {
         ) {
             Surface(
                 shape = CircleShape,
-                color = MaterialTheme.colorScheme.primaryContainer,
-                contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                color = MaterialTheme.colorScheme.surfaceContainerHigh,
+                contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.size(48.dp)
             ) {
                 Box(contentAlignment = Alignment.Center) {
@@ -280,12 +320,12 @@ private fun DashboardKpiGrid(stats: ApiAnalyticsStats) {
 
 @Composable
 private fun KpiTile(label: String, value: String, detail: String, icon: ImageVector, modifier: Modifier = Modifier) {
-    AnalyticsCard(modifier = modifier) {
+    AnalyticsSection(modifier = modifier, divider = false) {
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             Surface(
                 shape = CircleShape,
                 color = MaterialTheme.colorScheme.surfaceContainerHigh,
-                contentColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.size(38.dp)
             ) {
                 Box(contentAlignment = Alignment.Center) {
@@ -306,16 +346,15 @@ private fun KpiTile(label: String, value: String, detail: String, icon: ImageVec
 private fun HeroMetric(label: String, value: String, icon: ImageVector, modifier: Modifier = Modifier) {
     Surface(
         modifier = modifier,
-        shape = RoundedCornerShape(18.dp),
-        color = MaterialTheme.colorScheme.surfaceContainer,
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+        shape = RoundedCornerShape(16.dp),
+        color = MaterialTheme.colorScheme.surfaceContainerHigh
     ) {
         Row(
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Icon(icon, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(18.dp))
+            Icon(icon, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(18.dp))
             Column {
                 Text(value, fontWeight = FontWeight.ExtraBold, maxLines = 1)
                 Text(label, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1)
@@ -326,7 +365,7 @@ private fun HeroMetric(label: String, value: String, icon: ImageVector, modifier
 
 @Composable
 private fun ActivityChartCard(days: List<ApiAnalyticsDay>, recentStudyActions: Int) {
-    AnalyticsCard {
+    AnalyticsSection {
         DashboardHeader("14-day activity", "Posts, replies, uploads, quiz attempts, and flashcard reviews.", "${compactCount(recentStudyActions)} study actions")
         Spacer(modifier = Modifier.height(16.dp))
         val chartDays = days.ifEmpty { listOf(ApiAnalyticsDay(label = "Today")) }
@@ -357,7 +396,7 @@ private fun ActivityChartCard(days: List<ApiAnalyticsDay>, recentStudyActions: I
                                 .fillMaxWidth()
                                 .height((146f * (day.total.toFloat() / maxTotal.toFloat())).dp.coerceAtLeast(6.dp))
                                 .clip(RoundedCornerShape(999.dp))
-                                .background(MaterialTheme.colorScheme.primary)
+                                .background(MaterialTheme.colorScheme.onSurface)
                         )
                     }
                     Spacer(modifier = Modifier.height(8.dp))
@@ -365,32 +404,12 @@ private fun ActivityChartCard(days: List<ApiAnalyticsDay>, recentStudyActions: I
                 }
             }
         }
-        Spacer(modifier = Modifier.height(12.dp))
-        ChartLegend()
-    }
-}
-
-@Composable
-private fun ChartLegend() {
-    Row(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.fillMaxWidth()) {
-        LegendItem("Posts")
-        LegendItem("Replies")
-        LegendItem("Resources")
-        LegendItem("Study")
-    }
-}
-
-@Composable
-private fun LegendItem(text: String) {
-    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(5.dp)) {
-        Box(modifier = Modifier.size(7.dp).background(MaterialTheme.colorScheme.primary, CircleShape))
-        Text(text, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1)
     }
 }
 
 @Composable
 private fun StudyProgressCard(stats: ApiAnalyticsStats) {
-    AnalyticsCard {
+    AnalyticsSection {
         DashboardHeader("Study Lab progress", "Generated materials and learning outcomes.", null)
         Spacer(modifier = Modifier.height(16.dp))
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -409,13 +428,13 @@ private fun StudyProgressCard(stats: ApiAnalyticsStats) {
 
 @Composable
 private fun DonutProgress(percent: Int, modifier: Modifier = Modifier) {
-    val primary = MaterialTheme.colorScheme.primary
+    val arc = MaterialTheme.colorScheme.onSurface
     val track = MaterialTheme.colorScheme.surfaceContainerHigh
     Box(modifier = modifier, contentAlignment = Alignment.Center) {
         Canvas(modifier = Modifier.fillMaxSize()) {
             val stroke = Stroke(width = 16.dp.toPx(), cap = StrokeCap.Round)
             drawArc(track, -90f, 360f, false, style = stroke)
-            drawArc(primary, -90f, 360f * percent / 100f, false, style = stroke)
+            drawArc(arc, -90f, 360f * percent / 100f, false, style = stroke)
         }
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text("$percent%", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.ExtraBold)
@@ -444,6 +463,7 @@ private fun ProgressMetric(label: String, value: Int, total: Int) {
         LinearProgressIndicator(
             progress = { value.toFloat() / total.toFloat() },
             modifier = Modifier.fillMaxWidth().height(7.dp).clip(RoundedCornerShape(999.dp)),
+            color = MaterialTheme.colorScheme.onSurface,
             trackColor = MaterialTheme.colorScheme.surfaceContainerHigh
         )
     }
@@ -451,7 +471,7 @@ private fun ProgressMetric(label: String, value: Int, total: Int) {
 
 @Composable
 private fun CommunityDashboardCard(stats: ApiAnalyticsStats) {
-    AnalyticsCard {
+    AnalyticsSection {
         DashboardHeader("Community footprint", "How your account contributes across NEBians.", null)
         Spacer(modifier = Modifier.height(12.dp))
         MetricTable(
@@ -470,7 +490,7 @@ private fun CommunityDashboardCard(stats: ApiAnalyticsStats) {
 
 @Composable
 private fun TopicDashboardCard(postTopics: List<ApiAnalyticsTopic>, resourceTopics: List<ApiAnalyticsTopic>) {
-    AnalyticsCard {
+    AnalyticsSection {
         DashboardHeader("Top topics", "Based on your posts and resources.", null)
         Spacer(modifier = Modifier.height(12.dp))
         TopicList("Post categories", postTopics)
@@ -495,6 +515,7 @@ private fun TopicList(title: String, rows: List<ApiAnalyticsTopic>) {
                     LinearProgressIndicator(
                         progress = { row.width.coerceIn(0, 100) / 100f },
                         modifier = Modifier.fillMaxWidth().height(7.dp).clip(RoundedCornerShape(999.dp)),
+                        color = MaterialTheme.colorScheme.onSurface,
                         trackColor = MaterialTheme.colorScheme.surfaceContainerHigh
                     )
                 }
@@ -505,7 +526,7 @@ private fun TopicList(title: String, rows: List<ApiAnalyticsTopic>) {
 
 @Composable
 private fun DashboardTableCard(title: String, subtitle: String, emptyMessage: String, rows: List<ApiAnalyticsPost>) {
-    AnalyticsCard {
+    AnalyticsSection {
         DashboardHeader(title, subtitle, null)
         Spacer(modifier = Modifier.height(10.dp))
         if (rows.isEmpty()) {
@@ -526,7 +547,7 @@ private fun DashboardTableCard(title: String, subtitle: String, emptyMessage: St
 
 @Composable
 private fun ResourceTableCard(title: String, subtitle: String, emptyMessage: String, rows: List<ApiAnalyticsResource>) {
-    AnalyticsCard {
+    AnalyticsSection {
         DashboardHeader(title, subtitle, null)
         Spacer(modifier = Modifier.height(10.dp))
         if (rows.isEmpty()) {
@@ -576,7 +597,7 @@ private fun TableRow(rank: Int, title: String, meta: String, rightTop: String, r
 
 @Composable
 private fun SuggestionsCard(items: List<String>) {
-    AnalyticsCard {
+    AnalyticsSection(divider = false) {
         DashboardHeader("Suggestions", "Context-aware next steps.", null)
         Spacer(modifier = Modifier.height(10.dp))
         val rows = items.ifEmpty { listOf("Keep contributing steadily. Your dashboard will become richer as you use NEBians more.") }
@@ -586,7 +607,7 @@ private fun SuggestionsCard(items: List<String>) {
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
                 verticalAlignment = Alignment.Top
             ) {
-                Icon(Icons.Outlined.Lightbulb, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(20.dp))
+                Icon(Icons.Outlined.Lightbulb, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(20.dp))
                 Text(item, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(1f))
             }
         }
@@ -602,7 +623,7 @@ private fun DashboardHeader(title: String, subtitle: String, chip: String?) {
         }
         if (!chip.isNullOrBlank()) {
             Spacer(modifier = Modifier.width(8.dp))
-            Surface(shape = CircleShape, color = MaterialTheme.colorScheme.primaryContainer, contentColor = MaterialTheme.colorScheme.onPrimaryContainer) {
+            Surface(shape = CircleShape, color = MaterialTheme.colorScheme.surfaceContainerHigh, contentColor = MaterialTheme.colorScheme.onSurface) {
                 Text(chip, style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp), maxLines = 1)
             }
         }
@@ -612,7 +633,7 @@ private fun DashboardHeader(title: String, subtitle: String, chip: String?) {
 @Composable
 private fun MiniRow(icon: ImageVector, label: String, value: String) {
     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-        Icon(icon, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(18.dp))
+        Icon(icon, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(18.dp))
         Text(label, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(1f), maxLines = 1)
         Text(value, style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.Bold, maxLines = 1)
     }
@@ -650,14 +671,21 @@ private fun EmptyDashboardText(text: String) {
     }
 }
 
+/**
+ * One band of the dashboard. It used to be a bordered panel floating on a
+ * padded list, which made nine unrelated boxes; it is a plain section with a
+ * hairline under it now, so the numbers sit on the page instead of on cards.
+ */
 @Composable
-private fun AnalyticsCard(modifier: Modifier = Modifier, content: @Composable ColumnScope.() -> Unit) {
-    Surface(
-        modifier = modifier.fillMaxWidth(),
-        shape = WebPanelShape,
-        color = MaterialTheme.colorScheme.surfaceContainerLowest,
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
-    ) {
-        Column(modifier = Modifier.padding(16.dp), content = content)
+private fun AnalyticsSection(
+    modifier: Modifier = Modifier,
+    divider: Boolean = true,
+    content: @Composable ColumnScope.() -> Unit
+) {
+    Column(modifier = modifier.fillMaxWidth()) {
+        Column(modifier = Modifier.padding(horizontal = 20.dp, vertical = 18.dp), content = content)
+        if (divider) {
+            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
+        }
     }
 }
