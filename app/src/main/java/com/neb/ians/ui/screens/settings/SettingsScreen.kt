@@ -38,6 +38,9 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.ui.components.Avatar
+import com.neb.ians.ui.components.NebDialog
+import com.neb.ians.ui.components.NebDialogAction
+import com.neb.ians.ui.components.NebDialogPasswordField
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -51,6 +54,7 @@ fun SettingsScreen(
     onNavigateToDeleteAccount: () -> Unit = {},
     onNavigateToLogin: () -> Unit = {},
     onNavigateToWebPortal: (String) -> Unit = {},
+    onNavigateToLegal: (String) -> Unit = {},
     onNavigateToCanvas: () -> Unit = {}
 ) {
     val isDarkMode by settingsViewModel.isDarkMode.collectAsStateWithLifecycle()
@@ -423,7 +427,7 @@ fun SettingsScreen(
 
             ListItem(
                 modifier = Modifier.clickable {
-                    onNavigateToWebPortal("https://nebians.consica.com.np/privacy/")
+                    onNavigateToLegal(com.neb.ians.ui.screens.legal.NebLegal.PRIVACY)
                 },
                 headlineContent = { Text("Privacy Policy", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium) },
                 supportingContent = { Text("How we protect your data", style = MaterialTheme.typography.bodySmall) },
@@ -445,7 +449,7 @@ fun SettingsScreen(
 
             ListItem(
                 modifier = Modifier.clickable {
-                    onNavigateToWebPortal("https://nebians.consica.com.np/terms/")
+                    onNavigateToLegal(com.neb.ians.ui.screens.legal.NebLegal.TERMS)
                 },
                 headlineContent = { Text("Terms of Service", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium) },
                 supportingContent = { Text("Rules and guidelines for usage", style = MaterialTheme.typography.bodySmall) },
@@ -594,68 +598,35 @@ private fun SetPasswordDialog(
 ) {
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
-    var passwordVisible by remember { mutableStateOf(false) }
+    val mismatch = confirmPassword.isNotBlank() && password != confirmPassword
 
-    AlertDialog(
+    NebDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Set Password") },
-        text = {
-            Column {
-                Text(
-                    "Add a password so you can also sign in with your email or username.",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                Spacer(modifier = Modifier.height(12.dp))
-                OutlinedTextField(
-                    value = password,
-                    onValueChange = { password = it },
-                    label = { Text("Password") },
-                    singleLine = true,
-                    visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                    trailingIcon = {
-                        IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                            Icon(
-                                imageVector = if (passwordVisible) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility,
-                                contentDescription = null,
-                                modifier = Modifier.size(20.dp)
-                            )
-                        }
-                    },
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(12.dp),
-                    supportingText = { Text("At least 8 characters", style = MaterialTheme.typography.bodySmall) }
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                OutlinedTextField(
-                    value = confirmPassword,
-                    onValueChange = { confirmPassword = it },
-                    label = { Text("Confirm Password") },
-                    singleLine = true,
-                    visualTransformation = PasswordVisualTransformation(),
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(12.dp),
-                    isError = confirmPassword.isNotBlank() && password != confirmPassword,
-                    supportingText = {
-                        if (confirmPassword.isNotBlank() && password != confirmPassword) {
-                            Text("Passwords don't match", color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
-                        }
-                    }
-                )
-            }
-        },
-        confirmButton = {
-            TextButton(
-                onClick = { onSetPassword(password) },
-                enabled = password.length >= 8 && password == confirmPassword
-            ) {
-                Text("Set Password")
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) { Text("Cancel") }
-        }
-    )
+        title = "Set a password",
+        supportingText = "Add a password so you can also sign in with your email or username.",
+        icon = Icons.Outlined.Lock,
+        confirm = NebDialogAction(
+            label = "Set password",
+            onClick = { onSetPassword(password) },
+            enabled = password.length >= 8 && password == confirmPassword
+        ),
+        dismiss = NebDialogAction("Cancel", onDismiss)
+    ) {
+        NebDialogPasswordField(
+            value = password,
+            onValueChange = { password = it },
+            label = "Password",
+            supportingText = "At least 8 characters"
+        )
+        NebDialogPasswordField(
+            value = confirmPassword,
+            onValueChange = { confirmPassword = it },
+            label = "Confirm password",
+            isError = mismatch,
+            supportingText = if (mismatch) "Passwords don't match" else null,
+            revealable = false
+        )
+    }
 }
 
 @Composable
@@ -666,80 +637,37 @@ private fun ChangePasswordDialog(
     var currentPassword by remember { mutableStateOf("") }
     var newPassword by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
-    var currentVisible by remember { mutableStateOf(false) }
-    var newVisible by remember { mutableStateOf(false) }
+    val mismatch = confirmPassword.isNotBlank() && newPassword != confirmPassword
 
-    AlertDialog(
+    NebDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Change Password") },
-        text = {
-            Column {
-                OutlinedTextField(
-                    value = currentPassword,
-                    onValueChange = { currentPassword = it },
-                    label = { Text("Current Password") },
-                    singleLine = true,
-                    visualTransformation = if (currentVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                    trailingIcon = {
-                        IconButton(onClick = { currentVisible = !currentVisible }) {
-                            Icon(
-                                imageVector = if (currentVisible) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility,
-                                contentDescription = null,
-                                modifier = Modifier.size(20.dp)
-                            )
-                        }
-                    },
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(12.dp)
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                OutlinedTextField(
-                    value = newPassword,
-                    onValueChange = { newPassword = it },
-                    label = { Text("New Password") },
-                    singleLine = true,
-                    visualTransformation = if (newVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                    trailingIcon = {
-                        IconButton(onClick = { newVisible = !newVisible }) {
-                            Icon(
-                                imageVector = if (newVisible) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility,
-                                contentDescription = null,
-                                modifier = Modifier.size(20.dp)
-                            )
-                        }
-                    },
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(12.dp),
-                    supportingText = { Text("At least 8 characters", style = MaterialTheme.typography.bodySmall) }
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                OutlinedTextField(
-                    value = confirmPassword,
-                    onValueChange = { confirmPassword = it },
-                    label = { Text("Confirm New Password") },
-                    singleLine = true,
-                    visualTransformation = PasswordVisualTransformation(),
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(12.dp),
-                    isError = confirmPassword.isNotBlank() && newPassword != confirmPassword,
-                    supportingText = {
-                        if (confirmPassword.isNotBlank() && newPassword != confirmPassword) {
-                            Text("Passwords don't match", color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
-                        }
-                    }
-                )
-            }
-        },
-        confirmButton = {
-            TextButton(
-                onClick = { onChangePassword(currentPassword, newPassword) },
-                enabled = currentPassword.isNotBlank() && newPassword.length >= 8 && newPassword == confirmPassword
-            ) {
-                Text("Change Password")
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) { Text("Cancel") }
-        }
-    )
+        title = "Change password",
+        icon = Icons.Outlined.Lock,
+        confirm = NebDialogAction(
+            label = "Change",
+            onClick = { onChangePassword(currentPassword, newPassword) },
+            enabled = currentPassword.isNotBlank() && newPassword.length >= 8 && newPassword == confirmPassword
+        ),
+        dismiss = NebDialogAction("Cancel", onDismiss)
+    ) {
+        NebDialogPasswordField(
+            value = currentPassword,
+            onValueChange = { currentPassword = it },
+            label = "Current password"
+        )
+        NebDialogPasswordField(
+            value = newPassword,
+            onValueChange = { newPassword = it },
+            label = "New password",
+            supportingText = "At least 8 characters"
+        )
+        NebDialogPasswordField(
+            value = confirmPassword,
+            onValueChange = { confirmPassword = it },
+            label = "Confirm new password",
+            isError = mismatch,
+            supportingText = if (mismatch) "Passwords don't match" else null,
+            revealable = false
+        )
+    }
 }

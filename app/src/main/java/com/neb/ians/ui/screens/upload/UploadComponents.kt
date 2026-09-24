@@ -43,8 +43,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.RadioButton
-import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
@@ -70,6 +68,7 @@ import androidx.compose.ui.window.DialogProperties
 import com.neb.ians.ui.components.NebCard
 import com.neb.ians.ui.components.NebChip
 import com.neb.ians.ui.components.NebFilledButton
+import com.neb.ians.ui.components.NebSelectRow
 import com.neb.ians.ui.theme.getSubjectColor
 
 @Composable
@@ -241,35 +240,11 @@ fun SelectionDialog(
                     verticalArrangement = Arrangement.spacedBy(2.dp)
                 ) {
                     items(options, key = { it }) { option ->
-                        val selected = option == selectedValue
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clip(RoundedCornerShape(10.dp))
-                                .clickable { onSelect(option) }
-                                .padding(horizontal = 8.dp, vertical = 10.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(12.dp)
-                        ) {
-                            RadioButton(
-                                selected = selected,
-                                onClick = { onSelect(option) },
-                                colors = RadioButtonDefaults.colors(
-                                    selectedColor = MaterialTheme.colorScheme.primary,
-                                    unselectedColor = MaterialTheme.colorScheme.outline
-                                ),
-                                modifier = Modifier.size(22.dp)
-                            )
-                            Text(
-                                text = option.ifBlank { "—" },
-                                style = MaterialTheme.typography.bodyMedium,
-                                fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal,
-                                color = if (selected) MaterialTheme.colorScheme.primary
-                                else MaterialTheme.colorScheme.onSurface,
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis
-                            )
-                        }
+                        NebSelectRow(
+                            label = option.ifBlank { "—" },
+                            selected = option == selectedValue,
+                            onClick = { onSelect(option) }
+                        )
                     }
                 }
             }

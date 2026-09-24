@@ -87,6 +87,18 @@ object CanvasJsonSerializer {
                     secObj.put("bulletItems", bArray)
                 }
 
+                sec.flowSteps?.let { steps ->
+                    val fArray = JSONArray()
+                    steps.forEach { st ->
+                        val fObj = JSONObject()
+                        fObj.put("title", st.title)
+                        fObj.put("desc", st.desc)
+                        st.status?.let { fObj.put("status", it) }
+                        fArray.put(fObj)
+                    }
+                    secObj.put("flowSteps", fArray)
+                }
+
                 sec.timelineItems?.let { tls ->
                     val tArray = JSONArray()
                     tls.forEach { tl ->
@@ -125,99 +137,7 @@ object CanvasJsonSerializer {
             }
             val contentObj = obj.optJSONObject("content")
 
-            var content = CanvasNodeContent()
-            if (contentObj != null) {
-                val sections = mutableListOf<CanvasSection>()
-                val sectionsArray = contentObj.optJSONArray("sections")
-                if (sectionsArray != null) {
-                    for (j in 0 until sectionsArray.length()) {
-                        val secObj = sectionsArray.getJSONObject(j)
-                        val type = secObj.getString("type")
-                        val title = if (secObj.has("title")) secObj.getString("title") else null
-                        val textContent = if (secObj.has("content")) secObj.getString("content") else null
-
-                        var dNodes: MutableList<DiagramNodeItem>? = null
-                        val dArray = secObj.optJSONArray("nodes")
-                        if (dArray != null) {
-                            dNodes = mutableListOf()
-                            for (k in 0 until dArray.length()) {
-                                val d = dArray.getJSONObject(k)
-                                dNodes.add(DiagramNodeItem(d.getString("id"), d.getString("label"), d.optString("desc", "")))
-                            }
-                        }
-
-                        var headers: MutableList<String>? = null
-                        val hArray = secObj.optJSONArray("headers")
-                        if (hArray != null) {
-                            headers = mutableListOf()
-                            for (k in 0 until hArray.length()) headers.add(hArray.getString(k))
-                        }
-
-                        var rows: MutableList<List<String>>? = null
-                        val rArray = secObj.optJSONArray("rows")
-                        if (rArray != null) {
-                            rows = mutableListOf()
-                            for (k in 0 until rArray.length()) {
-                                val row = rArray.getJSONArray(k)
-                                val rowList = mutableListOf<String>()
-                                for (l in 0 until row.length()) rowList.add(row.getString(l))
-                                rows.add(rowList)
-                            }
-                        }
-
-                        var cardItems: MutableList<CardRefItem>? = null
-                        val cArray = secObj.optJSONArray("cardItems")
-                        if (cArray != null) {
-                            cardItems = mutableListOf()
-                            for (k in 0 until cArray.length()) {
-                                val c = cArray.getJSONObject(k)
-                                val bullets = mutableListOf<String>()
-                                val bArray = c.optJSONArray("bullets")
-                                if (bArray != null) {
-                                    for (l in 0 until bArray.length()) bullets.add(bArray.getString(l))
-                                }
-                                cardItems.add(CardRefItem(c.getString("title"), c.optString("subtitle", ""), bullets, c.optString("desc", "")))
-                            }
-                        }
-
-                        var bulletItems: MutableList<String>? = null
-                        val bArray = secObj.optJSONArray("bulletItems")
-                        if (bArray != null) {
-                            bulletItems = mutableListOf()
-                            for (k in 0 until bArray.length()) bulletItems.add(bArray.getString(k))
-                        }
-
-                        var timelineItems: MutableList<TimelineItem>? = null
-                        val tArray = secObj.optJSONArray("timelineItems")
-                        if (tArray != null) {
-                            timelineItems = mutableListOf()
-                            for (k in 0 until tArray.length()) {
-                                val tl = tArray.getJSONObject(k)
-                                timelineItems.add(TimelineItem(tl.getInt("number"), tl.getString("title"), tl.optString("subtitle", "")))
-                            }
-                        }
-
-                        sections.add(
-                            CanvasSection(
-                                type = type,
-                                title = title,
-                                content = textContent,
-                                nodes = dNodes,
-                                headers = headers,
-                                rows = rows,
-                                cardItems = cardItems,
-                                bulletItems = bulletItems,
-                                timelineItems = timelineItems
-                            )
-                        )
-                    }
-                }
-                content = CanvasNodeContent(
-                    title = contentObj.optString("title", ""),
-                    summary = contentObj.optString("summary", ""),
-                    sections = sections
-                )
-            }
+            val content = if (contentObj != null) parseContent(contentObj) else CanvasNodeContent()
 
             list.add(
                 CanvasNode(
@@ -242,5 +162,140 @@ object CanvasJsonSerializer {
             )
         }
         return list
+    }
+
+    fun parseContent(contentObj: JSONObject): CanvasNodeContent {
+        val sections = mutableListOf<CanvasSection>()
+        val sectionsArray = contentObj.optJSONArray("sections")
+        if (sectionsArray != null) {
+            for (j in 0 until sectionsArray.length()) {
+                val secObj = sectionsArray.optJSONObject(j) ?: continue
+                val type = secObj.optString("type", "text").ifBlank { "text" }
+                val title = if (secObj.has("title")) secObj.optString("title").ifBlank { null } else null
+                val textContent = if (secObj.has("content")) secObj.optString("content").ifBlank { null } else null
+
+                var dNodes: MutableList<DiagramNodeItem>? = null
+                val dArray = secObj.optJSONArray("nodes")
+                if (dArray != null) {
+                    dNodes = mutableListOf()
+                    for (k in 0 until dArray.length()) {
+                        val d = dArray.optJSONObject(k) ?: continue
+                        val label = d.optString("label")
+                        if (label.isBlank()) continue
+                        dNodes.add(
+                            DiagramNodeItem(
+                                d.optString("id").ifBlank { "n$k" },
+                                label,
+                                d.optString("desc", "")
+                            )
+                        )
+                    }
+                }
+
+                var headers: MutableList<String>? = null
+                val hArray = secObj.optJSONArray("headers")
+                if (hArray != null) {
+                    headers = mutableListOf()
+                    for (k in 0 until hArray.length()) headers.add(hArray.optString(k))
+                }
+
+                var rows: MutableList<List<String>>? = null
+                val rArray = secObj.optJSONArray("rows")
+                if (rArray != null) {
+                    rows = mutableListOf()
+                    for (k in 0 until rArray.length()) {
+                        val row = rArray.optJSONArray(k) ?: continue
+                        val rowList = mutableListOf<String>()
+                        for (l in 0 until row.length()) rowList.add(row.optString(l))
+                        rows.add(rowList)
+                    }
+                }
+
+                var cardItems: MutableList<CardRefItem>? = null
+                val cArray = secObj.optJSONArray("cardItems")
+                if (cArray != null) {
+                    cardItems = mutableListOf()
+                    for (k in 0 until cArray.length()) {
+                        val c = cArray.optJSONObject(k) ?: continue
+                        val bullets = mutableListOf<String>()
+                        val bArray = c.optJSONArray("bullets")
+                        if (bArray != null) {
+                            for (l in 0 until bArray.length()) bullets.add(bArray.optString(l))
+                        }
+                        cardItems.add(
+                            CardRefItem(
+                                c.optString("title"),
+                                c.optString("subtitle", ""),
+                                bullets,
+                                c.optString("desc", "")
+                            )
+                        )
+                    }
+                }
+
+                var bulletItems: MutableList<String>? = null
+                val bArray = secObj.optJSONArray("bulletItems")
+                if (bArray != null) {
+                    bulletItems = mutableListOf()
+                    for (k in 0 until bArray.length()) bulletItems.add(bArray.optString(k))
+                }
+
+                var flowSteps: MutableList<FlowStepItem>? = null
+                val fArray = secObj.optJSONArray("flowSteps")
+                if (fArray != null) {
+                    flowSteps = mutableListOf()
+                    for (k in 0 until fArray.length()) {
+                        val f = fArray.optJSONObject(k) ?: continue
+                        val fTitle = f.optString("title")
+                        if (fTitle.isBlank()) continue
+                        flowSteps.add(
+                            FlowStepItem(
+                                fTitle,
+                                f.optString("desc", ""),
+                                if (f.has("status")) f.optString("status").ifBlank { null } else null
+                            )
+                        )
+                    }
+                }
+
+                var timelineItems: MutableList<TimelineItem>? = null
+                val tArray = secObj.optJSONArray("timelineItems")
+                if (tArray != null) {
+                    timelineItems = mutableListOf()
+                    for (k in 0 until tArray.length()) {
+                        val tl = tArray.optJSONObject(k) ?: continue
+                        val tlTitle = tl.optString("title")
+                        if (tlTitle.isBlank()) continue
+                        timelineItems.add(
+                            TimelineItem(
+                                tl.optInt("number", k + 1),
+                                tlTitle,
+                                tl.optString("subtitle", "")
+                            )
+                        )
+                    }
+                }
+
+                sections.add(
+                    CanvasSection(
+                        type = type,
+                        title = title,
+                        content = textContent,
+                        nodes = dNodes,
+                        headers = headers,
+                        rows = rows,
+                        cardItems = cardItems,
+                        bulletItems = bulletItems,
+                        flowSteps = flowSteps,
+                        timelineItems = timelineItems
+                    )
+                )
+            }
+        }
+        return CanvasNodeContent(
+            title = contentObj.optString("title", ""),
+            summary = contentObj.optString("summary", ""),
+            sections = sections
+        )
     }
 }

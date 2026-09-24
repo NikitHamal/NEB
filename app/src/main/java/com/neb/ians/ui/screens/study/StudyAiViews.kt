@@ -27,6 +27,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.outlined.Tune
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material3.CircularProgressIndicator
@@ -63,6 +64,10 @@ import com.neb.ians.data.api.ApiStudyQuizQuestion
 import com.neb.ians.data.api.ApiStudyQuizSummary
 import com.neb.ians.ui.components.MarkdownText
 import com.neb.ians.ui.components.KaTeXText
+import com.neb.ians.ui.components.NebChipRow
+import com.neb.ians.ui.components.NebDialog
+import com.neb.ians.ui.components.NebDialogAction
+import com.neb.ians.ui.components.NebFilterChip
 import com.neb.ians.ui.components.WebChip
 import com.neb.ians.ui.components.WebOutlinedButton
 import com.neb.ians.ui.components.WebPanelShape
@@ -558,21 +563,26 @@ fun StudyCountDialog(
     onPick: (Int) -> Unit,
     options: List<Int> = listOf(5, 10, 15, 20)
 ) {
-    AlertDialog(
+    var chosen by remember { mutableStateOf(options.firstOrNull() ?: 5) }
+
+    NebDialog(
         onDismissRequest = onDismiss,
-        title = { Text(title) },
-        text = {
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                options.forEach { count ->
-                    WebChip(text = "$count", onClick = { onPick(count) })
-                }
+        title = title,
+        supportingText = "Pick how many items to generate.",
+        icon = Icons.Outlined.Tune,
+        confirm = NebDialogAction("Generate", { onPick(chosen) }),
+        dismiss = NebDialogAction("Cancel", onDismiss)
+    ) {
+        NebChipRow {
+            options.forEach { count ->
+                NebFilterChip(
+                    label = "$count",
+                    selected = chosen == count,
+                    onClick = { chosen = count }
+                )
             }
-        },
-        confirmButton = {},
-        dismissButton = {
-            TextButton(onClick = onDismiss) { Text("Cancel") }
         }
-    )
+    }
 }
 
 // -------------------------------------------------------------

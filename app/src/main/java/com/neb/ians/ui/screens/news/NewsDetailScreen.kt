@@ -51,6 +51,7 @@ import com.neb.ians.ui.components.ConfirmDeleteDialog
 import com.neb.ians.ui.components.ErrorCard
 import com.neb.ians.ui.components.NebCommentComposerBar
 import com.neb.ians.ui.components.MarkdownText
+import com.neb.ians.ui.components.NebModalSheet
 import com.neb.ians.ui.components.WebCardShape
 import com.neb.ians.ui.components.WebPillShape
 import com.neb.ians.ui.screens.home.NewsCategoryBadge
@@ -268,13 +269,12 @@ fun NewsDetailScreen(
                 uiState.comments.firstOrNull { it.id == targetId }
             }
 
-            ModalBottomSheet(
-                onDismissRequest = {
+            NebModalSheet(
+                onDismiss = {
                     activeThreadParentId = null
                     activeThreadTargetId = null
                 },
-                sheetState = sheetState,
-                containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
+                sheetState = sheetState
             ) {
                 Column(
                     modifier = Modifier

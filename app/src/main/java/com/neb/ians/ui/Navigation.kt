@@ -176,6 +176,9 @@ sealed class Screen(val route: String) {
     data object WebPortal : Screen("web_portal/{url}") {
         fun createRoute(url: String) = "web_portal/${java.net.URLEncoder.encode(url, "UTF-8")}"
     }
+    data object Legal : Screen("legal/{doc}") {
+        fun createRoute(doc: String) = "legal/$doc"
+    }
 }
 
 val glassNavItems = listOf(
@@ -674,6 +677,16 @@ fun NEBiansNavHost(
                 )
             }
             composable(
+                route = Screen.Legal.route,
+                arguments = listOf(navArgument("doc") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val doc = backStackEntry.arguments?.getString("doc") ?: com.neb.ians.ui.screens.legal.NebLegal.PRIVACY
+                com.neb.ians.ui.screens.legal.LegalScreen(
+                    documentKey = doc,
+                    onClose = { navController.popBackStack() }
+                )
+            }
+            composable(
                 route = Screen.WebPortal.route,
                 arguments = listOf(navArgument("url") { type = NavType.StringType })
             ) { backStackEntry ->
@@ -699,6 +712,9 @@ fun NEBiansNavHost(
                     },
                     onNavigateToWebPortal = { url ->
                         navController.navigate(Screen.WebPortal.createRoute(url))
+                    },
+                    onNavigateToLegal = { doc ->
+                        navController.navigate(Screen.Legal.createRoute(doc))
                     },
                     onNavigateToCanvas = {
                         navController.navigate(Screen.Canvas.createRoute())

@@ -50,6 +50,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.neb.ians.ui.components.NebModalSheet
 import com.neb.ians.ui.components.NebPlayerView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -440,13 +441,12 @@ fun ResourceDetailScreen(
                     uiState.comments.firstOrNull { it.id == targetId }
                 }
 
-                ModalBottomSheet(
-                    onDismissRequest = {
+                NebModalSheet(
+                    onDismiss = {
                         activeThreadParentId = null
                         activeThreadTargetId = null
                     },
-                    sheetState = sheetState,
-                    containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
+                    sheetState = sheetState
                 ) {
                     Column(
                         modifier = Modifier

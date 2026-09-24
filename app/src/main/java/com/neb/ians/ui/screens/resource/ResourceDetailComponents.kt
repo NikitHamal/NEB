@@ -48,7 +48,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -93,6 +92,7 @@ import androidx.compose.material.icons.outlined.Info
 import coil.compose.AsyncImage
 import android.content.Context
 import android.net.Uri
+import com.neb.ians.ui.components.NebModalSheet
 import java.io.File
 import java.io.FileOutputStream
 import com.neb.ians.data.api.ApiResource
@@ -917,10 +917,9 @@ fun ResourcePurchaseSheet(
     val isRejected = purchaseStatus.equals("rejected", ignoreCase = true)
     val canSubmit = !submitting && (transactionId.isNotBlank() || proofUri != null)
 
-    ModalBottomSheet(
-        onDismissRequest = onDismiss,
-        sheetState = sheetState,
-        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
+    NebModalSheet(
+        onDismiss = onDismiss,
+        sheetState = sheetState
     ) {
         Column(
             modifier = Modifier

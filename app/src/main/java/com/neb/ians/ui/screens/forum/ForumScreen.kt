@@ -73,6 +73,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.R
 import com.neb.ians.data.api.ApiErrorMapper
+import com.neb.ians.ui.components.NebChipGroup
+import com.neb.ians.ui.components.NebModalSheet
 import com.neb.ians.ui.components.ConfirmDeleteDialog
 import com.neb.ians.ui.components.ErrorCard
 import com.neb.ians.ui.components.WafWarningBanner
@@ -374,47 +376,24 @@ fun ForumScreen(
         )
     }
 
-    // ----- Filter dialog -----
     if (showFilterDialog) {
-        AlertDialog(
-            onDismissRequest = { showFilterDialog = false },
-            title = { Text("Filter by Category", fontWeight = FontWeight.Bold) },
-            text = {
-                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                    TextButton(
-                        onClick = {
-                            viewModel.selectCategory(null)
-                            showFilterDialog = false
-                        },
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Text(
-                            "All Categories",
-                            fontWeight = if (uiState.selectedCategory == null) FontWeight.Bold else FontWeight.Normal,
-                            color = if (uiState.selectedCategory == null) MaterialTheme.colorScheme.primary
-                                    else MaterialTheme.colorScheme.onSurface
-                        )
-                    }
-                    ForumUiState.CATEGORIES.forEach { cat ->
-                        TextButton(
-                            onClick = {
-                                viewModel.selectCategory(cat)
-                                showFilterDialog = false
-                            },
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            Text(
-                                cat,
-                                fontWeight = if (uiState.selectedCategory == cat) FontWeight.Bold else FontWeight.Normal,
-                                color = if (uiState.selectedCategory == cat) MaterialTheme.colorScheme.primary
-                                        else MaterialTheme.colorScheme.onSurface
-                            )
-                        }
-                    }
-                }
-            },
-            confirmButton = {}
-        )
+        NebModalSheet(
+            onDismiss = { showFilterDialog = false },
+            title = "Categories",
+            subtitle = "Show only the discussions you care about.",
+            showClose = true
+        ) {
+            NebChipGroup(
+                options = listOf("All") + ForumUiState.CATEGORIES,
+                selected = uiState.selectedCategory ?: "All",
+                onSelect = { picked ->
+                    viewModel.selectCategory(if (picked == null || picked == "All") null else picked)
+                    showFilterDialog = false
+                },
+                toggleable = false,
+                modifier = Modifier.padding(horizontal = 22.dp)
+            )
+        }
     }
 }
 
