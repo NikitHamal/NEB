@@ -39,7 +39,8 @@ import coil.compose.AsyncImage
 import com.neb.ians.data.api.ApiInstitution
 import com.neb.ians.ui.components.NebAuthField
 import com.neb.ians.ui.components.NebAuthType
-import com.neb.ians.ui.components.NebSegmentedChoice
+import com.neb.ians.ui.components.NebChoiceTiles
+import com.neb.ians.ui.components.rememberNebChoiceTiles
 import com.neb.ians.ui.components.NebFieldGroupLabel
 import com.neb.ians.ui.components.NebOutlinePillButton
 import com.neb.ians.ui.components.NebPickerRow
@@ -76,8 +77,8 @@ internal fun EditStudiesSection(state: CompleteProfileUiState, viewModel: Comple
                     "institution" -> {
                         NebFieldGroupLabel(text = "Type")
                         Spacer(modifier = Modifier.height(10.dp))
-                        NebSegmentedChoice(
-                            options = EDIT_INSTITUTION_TYPES,
+                        NebChoiceTiles(
+                            segments = rememberNebChoiceTiles(EDIT_INSTITUTION_TYPES),
                             selected = state.institutionType.replaceFirstChar { it.uppercase() }
                                 .takeIf { state.institutionType.isNotBlank() },
                             onSelect = { viewModel.onInstitutionTypeChange(it.lowercase()) }

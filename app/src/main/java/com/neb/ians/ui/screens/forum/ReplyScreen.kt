@@ -24,7 +24,6 @@ import androidx.compose.material.icons.outlined.AddPhotoAlternate
 import androidx.compose.material.icons.outlined.AttachFile
 import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -228,7 +227,7 @@ fun ReplyScreen(
                                 fontWeight = FontWeight.SemiBold
                             )
                             Text(
-                                text = "Up to ${ForumMediaUploadHelper.MAX_ATTACHMENTS} files · video 150 MB · audio 40 MB · files 30 MB",
+                                text = "Up to ${ForumMediaUploadHelper.MAX_ATTACHMENTS} files, 150 MB a video and 40 MB an audio",
                                 style = MaterialTheme.typography.labelSmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )

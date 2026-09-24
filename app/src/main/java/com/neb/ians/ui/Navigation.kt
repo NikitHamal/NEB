@@ -96,6 +96,7 @@ import androidx.compose.material.icons.outlined.SpaceDashboard
 import androidx.compose.material.icons.outlined.RateReview
 import androidx.compose.material.icons.outlined.CloudUpload
 import androidx.activity.compose.BackHandler
+import com.neb.ians.ui.theme.NebAccents
 
 sealed class Screen(val route: String) {
     data object Splash : Screen("splash")
@@ -295,20 +296,23 @@ fun NEBiansNavHost(
         listOf(
             NebFabAction(
                 label = "New canvas",
-                icon = Icons.Outlined.SpaceDashboard,
+                icon = Icons.Outlined.Draw,
                 onClick = { navController.navigate(Screen.Canvas.createRoute()) },
+                accent = NebAccents.Teal,
                 testTag = "create_menu_new_canvas"
             ),
             NebFabAction(
                 label = "Upload materials",
                 icon = Icons.Outlined.CloudUpload,
                 onClick = { navController.navigate(Screen.Upload.route) },
+                accent = NebAccents.Amber,
                 testTag = "create_menu_upload_materials"
             ),
             NebFabAction(
                 label = "New post",
                 icon = Icons.Outlined.RateReview,
                 onClick = { navController.navigate(Screen.CreatePost.route) },
+                accent = NebAccents.Indigo,
                 testTag = "create_menu_new_post"
             )
         )

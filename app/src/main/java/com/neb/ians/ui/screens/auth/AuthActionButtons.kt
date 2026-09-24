@@ -23,6 +23,8 @@ import com.neb.ians.R
 import com.neb.ians.ui.theme.Poppins
 import com.neb.ians.util.TactileType
 import com.neb.ians.util.rememberTactileFeedback
+import com.neb.ians.ui.components.NebLoaderSize
+import com.neb.ians.ui.components.NebLoader
 
 @Composable
 fun AuthActionButtons(
@@ -75,11 +77,7 @@ fun AuthActionButtons(
             )
         ) {
             if (isLoading && loadingProvider == "google") {
-                CircularProgressIndicator(
-                    modifier = Modifier.size(20.dp),
-                    color = if (isDark) Color.White else Color(0xFF1F1F21),
-                    strokeWidth = 2.dp
-                )
+                NebLoader(size = NebLoaderSize.Inline, color = if (isDark) Color.White else Color(0xFF1F1F21))
             } else {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -137,11 +135,7 @@ fun AuthActionButtons(
             )
         ) {
             if (isLoading && loadingProvider == "github") {
-                CircularProgressIndicator(
-                    modifier = Modifier.size(20.dp),
-                    color = Color.White,
-                    strokeWidth = 2.dp
-                )
+                NebLoader(size = NebLoaderSize.Inline, color = Color.White)
             } else {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,

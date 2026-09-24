@@ -3,11 +3,9 @@
 package com.neb.ians.ui.screens.upload
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -20,27 +18,31 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
-import androidx.compose.material.icons.rounded.Check
-import androidx.compose.material.icons.rounded.ExpandMore
-import androidx.compose.material3.Icon
+import androidx.compose.material.icons.rounded.Assignment
+import androidx.compose.material.icons.rounded.Category
+import androidx.compose.material.icons.rounded.Description
+import androidx.compose.material.icons.rounded.Image
+import androidx.compose.material.icons.rounded.LocalOffer
+import androidx.compose.material.icons.rounded.Public
+import androidx.compose.material.icons.rounded.School
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.neb.ians.ui.components.NebSelectField
 import com.neb.ians.ui.components.NebButton
 import com.neb.ians.ui.components.NebButtonSize
 import com.neb.ians.ui.components.NebButtonTone
+import com.neb.ians.ui.components.NebSectionLabel
+import com.neb.ians.ui.components.art.NebStateArt
+import com.neb.ians.ui.components.art.NebStateKind
 import com.neb.ians.ui.components.nebPressable
-import com.neb.ians.ui.theme.nebSpatialSpec
 
 /**
  * The two answers that actually matter.
@@ -54,6 +56,7 @@ fun UploadEssentials(
     state: UploadFormState,
     viewModel: UploadViewModel,
     onOpenSubjectPicker: () -> Unit,
+    onOpenLevelPicker: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -65,48 +68,22 @@ fun UploadEssentials(
             error = state.titleError
         )
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .nebPressable(onClick = onOpenSubjectPicker)
-                .clip(RoundedCornerShape(18.dp))
-                .background(MaterialTheme.colorScheme.surfaceContainerLow)
-                .padding(horizontal = 14.dp, vertical = 12.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Column(Modifier.weight(1f)) {
-                Text(
-                    text = "Subject",
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                Text(
-                    text = state.subject.ifBlank { "Choose one or more" },
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = if (state.subject.isBlank()) {
-                        MaterialTheme.colorScheme.onSurfaceVariant
-                    } else {
-                        MaterialTheme.colorScheme.onSurface
-                    },
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
-            if (state.subjectError != null) {
-                Text(
-                    text = "Required",
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.error
-                )
-            }
-        }
+        NebSelectField(
+            label = "Subject",
+            values = state.subject.asCsvList(),
+            placeholder = "Choose one or more",
+            icon = Icons.Rounded.Category,
+            onClick = onOpenSubjectPicker,
+            isError = state.subjectError != null,
+            errorText = "Pick at least one subject"
+        )
 
-        UploadPicker(
+        NebSelectField(
             label = "Level",
-            value = state.gradeLevel,
-            options = UploadOptions.GRADE_LEVELS,
-            onSelect = viewModel::updateGradeLevel,
-            placeholder = "Class 11, Bachelor, …"
+            values = listOfNotNull(state.gradeLevel.takeIf { it.isNotBlank() }),
+            placeholder = "Class 11, Bachelor, your own…",
+            icon = Icons.Rounded.School,
+            onClick = onOpenLevelPicker
         )
 
         AnimatedVisibility(visible = state.reusedDefaults) {
@@ -124,7 +101,7 @@ fun UploadEssentials(
                 Text(
                     text = "Clear",
                     style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier
                         .nebPressable(onClick = viewModel::clearReusedDefaults)
                         .clip(CircleShape)
@@ -138,183 +115,126 @@ fun UploadEssentials(
 /**
  * Everything the library would like but nobody has to supply.
  *
- * Folded away by default. The old wizard spent three of its five steps here,
- * which taught people that uploading is long when almost all of it is optional.
+ * Its own step, after the upload is already valid, so the screen can be left at
+ * any point without losing the thing the user came to do. The step ends in Skip
+ * until something here is filled in, and in Next once something is.
  */
 @Composable
 fun UploadMoreDetails(
     state: UploadFormState,
     viewModel: UploadViewModel,
-    expanded: Boolean,
-    onToggle: () -> Unit,
     onOpenTagPicker: () -> Unit,
+    onOpenTypePicker: () -> Unit,
+    onOpenExamPicker: () -> Unit,
+    onOpenProvincePicker: () -> Unit,
     onPickCover: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val chevron by animateFloatAsState(
-        targetValue = if (expanded) 180f else 0f,
-        animationSpec = nebSpatialSpec(),
-        label = "upload_more_chevron"
-    )
+    Column(modifier = modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        NebSectionLabel(text = "What is inside")
+        UploadTextField(
+            value = state.description,
+            onValueChange = viewModel::updateDescription,
+            label = "Description",
+            placeholder = "What is inside, in a line or two",
+            singleLine = false,
+            minLines = 3
+        )
+        NebSelectField(
+            label = "Type",
+            values = listOfNotNull(state.type.takeIf { it.isNotBlank() }),
+            placeholder = "PDF, note, video…",
+            icon = Icons.Rounded.Description,
+            onClick = onOpenTypePicker
+        )
+        NebSelectField(
+            label = "Tags",
+            values = state.tags.asCsvList(),
+            placeholder = "Helps people find this",
+            icon = Icons.Rounded.LocalOffer,
+            onClick = onOpenTagPicker
+        )
 
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .animateContentSize(animationSpec = nebSpatialSpec()),
-        verticalArrangement = Arrangement.spacedBy(10.dp)
-    ) {
+        Spacer(modifier = Modifier.height(4.dp))
+        NebSectionLabel(text = "Where it comes from")
+        NebSelectField(
+            label = "Exam",
+            values = listOfNotNull(state.examType.takeIf { it.isNotBlank() }),
+            placeholder = "Any",
+            icon = Icons.Rounded.Assignment,
+            onClick = onOpenExamPicker
+        )
+        NebSelectField(
+            label = "Province",
+            values = listOfNotNull(state.pradesh.takeIf { it.isNotBlank() }),
+            placeholder = "Any",
+            icon = Icons.Rounded.Public,
+            onClick = onOpenProvincePicker
+        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            UploadTextField(
+                value = state.school,
+                onValueChange = viewModel::updateSchool,
+                label = "School",
+                modifier = Modifier.weight(1f)
+            )
+            UploadTextField(
+                value = state.year,
+                onValueChange = viewModel::updateYear,
+                label = "Year",
+                modifier = Modifier.weight(1f),
+                keyboardType = KeyboardType.Number
+            )
+        }
+        UploadTextField(
+            value = state.authorName,
+            onValueChange = viewModel::updateAuthorName,
+            label = "Original author",
+            placeholder = "Credit whoever made it",
+            supporting = "Leave blank if this is your own work"
+        )
+        UploadTextField(
+            value = state.sourceUrl,
+            onValueChange = viewModel::updateSourceUrl,
+            label = "Source link",
+            keyboardType = KeyboardType.Uri
+        )
+
+        Spacer(modifier = Modifier.height(4.dp))
+        NebSectionLabel(text = "How it looks and what it costs")
+        CoverRow(state = state, onPickCover = onPickCover)
+
+        val sellShape = RoundedCornerShape(20.dp)
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .nebPressable(onClick = onToggle)
-                .clip(RoundedCornerShape(18.dp))
-                .padding(vertical = 10.dp),
-            verticalAlignment = Alignment.CenterVertically
+                .clip(sellShape)
+                .background(MaterialTheme.colorScheme.surfaceContainerLow)
+                .border(1.dp, MaterialTheme.colorScheme.outlineVariant, sellShape)
+                .padding(horizontal = 14.dp, vertical = 12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Column(Modifier.weight(1f)) {
-                Text("More details", style = MaterialTheme.typography.titleSmallEmphasized)
+                Text("Sell this resource", style = MaterialTheme.typography.bodyLarge)
                 Text(
-                    text = "Description, tags, source, price — all optional",
+                    text = "Buyers pay once, you keep the credit",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
-            Icon(
-                imageVector = Icons.Rounded.ExpandMore,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.rotate(chevron)
-            )
+            Switch(checked = state.isPaid, onCheckedChange = viewModel::updateIsPaid)
         }
-
-        if (expanded) {
+        AnimatedVisibility(visible = state.isPaid) {
             UploadTextField(
-                value = state.description,
-                onValueChange = viewModel::updateDescription,
-                label = "Description",
-                placeholder = "What is inside, in a line or two",
-                singleLine = false,
-                minLines = 3
+                value = state.price,
+                onValueChange = viewModel::updatePrice,
+                label = "Price (Rs.)",
+                keyboardType = KeyboardType.Number
             )
-            UploadPicker(
-                label = "Type",
-                value = state.type,
-                options = UploadOptions.RESOURCE_TYPES,
-                onSelect = viewModel::updateType,
-                allowClear = false
-            )
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
-            ) {
-                UploadPicker(
-                    label = "Exam",
-                    value = state.examType,
-                    options = UploadOptions.EXAM_TYPES,
-                    onSelect = viewModel::updateExamType,
-                    modifier = Modifier.weight(1f),
-                    placeholder = "Any"
-                )
-                UploadPicker(
-                    label = "Province",
-                    value = state.pradesh,
-                    options = UploadOptions.PROVINCES,
-                    onSelect = viewModel::updatePradesh,
-                    modifier = Modifier.weight(1f),
-                    placeholder = "Any"
-                )
-            }
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
-            ) {
-                UploadTextField(
-                    value = state.school,
-                    onValueChange = viewModel::updateSchool,
-                    label = "School",
-                    modifier = Modifier.weight(1f)
-                )
-                UploadTextField(
-                    value = state.year,
-                    onValueChange = viewModel::updateYear,
-                    label = "Year",
-                    modifier = Modifier.weight(1f),
-                    keyboardType = KeyboardType.Number
-                )
-            }
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .nebPressable(onClick = onOpenTagPicker)
-                    .clip(RoundedCornerShape(18.dp))
-                    .background(MaterialTheme.colorScheme.surfaceContainerLow)
-                    .padding(horizontal = 14.dp, vertical = 12.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Column(Modifier.weight(1f)) {
-                    Text(
-                        text = "Tags",
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    Text(
-                        text = state.tags.ifBlank { "Helps people find this" },
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = if (state.tags.isBlank()) {
-                            MaterialTheme.colorScheme.onSurfaceVariant
-                        } else {
-                            MaterialTheme.colorScheme.onSurface
-                        },
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                }
-            }
-
-            UploadTextField(
-                value = state.authorName,
-                onValueChange = viewModel::updateAuthorName,
-                label = "Original author",
-                placeholder = "Credit whoever made it",
-                supporting = "Leave blank if this is your own work"
-            )
-            UploadTextField(
-                value = state.sourceUrl,
-                onValueChange = viewModel::updateSourceUrl,
-                label = "Source link",
-                keyboardType = KeyboardType.Uri
-            )
-
-            CoverRow(state = state, onPickCover = onPickCover)
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(18.dp))
-                    .background(MaterialTheme.colorScheme.surfaceContainerLow)
-                    .padding(horizontal = 14.dp, vertical = 12.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                Column(Modifier.weight(1f)) {
-                    Text("Sell this resource", style = MaterialTheme.typography.bodyLarge)
-                    Text(
-                        text = "Buyers pay once, you keep the credit",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-                Switch(checked = state.isPaid, onCheckedChange = viewModel::updateIsPaid)
-            }
-            AnimatedVisibility(visible = state.isPaid) {
-                UploadTextField(
-                    value = state.price,
-                    onValueChange = viewModel::updatePrice,
-                    label = "Price (Rs.)",
-                    keyboardType = KeyboardType.Number
-                )
-            }
         }
     }
 }
@@ -323,31 +243,13 @@ fun UploadMoreDetails(
 private fun CoverRow(state: UploadFormState, onPickCover: () -> Unit) {
     val cover: Any? = state.thumbnailUri ?: state.thumbnailUrl.takeIf { it.isNotBlank() }
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .nebPressable(onClick = onPickCover)
-                .clip(RoundedCornerShape(18.dp))
-                .background(MaterialTheme.colorScheme.surfaceContainerLow)
-                .padding(horizontal = 14.dp, vertical = 12.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Column(Modifier.weight(1f)) {
-                Text(
-                    text = "Cover image",
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                Text(
-                    text = when {
-                        cover != null -> "Chosen"
-                        state.willCombine -> "First page is used automatically"
-                        else -> "Optional"
-                    },
-                    style = MaterialTheme.typography.bodyLarge
-                )
-            }
-        }
+        NebSelectField(
+            label = "Cover image",
+            values = listOfNotNull(if (cover != null) "Chosen" else null),
+            placeholder = if (state.willCombine) "First page is used automatically" else "Optional",
+            icon = Icons.Rounded.Image,
+            onClick = onPickCover
+        )
         CoverPreview(model = state.thumbnailUri)
     }
 }
@@ -376,21 +278,8 @@ fun UploadSuccessScreen(onUploadAnother: () -> Unit, onBrowseLibrary: () -> Unit
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Box(
-            modifier = Modifier
-                .size(84.dp)
-                .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.primaryContainer),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                imageVector = Icons.Rounded.Check,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                modifier = Modifier.size(40.dp)
-            )
-        }
-        Spacer(Modifier.height(24.dp))
+        NebStateArt(kind = NebStateKind.Success, height = 150.dp)
+        Spacer(Modifier.height(20.dp))
         Text(
             text = "Sent for review",
             style = MaterialTheme.typography.headlineSmallEmphasized,

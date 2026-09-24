@@ -196,7 +196,7 @@ private fun PersonRow(
                 val subtitle = listOfNotNull(
                     person.reason?.takeIf { it.isNotBlank() },
                     person.detail?.takeIf { it.isNotBlank() }
-                ).joinToString(" · ")
+                ).joinToString(", ")
                 if (subtitle.isNotBlank()) {
                     Text(
                         text = subtitle,

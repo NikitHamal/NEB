@@ -1,84 +1,71 @@
+@file:OptIn(
+    androidx.compose.material3.ExperimentalMaterial3Api::class,
+    androidx.compose.material3.ExperimentalMaterial3ExpressiveApi::class
+)
+
 package com.neb.ians.ui.screens.forum
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.outlined.AddPhotoAlternate
-import androidx.compose.material.icons.outlined.AttachFile
-import androidx.compose.material.icons.outlined.CheckCircle
-import androidx.compose.material.icons.outlined.Poll
-import androidx.compose.material.icons.outlined.VisibilityOff
-import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.automirrored.rounded.Send
+import androidx.compose.material.icons.rounded.Category
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil.compose.AsyncImage
-import com.neb.ians.ui.components.ForumAttachmentChip
-import com.neb.ians.ui.components.InlineImageField
 import com.neb.ians.ui.components.InlineImageTokens
-import com.neb.ians.ui.components.MarkdownText
-import com.neb.ians.ui.components.MarkdownToolbar
-import com.neb.ians.ui.components.MentionSuggestions
-import com.neb.ians.ui.components.rememberInlineImageFieldHandle
-import com.neb.ians.ui.components.resolveMediaUrl
-import com.neb.ians.ui.components.WebPillShape
-import com.neb.ians.ui.components.ZoomableImageDialog
 import com.neb.ians.ui.components.NebButton
 import com.neb.ians.ui.components.NebButtonSize
-import com.neb.ians.ui.components.NebButtonTone
+import com.neb.ians.ui.components.NebChoiceSheet
+import com.neb.ians.ui.components.NebLoader
+import com.neb.ians.ui.components.NebLoaderSize
+import com.neb.ians.ui.components.NebSectionLabel
+import com.neb.ians.ui.components.NebSelectField
+import com.neb.ians.ui.components.rememberInlineImageFieldHandle
+import com.neb.ians.ui.components.ZoomableImageDialog
 
+private enum class PostSheet { Category, PollDuration }
 
-@OptIn(ExperimentalMaterial3Api::class)
+/**
+ * Writing a discussion, in the order it is written.
+ *
+ * The title and what you want to say come first and fill the screen. Everything
+ * that decorates the post — pictures, files, a poll, a name to hide — sits
+ * below in its own quiet group, and the button that sends it stays out of the
+ * way at the bottom, grey with a reason next to it until the post is real.
+ */
 @Composable
 fun CreatePostScreen(
     onNavigateBack: () -> Unit,
@@ -88,11 +75,11 @@ fun CreatePostScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val isEditing = postId != null || uiState.isEditMode
-    var categoryExpanded by remember { mutableStateOf(false) }
-    var durationExpanded by remember { mutableStateOf(false) }
+
     val inlineHandle = rememberInlineImageFieldHandle()
-    var pendingInlineCount by remember { mutableStateOf(0) }
+    var pendingInlineCount by remember { mutableIntStateOf(0) }
     var zoomImageUrl by remember { mutableStateOf<String?>(null) }
+    var sheet by remember { mutableStateOf<PostSheet?>(null) }
 
     zoomImageUrl?.let { url ->
         ZoomableImageDialog(imageUrl = url, onDismiss = { zoomImageUrl = null })
@@ -100,11 +87,7 @@ fun CreatePostScreen(
 
     val imagePicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetMultipleContents()
-    ) { uris ->
-        if (!uris.isNullOrEmpty()) {
-            uris.forEach { uri -> viewModel.addImage(uri) }
-        }
-    }
+    ) { uris -> uris?.forEach { viewModel.addImage(it) } }
 
     val mediaPicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenMultipleDocuments()
@@ -114,13 +97,22 @@ fun CreatePostScreen(
         if (postId != null) viewModel.loadForEdit(postId)
     }
 
+    val blocker = submitBlocker(uiState, pendingInlineCount)
+
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(if (isEditing) "Edit Discussion" else "New Discussion") },
+                title = {
+                    Text(
+                        text = if (isEditing) "Edit discussion" else "New discussion",
+                        style = MaterialTheme.typography.titleLargeEmphasized,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Rounded.ArrowBack, contentDescription = "Back")
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -128,601 +120,208 @@ fun CreatePostScreen(
                 )
             )
         },
-        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
-    ) { paddingValues ->
+        bottomBar = {
+            CreatePostActionBar(
+                isEditing = isEditing,
+                submitting = uiState.isSubmitting,
+                blocker = blocker,
+                error = uiState.error,
+                onSubmit = { viewModel.submitPost(onSuccess = onPostCreated) }
+            )
+        },
+        containerColor = MaterialTheme.colorScheme.surface
+    ) { padding ->
         if (uiState.isLoadingPost) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(paddingValues),
+                    .padding(padding),
                 contentAlignment = Alignment.Center
             ) {
-                CircularProgressIndicator()
+                NebLoader(size = NebLoaderSize.Screen)
             }
-        } else {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-                    .verticalScroll(rememberScrollState())
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
-                verticalArrangement = Arrangement.spacedBy(14.dp)
-            ) {
-            // ----- Title -----
-            OutlinedTextField(
+            return@Scaffold
+        }
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            PostTextField(
                 value = uiState.title,
                 onValueChange = viewModel::onTitleChange,
-                label = { Text("Title") },
-                placeholder = { Text("Enter a descriptive title") },
-                supportingText = { Text("${uiState.title.length}/$MAX_POST_TITLE") },
-                singleLine = true,
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(12.dp),
+                label = "Title",
+                placeholder = "What is this about?",
+                supporting = "${uiState.title.length} of $MAX_POST_TITLE",
                 enabled = !uiState.isSubmitting
             )
 
-            // ----- Category -----
-            ExposedDropdownMenuBox(
-                expanded = categoryExpanded,
-                onExpandedChange = { categoryExpanded = !categoryExpanded }
-            ) {
-                OutlinedTextField(
-                    value = if (uiState.isCustomCategory) CreatePostUiState.OTHER_CATEGORY else uiState.selectedCategory,
-                    onValueChange = {},
-                    readOnly = true,
-                    label = { Text("Category") },
-                    trailingIcon = {
-                        ExposedDropdownMenuDefaults.TrailingIcon(expanded = categoryExpanded)
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .menuAnchor(),
-                    shape = RoundedCornerShape(12.dp),
-                    enabled = !uiState.isSubmitting
-                )
-                ExposedDropdownMenu(
-                    expanded = categoryExpanded,
-                    onDismissRequest = { categoryExpanded = false }
-                ) {
-                    (CreatePostUiState.CATEGORIES + CreatePostUiState.OTHER_CATEGORY).forEach { category ->
-                        DropdownMenuItem(
-                            text = { Text(category) },
-                            onClick = {
-                                viewModel.onCategoryChange(category)
-                                categoryExpanded = false
-                            },
-                            contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
-                        )
-                    }
-                }
-            }
-            if (uiState.isCustomCategory) {
-                OutlinedTextField(
-                    value = uiState.customCategory,
-                    onValueChange = viewModel::onCustomCategoryChange,
-                    label = { Text("Custom category") },
-                    placeholder = { Text("e.g. Nepali") },
-                    singleLine = true,
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(12.dp),
-                    enabled = !uiState.isSubmitting
-                )
-            }
+            NebSelectField(
+                label = "Category",
+                values = listOfNotNull(uiState.effectiveCategory.takeIf { it.isNotBlank() }),
+                placeholder = "Pick one, or name your own",
+                icon = Icons.Rounded.Category,
+                onClick = { sheet = PostSheet.Category }
+            )
 
-            // ----- Write / Preview toggle -----
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                SegmentPill("Write", selected = !uiState.showPreview) { viewModel.togglePreview(false) }
-                SegmentPill("Preview", selected = uiState.showPreview) { viewModel.togglePreview(true) }
-            }
+            PostEditorPanel(
+                state = uiState,
+                viewModel = viewModel,
+                handle = inlineHandle,
+                pendingInlineCount = pendingInlineCount,
+                onPendingCountChange = { pendingInlineCount = it },
+                onImageClick = { zoomImageUrl = it }
+            )
 
-            if (!uiState.showPreview) {
-                Column {
-                    MarkdownToolbar(
-                        value = uiState.content,
-                        onValueChange = viewModel::onContentChange,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .horizontalScroll(rememberScrollState())
-                    )
-                    Surface(
-                        modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(12.dp),
-                        color = MaterialTheme.colorScheme.surfaceContainerLowest,
-                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
-                    ) {
-                        Column(
-                            modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp)
-                        ) {
-                            InlineImageField(
-                                value = uiState.content,
-                                onValueChange = viewModel::onContentChange,
-                                uploader = viewModel::uploadInlineImage,
-                                onError = viewModel::reportError,
-                                handle = inlineHandle,
-                                placeholder = "Write your discussion content... Use @ to mention users.",
-                                textStyle = MaterialTheme.typography.bodyMedium,
-                                minLines = 5,
-                                maxLines = 14,
-                                enabled = !uiState.isSubmitting,
-                                onPendingCountChange = { pendingInlineCount = it },
-                                onImageClick = { url -> zoomImageUrl = url }
-                            )
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(top = 6.dp)
-                            ) {
-                                IconButton(
-                                    onClick = { inlineHandle.pickImage() },
-                                    enabled = !uiState.isSubmitting && pendingInlineCount == 0,
-                                    modifier = Modifier.size(30.dp)
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Outlined.AddPhotoAlternate,
-                                        contentDescription = "Insert image in text",
-                                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                                        modifier = Modifier.size(19.dp)
-                                    )
-                                }
-                                Spacer(modifier = Modifier.weight(1f))
-                                Text(
-                                    text = "${uiState.content.text.length}/$MAX_POST_CONTENT",
-                                    style = MaterialTheme.typography.labelSmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                        }
-                    }
-                    MentionSuggestions(
-                        users = uiState.mentionSuggestions,
-                        onSelect = viewModel::selectMention,
-                        modifier = Modifier.padding(top = 4.dp)
-                    )
-                }
-            } else {
-                Surface(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .heightIn(min = 180.dp),
-                    shape = RoundedCornerShape(12.dp),
-                    color = MaterialTheme.colorScheme.surfaceContainerLow,
-                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
-                ) {
-                    Box(modifier = Modifier.padding(14.dp)) {
-                        if (uiState.content.text.isBlank()) {
-                            Text(
-                                text = "Nothing to preview yet.",
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        } else {
-                            MarkdownText(
-                                markdown = uiState.content.text,
-                                onInlineImageClick = { url -> zoomImageUrl = url }
-                            )
-                        }
-                    }
-                }
-            }
+            Spacer(modifier = Modifier.height(2.dp))
+            NebSectionLabel(text = "Add to your post")
 
-            // ----- Images -----
-            Column {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(
-                        text = "Images",
-                        style = MaterialTheme.typography.titleSmall,
-                        fontWeight = FontWeight.SemiBold,
-                        modifier = Modifier.weight(1f)
-                    )
-                    Text(
-                        text = "${uiState.activeImageCount}/$MAX_POST_IMAGES",
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-                Spacer(modifier = Modifier.height(8.dp))
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .horizontalScroll(rememberScrollState()),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    uiState.visibleExistingImages.forEach { image ->
-                        Box {
-                            AsyncImage(
-                                model = resolveMediaUrl(image.imageUrl),
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .size(80.dp)
-                                    .clip(RoundedCornerShape(8.dp)),
-                                contentScale = ContentScale.Crop
-                            )
-                            Box(
-                                modifier = Modifier
-                                    .align(Alignment.TopEnd)
-                                    .padding(3.dp)
-                                    .size(20.dp)
-                                    .clip(CircleShape)
-                                    .background(Color.Black.copy(alpha = 0.6f))
-                                    .clickable { viewModel.removeExistingImage(image.id) },
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Filled.Close,
-                                    contentDescription = "Remove image",
-                                    modifier = Modifier.size(13.dp),
-                                    tint = Color.White
-                                )
-                            }
-                        }
-                    }
-                    uiState.images.forEach { uri ->
-                        Box {
-                            AsyncImage(
-                                model = uri,
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .size(80.dp)
-                                    .clip(RoundedCornerShape(8.dp)),
-                                contentScale = ContentScale.Crop
-                            )
-                            Box(
-                                modifier = Modifier
-                                    .align(Alignment.TopEnd)
-                                    .padding(3.dp)
-                                    .size(20.dp)
-                                    .clip(CircleShape)
-                                    .background(Color.Black.copy(alpha = 0.6f))
-                                    .clickable { viewModel.removeImage(uri) },
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Filled.Close,
-                                    contentDescription = "Remove image",
-                                    modifier = Modifier.size(13.dp),
-                                    tint = Color.White
-                                )
-                            }
-                        }
-                    }
-                    if (uiState.activeImageCount < MAX_POST_IMAGES) {
-                        Box(
-                            modifier = Modifier
-                                .size(80.dp)
-                                .clip(RoundedCornerShape(8.dp))
-                                .background(MaterialTheme.colorScheme.surfaceContainerHigh)
-                                .clickable(enabled = !uiState.isSubmitting) { imagePicker.launch("image/*") },
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                Icon(
-                                    imageVector = Icons.Outlined.AddPhotoAlternate,
-                                    contentDescription = "Add image",
-                                    tint = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                                Text(
-                                    text = "Add",
-                                    style = MaterialTheme.typography.labelSmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                        }
-                    }
-                }
-            }
+            PostImagesPanel(
+                state = uiState,
+                viewModel = viewModel,
+                onAddImages = { imagePicker.launch("image/*") }
+            )
 
-            // ----- Media attachments (video / audio / files) -----
             if (!isEditing) {
-                Surface(
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(12.dp),
-                    color = MaterialTheme.colorScheme.surfaceContainerLow,
-                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
-                ) {
-                    Column(modifier = Modifier.padding(12.dp)) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clip(RoundedCornerShape(8.dp))
-                                .clickable(enabled = !uiState.isSubmitting) {
-                                    mediaPicker.launch(arrayOf("video/*", "audio/*", "application/*", "text/*"))
-                                }
-                                .padding(vertical = 4.dp)
-                        ) {
-                            Icon(
-                                imageVector = Icons.Outlined.AttachFile,
-                                contentDescription = null,
-                                modifier = Modifier.size(18.dp),
-                                tint = MaterialTheme.colorScheme.primary
-                            )
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Column {
-                                Text(
-                                    text = "Attach video, audio or files",
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    fontWeight = FontWeight.SemiBold
-                                )
-                                Text(
-                                    text = "Up to ${ForumMediaUploadHelper.MAX_ATTACHMENTS} files · video 150 MB · audio 40 MB · files 30 MB",
-                                    style = MaterialTheme.typography.labelSmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                        }
-                        if (uiState.mediaAttachments.isNotEmpty()) {
-                            Spacer(modifier = Modifier.height(10.dp))
-                            uiState.mediaAttachments.forEach { attachment ->
-                                ForumAttachmentChip(
-                                    attachment = attachment,
-                                    onRemove = { viewModel.removeMediaAttachment(attachment.localId) },
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(vertical = 3.dp)
-                                )
-                            }
-                        }
-                    }
-                }
-
-                // ----- Anonymous mode -----
-                Surface(
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(12.dp),
-                    color = MaterialTheme.colorScheme.surfaceContainerLow,
-                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Outlined.VisibilityOff,
-                            contentDescription = null,
-                            modifier = Modifier.size(18.dp),
-                            tint = MaterialTheme.colorScheme.primary
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Column(modifier = Modifier.weight(1f)) {
-                            Text(
-                                text = "Post anonymously",
-                                style = MaterialTheme.typography.bodyMedium,
-                                fontWeight = FontWeight.SemiBold
-                            )
-                            Text(
-                                text = "Your name and profile stay hidden — Nebians see 'Anonymous Nebian'",
-                                style = MaterialTheme.typography.labelSmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-                        Switch(
-                            checked = uiState.isAnonymous,
-                            onCheckedChange = viewModel::setAnonymous,
-                            enabled = !uiState.isSubmitting
+                PostAttachmentsPanel(
+                    state = uiState,
+                    viewModel = viewModel,
+                    onPick = {
+                        mediaPicker.launch(
+                            arrayOf("video/*", "audio/*", "application/*", "text/*")
                         )
                     }
-                }
-            }
-
-            // ----- Poll builder -----
-            if (!isEditing) {
-                Surface(
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(12.dp),
-                    color = MaterialTheme.colorScheme.surfaceContainerLow,
-                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
-                ) {
-                    Column(modifier = Modifier.padding(12.dp)) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(
-                            imageVector = Icons.Outlined.Poll,
-                            contentDescription = null,
-                            modifier = Modifier.size(18.dp),
-                            tint = MaterialTheme.colorScheme.primary
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            text = "Add poll",
-                            style = MaterialTheme.typography.titleSmall,
-                            fontWeight = FontWeight.SemiBold,
-                            modifier = Modifier.weight(1f)
-                        )
-                        Switch(
-                            checked = uiState.pollEnabled,
-                            onCheckedChange = viewModel::togglePoll,
-                            enabled = !uiState.isSubmitting
-                        )
-                    }
-
-                    if (uiState.pollEnabled) {
-                        Spacer(modifier = Modifier.height(10.dp))
-                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                            SegmentPill("Voting", selected = uiState.pollType == "voting") {
-                                viewModel.onPollTypeChange("voting")
-                            }
-                            SegmentPill("MCQ Quiz", selected = uiState.pollType == "mcq") {
-                                viewModel.onPollTypeChange("mcq")
-                            }
-                        }
-
-                        Spacer(modifier = Modifier.height(10.dp))
-                        OutlinedTextField(
-                            value = uiState.pollQuestion,
-                            onValueChange = viewModel::onPollQuestionChange,
-                            label = { Text("Question") },
-                            placeholder = { Text("Ask something...") },
-                            singleLine = true,
-                            modifier = Modifier.fillMaxWidth(),
-                            shape = RoundedCornerShape(12.dp),
-                            enabled = !uiState.isSubmitting
-                        )
-
-                        Spacer(modifier = Modifier.height(8.dp))
-                        uiState.pollOptions.forEachIndexed { index, option ->
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                modifier = Modifier.padding(vertical = 3.dp)
-                            ) {
-                                OutlinedTextField(
-                                    value = option.text,
-                                    onValueChange = { viewModel.onPollOptionChange(index, it) },
-                                    placeholder = { Text("Option ${index + 1}") },
-                                    singleLine = true,
-                                    modifier = Modifier.weight(1f),
-                                    shape = RoundedCornerShape(12.dp),
-                                    enabled = !uiState.isSubmitting
-                                )
-                                if (uiState.pollType == "mcq") {
-                                    IconButton(onClick = { viewModel.togglePollOptionCorrect(index) }) {
-                                        Icon(
-                                            imageVector = if (option.isCorrect) Icons.Filled.CheckCircle
-                                            else Icons.Outlined.CheckCircle,
-                                            contentDescription = if (option.isCorrect) "Correct answer" else "Mark as correct",
-                                            tint = if (option.isCorrect) MaterialTheme.colorScheme.onSurface
-                                            else MaterialTheme.colorScheme.onSurfaceVariant
-                                        )
-                                    }
-                                }
-                                if (uiState.pollOptions.size > 2) {
-                                    IconButton(onClick = { viewModel.removePollOption(index) }) {
-                                        Icon(
-                                            imageVector = Icons.Filled.Close,
-                                            contentDescription = "Remove option",
-                                            modifier = Modifier.size(18.dp),
-                                            tint = MaterialTheme.colorScheme.onSurfaceVariant
-                                        )
-                                    }
-                                }
-                            }
-                        }
-                        if (uiState.pollOptions.size < 6) {
-                            Text(
-                                text = "+ Add option",
-                                style = MaterialTheme.typography.labelLarge,
-                                color = MaterialTheme.colorScheme.primary,
-                                fontWeight = FontWeight.SemiBold,
-                                modifier = Modifier
-                                    .clip(WebPillShape)
-                                    .clickable(enabled = !uiState.isSubmitting) { viewModel.addPollOption() }
-                                    .padding(horizontal = 10.dp, vertical = 6.dp)
-                            )
-                        }
-
-                        if (uiState.pollType == "voting") {
-                            Spacer(modifier = Modifier.height(6.dp))
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Text(
-                                    text = "Allow multiple selections",
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    modifier = Modifier.weight(1f)
-                                )
-                                Switch(
-                                    checked = uiState.pollAllowMultiple,
-                                    onCheckedChange = viewModel::onPollAllowMultipleChange,
-                                    enabled = !uiState.isSubmitting
-                                )
-                            }
-                        } else {
-                            Spacer(modifier = Modifier.height(8.dp))
-                            OutlinedTextField(
-                                value = uiState.pollExplanation,
-                                onValueChange = viewModel::onPollExplanationChange,
-                                label = { Text("Explanation (optional)") },
-                                placeholder = { Text("Shown after answering") },
-                                modifier = Modifier.fillMaxWidth(),
-                                minLines = 2,
-                                shape = RoundedCornerShape(12.dp),
-                                enabled = !uiState.isSubmitting
-                            )
-                        }
-
-                        Spacer(modifier = Modifier.height(10.dp))
-                        ExposedDropdownMenuBox(
-                            expanded = durationExpanded,
-                            onExpandedChange = { durationExpanded = !durationExpanded }
-                        ) {
-                            OutlinedTextField(
-                                value = CreatePostUiState.POLL_DURATIONS
-                                    .firstOrNull { it.first == uiState.pollDurationMs }?.second ?: "No expiry",
-                                onValueChange = {},
-                                readOnly = true,
-                                label = { Text("Duration") },
-                                trailingIcon = {
-                                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = durationExpanded)
-                                },
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .menuAnchor(),
-                                shape = RoundedCornerShape(12.dp),
-                                enabled = !uiState.isSubmitting
-                            )
-                            ExposedDropdownMenu(
-                                expanded = durationExpanded,
-                                onDismissRequest = { durationExpanded = false }
-                            ) {
-                                CreatePostUiState.POLL_DURATIONS.forEach { (millis, label) ->
-                                    DropdownMenuItem(
-                                        text = { Text(label) },
-                                        onClick = {
-                                            viewModel.onPollDurationChange(millis)
-                                            durationExpanded = false
-                                        },
-                                        contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
-                                    )
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            }
-
-            // ----- Error -----
-            uiState.error?.let { error ->
-                Text(
-                    text = error,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.error
                 )
+                PostPollPanel(
+                    state = uiState,
+                    viewModel = viewModel,
+                    onOpenDuration = { sheet = PostSheet.PollDuration }
+                )
+                PostAnonymousPanel(state = uiState, viewModel = viewModel)
             }
 
-            // ----- Submit -----
+            Spacer(modifier = Modifier.height(12.dp))
+        }
+    }
+
+    CreatePostSheets(
+        sheet = sheet,
+        state = uiState,
+        viewModel = viewModel,
+        onDismiss = { sheet = null }
+    )
+}
+
+@Composable
+private fun CreatePostSheets(
+    sheet: PostSheet?,
+    state: CreatePostUiState,
+    viewModel: CreatePostViewModel,
+    onDismiss: () -> Unit
+) {
+    when (sheet) {
+        PostSheet.Category -> {
+            val known = CreatePostUiState.CATEGORIES
+            val options = (known + listOfNotNull(
+                state.customCategory.takeIf { state.isCustomCategory && it.isNotBlank() }
+            )).distinct()
+            NebChoiceSheet(
+                title = "Category",
+                subtitle = "Where this discussion belongs",
+                options = options,
+                selected = listOfNotNull(state.effectiveCategory.takeIf { it.isNotBlank() }),
+                multiSelect = false,
+                allowCustom = true,
+                customPlaceholder = "Name your own",
+                onDismiss = onDismiss,
+                onConfirm = { picked ->
+                    val value = picked.firstOrNull().orEmpty().trim()
+                    if (value.isNotBlank()) {
+                        if (known.any { it.equals(value, ignoreCase = true) }) {
+                            viewModel.onCategoryChange(known.first { it.equals(value, ignoreCase = true) })
+                        } else {
+                            viewModel.onCategoryChange(CreatePostUiState.OTHER_CATEGORY)
+                            viewModel.onCustomCategoryChange(value)
+                        }
+                    }
+                    onDismiss()
+                }
+            )
+        }
+
+        PostSheet.PollDuration -> NebChoiceSheet(
+            title = "Closes",
+            subtitle = "When the poll stops taking answers",
+            options = CreatePostUiState.POLL_DURATIONS.map { it.second },
+            selected = listOfNotNull(
+                CreatePostUiState.POLL_DURATIONS.firstOrNull { it.first == state.pollDurationMs }?.second
+            ),
+            multiSelect = false,
+            onDismiss = onDismiss,
+            onConfirm = { picked ->
+                val label = picked.firstOrNull()
+                CreatePostUiState.POLL_DURATIONS.firstOrNull { it.second == label }?.let {
+                    viewModel.onPollDurationChange(it.first)
+                }
+                onDismiss()
+            }
+        )
+
+        null -> Unit
+    }
+}
+
+@Composable
+private fun CreatePostActionBar(
+    isEditing: Boolean,
+    submitting: Boolean,
+    blocker: String?,
+    error: String?,
+    onSubmit: () -> Unit
+) {
+    Surface(color = MaterialTheme.colorScheme.surface) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .navigationBarsPadding()
+                .imePadding()
+                .padding(horizontal = 16.dp, vertical = 10.dp),
+            verticalArrangement = Arrangement.spacedBy(6.dp)
+        ) {
             NebButton(
                 text = if (isEditing) "Save changes" else "Post discussion",
-                onClick = { viewModel.submitPost(onSuccess = onPostCreated) },
+                onClick = onSubmit,
+                icon = Icons.AutoMirrored.Rounded.Send,
                 size = NebButtonSize.Hero,
                 fillWidth = true,
-                loading = uiState.isSubmitting,
-                enabled = uiState.title.isNotBlank() && uiState.content.text.isNotBlank() &&
-                    (!uiState.isCustomCategory || uiState.customCategory.isNotBlank()) &&
-                    uiState.mediaAttachments.none { it.uploading } &&
-                    pendingInlineCount == 0 &&
-                    !InlineImageTokens.hasPending(uiState.content.text) &&
-                    !uiState.isLoadingPost
+                loading = submitting,
+                enabled = blocker == null
             )
-            Spacer(modifier = Modifier.height(16.dp))
+            AnimatedVisibility(visible = error != null || blocker != null) {
+                Text(
+                    text = error ?: blocker.orEmpty(),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = if (error != null) MaterialTheme.colorScheme.error
+                    else MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.fillMaxWidth()
+                )
             }
         }
     }
 }
 
-/** Pill segment used for Write/Preview and Voting/MCQ toggles. */
-@Composable
-internal fun SegmentPill(label: String, selected: Boolean, onClick: () -> Unit) {
-    Surface(
-        shape = WebPillShape,
-        color = if (selected) MaterialTheme.colorScheme.secondaryContainer
-        else MaterialTheme.colorScheme.surfaceContainerHigh,
-        modifier = Modifier.clip(WebPillShape).clickable(onClick = onClick)
-    ) {
-        Text(
-            text = label,
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 7.dp),
-            style = MaterialTheme.typography.labelMedium,
-            fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Medium,
-            color = if (selected) MaterialTheme.colorScheme.onSecondaryContainer
-            else MaterialTheme.colorScheme.onSurfaceVariant
-        )
-    }
+/** The single reason the post cannot go yet, said the way a person would say it. */
+private fun submitBlocker(state: CreatePostUiState, pendingInline: Int): String? = when {
+    state.isLoadingPost -> "Loading your discussion"
+    state.title.isBlank() -> "Give it a title"
+    state.content.text.isBlank() -> "Write something first"
+    state.isCustomCategory && state.customCategory.isBlank() -> "Name your category"
+    pendingInline > 0 || InlineImageTokens.hasPending(state.content.text) ->
+        "An image is still uploading"
+    state.mediaAttachments.any { it.uploading } -> "An attachment is still uploading"
+    else -> pollProblem(state)
 }

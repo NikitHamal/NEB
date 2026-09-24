@@ -4,6 +4,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
+import androidx.compose.runtime.Immutable
 
 // ---------------------------------------------------------------------------
 // Graphite, for the whole app.
@@ -182,3 +184,30 @@ fun getSubjectColor(subject: String): Color = MaterialTheme.colorScheme.onSurfac
 val SubjectAccentStatic: Color = Graphite.N48
 
 fun subjectAccentArgb(): Long = 0xFF57575CL
+
+// ---------------------------------------------------------------------------
+// Accents, spent sparingly.
+//
+// The ramp above still carries the app. These four hues exist for the few
+// places where several choices are presented at once and the user is picking
+// between them rather than reading them — the create menu is the case that
+// asked for them. Each is desaturated enough to sit on graphite without
+// shouting, and carries a light and a dark value so the contrast against a
+// tinted container holds either way.
+//
+// They are never load-bearing: nothing is only knowable by its hue.
+// ---------------------------------------------------------------------------
+
+@Immutable
+data class NebAccent(val light: Color, val dark: Color)
+
+object NebAccents {
+    val Indigo = NebAccent(Color(0xFF4A42D6), Color(0xFFA9A3FF))
+    val Amber = NebAccent(Color(0xFF8F5507), Color(0xFFE5A84C))
+    val Teal = NebAccent(Color(0xFF0B6A62), Color(0xFF4FD3C0))
+    val Rose = NebAccent(Color(0xFFA8271F), Color(0xFFFF9186))
+}
+
+@Composable
+fun NebAccent.resolve(): Color =
+    if (MaterialTheme.colorScheme.surface.luminance() < 0.5f) dark else light

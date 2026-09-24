@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -48,6 +47,8 @@ import com.neb.ians.ui.components.WebEmptyState
 import com.neb.ians.ui.components.WebTopBar
 import com.neb.ians.ui.components.sharePost
 import kotlinx.coroutines.launch
+import com.neb.ians.ui.components.NebLoaderSize
+import com.neb.ians.ui.components.NebLoader
 
 private const val FEED_PREFETCH_DISTANCE = 6
 
@@ -273,11 +274,7 @@ fun HomeScreen(
                                     horizontalArrangement = Arrangement.Center,
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
-                                    CircularProgressIndicator(
-                                        modifier = Modifier.size(20.dp),
-                                        strokeWidth = 2.dp,
-                                        color = MaterialTheme.colorScheme.primary
-                                    )
+                                    NebLoader(size = NebLoaderSize.Inline, color = MaterialTheme.colorScheme.primary)
                                     Spacer(Modifier.size(10.dp))
                                     Text(
                                         text = "Loading more updates...",

@@ -18,7 +18,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CloudDownload
 import androidx.compose.material.icons.filled.ErrorOutline
 import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -41,6 +40,7 @@ import com.neb.ians.ui.components.NebTopBar
 import com.neb.ians.ui.components.NebButton
 import com.neb.ians.ui.components.NebButtonSize
 import com.neb.ians.ui.components.NebButtonTone
+import com.neb.ians.ui.components.NebLoader
 
 @Composable
 fun PdfViewerScreen(
@@ -73,7 +73,7 @@ fun PdfViewerScreen(
                             modifier = Modifier.align(Alignment.Center)
                         )
                     }
-                    uiState.isLoading -> CircularProgressIndicator(Modifier.align(Alignment.Center))
+                    uiState.isLoading -> NebLoader(modifier = Modifier.align(Alignment.Center))
                     uiState.error != null -> {
                         PdfErrorState(
                             message = uiState.error ?: "Unable to open document",
@@ -131,7 +131,7 @@ private fun PdfPage(index: Int, render: suspend (Int) -> Bitmap?) {
                     .height(420.dp),
                 contentAlignment = Alignment.Center
             ) {
-                CircularProgressIndicator(strokeWidth = 2.dp)
+                NebLoader()
             }
         }
     }
@@ -154,7 +154,7 @@ private fun InternalDownloadState(progress: Int, modifier: Modifier = Modifier) 
             progress = { progress.coerceIn(0, 100) / 100f },
             modifier = Modifier.fillMaxWidth()
         )
-        Text("$progress% · Saved only inside NEBians", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Text("$progress% read, saved only inside NEBians", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
     }
 }
 

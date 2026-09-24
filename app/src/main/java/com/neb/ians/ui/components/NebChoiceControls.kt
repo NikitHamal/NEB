@@ -44,6 +44,9 @@ import com.neb.ians.ui.theme.nebFastEffectsSpec
 import com.neb.ians.ui.theme.nebFastSpatialSpec
 import com.neb.ians.ui.theme.nebSpatialSpec
 import com.neb.ians.util.TactileType
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.runtime.remember
+import androidx.compose.material3.Icon
 
 // ---------------------------------------------------------------------------
 // Choosing. Two shapes cover every pick that needs prose: a row for a choice
@@ -360,5 +363,119 @@ fun NebToggleRow(
                     .background(knob)
             )
         }
+    }
+}
+
+/**
+ * Two to four one-word answers, as tiles rather than as a bar of connected
+ * buttons. The bar squeezed three labels into a third of the width each and
+ * read as one control being operated; a row of tiles gives every answer its own
+ * silhouette, its own space and a target big enough for a thumb. Resting, a
+ * tile is a quiet field with a grey glyph. Picked, it lifts to the page colour,
+ * takes an edge, and its glyph fills with the accent.
+ */
+@Composable
+fun NebChoiceTiles(
+    segments: List<NebSegment>,
+    selected: String?,
+    onSelect: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    if (segments.isEmpty()) return
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        segments.forEachIndexed { index, segment ->
+            NebChoiceTile(
+                segment = segment,
+                index = index,
+                selected = segment.value == selected,
+                onClick = { onSelect(segment.value) },
+                modifier = Modifier.weight(1f)
+            )
+        }
+    }
+}
+
+/** The same tiles where the answers carry no glyph — an institution type, a unit. */
+@Composable
+fun rememberNebChoiceTiles(options: List<String>): List<NebSegment> =
+    remember(options) { options.map { NebSegment(it, it) } }
+
+@Composable
+private fun NebChoiceTile(
+    segment: NebSegment,
+    index: Int,
+    selected: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val palette = LocalNebAuthPalette.current
+    val fill by animateColorAsState(
+        targetValue = if (selected) palette.card else palette.field,
+        animationSpec = nebEffectsSpec(),
+        label = "neb_tile_fill"
+    )
+    val edge by animateColorAsState(
+        targetValue = if (selected) palette.accent else Color.Transparent,
+        animationSpec = nebEffectsSpec(),
+        label = "neb_tile_edge"
+    )
+    val edgeWidth by animateDpAsState(
+        targetValue = if (selected) 1.6.dp else 0.dp,
+        animationSpec = nebSpatialSpec(),
+        label = "neb_tile_edge_w"
+    )
+    val radius by animateDpAsState(
+        targetValue = if (selected) 24.dp else 18.dp,
+        animationSpec = nebSpatialSpec(),
+        label = "neb_tile_radius"
+    )
+    val label by animateColorAsState(
+        targetValue = if (selected) palette.accent else palette.inkMuted,
+        animationSpec = nebEffectsSpec(),
+        label = "neb_tile_label"
+    )
+    val shape = RoundedCornerShape(radius)
+
+    Column(
+        modifier = modifier
+            .clip(shape)
+            .background(fill)
+            .border(edgeWidth, edge, shape)
+            .nebPressable(scale = 0.96f, tactile = TactileType.SelectionChange, onClick = onClick)
+            .padding(vertical = 16.dp, horizontal = 8.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        NebGlyphTile(
+            selected = selected,
+            size = 44.dp,
+            polygon = NebShapes.Option[index % NebShapes.Option.size]
+        ) {
+            if (segment.icon != null) {
+                Icon(
+                    imageVector = segment.icon,
+                    contentDescription = null,
+                    tint = label,
+                    modifier = Modifier.size(21.dp)
+                )
+            } else {
+                Text(
+                    text = segment.label.take(1).uppercase(),
+                    style = NebAuthType.Title.copy(fontSize = 16.sp),
+                    color = label
+                )
+            }
+        }
+        Text(
+            text = segment.label,
+            style = NebAuthType.Caption.copy(fontWeight = FontWeight.SemiBold, fontSize = 13.sp),
+            color = label,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            textAlign = TextAlign.Center
+        )
     }
 }

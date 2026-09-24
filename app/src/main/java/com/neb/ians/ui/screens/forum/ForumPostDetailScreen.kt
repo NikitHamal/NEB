@@ -42,7 +42,6 @@ import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material.icons.outlined.ChatBubbleOutline
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.outlined.VisibilityOff
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -117,6 +116,7 @@ import com.neb.ians.ui.components.NebCommentComposerBar
 import com.neb.ians.ui.components.rememberVoiceNoteRecorder
 import com.neb.ians.ui.theme.getSubjectTheme
 import com.neb.ians.util.formatTimeAgo
+import com.neb.ians.ui.components.NebLoader
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
@@ -253,7 +253,7 @@ fun ForumPostDetailScreen(
                     .padding(paddingValues),
                 contentAlignment = Alignment.Center
             ) {
-                CircularProgressIndicator()
+                NebLoader()
             }
             uiState.post == null -> Box(
                 modifier = Modifier
@@ -806,7 +806,7 @@ private fun PostContentSection(
                         )
                     }
                     Text(
-                        text = " · ${formatTimeAgo(post.createdAt)}",
+                        text = ", ${formatTimeAgo(post.createdAt)}",
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )

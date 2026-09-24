@@ -21,6 +21,8 @@ import com.neb.ians.ui.components.Avatar
 import com.neb.ians.ui.components.NebButton
 import com.neb.ians.ui.components.NebButtonSize
 import com.neb.ians.ui.components.NebButtonTone
+import com.neb.ians.ui.components.NebLoaderSize
+import com.neb.ians.ui.components.NebLoader
 
 @Composable
 fun FollowRequestsDialog(
@@ -76,7 +78,7 @@ fun FollowRequestsDialog(
                 ) {
                     when {
                         isLoading -> {
-                            CircularProgressIndicator(modifier = Modifier.size(36.dp))
+                            NebLoader(size = NebLoaderSize.Standard)
                         }
                         error != null -> {
                             Text(

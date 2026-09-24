@@ -61,6 +61,8 @@ import androidx.compose.ui.graphics.RectangleShape
 import com.neb.ians.ui.components.NebButton
 import com.neb.ians.ui.components.NebButtonSize
 import com.neb.ians.ui.components.NebButtonTone
+import com.neb.ians.ui.components.NebLoaderSize
+import com.neb.ians.ui.components.NebLoader
 
 private fun buildBadgeInfo(p: UserProfileResponse): ApiBadgeInfo? = when {
     p.isBot -> ApiBadgeInfo(type = "bot", label = "AI", color = "#7C4DFF")
@@ -140,7 +142,7 @@ fun formatRoleHeadline(profile: UserProfileResponse): String {
             if (!profile.school.isNullOrBlank()) {
                 parts.add(profile.school)
             }
-            parts.joinToString(" · ")
+            parts.joinToString(", ")
         }
         "institution" -> {
             val type = when (profile.institutionType) {
@@ -154,7 +156,7 @@ fun formatRoleHeadline(profile: UserProfileResponse): String {
             if (!profile.school.isNullOrBlank()) {
                 parts.add(profile.school)
             }
-            parts.joinToString(" · ")
+            parts.joinToString(", ")
         }
         "explorer" -> {
             profile.school?.takeIf { it.isNotBlank() }
@@ -830,7 +832,7 @@ fun ProfileProgressIndicator() {
             .padding(vertical = 12.dp),
         contentAlignment = Alignment.Center
     ) {
-        CircularProgressIndicator(modifier = Modifier.size(26.dp), strokeWidth = 3.dp)
+        NebLoader(size = NebLoaderSize.Small)
     }
 }
 

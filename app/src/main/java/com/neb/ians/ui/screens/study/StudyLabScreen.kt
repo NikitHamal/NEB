@@ -26,7 +26,6 @@ import androidx.compose.material.icons.outlined.Key
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -89,6 +88,8 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import javax.inject.Inject
 import androidx.compose.material.icons.outlined.School
+import com.neb.ians.ui.components.NebLoaderSize
+import com.neb.ians.ui.components.NebLoader
 
 data class StudyLabUiState(
     val mySpaces: List<ApiStudySpace> = emptyList(),
@@ -397,7 +398,7 @@ fun StudyLabScreen(
                         modifier = Modifier.fillMaxWidth().padding(40.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        CircularProgressIndicator()
+                        NebLoader()
                     }
                 }
                 uiState.selectedTab == "mine" -> SpaceList(
@@ -480,7 +481,7 @@ private fun MyDocumentsTab(
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             if (uiState.isUploading) {
-                CircularProgressIndicator(modifier = Modifier.size(18.dp), strokeWidth = 2.dp)
+                NebLoader(size = NebLoaderSize.Inline)
                 Text(
                     text = "Uploading…",
                     style = MaterialTheme.typography.labelMedium,
@@ -509,7 +510,7 @@ private fun MyDocumentsTab(
                     modifier = Modifier.fillMaxWidth().padding(40.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    CircularProgressIndicator()
+                    NebLoader()
                 }
             }
             uiState.documents.isEmpty() -> {
@@ -597,7 +598,7 @@ private fun StudyDocumentCard(
                     Text(
                         text = listOf(doc.fileName, fileSizeLabel(doc.fileSize), formatTimeAgo(doc.createdAt))
                             .filter { it.isNotBlank() }
-                            .joinToString(" · "),
+                            .joinToString(", "),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         maxLines = 1,
@@ -620,9 +621,9 @@ private fun StudyDocumentCard(
                 ParseStatusPill(status = status)
                 Text(
                     text = buildString {
-                        append("${doc.quizCount} quizzes · ${doc.flashcardCount} cards")
-                        append(" · Summary ${if (doc.summaryGenerated || doc.summaryCompact.isNotBlank() || doc.summaryDetailed.isNotBlank()) "✓" else "–"}")
-                        append(" · Mindmap ${if (doc.mindmapGenerated || doc.mindmapJson.isNotBlank()) "✓" else "–"}")
+                        append("${doc.quizCount} quizzes, ${doc.flashcardCount} cards")
+                        append(", summary ${if (doc.summaryGenerated || doc.summaryCompact.isNotBlank() || doc.summaryDetailed.isNotBlank()) "✓" else "–"}")
+                        append(", mindmap ${if (doc.mindmapGenerated || doc.mindmapJson.isNotBlank()) "✓" else "–"}")
                     },
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,

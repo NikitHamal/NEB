@@ -49,7 +49,7 @@ import com.neb.ians.ui.components.NebOptionCard
 import com.neb.ians.ui.components.NebPickerField
 import com.neb.ians.ui.components.NebProgressRail
 import com.neb.ians.ui.components.NebShapes
-import com.neb.ians.ui.components.NebSegmentedChoice
+import com.neb.ians.ui.components.NebChoiceTiles
 import com.neb.ians.ui.components.NebToggleRow
 import com.neb.ians.ui.components.nebPressable
 import com.neb.ians.ui.screens.onboarding.NEB_GENDER_SEGMENTS
@@ -320,7 +320,7 @@ internal fun EditPersonalSection(
             Column {
                 NebFieldGroupLabel(text = "Gender")
                 Spacer(modifier = Modifier.height(10.dp))
-                NebSegmentedChoice(
+                NebChoiceTiles(
                     segments = NEB_GENDER_SEGMENTS,
                     selected = state.gender.takeIf { it.isNotBlank() },
                     onSelect = viewModel::onGenderChange

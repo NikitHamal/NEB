@@ -19,6 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.neb.ians.data.api.UserProfileResponse
 import com.neb.ians.ui.components.Avatar
+import com.neb.ians.ui.components.NebLoaderSize
+import com.neb.ians.ui.components.NebLoader
 
 @Composable
 fun FollowersDialog(
@@ -73,7 +75,7 @@ fun FollowersDialog(
                 ) {
                     when {
                         isLoading -> {
-                            CircularProgressIndicator(modifier = Modifier.size(36.dp))
+                            NebLoader(size = NebLoaderSize.Standard)
                         }
                         error != null -> {
                             Column(

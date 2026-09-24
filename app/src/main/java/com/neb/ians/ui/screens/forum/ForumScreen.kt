@@ -32,7 +32,6 @@ import androidx.compose.material.icons.outlined.Schedule
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.ThumbUp
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -87,6 +86,8 @@ import com.neb.ians.ui.components.WebOutlinedButton
 import com.neb.ians.ui.components.WebPillShape
 import com.neb.ians.ui.components.WebTopBar
 import com.neb.ians.ui.components.sharePost
+import com.neb.ians.ui.components.NebLoaderSize
+import com.neb.ians.ui.components.NebLoader
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -332,7 +333,7 @@ fun ForumScreen(
                                         .padding(vertical = 16.dp),
                                     contentAlignment = Alignment.Center
                                 ) {
-                                    CircularProgressIndicator(modifier = Modifier.size(24.dp), strokeWidth = 2.5.dp)
+                                    NebLoader(size = NebLoaderSize.Small)
                                 }
                             }
                         }

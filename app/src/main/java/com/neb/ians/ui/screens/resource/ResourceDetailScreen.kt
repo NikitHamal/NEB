@@ -1,3 +1,5 @@
+@file:OptIn(androidx.compose.material3.ExperimentalMaterial3ExpressiveApi::class)
+
 package com.neb.ians.ui.screens.resource
 
 import android.content.Intent
@@ -81,6 +83,8 @@ import kotlin.math.abs
 import com.neb.ians.ui.components.NebButton
 import com.neb.ians.ui.components.NebButtonSize
 import com.neb.ians.ui.components.NebButtonTone
+import com.neb.ians.ui.components.NebLoaderSize
+import com.neb.ians.ui.components.NebLoader
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -294,7 +298,7 @@ fun ResourceDetailScreen(
                     uiState.isLoading && uiState.resource == null -> Box(
                         Modifier.fillMaxSize().padding(padding),
                         contentAlignment = Alignment.Center
-                    ) { CircularProgressIndicator() }
+                    ) { NebLoader() }
 
                     uiState.resource == null -> Box(
                         Modifier.fillMaxSize().padding(padding),
@@ -718,30 +722,15 @@ private fun VideoYouTubeLayout(
             ) {
                 Text(
                     text = resource.title,
-                    style = MaterialTheme.typography.headlineSmall,
-                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.headlineSmallEmphasized,
                     color = MaterialTheme.colorScheme.onSurface
                 )
-                Spacer(Modifier.height(8.dp))
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(6.dp)
-                ) {
-                    Text(
-                        text = "${resource.viewCount} views",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    Text(
-                        "·",
-                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
-                    )
-                    Text(
-                        text = formatTimeAgo(resource.addedAt),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
+                Spacer(Modifier.height(6.dp))
+                Text(
+                    text = "${resource.viewCount} views, ${formatTimeAgo(resource.addedAt)}",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
             }
         }
 
@@ -1174,11 +1163,7 @@ private fun FullscreenVideoOverlay(
         )
 
         if (uiState.isBuffering) {
-            CircularProgressIndicator(
-                color = Color.White, strokeWidth = 2.5.dp,
-                trackColor = Color.White.copy(alpha = 0.2f),
-                modifier = Modifier.size(36.dp)
-            )
+            NebLoader(size = NebLoaderSize.Standard, color = Color.White)
         }
 
         AnimatedVisibility(

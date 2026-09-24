@@ -30,7 +30,6 @@ import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Videocam
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -614,7 +613,7 @@ fun ForumFileChip(attachment: ApiMediaAttachment, modifier: Modifier = Modifier)
                 )
                 val sizeLabel = formatAttachmentSize(attachment.sizeBytes)
                 Text(
-                    text = if (sizeLabel.isBlank()) "Tap to open" else "$sizeLabel · Tap to open",
+                    text = if (sizeLabel.isBlank()) "Tap to open" else "$sizeLabel, tap to open",
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -766,7 +765,7 @@ fun ForumAttachmentChip(
                     attachment.uploading -> "Uploading…"
                     attachment.error != null -> attachment.error
                     else -> attachment.kind.replaceFirstChar { it.uppercase(Locale.US) } +
-                        formatAttachmentSize(attachment.sizeBytes).let { s -> if (s.isBlank()) "" else " · $s" }
+                        formatAttachmentSize(attachment.sizeBytes).let { s -> if (s.isBlank()) "" else ", $s" }
                 }
                 Text(
                     text = meta ?: "",
@@ -778,11 +777,7 @@ fun ForumAttachmentChip(
                 )
             }
             if (attachment.uploading) {
-                CircularProgressIndicator(
-                    modifier = Modifier.size(18.dp),
-                    strokeWidth = 2.dp,
-                    color = MaterialTheme.colorScheme.primary
-                )
+                NebLoader(size = NebLoaderSize.Inline, color = MaterialTheme.colorScheme.primary)
                 Spacer(modifier = Modifier.width(8.dp))
             }
             IconButton(onClick = onRemove, modifier = Modifier.size(28.dp)) {

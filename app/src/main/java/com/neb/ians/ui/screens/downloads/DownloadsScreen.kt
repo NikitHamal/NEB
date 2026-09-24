@@ -148,7 +148,7 @@ private fun DownloadCard(
                 Text(item.title, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold, maxLines = 2, overflow = TextOverflow.Ellipsis)
                 Spacer(Modifier.height(5.dp))
                 Text(
-                    "${formatBytes(item.sizeBytes)} · ${DateFormat.getDateInstance(DateFormat.MEDIUM).format(Date(item.downloadedAt))}",
+                    "${formatBytes(item.sizeBytes)}, ${DateFormat.getDateInstance(DateFormat.MEDIUM).format(Date(item.downloadedAt))}",
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

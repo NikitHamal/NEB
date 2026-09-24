@@ -241,7 +241,7 @@ private fun UserResultRow(
         "@${user.username}".takeIf { user.username.isNotBlank() },
         user.classLevel?.takeIf { it.isNotBlank() },
         user.school?.takeIf { it.isNotBlank() }
-    ).joinToString(" · ")
+    ).joinToString(", ")
 
     Row(
         modifier = Modifier

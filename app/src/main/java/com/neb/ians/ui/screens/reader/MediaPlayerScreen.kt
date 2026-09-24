@@ -67,7 +67,6 @@ import androidx.compose.material.icons.outlined.Podcasts
 import androidx.compose.material.icons.outlined.Videocam
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -111,6 +110,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.ui.components.NebTopBar
 import kotlin.math.abs
 import kotlinx.coroutines.delay
+import com.neb.ians.ui.components.NebLoaderSize
+import com.neb.ians.ui.components.NebLoader
 
 private val SPEEDS = listOf(0.5f, 0.75f, 1f, 1.25f, 1.5f, 1.75f, 2f)
 private const val SEEK_MS = 10_000L
@@ -248,7 +249,7 @@ fun MediaPlayerScreen(
     ) { padding ->
         when {
             uiState.isLoading -> Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) {
-                CircularProgressIndicator()
+                NebLoader()
             }
             uiState.resource == null -> Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) {
                 Text(uiState.errorMessage ?: "Resource not found", color = MaterialTheme.colorScheme.onSurfaceVariant)
@@ -501,12 +502,7 @@ private fun FullscreenPlayer(
         )
 
         if (uiState.isBuffering) {
-            CircularProgressIndicator(
-                color = Color.White,
-                strokeWidth = 2.5.dp,
-                trackColor = Color.White.copy(alpha = 0.2f),
-                modifier = Modifier.size(36.dp)
-            )
+            NebLoader(size = NebLoaderSize.Standard, color = Color.White)
         }
 
         AnimatedVisibility(
@@ -992,13 +988,12 @@ private fun NmpVideoStage(
         }
 
         if (isBuffering && !hasError) {
-            CircularProgressIndicator(
+            NebLoader(
                 modifier = Modifier
-                    .size(32.dp)
+                    
                     .align(Alignment.Center),
-                color = Color.White,
-                strokeWidth = 2.5.dp,
-                trackColor = Color.White.copy(alpha = 0.25f)
+                size = NebLoaderSize.Standard,
+                color = Color.White
             )
         }
 
@@ -1151,9 +1146,8 @@ private fun NmpAudioBody(
             Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
                 if (!authorName.isNullOrBlank()) {
                     Text(authorName, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    Text("·", color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.3f))
                 }
-                Text("$type · $gradeLevel", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text("$type, $gradeLevel", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
         }
     }

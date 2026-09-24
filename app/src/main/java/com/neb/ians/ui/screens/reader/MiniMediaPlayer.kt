@@ -153,7 +153,7 @@ fun MiniMediaPlayer(
                 )
                 Spacer(Modifier.height(2.dp))
                 Text(
-                    text = if (uiState.isVideo) "Video · $subject" else "Audio · $subject",
+                    text = if (uiState.isVideo) "Video, $subject" else "Audio, $subject",
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 1,

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -125,28 +126,32 @@ private fun EmptySource(
         }
 
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.fillMaxWidth()) {
-            SourceTile(
+            HeroSourceTile(
                 icon = Icons.Rounded.PhotoCamera,
                 label = "Scan pages",
                 detail = "Shoot page after page",
                 onClick = onCapturePages,
-                modifier = Modifier.weight(1f),
-                prominent = true
+                modifier = Modifier.weight(1f)
             )
-            Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                SourceTile(
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .height(SourceTileHeight),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                CompactSourceTile(
                     icon = Icons.Rounded.PhotoLibrary,
                     label = "Gallery",
-                    detail = "Photos you already took",
+                    detail = "Photos you took",
                     onClick = onPickPhotos,
-                    compact = true
+                    modifier = Modifier.weight(1f)
                 )
-                SourceTile(
+                CompactSourceTile(
                     icon = Icons.Rounded.FolderOpen,
                     label = "Files",
-                    detail = "PDF, video, anything",
+                    detail = "PDF, video, more",
                     onClick = onPickFiles,
-                    compact = true
+                    modifier = Modifier.weight(1f)
                 )
             }
         }
@@ -175,61 +180,122 @@ private fun EmptySource(
     }
 }
 
+private val SourceTileHeight = 186.dp
+
+/**
+ * The tile that does the thing most people came here to do.
+ *
+ * It is solid ink and it is the tallest thing on the screen, because scanning a
+ * set of pages is the upload this app exists for. The other two sit beside it
+ * at half height and stay quiet.
+ */
 @Composable
-private fun SourceTile(
+private fun HeroSourceTile(
     icon: ImageVector,
     label: String,
     detail: String,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    prominent: Boolean = false,
-    compact: Boolean = false
+    modifier: Modifier = Modifier
 ) {
-    val container = if (prominent) {
-        MaterialTheme.colorScheme.primaryContainer
-    } else {
-        MaterialTheme.colorScheme.surfaceContainerLow
-    }
-    val content = if (prominent) {
-        MaterialTheme.colorScheme.onPrimaryContainer
-    } else {
-        MaterialTheme.colorScheme.onSurface
-    }
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .then(if (compact) Modifier.height(83.dp) else Modifier.height(176.dp))
+            .height(SourceTileHeight)
             .nebPressable(onClick = onClick)
-            .clip(RoundedCornerShape(if (compact) 20.dp else 26.dp))
-            .background(container)
+            .clip(RoundedCornerShape(26.dp))
+            .background(MaterialTheme.colorScheme.onSurface)
             .padding(16.dp),
-        verticalArrangement = if (compact) Arrangement.Center else Arrangement.spacedBy(8.dp, Alignment.Bottom)
+        verticalArrangement = Arrangement.spacedBy(6.dp, Alignment.Bottom)
     ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = null,
-            tint = content,
-            modifier = Modifier.size(if (compact) 22.dp else 32.dp)
-        )
-        if (!compact) Box(Modifier.height(4.dp))
+        Box(
+            modifier = Modifier
+                .size(42.dp)
+                .clip(RoundedCornerShape(14.dp))
+                .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.16f)),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.surface,
+                modifier = Modifier.size(22.dp)
+            )
+        }
+        Spacer(modifier = Modifier.weight(1f))
         Text(
             text = label,
-            style = if (compact) {
-                MaterialTheme.typography.titleSmallEmphasized
-            } else {
-                MaterialTheme.typography.headlineSmallEmphasized
-            },
-            color = content,
-            maxLines = 1,
+            style = MaterialTheme.typography.titleLargeEmphasized,
+            color = MaterialTheme.colorScheme.surface,
+            maxLines = 2,
             overflow = TextOverflow.Ellipsis
         )
         Text(
             text = detail,
             style = MaterialTheme.typography.bodySmall,
-            color = content.copy(alpha = 0.72f),
+            color = MaterialTheme.colorScheme.surface.copy(alpha = 0.72f),
             maxLines = 2,
             overflow = TextOverflow.Ellipsis
         )
+    }
+}
+
+/**
+ * Gallery and Files.
+ *
+ * Laid out sideways so the label and its line of explanation sit next to the
+ * glyph instead of stacking under it — stacked, the third line fell off the
+ * bottom of the tile and the screen looked broken.
+ */
+@Composable
+private fun CompactSourceTile(
+    icon: ImageVector,
+    label: String,
+    detail: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val shape = RoundedCornerShape(20.dp)
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .nebPressable(onClick = onClick)
+            .clip(shape)
+            .background(MaterialTheme.colorScheme.surfaceContainerLow)
+            .border(1.dp, MaterialTheme.colorScheme.outlineVariant, shape)
+            .padding(horizontal = 12.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .size(34.dp)
+                .clip(RoundedCornerShape(12.dp))
+                .background(MaterialTheme.colorScheme.surfaceContainerHighest),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.size(18.dp)
+            )
+        }
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = label,
+                style = MaterialTheme.typography.titleSmallEmphasized,
+                color = MaterialTheme.colorScheme.onSurface,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+            Text(
+                text = detail,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
     }
 }
 
@@ -357,9 +423,9 @@ private fun SourceSummary(state: UploadFormState) {
     val files = state.selectedFiles
     val totalSize = files.sumOf { it.size }
     val label = when {
-        state.willCombine -> "${files.size} pages · one PDF · ${formatFileSize(totalSize)} before shrinking"
-        files.size == 1 -> "${files.first().name} · ${formatFileSize(totalSize)}"
-        else -> "${files.size} files · ${formatFileSize(totalSize)}"
+        state.willCombine -> "${files.size} pages, one PDF, ${formatFileSize(totalSize)} before shrinking"
+        files.size == 1 -> "${files.first().name}  —  ${formatFileSize(totalSize)}"
+        else -> "${files.size} files  —  ${formatFileSize(totalSize)}"
     }
     Text(
         text = label,

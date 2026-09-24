@@ -583,11 +583,9 @@ private fun NewsArticleHeader(item: NewsAnnouncement) {
         Spacer(modifier = Modifier.height(14.dp))
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             Text(item.authorName, style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold)
-            Text("·", color = MaterialTheme.colorScheme.onSurfaceVariant)
             Text(item.publishedAgo.ifBlank { "Latest" }, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
             if (item.viewCount.isNotBlank()) {
-                Text("·", color = MaterialTheme.colorScheme.onSurfaceVariant)
-                Icon(Icons.Outlined.Visibility, contentDescription = null, modifier = Modifier.size(15.dp), tint = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Icon(Icons.Outlined.Visibility, contentDescription = null, modifier = Modifier.size(15.dp), tint = MaterialTheme.colorScheme.onSurfaceVariant)
                 Text("${item.viewCount} views", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
         }
