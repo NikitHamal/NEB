@@ -42,12 +42,12 @@ import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material.icons.outlined.ChatBubbleOutline
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.outlined.VisibilityOff
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import com.neb.ians.ui.components.NebModalSheet
 import com.neb.ians.ui.components.extractPostAttachments
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -77,7 +77,6 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material.icons.filled.Close
@@ -117,6 +116,7 @@ import com.neb.ians.ui.components.NebCommentComposerBar
 import com.neb.ians.ui.components.rememberVoiceNoteRecorder
 import com.neb.ians.ui.theme.getSubjectTheme
 import com.neb.ians.util.formatTimeAgo
+import com.neb.ians.ui.components.NebLoader
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
@@ -253,7 +253,7 @@ fun ForumPostDetailScreen(
                     .padding(paddingValues),
                 contentAlignment = Alignment.Center
             ) {
-                CircularProgressIndicator()
+                NebLoader()
             }
             uiState.post == null -> Box(
                 modifier = Modifier
@@ -484,13 +484,12 @@ fun ForumPostDetailScreen(
         val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
         val threadReplies = uiState.childrenOf(parent.id)
 
-        ModalBottomSheet(
-            onDismissRequest = {
+        NebModalSheet(
+            onDismiss = {
                 activeThreadParentId = null
                 activeThreadTargetReply = null
             },
-            sheetState = sheetState,
-            containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
+            sheetState = sheetState
         ) {
             Column(
                 modifier = Modifier
@@ -807,7 +806,7 @@ private fun PostContentSection(
                         )
                     }
                     Text(
-                        text = " · ${formatTimeAgo(post.createdAt)}",
+                        text = ", ${formatTimeAgo(post.createdAt)}",
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )

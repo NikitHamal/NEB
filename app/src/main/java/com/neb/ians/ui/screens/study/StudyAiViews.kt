@@ -27,9 +27,9 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.outlined.Tune
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -63,12 +63,18 @@ import com.neb.ians.data.api.ApiStudyQuizQuestion
 import com.neb.ians.data.api.ApiStudyQuizSummary
 import com.neb.ians.ui.components.MarkdownText
 import com.neb.ians.ui.components.KaTeXText
+import com.neb.ians.ui.components.NebChipRow
+import com.neb.ians.ui.components.NebDialog
+import com.neb.ians.ui.components.NebDialogAction
+import com.neb.ians.ui.components.NebFilterChip
 import com.neb.ians.ui.components.WebChip
 import com.neb.ians.ui.components.WebOutlinedButton
 import com.neb.ians.ui.components.WebPanelShape
 import com.neb.ians.ui.components.WebPillShape
 import com.neb.ians.ui.components.WebPrimaryButton
 import retrofit2.HttpException
+import com.neb.ians.ui.components.NebLoaderSize
+import com.neb.ians.ui.components.NebLoader
 
 // -------------------------------------------------------------
 // Shared Study Lab helpers + composables used by both the
@@ -173,9 +179,9 @@ data class StudyQuizResultData(
 @Composable
 fun ParseStatusPill(status: String, modifier: Modifier = Modifier) {
     val (bg, fg) = when (status) {
-        "ready" -> Color(0x1F22C55E) to Color(0xFF15803D)
+        "ready" -> MaterialTheme.colorScheme.surfaceContainerHighest to MaterialTheme.colorScheme.onSurface
         "failed" -> MaterialTheme.colorScheme.errorContainer to MaterialTheme.colorScheme.onErrorContainer
-        else -> Color(0x1FF59E0B) to Color(0xFFB45309)
+        else -> MaterialTheme.colorScheme.surfaceContainerHigh to MaterialTheme.colorScheme.onSurfaceVariant
     }
     Row(
         modifier = modifier
@@ -186,11 +192,7 @@ fun ParseStatusPill(status: String, modifier: Modifier = Modifier) {
         horizontalArrangement = Arrangement.spacedBy(5.dp)
     ) {
         if (status !in STUDY_TERMINAL_PARSE_STATES) {
-            CircularProgressIndicator(
-                modifier = Modifier.size(10.dp),
-                strokeWidth = 1.5.dp,
-                color = fg
-            )
+            NebLoader(size = NebLoaderSize.Inline, color = fg)
         }
         Text(
             text = status.replaceFirstChar { it.uppercase() },
@@ -273,7 +275,7 @@ fun StudySummarySection(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    CircularProgressIndicator(modifier = Modifier.size(18.dp), strokeWidth = 2.dp)
+                    NebLoader(size = NebLoaderSize.Inline)
                     Text(
                         text = "Generating ${if (mode == "detailed") "detailed" else "compact"} summary…",
                         style = MaterialTheme.typography.bodySmall,
@@ -311,11 +313,11 @@ fun StudySummarySection(
 // -------------------------------------------------------------
 
 private val mindmapBulletColors = listOf(
-    Color(0xFF2563EB),
-    Color(0xFF16A34A),
-    Color(0xFFD97706),
-    Color(0xFFDB2777),
-    Color(0xFF7C3AED)
+    Color(0xFF47474B),
+    Color(0xFF5C5C61),
+    Color(0xFF6E6E75),
+    Color(0xFF7C7C83),
+    Color(0xFF9B9BA1)
 )
 
 @Composable
@@ -332,7 +334,7 @@ fun StudyMindmapSection(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    CircularProgressIndicator(modifier = Modifier.size(18.dp), strokeWidth = 2.dp)
+                    NebLoader(size = NebLoaderSize.Inline)
                     Text(
                         text = "Generating mindmap…",
                         style = MaterialTheme.typography.bodySmall,
@@ -505,8 +507,8 @@ fun StudyQuizListSection(
                                 text = buildString {
                                     append("${quiz.questionCount} questions")
                                     if (quiz.attemptCount > 0) {
-                                        append(" · Best ${quiz.bestScore}/${quiz.questionCount}")
-                                        append(" · ${quiz.attemptCount} attempt${if (quiz.attemptCount == 1) "" else "s"}")
+                                        append(", best ${quiz.bestScore}/${quiz.questionCount}")
+                                        append(", ${quiz.attemptCount} attempt${if (quiz.attemptCount == 1) "" else "s"}")
                                     }
                                 },
                                 style = MaterialTheme.typography.labelSmall,
@@ -516,7 +518,7 @@ fun StudyQuizListSection(
                             )
                         }
                         if (openingQuizId == quiz.id) {
-                            CircularProgressIndicator(modifier = Modifier.size(16.dp), strokeWidth = 2.dp)
+                            NebLoader(size = NebLoaderSize.Inline)
                         }
                     }
                 }
@@ -528,7 +530,7 @@ fun StudyQuizListSection(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                CircularProgressIndicator(modifier = Modifier.size(18.dp), strokeWidth = 2.dp)
+                NebLoader(size = NebLoaderSize.Inline)
                 Text(
                     text = "Generating quiz…",
                     style = MaterialTheme.typography.bodySmall,
@@ -558,21 +560,26 @@ fun StudyCountDialog(
     onPick: (Int) -> Unit,
     options: List<Int> = listOf(5, 10, 15, 20)
 ) {
-    AlertDialog(
+    var chosen by remember { mutableStateOf(options.firstOrNull() ?: 5) }
+
+    NebDialog(
         onDismissRequest = onDismiss,
-        title = { Text(title) },
-        text = {
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                options.forEach { count ->
-                    WebChip(text = "$count", onClick = { onPick(count) })
-                }
+        title = title,
+        supportingText = "Pick how many items to generate.",
+        icon = Icons.Outlined.Tune,
+        confirm = NebDialogAction("Generate", { onPick(chosen) }),
+        dismiss = NebDialogAction("Cancel", onDismiss)
+    ) {
+        NebChipRow {
+            options.forEach { count ->
+                NebFilterChip(
+                    label = "$count",
+                    selected = chosen == count,
+                    onClick = { chosen = count }
+                )
             }
-        },
-        confirmButton = {},
-        dismissButton = {
-            TextButton(onClick = onDismiss) { Text("Cancel") }
         }
-    )
+    }
 }
 
 // -------------------------------------------------------------
@@ -721,7 +728,7 @@ fun StudyQuizPlayer(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    CircularProgressIndicator(modifier = Modifier.size(18.dp), strokeWidth = 2.dp)
+                    NebLoader(size = NebLoaderSize.Inline)
                     Text(
                         text = "Submitting…",
                         style = MaterialTheme.typography.labelMedium,
@@ -822,13 +829,13 @@ private fun StudyQuizResultRowCard(row: StudyQuizResultRow) {
                     modifier = Modifier
                         .size(24.dp)
                         .clip(CircleShape)
-                        .background(if (row.isCorrect) Color(0x2922C55E) else MaterialTheme.colorScheme.errorContainer),
+                        .background(if (row.isCorrect) MaterialTheme.colorScheme.surfaceContainerHighest else MaterialTheme.colorScheme.errorContainer),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
                         imageVector = if (row.isCorrect) Icons.Filled.Check else Icons.Filled.Close,
                         contentDescription = if (row.isCorrect) "Correct" else "Incorrect",
-                        tint = if (row.isCorrect) Color(0xFF15803D) else MaterialTheme.colorScheme.onErrorContainer,
+                        tint = if (row.isCorrect) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onErrorContainer,
                         modifier = Modifier.size(15.dp)
                     )
                 }
@@ -843,10 +850,10 @@ private fun StudyQuizResultRowCard(row: StudyQuizResultRow) {
                         text = if (row.isCorrect) {
                             "Your answer: ${row.userAnswer.ifBlank { "—" }} ✓"
                         } else {
-                            "Your answer: ${row.userAnswer.ifBlank { "—" }} · Correct: ${row.correctAnswer.ifBlank { "—" }}"
+                            "Your answer: ${row.userAnswer.ifBlank { "—" }}, correct: ${row.correctAnswer.ifBlank { "—" }}"
                         },
                         style = MaterialTheme.typography.labelMedium,
-                        color = if (row.isCorrect) Color(0xFF15803D) else MaterialTheme.colorScheme.error
+                        color = if (row.isCorrect) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.error
                     )
                 }
             }
@@ -892,7 +899,7 @@ fun StudyFlashcardsSection(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    CircularProgressIndicator(modifier = Modifier.size(18.dp), strokeWidth = 2.dp)
+                    NebLoader(size = NebLoaderSize.Inline)
                     Text(
                         text = "Generating flashcards…",
                         style = MaterialTheme.typography.bodySmall,
@@ -979,8 +986,8 @@ fun StudyFlashcardsSection(
                         )
                         ConfidenceButton(
                             label = "Medium",
-                            container = Color(0x29F59E0B),
-                            content = Color(0xFFB45309),
+                            container = MaterialTheme.colorScheme.surfaceContainerHigh,
+                            content = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.weight(1f),
                             onClick = {
                                 onReview(card.id, "medium")
@@ -990,8 +997,8 @@ fun StudyFlashcardsSection(
                         )
                         ConfidenceButton(
                             label = "Easy",
-                            container = Color(0x2922C55E),
-                            content = Color(0xFF15803D),
+                            container = MaterialTheme.colorScheme.inverseSurface,
+                            content = MaterialTheme.colorScheme.inverseOnSurface,
                             modifier = Modifier.weight(1f),
                             onClick = {
                                 onReview(card.id, "easy")

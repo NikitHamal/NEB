@@ -23,6 +23,8 @@ import com.neb.ians.R
 import com.neb.ians.ui.theme.Poppins
 import com.neb.ians.util.TactileType
 import com.neb.ians.util.rememberTactileFeedback
+import com.neb.ians.ui.components.NebLoaderSize
+import com.neb.ians.ui.components.NebLoader
 
 @Composable
 fun AuthActionButtons(
@@ -38,10 +40,7 @@ fun AuthActionButtons(
 ) {
     val tactile = rememberTactileFeedback()
 
-    // NEBians Brand Accent Colors
-    val brandSapphire = Color(0xFF0D5CE5)
-    val brandSapphireLight = Color(0xFF7CA8FF)
-    val linkColor = if (isDark) brandSapphireLight else brandSapphire
+    val linkColor = if (isDark) Color(0xFFF5F5F6) else Color(0xFF101012)
 
     Column(
         modifier = modifier
@@ -64,12 +63,12 @@ fun AuthActionButtons(
                 .testTag("google_login_button"),
             shape = RoundedCornerShape(27.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = if (isDark) Color(0xFF1E2430) else Color(0xFFF2F2F2),
-                contentColor = if (isDark) Color(0xFFF1F5F9) else Color(0xFF1F1F1F),
-                disabledContainerColor = Color(0xFFE2E4E8),
-                disabledContentColor = Color(0xFF888888)
+                containerColor = if (isDark) Color(0xFF1F1F21) else Color(0xFFF1F1F3),
+                contentColor = if (isDark) Color(0xFFF5F5F6) else Color(0xFF1F1F21),
+                disabledContainerColor = Color(0xFFE9E9EB),
+                disabledContentColor = Color(0xFF9B9BA1)
             ),
-            border = if (isDark) BorderStroke(1.dp, Color(0xFF334155)) else null,
+            border = if (isDark) BorderStroke(1.dp, Color(0xFF313136)) else null,
             elevation = ButtonDefaults.buttonElevation(
                 defaultElevation = 0.dp,
                 pressedElevation = 0.dp,
@@ -78,11 +77,7 @@ fun AuthActionButtons(
             )
         ) {
             if (isLoading && loadingProvider == "google") {
-                CircularProgressIndicator(
-                    modifier = Modifier.size(20.dp),
-                    color = if (isDark) Color.White else Color(0xFF1F1F1F),
-                    strokeWidth = 2.dp
-                )
+                NebLoader(size = NebLoaderSize.Inline, color = if (isDark) Color.White else Color(0xFF1F1F21))
             } else {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -123,14 +118,14 @@ fun AuthActionButtons(
                 .testTag("github_login_button"),
             shape = RoundedCornerShape(27.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF0F1117),
+                containerColor = Color(0xFF101012),
                 contentColor = Color.White,
-                disabledContainerColor = Color(0xFF1E212A),
-                disabledContentColor = Color(0xFF71717A)
+                disabledContainerColor = Color(0xFF1F1F21),
+                disabledContentColor = Color(0xFF7C7C83)
             ),
             border = BorderStroke(
                 width = 1.dp,
-                color = if (isDark) Color(0xFF2B313F) else Color(0xFF222630)
+                color = if (isDark) Color(0xFF313136) else Color(0xFF26262A)
             ),
             elevation = ButtonDefaults.buttonElevation(
                 defaultElevation = 0.dp,
@@ -140,11 +135,7 @@ fun AuthActionButtons(
             )
         ) {
             if (isLoading && loadingProvider == "github") {
-                CircularProgressIndicator(
-                    modifier = Modifier.size(20.dp),
-                    color = Color.White,
-                    strokeWidth = 2.dp
-                )
+                NebLoader(size = NebLoaderSize.Inline, color = Color.White)
             } else {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -186,11 +177,11 @@ fun AuthActionButtons(
             shape = RoundedCornerShape(26.dp),
             colors = ButtonDefaults.outlinedButtonColors(
                 containerColor = Color.Transparent,
-                contentColor = if (isDark) Color(0xFFF1F5F9) else Color(0xFF1E293B)
+                contentColor = if (isDark) Color(0xFFF5F5F6) else Color(0xFF1F1F21)
             ),
             border = BorderStroke(
                 width = 1.5.dp,
-                color = if (isDark) Color(0xFF3B4861) else Color(0xFFCBD5E1)
+                color = if (isDark) Color(0xFF3A3A3F) else Color(0xFFDCDCE0)
             )
         ) {
             Row(
@@ -268,7 +259,7 @@ fun AuthActionButtons(
                 fontSize = 12.sp,
                 lineHeight = 18.sp,
                 textAlign = TextAlign.Center,
-                color = if (isDark) Color(0xFF8896AB) else Color(0xFF64748B)
+                color = if (isDark) Color(0xFF9B9BA1) else Color(0xFF5C5C61)
             ),
             modifier = Modifier
                 .fillMaxWidth()

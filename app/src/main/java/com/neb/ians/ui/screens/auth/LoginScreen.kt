@@ -24,18 +24,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.neb.ians.R
-import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.ui.theme.Poppins
 import com.neb.ians.util.HideStatusBarEffect
 
 @Composable
 fun LoginScreen(
-    authRepository: AuthRepository,
-    onNavigateToHome: () -> Unit,
-    onNavigateToCompleteProfile: () -> Unit,
-    onNavigateToEmailSignup: () -> Unit,
-    onNavigateToForgotPassword: (email: String) -> Unit,
-    onNavigateToVerification: (email: String) -> Unit
+    onNavigateToEmailAuth: () -> Unit
 ) {
     // Hide status bar on auth screen as requested
     HideStatusBarEffect()
@@ -47,7 +41,6 @@ fun LoginScreen(
     var isLoading by remember { mutableStateOf(false) }
     var loadingProvider by remember { mutableStateOf<String?>(null) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
-    var isEmailSheetOpen by remember { mutableStateOf(false) }
     var activeLegalSheet by remember { mutableStateOf<LegalSheetType?>(null) }
 
     fun launchOAuth(provider: String) {
@@ -72,10 +65,10 @@ fun LoginScreen(
         }
     }
 
-    val screenBgColor = if (isDark) Color(0xFF0F172A) else Color(0xFFFFFFFF)
-    val brandBlue = Color(0xFF2563EB)
-    val titleTextColor = if (isDark) Color(0xFFF8FAFC) else Color(0xFF0F172A)
-    val subtitleTextColor = if (isDark) Color(0xFF94A3B8) else Color(0xFF64748B)
+    val screenBgColor = if (isDark) Color(0xFF0A0A0B) else Color(0xFFFFFFFF)
+    val brandInk = if (isDark) Color(0xFFFFFFFF) else Color(0xFF000000)
+    val titleTextColor = if (isDark) Color(0xFFF5F5F6) else Color(0xFF0A0A0B)
+    val subtitleTextColor = if (isDark) Color(0xFF9B9BA1) else Color(0xFF5C5C61)
 
     BoxWithConstraints(
         modifier = Modifier
@@ -127,7 +120,7 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // 2. "Welcome to NEBians" (Poppins 600 bold, blue "NEBians")
+            // 2. "Welcome to NEBians" (Poppins 600 bold, ink "NEBians")
             val welcomeText = buildAnnotatedString {
                 append("Welcome to ")
                 val startBrand = length
@@ -135,7 +128,7 @@ fun LoginScreen(
                 val endBrand = length
                 addStyle(
                     style = SpanStyle(
-                        color = brandBlue,
+                        color = brandInk,
                         fontWeight = FontWeight.SemiBold
                     ),
                     start = startBrand,
@@ -189,27 +182,11 @@ fun LoginScreen(
                 loadingProvider = loadingProvider,
                 onGoogleClick = { launchOAuth("google") },
                 onGitHubClick = { launchOAuth("github") },
-                onEmailClick = { isEmailSheetOpen = true },
+                onEmailClick = onNavigateToEmailAuth,
                 onTermsClick = { activeLegalSheet = LegalSheetType.TERMS },
                 onPrivacyClick = { activeLegalSheet = LegalSheetType.PRIVACY }
             )
         }
-
-        // Email Sign-In & Quick Register Bottom Sheet
-        AuthEmailSheet(
-            isOpen = isEmailSheetOpen,
-            onDismiss = { isEmailSheetOpen = false },
-            isDark = isDark,
-            authRepository = authRepository,
-            onNavigateToHome = onNavigateToHome,
-            onNavigateToCompleteProfile = onNavigateToCompleteProfile,
-            onNavigateToForgotPassword = onNavigateToForgotPassword,
-            onNavigateToVerification = onNavigateToVerification,
-            onNavigateToFullSignup = {
-                isEmailSheetOpen = false
-                onNavigateToEmailSignup()
-            }
-        )
 
         // Terms of Service & Privacy Policy Bottom Sheet
         AuthLegalSheet(

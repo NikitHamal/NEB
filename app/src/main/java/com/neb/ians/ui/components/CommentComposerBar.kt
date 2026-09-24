@@ -25,7 +25,6 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material.icons.outlined.VisibilityOff
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -239,11 +238,7 @@ private fun NebCommentComposerBarFrame(
                         .background(color = trailingColor, shape = CircleShape)
                 ) {
                     when {
-                        posting -> CircularProgressIndicator(
-                            modifier = Modifier.size(20.dp),
-                            strokeWidth = 2.dp,
-                            color = MaterialTheme.colorScheme.onPrimary
-                        )
+                        posting -> NebLoader(size = NebLoaderSize.Inline, color = MaterialTheme.colorScheme.onPrimary)
                         recording -> Icon(
                             imageVector = Icons.Filled.Check,
                             contentDescription = "Finish recording",

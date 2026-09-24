@@ -32,7 +32,6 @@ import androidx.compose.material.icons.outlined.Schedule
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.ThumbUp
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -73,6 +72,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.R
 import com.neb.ians.data.api.ApiErrorMapper
+import com.neb.ians.ui.components.NebChipGroup
+import com.neb.ians.ui.components.NebModalSheet
 import com.neb.ians.ui.components.ConfirmDeleteDialog
 import com.neb.ians.ui.components.ErrorCard
 import com.neb.ians.ui.components.WafWarningBanner
@@ -85,6 +86,8 @@ import com.neb.ians.ui.components.WebOutlinedButton
 import com.neb.ians.ui.components.WebPillShape
 import com.neb.ians.ui.components.WebTopBar
 import com.neb.ians.ui.components.sharePost
+import com.neb.ians.ui.components.NebLoaderSize
+import com.neb.ians.ui.components.NebLoader
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -330,7 +333,7 @@ fun ForumScreen(
                                         .padding(vertical = 16.dp),
                                     contentAlignment = Alignment.Center
                                 ) {
-                                    CircularProgressIndicator(modifier = Modifier.size(24.dp), strokeWidth = 2.5.dp)
+                                    NebLoader(size = NebLoaderSize.Small)
                                 }
                             }
                         }
@@ -374,47 +377,24 @@ fun ForumScreen(
         )
     }
 
-    // ----- Filter dialog -----
     if (showFilterDialog) {
-        AlertDialog(
-            onDismissRequest = { showFilterDialog = false },
-            title = { Text("Filter by Category", fontWeight = FontWeight.Bold) },
-            text = {
-                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                    TextButton(
-                        onClick = {
-                            viewModel.selectCategory(null)
-                            showFilterDialog = false
-                        },
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Text(
-                            "All Categories",
-                            fontWeight = if (uiState.selectedCategory == null) FontWeight.Bold else FontWeight.Normal,
-                            color = if (uiState.selectedCategory == null) MaterialTheme.colorScheme.primary
-                                    else MaterialTheme.colorScheme.onSurface
-                        )
-                    }
-                    ForumUiState.CATEGORIES.forEach { cat ->
-                        TextButton(
-                            onClick = {
-                                viewModel.selectCategory(cat)
-                                showFilterDialog = false
-                            },
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            Text(
-                                cat,
-                                fontWeight = if (uiState.selectedCategory == cat) FontWeight.Bold else FontWeight.Normal,
-                                color = if (uiState.selectedCategory == cat) MaterialTheme.colorScheme.primary
-                                        else MaterialTheme.colorScheme.onSurface
-                            )
-                        }
-                    }
-                }
-            },
-            confirmButton = {}
-        )
+        NebModalSheet(
+            onDismiss = { showFilterDialog = false },
+            title = "Categories",
+            subtitle = "Show only the discussions you care about.",
+            showClose = true
+        ) {
+            NebChipGroup(
+                options = listOf("All") + ForumUiState.CATEGORIES,
+                selected = uiState.selectedCategory ?: "All",
+                onSelect = { picked ->
+                    viewModel.selectCategory(if (picked == null || picked == "All") null else picked)
+                    showFilterDialog = false
+                },
+                toggleable = false,
+                modifier = Modifier.padding(horizontal = 22.dp)
+            )
+        }
     }
 }
 
