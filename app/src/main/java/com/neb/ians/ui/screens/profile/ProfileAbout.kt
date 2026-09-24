@@ -1,163 +1,362 @@
 package com.neb.ians.ui.screens.profile
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.HorizontalDivider
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Apartment
+import androidx.compose.material.icons.outlined.CalendarMonth
+import androidx.compose.material.icons.outlined.Chat
+import androidx.compose.material.icons.outlined.ChatBubble
+import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.Leaderboard
+import androidx.compose.material.icons.outlined.LocationOn
+import androidx.compose.material.icons.outlined.MenuBook
+import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.School
+import androidx.compose.material.icons.outlined.ThumbUp
+import androidx.compose.material.icons.outlined.TrendingUp
+import androidx.compose.material.icons.outlined.WorkspacePremium
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.neb.ians.data.api.UserProfileResponse
+import com.neb.ians.ui.components.WebPanelShape
+import com.neb.ians.ui.components.WebPillShape
 import com.neb.ians.ui.components.compactCount
 
 // ---------------------------------------------------------------------------
-// The About tab.
+// The About tab: Stats, Achievements, Details, Progress.
 //
-// Four bordered cards became four labelled lists. The progress card is gone
-// entirely: it drew three bars that were hard-coded to zero, so it told every
-// visitor the same untrue thing. What is left is only what the server
-// actually knows about this person.
+// Four bordered cards, each headed by a glyph and a bold title. Every card is
+// a panel on the lowest surface with a hairline border, so the tab reads as a
+// set rather than four unrelated blocks.
 // ---------------------------------------------------------------------------
 
-private val AboutIndent = 20.dp
-
 @Composable
-fun ProfileAbout(
+fun AboutStatsCard(
     profile: UserProfileResponse,
     followerCount: Int,
-    repliesCount: Int,
-    resourcesCount: Int,
     modifier: Modifier = Modifier
 ) {
-    val details = remember(profile) { buildDetails(profile) }
-
-    Column(modifier = modifier.fillMaxWidth()) {
-        AboutSection("Activity") {
-            AboutRow("Posts", compactCount(profile.postCount))
-            AboutRow("Replies", compactCount(maxOf(repliesCount, profile.replyCount)))
-            if (resourcesCount > 0) AboutRow("Resources", compactCount(resourcesCount))
-            AboutRow("Followers", compactCount(followerCount))
-            AboutRow("Following", compactCount(profile.followingCount))
-            if (profile.likesReceivedCount > 0) {
-                AboutRow("Likes received", compactCount(profile.likesReceivedCount))
+    AboutCard(icon = Icons.Outlined.Leaderboard, title = "Stats", modifier = modifier) {
+        Row(modifier = Modifier.fillMaxWidth()) {
+            Box(modifier = Modifier.weight(1f)) {
+                AboutStatItem(value = compactCount(profile.postCount), label = "Discussions")
             }
-            if (profile.likesGivenCount > 0) {
-                AboutRow("Likes given", compactCount(profile.likesGivenCount))
+            Box(modifier = Modifier.weight(1f)) {
+                AboutStatItem(value = compactCount(profile.replyCount), label = "Replies")
             }
-            if (profile.contributionScore > 0) {
-                AboutRow("Contribution score", compactCount(profile.contributionScore))
+            Box(modifier = Modifier.weight(1f)) {
+                AboutStatItem(value = compactCount(followerCount), label = "Followers")
             }
         }
-
-        if (details.isNotEmpty()) {
-            Spacer(modifier = Modifier.height(22.dp))
-            AboutSection("Details") {
-                details.forEach { (label, value) -> AboutRow(label, value) }
+        Spacer(modifier = Modifier.height(16.dp))
+        Row(modifier = Modifier.fillMaxWidth()) {
+            Box(modifier = Modifier.weight(1f)) {
+                AboutStatItem(value = compactCount(profile.likesReceivedCount), label = "Likes Received")
+            }
+            Box(modifier = Modifier.weight(1f)) {
+                AboutStatItem(
+                    value = compactCount(profile.contributionScore),
+                    label = "NEBian Score",
+                    isAcademic = true
+                )
+            }
+            Box(modifier = Modifier.weight(1f)) {
+                AboutStatItem(value = compactCount(profile.followingCount), label = "Following")
             }
         }
-
-        Spacer(modifier = Modifier.height(28.dp))
     }
 }
 
 @Composable
-private fun AboutSection(label: String, content: @Composable () -> Unit) {
-    Column(modifier = Modifier.fillMaxWidth()) {
+private fun AboutStatItem(value: String, label: String, isAcademic: Boolean = false) {
+    Column(
+        horizontalAlignment = Alignment.Start,
+        verticalArrangement = Arrangement.spacedBy(2.dp)
+    ) {
         Text(
-            text = label.uppercase(),
-            style = MaterialTheme.typography.labelSmall,
-            fontWeight = FontWeight.SemiBold,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.padding(start = AboutIndent, bottom = 4.dp)
+            text = value,
+            style = MaterialTheme.typography.titleLarge,
+            fontWeight = FontWeight.ExtraBold,
+            color = if (isAcademic) {
+                MaterialTheme.colorScheme.primary
+            } else {
+                MaterialTheme.colorScheme.onSurface
+            }
         )
-        content()
+        Text(
+            text = label,
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
     }
 }
 
 @Composable
-private fun AboutRow(label: String, value: String) {
-    if (value.isBlank()) return
-    val scheme = MaterialTheme.colorScheme
-    Column(modifier = Modifier.fillMaxWidth()) {
+fun AboutAchievementsCard(
+    profile: UserProfileResponse,
+    modifier: Modifier = Modifier
+) {
+    val achievements = remember(profile.achievementBadges) { parseAchievements(profile.achievementBadges) }
+    val postCount = profile.postCount
+    val replyCount = profile.replyCount
+    val likesReceived = profile.likesReceivedCount
+
+    AboutCard(icon = Icons.Outlined.WorkspacePremium, title = "Achievements", modifier = modifier) {
+        val hasEarned = achievements.isNotEmpty() || postCount >= 1 || replyCount >= 1 || likesReceived >= 1
+        if (!hasEarned) {
+            Text(
+                text = "No achievements unlocked yet. Post or reply in the forum to begin!",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        } else {
+            @OptIn(ExperimentalLayoutApi::class)
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                achievements.forEach { ach ->
+                    AchievementBadgePill(label = ach.label, icon = Icons.Outlined.WorkspacePremium)
+                }
+                if (postCount >= 1) {
+                    AchievementBadgePill(label = "First Discussion", icon = Icons.Outlined.Chat)
+                }
+                if (replyCount >= 1) {
+                    AchievementBadgePill(label = "First Reply", icon = Icons.Outlined.ChatBubble)
+                }
+                if (likesReceived >= 1) {
+                    AchievementBadgePill(label = "First Thumb Received", icon = Icons.Outlined.ThumbUp)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun AchievementBadgePill(label: String, icon: ImageVector) {
+    val accent = MaterialTheme.colorScheme.onSurface
+    Surface(
+        shape = WebPillShape,
+        color = MaterialTheme.colorScheme.surfaceContainerHigh,
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+    ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = AboutIndent, vertical = 11.dp),
-            verticalAlignment = Alignment.Top,
-            horizontalArrangement = Arrangement.SpaceBetween
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(6.dp)
         ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                tint = accent,
+                modifier = Modifier.size(16.dp)
+            )
             Text(
                 text = label,
-                style = MaterialTheme.typography.bodyMedium,
-                color = scheme.onSurfaceVariant
-            )
-            Spacer(modifier = Modifier.width(20.dp))
-            Text(
-                text = value,
-                style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.Medium,
-                color = scheme.onSurface,
-                textAlign = TextAlign.End,
-                modifier = Modifier.weight(1f, fill = false)
+                style = MaterialTheme.typography.labelMedium,
+                fontWeight = FontWeight.Bold,
+                color = accent
             )
         }
-        HorizontalDivider(
-            color = scheme.outlineVariant.copy(alpha = 0.5f),
-            modifier = Modifier.padding(start = AboutIndent)
+    }
+}
+
+@Composable
+fun AboutDetailsCard(
+    profile: UserProfileResponse,
+    onProfileClick: (String) -> Unit = {},
+    modifier: Modifier = Modifier
+) {
+    val location = remember(profile.district, profile.pradesh) { profileLocation(profile) }
+    val joinedText = remember(profile.createdAt) { formatJoined(profile.createdAt) }
+
+    AboutCard(icon = Icons.Outlined.Info, title = "Details", modifier = modifier) {
+        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            if (!profile.classLevel.isNullOrBlank()) {
+                AboutDetailRow(
+                    icon = Icons.Outlined.School,
+                    label = "Class",
+                    value = classLabel(profile.classLevel)
+                )
+            }
+            if (!profile.subjects.isNullOrBlank()) {
+                AboutDetailRow(
+                    icon = Icons.Outlined.MenuBook,
+                    label = "Subjects",
+                    value = subjectList(profile.subjects)
+                )
+            }
+            if (!profile.school.isNullOrBlank()) {
+                val schoolUsername = profile.schoolUsername
+                AboutDetailRow(
+                    icon = Icons.Outlined.Apartment,
+                    label = "School",
+                    value = profile.school,
+                    onClick = if (!schoolUsername.isNullOrBlank()) {
+                        { onProfileClick(schoolUsername) }
+                    } else null
+                )
+            }
+            if (location.isNotBlank()) {
+                AboutDetailRow(icon = Icons.Outlined.LocationOn, label = "Location", value = location)
+            }
+            if (joinedText.isNotBlank()) {
+                AboutDetailRow(icon = Icons.Outlined.CalendarMonth, label = "Joined", value = joinedText)
+            }
+            if (!profile.gender.isNullOrBlank()) {
+                AboutDetailRow(icon = Icons.Outlined.Person, label = "Gender", value = profile.gender)
+            }
+        }
+    }
+}
+
+@Composable
+private fun AboutDetailRow(
+    icon: ImageVector,
+    label: String,
+    value: String,
+    onClick: (() -> Unit)? = null
+) {
+    val isClickable = onClick != null
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .then(if (isClickable) Modifier.clickable { onClick?.invoke() } else Modifier),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            tint = if (isClickable) {
+                MaterialTheme.colorScheme.primary
+            } else {
+                MaterialTheme.colorScheme.onSurfaceVariant
+            },
+            modifier = Modifier.size(20.dp)
+        )
+        Text(
+            text = label,
+            style = MaterialTheme.typography.bodyMedium,
+            fontWeight = FontWeight.SemiBold,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.width(80.dp)
+        )
+        Text(
+            text = value,
+            style = MaterialTheme.typography.bodyMedium,
+            color = if (isClickable) {
+                MaterialTheme.colorScheme.primary
+            } else {
+                MaterialTheme.colorScheme.onSurface
+            },
+            modifier = Modifier.weight(1f)
         )
     }
 }
 
-/** Only the fields this person actually filled in, in reading order. */
-private fun buildDetails(p: UserProfileResponse): List<Pair<String, String>> {
-    val rows = mutableListOf<Pair<String, String>>()
-
-    fun add(label: String, value: String?) {
-        val v = value?.trim().orEmpty()
-        if (v.isNotBlank()) rows.add(label to v)
-    }
-
-    when (p.role) {
-        "teacher" -> {
-            add("Role", if (p.verificationLevel > 0) "Verified teacher" else "Teacher")
-            add("Teaches", subjectList(p.teachingSubjects))
+@Composable
+fun AboutProgressCard(
+    profile: UserProfileResponse,
+    modifier: Modifier = Modifier
+) {
+    val subjects = remember(profile.subjects) {
+        if (profile.subjects.isNullOrBlank()) {
+            emptyList()
+        } else {
+            profile.subjects.split(",").map { it.trim() }.filter { it.isNotBlank() }
         }
-        "institution" -> {
-            add("Role", when (p.institutionType) {
-                "school" -> "School"
-                "college" -> "College"
-                "academy" -> "Academy"
-                else -> "Institution"
-            })
+    }
+    if (subjects.isEmpty() || profile.isBot) return
+
+    AboutCard(icon = Icons.Outlined.TrendingUp, title = "Progress", modifier = modifier) {
+        Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
+            subjects.forEach { subject ->
+                Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                    Text(
+                        text = subject,
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    LinearProgressIndicator(
+                        progress = { 0f },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(6.dp)
+                            .clip(CircleShape),
+                        color = MaterialTheme.colorScheme.primary,
+                        trackColor = MaterialTheme.colorScheme.surfaceContainerHigh
+                    )
+                }
+            }
         }
-        "explorer" -> add("Role", "Explorer")
-        else -> add("Class", classLabel(p.classLevel))
     }
+}
 
-    add("Subjects", subjectList(p.subjects))
-    add("School", p.school)
-    add("Location", profileLocation(p))
-    add("Gender", p.gender?.replaceFirstChar { it.uppercase() })
-    if (p.moderatorLevel > 0) {
-        add("Moderator", when (p.moderatorLevel) {
-            1 -> "Community mod"
-            2 -> "Senior mod"
-            else -> "Community lead"
-        })
+/** The shell every About card shares: panel, hairline, glyph, bold title. */
+@Composable
+private fun AboutCard(
+    icon: ImageVector,
+    title: String,
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit
+) {
+    Card(
+        modifier = modifier.fillMaxWidth(),
+        shape = WebPanelShape,
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
+        ),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(20.dp)
+                )
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            content()
+        }
     }
-    add("Joined", formatJoined(p.createdAt).removePrefix("Joined "))
-    if (p.isLocked == 1) add("Account", "Private")
-
-    return rows
 }
