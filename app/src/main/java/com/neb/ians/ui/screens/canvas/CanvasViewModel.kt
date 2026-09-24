@@ -63,9 +63,6 @@ class CanvasViewModel @Inject constructor(
     private val _deleteBoardTarget = MutableStateFlow<CanvasBoard?>(null)
     val deleteBoardTarget: StateFlow<CanvasBoard?> = _deleteBoardTarget.asStateFlow()
 
-    private val _minimapVisible = MutableStateFlow(false)
-    val minimapVisible: StateFlow<Boolean> = _minimapVisible.asStateFlow()
-
     private val _globalPrompt = MutableStateFlow("")
     val globalPrompt: StateFlow<String> = _globalPrompt.asStateFlow()
 
@@ -86,6 +83,68 @@ class CanvasViewModel @Inject constructor(
 
     private val _nodeHeights = MutableStateFlow<Map<String, Float>>(emptyMap())
     val nodeHeights: StateFlow<Map<String, Float>> = _nodeHeights.asStateFlow()
+
+    private val undoStack = ArrayDeque<List<CanvasNode>>()
+    private val redoStack = ArrayDeque<List<CanvasNode>>()
+
+    private val _canUndo = MutableStateFlow(false)
+    val canUndo: StateFlow<Boolean> = _canUndo.asStateFlow()
+
+    private val _canRedo = MutableStateFlow(false)
+    val canRedo: StateFlow<Boolean> = _canRedo.asStateFlow()
+
+    private fun pushHistory() {
+        undoStack.addLast(_nodes.value)
+        while (undoStack.size > HISTORY_LIMIT) undoStack.removeFirst()
+        redoStack.clear()
+        syncHistory()
+    }
+
+    private fun syncHistory() {
+        _canUndo.value = undoStack.isNotEmpty()
+        _canRedo.value = redoStack.isNotEmpty()
+    }
+
+    private fun clearHistory() {
+        undoStack.clear()
+        redoStack.clear()
+        syncHistory()
+    }
+
+    /** A drag is one step, so the snapshot is taken when the finger lands, not on every pixel. */
+    fun beginNodeDrag() = pushHistory()
+
+    fun undo() {
+        val restored = undoStack.removeLastOrNull() ?: return
+        redoStack.addLast(_nodes.value)
+        applyHistory(restored, "Undone")
+    }
+
+    fun redo() {
+        val restored = redoStack.removeLastOrNull() ?: return
+        undoStack.addLast(_nodes.value)
+        applyHistory(restored, "Redone")
+    }
+
+    private fun applyHistory(list: List<CanvasNode>, message: String) {
+        _nodes.value = list
+        if (list.none { it.id == _selectedNodeId.value }) _selectedNodeId.value = null
+        cancelConnecting()
+        syncHistory()
+        val board = _activeBoard.value
+        if (board != null) {
+            viewModelScope.launch { repository.saveNodesForBoard(board.id, list) }
+        }
+        showToast(message)
+    }
+
+    fun deleteSelectedNode() {
+        _selectedNodeId.value?.let { deleteNode(it) }
+    }
+
+    fun duplicateSelectedNode() {
+        _selectedNodeId.value?.let { duplicateNode(it) }
+    }
 
     fun reportNodeHeight(nodeId: String, heightDp: Float) {
         if (heightDp <= 0f) return
@@ -136,6 +195,7 @@ class CanvasViewModel @Inject constructor(
     fun selectBoard(board: CanvasBoard) {
         _activeBoard.value = board
         _sidebarOpen.value = false
+        clearHistory()
         viewModelScope.launch {
             val list = repository.getNodesForBoard(board.id)
             _nodes.value = list
@@ -161,10 +221,6 @@ class CanvasViewModel @Inject constructor(
 
     fun setDeleteBoardTarget(board: CanvasBoard?) {
         _deleteBoardTarget.value = board
-    }
-
-    fun setMinimapVisible(visible: Boolean) {
-        _minimapVisible.value = visible
     }
 
     fun setGlobalPrompt(text: String) {
@@ -218,6 +274,7 @@ class CanvasViewModel @Inject constructor(
         val source = currentNodes.find { it.id == sourceId } ?: return
         val target = currentNodes.find { it.id == targetId } ?: return
 
+        pushHistory()
         val isAlreadyConnected = source.connections.contains(targetId) ||
                 target.connections.contains(sourceId) ||
                 target.parentId == sourceId ||
@@ -311,6 +368,7 @@ class CanvasViewModel @Inject constructor(
 
         viewModelScope.launch {
             _isGenerating.value = true
+            pushHistory()
             val roots = _nodes.value.filter { it.parentId.isNullOrBlank() }
             val baseX = if (roots.isEmpty()) {
                 40f
@@ -363,6 +421,7 @@ class CanvasViewModel @Inject constructor(
         val parent = _nodes.value.find { it.id == parentId } ?: return
 
         viewModelScope.launch {
+            pushHistory()
             val siblings = _nodes.value.count { it.parentId == parentId }
             val (baseX, baseY) = childOrigin(boundsFor(parent), direction, siblings)
 
@@ -462,6 +521,7 @@ class CanvasViewModel @Inject constructor(
 
     fun updateNodeColor(nodeId: String, colorKey: String) {
         val board = _activeBoard.value ?: return
+        pushHistory()
         val updated = _nodes.value.map {
             if (it.id == nodeId) it.copy(color = colorKey, updatedAt = System.currentTimeMillis())
             else it
@@ -475,6 +535,7 @@ class CanvasViewModel @Inject constructor(
     fun duplicateNode(nodeId: String) {
         val board = _activeBoard.value ?: return
         val target = _nodes.value.find { it.id == nodeId } ?: return
+        pushHistory()
         val dup = target.copy(
             id = "node_${System.currentTimeMillis()}_${UUID.randomUUID().toString().take(4)}",
             x = target.x + 60f,
@@ -491,6 +552,7 @@ class CanvasViewModel @Inject constructor(
 
     fun deleteNode(nodeId: String) {
         val board = _activeBoard.value ?: return
+        pushHistory()
         val updated = _nodes.value.filterNot { it.id == nodeId }.map {
             it.copy(
                 parentId = if (it.parentId == nodeId) null else it.parentId,
@@ -510,6 +572,7 @@ class CanvasViewModel @Inject constructor(
         val board = _activeBoard.value ?: return
         val currentNodes = _nodes.value
         if (currentNodes.isEmpty()) return
+        pushHistory()
 
         val roots = currentNodes.filter { it.parentId.isNullOrBlank() }
         val nonRoots = currentNodes.filterNot { it.parentId.isNullOrBlank() }
@@ -612,6 +675,13 @@ class CanvasViewModel @Inject constructor(
         _viewportTy.value = newTy
     }
 
+    fun resetZoom() {
+        applyZoomAt(
+            Offset(_containerWidth / 2f, _containerHeight / 2f),
+            1f / _viewportScale.value.coerceAtLeast(0.05f)
+        )
+    }
+
     fun zoomIn() {
         applyZoomAt(Offset(_containerWidth / 2f, _containerHeight / 2f), 1.25f)
     }
@@ -636,3 +706,5 @@ class CanvasViewModel @Inject constructor(
         _viewportTy.value = newTy
     }
 }
+
+private const val HISTORY_LIMIT = 30

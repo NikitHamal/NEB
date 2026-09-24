@@ -220,25 +220,6 @@ fun CanvasSidebarDrawer(
                     }
                 }
             }
-
-            // Footer
-            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-            ) {
-                Text(
-                    text = "Offline-Ready Canvas",
-                    style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.SemiBold),
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-                Text(
-                    text = "Boards are saved automatically to your local storage and sync seamlessly when connected.",
-                    style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp),
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
         }
     }
 }

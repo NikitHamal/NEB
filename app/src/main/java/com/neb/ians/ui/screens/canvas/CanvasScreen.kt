@@ -1,55 +1,54 @@
 package com.neb.ians.ui.screens.canvas
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.detectTransformGestures
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowUpward
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Remove
-import androidx.compose.material.icons.outlined.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.rememberDrawerState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.TransformOrigin
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import kotlin.math.roundToInt
 import kotlin.math.hypot
-import androidx.compose.ui.graphics.drawscope.DrawScope
-import com.neb.ians.ui.components.NebLoaderSize
-import com.neb.ians.ui.components.NebLoader
+import kotlin.math.roundToInt
+
+// ---------------------------------------------------------------------------
+// The board.
+//
+// A white sheet, a grid of dots, and whatever you have made on it. The chrome
+// keeps to the edges — back and the boards drawer at the top corners with the
+// tools between them, the history and delete under them on the right, and
+// Neby's prompt along the bottom. Nothing floats in the middle of the board
+// except the work.
+// ---------------------------------------------------------------------------
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -72,12 +71,15 @@ fun CanvasScreen(
     val newBoardDialogOpen by viewModel.newBoardDialogOpen.collectAsStateWithLifecycle()
     val renameBoardTarget by viewModel.renameBoardTarget.collectAsStateWithLifecycle()
     val deleteBoardTarget by viewModel.deleteBoardTarget.collectAsStateWithLifecycle()
-    val minimapVisible by viewModel.minimapVisible.collectAsStateWithLifecycle()
     val globalPrompt by viewModel.globalPrompt.collectAsStateWithLifecycle()
+    val speedMode by viewModel.speedMode.collectAsStateWithLifecycle()
+    val webSearch by viewModel.webSearch.collectAsStateWithLifecycle()
     val connectingSourceNodeId by viewModel.connectingSourceNodeId.collectAsStateWithLifecycle()
     val connectingSourceDirection by viewModel.connectingSourceDirection.collectAsStateWithLifecycle()
     val toastMessage by viewModel.toastMessage.collectAsStateWithLifecycle()
     val nodeHeights by viewModel.nodeHeights.collectAsStateWithLifecycle()
+    val canUndo by viewModel.canUndo.collectAsStateWithLifecycle()
+    val canRedo by viewModel.canRedo.collectAsStateWithLifecycle()
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     LaunchedEffect(sidebarOpen) {
@@ -112,20 +114,23 @@ fun CanvasScreen(
             snackbarHost = { SnackbarHost(snackbarHostState) },
             topBar = {
                 CanvasTopBar(
-                    activeBoard = activeBoard,
                     scale = viewportScale,
-                    minimapVisible = minimapVisible,
-                    onToggleDrawer = { viewModel.setSidebarOpen(!sidebarOpen) },
+                    hasSelection = selectedNodeId != null,
+                    onNavigateBack = onNavigateBack,
+                    onToggleSidebar = { viewModel.setSidebarOpen(!sidebarOpen) },
                     onFitView = { viewModel.fitContent() },
-                    onAutoLayout = { viewModel.autoLayout() },
-                    onToggleMinimap = { viewModel.setMinimapVisible(!minimapVisible) },
                     onZoomIn = { viewModel.zoomIn() },
                     onZoomOut = { viewModel.zoomOut() },
+                    onResetZoom = { viewModel.resetZoom() },
+                    onAutoLayout = { viewModel.autoLayout() },
+                    onDuplicateSelected = { viewModel.duplicateSelectedNode() },
                     onRenameBoard = { viewModel.setRenameBoardTarget(activeBoard) },
-                    onNavigateBack = onNavigateBack
+                    onNewBoard = { viewModel.setNewBoardDialogOpen(true) },
+                    onOpenTemplates = { viewModel.setTemplatePickerOpen(true) },
+                    onDeleteBoard = { activeBoard?.let { viewModel.setDeleteBoardTarget(it) } }
                 )
             },
-            containerColor = if (isDark) Color(0xFF0A0A0B) else Color(0xFFF7F7F9)
+            containerColor = canvasBoardColor(isDark)
         ) { innerPadding ->
             BoxWithConstraints(
                 modifier = Modifier
@@ -142,7 +147,6 @@ fun CanvasScreen(
                     }
                 }
 
-                // Infinite Canvas Surface with Grid Dots and Gestures
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -151,11 +155,12 @@ fun CanvasScreen(
                                 viewModel.updateTransform(centroid, pan, zoom)
                             }
                         }
+                        .pointerInput(Unit) {
+                            detectTapGestures(onTap = { viewModel.setSelectedNodeId(null) })
+                        }
                 ) {
-                    // Background Dot Grid
                     CanvasGrid(isDark = isDark, tx = viewportTx, ty = viewportTy, scale = viewportScale)
 
-                    // World Container
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
@@ -167,7 +172,6 @@ fun CanvasScreen(
                                 transformOrigin = TransformOrigin(0f, 0f)
                             }
                     ) {
-                        // Edges layer: SVG-like Bezier curves
                         CanvasEdges(
                             nodes = nodes,
                             heights = nodeHeights,
@@ -175,28 +179,21 @@ fun CanvasScreen(
                             isDark = isDark
                         )
 
-                        // Nodes layer
                         nodes.forEach { node ->
                             CanvasCardItem(
                                 node = node,
                                 isSelected = node.id == selectedNodeId,
                                 isConnectingSource = node.id == connectingSourceNodeId,
                                 connectingDirection = if (node.id == connectingSourceNodeId) connectingSourceDirection else null,
-                                onDrag = { dx, dy ->
-                                    viewModel.dragNodeBy(node.id, dx, dy)
-                                },
+                                onDragStart = { viewModel.beginNodeDrag() },
+                                onDrag = { dx, dy -> viewModel.dragNodeBy(node.id, dx, dy) },
                                 onDragEnd = { viewModel.commitNodePosition(node.id) },
                                 onSelect = { viewModel.onNodeClicked(node.id) },
                                 onExpand = { viewModel.setActiveDetailNode(node) },
                                 onDuplicate = { viewModel.duplicateNode(node.id) },
-                                onDelete = { viewModel.deleteNode(node.id) },
                                 onColorChange = { viewModel.updateNodeColor(node.id, it) },
-                                onBranch = { dir, prompt ->
-                                    viewModel.createChildNode(node.id, prompt, dir)
-                                },
-                                onConnect = { dir ->
-                                    viewModel.startConnecting(node.id, dir)
-                                },
+                                onBranch = { dir, prompt -> viewModel.createChildNode(node.id, prompt, dir) },
+                                onConnect = { dir -> viewModel.startConnecting(node.id, dir) },
                                 onMeasured = { viewModel.reportNodeHeight(node.id, it) },
                                 modifier = Modifier.offset {
                                     IntOffset(node.x.dp.roundToPx(), node.y.dp.roundToPx())
@@ -206,42 +203,35 @@ fun CanvasScreen(
                     }
                 }
 
-                // Minimap radar overlay
-                AnimatedVisibility(
-                    visible = minimapVisible,
-                    enter = fadeIn(),
-                    exit = fadeOut(),
+                CanvasQuickActions(
+                    canUndo = canUndo,
+                    canRedo = canRedo,
+                    hasSelection = selectedNodeId != null,
+                    onUndo = { viewModel.undo() },
+                    onRedo = { viewModel.redo() },
+                    onDeleteSelected = { viewModel.deleteSelectedNode() },
                     modifier = Modifier
                         .align(Alignment.TopEnd)
-                        .padding(16.dp)
-                ) {
-                    CanvasMinimap(
-                        nodes = nodes,
-                        heights = nodeHeights,
-                        viewportTx = viewportTx,
-                        viewportTy = viewportTy,
-                        viewportScale = viewportScale,
-                        onDismiss = { viewModel.setMinimapVisible(false) },
-                        onJumpTo = { _, _ -> }
-                    )
-                }
+                        .padding(horizontal = 12.dp, vertical = 10.dp)
+                )
 
-                // Floating Neby AI Prompt Bar at Bottom
-                CanvasBottomPromptBar(
+                CanvasPromptBar(
                     prompt = globalPrompt,
                     isGenerating = isGenerating,
-                    isDark = isDark,
+                    speedMode = speedMode,
+                    webSearch = webSearch,
                     onPromptChange = { viewModel.setGlobalPrompt(it) },
+                    onSpeedModeChange = { viewModel.setSpeedMode(it) },
+                    onWebSearchChange = { viewModel.setWebSearch(it) },
                     onSubmit = { viewModel.submitGlobalPrompt() },
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
-                        .padding(bottom = 16.dp, start = 16.dp, end = 16.dp)
+                        .padding(start = 14.dp, end = 14.dp, bottom = 14.dp)
                 )
             }
         }
     }
 
-    // Dialogs
     if (newBoardDialogOpen) {
         NewBoardDialog(
             onDismiss = { viewModel.setNewBoardDialogOpen(false) },
@@ -268,9 +258,7 @@ fun CanvasScreen(
     if (templatePickerOpen) {
         TemplatePickerModalSheet(
             onDismiss = { viewModel.setTemplatePickerOpen(false) },
-            onSelectTemplate = { template ->
-                viewModel.createBoard(template.name, template.key)
-            }
+            onSelectTemplate = { template -> viewModel.createBoard(template.name, template.key) }
         )
     }
 
@@ -282,107 +270,18 @@ fun CanvasScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun CanvasTopBar(
-    activeBoard: CanvasBoard?,
-    scale: Float,
-    minimapVisible: Boolean,
-    onToggleDrawer: () -> Unit,
-    onFitView: () -> Unit,
-    onAutoLayout: () -> Unit,
-    onToggleMinimap: () -> Unit,
-    onZoomIn: () -> Unit,
-    onZoomOut: () -> Unit,
-    onRenameBoard: () -> Unit,
-    onNavigateBack: () -> Unit
-) {
-    TopAppBar(
-        title = {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .clip(RoundedCornerShape(8.dp))
-                    .clickable(onClick = onRenameBoard)
-                    .padding(horizontal = 6.dp, vertical = 4.dp)
-            ) {
-                Text(
-                    text = activeBoard?.title ?: "NEBians Canvas",
-                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                    maxLines = 1
-                )
-                Icon(
-                    imageVector = Icons.Outlined.Edit,
-                    contentDescription = "Rename",
-                    modifier = Modifier
-                        .padding(start = 6.dp)
-                        .size(15.dp),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-        },
-        navigationIcon = {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                IconButton(onClick = onNavigateBack) {
-                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
-                }
-                IconButton(onClick = onToggleDrawer) {
-                    Icon(Icons.Filled.Menu, contentDescription = "Boards")
-                }
-            }
-        },
-        actions = {
-            IconButton(onClick = onFitView) {
-                Icon(Icons.Outlined.FitScreen, contentDescription = "Fit View")
-            }
-            IconButton(onClick = onAutoLayout) {
-                Icon(Icons.Outlined.AccountTree, contentDescription = "Auto Layout")
-            }
-            IconButton(onClick = onToggleMinimap) {
-                Icon(
-                    imageVector = Icons.Outlined.Map,
-                    contentDescription = "Minimap",
-                    tint = if (minimapVisible) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-            // Zoom Controls Pill
-            Surface(
-                shape = RoundedCornerShape(99.dp),
-                color = MaterialTheme.colorScheme.surfaceContainerHigh,
-                modifier = Modifier.padding(end = 8.dp)
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.padding(horizontal = 4.dp)
-                ) {
-                    IconButton(onClick = onZoomOut, modifier = Modifier.size(28.dp)) {
-                        Icon(Icons.Filled.Remove, contentDescription = "Zoom Out", modifier = Modifier.size(14.dp))
-                    }
-                    Text(
-                        text = "${(scale * 100).roundToInt()}%",
-                        style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                        modifier = Modifier.padding(horizontal = 4.dp)
-                    )
-                    IconButton(onClick = onZoomIn, modifier = Modifier.size(28.dp)) {
-                        Icon(Icons.Filled.Add, contentDescription = "Zoom In", modifier = Modifier.size(14.dp))
-                    }
-                }
-            }
-        },
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        )
-    )
-}
+/** The board is paper: white in the day, ink at night. */
+fun canvasBoardColor(isDark: Boolean): Color =
+    if (isDark) Color(0xFF0A0A0B) else Color.White
 
 @Composable
 private fun CanvasGrid(isDark: Boolean, tx: Float, ty: Float, scale: Float) {
     val density = LocalDensity.current
-    val dotColor = if (isDark) Color(0xFF26262A) else Color(0xFFDCDCE0)
+    val dotColor = if (isDark) Color(0xFF232327) else Color(0xFFE0E0E6)
     Canvas(modifier = Modifier.fillMaxSize()) {
         val stepPx = with(density) { 26.dp.toPx() } * scale
         if (stepPx < 10f) return@Canvas
-        val radiusPx = with(density) { 1.6.dp.toPx() } * scale.coerceIn(0.65f, 1.35f)
+        val radiusPx = with(density) { 1.5.dp.toPx() } * scale.coerceIn(0.65f, 1.35f)
 
         val startX = (tx % stepPx + stepPx) % stepPx
         val startY = (ty % stepPx + stepPx) % stepPx
@@ -406,7 +305,7 @@ private fun CanvasEdges(
     selectedNodeId: String?,
     isDark: Boolean
 ) {
-    val idleColor = if (isDark) Color(0xFF55555C) else Color(0xFFC2C2C9)
+    val idleColor = if (isDark) Color(0xFF4A4A52) else Color(0xFFBFBFC8)
     val activeColor = if (isDark) Color(0xFFE8E8EC) else Color(0xFF2B2B30)
 
     Canvas(modifier = Modifier.fillMaxSize()) {
@@ -452,6 +351,14 @@ private fun CanvasSide.outwardY(): Float = when (this) {
     else -> 0f
 }
 
+/**
+ * A wire between two cards.
+ *
+ * Both ends are pushed a hair inside the card they belong to. The cards are
+ * drawn over this layer, so the wire disappears under the border instead of
+ * stopping short of it — which is the difference between a connection and two
+ * things near each other.
+ */
 private fun DrawScope.drawCardConnection(
     from: CanvasBounds,
     to: CanvasBounds,
@@ -461,11 +368,12 @@ private fun DrawScope.drawCardConnection(
     val (fromSide, toSide) = routeSides(from, to)
     val start = from.anchor(fromSide)
     val end = to.anchor(toSide)
+    val bite = 3.dp.toPx()
 
-    val sx = start.x.dp.toPx()
-    val sy = start.y.dp.toPx()
-    val ex = end.x.dp.toPx()
-    val ey = end.y.dp.toPx()
+    val sx = start.x.dp.toPx() - fromSide.outwardX() * bite
+    val sy = start.y.dp.toPx() - fromSide.outwardY() * bite
+    val ex = end.x.dp.toPx() - toSide.outwardX() * bite
+    val ey = end.y.dp.toPx() - toSide.outwardY() * bite
 
     val span = hypot(ex - sx, ey - sy)
     val curve = (span * 0.42f).coerceIn(44.dp.toPx(), 190.dp.toPx())
@@ -486,15 +394,9 @@ private fun DrawScope.drawCardConnection(
         path = path,
         color = color,
         style = Stroke(
-            width = if (emphasised) 2.4.dp.toPx() else 1.7.dp.toPx(),
+            width = if (emphasised) 2.2.dp.toPx() else 1.6.dp.toPx(),
             cap = StrokeCap.Round
         )
-    )
-
-    drawCircle(
-        color = color,
-        radius = if (emphasised) 4.dp.toPx() else 3.dp.toPx(),
-        center = Offset(sx, sy)
     )
 
     val headLength = 9.dp.toPx()
@@ -512,91 +414,4 @@ private fun DrawScope.drawCardConnection(
     drawPath(path = head, color = color)
 }
 
-@Composable
-private fun CanvasBottomPromptBar(
-    prompt: String,
-    isGenerating: Boolean,
-    isDark: Boolean,
-    onPromptChange: (String) -> Unit,
-    onSubmit: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Surface(
-        modifier = modifier
-            .widthIn(max = 680.dp)
-            .fillMaxWidth()
-            .shadow(
-                elevation = 8.dp,
-                shape = RoundedCornerShape(99.dp),
-                spotColor = Color(0x1A000000)
-            )
-            .clip(RoundedCornerShape(99.dp)),
-        color = if (isDark) Color(0xFF18181B) else Color.White,
-        border = BorderStroke(
-            1.dp,
-            if (isDark) Color(0xFF26262A) else Color(0xFFE9E9EB)
-        )
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 22.dp, end = 6.dp, top = 6.dp, bottom = 6.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            BasicTextField(
-                value = prompt,
-                onValueChange = onPromptChange,
-                modifier = Modifier.weight(1f),
-                singleLine = true,
-                maxLines = 1,
-                textStyle = MaterialTheme.typography.bodyLarge.copy(
-                    fontSize = 15.sp,
-                    color = if (isDark) Color(0xFFF5F5F6) else Color(0xFF0A0A0B)
-                ),
-                decorationBox = { innerTextField ->
-                    if (prompt.isEmpty()) {
-                        Text(
-                            text = "What do you want to understand?",
-                            style = MaterialTheme.typography.bodyLarge.copy(fontSize = 15.sp),
-                            color = if (isDark) Color(0xFF9B9BA1) else Color(0xFF5C5C61),
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                    }
-                    innerTextField()
-                }
-            )
-
-            val hasText = prompt.isNotBlank()
-            IconButton(
-                onClick = onSubmit,
-                enabled = hasText && !isGenerating,
-                modifier = Modifier
-                    .size(38.dp)
-                    .clip(CircleShape)
-                    .background(
-                        when {
-                            hasText && !isGenerating -> MaterialTheme.colorScheme.primary
-                            isDark -> Color(0xFF26262A)
-                            else -> Color(0xFFF1F1F3)
-                        }
-                    )
-            ) {
-                if (isGenerating) {
-                    NebLoader(size = NebLoaderSize.Inline, color = MaterialTheme.colorScheme.primary)
-                } else {
-                    Icon(
-                        imageVector = Icons.Filled.ArrowUpward,
-                        contentDescription = "Send",
-                        tint = when {
-                            hasText -> Color.White
-                            isDark -> Color(0xFF6E6E75)
-                            else -> Color(0xFF9B9BA1)
-                        },
-                        modifier = Modifier.size(18.dp)
-                    )
-                }
-            }
-        }
-    }
-}
+internal fun zoomLabel(scale: Float): String = "${(scale * 100).roundToInt()}%"
