@@ -46,6 +46,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlin.math.roundToInt
+import kotlin.math.hypot
+import androidx.compose.ui.graphics.drawscope.DrawScope
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -73,6 +75,7 @@ fun CanvasScreen(
     val connectingSourceNodeId by viewModel.connectingSourceNodeId.collectAsStateWithLifecycle()
     val connectingSourceDirection by viewModel.connectingSourceDirection.collectAsStateWithLifecycle()
     val toastMessage by viewModel.toastMessage.collectAsStateWithLifecycle()
+    val nodeHeights by viewModel.nodeHeights.collectAsStateWithLifecycle()
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     LaunchedEffect(sidebarOpen) {
@@ -163,7 +166,12 @@ fun CanvasScreen(
                             }
                     ) {
                         // Edges layer: SVG-like Bezier curves
-                        CanvasEdges(nodes = nodes, isDark = isDark)
+                        CanvasEdges(
+                            nodes = nodes,
+                            heights = nodeHeights,
+                            selectedNodeId = selectedNodeId,
+                            isDark = isDark
+                        )
 
                         // Nodes layer
                         nodes.forEach { node ->
@@ -187,6 +195,7 @@ fun CanvasScreen(
                                 onConnect = { dir ->
                                     viewModel.startConnecting(node.id, dir)
                                 },
+                                onMeasured = { viewModel.reportNodeHeight(node.id, it) },
                                 modifier = Modifier.offset {
                                     IntOffset(node.x.dp.roundToPx(), node.y.dp.roundToPx())
                                 }
@@ -206,6 +215,7 @@ fun CanvasScreen(
                 ) {
                     CanvasMinimap(
                         nodes = nodes,
+                        heights = nodeHeights,
                         viewportTx = viewportTx,
                         viewportTy = viewportTy,
                         viewportScale = viewportScale,
@@ -388,113 +398,116 @@ private fun CanvasGrid(isDark: Boolean, tx: Float, ty: Float, scale: Float) {
 }
 
 @Composable
-private fun CanvasEdges(nodes: List<CanvasNode>, isDark: Boolean) {
-    val edgeColor = if (isDark) Color(0xFF6E6E75) else Color(0xFF9B9BA1)
-    val dotColor = if (isDark) Color(0xFF9B9BA1) else Color(0xFF5C5C61)
+private fun CanvasEdges(
+    nodes: List<CanvasNode>,
+    heights: Map<String, Float>,
+    selectedNodeId: String?,
+    isDark: Boolean
+) {
+    val idleColor = if (isDark) Color(0xFF55555C) else Color(0xFFC2C2C9)
+    val activeColor = if (isDark) Color(0xFFE8E8EC) else Color(0xFF2B2B30)
 
     Canvas(modifier = Modifier.fillMaxSize()) {
-        val drawnPairs = mutableSetOf<String>()
+        val byId = nodes.associateBy { it.id }
+        val seen = HashSet<String>()
+        val links = ArrayList<Pair<CanvasNode, CanvasNode>>()
 
-        nodes.forEach { nodeA ->
-            // Check parentId
-            nodeA.parentId?.let { pId ->
-                val parent = nodes.find { it.id == pId }
-                if (parent != null) {
-                    val pairKey = if (parent.id < nodeA.id) "${parent.id}_${nodeA.id}" else "${nodeA.id}_${parent.id}"
-                    if (pairKey !in drawnPairs) {
-                        drawnPairs.add(pairKey)
-                        drawCardConnection(parent, nodeA, edgeColor, dotColor)
-                    }
-                }
+        fun link(from: CanvasNode, to: CanvasNode) {
+            val key = if (from.id < to.id) "${from.id}|${to.id}" else "${to.id}|${from.id}"
+            if (seen.add(key)) links.add(from to to)
+        }
+
+        nodes.forEach { node ->
+            node.parentId?.let { parentId ->
+                byId[parentId]?.let { parent -> link(parent, node) }
             }
-            // Check explicit connections list
-            nodeA.connections.forEach { targetId ->
-                val target = nodes.find { it.id == targetId }
-                if (target != null) {
-                    val pairKey = if (nodeA.id < target.id) "${nodeA.id}_${target.id}" else "${target.id}_${nodeA.id}"
-                    if (pairKey !in drawnPairs) {
-                        drawnPairs.add(pairKey)
-                        drawCardConnection(nodeA, target, edgeColor, dotColor)
-                    }
-                }
+            node.connections.forEach { targetId ->
+                byId[targetId]?.let { target -> link(node, target) }
             }
+        }
+
+        links.forEach { (from, to) ->
+            val active = selectedNodeId == from.id || selectedNodeId == to.id
+            drawCardConnection(
+                from = boundsOf(from, heights),
+                to = boundsOf(to, heights),
+                color = if (active) activeColor else idleColor,
+                emphasised = active
+            )
         }
     }
 }
 
-private fun androidx.compose.ui.graphics.drawscope.DrawScope.drawCardConnection(
-    fromNode: CanvasNode,
-    toNode: CanvasNode,
-    edgeColor: Color,
-    dotColor: Color
+private fun CanvasSide.outwardX(): Float = when (this) {
+    CanvasSide.Left -> -1f
+    CanvasSide.Right -> 1f
+    else -> 0f
+}
+
+private fun CanvasSide.outwardY(): Float = when (this) {
+    CanvasSide.Top -> -1f
+    CanvasSide.Bottom -> 1f
+    else -> 0f
+}
+
+private fun DrawScope.drawCardConnection(
+    from: CanvasBounds,
+    to: CanvasBounds,
+    color: Color,
+    emphasised: Boolean
 ) {
-    val cardWidth = 340f
-    val centerAX = fromNode.x + cardWidth * 0.5f
-    val centerAY = fromNode.y + 180f
-    val centerBX = toNode.x + cardWidth * 0.5f
-    val centerBY = toNode.y + 180f
+    val (fromSide, toSide) = routeSides(from, to)
+    val start = from.anchor(fromSide)
+    val end = to.anchor(toSide)
 
-    val dx = centerBX - centerAX
-    val dy = centerBY - centerAY
+    val sx = start.x.dp.toPx()
+    val sy = start.y.dp.toPx()
+    val ex = end.x.dp.toPx()
+    val ey = end.y.dp.toPx()
 
-    val startX: Float
-    val startY: Float
-    val endX: Float
-    val endY: Float
+    val span = hypot(ex - sx, ey - sy)
+    val curve = (span * 0.42f).coerceIn(44.dp.toPx(), 190.dp.toPx())
 
-    val path = Path()
-
-    if (kotlin.math.abs(dx) >= kotlin.math.abs(dy)) {
-        // Horizontal connection (matching reference Image 2)
-        if (dx >= 0) {
-            startX = (fromNode.x + cardWidth).dp.toPx()
-            startY = (fromNode.y + 140f).dp.toPx()
-            endX = toNode.x.dp.toPx()
-            endY = (toNode.y + 140f).dp.toPx()
-        } else {
-            startX = fromNode.x.dp.toPx()
-            startY = (fromNode.y + 140f).dp.toPx()
-            endX = (toNode.x + cardWidth).dp.toPx()
-            endY = (toNode.y + 140f).dp.toPx()
-        }
-        val cdx = (endX - startX) * 0.5f
-        path.moveTo(startX, startY)
-        path.cubicTo(
-            startX + cdx, startY,
-            endX - cdx, endY,
-            endX, endY
-        )
-    } else {
-        // Vertical connection
-        if (dy >= 0) {
-            startX = (fromNode.x + cardWidth * 0.5f).dp.toPx()
-            startY = (fromNode.y + 360f).dp.toPx()
-            endX = (toNode.x + cardWidth * 0.5f).dp.toPx()
-            endY = toNode.y.dp.toPx()
-        } else {
-            startX = (fromNode.x + cardWidth * 0.5f).dp.toPx()
-            startY = fromNode.y.dp.toPx()
-            endX = (toNode.x + cardWidth * 0.5f).dp.toPx()
-            endY = (toNode.y + 360f).dp.toPx()
-        }
-        val cdy = (endY - startY) * 0.5f
-        path.moveTo(startX, startY)
-        path.cubicTo(
-            startX, startY + cdy,
-            endX, endY - cdy,
-            endX, endY
+    val path = Path().apply {
+        moveTo(sx, sy)
+        cubicTo(
+            sx + fromSide.outwardX() * curve,
+            sy + fromSide.outwardY() * curve,
+            ex + toSide.outwardX() * curve,
+            ey + toSide.outwardY() * curve,
+            ex,
+            ey
         )
     }
 
     drawPath(
         path = path,
-        color = edgeColor,
-        style = Stroke(width = 2.2f, cap = StrokeCap.Round)
+        color = color,
+        style = Stroke(
+            width = if (emphasised) 2.4.dp.toPx() else 1.7.dp.toPx(),
+            cap = StrokeCap.Round
+        )
     )
 
-    // Subtle connection endpoint dots
-    drawCircle(color = dotColor, radius = 3.5f, center = Offset(startX, startY))
-    drawCircle(color = dotColor, radius = 3.5f, center = Offset(endX, endY))
+    drawCircle(
+        color = color,
+        radius = if (emphasised) 4.dp.toPx() else 3.dp.toPx(),
+        center = Offset(sx, sy)
+    )
+
+    val headLength = 9.dp.toPx()
+    val headWidth = 5.dp.toPx()
+    val nx = toSide.outwardX()
+    val ny = toSide.outwardY()
+    val baseX = ex + nx * headLength
+    val baseY = ey + ny * headLength
+    val head = Path().apply {
+        moveTo(ex, ey)
+        lineTo(baseX - ny * headWidth, baseY + nx * headWidth)
+        lineTo(baseX + ny * headWidth, baseY - nx * headWidth)
+        close()
+    }
+    drawPath(path = head, color = color)
 }
 
 @Composable

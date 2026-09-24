@@ -29,6 +29,7 @@ import kotlin.math.min
 @Composable
 fun CanvasMinimap(
     nodes: List<CanvasNode>,
+    heights: Map<String, Float>,
     viewportTx: Float,
     viewportTy: Float,
     viewportScale: Float,
@@ -98,8 +99,9 @@ fun CanvasMinimap(
                     nodes.forEach { n ->
                         minX = min(minX, n.x)
                         minY = min(minY, n.y)
-                        maxX = max(maxX, n.x + 340f)
-                        maxY = max(maxY, n.y + 480f)
+                        val b = boundsOf(n, heights)
+                        maxX = max(maxX, b.right)
+                        maxY = max(maxY, b.bottom)
                     }
 
                     val worldWidth = max(1200f, maxX - minX + 400f)
@@ -115,8 +117,8 @@ fun CanvasMinimap(
                     nodes.forEach { n ->
                         val rx = offsetX + (n.x - minX + 200f) * mapScale
                         val ry = offsetY + (n.y - minY + 200f) * mapScale
-                        val rw = 340f * mapScale
-                        val rh = 480f * mapScale
+                        val rw = CanvasCardWidth * mapScale
+                        val rh = (heights[n.id] ?: CanvasCardFallbackHeight) * mapScale
 
                         drawRect(
                             color = nodeFill.copy(alpha = 0.32f),

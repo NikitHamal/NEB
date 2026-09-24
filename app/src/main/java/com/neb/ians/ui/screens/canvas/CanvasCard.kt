@@ -68,6 +68,9 @@ import com.neb.ians.ui.components.MarkdownInlineText
 import com.neb.ians.ui.theme.nebFastSpatialSpec
 import com.neb.ians.util.rememberTactileFeedback
 import com.neb.ians.util.TactileType
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.foundation.verticalScroll
 
 @Composable
 fun CanvasCardItem(
@@ -84,6 +87,7 @@ fun CanvasCardItem(
     onColorChange: (String) -> Unit,
     onBranch: (direction: String, prompt: String) -> Unit,
     onConnect: (direction: String) -> Unit = {},
+    onMeasured: (Float) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val isDark = MaterialTheme.colorScheme.surface.luminance() < 0.5f
@@ -100,6 +104,8 @@ fun CanvasCardItem(
     }
 
     val handleRadius = 20.dp
+    val density = LocalDensity.current.density
+    val bodyScroll = rememberScrollState()
 
     val currentOnDrag by rememberUpdatedState(onDrag)
     val currentOnDragEnd by rememberUpdatedState(onDragEnd)
@@ -112,7 +118,8 @@ fun CanvasCardItem(
         Box(
             modifier = Modifier
                 .padding(handleRadius)
-                .width(340.dp)
+                .width(CanvasCardWidth.dp)
+                .onSizeChanged { onMeasured(it.height / density) }
                 .shadow(
                     elevation = if (isSelected) 14.dp else 4.dp,
                     shape = RoundedCornerShape(20.dp),
@@ -349,6 +356,8 @@ fun CanvasCardItem(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .heightIn(max = CanvasCardMaxBodyHeight.dp)
+                    .verticalScroll(bodyScroll)
                     .padding(14.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
