@@ -11,17 +11,25 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 // ---------------------------------------------------------------------------
-// Graphite — the mono palette the sign-in and onboarding journey is set in.
+// The palette the sign-in and onboarding journey is set in.
 //
 // The app proper runs on MaterialTheme. The journey does not: it is the only
 // place where every surface, hairline and illustration has to agree pixel for
 // pixel, so it carries its own flat palette instead of reaching into the
 // colour scheme. Three rules hold it together.
 //
-//   Paper is the page, ink is the single voice of action, and every
-//   illustration is drawn from one neutral ramp. There is no hue anywhere in
-//   the journey except the one red kept for errors, because an error that
-//   reads as ordinary text is not an error.
+//   Paper is the page. The brand blue is the single voice of action — the
+//   primary pill, a link, a chosen option, a filled code box. And every
+//   illustration is drawn from `artTones`, which is a strictly neutral
+//   ink-on-paper ramp with no hue in it at all.
+//
+// That last rule is deliberate and load-bearing. The art is line drawing: it
+// reads as something drawn by hand in ink, and tinting it blue would turn it
+// into UI. So the blue lives in `brand`/`accent` and never in `art*`. If you
+// are reaching for a colour inside a NebArt composable, reach for `artTones`.
+//
+// Red survives for errors, because an error that reads as ordinary text is not
+// an error.
 // ---------------------------------------------------------------------------
 
 @Immutable
@@ -38,6 +46,16 @@ data class NebAuthPalette(
     val accent: Color,
     val accentSoft: Color,
     val onAccent: Color,
+    /**
+     * The brand blue itself, for the few places that must be the brand rather
+     * than merely "the action" — the word NEBians in the welcome headline, the
+     * Terms and Privacy links, the splash doodle. Usually equal to [accent];
+     * kept separate so that a future restyle of the primary action cannot
+     * silently repaint the brand.
+     */
+    val brand: Color,
+    val brandSoft: Color,
+    val onBrand: Color,
     val artInk: Color,
     val artLine: Color,
     val artMid: Color,
@@ -48,7 +66,11 @@ data class NebAuthPalette(
     val success: Color,
     val successSoft: Color
 ) {
-    /** The art ramp, darkest first, so an illustration can index a tone instead of naming one. */
+    /**
+     * The art ramp, darkest first, so an illustration can index a tone instead
+     * of naming one. Strictly neutral by design — see the note at the top of
+     * this file. Nothing in here is ever the brand blue.
+     */
     val artTones: List<Color> get() = listOf(artInk, artLine, artMid, artSoft, artFaint)
 }
 
@@ -62,9 +84,12 @@ private val LightAuthPalette = NebAuthPalette(
     inkFaint = Color(0xFF9B9BA1),
     hairline = Color(0xFFE9E9EB),
     hairlineStrong = Color(0xFFD5D5D9),
-    accent = Color(0xFF101012),
-    accentSoft = Color(0xFFF1F1F3),
+    accent = Color(0xFF004AC6),
+    accentSoft = Color(0xFFEDF0FF),
     onAccent = Color(0xFFFFFFFF),
+    brand = Color(0xFF004AC6),
+    brandSoft = Color(0xFFEDF0FF),
+    onBrand = Color(0xFFFFFFFF),
     artInk = Color(0xFF141416),
     artLine = Color(0xFF6B6B72),
     artMid = Color(0xFFA3A3AA),
@@ -86,9 +111,12 @@ private val DarkAuthPalette = NebAuthPalette(
     inkFaint = Color(0xFF6E6E75),
     hairline = Color(0xFF222225),
     hairlineStrong = Color(0xFF313136),
-    accent = Color(0xFFF5F5F6),
-    accentSoft = Color(0xFF1C1C1F),
-    onAccent = Color(0xFF0A0A0B),
+    accent = Color(0xFFB4C5FF),
+    accentSoft = Color(0xFF16233F),
+    onAccent = Color(0xFF002D78),
+    brand = Color(0xFFB4C5FF),
+    brandSoft = Color(0xFF16233F),
+    onBrand = Color(0xFF002D78),
     artInk = Color(0xFFE7E7E9),
     artLine = Color(0xFF9A9AA1),
     artMid = Color(0xFF64646B),

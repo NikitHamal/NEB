@@ -56,7 +56,6 @@ import kotlinx.coroutines.delay
 import com.neb.ians.ui.theme.resolve
 import com.neb.ians.ui.theme.NebAccents
 import com.neb.ians.ui.theme.NebAccent
-import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.foundation.border
 
 @Immutable
@@ -182,14 +181,20 @@ private fun NebFabMenuPill(
         action.accent != null -> action.accent.resolve()
         else -> null
     }
-    val container = if (accent != null) {
-        accent.copy(alpha = if (isDarkSurface()) 0.17f else 0.10f)
-            .compositeOver(MaterialTheme.colorScheme.surfaceContainerLow)
-    } else {
-        MaterialTheme.colorScheme.surfaceContainerHigh
-    }
-    val content = accent ?: MaterialTheme.colorScheme.onSurface
-    val outline = accent?.copy(alpha = 0.34f) ?: MaterialTheme.colorScheme.outlineVariant
+
+    // Every pill in the menu wears the same container. Three differently tinted
+    // backgrounds stacked above the create button read as three unrelated
+    // controls, and the tints fought the scrim behind them. The hue now lives in
+    // exactly one place per row — the glyph — which is enough to tell them apart
+    // and leaves the menu looking like one object.
+    val container = MaterialTheme.colorScheme.surfaceContainerLowest
+    val outline = MaterialTheme.colorScheme.outlineVariant
+
+    /** The label is always ink: three colours of text would be unreadable. */
+    val labelColor = MaterialTheme.colorScheme.onSurface
+
+    /** The glyph is the one thing allowed to carry the action's own colour. */
+    val iconColor = accent ?: MaterialTheme.colorScheme.onSurface
 
     Row(
         modifier = Modifier
@@ -201,7 +206,7 @@ private fun NebFabMenuPill(
             .border(1.dp, outline, RoundedCornerShape(50))
             .clickable(
                 interactionSource = interaction,
-                indication = ripple(bounded = true, color = content),
+                indication = ripple(bounded = true, color = iconColor),
                 onClick = {
                     tactile.perform(TactileType.ButtonTap)
                     onDismissRequest()
@@ -215,13 +220,13 @@ private fun NebFabMenuPill(
         Icon(
             imageVector = action.icon,
             contentDescription = null,
-            tint = content,
+            tint = iconColor,
             modifier = Modifier.size(22.dp)
         )
         Text(
             text = action.label,
             style = MaterialTheme.typography.labelLargeEmphasized,
-            color = content,
+            color = labelColor,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
@@ -258,9 +263,6 @@ fun NebFabMenuScrim(
         )
     }
 }
-
-@Composable
-private fun isDarkSurface(): Boolean = MaterialTheme.colorScheme.surface.luminanceIsDark()
 
 private fun Color.luminanceIsDark(): Boolean {
     val l = 0.299f * red + 0.587f * green + 0.114f * blue

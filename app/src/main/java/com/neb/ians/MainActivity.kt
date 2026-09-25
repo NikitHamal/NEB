@@ -1,6 +1,8 @@
 package com.neb.ians
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
@@ -12,6 +14,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -25,6 +29,7 @@ import com.neb.ians.util.DeepLinkBus
 import com.neb.ians.util.InAppUpdateHelper
 import com.neb.ians.util.NotificationDeepLink
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -39,21 +44,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         configureEdgeToEdge()
         handleIntent(intent)
-        inAppUpdateHelper.checkForUpdate(this)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (androidx.core.content.ContextCompat.checkSelfPermission(
-                    this,
-                    android.Manifest.permission.POST_NOTIFICATIONS
-                ) != android.content.pm.PackageManager.PERMISSION_GRANTED
-            ) {
-                androidx.core.app.ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),
-                    101
-                )
-            }
-        }
+        scheduleStartupSideEffects()
 
         lifecycleScope.launch {
             try {
@@ -100,6 +91,38 @@ class MainActivity : ComponentActivity() {
                     authRepository = authRepository
                 )
             }
+        }
+    }
+
+    /**
+     * Work that has to happen on launch but must not happen *during* it.
+     *
+     * The update check binds a Play service, and the notification prompt puts a
+     * system dialog on the screen. Run from onCreate the first competes with the
+     * first frame, and the second lands on top of the splash animation before
+     * the user has seen the app at all. Both are held until the splash has
+     * finished and handed over to the first real screen.
+     */
+    private fun scheduleStartupSideEffects() {
+        lifecycleScope.launch {
+            delay(STARTUP_DEFERRAL_MS)
+            inAppUpdateHelper.checkForUpdate(this@MainActivity)
+            requestNotificationPermissionIfNeeded()
+        }
+    }
+
+    private fun requestNotificationPermissionIfNeeded() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return
+        val granted = ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.POST_NOTIFICATIONS
+        ) == PackageManager.PERMISSION_GRANTED
+        if (!granted) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                REQUEST_CODE_NOTIFICATIONS
+            )
         }
     }
 
@@ -174,5 +197,15 @@ class MainActivity : ComponentActivity() {
             DeepLinkBus.emit(notificationDeepLink)
             setIntent(Intent())
         }
+    }
+
+    private companion object {
+        /**
+         * Long enough to clear the splash, which runs just under 4 seconds,
+         * with a margin. If the timeline in SplashScreen changes, change this
+         * with it.
+         */
+        const val STARTUP_DEFERRAL_MS = 4_400L
+        const val REQUEST_CODE_NOTIFICATIONS = 101
     }
 }

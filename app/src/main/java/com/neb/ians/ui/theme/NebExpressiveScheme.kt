@@ -9,10 +9,11 @@ import androidx.compose.runtime.remember
 /**
  * The journey palette expressed as a Material colour scheme, so Material's own
  * Expressive components — toggle buttons, button groups, loading indicators —
- * land in graphite without a colour argument at any call site.
+ * land on the brand without a colour argument at any call site.
  *
- * Every role that would normally carry a hue is mapped onto the ink ramp. Only
- * error keeps its red: a control that fails has to look different from a control
+ * The primary roles carry the brand blue; every other role stays on the neutral
+ * ramp, so a container is a container and only the thing being acted on is blue.
+ * Error keeps its red: a control that fails has to look different from a control
  * that is merely resting.
  */
 @Composable
@@ -21,8 +22,8 @@ fun rememberNebColorScheme(palette: NebAuthPalette): ColorScheme = remember(pale
     base.copy(
         primary = palette.accent,
         onPrimary = palette.onAccent,
-        primaryContainer = palette.accentSoft,
-        onPrimaryContainer = palette.ink,
+        primaryContainer = palette.brandSoft,
+        onPrimaryContainer = palette.brand,
         inversePrimary = palette.inkMuted,
         secondary = palette.ink,
         onSecondary = palette.onAccent,
@@ -50,9 +51,9 @@ fun rememberNebColorScheme(palette: NebAuthPalette): ColorScheme = remember(pale
         surfaceDim = palette.field,
         surfaceBright = palette.page,
         surfaceContainerLowest = palette.page,
-        surfaceContainerLow = palette.accentSoft,
+        surfaceContainerLow = palette.card,
         surfaceContainer = palette.field,
-        surfaceContainerHigh = palette.accentSoft,
+        surfaceContainerHigh = palette.field,
         surfaceContainerHighest = palette.hairline
     )
 }
