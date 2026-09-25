@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+        API 31+ draws its own splash screen from the launch theme before the
+        activity exists, and there is no opting out of it. The only thing that
+        matters is that it does not look like a different screen: give it the
+        same white our Compose splash paints and the system splash dissolves
+        straight into the doodle with no colour step in between.
+
+        The icon is deliberately left as the launcher icon. Overriding it with
+        the logo would put the mark on screen before the word is written, which
+        gives away the ending of the animation that follows.
+    -->
+    <style name="Theme.NEBians" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/neb_splash_background</item>
+        <item name="android:windowSplashScreenBackground">@color/neb_splash_background</item>
+
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:enforceStatusBarContrast">false</item>
+        <item name="android:enforceNavigationBarContrast">false</item>
+    </style>
+</resources>

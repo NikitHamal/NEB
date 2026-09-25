@@ -264,26 +264,41 @@ fun LiquidGlassBottomNav(
                         label = "createMorph"
                     )
 
+                    // The create button is the one control on the bar that is not
+                    // a circle or a rounded rectangle. It is Expressive's
+                    // four-lobed clover — a scalloped polygon, so it reads as a
+                    // deliberate object next to the pill-shaped nav rail rather
+                    // than as one more round button.
+                    //
+                    // Opening the menu spins it 40 degrees. Because the
+                    // lobes are not rotationally symmetric at that angle, the
+                    // silhouette visibly reshapes itself on the way round: the
+                    // shape does the morphing, and the glyph underneath only has
+                    // to cross-fade from plus to close.
+                    val createShape = nebShape(NebShapes.Create)
+                    val shapeSpin = morph * 40f
+
                     Box(
                         modifier = Modifier
                             .size(navHeight)
                             .graphicsLayer {
                                 scaleX = createScale
                                 scaleY = createScale
+                                rotationZ = shapeSpin
                             }
                             .shadow(
                                 shadowElevation,
-                                CircleShape,
+                                createShape,
                                 clip = false,
                                 ambientColor = Color.Black.copy(alpha = shadowAlpha),
                                 spotColor = primaryColor.copy(alpha = 0.35f)
                             )
-                            .clip(CircleShape)
+                            .clip(createShape)
                             .background(createBrush)
                             .border(
                                 1.dp,
                                 if (isDark) Color.White.copy(alpha = 0.25f) else Color.White.copy(alpha = 0.65f),
-                                CircleShape
+                                createShape
                             )
                             .clickable(
                                 interactionSource = createInteractionSource,
@@ -297,7 +312,11 @@ fun LiquidGlassBottomNav(
                         contentAlignment = Alignment.Center
                     ) {
                         Box(
-                            modifier = Modifier.size(26.dp),
+                            modifier = Modifier
+                                .size(26.dp)
+                                // Cancel the container's spin so the glyph stays
+                                // upright while the silhouette turns under it.
+                                .graphicsLayer { rotationZ = -shapeSpin },
                             contentAlignment = Alignment.Center
                         ) {
                             Icon(

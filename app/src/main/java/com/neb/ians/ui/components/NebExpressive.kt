@@ -169,6 +169,17 @@ object NebShapes {
     val Marker: RoundedPolygon get() = MaterialShapes.Diamond
 
     /**
+     * The bottom bar's create button.
+     *
+     * A four-lobed clover, chosen over the cookies for a reason that only shows
+     * up in motion: opening the menu turns the button 40 degrees, and the clover
+     * has ninety-degree rotational symmetry, so at that angle the silhouette is
+     * genuinely different rather than landing back on itself. A nine-sided
+     * cookie turned by 40 degrees is pixel-identical to where it started.
+     */
+    val Create: RoundedPolygon get() = MaterialShapes.Clover4Leaf
+
+    /**
      * One silhouette per option in a bank of roles. A column of four identical
      * rounded squares is a form; four different silhouettes is a choice, and the
      * user can tell which one they picked from across the room.
