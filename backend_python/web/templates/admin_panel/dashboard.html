@@ -4,209 +4,213 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-<h1 class="md-headline-medium mb-3">Dashboard</h1>
-
-<!-- Overview Stats -->
-<div class="stats-grid mb-3">
-  <div class="md-card-elevated stat-card">
-    <div class="stat-icon" style="background:var(--md-primary-container);color:var(--md-on-primary-container);">
-      <span class="material-symbols-outlined">people</span>
+<div class="admin-page-header">
+  <div class="admin-eyebrow">Overview</div>
+  <div class="admin-page-header-row">
+    <div>
+      <h1>Dashboard</h1>
+      <p>Platform health at a glance. People, content, and what needs review.</p>
     </div>
-    <div class="stat-value">{{ stats.total_users|default:"0" }}</div>
-    <div class="stat-label">Users</div>
-    <div class="stat-trend">+{{ stats.new_users_week|default:"0" }} this week</div>
-  </div>
-  <div class="md-card-elevated stat-card">
-    <div class="stat-icon" style="background:#E8DEF8;color:#4F378B;">
-      <span class="material-symbols-outlined">auto_stories</span>
+    <div class="admin-page-actions">
+      <a href="{% url 'web:admin_pending_resources' %}" class="md-btn md-btn-tonal">
+        <span class="material-symbols-outlined">pending_actions</span>
+        Review queue{% if stats.pending_resources %} ({{ stats.pending_resources }}){% endif %}
+      </a>
+      <a href="{% url 'web:admin_analytics' %}" class="md-btn md-btn-outlined">
+        <span class="material-symbols-outlined">insights</span>
+        Analytics
+      </a>
     </div>
-    <div class="stat-value">{{ stats.total_resources|default:"0" }}</div>
-    <div class="stat-label">Resources</div>
-    <div class="stat-trend">+{{ stats.new_resources_week|default:"0" }} this week</div>
-  </div>
-  <div class="md-card-elevated stat-card">
-    <div class="stat-icon" style="background:#D0EFFF;color:#006A6B;">
-      <span class="material-symbols-outlined">forum</span>
-    </div>
-    <div class="stat-value">{{ stats.total_posts|default:"0" }}</div>
-    <div class="stat-label">Posts</div>
-    <div class="stat-trend">+{{ stats.new_posts_week|default:"0" }} this week</div>
-  </div>
-  <div class="md-card-elevated stat-card">
-    <div class="stat-icon" style="background:#FFD8E4;color:#9C4146;">
-      <span class="material-symbols-outlined">chat_bubble</span>
-    </div>
-    <div class="stat-value">{{ stats.total_replies|default:"0" }}</div>
-    <div class="stat-label">Replies</div>
-    <div class="stat-trend">+{{ stats.new_replies_week|default:"0" }} this week</div>
-  </div>
-  <div class="md-card-elevated stat-card">
-    <div class="stat-icon" style="background:#FFDDB3;color:#7A5900;">
-      <span class="material-symbols-outlined">thumb_up</span>
-    </div>
-    <div class="stat-value">{{ stats.total_likes|default:"0" }}</div>
-    <div class="stat-label">Post Likes</div>
-  </div>
-  <div class="md-card-elevated stat-card">
-    <div class="stat-icon" style="background:#E0F0FF;color:#005088;">
-      <span class="material-symbols-outlined">visibility</span>
-    </div>
-    <div class="stat-value">{{ stats.total_resource_views|default:"0" }}</div>
-    <div class="stat-label">Resource Views</div>
-  </div>
-  <div class="md-card-elevated stat-card">
-    <div class="stat-icon" style="background:#CFF0E5;color:#006B55;">
-      <span class="material-symbols-outlined">remove_red_eye</span>
-    </div>
-    <div class="stat-value">{{ stats.total_post_views|default:"0" }}</div>
-    <div class="stat-label">Post Views</div>
-  </div>
-  <div class="md-card-elevated stat-card">
-    <div class="stat-icon" style="background:#FFE0E0;color:#B3261E;">
-      <span class="material-symbols-outlined">pending_actions</span>
-    </div>
-    <div class="stat-value">{{ stats.pending_resources|default:"0" }}</div>
-    <div class="stat-label">Pending Review</div>
   </div>
 </div>
 
-<!-- Two column: Recent Users + Top Posts -->
-<div class="dashboard-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px;">
-  <!-- Recent Users -->
-  <div class="md-card-elevated" style="padding:20px;">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-      <h3 class="md-title-medium" style="margin:0;">Recent Users</h3>
+<div class="admin-kpi-grid">
+  <div class="admin-kpi">
+    <div class="admin-kpi-top">
+      <span class="admin-kpi-icon"><span class="material-symbols-outlined">people</span></span>
+      <span class="admin-kpi-label">Users</span>
+    </div>
+    <div class="admin-kpi-value">{{ stats.total_users|default:"0" }}</div>
+    <div class="admin-kpi-sub up">+{{ stats.new_users_week|default:"0" }} this week</div>
+  </div>
+  <div class="admin-kpi">
+    <div class="admin-kpi-top">
+      <span class="admin-kpi-icon"><span class="material-symbols-outlined">auto_stories</span></span>
+      <span class="admin-kpi-label">Resources</span>
+    </div>
+    <div class="admin-kpi-value">{{ stats.total_resources|default:"0" }}</div>
+    <div class="admin-kpi-sub up">+{{ stats.new_resources_week|default:"0" }} this week</div>
+  </div>
+  <div class="admin-kpi">
+    <div class="admin-kpi-top">
+      <span class="admin-kpi-icon"><span class="material-symbols-outlined">forum</span></span>
+      <span class="admin-kpi-label">Posts</span>
+    </div>
+    <div class="admin-kpi-value">{{ stats.total_posts|default:"0" }}</div>
+    <div class="admin-kpi-sub up">+{{ stats.new_posts_week|default:"0" }} this week</div>
+  </div>
+  <div class="admin-kpi">
+    <div class="admin-kpi-top">
+      <span class="admin-kpi-icon"><span class="material-symbols-outlined">chat_bubble</span></span>
+      <span class="admin-kpi-label">Replies</span>
+    </div>
+    <div class="admin-kpi-value">{{ stats.total_replies|default:"0" }}</div>
+    <div class="admin-kpi-sub up">+{{ stats.new_replies_week|default:"0" }} this week</div>
+  </div>
+  <div class="admin-kpi">
+    <div class="admin-kpi-top">
+      <span class="admin-kpi-icon"><span class="material-symbols-outlined">thumb_up</span></span>
+      <span class="admin-kpi-label">Post likes</span>
+    </div>
+    <div class="admin-kpi-value">{{ stats.total_likes|default:"0" }}</div>
+    <div class="admin-kpi-sub">All time</div>
+  </div>
+  <div class="admin-kpi">
+    <div class="admin-kpi-top">
+      <span class="admin-kpi-icon"><span class="material-symbols-outlined">visibility</span></span>
+      <span class="admin-kpi-label">Resource views</span>
+    </div>
+    <div class="admin-kpi-value">{{ stats.total_resource_views|default:"0" }}</div>
+    <div class="admin-kpi-sub">{{ stats.total_post_views|default:"0" }} post views</div>
+  </div>
+  <div class="admin-kpi">
+    <div class="admin-kpi-top">
+      <span class="admin-kpi-icon"><span class="material-symbols-outlined">pending_actions</span></span>
+      <span class="admin-kpi-label">Pending review</span>
+    </div>
+    <div class="admin-kpi-value">{{ stats.pending_resources|default:"0" }}</div>
+    <div class="admin-kpi-sub">Needs a decision</div>
+  </div>
+  <div class="admin-kpi">
+    <div class="admin-kpi-top">
+      <span class="admin-kpi-icon"><span class="material-symbols-outlined">calendar_month</span></span>
+      <span class="admin-kpi-label">Last 30 days</span>
+    </div>
+    <div class="admin-kpi-value">{{ stats.new_users_month|default:"0" }}</div>
+    <div class="admin-kpi-sub">{{ stats.new_resources_month|default:"0" }} resources · {{ stats.new_posts_month|default:"0" }} posts · {{ stats.new_replies_month|default:"0" }} replies</div>
+  </div>
+</div>
+
+<div class="admin-panel-grid">
+  <div class="admin-card">
+    <div class="admin-card-head">
+      <h3>Recent users</h3>
       <a href="{% url 'web:admin_users' %}" class="md-btn md-btn-text admin-view-all">View all</a>
     </div>
     {% if stats.recent_users %}
-    <div style="display:flex;flex-direction:column;gap:10px;">
+    <div>
       {% for u in stats.recent_users %}
-      <div style="display:flex;align-items:center;gap:12px;">
+      <div class="admin-row-item">
         {% if u.photo_url %}
-        <img src="{{ u.photo_url }}" alt="" style="width:36px;height:36px;border-radius:50%;object-fit:cover;flex-shrink:0;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-        <div class="profile-avatar" style="width:36px;height:36px;font-size:0.875rem;display:none;">
-          {{ u.display_name|default:u.username|truncate_chars:1|default:"?" }}
-        </div>
+        <img src="{{ u.photo_url }}" alt="" class="admin-avatar" loading="lazy">
         {% else %}
-        <div class="profile-avatar" style="width:36px;height:36px;font-size:0.875rem;">
-          {{ u.display_name|default:u.username|truncate_chars:1|default:"?" }}
-        </div>
+        <span class="admin-avatar-fallback">{{ u.display_name|default:u.username|truncate_chars:1|default:"?" }}</span>
         {% endif %}
-        <div style="flex:1;min-width:0;">
-          <div class="md-body-medium" style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ u.display_name|default:u.username }}</div>
-          <div class="md-body-small" style="color:var(--md-on-surface-variant);">@{{ u.username }}</div>
+        <div class="admin-row-main">
+          <div class="admin-row-title">{{ u.display_name|default:u.username }}</div>
+          <div class="admin-row-sub">@{{ u.username }}</div>
         </div>
-        <div class="md-body-small" style="color:var(--md-on-surface-variant);white-space:nowrap;">{{ u.created_at|time_ago }}</div>
+        <div class="admin-row-meta">{{ u.created_at|time_ago }}</div>
       </div>
       {% endfor %}
     </div>
     {% else %}
-    <p class="md-body-medium" style="color:var(--md-on-surface-variant);">No users yet.</p>
+    <p class="md-body-medium admin-text-secondary">No users yet.</p>
     {% endif %}
   </div>
 
-  <!-- Top Posts (by likes) -->
-  <div class="md-card-elevated" style="padding:20px;">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-      <h3 class="md-title-medium" style="margin:0;">Top Posts</h3>
+  <div class="admin-card">
+    <div class="admin-card-head">
+      <h3>Top posts</h3>
       <a href="{% url 'web:admin_posts' %}" class="md-btn md-btn-text admin-view-all">View all</a>
     </div>
     {% if stats.top_posts %}
-    <div style="display:flex;flex-direction:column;gap:10px;">
+    <div>
       {% for p in stats.top_posts %}
-      <div style="display:flex;align-items:center;gap:12px;">
+      <div class="admin-row-item">
         {% if p.user.photo_url %}
-        <img src="{{ p.user.photo_url }}" alt="" style="width:28px;height:28px;border-radius:50%;object-fit:cover;flex-shrink:0;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-        <div class="profile-avatar" style="width:28px;height:28px;font-size:0.6875rem;display:none;">
-          {{ p.user.username|truncate_chars:1|default:"?" }}
-        </div>
+        <img src="{{ p.user.photo_url }}" alt="" class="admin-avatar" loading="lazy">
         {% else %}
-        <div class="profile-avatar" style="width:28px;height:28px;font-size:0.6875rem;">
-          {{ p.user.username|truncate_chars:1|default:"?" }}
-        </div>
+        <span class="admin-avatar-fallback">{{ p.user.username|truncate_chars:1|default:"?" }}</span>
         {% endif %}
-        <div style="flex:1;min-width:0;">
-          <div class="md-body-medium" style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ p.title }}</div>
-          <div class="md-body-small" style="color:var(--md-on-surface-variant);">{{ p.category }} · {{ p.user.username }}</div>
+        <div class="admin-row-main">
+          <div class="admin-row-title">{{ p.title }}</div>
+          <div class="admin-row-sub">{{ p.category }} · {{ p.user.username }}</div>
         </div>
-        <div style="display:flex;gap:8px;align-items:center;font-size:0.75rem;color:var(--md-on-surface-variant);">
-          <span><span class="material-symbols-outlined icon-sm">thumb_up</span> {{ p.thumbs_up_count }}</span>
-          <span><span class="material-symbols-outlined icon-sm">chat_bubble</span> {{ p.reply_count }}</span>
-          <span><span class="material-symbols-outlined icon-sm">visibility</span> {{ p.view_count }}</span>
+        <div class="admin-row-meta">
+          <span><span class="material-symbols-outlined">thumb_up</span> {{ p.thumbs_up_count }}</span>
+          <span><span class="material-symbols-outlined">chat_bubble</span> {{ p.reply_count }}</span>
+          <span><span class="material-symbols-outlined">visibility</span> {{ p.view_count }}</span>
         </div>
       </div>
       {% endfor %}
     </div>
     {% else %}
-    <p class="md-body-medium" style="color:var(--md-on-surface-variant);">No posts yet.</p>
+    <p class="md-body-medium admin-text-secondary">No posts yet.</p>
     {% endif %}
   </div>
 </div>
 
-<!-- Two column: Most Viewed Posts + Most Viewed Resources -->
-<div class="dashboard-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px;">
-  <!-- Most Viewed Posts -->
-  <div class="md-card-elevated" style="padding:20px;">
-    <h3 class="md-title-medium" style="margin:0 0 16px 0;">Most Viewed Posts</h3>
+<div class="admin-panel-grid">
+  <div class="admin-card">
+    <div class="admin-card-head">
+      <h3>Most viewed posts</h3>
+    </div>
     {% if stats.top_viewed_posts %}
-    <div style="display:flex;flex-direction:column;gap:10px;">
+    <div>
       {% for p in stats.top_viewed_posts %}
-      <div style="display:flex;align-items:center;gap:12px;">
+      <div class="admin-row-item">
         {% if p.user.photo_url %}
-        <img src="{{ p.user.photo_url }}" alt="" style="width:28px;height:28px;border-radius:50%;object-fit:cover;flex-shrink:0;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-        <div class="profile-avatar" style="width:28px;height:28px;font-size:0.6875rem;display:none;">
-          {{ p.user.username|truncate_chars:1|default:"?" }}
-        </div>
+        <img src="{{ p.user.photo_url }}" alt="" class="admin-avatar" loading="lazy">
         {% else %}
-        <div class="profile-avatar" style="width:28px;height:28px;font-size:0.6875rem;">
-          {{ p.user.username|truncate_chars:1|default:"?" }}
-        </div>
+        <span class="admin-avatar-fallback">{{ p.user.username|truncate_chars:1|default:"?" }}</span>
         {% endif %}
-        <div style="flex:1;min-width:0;">
-          <div class="md-body-medium" style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ p.title }}</div>
-          <div class="md-body-small" style="color:var(--md-on-surface-variant);">{{ p.category }} · {{ p.user.username }}</div>
+        <div class="admin-row-main">
+          <div class="admin-row-title">{{ p.title }}</div>
+          <div class="admin-row-sub">{{ p.category }} · {{ p.user.username }}</div>
         </div>
-        <div style="display:flex;gap:8px;align-items:center;font-size:0.75rem;color:var(--md-on-surface-variant);">
-          <span><span class="material-symbols-outlined icon-sm">visibility</span> {{ p.view_count }}</span>
+        <div class="admin-row-meta">
+          <span><span class="material-symbols-outlined">visibility</span> {{ p.view_count }}</span>
         </div>
       </div>
       {% endfor %}
     </div>
     {% else %}
-    <p class="md-body-medium" style="color:var(--md-on-surface-variant);">No view data yet.</p>
+    <p class="md-body-medium admin-text-secondary">No view data yet.</p>
     {% endif %}
   </div>
 
-  <!-- Most Viewed Resources -->
-  <div class="md-card-elevated" style="padding:20px;">
-    <h3 class="md-title-medium" style="margin:0 0 16px 0;">Most Viewed Resources</h3>
+  <div class="admin-card">
+    <div class="admin-card-head">
+      <h3>Most viewed resources</h3>
+    </div>
     {% if stats.top_viewed_resources %}
-    <div style="display:flex;flex-direction:column;gap:10px;">
+    <div>
       {% for r in stats.top_viewed_resources %}
-      <div style="display:flex;align-items:center;gap:12px;">
-        <div style="flex:1;min-width:0;">
-          <div class="md-body-medium" style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ r.title }}</div>
-          <div class="md-body-small" style="color:var(--md-on-surface-variant);">{{ r.subject }} · {{ r.type }}</div>
+      <div class="admin-row-item">
+        <div class="admin-row-main">
+          <div class="admin-row-title">{{ r.title }}</div>
+          <div class="admin-row-sub">{{ r.subject }} · {{ r.type }}</div>
         </div>
-        <div style="display:flex;gap:8px;align-items:center;font-size:0.75rem;color:var(--md-on-surface-variant);">
-          <span><span class="material-symbols-outlined icon-sm">visibility</span> {{ r.view_count }}</span>
+        <div class="admin-row-meta">
+          <span><span class="material-symbols-outlined">visibility</span> {{ r.view_count }}</span>
         </div>
       </div>
       {% endfor %}
     </div>
     {% else %}
-    <p class="md-body-medium" style="color:var(--md-on-surface-variant);">No view data yet.</p>
+    <p class="md-body-medium admin-text-secondary">No view data yet.</p>
     {% endif %}
   </div>
 </div>
 
-<!-- Two column: Subject Distribution + Category Distribution -->
-<div class="dashboard-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px;">
-  <!-- Resources by Subject -->
+<div class="admin-panel-grid">
   {% if stats.subject_counts %}
-  <div class="md-card-elevated" style="padding:20px;">
-    <h3 class="md-title-medium" style="margin:0 0 16px 0;">Resources by Subject</h3>
-    <div style="display:flex;flex-direction:column;gap:8px;">
+  <div class="admin-card">
+    <div class="admin-card-head">
+      <h3>Resources by subject</h3>
+    </div>
+    <div>
       {% for subject, count in stats.subject_counts.items %}
       <div class="admin-stat-row">
         <div class="admin-bar-label">{{ subject }}</div>
@@ -220,16 +224,17 @@
   </div>
   {% endif %}
 
-  <!-- Posts by Category -->
   {% if stats.category_counts %}
-  <div class="md-card-elevated" style="padding:20px;">
-    <h3 class="md-title-medium" style="margin:0 0 16px 0;">Posts by Category</h3>
-    <div style="display:flex;flex-direction:column;gap:8px;">
+  <div class="admin-card">
+    <div class="admin-card-head">
+      <h3>Posts by category</h3>
+    </div>
+    <div>
       {% for category, count in stats.category_counts.items %}
       <div class="admin-stat-row">
         <div class="admin-bar-label">{{ category }}</div>
         <div class="admin-bar-bg">
-          <div class="admin-bar-fill" style="background:var(--md-tertiary);{% if stats.total_posts > 0 %}width:{% widthratio count stats.total_posts 100 %}%;{% else %}width:0%;{% endif %}"></div>
+          <div class="admin-bar-fill" style="{% if stats.total_posts > 0 %}width:{% widthratio count stats.total_posts 100 %}%;{% else %}width:0%;{% endif %}"></div>
         </div>
         <div class="admin-bar-count">{{ count }}</div>
       </div>
@@ -239,43 +244,18 @@
   {% endif %}
 </div>
 
-<!-- Resource Types -->
 {% if stats.resource_type_counts %}
-<div class="md-card-elevated" style="padding:20px;margin-bottom:24px;">
-  <h3 class="md-title-medium" style="margin:0 0 16px 0;">Resource Types</h3>
-  <div style="display:flex;flex-wrap:wrap;gap:12px;">
+<div class="admin-card" style="margin-bottom:20px;">
+  <div class="admin-card-head">
+    <h3>Resource types</h3>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:8px;">
     {% for type, count in stats.resource_type_counts.items %}
-    <div style="display:flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;background:var(--md-surface-container-high);">
-      <span class="md-body-medium" style="font-weight:600;">{{ type }}</span>
-      <span class="md-body-small" style="color:var(--md-on-surface-variant);">{{ count }}</span>
-    </div>
+    <span class="admin-status neutral">{{ type }} · {{ count }}</span>
     {% endfor %}
   </div>
 </div>
 {% endif %}
-
-<!-- Monthly Growth -->
-<div class="md-card-elevated" style="padding:20px;margin-bottom:24px;">
-  <h3 class="md-title-medium" style="margin:0 0 16px 0;">Last 30 Days</h3>
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
-    <div style="text-align:center;padding:16px;border-radius:12px;background:var(--md-surface-container-high);">
-      <div class="md-headline-small" style="color:var(--md-primary);">{{ stats.new_users_month|default:"0" }}</div>
-      <div class="md-body-small" style="color:var(--md-on-surface-variant);">New Users</div>
-    </div>
-    <div style="text-align:center;padding:16px;border-radius:12px;background:var(--md-surface-container-high);">
-      <div class="md-headline-small" style="color:#4F378B;">{{ stats.new_resources_month|default:"0" }}</div>
-      <div class="md-body-small" style="color:var(--md-on-surface-variant);">New Resources</div>
-    </div>
-    <div style="text-align:center;padding:16px;border-radius:12px;background:var(--md-surface-container-high);">
-      <div class="md-headline-small" style="color:#006A6B;">{{ stats.new_posts_month|default:"0" }}</div>
-      <div class="md-body-small" style="color:var(--md-on-surface-variant);">New Posts</div>
-    </div>
-    <div style="text-align:center;padding:16px;border-radius:12px;background:var(--md-surface-container-high);">
-      <div class="md-headline-small" style="color:#9C4146;">{{ stats.new_replies_month|default:"0" }}</div>
-      <div class="md-body-small" style="color:var(--md-on-surface-variant);">New Replies</div>
-    </div>
-  </div>
-</div>
 
 <link rel="stylesheet" href="{% static 'web/css/pages/admin-panel-dashboard.css' %}">
 {% endblock %}

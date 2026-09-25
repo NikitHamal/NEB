@@ -5,17 +5,22 @@
 
 {% block content %}
 <div style="max-width:800px;margin:0 auto;">
-  <div style="margin-bottom:24px;">
-    <a href="{% url 'web:admin_syllabus_list' %}" class="back-link" style="margin-bottom:12px;display:inline-flex;">
+  <div class="admin-crumb">
+    <a href="{% url 'web:admin_syllabus_list' %}">
       <span class="material-symbols-outlined">arrow_back</span>
       Back to Syllabus
     </a>
-    <h1 class="md-headline-medium" style="margin:0;">{% if is_edit %}Edit{% else %}Add{% endif %} Syllabus Chapter</h1>
-    {% if is_edit %}
-    <p class="md-body-small" style="color:var(--md-on-surface-variant);margin:4px 0 0;">
-      Editing: <strong>{{ syllabus.chapter_title }}</strong> &middot; {{ syllabus.grade_level }} &middot; {{ syllabus.subject }}
-    </p>
-    {% endif %}
+  </div>
+  <div class="admin-page-header">
+    <div class="admin-eyebrow">Syllabus</div>
+    <div>
+      <h1>{% if is_edit %}Edit{% else %}Add{% endif %} syllabus chapter</h1>
+      {% if is_edit %}
+      <p>
+        Editing: <strong>{{ syllabus.chapter_title }}</strong> &middot; {{ syllabus.grade_level }} &middot; {{ syllabus.subject }}
+      </p>
+      {% endif %}
+    </div>
   </div>
 
   {% if form_error %}
@@ -29,11 +34,8 @@
     {% csrf_token %}
     <input type="hidden" id="subject-hidden" name="subject" value="{% if is_edit %}{{ syllabus.subject }}{% elif form_data.subject %}{{ form_data.subject }}{% endif %}">
 
-    <div class="upload-section">
-      <div class="upload-section-header">
-        <span class="material-symbols-outlined">school</span>
-        <h2>Level &amp; Subject</h2>
-      </div>
+    <div class="admin-form-card">
+      <p class="admin-form-section-title">Level and subject</p>
 
       <div class="upload-row" style="margin-bottom:16px;">
         <div class="upload-field upload-field-half">
@@ -68,11 +70,8 @@
       </div>
     </div>
 
-    <div class="upload-section">
-      <div class="upload-section-header">
-        <span class="material-symbols-outlined">title</span>
-        <h2>Chapter Details</h2>
-      </div>
+    <div class="admin-form-card">
+      <p class="admin-form-section-title">Chapter details</p>
 
       <div class="upload-field">
         <label class="md-label" for="chapter_title">Chapter Title <span style="color:var(--md-error, #ba1a1a);">*</span></label>
@@ -96,11 +95,10 @@
       </div>
     </div>
 
-    <div class="upload-section">
-      <div class="upload-section-header">
-        <span class="material-symbols-outlined">description</span>
-        <h2>Syllabus Guide &amp; Summary</h2>
-        <button type="button" class="md-btn md-btn-text" id="toggle-preview-md" style="margin-left:auto;font-size:0.8125rem;min-height:32px;">
+    <div class="admin-form-card">
+      <div class="admin-card-head">
+        <p class="admin-form-section-title">Syllabus guide and summary</p>
+        <button type="button" class="md-btn md-btn-text" id="toggle-preview-md" style="font-size:0.8125rem;min-height:32px;">
           <span class="material-symbols-outlined" style="font-size:18px;">visibility</span>
           Preview
         </button>
@@ -119,12 +117,8 @@
       </div>
     </div>
 
-    <div class="upload-section">
-      <div class="upload-section-header">
-        <span class="material-symbols-outlined">quiz</span>
-        <h2>Solved Q&amp;As</h2>
-        <span class="upload-details-badge">optional</span>
-      </div>
+    <div class="admin-form-card">
+      <p class="admin-form-section-title">Solved Q&amp;As — optional</p>
 
       <div class="upload-field" style="margin-bottom:0;">
         <textarea id="question_answers" name="question_answers" class="md-input" rows="8" placeholder="Format:&#10;Q: First question goes here?&#10;A: Detailed answer in Markdown or plain text goes here.&#10;&#10;Q: Second question?&#10;A: Second answer." style="width:100%;resize:vertical;font-family:monospace;font-size:0.875rem;line-height:1.6;">{% if is_edit %}{{ syllabus.question_answers }}{% elif form_data.question_answers %}{{ form_data.question_answers }}{% endif %}</textarea>
@@ -147,12 +141,8 @@
       </div>
     </div>
 
-    <div class="upload-section">
-      <div class="upload-section-header">
-        <span class="material-symbols-outlined">account_tree</span>
-        <h2>Interactive / Structured Content</h2>
-        <span class="upload-details-badge">advanced</span>
-      </div>
+    <div class="admin-form-card">
+      <p class="admin-form-section-title">Interactive / structured content — advanced</p>
 
       <div class="upload-row">
         <div class="upload-field upload-field-half">
@@ -174,7 +164,7 @@
       </div>
     </div>
 
-    <div class="upload-actions">
+    <div class="admin-page-actions">
       <a href="{% url 'web:admin_syllabus_list' %}" class="md-btn md-btn-text" style="text-decoration:none;">Cancel</a>
       <button type="submit" class="md-btn md-btn-filled">
         <span class="material-symbols-outlined" style="font-size:18px;">save</span>

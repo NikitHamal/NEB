@@ -4,8 +4,12 @@
 {% block title %}Push Notifications{% endblock %}
 
 {% block content %}
-<div class="admin-header-bar">
-  <h1 class="md-headline-medium">Push Notifications</h1>
+<div class="admin-page-header">
+  <div class="admin-eyebrow">Engagement</div>
+  <div>
+    <h1>Push notifications</h1>
+    <p>Send instant push messages to filtered groups of users and devices.</p>
+  </div>
 </div>
 
 {% if success_message %}
@@ -22,12 +26,12 @@
   </div>
 {% endif %}
 
-<div class="admin-grid" style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px; align-items: start;">
+<div class="admin-panel-grid" style="grid-template-columns: 2fr 1fr; align-items: start;">
   <!-- Left Side: Compose and Filter Form -->
-  <form method="post" id="pushForm" class="md-card" style="padding: 24px; border-radius: 16px; background: var(--md-surface-container-low); border: 1px solid var(--md-outline-variant);">
+  <form method="post" id="pushForm" class="admin-form-card">
     {% csrf_token %}
-    
-    <h3 class="md-title-medium" style="margin-top: 0; margin-bottom: 16px; color: var(--md-primary);">1. Compose Message</h3>
+
+    <p class="admin-form-section-title">1. Compose message</p>
     
     <div style="margin-bottom: 16px;">
       <label for="title" style="display: block; margin-bottom: 8px; font-weight: 500; font-size: 0.875rem;">Notification Title</label>
@@ -41,7 +45,7 @@
 
     <div class="md-divider" style="margin: 24px 0;"></div>
 
-    <h3 class="md-title-medium" style="margin-top: 0; margin-bottom: 16px; color: var(--md-primary);">2. Target Audience Filters</h3>
+    <p class="admin-form-section-title">2. Target audience filters</p>
 
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
       <div>
@@ -120,37 +124,33 @@
   <!-- Right Side: Real-time Counts -->
   <div style="display: flex; flex-direction: column; gap: 16px; position: sticky; top: 16px;">
     <!-- Audience Card -->
-    <div class="md-card" style="padding: 20px; border-radius: 16px; background: var(--md-primary-container); color: var(--md-on-primary-container); border: none;">
-      <h3 class="md-title-medium" style="margin-top: 0; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
-        <span class="material-symbols-outlined">group</span> Target Audience
-      </h3>
-      
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
-        <div style="background: rgba(255, 255, 255, 0.15); padding: 16px; border-radius: 12px; text-align: center;">
-          <div style="font-size: 2rem; font-weight: 700; line-height: 1;" id="count-matching-users">
-            {{ matching_users }}
-          </div>
-          <div style="font-size: 0.75rem; margin-top: 4px; opacity: 0.9;">Target Users</div>
+    <div class="admin-card">
+      <div class="admin-card-head">
+        <h3>Target audience</h3>
+      </div>
+
+      <div class="admin-kpi-grid">
+        <div class="admin-kpi">
+          <span class="admin-kpi-label">Target users</span>
+          <span class="admin-kpi-value" id="count-matching-users">{{ matching_users }}</span>
         </div>
 
-        <div style="background: rgba(255, 255, 255, 0.15); padding: 16px; border-radius: 12px; text-align: center;">
-          <div style="font-size: 2rem; font-weight: 700; line-height: 1;" id="count-matching-tokens">
-            {{ matching_tokens }}
-          </div>
-          <div style="font-size: 0.75rem; margin-top: 4px; opacity: 0.9;">Active Devices</div>
+        <div class="admin-kpi">
+          <span class="admin-kpi-label">Active devices</span>
+          <span class="admin-kpi-value" id="count-matching-tokens">{{ matching_tokens }}</span>
         </div>
       </div>
 
-      <div style="font-size: 0.8125rem; opacity: 0.85; line-height: 1.4;">
+      <p class="admin-row-sub" style="white-space:normal;margin-top:12px;">
         Matches are updated in real-time as you modify filters. Active devices represent registered FCM push tokens.
-      </div>
+      </p>
     </div>
 
     <!-- Info / Warning Card -->
-    <div class="md-card" style="padding: 20px; border-radius: 16px; background: var(--md-surface-container-high); border: 1px solid var(--md-outline-variant);">
-      <h3 class="md-title-small" style="margin-top: 0; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-        <span class="material-symbols-outlined" style="color:var(--md-primary);">info</span> Important Note
-      </h3>
+    <div class="admin-card">
+      <div class="admin-card-head">
+        <h3>Important note</h3>
+      </div>
       <ul style="margin: 0; padding-left: 18px; font-size: 0.8125rem; line-height: 1.5; color: var(--md-on-surface-variant);">
         <li style="margin-bottom: 8px;">Notifications will be delivered instantly to active mobile devices.</li>
         <li style="margin-bottom: 8px;">Ensure the Google Service Account credentials are active. If missing, notifications will be skipped without error.</li>

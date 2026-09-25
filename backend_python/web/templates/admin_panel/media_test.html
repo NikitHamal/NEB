@@ -3,11 +3,12 @@
 {% block title %}Media Test — TTS{% endblock %}
 {% block content %}
 <div class="admin-page-header">
+  <div class="admin-eyebrow">AI &amp; Automation</div>
   <h1>TTS Providers</h1>
   <p class="md-body-small" style="color:var(--md-on-surface-variant)">Test free no-signup TTS — Airy (104 voices, en+ko), LazyPy (Bing/Google/iSpeech), Google direct, Moe, Kokoro, Chatterbox, Fish.</p>
 </div>
 
-<div class="admin-section-card" style="max-width:720px">
+<div class="admin-card" style="max-width:720px">
   <label>Provider
     <select id="tts-provider" class="md-input">
       <option value="airy/airy-tts-v1">Airy TTS v1 — 104 voices, en+ko, auto-batched past 640 chars</option>
@@ -66,7 +67,7 @@
   </div>
 </div>
 
-<div class="admin-section-card" style="max-width:720px;margin-top:12px">
+<div class="admin-card" style="max-width:720px;margin-top:12px">
   <h4 style="margin:0 0 6px">Inception Mercury — Separate STT</h4>
   <p class="md-body-small" style="color:var(--md-on-surface-variant)">Upload <code>audio/webm</code> (&gt;1200 bytes) to <code>/api/stt</code> — returns transcript. Works standalone.</p>
   <input type="file" id="stt-file" accept="audio/*" class="md-input" style="margin-top:8px">
@@ -84,7 +85,7 @@
   </div>
 </div>
 
-<div class="admin-section-card" style="max-width:720px;margin-top:12px">
+<div class="admin-card" style="max-width:720px;margin-top:12px">
   <h4 style="margin:0 0 6px">Inception Mercury — Full Voice Pipeline</h4>
   <p class="md-body-small" style="color:var(--md-on-surface-variant)">Scenario agents with live tool calls — <code>/api/voice/turn</code> + <code>/api/tts</code> streaming. Choose scenario, speak or type.</p>
   <label>Scenario
@@ -111,7 +112,7 @@
   </div>
 </div>
 
-<div class="admin-section-card" style="max-width:720px;margin-top:12px">
+<div class="admin-card" style="max-width:720px;margin-top:12px">
   <h4 style="margin:0 0 6px">Registered models</h4>
   <ul id="tts-model-list" class="admin-model-list"></ul>
 </div>

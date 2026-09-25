@@ -4,27 +4,30 @@
 {% block title %}Edit Resource{% endblock %}
 
 {% block content %}
-<div style="max-width:680px;margin:0 auto;">
-  <div style="margin-bottom:24px;">
-    <a href="{% url 'web:admin_resources' %}" class="back-link" style="margin-bottom:12px;display:inline-flex;">
-      <span class="material-symbols-outlined">arrow_back</span>
-      Back to Resources
-    </a>
-    <h2 class="md-headline-medium" style="margin:0;">Edit Resource</h2>
+<div class="admin-crumb">
+  <a href="{% url 'web:admin_resources' %}">Resources</a>
+  <span>/</span>
+  <span>Edit</span>
+</div>
+<div class="admin-page-header">
+  <a href="{% url 'web:admin_resources' %}" class="back-link" style="margin-bottom:12px;display:inline-flex;">
+    <span class="material-symbols-outlined">arrow_back</span>
+    Back to Resources
+  </a>
+  <div class="admin-eyebrow">Content</div>
+  <h1>Edit resource</h1>
+  <p>Update the resource details, file, attribution, and approval status.</p>
+  <div class="admin-page-actions" style="margin-top:12px;">
     {% if resource.approval_status == 'pending' %}
-    <div style="display:flex;gap:8px;margin-top:12px;">
-      <span class="admin-badge admin-badge-pending" style="font-size:0.75rem;padding:4px 10px;">Pending Review</span>
-    </div>
+    <span class="admin-status warn">Pending review</span>
     {% elif resource.approval_status == 'rejected' %}
-    <div style="display:flex;gap:8px;margin-top:12px;">
-      <span class="admin-badge admin-badge-rejected" style="font-size:0.75rem;padding:4px 10px;">Rejected{% if resource.rejection_reason %}: {{ resource.rejection_reason }}{% endif %}</span>
-    </div>
+    <span class="admin-status bad">Rejected{% if resource.rejection_reason %}: {{ resource.rejection_reason }}{% endif %}</span>
     {% elif resource.approval_status == 'approved' %}
-    <div style="display:flex;gap:8px;margin-top:12px;">
-      <span class="admin-badge admin-badge-approved" style="font-size:0.75rem;padding:4px 10px;">Approved</span>
-    </div>
+    <span class="admin-status ok">Approved</span>
     {% endif %}
   </div>
+</div>
+<div style="max-width:680px;">
 
   {% if resource %}
   <form method="post" enctype="multipart/form-data" class="upload-form">
@@ -32,10 +35,10 @@
     <input type="hidden" id="subject-hidden" name="subject" value="{{ resource.subject|default:'' }}">
     <input type="hidden" id="tags-hidden" name="tags" value="{{ resource.tags|default:'' }}">
 
-    <div class="upload-section">
+    <div class="upload-section admin-form-card">
       <div class="upload-section-header">
         <span class="material-symbols-outlined">description</span>
-        <h2>Basic Info</h2>
+        <h2 class="admin-form-section-title">Basic info</h2>
       </div>
 
       <div class="upload-field">
@@ -160,10 +163,10 @@
       </div>
     </details>
 
-    <div class="upload-section">
+    <div class="upload-section admin-form-card">
       <div class="upload-section-header">
         <span class="material-symbols-outlined">upload_file</span>
-        <h2>File</h2>
+        <h2 class="admin-form-section-title">File</h2>
       </div>
 
       {% if resource.file_url %}
@@ -210,10 +213,10 @@
       </div>
     </div>
 
-    <div class="upload-section">
+    <div class="upload-section admin-form-card">
       <div class="upload-section-header">
         <span class="material-symbols-outlined">person</span>
-        <h2>Attribution</h2>
+        <h2 class="admin-form-section-title">Attribution</h2>
       </div>
 
       <div class="upload-field">
@@ -276,10 +279,10 @@
       </div>
     </div>
 
-    <div class="upload-section">
+    <div class="upload-section admin-form-card">
       <div class="upload-section-header">
         <span class="material-symbols-outlined">verified</span>
-        <h2>Approval Status</h2>
+        <h2 class="admin-form-section-title">Approval status</h2>
       </div>
 
       <div class="upload-row">
@@ -305,10 +308,10 @@
       {% endif %}
     </div>
 
-    <div class="upload-section">
+    <div class="upload-section admin-form-card">
       <div class="upload-section-header">
         <span class="material-symbols-outlined">payments</span>
-        <h2>Paid Resource</h2>
+        <h2 class="admin-form-section-title">Paid resource</h2>
       </div>
       <div class="upload-row" style="align-items:center;gap:16px;">
         <div class="upload-field" style="flex:0 0 auto;display:flex;align-items:center;gap:8px;">
@@ -338,10 +341,14 @@
   </script>
   {% endif %}
   {% else %}
-  <div class="empty-state" style="padding-top:64px;">
-    <span class="material-symbols-outlined">error_outline</span>
+  <div class="admin-empty" style="padding-top:64px;">
+    <div class="admin-empty-icon-wrap">
+      <span class="material-symbols-outlined">error_outline</span>
+    </div>
     <h3>Resource not found</h3>
-    <a href="{% url 'web:admin_resources' %}" class="md-btn md-btn-filled mt-2">Back to Resources</a>
+    <div class="admin-empty-actions">
+      <a href="{% url 'web:admin_resources' %}" class="md-btn md-btn-filled mt-2">Back to Resources</a>
+    </div>
   </div>
   {% endif %}
 </div>

@@ -4,49 +4,58 @@
 {% block title %}Users{% endblock %}
 
 {% block content %}
-<div class="admin-header-bar">
-  <h1 class="md-headline-medium">Users</h1>
-  <form method="get" style="display:flex;gap:8px;">
-    <div class="search-bar" style="margin-bottom:0;">
-      <span class="material-symbols-outlined">search</span>
-      <input type="text" name="q" value="{{ search }}" placeholder="Search users..." class="admin-search-input">
+<div class="admin-page-header">
+  <div class="admin-eyebrow">Manage</div>
+  <div class="admin-page-header-row">
+    <div>
+      <h1>Users</h1>
+      <p>Accounts, roles, and standing. Search or filter by role to moderate.</p>
     </div>
-    <button type="submit" class="md-btn md-btn-filled" style="padding:8px 16px;">Search</button>
-  </form>
+    <div class="admin-page-actions">
+      <form method="get" style="display:flex;gap:8px;align-items:center;">
+        {% if role_filter %}<input type="hidden" name="role" value="{{ role_filter }}">{% endif %}
+        <div class="admin-search">
+          <span class="material-symbols-outlined">search</span>
+          <input type="text" name="q" value="{{ search }}" placeholder="Search users..." aria-label="Search users">
+        </div>
+        <button type="submit" class="md-btn md-btn-filled">Search</button>
+      </form>
+    </div>
+  </div>
 </div>
 
-<div class="admin-filter-tabs" style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
-  <a href="{% url 'web:admin_users' %}{% if search %}?q={{ search }}{% endif %}" class="md-btn {% if not role_filter %}md-btn-filled{% else %}md-btn-outlined{% endif %}" style="padding:6px 14px;font-size:0.8125rem;">All</a>
-  <a href="{% url 'web:admin_users' %}?role=teacher{% if search %}&q={{ search }}{% endif %}" class="md-btn {% if role_filter == 'teacher' %}md-btn-filled{% else %}md-btn-outlined{% endif %}" style="padding:6px 14px;font-size:0.8125rem;">
-    <span class="material-symbols-outlined" style="font-size:16px;">school</span> Teachers
+<div class="admin-filter-tabs" role="tablist" aria-label="Filter users by role">
+  <a href="{% url 'web:admin_users' %}{% if search %}?q={{ search }}{% endif %}" class="{% if not role_filter %}active{% endif %}">All</a>
+  <a href="{% url 'web:admin_users' %}?role=teacher{% if search %}&q={{ search }}{% endif %}" class="{% if role_filter == 'teacher' %}active{% endif %}">
+    <span class="material-symbols-outlined">school</span> Teachers
   </a>
-  <a href="{% url 'web:admin_users' %}?role=institution{% if search %}&q={{ search }}{% endif %}" class="md-btn {% if role_filter == 'institution' %}md-btn-filled{% else %}md-btn-outlined{% endif %}" style="padding:6px 14px;font-size:0.8125rem;">
-    <span class="material-symbols-outlined" style="font-size:16px;">account_balance</span> Institutions
+  <a href="{% url 'web:admin_users' %}?role=institution{% if search %}&q={{ search }}{% endif %}" class="{% if role_filter == 'institution' %}active{% endif %}">
+    <span class="material-symbols-outlined">account_balance</span> Institutions
   </a>
-  <a href="{% url 'web:admin_users' %}?role=student{% if search %}&q={{ search }}{% endif %}" class="md-btn {% if role_filter == 'student' %}md-btn-filled{% else %}md-btn-outlined{% endif %}" style="padding:6px 14px;font-size:0.8125rem;">
-    <span class="material-symbols-outlined" style="font-size:16px;">backpack</span> Students
+  <a href="{% url 'web:admin_users' %}?role=student{% if search %}&q={{ search }}{% endif %}" class="{% if role_filter == 'student' %}active{% endif %}">
+    <span class="material-symbols-outlined">backpack</span> Students
   </a>
-  <a href="{% url 'web:admin_users' %}?role=explorer{% if search %}&q={{ search }}{% endif %}" class="md-btn {% if role_filter == 'explorer' %}md-btn-filled{% else %}md-btn-outlined{% endif %}" style="padding:6px 14px;font-size:0.8125rem;">
-    <span class="material-symbols-outlined" style="font-size:16px;">travel_explore</span> Explorers
+  <a href="{% url 'web:admin_users' %}?role=explorer{% if search %}&q={{ search }}{% endif %}" class="{% if role_filter == 'explorer' %}active{% endif %}">
+    <span class="material-symbols-outlined">travel_explore</span> Explorers
   </a>
-  <a href="{% url 'web:admin_users' %}?role=teacher_verified{% if search %}&q={{ search }}{% endif %}" class="md-btn {% if role_filter == 'teacher_verified' %}md-btn-filled{% else %}md-btn-outlined{% endif %}" style="padding:6px 14px;font-size:0.8125rem;background:{% if role_filter == 'teacher_verified' %}#10B981;color:#fff{% else %}transparent;color:#10B981{% endif %};border-color:#10B981;">
-    <span class="material-symbols-outlined" style="font-size:16px;">verified</span> Verified Teachers
+  <a href="{% url 'web:admin_users' %}?role=teacher_verified{% if search %}&q={{ search }}{% endif %}" class="{% if role_filter == 'teacher_verified' %}active{% endif %}">
+    <span class="material-symbols-outlined">verified</span> Verified teachers
   </a>
-  <a href="{% url 'web:admin_users' %}?role=institution_verified{% if search %}&q={{ search }}{% endif %}" class="md-btn {% if role_filter == 'institution_verified' %}md-btn-filled{% else %}md-btn-outlined{% endif %}" style="padding:6px 14px;font-size:0.8125rem;background:{% if role_filter == 'institution_verified' %}#6366F1;color:#fff{% else %}transparent;color:#6366F1{% endif %};border-color:#6366F1;">
-    <span class="material-symbols-outlined" style="font-size:16px;">verified</span> Verified Institutions
+  <a href="{% url 'web:admin_users' %}?role=institution_verified{% if search %}&q={{ search }}{% endif %}" class="{% if role_filter == 'institution_verified' %}active{% endif %}">
+    <span class="material-symbols-outlined">verified</span> Verified institutions
   </a>
 </div>
 
 {% if users %}
-<div class="md-table-responsive">
-  <table class="md-table">
+<div class="admin-table-wrap">
+  <table class="admin-table">
     <thead>
       <tr>
         <th>User</th>
         <th>Email</th>
         <th>Class</th>
         <th>Province</th>
-        <th>Locked</th>
+        <th>Standing</th>
         <th>Joined</th>
         <th>Actions</th>
       </tr>
@@ -57,58 +66,53 @@
         <td>
           <div class="admin-flex-row">
             {% if u.photo_url %}
-            <img src="{{ u.photo_url }}" alt="" style="width:32px;height:32px;border-radius:50%;object-fit:cover;flex-shrink:0;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-            <div class="profile-avatar" style="width:32px;height:32px;font-size:0.75rem;display:none;">
-              {{ u.display_name|default:u.username|truncate_chars:1|default:"?" }}
-            </div>
+            <img src="{{ u.photo_url }}" alt="" class="admin-avatar" loading="lazy">
             {% else %}
-            <div class="profile-avatar" style="width:32px;height:32px;font-size:0.75rem;">
-              {{ u.display_name|default:u.username|truncate_chars:1|default:"?" }}
-            </div>
+            <span class="admin-avatar-fallback">{{ u.display_name|default:u.username|truncate_chars:1|default:"?" }}</span>
             {% endif %}
             <div>
-              <div style="font-weight:600;display:flex;align-items:center;gap:4px;">
+              <div class="admin-row-title">
                 {{ u.display_name|default:"-" }}
                 {% if u.is_admin %}
-                <span class="material-symbols-outlined" style="font-size:14px;color:#F59E0B;" title="Admin">crown</span>
+                <span class="material-symbols-outlined admin-role-icon admin-role-admin" title="Admin">crown</span>
                 {% elif u.moderator_level and u.moderator_level > 0 %}
-                <span class="material-symbols-outlined" style="font-size:14px;color:{% if u.moderator_level == 3 %}#7B1FA2{% elif u.moderator_level == 2 %}#00897B{% else %}#1B9AF0{% endif %};" title="Moderator">{% if u.moderator_level == 3 %}shield_with_heart{% elif u.moderator_level == 2 %}shield{% else %}local_police{% endif %}</span>
+                <span class="material-symbols-outlined admin-role-icon admin-role-mod" title="Moderator">{% if u.moderator_level == 3 %}shield_with_heart{% elif u.moderator_level == 2 %}shield{% else %}local_police{% endif %}</span>
                 {% elif u.verification_level and u.verification_level > 0 %}
-                <span class="material-symbols-outlined" style="font-size:14px;color:{% if u.verification_level == 4 %}#1a1a1a{% elif u.verification_level == 3 %}#F59E0B{% elif u.verification_level == 2 %}#2E7D32{% else %}#1B9AF0{% endif %};" title="Verified">verified</span>
+                <span class="material-symbols-outlined admin-role-icon admin-role-verified" title="Verified">verified</span>
                 {% endif %}
               </div>
-              <div style="font-size:0.75rem;color:var(--md-on-surface-variant);">@{{ u.username }}</div>
+              <div class="admin-row-sub">@{{ u.username }}</div>
             </div>
           </div>
         </td>
-        <td>{{ u.email|default:"-" }}</td>
-        <td style="font-size:0.75rem;">{{ u.class_level|default:"-" }}
+        <td class="admin-truncate" style="max-width:200px;">{{ u.email|default:"-" }}</td>
+        <td class="admin-text-sm">{{ u.class_level|default:"-" }}
             {% if u.role == 'teacher' %}
-              <span style="color:#10B981;font-weight:600;">Teacher{% if u.teacher_verified %} ✓{% endif %}</span>
+              <span class="admin-status info" style="margin-left:4px;">Teacher{% if u.teacher_verified %} · verified{% endif %}</span>
             {% elif u.role == 'institution' %}
-              <span style="color:#6366F1;font-weight:600;">Institution{% if u.institution_verified %} ✓{% endif %}</span>
+              <span class="admin-status info" style="margin-left:4px;">Institution{% if u.institution_verified %} · verified{% endif %}</span>
             {% elif u.role == 'explorer' %}
-              <span style="color:#F59E0B;font-weight:600;">Explorer</span>
+              <span class="admin-status warn" style="margin-left:4px;">Explorer</span>
             {% endif %}
           </td>
         <td>{{ u.pradesh|default:"-" }}</td>
         <td>
           {% if u.is_locked %}
-          <span style="color:var(--md-error);font-size:0.75rem;font-weight:600;">Locked</span>
+          <span class="admin-status bad">Locked</span>
           {% else %}
-          <span style="color:var(--md-primary);font-size:0.75rem;">Active</span>
+          <span class="admin-status ok">Active</span>
           {% endif %}
           {% if u.is_admin %}
-          <span style="font-size:0.75rem;margin-left:4px;color:#F59E0B;">Admin</span>
+          <span class="admin-status warn" style="margin-left:4px;">Admin</span>
           {% elif u.moderator_level and u.moderator_level > 0 %}
-          <span style="font-size:0.75rem;margin-left:4px;color:#1B9AF0;">Mod</span>
+          <span class="admin-status info" style="margin-left:4px;">Mod</span>
           {% elif u.verification_level and u.verification_level > 0 %}
-          <span style="font-size:0.75rem;margin-left:4px;color:#1B9AF0;">V{{ u.verification_level }}</span>
+          <span class="admin-status info" style="margin-left:4px;">V{{ u.verification_level }}</span>
           {% endif %}
         </td>
-        <td style="font-size:0.75rem;">{{ u.created_at|time_ago|default:"-" }}</td>
+        <td class="admin-text-sm admin-text-secondary">{{ u.created_at|time_ago|default:"-" }}</td>
         <td>
-          <a href="{% url 'web:admin_user_detail' user_id=u.id %}" class="md-btn md-btn-text" style="padding:4px 8px;font-size:0.75rem;">Edit</a>
+          <a href="{% url 'web:admin_user_detail' user_id=u.id %}" class="md-btn md-btn-text admin-table-action">Edit</a>
         </td>
       </tr>
       {% endfor %}
@@ -119,7 +123,7 @@
 {% if page_obj.has_other_pages %}
 <div class="admin-pagination">
     {% if page_obj.has_previous %}
-        <a href="?page={{ page_obj.previous_page_number }}{% if search %}&q={{ search }}{% endif %}{% if role_filter %}&role={{ role_filter }}{% endif %}" class="md-btn md-btn-text">&laquo; Previous</a>
+        <a href="?page={{ page_obj.previous_page_number }}{% if search %}&q={{ search }}{% endif %}{% if role_filter %}&role={{ role_filter }}{% endif %}">&laquo; Previous</a>
     {% else %}
         <span class="disabled">&laquo; Previous</span>
     {% endif %}
@@ -131,7 +135,7 @@
         {% endif %}
     {% endfor %}
     {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}{% if search %}&q={{ search }}{% endif %}{% if role_filter %}&role={{ role_filter }}{% endif %}" class="md-btn md-btn-text">Next &raquo;</a>
+        <a href="?page={{ page_obj.next_page_number }}{% if search %}&q={{ search }}{% endif %}{% if role_filter %}&role={{ role_filter }}{% endif %}">Next &raquo;</a>
     {% else %}
         <span class="disabled">Next &raquo;</span>
     {% endif %}
@@ -142,7 +146,7 @@
 </div>
 {% else %}
 <div class="admin-empty">
-  <div class="admin-empty-icon-wrap" style="background: color-mix(in srgb, var(--md-primary) 12%, transparent); color: var(--md-primary); border-color: color-mix(in srgb, var(--md-primary) 25%, transparent);">
+  <div class="admin-empty-icon-wrap">
     <span class="material-symbols-outlined">group_off</span>
   </div>
   <h3>No users found</h3>
@@ -150,7 +154,7 @@
     <p>No registered users found matching "{{ search }}". Try checking your spelling or using a different query.</p>
     <div class="admin-empty-actions">
       <a href="{% url 'web:admin_users' %}" class="md-btn md-btn-filled">
-        <span class="material-symbols-outlined">refresh</span> Clear Search
+        <span class="material-symbols-outlined">refresh</span> Clear search
       </a>
     </div>
   {% else %}

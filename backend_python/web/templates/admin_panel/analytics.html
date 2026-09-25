@@ -4,10 +4,25 @@
 {% block title %}Analytics{% endblock %}
 
 {% block content %}
-<h1 class="md-headline-medium mb-3">Analytics &amp; Insights</h1>
+<div class="admin-page-header">
+  <div class="admin-eyebrow">Overview</div>
+  <div class="admin-page-header-row">
+    <div>
+      <h1>Analytics</h1>
+      <p>Traffic, sessions, and content growth. {{ range_label }} · {{ range_days }} days.</p>
+    </div>
+    <div class="admin-page-actions">
+      {% if daily_stat_records %}
+      <a href="{% url 'web:admin_analytics_export_csv' %}" class="md-btn md-btn-tonal">
+        <span class="material-symbols-outlined">download</span> Export CSV
+      </a>
+      {% endif %}
+    </div>
+  </div>
+</div>
 
 <!-- ── Date Range Picker ── -->
-<form method="GET" action="{% url 'web:admin_analytics' %}" class="mb-3" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+<form method="GET" action="{% url 'web:admin_analytics' %}" class="admin-card" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px;">
   <label class="md-body-medium" style="display:flex;align-items:center;gap:6px;">
     <span class="material-symbols-outlined" style="font-size:18px;">calendar_month</span> From
     <input type="date" name="from" value="{{ date_from }}" class="date-input">
@@ -26,12 +41,12 @@
 </form>
 
 {% if not has_data %}
-<div class="md-card-elevated" style="padding:40px;text-align:center;margin-bottom:24px;">
-  <span class="material-symbols-outlined" style="font-size:64px;color:var(--md-on-surface-variant);opacity:0.4;margin-bottom:16px;">insights</span>
-  <h2 class="md-title-large" style="margin:0 0 8px;">No data yet</h2>
-  <p class="md-body-medium" style="color:var(--md-on-surface-variant);max-width:480px;margin:0 auto;">
-    Page view tracking was just enabled. Data will appear here as visitors browse the site.
-  </p>
+<div class="admin-empty" style="margin-bottom:20px;">
+  <div class="admin-empty-icon-wrap">
+    <span class="material-symbols-outlined">insights</span>
+  </div>
+  <h3>No data yet</h3>
+  <p>Page view tracking was just enabled. Data will appear here as visitors browse the site.</p>
 </div>
 {% endif %}
 
@@ -62,109 +77,109 @@
 </div>
 
 <!-- ── Range Snapshot ── -->
-<div class="stats-grid mb-3">
-  <div class="md-card-elevated stat-card">
-    <div class="stat-icon" style="background:var(--md-primary-container);color:var(--md-on-primary-container);">
-      <span class="material-symbols-outlined">visibility</span>
+<div class="admin-kpi-grid">
+  <div class="admin-kpi">
+    <div class="admin-kpi-top">
+      <span class="admin-kpi-icon"><span class="material-symbols-outlined">visibility</span></span>
+      <span class="admin-kpi-label">{% if is_custom_range %}Visits{% else %}Visits (today){% endif %}</span>
     </div>
-    <div class="stat-value">{% if is_custom_range %}{{ range_visits }}{% else %}<span id="stat-today-visits">{{ today_visits }}</span>{% endif %}</div>
-    <div class="stat-label">{% if is_custom_range %}Visits{% else %}Visits (Today){% endif %}</div>
+    <div class="admin-kpi-value">{% if is_custom_range %}{{ range_visits }}{% else %}<span id="stat-today-visits">{{ today_visits }}</span>{% endif %}</div>
     {% if is_custom_range %}
-    <div class="stat-trend">{{ range_days }} days</div>
+    <div class="admin-kpi-sub">{{ range_days }} days</div>
     {% else %}
-    <div class="stat-trend" id="stat-visit-delta" style="{% if visit_delta > 0 %}color:var(--md-tertiary);{% elif visit_delta < 0 %}color:var(--md-error);{% endif %}">
+    <div class="admin-kpi-sub" id="stat-visit-delta">
       {% if visit_delta > 0 %}+{% endif %}{{ visit_delta }} vs yesterday
     </div>
     {% endif %}
   </div>
-  <div class="md-card-elevated stat-card">
-    <div class="stat-icon" style="background:#E8DEF8;color:#4F378B;">
-      <span class="material-symbols-outlined">person</span>
+  <div class="admin-kpi">
+    <div class="admin-kpi-top">
+      <span class="admin-kpi-icon"><span class="material-symbols-outlined">person</span></span>
+      <span class="admin-kpi-label">{% if is_custom_range %}Unique visitors{% else %}Unique visitors (today){% endif %}</span>
     </div>
-    <div class="stat-value">{% if is_custom_range %}{{ range_unique }}{% else %}{{ today_unique }}{% endif %}</div>
-    <div class="stat-label">{% if is_custom_range %}Unique Visitors{% else %}Unique Visitors (Today){% endif %}</div>
-    <div class="stat-trend">{{ total_users }} total users</div>
+    <div class="admin-kpi-value">{% if is_custom_range %}{{ range_unique }}{% else %}{{ today_unique }}{% endif %}</div>
+    <div class="admin-kpi-sub">{{ total_users }} total users</div>
   </div>
-  <div class="md-card-elevated stat-card">
-    <div class="stat-icon" style="background:#D0EFFF;color:#006A6B;">
-      <span class="material-symbols-outlined">groups</span>
+  <div class="admin-kpi">
+    <div class="admin-kpi-top">
+      <span class="admin-kpi-icon"><span class="material-symbols-outlined">groups</span></span>
+      <span class="admin-kpi-label">Sessions</span>
     </div>
-    <div class="stat-value">{{ range_sessions }}</div>
-    <div class="stat-label">Sessions</div>
-    <div class="stat-trend">{{ range_bounce_rate }}% bounce rate</div>
+    <div class="admin-kpi-value">{{ range_sessions }}</div>
+    <div class="admin-kpi-sub">{{ range_bounce_rate }}% bounce rate</div>
   </div>
-  <div class="md-card-elevated stat-card stat-card-green">
-    <div class="stat-icon" style="background:#CFF0E5;color:#006B55;">
-      <span class="material-symbols-outlined">web</span>
+  <div class="admin-kpi">
+    <div class="admin-kpi-top">
+      <span class="admin-kpi-icon"><span class="material-symbols-outlined">web</span></span>
+      <span class="admin-kpi-label">Web visits</span>
     </div>
-    <div class="stat-value">{{ range_web }}</div>
-    <div class="stat-label">Web Visits</div>
-    <div class="stat-trend">{% widthratio range_web range_visits 100 %}% of traffic</div>
+    <div class="admin-kpi-value">{{ range_web }}</div>
+    <div class="admin-kpi-sub">{% widthratio range_web range_visits 100 %}% of traffic</div>
   </div>
-  <div class="md-card-elevated stat-card stat-card-purple">
-    <div class="stat-icon" style="background:#FFDDB3;color:#7A5900;">
-      <span class="material-symbols-outlined">phone_android</span>
+  <div class="admin-kpi">
+    <div class="admin-kpi-top">
+      <span class="admin-kpi-icon"><span class="material-symbols-outlined">phone_android</span></span>
+      <span class="admin-kpi-label">App visits</span>
     </div>
-    <div class="stat-value">{{ range_app }}</div>
-    <div class="stat-label">App Visits</div>
-    <div class="stat-trend">{% widthratio range_app range_visits 100 %}% of traffic</div>
+    <div class="admin-kpi-value">{{ range_app }}</div>
+    <div class="admin-kpi-sub">{% widthratio range_app range_visits 100 %}% of traffic</div>
   </div>
-  <div class="md-card-elevated stat-card stat-card-orange">
-    <div class="stat-icon" style="background:#FFE0E0;color:#B3261E;">
-      <span class="material-symbols-outlined">bar_chart</span>
+  <div class="admin-kpi">
+    <div class="admin-kpi-top">
+      <span class="admin-kpi-icon"><span class="material-symbols-outlined">bar_chart</span></span>
+      <span class="admin-kpi-label">Total (range)</span>
     </div>
-    <div class="stat-value">{{ range_visits|default:"0" }}</div>
-    <div class="stat-label">Total (Range)</div>
-    <div class="stat-trend">{{ total_pageviews }} all time</div>
+    <div class="admin-kpi-value">{{ range_visits|default:"0" }}</div>
+    <div class="admin-kpi-sub">{{ total_pageviews }} all time</div>
   </div>
 </div>
 
 <!-- ── Session Metrics ── -->
-<h2 class="md-title-medium mb-2"><span class="material-symbols-outlined" style="font-size:20px;vertical-align:middle;margin-right:4px;">analytics</span> Session Metrics{% if not is_custom_range %} (Today){% endif %}</h2>
-<div class="stats-grid mb-3">
-  <div class="md-card-elevated stat-card">
-    <div class="stat-icon" style="background:#E8DEF8;color:#4F378B;">
-      <span class="material-symbols-outlined">timeline</span>
+<h2 class="md-title-medium" style="margin:4px 0 12px;">Session metrics{% if not is_custom_range %} (today){% endif %}</h2>
+<div class="admin-kpi-grid">
+  <div class="admin-kpi">
+    <div class="admin-kpi-top">
+      <span class="admin-kpi-icon"><span class="material-symbols-outlined">timeline</span></span>
+      <span class="admin-kpi-label">Total sessions</span>
     </div>
-    <div class="stat-value">{{ range_sessions }}</div>
-    <div class="stat-label">Total Sessions</div>
+    <div class="admin-kpi-value">{{ range_sessions }}</div>
   </div>
-  <div class="md-card-elevated stat-card">
-    <div class="stat-icon" style="background:#FFD8E4;color:#9C4146;">
-      <span class="material-symbols-outlined">logout</span>
+  <div class="admin-kpi">
+    <div class="admin-kpi-top">
+      <span class="admin-kpi-icon"><span class="material-symbols-outlined">logout</span></span>
+      <span class="admin-kpi-label">Bounce rate</span>
     </div>
-    <div class="stat-value">{{ range_bounce_rate }}%</div>
-    <div class="stat-label">Bounce Rate</div>
-    <div class="stat-trend">{{ range_bounce_count }} bounces</div>
+    <div class="admin-kpi-value">{{ range_bounce_rate }}%</div>
+    <div class="admin-kpi-sub">{{ range_bounce_count }} bounces</div>
   </div>
-  <div class="md-card-elevated stat-card">
-    <div class="stat-icon" style="background:#D0EFFF;color:#006A6B;">
-      <span class="material-symbols-outlined">description</span>
+  <div class="admin-kpi">
+    <div class="admin-kpi-top">
+      <span class="admin-kpi-icon"><span class="material-symbols-outlined">description</span></span>
+      <span class="admin-kpi-label">Pages / session</span>
     </div>
-    <div class="stat-value">{{ range_pages_per_session }}</div>
-    <div class="stat-label">Pages / Session</div>
+    <div class="admin-kpi-value">{{ range_pages_per_session }}</div>
   </div>
 </div>
 
 <!-- ── Charts Row 1: Daily Trend ── -->
-<div class="admin-grid-2 mb-3">
-  <div class="md-card-elevated" style="padding:20px;">
+<div class="admin-panel-grid">
+  <div class="admin-card" style="padding:20px;">
     <h3 class="md-title-medium" style="margin:0 0 16px;">Daily Visit Trend{% if is_custom_range %} ({{ range_days }} days){% endif %}</h3>
     <canvas id="chartDaily" height="200"></canvas>
   </div>
-  <div class="md-card-elevated" style="padding:20px;">
+  <div class="admin-card" style="padding:20px;">
     <h3 class="md-title-medium" style="margin:0 0 16px;">{% if is_custom_range %}Daily{% else %}User &amp; Content{% endif %} Growth{% if not is_custom_range %} (7 days){% endif %}</h3>
     <canvas id="chartGrowth" height="200"></canvas>
   </div>
 </div>
 
 <!-- ── Charts Row 2: Hourly + Peak Hours ── -->
-<div class="admin-grid-2 mb-3">
-  <div class="md-card-elevated" style="padding:20px;">
+<div class="admin-panel-grid">
+  <div class="admin-card" style="padding:20px;">
     <h3 class="md-title-medium" style="margin:0 0 16px;">Hourly Breakdown</h3>
     <canvas id="chartHourly" height="200"></canvas>
   </div>
-  <div class="md-card-elevated" style="padding:20px;">
+  <div class="admin-card" style="padding:20px;">
     <h3 class="md-title-medium" style="margin:0 0 16px;">Peak Hours</h3>
     <canvas id="chartPeak" height="200"></canvas>
   </div>
@@ -172,22 +187,22 @@
 
 <!-- ── Charts Row 3: Source + Device Class + DOW ── -->
 <div class="admin-grid-3 mb-3">
-  <div class="md-card-elevated" style="padding:20px;">
+  <div class="admin-card" style="padding:20px;">
     <h3 class="md-title-medium" style="margin:0 0 16px;">Traffic Source</h3>
     <canvas id="chartSource" height="200"></canvas>
   </div>
-  <div class="md-card-elevated" style="padding:20px;">
+  <div class="admin-card" style="padding:20px;">
     <h3 class="md-title-medium" style="margin:0 0 16px;">Device Class (30 days)</h3>
     <canvas id="chartDevice" height="200"></canvas>
   </div>
-  <div class="md-card-elevated" style="padding:20px;">
+  <div class="admin-card" style="padding:20px;">
     <h3 class="md-title-medium" style="margin:0 0 16px;">Day of Week</h3>
     <canvas id="chartDow" height="200"></canvas>
   </div>
 </div>
 
 <!-- ── Charts Row 4: Referrer Type ── -->
-<div class="md-card-elevated mb-3" style="padding:20px;">
+<div class="admin-card mb-3" style="padding:20px;">
   <h3 class="md-title-medium" style="margin:0 0 16px;">Referrer Type</h3>
   <div style="max-width:360px;margin:0 auto;">
     <canvas id="chartReferrer" height="200"></canvas>
@@ -195,10 +210,11 @@
 </div>
 
 <!-- ── Tables ── -->
-<div class="admin-grid-2 mb-3">
-  <div class="md-card-elevated" style="padding:20px;">
+<div class="admin-panel-grid">
+  <div class="admin-card" style="padding:20px;">
     <h3 class="md-title-medium" style="margin:0 0 16px;">Top Referrer Domains{% if is_custom_range %} ({{ range_label }}){% endif %}</h3>
     {% if top_domains %}
+    <div class="admin-table-wrap" style="margin-bottom:0;">
     <table class="admin-table">
       <thead>
         <tr><th>Domain</th><th style="text-align:right;">Visits</th></tr>
@@ -206,22 +222,26 @@
       <tbody>
         {% for d in top_domains %}
         <tr>
-          <td style="display:flex;align-items:center;gap:8px;padding:8px 4px;">
+          <td>
+            <div style="display:flex;align-items:center;gap:8px;min-width:0;">
             <img src="https://www.google.com/s2/favicons?domain={{ d.referrer_domain }}&sz=16" alt="" width="16" height="16" style="flex-shrink:0;border-radius:2px;" loading="lazy" onerror="this.style.display='none'">
             <span>{{ d.referrer_domain }}</span>
+            </div>
           </td>
           <td style="text-align:right;font-weight:600;">{{ d.count }}</td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
+    </div>
     {% else %}
     <p class="md-body-medium" style="color:var(--md-on-surface-variant);">No external referrer data yet.</p>
     {% endif %}
   </div>
-  <div class="md-card-elevated" style="padding:20px;">
+  <div class="admin-card" style="padding:20px;">
     <h3 class="md-title-medium" style="margin:0 0 16px;">Top Pages{% if is_custom_range %} ({{ range_label }}){% endif %}</h3>
     {% if top_pages %}
+    <div class="admin-table-wrap" style="margin-bottom:0;">
     <table class="admin-table">
       <thead>
         <tr><th>Page</th><th style="text-align:right;">Visits</th></tr>
@@ -235,15 +255,17 @@
         {% endfor %}
       </tbody>
     </table>
+    </div>
     {% else %}
     <p class="md-body-medium" style="color:var(--md-on-surface-variant);">No page data yet.</p>
     {% endif %}
   </div>
 </div>
 
-<div class="md-card-elevated" style="padding:20px;margin-bottom:24px;">
+<div class="admin-card" style="padding:20px;margin-bottom:24px;">
   <h3 class="md-title-medium" style="margin:0 0 16px;">Referrer Details{% if is_custom_range %} ({{ range_label }}){% endif %}</h3>
   {% if referrer_details %}
+  <div class="admin-table-wrap" style="margin-bottom:0;">
   <table class="admin-table">
     <thead>
       <tr><th>Domain</th><th>Type</th><th style="text-align:right;">Visits</th></tr>
@@ -251,11 +273,13 @@
       <tbody>
         {% for r in referrer_details %}
         <tr>
-          <td style="display:flex;align-items:center;gap:8px;padding:8px 4px;">
+          <td>
+            <div style="display:flex;align-items:center;gap:8px;min-width:0;">
             {% if r.referrer_domain %}
             <img src="https://www.google.com/s2/favicons?domain={{ r.referrer_domain }}&sz=16" alt="" width="16" height="16" style="flex-shrink:0;border-radius:2px;" loading="lazy" onerror="this.style.display='none'">
             {% endif %}
             <span>{{ r.referrer_domain|default:"(direct)" }}</span>
+            </div>
           </td>
           <td><span class="ref-type-badge ref-type-{{ r.referrer_type }}">{{ r.referrer_type }}</span></td>
           <td style="text-align:right;font-weight:600;">{{ r.count }}</td>
@@ -263,14 +287,16 @@
         {% endfor %}
       </tbody>
   </table>
+  </div>
   {% else %}
   <p class="md-body-medium" style="color:var(--md-on-surface-variant);">No referrer data yet.</p>
   {% endif %}
 </div>
 
 {% if platform_data %}
-<div class="md-card-elevated" style="padding:20px;margin-bottom:24px;">
+<div class="admin-card" style="padding:20px;margin-bottom:24px;">
   <h3 class="md-title-medium" style="margin:0 0 16px;">Platform Breakdown{% if is_custom_range %} ({{ range_label }}){% endif %}</h3>
+  <div class="admin-table-wrap" style="margin-bottom:0;">
   <table class="admin-table">
     <thead>
       <tr><th>Platform</th><th style="text-align:right;">Visits</th><th style="text-align:right;">Share</th></tr>
@@ -285,14 +311,16 @@
       {% endfor %}
     </tbody>
   </table>
+  </div>
 </div>
 {% endif %}
 
 <!-- 
 ── Demographics: Country ── -->
 {% if country_data %}
-<div class="md-card-elevated" style="padding:20px;margin-bottom:24px;">
+<div class="admin-card" style="padding:20px;margin-bottom:24px;">
   <h3 class="md-title-medium" style="margin:0 0 16px;">Top Countries{% if is_custom_range %} ({{ range_label }}){% endif %}</h3>
+  <div class="admin-table-wrap" style="margin-bottom:0;">
   <table class="admin-table">
     <thead><tr><th>Country</th><th style="text-align:right;">Visits</th></tr></thead>
     <tbody>
@@ -301,13 +329,15 @@
       {% endfor %}
     </tbody>
   </table>
+  </div>
 </div>
 {% endif %}
 
-── Demographics: City ── -->
+<!-- ── Demographics: City ── -->
 {% if city_data %}
-<div class="md-card-elevated" style="padding:20px;margin-bottom:24px;">
+<div class="admin-card" style="padding:20px;margin-bottom:24px;">
   <h3 class="md-title-medium" style="margin:0 0 16px;">Top Cities{% if is_custom_range %} ({{ range_label }}){% endif %}</h3>
+  <div class="admin-table-wrap" style="margin-bottom:0;">
   <table class="admin-table">
     <thead><tr><th>City</th><th style="text-align:right;">Visits</th></tr></thead>
     <tbody>
@@ -316,13 +346,15 @@
       {% endfor %}
     </tbody>
   </table>
+  </div>
 </div>
 {% endif %}
 
-── Demographics: Gender ── -->
+<!-- ── Demographics: Gender ── -->
 {% if gender_data %}
-<div class="md-card-elevated" style="padding:20px;margin-bottom:24px;">
+<div class="admin-card" style="padding:20px;margin-bottom:24px;">
   <h3 class="md-title-medium" style="margin:0 0 16px;">Gender Distribution</h3>
+  <div class="admin-table-wrap" style="margin-bottom:0;">
   <table class="admin-table">
     <thead><tr><th>Gender</th><th style="text-align:right;">Visits</th></tr></thead>
     <tbody>
@@ -331,19 +363,20 @@
       {% endfor %}
     </tbody>
   </table>
+  </div>
 </div>
 {% endif %}
 
-── DailyStat Records Table ──
+<!-- ── DailyStat Records Table ── -->
 {% if daily_stat_records %}
-<div class="md-card-elevated" style="padding:20px;margin-bottom:24px;">
+<div class="admin-card" style="padding:20px;margin-bottom:24px;">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
     <h3 class="md-title-medium" style="margin:0;">Daily Stats{% if is_custom_range %} ({{ range_label }}){% else %} (Last 30 Days){% endif %}</h3>
     <a href="{% url 'web:admin_analytics_export_csv' %}" class="md-btn md-btn-tonal md-btn-sm" style="text-decoration:none;">
       <span class="material-symbols-outlined">download</span> Export CSV
     </a>
   </div>
-  <div style="overflow-x:auto;">
+  <div class="admin-table-wrap" style="margin-bottom:0;">
     <table class="admin-table">
       <thead>
         <tr>

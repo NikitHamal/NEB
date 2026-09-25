@@ -6,23 +6,23 @@
 
 {% block content %}
 <div style="max-width:960px;margin:0 auto;">
-  <div class="admin-section-header" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;padding-top:0;border-top:none;">
-    <div>
-      <h1 style="font-size:1.5rem;font-weight:700;margin:0;display:flex;align-items:center;gap:8px;">
-        <span class="material-symbols-outlined" style="font-size:28px;color:#7C4DFF;">smart_toy</span>
-        AI Bots
-      </h1>
-      <p style="color:var(--md-on-surface-variant);font-size:0.8125rem;margin:4px 0 0;">
-        Configure AI bots that respond to @mentions — and, if autonomy is on, live on the forum like a person.
-      </p>
+  <div class="admin-page-header">
+    <div class="admin-page-header-row">
+      <div>
+        <div class="admin-eyebrow">AI &amp; Automation</div>
+        <h1>AI Bots</h1>
+        <p>Configure AI bots that respond to @mentions — and, if autonomy is on, live on the forum like a person.</p>
+      </div>
+      <div class="admin-page-actions">
+        <a href="{% url 'web:admin_bot_new' %}" class="md-btn md-btn-filled">
+          <span class="material-symbols-outlined" style="font-size:18px;">add</span>
+          Add Bot
+        </a>
+        <a href="{% url 'web:admin_agent_activity' %}" class="md-btn md-btn-outlined">
+          Activity
+        </a>
+      </div>
     </div>
-    <a href="{% url 'web:admin_bot_new' %}" class="md-btn md-btn-filled" style="white-space:nowrap;">
-      <span class="material-symbols-outlined" style="font-size:18px;">add</span>
-      Add Bot
-    </a>
-    <a href="{% url 'web:admin_agent_activity' %}" class="md-btn md-btn-outlined" style="white-space:nowrap;">
-      Activity
-    </a>
   </div>
 
   {% if messages %}
@@ -32,10 +32,10 @@
   {% endif %}
 
   {% if bot_list %}
-  <div class="admin-grid-2" style="gap:16px;">
+  <div class="admin-panel-grid">
     {% for item in bot_list %}
     {% with config=item.config bot_user=item.user stats=item.task_stats %}
-    <div class="admin-section-card" style="position:relative;">
+    <div class="admin-card">
       <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:12px;">
         {% if bot_user %}
           {% if config.avatar_url %}
@@ -60,12 +60,12 @@
           <div style="font-weight:600;font-size:1rem;display:flex;align-items:center;gap:6px;">
             {{ config.name }}
             {% if config.enabled %}
-            <span style="background:var(--md-primary-container);color:var(--md-on-primary-container);font-size:0.6875rem;padding:1px 6px;border-radius:4px;font-weight:600;">Active</span>
+            <span class="admin-status ok">Active</span>
             {% else %}
-            <span style="background:var(--md-surface-variant);color:var(--md-on-surface-variant);font-size:0.6875rem;padding:1px 6px;border-radius:4px;font-weight:600;">Disabled</span>
+            <span class="admin-status neutral">Disabled</span>
             {% endif %}
             {% if config.persona and config.persona.autonomy_enabled %}
-            <span style="background:rgba(124,77,255,0.15);color:#7C4DFF;font-size:0.6875rem;padding:1px 6px;border-radius:4px;font-weight:600;">Autonomous</span>
+            <span class="admin-status info">Autonomous</span>
             {% endif %}
           </div>
           <div style="color:var(--md-on-surface-variant);font-size:0.8125rem;">@{{ config.bot_username }}</div>
@@ -88,10 +88,10 @@
 
       {% if stats.pending or stats.processing or stats.failed %}
       <div style="display:flex;gap:8px;font-size:0.6875rem;margin-bottom:12px;">
-        {% if stats.pending %}<span style="background:var(--md-secondary-container);color:var(--md-on-secondary-container);padding:2px 8px;border-radius:4px;">{{ stats.pending }} pending</span>{% endif %}
-        {% if stats.processing %}<span style="background:var(--md-primary-container);color:var(--md-on-primary-container);padding:2px 8px;border-radius:4px;">{{ stats.processing }} processing</span>{% endif %}
-        {% if stats.failed %}<span style="background:var(--md-error-container);color:var(--md-on-error-container);padding:2px 8px;border-radius:4px;">{{ stats.failed }} failed</span>{% endif %}
-        {% if stats.done %}<span style="background:var(--md-surface-variant);color:var(--md-on-surface-variant);padding:2px 8px;border-radius:4px;">{{ stats.done }} done</span>{% endif %}
+        {% if stats.pending %}<span class="admin-status warn">{{ stats.pending }} pending</span>{% endif %}
+        {% if stats.processing %}<span class="admin-status info">{{ stats.processing }} processing</span>{% endif %}
+        {% if stats.failed %}<span class="admin-status bad">{{ stats.failed }} failed</span>{% endif %}
+        {% if stats.done %}<span class="admin-status neutral">{{ stats.done }} done</span>{% endif %}
       </div>
       {% endif %}
 
@@ -112,16 +112,18 @@
     {% endfor %}
   </div>
   {% else %}
-  <div class="admin-empty" style="text-align:center;padding:48px 24px;">
-    <div class="admin-empty-icon-wrap" style="margin:0 auto 16px;">
-      <span class="material-symbols-outlined" style="font-size:32px;color:var(--md-on-surface-variant);">smart_toy</span>
+  <div class="admin-empty">
+    <div class="admin-empty-icon-wrap">
+      <span class="material-symbols-outlined">smart_toy</span>
     </div>
-    <h3 style="margin:0 0 8px;">No bots configured</h3>
-    <p style="color:var(--md-on-surface-variant);font-size:0.8125rem;margin:0 0 16px;">Add an AI bot to respond to @mentions in the forum.</p>
-    <a href="{% url 'web:admin_bot_new' %}" class="md-btn md-btn-filled">
-      <span class="material-symbols-outlined" style="font-size:18px;">add</span>
-      Add Bot
-    </a>
+    <h3>No bots configured</h3>
+    <p>Add an AI bot to respond to @mentions in the forum.</p>
+    <div class="admin-empty-actions">
+      <a href="{% url 'web:admin_bot_new' %}" class="md-btn md-btn-filled">
+        <span class="material-symbols-outlined" style="font-size:18px;">add</span>
+        Add Bot
+      </a>
+    </div>
   </div>
   {% endif %}
 </div>
