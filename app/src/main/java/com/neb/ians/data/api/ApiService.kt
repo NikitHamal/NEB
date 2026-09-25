@@ -44,10 +44,13 @@ data class EmailLoginRequest(
 @Serializable
 data class SetPasswordRequest(val password: String)
 
+// The server reads camelCase here (`currentPassword` / `newPassword`). The
+// snake_case names this used to send were silently dropped, so every change
+// and every reset came back "required field missing".
 @Serializable
 data class ChangePasswordRequest(
-    @SerialName("current_password") val currentPassword: String,
-    @SerialName("new_password") val newPassword: String
+    val currentPassword: String,
+    val newPassword: String
 )
 
 @Serializable
@@ -66,8 +69,17 @@ data class EmailForgotRequest(val email: String)
 data class EmailResetPasswordRequest(
     val email: String,
     val code: String,
-    @SerialName("new_password") val newPassword: String
+    val newPassword: String
 )
+
+@Serializable
+data class EmailChangeRequest(
+    val newEmail: String,
+    val password: String = ""
+)
+
+@Serializable
+data class EmailChangeConfirmRequest(val code: String)
 
 @Serializable
 data class UserProfileRequest(
@@ -315,6 +327,24 @@ data class GenericMessageResponse(
 )
 
 @Serializable
+data class AccountSecurityResponse(
+    val status: String = "",
+    val email: String = "",
+    @SerialName("emailVerified") val emailVerified: Boolean = false,
+    @SerialName("hasPassword") val hasPassword: Boolean = false,
+    @SerialName("pendingEmail") val pendingEmail: String = "",
+    val error: String? = null
+)
+
+@Serializable
+data class EmailChangeResponse(
+    val status: String = "",
+    val message: String = "",
+    @SerialName("pendingEmail") val pendingEmail: String = "",
+    val error: String? = null
+)
+
+@Serializable
 data class ChangePasswordResponse(
     val status: String = "",
     val message: String = "",
@@ -497,8 +527,14 @@ data class ApiResource(
     @SerialName("is_bookmarked") val isBookmarked: Boolean? = null,
     // --- Paid / marketplace state (server-gated; defaults keep old caches safe) ---
     @SerialName("isPaid") val isPaid: Boolean = false,
-    /** Normalised price string as sent by the server (e.g. "150", "149.5"). */
-    @SerialName("price") val price: String = "",
+    /**
+     * Normalised price as sent by the server. The REST app sends a string
+     * ("150"); the web ajax endpoints send a bare float (150.0), so this one
+     * field is decoded leniently — see [LenientStringSerializer].
+     */
+    @SerialName("price")
+    @kotlinx.serialization.Serializable(with = LenientStringSerializer::class)
+    val price: String = "",
     /** True when the viewer may open/download this resource (free, owner, admin or approved purchase). */
     @SerialName("hasAccess") val hasAccess: Boolean = true,
     /** "" | "pending" | "approved" | "rejected" for the viewer's purchase, if any. */
@@ -1181,6 +1217,28 @@ interface ApiService {
         @Header("Authorization") bearerToken: String,
         @Body request: ChangePasswordRequest
     ): ChangePasswordResponse
+
+    @GET("api/auth/account-security/")
+    suspend fun accountSecurity(
+        @Header("Authorization") bearerToken: String
+    ): AccountSecurityResponse
+
+    @POST("api/auth/email/change/request/")
+    suspend fun requestEmailChange(
+        @Header("Authorization") bearerToken: String,
+        @Body request: EmailChangeRequest
+    ): EmailChangeResponse
+
+    @POST("api/auth/email/change/confirm/")
+    suspend fun confirmEmailChange(
+        @Header("Authorization") bearerToken: String,
+        @Body request: EmailChangeConfirmRequest
+    ): ChangePasswordResponse
+
+    @POST("api/auth/email/change/cancel/")
+    suspend fun cancelEmailChange(
+        @Header("Authorization") bearerToken: String
+    ): GenericMessageResponse
 
     // --- Users ---
     @GET("api/users/check-username/")
