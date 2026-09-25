@@ -163,52 +163,41 @@ fun LiquidGlassBottomNav(
 ) {
     val isDark = MaterialTheme.colorScheme.surface.luminanceIsDark()
     val isLowEnd = com.neb.ians.util.rememberIsLowEndDevice()
-    val glassBrush = remember(isDark) {
+    val scheme = MaterialTheme.colorScheme
+
+    // The bar is opaque, and that is the point of this block.
+    //
+    // It used to be a 92%-alpha gradient over two hardcoded greys, which cost it
+    // twice. The greys predate the colour revamp, so on a page built from the
+    // blue-tinted neutral ramp the bar read as the one grey object on the
+    // screen. And eight percent of a paragraph of body text showing through a
+    // navigation bar is still legible enough to fight the labels sitting on it.
+    // A bar you can read the page through is not a surface, it is a smudge.
+    //
+    // So: full alpha, scheme tokens, and the faintest vertical fall so it still
+    // has a top edge to catch the light on.
+    val barBrush = remember(isDark, scheme) {
         if (isDark) {
-            Brush.verticalGradient(
-                listOf(
-                    Color(0xFF18181B).copy(alpha = 0.94f),
-                    Color(0xFF101012).copy(alpha = 0.90f)
-                )
-            )
+            Brush.verticalGradient(listOf(scheme.surfaceContainerHigh, scheme.surfaceContainer))
         } else {
-            Brush.verticalGradient(
-                listOf(
-                    Color.White.copy(alpha = 0.96f),
-                    Color(0xFFF1F1F3).copy(alpha = 0.92f)
-                )
-            )
+            Brush.verticalGradient(listOf(scheme.surfaceContainerLowest, scheme.surfaceContainerLow))
         }
     }
-    val primaryColor = MaterialTheme.colorScheme.primary
-    val createBrush = remember(primaryColor) {
-        Brush.verticalGradient(
-            listOf(
-                primaryColor,
-                primaryColor.copy(alpha = 0.86f)
-            )
-        )
-    }
-    val borderBrush = remember(isDark) {
-        if (isDark) {
-            Brush.verticalGradient(
-                listOf(
-                    Color.White.copy(alpha = 0.22f),
-                    Color.White.copy(alpha = 0.05f)
-                )
-            )
-        } else {
-            Brush.verticalGradient(
-                listOf(
-                    Color.White,
-                    Color(0xFFDCDCE0).copy(alpha = 0.6f)
-                )
-            )
-        }
-    }
+
+    // One hairline, the same one every other card in the app uses. The old
+    // white-to-grey gradient rim lit the bar from inside and made it look
+    // inflated next to the create button.
+    val barBorder = scheme.outlineVariant
+
+    val primaryColor = scheme.primary
     val navHeight = 58.dp
-    val shadowElevation = if (isLowEnd) 4.dp else 16.dp
-    val shadowAlpha = if (isLowEnd) 0.08f else 0.16f
+    // The create button sits inside the bar's height rather than matching it.
+    // The clover's lobes push past its own bounds more than a circle does, so at
+    // equal sizes it measured level and read taller — which is what put it out
+    // of step with the rail in the first place.
+    val createSize = 52.dp
+    val shadowElevation = if (isLowEnd) 4.dp else 14.dp
+    val shadowAlpha = if (isLowEnd) 0.08f else 0.14f
 
     Box(
         modifier = modifier
@@ -237,8 +226,8 @@ fun LiquidGlassBottomNav(
                             spotColor = Color.Black.copy(alpha = shadowAlpha)
                         )
                         .clip(CircleShape)
-                        .background(glassBrush)
-                        .border(1.dp, borderBrush, CircleShape)
+                        .background(barBrush)
+                        .border(1.dp, barBorder, CircleShape)
                         .padding(horizontal = 6.dp),
                     horizontalArrangement = Arrangement.spacedBy(4.dp),
                     verticalAlignment = Alignment.CenterVertically
@@ -280,26 +269,29 @@ fun LiquidGlassBottomNav(
 
                     Box(
                         modifier = Modifier
-                            .size(navHeight)
+                            .size(createSize)
                             .graphicsLayer {
                                 scaleX = createScale
                                 scaleY = createScale
                                 rotationZ = shapeSpin
                             }
+                            // A neutral shadow. The old one was tinted with the
+                            // primary at 35% and spread fourteen dp, which put a
+                            // blue halo around the lobes and turned a button
+                            // into a bloom.
                             .shadow(
                                 shadowElevation,
                                 createShape,
                                 clip = false,
                                 ambientColor = Color.Black.copy(alpha = shadowAlpha),
-                                spotColor = primaryColor.copy(alpha = 0.35f)
+                                spotColor = Color.Black.copy(alpha = shadowAlpha + 0.06f)
                             )
                             .clip(createShape)
-                            .background(createBrush)
-                            .border(
-                                1.dp,
-                                if (isDark) Color.White.copy(alpha = 0.25f) else Color.White.copy(alpha = 0.65f),
-                                createShape
-                            )
+                            // Flat, not a gradient. Fading the fill to 86% alpha
+                            // let the page through the bottom of the button, so
+                            // the one element on the bar that should read as
+                            // solid was the one that did not.
+                            .background(primaryColor)
                             .clickable(
                                 interactionSource = createInteractionSource,
                                 indication = ripple(bounded = true, color = Color.White),
@@ -403,13 +395,18 @@ private fun GlassNavItem(item: NebNavItem, selected: Boolean, onClick: () -> Uni
         label = "itemPressScale"
     )
 
+    // The selected pill is the brand's own container, not the secondary one.
+    // Secondary is the desaturated steel ramp, so the indicator and the create
+    // button next to it were two unrelated blues sitting an inch apart — close
+    // enough to compare, far enough apart to look like a mistake. They are one
+    // family now, and the create button is the saturated end of it.
     val indicator by animateColorAsState(
-        targetValue = if (selected) MaterialTheme.colorScheme.secondaryContainer else Color.Transparent,
+        targetValue = if (selected) MaterialTheme.colorScheme.primaryContainer else Color.Transparent,
         animationSpec = spring(stiffness = Spring.StiffnessMediumLow),
         label = "indicator"
     )
     val contentColor by animateColorAsState(
-        targetValue = if (selected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurfaceVariant,
+        targetValue = if (selected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant,
         animationSpec = tween(180),
         label = "navContent"
     )
