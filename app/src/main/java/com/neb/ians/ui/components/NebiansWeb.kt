@@ -6,7 +6,6 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -70,8 +69,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -704,9 +701,9 @@ fun WebResourceCard(
                     contentScale = ContentScale.Crop
                 )
             } else {
-                ResourceArt(
-                    primary = subjectTheme.color,
-                    container = subjectTheme.container,
+                ResourceBannerArt(
+                    seed = "${resource.id}|${resource.title}",
+                    subject = primarySubject,
                     modifier = Modifier.fillMaxSize()
                 )
             }
@@ -904,35 +901,6 @@ fun WebResourceCard(
             }
         }
     }
-}
-
-@Composable
-fun ResourceArt(
-    primary: Color,
-    container: Color,
-    modifier: Modifier = Modifier
-) {
-    Canvas(modifier = modifier.background(container)) {
-        val c2 = primary.copy(alpha = 0.38f)
-        val c3 = primary.copy(alpha = 0.24f)
-        val c4 = primary.copy(alpha = 0.16f)
-        drawRect(color = container, size = size)
-        drawWave(color = c2, startY = size.height * 0.58f, controlLift = size.height * 0.52f)
-        drawWave(color = c3, startY = size.height * 0.76f, controlLift = size.height * 0.36f)
-        drawWave(color = c4, startY = size.height * 0.88f, controlLift = size.height * 0.22f)
-    }
-}
-
-private fun DrawScope.drawWave(color: Color, startY: Float, controlLift: Float) {
-    val path = Path().apply {
-        moveTo(0f, size.height)
-        lineTo(0f, startY)
-        cubicTo(size.width * 0.18f, startY - controlLift, size.width * 0.34f, startY + controlLift * 0.32f, size.width * 0.5f, startY)
-        cubicTo(size.width * 0.66f, startY - controlLift * 0.32f, size.width * 0.82f, startY + controlLift * 0.24f, size.width, startY - controlLift * 0.18f)
-        lineTo(size.width, size.height)
-        close()
-    }
-    drawPath(path = path, color = color)
 }
 
 @Composable
