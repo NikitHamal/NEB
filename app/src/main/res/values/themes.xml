@@ -6,6 +6,15 @@
         this XML theme is only needed for the splash/activity window.
     -->
     <style name="Theme.NEBians" parent="android:Theme.Material.Light.NoActionBar">
+        <!--
+            The window the system draws before a single Compose frame exists.
+            Without it the platform falls back to its own default and a cold
+            start flashes that colour for a frame or two before our splash
+            appears. Set to the same white the splash paints, so the handover
+            from system window to Compose is invisible.
+        -->
+        <item name="android:windowBackground">@color/neb_splash_background</item>
+
         <!-- Transparent system bars for modern edge-to-edge -->
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>

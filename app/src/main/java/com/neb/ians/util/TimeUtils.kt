@@ -16,4 +16,12 @@ fun formatTimeAgo(timestamp: Long): String {
     }
 }
 
-fun getSubjectColor(subject: String): Long = 0xFF57575CL
+/**
+ * The accent for a subject outside composition — currently the media
+ * notification, which needs an ARGB long and cannot read a colour scheme.
+ * Always the brand blue: a notification is drawn by the system, on a surface
+ * whose theme we do not control, so the one hue that holds up on both is the
+ * only safe answer. Screens inside composition should use
+ * [com.neb.ians.ui.theme.getSubjectTheme], which does vary per subject.
+ */
+fun getSubjectColor(subject: String): Long = 0xFF004AC6L

@@ -313,7 +313,7 @@ fun NEBiansNavHost(
                 label = "New post",
                 icon = Icons.Outlined.RateReview,
                 onClick = { navController.navigate(Screen.CreatePost.route) },
-                accent = NebAccents.Indigo,
+                accent = NebAccents.Brand,
                 testTag = "create_menu_new_post"
             )
         )

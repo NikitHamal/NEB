@@ -5,4 +5,12 @@
     <color name="notification_icon_color">#5C5C61</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!--
+        The colour of the window before Compose has drawn anything, and of the
+        API 31+ system splash. Must stay equal to the page colour the splash
+        composable paints (NebAuthPalette.page in light), or a cold start shows
+        a seam between the two.
+    -->
+    <color name="neb_splash_background">#FFFFFFFF</color>
 </resources>
