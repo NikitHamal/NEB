@@ -3,81 +3,87 @@
 {% block title %}Account Deletions — Admin{% endblock %}
 
 {% block content %}
-<div class="admin-section">
-  <div class="admin-section-header">
-    <h1>Account Deletion Requests</h1>
-    <span class="admin-count">{{ pending_requests|length }} pending</span>
-  </div>
-
-  {% if pending_requests %}
-  <div class="md-table-responsive">
-    <table class="md-table">
-      <thead>
-        <tr>
-          <th>User</th>
-          <th>Requested</th>
-          <th>Scheduled Deletion</th>
-          <th>Reason</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for req in pending_requests %}
-        <tr>
-          <td>
-            <div style="font-weight: 600;">{{ req.user.display_name|default:req.user.username }}</div>
-            <div style="font-size: 0.8125rem; color: var(--md-on-surface-variant);">@{{ req.user.username }}</div>
-          </td>
-          <td>{{ req.created_at|time_ago }}</td>
-          <td>
-            <div style="font-weight: 500; color: var(--md-error, #B3261E);">
-              {{ req.scheduled_delete_at|time_ago }}
-            </div>
-            <div style="font-size: 0.75rem; color: var(--md-outline);">30 days window</div>
-          </td>
-          <td>
-            {% if req.reason %}
-              <div style="font-size: 0.875rem; max-width: 300px; word-break: break-word;">{{ req.reason }}</div>
-            {% else %}
-              <span style="font-size: 0.875rem; color: var(--md-outline); font-style: italic;">No reason provided</span>
-            {% endif %}
-          </td>
-          <td class="admin-actions-cell" style="white-space: nowrap;">
-            <form method="post" action="{% url 'web:admin_process_deletion' request_id=req.id %}" style="display:inline;" onsubmit="return confirm('WARNING: Are you absolutely sure you want to permanently delete this user and all their associated data (except uploaded resources)? This action is irreversible.');">
-              {% csrf_token %}
-              <input type="hidden" name="action" value="delete">
-              <button type="submit" class="md-btn md-btn-filled" style="background-color: var(--md-error, #B3261E); color: var(--md-on-error, #FFFFFF); padding: 4px 12px; font-size: 0.8125rem;">
-                <span class="material-symbols-outlined" style="font-size:18px; margin-right: 4px;">delete_forever</span> Delete Data
-              </button>
-            </form>
-            <form method="post" action="{% url 'web:admin_process_deletion' request_id=req.id %}" style="display:inline;">
-              {% csrf_token %}
-              <input type="hidden" name="action" value="reject">
-              <button type="submit" class="md-btn md-btn-outlined" style="padding: 4px 12px; font-size: 0.8125rem;">
-                <span class="material-symbols-outlined" style="font-size:18px; margin-right: 4px;">close</span> Reject
-              </button>
-            </form>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-  {% else %}
-  <div class="admin-empty">
-    <div class="admin-empty-icon-wrap" style="background: color-mix(in srgb, #4caf50 12%, transparent); color: #2e7d32; border-color: color-mix(in srgb, #4caf50 25%, transparent);">
-      <span class="material-symbols-outlined">done</span>
+<div class="admin-page-header">
+  <div class="admin-eyebrow">Moderation</div>
+  <div class="admin-page-header-row">
+    <div>
+      <h1>Account deletion requests</h1>
+      <p>Review pending account deletion requests. {{ pending_requests|length }} pending.</p>
     </div>
-    <h3>No Pending Requests</h3>
-    <p>There are no account deletion requests scheduled for processing at this time.</p>
-    <div class="admin-empty-actions">
+    <div class="admin-page-actions">
       <a href="{% url 'web:admin_dashboard' %}" class="md-btn md-btn-tonal">
         <span class="material-symbols-outlined">dashboard</span> Dashboard
       </a>
     </div>
   </div>
-  {% endif %}
 </div>
+
+{% if pending_requests %}
+<div class="admin-table-wrap">
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Requested</th>
+        <th>Scheduled Deletion</th>
+        <th>Reason</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for req in pending_requests %}
+      <tr>
+        <td>
+          <div class="admin-row-title">{{ req.user.display_name|default:req.user.username }}</div>
+          <div class="admin-row-sub">@{{ req.user.username }}</div>
+        </td>
+        <td>{{ req.created_at|time_ago }}</td>
+        <td>
+          <div class="admin-status bad">{{ req.scheduled_delete_at|time_ago }}</div>
+          <div class="admin-row-sub">30 days window</div>
+        </td>
+        <td>
+          {% if req.reason %}
+            <div>{{ req.reason }}</div>
+          {% else %}
+            <span class="admin-status neutral">No reason provided</span>
+          {% endif %}
+        </td>
+        <td class="admin-actions-cell" style="white-space: nowrap;">
+          <form method="post" action="{% url 'web:admin_process_deletion' request_id=req.id %}" style="display:inline;" onsubmit="return confirm('WARNING: Are you absolutely sure you want to permanently delete this user and all their associated data (except uploaded resources)? This action is irreversible.');">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="delete">
+            <button type="submit" class="md-btn md-btn-filled">
+              <span class="material-symbols-outlined" style="font-size:18px; margin-right: 4px;">delete_forever</span> Delete Data
+            </button>
+          </form>
+          <form method="post" action="{% url 'web:admin_process_deletion' request_id=req.id %}" style="display:inline;">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="reject">
+            <button type="submit" class="md-btn md-btn-outlined">
+              <span class="material-symbols-outlined" style="font-size:18px; margin-right: 4px;">close</span> Reject
+            </button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="admin-empty">
+  <div class="admin-empty-icon-wrap">
+    <span class="material-symbols-outlined">done</span>
+  </div>
+  <h3>No Pending Requests</h3>
+  <p>There are no account deletion requests scheduled for processing at this time.</p>
+  <div class="admin-empty-actions">
+    <a href="{% url 'web:admin_dashboard' %}" class="md-btn md-btn-tonal">
+      <span class="material-symbols-outlined">dashboard</span> Dashboard
+    </a>
+  </div>
+</div>
+{% endif %}
 {% endblock %}
 
 {% block extra_css %}

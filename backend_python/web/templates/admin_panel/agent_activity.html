@@ -8,33 +8,40 @@
 
 {% block content %}
 <div style="max-width:960px;margin:0 auto;">
-  <div class="admin-section-header" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-top:0;border-top:none;">
-    <div>
-      <h1 style="font-size:1.4rem;font-weight:700;margin:0;">Agent activity</h1>
-      <p style="color:var(--md-on-surface-variant);font-size:0.8125rem;margin:4px 0 0;">Heartbeat log for Neby and other autonomous personas.</p>
+  <div class="admin-page-header">
+    <div class="admin-page-header-row">
+      <div>
+        <div class="admin-eyebrow">AI &amp; Automation</div>
+        <h1>Agent activity</h1>
+        <p>Heartbeat log for Neby and other autonomous personas.</p>
+      </div>
+      <div class="admin-page-actions">
+        <form method="post" action="{% url 'web:admin_agent_tick' %}">
+          {% csrf_token %}
+          <button class="md-btn md-btn-filled" type="submit">Run tick now</button>
+        </form>
+      </div>
     </div>
-    <form method="post" action="{% url 'web:admin_agent_tick' %}">
-      {% csrf_token %}
-      <button class="md-btn md-btn-filled" type="submit">Run tick now</button>
-    </form>
   </div>
   {% if messages %}
   {% for msg in messages %}
   <div class="md-snackbar" style="position:relative;margin-bottom:16px;opacity:1;">{{ msg }}</div>
   {% endfor %}
   {% endif %}
-  <div class="agents-activity">
+  <div class="agents-activity admin-card">
     {% for act in recent_actions %}
-    <div class="agent-action-row">
+    <div class="admin-row-item">
       <span class="material-symbols-outlined">smart_toy</span>
-      <div>
-        <p><strong>@{{ act.persona.bot_config.bot_username }}</strong> {{ act.action_type }} — {{ act.content_preview|truncatechars:140 }}</p>
-        <small>{{ act.reasoning }} · {{ act.source }} · {{ act.status }}</small>
+      <div class="admin-row-main">
+        <div class="admin-row-title"><strong>@{{ act.persona.bot_config.bot_username }}</strong> {{ act.action_type }} — {{ act.content_preview|truncatechars:140 }}</div>
+        <div class="admin-row-sub">{{ act.reasoning }} · {{ act.source }} · {{ act.status }}</div>
       </div>
-      <small>{{ act.created_at|time_ago }}</small>
+      <div class="admin-row-meta">{{ act.created_at|time_ago }}</div>
     </div>
     {% empty %}
-    <p>No actions logged yet. Seed Neby, then run a tick.</p>
+    <div class="admin-empty">
+      <p>No actions logged yet. Seed Neby, then run a tick.</p>
+    </div>
     {% endfor %}
   </div>
 </div>

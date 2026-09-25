@@ -5,20 +5,23 @@
 
 {% block content %}
 <div style="max-width:720px;margin:0 auto;">
-  <div class="admin-back-link">
+  <div class="admin-crumb">
     <a href="{% url 'web:admin_bots' %}" class="md-btn md-btn-text">
       <span class="material-symbols-outlined" style="font-size:18px;">arrow_back</span>
       Back to Bots
     </a>
   </div>
 
-  <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px;">
+  <div class="admin-page-header">
+    <div class="admin-eyebrow">AI &amp; Automation</div>
+    <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px;">
     <span class="material-symbols-outlined" style="font-size:28px;color:#7C4DFF;">smart_toy</span>
     {% if is_new %}Add AI Bot{% else %}Edit: {{ config.name }}{% endif %}
   </h1>
   <p style="color:var(--md-on-surface-variant);margin-bottom:24px;">
     {% if is_new %}Create a new AI bot. It will respond to @username mentions in posts and replies.{% else %}Configure the bot. When enabled, it will reply to @{{ config.bot_username }} mentions.{% endif %}
   </p>
+  </div>
 
   {% if messages %}
   {% for msg in messages %}
@@ -30,8 +33,8 @@
     {% csrf_token %}
 
     {# === Identity Section === #}
-    <div style="background:var(--md-surface-container);border-radius:16px;padding:24px;margin-bottom:16px;">
-      <h2 style="font-size:1rem;font-weight:600;margin:0 0 16px;">Identity</h2>
+    <div class="admin-form-card">
+      <h2 class="admin-form-section-title">Identity</h2>
 
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
         <div>
@@ -105,8 +108,8 @@
     </div>
 
     {# === API Configuration Section === #}
-    <div style="background:var(--md-surface-container);border-radius:16px;padding:24px;margin-bottom:16px;">
-      <h2 style="font-size:1rem;font-weight:600;margin:0 0 16px;">API Configuration</h2>
+    <div class="admin-form-card">
+      <h2 class="admin-form-section-title">API Configuration</h2>
 
       <div style="margin-bottom:16px;">
         <label for="id_provider" class="admin-form-label">AI Provider</label>
@@ -141,8 +144,8 @@
     </div>
 
     {# === Fallback Providers Section === #}
-    <div style="background:var(--md-surface-container);border-radius:16px;padding:24px;margin-bottom:16px;">
-      <h2 style="font-size:1rem;font-weight:600;margin:0 0 4px;">Fallback Providers</h2>
+    <div class="admin-form-card">
+      <h2 class="admin-form-section-title">Fallback Providers</h2>
       <p class="admin-form-hint" style="margin:0 0 16px;">
         When the primary provider above fails (e.g. rate-limited or down), the bot tries
         these in order before giving up. Up to 5 entries.
@@ -156,8 +159,8 @@
     </div>
 
     {# === Behavior Section === #}
-    <div style="background:var(--md-surface-container);border-radius:16px;padding:24px;margin-bottom:16px;">
-      <h2 style="font-size:1rem;font-weight:600;margin:0 0 16px;">Behavior</h2>
+    <div class="admin-form-card">
+      <h2 class="admin-form-section-title">Behavior</h2>
 
       <div style="margin-bottom:16px;">
         <label for="id_system_prompt" class="admin-form-label">System Prompt</label>
@@ -182,8 +185,8 @@
 
     </div>
 
-    <div style="background:var(--md-surface-container);border-radius:16px;padding:24px;margin-bottom:16px;">
-      <h2 style="font-size:1rem;font-weight:600;margin:0 0 16px;">Autonomy & persona</h2>
+    <div class="admin-form-card">
+      <h2 class="admin-form-section-title">Autonomy &amp; persona</h2>
       <p class="admin-form-hint" style="margin-top:0;">When autonomy is on, this bot posts, comments, likes, and follows on a heartbeat — not only when @mentioned.</p>
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
         <div>

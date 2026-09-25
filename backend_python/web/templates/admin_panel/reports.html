@@ -4,43 +4,48 @@
 {% block title %}Reports{% endblock %}
 
 {% block content %}
-<div class="admin-header-bar">
-  <div>
-    <h1 class="md-headline-medium">Reports</h1>
-    <p class="md-body-medium" style="color:var(--md-on-surface-variant);margin-top:4px;">Review detailed reports from Android and the website.</p>
-  </div>
-  <form method="get" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-    <div class="search-bar" style="margin-bottom:0;">
-      <span class="material-symbols-outlined">search</span>
-      <input type="text" name="q" value="{{ search }}" placeholder="Search reports..." style="border:none;background:transparent;outline:none;color:var(--md-on-surface);font-family:var(--md-font);font-size:0.875rem;padding:8px 0;">
+<div class="admin-page-header">
+  <div class="admin-eyebrow">Moderation</div>
+  <div class="admin-page-header-row">
+    <div>
+      <h1>Reports</h1>
+      <p>Review detailed reports from Android and the website.</p>
     </div>
-    <select name="status" class="md-chip" style="border:1px solid var(--md-outline-variant);background:var(--md-surface);padding:8px 12px;">
-      <option value="">All statuses</option>
-      {% for value,label in status_choices %}
-      <option value="{{ value }}" {% if status_filter == value %}selected{% endif %}>{{ label }}</option>
-      {% endfor %}
-    </select>
-    <select name="type" class="md-chip" style="border:1px solid var(--md-outline-variant);background:var(--md-surface);padding:8px 12px;">
-      <option value="">All targets</option>
-      {% for value,label in type_choices %}
-      <option value="{{ value }}" {% if type_filter == value %}selected{% endif %}>{{ label }}</option>
-      {% endfor %}
-    </select>
-    <button type="submit" class="md-btn md-btn-filled" style="padding:8px 16px;">Filter</button>
-  </form>
+  </div>
+  <div class="admin-page-actions" style="margin-top:12px;">
+    <form method="get" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+      <div class="admin-search">
+        <span class="material-symbols-outlined">search</span>
+        <input type="text" name="q" value="{{ search }}" placeholder="Search reports..." aria-label="Search reports">
+      </div>
+      <select name="status" class="md-chip" style="border:1px solid var(--md-outline-variant);background:var(--md-surface);padding:8px 12px;">
+        <option value="">All statuses</option>
+        {% for value,label in status_choices %}
+        <option value="{{ value }}" {% if status_filter == value %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+      <select name="type" class="md-chip" style="border:1px solid var(--md-outline-variant);background:var(--md-surface);padding:8px 12px;">
+        <option value="">All targets</option>
+        {% for value,label in type_choices %}
+        <option value="{{ value }}" {% if type_filter == value %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+      <button type="submit" class="md-btn md-btn-filled" style="padding:8px 16px;">Filter</button>
+    </form>
+  </div>
 </div>
 
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:18px;">
-  <div class="md-card p-2"><div class="md-label-small">Open</div><strong>{{ counts.open }}</strong></div>
-  <div class="md-card p-2"><div class="md-label-small">Reviewing</div><strong>{{ counts.reviewing }}</strong></div>
-  <div class="md-card p-2"><div class="md-label-small">Resolved</div><strong>{{ counts.resolved }}</strong></div>
-  <div class="md-card p-2"><div class="md-label-small">Dismissed</div><strong>{{ counts.dismissed }}</strong></div>
-  <div class="md-card p-2"><div class="md-label-small">Total</div><strong>{{ counts.total }}</strong></div>
+<div class="admin-kpi-grid">
+  <div class="admin-kpi"><div class="admin-kpi-top"><span class="admin-kpi-icon"><span class="material-symbols-outlined">flag</span></span><span class="admin-kpi-label">Open</span></div><span class="admin-kpi-value">{{ counts.open }}</span></div>
+  <div class="admin-kpi"><div class="admin-kpi-top"><span class="admin-kpi-icon"><span class="material-symbols-outlined">visibility</span></span><span class="admin-kpi-label">Reviewing</span></div><span class="admin-kpi-value">{{ counts.reviewing }}</span></div>
+  <div class="admin-kpi"><div class="admin-kpi-top"><span class="admin-kpi-icon"><span class="material-symbols-outlined">check_circle</span></span><span class="admin-kpi-label">Resolved</span></div><span class="admin-kpi-value">{{ counts.resolved }}</span></div>
+  <div class="admin-kpi"><div class="admin-kpi-top"><span class="admin-kpi-icon"><span class="material-symbols-outlined">cancel</span></span><span class="admin-kpi-label">Dismissed</span></div><span class="admin-kpi-value">{{ counts.dismissed }}</span></div>
+  <div class="admin-kpi"><div class="admin-kpi-top"><span class="admin-kpi-icon"><span class="material-symbols-outlined">stacked_bar_chart</span></span><span class="admin-kpi-label">Total</span></div><span class="admin-kpi-value">{{ counts.total }}</span></div>
 </div>
 
 {% if reports %}
-<div class="md-table-responsive">
-  <table class="md-table">
+<div class="admin-table-wrap">
+  <table class="admin-table">
     <thead>
       <tr>
         <th>Report</th>
@@ -70,8 +75,8 @@
           {% endif %}
         </td>
         <td>{{ r.reporter.username|default:"Unknown" }}</td>
-        <td><span class="md-chip" style="font-size:0.75rem;">{{ r.reason }}</span></td>
-        <td><span class="md-chip" style="font-size:0.75rem;">{{ r.status }}</span></td>
+        <td><span class="admin-status neutral">{{ r.reason }}</span></td>
+        <td><span class="admin-status {% if r.status == 'open' %}warn{% elif r.status == 'reviewing' %}info{% elif r.status == 'resolved' %}ok{% else %}neutral{% endif %}">{{ r.status }}</span></td>
         <td style="font-size:0.75rem;">{{ r.created_at|time_ago }}</td>
         <td><a href="{% url 'web:admin_report_detail' report_id=r.id %}" class="md-btn md-btn-text" style="padding:4px 8px;font-size:0.75rem;">Open</a></td>
       </tr>
@@ -93,7 +98,7 @@
 <div class="admin-pagination-info">Showing {{ page_obj.start_index }}&ndash;{{ page_obj.end_index }} of {{ page_obj.paginator.count }}</div>
 {% else %}
 <div class="admin-empty">
-  <div class="admin-empty-icon-wrap" style="background: color-mix(in srgb, var(--md-primary) 12%, transparent); color: var(--md-primary); border-color: color-mix(in srgb, var(--md-primary) 25%, transparent);">
+  <div class="admin-empty-icon-wrap">
     <span class="material-symbols-outlined">flag</span>
   </div>
   <h3>No reports found</h3>

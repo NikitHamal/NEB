@@ -4,6 +4,11 @@
 {% block title %}Report Detail{% endblock %}
 
 {% block content %}
+<div class="admin-crumb">
+  <a href="{% url 'web:admin_reports' %}">Reports</a>
+  <span>/</span>
+  <span>Report {{ report.id }}</span>
+</div>
 <div class="admin-back-link">
   <a href="{% url 'web:admin_reports' %}" class="md-btn md-btn-text" style="padding-left:0;">
     <span class="material-symbols-outlined" style="font-size:18px;">arrow_back</span>
@@ -11,14 +16,15 @@
   </a>
 </div>
 
-<div class="md-card-elevated p-3 mb-3">
-  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+<div class="admin-card" style="margin-bottom:16px;">
+  <div class="admin-card-head">
     <div>
+      <div class="admin-eyebrow">Moderation</div>
       <h1 class="md-headline-small" style="margin:0 0 6px;">Report {{ report.id }}</h1>
       <div style="display:flex;gap:8px;flex-wrap:wrap;">
-        <span class="md-chip">{{ report.status }}</span>
-        <span class="md-chip">{{ report.reason }}</span>
-        <span class="md-chip">{{ report.target_type }}</span>
+        <span class="admin-status {% if report.status == 'open' %}warn{% elif report.status == 'reviewing' %}info{% elif report.status == 'resolved' %}ok{% else %}neutral{% endif %}">{{ report.status }}</span>
+        <span class="admin-status neutral">{{ report.reason }}</span>
+        <span class="admin-status neutral">{{ report.target_type }}</span>
       </div>
     </div>
     <form method="post" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
@@ -33,9 +39,9 @@
   </div>
 </div>
 
-<div style="display:grid;grid-template-columns:minmax(0,1.4fr) minmax(280px,.8fr);gap:16px;">
-  <div class="md-card-elevated p-3">
-    <h2 class="md-title-large" style="margin-bottom:12px;">Reported target</h2>
+<div class="admin-panel-grid">
+  <div class="admin-card">
+    <div class="admin-card-head"><h3>Reported target</h3></div>
     {% if target.exists %}
       <div style="font-weight:700;font-size:1.05rem;margin-bottom:6px;">{{ target.title }}</div>
       {% if target.author_name %}<div class="md-body-small" style="color:var(--md-on-surface-variant);margin-bottom:12px;">Author: {{ target.author_name }}</div>{% endif %}
@@ -46,15 +52,17 @@
       </div>
     {% else %}
       <div class="admin-empty" style="padding:24px;">
-        <span class="material-symbols-outlined">error_outline</span>
+        <div class="admin-empty-icon-wrap">
+          <span class="material-symbols-outlined">error_outline</span>
+        </div>
         <h3>Target missing</h3>
         <p>The reported {{ report.target_type }} with id {{ report.target_id }} no longer exists.</p>
       </div>
     {% endif %}
   </div>
 
-  <aside class="md-card-elevated p-3">
-    <h2 class="md-title-medium" style="margin-bottom:12px;">Report metadata</h2>
+  <aside class="admin-card">
+    <div class="admin-card-head"><h3>Report metadata</h3></div>
     <div style="display:grid;gap:10px;">
       <div><strong>Reporter</strong><br>{{ report.reporter.username|default:"Unknown" }}</div>
       <div><strong>Target ID</strong><br><code>{{ report.target_id }}</code></div>
@@ -65,8 +73,8 @@
   </aside>
 </div>
 
-<div class="md-card-elevated p-3 mt-3">
-  <h2 class="md-title-large" style="margin-bottom:12px;">Report details</h2>
+<div class="admin-card" style="margin-top:16px;">
+  <div class="admin-card-head"><h3>Report details</h3></div>
   {% if report.description %}
     <pre style="white-space:pre-wrap;font-family:var(--md-font);background:var(--md-surface-container-low);border:1px solid var(--md-outline-variant);border-radius:12px;padding:14px;margin:0;">{{ report.description }}</pre>
   {% else %}

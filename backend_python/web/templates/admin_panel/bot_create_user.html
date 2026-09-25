@@ -5,14 +5,16 @@
 
 {% block content %}
 <div style="max-width:600px;margin:0 auto;">
-  <div class="admin-back-link">
+  <div class="admin-crumb">
     <a href="{% url 'web:admin_bot_edit' bot_id=config.pk %}" class="md-btn md-btn-text">
       <span class="material-symbols-outlined" style="font-size:18px;">arrow_back</span>
       Back to Bot
     </a>
   </div>
 
-  <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px;">
+  <div class="admin-page-header">
+    <div class="admin-eyebrow">AI &amp; Automation</div>
+    <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px;">
     <span class="material-symbols-outlined" style="font-size:28px;color:#7C4DFF;">person_add</span>
     Create Bot User Account
   </h1>
@@ -20,6 +22,7 @@
     Create a user account for the bot <strong>{{ config.name }}</strong> (<code>@{{ config.bot_username }}</code>).
     This account will be marked as <code>is_bot=True</code> and will be used to post replies.
   </p>
+  </div>
 
   {% if messages %}
   {% for msg in messages %}
@@ -27,8 +30,8 @@
   {% endfor %}
   {% endif %}
 
-  <div style="background:var(--md-surface-container);border-radius:16px;padding:24px;margin-bottom:16px;">
-    <h2 style="font-size:1rem;font-weight:600;margin:0 0 16px;">Account Details</h2>
+  <div class="admin-form-card">
+    <h2 class="admin-form-section-title">Account Details</h2>
     <div style="display:grid;grid-template-columns:auto 1fr;gap:8px 16px;font-size:0.875rem;">
       <div style="color:var(--md-on-surface-variant);">Username:</div>
       <div style="font-weight:600;">@{{ config.bot_username }}</div>

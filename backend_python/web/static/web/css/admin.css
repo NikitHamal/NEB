@@ -1,5 +1,8 @@
 /* Admin shared styles entrypoint. */
+@import url("admin/00-tokens.css");
 @import url("admin/01-layout-forms-tables.css");
 @import url("admin/02-pagination-mobile-forms.css");
 @import url("admin/03-analytics.css");
 @import url("admin/04-polish.css");
+@import url("admin/05-shell.css");
+@import url("admin/06-components.css");

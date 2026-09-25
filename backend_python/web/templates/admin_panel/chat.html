@@ -6,7 +6,16 @@
 <link rel="stylesheet" href="{% static 'web/css/ai-widgets.css' %}">
 {% endblock %}
 {% block content %}
-<div id="admin-chat" class="admin-chat">
+<div class="admin-page-header">
+  <div class="admin-eyebrow">AI &amp; Automation</div>
+  <div class="admin-page-header-row">
+    <div>
+      <h1>AI chat test</h1>
+      <p>Provider proving ground. Streaming, reasoning, and tools render exactly as the widgets emit them.</p>
+    </div>
+  </div>
+</div>
+<div id="admin-chat" class="admin-chat admin-chat-shell">
   <div class="chat-sidebar">
     <h2 class="chat-sidebar-title">
       <span class="material-symbols-outlined">smart_toy</span>

@@ -3,20 +3,25 @@
 {% block title %}Resource Requests — Admin{% endblock %}
 
 {% block content %}
-<div class="admin-section">
-  <div class="admin-section-header">
-    <h1>Resource Requests</h1>
-    <div class="admin-filter-chips">
-      <a href="?status=open" class="md-chip {% if current_status == 'open' %}md-chip-active{% endif %}">Open</a>
-      <a href="?status=fulfilled" class="md-chip {% if current_status == 'fulfilled' %}md-chip-active{% endif %}">Fulfilled</a>
-      <a href="?status=closed" class="md-chip {% if current_status == 'closed' %}md-chip-active{% endif %}">Closed</a>
-      <a href="?status=" class="md-chip {% if not current_status %}md-chip-active{% endif %}">All</a>
+<div class="admin-page-header">
+  <div class="admin-eyebrow">Content</div>
+  <div class="admin-page-header-row">
+    <div>
+      <h1>Resource requests</h1>
+      <p>Track member requests for new study materials.</p>
     </div>
   </div>
+</div>
+<div class="admin-filter-tabs">
+  <a href="?status=open" class="{% if current_status == 'open' %}active{% endif %}">Open</a>
+  <a href="?status=fulfilled" class="{% if current_status == 'fulfilled' %}active{% endif %}">Fulfilled</a>
+  <a href="?status=closed" class="{% if current_status == 'closed' %}active{% endif %}">Closed</a>
+  <a href="?status=" class="{% if not current_status %}active{% endif %}">All</a>
+</div>
 
   {% if requests %}
   <div class="admin-table-wrap">
-    <table class="md-table">
+    <table class="admin-table">
       <thead>
         <tr>
           <th>Request</th>
@@ -41,7 +46,7 @@
           <td>{{ req.requested_by_name }}{% if req.requester_email %}<br><small>{{ req.requester_email }}</small>{% endif %}</td>
           <td>{{ req.upvote_count }}</td>
           <td>
-            <span class="admin-status admin-status-{{ req.status }}">{{ req.status|capfirst }}</span>
+            <span class="admin-status {% if req.status == 'open' %}ok{% elif req.status == 'fulfilled' %}info{% else %}neutral{% endif %}">{{ req.status|capfirst }}</span>
           </td>
           <td>{{ req.created_at|time_ago }}</td>
           <td>
@@ -69,7 +74,7 @@
   </div>
   {% else %}
   <div class="admin-empty">
-    <div class="admin-empty-icon-wrap" style="background: color-mix(in srgb, var(--md-secondary) 12%, transparent); color: var(--md-secondary); border-color: color-mix(in srgb, var(--md-secondary) 25%, transparent);">
+    <div class="admin-empty-icon-wrap">
       <span class="material-symbols-outlined">contact_support</span>
     </div>
     <h3>No requests found</h3>
@@ -81,7 +86,6 @@
     </div>
   </div>
   {% endif %}
-</div>
 {% endblock %}
 
 {% block extra_css %}

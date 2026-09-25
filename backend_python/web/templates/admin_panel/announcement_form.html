@@ -4,14 +4,20 @@
 {% block title %}{% if is_edit %}Edit{% else %}New{% endif %} Announcement{% endblock %}
 
 {% block content %}
-<div style="max-width:800px;margin:0 auto;">
-  <div style="margin-bottom:24px;">
-    <a href="{% url 'web:admin_announcements' %}" class="back-link" style="margin-bottom:12px;display:inline-flex;">
-      <span class="material-symbols-outlined">arrow_back</span>
-      Back to Announcements
-    </a>
-    <h1 class="md-headline-medium" style="margin:0;">{% if is_edit %}Edit{% else %}New{% endif %} Announcement</h1>
-  </div>
+<div class="admin-crumb">
+  <a href="{% url 'web:admin_announcements' %}">Blog &amp; updates</a>
+  <span>/</span>
+  <span>{% if is_edit %}Edit{% else %}New{% endif %}</span>
+</div>
+<div class="admin-page-header">
+  <a href="{% url 'web:admin_announcements' %}" class="back-link" style="margin-bottom:12px;display:inline-flex;">
+    <span class="material-symbols-outlined">arrow_back</span>
+    Back to Announcements
+  </a>
+  <div class="admin-eyebrow">Content</div>
+  <h1>{% if is_edit %}Edit{% else %}New{% endif %} announcement</h1>
+  <p>Write and publish updates for the NEBians community.</p>
+</div>
 
   {% if errors %}
   <div style="background:color-mix(10%,var(--md-error),transparent);border:1px solid color-mix(30%,var(--md-error),transparent);border-radius:12px;padding:12px 16px;margin-bottom:20px;">
@@ -27,10 +33,10 @@
   <form method="post">
     {% csrf_token %}
 
-    <div class="upload-section">
+    <div class="upload-section admin-form-card">
       <div class="upload-section-header">
         <span class="material-symbols-outlined">title</span>
-        <h2>Content</h2>
+        <h2 class="admin-form-section-title">Content</h2>
       </div>
       <div class="upload-field">
         <label class="md-label">Title <span style="color:var(--md-error);">*</span></label>
@@ -47,10 +53,10 @@
       </div>
     </div>
 
-    <div class="upload-section">
+    <div class="upload-section admin-form-card">
       <div class="upload-section-header">
         <span class="material-symbols-outlined">label</span>
-        <h2>Categorization</h2>
+        <h2 class="admin-form-section-title">Categorization</h2>
       </div>
       <div class="upload-row">
         <div class="upload-field upload-field-half">
@@ -88,10 +94,10 @@
       </div>
     </div>
 
-    <div class="upload-section">
+    <div class="upload-section admin-form-card">
       <div class="upload-section-header">
         <span class="material-symbols-outlined">image</span>
-        <h2>Cover &amp; Links (Optional)</h2>
+        <h2 class="admin-form-section-title">Cover &amp; links (optional)</h2>
       </div>
       <div class="upload-field">
         <label class="md-label">Cover Image URL</label>
@@ -112,5 +118,4 @@
       </button>
     </div>
   </form>
-</div>
 {% endblock %}

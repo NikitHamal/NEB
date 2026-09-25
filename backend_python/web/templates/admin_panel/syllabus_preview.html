@@ -5,54 +5,59 @@
 
 {% block content %}
 <div style="max-width:900px;margin:0 auto;">
-  <div style="margin-bottom:24px;">
-    <a href="{% url 'web:admin_syllabus_list' %}" class="back-link" style="margin-bottom:12px;display:inline-flex;">
+  <div class="admin-crumb">
+    <a href="{% url 'web:admin_syllabus_list' %}">
       <span class="material-symbols-outlined">arrow_back</span>
       All Chapters
     </a>
-    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:8px;">
-      <h1 class="md-headline-medium" style="margin:0;flex:1;">{{ syllabus.chapter_title }}</h1>
+  </div>
+  <div class="admin-page-header">
+    <div class="admin-eyebrow">{{ syllabus.grade_level }} &middot; {{ syllabus.subject }}</div>
+    <div class="admin-page-header-row">
+      <div>
+        <h1>{{ syllabus.chapter_title }}</h1>
+        <p>Chapter preview with guide content and solved questions.</p>
+      </div>
       {% if syllabus.id %}
-      <a href="{% url 'web:admin_syllabus_edit' entry_id=syllabus.id %}" class="md-btn md-btn-tonal" style="text-decoration:none;min-height:36px;">
-        <span class="material-symbols-outlined" style="font-size:18px;">edit</span>
-        Edit
-      </a>
+      <div class="admin-page-actions">
+        <a href="{% url 'web:admin_syllabus_edit' entry_id=syllabus.id %}" class="md-btn md-btn-tonal" style="text-decoration:none;">
+          <span class="material-symbols-outlined" style="font-size:18px;">edit</span>
+          Edit
+        </a>
+      </div>
       {% endif %}
     </div>
     <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;">
-      <span class="syllabus-subject-chip" style="background:var(--md-primary-container);color:var(--md-on-primary-container);">{{ syllabus.grade_level }}</span>
-      <span class="syllabus-subject-chip">{{ syllabus.subject }}</span>
-      <code style="font-size:0.75rem;background:var(--md-surface-container-high);padding:2px 8px;border-radius:4px;color:var(--md-on-surface-variant);">{{ syllabus.chapter_id }}</code>
-      <span style="font-size:0.75rem;color:var(--md-on-surface-variant);">Order: {{ syllabus.order }}</span>
+      <span class="admin-status info">{{ syllabus.grade_level }}</span>
+      <span class="admin-status neutral">{{ syllabus.subject }}</span>
+      <code style="font-size:0.75rem;">{{ syllabus.chapter_id }}</code>
+      <span class="admin-row-sub">Order: {{ syllabus.order }}</span>
     </div>
   </div>
 
   {% if siblings %}
-  <div class="md-card-elevated" style="background:var(--md-surface-container-low);padding:16px;margin-bottom:20px;">
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
-      <span class="material-symbols-outlined" style="font-size:20px;color:var(--md-primary);">menu_book</span>
-      <span class="md-label" style="font-weight:600;">{{ syllabus.grade_level }} &middot; {{ syllabus.subject }} &mdash; All Chapters</span>
+  <div class="admin-card" style="margin-bottom:20px;">
+    <div class="admin-card-head">
+      <h3>{{ syllabus.grade_level }} &middot; {{ syllabus.subject }} — All Chapters</h3>
     </div>
-    <div style="display:flex;flex-wrap:wrap;gap:6px;">
+    <div class="admin-filter-tabs">
       {% for sib in siblings %}
       {% if sib.id %}
-      <a href="{% url 'web:admin_syllabus_preview' entry_id=sib.id %}" style="display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:var(--md-radius-full);text-decoration:none;font-size:0.8125rem;font-weight:500;{% if sib.id == syllabus.id %}background:var(--md-primary-container);color:var(--md-on-primary-container);font-weight:600;{% else %}background:var(--md-surface-container);color:var(--md-on-surface-variant);{% endif %}transition:background 150ms ease;">
+      <a href="{% url 'web:admin_syllabus_preview' entry_id=sib.id %}" class="{% if sib.id == syllabus.id %}active{% endif %}">
+        {{ sib.order }} · {{ sib.chapter_title }}
+      </a>
       {% else %}
-      <span style="display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:var(--md-radius-full);font-size:0.8125rem;font-weight:500;background:var(--md-surface-container);color:var(--md-on-surface-variant);opacity:0.5;">
+      <a style="opacity:0.5;pointer-events:none;">{{ sib.order }} · {{ sib.chapter_title }}</a>
       {% endif %}
-        <span style="color:var(--md-on-surface-variant);font-size:0.75rem;">{{ sib.order }}</span>
-        {{ sib.chapter_title }}
-      {% if sib.id %}</a>{% else %}</span>{% endif %}
       {% endfor %}
     </div>
   </div>
   {% endif %}
 
   {% if syllabus.text_content %}
-  <div class="md-card-elevated" style="background:var(--md-surface-container-low);padding:24px;margin-bottom:20px;">
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
-      <span class="material-symbols-outlined" style="font-size:22px;color:var(--md-primary);">description</span>
-      <h2 style="margin:0;font-size:1.125rem;font-weight:600;color:var(--md-on-surface);">Syllabus Guide &amp; Summary</h2>
+  <div class="admin-card" style="margin-bottom:20px;">
+    <div class="admin-card-head">
+      <h3>Syllabus guide and summary</h3>
     </div>
     <div class="md-content" style="font-size:0.9375rem;line-height:1.7;">
       {{ syllabus.text_content|markdown }}
@@ -61,10 +66,9 @@
   {% endif %}
 
   {% if syllabus.question_answers %}
-  <div class="md-card-elevated" style="background:var(--md-surface-container-low);padding:24px;margin-bottom:20px;">
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
-      <span class="material-symbols-outlined" style="font-size:22px;color:var(--md-primary);">quiz</span>
-      <h2 style="margin:0;font-size:1.125rem;font-weight:600;color:var(--md-on-surface);">Solved Textbook Q&amp;As</h2>
+  <div class="admin-card" style="margin-bottom:20px;">
+    <div class="admin-card-head">
+      <h3>Solved textbook Q&amp;As</h3>
     </div>
     <div style="display:flex;flex-direction:column;gap:8px;">
       {% for block in syllabus.question_answers|parse_qa %}
@@ -83,15 +87,19 @@
   {% endif %}
 
   {% if not syllabus.text_content and not syllabus.question_answers %}
-  <div class="md-card-elevated" style="background:var(--md-surface-container-low);padding:48px 24px;text-align:center;">
-    <span class="material-symbols-outlined" style="font-size:48px;color:var(--md-on-surface-variant);opacity:0.5;">edit_note</span>
-    <h3 class="md-title-medium" style="margin:16px 0 8px;">No Content Yet</h3>
-    <p class="md-body-medium" style="color:var(--md-on-surface-variant);margin:0 0 16px;">This chapter has no guide or Q&amp;A content. Edit it to add content.</p>
+  <div class="admin-empty">
+    <div class="admin-empty-icon-wrap">
+      <span class="material-symbols-outlined">edit_note</span>
+    </div>
+    <h3>No content yet</h3>
+    <p>This chapter has no guide or Q&amp;A content. Edit it to add content.</p>
     {% if syllabus.id %}
-    <a href="{% url 'web:admin_syllabus_edit' entry_id=syllabus.id %}" class="md-btn md-btn-filled" style="text-decoration:none;">
-      <span class="material-symbols-outlined" style="font-size:18px;">edit</span>
-      Edit Chapter
-    </a>
+    <div class="admin-empty-actions">
+      <a href="{% url 'web:admin_syllabus_edit' entry_id=syllabus.id %}" class="md-btn md-btn-filled" style="text-decoration:none;">
+        <span class="material-symbols-outlined" style="font-size:18px;">edit</span>
+        Edit chapter
+      </a>
+    </div>
     {% endif %}
   </div>
   {% endif %}

@@ -3,39 +3,45 @@
 {% block title %}Resources{% endblock %}
 
 {% block content %}
-<div class="admin-header-bar">
-  <h1 class="md-headline-medium">Resources</h1>
-  <div style="display:flex;gap:8px;align-items:center;">
-    <a href="{% url 'web:admin_pending_resources' %}" class="md-btn md-btn-outlined" style="gap:6px;">
-      <span class="material-symbols-outlined" style="font-size:18px">pending_actions</span>
-      Pending{% if pending_count %} ({{ pending_count }}){% endif %}
-    </a>
-    <a href="{% url 'web:admin_resource_create' %}" class="md-btn md-btn-filled">
-      <span class="material-symbols-outlined" style="font-size:18px">add</span>
-      Add Resource
-    </a>
+<div class="admin-page-header">
+  <div class="admin-eyebrow">Content</div>
+  <div class="admin-page-header-row">
+    <div>
+      <h1>Resources</h1>
+      <p>Review, approve, and manage library resources.</p>
+    </div>
+    <div class="admin-page-actions">
+      <a href="{% url 'web:admin_pending_resources' %}" class="md-btn md-btn-outlined">
+        <span class="material-symbols-outlined" style="font-size:18px">pending_actions</span>
+        Pending{% if pending_count %} ({{ pending_count }}){% endif %}
+      </a>
+      <a href="{% url 'web:admin_resource_create' %}" class="md-btn md-btn-filled">
+        <span class="material-symbols-outlined" style="font-size:18px">add</span>
+        Add Resource
+      </a>
+    </div>
   </div>
 </div>
 
 <!-- Filters & Search -->
-<div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;align-items:center;overflow-x:hidden;">
+<div class="admin-page-actions" style="margin-bottom:16px;">
   <form method="get" style="flex:1;min-width:180px;">
-    <div class="search-bar">
+    <div class="admin-search">
       <span class="material-symbols-outlined">search</span>
-      <input type="text" name="q" value="{{ search }}" placeholder="Search resources...">
+      <input type="text" name="q" value="{{ search }}" placeholder="Search resources..." aria-label="Search resources">
     </div>
   </form>
-  <div style="display:flex;gap:6px;flex-wrap:wrap;">
-    <a href="{% url 'web:admin_resources' %}{% if search %}?q={{ search }}{% endif %}" class="md-btn {% if status_filter == '' %}md-btn-filled{% else %}md-btn-outlined{% endif %}" style="padding:6px 14px;font-size:0.8125rem;white-space:nowrap;">All</a>
-    <a href="?status=approved{% if search %}&q={{ search }}{% endif %}" class="md-btn {% if status_filter == 'approved' %}md-btn-filled{% else %}md-btn-outlined{% endif %}" style="padding:6px 14px;font-size:0.8125rem;white-space:nowrap;">Approved</a>
-    <a href="?status=pending{% if search %}&q={{ search }}{% endif %}" class="md-btn {% if status_filter == 'pending' %}md-btn-filled{% else %}md-btn-outlined{% endif %}" style="padding:6px 14px;font-size:0.8125rem;white-space:nowrap;">Pending</a>
-    <a href="?status=rejected{% if search %}&q={{ search }}{% endif %}" class="md-btn {% if status_filter == 'rejected' %}md-btn-filled{% else %}md-btn-outlined{% endif %}" style="padding:6px 14px;font-size:0.8125rem;white-space:nowrap;">Rejected</a>
-  </div>
+</div>
+<div class="admin-filter-tabs">
+    <a href="{% url 'web:admin_resources' %}{% if search %}?q={{ search }}{% endif %}" class="{% if status_filter == '' %}active{% endif %}">All</a>
+    <a href="?status=approved{% if search %}&q={{ search }}{% endif %}" class="{% if status_filter == 'approved' %}active{% endif %}">Approved</a>
+    <a href="?status=pending{% if search %}&q={{ search }}{% endif %}" class="{% if status_filter == 'pending' %}active{% endif %}">Pending</a>
+    <a href="?status=rejected{% if search %}&q={{ search }}{% endif %}" class="{% if status_filter == 'rejected' %}active{% endif %}">Rejected</a>
 </div>
 
 {% if resources %}
-<div class="md-table-responsive">
-  <table class="md-table">
+<div class="admin-table-wrap">
+  <table class="admin-table">
     <thead>
       <tr>
         <th>Title</th>
@@ -62,11 +68,11 @@
         <td class="col-type">{{ r.type }}</td>
         <td>
           {% if r.approval_status == 'approved' %}
-          <span class="admin-badge admin-badge-approved">Approved</span>
+          <span class="admin-status ok">Approved</span>
           {% elif r.approval_status == 'pending' %}
-          <span class="admin-badge admin-badge-pending">Pending</span>
+          <span class="admin-status warn">Pending</span>
           {% elif r.approval_status == 'rejected' %}
-          <span class="admin-badge admin-badge-rejected">Rejected</span>
+          <span class="admin-status bad">Rejected</span>
           {% endif %}
         </td>
         <td class="col-views">{{ r.view_count }}</td>
@@ -111,7 +117,7 @@
 </div>
 {% else %}
 <div class="admin-empty">
-  <div class="admin-empty-icon-wrap" style="background: color-mix(in srgb, var(--md-primary) 12%, transparent); color: var(--md-primary); border-color: color-mix(in srgb, var(--md-primary) 25%, transparent);">
+  <div class="admin-empty-icon-wrap">
     <span class="material-symbols-outlined">auto_stories</span>
   </div>
   <h3>No resources found</h3>

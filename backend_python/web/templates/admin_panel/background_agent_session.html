@@ -8,6 +8,7 @@
 {% endblock %}
 
 {% block content %}
+<div class="admin-crumb" aria-label="Breadcrumb"><a href="{% url 'web:background_agent' %}">Background agent</a><span aria-hidden="true">/</span><span>Session</span></div>
 <div id="background-agent-session"
      class="ba-session-app"
      data-session-id="{{ session_id }}"

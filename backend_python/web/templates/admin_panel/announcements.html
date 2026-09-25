@@ -4,20 +4,23 @@
 {% block title %}Blog &amp; Updates{% endblock %}
 
 {% block content %}
-<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px;">
-  <div>
-    <h1 class="md-headline-medium" style="margin:0;">Blog &amp; Updates</h1>
-    <p class="md-body-small" style="color:var(--md-on-surface-variant);margin:4px 0 0;">Publish blog articles, exam result updates, and notices for the NEBians community.</p>
-  </div>
-  <div style="display:flex;align-items:center;gap:10px;">
-    <button type="button" class="md-btn md-btn-outlined" id="openNebyDraftModalBtn" style="border-color:var(--md-primary);color:var(--md-primary);display:inline-flex;align-items:center;gap:6px;">
-      <span class="material-symbols-outlined" style="font-size:18px;">auto_awesome</span>
-      Draft with Neby
-    </button>
-    <a href="{% url 'web:admin_announcement_new' %}" class="md-btn md-btn-filled">
-      <span class="material-symbols-outlined">add</span>
-      New Blog Post
-    </a>
+<div class="admin-page-header">
+  <div class="admin-eyebrow">Content</div>
+  <div class="admin-page-header-row">
+    <div>
+      <h1>Blog &amp; updates</h1>
+      <p>Publish blog articles, exam result updates, and notices for the NEBians community.</p>
+    </div>
+    <div class="admin-page-actions">
+      <button type="button" class="md-btn md-btn-outlined" id="openNebyDraftModalBtn">
+        <span class="material-symbols-outlined" style="font-size:18px;">auto_awesome</span>
+        Draft with Neby
+      </button>
+      <a href="{% url 'web:admin_announcement_new' %}" class="md-btn md-btn-filled">
+        <span class="material-symbols-outlined">add</span>
+        New Blog Post
+      </a>
+    </div>
   </div>
 </div>
 
@@ -49,7 +52,7 @@
           </span>
         </td>
         <td>
-          <span class="admin-chip admin-chip-{{ a.status }}">
+          <span class="admin-status {% if a.status == 'published' %}ok{% elif a.status == 'draft' %}warn{% else %}neutral{% endif %}">
             {% if a.status == 'published' %}<span class="material-symbols-outlined" style="font-size:13px;">check_circle</span>{% elif a.status == 'draft' %}<span class="material-symbols-outlined" style="font-size:13px;">edit_document</span>{% endif %}
             {{ a.status|title }}
           </span>
@@ -94,14 +97,18 @@
   </table>
 </div>
 {% else %}
-<div class="empty-state" style="padding:48px 24px;text-align:center;">
-  <span class="material-symbols-outlined" style="font-size:48px;color:var(--md-on-surface-variant);">newspaper</span>
+<div class="admin-empty">
+  <div class="admin-empty-icon-wrap">
+    <span class="material-symbols-outlined">newspaper</span>
+  </div>
   <h3>No announcements yet</h3>
-  <p style="color:var(--md-on-surface-variant);">Create your first announcement to publish news for the community.</p>
-  <a href="{% url 'web:admin_announcement_new' %}" class="md-btn md-btn-filled" style="margin-top:12px;">
-    <span class="material-symbols-outlined">add</span>
-    New Announcement
-  </a>
+  <p>Create your first announcement to publish news for the community.</p>
+  <div class="admin-empty-actions">
+    <a href="{% url 'web:admin_announcement_new' %}" class="md-btn md-btn-filled">
+      <span class="material-symbols-outlined">add</span>
+      New Announcement
+    </a>
+  </div>
 </div>
 {% endif %}
 

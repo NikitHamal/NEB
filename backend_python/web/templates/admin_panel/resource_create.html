@@ -4,17 +4,21 @@
 {% block title %}Add Resource{% endblock %}
 
 {% block content %}
-<div style="max-width:680px;margin:0 auto;">
-  <div style="margin-bottom:24px;">
-    <a href="{% url 'web:admin_resources' %}" class="back-link" style="margin-bottom:12px;display:inline-flex;">
-      <span class="material-symbols-outlined">arrow_back</span>
-      Back to Resources
-    </a>
-    <h2 class="md-headline-medium" style="margin:0;">Add New Resource</h2>
-    <p style="margin:6px 0 0;color:var(--md-on-surface-variant);font-size:0.875rem;line-height:1.5;">
-      Create a new resource on behalf of the library. Admin-created resources are published immediately.
-    </p>
-  </div>
+<div class="admin-crumb">
+  <a href="{% url 'web:admin_resources' %}">Resources</a>
+  <span>/</span>
+  <span>New</span>
+</div>
+<div class="admin-page-header">
+  <a href="{% url 'web:admin_resources' %}" class="back-link" style="margin-bottom:12px;display:inline-flex;">
+    <span class="material-symbols-outlined">arrow_back</span>
+    Back to Resources
+  </a>
+  <div class="admin-eyebrow">Content</div>
+  <h1>Add new resource</h1>
+  <p>Create a new resource on behalf of the library. Admin-created resources are published immediately.</p>
+</div>
+<div style="max-width:680px;">
 
   {% if errors %}
   <div class="upload-errors">
@@ -28,10 +32,10 @@
     {% csrf_token %}
     <input type="hidden" id="subject-hidden" name="subject" value="{{ form_data.subject|default:'' }}">
 
-    <div class="upload-section">
+    <div class="upload-section admin-form-card">
       <div class="upload-section-header">
         <span class="material-symbols-outlined">description</span>
-        <h2>Basic Info</h2>
+        <h2 class="admin-form-section-title">Basic info</h2>
       </div>
 
       <div class="upload-field">
@@ -157,10 +161,10 @@
       </div>
     </details>
 
-    <div class="upload-section">
+    <div class="upload-section admin-form-card">
       <div class="upload-section-header">
         <span class="material-symbols-outlined">upload_file</span>
-        <h2>Upload File</h2>
+        <h2 class="admin-form-section-title">Upload file</h2>
       </div>
 
       <div class="upload-field">
@@ -199,10 +203,10 @@
       </div>
     </div>
 
-    <div class="upload-section">
+    <div class="upload-section admin-form-card">
       <div class="upload-section-header">
         <span class="material-symbols-outlined">person</span>
-        <h2>Attribution</h2>
+        <h2 class="admin-form-section-title">Attribution</h2>
       </div>
 
       <div class="upload-field">

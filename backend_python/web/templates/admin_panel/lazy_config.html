@@ -7,16 +7,12 @@
 <div style="max-width:1000px;margin:0 auto;">
   <!-- Header -->
   <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:24px;">
-    <div>
-      <h1 style="font-size:1.5rem;font-weight:700;margin:0 0 6px;display:flex;align-items:center;gap:10px;">
-        <span class="material-symbols-outlined" style="font-size:30px;color:#7C4DFF;">edit_document</span>
-        Lazy AI Engine Configuration
-      </h1>
-      <p style="color:var(--md-on-surface-variant);margin:0;font-size:0.875rem;">
-        Configure models, fallback provider chains, system prompts, and reasoning modes for the <code>/lazy/</code> agentic document workspace.
-      </p>
+    <div class="admin-page-header" style="margin-bottom:0;">
+      <div class="admin-eyebrow">AI &amp; Automation</div>
+      <h1>Lazy AI Engine Configuration</h1>
+      <p>Configure models, fallback provider chains, system prompts, and reasoning modes for the <code>/lazy/</code> agentic document workspace.</p>
     </div>
-    <div style="display:flex;align-items:center;gap:8px;">
+    <div class="admin-page-actions">
       <a href="/lazy/" target="_blank" class="md-btn md-btn-filled" style="background:#7C4DFF;display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-weight:600;">
         <span class="material-symbols-outlined" style="font-size:18px;">open_in_new</span>
         Open Lazy Workspace
@@ -33,18 +29,18 @@
   {% endif %}
 
   <!-- KPI Stat Cards -->
-  <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:14px;margin-bottom:28px;">
-    <div style="background:var(--md-surface-container);border-radius:14px;padding:18px;border:1px solid rgba(255,255,255,0.06);">
-      <div style="color:var(--md-on-surface-variant);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Total Workspace Sessions</div>
-      <div style="font-size:1.75rem;font-weight:700;color:var(--md-on-surface);">{{ total_sessions }}</div>
+  <div class="admin-kpi-grid">
+    <div class="admin-kpi">
+      <div class="admin-kpi-label">Total Workspace Sessions</div>
+      <div class="admin-kpi-value">{{ total_sessions }}</div>
     </div>
-    <div style="background:var(--md-surface-container);border-radius:14px;padding:18px;border:1px solid rgba(255,255,255,0.06);">
-      <div style="color:var(--md-on-surface-variant);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Documents Drafted</div>
-      <div style="font-size:1.75rem;font-weight:700;color:#00E676;">{{ total_docs }}</div>
+    <div class="admin-kpi">
+      <div class="admin-kpi-label">Documents Drafted</div>
+      <div class="admin-kpi-value">{{ total_docs }}</div>
     </div>
-    <div style="background:var(--md-surface-container);border-radius:14px;padding:18px;border:1px solid rgba(255,255,255,0.06);">
-      <div style="color:var(--md-on-surface-variant);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Total Messages Processed</div>
-      <div style="font-size:1.75rem;font-weight:700;color:#7C4DFF;">{{ total_messages }}</div>
+    <div class="admin-kpi">
+      <div class="admin-kpi-label">Total Messages Processed</div>
+      <div class="admin-kpi-value">{{ total_messages }}</div>
     </div>
   </div>
 
@@ -54,12 +50,12 @@
     <input type="hidden" name="action" value="save_modes">
 
     <!-- Neby Pro (Smart Mode) Card -->
-    <div style="background:var(--md-surface-container);border-radius:16px;padding:24px;margin-bottom:20px;border:1px solid rgba(124, 77, 255, 0.2);">
+    <div class="admin-form-card">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
         <div style="display:flex;align-items:center;gap:10px;">
           <span class="material-symbols-outlined" style="color:#7C4DFF;font-size:24px;">auto_awesome</span>
           <div>
-            <h2 style="font-size:1.125rem;font-weight:600;margin:0;">Neby Pro (Smart / Research Mode)</h2>
+            <h2 class="admin-form-section-title">Neby Pro (Smart / Research Mode)</h2>
             <p style="color:var(--md-on-surface-variant);font-size:0.8125rem;margin:2px 0 0;">
               High-intelligence reasoning engine for assignments, solved numericals, mathematical derivations, and research papers.
             </p>
@@ -107,12 +103,12 @@
     </div>
 
     <!-- Neby Fast (Speed Mode) Card -->
-    <div style="background:var(--md-surface-container);border-radius:16px;padding:24px;margin-bottom:24px;border:1px solid rgba(0, 230, 118, 0.2);">
+    <div class="admin-form-card">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
         <div style="display:flex;align-items:center;gap:10px;">
           <span class="material-symbols-outlined" style="color:#00E676;font-size:24px;">bolt</span>
           <div>
-            <h2 style="font-size:1.125rem;font-weight:600;margin:0;">Neby Fast (Instant Speed Mode)</h2>
+            <h2 class="admin-form-section-title">Neby Fast (Instant Speed Mode)</h2>
             <p style="color:var(--md-on-surface-variant);font-size:0.8125rem;margin:2px 0 0;">
               Ultra-low latency streaming model for quick drafts, summaries, outline restructuring, and light editing.
             </p>
@@ -168,13 +164,10 @@
     {% csrf_token %}
     <input type="hidden" name="action" value="save_prompts">
 
-    <div style="background:var(--md-surface-container);border-radius:16px;padding:24px;margin-bottom:16px;">
+    <div class="admin-form-card">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
         <div>
-          <h2 style="font-size:1.125rem;font-weight:600;margin:0;display:flex;align-items:center;gap:8px;">
-            <span class="material-symbols-outlined" style="color:#7C4DFF;font-size:22px;">terminal</span>
-            Academic Engine Prompts &amp; Personas
-          </h2>
+          <h2 class="admin-form-section-title">Academic Engine Prompts &amp; Personas</h2>
           <p style="color:var(--md-on-surface-variant);font-size:0.8125rem;margin:2px 0 0;">
             Customize instructions for document drafting, derivations, step-by-step numerical solving, and conversational replies.
           </p>
@@ -218,41 +211,38 @@
   </form>
 
   <!-- Recent Lazy Sessions -->
-  <div style="background:var(--md-surface-container);border-radius:16px;padding:24px;margin-bottom:32px;">
-    <h2 style="font-size:1.125rem;font-weight:600;margin:0 0 16px;display:flex;align-items:center;gap:8px;">
-      <span class="material-symbols-outlined" style="font-size:22px;color:#7C4DFF;">history</span>
-      Recent Lazy Sessions
-    </h2>
+  <div class="admin-form-card">
+    <h2 class="admin-form-section-title">Recent Lazy Sessions</h2>
     {% if recent_sessions %}
-    <div style="overflow-x:auto;">
-      <table class="md-table" style="width:100%;border-collapse:collapse;font-size:0.875rem;">
+    <div class="admin-table-wrap">
+      <table class="admin-table">
         <thead>
-          <tr style="border-bottom:1px solid rgba(255,255,255,0.1);text-align:left;">
-            <th style="padding:10px;">User</th>
-            <th style="padding:10px;">Session Title</th>
-            <th style="padding:10px;">Document Title</th>
-            <th style="padding:10px;text-align:center;">Messages</th>
-            <th style="padding:10px;text-align:center;">Has Doc</th>
+          <tr>
+            <th>User</th>
+            <th>Session Title</th>
+            <th>Document Title</th>
+            <th>Messages</th>
+            <th>Has Doc</th>
           </tr>
         </thead>
         <tbody>
           {% for s in recent_sessions %}
-          <tr style="border-bottom:1px solid rgba(255,255,255,0.04);">
-            <td style="padding:10px;">
+          <tr>
+            <td>
               {% if s.user %}
               <strong>@{{ s.user.username }}</strong>
               {% else %}
               <span style="color:var(--md-on-surface-variant);">Anonymous</span>
               {% endif %}
             </td>
-            <td style="padding:10px;">{{ s.title|default:"New chat"|truncatechars:40 }}</td>
-            <td style="padding:10px;color:#7C4DFF;">{{ s.doc_title|default:"—"|truncatechars:40 }}</td>
-            <td style="padding:10px;text-align:center;">{{ s.message_count }}</td>
-            <td style="padding:10px;text-align:center;">
+            <td>{{ s.title|default:"New chat"|truncatechars:40 }}</td>
+            <td>{{ s.doc_title|default:"—"|truncatechars:40 }}</td>
+            <td>{{ s.message_count }}</td>
+            <td>
               {% if s.doc_html %}
-              <span style="color:#00E676;font-weight:600;">✓ Yes</span>
+              <span class="admin-status ok">Yes</span>
               {% else %}
-              <span style="color:var(--md-on-surface-variant);">No</span>
+              <span class="admin-status neutral">No</span>
               {% endif %}
             </td>
           </tr>
@@ -261,7 +251,9 @@
       </table>
     </div>
     {% else %}
-    <p style="color:var(--md-on-surface-variant);font-size:0.875rem;margin:0;">No sessions recorded yet.</p>
+    <div class="admin-empty">
+      <p>No sessions recorded yet.</p>
+    </div>
     {% endif %}
   </div>
 </div>
