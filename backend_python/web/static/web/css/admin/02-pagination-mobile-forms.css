@@ -1,369 +1,225 @@
-/* --- Pagination --- */
-.admin-pagination {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    margin-top: 24px;
-    padding: 16px 0;
-}
-
-.admin-pagination a,
-.admin-pagination span {
-    padding: 6px 12px;
-    border-radius: 8px;
-    font-size: 0.875rem;
-}
-
-.admin-pagination a {
-    color: var(--md-on-surface);
-    text-decoration: none;
-}
-
-.admin-pagination a:hover {
-    background: var(--md-surface-container);
-}
-
-.admin-pagination .active {
-    background: var(--md-primary);
-    color: var(--md-on-primary);
-    font-weight: 600;
-}
-
-.admin-pagination .disabled {
-    color: var(--md-on-surface-variant);
-    opacity: 0.5;
-    pointer-events: none;
-}
-
-.admin-pagination-info {
-    color: var(--md-on-surface-variant);
-    font-size: 0.8125rem;
-    margin-left: auto;
-}
-
-/* --- View All Link --- */
-.admin-view-all {
-    font-size: 0.75rem;
-    padding: 4px 8px;
-}
+/* Admin: skip link, shared flat overrides, mobile, upload form sections.
+   Pagination lives in 06-components.css (single source). Motion is owned by
+   00-tokens.css — this file must NOT blanket-disable transitions. */
 
 /* --- Accessibility Skip Link --- */
 .skip-link {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-    z-index: 10000;
-    background: var(--md-primary);
-    color: var(--md-on-primary);
-    font-size: 0.875rem;
-    font-weight: 600;
-    text-decoration: none;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  z-index: 10000;
+  background: var(--md-primary);
+  color: var(--md-on-primary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
 }
-
 .skip-link:focus {
-    width: auto;
-    height: auto;
-    padding: 8px 16px;
-    margin: 0;
-    clip-path: none;
-    overflow: visible;
-    white-space: normal;
-    top: 0;
-    left: 16px;
-    border-radius: 0 0 8px 8px;
-    outline: none;
+  width: auto;
+  height: auto;
+  padding: 8px 16px;
+  margin: 0;
+  clip-path: none;
+  overflow: visible;
+  white-space: normal;
+  top: 0;
+  left: 16px;
+  border-radius: 0 0 8px 8px;
+  outline: none;
 }
 
 /* --- Flat Admin Design overrides (Remove excessive shadows) --- */
 .admin-layout .md-card-elevated {
-    box-shadow: none !important;
-    background: var(--md-surface-container-low);
-    border: 1px solid var(--md-outline-variant);
-}
-
-/* Disable all transitions and animations in admin panel components to keep it flat and instant */
-.admin-layout *,
-.md-topbar *,
-.admin-mobile-nav * {
-    transition: none !important;
-    animation: none !important;
+  box-shadow: none;
+  background: var(--md-surface-container-low);
+  border: 1px solid var(--md-outline-variant);
 }
 
 /* Truncate long md-chip text inside tables to keep layout clean */
 .md-table .md-chip {
-    max-width: 180px;
-    display: inline-block;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    vertical-align: middle;
-    text-align: center;
+  max-width: 180px;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+  text-align: center;
 }
 
-/* --- Mobile Responsive --- */
-@media (max-width: 768px) {
-.admin-content {
-    padding: 16px 12px;
-    overflow-x: hidden;
-}
-
-    .admin-section-header {
-        flex-direction: column;
-        align-items: flex-start !important;
-        gap: 8px;
-    }
-
-    .admin-section-header h1 {
-        font-size: 1.25rem;
-    }
-
-    .admin-section-header .admin-count {
-        font-size: 0.75rem;
-    }
-
-    .admin-table-wrap {
-        margin: 0 -12px;
-        padding: 0 8px;
-    }
-
-    .md-table th,
-    .md-table td {
-        padding: 8px 10px;
-        font-size: 0.8125rem;
-    }
-
-    .md-table .col-subject,
-    .md-table .col-grade,
-    .md-table .col-type,
-    .md-table .col-views,
-    .md-table .col-submitted {
-        display: none;
-    }
-
-    .md-table .admin-actions-cell {
-        white-space: normal;
-        flex-wrap: wrap;
-        display: flex;
-        gap: 2px;
-    }
-
-    .md-table .admin-actions-cell .md-btn {
-        font-size: 0.75rem;
-        padding: 4px 8px;
-        min-height: 28px;
-    }
-
-    .md-table .admin-actions-cell .md-btn .material-symbols-outlined {
-        font-size: 16px;
-    }
-
-    .admin-stat-row {
-        flex-wrap: wrap;
-    }
-
-    .admin-bar-label {
-        width: 100px;
-        font-size: 0.6875rem;
-    }
-
-    .admin-section-card {
-        padding: 16px;
-        border-radius: 12px;
-    }
-
-    .admin-section-card-highlight {
-        padding: 12px;
-    }
-
-    .stats-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 8px !important;
-    }
-
-    .stat-card {
-        padding: 12px !important;
-    }
-
-    .stat-card .stat-value {
-        font-size: 1.25rem !important;
-    }
-
-    .stat-card .stat-label {
-        font-size: 0.6875rem !important;
-    }
-
-    .admin-grid-2 {
-        grid-template-columns: 1fr;
-    }
-
-    .admin-grid-3 {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .admin-container-narrow,
-    .admin-container-medium {
-        max-width: 100%;
-    }
-
-    .admin-pagination {
-        flex-wrap: wrap;
-        gap: 4px;
-    }
-
-    .admin-pagination a,
-    .admin-pagination span {
-        padding: 4px 8px;
-        font-size: 0.75rem;
-    }
-
-    .admin-pagination-info {
-        width: 100%;
-        text-align: center;
-        margin-left: 0;
-        margin-top: 8px;
-    }
-
-    .reject-modal-content {
-        max-width: 100%;
-        width: 95%;
-        padding: 16px;
-    }
-
-    .admin-empty {
-        padding: 32px 20px;
-        border-radius: 16px;
-    }
-
-    .admin-empty-icon-wrap {
-        width: 64px;
-        height: 64px;
-        border-radius: 16px;
-    }
-
-    .admin-empty-icon-wrap .material-symbols-outlined {
-        font-size: 28px;
-    }
-
-    .admin-empty h3 {
-        font-size: 1.125rem;
-    }
-
-    .admin-empty p {
-        font-size: 0.8125rem;
-    }
-
-    .admin-cell-title {
-        max-width: 160px;
-    }
-
-    .md-topbar-brand span {
-        display: none;
-    }
-}
-
-@media (max-width: 480px) {
-    .admin-content {
-        padding: 12px 8px;
-        overflow-x: hidden;
-    }
-
-    .stats-grid {
-        grid-template-columns: 1fr 1fr !important;
-    }
-
-    .md-table th,
-    .md-table td {
-        padding: 6px 8px;
-    }
-
-    .admin-grid-3 {
-        grid-template-columns: 1fr;
-    }
-
-    .admin-section-card {
-        padding: 12px;
-    }
+/* --- View All Link --- */
+.admin-view-all {
+  font-size: 0.75rem;
+  padding: 4px 8px;
 }
 
 /* --- Admin Form Sections (shared by resource edit & syllabus) --- */
 .upload-section {
-    background: var(--md-surface-container-low);
-    border: 1px solid var(--md-outline-variant);
-    border-radius: 16px;
-    padding: 20px;
-    margin-bottom: 16px;
+  background: var(--md-surface-container-low);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
 }
 .upload-section-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
 }
 .upload-section-header .material-symbols-outlined {
-    font-size: 22px;
-    color: var(--md-primary);
+  font-size: 22px;
+  color: var(--md-primary);
 }
 .upload-section-header h2 {
-    font-size: 1.125rem;
-    font-weight: 600;
-    margin: 0;
-    color: var(--md-on-surface);
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--md-on-surface);
+  letter-spacing: -0.01em;
 }
 .upload-field {
-    margin-bottom: 16px;
+  margin-bottom: 16px;
 }
 .upload-field:last-child {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 .upload-row {
-    display: flex;
-    gap: 12px;
+  display: flex;
+  gap: 12px;
 }
 .upload-field-half {
-    flex: 1;
+  flex: 1;
 }
 .upload-hint {
-    font-size: 0.8125rem;
-    color: var(--md-on-surface-variant);
-    margin-top: 4px;
+  font-size: 0.8125rem;
+  color: var(--md-on-surface-variant);
+  margin-top: 4px;
 }
 .upload-actions {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 12px;
-    margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 8px;
 }
 .upload-details-badge {
-    font-size: 0.6875rem;
-    font-weight: 500;
-    background: var(--md-primary-container);
-    color: var(--md-on-primary-container);
-    padding: 2px 8px;
-    border-radius: 8px;
-    margin-left: 8px;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  background: var(--md-primary-container);
+  color: var(--md-on-primary-container);
+  padding: 2px 8px;
+  border-radius: 8px;
+  margin-left: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
 }
 .back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    color: var(--md-primary);
-    text-decoration: none;
-    font-size: 0.875rem;
-    font-weight: 500;
-    margin-bottom: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--md-primary);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 8px;
 }
 .back-link:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 .back-link .material-symbols-outlined {
-    font-size: 18px;
+  font-size: 18px;
+}
+
+/* --- Mobile Responsive --- */
+@media (max-width: 768px) {
+  .admin-section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .admin-section-header h1 {
+    font-size: 1.25rem;
+  }
+  .admin-section-header .admin-count {
+    font-size: 0.75rem;
+  }
+  .admin-table-wrap {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .md-table th,
+  .md-table td {
+    padding: 8px 10px;
+    font-size: 0.8125rem;
+  }
+  .md-table .col-subject,
+  .md-table .col-grade,
+  .md-table .col-type,
+  .md-table .col-views,
+  .md-table .col-submitted {
+    display: none;
+  }
+  .md-table .admin-actions-cell {
+    white-space: normal;
+    flex-wrap: wrap;
+    display: flex;
+    gap: 2px;
+  }
+  .md-table .admin-actions-cell .md-btn {
+    font-size: 0.75rem;
+    padding: 4px 8px;
+    min-height: 28px;
+  }
+  .md-table .admin-actions-cell .md-btn .material-symbols-outlined {
+    font-size: 16px;
+  }
+  .admin-section-card {
+    padding: 16px;
+    border-radius: 12px;
+  }
+  .admin-section-card-highlight {
+    padding: 12px;
+  }
+  .admin-grid-2 {
+    grid-template-columns: 1fr;
+  }
+  .admin-grid-3 {
+    grid-template-columns: 1fr 1fr;
+  }
+  .admin-container-narrow,
+  .admin-container-medium {
+    max-width: 100%;
+  }
+  .reject-modal-content {
+    max-width: 100%;
+    width: 95%;
+    padding: 16px;
+  }
+  .admin-cell-title {
+    max-width: 160px;
+  }
+  .md-topbar-brand span {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .md-table th,
+  .md-table td {
+    padding: 6px 8px;
+  }
+  .admin-grid-3 {
+    grid-template-columns: 1fr;
+  }
+  .admin-section-card {
+    padding: 12px;
+  }
 }

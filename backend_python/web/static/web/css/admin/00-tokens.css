@@ -1,12 +1,19 @@
 /* Admin design tokens — calm operate-mode console.
-   Single accent (M3 primary). Numbers always tabular. */
-.admin-content,
-.admin-shell {
+   Single accent (M3 primary). Numbers always tabular.
+   Scoped to body.admin-body so the topbar + sidebar + content all inherit. */
+body.admin-body {
+  --admin-topbar-h: 56px;
+  --admin-sidebar-w: 232px;
   --admin-max: 1400px;
   --admin-radius-sm: 8px;
   --admin-radius-md: 12px;
   --admin-radius-lg: 16px;
-  --admin-ease: cubic-bezier(0.2, 0, 0, 1);
+  --admin-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --admin-ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --admin-ease: var(--admin-ease-out);
+  --admin-dur-fast: 120ms;
+  --admin-dur: 180ms;
+  --admin-dur-slow: 260ms;
   --admin-shadow: 0 1px 2px rgba(15, 23, 42, 0.06), 0 4px 16px -8px rgba(15, 23, 42, 0.12);
   --admin-shadow-tint: 0 1px 2px rgba(37, 99, 235, 0.08), 0 8px 24px -12px rgba(37, 99, 235, 0.25);
   --admin-ok: #15803d;
@@ -18,17 +25,48 @@
   --admin-danger: var(--md-error);
   --admin-danger-bg: rgba(220, 38, 38, 0.09);
   --admin-muted-bg: var(--md-surface-container-low);
+  --admin-focus-ring: 0 0 0 2px var(--md-surface), 0 0 0 4px var(--md-primary);
+}
+html[data-theme="dark"] body.admin-body {
+  --admin-ok: #4ade80;
+  --admin-ok-bg: rgba(74, 222, 128, 0.14);
+  --admin-warn: #fbbf24;
+  --admin-warn-bg: rgba(251, 191, 36, 0.14);
+  --admin-info-bg: rgba(180, 197, 255, 0.14);
+  --admin-danger-bg: rgba(255, 180, 171, 0.14);
+  --admin-muted-bg: var(--md-surface-container-low);
+  --admin-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px -12px rgba(0, 0, 0, 0.5);
+  --admin-shadow-tint: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px -12px rgba(0, 0, 0, 0.5);
+}
+.admin-content,
+.admin-shell {
+  --admin-max: 1400px;
+  --admin-radius-sm: 8px;
+  --admin-radius-md: 12px;
+  --admin-radius-lg: 16px;
+}
+body.admin-body .admin-content {
+  padding: 0;
+  min-width: 0;
 }
 .admin-shell {
   max-width: var(--admin-max);
   margin: 0 auto;
-  padding: 28px 28px 64px;
+  padding: 24px 24px 64px;
+  animation: admin-shell-in 140ms var(--admin-ease-out);
+}
+@keyframes admin-shell-in {
+  from { opacity: 0; transform: translateY(2px); }
+  to { opacity: 1; transform: none; }
 }
 .admin-content .stat-value,
 .admin-content .admin-table td,
 .admin-content .admin-pagination,
 .admin-content code,
-.admin-content .admin-kpi {
+.admin-content .admin-kpi,
+.admin-content .admin-kpi-value,
+.admin-sidebar,
+.admin-topbar {
   font-variant-numeric: tabular-nums;
 }
 .admin-content h1,
@@ -40,26 +78,49 @@
 .admin-content p {
   line-height: 1.6;
 }
-.admin-content :focus-visible {
+body.admin-body :focus-visible {
   outline: 2px solid var(--md-primary);
   outline-offset: 2px;
   border-radius: 6px;
 }
-.admin-content .md-btn,
-.admin-shell .md-btn,
-.admin-topbar .md-btn {
-  transition: background 180ms var(--admin-ease), color 150ms var(--admin-ease), transform 120ms var(--admin-ease), border-color 180ms var(--admin-ease);
+body.admin-body .md-btn,
+body.admin-body .md-btn-icon,
+body.admin-body .admin-sidebar a,
+body.admin-body .admin-mobile-nav a,
+body.admin-body .admin-filter-tabs a,
+body.admin-body .admin-pagination a {
+  transition: background var(--admin-dur) var(--admin-ease-out), color var(--admin-dur-fast) var(--admin-ease-out), border-color var(--admin-dur) var(--admin-ease-out), transform var(--admin-dur-fast) var(--admin-ease-out);
 }
-.admin-content .md-btn:active,
-.admin-shell .md-btn:active {
-  transform: scale(0.98);
+body.admin-body .md-btn:active {
+  transform: scale(0.96);
+}
+body.admin-body .md-btn-icon:active {
+  transform: scale(0.92);
+}
+@media (hover: hover) and (pointer: fine) {
+  body.admin-body .admin-table tbody tr:hover {
+    background: var(--md-surface-container-low);
+  }
+  body.admin-body .admin-sidebar a:hover {
+    background: var(--md-surface-container-low);
+  }
+}
+body.admin-body.admin-theme-swap *,
+body.admin-body.admin-theme-swap *::before,
+body.admin-body.admin-theme-swap *::after {
+  transition: none !important;
+  animation: none !important;
 }
 @media (prefers-reduced-motion: reduce) {
-  .admin-content *,
-  .admin-shell *,
-  .admin-sidebar *,
-  .admin-topbar * {
-    animation: none !important;
-    transition: none !important;
+  body.admin-body *,
+  body.admin-body *::before,
+  body.admin-body *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .admin-shell {
+    animation: none;
   }
 }

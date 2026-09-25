@@ -31,9 +31,9 @@
     To
     <input type="date" name="to" value="{{ date_to }}" class="date-input">
   </label>
-  <button type="submit" class="md-btn md-btn-tonal md-btn-sm">Apply</button>
+  <button type="submit" class="md-btn md-btn-tonal admin-btn-sm">Apply</button>
   {% if is_custom_range %}
-  <a href="{% url 'web:admin_analytics' %}" class="md-btn md-btn-text md-btn-sm">Clear</a>
+  <a href="{% url 'web:admin_analytics' %}" class="md-btn md-btn-text admin-btn-sm">Clear</a>
   {% endif %}
   <span class="md-body-medium" style="color:var(--md-on-surface-variant);margin-left:auto;">
     {{ range_label }} &middot; {{ range_days }} days
@@ -51,10 +51,10 @@
 {% endif %}
 
 <!-- ── Online Now ── -->
-<div class="online-now-bar md-card-elevated mb-3" id="online-now-section">
+<div class="online-now-bar admin-card" id="online-now-section">
   <div class="online-now-header">
     <span class="material-symbols-outlined online-now-dot">fiber_manual_record</span>
-    <h2 class="md-title-medium" style="margin:0;">Online Now</h2>
+    <h2>Online Now</h2>
     <span class="online-now-count" id="online-count-badge">{{ online_count }}</span>
   </div>
   <div class="online-user-cards" id="online-user-list">
@@ -135,7 +135,7 @@
 </div>
 
 <!-- ── Session Metrics ── -->
-<h2 class="md-title-medium" style="margin:4px 0 12px;">Session metrics{% if not is_custom_range %} (today){% endif %}</h2>
+<h2 class="admin-section-h">Session metrics{% if not is_custom_range %} (today){% endif %}</h2>
 <div class="admin-kpi-grid">
   <div class="admin-kpi">
     <div class="admin-kpi-top">
@@ -163,47 +163,47 @@
 
 <!-- ── Charts Row 1: Daily Trend ── -->
 <div class="admin-panel-grid">
-  <div class="admin-card" style="padding:20px;">
-    <h3 class="md-title-medium" style="margin:0 0 16px;">Daily Visit Trend{% if is_custom_range %} ({{ range_days }} days){% endif %}</h3>
+  <div class="admin-card">
+    <h3>Daily Visit Trend{% if is_custom_range %} ({{ range_days }} days){% endif %}</h3>
     <canvas id="chartDaily" height="200"></canvas>
   </div>
-  <div class="admin-card" style="padding:20px;">
-    <h3 class="md-title-medium" style="margin:0 0 16px;">{% if is_custom_range %}Daily{% else %}User &amp; Content{% endif %} Growth{% if not is_custom_range %} (7 days){% endif %}</h3>
+  <div class="admin-card">
+    <h3>{% if is_custom_range %}Daily{% else %}User &amp; Content{% endif %} Growth{% if not is_custom_range %} (7 days){% endif %}</h3>
     <canvas id="chartGrowth" height="200"></canvas>
   </div>
 </div>
 
 <!-- ── Charts Row 2: Hourly + Peak Hours ── -->
 <div class="admin-panel-grid">
-  <div class="admin-card" style="padding:20px;">
-    <h3 class="md-title-medium" style="margin:0 0 16px;">Hourly Breakdown</h3>
+  <div class="admin-card">
+    <h3>Hourly Breakdown</h3>
     <canvas id="chartHourly" height="200"></canvas>
   </div>
-  <div class="admin-card" style="padding:20px;">
-    <h3 class="md-title-medium" style="margin:0 0 16px;">Peak Hours</h3>
+  <div class="admin-card">
+    <h3>Peak Hours</h3>
     <canvas id="chartPeak" height="200"></canvas>
   </div>
 </div>
 
 <!-- ── Charts Row 3: Source + Device Class + DOW ── -->
 <div class="admin-grid-3 mb-3">
-  <div class="admin-card" style="padding:20px;">
-    <h3 class="md-title-medium" style="margin:0 0 16px;">Traffic Source</h3>
+  <div class="admin-card">
+    <h3>Traffic Source</h3>
     <canvas id="chartSource" height="200"></canvas>
   </div>
-  <div class="admin-card" style="padding:20px;">
-    <h3 class="md-title-medium" style="margin:0 0 16px;">Device Class (30 days)</h3>
+  <div class="admin-card">
+    <h3>Device Class (30 days)</h3>
     <canvas id="chartDevice" height="200"></canvas>
   </div>
-  <div class="admin-card" style="padding:20px;">
-    <h3 class="md-title-medium" style="margin:0 0 16px;">Day of Week</h3>
+  <div class="admin-card">
+    <h3>Day of Week</h3>
     <canvas id="chartDow" height="200"></canvas>
   </div>
 </div>
 
 <!-- ── Charts Row 4: Referrer Type ── -->
-<div class="admin-card mb-3" style="padding:20px;">
-  <h3 class="md-title-medium" style="margin:0 0 16px;">Referrer Type</h3>
+<div class="admin-card" style="margin-bottom:20px;">
+  <h3>Referrer Type</h3>
   <div style="max-width:360px;margin:0 auto;">
     <canvas id="chartReferrer" height="200"></canvas>
   </div>
@@ -211,24 +211,24 @@
 
 <!-- ── Tables ── -->
 <div class="admin-panel-grid">
-  <div class="admin-card" style="padding:20px;">
-    <h3 class="md-title-medium" style="margin:0 0 16px;">Top Referrer Domains{% if is_custom_range %} ({{ range_label }}){% endif %}</h3>
+  <div class="admin-card">
+    <h3>Top Referrer Domains{% if is_custom_range %} ({{ range_label }}){% endif %}</h3>
     {% if top_domains %}
     <div class="admin-table-wrap" style="margin-bottom:0;">
     <table class="admin-table">
       <thead>
-        <tr><th>Domain</th><th style="text-align:right;">Visits</th></tr>
+        <tr><th>Domain</th><th class="num">Visits</th></tr>
       </thead>
       <tbody>
         {% for d in top_domains %}
         <tr>
           <td>
-            <div style="display:flex;align-items:center;gap:8px;min-width:0;">
-            <img src="https://www.google.com/s2/favicons?domain={{ d.referrer_domain }}&sz=16" alt="" width="16" height="16" style="flex-shrink:0;border-radius:2px;" loading="lazy" onerror="this.style.display='none'">
+            <div class="admin-flex-row" style="gap:8px;min-width:0;">
+            <img src="https://www.google.com/s2/favicons?domain={{ d.referrer_domain }}&sz=16" alt="" width="16" height="16" class="favicon-img" loading="lazy" data-hide-on-error>
             <span>{{ d.referrer_domain }}</span>
             </div>
           </td>
-          <td style="text-align:right;font-weight:600;">{{ d.count }}</td>
+          <td class="num" style="font-weight:600;">{{ d.count }}</td>
         </tr>
         {% endfor %}
       </tbody>
@@ -238,19 +238,19 @@
     <p class="md-body-medium" style="color:var(--md-on-surface-variant);">No external referrer data yet.</p>
     {% endif %}
   </div>
-  <div class="admin-card" style="padding:20px;">
-    <h3 class="md-title-medium" style="margin:0 0 16px;">Top Pages{% if is_custom_range %} ({{ range_label }}){% endif %}</h3>
+  <div class="admin-card">
+    <h3>Top Pages{% if is_custom_range %} ({{ range_label }}){% endif %}</h3>
     {% if top_pages %}
     <div class="admin-table-wrap" style="margin-bottom:0;">
     <table class="admin-table">
       <thead>
-        <tr><th>Page</th><th style="text-align:right;">Visits</th></tr>
+        <tr><th>Page</th><th class="num">Visits</th></tr>
       </thead>
       <tbody>
         {% for p in top_pages %}
         <tr>
-          <td><code style="font-size:0.75rem;">{{ p.path }}</code></td>
-          <td style="text-align:right;font-weight:600;">{{ p.count }}</td>
+          <td><code>{{ p.path }}</code></td>
+          <td class="num" style="font-weight:600;">{{ p.count }}</td>
         </tr>
         {% endfor %}
       </tbody>
@@ -262,27 +262,27 @@
   </div>
 </div>
 
-<div class="admin-card" style="padding:20px;margin-bottom:24px;">
-  <h3 class="md-title-medium" style="margin:0 0 16px;">Referrer Details{% if is_custom_range %} ({{ range_label }}){% endif %}</h3>
+<div class="admin-card" style="margin-bottom:24px;">
+  <h3>Referrer Details{% if is_custom_range %} ({{ range_label }}){% endif %}</h3>
   {% if referrer_details %}
   <div class="admin-table-wrap" style="margin-bottom:0;">
   <table class="admin-table">
     <thead>
-      <tr><th>Domain</th><th>Type</th><th style="text-align:right;">Visits</th></tr>
+      <tr><th>Domain</th><th>Type</th><th class="num">Visits</th></tr>
     </thead>
       <tbody>
         {% for r in referrer_details %}
         <tr>
           <td>
-            <div style="display:flex;align-items:center;gap:8px;min-width:0;">
+            <div class="admin-flex-row" style="gap:8px;min-width:0;">
             {% if r.referrer_domain %}
-            <img src="https://www.google.com/s2/favicons?domain={{ r.referrer_domain }}&sz=16" alt="" width="16" height="16" style="flex-shrink:0;border-radius:2px;" loading="lazy" onerror="this.style.display='none'">
+            <img src="https://www.google.com/s2/favicons?domain={{ r.referrer_domain }}&sz=16" alt="" width="16" height="16" class="favicon-img" loading="lazy" data-hide-on-error>
             {% endif %}
             <span>{{ r.referrer_domain|default:"(direct)" }}</span>
             </div>
           </td>
           <td><span class="ref-type-badge ref-type-{{ r.referrer_type }}">{{ r.referrer_type }}</span></td>
-          <td style="text-align:right;font-weight:600;">{{ r.count }}</td>
+          <td class="num" style="font-weight:600;">{{ r.count }}</td>
         </tr>
         {% endfor %}
       </tbody>
@@ -294,18 +294,18 @@
 </div>
 
 {% if platform_data %}
-<div class="admin-card" style="padding:20px;margin-bottom:24px;">
-  <h3 class="md-title-medium" style="margin:0 0 16px;">Platform Breakdown{% if is_custom_range %} ({{ range_label }}){% endif %}</h3>
+<div class="admin-card" style="margin-bottom:24px;">
+  <h3>Platform Breakdown{% if is_custom_range %} ({{ range_label }}){% endif %}</h3>
   <div class="admin-table-wrap" style="margin-bottom:0;">
   <table class="admin-table">
     <thead>
-      <tr><th>Platform</th><th style="text-align:right;">Visits</th><th style="text-align:right;">Share</th></tr>
+      <tr><th>Platform</th><th class="num">Visits</th><th class="num">Share</th></tr>
     </thead>
     <tbody>
       {% for p in platform_data %}
       <tr>
         <td>{{ p.platform|title }}</td>
-        <td style="text-align:right;font-weight:600;">{{ p.count }}</td>
+        <td class="num" style="font-weight:600;">{{ p.count }}</td>
         <td style="text-align:right;color:var(--md-on-surface-variant);">{% if source_web > 0 %}{% widthratio p.count source_web 100 %}%{% else %}&mdash;{% endif %}</td>
       </tr>
       {% endfor %}
@@ -318,14 +318,14 @@
 <!-- 
 ── Demographics: Country ── -->
 {% if country_data %}
-<div class="admin-card" style="padding:20px;margin-bottom:24px;">
-  <h3 class="md-title-medium" style="margin:0 0 16px;">Top Countries{% if is_custom_range %} ({{ range_label }}){% endif %}</h3>
+<div class="admin-card" style="margin-bottom:24px;">
+  <h3>Top Countries{% if is_custom_range %} ({{ range_label }}){% endif %}</h3>
   <div class="admin-table-wrap" style="margin-bottom:0;">
   <table class="admin-table">
-    <thead><tr><th>Country</th><th style="text-align:right;">Visits</th></tr></thead>
+    <thead><tr><th>Country</th><th class="num">Visits</th></tr></thead>
     <tbody>
       {% for c in country_data %}
-      <tr><td>{{ c.country }}</td><td style="text-align:right;font-weight:600;">{{ c.count }}</td></tr>
+      <tr><td>{{ c.country }}</td><td class="num" style="font-weight:600;">{{ c.count }}</td></tr>
       {% endfor %}
     </tbody>
   </table>
@@ -335,14 +335,14 @@
 
 <!-- ── Demographics: City ── -->
 {% if city_data %}
-<div class="admin-card" style="padding:20px;margin-bottom:24px;">
-  <h3 class="md-title-medium" style="margin:0 0 16px;">Top Cities{% if is_custom_range %} ({{ range_label }}){% endif %}</h3>
+<div class="admin-card" style="margin-bottom:24px;">
+  <h3>Top Cities{% if is_custom_range %} ({{ range_label }}){% endif %}</h3>
   <div class="admin-table-wrap" style="margin-bottom:0;">
   <table class="admin-table">
-    <thead><tr><th>City</th><th style="text-align:right;">Visits</th></tr></thead>
+    <thead><tr><th>City</th><th class="num">Visits</th></tr></thead>
     <tbody>
       {% for c in city_data %}
-      <tr><td>{{ c.city }}</td><td style="text-align:right;font-weight:600;">{{ c.count }}</td></tr>
+      <tr><td>{{ c.city }}</td><td class="num" style="font-weight:600;">{{ c.count }}</td></tr>
       {% endfor %}
     </tbody>
   </table>
@@ -352,14 +352,14 @@
 
 <!-- ── Demographics: Gender ── -->
 {% if gender_data %}
-<div class="admin-card" style="padding:20px;margin-bottom:24px;">
-  <h3 class="md-title-medium" style="margin:0 0 16px;">Gender Distribution</h3>
+<div class="admin-card" style="margin-bottom:24px;">
+  <h3>Gender Distribution</h3>
   <div class="admin-table-wrap" style="margin-bottom:0;">
   <table class="admin-table">
-    <thead><tr><th>Gender</th><th style="text-align:right;">Visits</th></tr></thead>
+    <thead><tr><th>Gender</th><th class="num">Visits</th></tr></thead>
     <tbody>
       {% for g in gender_data %}
-      <tr><td>{{ g.gender|title }}</td><td style="text-align:right;font-weight:600;">{{ g.count }}</td></tr>
+      <tr><td>{{ g.gender|title }}</td><td class="num" style="font-weight:600;">{{ g.count }}</td></tr>
       {% endfor %}
     </tbody>
   </table>
@@ -369,10 +369,10 @@
 
 <!-- ── DailyStat Records Table ── -->
 {% if daily_stat_records %}
-<div class="admin-card" style="padding:20px;margin-bottom:24px;">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-    <h3 class="md-title-medium" style="margin:0;">Daily Stats{% if is_custom_range %} ({{ range_label }}){% else %} (Last 30 Days){% endif %}</h3>
-    <a href="{% url 'web:admin_analytics_export_csv' %}" class="md-btn md-btn-tonal md-btn-sm" style="text-decoration:none;">
+<div class="admin-card" style="margin-bottom:24px;">
+  <div class="admin-card-head">
+    <h3>Daily Stats{% if is_custom_range %} ({{ range_label }}){% else %} (Last 30 Days){% endif %}</h3>
+    <a href="{% url 'web:admin_analytics_export_csv' %}" class="md-btn md-btn-tonal admin-btn-sm" style="text-decoration:none;">
       <span class="material-symbols-outlined">download</span> Export CSV
     </a>
   </div>
@@ -381,32 +381,32 @@
       <thead>
         <tr>
           <th>Date</th>
-          <th style="text-align:right;">Visits</th>
-          <th style="text-align:right;">Unique</th>
-          <th style="text-align:right;">Sessions</th>
-          <th style="text-align:right;">Bounce%</th>
-          <th style="text-align:right;">Pages/Sess</th>
-          <th style="text-align:right;">Peak Hr</th>
-          <th style="text-align:right;">Web</th>
-          <th style="text-align:right;">App</th>
-          <th style="text-align:right;">Users</th>
-          <th style="text-align:right;">Posts</th>
+          <th class="num">Visits</th>
+          <th class="num">Unique</th>
+          <th class="num">Sessions</th>
+          <th class="num">Bounce%</th>
+          <th class="num">Pages/Sess</th>
+          <th class="num">Peak Hr</th>
+          <th class="num">Web</th>
+          <th class="num">App</th>
+          <th class="num">Users</th>
+          <th class="num">Posts</th>
         </tr>
       </thead>
       <tbody>
         {% for s in daily_stat_records %}
         <tr>
           <td>{{ s.date|date:"M d" }}</td>
-          <td style="text-align:right;">{{ s.total_visits }}</td>
-          <td style="text-align:right;">{{ s.unique_visitors }}</td>
-          <td style="text-align:right;">{{ s.total_sessions }}</td>
-          <td style="text-align:right;">{% if s.total_sessions > 0 %}{% widthratio s.bounce_count s.total_sessions 100 %}%{% else %}0%{% endif %}</td>
-          <td style="text-align:right;">{{ s.pages_per_session|floatformat:1 }}</td>
-          <td style="text-align:right;"><span class="peak-hour-badge">{{ s.peak_hour }}:00</span></td>
-          <td style="text-align:right;">{{ s.web_visits }}</td>
-          <td style="text-align:right;">{{ s.app_visits }}</td>
-          <td style="text-align:right;">{{ s.new_users }}</td>
-          <td style="text-align:right;">{{ s.new_posts }}</td>
+          <td class="num">{{ s.total_visits }}</td>
+          <td class="num">{{ s.unique_visitors }}</td>
+          <td class="num">{{ s.total_sessions }}</td>
+          <td class="num">{% if s.total_sessions > 0 %}{% widthratio s.bounce_count s.total_sessions 100 %}%{% else %}0%{% endif %}</td>
+          <td class="num">{{ s.pages_per_session|floatformat:1 }}</td>
+          <td class="num"><span class="peak-hour-badge">{{ s.peak_hour }}:00</span></td>
+          <td class="num">{{ s.web_visits }}</td>
+          <td class="num">{{ s.app_visits }}</td>
+          <td class="num">{{ s.new_users }}</td>
+          <td class="num">{{ s.new_posts }}</td>
         </tr>
         {% endfor %}
       </tbody>
@@ -422,34 +422,20 @@
 </div>
 {% endblock %}
 
-{% block extra_css %}
-<style nonce="{{ csp_nonce }}">
-.admin-table { width:100%; border-collapse:collapse; }
-.admin-table th { text-align:left; padding:8px 4px; font-size:0.75rem; font-weight:600; color:var(--md-on-surface-variant); border-bottom:1px solid var(--md-outline-variant); }
-.admin-table td { padding:8px 4px; font-size:0.8125rem; border-bottom:1px solid var(--md-outline-variant); }
-.admin-table tbody tr:hover { background:var(--md-surface-container-high); }
-
-.admin-grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; }
-@media (max-width:1024px) { .admin-grid-3 { grid-template-columns:1fr 1fr; } }
-@media (max-width:640px) { .admin-grid-3 { grid-template-columns:1fr; } }
-
-.ref-type-badge { display:inline-block; padding:2px 8px; border-radius:4px; font-size:0.6875rem; font-weight:600; text-transform:uppercase; }
-.ref-type-direct { background:#E8DEF8; color:#4F378B; }
-.ref-type-search { background:#D0EFFF; color:#006A6B; }
-.ref-type-social { background:#FFD8E4; color:#9C4146; }
-.ref-type-referral { background:#FFDDB3; color:#7A5900; }
-.ref-type-internal { background:#CFF0E5; color:#006B55; }
-
-.peak-hour-badge { display:inline-block; padding:1px 6px; border-radius:4px; font-size:0.6875rem; font-weight:600; background:var(--md-secondary-container); color:var(--md-on-secondary-container); }
-.date-input { padding:6px 10px; border:1px solid var(--md-outline); border-radius:8px; background:var(--md-surface); color:var(--md-on-surface); font-family:inherit; font-size:0.8125rem; }
-.date-input:focus { outline:2px solid var(--md-primary); border-color:transparent; }
-@media (max-width:640px) { .date-input { max-width:140px; } }
-</style>
-{% endblock %}
-
 {% block extra_js %}
 <script nonce="{{ csp_nonce }}">
 (function() {
+  var adminSurface = '#ffffff';
+  var adminOnSurface = '#0B1C30';
+  try {
+    var cs = getComputedStyle(document.body);
+    if (cs.getPropertyValue('--md-surface')) adminSurface = cs.getPropertyValue('--md-surface').trim() || adminSurface;
+    if (cs.getPropertyValue('--md-on-surface')) adminOnSurface = cs.getPropertyValue('--md-on-surface').trim() || adminOnSurface;
+  } catch (e) {}
+  if (window.Chart) {
+    Chart.defaults.font.family = "'Poppins', 'Segoe UI', system-ui, sans-serif";
+    Chart.defaults.color = adminOnSurface;
+  }
   {% if has_data %}
   // ── Daily Visit Trend ──
   var ctxDaily = document.getElementById('chartDaily');
@@ -583,7 +569,7 @@
           data: [{{ source_web }}, {{ source_app }}],
           backgroundColor: ['#2563EB', '#10B981'],
           borderWidth: 2,
-          borderColor: 'var(--md-surface)',
+          borderColor: adminSurface,
         }]
       },
       options: {
@@ -606,7 +592,7 @@
           data: [{{ device_mobile }}, {{ device_desktop }}, {{ device_tablet }}, {{ device_other }}],
           backgroundColor: ['#10B981', '#3B82F6', '#8B5CF6', '#9CA3AF'],
           borderWidth: 2,
-          borderColor: 'var(--md-surface)',
+          borderColor: adminSurface,
         }]
       },
       options: {
@@ -654,7 +640,7 @@
           data: [{{ ref_direct }}, {{ ref_search }}, {{ ref_social }}, {{ ref_referral }}, {{ ref_internal }}],
           backgroundColor: ['#8B5CF6', '#3B82F6', '#EC4899', '#F59E0B', '#10B981'],
           borderWidth: 2,
-          borderColor: 'var(--md-surface)',
+          borderColor: adminSurface,
         }]
       },
       options: {

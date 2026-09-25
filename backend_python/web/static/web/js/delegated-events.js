@@ -104,6 +104,11 @@
       img.style.display = 'none';
       var next = img.nextElementSibling;
       if (next) next.style.display = img.dataset.fallback || 'inline-flex';
+      return;
+    }
+    if (img.dataset.hideOnError !== undefined) {
+      img.style.display = 'none';
+      return;
     }
   }, true);
 

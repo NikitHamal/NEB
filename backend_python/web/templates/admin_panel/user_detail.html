@@ -28,7 +28,7 @@
     <div class="admin-card" style="margin-bottom:16px;">
       <div class="admin-row-item">
         {% if user_detail.photo_url %}
-        <img src="{{ user_detail.photo_url }}" alt="" class="admin-avatar" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <img src="{{ user_detail.photo_url }}" alt="" class="admin-avatar" data-fallback="flex">
         <div class="admin-avatar-fallback" style="display:none;">{{ user_detail.display_name|default:user_detail.username|truncate_chars:1|default:"?" }}</div>
         {% else %}
         <div class="admin-avatar-fallback">{{ user_detail.display_name|default:user_detail.username|truncate_chars:1|default:"?" }}</div>
