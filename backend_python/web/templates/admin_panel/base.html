@@ -31,22 +31,14 @@
 </head>
 <body class="admin-body">
   <a href="#main-content" class="skip-link">Skip to content</a>
-  <!-- Mobile Nav Overlay -->
   <div class="admin-mobile-overlay" id="mobileOverlay" data-action="close-mobile-nav"></div>
-  <nav class="admin-mobile-nav" id="mobileNav">
+  <nav class="admin-mobile-nav" id="mobileNav" aria-label="Admin">
     <div class="mobile-header">
       <a href="{% url 'web:admin_dashboard' %}">
         <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-label="NEBians">
-          <defs>
-            <linearGradient id="frontGrad" x1="40" y1="220" x2="800" y2="1350" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0058df"/><stop offset="0.48" stop-color="#004bd4"/><stop offset="1" stop-color="#003cc3"/></linearGradient>
-            <linearGradient id="darkGrad" x1="505" y1="30" x2="960" y2="1290" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#07337f"/><stop offset="0.55" stop-color="#052566"/><stop offset="1" stop-color="#021b54"/></linearGradient>
-            <linearGradient id="innerGrad" x1="435" y1="180" x2="780" y2="890" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#06327c"/><stop offset="1" stop-color="#04215e"/></linearGradient>
-            <linearGradient id="lightGrad" x1="305" y1="320" x2="615" y2="705" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#a8c5ff"/><stop offset="0.52" stop-color="#90b4fb"/><stop offset="1" stop-color="#82a8f5"/></linearGradient>
-            <linearGradient id="frontShadowGrad" x1="690" y1="780" x2="780" y2="1050" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0030a5" stop-opacity="0.35"/><stop offset="1" stop-color="#001e77" stop-opacity="0"/></linearGradient>
-          </defs>
           <g transform="translate(210.601 86.137) scale(0.610119)">
-            <g fill="none" stroke="#ffffff" stroke-opacity="0.78" stroke-width="13" stroke-linejoin="round" stroke-linecap="round"><path d="M500 42 L501 135 L856 370 L858 1287 L943 1219 L943 331 Z"/><path d="M441 191 L441 282 L691 447 L691 799 L774 886 L775 408 Z"/><path d="M306 320 L307 377 L613 706 L613 485 Z"/><path d="M51 228 L51 1132 L263 1346 L267 812 L775 1353 L775 887 L691 800 L685 902 Z"/></g>
-            <g stroke-linejoin="round" stroke-linecap="round"><path d="M500 42 L501 135 L856 370 L858 1287 L943 1219 L943 331 Z" fill="url(#darkGrad)" stroke="#eef5ff" stroke-width="8"/><path d="M441 191 L441 282 L691 447 L691 799 L774 886 L775 408 Z" fill="url(#innerGrad)" stroke="#eef5ff" stroke-width="8"/><path d="M306 320 L307 377 L613 706 L613 485 Z" fill="url(#lightGrad)" stroke="#eef5ff" stroke-width="8"/><path d="M51 228 L51 1132 L263 1346 L267 812 L775 1353 L775 887 L691 800 L685 902 Z" fill="url(#frontGrad)" stroke="#eef5ff" stroke-width="8"/><path d="M691 800 L775 887 L775 1052 L691 958 Z" fill="url(#frontShadowGrad)" stroke="none"/></g>
+            <path d="M500 42 L501 135 L856 370 L858 1287 L943 1219 L943 331 Z" fill="#052566"/>
+            <path d="M51 228 L51 1132 L263 1346 L267 812 L775 1353 L775 887 L691 800 L685 902 Z" fill="#004bd4"/>
           </g>
         </svg>
         NEBians Admin
@@ -55,11 +47,17 @@
         <span class="material-symbols-outlined">close</span>
       </button>
     </div>
-    <a href="{% url 'web:admin_dashboard' %}" class="{% if active_page == 'dashboard' %}active{% endif %}">
+    <div class="admin-nav-group-label">Overview</div>
+    <a href="{% url 'web:admin_dashboard' %}" class="{% if active_page == 'dashboard' %}active{% endif %}" {% if active_page == 'dashboard' %}aria-current="page"{% endif %}>
       <span class="material-symbols-outlined">dashboard</span>
       Dashboard
     </a>
-    <a href="{% url 'web:admin_users' %}" class="{% if active_page == 'users' %}active{% endif %}">
+    <a href="{% url 'web:admin_analytics' %}" class="{% if active_page == 'analytics' %}active{% endif %}" {% if active_page == 'analytics' %}aria-current="page"{% endif %}>
+      <span class="material-symbols-outlined">insights</span>
+      Analytics
+    </a>
+    <div class="admin-nav-group-label">Manage</div>
+    <a href="{% url 'web:admin_users' %}" class="{% if active_page == 'users' %}active{% endif %}" {% if active_page == 'users' %}aria-current="page"{% endif %}>
       <span class="material-symbols-outlined">people</span>
       Users
     </a>
@@ -67,6 +65,11 @@
       <span class="material-symbols-outlined">notifications_active</span>
       Push Notifications
     </a>
+    <a href="{% url 'web:admin_deletions' %}" class="{% if active_page == 'deletions' %}active{% endif %}">
+      <span class="material-symbols-outlined">delete_forever</span>
+      Account Deletions
+    </a>
+    <div class="admin-nav-group-label">Content</div>
     <a href="{% url 'web:admin_resources' %}" class="{% if active_page == 'resources' %}active{% endif %}">
       <span class="material-symbols-outlined">auto_stories</span>
       Resources
@@ -91,7 +94,7 @@
       <span class="material-symbols-outlined">contact_support</span>
       Requests
     </a>
-<a href="{% url 'web:admin_posts' %}" class="{% if active_page == 'posts' %}active{% endif %}">
+    <a href="{% url 'web:admin_posts' %}" class="{% if active_page == 'posts' %}active{% endif %}">
       <span class="material-symbols-outlined">forum</span>
       Forum Posts
     </a>
@@ -107,6 +110,11 @@
       <span class="material-symbols-outlined">image</span>
       Hero Backgrounds
     </a>
+    <a href="{% url 'web:admin_study_spaces' %}" class="{% if active_page == 'study_spaces' %}active{% endif %}">
+      <span class="material-symbols-outlined">science</span>
+      Study Spaces
+    </a>
+    <div class="admin-nav-group-label">AI &amp; Automation</div>
     <a href="{% url 'web:admin_bots' %}" class="{% if active_page == 'bot' %}active{% endif %}">
       <span class="material-symbols-outlined">smart_toy</span>
       AI Bots
@@ -131,67 +139,56 @@
       <span class="material-symbols-outlined">perm_media</span>
       Media Test
     </a>
-    <a href="{% url 'web:admin_study_spaces' %}" class="{% if active_page == 'study_spaces' %}active{% endif %}">
-      <span class="material-symbols-outlined">science</span>
-      Study Spaces
-    </a>
-    <a href="{% url 'web:admin_deletions' %}" class="{% if active_page == 'deletions' %}active{% endif %}">
-      <span class="material-symbols-outlined">delete_forever</span>
-      Account Deletions
-    </a>
     <a href="{% url 'web:background_agent' %}" class="{% if active_page == 'background_agent' %}active{% endif %}">
       <span class="material-symbols-outlined">terminal</span>
       Background Agent
     </a>
     <div class="md-divider" style="margin:8px 16px;"></div>
-    <a href="{% url 'web:admin_analytics' %}" class="{% if active_page == 'analytics' %}active{% endif %}">
-      <span class="material-symbols-outlined">insights</span>
-      Analytics
-    </a>
     <a href="{% url 'web:home' %}" style="color:var(--md-on-surface-variant);">
       <span class="material-symbols-outlined">open_in_new</span>
       View Site
     </a>
   </nav>
 
-  <!-- Top Bar -->
-  <header class="md-topbar" style="background:var(--md-surface-container);">
-    <button class="admin-hamburger" data-action="open-mobile-nav" aria-label="Open menu">
-      <span class="material-symbols-outlined">menu</span>
-    </button>
-    <a href="{% url 'web:admin_dashboard' %}" class="md-topbar-brand" style="color:var(--md-primary);">
-      <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" class="topbar-logo" aria-label="NEBians">
-        <defs>
-          <linearGradient id="frontGrad" x1="40" y1="220" x2="800" y2="1350" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0058df"/><stop offset="0.48" stop-color="#004bd4"/><stop offset="1" stop-color="#003cc3"/></linearGradient>
-          <linearGradient id="darkGrad" x1="505" y1="30" x2="960" y2="1290" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#07337f"/><stop offset="0.55" stop-color="#052566"/><stop offset="1" stop-color="#021b54"/></linearGradient>
-          <linearGradient id="innerGrad" x1="435" y1="180" x2="780" y2="890" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#06327c"/><stop offset="1" stop-color="#04215e"/></linearGradient>
-          <linearGradient id="lightGrad" x1="305" y1="320" x2="615" y2="705" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#a8c5ff"/><stop offset="0.52" stop-color="#90b4fb"/><stop offset="1" stop-color="#82a8f5"/></linearGradient>
-          <linearGradient id="frontShadowGrad" x1="690" y1="780" x2="780" y2="1050" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0030a5" stop-opacity="0.35"/><stop offset="1" stop-color="#001e77" stop-opacity="0"/></linearGradient>
-        </defs>
-        <g transform="translate(210.601 86.137) scale(0.610119)">
-          <g fill="none" stroke="#ffffff" stroke-opacity="0.78" stroke-width="13" stroke-linejoin="round" stroke-linecap="round"><path d="M500 42 L501 135 L856 370 L858 1287 L943 1219 L943 331 Z"/><path d="M441 191 L441 282 L691 447 L691 799 L774 886 L775 408 Z"/><path d="M306 320 L307 377 L613 706 L613 485 Z"/><path d="M51 228 L51 1132 L263 1346 L267 812 L775 1353 L775 887 L691 800 L685 902 Z"/></g>
-          <g stroke-linejoin="round" stroke-linecap="round"><path d="M500 42 L501 135 L856 370 L858 1287 L943 1219 L943 331 Z" fill="url(#darkGrad)" stroke="#eef5ff" stroke-width="8"/><path d="M441 191 L441 282 L691 447 L691 799 L774 886 L775 408 Z" fill="url(#innerGrad)" stroke="#eef5ff" stroke-width="8"/><path d="M306 320 L307 377 L613 706 L613 485 Z" fill="url(#lightGrad)" stroke="#eef5ff" stroke-width="8"/><path d="M51 228 L51 1132 L263 1346 L267 812 L775 1353 L775 887 L691 800 L685 902 Z" fill="url(#frontGrad)" stroke="#eef5ff" stroke-width="8"/><path d="M691 800 L775 887 L775 1052 L691 958 Z" fill="url(#frontShadowGrad)" stroke="none"/></g>
-        </g>
-      </svg>
-      <span>NEBians Admin</span>
-    </a>
-    <div style="margin-left:auto;display:flex;align-items:center;gap:8px;">
-      <button class="md-btn-icon" data-action="toggle-theme" title="Toggle theme" aria-label="Toggle theme" style="margin-right:8px;">
-        <span class="material-symbols-outlined" id="theme-icon">dark_mode</span>
+  <header class="admin-topbar">
+    <div class="admin-topbar-inner">
+      <button class="admin-hamburger md-btn-icon" data-action="open-mobile-nav" aria-label="Open menu">
+        <span class="material-symbols-outlined">menu</span>
       </button>
-      <span class="md-body-small" style="color:var(--md-on-surface-variant);">Admin</span>
-      <a href="{% url 'web:admin_logout' %}" class="md-btn md-btn-text" style="font-size:0.8125rem;">Logout</a>
+      <a href="{% url 'web:admin_dashboard' %}" class="admin-brand">
+        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" class="topbar-logo" aria-label="NEBians">
+          <g transform="translate(210.601 86.137) scale(0.610119)">
+            <path d="M500 42 L501 135 L856 370 L858 1287 L943 1219 L943 331 Z" fill="#052566"/>
+            <path d="M51 228 L51 1132 L263 1346 L267 812 L775 1353 L775 887 L691 800 L685 902 Z" fill="#004bd4"/>
+          </g>
+        </svg>
+        <span>NEBians Admin</span>
+        <span class="admin-brand-sub">Console</span>
+      </a>
+      <div class="admin-topbar-spacer">
+        <span class="admin-topbar-hint">Staff workspace</span>
+        <button class="md-btn-icon" data-action="toggle-theme" title="Toggle theme" aria-label="Toggle theme" style="margin-right:4px;">
+          <span class="material-symbols-outlined" id="theme-icon">dark_mode</span>
+        </button>
+        <a href="{% url 'web:home' %}" class="md-btn md-btn-text" style="font-size:0.8125rem;">View site</a>
+        <a href="{% url 'web:admin_logout' %}" class="md-btn md-btn-tonal" style="font-size:0.8125rem;">Logout</a>
+      </div>
     </div>
   </header>
 
   <div class="admin-layout">
-    <!-- Sidebar -->
-    <nav class="admin-sidebar">
-      <a href="{% url 'web:admin_dashboard' %}" class="{% if active_page == 'dashboard' %}active{% endif %}">
+    <nav class="admin-sidebar" aria-label="Admin">
+      <div class="admin-nav-group-label">Overview</div>
+      <a href="{% url 'web:admin_dashboard' %}" class="{% if active_page == 'dashboard' %}active{% endif %}" {% if active_page == 'dashboard' %}aria-current="page"{% endif %}>
         <span class="material-symbols-outlined">dashboard</span>
         Dashboard
       </a>
-      <a href="{% url 'web:admin_users' %}" class="{% if active_page == 'users' %}active{% endif %}">
+      <a href="{% url 'web:admin_analytics' %}" class="{% if active_page == 'analytics' %}active{% endif %}" {% if active_page == 'analytics' %}aria-current="page"{% endif %}>
+        <span class="material-symbols-outlined">insights</span>
+        Analytics
+      </a>
+      <div class="admin-nav-group-label">Manage</div>
+      <a href="{% url 'web:admin_users' %}" class="{% if active_page == 'users' %}active{% endif %}" {% if active_page == 'users' %}aria-current="page"{% endif %}>
         <span class="material-symbols-outlined">people</span>
         Users
       </a>
@@ -199,6 +196,11 @@
         <span class="material-symbols-outlined">notifications_active</span>
         Push Notifications
       </a>
+      <a href="{% url 'web:admin_deletions' %}" class="{% if active_page == 'deletions' %}active{% endif %}">
+        <span class="material-symbols-outlined">delete_forever</span>
+        Account Deletions
+      </a>
+      <div class="admin-nav-group-label">Content</div>
       <a href="{% url 'web:admin_resources' %}" class="{% if active_page == 'resources' %}active{% endif %}">
         <span class="material-symbols-outlined">auto_stories</span>
         Resources
@@ -239,22 +241,27 @@
         <span class="material-symbols-outlined">image</span>
         Hero Backgrounds
       </a>
-    <a href="{% url 'web:admin_bots' %}" class="{% if active_page == 'bot' %}active{% endif %}">
-      <span class="material-symbols-outlined">smart_toy</span>
-      AI Bots
-    </a>
-    <a href="{% url 'web:admin_neby_manager' %}" class="{% if active_page == 'neby' %}active{% endif %}">
-      <span class="material-symbols-outlined">psychology</span>
-      Neby Manager
-    </a>
-    <a href="{% url 'web:admin_lazy_config' %}" class="{% if active_page == 'lazy' %}active{% endif %}">
-      <span class="material-symbols-outlined">edit_document</span>
-      Lazy Config
-    </a>
-    <a href="{% url 'web:admin_agent_activity' %}" class="{% if active_page == 'bot' %}active{% endif %}">
-      <span class="material-symbols-outlined">monitor_heart</span>
-      Agent Heartbeat
-    </a>
+      <a href="{% url 'web:admin_study_spaces' %}" class="{% if active_page == 'study_spaces' %}active{% endif %}">
+        <span class="material-symbols-outlined">science</span>
+        Study Spaces
+      </a>
+      <div class="admin-nav-group-label">AI &amp; Automation</div>
+      <a href="{% url 'web:admin_bots' %}" class="{% if active_page == 'bot' %}active{% endif %}">
+        <span class="material-symbols-outlined">smart_toy</span>
+        AI Bots
+      </a>
+      <a href="{% url 'web:admin_neby_manager' %}" class="{% if active_page == 'neby' %}active{% endif %}">
+        <span class="material-symbols-outlined">psychology</span>
+        Neby Manager
+      </a>
+      <a href="{% url 'web:admin_lazy_config' %}" class="{% if active_page == 'lazy' %}active{% endif %}">
+        <span class="material-symbols-outlined">edit_document</span>
+        Lazy Config
+      </a>
+      <a href="{% url 'web:admin_agent_activity' %}" class="{% if active_page == 'bot' %}active{% endif %}">
+        <span class="material-symbols-outlined">monitor_heart</span>
+        Agent Heartbeat
+      </a>
       <a href="{% url 'web:admin_chat' %}" class="{% if active_page == 'chat' %}active{% endif %}">
         <span class="material-symbols-outlined">chat</span>
         AI Chat Test
@@ -263,32 +270,21 @@
         <span class="material-symbols-outlined">perm_media</span>
         Media Test
       </a>
-      <a href="{% url 'web:admin_study_spaces' %}" class="{% if active_page == 'study_spaces' %}active{% endif %}">
-        <span class="material-symbols-outlined">science</span>
-        Study Spaces
-      </a>
-      <a href="{% url 'web:admin_deletions' %}" class="{% if active_page == 'deletions' %}active{% endif %}">
-        <span class="material-symbols-outlined">delete_forever</span>
-        Account Deletions
-      </a>
-      <a href="{% url 'web:background_agent' %}" class="{% if active_page == 'background_agent' %}active{% endif %}">
+      <a href="{% url 'web:background_agent' %}" class="{% if active_page == 'background_agent' %}active{% endif %}>
         <span class="material-symbols-outlined">terminal</span>
         Background Agent
       </a>
       <div class="md-divider"></div>
-      <a href="{% url 'web:admin_analytics' %}" class="{% if active_page == 'analytics' %}active{% endif %}">
-        <span class="material-symbols-outlined">insights</span>
-        Analytics
-      </a>
       <a href="{% url 'web:home' %}" style="color:var(--md-on-surface-variant);">
         <span class="material-symbols-outlined">open_in_new</span>
         View Site
       </a>
     </nav>
 
-    <!-- Content -->
     <main id="main-content" class="admin-content">
-      {% block content %}{% endblock %}
+      <div class="admin-shell">
+        {% block content %}{% endblock %}
+      </div>
     </main>
   </div>
 
@@ -298,13 +294,15 @@
     function toggleTheme() {
       const html = document.documentElement;
       const isDark = html.getAttribute('data-theme') === 'dark';
-      html.setAttribute('data-theme', isDark ? '' : 'dark');
-      
+      if (isDark) {
+        html.removeAttribute('data-theme');
+      } else {
+        html.setAttribute('data-theme', 'dark');
+      }
       const themeIcon = document.getElementById('theme-icon');
       if (themeIcon) {
         themeIcon.textContent = isDark ? 'dark_mode' : 'light_mode';
       }
-      
       localStorage.setItem('theme', isDark ? 'light' : 'dark');
       fetch('/ajax/theme/', {
         method: 'POST',
@@ -314,8 +312,6 @@
         }
       });
     }
-
-    // Set the toggle icon correctly on load
     (function() {
       const themeIcon = document.getElementById('theme-icon');
       if (themeIcon) {
@@ -339,7 +335,6 @@
       document.getElementById('mobileNav').classList.remove('active');
       document.getElementById('mobileOverlay').classList.remove('active');
     }
-
     registerActions({
       'close-mobile-nav': function(el, e) {
         closeMobileNav();
@@ -358,8 +353,6 @@
         }
       }
     });
-
-    // Close mobile nav when any link inside it is clicked
     document.getElementById('mobileNav').addEventListener('click', function(e) {
       if (e.target.closest('a')) {
         closeMobileNav();

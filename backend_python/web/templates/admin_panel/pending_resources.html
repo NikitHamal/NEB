@@ -3,15 +3,25 @@
 {% block title %}Pending Resources — Admin{% endblock %}
 
 {% block content %}
-<div class="admin-section">
-  <div class="admin-section-header">
-    <h1>Pending Resources</h1>
-    <span class="admin-count">{{ pending_resources|length }} pending</span>
+<div class="admin-page-header">
+  <div class="admin-eyebrow">Content</div>
+  <div class="admin-page-header-row">
+    <div>
+      <h1>Pending resources</h1>
+      <p>Review {{ pending_resources|length }} pending submissions awaiting moderation.</p>
+    </div>
+    <div class="admin-page-actions">
+      <a href="{% url 'web:admin_resources' %}" class="md-btn md-btn-outlined">
+        <span class="material-symbols-outlined" style="font-size:18px">auto_stories</span>
+        All resources
+      </a>
+    </div>
   </div>
+</div>
 
   {% if pending_resources %}
-  <div class="md-table-responsive">
-    <table class="md-table">
+  <div class="admin-table-wrap">
+    <table class="admin-table">
       <thead>
         <tr>
           <th>Title</th>
@@ -46,12 +56,12 @@
           <td class="col-type">{{ r.type }}</td>
           <td>
             {% if r.source_type == 'user' %}
-              <span class="admin-badge admin-badge-user">User</span>
+              <span class="admin-status ok">User</span>
               {% if r.uploaded_by_name %}<br><small>{{ r.uploaded_by_name }}</small>{% endif %}
             {% elif r.source_type == 'anonymous' %}
-              <span class="admin-badge admin-badge-anon">Anonymous</span>
+              <span class="admin-status neutral">Anonymous</span>
             {% else %}
-              <span class="admin-badge admin-badge-admin">Admin</span>
+              <span class="admin-status info">Admin</span>
             {% endif %}
           </td>
           <td class="col-submitted">{{ r.added_at|time_ago }}</td>
@@ -97,7 +107,7 @@
   </div>
   {% else %}
   <div class="admin-empty">
-    <div class="admin-empty-icon-wrap" style="background: color-mix(in srgb, #4caf50 12%, transparent); color: #2e7d32; border-color: color-mix(in srgb, #4caf50 25%, transparent);">
+    <div class="admin-empty-icon-wrap">
       <span class="material-symbols-outlined">done</span>
     </div>
     <h3>All caught up!</h3>
@@ -112,7 +122,6 @@
     </div>
   </div>
   {% endif %}
-</div>
 {% endblock %}
 
 {% block extra_css %}

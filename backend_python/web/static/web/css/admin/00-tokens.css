@@ -1,0 +1,65 @@
+/* Admin design tokens — calm operate-mode console.
+   Single accent (M3 primary). Numbers always tabular. */
+.admin-content,
+.admin-shell {
+  --admin-max: 1400px;
+  --admin-radius-sm: 8px;
+  --admin-radius-md: 12px;
+  --admin-radius-lg: 16px;
+  --admin-ease: cubic-bezier(0.2, 0, 0, 1);
+  --admin-shadow: 0 1px 2px rgba(15, 23, 42, 0.06), 0 4px 16px -8px rgba(15, 23, 42, 0.12);
+  --admin-shadow-tint: 0 1px 2px rgba(37, 99, 235, 0.08), 0 8px 24px -12px rgba(37, 99, 235, 0.25);
+  --admin-ok: #15803d;
+  --admin-ok-bg: rgba(34, 197, 94, 0.12);
+  --admin-warn: #b45309;
+  --admin-warn-bg: rgba(245, 158, 11, 0.13);
+  --admin-info: var(--md-primary);
+  --admin-info-bg: rgba(37, 99, 235, 0.1);
+  --admin-danger: var(--md-error);
+  --admin-danger-bg: rgba(220, 38, 38, 0.09);
+  --admin-muted-bg: var(--md-surface-container-low);
+}
+.admin-shell {
+  max-width: var(--admin-max);
+  margin: 0 auto;
+  padding: 28px 28px 64px;
+}
+.admin-content .stat-value,
+.admin-content .admin-table td,
+.admin-content .admin-pagination,
+.admin-content code,
+.admin-content .admin-kpi {
+  font-variant-numeric: tabular-nums;
+}
+.admin-content h1,
+.admin-content h2,
+.admin-content h3 {
+  text-wrap: balance;
+  letter-spacing: -0.015em;
+}
+.admin-content p {
+  line-height: 1.6;
+}
+.admin-content :focus-visible {
+  outline: 2px solid var(--md-primary);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+.admin-content .md-btn,
+.admin-shell .md-btn,
+.admin-topbar .md-btn {
+  transition: background 180ms var(--admin-ease), color 150ms var(--admin-ease), transform 120ms var(--admin-ease), border-color 180ms var(--admin-ease);
+}
+.admin-content .md-btn:active,
+.admin-shell .md-btn:active {
+  transform: scale(0.98);
+}
+@media (prefers-reduced-motion: reduce) {
+  .admin-content *,
+  .admin-shell *,
+  .admin-sidebar *,
+  .admin-topbar * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

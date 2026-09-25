@@ -4,20 +4,28 @@
 {% block title %}Forum Posts{% endblock %}
 
 {% block content %}
-<div class="admin-header-bar">
-  <h1 class="md-headline-medium">Forum Posts</h1>
-  <form method="get" style="display:flex;gap:8px;">
-    <div class="search-bar" style="margin-bottom:0;">
-      <span class="material-symbols-outlined">search</span>
-      <input type="text" name="q" value="{{ search }}" placeholder="Search posts..." style="border:none;background:transparent;outline:none;color:var(--md-on-surface);font-family:var(--md-font);font-size:0.875rem;padding:8px 0;">
+<div class="admin-page-header">
+  <div class="admin-eyebrow">Content</div>
+  <div class="admin-page-header-row">
+    <div>
+      <h1>Forum posts</h1>
+      <p>Discussions, questions, and replies. Open one to moderate or remove it.</p>
     </div>
-    <button type="submit" class="md-btn md-btn-filled" style="padding:8px 16px;">Search</button>
-  </form>
+    <div class="admin-page-actions">
+      <form method="get" style="display:flex;gap:8px;align-items:center;">
+        <div class="admin-search">
+          <span class="material-symbols-outlined">search</span>
+          <input type="text" name="q" value="{{ search }}" placeholder="Search posts..." aria-label="Search posts">
+        </div>
+        <button type="submit" class="md-btn md-btn-filled">Search</button>
+      </form>
+    </div>
+  </div>
 </div>
 
 {% if posts %}
-<div class="md-table-responsive">
-  <table class="md-table">
+<div class="admin-table-wrap">
+  <table class="admin-table">
     <thead>
       <tr>
         <th>Title</th>
@@ -34,30 +42,29 @@
       {% for p in posts %}
       <tr>
         <td style="max-width:300px;">
-          <a href="{% url 'web:admin_post_detail' post_id=p.id %}" style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;">{{ p.title }}</a>
+          <a href="{% url 'web:admin_post_detail' post_id=p.id %}" class="admin-row-title" style="display:block;text-decoration:none;color:inherit;">{{ p.title }}</a>
         </td>
         <td>
           <div class="admin-flex-row">
             {% if p.authorPhotoUrl %}
-            <img src="{{ p.authorPhotoUrl }}" alt="" style="width:24px;height:24px;border-radius:50%;object-fit:cover;flex-shrink:0;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-            <div class="profile-avatar" style="width:24px;height:24px;font-size:0.625rem;display:none;">{{ p.authorName|truncate_chars:1|default:"?" }}</div>
+            <img src="{{ p.authorPhotoUrl }}" alt="" class="admin-avatar" style="width:26px;height:26px;" loading="lazy">
             {% else %}
-            <div class="profile-avatar" style="width:24px;height:24px;font-size:0.625rem;">{{ p.authorName|truncate_chars:1|default:"?" }}</div>
+            <span class="admin-avatar-fallback" style="width:26px;height:26px;font-size:0.6875rem;">{{ p.authorName|truncate_chars:1|default:"?" }}</span>
             {% endif %}
             <span>{{ p.authorName }}</span>
           </div>
         </td>
-        <td><span class="md-chip" style="font-size:0.75rem;">{{ p.category }}</span></td>
+        <td><span class="admin-status neutral">{{ p.category }}</span></td>
         <td>{{ p.thumbsUpCount }}</td>
         <td>{{ p.replyCount }}</td>
         <td class="col-views">{{ p.viewCount }}</td>
-        <td style="font-size:0.75rem;">{{ p.createdAt|time_ago }}</td>
+        <td class="admin-text-sm admin-text-secondary">{{ p.createdAt|time_ago }}</td>
         <td>
           <div style="display:flex;gap:4px;">
-            <a href="{% url 'web:admin_post_detail' post_id=p.id %}" class="md-btn md-btn-text" style="padding:4px 8px;font-size:0.75rem;">View</a>
+            <a href="{% url 'web:admin_post_detail' post_id=p.id %}" class="md-btn md-btn-text admin-table-action">View</a>
             <form method="post" action="{% url 'web:admin_post_delete' post_id=p.id %}" data-action="confirm-delete" data-confirm-msg="Delete this post?" style="display:inline;">
               {% csrf_token %}
-              <button type="submit" class="md-btn md-btn-text" style="padding:4px 8px;font-size:0.75rem;color:var(--md-error);">Delete</button>
+              <button type="submit" class="md-btn md-btn-text admin-table-action-destructive">Delete</button>
             </form>
           </div>
         </td>
@@ -70,7 +77,7 @@
 {% if page_obj.has_other_pages %}
 <div class="admin-pagination">
     {% if page_obj.has_previous %}
-        <a href="?page={{ page_obj.previous_page_number }}{% if search %}&q={{ search }}{% endif %}" class="md-btn md-btn-text">&laquo; Previous</a>
+        <a href="?page={{ page_obj.previous_page_number }}{% if search %}&q={{ search }}{% endif %}">&laquo; Previous</a>
     {% else %}
         <span class="disabled">&laquo; Previous</span>
     {% endif %}
@@ -82,7 +89,7 @@
         {% endif %}
     {% endfor %}
     {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}{% if search %}&q={{ search }}{% endif %}" class="md-btn md-btn-text">Next &raquo;</a>
+        <a href="?page={{ page_obj.next_page_number }}{% if search %}&q={{ search }}{% endif %}">Next &raquo;</a>
     {% else %}
         <span class="disabled">Next &raquo;</span>
     {% endif %}
@@ -93,7 +100,7 @@
 </div>
 {% else %}
 <div class="admin-empty">
-  <div class="admin-empty-icon-wrap" style="background: color-mix(in srgb, var(--md-primary) 12%, transparent); color: var(--md-primary); border-color: color-mix(in srgb, var(--md-primary) 25%, transparent);">
+  <div class="admin-empty-icon-wrap">
     <span class="material-symbols-outlined">forum</span>
   </div>
   <h3>No posts found</h3>
@@ -101,7 +108,7 @@
     <p>No forum posts match your search query "{{ search }}". Try checking your spelling or searching for different keywords.</p>
     <div class="admin-empty-actions">
       <a href="{% url 'web:admin_posts' %}" class="md-btn md-btn-filled">
-        <span class="material-symbols-outlined">refresh</span> Clear Search
+        <span class="material-symbols-outlined">refresh</span> Clear search
       </a>
     </div>
   {% else %}

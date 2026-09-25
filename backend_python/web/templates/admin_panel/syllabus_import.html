@@ -4,27 +4,59 @@
 
 {% block content %}
 <div style="max-width:900px;margin:0 auto;">
-  <div style="margin-bottom:24px;">
-    <a href="{% url 'web:admin_syllabus_list' %}" class="back-link" style="margin-bottom:12px;display:inline-flex;">
+  <div class="admin-crumb">
+    <a href="{% url 'web:admin_syllabus_list' %}">
       <span class="material-symbols-outlined">arrow_back</span>
       Back to Syllabus
     </a>
-    <h1 class="md-headline-medium" style="margin:0;">Import Syllabus from JSON</h1>
-    <p class="md-body-small" style="color:var(--md-on-surface-variant);margin:4px 0 0;">Bulk-create chapters by pasting a JSON array. Existing chapters can be updated with the overwrite option.</p>
+  </div>
+  <div class="admin-page-header">
+    <div class="admin-eyebrow">Syllabus</div>
+    <div class="admin-page-header-row">
+      <div>
+        <h1>Import syllabus from JSON</h1>
+        <p>Bulk-create chapters by pasting a JSON array. Existing chapters can be updated with the overwrite option.</p>
+      </div>
+      <div class="admin-page-actions">
+        <a href="{% url 'web:admin_syllabus_create' %}" class="md-btn md-btn-tonal" style="text-decoration:none;">
+          <span class="material-symbols-outlined" style="font-size:18px;">add</span>
+          Add single chapter
+        </a>
+        <a href="{% url 'web:admin_syllabus_export' %}" class="md-btn md-btn-outlined" style="text-decoration:none;">
+          <span class="material-symbols-outlined" style="font-size:18px;">download</span>
+          Export all as JSON
+        </a>
+      </div>
+    </div>
   </div>
 
   {% if import_result %}
-  <div style="padding:16px;border-radius:12px;margin-bottom:20px;border:1px solid {% if import_result.success %}#2e7d32{% else %}var(--md-error, #ba1a1a){% endif %};background:{% if import_result.success %}color-mix(10%, #2e7d32, transparent){% else %}color-mix(10%, var(--md-error), transparent){% endif %};">
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-      <span class="material-symbols-outlined" style="font-size:22px;color:{% if import_result.success %}#2e7d32{% else %}var(--md-error, #ba1a1a){% endif %};">{{ import_result.success|yesno:'done,error' }}</span>
-      <strong style="color:{% if import_result.success %}#2e7d32{% else %}var(--md-error, #ba1a1a){% endif %};">{{ import_result.message }}</strong>
+  <div class="admin-card" style="margin-bottom:20px;">
+    <div class="admin-card-head">
+      {% if import_result.success %}
+      <span class="admin-status ok">{{ import_result.message }}</span>
+      {% else %}
+      <span class="admin-status bad">{{ import_result.message }}</span>
+      {% endif %}
     </div>
     {% if import_result.success %}
-    <div style="display:flex;gap:16px;flex-wrap:wrap;font-size:0.875rem;color:var(--md-on-surface-variant);">
-      <span><strong>{{ import_result.total }}</strong> total</span>
-      <span style="color:#2e7d32;"><strong>{{ import_result.created }}</strong> created</span>
-      <span><strong>{{ import_result.updated }}</strong> updated</span>
-      <span>{{ import_result.skipped }} skipped</span>
+    <div class="admin-kpi-grid">
+      <div class="admin-kpi">
+        <span class="admin-kpi-label">Total</span>
+        <span class="admin-kpi-value">{{ import_result.total }}</span>
+      </div>
+      <div class="admin-kpi">
+        <span class="admin-kpi-label">Created</span>
+        <span class="admin-kpi-value">{{ import_result.created }}</span>
+      </div>
+      <div class="admin-kpi">
+        <span class="admin-kpi-label">Updated</span>
+        <span class="admin-kpi-value">{{ import_result.updated }}</span>
+      </div>
+      <div class="admin-kpi">
+        <span class="admin-kpi-label">Skipped</span>
+        <span class="admin-kpi-value">{{ import_result.skipped }}</span>
+      </div>
     </div>
     {% endif %}
     {% if import_result.errors %}
@@ -39,22 +71,8 @@
   </div>
   {% endif %}
 
-  <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:24px;">
-    <a href="{% url 'web:admin_syllabus_create' %}" class="md-btn md-btn-tonal" style="text-decoration:none;">
-      <span class="material-symbols-outlined" style="font-size:18px;">add</span>
-      Add Single Chapter
-    </a>
-    <a href="{% url 'web:admin_syllabus_export' %}" class="md-btn md-btn-outlined" style="text-decoration:none;">
-      <span class="material-symbols-outlined" style="font-size:18px;">download</span>
-      Export All as JSON
-    </a>
-  </div>
-
-  <div class="upload-section">
-    <div class="upload-section-header">
-      <span class="material-symbols-outlined">upload_file</span>
-      <h2>Paste JSON Data</h2>
-    </div>
+  <div class="admin-form-card">
+    <p class="admin-form-section-title">Paste JSON data</p>
 
     <form method="post">
       {% csrf_token %}
@@ -69,7 +87,7 @@
         </label>
       </div>
 
-      <div class="upload-actions" style="justify-content:flex-start;">
+      <div class="admin-page-actions" style="justify-content:flex-start;">
         <button type="submit" class="md-btn md-btn-filled">
           <span class="material-symbols-outlined" style="font-size:18px;">upload</span>
           Import JSON
@@ -78,11 +96,8 @@
     </form>
   </div>
 
-  <div class="upload-section" style="background:var(--md-surface-container-high);">
-    <div class="upload-section-header">
-      <span class="material-symbols-outlined">info</span>
-      <h2>JSON Format Reference</h2>
-    </div>
+  <div class="admin-form-card">
+    <p class="admin-form-section-title">JSON format reference</p>
 
     <div style="margin-bottom:16px;">
       <p class="md-body-medium" style="margin:0 0 8px;">The JSON must be an <strong>array of objects</strong> (or a single object). Each object represents one chapter:</p>
@@ -142,7 +157,7 @@
         <strong style="font-size:0.875rem;color:var(--md-primary);">Tips for AI-generated JSON</strong>
       </div>
       <ul style="margin:0;padding-left:20px;font-size:0.8125rem;color:var(--md-on-surface-variant);">
-        <li>Use <strong>\\n</strong> for line breaks in <code>text_content</code> and <code>question_answers</code></li>
+        <li>Use <strong>\n</strong> for line breaks in <code>text_content</code> and <code>question_answers</code></li>
         <li>Markdown is supported in <code>text_content</code> (headings, bold, lists, code blocks)</li>
         <li>Q&amp;A format: start each question with <code>Q:</code> and each answer with <code>A:</code>, separate blocks with blank lines</li>
         <li>Valid <code>grade_level</code> values: Class 8, Class 9, Class 10 / SEE, Class 11, Class 12, Diploma, Bachelor, Master, PhD, Entrance Prep, Competitive Exam, Other</li>
