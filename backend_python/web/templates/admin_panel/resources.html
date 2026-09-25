@@ -33,10 +33,10 @@
   </form>
 </div>
 <div class="admin-filter-tabs">
-    <a href="{% url 'web:admin_resources' %}{% if search %}?q={{ search }}{% endif %}" class="{% if status_filter == '' %}active{% endif %}">All</a>
-    <a href="?status=approved{% if search %}&q={{ search }}{% endif %}" class="{% if status_filter == 'approved' %}active{% endif %}">Approved</a>
-    <a href="?status=pending{% if search %}&q={{ search }}{% endif %}" class="{% if status_filter == 'pending' %}active{% endif %}">Pending</a>
-    <a href="?status=rejected{% if search %}&q={{ search }}{% endif %}" class="{% if status_filter == 'rejected' %}active{% endif %}">Rejected</a>
+    <a href="{% url 'web:admin_resources' %}{% if search %}?q={{ search }}{% endif %}" class="{% if status_filter == '' %}active{% endif %}" {% if status_filter == '' %}aria-current="page"{% endif %}>All</a>
+    <a href="?status=approved{% if search %}&q={{ search }}{% endif %}" class="{% if status_filter == 'approved' %}active{% endif %}" {% if status_filter == 'approved' %}aria-current="page"{% endif %}>Approved</a>
+    <a href="?status=pending{% if search %}&q={{ search }}{% endif %}" class="{% if status_filter == 'pending' %}active{% endif %}" {% if status_filter == 'pending' %}aria-current="page"{% endif %}>Pending</a>
+    <a href="?status=rejected{% if search %}&q={{ search }}{% endif %}" class="{% if status_filter == 'rejected' %}active{% endif %}" {% if status_filter == 'rejected' %}aria-current="page"{% endif %}>Rejected</a>
 </div>
 
 {% if resources %}
@@ -59,11 +59,11 @@
         <td style="max-width:300px;">
           <div style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ r.title }}</div>
           {% if r.is_paid %}
-          <div style="margin-top:2px;"><span class="md-chip" style="font-size:0.7rem;background:rgba(245,158,11,0.15);color:#b45309;">Rs. {{ r.price|floatformat:"0" }} · PAID</span></div>
+          <div style="margin-top:2px;"><span class="admin-status warn">Rs. {{ r.price|floatformat:"0" }} · PAID</span></div>
           {% endif %}
           <div style="font-size:0.75rem;color:var(--md-on-surface-variant);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ r.description|default:"" }}</div>
         </td>
-        <td><span class="md-chip" style="font-size:0.75rem;">{{ r.subject|truncatechars:35 }}</span></td>
+        <td><span class="admin-status neutral">{{ r.subject|truncatechars:35 }}</span></td>
         <td class="col-grade">{{ r.grade_level }}</td>
         <td class="col-type">{{ r.type }}</td>
         <td>
@@ -138,12 +138,4 @@
   {% endif %}
 </div>
 {% endif %}
-{% endblock %}
-
-{% block extra_css %}
-<style>
-.admin-badge-approved { background: color-mix(10%, #4caf50, transparent); color: #2e7d32; }
-.admin-badge-pending { background: color-mix(10%, #ff9800, transparent); color: #e65100; }
-.admin-badge-rejected { background: color-mix(10%, #f44336, transparent); color: #c62828; }
-</style>
 {% endblock %}

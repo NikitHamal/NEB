@@ -18,13 +18,13 @@
         <span class="material-symbols-outlined">search</span>
         <input type="text" name="q" value="{{ search }}" placeholder="Search reports..." aria-label="Search reports">
       </div>
-      <select name="status" class="md-chip" style="border:1px solid var(--md-outline-variant);background:var(--md-surface);padding:8px 12px;">
+      <select name="status" class="admin-select" aria-label="Filter by status">
         <option value="">All statuses</option>
         {% for value,label in status_choices %}
         <option value="{{ value }}" {% if status_filter == value %}selected{% endif %}>{{ label }}</option>
         {% endfor %}
       </select>
-      <select name="type" class="md-chip" style="border:1px solid var(--md-outline-variant);background:var(--md-surface);padding:8px 12px;">
+      <select name="type" class="admin-select" aria-label="Filter by target">
         <option value="">All targets</option>
         {% for value,label in type_choices %}
         <option value="{{ value }}" {% if type_filter == value %}selected{% endif %}>{{ label }}</option>
@@ -66,7 +66,7 @@
           {% if r.description %}<div class="md-body-small" style="color:var(--md-on-surface-variant);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:220px;">{{ r.description }}</div>{% endif %}
         </td>
         <td style="max-width:280px;">
-          <span class="md-chip" style="font-size:0.75rem;">{{ r.target_type }}</span>
+          <span class="admin-status neutral">{{ r.target_type }}</span>
           {% if t.exists %}
             <div style="font-weight:600;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ t.title }}</div>
             {% if t.author_name %}<div class="md-body-small" style="color:var(--md-on-surface-variant);">by {{ t.author_name }}</div>{% endif %}
