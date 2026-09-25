@@ -36,7 +36,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.neb.ians.ui.components.NebLoadingIndicator
@@ -261,14 +260,10 @@ internal fun EditBasicsSection(
                     }
                 }
             )
-            NebAuthField(
-                value = state.email,
-                onValueChange = viewModel::onEmailChange,
-                label = "Email",
-                placeholder = "you@example.com",
-                leadingIcon = Icons.Outlined.AlternateEmail,
-                keyboardType = KeyboardType.Email
-            )
+            // Email is no longer edited here. Changing the address that can
+            // reset your password is an account-security action, so it lives
+            // behind Settings > Account security, where it is confirmed with
+            // a code sent to the new address.
             EditBioField(state = state, viewModel = viewModel)
         }
     }

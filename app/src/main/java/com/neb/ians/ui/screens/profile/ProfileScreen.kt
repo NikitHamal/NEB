@@ -1,74 +1,86 @@
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+
 package com.neb.ians.ui.screens.profile
 
+import android.widget.Toast
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ChatBubbleOutline
-import androidx.compose.material.icons.outlined.Edit
-import androidx.compose.material.icons.outlined.FolderOpen
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.outlined.Reply
+import androidx.compose.material.icons.outlined.BarChart
+import androidx.compose.material.icons.outlined.CloudOff
+import androidx.compose.material.icons.outlined.Forum
+import androidx.compose.material.icons.outlined.InsertDriveFile
+import androidx.compose.material.icons.outlined.Link
+import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Icon
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Link
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.draw.clip
-import android.widget.Toast
-import kotlinx.coroutines.launch
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.neb.ians.R
-import com.neb.ians.data.api.ApiSocialLink
-import com.neb.ians.ui.components.WebEmptyState
-import com.neb.ians.ui.components.WebResourceCard
-import com.neb.ians.ui.components.ZoomableImageDialog
+import com.neb.ians.ui.components.NebButton
+import com.neb.ians.ui.components.NebButtonSize
+import com.neb.ians.ui.components.NebButtonTone
+import com.neb.ians.ui.components.NebEmptyState
+import com.neb.ians.ui.components.NebLoader
+import com.neb.ians.ui.components.NebLoaderSize
 import com.neb.ians.ui.components.NebRailTab
 import com.neb.ians.ui.components.NebTabRail
-import com.neb.ians.ui.components.NebLoader
+import com.neb.ians.ui.components.WebResourceCard
+import com.neb.ians.ui.components.ZoomableImageDialog
+import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
+// ---------------------------------------------------------------------------
+// Someone's profile.
+//
+// One scroll, front to back: who they are, then what they have made. The
+// banner runs edge to edge under a solid top bar that takes over their name
+// once the identity block has gone by, and the tab rail pins itself under
+// that bar so you never lose your place in a long feed.
+// ---------------------------------------------------------------------------
+
+private const val PROFILE_LINK_BASE = "https://nebians.consica.com.np/profile/"
+
 @Composable
 fun ProfileScreen(
     username: String,
@@ -90,14 +102,81 @@ fun ProfileScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(uiState.profile, showRequests) {
-        if (showRequests && uiState.profile != null && uiState.profile?.isSelf == true) {
+        if (showRequests && uiState.profile?.isSelf == true) {
             viewModel.openFollowRequests()
         }
     }
+
     val scope = rememberCoroutineScope()
+    val clipboard = LocalClipboardManager.current
+    val context = LocalContext.current
     var isRefreshing by remember { mutableStateOf(false) }
 
+    val listState = rememberLazyListState()
+    // The header's identity block is roughly 260dp in; past that the top bar
+    // is the only thing still saying whose profile this is.
+    val showBarTitle by remember {
+        derivedStateOf {
+            listState.firstVisibleItemIndex > 0 || listState.firstVisibleItemScrollOffset > 260
+        }
+    }
+
+    val profile = uiState.profile
+    val isSelf = profile?.isSelf == true
+
     Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    AnimatedVisibility(
+                        visible = showBarTitle && profile != null,
+                        enter = fadeIn(),
+                        exit = fadeOut()
+                    ) {
+                        Column {
+                            Text(
+                                text = profile?.displayName?.takeIf { it.isNotBlank() }
+                                    ?: profile?.username.orEmpty(),
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.SemiBold,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                            Text(
+                                text = postsLabel(profile?.postCount ?: 0),
+                                style = MaterialTheme.typography.labelMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                maxLines = 1
+                            )
+                        }
+                    }
+                },
+                navigationIcon = {
+                    IconButton(onClick = onNavigateBack) {
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                    }
+                },
+                actions = {
+                    if (isSelf) {
+                        IconButton(onClick = onAnalyticsClick) {
+                            Icon(Icons.Outlined.BarChart, contentDescription = "Analytics")
+                        }
+                    }
+                    IconButton(
+                        onClick = {
+                            val handle = profile?.username ?: username
+                            clipboard.setText(AnnotatedString("$PROFILE_LINK_BASE$handle/"))
+                            Toast.makeText(context, "Profile link copied", Toast.LENGTH_SHORT).show()
+                        }
+                    ) {
+                        Icon(Icons.Outlined.Link, contentDescription = "Copy link")
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.surface
+                )
+            )
+        },
         containerColor = MaterialTheme.colorScheme.surface
     ) { padding ->
         PullToRefreshBox(
@@ -113,19 +192,10 @@ fun ProfileScreen(
                 .fillMaxSize()
                 .padding(padding)
         ) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
             when {
-                uiState.isLoading -> NebLoader()
-                uiState.error != null -> WebEmptyState(
-                    title = "Profile unavailable",
-                    message = uiState.error ?: "Try again later.",
-                    icon = painterResource(id = R.drawable.ic_school)
-                )
-                uiState.profile != null -> ProfileContent(
+                profile != null -> ProfileBody(
                     uiState = uiState,
+                    listState = listState,
                     onEditProfile = onEditProfile,
                     onFollowClick = viewModel::toggleFollow,
                     onPostClick = onPostClick,
@@ -134,21 +204,42 @@ fun ProfileScreen(
                     onLoadMorePosts = { viewModel.loadPosts(reset = false) },
                     onLoadMoreReplies = { viewModel.loadReplies(reset = false) },
                     onLoadMoreResources = { viewModel.loadResources(reset = false) },
+                    onRetryPosts = { viewModel.loadPosts(reset = true) },
+                    onRetryReplies = { viewModel.loadReplies(reset = true) },
+                    onRetryResources = { viewModel.loadResources(reset = true) },
                     onAvatarClick = {
-                        if (uiState.profile?.isSelf == true) viewModel.openPhotoGallery() else viewModel.openAvatarPreview()
+                        if (isSelf) viewModel.openPhotoGallery() else viewModel.openAvatarPreview()
                     },
-                    onNavigateBack = onNavigateBack,
-                    onAnalyticsClick = onAnalyticsClick,
                     onFollowersClick = viewModel::openFollowers,
                     onFollowingClick = viewModel::openFollowing,
                     onFollowRequestsClick = viewModel::openFollowRequests,
                     onProfileClick = onProfileClick,
-                    viewModel = viewModel
+                    onSocialLinkClick = { link -> viewModel.trackSocialClick(link, profile.id) }
                 )
+
+                uiState.error != null -> Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    NebEmptyState(
+                        icon = Icons.Outlined.CloudOff,
+                        title = "Profile unavailable",
+                        subtitle = uiState.error,
+                        action = {
+                            NebButton(
+                                text = "Try again",
+                                onClick = { viewModel.loadProfile(username) },
+                                tone = NebButtonTone.Outlined,
+                                size = NebButtonSize.Small
+                            )
+                        }
+                    )
+                }
+
+                else -> ProfileHeaderSkeleton(modifier = Modifier.fillMaxWidth())
             }
         }
-        } // end Box
-        } // end PullToRefreshBox
+    }
 
     if (uiState.showPhotoGallery) {
         PhotoGalleryDialog(
@@ -205,8 +296,9 @@ fun ProfileScreen(
 }
 
 @Composable
-private fun ProfileContent(
+private fun ProfileBody(
     uiState: ProfileUiState,
+    listState: androidx.compose.foundation.lazy.LazyListState,
     onEditProfile: () -> Unit,
     onFollowClick: () -> Unit,
     onPostClick: (String) -> Unit,
@@ -215,66 +307,58 @@ private fun ProfileContent(
     onLoadMorePosts: () -> Unit,
     onLoadMoreReplies: () -> Unit,
     onLoadMoreResources: () -> Unit,
+    onRetryPosts: () -> Unit,
+    onRetryReplies: () -> Unit,
+    onRetryResources: () -> Unit,
     onAvatarClick: () -> Unit,
-    onNavigateBack: () -> Unit,
-    onAnalyticsClick: () -> Unit,
     onFollowersClick: () -> Unit,
     onFollowingClick: () -> Unit,
     onFollowRequestsClick: () -> Unit,
-    onProfileClick: (String) -> Unit = {},
-    viewModel: ProfileViewModel? = null
+    onProfileClick: (String) -> Unit,
+    onSocialLinkClick: (com.neb.ians.data.api.ApiSocialLink) -> Unit
 ) {
     val profile = uiState.profile ?: return
     val isSelf = profile.isSelf == true
     val isPrivate = profile.isLocked == 1 && !isSelf && !uiState.isFollowing
+    val handle = "@${profile.username}"
 
-    val lazyListState = rememberLazyListState()
-    val showSolidTopBar by remember {
-        derivedStateOf {
-            val firstItemIndex = lazyListState.firstVisibleItemIndex
-            val firstItemOffset = lazyListState.firstVisibleItemScrollOffset
-            firstItemIndex > 0 || firstItemOffset > 250
+    LazyColumn(
+        state = listState,
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(bottom = 8.dp)
+    ) {
+        item(key = "header") {
+            ProfileHeader(
+                profile = profile,
+                isSelf = isSelf,
+                isFollowing = uiState.isFollowing,
+                isRequested = uiState.isRequested,
+                followRequestsCount = uiState.followRequestsCount,
+                followerCount = uiState.followerCount,
+                onEditProfile = onEditProfile,
+                onFollowClick = onFollowClick,
+                onAvatarClick = onAvatarClick,
+                onFollowersClick = onFollowersClick,
+                onFollowingClick = onFollowingClick,
+                onFollowRequestsClick = onFollowRequestsClick,
+                onProfileClick = onProfileClick,
+                onSocialLinkClick = onSocialLinkClick
+            )
         }
-    }
-    val clipboard = LocalClipboardManager.current
-    val context = LocalContext.current
-
-    Box(modifier = Modifier.fillMaxSize()) {
-        LazyColumn(
-            state = lazyListState,
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 24.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            item(key = "header") {
-                ProfileHeaderCard(
-                    profile = profile,
-                    isSelf = isSelf,
-                    isFollowing = uiState.isFollowing,
-                    isRequested = uiState.isRequested,
-                    followRequestsCount = uiState.followRequestsCount,
-                    followerCount = uiState.followerCount,
-                    onEditProfile = onEditProfile,
-                    onFollowClick = onFollowClick,
-                    onAvatarClick = onAvatarClick,
-                    onNavigateBack = onNavigateBack,
-                    onAnalyticsClick = onAnalyticsClick,
-                    onFollowersClick = onFollowersClick,
-                    onFollowingClick = onFollowingClick,
-                    onFollowRequestsClick = onFollowRequestsClick,
-                    onProfileClick = onProfileClick,
-                    onSocialLinkClick = { link -> viewModel?.trackSocialClick(link, profile.id) }
-                )
-            }
 
         if (isPrivate) {
             item(key = "private") {
-                Box(modifier = Modifier.padding(horizontal = 8.dp)) {
-                    PrivateProfileNotice()
-                }
+                NebEmptyState(
+                    icon = Icons.Outlined.Lock,
+                    title = "This profile is private",
+                    subtitle = "Follow $handle to see their posts, replies and resources."
+                )
             }
-        } else {
-            item(key = "tabs") {
+            return@LazyColumn
+        }
+
+        stickyHeader(key = "tabs") { _: Int ->
+            Column(modifier = Modifier.background(MaterialTheme.colorScheme.surface)) {
                 NebTabRail(
                     tabs = listOf(
                         NebRailTab("Posts", count = profile.postCount),
@@ -284,199 +368,241 @@ private fun ProfileContent(
                     ),
                     selectedIndex = uiState.selectedTab,
                     onSelect = onTabSelected,
-                    modifier = Modifier.padding(vertical = 2.dp)
+                    contentPadding = PaddingValues(horizontal = 14.dp, vertical = 4.dp)
                 )
+                HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
             }
+        }
 
-            when (uiState.selectedTab) {
-                0 -> {
-                    if (uiState.posts.isEmpty() && !uiState.postsLoading && uiState.postsLoaded) {
-                        item(key = "posts_empty") {
-                            Box(modifier = Modifier.padding(horizontal = 8.dp)) {
-                                ProfileEmptyTabBox(
-                                    title = "No activity yet",
-                                    message = "Posts and replies will appear here",
-                                    icon = Icons.Outlined.Edit
-                                )
-                            }
-                        }
-                    }
-                    items(uiState.posts.size, key = { idx -> "post_${uiState.posts[idx].id}" }) { idx ->
-                        val post = uiState.posts[idx]
-                        Box(modifier = Modifier.padding(horizontal = 8.dp)) {
-                            ProfilePostCard(post = post, onClick = { onPostClick(post.id) })
-                        }
-                    }
-                    if (uiState.postsLoading) {
-                        item(key = "posts_loading") { ProfileProgressIndicator() }
-                    } else if (uiState.postsHasMore) {
-                        item(key = "posts_more") {
-                            Box(modifier = Modifier.padding(horizontal = 8.dp)) {
-                                ProfileLoadMoreButton(onLoadMorePosts)
-                            }
-                        }
-                    }
+        when (uiState.selectedTab) {
+            0 -> feedSection(
+                prefix = "post",
+                count = uiState.posts.size,
+                isLoading = uiState.postsLoading,
+                isLoaded = uiState.postsLoaded,
+                hasMore = uiState.postsHasMore,
+                error = uiState.postsError,
+                emptyIcon = Icons.Outlined.Forum,
+                emptyTitle = if (isSelf) "You haven't posted yet" else "No posts yet",
+                emptySubtitle = if (isSelf) {
+                    "Anything you post in the forum shows up here."
+                } else {
+                    "$handle hasn't posted anything yet."
+                },
+                errorTitle = "Couldn't load posts",
+                onRetry = onRetryPosts,
+                onLoadMore = onLoadMorePosts,
+                skeleton = { ProfileCardSkeleton() },
+                key = { idx -> uiState.posts[idx].id },
+                row = { idx ->
+                    val post = uiState.posts[idx]
+                    ProfilePostCard(post = post, onClick = { onPostClick(post.id) })
                 }
-                1 -> {
-                    if (uiState.replies.isEmpty() && !uiState.repliesLoading && uiState.repliesLoaded) {
-                        item(key = "replies_empty") {
-                            Box(modifier = Modifier.padding(horizontal = 8.dp)) {
-                                ProfileEmptyTabBox(
-                                    title = "No activity yet",
-                                    message = "Posts and replies will appear here",
-                                    icon = Icons.Outlined.ChatBubbleOutline
-                                )
-                            }
-                        }
-                    }
-                    items(uiState.replies.size, key = { idx -> "reply_${uiState.replies[idx].id}" }) { idx ->
-                        val reply = uiState.replies[idx]
-                        Box(modifier = Modifier.padding(horizontal = 8.dp)) {
-                            ProfileReplyCard(reply = reply, onClick = { onPostClick(reply.postId) })
-                        }
-                    }
-                    if (uiState.repliesLoading) {
-                        item(key = "replies_loading") { ProfileProgressIndicator() }
-                    } else if (uiState.repliesHasMore) {
-                        item(key = "replies_more") {
-                            Box(modifier = Modifier.padding(horizontal = 8.dp)) {
-                                ProfileLoadMoreButton(onLoadMoreReplies)
-                            }
-                        }
-                    }
+            )
+
+            1 -> feedSection(
+                prefix = "reply",
+                count = uiState.replies.size,
+                isLoading = uiState.repliesLoading,
+                isLoaded = uiState.repliesLoaded,
+                hasMore = uiState.repliesHasMore,
+                error = uiState.repliesError,
+                emptyIcon = Icons.AutoMirrored.Outlined.Reply,
+                emptyTitle = if (isSelf) "You haven't replied yet" else "No replies yet",
+                emptySubtitle = if (isSelf) {
+                    "Answers you leave on other people's posts collect here."
+                } else {
+                    "$handle hasn't replied to anything yet."
+                },
+                errorTitle = "Couldn't load replies",
+                onRetry = onRetryReplies,
+                onLoadMore = onLoadMoreReplies,
+                skeleton = { ProfileReplySkeleton() },
+                key = { idx -> uiState.replies[idx].id },
+                row = { idx ->
+                    val reply = uiState.replies[idx]
+                    ProfileReplyCard(reply = reply, onClick = { onPostClick(reply.postId) })
                 }
-                2 -> {
-                    if (uiState.resources.isEmpty() && !uiState.resourcesLoading && uiState.resourcesLoaded) {
-                        item(key = "resources_empty") {
-                            Box(modifier = Modifier.padding(horizontal = 8.dp)) {
-                                ProfileEmptyTabBox(
-                                    title = "No activity yet",
-                                    message = "Posts and replies will appear here",
-                                    icon = Icons.Outlined.FolderOpen
-                                )
-                            }
-                        }
-                    }
-                    items(uiState.resources.size, key = { idx -> "res_${uiState.resources[idx].id}" }) { idx ->
-                        val resource = uiState.resources[idx]
-                        Box(modifier = Modifier.padding(horizontal = 8.dp)) {
-                            WebResourceCard(
-                                resource = resource,
-                                onClick = { onResourceClick(resource.id) },
-                                minWidth = null,
-                                modifier = Modifier.padding(vertical = 4.dp)
-                            )
-                        }
-                    }
-                    if (uiState.resourcesLoading) {
-                        item(key = "resources_loading") { ProfileProgressIndicator() }
-                    } else if (uiState.resourcesHasMore) {
-                        item(key = "resources_more") {
-                            Box(modifier = Modifier.padding(horizontal = 8.dp)) {
-                                ProfileLoadMoreButton(onLoadMoreResources)
-                            }
-                        }
-                    }
+            )
+
+            2 -> feedSection(
+                prefix = "res",
+                count = uiState.resources.size,
+                isLoading = uiState.resourcesLoading,
+                isLoaded = uiState.resourcesLoaded,
+                hasMore = uiState.resourcesHasMore,
+                error = uiState.resourcesError,
+                emptyIcon = Icons.Outlined.InsertDriveFile,
+                emptyTitle = if (isSelf) "You haven't shared resources yet" else "No resources yet",
+                emptySubtitle = if (isSelf) {
+                    "Notes and past papers you upload appear here once approved."
+                } else {
+                    "$handle hasn't shared any notes or papers yet."
+                },
+                errorTitle = "Couldn't load resources",
+                onRetry = onRetryResources,
+                onLoadMore = onLoadMoreResources,
+                skeleton = { ProfileCardSkeleton() },
+                key = { idx -> uiState.resources[idx].id },
+                row = { idx ->
+                    val resource = uiState.resources[idx]
+                    WebResourceCard(
+                        resource = resource,
+                        onClick = { onResourceClick(resource.id) },
+                        minWidth = null
+                    )
                 }
-                3 -> {
-                    item(key = "about_stats") {
-                        Box(modifier = Modifier.padding(horizontal = 8.dp)) {
-                            AboutStatsCard(profile = profile)
-                        }
-                    }
-                    item(key = "about_achievements") {
-                        Box(modifier = Modifier.padding(horizontal = 8.dp)) {
-                            AboutAchievementsCard(profile = profile)
-                        }
-                    }
-                    item(key = "about_details") {
-                        Box(modifier = Modifier.padding(horizontal = 8.dp)) {
-                            AboutDetailsCard(profile = profile, onProfileClick = onProfileClick)
-                        }
-                    }
-                    item(key = "about_progress") {
-                        Box(modifier = Modifier.padding(horizontal = 8.dp)) {
-                            AboutProgressCard(profile = profile)
-                        }
-                    }
+            )
+
+            3 -> {
+                item(key = "about_stats") {
+                    CardSlot { AboutStatsCard(profile = profile, followerCount = uiState.followerCount) }
+                }
+                item(key = "about_achievements") {
+                    CardSlot { AboutAchievementsCard(profile = profile) }
+                }
+                item(key = "about_details") {
+                    CardSlot { AboutDetailsCard(profile = profile, onProfileClick = onProfileClick) }
+                }
+                item(key = "about_progress") {
+                    CardSlot { AboutProgressCard(profile = profile) }
                 }
             }
         }
 
         item(key = "bottom_spacer") {
-            Spacer(modifier = Modifier.navigationBarsPadding().height(96.dp))
+            Spacer(
+                modifier = Modifier
+                    .navigationBarsPadding()
+                    .height(72.dp)
+            )
         }
-    }
-
-    // Overlayed Top Bar
-    Surface(
-        modifier = Modifier.fillMaxWidth(),
-        color = if (showSolidTopBar) MaterialTheme.colorScheme.surface else Color.Transparent,
-        tonalElevation = if (showSolidTopBar) 4.dp else 0.dp
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 16.dp)
-                .height(56.dp)
-                .padding(horizontal = 28.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Surface(
-                shape = CircleShape,
-                color = if (showSolidTopBar) Color.Transparent else Color.Black.copy(alpha = 0.4f),
-                modifier = Modifier.size(36.dp)
-            ) {
-                IconButton(onClick = onNavigateBack) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "Back",
-                        tint = if (showSolidTopBar) MaterialTheme.colorScheme.onSurface else Color.White
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.width(12.dp))
-
-            AnimatedVisibility(
-                visible = showSolidTopBar,
-                enter = fadeIn(),
-                exit = fadeOut(),
-                modifier = Modifier.weight(1f)
-            ) {
-                Text(
-                    text = profile.displayName.takeIf { !it.isNullOrBlank() } ?: profile.username,
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
-
-            if (!showSolidTopBar) {
-                Spacer(modifier = Modifier.weight(1f))
-            }
-
-            Surface(
-                shape = CircleShape,
-                color = if (showSolidTopBar) Color.Transparent else Color.Black.copy(alpha = 0.4f),
-                modifier = Modifier.size(36.dp)
-            ) {
-                IconButton(
-                    onClick = {
-                        clipboard.setText(AnnotatedString("https://nebians.consica.com.np/profile/${profile.username}/"))
-                        Toast.makeText(context, "Profile link copied", Toast.LENGTH_SHORT).show()
-                    }
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Link,
-                        contentDescription = "Copy link",
-                        tint = if (showSolidTopBar) MaterialTheme.colorScheme.onSurface else Color.White
-                    )
-                }
-        }
-    }
     }
 }
+
+/**
+ * One tab's worth of list: skeletons, then rows, then whatever comes after
+ * them — a load-more button, a spinner, an empty state or a retry. All three
+ * feeds behave identically, so they are described once.
+ */
+private fun LazyListScope.feedSection(
+    prefix: String,
+    count: Int,
+    isLoading: Boolean,
+    isLoaded: Boolean,
+    hasMore: Boolean,
+    error: String?,
+    emptyIcon: androidx.compose.ui.graphics.vector.ImageVector,
+    emptyTitle: String,
+    emptySubtitle: String,
+    errorTitle: String,
+    onRetry: () -> Unit,
+    onLoadMore: () -> Unit,
+    skeleton: @Composable () -> Unit,
+    key: (Int) -> String,
+    row: @Composable (Int) -> Unit
+) {
+    // First load: show the shape of what is coming rather than a spinner.
+    if (count == 0 && isLoading) {
+        items(4, key = { idx -> "${prefix}_skeleton_$idx" }) { CardSlot { skeleton() } }
+        return
+    }
+
+    if (count == 0 && error != null) {
+        item(key = "${prefix}_error") {
+            NebEmptyState(
+                icon = Icons.Outlined.CloudOff,
+                title = errorTitle,
+                subtitle = error,
+                action = {
+                    NebButton(
+                        text = "Try again",
+                        onClick = onRetry,
+                        tone = NebButtonTone.Outlined,
+                        size = NebButtonSize.Small
+                    )
+                }
+            )
+        }
+        return
+    }
+
+    if (count == 0 && isLoaded) {
+        item(key = "${prefix}_empty") {
+            NebEmptyState(icon = emptyIcon, title = emptyTitle, subtitle = emptySubtitle)
+        }
+        return
+    }
+
+    items(count, key = { idx -> "${prefix}_${key(idx)}" }) { idx ->
+        CardSlot { row(idx) }
+    }
+
+    when {
+        isLoading -> item(key = "${prefix}_more_loading") {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 20.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                NebLoader(size = NebLoaderSize.Small)
+            }
+        }
+
+        error != null -> item(key = "${prefix}_more_error") {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp, vertical = 16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Text(
+                    text = error,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                NebButton(
+                    text = "Try again",
+                    onClick = onRetry,
+                    tone = NebButtonTone.Outlined,
+                    size = NebButtonSize.Small
+                )
+            }
+        }
+
+        hasMore -> item(key = "${prefix}_more") {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp, vertical = 14.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                NebButton(
+                    text = "Show more",
+                    onClick = onLoadMore,
+                    tone = NebButtonTone.Outlined,
+                    size = NebButtonSize.Small,
+                    fillWidth = true
+                )
+            }
+        }
+    }
+}
+
+/**
+ * Where a card sits in the feed. The header runs edge to edge, so the cards
+ * need their own inset -- the same 16dp the forum and library use, with 6dp
+ * above and below so stacked cards sit 12dp apart.
+ */
+@Composable
+private fun CardSlot(content: @Composable () -> Unit) {
+    Box(modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp)) { content() }
+}
+
+private fun postsLabel(count: Int): String = when (count) {
+    0 -> "No posts"
+    1 -> "1 post"
+    else -> "$count posts"
 }

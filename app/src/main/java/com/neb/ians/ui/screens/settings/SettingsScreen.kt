@@ -76,6 +76,7 @@ fun SettingsScreen(
     onNavigateToNebyCredits: () -> Unit = {},
     onNavigateToMyAvatar: () -> Unit = {},
     onNavigateToDeleteAccount: () -> Unit = {},
+    onNavigateToAccountSecurity: () -> Unit = {},
     onNavigateToLogin: () -> Unit = {},
     onNavigateToWebPortal: (String) -> Unit = {},
     onNavigateToLegal: (String) -> Unit = {},
@@ -127,9 +128,15 @@ fun SettingsScreen(
 
             if (profile != null) {
                 SettingsGroup(title = "Account") {
-                    PasswordSection(
-                        settingsViewModel = settingsViewModel,
-                        hasPassword = profile.hasPassword
+                    SettingsRow(
+                        icon = Icons.Outlined.Lock,
+                        title = "Account security",
+                        subtitle = if (profile.hasPassword) {
+                            "Email and password"
+                        } else {
+                            "Email, and a password you haven't set yet"
+                        },
+                        onClick = onNavigateToAccountSecurity
                     )
                     SettingsDivider()
                     SettingsToggleRow(
