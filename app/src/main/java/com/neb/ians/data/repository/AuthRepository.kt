@@ -395,6 +395,79 @@ class AuthRepository @Inject constructor(
         }
     }
 
+    /** What Account security needs to draw itself, or null if it cannot be read. */
+    suspend fun accountSecurity(): AccountSecurityInfo? {
+        return try {
+            val bearer = getBearerToken() ?: return null
+            val response = withContext(Dispatchers.IO) { apiService.accountSecurity(bearer) }
+            AccountSecurityInfo(
+                email = response.email,
+                emailVerified = response.emailVerified,
+                hasPassword = response.hasPassword,
+                pendingEmail = response.pendingEmail
+            )
+        } catch (_: Exception) {
+            null
+        }
+    }
+
+    /**
+     * Starts an email change. Nothing moves on the account yet: the server
+     * parks the address and mails a code to it.
+     */
+    suspend fun requestEmailChange(newEmail: String, password: String): EmailChangeResult {
+        return try {
+            val bearer = getBearerToken() ?: return EmailChangeResult.Failure("Not authenticated")
+            val response = withContext(Dispatchers.IO) {
+                apiService.requestEmailChange(
+                    bearer,
+                    com.neb.ians.data.api.EmailChangeRequest(newEmail = newEmail, password = password)
+                )
+            }
+            if (response.status == "success") {
+                EmailChangeResult.CodeSent(response.pendingEmail.ifBlank { newEmail })
+            } else {
+                EmailChangeResult.Failure(response.error ?: "Couldn't send the code")
+            }
+        } catch (e: Exception) {
+            EmailChangeResult.Failure(ApiErrorMapper.mapException(e))
+        }
+    }
+
+    /**
+     * Finishes an email change. The server signs every other session out, so
+     * the fresh token it hands back replaces the one held here.
+     */
+    suspend fun confirmEmailChange(code: String): EmailChangeResult {
+        return try {
+            val bearer = getBearerToken() ?: return EmailChangeResult.Failure("Not authenticated")
+            val response = withContext(Dispatchers.IO) {
+                apiService.confirmEmailChange(bearer, com.neb.ians.data.api.EmailChangeConfirmRequest(code))
+            }
+            val user = response.user
+            val authToken = response.authToken
+            if (response.status == "success" && user != null && authToken != null) {
+                withContext(Dispatchers.IO) { cacheUser(user, authToken, false) }
+                EmailChangeResult.Changed(user.email.orEmpty())
+            } else {
+                EmailChangeResult.Failure(response.error ?: "Couldn't confirm the code")
+            }
+        } catch (e: Exception) {
+            EmailChangeResult.Failure(ApiErrorMapper.mapException(e))
+        }
+    }
+
+    /** Drops a pending email change so the address on file is the only one. */
+    suspend fun cancelEmailChange(): Boolean {
+        return try {
+            val bearer = getBearerToken() ?: return false
+            val response = withContext(Dispatchers.IO) { apiService.cancelEmailChange(bearer) }
+            response.status == "success"
+        } catch (_: Exception) {
+            false
+        }
+    }
+
     suspend fun completeProfile(profile: com.neb.ians.data.api.UserProfileRequest): String? {
         return try {
             val bearer = getBearerToken() ?: return "Not authenticated"
@@ -655,6 +728,20 @@ class AuthRepository @Inject constructor(
 sealed class PasswordResult {
     object Success : PasswordResult()
     data class Failure(val message: String) : PasswordResult()
+}
+
+data class AccountSecurityInfo(
+    val email: String,
+    val emailVerified: Boolean,
+    val hasPassword: Boolean,
+    val pendingEmail: String
+)
+
+sealed class EmailChangeResult {
+    /** A code is on its way to [pendingEmail]; nothing has changed yet. */
+    data class CodeSent(val pendingEmail: String) : EmailChangeResult()
+    data class Changed(val email: String) : EmailChangeResult()
+    data class Failure(val message: String) : EmailChangeResult()
 }
 
 sealed class OAuthResult {

@@ -159,6 +159,7 @@ sealed class Screen(val route: String) {
     }
     data object MyAvatar : Screen("my_avatar")
     data object DeleteAccount : Screen("delete_account")
+    data object AccountSecurity : Screen("account_security")
     data object PdfViewer : Screen("pdf/{resourceId}") {
         fun createRoute(resourceId: String) = "pdf/$resourceId"
     }
@@ -738,6 +739,9 @@ fun NEBiansNavHost(
                     onNavigateToNebyCredits = { navController.navigate(Screen.NebyCredits.route) },
                     onNavigateToMyAvatar = { navController.navigate(Screen.MyAvatar.route) },
                     onNavigateToDeleteAccount = { navController.navigate(Screen.DeleteAccount.route) },
+                    onNavigateToAccountSecurity = {
+                        navController.navigate(Screen.AccountSecurity.route)
+                    },
                     onNavigateToLogin = {
                         navController.navigate(Screen.Login.route) {
                             popUpTo(navController.graph.findStartDestination().id) { inclusive = true }
@@ -779,6 +783,11 @@ fun NEBiansNavHost(
             }
             composable(Screen.MyAvatar.route) {
                 com.neb.ians.ui.screens.avatar.MyAvatarScreen(
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            }
+            composable(Screen.AccountSecurity.route) {
+                com.neb.ians.ui.screens.settings.AccountSecurityScreen(
                     onNavigateBack = { navController.popBackStack() }
                 )
             }

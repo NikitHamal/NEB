@@ -1,7 +1,7 @@
 # NEBians Android — UI/UX Revamp Continuity
 
-**Last updated:** September 24, 2026
-**Working branch:** `design/nebians-onboarding-experience`
+**Last updated:** September 25, 2026
+**Working branches:** `design/nebians-onboarding-experience` (issue #44, §4), then `design/profile-revamp` (§5)
 **Scope:** the mono / Material 3 Expressive redesign of the Android app (GitHub issues #41–#44). This file is the handoff for that work; `CONTINUITY.md` covers the Django/web side and is unrelated.
 
 ---
@@ -49,7 +49,7 @@ These are the owner's stated preferences. They have been reasserted several time
 - Double bottom inset on composer bars is fixed with `WindowInsets.ime.exclude(WindowInsets.navigationBars)`.
 - `ButtonDefaults.shapesFor(height)` **renders square at ≥56dp** (its two-argument branch supplies a pressed shape whose resting shape resolves oddly). Confirmed by `javap` on the material3 AAR. `NebButton` therefore states its own `ButtonShapes` — see §4.
 
-## 4. What was delivered this session (issue #44) — all of it compiles
+## 4. What was delivered in the issue #44 session — all of it compiles
 
 Both `:app:compileModernDebugKotlin` and `:app:compileLegacyDebugKotlin` are green.
 
@@ -88,13 +88,72 @@ Editorial index rather than a stack of bordered cards: house `TopAppBar` ("Blog"
 **h) Blog reader, redesigned** (`ui/screens/news/NewsDetailScreen.kt`).
 Real `TopAppBar` (category label as the title, back, a direct Share action — the `⋮` `DropdownMenu` is gone, and so is the redundant "Share this article" button in the body). New editorial `NewsArticleHeader`: uppercase category kicker, `headlineMedium` `SemiBold` headline, `bodyLarge` standfirst at 27sp leading, byline row, rule. Cover moved below the header at 16:10 with 18dp corners. Body copy is `bodyLarge` at **30sp line height inside 20dp side padding** for a readable measure. "Read the original" is an outlined button; related articles reuse `NewsIndexRow`; the skeleton is shimmer-based. The comment-thread `NebModalSheet` and `safeOpenUri()` were left untouched.
 
-## 5. Still open from issue #44
+## 5. What was delivered in the profile session — all of it compiles
 
-1. **"Any other remaining screen or components too"** — the owner asked for a sweep. Not done. Known candidates still on the old card-heavy pattern: `ui/screens/analytics/AnalyticsScreen.kt`, `ui/screens/downloads/DownloadsScreen.kt`, and anything still calling `WebTopBar` / `WebEmptyState` (`ui/components/NebiansWeb.kt`) rather than the `TopAppBar` + `NebEmptyState` house pattern. `grep -rn "WebEmptyState\|WebTopBar" app/src/main/java` is the starting point.
-2. **Visual verification.** Nothing in §4 has been seen on a device this session — only compiled. `assembleModernDebug` and a screenshot pass would be the next sanity check.
-3. The reader's comment **loading** skeleton still uses hand-rolled boxes rather than the shimmer primitives (minor).
+Both `:app:compileModernDebugKotlin` and `:app:compileLegacyDebugKotlin` are green. Asked for: finish the then-open list, redesign the reply cards, fix the Resources tab, redesign the whole profile screen.
 
-## 6. Build and push mechanics
+**a) The Resources tab bug ("No activity yet" for everyone).**
+Not an empty-list bug — a **decode failure**. The two backend resource serialisers disagree about `price`: `backend_python/api/serializers.py:206` emits it as a string (`"150"`), `backend_python/web/view_helpers.py:222` (`_serialize_resource`) emits the raw float (`150.0`). `ApiResource.price` is a Kotlin `String`, and `coerceInputValues` rescues `null`, **not** a type mismatch, so `decodeString()` threw; because kotlinx decodes the whole response in one pass, one unquoted number emptied the entire list, and `ProfileViewModel.loadResources()`'s silent `catch` turned that into a permanent "No activity yet".
+Fixed **client-side** in new `data/api/LenientSerializers.kt`: `object LenientStringSerializer : KSerializer<String>` takes whatever primitive arrives, strips a trailing `.0`, and maps `JsonNull`/non-primitives to `""`. Applied with `@Serializable(with = ...)` on `ApiResource.price`. The client fix works against the already-deployed backend and against both serialisers.
+**The backend was deliberately left alone.** Four Django templates (`_home_suggested.html`, `_library_content.html`, `resource_detail.html`, `admin_panel/resources.html`) consume `{{ r.price|floatformat:"0" }}`, so normalising `view_helpers.py` to a string would change web rendering. If someone does unify them later, the lenient serialiser still works.
+
+**b) Per-tab error state**, so no future parse or network failure can masquerade as an empty tab. `ProfileUiState` gained `postsError` / `repliesError` / `resourcesError`; each loader clears its field on start and on success and sets `ApiErrorMapper.mapException(e)` in the `catch`. The tab then draws a `NebEmptyState` plus a "Try again" button instead of the empty-state copy.
+
+**c) The whole profile screen, rebuilt.** `ui/screens/profile/ProfileComponents.kt` (1197 lines, every screen-level card) was **deleted** after grepping every symbol in it; replaced by four focused files. `ProfileScreen`'s public signature is unchanged, so `Navigation.kt` needed no edit.
+- `ProfileScreen.kt` — solid house `TopAppBar` instead of the old transparent overlay with black scrim circles; the title cross-fades in via `derivedStateOf` on `listState` scroll. `PullToRefreshBox` → `ProfileBody`. One private `LazyListScope.feedSection(...)` now drives all three tabs in a fixed order (skeletons on first load → error + retry → empty state → rows → trailing loader / inline retry / "Show more"), which is why the tabs finally behave identically. The tab rail is a `stickyHeader`. All four dialogs are preserved verbatim.
+- `ProfileHeader.kt` — full-bleed 160dp banner with the avatar overhanging it (`offset(y = 40.dp)` inside an unclipped `Box`, repaid by a 48dp spacer), primary action beside the avatar, inline stats row, meta rows, achievement pills, social links, and `ProfileHeaderSkeleton`. Bot profiles render `NebyAvatar(animation = "idle", size = 84.dp, interactive = true)`.
+- `ProfileRows.kt` — `ProfilePostRow`, **`ProfileReplyRow`**, `ProfileResourceRow`, plus skeletons. The reply redesign was the explicit ask: the old card put "Reply on {post title}" in bold on top and the reply body in grey underneath, which inverted the two — you had to read past the heading to find out what the person said. Now the context line is quiet ("Replied to **{title}**") and the reply body is the loud part, with a hairline spine down the left tying them together the way a thread does.
+- `ProfileAbout.kt` — card-free About tab: an ACTIVITY section and a DETAILS section of label/value rows separated by hairlines. The old progress card is **gone**; it drew three bars hard-coded to zero, so it told every visitor the same untrue thing.
+- `ProfileFormatting.kt` holds the pure text helpers (`formatRoleHeadline`, `shortProvince`, `parseAchievements`, `plainTextPreview`, …) so the screen files stay about layout.
+
+**d) The sweep (then §6.1), on the two screens named by name.**
+- `ui/screens/analytics/AnalyticsScreen.kt` — `WebTopBar` → house `TopAppBar`; `WebEmptyState` → `NebEmptyState` + `NebButton("Try again")`; the bordered `AnalyticsCard` became `AnalyticsSection` (a plain band with a hairline under it, because nine bordered panels on a padded list read as nine unrelated boxes); `ChartLegend`/`LegendItem` deleted (four labels for a one-series chart); every `primary` / `primaryContainer` / `onPrimaryContainer` swapped for `onSurface` / `onSurfaceVariant` / `surfaceContainerHigh`, and both `LinearProgressIndicator`s given an explicit mono `color`.
+- `ui/screens/downloads/DownloadsScreen.kt` — rewritten to the `BookmarksScreen` row idiom: `NebEmptyState`, "N saved" subtitle, 42dp rounded-square glyph tile, `nebPressable`, `NebIconButton` delete, hairline divider inset to 74dp. No `Card`, no `BorderStroke`, no `primary` tint.
+
+**e) The reader's comment loading skeleton (then §6.3)** (`ui/screens/news/NewsDetailScreen.kt`). It was two flat grey boxes inside a `WebCardShape` `Surface`, which reads as content rather than as absence. Replaced with `NewsCommentSkeleton()` — `ShimmerCircle` + three `ShimmerLine`s in the `BookmarkRowSkeleton` idiom. Note `ResourceCommentsLoading()` in `ResourceDetailComponents.kt` is a centred `NebLoader` and was **not** the hand-rolled one; don't go looking for it there again.
+
+**f) Encoding repair.** `NewsDetailScreen.kt` contained three raw cp1252 bytes (`0x97` em dash, two `0xb7` middle dots) — one in a comment and two in `bylineTail`'s `joinToString(" · ", prefix = "· ")`. The Kotlin compiler reads source as UTF-8, so the byline was rendering replacement characters at runtime. Rewritten as proper UTF-8. `app/src/main/java` is now clean; the check is a two-line `os.walk` + `decode('utf-8')`.
+
+## 6. What was delivered in the follow-up session — all of it compiles
+
+Both variants are green. The ask, verbatim: move the Edit profile button down, revert the posts cards / resources cards / About tab, redesign the reply card again, drop email from profile edit, and add an Account security card in Settings leading to a screen that changes email and password with an OTP — "just like other social media apps like facebook insta and so".
+
+**a) Edit profile no longer touches the banner.** `ProfileHeader.kt`'s action row is bottom-aligned 40dp below the banner art and `NebButtonSize.Small` is exactly 40dp tall, so the button's top sat on the seam. `PrimaryAction` gained a `modifier` parameter and the call site passes `Modifier.offset(y = 16.dp)`; the follow/requested branch takes the same modifier on its `Row`.
+
+**b) The feeds are cards again.** `ProfilePostRow` / `ProfileResourceRow` and the label-list About tab are gone. Posts now render `WebPostCard(compact = true)` (via a thin `ProfilePostCard` wrapper) and resources render `WebResourceCard(minWidth = null)` — the same cards the forum and the library draw, so a card you saw there looks the same here. `ProfileAbout.kt` restores the four pre-revamp cards (`AboutStatsCard`, `AboutAchievementsCard`, `AboutDetailsCard`, `AboutProgressCard`) on one shared `AboutCard` shell, progress bars hard-coded to zero included, because that is what "revert" meant.
+Every row and skeleton in `ProfileScreen.kt` now goes through a private `CardSlot` — 16dp horizontal, 6dp vertical, so stacked cards sit 12dp apart and line up with `ForumScreen`'s list. `feedSection`'s `row` lost its `showDivider` argument; dividers are a list idiom, not a card one.
+
+**c) The reply card, third pass.** Neither of the first two: not the old bold "Reply on {title}" heading over grey body, and not the hairline spine. `ProfileReplyCard` is a `WebPanelShape` card on `surfaceContainerLowest` with a hairline border, matching `WebPostCard`. The top is a quote block — a 3dp rule, a reply glyph and the post title on `surfaceContainerHigh`, rounded 10dp — and below it the reply itself at full `onSurface` weight, then the meta row (time, thumbs, replies, attachments, Edited). The thing the person actually wrote is the loudest element on the card; the discussion it belongs to is the quiet frame around it. `ProfileReplySkeleton` mirrors that shape.
+
+**d) Email left the profile editor.** The `NebAuthField` for email is out of `EditProfileSections.kt`'s "The basics"; the address that can reset a password is an account-security action, not a profile field.
+
+**e) Account security — new screen, new backend.**
+
+*Backend.* `api/models.py` gained `User.pending_email` (migration `0142_user_pending_email`) — the existing verification slot holds a code and a purpose but no target address, so it had nowhere to park the address being moved to. Four new views in `views_auth.py`, wired in `api/urls.py`:
+`GET  auth/account-security/` → `email`, `emailVerified`, `hasPassword`, `pendingEmail` (blanked unless the parked code's purpose is `email_change`);
+`POST auth/email/change/request/` → validates the address, rejects a duplicate with 409, **requires the current password whenever one exists**, respects the 60s resend cooldown, parks `pending_email` and mails the code **to the new address**;
+`POST auth/email/change/confirm/` → verifies the code, re-checks uniqueness (closing the race), moves `email`, sets `email_verified`, **revokes every other token** and returns a fresh one;
+`POST auth/email/change/cancel/` → clears the parked address.
+`pending_email` is deliberately **not** in `UserSerializer.fields`; it would leak into every profile response.
+
+*Two bugs found while wiring this up, both of which broke password changes in production:*
+1. `auth_email_reset_password` called `_verify_user_code(user, code, None)`. The helper rejects when a stored purpose exists and differs, and `None` matched neither lenient branch — so **every forgot-password reset returned 400 "invalid code"**. Now passes `'password_reset'`.
+2. `ChangePasswordRequest` sent `current_password` / `new_password` and `EmailResetPasswordRequest` sent `new_password`, but Django reads `currentPassword` / `newPassword`. The fields were silently dropped, so **change-password and reset-password always failed**. The `@SerialName`s are gone; kotlinx emits camelCase.
+
+*Client.* `ApiService.kt` gained the four endpoints plus `AccountSecurityResponse` / `EmailChangeRequest` / `EmailChangeConfirmRequest` / `EmailChangeResponse`; `AuthRepository.kt` gained `accountSecurity()`, `requestEmailChange()`, `confirmEmailChange()` (re-caches the session with the new token), `cancelEmailChange()`, plus `AccountSecurityInfo` and `EmailChangeResult`.
+
+*UI.* `ui/screens/settings/AccountSecurityScreen.kt` + `AccountSecurityViewModel.kt`. One screen, five panels driven by a `SecurityStep` enum in the ViewModel (so it survives rotation): Overview, EmailForm, EmailCode, PasswordForm, ForgotCode. The overview is two `SettingsGroup`s — the address with its confirmed state, and password / "Forgot your password?" — plus a pending-change card with **Enter code** and **Cancel** when a change is mid-flight. The code panels use a six-cell `CodeField` (one invisible `BasicTextField` under six cells) with a 60s `ResendRow` counted down out loud so nobody taps into a 429; the email code auto-submits on the sixth digit. Both password panels offer "I forgot my password", which sends a code to the address on file and lands in `ForgotCode`, where the code and the new password are entered together — the forgot path needs no new endpoints now that the two bugs above are fixed. The ViewModel keeps the last (address, password) pair in a private field, never in the UI state, so Resend does not have to ask again.
+`SettingsScreen.kt`'s "Account" group opens with an **Account security** row in place of `PasswordSection`, and `ui/screens/settings/SettingsPassword.kt` was **deleted** — its two dialogs are superseded by the screen. `Screen.AccountSecurity` and its `composable` are registered in `Navigation.kt`; the screen takes its ViewModel from `hiltViewModel()`.
+
+## 7. Still open
+
+1. **The rest of the `WebTopBar` / `WebEmptyState` sweep.** 13 files still call them:
+   `ui/screens/study/StudySpaceScreen.kt`, `StudyLabScreen.kt`, `StudyDocumentDetailView.kt`, `ui/screens/library/LibraryScreen.kt`, `SyllabusScreen.kt`, `SyllabusSubjectDetailContent.kt`, `InteractiveLibraryContent.kt`, `ui/screens/home/HomeScreen.kt`, `ui/screens/ai/NebyAiScreen.kt`, `ui/screens/forum/ForumScreen.kt`, `ui/screens/results/ToolsScreen.kt`, `ResultCheckerScreen.kt`, `ui/screens/canvas/CanvasListScreen.kt`.
+   **Read this before starting:** on Home / Library / Forum, `WebTopBar` is not legacy chrome — it is the app's intentional global bar (greeting, avatar, notification badge, `TopBarViewModel`). Swapping it for a plain `TopAppBar` there would be a regression, not a cleanup. Only the `WebEmptyState` call sites and the genuinely secondary screens are in scope; ask the owner before touching the three main tabs.
+2. **Deploying §6e.** Migration `0142_user_pending_email` has to be applied, and the email change only works where `send_verification_email` can actually send — the same SMTP path signup already depends on.
+3. **Visual verification.** Nothing in §4, §5 or §6 has been seen on a device — only compiled. There is no emulator or screenshot path in this environment, so this cannot be closed here. `assembleModernDebug` and a screenshot pass on real hardware is the next sanity check, and it is the only remaining unknown for the profile rewrite and the Account security screen.
+
+## 8. Build and push mechanics
 
 **Build.** The environment does not export these; set them every time:
 
@@ -119,7 +178,7 @@ actl connector call github --url https://api.github.com/repos/NikitHamal/NEB/...
 
 **Never commit:** `google-services.json`, `app/google-services.json`, `nebians-release.keystore`, `local.properties`, `.env*`, `*.pem`, `Resources/`, `.secrets.local.json`, `client_secret_*.json`, `nebiansnepal-firebase-adminsdk-*.json`, `firebase-service-account.json`. The locally generated dummy keystore and placeholder `google-services.json` exist only to let the build run and are gitignored — keep it that way. `.claude/` and `skills-lock.json` are deliberately excluded from every push.
 
-## 7. Earlier issues in this arc (for context)
+## 9. Earlier issues in this arc (for context)
 
 - **#41** — post/forum detail KaTeX crash on "see more"; upload screen revamp; Neby credits minimalism; WhatsApp button without the number; better "People you may know" suggestions with follow-back.
 - **#42** — delivered as `6844e864`.

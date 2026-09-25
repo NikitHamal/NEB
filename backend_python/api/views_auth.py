@@ -468,7 +468,11 @@ def auth_email_reset_password(request):
     except User.DoesNotExist:
         return Response({'error': 'Invalid or expired verification code'}, status=400)
 
-    ok, error_response = _verify_user_code(user, code, None)
+    # A forgot-password code is issued with purpose 'password_reset' (or
+    # 'set_password' for an account that never had one), and
+    # _verify_user_code treats those two as interchangeable. Passing None
+    # here matched neither, so every reset was rejected as an invalid code.
+    ok, error_response = _verify_user_code(user, code, 'password_reset')
     if not ok:
         return error_response
 
@@ -564,6 +568,162 @@ def auth_change_password(request):
         'authToken': auth_token,
         'user': UserSerializer(user).data,
     })
+
+EMAIL_CHANGE_PURPOSE = 'email_change'
+
+def _normalized_email(raw):
+    """Lower-cased, trimmed, and valid — or None."""
+    from django.core.validators import validate_email as _validate_email
+    value = (raw or '').strip().lower()
+    if not value:
+        return None
+    try:
+        _validate_email(value)
+    except ValidationError:
+        return None
+    return value
+
+@api_view(['GET'])
+@throttle_classes([AuthRateThrottle])
+def auth_account_security(request):
+    """
+    GET /api/auth/account-security
+    What the Account security screen needs to render itself: the address on
+    file, whether it has been confirmed, whether a password exists, and any
+    email change still waiting for its code.
+    """
+    user, err = _require_user(request)
+    if err:
+        return err
+
+    pending = (user.pending_email or '').strip()
+    pending_expires = user.verification_code_expires or 0
+    if pending and user.verification_code_purpose != EMAIL_CHANGE_PURPOSE:
+        # A code for something else has since overwritten the slot, so the
+        # pending address can no longer be confirmed.
+        pending = ''
+        pending_expires = 0
+
+    return Response({
+        'status': 'success',
+        'email': user.email or '',
+        'emailVerified': bool(user.email_verified),
+        'hasPassword': bool(user.password_hash),
+        'pendingEmail': pending,
+        'pendingExpiresAt': pending_expires if pending else 0,
+    })
+
+@api_view(['POST'])
+@throttle_classes([VerificationRateThrottle])
+def auth_email_change_request(request):
+    """
+    POST /api/auth/email/change/request
+    Body: { "newEmail": "...", "password": "..." }
+    Starts an email change: parks the new address on the account and mails a
+    code to it. The live address does not move until that code comes back.
+    The current password is required whenever the account has one, so a
+    stolen session alone cannot take the account over.
+    """
+    user, err = _require_user(request)
+    if err:
+        return err
+
+    new_email = _normalized_email(request.data.get('newEmail'))
+    if not new_email:
+        return Response({'error': 'Enter a valid email address'}, status=400)
+
+    if user.email and new_email == user.email.strip().lower():
+        return Response({'error': 'That is already your email address'}, status=400)
+
+    if User.objects.filter(email__iexact=new_email).exclude(pk=user.pk).exists():
+        return Response({'error': 'That email is already in use by another account'}, status=409)
+
+    if user.password_hash:
+        password = request.data.get('password', '')
+        if not password:
+            return Response({'error': 'Enter your current password to continue'}, status=400)
+        password_ok, _needs_rehash = verify_password(password, user.password_hash)
+        if not password_ok:
+            return Response({'error': 'Password is incorrect'}, status=401)
+
+    if _verification_resend_blocked(user):
+        return Response({'error': 'Please wait a minute before requesting another code'}, status=429)
+
+    user.pending_email = new_email
+    user.save(update_fields=['pending_email'])
+
+    code = _issue_verification_code(user, EMAIL_CHANGE_PURPOSE)
+    send_verification_email(new_email, code, user.username)
+
+    logger.info("auth_email_change_request: code sent for user %s", user.username)
+    return Response({
+        'status': 'success',
+        'pendingEmail': new_email,
+        'message': f'We sent a 6-digit code to {new_email}',
+    })
+
+@api_view(['POST'])
+@throttle_classes([AuthRateThrottle])
+def auth_email_change_confirm(request):
+    """
+    POST /api/auth/email/change/confirm
+    Body: { "code": "123456" }
+    Finishes the change. Every other session is signed out, because the
+    address that can reset this password has just moved.
+    """
+    user, err = _require_user(request)
+    if err:
+        return err
+
+    code = (request.data.get('code') or '').strip()
+    if not code:
+        return Response({'error': 'Verification code is required'}, status=400)
+
+    pending = (user.pending_email or '').strip().lower()
+    if not pending:
+        return Response({'error': 'No email change is pending. Start again.'}, status=400)
+
+    ok, error_response = _verify_user_code(user, code, EMAIL_CHANGE_PURPOSE)
+    if not ok:
+        return error_response
+
+    # Someone else may have claimed the address while the code was in flight.
+    if User.objects.filter(email__iexact=pending).exclude(pk=user.pk).exists():
+        user.pending_email = None
+        _clear_verification_code(user)
+        user.save()
+        return Response({'error': 'That email is already in use by another account'}, status=409)
+
+    user.email = pending
+    user.pending_email = None
+    user.email_verified = True
+    _clear_verification_code(user)
+    revoke_all_user_tokens(user)
+    auth_token = issue_auth_token(user, save=False)
+    user.save()
+
+    logger.info("auth_email_change_confirm: email changed for user %s", user.username)
+    return Response({
+        'status': 'success',
+        'message': 'Email address updated',
+        'authToken': auth_token,
+        'user': UserSerializer(user).data,
+    })
+
+@api_view(['POST'])
+@throttle_classes([AuthRateThrottle])
+def auth_email_change_cancel(request):
+    """POST /api/auth/email/change/cancel — drop a pending email change."""
+    user, err = _require_user(request)
+    if err:
+        return err
+
+    user.pending_email = None
+    if user.verification_code_purpose == EMAIL_CHANGE_PURPOSE:
+        _clear_verification_code(user)
+    user.save()
+
+    return Response({'status': 'success', 'message': 'Email change cancelled'})
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
