@@ -1409,3 +1409,161 @@
 @media (prefers-reduced-motion: reduce) {
   .upload-progress-icon .material-symbols-outlined { animation: none; }
 }
+
+/* ── Tab rail ───────────────────────────────────────────────────────────────
+   NebTabRail.kt. Switching between sets of the same thing: the library's
+   shelves, a profile's posts and replies, a notification filter, the bookmark
+   types.
+
+   The web had four of these and they agreed on nothing. Profile drew a 3px
+   underline in --md-primary. Library drew a different 3px underline and hovered
+   on a literal rgba(0,74,198,0.04) that stayed a light-theme blue in dark
+   theme. Notifications drew a raised segmented control out of #334155, #e2e8f0,
+   #475569, #1e293b and #f8fafc -- five literals the palette never sees.
+   Bookmarks drew outlined pills. Four answers to one question, on four screens
+   the app renders with a single composable.
+
+   The Kotlin's reasoning, kept: not a bar of connected buttons, which reads as
+   one control the user is operating and squeezes four labels into a width that
+   fits two. Not an underline either -- that is the platform's tab, not ours.
+   The resting state is bare text with nothing drawn around it, and only the
+   answer carries a container.
+
+   There is exactly one container and it slides. A tab never grows its own pill
+   while another is still fading out, so the answer is only ever in one place
+   and the labels hold still while the selection travels between them. That is
+   what needs measuring, so neb-rail.js positions it; until then the selected
+   item wears the same pill itself, so the rail is correct with JS off and
+   merely does not animate.
+
+     <div class="neb-rail" role="tablist">
+       <button class="neb-rail-item" role="tab" aria-selected="true">
+         <span class="material-symbols-outlined">article</span>
+         <span class="neb-rail-label">Posts</span>
+         <span class="neb-rail-count">12</span>
+       </button>
+       ...
+     </div>
+
+   Pass an accent with style="--neb-rail-accent: var(--md-tertiary)" on the
+   container, exactly as the composable takes a NebAccent. */
+.neb-rail {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
+  /* The rail scrolls; the page must not scroll with it when the user flicks
+     past the last tab. */
+  overscroll-behavior-x: contain;
+}
+.neb-rail::-webkit-scrollbar { display: none; }
+
+/* The travelling container. One per rail, inserted by the controller, sized
+   and positioned from the selected item's box. It sits under the labels and
+   takes no clicks, so the tab it covers is still the thing being pressed. */
+.neb-rail-ind {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: var(--md-shape-full);
+  background: var(--md-surface-container-highest);
+  box-shadow: inset 0 0 0 1px var(--md-outline-variant);
+  transform: translateX(0);
+  transition: transform var(--md-motion-spatial), width var(--md-motion-spatial);
+}
+/* An accented rail tints the container rather than the text, which is what
+   keeps a selected tab legible at 4.5:1 while still reading as the accent's.
+   The app composites the accent over surfaceContainerLow at 10%, and at 17% in
+   dark theme because the same 10% over a dark surface is not visible. */
+.neb-rail[style*="--neb-rail-accent"] .neb-rail-ind {
+  background: color-mix(in srgb, var(--neb-rail-accent) 10%, var(--md-surface-container-low));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--neb-rail-accent) 34%, transparent);
+}
+[data-theme="dark"] .neb-rail[style*="--neb-rail-accent"] .neb-rail-ind {
+  background: color-mix(in srgb, var(--neb-rail-accent) 17%, var(--md-surface-container-low));
+}
+/* Before the first measurement the indicator has no box, and a 0x0 rounded
+   rect flying in from the corner is worse than no indicator at all. */
+.neb-rail-ind:not([data-placed]) { opacity: 0; }
+/* The first placement is a jump, not a slide -- there is nowhere to slide from. */
+.neb-rail-ind[data-placed="first"] { transition: none; }
+
+.neb-rail-item {
+  position: relative;
+  z-index: 1;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: var(--md-shape-full);
+  background: transparent;
+  color: var(--md-on-surface-variant);
+  font-family: inherit;
+  /* labelLargeEmphasized. */
+  font-size: 0.875rem;
+  font-weight: 650;
+  letter-spacing: 0.005em;
+  line-height: 1.2;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color var(--md-motion-effects), transform var(--md-motion-spatial-fast);
+}
+.neb-rail-item:hover { color: var(--md-on-surface); text-decoration: none; }
+/* nebPressable(scale = 0.94f). */
+.neb-rail-item:active { transform: scale(0.94); }
+.neb-rail-item[aria-selected="true"] { color: var(--md-on-surface); }
+.neb-rail[style*="--neb-rail-accent"] .neb-rail-item[aria-selected="true"] {
+  color: var(--neb-rail-accent);
+}
+.neb-rail-item .material-symbols-outlined { font-size: 18px; }
+.neb-rail-label { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+
+/* No controller, no travelling container: the selected item draws its own. */
+.neb-rail:not([data-rail-ready]) .neb-rail-item[aria-selected="true"] {
+  background: var(--md-surface-container-highest);
+  box-shadow: inset 0 0 0 1px var(--md-outline-variant);
+}
+
+/* The count rides on the label's colour at a fixed transparency, so it is the
+   accent's on an accented rail and the text's everywhere else, and it never
+   needs a colour of its own for either theme. */
+.neb-rail-count {
+  flex: none;
+  padding: 2px 7px;
+  border-radius: var(--md-shape-full);
+  background: color-mix(in srgb, currentColor 10%, transparent);
+  color: inherit;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+.neb-rail-item[aria-selected="true"] .neb-rail-count {
+  background: color-mix(in srgb, currentColor 14%, transparent);
+}
+
+/* A rail that sits above a body of content, rather than inside a toolbar,
+   takes the app's separator underneath it. */
+.neb-rail-divided { border-bottom: 1px solid var(--md-outline-variant); }
+
+@media (max-width: 600px) {
+  .neb-rail { padding: 6px 10px; gap: 4px; }
+  .neb-rail-item { padding: 9px 13px; font-size: 0.8125rem; }
+}
+
+/* Motion off: the container still moves -- it has to, it is the only mark of
+   which tab is selected -- it just arrives instead of travelling. */
+@media (prefers-reduced-motion: reduce) {
+  .neb-rail { scroll-behavior: auto; }
+  .neb-rail-ind { transition: none; }
+  .neb-rail-item:active { transform: none; }
+}

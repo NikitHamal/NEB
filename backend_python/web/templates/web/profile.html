@@ -382,27 +382,31 @@
           </div>
         {% endif %}
 
-        <!-- Tabs -->
-        <div class="profile-tabs" style="margin-top: 0;">
-          <button class="profile-tab active" data-tab="posts" data-action="switch-profile-tab">
-            {% if profile_user.is_bot %}Conversations{% else %}Posts{% endif %}
-            <span class="tab-count">{{ stats.post_count|default:0 }}</span>
+        {% comment %}
+          ProfileScreen.kt's sticky tab rail: the same four labels with the same
+          counts, the same divider underneath, and the same travelling container
+          instead of the 3px --md-primary underline the web drew on its own.
+        {% endcomment %}
+        <div class="neb-rail neb-rail-divided" role="tablist" aria-label="Profile sections" style="margin-top: 0;">
+          <button type="button" class="neb-rail-item" role="tab" aria-selected="true" aria-controls="tabPosts" data-tab="posts" data-action="switch-profile-tab">
+            <span class="neb-rail-label">{% if profile_user.is_bot %}Conversations{% else %}Posts{% endif %}</span>
+            <span class="neb-rail-count">{{ stats.post_count|default:0 }}</span>
           </button>
-          <button class="profile-tab" data-tab="replies" data-action="switch-profile-tab">
-            Replies
-            <span class="tab-count">{{ stats.reply_count|default:0 }}</span>
+          <button type="button" class="neb-rail-item" role="tab" aria-selected="false" aria-controls="tabReplies" data-tab="replies" data-action="switch-profile-tab">
+            <span class="neb-rail-label">Replies</span>
+            <span class="neb-rail-count">{{ stats.reply_count|default:0 }}</span>
           </button>
-          <button class="profile-tab" data-tab="resources" data-action="switch-profile-tab">
-            Resources
-            <span class="tab-count">{{ stats.uploaded_resources_count|default:0 }}</span>
+          <button type="button" class="neb-rail-item" role="tab" aria-selected="false" aria-controls="tabResources" data-tab="resources" data-action="switch-profile-tab">
+            <span class="neb-rail-label">Resources</span>
+            <span class="neb-rail-count">{{ stats.uploaded_resources_count|default:0 }}</span>
           </button>
-          <button class="profile-tab" data-tab="about" data-action="switch-profile-tab">
-            About
+          <button type="button" class="neb-rail-item" role="tab" aria-selected="false" aria-controls="tabAbout" data-tab="about" data-action="switch-profile-tab">
+            <span class="neb-rail-label">About</span>
           </button>
           {% if stats.is_self and profile_user.is_locked %}
-          <button class="profile-tab" data-tab="requests" data-action="switch-profile-tab" id="tabBtnRequests">
-            Requests
-            <span class="tab-count" id="cntRequestsBadge">{{ pending_requests_count|default:0 }}</span>
+          <button type="button" class="neb-rail-item" role="tab" aria-selected="false" aria-controls="tabRequests" data-tab="requests" data-action="switch-profile-tab" id="tabBtnRequests">
+            <span class="neb-rail-label">Requests</span>
+            <span class="neb-rail-count" id="cntRequestsBadge">{{ pending_requests_count|default:0 }}</span>
           </button>
           {% endif %}
         </div>
@@ -1603,9 +1607,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Tab switching
 function switchProfileTab(tabName) {
-  document.querySelectorAll('.profile-tab').forEach(t => t.classList.remove('active'));
+  // aria-selected is the rail's whole contract -- neb-rail.js watches it and
+  // moves the container. Nothing here has to know the container exists.
+  document.querySelectorAll('.neb-rail-item[data-tab]').forEach(t => t.setAttribute('aria-selected', 'false'));
   document.querySelectorAll('.profile-tab-content').forEach(c => c.classList.remove('active'));
-  document.querySelector(`.profile-tab[data-tab="${tabName}"]`).classList.add('active');
+  document.querySelector(`.neb-rail-item[data-tab="${tabName}"]`).setAttribute('aria-selected', 'true');
   document.getElementById('tab' + tabName.charAt(0).toUpperCase() + tabName.slice(1)).classList.add('active');
   // Re-animate progress fills when About tab is shown
   if (tabName === 'about') {

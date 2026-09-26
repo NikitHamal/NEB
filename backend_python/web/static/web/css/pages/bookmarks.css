@@ -58,71 +58,6 @@
   color: var(--md-primary);
 }
 
-/* ── Filter Tabs ── */
-.bookmarks-tabs {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  padding: 0 0 16px;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.bookmarks-tabs::-webkit-scrollbar { display: none; }
-
-.bookmark-tab {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 18px;
-  border-radius: var(--md-radius-full);
-  border: 1px solid var(--md-outline-variant);
-  background: transparent;
-  color: var(--md-on-surface-variant);
-  font-family: var(--md-font);
-  font-size: 0.8125rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s var(--md-transition);
-  white-space: nowrap;
-}
-
-.bookmark-tab:hover {
-  background: var(--md-surface-container-high);
-  color: var(--md-on-surface);
-}
-
-.bookmark-tab.active {
-  background: var(--md-secondary-container);
-  color: var(--md-on-secondary-container);
-  border-color: transparent;
-  font-weight: 600;
-}
-
-.bookmark-tab .material-symbols-outlined {
-  font-size: 18px;
-}
-
-.bookmark-tab-count {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 20px;
-  height: 20px;
-  padding: 0 6px;
-  border-radius: var(--md-radius-full);
-  background: var(--md-surface-container-highest);
-  color: var(--md-on-surface-variant);
-  font-size: 0.6875rem;
-  font-weight: 600;
-  line-height: 1;
-}
-
-.bookmark-tab.active .bookmark-tab-count {
-  background: var(--md-primary);
-  color: var(--md-on-primary);
-}
-
 /* ── Bookmark Cards ── */
 .bookmarks-list {
   display: flex;
@@ -512,13 +447,4 @@
     -webkit-line-clamp: 2;
   }
 
-  .bookmarks-tabs {
-    gap: 6px;
-    padding-bottom: 12px;
-  }
-
-  .bookmark-tab {
-    padding: 6px 14px;
-    font-size: 0.75rem;
-  }
 }

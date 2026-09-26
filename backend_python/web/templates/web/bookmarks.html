@@ -20,22 +20,31 @@
     </span>
   </header>
 
-  <nav class="bookmarks-tabs" aria-label="Bookmark filters">
-    <button class="bookmark-tab active" data-action="filter-bookmarks" data-filter="all">
+  {% comment %}
+    BookmarksScreen.kt's NebTabRail. These were outlined pills -- a fifth answer
+    to the question the profile, the library and the notifications page each
+    answered differently. NebRailTab carries an icon, so the glyphs stay.
+  {% endcomment %}
+  <nav class="neb-rail" role="tablist" aria-label="Bookmark filters">
+    <button type="button" class="neb-rail-item" role="tab" aria-selected="true" data-action="filter-bookmarks" data-filter="all">
       <span class="material-symbols-outlined">bookmark</span>
-      All <span class="bookmark-tab-count">{{ bookmark_counts.all|default:0 }}</span>
+      <span class="neb-rail-label">All</span>
+      <span class="neb-rail-count">{{ bookmark_counts.all|default:0 }}</span>
     </button>
-    <button class="bookmark-tab" data-action="filter-bookmarks" data-filter="post">
+    <button type="button" class="neb-rail-item" role="tab" aria-selected="false" data-action="filter-bookmarks" data-filter="post">
       <span class="material-symbols-outlined">forum</span>
-      Posts <span class="bookmark-tab-count">{{ bookmark_counts.post|default:0 }}</span>
+      <span class="neb-rail-label">Posts</span>
+      <span class="neb-rail-count">{{ bookmark_counts.post|default:0 }}</span>
     </button>
-    <button class="bookmark-tab" data-action="filter-bookmarks" data-filter="reply">
+    <button type="button" class="neb-rail-item" role="tab" aria-selected="false" data-action="filter-bookmarks" data-filter="reply">
       <span class="material-symbols-outlined">chat_bubble</span>
-      Replies <span class="bookmark-tab-count">{{ bookmark_counts.reply|default:0 }}</span>
+      <span class="neb-rail-label">Replies</span>
+      <span class="neb-rail-count">{{ bookmark_counts.reply|default:0 }}</span>
     </button>
-    <button class="bookmark-tab" data-action="filter-bookmarks" data-filter="resource">
+    <button type="button" class="neb-rail-item" role="tab" aria-selected="false" data-action="filter-bookmarks" data-filter="resource">
       <span class="material-symbols-outlined">menu_book</span>
-      Resources <span class="bookmark-tab-count">{{ bookmark_counts.resource|default:0 }}</span>
+      <span class="neb-rail-label">Resources</span>
+      <span class="neb-rail-count">{{ bookmark_counts.resource|default:0 }}</span>
     </button>
   </nav>
 
@@ -96,8 +105,8 @@
 registerActions({
   'filter-bookmarks': function(btn) {
     var filter = btn.dataset.filter || 'all';
-    document.querySelectorAll('.bookmark-tab').forEach(function(t){ t.classList.remove('active'); });
-    btn.classList.add('active');
+    document.querySelectorAll('.neb-rail-item[data-filter]').forEach(function(t){ t.setAttribute('aria-selected', 'false'); });
+    btn.setAttribute('aria-selected', 'true');
     document.querySelectorAll('.bookmark-card').forEach(function(card){
       card.style.display = (filter === 'all' || card.dataset.bookmarkType === filter) ? '' : 'none';
     });
@@ -156,15 +165,15 @@ function updateEmptyState() {
 }
 
 function updateCounts(type) {
-  var allTab = document.querySelector('.bookmark-tab[data-filter="all"]');
-  var typeTab = document.querySelector('.bookmark-tab[data-filter="' + type + '"]');
+  var allTab = document.querySelector('.neb-rail-item[data-filter="all"]');
+  var typeTab = document.querySelector('.neb-rail-item[data-filter="' + type + '"]');
   var totalEl = document.querySelector('.bookmarks-total');
   if (allTab) {
-    var allCount = allTab.querySelector('.bookmark-tab-count');
+    var allCount = allTab.querySelector('.neb-rail-count');
     if (allCount) { var v = parseInt(allCount.textContent) - 1; allCount.textContent = Math.max(0, v); }
   }
   if (typeTab) {
-    var typeCount = typeTab.querySelector('.bookmark-tab-count');
+    var typeCount = typeTab.querySelector('.neb-rail-count');
     if (typeCount) { var v2 = parseInt(typeCount.textContent) - 1; typeCount.textContent = Math.max(0, v2); }
   }
   if (totalEl) {
