@@ -62,20 +62,18 @@
       <div class="profile-left-col">
         <div class="pf-compact-card{% if profile_user.is_bot %} pf-compact-card-bot{% endif %}">
           <!-- Card Banner Area -->
-          <div class="pf-card-banner" {% if profile_user.banner_url %}style="background-image: url('{{ profile_user.banner_url }}'); background-size: cover; background-position: center;"{% endif %}{% if profile_user.banner_type %} data-banner-type="{{ profile_user.banner_type }}"{% endif %}>
-            {% if not profile_user.banner_url %}
-              <div class="pf-banner-holo-metallic"></div>
-              <div class="pf-banner-mesh-overlay"></div>
-              <div class="pf-banner-wave-layer">
-                <svg viewBox="0 0 1200 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M0,120 C200,180 400,60 600,120 C800,180 1000,60 1200,120 L1200,200 L0,200 Z" fill="rgba(255,255,255,0.06)"/>
-                  <path d="M0,150 C300,100 500,190 700,140 C900,90 1100,170 1200,140 L1200,200 L0,200 Z" fill="rgba(255,255,255,0.04)"/>
-                </svg>
+          <div class="pf-card-banner" {% if profile_user.banner_url %}style="background-image: url('{{ profile_user.banner_url }}'); background-size: cover; background-position: center;"{% endif %}>
+            {% if profile_user.banner_url %}
+              <div class="pf-banner-photo-scrim"></div>
+            {% else %}
+              {# Generative cover art. Same role, same seed, same drawing as the
+                 Android app's ProfileBanner. #}
+              <div class="neb-art pf-banner-art" data-neb-art="cover"
+                   data-neb-role="{{ profile_user.banner_role|default:'MEMBER' }}"
+                   data-neb-seed="{{ profile_user.username }}">
+                <div class="pf-banner-sheen" aria-hidden="true"></div>
+                <span class="pf-banner-deco-text">{{ profile_user.banner_deco_text|default:"nebian" }}</span>
               </div>
-              <div class="pf-banner-shine-overlay"></div>
-              <span class="pf-banner-deco-text"
-                {% if profile_user.banner_text_color %}data-banner-text-color="{{ profile_user.banner_text_color }}"{% endif %}
-              >{{ profile_user.banner_deco_text|default:"nebian" }}</span>
             {% endif %}
             <a href="#" data-action="go-back" class="profile-banner-back-btn" title="Go Back">
               <span class="material-symbols-outlined">arrow_back</span>
@@ -1010,15 +1008,7 @@
 {% block extra_js %}
 <script nonce="{{ csp_nonce }}">
 const PROFILE_PRIVATE = {{ profile_private|yesno:"true,false" }};
-// Banner store customization — apply data-attr overrides via inline styles (CSS attr() non-string support is limited)
 document.addEventListener('DOMContentLoaded', function() {
-  var decoEl = document.querySelector('.pf-banner-deco-text');
-  if (decoEl) {
-    var customColor = decoEl.getAttribute('data-banner-text-color');
-    var customSize = decoEl.getAttribute('data-banner-text-size');
-    if (customColor) decoEl.style.color = customColor;
-    if (customSize) decoEl.style.fontSize = customSize;
-  }
   document.querySelectorAll('.pf-res-desc').forEach(function(el) {
     var btn = el.querySelector('.pf-res-desc-toggle');
     if (btn && el.scrollHeight > el.clientHeight + 2) {
