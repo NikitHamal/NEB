@@ -12,8 +12,8 @@
 <meta property="og:url" content="https://nebians.consica.com.np/canvas/">
 <meta property="og:site_name" content="NEBians">
 <meta name="twitter:card" content="summary_large_image">
-{# This page does not extend base.html, so its card is named here rather than
-   coming from the og_image_context processor. #}
+{% comment %} This page does not extend base.html, so its card is named here rather than
+   coming from the og_image_context processor. {% endcomment %}
 <meta property="og:image" content="{{ og_image_url|default:'https://nebians.consica.com.np/og/page/canvas.png' }}">
 <meta property="og:image:secure_url" content="{{ og_image_url|default:'https://nebians.consica.com.np/og/page/canvas.png' }}">
 <meta property="og:image:type" content="image/png">

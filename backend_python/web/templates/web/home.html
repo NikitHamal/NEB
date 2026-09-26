@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% load static web_extras %}
 
-{# 36 characters, and no "&amp;" -- an entity counts as five characters to the
+{% comment %} 36 characters, and no "&amp;" -- an entity counts as five characters to the
    crawlers and inspectors that read the raw tag, which is how a 66-character
-   title was being reported as 70. #}
+   title was being reported as 70. {% endcomment %}
 {% block title %}NEBians — Nepal's Learning Community{% endblock %}
 {% block description %}NEBians is Nepal's open learning community: free NEB past papers, model questions and notes, plus a study forum and AI tools for every subject.{% endblock %}
 {% block og_title %}NEBians — Nepal's Learning Community{% endblock %}
@@ -32,14 +32,14 @@
 {% endblock %}
 
 {% block content %}
-{# ── Home ─────────────────────────────────────────────────────────────────────
+{% comment %} ── Home ─────────────────────────────────────────────────────────────────────
    The app's HomeScreen: one interleaved column of posts and rails, built by the
    view and drawn by _home_feed.html. What was here was a landing hero followed
    by three fixed sections -- a resource rail, a four-card news grid, then three
    discussions -- so the feed was the last thing on the page and ended after the
    third post. Signed in, the feed is now the page; signed out, the hero stays in
    front of it, because that is the one visit where the page has to introduce
-   itself before it starts showing you things. #}
+   itself before it starts showing you things. {% endcomment %}
 {% if needs_profile %}
 {% include "web/_home_profile_banner.html" %}
 {% endif %}
