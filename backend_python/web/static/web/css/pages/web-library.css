@@ -110,10 +110,10 @@
   gap: 6px;
   height: 36px;
   padding: 0 16px;
-  border-radius: var(--md-radius-full, 9999px);
-  border: 1px solid var(--md-outline-variant, #cbd5e1);
-  background: var(--md-surface-container-low, #f8fafc);
-  color: var(--md-on-surface, #0f172a);
+  border-radius: var(--md-radius-full);
+  border: 1px solid var(--md-outline-variant);
+  background: var(--md-surface-container-low);
+  color: var(--md-on-surface);
   font-family: var(--md-font);
   font-size: 0.875rem;
   font-weight: 600;
@@ -124,15 +124,15 @@
 }
 
 .lib-filter-btn:hover {
-  background: var(--md-surface-container-high, #e2e8f0);
-  border-color: var(--md-primary, #2563eb);
-  color: var(--md-primary, #2563eb);
+  background: var(--md-surface-container-high);
+  border-color: var(--md-primary);
+  color: var(--md-primary);
 }
 
 .lib-filter-btn.has-badge {
-  background: var(--md-primary-container, #dbeafe);
-  color: var(--md-on-primary-container, #1e40af);
-  border-color: var(--md-primary, #2563eb);
+  background: var(--md-primary-container);
+  color: var(--md-on-primary-container);
+  border-color: var(--md-primary);
 }
 
 .lib-filter-badge {
@@ -143,7 +143,7 @@
   height: 20px;
   padding: 0 6px;
   border-radius: 9999px;
-  background: var(--md-primary, #2563eb);
+  background: var(--md-primary);
   color: #ffffff;
   font-size: 0.75rem;
   font-weight: 700;
@@ -156,20 +156,20 @@
   gap: 6px;
   height: 36px;
   padding: 0 14px;
-  border-radius: var(--md-radius-full, 9999px);
-  border: 1px solid var(--md-outline-variant, #cbd5e1);
-  background: var(--md-surface-container-low, #f8fafc);
+  border-radius: var(--md-radius-full);
+  border: 1px solid var(--md-outline-variant);
+  background: var(--md-surface-container-low);
   transition: all 150ms ease;
 }
 
 .lib-sort-select-wrapper:hover {
-  border-color: var(--md-primary, #2563eb);
-  background: var(--md-surface-container-high, #e2e8f0);
+  border-color: var(--md-primary);
+  background: var(--md-surface-container-high);
 }
 
 .lib-sort-select-wrapper .sort-label {
   font-size: 0.8125rem;
-  color: var(--md-on-surface-variant, #64748b);
+  color: var(--md-on-surface-variant);
   font-weight: 500;
 }
 
@@ -180,7 +180,7 @@
   font-family: var(--md-font);
   font-size: 0.875rem;
   font-weight: 600;
-  color: var(--md-primary, #2563eb);
+  color: var(--md-primary);
   cursor: pointer;
   padding: 2px 20px 2px 2px;
   appearance: none;

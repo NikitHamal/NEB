@@ -212,8 +212,8 @@
      its own scrollbar and keeps its items from shrinking. */
 
   mark.search-hl {
-    background: var(--md-primary-container, #d1e8ff);
-    color: var(--md-on-primary-container, #001d3b);
+    background: var(--md-primary-container);
+    color: var(--md-on-primary-container);
     border-radius: 2px;
     padding: 0 2px;
     font-weight: 600;

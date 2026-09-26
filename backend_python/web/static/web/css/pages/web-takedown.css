@@ -15,7 +15,7 @@
     margin-bottom: 8px;
   }
   .takedown-card {
-    background: var(--md-surface-container-lowest, #fff);
+    background: var(--md-surface-container-lowest);
     border: 1px solid var(--md-outline-variant);
     border-radius: 16px;
     padding: 32px;
@@ -29,7 +29,7 @@
   }
   .takedown-success-card {
     text-align: center;
-    background: var(--md-surface-container-lowest, #fff);
+    background: var(--md-surface-container-lowest);
     border: 1px solid var(--md-primary-container);
     border-radius: 16px;
     padding: 48px 24px;

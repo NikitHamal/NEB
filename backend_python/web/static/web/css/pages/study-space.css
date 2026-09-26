@@ -666,8 +666,8 @@
 .ss-doc-select-item .material-symbols-outlined { font-size: 20px; color: var(--md-primary); flex-shrink: 0; }
 .ss-doc-select-check { margin-left: 2px; color: var(--md-primary); font-size: 20px; display: none; }
 .ss-doc-select-item.selected .ss-doc-select-check { display: inline-flex; }
-.ss-doc-select-badge { margin-left: auto; flex-shrink: 0; border-radius: 999px; padding: 3px 8px; background: var(--md-secondary-container, #e8def8); color: var(--md-on-secondary-container, #1d192b); font-size: .7rem; font-weight: 700; }
-.ss-doc-select-badge-current { background: var(--md-surface-container-high, #e9eef6); color: var(--md-on-surface-variant, #5f6368); }
+.ss-doc-select-badge { margin-left: auto; flex-shrink: 0; border-radius: 999px; padding: 3px 8px; background: var(--md-secondary-container); color: var(--md-on-secondary-container); font-size: .7rem; font-weight: 700; }
+.ss-doc-select-badge-current { background: var(--md-surface-container-high); color: var(--md-on-surface-variant); }
 .ss-doc-select-info { display: flex; flex-direction: column; gap: 1px; min-width: 0; flex: 1; }
 .ss-doc-select-title {
   font-size: 0.875rem;
@@ -710,7 +710,7 @@
   height: 10px;
   border-radius: 50%;
   background: #22c55e;
-  border: 2px solid var(--md-surface-container-low, #fff);
+  border: 2px solid var(--md-surface-container-low);
   box-sizing: border-box;
   z-index: 2;
 }

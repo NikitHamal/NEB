@@ -141,7 +141,7 @@ body.admin-body {
   border: 1px solid var(--md-outline-variant);
   border-radius: 10px;
   overflow: hidden;
-  background: var(--md-surface-container-lowest, var(--md-surface));
+  background: var(--md-surface-container-lowest);
 }
 .admin-media-preview img {
   display: block;
