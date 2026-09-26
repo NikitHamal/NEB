@@ -45,7 +45,7 @@
   .rd-btn-download:hover{opacity:.85;text-decoration:none;color:var(--md-on-secondary-container)}
   .rd-btn-like{background:transparent;color:var(--md-on-surface-variant);border:1px solid var(--md-outline-variant)}
   .rd-btn-like:hover{background:var(--md-surface-container-high);color:var(--md-primary)}
-  .rd-btn-like.liked{color:var(--md-primary);border-color:var(--md-primary);background:color-mix(8%, var(--md-primary), transparent)}
+  .rd-btn-like.liked{color:var(--md-primary);border-color:var(--md-primary);background:color-mix(in srgb, var(--md-primary) 8%, transparent)}
   .rd-btn-bookmark{background:transparent;color:var(--md-on-surface-variant);border:1px solid var(--md-outline-variant)}
   .rd-btn-bookmark:hover{background:var(--md-surface-container-high);color:var(--md-primary)}
   .rd-btn-bookmark.bookmarked{color:var(--md-primary);border-color:var(--md-primary)}

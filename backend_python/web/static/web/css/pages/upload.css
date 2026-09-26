@@ -8,7 +8,7 @@
 .upload-row { display: flex; gap: 12px; }
 .upload-field-half { flex: 1; }
 .upload-hint { font-size: 0.8125rem; color: var(--md-on-surface-variant); margin-top: 4px; }
-.upload-errors { background: color-mix(10%, var(--md-error), transparent); border: 1px solid var(--md-error); border-radius: 12px; padding: 12px 16px; margin-bottom: 16px; }
+.upload-errors { background: color-mix(in srgb, var(--md-error) 10%, transparent); border: 1px solid var(--md-error); border-radius: 12px; padding: 12px 16px; margin-bottom: 16px; }
 .upload-error-item { color: var(--md-error); font-size: 0.875rem; margin-bottom: 4px; }
 .upload-error-item:last-child { margin-bottom: 0; }
 .upload-actions { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; margin-top: 16px; }
@@ -41,12 +41,12 @@
 }
 .upload-dropzone:hover, .upload-dropzone.dragover {
   border-color: var(--md-primary);
-  background: color-mix(5%, var(--md-primary), transparent);
+  background: color-mix(in srgb, var(--md-primary) 5%, transparent);
 }
 .upload-dropzone.has-file {
   border-color: var(--md-primary);
   border-style: solid;
-  background: color-mix(5%, var(--md-primary), transparent);
+  background: color-mix(in srgb, var(--md-primary) 5%, transparent);
   padding: 20px;
   cursor: default;
 }
@@ -121,7 +121,7 @@
   z-index: 3;
 }
 .upload-file-remove:hover {
-  background: color-mix(10%, var(--md-error), transparent);
+  background: color-mix(in srgb, var(--md-error) 10%, transparent);
   color: var(--md-error);
 }
 .upload-file-remove .material-symbols-outlined { font-size: 20px; }
