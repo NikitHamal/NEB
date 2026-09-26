@@ -287,14 +287,22 @@ fun LiquidGlassBottomNav(
                                 spotColor = Color.Black.copy(alpha = shadowAlpha + 0.06f)
                             )
                             .clip(createShape)
-                            // Flat, not a gradient. Fading the fill to 86% alpha
-                            // let the page through the bottom of the button, so
-                            // the one element on the bar that should read as
-                            // solid was the one that did not.
-                            .background(primaryColor)
+                            // The same surface the rail is, down to the brush
+                            // and the hairline. A saturated blue slab sitting
+                            // against a neutral bar reads as two materials that
+                            // happen to be adjacent; sharing the bar's fill
+                            // makes them one object with a piece pushed out of
+                            // it, and lets the shape carry the emphasis instead
+                            // of the colour. The glyph keeps the brand blue, so
+                            // the create action is still the accent on the bar
+                            // -- the same trick the expanded menu uses, where
+                            // every pill is the light surface and only the icon
+                            // differs.
+                            .background(barBrush)
+                            .border(1.dp, barBorder, createShape)
                             .clickable(
                                 interactionSource = createInteractionSource,
-                                indication = ripple(bounded = true, color = Color.White),
+                                indication = ripple(bounded = true, color = primaryColor),
                                 onClick = {
                                     tactile.perform(TactileType.ButtonTap)
                                     onCreateClick()
@@ -314,7 +322,7 @@ fun LiquidGlassBottomNav(
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_rune_plus),
                                 contentDescription = if (menuExpanded) null else "Create",
-                                tint = MaterialTheme.colorScheme.onPrimary,
+                                tint = primaryColor,
                                 modifier = Modifier
                                     .size(24.dp)
                                     .graphicsLayer {
@@ -325,7 +333,7 @@ fun LiquidGlassBottomNav(
                             Icon(
                                 imageVector = Icons.Rounded.Close,
                                 contentDescription = if (menuExpanded) "Close create menu" else null,
-                                tint = MaterialTheme.colorScheme.onPrimary,
+                                tint = primaryColor,
                                 modifier = Modifier
                                     .size(26.dp)
                                     .graphicsLayer {
