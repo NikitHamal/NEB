@@ -42,7 +42,9 @@
   gap: 14px;
   margin: 16px 0 4px;
   padding: 16px;
-  border-radius: var(--md-shape-xl);
+  /* The app draws this card at 26dp and the groups at 24 -- both a step
+     off the shape scale, and both worth matching exactly. */
+  border-radius: 26px;
   background: var(--md-surface-container-low);
   color: inherit;
   text-decoration: none;
@@ -85,7 +87,7 @@
 }
 .st-group-danger .st-group-title { color: var(--md-error); }
 .st-list {
-  border-radius: var(--md-shape-lg);
+  border-radius: 24px;
   background: var(--md-surface-container-low);
   overflow: hidden;
 }

@@ -3457,6 +3457,12 @@ button:focus-visible {
   display: flex;
   gap: 8px;
 }
+/* The cover below this is generative art and stays deep in both themes
+   (ProfileCoverArt.kt says why), so its chrome cannot follow the theme
+   either. The dark plate that used to come in here sat at about 1.1:1
+   against the cover -- the icon still read, the button did not. A white
+   plate with fixed dark ink reads on the art and on a user's own photo,
+   which is the same call the media overlays make. */
 .pf-banner-action {
   width: 34px;
   height: 34px;
@@ -3465,7 +3471,7 @@ button:focus-visible {
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
-  color: var(--md-on-surface);
+  color: #16181D;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3478,11 +3484,6 @@ button:focus-visible {
   text-decoration: none !important;
 }
 .pf-banner-action .material-symbols-outlined { font-size: 19px; }
-[data-theme="dark"] .pf-banner-action {
-  background: rgba(30, 30, 40, 0.85);
-  border-color: rgba(255, 255, 255, 0.1);
-}
-[data-theme="dark"] .pf-banner-action:hover { background: rgba(30, 30, 40, 1); }
 
 @media (max-width: 600px) {
   .pf-banner-actions { top: 10px; right: 10px; gap: 6px; }
