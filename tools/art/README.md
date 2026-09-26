@@ -15,6 +15,8 @@ shipping Kotlin.
 | `render.py` | parses the Kotlin and transpiles it to Python; renders PNGs for design review |
 | `tojs.py` | the JavaScript backend for the same parser |
 | `genjs.py` | emits `backend_python/web/static/web/js/neb-art.js` |
+| `gensubjects.py` | emits the web's subject colour tokens (CSS module + `templatetags/subject_tokens.py`) from `Color.kt` |
+| `cmpsubjects.py` | asserts the art and the CSS class route a subject to the same hue |
 | `rec.js`, `recpy.py`, `cmp.py` | record each art's draw-call stream on both platforms and diff them |
 | `smoke.js` | runs the generated file through a stubbed DOM, exercising `scan`/`paint`/`prepare` |
 | `verify.sh` | all of the above, in order |

@@ -8,6 +8,7 @@ from django.utils.safestring import mark_safe
 from urllib.parse import quote
 import markdown as md_lib
 from api import content_images
+from . import subject_tokens
 
 try:
     import bleach as _bleach
@@ -134,78 +135,38 @@ def date_label(value):
         return ''
 
 
-def _normalize_subject(subject):
-    s = (subject or '').lower().strip()
-    if not s:
-        return 'general'
-    if 'physics' in s:
-        return 'physics'
-    if 'chemistry' in s:
-        return 'chemistry'
-    if 'math' in s:
-        return 'mathematics'
-    if 'biology' in s:
-        return 'biology'
-    if 'english' in s:
-        return 'english'
-    if 'nepali' in s:
-        return 'nepali'
-    if 'computer' in s or 'network' in s:
-        return 'computer science'
-    if 'economics' in s:
-        return 'economics'
-    if 'account' in s:
-        return 'accountancy'
-    if 'exam' in s or 'prep' in s:
-        return 'exam tips'
-    return s
+# Subject colours, icons and CSS-class slugs all come from
+# templatetags/subject_tokens.py, which is generated from the app's Color.kt.
+# Three hand-maintained tables used to live here and none of them agreed with
+# the app or with each other, so a Physics card was one blue in the app and a
+# different blue on the web -- and any subject outside the ten hard-coded names
+# ("Health and Physical Education", anything in Devanagari) fell through to
+# grey while the art above it drew in full colour.
 
 
 @register.filter
 def subject_color(subject):
-    colors = {
-        'physics': '#1B6EF3',
-        'chemistry': '#006E1C',
-        'mathematics': '#E8710A',
-        'math': '#E8710A',
-        'biology': '#9334E6',
-        'english': '#D93025',
-        'nepali': '#1967D2',
-        'computer science': '#185ABC',
-        'economics': '#E37400',
-        'accountancy': '#0D652D',
-        'general': '#6750A4',
-        'exam tips': '#C5221F',
-    }
-    return colors.get(_normalize_subject(subject), '#6750A4')
+    """The subject's light-theme accent. Dark theme is handled in CSS, via the
+    --subject-color custom property, because a filter cannot know the theme."""
+    return subject_tokens.subject_hue(subject)[0]
 
 
 @register.filter
 def subject_slug(subject):
-    import re
-    s = _normalize_subject(subject)
-    s = re.sub(r'[^a-z0-9]+', '-', s)
-    s = s.strip('-')
-    return s
+    """The CSS class suffix: `subject-physics`, or `subject-fam-health` for a
+    subject that only matches a family."""
+    return subject_tokens.subject_slug(subject)
 
 
 @register.filter
 def subject_icon(subject):
-    icons = {
-        'physics': 'science',
-        'chemistry': 'biotech',
-        'mathematics': 'calculate',
-        'math': 'calculate',
-        'biology': 'eco',
-        'english': 'menu_book',
-        'nepali': 'translate',
-        'computer science': 'computer',
-        'economics': 'trending_up',
-        'accountancy': 'account_balance',
-        'general': 'category',
-        'exam tips': 'quiz',
-    }
-    return icons.get(_normalize_subject(subject), 'category')
+    return subject_tokens.subject_icon(subject)
+
+
+@register.filter
+def subject_family(subject):
+    """The art family, for templates that need to group by it."""
+    return subject_tokens.subject_family(subject)
 
 
 @register.filter
