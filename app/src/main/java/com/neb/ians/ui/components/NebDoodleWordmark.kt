@@ -1,9 +1,17 @@
-package com.neb.ians.ui.screens.auth
+package com.neb.ians.ui.components
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -16,6 +24,8 @@ import androidx.compose.ui.graphics.drawscope.translate
 import kotlin.math.ceil
 import kotlin.math.hypot
 import kotlin.math.min
+import com.neb.ians.ui.theme.nebAnimationsReduced
+import kotlinx.coroutines.delay
 import kotlin.math.sin
 
 // ---------------------------------------------------------------------------
@@ -432,7 +442,7 @@ fun NebDoodleWordmark(
  * Exposed so the splash can lay its own timeline out against it, and so
  * MainActivity knows how long to hold its startup side effects back.
  */
-const val NEB_DOODLE_WRITE_MS = 2300
+const val NEB_DOODLE_WRITE_MS = 2050
 
 /**
  * The wordmark's aspect ratio. Give [NebDoodleWordmark] a box of any other
@@ -440,3 +450,75 @@ const val NEB_DOODLE_WRITE_MS = 2300
  * spare space is then dead weight in the layout.
  */
 const val NEB_DOODLE_ASPECT = ViewportWidth / ViewportHeight
+
+/**
+ * The writing clock, on its own.
+ *
+ * [NebDoodleWordmark] only knows how to draw the word at a given progress; it
+ * has no opinion about time. This is the other half: an [Animatable] that runs
+ * the pen once, honours the system's reduce-motion setting by jumping straight
+ * to the finished word, and hands back a [State] so the caller can put it
+ * straight into a draw lambda without recomposing.
+ *
+ * Pulled out of the splash because the splash is no longer the only place the
+ * word is written by hand — anything that wants the signature (an onboarding
+ * page, an about screen, a share card) needs the timing, not just the shape.
+ *
+ * @param replayKey change it to write the word again from blank.
+ */
+@Composable
+fun rememberNebDoodleWriting(
+    durationMillis: Int = NEB_DOODLE_WRITE_MS,
+    startDelayMillis: Long = 0L,
+    replayKey: Any? = Unit,
+    onFinished: () -> Unit = {}
+): State<Float> {
+    val writing = remember { Animatable(0f) }
+    val reducedMotion = nebAnimationsReduced()
+    val finished by rememberUpdatedState(onFinished)
+
+    LaunchedEffect(replayKey, durationMillis, startDelayMillis, reducedMotion) {
+        writing.snapTo(0f)
+        if (reducedMotion) {
+            writing.snapTo(1f)
+        } else {
+            if (startDelayMillis > 0L) delay(startDelayMillis)
+            // Linear on purpose: the rhythm lives in the stroke timeline and
+            // the pen lifts baked into it, not in an easing curve over the top.
+            writing.animateTo(1f, tween(durationMillis, easing = LinearEasing))
+        }
+        finished()
+    }
+
+    return remember(writing) { writing.asState() }
+}
+
+/**
+ * The doodle, playing itself — the drop-in form.
+ *
+ * Sizes itself to [NEB_DOODLE_ASPECT], so give it a width and let the height
+ * follow. If you need to drive the progress yourself (to interleave it with
+ * other moves, the way the splash does), use [rememberNebDoodleWriting] and
+ * [NebDoodleWordmark] directly instead.
+ */
+@Composable
+fun NebDoodleSignature(
+    modifier: Modifier = Modifier,
+    color: Color = MaterialTheme.colorScheme.primary,
+    durationMillis: Int = NEB_DOODLE_WRITE_MS,
+    startDelayMillis: Long = 0L,
+    replayKey: Any? = Unit,
+    onFinished: () -> Unit = {}
+) {
+    val progress = rememberNebDoodleWriting(
+        durationMillis = durationMillis,
+        startDelayMillis = startDelayMillis,
+        replayKey = replayKey,
+        onFinished = onFinished
+    )
+    NebDoodleWordmark(
+        progress = progress,
+        color = color,
+        modifier = modifier.aspectRatio(NEB_DOODLE_ASPECT)
+    )
+}
