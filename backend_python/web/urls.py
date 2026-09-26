@@ -34,6 +34,7 @@ urlpatterns = [
     path('past-papers/', views.past_papers, name='past_papers'),
     path('model-questions/', views.model_questions, name='model_questions'),
     path('online-learning/', views.online_learning, name='online_learning'),
+    path('faq/', views.faq, name='faq'),
     path('library/', views.library, name='library'),
     path('interactive/', views.interactive_hub, name='interactive_hub'),
     path('interactive/sandbox/frame/', views.interactive_sandbox_frame, name='interactive_sandbox_frame'),

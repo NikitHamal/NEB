@@ -452,6 +452,41 @@ def online_learning(request):
     ctx = _ctx(request)
     return render(request, 'web/online_learning.html', ctx)
 
+def faq(request):
+    """The help page.
+
+    The questions live in web/faq.py so the page and the FAQPage structured data
+    cannot drift apart. The schema is built here rather than in the template
+    because json.dumps is the only escaping for a <script type="ld+json"> body
+    that is actually correct -- template autoescaping produces &quot; inside
+    JSON, which is a parse error, and |safe produces none at all.
+    """
+    import json
+    from . import faq as faq_data
+
+    questions = faq_data.all_questions()
+    schema = json.dumps({
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        'mainEntity': [
+            {
+                '@type': 'Question',
+                'name': item['q'],
+                'acceptedAnswer': {'@type': 'Answer', 'text': item['answer_text']},
+            }
+            for item in questions
+        ],
+    }, ensure_ascii=False, separators=(',', ':'))
+
+    ctx = _ctx(
+        request,
+        faq_categories=faq_data.CATEGORIES,
+        faq_count=len(questions),
+        # '</' cannot appear raw inside a script element, whatever the type.
+        faq_schema=schema.replace('</', '<\\/'),
+    )
+    return render(request, 'web/faq.html', ctx)
+
 def search(request):
     from api.models import User as _LocalUser
     user_id = _get_user_id(request)
@@ -1826,6 +1861,7 @@ def sitemap_xml(request):
         {'loc': f'{base}/results/', 'changefreq': 'monthly', 'priority': '0.7', 'lastmod': now},
         {'loc': f'{base}/results/check/', 'changefreq': 'monthly', 'priority': '0.7', 'lastmod': now},
         {'loc': f'{base}/tools/', 'changefreq': 'monthly', 'priority': '0.5', 'lastmod': now},
+        {'loc': f'{base}/faq/', 'changefreq': 'monthly', 'priority': '0.6', 'lastmod': now},
         {'loc': f'{base}/library/?tab=interactive', 'changefreq': 'weekly', 'priority': '0.8', 'lastmod': now},
     ]
 
