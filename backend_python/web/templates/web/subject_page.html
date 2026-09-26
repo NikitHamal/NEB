@@ -75,19 +75,19 @@
   </nav>
 
 
-  <!-- Navigation Tabs -->
-  <div class="subj-tabs">
-    <button class="subj-tab-btn active" data-tab="materials">
+  {% comment %} The shared rail, same as the library one screen up. {% endcomment %}
+  <div class="neb-rail neb-rail-divided" role="tablist" aria-label="Subject sections" style="margin-bottom: 24px;">
+    <button type="button" class="neb-rail-item" role="tab" aria-selected="true" aria-controls="tab-materials" data-tab="materials">
       <span class="material-symbols-outlined">menu_book</span>
-      Study Materials
+      <span class="neb-rail-label">Study Materials</span>
     </button>
-    <button class="subj-tab-btn" data-tab="discussions">
+    <button type="button" class="neb-rail-item" role="tab" aria-selected="false" aria-controls="tab-discussions" data-tab="discussions">
       <span class="material-symbols-outlined">forum</span>
-      Discussions
+      <span class="neb-rail-label">Discussions</span>
     </button>
-    <button class="subj-tab-btn" data-tab="neby-ai">
+    <button type="button" class="neb-rail-item" role="tab" aria-selected="false" aria-controls="tab-neby-ai" data-tab="neby-ai">
       <span class="material-symbols-outlined">smart_toy</span>
-      Neby AI helper
+      <span class="neb-rail-label">Neby AI helper</span>
     </button>
   </div>
 
@@ -615,12 +615,12 @@
 <script nonce="{{ csp_nonce }}">
   if (window.NebiansSyllabus) window.NebiansSyllabus.init(document);
   // ── Tab Navigation ──
-  document.querySelectorAll('.subj-tab-btn').forEach(btn => {
+  document.querySelectorAll('.neb-rail-item[data-tab]').forEach(btn => {
     btn.addEventListener('click', () => {
-      document.querySelectorAll('.subj-tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.neb-rail-item[data-tab]').forEach(b => b.setAttribute('aria-selected', 'false'));
       document.querySelectorAll('.subj-tab-content').forEach(c => c.classList.remove('active'));
-      
-      btn.classList.add('active');
+
+      btn.setAttribute('aria-selected', 'true');
       const tabId = 'tab-' + btn.dataset.tab;
       document.getElementById(tabId).classList.add('active');
       
@@ -655,7 +655,7 @@
   registerActions({
     'ask-neby-syllabus': function(el) {
       var prompt = el.dataset.nebyPrompt || 'Explain this syllabus topic.';
-      var tabBtn = document.querySelector('.subj-tab-btn[data-tab="neby-ai"]');
+      var tabBtn = document.querySelector('.neb-rail-item[data-tab="neby-ai"]');
       if (tabBtn) tabBtn.click();
       window.setTimeout(function() {
         var input = document.getElementById('ai-message-input');
