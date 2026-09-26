@@ -186,7 +186,6 @@
   color: var(--md-on-surface-variant);
   line-height: 1.2;
 }
-.ss-file-status-parsing .ss-file-icon { animation: ss-spin 1.5s linear infinite; }
 .ss-file-status-parsing .ss-file-status-text { color: var(--md-primary); }
 .ss-file-status-failed .ss-file-icon,
 .ss-file-status-failed .ss-file-status-text { color: var(--md-error); }
@@ -203,8 +202,6 @@
 }
 .ss-file-retry-btn:hover { background: var(--md-primary-container); }
 .ss-file-retry-btn .material-symbols-outlined { font-size: 16px; }
-
-@keyframes ss-spin { to { transform: rotate(360deg); } }
 
 .ss-upload-btn {
   display: flex;

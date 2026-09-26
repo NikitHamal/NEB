@@ -284,11 +284,6 @@
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   }
 
-  @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
-
   /* Sort Tabs */
   .forum-controls-bar {
     display: flex;

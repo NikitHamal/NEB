@@ -265,7 +265,6 @@
 .ss-file-remove:hover { opacity: 1; color: var(--md-error); }
 .ss-file-info { display: flex; flex-direction: column; min-width: 0; flex: 1; }
 .ss-file-status-text { font-size: 0.6875rem; color: var(--md-on-surface-variant); line-height: 1.2; }
-.ss-file-status-parsing .ss-file-icon { animation: ss-spin 1.5s linear infinite; }
 .ss-file-status-parsing .ss-file-status-text { color: var(--md-primary); }
 .ss-file-status-failed .ss-file-icon { color: var(--md-error); }
 .ss-file-status-failed .ss-file-status-text { color: var(--md-error); }
@@ -282,8 +281,6 @@
 }
 .ss-file-retry-btn:hover { background: var(--md-surface-container-high); }
 .ss-file-retry-btn .material-symbols-outlined { font-size: 16px; }
-
-@keyframes ss-spin { to { transform: rotate(360deg); } }
 
 .ss-upload-btn {
   display: flex;

@@ -112,11 +112,17 @@
     docs.forEach(function (d) {
       var icon, statusLabel = '', statusClass = '';
       var ps = d.parseStatus || 'pending';
+      /* A wait is the one shared loader everywhere, which is what the app's
+         parse-status pill shows too (StudyAiViews.kt, ParseStatusPill). The
+         document's own glyph used to turn in its place; an hourglass that
+         spins reads as a broken icon rather than as progress, and it was the
+         last thing on this page still animating itself. No icon here means
+         the loader takes the slot. */
       if (ps === 'pending') {
-        icon = 'hourglass_top'; statusLabel = 'Preparing...'; statusClass = 'ss-file-status-parsing';
+        icon = ''; statusLabel = 'Preparing...'; statusClass = 'ss-file-status-parsing';
         needsParse.push(d.id);
       } else if (ps === 'uploading' || ps === 'parsing' || ps === 'extracting') {
-        icon = 'hourglass_top'; statusLabel = 'Parsing...'; statusClass = 'ss-file-status-parsing';
+        icon = ''; statusLabel = 'Parsing...'; statusClass = 'ss-file-status-parsing';
       } else if (ps === 'failed') {
         icon = 'error'; statusLabel = 'Parse failed'; statusClass = 'ss-file-status-failed';
       } else if (ps === 'ready') {
@@ -125,7 +131,9 @@
         icon = 'description'; statusLabel = ''; statusClass = '';
       }
       html += '<div class="ss-file-item' + (statusClass ? ' ' + statusClass : '') + '" data-doc-id="' + d.id + '" data-parse-status="' + ps + '">'
-        + '<span class="material-symbols-outlined ss-file-icon">' + icon + '</span>'
+        + (icon
+          ? '<span class="material-symbols-outlined ss-file-icon">' + icon + '</span>'
+          : '<span class="ss-file-icon md-loader md-loader-inline"></span>')
         + '<div class="ss-file-info">'
         + '<span class="ss-file-name">' + esc(d.title || d.fileName || 'Untitled') + '</span>'
         + (statusLabel ? '<span class="ss-file-status-text">' + statusLabel + '</span>' : '')
