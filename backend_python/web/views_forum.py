@@ -226,7 +226,6 @@ def forum(request):
         categories_data=sidebar_categories,
         has_more_categories=has_more_categories,
         top_contributors=top_contributors,
-        all_contributors=contributor_data,
         current_category=category,
         current_sort=sort,
         search_query=search,

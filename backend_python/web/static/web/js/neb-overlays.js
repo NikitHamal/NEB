@@ -188,7 +188,58 @@
    * the trigger, because the triggers live inside cards with overflow:hidden and
    * inside sticky bars with their own stacking context -- an absolutely
    * positioned child of either one gets clipped. */
+  /* Below this width a menu stops being a dropdown and becomes a bottom sheet,
+   * which is what the app does: PostExtras opens NebModalSheet for the same
+   * actions, not an anchored popup. A 180px popup pinned to a 34px icon button
+   * is a desktop idea. */
+  var MENU_SHEET_MAX = 600;
+
+  function asSheet() {
+    return window.matchMedia('(max-width: ' + MENU_SHEET_MAX + 'px)').matches;
+  }
+
+  /* The sheet form needs a scrim, and it cannot be drawn as a pseudo-element of
+   * the sheet: the sheet is translated to slide in, a transform makes it the
+   * containing block for any position:fixed descendant, and the pseudo ends up
+   * covering the sheet instead of the page behind it. So the controller owns a
+   * real element, one for the whole document, parked outside the sheet. */
+  var menuScrim = null;
+
+  function showMenuScrim() {
+    if (!menuScrim) {
+      menuScrim = document.createElement('div');
+      menuScrim.className = 'neb-menu-scrim';
+      menuScrim.addEventListener('click', function () { closeMenu(); });
+    }
+    if (menuScrim.parentNode !== document.body) document.body.appendChild(menuScrim);
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () { if (menuScrim) menuScrim.setAttribute('data-open', ''); });
+    });
+  }
+
+  function hideMenuScrim() {
+    if (!menuScrim || !menuScrim.parentNode) return;
+    var el = menuScrim;
+    el.removeAttribute('data-open');
+    var drop = function () { if (!el.hasAttribute('data-open') && el.parentNode) el.parentNode.removeChild(el); };
+    if (reducedMotion()) drop(); else setTimeout(drop, 260);
+  }
+
   function placeMenu(menu, trigger) {
+    /* A sheet is positioned by the stylesheet. Clear anything a previous
+     * desktop-width open left behind, or the inline top/left will pin the
+     * sheet halfway up the screen after a resize. */
+    if (asSheet()) {
+      menu.classList.add('neb-menu-sheet');
+      showMenuScrim();
+      menu.classList.remove('neb-menu-up');
+      ['position', 'top', 'bottom', 'left', 'right', 'maxHeight', 'visibility']
+        .forEach(function (k) { menu.style[k] = ''; });
+      menu.hidden = false;
+      return;
+    }
+    menu.classList.remove('neb-menu-sheet');
+    hideMenuScrim();
     var r = trigger.getBoundingClientRect();
     menu.style.position = 'fixed';
     menu.style.maxHeight = '';
@@ -225,6 +276,10 @@
   function showMenu(menu, trigger) {
     if (openMenu && openMenu.menu === menu) { closeMenu(); return; }
     closeMenu();
+    /* The .more-menu markup ships with style="display:none" on it, and an
+     * inline style beats every rule in the stylesheet. Hand the element over
+     * to `hidden` once and it stays handed over. */
+    if (menu.style.display) menu.style.display = '';
     placeMenu(menu, trigger);
     trigger.setAttribute('aria-expanded', 'true');
     openMenu = { menu: menu, trigger: trigger };
@@ -240,14 +295,15 @@
     m.removeAttribute('data-open');
     t.setAttribute('aria-expanded', 'false');
     if (refocus) t.focus();
+    hideMenuScrim();
     var hide = function () { if (!m.hasAttribute('data-open')) m.hidden = true; };
-    if (reducedMotion()) hide(); else setTimeout(hide, 180);
+    if (reducedMotion()) hide(); else setTimeout(hide, 260);
     m.dispatchEvent(new CustomEvent('neb:close', { bubbles: true }));
   }
 
   function menuItems(menu) {
     return Array.prototype.filter.call(
-      menu.querySelectorAll('.neb-menu-item:not([aria-disabled="true"])'),
+      menu.querySelectorAll('.neb-menu-item:not([aria-disabled="true"]), .more-menu-item:not([disabled])'),
       function (el) { return el.offsetWidth > 0 || el.offsetHeight > 0; });
   }
 
@@ -616,9 +672,13 @@
       }
     }
 
-    /* Anything in a menu that is not the trigger closes it, and a click on the
-     * scrim's own padding closes a dismissible overlay. */
-    if (openMenu && !t.closest('.neb-menu')) closeMenu();
+    /* Anything outside the open menu closes it, and a click on the scrim's own
+     * padding closes a dismissible overlay. The trigger is excluded because it
+     * toggles: without that, this handler closes the menu in the same click
+     * that the trigger's own handler opened it. */
+    if (openMenu && !t.closest('.neb-menu, .more-menu') && !openMenu.trigger.contains(t)) {
+      closeMenu();
+    }
 
     var scrim = t.closest && t.closest('.neb-scrim');
     if (scrim && t === scrim && scrim.dataset.nebPersistent === undefined) {
@@ -683,7 +743,10 @@
    * a scroll: the trigger has moved, and a menu that follows a scrolling card
    * around is worse than one that closes. */
   window.addEventListener('resize', function () { closeMenu(); });
-  window.addEventListener('scroll', function () { closeMenu(); }, { passive: true });
+  window.addEventListener('scroll', function () {
+    if (openMenu && openMenu.menu.classList.contains('neb-menu-sheet')) return;
+    closeMenu();
+  }, { passive: true });
 
   function scan(root) {
     Array.prototype.forEach.call((root || document).querySelectorAll('.neb-wheel'), buildWheel);
@@ -761,7 +824,61 @@
     return node ? wheels.get(node) || null : null;
   }
 
+  /* ── The .more-menu family ────────────────────────────────────────────────
+   * Six templates -- forum, forum_post, home, profile, search, subject_page --
+   * each carried a verbatim copy of the same fourteen lines: look the menu up
+   * by id, read style.display to find out whether it is open, close every menu
+   * on the page, set display, then attach a capturing document click handler
+   * on a setTimeout to close it again. Six copies meant six places for the
+   * Escape key to be missing, which it was in all of them, and aria-expanded
+   * was never set anywhere.
+   *
+   * One implementation now, reached by the names the pages already call so the
+   * markup does not have to change. Everything the controller already does for
+   * .neb-menu -- outside click, Escape, focus return, roving arrow keys, and
+   * the phone-width sheet -- these get for free.
+   *
+   * New markup should use data-neb-menu on the trigger and skip this. */
+  function legacyMenus() {
+    /* .bc-dropdown-menu is the breadcrumb menu on the subject page, which
+     * had its own copy of closeAllMenus purely to clear it. */
+    return document.querySelectorAll('.more-menu, .neb-menu, .bc-dropdown-menu');
+  }
+
+  function closeAllMenus() {
+    closeMenu();
+    /* Anything left showing was opened by a page that has not been converted
+     * yet, or was open when htmx swapped its trigger out from under it. */
+    Array.prototype.forEach.call(legacyMenus(), function (m) {
+      if (m.style.display && m.style.display !== 'none') m.style.display = 'none';
+    });
+  }
+
+  function toggleMoreMenu(menuId, trigger) {
+    var menu = typeof menuId === 'string' ? document.getElementById(menuId) : menuId;
+    if (!menu) return;
+    if (!trigger) {
+      trigger = document.querySelector('[data-menu-id="' + menu.id + '"]') || menu.previousElementSibling;
+    }
+    if (!trigger) return;
+    showMenu(menu, trigger);
+  }
+
+  /* A click on an item inside one of these menus should dismiss it -- every
+   * item in every copy was an action that navigates or fires a request, and
+   * none of the six copies closed the menu afterwards, so the popup sat over
+   * the thing it had just changed. */
+  document.addEventListener('click', function (e) {
+    var item = e.target.closest && e.target.closest('.more-menu-item');
+    if (item && openMenu && openMenu.menu.contains(item)) closeMenu();
+  });
+
+  window.toggleMoreMenu = toggleMoreMenu;
+  window.closeAllMenus = closeAllMenus;
+
   window.NebUI = {
+    toggleMoreMenu: toggleMoreMenu,
+    closeAllMenus: closeAllMenus,
     open: open,
     close: close,
     closeTop: closeTop,

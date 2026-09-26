@@ -1642,27 +1642,6 @@ function closeMentionDropdown() {
 }
 
 // ---- Three-dot menu ----
-function toggleMoreMenu(menuId, btn) {
-  var menu = document.getElementById(menuId);
-  if (!menu) return;
-  var isOpen = menu.style.display !== 'none';
-  closeAllMenus();
-  if (!isOpen) {
-    menu.style.display = 'block';
-    var handler = function(e) {
-      if (!menu.contains(e.target) && e.target !== btn && !btn.contains(e.target)) {
-        closeAllMenus();
-        document.removeEventListener('click', handler, true);
-      }
-    };
-    setTimeout(function() { document.addEventListener('click', handler, true); }, 0);
-  }
-}
-
-function closeAllMenus() {
-  document.querySelectorAll('.more-menu').forEach(function(m) { m.style.display = 'none'; });
-}
-
 // ---- Bookmark toggle ----
 async function toggleBookmark(targetType, targetId, btnEl) {
   try {
