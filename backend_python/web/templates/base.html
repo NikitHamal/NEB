@@ -24,15 +24,19 @@
   <meta name="msapplication-TileImage" content="{% static 'web/img/n-logo-192.png' %}">
   <link rel="canonical" href="{% block canonical %}https://nebians.consica.com.np{{ request.path }}{% endblock %}">
   {% block robots %}{% endblock %}
+  {# Lengths are not decoration. Google truncates a title past ~60 characters
+     and a description past ~160; X and LinkedIn cut og:description around 125.
+     Anything written into these blocks should be counted, and written as a
+     sentence a person would read rather than a keyword list. #}
   <meta name="description"
-    content="{% block description %}NEBians is Nepal's open learning platform, social community, and knowledge-sharing network for teachers, students, lifelong learners, schools, institutions, and curious explorers across all disciplines and levels.{% endblock %}">
+    content="{% block description %}NEBians is Nepal's open learning community: free NEB past papers, model questions and notes, plus a study forum and AI tools for every subject.{% endblock %}">
   <meta name="application-name" content="NEBians">
   <meta name="apple-mobile-web-app-title" content="NEBians">
   <meta name="keywords"
     content="{% block keywords %}NEBians, Nepal learning platform, Nepal learning community, education social network Nepal, teachers, students, explorers, schools, institutions, study resources, discussion forum, AI study tools{% endblock %}">
   <meta property="og:title" content="{% block og_title %}NEBians — Nepal's Learning Community{% endblock %}">
   <meta property="og:description"
-    content="{% block og_description %}Nepal's open learning community and social network for teachers, students, learners, institutions, and explorers to share knowledge, discuss ideas, and learn together.{% endblock %}">
+    content="{% block og_description %}Nepal's open learning community — free past papers, notes, a study forum and AI study tools for every subject and level.{% endblock %}">
   <meta property="og:type" content="{% block og_type %}website{% endblock %}">
   <meta property="og:url" content="https://nebians.consica.com.np{{ request.path }}">
   <meta property="og:site_name" content="NEBians">
@@ -40,7 +44,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{% block tw_title %}NEBians — Nepal's Learning Community{% endblock %}">
   <meta name="twitter:description"
-    content="{% block tw_description %}Nepal's open learning community and social network for teachers, students, learners, institutions, and explorers to share knowledge, discuss ideas, and learn together.{% endblock %}">
+    content="{% block tw_description %}Nepal's open learning community — free past papers, notes, a study forum and AI study tools for every subject and level.{% endblock %}">
   <meta property="og:image" content="{% block og_image %}https://nebians.consica.com.np{% static 'web/img/n-logo-social-1200.png' %}{% endblock %}">
   <meta property="og:image:secure_url" content="{% block og_image_secure %}https://nebians.consica.com.np{% static 'web/img/n-logo-social-1200.png' %}{% endblock %}">
   <meta property="og:image:type" content="{% block og_image_type %}image/png{% endblock %}">
@@ -362,6 +366,7 @@
         <div class="site-footer-col">
           <h4 class="site-footer-heading">About &amp; Legal</h4>
           <ul class="site-footer-list">
+            <li><a href="{% url 'web:faq' %}">Help &amp; FAQ</a></li>
             <li><a href="{% url 'web:privacy_policy' %}">Privacy Policy</a></li>
             <li><a href="{% url 'web:terms_of_service' %}">Terms of Service</a></li>
             <li><a href="{% url 'web:copyright_takedown' %}">Copyright Policy &amp; Takedown</a></li>

@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Help &amp; FAQ — NEBians{% endblock %}
+{% block description %}Answers to the questions people ask about NEBians: finding NEB past papers and notes, uploading your own, the AI study tools, moderation, and your account.{% endblock %}
+{% block og_title %}Help &amp; FAQ — NEBians{% endblock %}
+{% block og_description %}How to find past papers and notes, upload your own, use the AI study tools, and manage your account on Nepal's open learning community.{% endblock %}
+{% block tw_title %}Help &amp; FAQ — NEBians{% endblock %}
+{% block tw_description %}How to find past papers and notes, upload your own, use the AI study tools, and manage your account on Nepal's open learning community.{% endblock %}
+{% block canonical %}https://nebians.consica.com.np/faq/{% endblock %}
+
+{% block head_extra %}
+{# Built in the view from web/faq.py, so this can never describe answers the
+   page does not show. #}
+<script type="application/ld+json" nonce="{{ csp_nonce }}">{{ faq_schema|safe }}</script>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/pages/web-faq.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="faq-page">
+
+  <header class="faq-hero">
+    <span class="md-kicker faq-hero-kicker">Help centre</span>
+    <h1 class="md-display-small-emphasized">Questions, answered.</h1>
+    <p class="md-body-large faq-hero-sub">
+      Everything people usually ask about NEBians — where the study material is, how to
+      add your own, what the AI tools do, and what happens to your account and your data.
+    </p>
+
+    <form class="faq-search" role="search" data-action="faq-search-submit" autocomplete="off">
+      <span class="material-symbols-outlined" aria-hidden="true">search</span>
+      <input type="search" id="faq-search-input"
+             placeholder="Search {{ faq_count }} questions…"
+             aria-label="Search the FAQ" aria-controls="faq-sections">
+      <button type="button" class="faq-search-clear" data-action="faq-search-clear"
+              aria-label="Clear search">
+        <span class="material-symbols-outlined" aria-hidden="true">close</span>
+      </button>
+    </form>
+  </header>
+
+  <div class="faq-body" id="faq-body">
+
+    <nav class="faq-rail" aria-label="FAQ categories">
+      {% for cat in faq_categories %}
+      <a class="faq-rail-link{% if forloop.first %} is-current{% endif %}" href="#faq-{{ cat.id }}"
+         data-faq-rail="{{ cat.id }}">
+        <span class="material-symbols-outlined" aria-hidden="true">{{ cat.icon }}</span>
+        <span>{{ cat.label }}</span>
+      </a>
+      {% endfor %}
+    </nav>
+
+    <div id="faq-sections">
+      {% for cat in faq_categories %}
+      <section class="faq-section" id="faq-{{ cat.id }}" data-faq-section="{{ cat.id }}">
+        <div class="faq-section-head">
+          <h2 class="md-headline-small-emphasized">{{ cat.label }}</h2>
+          <p>{{ cat.blurb }}</p>
+        </div>
+        <div class="faq-list">
+          {% for item in cat.questions %}
+          <details class="faq-item">
+            <summary>
+              <span class="faq-item-q">{{ item.q }}</span>
+              <span class="faq-item-marker" aria-hidden="true"></span>
+            </summary>
+            {# Answers are authored in web/faq.py and contain only our own
+               anchors — no user input reaches this. #}
+            <div class="faq-answer">{{ item.a|safe }}</div>
+          </details>
+          {% endfor %}
+        </div>
+      </section>
+      {% endfor %}
+
+      <div class="faq-empty" role="status">
+        <span class="material-symbols-outlined" aria-hidden="true">search_off</span>
+        <p>Nothing here matches that. Try a shorter phrase, or ask in the forum.</p>
+      </div>
+
+      <section class="faq-cta">
+        <h2 class="md-headline-small-emphasized">Still stuck?</h2>
+        <p>
+          Ask it in the forum — there are thousands of students and teachers there, and
+          questions asked in public help the next person who searches for the same thing.
+        </p>
+        <div class="faq-cta-actions">
+          <a href="{% url 'web:forum' %}" class="md-btn md-btn-filled">
+            <span class="material-symbols-outlined" aria-hidden="true">forum</span>
+            Ask the community
+          </a>
+          <a href="mailto:support@nebians.consica.com.np" class="md-btn md-btn-outlined">
+            <span class="material-symbols-outlined" aria-hidden="true">mail</span>
+            Email support
+          </a>
+        </div>
+      </section>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script nonce="{{ csp_nonce }}">
+(function () {
+  var body = document.getElementById('faq-body');
+  var input = document.getElementById('faq-search-input');
+  if (!body || !input) return;
+
+  var form = input.closest('.faq-search');
+  var sections = Array.prototype.slice.call(body.querySelectorAll('[data-faq-section]'));
+  var items = Array.prototype.slice.call(body.querySelectorAll('.faq-item'));
+  var railLinks = Array.prototype.slice.call(body.querySelectorAll('[data-faq-rail]'));
+
+  // Searchable text is just the rendered text of the item, read once. Doing it
+  // lazily on first keystroke keeps it off the load path entirely.
+  var haystack = null;
+  function index() {
+    if (!haystack) {
+      haystack = items.map(function (el) {
+        return el.textContent.replace(/\s+/g, ' ').toLowerCase();
+      });
+    }
+    return haystack;
+  }
+
+  function filter(query) {
+    query = query.trim().toLowerCase();
+    form.classList.toggle('is-filled', query.length > 0);
+
+    if (!query) {
+      items.forEach(function (el) { el.hidden = false; el.open = false; });
+      sections.forEach(function (el) { el.hidden = false; });
+      body.classList.remove('is-filtering', 'is-empty');
+      return;
+    }
+
+    // Every word has to appear somewhere in the item. Cheap, and it means
+    // "delete account" finds the answer that says "account deletion".
+    var words = query.split(/\s+/);
+    var text = index();
+    var hits = 0;
+
+    items.forEach(function (el, i) {
+      var match = words.every(function (w) { return text[i].indexOf(w) !== -1; });
+      el.hidden = !match;
+      // A single hit is opened; a handful are left closed so the list stays
+      // scannable.
+      el.open = match && words.join('').length >= 3;
+      if (match) hits++;
+    });
+
+    sections.forEach(function (section) {
+      var visible = section.querySelector('.faq-item:not([hidden])');
+      section.hidden = !visible;
+    });
+
+    body.classList.add('is-filtering');
+    body.classList.toggle('is-empty', hits === 0);
+  }
+
+  var timer = null;
+  input.addEventListener('input', function () {
+    clearTimeout(timer);
+    timer = setTimeout(function () { filter(input.value); }, 90);
+  });
+
+  input.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && input.value) {
+      input.value = '';
+      filter('');
+    }
+  });
+
+  // Rail highlight follows whichever section owns the top of the viewport.
+  if (window.IntersectionObserver && railLinks.length) {
+    var current = null;
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var id = entry.target.getAttribute('data-faq-section');
+        if (id === current) return;
+        current = id;
+        railLinks.forEach(function (link) {
+          link.classList.toggle('is-current', link.getAttribute('data-faq-rail') === id);
+        });
+      });
+    }, { rootMargin: '-88px 0px -70% 0px' });
+    sections.forEach(function (s) { observer.observe(s); });
+  }
+
+  if (window.registerActions) {
+    window.registerActions({
+      'faq-search-submit': function () { filter(input.value); },
+      'faq-search-clear': function () { input.value = ''; filter(''); input.focus(); }
+    });
+  }
+})();
+</script>
+{% endblock %}
