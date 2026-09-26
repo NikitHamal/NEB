@@ -149,6 +149,11 @@
     var i = -1;
     for (var k = 0; k < stack.length; k++) if (stack[k].el === el) { i = k; break; }
     if (i < 0) return;
+    /* An adopted .modal-overlay is not ours to hide. The page that opened it
+     * owns the class or the inline display that makes it visible, so the only
+     * safe dismissal is to reverse exactly that, and the observer at the foot
+     * of this file pops the stack on the way back. */
+    if (stack[i].legacy) { legacyDismiss(el); return; }
     var entry = stack.splice(i, 1)[0];
 
     el.removeAttribute('data-open');
@@ -755,7 +760,12 @@
   }, { passive: true });
 
   function scan(root) {
-    Array.prototype.forEach.call((root || document).querySelectorAll('.neb-wheel'), buildWheel);
+    var scope = root || document;
+    Array.prototype.forEach.call(scope.querySelectorAll('.neb-wheel'), buildWheel);
+    /* A modal that arrives already open -- server-rendered that way, or swapped
+     * in by htmx mid-flight -- never fires the attribute change the observer
+     * below watches for. */
+    Array.prototype.forEach.call(scope.querySelectorAll('.modal-overlay'), legacySync);
   }
 
   document.addEventListener('DOMContentLoaded', function () { scan(document); });
@@ -879,6 +889,106 @@
 
   window.toggleMoreMenu = toggleMoreMenu;
   window.closeAllMenus = closeAllMenus;
+
+  /* ── The .modal-overlay family ────────────────────────────────────────────
+   * Fifteen dialogs across study_space, study_lab, forum_post, profile and
+   * canvas are drawn by .modal-overlay / .modal-box. 09-overlays.css already
+   * gave that family NebDialog's fill, radius, scrim and entrance, and the
+   * note there records why the names stayed: renaming them means rewriting the
+   * toggle code on six pages for no visual gain.
+   *
+   * What the geometry could not give them is the behaviour. Each one is opened
+   * by its page setting a class or an inline display, so none of them has a
+   * focus trap, none locks the page behind it, and Escape does nothing in any
+   * of them -- the same three defects the result checker and the forum thread
+   * panel had before they became real sheets. A modal you cannot dismiss from
+   * the keyboard, and that lets Tab walk out into the page behind it, is not a
+   * modal; it is a div with a shadow.
+   *
+   * So they are adopted rather than converted. This watches for one of them
+   * becoming visible, however its page did it, and from then on it is an entry
+   * on the same stack as every .neb-scrim: the Escape handler, the Tab trap and
+   * the scroll lock above all already work off that stack and need to know
+   * nothing about these. No markup changes, no class renames, and not one line
+   * of the six pages' toggle code is touched.
+   *
+   * New markup should still use .neb-dialog and NebUI.open().
+   */
+  var LEGACY_MODAL = '.modal-overlay';
+
+  /* Asking the layout rather than the mechanism. These are toggled three
+   * different ways -- .active on the forum and profile, an inline display on
+   * study_space and study_lab, the hidden attribute on canvas -- and a rect is
+   * the one answer that is true for all of them. */
+  function legacyVisible(el) {
+    return el.getClientRects().length > 0;
+  }
+
+  /* Undo precisely what was done, because the alternatives are worse than
+   * leaving it open: an inline display:none on a modal its page toggles with
+   * .active would win the cascade for good, and that modal would never open
+   * again. */
+  function legacyDismiss(el) {
+    if (el.classList.contains('active')) el.classList.remove('active');
+    else if (el.style.display && el.style.display !== 'none') el.style.display = 'none';
+    else el.hidden = true;
+  }
+
+  function legacyAdopt(el) {
+    if (stack.some(function (f) { return f.el === el; })) return;
+    /* Announced as a dialog, which none of them were -- a screen reader read
+     * them as part of the page they are covering. */
+    var p = panel(el);
+    if (p && !p.getAttribute('role')) {
+      p.setAttribute('role', 'dialog');
+      p.setAttribute('aria-modal', 'true');
+    }
+    stack.push({ el: el, restore: document.activeElement, opts: {}, legacy: true });
+    lockScroll();
+    focusFirst(el);
+  }
+
+  /* Every way out converges here -- the page's own close button, its backdrop
+   * handler, Escape, or an htmx swap -- because all of them end with the thing
+   * no longer having a rect. */
+  function legacyRelease(el) {
+    for (var i = 0; i < stack.length; i++) {
+      if (stack[i].el !== el) continue;
+      var entry = stack.splice(i, 1)[0];
+      unlockScroll();
+      if (entry.restore && document.contains(entry.restore)) {
+        try { entry.restore.focus({ preventScroll: true }); } catch (e) { entry.restore.focus(); }
+      }
+      el.dispatchEvent(new CustomEvent('neb:close', {
+        bubbles: true, detail: { reason: 'legacy' }
+      }));
+      return;
+    }
+  }
+
+  function legacySync(el) {
+    if (legacyVisible(el)) legacyAdopt(el);
+    else legacyRelease(el);
+  }
+
+  if (window.MutationObserver) {
+    var legacyObserver = new MutationObserver(function (records) {
+      var seen = [];
+      for (var i = 0; i < records.length; i++) {
+        var t = records[i].target;
+        /* The cheap test first: class attributes change constantly on these
+         * pages and almost none of them are on a modal. Only a match is worth
+         * a rect, which costs a layout. */
+        if (!t.matches || !t.matches(LEGACY_MODAL)) continue;
+        if (seen.indexOf(t) < 0) seen.push(t);
+      }
+      seen.forEach(legacySync);
+    });
+    legacyObserver.observe(document.documentElement, {
+      subtree: true, attributes: true,
+      attributeFilter: ['class', 'style', 'hidden']
+    });
+  }
 
   window.NebUI = {
     toggleMoreMenu: toggleMoreMenu,
