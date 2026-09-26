@@ -96,6 +96,7 @@
   {% block extra_css %}{% endblock %}
   <link rel="stylesheet" href="{% static 'web/css/ai-widgets.css' %}">
   <link rel="stylesheet" href="{% static 'web/css/pages/neby-assist.css' %}">
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neb-art.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/delegated-events.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/inline-media.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/forum-media.js' %}"></script>
@@ -469,6 +470,8 @@
         const themeIcon = document.getElementById('theme-icon');
         themeIcon.textContent = isDark ? 'dark_mode' : 'light_mode';
         localStorage.setItem('theme', isDark ? 'light' : 'dark');
+        // Canvas-painted art can't inherit a CSS variable; it has to be told.
+        document.dispatchEvent(new CustomEvent('neb:theme-change'));
         fetch('/ajax/theme/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN } });
       },
       'toggle-profile-dropdown': function (el, e) {

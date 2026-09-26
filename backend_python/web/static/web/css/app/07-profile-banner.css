@@ -35,15 +35,17 @@
   transition: transform var(--md-transition), box-shadow var(--md-transition);
 }
 
-/* ── Profile Banner: NEBian Brand Gradient ── */
-/* Performance notes:
-   - All animations use transform/opacity only (GPU compositor, no paint)
-   - No filter: blur (very expensive on mobile GPUs)
-   - Single shine layer (one composited layer) with seamless loop
-   - 18s loop so users can't detect start/end
-   - will-change applied only on the animating layer
-   - Reduced to a single GPU-friendly hue-shift on the gradient
-*/
+/* ── Profile cover: generative art, painted by neb-art.js ──
+   The cover is no longer a stack of CSS gradients per role. It is the same
+   drawing the Android app makes: one <canvas>, seeded by username, with the
+   role choosing the palette and the motif. Two users of the same role get
+   different pictures; the same user gets the same picture on both platforms.
+
+   CSS still owns the two things a canvas shouldn't: the slow sheen (one
+   composited transform, no repaint) and the deco word (real text, so it is
+   selectable and scales with the user's font size). Both take their colour
+   from the --neb-cover-* variables the painter publishes on the host, so they
+   follow whatever palette the art actually chose. */
 .pf-card-banner {
   height: 180px;
   position: relative;
@@ -60,487 +62,99 @@
   .pf-card-banner { height: 160px; }
 }
 
-/* Base gradient layer — rich brand mesh.
-   Seamless 18s loop: 0%/100% states are identical (no visible snap).
-   Uses linear-gradient rotation + subtle hue rotation. */
-.pf-banner-holo-metallic {
+.pf-banner-art {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(ellipse 80% 120% at 10% 90%, rgba(0, 83, 219, 0.55) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 100% at 85% 20%, rgba(79, 70, 229, 0.50) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 80% at 50% 50%, rgba(37, 99, 235, 0.35) 0%, transparent 70%),
-    radial-gradient(ellipse 90% 90% at 95% 80%, rgba(14, 165, 233, 0.40) 0%, transparent 50%),
-    linear-gradient(160deg, #004ac6 0%, #2563eb 30%, #4f46e5 55%, #0ea5e9 80%, #004ac6 100%);
-  background-size: 200% 200%;
-  will-change: background-position, filter;
-  animation: bannerGradientDrift 18s linear infinite;
+  overflow: hidden;
+  /* Fallbacks for the instant before the painter runs, and for a client with
+     JS off. Deep member tone; every role palette is dark at this end. */
+  background: #070A11;
+  --neb-cover-ink: #FFFFFF;
+  --neb-cover-accent: #B3C2DB;
 }
 
-/* Mesh grid overlay — static (no animation, no repaint cost) */
-.pf-banner-mesh-overlay {
-  position: absolute;
-  inset: 0;
-  opacity: 0.10;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
-  background-size: 32px 32px;
-  pointer-events: none;
-}
-
-/* Animated wave layer — SVG (cheap, GPU-composited) */
-.pf-banner-wave-layer {
-  position: absolute;
-  bottom: -2px;
-  left: -10%;
-  width: 120%;
-  height: 50%;
-  pointer-events: none;
-  will-change: transform;
-  animation: bannerWaveDrift 14s ease-in-out infinite;
-}
-
-.pf-banner-wave-layer svg {
+.pf-banner-art > canvas.neb-art-canvas {
+  display: block;
   width: 100%;
   height: 100%;
-  display: block;
 }
 
-/* Shimmer sweep — single infinite loop using a wide gradient that
-   translates from far right to far left. 0% and 100% positions
-   are off-screen so there's no visible "snap" on loop. */
-.pf-banner-shine-overlay {
+/* One slow diagonal pass of light, matching the app's 11s sheen. A 40%-wide
+   band translated across a 240%-wide box: transform only, so the compositor
+   handles it and the canvas underneath is never repainted. */
+.pf-banner-sheen {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(105deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0) 35%,
-    rgba(255, 255, 255, 0.10) 48%,
-    rgba(255, 255, 255, 0.22) 50%,
-    rgba(255, 255, 255, 0.10) 52%,
-    rgba(255, 255, 255, 0) 65%,
-    rgba(255, 255, 255, 0) 100%
+  top: -20%;
+  left: 0;
+  width: 40%;
+  height: 140%;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    color-mix(in srgb, var(--neb-cover-ink) 7%, transparent) 50%,
+    transparent 100%
   );
-  background-size: 250% 100%;
-  background-repeat: no-repeat;
-  will-change: background-position;
-  animation: bannerShimmer 9s linear infinite;
+  will-change: transform;
+  animation: pfCoverSheen 11s linear infinite;
 }
 
-/* Brand watermark text — supports store customizations */
+/* A rule and a tracked word, bottom-right: the corner the avatar and the
+   primary action both leave empty. */
 .pf-banner-deco-text {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: var(--banner-text-size, 2.5rem);
-  font-weight: 800;
-  letter-spacing: 0.22em;
-  color: var(--banner-text-color, rgba(255, 255, 255, 0.18));
-  font-family: 'Poppins', sans-serif;
-  text-transform: uppercase;
-  pointer-events: none;
-  user-select: none;
-  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.15), 0 0 40px rgba(255, 255, 255, 0.10);
-  white-space: nowrap;
-  transition: color 0.3s, text-shadow 0.3s, font-size 0.3s;
+  right: 18px;
+  bottom: 16px;
   z-index: 2;
+  font-family: 'Poppins', var(--md-font-family, sans-serif);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  line-height: 1;
+  color: color-mix(in srgb, var(--neb-cover-ink) 60%, transparent);
+  user-select: none;
 }
 
-.pf-banner-deco-text[data-banner-text-color] {
-  color: attr(data-banner-text-color color, rgba(255, 255, 255, 0.18));
-}
-
-.pf-banner-deco-text[data-banner-text-size] {
-  font-size: attr(data-banner-text-size);
+.pf-banner-deco-text::before {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 6px);
+  width: 26px;
+  height: 1px;
+  background: color-mix(in srgb, var(--neb-cover-accent) 55%, transparent);
 }
 
 @media (max-width: 600px) {
   .pf-banner-deco-text {
-    font-size: 1.4rem;
-    letter-spacing: 0.15em;
+    right: 14px;
+    bottom: 12px;
+    font-size: 0.5625rem;
+    letter-spacing: 0.28em;
   }
 }
 
-/* ── Store customization: banner type presets ── */
-.pf-card-banner[data-banner-type="gradient-sunset"] .pf-banner-holo-metallic {
-  background:
-    radial-gradient(ellipse 80% 120% at 10% 90%, rgba(234, 88, 12, 0.55) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 100% at 85% 20%, rgba(220, 38, 38, 0.50) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 80% at 50% 50%, rgba(251, 146, 60, 0.35) 0%, transparent 70%),
-    radial-gradient(ellipse 90% 90% at 95% 80%, rgba(245, 158, 11, 0.40) 0%, transparent 50%),
-    linear-gradient(160deg, #c2410c 0%, #ea580c 30%, #dc2626 55%, #f59e0b 80%, #c2410c 100%);
-  background-size: 200% 200%;
-  animation: bannerGradientDrift 18s linear infinite;
-}
-[data-theme="dark"] .pf-card-banner[data-banner-type="gradient-sunset"] .pf-banner-holo-metallic {
-  background:
-    radial-gradient(ellipse 80% 120% at 10% 90%, rgba(154, 52, 18, 0.70) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 100% at 85% 20%, rgba(153, 27, 27, 0.55) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 80% at 50% 50%, rgba(251, 146, 60, 0.25) 0%, transparent 70%),
-    radial-gradient(ellipse 90% 90% at 95% 80%, rgba(120, 53, 15, 0.45) 0%, transparent 50%),
-    linear-gradient(160deg, #431407 0%, #7c2d12 25%, #991b1b 50%, #78350f 75%, #431407 100%);
-  background-size: 200% 200%;
+/* The user's own cover image, when they have one. Its foot still needs
+   darkening: the avatar ring below is white and a bright photo swallows it. */
+.pf-banner-photo-scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent 55%, rgba(0, 0, 0, 0.30) 100%);
 }
 
-.pf-card-banner[data-banner-type="gradient-aurora"] .pf-banner-holo-metallic {
-  background:
-    radial-gradient(ellipse 80% 120% at 10% 90%, rgba(16, 185, 129, 0.55) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 100% at 85% 20%, rgba(52, 211, 153, 0.50) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 80% at 50% 50%, rgba(6, 182, 212, 0.35) 0%, transparent 70%),
-    radial-gradient(ellipse 90% 90% at 95% 80%, rgba(34, 197, 94, 0.40) 0%, transparent 50%),
-    linear-gradient(160deg, #047857 0%, #10b981 30%, #06b6d4 55%, #22c55e 80%, #047857 100%);
-  background-size: 200% 200%;
-  animation: bannerGradientDrift 18s linear infinite;
-}
-[data-theme="dark"] .pf-card-banner[data-banner-type="gradient-aurora"] .pf-banner-holo-metallic {
-  background:
-    radial-gradient(ellipse 80% 120% at 10% 90%, rgba(6, 95, 70, 0.70) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 100% at 85% 20%, rgba(22, 101, 52, 0.55) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 80% at 50% 50%, rgba(8, 145, 178, 0.25) 0%, transparent 70%),
-    radial-gradient(ellipse 90% 90% at 95% 80%, rgba(21, 128, 61, 0.45) 0%, transparent 50%),
-    linear-gradient(160deg, #022c22 0%, #064e3b 25%, #065f46 50%, #0c4a6e 75%, #022c22 100%);
-  background-size: 200% 200%;
+@keyframes pfCoverSheen {
+  from { transform: translateX(-120%); }
+  to   { transform: translateX(350%); }
 }
 
-.pf-card-banner[data-banner-type="gradient-royal"] .pf-banner-holo-metallic {
-  background:
-    radial-gradient(ellipse 80% 120% at 10% 90%, rgba(124, 58, 237, 0.55) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 100% at 85% 20%, rgba(168, 85, 247, 0.50) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 80% at 50% 50%, rgba(139, 92, 246, 0.35) 0%, transparent 70%),
-    radial-gradient(ellipse 90% 90% at 95% 80%, rgba(192, 132, 252, 0.40) 0%, transparent 50%),
-    linear-gradient(160deg, #6d28d9 0%, #8b5cf6 30%, #a855f7 55%, #c084fc 80%, #6d28d9 100%);
-  background-size: 200% 200%;
-  animation: bannerGradientDrift 18s linear infinite;
-}
-[data-theme="dark"] .pf-card-banner[data-banner-type="gradient-royal"] .pf-banner-holo-metallic {
-  background:
-    radial-gradient(ellipse 80% 120% at 10% 90%, rgba(91, 33, 182, 0.70) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 100% at 85% 20%, rgba(109, 40, 217, 0.55) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 80% at 50% 50%, rgba(139, 92, 246, 0.25) 0%, transparent 70%),
-    radial-gradient(ellipse 90% 90% at 95% 80%, rgba(88, 28, 135, 0.45) 0%, transparent 50%),
-    linear-gradient(160deg, #2e1065 0%, #4c1d95 25%, #5b21b6 50%, #3b0764 75%, #2e1065 100%);
-  background-size: 200% 200%;
-}
-
-.pf-card-banner[data-banner-type="gradient-ocean"] .pf-banner-holo-metallic {
-  background:
-    radial-gradient(ellipse 80% 120% at 10% 90%, rgba(2, 132, 199, 0.55) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 100% at 85% 20%, rgba(6, 182, 212, 0.50) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 80% at 50% 50%, rgba(14, 165, 233, 0.35) 0%, transparent 70%),
-    radial-gradient(ellipse 90% 90% at 95% 80%, rgba(8, 145, 178, 0.40) 0%, transparent 50%),
-    linear-gradient(160deg, #0369a1 0%, #0284c7 30%, #0891b2 55%, #06b6d4 80%, #0369a1 100%);
-  background-size: 200% 200%;
-  animation: bannerGradientDrift 18s linear infinite;
-}
-[data-theme="dark"] .pf-card-banner[data-banner-type="gradient-ocean"] .pf-banner-holo-metallic {
-  background:
-    radial-gradient(ellipse 80% 120% at 10% 90%, rgba(7, 89, 133, 0.70) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 100% at 85% 20%, rgba(14, 116, 144, 0.55) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 80% at 50% 50%, rgba(8, 145, 178, 0.25) 0%, transparent 70%),
-    radial-gradient(ellipse 90% 90% at 95% 80%, rgba(3, 105, 161, 0.45) 0%, transparent 50%),
-    linear-gradient(160deg, #082f49 0%, #0c4a6e 25%, #164e63 50%, #0e4555 75%, #082f49 100%);
-  background-size: 200% 200%;
-}
-
-.pf-card-banner[data-banner-type="gradient-champion"] .pf-banner-holo-metallic {
-  background:
-    radial-gradient(ellipse 80% 120% at 10% 90%, rgba(202, 138, 4, 0.60) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 100% at 85% 20%, rgba(245, 158, 11, 0.55) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 80% at 50% 50%, rgba(234, 179, 8, 0.35) 0%, transparent 70%),
-    radial-gradient(ellipse 90% 90% at 95% 80%, rgba(251, 191, 36, 0.40) 0%, transparent 50%),
-    linear-gradient(160deg, #92400e 0%, #b45309 25%, #d97706 50%, #f59e0b 75%, #92400e 100%);
-  background-size: 200% 200%;
-  animation: bannerGradientDrift 18s linear infinite;
-}
-[data-theme="dark"] .pf-card-banner[data-banner-type="gradient-champion"] .pf-banner-holo-metallic {
-  background:
-    radial-gradient(ellipse 80% 120% at 10% 90%, rgba(120, 53, 15, 0.70) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 100% at 85% 20%, rgba(146, 64, 14, 0.55) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 80% at 50% 50%, rgba(202, 138, 4, 0.25) 0%, transparent 70%),
-    radial-gradient(ellipse 90% 90% at 95% 80%, rgba(180, 83, 9, 0.45) 0%, transparent 50%),
-    linear-gradient(160deg, #451a03 0%, #78350f 25%, #92400e 50%, #78350f 75%, #451a03 100%);
-  background-size: 200% 200%;
-}
-
-/* ── Role-based banner: Admin (gold/amber, crown-worthy) ── */
-.pf-card-banner[data-banner-type="gradient-admin"] .pf-banner-holo-metallic {
-  background:
-    radial-gradient(ellipse 80% 120% at 10% 90%, rgba(202, 138, 4, 0.65) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 100% at 85% 20%, rgba(245, 158, 11, 0.55) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 80% at 50% 50%, rgba(234, 179, 8, 0.40) 0%, transparent 70%),
-    radial-gradient(ellipse 90% 90% at 95% 80%, rgba(251, 191, 36, 0.45) 0%, transparent 50%),
-    linear-gradient(160deg, #78350f 0%, #b45309 25%, #d97706 50%, #f59e0b 75%, #78350f 100%);
-  background-size: 200% 200%;
-  animation: bannerGradientDrift 18s linear infinite;
-}
-[data-theme="dark"] .pf-card-banner[data-banner-type="gradient-admin"] .pf-banner-holo-metallic {
-  background:
-    radial-gradient(ellipse 80% 120% at 10% 90%, rgba(120, 53, 15, 0.75) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 100% at 85% 20%, rgba(146, 64, 14, 0.60) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 80% at 50% 50%, rgba(202, 138, 4, 0.30) 0%, transparent 70%),
-    radial-gradient(ellipse 90% 90% at 95% 80%, rgba(180, 83, 9, 0.50) 0%, transparent 50%),
-    linear-gradient(160deg, #451a03 0%, #78350f 25%, #92400e 50%, #78350f 75%, #451a03 100%);
-  background-size: 200% 200%;
-}
-.pf-card-banner[data-banner-type="gradient-admin"] .pf-banner-deco-text {
-  color: var(--banner-text-color, rgba(255, 255, 255, 0.25));
-  text-shadow: 0 2px 20px rgba(245, 158, 11, 0.25), 0 0 40px rgba(255, 255, 255, 0.12);
-}
-[data-theme="dark"] .pf-card-banner[data-banner-type="gradient-admin"] .pf-banner-deco-text {
-  color: rgba(251, 191, 36, 0.22);
-  text-shadow: 0 2px 20px rgba(251, 191, 36, 0.30), 0 0 40px rgba(245, 158, 11, 0.10);
-}
-
-/* ── Role-based banner: Moderator (teal/emerald, shield-worthy) ── */
-.pf-card-banner[data-banner-type="gradient-moderator"] .pf-banner-holo-metallic {
-  background:
-    radial-gradient(ellipse 80% 120% at 10% 90%, rgba(13, 148, 136, 0.55) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 100% at 85% 20%, rgba(20, 184, 166, 0.50) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 80% at 50% 50%, rgba(45, 212, 191, 0.35) 0%, transparent 70%),
-    radial-gradient(ellipse 90% 90% at 95% 80%, rgba(6, 182, 212, 0.40) 0%, transparent 50%),
-    linear-gradient(160deg, #0f766e 0%, #0d9488 25%, #14b8a6 50%, #06b6d4 75%, #0f766e 100%);
-  background-size: 200% 200%;
-  animation: bannerGradientDrift 18s linear infinite;
-}
-[data-theme="dark"] .pf-card-banner[data-banner-type="gradient-moderator"] .pf-banner-holo-metallic {
-  background:
-    radial-gradient(ellipse 80% 120% at 10% 90%, rgba(15, 118, 110, 0.70) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 100% at 85% 20%, rgba(20, 83, 45, 0.55) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 80% at 50% 50%, rgba(13, 148, 136, 0.25) 0%, transparent 70%),
-    radial-gradient(ellipse 90% 90% at 95% 80%, rgba(8, 145, 178, 0.45) 0%, transparent 50%),
-    linear-gradient(160deg, #042f2e 0%, #134e4a 25%, #115e59 50%, #0c4a6e 75%, #042f2e 100%);
-  background-size: 200% 200%;
-}
-.pf-card-banner[data-banner-type="gradient-moderator"] .pf-banner-deco-text {
-  color: var(--banner-text-color, rgba(255, 255, 255, 0.22));
-  text-shadow: 0 2px 20px rgba(20, 184, 166, 0.22), 0 0 40px rgba(255, 255, 255, 0.10);
-}
-[data-theme="dark"] .pf-card-banner[data-banner-type="gradient-moderator"] .pf-banner-deco-text {
-  color: rgba(45, 212, 191, 0.20);
-  text-shadow: 0 2px 20px rgba(45, 212, 191, 0.25), 0 0 40px rgba(20, 184, 166, 0.08);
-}
-
-/* ── Role-based banner: Verified (sky blue, trustworthy) ── */
-.pf-card-banner[data-banner-type="gradient-verified"] .pf-banner-holo-metallic {
-  background:
-    radial-gradient(ellipse 80% 120% at 10% 90%, rgba(2, 132, 199, 0.55) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 100% at 85% 20%, rgba(14, 165, 233, 0.50) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 80% at 50% 50%, rgba(56, 189, 248, 0.35) 0%, transparent 70%),
-    radial-gradient(ellipse 90% 90% at 95% 80%, rgba(6, 182, 212, 0.40) 0%, transparent 50%),
-    linear-gradient(160deg, #0369a1 0%, #0284c7 25%, #0ea5e9 50%, #38bdf8 75%, #0369a1 100%);
-  background-size: 200% 200%;
-  animation: bannerGradientDrift 18s linear infinite;
-}
-[data-theme="dark"] .pf-card-banner[data-banner-type="gradient-verified"] .pf-banner-holo-metallic {
-  background:
-    radial-gradient(ellipse 80% 120% at 10% 90%, rgba(7, 89, 133, 0.70) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 100% at 85% 20%, rgba(14, 116, 144, 0.55) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 80% at 50% 50%, rgba(8, 145, 178, 0.25) 0%, transparent 70%),
-    radial-gradient(ellipse 90% 90% at 95% 80%, rgba(3, 105, 161, 0.45) 0%, transparent 50%),
-    linear-gradient(160deg, #082f49 0%, #0c4a6e 25%, #164e63 50%, #0e4555 75%, #082f49 100%);
-  background-size: 200% 200%;
-}
-.pf-card-banner[data-banner-type="gradient-verified"] .pf-banner-deco-text {
-  color: var(--banner-text-color, rgba(255, 255, 255, 0.20));
-  text-shadow: 0 2px 20px rgba(14, 165, 233, 0.20), 0 0 40px rgba(255, 255, 255, 0.10);
-}
-[data-theme="dark"] .pf-card-banner[data-banner-type="gradient-verified"] .pf-banner-deco-text {
-  color: rgba(125, 211, 252, 0.18);
-  text-shadow: 0 2px 20px rgba(56, 189, 248, 0.22), 0 0 40px rgba(14, 165, 233, 0.08);
-}
-
-/* ── Role-based banner: AI Bot (deep purple, futuristic) ── */
-.pf-card-banner[data-banner-type="gradient-bot"] .pf-banner-holo-metallic {
-  background:
-    radial-gradient(ellipse 80% 120% at 10% 90%, rgba(124, 77, 255, 0.60) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 100% at 85% 20%, rgba(149, 117, 255, 0.50) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 80% at 50% 50%, rgba(179, 136, 255, 0.35) 0%, transparent 70%),
-    radial-gradient(ellipse 90% 90% at 95% 80%, rgba(98, 0, 234, 0.45) 0%, transparent 50%),
-    linear-gradient(160deg, #4a148c 0%, #6200ea 25%, #7c4dff 50%, #b388ff 75%, #4a148c 100%);
-  background-size: 200% 200%;
-  animation: bannerGradientDrift 18s linear infinite;
-}
-[data-theme="dark"] .pf-card-banner[data-banner-type="gradient-bot"] .pf-banner-holo-metallic {
-  background:
-    radial-gradient(ellipse 80% 120% at 10% 90%, rgba(74, 20, 140, 0.75) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 100% at 85% 20%, rgba(98, 0, 234, 0.60) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 80% at 50% 50%, rgba(124, 77, 255, 0.30) 0%, transparent 70%),
-    radial-gradient(ellipse 90% 90% at 95% 80%, rgba(149, 117, 255, 0.50) 0%, transparent 50%),
-    linear-gradient(160deg, #1a0033 0%, #311b92 25%, #4527a0 50%, #311b92 75%, #1a0033 100%);
-  background-size: 200% 200%;
-}
-.pf-card-banner[data-banner-type="gradient-bot"] .pf-banner-deco-text {
-  color: var(--banner-text-color, rgba(255, 255, 255, 0.25));
-  text-shadow: 0 2px 20px rgba(124, 77, 255, 0.30), 0 0 40px rgba(179, 136, 255, 0.15);
-}
-[data-theme="dark"] .pf-card-banner[data-banner-type="gradient-bot"] .pf-banner-deco-text {
-  color: rgba(179, 136, 255, 0.22);
-  text-shadow: 0 2px 20px rgba(124, 77, 255, 0.35), 0 0 40px rgba(98, 0, 234, 0.10);
-}
-
-/* ── Role-based banner: Teacher (emerald green, scholarly) ── */
-.pf-card-banner[data-banner-type="gradient-tutor"] .pf-banner-holo-metallic {
-  background:
-    radial-gradient(ellipse 80% 120% at 10% 90%, rgba(5, 150, 105, 0.60) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 100% at 85% 20%, rgba(16, 185, 129, 0.55) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 80% at 50% 50%, rgba(52, 211, 153, 0.35) 0%, transparent 70%),
-    radial-gradient(ellipse 90% 90% at 95% 80%, rgba(20, 184, 166, 0.45) 0%, transparent 50%),
-    linear-gradient(160deg, #064e3b 0%, #047857 25%, #10b981 50%, #34d399 75%, #064e3b 100%);
-  background-size: 200% 200%;
-  animation: bannerGradientDrift 18s linear infinite;
-}
-[data-theme="dark"] .pf-card-banner[data-banner-type="gradient-tutor"] .pf-banner-holo-metallic {
-  background:
-    radial-gradient(ellipse 80% 120% at 10% 90%, rgba(6, 78, 59, 0.80) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 100% at 85% 20%, rgba(6, 95, 70, 0.65) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 80% at 50% 50%, rgba(16, 185, 129, 0.30) 0%, transparent 70%),
-    radial-gradient(ellipse 90% 90% at 95% 80%, rgba(20, 184, 166, 0.50) 0%, transparent 50%),
-    linear-gradient(160deg, #022c22 0%, #064e3b 25%, #065f46 50%, #047857 75%, #022c22 100%);
-  background-size: 200% 200%;
-}
-.pf-card-banner[data-banner-type="gradient-tutor"] .pf-banner-deco-text {
-  color: var(--banner-text-color, rgba(255, 255, 255, 0.28));
-  text-shadow: 0 2px 20px rgba(16, 185, 129, 0.30), 0 0 40px rgba(52, 211, 153, 0.15);
-  font-size: 3.5rem;
-  letter-spacing: 0.30em;
-}
-.pf-card-banner[data-banner-type="gradient-tutor"] .pf-banner-mesh-overlay {
-  opacity: 0.12;
-}
-[data-theme="dark"] .pf-card-banner[data-banner-type="gradient-tutor"] .pf-banner-deco-text {
-  color: rgba(167, 243, 208, 0.25);
-  text-shadow: 0 2px 20px rgba(16, 185, 129, 0.35), 0 0 40px rgba(20, 184, 166, 0.10);
-}
-@media (max-width: 600px) {
-  .pf-card-banner[data-banner-type="gradient-tutor"] .pf-banner-deco-text {
-    font-size: 2rem;
-    letter-spacing: 0.20em;
-  }
-}
-
-/* ── Role-based banner: Institution (indigo, institutional) ── */
-.pf-card-banner[data-banner-type="gradient-institution"] .pf-banner-holo-metallic {
-  background:
-    radial-gradient(ellipse 80% 120% at 10% 90%, rgba(67, 56, 202, 0.60) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 100% at 85% 20%, rgba(99, 102, 241, 0.55) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 80% at 50% 50%, rgba(129, 140, 248, 0.35) 0%, transparent 70%),
-    radial-gradient(ellipse 90% 90% at 95% 80%, rgba(139, 92, 246, 0.45) 0%, transparent 50%),
-    linear-gradient(160deg, #312e81 0%, #4338ca 25%, #6366f1 50%, #818cf8 75%, #312e81 100%);
-  background-size: 200% 200%;
-  animation: bannerGradientDrift 18s linear infinite;
-}
-[data-theme="dark"] .pf-card-banner[data-banner-type="gradient-institution"] .pf-banner-holo-metallic {
-  background:
-    radial-gradient(ellipse 80% 120% at 10% 90%, rgba(49, 46, 129, 0.80) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 100% at 85% 20%, rgba(67, 56, 202, 0.65) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 80% at 50% 50%, rgba(99, 102, 241, 0.30) 0%, transparent 70%),
-    radial-gradient(ellipse 90% 90% at 95% 80%, rgba(129, 140, 248, 0.50) 0%, transparent 50%),
-    linear-gradient(160deg, #1e1b4b 0%, #312e81 25%, #3730a3 50%, #4338ca 75%, #1e1b4b 100%);
-  background-size: 200% 200%;
-}
-.pf-card-banner[data-banner-type="gradient-institution"] .pf-banner-deco-text {
-  color: var(--banner-text-color, rgba(255, 255, 255, 0.25));
-  text-shadow: 0 2px 20px rgba(99, 102, 241, 0.30), 0 0 40px rgba(165, 180, 252, 0.15);
-  font-size: 2.5rem;
-  letter-spacing: 0.25em;
-}
-.pf-card-banner[data-banner-type="gradient-institution"] .pf-banner-mesh-overlay {
-  opacity: 0.12;
-}
-[data-theme="dark"] .pf-card-banner[data-banner-type="gradient-institution"] .pf-banner-deco-text {
-  color: rgba(199, 210, 254, 0.22);
-  text-shadow: 0 2px 20px rgba(99, 102, 241, 0.35), 0 0 40px rgba(129, 140, 248, 0.10);
-}
-@media (max-width: 600px) {
-  .pf-card-banner[data-banner-type="gradient-institution"] .pf-banner-deco-text {
-    font-size: 1.5rem;
-    letter-spacing: 0.18em;
-  }
-}
-
-/* ── Dark mode variant (default brand) ── */
-[data-theme="dark"] .pf-banner-holo-metallic {
-  background:
-    radial-gradient(ellipse 80% 120% at 10% 90%, rgba(0, 62, 168, 0.70) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 100% at 85% 20%, rgba(99, 102, 241, 0.55) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 80% at 50% 50%, rgba(56, 189, 248, 0.25) 0%, transparent 70%),
-    radial-gradient(ellipse 90% 90% at 95% 80%, rgba(14, 116, 200, 0.45) 0%, transparent 50%),
-    linear-gradient(160deg, #00174b 0%, #003ea8 25%, #1e3a8a 50%, #172554 75%, #0a0f2e 100%);
-  background-size: 200% 200%;
-}
-
-[data-theme="dark"] .pf-banner-mesh-overlay {
-  opacity: 0.05;
-}
-
-[data-theme="dark"] .pf-banner-shine-overlay {
-  background: linear-gradient(105deg,
-    rgba(180, 197, 255, 0) 0%,
-    rgba(180, 197, 255, 0) 35%,
-    rgba(180, 197, 255, 0.05) 48%,
-    rgba(180, 197, 255, 0.13) 50%,
-    rgba(180, 197, 255, 0.05) 52%,
-    rgba(180, 197, 255, 0) 65%,
-    rgba(180, 197, 255, 0) 100%
-  );
-  background-size: 250% 100%;
-  background-repeat: no-repeat;
-}
-
-[data-theme="dark"] .pf-banner-deco-text {
-  color: rgba(180, 197, 255, 0.16);
-  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3), 0 0 40px rgba(180, 197, 255, 0.08);
-}
-
-/* ── Banner animations: seamless infinite loops ── */
-/* Gradient drift: 0% and 100% share the same position, so the
-   loop boundary is invisible. Linear timing avoids easing pop. */
-@keyframes bannerGradientDrift {
-  0%   { background-position: 0% 0%; }
-  25%  { background-position: 50% 100%; }
-  50%  { background-position: 100% 50%; }
-  75%  { background-position: 50% 0%; }
-  100% { background-position: 0% 0%; }
-}
-
-/* Shimmer sweep: gradient wider than the container, so 0% (off-screen right)
-   and 100% (off-screen left) are both invisible. Linear timing. */
-@keyframes bannerShimmer {
-  0%   { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-
-/* Wave drift: subtle horizontal translation. The 0%/100% rest position
-   is identical, with two sin-like motion peaks in between. */
-@keyframes bannerWaveDrift {
-  0%   { transform: translateX(0%); }
-  50%  { transform: translateX(-3%); }
-  100% { transform: translateX(0%); }
-}
-
-/* ── Mid-range / low-power device optimizations ── */
-/* Disable gradient background-position animation (the most expensive
-   repaint-heavy animation) on small screens. Keep shimmer (transform-like)
-   which is cheap. */
-@media (max-width: 600px) {
-  .pf-banner-holo-metallic {
-    animation: none;
-  }
-  .pf-banner-shine-overlay {
-    animation-duration: 12s;
-  }
-  .pf-banner-wave-layer {
-    height: 40%;
-  }
-}
-
-/* Respect reduced-motion preference */
+/* Respect reduced-motion: the art is the point, the sheen is garnish. */
 @media (prefers-reduced-motion: reduce) {
-  .pf-banner-holo-metallic,
-  .pf-banner-shine-overlay,
-  .pf-banner-wave-layer {
-    animation: none !important;
+  .pf-banner-sheen {
+    animation: none;
+    opacity: 0.5;
+    transform: translateX(120%);
   }
 }
