@@ -93,7 +93,9 @@
 }
 
 .tools-card-icon .material-symbols-outlined {
-  font-size: 26px;
+  /* See the note in pages/interactive/01-hub.css: the app pairs a 44dp
+     tile with a 21dp icon, and these tiles are cut to a silhouette now. */
+  font-size: 22px;
 }
 
 .tools-card-title {
