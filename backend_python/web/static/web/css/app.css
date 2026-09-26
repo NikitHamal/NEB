@@ -163,6 +163,11 @@
   filter: brightness(0.95);
 }
 
+/* Black and white on purpose, and the one place on the site where that is
+   right: this sits on a photograph, not on a surface, so it has to be legible
+   against whatever the user uploaded rather than against the theme. ForumMedia.kt
+   does the same -- Color.Black.copy(alpha) with Color.White on top, in both
+   themes. Do not "fix" these two literals into tokens. */
 .post-media-more-overlay {
   position: absolute;
   inset: 0;
