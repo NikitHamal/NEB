@@ -97,7 +97,7 @@
     if (busy) {
       button.dataset.label = button.innerHTML;
       button.disabled = true;
-      button.innerHTML = '<span class="ba-spinner"></span>';
+      button.innerHTML = '<span class="ba-spinner md-loader md-loader-inline"></span>';
     } else {
       button.disabled = false;
       if (button.dataset.label) button.innerHTML = button.dataset.label;
@@ -391,7 +391,7 @@
 
   async function loadRepositories() {
     setRepositoryLoading(true);
-    els.repoResults.innerHTML = '<div class="ba-empty-state"><span class="ba-spinner"></span><p>Loading repositories…</p></div>';
+    els.repoResults.innerHTML = '<div class="ba-empty-state"><span class="ba-spinner md-loader md-loader-inline"></span><p>Loading repositories…</p></div>';
     try {
       var data = await BA.api(root.dataset.repositoriesUrl + '?per_page=100&q=' + encodeURIComponent(els.repoSearch.value.trim()));
       state.repositories = data.repositories || [];

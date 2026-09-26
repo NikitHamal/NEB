@@ -50,7 +50,7 @@ var agentBusy=false;
 function agentChip(text){
   var old=document.getElementById("cvAgentChip");if(old)old.remove();
   var el=document.createElement("div");el.id="cvAgentChip";el.className="cv-agent-chip";
-  el.innerHTML='<span class="cv-agent-spin"></span>'+C.esc(text);
+  el.innerHTML='<span class="cv-agent-spin md-loader"></span>'+C.esc(text);
   document.body.appendChild(el);return el;
 }
 function agentChipDone(text,ok){
@@ -84,7 +84,7 @@ function runAgent(v){
     }).then(function(d){
       (d.steps||[]).forEach(function(st,i){
         stepN=i+1;
-        chip.innerHTML='<span class="cv-agent-spin"></span>Step '+stepN+' · '+C.esc(st.tool||"…")+(st.topic?' · '+C.esc(st.topic.slice(0,26)):'');
+        chip.innerHTML='<span class="cv-agent-spin md-loader"></span>Step '+stepN+' · '+C.esc(st.tool||"…")+(st.topic?' · '+C.esc(st.topic.slice(0,26)):'');
         (st._nodes||[]);
       });
       (d.nodes||[]).forEach(function(n){n.x=n.x;n.y=n.y;S.nodes.set(n.id,n);C.renderNode(n)});

@@ -1,6 +1,5 @@
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
-  .auth-spinner { animation: none !important; }
   .auth-panel { animation: none !important; }
 }
 
