@@ -232,7 +232,7 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: #FF3B30;
+  background: var(--md-error);
   border: 2px solid var(--md-surface);
   z-index: 20;
   pointer-events: none;
@@ -241,8 +241,7 @@
 }
 
 [data-theme="dark"] .notif-dot {
-  background: #FF453A;
-  border-color: #1a1a2e;
+  border-color: var(--md-surface);
 }
 
 .profile-dropdown-trigger:hover {
@@ -257,8 +256,8 @@
   min-width: 20px;
   height: 20px;
   border-radius: 10px;
-  background: #FF3B30;
-  color: #ffffff;
+  background: var(--md-error);
+  color: var(--md-on-error);
   font-size: 0.75rem;
   font-weight: 800;
   padding: 0 6px;
@@ -268,9 +267,7 @@
 }
 
 [data-theme="dark"] .notif-popup-badge {
-  background: #FF1744;
-  color: #ffffff;
-  box-shadow: 0 0 0 2px #1a1a2e;
+  box-shadow: 0 0 0 2px var(--md-surface-container-high);
 }
 
 .avatar-ring img {
@@ -480,8 +477,8 @@
 
 /* App Promo Banner */
 .app-banner {
-  background: linear-gradient(90deg, #0058df 0%, #004bd4 50%, #003cc3 100%);
-  color: #ffffff;
+  background: linear-gradient(90deg, var(--md-b50) 0%, var(--md-b40) 50%, var(--md-b30) 100%);
+  color: var(--md-on-primary);
   padding: 10px 40px 10px 16px;
   display: flex;
   align-items: center;
@@ -505,7 +502,7 @@
 
 .app-banner-icon {
   font-size: 20px;
-  color: #a8c5ff;
+  color: var(--md-b80);
   flex-shrink: 0;
 }
 
@@ -515,8 +512,8 @@
 }
 
 .app-banner-btn {
-  background: #ffffff;
-  color: #004bd4;
+  background: var(--md-n100);
+  color: var(--md-b40);
   padding: 4px 12px;
   border-radius: 16px;
   text-decoration: none;
@@ -531,8 +528,8 @@
 }
 
 .app-banner-btn:hover {
-  background: #eef5ff;
-  color: #003cc3;
+  background: var(--md-b95);
+  color: var(--md-b30);
   transform: translateY(-1px);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
   text-decoration: none;
