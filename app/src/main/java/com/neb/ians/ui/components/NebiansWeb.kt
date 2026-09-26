@@ -15,6 +15,7 @@ import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.defaultMinSize
@@ -88,7 +89,9 @@ import coil.compose.AsyncImage
 import com.neb.ians.R
 import com.neb.ians.data.api.ApiPost
 import com.neb.ians.data.api.ApiResource
+import com.neb.ians.ui.theme.SubjectFamily
 import com.neb.ians.ui.theme.getSubjectTheme
+import com.neb.ians.ui.theme.subjectFamily
 import com.neb.ians.util.formatTimeAgo
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -605,33 +608,27 @@ fun WebOutlinedButton(
 }
 
 @Composable
+/**
+ * The corner badge. It reads the same [subjectFamily] the banner art and the
+ * subject hue read, so a resource cannot end up with a flask on the badge and a
+ * pulse line behind it. The icon set is small, so several families share one.
+ */
 private fun getSubjectIcon(subject: String): Int {
-    val normalized = subject.trim()
-    return when {
-        normalized.contains("Chemistry", ignoreCase = true) ||
-        normalized.contains("Biology", ignoreCase = true) ||
-        normalized.contains("Physics", ignoreCase = true) ||
-        normalized.contains("Science", ignoreCase = true) ||
-        normalized.contains("Microbiology", ignoreCase = true) ||
-        normalized.contains("Zoology", ignoreCase = true) -> R.drawable.ic_science
+    return when (subjectFamily(subject)) {
+        SubjectFamily.PHYSICS,
+        SubjectFamily.CHEMISTRY,
+        SubjectFamily.BIOLOGY,
+        SubjectFamily.SCIENCE -> R.drawable.ic_science
 
-        normalized.contains("Mathematics", ignoreCase = true) ||
-        normalized.contains("Math", ignoreCase = true) -> R.drawable.ic_school
+        SubjectFamily.MATH,
+        SubjectFamily.HEALTH,
+        SubjectFamily.EXAM -> R.drawable.ic_school
 
-        normalized.contains("English", ignoreCase = true) ||
-        normalized.contains("Nepali", ignoreCase = true) ||
-        normalized.contains("अध्ययन", ignoreCase = true) ||
-        normalized.contains("Textbook", ignoreCase = true) -> R.drawable.ic_book
-
-        normalized.contains("Computer", ignoreCase = true) ||
-        normalized.contains("Software", ignoreCase = true) ||
-        normalized.contains("Programming", ignoreCase = true) -> R.drawable.ic_pen
-
-        normalized.contains("Social", ignoreCase = true) ||
-        normalized.contains("Economics", ignoreCase = true) ||
-        normalized.contains("Globe", ignoreCase = true) -> R.drawable.ic_globe
-
-        else -> R.drawable.ic_document
+        SubjectFamily.LANGUAGE -> R.drawable.ic_book
+        SubjectFamily.COMPUTING -> R.drawable.ic_pen
+        SubjectFamily.SOCIAL,
+        SubjectFamily.COMMERCE -> R.drawable.ic_globe
+        SubjectFamily.GENERAL -> R.drawable.ic_document
     }
 }
 
@@ -688,108 +685,121 @@ fun WebResourceCard(
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest),
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.16f))
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(110.dp)
+        // The banner is a band of the card's own width, not a fixed slab. A
+        // 110dp strip that looked right on a 220dp grid tile became a letterbox
+        // slit on a tablet's 520dp row, and the drawings inside it size their
+        // density off the box they are given — so the box has to be honest.
+        BoxWithConstraints(
+            modifier = Modifier.fillMaxWidth()
         ) {
-            if (resource.thumbnailUrl.isNotBlank()) {
-                AsyncImage(
-                    model = resource.thumbnailUrl,
-                    contentDescription = resource.title,
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Crop
-                )
+            val bannerHeight = if (height != null) {
+                (maxWidth * 0.46f).coerceAtMost(height * 0.52f).coerceAtLeast(72.dp)
             } else {
-                ResourceBannerArt(
-                    seed = "${resource.id}|${resource.title}",
-                    subject = primarySubject,
-                    modifier = Modifier.fillMaxSize()
-                )
+                (maxWidth * 0.46f).coerceIn(96.dp, 168.dp)
             }
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(bannerHeight)
+            ) {
+                if (resource.thumbnailUrl.isNotBlank()) {
+                    AsyncImage(
+                        model = resource.thumbnailUrl,
+                        contentDescription = resource.title,
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Crop
+                    )
+                } else {
+                    ResourceBannerArt(
+                        seed = "${resource.id}|${resource.title}",
+                        subject = primarySubject,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
 
-            if (isVideo) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color.Black.copy(alpha = 0.22f)),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Surface(
-                        shape = CircleShape,
-                        color = Color.White.copy(alpha = 0.9f),
-                        shadowElevation = 4.dp
+                if (isVideo) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Color.Black.copy(alpha = 0.22f)),
+                        contentAlignment = Alignment.Center
                     ) {
-                        Box(
-                            modifier = Modifier.size(40.dp),
-                            contentAlignment = Alignment.Center
+                        Surface(
+                            shape = CircleShape,
+                            color = Color.White.copy(alpha = 0.9f),
+                            shadowElevation = 4.dp
                         ) {
-                            Icon(
-                                imageVector = Icons.Filled.PlayArrow,
-                                contentDescription = "Play",
-                                modifier = Modifier.size(28.dp),
-                                tint = Color.Black
-                            )
+                            Box(
+                                modifier = Modifier.size(40.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Filled.PlayArrow,
+                                    contentDescription = "Play",
+                                    modifier = Modifier.size(28.dp),
+                                    tint = Color.Black
+                                )
+                            }
                         }
                     }
                 }
-            }
 
-            Surface(
-                modifier = Modifier
-                    .align(Alignment.TopStart)
-                    .padding(10.dp),
-                shape = WebPillShape,
-                color = MaterialTheme.colorScheme.surfaceContainerLowest.copy(alpha = 0.92f)
-            ) {
-                Text(
-                    text = resource.type.uppercase(),
-                    modifier = Modifier.padding(horizontal = 9.dp, vertical = 4.dp),
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    fontWeight = FontWeight.Bold,
-                    maxLines = 1
-                )
-            }
-            if (resource.isPaid) {
                 Surface(
                     modifier = Modifier
-                        .align(Alignment.TopEnd)
+                        .align(Alignment.TopStart)
                         .padding(10.dp),
                     shape = WebPillShape,
-                    color = MaterialTheme.colorScheme.inverseSurface.copy(alpha = 0.92f),
-                    shadowElevation = 2.dp
+                    color = MaterialTheme.colorScheme.surfaceContainerLowest.copy(alpha = 0.92f)
                 ) {
                     Text(
-                        text = "Rs. ${resource.price.ifBlank { "0" }}",
+                        text = resource.type.uppercase(),
                         modifier = Modifier.padding(horizontal = 9.dp, vertical = 4.dp),
                         style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.inverseOnSurface,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         fontWeight = FontWeight.Bold,
                         maxLines = 1
                     )
                 }
-            }
+                if (resource.isPaid) {
+                    Surface(
+                        modifier = Modifier
+                            .align(Alignment.TopEnd)
+                            .padding(10.dp),
+                        shape = WebPillShape,
+                        color = MaterialTheme.colorScheme.inverseSurface.copy(alpha = 0.92f),
+                        shadowElevation = 2.dp
+                    ) {
+                        Text(
+                            text = "Rs. ${resource.price.ifBlank { "0" }}",
+                            modifier = Modifier.padding(horizontal = 9.dp, vertical = 4.dp),
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.inverseOnSurface,
+                            fontWeight = FontWeight.Bold,
+                            maxLines = 1
+                        )
+                    }
+                }
 
-            Surface(
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(10.dp)
-                    .size(28.dp),
-                shape = CircleShape,
-                color = subjectTheme.color,
-                shadowElevation = 2.dp
-            ) {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier.fillMaxSize()
+                Surface(
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(10.dp)
+                        .size(28.dp),
+                    shape = CircleShape,
+                    color = subjectTheme.color,
+                    shadowElevation = 2.dp
                 ) {
-                    Icon(
-                        painter = painterResource(id = getSubjectIcon(primarySubject)),
-                        contentDescription = null,
-                        modifier = Modifier.size(14.dp),
-                        tint = Color.White
-                    )
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        Icon(
+                            painter = painterResource(id = getSubjectIcon(primarySubject)),
+                            contentDescription = null,
+                            modifier = Modifier.size(14.dp),
+                            tint = Color.White
+                        )
+                    }
                 }
             }
         }
