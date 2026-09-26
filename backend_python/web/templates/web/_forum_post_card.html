@@ -1,0 +1,108 @@
+{% load web_extras %}
+{# ── One forum post, as a card ─────────────────────────────────────────────
+   Lifted out of _forum_posts.html so the home feed can place posts one at a
+   time between its rails without a second copy of this markup drifting out
+   of step. Expects `post`, and `is_authenticated`/`user` from the context. #}
+<div class="post-card" data-action="open-post" data-post-url="{% url 'web:forum_post' post_id=post.id %}" style="cursor: pointer;">
+  <div class="post-card-header">
+    <div class="post-card-avatar {% if post.authorBadgeInfo and post.authorBadgeInfo.type == 'verified' %}avatar-container-verified{% endif %}">
+      {% if post.authorName == 'neby' or post.authorIsBot %}
+        <div class="neby-avatar-mini" data-neby-avatar data-animation="idle" title="Neby AI Bot"></div>
+      {% elif post.authorPhotoUrl %}
+        <img src="{{ post.authorPhotoUrl }}" alt="" data-fallback="inline-flex">
+        <span class="contributor-avatar-letter" style="display:none;">{{ post.authorName|truncate_chars:1|default:"?" }}</span>
+      {% else %}
+        <span class="contributor-avatar-letter">{{ post.authorName|truncate_chars:1|default:"?" }}</span>
+      {% endif %}
+      {% if post.authorBadgeInfo and post.authorBadgeInfo.type == 'verified' %}
+        <span class="avatar-badge-overlay" style="--badge-bg: {{ post.authorBadgeInfo.color }};" title="{{ post.authorBadgeInfo.label }}">
+          <span class="material-symbols-outlined">verified</span>
+        </span>
+      {% endif %}
+    </div>
+    <div class="post-card-meta">
+      <div class="post-card-meta-top" style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+        {% if post.isAnonymous %}
+        <span class="fp-author-anon" style="font-weight:700;"><span class="material-symbols-outlined" style="font-size:14px;vertical-align:-2px;">visibility_off</span> Anonymous Nebian</span>
+        {% else %}
+        <a href="{% url 'web:profile' username=post.authorName %}" style="font-weight:700;cursor:pointer;text-decoration:none;color:inherit;">{{ post.authorName }}</a>
+        {% endif %}
+        {% if post.authorBadgeInfo %}
+        <span class="role-badge role-badge-{{ post.authorBadgeInfo.type }}" title="{{ post.authorBadgeInfo.label }}"><span class="material-symbols-outlined">{{ post.authorBadgeInfo.icon }}</span></span>
+        {% endif %}
+        {% if is_authenticated and post.authorId and post.authorId != user.id %}
+        <button class="follow-btn-small {% if post.isFollowingAuthor %}following{% else %}not-following{% endif %}" data-action="toggle-follow" data-user-id="{{ post.authorId }}">{% if post.isFollowingAuthor %}Following{% else %}Follow{% endif %}</button>
+        {% endif %}
+      </div>
+      <div class="post-card-meta-bottom" style="display:flex; align-items:center; flex-wrap:wrap; gap:6px; margin-top:2px; color:var(--md-on-surface-variant);">
+        <span class="act-action-text">started a discussion</span>
+        <span style="opacity:0.4;">&middot;</span>
+        <a href="{% url 'web:forum' %}?category={{ post.category }}" class="post-card-category-link">{{ post.category }}</a>
+        <span style="opacity:0.4;">&middot;</span>
+        <span class="post-card-time">{{ post.createdAt|time_ago }}</span>
+      </div>
+    </div>
+    <div class="more-menu-wrapper">
+      <button class="more-btn" data-action="toggle-more-menu" data-menu-id="post-menu-forum-{{ post.id }}" aria-label="More options"><span class="material-symbols-outlined">more_vert</span></button>
+      <div class="more-menu" id="post-menu-forum-{{ post.id }}" style="display:none;" data-action="stop-propagation">
+        {% if is_authenticated %}
+        <button class="more-menu-item" data-action="toggle-bookmark" data-target-type="post" data-target-id="{{ post.id }}">
+          <span class="material-symbols-outlined" id="bookmark-icon-post-{{ post.id }}"{% if post.isBookmarked %} style="font-variation-settings:'FILL' 1"{% endif %}>bookmark</span>
+          <span id="bookmark-label-post-{{ post.id }}">{% if post.isBookmarked %}Remove{% else %}Bookmark{% endif %}</span>
+        </button>
+        {% endif %}
+        <button class="more-menu-item" data-action="share-post-url" data-path="{% url 'web:forum_post' post_id=post.id %}">
+          <span class="material-symbols-outlined">share</span> Share
+        </button>
+        {% if is_authenticated and not post.isOwner %}
+        <button class="more-menu-item" data-action="report-content" data-target-type="post" data-target-id="{{ post.id }}">
+          <span class="material-symbols-outlined">flag</span> Report
+        </button>
+        {% endif %}
+        {% if is_authenticated and post.isOwner %}
+        <div class="more-menu-divider"></div>
+        <button class="more-menu-item" data-action="edit-post-card" data-post-id="{{ post.id }}" data-post-url="{% url 'web:forum_post' post_id=post.id %}">
+          <span class="material-symbols-outlined">edit</span> Edit post
+        </button>
+        <button class="more-menu-item" data-action="archive-post-card" data-post-id="{{ post.id }}">
+          <span class="material-symbols-outlined">{{ post.isArchived|yesno:"unarchive,archive" }}</span> {% if post.isArchived %}Unarchive{% else %}Archive{% endif %}
+        </button>
+        <button class="more-menu-item danger" data-action="delete-post-card" data-post-id="{{ post.id }}">
+          <span class="material-symbols-outlined">delete</span> Delete post
+        </button>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <h3 style="margin-top:4px; margin-bottom:8px;"><a href="{% url 'web:forum_post' post_id=post.id %}" style="color: inherit; text-decoration: none;">{{ post.title }}</a></h3>
+  <div class="post-card-content">{{ post.content|render_content_inline }}</div>
+  {% with images=post.images %}{% include "web/_forum_post_images.html" %}{% endwith %}
+  {% if post.poll %}
+  <div class="post-card-poll-badge">
+    <span class="material-symbols-outlined" style="font-size:16px;">{% if post.poll.pollType == 'mcq' %}quiz{% else %}poll{% endif %}</span>
+    {% if post.poll.pollType == 'mcq' %}MCQ{% else %}Poll{% endif %}
+  </div>
+  {% endif %}
+  {% with attachments=post.attachments is_feed_card=True %}{% include "web/_forum_attachments.html" %}{% endwith %}
+  <div class="post-card-actions">
+    <button type="button" data-action="toggle-forum-post-like" data-post-id="{{ post.id }}" class="{% if post.isThumbedUp %}liked{% endif %}" id="forum-post-like-btn-{{ post.id }}">
+      <span class="material-symbols-outlined">thumb_up</span>
+      <span id="forum-post-like-count-{{ post.id }}">{{ post.thumbsUpCount }}</span>
+    </button>
+    <a href="{% url 'web:forum_post' post_id=post.id %}" class="act-btn-stat">
+      <span class="material-symbols-outlined">chat_bubble_outline</span>
+      <span>{{ post.replyCount }} Replies</span>
+    </a>
+    <span class="act-btn-stat no-hover">
+      <span class="material-symbols-outlined">visibility</span>
+      <span>{{ post.viewCount|short_number }}</span>
+    </span>
+    <span class="fp-action-spacer" style="flex: 1;"></span>
+    <button type="button" class="{% if post.isBookmarked %}bookmark-active{% endif %}" data-action="toggle-bookmark" data-target-type="post" data-target-id="{{ post.id }}" id="forum-post-bookmark-btn-{{ post.id }}" aria-label="Bookmark">
+      <span class="material-symbols-outlined" {% if post.isBookmarked %}style="font-variation-settings: 'FILL' 1;"{% endif %}>bookmark</span>
+    </button>
+    <button type="button" data-action="share-post-url" data-path="{% url 'web:forum_post' post_id=post.id %}" aria-label="Share">
+      <span class="material-symbols-outlined">share</span>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+{% load web_extras %}
+{# ── A resource, as one feed row ───────────────────────────────────────────
+   The app's HomeFeedResourceHighlight: a single wide row, so the library shows
+   up in the middle of a long feed without a whole rail to scroll past.
+   Expects `r`. #}
+<a class="hf-highlight" href="{% url 'web:reader' resource_id=r.id %}">
+  <span class="hf-highlight-icon material-symbols-outlined">{{ r.subject|split:','|first|subject_icon }}</span>
+  <span class="hf-highlight-text">
+    <span class="hf-highlight-top">
+      <span class="hf-highlight-subject">{{ r.subject|split:','|first|default:"Study Resource"|truncate_chars:24 }}</span>
+      {% if r.grade_level %}<span class="hf-highlight-grade">{{ r.grade_level }}</span>{% endif %}
+    </span>
+    <span class="hf-highlight-title">{{ r.title }}</span>
+    <span class="hf-highlight-meta">{% if r.type %}{{ r.type }}, {% endif %}Study Guide</span>
+  </span>
+  <span class="hf-highlight-go material-symbols-outlined">chevron_right</span>
+</a>

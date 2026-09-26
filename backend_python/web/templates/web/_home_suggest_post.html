@@ -1,0 +1,73 @@
+{% load static web_extras %}
+{# ── A discussion, as a rail card ──────────────────────────────────────────
+   The app's SuggestedPostCard: a category-tinted banner over the title, the
+   excerpt and the author, at the same height as the resource card beside it so
+   the rail lines up. Expects `p` and `cat_color`. #}
+<a href="{% url 'web:forum_post' post_id=p.id %}" class="suggest-post-card" style="--suggest-cat-color: {{ cat_color }};">
+  <div class="suggest-post-banner">
+    <svg class="suggest-post-banner-bg" viewBox="0 0 300 110" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="300" height="110" fill="var(--suggest-cat-color, #6750a4)" />
+      <path d="M0,110 L0,65 Q50,25 120,60 Q190,95 250,50 L300,70 L300,110Z" fill="#ffffff" opacity="0.16" />
+      <path d="M0,110 L0,85 Q80,50 170,75 Q240,100 300,70 L300,110Z" fill="#ffffff" opacity="0.1" />
+    </svg>
+    <div class="suggest-post-banner-content">
+      <div class="suggest-post-banner-top">
+        <span class="suggest-post-disc">
+          <span class="material-symbols-outlined">forum</span> DISCUSSION
+        </span>
+        <span class="suggest-post-like">
+          <span class="material-symbols-outlined">thumb_up</span>
+          <span>{{ p.thumbsUpCount|short_number }}</span>
+        </span>
+      </div>
+      <div class="suggest-post-banner-bottom">
+        <span class="suggest-post-cat">{{ p.category|default:"General" }}</span>
+      </div>
+    </div>
+    <span class="suggest-post-banner-icon material-symbols-outlined">{{ p.category|subject_icon }}</span>
+  </div>
+  <div class="suggest-post-body">
+    <div class="suggest-post-title">{{ p.title|default:p.content|plain_excerpt:40|default:"Discussion Post" }}</div>
+    {% if p.content %}
+    <div class="suggest-post-excerpt">{{ p.content|plain_excerpt:110 }}</div>
+    {% endif %}
+    {% if p.attachments or p.poll or p.images %}
+    <div class="suggest-post-kinds">
+      {% for att in p.attachments %}{% if att.kind == 'video' %}<span class="suggest-post-kind"><span class="material-symbols-outlined">play_arrow</span>VIDEO</span>{% elif att.kind == 'audio' %}<span class="suggest-post-kind"><span class="material-symbols-outlined">music_note</span>AUDIO</span>{% endif %}{% endfor %}
+      {% if p.poll %}<span class="suggest-post-kind"><span class="material-symbols-outlined">poll</span>POLL</span>{% endif %}
+      {% if p.images %}<span class="suggest-post-kind"><span class="material-symbols-outlined">photo_library</span>{% if p.images|length > 1 %}{{ p.images|length }} PHOTOS{% else %}PHOTO{% endif %}</span>{% endif %}
+    </div>
+    {% endif %}
+    <div class="suggest-post-footer">
+      <div class="suggest-post-avatar">
+        {% if p.authorName == 'neby' or p.authorIsBot %}
+          <div class="neby-avatar-mini neby-size-sm" data-neby-avatar data-animation="idle" title="Neby AI Bot"></div>
+        {% elif p.isAnonymous or p.authorName == "Anonymous Nebian" %}
+        <span class="suggest-post-avatar-letter"><span class="material-symbols-outlined" style="font-size:13px">visibility_off</span></span>
+        {% elif p.authorPhotoUrl %}
+        <img src="{{ p.authorPhotoUrl }}" alt="" loading="lazy">
+        {% elif p.authorName == "NEBians" or p.authorName == "nebians" %}
+        <img src="{% static 'web/img/n-logo-48.png' %}" alt="NEBians" loading="lazy">
+        {% else %}
+        <span class="suggest-post-avatar-letter">{{ p.authorName|truncate_chars:1|default:"?" }}</span>
+        {% endif %}
+      </div>
+      <div class="suggest-post-author-col">
+        <div class="suggest-post-author">
+          {% if p.isAnonymous or p.authorName == "Anonymous Nebian" %}
+          Anonymous Nebian
+          {% else %}
+          {{ p.authorName|default:"NEBians" }}
+          {% if p.authorName == "NEBians" or p.authorName == "nebians" or p.authorIsAdmin %}
+          <span class="material-symbols-outlined" style="font-size:13px;color:#1d65d8;vertical-align:-1px;margin-left:2px;font-variation-settings:'FILL' 1;" title="Verified Official">verified</span>
+          {% endif %}
+          {% endif %}
+        </div>
+        <div class="suggest-post-time">{{ p.createdAt|time_ago }} &middot; <span class="suggest-post-views"><span class="material-symbols-outlined">visibility</span> {{ p.viewCount|short_number }}</span></div>
+      </div>
+      <div class="suggest-post-replies">
+        <span class="material-symbols-outlined">chat_bubble_outline</span> {{ p.replyCount|short_number }}
+      </div>
+    </div>
+  </div>
+</a>

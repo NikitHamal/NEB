@@ -32,175 +32,40 @@
 {% endblock %}
 
 {% block content %}
+{# ── Home ─────────────────────────────────────────────────────────────────────
+   The app's HomeScreen: one interleaved column of posts and rails, built by the
+   view and drawn by _home_feed.html. What was here was a landing hero followed
+   by three fixed sections -- a resource rail, a four-card news grid, then three
+   discussions -- so the feed was the last thing on the page and ended after the
+   third post. Signed in, the feed is now the page; signed out, the hero stays in
+   front of it, because that is the one visit where the page has to introduce
+   itself before it starts showing you things. #}
 {% if needs_profile %}
-<div class="profile-complete-banner" id="pcBanner">
-  <span class="material-symbols-outlined pc-icon">badge</span>
-  <div class="pc-text">
-    <strong>Make NEBians yours</strong>
-    <span>Add your name and gender so teachers and classmates can recognise you.</span>
-  </div>
-  <a class="pc-link" href="{% url 'web:edit_profile' %}" rel="nofollow">Complete profile</a>
-  <button type="button" class="pc-later" id="pcLater">I'll do it later</button>
-</div>
-<style nonce="{{ csp_nonce }}">
-  .profile-complete-banner{display:flex;align-items:center;gap:12px;flex-wrap:wrap;max-width:1080px;margin:12px auto 0;padding:12px 16px;border-radius:14px;border:1px solid var(--md-primary);background:var(--md-primary-container)}
-  .profile-complete-banner.hidden{display:none}
-  .pc-icon{font-size:24px;color:var(--md-primary);flex-shrink:0}
-  .pc-text{flex:1;min-width:200px;color:var(--md-on-primary-container)}
-  .pc-text strong{display:block;font-size:.95rem}
-  .pc-text span{font-size:.82rem;opacity:.85}
-  .pc-link{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:10px;background:var(--md-primary);color:var(--md-on-primary);font-size:.82rem;font-weight:600;text-decoration:none}
-  .pc-later{border:0;background:transparent;color:var(--md-on-primary-container);font-size:.82rem;cursor:pointer;text-decoration:underline;padding:6px}
-</style>
-<script nonce="{{ csp_nonce }}">
-  (function(){
-    var b=document.getElementById('pcBanner');
-    if(!b)return;
-    try{ if(localStorage.getItem('neb_profile_prompt')==='later'){b.remove();return;} }catch(e){}
-    var later=document.getElementById('pcLater');
-    if(later)later.addEventListener('click',function(){
-      try{localStorage.setItem('neb_profile_prompt','later');}catch(e){}
-      b.remove();
-    });
-  })();
-</script>
+{% include "web/_home_profile_banner.html" %}
 {% endif %}
+
+{% if not is_authenticated %}
 {% include "web/_home_hero.html" %}
+{% endif %}
 
-<div class="md-container">
-  {% include "web/_home_suggested.html" %}
-  <div class="home-bento">
-    <div>
-      {% if trending_resources %}
-      <div class="section">
-        <div class="section-header">
-          <h2>Trending Resources</h2>
-          <a href="{% url 'web:library' %}">View all</a>
-        </div>
-        <div class="hscroll">
-          {% for r in trending_resources %}
-          <a href="{% url 'web:reader' resource_id=r.id %}"
-            class="resource-card subject-{{ r.subject|split:','|first|subject_slug }}">
-            <div class="resource-card-art">
-              {# Generative banner art. Same seed, same drawing as the Android app. #}
-              <div class="neb-art" data-neb-art="banner"
-                   data-neb-subject="{{ r.subject|split:','|first }}"
-                   data-neb-seed="{{ r.id }}|{{ r.type }}"></div>
-              {% if r.thumbnail_url %}
-              <img src="{{ r.thumbnail_url }}" alt="" class="resource-card-art-img" loading="lazy">
-              {% endif %}
-              {% if r.is_paid or r.isPaid %}
-              <span class="resource-card-paid-pill" style="position:absolute;top:10px;right:10px;background:#16a34a;color:#fff;font-size:0.75rem;font-weight:700;padding:3px 10px;border-radius:20px;display:inline-flex;align-items:center;gap:4px;z-index:2;">
-                <span class="material-symbols-outlined" style="font-size:14px">payments</span>
-                Rs. {{ r.price|floatformat:"0" }}
-              </span>
-              {% endif %}
-              <span class="resource-card-type-pill">{{ r.type }}</span>
-              <span class="resource-card-art-icon material-symbols-outlined">{{ r.subject|split:','|first|subject_icon }}</span>
-            </div>
-            <div class="resource-card-info">
-              <div class="resource-card-subject-chip">
-                {% with subjs=r.subject|split:"," %}
-                {{ subjs|first }}
-                {% if subjs|length > 1 %}
-                +{{ subjs|length|add:"-1" }} more
-                {% endif %}
-                {% endwith %}
-              </div>
-              <div class="resource-card-title">{{ r.title }}</div>
-              <div class="resource-card-meta">
-                {{ r.grade_level }} &middot; {{ r.type }}{% if r.file_size %} &middot; {{ r.file_size|file_size_human }}{% endif %}
-              </div>
-              {% with author=r.uploaded_by_name|default:r.uploadedByName|default:r.uploadedByUsername|default:r.author_name|default:r.authorName|default:"NEBians" photo=r.uploaded_by_photo|default:r.uploadedByPhoto %}
-              <div class="resource-card-footer">
-                <div class="resource-card-avatar">
-                  {% if author == "Anonymous" or author == "Anonymous Nebian" or r.is_anonymous %}
-                  <span class="resource-card-avatar-letter"><span class="material-symbols-outlined" style="font-size:13px">visibility_off</span></span>
-                  {% elif photo %}
-                  <img src="{{ photo }}" alt="" loading="lazy">
-                  {% elif author == "NEBians" or author == "nebians" %}
-                  <img src="{% static 'web/img/n-logo-48.png' %}" alt="NEBians" loading="lazy">
-                  {% else %}
-                  <span class="resource-card-avatar-letter">{{ author|truncate_chars:1|default:"N" }}</span>
-                  {% endif %}
-                </div>
-                <div class="resource-card-author-col">
-                  <div class="resource-card-author">
-                    {% if author == "Anonymous" or author == "Anonymous Nebian" or r.is_anonymous %}
-                    Anonymous Nebian
-                    {% else %}
-                    {{ author }}
-                    {% if author == "NEBians" or author == "nebians" %}
-                    <span class="material-symbols-outlined" style="font-size:13px;color:#1d65d8;vertical-align:-1px;margin-left:2px;font-variation-settings:'FILL' 1;" title="Verified Official">verified</span>
-                    {% endif %}
-                    {% endif %}
-                  </div>
-                  <div class="resource-card-time">{{ r.added_at|default:r.addedAt|time_ago }} &middot; <span class="resource-card-views"><span class="material-symbols-outlined">visibility</span> {{ r.view_count|default:r.viewCount|short_number }}</span></div>
-                </div>
-              </div>
-              {% endwith %}
-            </div>
-          </a>
-          {% endfor %}
-        </div>
-      </div>
-      {% endif %}
-    </div>
-
-    {% if latest_news %}
-    <div class="section home-news-section">
-      <div class="section-header">
-        <h2>Blog &amp; Updates</h2>
-        <a href="{% url 'web:news_list' %}">View all</a>
-      </div>
-      <div class="home-news-grid">
-        {% for n in latest_news %}
-        <a href="{% url 'web:news_detail' slug=n.slug %}" class="home-news-card {% if n.is_pinned %}home-news-card-pinned{% endif %}" style="--accent-color: {{ n.category_color }}">
-          <div class="home-news-card-header">
-            <span class="home-news-cat-badge" style="background:{{ n.category_color }}">
-              <span class="material-symbols-outlined">{{ n.category_icon }}</span>
-              <span class="home-news-cat-label">{{ n.category_label }}</span>
-            </span>
-            {% if n.is_pinned %}
-            <span class="home-news-pinned-badge">
-              <span class="material-symbols-outlined">push_pin</span>
-              <span class="home-news-pinned-label-text">Pinned</span>
-            </span>
-            {% endif %}
-          </div>
-          <div class="home-news-card-body">
-            <span class="home-news-title">{{ n.title }}</span>
-            {% if n.summary %}
-            <span class="home-news-summary">{{ n.summary }}</span>
-            {% endif %}
-            <span class="home-news-meta">{{ n.published_at|time_ago }}</span>
-          </div>
-        </a>
-        {% endfor %}
-      </div>
-    </div>
-    {% endif %}
-
-    {% if trending_posts %}
-    <div class="section">
-      <div class="section-header">
-        <h2>Trending Discussions</h2>
-        <a href="{% url 'web:forum' %}?sort=hot">View all</a>
-      </div>
-      {% include "web/_forum_posts.html" with posts=trending_posts %}
-      <a href="{% url 'web:forum' %}?sort=hot" class="forum-cta">Join the Discussion</a>
-    </div>
-    {% endif %}
-  </div>
-
-  {% if not trending_resources and not trending_posts %}
-  <div class="empty-state">
-    <span class="material-symbols-outlined">auto_stories</span>
-    <h3>Welcome to NEBians</h3>
-    <p>Resources and discussions will appear here once they're available.</p>
-  </div>
+<div class="md-container hf-page">
+  {% if is_authenticated %}
+  <h1 class="md-sr-only">Home</h1>
+  {% include "web/_home_composer.html" %}
   {% endif %}
 
+  <div class="hf-feed" id="home-feed">
+    {% include "web/_home_feed.html" %}
+  </div>
+
+  {% if not feed_entries %}
+  <div class="empty-state">
+    <span class="material-symbols-outlined">forum</span>
+    <h3>No posts available</h3>
+    <p>Be the first to ask a question, share notes or start a discussion!</p>
+    <a href="{% url 'web:create_post' %}" class="md-btn md-btn-filled mt-2">Start a discussion</a>
+  </div>
+  {% endif %}
 </div>
 {% endblock %}
 

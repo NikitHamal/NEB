@@ -1,0 +1,10 @@
+{# ── The composer bar ──────────────────────────────────────────────────────
+   The app's HomeFeedComposerBar, at the top of the feed: your avatar, the
+   prompt, and the way in. The web's only way to start a discussion was the
+   bottom-bar plus button, which is gone from the web rail on purpose, so this
+   is now the one that is always in front of you. #}
+<a class="hf-composer" href="{% url 'web:create_post' %}">
+  <img class="hf-composer-avatar" src="{{ user.avatar_url }}" alt="" width="38" height="38" decoding="async">
+  <span class="hf-composer-prompt">Ask a question, share notes...</span>
+  <span class="hf-composer-icon material-symbols-outlined">forum</span>
+</a>
