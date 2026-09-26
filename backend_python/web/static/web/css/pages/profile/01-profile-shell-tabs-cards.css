@@ -159,13 +159,14 @@
     border-color: var(--md-primary);
   }
   .ov-stat.academic .ov-stat-value { color: var(--md-on-primary); }
-  .ov-stat.academic .ov-stat-label { color: rgba(255,255,255,0.85); }
-  [data-theme="dark"] .ov-stat.academic {
-    background: rgba(180, 197, 255, 0.12);
-    border-color: rgba(180, 197, 255, 0.25);
+  /* The one highlighted stat in the row. It was a solid primary card in light
+     theme and a 12% ghost of one in dark -- the same element reading as a
+     filled card on one theme and an outlined card on the other, which is the
+     opposite of the parity the rest of this work is for. It is filled in both,
+     and the label is the fill's own on-colour rather than a fixed white. */
+  .ov-stat.academic .ov-stat-label {
+    color: color-mix(in srgb, var(--md-on-primary) 85%, transparent);
   }
-  [data-theme="dark"] .ov-stat.academic .ov-stat-value { color: #B4C5FF; }
-  [data-theme="dark"] .ov-stat.academic .ov-stat-label { color: rgba(180, 197, 255, 0.7); }
 
   /* ── Progress ── */
   .progress-list { display: flex; flex-direction: column; gap: 14px; }
@@ -226,29 +227,24 @@
   .achieve-badge.locked .material-symbols-outlined {
     font-size: 16px;
   }
+  /* Three earned badges, six hardcoded colours, one pair per theme. Two of
+     the three are already accents -- the brand for discussions, green for
+     likes -- and the third was a flat grey that read as a disabled chip next
+     to them; it is the teal accent now, so all three look earned. Each is one
+     token, so there is no dark half to keep in step. */
   .achieve-badge.ach-discussion {
-    background: rgba(0, 74, 198, 0.10);
-    color: #1565C0;
+    background: color-mix(in srgb, var(--neb-accent-brand) 13%, transparent);
+    color: color-mix(in srgb, var(--neb-accent-brand) 88%, var(--md-on-surface));
   }
   .achieve-badge.ach-reply {
-    background: rgba(86, 84, 90, 0.10);
-    color: #56545A;
+    background: color-mix(in srgb, var(--neb-accent-teal) 12%, transparent);
+    color: color-mix(in srgb, var(--neb-accent-teal) 82%, var(--md-on-surface));
   }
+  /* Green is the lightest of the three in light theme, so it is carried
+     further towards the ink than its neighbours to reach the same 4.5:1. */
   .achieve-badge.ach-like {
-    background: rgba(46, 125, 50, 0.10);
-    color: #2E7D32;
-  }
-  [data-theme="dark"] .achieve-badge.ach-discussion {
-    background: rgba(180, 197, 255, 0.15);
-    color: #B4C5FF;
-  }
-  [data-theme="dark"] .achieve-badge.ach-reply {
-    background: rgba(196, 199, 201, 0.15);
-    color: #C4C7C9;
-  }
-  [data-theme="dark"] .achieve-badge.ach-like {
-    background: rgba(165, 214, 167, 0.15);
-    color: #A5D6A7;
+    background: color-mix(in srgb, var(--neb-accent-green) 12%, transparent);
+    color: color-mix(in srgb, var(--neb-accent-green) 78%, var(--md-on-surface));
   }
 
   /* ── Responsive ── */
@@ -422,25 +418,28 @@
     font-size: 0.6875rem;
     font-weight: 500;
   }
+  /* Amber and red with no dark half at all, so on a dark profile both of
+     these sat at roughly 3:1 as 11px uppercase text, which is the smallest
+     and hardest-to-read type on the page. */
   .user-badge-pending {
-    background: rgba(217, 119, 6, 0.12);
-    color: #D97706;
-    border: 1px solid rgba(217, 119, 6, 0.25);
+    background: color-mix(in srgb, var(--neb-accent-amber) 14%, transparent);
+    color: color-mix(in srgb, var(--neb-accent-amber) 84%, var(--md-on-surface));
+    border: 1px solid color-mix(in srgb, var(--neb-accent-amber) 30%, transparent);
     text-transform: uppercase;
     font-size: 0.6875rem;
     font-weight: 700;
     padding: 2px 8px;
-    border-radius: 12px;
+    border-radius: var(--md-shape-full);
     margin-left: 8px;
   }
   .user-badge-rejected {
-    background: rgba(211, 47, 47, 0.12);
-    color: #D32F2F;
-    border: 1px solid rgba(211, 47, 47, 0.25);
+    background: var(--md-error-container);
+    color: var(--md-on-error-container);
+    border: 1px solid color-mix(in srgb, var(--md-error) 30%, transparent);
     text-transform: uppercase;
     font-size: 0.6875rem;
     font-weight: 700;
     padding: 2px 8px;
-    border-radius: 12px;
+    border-radius: var(--md-shape-full);
     margin-left: 8px;
   }
