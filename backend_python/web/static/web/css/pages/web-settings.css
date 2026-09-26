@@ -1,0 +1,195 @@
+/* Settings, as the app lays it out: an identity card, then labelled groups of
+   rows on one rounded surface each. Every row is an icon in a circle, a title,
+   a subtitle saying what the current value is, and either a chevron or a
+   switch. The page used to be the same shape drawn entirely in inline styles,
+   which is why the paddings and the dividers all disagreed slightly. */
+
+.st-page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 16px 16px 48px;
+}
+
+.st-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 12px -8px;
+  padding: 6px 10px;
+  text-decoration: none;
+}
+.st-back .material-symbols-outlined { font-size: 20px; }
+
+.st-head { margin-bottom: 8px; }
+.st-title {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--md-on-surface);
+}
+.st-subtitle {
+  margin: 4px 0 0;
+  font-size: 0.875rem;
+  color: var(--md-on-surface-variant);
+}
+
+/* ── Identity ───────────────────────────────────────────────────────────────
+   The whole card is the link to the editor, as in the app. */
+.st-identity {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 16px 0 4px;
+  padding: 16px;
+  border-radius: var(--md-shape-xl);
+  background: var(--md-surface-container-low);
+  color: inherit;
+  text-decoration: none;
+}
+.st-identity:hover { background: var(--md-surface-container); text-decoration: none; }
+.st-identity-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex: none;
+  background: var(--md-surface-container-high);
+}
+.st-identity-text { flex: 1; min-width: 0; }
+.st-identity-name {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--md-on-surface);
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.st-identity-sub {
+  font-size: 0.8125rem;
+  color: var(--md-on-surface-variant);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.st-identity > .material-symbols-outlined { color: var(--md-outline); flex: none; }
+
+/* ── Groups ─────────────────────────────────────────────────────────────── */
+.st-group { margin-top: 22px; }
+.st-group-title {
+  margin: 0 0 8px 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--md-on-surface-variant);
+}
+.st-group-danger .st-group-title { color: var(--md-error); }
+.st-list {
+  border-radius: var(--md-shape-lg);
+  background: var(--md-surface-container-low);
+  overflow: hidden;
+}
+/* The divider is a pseudo-element rather than a border so it can start where
+   the text starts -- 14 padding + 34 icon + 14 gap. A full-width rule reads as
+   cutting the row in half; this one reads as separating two labels. */
+.st-row + .st-row::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 62px;
+  right: 0;
+  height: 1px;
+  background: var(--md-outline-variant);
+  opacity: 0.55;
+}
+
+.st-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 14px;
+  color: inherit;
+  text-decoration: none;
+  background: none;
+  border: 0;
+  width: 100%;
+  font: inherit;
+  text-align: left;
+}
+a.st-row:hover { background: var(--md-surface-container); text-decoration: none; }
+.st-row-icon {
+  width: 34px;
+  height: 34px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--md-surface-container-highest);
+  color: var(--md-on-surface-variant);
+}
+.st-row-icon .material-symbols-outlined { font-size: 18px; }
+.st-row-text { flex: 1; min-width: 0; }
+.st-row-title {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--md-on-surface);
+  line-height: 1.35;
+}
+.st-row-sub {
+  margin: 1px 0 0;
+  font-size: 0.8125rem;
+  color: var(--md-on-surface-variant);
+  line-height: 1.4;
+}
+.st-row > .st-chevron { color: var(--md-outline); flex: none; font-size: 20px; }
+.st-row .md-switch { flex: none; }
+
+/* A row whose subject is destructive. Only the icon and the title turn: a red
+   subtitle would make the row read as an error rather than an action. */
+.st-row-danger .st-row-icon { color: var(--md-error); }
+.st-row-danger .st-row-title { color: var(--md-error); }
+
+.st-badge {
+  flex: none;
+  padding: 3px 8px;
+  border-radius: var(--md-shape-full);
+  background: var(--md-on-surface);
+  color: var(--md-surface);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* A note under a row, aligned to the text column above it. */
+.st-row-note {
+  margin: -4px 0 0;
+  padding: 0 16px 14px 62px;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: var(--md-on-surface-variant);
+}
+.st-row-note code {
+  padding: 1px 4px;
+  border-radius: 4px;
+  background: var(--md-surface-container-highest);
+  font-size: 0.95em;
+}
+
+.st-signout {
+  display: flex;
+  width: 100%;
+  margin-top: 24px;
+  justify-content: center;
+}
+
+@media (max-width: 600px) {
+  .st-page { padding: 12px 12px 40px; }
+  .st-title { font-size: 1.5rem; }
+  .st-identity { padding: 14px; gap: 12px; }
+  .st-identity-avatar { width: 46px; height: 46px; }
+  .st-row-note { padding-left: 14px; }
+}
