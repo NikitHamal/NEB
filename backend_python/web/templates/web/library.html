@@ -36,18 +36,23 @@
 
   <!-- Navigation Tabs & Sort Filter -->
   <div class="subj-tabs-header">
-    <div class="subj-tabs">
+    {% comment %}
+      LibraryScreen.kt's shelves, on the shared rail. The underline this
+      replaces hovered on a literal rgba(0,74,198,0.04) -- a light-theme blue
+      that stayed a light-theme blue in dark theme, where it read as a smudge.
+    {% endcomment %}
+    <div class="neb-rail" role="tablist" aria-label="Library sections">
       <a href="?tab=digital{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}"
-        class="subj-tab-btn {% if current_tab == 'digital' %}active{% endif %}">
-        Library
+        class="neb-rail-item" role="tab" aria-selected="{% if current_tab == 'digital' %}true{% else %}false{% endif %}">
+        <span class="neb-rail-label">Library</span>
       </a>
       <a href="?tab=categories{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}"
-        class="subj-tab-btn {% if current_tab == 'categories' %}active{% endif %}">
-        Syllabus
+        class="neb-rail-item" role="tab" aria-selected="{% if current_tab == 'categories' %}true{% else %}false{% endif %}">
+        <span class="neb-rail-label">Syllabus</span>
       </a>
       <a href="?tab=interactive{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}"
-        class="subj-tab-btn ix-tab-btn {% if current_tab == 'interactive' %}active{% endif %}">
-        Interactive
+        class="neb-rail-item" role="tab" aria-selected="{% if current_tab == 'interactive' %}true{% else %}false{% endif %}">
+        <span class="neb-rail-label">Interactive</span>
       </a>
     </div>
     {% if current_tab == 'digital' or current_tab == 'community' %}

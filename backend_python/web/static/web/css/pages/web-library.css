@@ -37,68 +37,6 @@
   gap: 16px;
 }
 
-.subj-tabs {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  scrollbar-width: none;
-  margin-bottom: -1px;
-}
-
-.subj-tabs::-webkit-scrollbar {
-  display: none;
-}
-
-.subj-tab-btn {
-  background: transparent;
-  border: none;
-  border-bottom: 3px solid transparent;
-  font-family: var(--md-font);
-  font-size: 0.9375rem;
-  font-weight: 600;
-  color: var(--md-on-surface-variant);
-  padding: 12px 16px;
-  cursor: pointer;
-  transition: all 150ms ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  text-decoration: none;
-  flex-shrink: 0;
-}
-
-.subj-tab-btn:hover {
-  color: var(--md-primary);
-  background: rgba(0, 74, 198, 0.04);
-  text-decoration: none;
-}
-
-.subj-tab-btn.active {
-  color: var(--md-primary);
-  border-bottom-color: var(--md-primary);
-}
-
-.subj-tab-btn .material-symbols-outlined {
-  font-size: 20px;
-}
-
-.ix-tab-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.ix-tab-icon {
-  font-size: 18px;
-}
-
-@media (max-width: 420px) {
-  .subj-tab-btn {
-    padding: 10px 12px;
-    font-size: 0.875rem;
-  }
-}
-
 /* Accordion styles for Syllabus Categories */
 .chapters-container {
   display: flex;
