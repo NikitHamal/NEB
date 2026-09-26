@@ -27,7 +27,7 @@
   </div>
   <div class="admin-row-item" style="border-top:none;padding-top:0;">
     {% if post.authorPhotoUrl %}
-    <img class="admin-avatar" src="{{ post.authorPhotoUrl }}" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <img class="admin-avatar" src="{{ post.authorPhotoUrl }}" alt="" data-fallback="flex">
     <div class="admin-avatar-fallback" style="display:none;">{{ post.authorName|truncate_chars:1|default:"?" }}</div>
     {% else %}
     <div class="admin-avatar-fallback">{{ post.authorName|truncate_chars:1|default:"?" }}</div>
@@ -56,7 +56,7 @@
   {% for reply in replies %}
   <div class="admin-row-item">
     {% if reply.authorPhotoUrl %}
-      <img class="admin-avatar" src="{{ reply.authorPhotoUrl }}" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <img class="admin-avatar" src="{{ reply.authorPhotoUrl }}" alt="" data-fallback="flex">
       <div class="admin-avatar-fallback" style="display:none;">{{ reply.authorName|truncate_chars:1|default:"?" }}</div>
       {% else %}
       <div class="admin-avatar-fallback">{{ reply.authorName|truncate_chars:1|default:"?" }}</div>

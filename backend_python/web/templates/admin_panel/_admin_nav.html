@@ -1,0 +1,109 @@
+{% load admin_extras %}
+{% admin_nav_badges as nav_badges %}
+<div class="admin-nav-group-label">Overview</div>
+<a href="{% url 'web:admin_dashboard' %}" class="{% if active_page == 'dashboard' %}active{% endif %}" {% if active_page == 'dashboard' %}aria-current="page"{% endif %}>
+  <span class="material-symbols-outlined">dashboard</span>
+  Dashboard
+</a>
+<a href="{% url 'web:admin_analytics' %}" class="{% if active_page == 'analytics' %}active{% endif %}" {% if active_page == 'analytics' %}aria-current="page"{% endif %}>
+  <span class="material-symbols-outlined">insights</span>
+  Analytics
+</a>
+<div class="admin-nav-group-label">Manage</div>
+<a href="{% url 'web:admin_users' %}" class="{% if active_page == 'users' %}active{% endif %}" {% if active_page == 'users' %}aria-current="page"{% endif %}>
+  <span class="material-symbols-outlined">people</span>
+  Users
+</a>
+<a href="{% url 'web:admin_push_notifications' %}" class="{% if active_page == 'push_notifications' %}active{% endif %}" {% if active_page == 'push_notifications' %}aria-current="page"{% endif %}>
+  <span class="material-symbols-outlined">notifications_active</span>
+  Push Notifications
+</a>
+<a href="{% url 'web:admin_deletions' %}" class="{% if active_page == 'deletions' %}active{% endif %}" {% if active_page == 'deletions' %}aria-current="page"{% endif %}>
+  <span class="material-symbols-outlined">delete_forever</span>
+  Account Deletions
+  {% if nav_badges.pending_deletions %}<span class="admin-nav-badge">{{ nav_badges.pending_deletions }}</span>{% endif %}
+</a>
+<div class="admin-nav-group-label">Content</div>
+<a href="{% url 'web:admin_resources' %}" class="{% if active_page == 'resources' %}active{% endif %}" {% if active_page == 'resources' %}aria-current="page"{% endif %}>
+  <span class="material-symbols-outlined">auto_stories</span>
+  Resources
+</a>
+<a href="{% url 'web:admin_syllabus_list' %}" class="{% if active_page == 'syllabus' %}active{% endif %}" {% if active_page == 'syllabus' %}aria-current="page"{% endif %}>
+  <span class="material-symbols-outlined">menu_book</span>
+  Syllabus &amp; Chapters
+</a>
+<a href="{% url 'web:admin_pending_resources' %}" class="{% if active_page == 'pending_resources' %}active{% endif %}" {% if active_page == 'pending_resources' %}aria-current="page"{% endif %}>
+  <span class="material-symbols-outlined">pending_actions</span>
+  Pending Review
+  {% if nav_badges.pending_resources %}<span class="admin-nav-badge">{{ nav_badges.pending_resources }}</span>{% endif %}
+</a>
+<a href="{% url 'web:admin_pending_payments' %}" class="{% if active_page == 'payments' %}active{% endif %}" {% if active_page == 'payments' %}aria-current="page"{% endif %}>
+  <span class="material-symbols-outlined">payments</span>
+  Pending Payments
+  {% if nav_badges.pending_payments %}<span class="admin-nav-badge">{{ nav_badges.pending_payments }}</span>{% endif %}
+</a>
+<a href="{% url 'web:admin_withdrawals' %}" class="{% if active_page == 'withdrawals' %}active{% endif %}" {% if active_page == 'withdrawals' %}aria-current="page"{% endif %}>
+  <span class="material-symbols-outlined">account_balance_wallet</span>
+  Withdrawals
+  {% if nav_badges.pending_withdrawals %}<span class="admin-nav-badge">{{ nav_badges.pending_withdrawals }}</span>{% endif %}
+</a>
+<a href="{% url 'web:admin_resource_requests' %}" class="{% if active_page == 'resource_requests' %}active{% endif %}" {% if active_page == 'resource_requests' %}aria-current="page"{% endif %}>
+  <span class="material-symbols-outlined">contact_support</span>
+  Requests
+  {% if nav_badges.open_requests %}<span class="admin-nav-badge">{{ nav_badges.open_requests }}</span>{% endif %}
+</a>
+<a href="{% url 'web:admin_posts' %}" class="{% if active_page == 'posts' %}active{% endif %}" {% if active_page == 'posts' %}aria-current="page"{% endif %}>
+  <span class="material-symbols-outlined">forum</span>
+  Forum Posts
+</a>
+<a href="{% url 'web:admin_reports' %}" class="{% if active_page == 'reports' %}active{% endif %}" {% if active_page == 'reports' %}aria-current="page"{% endif %}>
+  <span class="material-symbols-outlined">flag</span>
+  Reports
+  {% if nav_badges.open_reports %}<span class="admin-nav-badge">{{ nav_badges.open_reports }}</span>{% endif %}
+</a>
+<a href="{% url 'web:admin_announcements' %}" class="{% if active_page == 'announcements' %}active{% endif %}" {% if active_page == 'announcements' %}aria-current="page"{% endif %}>
+  <span class="material-symbols-outlined">newspaper</span>
+  Blog &amp; Updates
+</a>
+<a href="{% url 'web:admin_hero_backgrounds' %}" class="{% if active_page == 'hero_backgrounds' %}active{% endif %}" {% if active_page == 'hero_backgrounds' %}aria-current="page"{% endif %}>
+  <span class="material-symbols-outlined">image</span>
+  Hero Backgrounds
+</a>
+<a href="{% url 'web:admin_study_spaces' %}" class="{% if active_page == 'study_spaces' %}active{% endif %}" {% if active_page == 'study_spaces' %}aria-current="page"{% endif %}>
+  <span class="material-symbols-outlined">science</span>
+  Study Spaces
+</a>
+<div class="admin-nav-group-label">AI &amp; Automation</div>
+<a href="{% url 'web:admin_bots' %}" class="{% if active_page == 'bot' %}active{% endif %}" {% if active_page == 'bot' %}aria-current="page"{% endif %}>
+  <span class="material-symbols-outlined">smart_toy</span>
+  AI Bots
+</a>
+<a href="{% url 'web:admin_neby_manager' %}" class="{% if active_page == 'neby' %}active{% endif %}" {% if active_page == 'neby' %}aria-current="page"{% endif %}>
+  <span class="material-symbols-outlined">psychology</span>
+  Neby Manager
+</a>
+<a href="{% url 'web:admin_lazy_config' %}" class="{% if active_page == 'lazy' %}active{% endif %}" {% if active_page == 'lazy' %}aria-current="page"{% endif %}>
+  <span class="material-symbols-outlined">edit_document</span>
+  Lazy Config
+</a>
+<a href="{% url 'web:admin_agent_activity' %}" class="{% if active_page == 'agent_activity' %}active{% endif %}" {% if active_page == 'agent_activity' %}aria-current="page"{% endif %}>
+  <span class="material-symbols-outlined">monitor_heart</span>
+  Agent Heartbeat
+</a>
+<a href="{% url 'web:admin_chat' %}" class="{% if active_page == 'chat' %}active{% endif %}" {% if active_page == 'chat' %}aria-current="page"{% endif %}>
+  <span class="material-symbols-outlined">chat</span>
+  AI Chat Test
+</a>
+<a href="{% url 'web:admin_media_test' %}" class="{% if active_page == 'media_test' %}active{% endif %}" {% if active_page == 'media_test' %}aria-current="page"{% endif %}>
+  <span class="material-symbols-outlined">perm_media</span>
+  Media Test
+</a>
+<a href="{% url 'web:background_agent' %}" class="{% if active_page == 'background_agent' %}active{% endif %}" {% if active_page == 'background_agent' %}aria-current="page"{% endif %}>
+  <span class="material-symbols-outlined">terminal</span>
+  Background Agent
+</a>
+<div class="md-divider"></div>
+<a href="{% url 'web:home' %}" style="color:var(--md-on-surface-variant);">
+  <span class="material-symbols-outlined">open_in_new</span>
+  View Site
+</a>
