@@ -208,19 +208,8 @@
     }
   }
 
-  /* Search tab scroll styling */
-  .search-tabs {
-    width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-  .search-tabs::-webkit-scrollbar {
-    display: none;
-  }
-  .search-tabs .md-tab {
-    flex-shrink: 0;
-  }
+  /* The phone treatment for the search tab row. The rail scrolls itself, hides
+     its own scrollbar and keeps its items from shrinking. */
 
   mark.search-hl {
     background: var(--md-primary-container, #d1e8ff);

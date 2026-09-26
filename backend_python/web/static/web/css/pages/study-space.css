@@ -353,48 +353,10 @@
 /* ── Main ── */
 .ss-main { min-height: 60vh; }
 
-/* Tabs */
-.ss-tabs-wrap { position: relative; margin-bottom: 18px; }
-.ss-tabs {
-  display: flex;
-  gap: 2px;
-  border-bottom: 1px solid var(--md-outline-variant);
-  overflow-x: auto;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-}
-.ss-tabs::-webkit-scrollbar { display: none; }
-.ss-tabs-wrap::after {
-  content: '';
-  position: absolute;
-  top: 0; right: 0; bottom: 1px;
-  width: 28px;
-  pointer-events: none;
-  background: linear-gradient(to right, transparent, var(--md-surface));
-  opacity: 0;
-  transition: opacity 0.15s;
-}
-.ss-tabs-wrap.ss-tabs-overflow::after { opacity: 1; }
-.ss-tab {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 10px 14px;
-  border: none;
-  background: transparent;
-  color: var(--md-on-surface-variant);
-  font-size: 0.875rem;
-  font-weight: 500;
-  font-family: inherit;
-  cursor: pointer;
-  border-bottom: 2px solid transparent;
-  transition: color 0.15s, border-color 0.15s;
-  white-space: nowrap;
-}
-.ss-tab:hover { background: var(--md-surface-container); }
-.ss-tab.ss-tab-active { color: var(--md-primary); border-bottom-color: var(--md-primary); }
-.ss-tab .material-symbols-outlined { font-size: 18px; }
-
+/* Tabs: .neb-rail. What was here drew the row, and a wrapper drew a fade at its
+   right edge that a script switched on and off as the row scrolled -- the rail
+   scrolls its own selection into view instead. .ss-tab-content stays; it is the
+   panels, not the tabs. */
 .ss-tab-content { display: none; }
 .ss-tab-content.ss-tab-content-active { display: block; }
 
@@ -428,23 +390,7 @@
 .ss-loading p { color: var(--md-on-surface-variant); font-size: 0.875rem; }
 
 /* ── Summary ── */
-.ss-mode-bar { display: inline-flex; gap: 0; margin-bottom: 14px; border: 1px solid var(--md-outline-variant); border-radius: 999px; padding: 3px; background: var(--md-surface-container-low); }
-.ss-mode-btn {
-  padding: 6px 16px;
-  border-radius: 999px;
-  border: none;
-  background: transparent;
-  color: var(--md-on-surface-variant);
-  font-size: 0.8125rem;
-  font-weight: 500;
-  font-family: inherit;
-  cursor: pointer;
-  transition: background 0.15s, color 0.15s;
-}
-.ss-mode-btn.ss-mode-active {
-  background: var(--md-secondary-container);
-  color: var(--md-on-secondary-container);
-}
+/* Compact / Detailed: .neb-segmented, the same bank as the count pickers. */
 .ss-summary-meta {
   font-size: 0.75rem;
   color: var(--md-on-surface-variant);
@@ -997,7 +943,6 @@
   .ss-back-btn span:not(.material-symbols-outlined) { display: none; }
   .ss-topbar-actions .md-btn-icon { width: 36px; height: 36px; }
 
-  .ss-tab { padding: 10px 11px; font-size: 0.8125rem; }
   .ss-gen-prompt { padding: 32px 12px; }
   .ss-notes-textarea { min-height: 240px; }
   .ss-kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }

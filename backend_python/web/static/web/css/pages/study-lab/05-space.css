@@ -257,54 +257,11 @@
 /* ── Main content ── */
 .ss-main { min-height: 60vh; }
 
-/* ── Tabs (scrollable on overflow) ── */
-.ss-tabs-wrap { position: relative; margin-bottom: 24px; }
-.ss-tabs-wrap::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 1px;
-  width: 32px;
-  background: linear-gradient(to left, var(--md-surface), transparent);
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.15s ease;
-}
-.ss-tabs-wrap.ss-tabs-overflow::after { opacity: 1; }
-.ss-tabs {
-  display: flex;
-  gap: 4px;
-  border-bottom: 1px solid var(--md-outline-variant);
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-.ss-tabs::-webkit-scrollbar { display: none; }
-.ss-tab {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 12px 16px;
-  min-height: 44px;
-  border: none;
-  background: transparent;
-  color: var(--md-on-surface-variant);
-  font-size: 0.875rem;
-  font-weight: 500;
-  cursor: pointer;
-  border-bottom: 2px solid transparent;
-  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
-  white-space: nowrap;
-  font-family: inherit;
-}
-.ss-tab:hover { background: var(--md-surface-container); }
-.ss-tab.ss-tab-active {
-  color: var(--md-primary);
-  border-bottom-color: var(--md-primary);
-}
-.ss-tab .material-symbols-outlined { font-size: 18px; }
-.ss-tab[disabled] { opacity: 0.45; cursor: not-allowed; }
-
+/* ── Tabs ──
+   .neb-rail. The second of the two copies of this row -- pages/study-space.css
+   had the other, and study_space loads both -- so the same six tabs were drawn
+   twice, at different paddings and gaps, and whichever file happened to load
+   last won. */
 /* ── Tab content ── */
 .ss-tab-content { display: none; }
 .ss-tab-content.ss-tab-content-active { display: block; }
@@ -357,26 +314,8 @@
 .ss-loading { text-align: center; padding: 48px 24px; }
 .ss-loading p { color: var(--md-on-surface-variant); font-size: 0.875rem; }
 
-/* ── Summary mode bar ── */
-.ss-mode-bar { display: flex; gap: 8px; margin-bottom: 16px; }
-.ss-mode-btn {
-  padding: 8px 16px;
-  min-height: 40px;
-  border-radius: var(--md-radius-full);
-  border: 1px solid var(--md-outline-variant);
-  background: transparent;
-  color: var(--md-on-surface-variant);
-  font-size: 0.8125rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
-  font-family: inherit;
-}
-.ss-mode-btn.ss-mode-active {
-  background: var(--md-secondary-container);
-  color: var(--md-on-secondary-container);
-  border-color: transparent;
-}
+/* ── Summary mode bar ──
+   Compact / Detailed is .neb-segmented now, and was also drawn twice. */
 
 /* ── Summary content (markdown) ── */
 .ss-summary-text {
@@ -1121,8 +1060,6 @@ button.ss-confirm-armed {
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   .ss-sidebar,
-  .ss-tab,
-  .ss-mode-btn,
   .ss-back-btn,
   .ss-gen-btn,
   .ss-upload-btn {

@@ -383,15 +383,6 @@
   .sl-welcome-features {
     grid-template-columns: 1fr;
   }
-  .sl-tabs {
-    padding: 0 8px;
-    overflow-x: auto;
-  }
-  .sl-tab {
-    padding: 10px 12px;
-    font-size: 0.8125rem;
-    white-space: nowrap;
-  }
   .sl-tab-content {
     padding: 16px;
   }

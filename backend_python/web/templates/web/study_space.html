@@ -78,34 +78,46 @@
     </aside>
 
     <main class="ss-main" id="ssMain">
-      <div class="ss-tabs-wrap" id="ssTabsWrap">
-      <div class="ss-tabs" id="ssTabs">
-        <button class="ss-tab ss-tab-active" data-tab="summary" data-action="ss-switch-tab">
-          <span class="material-symbols-outlined">summarize</span> Summary
+      {% comment %}
+        NebTabRail. These six were a row of underlined tabs drawn twice in CSS,
+        once in study-space.css and again in study-lab/05-space.css, wrapped in a
+        second element whose only job was a fade at the right edge that a script
+        turned on and off as the row scrolled. The rail scrolls the selected tab
+        into view itself, so the wrapper, the gradient and the script are all
+        gone with it.
+      {% endcomment %}
+      <nav class="neb-rail neb-rail-divided" id="ssTabs" role="tablist" aria-label="Study space views" style="margin-bottom:18px;">
+        <button type="button" class="neb-rail-item" role="tab" aria-selected="true" data-tab="summary" data-action="ss-switch-tab">
+          <span class="material-symbols-outlined">summarize</span>
+          <span class="neb-rail-label">Summary</span>
         </button>
-        <button class="ss-tab" data-tab="mindmap" data-action="ss-switch-tab">
-          <span class="material-symbols-outlined">account_tree</span> Mindmap
+        <button type="button" class="neb-rail-item" role="tab" aria-selected="false" data-tab="mindmap" data-action="ss-switch-tab">
+          <span class="material-symbols-outlined">account_tree</span>
+          <span class="neb-rail-label">Mindmap</span>
         </button>
-        <button class="ss-tab" data-tab="quiz" data-action="ss-switch-tab">
-          <span class="material-symbols-outlined">quiz</span> Quiz
+        <button type="button" class="neb-rail-item" role="tab" aria-selected="false" data-tab="quiz" data-action="ss-switch-tab">
+          <span class="material-symbols-outlined">quiz</span>
+          <span class="neb-rail-label">Quiz</span>
         </button>
-        <button class="ss-tab" data-tab="flashcards" data-action="ss-switch-tab">
-          <span class="material-symbols-outlined">style</span> Flashcards
+        <button type="button" class="neb-rail-item" role="tab" aria-selected="false" data-tab="flashcards" data-action="ss-switch-tab">
+          <span class="material-symbols-outlined">style</span>
+          <span class="neb-rail-label">Flashcards</span>
         </button>
-        <button class="ss-tab" data-tab="notes" data-action="ss-switch-tab">
-          <span class="material-symbols-outlined">draw</span> Board
+        <button type="button" class="neb-rail-item" role="tab" aria-selected="false" data-tab="notes" data-action="ss-switch-tab">
+          <span class="material-symbols-outlined">draw</span>
+          <span class="neb-rail-label">Board</span>
         </button>
-        <button class="ss-tab" data-tab="learningPath" data-action="ss-switch-tab">
-          <span class="material-symbols-outlined">route</span> Learning Path
+        <button type="button" class="neb-rail-item" role="tab" aria-selected="false" data-tab="learningPath" data-action="ss-switch-tab">
+          <span class="material-symbols-outlined">route</span>
+          <span class="neb-rail-label">Learning Path</span>
         </button>
-      </div>
-      </div>
+      </nav>
 
       <!-- Summary tab -->
       <div class="ss-tab-content ss-tab-content-active" id="ssTabSummary">
-        <div class="ss-mode-bar" id="ssSummaryModebar">
-          <button class="ss-mode-btn ss-mode-active" data-mode="compact" data-action="ss-summary-mode">Compact</button>
-          <button class="ss-mode-btn" data-mode="detailed" data-action="ss-summary-mode">Detailed</button>
+        <div class="neb-segmented" id="ssSummaryModebar" role="group" aria-label="Summary length" style="margin-bottom:14px;">
+          <button type="button" class="neb-segment" data-mode="compact" data-action="ss-summary-mode" aria-pressed="true">Compact</button>
+          <button type="button" class="neb-segment" data-mode="detailed" data-action="ss-summary-mode" aria-pressed="false">Detailed</button>
         </div>
         <div class="ss-gen-prompt" id="ssSummaryPrompt">
           <p id="ssSummaryPromptText">Generate a study summary from all documents in this space.</p>
