@@ -10,16 +10,10 @@
   --neby-bubble-user-text: var(--md-on-primary);
   --neby-bubble-ai-bg: var(--md-surface-container);
   --neby-bubble-ai-text: var(--md-on-surface);
-  --neby-glass: rgba(var(--md-surface-rgb, 255, 255, 255), 0.82);
+  --neby-glass: color-mix(in srgb, var(--md-surface) 84%, transparent);
   --neby-border: var(--md-outline-variant);
   --neby-shadow: var(--md-elevation-3);
 }
-[data-theme="dark"] {
-  --neby-glass: rgba(28, 30, 40, 0.88);
-  --neby-border: var(--md-outline-variant);
-  --neby-shadow: var(--md-elevation-3);
-}
-
 /* ── FAB ─────────────────────────────────────────────────────────────────────── */
 #neby-fab {
   position: fixed;
@@ -57,12 +51,12 @@
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: #ffffff;
+  background: var(--md-n100);
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--md-on-primary) 32%, transparent), 0 1px 4px color-mix(in srgb, var(--md-scrim) 12%, transparent);
 }
 .neby-fab-avatar-badge .neby-avatar-mini {
   background: transparent !important;
@@ -114,13 +108,13 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: #ffffff;
+  background: var(--md-n100);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--md-on-primary) 32%, transparent);
 }
 .neby-header-avatar .neby-avatar-mini {
   width: 30px;
@@ -154,13 +148,13 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #4ade80;
-  box-shadow: 0 0 5px #4ade80;
+  background: color-mix(in srgb, var(--neb-accent-green) 40%, var(--md-on-primary));
+  box-shadow: 0 0 5px color-mix(in srgb, var(--neb-accent-green) 55%, transparent);
 }
 .neby-panel-close {
   background: none;
   border: none;
-  color: rgba(255, 255, 255, 0.75);
+  color: color-mix(in srgb, var(--md-on-primary) 75%, transparent);
   cursor: pointer;
   padding: 4px;
   border-radius: var(--md-radius-full);
@@ -171,8 +165,8 @@
   flex-shrink: 0;
 }
 .neby-panel-close:hover {
-  background: rgba(255, 255, 255, 0.18);
-  color: #fff;
+  background: color-mix(in srgb, var(--md-on-primary) 18%, transparent);
+  color: var(--md-on-primary);
 }
 .neby-panel-close .material-symbols-outlined { font-size: 20px; }
 
@@ -188,7 +182,7 @@
 }
 .neby-chat-area::-webkit-scrollbar { width: 4px; }
 .neby-chat-area::-webkit-scrollbar-track { background: transparent; }
-.neby-chat-area::-webkit-scrollbar-thumb { background: rgba(0, 75, 212, 0.2); border-radius: 4px; }
+.neby-chat-area::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--md-primary) 30%, transparent); border-radius: 4px; }
 
 /* ── Messages ────────────────────────────────────────────────────────────────── */
 .neby-msg {

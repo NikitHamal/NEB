@@ -40,9 +40,9 @@
 .upload-file-remove:hover { background: color-mix(in srgb, var(--md-error) 10%, transparent); color: var(--md-error); }
 .upload-file-remove .material-symbols-outlined { font-size: 20px; }
 
-.admin-badge-approved { background: color-mix(in srgb, #4caf50 10%, transparent); color: #2e7d32; font-size: 0.75rem; font-weight: 600; padding: 2px 8px; border-radius: 4px; }
-.admin-badge-pending { background: color-mix(in srgb, #ff9800 10%, transparent); color: #e65100; font-size: 0.75rem; font-weight: 600; padding: 2px 8px; border-radius: 4px; }
-.admin-badge-rejected { background: color-mix(in srgb, #f44336 10%, transparent); color: #c62828; font-size: 0.75rem; font-weight: 600; padding: 2px 8px; border-radius: 4px; }
+.admin-badge-approved { background: color-mix(in srgb, var(--neb-accent-green) 12%, transparent); color: color-mix(in srgb, var(--neb-accent-green) 74%, var(--md-on-surface)); font-size: 0.75rem; font-weight: 600; padding: 2px 8px; border-radius: 4px; }
+.admin-badge-pending { background: color-mix(in srgb, var(--neb-accent-amber) 12%, transparent); color: color-mix(in srgb, var(--neb-accent-amber) 74%, var(--md-on-surface)); font-size: 0.75rem; font-weight: 600; padding: 2px 8px; border-radius: 4px; }
+.admin-badge-rejected { background: color-mix(in srgb, var(--neb-accent-rose) 12%, transparent); color: color-mix(in srgb, var(--neb-accent-rose) 74%, var(--md-on-surface)); font-size: 0.75rem; font-weight: 600; padding: 2px 8px; border-radius: 4px; }
 
 .upload-divider { display: flex; align-items: center; gap: 12px; margin: 12px 0 16px; color: var(--md-on-surface-variant); font-size: 0.8125rem; }
 .upload-divider::before, .upload-divider::after { content: ''; flex: 1; height: 1px; background: var(--md-outline-variant); }
