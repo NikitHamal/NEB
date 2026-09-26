@@ -4,9 +4,14 @@
 {% block title %}Copyright Takedown Request - NEBians{% endblock %}
 {% block description %}File a copyright takedown request (DMCA notice) for any materials hosted on NEBians without authorization.{% endblock %}
 
-{% block content %}
+{% block extra_css %}
+{% comment %} In the head, not in the body. A stylesheet found part-way down
+   the document is found after the browser has already painted, so the page
+   lays itself out twice on every load. {% endcomment %}
 <link rel="stylesheet" href="{% static 'web/css/pages/web-takedown.css' %}">
+{% endblock %}
 
+{% block content %}
 <div class="takedown-container">
   {% if success %}
   <div class="takedown-success-card">

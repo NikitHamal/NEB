@@ -29,10 +29,12 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 WEB = os.path.join(ROOT, "backend_python/web")
 
 # Samples per shape. A clip-path polygon has no curves between its points, so
-# the smoothing has to come from there being enough of them; 48 is past the
-# point where a lobe reads as faceted at loader size. Every shape uses this
-# same count, which is what makes them interpolable.
-CN = 48
+# the smoothing has to come from there being enough of them. 48 was not:
+# cookie-9 has nine lobes, which is five samples each, and five straight
+# segments per lobe reads as a spike rather than a scallop. 72 gives eight and
+# the lobe comes back. Every shape uses this same count, which is what makes
+# them interpolable.
+CN = 72
 # How long one pass through the whole sequence takes, matching the app.
 CYCLE = '4.2s'
 
@@ -56,6 +58,27 @@ def _superellipse(a, b, n):
     return r
 
 
+def _rotated(r, angle):
+    """The same outline, turned. `slanted` is only a squircle off-axis."""
+    def rr(t):
+        return r(t - angle)
+    return rr
+
+
+def _gem():
+    """A cut stone: a hexagon stood on a point, slightly narrowed. The facets
+    have to be straight and the vertices sharp, which is what separates it from
+    every cookie in the set."""
+    hexagon = _polygon(6, rotate=math.pi / 2)
+
+    def r(t):
+        # Narrowing horizontally turns a regular hexagon into a stone rather
+        # than a honeycomb cell.
+        base = hexagon(t)
+        return base * (1.0 - 0.10 * abs(math.cos(t)))
+    return r
+
+
 def _lobed(count, depth, phase=0.0):
     """A cookie: a circle with `count` lobes pushed out of it."""
     def r(t):
@@ -66,21 +89,29 @@ def _lobed(count, depth, phase=0.0):
 # The morph sequence, in order. These are the Expressive shapes the app's
 # loader cycles through; the names are theirs.
 SHAPES = [
-    ("soft-burst", _lobed(10, 0.11)),
-    ("cookie-9", _lobed(9, 0.17)),
+    # Lobe depth is the whole character of a cookie. Past about 12% the peaks
+    # stop reading as scallops and start reading as a star, which is a different
+    # drawing and not the one the app uses.
+    ("soft-burst", _lobed(10, 0.085)),
+    ("cookie-9", _lobed(9, 0.105)),
     ("pentagon", _polygon(5, rotate=math.pi / 2)),
     ("pill", _superellipse(1.0, 0.62, 4.0)),
-    ("sunny", _lobed(8, 0.14)),
-    ("cookie-4", _lobed(4, 0.24)),
+    ("sunny", _lobed(8, 0.10)),
+    ("cookie-4", _lobed(4, 0.17)),
     ("oval", _superellipse(1.0, 0.78, 2.0)),
 ]
 
 # Shapes offered as clip-paths. A couple are not in the morph but are what the
 # app puts avatars and badges in.
 CLIPS = SHAPES + [
-    ("clover", _lobed(4, 0.20, phase=math.pi / 4)),
+    ("clover", _lobed(4, 0.17, phase=math.pi / 4)),
     ("square", _superellipse(1.0, 1.0, 4.0)),
     ("circle", lambda t: 1.0),
+    # The other two in the app's NebShapes.Option bank. A column of four
+    # identical rounded squares is a form; four different silhouettes is a
+    # choice, and the user can tell which one they picked from across the room.
+    ("gem", _gem()),
+    ("slanted", _rotated(_superellipse(1.0, 1.0, 3.4), math.radians(14))),
 ]
 
 

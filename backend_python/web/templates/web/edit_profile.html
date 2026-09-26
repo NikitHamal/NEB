@@ -40,29 +40,27 @@
     {% comment %} Who you are right now, and how much of you is filled in. The meter
        counts the same ten things the app's profileStrength() counts. {% endcomment %}
     <div class="epf-identity">
-      <div class="epf-identity-avatar">
+      <button type="button" class="epf-identity-avatar" data-action="trigger-photo-upload"
+              aria-label="Change your profile photo">
         {% if user.photo_url %}
-          <img id="edit-avatar-preview" src="{{ user.photo_url }}" alt="Avatar" style="width:100%;height:100%;object-fit:cover;">
+          <img id="edit-avatar-preview" class="md-shape-cookie-9" src="{{ user.photo_url }}" alt="">
         {% else %}
-          <div id="edit-avatar-preview-initial" class="epf-identity-initial">{{ user.username|slice:":1" }}</div>
+          <div id="edit-avatar-preview-initial" class="epf-identity-initial md-shape-cookie-9">{{ user.display_name|default:user.username|slice:":1"|upper }}</div>
         {% endif %}
-      </div>
-      <div class="epf-identity-main">
-        <div class="epf-identity-name">{{ user.display_name|default:user.username }}</div>
-        <div class="epf-identity-handle">@{{ user.username }}</div>
-        <div class="epf-identity-photo">
-          <input type="file" id="photo_file" accept="image/*" class="epf-file-input" data-change-action="edit-photo-upload">
-          <button type="button" class="md-btn md-btn-outlined md-btn-small" data-action="trigger-photo-upload">
-            <span class="material-symbols-outlined">photo_camera</span>
-            Change photo
-          </button>
-          <span class="epf-hint">JPG, PNG or WebP. Max 5MB.</span>
-        </div>
-      </div>
+        <span class="epf-identity-camera" aria-hidden="true">
+          <span class="material-symbols-outlined">add_a_photo</span>
+        </span>
+      </button>
+      <input type="file" id="photo_file" accept="image/*" class="epf-file-input" data-change-action="edit-photo-upload">
+
+      <div class="epf-identity-name">{{ user.display_name|default:"Your name" }}</div>
+      <div class="epf-identity-handle">@{{ user.username|default:"username" }}</div>
+      <p class="epf-hint epf-identity-hint">JPG, PNG or WebP. Max 5MB.</p>
+
       <div class="epf-strength" id="epf-strength">
         <div class="epf-strength-top">
+          <span class="epf-strength-word" id="epf-strength-word">Profile strength</span>
           <span class="epf-strength-count" id="epf-strength-count">0/10</span>
-          <span class="epf-strength-word" id="epf-strength-word">Getting started</span>
         </div>
         <div class="epf-strength-track">
           <div class="epf-strength-fill" id="epf-strength-fill"></div>
@@ -101,24 +99,51 @@
       <h2 class="epf-section-title">Role</h2>
       <p class="epf-section-note">What you are here to do. It decides which of the fields below you get.</p>
 
+      {% comment %} The app's EditRoleSection: NebOptionCard, with a different
+         Expressive silhouette per option. A column of four identical rounded
+         squares is a form; four different silhouettes is a choice, and the user
+         can tell which one they picked from across the room.
+         .role-radio-active is kept because the page script below still keys the
+         role-dependent field groups off it; .is-selected is what the stylesheet
+         reads. {% endcomment %}
       <div class="form-group">
         <div class="epf-role-grid" id="role-selector">
-          <label class="role-radio-card{% if user.role == 'student' %} role-radio-active{% endif %}">
-            <input type="radio" name="role" value="student" {% if user.role == 'student' or not user.role %}checked{% endif %} style="display:none;">
-            Student
-          </label>
-          <label class="role-radio-card{% if user.role == 'teacher' %} role-radio-active{% endif %}">
-            <input type="radio" name="role" value="teacher" {% if user.role == 'teacher' %}checked{% endif %} style="display:none;">
-            Teacher
-          </label>
-          <label class="role-radio-card{% if user.role == 'institution' %} role-radio-active{% endif %}">
-            <input type="radio" name="role" value="institution" {% if user.role == 'institution' %}checked{% endif %} style="display:none;">
-            Institution
-          </label>
-          <label class="role-radio-card role-radio-card-explorer{% if user.role == 'explorer' %} role-radio-active{% endif %}">
-            <input type="radio" name="role" value="explorer" {% if user.role == 'explorer' %}checked{% endif %} style="display:none;">
-            Explorer
-          </label>
+        <label class="neb-option role-radio-card{% if user.role == 'student' or not user.role %} role-radio-active is-selected{% endif %}">
+          <input type="radio" name="role" value="student" {% if user.role == 'student' or not user.role %}checked{% endif %} class="md-sr-only">
+          <span class="neb-glyph md-shape-cookie-9" aria-hidden="true"><span class="material-symbols-outlined">school</span></span>
+          <span class="neb-option-text">
+            <span class="neb-option-title">Student</span>
+            <span class="neb-option-sub">Learn, ask and save resources</span>
+          </span>
+          <span class="neb-mark" aria-hidden="true"></span>
+        </label>
+        <label class="neb-option role-radio-card{% if user.role == 'teacher' %} role-radio-active is-selected{% endif %}">
+          <input type="radio" name="role" value="teacher" {% if user.role == 'teacher' %}checked{% endif %} class="md-sr-only">
+          <span class="neb-glyph md-shape-clover" aria-hidden="true"><span class="material-symbols-outlined">menu_book</span></span>
+          <span class="neb-option-text">
+            <span class="neb-option-title">Teacher</span>
+            <span class="neb-option-sub">Teach, guide and share resources</span>
+          </span>
+          <span class="neb-mark" aria-hidden="true"></span>
+        </label>
+        <label class="neb-option role-radio-card{% if user.role == 'institution' %} role-radio-active is-selected{% endif %}">
+          <input type="radio" name="role" value="institution" {% if user.role == 'institution' %}checked{% endif %} class="md-sr-only">
+          <span class="neb-glyph md-shape-gem" aria-hidden="true"><span class="material-symbols-outlined">account_balance</span></span>
+          <span class="neb-option-text">
+            <span class="neb-option-title">Institution</span>
+            <span class="neb-option-sub">Represent a school or college</span>
+          </span>
+          <span class="neb-mark" aria-hidden="true"></span>
+        </label>
+        <label class="neb-option role-radio-card role-radio-card-explorer{% if user.role == 'explorer' %} role-radio-active is-selected{% endif %}">
+          <input type="radio" name="role" value="explorer" {% if user.role == 'explorer' %}checked{% endif %} class="md-sr-only">
+          <span class="neb-glyph md-shape-slanted" aria-hidden="true"><span class="material-symbols-outlined">explore</span></span>
+          <span class="neb-option-text">
+            <span class="neb-option-title">Explorer</span>
+            <span class="neb-option-sub">Browse first, fill the rest in later</span>
+          </span>
+          <span class="neb-mark" aria-hidden="true"></span>
+        </label>
         </div>
       </div>
 
@@ -163,14 +188,36 @@
       <!-- Institution fields -->
       <div id="role-fields-institution" class="role-fields" style="{% if user.role == 'institution' %}{% else %}display:none;{% endif %}">
         <div class="form-group">
-          <label class="md-label" for="institution_type">Institution type *</label>
-          <select id="institution_type" name="institution_type" class="md-select">
-            <option value="">Select type</option>
-            <option value="school" {% if user.institution_type == 'school' %}selected{% endif %}>School</option>
-            <option value="college" {% if user.institution_type == 'college' %}selected{% endif %}>College</option>
-            <option value="academy" {% if user.institution_type == 'academy' %}selected{% endif %}>Academy</option>
-            <option value="other" {% if user.institution_type == 'other' %}selected{% endif %}>Other</option>
-          </select>
+          <label class="md-label" id="institution-type-label">Institution type *</label>
+          <div class="neb-tiles" role="radiogroup" aria-labelledby="institution-type-label"
+               data-neb-group data-neb-name="institution_type" data-neb-required>
+            <button type="button" class="neb-tile{% if user.institution_type == 'school' %} is-selected{% endif %}"
+                    role="radio" data-neb-value="school"
+                    aria-checked="{% if user.institution_type == 'school' %}true{% else %}false{% endif %}">
+              <span class="neb-glyph neb-glyph-lg md-shape-cookie-9" aria-hidden="true"><span class="material-symbols-outlined">apartment</span></span>
+              <span class="neb-tile-label">School</span>
+            </button>
+            <button type="button" class="neb-tile{% if user.institution_type == 'college' %} is-selected{% endif %}"
+                    role="radio" data-neb-value="college"
+                    aria-checked="{% if user.institution_type == 'college' %}true{% else %}false{% endif %}">
+              <span class="neb-glyph neb-glyph-lg md-shape-clover" aria-hidden="true"><span class="material-symbols-outlined">account_balance</span></span>
+              <span class="neb-tile-label">College</span>
+            </button>
+            <button type="button" class="neb-tile{% if user.institution_type == 'academy' %} is-selected{% endif %}"
+                    role="radio" data-neb-value="academy"
+                    aria-checked="{% if user.institution_type == 'academy' %}true{% else %}false{% endif %}">
+              <span class="neb-glyph neb-glyph-lg md-shape-gem" aria-hidden="true"><span class="material-symbols-outlined">auto_stories</span></span>
+              <span class="neb-tile-label">Academy</span>
+            </button>
+            <button type="button" class="neb-tile{% if user.institution_type == 'other' %} is-selected{% endif %}"
+                    role="radio" data-neb-value="other"
+                    aria-checked="{% if user.institution_type == 'other' %}true{% else %}false{% endif %}">
+              <span class="neb-glyph neb-glyph-lg md-shape-slanted" aria-hidden="true"><span class="material-symbols-outlined">more_horiz</span></span>
+              <span class="neb-tile-label">Other</span>
+            </button>
+          </div>
+          <input type="hidden" id="institution_type" name="institution_type" data-neb-for="institution_type"
+                 value="{{ user.institution_type|default:'' }}">
         </div>
       </div>
 
@@ -184,19 +231,48 @@
       <h2 class="epf-section-title">Personal</h2>
       <p class="epf-section-note">Kept off your profile. Your age is what decides the feed you get.</p>
 
+      {% comment %} Date of birth opens the app's wheel, not <input type="date">.
+         The native control arrives wearing the browser's own accent, type scale
+         and corner radius, so a form built to one specification hands off to a
+         control built to another. Gender is NebChoiceTiles: three one-word
+         answers, each with its own silhouette and a target big enough for a
+         thumb. {% endcomment %}
       <div class="form-row">
         <div class="form-group">
-          <label class="md-label" for="dob">Date of birth *</label>
-          <input type="date" id="dob" name="dob" class="md-input" value="{{ user.dob|default:'' }}" required>
+          <label class="md-label" for="dob-trigger">Date of birth *</label>
+          <button type="button" class="neb-field-trigger" id="dob-trigger"
+                  data-neb-open="dob-sheet" aria-haspopup="dialog" aria-expanded="false">
+            <span class="material-symbols-outlined">cake</span>
+            <span class="neb-field-trigger-value{% if not user.dob %} neb-field-trigger-placeholder{% endif %}"
+                  id="dob-display">{{ user.dob|default:"YYYY-MM-DD" }}</span>
+            <span class="material-symbols-outlined">expand_more</span>
+          </button>
+          <input type="hidden" id="dob" name="dob" value="{{ user.dob|default:'' }}">
         </div>
         <div class="form-group">
-          <label class="md-label" for="gender">Gender *</label>
-          <select id="gender" name="gender" class="md-select" required>
-            <option value="">Select gender</option>
-            <option value="Male" {% if user.gender == 'Male' %}selected{% endif %}>Male</option>
-            <option value="Female" {% if user.gender == 'Female' %}selected{% endif %}>Female</option>
-            <option value="Other" {% if user.gender == 'Other' %}selected{% endif %}>Other</option>
-          </select>
+          <label class="md-label" id="gender-label">Gender *</label>
+          <div class="neb-tiles" role="radiogroup" aria-labelledby="gender-label"
+               data-neb-group data-neb-name="gender" data-neb-required>
+            <button type="button" class="neb-tile{% if user.gender == 'Male' %} is-selected{% endif %}"
+                    role="radio" data-neb-value="Male"
+                    aria-checked="{% if user.gender == 'Male' %}true{% else %}false{% endif %}">
+              <span class="neb-glyph neb-glyph-lg md-shape-cookie-9" aria-hidden="true"><span class="material-symbols-outlined">male</span></span>
+              <span class="neb-tile-label">Male</span>
+            </button>
+            <button type="button" class="neb-tile{% if user.gender == 'Female' %} is-selected{% endif %}"
+                    role="radio" data-neb-value="Female"
+                    aria-checked="{% if user.gender == 'Female' %}true{% else %}false{% endif %}">
+              <span class="neb-glyph neb-glyph-lg md-shape-clover" aria-hidden="true"><span class="material-symbols-outlined">female</span></span>
+              <span class="neb-tile-label">Female</span>
+            </button>
+            <button type="button" class="neb-tile{% if user.gender == 'Other' %} is-selected{% endif %}"
+                    role="radio" data-neb-value="Other"
+                    aria-checked="{% if user.gender == 'Other' %}true{% else %}false{% endif %}">
+              <span class="neb-glyph neb-glyph-lg md-shape-gem" aria-hidden="true"><span class="material-symbols-outlined">transgender</span></span>
+              <span class="neb-tile-label">Other</span>
+            </button>
+          </div>
+          <input type="hidden" id="gender" name="gender" data-neb-for="gender" value="{{ user.gender|default:'' }}">
         </div>
       </div>
     </section>
@@ -207,25 +283,29 @@
 
       <div class="form-group">
         <label class="md-label" id="class-label-el">Class / Level</label>
-        <div class="md-input-picker" id="class_level_picker_trigger">
-          <span id="class_level_selected_text">
+        <button type="button" class="neb-field-trigger" id="class_level_picker_trigger"
+                  aria-haspopup="dialog" aria-expanded="false">
+            <span class="material-symbols-outlined">school</span>
+          <span class="neb-field-trigger-value" id="class_level_selected_text">
             {% if user.class_level %}
               {% if user.class_level == '11' %}Class 11
               {% elif user.class_level == '12' %}Class 12
               {% else %}{{ user.class_level }}{% endif %}
             {% else %}Select class{% endif %}
           </span>
-          <span class="material-symbols-outlined">arrow_drop_down</span>
-        </div>
+          <span class="material-symbols-outlined">expand_more</span>
+        </button>
         <input type="hidden" id="class_level" name="class_level" value="{{ user.class_level|default:'' }}">
       </div>
 
       <div class="form-group">
         <label class="md-label" id="school-label">School/College</label>
-        <div class="md-input-picker" id="school_picker_trigger">
-          <span id="school_selected_text">{{ user.school|default:'Select school/college' }}</span>
-          <span class="material-symbols-outlined">arrow_drop_down</span>
-        </div>
+        <button type="button" class="neb-field-trigger" id="school_picker_trigger"
+                  aria-haspopup="dialog" aria-expanded="false">
+            <span class="material-symbols-outlined">apartment</span>
+          <span class="neb-field-trigger-value" id="school_selected_text">{{ user.school|default:'Select school/college' }}</span>
+          <span class="material-symbols-outlined">expand_more</span>
+        </button>
         <input type="hidden" id="school" name="school" value="{{ user.school|default:'' }}">
         <input type="hidden" id="school_username" name="school_username" value="{{ user.school_username|default:'' }}">
       </div>
@@ -238,8 +318,10 @@
       <div class="form-row">
         <div class="form-group" id="province-district-group">
           <label class="md-label">Province</label>
-          <div class="md-input-picker" id="pradesh_picker_trigger">
-            <span id="pradesh_selected_text">
+          <button type="button" class="neb-field-trigger" id="pradesh_picker_trigger"
+                  aria-haspopup="dialog" aria-expanded="false">
+            <span class="material-symbols-outlined">map</span>
+            <span class="neb-field-trigger-value" id="pradesh_selected_text">
               {% if user.pradesh == '1' %}Koshi
               {% elif user.pradesh == '2' %}Madhesh
               {% elif user.pradesh == '3' %}Bagmati
@@ -249,16 +331,18 @@
               {% elif user.pradesh == '7' %}Sudurpashchim
               {% else %}Select province{% endif %}
             </span>
-            <span class="material-symbols-outlined">arrow_drop_down</span>
-          </div>
+            <span class="material-symbols-outlined">expand_more</span>
+          </button>
           <input type="hidden" id="pradesh" name="pradesh" value="{{ user.pradesh|default:'' }}">
         </div>
         <div class="form-group">
           <label class="md-label">District</label>
-          <div class="md-input-picker" id="district_picker_trigger">
-            <span id="district_selected_text">{{ user.district|default:'Select district' }}</span>
-            <span class="material-symbols-outlined">arrow_drop_down</span>
-          </div>
+          <button type="button" class="neb-field-trigger" id="district_picker_trigger"
+                  aria-haspopup="dialog" aria-expanded="false">
+            <span class="material-symbols-outlined">location_on</span>
+            <span class="neb-field-trigger-value" id="district_selected_text">{{ user.district|default:'Select district' }}</span>
+            <span class="material-symbols-outlined">expand_more</span>
+          </button>
           <input type="hidden" id="district" name="district" value="{{ user.district|default:'' }}">
         </div>
       </div>
@@ -288,16 +372,19 @@
       <h2 class="epf-section-title">Privacy</h2>
       <p class="epf-section-note">Who gets to read what you post.</p>
 
-      <div class="epf-switch-row">
-        <label class="md-switch">
-          <input type="checkbox" name="is_locked" id="is_locked" {% if user.is_locked %}checked{% endif %}>
-          <span class="slider"></span>
-        </label>
-        <div class="epf-switch-text">
-          <label for="is_locked" class="epf-switch-label">Private profile</label>
-          <p class="epf-hint epf-hint-block">Only the people you approve can see your posts, replies and resources.</p>
-        </div>
-      </div>
+      {% comment %} NebToggleRow: the whole row is the target, the label is the
+         row's own text rather than a <label for> pointing sideways, and the
+         checkbox stays in the form so the POST is unchanged. {% endcomment %}
+      <label class="neb-toggle-row">
+        <input type="checkbox" name="is_locked" id="is_locked" class="md-sr-only"
+               {% if user.is_locked %}checked{% endif %}>
+        <span class="neb-glyph md-shape-clover" aria-hidden="true"><span class="material-symbols-outlined">lock</span></span>
+        <span class="neb-toggle-row-text">
+          <span class="neb-toggle-row-label">Private profile</span>
+          <span class="neb-toggle-row-sub">Only the people you approve can see your posts, replies and resources.</span>
+        </span>
+        <span class="neb-toggle" aria-hidden="true"></span>
+      </label>
     </section>
 
     {# The save does not wait out the bottom of a seven-section form. #}
@@ -308,19 +395,58 @@
   </form>
 </div>
 
-<!-- Social Links Dialog Overlay -->
-<div class="social-link-overlay" id="social-link-overlay" style="display:none">
-  <div class="social-link-dialog">
-    <div class="social-link-dialog-header">
-      <h3 id="social-link-dialog-title">Add Social Link</h3>
-      <button type="button" class="social-link-dialog-close" id="social-link-dialog-close">
+{% comment %} ── Overlays ───────────────────────────────────────────────────
+   All four are the app's components, not this page's: .neb-scrim holds a
+   .neb-dialog or a .neb-sheet, neb-overlays.js does the scroll lock, the focus
+   trap, Escape, the drag-to-dismiss and the enter/exit motion. The ids and the
+   functional classes below are unchanged because the page script still keys off
+   them; what changed is the chrome around them. {% endcomment %}
+
+{% comment %} Date of birth. NebDateSheet: three snapped columns, the middle row
+   is the answer, and there is no text field to mistype a date into. {% endcomment %}
+<div class="neb-scrim neb-scrim-bottom" id="dob-sheet" role="dialog" aria-modal="true"
+     aria-labelledby="dob-sheet-title" hidden>
+  <div class="neb-sheet neb-sheet-picker">
+    <div class="neb-sheet-handle" aria-hidden="true"></div>
+    <div class="neb-sheet-head">
+      <div class="neb-sheet-head-text">
+        <h2 class="neb-sheet-title" id="dob-sheet-title">Date of birth</h2>
+        <p class="neb-sheet-sub">Only your age is ever shown, never the date.</p>
+      </div>
+      <button type="button" class="neb-sheet-close" data-neb-close aria-label="Close">
         <span class="material-symbols-outlined">close</span>
       </button>
     </div>
-    <div class="social-link-dialog-body">
-      <div class="form-group">
-        <label class="md-label" for="social-link-platform">Platform</label>
-        <select id="social-link-platform" class="md-select">
+    <div class="neb-sheet-body neb-sheet-body-flush">
+      <div class="neb-wheel" id="dob-wheel"
+           data-value="{{ user.dob|default:'' }}" data-min-year="1940" data-default-age="17"></div>
+    </div>
+    <div class="neb-sheet-foot">
+      <button type="button" class="md-btn md-btn-text" data-neb-close>Cancel</button>
+      <button type="button" class="md-btn md-btn-filled" id="dob-confirm">Set date</button>
+    </div>
+  </div>
+</div>
+
+{% comment %} Add / edit a link. A form of three fields is a dialog, not a sheet:
+   it is short, it is modal, and it wants to sit in the middle of the screen on a
+   desktop. Under 600px the stylesheet turns it into a sheet anyway. {% endcomment %}
+<div class="neb-scrim" id="social-link-overlay" role="dialog" aria-modal="true"
+     aria-labelledby="social-link-dialog-title" hidden>
+  <div class="neb-dialog">
+    <div class="neb-dialog-head">
+      <span class="neb-dialog-icon md-shape-cookie-9" aria-hidden="true">
+        <span class="material-symbols-outlined">link</span>
+      </span>
+      <h2 class="neb-dialog-title" id="social-link-dialog-title">Add link</h2>
+      <button type="button" class="neb-sheet-close" id="social-link-dialog-close" aria-label="Close">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <div class="neb-dialog-body">
+      <div class="neb-field-group">
+        <label class="neb-field-label" for="social-link-platform">Platform</label>
+        <select id="social-link-platform" class="neb-field">
           <option value="instagram">Instagram</option>
           <option value="facebook">Facebook</option>
           <option value="twitter">X (Twitter)</option>
@@ -337,83 +463,101 @@
           <option value="website" selected>Website / Custom</option>
         </select>
       </div>
-      <div class="form-group">
-        <label class="md-label" for="social-link-url" id="social-link-url-label">Username or Link</label>
-        <input type="text" id="social-link-url" class="md-input" placeholder="e.g. username or https://..." autocomplete="off">
-        <span id="social-link-url-hint" style="font-weight:400;opacity:0.7;font-size:0.8125rem;margin-top:4px;display:block;color:var(--md-on-surface-variant);"></span>
+      <div class="neb-field-group">
+        <label class="neb-field-label" for="social-link-url" id="social-link-url-label">Username or link</label>
+        <input type="text" id="social-link-url" class="neb-field" data-neb-autofocus
+               placeholder="e.g. username or https://..." autocomplete="off">
+        <span class="neb-field-help" id="social-link-url-hint"></span>
       </div>
-      <div class="form-group" id="social-link-label-group" style="display:none;">
-        <label class="md-label" for="social-link-label">Label (optional)</label>
-        <input type="text" id="social-link-label" class="md-input" placeholder="e.g. My Portfolio" maxlength="100">
+      <div class="neb-field-group" id="social-link-label-group" style="display:none;">
+        <label class="neb-field-label" for="social-link-label">Label (optional)</label>
+        <input type="text" id="social-link-label" class="neb-field" placeholder="e.g. My Portfolio" maxlength="100">
       </div>
     </div>
-    <div class="social-link-dialog-footer">
+    <div class="neb-dialog-actions">
       <button type="button" class="md-btn md-btn-text" id="social-link-cancel">Cancel</button>
       <button type="button" class="md-btn md-btn-filled" id="social-link-save">Save</button>
     </div>
   </div>
 </div>
 
-<div class="subject-pick-overlay" id="subjects-pick-overlay" style="display:none">
-  <div class="subject-pick-dialog">
-    <div class="subject-pick-header">
-      <h3>Select Subjects</h3>
-      <button type="button" class="subject-pick-close" id="subjects-pick-close">
+{% comment %} Subjects. A long searchable multi-select is a sheet on every size:
+   it wants the height, and the search field wants to be under the thumb rather
+   than at the top of a box floating in the middle of the page. {% endcomment %}
+<div class="neb-scrim neb-scrim-bottom" id="subjects-pick-overlay" role="dialog" aria-modal="true"
+     aria-labelledby="subjects-pick-title" hidden>
+  <div class="neb-sheet">
+    <div class="neb-sheet-handle" aria-hidden="true"></div>
+    <div class="neb-sheet-head">
+      <div class="neb-sheet-head-text">
+        <h2 class="neb-sheet-title" id="subjects-pick-title">Select subjects</h2>
+        <p class="neb-sheet-sub">Pick as many as you study. You can add your own.</p>
+      </div>
+      <button type="button" class="neb-sheet-close" id="subjects-pick-close" aria-label="Close">
         <span class="material-symbols-outlined">close</span>
       </button>
     </div>
-    <div class="subject-pick-search">
+    <div class="neb-field-search">
       <span class="material-symbols-outlined">search</span>
-      <input type="text" id="subjects-pick-search" placeholder="Search subjects..." autocomplete="off">
+      <input type="text" class="neb-field" id="subjects-pick-search" placeholder="Search subjects" autocomplete="off">
     </div>
-    <div class="subject-pick-list" id="subjects-pick-list">
+    <div class="neb-sheet-body neb-sheet-body-flush" id="subjects-pick-list">
       {% for s in subjects %}
-      <label class="subject-pick-item" data-subject="{{ s }}">
-        <input type="checkbox" class="subject-pick-checkbox" value="{{ s }}">
-        <span class="subject-pick-check">
-          <span class="material-symbols-outlined">check</span>
+      <label class="neb-select-row" data-subject="{{ s }}">
+        <input type="checkbox" class="neb-row-box md-sr-only" value="{{ s }}">
+        <span class="neb-select-row-text">
+          <span class="neb-select-row-label">{{ s }}</span>
         </span>
-        <span class="subject-pick-label">{{ s }}</span>
+        <span class="neb-check" aria-hidden="true"></span>
       </label>
       {% endfor %}
     </div>
-    <div class="subject-pick-add">
-      <input type="text" id="subjects-pick-custom" placeholder="Add a custom subject" autocomplete="off">
+    <div class="neb-field-row">
+      <input type="text" id="subjects-pick-custom" class="neb-field"
+             placeholder="Add a subject of your own" autocomplete="off">
       <button type="button" class="md-btn md-btn-tonal" id="subjects-pick-add-btn">
         <span class="material-symbols-outlined">add</span>
         Add
       </button>
     </div>
-    <div class="subject-pick-actions">
+    <div class="neb-sheet-foot">
       <button type="button" class="md-btn md-btn-text" id="subjects-pick-cancel">Cancel</button>
       <button type="button" class="md-btn md-btn-filled" id="subjects-pick-done">Done</button>
     </div>
   </div>
 </div>
 
-<div class="subject-pick-overlay" id="generic-picker-overlay" style="display:none">
-  <div class="subject-pick-dialog">
-    <div class="subject-pick-header">
-      <h3 id="generic-picker-title">Select Option</h3>
-      <button type="button" class="subject-pick-close" id="generic-picker-close">
+{% comment %} The one picker behind class, school, province and district.
+   NebPickerSheet: a title, an optional search, a list of rows, one answer.
+   The page script fills the list and decides which parts show. {% endcomment %}
+<div class="neb-scrim neb-scrim-bottom" id="generic-picker-overlay" role="dialog" aria-modal="true"
+     aria-labelledby="generic-picker-title" hidden>
+  <div class="neb-sheet neb-sheet-picker">
+    <div class="neb-sheet-handle" aria-hidden="true"></div>
+    <div class="neb-sheet-head">
+      <div class="neb-sheet-head-text">
+        <h2 class="neb-sheet-title" id="generic-picker-title">Select option</h2>
+      </div>
+      <button type="button" class="neb-sheet-close" id="generic-picker-close" aria-label="Close">
         <span class="material-symbols-outlined">close</span>
       </button>
     </div>
-    <div class="subject-pick-search" id="generic-picker-search-container">
+    <div class="neb-field-search" id="generic-picker-search-container">
       <span class="material-symbols-outlined">search</span>
-      <input type="text" id="generic-picker-search" placeholder="Search..." autocomplete="off">
+      <input type="text" class="neb-field" id="generic-picker-search" placeholder="Search" autocomplete="off">
     </div>
-    <div class="subject-pick-list" id="generic-picker-list">
-      <!-- Options dynamically populated by JS -->
+    <div class="neb-sheet-body neb-sheet-body-flush" id="generic-picker-list">
+      {% comment %} Rows are written by the page script. {% endcomment %}
     </div>
-    <div class="subject-pick-add" id="generic-picker-add-container" style="display:none; padding: 12px 16px; border-top: 1px solid var(--md-outline-variant); gap: 8px; align-items: center;">
-      <input type="text" id="generic-picker-custom" placeholder="Add custom value..." autocomplete="off" style="flex: 1;" class="md-input">
-      <button type="button" class="md-btn md-btn-tonal" id="generic-picker-add-btn" style="flex-shrink:0;">
+    <div class="neb-field-row" id="generic-picker-add-container" style="display:none;">
+      <input type="text" id="generic-picker-custom" class="neb-field"
+             placeholder="Add your own" autocomplete="off">
+      <button type="button" class="md-btn md-btn-tonal" id="generic-picker-add-btn">
         <span class="material-symbols-outlined">add</span>
         Add
       </button>
     </div>
-    <div class="subject-pick-actions">
+    <div class="neb-sheet-foot">
       <button type="button" class="md-btn md-btn-text" id="generic-picker-cancel">Cancel</button>
     </div>
   </div>
@@ -445,8 +589,14 @@ function handleEditPhotoUpload(event) {
       if (img) {
         img.src = safeClientUrl(data.url);
       } else if (initial) {
-        var parent = initial.parentNode;
-        parent.innerHTML = '<img id="edit-avatar-preview" src="' + safeClientUrl(data.url) + '" alt="Avatar" style="width:100%;height:100%;object-fit:cover;">';
+        /* Swap the letter for the picture in place. Rewriting the button's
+           innerHTML would take the camera badge with it. */
+        var fresh = document.createElement('img');
+        fresh.id = 'edit-avatar-preview';
+        fresh.className = 'md-shape-cookie-9';
+        fresh.alt = '';
+        fresh.src = safeClientUrl(data.url);
+        initial.parentNode.replaceChild(fresh, initial);
       }
       
       var navAvatars = document.querySelectorAll('.profile-dropdown-trigger img, .profile-dropdown-avatar img');
@@ -577,25 +727,24 @@ var subjectPicker = (function() {
   });
 
   pickBtn.addEventListener('click', function() {
-    overlay.style.display = '';
-    document.body.style.overflow = 'hidden';
+    NebUI.open(overlay);
     searchInput.value = '';
     filterList('');
     syncSelection();
     searchInput.focus();
   });
 
-  closeBtn.addEventListener('click', function() { document.body.style.overflow = ''; overlay.style.display = 'none'; });
-  cancelBtn.addEventListener('click', function() { document.body.style.overflow = ''; overlay.style.display = 'none'; });
+  closeBtn.addEventListener('click', function() { NebUI.close(overlay); });
+  cancelBtn.addEventListener('click', function() { NebUI.close(overlay); });
   overlay.addEventListener('click', function(e) {
-    if (e.target === overlay) { document.body.style.overflow = ''; overlay.style.display = 'none'; }
+    if (e.target === overlay) { NebUI.close(overlay); }
   });
 
   searchInput.addEventListener('input', function() { filterList(searchInput.value); });
 
   function filterList(query) {
     var q = query.toLowerCase();
-    pickList.querySelectorAll('.subject-pick-item').forEach(function(item) {
+    pickList.querySelectorAll('.neb-select-row[data-subject]').forEach(function(item) {
       var label = item.getAttribute('data-subject').toLowerCase();
       item.style.display = label.indexOf(q) >= 0 ? '' : 'none';
     });
@@ -603,10 +752,10 @@ var subjectPicker = (function() {
 
   pickList.addEventListener('change', function(e) {
     var checkbox = e.target;
-    if (checkbox && checkbox.classList.contains('subject-pick-checkbox')) {
-      var item = checkbox.closest('.subject-pick-item');
+    if (checkbox && checkbox.classList.contains('neb-row-box')) {
+      var item = checkbox.closest('.neb-select-row');
       if (item) {
-        item.classList.toggle('selected', checkbox.checked);
+        item.classList.toggle('is-selected', checkbox.checked);
       }
     }
   });
@@ -619,9 +768,12 @@ var subjectPicker = (function() {
       var existingItem = pickList.querySelector('[data-subject="' + CSS.escape(val) + '"]');
       if (!existingItem) {
         var label = document.createElement('label');
-        label.className = 'subject-pick-item selected';
+        label.className = 'neb-select-row is-selected';
         label.setAttribute('data-subject', val);
-        label.innerHTML = '<input type="checkbox" class="subject-pick-checkbox" checked><span class="subject-pick-check"><span class="material-symbols-outlined">check</span></span><span class="subject-pick-label">' + escapeHtml(val) + '</span>';
+        label.innerHTML = '<input type="checkbox" class="neb-row-box md-sr-only" checked>' +
+          '<span class="neb-select-row-text"><span class="neb-select-row-label">' +
+          escapeHtml(val) + '</span></span>' +
+          '<span class="neb-check" aria-hidden="true"></span>';
         pickList.appendChild(label);
       }
     }
@@ -633,22 +785,21 @@ var subjectPicker = (function() {
 
   doneBtn.addEventListener('click', function() {
     var selected = [];
-    pickList.querySelectorAll('.subject-pick-item.selected').forEach(function(item) {
+    pickList.querySelectorAll('.neb-select-row.is-selected').forEach(function(item) {
       selected.push(item.getAttribute('data-subject'));
     });
     items = selected;
     renderChips();
-    document.body.style.overflow = '';
-    overlay.style.display = 'none';
+    NebUI.close(overlay);
   });
 
   function syncSelection() {
     var lowerItems = items.map(function(s) { return s.toLowerCase(); });
-    pickList.querySelectorAll('.subject-pick-item').forEach(function(item) {
+    pickList.querySelectorAll('.neb-select-row[data-subject]').forEach(function(item) {
       var subject = item.getAttribute('data-subject');
       var isSel = lowerItems.indexOf(subject.toLowerCase()) >= 0;
-      item.classList.toggle('selected', isSel);
-      item.querySelector('.subject-pick-checkbox').checked = isSel;
+      item.classList.toggle('is-selected', isSel);
+      item.querySelector('.neb-row-box').checked = isSel;
     });
   }
 
@@ -732,8 +883,7 @@ var teachingSubjectPicker = (function() {
   });
 
   pickBtn.addEventListener('click', function() {
-    overlay.style.display = '';
-    document.body.style.overflow = 'hidden';
+    NebUI.open(overlay);
     searchInput.value = '';
     filterList('');
     syncSelection();
@@ -742,7 +892,7 @@ var teachingSubjectPicker = (function() {
 
   function filterList(query) {
     var q = query.toLowerCase();
-    pickList.querySelectorAll('.subject-pick-item').forEach(function(item) {
+    pickList.querySelectorAll('.neb-select-row[data-subject]').forEach(function(item) {
       var label = item.getAttribute('data-subject').toLowerCase();
       item.style.display = label.indexOf(q) >= 0 ? '' : 'none';
     });
@@ -752,22 +902,21 @@ var teachingSubjectPicker = (function() {
 
   doneBtn.addEventListener('click', function() {
     var selected = [];
-    pickList.querySelectorAll('.subject-pick-item.selected').forEach(function(item) {
+    pickList.querySelectorAll('.neb-select-row.is-selected').forEach(function(item) {
       selected.push(item.getAttribute('data-subject'));
     });
     items = selected;
     renderChips();
-    document.body.style.overflow = '';
-    overlay.style.display = 'none';
+    NebUI.close(overlay);
   });
 
   function syncSelection() {
     var lowerItems = items.map(function(s) { return s.toLowerCase(); });
-    pickList.querySelectorAll('.subject-pick-item').forEach(function(item) {
+    pickList.querySelectorAll('.neb-select-row[data-subject]').forEach(function(item) {
       var subject = item.getAttribute('data-subject');
       var isSel = lowerItems.indexOf(subject.toLowerCase()) >= 0;
-      item.classList.toggle('selected', isSel);
-      item.querySelector('.subject-pick-checkbox').checked = isSel;
+      item.classList.toggle('is-selected', isSel);
+      item.querySelector('.neb-row-box').checked = isSel;
     });
   }
 
@@ -882,8 +1031,7 @@ var teachingSubjectPicker = (function() {
     urlInput.value = '';
     labelInput.value = '';
     updatePlatformHint();
-    overlay.style.display = '';
-    document.body.style.overflow = 'hidden';
+    NebUI.open(overlay);
     urlInput.focus();
   }
 
@@ -896,14 +1044,12 @@ var teachingSubjectPicker = (function() {
     urlInput.value = link.url;
     labelInput.value = link.label || '';
     updatePlatformHint();
-    overlay.style.display = '';
-    document.body.style.overflow = 'hidden';
+    NebUI.open(overlay);
     urlInput.focus();
   }
 
   function closeDialog() {
-    overlay.style.display = 'none';
-    document.body.style.overflow = '';
+    NebUI.close(overlay);
     editingLinkId = null;
   }
 
@@ -1061,8 +1207,8 @@ registerActions({
       var radio = card.querySelector('input[type="radio"]');
       if (radio) {
         radio.checked = true;
-        roleCards.forEach(function(c) { c.classList.remove('role-radio-active'); });
-        card.classList.add('role-radio-active');
+        roleCards.forEach(function(c) { c.classList.remove('role-radio-active', 'is-selected'); });
+        card.classList.add('role-radio-active', 'is-selected');
         showRoleFields(radio.value);
       }
     });
@@ -1107,33 +1253,43 @@ registerActions({
         return opt.text.toLowerCase().indexOf(query) >= 0 || opt.value.toLowerCase().indexOf(query) >= 0;
       });
 
+      if (!filtered.length) {
+        var empty = document.createElement('p');
+        empty.className = 'neb-picker-empty';
+        empty.textContent = 'Nothing matches "' + (filterText || '') + '".';
+        listContainer.appendChild(empty);
+        return;
+      }
+
       filtered.forEach(function(opt) {
         var isSelected = opt.value === config.selectedValue;
-        var item = document.createElement('div');
-        item.className = 'subject-pick-item-single';
-        if (isSelected) {
-          item.style.background = 'rgba(var(--md-primary-rgb, 0, 95, 175), 0.12)';
-        }
-        item.style.display = 'flex';
-        item.style.alignItems = 'center';
-        item.style.justifyContent = 'space-between';
-        item.style.padding = '12px 16px';
-        item.style.borderRadius = '8px';
-        item.style.cursor = 'pointer';
-        
-        var label = document.createElement('span');
-        label.className = 'subject-pick-label';
-        label.textContent = opt.text;
-        item.appendChild(label);
+        /* NebPickerRow. The answer is the row that carries the mark; it is not
+           a translucent wash behind the text, which is what this was and which
+           disappeared entirely in the dark theme. */
+        var item = document.createElement('button');
+        item.type = 'button';
+        item.className = 'neb-picker-row' + (isSelected ? ' is-selected' : '');
+        item.setAttribute('role', 'option');
+        item.setAttribute('aria-selected', isSelected ? 'true' : 'false');
 
-        if (isSelected) {
-          var check = document.createElement('span');
-          check.className = 'material-symbols-outlined';
-          check.textContent = 'check';
-          check.style.color = 'var(--md-primary)';
-          check.style.fontSize = '20px';
-          item.appendChild(check);
+        var text = document.createElement('span');
+        text.className = 'neb-picker-row-text';
+        var label = document.createElement('span');
+        label.className = 'neb-picker-row-label';
+        label.textContent = opt.text;
+        text.appendChild(label);
+        if (opt.sub) {
+          var sub = document.createElement('span');
+          sub.className = 'neb-picker-row-sub';
+          sub.textContent = opt.sub;
+          text.appendChild(sub);
         }
+        item.appendChild(text);
+
+        var mark = document.createElement('span');
+        mark.className = 'neb-mark neb-mark-sm';
+        mark.setAttribute('aria-hidden', 'true');
+        item.appendChild(mark);
 
         item.addEventListener('click', function() {
           config.onSelect(opt.value, opt.text);
@@ -1145,8 +1301,7 @@ registerActions({
     }
 
     function close() {
-      overlay.style.display = 'none';
-      document.body.style.overflow = '';
+      NebUI.close(overlay);
       searchInput.removeEventListener('input', onSearchInput);
       addBtn.removeEventListener('click', onAddCustom);
       closeBtn.removeEventListener('click', close);
@@ -1170,8 +1325,7 @@ registerActions({
     closeBtn.addEventListener('click', close);
     cancelBtn.addEventListener('click', close);
 
-    overlay.style.display = '';
-    document.body.style.overflow = 'hidden';
+    NebUI.open(overlay);
     render();
     if (config.showSearch !== false) {
       searchInput.focus();
@@ -1284,49 +1438,48 @@ registerActions({
         });
 
         if (filtered.length === 0 && query) {
-          var emptyMsg = document.createElement('div');
-          emptyMsg.style.cssText = 'padding:16px;text-align:center;color:var(--md-on-surface-variant);font-size:13px;';
-          emptyMsg.textContent = 'No platform institutions match. Use the custom field below.';
+          var emptyMsg = document.createElement('p');
+          emptyMsg.className = 'neb-picker-empty';
+          emptyMsg.textContent = 'No institution on the platform matches. Add yours below.';
           listContainer.appendChild(emptyMsg);
           return;
         }
 
         filtered.forEach(function(inst) {
           var isSelected = inst.displayName === schoolInput.value;
-          var item = document.createElement('div');
-          item.style.cssText = 'display:flex;align-items:center;gap:12px;padding:10px 16px;border-radius:10px;cursor:pointer;transition:background 0.15s;' + (isSelected ? 'background:rgba(var(--md-primary-rgb,0,95,175),0.12);' : '');
-          item.addEventListener('mouseover', function() { if (!isSelected) item.style.background = 'var(--md-surface-container)'; });
-          item.addEventListener('mouseout', function() { if (!isSelected) item.style.background = ''; });
+          var item = document.createElement('button');
+          item.type = 'button';
+          item.className = 'neb-picker-row' + (isSelected ? ' is-selected' : '');
+          item.setAttribute('role', 'option');
+          item.setAttribute('aria-selected', isSelected ? 'true' : 'false');
 
-          var avatarUrl = (inst.photoUrl && inst.photoUrl.trim()) ? inst.photoUrl : 'https://nebians.consica.com.np/static/web/images/default_avatar.png';
+          /* NebShapes.Avatar is the nine-sided cookie everywhere else in the
+             app, including this list. A circle here would be the only round
+             avatar in the product. */
           var avatar = document.createElement('img');
-          avatar.src = avatarUrl;
+          avatar.className = 'neb-picker-row-avatar md-shape-cookie-9';
+          avatar.src = (inst.photoUrl && inst.photoUrl.trim())
+            ? inst.photoUrl
+            : '{% static "web/images/default_avatar.png" %}';
           avatar.alt = '';
-          avatar.style.cssText = 'width:38px;height:38px;border-radius:50%;object-fit:cover;flex-shrink:0;border:1px solid var(--md-outline-variant);';
+          item.appendChild(avatar);
 
-          var info = document.createElement('div');
-          info.style.cssText = 'flex:1;min-width:0;';
-          var nameEl = document.createElement('div');
-          nameEl.style.cssText = 'font-weight:600;font-size:14px;color:var(--md-on-surface);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;';
+          var info = document.createElement('span');
+          info.className = 'neb-picker-row-text';
+          var nameEl = document.createElement('span');
+          nameEl.className = 'neb-picker-row-label';
           nameEl.textContent = inst.displayName;
-          var usernameEl = document.createElement('div');
-          usernameEl.style.cssText = 'font-size:12px;color:var(--md-on-surface-variant);';
+          var usernameEl = document.createElement('span');
+          usernameEl.className = 'neb-picker-row-sub';
           usernameEl.textContent = '@' + inst.username;
           info.appendChild(nameEl);
           info.appendChild(usernameEl);
+          item.appendChild(info);
 
-          if (isSelected) {
-            var check = document.createElement('span');
-            check.className = 'material-symbols-outlined';
-            check.textContent = 'check';
-            check.style.cssText = 'color:var(--md-primary);font-size:20px;flex-shrink:0;';
-            item.appendChild(avatar);
-            item.appendChild(info);
-            item.appendChild(check);
-          } else {
-            item.appendChild(avatar);
-            item.appendChild(info);
-          }
+          var mark = document.createElement('span');
+          mark.className = 'neb-mark neb-mark-sm';
+          mark.setAttribute('aria-hidden', 'true');
+          item.appendChild(mark);
 
           item.addEventListener('click', function() {
             schoolInput.value = inst.displayName;
@@ -1339,8 +1492,7 @@ registerActions({
       }
 
       function closeOverlay() {
-        overlay.style.display = 'none';
-        document.body.style.overflow = '';
+        NebUI.close(overlay);
         searchInput.removeEventListener('input', onSearch);
         addBtn.removeEventListener('click', onCustomAdd);
         closeBtn.removeEventListener('click', closeOverlay);
@@ -1363,8 +1515,7 @@ registerActions({
       overlay.addEventListener('click', function(e) { if (e.target === overlay) closeOverlay(); });
 
       renderList('');
-      overlay.style.display = 'flex';
-      document.body.style.overflow = 'hidden';
+      NebUI.open(overlay);
       setTimeout(function() { searchInput.focus(); }, 50);
     }
 
@@ -1423,6 +1574,49 @@ registerActions({
 })();
 </script>
 <script nonce="{{ csp_nonce }}">
+/* ── Date of birth ──────────────────────────────────────────────────────────
+   The wheel commits on Set date, not on every scroll: it emits a value each
+   time a column settles, and wiring that straight to the field would make
+   Cancel a lie. The display shows the date the way the app writes it. */
+(function() {
+  var trigger = document.getElementById('dob-trigger');
+  var display = document.getElementById('dob-display');
+  var field = document.getElementById('dob');
+  var wheel = document.getElementById('dob-wheel');
+  var confirm = document.getElementById('dob-confirm');
+  var sheet = document.getElementById('dob-sheet');
+  if (!trigger || !wheel || !confirm || !sheet) return;
+
+  var MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+  function pretty(iso) {
+    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || '');
+    if (!m) return '';
+    return parseInt(m[3], 10) + ' ' + MONTHS[parseInt(m[2], 10) - 1] + ' ' + m[1];
+  }
+
+  /* Reopening has to show the date that is in the field, not wherever the
+     wheel was left last time it was cancelled. */
+  sheet.addEventListener('neb:open', function() {
+    var handle = window.NebUI && NebUI.wheel(wheel);
+    if (handle && field.value) handle.set(field.value);
+  });
+
+  confirm.addEventListener('click', function() {
+    var iso = wheel.dataset.value || '';
+    if (iso) {
+      field.value = iso;
+      display.textContent = pretty(iso);
+      display.classList.remove('neb-field-trigger-placeholder');
+      field.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+    NebUI.close(sheet);
+  });
+
+  if (field.value) display.textContent = pretty(field.value) || field.value;
+})();
+
 /* ── The strength meter ─────────────────────────────────────────────────────
    The same ten criteria the app's profileStrength() counts, recomputed on
    every edit so the number answers "is anything left" without the user having
