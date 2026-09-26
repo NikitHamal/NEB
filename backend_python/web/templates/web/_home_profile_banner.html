@@ -1,0 +1,25 @@
+{# ── "Make NEBians yours" ──────────────────────────────────────────────────
+   Shown until the profile has a name and a gender. Lifted out of home.html
+   along with the style block it carried, which is why the rules below are now
+   in pages/web-home.css with the rest of the page's. #}
+<div class="profile-complete-banner" id="pcBanner">
+  <span class="material-symbols-outlined pc-icon">badge</span>
+  <div class="pc-text">
+    <strong>Make NEBians yours</strong>
+    <span>Add your name and gender so teachers and classmates can recognise you.</span>
+  </div>
+  <a class="pc-link" href="{% url 'web:edit_profile' %}" rel="nofollow">Complete profile</a>
+  <button type="button" class="pc-later" id="pcLater">I'll do it later</button>
+</div>
+<script nonce="{{ csp_nonce }}">
+  (function(){
+    var b=document.getElementById('pcBanner');
+    if(!b)return;
+    try{ if(localStorage.getItem('neb_profile_prompt')==='later'){b.remove();return;} }catch(e){}
+    var later=document.getElementById('pcLater');
+    if(later)later.addEventListener('click',function(){
+      try{localStorage.setItem('neb_profile_prompt','later');}catch(e){}
+      b.remove();
+    });
+  })();
+</script>
