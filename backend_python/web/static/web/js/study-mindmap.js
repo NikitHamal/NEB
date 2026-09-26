@@ -514,12 +514,72 @@
     render(el, map || el.__mmMap || {}, state);
   }
 
-  function exportStyles(theme) {
-    var dark = theme === 'dark';
-    if (dark) {
-      return '.sl-mm-svg{background:#0f1724}.sl-mm-e{fill:none;stroke:#818cf8;stroke-width:2.45;stroke-linecap:round;opacity:.86}.sl-mm-e-d2,.sl-mm-e-d4{stroke:#2dd4bf}.sl-mm-e-d3{stroke:#60a5fa}.sl-mm-nr{stroke-width:1.2}.sl-mm-root .sl-mm-nr{fill:#4a4bb6;stroke:#6670e8}.sl-mm-d1 .sl-mm-nr{fill:#335a9a;stroke:#4f78ba}.sl-mm-d2 .sl-mm-nr,.sl-mm-d3 .sl-mm-nr,.sl-mm-d4 .sl-mm-nr{fill:#1f7b73;stroke:#34b7aa}.sl-mm-t{fill:#ecfeff;font-family:Poppins,system-ui,sans-serif;font-size:15.5px;font-weight:500;letter-spacing:-0.015em}.sl-mm-nt{fill:#99f6e4;font-family:Poppins,system-ui,sans-serif;font-size:11.5px;font-weight:500}.sl-mm-d1 .sl-mm-nt{fill:#bfdbfe}.sl-mm-root .sl-mm-t{fill:#eef2ff}.sl-mm-root .sl-mm-nt{fill:#c7d2fe}.sl-mm-indicator{fill:#2563eb;stroke:#0b1120;stroke-width:2.5}.sl-mm-indicator-d2,.sl-mm-indicator-d3,.sl-mm-indicator-d4{fill:#0d9488}.sl-mm-indicator-text{fill:#ecfeff;font-family:system-ui,sans-serif;font-size:17px;font-weight:800}.sl-mm-toggle-hit{fill:transparent;stroke:none}';
+  /* An exported SVG is a standalone document -- there is no page under it to
+     take --md-* or --neb-accent-* from -- so the diagram's colours have to be
+     resolved to plain values on the way out. A probe inside the live page is
+     what does that: getComputedStyle turns each color-mix() into an rgb().
+     The stylesheet stays the single source of these colours that way, rather
+     than the second hand-maintained copy that used to live here and drift. */
+  var MM_EXPORT_DERIVED = ['fill', 'line', 'note', 'edge', 'pip'];
+  var MM_EXPORT_ACCENTS = {
+    root: '--neb-accent-violet',
+    brand: '--neb-accent-brand',
+    teal: '--neb-accent-teal'
+  };
+
+  function resolvePalette(host) {
+    var probe = document.createElement('span');
+    probe.className = 'sl-mm-n';
+    probe.style.cssText = 'position:absolute;width:0;height:0;opacity:0;pointer-events:none';
+    (host || document.body).appendChild(probe);
+    /* Chromium hands back color(srgb ...) for anything it resolved from a
+       color-mix(), which a browser understands but an SVG opened in a vector
+       editor may not. Exports should stay readable everywhere, so normalise
+       to rgb() on the way out. */
+    function read(expr) {
+      probe.style.color = '';
+      probe.style.color = expr;
+      var value = window.getComputedStyle(probe).color;
+      var srgb = /^color\(srgb ([\d.]+) ([\d.]+) ([\d.]+)\s*\)$/.exec(value);
+      if (!srgb) return value;
+      function byte(part) {
+        return Math.max(0, Math.min(255, Math.round(parseFloat(part) * 255)));
+      }
+      return 'rgb(' + byte(srgb[1]) + ',' + byte(srgb[2]) + ',' + byte(srgb[3]) + ')';
     }
-    return '.sl-mm-svg{background:#f7f8fc}.sl-mm-e{fill:none;stroke:#7284ff;stroke-width:2.45;stroke-linecap:round;opacity:.92}.sl-mm-e-d2,.sl-mm-e-d4{stroke:#5acfc3}.sl-mm-e-d3{stroke:#5aa8ff}.sl-mm-nr{stroke-width:1.2}.sl-mm-root .sl-mm-nr{fill:#cfd6ff;stroke:#b3befd}.sl-mm-d1 .sl-mm-nr{fill:#c4d8f3;stroke:#c4d8f3}.sl-mm-d2 .sl-mm-nr,.sl-mm-d3 .sl-mm-nr,.sl-mm-d4 .sl-mm-nr{fill:#9fd8cf;stroke:#9fd8cf}.sl-mm-t{fill:#0f172a;font-family:Poppins,system-ui,sans-serif;font-size:15.5px;font-weight:500;letter-spacing:-0.015em}.sl-mm-nt{fill:#047d73;font-family:Poppins,system-ui,sans-serif;font-size:11.5px;font-weight:500}.sl-mm-d1 .sl-mm-nt{fill:#2563eb}.sl-mm-root .sl-mm-t{fill:#111827}.sl-mm-root .sl-mm-nt{fill:#4f46e5}.sl-mm-indicator{fill:#d7e6ff;stroke:#ffffff;stroke-width:2.5}.sl-mm-indicator-d2,.sl-mm-indicator-d3,.sl-mm-indicator-d4{fill:#c1ebe6}.sl-mm-indicator-text{fill:#253069;font-family:system-ui,sans-serif;font-size:17px;font-weight:800}.sl-mm-toggle-hit{fill:transparent;stroke:none}';
+    var palette = { board: read('var(--md-surface)'), ink: read('var(--md-on-surface)') };
+    Object.keys(MM_EXPORT_ACCENTS).forEach(function (depth) {
+      probe.style.setProperty('--mm-accent', 'var(' + MM_EXPORT_ACCENTS[depth] + ')');
+      var set = {};
+      MM_EXPORT_DERIVED.forEach(function (key) { set[key] = read('var(--mm-' + key + ')'); });
+      palette[depth] = set;
+    });
+    probe.parentNode.removeChild(probe);
+    return palette;
+  }
+
+  function exportStyles(palette) {
+    var font = 'Poppins,system-ui,sans-serif';
+    function depthRules(selectors, set) {
+      function on(suffix) {
+        return selectors.map(function (sel) { return sel + ' ' + suffix; }).join(',');
+      }
+      return on('.sl-mm-nr') + '{fill:' + set.fill + ';stroke:' + set.line + '}' +
+        on('.sl-mm-nt') + '{fill:' + set.note + '}' +
+        on('.sl-mm-indicator') + '{fill:' + set.pip + '}';
+    }
+    return '.sl-mm-svg{background:' + palette.board + '}' +
+      '.sl-mm-e{fill:none;stroke:' + palette.brand.edge + ';stroke-width:2.45;stroke-linecap:round;opacity:.92}' +
+      '.sl-mm-e-d2,.sl-mm-e-d4{stroke:' + palette.teal.edge + '}' +
+      '.sl-mm-nr{stroke-width:1.2}' +
+      '.sl-mm-t{fill:' + palette.ink + ';font-family:' + font + ';font-size:15.5px;font-weight:500;letter-spacing:-0.015em}' +
+      '.sl-mm-nt{font-family:' + font + ';font-size:11.5px;font-weight:500}' +
+      '.sl-mm-indicator{stroke:' + palette.board + ';stroke-width:2.5}' +
+      '.sl-mm-indicator-text{fill:' + palette.ink + ';font-family:system-ui,sans-serif;font-size:17px;font-weight:800}' +
+      depthRules(['.sl-mm-d1', '.sl-mm-d3'], palette.brand) +
+      depthRules(['.sl-mm-d2', '.sl-mm-d4'], palette.teal) +
+      depthRules(['.sl-mm-root'], palette.root) +
+      '.sl-mm-toggle-hit{fill:transparent;stroke:none}';
   }
 
   function svgMetrics(svg) {
@@ -534,14 +594,14 @@
     return { w: Math.ceil(w), h: Math.ceil(h) };
   }
 
-  function buildExportSvg(svg, theme) {
+  function buildExportSvg(svg, palette) {
     var size = svgMetrics(svg);
     var clone = svg.cloneNode(true);
     clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
     clone.setAttribute('width', size.w);
     clone.setAttribute('height', size.h);
     clone.setAttribute('viewBox', '0 0 ' + size.w + ' ' + size.h);
-    clone.setAttribute('style', 'background:' + (theme === 'dark' ? '#0f1724' : '#f7f8fc'));
+    clone.setAttribute('style', 'background:' + palette.board);
     clone.querySelectorAll('[tabindex],[role],[aria-label],[aria-expanded]').forEach(function (node) {
       node.removeAttribute('tabindex');
       node.removeAttribute('role');
@@ -551,13 +611,13 @@
 
     var ns = 'http://www.w3.org/2000/svg';
     var style = document.createElementNS(ns, 'style');
-    style.textContent = exportStyles(theme);
+    style.textContent = exportStyles(palette);
     var bg = document.createElementNS(ns, 'rect');
     bg.setAttribute('x', 0);
     bg.setAttribute('y', 0);
     bg.setAttribute('width', size.w);
     bg.setAttribute('height', size.h);
-    bg.setAttribute('fill', theme === 'dark' ? '#0f1724' : '#f7f8fc');
+    bg.setAttribute('fill', palette.board);
     clone.insertBefore(bg, clone.firstChild);
     clone.insertBefore(style, clone.firstChild);
     return { svg: clone, w: size.w, h: size.h };
@@ -566,8 +626,8 @@
   function downloadPng(el) {
     var svg = el && el.querySelector('.sl-mm-svg');
     if (!svg) return;
-    var theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
-    var exportSvg = buildExportSvg(svg, theme);
+    var palette = resolvePalette(el);
+    var exportSvg = buildExportSvg(svg, palette);
     var data = '<?xml version="1.0" encoding="UTF-8"?>\n' + new XMLSerializer().serializeToString(exportSvg.svg);
     var blob = new Blob([data], { type: 'image/svg+xml;charset=utf-8' });
     var url = URL.createObjectURL(blob);
@@ -579,7 +639,7 @@
       canvas.width = Math.ceil(exportSvg.w * scale);
       canvas.height = Math.ceil(exportSvg.h * scale);
       var ctx = canvas.getContext('2d');
-      ctx.fillStyle = theme === 'dark' ? '#0f1724' : '#f7f8fc';
+      ctx.fillStyle = palette.board;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.setTransform(scale, 0, 0, scale, 0, 0);
       ctx.drawImage(image, 0, 0, exportSvg.w, exportSvg.h);
