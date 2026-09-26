@@ -98,6 +98,11 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    # HTML was going out uncompressed. Our pages are template-heavy and
+    # compress 5-8x; on a mobile connection in Nepal that is most of the
+    # download. Django masks the CSRF token per response, so the usual BREACH
+    # objection to compressing authenticated HTML does not apply here.
+    'django.middleware.gzip.GZipMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
