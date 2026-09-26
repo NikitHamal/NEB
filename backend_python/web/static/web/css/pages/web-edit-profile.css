@@ -220,3 +220,280 @@ html[data-theme="dark"] .role-radio-card-explorer.role-radio-active {
 @media (max-width: 600px) {
   .subject-pick-dialog { max-width: 100%; margin: 8px; }
 }
+
+/* ── The editor shell ───────────────────────────────────────────────────────
+   Seven titled sections down one column, an identity block on top, and the
+   save docked to the bottom of the viewport. The sections are the structure:
+   before them the whole form was one card, and a reader part-way down it had
+   no way to tell what a field belonged to or how much was left. */
+.epf-page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 16px 0;
+}
+
+.epf-head { margin-bottom: 20px; }
+.epf-title {
+  margin: 0 0 4px;
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--md-on-surface);
+}
+.epf-subtitle {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: var(--md-on-surface-variant);
+}
+
+.epf-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding: 12px 16px;
+  border-radius: var(--md-radius-md, 16px);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.45;
+}
+.epf-note .material-symbols-outlined { font-size: 20px; flex: none; }
+.epf-note-info {
+  background: var(--md-primary-container);
+  color: var(--md-on-primary-container);
+}
+.epf-note-error {
+  background: var(--md-error-container);
+  color: var(--md-on-error-container);
+}
+
+/* ── Identity ───────────────────────────────────────────────────────────────
+   Avatar, name, and a meter over the ten things the app's profileStrength()
+   counts. The number is the point: it tells you whether there is anything
+   left to do without your having to scroll the form to find out. */
+.epf-identity {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 16px;
+  align-items: start;
+  padding: 18px;
+  margin-bottom: 24px;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-radius-lg, 20px);
+  background: var(--md-surface-container-low);
+}
+.epf-identity-avatar {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--md-surface-container-high);
+  border: 1px solid var(--md-outline-variant);
+}
+.epf-identity-initial {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--md-primary);
+  text-transform: uppercase;
+}
+.epf-identity-name {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--md-on-surface);
+  line-height: 1.25;
+}
+.epf-identity-handle {
+  font-size: 0.875rem;
+  color: var(--md-on-surface-variant);
+  margin-bottom: 10px;
+}
+.epf-identity-photo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+.epf-identity-photo .md-btn .material-symbols-outlined { font-size: 18px; }
+/* Off-screen rather than display:none, so the button can still open it. */
+.epf-file-input { position: absolute; width: 0; height: 0; opacity: 0; overflow: hidden; }
+
+/* The meter spans both columns: at this width a third one would leave the
+   track too short to read as a proportion. */
+.epf-strength { grid-column: 1 / -1; }
+.epf-strength-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.epf-strength-count {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--md-on-surface);
+  font-variant-numeric: tabular-nums;
+}
+.epf-strength-word {
+  font-size: 0.8125rem;
+  color: var(--md-on-surface-variant);
+}
+.epf-strength-track {
+  height: 6px;
+  border-radius: var(--md-shape-full, 999px);
+  background: var(--md-surface-container-highest);
+  overflow: hidden;
+}
+.epf-strength-fill {
+  height: 100%;
+  width: 0;
+  border-radius: inherit;
+  background: var(--md-primary);
+  transition: width 0.35s cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* ── Sections ───────────────────────────────────────────────────────────────
+   Each is its own surface with its own heading, which is what replaced the
+   single card. */
+.epf-section {
+  padding: 20px;
+  margin-bottom: 16px;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-radius-lg, 20px);
+  background: var(--md-surface-container-lowest);
+}
+.epf-section-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.epf-section-head .md-btn { flex: none; }
+.epf-section-title {
+  margin: 0 0 2px;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--md-on-surface);
+}
+.epf-section-note {
+  margin: 0 0 16px;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--md-on-surface-variant);
+}
+.epf-section .form-group:last-child { margin-bottom: 0; }
+
+.epf-hint {
+  font-size: 0.8125rem;
+  color: var(--md-on-surface-variant);
+  line-height: 1.45;
+}
+.epf-hint-block { display: block; margin: 0; }
+
+/* Wraps into as many columns as fit rather than into a ragged inline flow. */
+.epf-role-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 8px;
+}
+.epf-role-grid .role-radio-card { justify-content: center; }
+
+.epf-links-list { display: flex; flex-direction: column; gap: 8px; }
+.epf-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 28px 16px;
+  color: var(--md-on-surface-variant);
+  font-size: 0.875rem;
+  text-align: center;
+}
+.epf-empty .material-symbols-outlined { font-size: 32px; opacity: 0.4; }
+
+.epf-switch-row { display: flex; align-items: flex-start; gap: 14px; }
+.epf-switch-row .md-switch { flex: none; margin-top: 2px; }
+.epf-switch-text { min-width: 0; }
+.epf-switch-label {
+  display: block;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--md-on-surface);
+  cursor: pointer;
+  margin-bottom: 2px;
+}
+
+/* ── The dock ───────────────────────────────────────────────────────────────
+   Sticky, not fixed: it rides the bottom of the viewport while there is form
+   left to scroll and then settles at the end of it. The app docks its save the
+   same way, above the keyboard rather than at the foot of the scroll. */
+.epf-dock {
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin: 0 -16px;
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--md-outline-variant);
+  background: var(--md-surface);
+}
+.epf-save { min-width: 148px; justify-content: center; }
+
+/* ── Pickers ────────────────────────────────────────────────────────────────
+   A hidden input with a tappable row in front of it, used wherever the choice
+   comes out of a dialog rather than a native select. */
+.md-input-picker {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 14px;
+  box-sizing: border-box;
+  border: 1px solid var(--md-outline, #79747e);
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 0.9375rem;
+  background: var(--md-surface-container-lowest, #fff);
+  color: var(--md-on-surface, #1d1b20);
+  cursor: pointer;
+  user-select: none;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+.md-input-picker:hover {
+  border-color: var(--md-primary, #005FAF);
+  background-color: rgba(var(--md-primary-rgb, 0, 95, 175), 0.04);
+}
+.subject-pick-item.active {
+  background: rgba(var(--md-primary-rgb, 0, 95, 175), 0.12) !important;
+}
+.subject-pick-item-single {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.subject-pick-item-single:hover {
+  background: rgba(var(--md-primary-rgb, 0, 95, 175), 0.08);
+}
+
+@media (max-width: 700px) {
+  .epf-page { padding: 16px 12px 0; }
+  .epf-title { font-size: 1.5rem; }
+  .epf-identity { grid-template-columns: 1fr; justify-items: start; padding: 16px; }
+  .epf-identity-avatar { width: 72px; height: 72px; }
+  .epf-identity-initial { font-size: 1.75rem; }
+  .epf-section { padding: 16px; }
+  .epf-dock { margin: 0 -12px; padding-left: 12px; padding-right: 12px; }
+  .epf-dock .md-btn { flex: 1; justify-content: center; }
+  .epf-save { min-width: 0; }
+}
