@@ -280,11 +280,13 @@
             </div>
           </div>
           <div class="ss-learning-loading" id="ssLearningLoading" style="display:none;">
-            <div class="ss-loading-skeleton ss-loading-skeleton-full"></div>
-            <div class="ss-loading-skeleton ss-loading-skeleton-full"></div>
-            <div class="ss-loading-skeleton ss-loading-skeleton-half"></div>
-            <div class="ss-loading-skeleton ss-loading-skeleton-full"></div>
-            <div class="ss-loading-skeleton ss-loading-skeleton-half"></div>
+            {% comment %} The site's skeleton, the same one base.html shows
+            while a lazy section loads. {% endcomment %}
+            <div class="shimmer shimmer-text"></div>
+            <div class="shimmer shimmer-text"></div>
+            <div class="shimmer shimmer-text-short"></div>
+            <div class="shimmer shimmer-text"></div>
+            <div class="shimmer shimmer-text-short"></div>
             <div style="text-align:center; margin-top:12px;"><span class="ss-text-xs">Planning your study path&hellip;</span></div>
           </div>
           <div class="ss-learning-plan" id="ssLearningPlan" style="display:none;"></div>
