@@ -106,11 +106,14 @@
   justify-content: flex-end;
   margin-bottom: 12px;
 }
+/* The frame and the furniture around the diagram follow the theme; the nodes
+   and edges below do not, because those colours carry depth and are read as a
+   diagram rather than as chrome. */
 .sl-mindmap-stage {
   margin-top: 10px;
-  border: 1px solid #dfe7f5;
-  border-radius: 18px;
-  background: #fbfcff;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-shape-lg);
+  background: var(--md-surface-container-lowest);
   overflow: hidden;
   position: relative;
 }
@@ -125,9 +128,13 @@
   cursor: grab;
   overscroll-behavior: contain;
   scrollbar-width: thin;
-  scrollbar-color: rgba(99, 102, 241, 0.28) transparent;
-  background: radial-gradient(circle at 22px 22px, rgba(99, 102, 241, 0.055) 1px, transparent 1.1px) 0 0 / 44px 44px,
-    linear-gradient(180deg, #fcfdff 0%, #ffffff 100%);
+  scrollbar-color: color-mix(in srgb, var(--md-outline) 55%, transparent) transparent;
+  /* One dot grid for both themes: a wash of the theme's own ink, which is dark
+     dots on a light board and light dots on a dark one. It was two hand-tuned
+     grids at different spacings before, so panning felt slightly different
+     depending on the theme. */
+  background: radial-gradient(circle at 22px 22px, color-mix(in srgb, var(--md-on-surface) 7%, transparent) 1px, transparent 1.1px) 0 0 / 44px 44px,
+    var(--md-surface);
 }
 .sl-mm-wrap::-webkit-scrollbar {
   width: 7px;
@@ -135,10 +142,10 @@
 }
 .sl-mm-wrap::-webkit-scrollbar-track { background: transparent; }
 .sl-mm-wrap::-webkit-scrollbar-thumb {
-  background: rgba(99, 102, 241, 0.24);
-  border-radius: 999px;
+  background: color-mix(in srgb, var(--md-outline) 55%, transparent);
+  border-radius: var(--md-shape-full);
 }
-.sl-mm-wrap::-webkit-scrollbar-thumb:hover { background: rgba(99, 102, 241, 0.38); }
+.sl-mm-wrap::-webkit-scrollbar-thumb:hover { background: color-mix(in srgb, var(--md-outline) 85%, transparent); }
 .sl-mm-wrap.sl-mm-grabbing {
   cursor: grabbing;
   user-select: none;
@@ -182,9 +189,9 @@
   flex-direction: column;
   gap: 2px;
   z-index: 5;
-  background: rgba(255, 255, 255, 0.94);
-  border: 1px solid #dbe3f0;
-  border-radius: 18px;
+  background: color-mix(in srgb, var(--md-surface-container) 94%, transparent);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-shape-lg);
   padding: 6px;
   backdrop-filter: blur(10px);
 }
@@ -192,9 +199,9 @@
   width: 38px;
   height: 38px;
   border: 0;
-  border-radius: 12px;
+  border-radius: var(--md-shape-sm);
   background: transparent;
-  color: #475569;
+  color: var(--md-on-surface-variant);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -202,8 +209,8 @@
   transition: background 140ms ease, color 140ms ease;
 }
 .sl-mm-zb:hover {
-  background: #f1f5ff;
-  color: #334155;
+  background: var(--md-surface-container-high);
+  color: var(--md-on-surface);
 }
 .sl-mm-zb .material-symbols-outlined { font-size: 20px; }
 .sl-mm-e {
@@ -301,27 +308,9 @@
     animation: none;
   }
 }
-[data-theme="dark"] .sl-mindmap-stage {
-  background: #0d1320;
-  border-color: #263245;
-}
-[data-theme="dark"] .sl-mm-wrap {
-  background:
-    radial-gradient(circle at 20px 20px, rgba(148, 163, 184, 0.11) 1px, transparent 1.1px) 0 0 / 40px 40px,
-    #0f1724;
-  scrollbar-color: rgba(129, 140, 248, 0.28) transparent;
-}
-[data-theme="dark"] .sl-mm-wrap::-webkit-scrollbar-thumb { background: rgba(129, 140, 248, 0.35); }
-[data-theme="dark"] .sl-mm-zoom-bar {
-  background: rgba(15, 23, 42, 0.94);
-  border-color: #334155;
-  box-shadow: none;
-}
-[data-theme="dark"] .sl-mm-zb { color: #cbd5e1; }
-[data-theme="dark"] .sl-mm-zb:hover {
-  background: #162133;
-  color: #e2e8f0;
-}
+/* Six rules restating the chrome in a second set of slates lived here. The
+   chrome is on the tokens now, so the dark theme has nothing left to say about
+   it; what follows is the diagram, which does still need a dark set. */
 [data-theme="dark"] .sl-mm-e { stroke: #818cf8; opacity: 0.86; }
 [data-theme="dark"] .sl-mm-e-d2,
 [data-theme="dark"] .sl-mm-e-d4 { stroke: #2dd4bf; }
@@ -368,7 +357,7 @@
   .sl-mm-zoom-bar {
     right: 8px;
     bottom: 8px;
-    border-radius: 16px;
+    border-radius: var(--md-shape-md);
     padding: 4px;
     flex-direction: row;
     gap: 2px;
@@ -376,7 +365,7 @@
   .sl-mm-zb {
     width: 40px;
     height: 40px;
-    border-radius: 10px;
+    border-radius: var(--md-shape-sm);
   }
   .sl-mm-zb .material-symbols-outlined { font-size: 22px; }
 }
