@@ -5,6 +5,10 @@
   --nmp-fg: var(--md-on-surface);
   --nmp-muted: var(--md-on-surface-variant);
   --nmp-surface: var(--md-surface-container-lowest);
+  /* The chrome around the picture -- header, controls, the shell itself --
+     rides on these two, so the dark theme only has to restate the two rather
+     than restate every rule that reads them. */
+  --nmp-header-surface: color-mix(in srgb, var(--nmp-accent) 4%, var(--nmp-surface));
   --nmp-track: var(--md-surface-container-high);
   --nmp-radius: var(--md-radius-md, 12px);
   position: relative;
@@ -29,7 +33,7 @@
   gap: 12px;
   padding: 12px 16px;
   border-bottom: 1px solid var(--md-outline-variant);
-  background: color-mix(in srgb, var(--nmp-accent) 4%, var(--nmp-surface));
+  background: var(--nmp-header-surface);
 }
 
 .nmp-header-left {
@@ -891,15 +895,13 @@
   }
 }
 
-/* Dark theme polish */
+/* Dark theme polish. Lowest is nearly black, and a player shell that dark
+   reads as part of the picture rather than as chrome around it, so the shell
+   comes up one step and the accent in the header goes twice as strong to stay
+   visible against it. Two variables now, and .nmp, .nmp-header and
+   .nmp-controls follow on their own; each of the three was restated here by
+   hand before, so a change to the light surface had to be made twice. */
 [data-theme="dark"] .nmp {
-  background: var(--md-surface-container-low);
-}
-
-[data-theme="dark"] .nmp-header {
-  background: color-mix(in srgb, var(--nmp-accent) 8%, var(--md-surface-container-low));
-}
-
-[data-theme="dark"] .nmp-controls {
-  background: var(--md-surface-container-low);
+  --nmp-surface: var(--md-surface-container-low);
+  --nmp-header-surface: color-mix(in srgb, var(--nmp-accent) 8%, var(--nmp-surface));
 }
