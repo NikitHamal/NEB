@@ -4,6 +4,9 @@
    Replaces the former ~730-line inline <style> in study_space.html
    ============================================================ */
 
+/* The dialog lives in material3/09-overlays.css. This page used to carry
+   its own copy, which is how five pages ended up with five different
+   radii and three theme-blind scrims. */
 .site-main {
   min-height: 100vh;
   padding-top: 0;
@@ -650,49 +653,6 @@
 }
 
 /* ── Modals ── */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 18px;
-  background: rgba(15, 23, 42, 0.38);
-  z-index: 1200;
-}
-.modal-overlay.active { display: flex; }
-.modal-box {
-  width: min(100%, 520px);
-  max-height: min(88vh, 680px);
-  overflow: hidden;
-  border: 1px solid var(--md-outline-variant);
-  border-radius: 20px;
-  background: var(--md-surface-container-lowest);
-  box-shadow: 0 8px 28px rgba(15, 23, 42, 0.14);
-}
-.modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 14px 16px;
-  border-bottom: 1px solid var(--md-outline-variant);
-}
-.modal-title { margin: 0; font-size: 1rem; font-weight: 600; }
-.modal-body { padding: 14px 16px 16px; overflow: auto; max-height: calc(88vh - 60px); }
-.modal-close {
-  border: 0;
-  background: transparent;
-  border-radius: 999px;
-  width: 34px;
-  height: 34px;
-  display: inline-grid;
-  place-items: center;
-  color: var(--md-on-surface-variant);
-  cursor: pointer;
-}
-.modal-close:hover { background: var(--md-surface-container); color: var(--md-on-surface); }
-.modal-footer { display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px; }
 
 /* ── Share modal ── */
 .sl-share-options { display: flex; flex-direction: column; gap: 8px; }
@@ -930,7 +890,7 @@
   color: var(--md-on-surface-variant); margin-bottom: 4px; letter-spacing: 0.02em;
 }
 .ss-settings-body { display: flex; flex-direction: column; padding: 0 !important; overflow: hidden !important; }
-#ssSettingsModal .modal-box { display: flex; flex-direction: column; }
+
 .ss-settings-scroll { flex: 1; overflow-y: auto; padding: 20px; overscroll-behavior: contain; }
 .ss-settings-footer {
   display: flex; justify-content: flex-end; gap: 8px;
@@ -1065,7 +1025,7 @@
 }
 
 @media (max-width: 600px) {
-  .modal-box { width: 95%; border-radius: 16px; }
+  
   .ss-page { padding: 0 8px 8px; }
   .ss-summary-text { font-size: 0.9rem; }
   .sl-quiz-nav { flex-wrap: wrap; }

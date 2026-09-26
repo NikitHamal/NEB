@@ -1,3 +1,6 @@
+/* The dialog lives in material3/09-overlays.css. This page used to carry
+   its own copy, which is how five pages ended up with five different
+   radii and three theme-blind scrims. */
 .fp-back{display:inline-flex;align-items:center;gap:6px;padding:4px 0;color:var(--md-on-surface-variant);font-size:0.875rem;font-weight:500;text-decoration:none;transition:color .15s;margin-bottom:16px}
   .fp-back:hover{color:var(--md-primary)}
 
@@ -108,10 +111,10 @@
   .fp-empty{text-align:center;padding:48px 24px;color:var(--md-on-surface-variant)}
   .fp-empty .material-symbols-outlined{font-size:48px;opacity:.4;margin-bottom:8px}
 
-  .modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:1000}
-  .modal-overlay.active{display:flex}
-  .modal-box{background:var(--md-surface);border:1px solid var(--md-outline-variant);border-radius:20px;width:90%;max-width:520px;max-height:80vh;overflow-y:auto;padding:24px}
-  .modal-box h3{margin:0 0 16px}
+  
+  
+  
+  
   .edit-form textarea,.edit-form input[type="text"]{width:100%;padding:10px 14px;border:1px solid var(--md-outline);border-radius:12px;font-family:inherit;font-size:.9375rem;background:var(--md-surface-container-lowest);color:var(--md-on-surface);outline:none;margin-bottom:12px}
   .edit-form textarea:focus,.edit-form input[type="text"]:focus{border-color:var(--md-primary)}
   .edit-form label{display:block;font-size:.8125rem;font-weight:600;color:var(--md-on-surface-variant);margin-bottom:4px}

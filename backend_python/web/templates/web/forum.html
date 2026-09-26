@@ -139,46 +139,6 @@
   <span class="material-symbols-outlined">add</span>
 </a>
 
-<!-- M3 Leaderboard Modal -->
-<div class="m3-modal-overlay" id="leaderboardModal" data-action="close-leaderboard-modal">
-  <div class="m3-modal-box" data-action="stop-propagation">
-    <div class="m3-modal-header">
-      <div class="m3-modal-title">
-        <span class="material-symbols-outlined" style="color: var(--md-primary); font-size: 28px;">emoji_events</span>
-        Leaderboard
-      </div>
-      <button class="m3-modal-close-btn" data-action="close-leaderboard-modal-btn">
-        <span class="material-symbols-outlined">close</span>
-      </button>
-    </div>
-    <div class="leaderboard-table-container">
-      {% for contributor in all_contributors %}
-      <a href="{% url 'web:profile' username=contributor.username %}" class="leaderboard-row" style="text-decoration:none;color:inherit;">
-        <div class="leaderboard-rank-profile">
-          <span class="leaderboard-rank-number {% if forloop.counter == 1 %}rank-1{% elif forloop.counter == 2 %}rank-2{% elif forloop.counter == 3 %}rank-3{% endif %}">
-            {{ forloop.counter }}
-          </span>
-          <div class="contributor-profile-wrapper">
-            <div class="contributor-avatar-container" style="width: 36px; height: 36px;">
-              {% if contributor.photo_url %}
-              <img src="{{ contributor.photo_url }}" alt="{{ contributor.display_name }}" data-fallback="inline-flex">
-              <span class="contributor-avatar-letter" style="font-size: 0.9375rem; display:none;">{{ contributor.display_name|truncate_chars:1 }}</span>
-              {% else %}
-              <span class="contributor-avatar-letter" style="font-size: 0.9375rem;">{{ contributor.display_name|truncate_chars:1 }}</span>
-              {% endif %}
-            </div>
-            <div class="contributor-meta-data">
-              <span class="contributor-username-text" style="font-size: 0.875rem;">{{ contributor.username }}{% if contributor.badgeInfo %}<span class="role-badge role-badge-{{ contributor.badgeInfo.type }}" title="{{ contributor.badgeInfo.label }}"><span class="material-symbols-outlined">{{ contributor.badgeInfo.icon }}</span></span>{% endif %}</span>
-              <span class="contributor-level-text" style="font-size: 0.7188rem;">{{ contributor.level }}</span>
-            </div>
-          </div>
-        </div>
-        <span class="contributor-score-text" style="font-size: 0.875rem;">{{ contributor.formatted_score }}</span>
-      </a>
-      {% endfor %}
-    </div>
-  </div>
-</div>
 {% endblock %}
 
 {% block extra_js %}
@@ -269,27 +229,6 @@ async function toggleFollowBtn(btn, userId) {
   } catch(e) { btn.disabled = false; showSnackbar('Error updating follow.'); }
 }
 
-function toggleMoreMenu(menuId, btn) {
-  var menu = document.getElementById(menuId);
-  if (!menu) return;
-  var isOpen = menu.style.display !== 'none';
-  closeAllMenus();
-  if (!isOpen) {
-    menu.style.display = 'block';
-    var handler = function(e) {
-      if (!menu.contains(e.target) && e.target !== btn && !btn.contains(e.target)) {
-        closeAllMenus();
-        document.removeEventListener('click', handler, true);
-      }
-    };
-    setTimeout(function() { document.addEventListener('click', handler, true); }, 0);
-  }
-}
-
-function closeAllMenus() {
-  document.querySelectorAll('.more-menu').forEach(function(m) { m.style.display = 'none'; });
-}
-
 async function toggleBookmark(targetType, targetId, btnEl) {
   if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
   try {
@@ -328,16 +267,8 @@ function sharePostUrl(path) {
 function reportContent(targetType, targetId) {
   if (window.openReportDialog) window.openReportDialog(targetType, targetId);
 }
-function closeLeaderboardModal(e) {
-    if (e && e.target !== document.getElementById('leaderboardModal')) return;
-    var modal = document.getElementById('leaderboardModal');
-    if (modal) modal.classList.remove('open');
-  }
 
   registerActions({
-    'close-leaderboard-modal': function(el, e) { closeLeaderboardModal(e); },
-    'close-leaderboard-modal-btn': function() { closeLeaderboardModal(); },
-    'stop-propagation': function(el, e) { e.stopPropagation(); },
     'toggle-forum-post-like': function(el, e) {
       if (e) e.stopPropagation();
       toggleForumPostLike(el.dataset.postId, el);

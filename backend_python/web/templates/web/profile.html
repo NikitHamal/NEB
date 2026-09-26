@@ -1691,10 +1691,6 @@ async function rejectFollowRequest(reqId, btn) {
   }
 }
 
-function closeAllMenus() {
-  document.querySelectorAll('.more-menu').forEach(function(m) { m.style.display = 'none'; });
-}
-
 registerActions({
   'accept-request': function(el) { acceptFollowRequest(el.dataset.requestId, el); },
   'reject-request': function(el) { rejectFollowRequest(el.dataset.requestId, el); },
@@ -1729,18 +1725,7 @@ registerActions({
     var menuId = el.dataset.menuId;
     var menu = document.getElementById(menuId);
     if (!menu) return;
-    var isOpen = menu.style.display !== 'none';
-    closeAllMenus();
-    if (!isOpen) {
-      menu.style.display = 'block';
-      var handler = function(e) {
-        if (!menu.contains(e.target) && e.target !== el && !el.contains(e.target)) {
-          closeAllMenus();
-          document.removeEventListener('click', handler, true);
-        }
-      };
-      setTimeout(function() { document.addEventListener('click', handler, true); }, 0);
-    }
+    toggleMoreMenu(menu, el);
   },
   'share-resource-url': function(el) {
     closeAllMenus();
