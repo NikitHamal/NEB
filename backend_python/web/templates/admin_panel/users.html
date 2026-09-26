@@ -24,24 +24,24 @@
   </div>
 </div>
 
-<div class="admin-filter-tabs" role="tablist" aria-label="Filter users by role">
-  <a href="{% url 'web:admin_users' %}{% if search %}?q={{ search }}{% endif %}" class="{% if not role_filter %}active{% endif %}">All</a>
-  <a href="{% url 'web:admin_users' %}?role=teacher{% if search %}&q={{ search }}{% endif %}" class="{% if role_filter == 'teacher' %}active{% endif %}">
+<div class="admin-filter-tabs" role="navigation" aria-label="Filter users by role">
+  <a href="{% url 'web:admin_users' %}{% if search %}?q={{ search }}{% endif %}" class="{% if not role_filter %}active{% endif %}" {% if not role_filter %}aria-current="page"{% endif %}>All</a>
+  <a href="{% url 'web:admin_users' %}?role=teacher{% if search %}&q={{ search }}{% endif %}" class="{% if role_filter == 'teacher' %}active{% endif %}" {% if role_filter == 'teacher' %}aria-current="page"{% endif %}>
     <span class="material-symbols-outlined">school</span> Teachers
   </a>
-  <a href="{% url 'web:admin_users' %}?role=institution{% if search %}&q={{ search }}{% endif %}" class="{% if role_filter == 'institution' %}active{% endif %}">
+  <a href="{% url 'web:admin_users' %}?role=institution{% if search %}&q={{ search }}{% endif %}" class="{% if role_filter == 'institution' %}active{% endif %}" {% if role_filter == 'institution' %}aria-current="page"{% endif %}>
     <span class="material-symbols-outlined">account_balance</span> Institutions
   </a>
-  <a href="{% url 'web:admin_users' %}?role=student{% if search %}&q={{ search }}{% endif %}" class="{% if role_filter == 'student' %}active{% endif %}">
+  <a href="{% url 'web:admin_users' %}?role=student{% if search %}&q={{ search }}{% endif %}" class="{% if role_filter == 'student' %}active{% endif %}" {% if role_filter == 'student' %}aria-current="page"{% endif %}>
     <span class="material-symbols-outlined">backpack</span> Students
   </a>
-  <a href="{% url 'web:admin_users' %}?role=explorer{% if search %}&q={{ search }}{% endif %}" class="{% if role_filter == 'explorer' %}active{% endif %}">
+  <a href="{% url 'web:admin_users' %}?role=explorer{% if search %}&q={{ search }}{% endif %}" class="{% if role_filter == 'explorer' %}active{% endif %}" {% if role_filter == 'explorer' %}aria-current="page"{% endif %}>
     <span class="material-symbols-outlined">travel_explore</span> Explorers
   </a>
-  <a href="{% url 'web:admin_users' %}?role=teacher_verified{% if search %}&q={{ search }}{% endif %}" class="{% if role_filter == 'teacher_verified' %}active{% endif %}">
+  <a href="{% url 'web:admin_users' %}?role=teacher_verified{% if search %}&q={{ search }}{% endif %}" class="{% if role_filter == 'teacher_verified' %}active{% endif %}" {% if role_filter == 'teacher_verified' %}aria-current="page"{% endif %}>
     <span class="material-symbols-outlined">verified</span> Verified teachers
   </a>
-  <a href="{% url 'web:admin_users' %}?role=institution_verified{% if search %}&q={{ search }}{% endif %}" class="{% if role_filter == 'institution_verified' %}active{% endif %}">
+  <a href="{% url 'web:admin_users' %}?role=institution_verified{% if search %}&q={{ search }}{% endif %}" class="{% if role_filter == 'institution_verified' %}active{% endif %}" {% if role_filter == 'institution_verified' %}aria-current="page"{% endif %}>
     <span class="material-symbols-outlined">verified</span> Verified institutions
   </a>
 </div>
