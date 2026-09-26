@@ -1,9 +1,47 @@
 /* ──────────────────────────────────────────────────────────────────
-   Login revamp — split-screen brand panel + form panel
-   Clean professional two-column layout, inspired by modern SaaS.
+   Login — a brand panel and a form panel, side by side on a desktop.
+
+   Every surface on the page sits one step higher in dark theme than in
+   light, and every shadow sits far stronger. That was six rules under
+   [data-theme="dark"], each restating a surface token, plus six shadow
+   literals written twice. It is five variables now: the dark block
+   below restates those and every rule in the file reads them, so a
+   surface here is declared once and the dark theme answers once.
    ────────────────────────────────────────────────────────────────── */
 
+/* Page-level, so it is scoped to the body class login.html sets rather
+   than leaking out of app.css onto every page. These three lived in an
+   inline <style> in the template; the component rules that lived with
+   them are at the foot of this file. */
+body.auth-page {
+  background: linear-gradient(135deg, var(--md-n96) 0%, var(--md-n92) 100%) !important;
+  background-attachment: fixed !important;
+}
+[data-theme="dark"] body.auth-page {
+  background: linear-gradient(135deg, var(--md-n3) 0%, var(--md-n8) 100%) !important;
+}
+body.auth-page main,
+body.auth-page .site-main {
+  padding: 0 !important;
+  max-width: none !important;
+}
+/* The topbar keeps its menu, but not the two actions that would send a
+   visitor who is already signing in back to where they are, nor the
+   search they cannot use yet. */
+body.auth-page .md-topbar-actions .md-btn[aria-label="Sign in"],
+body.auth-page .md-topbar-actions .md-btn[aria-label="Register"],
+body.auth-page .md-topbar-actions .md-btn-icon[aria-label="Search"] {
+  display: none !important;
+}
+
 .auth-shell {
+  /* The card, the form panel, the inputs and the two button families
+     all read these. */
+  --auth-surface: var(--md-surface-container-lowest);
+  --auth-field: var(--md-surface-container-lowest);
+  --auth-field-hover: var(--md-surface-container-low);
+  --auth-shadow-soft: color-mix(in srgb, var(--md-scrim) 4%, transparent);
+  --auth-shadow: color-mix(in srgb, var(--md-scrim) 6%, transparent);
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -13,6 +51,11 @@
 }
 
 [data-theme="dark"] .auth-shell {
+  --auth-surface: var(--md-surface-container-low);
+  --auth-field: var(--md-surface-container);
+  --auth-field-hover: var(--md-surface-container-high);
+  --auth-shadow-soft: color-mix(in srgb, var(--md-scrim) 30%, transparent);
+  --auth-shadow: color-mix(in srgb, var(--md-scrim) 40%, transparent);
   background: linear-gradient(135deg, var(--md-n3) 0%, var(--md-n8) 100%);
 }
 
@@ -21,22 +64,14 @@
   max-width: 1200px;
   display: grid;
   grid-template-columns: 1fr;
-  background: var(--md-surface-container-lowest);
+  background: var(--auth-surface);
   border-radius: 24px;
   overflow: hidden;
   box-shadow:
-    0 1px 2px rgba(15, 23, 42, 0.04),
-    0 8px 24px rgba(15, 23, 42, 0.06),
-    0 24px 48px rgba(15, 23, 42, 0.04);
+    0 1px 2px var(--auth-shadow-soft),
+    0 8px 24px var(--auth-shadow),
+    0 24px 48px var(--auth-shadow-soft);
   min-height: 600px;
-}
-
-[data-theme="dark"] .auth-card-outer {
-  background: var(--md-surface-container-low);
-  box-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.3),
-    0 8px 24px rgba(0, 0, 0, 0.4),
-    0 24px 48px rgba(0, 0, 0, 0.3);
 }
 
 /* ── Form panel (left) ── */
@@ -45,11 +80,7 @@
   display: flex;
   flex-direction: column;
   padding: 40px 56px;
-  background: var(--md-surface-container-lowest);
-}
-
-[data-theme="dark"] .auth-form-panel {
-  background: var(--md-surface-container-low);
+  background: var(--auth-surface);
 }
 
 .auth-form-logo {
@@ -112,7 +143,7 @@
   padding: 13px 16px;
   border: 1.5px solid var(--md-outline-variant);
   border-radius: 10px;
-  background: var(--md-surface-container-lowest);
+  background: var(--auth-field);
   color: var(--md-on-surface);
   font-family: var(--md-font);
   font-size: 0.9375rem;
@@ -123,21 +154,16 @@
   box-sizing: border-box;
 }
 .auth-field input::placeholder { color: var(--md-on-surface-tertiary); }
-[data-theme="dark"] .auth-field input {
-  background: var(--md-surface-container);
-  border-color: var(--md-outline-variant);
-}
 .auth-field input:hover { border-color: var(--md-outline); }
-[data-theme="dark"] .auth-field input:hover { border-color: var(--md-outline); }
 .auth-field input:focus {
   border-color: var(--md-primary);
   box-shadow: 0 0 0 4px color-mix(in srgb, var(--md-primary) 14%, transparent);
 }
 .auth-field input.has-error {
-  border-color: var(--md-error, #b3261e);
+  border-color: var(--md-error);
 }
 .auth-field input.has-error:focus {
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--md-error, #b3261e) 14%, transparent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--md-error) 14%, transparent);
 }
 .auth-field input.auth-code-input {
   text-align: center;
@@ -202,8 +228,11 @@
   gap: 8px;
   margin-top: 6px;
 }
+/* The M3 hover state layer: the button's own ink at 8% over its own
+   fill. Mixing towards black instead darkened the pale primary the dark
+   theme uses, which took it towards the dark ink sitting on it. */
 .auth-btn-primary:hover:not(:disabled) {
-  background: color-mix(in srgb, var(--md-primary) 90%, #000);
+  background: color-mix(in srgb, var(--md-on-primary) 8%, var(--md-primary));
 }
 .auth-btn-primary:active:not(:disabled) { transform: scale(0.99); }
 .auth-btn-primary:disabled { opacity: 0.7; cursor: not-allowed; }
@@ -222,9 +251,7 @@
   transition: all var(--md-transition);
   min-height: 44px;
 }
-.auth-btn-secondary-full:hover { background: var(--md-surface-container-low); border-color: var(--md-outline); }
-[data-theme="dark"] .auth-btn-secondary-full { border-color: var(--md-outline-variant); }
-[data-theme="dark"] .auth-btn-secondary-full:hover { background: var(--md-surface-container); border-color: var(--md-outline); }
+.auth-btn-secondary-full:hover { background: var(--auth-field-hover); border-color: var(--md-outline); }
 
 .auth-divider-text {
   display: flex;
@@ -258,7 +285,7 @@
   padding: 11px 16px;
   border-radius: var(--md-radius-full);
   border: 1.5px solid var(--md-outline-variant);
-  background: var(--md-surface-container-lowest);
+  background: var(--auth-field);
   color: var(--md-on-surface);
   font-family: var(--md-font);
   font-size: 0.875rem;
@@ -269,12 +296,10 @@
   text-decoration: none;
 }
 .auth-btn-social:hover {
-  background: var(--md-surface-container-low);
+  background: var(--auth-field-hover);
   border-color: var(--md-outline);
   text-decoration: none;
 }
-[data-theme="dark"] .auth-btn-social { background: var(--md-surface-container); border-color: var(--md-outline-variant); }
-[data-theme="dark"] .auth-btn-social:hover { background: var(--md-surface-container-high); border-color: var(--md-outline); }
 
 .auth-form-foot {
   margin: 0;
@@ -332,12 +357,20 @@
 }
 
 /* ── Brand panel (right) ── */
+/* The one surface on the page that does not follow the theme: a brand
+   field with white ink on it, the same on a light page as on a dark
+   one. Its colours come from the tonal ramps in 00-palette.css, which
+   are declared once under :root and deliberately not restated for dark
+   theme -- which is what a fixed surface needs. The gradient was a
+   blue-indigo-violet sweep in colours from no palette of ours; it is
+   our own brand blue falling into our own violet now. */
 .auth-brand-panel {
+  --auth-brand-ink: var(--md-n100);
   position: relative;
   display: none;
   overflow: hidden;
-  background: linear-gradient(140deg, #1d4ed8 0%, #4338ca 45%, #6d28d9 100%);
-  color: #ffffff;
+  background: linear-gradient(140deg, var(--md-b40) 0%, var(--md-b30) 45%, var(--md-v30) 100%);
+  color: var(--auth-brand-ink);
   padding: 56px 48px;
 }
 
@@ -345,8 +378,8 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 20% 10%, rgba(255, 255, 255, 0.18) 0%, transparent 40%),
-    radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.10) 0%, transparent 35%);
+    radial-gradient(circle at 20% 10%, color-mix(in srgb, var(--auth-brand-ink) 18%, transparent) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, color-mix(in srgb, var(--auth-brand-ink) 10%, transparent) 0%, transparent 35%);
   pointer-events: none;
 }
 
@@ -364,28 +397,35 @@
   font-weight: 700;
   line-height: 1.15;
   letter-spacing: -0.02em;
-  color: #ffffff;
+  color: var(--auth-brand-ink);
   margin: 0;
   max-width: 480px;
 }
 .auth-brand-sub {
   font-size: 1rem;
   line-height: 1.55;
-  color: rgba(255, 255, 255, 0.80);
+  color: color-mix(in srgb, var(--auth-brand-ink) 80%, transparent);
   margin: 0;
   max-width: 440px;
 }
 
-/* ── Dashboard mockup (HTML/CSS) ── */
+/* ── Dashboard mockup ── */
+/* A small piece of the real product, built out of the real tokens and
+   filled with real numbers by the view. It used to be a fixed white
+   card in tailwind greys, which meant a visitor arriving in dark theme
+   was shown a picture of an app that did not look like the one they
+   were about to sign into. It follows the theme now: a light card on
+   the brand field in light theme, a dark one in dark, and either way it
+   is the product. */
 .auth-dashboard-mock {
-  background: #ffffff;
+  background: var(--auth-surface);
   border-radius: 14px;
   padding: 18px;
-  color: #0b1c30;
+  color: var(--md-on-surface);
   box-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.06),
-    0 12px 32px rgba(0, 0, 0, 0.12),
-    0 24px 48px rgba(0, 0, 0, 0.08);
+    0 1px 2px color-mix(in srgb, var(--md-scrim) 8%, transparent),
+    0 12px 32px color-mix(in srgb, var(--md-scrim) 18%, transparent),
+    0 24px 48px color-mix(in srgb, var(--md-scrim) 12%, transparent);
   margin-top: 8px;
   max-width: 460px;
 }
@@ -396,52 +436,41 @@
   gap: 10px;
   margin-bottom: 14px;
 }
+/* Three stat tiles, one accent each, washed over the card they sit on
+   so the tile is a tint of the surface rather than a separate colour.
+   The accents are the --neb-accent-* set, so a tile reads the same here
+   as the matching surface does in the app. */
 .adm-tile {
   position: relative;
   padding: 12px 14px;
   border-radius: 10px;
-  background: #f8f9fb;
+  background: color-mix(in srgb, var(--adm-accent, var(--md-primary)) 12%, var(--auth-surface));
   overflow: hidden;
   min-height: 78px;
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
-.adm-tile--blue { background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%); }
-.adm-tile--green { background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); }
-.adm-tile--purple { background: linear-gradient(135deg, #faf5ff 0%, #ede9fe 100%); }
-.adm-tile--chart { grid-column: 1 / -1; min-height: 90px; }
+.adm-tile--blue { --adm-accent: var(--neb-accent-brand); }
+.adm-tile--green { --adm-accent: var(--neb-accent-green); }
+.adm-tile--purple { --adm-accent: var(--neb-accent-violet); }
 .adm-tile-label {
   font-size: 0.6875rem;
-  color: #6b7280;
+  color: var(--md-on-surface-variant);
   font-weight: 500;
   letter-spacing: 0.01em;
 }
 .adm-tile-num {
   font-size: 1.375rem;
   font-weight: 700;
-  color: #0b1c30;
+  color: var(--md-on-surface);
   letter-spacing: -0.02em;
   line-height: 1.1;
 }
-.adm-tile-delta {
-  font-size: 0.6875rem;
-  font-weight: 500;
-}
-.adm-tile-delta--up { color: #059669; }
-.adm-spark {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 50px;
-  width: 100%;
-  display: block;
-}
 
 .adm-list {
-  background: #ffffff;
-  border: 1px solid #f0f1f5;
+  background: var(--auth-surface);
+  border: 1px solid var(--md-outline-variant);
   border-radius: 10px;
   padding: 8px;
 }
@@ -452,13 +481,13 @@
   padding: 6px 8px 10px;
   font-size: 0.75rem;
   font-weight: 600;
-  color: #6b7280;
+  color: var(--md-on-surface-variant);
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
 .adm-list-head .material-symbols-outlined {
   font-size: 16px !important;
-  color: #9ca3af;
+  color: var(--md-on-surface-tertiary);
 }
 .adm-row {
   display: flex;
@@ -468,7 +497,14 @@
   border-radius: 8px;
   transition: background 0.15s;
 }
-.adm-row + .adm-row { border-top: 1px solid #f3f4f6; }
+.adm-row + .adm-row { border-top: 1px solid var(--md-outline-variant); }
+/* The row carries a subject-* class from the subject_slug filter, so
+   the chip is whatever colour that subject is everywhere else on the
+   site. There were three hand-written subjects here -- physics, math
+   and forum -- and the template interpolates the subject name straight
+   into the class, so every other subject in the curriculum drew an
+   uncoloured square. Chemistry, Biology, English, Nepali and the rest
+   have a colour now, and it is the one their cards already use. */
 .adm-row-icon {
   width: 32px;
   height: 32px;
@@ -477,10 +513,9 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  background: var(--subject-container, var(--md-secondary-container));
+  color: var(--subject-on-container, var(--md-on-secondary-container));
 }
-.adm-row-icon--physics { background: #dbeafe; color: #1d4ed8; }
-.adm-row-icon--math { background: #ffedd5; color: #c2410c; }
-.adm-row-icon--forum { background: #ede9fe; color: #6d28d9; }
 .adm-row-icon .material-symbols-outlined { font-size: 18px !important; }
 .adm-row-text {
   flex: 1;
@@ -489,7 +524,7 @@
 .adm-row-title {
   font-size: 0.8125rem;
   font-weight: 600;
-  color: #0b1c30;
+  color: var(--md-on-surface);
   line-height: 1.2;
   white-space: nowrap;
   overflow: hidden;
@@ -497,7 +532,7 @@
 }
 .adm-row-sub {
   font-size: 0.6875rem;
-  color: #9ca3af;
+  color: var(--md-on-surface-tertiary);
   line-height: 1.2;
   margin-top: 2px;
   white-space: nowrap;
@@ -509,12 +544,97 @@
   font-weight: 700;
   padding: 3px 8px;
   border-radius: 6px;
-  background: #dbeafe;
-  color: #1d4ed8;
+  background: var(--md-secondary-container);
+  color: var(--md-on-secondary-container);
   letter-spacing: 0.04em;
   flex-shrink: 0;
 }
-.adm-row-pill--forum { background: #ede9fe; color: #6d28d9; }
+
+/* ── Role picker ── */
+/* These lived in an inline <style> in login.html, alongside six rules
+   under html[data-theme="dark"] that each restated var(--md-x, #fallback)
+   with a different fallback hex. The token is always defined, so the
+   fallback never applied and the six dark rules resolved to exactly
+   what they overrode. */
+.auth-role-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.auth-role-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  border-radius: 16px;
+  border: 2px solid var(--md-outline-variant);
+  background: var(--md-surface-container-low);
+  cursor: pointer;
+  transition: all var(--md-transition);
+  font-family: var(--md-font);
+  text-align: left;
+  color: var(--md-on-surface);
+}
+
+.auth-role-card:hover {
+  border-color: var(--md-primary);
+  background: var(--md-primary-container);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--md-primary) 18%, transparent);
+}
+
+.auth-role-icon {
+  font-size: 28px !important;
+  color: var(--md-primary);
+}
+
+.auth-role-label {
+  display: block;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.auth-role-desc {
+  display: block;
+  font-size: 0.8125rem;
+  color: var(--md-on-surface-variant);
+  margin-top: 2px;
+}
+
+.auth-role-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 8px 0 4px;
+  color: var(--md-on-surface-variant);
+  font-size: 0.8125rem;
+}
+
+.auth-role-divider::before,
+.auth-role-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--md-outline-variant);
+}
+
+.auth-role-card-explorer {
+  background: transparent;
+  border-style: dashed;
+  border-color: var(--md-outline);
+}
+
+.auth-role-card-explorer:hover {
+  border-style: solid;
+  background: var(--md-primary-container);
+}
+
+.auth-role-card-explorer .auth-role-icon {
+  color: var(--md-tertiary);
+}
 
 /* ── Desktop split-screen ── */
 @media (min-width: 960px) {
