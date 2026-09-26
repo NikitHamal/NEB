@@ -840,9 +840,7 @@
    *
    * New markup should use data-neb-menu on the trigger and skip this. */
   function legacyMenus() {
-    /* .bc-dropdown-menu is the breadcrumb menu on the subject page, which
-     * had its own copy of closeAllMenus purely to clear it. */
-    return document.querySelectorAll('.more-menu, .neb-menu, .bc-dropdown-menu');
+    return document.querySelectorAll('.more-menu, .neb-menu');
   }
 
   function closeAllMenus() {

@@ -37,17 +37,18 @@
     
     <span class="breadcrumb-separator">/</span>
     <div class="breadcrumb-dropdown-wrapper">
-      <button type="button" class="breadcrumb-dropdown-trigger" data-action="toggle-breadcrumb-menu" data-menu-id="bc-class-menu">
+      <button type="button" class="breadcrumb-dropdown-trigger" data-neb-menu="bc-class-menu"
+              aria-haspopup="true" aria-expanded="false">
         <span class="trigger-text">{{ grade }}</span>
         <span class="material-symbols-outlined dropdown-arrow">arrow_drop_down</span>
       </button>
-      <div class="bc-dropdown-menu" id="bc-class-menu" style="display:none;">
-        <span class="bc-dropdown-label">Switch Class</span>
-        <div class="bc-dropdown-divider"></div>
+      <div class="neb-menu" id="bc-class-menu" role="menu" data-neb-align="start" aria-label="Switch class" hidden>
+        <div class="neb-menu-label">Switch class</div>
         {% for g in grade_list %}
-        <a href="{% url 'web:subject_page' grade_slug=g.slug subject_slug=subject_slug %}" class="bc-dropdown-item {% if g.name == grade %}active{% endif %}">
-          {{ g.name }}
-          <span class="material-symbols-outlined bc-check">check</span>
+        <a href="{% url 'web:subject_page' grade_slug=g.slug subject_slug=subject_slug %}" class="neb-menu-item" role="menuitemradio"
+           aria-checked="{% if g.name == grade %}true{% else %}false{% endif %}">
+          <span class="neb-menu-item-label">{{ g.name }}</span>
+          {% if g.name == grade %}<span class="material-symbols-outlined">check</span>{% endif %}
         </a>
         {% endfor %}
       </div>
@@ -55,17 +56,18 @@
 
     <span class="breadcrumb-separator">/</span>
     <div class="breadcrumb-dropdown-wrapper">
-      <button type="button" class="breadcrumb-dropdown-trigger" data-action="toggle-breadcrumb-menu" data-menu-id="bc-subject-menu">
+      <button type="button" class="breadcrumb-dropdown-trigger" data-neb-menu="bc-subject-menu"
+              aria-haspopup="true" aria-expanded="false">
         <span class="trigger-text">{{ subject }}</span>
         <span class="material-symbols-outlined dropdown-arrow">arrow_drop_down</span>
       </button>
-      <div class="bc-dropdown-menu" id="bc-subject-menu" style="display:none;">
-        <span class="bc-dropdown-label">Switch Subject</span>
-        <div class="bc-dropdown-divider"></div>
+      <div class="neb-menu" id="bc-subject-menu" role="menu" data-neb-align="start" aria-label="Switch subject" hidden>
+        <div class="neb-menu-label">Switch subject</div>
         {% for s in subject_list %}
-        <a href="{% url 'web:subject_page' grade_slug=grade_slug subject_slug=s.slug %}" class="bc-dropdown-item {% if s.name == subject %}active{% endif %}">
-          {{ s.name }}
-          <span class="material-symbols-outlined bc-check">check</span>
+        <a href="{% url 'web:subject_page' grade_slug=grade_slug subject_slug=s.slug %}" class="neb-menu-item" role="menuitemradio"
+           aria-checked="{% if s.name == subject %}true{% else %}false{% endif %}">
+          <span class="neb-menu-item-label">{{ s.name }}</span>
+          {% if s.name == subject %}<span class="material-symbols-outlined">check</span>{% endif %}
         </a>
         {% endfor %}
       </div>
@@ -765,38 +767,6 @@
       var menu = document.getElementById(menuId);
       if (!menu) return;
       toggleMoreMenu(menu, el);
-    },
-    'toggle-breadcrumb-menu': function(el) {
-      var menuId = el.dataset.menuId;
-      var menu = document.getElementById(menuId);
-      if (!menu) return;
-      var isOpen = menu.style.display !== 'none';
-      closeAllMenus();
-      if (!isOpen) {
-        // Use fixed positioning to escape any overflow:auto/hidden ancestor
-        var rect = el.getBoundingClientRect();
-        var menuW = Math.max(menu.offsetWidth || 160, 160);
-        var left = rect.left;
-        // Keep inside viewport
-        if (left + menuW > window.innerWidth - 8) {
-          left = Math.max(8, window.innerWidth - menuW - 8);
-        }
-        menu.style.top = (rect.bottom + 6) + 'px';
-        menu.style.left = left + 'px';
-        menu.style.display = 'block';
-        // Recalculate width after display to get correct offsetWidth
-        var menuW2 = menu.offsetWidth;
-        if (rect.left + menuW2 > window.innerWidth - 8) {
-          menu.style.left = Math.max(8, window.innerWidth - menuW2 - 8) + 'px';
-        }
-        var handler = function(e) {
-          if (!menu.contains(e.target) && e.target !== el && !el.contains(e.target)) {
-            menu.style.display = 'none';
-            document.removeEventListener('click', handler, true);
-          }
-        };
-        setTimeout(function() { document.addEventListener('click', handler, true); }, 0);
-      }
     },
     'toggle-bookmark': async function(el) {
       closeAllMenus();

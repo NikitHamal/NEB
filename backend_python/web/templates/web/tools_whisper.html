@@ -939,14 +939,6 @@ select.cs-native{ position:absolute !important; left:-9999px !important; width:1
 .chunk-slider input[type="range"]::-moz-range-thumb{ width:18px; height:18px; border-radius:50%; background:var(--pill-bg); border:2px solid var(--bg-elevated); cursor:pointer; }
 .chunk-labels{ display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:0.65rem; color:var(--text-muted); }
 
-/* dialog */
-.dialog-overlay{ position:fixed; inset:0; background:var(--modal-overlay); backdrop-filter:blur(6px); display:grid; place-items:center; z-index:100; padding:20px; }
-.dialog-overlay[hidden]{ display:none !important; }
-.dialog-card{ background:var(--modal-bg); border:1px solid var(--border-line); border-radius:16px; padding:22px; width:min(440px, 92vw); box-shadow:0 20px 50px rgba(0,0,0,0.18); animation:dialogIn .22s cubic-bezier(.16,1,.3,1); }
-@keyframes dialogIn{ from{ opacity:0; transform:scale(.96) translateY(8px);} to{opacity:1; transform:none;} }
-.dialog-card h3{ font-family:var(--font-mono); font-size:0.95rem; font-weight:700; color:var(--text-primary); margin-bottom:8px; }
-.dialog-card p{ font-size:0.88rem; color:var(--text-secondary); line-height:1.6; margin-bottom:16px; overflow-wrap:anywhere; }
-.dialog-actions{ display:flex; gap:10px; justify-content:flex-end; }
 
 /* layout fix: allow dropdown to overflow card, prevent text clip without hiding scroll */
 .card, .mono-card{ overflow:visible; }
@@ -1199,16 +1191,6 @@ html, body{ overflow-x:clip; }
         <h2><i class="ri-history-line"></i> History <span class="tag">local only</span></h2>
         <div id="hist"><div class="hint">Transcripts save here automatically (IndexedDB, never leaves device).</div></div>
       </div>
-    </div>
-  </div>
-</div>
-<div id="customDialog" class="dialog-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="dialogTitle">
-  <div class="dialog-card">
-    <h3 id="dialogTitle">Confirm</h3>
-    <p id="dialogMsg">Are you sure?</p>
-    <div class="dialog-actions">
-      <button class="btn small ghost" id="dialogCancel"><i class="ri-close-line"></i> Cancel</button>
-      <button class="btn small primary" id="dialogConfirm"><i class="ri-check-line"></i> Confirm</button>
     </div>
   </div>
 </div>
@@ -2056,18 +2038,13 @@ function initCustomSelects(){
     window.syncUI=function(){ orig(); ['selModel','selDtype','selDev'].forEach(sid=>{ const n=document.getElementById(sid); if(n){ const c=document.querySelector(`.cs[data-target="${sid}"]`); if(c){ const v=n.value; const opt=Array.from(n.options).find(o=>o.value===v); const valEl=c.querySelector('.cs-value'); if(opt&&valEl){ const raw=opt.textContent.trim(); const parts=raw.split('·'); const main=parts[0].trim(); const hint=parts.slice(1).join('·').trim(); valEl.innerHTML=hint? `${main} <small style="opacity:.65;font-weight:400">· ${hint}</small>` : main; c.querySelectorAll('.cs-option').forEach(el=> el.classList.toggle('is-selected', el.dataset.value===v)); } } } }); };
   }
 }
-function showCustomDialog({title='Confirm', message='', confirmText='Confirm', cancelText='Cancel'}={}){
-  return new Promise(res=>{
-    const overlay=document.getElementById('customDialog');
-    const t=document.getElementById('dialogTitle'), m=document.getElementById('dialogMsg'), ok=document.getElementById('dialogConfirm'), cancel=document.getElementById('dialogCancel');
-    if(!overlay||!t||!m||!ok||!cancel){ res(false); return; }
-    t.textContent=title; m.textContent=message; ok.innerHTML='<i class="ri-check-line"></i> '+confirmText; cancel.innerHTML='<i class="ri-close-line"></i> '+cancelText;
-    overlay.hidden=false; document.body.style.overflow='hidden';
-    function cleanup(val){ overlay.hidden=true; document.body.style.overflow=''; ok.removeEventListener('click', onOk); cancel.removeEventListener('click', onCancel); overlay.removeEventListener('click', onOverlay); document.removeEventListener('keydown', onKey); res(val); }
-    function onOk(){ cleanup(true); } function onCancel(){ cleanup(false); } function onOverlay(e){ if(e.target===overlay) cleanup(false); } function onKey(e){ if(e.key==='Escape') cleanup(false); }
-    ok.addEventListener('click', onOk); cancel.addEventListener('click', onCancel); overlay.addEventListener('click', onOverlay); document.addEventListener('keydown', onKey);
-    setTimeout(()=> ok.focus(),0);
-  });
+/* The app asks with NebDialog; so does the rest of the web now. This page had
+   its own overlay, its own escape handler and no focus trap -- NebUI.confirm is
+   the same component the forum and the library use, so a destructive action
+   looks and behaves the same wherever it is taken. */
+function showCustomDialog({title='Confirm', message='', confirmText='Confirm', cancelText='Cancel', icon='', destructive=true}={}){
+  if(!window.NebUI || !NebUI.confirm) return Promise.resolve(false);
+  return NebUI.confirm({title, message, confirmLabel:confirmText, cancelLabel:cancelText, icon, destructive});
 }
 function patchHistoryDelete(){
   const hist=document.getElementById('hist');
@@ -2075,7 +2052,7 @@ function patchHistoryDelete(){
   hist.addEventListener('click', async (e)=>{
     const delBtn=e.target.closest('.del'); if(!delBtn) return; e.preventDefault(); e.stopPropagation();
     const id=delBtn.dataset.del;
-    const ok=await showCustomDialog({title:'Delete transcript?', message:'This will permanently remove this transcript from your device.', confirmText:'Delete', cancelText:'Cancel'});
+    const ok=await showCustomDialog({title:'Delete transcript?', message:'This will permanently remove this transcript from your device.', confirmText:'Delete', cancelText:'Cancel', icon:'delete'});
     if(!ok) return;
     try{ await Store.del('transcripts', +id); renderHist(); toast('Deleted','ok',1500);}catch(err){ toast('Delete failed: '+err.message,'err'); }
   }, true);
@@ -2101,7 +2078,7 @@ setTimeout(()=>{
   if(wipe && !wipe.dataset.customPatched){
     wipe.dataset.customPatched='1';
     wipe.onclick = async ()=>{
-      const ok=await showCustomDialog({title:'Clear cache?', message:'Delete all cached models? They will need to be downloaded again.', confirmText:'Clear cache', cancelText:'Cancel'});
+      const ok=await showCustomDialog({title:'Clear cache?', message:'Delete all cached models? They will need to be downloaded again.', confirmText:'Clear cache', cancelText:'Cancel', icon:'cleaning_services'});
       if(!ok) return;
       try{ if(window.caches){ for(const n of await caches.keys()) await caches.delete(n); } const dlEl=document.getElementById('dl'); if(dlEl) dlEl.innerHTML=''; if(typeof dlRows!=='undefined') dlRows.clear(); pipe=null; pipeKey=''; const mdl=document.getElementById('mdlTxt'); if(mdl) mdl.textContent='none'; S.badDev=null; try{await saveSettings();}catch(e){} const b=document.getElementById('banner'); if(b) b.classList.remove('show'); await updateCacheInfo(); toast('Cache cleared','ok'); }catch(e){ toast('Could not clear: '+e.message,'err'); }
     };
