@@ -51,8 +51,8 @@
   padding: 36px 24px 20px;
   color: var(--md-on-surface-variant);
   font-size: 0.8125rem;
-  background: var(--md-surface-container-low, transparent);
-  border-top: 1px solid var(--md-border-subtle, var(--md-outline-variant));
+  background: var(--md-surface-container-low);
+  border-top: 1px solid var(--md-border-subtle);
 }
 
 .site-footer-inner {
@@ -123,7 +123,7 @@
 }
 
 .site-footer-bottom {
-  border-top: 1px solid var(--md-border-subtle, var(--md-outline-variant));
+  border-top: 1px solid var(--md-border-subtle);
   padding-top: 16px;
   text-align: center;
   font-size: 0.75rem;

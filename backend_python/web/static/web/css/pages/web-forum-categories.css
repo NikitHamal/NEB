@@ -19,7 +19,7 @@
   }
 
   .category-card {
-    background: var(--md-surface-container-low, var(--md-surface));
+    background: var(--md-surface-container-low);
     border: 1px solid var(--md-outline-variant);
     border-radius: 20px;
     padding: 20px;
@@ -33,8 +33,8 @@
   }
 
   .category-card:hover {
-    border: 1.5px solid var(--md-primary, #004ac6);
-    background-color: var(--md-surface-container, #e5eeff);
+    border: 1.5px solid var(--md-primary);
+    background-color: var(--md-surface-container);
     box-shadow: 0 4px 12px rgba(0, 74, 198, 0.05);
     text-decoration: none !important;
   }
@@ -47,7 +47,7 @@
     transition: color 0.2s ease;
   }
   .category-card:hover .category-name {
-    color: var(--md-primary, #004ac6);
+    color: var(--md-primary);
     text-decoration: none !important;
   }
 
@@ -65,8 +65,8 @@
     width: 24px;
     height: 24px;
     border-radius: 50%;
-    background: var(--md-primary, #004ac6);
-    color: var(--md-on-primary, #ffffff);
+    background: var(--md-primary);
+    color: var(--md-on-primary);
     display: inline-flex;
     align-items: center;
     justify-content: center;

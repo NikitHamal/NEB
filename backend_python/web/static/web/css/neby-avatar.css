@@ -42,7 +42,7 @@
   min-height: 40px;
   border-radius: 50%;
   background: transparent !important;
-  border: 1.5px solid var(--md-outline-variant, rgba(0, 0, 0, 0.12));
+  border: 1.5px solid var(--md-outline-variant);
   box-shadow: none !important;
   filter: none !important;
   box-sizing: border-box;
@@ -70,8 +70,8 @@
   min-width: 140px;
   min-height: 140px;
   border-radius: 50%;
-  background: var(--md-surface-container-lowest, #ffffff);
-  border: 4px solid var(--md-surface-container-lowest, #ffffff);
+  background: var(--md-surface-container-lowest);
+  border: 4px solid var(--md-surface-container-lowest);
   box-shadow: none !important;
   filter: none !important;
   position: relative;
@@ -112,7 +112,7 @@
 .neby-mood-title {
   font-size: 0.8125rem;
   font-weight: 600;
-  color: var(--md-primary, #2563eb);
+  color: var(--md-primary);
   display: inline-flex;
   align-items: center;
   gap: 4px;
@@ -123,7 +123,7 @@
 .neby-mood-pill {
   border: 1px solid rgba(37, 99, 235, 0.2);
   background: rgba(255, 255, 255, 0.85);
-  color: var(--md-on-surface, #1e293b);
+  color: var(--md-on-surface);
   border-radius: 20px;
   padding: 5px 12px;
   font-size: 0.75rem;
@@ -139,11 +139,11 @@
 }
 
 .neby-mood-pill:hover {
-  background: var(--md-primary, #2563eb);
+  background: var(--md-primary);
   color: #ffffff;
   transform: translateY(-1px);
   box-shadow: none;
-  border-color: var(--md-primary, #2563eb);
+  border-color: var(--md-primary);
 }
 
 .neby-mood-pill:active {
@@ -153,7 +153,7 @@
 /* Dark mode compatibility */
 [data-theme='dark'] .neby-avatar-mini {
   background: transparent !important;
-  border-color: var(--md-outline-variant, #334155);
+  border-color: var(--md-outline-variant);
 }
 
 [data-theme='dark'] .neby-avatar-hero {

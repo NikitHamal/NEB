@@ -492,7 +492,7 @@ img {
   width: 36px;
   height: 36px;
   padding: 0;
-  border-radius: var(--md-radius-full, 9999px);
+  border-radius: var(--md-radius-full);
   background: transparent;
   border: none;
   outline: none;

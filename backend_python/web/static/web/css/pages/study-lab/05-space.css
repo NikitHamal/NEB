@@ -945,7 +945,7 @@
 button.ss-confirm-armed.md-btn,
 button.ss-confirm-armed {
   background: var(--md-error) !important;
-  color: var(--md-on-error, var(--md-surface)) !important;
+  color: var(--md-on-error) !important;
   border-color: var(--md-error) !important;
 }
 

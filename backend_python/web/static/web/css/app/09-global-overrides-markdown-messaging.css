@@ -80,7 +80,7 @@ body[data-ws-state='disconnected'] .ws-state-dot { background: #c62828; }
 }
 .md-content li, .fp-post-body li, .fp-reply-body li { margin: 2px 0; }
 .md-content code, .fp-post-body code, .fp-reply-body code {
-  background: var(--md-surface-container-high, #f3f0f4);
+  background: var(--md-surface-container-high);
   color: var(--md-on-surface);
   padding: 1px 5px;
   border-radius: 4px;
@@ -91,7 +91,7 @@ body[data-ws-state='disconnected'] .ws-state-dot { background: #c62828; }
   background: rgba(255,255,255,0.1);
 }
 .md-content pre, .fp-post-body pre, .fp-reply-body pre {
-  background: var(--md-surface-container-high, #f3f0f4);
+  background: var(--md-surface-container-high);
   border: 1px solid var(--md-outline-variant);
   border-radius: 8px;
   padding: 12px 16px;
@@ -110,7 +110,7 @@ body[data-ws-state='disconnected'] .ws-state-dot { background: #c62828; }
   border-left: 3px solid var(--md-primary);
   margin: 8px 0; padding: 4px 12px;
   color: var(--md-on-surface-variant);
-  background: var(--md-surface-container, #f3edf7);
+  background: var(--md-surface-container);
   border-radius: 0 6px 6px 0;
 }
 .md-content hr, .fp-post-body hr, .fp-reply-body hr {
@@ -123,7 +123,7 @@ body[data-ws-state='disconnected'] .ws-state-dot { background: #c62828; }
   border: 1px solid var(--md-outline-variant); padding: 6px 10px; text-align: left;
 }
 .md-content th, .fp-post-body th, .fp-reply-body th {
-  background: var(--md-surface-container-high, #f3f0f4); font-weight: 600;
+  background: var(--md-surface-container-high); font-weight: 600;
 }
 .md-content img, .fp-post-body img, .fp-reply-body img {
   max-width: 100%; border-radius: 8px; margin: 4px 0;
@@ -144,8 +144,8 @@ body[data-ws-state='disconnected'] .ws-state-dot { background: #c62828; }
   display: flex !important;
   align-items: center !important;
   gap: 2px !important;
-  background: var(--md-surface-container-lowest, #ffffff) !important;
-  border: 1px solid var(--md-outline-variant, #e5e7eb) !important;
+  background: var(--md-surface-container-lowest) !important;
+  border: 1px solid var(--md-outline-variant) !important;
   border-radius: 28px !important;
   padding: 4px 6px 4px 10px !important;
   transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
@@ -155,8 +155,8 @@ body[data-ws-state='disconnected'] .ws-state-dot { background: #c62828; }
 }
 
 .reply-input-wrapper:focus-within {
-  border-color: var(--md-primary, #2563eb) !important;
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--md-primary, #2563eb) 15%, transparent) !important;
+  border-color: var(--md-primary) !important;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--md-primary) 15%, transparent) !important;
 }
 
 .reply-input-wrapper textarea {
@@ -184,8 +184,8 @@ body[data-ws-state='disconnected'] .ws-state-dot { background: #c62828; }
   height: 32px !important;
   border-radius: 50% !important;
   border: none !important;
-  background: var(--md-primary, #2563eb) !important;
-  color: var(--md-on-primary, #ffffff) !important;
+  background: var(--md-primary) !important;
+  color: var(--md-on-primary) !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -198,8 +198,8 @@ body[data-ws-state='disconnected'] .ws-state-dot { background: #c62828; }
 }
 
 .reply-input-wrapper .reply-send-btn:disabled {
-  background: var(--md-surface-container-high, #f3f4f6) !important;
-  color: var(--md-outline, #9ca3af) !important;
+  background: var(--md-surface-container-high) !important;
+  color: var(--md-outline) !important;
   opacity: 0.6 !important;
   cursor: not-allowed !important;
 }
@@ -219,7 +219,7 @@ body[data-ws-state='disconnected'] .ws-state-dot { background: #c62828; }
   border-radius: 50% !important;
   border: none !important;
   background: transparent !important;
-  color: var(--md-on-surface-variant, #6b7280) !important;
+  color: var(--md-on-surface-variant) !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -232,7 +232,7 @@ body[data-ws-state='disconnected'] .ws-state-dot { background: #c62828; }
 }
 .reply-input-wrapper .fp-inline-tool:hover,
 .reply-input-wrapper .fp-inline-anon:hover {
-  background: var(--md-surface-container-high, #f3f4f6) !important;
+  background: var(--md-surface-container-high) !important;
   color: var(--md-primary) !important;
 }
 .reply-input-wrapper .fp-inline-tool .material-symbols-outlined,
@@ -250,8 +250,8 @@ body[data-ws-state='disconnected'] .ws-state-dot { background: #c62828; }
   cursor: pointer !important;
 }
 .reply-input-wrapper .fp-inline-anon.anon-on {
-  background: var(--md-primary-container, rgba(37, 99, 235, 0.14)) !important;
-  color: var(--md-primary, #2563eb) !important;
+  background: var(--md-primary-container) !important;
+  color: var(--md-primary) !important;
 }
 .reply-input-wrapper .fp-inline-text {
   margin-right: 6px !important;
@@ -260,14 +260,14 @@ body[data-ws-state='disconnected'] .ws-state-dot { background: #c62828; }
 
 /* ---- Send button morphing states (send / mic / recording) ---- */
 .reply-input-wrapper .reply-send-btn[data-mode="mic"] {
-  background: var(--md-primary-container, rgba(37, 99, 235, 0.12)) !important;
-  color: var(--md-primary, #2563eb) !important;
+  background: var(--md-primary-container) !important;
+  color: var(--md-primary) !important;
   opacity: 1 !important;
   cursor: pointer !important;
 }
 .reply-input-wrapper .reply-send-btn[data-mode="mic"]:hover {
-  background: var(--md-primary, #2563eb) !important;
-  color: var(--md-on-primary, #ffffff) !important;
+  background: var(--md-primary) !important;
+  color: var(--md-on-primary) !important;
 }
 .reply-input-wrapper .reply-send-btn[data-mode="recording"] {
   background: var(--md-error) !important;
@@ -395,7 +395,7 @@ button.cp-media-item-icon.cp-audio-play:hover {
 }
 button.cp-media-item-icon.cp-audio-play.playing {
   background: var(--md-error) !important;
-  color: var(--md-on-error, #fff) !important;
+  color: var(--md-on-error) !important;
 }
 .cp-media-item.cp-media-audio .cp-media-item-meta {
   font-variant-numeric: tabular-nums !important;
