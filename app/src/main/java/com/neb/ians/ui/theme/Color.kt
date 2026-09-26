@@ -296,9 +296,127 @@ private val BrandSubjectHue = SubjectHue(
     Brand.B80, Steel.S20, Brand.B90
 )
 
+/**
+ * The families a subject can belong to.
+ *
+ * [SubjectHues] is keyed by exact name, which was fine while the only subjects
+ * that existed were the ten on that list. They are not. Upload accepts
+ * "Physics - Technical Stream", "Microbiology", "Visual Programming" and
+ * "सामाजिक अध्ययन", and the subject field on a resource is free text besides —
+ * real uploads carry things like "Health and Physical Education" and
+ * "Compulsory English". Every one of those used to fall through to the brand
+ * blue, so a whole shelf of unrelated material came out looking identical.
+ *
+ * A family is the coarse answer: what *kind* of subject is this. It decides the
+ * hue when the exact name is unknown, and it decides which set of banner
+ * drawings a resource is allowed to be given. [GENERAL] is the honest answer
+ * for a subject we cannot place, and it has its own abstract art set rather
+ * than borrowing someone else's.
+ */
+enum class SubjectFamily {
+    PHYSICS, CHEMISTRY, MATH, BIOLOGY, SCIENCE, LANGUAGE,
+    COMPUTING, COMMERCE, SOCIAL, HEALTH, EXAM, GENERAL
+}
+
+/**
+ * Ordered keyword table. Order is load-bearing in three places:
+ *
+ *   HEALTH before PHYSICS — "Physical Education" must not be read as physics.
+ *   COMPUTING before SCIENCE — "Computer Science" is not a science subject here.
+ *   SOCIAL before SCIENCE — "Social Studies" contains neither, but "Social
+ *   Science" does, and it belongs with the maps.
+ */
+private val SubjectFamilyKeywords: List<Pair<SubjectFamily, List<String>>> = listOf(
+    SubjectFamily.HEALTH to listOf(
+        "health", "physical education", "phy. edu", "hpe", "sport", "fitness",
+        "nutrition", "yoga", "स्वास्थ्य"
+    ),
+    SubjectFamily.EXAM to listOf(
+        "exam tip", "exam prep", "entrance", "model paper", "model set",
+        "past paper", "question bank", "mock test", "revision"
+    ),
+    SubjectFamily.COMPUTING to listOf(
+        "computer", "software", "programming", "informatics", "information tech",
+        "digital", "coding", "algorithm", "database", "web dev"
+    ),
+    SubjectFamily.PHYSICS to listOf("physics", "भौतिक"),
+    SubjectFamily.CHEMISTRY to listOf("chemistry", "chemical", "रसायन"),
+    SubjectFamily.MATH to listOf(
+        "math", "algebra", "geometry", "trigonometry", "calculus", "statistic",
+        "गणित"
+    ),
+    SubjectFamily.BIOLOGY to listOf(
+        "biology", "botany", "zoology", "microbio", "anatomy", "genetic",
+        "जीव"
+    ),
+    SubjectFamily.SOCIAL to listOf(
+        "social", "history", "geography", "civic", "population", "culture",
+        "सामाजिक", "अध्ययन"
+    ),
+    SubjectFamily.COMMERCE to listOf(
+        "economic", "account", "business", "finance", "commerce", "marketing",
+        "banking", "book keeping", "bookkeeping", "अर्थ"
+    ),
+    SubjectFamily.LANGUAGE to listOf(
+        "english", "nepali", "literature", "grammar", "language", "sanskrit",
+        "hindi", "maithili", "newari", "writing", "नेपाली", "अंग्रेजी", "साहित्य"
+    ),
+    SubjectFamily.SCIENCE to listOf(
+        "science", "environment", "astronomy", "geology", "laboratory", "विज्ञान"
+    )
+)
+
+/** The coarse kind of a subject. Free text in, one of twelve answers out. */
+fun subjectFamily(subject: String): SubjectFamily {
+    val s = subject.trim().lowercase()
+    if (s.isEmpty()) return SubjectFamily.GENERAL
+    for ((family, keywords) in SubjectFamilyKeywords) {
+        for (keyword in keywords) {
+            if (s.contains(keyword)) return family
+        }
+    }
+    return SubjectFamily.GENERAL
+}
+
+/**
+ * The hue a family falls back to when the exact subject name is not on the
+ * list. Six of these are the canonical subject's own hue, so "Physics -
+ * Technical Stream" comes out the same blue as "Physics" instead of brand blue.
+ * The three that have no canonical subject — science, social, health — get
+ * their own, chosen to sit clear of the ten already in use.
+ */
+private val SubjectFamilyHues: Map<SubjectFamily, SubjectHue> = mapOf(
+    SubjectFamily.PHYSICS to SubjectHues.getValue("Physics"),
+    SubjectFamily.CHEMISTRY to SubjectHues.getValue("Chemistry"),
+    SubjectFamily.MATH to SubjectHues.getValue("Mathematics"),
+    SubjectFamily.BIOLOGY to SubjectHues.getValue("Biology"),
+    SubjectFamily.LANGUAGE to SubjectHues.getValue("English"),
+    SubjectFamily.COMPUTING to SubjectHues.getValue("Computer Science"),
+    SubjectFamily.COMMERCE to SubjectHues.getValue("Economics"),
+    SubjectFamily.EXAM to SubjectHues.getValue("Exam Tips"),
+    // Jade. Clear of Chemistry's forest green and Biology's teal.
+    SubjectFamily.SCIENCE to SubjectHue(
+        Color(0xFF047857), Color(0xFFD1FAE5), Color(0xFF04604A),
+        Color(0xFF6EDCB4), Color(0xFF0D2E25), Color(0xFFCFF5E6)
+    ),
+    // Steel. Maps, civics and history read as slate, not as another warm hue.
+    SubjectFamily.SOCIAL to SubjectHue(
+        Color(0xFF3F5A8A), Color(0xFFDDE6F6), Color(0xFF2C4066),
+        Color(0xFF9CB7E8), Color(0xFF1B2638), Color(0xFFD9E4F7)
+    ),
+    // Rose. Sits between Mathematics' brick red and Accountancy's magenta, and
+    // is the one hue a pulse line can be drawn in without looking like an error.
+    SubjectFamily.HEALTH to SubjectHue(
+        Color(0xFFBE123C), Color(0xFFFFE4E9), Color(0xFF8F0E2E),
+        Color(0xFFFF9BB0), Color(0xFF3D1520), Color(0xFFFFD9E1)
+    ),
+    SubjectFamily.GENERAL to BrandSubjectHue
+)
+
 private fun subjectHue(subject: String): SubjectHue =
     SubjectHues[subject]
         ?: SubjectHues.entries.firstOrNull { it.key.equals(subject, ignoreCase = true) }?.value
+        ?: SubjectFamilyHues[subjectFamily(subject)]
         ?: BrandSubjectHue
 
 @Composable
