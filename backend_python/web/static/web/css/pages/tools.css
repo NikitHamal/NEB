@@ -167,8 +167,7 @@
   transform: none !important;
 }
 
-.tools-audio-page .toast,
-.tools-audio-page .dialog-card {
+.tools-audio-page .toast {
   animation: none !important;
 }
 
