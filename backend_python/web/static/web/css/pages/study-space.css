@@ -750,27 +750,6 @@
 .ss-doc-select-empty { text-align: center; padding: 32px 16px; color: var(--md-on-surface-variant); font-size: 0.875rem; }
 .ss-doc-select-empty .material-symbols-outlined { font-size: 36px; color: var(--md-outline); margin-bottom: 8px; }
 
-/* ── Count picker ── */
-.ss-count-picker {
-  display: inline-flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  padding: 3px;
-  border-radius: 999px;
-  background: var(--md-surface-container-low);
-  border: 1px solid var(--md-outline-variant);
-}
-.ss-count-choice {
-  border: 0;
-  border-radius: 999px;
-  padding: 7px 13px;
-  background: transparent;
-  color: var(--md-on-surface-variant);
-  font-weight: 600;
-  font-family: inherit;
-  cursor: pointer;
-}
-.ss-count-choice.active { background: var(--md-primary-container); color: var(--md-on-primary-container); }
 
 /* ── Members ── */
 .ss-member-list { display: flex; flex-direction: column; gap: 2px; }
