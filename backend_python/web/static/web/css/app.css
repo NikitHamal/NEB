@@ -1106,51 +1106,44 @@
   line-height: 1;
   font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 20;
 }
-.role-badge-admin { background: rgba(245,158,11,0.15); }
-.role-badge-admin .material-symbols-outlined { color: #D97706; }
-.role-badge-bot { background: rgba(124,77,255,0.15); }
-.role-badge-bot .material-symbols-outlined { color: #7C4DFF; }
-[data-theme="dark"] .role-badge-bot { background: rgba(124,77,255,0.25); }
-[data-theme="dark"] .role-badge-bot .material-symbols-outlined { color: #B388FF; }
-.role-badge-agent { background: rgba(124, 77, 255, 0.15); }
-.role-badge-agent .material-symbols-outlined { color: #7C4DFF; }
-[data-theme="dark"] .role-badge-agent { background: rgba(179, 136, 255, 0.2); }
-[data-theme="dark"] .role-badge-agent .material-symbols-outlined { color: #B388FF; }
-.role-badge-teacher { background: rgba(16, 185, 129, 0.15); }
-.role-badge-teacher .material-symbols-outlined { color: #10B981; }
-.role-badge-teacher-verified { background: rgba(16, 185, 129, 0.22); }
-[data-theme="dark"] .role-badge-teacher { background: rgba(16, 185, 129, 0.25); }
-[data-theme="dark"] .role-badge-teacher .material-symbols-outlined { color: #34D399; }
-.role-badge-institution { background: rgba(99, 102, 241, 0.15); }
-.role-badge-institution .material-symbols-outlined { color: #6366F1; }
-.role-badge-institution-verified { background: rgba(99, 102, 241, 0.22); }
-[data-theme="dark"] .role-badge-institution { background: rgba(99, 102, 241, 0.25); }
-[data-theme="dark"] .role-badge-institution .material-symbols-outlined { color: #A5B4FC; }
-[data-theme="dark"] .role-badge-institution-verified { background: rgba(99, 102, 241, 0.35); }
-.role-badge-explorer { background: rgba(245, 158, 11, 0.15); }
-.role-badge-explorer .material-symbols-outlined { color: #F59E0B; }
-[data-theme="dark"] .role-badge-explorer { background: rgba(245, 158, 11, 0.25); }
-[data-theme="dark"] .role-badge-explorer .material-symbols-outlined { color: #FBBF24; }
+/* One accent per role, and everything else derived from it.
+
+   What was here: thirty-eight rules, one pair per role per theme, in colours
+   that were copies of the hexes view_helpers.py sends to the app. Half of them
+   could never match. The template renders role-badge-{{ badge_info.type }} and
+   _user_badge_info emits exactly seven types -- bot, admin, moderator,
+   teacher, institution, explorer, verified -- so .role-badge-mod-1/2/3,
+   .role-badge-verified-1/2/3/4, .role-badge-agent, .role-badge-teacher-
+   verified and .role-badge-institution-verified styled nothing, while
+   .role-badge-moderator and .role-badge-verified were never written at all.
+   A moderator and a verified user -- two of the seven roles -- have been
+   rendering an uncoloured circle with an uncoloured glyph on every post they
+   have made.
+
+   Each role now sets one variable and the two rules below do the rest, which
+   is why the two missing roles cost a line each. The accents are the
+   --neb-accent-* set, so a role reads the same here as it does in the app, and
+   the ink is carried towards --md-on-surface because it sits on a wash of
+   itself.
+
+   A template that wants to override a role -- the moderator levels send three
+   different colours under one type -- can set --badge-accent inline and both
+   rules follow. */
+.role-badge { background: color-mix(in srgb, var(--badge-accent, var(--md-primary)) 13%, transparent); }
+.role-badge .material-symbols-outlined {
+  color: color-mix(in srgb, var(--badge-accent, var(--md-primary)) 86%, var(--md-on-surface));
+}
+.role-badge-admin       { --badge-accent: var(--neb-accent-amber); }
+.role-badge-bot         { --badge-accent: var(--neb-accent-violet); }
+.role-badge-moderator   { --badge-accent: var(--neb-accent-brand); }
+.role-badge-teacher     { --badge-accent: var(--neb-accent-green); }
+.role-badge-institution { --badge-accent: var(--neb-accent-indigo); }
+.role-badge-explorer    { --badge-accent: var(--neb-accent-amber); }
+.role-badge-verified    { --badge-accent: var(--neb-accent-brand); }
+
 .fp-mention { color: var(--md-primary, #1B6EF3); font-weight: 500; text-decoration: none; cursor: pointer; border-radius: 3px; padding: 0 1px; }
 .fp-mention:hover { text-decoration: underline; }
 .mention-all { display: inline-block; background: var(--md-error-container, #F9DEDC); color: var(--md-on-error-container, #410E0B); font-weight: 700; font-size: .8125rem; padding: 1px 6px; border-radius: 4px; line-height: 1.3; }
-.role-badge-mod-1 { background: rgba(27,154,240,0.12); }
-.role-badge-mod-1 .material-symbols-outlined { color: #1B9AF0; }
-.role-badge-mod-2 { background: rgba(0,137,123,0.12); }
-.role-badge-mod-2 .material-symbols-outlined { color: #00897B; }
-.role-badge-mod-3 { background: rgba(123,31,162,0.12); }
-.role-badge-mod-3 .material-symbols-outlined { color: #7B1FA2; }
-.role-badge-verified-1 .material-symbols-outlined { color: #1B9AF0; }
-.role-badge-verified-2 .material-symbols-outlined { color: #2E7D32; }
-.role-badge-verified-3 .material-symbols-outlined { color: #D97706; }
-.role-badge-verified-4 .material-symbols-outlined { color: #1a1a1a; }
-[data-theme="dark"] .role-badge-admin { background: rgba(245,158,11,0.25); }
-[data-theme="dark"] .role-badge-admin .material-symbols-outlined { color: #FBBF24; }
-[data-theme="dark"] .role-badge-mod-1 { background: rgba(27,154,240,0.2); }
-[data-theme="dark"] .role-badge-mod-2 { background: rgba(0,137,123,0.2); }
-[data-theme="dark"] .role-badge-mod-3 { background: rgba(123,31,162,0.2); }
-[data-theme="dark"] .role-badge-verified-3 .material-symbols-outlined { color: #FBBF24; }
-[data-theme="dark"] .role-badge-verified-4 .material-symbols-outlined { color: #e0e0e0; }
 
 /* Achievement badges — small pill with icon */
 .achievement-badge {
@@ -1167,22 +1160,28 @@
 .achievement-badge .material-symbols-outlined {
   font-size: 12px;
 }
-.achievement-badge.top_contributor { background: rgba(245,158,11,0.12); color: #F59E0B; }
-.achievement-badge.helpful { background: rgba(236,64,122,0.12); color: #EC407A; }
-.achievement-badge.scholar { background: rgba(27,154,240,0.12); color: #1B9AF0; }
-.achievement-badge.streak { background: rgba(255,109,0,0.12); color: #FF6D00; }
-.achievement-badge.first_post { background: rgba(46,125,50,0.12); color: #2E7D32; }
-.achievement-badge.100_likes { background: rgba(229,57,53,0.12); color: #E53935; }
-.achievement-badge.bookworm { background: rgba(0,137,123,0.12); color: #00897B; }
-.achievement-badge.problem_solver { background: rgba(249,168,37,0.12); color: #F9A825; }
-[data-theme="dark"] .achievement-badge.top_contributor { background: rgba(245,158,11,0.2); }
-[data-theme="dark"] .achievement-badge.helpful { background: rgba(236,64,122,0.2); }
-[data-theme="dark"] .achievement-badge.scholar { background: rgba(27,154,240,0.2); }
-[data-theme="dark"] .achievement-badge.streak { background: rgba(255,109,0,0.2); }
-[data-theme="dark"] .achievement-badge.first_post { background: rgba(46,125,50,0.2); }
-[data-theme="dark"] .achievement-badge.100_likes { background: rgba(229,57,53,0.2); }
-[data-theme="dark"] .achievement-badge.bookworm { background: rgba(0,137,123,0.2); }
-[data-theme="dark"] .achievement-badge.problem_solver { background: rgba(249,168,37,0.2); }
+/* Sixteen rules for eight achievements, the same shape as the roles above: a
+   hardcoded hex per badge and a second wash under a dark selector. Eight
+   accents and two derived rules now. The eight stay as distinguishable from
+   each other as they were -- amber, pink, brand, green, rose, teal, cyan --
+   with Streak sharing Top Contributor's amber, as it already did. */
+.achievement-badge {
+  background: color-mix(in srgb, var(--badge-accent, var(--md-primary)) 12%, transparent);
+  color: color-mix(in srgb, var(--badge-accent, var(--md-primary)) 74%, var(--md-on-surface));
+}
+.achievement-badge.top_contributor { --badge-accent: var(--neb-accent-amber); }
+.achievement-badge.helpful         { --badge-accent: var(--neb-accent-pink); }
+.achievement-badge.scholar         { --badge-accent: var(--neb-accent-brand); }
+.achievement-badge.streak          { --badge-accent: var(--neb-accent-amber); }
+.achievement-badge.first_post      { --badge-accent: var(--neb-accent-green); }
+/* The class starts with a digit, so the selector has to escape it: written
+   plainly, .achievement-badge.100_likes is not a valid selector and the
+   browser drops the rule. It has been dropping it since the badge was added,
+   which is why a 100 Likes badge rendered in the default colour rather than
+   red. The trailing space is part of the escape and terminates the hex. */
+.achievement-badge.\31 00_likes    { --badge-accent: var(--neb-accent-rose); }
+.achievement-badge.bookworm        { --badge-accent: var(--neb-accent-teal); }
+.achievement-badge.problem_solver  { --badge-accent: var(--neb-accent-cyan); }
 
 .act-action-text {
   color: var(--md-on-surface-variant);
