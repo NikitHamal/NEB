@@ -50,11 +50,13 @@
 }
 
 /* ── The feed column ─────────────────────────────────────────────────────────
-   One column, capped: a feed read across 1400px is not a feed. The rails inside
-   it still bleed to the edges of that column the way the app's bleed to the
-   edges of the screen. */
+   One column, capped: a feed read across 1400px is not a feed. The 808 is 760
+   of column plus the 24px gutter on each side, so the composer, the posts and
+   the rails all end on the same two edges. At 760 the rails had to borrow the
+   gutter to reach full width, which left every card in the page 24px wider than
+   the posts beside it and the left and right edges ragged down the column. */
 .hf-page {
-  max-width: 760px;
+  max-width: 808px;
 }
 .hf-feed {
   display: flex;
@@ -147,12 +149,12 @@
 }
 
 /* ── The rails ───────────────────────────────────────────────────────────────
-   Negative margins and matching padding so a rail scrolls out to the edge of
-   the viewport instead of stopping at the column's gutter -- the app's
-   contentPadding, which is the same idea from the other side. */
+   No bleed: the column is now wide enough that a rail and the posts beside it
+   share one edge, and a rail that hung 24px past them on both sides read as a
+   mistake rather than as the app's contentPadding. */
 .hf-rail {
-  margin: 0 -24px;
-  padding: 2px 24px 14px;
+  margin: 0;
+  padding: 2px 0 14px;
   gap: 12px;
 }
 .hf-rail .resource-card,
@@ -411,11 +413,11 @@
 
 @media (max-width: 768px) {
   .hf-feed { gap: 12px; padding-top: 6px; }
-  .hf-rail { margin: 0 -12px; padding: 2px 12px 12px; }
+  .hf-rail { padding: 2px 0 12px; }
   .hf-title-text { font-size: 1.125rem; }
 }
 
 @media (max-width: 600px) {
-  .hf-rail { margin: 0 -16px; padding: 2px 16px 12px; }
+  .hf-rail { padding: 2px 0 12px; }
   .hf-composer-prompt { font-size: 0.875rem; }
 }
