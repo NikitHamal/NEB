@@ -5,7 +5,10 @@
   {% for cat in interactive_categories %}
   <section class="ix-category" id="ix-{{ cat.key }}">
     <div class="ix-cat-header">
-      <span class="ix-cat-icon" style="--ix-color: {{ cat.color }};">
+      {% comment %} A silhouette per section, in the app's order --
+      NebShapes.option(index) does this by position in Kotlin, and the
+      four heads down the page are the same bank of choices. {% endcomment %}
+      <span class="ix-cat-icon {% cycle 'md-shape-cookie-9' 'md-shape-clover' 'md-shape-gem' 'md-shape-slanted' %}" style="--ix-color: {{ cat.color }};">
         <span class="material-symbols-outlined">{{ cat.icon }}</span>
       </span>
       <div>
@@ -13,11 +16,11 @@
         <p class="ix-cat-blurb">{{ cat.blurb }}</p>
       </div>
     </div>
-    <div class="ix-course-grid">
+    <div class="ix-course-grid neb-opt-bank">
       {% for course in cat.courses %}
       <a href="{% url 'web:interactive_course' course.slug %}" class="ix-course-card" style="--ix-color: {{ course.color }};" data-course-slug="{{ course.slug }}" data-lesson-count="{{ course.lesson_count }}">
         <div class="ix-card-top">
-          <span class="ix-card-icon"><span class="material-symbols-outlined">{{ course.icon }}</span></span>
+          <span class="ix-card-icon md-shape-opt"><span class="material-symbols-outlined">{{ course.icon }}</span></span>
           <div class="ix-card-chips">
             <span class="ix-chip ix-chip-level">{{ course.level }}</span>
           </div>
