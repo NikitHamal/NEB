@@ -1,4 +1,5 @@
 /* Material 3 design-system entrypoint. Core rules live in modules below. */
+@import url("material3/00-palette.css");
 @import url("material3/01-tokens-typography.css");
 @import url("material3/02-buttons-cards-chips.css");
 @import url("material3/03-layout-topbar-dropdown.css");
