@@ -127,51 +127,8 @@
   }
 }
 
-/* Subject colors */
-.subject-physics {
-  --subject-color: #2563EB;
-}
-
-.subject-chemistry {
-  --subject-color: #006E1C;
-}
-
-.subject-mathematics,
-.subject-math {
-  --subject-color: #E8710A;
-}
-
-.subject-biology {
-  --subject-color: #9334E6;
-}
-
-.subject-english {
-  --subject-color: #D93025;
-}
-
-.subject-nepali {
-  --subject-color: #1967D2;
-}
-
-.subject-computer-science {
-  --subject-color: #185ABC;
-}
-
-.subject-economics {
-  --subject-color: #E37400;
-}
-
-.subject-accountancy {
-  --subject-color: #0D652D;
-}
-
-.subject-general {
-  --subject-color: #5F6368;
-}
-
-.subject-exam-tips {
-  --subject-color: #C5221F;
-}
+/* Subject colours moved to material3/06-subject-tokens.css, which is
+   generated from the app's Color.kt and covers families too. */
 
 .subject-icon {
   width: 40px;
