@@ -1,26 +1,51 @@
-/* NebTabRail's travelling container.
+/* The travelling container, for the two components that have one.
  *
- * The CSS can draw the rail, the tabs, the counts and the pill; what it cannot
- * do is know where the selected tab is. That needs measurement, so it happens
- * here -- and only here. Everything else about the component, including how it
- * looks with this file missing, is in material3/09-overlays.css.
+ * NebTabRail marks the selected tab with a pill and NebSegmentedChoice marks
+ * the chosen segment with one, and in both the mark slides between answers
+ * rather than fading out in one place and in again in another. The CSS can
+ * draw everything else about either component -- and does, in
+ * material3/09-overlays.css -- but it cannot know where the selected child is.
+ * That needs measurement, so it happens here, once, for both.
  *
- * The contract is one attribute: aria-selected="true" on exactly one
- * .neb-rail-item. Set it however the page already sets it -- a click handler, a
- * server round trip, htmx swapping the rail out -- and the container follows.
- * Nothing here decides which tab is selected, which is what lets rails that
- * navigate (links) and rails that switch panels (buttons) share one controller.
+ * The contract is one attribute on exactly one child:
+ *
+ *   .neb-rail       .neb-rail-item[aria-selected="true"]
+ *   .neb-segmented  .neb-segment[aria-pressed="true"]
+ *
+ * Set it however the page already sets it -- a click handler, a server round
+ * trip, htmx swapping the panel out -- and the container follows. Nothing here
+ * decides which child is selected, which is what lets rails that navigate
+ * (links), rails that switch panels (buttons) and segmented banks that answer
+ * a question all share one controller.
  */
 (function () {
   'use strict';
 
   var SCROLL_MARGIN = 28;  // NebTabRail's margin, in px.
 
-  function indicatorOf(rail) {
-    var ind = rail.querySelector(':scope > .neb-rail-ind');
+  /* What each component calls its parts, and whether it scrolls. A rail is a
+     scroller with a selected tab somewhere in it; a bank is two to four
+     segments that always fit. */
+  var KINDS = [
+    { root: '.neb-rail', item: '.neb-rail-item', ind: 'neb-rail-ind',
+      state: 'aria-selected', scrolls: true },
+    { root: '.neb-segmented', item: '.neb-segment', ind: 'neb-segmented-ind',
+      state: 'aria-pressed', scrolls: false }
+  ];
+  var ROOTS = KINDS.map(function (k) { return k.root; }).join(',');
+
+  function kindOf(rail) {
+    for (var i = 0; i < KINDS.length; i++) {
+      if (rail.matches(KINDS[i].root)) return KINDS[i];
+    }
+    return KINDS[0];
+  }
+
+  function indicatorOf(rail, kind) {
+    var ind = rail.querySelector(':scope > .' + kind.ind);
     if (!ind) {
       ind = document.createElement('span');
-      ind.className = 'neb-rail-ind';
+      ind.className = kind.ind;
       ind.setAttribute('aria-hidden', 'true');
       rail.insertBefore(ind, rail.firstChild);
     }
@@ -28,8 +53,9 @@
   }
 
   function place(rail, animate) {
-    var item = rail.querySelector('.neb-rail-item[aria-selected="true"]');
-    var ind = indicatorOf(rail);
+    var kind = kindOf(rail);
+    var item = rail.querySelector(kind.item + '[' + kind.state + '="true"]');
+    var ind = indicatorOf(rail, kind);
     if (!item) { ind.removeAttribute('data-placed'); return; }
 
     /* offsetLeft is relative to the rail's padding box and unaffected by its
@@ -51,7 +77,7 @@
       requestAnimationFrame(function () { ind.setAttribute('data-placed', 'yes'); });
     }
     rail.setAttribute('data-rail-ready', '');
-    keepVisible(rail, item);
+    if (kind.scrolls) keepVisible(rail, item);
   }
 
   /* The app scrolls the selected tab back into view with a 28px margin, so a
@@ -69,10 +95,11 @@
     if (rail.__nebRail) return;
     rail.__nebRail = true;
 
-    /* aria-selected is set by the page, not by this file, so the only way to
-       hear about it is to watch. One observer per rail, attributes only. */
+    /* The state attribute is set by the page, not by this file, so the only
+       way to hear about it is to watch. One observer per rail, attributes
+       only. */
     new MutationObserver(function () { place(rail, true); }).observe(rail, {
-      attributes: true, attributeFilter: ['aria-selected'], subtree: true
+      attributes: true, attributeFilter: [kindOf(rail).state], subtree: true
     });
 
     if (window.ResizeObserver) {
@@ -85,7 +112,7 @@
   }
 
   function scan(root) {
-    (root || document).querySelectorAll('.neb-rail').forEach(attach);
+    (root || document).querySelectorAll(ROOTS).forEach(attach);
   }
 
   if (document.readyState === 'loading') {
@@ -101,7 +128,7 @@
   /* Fonts land after first paint and every label changes width when they do. */
   if (document.fonts && document.fonts.ready) {
     document.fonts.ready.then(function () {
-      document.querySelectorAll('.neb-rail').forEach(function (r) { place(r, false); });
+      document.querySelectorAll(ROOTS).forEach(function (r) { place(r, false); });
     });
   }
 
