@@ -47,7 +47,12 @@
 {% endif %}
 {% endblock %}
 
-{% block bottomnav %}{% endblock %}
+{# The rail, with nothing highlighted: a profile is not one of the three
+   destinations, but on mobile the topbar's nav is hidden and this is the only
+   way off the page. #}
+{% block bottomnav %}
+{% include "web/partials/bottomnav.html" %}
+{% endblock %}
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'web/css/app/10-social-links.css' %}?v=1.1">
@@ -57,10 +62,15 @@
   {% if profile_user %}
     <div class="profile-grid-container">
       
-      <!-- Left Column: Compact Profile Card (Mockup Inspired) -->
+      {# ── The head of the profile ───────────────────────────────────────────
+         One column, no panel. The cover runs to both edges of the column, the
+         avatar sits across its bottom edge with the primary action opposite
+         it, and everything under that is left-aligned text at a single indent.
+         This is the app's ProfileHeader. The web used to wrap all of it in a
+         rounded, shadowed card that itself sat inside a padded grid, which
+         read as a card floating on a card. #}
       <div class="profile-left-col">
         <div class="pf-compact-card{% if profile_user.is_bot %} pf-compact-card-bot{% endif %}">
-          <!-- Card Banner Area -->
           <div class="pf-card-banner" {% if profile_user.banner_url %}style="background-image: url('{{ profile_user.banner_url }}'); background-size: cover; background-position: center;"{% endif %}>
             {% if profile_user.banner_url %}
               <div class="pf-banner-photo-scrim"></div>
@@ -77,55 +87,75 @@
             <a href="#" data-action="go-back" class="profile-banner-back-btn" title="Go Back">
               <span class="material-symbols-outlined">arrow_back</span>
             </a>
-          </div>
-
-          <!-- Overlapping Circular Avatar -->
-          <div class="pf-avatar-overlap-wrap{% if profile_user.is_bot or profile_user.username == 'neby' %} pf-avatar-bot{% endif %} {% if profile_user.verification_level and profile_user.verification_level > 0 %}avatar-container-verified{% endif %}">
-            <div class="pf-avatar-circle{% if profile_user.is_bot or profile_user.username == 'neby' %} pf-avatar-bot-circle{% endif %}" id="profilePageAvatar">
-              {% if profile_user.is_bot or profile_user.username == 'neby' %}
-                <div class="neby-avatar-hero" data-neby-avatar data-hero="true" data-animation="idle" id="profilePageNebyAvatar" title="Interactive 3D Neby! Click to play reactions"></div>
-              {% elif profile_user.photo_url %}
-                <img src="{{ profile_user.photo_url }}" alt="{{ profile_user.display_name|default:profile_user.username }}">
-              {% else %}
-                <div class="pf-avatar-initial">{{ profile_user.display_name|default:profile_user.username|slice:":1" }}</div>
-              {% endif %}
-            </div>
-            {% if profile_user.verification_level and profile_user.verification_level > 0 %}
-              <span class="avatar-badge-overlay" style="--badge-bg: {% if profile_user.verification_level == 1 %}#1B9AF0{% elif profile_user.verification_level == 2 %}#2E7D32{% elif profile_user.verification_level == 3 %}#F59E0B{% else %}#1A1A1A{% endif %};" title="Verified User">
-                <span class="material-symbols-outlined">verified</span>
-              </span>
-            {% endif %}
-            {% if user and user.username == profile_user.username and not profile_user.is_bot and profile_user.username != 'neby' %}
-              <div class="pf-avatar-cam" data-action="open-photo-history-modal" title="Change photo">
-                <span class="material-symbols-outlined">camera_alt</span>
-              </div>
-            {% endif %}
-          </div>
-
-          <!-- Card Content Body -->
-          <div class="pf-card-body">
-            
-            <!-- Link and Option Buttons in Top Right of Content -->
-            <div class="pf-card-top-actions">
-              <button class="pf-action-icon-btn" data-action="copy-profile-link" title="Copy profile URL">
+            {# The utility actions live on the cover rather than in the text
+               column: the app keeps them in the top bar, and down here they
+               competed with the name for the first line the eye lands on. #}
+            <div class="pf-banner-actions">
+              <button class="pf-banner-action" data-action="copy-profile-link" title="Copy profile URL" aria-label="Copy profile URL">
                 <span class="material-symbols-outlined">link</span>
               </button>
               {% if user and user.username == profile_user.username %}
-                <a href="{% url 'web:edit_profile' %}" rel="nofollow" class="pf-action-icon-btn" title="Edit Profile Details">
+                <a href="{% url 'web:edit_profile' %}" rel="nofollow" class="pf-banner-action" title="Edit profile details" aria-label="Edit profile details">
                   <span class="material-symbols-outlined">settings</span>
                 </a>
               {% else %}
-                <button class="pf-action-icon-btn" data-action="show-options-soon" title="More Options">
+                <button class="pf-banner-action" data-action="show-options-soon" title="More options" aria-label="More options">
                   <span class="material-symbols-outlined">more_horiz</span>
                 </button>
               {% endif %}
             </div>
+          </div>
 
-            <!-- User Name with Dynamic Badge -->
-            <div class="pf-card-name-row" style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 4px;">
-              <h1 class="pf-card-name" style="margin: 0;">
-                {{ profile_user.display_name|default:profile_user.username }}
-              </h1>
+          {# Avatar and primary action, bottom-aligned across the cover's edge.
+             Nothing clips here, so the avatar hangs below the art. #}
+          <div class="pf-identity-row">
+            <div class="pf-avatar-overlap-wrap{% if profile_user.is_bot or profile_user.username == 'neby' %} pf-avatar-bot{% endif %} {% if profile_user.verification_level and profile_user.verification_level > 0 %}avatar-container-verified{% endif %}">
+              <div class="pf-avatar-circle{% if profile_user.is_bot or profile_user.username == 'neby' %} pf-avatar-bot-circle{% endif %}" id="profilePageAvatar">
+                {% if profile_user.is_bot or profile_user.username == 'neby' %}
+                  <div class="neby-avatar-hero" data-neby-avatar data-hero="true" data-animation="idle" id="profilePageNebyAvatar" title="Interactive 3D Neby! Click to play reactions"></div>
+                {% elif profile_user.photo_url %}
+                  <img src="{{ profile_user.photo_url }}" alt="{{ profile_user.display_name|default:profile_user.username }}" width="96" height="96" loading="eager" decoding="async">
+                {% else %}
+                  <div class="pf-avatar-initial">{{ profile_user.display_name|default:profile_user.username|slice:":1" }}</div>
+                {% endif %}
+              </div>
+              {% if profile_user.verification_level and profile_user.verification_level > 0 %}
+                <span class="avatar-badge-overlay" style="--badge-bg: {% if profile_user.verification_level == 1 %}#1B9AF0{% elif profile_user.verification_level == 2 %}#2E7D32{% elif profile_user.verification_level == 3 %}#F59E0B{% else %}#1A1A1A{% endif %};" title="Verified User">
+                  <span class="material-symbols-outlined">verified</span>
+                </span>
+              {% endif %}
+              {% if user and user.username == profile_user.username and not profile_user.is_bot and profile_user.username != 'neby' %}
+                <div class="pf-avatar-cam" data-action="open-photo-history-modal" title="Change photo">
+                  <span class="material-symbols-outlined">camera_alt</span>
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="pf-identity-action">
+              {% if user and user.username == profile_user.username %}
+                <a href="{% url 'web:edit_profile' %}" rel="nofollow" class="pf-btn pf-btn-outlined">
+                  <span class="material-symbols-outlined">edit</span>
+                  Edit profile
+                </a>
+              {% elif is_authenticated %}
+                <button id="btnFollowToggle" data-action="toggle-follow-user" data-user-id="{{ profile_user.id }}"
+                        class="pf-btn {% if stats.is_following or stats.is_requested %}pf-btn-outlined{% else %}pf-btn-filled{% endif %}">
+                  <span class="material-symbols-outlined">{% if stats.is_following %}check{% elif stats.is_requested %}pending{% else %}add{% endif %}</span>
+                  <span id="followText">{% if stats.is_following %}Following{% elif stats.is_requested %}Requested{% else %}Follow{% endif %}</span>
+                </button>
+              {% else %}
+                <a href="{% url 'web:login' %}?next={{ request.path }}" rel="nofollow" class="pf-btn pf-btn-filled">
+                  <span class="material-symbols-outlined">add</span>
+                  Follow
+                </a>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="pf-card-body">
+
+            <div class="pf-card-name-row">
+              <h1 class="pf-card-name">{{ profile_user.display_name|default:profile_user.username }}</h1>
               {% if badge_info %}
                 <span class="role-badge role-badge-{{ badge_info.type }}" title="{{ badge_info.label }}">
                   <span class="material-symbols-outlined">{{ badge_info.icon }}</span>
@@ -156,7 +186,7 @@
                 {% else %}
                   {% if profile_user.class_level %}
                     {% if profile_user.class_level == '11' %}Class 11
-{% elif profile_user.class_level == '12' %}Class 12
+                    {% elif profile_user.class_level == '12' %}Class 12
                     {% elif profile_user.class_level == '+2 Passout' %}+2 Passout
                     {% elif profile_user.class_level == 'Diploma' %}Diploma
                     {% elif profile_user.class_level == 'Teacher' %}Teacher / Educator
@@ -191,6 +221,49 @@
               </div>
             {% endif %}
 
+            {# The bio, with no heading over it. A one-paragraph "About" section
+               inside a profile is a label for something the reader can already
+               see. #}
+            <p class="pf-card-bio">
+              {% if profile_user.bio %}
+                {{ profile_user.bio|linkify }}
+              {% else %}
+                {% if profile_user.is_bot %}
+                  Your friendly AI study buddy. Always learning, always here to help.
+                {% elif profile_user.role == 'institution' %}
+                  <strong>{{ profile_user.display_name|default:"An institution" }}</strong> on NEBians.
+                {% else %}
+                  {% if profile_user.display_name %}{{ profile_user.display_name }}{% else %}A NEBians member{% endif %}
+                  {% if profile_user.school %} at <strong>{{ profile_user.school }}</strong>{% endif %}.
+                  {% if profile_user.subjects %}Focusing on <strong>{{ profile_user.subjects|comma_space }}</strong>.{% endif %}
+                {% endif %}
+              {% endif %}
+            </p>
+            {% include "web/_agent_persona_card.html" %}
+
+            {# Where they are, where they study, when they arrived: one wrapped
+               line of grey rather than three icon rows stacked vertically. #}
+            <div class="pf-meta-flow">
+              {% if not profile_user.is_bot %}
+                {% if profile_user.district or profile_user.pradesh %}
+                  <span class="pf-meta-item">
+                    <span class="material-symbols-outlined">location_on</span>
+                    {% if profile_user.district and profile_user.pradesh %}{{ profile_user.district }}, {{ profile_user.pradesh|clean_province }}{% elif profile_user.district %}{{ profile_user.district }}{% else %}{{ profile_user.pradesh|clean_province }}{% endif %}
+                  </span>
+                {% endif %}
+                {% if profile_user.school %}
+                  <span class="pf-meta-item">
+                    <span class="material-symbols-outlined">school</span>
+                    {% if profile_user.school_username %}<a href="/profile/{{ profile_user.school_username }}/" class="pf-meta-school-link">{{ profile_user.school }}</a>{% else %}{{ profile_user.school }}{% endif %}
+                  </span>
+                {% endif %}
+              {% endif %}
+              <span class="pf-meta-item">
+                <span class="material-symbols-outlined">calendar_month</span>
+                {% if profile_user.is_bot %}Online since {{ profile_user.created_at|join_date }}{% else %}Joined {{ profile_user.created_at|join_date }}{% endif %}
+              </span>
+            </div>
+
             <!-- Stats Rows (Followers, Following, Posts) -->
             <div class="pf-stats-row">
               {% if profile_user.is_bot %}
@@ -222,104 +295,28 @@
               {% endif %}
             </div>
 
-            <!-- Outlined Action Buttons Row -->
+            {# Everything the primary action is not. #}
             <div class="pf-buttons-row">
               {% if user and user.username == profile_user.username %}
-                <a href="{% url 'web:edit_profile' %}" rel="nofollow" class="pf-btn pf-btn-outlined pf-btn-primary">
-                  <span class="material-symbols-outlined">edit</span>
-                  Edit
-                </a>
                 <a href="{% url 'web:analytics' %}" rel="nofollow" class="pf-btn pf-btn-outlined">
                   <span class="material-symbols-outlined">monitoring</span>
                   Analytics
                 </a>
+              {% elif profile_user.is_bot %}
+                <button class="pf-btn pf-btn-outlined" data-action="copy-mention" data-mention="@{{ profile_user.username }}" data-msg="Copied @{{ profile_user.username }}! Mention them in any post to start chatting.">
+                  <span class="material-symbols-outlined">alternate_email</span>
+                  Try Neby
+                </button>
               {% else %}
-                {% if is_authenticated %}
-                  <button id="btnFollowToggle" data-action="toggle-follow-user" data-user-id="{{ profile_user.id }}"
-                          class="pf-btn {% if stats.is_following or stats.is_requested %}pf-btn-outlined{% else %}pf-btn-filled{% endif %}">
-                    <span class="material-symbols-outlined">{% if stats.is_following %}check{% elif stats.is_requested %}pending{% else %}add{% endif %}</span>
-                    <span id="followText">{% if stats.is_following %}Following{% elif stats.is_requested %}Requested{% else %}Follow{% endif %}</span>
-                  </button>
-                {% else %}
-                  <a href="{% url 'web:login' %}?next={{ request.path }}" rel="nofollow" class="pf-btn pf-btn-filled" style="text-decoration:none;">
-                    <span class="material-symbols-outlined">add</span>
-                    Follow
-                  </a>
-                {% endif %}
-
-                {% if profile_user.is_bot %}
-                  <button class="pf-btn pf-btn-outlined" data-action="copy-mention" data-mention="@{{ profile_user.username }}" data-msg="Copied @{{ profile_user.username }}! Mention them in any post to start chatting.">
-                    <span class="material-symbols-outlined">alternate_email</span>
-                    Try Neby
-                  </button>
-                {% else %}
-                  <button class="pf-btn pf-btn-outlined" data-action="copy-mention" data-mention="@{{ profile_user.username }}" data-msg="Copied username handle! Mention them in the forum.">
-                    <span class="material-symbols-outlined">alternate_email</span>
-                    Mention
-                  </button>
-                {% endif %}
+                <button class="pf-btn pf-btn-outlined" data-action="copy-mention" data-mention="@{{ profile_user.username }}" data-msg="Copied username handle! Mention them in the forum.">
+                  <span class="material-symbols-outlined">alternate_email</span>
+                  Mention
+                </button>
               {% endif %}
             </div>
 
-            <!-- Elegant Dotted Divider -->
-            <div class="pf-dotted-divider"></div>
-
-            <!-- About Section -->
-            <div class="pf-about-section">
-              <h2 class="pf-about-title">{% if profile_user.is_bot %}About Neby{% else %}About{% endif %}</h2>
-              <p class="pf-about-bio">
-                {% if profile_user.bio %}
-                  {{ profile_user.bio|linkify }}
-                {% else %}
-                  {% if profile_user.is_bot %}
-                    Your friendly AI study buddy. Always learning, always here to help.
-                  {% elif profile_user.role == 'institution' %}
-                    <strong>{{ profile_user.display_name|default:"An institution" }}</strong> on NEBians.
-                  {% else %}
-                    {% if profile_user.display_name %}{{ profile_user.display_name }}{% else %}A NEBians member{% endif %}
-                    {% if profile_user.school %} at <strong>{{ profile_user.school }}</strong>{% endif %}.
-                    {% if profile_user.subjects %}Focusing on <strong>{{ profile_user.subjects|comma_space }}</strong>.{% endif %}
-                  {% endif %}
-                {% endif %}
-              </p>
-              {% include "web/_agent_persona_card.html" %}
-            </div>
-
-            {% if not profile_user.is_bot %}
-              <!-- Meta details (Location, School) with clean outline icons -->
-              <div class="pf-meta-details">
-                {% if profile_user.district or profile_user.pradesh %}
-                  <div class="pf-meta-row">
-                    <span class="material-symbols-outlined">location_on</span>
-                    <span>
-                      {% if profile_user.district and profile_user.pradesh %}
-                        {{ profile_user.district }}, {{ profile_user.pradesh|clean_province }}
-                      {% elif profile_user.district %}
-                        {{ profile_user.district }}
-                      {% else %}
-                        {{ profile_user.pradesh|clean_province }}
-                      {% endif %}
-                    </span>
-                  </div>
-                {% endif %}
-
-                {% if profile_user.school %}
-                  <div class="pf-meta-row">
-                    <span class="material-symbols-outlined">school</span>
-                    {% if profile_user.school_username %}
-                      <a href="/profile/{{ profile_user.school_username }}/" class="pf-meta-school-link">{{ profile_user.school }}</a>
-                    {% else %}
-                      <span>{{ profile_user.school }}</span>
-                    {% endif %}
-                  </div>
-                {% endif %}
-              </div>
-            {% endif %}
-
             <!-- Social Media Links -->
             {% if social_links %}
-            <div class="pf-social-links-section">
-              <div class="pf-dotted-divider"></div>
               <div class="pf-social-links-row" id="pfSocialRow">
                 {% for link in social_links %}
                 <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer" class="pf-social-link-btn platform-{{ link.icon }}" title="{{ link.platform_label }}" data-link-id="{{ link.id }}" data-link-user-id="{{ profile_user.id }}" data-link-platform="{{ link.icon }}" data-link-url="{{ link.url }}">
@@ -336,17 +333,7 @@
                   <span class="material-symbols-outlined">more_horiz</span>
                 </button>
               </div>
-            </div>
             {% endif %}
-
-            <div class="pf-info-joined">
-              <span class="material-symbols-outlined">calendar_month</span>
-              {% if profile_user.is_bot %}
-                Online since {{ profile_user.created_at|join_date }}
-              {% else %}
-                Joined {{ profile_user.created_at|join_date }}
-              {% endif %}
-            </div>
 
             {% if profile_user.is_bot %}
               <div class="pf-bot-footer">
