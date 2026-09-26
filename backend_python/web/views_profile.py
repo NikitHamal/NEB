@@ -107,34 +107,24 @@ def profile(request, username):
 
     badge_info = _user_badge_info(profile_user)
 
-    banner_type = ''
+    # The cover role, and the word tracked into its bottom-right corner. Same
+    # priority and same strings as the app's `bannerPresetFor`, because both
+    # platforms feed them to the same generative art and a divergence here
+    # would give one user two different covers.
+    banner_role = 'MEMBER'
     banner_deco_text = 'nebian'
-    banner_text_color = ''
-    if not profile_user.banner_url:
-        if profile_user.is_bot:
-            banner_type = 'gradient-bot'
-            banner_deco_text = 'neby ai'
-            banner_text_color = 'rgba(255,255,255,0.25)'
-        elif profile_user.is_admin:
-            banner_type = 'gradient-admin'
-            banner_deco_text = 'admin'
-            banner_text_color = 'rgba(255,255,255,0.25)'
-        elif profile_user.moderator_level and profile_user.moderator_level > 0:
-            banner_type = 'gradient-moderator'
-            banner_deco_text = 'moderator'
-            banner_text_color = 'rgba(255,255,255,0.22)'
-        elif profile_user.verification_level and profile_user.verification_level > 0:
-            banner_type = 'gradient-verified'
-            banner_deco_text = 'nebian'
-            banner_text_color = 'rgba(255,255,255,0.20)'
-        elif getattr(profile_user, 'role', '') == 'teacher':
-            banner_type = 'gradient-tutor'
-            banner_deco_text = 'tutor'
-            banner_text_color = 'rgba(255,255,255,0.28)'
-        elif getattr(profile_user, 'role', '') == 'institution':
-            banner_type = 'gradient-institution'
-            banner_deco_text = 'nebian'
-            banner_text_color = 'rgba(255,255,255,0.25)'
+    if profile_user.is_bot:
+        banner_role, banner_deco_text = 'BOT', 'neby ai'
+    elif profile_user.is_admin:
+        banner_role, banner_deco_text = 'ADMIN', 'admin'
+    elif profile_user.moderator_level and profile_user.moderator_level > 0:
+        banner_role, banner_deco_text = 'MODERATOR', 'moderator'
+    elif profile_user.verification_level and profile_user.verification_level > 0:
+        banner_role, banner_deco_text = 'VERIFIED', 'nebian'
+    elif getattr(profile_user, 'role', '') == 'teacher':
+        banner_role, banner_deco_text = 'TUTOR', 'tutor'
+    elif getattr(profile_user, 'role', '') == 'institution':
+        banner_role, banner_deco_text = 'INSTITUTION', 'institution'
 
     profile_data = {
         'id': profile_user.id,
@@ -142,9 +132,8 @@ def profile(request, username):
         'email': profile_user.email,
         'photo_url': _avatar_url(profile_user),
         'banner_url': profile_user.banner_url,
-        'banner_type': banner_type,
+        'banner_role': banner_role,
         'banner_deco_text': banner_deco_text,
-        'banner_text_color': banner_text_color,
         'display_name': profile_user.display_name,
         'role': profile_user.role,
         'dob': profile_user.dob,
