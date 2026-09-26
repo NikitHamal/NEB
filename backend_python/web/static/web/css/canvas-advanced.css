@@ -11,7 +11,7 @@
   background: var(--md-surface-container-lowest);
   border: 1px solid var(--md-outline-variant);
   border-radius: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  box-shadow: var(--md-elevation-1);
   max-width: calc(100% - 36px);
   overflow: visible;
 }
@@ -67,7 +67,7 @@
 
 .cv-tool-neby:hover {
   background: var(--md-primary);
-  color: #ffffff;
+  color: var(--md-on-primary);
 }
 
 .cv-more-menu {
@@ -78,7 +78,7 @@
   border: 1px solid var(--md-outline-variant);
   border-radius: 16px;
   padding: 6px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--md-elevation-2);
 }
 
 .cv-more-menu[hidden] {
@@ -115,7 +115,7 @@
   position: fixed;
   inset: 0;
   z-index: 89;
-  background: rgba(15, 23, 42, 0.18);
+  background: color-mix(in srgb, var(--md-scrim) 40%, transparent);
   backdrop-filter: blur(2px);
 }
 
@@ -133,7 +133,7 @@
   background: var(--md-surface-container-lowest);
   border: 1px solid var(--md-outline-variant);
   border-radius: 20px;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--md-elevation-2);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -233,7 +233,7 @@
 .cv-field textarea:focus,
 .cv-field select:focus {
   border-color: var(--md-primary);
-  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.12);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--md-primary) 12%, transparent);
 }
 
 .cv-actions {
@@ -260,13 +260,13 @@
 
 .cv-action.primary {
   background: var(--md-primary);
-  color: #ffffff;
-  box-shadow: 0 2px 8px rgba(37,99,235,.2);
+  color: var(--md-on-primary);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--md-primary) 20%, transparent);
 }
-.cv-action.primary:hover { filter:brightness(1.06); box-shadow:0 4px 12px rgba(37,99,235,.28); }
+.cv-action.primary:hover { filter:brightness(1.06); box-shadow:0 4px 12px color-mix(in srgb, var(--md-primary) 28%, transparent); }
 
 .cv-action.ghost {
-  background: #fff;
+  background: var(--md-surface-container-lowest);
   color: var(--md-on-surface);
   border: 1px solid var(--md-outline-variant);
 }
@@ -333,7 +333,7 @@
   align-items: center;
   transition: border-color .15s, box-shadow .15s, transform .15s;
 }
-.cv-suggestion:hover { border-color:#c7d7ff; box-shadow:0 2px 10px rgba(37,99,235,.07); transform:translateY(-1px); }
+.cv-suggestion:hover { border-color:color-mix(in srgb, var(--md-primary) 30%, var(--md-surface)); box-shadow:0 2px 10px color-mix(in srgb, var(--md-primary) 10%, transparent); transform:translateY(-1px); }
 
 .cv-suggestion-main {
   flex: 1;
@@ -368,7 +368,7 @@
   flex-shrink: 0;
   transition: background .15s, transform .15s;
 }
-.cv-suggestion button:hover { background: var(--md-primary); color:#fff; transform:scale(1.04); }
+.cv-suggestion button:hover { background: var(--md-primary); color: var(--md-on-primary); transform:scale(1.04); }
 .cv-suggestion button .material-symbols-outlined { font-size:18px; }
 
 .cv-history-row {
@@ -422,7 +422,7 @@
   position: fixed;
   inset: 0;
   z-index: 110;
-  background: rgba(15, 23, 42, 0.25);
+  background: color-mix(in srgb, var(--md-scrim) 48%, transparent);
   backdrop-filter: blur(2px);
   display: flex;
   justify-content: center;
@@ -439,7 +439,7 @@
   background: var(--md-surface-container-lowest);
   border: 1px solid var(--md-outline-variant);
   border-radius: 18px;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.10);
+  box-shadow: var(--md-elevation-3);
   overflow: hidden;
 }
 
@@ -529,19 +529,19 @@
   text-overflow: ellipsis;
 }
 
-.canvas-card[data-kind="note"] { border-top: 2.5px solid #d97706; }
-.canvas-card[data-kind="source"] { border-top: 2.5px solid #0f9f78; }
-.canvas-card[data-kind="question"] { border-top: 2.5px solid #7c3aed; }
-.canvas-card[data-kind="practice"] { border-top: 2.5px solid #db2777; }
-.canvas-card[data-kind="comparison"] { border-top: 2.5px solid #e11d48; }
-.canvas-card[data-kind="summary"] { border-top: 2.5px solid #2563eb; }
+.canvas-card[data-kind="note"] { border-top: 2.5px solid var(--neb-accent-amber); }
+.canvas-card[data-kind="source"] { border-top: 2.5px solid var(--neb-accent-teal); }
+.canvas-card[data-kind="question"] { border-top: 2.5px solid var(--neb-accent-violet); }
+.canvas-card[data-kind="practice"] { border-top: 2.5px solid var(--neb-accent-pink); }
+.canvas-card[data-kind="comparison"] { border-top: 2.5px solid var(--neb-accent-rose); }
+.canvas-card[data-kind="summary"] { border-top: 2.5px solid var(--neb-accent-brand); }
 
 .cv-neby-orb {
   width: 38px;
   height: 38px;
   border-radius: 12px;
   background: var(--md-primary);
-  color: #ffffff;
+  color: var(--md-on-primary);
   display: grid;
   place-items: center;
 }
@@ -593,24 +593,15 @@
   to { opacity: 0.2; transform: scale(0.7); }
 }
 
-/* Dark mode overrides */
-[data-theme='dark'] .canvas-top-tools,
-[data-theme='dark'] .cv-more-menu,
-[data-theme='dark'] .cv-panel,
-[data-theme='dark'] .cv-command-card,
-[data-theme='dark'] .cv-template,
-[data-theme='dark'] .cv-history-row,
-[data-theme='dark'] .cv-suggestion {
-  background: var(--md-surface-container-lowest);
-  border-color: var(--md-outline-variant);
-}
-
+/* The seven-selector dark block that used to stand here set exactly the
+   --md-surface-container-lowest and --md-outline-variant its base rules
+   already read, so it was a copy of the cascade it sat under. The one real
+   difference is below: a field is lifted off its card in dark theme, where
+   on a light card the outline alone is enough to read as an input. */
 [data-theme='dark'] .cv-field input,
 [data-theme='dark'] .cv-field textarea,
 [data-theme='dark'] .cv-field select {
   background: var(--md-surface-container-high);
-  border-color: var(--md-outline-variant);
-  color: #f1f5f9;
 }
 
 .canvas-draw-layer{
@@ -650,23 +641,23 @@
 .cv-history-chev { font-size:16px; color:var(--md-on-surface-variant); flex:none; transition:none; }
 .cv-history-item.open .cv-history-chev { transform:rotate(90deg); }
 .cv-history-kind { flex:none; font-size:10px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; padding:2px 7px; border-radius:99px; }
-.cv-history-kind.explore { background:rgba(37,99,235,.1); color:#2563eb; }
-.cv-history-kind.suggest { background:rgba(16,163,110,.12); color:#0a8a5f; }
+.cv-history-kind.explore { background:color-mix(in srgb, var(--neb-accent-brand) 10%, transparent); color:color-mix(in srgb, var(--neb-accent-brand) 74%, var(--md-on-surface)); }
+.cv-history-kind.suggest { background:color-mix(in srgb, var(--neb-accent-green) 12%, transparent); color:color-mix(in srgb, var(--neb-accent-green) 74%, var(--md-on-surface)); }
 .cv-history-goal { flex:1; min-width:0; font-size:12px; font-weight:550; color:var(--md-on-surface); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .cv-history-time { flex:none; font-size:10.5px; color:var(--md-on-surface-variant); }
 .cv-history-body { padding:2px 12px 12px; display:flex; flex-direction:column; gap:8px; }
 .cv-history-summary { margin:0; font-size:12px; line-height:1.55; color:var(--md-on-surface-variant); }
 .cv-history-qs { display:flex; flex-direction:column; gap:6px; }
 .cv-history-q { display:flex; align-items:center; justify-content:space-between; gap:10px; width:100%; padding:8px 10px; border:1px solid var(--md-outline-variant); border-radius:10px; background:var(--md-surface-container-lowest); cursor:pointer; font:inherit; text-align:left; }
-.cv-history-q:hover { border-color:#c7d7ff; background:#f6f9ff; }
+.cv-history-q:hover { border-color:color-mix(in srgb, var(--md-primary) 30%, var(--md-surface)); background:color-mix(in srgb, var(--md-primary) 5%, var(--md-surface)); }
 .cv-history-q span:first-child { font-size:12px; font-weight:550; color:var(--md-on-surface); min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 .cv-history-q .material-symbols-outlined { font-size:16px; color:var(--md-primary); flex:none; }
 .cv-history-none { font-size:11px; color:var(--md-on-surface-variant); font-style:italic; }
 
 /* agentic bottom-bar status chip */
-.cv-agent-chip { position:fixed; left:50%; transform:translateX(-50%); bottom:96px; z-index:900; display:flex; align-items:center; gap:8px; background:#0f172a; color:#f1f5f9; font-size:12.5px; font-weight:550; padding:9px 16px; border-radius:999px; box-shadow:0 8px 28px rgba(2,8,20,.35); max-width:70vw; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.cv-agent-chip.done { background:#0a8a5f; }
-.cv-agent-chip.err { background:#b3261e; }
+.cv-agent-chip { position:fixed; left:50%; transform:translateX(-50%); bottom:96px; z-index:900; display:flex; align-items:center; gap:8px; background:var(--md-inverse-surface); color:var(--md-inverse-on-surface); font-size:12.5px; font-weight:550; padding:9px 16px; border-radius:999px; box-shadow:var(--md-elevation-3); max-width:70vw; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.cv-agent-chip.done { background:var(--neb-accent-green); }
+.cv-agent-chip.err { background:var(--md-error); }
 /* The wait is .md-loader (material3/08-shapes.css); the chip is filled, so
    it takes the chip's own colour rather than the site's primary. */
 .cv-agent-spin { width:14px; height:14px; color:inherit; }
@@ -675,5 +666,5 @@
 .cw-bar-grip { color:var(--md-on-surface-variant); font-size:12px; letter-spacing:-1px; }
 .cw-bar-title { flex:1; min-width:0; font-size:11px; font-weight:600; color:var(--md-on-surface-variant); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; text-transform:uppercase; letter-spacing:.04em; }
 .cw-bar-x { border:0; background:transparent; color:var(--md-on-surface-variant); cursor:pointer; font-size:12px; padding:0 2px; line-height:1; }
-.cw-bar-x:hover { color:#b3261e; }
+.cw-bar-x:hover { color:var(--md-error); }
 .cw-node { overflow:hidden; }
