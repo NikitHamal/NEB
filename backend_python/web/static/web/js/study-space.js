@@ -734,12 +734,16 @@
     sendPresence(activityStatus(), activityDetail(), false);
   }
 
+  /* NebSegmentedChoice's one answer. The track, the pill and where the pill
+     slides to are the component's; all this has to say is which segment is
+     pressed and what that means for the hidden input. */
   function selectCountChoice(el) {
-    var picker = el.closest('.ss-count-picker');
-    if (!picker) return;
-    picker.querySelectorAll('.ss-count-choice').forEach(function (b) { b.classList.remove('active'); });
-    el.classList.add('active');
-    var target = $(picker.dataset.target);
+    var bank = el.closest('.neb-segmented');
+    if (!bank) return;
+    bank.querySelectorAll('.neb-segment').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b === el));
+    });
+    var target = $(bank.dataset.target);
     if (target) target.value = el.dataset.value;
   }
 

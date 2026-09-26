@@ -1574,6 +1574,113 @@
   .neb-rail-item:active { transform: none; }
 }
 
+/* ── Segmented choice ───────────────────────────────────────────────────────
+   NebSegmentedChoice. Two to four one-word answers in a single connected bank
+   -- how many questions, how many cards, how many days the plan runs.
+
+   The Kotlin's reasoning, kept: it reads as one continuous control because it
+   is one. A track in the field colour carries the segments, and the segments
+   are transparent until chosen, so there is no seam and no gap between the
+   answers -- which is what separates this from a row of chips, where every
+   answer is its own object and the row is a list of them.
+
+   Two behaviours come from Expressive's ButtonGroup and ToggleButton and are
+   the reason the app uses those rather than a hand-rolled row of boxes. The
+   segment under the thumb widens while its neighbours give way, and its
+   corners morph from round at rest to square while pressed. Both are here, in
+   flex-grow and a border-radius, because a control that does not answer the
+   finger is not the same control.
+
+   The mark is one pill and it slides; neb-rail.js measures where to, the same
+   controller the tab rail uses. With that file missing the chosen segment
+   wears the pill itself, so the bank is correct without JS and merely does not
+   animate.
+
+     <div class="neb-segmented" role="group" aria-label="Questions">
+       <button type="button" class="neb-segment" aria-pressed="true">10</button>
+       ...
+     </div>
+
+   The contract is aria-pressed, so the bank is a group of toggles to a screen
+   reader and not a tab list -- these answer a question, they do not switch a
+   view. */
+.neb-segmented {
+  position: relative;
+  display: inline-flex;
+  align-items: stretch;
+  padding: 4px;
+  border-radius: var(--md-shape-full);
+  background: var(--md-surface-container-lowest);
+  border: 1px solid var(--md-outline-variant);
+}
+
+/* The travelling pill, inserted by the controller and sized from the chosen
+   segment. Under the labels and taking no clicks, so the segment it covers is
+   still the thing being pressed. */
+.neb-segmented-ind {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: var(--md-shape-full);
+  background: var(--md-primary);
+  transform: translateX(0);
+  transition: transform var(--md-motion-spatial), width var(--md-motion-spatial),
+              border-radius var(--md-motion-effects-fast);
+}
+.neb-segmented-ind:not([data-placed]) { opacity: 0; }
+.neb-segmented-ind[data-placed="first"] { transition: none; }
+/* The corner morph. Expressive squares a ToggleButton off while it is held;
+   here the pill is a separate element, so the press is read from the bank. */
+.neb-segmented:has(.neb-segment:active) .neb-segmented-ind {
+  border-radius: var(--md-shape-sm);
+}
+
+.neb-segment {
+  position: relative;
+  z-index: 1;
+  /* Equal thirds until one is held, and then the held one takes more. The
+     grow is on flex-grow rather than a transform so the neighbours really do
+     give way instead of being covered. */
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: var(--md-shape-full);
+  background: transparent;
+  color: var(--md-on-surface-variant);
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color var(--md-motion-effects-fast), flex-grow var(--md-motion-spatial-fast);
+}
+.neb-segment:hover { color: var(--md-on-surface); }
+.neb-segment:active { flex-grow: 1.35; }
+.neb-segment:focus-visible { outline: 2px solid var(--md-primary); outline-offset: 2px; }
+.neb-segment[aria-pressed="true"] { color: var(--md-on-primary); }
+.neb-segment .material-symbols-outlined { font-size: 18px; }
+
+/* Before the controller has measured anything -- and for good if it never
+   loads -- the chosen segment carries the pill itself. */
+.neb-segmented:not([data-rail-ready]) .neb-segment[aria-pressed="true"] {
+  background: var(--md-primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .neb-segmented-ind { transition: none; }
+  .neb-segment { transition: none; }
+  .neb-segment:active { flex-grow: 1; }
+}
+
 /* ── Select field ───────────────────────────────────────────────────────────
    NebSelectField. One answer on a form, shown as the answer rather than as an
    empty box: what it is on the left, what you chose underneath it as pills, a

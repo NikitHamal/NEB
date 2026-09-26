@@ -644,32 +644,6 @@
   margin-bottom: 8px;
 }
 
-/* ── Count picker ── */
-.ss-count-picker {
-  display: inline-flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  padding: 4px;
-  border-radius: var(--md-radius-full);
-  background: var(--md-surface-container-low);
-  border: 1px solid var(--md-outline-variant);
-}
-.ss-count-choice {
-  border: 0;
-  border-radius: var(--md-radius-full);
-  padding: 8px 14px;
-  min-height: 36px;
-  background: transparent;
-  color: var(--md-on-surface-variant);
-  font-weight: 700;
-  cursor: pointer;
-  font-family: inherit;
-  transition: background 0.15s ease, color 0.15s ease;
-}
-.ss-count-choice.active {
-  background: var(--md-primary-container);
-  color: var(--md-on-primary-container);
-}
 
 /* ── Members ── */
 .ss-member-list { display: flex; flex-direction: column; gap: 2px; }
@@ -1164,8 +1138,7 @@ button.ss-confirm-armed {
   .ss-mode-btn,
   .ss-back-btn,
   .ss-gen-btn,
-  .ss-upload-btn,
-  .ss-count-choice {
+  .ss-upload-btn {
     transition: none;
   }
   .ss-loading-skeleton { animation: none; opacity: 0.5; }

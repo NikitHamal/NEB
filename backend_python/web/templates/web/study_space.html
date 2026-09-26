@@ -169,11 +169,19 @@
           <p>Generate a quiz from all documents in this space. New questions avoid previous ones.</p>
           <div class="sl-quiz-options">
             <span class="filter-section-label">Questions</span>
-            <div class="ss-count-picker" id="ssQuizCountPicker" data-target="ssQuizCount">
-              <button type="button" class="ss-count-choice" data-action="ss-count-choice" data-value="5">5</button>
-              <button type="button" class="ss-count-choice active" data-action="ss-count-choice" data-value="10">10</button>
-              <button type="button" class="ss-count-choice" data-action="ss-count-choice" data-value="15">15</button>
-              <button type="button" class="ss-count-choice" data-action="ss-count-choice" data-value="20">20</button>
+            {% comment %}
+              NebSegmentedChoice. This and the two banks below it were a bespoke count
+              picker -- its own track, its own pill, its own .active class -- drawn
+              twice in CSS, once in study-lab/05-space.css and again in
+              study-space.css, which is how the two copies came to disagree about
+              padding and font weight. One component now, and the pill travels between
+              answers the way the app's does.
+            {% endcomment %}
+            <div class="neb-segmented" id="ssQuizCountPicker" role="group" aria-label="Questions" data-target="ssQuizCount">
+              <button type="button" class="neb-segment" data-action="ss-count-choice" data-value="5" aria-pressed="false">5</button>
+              <button type="button" class="neb-segment" data-action="ss-count-choice" data-value="10" aria-pressed="true">10</button>
+              <button type="button" class="neb-segment" data-action="ss-count-choice" data-value="15" aria-pressed="false">15</button>
+              <button type="button" class="neb-segment" data-action="ss-count-choice" data-value="20" aria-pressed="false">20</button>
             </div>
             <input type="hidden" id="ssQuizCount" value="10">
           </div>
@@ -201,11 +209,11 @@
           <p>Generate flashcards from all documents in this space. New cards avoid previous ones.</p>
           <div class="sl-flash-options">
             <span class="filter-section-label">Cards</span>
-            <div class="ss-count-picker" id="ssFlashCountPicker" data-target="ssFlashCount">
-              <button type="button" class="ss-count-choice active" data-action="ss-count-choice" data-value="8">8</button>
-              <button type="button" class="ss-count-choice" data-action="ss-count-choice" data-value="12">12</button>
-              <button type="button" class="ss-count-choice" data-action="ss-count-choice" data-value="20">20</button>
-              <button type="button" class="ss-count-choice" data-action="ss-count-choice" data-value="30">30</button>
+            <div class="neb-segmented" id="ssFlashCountPicker" role="group" aria-label="Cards" data-target="ssFlashCount">
+              <button type="button" class="neb-segment" data-action="ss-count-choice" data-value="8" aria-pressed="true">8</button>
+              <button type="button" class="neb-segment" data-action="ss-count-choice" data-value="12" aria-pressed="false">12</button>
+              <button type="button" class="neb-segment" data-action="ss-count-choice" data-value="20" aria-pressed="false">20</button>
+              <button type="button" class="neb-segment" data-action="ss-count-choice" data-value="30" aria-pressed="false">30</button>
             </div>
             <input type="hidden" id="ssFlashCount" value="8">
           </div>
@@ -248,11 +256,11 @@
             <div class="ss-learning-empty-desc">Turn your PDFs and notes into a guided day-by-day study plan with daily goals, tasks, and checkpoints.</div>
             <div class="ss-ai-actions" style="justify-content:center; margin-top:16px;">
               <span class="filter-section-label">Days</span>
-              <div class="ss-count-picker" id="ssLearningDaysPicker" data-target="ssLearningDays">
-                <button type="button" class="ss-count-choice" data-action="ss-count-choice" data-value="7">7</button>
-                <button type="button" class="ss-count-choice active" data-action="ss-count-choice" data-value="10">10</button>
-                <button type="button" class="ss-count-choice" data-action="ss-count-choice" data-value="14">14</button>
-                <button type="button" class="ss-count-choice" data-action="ss-count-choice" data-value="21">21</button>
+              <div class="neb-segmented" id="ssLearningDaysPicker" role="group" aria-label="Days" data-target="ssLearningDays">
+                <button type="button" class="neb-segment" data-action="ss-count-choice" data-value="7" aria-pressed="false">7</button>
+                <button type="button" class="neb-segment" data-action="ss-count-choice" data-value="10" aria-pressed="true">10</button>
+                <button type="button" class="neb-segment" data-action="ss-count-choice" data-value="14" aria-pressed="false">14</button>
+                <button type="button" class="neb-segment" data-action="ss-count-choice" data-value="21" aria-pressed="false">21</button>
               </div>
               <input type="hidden" id="ssLearningDays" value="10">
               <button class="md-btn md-btn-filled" data-action="ss-generate-learning-path">Generate my plan</button>
