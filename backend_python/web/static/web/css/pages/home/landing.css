@@ -2,6 +2,12 @@
   padding-top: 0;
 }
 
+/* The one surface on the site that does not follow the palette, and the only
+   one that should not. It is a full-bleed painting -- a pale sky, admin-swapped
+   between six seasonal variants, every one of them light -- so the ink over it
+   is fixed to what is legible on that painting rather than to the theme. A
+   reader in dark theme still sees a bright hero here; that is the artwork,
+   not a bug. Everything below the fold is on the tokens. */
 .home-landing {
   --home-sky: #dff3ff;
   --home-sky-deep: #9ed8fb;
@@ -118,7 +124,7 @@
   gap: 10px;
   padding: 0 20px;
   min-width: 150px;
-  border-radius: 14px;
+  border-radius: var(--md-shape-md);
   font-size: 0.90rem;
   font-weight: 600;
   text-decoration: none;
@@ -186,308 +192,18 @@
   background: rgba(23, 52, 82, 0.14);
 }
 
-[data-theme="dark"] .home-hero-button-secondary,
-html[data-theme="dark"] .home-hero-button-secondary {
-  color: #f8fafc;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
-}
+/* Four rules gave this button white ink on a white film in dark theme. They
+   were written as though the hero went dark with the rest of the page, and it
+   does not -- the sky behind it is the same pale painting in both themes -- so
+   in dark theme the second of the two calls to action was near-white text on a
+   near-white sky, at roughly 1.2:1. It is the light treatment in both themes
+   now, because there is only one background here to be legible against. */
 
-[data-theme="dark"] .home-hero-button-secondary .material-symbols-outlined,
-[data-theme="dark"] .home-hero-button-secondary svg,
-html[data-theme="dark"] .home-hero-button-secondary .material-symbols-outlined,
-html[data-theme="dark"] .home-hero-button-secondary svg {
-  background: rgba(255, 255, 255, 0.18);
-  color: #ffffff;
-}
-
-[data-theme="dark"] .home-hero-button-secondary:hover,
-html[data-theme="dark"] .home-hero-button-secondary:hover {
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.16);
-  border-color: rgba(255, 255, 255, 0.35);
-}
-
-[data-theme="dark"] .home-hero-button-secondary:hover .material-symbols-outlined,
-[data-theme="dark"] .home-hero-button-secondary:hover svg,
-html[data-theme="dark"] .home-hero-button-secondary:hover .material-symbols-outlined,
-html[data-theme="dark"] .home-hero-button-secondary:hover svg {
-  background: rgba(255, 255, 255, 0.28);
-  color: #ffffff;
-}
-
-.home-community-preview {
-  width: min(920px, 96%);
-  margin: 48px auto 0;
-  overflow: hidden;
-  border: 1px solid rgba(24, 61, 91, 0.15);
-  border-radius: 20px;
-  background: rgba(252, 253, 250, 0.96);
-  box-shadow: 0 12px 30px rgba(28, 78, 113, 0.11);
-}
-
-.home-preview-bar {
-  min-height: 44px;
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 0 14px;
-  border-bottom: 1px solid #e4e9e7;
-  background: rgba(255, 255, 255, 0.76);
-}
-
-.home-preview-brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: #17324d;
-  font-size: 0.82rem;
-  font-weight: 800;
-  text-decoration: none;
-}
-
-.home-preview-brand:hover {
-  color: #17324d;
-  text-decoration: none;
-}
-
-.home-preview-brand img {
-  width: 27px;
-  height: 27px;
-  border-radius: 8px;
-}
-
-.home-preview-tabs {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  margin: 0 auto;
-}
-
-.home-preview-tabs span {
-  padding: 6px 10px;
-  border-radius: 9px;
-  color: #68798a;
-  font-size: 0.68rem;
-  font-weight: 650;
-}
-
-.home-preview-tabs span.is-active {
-  background: #e4f7ed;
-  color: #117044;
-}
-
-.home-preview-search {
-  color: #6e7d8c;
-  font-size: 19px;
-}
-
-.home-preview-body {
-  display: grid;
-  grid-template-columns: minmax(0, 1.45fr) minmax(260px, 0.75fr);
-  gap: 12px;
-  padding: 12px;
-}
-
-.home-preview-resources,
-.home-preview-community {
-  min-width: 0;
-  padding: 12px;
-  border: 1px solid #e3e8e5;
-  border-radius: 12px;
-  background: #fff;
-}
-
-.home-preview-section-head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 12px;
-}
-
-.home-preview-section-head > div {
-  min-width: 0;
-}
-
-.home-preview-kicker {
-  display: block;
-  margin-bottom: 3px;
-  color: #778695;
-  font-size: 0.59rem;
-  font-weight: 750;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.home-preview-section-head strong {
-  display: block;
-  color: #1a3046;
-  font-size: 0.79rem;
-  line-height: 1.35;
-}
-
-.home-preview-section-head a {
-  flex-shrink: 0;
-  color: #1d65d8;
-  font-size: 0.65rem;
-  font-weight: 700;
-}
-
-.home-preview-resource-list {
-  display: grid;
-  gap: 8px;
-}
-
-.home-preview-resource {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-width: 0;
-  padding: 7px 9px;
-  border: 1px solid #edf0ee;
-  border-radius: 11px;
-  color: #1c344c;
-  text-decoration: none;
-}
-
-.home-preview-resource:hover {
-  border-color: #cddbd5;
-  background: #fafcfb;
-  color: #1c344c;
-  text-decoration: none;
-}
-
-.home-preview-resource-icon {
-  width: 35px;
-  height: 35px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  border-radius: 10px;
-  background: color-mix(in srgb, var(--subject-color, #2563eb) 12%, #fff);
-  color: var(--subject-color, #2563eb);
-}
-
-.home-preview-resource-icon .material-symbols-outlined {
-  font-size: 19px;
-}
-
-.home-preview-resource-copy {
-  min-width: 0;
-  display: block;
-  flex: 1;
-}
-
-.home-preview-resource-copy strong,
-.home-preview-resource-copy small {
-  display: block;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.home-preview-resource-copy strong {
-  font-size: 0.72rem;
-  line-height: 1.4;
-}
-
-.home-preview-resource-copy small {
-  margin-top: 2px;
-  color: #768594;
-  font-size: 0.6rem;
-}
-
-.home-preview-resource > .material-symbols-outlined {
-  flex-shrink: 0;
-  color: #7c8996;
-  font-size: 16px;
-}
-
-.home-preview-post {
-  display: block;
-  padding: 10px 12px;
-  border: 1px solid #e6e8ef;
-  border-radius: 12px;
-  background: #fbfbfe;
-  color: #1d3047;
-  text-decoration: none;
-}
-
-.home-preview-post:hover {
-  border-color: #d3d7e3;
-  color: #1d3047;
-  text-decoration: none;
-}
-
-.home-preview-post-category {
-  display: inline-flex;
-  margin-bottom: 7px;
-  padding: 4px 7px;
-  border-radius: 7px;
-  background: #eeeaff;
-  color: #684bd0;
-  font-size: 0.57rem;
-  font-weight: 750;
-}
-
-.home-preview-post strong {
-  display: -webkit-box;
-  overflow: hidden;
-  color: #1a3046;
-  font-size: 0.74rem;
-  line-height: 1.45;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-}
-
-.home-preview-post-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  margin-top: 10px;
-  color: #778594;
-  font-size: 0.59rem;
-}
-
-.home-preview-community-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  margin-top: 11px;
-  color: #1763d2;
-  font-size: 0.64rem;
-  font-weight: 700;
-}
-
-.home-preview-community-link .material-symbols-outlined {
-  font-size: 14px;
-}
-
-.home-preview-empty {
-  min-height: 56px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 12px;
-  border: 1px dashed #d9e0dd;
-  border-radius: 11px;
-  color: #71808e;
-  font-size: 0.66rem;
-  text-align: center;
-}
-
-.home-preview-empty .material-symbols-outlined {
-  font-size: 19px;
-}
-
-.home-preview-empty-post {
-  min-height: 76px;
-  flex-direction: column;
-}
+/* The in-page product mockup -- a fake app window with a toolbar, a resources
+   column and a community column -- lived here: 22 class names, 283 lines and
+   three quarters of this file's colour, every value of it a hardcoded light
+   grey or slate. No template has rendered it for some time. It also could not
+   have survived dark theme, since nothing in it asked the palette anything. */
 
 .home-landing-hills {
   display: none;
