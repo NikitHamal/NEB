@@ -12,38 +12,9 @@
 {% block tw_description %}Nepal's open learning community — free past papers, notes, a study forum and AI study tools for every subject and level.{% endblock %}
 {% block nav_home %}md-nav-active{% endblock %}
 {% block body_class %}home-page{% endblock %}
-{% block bnav_home %}md-nav-active{% endblock %}
 
 {% block bottomnav %}
-<nav class="md-bottomnav">
-  <div class="md-bottomnav-pill">
-    <a href="{% url 'web:home' %}" class="md-bottomnav-item md-nav-active" aria-label="Home">
-      <div class="md-bottomnav-icon-wrapper">
-        <span class="material-symbols-outlined">home</span>
-      </div>
-      <span class="md-bottomnav-label">Home</span>
-    </a>
-    <a href="{% url 'web:library' %}" class="md-bottomnav-item" aria-label="Library">
-      <div class="md-bottomnav-icon-wrapper">
-        <span class="material-symbols-outlined">menu_book</span>
-      </div>
-      <span class="md-bottomnav-label">Library</span>
-    </a>
-
-    <a href="{% url 'web:forum' %}" class="md-bottomnav-item" aria-label="Forum">
-      <div class="md-bottomnav-icon-wrapper">
-        <span class="material-symbols-outlined">forum</span>
-      </div>
-      <span class="md-bottomnav-label">Forum</span>
-    </a>
-    <a href="{% url 'web:news_list' %}" class="md-bottomnav-item" aria-label="News">
-      <div class="md-bottomnav-icon-wrapper">
-        <span class="material-symbols-outlined">newspaper</span>
-      </div>
-      <span class="md-bottomnav-label">News</span>
-    </a>
-  </div>
-</nav>
+{% include "web/partials/bottomnav.html" with current="home" %}
 {% endblock %}
 
 

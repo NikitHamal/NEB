@@ -1,135 +1,144 @@
-/* Bottom Nav (Liquid Glass Capsule for Mobile) */
+/* ──────────────────────────────────────────────────────────────────────────
+   Bottom navigation — the app's rail, on the web.
+
+   This used to be a translucent capsule: 70% white, a 20px backdrop blur, a
+   340px fixed width and four destinations squeezed into it. The app had the
+   same bar and gave it up, for reasons that apply here unchanged — you could
+   read the page through it, so the labels sat on a moving smudge instead of on
+   a surface, and the two hardcoded greys predated the colour revamp and read as
+   the one grey object on a blue-tinted page.
+
+   So the geometry is transcribed from LiquidGlassNav.kt rather than reinvented:
+   58px tall, fully round, 6px of side padding, items 4px apart, each item a
+   round pill with a 24px icon and a 13px bold label that appears only when it
+   is the current one. The surface is a near-flat vertical fall between two
+   container tokens — enough to give the bar a top edge to catch light on, not
+   enough to read as a gradient — over one hairline of outlineVariant, which is
+   the same border every card uses.
+
+   Three destinations, matching the app exactly: Home, Library, Canvas. No
+   create button; on the web the composer is reached from the page it belongs
+   to, and a floating plus next to a three-item rail is a phone affordance.
+   ────────────────────────────────────────────────────────────────────────── */
+
 .md-bottomnav {
   display: none;
   position: fixed;
-  bottom: 20px;
+  bottom: 14px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 999;
-  width: calc(100% - 32px);
-  max-width: 340px;
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-radius: 24px;
-  padding: 6px 8px;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 74, 198, 0.04);
+  /* Content-sized, like the app's Row. A fixed width would make the label
+     appear and disappear by squeezing its neighbours. */
+  width: auto;
+  max-width: calc(100% - 32px);
+  height: 58px;
+  padding: 0 6px;
+  border-radius: var(--md-shape-full);
+  border: 1px solid var(--md-outline-variant);
+  background: linear-gradient(to bottom,
+              var(--md-surface-container-lowest),
+              var(--md-surface-container-low));
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.14);
 }
 
 [data-theme="dark"] .md-bottomnav {
-  background: rgba(6, 15, 27, 0.75);
-  border-color: rgba(255, 255, 255, 0.08);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 4px 12px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(to bottom,
+              var(--md-surface-container-high),
+              var(--md-surface-container));
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.36);
+}
+
+/* Safe-area inset, so the rail clears a gesture bar instead of sitting under
+   it. max() rather than an addition: on a device without an inset the 14px
+   stands, on one with an inset the inset wins. */
+@supports (bottom: env(safe-area-inset-bottom)) {
+  .md-bottomnav {
+    bottom: max(14px, env(safe-area-inset-bottom));
+  }
 }
 
 .md-bottomnav-pill {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  width: 100%;
-  padding: 0;
   gap: 4px;
-}
-
-@media (max-width: 480px) {
-  .md-bottomnav-pill {
-    gap: 0;
-  }
+  height: 100%;
 }
 
 .md-bottomnav-item {
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  height: 40px;
-  border-radius: 20px;
-  text-decoration: none;
+  gap: 8px;
+  /* 15px unselected, 18px selected — the app animates between the two, and the
+     3px is what makes the pill look like it grew into place rather than
+     appeared. */
+  padding: 10px 15px;
+  border-radius: var(--md-shape-full);
   color: var(--md-on-surface-variant);
-  transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
-  padding: 0 10px;
-}
-
-@media (max-width: 480px) {
-  .md-bottomnav-item {
-    padding: 0 6px;
-  }
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background var(--md-motion-effects),
+              color var(--md-motion-effects),
+              padding var(--md-motion-spatial-fast);
 }
 
 .md-bottomnav-item:hover {
   text-decoration: none;
-  color: var(--md-primary);
+  color: var(--md-on-surface);
+}
+
+.md-bottomnav-item:active {
+  transform: scale(0.92);
 }
 
 .md-bottomnav-icon-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.2s ease;
 }
 
 .md-bottomnav-item .material-symbols-outlined {
-  font-size: 20px;
-  transition: font-variation-settings var(--md-transition);
+  font-size: 24px;
+  transition: font-variation-settings var(--md-motion-effects);
 }
 
+/* Only the current destination is labelled. Three icons and one word is the
+   app's whole bar, and it is why the bar fits without shrinking anything. */
 .md-bottomnav-label {
-  display: none; /* Hidden by default */
+  display: none;
   font-family: var(--md-font);
-  font-size: 0.75rem;
-  font-weight: 600;
-  white-space: nowrap;
-  letter-spacing: 0.01em;
-  transition: color var(--md-transition);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.005em;
+  line-height: 1;
 }
 
-/* Active State: horizontal pill container */
 .md-bottomnav-item.md-nav-active {
-  flex-direction: row;
-  gap: 6px;
+  padding: 10px 18px;
   background: var(--md-primary-container);
   color: var(--md-on-primary-container);
-  padding: 0 14px;
-}
-
-@media (max-width: 480px) {
-  .md-bottomnav-item.md-nav-active {
-    padding: 0 10px;
-    gap: 4px;
-  }
 }
 
 .md-bottomnav-item.md-nav-active .md-bottomnav-label {
-  display: inline-block; /* Show label only for active item */
+  display: inline-block;
 }
 
 .md-bottomnav-item.md-nav-active .material-symbols-outlined {
   font-variation-settings: 'FILL' 1;
 }
 
-/* Mobile: compact icon-only rail */
-@media (max-width: 768px) {
-  .md-bottomnav {
-    width: auto;
-    max-width: 264px;
-    padding: 6px;
-  }
-
+/* At the narrowest widths the three pills plus one label still fit inside
+   320px, so there is nothing to collapse — which is the point of only ever
+   labelling one of them. */
+@media (max-width: 360px) {
   .md-bottomnav-item {
-    flex: 1 1 0;
-    justify-content: center;
-    padding: 0;
-    min-width: 40px;
-  }
-
-  .md-bottomnav-item .md-bottomnav-label {
-    display: none !important;
+    padding: 10px 13px;
   }
 
   .md-bottomnav-item.md-nav-active {
-    gap: 0;
-    padding: 0;
-    border-radius: 16px;
+    padding: 10px 15px;
   }
 }
 
