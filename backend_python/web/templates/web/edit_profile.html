@@ -43,9 +43,9 @@
       <button type="button" class="epf-identity-avatar" data-action="trigger-photo-upload"
               aria-label="Change your profile photo">
         {% if user.photo_url %}
-          <img id="edit-avatar-preview" class="md-shape-cookie-9" src="{{ user.photo_url }}" alt="">
+          <img id="edit-avatar-preview" src="{{ user.photo_url }}" alt="">
         {% else %}
-          <div id="edit-avatar-preview-initial" class="epf-identity-initial md-shape-cookie-9">{{ user.display_name|default:user.username|slice:":1"|upper }}</div>
+          <div id="edit-avatar-preview-initial" class="epf-identity-initial">{{ user.display_name|default:user.username|slice:":1"|upper }}</div>
         {% endif %}
         <span class="epf-identity-camera" aria-hidden="true">
           <span class="material-symbols-outlined">add_a_photo</span>
@@ -593,7 +593,6 @@ function handleEditPhotoUpload(event) {
            innerHTML would take the camera badge with it. */
         var fresh = document.createElement('img');
         fresh.id = 'edit-avatar-preview';
-        fresh.className = 'md-shape-cookie-9';
         fresh.alt = '';
         fresh.src = safeClientUrl(data.url);
         initial.parentNode.replaceChild(fresh, initial);
@@ -1457,7 +1456,7 @@ registerActions({
              app, including this list. A circle here would be the only round
              avatar in the product. */
           var avatar = document.createElement('img');
-          avatar.className = 'neb-picker-row-avatar md-shape-cookie-9';
+          avatar.className = 'neb-picker-row-avatar';
           avatar.src = (inst.photoUrl && inst.photoUrl.trim())
             ? inst.photoUrl
             : '{% static "web/images/default_avatar.png" %}';
