@@ -518,7 +518,7 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
   .ba-dialog-actions { display: grid; grid-template-columns: 1fr 1fr; }
 }
 
-.ba-device-auth-page { min-height: calc(100vh - 64px); display: grid; place-items: center; padding: 32px 20px; background: var(--ba-canvas); }
+.ba-device-auth-page { min-height: calc(100vh - 64px); display: grid; place-items: center; padding: 32px 20px; background: var(--ba-bg); }
 .ba-device-auth-card { width: min(100%, 520px); padding: 32px; border: 1px solid var(--ba-border); border-radius: var(--md-radius-xl); background: var(--ba-panel); box-shadow: var(--ba-shadow-lg); text-align: center; }
 .ba-device-auth-icon { width: 56px; height: 56px; margin: 0 auto 18px; display: grid; place-items: center; border-radius: 18px; background: var(--ba-accent-soft); color: var(--ba-accent); }
 .ba-device-auth-card h1 { margin: 6px 0 8px; font-size: clamp(26px, 4vw, 38px); }

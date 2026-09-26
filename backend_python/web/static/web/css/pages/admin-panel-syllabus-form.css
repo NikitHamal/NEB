@@ -14,7 +14,7 @@
 .grade-suggestion-chip:hover { background: color-mix(in srgb, var(--md-primary) 8%, transparent); border-color: var(--md-primary); color: var(--md-primary); }
 .grade-suggestion-chip.active { background: var(--md-primary); color: var(--md-on-primary); border-color: var(--md-primary); }
 
-.slug-ok { color: #2e7d32; }
+.slug-ok { color: var(--neb-accent-green); }
 .slug-taken { color: var(--md-error); }
 
 .md-content h1, .md-content h2, .md-content h3 { margin: 0.75em 0 0.25em; font-weight: 600; }
