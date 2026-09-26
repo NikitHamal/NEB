@@ -157,9 +157,13 @@
 .request-card-meta { display: flex; align-items: center; gap: 12px; font-size: 0.8125rem; color: var(--md-on-surface-variant); flex-wrap: wrap; }
 .request-chip { background: var(--md-secondary-container); color: var(--md-on-secondary-container); padding: 2px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 500; }
 .request-card-status { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; padding: 4px 10px; border-radius: 6px; white-space: nowrap; }
-.status-open { background: color-mix(10%, #4caf50, transparent); color: #2e7d32; }
-.status-fulfilled { background: color-mix(10%, #2196f3, transparent); color: #1565c0; }
-.status-closed { background: color-mix(10%, #9e9e9e, transparent); color: #616161; }
+/* These three were written color-mix(10%, #4caf50, transparent) -- no colour
+   space and the percentage on the wrong side of the colour -- so the browser
+   threw every background away and the pills have always rendered with none.
+   The inks were light-only Material greens, blues and greys besides. */
+.status-open { background: color-mix(in srgb, var(--neb-accent-green) 13%, transparent); color: color-mix(in srgb, var(--neb-accent-green) 76%, var(--md-on-surface)); }
+.status-fulfilled { background: color-mix(in srgb, var(--neb-accent-brand) 13%, transparent); color: color-mix(in srgb, var(--neb-accent-brand) 74%, var(--md-on-surface)); }
+.status-closed { background: color-mix(in srgb, var(--md-on-surface) 8%, transparent); color: var(--md-on-surface-variant); }
 .request-empty { text-align: center; padding: 48px 16px; color: var(--md-on-surface-variant); }
 .request-empty p { margin-top: 12px; }
 @media (max-width: 600px) { .upload-row { flex-direction: column; gap: 0; } }
