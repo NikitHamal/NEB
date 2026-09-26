@@ -3,7 +3,7 @@
 .fm-video-wrap{border-radius:14px;overflow:hidden;background:#000;border:1px solid var(--md-outline-variant)}
 .fm-video{display:block;width:100%;max-height:420px}
 .fm-video-feed-card:hover .fm-thumb-img{transform:scale(1.03);filter:brightness(0.96)}
-.fm-video-feed-card:hover .fm-play-btn{transform:translate(-50%,-50%) scale(1.12);background:var(--md-primary) !important;border-color:rgba(255,255,255,.6) !important;box-shadow:0 10px 28px rgba(37,99,235,.5) !important}
+.fm-video-feed-card:hover .fm-play-btn{transform:translate(-50%,-50%) scale(1.12);background:var(--md-primary) !important;border-color:color-mix(in srgb, var(--md-on-primary) 60%, transparent) !important;box-shadow:0 10px 28px color-mix(in srgb, var(--md-primary) 45%, transparent) !important}
 .fm-audio{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--md-outline-variant);border-radius:14px;background:var(--md-surface-container-lowest)}
 .fm-audio-btn{width:40px;height:40px;border-radius:50%;border:0;background:var(--md-primary);color:var(--md-on-primary);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:transform .1s}
 .fm-audio-btn:active{transform:scale(.94)}

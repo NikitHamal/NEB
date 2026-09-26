@@ -99,8 +99,8 @@
   margin-top: 14px;
   margin-bottom: 24px;
   padding: 8px 12px;
-  background: rgba(37, 99, 235, 0.05);
-  border: 1px solid rgba(37, 99, 235, 0.12);
+  background: color-mix(in srgb, var(--md-primary) 6%, transparent);
+  border: 1px solid color-mix(in srgb, var(--md-primary) 16%, transparent);
   border-radius: 14px;
   max-width: 100%;
 }
@@ -121,8 +121,8 @@
 }
 
 .neby-mood-pill {
-  border: 1px solid rgba(37, 99, 235, 0.2);
-  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid color-mix(in srgb, var(--md-primary) 22%, transparent);
+  background: var(--md-surface-container-lowest);
   color: var(--md-on-surface);
   border-radius: 20px;
   padding: 5px 12px;
@@ -140,7 +140,7 @@
 
 .neby-mood-pill:hover {
   background: var(--md-primary);
-  color: #ffffff;
+  color: var(--md-on-primary);
   transform: translateY(-1px);
   box-shadow: none;
   border-color: var(--md-primary);
@@ -161,18 +161,10 @@
   border-color: transparent !important;
 }
 
-[data-theme='dark'] .neby-mood-bar {
-  background: rgba(37, 99, 235, 0.1);
-  border-color: rgba(37, 99, 235, 0.25);
-}
 
-[data-theme='dark'] .neby-mood-pill {
-  background: rgba(30, 41, 59, 0.9);
-  color: #f1f5f9;
-  border-color: rgba(148, 163, 184, 0.2);
-}
-
-[data-theme='dark'] .neby-mood-pill:hover {
-  background: #3b82f6;
-  color: #ffffff;
-}
+/* The mood bar and its pills were a blue wash, a white pill and a slate-blue
+   set of dark overrides -- three rules restating the same two surfaces in a
+   second palette. Mixing --md-primary and reading the surface token gives
+   both themes from the base rules, so there is nothing left here to keep in
+   step. The two rules above stay: they turn the avatar's plate off in dark
+   theme, which is a structural choice, not a colour. */

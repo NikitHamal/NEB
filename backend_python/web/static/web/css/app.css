@@ -4623,7 +4623,7 @@ button.cp-media-item-icon.cp-audio-play.playing {
   display:block;
   pointer-events:none;
   border-radius:.42em;
-  box-shadow:0 0 0 1px rgba(0,0,0,.06);
+  box-shadow:0 0 0 1px color-mix(in srgb, var(--md-on-surface) 8%, transparent);
 }
 .neb-chip:focus-visible{outline:2px solid var(--md-primary);outline-offset:1px;border-radius:.42em}
 .neb-chip:hover{filter:brightness(.96)}
@@ -4639,7 +4639,7 @@ button.cp-media-item-icon.cp-audio-play.playing {
 .neb-chip-editor img{
   height:1.6em;
   max-width:6em;
-  box-shadow:0 0 0 1px rgba(0,0,0,.10);
+  box-shadow:0 0 0 1px color-mix(in srgb, var(--md-on-surface) 12%, transparent);
 }
 .neb-chip-editor-dragging{opacity:.42;outline:2px dashed var(--md-primary)}
 .neb-chip-remove{
@@ -4685,7 +4685,7 @@ button.cp-media-item-icon.cp-audio-play.playing {
   color:var(--md-on-surface-variant);
   pointer-events:none;
 }
-.neb-seamless.neb-drop-active{background-color:rgba(37,99,235,.05) !important}
+.neb-seamless.neb-drop-active{background-color:color-mix(in srgb, var(--md-primary) 8%, transparent) !important}
 
 .neb-lightbox{
   position:fixed;
@@ -4764,7 +4764,4 @@ button.cp-media-item-icon.cp-audio-play.playing {
 .fp-reply-body .neb-chip img{height:1.55em;max-width:6em}
 .comment-text .neb-chip img{height:1.5em;max-width:5.5em}
 
-@media (prefers-color-scheme:dark){
-  .neb-chip img{box-shadow:0 0 0 1px rgba(255,255,255,.10)}
-  .neb-seamless.neb-drop-active{background-color:rgba(59,130,246,.10) !important}
-}
+[data-theme="dark"] .neb-chip img{box-shadow:0 0 0 1px color-mix(in srgb, var(--md-on-surface) 10%, transparent)}

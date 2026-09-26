@@ -35,7 +35,7 @@
   .category-card:hover {
     border: 1.5px solid var(--md-primary);
     background-color: var(--md-surface-container);
-    box-shadow: 0 4px 12px rgba(0, 74, 198, 0.05);
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--md-primary) 12%, transparent);
     text-decoration: none !important;
   }
 
