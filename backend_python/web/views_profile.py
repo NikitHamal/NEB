@@ -410,22 +410,6 @@ def profile_achievements(request, username):
     ))
 
 
-def _profile_card_banner_style(user):
-    if user.is_admin:
-        return ('ADMIN', (252, 177, 31), (120, 64, 0))
-    if getattr(user, 'is_bot', False):
-        return ('NEBY AI', (114, 78, 252), (60, 24, 150))
-    if getattr(user, 'moderator_level', 0):
-        return ('MODERATOR', (15, 118, 110), (10, 65, 62))
-    if getattr(user, 'verification_level', 0):
-        return ('NEBIAN', (38, 99, 235), (14, 116, 144))
-    if getattr(user, 'role', '') == 'teacher':
-        return ('TUTOR', (16, 185, 129), (6, 95, 70))
-    if getattr(user, 'role', '') == 'institution':
-        return ('NEBIAN', (79, 70, 229), (55, 48, 163))
-    return ('NEBIAN', (0, 84, 214), (14, 165, 233))
-
-
 def _load_profile_card_font(weight='regular', size=32):
     from PIL import ImageFont
     base = Path(settings.BASE_DIR) / 'web/static/web/fonts'
@@ -457,18 +441,6 @@ def _load_profile_card_font(weight='regular', size=32):
         except Exception:
             continue
     return ImageFont.load_default()
-
-
-def _draw_text_ellipsis(draw, xy, text, font, fill, max_width):
-    text = str(text or '')
-    if draw.textlength(text, font=font) <= max_width:
-        draw.text(xy, text, font=font, fill=fill)
-        return text
-    ell = 'â€¦'
-    while text and draw.textlength(text + ell, font=font) > max_width:
-        text = text[:-1]
-    draw.text(xy, text + ell, font=font, fill=fill)
-    return text + ell
 
 
 def _profile_card_avatar(user, size=152):
@@ -534,212 +506,23 @@ def _profile_card_avatar(user, size=152):
 
 
 def profile_card_image(request, username):
-    """Open Graph/social card PNG for profile sharing.
+    """Open Graph card PNG for a profile.
 
-
-    Two-panel: left = role-colored with large avatar, right = white with name, handle, bio, branding.
-
+    The two-panel gradient card this used to draw is gone; profiles now use the
+    same drawn card as the rest of the site (web/og_cards.py), so a shared
+    profile looks like a shared resource looks like a shared thread. The URL
+    stays because it is already in the wild.
     """
-
     if _rate_limit(request, 'profile_card_image', 30, 60, by_ip=True):
-
         return JsonResponse({'error': 'Too many requests. Please slow down.'}, status=429)
-
+    from . import views_og
     try:
-
-        from PIL import Image, ImageDraw, ImageFilter
-
+        spec = views_og._profile_card(username)
+    except Http404:
+        raise
     except Exception:
-
-        raise Http404('Image support is unavailable')
-    try:
-        profile_user = User.objects.get(username=username)
-    except User.DoesNotExist:
-
-        raise Http404('User not found')
-
-
-
-    # Cache the rendered PNG keyed on the username + a hash of all fields
-
-    # that influence the rendering (photo, name, role, verification fields).
-
-    import hashlib as _hashlib
-
-    _sig_src = '|'.join([
-
-        str(profile_user.photo_url or ''),
-
-        str(profile_user.display_name or ''),
-
-        str(profile_user.username or ''),
-
-        str(getattr(profile_user, 'role', '') or ''),
-
-        str(profile_user.is_admin),
-
-        str(getattr(profile_user, 'is_bot', False)),
-
-        str(getattr(profile_user, 'moderator_level', 0) or 0),
-
-        str(getattr(profile_user, 'verification_level', 0) or 0),
-
-        str(getattr(profile_user, 'teacher_verified', False)),
-
-        str(getattr(profile_user, 'institution_verified', False)),
-
-    ])
-
-    _sig = _hashlib.sha256(_sig_src.encode('utf-8')).hexdigest()[:20]
-
-    cache_key = f'profile_card_png:{username}:{_sig}'
-
-    cached_png = cache.get(cache_key)
-
-    if cached_png is not None:
-
-        resp = HttpResponse(cached_png, content_type='image/png')
-
-        resp['Cache-Control'] = 'public, max-age=3600'
-
-        resp['X-Content-Type-Options'] = 'nosniff'
-
-        return resp
-
-
-
-    W, H = 1200, 630
-
-    deco, c1, c2 = _profile_card_banner_style(profile_user)
-
-
-
-    img = Image.new('RGB', (W, H), (255, 255, 255))
-    d = ImageDraw.Draw(img)
-
-    # â”€â”€ Left panel: role-colored background with avatar â”€â”€
-    panel_w = 440
-    for y in range(H):
-        t = y / max(1, H - 1)
-        col = tuple(int(c1[i] * (1 - t) + c2[i] * t) for i in range(3))
-        d.line((0, y, panel_w, y), fill=col)
-
-    accent = Image.new('RGBA', (W, H), (0, 0, 0, 0))
-    ad = ImageDraw.Draw(accent)
-    ad.polygon([(0, H - 300), (panel_w, H), (0, H)], fill=(255, 255, 255, 15))
-    ad.polygon([(0, 0), (panel_w, 0), (panel_w, 200), (0, 350)], fill=(0, 0, 0, 12))
-    img_rgba = img.convert('RGBA')
-    img_rgba = Image.alpha_composite(img_rgba, accent)
-    img = img_rgba.convert('RGB')
-    d = ImageDraw.Draw(img)
-
-    # Avatar â€” centered in the left panel
-    avatar_size = 240
-    avatar = _profile_card_avatar(profile_user, avatar_size)
-    ring_size = avatar_size + 16
-    ring = Image.new('RGBA', (ring_size, ring_size), (0, 0, 0, 0))
-    rd = ImageDraw.Draw(ring)
-    rd.ellipse((0, 0, ring_size - 1, ring_size - 1), fill=(255, 255, 255, 255))
-    rd.ellipse((4, 4, ring_size - 5, ring_size - 5), fill=(255, 255, 255, 0))
-    ring.alpha_composite(avatar, (8, 8))
-    av_x = (panel_w - ring_size) // 2
-    av_y = (H - ring_size) // 2 - 15
-    img.paste(ring, (av_x, av_y), ring)
-    d = ImageDraw.Draw(img)
-
-    # â”€â”€ Right panel: white with name, handle, NEBians logo â”€â”€
-    right_x = panel_w + 70
-    right_w = W - right_x - 60
-
-    # Name â€” big, bold, centered in space above the logo
-    display = profile_user.display_name or profile_user.username
-    name_font = _load_profile_card_font('bold', 88)
-    handle = '@' + (profile_user.username or 'nebian')
-    handle_font = _load_profile_card_font('regular', 36)
-    name_bbox = d.textbbox((0, 0), display, font=name_font)
-    name_h = name_bbox[3] - name_bbox[1]
-    handle_bbox = d.textbbox((0, 0), handle, font=handle_font)
-    handle_h = handle_bbox[3] - handle_bbox[1]
-    gap = 28
-    block_h = name_h + gap + handle_h
-    available_h = H - 50 - block_h
-    block_y = int(available_h / 2)
-    _draw_text_ellipsis(d, (right_x, block_y), display, name_font, (15, 23, 42), right_w)
-    _draw_text_ellipsis(d, (right_x, block_y + name_h + gap), handle, handle_font, (100, 116, 139), right_w)
-
-    # NEBians logo + text â€” bottom-right corner
-    logo_path = Path(settings.BASE_DIR) / 'web/static/web/img/n-logo-512.png'
-    logo_size = 72
-    try:
-        logo = Image.open(logo_path).convert('RGBA')
-        logo.thumbnail((logo_size, logo_size), Image.LANCZOS)
-        logo_x = W - logo_size - 60
-        logo_y = H - logo_size - 50
-        img.paste(logo, (logo_x, logo_y), logo)
-    except Exception:
-        pass
-    brand_font = _load_profile_card_font('bold', 32)
-    brand = 'NEBians'
-    bw = d.textlength(brand, font=brand_font)
-    d.text((logo_x - bw - 10, logo_y + (logo_size - 36) // 2), brand, font=brand_font, fill=(100, 116, 139))
-
-
-    buf = BytesIO()
-
-    img.save(buf, format='PNG', optimize=True)
-
-    png_bytes = buf.getvalue()
-
-    cache.set(cache_key, png_bytes, 3600)
-
-    resp = HttpResponse(png_bytes, content_type='image/png')
-
-    resp['Cache-Control'] = 'public, max-age=3600'
-
-    resp['X-Content-Type-Options'] = 'nosniff'
-
-    return resp
-
-
-
-
-def _draw_text_ellipsis_multiline(draw, xy, text, font, fill, max_width, max_lines=3):
-    """Draw text that wraps across multiple lines with ellipsis on the last line."""
-    text = str(text or '')
-    words = text.split()
-    lines = []
-    current = ''
-    for word in words:
-        test = (current + ' ' + word).strip()
-        if draw.textlength(test, font=font) <= max_width:
-            current = test
-        else:
-            if current:
-                lines.append(current)
-            current = word
-            if len(lines) >= max_lines - 1:
-                break
-    if current:
-        lines.append(current)
-    # Truncate last line with ellipsis if needed
-    if len(lines) >= max_lines and lines:
-        last = lines[-1]
-        ell = '\u2026'
-        while last and draw.textlength(last + ell, font=font) > max_width:
-            last = last[:-1]
-        lines[-1] = last + ell
-    elif len(lines) > max_lines:
-        lines = lines[:max_lines]
-        last = lines[-1]
-        ell = '\u2026'
-        while last and draw.textlength(last + ell, font=font) > max_width:
-            last = last[:-1]
-        lines[-1] = last + ell
-    x, y = xy
-    for line in lines[:max_lines]:
-        draw.text((x, y), line, font=font, fill=fill)
-        bbox = draw.textbbox((0, 0), line, font=font)
-        y += (bbox[3] - bbox[1]) + 8
+        raise Http404('Card unavailable')
+    return views_og._render_response('profile', username, spec)
 
 
 def ajax_profile_activity(request, username):

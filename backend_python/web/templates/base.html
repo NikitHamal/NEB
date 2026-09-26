@@ -45,14 +45,19 @@
   <meta name="twitter:title" content="{% block tw_title %}NEBians — Nepal's Learning Community{% endblock %}">
   <meta name="twitter:description"
     content="{% block tw_description %}Nepal's open learning community — free past papers, notes, a study forum and AI study tools for every subject and level.{% endblock %}">
-  <meta property="og:image" content="{% block og_image %}https://nebians.consica.com.np{% static 'web/img/n-logo-social-1200.png' %}{% endblock %}">
-  <meta property="og:image:secure_url" content="{% block og_image_secure %}https://nebians.consica.com.np{% static 'web/img/n-logo-social-1200.png' %}{% endblock %}">
+  {# Every page has a drawn card of its own, served from /og/ -- see web/og_cards.py.
+     og_image_url and og_image_alt come from the og_image_context processor, which
+     works the card out from the route. A page that has a better image of its own --
+     a thread with a photo in it -- overrides the block instead. #}
+  {% firstof og_image_url 'https://nebians.consica.com.np/og/page/default.png' as og_img %}
+  <meta property="og:image" content="{% block og_image %}{{ og_img }}{% endblock %}">
+  <meta property="og:image:secure_url" content="{% block og_image_secure %}{{ og_img }}{% endblock %}">
   <meta property="og:image:type" content="{% block og_image_type %}image/png{% endblock %}">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="{% block og_image_alt %}NEBians logo{% endblock %}">
-  <meta name="twitter:image" content="{% block tw_image %}https://nebians.consica.com.np{% static 'web/img/n-logo-social-1200.png' %}{% endblock %}">
-  <meta name="twitter:image:alt" content="{% block tw_image_alt %}NEBians logo{% endblock %}">
+  <meta property="og:image:alt" content="{% block og_image_alt %}{% firstof og_image_alt "NEBians — Nepal's Learning Community" %}{% endblock %}">
+  <meta name="twitter:image" content="{% block tw_image %}{{ og_img }}{% endblock %}">
+  <meta name="twitter:image:alt" content="{% block tw_image_alt %}{% firstof og_image_alt "NEBians — Nepal's Learning Community" %}{% endblock %}">
   <title>{% block title %}NEBians — Nepal's Learning Community{% endblock %}</title>
   {# Sitewide structured data: the canonical Organization entity and WebSite search action. #}
   <script type="application/ld+json" nonce="{{ csp_nonce }}">

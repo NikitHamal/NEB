@@ -97,6 +97,9 @@ urlpatterns = [
     path('analytics/', views.analytics, name='analytics'),
     path('bookmarks/', views.bookmarks, name='bookmarks'),
     path('profile/<str:username>/card.png', views.profile_card_image, name='profile_card_image'),
+    # Drawn Open Graph cards. `key` is a path converter because a subject card's
+    # key is `class-12/physics`; the view strips the .png itself.
+    path('og/<str:kind>/<path:key>', views.og_card, name='og_card'),
     path('profile/<str:username>/', views.profile, name='profile'),
     path('profile/<str:username>/achievements/', views.profile_achievements, name='profile_achievements'),
     path('ajax/profile/<str:username>/activity/', views.ajax_profile_activity, name='ajax_profile_activity'),
