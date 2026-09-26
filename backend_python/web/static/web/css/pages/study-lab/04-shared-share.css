@@ -1,4 +1,7 @@
 /* ── Shared Study Lab document page ── */
+/* The dialog lives in material3/09-overlays.css. This page used to carry
+   its own copy, which is how five pages ended up with five different
+   radii and three theme-blind scrims. */
 .sl-shared-wrap { max-width: 1120px; margin: 0 auto; padding: 20px 16px 48px; }
 .sl-shared-hero {
   border: 1px solid var(--md-outline-variant);
@@ -62,50 +65,11 @@
 @media (max-width: 600px) { .sl-share-linkrow { flex-direction: column; } }
 
 /* Production fix: Study Lab share dialog must stay centered as a real modal. */
-#slShareModal.modal-overlay {
-  position: fixed;
-  inset: 0;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 18px;
-  background: rgba(15, 23, 42, .38);
-  z-index: 1200;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .16s ease;
-}
-#slShareModal.modal-overlay.active {
-  display: flex !important;
-  opacity: 1;
-  pointer-events: auto;
-}
-#slShareModal .modal-box {
-  width: min(100%, 520px);
-  max-height: min(88vh, 680px);
-  overflow: hidden;
-  border: 1px solid var(--md-outline-variant);
-  border-radius: 20px;
-  background: var(--md-surface-container-lowest);
-  box-shadow: 0 18px 50px rgba(15, 23, 42, .18);
-}
-#slShareModal .modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 14px 16px;
-  border-bottom: 1px solid var(--md-outline-variant);
-}
-#slShareModal .modal-title { margin: 0; font-size: 1rem; font-weight: 500; }
-#slShareModal .modal-body { padding: 14px 16px 16px; overflow: auto; max-height: calc(min(88vh, 680px) - 58px); }
-#slShareModal .modal-close { border: 0; background: transparent; border-radius: 999px; width: 34px; height: 34px; display: inline-grid; place-items: center; color: var(--md-on-surface-variant); cursor: pointer; }
-#slShareModal .modal-close:hover { background: var(--md-surface-container); color: var(--md-on-surface); }
+
 #slShareModal .sl-share-options { gap: 8px; }
 #slShareModal .sl-share-option { border-radius: 14px; padding: 10px 12px; }
 #slShareModal .sl-share-option-title { color: var(--md-on-surface); font-weight: 400; }
 #slShareModal .sl-share-specific label,
 #slShareModal .sl-share-linkbox label { font-weight: 400; font-size: .88rem; }
 #slShareModal .sl-share-footer { margin-top: 14px; }
-
 

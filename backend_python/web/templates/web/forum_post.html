@@ -7,16 +7,15 @@
 {% block og_title %}{{ post.title|default:"Discussion" }} - NEBians Forum{% endblock %}
 {% block og_description %}{{ post.content|strip_inline|truncatechars:200|default:"Discussion on NEBians forum" }}{% endblock %}
 {% block og_type %}article{% endblock %}
-{% block og_image %}{% if post.images %}{{ post.images.0.imageUrl }}{% elif post.attachments.0.thumbnailUrl %}{{ post.attachments.0.thumbnailUrl }}{% elif post.attachments.0.thumbnail_url %}{{ post.attachments.0.thumbnail_url }}{% else %}https://nebians.consica.com.np{% static 'web/img/n-logo-social-1200.png' %}{% endif %}{% endblock %}
-{% block og_image_secure %}{% if post.images %}{{ post.images.0.imageUrl }}{% elif post.attachments.0.thumbnailUrl %}{{ post.attachments.0.thumbnailUrl }}{% elif post.attachments.0.thumbnail_url %}{{ post.attachments.0.thumbnail_url }}{% else %}https://nebians.consica.com.np{% static 'web/img/n-logo-social-1200.png' %}{% endif %}{% endblock %}
+{% block og_image %}{% if post.images %}{{ post.images.0.imageUrl }}{% elif post.attachments.0.thumbnailUrl %}{{ post.attachments.0.thumbnailUrl }}{% elif post.attachments.0.thumbnail_url %}{{ post.attachments.0.thumbnail_url }}{% else %}{{ og_image_url }}{% endif %}{% endblock %}
+{% block og_image_secure %}{% if post.images %}{{ post.images.0.imageUrl }}{% elif post.attachments.0.thumbnailUrl %}{{ post.attachments.0.thumbnailUrl }}{% elif post.attachments.0.thumbnail_url %}{{ post.attachments.0.thumbnail_url }}{% else %}{{ og_image_url }}{% endif %}{% endblock %}
 {% block og_image_type %}{% if post.images or post.attachments.0.thumbnailUrl or post.attachments.0.thumbnail_url %}image/jpeg{% else %}image/png{% endif %}{% endblock %}
-{% block og_image_alt %}{% if post.images or post.attachments.0.thumbnailUrl or post.attachments.0.thumbnail_url %}Preview from: {{ post.title|default:"Discussion" }}{% else %}NEBians logo{% endif %}{% endblock %}
-{% block tw_image %}{% if post.images %}{{ post.images.0.imageUrl }}{% elif post.attachments.0.thumbnailUrl %}{{ post.attachments.0.thumbnailUrl }}{% elif post.attachments.0.thumbnail_url %}{{ post.attachments.0.thumbnail_url }}{% else %}https://nebians.consica.com.np{% static 'web/img/n-logo-social-1200.png' %}{% endif %}{% endblock %}
-{% block tw_image_alt %}{% if post.images or post.attachments.0.thumbnailUrl or post.attachments.0.thumbnail_url %}Preview from: {{ post.title|default:"Discussion" }} on NEBians{% else %}NEBians logo{% endif %}{% endblock %}
+{% block og_image_alt %}{% if post.images or post.attachments.0.thumbnailUrl or post.attachments.0.thumbnail_url %}Preview from: {{ post.title|default:"Discussion" }}{% else %}A NEBians card for this discussion{% endif %}{% endblock %}
+{% block tw_image %}{% if post.images %}{{ post.images.0.imageUrl }}{% elif post.attachments.0.thumbnailUrl %}{{ post.attachments.0.thumbnailUrl }}{% elif post.attachments.0.thumbnail_url %}{{ post.attachments.0.thumbnail_url }}{% else %}{{ og_image_url }}{% endif %}{% endblock %}
+{% block tw_image_alt %}{% if post.images or post.attachments.0.thumbnailUrl or post.attachments.0.thumbnail_url %}Preview from: {{ post.title|default:"Discussion" }} on NEBians{% else %}A NEBians card for this discussion{% endif %}{% endblock %}
 {% block tw_title %}{{ post.title|default:"Discussion" }} - NEBians{% endblock %}
 {% block tw_description %}{{ post.content|strip_inline|truncatechars:200|default:"Discussion on NEBians forum" }}{% endblock %}
 {% block nav_forum %}md-nav-active{% endblock %}
-{% block bnav_forum %}md-nav-active{% endblock %}
 
 {% block head_extra %}
 <script type="application/ld+json" nonce="{{ csp_nonce }}">
@@ -30,6 +29,13 @@
   ]
 }
 </script>
+{% endblock %}
+
+{% block extra_css %}
+{% comment %} In the head, not in the body. A stylesheet found part-way down
+   the document is found after the browser has already painted, so the page
+   lays itself out twice on every load. {% endcomment %}
+<link rel="stylesheet" href="{% static 'web/css/pages/forum-post.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -57,7 +63,6 @@
 }
 </script>
 
-<link rel="stylesheet" href="{% static 'web/css/pages/forum-post.css' %}">
 
 <div class="md-container" style="padding-top:24px;">
   {% if post %}
@@ -96,7 +101,6 @@
         </div>
         <div class="fp-meta-time">
           <span>{{ post.createdAt|time_ago }}</span>
-          <span class="dot-sep">&middot;</span>
           <span class="fp-views"><span class="material-symbols-outlined icon-sm">visibility</span> {{ post.viewCount|short_number }} views</span>
         </div>
       </div>
@@ -144,7 +148,7 @@
        <div class="fp-poll-type-badge">
          <span class="material-symbols-outlined">{% if post.poll.pollType == 'mcq' %}quiz{% else %}how_to_vote{% endif %}</span>
          {% if post.poll.pollType == 'mcq' %}MCQ Quiz{% else %}Poll{% endif %}
-         {% if post.poll.allowMultiple %} &middot; Multiple choice{% endif %}
+         {% if post.poll.allowMultiple %}, multiple choice{% endif %}
        </div>
        {% if post.poll.question %}
        <div class="fp-poll-question">{{ post.poll.question }}</div>
@@ -156,7 +160,7 @@
            <div class="fp-poll-option-text">
              <span class="fp-poll-option-label">{{ opt.text }}</span>
              {% if post.poll.userVote %}
-             <span class="fp-poll-option-count">{{ opt.voteCount }} vote{{ opt.voteCount|pluralize }} &middot; {% widthratio opt.voteCount post.poll.totalVotes 100 %}%</span>
+             <span class="fp-poll-option-count">{{ opt.voteCount }} vote{{ opt.voteCount|pluralize }}, {% widthratio opt.voteCount post.poll.totalVotes 100 %}%</span>
              {% endif %}
            </div>
            {% if post.poll.pollType == 'mcq' and post.poll.userVote and opt.isCorrect %}
@@ -306,68 +310,54 @@
   </div>
 </div>
 
-<!-- Thread Sidebar (Desktop) -->
-<div class="fp-thread-sidebar-overlay" id="threadSidebarOverlay" data-action="close-thread"></div>
-<div class="fp-thread-sidebar" id="threadSidebar">
-  <div class="fp-thread-sidebar-header">
-    <h3 id="threadSidebarTitle">Thread</h3>
-    <span class="fp-thread-count" id="threadSidebarCount" style="display:none;"></span>
-    <button class="fp-thread-sidebar-close" data-action="close-thread"><span class="material-symbols-outlined">close</span></button>
-  </div>
-  <div class="fp-thread-sidebar-scroll" id="threadSidebarScroll"></div>
-  <div class="fp-thread-sidebar-compose" id="threadSidebarCompose" style="display:none;">
-    <button type="button" id="threadSidebarReplyingTo" class="fp-replying-to-bar" style="display:none;" data-action="scroll-to-reply-target" data-target-reply-id="">
-      <span class="material-symbols-outlined">format_quote</span>
-      <span class="fp-replying-to-bar-text"></span>
-      <span class="material-symbols-outlined fp-replying-to-bar-close" data-action="cancel-thread-reply-target">close</span>
-    </button>
-    <div class="reply-input-wrapper" id="threadSidebarWrapper">
-      <button type="button" class="fp-inline-tool" data-action="reply-attach-media" data-compose-key="sidebar" title="Add video, audio or file">
-        <span class="material-symbols-outlined">add</span>
-      </button>
-      <label class="fp-inline-anon" data-anon-toggle title="Your name and profile stay hidden. Other Nebians will see 'Anonymous Nebian'.">
-        <input type="checkbox" id="threadSidebarAnon">
-        <span class="material-symbols-outlined">visibility_off</span>
-      </label>
-      <textarea id="threadSidebarTextarea" placeholder="Write something..." data-keydown-action="handle-thread-reply-key"></textarea>
-      <button class="reply-send-btn" id="threadSidebarSubmit" data-action="submit-thread-reply" disabled>
-        <span class="material-symbols-outlined">arrow_upward</span>
-      </button>
-    </div>
-    <div class="cp-media-list" id="replyMediaList-sidebar" style="display:none"></div>
-  </div>
-</div>
+{% comment %}
+  The thread panel. There used to be two of these -- a right-hand sidebar and
+  a bottom sheet, each with its own scrim, its own ids and its own CSS family,
+  hidden from one another by a display:none at 768px. Two DOM trees holding
+  the same conversation, and every function that touched either had to ask
+  isMobile() first and then pick a name. Resize across the breakpoint with a
+  thread open and it simply vanished: the tree you were reading went
+  display:none and the other one had never been opened.
 
-<!-- Thread Bottom Sheet (Mobile) -->
-<div class="fp-thread-sheet-overlay" id="threadSheetOverlay" data-action="close-thread"></div>
-<div class="fp-thread-sheet" id="threadSheet">
-  <div class="fp-thread-sheet-handle"></div>
-  <div class="fp-thread-sheet-header">
-    <h3 id="threadSheetTitle">Thread</h3>
-    <span class="fp-thread-count" id="threadSheetCount" style="display:none;"></span>
-    <button class="fp-thread-sheet-close" data-action="close-thread"><span class="material-symbols-outlined">close</span></button>
-  </div>
-  <div class="fp-thread-sheet-scroll" id="threadSheetScroll"></div>
-  <div class="fp-thread-sheet-compose" id="threadSheetCompose" style="display:none;">
-    <button type="button" id="threadSheetReplyingTo" class="fp-replying-to-bar" style="display:none;" data-action="scroll-to-reply-target" data-target-reply-id="">
-      <span class="material-symbols-outlined">format_quote</span>
-      <span class="fp-replying-to-bar-text"></span>
-      <span class="material-symbols-outlined fp-replying-to-bar-close" data-action="cancel-thread-reply-target">close</span>
-    </button>
-    <div class="reply-input-wrapper" id="threadSheetWrapper">
-      <button type="button" class="fp-inline-tool" data-action="reply-attach-media" data-compose-key="sheet" title="Add video, audio or file">
-        <span class="material-symbols-outlined">add</span>
-      </button>
-      <label class="fp-inline-anon" data-anon-toggle title="Your name and profile stay hidden. Other Nebians will see 'Anonymous Nebian'.">
-        <input type="checkbox" id="threadSheetAnon">
-        <span class="material-symbols-outlined">visibility_off</span>
-      </label>
-      <textarea id="threadSheetTextarea" placeholder="Write something..." data-keydown-action="handle-thread-reply-key"></textarea>
-      <button class="reply-send-btn" id="threadSheetSubmit" data-action="submit-thread-reply" disabled>
-        <span class="material-symbols-outlined">arrow_upward</span>
+  One .neb-sheet now. -bottom and -side together mean it is the site's bottom
+  sheet on a phone and docks to the edge on a desktop, which is the same thing
+  the app does with one composable. Escape, the backdrop, the focus trap, the
+  scroll lock and drag-to-dismiss come with it -- this panel had none of them.
+{% endcomment %}
+<div class="neb-scrim neb-scrim-bottom neb-scrim-side" id="threadPanel" data-neb-close hidden>
+  <div class="neb-sheet" role="dialog" aria-modal="true" aria-labelledby="threadTitle">
+    <div class="neb-sheet-handle" aria-hidden="true"></div>
+    <div class="neb-sheet-head">
+      <div class="neb-sheet-head-text">
+        <h3 class="neb-sheet-title" id="threadTitle">Thread</h3>
+      </div>
+      <span class="fp-thread-count" id="threadCount" style="display:none;"></span>
+      <button type="button" class="neb-sheet-close" data-neb-close aria-label="Close thread">
+        <span class="material-symbols-outlined">close</span>
       </button>
     </div>
-    <div class="cp-media-list" id="replyMediaList-sheet" style="display:none"></div>
+    <div class="neb-sheet-body neb-sheet-body-flush fp-thread-scroll" id="threadScroll"></div>
+    <div class="fp-thread-compose" id="threadCompose" style="display:none;">
+      <button type="button" id="threadReplyingTo" class="fp-replying-to-bar" style="display:none;" data-action="scroll-to-reply-target" data-target-reply-id="">
+        <span class="material-symbols-outlined">format_quote</span>
+        <span class="fp-replying-to-bar-text"></span>
+        <span class="material-symbols-outlined fp-replying-to-bar-close" data-action="cancel-thread-reply-target">close</span>
+      </button>
+      <div class="reply-input-wrapper" id="threadWrapper">
+        <button type="button" class="fp-inline-tool" data-action="reply-attach-media" data-compose-key="thread" title="Add video, audio or file">
+          <span class="material-symbols-outlined">add</span>
+        </button>
+        <label class="fp-inline-anon" data-anon-toggle title="Your name and profile stay hidden. Other Nebians will see 'Anonymous Nebian'.">
+          <input type="checkbox" id="threadAnon">
+          <span class="material-symbols-outlined">visibility_off</span>
+        </label>
+        <textarea id="threadTextarea" placeholder="Write something..." data-keydown-action="handle-thread-reply-key" data-neb-autofocus></textarea>
+        <button class="reply-send-btn" id="threadSubmit" data-action="submit-thread-reply" disabled>
+          <span class="material-symbols-outlined">arrow_upward</span>
+        </button>
+      </div>
+      <div class="cp-media-list" id="replyMediaList-thread" style="display:none"></div>
+    </div>
   </div>
 </div>
 
@@ -388,8 +378,6 @@ let deleteTarget = { type: '', id: '' };
 let activeThreadId = null;
 let activeParentReplyId = null;
 let threadParentAuthor = null;
-
-function isMobile() { return window.innerWidth <= 768; }
 
 function renderMentions(text) {
   if (!text) return '';
@@ -765,10 +753,10 @@ function clearReplyCompose(key) {
 }
 
 /* ---- Send-disabled state that understands staged attachments + voice mode ---- */
-var REPLY_WRAPPER_IDS = { main: 'mainReplyWrapper', sidebar: 'threadSidebarWrapper', sheet: 'threadSheetWrapper' };
+var REPLY_WRAPPER_IDS = { main: 'mainReplyWrapper', thread: 'threadWrapper' };
 
 function replyTextareaFor(key) {
-  var id = key === 'main' ? 'mainReplyContent' : (key === 'sidebar' ? 'threadSidebarTextarea' : 'threadSheetTextarea');
+  var id = key === 'main' ? 'mainReplyContent' : 'threadTextarea';
   return document.getElementById(id);
 }
 
@@ -804,8 +792,8 @@ renderReplyMediaList = function(key) {
 };
 
 document.addEventListener('DOMContentLoaded', function() {
-  ['main', 'sidebar', 'sheet'].forEach(initReplyVoiceComposer);
-  ['main', 'sidebar', 'sheet'].forEach(refreshReplySendBtn);
+  ['main', 'thread'].forEach(initReplyVoiceComposer);
+  ['main', 'thread'].forEach(refreshReplySendBtn);
   // Anonymous toggle styling inside the bar stroke
   document.querySelectorAll('[data-anon-toggle] input[type="checkbox"]').forEach(function(box) {
     box.addEventListener('change', function() {
@@ -888,21 +876,11 @@ function openThread(replyId) {
   if (window.location.hash !== '#' + hash) {
     history.replaceState(null, null, '#' + hash);
   }
-  if (isMobile()) {
-    document.getElementById('threadSheetTitle').textContent = 'Thread';
-    document.getElementById('threadSheetCount').style.display = 'none';
-    document.getElementById('threadSheetScroll').innerHTML = '<div style="text-align:center;padding:32px;color:var(--md-on-surface-variant);"><span class="material-symbols-outlined" style="font-size:32px;display:block;margin-bottom:8px;opacity:.4;">forum</span>Loading thread...</div>';
-    document.getElementById('threadSheetCompose').style.display = 'none';
-    document.getElementById('threadSheetOverlay').classList.add('open');
-    document.getElementById('threadSheet').classList.add('open');
-  } else {
-    document.getElementById('threadSidebarTitle').textContent = 'Thread';
-    document.getElementById('threadSidebarCount').style.display = 'none';
-    document.getElementById('threadSidebarScroll').innerHTML = '<div style="text-align:center;padding:32px;color:var(--md-on-surface-variant);"><span class="material-symbols-outlined" style="font-size:32px;display:block;margin-bottom:8px;opacity:.4;">forum</span>Loading thread...</div>';
-    document.getElementById('threadSidebarCompose').style.display = 'none';
-    document.getElementById('threadSidebarOverlay').classList.add('open');
-    document.getElementById('threadSidebar').classList.add('open');
-  }
+  document.getElementById('threadTitle').textContent = 'Thread';
+  document.getElementById('threadCount').style.display = 'none';
+  document.getElementById('threadScroll').innerHTML = '<div style="text-align:center;padding:32px;color:var(--md-on-surface-variant);"><span class="material-symbols-outlined" style="font-size:32px;display:block;margin-bottom:8px;opacity:.4;">forum</span>Loading thread...</div>';
+  document.getElementById('threadCompose').style.display = 'none';
+  NebUI.open('threadPanel');
   loadThreadReplies(replyId);
 }
 
@@ -916,9 +894,9 @@ function openThreadReply(parentId, authorName) {
 
 function focusThreadCompose(authorName, replyId, content) {
   activeParentReplyId = replyId || activeThreadId;
-  const textareaId = isMobile() ? 'threadSheetTextarea' : 'threadSidebarTextarea';
+  const textareaId = 'threadTextarea';
   const textarea = document.getElementById(textareaId);
-  const replyingToId = isMobile() ? 'threadSheetReplyingTo' : 'threadSidebarReplyingTo';
+  const replyingToId = 'threadReplyingTo';
   const replyingToEl = document.getElementById(replyingToId);
   if (replyingToEl) {
     const textEl = replyingToEl.querySelector('.fp-replying-to-bar-text');
@@ -933,15 +911,17 @@ function focusThreadCompose(authorName, replyId, content) {
     textarea.value = '@' + authorName + ' ';
     textarea.focus();
     textarea.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    refreshReplySendBtn(isMobile() ? 'sheet' : 'sidebar');
+    refreshReplySendBtn('thread');
   }
 }
 
-function closeThread() {
-  document.getElementById('threadSidebarOverlay').classList.remove('open');
-  document.getElementById('threadSidebar').classList.remove('open');
-  document.getElementById('threadSheetOverlay').classList.remove('open');
-  document.getElementById('threadSheet').classList.remove('open');
+/* NebUI closes the panel; the state this page keeps about which thread is
+   open is reset on the way out, so the backdrop and Escape -- which this
+   panel never had -- leave the page in the same state the close button
+   does. */
+function closeThread() { NebUI.close('threadPanel'); }
+
+function onThreadClosed() {
   activeThreadId = null;
   activeParentReplyId = null;
   threadParentAuthor = null;
@@ -967,6 +947,10 @@ function handleHashRoute() {
 
 window.addEventListener('hashchange', handleHashRoute);
 document.addEventListener('DOMContentLoaded', handleHashRoute);
+/* Whichever way the panel is dismissed -- the close button, the backdrop,
+   Escape, or a drag on the handle -- the page forgets the thread and drops
+   the #thread- hash. Before this, only the button did. */
+document.getElementById('threadPanel').addEventListener('neb:close', onThreadClosed);
 
 function countThreadReplies(replies) {
   let count = 0;
@@ -985,7 +969,7 @@ async function loadThreadReplies(replyId) {
     const r = await fetch('/ajax/reply-thread/' + replyId + '/');
     const data = await r.json();
     if (r.status !== 200) {
-      const scrollEl = isMobile() ? document.getElementById('threadSheetScroll') : document.getElementById('threadSidebarScroll');
+      const scrollEl = document.getElementById('threadScroll');
       scrollEl.innerHTML = '<div style="text-align:center;padding:32px;color:var(--md-error);">Failed to load thread.</div>';
       return;
     }
@@ -1012,40 +996,32 @@ async function loadThreadReplies(replyId) {
     const title = parentAuthor ? '@' + parentAuthor : 'Thread';
     const countText = totalReplies > 0 ? totalReplies + ' repl' + (totalReplies === 1 ? 'y' : 'ies') : '';
 
-    if (isMobile()) {
-      document.getElementById('threadSheetTitle').textContent = title;
-      const countEl = document.getElementById('threadSheetCount');
+    {
+      document.getElementById('threadTitle').textContent = title;
+      const countEl = document.getElementById('threadCount');
       if (totalReplies > 0) { countEl.textContent = countText; countEl.style.display = ''; } else { countEl.style.display = 'none'; }
-      document.getElementById('threadSheetScroll').innerHTML = html;
-      document.getElementById('threadSheetCompose').style.display = IS_AUTHENTICATED ? '' : 'none';
-    } else {
-      document.getElementById('threadSidebarTitle').textContent = title;
-      const countEl = document.getElementById('threadSidebarCount');
-      if (totalReplies > 0) { countEl.textContent = countText; countEl.style.display = ''; } else { countEl.style.display = 'none'; }
-      document.getElementById('threadSidebarScroll').innerHTML = html;
-      document.getElementById('threadSidebarCompose').style.display = IS_AUTHENTICATED ? '' : 'none';
+      document.getElementById('threadScroll').innerHTML = html;
+      document.getElementById('threadCompose').style.display = IS_AUTHENTICATED ? '' : 'none';
     }
     if (window.renderAllMath) {
-      window.renderAllMath(document.getElementById(isMobile() ? 'threadSheetScroll' : 'threadSidebarScroll'));
+      window.renderAllMath(document.getElementById('threadScroll'));
     }
     if (IS_AUTHENTICATED) {
-      const sidebarTA = document.getElementById('threadSidebarTextarea');
-      const sheetTA = document.getElementById('threadSheetTextarea');
-      if (sidebarTA) initMentionAutocomplete(sidebarTA);
-      if (sheetTA) initMentionAutocomplete(sheetTA);
+      const threadTA = document.getElementById('threadTextarea');
+      if (threadTA) initMentionAutocomplete(threadTA);
     }
     if (pendingThreadReplyContent) {
-      const textareaId = isMobile() ? 'threadSheetTextarea' : 'threadSidebarTextarea';
+      const textareaId = 'threadTextarea';
       const textarea = document.getElementById(textareaId);
       if (textarea) {
         textarea.value = pendingThreadReplyContent;
         textarea.focus();
-        refreshReplySendBtn(isMobile() ? 'sheet' : 'sidebar');
+        refreshReplySendBtn('thread');
       }
       pendingThreadReplyContent = null;
     }
   } catch(e) {
-    const scrollEl = isMobile() ? document.getElementById('threadSheetScroll') : document.getElementById('threadSidebarScroll');
+    const scrollEl = document.getElementById('threadScroll');
     scrollEl.innerHTML = '<div style="text-align:center;padding:32px;color:var(--md-error);">Failed to load thread.</div>';
   }
 }
@@ -1209,7 +1185,7 @@ function renderThreadReply(reply, parentInfo, depth) {
 }
 
 function scrollToReply(replyId) {
-  const scrollEl = isMobile() ? document.getElementById('threadSheetScroll') : document.getElementById('threadSidebarScroll');
+  const scrollEl = document.getElementById('threadScroll');
   if (!scrollEl) return;
   const target = scrollEl.querySelector('#thread-reply-' + CSS.escape(replyId));
   if (!target) return;
@@ -1252,18 +1228,18 @@ function handleThreadReplyKey(e) {
 
 async function submitThreadReply() {
   if (!activeThreadId) return;
-  const composeKey = isMobile() ? 'sheet' : 'sidebar';
-  const textareaId = isMobile() ? 'threadSheetTextarea' : 'threadSidebarTextarea';
+  const composeKey = 'thread';
+  const textareaId = 'threadTextarea';
   const textarea = document.getElementById(textareaId);
   if (!textarea) return;
   const content = textarea.value.trim();
   if (replyComposeBusy(composeKey)) { showSnackbar('Please wait for attachments to finish uploading.'); return; }
   if (!content && !collectReplyAttachments(composeKey).length) { showSnackbar('Write something or add a voice note first.'); return; }
-  const submitId = isMobile() ? 'threadSheetSubmit' : 'threadSidebarSubmit';
+  const submitId = 'threadSubmit';
   const submitBtn = document.getElementById(submitId);
   if (submitBtn) submitBtn.disabled = true;
   const parentId = activeParentReplyId || activeThreadId;
-  const anonBox = document.getElementById(isMobile() ? 'threadSheetAnon' : 'threadSidebarAnon');
+  const anonBox = document.getElementById('threadAnon');
   try {
     const r = await fetch('/ajax/reply/' + POST_ID + '/', {
       method: 'POST',
@@ -1281,7 +1257,7 @@ async function submitThreadReply() {
       textarea.value = '';
       clearReplyCompose(composeKey);
       activeParentReplyId = activeThreadId;
-      const replyingToId = isMobile() ? 'threadSheetReplyingTo' : 'threadSidebarReplyingTo';
+      const replyingToId = 'threadReplyingTo';
       const replyingToEl = document.getElementById(replyingToId);
       if (replyingToEl) replyingToEl.style.display = 'none';
       loadThreadReplies(activeThreadId);
@@ -1305,7 +1281,7 @@ document.querySelectorAll('.modal-overlay').forEach(overlay => {
 (function bindNebComposers(){
   function enhanceAllFP(){
     if (!window.InlineMedia) return;
-    var _ids = ['mainReplyContent','threadSidebarTextarea','threadSheetTextarea','editPostContent','editReplyContent'];
+    var _ids = ['mainReplyContent','threadTextarea','editPostContent','editReplyContent'];
     _ids.forEach(function(id){ var el=document.getElementById(id); if(el) window.InlineMedia.enhanceTextarea(el); });
   }
   if (document.readyState !== 'loading') setTimeout(enhanceAllFP, 60);
@@ -1499,16 +1475,16 @@ window.addEventListener('scroll', function() {
     } else if (action === 'cancel-thread-reply-target') {
       e.stopPropagation();
       e.preventDefault();
-      var textareaId = isMobile() ? 'threadSheetTextarea' : 'threadSidebarTextarea';
+      var textareaId = 'threadTextarea';
       var ta = document.getElementById(textareaId);
       if (ta) {
         ta.value = '';
-        var submitId = isMobile() ? 'threadSheetSubmit' : 'threadSidebarSubmit';
+        var submitId = 'threadSubmit';
         var sb = document.getElementById(submitId);
         if (sb) sb.disabled = true;
       }
       activeParentReplyId = activeThreadId;
-      var rId = isMobile() ? 'threadSheetReplyingTo' : 'threadSidebarReplyingTo';
+      var rId = 'threadReplyingTo';
       var rEl = document.getElementById(rId);
       if (rEl) rEl.style.display = 'none';
     }
@@ -1637,27 +1613,6 @@ function closeMentionDropdown() {
 }
 
 // ---- Three-dot menu ----
-function toggleMoreMenu(menuId, btn) {
-  var menu = document.getElementById(menuId);
-  if (!menu) return;
-  var isOpen = menu.style.display !== 'none';
-  closeAllMenus();
-  if (!isOpen) {
-    menu.style.display = 'block';
-    var handler = function(e) {
-      if (!menu.contains(e.target) && e.target !== btn && !btn.contains(e.target)) {
-        closeAllMenus();
-        document.removeEventListener('click', handler, true);
-      }
-    };
-    setTimeout(function() { document.addEventListener('click', handler, true); }, 0);
-  }
-}
-
-function closeAllMenus() {
-  document.querySelectorAll('.more-menu').forEach(function(m) { m.style.display = 'none'; });
-}
-
 // ---- Bookmark toggle ----
 async function toggleBookmark(targetType, targetId, btnEl) {
   try {
@@ -1932,7 +1887,7 @@ async function votePoll(btn) {
           '<div class="fp-poll-option-bar" style="width:' + pct + '%"></div>' +
           '<div class="fp-poll-option-text">' +
             '<span class="fp-poll-option-label">' + escapeHtml(opt.text) + '</span>' +
-            '<span class="fp-poll-option-count">' + opt.voteCount + ' vote' + (opt.voteCount !== 1 ? 's' : '') + ' &middot; ' + pct + '%</span>' +
+            '<span class="fp-poll-option-count">' + opt.voteCount + ' vote' + (opt.voteCount !== 1 ? 's' : '') + ', ' + pct + '%</span>' +
           '</div>' +
           iconHtml +
         '</button>';

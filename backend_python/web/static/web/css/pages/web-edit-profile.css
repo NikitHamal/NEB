@@ -1,222 +1,279 @@
-.subject-chips-area { display: flex; flex-direction: column; gap: 8px; }
-.subject-chips { display: flex; flex-wrap: wrap; gap: 6px; min-height: 0; }
-.subject-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
+/* Explorer is the way out of the form, so it is drawn as a way out: dashed
+   while it is not the answer, violet rather than brand blue once it is. The
+   other three are the plain .neb-option. */
+.role-radio-card-explorer { border-style: dashed; border-color: var(--md-outline-variant); }
+.role-radio-card-explorer:has(> input:checked),
+.role-radio-card-explorer.is-selected {
+  border-style: solid;
+  border-color: var(--md-tertiary);
+  background: var(--md-tertiary-container);
+}
+.role-radio-card-explorer:has(> input:checked) .neb-option-title,
+.role-radio-card-explorer.is-selected .neb-option-title { color: var(--md-on-tertiary-container); }
+.role-radio-card-explorer:has(> input:checked) > .neb-glyph,
+.role-radio-card-explorer.is-selected > .neb-glyph {
+  background: var(--md-tertiary);
+  color: var(--md-on-tertiary);
+}
+.role-radio-card-explorer:has(> input:checked) > .neb-mark::before,
+.role-radio-card-explorer.is-selected > .neb-mark::before { background: var(--md-tertiary); }
+
+/* ── The editor shell ───────────────────────────────────────────────────────
+   Seven titled sections down one column, an identity block on top, and the
+   save docked to the bottom of the viewport. The sections are the structure:
+   before them the whole form was one card, and a reader part-way down it had
+   no way to tell what a field belonged to or how much was left. */
+.epf-page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 16px 0;
+}
+
+.epf-head { margin-bottom: 20px; }
+.epf-title {
+  margin: 0 0 4px;
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--md-on-surface);
+}
+.epf-subtitle {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: var(--md-on-surface-variant);
+}
+
+.epf-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding: 12px 16px;
+  border-radius: var(--md-radius-md);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.45;
+}
+.epf-note .material-symbols-outlined { font-size: 20px; flex: none; }
+.epf-note-info {
   background: var(--md-primary-container);
   color: var(--md-on-primary-container);
-  padding: 4px 8px 4px 12px;
-  border-radius: 20px;
-  font-size: 0.8125rem;
-  font-weight: 500;
-  line-height: 1.4;
 }
-.subject-chip-remove {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--md-on-primary-container);
-  opacity: 0.7;
-  border-radius: 50%;
-  width: 18px;
-  height: 18px;
+.epf-note-error {
+  background: var(--md-error-container);
+  color: var(--md-on-error-container);
 }
-.subject-chip-remove:hover { opacity: 1; background: color-mix(15%, var(--md-on-primary-container), transparent); }
-.subject-chip-remove .material-symbols-outlined { font-size: 14px; }
-.role-radio-card {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 10px 18px;
-  border-radius: 24px;
-  border: 1.5px solid var(--md-outline-variant, #cac4d0);
-  background: var(--md-surface-container-low, #f8f7fc);
-  cursor: pointer;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--md-on-surface, #1d1b20);
-  transition: all 0.2s ease;
-  user-select: none;
-}
-.role-radio-card:hover {
-  border-color: var(--md-primary, #4f6aff);
-  background: var(--md-primary-container, #dfe1ff);
-}
-.role-radio-active {
-  border-color: var(--md-primary, #4f6aff) !important;
-  background: var(--md-primary-container, #dfe1ff) !important;
-  color: var(--md-on-primary-container, #00105c);
-  font-weight: 600;
-}
-html[data-theme="dark"] .role-radio-card {
-  background: var(--md-surface-container-low, #141218);
-  border-color: var(--md-outline-variant, #49454f);
-  color: var(--md-on-surface, #e6e0e9);
-}
-html[data-theme="dark"] .role-radio-card:hover {
-  border-color: var(--md-primary, #b0bcff);
-  background: var(--md-primary-container, #1b1b2e);
-}
-html[data-theme="dark"] .role-radio-active {
-  border-color: var(--md-primary, #b0bcff) !important;
-  background: var(--md-primary-container, #1b1b2e) !important;
-  color: var(--md-on-primary-container, #dfe1ff);
-}
-.role-radio-card-explorer {
-  border-style: dashed;
-  border-color: var(--md-outline, #79747e);
-}
-.role-radio-card-explorer:hover {
-  border-style: solid;
-  border-color: #B45309;
-}
-.role-radio-card-explorer.role-radio-active {
-  border-style: solid !important;
-  border-color: #B45309 !important;
-  background: rgba(245, 158, 11, 0.12) !important;
-  color: #B45309 !important;
-}
-html[data-theme="dark"] .role-radio-card-explorer.role-radio-active {
-  background: rgba(245, 158, 11, 0.18) !important;
-  color: #FBBF24 !important;
-}
-.subject-input-row { display: flex; gap: 8px; }
-.subject-input-row .md-input { flex: 1; }
-.subject-pick-btn { white-space: nowrap; padding: 8px 16px; }
-.subject-pick-btn .material-symbols-outlined { font-size: 18px; }
 
-.subject-pick-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 9000;
-  background: rgba(0,0,0,0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-}
-.subject-pick-dialog {
-  background: var(--md-surface);
-  border-radius: 20px;
-  width: 100%;
-  max-width: 480px;
-  max-height: 80vh;
+/* ── Identity ───────────────────────────────────────────────────────────────
+   Avatar, name, and a meter over the ten things the app's profileStrength()
+   counts. The number is the point: it tells you whether there is anything
+   left to do without your having to scroll the form to find out. */
+.epf-identity {
   display: flex;
   flex-direction: column;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-}
-.subject-pick-header {
-  display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 16px 20px 12px;
+  gap: 0;
+  padding: 26px 18px 20px;
+  margin-bottom: 24px;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-radius-lg);
+  background: var(--md-surface-container-low);
+  text-align: center;
 }
-.subject-pick-header h3 { margin: 0; font-size: 1.125rem; font-weight: 600; color: var(--md-on-surface); }
-.subject-pick-close {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 4px;
-  border-radius: 50%;
-  color: var(--md-on-surface-variant);
+/* The app centres this and the web had it in a left-aligned two-column grid
+   with the photo button off to the side, which is the "wtf is changed" --
+   same fields, different screen. The avatar is the target now: a real button
+   with the camera badge on its corner, so there is one thing to press rather
+   than a picture and a button that agree about nothing. */
+.epf-identity-avatar {
+  position: relative;
+  width: 104px;
+  height: 104px;
+  padding: 0;
+  flex: none;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: visible;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: transform var(--md-motion-spatial-fast);
 }
-.subject-pick-close:hover { background: color-mix(10%, var(--md-on-surface-variant), transparent); }
-.subject-pick-search {
+.epf-identity-avatar:active { transform: scale(0.96); }
+/* Round, like NebAvatar. The Expressive polygons are for glyph tiles and
+   the create button; the app never cuts a face out of one. */
+.epf-identity-avatar > img,
+.epf-identity-initial {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin: 0 20px 12px;
-  padding: 8px 12px;
-  border-radius: 12px;
+  justify-content: center;
   background: var(--md-surface-container-high);
 }
-.subject-pick-search .material-symbols-outlined { font-size: 20px; color: var(--md-on-surface-variant); }
-.subject-pick-search input {
-  border: none;
-  background: none;
-  outline: none;
-  flex: 1;
-  font-size: 0.9375rem;
-  color: var(--md-on-surface);
-  font-family: inherit;
+.epf-identity-initial {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--md-primary);
+  text-transform: uppercase;
 }
-.subject-pick-search input::placeholder { color: var(--md-on-surface-variant); }
-.subject-pick-list {
-  flex: 1;
-  overflow-y: auto;
-  padding: 0 12px 12px;
-  min-height: 120px;
-  max-height: 40vh;
-  scrollbar-width: none;
-}
-.subject-pick-list::-webkit-scrollbar { display: none; }
-.subject-pick-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 10px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 0.9375rem;
-  color: var(--md-on-surface);
-  transition: background 0.15s;
-}
-.subject-pick-item:hover { background: color-mix(5%, var(--md-primary), transparent); }
-.subject-pick-checkbox { display: none; }
-.subject-pick-check {
-  width: 20px;
-  height: 20px;
-  border-radius: 4px;
-  border: 2px solid var(--md-outline);
+/* The badge is what says the avatar is editable. It sits on the corner rather
+   than under the picture, because a caption is not an affordance. */
+.epf-identity-camera {
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  width: 34px;
+  height: 34px;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-  transition: background 0.15s, border-color 0.15s;
-}
-.subject-pick-check .material-symbols-outlined { font-size: 16px; color: var(--md-on-primary); opacity: 0; transition: opacity 0.15s; }
-.subject-pick-item.selected .subject-pick-check {
+  border-radius: 50%;
   background: var(--md-primary);
-  border-color: var(--md-primary);
+  color: var(--md-on-primary);
+  border: 3px solid var(--md-surface-container-low);
+  box-sizing: border-box;
 }
-.subject-pick-item.selected .subject-pick-check .material-symbols-outlined { opacity: 1; }
-.subject-pick-label { flex: 1; }
-.subject-pick-add {
-  display: flex;
-  gap: 8px;
-  padding: 8px 20px 12px;
-  border-top: 1px solid var(--md-outline-variant);
-  margin-top: 4px;
-}
-.subject-pick-add input {
-  flex: 1;
-  border: 1px solid var(--md-outline-variant);
-  border-radius: 10px;
-  padding: 8px 12px;
-  font-size: 0.875rem;
-  outline: none;
-  background: var(--md-surface-container);
+.epf-identity-camera .material-symbols-outlined { font-size: 17px; }
+.epf-identity-name {
+  margin-top: 14px;
+  font-size: 1.25rem;
+  font-weight: 700;
   color: var(--md-on-surface);
-  font-family: inherit;
+  line-height: 1.25;
 }
-.subject-pick-add input:focus { border-color: var(--md-primary); }
-.subject-pick-add .md-btn { padding: 8px 16px; }
-.subject-pick-actions {
+.epf-identity-handle {
+  font-size: 0.875rem;
+  color: var(--md-on-surface-variant);
+}
+.epf-identity-hint { margin: 8px 0 0; font-size: 0.75rem; }
+/* Off-screen rather than display:none, so the button can still open it. */
+.epf-file-input { position: absolute; width: 0; height: 0; opacity: 0; overflow: hidden; }
+
+/* Full width under the name: a track shorter than the block cannot be read
+   as a proportion of anything. */
+.epf-strength { width: 100%; margin-top: 18px; }
+.epf-strength-top {
   display: flex;
-  justify-content: flex-end;
+  align-items: baseline;
+  justify-content: space-between;
   gap: 8px;
-  padding: 12px 20px 16px;
-  border-top: 1px solid var(--md-outline-variant);
+  margin-bottom: 6px;
+}
+.epf-strength-count {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--md-on-surface);
+  font-variant-numeric: tabular-nums;
+}
+.epf-strength-word {
+  font-size: 0.8125rem;
+  color: var(--md-on-surface-variant);
+}
+.epf-strength-track {
+  height: 6px;
+  border-radius: var(--md-shape-full);
+  background: var(--md-surface-container-highest);
+  overflow: hidden;
+}
+.epf-strength-fill {
+  height: 100%;
+  width: 0;
+  border-radius: inherit;
+  background: var(--md-primary);
+  transition: width 0.35s cubic-bezier(0.2, 0, 0, 1);
 }
 
-@media (max-width: 600px) {
-  .subject-pick-dialog { max-width: 100%; margin: 8px; }
+/* ── Sections ───────────────────────────────────────────────────────────────
+   Each is its own surface with its own heading, which is what replaced the
+   single card. */
+.epf-section {
+  padding: 20px;
+  margin-bottom: 16px;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-radius-lg);
+  background: var(--md-surface-container-lowest);
+}
+.epf-section-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.epf-section-head .md-btn { flex: none; }
+.epf-section-title {
+  margin: 0 0 2px;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--md-on-surface);
+}
+.epf-section-note {
+  margin: 0 0 16px;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--md-on-surface-variant);
+}
+.epf-section .form-group:last-child { margin-bottom: 0; }
+
+.epf-hint {
+  font-size: 0.8125rem;
+  color: var(--md-on-surface-variant);
+  line-height: 1.45;
+}
+.epf-hint-block { display: block; margin: 0; }
+
+/* Two per row on a desktop, one on a phone. The cards are glyph + title +
+   subtitle now, so a 140px column would break the subtitle over four lines. */
+.epf-role-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 10px;
+}
+
+.epf-links-list { display: flex; flex-direction: column; gap: 8px; }
+.epf-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 28px 16px;
+  color: var(--md-on-surface-variant);
+  font-size: 0.875rem;
+  text-align: center;
+}
+.epf-empty .material-symbols-outlined { font-size: 32px; opacity: 0.4; }
+
+/* ── The dock ───────────────────────────────────────────────────────────────
+   Sticky, not fixed: it rides the bottom of the viewport while there is form
+   left to scroll and then settles at the end of it. The app docks its save the
+   same way, above the keyboard rather than at the foot of the scroll. */
+.epf-dock {
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin: 0 -16px;
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--md-outline-variant);
+  background: var(--md-surface);
+}
+.epf-save { min-width: 148px; justify-content: center; }
+
+@media (max-width: 700px) {
+  .epf-page { padding: 16px 12px 0; }
+  .epf-title { font-size: 1.5rem; }
+  .epf-identity { padding: 22px 16px 18px; }
+  .epf-identity-avatar { width: 88px; height: 88px; }
+  .epf-identity-initial { font-size: 2rem; }
+  .epf-section { padding: 16px; }
+  .epf-dock { margin: 0 -12px; padding-left: 12px; padding-right: 12px; }
+  .epf-dock .md-btn { flex: 1; justify-content: center; }
+  .epf-save { min-width: 0; }
 }

@@ -29,10 +29,10 @@
   right: 0;
   max-height: 280px;
   overflow-y: auto;
-  background: var(--md-surface-container-high, #fff);
-  border: 1px solid var(--md-outline-variant, #e0e0e0);
+  background: var(--md-surface-container-high);
+  border: 1px solid var(--md-outline-variant);
   border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--md-elevation-3);
   z-index: 20;
   padding: 4px;
 }
@@ -53,7 +53,7 @@
 
 .behalf-result:hover,
 .behalf-result:focus {
-  background: var(--md-surface-container, #f0f0f0);
+  background: var(--md-surface-container);
 }
 
 .behalf-result-avatar,
@@ -65,8 +65,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: var(--md-primary-container, #dbeafe);
-  color: var(--md-on-primary-container, #1e40af);
+  background: var(--md-primary-container);
+  color: var(--md-on-primary-container);
   font-weight: 600;
   font-size: 0.875rem;
   flex-shrink: 0;
@@ -110,10 +110,10 @@
   align-items: center;
   gap: 12px;
   padding: 10px 12px;
-  background: var(--md-secondary-container, #e0e7ff);
-  color: var(--md-on-secondary-container, #1e3a8a);
+  background: var(--md-secondary-container);
+  color: var(--md-on-secondary-container);
   border-radius: 12px;
-  border: 1px solid color-mix(in srgb, var(--md-primary, #1b6ef3) 20%, transparent);
+  border: 1px solid color-mix(in srgb, var(--md-primary) 25%, transparent);
 }
 
 .behalf-avatar {
@@ -157,7 +157,7 @@
 
 .behalf-clear:hover {
   opacity: 1;
-  background: rgba(0, 0, 0, 0.08);
+  background: color-mix(in srgb, currentColor 12%, transparent);
 }
 
 /* ===== @-mention autocomplete dropdown (author fields) ===== */
@@ -174,10 +174,10 @@
   max-width: 360px;
   max-height: 280px;
   overflow-y: auto;
-  background: var(--md-surface-container-high, #fff);
-  border: 1px solid var(--md-outline-variant, #e0e0e0);
+  background: var(--md-surface-container-high);
+  border: 1px solid var(--md-outline-variant);
   border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--md-elevation-3);
   z-index: 30;
   padding: 4px;
 }
@@ -198,7 +198,7 @@
 
 .mention-result:hover,
 .mention-result.active {
-  background: var(--md-surface-container, #f0f0f0);
+  background: var(--md-surface-container);
 }
 
 .mention-result-avatar {
@@ -209,8 +209,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: var(--md-primary-container, #dbeafe);
-  color: var(--md-on-primary-container, #1e40af);
+  background: var(--md-primary-container);
+  color: var(--md-on-primary-container);
   font-weight: 600;
   font-size: 0.8125rem;
   flex-shrink: 0;
@@ -241,27 +241,10 @@
   color: var(--md-on-surface-variant);
 }
 
-/* Dark theme adjustments */
-[data-theme="dark"] .behalf-results,
-[data-theme="dark"] .mention-dropdown {
-  background: var(--md-surface-container-high, #2a2a2a);
-  border-color: var(--md-outline-variant, #444);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-}
-
-[data-theme="dark"] .behalf-result:hover,
-[data-theme="dark"] .behalf-result:focus,
-[data-theme="dark"] .mention-result:hover,
-[data-theme="dark"] .mention-result.active {
-  background: var(--md-surface-container, #383838);
-}
-
-[data-theme="dark"] .behalf-selection {
-  background: var(--md-secondary-container, #1e293b);
-  color: var(--md-on-secondary-container, #cbd5e1);
-  border-color: color-mix(in srgb, var(--md-primary, #60a5fa) 30%, transparent);
-}
-
-[data-theme="dark"] .behalf-clear:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
+/* There is no dark block. Every rule that was here restated
+   var(--md-x, #fallback) with a different fallback hex -- and the token is
+   always defined, so the fallback never applied and each override resolved to
+   exactly the value it was overriding. The three that did differ are handled
+   above: the dropdown shadow is --md-elevation-3, which the theme already
+   swaps; the clear button's hover is a wash of its own inherited ink; and the
+   selection's border is one strength rather than 20% light and 30% dark. */

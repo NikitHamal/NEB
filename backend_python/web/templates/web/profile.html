@@ -8,14 +8,20 @@
 {% block og_type %}profile{% endblock %}
 {% block tw_title %}{{ profile_user.display_name|default:profile_user.username }} on NEBians{% endblock %}
 {% block tw_description %}{% if profile_user.bio %}{{ profile_user.bio }}{% else %}Check out {{ profile_user.display_name|default:profile_user.username }}'s profile on NEBians — Nepal's learning community.{% endif %}{% endblock %}
-{% block og_image %}https://nebians.consica.com.np{% url 'web:profile_card_image' username=profile_user.username %}?v=13{% endblock %}
-{% block og_image_secure %}https://nebians.consica.com.np{% url 'web:profile_card_image' username=profile_user.username %}?v=13{% endblock %}
+{% comment %} The card itself comes from the og_image_context processor (/og/profile/...);
+   only the alt text needs this page's own data. {% endcomment %}
 {% block og_image_alt %}{{ profile_user.display_name|default:profile_user.username }} profile card on NEBians{% endblock %}
-{% block tw_image %}https://nebians.consica.com.np{% url 'web:profile_card_image' username=profile_user.username %}?v=13{% endblock %}
 {% block tw_image_alt %}{{ profile_user.display_name|default:profile_user.username }} profile card on NEBians{% endblock %}
 {% block robots %}{% if profile_private or profile_user.is_bot %}<meta name="robots" content="noindex,nofollow">{% endif %}{% endblock %}
 {% block extra_css %}
+{% comment %} All three belong here, in the head. The bottom two used to be the
+   first two lines of {% templatetag openblock %} block content {% templatetag closeblock %},
+   which is a stylesheet discovered part-way down the body: the browser has
+   already painted the profile unstyled by the time it finds them, so the page
+   visibly re-laid itself out on every load. {% endcomment %}
 <link rel="stylesheet" href="{% static 'web/css/pages/agents.css' %}">
+<link rel="stylesheet" href="{% static 'web/css/app/10-social-links.css' %}?v=1.1">
+<link rel="stylesheet" href="{% static 'web/css/pages/profile.css' %}">
 {% endblock %}
 
 {% block head_extra %}
@@ -48,87 +54,112 @@
 {% endif %}
 {% endblock %}
 
-{% block bottomnav %}{% endblock %}
+{% comment %} The rail, with nothing highlighted: a profile is not one of the three
+   destinations, but on mobile the topbar's nav is hidden and this is the only
+   way off the page. {% endcomment %}
+{% block bottomnav %}
+{% include "web/partials/bottomnav.html" %}
+{% endblock %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'web/css/app/10-social-links.css' %}?v=1.1">
-<link rel="stylesheet" href="{% static 'web/css/pages/profile.css' %}">
-
 <div class="profile-page">
   {% if profile_user %}
     <div class="profile-grid-container">
       
-      <!-- Left Column: Compact Profile Card (Mockup Inspired) -->
+      {% comment %} ── The head of the profile ───────────────────────────────────────────
+         One column, no panel. The cover runs to both edges of the column, the
+         avatar sits across its bottom edge with the primary action opposite
+         it, and everything under that is left-aligned text at a single indent.
+         This is the app's ProfileHeader. The web used to wrap all of it in a
+         rounded, shadowed card that itself sat inside a padded grid, which
+         read as a card floating on a card. {% endcomment %}
       <div class="profile-left-col">
         <div class="pf-compact-card{% if profile_user.is_bot %} pf-compact-card-bot{% endif %}">
-          <!-- Card Banner Area -->
-          <div class="pf-card-banner" {% if profile_user.banner_url %}style="background-image: url('{{ profile_user.banner_url }}'); background-size: cover; background-position: center;"{% endif %}{% if profile_user.banner_type %} data-banner-type="{{ profile_user.banner_type }}"{% endif %}>
-            {% if not profile_user.banner_url %}
-              <div class="pf-banner-holo-metallic"></div>
-              <div class="pf-banner-mesh-overlay"></div>
-              <div class="pf-banner-wave-layer">
-                <svg viewBox="0 0 1200 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M0,120 C200,180 400,60 600,120 C800,180 1000,60 1200,120 L1200,200 L0,200 Z" fill="rgba(255,255,255,0.06)"/>
-                  <path d="M0,150 C300,100 500,190 700,140 C900,90 1100,170 1200,140 L1200,200 L0,200 Z" fill="rgba(255,255,255,0.04)"/>
-                </svg>
+          <div class="pf-card-banner" {% if profile_user.banner_url %}style="background-image: url('{{ profile_user.banner_url }}'); background-size: cover; background-position: center;"{% endif %}>
+            {% if profile_user.banner_url %}
+              <div class="pf-banner-photo-scrim"></div>
+            {% else %}
+              {% comment %} Generative cover art. Same role, same seed, same drawing as the
+                 Android app's ProfileBanner. {% endcomment %}
+              <div class="neb-art pf-banner-art" data-neb-art="cover"
+                   data-neb-role="{{ profile_user.banner_role|default:'MEMBER' }}"
+                   data-neb-seed="{{ profile_user.username }}">
+                <div class="pf-banner-sheen" aria-hidden="true"></div>
+                <span class="pf-banner-deco-text">{{ profile_user.banner_deco_text|default:"nebian" }}</span>
               </div>
-              <div class="pf-banner-shine-overlay"></div>
-              <span class="pf-banner-deco-text"
-                {% if profile_user.banner_text_color %}data-banner-text-color="{{ profile_user.banner_text_color }}"{% endif %}
-              >{{ profile_user.banner_deco_text|default:"nebian" }}</span>
             {% endif %}
             <a href="#" data-action="go-back" class="profile-banner-back-btn" title="Go Back">
               <span class="material-symbols-outlined">arrow_back</span>
             </a>
-          </div>
-
-          <!-- Overlapping Circular Avatar -->
-          <div class="pf-avatar-overlap-wrap{% if profile_user.is_bot or profile_user.username == 'neby' %} pf-avatar-bot{% endif %} {% if profile_user.verification_level and profile_user.verification_level > 0 %}avatar-container-verified{% endif %}">
-            <div class="pf-avatar-circle{% if profile_user.is_bot or profile_user.username == 'neby' %} pf-avatar-bot-circle{% endif %}" id="profilePageAvatar">
-              {% if profile_user.is_bot or profile_user.username == 'neby' %}
-                <div class="neby-avatar-hero" data-neby-avatar data-hero="true" data-animation="idle" id="profilePageNebyAvatar" title="Interactive 3D Neby! Click to play reactions"></div>
-              {% elif profile_user.photo_url %}
-                <img src="{{ profile_user.photo_url }}" alt="{{ profile_user.display_name|default:profile_user.username }}">
-              {% else %}
-                <div class="pf-avatar-initial">{{ profile_user.display_name|default:profile_user.username|slice:":1" }}</div>
-              {% endif %}
-            </div>
-            {% if profile_user.verification_level and profile_user.verification_level > 0 %}
-              <span class="avatar-badge-overlay" style="--badge-bg: {% if profile_user.verification_level == 1 %}#1B9AF0{% elif profile_user.verification_level == 2 %}#2E7D32{% elif profile_user.verification_level == 3 %}#F59E0B{% else %}#1A1A1A{% endif %};" title="Verified User">
-                <span class="material-symbols-outlined">verified</span>
-              </span>
-            {% endif %}
-            {% if user and user.username == profile_user.username and not profile_user.is_bot and profile_user.username != 'neby' %}
-              <div class="pf-avatar-cam" data-action="open-photo-history-modal" title="Change photo">
-                <span class="material-symbols-outlined">camera_alt</span>
-              </div>
-            {% endif %}
-          </div>
-
-          <!-- Card Content Body -->
-          <div class="pf-card-body">
-            
-            <!-- Link and Option Buttons in Top Right of Content -->
-            <div class="pf-card-top-actions">
-              <button class="pf-action-icon-btn" data-action="copy-profile-link" title="Copy profile URL">
+            {% comment %} The utility actions live on the cover rather than in the text
+               column: the app keeps them in the top bar, and down here they
+               competed with the name for the first line the eye lands on. {% endcomment %}
+            <div class="pf-banner-actions">
+              <button class="pf-banner-action" data-action="copy-profile-link" title="Copy profile URL" aria-label="Copy profile URL">
                 <span class="material-symbols-outlined">link</span>
               </button>
               {% if user and user.username == profile_user.username %}
-                <a href="{% url 'web:edit_profile' %}" rel="nofollow" class="pf-action-icon-btn" title="Edit Profile Details">
+                <a href="{% url 'web:edit_profile' %}" rel="nofollow" class="pf-banner-action" title="Edit profile details" aria-label="Edit profile details">
                   <span class="material-symbols-outlined">settings</span>
                 </a>
               {% else %}
-                <button class="pf-action-icon-btn" data-action="show-options-soon" title="More Options">
+                <button class="pf-banner-action" data-action="show-options-soon" title="More options" aria-label="More options">
                   <span class="material-symbols-outlined">more_horiz</span>
                 </button>
               {% endif %}
             </div>
+          </div>
 
-            <!-- User Name with Dynamic Badge -->
-            <div class="pf-card-name-row" style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 4px;">
-              <h1 class="pf-card-name" style="margin: 0;">
-                {{ profile_user.display_name|default:profile_user.username }}
-              </h1>
+          {% comment %} Avatar and primary action, bottom-aligned across the cover's edge.
+             Nothing clips here, so the avatar hangs below the art. {% endcomment %}
+          <div class="pf-identity-row">
+            <div class="pf-avatar-overlap-wrap{% if profile_user.is_bot or profile_user.username == 'neby' %} pf-avatar-bot{% endif %} {% if profile_user.verification_level and profile_user.verification_level > 0 %}avatar-container-verified{% endif %}">
+              <div class="pf-avatar-circle{% if profile_user.is_bot or profile_user.username == 'neby' %} pf-avatar-bot-circle{% endif %}" id="profilePageAvatar">
+                {% if profile_user.is_bot or profile_user.username == 'neby' %}
+                  <div class="neby-avatar-hero" data-neby-avatar data-hero="true" data-animation="idle" id="profilePageNebyAvatar" title="Interactive 3D Neby! Click to play reactions"></div>
+                {% elif profile_user.photo_url %}
+                  <img src="{{ profile_user.photo_url }}" alt="{{ profile_user.display_name|default:profile_user.username }}" width="96" height="96" loading="eager" decoding="async">
+                {% else %}
+                  <div class="pf-avatar-initial">{{ profile_user.display_name|default:profile_user.username|slice:":1" }}</div>
+                {% endif %}
+              </div>
+              {% if profile_user.verification_level and profile_user.verification_level > 0 %}
+                <span class="avatar-badge-overlay" style="--badge-bg: {% if profile_user.verification_level == 1 %}#1B9AF0{% elif profile_user.verification_level == 2 %}#2E7D32{% elif profile_user.verification_level == 3 %}#F59E0B{% else %}#1A1A1A{% endif %};" title="Verified User">
+                  <span class="material-symbols-outlined">verified</span>
+                </span>
+              {% endif %}
+              {% if user and user.username == profile_user.username and not profile_user.is_bot and profile_user.username != 'neby' %}
+                <div class="pf-avatar-cam" data-action="open-photo-history-modal" title="Change photo">
+                  <span class="material-symbols-outlined">camera_alt</span>
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="pf-identity-action">
+              {% if user and user.username == profile_user.username %}
+                <a href="{% url 'web:edit_profile' %}" rel="nofollow" class="pf-btn pf-btn-outlined">
+                  <span class="material-symbols-outlined">edit</span>
+                  Edit profile
+                </a>
+              {% elif is_authenticated %}
+                <button id="btnFollowToggle" data-action="toggle-follow-user" data-user-id="{{ profile_user.id }}"
+                        class="pf-btn {% if stats.is_following or stats.is_requested %}pf-btn-outlined{% else %}pf-btn-filled{% endif %}">
+                  <span class="material-symbols-outlined">{% if stats.is_following %}check{% elif stats.is_requested %}pending{% else %}add{% endif %}</span>
+                  <span id="followText">{% if stats.is_following %}Following{% elif stats.is_requested %}Requested{% else %}Follow{% endif %}</span>
+                </button>
+              {% else %}
+                <a href="{% url 'web:login' %}?next={{ request.path }}" rel="nofollow" class="pf-btn pf-btn-filled">
+                  <span class="material-symbols-outlined">add</span>
+                  Follow
+                </a>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="pf-card-body">
+
+            <div class="pf-card-name-row">
+              <h1 class="pf-card-name">{{ profile_user.display_name|default:profile_user.username }}</h1>
               {% if badge_info %}
                 <span class="role-badge role-badge-{{ badge_info.type }}" title="{{ badge_info.label }}">
                   <span class="material-symbols-outlined">{{ badge_info.icon }}</span>
@@ -149,9 +180,9 @@
                 </span>
               {% else %}
                 {% if profile_user.role == 'teacher' %}
-                  Teacher{% if profile_user.teaching_subjects %} &middot; {{ profile_user.teaching_subjects|comma_space }}{% endif %}{% if profile_user.school %} &middot; {{ profile_user.school }}{% endif %}
+                  Teacher{% if profile_user.teaching_subjects %}, {{ profile_user.teaching_subjects|comma_space }}{% endif %}{% if profile_user.school %}, {{ profile_user.school }}{% endif %}
                 {% elif profile_user.role == 'institution' %}
-                  {% if profile_user.institution_type == 'school' %}School{% elif profile_user.institution_type == 'college' %}College{% elif profile_user.institution_type == 'academy' %}Academy{% else %}Institution{% endif %}{% if profile_user.school %} &middot; {{ profile_user.school }}{% endif %}
+                  {% if profile_user.institution_type == 'school' %}School{% elif profile_user.institution_type == 'college' %}College{% elif profile_user.institution_type == 'academy' %}Academy{% else %}Institution{% endif %}{% if profile_user.school %}, {{ profile_user.school }}{% endif %}
                 {% elif profile_user.role == 'explorer' %}
                   {% if profile_user.class_level or profile_user.school %}
                     {{ profile_user.school|default:profile_user.class_level }}
@@ -159,7 +190,7 @@
                 {% else %}
                   {% if profile_user.class_level %}
                     {% if profile_user.class_level == '11' %}Class 11
-{% elif profile_user.class_level == '12' %}Class 12
+                    {% elif profile_user.class_level == '12' %}Class 12
                     {% elif profile_user.class_level == '+2 Passout' %}+2 Passout
                     {% elif profile_user.class_level == 'Diploma' %}Diploma
                     {% elif profile_user.class_level == 'Teacher' %}Teacher / Educator
@@ -194,6 +225,49 @@
               </div>
             {% endif %}
 
+            {% comment %} The bio, with no heading over it. A one-paragraph "About" section
+               inside a profile is a label for something the reader can already
+               see. {% endcomment %}
+            <p class="pf-card-bio">
+              {% if profile_user.bio %}
+                {{ profile_user.bio|linkify }}
+              {% else %}
+                {% if profile_user.is_bot %}
+                  Your friendly AI study buddy. Always learning, always here to help.
+                {% elif profile_user.role == 'institution' %}
+                  <strong>{{ profile_user.display_name|default:"An institution" }}</strong> on NEBians.
+                {% else %}
+                  {% if profile_user.display_name %}{{ profile_user.display_name }}{% else %}A NEBians member{% endif %}
+                  {% if profile_user.school %} at <strong>{{ profile_user.school }}</strong>{% endif %}.
+                  {% if profile_user.subjects %}Focusing on <strong>{{ profile_user.subjects|comma_space }}</strong>.{% endif %}
+                {% endif %}
+              {% endif %}
+            </p>
+            {% include "web/_agent_persona_card.html" %}
+
+            {% comment %} Where they are, where they study, when they arrived: one wrapped
+               line of grey rather than three icon rows stacked vertically. {% endcomment %}
+            <div class="pf-meta-flow">
+              {% if not profile_user.is_bot %}
+                {% if profile_user.district or profile_user.pradesh %}
+                  <span class="pf-meta-item">
+                    <span class="material-symbols-outlined">location_on</span>
+                    {% if profile_user.district and profile_user.pradesh %}{{ profile_user.district }}, {{ profile_user.pradesh|clean_province }}{% elif profile_user.district %}{{ profile_user.district }}{% else %}{{ profile_user.pradesh|clean_province }}{% endif %}
+                  </span>
+                {% endif %}
+                {% if profile_user.school %}
+                  <span class="pf-meta-item">
+                    <span class="material-symbols-outlined">school</span>
+                    {% if profile_user.school_username %}<a href="/profile/{{ profile_user.school_username }}/" class="pf-meta-school-link">{{ profile_user.school }}</a>{% else %}{{ profile_user.school }}{% endif %}
+                  </span>
+                {% endif %}
+              {% endif %}
+              <span class="pf-meta-item">
+                <span class="material-symbols-outlined">calendar_month</span>
+                {% if profile_user.is_bot %}Online since {{ profile_user.created_at|join_date }}{% else %}Joined {{ profile_user.created_at|join_date }}{% endif %}
+              </span>
+            </div>
+
             <!-- Stats Rows (Followers, Following, Posts) -->
             <div class="pf-stats-row">
               {% if profile_user.is_bot %}
@@ -225,104 +299,28 @@
               {% endif %}
             </div>
 
-            <!-- Outlined Action Buttons Row -->
+            {# Everything the primary action is not. #}
             <div class="pf-buttons-row">
               {% if user and user.username == profile_user.username %}
-                <a href="{% url 'web:edit_profile' %}" rel="nofollow" class="pf-btn pf-btn-outlined pf-btn-primary">
-                  <span class="material-symbols-outlined">edit</span>
-                  Edit
-                </a>
                 <a href="{% url 'web:analytics' %}" rel="nofollow" class="pf-btn pf-btn-outlined">
                   <span class="material-symbols-outlined">monitoring</span>
                   Analytics
                 </a>
+              {% elif profile_user.is_bot %}
+                <button class="pf-btn pf-btn-outlined" data-action="copy-mention" data-mention="@{{ profile_user.username }}" data-msg="Copied @{{ profile_user.username }}! Mention them in any post to start chatting.">
+                  <span class="material-symbols-outlined">alternate_email</span>
+                  Try Neby
+                </button>
               {% else %}
-                {% if is_authenticated %}
-                  <button id="btnFollowToggle" data-action="toggle-follow-user" data-user-id="{{ profile_user.id }}"
-                          class="pf-btn {% if stats.is_following or stats.is_requested %}pf-btn-outlined{% else %}pf-btn-filled{% endif %}">
-                    <span class="material-symbols-outlined">{% if stats.is_following %}check{% elif stats.is_requested %}pending{% else %}add{% endif %}</span>
-                    <span id="followText">{% if stats.is_following %}Following{% elif stats.is_requested %}Requested{% else %}Follow{% endif %}</span>
-                  </button>
-                {% else %}
-                  <a href="{% url 'web:login' %}?next={{ request.path }}" rel="nofollow" class="pf-btn pf-btn-filled" style="text-decoration:none;">
-                    <span class="material-symbols-outlined">add</span>
-                    Follow
-                  </a>
-                {% endif %}
-
-                {% if profile_user.is_bot %}
-                  <button class="pf-btn pf-btn-outlined" data-action="copy-mention" data-mention="@{{ profile_user.username }}" data-msg="Copied @{{ profile_user.username }}! Mention them in any post to start chatting.">
-                    <span class="material-symbols-outlined">alternate_email</span>
-                    Try Neby
-                  </button>
-                {% else %}
-                  <button class="pf-btn pf-btn-outlined" data-action="copy-mention" data-mention="@{{ profile_user.username }}" data-msg="Copied username handle! Mention them in the forum.">
-                    <span class="material-symbols-outlined">alternate_email</span>
-                    Mention
-                  </button>
-                {% endif %}
+                <button class="pf-btn pf-btn-outlined" data-action="copy-mention" data-mention="@{{ profile_user.username }}" data-msg="Copied username handle! Mention them in the forum.">
+                  <span class="material-symbols-outlined">alternate_email</span>
+                  Mention
+                </button>
               {% endif %}
             </div>
 
-            <!-- Elegant Dotted Divider -->
-            <div class="pf-dotted-divider"></div>
-
-            <!-- About Section -->
-            <div class="pf-about-section">
-              <h2 class="pf-about-title">{% if profile_user.is_bot %}About Neby{% else %}About{% endif %}</h2>
-              <p class="pf-about-bio">
-                {% if profile_user.bio %}
-                  {{ profile_user.bio|linkify }}
-                {% else %}
-                  {% if profile_user.is_bot %}
-                    Your friendly AI study buddy. Always learning, always here to help.
-                  {% elif profile_user.role == 'institution' %}
-                    <strong>{{ profile_user.display_name|default:"An institution" }}</strong> on NEBians.
-                  {% else %}
-                    {% if profile_user.display_name %}{{ profile_user.display_name }}{% else %}A NEBians member{% endif %}
-                    {% if profile_user.school %} at <strong>{{ profile_user.school }}</strong>{% endif %}.
-                    {% if profile_user.subjects %}Focusing on <strong>{{ profile_user.subjects|comma_space }}</strong>.{% endif %}
-                  {% endif %}
-                {% endif %}
-              </p>
-              {% include "web/_agent_persona_card.html" %}
-            </div>
-
-            {% if not profile_user.is_bot %}
-              <!-- Meta details (Location, School) with clean outline icons -->
-              <div class="pf-meta-details">
-                {% if profile_user.district or profile_user.pradesh %}
-                  <div class="pf-meta-row">
-                    <span class="material-symbols-outlined">location_on</span>
-                    <span>
-                      {% if profile_user.district and profile_user.pradesh %}
-                        {{ profile_user.district }}, {{ profile_user.pradesh|clean_province }}
-                      {% elif profile_user.district %}
-                        {{ profile_user.district }}
-                      {% else %}
-                        {{ profile_user.pradesh|clean_province }}
-                      {% endif %}
-                    </span>
-                  </div>
-                {% endif %}
-
-                {% if profile_user.school %}
-                  <div class="pf-meta-row">
-                    <span class="material-symbols-outlined">school</span>
-                    {% if profile_user.school_username %}
-                      <a href="/profile/{{ profile_user.school_username }}/" class="pf-meta-school-link">{{ profile_user.school }}</a>
-                    {% else %}
-                      <span>{{ profile_user.school }}</span>
-                    {% endif %}
-                  </div>
-                {% endif %}
-              </div>
-            {% endif %}
-
             <!-- Social Media Links -->
             {% if social_links %}
-            <div class="pf-social-links-section">
-              <div class="pf-dotted-divider"></div>
               <div class="pf-social-links-row" id="pfSocialRow">
                 {% for link in social_links %}
                 <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer" class="pf-social-link-btn platform-{{ link.icon }}" title="{{ link.platform_label }}" data-link-id="{{ link.id }}" data-link-user-id="{{ profile_user.id }}" data-link-platform="{{ link.icon }}" data-link-url="{{ link.url }}">
@@ -339,22 +337,12 @@
                   <span class="material-symbols-outlined">more_horiz</span>
                 </button>
               </div>
-            </div>
             {% endif %}
-
-            <div class="pf-info-joined">
-              <span class="material-symbols-outlined">calendar_month</span>
-              {% if profile_user.is_bot %}
-                Online since {{ profile_user.created_at|join_date }}
-              {% else %}
-                Joined {{ profile_user.created_at|join_date }}
-              {% endif %}
-            </div>
 
             {% if profile_user.is_bot %}
               <div class="pf-bot-footer">
                 <span class="material-symbols-outlined">auto_awesome</span>
-                Powered by AI &middot; Always-on AI companion
+                Always-on AI companion
               </div>
             {% endif %}
 
@@ -394,27 +382,31 @@
           </div>
         {% endif %}
 
-        <!-- Tabs -->
-        <div class="profile-tabs" style="margin-top: 0;">
-          <button class="profile-tab active" data-tab="posts" data-action="switch-profile-tab">
-            {% if profile_user.is_bot %}Conversations{% else %}Posts{% endif %}
-            <span class="tab-count">{{ stats.post_count|default:0 }}</span>
+        {% comment %}
+          ProfileScreen.kt's sticky tab rail: the same four labels with the same
+          counts, the same divider underneath, and the same travelling container
+          instead of the 3px --md-primary underline the web drew on its own.
+        {% endcomment %}
+        <div class="neb-rail neb-rail-divided" role="tablist" aria-label="Profile sections" style="margin-top: 0;">
+          <button type="button" class="neb-rail-item" role="tab" aria-selected="true" aria-controls="tabPosts" data-tab="posts" data-action="switch-profile-tab">
+            <span class="neb-rail-label">{% if profile_user.is_bot %}Conversations{% else %}Posts{% endif %}</span>
+            <span class="neb-rail-count">{{ stats.post_count|default:0 }}</span>
           </button>
-          <button class="profile-tab" data-tab="replies" data-action="switch-profile-tab">
-            Replies
-            <span class="tab-count">{{ stats.reply_count|default:0 }}</span>
+          <button type="button" class="neb-rail-item" role="tab" aria-selected="false" aria-controls="tabReplies" data-tab="replies" data-action="switch-profile-tab">
+            <span class="neb-rail-label">Replies</span>
+            <span class="neb-rail-count">{{ stats.reply_count|default:0 }}</span>
           </button>
-          <button class="profile-tab" data-tab="resources" data-action="switch-profile-tab">
-            Resources
-            <span class="tab-count">{{ stats.uploaded_resources_count|default:0 }}</span>
+          <button type="button" class="neb-rail-item" role="tab" aria-selected="false" aria-controls="tabResources" data-tab="resources" data-action="switch-profile-tab">
+            <span class="neb-rail-label">Resources</span>
+            <span class="neb-rail-count">{{ stats.uploaded_resources_count|default:0 }}</span>
           </button>
-          <button class="profile-tab" data-tab="about" data-action="switch-profile-tab">
-            About
+          <button type="button" class="neb-rail-item" role="tab" aria-selected="false" aria-controls="tabAbout" data-tab="about" data-action="switch-profile-tab">
+            <span class="neb-rail-label">About</span>
           </button>
           {% if stats.is_self and profile_user.is_locked %}
-          <button class="profile-tab" data-tab="requests" data-action="switch-profile-tab" id="tabBtnRequests">
-            Requests
-            <span class="tab-count" id="cntRequestsBadge">{{ pending_requests_count|default:0 }}</span>
+          <button type="button" class="neb-rail-item" role="tab" aria-selected="false" aria-controls="tabRequests" data-tab="requests" data-action="switch-profile-tab" id="tabBtnRequests">
+            <span class="neb-rail-label">Requests</span>
+            <span class="neb-rail-count" id="cntRequestsBadge">{{ pending_requests_count|default:0 }}</span>
           </button>
           {% endif %}
         </div>
@@ -445,11 +437,9 @@
                       <button class="follow-btn-small {% if stats.is_following %}following{% else %}not-following{% endif %}" data-action="toggle-follow" data-user-id="{{ profile_user.id }}">{% if stats.is_following %}Following{% else %}Follow{% endif %}</button>
                       {% endif %}
                     </div>
-                    <div class="post-card-meta-bottom" style="display:flex; align-items:center; flex-wrap:wrap; gap:6px; margin-top:2px; color:var(--md-on-surface-variant);">
+                    <div class="post-card-meta-bottom" style="display:flex; align-items:center; flex-wrap:wrap; gap:12px; margin-top:2px; color:var(--md-on-surface-variant);">
                       <span class="act-action-text">started a discussion</span>
-                      <span style="opacity:0.4;">&middot;</span>
                       <a href="{% url 'web:forum' %}?category={{ post.category }}" class="post-card-category-link">{{ post.category }}</a>
-                      <span style="opacity:0.4;">&middot;</span>
                       <span class="post-card-time">{{ post.createdAt|time_ago }}</span>
                     </div>
                   </div>
@@ -619,7 +609,6 @@
                      </div>
                      <div class="post-meta-sub">
                        <span>Shared a resource</span>
-                       <span class="dot-sep">&middot;</span>
                        <span class="post-card-time">{{ r.added_at|time_ago }}</span>
                      </div>
                    </div>
@@ -659,7 +648,7 @@
                       <a href="{% url 'web:reader' resource_id=r.id %}">{{ r.title }}</a>
                     </div>
                     <div class="act-resource-meta">
-                      {{ r.type }} &middot; {{ r.file_size|file_size_human|default:"2.4 MB" }}
+                      {{ r.type }}, {{ r.file_size|file_size_human|default:"2.4 MB" }}
                     </div>
                   </div>
                   <a href="{% url 'web:reader' resource_id=r.id %}" class="act-resource-download-btn" title="Download / Open">
@@ -993,14 +982,24 @@
   {% endif %}
 </div>
 
-<div class="pf-modal-overlay" id="socialOverflowOverlay" data-action="close-social-overflow">
-  <div class="pf-modal-bottom-sheet" data-action-stop>
-    <div class="pf-modal-handle"></div>
-    <div class="pf-modal-header">
-      <h3>Social Links</h3>
-      <button class="pf-modal-close" data-action="close-social-overflow"><span class="material-symbols-outlined">close</span></button>
+{% comment %}
+  The app shows the overflowing links in a NebModalSheet, so this is a
+  .neb-sheet -- the same handle, the same 30px top radius, the same drag to
+  dismiss as every other sheet on the site. It used to be a .pf-modal-* of its
+  own with a rgba(0,0,0,0.42) scrim and a 16px radius, which is the one sheet
+  on the profile that did not match the filter sheet two screens away.
+{% endcomment %}
+<div class="neb-scrim neb-scrim-bottom" id="socialOverflowOverlay" data-neb-close hidden>
+  <div class="neb-sheet" role="dialog" aria-modal="true" aria-labelledby="socialOverflowTitle">
+    <div class="neb-sheet-handle"></div>
+    <div class="neb-sheet-head">
+      <div class="neb-sheet-head-text">
+        <h3 class="neb-sheet-title" id="socialOverflowTitle">Social links</h3>
+      </div>
+      <button type="button" class="neb-sheet-close" data-neb-close aria-label="Close"><span class="material-symbols-outlined">close</span></button>
     </div>
-    <div class="pf-modal-body" id="socialOverflowBody"></div>
+    <div class="neb-sheet-body" id="socialOverflowBody"></div>
+    <div class="neb-sheet-foot"></div>
   </div>
 </div>
 {% include "web/profile/_photo_modal.html" %}
@@ -1010,15 +1009,7 @@
 {% block extra_js %}
 <script nonce="{{ csp_nonce }}">
 const PROFILE_PRIVATE = {{ profile_private|yesno:"true,false" }};
-// Banner store customization — apply data-attr overrides via inline styles (CSS attr() non-string support is limited)
 document.addEventListener('DOMContentLoaded', function() {
-  var decoEl = document.querySelector('.pf-banner-deco-text');
-  if (decoEl) {
-    var customColor = decoEl.getAttribute('data-banner-text-color');
-    var customSize = decoEl.getAttribute('data-banner-text-size');
-    if (customColor) decoEl.style.color = customColor;
-    if (customSize) decoEl.style.fontSize = customSize;
-  }
   document.querySelectorAll('.pf-res-desc').forEach(function(el) {
     var btn = el.querySelector('.pf-res-desc-toggle');
     if (btn && el.scrollHeight > el.clientHeight + 2) {
@@ -1100,23 +1091,17 @@ document.addEventListener('DOMContentLoaded', function() {
     return html;
   }
 
+  /* NebUI owns the scroll lock, the focus trap, Escape and the drag-to-dismiss;
+     this only has to fill the body before the sheet comes up. */
   window.openSocialOverflow = function() {
-    var overlay = document.getElementById('socialOverflowOverlay');
     var body = document.getElementById('socialOverflowBody');
-    if (!overlay || !body) return;
+    if (!body) return;
     body.innerHTML = buildOverflowList();
-    overlay.classList.add('active');
-    document.body.style.overflow = 'hidden';
+    NebUI.open('socialOverflowOverlay');
   };
   window.closeSocialOverflow = function() {
-    var overlay = document.getElementById('socialOverflowOverlay');
-    if (!overlay) return;
-    overlay.classList.remove('active');
-    document.body.style.overflow = '';
+    NebUI.close('socialOverflowOverlay');
   };
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeSocialOverflow();
-  });
 })();
 
 // ── Real-time profile: follower count + post count updates live ──
@@ -1339,7 +1324,6 @@ async function loadMoreActivity() {
               </div>
 <div class="post-meta-sub">
                  <a href="/forum/?category=${encodeURIComponent(post.category || '')}" class="post-card-category-link">${categoryHtml}</a>
-                 <span class="dot-sep">&middot;</span>
                  <span class="post-card-time">${escapeHtml(timeAgo(post.createdAt))}</span>
                </div>
             </div>
@@ -1619,9 +1603,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Tab switching
 function switchProfileTab(tabName) {
-  document.querySelectorAll('.profile-tab').forEach(t => t.classList.remove('active'));
+  // aria-selected is the rail's whole contract -- neb-rail.js watches it and
+  // moves the container. Nothing here has to know the container exists.
+  document.querySelectorAll('.neb-rail-item[data-tab]').forEach(t => t.setAttribute('aria-selected', 'false'));
   document.querySelectorAll('.profile-tab-content').forEach(c => c.classList.remove('active'));
-  document.querySelector(`.profile-tab[data-tab="${tabName}"]`).classList.add('active');
+  document.querySelector(`.neb-rail-item[data-tab="${tabName}"]`).setAttribute('aria-selected', 'true');
   document.getElementById('tab' + tabName.charAt(0).toUpperCase() + tabName.slice(1)).classList.add('active');
   // Re-animate progress fills when About tab is shown
   if (tabName === 'about') {
@@ -1711,10 +1697,6 @@ async function rejectFollowRequest(reqId, btn) {
   }
 }
 
-function closeAllMenus() {
-  document.querySelectorAll('.more-menu').forEach(function(m) { m.style.display = 'none'; });
-}
-
 registerActions({
   'accept-request': function(el) { acceptFollowRequest(el.dataset.requestId, el); },
   'reject-request': function(el) { rejectFollowRequest(el.dataset.requestId, el); },
@@ -1749,18 +1731,7 @@ registerActions({
     var menuId = el.dataset.menuId;
     var menu = document.getElementById(menuId);
     if (!menu) return;
-    var isOpen = menu.style.display !== 'none';
-    closeAllMenus();
-    if (!isOpen) {
-      menu.style.display = 'block';
-      var handler = function(e) {
-        if (!menu.contains(e.target) && e.target !== el && !el.contains(e.target)) {
-          closeAllMenus();
-          document.removeEventListener('click', handler, true);
-        }
-      };
-      setTimeout(function() { document.addEventListener('click', handler, true); }, 0);
-    }
+    toggleMoreMenu(menu, el);
   },
   'share-resource-url': function(el) {
     closeAllMenus();

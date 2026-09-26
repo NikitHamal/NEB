@@ -22,7 +22,7 @@
 .rich-block-list { display:flex; flex-direction:column; gap:14px; }
 .rich-block { border:1px solid var(--md-outline-variant); border-radius:16px; padding:18px; background:var(--md-surface-container-lowest); scroll-margin-top:90px; }
 .rich-block-formula { background:color-mix(in srgb, var(--md-primary-container) 24%, var(--md-surface-container-lowest)); }
-.rich-block-interactive { background:color-mix(in srgb, var(--md-tertiary-container, var(--md-primary-container)) 22%, var(--md-surface-container-lowest)); }
+.rich-block-interactive { background:color-mix(in srgb, var(--md-tertiary-container) 22%, var(--md-surface-container-lowest)); }
 .rich-block-callout { border-left:4px solid var(--md-primary); }
 .rich-block-head { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin-bottom:10px; }
 .rich-block-head h3 { margin:2px 0 0; font-size:1rem; color:var(--md-on-surface); }

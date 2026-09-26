@@ -26,6 +26,7 @@ app_name = 'web'
 urlpatterns = [
     path('', views.home, name='home'),
     path('health/', views_monitor.health_check, name='health_check'),
+    path('ajax/home/feed/', views.home_feed_more, name='home_feed_more'),
     path('ajax/neby-assist/', views_needle.ajax_neby_assist, name='ajax_neby_assist'),
     path('ajax/neby-assist/cloud/', views_needle.ajax_neby_cloud, name='ajax_neby_cloud'),
     path('manifest.json', views.manifest_json, name='manifest_json'),
@@ -34,6 +35,7 @@ urlpatterns = [
     path('past-papers/', views.past_papers, name='past_papers'),
     path('model-questions/', views.model_questions, name='model_questions'),
     path('online-learning/', views.online_learning, name='online_learning'),
+    path('faq/', views.faq, name='faq'),
     path('library/', views.library, name='library'),
     path('interactive/', views.interactive_hub, name='interactive_hub'),
     path('interactive/sandbox/frame/', views.interactive_sandbox_frame, name='interactive_sandbox_frame'),
@@ -96,6 +98,9 @@ urlpatterns = [
     path('analytics/', views.analytics, name='analytics'),
     path('bookmarks/', views.bookmarks, name='bookmarks'),
     path('profile/<str:username>/card.png', views.profile_card_image, name='profile_card_image'),
+    # Drawn Open Graph cards. `key` is a path converter because a subject card's
+    # key is `class-12/physics`; the view strips the .png itself.
+    path('og/<str:kind>/<path:key>', views.og_card, name='og_card'),
     path('profile/<str:username>/', views.profile, name='profile'),
     path('profile/<str:username>/achievements/', views.profile_achievements, name='profile_achievements'),
     path('ajax/profile/<str:username>/activity/', views.ajax_profile_activity, name='ajax_profile_activity'),

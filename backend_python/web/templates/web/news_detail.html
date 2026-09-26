@@ -7,7 +7,6 @@
 {% block og_description %}{{ announcement.summary|default:announcement.title }}{% endblock %}
 
 {% block nav_news %}md-nav-active{% endblock %}
-{% block bnav_news %}md-nav-active{% endblock %}
 
 {% block head_extra %}
 <script type="application/ld+json" nonce="{{ csp_nonce }}">
@@ -40,35 +39,7 @@
 {% endblock %}
 
 {% block bottomnav %}
-<nav class="md-bottomnav">
-  <div class="md-bottomnav-pill">
-    <a href="{% url 'web:home' %}" class="md-bottomnav-item" aria-label="Home">
-      <div class="md-bottomnav-icon-wrapper">
-        <span class="material-symbols-outlined">home</span>
-      </div>
-      <span class="md-bottomnav-label">Home</span>
-    </a>
-    <a href="{% url 'web:library' %}" class="md-bottomnav-item" aria-label="Library">
-      <div class="md-bottomnav-icon-wrapper">
-        <span class="material-symbols-outlined">menu_book</span>
-      </div>
-      <span class="md-bottomnav-label">Library</span>
-    </a>
-
-    <a href="{% url 'web:forum' %}" class="md-bottomnav-item" aria-label="Forum">
-      <div class="md-bottomnav-icon-wrapper">
-        <span class="material-symbols-outlined">forum</span>
-      </div>
-      <span class="md-bottomnav-label">Forum</span>
-    </a>
-    <a href="{% url 'web:news_list' %}" class="md-bottomnav-item md-nav-active" aria-label="Blog">
-      <div class="md-bottomnav-icon-wrapper">
-        <span class="material-symbols-outlined">newspaper</span>
-      </div>
-      <span class="md-bottomnav-label">Blog</span>
-    </a>
-  </div>
-</nav>
+{% include "web/partials/bottomnav.html" %}
 {% endblock %}
 
 {% block content %}
@@ -109,7 +80,7 @@
 
           <h1 class="news-detail-title">{{ announcement.title }}</h1>
 
-          <button type="button" class="news-detail-more-btn" id="news-more-btn" aria-label="More options">
+          <button type="button" class="news-detail-more-btn" data-neb-open="nd-more" aria-label="More options">
             <span class="material-symbols-outlined">more_vert</span>
           </button>
 
@@ -122,12 +93,9 @@
               {% if announcement.author_photo %}<img src="{{ announcement.author_photo }}" alt="">{% endif %}
               {{ announcement.author_name|mention_links_plain }}
             </span>
-            <span class="dot-sep">&middot;</span>
             <span>{{ announcement.published_at|time_ago }}</span>
-            <span class="dot-sep">&middot;</span>
             <span class="material-symbols-outlined icon-sm">visibility</span>
             <span>{{ announcement.view_count|short_number }} views</span>
-            <span class="dot-sep">&middot;</span>
             <span class="material-symbols-outlined icon-sm">schedule</span>
             <span>{{ announcement.read_time }} min read</span>
           </div>
@@ -162,7 +130,7 @@
 
           <span class="nd-actionbar-spacer"></span>
 
-          <button type="button" class="nd-action nd-action-icon" id="news-more-btn-bottom" aria-label="More options">
+          <button type="button" class="nd-action nd-action-icon" data-neb-open="nd-more" aria-label="More options">
             <span class="material-symbols-outlined">more_horiz</span>
           </button>
         </div>
@@ -252,18 +220,35 @@
   </div>
 </div>
 
-<div id="more-menu-overlay" class="more-menu-overlay" style="display:none"></div>
-<div id="more-menu-sheet" class="more-menu-sheet" style="display:none" role="dialog" aria-label="Article options">
-  <div class="more-menu-handle"></div>
-  <button type="button" class="more-menu-item" data-nd-menu="share">
-    <span class="material-symbols-outlined">share</span> Share
-  </button>
-  <button type="button" class="more-menu-item" data-nd-menu="copy">
-    <span class="material-symbols-outlined">link</span> Copy link
-  </button>
-  <button type="button" class="more-menu-item" data-nd-menu="report">
-    <span class="material-symbols-outlined">flag</span> Report
-  </button>
+{% comment %}
+  The article's overflow, as the site's sheet. It was its own: its own scrim,
+  its own slide-up keyframe, its own handle, its own breakpoint turning the
+  sheet into a floating card, and a page script that set display on two
+  elements. It had no focus trap, no scroll lock, and its Escape handler fired
+  whether the sheet was open or not.
+
+  Nothing about an article's overflow is special enough to be drawn twice, so
+  it is .neb-sheet now and the rows are the same .neb-menu-item the post and
+  comment overflows use.
+{% endcomment %}
+<div class="neb-scrim neb-scrim-bottom" id="nd-more" data-neb-close hidden>
+  <div class="neb-sheet" role="dialog" aria-modal="true" aria-label="Article options">
+    <div class="neb-sheet-handle" aria-hidden="true"></div>
+    <div class="neb-sheet-body neb-sheet-body-flush">
+      <button type="button" class="neb-menu-item" data-nd-menu="share">
+        <span class="material-symbols-outlined" aria-hidden="true">share</span>
+        <span class="neb-menu-item-label">Share</span>
+      </button>
+      <button type="button" class="neb-menu-item" data-nd-menu="copy">
+        <span class="material-symbols-outlined" aria-hidden="true">link</span>
+        <span class="neb-menu-item-label">Copy link</span>
+      </button>
+      <button type="button" class="neb-menu-item" data-nd-menu="report">
+        <span class="material-symbols-outlined" aria-hidden="true">flag</span>
+        <span class="neb-menu-item-label">Report</span>
+      </button>
+    </div>
+  </div>
 </div>
 {% endblock %}
 
@@ -418,27 +403,13 @@
   document.getElementById('share-btn')?.addEventListener('click', shareNews);
   document.getElementById('copy-link-btn')?.addEventListener('click', copyLink);
 
-  /* ── More-options sheet ───────────────────────────────────────── */
-  function openMoreMenu() {
-    document.getElementById('more-menu-overlay').style.display = 'block';
-    document.getElementById('more-menu-sheet').style.display = 'block';
-  }
-  function closeMoreMenu() {
-    document.getElementById('more-menu-overlay').style.display = 'none';
-    document.getElementById('more-menu-sheet').style.display = 'none';
-  }
-
-  document.getElementById('news-more-btn')?.addEventListener('click', openMoreMenu);
-  document.getElementById('news-more-btn-bottom')?.addEventListener('click', openMoreMenu);
-  document.getElementById('more-menu-overlay')?.addEventListener('click', closeMoreMenu);
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeMoreMenu();
-  });
-
+  /* ── More-options sheet ───────────────────────────
+     Opening, closing, the backdrop, Escape and the scroll lock are NebUI's;
+     all that is left is what each row does. */
   Array.prototype.forEach.call(document.querySelectorAll('[data-nd-menu]'), function(btn) {
     btn.addEventListener('click', function() {
       var kind = btn.dataset.ndMenu;
-      closeMoreMenu();
+      NebUI.close('nd-more');
       if (kind === 'share') shareNews();
       else if (kind === 'copy') copyLink();
       else showSnackbar('Reporting coming soon');

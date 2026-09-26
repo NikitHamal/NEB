@@ -37,68 +37,6 @@
   gap: 16px;
 }
 
-.subj-tabs {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  scrollbar-width: none;
-  margin-bottom: -1px;
-}
-
-.subj-tabs::-webkit-scrollbar {
-  display: none;
-}
-
-.subj-tab-btn {
-  background: transparent;
-  border: none;
-  border-bottom: 3px solid transparent;
-  font-family: var(--md-font);
-  font-size: 0.9375rem;
-  font-weight: 600;
-  color: var(--md-on-surface-variant);
-  padding: 12px 16px;
-  cursor: pointer;
-  transition: all 150ms ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  text-decoration: none;
-  flex-shrink: 0;
-}
-
-.subj-tab-btn:hover {
-  color: var(--md-primary);
-  background: rgba(0, 74, 198, 0.04);
-  text-decoration: none;
-}
-
-.subj-tab-btn.active {
-  color: var(--md-primary);
-  border-bottom-color: var(--md-primary);
-}
-
-.subj-tab-btn .material-symbols-outlined {
-  font-size: 20px;
-}
-
-.ix-tab-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.ix-tab-icon {
-  font-size: 18px;
-}
-
-@media (max-width: 420px) {
-  .subj-tab-btn {
-    padding: 10px 12px;
-    font-size: 0.875rem;
-  }
-}
-
 /* Accordion styles for Syllabus Categories */
 .chapters-container {
   display: flex;
@@ -172,10 +110,10 @@
   gap: 6px;
   height: 36px;
   padding: 0 16px;
-  border-radius: var(--md-radius-full, 9999px);
-  border: 1px solid var(--md-outline-variant, #cbd5e1);
-  background: var(--md-surface-container-low, #f8fafc);
-  color: var(--md-on-surface, #0f172a);
+  border-radius: var(--md-radius-full);
+  border: 1px solid var(--md-outline-variant);
+  background: var(--md-surface-container-low);
+  color: var(--md-on-surface);
   font-family: var(--md-font);
   font-size: 0.875rem;
   font-weight: 600;
@@ -186,15 +124,15 @@
 }
 
 .lib-filter-btn:hover {
-  background: var(--md-surface-container-high, #e2e8f0);
-  border-color: var(--md-primary, #2563eb);
-  color: var(--md-primary, #2563eb);
+  background: var(--md-surface-container-high);
+  border-color: var(--md-primary);
+  color: var(--md-primary);
 }
 
 .lib-filter-btn.has-badge {
-  background: var(--md-primary-container, #dbeafe);
-  color: var(--md-on-primary-container, #1e40af);
-  border-color: var(--md-primary, #2563eb);
+  background: var(--md-primary-container);
+  color: var(--md-on-primary-container);
+  border-color: var(--md-primary);
 }
 
 .lib-filter-badge {
@@ -205,8 +143,8 @@
   height: 20px;
   padding: 0 6px;
   border-radius: 9999px;
-  background: var(--md-primary, #2563eb);
-  color: #ffffff;
+  background: var(--md-primary);
+  color: var(--md-on-primary);
   font-size: 0.75rem;
   font-weight: 700;
   line-height: 1;
@@ -218,20 +156,20 @@
   gap: 6px;
   height: 36px;
   padding: 0 14px;
-  border-radius: var(--md-radius-full, 9999px);
-  border: 1px solid var(--md-outline-variant, #cbd5e1);
-  background: var(--md-surface-container-low, #f8fafc);
+  border-radius: var(--md-radius-full);
+  border: 1px solid var(--md-outline-variant);
+  background: var(--md-surface-container-low);
   transition: all 150ms ease;
 }
 
 .lib-sort-select-wrapper:hover {
-  border-color: var(--md-primary, #2563eb);
-  background: var(--md-surface-container-high, #e2e8f0);
+  border-color: var(--md-primary);
+  background: var(--md-surface-container-high);
 }
 
 .lib-sort-select-wrapper .sort-label {
   font-size: 0.8125rem;
-  color: var(--md-on-surface-variant, #64748b);
+  color: var(--md-on-surface-variant);
   font-weight: 500;
 }
 
@@ -242,7 +180,7 @@
   font-family: var(--md-font);
   font-size: 0.875rem;
   font-weight: 600;
-  color: var(--md-primary, #2563eb);
+  color: var(--md-primary);
   cursor: pointer;
   padding: 2px 20px 2px 2px;
   appearance: none;
@@ -253,164 +191,15 @@
   background-position: right center;
 }
 
-/* Filter Dialog Styling */
-.lib-filter-dialog {
-  max-width: 540px;
-  width: 92%;
-  padding: 0 !important;
-  border-radius: 28px !important;
-  overflow: hidden;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25) !important;
-  background: var(--md-surface-container-lowest, #ffffff);
-}
-
-.lib-filter-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 24px 16px;
-  border-bottom: 1px solid var(--md-outline-variant, #e2e8f0);
-}
-
-.lib-filter-header h3 {
-  margin: 0;
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--md-on-surface, #0f172a);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.lib-filter-header .md-icon-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  padding: 0;
-  border-radius: 9999px;
-  border: none;
-  outline: none;
-  background: transparent;
-  color: var(--md-on-surface-variant, #64748b);
-  cursor: pointer;
-  transition: all 150ms ease;
-  user-select: none;
-}
-
-.lib-filter-header .md-icon-btn:hover {
-  background: var(--md-surface-container-high, #e2e8f0);
-  color: var(--md-on-surface, #0f172a);
-}
-
+/* The filter is a NebModalSheet now -- see material3/09-overlays.css. What is
+   left here is the one thing that is this page's own: the library's filter has
+   five facets, so its body is taller than the shared default and its groups
+   need more air between them than a two-facet sheet does. */
 .lib-filter-body {
-  padding: 20px 24px;
-  max-height: 60vh;
-  overflow-y: auto;
+  max-height: min(460px, 52vh);
   display: flex;
   flex-direction: column;
-  gap: 20px;
-}
-
-.filter-section-title {
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--md-on-surface-variant, #64748b);
-  margin-bottom: 10px;
-}
-
-.filter-chip-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.filter-chip-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 7px 14px;
-  border-radius: 9999px;
-  border: 1px solid var(--md-outline-variant, #cbd5e1);
-  background: var(--md-surface, #ffffff);
-  color: var(--md-on-surface-variant, #334155);
-  font-size: 0.8125rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 150ms ease;
-  user-select: none;
-  outline: none;
-}
-
-.filter-chip-btn:hover {
-  background: var(--md-surface-container-high, #f1f5f9);
-  border-color: var(--md-primary, #2563eb);
-}
-
-.filter-chip-btn.active {
-  background: var(--md-secondary-container, #dbeafe);
-  color: var(--md-on-secondary-container, #1e40af);
-  border-color: var(--md-primary, #2563eb);
-  font-weight: 600;
-}
-
-.filter-chip-btn .check-icon {
-  font-size: 16px;
-  display: none;
-}
-
-.filter-chip-btn.active .check-icon {
-  display: inline-block;
-}
-
-.lib-filter-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 24px;
-  background: var(--md-surface-container-low, #f8fafc);
-  border-top: 1px solid var(--md-outline-variant, #e2e8f0);
-}
-
-.lib-filter-footer .md-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 40px;
-  padding: 0 22px;
-  border-radius: 9999px;
-  font-family: var(--md-font);
-  font-size: 0.875rem;
-  font-weight: 600;
-  cursor: pointer;
-  border: none;
-  outline: none;
-  transition: all 150ms ease;
-  user-select: none;
-  text-decoration: none;
-}
-
-.lib-filter-footer .md-btn-text {
-  background: transparent;
-  color: var(--md-primary, #2563eb);
-}
-
-.lib-filter-footer .md-btn-text:hover {
-  background: var(--md-surface-container-high, #e2e8f0);
-}
-
-.lib-filter-footer .md-btn-filled {
-  background: var(--md-primary, #2563eb);
-  color: #ffffff;
-  box-shadow: none;
-}
-
-.lib-filter-footer .md-btn-filled:hover {
-  background: #1d4ed8;
-  box-shadow: none;
+  gap: 22px;
 }
 
 /* Coming soon card */

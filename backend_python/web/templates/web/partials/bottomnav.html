@@ -1,0 +1,81 @@
+{% comment %}
+Bottom navigation rail, mobile only (<=768px).
+
+Home, Library, Canvas — the app's three destinations, in the app's order. There
+were six near-identical copies of this markup across home/library/forum/news/
+news_detail/resource_requests, each listing four destinations, and each one an
+opportunity to disagree with the others. They all include this instead:
+
+    {% include "web/partials/bottomnav.html" with current="library" %}
+
+`current` is one of home/library/canvas, or omitted on a page that is not a
+destination — forum, the blog, a request list. Those pages still show the rail,
+because on the web they are reachable by URL and the topbar's own nav is hidden
+at this width, so hiding the rail there would leave a mobile visitor with no way
+out. Nothing is highlighted, which is the honest state: you are not on one of
+the three.
+
+The plus beside the rail is the app's NebFabMenu -- the same three ways to
+create, in the same order, behind the same clover. It used to be a link
+straight to the post composer, on the forum page only, which meant a phone
+user who wanted to upload a file had to know the library was where uploads
+live. Only shown to a signed-in user: all three destinations require one.
+{% endcomment %}
+<nav class="md-bottomnav" aria-label="Primary">
+  <div class="md-bottomnav-pill">
+    <a href="{% url 'web:home' %}"
+       class="md-bottomnav-item{% if current == 'home' %} md-nav-active{% endif %}"
+       {% if current == 'home' %}aria-current="page"{% endif %}>
+      <span class="md-bottomnav-icon-wrapper">
+        <span class="material-symbols-outlined" aria-hidden="true">home</span>
+      </span>
+      <span class="md-bottomnav-label">Home</span>
+      {% if current != 'home' %}<span class="md-sr-only">Home</span>{% endif %}
+    </a>
+    <a href="{% url 'web:library' %}"
+       class="md-bottomnav-item{% if current == 'library' %} md-nav-active{% endif %}"
+       {% if current == 'library' %}aria-current="page"{% endif %}>
+      <span class="md-bottomnav-icon-wrapper">
+        <span class="material-symbols-outlined" aria-hidden="true">menu_book</span>
+      </span>
+      <span class="md-bottomnav-label">Library</span>
+      {% if current != 'library' %}<span class="md-sr-only">Library</span>{% endif %}
+    </a>
+    <a href="{% url 'web:canvas' %}"
+       class="md-bottomnav-item{% if current == 'canvas' %} md-nav-active{% endif %}"
+       {% if current == 'canvas' %}aria-current="page"{% endif %}>
+      <span class="md-bottomnav-icon-wrapper">
+        <span class="material-symbols-outlined" aria-hidden="true">draw</span>
+      </span>
+      <span class="md-bottomnav-label">Canvas</span>
+      {% if current != 'canvas' %}<span class="md-sr-only">Canvas</span>{% endif %}
+    </a>
+  </div>
+</nav>
+
+{% if user.is_authenticated %}
+<div class="neb-fab-scrim" data-neb-fab-scrim aria-hidden="true"></div>
+<div class="neb-fab-menu" id="createMenu">
+  <div class="neb-fab-menu-items" role="menu" aria-label="Create">
+    <a href="{% url 'web:canvas' %}" class="neb-fab-pill" role="menuitem"
+       style="--neb-fab-accent: var(--neb-accent-teal)">
+      <span class="material-symbols-outlined" aria-hidden="true">draw</span>
+      <span class="neb-fab-pill-label">New canvas</span>
+    </a>
+    <a href="{% url 'web:upload_resource' %}" class="neb-fab-pill" role="menuitem"
+       style="--neb-fab-accent: var(--neb-accent-amber)">
+      <span class="material-symbols-outlined" aria-hidden="true">cloud_upload</span>
+      <span class="neb-fab-pill-label">Upload materials</span>
+    </a>
+    <a href="{% url 'web:create_post' %}" class="neb-fab-pill" role="menuitem"
+       style="--neb-fab-accent: var(--neb-accent-brand)">
+      <span class="material-symbols-outlined" aria-hidden="true">rate_review</span>
+      <span class="neb-fab-pill-label">New post</span>
+    </a>
+  </div>
+  <button type="button" class="md-fab md-shape-clover" id="createFab" data-neb-fab-toggle
+          aria-haspopup="menu" aria-expanded="false" aria-controls="createMenu" aria-label="Create">
+    <span class="material-symbols-outlined" aria-hidden="true">add</span>
+  </button>
+</div>
+{% endif %}

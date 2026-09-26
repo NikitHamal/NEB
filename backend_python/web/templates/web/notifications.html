@@ -7,9 +7,14 @@
 {% block og_title %}Notifications — NEBians{% endblock %}
 {% block og_description %}View your notifications on NEBians.{% endblock %}
 
-{% block content %}
+{% block extra_css %}
+{% comment %} In the head, not in the body. A stylesheet found part-way down
+   the document is found after the browser has already painted, so the page
+   lays itself out twice on every load. {% endcomment %}
 <link rel="stylesheet" href="{% static 'web/css/pages/web-notifications.css' %}">
+{% endblock %}
 
+{% block content %}
 <div class="notif-container">
   <div class="notif-card-wrapper">
     <!-- Header -->
@@ -25,27 +30,32 @@
       </button>
     </div>
 
-    <!-- Filter Tabs (Segmented Control) -->
-    <div class="notif-tabs" id="notifTabs">
-      <a href="?tab=all" class="notif-tab-item {% if current_tab == 'all' %}active{% endif %}" data-tab="all">
-        <span>All</span>
-        <span class="notif-tab-count" id="count-all">{{ counts.all|default:"0" }}</span>
+    {% comment %}
+      NotificationsScreen.kt's NebTabRail. This was a segmented control built
+      out of #334155, #e2e8f0, #475569, #1e293b and #f8fafc -- five literals the
+      palette never reaches, so dark theme got a slate the rest of the page does
+      not use. It is the shared rail now, counts and all.
+    {% endcomment %}
+    <div class="neb-rail" id="notifTabs" role="tablist" aria-label="Filter notifications">
+      <a href="?tab=all" class="neb-rail-item" role="tab" data-tab="all" aria-selected="{% if current_tab == 'all' %}true{% else %}false{% endif %}">
+        <span class="neb-rail-label">All</span>
+        <span class="neb-rail-count" id="count-all">{{ counts.all|default:"0" }}</span>
       </a>
-      <a href="?tab=mentions" class="notif-tab-item {% if current_tab == 'mentions' %}active{% endif %}" data-tab="mentions">
-        <span>Mentions</span>
-        <span class="notif-tab-count" id="count-mentions">{{ counts.mentions|default:"0" }}</span>
+      <a href="?tab=mentions" class="neb-rail-item" role="tab" data-tab="mentions" aria-selected="{% if current_tab == 'mentions' %}true{% else %}false{% endif %}">
+        <span class="neb-rail-label">Mentions</span>
+        <span class="neb-rail-count" id="count-mentions">{{ counts.mentions|default:"0" }}</span>
       </a>
-      <a href="?tab=system" class="notif-tab-item {% if current_tab == 'system' %}active{% endif %}" data-tab="system">
-        <span>System</span>
-        <span class="notif-tab-count" id="count-system">{{ counts.system|default:"0" }}</span>
+      <a href="?tab=system" class="neb-rail-item" role="tab" data-tab="system" aria-selected="{% if current_tab == 'system' %}true{% else %}false{% endif %}">
+        <span class="neb-rail-label">System</span>
+        <span class="neb-rail-count" id="count-system">{{ counts.system|default:"0" }}</span>
       </a>
-      <a href="?tab=activity" class="notif-tab-item {% if current_tab == 'activity' %}active{% endif %}" data-tab="activity">
-        <span>Activity</span>
-        <span class="notif-tab-count" id="count-activity">{{ counts.activity|default:"0" }}</span>
+      <a href="?tab=activity" class="neb-rail-item" role="tab" data-tab="activity" aria-selected="{% if current_tab == 'activity' %}true{% else %}false{% endif %}">
+        <span class="neb-rail-label">Activity</span>
+        <span class="neb-rail-count" id="count-activity">{{ counts.activity|default:"0" }}</span>
       </a>
-      <a href="?tab=unread" class="notif-tab-item {% if current_tab == 'unread' %}active{% endif %}" data-tab="unread">
-        <span>Unread</span>
-        <span class="notif-tab-count" id="count-unread">{{ counts.unread|default:"0" }}</span>
+      <a href="?tab=unread" class="neb-rail-item" role="tab" data-tab="unread" aria-selected="{% if current_tab == 'unread' %}true{% else %}false{% endif %}">
+        <span class="neb-rail-label">Unread</span>
+        <span class="neb-rail-count" id="count-unread">{{ counts.unread|default:"0" }}</span>
       </a>
     </div>
 
@@ -253,15 +263,23 @@
 
   bindCardEvents();
 
+  // Moving the rail's container is neb-rail.js's job; setting aria-selected is
+  // ours, and it is the only state a tab has. Both the click path and the
+  // back-button path go through here so they cannot disagree.
+  function selectTab(name) {
+    document.querySelectorAll('#notifTabs .neb-rail-item').forEach(function(t) {
+      t.setAttribute('aria-selected', t.dataset.tab === name ? 'true' : 'false');
+    });
+  }
+
   // Tab click switching with AJAX & URL sync
-  document.querySelectorAll('.notif-tab-item').forEach(function(tabLink) {
+  document.querySelectorAll('#notifTabs .neb-rail-item').forEach(function(tabLink) {
     tabLink.addEventListener('click', function(e) {
       e.preventDefault();
       const selectedTab = this.dataset.tab;
       if (selectedTab === currentTab) return;
-      
-      document.querySelectorAll('.notif-tab-item').forEach(function(t) { t.classList.remove('active'); });
-      this.classList.add('active');
+
+      selectTab(selectedTab);
       
       currentTab = selectedTab;
       currentPage = 1;
@@ -305,9 +323,7 @@
     currentTab = params.get('tab') || 'all';
     currentPage = parseInt(params.get('page') || '1', 10);
     
-    document.querySelectorAll('.notif-tab-item').forEach(function(t) {
-      t.classList.toggle('active', t.dataset.tab === currentTab);
-    });
+    selectTab(currentTab);
     
     loadNotifications();
   });

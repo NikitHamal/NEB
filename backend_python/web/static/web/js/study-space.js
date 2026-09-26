@@ -75,24 +75,7 @@
     if (!el) return;
     SPACE_ID = el.dataset.spaceId || window.location.pathname.split('/')[2];
     if (!SPACE_ID) return;
-    initTabOverflowHint();
     loadSpace();
-  }
-
-  // Show/hide the fade hint at the right edge of the tab bar when it
-  // overflows (mobile affordance for off-screen tabs).
-  function initTabOverflowHint() {
-    var wrap = $('ssTabsWrap');
-    var tabs = $('ssTabs');
-    if (!wrap || !tabs) return;
-    function update() {
-      var overflowing = tabs.scrollWidth > tabs.clientWidth + 2;
-      var atEnd = tabs.scrollLeft + tabs.clientWidth >= tabs.scrollWidth - 4;
-      wrap.classList.toggle('ss-tabs-overflow', overflowing && !atEnd);
-    }
-    tabs.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update);
-    update();
   }
 
   function loadSpace() {
@@ -129,11 +112,17 @@
     docs.forEach(function (d) {
       var icon, statusLabel = '', statusClass = '';
       var ps = d.parseStatus || 'pending';
+      /* A wait is the one shared loader everywhere, which is what the app's
+         parse-status pill shows too (StudyAiViews.kt, ParseStatusPill). The
+         document's own glyph used to turn in its place; an hourglass that
+         spins reads as a broken icon rather than as progress, and it was the
+         last thing on this page still animating itself. No icon here means
+         the loader takes the slot. */
       if (ps === 'pending') {
-        icon = 'hourglass_top'; statusLabel = 'Preparing...'; statusClass = 'ss-file-status-parsing';
+        icon = ''; statusLabel = 'Preparing...'; statusClass = 'ss-file-status-parsing';
         needsParse.push(d.id);
       } else if (ps === 'uploading' || ps === 'parsing' || ps === 'extracting') {
-        icon = 'hourglass_top'; statusLabel = 'Parsing...'; statusClass = 'ss-file-status-parsing';
+        icon = ''; statusLabel = 'Parsing...'; statusClass = 'ss-file-status-parsing';
       } else if (ps === 'failed') {
         icon = 'error'; statusLabel = 'Parse failed'; statusClass = 'ss-file-status-failed';
       } else if (ps === 'ready') {
@@ -142,7 +131,9 @@
         icon = 'description'; statusLabel = ''; statusClass = '';
       }
       html += '<div class="ss-file-item' + (statusClass ? ' ' + statusClass : '') + '" data-doc-id="' + d.id + '" data-parse-status="' + ps + '">'
-        + '<span class="material-symbols-outlined ss-file-icon">' + icon + '</span>'
+        + (icon
+          ? '<span class="material-symbols-outlined ss-file-icon">' + icon + '</span>'
+          : '<span class="ss-file-icon md-loader md-loader-inline"></span>')
         + '<div class="ss-file-info">'
         + '<span class="ss-file-name">' + esc(d.title || d.fileName || 'Untitled') + '</span>'
         + (statusLabel ? '<span class="ss-file-status-text">' + statusLabel + '</span>' : '')
@@ -283,8 +274,8 @@
   }
 
   function syncSummaryModeButtons() {
-    $$('.ss-mode-btn').forEach(function (b) {
-      b.classList.toggle('ss-mode-active', b.dataset.mode === SUMMARY_MODE);
+    $$('#ssSummaryModebar .neb-segment').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.mode === SUMMARY_MODE));
     });
     var label = $('ssSummaryGenerateLabel');
     if (label) label.textContent = SUMMARY_MODE === 'detailed' ? 'Generate Detailed Summary' : 'Generate Compact Summary';
@@ -703,7 +694,9 @@
       var scrim = $('ssSidebarScrim');
       if (scrim) scrim.classList.remove('ss-sidebar-scrim-open');
     }
-    $$('.ss-tab').forEach(function (t) { t.classList.toggle('ss-tab-active', t.dataset.tab === tab); });
+    $$('#ssTabs .neb-rail-item').forEach(function (t) {
+      t.setAttribute('aria-selected', String(t.dataset.tab === tab));
+    });
     $$('.ss-tab-content').forEach(function (c) { c.classList.remove('ss-tab-content-active'); });
     var panel = $('ssTab' + tab.charAt(0).toUpperCase() + tab.slice(1));
     if (panel) panel.classList.add('ss-tab-content-active');
@@ -734,12 +727,16 @@
     sendPresence(activityStatus(), activityDetail(), false);
   }
 
+  /* NebSegmentedChoice's one answer. The track, the pill and where the pill
+     slides to are the component's; all this has to say is which segment is
+     pressed and what that means for the hidden input. */
   function selectCountChoice(el) {
-    var picker = el.closest('.ss-count-picker');
-    if (!picker) return;
-    picker.querySelectorAll('.ss-count-choice').forEach(function (b) { b.classList.remove('active'); });
-    el.classList.add('active');
-    var target = $(picker.dataset.target);
+    var bank = el.closest('.neb-segmented');
+    if (!bank) return;
+    bank.querySelectorAll('.neb-segment').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b === el));
+    });
+    var target = $(bank.dataset.target);
     if (target) target.value = el.dataset.value;
   }
 
@@ -1308,9 +1305,9 @@
       var metaText = q.attemptCount > 0 ? q.attemptCount + ' attempt' + (q.attemptCount === 1 ? '' : 's') : '';
       if (q.lastAttemptAt) {
         var d = new Date(q.lastAttemptAt);
-        metaText += (metaText ? ' \u00b7 ' : '') + d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+        metaText += (metaText ? ', ' : '') + d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
       }
-      if (!metaText) metaText = q.questionCount + ' questions \u00b7 ' + new Date(q.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+      if (!metaText) metaText = q.questionCount + ' questions, ' + new Date(q.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
       html += '<div class="ss-quiz-history-item" data-action="ss-load-past-quiz" data-quiz-id="' + q.id + '">'
         + '<div class="ss-quiz-hist-icon"><span class="material-symbols-outlined">quiz</span></div>'
         + '<div class="ss-quiz-hist-info">'
@@ -1783,7 +1780,11 @@
     var tab = e.target.closest('[data-action="ss-doc-tab"]');
     if (tab) {
       docSelectTab = tab.dataset.tab;
-      $$('.ss-doc-tab').forEach(function (t) { t.classList.toggle('ss-doc-tab-active', t.dataset.tab === docSelectTab); });
+      /* Scoped to this row. The unscoped selector also matched the collab
+         board's three file tabs, which carried the same class in the same
+         document, so picking Resources here quietly unselected whichever
+         source that picker was showing. */
+      $$('#ssDocSelectTabs .neb-rail-item').forEach(function (t) { t.setAttribute('aria-selected', String(t.dataset.tab === docSelectTab)); });
       $('ssDocSelectList').style.display = docSelectTab === 'docs' ? '' : 'none';
       $('ssResourceSelectList').style.display = docSelectTab === 'resources' ? '' : 'none';
       selectedDocId = null;

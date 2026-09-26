@@ -8,6 +8,19 @@
 <meta name="description" content="Turn any question, document, lesson, or idea into a living knowledge map you can verify, practise, teach, and build together.">
 <meta property="og:title" content="Neby Canvas — Explore it. Prove it. Teach it.">
 <meta property="og:description" content="Turn any question, document, lesson, or idea into a living knowledge map you can verify, practise, teach, and build together.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://nebians.consica.com.np/canvas/">
+<meta property="og:site_name" content="NEBians">
+<meta name="twitter:card" content="summary_large_image">
+{% comment %} This page does not extend base.html, so its card is named here rather than
+   coming from the og_image_context processor. {% endcomment %}
+<meta property="og:image" content="{{ og_image_url|default:'https://nebians.consica.com.np/og/page/canvas.png' }}">
+<meta property="og:image:secure_url" content="{{ og_image_url|default:'https://nebians.consica.com.np/og/page/canvas.png' }}">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Neby Canvas on NEBians">
+<meta name="twitter:image" content="{{ og_image_url|default:'https://nebians.consica.com.np/og/page/canvas.png' }}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -167,9 +180,6 @@
 </div>
 
 <div class="toast-pill" id="toastPill" hidden></div>
-<button id="cvNebyFab" class="cv-neby-fab" aria-label="Neby AI" title="Neby AI">
-  <div class="neby-avatar-mini" data-neby-avatar data-animation="idle" style="width:54px;height:54px;pointer-events:none;"></div>
-</button>
 
 <script nonce="{{ csp_nonce }}">
 window.CANVAS_CONFIG = {
