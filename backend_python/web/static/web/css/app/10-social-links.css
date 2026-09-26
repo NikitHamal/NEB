@@ -496,90 +496,6 @@
   font-variation-settings: 'FILL' 0, 'wght' 600;
 }
 
-/* ===== Social Links Overflow Bottom Sheet ===== */
-.pf-modal-overlay {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.42);
-  z-index: 1001;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s;
-}
-.pf-modal-overlay.active {
-  opacity: 1;
-  pointer-events: auto;
-}
-.pf-modal-bottom-sheet {
-  background: var(--md-surface-container-lowest);
-  border-radius: 16px 16px 0 0;
-  width: 100%;
-  max-width: 480px;
-  max-height: 70vh;
-  overflow-y: auto;
-  transform: translateY(100%);
-  transition: transform 0.25s cubic-bezier(0.32, 0.72, 0, 1);
-  box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
-  scrollbar-width: thin;
-  scrollbar-color: var(--md-outline-variant) transparent;
-}
-.pf-modal-overlay.active .pf-modal-bottom-sheet {
-  transform: translateY(0);
-}
-.pf-modal-handle {
-  width: 40px;
-  height: 4px;
-  border-radius: 2px;
-  background: var(--md-outline-variant);
-  margin: 6px auto 0;
-  position: sticky;
-  top: 6px;
-  z-index: 3;
-}
-.pf-modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 20px;
-  border-bottom: 1px solid var(--md-outline-variant);
-  position: sticky;
-  top: 0;
-  z-index: 2;
-  background: var(--md-surface-container-lowest);
-}
-.pf-modal-header h3 {
-  margin: 0;
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--md-on-surface);
-}
-.pf-modal-close {
-  border: none;
-  background: none;
-  cursor: pointer;
-  color: var(--md-on-surface-variant);
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.15s;
-  flex-shrink: 0;
-}
-.pf-modal-close:hover {
-  background: var(--md-surface-container-high);
-}
-.pf-modal-close .material-symbols-outlined {
-  font-size: 20px !important;
-}
-.pf-modal-body {
-  padding: 12px 20px 20px;
-}
-
 /* ===== Social Links Overflow List ===== */
 .pf-social-overflow-list {
   display: flex;
@@ -639,18 +555,6 @@
 }
 
 @media (max-width: 600px) {
-  .pf-modal-bottom-sheet {
-    max-height: 85vh;
-  }
-  .pf-modal-header {
-    padding: 14px 16px;
-  }
-  .pf-modal-header h3 {
-    font-size: 0.9375rem;
-  }
-  .pf-modal-body {
-    padding: 8px 16px 16px;
-  }
   .pf-social-overflow-item {
     gap: 12px;
     padding: 10px 0;

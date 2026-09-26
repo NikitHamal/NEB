@@ -1323,3 +1323,89 @@
   .more-menu.neb-menu-sheet[data-open] { transform: none; }
 }
 
+
+/* ── Upload progress ────────────────────────────────────────────────────────
+   Three pages -- upload, admin resource create, edit resource -- each carried
+   a byte-for-byte copy of this in its own stylesheet, and each copy scrimmed
+   with rgba(0,0,0,0.5) and shadowed with rgba(0,0,0,0.24). Two literals that
+   the palette could never reach, in three places, so dark theme got a scrim
+   mixed for light theme and an elevation that did not match any other surface
+   on the page.
+
+   One definition, on the same tokens as every other overlay here: the scrim is
+   the app's 34% of --md-scrim, the card is a container surface at elevation 3.
+   It is not a .neb-dialog because it is not a dialog -- nothing is being asked,
+   there is nothing to dismiss, and it must not trap focus or close on Escape
+   while bytes are still going up the wire. */
+.upload-progress-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: color-mix(in srgb, var(--md-scrim) 34%, transparent);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+}
+.upload-progress-dialog {
+  width: 100%;
+  max-width: 380px;
+  padding: 32px 28px;
+  text-align: center;
+  border-radius: 30px;
+  background: var(--md-surface-container-high);
+  color: var(--md-on-surface);
+  box-shadow: var(--md-elevation-3);
+}
+.upload-progress-icon { margin-bottom: 16px; }
+.upload-progress-icon .material-symbols-outlined {
+  font-size: 48px;
+  color: var(--md-primary);
+  animation: upload-pulse 1.5s ease-in-out infinite;
+}
+@keyframes upload-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(0.94); }
+}
+.upload-progress-title {
+  margin: 0 0 6px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--md-on-surface);
+}
+.upload-progress-subtitle {
+  margin: 0 0 20px;
+  font-size: 0.8125rem;
+  color: var(--md-on-surface-variant);
+}
+.upload-progress-bar-track {
+  width: 100%;
+  height: 6px;
+  margin-bottom: 12px;
+  border-radius: 999px;
+  overflow: hidden;
+  /* The track has to read as an empty channel against the card it sits on.
+     --md-surface-variant is a *page* surface and lands within a few percent of
+     surface-container-high in dark theme, which made the bar invisible until
+     it was most of the way across. */
+  background: var(--md-surface-container-highest);
+}
+.upload-progress-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--md-primary);
+  transition: width var(--md-motion-effects-slow);
+}
+.upload-progress-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--md-on-surface-variant);
+}
+
+/* Motion off means the icon stops moving; the bar still reports progress. */
+@media (prefers-reduced-motion: reduce) {
+  .upload-progress-icon .material-symbols-outlined { animation: none; }
+}

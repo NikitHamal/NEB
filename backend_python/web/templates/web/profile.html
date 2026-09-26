@@ -981,14 +981,24 @@
   {% endif %}
 </div>
 
-<div class="pf-modal-overlay" id="socialOverflowOverlay" data-action="close-social-overflow">
-  <div class="pf-modal-bottom-sheet" data-action-stop>
-    <div class="pf-modal-handle"></div>
-    <div class="pf-modal-header">
-      <h3>Social Links</h3>
-      <button class="pf-modal-close" data-action="close-social-overflow"><span class="material-symbols-outlined">close</span></button>
+{% comment %}
+  The app shows the overflowing links in a NebModalSheet, so this is a
+  .neb-sheet -- the same handle, the same 30px top radius, the same drag to
+  dismiss as every other sheet on the site. It used to be a .pf-modal-* of its
+  own with a rgba(0,0,0,0.42) scrim and a 16px radius, which is the one sheet
+  on the profile that did not match the filter sheet two screens away.
+{% endcomment %}
+<div class="neb-scrim neb-scrim-bottom" id="socialOverflowOverlay" data-neb-close hidden>
+  <div class="neb-sheet" role="dialog" aria-modal="true" aria-labelledby="socialOverflowTitle">
+    <div class="neb-sheet-handle"></div>
+    <div class="neb-sheet-head">
+      <div class="neb-sheet-head-text">
+        <h3 class="neb-sheet-title" id="socialOverflowTitle">Social links</h3>
+      </div>
+      <button type="button" class="neb-sheet-close" data-neb-close aria-label="Close"><span class="material-symbols-outlined">close</span></button>
     </div>
-    <div class="pf-modal-body" id="socialOverflowBody"></div>
+    <div class="neb-sheet-body" id="socialOverflowBody"></div>
+    <div class="neb-sheet-foot"></div>
   </div>
 </div>
 {% include "web/profile/_photo_modal.html" %}
@@ -1080,23 +1090,17 @@ document.addEventListener('DOMContentLoaded', function() {
     return html;
   }
 
+  /* NebUI owns the scroll lock, the focus trap, Escape and the drag-to-dismiss;
+     this only has to fill the body before the sheet comes up. */
   window.openSocialOverflow = function() {
-    var overlay = document.getElementById('socialOverflowOverlay');
     var body = document.getElementById('socialOverflowBody');
-    if (!overlay || !body) return;
+    if (!body) return;
     body.innerHTML = buildOverflowList();
-    overlay.classList.add('active');
-    document.body.style.overflow = 'hidden';
+    NebUI.open('socialOverflowOverlay');
   };
   window.closeSocialOverflow = function() {
-    var overlay = document.getElementById('socialOverflowOverlay');
-    if (!overlay) return;
-    overlay.classList.remove('active');
-    document.body.style.overflow = '';
+    NebUI.close('socialOverflowOverlay');
   };
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeSocialOverflow();
-  });
 })();
 
 // ── Real-time profile: follower count + post count updates live ──
