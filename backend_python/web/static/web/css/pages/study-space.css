@@ -813,14 +813,10 @@
 .ss-learning-empty-title { font-size: 1.125rem; font-weight: 600; margin-bottom: 6px; }
 .ss-learning-empty-desc { color: var(--md-on-surface-variant); font-size: 0.875rem; max-width: 380px; margin: 0 auto 16px; line-height: 1.5; }
 .ss-learning-loading { padding: 32px 16px; }
-.ss-loading-skeleton {
-  background: var(--md-surface-container-high);
-  border-radius: 8px; margin-bottom: 12px; height: 16px;
-  animation: ss-pulse 1.5s ease-in-out infinite;
-}
-.ss-loading-skeleton-full { width: 100%; }
-.ss-loading-skeleton-half { width: 60%; }
-@keyframes ss-pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 0.8; } }
+/* The learning path's skeleton rows are .shimmer now (app/05-auth-...),
+   the one the rest of the site shows. This sheet and study-lab/05-space.css
+   each held a copy of a second one, a pulse rather than a sweep, and both
+   copies applied to the same markup. */
 .ss-learning-plan { padding: 0; }
 .ss-learning-plan-header {
   display: flex; align-items: center; gap: 8px;
@@ -980,5 +976,4 @@
   .ss-sidebar { transition: none; }
   .sl-flash-card-inner { transition: none !important; }
   .ss-flash-progress-fill { transition: none; }
-  .ss-loading-skeleton { animation: none; opacity: 0.5; }
 }
