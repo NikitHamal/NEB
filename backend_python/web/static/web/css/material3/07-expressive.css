@@ -1,0 +1,277 @@
+/* ──────────────────────────────────────────────────────────────────────────
+   Material 3 Expressive — the parts that are behaviour rather than a value.
+
+   Tokens live in 01-tokens-typography.css. This module spends them: the
+   emphasized type variants, the state layers, the shape-and-scale response to
+   a press, and the focus indicator. It is the web half of what the app got
+   over the last several redesign passes, so the two feel like one product.
+
+   Expressive's own summary of itself is "more shape, more weight contrast,
+   springier motion". Those are the three things below, in that order.
+   ────────────────────────────────────────────────────────────────────────── */
+
+/* ── Emphasized type ───────────────────────────────────────────────────────
+   Expressive's headline move is weight and tracking contrast inside one
+   family, not a second typeface. Poppins goes to 700 and the tracking goes
+   negative, which is what makes a heading read as a heading at a glance
+   instead of as body text that happens to be bigger.
+
+   The sizes stay on the web's own optical scale rather than copying the app's
+   sp values: 32sp is a phone heading, and a 1400px page wants more. What is
+   copied is the relationship -- weight, tracking, line height. ── */
+.md-display-large,
+.md-display-medium,
+.md-display-small,
+.md-headline-large,
+.md-headline-medium,
+.md-headline-small {
+  /* Headings break on meaning rather than on the right margin, which is the
+     single cheapest thing you can do for a page of headlines. */
+  text-wrap: balance;
+}
+
+.md-display-large-emphasized,
+.md-display-medium-emphasized,
+.md-display-small-emphasized,
+.md-headline-large-emphasized,
+.md-headline-medium-emphasized,
+.md-headline-small-emphasized,
+.md-title-large-emphasized,
+.md-title-medium-emphasized,
+.md-title-small-emphasized,
+.md-body-large-emphasized,
+.md-body-medium-emphasized,
+.md-body-small-emphasized,
+.md-label-large-emphasized,
+.md-label-medium-emphasized,
+.md-label-small-emphasized {
+  font-family: var(--md-font);
+}
+
+.md-display-large-emphasized {
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1.18;
+  letter-spacing: -0.035em;
+}
+
+.md-display-medium-emphasized {
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+
+.md-display-small-emphasized {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+}
+
+.md-headline-large-emphasized {
+  font-size: 2.25rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+
+.md-headline-medium-emphasized {
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.24;
+  letter-spacing: -0.025em;
+}
+
+.md-headline-small-emphasized {
+  font-size: 1.375rem;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+.md-title-large-emphasized {
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.33;
+  letter-spacing: -0.01em;
+}
+
+.md-title-medium-emphasized {
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.43;
+  letter-spacing: 0.01em;
+}
+
+.md-title-small-emphasized {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  line-height: 1.38;
+  letter-spacing: 0.01em;
+}
+
+.md-body-large-emphasized {
+  font-size: 1.0625rem;
+  font-weight: 500;
+  line-height: 1.53;
+}
+
+.md-body-medium-emphasized {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.md-body-small-emphasized {
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.md-label-large-emphasized {
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+}
+
+.md-label-medium-emphasized {
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.33;
+  letter-spacing: 0.06em;
+}
+
+.md-label-small-emphasized {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 1.36;
+  letter-spacing: 0.08em;
+}
+
+/* A tracked, uppercase kicker. Used above section headings, which is the one
+   place the app and the web already agreed. */
+.md-kicker {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--md-on-surface-variant);
+}
+
+/* ── State layers ──────────────────────────────────────────────────────────
+   M3 draws hover and press as a tinted overlay at a fixed opacity, on top of
+   whatever the container already is. Doing it with a ::after layer rather than
+   a background swap means a filled button, a tonal button and a card all pick
+   up the same response without each one naming a colour.
+
+   :where() so these never beat a component's own rule on specificity. ── */
+:where(.md-btn, .md-chip, .md-card-outlined, .md-card-elevated, .md-card-filled,
+       .md-icon-btn, .md-btn-icon, .md-bottomnav-item, .md-list-item) {
+  position: relative;
+  isolation: isolate;
+  -webkit-tap-highlight-color: transparent;
+}
+
+:where(.md-btn, .md-chip, .md-card-outlined, .md-card-elevated, .md-card-filled,
+       .md-icon-btn, .md-btn-icon, .md-bottomnav-item, .md-list-item)::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: currentColor;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--md-motion-effects-fast);
+}
+
+@media (hover: hover) {
+  :where(.md-btn, .md-chip, .md-card-outlined, .md-card-elevated,
+         .md-card-filled, .md-icon-btn, .md-btn-icon, .md-bottomnav-item,
+         .md-list-item):hover::after {
+    opacity: var(--md-state-hover);
+  }
+}
+
+:where(.md-btn, .md-chip, .md-card-outlined, .md-card-elevated, .md-card-filled,
+       .md-icon-btn, .md-btn-icon, .md-bottomnav-item,
+       .md-list-item):active::after {
+  opacity: var(--md-state-press);
+}
+
+/* currentColor is already the correct tint for every one of these: white over
+   a filled button, the container's ink over a tonal one, primary over an
+   outlined one. That is the whole reason to draw the layer in currentColor
+   rather than name a colour per variant. */
+
+/* ── Press response ────────────────────────────────────────────────────────
+   Expressive answers a press with shape, not just colour: the container gives
+   a little and springs back. The scale is small on purpose -- at 0.97 it reads
+   as give, at 0.90 it reads as a bug.
+
+   Transform, so it composites; the spring easing is the spatial token, which
+   is the one allowed to overshoot. ── */
+:where(.md-btn, .md-chip, .md-icon-btn, .md-btn-icon) {
+  transition: background var(--md-motion-effects),
+              color var(--md-motion-effects),
+              border-color var(--md-motion-effects),
+              box-shadow var(--md-motion-effects),
+              transform var(--md-motion-spatial-fast);
+}
+
+:where(.md-btn, .md-chip, .md-icon-btn, .md-btn-icon):active {
+  transform: scale(0.97);
+}
+
+/* A card is bigger, so it moves less and slower; the same 3% on a 400px card
+   would look like the whole page flinched. */
+:where(.md-card-outlined, .md-card-elevated, .md-card-filled) {
+  transition: border-color var(--md-motion-effects),
+              box-shadow var(--md-motion-effects),
+              transform var(--md-motion-spatial);
+}
+
+:where(.md-card-outlined, .md-card-elevated, .md-card-filled):active {
+  transform: scale(0.99);
+}
+
+/* ── Focus ─────────────────────────────────────────────────────────────────
+   One indicator, drawn outside the shape so it survives overflow:hidden, and
+   only for keyboard focus. M3's spec is a 3px ring at a 2px offset. ── */
+:where(a, button, [role='button'], input, select, textarea, summary,
+       [tabindex]):focus-visible {
+  outline: 3px solid var(--md-primary);
+  outline-offset: 2px;
+}
+
+:where(a, button, [role='button'], input, select, textarea, summary,
+       [tabindex]):focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ── Reduced motion ────────────────────────────────────────────────────────
+   The app collapses every spec to snap() when the system animation scale is
+   zero. This is the same decision: redefine the tokens rather than hunt down
+   each animation, so anything using them stops moving at once. ── */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --md-motion-spatial-fast: 1ms linear;
+    --md-motion-spatial: 1ms linear;
+    --md-motion-spatial-slow: 1ms linear;
+    --md-motion-effects-fast: 1ms linear;
+    --md-motion-effects: 1ms linear;
+    --md-motion-effects-slow: 1ms linear;
+    --md-transition: 1ms linear;
+  }
+
+  :where(.md-btn, .md-chip, .md-icon-btn, .md-btn-icon, .md-card-outlined,
+         .md-card-elevated, .md-card-filled):active {
+    transform: none;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
