@@ -561,80 +561,23 @@
     text-decoration: underline;
   }
 
-  /* Share Card Modal styling */
-  .rc-modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.6);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10000;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
-  }
-  .rc-modal-overlay.active {
-    opacity: 1;
-    visibility: visible;
-  }
-  .rc-modal {
-    background: var(--md-surface-container-lowest);
-    border-radius: var(--md-radius-xl);
-    border: 1px solid var(--md-outline-variant);
-    padding: 28px 24px;
-    max-width: 460px;
-    width: 90%;
-    box-shadow: var(--md-elevation-3);
-    transform: scale(0.92);
-    transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-  }
-  .rc-modal-overlay.active .rc-modal {
-    transform: scale(1);
-  }
-  .rc-modal-header {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .rc-modal-header h3 {
-    margin: 0;
-    font-size: 16px;
-    font-weight: 700;
-  }
-  .rc-modal-close {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    color: var(--md-on-surface-variant);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .rc-modal-preview {
+  /* The share card's preview. The dialog around it, its scrim, its motion,
+     Escape and the focus trap are .neb-dialog's -- this page used to draw all
+     of that itself, down to its own rgba(0,0,0,0.6) scrim. */
+  .rc-share-preview {
     width: 100%;
     aspect-ratio: 1;
     border-radius: var(--md-radius-lg);
     overflow: hidden;
     border: 1px solid var(--md-outline-variant);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
   }
-  .rc-modal-preview img {
+  .rc-share-preview img {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
 
   /* Gradesheet Modal and Paper Styling */
-  #rc-gradesheet-modal.active {
-    opacity: 1;
-    visibility: visible;
-  }
   
   .rc-gradesheet-paper-wrapper {
     width: 100%;
@@ -875,15 +818,11 @@
     letter-spacing: 0.3px;
   }
 
-  .rc-gradesheet-modal-content {
+  /* A document, not a question: it needs the width of the page it prints on,
+     which is wider than any dialog on the site. */
+  .rc-gradesheet-dialog {
     max-width: 850px;
-    width: 95%;
-    padding: 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    max-height: 90vh;
-    overflow-y: auto;
+    max-height: min(90vh, calc(100vh - 48px));
   }
 
   .rc-gradesheet-actions {
@@ -894,7 +833,7 @@
 
   /* Print Stylesheet Overrides */
   @media print {
-    .md-topbar, .site-footer, .rc-page, .rc-modal-overlay:not(#rc-gradesheet-modal), .md-bottomnav {
+    .md-topbar, .site-footer, .rc-page, .neb-scrim:not(#rc-gradesheet-modal), .md-bottomnav {
       display: none !important;
     }
     
@@ -909,6 +848,10 @@
       padding: 0 !important;
     }
     
+    #rc-gradesheet-modal[hidden] {
+      display: none !important;
+    }
+
     #rc-gradesheet-modal {
       position: absolute !important;
       inset: 0 !important;
@@ -925,7 +868,7 @@
       box-shadow: none !important;
     }
     
-    #rc-gradesheet-modal .rc-modal {
+    #rc-gradesheet-modal .neb-dialog {
       position: absolute !important;
       left: 0 !important;
       top: 0 !important;
@@ -942,11 +885,12 @@
       overflow: visible !important;
     }
     
-    #rc-gradesheet-modal .rc-modal-header,
+    #rc-gradesheet-modal .neb-dialog-head,
     #rc-gradesheet-modal .rc-gradesheet-actions {
       display: none !important;
     }
     
+    #rc-gradesheet-modal .neb-dialog-body,
     #rc-gradesheet-modal .rc-gradesheet-paper-wrapper {
       background: #ffffff !important;
       padding: 0 !important;
@@ -986,9 +930,8 @@
     .rc-detail-item.full-width {
       grid-column: span 1;
     }
-    .rc-gradesheet-modal-content {
-      padding: 16px 12px;
-      gap: 12px;
+    .rc-gradesheet-dialog {
+      max-width: 100%;
     }
     .rc-gradesheet-paper-wrapper {
       padding: 10px;
@@ -1202,37 +1145,53 @@
   </div>
 </div>
 
-<!-- Canvas Share Modal overlay -->
-<div class="rc-modal-overlay" id="rc-share-modal">
-  <div class="rc-modal">
-    <div class="rc-modal-header">
-      <h3>Share Result Card</h3>
-      <button class="rc-modal-close" id="rc-modal-close-btn" type="button">
+{% comment %}
+  The share card, in the site's dialog. This page carried its own modal --
+  its own rgba(0,0,0,0.6) scrim, its own scale transition, its own header and
+  close button, and a click handler per overlay -- with no focus trap, no
+  scroll lock and no Escape.
+{% endcomment %}
+<div class="neb-scrim" id="rc-share-modal" data-neb-close hidden>
+  <div class="neb-dialog" role="dialog" aria-modal="true" aria-labelledby="rc-share-title">
+    <div class="neb-dialog-head neb-sheet-head">
+      <div class="neb-sheet-head-text">
+        <h3 class="neb-sheet-title" id="rc-share-title">Share your result card</h3>
+      </div>
+      <button type="button" class="neb-sheet-close" data-neb-close aria-label="Close">
         <span class="material-symbols-outlined">close</span>
       </button>
     </div>
-    <div class="rc-modal-preview">
-      <img id="rc-share-preview-img" src="" alt="Result Share Card Preview">
+    <div class="neb-dialog-body">
+      <div class="rc-share-preview">
+        <img id="rc-share-preview-img" src="" alt="Result share card preview">
+      </div>
     </div>
-    <button type="button" class="rc-submit" id="rc-download-card-btn" style="width: 100%;">
-      <span class="material-symbols-outlined">download</span>
-      Download Image (1080x1080)
-    </button>
+    <div class="neb-dialog-actions">
+      <button type="button" class="md-btn md-btn-filled neb-foot-major" id="rc-download-card-btn" data-neb-autofocus>
+        <span class="material-symbols-outlined">download</span>
+        Download 1080&#215;1080
+      </button>
+    </div>
   </div>
 </div>
 
-<!-- Gradesheet Modal Overlay -->
-<div class="rc-modal-overlay" id="rc-gradesheet-modal">
-  <div class="rc-modal rc-gradesheet-modal-content">
-    <div class="rc-modal-header">
-      <h3>Unofficial Gradesheet Preview</h3>
-      <button class="rc-modal-close" id="rc-gradesheet-close-btn" type="button">
+{% comment %} The gradesheet, in the same dialog at document width. {% endcomment %}
+<div class="neb-scrim" id="rc-gradesheet-modal" data-neb-close hidden>
+  <div class="neb-dialog rc-gradesheet-dialog" role="dialog" aria-modal="true"
+       aria-labelledby="rc-gradesheet-title">
+    <div class="neb-dialog-head neb-sheet-head">
+      <div class="neb-sheet-head-text">
+        <h3 class="neb-sheet-title" id="rc-gradesheet-title">Unofficial gradesheet</h3>
+        <p class="neb-sheet-sub">A preview you can print or save. It is not an official document.</p>
+      </div>
+      <button type="button" class="neb-sheet-close" data-neb-close aria-label="Close">
         <span class="material-symbols-outlined">close</span>
       </button>
     </div>
-    
+    <div class="neb-dialog-body">
+
     <div class="rc-gradesheet-actions">
-      <button type="button" class="rc-submit" id="rc-print-gradesheet-btn" style="flex: 1;">
+      <button type="button" class="rc-submit" id="rc-print-gradesheet-btn" style="flex: 1;" data-neb-autofocus>
         <span class="material-symbols-outlined">print</span>
         Print / Save as PDF
       </button>
@@ -1355,7 +1314,8 @@
 
       </div>
     </div>
-    
+
+    </div>
   </div>
 </div>
 
@@ -1806,12 +1766,13 @@
     };
   }
 
-  // Modal Share logic
-  var shareModal = document.getElementById('rc-share-modal');
-  var closeBtn = document.getElementById('rc-modal-close-btn');
+  /* The two dialogs. Opening, closing, the backdrop, Escape, the focus trap
+     and the scroll lock are NebUI's; the buttons below are all that is left. */
   var shareBtn = document.getElementById('rc-share-btn');
   var downloadCardBtn = document.getElementById('rc-download-card-btn');
   var previewImg = document.getElementById('rc-share-preview-img');
+  var gradesheetBtn = document.getElementById('rc-gradesheet-btn');
+  var printGradesheetBtn = document.getElementById('rc-print-gradesheet-btn');
 
   shareBtn.addEventListener('click', function() {
     if (window.currentResultData) {
@@ -1819,35 +1780,9 @@
     }
   });
 
-  closeBtn.addEventListener('click', function() {
-    shareModal.classList.remove('active');
-  });
-
-  shareModal.addEventListener('click', function(e) {
-    if (e.target === shareModal) {
-      shareModal.classList.remove('active');
-    }
-  });
-
-  // Gradesheet Modal logic
-  var gradesheetModal = document.getElementById('rc-gradesheet-modal');
-  var gradesheetCloseBtn = document.getElementById('rc-gradesheet-close-btn');
-  var gradesheetBtn = document.getElementById('rc-gradesheet-btn');
-  var printGradesheetBtn = document.getElementById('rc-print-gradesheet-btn');
-
   gradesheetBtn.addEventListener('click', function() {
     if (window.currentResultData) {
       populateAndShowGradesheet(window.currentResultData);
-    }
-  });
-
-  gradesheetCloseBtn.addEventListener('click', function() {
-    gradesheetModal.classList.remove('active');
-  });
-
-  gradesheetModal.addEventListener('click', function(e) {
-    if (e.target === gradesheetModal) {
-      gradesheetModal.classList.remove('active');
     }
   });
 
@@ -2013,7 +1948,7 @@
       tbody.appendChild(tr);
     }
 
-    gradesheetModal.classList.add('active');
+    NebUI.open('rc-gradesheet-modal');
     setTimeout(scaleGradesheet, 50);
   }
 
@@ -2198,7 +2133,7 @@
     var imgUrl = canvas.toDataURL('image/png');
     previewImg.src = imgUrl;
 
-    shareModal.classList.add('active');
+    NebUI.open('rc-share-modal');
 
     downloadCardBtn.onclick = function() {
       var link = document.createElement('a');
