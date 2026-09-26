@@ -1567,3 +1567,144 @@
   .neb-rail-ind { transition: none; }
   .neb-rail-item:active { transform: none; }
 }
+
+/* ── Select field ───────────────────────────────────────────────────────────
+   NebSelectField. One answer on a form, shown as the answer rather than as an
+   empty box: what it is on the left, what you chose underneath it as pills, a
+   chevron at the end. Nothing here pretends to be a text field you can type
+   into, which is the whole point -- the upload form used to offer a free-text
+   box *and* a "Pick" button for the same value, and the two disagreed about
+   what counted as a subject.
+
+   It is deliberately not .neb-field-trigger. That one is a row for a single
+   short value and ellipsises when it overflows; this one wraps, keeps six
+   pills and counts the rest, which is the only way a six-subject upload reads
+   at a glance. Both live on a form together without looking like two kinds of
+   control because both are a filled well with a chevron. */
+.neb-select-field {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 12px 12px 14px;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-shape-lg);
+  background: var(--md-surface-container-low);
+  color: var(--md-on-surface);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color var(--md-motion-effects-fast),
+              background var(--md-motion-effects-fast),
+              transform var(--md-motion-spatial-fast);
+}
+.neb-select-field:hover { background: var(--md-surface-container); }
+.neb-select-field:active { transform: scale(0.99); }
+/* The tile is the app's 38dp square at 13dp -- close enough to the field's own
+   corner that it reads as part of the row, far enough that it is a tile. */
+.neb-select-field-tile {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 13px;
+  background: var(--md-surface-container-highest);
+  color: var(--md-on-surface);
+}
+.neb-select-field-tile .material-symbols-outlined { font-size: 19px; }
+.neb-select-field-text { flex: 1; min-width: 0; }
+.neb-select-field-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: 0.01em;
+  color: var(--md-on-surface-variant);
+}
+.neb-select-field-placeholder {
+  display: block;
+  margin-top: 1px;
+  font-size: 1rem;
+  line-height: 1.35;
+  color: var(--md-on-surface-variant);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.neb-select-field-values {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+.neb-select-field-values:empty { display: none; }
+/* A form that labels its own fields from the outside -- edit profile does,
+   every field there has an .md-label above it -- gets the row without an
+   internal label, and then the gap that separated the two is a gap above
+   nothing. */
+.neb-select-field-text > :first-child {
+  margin-top: 0;
+}
+/* Chosen, not choosable. A value pill has no tick, no border and no press
+   state -- tapping anywhere on the row opens the sheet, and a pill that looked
+   removable would promise an interaction the app does not have either. */
+.neb-value-pill {
+  max-width: 100%;
+  padding: 4px 10px;
+  border-radius: var(--md-shape-full);
+  background: var(--md-surface-container-highest);
+  color: var(--md-on-surface);
+  font-size: 0.8125rem;
+  font-weight: 650;
+  line-height: 1.35;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.neb-select-field > .material-symbols-outlined {
+  flex: none;
+  font-size: 20px;
+  color: var(--md-on-surface-variant);
+}
+.neb-select-field[aria-invalid="true"] { border-color: var(--md-error); }
+/* The message shares the row's left padding so it sits under the label rather
+   than under the tile. */
+.neb-select-field-error {
+  margin: 5px 0 0 16px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--md-error);
+}
+
+/* ── Choice sheet ───────────────────────────────────────────────────────────
+   NebChoiceSheet. The list of possible answers, as a sheet full of chips: a
+   sheet rather than a dialog because the thumb is at the bottom of the phone,
+   and chips rather than a checklist because a subject is two words and forty
+   of them fit on one screen that way.
+
+   Only the parts the shared sheet does not already own are here. The scrim,
+   the handle, the head, the drag to dismiss and the footer buttons are
+   .neb-sheet's; the chips are .neb-choice-chip; the search and the add row are
+   .neb-field-search and .neb-field-row. What is left is the scroll box the
+   chips live in and the line shown when a search matches nothing. */
+.neb-choice-options {
+  max-height: min(46vh, 300px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 2px;
+  margin: -2px;
+}
+.neb-choice-empty {
+  padding: 18px 2px;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--md-on-surface-variant);
+}
+/* Hidden until the controller decides the list is long enough to need it --
+   the app shows the search only past ten options, and a search box above six
+   chips is furniture. */
+.neb-choice-sheet .neb-field-search[hidden],
+.neb-choice-sheet .neb-field-row[hidden] { display: none; }
