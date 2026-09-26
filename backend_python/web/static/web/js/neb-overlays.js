@@ -634,6 +634,12 @@
 
     var closer = t.closest && t.closest('[data-neb-close]');
     if (closer) {
+      /* data-neb-close on the scrim itself means "the backdrop dismisses
+       * this", and a backdrop is only the part you can see around the panel.
+       * Without this test every click inside the sheet walks up to the scrim
+       * and closes it, which is invisible on a sheet that only shows text and
+       * fatal on one with a chip in it. */
+      if (closer.classList.contains('neb-scrim') && closer !== t) return;
       e.preventDefault();
       var id = closer.dataset.nebClose;
       close(id ? id : closer.closest('.neb-scrim'), { reason: 'button' });

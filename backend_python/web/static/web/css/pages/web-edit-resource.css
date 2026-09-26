@@ -44,14 +44,6 @@
 .upload-file-remove .material-symbols-outlined { font-size: 20px; }
 .upload-divider { display: flex; align-items: center; gap: 12px; margin: 12px 0 16px; color: var(--md-on-surface-variant); font-size: 0.8125rem; }
 .upload-divider::before, .upload-divider::after { content: ''; flex: 1; height: 1px; background: var(--md-outline-variant); }
-.subject-chips-area { display: flex; flex-direction: column; gap: 8px; }
-.subject-chips { display: flex; flex-wrap: wrap; gap: 6px; min-height: 0; }
-.subject-chip { display: inline-flex; align-items: center; gap: 4px; background: var(--md-primary-container); color: var(--md-on-primary-container); padding: 4px 8px 4px 12px; border-radius: 20px; font-size: 0.8125rem; font-weight: 500; line-height: 1.4; }
-.subject-chip-remove { background: none; border: none; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center; color: var(--md-on-primary-container); opacity: 0.7; border-radius: 50%; width: 18px; height: 18px; }
-.subject-chip-remove:hover { opacity: 1; background: color-mix(15%, var(--md-on-primary-container), transparent); }
-.subject-chip-remove .material-symbols-outlined { font-size: 14px; }
-.subject-input-row { display: flex; gap: 8px; }
-.subject-input-row .md-input { flex: 1; }
 @media (max-width: 600px) {
   .upload-row { flex-direction: column; gap: 0; }
   .upload-dropzone { padding: 24px 16px; }

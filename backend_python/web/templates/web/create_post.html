@@ -44,12 +44,19 @@
     </div>
 
     <div class="cp-field">
-      <label class="cp-label">Category</label>
-      <div class="cp-category-display" id="cp-category-display">
-        <span class="cp-category-placeholder" id="cp-category-placeholder">Select a category</span>
-        <span class="cp-category-selected" id="cp-category-selected" style="display:none"></span>
-        <span class="material-symbols-outlined cp-category-arrow">expand_more</span>
-      </div>
+      <label class="cp-label" for="cp-category-display">Category</label>
+      {% comment %}
+        One answer, so this is .neb-field-trigger and not the pill-carrying
+        .neb-select-field -- a category is one short word and a row of pills
+        would be a row of one.
+      {% endcomment %}
+      <input type="hidden" id="cp-category-hidden" value="">
+      <button type="button" class="neb-field-trigger" id="cp-category-display"
+              data-neb-open="cp-category-choice" data-placeholder="Select a category">
+        <span class="neb-field-trigger-value neb-field-trigger-placeholder"
+              id="cp-category-selected">Select a category</span>
+        <span class="material-symbols-outlined" aria-hidden="true">expand_more</span>
+      </button>
     </div>
 
     <div class="cp-field">
@@ -243,38 +250,45 @@
     </div>
   </div>
 
-  <div class="subject-pick-overlay" id="cp-category-overlay" style="display:none">
-    <div class="subject-pick-dialog">
-      <div class="subject-pick-header">
-        <h3>Select Category</h3>
-        <button type="button" class="subject-pick-close" id="cp-category-close">
+  {% comment %}
+    NebChoiceSheet, single-select. Tapping a chip is the answer, exactly as it
+    is in the app, so there is no Done to press and no Cancel to undo: the
+    sheet closes on the tap that answered it.
+  {% endcomment %}
+  <div class="neb-scrim neb-scrim-bottom" id="cp-category-choice" data-neb-close hidden
+       data-choice-input="cp-category-hidden" data-choice-field="cp-category-display">
+    <div class="neb-sheet neb-choice-sheet" role="dialog" aria-modal="true" aria-labelledby="cp-category-choice-title">
+      <div class="neb-sheet-handle"></div>
+      <div class="neb-sheet-head">
+        <div class="neb-sheet-head-text">
+          <h3 class="neb-sheet-title" id="cp-category-choice-title">Category</h3>
+          <p class="neb-sheet-sub">Where this discussion belongs.</p>
+        </div>
+        <button type="button" class="neb-sheet-close" data-neb-close aria-label="Close">
           <span class="material-symbols-outlined">close</span>
         </button>
       </div>
-      <div class="subject-pick-search">
-        <span class="material-symbols-outlined">search</span>
-        <input type="text" id="cp-category-search" placeholder="Search categories..." autocomplete="off">
+      <div class="neb-sheet-body">
+        <div class="neb-field-search">
+          <span class="material-symbols-outlined" aria-hidden="true">search</span>
+          <input class="neb-field" type="text" data-choice-search placeholder="Search categories"
+                 autocomplete="off" aria-label="Search categories">
+        </div>
+        <div class="neb-chip-row neb-choice-options" data-choice-options role="group" aria-label="Categories">
+          {% for c in categories %}
+          <button type="button" class="neb-choice-chip" aria-pressed="false" data-value="{{ c }}">
+            <span class="neb-chip-tick" aria-hidden="true"></span>{{ c }}
+          </button>
+          {% endfor %}
+        </div>
+        <p class="neb-choice-empty" data-choice-empty hidden></p>
+        <div class="neb-field-row" data-choice-add>
+          <input class="neb-field" type="text" placeholder="Add your own" autocomplete="off" aria-label="Add a category">
+          <button type="button" class="md-btn md-btn-tonal md-btn-small" disabled>Add</button>
+        </div>
       </div>
-      <div class="subject-pick-list" id="cp-category-list">
-        {% for c in categories %}
-        <label class="subject-pick-item is-radio" data-value="{{ c }}">
-          <span class="subject-pick-check">
-            <span class="material-symbols-outlined">check</span>
-          </span>
-          <span class="subject-pick-label">{{ c }}</span>
-        </label>
-        {% endfor %}
-      </div>
-      <div class="subject-pick-add">
-        <input type="text" id="cp-category-custom" placeholder="Add a custom category" autocomplete="off">
-        <button type="button" class="md-btn md-btn-tonal" id="cp-category-add-btn">
-          <span class="material-symbols-outlined">add</span>
-          Add
-        </button>
-      </div>
-      <div class="subject-pick-actions">
-        <button type="button" class="md-btn md-btn-text" id="cp-category-cancel">Cancel</button>
-        <button type="button" class="md-btn md-btn-filled" id="cp-category-done">Done</button>
+      <div class="neb-sheet-foot">
+        <button type="button" class="md-btn md-btn-filled neb-foot-major" data-choice-done>Done</button>
       </div>
     </div>
   </div>
@@ -339,11 +353,7 @@
   var titleInput = document.getElementById('cp-title');
   var selectedCategory = '';
   var categoryDisplay = document.getElementById('cp-category-display');
-  var categoryPlaceholder = document.getElementById('cp-category-placeholder');
   var categorySelected = document.getElementById('cp-category-selected');
-  var categoryOverlay = document.getElementById('cp-category-overlay');
-  var categoryList = document.getElementById('cp-category-list');
-  var categorySearch = document.getElementById('cp-category-search');
   var editorBody = document.getElementById('cp-body');
   var charCount = document.getElementById('cp-char-count');
   var errorDiv = document.getElementById('cp-error');
@@ -457,106 +467,14 @@
     }
   });
 
-  /* --- Category Picker Dialog (shared subject-pick-* pattern) --- */
-  categoryDisplay.addEventListener('click', function() {
-    categoryOverlay.style.display = '';
-    document.body.style.overflow = 'hidden';
-    categorySearch.value = '';
-    filterCategoryList('');
-    syncCategorySelection();
-    categorySearch.focus();
-  });
-
-  function filterCategoryList(query) {
-    var q = query.toLowerCase();
-    categoryList.querySelectorAll('.subject-pick-item').forEach(function(item) {
-      var label = item.getAttribute('data-value').toLowerCase();
-      item.style.display = label.indexOf(q) >= 0 ? '' : 'none';
-    });
-  }
-
-  categorySearch.addEventListener('input', function() {
-    filterCategoryList(this.value);
-  });
-
-  categoryList.addEventListener('click', function(e) {
-    var item = e.target.closest('.subject-pick-item');
-    if (!item) return;
-    // Single-select: clear others, select this
-    categoryList.querySelectorAll('.subject-pick-item.selected').forEach(function(el) {
-      el.classList.remove('selected');
-      var cb = el.querySelector('.subject-pick-checkbox');
-      if (cb) cb.checked = false;
-    });
-    item.classList.add('selected');
-    var cb = item.querySelector('.subject-pick-checkbox');
-    if (cb) cb.checked = true;
-  });
-
-  function syncCategorySelection() {
-    categoryList.querySelectorAll('.subject-pick-item').forEach(function(item) {
-      var val = item.getAttribute('data-value');
-      var isSelected = selectedCategory && val.toLowerCase() === selectedCategory.toLowerCase();
-      item.classList.toggle('selected', isSelected);
-      var cb = item.querySelector('.subject-pick-checkbox');
-      if (cb) cb.checked = isSelected;
-    });
-  }
-
-  function closeCategoryDialog() {
-    categoryOverlay.style.display = 'none';
-    document.body.style.overflow = '';
-  }
-
-  document.getElementById('cp-category-close').addEventListener('click', closeCategoryDialog);
-  document.getElementById('cp-category-cancel').addEventListener('click', closeCategoryDialog);
-  document.getElementById('cp-category-done').addEventListener('click', function() {
-    var sel = categoryList.querySelector('.subject-pick-item.selected');
-    if (sel) {
-      selectedCategory = sel.getAttribute('data-value');
-      categorySelected.textContent = selectedCategory;
-      categorySelected.style.display = '';
-      categoryPlaceholder.style.display = 'none';
-      categoryDisplay.classList.add('has-value');
-    }
-    closeCategoryDialog();
-  });
-  categoryOverlay.addEventListener('click', function(e) {
-    if (e.target === categoryOverlay) closeCategoryDialog();
-  });
-
-  document.getElementById('cp-category-add-btn').addEventListener('click', function() {
-    var input = document.getElementById('cp-category-custom');
-    var val = input.value.trim();
-    if (!val) return;
-    val = val.charAt(0).toUpperCase() + val.slice(1);
-    var existing = categoryList.querySelector('[data-value="' + CSS.escape(val) + '"]');
-    if (existing) {
-      categoryList.querySelectorAll('.subject-pick-item.selected').forEach(function(el) {
-        el.classList.remove('selected');
-        var cb = el.querySelector('.subject-pick-checkbox');
-        if (cb) cb.checked = false;
-      });
-      existing.classList.add('selected');
-      var cb = existing.querySelector('.subject-pick-checkbox');
-      if (cb) cb.checked = true;
-      existing.style.display = '';
-    } else {
-      categoryList.querySelectorAll('.subject-pick-item.selected').forEach(function(el) {
-        el.classList.remove('selected');
-        var cb = el.querySelector('.subject-pick-checkbox');
-        if (cb) cb.checked = false;
-      });
-      var label = document.createElement('label');
-      label.className = 'subject-pick-item is-radio selected';
-      label.setAttribute('data-value', val);
-      label.innerHTML = '<span class="subject-pick-check"><span class="material-symbols-outlined">check</span></span><span class="subject-pick-label">' + escapeHtml(val) + '</span>';
-      categoryList.appendChild(label);
-    }
-    input.value = '';
-  });
-  document.getElementById('cp-category-custom').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') { e.preventDefault(); document.getElementById('cp-category-add-btn').click(); }
+  /* --- Category --- neb-choice.js owns the sheet; the answer arrives here.
+     .neb-field-trigger shows a single value, so it is painted by hand rather
+     than by NebChoice.paint(), which draws pills. */
+  document.getElementById('cp-category-hidden').addEventListener('change', function () {
+    selectedCategory = this.value.trim();
+    categorySelected.textContent = selectedCategory || 'Select a category';
+    categorySelected.classList.toggle('neb-field-trigger-placeholder', !selectedCategory);
+    categoryDisplay.classList.toggle('has-value', !!selectedCategory);
   });
 
   /* --- Math Formula Dialog --- */
