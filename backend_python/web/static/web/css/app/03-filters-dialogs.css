@@ -100,13 +100,7 @@
   font-size: 14px;
 }
 
-.search-tabs {
-  display: flex;
-  gap: 0;
-  border-bottom: 1px solid var(--md-outline-variant);
-  overflow-x: auto;
-  margin-bottom: 16px;
-}
+/* The search results tab row is .neb-rail now. */
 
 .search-bar {
   display: flex;

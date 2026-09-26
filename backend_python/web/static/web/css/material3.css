@@ -1646,43 +1646,12 @@ img {
   }
 }
 
-/* Tabs */
-.md-tabs {
-  display: flex;
-  gap: 0;
-  border-bottom: 1px solid var(--md-outline-variant);
-  overflow-x: auto;
-}
-
-.md-tab {
-  padding: 12px 20px;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--md-on-surface-variant);
-  cursor: pointer;
-  white-space: nowrap;
-  border-bottom: 3px solid transparent;
-  transition: all var(--md-transition);
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.md-tab:hover {
-  color: var(--md-primary);
-  background: var(--md-surface-variant);
-  text-decoration: none;
-}
-
-.md-tab.md-tab-active {
-  color: var(--md-primary);
-  border-bottom-color: var(--md-primary);
-}
-
-.md-tab .material-symbols-outlined {
-  font-size: 18px;
-}
+/* Tabs
+   The underlined tab bar the design system shipped before .neb-rail existed.
+   Every screen that used it -- search, the forum's sort row, the study space
+   and lab, the chapter sub-tabs -- is on the rail now, which is the web half of
+   the app's NebTabRail, so this drew nothing on any page. Deleted rather than
+   left as a second answer to the question the rail already answers. */
 
 /* Badge */
 .md-badge {
@@ -4230,6 +4199,16 @@ img {
   .neb-rail { padding: 6px 10px; gap: 4px; }
   .neb-rail-item { padding: 9px 13px; font-size: 0.8125rem; }
 }
+
+/* A rail placed in a bar that is already aligned to the page's content edge --
+   the forum's sort row, the study lab's space switcher, the chapter sub-tabs --
+   drops its own side padding so it starts where the cards under it start,
+   rather than 14px further in than every one of them. It has to sit below the
+   phone block above: that block restates .neb-rail's padding at the same
+   specificity, so declared any earlier this loses to it and the alignment
+   holds on a desktop and breaks on a phone, which is where a row indented out
+   of step with the content is most obvious. */
+.neb-rail-flush { padding-left: 0; padding-right: 0; }
 
 /* Motion off: the container still moves -- it has to, it is the only mark of
    which tab is selected -- it just arrives instead of travelling. */

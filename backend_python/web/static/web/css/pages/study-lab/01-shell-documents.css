@@ -304,38 +304,8 @@
   padding-left: 34px;
 }
 
-/* Tabs */
-.sl-tabs {
-  display: flex;
-  border-bottom: 1px solid var(--md-outline-variant);
-  padding: 0 24px;
-}
-.sl-tab {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 12px 20px;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--md-on-surface-variant);
-  border: none;
-  border-bottom: 2px solid transparent;
-  background: none;
-  cursor: pointer;
-  transition: all var(--md-transition);
-  font-family: var(--md-font);
-}
-.sl-tab .material-symbols-outlined {
-  font-size: 18px;
-}
-.sl-tab:hover {
-  color: var(--md-primary);
-  background: var(--md-primary-container);
-}
-.sl-tab.sl-tab-active {
-  color: var(--md-primary);
-  border-bottom-color: var(--md-primary);
-}
+/* Tabs: .neb-rail. The row that was here hovered on --md-primary-container,
+   which in dark theme is a pale lilac block under white text. */
 
 /* Tab content */
 .sl-tab-content {

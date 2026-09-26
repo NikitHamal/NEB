@@ -1,22 +1,30 @@
 {% load static web_extras %}
 <div id="search-results">
   {% if query %}
-  <!-- Tab switcher -->
-  <div class="search-tabs" style="margin-top:16px;">
-    <a href="{% url 'web:search' %}?q={{ query }}" class="md-tab {% if tab == 'all' %}md-tab-active{% endif %}" hx-get="{% url 'web:search' %}?q={{ query }}&tab=all" hx-target="#search-results" hx-push-url="true">All</a>
-    <a href="{% url 'web:search' %}?q={{ query }}&tab=resources" class="md-tab {% if tab == 'resources' %}md-tab-active{% endif %}" hx-get="{% url 'web:search' %}?q={{ query }}&tab=resources" hx-target="#search-results" hx-push-url="true">
+  {% comment %}
+    NebTabRail. This was the last screen still on .md-tab -- the underlined
+    tab the design system shipped before the rail existed, and the only
+    template left using it. Four answers to the same question the library, the
+    profile, the notifications and the bookmarks now all answer with one
+    composable's worth of markup.
+  {% endcomment %}
+  <nav class="neb-rail neb-rail-divided" role="tablist" aria-label="Search results" style="margin:16px 0;">
+    <a href="{% url 'web:search' %}?q={{ query }}" class="neb-rail-item" role="tab" aria-selected="{% if tab == 'all' %}true{% else %}false{% endif %}" hx-get="{% url 'web:search' %}?q={{ query }}&tab=all" hx-target="#search-results" hx-push-url="true">
+      <span class="neb-rail-label">All</span>
+    </a>
+    <a href="{% url 'web:search' %}?q={{ query }}&tab=resources" class="neb-rail-item" role="tab" aria-selected="{% if tab == 'resources' %}true{% else %}false{% endif %}" hx-get="{% url 'web:search' %}?q={{ query }}&tab=resources" hx-target="#search-results" hx-push-url="true">
       <span class="material-symbols-outlined">auto_stories</span>
-      Resources
+      <span class="neb-rail-label">Resources</span>
     </a>
-    <a href="{% url 'web:search' %}?q={{ query }}&tab=posts" class="md-tab {% if tab == 'posts' %}md-tab-active{% endif %}" hx-get="{% url 'web:search' %}?q={{ query }}&tab=posts" hx-target="#search-results" hx-push-url="true">
+    <a href="{% url 'web:search' %}?q={{ query }}&tab=posts" class="neb-rail-item" role="tab" aria-selected="{% if tab == 'posts' %}true{% else %}false{% endif %}" hx-get="{% url 'web:search' %}?q={{ query }}&tab=posts" hx-target="#search-results" hx-push-url="true">
       <span class="material-symbols-outlined">forum</span>
-      Posts
+      <span class="neb-rail-label">Posts</span>
     </a>
-    <a href="{% url 'web:search' %}?q={{ query }}&tab=users" class="md-tab {% if tab == 'users' %}md-tab-active{% endif %}" hx-get="{% url 'web:search' %}?q={{ query }}&tab=users" hx-target="#search-results" hx-push-url="true">
+    <a href="{% url 'web:search' %}?q={{ query }}&tab=users" class="neb-rail-item" role="tab" aria-selected="{% if tab == 'users' %}true{% else %}false{% endif %}" hx-get="{% url 'web:search' %}?q={{ query }}&tab=users" hx-target="#search-results" hx-push-url="true">
       <span class="material-symbols-outlined">group</span>
-      Users
+      <span class="neb-rail-label">Users</span>
     </a>
-  </div>
+  </nav>
 
   {% if tab == 'resources' %}
     {% if resource_results %}

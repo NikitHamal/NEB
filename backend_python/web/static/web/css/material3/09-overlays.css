@@ -1625,6 +1625,16 @@
   .neb-rail-item { padding: 9px 13px; font-size: 0.8125rem; }
 }
 
+/* A rail placed in a bar that is already aligned to the page's content edge --
+   the forum's sort row, the study lab's space switcher, the chapter sub-tabs --
+   drops its own side padding so it starts where the cards under it start,
+   rather than 14px further in than every one of them. It has to sit below the
+   phone block above: that block restates .neb-rail's padding at the same
+   specificity, so declared any earlier this loses to it and the alignment
+   holds on a desktop and breaks on a phone, which is where a row indented out
+   of step with the content is most obvious. */
+.neb-rail-flush { padding-left: 0; padding-right: 0; }
+
 /* Motion off: the container still moves -- it has to, it is the only mark of
    which tab is selected -- it just arrives instead of travelling. */
 @media (prefers-reduced-motion: reduce) {

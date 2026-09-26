@@ -75,24 +75,7 @@
     if (!el) return;
     SPACE_ID = el.dataset.spaceId || window.location.pathname.split('/')[2];
     if (!SPACE_ID) return;
-    initTabOverflowHint();
     loadSpace();
-  }
-
-  // Show/hide the fade hint at the right edge of the tab bar when it
-  // overflows (mobile affordance for off-screen tabs).
-  function initTabOverflowHint() {
-    var wrap = $('ssTabsWrap');
-    var tabs = $('ssTabs');
-    if (!wrap || !tabs) return;
-    function update() {
-      var overflowing = tabs.scrollWidth > tabs.clientWidth + 2;
-      var atEnd = tabs.scrollLeft + tabs.clientWidth >= tabs.scrollWidth - 4;
-      wrap.classList.toggle('ss-tabs-overflow', overflowing && !atEnd);
-    }
-    tabs.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update);
-    update();
   }
 
   function loadSpace() {
@@ -283,8 +266,8 @@
   }
 
   function syncSummaryModeButtons() {
-    $$('.ss-mode-btn').forEach(function (b) {
-      b.classList.toggle('ss-mode-active', b.dataset.mode === SUMMARY_MODE);
+    $$('#ssSummaryModebar .neb-segment').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.mode === SUMMARY_MODE));
     });
     var label = $('ssSummaryGenerateLabel');
     if (label) label.textContent = SUMMARY_MODE === 'detailed' ? 'Generate Detailed Summary' : 'Generate Compact Summary';
@@ -703,7 +686,9 @@
       var scrim = $('ssSidebarScrim');
       if (scrim) scrim.classList.remove('ss-sidebar-scrim-open');
     }
-    $$('.ss-tab').forEach(function (t) { t.classList.toggle('ss-tab-active', t.dataset.tab === tab); });
+    $$('#ssTabs .neb-rail-item').forEach(function (t) {
+      t.setAttribute('aria-selected', String(t.dataset.tab === tab));
+    });
     $$('.ss-tab-content').forEach(function (c) { c.classList.remove('ss-tab-content-active'); });
     var panel = $('ssTab' + tab.charAt(0).toUpperCase() + tab.slice(1));
     if (panel) panel.classList.add('ss-tab-content-active');

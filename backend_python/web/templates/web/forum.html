@@ -35,20 +35,32 @@
   <div id="forum-main">
   <!-- Sort Tabs + Category Filters -->
   <div class="forum-controls-bar">
-    <div class="forum-sort-tabs">
-      <a href="{% url 'web:forum' %}?sort=hot{% if current_category %}&category={{ current_category }}{% endif %}" class="forum-sort-tab {% if current_sort == 'hot' %}forum-sort-tab-active{% endif %}" hx-get="{% url 'web:forum' %}?sort=hot{% if current_category %}&category={{ current_category }}{% endif %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
-        <span class="material-symbols-outlined">whatshot</span> Hot
+    {% comment %}
+      NebTabRail. Hot / New / Top / Discussed was a row of pills in
+      --md-secondary-container with two !importants holding the selected one on,
+      drawn once here and again in _forum_main.html for the htmx swap -- the same
+      question the library and the profile ask, answered a fifth way. The rail
+      slides one container between the four instead of lighting a different pill,
+      and being the shared component it stays in step with the app.
+    {% endcomment %}
+    <nav class="neb-rail neb-rail-flush" role="tablist" aria-label="Sort posts">
+      <a href="{% url 'web:forum' %}?sort=hot{% if current_category %}&category={{ current_category }}{% endif %}" class="neb-rail-item" role="tab" aria-selected="{% if current_sort == 'hot' %}true{% else %}false{% endif %}" hx-get="{% url 'web:forum' %}?sort=hot{% if current_category %}&category={{ current_category }}{% endif %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
+        <span class="material-symbols-outlined">whatshot</span>
+        <span class="neb-rail-label">Hot</span>
       </a>
-      <a href="{% url 'web:forum' %}?sort=new{% if current_category %}&category={{ current_category }}{% endif %}" class="forum-sort-tab {% if current_sort == 'new' %}forum-sort-tab-active{% endif %}" hx-get="{% url 'web:forum' %}?sort=new{% if current_category %}&category={{ current_category }}{% endif %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
-        <span class="material-symbols-outlined">schedule</span> New
+      <a href="{% url 'web:forum' %}?sort=new{% if current_category %}&category={{ current_category }}{% endif %}" class="neb-rail-item" role="tab" aria-selected="{% if current_sort == 'new' %}true{% else %}false{% endif %}" hx-get="{% url 'web:forum' %}?sort=new{% if current_category %}&category={{ current_category }}{% endif %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
+        <span class="material-symbols-outlined">schedule</span>
+        <span class="neb-rail-label">New</span>
       </a>
-      <a href="{% url 'web:forum' %}?sort=top{% if current_category %}&category={{ current_category }}{% endif %}" class="forum-sort-tab {% if current_sort == 'top' %}forum-sort-tab-active{% endif %}" hx-get="{% url 'web:forum' %}?sort=top{% if current_category %}&category={{ current_category }}{% endif %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
-        <span class="material-symbols-outlined">thumb_up</span> Top
+      <a href="{% url 'web:forum' %}?sort=top{% if current_category %}&category={{ current_category }}{% endif %}" class="neb-rail-item" role="tab" aria-selected="{% if current_sort == 'top' %}true{% else %}false{% endif %}" hx-get="{% url 'web:forum' %}?sort=top{% if current_category %}&category={{ current_category }}{% endif %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
+        <span class="material-symbols-outlined">thumb_up</span>
+        <span class="neb-rail-label">Top</span>
       </a>
-      <a href="{% url 'web:forum' %}?sort=discussed{% if current_category %}&category={{ current_category }}{% endif %}" class="forum-sort-tab {% if current_sort == 'discussed' %}forum-sort-tab-active{% endif %}" hx-get="{% url 'web:forum' %}?sort=discussed{% if current_category %}&category={{ current_category }}{% endif %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
-        <span class="material-symbols-outlined">chat_bubble</span> Discussed
+      <a href="{% url 'web:forum' %}?sort=discussed{% if current_category %}&category={{ current_category }}{% endif %}" class="neb-rail-item" role="tab" aria-selected="{% if current_sort == 'discussed' %}true{% else %}false{% endif %}" hx-get="{% url 'web:forum' %}?sort=discussed{% if current_category %}&category={{ current_category }}{% endif %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
+        <span class="material-symbols-outlined">chat_bubble</span>
+        <span class="neb-rail-label">Discussed</span>
       </a>
-    </div>
+    </nav>
   </div>
 
 

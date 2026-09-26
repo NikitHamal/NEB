@@ -22,17 +22,33 @@
   </section>
 
   <div class="sl-detail" id="slDetail">
-    <div class="sl-tabs" id="slTabs">
-      <button class="sl-tab sl-tab-active" data-tab="summary" data-action="sd-switch-tab"><span class="material-symbols-outlined">summarize</span> Summary</button>
-      <button class="sl-tab" data-tab="mindmap" data-action="sd-switch-tab"><span class="material-symbols-outlined">account_tree</span> Mindmap</button>
-      <button class="sl-tab" data-tab="quiz" data-action="sd-switch-tab"><span class="material-symbols-outlined">quiz</span> Quiz</button>
-      <button class="sl-tab" data-tab="flashcards" data-action="sd-switch-tab"><span class="material-symbols-outlined">style</span> Flashcards</button>
-    </div>
+    {% comment %}
+      NebTabRail. The underlined tab row this page shared with the study space,
+      which is now the rail too.
+    {% endcomment %}
+    <nav class="neb-rail neb-rail-divided" id="slTabs" role="tablist" aria-label="Document views">
+      <button type="button" class="neb-rail-item" role="tab" aria-selected="true" data-tab="summary" data-action="sd-switch-tab">
+        <span class="material-symbols-outlined">summarize</span>
+        <span class="neb-rail-label">Summary</span>
+      </button>
+      <button type="button" class="neb-rail-item" role="tab" aria-selected="false" data-tab="mindmap" data-action="sd-switch-tab">
+        <span class="material-symbols-outlined">account_tree</span>
+        <span class="neb-rail-label">Mindmap</span>
+      </button>
+      <button type="button" class="neb-rail-item" role="tab" aria-selected="false" data-tab="quiz" data-action="sd-switch-tab">
+        <span class="material-symbols-outlined">quiz</span>
+        <span class="neb-rail-label">Quiz</span>
+      </button>
+      <button type="button" class="neb-rail-item" role="tab" aria-selected="false" data-tab="flashcards" data-action="sd-switch-tab">
+        <span class="material-symbols-outlined">style</span>
+        <span class="neb-rail-label">Flashcards</span>
+      </button>
+    </nav>
 
     <div class="sl-tab-content" id="sdTabSummary">
-      <div class="sl-summary-modebar">
-        <button class="sl-mode-btn sl-mode-active" data-mode="compact" data-action="sd-summary-mode">Compact</button>
-        <button class="sl-mode-btn" data-mode="detailed" data-action="sd-summary-mode">Detailed</button>
+      <div class="neb-segmented" id="sdSummaryModebar" role="group" aria-label="Summary length" style="margin-bottom:18px;">
+        <button type="button" class="neb-segment" data-mode="compact" data-action="sd-summary-mode" aria-pressed="true">Compact</button>
+        <button type="button" class="neb-segment" data-mode="detailed" data-action="sd-summary-mode" aria-pressed="false">Detailed</button>
       </div>
       <div class="sl-shared-card"><div class="sl-summary-text" id="sdSummaryText"></div></div>
     </div>
@@ -93,7 +109,7 @@
   var summaryMode = 'compact', quizQuestions = [], quizAnswers = {}, quizIdx = 0, quizId = null, flashIdx = 0, flipped = false;
 
   function showTab(tab){
-    document.querySelectorAll('.sl-tab').forEach(function(t){ t.classList.toggle('sl-tab-active', t.dataset.tab === tab); });
+    document.querySelectorAll('#slTabs .neb-rail-item').forEach(function(t){ t.setAttribute('aria-selected', String(t.dataset.tab === tab)); });
     ['Summary','Mindmap','Quiz','Flashcards'].forEach(function(name){ document.getElementById('sdTab'+name).style.display = name.toLowerCase() === tab ? '' : 'none'; });
     if (tab === 'mindmap') renderMindmap();
   }
@@ -103,7 +119,7 @@
   function renderMathIn(el){ if(typeof renderMathInElement==='function'){ try{ renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false},{left:'\\[',right:'\\]',display:true}],ignoredTags:['script','noscript','style','textarea','pre','code','annotation','semantics']}); }catch(e){} } }
   function renderMathInHtml(text){ if(!text) return ''; var html=md(text); var d=document.createElement('div'); d.innerHTML=html; renderMathIn(d); return d.innerHTML; }
   function renderSummary(){
-    document.querySelectorAll('.sl-mode-btn').forEach(function(b){ b.classList.toggle('sl-mode-active', b.dataset.mode === summaryMode); });
+    document.querySelectorAll('#sdSummaryModebar .neb-segment').forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.mode === summaryMode)); });
     var text = summaryMode === 'detailed' ? (doc.summaryDetailed || '') : (doc.summaryCompact || doc.summary || '');
     var el = document.getElementById('sdSummaryText');
     el.innerHTML = text ? md(text) : '<div class="sl-shared-empty">No ' + summaryMode + ' summary has been generated yet.</div>';
