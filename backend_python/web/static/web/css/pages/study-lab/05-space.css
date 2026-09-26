@@ -84,15 +84,6 @@
   color: var(--md-on-surface-variant);
   cursor: pointer;
 }
-.ss-sidebar-backdrop {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: color-mix(in srgb, var(--md-on-surface) 32%, transparent);
-  z-index: 99;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
 
 /* ── Mobile drawer ── */
 @media (max-width: 900px) {
@@ -113,15 +104,12 @@
     transition: transform 0.2s ease;
     visibility: hidden;
   }
-  .ss-sidebar.ss-sidebar-open {
-    transform: translateX(0);
-    visibility: visible;
-  }
-  .ss-sidebar-open ~ .ss-sidebar-backdrop,
-  .ss-sidebar-backdrop.ss-backdrop-visible {
-    display: block;
-    opacity: 1;
-  }
+  /* The open state and the backdrop that went with it lived here, keyed on
+     .ss-sidebar-open and .ss-sidebar-backdrop -- two class names that no
+     template and no script ever applies. The drawer this file is describing
+     belongs to study_space, which loads pages/study-space.css after this one
+     and draws the whole thing again under the names its JS does use,
+     .ss-sidebar-mobile-open and .ss-sidebar-scrim. */
   .ss-sidebar-close { display: inline-grid; }
   body.ss-drawer-locked { overflow: hidden; }
 }
@@ -1133,7 +1121,6 @@ button.ss-confirm-armed {
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   .ss-sidebar,
-  .ss-sidebar-backdrop,
   .ss-tab,
   .ss-mode-btn,
   .ss-back-btn,

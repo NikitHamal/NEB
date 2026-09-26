@@ -1219,6 +1219,16 @@
   margin: 0;
   padding: 18px 20px 20px;
 }
+/* Nested inside the body, which is how study_space, study_lab and the forum all
+   write it. The body is already the padded box, so a footer inside it must not
+   pay that padding a second time -- doing so set its buttons 20px further in
+   than the text above them and 42px off the bottom corner. All it needs there
+   is the gap. */
+.modal-body > .modal-footer,
+.modal-body > .modal-actions {
+  margin-top: 16px;
+  padding: 0;
+}
 
 /* On a phone the dialog gives up its side margins but keeps its shape --
    it does not become a full-bleed sheet, because the JS behind these is a

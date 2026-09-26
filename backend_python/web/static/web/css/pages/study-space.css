@@ -204,11 +204,14 @@
 /* Shrink the grid's sidebar column when the rail is collapsed */
 .ss-layout:has(> .ss-collapsed) { grid-template-columns: 64px minmax(0, 1fr); }
 .ss-sidebar-close { display: none; }
+/* The same scrim every overlay on the site uses. It was a hardcoded slate
+   blue, so in dark theme the page dimmed towards navy while every sheet and
+   dialog beside it dimmed towards black. */
 .ss-sidebar-scrim {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.4);
+  background: color-mix(in srgb, var(--md-scrim) 34%, transparent);
   z-index: 99;
 }
 .ss-sidebar-section-title {
