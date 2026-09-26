@@ -764,18 +764,7 @@
       var menuId = el.dataset.menuId;
       var menu = document.getElementById(menuId);
       if (!menu) return;
-      var isOpen = menu.style.display !== 'none';
-      closeAllMenus();
-      if (!isOpen) {
-        menu.style.display = 'block';
-        var handler = function(e) {
-          if (!menu.contains(e.target) && e.target !== el && !el.contains(e.target)) {
-            closeAllMenus();
-            document.removeEventListener('click', handler, true);
-          }
-        };
-        setTimeout(function() { document.addEventListener('click', handler, true); }, 0);
-      }
+      toggleMoreMenu(menu, el);
     },
     'toggle-breadcrumb-menu': function(el) {
       var menuId = el.dataset.menuId;
@@ -1277,10 +1266,6 @@
     document.getElementById('ai-send-btn').disabled = (!input.value.trim() && aiAttachedFiles.length === 0) || isSending;
   }
 
-  function closeAllMenus() {
-    document.querySelectorAll('.more-menu').forEach(function(m) { m.style.display = 'none'; });
-    document.querySelectorAll('.bc-dropdown-menu').forEach(function(m) { m.style.display = 'none'; });
-  }
 
   // ── Q&A Local Search Filtering ──
   document.addEventListener('input', function(e) {

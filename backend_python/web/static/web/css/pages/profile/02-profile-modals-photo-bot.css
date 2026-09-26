@@ -1,32 +1,16 @@
+/* The dialog lives in material3/09-overlays.css. This page used to carry
+   its own copy, which is how five pages ended up with five different
+   radii and three theme-blind scrims. */
   /* ── Modals ── */
-  .modal-overlay {
-    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.42);
-    display: flex; align-items: center; justify-content: center;
-    z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.2s;
-  }
-  .modal-overlay.active { opacity: 1; pointer-events: auto; }
-  .modal-box {
-    background: var(--md-surface-container-lowest);
-    border: 1px solid var(--md-outline-variant);
-    border-radius: var(--md-radius-xl);
-    width: 100%; max-width: 480px;
-    overflow: hidden; opacity: 0; transition: opacity 0.2s;
-  }
-  .modal-overlay.active .modal-box { opacity: 1; }
-  .modal-header {
-    padding: 16px 20px;
-    border-bottom: 1px solid var(--md-outline-variant);
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .modal-title { font-size: 1rem; font-weight: 700; color: var(--md-on-surface); margin: 0; }
-  .modal-close {
-    background: transparent; border: none; cursor: pointer; color: var(--md-on-surface-variant);
-    width: 36px; height: 36px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .modal-close:hover { background: var(--md-surface-container-high); }
-  .modal-body { padding: 20px; max-height: 400px; overflow-y: auto; }
+  
+  
+  
+  
+  
+  
+  
+  
+  
   .follow-list-user {
     display: flex; align-items: center; gap: 12px;
     padding: 10px 0; border-bottom: 1px solid var(--md-outline-variant);
@@ -177,7 +161,6 @@
   white-space: nowrap !important;
   border: 0 !important;
 }
-
 
   .follow-list-user {
     color: inherit;
