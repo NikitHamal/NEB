@@ -16,7 +16,6 @@
 {% block tw_title %}{{ post.title|default:"Discussion" }} - NEBians{% endblock %}
 {% block tw_description %}{{ post.content|strip_inline|truncatechars:200|default:"Discussion on NEBians forum" }}{% endblock %}
 {% block nav_forum %}md-nav-active{% endblock %}
-{% block bnav_forum %}md-nav-active{% endblock %}
 
 {% block head_extra %}
 <script type="application/ld+json" nonce="{{ csp_nonce }}">
