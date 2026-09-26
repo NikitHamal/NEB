@@ -57,6 +57,188 @@ def manifest_json(request):
     response['Content-Type'] = 'application/manifest+json'
     return response
 
+# ── The home feed ───────────────────────────────────────────────────────────
+# The app's home is one interleaved column: forum posts, with a fixed set of
+# interstitials dropped in at fixed positions. HomeFeedModel.kt is the source
+# of truth for that cadence and the two functions below mirror it exactly --
+# same anchors, same highlight rhythm, same rule for a feed too short to reach
+# an anchor -- so the feed reads the same in a browser as it does on a phone.
+HOME_HIGHLIGHT_START = 9
+HOME_HIGHLIGHT_EVERY = 5
+HOME_FEED_PAGE_SIZE = 10
+
+
+def _home_feed_entries(posts, suggested=None, news=None, peers=None,
+                       highlights=None, new_resources=None, start_index=0):
+    """Interleave posts with the interstitials, at the app's anchor positions.
+
+    `start_index` is where `posts[0]` sits in the whole feed, so a second page
+    carries the highlight rhythm on instead of restarting it. An interstitial
+    whose anchor is past the end of a short feed is appended rather than
+    dropped: a five-post feed should still surface the library and the people
+    rail rather than showing five cards and stopping.
+    """
+    suggested = suggested or []
+    highlights = highlights or []
+    # Anchors are absolute positions in the first few rows of the feed, so a
+    # later page has none in range -- and must not inherit the rule that
+    # appends an unreached anchor, or every page would end in the same rail.
+    anchored = []
+    if not start_index:
+        if suggested:
+            anchored.append((0, {'kind': 'carousel', 'items': suggested}))
+        if news:
+            anchored.append((2, {'kind': 'news', 'items': news}))
+        if peers:
+            anchored.append((4, {'kind': 'peers', 'items': peers}))
+        if highlights:
+            anchored.append((6, {'kind': 'highlight', 'resource': highlights[0],
+                                 'titled': True}))
+        if new_resources:
+            anchored.append((8, {'kind': 'new_resources', 'items': new_resources}))
+
+    unique = []
+    seen = set()
+    for post in posts:
+        pid = post.get('id')
+        if pid in seen:
+            continue
+        seen.add(pid)
+        unique.append(post)
+
+    entries = []
+    placed = set()
+    for offset, post in enumerate(unique):
+        index = start_index + offset
+        entries.append({'kind': 'post', 'post': post})
+        for anchor, entry in anchored:
+            if anchor == index:
+                entries.append(entry)
+                placed.add(anchor)
+        if (index > HOME_HIGHLIGHT_START
+                and (index - HOME_HIGHLIGHT_START) % HOME_HIGHLIGHT_EVERY == 0
+                and highlights):
+            entries.append({
+                'kind': 'highlight',
+                'titled': False,
+                'resource': highlights[(index // HOME_HIGHLIGHT_EVERY) % len(highlights)],
+            })
+    # The app stops here with an empty list when there are no posts and shows
+    # its empty state. The web home is also the front door, so the rails go out
+    # on their own instead: the same "append rather than drop" rule, applied to
+    # a feed of zero posts.
+    for anchor, entry in anchored:
+        if anchor not in placed:
+            entries.append(entry)
+    return entries
+
+
+def _home_peer_suggestions(viewer, limit=12):
+    """Who to suggest the viewer follows -- the app's signals, done in SQL.
+
+    PeopleSuggestionRepository assembles this on the phone out of a dozen API
+    calls, because a client has no other way to learn who follows whom. The web
+    is the server: the same five signals are five indexed queries, scored with
+    the same weights so both clients rank people the same way, and cached per
+    viewer for as long as the app caches its own.
+    """
+    if viewer is None:
+        return []
+    cache_key = 'home_peers_v1:%s' % viewer.id
+    cached = cache.get(cache_key)
+    if cached is not None:
+        return cached
+
+    from api.models import FollowRequest
+
+    following_ids = set(Follow.objects.filter(follower_id=viewer.id)
+                        .values_list('following_id', flat=True)[:500])
+    follower_ids = set(Follow.objects.filter(following_id=viewer.id)
+                       .values_list('follower_id', flat=True)[:500])
+    # People followed by the people the viewer follows. This is the mutual
+    # count the app pays one request per seed to learn.
+    mutual_counts = {}
+    if following_ids:
+        rows = Follow.objects.filter(
+            follower_id__in=list(following_ids)[:200]
+        ).values_list('following_id', flat=True)[:2000]
+        for fid in rows:
+            mutual_counts[fid] = mutual_counts.get(fid, 0) + 1
+    school = (viewer.school or '').strip()
+    same_school_ids = set(
+        User.objects.filter(school__iexact=school).values_list('id', flat=True)[:60]
+    ) if school else set()
+    class_level = (viewer.class_level or '').strip()
+    same_class_ids = set(
+        User.objects.filter(class_level=class_level).values_list('id', flat=True)[:60]
+    ) if class_level else set()
+    feed_active_ids = set(
+        Post.objects.filter(is_archived=False, is_anonymous=False)
+        .order_by('-created_at').values_list('user_id', flat=True)[:60]
+    )
+
+    candidates = set()
+    candidates.update(follower_ids, mutual_counts.keys(), same_school_ids,
+                      same_class_ids, feed_active_ids)
+    candidates -= following_ids
+    candidates.discard(viewer.id)
+    # A private account and one with a request already sent are both dead ends,
+    # and the app drops them for the same reason.
+    candidates -= set(FollowRequest.objects.filter(sender_id=viewer.id)
+                      .values_list('receiver_id', flat=True))
+    if not candidates:
+        cache.set(cache_key, [], 600)
+        return []
+
+    rows = list(User.objects.filter(
+        id__in=list(candidates)[:120],
+        email_verified=True, is_locked=False, is_banned=False, is_bot=False,
+    ))
+    follower_counts = dict(
+        Follow.objects.filter(following_id__in=[u.id for u in rows])
+        .values_list('following_id').annotate(n=Count('follower_id'))
+    ) if rows else {}
+
+    people = []
+    for u in rows:
+        follows_you = u.id in follower_ids
+        mutual = mutual_counts.get(u.id, 0)
+        same_school = u.id in same_school_ids
+        same_class = u.id in same_class_ids
+        feed_active = u.id in feed_active_ids
+        if follows_you:
+            reason = 'Follows you'
+        elif mutual == 1:
+            reason = '1 mutual connection'
+        elif mutual > 1:
+            reason = '%d mutual connections' % mutual
+        elif same_school:
+            reason = 'From your school'
+        elif same_class:
+            reason = 'In your class'
+        else:
+            reason = 'Active in the forum'
+        people.append({
+            'id': u.id,
+            'username': u.username,
+            'name': u.display_name or u.username,
+            'photo_url': _avatar_url(u),
+            'detail': u.class_level or u.school or '',
+            'reason': reason,
+            'follows_you': follows_you,
+            'follow_label': 'Follow back' if follows_you else 'Follow',
+            'score': ((120 if follows_you else 0)
+                      + min(mutual, 4) * 28
+                      + (34 if same_school else 0)
+                      + (16 if same_class else 0)
+                      + (12 if feed_active else 0)
+                      + min(follower_counts.get(u.id, 0), 60) // 5),
+        })
+    people.sort(key=lambda p: (-p['score'], p['name'].lower()))
+    people = people[:limit]
+    cache.set(cache_key, people, 600)
+    return people
+
 def home(request):
     user_id = _get_user_id(request)
     needs_profile = False
@@ -133,7 +315,6 @@ def home(request):
         trending_resources = curated_resources[:5]
     else:
         trending_resources = sorted(resources, key=lambda r: r.get('view_count', 0), reverse=True)[:5]
-    trending_posts = all_posts[:3]
 
     # "Suggested for you" — intelligent mixed rail (resources + discussions).
     # The deck is guaranteed non-empty whenever the platform has content.
@@ -151,13 +332,6 @@ def home(request):
                 suggested_items.append({'type': kind, ('post' if kind == 'post' else 'resource'): card})
     except Exception:
         suggested_items = []
-    subjects = []
-    seen = set()
-    for r in resources:
-        s = r.get('subject', '')
-        if s and s not in seen:
-            subjects.append(s)
-            seen.add(s)
     latest_news = cache.get('home_latest_news_v3')
     if latest_news is None:
         from api.models import Announcement
@@ -178,16 +352,60 @@ def home(request):
             'replies': Reply.objects.filter(is_archived=False, user__email_verified=True).count(),
         }
         cache.set('home_stats_v2', home_stats, 600)
+    # The feed the app shows: the posts, with the rails and the highlights
+    # interleaved at HomeFeedModel.kt's anchors. `resources` is the newest
+    # fifty, already cached above, so "New in Library" costs nothing extra.
+    feed_entries = _home_feed_entries(
+        all_posts,
+        suggested=suggested_items,
+        news=latest_news,
+        peers=_home_peer_suggestions(user_profile),
+        highlights=trending_resources or resources[:5],
+        new_resources=resources[:8],
+    )
+    feed_next_offset = len(all_posts)
+    # The rails used to be four separate context variables the page laid out
+    # itself. They are entries in the feed now, so the only things left to hand
+    # over are the feed and the hero's backdrop.
     return render(request, 'web/home.html', _ctx(request,
-        trending_resources=trending_resources,
-        trending_posts=trending_posts,
-        suggested_items=suggested_items,
-        subjects=subjects[:12],
-        latest_news=latest_news,
-        home_stats=home_stats,
         hero_bg_filename=hero_bg_filename,
         hide_footer_links=False,
         needs_profile=needs_profile,
+        feed_entries=feed_entries,
+        feed_next_offset=feed_next_offset,
+        feed_has_more=home_stats.get('discussions', 0) > feed_next_offset,
+    ))
+
+def home_feed_more(request):
+    """The next page of the home feed, as markup htmx appends in place.
+
+    The first page is the twenty newest posts ranked by heat; this continues
+    strictly by date from behind that window, so a post can never appear on two
+    pages. Only the post cards and the highlight rhythm carry on here -- the
+    rails are once-per-feed and were placed on page one.
+    """
+    user_id = _get_user_id(request)
+    try:
+        offset = max(20, int(request.GET.get('offset', 20)))
+    except ValueError:
+        offset = 20
+    offset = min(offset, 400)
+    posts_qs = (Post.objects.select_related('user')
+                .filter(is_archived=False, user__email_verified=True)
+                .order_by('-created_at')[offset:offset + HOME_FEED_PAGE_SIZE])
+    posts = _serialize_posts(posts_qs, user_id)
+    highlights = cache.get('home_resources') or []
+    entries = _home_feed_entries(
+        posts,
+        highlights=highlights[:5],
+        start_index=offset,
+    )
+    next_offset = offset + len(posts)
+    total = (cache.get('home_stats_v2') or {}).get('discussions', 0)
+    return render(request, 'web/_home_feed.html', _ctx(request,
+        feed_entries=entries,
+        feed_next_offset=next_offset,
+        feed_has_more=bool(posts) and total > next_offset,
     ))
 
 def library(request, seo_title=None, seo_description=None, page_h1=None, canonical_url=None, default_type=None):
@@ -451,6 +669,41 @@ def model_questions(request):
 def online_learning(request):
     ctx = _ctx(request)
     return render(request, 'web/online_learning.html', ctx)
+
+def faq(request):
+    """The help page.
+
+    The questions live in web/faq.py so the page and the FAQPage structured data
+    cannot drift apart. The schema is built here rather than in the template
+    because json.dumps is the only escaping for a <script type="ld+json"> body
+    that is actually correct -- template autoescaping produces &quot; inside
+    JSON, which is a parse error, and |safe produces none at all.
+    """
+    import json
+    from . import faq as faq_data
+
+    questions = faq_data.all_questions()
+    schema = json.dumps({
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        'mainEntity': [
+            {
+                '@type': 'Question',
+                'name': item['q'],
+                'acceptedAnswer': {'@type': 'Answer', 'text': item['answer_text']},
+            }
+            for item in questions
+        ],
+    }, ensure_ascii=False, separators=(',', ':'))
+
+    ctx = _ctx(
+        request,
+        faq_categories=faq_data.CATEGORIES,
+        faq_count=len(questions),
+        # '</' cannot appear raw inside a script element, whatever the type.
+        faq_schema=schema.replace('</', '<\\/'),
+    )
+    return render(request, 'web/faq.html', ctx)
 
 def search(request):
     from api.models import User as _LocalUser
@@ -1826,6 +2079,7 @@ def sitemap_xml(request):
         {'loc': f'{base}/results/', 'changefreq': 'monthly', 'priority': '0.7', 'lastmod': now},
         {'loc': f'{base}/results/check/', 'changefreq': 'monthly', 'priority': '0.7', 'lastmod': now},
         {'loc': f'{base}/tools/', 'changefreq': 'monthly', 'priority': '0.5', 'lastmod': now},
+        {'loc': f'{base}/faq/', 'changefreq': 'monthly', 'priority': '0.6', 'lastmod': now},
         {'loc': f'{base}/library/?tab=interactive', 'changefreq': 'weekly', 'priority': '0.8', 'lastmod': now},
     ]
 

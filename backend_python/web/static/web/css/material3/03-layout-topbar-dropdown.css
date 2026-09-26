@@ -203,10 +203,10 @@
 .avatar-ring {
   width: 36px;
   height: 36px;
+  /* Geometry only. Fill and stroke belong to app/11-avatar-image-backgrounds,
+     which is the one place that knows whether an avatar is a photo or a
+     letter -- this rule cannot tell, and used to guess wrong. */
   border-radius: 50%;
-  background: transparent;
-  border: 2px solid var(--md-primary);
-  color: var(--md-primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -232,7 +232,7 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: #FF3B30;
+  background: var(--md-error);
   border: 2px solid var(--md-surface);
   z-index: 20;
   pointer-events: none;
@@ -241,12 +241,11 @@
 }
 
 [data-theme="dark"] .notif-dot {
-  background: #FF453A;
-  border-color: #1a1a2e;
+  border-color: var(--md-surface);
 }
 
 .profile-dropdown-trigger:hover {
-  background: var(--md-surface-variant);
+  background: var(--md-surface-container-highest);
 }
 
 /* Notification badge in dropdown */
@@ -257,8 +256,8 @@
   min-width: 20px;
   height: 20px;
   border-radius: 10px;
-  background: #FF3B30;
-  color: #ffffff;
+  background: var(--md-error);
+  color: var(--md-on-error);
   font-size: 0.75rem;
   font-weight: 800;
   padding: 0 6px;
@@ -268,9 +267,7 @@
 }
 
 [data-theme="dark"] .notif-popup-badge {
-  background: #FF1744;
-  color: #ffffff;
-  box-shadow: 0 0 0 2px #1a1a2e;
+  box-shadow: 0 0 0 2px var(--md-surface-container-high);
 }
 
 .avatar-ring img {
@@ -284,23 +281,23 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 9px 12px;
-  border-radius: var(--md-radius-sm);
-  color: var(--md-on-surface-variant);
-  font-size: 0.875rem;
+  padding: 11px 14px;
+  border-radius: 14px;
+  color: var(--md-on-surface);
+  font-size: 0.9375rem;
   font-weight: 500;
   transition: background var(--md-transition), color var(--md-transition);
   text-decoration: none;
 }
 
 .profile-dropdown-notif-link:hover {
-  background: var(--md-surface-variant);
+  background: var(--md-surface-container-highest);
   color: var(--md-on-surface);
   text-decoration: none;
 }
 
 .profile-dropdown-notif-link .material-symbols-outlined {
-  font-size: 20px;
+  font-size: 22px;
   color: var(--md-on-surface-variant);
   transition: color var(--md-transition);
 }
@@ -317,9 +314,9 @@
   min-width: 236px;
   width: max-content;
   max-width: 280px;
-  background: var(--md-surface);
+  background: var(--md-surface-container-high);
   border: 1px solid var(--md-outline-variant);
-  border-radius: var(--md-radius-md);
+  border-radius: 20px;
   box-shadow: var(--md-elevation-2);
   padding: 8px;
   display: flex;
@@ -348,7 +345,7 @@
 }
 
 .profile-dropdown-header-link:hover {
-  background: var(--md-surface-variant) !important;
+  background: var(--md-surface-container-highest) !important;
 }
 
 .profile-dropdown-header-link:hover .dropdown-header-view-icon {
@@ -366,10 +363,10 @@
 .profile-dropdown-avatar {
   width: 38px;
   height: 38px;
+  /* Geometry only. Fill and stroke belong to app/11-avatar-image-backgrounds,
+     which is the one place that knows whether an avatar is a photo or a
+     letter -- this rule cannot tell, and used to guess wrong. */
   border-radius: 50%;
-  background: transparent;
-  border: 2px solid var(--md-primary);
-  color: var(--md-primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -435,23 +432,23 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 9px 12px;
-  border-radius: var(--md-radius-sm);
-  color: var(--md-on-surface-variant);
-  font-size: 0.875rem;
+  padding: 11px 14px;
+  border-radius: 14px;
+  color: var(--md-on-surface);
+  font-size: 0.9375rem;
   font-weight: 500;
   transition: background var(--md-transition), color var(--md-transition);
   text-decoration: none;
 }
 
 .profile-dropdown-menu a:hover {
-  background: var(--md-surface-variant);
+  background: var(--md-surface-container-highest);
   color: var(--md-on-surface);
   text-decoration: none;
 }
 
 .profile-dropdown-menu a .material-symbols-outlined {
-  font-size: 20px;
+  font-size: 22px;
   color: var(--md-on-surface-variant);
   transition: color var(--md-transition);
 }
@@ -480,8 +477,8 @@
 
 /* App Promo Banner */
 .app-banner {
-  background: linear-gradient(90deg, #0058df 0%, #004bd4 50%, #003cc3 100%);
-  color: #ffffff;
+  background: linear-gradient(90deg, var(--md-b50) 0%, var(--md-b40) 50%, var(--md-b30) 100%);
+  color: var(--md-on-primary);
   padding: 10px 40px 10px 16px;
   display: flex;
   align-items: center;
@@ -505,7 +502,7 @@
 
 .app-banner-icon {
   font-size: 20px;
-  color: #a8c5ff;
+  color: var(--md-b80);
   flex-shrink: 0;
 }
 
@@ -515,8 +512,8 @@
 }
 
 .app-banner-btn {
-  background: #ffffff;
-  color: #004bd4;
+  background: var(--md-n100);
+  color: var(--md-b40);
   padding: 4px 12px;
   border-radius: 16px;
   text-decoration: none;
@@ -531,8 +528,8 @@
 }
 
 .app-banner-btn:hover {
-  background: #eef5ff;
-  color: #003cc3;
+  background: var(--md-b95);
+  color: var(--md-b30);
   transform: translateY(-1px);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
   text-decoration: none;

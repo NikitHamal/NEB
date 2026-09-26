@@ -8,152 +8,76 @@ import androidx.compose.ui.graphics.luminance
 import androidx.compose.runtime.Immutable
 
 // ---------------------------------------------------------------------------
-// Graphite, for the whole app.
+// The NEBians palette, and everything built on top of it.
 //
-// One neutral ramp runs from paper to ink and every colour role is a stop on
-// it. Nothing is hue-coded: a subject is not blue, a level is not green, a
-// category is not purple. What separates two things on screen is tone, weight,
-// shape and the icon beside them — never a colour the user has to learn.
+// The ramps and the role values are no longer here. They are generated, for
+// this app and for the website at the same time, by
 //
-// Red survives in exactly one place, the error roles, because an error that
-// reads as ordinary text is not an error.
+//     tools/design/palette.py
 //
-// The ramp is deliberately the same family as NebAuthPalette, which the sign-in
-// and onboarding journey is set in, so crossing from the journey into the feed
-// is not a change of material.
+// into Palette.kt next door -- which is where NebNeutral, NebBrandRamp,
+// NebSteel, NebVioletRamp and every md_theme_* value now live. That script also
+// refuses to emit either file unless a contrast audit passes, which is how the
+// hairline that used to sit at 1.16:1 against the page is now held above 1.55
+// on both platforms at once.
+//
+// What stays here is the part that is judgement rather than arithmetic: how a
+// subject is dressed, what family an unknown subject belongs to, and the accent
+// set the create menu picks from.
+//
+// Three families, and a rule for each.
+//
+//   Brand   the blue. Primary, links, selection, the create button -- anything
+//           the user is meant to press or has just chosen. One hue, so pressing
+//           always looks the same.
+//   Steel   the blue's quieter relative, for secondary surfaces that should
+//           belong to the brand without competing with it.
+//   Violet  tertiary. Spent on the few places that need a third voice.
+//
+// What has NOT come back is hue as information. A subject still reads by its
+// icon and its words first; the tint below is decoration on top of a label that
+// already works in grey. And the sign-in journey's illustrations stay strictly
+// ink-on-paper -- see NebAuthPalette, where the art ramp is deliberately
+// neutral.
 // ---------------------------------------------------------------------------
 
-private object Graphite {
-    val N0 = Color(0xFF000000)
-    val N4 = Color(0xFF070708)
-    val N6 = Color(0xFF0A0A0B)
-    val N8 = Color(0xFF0C0C0D)
-    val N10 = Color(0xFF101012)
-    val N12 = Color(0xFF131315)
-    val N14 = Color(0xFF17171A)
-    val N16 = Color(0xFF18181B)
-    val N20 = Color(0xFF1F1F21)
-    val N24 = Color(0xFF26262A)
-    val N28 = Color(0xFF2E2E32)
-    val N32 = Color(0xFF313136)
-    val N36 = Color(0xFF3A3A3F)
-    val N40 = Color(0xFF47474B)
-    val N48 = Color(0xFF57575C)
-    val N52 = Color(0xFF5C5C61)
-    val N60 = Color(0xFF6E6E75)
-    val N66 = Color(0xFF7C7C83)
-    val N72 = Color(0xFF9B9BA1)
-    val N78 = Color(0xFFA1A1A8)
-    val N82 = Color(0xFFC9C9CD)
-    val N86 = Color(0xFFD5D5D9)
-    val N88 = Color(0xFFDCDCE0)
-    val N90 = Color(0xFFE3E3E7)
-    val N92 = Color(0xFFE9E9EB)
-    val N94 = Color(0xFFEAEAED)
-    val N95 = Color(0xFFF1F1F3)
-    val N96 = Color(0xFFF4F4F5)
-    val N97 = Color(0xFFF7F7F9)
-    val N98 = Color(0xFFFAFAFB)
-    val N100 = Color(0xFFFFFFFF)
-}
+/**
+ * The brand blue, for the rare caller that has no composition to read a scheme
+ * from. Prefer `MaterialTheme.colorScheme.primary` everywhere else -- it flips
+ * with the theme and this does not.
+ */
+val NebBrandBlue: Color = NebBrandRamp.B40
 
-// Light theme — paper, with ink as the only voice of action
-val md_theme_light_primary = Graphite.N10
-val md_theme_light_onPrimary = Graphite.N100
-val md_theme_light_primaryContainer = Graphite.N90
-val md_theme_light_onPrimaryContainer = Graphite.N10
-val md_theme_light_secondary = Graphite.N40
-val md_theme_light_onSecondary = Graphite.N100
-val md_theme_light_secondaryContainer = Graphite.N94
-val md_theme_light_onSecondaryContainer = Graphite.N24
-val md_theme_light_tertiary = Graphite.N52
-val md_theme_light_onTertiary = Graphite.N100
-val md_theme_light_tertiaryContainer = Graphite.N95
-val md_theme_light_onTertiaryContainer = Graphite.N32
-val md_theme_light_error = Color(0xFFB3261E)
-val md_theme_light_onError = Color(0xFFFFFFFF)
-val md_theme_light_errorContainer = Color(0xFFFBEDEC)
-val md_theme_light_onErrorContainer = Color(0xFF7A1C16)
-val md_theme_light_background = Graphite.N97
-val md_theme_light_onBackground = Graphite.N6
-val md_theme_light_surface = Graphite.N97
-val md_theme_light_onSurface = Graphite.N6
-val md_theme_light_surfaceVariant = Graphite.N92
-val md_theme_light_onSurfaceVariant = Graphite.N52
-val md_theme_light_outline = Graphite.N72
-val md_theme_light_outlineVariant = Graphite.N92
-val md_theme_light_surfaceTint = Graphite.N10
-val md_theme_light_inverseOnSurface = Graphite.N96
-val md_theme_light_inverseSurface = Graphite.N20
-val md_theme_light_inversePrimary = Graphite.N82
-val md_theme_light_scrim = Graphite.N0
-val md_theme_light_surfaceDim = Graphite.N88
-val md_theme_light_surfaceBright = Graphite.N100
-val md_theme_light_surfaceContainerLowest = Graphite.N100
-val md_theme_light_surfaceContainerLow = Graphite.N98
-val md_theme_light_surfaceContainer = Graphite.N95
-val md_theme_light_surfaceContainerHigh = Graphite.N94
-val md_theme_light_surfaceContainerHighest = Graphite.N90
+/** The brand blue as it must appear on a dark surface. */
+val NebBrandBlueOnDark: Color = NebBrandRamp.B80
 
-// Dark theme — ink, with paper as the only voice of action
-val md_theme_dark_primary = Color(0xFFF5F5F6)
-val md_theme_dark_onPrimary = Graphite.N6
-val md_theme_dark_primaryContainer = Graphite.N28
-val md_theme_dark_onPrimaryContainer = Graphite.N90
-val md_theme_dark_secondary = Graphite.N82
-val md_theme_dark_onSecondary = Graphite.N20
-val md_theme_dark_secondaryContainer = Graphite.N24
-val md_theme_dark_onSecondaryContainer = Graphite.N88
-val md_theme_dark_tertiary = Graphite.N78
-val md_theme_dark_onTertiary = Graphite.N14
-val md_theme_dark_tertiaryContainer = Graphite.N20
-val md_theme_dark_onTertiaryContainer = Graphite.N86
-val md_theme_dark_error = Color(0xFFF2716A)
-val md_theme_dark_onError = Color(0xFF4A0F0B)
-val md_theme_dark_errorContainer = Color(0xFF2A1614)
-val md_theme_dark_onErrorContainer = Color(0xFFFFDAD6)
-val md_theme_dark_background = Graphite.N8
-val md_theme_dark_onBackground = Color(0xFFF5F5F6)
-val md_theme_dark_surface = Graphite.N8
-val md_theme_dark_onSurface = Color(0xFFF5F5F6)
-val md_theme_dark_surfaceVariant = Graphite.N24
-val md_theme_dark_onSurfaceVariant = Graphite.N78
-val md_theme_dark_outline = Graphite.N60
-val md_theme_dark_outlineVariant = Graphite.N24
-val md_theme_dark_surfaceTint = Color(0xFFF5F5F6)
-val md_theme_dark_inverseOnSurface = Graphite.N14
-val md_theme_dark_inverseSurface = Color(0xFFE7E7E9)
-val md_theme_dark_inversePrimary = Graphite.N40
-val md_theme_dark_scrim = Graphite.N0
-val md_theme_dark_surfaceDim = Graphite.N6
-val md_theme_dark_surfaceBright = Graphite.N36
-val md_theme_dark_surfaceContainerLowest = Graphite.N4
-val md_theme_dark_surfaceContainerLow = Graphite.N12
-val md_theme_dark_surfaceContainer = Graphite.N16
-val md_theme_dark_surfaceContainerHigh = Graphite.N24
-val md_theme_dark_surfaceContainerHighest = Graphite.N32
+/** The brand blue resolved against whatever surface the caller is sitting on. */
+@Composable
+@ReadOnlyComposable
+fun nebBrand(): Color =
+    if (MaterialTheme.colorScheme.surface.luminance() < 0.5f) NebBrandBlueOnDark else NebBrandBlue
 
-// Fixed accents — identical in both themes, for anything that must not flip
-val md_theme_primaryFixed = Graphite.N90
-val md_theme_primaryFixedDim = Graphite.N82
-val md_theme_onPrimaryFixed = Graphite.N6
-val md_theme_onPrimaryFixedVariant = Graphite.N40
-val md_theme_secondaryFixed = Graphite.N94
-val md_theme_secondaryFixedDim = Graphite.N86
-val md_theme_onSecondaryFixed = Graphite.N12
-val md_theme_onSecondaryFixedVariant = Graphite.N40
-val md_theme_tertiaryFixed = Graphite.N95
-val md_theme_tertiaryFixedDim = Graphite.N88
-val md_theme_onTertiaryFixed = Graphite.N20
-val md_theme_onTertiaryFixedVariant = Graphite.N52
+/**
+ * The third text tier: placeholders, timestamps, disabled labels.
+ *
+ * Material's scheme stops at onSurfaceVariant, so everything quieter than
+ * secondary text used to be onSurfaceVariant at some alpha -- which is how a
+ * timestamp ended up at 2.31:1 in the light theme. This is a real colour,
+ * audited like the rest, and it clears 3.2:1 on every surface.
+ */
+@Composable
+@ReadOnlyComposable
+fun nebOnSurfaceTertiary(): Color =
+    if (MaterialTheme.colorScheme.surface.luminance() < 0.5f) md_theme_dark_onSurfaceTertiary
+    else md_theme_light_onSurfaceTertiary
 
 /**
  * How a subject, category or level is dressed.
  *
- * It used to be a hue per subject — Physics blue, Chemistry green, Mathematics
- * red — which meant eleven colours competing on one screen and a legend the
- * user had to hold in their head. Every subject now wears the same ink, and
- * what tells them apart is the icon and the words, which were already there.
+ * The tint is a second cue, never the only one. Every place that reads this also
+ * shows the subject's icon and its name, which is what the user actually reads —
+ * so nobody has to learn that teal means Biology. Unknown subjects fall back to
+ * the brand, which is why the map needs no default entry per screen.
  */
 data class SubjectTheme(
     val color: Color,
@@ -161,51 +85,242 @@ data class SubjectTheme(
     val onContainer: Color
 )
 
+private data class SubjectHue(
+    val light: Color,
+    val lightContainer: Color,
+    val onLightContainer: Color,
+    val dark: Color,
+    val darkContainer: Color,
+    val onDarkContainer: Color
+)
+
+/**
+ * One entry per subject the curriculum actually has. Light values are the web's
+ * subject classes; dark values are the same hue lifted into the range that stays
+ * legible on navy, because the light ones do not.
+ */
+private val SubjectHues: Map<String, SubjectHue> = mapOf(
+    "Physics" to SubjectHue(
+        Color(0xFF1D4ED8), Color(0xFFDBE7FE), Color(0xFF1B3FA8),
+        Color(0xFF9DBBFF), Color(0xFF1B2A4D), Color(0xFFD6E3FF)
+    ),
+    "Chemistry" to SubjectHue(
+        Color(0xFF15803D), Color(0xFFDCFCE7), Color(0xFF14602F),
+        Color(0xFF7CD9A0), Color(0xFF14301F), Color(0xFFD3F5DF)
+    ),
+    "Mathematics" to SubjectHue(
+        Color(0xFFB91C1C), Color(0xFFFEE2E2), Color(0xFF8F1717),
+        Color(0xFFFF9C93), Color(0xFF3A1A18), Color(0xFFFFDAD6)
+    ),
+    "Biology" to SubjectHue(
+        Color(0xFF0F766E), Color(0xFFCCFBF1), Color(0xFF0C5B55),
+        Color(0xFF5FD3C4), Color(0xFF10302D), Color(0xFFCDF3ED)
+    ),
+    "English" to SubjectHue(
+        Color(0xFF7E22CE), Color(0xFFF3E8FF), Color(0xFF631AA3),
+        Color(0xFFD3B4FE), Color(0xFF2C1A44), Color(0xFFEDE0FF)
+    ),
+    "Nepali" to SubjectHue(
+        Color(0xFF9A6206), Color(0xFFFEF3C7), Color(0xFF7A4E05),
+        Color(0xFFE8B457), Color(0xFF32260E), Color(0xFFF7E6C2)
+    ),
+    "Computer Science" to SubjectHue(
+        Color(0xFF0E7490), Color(0xFFCFFAFE), Color(0xFF0B5A70),
+        Color(0xFF5CC8E0), Color(0xFF0E2C36), Color(0xFFC9EFF8)
+    ),
+    "Economics" to SubjectHue(
+        Color(0xFFC2410C), Color(0xFFFFEDD5), Color(0xFF9A330A),
+        Color(0xFFFFA76B), Color(0xFF3A2013), Color(0xFFFFE0CB)
+    ),
+    "Accountancy" to SubjectHue(
+        Color(0xFF9D174D), Color(0xFFFCE7F3), Color(0xFF7D1240),
+        Color(0xFFF79CC0), Color(0xFF3A1428), Color(0xFFFBDCE9)
+    ),
+    "Exam Tips" to SubjectHue(
+        Color(0xFF6D28D9), Color(0xFFEDE9FE), Color(0xFF56209F),
+        Color(0xFFC4B5FD), Color(0xFF261C46), Color(0xFFE6E0FF)
+    )
+)
+
+private val BrandSubjectHue = SubjectHue(
+    NebBrandRamp.B40, NebBrandRamp.B90, NebBrandRamp.B10,
+    NebBrandRamp.B80, NebSteel.S20, NebBrandRamp.B90
+)
+
+/**
+ * The families a subject can belong to.
+ *
+ * [SubjectHues] is keyed by exact name, which was fine while the only subjects
+ * that existed were the ten on that list. They are not. Upload accepts
+ * "Physics - Technical Stream", "Microbiology", "Visual Programming" and
+ * "सामाजिक अध्ययन", and the subject field on a resource is free text besides —
+ * real uploads carry things like "Health and Physical Education" and
+ * "Compulsory English". Every one of those used to fall through to the brand
+ * blue, so a whole shelf of unrelated material came out looking identical.
+ *
+ * A family is the coarse answer: what *kind* of subject is this. It decides the
+ * hue when the exact name is unknown, and it decides which set of banner
+ * drawings a resource is allowed to be given. [GENERAL] is the honest answer
+ * for a subject we cannot place, and it has its own abstract art set rather
+ * than borrowing someone else's.
+ */
+enum class SubjectFamily {
+    PHYSICS, CHEMISTRY, MATH, BIOLOGY, SCIENCE, LANGUAGE,
+    COMPUTING, COMMERCE, SOCIAL, HEALTH, EXAM, GENERAL
+}
+
+/**
+ * Ordered keyword table. Order is load-bearing in three places:
+ *
+ *   HEALTH before PHYSICS — "Physical Education" must not be read as physics.
+ *   COMPUTING before SCIENCE — "Computer Science" is not a science subject here.
+ *   SOCIAL before SCIENCE — "Social Studies" contains neither, but "Social
+ *   Science" does, and it belongs with the maps.
+ */
+private val SubjectFamilyKeywords: List<Pair<SubjectFamily, List<String>>> = listOf(
+    SubjectFamily.HEALTH to listOf(
+        "health", "physical education", "phy. edu", "hpe", "sport", "fitness",
+        "nutrition", "yoga", "स्वास्थ्य"
+    ),
+    SubjectFamily.EXAM to listOf(
+        "exam tip", "exam prep", "entrance", "model paper", "model set",
+        "past paper", "question bank", "mock test", "revision"
+    ),
+    SubjectFamily.COMPUTING to listOf(
+        "computer", "software", "programming", "informatics", "information tech",
+        "digital", "coding", "algorithm", "database", "web dev"
+    ),
+    SubjectFamily.PHYSICS to listOf("physics", "भौतिक"),
+    SubjectFamily.CHEMISTRY to listOf("chemistry", "chemical", "रसायन"),
+    SubjectFamily.MATH to listOf(
+        "math", "algebra", "geometry", "trigonometry", "calculus", "statistic",
+        "गणित"
+    ),
+    SubjectFamily.BIOLOGY to listOf(
+        "biology", "botany", "zoology", "microbio", "anatomy", "genetic",
+        "जीव"
+    ),
+    SubjectFamily.SOCIAL to listOf(
+        "social", "history", "geography", "civic", "population", "culture",
+        "सामाजिक", "अध्ययन"
+    ),
+    SubjectFamily.COMMERCE to listOf(
+        "economic", "account", "business", "finance", "commerce", "marketing",
+        "banking", "book keeping", "bookkeeping", "अर्थ"
+    ),
+    SubjectFamily.LANGUAGE to listOf(
+        "english", "nepali", "literature", "grammar", "language", "sanskrit",
+        "hindi", "maithili", "newari", "writing", "नेपाली", "अंग्रेजी", "साहित्य"
+    ),
+    SubjectFamily.SCIENCE to listOf(
+        "science", "environment", "astronomy", "geology", "laboratory", "विज्ञान"
+    )
+)
+
+/** The coarse kind of a subject. Free text in, one of twelve answers out. */
+fun subjectFamily(subject: String): SubjectFamily {
+    val s = subject.trim().lowercase()
+    if (s.isEmpty()) return SubjectFamily.GENERAL
+    for ((family, keywords) in SubjectFamilyKeywords) {
+        for (keyword in keywords) {
+            if (s.contains(keyword)) return family
+        }
+    }
+    return SubjectFamily.GENERAL
+}
+
+/**
+ * The hue a family falls back to when the exact subject name is not on the
+ * list. Six of these are the canonical subject's own hue, so "Physics -
+ * Technical Stream" comes out the same blue as "Physics" instead of brand blue.
+ * The three that have no canonical subject — science, social, health — get
+ * their own, chosen to sit clear of the ten already in use.
+ */
+private val SubjectFamilyHues: Map<SubjectFamily, SubjectHue> = mapOf(
+    SubjectFamily.PHYSICS to SubjectHues.getValue("Physics"),
+    SubjectFamily.CHEMISTRY to SubjectHues.getValue("Chemistry"),
+    SubjectFamily.MATH to SubjectHues.getValue("Mathematics"),
+    SubjectFamily.BIOLOGY to SubjectHues.getValue("Biology"),
+    SubjectFamily.LANGUAGE to SubjectHues.getValue("English"),
+    SubjectFamily.COMPUTING to SubjectHues.getValue("Computer Science"),
+    SubjectFamily.COMMERCE to SubjectHues.getValue("Economics"),
+    SubjectFamily.EXAM to SubjectHues.getValue("Exam Tips"),
+    // Jade. Clear of Chemistry's forest green and Biology's teal.
+    SubjectFamily.SCIENCE to SubjectHue(
+        Color(0xFF047857), Color(0xFFD1FAE5), Color(0xFF04604A),
+        Color(0xFF6EDCB4), Color(0xFF0D2E25), Color(0xFFCFF5E6)
+    ),
+    // Steel. Maps, civics and history read as slate, not as another warm hue.
+    SubjectFamily.SOCIAL to SubjectHue(
+        Color(0xFF3F5A8A), Color(0xFFDDE6F6), Color(0xFF2C4066),
+        Color(0xFF9CB7E8), Color(0xFF1B2638), Color(0xFFD9E4F7)
+    ),
+    // Rose. Sits between Mathematics' brick red and Accountancy's magenta, and
+    // is the one hue a pulse line can be drawn in without looking like an error.
+    SubjectFamily.HEALTH to SubjectHue(
+        Color(0xFFBE123C), Color(0xFFFFE4E9), Color(0xFF8F0E2E),
+        Color(0xFFFF9BB0), Color(0xFF3D1520), Color(0xFFFFD9E1)
+    ),
+    SubjectFamily.GENERAL to BrandSubjectHue
+)
+
+private fun subjectHue(subject: String): SubjectHue =
+    SubjectHues[subject]
+        ?: SubjectHues.entries.firstOrNull { it.key.equals(subject, ignoreCase = true) }?.value
+        ?: SubjectFamilyHues[subjectFamily(subject)]
+        ?: BrandSubjectHue
+
 @Composable
 @ReadOnlyComposable
 fun getSubjectTheme(subject: String): SubjectTheme {
-    val scheme = MaterialTheme.colorScheme
-    return SubjectTheme(
-        color = scheme.onSurface,
-        container = scheme.surfaceContainerHigh,
-        onContainer = scheme.onSurface
-    )
+    val hue = subjectHue(subject)
+    return if (MaterialTheme.colorScheme.surface.luminance() < 0.5f) {
+        SubjectTheme(hue.dark, hue.darkContainer, hue.onDarkContainer)
+    } else {
+        SubjectTheme(hue.light, hue.lightContainer, hue.onLightContainer)
+    }
 }
 
 @Composable
 @ReadOnlyComposable
-fun getSubjectColor(subject: String): Color = MaterialTheme.colorScheme.onSurface
+fun getSubjectColor(subject: String): Color = getSubjectTheme(subject).color
 
 /**
- * The same accent where there is no composition to read it from — a media
- * notification, a service, a value cached in a view model. Chosen to hold up on
- * both paper and ink, since whatever reads it cannot know which one it is on.
+ * The brand where there is no composition to read it from — a media
+ * notification, a service, a value cached in a view model. The brand blue rather
+ * than a subject's own hue, because whatever reads this cannot know which
+ * surface it will be drawn on and the blue is the one that holds up on both.
  */
-val SubjectAccentStatic: Color = Graphite.N48
+val SubjectAccentStatic: Color = NebBrandRamp.B40
 
-fun subjectAccentArgb(): Long = 0xFF57575CL
+fun subjectAccentArgb(): Long = 0xFF004AC6L
 
 // ---------------------------------------------------------------------------
-// Accents, spent sparingly.
+// Accents.
 //
-// The ramp above still carries the app. These four hues exist for the few
-// places where several choices are presented at once and the user is picking
-// between them rather than reading them — the create menu is the case that
-// asked for them. Each is desaturated enough to sit on graphite without
-// shouting, and carries a light and a dark value so the contrast against a
-// tinted container holds either way.
+// The brand blue is the voice of action and the ramp carries the page. These
+// hues are for the places where several choices sit side by side and the user is
+// picking between them rather than reading them — the create menu is the case
+// that asked for them, and the resource actions followed.
 //
-// They are never load-bearing: nothing is only knowable by its hue.
+// Each carries a light and a dark value so the contrast holds either way, and
+// none of them is load-bearing: nothing is knowable only by its hue.
 // ---------------------------------------------------------------------------
 
 @Immutable
 data class NebAccent(val light: Color, val dark: Color)
 
 object NebAccents {
-    val Indigo = NebAccent(Color(0xFF4A42D6), Color(0xFFA9A3FF))
-    val Amber = NebAccent(Color(0xFF8F5507), Color(0xFFE5A84C))
-    val Teal = NebAccent(Color(0xFF0B6A62), Color(0xFF4FD3C0))
-    val Rose = NebAccent(Color(0xFFA8271F), Color(0xFFFF9186))
+    /** The brand itself, for the accent slot that should read as "the app". */
+    val Brand = NebAccent(Color(0xFF004AC6), Color(0xFFB4C5FF))
+    val Indigo = NebAccent(Color(0xFF4F46E5), Color(0xFFB4B0FF))
+    val Violet = NebAccent(Color(0xFF7C3AED), Color(0xFFC9B6FE))
+    val Amber = NebAccent(Color(0xFF9A6206), Color(0xFFE8B457))
+    val Teal = NebAccent(Color(0xFF0F766E), Color(0xFF5FD3C4))
+    val Green = NebAccent(Color(0xFF15803D), Color(0xFF7CD9A0))
+    val Cyan = NebAccent(Color(0xFF0E7490), Color(0xFF5CC8E0))
+    val Rose = NebAccent(Color(0xFFB3261E), Color(0xFFFF9186))
+    val Pink = NebAccent(Color(0xFF9D174D), Color(0xFFF79CC0))
 }
 
 @Composable

@@ -8,7 +8,6 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'web/css/pages/study-lab.css' %}">
-<link rel="stylesheet" href="{% static 'web/css/pages/upload.css' %}">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" nonce="{{ csp_nonce }}">
 <link rel="stylesheet" href="{% static 'web/css/pages/study-space.css' %}?v=1.3">
 <link rel="stylesheet" href="{% static 'web/css/pages/collab-board.css' %}?v=1.6">
@@ -79,34 +78,46 @@
     </aside>
 
     <main class="ss-main" id="ssMain">
-      <div class="ss-tabs-wrap" id="ssTabsWrap">
-      <div class="ss-tabs" id="ssTabs">
-        <button class="ss-tab ss-tab-active" data-tab="summary" data-action="ss-switch-tab">
-          <span class="material-symbols-outlined">summarize</span> Summary
+      {% comment %}
+        NebTabRail. These six were a row of underlined tabs drawn twice in CSS,
+        once in study-space.css and again in study-lab/05-space.css, wrapped in a
+        second element whose only job was a fade at the right edge that a script
+        turned on and off as the row scrolled. The rail scrolls the selected tab
+        into view itself, so the wrapper, the gradient and the script are all
+        gone with it.
+      {% endcomment %}
+      <nav class="neb-rail neb-rail-divided" id="ssTabs" role="tablist" aria-label="Study space views" style="margin-bottom:18px;">
+        <button type="button" class="neb-rail-item" role="tab" aria-selected="true" data-tab="summary" data-action="ss-switch-tab">
+          <span class="material-symbols-outlined">summarize</span>
+          <span class="neb-rail-label">Summary</span>
         </button>
-        <button class="ss-tab" data-tab="mindmap" data-action="ss-switch-tab">
-          <span class="material-symbols-outlined">account_tree</span> Mindmap
+        <button type="button" class="neb-rail-item" role="tab" aria-selected="false" data-tab="mindmap" data-action="ss-switch-tab">
+          <span class="material-symbols-outlined">account_tree</span>
+          <span class="neb-rail-label">Mindmap</span>
         </button>
-        <button class="ss-tab" data-tab="quiz" data-action="ss-switch-tab">
-          <span class="material-symbols-outlined">quiz</span> Quiz
+        <button type="button" class="neb-rail-item" role="tab" aria-selected="false" data-tab="quiz" data-action="ss-switch-tab">
+          <span class="material-symbols-outlined">quiz</span>
+          <span class="neb-rail-label">Quiz</span>
         </button>
-        <button class="ss-tab" data-tab="flashcards" data-action="ss-switch-tab">
-          <span class="material-symbols-outlined">style</span> Flashcards
+        <button type="button" class="neb-rail-item" role="tab" aria-selected="false" data-tab="flashcards" data-action="ss-switch-tab">
+          <span class="material-symbols-outlined">style</span>
+          <span class="neb-rail-label">Flashcards</span>
         </button>
-        <button class="ss-tab" data-tab="notes" data-action="ss-switch-tab">
-          <span class="material-symbols-outlined">draw</span> Board
+        <button type="button" class="neb-rail-item" role="tab" aria-selected="false" data-tab="notes" data-action="ss-switch-tab">
+          <span class="material-symbols-outlined">draw</span>
+          <span class="neb-rail-label">Board</span>
         </button>
-        <button class="ss-tab" data-tab="learningPath" data-action="ss-switch-tab">
-          <span class="material-symbols-outlined">route</span> Learning Path
+        <button type="button" class="neb-rail-item" role="tab" aria-selected="false" data-tab="learningPath" data-action="ss-switch-tab">
+          <span class="material-symbols-outlined">route</span>
+          <span class="neb-rail-label">Learning Path</span>
         </button>
-      </div>
-      </div>
+      </nav>
 
       <!-- Summary tab -->
       <div class="ss-tab-content ss-tab-content-active" id="ssTabSummary">
-        <div class="ss-mode-bar" id="ssSummaryModebar">
-          <button class="ss-mode-btn ss-mode-active" data-mode="compact" data-action="ss-summary-mode">Compact</button>
-          <button class="ss-mode-btn" data-mode="detailed" data-action="ss-summary-mode">Detailed</button>
+        <div class="neb-segmented" id="ssSummaryModebar" role="group" aria-label="Summary length" style="margin-bottom:14px;">
+          <button type="button" class="neb-segment" data-mode="compact" data-action="ss-summary-mode" aria-pressed="true">Compact</button>
+          <button type="button" class="neb-segment" data-mode="detailed" data-action="ss-summary-mode" aria-pressed="false">Detailed</button>
         </div>
         <div class="ss-gen-prompt" id="ssSummaryPrompt">
           <p id="ssSummaryPromptText">Generate a study summary from all documents in this space.</p>
@@ -115,7 +126,7 @@
           </button>
         </div>
         <div class="ss-loading" id="ssSummaryLoading" style="display:none;">
-          <div class="ss-spinner"></div>
+          <div class="ss-spinner md-loader"></div>
           <p>Generating summary across all documents...</p>
         </div>
         <div id="ssSummaryContent" style="display:none;">
@@ -144,7 +155,7 @@
           <button class="md-btn md-btn-filled" data-action="ss-generate-mindmap">Generate Mindmap</button>
         </div>
         <div class="ss-loading" id="ssMindmapLoading" style="display:none;">
-          <div class="ss-spinner"></div>
+          <div class="ss-spinner md-loader"></div>
           <p>Building mindmap...</p>
         </div>
         <div id="ssMindmapContent" style="display:none;">
@@ -170,11 +181,19 @@
           <p>Generate a quiz from all documents in this space. New questions avoid previous ones.</p>
           <div class="sl-quiz-options">
             <span class="filter-section-label">Questions</span>
-            <div class="ss-count-picker" id="ssQuizCountPicker" data-target="ssQuizCount">
-              <button type="button" class="ss-count-choice" data-action="ss-count-choice" data-value="5">5</button>
-              <button type="button" class="ss-count-choice active" data-action="ss-count-choice" data-value="10">10</button>
-              <button type="button" class="ss-count-choice" data-action="ss-count-choice" data-value="15">15</button>
-              <button type="button" class="ss-count-choice" data-action="ss-count-choice" data-value="20">20</button>
+            {% comment %}
+              NebSegmentedChoice. This and the two banks below it were a bespoke count
+              picker -- its own track, its own pill, its own .active class -- drawn
+              twice in CSS, once in study-lab/05-space.css and again in
+              study-space.css, which is how the two copies came to disagree about
+              padding and font weight. One component now, and the pill travels between
+              answers the way the app's does.
+            {% endcomment %}
+            <div class="neb-segmented" id="ssQuizCountPicker" role="group" aria-label="Questions" data-target="ssQuizCount">
+              <button type="button" class="neb-segment" data-action="ss-count-choice" data-value="5" aria-pressed="false">5</button>
+              <button type="button" class="neb-segment" data-action="ss-count-choice" data-value="10" aria-pressed="true">10</button>
+              <button type="button" class="neb-segment" data-action="ss-count-choice" data-value="15" aria-pressed="false">15</button>
+              <button type="button" class="neb-segment" data-action="ss-count-choice" data-value="20" aria-pressed="false">20</button>
             </div>
             <input type="hidden" id="ssQuizCount" value="10">
           </div>
@@ -184,7 +203,7 @@
           <div class="ss-section-label"><span class="material-symbols-outlined" style="font-size:16px;">history</span> Previous Quizzes</div>
           <div id="ssQuizHistoryList" class="ss-quiz-history-list"></div>
         </div>
-        <div class="ss-loading" id="ssQuizLoading" style="display:none;"><div class="ss-spinner"></div><p>Generating quiz questions...</p></div>
+        <div class="ss-loading" id="ssQuizLoading" style="display:none;"><div class="ss-spinner md-loader"></div><p>Generating quiz questions...</p></div>
         <div class="ss-exam-timer" id="ssExamTimer" aria-live="polite">
           <span class="ss-exam-timer-label"><span class="material-symbols-outlined">timer</span> Exam mode</span>
           <span class="ss-exam-timer-clock" id="ssExamTimerClock">--:--</span>
@@ -192,7 +211,7 @@
         </div>
         <div id="ssQuizActive" style="display:none;"></div>
         <div id="ssQuizResults" style="display:none;"></div>
-        <p class="sl-keyboard-hint" id="ssQuizKeyHint" style="display:none;"><kbd>A</kbd>–<kbd>D</kbd> or <kbd>1</kbd>–<kbd>4</kbd> answer · <kbd>←</kbd><kbd>→</kbd> navigate · <kbd>Enter</kbd> next / submit</p>
+        <p class="sl-keyboard-hint" id="ssQuizKeyHint" style="display:none;"><kbd>A</kbd>–<kbd>D</kbd> or <kbd>1</kbd>–<kbd>4</kbd> answer, <kbd>←</kbd><kbd>→</kbd> navigate, <kbd>Enter</kbd> next / submit</p>
       </div>
 
       <!-- Flashcards tab -->
@@ -202,19 +221,19 @@
           <p>Generate flashcards from all documents in this space. New cards avoid previous ones.</p>
           <div class="sl-flash-options">
             <span class="filter-section-label">Cards</span>
-            <div class="ss-count-picker" id="ssFlashCountPicker" data-target="ssFlashCount">
-              <button type="button" class="ss-count-choice active" data-action="ss-count-choice" data-value="8">8</button>
-              <button type="button" class="ss-count-choice" data-action="ss-count-choice" data-value="12">12</button>
-              <button type="button" class="ss-count-choice" data-action="ss-count-choice" data-value="20">20</button>
-              <button type="button" class="ss-count-choice" data-action="ss-count-choice" data-value="30">30</button>
+            <div class="neb-segmented" id="ssFlashCountPicker" role="group" aria-label="Cards" data-target="ssFlashCount">
+              <button type="button" class="neb-segment" data-action="ss-count-choice" data-value="8" aria-pressed="true">8</button>
+              <button type="button" class="neb-segment" data-action="ss-count-choice" data-value="12" aria-pressed="false">12</button>
+              <button type="button" class="neb-segment" data-action="ss-count-choice" data-value="20" aria-pressed="false">20</button>
+              <button type="button" class="neb-segment" data-action="ss-count-choice" data-value="30" aria-pressed="false">30</button>
             </div>
             <input type="hidden" id="ssFlashCount" value="8">
           </div>
           <button class="md-btn md-btn-filled" data-action="ss-generate-flashcards">Generate Flashcards</button>
         </div>
-        <div class="ss-loading" id="ssFlashLoading" style="display:none;"><div class="ss-spinner"></div><p>Generating flashcards...</p></div>
+        <div class="ss-loading" id="ssFlashLoading" style="display:none;"><div class="ss-spinner md-loader"></div><p>Generating flashcards...</p></div>
         <div id="ssFlashDeck" style="display:none;"></div>
-        <p class="sl-keyboard-hint" id="ssFlashKeyHint" style="display:none;"><kbd>Space</kbd> flip · <kbd>←</kbd><kbd>→</kbd> navigate · <kbd>H</kbd> hard · <kbd>O</kbd> okay · <kbd>E</kbd> easy</p>
+        <p class="sl-keyboard-hint" id="ssFlashKeyHint" style="display:none;"><kbd>Space</kbd> flip, <kbd>←</kbd><kbd>→</kbd> navigate, <kbd>H</kbd> hard, <kbd>O</kbd> okay, <kbd>E</kbd> easy</p>
       </div>
 
 
@@ -249,11 +268,11 @@
             <div class="ss-learning-empty-desc">Turn your PDFs and notes into a guided day-by-day study plan with daily goals, tasks, and checkpoints.</div>
             <div class="ss-ai-actions" style="justify-content:center; margin-top:16px;">
               <span class="filter-section-label">Days</span>
-              <div class="ss-count-picker" id="ssLearningDaysPicker" data-target="ssLearningDays">
-                <button type="button" class="ss-count-choice" data-action="ss-count-choice" data-value="7">7</button>
-                <button type="button" class="ss-count-choice active" data-action="ss-count-choice" data-value="10">10</button>
-                <button type="button" class="ss-count-choice" data-action="ss-count-choice" data-value="14">14</button>
-                <button type="button" class="ss-count-choice" data-action="ss-count-choice" data-value="21">21</button>
+              <div class="neb-segmented" id="ssLearningDaysPicker" role="group" aria-label="Days" data-target="ssLearningDays">
+                <button type="button" class="neb-segment" data-action="ss-count-choice" data-value="7" aria-pressed="false">7</button>
+                <button type="button" class="neb-segment" data-action="ss-count-choice" data-value="10" aria-pressed="true">10</button>
+                <button type="button" class="neb-segment" data-action="ss-count-choice" data-value="14" aria-pressed="false">14</button>
+                <button type="button" class="neb-segment" data-action="ss-count-choice" data-value="21" aria-pressed="false">21</button>
               </div>
               <input type="hidden" id="ssLearningDays" value="10">
               <button class="md-btn md-btn-filled" data-action="ss-generate-learning-path">Generate my plan</button>
@@ -261,11 +280,13 @@
             </div>
           </div>
           <div class="ss-learning-loading" id="ssLearningLoading" style="display:none;">
-            <div class="ss-loading-skeleton ss-loading-skeleton-full"></div>
-            <div class="ss-loading-skeleton ss-loading-skeleton-full"></div>
-            <div class="ss-loading-skeleton ss-loading-skeleton-half"></div>
-            <div class="ss-loading-skeleton ss-loading-skeleton-full"></div>
-            <div class="ss-loading-skeleton ss-loading-skeleton-half"></div>
+            {% comment %} The site's skeleton, the same one base.html shows
+            while a lazy section loads. {% endcomment %}
+            <div class="shimmer shimmer-text"></div>
+            <div class="shimmer shimmer-text"></div>
+            <div class="shimmer shimmer-text-short"></div>
+            <div class="shimmer shimmer-text"></div>
+            <div class="shimmer shimmer-text-short"></div>
             <div style="text-align:center; margin-top:12px;"><span class="ss-text-xs">Planning your study path&hellip;</span></div>
           </div>
           <div class="ss-learning-plan" id="ssLearningPlan" style="display:none;"></div>
@@ -462,11 +483,24 @@
       <button class="modal-close" data-action="cb-close-file-picker"><span class="material-symbols-outlined">close</span></button>
     </div>
     <div class="modal-body" style="padding-bottom:16px;">
-      <div class="ss-doc-select-tabs" id="cbFileTabs" style="margin-bottom:12px; display: flex; gap: 8px; border-bottom: 1px solid var(--md-outline-variant, rgba(0,0,0,0.1)); padding-bottom: 8px;">
-        <button class="ss-doc-tab ss-doc-tab-active" id="cbTabLocal" style="background:transparent; border:none; padding:8px 12px; font-weight:600; cursor:pointer;" data-action="cb-file-tab" data-tab="local">Upload Local</button>
-        <button class="ss-doc-tab" id="cbTabSpace" style="background:transparent; border:none; padding:8px 12px; font-weight:600; cursor:pointer;" data-action="cb-file-tab" data-tab="space">This Space</button>
-        <button class="ss-doc-tab" id="cbTabCommunity" style="background:transparent; border:none; padding:8px 12px; font-weight:600; cursor:pointer;" data-action="cb-file-tab" data-tab="community">Community Library</button>
-      </div>
+      {% comment %}
+        NebTabRail. Three buttons carrying their own borders, paddings and
+        weights inline, over a class that drew a fourth set underneath them.
+      {% endcomment %}
+      <nav class="neb-rail neb-rail-divided neb-rail-flush" id="cbFileTabs" role="tablist" aria-label="File source" style="margin-bottom:12px;">
+        <button type="button" class="neb-rail-item" role="tab" aria-selected="true" id="cbTabLocal" data-action="cb-file-tab" data-tab="local">
+          <span class="material-symbols-outlined">upload</span>
+          <span class="neb-rail-label">Upload Local</span>
+        </button>
+        <button type="button" class="neb-rail-item" role="tab" aria-selected="false" id="cbTabSpace" data-action="cb-file-tab" data-tab="space">
+          <span class="material-symbols-outlined">groups</span>
+          <span class="neb-rail-label">This Space</span>
+        </button>
+        <button type="button" class="neb-rail-item" role="tab" aria-selected="false" id="cbTabCommunity" data-action="cb-file-tab" data-tab="community">
+          <span class="material-symbols-outlined">public</span>
+          <span class="neb-rail-label">Community Library</span>
+        </button>
+      </nav>
       
       <!-- Local Tab -->
       <div class="cb-file-pane" id="cbPaneLocal">
@@ -498,10 +532,16 @@
         <button class="modal-close" data-action="ss-close-select-doc"><span class="material-symbols-outlined">close</span></button>
       </div>
       <div class="modal-body" style="padding-bottom:8px;">
-        <div class="ss-doc-select-tabs" id="ssDocSelectTabs">
-          <button class="ss-doc-tab ss-doc-tab-active" data-tab="docs" data-action="ss-doc-tab">Study Documents</button>
-          <button class="ss-doc-tab" data-tab="resources" data-action="ss-doc-tab">Resources</button>
-        </div>
+        <nav class="neb-rail neb-rail-divided neb-rail-flush" id="ssDocSelectTabs" role="tablist" aria-label="Document source" style="margin-bottom:12px;">
+          <button type="button" class="neb-rail-item" role="tab" aria-selected="true" data-tab="docs" data-action="ss-doc-tab">
+            <span class="material-symbols-outlined">description</span>
+            <span class="neb-rail-label">Study Documents</span>
+          </button>
+          <button type="button" class="neb-rail-item" role="tab" aria-selected="false" data-tab="resources" data-action="ss-doc-tab">
+            <span class="material-symbols-outlined">auto_stories</span>
+            <span class="neb-rail-label">Resources</span>
+          </button>
+        </nav>
         <div class="ss-doc-select-list" id="ssDocSelectList"></div>
         <div class="ss-doc-select-list" id="ssResourceSelectList" style="display:none;"></div>
       </div>

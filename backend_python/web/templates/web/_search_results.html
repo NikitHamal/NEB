@@ -1,22 +1,30 @@
 {% load static web_extras %}
 <div id="search-results">
   {% if query %}
-  <!-- Tab switcher -->
-  <div class="search-tabs" style="margin-top:16px;">
-    <a href="{% url 'web:search' %}?q={{ query }}" class="md-tab {% if tab == 'all' %}md-tab-active{% endif %}" hx-get="{% url 'web:search' %}?q={{ query }}&tab=all" hx-target="#search-results" hx-push-url="true">All</a>
-    <a href="{% url 'web:search' %}?q={{ query }}&tab=resources" class="md-tab {% if tab == 'resources' %}md-tab-active{% endif %}" hx-get="{% url 'web:search' %}?q={{ query }}&tab=resources" hx-target="#search-results" hx-push-url="true">
+  {% comment %}
+    NebTabRail. This was the last screen still on .md-tab -- the underlined
+    tab the design system shipped before the rail existed, and the only
+    template left using it. Four answers to the same question the library, the
+    profile, the notifications and the bookmarks now all answer with one
+    composable's worth of markup.
+  {% endcomment %}
+  <nav class="neb-rail neb-rail-divided" role="tablist" aria-label="Search results" style="margin:16px 0;">
+    <a href="{% url 'web:search' %}?q={{ query }}" class="neb-rail-item" role="tab" aria-selected="{% if tab == 'all' %}true{% else %}false{% endif %}" hx-get="{% url 'web:search' %}?q={{ query }}&tab=all" hx-target="#search-results" hx-push-url="true">
+      <span class="neb-rail-label">All</span>
+    </a>
+    <a href="{% url 'web:search' %}?q={{ query }}&tab=resources" class="neb-rail-item" role="tab" aria-selected="{% if tab == 'resources' %}true{% else %}false{% endif %}" hx-get="{% url 'web:search' %}?q={{ query }}&tab=resources" hx-target="#search-results" hx-push-url="true">
       <span class="material-symbols-outlined">auto_stories</span>
-      Resources
+      <span class="neb-rail-label">Resources</span>
     </a>
-    <a href="{% url 'web:search' %}?q={{ query }}&tab=posts" class="md-tab {% if tab == 'posts' %}md-tab-active{% endif %}" hx-get="{% url 'web:search' %}?q={{ query }}&tab=posts" hx-target="#search-results" hx-push-url="true">
+    <a href="{% url 'web:search' %}?q={{ query }}&tab=posts" class="neb-rail-item" role="tab" aria-selected="{% if tab == 'posts' %}true{% else %}false{% endif %}" hx-get="{% url 'web:search' %}?q={{ query }}&tab=posts" hx-target="#search-results" hx-push-url="true">
       <span class="material-symbols-outlined">forum</span>
-      Posts
+      <span class="neb-rail-label">Posts</span>
     </a>
-    <a href="{% url 'web:search' %}?q={{ query }}&tab=users" class="md-tab {% if tab == 'users' %}md-tab-active{% endif %}" hx-get="{% url 'web:search' %}?q={{ query }}&tab=users" hx-target="#search-results" hx-push-url="true">
+    <a href="{% url 'web:search' %}?q={{ query }}&tab=users" class="neb-rail-item" role="tab" aria-selected="{% if tab == 'users' %}true{% else %}false{% endif %}" hx-get="{% url 'web:search' %}?q={{ query }}&tab=users" hx-target="#search-results" hx-push-url="true">
       <span class="material-symbols-outlined">group</span>
-      Users
+      <span class="neb-rail-label">Users</span>
     </a>
-  </div>
+  </nav>
 
   {% if tab == 'resources' %}
     {% if resource_results %}
@@ -26,12 +34,10 @@
         {% for r in resource_results %}
         <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card subject-{{ r.subject|split:','|first|subject_slug }}">
           <div class="resource-card-art">
-            <svg viewBox="0 0 300 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="300" height="120" fill="var(--art-c1)"/>
-              <path d="M0,120 L0,70 Q40,20 100,55 Q160,90 220,45 Q270,10 300,50 L300,120Z" fill="var(--art-c2)" opacity="0.5"/>
-              <path d="M0,120 L0,85 Q60,40 130,70 Q200,100 260,60 L300,75 L300,120Z" fill="var(--art-c3)" opacity="0.35"/>
-              <path d="M0,120 L0,95 Q80,65 160,85 Q240,105 300,80 L300,120Z" fill="var(--art-c4)" opacity="0.2"/>
-            </svg>
+            {# Generative banner art. Same seed, same drawing as the Android app. #}
+            <div class="neb-art" data-neb-art="banner"
+                 data-neb-subject="{{ r.subject|split:','|first }}"
+                 data-neb-seed="{{ r.id }}|{{ r.type }}"></div>
             {% if r.thumbnail_url %}
               <img src="{{ r.thumbnail_url }}" alt="" class="resource-card-art-img" loading="lazy">
             {% endif %}
@@ -49,10 +55,10 @@
             </div>
             <div class="resource-card-title">{% if r.highlight and r.highlight.title %}{{ r.highlight.title|safe }}{% else %}{{ r.title }}{% endif %}</div>
             <div class="resource-card-meta">
-              {{ r.grade_level }}{% if r.file_size %} &middot; {{ r.file_size|file_size_human }}{% endif %}
+              {{ r.grade_level }}{% if r.file_size %}, {{ r.file_size|file_size_human }}{% endif %}
             </div>
             <div class="resource-card-stats">
-              <span class="material-symbols-outlined">visibility</span> {{ r.view_count|short_number }} &middot; {{ r.added_at|time_ago }}
+              <span class="material-symbols-outlined">visibility</span> {{ r.view_count|short_number }} views, {{ r.added_at|time_ago }}
             </div>
           </div>
         </a>
@@ -93,7 +99,6 @@
             </div>
             <div class="post-meta-sub">
               <a href="{% url 'web:forum' %}?category={{ post.category }}" class="post-card-category-link">{{ post.category }}</a>
-              <span class="dot-sep">&middot;</span>
               <span class="post-card-time">{{ post.createdAt|time_ago }}</span>
             </div>
           </div>
@@ -176,7 +181,6 @@
                 <span class="role-badge role-badge-{{ u.badgeInfo.type }}" title="{{ u.badgeInfo.label }}"><span class="material-symbols-outlined">{{ u.badgeInfo.icon }}</span></span>
                 {% endif %}
                 <span class="user-search-handle">@{{ u.username }}</span>
-                <span class="user-search-dot">&middot;</span>
                 <span class="user-search-followers">
                   <span class="material-symbols-outlined">group</span>
                   {{ u.followerCount|default:0 }} follower{{ u.followerCount|default:0|pluralize }}
@@ -185,7 +189,7 @@
               {% if u.bio %}
               <div class="user-search-bio">{{ u.bio|truncate_chars:90 }}</div>
               {% elif u.school or u.classLevel %}
-              <div class="user-search-bio">{% if u.classLevel %}{{ u.classLevel }}{% endif %}{% if u.classLevel and u.school %} &middot; {% endif %}{% if u.school %}{{ u.school }}{% endif %}</div>
+              <div class="user-search-bio">{% if u.classLevel %}{{ u.classLevel }}{% endif %}{% if u.classLevel and u.school %}, {% endif %}{% if u.school %}{{ u.school }}{% endif %}</div>
               {% endif %}
             </div>
           </a>
@@ -223,12 +227,10 @@
           {% for r in resource_results|slice:":6" %}
           <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card subject-{{ r.subject|split:','|first|subject_slug }}">
             <div class="resource-card-art">
-              <svg viewBox="0 0 300 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="300" height="120" fill="var(--art-c1)"/>
-                <path d="M0,120 L0,70 Q40,20 100,55 Q160,90 220,45 Q270,10 300,50 L300,120Z" fill="var(--art-c2)" opacity="0.5"/>
-                <path d="M0,120 L0,85 Q60,40 130,70 Q200,100 260,60 L300,75 L300,120Z" fill="var(--art-c3)" opacity="0.35"/>
-                <path d="M0,120 L0,95 Q80,65 160,85 Q240,105 300,80 L300,120Z" fill="var(--art-c4)" opacity="0.2"/>
-              </svg>
+              {# Generative banner art. Same seed, same drawing as the Android app. #}
+              <div class="neb-art" data-neb-art="banner"
+                   data-neb-subject="{{ r.subject|split:','|first }}"
+                   data-neb-seed="{{ r.id }}|{{ r.type }}"></div>
               {% if r.thumbnail_url %}
                 <img src="{{ r.thumbnail_url }}" alt="" class="resource-card-art-img" loading="lazy">
               {% endif %}
@@ -246,10 +248,10 @@
               </div>
               <div class="resource-card-title">{% if r.highlight and r.highlight.title %}{{ r.highlight.title|safe }}{% else %}{{ r.title }}{% endif %}</div>
               <div class="resource-card-meta">
-                {{ r.grade_level }}{% if r.file_size %} &middot; {{ r.file_size|file_size_human }}{% endif %}
+                {{ r.grade_level }}{% if r.file_size %}, {{ r.file_size|file_size_human }}{% endif %}
               </div>
               <div class="resource-card-stats">
-                <span class="material-symbols-outlined">visibility</span> {{ r.view_count|short_number }} &middot; {{ r.added_at|time_ago }}
+                <span class="material-symbols-outlined">visibility</span> {{ r.view_count|short_number }} views, {{ r.added_at|time_ago }}
               </div>
             </div>
           </a>
@@ -287,7 +289,6 @@
                   <span class="role-badge role-badge-{{ u.badgeInfo.type }}" title="{{ u.badgeInfo.label }}"><span class="material-symbols-outlined">{{ u.badgeInfo.icon }}</span></span>
                   {% endif %}
                   <span class="user-search-handle">@{{ u.username }}</span>
-                  <span class="user-search-dot">&middot;</span>
                   <span class="user-search-followers">
                     <span class="material-symbols-outlined">group</span>
                     {{ u.followerCount|default:0 }} follower{{ u.followerCount|default:0|pluralize }}
@@ -296,7 +297,7 @@
                 {% if u.bio %}
                 <div class="user-search-bio">{{ u.bio|truncate_chars:90 }}</div>
                 {% elif u.school or u.classLevel %}
-                <div class="user-search-bio">{% if u.classLevel %}{{ u.classLevel }}{% endif %}{% if u.classLevel and u.school %} &middot; {% endif %}{% if u.school %}{{ u.school }}{% endif %}</div>
+                <div class="user-search-bio">{% if u.classLevel %}{{ u.classLevel }}{% endif %}{% if u.classLevel and u.school %}, {% endif %}{% if u.school %}{{ u.school }}{% endif %}</div>
                 {% endif %}
               </div>
             </a>
@@ -343,7 +344,6 @@
               </div>
               <div class="post-meta-sub">
                 <a href="{% url 'web:forum' %}?category={{ post.category }}" class="post-card-category-link">{{ post.category }}</a>
-                <span class="dot-sep">&middot;</span>
                 <span class="post-card-time">{{ post.createdAt|time_ago }}</span>
               </div>
             </div>

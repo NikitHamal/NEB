@@ -163,52 +163,41 @@ fun LiquidGlassBottomNav(
 ) {
     val isDark = MaterialTheme.colorScheme.surface.luminanceIsDark()
     val isLowEnd = com.neb.ians.util.rememberIsLowEndDevice()
-    val glassBrush = remember(isDark) {
+    val scheme = MaterialTheme.colorScheme
+
+    // The bar is opaque, and that is the point of this block.
+    //
+    // It used to be a 92%-alpha gradient over two hardcoded greys, which cost it
+    // twice. The greys predate the colour revamp, so on a page built from the
+    // blue-tinted neutral ramp the bar read as the one grey object on the
+    // screen. And eight percent of a paragraph of body text showing through a
+    // navigation bar is still legible enough to fight the labels sitting on it.
+    // A bar you can read the page through is not a surface, it is a smudge.
+    //
+    // So: full alpha, scheme tokens, and the faintest vertical fall so it still
+    // has a top edge to catch the light on.
+    val barBrush = remember(isDark, scheme) {
         if (isDark) {
-            Brush.verticalGradient(
-                listOf(
-                    Color(0xFF18181B).copy(alpha = 0.94f),
-                    Color(0xFF101012).copy(alpha = 0.90f)
-                )
-            )
+            Brush.verticalGradient(listOf(scheme.surfaceContainerHigh, scheme.surfaceContainer))
         } else {
-            Brush.verticalGradient(
-                listOf(
-                    Color.White.copy(alpha = 0.96f),
-                    Color(0xFFF1F1F3).copy(alpha = 0.92f)
-                )
-            )
+            Brush.verticalGradient(listOf(scheme.surfaceContainerLowest, scheme.surfaceContainerLow))
         }
     }
-    val primaryColor = MaterialTheme.colorScheme.primary
-    val createBrush = remember(primaryColor) {
-        Brush.verticalGradient(
-            listOf(
-                primaryColor,
-                primaryColor.copy(alpha = 0.86f)
-            )
-        )
-    }
-    val borderBrush = remember(isDark) {
-        if (isDark) {
-            Brush.verticalGradient(
-                listOf(
-                    Color.White.copy(alpha = 0.22f),
-                    Color.White.copy(alpha = 0.05f)
-                )
-            )
-        } else {
-            Brush.verticalGradient(
-                listOf(
-                    Color.White,
-                    Color(0xFFDCDCE0).copy(alpha = 0.6f)
-                )
-            )
-        }
-    }
+
+    // One hairline, the same one every other card in the app uses. The old
+    // white-to-grey gradient rim lit the bar from inside and made it look
+    // inflated next to the create button.
+    val barBorder = scheme.outlineVariant
+
+    val primaryColor = scheme.primary
     val navHeight = 58.dp
-    val shadowElevation = if (isLowEnd) 4.dp else 16.dp
-    val shadowAlpha = if (isLowEnd) 0.08f else 0.16f
+    // The create button sits inside the bar's height rather than matching it.
+    // The clover's lobes push past its own bounds more than a circle does, so at
+    // equal sizes it measured level and read taller — which is what put it out
+    // of step with the rail in the first place.
+    val createSize = 52.dp
+    val shadowElevation = if (isLowEnd) 4.dp else 14.dp
+    val shadowAlpha = if (isLowEnd) 0.08f else 0.14f
 
     Box(
         modifier = modifier
@@ -237,8 +226,8 @@ fun LiquidGlassBottomNav(
                             spotColor = Color.Black.copy(alpha = shadowAlpha)
                         )
                         .clip(CircleShape)
-                        .background(glassBrush)
-                        .border(1.dp, borderBrush, CircleShape)
+                        .background(barBrush)
+                        .border(1.dp, barBorder, CircleShape)
                         .padding(horizontal = 6.dp),
                     horizontalArrangement = Arrangement.spacedBy(4.dp),
                     verticalAlignment = Alignment.CenterVertically
@@ -264,30 +253,56 @@ fun LiquidGlassBottomNav(
                         label = "createMorph"
                     )
 
+                    // The create button is the one control on the bar that is not
+                    // a circle or a rounded rectangle. It is Expressive's
+                    // four-lobed clover — a scalloped polygon, so it reads as a
+                    // deliberate object next to the pill-shaped nav rail rather
+                    // than as one more round button.
+                    //
+                    // Opening the menu spins it 40 degrees. Because the
+                    // lobes are not rotationally symmetric at that angle, the
+                    // silhouette visibly reshapes itself on the way round: the
+                    // shape does the morphing, and the glyph underneath only has
+                    // to cross-fade from plus to close.
+                    val createShape = nebShape(NebShapes.Create)
+                    val shapeSpin = morph * 40f
+
                     Box(
                         modifier = Modifier
-                            .size(navHeight)
+                            .size(createSize)
                             .graphicsLayer {
                                 scaleX = createScale
                                 scaleY = createScale
+                                rotationZ = shapeSpin
                             }
+                            // A neutral shadow. The old one was tinted with the
+                            // primary at 35% and spread fourteen dp, which put a
+                            // blue halo around the lobes and turned a button
+                            // into a bloom.
                             .shadow(
                                 shadowElevation,
-                                CircleShape,
+                                createShape,
                                 clip = false,
                                 ambientColor = Color.Black.copy(alpha = shadowAlpha),
-                                spotColor = primaryColor.copy(alpha = 0.35f)
+                                spotColor = Color.Black.copy(alpha = shadowAlpha + 0.06f)
                             )
-                            .clip(CircleShape)
-                            .background(createBrush)
-                            .border(
-                                1.dp,
-                                if (isDark) Color.White.copy(alpha = 0.25f) else Color.White.copy(alpha = 0.65f),
-                                CircleShape
-                            )
+                            .clip(createShape)
+                            // The same surface the rail is, down to the brush
+                            // and the hairline. A saturated blue slab sitting
+                            // against a neutral bar reads as two materials that
+                            // happen to be adjacent; sharing the bar's fill
+                            // makes them one object with a piece pushed out of
+                            // it, and lets the shape carry the emphasis instead
+                            // of the colour. The glyph keeps the brand blue, so
+                            // the create action is still the accent on the bar
+                            // -- the same trick the expanded menu uses, where
+                            // every pill is the light surface and only the icon
+                            // differs.
+                            .background(barBrush)
+                            .border(1.dp, barBorder, createShape)
                             .clickable(
                                 interactionSource = createInteractionSource,
-                                indication = ripple(bounded = true, color = Color.White),
+                                indication = ripple(bounded = true, color = primaryColor),
                                 onClick = {
                                     tactile.perform(TactileType.ButtonTap)
                                     onCreateClick()
@@ -297,13 +312,17 @@ fun LiquidGlassBottomNav(
                         contentAlignment = Alignment.Center
                     ) {
                         Box(
-                            modifier = Modifier.size(26.dp),
+                            modifier = Modifier
+                                .size(26.dp)
+                                // Cancel the container's spin so the glyph stays
+                                // upright while the silhouette turns under it.
+                                .graphicsLayer { rotationZ = -shapeSpin },
                             contentAlignment = Alignment.Center
                         ) {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_rune_plus),
                                 contentDescription = if (menuExpanded) null else "Create",
-                                tint = MaterialTheme.colorScheme.onPrimary,
+                                tint = primaryColor,
                                 modifier = Modifier
                                     .size(24.dp)
                                     .graphicsLayer {
@@ -314,7 +333,7 @@ fun LiquidGlassBottomNav(
                             Icon(
                                 imageVector = Icons.Rounded.Close,
                                 contentDescription = if (menuExpanded) "Close create menu" else null,
-                                tint = MaterialTheme.colorScheme.onPrimary,
+                                tint = primaryColor,
                                 modifier = Modifier
                                     .size(26.dp)
                                     .graphicsLayer {
@@ -384,13 +403,18 @@ private fun GlassNavItem(item: NebNavItem, selected: Boolean, onClick: () -> Uni
         label = "itemPressScale"
     )
 
+    // The selected pill is the brand's own container, not the secondary one.
+    // Secondary is the desaturated steel ramp, so the indicator and the create
+    // button next to it were two unrelated blues sitting an inch apart — close
+    // enough to compare, far enough apart to look like a mistake. They are one
+    // family now, and the create button is the saturated end of it.
     val indicator by animateColorAsState(
-        targetValue = if (selected) MaterialTheme.colorScheme.secondaryContainer else Color.Transparent,
+        targetValue = if (selected) MaterialTheme.colorScheme.primaryContainer else Color.Transparent,
         animationSpec = spring(stiffness = Spring.StiffnessMediumLow),
         label = "indicator"
     )
     val contentColor by animateColorAsState(
-        targetValue = if (selected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurfaceVariant,
+        targetValue = if (selected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant,
         animationSpec = tween(180),
         label = "navContent"
     )

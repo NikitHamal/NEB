@@ -13,7 +13,7 @@
       <span class="material-symbols-outlined">arrow_back</span>
       Go back
     </a>
-    <h1 class="md-headline-medium" style="margin: 0;">Share a Resource</h1>
+    <h1 class="md-headline-medium-emphasized" style="margin: 0;">Share a Resource</h1>
     <p style="margin: 6px 0 0; color: var(--md-on-surface-variant); font-size: 0.875rem; line-height: 1.5;">
       Help fellow learners by sharing study materials. Your contribution will be reviewed before publishing.
     </p>
@@ -42,19 +42,24 @@
         <input class="md-input" type="text" id="title" name="title" value="{{ form_data.title|default:'' }}" placeholder="e.g. Class 12 Computer Engineering — Final Exam 2081" required>
       </div>
 
+      {% comment %}
+        NebSelectField. The app asks for a subject with one row that shows the
+        answer; the web asked with a free-text box, a Pick button and a hint
+        explaining that both existed. The box and the button disagreed about
+        what counted as a subject -- typing "physics" made a chip the picker
+        then showed as unchecked -- and the hint was there to paper over it.
+        One control, one list, one answer.
+      {% endcomment %}
       <div class="upload-field">
-        <label class="md-label">Subject *</label>
-        <div class="subject-chips-area" id="subject-chips-area">
-          <div class="subject-chips" id="subject-chips"></div>
-          <div class="subject-input-row">
-            <input class="md-input subject-input" type="text" id="subject-input" placeholder="Type a subject and press Enter or comma" autocomplete="off">
-            <button type="button" class="md-btn md-btn-tonal subject-pick-btn" id="subject-pick-btn">
-              <span class="material-symbols-outlined">checklist</span>
-              Pick
-            </button>
-          </div>
-          <div class="upload-hint">Press Enter or comma to add. Click the Pick button to browse suggestions.</div>
-        </div>
+        <button type="button" class="neb-select-field" id="subject-field"
+                data-neb-open="subject-choice" data-placeholder="Choose one or more">
+          <span class="neb-select-field-tile" aria-hidden="true"><span class="material-symbols-outlined">category</span></span>
+          <span class="neb-select-field-text">
+            <span class="neb-select-field-label">Subject *</span>
+          </span>
+          <span class="material-symbols-outlined" aria-hidden="true">chevron_right</span>
+        </button>
+        <p class="neb-select-field-error" id="subject-field-error" hidden>Pick at least one subject</p>
       </div>
 
       <div class="upload-row">
@@ -102,18 +107,14 @@
       </div>
 
       <div class="upload-field">
-        <label class="md-label">Tags</label>
-        <div class="subject-chips-area" id="tags-chips-area">
-          <div class="subject-chips" id="tags-chips"></div>
-          <div class="subject-input-row">
-            <input class="md-input subject-input" type="text" id="tags-input" placeholder="Type a tag and press Enter or comma" autocomplete="off">
-            <button type="button" class="md-btn md-btn-tonal subject-pick-btn" id="tags-pick-btn">
-              <span class="material-symbols-outlined">checklist</span>
-              Pick
-            </button>
-          </div>
-          <div class="upload-hint">Press Enter or comma to add. Click Pick to browse suggestions.</div>
-        </div>
+        <button type="button" class="neb-select-field" id="tags-field"
+                data-neb-open="tags-choice" data-placeholder="Helps people find this">
+          <span class="neb-select-field-tile" aria-hidden="true"><span class="material-symbols-outlined">sell</span></span>
+          <span class="neb-select-field-text">
+            <span class="neb-select-field-label">Tags</span>
+          </span>
+          <span class="material-symbols-outlined" aria-hidden="true">chevron_right</span>
+        </button>
         <input type="hidden" id="tags-hidden" name="tags" value="{{ form_data.tags|default:'' }}">
       </div>
     </div>
@@ -323,76 +324,93 @@
   </div>
 </div>
 
-<div class="subject-pick-overlay" id="subject-pick-overlay" style="display:none">
-  <div class="subject-pick-dialog">
-    <div class="subject-pick-header">
-      <h3>Select Subjects</h3>
-      <button type="button" class="subject-pick-close" id="subject-pick-close">
+{% comment %}
+  NebChoiceSheet, twice. These were two copies of a bespoke centred dialog --
+  a checklist of forty rows, its own scrim, its own search, its own close
+  button, its own scroll lock -- and they were the only overlays left on the
+  upload page that were not the site's. They are chips in a bottom sheet now,
+  because a subject is two words and forty of them fit on one screen that way
+  while forty checkbox rows are four screens of scrolling.
+
+  The scrim, the handle, the drag to dismiss, Escape and the focus trap come
+  from .neb-sheet; the selection comes from neb-choice.js. Nothing on the
+  server changes: the answer is still the comma-separated list these pages
+  have always posted.
+{% endcomment %}
+<div class="neb-scrim neb-scrim-bottom" id="subject-choice" data-neb-close hidden
+     data-choice-input="subject-hidden" data-choice-field="subject-field" data-choice-multi>
+  <div class="neb-sheet neb-choice-sheet" role="dialog" aria-modal="true" aria-labelledby="subject-choice-title">
+    <div class="neb-sheet-handle"></div>
+    <div class="neb-sheet-head">
+      <div class="neb-sheet-head-text">
+        <h3 class="neb-sheet-title" id="subject-choice-title">Subjects</h3>
+        <p class="neb-sheet-sub">Pick as many as this resource covers, or add your own.</p>
+      </div>
+      <button type="button" class="neb-sheet-close" data-neb-close aria-label="Close">
         <span class="material-symbols-outlined">close</span>
       </button>
     </div>
-    <div class="subject-pick-search">
-      <span class="material-symbols-outlined">search</span>
-      <input type="text" id="subject-pick-search" placeholder="Search subjects..." autocomplete="off">
+    <div class="neb-sheet-body">
+      <div class="neb-field-search">
+        <span class="material-symbols-outlined" aria-hidden="true">search</span>
+        <input class="neb-field" type="text" data-choice-search placeholder="Search subjects"
+               autocomplete="off" aria-label="Search subjects">
+      </div>
+      <div class="neb-chip-row neb-choice-options" data-choice-options role="group" aria-label="Subjects">
+        {% for s in subjects %}
+        <button type="button" class="neb-choice-chip" aria-pressed="false" data-value="{{ s }}">
+          <span class="neb-chip-tick" aria-hidden="true"></span>{{ s }}
+        </button>
+        {% endfor %}
+      </div>
+      <p class="neb-choice-empty" data-choice-empty hidden></p>
+      <div class="neb-field-row" data-choice-add>
+        <input class="neb-field" type="text" placeholder="Add your own" autocomplete="off" aria-label="Add your own">
+        <button type="button" class="md-btn md-btn-tonal md-btn-small" disabled>Add</button>
+      </div>
     </div>
-    <div class="subject-pick-list" id="subject-pick-list">
-      {% for s in subjects %}
-      <label class="subject-pick-item" data-subject="{{ s }}">
-        <input type="checkbox" class="subject-pick-checkbox" value="{{ s }}">
-        <span class="subject-pick-check">
-          <span class="material-symbols-outlined">check</span>
-        </span>
-        <span class="subject-pick-label">{{ s }}</span>
-      </label>
-      {% endfor %}
-    </div>
-    <div class="subject-pick-add">
-      <input type="text" id="subject-pick-custom" placeholder="Add a custom subject" autocomplete="off">
-      <button type="button" class="md-btn md-btn-tonal" id="subject-pick-add-btn">
-        <span class="material-symbols-outlined">add</span>
-        Add
-      </button>
-    </div>
-    <div class="subject-pick-actions">
-      <button type="button" class="md-btn md-btn-text" id="subject-pick-cancel">Cancel</button>
-      <button type="button" class="md-btn md-btn-filled" id="subject-pick-done">Done</button>
+    <div class="neb-sheet-foot">
+      <button type="button" class="md-btn md-btn-text neb-foot-minor" data-choice-clear disabled>Clear</button>
+      <button type="button" class="md-btn md-btn-filled neb-foot-major" data-choice-done>Done</button>
     </div>
   </div>
 </div>
 
-<div class="subject-pick-overlay" id="tags-pick-overlay" style="display:none">
-  <div class="subject-pick-dialog">
-    <div class="subject-pick-header">
-      <h3>Select Tags</h3>
-      <button type="button" class="subject-pick-close" id="tags-pick-close">
+<div class="neb-scrim neb-scrim-bottom" id="tags-choice" data-neb-close hidden
+     data-choice-input="tags-hidden" data-choice-field="tags-field" data-choice-multi>
+  <div class="neb-sheet neb-choice-sheet" role="dialog" aria-modal="true" aria-labelledby="tags-choice-title">
+    <div class="neb-sheet-handle"></div>
+    <div class="neb-sheet-head">
+      <div class="neb-sheet-head-text">
+        <h3 class="neb-sheet-title" id="tags-choice-title">Tags</h3>
+        <p class="neb-sheet-sub">Tags are how people find this in search.</p>
+      </div>
+      <button type="button" class="neb-sheet-close" data-neb-close aria-label="Close">
         <span class="material-symbols-outlined">close</span>
       </button>
     </div>
-    <div class="subject-pick-search">
-      <span class="material-symbols-outlined">search</span>
-      <input type="text" id="tags-pick-search" placeholder="Search tags..." autocomplete="off">
+    <div class="neb-sheet-body">
+      <div class="neb-field-search">
+        <span class="material-symbols-outlined" aria-hidden="true">search</span>
+        <input class="neb-field" type="text" data-choice-search placeholder="Search tags"
+               autocomplete="off" aria-label="Search tags">
+      </div>
+      <div class="neb-chip-row neb-choice-options" data-choice-options role="group" aria-label="Tags">
+        {% for t in common_tags %}
+        <button type="button" class="neb-choice-chip" aria-pressed="false" data-value="{{ t }}">
+          <span class="neb-chip-tick" aria-hidden="true"></span>{{ t }}
+        </button>
+        {% endfor %}
+      </div>
+      <p class="neb-choice-empty" data-choice-empty hidden></p>
+      <div class="neb-field-row" data-choice-add>
+        <input class="neb-field" type="text" placeholder="Add your own" autocomplete="off" aria-label="Add your own">
+        <button type="button" class="md-btn md-btn-tonal md-btn-small" disabled>Add</button>
+      </div>
     </div>
-    <div class="subject-pick-list" id="tags-pick-list">
-      {% for t in common_tags %}
-      <label class="subject-pick-item" data-subject="{{ t }}">
-        <input type="checkbox" class="subject-pick-checkbox" value="{{ t }}">
-        <span class="subject-pick-check">
-          <span class="material-symbols-outlined">check</span>
-        </span>
-        <span class="subject-pick-label">{{ t }}</span>
-      </label>
-      {% endfor %}
-    </div>
-    <div class="subject-pick-add">
-      <input type="text" id="tags-pick-custom" placeholder="Add a custom tag" autocomplete="off">
-      <button type="button" class="md-btn md-btn-tonal" id="tags-pick-add-btn">
-        <span class="material-symbols-outlined">add</span>
-        Add
-      </button>
-    </div>
-    <div class="subject-pick-actions">
-      <button type="button" class="md-btn md-btn-text" id="tags-pick-cancel">Cancel</button>
-      <button type="button" class="md-btn md-btn-filled" id="tags-pick-done">Done</button>
+    <div class="neb-sheet-foot">
+      <button type="button" class="md-btn md-btn-text neb-foot-minor" data-choice-clear disabled>Clear</button>
+      <button type="button" class="md-btn md-btn-filled neb-foot-major" data-choice-done>Done</button>
     </div>
   </div>
 </div>
@@ -409,193 +427,20 @@
 (function() {
   var EXAM_TYPES = ['Past Paper', 'Model Paper', 'Guide', 'Solution', 'Note', 'PDF'];
 
-  function escapeHtml(str) {
-    var div = document.createElement('div');
-    div.textContent = str;
-    return div.innerHTML;
-  }
+  {% comment %}
+    The 170 lines that used to live here -- a chip farm, a checklist, a
+    search, a custom-add and two copies of the open/close/scroll-lock dance --
+    are now neb-choice.js, shared with every other picker on the site. All
+    this page has to say is which input each sheet edits, and it says that in
+    the markup.
+  {% endcomment %}
 
-  function createChipPicker(config) {
-    var hiddenInput = document.getElementById(config.hiddenId);
-    var chipContainer = document.getElementById(config.chipsId);
-    var textInput = document.getElementById(config.inputId);
-    var pickBtn = document.getElementById(config.pickBtnId);
-    var overlay = document.getElementById(config.overlayId);
-    var closeBtn = document.getElementById(config.closeBtnId);
-    var searchInput = document.getElementById(config.searchId);
-    var pickList = document.getElementById(config.listId);
-    var customInput = document.getElementById(config.customId);
-    var addBtn = document.getElementById(config.addBtnId);
-    var cancelBtn = document.getElementById(config.cancelBtnId);
-    var doneBtn = document.getElementById(config.doneBtnId);
-    var items = [];
-
-    function getItems() { return items; }
-
-    function init() {
-      var val = hiddenInput.value;
-      if (val) {
-        items = val.split(',').map(function(s) { return s.trim(); }).filter(function(s) { return s; });
-      }
-      renderChips();
-    }
-
-    function renderChips() {
-      chipContainer.innerHTML = '';
-      items.forEach(function(s) {
-        var chip = document.createElement('span');
-        chip.className = 'subject-chip';
-        chip.innerHTML = escapeHtml(s) + '<button type="button" class="subject-chip-remove" data-item="' + escapeHtml(s) + '"><span class="material-symbols-outlined">close</span></button>';
-        chipContainer.appendChild(chip);
-      });
-      hiddenInput.value = items.join(', ');
-      chipContainer.querySelectorAll('.subject-chip-remove').forEach(function(btn) {
-        btn.addEventListener('click', function(e) {
-          e.preventDefault();
-          removeItem(btn.getAttribute('data-item'));
-        });
-      });
-    }
-
-    function addItem(name) {
-      name = name.trim();
-      if (!name) return;
-      name.split(/[,;]/).forEach(function(part) {
-        part = part.trim();
-        if (!part) return;
-        var lower = part.toLowerCase();
-        var exists = items.some(function(s) { return s.toLowerCase() === lower; });
-        if (!exists) {
-          items.push(part);
-        }
-      });
-      renderChips();
-    }
-
-    function removeItem(name) {
-      items = items.filter(function(s) { return s !== name; });
-      renderChips();
-    }
-
-    textInput.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter' || e.key === ',' || e.key === 'Tab') {
-        var val = textInput.value.replace(/,$/, '').trim();
-        if (val) {
-          e.preventDefault();
-          addItem(val);
-          textInput.value = '';
-        }
-      } else if (e.key === 'Backspace' && !textInput.value && items.length) {
-        removeItem(items[items.length - 1]);
-      }
-    });
-
-    textInput.addEventListener('blur', function() {
-      var val = textInput.value.replace(/,$/, '').trim();
-      if (val) {
-        addItem(val);
-        textInput.value = '';
-      }
-    });
-
-    pickBtn.addEventListener('click', function() {
-      overlay.style.display = '';
-      document.body.style.overflow = 'hidden';
-      searchInput.value = '';
-      filterList('');
-      syncSelection();
-      searchInput.focus();
-    });
-
-    closeBtn.addEventListener('click', function() { document.body.style.overflow = ''; overlay.style.display = 'none'; });
-    cancelBtn.addEventListener('click', function() { document.body.style.overflow = ''; overlay.style.display = 'none'; });
-    overlay.addEventListener('click', function(e) {
-      if (e.target === overlay) { document.body.style.overflow = ''; overlay.style.display = 'none'; }
-    });
-
-    function closeDialog() { overlay.style.display = 'none'; document.body.style.overflow = ''; }
-
-    searchInput.addEventListener('input', function() { filterList(searchInput.value); });
-
-    function filterList(query) {
-      var q = query.toLowerCase();
-      pickList.querySelectorAll('.subject-pick-item').forEach(function(item) {
-        var label = item.getAttribute('data-subject').toLowerCase();
-        item.style.display = label.indexOf(q) >= 0 ? '' : 'none';
-      });
-    }
-
-    pickList.addEventListener('change', function(e) {
-      var checkbox = e.target;
-      if (checkbox && checkbox.classList.contains('subject-pick-checkbox')) {
-        var item = checkbox.closest('.subject-pick-item');
-        if (item) {
-          item.classList.toggle('selected', checkbox.checked);
-        }
-      }
-    });
-
-    addBtn.addEventListener('click', function() {
-      var val = customInput.value.trim();
-      if (val) {
-        addItem(val);
-        customInput.value = '';
-        var existingItem = pickList.querySelector('[data-subject="' + CSS.escape(val) + '"]');
-        if (!existingItem) {
-          var label = document.createElement('label');
-          label.className = 'subject-pick-item selected';
-          label.setAttribute('data-subject', val);
-          label.innerHTML = '<input type="checkbox" class="subject-pick-checkbox" checked><span class="subject-pick-check"><span class="material-symbols-outlined">check</span></span><span class="subject-pick-label">' + escapeHtml(val) + '</span>';
-          pickList.appendChild(label);
-        }
-      }
-    });
-
-    customInput.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') { e.preventDefault(); addBtn.click(); }
-    });
-
-    doneBtn.addEventListener('click', function() {
-      var selected = [];
-      pickList.querySelectorAll('.subject-pick-item.selected').forEach(function(item) {
-        selected.push(item.getAttribute('data-subject'));
-      });
-      items = selected;
-      renderChips();
-      document.body.style.overflow = '';
-      overlay.style.display = 'none';
-    });
-
-    function syncSelection() {
-      var lowerItems = items.map(function(s) { return s.toLowerCase(); });
-      pickList.querySelectorAll('.subject-pick-item').forEach(function(item) {
-        var subject = item.getAttribute('data-subject');
-        var isSel = lowerItems.indexOf(subject.toLowerCase()) >= 0;
-        item.classList.toggle('selected', isSel);
-        item.querySelector('.subject-pick-checkbox').checked = isSel;
-      });
-    }
-
-    init();
-    return { addItem: addItem, removeItem: removeItem, getItems: getItems };
-  }
-
-  var subjectPicker = createChipPicker({
-    hiddenId: 'subject-hidden', chipsId: 'subject-chips', inputId: 'subject-input',
-    pickBtnId: 'subject-pick-btn', overlayId: 'subject-pick-overlay',
-    closeBtnId: 'subject-pick-close', searchId: 'subject-pick-search',
-    listId: 'subject-pick-list', customId: 'subject-pick-custom',
-    addBtnId: 'subject-pick-add-btn', cancelBtnId: 'subject-pick-cancel',
-    doneBtnId: 'subject-pick-done'
-  });
-
-  var tagsPicker = createChipPicker({
-    hiddenId: 'tags-hidden', chipsId: 'tags-chips', inputId: 'tags-input',
-    pickBtnId: 'tags-pick-btn', overlayId: 'tags-pick-overlay',
-    closeBtnId: 'tags-pick-close', searchId: 'tags-pick-search',
-    listId: 'tags-pick-list', customId: 'tags-pick-custom',
-    addBtnId: 'tags-pick-add-btn', cancelBtnId: 'tags-pick-cancel',
-    doneBtnId: 'tags-pick-done'
+  document.getElementById('subject-hidden').addEventListener('change', function () {
+    var field = document.getElementById('subject-field');
+    var error = document.getElementById('subject-field-error');
+    if (!this.value.trim()) return;
+    field.setAttribute('aria-invalid', 'false');
+    if (error) error.hidden = true;
   });
 
   // Conditional exam type
@@ -934,8 +779,21 @@
   uploadForm.addEventListener('submit', function(e) {
     var titleField = document.getElementById('title');
     if (!titleField.value.trim()) return;
-    var subjectField = document.getElementById('subject-hidden');
-    if (!subjectField.value.trim()) return;
+    var subjectValue = document.getElementById('subject-hidden');
+    var subjectField = document.getElementById('subject-field');
+    var subjectError = document.getElementById('subject-field-error');
+    // NebSelectField's isError. Title is `required` and the browser blocks it;
+    // subject is a hidden input, so without this an empty one costs a round
+    // trip to be told what the form already knows.
+    var subjectMissing = !subjectValue.value.trim();
+    subjectField.setAttribute('aria-invalid', subjectMissing ? 'true' : 'false');
+    if (subjectError) subjectError.hidden = !subjectMissing;
+    if (subjectMissing) {
+      e.preventDefault();
+      subjectField.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      subjectField.focus({ preventScroll: true });
+      return;
+    }
     var fileChosen = selectedFiles.length > 0;
     var urlFilled = fileUrlInput.value.trim();
     if (!fileChosen && !urlFilled) return;

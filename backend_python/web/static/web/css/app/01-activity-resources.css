@@ -91,7 +91,7 @@
   width: 100%;
   max-width: 460px;
   align-self: flex-start;
-  border: 1px solid var(--md-outline-variant, rgba(0, 0, 0, 0.08));
+  border: 1px solid var(--md-outline-variant);
 }
 
 .post-card-media-grid.grid-count-1 {
@@ -145,7 +145,7 @@
   position: relative;
   overflow: hidden;
   cursor: pointer;
-  background: var(--md-surface-container-high, #f3f4f6);
+  background: var(--md-surface-container-high);
 }
 .post-media-grid-item img {
   width: 100%;
@@ -159,6 +159,11 @@
   filter: brightness(0.95);
 }
 
+/* Black and white on purpose, and the one place on the site where that is
+   right: this sits on a photograph, not on a surface, so it has to be legible
+   against whatever the user uploaded rather than against the theme. ForumMedia.kt
+   does the same -- Color.Black.copy(alpha) with Color.White on top, in both
+   themes. Do not "fix" these two literals into tokens. */
 .post-media-more-overlay {
   position: absolute;
   inset: 0;
@@ -337,7 +342,7 @@
 .nebians-lightbox-thumb.active,
 .nebians-lightbox-thumb:hover {
   opacity: 1;
-  border-color: var(--md-primary, #2563eb);
+  border-color: var(--md-primary);
 }
 
 .act-preview {
@@ -384,14 +389,6 @@
   text-decoration: none;
   color: inherit;
   transition: border-color 200ms ease;
-
-  /* Fallback subject custom properties */
-  --art-c1: #CFD8DC;
-  --art-c2: #90A4AE;
-  --art-c3: #546E7A;
-  --art-c4: #37474F;
-  --subject-badge-bg: #ECEFF1;
-  --subject-badge-fg: #546E7A;
 }
 
 .resource-card:hover {
@@ -417,6 +414,21 @@
   height: 100%;
 }
 
+/* Generative banner art, painted by neb-art.js into a canvas it appends here.
+   The host needs a real box before the script runs, because the painter reads
+   clientWidth/clientHeight to size the backing store. */
+.neb-art {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.neb-art-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .resource-card-art-img {
   position: absolute;
   inset: 0;
@@ -435,13 +447,18 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--art-c4);
-  background: rgba(255, 255, 255, 0.55);
+  /* The art underneath is drawn from the --subject-* tokens, which the theme
+     swaps, so a fixed white wash was only ever right in light theme: in dark
+     the ink is --subject-on-container, a pale tint meant for a dark chip, and
+     it was sitting on a 55% white one at about 2:1. The wash is the theme's
+     own lowest surface now, so the chip darkens when the art does. */
+  color: var(--subject-on-container);
+  background: color-mix(in srgb, var(--md-surface-container-lowest) 62%, transparent);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   padding: 3px 10px;
   border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  border: 1px solid color-mix(in srgb, var(--md-on-surface) 12%, transparent);
   line-height: 1.5;
 }
 
@@ -453,22 +470,15 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.9);
+  background: color-mix(in srgb, var(--md-surface-container-lowest) 90%, transparent);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--art-c4);
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  color: var(--subject-color);
+  border: 1px solid color-mix(in srgb, var(--md-on-surface) 8%, transparent);
   font-size: 18px !important;
   font-variation-settings: 'FILL' 1;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-}
-
-[data-theme="dark"] .resource-card-art-icon {
-  background: rgba(15, 23, 42, 0.85);
-  color: var(--art-c1);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 6px color-mix(in srgb, var(--md-scrim) 10%, transparent);
 }
 
 .resource-card-info {
@@ -488,8 +498,8 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
   margin-bottom: 6px;
-  background: var(--subject-badge-bg, var(--md-surface-container));
-  color: var(--subject-badge-fg, var(--md-on-surface-variant));
+  background: var(--subject-container);
+  color: var(--subject-on-container);
   width: fit-content;
   max-width: 100%;
   white-space: nowrap;
@@ -532,105 +542,9 @@
   font-size: 14px;
 }
 
-.subject-physics {
-  --art-c1: #BBDEFB;
-  --art-c2: #64B5F6;
-  --art-c3: #1E88E5;
-  --art-c4: #0D47A1;
-  --subject-badge-bg: #E3F2FD;
-  --subject-badge-fg: #0D47A1;
-}
-
-.subject-chemistry {
-  --art-c1: #C8E6C9;
-  --art-c2: #66BB6A;
-  --art-c3: #2E7D32;
-  --art-c4: #1B5E20;
-  --subject-badge-bg: #E8F5E9;
-  --subject-badge-fg: #1B5E20;
-}
-
-.subject-mathematics,
-.subject-math {
-  --art-c1: #FFE0B2;
-  --art-c2: #FFA726;
-  --art-c3: #E65100;
-  --art-c4: #BF360C;
-  --subject-badge-bg: #FFF3E0;
-  --subject-badge-fg: #BF360C;
-}
-
-.subject-biology {
-  --art-c1: #E1BEE7;
-  --art-c2: #AB47BC;
-  --art-c3: #7B1FA2;
-  --art-c4: #4A148C;
-  --subject-badge-bg: #F3E5F5;
-  --subject-badge-fg: #4A148C;
-}
-
-.subject-english {
-  --art-c1: #FFCDD2;
-  --art-c2: #EF5350;
-  --art-c3: #C62828;
-  --art-c4: #B71C1C;
-  --subject-badge-bg: #FFEBEE;
-  --subject-badge-fg: #B71C1C;
-}
-
-.subject-nepali {
-  --art-c1: #B3E5FC;
-  --art-c2: #29B6F6;
-  --art-c3: #0277BD;
-  --art-c4: #01579B;
-  --subject-badge-bg: #E1F5FE;
-  --subject-badge-fg: #01579B;
-}
-
-.subject-computer-science {
-  --art-c1: #B2EBF2;
-  --art-c2: #26C6DA;
-  --art-c3: #00838F;
-  --art-c4: #006064;
-  --subject-badge-bg: #E0F7FA;
-  --subject-badge-fg: #006064;
-}
-
-.subject-economics {
-  --art-c1: #FFE082;
-  --art-c2: #FFCA28;
-  --art-c3: #F9A825;
-  --art-c4: #F57F17;
-  --subject-badge-bg: #FFE082;
-  --subject-badge-fg: #D84315;
-}
-
-.subject-accountancy {
-  --art-c1: #B2DFDB;
-  --art-c2: #26A69A;
-  --art-c3: #00796B;
-  --art-c4: #004D40;
-  --subject-badge-bg: #E0F2F1;
-  --subject-badge-fg: #004D40;
-}
-
-.subject-general {
-  --art-c1: #CFD8DC;
-  --art-c2: #90A4AE;
-  --art-c3: #546E7A;
-  --art-c4: #37474F;
-  --subject-badge-bg: #ECEFF1;
-  --subject-badge-fg: #546E7A;
-}
-
-.subject-exam-tips {
-  --art-c1: #F8BBD0;
-  --art-c2: #EC407A;
-  --art-c3: #C2185B;
-  --art-c4: #880E4F;
-  --subject-badge-bg: #FCE4EC;
-  --subject-badge-fg: #C2185B;
-}
+/* Per-subject colours live in material3/06-subject-tokens.css now: one
+   generated block per named subject plus one per family, both themes,
+   all from the app's Color.kt. */
 
 .hscroll {
   display: flex;
@@ -665,17 +579,29 @@
   flex-direction: column;
   border-radius: 16px;
   border: 1px solid var(--md-outline-variant);
-  background: var(--md-surface-container-lowest, #fff);
+  background: var(--md-surface-container-lowest);
   text-decoration: none;
   color: inherit;
   overflow: hidden;
   transition: box-shadow .15s, transform .15s;
 }
 .hscroll .suggest-post-card:hover {
-  box-shadow: 0 4px 16px rgba(0, 0, 0, .08);
+  box-shadow: var(--md-elevation-2);
   transform: translateY(-1px);
 }
+/* The banner is the category's own colour, sent by the view, and it is the
+   same colour in both themes -- so the chips that sit on it cannot take their
+   ink from the palette. They take it from the neutral ramp in 00-palette.css,
+   which is declared once under :root and not restated for dark, which is what
+   a chip on a fixed surface needs.
+
+   .suggest-post-like was reading --md-on-surface for its ink, which is near
+   white in dark theme, on a 92% white pill: the like count on every suggested
+   post has been invisible to anyone using the site in dark. */
 .suggest-post-banner {
+  --sp-chip: color-mix(in srgb, var(--md-n100) 92%, transparent);
+  --sp-chip-ink: var(--md-n14);
+  --sp-chip-shadow: 0 1px 3px color-mix(in srgb, var(--md-n0) 10%, transparent);
   position: relative;
   height: 100px;
   flex-shrink: 0;
@@ -714,12 +640,12 @@
   gap: 4px;
   padding: 3px 8px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, .92);
+  background: var(--sp-chip);
   color: var(--suggest-cat-color, #6750a4);
   font-size: .625rem;
   font-weight: 700;
   letter-spacing: .06em;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  box-shadow: var(--sp-chip-shadow);
 }
 .suggest-post-disc .material-symbols-outlined { font-size: 11px; }
 .suggest-post-like {
@@ -728,11 +654,11 @@
   gap: 4px;
   padding: 3px 9px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, .92);
-  color: var(--md-on-surface);
+  background: var(--sp-chip);
+  color: var(--sp-chip-ink);
   font-size: .6875rem;
   font-weight: 700;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  box-shadow: var(--sp-chip-shadow);
 }
 .suggest-post-like .material-symbols-outlined { font-size: 13px; color: var(--suggest-cat-color, #6750a4); }
 .suggest-post-banner-bottom {
@@ -829,7 +755,7 @@
   border-radius: 50%;
   overflow: hidden;
   flex-shrink: 0;
-  background: color-mix(in srgb, var(--suggest-cat-color, var(--subject-badge-bg, #6750a4)) 24%, var(--md-surface-container-high));
+  background: color-mix(in srgb, var(--suggest-cat-color, var(--subject-container)) 24%, var(--md-surface-container-high));
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -845,7 +771,7 @@
 .resource-card-avatar-letter {
   font-size: .6875rem;
   font-weight: 700;
-  color: var(--suggest-cat-color, var(--subject-badge-fg, #6750a4));
+  color: var(--suggest-cat-color, var(--subject-on-container));
 }
 .suggest-post-avatar-letter .material-symbols-outlined,
 .resource-card-avatar-letter .material-symbols-outlined { font-size: 13px; }
@@ -944,7 +870,7 @@
   display: flex;
   flex-direction: column;
   background: transparent;
-  border-bottom: 1px solid var(--md-outline-variant, #e2e8f0);
+  border-bottom: 1px solid var(--md-outline-variant);
 }
 
 .activity-item:first-child {
@@ -1070,8 +996,8 @@
   border-radius: var(--md-radius-full);
   font-size: 0.6875rem;
   font-weight: 700;
-  background: var(--md-primary-container, #dbeafe);
-  color: var(--md-on-primary-container, #004ac6);
+  background: var(--md-primary-container);
+  color: var(--md-on-primary-container);
   text-transform: uppercase;
   letter-spacing: 0.02em;
   vertical-align: middle;
@@ -1108,9 +1034,9 @@
   border-radius: 14px;
   overflow: hidden;
   position: relative;
-  background: var(--md-surface-container-high, #f3f4f6);
-  border: 1px solid var(--md-outline-variant, rgba(0, 0, 0, 0.08));
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  background: var(--md-surface-container-high);
+  border: 1px solid var(--md-outline-variant);
+  box-shadow: var(--md-elevation-1);
 }
 
 .fp-slider-item img {
@@ -1141,10 +1067,10 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: var(--md-surface, #ffffff);
-  color: var(--md-on-surface, #1f2937);
-  border: 1px solid var(--md-outline-variant, #e5e7eb);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: var(--md-surface);
+  color: var(--md-on-surface);
+  border: 1px solid var(--md-outline-variant);
+  box-shadow: var(--md-elevation-2);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1154,7 +1080,7 @@
 }
 
 .fp-slider-arrow:hover {
-  background: var(--md-surface-container-high, #f3f4f6);
+  background: var(--md-surface-container-high);
   transform: translateY(-50%) scale(1.08);
 }
 

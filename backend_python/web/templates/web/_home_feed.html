@@ -1,0 +1,91 @@
+{% load static web_extras %}
+{% comment %} ── The home feed ─────────────────────────────────────────────────────────
+   One column, the app's: post cards with the standing rails interleaved at the
+   positions HomeFeedModel.kt anchors them to. The view has already flattened
+   that into a list of typed entries, so this template only has to draw one row
+   per entry -- no nesting, and no cadence arithmetic in the markup.
+
+   Rendered twice: inside home.html for the first page, and on its own as the
+   response to the load-more request, which is why the sentinel at the bottom
+   is part of the partial rather than the page. {% endcomment %}
+{% url 'web:library' as hf_library_url %}
+{% url 'web:news_list' as hf_news_url %}
+{% comment %} No people directory on the web; the leaderboard is where all the
+   contributors are, which is what the app's people screen shows. {% endcomment %}
+{% url 'web:leaderboard' as hf_people_url %}
+{% for entry in feed_entries %}
+  {% if entry.kind == 'post' %}
+    {% with post=entry.post %}{% include "web/_forum_post_card.html" %}{% endwith %}
+
+  {% elif entry.kind == 'carousel' %}
+    <section class="hf-block">
+      {% include "web/_home_section_title.html" with title="Suggested for you" action_url=hf_library_url %}
+      <div class="hf-rail hscroll">
+        {% for item in entry.items %}
+          {% if item.type == 'resource' %}
+            {% with r=item.resource %}{% include "web/_home_rail_resource.html" %}{% endwith %}
+          {% else %}
+            {% with p=item.post cat_color=item.post.category|subject_color %}{% include "web/_home_suggest_post.html" %}{% endwith %}
+          {% endif %}
+        {% endfor %}
+      </div>
+    </section>
+
+  {% elif entry.kind == 'news' %}
+    <section class="hf-block">
+      {% include "web/_home_section_title.html" with title="News & updates" action_url=hf_news_url %}
+      <div class="hf-rail hscroll">
+        {% for n in entry.items %}{% include "web/_home_news_card.html" %}{% endfor %}
+      </div>
+    </section>
+
+  {% elif entry.kind == 'peers' %}
+    <section class="hf-block">
+      {% include "web/_home_section_title.html" with title="People you may know" action_url=hf_people_url %}
+      <div class="hf-rail hf-rail-peers hscroll">
+        {% for person in entry.items %}{% include "web/_home_peer_card.html" %}{% endfor %}
+      </div>
+    </section>
+
+  {% elif entry.kind == 'new_resources' %}
+    <section class="hf-block">
+      {% include "web/_home_section_title.html" with title="New in Library" action_url=hf_library_url %}
+      <div class="hf-rail hscroll">
+        {% for r in entry.items %}{% include "web/_home_rail_resource.html" %}{% endfor %}
+      </div>
+    </section>
+
+  {% elif entry.kind == 'highlight' %}
+    {% if entry.titled %}
+    <section class="hf-block hf-block-tight">
+      {% include "web/_home_section_title.html" with title="Featured Study Guide" action_url=hf_library_url %}
+      {% with r=entry.resource %}{% include "web/_home_highlight.html" %}{% endwith %}
+    </section>
+    {% else %}
+    {% with r=entry.resource %}{% include "web/_home_highlight.html" %}{% endwith %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
+{% if feed_has_more %}
+{% comment %} The sentinel fetches the next page when it scrolls into view and replaces
+   itself with it, so the whole of infinite scroll is this one element and no
+   script at all. Until the request lands it is the app's loading row. {% endcomment %}
+<div class="md-loading-row hf-sentinel"
+     hx-get="{% url 'web:home_feed_more' %}?offset={{ feed_next_offset }}"
+     hx-trigger="revealed"
+     hx-swap="outerHTML">
+  <span class="md-loader md-loader-inline"></span>
+  <span>Loading more updates...</span>
+</div>
+{% elif feed_entries %}
+{% comment %} The app's HomeEndOfFeedCard. On a load-more response this is what replaces
+   the sentinel, which is how the feed ends without a second request. {% endcomment %}
+<div class="hf-end">
+  <span class="hf-end-icon material-symbols-outlined">check</span>
+  <strong class="hf-end-title">You're all caught up!</strong>
+  <p class="hf-end-text">Explore the full dedicated discussion forum or dive into the digital library.</p>
+  <a class="md-btn md-btn-filled hf-end-btn" href="{% url 'web:forum' %}">Forum</a>
+  <a class="md-btn md-btn-outlined hf-end-btn" href="{% url 'web:library' %}">Library</a>
+</div>
+{% endif %}

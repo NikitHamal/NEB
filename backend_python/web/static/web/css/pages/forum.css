@@ -284,11 +284,6 @@
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   }
 
-  @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
-
   /* Sort Tabs */
   .forum-controls-bar {
     display: flex;
@@ -297,42 +292,9 @@
     margin-bottom: 16px;
     gap: 12px;
   }
-  .forum-sort-tabs {
-    display: flex;
-    gap: 4px;
-    overflow-x: auto;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-  .forum-sort-tabs::-webkit-scrollbar { display: none; }
-  .forum-sort-tab {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    padding: 8px 16px;
-    border-radius: var(--md-radius-full);
-    font-family: 'Poppins', sans-serif;
-    font-size: 0.8125rem;
-    font-weight: 500;
-    color: var(--md-on-surface-variant);
-    text-decoration: none;
-    white-space: nowrap;
-    transition: all 0.2s var(--md-transition);
-    border: 1px solid transparent;
-  }
-  .forum-sort-tab:hover {
-    background: var(--md-surface-container-high);
-    text-decoration: none;
-    color: var(--md-on-surface);
-  }
-  .forum-sort-tab .material-symbols-outlined {
-    font-size: 18px;
-  }
-  .forum-sort-tab-active {
-    background: var(--md-secondary-container) !important;
-    color: var(--md-on-secondary-container) !important;
-    font-weight: 600;
-  }
+  /* Hot / New / Top / Discussed is .neb-rail, which slides one container
+     between the four rather than lighting up a different pill with two
+     !importants. .forum-controls-bar above still holds the row. */
 
   /* Active Filter Chips */
   .forum-active-filters {
@@ -382,129 +344,6 @@
     .md-fab {
       bottom: 84px !important;
     }
-  }
-
-  /* Modal Style (Leaderboard) */
-  .m3-modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(4px);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 2000;
-    opacity: 0;
-    transition: opacity 0.2s ease;
-  }
-
-  .m3-modal-overlay.open {
-    display: flex;
-    opacity: 1;
-  }
-
-  .m3-modal-box {
-    background-color: var(--md-surface-container-high, var(--md-surface));
-    border: 1px solid var(--md-outline-variant);
-    border-radius: 28px;
-    width: 90%;
-    max-width: 500px;
-    padding: 32px;
-    transform: scale(0.95);
-    transition: transform 0.2s ease;
-  }
-
-  .m3-modal-overlay.open .m3-modal-box {
-    transform: scale(1);
-  }
-
-  .m3-modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 24px;
-  }
-
-  .m3-modal-title {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--md-on-surface);
-  }
-
-  .m3-modal-close-btn {
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    color: var(--md-on-surface-variant);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    transition: background-color 0.2s ease;
-  }
-
-  .m3-modal-close-btn:hover {
-    background-color: var(--md-surface-container-highest);
-  }
-
-  /* Leaderboard Table Styles */
-  .leaderboard-table-container {
-    max-height: 400px;
-    overflow-y: auto;
-  }
-
-  .leaderboard-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 8px;
-    border-bottom: 1px solid var(--md-outline-variant);
-  }
-
-  .leaderboard-row:last-child {
-    border-bottom: none;
-  }
-
-  .leaderboard-rank-profile {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-
-  .leaderboard-rank-number {
-    font-size: 1.0625rem;
-    font-weight: 700;
-    width: 24px;
-    color: var(--md-on-surface-variant);
-    text-align: center;
-  }
-
-  .leaderboard-rank-number.rank-1 {
-    color: #F9A825;
-  }
-  .leaderboard-rank-number.rank-2 {
-    color: #78909C;
-  }
-  .leaderboard-rank-number.rank-3 {
-    color: #E64A19;
-  }
-
-  [data-theme="dark"] .leaderboard-rank-number.rank-1 {
-    color: #FFD54F;
-  }
-  [data-theme="dark"] .leaderboard-rank-number.rank-2 {
-    color: #B0BEC5;
-  }
-  [data-theme="dark"] .leaderboard-rank-number.rank-3 {
-    color: #FF8A65;
   }
 
   .post-card-poll-badge{display:inline-flex;align-items:center;gap:4px;margin-top:8px;padding:4px 10px;border-radius:100px;font-size:.75rem;font-weight:500;color:var(--md-primary);background:var(--md-primary-container)}

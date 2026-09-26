@@ -1,0 +1,334 @@
+/* ──────────────────────────────────────────────────────────────────────────
+   FAQ page.
+
+   Replaces the three-question accordion that used to sit at the bottom of the
+   home page, where it existed for the crawler and was read by nobody. Given a
+   page of its own it can be the thing a confused person actually lands on, so
+   it is built for reading: one column, generous measure, a sticky category rail
+   on the left at desktop width, and a filter that narrows as you type.
+
+   The accordion is <details>/<summary>. Native disclosure gets keyboard
+   handling, the aria-expanded contract and the find-in-page behaviour for free,
+   and it still works with the filter script disabled -- which matters for a
+   help page more than anywhere else on the site.
+   ────────────────────────────────────────────────────────────────────────── */
+
+.faq-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 16px 96px;
+}
+
+/* ── Hero ──────────────────────────────────────────────────────────────── */
+
+.faq-hero {
+  padding: 56px 0 32px;
+  position: relative;
+}
+
+.faq-hero-kicker {
+  display: block;
+  margin-bottom: 14px;
+}
+
+.faq-hero h1 {
+  margin: 0 0 14px;
+  max-width: 18ch;
+}
+
+.faq-hero-sub {
+  margin: 0;
+  max-width: 56ch;
+  color: var(--md-on-surface-variant);
+}
+
+/* The search field. A form so Enter does nothing surprising; the script owns
+   the filtering and preventDefault keeps the page from reloading. */
+.faq-search {
+  margin-top: 28px;
+  max-width: 520px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.faq-search .material-symbols-outlined {
+  position: absolute;
+  left: 18px;
+  font-size: 20px;
+  color: var(--md-on-surface-variant);
+  pointer-events: none;
+}
+
+.faq-search input {
+  width: 100%;
+  padding: 15px 46px 15px 50px;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-shape-full);
+  background: var(--md-surface-container-low);
+  color: var(--md-on-surface);
+  font-family: inherit;
+  font-size: 0.9375rem;
+  transition: border-color var(--md-motion-effects),
+              background var(--md-motion-effects);
+}
+
+.faq-search input:focus {
+  outline: none;
+  border-color: var(--md-primary);
+  background: var(--md-surface);
+}
+
+.faq-search input::placeholder { color: var(--md-on-surface-variant); }
+
+.faq-search-clear {
+  position: absolute;
+  right: 8px;
+  display: none;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: var(--md-shape-full);
+  background: transparent;
+  color: var(--md-on-surface-variant);
+  cursor: pointer;
+}
+
+.faq-search-clear .material-symbols-outlined {
+  position: static;
+  font-size: 18px;
+}
+
+.faq-search.is-filled .faq-search-clear { display: grid; }
+
+/* ── Body: rail + sections ─────────────────────────────────────────────── */
+
+.faq-body {
+  display: grid;
+  grid-template-columns: 224px minmax(0, 1fr);
+  gap: 48px;
+  align-items: start;
+  padding-top: 8px;
+}
+
+.faq-rail {
+  position: sticky;
+  top: 88px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.faq-rail-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 16px;
+  border-radius: var(--md-shape-full);
+  color: var(--md-on-surface-variant);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: background var(--md-motion-effects),
+              color var(--md-motion-effects);
+}
+
+.faq-rail-link .material-symbols-outlined { font-size: 20px; }
+
+.faq-rail-link:hover { background: var(--md-surface-container); }
+
+.faq-rail-link.is-current {
+  background: var(--md-secondary-container);
+  color: var(--md-on-secondary-container);
+}
+
+.faq-section { scroll-margin-top: 88px; }
+
+.faq-section + .faq-section { margin-top: 52px; }
+
+.faq-section-head { margin-bottom: 18px; }
+
+.faq-section-head h2 { margin: 0 0 4px; }
+
+.faq-section-head p {
+  margin: 0;
+  color: var(--md-on-surface-variant);
+  font-size: 0.875rem;
+}
+
+/* ── The accordion ─────────────────────────────────────────────────────────
+   Items share one hairline stack rather than each being a card: a list of
+   twenty cards reads as twenty things to do, a list of twenty rules reads as
+   one thing to skim. ── */
+
+.faq-list {
+  border-top: 1px solid var(--md-outline-variant);
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--md-outline-variant);
+}
+
+.faq-item > summary {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 19px 4px;
+  cursor: pointer;
+  list-style: none;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--md-on-surface);
+  transition: color var(--md-motion-effects);
+}
+
+.faq-item > summary::-webkit-details-marker { display: none; }
+
+.faq-item > summary:hover { color: var(--md-primary); }
+
+.faq-item[open] > summary { color: var(--md-primary); }
+
+.faq-item-q { flex: 1; }
+
+/* The marker is a plus that becomes a minus. Rotating one bar is cheaper than
+   swapping a glyph and it animates, which is the point. */
+.faq-item-marker {
+  flex: none;
+  position: relative;
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  color: var(--md-on-surface-variant);
+}
+
+.faq-item-marker::before,
+.faq-item-marker::after {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 9px;
+  width: 14px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  transition: transform var(--md-motion-spatial-fast);
+}
+
+.faq-item-marker::after { transform: rotate(90deg); }
+
+.faq-item[open] .faq-item-marker { color: var(--md-primary); }
+
+.faq-item[open] .faq-item-marker::after { transform: rotate(0deg); }
+
+/* <details> cannot transition its own height, so the answer animates itself on
+   open. Opacity and a short lift, no height, which means no layout thrash. */
+.faq-answer {
+  padding: 0 40px 22px 4px;
+  color: var(--md-on-surface-variant);
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  animation: faq-reveal var(--md-motion-spatial-fast) both;
+}
+
+.faq-answer a {
+  color: var(--md-primary);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+@keyframes faq-reveal {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ── Filter states ─────────────────────────────────────────────────────── */
+
+.faq-item[hidden],
+.faq-section[hidden] { display: none; }
+
+.faq-empty {
+  display: none;
+  padding: 56px 8px;
+  text-align: center;
+  color: var(--md-on-surface-variant);
+}
+
+.faq-empty .material-symbols-outlined {
+  font-size: 40px;
+  opacity: 0.5;
+}
+
+.faq-empty p { margin: 12px 0 0; }
+
+.faq-body.is-filtering .faq-rail { visibility: hidden; }
+
+.faq-body.is-empty .faq-empty { display: block; }
+
+/* ── Closing CTA ───────────────────────────────────────────────────────── */
+
+.faq-cta {
+  margin-top: 64px;
+  padding: 36px 32px;
+  border-radius: var(--md-shape-xl);
+  background: var(--md-surface-container-low);
+  border: 1px solid var(--md-outline-variant);
+  text-align: center;
+}
+
+.faq-cta h2 { margin: 0 0 8px; }
+
+.faq-cta p {
+  margin: 0 auto 22px;
+  max-width: 46ch;
+  color: var(--md-on-surface-variant);
+  font-size: 0.9375rem;
+}
+
+.faq-cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+/* ── Narrow ────────────────────────────────────────────────────────────────
+   The rail becomes a horizontal scroller above the content. Same links, same
+   anchors -- it just stops being a column. ── */
+@media (max-width: 900px) {
+  .faq-body {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+  }
+
+  .faq-rail {
+    position: static;
+    flex-direction: row;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .faq-rail::-webkit-scrollbar { display: none; }
+
+  .faq-rail-link {
+    flex: none;
+    border: 1px solid var(--md-outline-variant);
+    padding: 9px 16px;
+  }
+
+  .faq-rail-link .material-symbols-outlined { display: none; }
+
+  .faq-body.is-filtering .faq-rail { display: none; }
+}
+
+@media (max-width: 600px) {
+  .faq-hero { padding: 36px 0 24px; }
+  .faq-hero h1 { max-width: none; }
+  .faq-answer { padding-right: 8px; }
+  .faq-cta { padding: 28px 20px; }
+}

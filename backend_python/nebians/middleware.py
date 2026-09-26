@@ -8,6 +8,8 @@ from django.core.exceptions import DisallowedHost
 from django.http import HttpResponseNotFound
 from django.http.request import validate_host
 
+from . import analytics_queue
+
 
 def _resolve_ws_public_url():
     """Resolve the public WebSocket URL (uncached).
@@ -215,29 +217,15 @@ def _classify_referrer(referrer_domain, own_domain):
 
 
 def _resolve_geo(ip_address):
-    """Resolve country/city from IP using ip-api.com (free, no key needed).
-    Results are cached in Redis for 30 days to avoid repeated API calls."""
-    if not ip_address or ip_address in ('127.0.0.1', '::1', '0.0.0.0'):
-        return '', ''
-    cache_key = f'geo:{ip_address}'
-    cached = cache.get(cache_key)
-    if cached:
-        parts = cached.split('|', 1)
-        return parts[0] if parts else '', parts[1] if len(parts) > 1 else ''
-    try:
-        import urllib.request as _urlopen
-        url = f'http://ip-api.com/json/{ip_address}?fields=country,city'
-        req = _urlopen.Request(url, headers={'User-Agent': 'NEBians/1.0'})
-        with _urlopen.urlopen(req, timeout=3) as resp:
-            data = __import__('json').loads(resp.read().decode())
-            if data.get('status') == 'success':
-                country = data.get('country', '') or ''
-                city = data.get('city', '') or ''
-                cache.set(cache_key, f'{country}|{city}', 2592000)  # 30 days
-                return country, city
-    except Exception:
-        pass
-    return '', ''
+    """Country/city for an IP, from cache only.
+
+    The lookup itself lives in nebians.analytics_queue and runs on a worker
+    thread. Resolving inline meant a three second upstream timeout sitting in
+    front of the browser's first byte; see that module for why that got worse
+    as traffic grew rather than better.
+    """
+    known = analytics_queue.geo_cached(ip_address)
+    return known if known is not None else ('', '')
 
 
 def _detect_platform(user_agent):
@@ -315,15 +303,18 @@ class PageViewTrackingMiddleware:
         session_key = request.session.session_key or ''
         user_id = None
         user_identifier = ''
+        touch_user = ''
         if hasattr(request, 'user') and request.user.is_authenticated:
             try:
                 user_id = int(request.user.id) if str(request.user.id).isdigit() else None
                 if user_id is not None:
-                    from api.models import User as UserModel
+                    uid_str = str(request.user.id)
+                    user_identifier = uid_str[:255]
+                    # The last_active write goes with the page view, off the
+                    # request path. Presence stays here: it is three Redis ops
+                    # and it has to be true by the time the next poll reads it.
+                    touch_user = uid_str
                     try:
-                        uid_str = str(request.user.id)
-                        user_identifier = uid_str[:255]
-                        UserModel.objects.filter(pk=uid_str).update(last_active=now)
                         cache.sadd('presence:online', uid_str)
                         cache.expire('presence:online', 300)
                         cache.set(f'presence:user:{uid_str}', now, 300)
@@ -332,37 +323,29 @@ class PageViewTrackingMiddleware:
             except (ValueError, TypeError):
                 pass
 
-        try:
-            from api.models import PageView
-            # Resolve geo-IP for web visitors
-            geo_country, geo_city = '', ''
-            if ip_address:
-                try:
-                    geo_country, geo_city = _resolve_geo(ip_address)
-                except Exception:
-                    pass
-            PageView.objects.create(
-                path=request.path,
-                full_url=request.build_absolute_uri(),
-                referrer=referrer[:2000],
-                referrer_domain=referrer_domain[:255],
-                referrer_type=referrer_type,
-                utm_source=utm_source[:255],
-                utm_medium=utm_medium[:255],
-                utm_campaign=utm_campaign[:255],
-                user_agent=user_agent[:2000],
-                source=source,
-                platform=platform,
-                ip_address=ip_address,
-                session_key=session_key[:40],
-                user_id=user_id,
-                user_identifier=user_identifier,
-                country=geo_country,
-                city=geo_city,
-                created_at=now,
-            )
-        except Exception:
-            pass
+        # Geo is filled in by the worker, which is the only place allowed to
+        # spend a network round trip on it.
+        analytics_queue.submit({
+            'path': request.path,
+            'full_url': request.build_absolute_uri(),
+            'referrer': referrer[:2000],
+            'referrer_domain': referrer_domain[:255],
+            'referrer_type': referrer_type,
+            'utm_source': utm_source[:255],
+            'utm_medium': utm_medium[:255],
+            'utm_campaign': utm_campaign[:255],
+            'user_agent': user_agent[:2000],
+            'source': source,
+            'platform': platform,
+            'ip_address': ip_address,
+            'session_key': session_key[:40],
+            'user_id': user_id,
+            'user_identifier': user_identifier,
+            'country': '',
+            'city': '',
+            'created_at': now,
+            '_touch_user': touch_user,
+        })
 
         return response
 
