@@ -63,7 +63,7 @@
           {% endif %}
           {% endif %}
         </div>
-        <div class="suggest-post-time">{{ p.createdAt|time_ago }} &middot; <span class="suggest-post-views"><span class="material-symbols-outlined">visibility</span> {{ p.viewCount|short_number }}</span></div>
+        <div class="suggest-post-time">{{ p.createdAt|time_ago }}, <span class="suggest-post-views"><span class="material-symbols-outlined">visibility</span> {{ p.viewCount|short_number }}</span></div>
       </div>
       <div class="suggest-post-replies">
         <span class="material-symbols-outlined">chat_bubble_outline</span> {{ p.replyCount|short_number }}

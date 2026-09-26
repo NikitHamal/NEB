@@ -101,7 +101,6 @@
         </div>
         <div class="fp-meta-time">
           <span>{{ post.createdAt|time_ago }}</span>
-          <span class="dot-sep">&middot;</span>
           <span class="fp-views"><span class="material-symbols-outlined icon-sm">visibility</span> {{ post.viewCount|short_number }} views</span>
         </div>
       </div>
@@ -149,7 +148,7 @@
        <div class="fp-poll-type-badge">
          <span class="material-symbols-outlined">{% if post.poll.pollType == 'mcq' %}quiz{% else %}how_to_vote{% endif %}</span>
          {% if post.poll.pollType == 'mcq' %}MCQ Quiz{% else %}Poll{% endif %}
-         {% if post.poll.allowMultiple %} &middot; Multiple choice{% endif %}
+         {% if post.poll.allowMultiple %}, multiple choice{% endif %}
        </div>
        {% if post.poll.question %}
        <div class="fp-poll-question">{{ post.poll.question }}</div>
@@ -161,7 +160,7 @@
            <div class="fp-poll-option-text">
              <span class="fp-poll-option-label">{{ opt.text }}</span>
              {% if post.poll.userVote %}
-             <span class="fp-poll-option-count">{{ opt.voteCount }} vote{{ opt.voteCount|pluralize }} &middot; {% widthratio opt.voteCount post.poll.totalVotes 100 %}%</span>
+             <span class="fp-poll-option-count">{{ opt.voteCount }} vote{{ opt.voteCount|pluralize }}, {% widthratio opt.voteCount post.poll.totalVotes 100 %}%</span>
              {% endif %}
            </div>
            {% if post.poll.pollType == 'mcq' and post.poll.userVote and opt.isCorrect %}
@@ -1888,7 +1887,7 @@ async function votePoll(btn) {
           '<div class="fp-poll-option-bar" style="width:' + pct + '%"></div>' +
           '<div class="fp-poll-option-text">' +
             '<span class="fp-poll-option-label">' + escapeHtml(opt.text) + '</span>' +
-            '<span class="fp-poll-option-count">' + opt.voteCount + ' vote' + (opt.voteCount !== 1 ? 's' : '') + ' &middot; ' + pct + '%</span>' +
+            '<span class="fp-poll-option-count">' + opt.voteCount + ' vote' + (opt.voteCount !== 1 ? 's' : '') + ', ' + pct + '%</span>' +
           '</div>' +
           iconHtml +
         '</button>';

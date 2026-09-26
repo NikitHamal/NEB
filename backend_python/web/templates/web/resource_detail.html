@@ -82,7 +82,7 @@
       {% if resource.is_paid or resource.isPaid %}
       <span class="rd-chip" style="background:#16a34a;color:#fff;font-weight:700;">
         <span class="material-symbols-outlined icon-sm">payments</span>
-        Rs. {{ resource.price|floatformat:"0" }} &middot; PAID
+        PAID Rs. {{ resource.price|floatformat:"0" }}
       </span>
       {% endif %}
       <span class="rd-chip rd-chip-grade">{{ resource.grade_level }}</span>
@@ -135,20 +135,17 @@
         {% endif %}
       {% endif %}
 
-      <span class="dot-sep">·</span>
       <span class="rd-meta-item">
         <span class="material-symbols-outlined">schedule</span>
         {{ resource.added_at|time_ago }}
       </span>
 
-      <span class="dot-sep">·</span>
       <span class="rd-meta-item">
         <span class="material-symbols-outlined">visibility</span>
         {{ resource.view_count|format_count }} views
       </span>
 
       {% if resource.file_size %}
-      <span class="dot-sep">·</span>
       <span class="rd-meta-item">
         <span class="material-symbols-outlined">folder</span>
         {{ resource.file_size|file_size_human }}
@@ -165,7 +162,7 @@
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
         <span class="material-symbols-outlined" style="font-size:32px;color:#16a34a;">lock</span>
         <div>
-          <h3 style="margin:0;font-size:1.25rem;font-weight:700;color:var(--md-on-surface,#0f172a);">Paid Content &middot; Rs. {{ resource.price|floatformat:"0" }}</h3>
+          <h3 style="margin:0;font-size:1.25rem;font-weight:700;color:var(--md-on-surface,#0f172a);">Paid content — Rs. {{ resource.price|floatformat:"0" }}</h3>
           <p style="margin:4px 0 0 0;font-size:0.875rem;color:var(--md-on-surface-variant,#475569);">
             This is a premium resource uploaded by {{ resource.uploadedByName|default:"the instructor" }}. Pay via QR code below to gain full access.
           </p>
@@ -268,7 +265,7 @@
               <div class="rd-file-meta">
                 <span class="rd-file-badge">{{ file.type }}</span>
                 {% if file.file_size %}
-                <span class="rd-file-size">&middot; {{ file.file_size|file_size_human }}</span>
+                <span class="rd-file-size">{{ file.file_size|file_size_human }}</span>
                 {% endif %}
               </div>
             </div>
@@ -400,7 +397,7 @@
             {% endwith %}
           </div>
           <div class="resource-card-title">{{ r.title }}</div>
-          <div class="resource-card-meta">{{ r.grade_level }}{% if r.file_size %} &middot; {{ r.file_size|file_size_human }}{% endif %}</div>
+          <div class="resource-card-meta">{{ r.grade_level }}{% if r.file_size %}, {{ r.file_size|file_size_human }}{% endif %}</div>
         </div>
       </a>
       {% endfor %}

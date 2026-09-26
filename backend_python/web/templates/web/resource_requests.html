@@ -91,9 +91,7 @@
           <div class="request-card-meta">
             {% if req.subject %}<span class="request-chip">{{ req.subject }}</span>{% endif %}
             {% if req.grade_level %}<span class="request-chip">{{ req.grade_level }}</span>{% endif %}
-            <span class="dot-sep">·</span>
             <span>{{ req.requested_by_name }}</span>
-            <span class="dot-sep">·</span>
             <span>{{ req.created_at|time_ago }}</span>
           </div>
         </div>
@@ -156,9 +154,8 @@
 .request-card-content { flex: 1; min-width: 0; }
 .request-card-title { font-size: 1rem; font-weight: 600; color: var(--md-on-surface); margin-bottom: 4px; }
 .request-card-desc { font-size: 0.875rem; color: var(--md-on-surface-variant); margin-bottom: 6px; line-height: 1.4; }
-.request-card-meta { display: flex; align-items: center; gap: 6px; font-size: 0.8125rem; color: var(--md-on-surface-variant); flex-wrap: wrap; }
+.request-card-meta { display: flex; align-items: center; gap: 12px; font-size: 0.8125rem; color: var(--md-on-surface-variant); flex-wrap: wrap; }
 .request-chip { background: var(--md-secondary-container); color: var(--md-on-secondary-container); padding: 2px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 500; }
-.dot-sep { opacity: 0.3; }
 .request-card-status { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; padding: 4px 10px; border-radius: 6px; white-space: nowrap; }
 .status-open { background: color-mix(10%, #4caf50, transparent); color: #2e7d32; }
 .status-fulfilled { background: color-mix(10%, #2196f3, transparent); color: #1565c0; }

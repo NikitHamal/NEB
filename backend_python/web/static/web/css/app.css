@@ -1432,7 +1432,7 @@
 .post-meta-sub {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 12px;
   margin-top: 2px;
   font-size: 0.725rem;
   color: var(--md-on-surface-variant);
@@ -1511,9 +1511,6 @@
   font-size: 13px;
 }
 
-.dot-sep {
-  opacity: 0.3;
-}
 
 .md-btn .material-symbols-outlined {
   font-size: 18px;

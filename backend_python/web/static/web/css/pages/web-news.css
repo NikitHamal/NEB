@@ -260,7 +260,7 @@
 .news-card-meta {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 14px;
   font-size: 0.8rem;
   color: var(--md-on-surface-variant);
   margin-top: auto;
@@ -285,9 +285,6 @@
   border: 1px solid var(--md-outline-variant);
 }
 
-.dot-sep {
-  opacity: 0.4;
-}
 
 .icon-sm {
   font-size: 14px;
