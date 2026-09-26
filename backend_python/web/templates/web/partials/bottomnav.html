@@ -15,8 +15,11 @@ at this width, so hiding the rail there would leave a mobile visitor with no way
 out. Nothing is highlighted, which is the honest state: you are not on one of
 the three.
 
-Deliberately no create button. The app puts a plus beside the rail; the web
-composer is reached from the page that owns it.
+The plus beside the rail is the app's NebFabMenu -- the same three ways to
+create, in the same order, behind the same clover. It used to be a link
+straight to the post composer, on the forum page only, which meant a phone
+user who wanted to upload a file had to know the library was where uploads
+live. Only shown to a signed-in user: all three destinations require one.
 {% endcomment %}
 <nav class="md-bottomnav" aria-label="Primary">
   <div class="md-bottomnav-pill">
@@ -49,3 +52,30 @@ composer is reached from the page that owns it.
     </a>
   </div>
 </nav>
+
+{% if user.is_authenticated %}
+<div class="neb-fab-scrim" data-neb-fab-scrim aria-hidden="true"></div>
+<div class="neb-fab-menu" id="createMenu">
+  <div class="neb-fab-menu-items" role="menu" aria-label="Create">
+    <a href="{% url 'web:canvas' %}" class="neb-fab-pill" role="menuitem"
+       style="--neb-fab-accent: var(--neb-accent-teal)">
+      <span class="material-symbols-outlined" aria-hidden="true">draw</span>
+      <span class="neb-fab-pill-label">New canvas</span>
+    </a>
+    <a href="{% url 'web:upload_resource' %}" class="neb-fab-pill" role="menuitem"
+       style="--neb-fab-accent: var(--neb-accent-amber)">
+      <span class="material-symbols-outlined" aria-hidden="true">cloud_upload</span>
+      <span class="neb-fab-pill-label">Upload materials</span>
+    </a>
+    <a href="{% url 'web:create_post' %}" class="neb-fab-pill" role="menuitem"
+       style="--neb-fab-accent: var(--neb-accent-brand)">
+      <span class="material-symbols-outlined" aria-hidden="true">rate_review</span>
+      <span class="neb-fab-pill-label">New post</span>
+    </a>
+  </div>
+  <button type="button" class="md-fab md-shape-clover" id="createFab" data-neb-fab-toggle
+          aria-haspopup="menu" aria-expanded="false" aria-controls="createMenu" aria-label="Create">
+    <span class="material-symbols-outlined" aria-hidden="true">add</span>
+  </button>
+</div>
+{% endif %}
