@@ -10,12 +10,12 @@
 {% endblock %}
 
 {% block content %}
-{# ── The profile editor ─────────────────────────────────────────────────────
+{% comment %} ── The profile editor ─────────────────────────────────────────────────────
    One scroll, seven titled sections, and a save that stays within reach
    instead of waiting at the bottom of a long form. This is the app's
    EditProfileScreen. The web had every field in a single undivided card, so
    scrolling it told you neither how much was left nor what any field had to do
-   with the one above it. #}
+   with the one above it. {% endcomment %}
 <div class="epf-page">
   <header class="epf-head">
     <h1 class="epf-title">{% if profile_incomplete %}Complete your profile{% else %}Edit profile{% endif %}</h1>
@@ -37,8 +37,8 @@
   <form method="post" class="epf-form">
     {% csrf_token %}
 
-    {# Who you are right now, and how much of you is filled in. The meter
-       counts the same ten things the app's profileStrength() counts. #}
+    {% comment %} Who you are right now, and how much of you is filled in. The meter
+       counts the same ten things the app's profileStrength() counts. {% endcomment %}
     <div class="epf-identity">
       <div class="epf-identity-avatar">
         {% if user.photo_url %}

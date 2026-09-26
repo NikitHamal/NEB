@@ -9,13 +9,13 @@
 {% endblock %}
 
 {% block content %}
-{# ── Settings ───────────────────────────────────────────────────────────────
+{% comment %} ── Settings ───────────────────────────────────────────────────────────────
    The app's SettingsScreen: an identity card that is itself the way into the
    editor, then labelled groups of rows on one rounded surface each. A row is
    an icon in a circle, a title, a subtitle that states the current value, and
    either a chevron or a switch. The web had this same shape drawn in inline
    styles, which is why every group had slightly different padding and the
-   groups themselves were in a different order from the app's. #}
+   groups themselves were in a different order from the app's. {% endcomment %}
 <div class="st-page">
   <a href="{% url 'web:profile' username=user.username %}" class="md-btn md-btn-text st-back" data-action="go-back">
     <span class="material-symbols-outlined">arrow_back</span>
@@ -212,9 +212,9 @@
         <span class="st-row-icon"><span class="material-symbols-outlined">delete_forever</span></span>
         <div class="st-row-text">
           <p class="st-row-title">Delete account</p>
-          {# The view already looks up whether one is pending and the template
+          {% comment %} The view already looks up whether one is pending and the template
              never used it; saying so here saves a click to find out. No date:
-             created_at is an epoch integer, not a datetime. #}
+             created_at is an epoch integer, not a datetime. {% endcomment %}
           <p class="st-row-sub">{% if pending_request %}Already requested — open to cancel it{% else %}Permanently remove your profile and data{% endif %}</p>
         </div>
         <span class="material-symbols-outlined st-chevron">chevron_right</span>

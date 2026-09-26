@@ -1,5 +1,5 @@
 {% load static web_extras %}
-{# ── The home feed ─────────────────────────────────────────────────────────
+{% comment %} ── The home feed ─────────────────────────────────────────────────────────
    One column, the app's: post cards with the standing rails interleaved at the
    positions HomeFeedModel.kt anchors them to. The view has already flattened
    that into a list of typed entries, so this template only has to draw one row
@@ -7,11 +7,11 @@
 
    Rendered twice: inside home.html for the first page, and on its own as the
    response to the load-more request, which is why the sentinel at the bottom
-   is part of the partial rather than the page. #}
+   is part of the partial rather than the page. {% endcomment %}
 {% url 'web:library' as hf_library_url %}
 {% url 'web:news_list' as hf_news_url %}
-{# No people directory on the web; the leaderboard is where all the
-   contributors are, which is what the app's people screen shows. #}
+{% comment %} No people directory on the web; the leaderboard is where all the
+   contributors are, which is what the app's people screen shows. {% endcomment %}
 {% url 'web:leaderboard' as hf_people_url %}
 {% for entry in feed_entries %}
   {% if entry.kind == 'post' %}
@@ -68,9 +68,9 @@
 {% endfor %}
 
 {% if feed_has_more %}
-{# The sentinel fetches the next page when it scrolls into view and replaces
+{% comment %} The sentinel fetches the next page when it scrolls into view and replaces
    itself with it, so the whole of infinite scroll is this one element and no
-   script at all. Until the request lands it is the app's loading row. #}
+   script at all. Until the request lands it is the app's loading row. {% endcomment %}
 <div class="md-loading-row hf-sentinel"
      hx-get="{% url 'web:home_feed_more' %}?offset={{ feed_next_offset }}"
      hx-trigger="revealed"
@@ -79,8 +79,8 @@
   <span>Loading more updates...</span>
 </div>
 {% elif feed_entries %}
-{# The app's HomeEndOfFeedCard. On a load-more response this is what replaces
-   the sentinel, which is how the feed ends without a second request. #}
+{% comment %} The app's HomeEndOfFeedCard. On a load-more response this is what replaces
+   the sentinel, which is how the feed ends without a second request. {% endcomment %}
 <div class="hf-end">
   <span class="hf-end-icon material-symbols-outlined">check</span>
   <strong class="hf-end-title">You're all caught up!</strong>

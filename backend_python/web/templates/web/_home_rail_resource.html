@@ -1,9 +1,9 @@
 {% load static web_extras %}
-{# ── A resource, as a rail card ────────────────────────────────────────────
+{% comment %} ── A resource, as a rail card ────────────────────────────────────────────
    The app's WebResourceCard at rail size. One copy now: the home feed, the
    "Suggested for you" deck and "New in Library" all include this, where before
    the same ninety lines were pasted into home.html and _home_suggested.html and
-   had already drifted apart. Expects `r`. #}
+   had already drifted apart. Expects `r`. {% endcomment %}
 <a href="{% url 'web:reader' resource_id=r.id %}"
   class="resource-card subject-{{ r.subject|split:','|first|subject_slug }}">
   <div class="resource-card-art">

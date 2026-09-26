@@ -8,8 +8,8 @@
 {% block og_type %}profile{% endblock %}
 {% block tw_title %}{{ profile_user.display_name|default:profile_user.username }} on NEBians{% endblock %}
 {% block tw_description %}{% if profile_user.bio %}{{ profile_user.bio }}{% else %}Check out {{ profile_user.display_name|default:profile_user.username }}'s profile on NEBians — Nepal's learning community.{% endif %}{% endblock %}
-{# The card itself comes from the og_image_context processor (/og/profile/...);
-   only the alt text needs this page's own data. #}
+{% comment %} The card itself comes from the og_image_context processor (/og/profile/...);
+   only the alt text needs this page's own data. {% endcomment %}
 {% block og_image_alt %}{{ profile_user.display_name|default:profile_user.username }} profile card on NEBians{% endblock %}
 {% block tw_image_alt %}{{ profile_user.display_name|default:profile_user.username }} profile card on NEBians{% endblock %}
 {% block robots %}{% if profile_private or profile_user.is_bot %}<meta name="robots" content="noindex,nofollow">{% endif %}{% endblock %}
@@ -47,9 +47,9 @@
 {% endif %}
 {% endblock %}
 
-{# The rail, with nothing highlighted: a profile is not one of the three
+{% comment %} The rail, with nothing highlighted: a profile is not one of the three
    destinations, but on mobile the topbar's nav is hidden and this is the only
-   way off the page. #}
+   way off the page. {% endcomment %}
 {% block bottomnav %}
 {% include "web/partials/bottomnav.html" %}
 {% endblock %}
@@ -62,21 +62,21 @@
   {% if profile_user %}
     <div class="profile-grid-container">
       
-      {# ── The head of the profile ───────────────────────────────────────────
+      {% comment %} ── The head of the profile ───────────────────────────────────────────
          One column, no panel. The cover runs to both edges of the column, the
          avatar sits across its bottom edge with the primary action opposite
          it, and everything under that is left-aligned text at a single indent.
          This is the app's ProfileHeader. The web used to wrap all of it in a
          rounded, shadowed card that itself sat inside a padded grid, which
-         read as a card floating on a card. #}
+         read as a card floating on a card. {% endcomment %}
       <div class="profile-left-col">
         <div class="pf-compact-card{% if profile_user.is_bot %} pf-compact-card-bot{% endif %}">
           <div class="pf-card-banner" {% if profile_user.banner_url %}style="background-image: url('{{ profile_user.banner_url }}'); background-size: cover; background-position: center;"{% endif %}>
             {% if profile_user.banner_url %}
               <div class="pf-banner-photo-scrim"></div>
             {% else %}
-              {# Generative cover art. Same role, same seed, same drawing as the
-                 Android app's ProfileBanner. #}
+              {% comment %} Generative cover art. Same role, same seed, same drawing as the
+                 Android app's ProfileBanner. {% endcomment %}
               <div class="neb-art pf-banner-art" data-neb-art="cover"
                    data-neb-role="{{ profile_user.banner_role|default:'MEMBER' }}"
                    data-neb-seed="{{ profile_user.username }}">
@@ -87,9 +87,9 @@
             <a href="#" data-action="go-back" class="profile-banner-back-btn" title="Go Back">
               <span class="material-symbols-outlined">arrow_back</span>
             </a>
-            {# The utility actions live on the cover rather than in the text
+            {% comment %} The utility actions live on the cover rather than in the text
                column: the app keeps them in the top bar, and down here they
-               competed with the name for the first line the eye lands on. #}
+               competed with the name for the first line the eye lands on. {% endcomment %}
             <div class="pf-banner-actions">
               <button class="pf-banner-action" data-action="copy-profile-link" title="Copy profile URL" aria-label="Copy profile URL">
                 <span class="material-symbols-outlined">link</span>
@@ -106,8 +106,8 @@
             </div>
           </div>
 
-          {# Avatar and primary action, bottom-aligned across the cover's edge.
-             Nothing clips here, so the avatar hangs below the art. #}
+          {% comment %} Avatar and primary action, bottom-aligned across the cover's edge.
+             Nothing clips here, so the avatar hangs below the art. {% endcomment %}
           <div class="pf-identity-row">
             <div class="pf-avatar-overlap-wrap{% if profile_user.is_bot or profile_user.username == 'neby' %} pf-avatar-bot{% endif %} {% if profile_user.verification_level and profile_user.verification_level > 0 %}avatar-container-verified{% endif %}">
               <div class="pf-avatar-circle{% if profile_user.is_bot or profile_user.username == 'neby' %} pf-avatar-bot-circle{% endif %}" id="profilePageAvatar">
@@ -221,9 +221,9 @@
               </div>
             {% endif %}
 
-            {# The bio, with no heading over it. A one-paragraph "About" section
+            {% comment %} The bio, with no heading over it. A one-paragraph "About" section
                inside a profile is a label for something the reader can already
-               see. #}
+               see. {% endcomment %}
             <p class="pf-card-bio">
               {% if profile_user.bio %}
                 {{ profile_user.bio|linkify }}
@@ -241,8 +241,8 @@
             </p>
             {% include "web/_agent_persona_card.html" %}
 
-            {# Where they are, where they study, when they arrived: one wrapped
-               line of grey rather than three icon rows stacked vertically. #}
+            {% comment %} Where they are, where they study, when they arrived: one wrapped
+               line of grey rather than three icon rows stacked vertically. {% endcomment %}
             <div class="pf-meta-flow">
               {% if not profile_user.is_bot %}
                 {% if profile_user.district or profile_user.pradesh %}

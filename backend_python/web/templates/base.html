@@ -1,12 +1,12 @@
 {% load static %}
 {% load web_extras %}
 <!DOCTYPE html>
-{# data-theme is always one of "light" or "dark", never absent and never "".
+{% comment %} data-theme is always one of "light" or "dark", never absent and never "".
    Anything that has to know the theme without reading CSS -- the canvas that
    paints the generative banner art, the collab board, the mindmap -- reads this
    attribute, and an empty value meant they all fell through to the OS
    preference. A reader on a light page with a dark desktop got the dark palette
-   painted into the cards: the exact complaint in issue #47. #}
+   painted into the cards: the exact complaint in issue #47. {% endcomment %}
 <html lang="en" data-theme="{% if dark_mode %}dark{% else %}light{% endif %}">
 
 <head>
@@ -24,10 +24,10 @@
   <meta name="msapplication-TileImage" content="{% static 'web/img/n-logo-192.png' %}">
   <link rel="canonical" href="{% block canonical %}https://nebians.consica.com.np{{ request.path }}{% endblock %}">
   {% block robots %}{% endblock %}
-  {# Lengths are not decoration. Google truncates a title past ~60 characters
+  {% comment %} Lengths are not decoration. Google truncates a title past ~60 characters
      and a description past ~160; X and LinkedIn cut og:description around 125.
      Anything written into these blocks should be counted, and written as a
-     sentence a person would read rather than a keyword list. #}
+     sentence a person would read rather than a keyword list. {% endcomment %}
   <meta name="description"
     content="{% block description %}NEBians is Nepal's open learning community: free NEB past papers, model questions and notes, plus a study forum and AI tools for every subject.{% endblock %}">
   <meta name="application-name" content="NEBians">
@@ -45,10 +45,10 @@
   <meta name="twitter:title" content="{% block tw_title %}NEBians — Nepal's Learning Community{% endblock %}">
   <meta name="twitter:description"
     content="{% block tw_description %}Nepal's open learning community — free past papers, notes, a study forum and AI study tools for every subject and level.{% endblock %}">
-  {# Every page has a drawn card of its own, served from /og/ -- see web/og_cards.py.
+  {% comment %} Every page has a drawn card of its own, served from /og/ -- see web/og_cards.py.
      og_image_url and og_image_alt come from the og_image_context processor, which
      works the card out from the route. A page that has a better image of its own --
-     a thread with a photo in it -- overrides the block instead. #}
+     a thread with a photo in it -- overrides the block instead. {% endcomment %}
   {% firstof og_image_url 'https://nebians.consica.com.np/og/page/default.png' as og_img %}
   <meta property="og:image" content="{% block og_image %}{{ og_img }}{% endblock %}">
   <meta property="og:image:secure_url" content="{% block og_image_secure %}{{ og_img }}{% endblock %}">
@@ -111,10 +111,10 @@
   {% block extra_css %}{% endblock %}
   <link rel="stylesheet" href="{% static 'web/css/ai-widgets.css' %}">
   <link rel="stylesheet" href="{% static 'web/css/pages/neby-assist.css' %}">
-  {# Reconcile the theme before the first paint. The server renders the session's
+  {% comment %} Reconcile the theme before the first paint. The server renders the session's
      choice; localStorage is what the browser last chose and wins over it, and a
      visitor who has never chosen gets their OS preference. Running this here
-     rather than at the bottom of <body> is what stops the light-then-dark flash. #}
+     rather than at the bottom of <body> is what stops the light-then-dark flash. {% endcomment %}
   <script nonce="{{ csp_nonce }}">
     (function () {
       var el = document.documentElement;
@@ -126,10 +126,10 @@
       el.setAttribute('data-theme', theme);
     })();
   </script>
-  {# delegated-events defines registerActions(), which page templates call at
+  {% comment %} delegated-events defines registerActions(), which page templates call at
      parse time, so it is the one script that has to be here. The other ~280 KB
      used to block the parser in this same spot for no reason: nothing runs
-     before DOMContentLoaded, and they now load at the end of <body>. #}
+     before DOMContentLoaded, and they now load at the end of <body>. {% endcomment %}
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/delegated-events.js' %}"></script>
 <!-- HTMX global config: disable history cache to ensure clean full page back navigation -->
   <meta name="htmx-config" content='{"historyEnabled":false,"refreshOnHistoryMiss":true}'>
@@ -953,9 +953,9 @@
     });
 
   </script>
-  {# Moved down from <head>. Order is the order they were in there, and every
+  {% comment %} Moved down from <head>. Order is the order they were in there, and every
      consumer of them runs on DOMContentLoaded or later, so nothing changes
-     except that the page can paint before they arrive. #}
+     except that the page can paint before they arrive. {% endcomment %}
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neb-art.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/inline-media.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/forum-media.js' %}"></script>
