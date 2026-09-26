@@ -493,7 +493,8 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
 .ba-empty-state { min-height: 150px; display: grid; place-items: center; align-content: center; gap: 8px; text-align: center; color: var(--ba-muted); padding: 24px; }
 .ba-empty-state .material-symbols-outlined { font-size: 28px; color: var(--ba-faint); }
 .ba-empty-state p { margin: 0; font-size: 11px; }
-.ba-spinner { width: 18px; height: 18px; border: 2px solid var(--ba-border); border-top-color: var(--ba-accent); border-radius: 50%; animation: ba-spin .7s linear infinite; }
+/* The wait is .md-loader (material3/08-shapes.css). */
+.ba-spinner { color: var(--ba-accent); }
 @keyframes ba-spin { to { transform: rotate(360deg); } }
 
 @media (max-width: 820px) {
@@ -517,7 +518,7 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visib
   .ba-dialog-actions { display: grid; grid-template-columns: 1fr 1fr; }
 }
 
-.ba-device-auth-page { min-height: calc(100vh - 64px); display: grid; place-items: center; padding: 32px 20px; background: var(--ba-canvas); }
+.ba-device-auth-page { min-height: calc(100vh - 64px); display: grid; place-items: center; padding: 32px 20px; background: var(--ba-bg); }
 .ba-device-auth-card { width: min(100%, 520px); padding: 32px; border: 1px solid var(--ba-border); border-radius: var(--md-radius-xl); background: var(--ba-panel); box-shadow: var(--ba-shadow-lg); text-align: center; }
 .ba-device-auth-icon { width: 56px; height: 56px; margin: 0 auto 18px; display: grid; place-items: center; border-radius: 18px; background: var(--ba-accent-soft); color: var(--ba-accent); }
 .ba-device-auth-card h1 { margin: 6px 0 8px; font-size: clamp(26px, 4vw, 38px); }

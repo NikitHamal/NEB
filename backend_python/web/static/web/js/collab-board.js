@@ -1655,7 +1655,7 @@
     tabs.forEach(function(t) {
       var btn = document.getElementById('cbTab' + t.charAt(0).toUpperCase() + t.slice(1));
       var pane = document.getElementById('cbPane' + t.charAt(0).toUpperCase() + t.slice(1));
-      if (btn) btn.classList.toggle('ss-doc-tab-active', t === tab);
+      if (btn) btn.setAttribute('aria-selected', String(t === tab));
       if (pane) pane.style.display = t === tab ? 'block' : 'none';
     });
     

@@ -26,9 +26,7 @@
   color: var(--md-on-primary);
 }
 
-.md-btn-filled:hover {
-  filter: brightness(1.08);
-}
+/* Hover and press are the state layer in 07-expressive.css. */
 
 .md-btn-outlined {
   background: transparent;
@@ -36,17 +34,9 @@
   border: 1px solid var(--md-outline);
 }
 
-.md-btn-outlined:hover {
-  background: color-mix(in srgb, var(--md-primary) 8%, transparent);
-}
-
 .md-btn-text {
   background: transparent;
   color: var(--md-primary);
-}
-
-.md-btn-text:hover {
-  background: color-mix(in srgb, var(--md-primary) 8%, transparent);
 }
 
 .md-btn-tonal {
@@ -54,9 +44,15 @@
   color: var(--md-on-secondary-container);
 }
 
-.md-btn-tonal:hover {
-  filter: brightness(1.04);
+/* A size, not a colour: pairs with any of the variants above. The class was
+   already in the markup in a few places with nothing behind it. */
+.md-btn-small {
+  gap: 6px;
+  padding: 6px 16px;
+  min-height: 34px;
+  font-size: 0.8125rem;
 }
+.md-btn-small .material-symbols-outlined { font-size: 18px; }
 
 .md-btn-error {
   background: var(--md-error);
@@ -68,7 +64,7 @@
   width: 36px;
   height: 36px;
   padding: 0;
-  border-radius: var(--md-radius-full, 9999px);
+  border-radius: var(--md-radius-full);
   background: transparent;
   border: none;
   outline: none;

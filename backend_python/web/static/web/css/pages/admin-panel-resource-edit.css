@@ -1,3 +1,6 @@
+/* The list-picker dialog lives in app/03-filters-dialogs.css. This page
+   used to carry a copy of it, which is why it drifted: the shared rules
+   were there the whole time and the copy, loaded later, always won. */
 .upload-page { max-width: 680px; margin: 0 auto; padding: 24px 16px 48px; }
 .upload-section { background: var(--md-surface-container-low); border: 1px solid var(--md-outline-variant); border-radius: 16px; padding: 20px; margin-bottom: 16px; }
 .upload-section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
@@ -21,8 +24,8 @@
 .upload-details-content { padding: 0 20px 20px; }
 
 .upload-dropzone { border: 2px dashed var(--md-outline-variant); border-radius: 16px; padding: 32px 20px; text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s; position: relative; }
-.upload-dropzone:hover, .upload-dropzone.dragover { border-color: var(--md-primary); background: color-mix(5%, var(--md-primary), transparent); }
-.upload-dropzone.has-file { border-color: var(--md-primary); border-style: solid; background: color-mix(5%, var(--md-primary), transparent); padding: 16px 20px; }
+.upload-dropzone:hover, .upload-dropzone.dragover { border-color: var(--md-primary); background: color-mix(in srgb, var(--md-primary) 5%, transparent); }
+.upload-dropzone.has-file { border-color: var(--md-primary); border-style: solid; background: color-mix(in srgb, var(--md-primary) 5%, transparent); padding: 16px 20px; }
 .upload-file-input { position: absolute; inset: 0; opacity: 0; cursor: pointer; z-index: 2; }
 .upload-dropzone-icon { font-size: 48px; color: var(--md-primary); display: block; margin: 0 auto 8px; }
 .upload-dropzone-text { margin: 0; color: var(--md-on-surface-variant); font-size: 0.9375rem; }
@@ -34,12 +37,12 @@
 .upload-file-name { display: block; font-weight: 600; color: var(--md-on-surface); font-size: 0.9375rem; word-break: break-all; }
 .upload-file-size { display: block; font-size: 0.8125rem; color: var(--md-on-surface-variant); }
 .upload-file-remove { background: none; border: none; cursor: pointer; padding: 4px; border-radius: 50%; color: var(--md-on-surface-variant); display: flex; align-items: center; justify-content: center; position: relative; z-index: 3; }
-.upload-file-remove:hover { background: color-mix(10%, var(--md-error), transparent); color: var(--md-error); }
+.upload-file-remove:hover { background: color-mix(in srgb, var(--md-error) 10%, transparent); color: var(--md-error); }
 .upload-file-remove .material-symbols-outlined { font-size: 20px; }
 
-.admin-badge-approved { background: color-mix(10%, #4caf50, transparent); color: #2e7d32; font-size: 0.75rem; font-weight: 600; padding: 2px 8px; border-radius: 4px; }
-.admin-badge-pending { background: color-mix(10%, #ff9800, transparent); color: #e65100; font-size: 0.75rem; font-weight: 600; padding: 2px 8px; border-radius: 4px; }
-.admin-badge-rejected { background: color-mix(10%, #f44336, transparent); color: #c62828; font-size: 0.75rem; font-weight: 600; padding: 2px 8px; border-radius: 4px; }
+.admin-badge-approved { background: color-mix(in srgb, var(--neb-accent-green) 12%, transparent); color: color-mix(in srgb, var(--neb-accent-green) 74%, var(--md-on-surface)); font-size: 0.75rem; font-weight: 600; padding: 2px 8px; border-radius: 4px; }
+.admin-badge-pending { background: color-mix(in srgb, var(--neb-accent-amber) 12%, transparent); color: color-mix(in srgb, var(--neb-accent-amber) 74%, var(--md-on-surface)); font-size: 0.75rem; font-weight: 600; padding: 2px 8px; border-radius: 4px; }
+.admin-badge-rejected { background: color-mix(in srgb, var(--neb-accent-rose) 12%, transparent); color: color-mix(in srgb, var(--neb-accent-rose) 74%, var(--md-on-surface)); font-size: 0.75rem; font-weight: 600; padding: 2px 8px; border-radius: 4px; }
 
 .upload-divider { display: flex; align-items: center; gap: 12px; margin: 12px 0 16px; color: var(--md-on-surface-variant); font-size: 0.8125rem; }
 .upload-divider::before, .upload-divider::after { content: ''; flex: 1; height: 1px; background: var(--md-outline-variant); }
@@ -48,41 +51,13 @@
 .subject-chips { display: flex; flex-wrap: wrap; gap: 6px; min-height: 0; }
 .subject-chip { display: inline-flex; align-items: center; gap: 4px; background: var(--md-primary-container); color: var(--md-on-primary-container); padding: 4px 8px 4px 12px; border-radius: 20px; font-size: 0.8125rem; font-weight: 500; line-height: 1.4; }
 .subject-chip-remove { background: none; border: none; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center; color: var(--md-on-primary-container); opacity: 0.7; border-radius: 50%; width: 18px; height: 18px; }
-.subject-chip-remove:hover { opacity: 1; background: color-mix(15%, var(--md-on-primary-container), transparent); }
+.subject-chip-remove:hover { opacity: 1; background: color-mix(in srgb, var(--md-on-primary-container) 15%, transparent); }
 .subject-chip-remove .material-symbols-outlined { font-size: 14px; }
 .subject-input-row { display: flex; gap: 8px; }
 .subject-input-row .md-input { flex: 1; }
-.subject-pick-btn { white-space: nowrap; padding: 8px 16px; }
-.subject-pick-btn .material-symbols-outlined { font-size: 18px; }
-
-.subject-pick-overlay { position: fixed; inset: 0; z-index: 9000; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; padding: 16px; }
-.subject-pick-dialog { background: var(--md-surface); border-radius: 20px; width: 100%; max-width: 480px; max-height: 80vh; display: flex; flex-direction: column; box-shadow: 0 8px 32px rgba(0,0,0,0.2); }
-.subject-pick-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px 12px; }
-.subject-pick-header h3 { margin: 0; font-size: 1.125rem; font-weight: 600; color: var(--md-on-surface); }
-.subject-pick-close { background: none; border: none; cursor: pointer; padding: 4px; border-radius: 50%; color: var(--md-on-surface-variant); display: flex; align-items: center; justify-content: center; }
-.subject-pick-close:hover { background: color-mix(10%, var(--md-on-surface-variant), transparent); }
-.subject-pick-search { display: flex; align-items: center; gap: 8px; margin: 0 20px 12px; padding: 8px 12px; border-radius: 12px; background: var(--md-surface-container-high); }
-.subject-pick-search .material-symbols-outlined { font-size: 20px; color: var(--md-on-surface-variant); }
-.subject-pick-search input { border: none; background: none; outline: none; flex: 1; font-size: 0.9375rem; color: var(--md-on-surface); font-family: inherit; }
-.subject-pick-search input::placeholder { color: var(--md-on-surface-variant); }
-.subject-pick-list { flex: 1; overflow-y: auto; padding: 0 12px 12px; min-height: 120px; max-height: 40vh; }
-.subject-pick-item { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 10px; cursor: pointer; font-size: 0.9375rem; color: var(--md-on-surface); transition: background 0.15s; }
-.subject-pick-item:hover { background: color-mix(5%, var(--md-primary), transparent); }
-.subject-pick-checkbox { display: none; }
-.subject-pick-check { width: 20px; height: 20px; border-radius: 4px; border: 2px solid var(--md-outline); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.15s, border-color 0.15s; }
-.subject-pick-check .material-symbols-outlined { font-size: 16px; color: var(--md-on-primary); opacity: 0; transition: opacity 0.15s; }
-.subject-pick-item.selected .subject-pick-check { background: var(--md-primary); border-color: var(--md-primary); }
-.subject-pick-item.selected .subject-pick-check .material-symbols-outlined { opacity: 1; }
-.subject-pick-label { flex: 1; }
-.subject-pick-add { display: flex; gap: 8px; padding: 8px 20px 12px; border-top: 1px solid var(--md-outline-variant); margin-top: 4px; }
-.subject-pick-add input { flex: 1; border: 1px solid var(--md-outline-variant); border-radius: 10px; padding: 8px 12px; font-size: 0.875rem; outline: none; background: var(--md-surface-container); color: var(--md-on-surface); font-family: inherit; }
-.subject-pick-add input:focus { border-color: var(--md-primary); }
-.subject-pick-add .md-btn { padding: 8px 16px; }
-.subject-pick-actions { display: flex; justify-content: flex-end; gap: 8px; padding: 12px 20px 16px; border-top: 1px solid var(--md-outline-variant); }
 
 @media (max-width: 600px) {
   .upload-row { flex-direction: column; gap: 0; }
   .upload-dropzone { padding: 24px 16px; }
   .upload-details-content { padding: 0 16px 16px; }
-  .subject-pick-dialog { max-width: 100%; margin: 8px; }
 }

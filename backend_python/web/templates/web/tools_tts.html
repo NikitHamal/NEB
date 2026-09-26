@@ -167,13 +167,6 @@ select.cs-native{ position:absolute !important; left:-9999px !important; width:1
 .chunk-slider input[type="range"]::-webkit-slider-thumb{ -webkit-appearance:none; width:18px; height:18px; border-radius:50%; background:var(--pill-bg); border:2px solid var(--bg-elevated); cursor:pointer; box-shadow:0 1px 4px rgba(0,0,0,0.15); }
 .chunk-slider input[type="range"]::-moz-range-thumb{ width:18px; height:18px; border-radius:50%; background:var(--pill-bg); border:2px solid var(--bg-elevated); cursor:pointer; }
 .chunk-labels{ display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:0.65rem; color:var(--text-muted); }
-.dialog-overlay{ position:fixed; inset:0; background:var(--modal-overlay); backdrop-filter:blur(6px); display:grid; place-items:center; z-index:100; padding:20px; }
-.dialog-overlay[hidden]{ display:none !important; }
-.dialog-card{ background:var(--modal-bg); border:1px solid var(--border-line); border-radius:16px; padding:22px; width:min(440px, 92vw); box-shadow:0 20px 50px rgba(0,0,0,0.18); animation:none; }
-@keyframes dialogIn{ from{ opacity:0; transform:scale(.96) translateY(8px);} to{opacity:1; transform:none;} }
-.dialog-card h3{ font-family:var(--font-mono); font-size:0.95rem; font-weight:700; color:var(--text-primary); margin-bottom:8px; }
-.dialog-card p{ font-size:0.88rem; color:var(--text-secondary); line-height:1.6; margin-bottom:16px; overflow-wrap:anywhere; }
-.dialog-actions{ display:flex; gap:10px; justify-content:flex-end; }
 html, body{ overflow-x:clip; }
 
 </style>
@@ -351,16 +344,6 @@ html, body{ overflow-x:clip; }
           <button class="btn small ghost" id="btnClearHist" style="flex:1;justify-content:center"><i class="ri-delete-bin-line"></i> Clear history</button>
         </div>
       </div>
-    </div>
-  </div>
-</div>
-<div id="customDialog" class="dialog-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="dialogTitle">
-  <div class="dialog-card">
-    <h3 id="dialogTitle">Confirm</h3>
-    <p id="dialogMsg">Are you sure?</p>
-    <div class="dialog-actions">
-      <button class="btn small ghost" id="dialogCancel"><i class="ri-close-line"></i> Cancel</button>
-      <button class="btn small primary" id="dialogConfirm"><i class="ri-check-line"></i> Confirm</button>
     </div>
   </div>
 </div>
@@ -912,7 +895,7 @@ $("btnPaste").onclick=async()=>{ try{ const t=await navigator.clipboard.readText
 $("ttsText").addEventListener('input', ()=>{ $("charCount").textContent=$("ttsText").value.length+" chars"; });
 $("ttsText").addEventListener('keydown', e=>{ if((e.ctrlKey||e.metaKey)&&e.key==="Enter") doGenerate($("optStream").checked); });
 $("btnClearHist").onclick=async()=>{
-  const ok=await showCustomDialog({title:'Clear history?', message:'Remove all TTS history? Audio blobs will be deleted.', confirmText:'Clear', cancelText:'Cancel'});
+  const ok=await showCustomDialog({title:'Clear history?', message:'Remove all TTS history? Audio blobs will be deleted.', confirmText:'Clear', cancelText:'Cancel', icon:'delete_sweep'});
   if(!ok) return;
   await Store.clear("tts"); renderHist(); toast("History cleared","ok");
 };
@@ -920,7 +903,7 @@ $("btnPersist").onclick=async()=>{
   try{ const ok=await navigator.storage.persist(); toast(ok?"Storage persistent 🎉":"Browser declined persistence",ok?"ok":"warn",5000); }catch(e){toast("Persistence unavailable","warn")}
 };
 $("btnWipe").onclick=async()=>{
-  const ok=await showCustomDialog({title:'Clear cache?', message:'Delete all cached TTS models? They will need to be downloaded again.', confirmText:'Clear cache', cancelText:'Cancel'});
+  const ok=await showCustomDialog({title:'Clear cache?', message:'Delete all cached TTS models? They will need to be downloaded again.', confirmText:'Clear cache', cancelText:'Cancel', icon:'cleaning_services'});
   if(!ok) return;
   try{ if(window.caches) for(const n of await caches.keys()) await caches.delete(n); $("dl").innerHTML=""; dlRows.clear(); kokoro=null; pipeTTS=null; pipeKey=""; $("mdlTxt").textContent="none"; await updateCacheInfo(); toast("Cache cleared","ok"); }catch(e){toast("Clear failed: "+e.message,"err")}
 };
@@ -972,18 +955,13 @@ function initCustomSelects(){
     window.syncUI=function(){ orig(); ['selModel','selDtype','selDev','selVoice','selFormat'].forEach(sid=>{ const n=document.getElementById(sid); if(n){ const c=document.querySelector(`.cs[data-target="${sid}"]`); if(c){ const v=n.value; const opt=Array.from(n.options).find(o=>o.value===v); const valEl=c.querySelector('.cs-value'); if(opt&&valEl){ const raw=opt.textContent.trim(); const parts=raw.split('·'); const main=parts[0].trim(); const hint=parts.slice(1).join('·').trim(); valEl.innerHTML=hint? `${main} <small style="opacity:.65;font-weight:400">· ${hint}</small>` : main; c.querySelectorAll('.cs-option').forEach(el=> el.classList.toggle('is-selected', el.dataset.value===v)); } } } }); };
   }
 }
-function showCustomDialog({title='Confirm', message='', confirmText='Confirm', cancelText='Cancel'}={}){
-  return new Promise(res=>{
-    const overlay=document.getElementById('customDialog');
-    const t=document.getElementById('dialogTitle'), m=document.getElementById('dialogMsg'), ok=document.getElementById('dialogConfirm'), cancel=document.getElementById('dialogCancel');
-    if(!overlay||!t||!m||!ok||!cancel){ res(confirm(message)); return; }
-    t.textContent=title; m.textContent=message; ok.innerHTML='<i class="ri-check-line"></i> '+confirmText; cancel.innerHTML='<i class="ri-close-line"></i> '+cancelText;
-    overlay.hidden=false; document.body.style.overflow='hidden';
-    function cleanup(val){ overlay.hidden=true; document.body.style.overflow=''; ok.removeEventListener('click', onOk); cancel.removeEventListener('click', onCancel); overlay.removeEventListener('click', onOverlay); document.removeEventListener('keydown', onKey); res(val); }
-    function onOk(){ cleanup(true); } function onCancel(){ cleanup(false); } function onOverlay(e){ if(e.target===overlay) cleanup(false); } function onKey(e){ if(e.key==='Escape') cleanup(false); }
-    ok.addEventListener('click', onOk); cancel.addEventListener('click', onCancel); overlay.addEventListener('click', onOverlay); document.addEventListener('keydown', onKey);
-    setTimeout(()=> ok.focus(),0);
-  });
+/* The app asks with NebDialog; so does the rest of the web now. This page had
+   its own overlay, its own escape handler and no focus trap -- NebUI.confirm is
+   the same component the forum and the library use, so a destructive action
+   looks and behaves the same wherever it is taken. */
+function showCustomDialog({title='Confirm', message='', confirmText='Confirm', cancelText='Cancel', icon='', destructive=true}={}){
+  if(!window.NebUI || !NebUI.confirm) return Promise.resolve(confirm(message));
+  return NebUI.confirm({title, message, confirmLabel:confirmText, cancelLabel:cancelText, icon, destructive});
 }
 
 // boot

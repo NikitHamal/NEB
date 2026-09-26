@@ -75,200 +75,13 @@
   color: var(--md-primary);
 }
 
-/* Layout */
-.sl-layout {
-  display: grid;
-  grid-template-columns: 280px minmax(0, 1fr);
-  gap: 20px;
-  align-items: start;
-}
-
-/* Sidebar */
-.sl-sidebar {
-  background: var(--md-surface-container-lowest);
-  border-radius: var(--md-radius-lg);
-  border: 1px solid var(--md-outline-variant);
-  padding: 16px;
-  position: sticky;
-  top: 80px;
-  max-height: calc(100vh - 100px);
-  overflow-y: auto;
-}
-.sl-sidebar-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 12px;
-}
-.sl-sidebar-header h2 {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--md-on-surface);
-  margin: 0;
-}
-.sl-doc-list {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-.sl-doc-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 10px 12px;
-  border-radius: var(--md-radius-md);
-  cursor: pointer;
-  transition: background var(--md-transition);
-}
-.sl-doc-item:hover {
-  background: var(--md-surface-container);
-}
-.sl-doc-item.sl-doc-active {
-  background: var(--md-primary-container);
-}
-.sl-doc-icon {
-  font-size: 20px;
-  color: var(--md-primary);
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-.sl-doc-info {
-  min-width: 0;
-}
-.sl-doc-title {
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--md-on-surface);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.sl-doc-parse-status {
-  font-size: 0.6875rem;
-  line-height: 1.2;
-  color: var(--md-on-surface-variant);
-}
-.sl-doc-parse-status.sl-doc-parsing {
-  color: var(--md-primary);
-}
-.sl-doc-parse-status.sl-doc-failed {
-  color: var(--md-error);
-}
-.sl-icon-spin {
-  animation: sl-spin 1.5s linear infinite;
-}
-@keyframes sl-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-.sl-doc-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  margin-top: 4px;
-}
-.sl-badge {
-  font-size: 0.6875rem;
-  padding: 1px 6px;
-  border-radius: var(--md-radius-sm);
-  font-weight: 500;
-}
-.sl-badge-summary {
-  background: #E8F5E9;
-  color: #2E7D32;
-}
-.sl-badge-quiz {
-  background: #E3F2FD;
-  color: #1565C0;
-}
-.sl-badge-flash {
-  background: #FFF3E0;
-  color: #E65100;
-}
-[data-theme="dark"] .sl-badge-summary {
-  background: #1B5E20;
-  color: #A5D6A7;
-}
-[data-theme="dark"] .sl-badge-quiz {
-  background: #0D47A1;
-  color: #90CAF9;
-}
-[data-theme="dark"] .sl-badge-flash {
-  background: #BF360C;
-  color: #FFCC80;
-}
-
-.sl-empty-state {
-  text-align: center;
-  padding: 32px 16px;
-  color: var(--md-on-surface-variant);
-}
-.sl-empty-state .material-symbols-outlined {
-  font-size: 48px;
-  color: var(--md-outline);
-  margin-bottom: 8px;
-}
-.sl-empty-state p {
-  font-size: 0.875rem;
-  margin: 0;
-}
-
-/* Main content */
-.sl-main {
-  min-width: 0;
-}
-
-/* Welcome screen */
-.sl-welcome {
-  text-align: center;
-  padding: 48px 24px;
-}
-.sl-welcome-icon {
-  font-size: 64px;
-  color: var(--md-primary);
-  margin-bottom: 16px;
-}
-.sl-welcome h2 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--md-on-surface);
-  margin: 0 0 8px;
-}
-.sl-welcome p {
-  color: var(--md-on-surface-variant);
-  font-size: 0.9375rem;
-  margin: 0 0 32px;
-}
-.sl-welcome-features {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  max-width: 640px;
-  margin: 0 auto;
-}
-.sl-feature-card {
-  background: var(--md-surface-container-lowest);
-  border: 1px solid var(--md-outline-variant);
-  border-radius: var(--md-radius-lg);
-  padding: 24px 16px;
-  text-align: center;
-}
-.sl-feature-card .material-symbols-outlined {
-  font-size: 32px;
-  color: var(--md-primary);
-  margin-bottom: 8px;
-}
-.sl-feature-card h3 {
-  font-size: 0.9375rem;
-  font-weight: 600;
-  color: var(--md-on-surface);
-  margin: 0 0 4px;
-}
-.sl-feature-card p {
-  font-size: 0.8125rem;
-  color: var(--md-on-surface-variant);
-  margin: 0;
-}
+/* The two-pane shell went out: the sticky sidebar, the document list inside
+   it with its parse-status line and its summary/quiz/flashcard badges, the
+   empty state, the main pane, and the welcome screen with three feature
+   cards. Nothing renders any of it -- study_lab.html is the header and the
+   sign-in prompt, and the shared page opens straight onto .sl-detail. Those
+   badges were also the last Material literals in this file: three pale
+   fills with a [data-theme="dark"] block restating every one of them. */
 
 /* Document detail */
 .sl-detail {
@@ -277,26 +90,6 @@
   border: 1px solid var(--md-outline-variant);
   overflow: hidden;
 }
-.sl-detail-header {
-  padding: 20px 24px 16px;
-  border-bottom: 1px solid var(--md-outline-variant);
-}
-.sl-detail-title-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.sl-detail-title-row .material-symbols-outlined {
-  color: var(--md-primary);
-  font-size: 24px;
-}
-.sl-detail-title-row h2 {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--md-on-surface);
-  margin: 0;
-  flex: 1;
-}
 .sl-detail-meta {
   font-size: 0.8125rem;
   color: var(--md-on-surface-variant);
@@ -304,58 +97,12 @@
   padding-left: 34px;
 }
 
-/* Tabs */
-.sl-tabs {
-  display: flex;
-  border-bottom: 1px solid var(--md-outline-variant);
-  padding: 0 24px;
-}
-.sl-tab {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 12px 20px;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--md-on-surface-variant);
-  border: none;
-  border-bottom: 2px solid transparent;
-  background: none;
-  cursor: pointer;
-  transition: all var(--md-transition);
-  font-family: var(--md-font);
-}
-.sl-tab .material-symbols-outlined {
-  font-size: 18px;
-}
-.sl-tab:hover {
-  color: var(--md-primary);
-  background: var(--md-primary-container);
-}
-.sl-tab.sl-tab-active {
-  color: var(--md-primary);
-  border-bottom-color: var(--md-primary);
-}
+/* Tabs: .neb-rail. The row that was here hovered on --md-primary-container,
+   which in dark theme is a pale lilac block under white text. */
 
 /* Tab content */
 .sl-tab-content {
   padding: 24px;
-}
-
-/* Generate prompt */
-.sl-generate-prompt {
-  text-align: center;
-  padding: 40px 24px;
-}
-.sl-generate-prompt .material-symbols-outlined {
-  font-size: 48px;
-  color: var(--md-primary);
-  margin-bottom: 12px;
-}
-.sl-generate-prompt p {
-  color: var(--md-on-surface-variant);
-  font-size: 0.9375rem;
-  margin: 0 0 20px;
 }
 
 /* Quiz options */
@@ -381,22 +128,9 @@
   margin-left: 8px;
 }
 
-/* Loading spinner */
-.sl-spinner {
-  width: 32px;
-  height: 32px;
-  border: 3px solid var(--md-outline-variant);
-  border-top-color: var(--md-primary);
-  border-radius: 50%;
-  animation: sl-spin 0.8s linear infinite;
-  margin: 0 auto 12px;
-}
-@keyframes sl-spin {
-  to { transform: rotate(360deg); }
-}
-.sl-summary-loading, .sl-quiz-loading, .sl-flash-loading {
-  text-align: center;
-  padding: 48px 24px;
-  color: var(--md-on-surface-variant);
-}
+/* The ring spinner that used to live here, its two copies of @keyframes
+   sl-spin, the turning document glyph and the three loading blocks that
+   dressed them all went out together: nothing rendered any of them once the
+   shared .md-loader (material3/08-shapes.css) and .md-loading-screen took
+   over, and a second spinner is exactly what the app removed app wide. */
 

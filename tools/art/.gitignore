@@ -1,0 +1,4 @@
+# Recorded draw-call streams, written by rec.js / recpy.py for cmp.py to diff.
+js.json
+py.json
+__pycache__/

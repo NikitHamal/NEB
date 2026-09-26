@@ -1,0 +1,70 @@
+{% load static web_extras %}
+{% comment %} ── A resource, as a rail card ────────────────────────────────────────────
+   The app's WebResourceCard at rail size. One copy now: the home feed, the
+   "Suggested for you" deck and "New in Library" all include this, where before
+   the same ninety lines were pasted into home.html and _home_suggested.html and
+   had already drifted apart. Expects `r`. {% endcomment %}
+<a href="{% url 'web:reader' resource_id=r.id %}"
+  class="resource-card subject-{{ r.subject|split:','|first|subject_slug }}">
+  <div class="resource-card-art">
+    {# Generative banner art. Same seed, same drawing as the Android app. #}
+    <div class="neb-art" data-neb-art="banner"
+         data-neb-subject="{{ r.subject|split:','|first }}"
+         data-neb-seed="{{ r.id }}|{{ r.type }}"></div>
+    {% if r.thumbnail_url %}
+    <img src="{{ r.thumbnail_url }}" alt="" class="resource-card-art-img" loading="lazy">
+    {% endif %}
+    {% if r.is_paid or r.isPaid %}
+    <span class="resource-card-paid-pill" style="position:absolute;top:10px;right:10px;background:#16a34a;color:#fff;font-size:0.75rem;font-weight:700;padding:3px 10px;border-radius:20px;display:inline-flex;align-items:center;gap:4px;z-index:2;">
+      <span class="material-symbols-outlined" style="font-size:14px">payments</span>
+      Rs. {{ r.price|floatformat:"0" }}
+    </span>
+    {% endif %}
+    <span class="resource-card-type-pill">{{ r.type }}</span>
+    <span class="resource-card-art-icon material-symbols-outlined">{{ r.subject|split:','|first|subject_icon }}</span>
+  </div>
+  <div class="resource-card-info">
+    <div class="resource-card-subject-chip">
+      {% with subjs=r.subject|split:"," %}
+      {{ subjs|first }}
+      {% if subjs|length > 1 %}
+      +{{ subjs|length|add:"-1" }} more
+      {% endif %}
+      {% endwith %}
+    </div>
+    <div class="resource-card-title">{{ r.title }}</div>
+    <div class="resource-card-meta">
+      {{ r.grade_level }}, {{ r.type }}{% if r.file_size %}, {{ r.file_size|file_size_human }}{% endif %}
+    </div>
+    {% with author=r.uploaded_by_name|default:r.uploadedByName|default:r.uploadedByUsername|default:r.author_name|default:r.authorName|default:"NEBians" photo=r.uploaded_by_photo|default:r.uploadedByPhoto %}
+    <div class="resource-card-footer">
+      <div class="resource-card-avatar">
+        {% if author == 'neby' %}
+          <div class="neby-avatar-mini neby-size-sm" data-neby-avatar data-animation="idle" title="Neby AI Bot"></div>
+        {% elif author == "Anonymous" or author == "Anonymous Nebian" or r.is_anonymous %}
+        <span class="resource-card-avatar-letter"><span class="material-symbols-outlined" style="font-size:13px">visibility_off</span></span>
+        {% elif photo %}
+        <img src="{{ photo }}" alt="" loading="lazy">
+        {% elif author == "NEBians" or author == "nebians" %}
+        <img src="{% static 'web/img/n-logo-48.png' %}" alt="NEBians" loading="lazy">
+        {% else %}
+        <span class="resource-card-avatar-letter">{{ author|truncate_chars:1|default:"N" }}</span>
+        {% endif %}
+      </div>
+      <div class="resource-card-author-col">
+        <div class="resource-card-author">
+          {% if author == "Anonymous" or author == "Anonymous Nebian" or r.is_anonymous %}
+          Anonymous Nebian
+          {% else %}
+          {{ author }}
+          {% if author == "NEBians" or author == "nebians" %}
+          <span class="material-symbols-outlined" style="font-size:13px;color:#1d65d8;vertical-align:-1px;margin-left:2px;font-variation-settings:'FILL' 1;" title="Verified Official">verified</span>
+          {% endif %}
+          {% endif %}
+        </div>
+        <div class="resource-card-time">{{ r.added_at|default:r.addedAt|time_ago }}, <span class="resource-card-views"><span class="material-symbols-outlined">visibility</span> {{ r.view_count|default:r.viewCount|short_number }}</span></div>
+      </div>
+    </div>
+    {% endwith %}
+  </div>
+</a>

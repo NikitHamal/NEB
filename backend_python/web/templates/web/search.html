@@ -5,7 +5,6 @@
 {% block description %}Search free NEB past papers, model questions, Class 11 and 12 subject notes, textbooks, and forum questions on NEBians.{% endblock %}
 {% block keywords %}search NEB past papers, neb model questions search, find notes nepal, study materials, class 11, class 12{% endblock %}
 {% block nav_search %}md-nav-active{% endblock %}
-{% block bnav_search %}md-nav-active{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'web/css/pages/search.css' %}">
@@ -34,7 +33,7 @@
         <span class="material-symbols-outlined" style="font-size:20px">close</span>
       </a>
       {% endif %}
-      <button data-action="open-filter-dialog" class="{% if current_subject or current_grade or current_type %}has-filters{% endif %}" title="Filters">
+      <button type="button" data-neb-open="filter-dialog" aria-haspopup="dialog" class="{% if current_subject or current_grade or current_type %}has-filters{% endif %}" title="Filters">
         <span class="material-symbols-outlined" style="font-size:22px">tune</span>
       </button>
     </div>
@@ -62,52 +61,75 @@
   </div>
   {% endif %}
 
-  <!-- Filter dialog -->
-  <div id="filter-dialog" class="filter-overlay" style="display:none;" data-action="close-filter-dialog">
-    <div class="filter-dialog">
-      <h3>Filters</h3>
-      <div class="filter-dialog-scroll">
+  {% comment %} Filter, as FilterDialog.kt draws it: a NebModalSheet with a
+     subtitle that counts what is on, one NebSectionLabel + NebChipGroup per
+     facet, and two Hero buttons where "Show results" is the wider of the two.
+     It used to be a centred box over a flat 50%% black scrim with its own
+     open/close code and no focus handling. {% endcomment %}
+  <div class="neb-scrim neb-scrim-bottom" id="filter-dialog" hidden>
+    <div class="neb-sheet" role="dialog" aria-modal="true" aria-labelledby="filter-dialog-title">
+      <div class="neb-sheet-handle"></div>
+      <div class="neb-sheet-head">
+        <div class="neb-sheet-head-text">
+          <h2 class="neb-sheet-title" id="filter-dialog-title">Filter</h2>
+          <p class="neb-sheet-sub">
+            {% if current_subject or current_grade or current_type %}
+              {{ active_filter_count|default:1 }} filter{{ active_filter_count|default:1|pluralize }} active
+            {% else %}
+              Narrow the results down to what you need
+            {% endif %}
+          </p>
+        </div>
+        <button type="button" class="neb-sheet-close" data-neb-close aria-label="Close">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+      <div class="neb-sheet-body">
       {% if tab == 'users' %}
-        <p style="color:var(--md-on-surface-variant);font-size:0.875rem;text-align:center;padding:24px 8px;margin:0;">Filters don't apply to user search.</p>
+        <p class="neb-picker-empty">Filters don't apply to user search.</p>
       {% else %}
         {% if all_subjects %}
         <div class="filter-section">
-          <div class="filter-section-label">Subject</div>
-          <div class="chip-group" id="filter-subjects">
-            {% for s in all_subjects %}
-            <button type="button" class="filter-chip-select {% if s == current_subject %}selected{% endif %}" data-value="{{ s }}" data-action="toggle-search-filter">{{ s }}</button>
+          <div class="neb-section-label">Subject</div>
+          <div class="neb-chip-row" id="filter-subjects">
+            {% for v in all_subjects %}
+            <button type="button" class="neb-choice-chip filter-chip-select{% if v == current_subject %} is-selected{% endif %}"
+                    aria-pressed="{% if v == current_subject %}true{% else %}false{% endif %}"
+                    data-value="{{ v }}" data-action="toggle-search-filter">{{ v }}</button>
             {% endfor %}
           </div>
         </div>
         {% endif %}
-
         {% if all_grades %}
         <div class="filter-section">
-          <div class="filter-section-label">Grade</div>
-          <div class="chip-group" id="filter-grades">
-            {% for g in all_grades %}
-            <button type="button" class="filter-chip-select {% if g == current_grade %}selected{% endif %}" data-value="{{ g }}" data-action="toggle-search-filter">{{ g }}</button>
+          <div class="neb-section-label">Grade / Level</div>
+          <div class="neb-chip-row" id="filter-grades">
+            {% for v in all_grades %}
+            <button type="button" class="neb-choice-chip filter-chip-select{% if v == current_grade %} is-selected{% endif %}"
+                    aria-pressed="{% if v == current_grade %}true{% else %}false{% endif %}"
+                    data-value="{{ v }}" data-action="toggle-search-filter">{{ v }}</button>
             {% endfor %}
           </div>
         </div>
         {% endif %}
-
         {% if all_types %}
         <div class="filter-section">
-          <div class="filter-section-label">Type</div>
-          <div class="chip-group" id="filter-types">
-            {% for t in all_types %}
-            <button type="button" class="filter-chip-select {% if t == current_type %}selected{% endif %}" data-value="{{ t }}" data-action="toggle-search-filter">{{ t }}</button>
+          <div class="neb-section-label">Type</div>
+          <div class="neb-chip-row" id="filter-types">
+            {% for v in all_types %}
+            <button type="button" class="neb-choice-chip filter-chip-select{% if v == current_type %} is-selected{% endif %}"
+                    aria-pressed="{% if v == current_type %}true{% else %}false{% endif %}"
+                    data-value="{{ v }}" data-action="toggle-search-filter">{{ v }}</button>
             {% endfor %}
           </div>
         </div>
         {% endif %}
       {% endif %}
       </div>
-
-      <div class="filter-dialog-actions">
-        <a href="{% url 'web:search' %}?q={{ query }}{% if tab and tab != 'all' %}&tab={{ tab }}{% endif %}" class="md-btn md-btn-text" style="min-height:36px;">Clear all</a>
-        <button class="md-btn md-btn-filled" data-action="apply-search-filters" style="min-height:36px;">Apply</button>
+      <div class="neb-sheet-foot">
+        <a href="{% url 'web:search' %}?q={{ query }}{% if tab and tab != 'all' %}&tab={{ tab }}{% endif %}"
+           class="md-btn md-btn-outlined neb-foot-minor">Clear all</a>
+        <button type="button" class="md-btn md-btn-filled neb-foot-major" data-action="apply-search-filters">Show results</button>
       </div>
     </div>
   </div>
@@ -121,17 +143,15 @@
 <script nonce="{{ csp_nonce }}">
   registerActions({
     'toggle-search-filter': function(el) {
-      el.classList.toggle('selected');
-    },
-    'open-filter-dialog': function() {
-      document.getElementById('filter-dialog').style.display = 'flex';
-      document.body.style.overflow = 'hidden';
-    },
-    'close-filter-dialog': function(el, e) {
-      if (e.target === el) {
-        el.style.display = 'none';
-        document.body.style.overflow = '';
-      }
+      /* NebChipGroup is single-select per facet: picking one clears its
+         siblings rather than adding to them. */
+      var on = el.getAttribute('aria-pressed') !== 'true';
+      var group = el.parentNode;
+      group.querySelectorAll('.neb-choice-chip').forEach(function (c) {
+        c.setAttribute('aria-pressed', 'false');
+        c.classList.remove('is-selected');
+      });
+      if (on) { el.setAttribute('aria-pressed', 'true'); el.classList.add('is-selected'); }
     },
     'apply-search-filters': function() {
       applySearchFilters();
@@ -170,18 +190,7 @@
       var menuId = el.dataset.menuId;
       var menu = document.getElementById(menuId);
       if (!menu) return;
-      var isOpen = menu.style.display !== 'none';
-      closeAllMenus();
-      if (!isOpen) {
-        menu.style.display = 'block';
-        var handler = function(e) {
-          if (!menu.contains(e.target) && e.target !== el && !el.contains(e.target)) {
-            closeAllMenus();
-            document.removeEventListener('click', handler, true);
-          }
-        };
-        setTimeout(function() { document.addEventListener('click', handler, true); }, 0);
-      }
+      toggleMoreMenu(menu, el);
     },
     'toggle-bookmark': async function(el) {
       closeAllMenus();
@@ -250,19 +259,16 @@
     if (q) params.set('q', q);
     {% if tab and tab != 'all' %}params.set('tab', '{{ tab|escapejs }}');{% endif %}
 
-    var subjectEls = document.querySelectorAll('#filter-subjects .filter-chip-select.selected');
-    if (subjectEls.length === 1) params.set('subject', subjectEls[0].dataset.value);
-    var gradeEls = document.querySelectorAll('#filter-grades .filter-chip-select.selected');
-    if (gradeEls.length === 1) params.set('grade', gradeEls[0].dataset.value);
-    var typeEls = document.querySelectorAll('#filter-types .filter-chip-select.selected');
-    if (typeEls.length === 1) params.set('type', typeEls[0].dataset.value);
+    /* aria-pressed is the selection now -- it is what the chip is styled
+       from, so reading the class instead would let the two disagree. */
+    [['subjects', 'subject'], ['grades', 'grade'], ['types', 'type']].forEach(function (pair) {
+      var picked = document.querySelector('#filter-' + pair[0] + ' .neb-choice-chip[aria-pressed="true"]');
+      if (picked) params.set(pair[1], picked.dataset.value);
+    });
 
     var qs = params.toString();
     window.location.href = '{% url "web:search" %}' + (qs ? '?' + qs : '');
   }
 
-  function closeAllMenus() {
-    document.querySelectorAll('.more-menu').forEach(function(m) { m.style.display = 'none'; });
-  }
 </script>
 {% endblock %}

@@ -46,6 +46,9 @@
 
 .ix-cat-header { display: flex; gap: 14px; align-items: flex-start; }
 
+/* A glyph inside a cut silhouette needs the app's ratio -- NebGlyphTile
+   is a 44dp tile around a 21dp icon. At 26px the glyph reached into the
+   corners a clover and a gem do not have. */
 .ix-cat-icon {
   flex-shrink: 0;
   width: 46px;
@@ -58,7 +61,7 @@
   color: var(--ix-color);
 }
 
-.ix-cat-icon .material-symbols-outlined { font-size: 26px; }
+.ix-cat-icon .material-symbols-outlined { font-size: 22px; }
 
 .ix-cat-title { margin: 0; font-size: 1.125rem; font-weight: 700; color: var(--md-on-surface); }
 
@@ -107,7 +110,7 @@
   color: var(--ix-color);
 }
 
-.ix-card-icon .material-symbols-outlined { font-size: 26px; }
+.ix-card-icon .material-symbols-outlined { font-size: 22px; }
 
 .ix-card-chips { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; }
 

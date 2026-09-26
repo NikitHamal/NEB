@@ -1,0 +1,20 @@
+{% comment %} ── Someone to follow, as a rail card ─────────────────────────────────────
+   The app's CompactPeerCard: avatar, name, why they are being suggested, and
+   a follow pill. The pill reuses the toggle-follow action the feed already
+   registers for post authors -- the handler works off the following /
+   not-following class and the button's text, not off follow-btn-small, so the
+   pill can be the app's filled one without fighting that class's outline.
+   Expects `person`. {% endcomment %}
+<div class="hf-peer">
+  <a class="hf-peer-link" href="{% url 'web:profile' username=person.username %}">
+    <img class="hf-peer-avatar" src="{{ person.photo_url }}" alt="" loading="lazy" decoding="async" width="42" height="42">
+    <span class="hf-peer-name">{{ person.name }}</span>
+    <span class="hf-peer-reason">{{ person.reason }}</span>
+  </a>
+  {% if is_authenticated %}
+  <button type="button" class="hf-peer-follow not-following"
+          data-action="toggle-follow" data-user-id="{{ person.id }}">{{ person.follow_label }}</button>
+  {% else %}
+  <a class="hf-peer-follow" href="{% url 'web:login' %}">{{ person.follow_label }}</a>
+  {% endif %}
+</div>

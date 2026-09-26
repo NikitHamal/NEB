@@ -37,17 +37,18 @@
     
     <span class="breadcrumb-separator">/</span>
     <div class="breadcrumb-dropdown-wrapper">
-      <button type="button" class="breadcrumb-dropdown-trigger" data-action="toggle-breadcrumb-menu" data-menu-id="bc-class-menu">
+      <button type="button" class="breadcrumb-dropdown-trigger" data-neb-menu="bc-class-menu"
+              aria-haspopup="true" aria-expanded="false">
         <span class="trigger-text">{{ grade }}</span>
         <span class="material-symbols-outlined dropdown-arrow">arrow_drop_down</span>
       </button>
-      <div class="bc-dropdown-menu" id="bc-class-menu" style="display:none;">
-        <span class="bc-dropdown-label">Switch Class</span>
-        <div class="bc-dropdown-divider"></div>
+      <div class="neb-menu" id="bc-class-menu" role="menu" data-neb-align="start" aria-label="Switch class" hidden>
+        <div class="neb-menu-label">Switch class</div>
         {% for g in grade_list %}
-        <a href="{% url 'web:subject_page' grade_slug=g.slug subject_slug=subject_slug %}" class="bc-dropdown-item {% if g.name == grade %}active{% endif %}">
-          {{ g.name }}
-          <span class="material-symbols-outlined bc-check">check</span>
+        <a href="{% url 'web:subject_page' grade_slug=g.slug subject_slug=subject_slug %}" class="neb-menu-item" role="menuitemradio"
+           aria-checked="{% if g.name == grade %}true{% else %}false{% endif %}">
+          <span class="neb-menu-item-label">{{ g.name }}</span>
+          {% if g.name == grade %}<span class="material-symbols-outlined">check</span>{% endif %}
         </a>
         {% endfor %}
       </div>
@@ -55,17 +56,18 @@
 
     <span class="breadcrumb-separator">/</span>
     <div class="breadcrumb-dropdown-wrapper">
-      <button type="button" class="breadcrumb-dropdown-trigger" data-action="toggle-breadcrumb-menu" data-menu-id="bc-subject-menu">
+      <button type="button" class="breadcrumb-dropdown-trigger" data-neb-menu="bc-subject-menu"
+              aria-haspopup="true" aria-expanded="false">
         <span class="trigger-text">{{ subject }}</span>
         <span class="material-symbols-outlined dropdown-arrow">arrow_drop_down</span>
       </button>
-      <div class="bc-dropdown-menu" id="bc-subject-menu" style="display:none;">
-        <span class="bc-dropdown-label">Switch Subject</span>
-        <div class="bc-dropdown-divider"></div>
+      <div class="neb-menu" id="bc-subject-menu" role="menu" data-neb-align="start" aria-label="Switch subject" hidden>
+        <div class="neb-menu-label">Switch subject</div>
         {% for s in subject_list %}
-        <a href="{% url 'web:subject_page' grade_slug=grade_slug subject_slug=s.slug %}" class="bc-dropdown-item {% if s.name == subject %}active{% endif %}">
-          {{ s.name }}
-          <span class="material-symbols-outlined bc-check">check</span>
+        <a href="{% url 'web:subject_page' grade_slug=grade_slug subject_slug=s.slug %}" class="neb-menu-item" role="menuitemradio"
+           aria-checked="{% if s.name == subject %}true{% else %}false{% endif %}">
+          <span class="neb-menu-item-label">{{ s.name }}</span>
+          {% if s.name == subject %}<span class="material-symbols-outlined">check</span>{% endif %}
         </a>
         {% endfor %}
       </div>
@@ -73,19 +75,19 @@
   </nav>
 
 
-  <!-- Navigation Tabs -->
-  <div class="subj-tabs">
-    <button class="subj-tab-btn active" data-tab="materials">
+  {% comment %} The shared rail, same as the library one screen up. {% endcomment %}
+  <div class="neb-rail neb-rail-divided" role="tablist" aria-label="Subject sections" style="margin-bottom: 24px;">
+    <button type="button" class="neb-rail-item" role="tab" aria-selected="true" aria-controls="tab-materials" data-tab="materials">
       <span class="material-symbols-outlined">menu_book</span>
-      Study Materials
+      <span class="neb-rail-label">Study Materials</span>
     </button>
-    <button class="subj-tab-btn" data-tab="discussions">
+    <button type="button" class="neb-rail-item" role="tab" aria-selected="false" aria-controls="tab-discussions" data-tab="discussions">
       <span class="material-symbols-outlined">forum</span>
-      Discussions
+      <span class="neb-rail-label">Discussions</span>
     </button>
-    <button class="subj-tab-btn" data-tab="neby-ai">
+    <button type="button" class="neb-rail-item" role="tab" aria-selected="false" aria-controls="tab-neby-ai" data-tab="neby-ai">
       <span class="material-symbols-outlined">smart_toy</span>
-      Neby AI helper
+      <span class="neb-rail-label">Neby AI helper</span>
     </button>
   </div>
 
@@ -128,12 +130,25 @@
               <h2>{{ ch.name }}</h2>
             </div>
             
-            <!-- Sub-Tabs Navigation (plain text, no icons) -->
-            <div class="chapter-subtabs">
-              <button type="button" class="subtab-btn active" data-action="select-subtab" data-chapter-id="{{ ch.id }}" data-subtab="guide">{% if ch.rich_content.has_blocks %}Interactive Guide{% else %}Chapter Guide{% endif %}</button>
-              <button type="button" class="subtab-btn" data-action="select-subtab" data-chapter-id="{{ ch.id }}" data-subtab="qas">Solved Q&As</button>
-              <button type="button" class="subtab-btn" data-action="select-subtab" data-chapter-id="{{ ch.id }}" data-subtab="files">Study Files</button>
-            </div>
+            {% comment %}
+              NebTabRail. This page already had one -- the chapter list above runs on
+              .neb-rail -- while the sub-tabs inside each chapter stayed an underlined
+              row, so two tab bars on one screen looked like two different controls.
+            {% endcomment %}
+            <nav class="neb-rail neb-rail-divided neb-rail-flush" role="tablist" aria-label="Chapter sections" style="margin-bottom:20px;">
+              <button type="button" class="neb-rail-item" role="tab" aria-selected="true" data-action="select-subtab" data-chapter-id="{{ ch.id }}" data-subtab="guide">
+                <span class="material-symbols-outlined">menu_book</span>
+                <span class="neb-rail-label">{% if ch.rich_content.has_blocks %}Interactive Guide{% else %}Chapter Guide{% endif %}</span>
+              </button>
+              <button type="button" class="neb-rail-item" role="tab" aria-selected="false" data-action="select-subtab" data-chapter-id="{{ ch.id }}" data-subtab="qas">
+                <span class="material-symbols-outlined">help</span>
+                <span class="neb-rail-label">Solved Q&amp;As</span>
+              </button>
+              <button type="button" class="neb-rail-item" role="tab" aria-selected="false" data-action="select-subtab" data-chapter-id="{{ ch.id }}" data-subtab="files">
+                <span class="material-symbols-outlined">folder</span>
+                <span class="neb-rail-label">Study Files</span>
+              </button>
+            </nav>
             
             <div class="pane-body">
               <!-- SUBTAB 1: CHAPTER GUIDE -->
@@ -241,7 +256,7 @@
                         <div class="s-res-icon"><span class="material-symbols-outlined">{{ r.type|resource_type_icon }}</span></div>
                         <div class="s-res-info">
                           <div class="s-res-title">{{ r.title }}</div>
-                          <div class="s-res-meta">{{ r.fileSize|file_size_human }} &middot; {{ r.viewCount }} views</div>
+                          <div class="s-res-meta">{{ r.fileSize|file_size_human }}, {{ r.viewCount }} views</div>
                         </div>
                       </a>
                       {% endfor %}
@@ -259,7 +274,7 @@
                         <div class="s-res-icon"><span class="material-symbols-outlined">{{ r.type|resource_type_icon }}</span></div>
                         <div class="s-res-info">
                           <div class="s-res-title">{{ r.title }}</div>
-                          <div class="s-res-meta">{{ r.fileSize|file_size_human }} &middot; {{ r.viewCount }} views</div>
+                          <div class="s-res-meta">{{ r.fileSize|file_size_human }}, {{ r.viewCount }} views</div>
                         </div>
                       </a>
                       {% endfor %}
@@ -277,7 +292,7 @@
                         <div class="s-res-icon"><span class="material-symbols-outlined">{{ r.type|resource_type_icon }}</span></div>
                         <div class="s-res-info">
                           <div class="s-res-title">{{ r.title }}</div>
-                          <div class="s-res-meta">{{ r.fileSize|file_size_human }} &middot; {{ r.viewCount }} views</div>
+                          <div class="s-res-meta">{{ r.fileSize|file_size_human }}, {{ r.viewCount }} views</div>
                         </div>
                       </a>
                       {% endfor %}
@@ -295,7 +310,7 @@
                         <div class="s-res-icon"><span class="material-symbols-outlined">{{ r.type|resource_type_icon }}</span></div>
                         <div class="s-res-info">
                           <div class="s-res-title">{{ r.title }}</div>
-                          <div class="s-res-meta">{{ r.fileSize|file_size_human }} &middot; {{ r.viewCount }} views</div>
+                          <div class="s-res-meta">{{ r.fileSize|file_size_human }}, {{ r.viewCount }} views</div>
                         </div>
                       </a>
                       {% endfor %}
@@ -313,7 +328,7 @@
                         <div class="s-res-icon"><span class="material-symbols-outlined">{{ r.type|resource_type_icon }}</span></div>
                         <div class="s-res-info">
                           <div class="s-res-title">{{ r.title }}</div>
-                          <div class="s-res-meta">{{ r.fileSize|file_size_human }} &middot; {{ r.viewCount }} views</div>
+                          <div class="s-res-meta">{{ r.fileSize|file_size_human }}, {{ r.viewCount }} views</div>
                         </div>
                       </a>
                       {% endfor %}
@@ -351,7 +366,7 @@
                     <div class="s-res-icon"><span class="material-symbols-outlined">{{ r.type|resource_type_icon }}</span></div>
                     <div class="s-res-info">
                       <div class="s-res-title">{{ r.title }}</div>
-                      <div class="s-res-meta">{{ r.fileSize|file_size_human }} &middot; {{ r.viewCount }} views</div>
+                      <div class="s-res-meta">{{ r.fileSize|file_size_human }}, {{ r.viewCount }} views</div>
                     </div>
                   </a>
                   {% endfor %}
@@ -368,7 +383,7 @@
                     <div class="s-res-icon"><span class="material-symbols-outlined">{{ r.type|resource_type_icon }}</span></div>
                     <div class="s-res-info">
                       <div class="s-res-title">{{ r.title }}</div>
-                      <div class="s-res-meta">{{ r.fileSize|file_size_human }} &middot; {{ r.viewCount }} views</div>
+                      <div class="s-res-meta">{{ r.fileSize|file_size_human }}, {{ r.viewCount }} views</div>
                     </div>
                   </a>
                   {% endfor %}
@@ -385,7 +400,7 @@
                     <div class="s-res-icon"><span class="material-symbols-outlined">{{ r.type|resource_type_icon }}</span></div>
                     <div class="s-res-info">
                       <div class="s-res-title">{{ r.title }}</div>
-                      <div class="s-res-meta">{{ r.fileSize|file_size_human }} &middot; {{ r.viewCount }} views</div>
+                      <div class="s-res-meta">{{ r.fileSize|file_size_human }}, {{ r.viewCount }} views</div>
                     </div>
                   </a>
                   {% endfor %}
@@ -402,7 +417,7 @@
                     <div class="s-res-icon"><span class="material-symbols-outlined">{{ r.type|resource_type_icon }}</span></div>
                     <div class="s-res-info">
                       <div class="s-res-title">{{ r.title }}</div>
-                      <div class="s-res-meta">{{ r.fileSize|file_size_human }} &middot; {{ r.viewCount }} views</div>
+                      <div class="s-res-meta">{{ r.fileSize|file_size_human }}, {{ r.viewCount }} views</div>
                     </div>
                   </a>
                   {% endfor %}
@@ -419,7 +434,7 @@
                     <div class="s-res-icon"><span class="material-symbols-outlined">{{ r.type|resource_type_icon }}</span></div>
                     <div class="s-res-info">
                       <div class="s-res-title">{{ r.title }}</div>
-                      <div class="s-res-meta">{{ r.fileSize|file_size_human }} &middot; {{ r.viewCount }} views</div>
+                      <div class="s-res-meta">{{ r.fileSize|file_size_human }}, {{ r.viewCount }} views</div>
                     </div>
                   </a>
                   {% endfor %}
@@ -468,11 +483,9 @@
                     <button class="follow-btn-small {% if p.isFollowingAuthor %}following{% else %}not-following{% endif %}" data-action="toggle-follow" data-user-id="{{ p.authorId }}">{% if p.isFollowingAuthor %}Following{% else %}Follow{% endif %}</button>
                     {% endif %}
                   </div>
-                  <div class="post-card-meta-bottom" style="display:flex; align-items:center; flex-wrap:wrap; gap:6px; margin-top:2px; color:var(--md-on-surface-variant);">
+                  <div class="post-card-meta-bottom" style="display:flex; align-items:center; flex-wrap:wrap; gap:12px; margin-top:2px; color:var(--md-on-surface-variant);">
                     <span class="act-action-text">started a discussion</span>
-                    <span style="opacity:0.4;">&middot;</span>
                     <a href="{% url 'web:forum' %}?category={{ p.category }}" class="post-card-category-link">{{ p.category }}</a>
-                    <span style="opacity:0.4;">&middot;</span>
                     <span class="post-card-time">{{ p.createdAt|time_ago }}</span>
                   </div>
                 </div>
@@ -613,12 +626,12 @@
 <script nonce="{{ csp_nonce }}">
   if (window.NebiansSyllabus) window.NebiansSyllabus.init(document);
   // ── Tab Navigation ──
-  document.querySelectorAll('.subj-tab-btn').forEach(btn => {
+  document.querySelectorAll('.neb-rail-item[data-tab]').forEach(btn => {
     btn.addEventListener('click', () => {
-      document.querySelectorAll('.subj-tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.neb-rail-item[data-tab]').forEach(b => b.setAttribute('aria-selected', 'false'));
       document.querySelectorAll('.subj-tab-content').forEach(c => c.classList.remove('active'));
-      
-      btn.classList.add('active');
+
+      btn.setAttribute('aria-selected', 'true');
       const tabId = 'tab-' + btn.dataset.tab;
       document.getElementById(tabId).classList.add('active');
       
@@ -653,7 +666,7 @@
   registerActions({
     'ask-neby-syllabus': function(el) {
       var prompt = el.dataset.nebyPrompt || 'Explain this syllabus topic.';
-      var tabBtn = document.querySelector('.subj-tab-btn[data-tab="neby-ai"]');
+      var tabBtn = document.querySelector('.neb-rail-item[data-tab="neby-ai"]');
       if (tabBtn) tabBtn.click();
       window.setTimeout(function() {
         var input = document.getElementById('ai-message-input');
@@ -703,8 +716,8 @@
       if (!pane) return;
 
       // Update sub-tab buttons active state
-      pane.querySelectorAll('.subtab-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.subtab === subtab);
+      pane.querySelectorAll('.neb-rail-item[data-subtab]').forEach(btn => {
+        btn.setAttribute('aria-selected', String(btn.dataset.subtab === subtab));
       });
 
       // Update sub-tab content visibility
@@ -764,50 +777,7 @@
       var menuId = el.dataset.menuId;
       var menu = document.getElementById(menuId);
       if (!menu) return;
-      var isOpen = menu.style.display !== 'none';
-      closeAllMenus();
-      if (!isOpen) {
-        menu.style.display = 'block';
-        var handler = function(e) {
-          if (!menu.contains(e.target) && e.target !== el && !el.contains(e.target)) {
-            closeAllMenus();
-            document.removeEventListener('click', handler, true);
-          }
-        };
-        setTimeout(function() { document.addEventListener('click', handler, true); }, 0);
-      }
-    },
-    'toggle-breadcrumb-menu': function(el) {
-      var menuId = el.dataset.menuId;
-      var menu = document.getElementById(menuId);
-      if (!menu) return;
-      var isOpen = menu.style.display !== 'none';
-      closeAllMenus();
-      if (!isOpen) {
-        // Use fixed positioning to escape any overflow:auto/hidden ancestor
-        var rect = el.getBoundingClientRect();
-        var menuW = Math.max(menu.offsetWidth || 160, 160);
-        var left = rect.left;
-        // Keep inside viewport
-        if (left + menuW > window.innerWidth - 8) {
-          left = Math.max(8, window.innerWidth - menuW - 8);
-        }
-        menu.style.top = (rect.bottom + 6) + 'px';
-        menu.style.left = left + 'px';
-        menu.style.display = 'block';
-        // Recalculate width after display to get correct offsetWidth
-        var menuW2 = menu.offsetWidth;
-        if (rect.left + menuW2 > window.innerWidth - 8) {
-          menu.style.left = Math.max(8, window.innerWidth - menuW2 - 8) + 'px';
-        }
-        var handler = function(e) {
-          if (!menu.contains(e.target) && e.target !== el && !el.contains(e.target)) {
-            menu.style.display = 'none';
-            document.removeEventListener('click', handler, true);
-          }
-        };
-        setTimeout(function() { document.addEventListener('click', handler, true); }, 0);
-      }
+      toggleMoreMenu(menu, el);
     },
     'toggle-bookmark': async function(el) {
       closeAllMenus();
@@ -1277,10 +1247,6 @@
     document.getElementById('ai-send-btn').disabled = (!input.value.trim() && aiAttachedFiles.length === 0) || isSending;
   }
 
-  function closeAllMenus() {
-    document.querySelectorAll('.more-menu').forEach(function(m) { m.style.display = 'none'; });
-    document.querySelectorAll('.bc-dropdown-menu').forEach(function(m) { m.style.display = 'none'; });
-  }
 
   // ── Q&A Local Search Filtering ──
   document.addEventListener('input', function(e) {

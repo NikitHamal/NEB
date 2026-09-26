@@ -3,38 +3,9 @@
 {% block title %}Request Past Papers, Notes & Resources — NEBians{% endblock %}
 {% block description %}Request NEB past papers, model questions, solutions, and study notes you need from the NEBians community.{% endblock %}
 {% block nav_library %}md-nav-active{% endblock %}
-{% block bnav_library %}md-nav-active{% endblock %}
 
 {% block bottomnav %}
-<nav class="md-bottomnav">
-  <div class="md-bottomnav-pill">
-    <a href="{% url 'web:home' %}" class="md-bottomnav-item" aria-label="Home">
-      <div class="md-bottomnav-icon-wrapper">
-        <span class="material-symbols-outlined">home</span>
-      </div>
-      <span class="md-bottomnav-label">Home</span>
-    </a>
-    <a href="{% url 'web:library' %}" class="md-bottomnav-item md-nav-active" aria-label="Library">
-      <div class="md-bottomnav-icon-wrapper">
-        <span class="material-symbols-outlined">menu_book</span>
-      </div>
-      <span class="md-bottomnav-label">Library</span>
-    </a>
-
-    <a href="{% url 'web:forum' %}" class="md-bottomnav-item" aria-label="Forum">
-      <div class="md-bottomnav-icon-wrapper">
-        <span class="material-symbols-outlined">forum</span>
-      </div>
-      <span class="md-bottomnav-label">Forum</span>
-    </a>
-    <a href="{% url 'web:news_list' %}" class="md-bottomnav-item" aria-label="News">
-      <div class="md-bottomnav-icon-wrapper">
-        <span class="material-symbols-outlined">newspaper</span>
-      </div>
-      <span class="md-bottomnav-label">News</span>
-    </a>
-  </div>
-</nav>
+{% include "web/partials/bottomnav.html" %}
 {% endblock %}
 
 {% block content %}
@@ -120,9 +91,7 @@
           <div class="request-card-meta">
             {% if req.subject %}<span class="request-chip">{{ req.subject }}</span>{% endif %}
             {% if req.grade_level %}<span class="request-chip">{{ req.grade_level }}</span>{% endif %}
-            <span class="dot-sep">·</span>
             <span>{{ req.requested_by_name }}</span>
-            <span class="dot-sep">·</span>
             <span>{{ req.created_at|time_ago }}</span>
           </div>
         </div>
@@ -185,13 +154,16 @@
 .request-card-content { flex: 1; min-width: 0; }
 .request-card-title { font-size: 1rem; font-weight: 600; color: var(--md-on-surface); margin-bottom: 4px; }
 .request-card-desc { font-size: 0.875rem; color: var(--md-on-surface-variant); margin-bottom: 6px; line-height: 1.4; }
-.request-card-meta { display: flex; align-items: center; gap: 6px; font-size: 0.8125rem; color: var(--md-on-surface-variant); flex-wrap: wrap; }
+.request-card-meta { display: flex; align-items: center; gap: 12px; font-size: 0.8125rem; color: var(--md-on-surface-variant); flex-wrap: wrap; }
 .request-chip { background: var(--md-secondary-container); color: var(--md-on-secondary-container); padding: 2px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 500; }
-.dot-sep { opacity: 0.3; }
 .request-card-status { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; padding: 4px 10px; border-radius: 6px; white-space: nowrap; }
-.status-open { background: color-mix(10%, #4caf50, transparent); color: #2e7d32; }
-.status-fulfilled { background: color-mix(10%, #2196f3, transparent); color: #1565c0; }
-.status-closed { background: color-mix(10%, #9e9e9e, transparent); color: #616161; }
+/* These three were written color-mix(10%, #4caf50, transparent) -- no colour
+   space and the percentage on the wrong side of the colour -- so the browser
+   threw every background away and the pills have always rendered with none.
+   The inks were light-only Material greens, blues and greys besides. */
+.status-open { background: color-mix(in srgb, var(--neb-accent-green) 13%, transparent); color: color-mix(in srgb, var(--neb-accent-green) 76%, var(--md-on-surface)); }
+.status-fulfilled { background: color-mix(in srgb, var(--neb-accent-brand) 13%, transparent); color: color-mix(in srgb, var(--neb-accent-brand) 74%, var(--md-on-surface)); }
+.status-closed { background: color-mix(in srgb, var(--md-on-surface) 8%, transparent); color: var(--md-on-surface-variant); }
 .request-empty { text-align: center; padding: 48px 16px; color: var(--md-on-surface-variant); }
 .request-empty p { margin-top: 12px; }
 @media (max-width: 600px) { .upload-row { flex-direction: column; gap: 0; } }

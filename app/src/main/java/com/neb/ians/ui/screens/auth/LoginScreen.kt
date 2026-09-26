@@ -25,8 +25,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.neb.ians.R
 import com.neb.ians.ui.theme.Poppins
+import com.neb.ians.ui.theme.nebAuthPalette
 import com.neb.ians.util.HideStatusBarEffect
 
+/**
+ * The auth landing: the hero, the sentence, and the three ways in.
+ *
+ * The only hue on the page is the brand blue, and it appears exactly three
+ * times — the word NEBians, and the Terms and Privacy links in
+ * [AuthActionButtons]. Everything else, the hero included, stays as it was.
+ */
 @Composable
 fun LoginScreen(
     onNavigateToEmailAuth: () -> Unit
@@ -65,8 +73,12 @@ fun LoginScreen(
         }
     }
 
+    val palette = nebAuthPalette(isDark)
+
     val screenBgColor = if (isDark) Color(0xFF0A0A0B) else Color(0xFFFFFFFF)
-    val brandInk = if (isDark) Color(0xFFFFFFFF) else Color(0xFF000000)
+
+    /** The brand word is the brand colour. It is the reason the word is there. */
+    val brandInk = palette.brand
     val titleTextColor = if (isDark) Color(0xFFF5F5F6) else Color(0xFF0A0A0B)
     val subtitleTextColor = if (isDark) Color(0xFF9B9BA1) else Color(0xFF5C5C61)
 
@@ -120,7 +132,7 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // 2. "Welcome to NEBians" (Poppins 600 bold, ink "NEBians")
+            // 2. "Welcome to NEBians" (Poppins 600 bold, brand-blue "NEBians")
             val welcomeText = buildAnnotatedString {
                 append("Welcome to ")
                 val startBrand = length

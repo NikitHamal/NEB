@@ -18,9 +18,6 @@
   font-size: 13px;
 }
 
-.dot-sep {
-  opacity: 0.3;
-}
 
 .md-btn .material-symbols-outlined {
   font-size: 18px;
@@ -55,43 +52,6 @@
   font-size: 20px;
 }
 
-.filter-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 150;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: md-fade-in 150ms ease;
-}
-
-.filter-dialog {
-  background: var(--md-surface-container-lowest);
-  border-radius: var(--md-radius-xl);
-  padding: 24px;
-  max-width: 420px;
-  width: 90%;
-  max-height: 80vh;
-  display: flex;
-  flex-direction: column;
-  box-shadow: var(--md-elevation-3);
-  animation: md-scale-in 200ms ease;
-}
-.filter-dialog-scroll {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  scrollbar-width: none;
-}
-.filter-dialog-scroll::-webkit-scrollbar { display: none; }
-
-.filter-dialog h3 {
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-bottom: 20px;
-}
-
 .filter-section {
   margin-bottom: 20px;
 }
@@ -111,13 +71,6 @@
 
 .filter-section .chip-group {
   gap: 8px;
-}
-
-.filter-dialog-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  margin-top: 24px;
 }
 
 .search-filter-chip {
@@ -144,13 +97,7 @@
   font-size: 14px;
 }
 
-.search-tabs {
-  display: flex;
-  gap: 0;
-  border-bottom: 1px solid var(--md-outline-variant);
-  overflow-x: auto;
-  margin-bottom: 16px;
-}
+/* The search results tab row is .neb-rail now. */
 
 .search-bar {
   display: flex;
@@ -343,138 +290,206 @@
   flex-shrink: 0;
 }
 
-/* ─── Shared list-picker dialog (used by upload, create-post, etc.) ─── */
+/* ─── Shared list-picker dialog (used by upload, create-post, etc.) ───
+   Eleven of these across six templates, all the same control: a title, a
+   search, a list of rows you tick, a way to add one of your own. It is the
+   same control as NebPickerSheet in the app, so it is drawn to the same
+   numbers as material3/09-overlays.css -- 28px top radius, 22px gutters, 52px
+   rows on an 18px corner, and a mark that closes rather than a glyph that
+   fades in. The class names are kept because the six templates and their page
+   scripts query them; only the drawing changed.
+
+   The one deliberate difference from .neb-sheet is that this stays a centred
+   dialog above 600px. The pages that use it are forms on a desktop, and a
+   sheet climbing out of the bottom of a 1400px window to hold twelve subjects
+   is the phone gesture wearing the wrong screen. */
 .subject-pick-overlay {
   position: fixed;
   inset: 0;
   z-index: 9000;
-  background: rgba(0, 0, 0, 0.4);
+  background: color-mix(in srgb, var(--md-scrim) 34%, transparent);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 16px;
 }
 .subject-pick-dialog {
-  background: var(--md-surface-container-lowest, #fff);
-  border-radius: 20px;
   width: 100%;
-  max-width: 480px;
-  max-height: 80vh;
+  max-width: 460px;
+  max-height: min(80vh, 620px);
   display: flex;
   flex-direction: column;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  border-radius: 30px;
+  background: var(--md-surface-container-high);
+  box-shadow: var(--md-elevation-3);
 }
 .subject-pick-header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  padding: 16px 20px 12px;
+  gap: 12px;
+  padding: 22px 22px 6px;
 }
-.subject-pick-header h3 { margin: 0; font-size: 1.125rem; font-weight: 600; color: var(--md-on-surface); }
+.subject-pick-header h3 {
+  margin: 0;
+  font-size: 1.375rem;
+  font-weight: 600;
+  line-height: 1.24;
+  letter-spacing: -0.015em;
+  color: var(--md-on-surface);
+}
 .subject-pick-close {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 4px;
-  border-radius: 50%;
-  color: var(--md-on-surface-variant);
+  flex: none;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: var(--md-surface-container-highest);
+  color: var(--md-on-surface-variant);
+  cursor: pointer;
+  transition: background var(--md-motion-effects-fast), transform var(--md-motion-spatial-fast);
 }
-.subject-pick-close:hover { background: color-mix(in srgb, var(--md-on-surface-variant) 10%, transparent); }
+.subject-pick-close:hover { background: var(--md-surface-container); }
+.subject-pick-close:active { transform: scale(0.88); }
+.subject-pick-close .material-symbols-outlined { font-size: 20px; }
+
+/* The search is the app's dialog field: a filled well with no border until it
+   has the caret, rather than an outlined box competing with the rows. */
 .subject-pick-search {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin: 0 20px 12px;
-  padding: 8px 12px;
-  border-radius: 12px;
-  background: var(--md-surface-variant);
+  gap: 10px;
+  margin: 14px 22px 2px;
+  padding: 13px 16px;
+  border: 1.5px solid transparent;
+  border-radius: 18px;
+  background: var(--md-surface-container-highest);
+  transition: border-color var(--md-motion-effects-fast);
 }
-.subject-pick-search .material-symbols-outlined { font-size: 20px; color: var(--md-on-surface-variant); }
+.subject-pick-search:focus-within { border-color: var(--md-on-surface); }
+.subject-pick-search .material-symbols-outlined { font-size: 20px; color: var(--md-on-surface-tertiary); }
 .subject-pick-search input {
+  flex: 1;
+  min-width: 0;
   border: none;
   background: none;
   outline: none;
-  flex: 1;
-  font-size: 0.9375rem;
+  font: inherit;
+  font-size: 1rem;
   color: var(--md-on-surface);
-  font-family: inherit;
 }
-.subject-pick-search input::placeholder { color: var(--md-on-surface-variant); }
+.subject-pick-search input::placeholder { color: var(--md-on-surface-tertiary); }
+
 .subject-pick-list {
   flex: 1;
-  overflow-y: auto;
-  padding: 0 12px 12px;
   min-height: 120px;
-  max-height: 40vh;
+  max-height: 392px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 10px;
 }
 .subject-pick-item {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px 10px;
-  border-radius: 10px;
+  gap: 12px;
+  min-height: 52px;
+  padding: 10px 14px;
+  border-radius: 18px;
   cursor: pointer;
-  font-size: 0.9375rem;
+  font-size: 1rem;
   color: var(--md-on-surface);
-  transition: background .15s;
+  transition: background var(--md-motion-effects);
 }
-.subject-pick-item:hover { background: color-mix(in srgb, var(--md-primary) 5%, transparent); }
+.subject-pick-item:hover { background: var(--md-surface-container); }
+.subject-pick-item.selected { background: var(--md-surface-container-highest); }
 .subject-pick-checkbox { display: none; }
+/* NebSelectIndicator: a 22px disc while it is not the answer, tightening to an
+   8px rounded square and inverting when it is. The corner moving is what makes
+   the tick read as closing rather than appearing. */
 .subject-pick-check {
-  width: 20px;
-  height: 20px;
-  border-radius: 4px;
-  border: 2px solid var(--md-outline);
+  position: relative;
+  flex: none;
+  width: 22px;
+  height: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-  transition: background .15s, border-color .15s;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 11px;
+  background: var(--md-surface-container-highest);
+  transition: border-radius var(--md-motion-spatial-fast),
+              background var(--md-motion-effects),
+              border-color var(--md-motion-effects);
 }
-.subject-pick-check .material-symbols-outlined { font-size: 16px; color: var(--md-on-primary); opacity: 0; transition: opacity .15s; }
+.subject-pick-check .material-symbols-outlined {
+  font-size: 16px;
+  color: var(--md-surface);
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity var(--md-motion-effects), transform var(--md-motion-spatial-fast);
+}
 .subject-pick-item.selected .subject-pick-check {
-  background: var(--md-primary);
-  border-color: var(--md-primary);
+  border-radius: 8px;
+  background: var(--md-on-surface);
+  border-color: var(--md-on-surface);
 }
-.subject-pick-item.selected .subject-pick-check .material-symbols-outlined { opacity: 1; }
-.subject-pick-label { flex: 1; }
+.subject-pick-item.selected .subject-pick-check .material-symbols-outlined { opacity: 1; transform: scale(1); }
+.subject-pick-item.selected .subject-pick-label { font-weight: 650; }
+.subject-pick-label { flex: 1; min-width: 0; }
+
 .subject-pick-add {
   display: flex;
-  gap: 8px;
-  padding: 8px 20px 12px;
-  border-top: 1px solid var(--md-outline-variant);
-  margin-top: 4px;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 22px 0;
 }
 .subject-pick-add input {
   flex: 1;
-  border: 1px solid var(--md-outline-variant);
-  border-radius: 10px;
-  padding: 8px 12px;
-  font-size: 0.875rem;
+  min-width: 0;
+  padding: 13px 16px;
+  border: 1.5px solid transparent;
+  border-radius: 18px;
   outline: none;
-  background: var(--md-surface-container);
+  background: var(--md-surface-container-highest);
   color: var(--md-on-surface);
-  font-family: inherit;
+  font: inherit;
+  font-size: 1rem;
+  transition: border-color var(--md-motion-effects-fast);
 }
-.subject-pick-add input:focus { border-color: var(--md-primary); }
-.subject-pick-add .md-btn { padding: 8px 16px; }
+.subject-pick-add input::placeholder { color: var(--md-on-surface-tertiary); }
+.subject-pick-add input:focus { border-color: var(--md-on-surface); }
+.subject-pick-add .md-btn { flex: none; }
 .subject-pick-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 8px;
-  padding: 12px 20px 16px;
-  border-top: 1px solid var(--md-outline-variant);
-}
-@media (max-width: 600px) {
-  .subject-pick-dialog { max-width: 100%; margin: 8px; }
+  gap: 10px;
+  padding: 16px 22px 20px;
 }
 
-/* ─── Single-select variant (radio-circle instead of checkbox-square) ─── */
-.subject-pick-item.is-radio .subject-pick-check {
-  border-radius: 50%;
+/* Under 600px it becomes what it is on a phone: a sheet off the bottom edge,
+   because a dialog centred in a viewport the keyboard has just halved ends up
+   behind the keyboard. */
+@media (max-width: 600px) {
+  .subject-pick-overlay { align-items: flex-end; padding: 0; }
+  .subject-pick-dialog {
+    max-width: none;
+    max-height: 88vh;
+    border-radius: 30px 30px 0 0;
+    background: var(--md-surface-container-low);
+  }
+  .subject-pick-actions { padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px)); }
 }
-.subject-pick-item.is-radio .subject-pick-check .material-symbols-outlined { opacity: 0; }
-.subject-pick-item.is-radio.selected .subject-pick-check .material-symbols-outlined { opacity: 1; }
+
+/* ─── Single-select variant (radio-circle instead of checkbox-square) ───
+   One answer, so the indicator stays round and closes into a disc with a tick
+   in it rather than squaring off. NebSelectionMark rather than the box. */
+.subject-pick-item.is-radio .subject-pick-check { border-radius: 50%; }
+.subject-pick-item.is-radio.selected .subject-pick-check { border-radius: 50%; background: var(--md-primary); border-color: var(--md-primary); }
+.subject-pick-item.is-radio .subject-pick-check .material-symbols-outlined { opacity: 0; color: var(--md-on-primary); }
+.subject-pick-item.is-radio.selected .subject-pick-check .material-symbols-outlined { opacity: 1; transform: scale(1); }

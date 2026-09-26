@@ -1,0 +1,270 @@
+/* GENERATED FILE. Do not hand-edit -- run tools/art/gensubjects.py.
+ *
+ * One block per subject the curriculum names, then one per family, for every
+ * subject it does not. A template asks for its class with the `subject_slug`
+ * filter, which routes unknown subjects through the same keyword table the
+ * generative art uses -- so the chip, the badge and the art always agree.
+ *
+ * Light values are the app's light/lightContainer/onLightContainer; the dark
+ * block is the same hue lifted into the range that stays legible on navy.
+ */
+.subject-physics {
+  /* Physics */
+  --subject-color: #1D4ED8;
+  --subject-container: #DBE7FE;
+  --subject-on-container: #1B3FA8;
+}
+.subject-chemistry {
+  /* Chemistry */
+  --subject-color: #15803D;
+  --subject-container: #DCFCE7;
+  --subject-on-container: #14602F;
+}
+.subject-mathematics {
+  /* Mathematics */
+  --subject-color: #B91C1C;
+  --subject-container: #FEE2E2;
+  --subject-on-container: #8F1717;
+}
+.subject-biology {
+  /* Biology */
+  --subject-color: #0F766E;
+  --subject-container: #CCFBF1;
+  --subject-on-container: #0C5B55;
+}
+.subject-english {
+  /* English */
+  --subject-color: #7E22CE;
+  --subject-container: #F3E8FF;
+  --subject-on-container: #631AA3;
+}
+.subject-nepali {
+  /* Nepali */
+  --subject-color: #9A6206;
+  --subject-container: #FEF3C7;
+  --subject-on-container: #7A4E05;
+}
+.subject-computer-science {
+  /* Computer Science */
+  --subject-color: #0E7490;
+  --subject-container: #CFFAFE;
+  --subject-on-container: #0B5A70;
+}
+.subject-economics {
+  /* Economics */
+  --subject-color: #C2410C;
+  --subject-container: #FFEDD5;
+  --subject-on-container: #9A330A;
+}
+.subject-accountancy {
+  /* Accountancy */
+  --subject-color: #9D174D;
+  --subject-container: #FCE7F3;
+  --subject-on-container: #7D1240;
+}
+.subject-exam-tips {
+  /* Exam Tips */
+  --subject-color: #6D28D9;
+  --subject-container: #EDE9FE;
+  --subject-on-container: #56209F;
+}
+.subject-fam-physics {
+  /* PHYSICS family */
+  --subject-color: #1D4ED8;
+  --subject-container: #DBE7FE;
+  --subject-on-container: #1B3FA8;
+}
+.subject-fam-chemistry {
+  /* CHEMISTRY family */
+  --subject-color: #15803D;
+  --subject-container: #DCFCE7;
+  --subject-on-container: #14602F;
+}
+.subject-fam-math {
+  /* MATH family */
+  --subject-color: #B91C1C;
+  --subject-container: #FEE2E2;
+  --subject-on-container: #8F1717;
+}
+.subject-fam-biology {
+  /* BIOLOGY family */
+  --subject-color: #0F766E;
+  --subject-container: #CCFBF1;
+  --subject-on-container: #0C5B55;
+}
+.subject-fam-language {
+  /* LANGUAGE family */
+  --subject-color: #7E22CE;
+  --subject-container: #F3E8FF;
+  --subject-on-container: #631AA3;
+}
+.subject-fam-computing {
+  /* COMPUTING family */
+  --subject-color: #0E7490;
+  --subject-container: #CFFAFE;
+  --subject-on-container: #0B5A70;
+}
+.subject-fam-commerce {
+  /* COMMERCE family */
+  --subject-color: #C2410C;
+  --subject-container: #FFEDD5;
+  --subject-on-container: #9A330A;
+}
+.subject-fam-exam {
+  /* EXAM family */
+  --subject-color: #6D28D9;
+  --subject-container: #EDE9FE;
+  --subject-on-container: #56209F;
+}
+.subject-fam-science {
+  /* SCIENCE family */
+  --subject-color: #047857;
+  --subject-container: #D1FAE5;
+  --subject-on-container: #04604A;
+}
+.subject-fam-social {
+  /* SOCIAL family */
+  --subject-color: #3F5A8A;
+  --subject-container: #DDE6F6;
+  --subject-on-container: #2C4066;
+}
+.subject-fam-health {
+  /* HEALTH family */
+  --subject-color: #BE123C;
+  --subject-container: #FFE4E9;
+  --subject-on-container: #8F0E2E;
+}
+.subject-fam-general {
+  /* GENERAL family */
+  --subject-color: #004AC6;
+  --subject-container: #DBE1FF;
+  --subject-on-container: #00174B;
+}
+
+/* ── Dark ── The light hues do not survive a navy surface; these are the same
+   hues re-mixed for it, straight from the app's dark ramp. ── */
+[data-theme="dark"] .subject-physics {
+  --subject-color: #9DBBFF;
+  --subject-container: #1B2A4D;
+  --subject-on-container: #D6E3FF;
+}
+[data-theme="dark"] .subject-chemistry {
+  --subject-color: #7CD9A0;
+  --subject-container: #14301F;
+  --subject-on-container: #D3F5DF;
+}
+[data-theme="dark"] .subject-mathematics {
+  --subject-color: #FF9C93;
+  --subject-container: #3A1A18;
+  --subject-on-container: #FFDAD6;
+}
+[data-theme="dark"] .subject-biology {
+  --subject-color: #5FD3C4;
+  --subject-container: #10302D;
+  --subject-on-container: #CDF3ED;
+}
+[data-theme="dark"] .subject-english {
+  --subject-color: #D3B4FE;
+  --subject-container: #2C1A44;
+  --subject-on-container: #EDE0FF;
+}
+[data-theme="dark"] .subject-nepali {
+  --subject-color: #E8B457;
+  --subject-container: #32260E;
+  --subject-on-container: #F7E6C2;
+}
+[data-theme="dark"] .subject-computer-science {
+  --subject-color: #5CC8E0;
+  --subject-container: #0E2C36;
+  --subject-on-container: #C9EFF8;
+}
+[data-theme="dark"] .subject-economics {
+  --subject-color: #FFA76B;
+  --subject-container: #3A2013;
+  --subject-on-container: #FFE0CB;
+}
+[data-theme="dark"] .subject-accountancy {
+  --subject-color: #F79CC0;
+  --subject-container: #3A1428;
+  --subject-on-container: #FBDCE9;
+}
+[data-theme="dark"] .subject-exam-tips {
+  --subject-color: #C4B5FD;
+  --subject-container: #261C46;
+  --subject-on-container: #E6E0FF;
+}
+[data-theme="dark"] .subject-fam-physics {
+  --subject-color: #9DBBFF;
+  --subject-container: #1B2A4D;
+  --subject-on-container: #D6E3FF;
+}
+[data-theme="dark"] .subject-fam-chemistry {
+  --subject-color: #7CD9A0;
+  --subject-container: #14301F;
+  --subject-on-container: #D3F5DF;
+}
+[data-theme="dark"] .subject-fam-math {
+  --subject-color: #FF9C93;
+  --subject-container: #3A1A18;
+  --subject-on-container: #FFDAD6;
+}
+[data-theme="dark"] .subject-fam-biology {
+  --subject-color: #5FD3C4;
+  --subject-container: #10302D;
+  --subject-on-container: #CDF3ED;
+}
+[data-theme="dark"] .subject-fam-language {
+  --subject-color: #D3B4FE;
+  --subject-container: #2C1A44;
+  --subject-on-container: #EDE0FF;
+}
+[data-theme="dark"] .subject-fam-computing {
+  --subject-color: #5CC8E0;
+  --subject-container: #0E2C36;
+  --subject-on-container: #C9EFF8;
+}
+[data-theme="dark"] .subject-fam-commerce {
+  --subject-color: #FFA76B;
+  --subject-container: #3A2013;
+  --subject-on-container: #FFE0CB;
+}
+[data-theme="dark"] .subject-fam-exam {
+  --subject-color: #C4B5FD;
+  --subject-container: #261C46;
+  --subject-on-container: #E6E0FF;
+}
+[data-theme="dark"] .subject-fam-science {
+  --subject-color: #6EDCB4;
+  --subject-container: #0D2E25;
+  --subject-on-container: #CFF5E6;
+}
+[data-theme="dark"] .subject-fam-social {
+  --subject-color: #9CB7E8;
+  --subject-container: #1B2638;
+  --subject-on-container: #D9E4F7;
+}
+[data-theme="dark"] .subject-fam-health {
+  --subject-color: #FF9BB0;
+  --subject-container: #3D1520;
+  --subject-on-container: #FFD9E1;
+}
+[data-theme="dark"] .subject-fam-general {
+  --subject-color: #B4C5FF;
+  --subject-container: #22324C;
+  --subject-on-container: #DBE1FF;
+}
+
+/* The default, for an element with no subject class at all. Brand blue, which
+   is the GENERAL family's hue, so "no subject" and "unrecognised subject" look
+   the same rather than different kinds of broken. */
+:root {
+  --subject-color: #004AC6;
+  --subject-container: #DBE1FF;
+  --subject-on-container: #00174B;
+}
+
+[data-theme="dark"] {
+  --subject-color: #B4C5FF;
+  --subject-container: #22324C;
+  --subject-on-container: #DBE1FF;
+}

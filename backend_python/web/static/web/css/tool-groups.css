@@ -3,16 +3,22 @@
   z-index:32;
   pointer-events:none;
 }
+/* The floating tool bars, on the canvas and on the collab board. They were a
+   white-and-slate set with a hand-written dark half at the foot of the file --
+   a second palette, and one that no longer agreed with the board it sits on
+   since .cb-toolbar moved onto the tokens. Both bars are the same surface now,
+   and the selected tool is the same container the rest of the app selects
+   with, so the ten dark rules are gone. */
 .tg-bar{
   pointer-events:auto;
   display:flex;
   align-items:center;
   gap:2px;
   padding:4px;
-  background:#fff;
-  border:1px solid #e2e6f0;
+  background:var(--md-surface-container);
+  border:1px solid var(--md-outline-variant);
   border-radius:20px;
-  box-shadow:0 2px 8px rgba(11,28,48,.08);
+  box-shadow:0 2px 8px color-mix(in srgb, var(--md-scrim) 10%, transparent);
 }
 .tg-bare .tg-bar{
   padding:0;
@@ -25,7 +31,7 @@
   width:1px;
   height:18px;
   margin:0 4px;
-  background:#e2e6f0;
+  background:var(--md-outline-variant);
   flex-shrink:0;
 }
 .tg-btn{
@@ -35,7 +41,7 @@
   border:0;
   border-radius:16px;
   background:transparent;
-  color:#64748b;
+  color:var(--md-on-surface-variant);
   display:grid;
   place-items:center;
   cursor:pointer;
@@ -44,13 +50,13 @@
 }
 .tg-btn svg{display:block}
 .tg-btn:hover{
-  background:#f1f5f9;
-  color:#0b1c30;
+  background:var(--md-surface-container-high);
+  color:var(--md-on-surface);
 }
 .tg-btn:active{transform:scale(.97)}
 .tg-btn.is-on{
-  background:#eaf0ff;
-  color:#004ac6;
+  background:var(--md-secondary-container);
+  color:var(--md-on-secondary-container);
 }
 .tg-caret{
   position:absolute;
@@ -68,10 +74,10 @@
   z-index:80;
   min-width:148px;
   padding:4px;
-  background:#fff;
-  border:1px solid #e2e6f0;
+  background:var(--md-surface-container);
+  border:1px solid var(--md-outline-variant);
   border-radius:14px;
-  box-shadow:0 8px 24px rgba(11,28,48,.12);
+  box-shadow:0 8px 24px color-mix(in srgb, var(--md-scrim) 16%, transparent);
   pointer-events:auto;
 }
 .tg-fly[hidden]{display:none !important}
@@ -82,17 +88,17 @@
   gap:8px;
   border:0;
   background:transparent;
-  color:#0b1c30;
+  color:var(--md-on-surface);
   font:500 12.5px/1.2 Poppins, system-ui, sans-serif;
   padding:8px 10px;
   border-radius:10px;
   cursor:pointer;
   text-align:left;
 }
-.tg-fly-item:hover{background:#f1f5f9}
+.tg-fly-item:hover{background:var(--md-surface-container-high)}
 .tg-fly-item.is-on{
-  background:#eaf0ff;
-  color:#004ac6;
+  background:var(--md-secondary-container);
+  color:var(--md-on-secondary-container);
 }
 .tg-fly-item svg{flex-shrink:0}
 .tg-dock{
@@ -104,10 +110,10 @@
   align-items:center;
   gap:4px;
   padding:6px 8px;
-  background:#fff;
-  border:1px solid #e2e6f0;
+  background:var(--md-surface-container);
+  border:1px solid var(--md-outline-variant);
   border-radius:14px;
-  box-shadow:0 4px 16px rgba(11,28,48,.1);
+  box-shadow:0 4px 16px color-mix(in srgb, var(--md-scrim) 14%, transparent);
 }
 .tg-dock[hidden]{display:none !important}
 .tg-swatch,
@@ -116,12 +122,12 @@
   height:16px;
   border-radius:50%;
   border:2px solid transparent;
-  box-shadow:inset 0 0 0 1px rgba(11,28,48,.15);
+  box-shadow:inset 0 0 0 1px color-mix(in srgb, var(--md-on-surface) 22%, transparent);
   cursor:pointer;
   padding:0;
 }
 .tg-swatch.is-on,
-.rw-swatch.is-on{border-color:#004ac6}
+.rw-swatch.is-on{border-color:var(--md-primary)}
 .tg-stroke,
 .rw-stroke{
   width:22px;
@@ -132,10 +138,10 @@
   display:grid;
   place-items:center;
   cursor:pointer;
-  color:#0b1c30;
+  color:var(--md-on-surface);
 }
 .tg-stroke.is-on,
-.rw-stroke.is-on{background:#eaf0ff}
+.rw-stroke.is-on{background:var(--md-secondary-container)}
 .tg-stroke i,
 .rw-stroke i{
   display:block;
@@ -143,20 +149,6 @@
   border-radius:99px;
 }
 
-[data-theme="dark"] .tg-bar,
-[data-theme="dark"] .tg-fly,
-[data-theme="dark"] .tg-dock{
-  background:#131d2e;
-  border-color:#1e2b40;
-  box-shadow:0 8px 24px rgba(0,0,0,.35);
-}
-[data-theme="dark"] .tg-btn{color:#8292ab}
-[data-theme="dark"] .tg-btn:hover{background:#1e2b40;color:#eef3fc}
-[data-theme="dark"] .tg-btn.is-on{background:#15294a;color:#84aaff}
-[data-theme="dark"] .tg-sep{background:#1e2b40}
-[data-theme="dark"] .tg-fly-item{color:#eef3fc}
-[data-theme="dark"] .tg-fly-item:hover{background:#1e2b40}
-[data-theme="dark"] .tg-fly-item.is-on{background:#15294a;color:#84aaff}
 
 @media (max-width:640px){
   .tg-btn{width:34px;height:34px}

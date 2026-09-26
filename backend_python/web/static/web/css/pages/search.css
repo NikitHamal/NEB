@@ -108,7 +108,7 @@
   .user-search-line1 {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 12px;
     font-size: 0.875rem;
     color: var(--md-on-surface);
     line-height: 1.3;
@@ -126,10 +126,6 @@
     font-size: 0.8125rem;
     color: var(--md-on-surface-variant);
     font-weight: 400;
-  }
-  .user-search-dot {
-    color: var(--md-on-surface-variant);
-    opacity: 0.4;
   }
   .user-search-followers {
     display: inline-flex;
@@ -196,9 +192,6 @@
       align-items: flex-start;
       gap: 2px;
     }
-    .user-search-dot {
-      display: none;
-    }
     .user-search-followers {
       margin-top: 2px;
     }
@@ -208,23 +201,12 @@
     }
   }
 
-  /* Search tab scroll styling */
-  .search-tabs {
-    width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-  .search-tabs::-webkit-scrollbar {
-    display: none;
-  }
-  .search-tabs .md-tab {
-    flex-shrink: 0;
-  }
+  /* The phone treatment for the search tab row. The rail scrolls itself, hides
+     its own scrollbar and keeps its items from shrinking. */
 
   mark.search-hl {
-    background: var(--md-primary-container, #d1e8ff);
-    color: var(--md-on-primary-container, #001d3b);
+    background: var(--md-primary-container);
+    color: var(--md-on-primary-container);
     border-radius: 2px;
     padding: 0 2px;
     font-weight: 600;

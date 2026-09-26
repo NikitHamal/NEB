@@ -1,0 +1,1892 @@
+/* ── The overlay and choice system ──────────────────────────────────────────
+   Ported from the app, component for component: NebDialog, NebModalSheet,
+   NebSheetSurface, NebPickerSheet, NebDateWheel, NebChips, NebChoiceControls.
+
+   The web had 148 distinct overlay classes across roughly thirty prefixes --
+   .ba-dialog, .profile-modal, .filter-dialog, .more-menu, .ncu-sheet and so on
+   -- each with its own radius, its own scrim alpha, its own idea of where a
+   title sits. That is why the app and the web do not look like the same
+   product even when the colours match. Everything here is one set, named after
+   the composable it came from, so a screen ported later inherits the app's
+   geometry instead of inventing a new one.
+
+   The specification, taken from the Kotlin and kept in the same units:
+
+     dialog    30px radius, surfaceContainerHigh, max 420px wide / 620px tall,
+               26px gutters, enters at scale 0.88
+     sheet     30px top radius, surfaceContainerLow, 22px gutters,
+               34x4 outlineVariant handle, scrim at 0.34
+     picker    28px top radius, 38x4 handle, 14px rows, list capped at 392px
+     chip      40px tall, 14x9 padding, radius 22px -> 14px on select, and the
+               fill inverts to onSurface with surface text
+     mark      24px ring that closes into an accent disc and draws its tick
+     option    16px -> 22px radius, transparent -> 1.6px accent edge
+     toggle    52x32 track, 2px border, knob 16px -> 22px, travel 20px
+     tile      18px -> 24px radius, 44px expressive glyph, 10px gaps
+     wheel     44px rows, five visible, centre row on an accentSoft band
+
+   The inversion in the chip and the mark is deliberate and is the idea the
+   whole set is built on: nothing is outlined while it rests, so the page stays
+   quiet, and the user's answer is the only thing on it with an edge. */
+
+/* ── Scrim ──────────────────────────────────────────────────────────────────
+   One scrim for every overlay. `hidden` is the closed state so an overlay that
+   never opens costs nothing and is invisible to assistive tech; the controller
+   removes it and sets [data-open] on the next frame so the transition runs. */
+.neb-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: color-mix(in srgb, var(--md-scrim) 34%, transparent);
+  opacity: 0;
+  transition: opacity var(--md-motion-effects);
+  overscroll-behavior: contain;
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+}
+.neb-scrim[hidden] { display: none; }
+.neb-scrim[data-open] { opacity: 1; }
+
+/* A sheet is anchored to the bottom, where the hand already is, and takes the
+   full width. On a wide screen it stops growing and centres, because a 1600px
+   sheet is a panel and reads as one. */
+.neb-scrim-bottom {
+  align-items: flex-end;
+  padding: 0;
+}
+
+/* ── Dialog ─────────────────────────────────────────────────────────────── */
+.neb-dialog {
+  width: 100%;
+  max-width: 420px;
+  max-height: min(620px, calc(100vh - 48px));
+  display: flex;
+  flex-direction: column;
+  background: var(--md-surface-container-high);
+  color: var(--md-on-surface);
+  border-radius: 30px;
+  box-shadow: var(--md-elevation-3);
+  transform: scale(0.88);
+  opacity: 0;
+  transition: transform var(--md-motion-spatial), opacity var(--md-motion-effects-fast);
+}
+.neb-scrim[data-open] .neb-dialog { transform: scale(1); opacity: 1; }
+.neb-scrim[data-closing] .neb-dialog { transform: scale(0.94); opacity: 0; }
+/* A dialog that is holding a workspace rather than asking a question -- the
+   formula editor's box, keys and preview -- needs the width of a sheet without
+   being one. Same corner, same elevation, one more column of room. */
+.neb-dialog-wide {
+  max-width: 560px;
+}
+
+.neb-dialog-head {
+  padding: 26px 26px 0;
+  flex: none;
+}
+/* The icon sits in an Expressive silhouette, not a circle -- it is the one
+   ornament a dialog gets, so it should not be the same shape as an avatar. */
+.neb-dialog-icon {
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  background: var(--md-secondary-container);
+  color: var(--md-on-secondary-container);
+}
+.neb-dialog-icon .material-symbols-outlined { font-size: 22px; }
+.neb-dialog-icon-danger {
+  background: var(--md-error-container);
+  color: var(--md-on-error-container);
+}
+.neb-dialog-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.24;
+  letter-spacing: -0.015em;
+  color: var(--md-on-surface);
+}
+.neb-dialog-support {
+  margin: 10px 0 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--md-on-surface-variant);
+}
+.neb-dialog-body {
+  padding: 18px 26px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.neb-dialog-body-flush { padding-left: 0; padding-right: 0; }
+.neb-dialog-actions {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 22px 20px 20px;
+}
+/* Nothing in the footer, so the card still needs a bottom. */
+.neb-dialog > .neb-dialog-head:last-child,
+.neb-dialog > .neb-dialog-body:last-child { padding-bottom: 24px; }
+
+/* ── Sheet ──────────────────────────────────────────────────────────────── */
+.neb-sheet {
+  width: 100%;
+  max-width: 640px;
+  max-height: min(88vh, 860px);
+  display: flex;
+  flex-direction: column;
+  background: var(--md-surface-container-low);
+  color: var(--md-on-surface);
+  border-radius: 30px 30px 0 0;
+  box-shadow: var(--md-elevation-3);
+  transform: translateY(100%);
+  transition: transform var(--md-motion-spatial);
+  will-change: transform;
+}
+.neb-scrim[data-open] .neb-sheet { transform: translateY(0); }
+.neb-scrim[data-closing] .neb-sheet { transform: translateY(100%); }
+/* While a finger is on the handle the sheet follows it, so the transition has
+   to be off or every frame fights the spring. */
+.neb-sheet[data-dragging] { transition: none; }
+
+.neb-sheet-handle {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 0 4px;
+  cursor: grab;
+  touch-action: none;
+}
+.neb-sheet-handle::before {
+  content: '';
+  width: 34px;
+  height: 4px;
+  border-radius: 50px;
+  background: var(--md-outline-variant);
+}
+.neb-sheet-handle:active { cursor: grabbing; }
+
+.neb-sheet-head {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 22px 0;
+}
+.neb-sheet-head-text { flex: 1; min-width: 0; }
+.neb-sheet-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.24;
+  letter-spacing: -0.015em;
+}
+.neb-sheet-sub {
+  margin: 4px 0 0;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--md-on-surface-variant);
+}
+.neb-sheet-close {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: var(--md-surface-container-highest);
+  color: var(--md-on-surface-variant);
+  cursor: pointer;
+  transition: background var(--md-motion-effects-fast), transform var(--md-motion-spatial-fast);
+}
+.neb-sheet-close:hover { background: var(--md-surface-container-high); }
+.neb-sheet-close:active { transform: scale(0.88); }
+.neb-sheet-close .material-symbols-outlined { font-size: 20px; }
+
+.neb-sheet-body {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 16px 22px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+/* The app pads for the navigation bar; the browser gives us the same number
+   through the safe-area inset, and 16px besides so the last row is not flush. */
+.neb-sheet-foot {
+  flex: none;
+  padding: 16px 22px calc(16px + env(safe-area-inset-bottom, 0px));
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+/* A foot that holds a dismissive and a confirming action puts them side by
+   side, and the confirming one is wider. FilterDialog.kt weights them 1 and
+   1.4: two equal buttons make the user read both to find out which is the
+   one they want. */
+.neb-sheet-foot:has(> .neb-foot-major) { flex-direction: row; }
+.neb-foot-minor { flex: 1 1 0; }
+.neb-foot-major { flex: 1.4 1 0; }
+.neb-foot-minor,
+.neb-foot-major {
+  min-width: 0;
+  /* NebButtonSize.Hero. */
+  min-height: 52px;
+  border-radius: var(--md-shape-full);
+  justify-content: center;
+}
+.neb-sheet-body:last-child { padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
+/* A list body gives its horizontal padding back to the rows: a row has its own
+   14px inset and an 18px corner, so a second gutter on top of that leaves the
+   selected fill floating in a channel. 12px is enough to keep the corner off
+   the edge of the sheet. */
+.neb-sheet-body-flush { padding-left: 12px; padding-right: 12px; }
+/* A search field or an add-your-own row between the head and the list is not
+   part of the scrolling area, so it carries the sheet's gutters itself. */
+.neb-sheet > .neb-field-search,
+.neb-sheet > .neb-field-row { margin: 12px 22px 2px; }
+
+/* The picker is the same sheet with tighter chrome: it exists to hold a long
+   list, so it gives its vertical space to rows rather than to a headline. */
+.neb-sheet-picker { border-radius: 28px 28px 0 0; background: var(--md-surface); }
+.neb-sheet-picker .neb-sheet-handle { padding: 12px 0 2px; }
+.neb-sheet-picker .neb-sheet-handle::before { width: 38px; border-radius: 2px; background: var(--md-outline); }
+.neb-sheet-picker .neb-sheet-title { font-size: 1.125rem; font-weight: 650; }
+.neb-sheet-picker .neb-sheet-body { max-height: 392px; gap: 0; }
+
+/* A sheet that is a workspace rather than an answer -- a thread you read and
+   write in without losing the post underneath it -- docks to the side where
+   there is room for one, and is the same bottom sheet where there is not.
+
+   One element, two presentations. The alternative is what the forum post used
+   to do: ship both, hide the wrong one with display:none, and keep them in
+   step from the page script. That is two DOM trees holding the same
+   conversation, two sets of ids, an isMobile() branch at every site that
+   touches either, and a thread that disappears if the window crosses the
+   breakpoint while it is open.
+
+   Write it as `class="neb-scrim neb-scrim-bottom neb-scrim-side"`: below the
+   breakpoint only the -bottom rules apply, and it is exactly a sheet. */
+@media (min-width: 769px) {
+  .neb-scrim-side {
+    align-items: stretch;
+    justify-content: flex-end;
+    padding: 0;
+  }
+  .neb-scrim-side .neb-sheet {
+    width: 440px;
+    max-width: 100%;
+    height: 100%;
+    max-height: none;
+    /* Docked against the edge, so there is no outside corner to round and no
+       shadow to cast past the screen. The seam is a line, like the app's. */
+    border-radius: 0;
+    border-left: 1px solid var(--md-outline-variant);
+    box-shadow: none;
+    background: var(--md-surface);
+    transform: translateX(100%);
+    transition: transform var(--md-motion-spatial);
+  }
+  .neb-scrim-side[data-open] .neb-sheet { transform: translateX(0); }
+  .neb-scrim-side[data-closing] .neb-sheet { transform: translateX(100%); }
+  /* The handle is a grip for a thumb, and a docked panel has nowhere to be
+     dragged to. */
+  .neb-scrim-side .neb-sheet-handle { display: none; }
+  /* A panel is read top-down for as long as the conversation is, so its head
+     stays put and only the body scrolls. A bottom sheet hugs its content --
+     a docked panel is already full height, so the body takes the slack and
+     anything after it stays on the bottom edge where the hand expects it. */
+  .neb-scrim-side .neb-sheet-head { border-bottom: 1px solid var(--md-outline-variant); }
+  .neb-scrim-side .neb-sheet-body { flex: 1 1 auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .neb-scrim-side .neb-sheet { transition: none; }
+}
+
+/* ── Menu / dropdown / popover ──────────────────────────────────────────────
+   Not modal and not scrimmed: a menu is attached to the thing that opened it,
+   so it is positioned by the controller and dismissed by a click anywhere
+   else. The ring in --md-elevation-2 is what gives it a crisp edge on a white
+   page, where a 1px border would vanish. */
+.neb-menu {
+  position: absolute;
+  z-index: 2100;
+  min-width: 208px;
+  max-width: 320px;
+  max-height: min(420px, 70vh);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 6px;
+  background: var(--md-surface-container-low);
+  color: var(--md-on-surface);
+  border-radius: 18px;
+  box-shadow: var(--md-elevation-2);
+  transform-origin: top center;
+  transform: scale(0.94) translateY(-4px);
+  opacity: 0;
+  transition: transform var(--md-motion-spatial-fast), opacity var(--md-motion-effects-fast);
+}
+.neb-menu[hidden] { display: none; }
+.neb-menu[data-open] { transform: scale(1) translateY(0); opacity: 1; }
+.neb-menu-up { transform-origin: bottom center; }
+
+.neb-menu-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 42px;
+  padding: 9px 12px;
+  border: none;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--md-on-surface);
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background var(--md-motion-effects-fast);
+}
+.neb-menu-item:hover,
+.neb-menu-item:focus-visible { background: var(--md-surface-container-high); text-decoration: none; }
+.neb-menu-item[aria-disabled="true"] { opacity: 0.45; pointer-events: none; }
+.neb-menu-item .material-symbols-outlined {
+  font-size: 20px;
+  color: var(--md-on-surface-variant);
+  flex: none;
+}
+.neb-menu-item-label { flex: 1; min-width: 0; }
+.neb-menu-item-hint {
+  font-size: 0.75rem;
+  color: var(--md-on-surface-tertiary);
+  flex: none;
+}
+.neb-menu-item-danger { color: var(--md-error); }
+.neb-menu-item-danger .material-symbols-outlined { color: var(--md-error); }
+.neb-menu-item-danger:hover { background: var(--md-error-container); }
+.neb-menu-item[aria-checked="true"] { background: var(--md-surface-container-high); font-weight: 650; }
+
+.neb-menu-sep {
+  height: 1px;
+  margin: 6px 8px;
+  background: var(--md-outline-variant);
+  border: none;
+}
+.neb-menu-label {
+  padding: 10px 12px 6px;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--md-on-surface-tertiary);
+}
+
+/* ── Choice chip ────────────────────────────────────────────────────────────
+   NebFilterChip. Selected inverts to onSurface/surface and the corner tightens
+   from 22px to 14px, which is the only cue that does not depend on colour. */
+.neb-choice-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 9px 14px;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 22px;
+  background: var(--md-surface-container-highest);
+  color: var(--md-on-surface-variant);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 650;
+  line-height: 1.2;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: border-radius var(--md-motion-spatial-fast),
+              background var(--md-motion-effects),
+              color var(--md-motion-effects),
+              border-color var(--md-motion-effects),
+              transform var(--md-motion-spatial-fast);
+}
+.neb-choice-chip:active { transform: scale(0.95); }
+.neb-choice-chip .material-symbols-outlined { font-size: 16px; }
+/* The tick opens its own width ahead of the label rather than appearing in
+   place, so the chip grows into the answer instead of flickering. It is a real
+   element and not a pseudo carrying an icon-font ligature, because if the font
+   has not arrived the ligature renders as the literal word "check". */
+.neb-chip-tick {
+  flex: none;
+  width: 0;
+  overflow: hidden;
+  opacity: 0;
+  display: inline-flex;
+  transition: width var(--md-motion-spatial-fast), opacity var(--md-motion-effects);
+}
+.neb-chip-tick svg { width: 16px; height: 16px; display: block; }
+/* Drawn rather than set, so an empty <span class="neb-chip-tick"></span> is
+   the whole markup. Two borders on a rotated box is a checkmark that cannot
+   arrive late or render as the word "check". */
+.neb-chip-tick:empty::after {
+  content: "";
+  width: 5px;
+  height: 9px;
+  margin: 0 0 2px 5px;
+  border: solid currentColor;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.neb-choice-chip[aria-pressed="true"],
+.neb-choice-chip[aria-selected="true"],
+.neb-choice-chip.is-selected {
+  border-radius: 14px;
+  background: var(--md-on-surface);
+  border-color: var(--md-on-surface);
+  color: var(--md-surface);
+}
+.neb-choice-chip[aria-pressed="true"] .neb-chip-tick,
+.neb-choice-chip[aria-selected="true"] .neb-chip-tick,
+.neb-choice-chip.is-selected .neb-chip-tick { width: 16px; opacity: 1; }
+/* A chip with a leading icon hides it once selected -- the tick has taken the
+   slot, and two glyphs on a 40px pill is a toolbar, not an answer. */
+.neb-choice-chip[aria-pressed="true"] > .material-symbols-outlined,
+.neb-choice-chip[aria-selected="true"] > .material-symbols-outlined,
+.neb-choice-chip.is-selected > .material-symbols-outlined { display: none; }
+.neb-choice-chip:disabled { opacity: 0.4; cursor: default; }
+
+.neb-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+/* A single scrolling line, for a filter bar that must not push the page down.
+   The scrollbar is hidden because the row is short enough to drag. */
+.neb-chip-scroller {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x proximity;
+  padding-bottom: 2px;
+}
+.neb-chip-scroller::-webkit-scrollbar { display: none; }
+.neb-chip-scroller > * { scroll-snap-align: start; flex: none; }
+
+/* ── The selection mark ─────────────────────────────────────────────────────
+   NebSelectionMark: an open ring that closes into a filled disc and draws a
+   tick. The Canvas version animates the stroke; here the ring is a border that
+   collapses as the disc grows behind it, which lands in the same place. */
+.neb-mark {
+  position: relative;
+  flex: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid var(--md-outline);
+  background: transparent;
+  transition: border-color var(--md-motion-effects), border-width var(--md-motion-spatial-fast);
+}
+.neb-mark::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  background: var(--md-primary);
+  transform: scale(0);
+  transition: transform var(--md-motion-spatial-fast);
+}
+/* The tick is two borders of an empty box turned 45 degrees. Same reason as
+   the chip's: it must survive the icon font not being there. */
+.neb-mark::after {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 4px;
+  width: 6px;
+  height: 11px;
+  border-right: 2.2px solid var(--md-on-primary);
+  border-bottom: 2.2px solid var(--md-on-primary);
+  opacity: 0;
+  transform: rotate(45deg) scale(0.4);
+  transform-origin: 50% 50%;
+  transition: opacity var(--md-motion-effects-fast) 60ms,
+              transform var(--md-motion-spatial-fast) 60ms;
+}
+:has(> input:checked) > .neb-mark,
+.is-selected > .neb-mark,
+[aria-checked="true"] > .neb-mark,
+[aria-selected="true"] .neb-mark,
+.neb-mark.is-selected { border-color: transparent; }
+:has(> input:checked) > .neb-mark::before,
+.is-selected > .neb-mark::before,
+[aria-checked="true"] > .neb-mark::before,
+[aria-selected="true"] .neb-mark::before,
+.neb-mark.is-selected::before { transform: scale(1); }
+:has(> input:checked) > .neb-mark::after,
+.is-selected > .neb-mark::after,
+[aria-checked="true"] > .neb-mark::after,
+[aria-selected="true"] .neb-mark::after,
+.neb-mark.is-selected::after { opacity: 1; transform: rotate(45deg) scale(1); }
+.neb-mark-sm { width: 22px; height: 22px; }
+.neb-mark-sm::after { left: 6px; top: 3.5px; width: 6px; height: 10px; }
+
+/* The square sibling, for multi-select. NebSelectIndicator: 22px, and the
+   corner tightens 11px -> 8px, same trick as the chip. */
+.neb-check {
+  position: relative;
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 11px;
+  background: var(--md-surface-container-highest);
+  transition: border-radius var(--md-motion-spatial-fast),
+              background var(--md-motion-effects),
+              border-color var(--md-motion-effects);
+}
+.neb-check::after {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 3px;
+  width: 6px;
+  height: 10px;
+  border-right: 2.2px solid var(--md-surface);
+  border-bottom: 2.2px solid var(--md-surface);
+  opacity: 0;
+  transform: rotate(45deg) scale(0.5);
+  transform-origin: 50% 50%;
+  transition: opacity var(--md-motion-effects), transform var(--md-motion-spatial-fast);
+}
+:has(> input:checked) > .neb-check,
+.is-selected > .neb-check,
+[aria-checked="true"] > .neb-check,
+.neb-check.is-selected {
+  border-radius: 8px;
+  background: var(--md-on-surface);
+  border-color: var(--md-on-surface);
+}
+:has(> input:checked) > .neb-check::after,
+.is-selected > .neb-check::after,
+[aria-checked="true"] > .neb-check::after,
+.neb-check.is-selected::after { opacity: 1; transform: rotate(45deg) scale(1); }
+
+/* ── Rows ───────────────────────────────────────────────────────────────────
+   NebSelectRow: 52px minimum, 18px radius, and the fill only appears once the
+   row is the answer. */
+.neb-select-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 52px;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 18px;
+  background: transparent;
+  color: var(--md-on-surface);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background var(--md-motion-effects);
+}
+.neb-select-row:hover { background: var(--md-surface-container); }
+.neb-select-row:has(> input:checked),
+.neb-select-row.is-selected,
+.neb-select-row[aria-checked="true"] { background: var(--md-surface-container-high); }
+.neb-select-row-text { flex: 1; min-width: 0; }
+.neb-select-row-label {
+  display: block;
+  font-size: 1rem;
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.neb-select-row:has(> input:checked) .neb-select-row-label,
+.neb-select-row.is-selected .neb-select-row-label,
+.neb-select-row[aria-checked="true"] .neb-select-row-label { font-weight: 650; }
+.neb-select-row-sub {
+  display: block;
+  margin-top: 1px;
+  font-size: 0.75rem;
+  line-height: 1.3;
+  color: var(--md-on-surface-variant);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* NebPickerRow: no fill at all, ever. In a list of forty districts a filled
+   row would be the loudest thing on the sheet; the mark is the only ornament,
+   and the chosen label takes the accent. */
+.neb-picker-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 12px;
+  border: none;
+  border-radius: 14px;
+  background: transparent;
+  color: var(--md-on-surface);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background var(--md-motion-effects-fast);
+}
+.neb-picker-row:hover { background: var(--md-surface-container); }
+.neb-picker-row-text { flex: 1; min-width: 0; }
+/* A face in a list row, at the size the app uses. Round -- see NebAvatar. */
+.neb-picker-row-avatar {
+  flex: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--md-surface-container-highest);
+}
+.neb-picker-row[aria-selected="true"] .neb-picker-row-label,
+.neb-picker-row-label { display: block; font-size: 1rem; line-height: 1.3; }
+.neb-picker-row.is-selected .neb-picker-row-label,
+.neb-picker-row[aria-checked="true"] .neb-picker-row-label {
+  color: var(--md-primary);
+  font-weight: 600;
+}
+.neb-picker-row-sub {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.75rem;
+  color: var(--md-on-surface-tertiary);
+}
+.neb-picker-empty {
+  padding: 14px 12px;
+  font-size: 0.8125rem;
+  color: var(--md-on-surface-tertiary);
+}
+
+/* ── Option card ────────────────────────────────────────────────────────────
+   NebOptionCard. Resting it is a flat field tile with no border at all; picking
+   it lifts the fill to the page colour, morphs the corner out and draws the
+   edge. */
+.neb-option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 15px 16px 15px 18px;
+  border: 1.6px solid transparent;
+  border-radius: 16px;
+  background: var(--md-surface-container-high);
+  color: var(--md-on-surface);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-radius var(--md-motion-spatial),
+              border-color var(--md-motion-effects),
+              background var(--md-motion-effects),
+              transform var(--md-motion-spatial-fast);
+}
+.neb-option:active { transform: scale(0.985); }
+.neb-option:has(> input:checked),
+.neb-option.is-selected,
+.neb-option[aria-checked="true"] {
+  border-radius: 22px;
+  border-color: var(--md-primary);
+  background: var(--md-surface-container-lowest);
+}
+.neb-option-text { flex: 1; min-width: 0; }
+.neb-option-title {
+  display: block;
+  font-size: 0.96875rem;
+  font-weight: 600;
+  line-height: 1.3;
+  transition: color var(--md-motion-effects);
+}
+.neb-option:has(> input:checked) .neb-option-title,
+.neb-option.is-selected .neb-option-title,
+.neb-option[aria-checked="true"] .neb-option-title { color: var(--md-primary); }
+.neb-option-sub {
+  display: block;
+  margin-top: 3px;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: var(--md-on-surface-variant);
+}
+
+/* The glyph tile in an option's leading slot, cut to an Expressive polygon
+   rather than a rounded rectangle. Pair it with .md-shape-* and a bank of
+   options stops reading as a form. */
+.neb-glyph {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--md-surface-container-lowest);
+  color: var(--md-on-surface-variant);
+  transition: background var(--md-motion-effects), color var(--md-motion-effects);
+}
+.neb-glyph .material-symbols-outlined { font-size: 21px; }
+.neb-glyph-lg { width: 44px; height: 44px; }
+.neb-option:has(> input:checked) > .neb-glyph,
+.neb-toggle-row:has(> input:checked) > .neb-glyph,
+.is-selected > .neb-glyph,
+[aria-checked="true"] > .neb-glyph {
+  background: var(--md-primary-container);
+  color: var(--md-primary);
+}
+
+/* ── Toggle ─────────────────────────────────────────────────────────────────
+   NebToggleRow. The border is load-bearing: a track that borrows the card's own
+   colour is not a switch, it is a circle floating in a row. */
+.neb-toggle-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border: none;
+  border-radius: var(--md-shape-lg);
+  background: transparent;
+  color: var(--md-on-surface);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background var(--md-motion-effects-fast);
+}
+.neb-toggle-row:hover { background: var(--md-surface-container); }
+.neb-toggle-row-text { flex: 1; min-width: 0; }
+.neb-toggle-row-label { display: block; font-size: 0.9375rem; line-height: 1.35; }
+.neb-toggle-row-sub {
+  display: block;
+  margin-top: 3px;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: var(--md-on-surface-tertiary);
+}
+.neb-toggle {
+  position: relative;
+  flex: none;
+  width: 52px;
+  height: 32px;
+  padding: 0;
+  border: 2px solid var(--md-outline);
+  border-radius: 999px;
+  background: var(--md-surface-container-highest);
+  cursor: pointer;
+  transition: background var(--md-motion-effects-fast), border-color var(--md-motion-effects-fast);
+}
+.neb-toggle::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--md-on-surface-variant);
+  transform: translateY(-50%);
+  transition: width var(--md-motion-spatial-fast), height var(--md-motion-spatial-fast),
+              transform var(--md-motion-spatial-fast), background var(--md-motion-effects-fast);
+}
+.neb-toggle[aria-checked="true"],
+.neb-toggle:checked {
+  background: var(--md-primary);
+  border-color: var(--md-primary);
+}
+.neb-toggle[aria-checked="true"]::after,
+.neb-toggle:checked::after {
+  width: 22px;
+  height: 22px;
+  background: var(--md-on-primary);
+  transform: translate(17px, -50%);
+}
+.neb-toggle:disabled { opacity: 0.4; cursor: default; }
+
+/* A <label class="neb-toggle-row"> wrapping a real checkbox needs no script at
+   all: the row is the target because it is a label, the box submits itself, and
+   :has() is what lets the drawn track follow it. The [aria-checked] form above
+   is for the rows that are buttons driving something other than a field. */
+.neb-toggle-row > input[type="checkbox"]:checked ~ .neb-toggle {
+  background: var(--md-primary);
+  border-color: var(--md-primary);
+}
+.neb-toggle-row > input[type="checkbox"]:checked ~ .neb-toggle::after {
+  width: 22px;
+  height: 22px;
+  background: var(--md-on-primary);
+  transform: translate(17px, -50%);
+}
+.neb-toggle-row:has(> input:focus-visible) {
+  outline: 2px solid var(--md-primary);
+  outline-offset: 2px;
+}
+.neb-toggle-row:has(> input:disabled) { opacity: 0.45; cursor: default; }
+
+/* ── Choice tiles ───────────────────────────────────────────────────────────
+   NebChoiceTiles. Two to four one-word answers as tiles, not as a segmented
+   bar. The bar squeezed three labels into a third of the width each and read as
+   one control being operated; tiles give every answer its own silhouette and a
+   target big enough for a thumb. */
+.neb-tiles {
+  display: flex;
+  gap: 10px;
+}
+.neb-tiles > * { flex: 1 1 0; min-width: 0; }
+.neb-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 8px;
+  border: 1.6px solid transparent;
+  border-radius: 18px;
+  background: var(--md-surface-container-high);
+  color: var(--md-on-surface-variant);
+  font: inherit;
+  cursor: pointer;
+  transition: border-radius var(--md-motion-spatial),
+              border-color var(--md-motion-effects),
+              background var(--md-motion-effects),
+              color var(--md-motion-effects),
+              transform var(--md-motion-spatial-fast);
+}
+.neb-tile:active { transform: scale(0.96); }
+.neb-tile.is-selected,
+.neb-tile[aria-checked="true"] {
+  border-radius: 24px;
+  border-color: var(--md-primary);
+  background: var(--md-surface-container-lowest);
+  color: var(--md-primary);
+}
+.neb-tile-label {
+  font-size: 0.8125rem;
+  font-weight: 650;
+  line-height: 1.2;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+.neb-tile .neb-glyph { color: inherit; }
+
+/* ── Date wheel ─────────────────────────────────────────────────────────────
+   NebDateWheel, and the reason the native <input type="date"> is not used: it
+   arrives wearing the browser's own accent, its own type scale and its own
+   corner radius, so a screen built to one specification hands off to a control
+   built to another. Three snapping columns, 44px rows, five visible, the
+   centre one on a soft band. */
+.neb-wheel {
+  position: relative;
+  display: flex;
+  gap: 4px;
+  height: 220px;
+  overflow: hidden;
+}
+/* The band is drawn under the columns and does not scroll, which is what makes
+   the value read as "whatever is in the window" rather than as a highlight
+   that has to be kept in sync. */
+.neb-wheel::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 88px;
+  height: 44px;
+  border-radius: 14px;
+  background: var(--md-primary-container);
+  pointer-events: none;
+}
+/* The columns fade at both ends so the list reads as a cylinder. */
+.neb-wheel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(var(--md-surface-container-low), transparent 26%,
+              transparent 74%, var(--md-surface-container-low));
+}
+.neb-wheel-col {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  overflow-y: auto;
+  scrollbar-width: none;
+  scroll-snap-type: y mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding: 88px 0;
+  text-align: center;
+}
+.neb-wheel-col::-webkit-scrollbar { display: none; }
+.neb-wheel-day { flex: 0.9 1 0; }
+.neb-wheel-month { flex: 1.1 1 0; }
+.neb-wheel-year { flex: 1.3 1 0; }
+.neb-wheel-item {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  scroll-snap-align: center;
+  font-size: 1.0625rem;
+  font-weight: 500;
+  color: var(--md-on-surface-variant);
+  opacity: 0.4;
+  transform: scale(0.86);
+  cursor: pointer;
+  transition: opacity var(--md-motion-effects-fast), transform var(--md-motion-spatial-fast),
+              color var(--md-motion-effects-fast);
+  -webkit-user-select: none;
+  user-select: none;
+}
+.neb-wheel-item[data-near="1"] { opacity: 0.7; transform: scale(0.93); }
+.neb-wheel-item[data-near="0"] {
+  opacity: 1;
+  transform: scale(1);
+  font-weight: 600;
+  color: var(--md-on-primary-container);
+}
+
+/* ── Fields inside an overlay ───────────────────────────────────────────────
+   NebDialogTextField: no border at rest, a filled well instead, and the border
+   only appears on focus. It is the field the app uses inside a dialog and it is
+   deliberately quieter than the page's own outlined field. */
+.neb-field {
+  width: 100%;
+  min-height: 52px;
+  padding: 14px 16px;
+  border: 1.5px solid transparent;
+  border-radius: 18px;
+  background: var(--md-surface-container-highest);
+  color: var(--md-on-surface);
+  font: inherit;
+  font-size: 1rem;
+  transition: border-color var(--md-motion-effects-fast), background var(--md-motion-effects-fast);
+}
+.neb-field::placeholder { color: var(--md-on-surface-tertiary); }
+.neb-field:focus { outline: none; border-color: var(--md-on-surface); }
+.neb-field[aria-invalid="true"] { border-color: var(--md-error); }
+.neb-field-label {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--md-on-surface-variant);
+}
+.neb-field-help {
+  margin: 6px 2px 0;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: var(--md-on-surface-tertiary);
+}
+.neb-field-help-error { color: var(--md-error); }
+.neb-field-group { display: flex; flex-direction: column; }
+/* Two controls on one line -- a field and the button that acts on it. The
+   button keeps its width and the field takes the rest, which is the only
+   arrangement that survives a 320px screen. */
+.neb-field-row { display: flex; align-items: center; gap: 10px; }
+.neb-field-row > .neb-field { flex: 1; min-width: 0; }
+.neb-field-row > .md-btn { flex: none; }
+/* A search field in a picker keeps its glyph, because a bare well at the top of
+   a list of forty districts does not say what it is for. */
+.neb-field-search { position: relative; display: flex; align-items: center; }
+.neb-field-search .material-symbols-outlined {
+  position: absolute;
+  left: 14px;
+  font-size: 20px;
+  color: var(--md-on-surface-tertiary);
+  pointer-events: none;
+}
+.neb-field-search .neb-field { padding-left: 44px; }
+
+/* A field that opens a picker rather than taking typing. It has to look like
+   the field next to it or the form develops two kinds of row. */
+.neb-field-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 14px 14px 14px 16px;
+  border: 1.5px solid transparent;
+  border-radius: 18px;
+  background: var(--md-surface-container-highest);
+  color: var(--md-on-surface);
+  font: inherit;
+  font-size: 1rem;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color var(--md-motion-effects-fast), background var(--md-motion-effects-fast);
+}
+.neb-field-trigger:hover { border-color: var(--md-outline-variant); }
+.neb-field-trigger[aria-expanded="true"] { border-color: var(--md-on-surface); }
+.neb-field-trigger-value { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.neb-field-trigger-value:empty::before,
+.neb-field-trigger-placeholder { color: var(--md-on-surface-tertiary); }
+.neb-field-trigger .material-symbols-outlined { font-size: 20px; color: var(--md-on-surface-variant); flex: none; }
+
+/* ── Section label ──────────────────────────────────────────────────────── */
+.neb-section-label {
+  font-size: 0.8125rem;
+  font-weight: 650;
+  letter-spacing: 0.005em;
+  color: var(--md-on-surface-variant);
+}
+
+/* ── Phones ─────────────────────────────────────────────────────────────────
+   A dialog on a phone becomes a sheet. Not a cosmetic choice: a 420px card
+   centred on a 360px screen has no gutters left, and the thumb is at the
+   bottom, so the buttons end up as far from the hand as the layout allows. */
+@media (max-width: 600px) {
+  .neb-scrim { padding: 0; align-items: flex-end; }
+  .neb-dialog {
+    max-width: none;
+    max-height: 90vh;
+    border-radius: 30px 30px 0 0;
+    transform: translateY(100%) scale(1);
+    transition: transform var(--md-motion-spatial);
+  }
+  .neb-scrim[data-open] .neb-dialog { transform: translateY(0) scale(1); }
+  .neb-scrim[data-closing] .neb-dialog { transform: translateY(100%) scale(1); }
+  .neb-dialog-actions {
+    padding: 20px 20px calc(20px + env(safe-area-inset-bottom, 0px));
+  }
+  /* Two actions side by side on a narrow sheet leaves each one too small to be
+     the obvious answer. Stacked, with the confirm on top where the thumb is. */
+  .neb-dialog-actions-stack {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .neb-dialog-actions-stack > * { width: 100%; justify-content: center; }
+  .neb-sheet { max-width: none; }
+  .neb-menu { max-width: calc(100vw - 32px); }
+  .neb-tiles { flex-wrap: wrap; }
+  .neb-tiles > * { flex: 1 1 calc(50% - 5px); }
+}
+
+/* Motion off means motion off. The overlays still have to arrive and leave, so
+   they cross-fade in place instead of travelling. */
+@media (prefers-reduced-motion: reduce) {
+  .neb-dialog, .neb-sheet, .neb-menu {
+    transition: opacity var(--md-motion-effects-fast) !important;
+    transform: none !important;
+  }
+  .neb-sheet, .neb-menu { opacity: 0; }
+  .neb-scrim[data-open] .neb-sheet,
+  .neb-menu[data-open] { opacity: 1; }
+  .neb-wheel-col { scroll-behavior: auto; }
+}
+
+/* ── The .modal-* family ─────────────────────────────────────────────────────
+   Legacy class names, the app's drawing. Five page stylesheets each carried
+   their own copy of this dialog and no two agreed: the radius was 16px, 20px
+   or 28px depending on which page you were on, the close button was 34px,
+   36px or 40px, and three of the five hardcoded a scrim -- rgba(0,0,0,.5),
+   rgba(0,0,0,.42), rgba(15,23,42,.38) -- so in dark theme the page dimmed
+   towards a colour that had nothing to do with the theme.
+
+   One definition now, matching NebDialog: the same fill, radius, scrim and
+   entrance as .neb-dialog above. Renaming the classes would mean touching the
+   toggle JS on six pages for no visual gain, so the names stay and the
+   geometry is what changes. New markup should use .neb-dialog.
+
+   The one deliberate difference from the app: these hold settings and share
+   panels rather than confirmations, so the width variants go up to 640px
+   where the app's dialog stops at 420. Same component, more room. */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  background: color-mix(in srgb, var(--md-scrim) 34%, transparent);
+  backdrop-filter: blur(2px);
+}
+.modal-overlay.active { display: flex; animation: neb-scrim-in var(--md-motion-effects-fast) both; }
+@keyframes neb-scrim-in { from { opacity: 0; } to { opacity: 1; } }
+
+.modal-box {
+  width: 100%;
+  max-width: 420px;
+  max-height: min(680px, calc(100vh - 48px));
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 0;
+  background: var(--md-surface-container-high);
+  color: var(--md-on-surface);
+  border-radius: 30px;
+  box-shadow: var(--md-elevation-3);
+}
+/* Display toggles cannot be transitioned, so the card is keyframed in from the
+   same 0.88 the app scales up from. */
+.modal-overlay.active .modal-box { animation: neb-dialog-in var(--md-motion-spatial) both; }
+@keyframes neb-dialog-in {
+  from { opacity: 0; transform: scale(0.88); }
+  to { opacity: 1; transform: scale(1); }
+}
+.modal-box-sm { max-width: 400px; }
+.modal-box-md { max-width: 560px; }
+.modal-box-lg { max-width: 640px; }
+
+.modal-header {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 22px 22px 14px;
+}
+.modal-header-lead { display: flex; align-items: center; gap: 10px; min-width: 0; }
+/* With a subtitle the lead is two lines tall, and an icon centred against both
+   of them lands in the gap between. It belongs on the title's line. */
+.modal-header-lead:has(.modal-sub) { align-items: flex-start; }
+.modal-header-lead:has(.modal-sub) .material-symbols-outlined { margin-top: 2px; }
+.modal-header-lead .material-symbols-outlined { font-size: 22px; color: var(--md-primary); }
+.modal-title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--md-on-surface);
+}
+.modal-sub {
+  margin: 6px 0 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--md-on-surface-variant);
+}
+/* A round 40px target, because it is the one thing in the dialog a user hits
+   by accident and it has to be the full touch size. */
+.modal-close {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  display: inline-grid;
+  place-items: center;
+  border: 0;
+  border-radius: var(--md-shape-full);
+  background: transparent;
+  color: var(--md-on-surface-variant);
+  cursor: pointer;
+  transition: background var(--md-motion-effects-fast), color var(--md-motion-effects-fast);
+}
+.modal-close:hover { background: var(--md-surface-container-highest); color: var(--md-on-surface); }
+.modal-close:focus-visible { outline: 2px solid var(--md-primary); outline-offset: 2px; }
+
+.modal-body {
+  padding: 0 22px;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  color: var(--md-on-surface-variant);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}
+/* The body carries the card's bottom padding when there is no footer, and the
+   footer carries it when there is. Either way the last thing in the card is
+   not flush against the corner. */
+.modal-body:last-child { padding-bottom: 22px; }
+.modal-footer,
+.modal-actions {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin: 0;
+  padding: 18px 20px 20px;
+}
+/* Nested inside the body, which is how study_space, study_lab and the forum all
+   write it. The body is already the padded box, so a footer inside it must not
+   pay that padding a second time -- doing so set its buttons 20px further in
+   than the text above them and 42px off the bottom corner. All it needs there
+   is the gap. */
+.modal-body > .modal-footer,
+.modal-body > .modal-actions {
+  margin-top: 16px;
+  padding: 0;
+}
+
+/* On a phone the dialog gives up its side margins but keeps its shape --
+   it does not become a full-bleed sheet, because the JS behind these is a
+   display toggle with no drag handling and a sheet you cannot swipe is worse
+   than a dialog. */
+@media (max-width: 600px) {
+  .modal-overlay { padding: 16px 12px; }
+  .modal-box { max-height: calc(100vh - 32px); border-radius: 26px; }
+  .modal-header { padding: 18px 18px 12px; }
+  .modal-body { padding: 0 18px; }
+  .modal-body:last-child { padding-bottom: 18px; }
+  .modal-footer,
+  .modal-actions { padding: 16px 16px 18px; }
+}
+
+/* ── The .more-menu family ───────────────────────────────────────────────────
+   The overflow menu behind every post, comment, reply, resource and search
+   result -- forty items across nine templates. Legacy class names again; the
+   drawing is the app's.
+
+   Two forms, because the app and the web want different things here and both
+   are right. Above 600px it is an anchored dropdown, which is what a mouse
+   next to a 34px icon button expects. Below 600px it is a bottom sheet with
+   NebModalSheet's exact geometry, because that is what the app opens for these
+   same actions: PostExtras calls NebModalSheet, not a popup. The controller
+   picks the form and adds .neb-menu-sheet; the stylesheet does the rest.
+
+   The handle and the scrim are drawn as pseudo-elements so that the sheet form
+   needs no markup the dropdown form would not have. */
+.more-menu-wrapper {
+  position: relative;
+  margin-left: auto;
+  align-self: flex-start;
+  flex-shrink: 0;
+}
+
+.more-menu {
+  position: fixed;
+  z-index: 2100;
+  min-width: 212px;
+  max-width: 300px;
+  padding: 8px;
+  background: var(--md-surface-container-high);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 20px;
+  box-shadow: var(--md-elevation-2);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  opacity: 0;
+  transform: translateY(-6px) scale(0.97);
+  transform-origin: top right;
+  transition: opacity var(--md-motion-effects-fast), transform var(--md-motion-spatial-fast);
+}
+.more-menu[hidden] { display: none; }
+.more-menu[data-open] { opacity: 1; transform: translateY(0) scale(1); }
+/* Opening upwards means growing from the bottom edge, not the top. */
+.more-menu.neb-menu-up { transform-origin: bottom right; }
+
+.more-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 11px 14px;
+  border: 0;
+  border-radius: 14px;
+  background: none;
+  color: var(--md-on-surface);
+  font-family: inherit;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.3;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background var(--md-motion-effects-fast);
+}
+.more-menu-item:hover { background: var(--md-surface-container-highest); }
+.more-menu-item:focus-visible { outline: 2px solid var(--md-primary); outline-offset: -2px; }
+.more-menu-item .material-symbols-outlined {
+  flex: none;
+  font-size: 22px;
+  color: var(--md-on-surface-variant);
+}
+/* Destructive takes the error colour throughout, icon included -- a red label
+   next to a grey icon reads as a mistake rather than a warning. */
+.more-menu-item.danger,
+.more-menu-item.danger .material-symbols-outlined { color: var(--md-error); }
+.more-menu-item.danger:hover { background: var(--md-error-container); color: var(--md-on-error-container); }
+.more-menu-item.danger:hover .material-symbols-outlined { color: var(--md-on-error-container); }
+.more-menu-item[disabled] { opacity: 0.4; cursor: default; }
+
+.more-menu-divider {
+  height: 1px;
+  margin: 6px 10px;
+  background: var(--md-outline-variant);
+}
+
+/* ── Sheet form ─────────────────────────────────────────────────────────── */
+.more-menu.neb-menu-sheet {
+  position: fixed;
+  inset: auto 0 0 0;
+  min-width: 0;
+  max-width: none;
+  max-height: 76vh;
+  padding: 26px 0 calc(16px + env(safe-area-inset-bottom, 0px));
+  border: 0;
+  border-radius: 30px 30px 0 0;
+  background: var(--md-surface-container-low);
+  box-shadow: var(--md-elevation-3);
+  transform: translateY(100%);
+  transform-origin: center bottom;
+  transition: transform var(--md-motion-spatial), opacity var(--md-motion-effects-fast);
+}
+.more-menu.neb-menu-sheet[data-open] { opacity: 1; transform: translateY(0); }
+/* The scrim is a real element the controller parks on <body>, not a pseudo of
+   the sheet: the sheet is translated to slide in, and a transform makes it the
+   containing block for anything position:fixed inside it, so a pseudo scrim
+   covers the sheet rather than the page. */
+.neb-menu-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 2090;
+  background: color-mix(in srgb, var(--md-scrim) 34%, transparent);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  transition: opacity var(--md-motion-effects);
+}
+.neb-menu-scrim[data-open] { opacity: 1; }
+/* NebSheetHandle: 34x4, outlineVariant, 14px above and 4px below. */
+.more-menu.neb-menu-sheet::after {
+  content: "";
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  width: 34px;
+  height: 4px;
+  margin-left: -17px;
+  border-radius: var(--md-shape-full);
+  background: var(--md-outline-variant);
+}
+/* BottomSheetItem: 24dp horizontal, 14dp vertical, 16dp gap, 22dp icon,
+   bodyLarge Medium. No row radius, because a full-bleed row in a sheet is
+   what the app draws. */
+.more-menu.neb-menu-sheet .more-menu-item {
+  gap: 16px;
+  padding: 14px 24px;
+  border-radius: 0;
+  font-size: 1rem;
+}
+.more-menu.neb-menu-sheet .more-menu-divider { margin: 4px 16px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .more-menu,
+  .more-menu.neb-menu-sheet { transition: opacity var(--md-motion-effects-fast); transform: none; }
+  .more-menu[data-open],
+  .more-menu.neb-menu-sheet[data-open] { transform: none; }
+}
+
+
+/* ── Upload progress ────────────────────────────────────────────────────────
+   Three pages -- upload, admin resource create, edit resource -- each carried
+   a byte-for-byte copy of this in its own stylesheet, and each copy scrimmed
+   with rgba(0,0,0,0.5) and shadowed with rgba(0,0,0,0.24). Two literals that
+   the palette could never reach, in three places, so dark theme got a scrim
+   mixed for light theme and an elevation that did not match any other surface
+   on the page.
+
+   One definition, on the same tokens as every other overlay here: the scrim is
+   the app's 34% of --md-scrim, the card is a container surface at elevation 3.
+   It is not a .neb-dialog because it is not a dialog -- nothing is being asked,
+   there is nothing to dismiss, and it must not trap focus or close on Escape
+   while bytes are still going up the wire. */
+.upload-progress-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: color-mix(in srgb, var(--md-scrim) 34%, transparent);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+}
+.upload-progress-dialog {
+  width: 100%;
+  max-width: 380px;
+  padding: 32px 28px;
+  text-align: center;
+  border-radius: 30px;
+  background: var(--md-surface-container-high);
+  color: var(--md-on-surface);
+  box-shadow: var(--md-elevation-3);
+}
+.upload-progress-icon { margin-bottom: 16px; }
+.upload-progress-icon .material-symbols-outlined {
+  font-size: 48px;
+  color: var(--md-primary);
+  animation: upload-pulse 1.5s ease-in-out infinite;
+}
+@keyframes upload-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(0.94); }
+}
+.upload-progress-title {
+  margin: 0 0 6px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--md-on-surface);
+}
+.upload-progress-subtitle {
+  margin: 0 0 20px;
+  font-size: 0.8125rem;
+  color: var(--md-on-surface-variant);
+}
+.upload-progress-bar-track {
+  width: 100%;
+  height: 6px;
+  margin-bottom: 12px;
+  border-radius: 999px;
+  overflow: hidden;
+  /* The track has to read as an empty channel against the card it sits on.
+     --md-surface-variant is a *page* surface and lands within a few percent of
+     surface-container-high in dark theme, which made the bar invisible until
+     it was most of the way across. */
+  background: var(--md-surface-container-highest);
+}
+.upload-progress-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--md-primary);
+  transition: width var(--md-motion-effects-slow);
+}
+.upload-progress-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--md-on-surface-variant);
+}
+
+/* Motion off means the icon stops moving; the bar still reports progress. */
+@media (prefers-reduced-motion: reduce) {
+  .upload-progress-icon .material-symbols-outlined { animation: none; }
+}
+
+/* ── Tab rail ───────────────────────────────────────────────────────────────
+   NebTabRail.kt. Switching between sets of the same thing: the library's
+   shelves, a profile's posts and replies, a notification filter, the bookmark
+   types.
+
+   The web had four of these and they agreed on nothing. Profile drew a 3px
+   underline in --md-primary. Library drew a different 3px underline and hovered
+   on a literal rgba(0,74,198,0.04) that stayed a light-theme blue in dark
+   theme. Notifications drew a raised segmented control out of #334155, #e2e8f0,
+   #475569, #1e293b and #f8fafc -- five literals the palette never sees.
+   Bookmarks drew outlined pills. Four answers to one question, on four screens
+   the app renders with a single composable.
+
+   The Kotlin's reasoning, kept: not a bar of connected buttons, which reads as
+   one control the user is operating and squeezes four labels into a width that
+   fits two. Not an underline either -- that is the platform's tab, not ours.
+   The resting state is bare text with nothing drawn around it, and only the
+   answer carries a container.
+
+   There is exactly one container and it slides. A tab never grows its own pill
+   while another is still fading out, so the answer is only ever in one place
+   and the labels hold still while the selection travels between them. That is
+   what needs measuring, so neb-rail.js positions it; until then the selected
+   item wears the same pill itself, so the rail is correct with JS off and
+   merely does not animate.
+
+     <div class="neb-rail" role="tablist">
+       <button class="neb-rail-item" role="tab" aria-selected="true">
+         <span class="material-symbols-outlined">article</span>
+         <span class="neb-rail-label">Posts</span>
+         <span class="neb-rail-count">12</span>
+       </button>
+       ...
+     </div>
+
+   Pass an accent with style="--neb-rail-accent: var(--md-tertiary)" on the
+   container, exactly as the composable takes a NebAccent. */
+.neb-rail {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
+  /* The rail scrolls; the page must not scroll with it when the user flicks
+     past the last tab. */
+  overscroll-behavior-x: contain;
+}
+.neb-rail::-webkit-scrollbar { display: none; }
+
+/* The travelling container. One per rail, inserted by the controller, sized
+   and positioned from the selected item's box. It sits under the labels and
+   takes no clicks, so the tab it covers is still the thing being pressed. */
+.neb-rail-ind {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: var(--md-shape-full);
+  background: var(--md-surface-container-highest);
+  box-shadow: inset 0 0 0 1px var(--md-outline-variant);
+  transform: translateX(0);
+  transition: transform var(--md-motion-spatial), width var(--md-motion-spatial);
+}
+/* An accented rail tints the container rather than the text, which is what
+   keeps a selected tab legible at 4.5:1 while still reading as the accent's.
+   The app composites the accent over surfaceContainerLow at 10%, and at 17% in
+   dark theme because the same 10% over a dark surface is not visible. */
+.neb-rail[style*="--neb-rail-accent"] .neb-rail-ind {
+  background: color-mix(in srgb, var(--neb-rail-accent) 10%, var(--md-surface-container-low));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--neb-rail-accent) 34%, transparent);
+}
+[data-theme="dark"] .neb-rail[style*="--neb-rail-accent"] .neb-rail-ind {
+  background: color-mix(in srgb, var(--neb-rail-accent) 17%, var(--md-surface-container-low));
+}
+/* Before the first measurement the indicator has no box, and a 0x0 rounded
+   rect flying in from the corner is worse than no indicator at all. */
+.neb-rail-ind:not([data-placed]) { opacity: 0; }
+/* The first placement is a jump, not a slide -- there is nowhere to slide from. */
+.neb-rail-ind[data-placed="first"] { transition: none; }
+
+.neb-rail-item {
+  position: relative;
+  z-index: 1;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: var(--md-shape-full);
+  background: transparent;
+  color: var(--md-on-surface-variant);
+  font-family: inherit;
+  /* labelLargeEmphasized. */
+  font-size: 0.875rem;
+  font-weight: 650;
+  letter-spacing: 0.005em;
+  line-height: 1.2;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color var(--md-motion-effects), transform var(--md-motion-spatial-fast);
+}
+.neb-rail-item:hover { color: var(--md-on-surface); text-decoration: none; }
+/* nebPressable(scale = 0.94f). */
+.neb-rail-item:active { transform: scale(0.94); }
+.neb-rail-item[aria-selected="true"] { color: var(--md-on-surface); }
+.neb-rail[style*="--neb-rail-accent"] .neb-rail-item[aria-selected="true"] {
+  color: var(--neb-rail-accent);
+}
+.neb-rail-item .material-symbols-outlined { font-size: 18px; }
+.neb-rail-label { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+
+/* No controller, no travelling container: the selected item draws its own. */
+.neb-rail:not([data-rail-ready]) .neb-rail-item[aria-selected="true"] {
+  background: var(--md-surface-container-highest);
+  box-shadow: inset 0 0 0 1px var(--md-outline-variant);
+}
+
+/* The count rides on the label's colour at a fixed transparency, so it is the
+   accent's on an accented rail and the text's everywhere else, and it never
+   needs a colour of its own for either theme. */
+.neb-rail-count {
+  flex: none;
+  padding: 2px 7px;
+  border-radius: var(--md-shape-full);
+  background: color-mix(in srgb, currentColor 10%, transparent);
+  color: inherit;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+.neb-rail-item[aria-selected="true"] .neb-rail-count {
+  background: color-mix(in srgb, currentColor 14%, transparent);
+}
+
+/* A rail that sits above a body of content, rather than inside a toolbar,
+   takes the app's separator underneath it. */
+.neb-rail-divided { border-bottom: 1px solid var(--md-outline-variant); }
+
+@media (max-width: 600px) {
+  .neb-rail { padding: 6px 10px; gap: 4px; }
+  .neb-rail-item { padding: 9px 13px; font-size: 0.8125rem; }
+}
+
+/* A rail placed in a bar that is already aligned to the page's content edge --
+   the forum's sort row, the study lab's space switcher, the chapter sub-tabs --
+   drops its own side padding so it starts where the cards under it start,
+   rather than 14px further in than every one of them. It has to sit below the
+   phone block above: that block restates .neb-rail's padding at the same
+   specificity, so declared any earlier this loses to it and the alignment
+   holds on a desktop and breaks on a phone, which is where a row indented out
+   of step with the content is most obvious. */
+.neb-rail-flush { padding-left: 0; padding-right: 0; }
+
+/* Motion off: the container still moves -- it has to, it is the only mark of
+   which tab is selected -- it just arrives instead of travelling. */
+@media (prefers-reduced-motion: reduce) {
+  .neb-rail { scroll-behavior: auto; }
+  .neb-rail-ind { transition: none; }
+  .neb-rail-item:active { transform: none; }
+}
+
+/* ── Segmented choice ───────────────────────────────────────────────────────
+   NebSegmentedChoice. Two to four one-word answers in a single connected bank
+   -- how many questions, how many cards, how many days the plan runs.
+
+   The Kotlin's reasoning, kept: it reads as one continuous control because it
+   is one. A track in the field colour carries the segments, and the segments
+   are transparent until chosen, so there is no seam and no gap between the
+   answers -- which is what separates this from a row of chips, where every
+   answer is its own object and the row is a list of them.
+
+   Two behaviours come from Expressive's ButtonGroup and ToggleButton and are
+   the reason the app uses those rather than a hand-rolled row of boxes. The
+   segment under the thumb widens while its neighbours give way, and its
+   corners morph from round at rest to square while pressed. Both are here, in
+   flex-grow and a border-radius, because a control that does not answer the
+   finger is not the same control.
+
+   The mark is one pill and it slides; neb-rail.js measures where to, the same
+   controller the tab rail uses. With that file missing the chosen segment
+   wears the pill itself, so the bank is correct without JS and merely does not
+   animate.
+
+     <div class="neb-segmented" role="group" aria-label="Questions">
+       <button type="button" class="neb-segment" aria-pressed="true">10</button>
+       ...
+     </div>
+
+   The contract is aria-pressed, so the bank is a group of toggles to a screen
+   reader and not a tab list -- these answer a question, they do not switch a
+   view. */
+.neb-segmented {
+  position: relative;
+  display: inline-flex;
+  align-items: stretch;
+  padding: 4px;
+  border-radius: var(--md-shape-full);
+  background: var(--md-surface-container-lowest);
+  border: 1px solid var(--md-outline-variant);
+}
+
+/* The travelling pill, inserted by the controller and sized from the chosen
+   segment. Under the labels and taking no clicks, so the segment it covers is
+   still the thing being pressed. */
+.neb-segmented-ind {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: var(--md-shape-full);
+  background: var(--md-primary);
+  transform: translateX(0);
+  transition: transform var(--md-motion-spatial), width var(--md-motion-spatial),
+              border-radius var(--md-motion-effects-fast);
+}
+.neb-segmented-ind:not([data-placed]) { opacity: 0; }
+.neb-segmented-ind[data-placed="first"] { transition: none; }
+/* The corner morph. Expressive squares a ToggleButton off while it is held;
+   here the pill is a separate element, so the press is read from the bank. */
+.neb-segmented:has(.neb-segment:active) .neb-segmented-ind {
+  border-radius: var(--md-shape-sm);
+}
+
+.neb-segment {
+  position: relative;
+  z-index: 1;
+  /* Equal thirds until one is held, and then the held one takes more. The
+     grow is on flex-grow rather than a transform so the neighbours really do
+     give way instead of being covered. */
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: var(--md-shape-full);
+  background: transparent;
+  color: var(--md-on-surface-variant);
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color var(--md-motion-effects-fast), flex-grow var(--md-motion-spatial-fast);
+}
+.neb-segment:hover { color: var(--md-on-surface); }
+.neb-segment:active { flex-grow: 1.35; }
+.neb-segment:focus-visible { outline: 2px solid var(--md-primary); outline-offset: 2px; }
+.neb-segment[aria-pressed="true"] { color: var(--md-on-primary); }
+.neb-segment .material-symbols-outlined { font-size: 18px; }
+
+/* Before the controller has measured anything -- and for good if it never
+   loads -- the chosen segment carries the pill itself. */
+.neb-segmented:not([data-rail-ready]) .neb-segment[aria-pressed="true"] {
+  background: var(--md-primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .neb-segmented-ind { transition: none; }
+  .neb-segment { transition: none; }
+  .neb-segment:active { flex-grow: 1; }
+}
+
+/* ── Select field ───────────────────────────────────────────────────────────
+   NebSelectField. One answer on a form, shown as the answer rather than as an
+   empty box: what it is on the left, what you chose underneath it as pills, a
+   chevron at the end. Nothing here pretends to be a text field you can type
+   into, which is the whole point -- the upload form used to offer a free-text
+   box *and* a "Pick" button for the same value, and the two disagreed about
+   what counted as a subject.
+
+   It is deliberately not .neb-field-trigger. That one is a row for a single
+   short value and ellipsises when it overflows; this one wraps, keeps six
+   pills and counts the rest, which is the only way a six-subject upload reads
+   at a glance. Both live on a form together without looking like two kinds of
+   control because both are a filled well with a chevron. */
+.neb-select-field {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 12px 12px 14px;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-shape-lg);
+  background: var(--md-surface-container-low);
+  color: var(--md-on-surface);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color var(--md-motion-effects-fast),
+              background var(--md-motion-effects-fast),
+              transform var(--md-motion-spatial-fast);
+}
+.neb-select-field:hover { background: var(--md-surface-container); }
+.neb-select-field:active { transform: scale(0.99); }
+/* The tile is the app's 38dp square at 13dp -- close enough to the field's own
+   corner that it reads as part of the row, far enough that it is a tile. */
+.neb-select-field-tile {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 13px;
+  background: var(--md-surface-container-highest);
+  color: var(--md-on-surface);
+}
+.neb-select-field-tile .material-symbols-outlined { font-size: 19px; }
+.neb-select-field-text { flex: 1; min-width: 0; }
+.neb-select-field-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: 0.01em;
+  color: var(--md-on-surface-variant);
+}
+.neb-select-field-placeholder {
+  display: block;
+  margin-top: 1px;
+  font-size: 1rem;
+  line-height: 1.35;
+  color: var(--md-on-surface-variant);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.neb-select-field-values {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+.neb-select-field-values:empty { display: none; }
+/* A form that labels its own fields from the outside -- edit profile does,
+   every field there has an .md-label above it -- gets the row without an
+   internal label, and then the gap that separated the two is a gap above
+   nothing. */
+.neb-select-field-text > :first-child {
+  margin-top: 0;
+}
+/* Chosen, not choosable. A value pill has no tick, no border and no press
+   state -- tapping anywhere on the row opens the sheet, and a pill that looked
+   removable would promise an interaction the app does not have either. */
+.neb-value-pill {
+  max-width: 100%;
+  padding: 4px 10px;
+  border-radius: var(--md-shape-full);
+  background: var(--md-surface-container-highest);
+  color: var(--md-on-surface);
+  font-size: 0.8125rem;
+  font-weight: 650;
+  line-height: 1.35;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.neb-select-field > .material-symbols-outlined {
+  flex: none;
+  font-size: 20px;
+  color: var(--md-on-surface-variant);
+}
+.neb-select-field[aria-invalid="true"] { border-color: var(--md-error); }
+/* The message shares the row's left padding so it sits under the label rather
+   than under the tile. */
+.neb-select-field-error {
+  margin: 5px 0 0 16px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--md-error);
+}
+
+/* ── Choice sheet ───────────────────────────────────────────────────────────
+   NebChoiceSheet. The list of possible answers, as a sheet full of chips: a
+   sheet rather than a dialog because the thumb is at the bottom of the phone,
+   and chips rather than a checklist because a subject is two words and forty
+   of them fit on one screen that way.
+
+   Only the parts the shared sheet does not already own are here. The scrim,
+   the handle, the head, the drag to dismiss and the footer buttons are
+   .neb-sheet's; the chips are .neb-choice-chip; the search and the add row are
+   .neb-field-search and .neb-field-row. What is left is the scroll box the
+   chips live in and the line shown when a search matches nothing. */
+.neb-choice-options {
+  max-height: min(46vh, 300px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 2px;
+  margin: -2px;
+}
+.neb-choice-empty {
+  padding: 18px 2px;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--md-on-surface-variant);
+}
+/* Hidden until the controller decides the list is long enough to need it --
+   the app shows the search only past ten options, and a search box above six
+   chips is furniture. */
+.neb-choice-sheet .neb-field-search[hidden],
+.neb-choice-sheet .neb-field-row[hidden] { display: none; }

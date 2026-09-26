@@ -1,46 +1,20 @@
 {% extends "base.html" %}
 {% load static web_extras %}
 
-{% block title %}NEBians — Nepal's Learning Community &amp; Educational Social Platform{% endblock %}
-{% block description %}NEBians is Nepal's open learning platform and social community for teachers, students, explorers, schools, and institutions. Share study materials, discuss questions, and learn together.{% endblock %}
-{% block og_title %}NEBians — Nepal's Learning Community &amp; Educational Social Platform{% endblock %}
-{% block og_description %}Nepal's open learning platform and social network for teachers, students, schools, institutions, and curious explorers across all subjects.{% endblock %}
+{% comment %} 36 characters, and no "&amp;" -- an entity counts as five characters to the
+   crawlers and inspectors that read the raw tag, which is how a 66-character
+   title was being reported as 70. {% endcomment %}
+{% block title %}NEBians — Nepal's Learning Community{% endblock %}
+{% block description %}NEBians is Nepal's open learning community: free NEB past papers, model questions and notes, plus a study forum and AI tools for every subject.{% endblock %}
+{% block og_title %}NEBians — Nepal's Learning Community{% endblock %}
+{% block og_description %}Nepal's open learning community — free past papers, notes, a study forum and AI study tools for every subject and level.{% endblock %}
 {% block tw_title %}NEBians — Nepal's Learning Community{% endblock %}
-{% block tw_description %}Nepal's open learning community and social platform for teachers, students, institutions, and explorers.{% endblock %}
+{% block tw_description %}Nepal's open learning community — free past papers, notes, a study forum and AI study tools for every subject and level.{% endblock %}
 {% block nav_home %}md-nav-active{% endblock %}
 {% block body_class %}home-page{% endblock %}
-{% block bnav_home %}md-nav-active{% endblock %}
 
 {% block bottomnav %}
-<nav class="md-bottomnav">
-  <div class="md-bottomnav-pill">
-    <a href="{% url 'web:home' %}" class="md-bottomnav-item md-nav-active" aria-label="Home">
-      <div class="md-bottomnav-icon-wrapper">
-        <span class="material-symbols-outlined">home</span>
-      </div>
-      <span class="md-bottomnav-label">Home</span>
-    </a>
-    <a href="{% url 'web:library' %}" class="md-bottomnav-item" aria-label="Library">
-      <div class="md-bottomnav-icon-wrapper">
-        <span class="material-symbols-outlined">menu_book</span>
-      </div>
-      <span class="md-bottomnav-label">Library</span>
-    </a>
-
-    <a href="{% url 'web:forum' %}" class="md-bottomnav-item" aria-label="Forum">
-      <div class="md-bottomnav-icon-wrapper">
-        <span class="material-symbols-outlined">forum</span>
-      </div>
-      <span class="md-bottomnav-label">Forum</span>
-    </a>
-    <a href="{% url 'web:news_list' %}" class="md-bottomnav-item" aria-label="News">
-      <div class="md-bottomnav-icon-wrapper">
-        <span class="material-symbols-outlined">newspaper</span>
-      </div>
-      <span class="md-bottomnav-label">News</span>
-    </a>
-  </div>
-</nav>
+{% include "web/partials/bottomnav.html" with current="home" %}
 {% endblock %}
 
 
@@ -58,231 +32,41 @@
 {% endblock %}
 
 {% block content %}
+{% comment %} ── Home ─────────────────────────────────────────────────────────────────────
+   The app's HomeScreen: one interleaved column of posts and rails, built by the
+   view and drawn by _home_feed.html. What was here was a landing hero followed
+   by three fixed sections -- a resource rail, a four-card news grid, then three
+   discussions -- so the feed was the last thing on the page and ended after the
+   third post. Signed in, the feed is now the page; signed out, the hero stays in
+   front of it, because that is the one visit where the page has to introduce
+   itself before it starts showing you things. {% endcomment %}
 {% if needs_profile %}
-<div class="profile-complete-banner" id="pcBanner">
-  <span class="material-symbols-outlined pc-icon">badge</span>
-  <div class="pc-text">
-    <strong>Make NEBians yours</strong>
-    <span>Add your name and gender so teachers and classmates can recognise you.</span>
-  </div>
-  <a class="pc-link" href="{% url 'web:edit_profile' %}" rel="nofollow">Complete profile</a>
-  <button type="button" class="pc-later" id="pcLater">I'll do it later</button>
-</div>
-<style nonce="{{ csp_nonce }}">
-  .profile-complete-banner{display:flex;align-items:center;gap:12px;flex-wrap:wrap;max-width:1080px;margin:12px auto 0;padding:12px 16px;border-radius:14px;border:1px solid var(--md-primary);background:var(--md-primary-container)}
-  .profile-complete-banner.hidden{display:none}
-  .pc-icon{font-size:24px;color:var(--md-primary);flex-shrink:0}
-  .pc-text{flex:1;min-width:200px;color:var(--md-on-primary-container)}
-  .pc-text strong{display:block;font-size:.95rem}
-  .pc-text span{font-size:.82rem;opacity:.85}
-  .pc-link{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:10px;background:var(--md-primary);color:var(--md-on-primary);font-size:.82rem;font-weight:600;text-decoration:none}
-  .pc-later{border:0;background:transparent;color:var(--md-on-primary-container);font-size:.82rem;cursor:pointer;text-decoration:underline;padding:6px}
-</style>
-<script nonce="{{ csp_nonce }}">
-  (function(){
-    var b=document.getElementById('pcBanner');
-    if(!b)return;
-    try{ if(localStorage.getItem('neb_profile_prompt')==='later'){b.remove();return;} }catch(e){}
-    var later=document.getElementById('pcLater');
-    if(later)later.addEventListener('click',function(){
-      try{localStorage.setItem('neb_profile_prompt','later');}catch(e){}
-      b.remove();
-    });
-  })();
-</script>
+{% include "web/_home_profile_banner.html" %}
 {% endif %}
+
+{% if not is_authenticated %}
 {% include "web/_home_hero.html" %}
+{% endif %}
 
-<div class="md-container">
-  {% include "web/_home_suggested.html" %}
-  <div class="home-bento">
-    <div>
-      {% if trending_resources %}
-      <div class="section">
-        <div class="section-header">
-          <h2>Trending Resources</h2>
-          <a href="{% url 'web:library' %}">View all</a>
-        </div>
-        <div class="hscroll">
-          {% for r in trending_resources %}
-          <a href="{% url 'web:reader' resource_id=r.id %}"
-            class="resource-card subject-{{ r.subject|split:','|first|subject_slug }}">
-            <div class="resource-card-art">
-              <svg viewBox="0 0 300 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="300" height="120" fill="var(--art-c1)" />
-                <path d="M0,120 L0,70 Q40,20 100,55 Q160,90 220,45 Q270,10 300,50 L300,120Z" fill="var(--art-c2)"
-                  opacity="0.5" />
-                <path d="M0,120 L0,85 Q60,40 130,70 Q200,100 260,60 L300,75 L300,120Z" fill="var(--art-c3)"
-                  opacity="0.35" />
-                <path d="M0,120 L0,95 Q80,65 160,85 Q240,105 300,80 L300,120Z" fill="var(--art-c4)" opacity="0.2" />
-              </svg>
-              {% if r.thumbnail_url %}
-              <img src="{{ r.thumbnail_url }}" alt="" class="resource-card-art-img" loading="lazy">
-              {% endif %}
-              {% if r.is_paid or r.isPaid %}
-              <span class="resource-card-paid-pill" style="position:absolute;top:10px;right:10px;background:#16a34a;color:#fff;font-size:0.75rem;font-weight:700;padding:3px 10px;border-radius:20px;display:inline-flex;align-items:center;gap:4px;z-index:2;">
-                <span class="material-symbols-outlined" style="font-size:14px">payments</span>
-                Rs. {{ r.price|floatformat:"0" }}
-              </span>
-              {% endif %}
-              <span class="resource-card-type-pill">{{ r.type }}</span>
-              <span class="resource-card-art-icon material-symbols-outlined">{{ r.subject|split:','|first|subject_icon }}</span>
-            </div>
-            <div class="resource-card-info">
-              <div class="resource-card-subject-chip">
-                {% with subjs=r.subject|split:"," %}
-                {{ subjs|first }}
-                {% if subjs|length > 1 %}
-                +{{ subjs|length|add:"-1" }} more
-                {% endif %}
-                {% endwith %}
-              </div>
-              <div class="resource-card-title">{{ r.title }}</div>
-              <div class="resource-card-meta">
-                {{ r.grade_level }} &middot; {{ r.type }}{% if r.file_size %} &middot; {{ r.file_size|file_size_human }}{% endif %}
-              </div>
-              {% with author=r.uploaded_by_name|default:r.uploadedByName|default:r.uploadedByUsername|default:r.author_name|default:r.authorName|default:"NEBians" photo=r.uploaded_by_photo|default:r.uploadedByPhoto %}
-              <div class="resource-card-footer">
-                <div class="resource-card-avatar">
-                  {% if author == "Anonymous" or author == "Anonymous Nebian" or r.is_anonymous %}
-                  <span class="resource-card-avatar-letter"><span class="material-symbols-outlined" style="font-size:13px">visibility_off</span></span>
-                  {% elif photo %}
-                  <img src="{{ photo }}" alt="" loading="lazy">
-                  {% elif author == "NEBians" or author == "nebians" %}
-                  <img src="{% static 'web/img/n-logo-48.png' %}" alt="NEBians" loading="lazy">
-                  {% else %}
-                  <span class="resource-card-avatar-letter">{{ author|truncate_chars:1|default:"N" }}</span>
-                  {% endif %}
-                </div>
-                <div class="resource-card-author-col">
-                  <div class="resource-card-author">
-                    {% if author == "Anonymous" or author == "Anonymous Nebian" or r.is_anonymous %}
-                    Anonymous Nebian
-                    {% else %}
-                    {{ author }}
-                    {% if author == "NEBians" or author == "nebians" %}
-                    <span class="material-symbols-outlined" style="font-size:13px;color:#1d65d8;vertical-align:-1px;margin-left:2px;font-variation-settings:'FILL' 1;" title="Verified Official">verified</span>
-                    {% endif %}
-                    {% endif %}
-                  </div>
-                  <div class="resource-card-time">{{ r.added_at|default:r.addedAt|time_ago }} &middot; <span class="resource-card-views"><span class="material-symbols-outlined">visibility</span> {{ r.view_count|default:r.viewCount|short_number }}</span></div>
-                </div>
-              </div>
-              {% endwith %}
-            </div>
-          </a>
-          {% endfor %}
-        </div>
-      </div>
-      {% endif %}
-    </div>
-
-    {% if latest_news %}
-    <div class="section home-news-section">
-      <div class="section-header">
-        <h2>Blog &amp; Updates</h2>
-        <a href="{% url 'web:news_list' %}">View all</a>
-      </div>
-      <div class="home-news-grid">
-        {% for n in latest_news %}
-        <a href="{% url 'web:news_detail' slug=n.slug %}" class="home-news-card {% if n.is_pinned %}home-news-card-pinned{% endif %}" style="--accent-color: {{ n.category_color }}">
-          <div class="home-news-card-header">
-            <span class="home-news-cat-badge" style="background:{{ n.category_color }}">
-              <span class="material-symbols-outlined">{{ n.category_icon }}</span>
-              <span class="home-news-cat-label">{{ n.category_label }}</span>
-            </span>
-            {% if n.is_pinned %}
-            <span class="home-news-pinned-badge">
-              <span class="material-symbols-outlined">push_pin</span>
-              <span class="home-news-pinned-label-text">Pinned</span>
-            </span>
-            {% endif %}
-          </div>
-          <div class="home-news-card-body">
-            <span class="home-news-title">{{ n.title }}</span>
-            {% if n.summary %}
-            <span class="home-news-summary">{{ n.summary }}</span>
-            {% endif %}
-            <span class="home-news-meta">{{ n.published_at|time_ago }}</span>
-          </div>
-        </a>
-        {% endfor %}
-      </div>
-    </div>
-    {% endif %}
-
-    {% if trending_posts %}
-    <div class="section">
-      <div class="section-header">
-        <h2>Trending Discussions</h2>
-        <a href="{% url 'web:forum' %}?sort=hot">View all</a>
-      </div>
-      {% include "web/_forum_posts.html" with posts=trending_posts %}
-      <a href="{% url 'web:forum' %}?sort=hot" class="forum-cta">Join the Discussion</a>
-    </div>
-    {% endif %}
-  </div>
-
-  {% if not trending_resources and not trending_posts %}
-  <div class="empty-state">
-    <span class="material-symbols-outlined">auto_stories</span>
-    <h3>Welcome to NEBians</h3>
-    <p>Resources and discussions will appear here once they're available.</p>
-  </div>
+<div class="md-container hf-page">
+  {% if is_authenticated %}
+  <h1 class="md-sr-only">Home</h1>
+  {% include "web/_home_composer.html" %}
   {% endif %}
 
-  <section class="home-seo" aria-label="About NEBians" style="margin-top:32px;">
-    <h2>Nepal's Open Learning Community &amp; Educational Social Network</h2>
-    <p>NEBians is Nepal's universal learning platform and educational social network. While we provide comprehensive study materials including NEB past papers, model questions, and syllabi, <strong>NEBians is not limited to NEB or Classes 11 and 12</strong>. We are a community built for everyone — school and college students, teachers, parents, educational institutions, and curious explorers across all subjects, disciplines, and learning stages in Nepal.</p>
-    <nav class="home-seo-links" aria-label="Popular study links">
-      <a href="{% url 'web:past_papers' %}">NEB Past Papers</a>
-      <a href="{% url 'web:model_questions' %}">NEB Model Questions</a>
-      <a href="{% url 'web:online_learning' %}">Nepal Online Learning Portal</a>
-      <a href="{% url 'web:library' %}">Nepal Online Study Library</a>
-      <a href="/subject/class-12/physics/">Class 12 Physics Notes &amp; Past Papers</a>
-      <a href="/subject/class-12/chemistry/">Class 12 Chemistry Notes &amp; Past Papers</a>
-      <a href="/subject/class-12/mathematics/">Class 12 Mathematics Notes &amp; Past Papers</a>
-      <a href="/subject/class-12/english/">Class 12 English Notes</a>
-      <a href="/subject/class-12/computer-science/">Class 12 Computer Science</a>
-      <a href="/subject/class-11/physics/">Class 11 Physics Notes</a>
-      <a href="/subject/class-11/chemistry/">Class 11 Chemistry Notes</a>
-      <a href="/subject/class-11/mathematics/">Class 11 Mathematics Notes</a>
-      <a href="/subject/class-11/english/">Class 11 English Notes</a>
-      <a href="/subject/class-10-see/science/">SEE Science Past Papers</a>
-      <a href="{% url 'web:forum' %}">Discussion Forum</a>
-      <a href="{% url 'web:result_check' %}">NEB Result Checker</a>
-    </nav>
-    <div class="home-faq">
-      <h3>Frequently asked questions</h3>
-      <details>
-        <summary>Where can I find NEB past papers?</summary>
-        <p>Browse the <a href="/library/?type=Past+Paper">NEB past papers library</a> filtered by subject and grade, or open a subject page for Class 11, Class 12 or SEE to see papers, notes and solutions together.</p>
-      </details>
-      <details>
-        <summary>Where are NEB model questions?</summary>
-        <p>All model sets live in the <a href="/library/?type=Model+Paper">NEB model questions collection</a>, grouped with notes, solutions and discussions per subject.</p>
-      </details>
-      <details>
-        <summary>Is NEBians free for online learning in Nepal?</summary>
-        <p>Yes. The library, videos, forum and AI study tools are free, making NEBians one of the most accessible eLearning options in Nepal for Nepal online study.</p>
-      </details>
-    </div>
-  </section>
-</div>
-{% endblock %}
+  <div class="hf-feed" id="home-feed">
+    {% include "web/_home_feed.html" %}
+  </div>
 
-{% block head_extra %}
-<script type="application/ld+json" nonce="{{ csp_nonce }}">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {"@type": "Question", "name": "Where can I find NEB past papers?", "acceptedAnswer": {"@type": "Answer", "text": "Browse the NEBians library filtered by Past Paper type, or open a Class 11, Class 12 or SEE subject page to see papers, notes and solutions together."}},
-    {"@type": "Question", "name": "Where are NEB model questions?", "acceptedAnswer": {"@type": "Answer", "text": "All model sets live in the NEBians library Model Paper collection, grouped with notes, solutions and discussions per subject."}},
-    {"@type": "Question", "name": "Is NEBians free for online learning in Nepal?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The library, videos, forum and AI study tools are free for Nepal online study."}}
-  ]
-}
-</script>
+  {% if not feed_entries %}
+  <div class="empty-state">
+    <span class="material-symbols-outlined">forum</span>
+    <h3>No posts available</h3>
+    <p>Be the first to ask a question, share notes or start a discussion!</p>
+    <a href="{% url 'web:create_post' %}" class="md-btn md-btn-filled mt-2">Start a discussion</a>
+  </div>
+  {% endif %}
+</div>
 {% endblock %}
 
 {% block extra_js %}
@@ -365,18 +149,7 @@
       var menuId = el.dataset.menuId;
       var menu = document.getElementById(menuId);
       if (!menu) return;
-      var isOpen = menu.style.display !== 'none';
-      closeAllMenus();
-      if (!isOpen) {
-        menu.style.display = 'block';
-        var handler = function (e) {
-          if (!menu.contains(e.target) && e.target !== el && !el.contains(e.target)) {
-            closeAllMenus();
-            document.removeEventListener('click', handler, true);
-          }
-        };
-        setTimeout(function () { document.addEventListener('click', handler, true); }, 0);
-      }
+      toggleMoreMenu(menu, el);
     },
     'toggle-bookmark': async function (el, e) {
       if (e) e.stopPropagation();
@@ -460,8 +233,5 @@
     'stop-propagation': function (el, e) { e.stopPropagation(); }
   });
 
-  function closeAllMenus() {
-    document.querySelectorAll('.more-menu').forEach(function (m) { m.style.display = 'none'; });
-  }
 </script>
 {% endblock %}

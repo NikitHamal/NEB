@@ -9,44 +9,22 @@
 {% block nav_forum %}md-nav-active{% endblock %}
 
 {% block bottomnav %}
-<nav class="md-bottomnav">
-  <div class="md-bottomnav-pill">
-    <a href="{% url 'web:home' %}" class="md-bottomnav-item" aria-label="Home">
-      <div class="md-bottomnav-icon-wrapper">
-        <span class="material-symbols-outlined">home</span>
-      </div>
-      <span class="md-bottomnav-label">Home</span>
-    </a>
-    <a href="{% url 'web:library' %}" class="md-bottomnav-item" aria-label="Library">
-      <div class="md-bottomnav-icon-wrapper">
-        <span class="material-symbols-outlined">menu_book</span>
-      </div>
-      <span class="md-bottomnav-label">Library</span>
-    </a>
-    <a href="{% url 'web:forum' %}" class="md-bottomnav-item md-nav-active" aria-label="Forum">
-      <div class="md-bottomnav-icon-wrapper">
-        <span class="material-symbols-outlined">forum</span>
-      </div>
-      <span class="md-bottomnav-label">Forum</span>
-    </a>
-    <a href="{% url 'web:news_list' %}" class="md-bottomnav-item" aria-label="News">
-      <div class="md-bottomnav-icon-wrapper">
-        <span class="material-symbols-outlined">newspaper</span>
-      </div>
-      <span class="md-bottomnav-label">News</span>
-    </a>
-  </div>
-</nav>
+{% include "web/partials/bottomnav.html" %}
+{% endblock %}
+
+{% block extra_css %}
+{% comment %} In the head, not in the body. A stylesheet found part-way down
+   the document is found after the browser has already painted, so the page
+   lays itself out twice on every load. {% endcomment %}
+<link rel="stylesheet" href="{% static 'web/css/pages/forum.css' %}">
 {% endblock %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'web/css/pages/forum.css' %}">
-
 <div class="forum-container">
   <!-- Redesigned Forum Header -->
   <div class="forum-header">
     <div class="forum-header-content">
-      <h1 class="md-headline-large">Forum</h1>
+      <h1 class="md-headline-large-emphasized">Forum</h1>
     </div>
     <a href="{% url 'web:create_post' %}" class="md-btn md-btn-filled md-hide-mobile">
       <span class="material-symbols-outlined">add</span>
@@ -57,20 +35,32 @@
   <div id="forum-main">
   <!-- Sort Tabs + Category Filters -->
   <div class="forum-controls-bar">
-    <div class="forum-sort-tabs">
-      <a href="{% url 'web:forum' %}?sort=hot{% if current_category %}&category={{ current_category }}{% endif %}" class="forum-sort-tab {% if current_sort == 'hot' %}forum-sort-tab-active{% endif %}" hx-get="{% url 'web:forum' %}?sort=hot{% if current_category %}&category={{ current_category }}{% endif %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
-        <span class="material-symbols-outlined">whatshot</span> Hot
+    {% comment %}
+      NebTabRail. Hot / New / Top / Discussed was a row of pills in
+      --md-secondary-container with two !importants holding the selected one on,
+      drawn once here and again in _forum_main.html for the htmx swap -- the same
+      question the library and the profile ask, answered a fifth way. The rail
+      slides one container between the four instead of lighting a different pill,
+      and being the shared component it stays in step with the app.
+    {% endcomment %}
+    <nav class="neb-rail neb-rail-flush" role="tablist" aria-label="Sort posts">
+      <a href="{% url 'web:forum' %}?sort=hot{% if current_category %}&category={{ current_category }}{% endif %}" class="neb-rail-item" role="tab" aria-selected="{% if current_sort == 'hot' %}true{% else %}false{% endif %}" hx-get="{% url 'web:forum' %}?sort=hot{% if current_category %}&category={{ current_category }}{% endif %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
+        <span class="material-symbols-outlined">whatshot</span>
+        <span class="neb-rail-label">Hot</span>
       </a>
-      <a href="{% url 'web:forum' %}?sort=new{% if current_category %}&category={{ current_category }}{% endif %}" class="forum-sort-tab {% if current_sort == 'new' %}forum-sort-tab-active{% endif %}" hx-get="{% url 'web:forum' %}?sort=new{% if current_category %}&category={{ current_category }}{% endif %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
-        <span class="material-symbols-outlined">schedule</span> New
+      <a href="{% url 'web:forum' %}?sort=new{% if current_category %}&category={{ current_category }}{% endif %}" class="neb-rail-item" role="tab" aria-selected="{% if current_sort == 'new' %}true{% else %}false{% endif %}" hx-get="{% url 'web:forum' %}?sort=new{% if current_category %}&category={{ current_category }}{% endif %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
+        <span class="material-symbols-outlined">schedule</span>
+        <span class="neb-rail-label">New</span>
       </a>
-      <a href="{% url 'web:forum' %}?sort=top{% if current_category %}&category={{ current_category }}{% endif %}" class="forum-sort-tab {% if current_sort == 'top' %}forum-sort-tab-active{% endif %}" hx-get="{% url 'web:forum' %}?sort=top{% if current_category %}&category={{ current_category }}{% endif %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
-        <span class="material-symbols-outlined">thumb_up</span> Top
+      <a href="{% url 'web:forum' %}?sort=top{% if current_category %}&category={{ current_category }}{% endif %}" class="neb-rail-item" role="tab" aria-selected="{% if current_sort == 'top' %}true{% else %}false{% endif %}" hx-get="{% url 'web:forum' %}?sort=top{% if current_category %}&category={{ current_category }}{% endif %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
+        <span class="material-symbols-outlined">thumb_up</span>
+        <span class="neb-rail-label">Top</span>
       </a>
-      <a href="{% url 'web:forum' %}?sort=discussed{% if current_category %}&category={{ current_category }}{% endif %}" class="forum-sort-tab {% if current_sort == 'discussed' %}forum-sort-tab-active{% endif %}" hx-get="{% url 'web:forum' %}?sort=discussed{% if current_category %}&category={{ current_category }}{% endif %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
-        <span class="material-symbols-outlined">chat_bubble</span> Discussed
+      <a href="{% url 'web:forum' %}?sort=discussed{% if current_category %}&category={{ current_category }}{% endif %}" class="neb-rail-item" role="tab" aria-selected="{% if current_sort == 'discussed' %}true{% else %}false{% endif %}" hx-get="{% url 'web:forum' %}?sort=discussed{% if current_category %}&category={{ current_category }}{% endif %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
+        <span class="material-symbols-outlined">chat_bubble</span>
+        <span class="neb-rail-label">Discussed</span>
       </a>
-    </div>
+    </nav>
   </div>
 
 
@@ -156,51 +146,8 @@
   </div>
   </div>
 
-<!-- Mobile FAB -->
-<a href="{% url 'web:create_post' %}" class="md-fab md-hide-desktop" title="New Discussion">
-  <span class="material-symbols-outlined">add</span>
-</a>
+{% comment %} The create plus lives beside the rail now, in bottomnav.html. {% endcomment %}
 
-<!-- M3 Leaderboard Modal -->
-<div class="m3-modal-overlay" id="leaderboardModal" data-action="close-leaderboard-modal">
-  <div class="m3-modal-box" data-action="stop-propagation">
-    <div class="m3-modal-header">
-      <div class="m3-modal-title">
-        <span class="material-symbols-outlined" style="color: var(--md-primary); font-size: 28px;">emoji_events</span>
-        Leaderboard
-      </div>
-      <button class="m3-modal-close-btn" data-action="close-leaderboard-modal-btn">
-        <span class="material-symbols-outlined">close</span>
-      </button>
-    </div>
-    <div class="leaderboard-table-container">
-      {% for contributor in all_contributors %}
-      <a href="{% url 'web:profile' username=contributor.username %}" class="leaderboard-row" style="text-decoration:none;color:inherit;">
-        <div class="leaderboard-rank-profile">
-          <span class="leaderboard-rank-number {% if forloop.counter == 1 %}rank-1{% elif forloop.counter == 2 %}rank-2{% elif forloop.counter == 3 %}rank-3{% endif %}">
-            {{ forloop.counter }}
-          </span>
-          <div class="contributor-profile-wrapper">
-            <div class="contributor-avatar-container" style="width: 36px; height: 36px;">
-              {% if contributor.photo_url %}
-              <img src="{{ contributor.photo_url }}" alt="{{ contributor.display_name }}" data-fallback="inline-flex">
-              <span class="contributor-avatar-letter" style="font-size: 0.9375rem; display:none;">{{ contributor.display_name|truncate_chars:1 }}</span>
-              {% else %}
-              <span class="contributor-avatar-letter" style="font-size: 0.9375rem;">{{ contributor.display_name|truncate_chars:1 }}</span>
-              {% endif %}
-            </div>
-            <div class="contributor-meta-data">
-              <span class="contributor-username-text" style="font-size: 0.875rem;">{{ contributor.username }}{% if contributor.badgeInfo %}<span class="role-badge role-badge-{{ contributor.badgeInfo.type }}" title="{{ contributor.badgeInfo.label }}"><span class="material-symbols-outlined">{{ contributor.badgeInfo.icon }}</span></span>{% endif %}</span>
-              <span class="contributor-level-text" style="font-size: 0.7188rem;">{{ contributor.level }}</span>
-            </div>
-          </div>
-        </div>
-        <span class="contributor-score-text" style="font-size: 0.875rem;">{{ contributor.formatted_score }}</span>
-      </a>
-      {% endfor %}
-    </div>
-  </div>
-</div>
 {% endblock %}
 
 {% block extra_js %}
@@ -291,27 +238,6 @@ async function toggleFollowBtn(btn, userId) {
   } catch(e) { btn.disabled = false; showSnackbar('Error updating follow.'); }
 }
 
-function toggleMoreMenu(menuId, btn) {
-  var menu = document.getElementById(menuId);
-  if (!menu) return;
-  var isOpen = menu.style.display !== 'none';
-  closeAllMenus();
-  if (!isOpen) {
-    menu.style.display = 'block';
-    var handler = function(e) {
-      if (!menu.contains(e.target) && e.target !== btn && !btn.contains(e.target)) {
-        closeAllMenus();
-        document.removeEventListener('click', handler, true);
-      }
-    };
-    setTimeout(function() { document.addEventListener('click', handler, true); }, 0);
-  }
-}
-
-function closeAllMenus() {
-  document.querySelectorAll('.more-menu').forEach(function(m) { m.style.display = 'none'; });
-}
-
 async function toggleBookmark(targetType, targetId, btnEl) {
   if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
   try {
@@ -350,16 +276,8 @@ function sharePostUrl(path) {
 function reportContent(targetType, targetId) {
   if (window.openReportDialog) window.openReportDialog(targetType, targetId);
 }
-function closeLeaderboardModal(e) {
-    if (e && e.target !== document.getElementById('leaderboardModal')) return;
-    var modal = document.getElementById('leaderboardModal');
-    if (modal) modal.classList.remove('open');
-  }
 
   registerActions({
-    'close-leaderboard-modal': function(el, e) { closeLeaderboardModal(e); },
-    'close-leaderboard-modal-btn': function() { closeLeaderboardModal(); },
-    'stop-propagation': function(el, e) { e.stopPropagation(); },
     'toggle-forum-post-like': function(el, e) {
       if (e) e.stopPropagation();
       toggleForumPostLike(el.dataset.postId, el);

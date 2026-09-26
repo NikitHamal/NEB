@@ -7,39 +7,10 @@
 {% block og_title %}{% if seo_title %}{{ seo_title }}{% elif current_tab == 'interactive' %}NEBians Interactive — 3D Models, Simulations & Coding Games{% else %}NEB Past Papers, Model Questions & Notes Library — NEBians{% endif %}{% endblock %}
 {% block og_description %}{% if seo_description %}{{ seo_description }}{% elif current_tab == 'interactive' %}Explore free interactive lessons — 3D models, virtual labs and coding games.{% else %}Browse and download NEB past papers, model questions, notes, and study resources.{% endif %}{% endblock %}
 {% block nav_library %}md-nav-active{% endblock %}
-{% block bnav_library %}md-nav-active{% endblock %}
 {% block canonical %}{% if canonical_url %}{{ canonical_url }}{% else %}https://nebians.consica.com.np{{ request.path }}{% if current_tab == 'interactive' %}?tab=interactive{% else %}{% if page_obj and page_obj.number > 1 %}?page={{ page_obj.number }}{% endif %}{% endif %}{% endif %}{% endblock %}
 
 {% block bottomnav %}
-<nav class="md-bottomnav">
-  <div class="md-bottomnav-pill">
-    <a href="{% url 'web:home' %}" class="md-bottomnav-item" aria-label="Home">
-      <div class="md-bottomnav-icon-wrapper">
-        <span class="material-symbols-outlined">home</span>
-      </div>
-      <span class="md-bottomnav-label">Home</span>
-    </a>
-    <a href="{% url 'web:library' %}" class="md-bottomnav-item md-nav-active" aria-label="Library">
-      <div class="md-bottomnav-icon-wrapper">
-        <span class="material-symbols-outlined">menu_book</span>
-      </div>
-      <span class="md-bottomnav-label">Library</span>
-    </a>
-
-    <a href="{% url 'web:forum' %}" class="md-bottomnav-item" aria-label="Forum">
-      <div class="md-bottomnav-icon-wrapper">
-        <span class="material-symbols-outlined">forum</span>
-      </div>
-      <span class="md-bottomnav-label">Forum</span>
-    </a>
-    <a href="{% url 'web:news_list' %}" class="md-bottomnav-item" aria-label="News">
-      <div class="md-bottomnav-icon-wrapper">
-        <span class="material-symbols-outlined">newspaper</span>
-      </div>
-      <span class="md-bottomnav-label">News</span>
-    </a>
-  </div>
-</nav>
+{% include "web/partials/bottomnav.html" with current="library" %}
 {% endblock %}
 
 {% block extra_css %}
@@ -52,7 +23,7 @@
 <div class="md-container">
   <!-- Header + Upload button -->
   <div class="lib-header-row" style="margin-bottom: 12px;">
-    <h1 class="md-headline-medium">{% if page_h1 %}{{ page_h1 }}{% elif current_tab == 'interactive' %}Interactive Learning Lab{% else %}Digital Library{% endif %}</h1>
+    <h1 class="md-headline-medium-emphasized">{% if page_h1 %}{{ page_h1 }}{% elif current_tab == 'interactive' %}Interactive Learning Lab{% else %}Digital Library{% endif %}</h1>
     {% if current_tab != 'interactive' %}
     <div class="lib-header-actions">
       <a href="{% url 'web:upload_resource' %}" class="md-btn md-btn-tonal" style="text-decoration:none;">
@@ -65,23 +36,28 @@
 
   <!-- Navigation Tabs & Sort Filter -->
   <div class="subj-tabs-header">
-    <div class="subj-tabs">
+    {% comment %}
+      LibraryScreen.kt's shelves, on the shared rail. The underline this
+      replaces hovered on a literal rgba(0,74,198,0.04) -- a light-theme blue
+      that stayed a light-theme blue in dark theme, where it read as a smudge.
+    {% endcomment %}
+    <div class="neb-rail" role="tablist" aria-label="Library sections">
       <a href="?tab=digital{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}"
-        class="subj-tab-btn {% if current_tab == 'digital' %}active{% endif %}">
-        Library
+        class="neb-rail-item" role="tab" aria-selected="{% if current_tab == 'digital' %}true{% else %}false{% endif %}">
+        <span class="neb-rail-label">Library</span>
       </a>
       <a href="?tab=categories{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}"
-        class="subj-tab-btn {% if current_tab == 'categories' %}active{% endif %}">
-        Syllabus
+        class="neb-rail-item" role="tab" aria-selected="{% if current_tab == 'categories' %}true{% else %}false{% endif %}">
+        <span class="neb-rail-label">Syllabus</span>
       </a>
       <a href="?tab=interactive{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}"
-        class="subj-tab-btn ix-tab-btn {% if current_tab == 'interactive' %}active{% endif %}">
-        Interactive
+        class="neb-rail-item" role="tab" aria-selected="{% if current_tab == 'interactive' %}true{% else %}false{% endif %}">
+        <span class="neb-rail-label">Interactive</span>
       </a>
     </div>
     {% if current_tab == 'digital' or current_tab == 'community' %}
     <div class="lib-sort-controls">
-      <button type="button" class="lib-filter-btn {% if active_filter_count > 0 %}has-badge{% endif %}" data-action="open-library-filter">
+      <button type="button" class="lib-filter-btn {% if active_filter_count > 0 %}has-badge{% endif %}" data-neb-open="library-filter-modal" aria-haspopup="dialog">
         <span class="material-symbols-outlined" style="font-size:18px;">tune</span>
         <span>Filter</span>
         {% if active_filter_count > 0 %}
@@ -168,37 +144,48 @@
 
 <!-- Library Filter Dialog -->
 {% if current_tab == 'digital' or current_tab == 'community' %}
-<div id="library-filter-modal" class="md-overlay" style="display:none;" data-action="close-library-filter-outside">
-  <div class="md-dialog lib-filter-dialog">
-    <div class="lib-filter-header">
-      <h3>
-        <span class="material-symbols-outlined" style="color:var(--md-primary);">tune</span>
-        Filter Resources
-      </h3>
-      <button type="button" class="md-icon-btn" data-action="close-library-filter" aria-label="Close">
+{% comment %} FilterDialog.kt is a NebModalSheet whose subtitle counts what is
+   already on, so "how many filters am I looking through" is answered before
+   the list is read. This was a centred md-dialog with its own show/hide, its
+   own outside-click handler and no focus trap. {% endcomment %}
+<div id="library-filter-modal" class="neb-scrim neb-scrim-bottom" hidden>
+  <div class="neb-sheet lib-filter-dialog" role="dialog" aria-modal="true" aria-labelledby="library-filter-title">
+    <div class="neb-sheet-handle"></div>
+    <div class="neb-sheet-head">
+      <div class="neb-sheet-head-text">
+        <h2 class="neb-sheet-title" id="library-filter-title">Filter</h2>
+        <p class="neb-sheet-sub">
+          {% if active_filter_count > 0 %}
+            {{ active_filter_count }} filter{{ active_filter_count|pluralize }} active
+          {% else %}
+            Narrow the library down to what you need
+          {% endif %}
+        </p>
+      </div>
+      <button type="button" class="neb-sheet-close" data-neb-close aria-label="Close">
         <span class="material-symbols-outlined">close</span>
       </button>
     </div>
-    
-    <div class="lib-filter-body">
+
+    <div class="neb-sheet-body lib-filter-body">
       <!-- Sort By -->
       <div>
-        <div class="filter-section-title">SORT BY</div>
-        <div class="filter-chip-group">
-          <button type="button" class="filter-chip-btn {% if current_sort == 'relevant' %}active{% endif %}" data-filter="sort" data-value="relevant">
-            <span class="material-symbols-outlined check-icon">check</span> Most Relevant
+        <div class="neb-section-label">SORT BY</div>
+        <div class="neb-chip-row">
+          <button type="button" class="neb-choice-chip filter-chip-btn{% if current_sort == 'relevant' %} is-selected{% endif %}" data-filter="sort" data-value="relevant">
+            <span class="neb-chip-tick" aria-hidden="true"></span>Most Relevant
           </button>
-          <button type="button" class="filter-chip-btn {% if current_sort == 'trending' %}active{% endif %}" data-filter="sort" data-value="trending">
-            <span class="material-symbols-outlined check-icon">check</span> Trending
+          <button type="button" class="neb-choice-chip filter-chip-btn{% if current_sort == 'trending' %} is-selected{% endif %}" data-filter="sort" data-value="trending">
+            <span class="neb-chip-tick" aria-hidden="true"></span>Trending
           </button>
-          <button type="button" class="filter-chip-btn {% if current_sort == 'newest' %}active{% endif %}" data-filter="sort" data-value="newest">
-            <span class="material-symbols-outlined check-icon">check</span> Newest
+          <button type="button" class="neb-choice-chip filter-chip-btn{% if current_sort == 'newest' %} is-selected{% endif %}" data-filter="sort" data-value="newest">
+            <span class="neb-chip-tick" aria-hidden="true"></span>Newest
           </button>
-          <button type="button" class="filter-chip-btn {% if current_sort == 'liked' %}active{% endif %}" data-filter="sort" data-value="liked">
-            <span class="material-symbols-outlined check-icon">check</span> Most Liked
+          <button type="button" class="neb-choice-chip filter-chip-btn{% if current_sort == 'liked' %} is-selected{% endif %}" data-filter="sort" data-value="liked">
+            <span class="neb-chip-tick" aria-hidden="true"></span>Most Liked
           </button>
-          <button type="button" class="filter-chip-btn {% if current_sort == 'oldest' %}active{% endif %}" data-filter="sort" data-value="oldest">
-            <span class="material-symbols-outlined check-icon">check</span> Oldest
+          <button type="button" class="neb-choice-chip filter-chip-btn{% if current_sort == 'oldest' %} is-selected{% endif %}" data-filter="sort" data-value="oldest">
+            <span class="neb-chip-tick" aria-hidden="true"></span>Oldest
           </button>
         </div>
       </div>
@@ -206,11 +193,11 @@
       <!-- Subject -->
       {% if all_subjects %}
       <div>
-        <div class="filter-section-title">SUBJECT</div>
-        <div class="filter-chip-group">
+        <div class="neb-section-label">SUBJECT</div>
+        <div class="neb-chip-row">
           {% for s in all_subjects %}
-          <button type="button" class="filter-chip-btn {% if s in current_subjects %}active{% endif %}" data-filter="subject" data-value="{{ s }}">
-            <span class="material-symbols-outlined check-icon">check</span> {{ s }}
+          <button type="button" class="neb-choice-chip filter-chip-btn{% if s in current_subjects %} is-selected{% endif %}" data-filter="subject" data-value="{{ s }}">
+            <span class="neb-chip-tick" aria-hidden="true"></span>{{ s }}
           </button>
           {% endfor %}
         </div>
@@ -220,11 +207,11 @@
       <!-- Grade / Level -->
       {% if all_grades %}
       <div>
-        <div class="filter-section-title">GRADE / LEVEL</div>
-        <div class="filter-chip-group">
+        <div class="neb-section-label">GRADE / LEVEL</div>
+        <div class="neb-chip-row">
           {% for g in all_grades %}
-          <button type="button" class="filter-chip-btn {% if g in current_grades %}active{% endif %}" data-filter="grade" data-value="{{ g }}">
-            <span class="material-symbols-outlined check-icon">check</span> {{ g }}
+          <button type="button" class="neb-choice-chip filter-chip-btn{% if g in current_grades %} is-selected{% endif %}" data-filter="grade" data-value="{{ g }}">
+            <span class="neb-chip-tick" aria-hidden="true"></span>{{ g }}
           </button>
           {% endfor %}
         </div>
@@ -234,11 +221,11 @@
       <!-- Resource Type -->
       {% if all_types %}
       <div>
-        <div class="filter-section-title">TYPE</div>
-        <div class="filter-chip-group">
+        <div class="neb-section-label">TYPE</div>
+        <div class="neb-chip-row">
           {% for t in all_types %}
-          <button type="button" class="filter-chip-btn {% if t in current_types %}active{% endif %}" data-filter="type" data-value="{{ t }}">
-            <span class="material-symbols-outlined check-icon">check</span> {{ t }}
+          <button type="button" class="neb-choice-chip filter-chip-btn{% if t in current_types %} is-selected{% endif %}" data-filter="type" data-value="{{ t }}">
+            <span class="neb-chip-tick" aria-hidden="true"></span>{{ t }}
           </button>
           {% endfor %}
         </div>
@@ -247,21 +234,21 @@
 
       <!-- Pricing Filter -->
       <div>
-        <div class="filter-section-title">PRICING</div>
-        <div class="filter-chip-group">
-          <button type="button" class="filter-chip-btn {% if current_pricing == 'free' %}active{% endif %}" data-filter="pricing" data-value="free">
-            <span class="material-symbols-outlined check-icon">check</span> Free
+        <div class="neb-section-label">PRICING</div>
+        <div class="neb-chip-row">
+          <button type="button" class="neb-choice-chip filter-chip-btn{% if current_pricing == 'free' %} is-selected{% endif %}" data-filter="pricing" data-value="free">
+            <span class="neb-chip-tick" aria-hidden="true"></span>Free
           </button>
-          <button type="button" class="filter-chip-btn {% if current_pricing == 'paid' %}active{% endif %}" data-filter="pricing" data-value="paid">
-            <span class="material-symbols-outlined check-icon">check</span> Paid Content
+          <button type="button" class="neb-choice-chip filter-chip-btn{% if current_pricing == 'paid' %} is-selected{% endif %}" data-filter="pricing" data-value="paid">
+            <span class="neb-chip-tick" aria-hidden="true"></span>Paid Content
           </button>
         </div>
       </div>
     </div>
 
-    <div class="lib-filter-footer">
-      <button type="button" class="md-btn md-btn-text" data-action="reset-library-filter">Clear All</button>
-      <button type="button" class="md-btn md-btn-filled" data-action="apply-library-filter">Apply Filters</button>
+    <div class="neb-sheet-foot">
+      <button type="button" class="md-btn md-btn-outlined neb-foot-minor" data-action="reset-library-filter">Clear all</button>
+      <button type="button" class="md-btn md-btn-filled neb-foot-major" data-action="apply-library-filter">Show results</button>
     </div>
   </div>
 </div>
@@ -285,38 +272,25 @@
     if (!chip) return;
     const type = chip.getAttribute('data-filter');
     if (type === 'sort' || type === 'pricing') {
-      const container = chip.closest('.filter-chip-group');
+      const container = chip.closest('.neb-chip-row');
       if (container) {
-        container.querySelectorAll('.filter-chip-btn').forEach(c => c.classList.remove('active'));
+        container.querySelectorAll('.filter-chip-btn').forEach(c => c.classList.remove('is-selected'));
       }
-      chip.classList.add('active');
+      chip.classList.add('is-selected');
     } else {
-      chip.classList.toggle('active');
+      chip.classList.toggle('is-selected');
     }
   });
 
   registerActions({
-    'open-library-filter': function () {
-      var modal = document.getElementById('library-filter-modal');
-      if (modal) modal.style.display = 'flex';
-    },
-    'close-library-filter': function () {
-      var modal = document.getElementById('library-filter-modal');
-      if (modal) modal.style.display = 'none';
-    },
-    'close-library-filter-outside': function (el, ev) {
-      if (ev && ev.target && ev.target.id === 'library-filter-modal') {
-        ev.target.style.display = 'none';
-      }
-    },
     'reset-library-filter': function () {
       const modal = document.getElementById('library-filter-modal');
       if (!modal) return;
       modal.querySelectorAll('.filter-chip-btn').forEach(btn => {
-        btn.classList.remove('active');
+        btn.classList.remove('is-selected');
       });
       const defaultSort = modal.querySelector('.filter-chip-btn[data-filter="sort"][data-value="relevant"]');
-      if (defaultSort) defaultSort.classList.add('active');
+      if (defaultSort) defaultSort.classList.add('is-selected');
     },
     'apply-library-filter': function () {
       const modal = document.getElementById('library-filter-modal');
@@ -324,7 +298,7 @@
       const params = new URLSearchParams();
       params.set('tab', '{{ current_tab }}');
       
-      modal.querySelectorAll('.filter-chip-btn.active').forEach(btn => {
+      modal.querySelectorAll('.filter-chip-btn.is-selected').forEach(btn => {
         const type = btn.getAttribute('data-filter');
         const val = btn.getAttribute('data-value');
         if (type === 'sort') {
@@ -340,7 +314,7 @@
         }
       });
 
-      modal.style.display = 'none';
+      if (window.NebUI) NebUI.close('library-filter-modal');
       const url = '{% url "web:library" %}?' + params.toString();
       htmx.ajax('GET', url, '#library-main', { swap: 'innerHTML' });
       history.pushState({}, '', url);

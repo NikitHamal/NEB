@@ -149,7 +149,7 @@
   function scrollBottom(force) { if (force || nearBottom()) requestAnimationFrame(function () { els.conversation.scrollTop = els.conversation.scrollHeight; }); }
   function statusLabel(value) { return String(value || 'queued').replace(/_/g, ' '); }
   function setButtonBusy(button, busy) {
-    if (busy) { button.dataset.content = button.innerHTML; button.disabled = true; button.innerHTML = '<span class="ba-spinner"></span>'; }
+    if (busy) { button.dataset.content = button.innerHTML; button.disabled = true; button.innerHTML = '<span class="ba-spinner md-loader md-loader-inline"></span>'; }
     else { button.disabled = false; if (button.dataset.content) button.innerHTML = button.dataset.content; }
   }
   function updateSession(session) {
@@ -351,7 +351,7 @@
   }
   async function loadAttachment(id) { state.activeFile = ''; renderFiles(); await loadFilePayload(root.dataset.fileUrl + '?attachment=' + encodeURIComponent(id)); }
   async function loadFilePayload(url) {
-    els.viewerContent.innerHTML = '<div class="ba-empty-view"><span class="ba-spinner"></span><p>Loading preview…</p></div>';
+    els.viewerContent.innerHTML = '<div class="ba-empty-view"><span class="ba-spinner md-loader md-loader-inline"></span><p>Loading preview…</p></div>';
     try { var data = await BA.api(url); renderViewer(data.file); }
     catch (error) { els.viewerContent.innerHTML = '<div class="ba-empty-view"><span class="material-symbols-outlined">error</span><p>' + BA.escapeHtml(error.message) + '</p></div>'; }
   }

@@ -5,8 +5,12 @@
   --nmp-fg: var(--md-on-surface);
   --nmp-muted: var(--md-on-surface-variant);
   --nmp-surface: var(--md-surface-container-lowest);
+  /* The chrome around the picture -- header, controls, the shell itself --
+     rides on these two, so the dark theme only has to restate the two rather
+     than restate every rule that reads them. */
+  --nmp-header-surface: color-mix(in srgb, var(--nmp-accent) 4%, var(--nmp-surface));
   --nmp-track: var(--md-surface-container-high);
-  --nmp-radius: var(--md-radius-md, 12px);
+  --nmp-radius: var(--md-radius-md);
   position: relative;
   background: var(--nmp-surface);
   border: 1px solid var(--md-outline-variant);
@@ -29,7 +33,7 @@
   gap: 12px;
   padding: 12px 16px;
   border-bottom: 1px solid var(--md-outline-variant);
-  background: color-mix(in srgb, var(--nmp-accent) 4%, var(--nmp-surface));
+  background: var(--nmp-header-surface);
 }
 
 .nmp-header-left {
@@ -249,7 +253,7 @@
   border: none;
   border-radius: 50%;
   background: color-mix(in srgb, var(--nmp-accent) 92%, #fff);
-  color: var(--md-on-primary, #fff);
+  color: var(--md-on-primary);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -281,10 +285,7 @@
   z-index: 4;
   width: 28px;
   height: 28px;
-  border: 2.5px solid rgba(255,255,255,0.25);
-  border-top-color: #fff;
-  border-radius: 50%;
-  animation: nmp-spin 0.7s linear infinite;
+  color: #fff;
   opacity: 0;
   pointer-events: none;
   transition: opacity 150ms ease;
@@ -292,10 +293,6 @@
 
 .nmp.is-loading .nmp-buffer {
   opacity: 1;
-}
-
-@keyframes nmp-spin {
-  to { transform: rotate(360deg); }
 }
 
 .nmp-error {
@@ -330,7 +327,7 @@
 }
 
 .nmp-error a {
-  color: var(--md-inverse-primary, #B4C5FF);
+  color: var(--md-inverse-primary);
   font-weight: 600;
   font-size: 0.8125rem;
 }
@@ -573,7 +570,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--md-on-primary, #fff);
+  color: var(--md-on-primary);
   box-shadow: 0 6px 20px rgba(0,0,0,0.3);
   transition: transform 400ms cubic-bezier(0.2, 0, 0, 1);
 }
@@ -654,12 +651,9 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 6px;
+  gap: 12px;
 }
 
-.nmp-audio-meta .dot-sep {
-  opacity: 0.3;
-}
 
 .nmp-audio .nmp-controls {
   padding: 0;
@@ -898,15 +892,13 @@
   }
 }
 
-/* Dark theme polish */
+/* Dark theme polish. Lowest is nearly black, and a player shell that dark
+   reads as part of the picture rather than as chrome around it, so the shell
+   comes up one step and the accent in the header goes twice as strong to stay
+   visible against it. Two variables now, and .nmp, .nmp-header and
+   .nmp-controls follow on their own; each of the three was restated here by
+   hand before, so a change to the light surface had to be made twice. */
 [data-theme="dark"] .nmp {
-  background: var(--md-surface-container-low);
-}
-
-[data-theme="dark"] .nmp-header {
-  background: color-mix(in srgb, var(--nmp-accent) 8%, var(--md-surface-container-low));
-}
-
-[data-theme="dark"] .nmp-controls {
-  background: var(--md-surface-container-low);
+  --nmp-surface: var(--md-surface-container-low);
+  --nmp-header-surface: color-mix(in srgb, var(--nmp-accent) 8%, var(--nmp-surface));
 }

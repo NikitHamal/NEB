@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.neb.ians.R
 import com.neb.ians.ui.theme.Poppins
+import com.neb.ians.ui.theme.nebAuthPalette
 import com.neb.ians.util.TactileType
 import com.neb.ians.util.rememberTactileFeedback
 import com.neb.ians.ui.components.NebLoaderSize
@@ -39,8 +40,17 @@ fun AuthActionButtons(
     modifier: Modifier = Modifier
 ) {
     val tactile = rememberTactileFeedback()
+    val palette = nebAuthPalette(isDark)
 
-    val linkColor = if (isDark) Color(0xFFF5F5F6) else Color(0xFF101012)
+    /**
+     * Terms and Privacy are the brand blue, not ink. They are the only two links
+     * on this screen, and a link that looks like the surrounding sentence is a
+     * link nobody taps.
+     */
+    val linkColor = palette.brand
+
+    /** The mail glyph is chrome, not a link, so it stays on the ink ramp. */
+    val glyphColor = palette.ink
 
     Column(
         modifier = modifier
@@ -192,7 +202,7 @@ fun AuthActionButtons(
                     imageVector = Icons.Outlined.Mail,
                     contentDescription = "Email",
                     modifier = Modifier.size(20.dp),
-                    tint = linkColor
+                    tint = glyphColor
                 )
                 Spacer(modifier = Modifier.width(10.dp))
                 Text(

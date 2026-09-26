@@ -131,7 +131,7 @@
   }
 
   function progressSuffix(value) {
-    return typeof value === 'number' && value > 0 ? ' \u00b7 ' + Math.round(value * 100) + '%' : '';
+    return typeof value === 'number' && value > 0 ? ', ' + Math.round(value * 100) + '%' : '';
   }
 
   function onWorkerMessage(e) {
@@ -149,7 +149,7 @@
       workerLoading = false;
       var totalSecs = workerStartedAt ? (performance.now() - workerStartedAt) / 1000 : 0;
       var source = msg.source === 'snapshot' ? 'saved runtime' : 'ready';
-      updateStatus('On-device AI \u00b7 ' + source + (totalSecs > 0 ? ' in ' + totalSecs.toFixed(1) + 's' : ''));
+      updateStatus('On-device AI, ' + source + (totalSecs > 0 ? ' in ' + totalSecs.toFixed(1) + 's' : ''));
       if (sendBtn && textarea) sendBtn.disabled = !textarea.value.trim();
       if (isThinking) setThinking('Thinking', 'drive');
       if (pendingRun) {
@@ -183,9 +183,9 @@
     var footer = document.querySelector('.neby-powered');
     if (!footer) return;
     if (useLocalModel) {
-      footer.innerHTML = '⚡ On-Device AI (Offline) &middot; <a href="#" id="neby-switch-cloud" style="color:var(--md-sys-color-primary);text-decoration:underline;">Switch to Cloud AI</a>';
+      footer.innerHTML = '⚡ On-Device AI (Offline) — <a href="#" id="neby-switch-cloud" style="color:var(--md-primary);text-decoration:underline;">Switch to Cloud AI</a>';
     } else {
-      footer.innerHTML = '⚡ Neby Cloud AI &middot; <a href="#" id="neby-switch-local" style="color:var(--md-sys-color-primary);text-decoration:underline;">Enable Offline Mode (~40MB)</a>';
+      footer.innerHTML = '⚡ Neby Cloud AI — <a href="#" id="neby-switch-local" style="color:var(--md-primary);text-decoration:underline;">Enable Offline Mode (~40MB)</a>';
     }
 
     var toCloud = document.getElementById('neby-switch-cloud');
@@ -194,7 +194,7 @@
         e.preventDefault();
         useLocalModel = false;
         try { localStorage.setItem('neby_use_local_model', 'false'); } catch (err) {}
-        updateStatus('Online \u00b7 Neby Assistant');
+        updateStatus('Online — Neby Assistant');
         updatePoweredFooter();
       });
     }
@@ -221,7 +221,7 @@
 
     if (!fab || !panel) return;
 
-    updateStatus(useLocalModel ? 'Local AI' : 'Online \u00b7 Neby Assistant');
+    updateStatus(useLocalModel ? 'Local AI' : 'Online — Neby Assistant');
     updatePoweredFooter();
 
     fab.addEventListener('click', togglePanel);
@@ -354,7 +354,7 @@
     })
       .then(function (r) { return r.json(); })
       .then(function (data) {
-        updateStatus(useLocalModel ? 'Local AI' : 'Online \u00b7 Neby Assistant');
+        updateStatus(useLocalModel ? 'Local AI' : 'Online — Neby Assistant');
         removeThinking();
         if (!data.mode) {
           fallbackToLocal(localResult, data.error);
@@ -379,7 +379,7 @@
         appendAiBubble('Hmm, I couldn\u2019t figure that out. Try rephrasing!');
       })
       .catch(function () {
-        updateStatus(useLocalModel ? 'Local AI' : 'Online \u00b7 Neby Assistant');
+        updateStatus(useLocalModel ? 'Local AI' : 'Online — Neby Assistant');
         removeThinking();
         fallbackToLocal(localResult, null);
       });
@@ -531,7 +531,7 @@
       html += '<span class="material-symbols-outlined neby-result-icon">' + icon + '</span>';
       html += '<div class="neby-result-info">';
       html += '<div class="neby-result-title">' + escapeHtml(r.title) + '</div>';
-      html += '<div class="neby-result-sub">' + escapeHtml(r.subject || '') + (r.grade_level ? ' &middot; ' + escapeHtml(r.grade_level) : '') + (r.author ? ' &middot; by ' + escapeHtml(r.author) : '') + '</div>';
+      html += '<div class="neby-result-sub">' + escapeHtml(r.subject || '') + (r.grade_level ? ', ' + escapeHtml(r.grade_level) : '') + (r.author ? ', by ' + escapeHtml(r.author) : '') + '</div>';
       html += '</div></a>';
     });
     html += '</div></div>';
@@ -547,7 +547,7 @@
       html += '<span class="material-symbols-outlined neby-result-icon">chat</span>';
       html += '<div class="neby-result-info">';
       html += '<div class="neby-result-title">' + escapeHtml(p.title) + '</div>';
-      html += '<div class="neby-result-sub">' + escapeHtml(p.category || 'General') + ' &middot; ' + (p.reply_count || 0) + ' replies</div>';
+      html += '<div class="neby-result-sub">' + escapeHtml(p.category || 'General') + ', ' + (p.reply_count || 0) + ' replies</div>';
       html += '</div></a>';
     });
     html += '</div></div>';

@@ -1,5 +1,6 @@
 """Views Resources extracted from views.py."""
 from decimal import Decimal
+from django.conf import settings
 from .view_helpers import *  # noqa: F401,F403
 from .security import validate_forum_attachments
 from .models import PaymentVerification

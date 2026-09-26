@@ -1,0 +1,23 @@
+{% load web_extras %}
+{% comment %} ── An announcement, as a rail card ───────────────────────────────────────
+   The app's CompactNewsCard: category chip, two lines of title, and when it
+   was posted. The home page used to give news a full-width grid of its own,
+   which put four cards between one post and the next. Expects `n`. {% endcomment %}
+<a href="{% url 'web:news_detail' slug=n.slug %}"
+   class="hf-news-card{% if n.is_pinned %} hf-news-card-pinned{% endif %}"
+   style="--hf-news-accent: {{ n.category_color }};">
+  <div class="hf-news-top">
+    <span class="hf-news-cat">
+      <span class="material-symbols-outlined">{{ n.category_icon }}</span>
+      {{ n.category_label }}
+    </span>
+    {% if n.is_pinned %}
+    <span class="hf-news-pin">
+      <span class="material-symbols-outlined">push_pin</span>
+      Pinned
+    </span>
+    {% endif %}
+  </div>
+  <span class="hf-news-title">{{ n.title }}</span>
+  <span class="hf-news-time">{{ n.published_at|time_ago|default:"Latest" }}</span>
+</a>

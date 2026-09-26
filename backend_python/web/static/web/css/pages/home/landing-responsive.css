@@ -1,6 +1,13 @@
+/* The dark hero. The painting underneath is the same one -- the ::before below
+   lays a dark wash over it rather than swapping the art -- so what changes is
+   the ink and the pill, and every rule in landing.css reads these names rather
+   than restating a colour under a [data-theme="dark"] selector. */
 [data-theme="dark"] .home-landing {
   --home-ink: #f3f7fc;
   --home-muted: #b9c8d8;
+  --home-pill: rgba(15, 36, 55, 0.88);
+  --home-pill-hover: rgba(25, 51, 73, 0.96);
+  --home-pill-ink: #edf5fd;
   background-color: #071421;
   filter: none;
   box-shadow: inset 0 -110px 90px -100px rgba(5, 15, 27, 0.9);
@@ -53,126 +60,18 @@
   background: linear-gradient(135deg, #3c78f2, #1d5cca);
 }
 
+/* The pill and its ink moved into the variable block above. What is left here
+   is the one thing that is genuinely dark-only: a pill floating over a dark
+   wash needs the blur and the lift, and over a bright sky it does not. */
 [data-theme="dark"] .home-hero-button-secondary {
-  border-color: rgba(190, 215, 239, 0.18);
-  background: rgba(15, 36, 55, 0.88);
-  color: #edf5fd;
   box-shadow: inset 0 1px rgba(255, 255, 255, 0.05), 0 10px 22px rgba(0, 0, 0, 0.16);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
 
-[data-theme="dark"] .home-hero-button-secondary:hover {
-  border-color: rgba(190, 215, 239, 0.3);
-  background: rgba(25, 51, 73, 0.96);
-  color: #ffffff;
-}
-
-[data-theme="dark"] .home-community-preview {
-  border-color: rgba(181, 207, 232, 0.16);
-  background: rgba(8, 23, 37, 0.94);
-  box-shadow: 0 22px 54px rgba(0, 0, 0, 0.36), inset 0 1px rgba(255, 255, 255, 0.04);
-  filter: none;
-  backdrop-filter: blur(18px) saturate(1.08);
-  -webkit-backdrop-filter: blur(18px) saturate(1.08);
-}
-
-[data-theme="dark"] .home-preview-bar {
-  border-bottom-color: rgba(181, 207, 232, 0.12);
-  background: rgba(12, 30, 46, 0.92);
-}
-
-[data-theme="dark"] .home-preview-brand,
-[data-theme="dark"] .home-preview-brand:hover {
-  color: #eaf2fb;
-}
-
-[data-theme="dark"] .home-preview-tabs span {
-  color: #91a4b7;
-}
-
-[data-theme="dark"] .home-preview-tabs span.is-active {
-  background: rgba(35, 154, 101, 0.16);
-  color: #8ee0b6;
-}
-
-[data-theme="dark"] .home-preview-search {
-  color: #9eb0c1;
-}
-
-[data-theme="dark"] .home-preview-resources,
-[data-theme="dark"] .home-preview-community {
-  border-color: rgba(181, 207, 232, 0.12);
-  background: rgba(17, 39, 58, 0.88);
-}
-
-[data-theme="dark"] .home-preview-kicker,
-[data-theme="dark"] .home-preview-resource-copy small,
-[data-theme="dark"] .home-preview-post-meta {
-  color: #91a4b7;
-}
-
-[data-theme="dark"] .home-preview-section-head strong,
-[data-theme="dark"] .home-preview-resource,
-[data-theme="dark"] .home-preview-post,
-[data-theme="dark"] .home-preview-post strong {
-  color: #e5edf7;
-}
-
-[data-theme="dark"] .home-preview-section-head a,
-[data-theme="dark"] .home-preview-community-link {
-  color: #a9c2ff;
-}
-
-[data-theme="dark"] .home-preview-resource {
-  border-color: rgba(181, 207, 232, 0.1);
-  background: rgba(8, 25, 40, 0.62);
-}
-
-[data-theme="dark"] .home-preview-resource:hover {
-  border-color: rgba(181, 207, 232, 0.22);
-  background: rgba(23, 51, 73, 0.92);
-  color: #ffffff;
-}
-
-[data-theme="dark"] .home-preview-resource-icon {
-  background: color-mix(in srgb, var(--subject-color, #8db5ff) 24%, #10263a);
-  color: color-mix(in srgb, var(--subject-color, #8db5ff) 78%, #ffffff);
-}
-
-[data-theme="dark"] .home-preview-resource > .material-symbols-outlined {
-  color: #9eb0c1;
-}
-
-[data-theme="dark"] .home-preview-post {
-  border-color: rgba(181, 207, 232, 0.1);
-  background: rgba(9, 25, 41, 0.72);
-}
-
-[data-theme="dark"] .home-preview-post:hover {
-  border-color: rgba(181, 207, 232, 0.22);
-  background: rgba(23, 48, 70, 0.94);
-  color: #ffffff;
-}
-
-[data-theme="dark"] .home-preview-post-category {
-  background: rgba(137, 111, 235, 0.2);
-  color: #d5caff;
-}
-
-[data-theme="dark"] .home-preview-empty {
-  border-color: rgba(181, 207, 232, 0.18);
-  color: #9eb0c1;
-  background: rgba(8, 25, 40, 0.42);
-}
-
 @media (max-width: 900px) {
   .home-landing {
     padding-top: calc(64px + 32px);
-  }
-
-  .home-preview-body {
-    grid-template-columns: minmax(0, 1.3fr) minmax(230px, 0.7fr);
   }
 }
 
@@ -187,34 +86,6 @@
 
   .home-title-chip {
     white-space: normal;
-  }
-
-  .home-community-preview {
-    width: 100%;
-    margin-top: 24px;
-    border-radius: 16px;
-  }
-
-  .home-preview-bar {
-    min-height: 48px;
-    padding: 0 13px;
-  }
-
-  .home-preview-tabs {
-    display: none;
-  }
-
-  .home-preview-search {
-    margin-left: auto;
-  }
-
-  .home-preview-body {
-    grid-template-columns: 1fr;
-    padding: 11px;
-  }
-
-  .home-preview-community {
-    display: none;
   }
 
   .home-page .site-main > .md-container {

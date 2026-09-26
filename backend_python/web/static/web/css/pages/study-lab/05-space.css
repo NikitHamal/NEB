@@ -1,6 +1,9 @@
 /* Study Space page (study_space.html). Flat, minimal M3. 8px spacing grid.
    All colors come from material3 CSS variables — no hardcoded hex. */
 
+/* The dialog lives in material3/09-overlays.css. This page used to carry
+   its own copy, which is how five pages ended up with five different
+   radii and three theme-blind scrims. */
 /* ── Page shell ── */
 .site-main.ss-site-main {
   min-height: 100vh;
@@ -81,15 +84,6 @@
   color: var(--md-on-surface-variant);
   cursor: pointer;
 }
-.ss-sidebar-backdrop {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: color-mix(in srgb, var(--md-on-surface) 32%, transparent);
-  z-index: 99;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
 
 /* ── Mobile drawer ── */
 @media (max-width: 900px) {
@@ -110,15 +104,12 @@
     transition: transform 0.2s ease;
     visibility: hidden;
   }
-  .ss-sidebar.ss-sidebar-open {
-    transform: translateX(0);
-    visibility: visible;
-  }
-  .ss-sidebar-open ~ .ss-sidebar-backdrop,
-  .ss-sidebar-backdrop.ss-backdrop-visible {
-    display: block;
-    opacity: 1;
-  }
+  /* The open state and the backdrop that went with it lived here, keyed on
+     .ss-sidebar-open and .ss-sidebar-backdrop -- two class names that no
+     template and no script ever applies. The drawer this file is describing
+     belongs to study_space, which loads pages/study-space.css after this one
+     and draws the whole thing again under the names its JS does use,
+     .ss-sidebar-mobile-open and .ss-sidebar-scrim. */
   .ss-sidebar-close { display: inline-grid; }
   body.ss-drawer-locked { overflow: hidden; }
 }
@@ -195,7 +186,6 @@
   color: var(--md-on-surface-variant);
   line-height: 1.2;
 }
-.ss-file-status-parsing .ss-file-icon { animation: ss-spin 1.5s linear infinite; }
 .ss-file-status-parsing .ss-file-status-text { color: var(--md-primary); }
 .ss-file-status-failed .ss-file-icon,
 .ss-file-status-failed .ss-file-status-text { color: var(--md-error); }
@@ -212,8 +202,6 @@
 }
 .ss-file-retry-btn:hover { background: var(--md-primary-container); }
 .ss-file-retry-btn .material-symbols-outlined { font-size: 16px; }
-
-@keyframes ss-spin { to { transform: rotate(360deg); } }
 
 .ss-upload-btn {
   display: flex;
@@ -266,54 +254,11 @@
 /* ── Main content ── */
 .ss-main { min-height: 60vh; }
 
-/* ── Tabs (scrollable on overflow) ── */
-.ss-tabs-wrap { position: relative; margin-bottom: 24px; }
-.ss-tabs-wrap::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 1px;
-  width: 32px;
-  background: linear-gradient(to left, var(--md-surface), transparent);
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.15s ease;
-}
-.ss-tabs-wrap.ss-tabs-overflow::after { opacity: 1; }
-.ss-tabs {
-  display: flex;
-  gap: 4px;
-  border-bottom: 1px solid var(--md-outline-variant);
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-.ss-tabs::-webkit-scrollbar { display: none; }
-.ss-tab {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 12px 16px;
-  min-height: 44px;
-  border: none;
-  background: transparent;
-  color: var(--md-on-surface-variant);
-  font-size: 0.875rem;
-  font-weight: 500;
-  cursor: pointer;
-  border-bottom: 2px solid transparent;
-  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
-  white-space: nowrap;
-  font-family: inherit;
-}
-.ss-tab:hover { background: var(--md-surface-container); }
-.ss-tab.ss-tab-active {
-  color: var(--md-primary);
-  border-bottom-color: var(--md-primary);
-}
-.ss-tab .material-symbols-outlined { font-size: 18px; }
-.ss-tab[disabled] { opacity: 0.45; cursor: not-allowed; }
-
+/* ── Tabs ──
+   .neb-rail. The second of the two copies of this row -- pages/study-space.css
+   had the other, and study_space loads both -- so the same six tabs were drawn
+   twice, at different paddings and gaps, and whichever file happened to load
+   last won. */
 /* ── Tab content ── */
 .ss-tab-content { display: none; }
 .ss-tab-content.ss-tab-content-active { display: block; }
@@ -358,38 +303,16 @@
 }
 
 /* ── Loading spinner ── */
+/* The wait is .md-loader (material3/08-shapes.css); this only places it. */
 .ss-spinner {
-  width: 32px;
-  height: 32px;
-  border: 3px solid var(--md-outline-variant);
-  border-top-color: var(--md-primary);
-  border-radius: var(--md-radius-full);
-  animation: ss-spin 0.8s linear infinite;
+  display: block;
   margin: 0 auto 16px;
 }
 .ss-loading { text-align: center; padding: 48px 24px; }
 .ss-loading p { color: var(--md-on-surface-variant); font-size: 0.875rem; }
 
-/* ── Summary mode bar ── */
-.ss-mode-bar { display: flex; gap: 8px; margin-bottom: 16px; }
-.ss-mode-btn {
-  padding: 8px 16px;
-  min-height: 40px;
-  border-radius: var(--md-radius-full);
-  border: 1px solid var(--md-outline-variant);
-  background: transparent;
-  color: var(--md-on-surface-variant);
-  font-size: 0.8125rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
-  font-family: inherit;
-}
-.ss-mode-btn.ss-mode-active {
-  background: var(--md-secondary-container);
-  color: var(--md-on-secondary-container);
-  border-color: transparent;
-}
+/* ── Summary mode bar ──
+   Compact / Detailed is .neb-segmented now, and was also drawn twice. */
 
 /* ── Summary content (markdown) ── */
 .ss-summary-text {
@@ -490,57 +413,6 @@
 .ss-summary-editor-actions { display: flex; gap: 8px; margin-top: 8px; }
 
 /* ── Modal base ── */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-  background: color-mix(in srgb, var(--md-on-surface) 38%, transparent);
-  z-index: 1200;
-}
-.modal-overlay.active { display: flex; }
-.modal-box {
-  width: min(100%, 520px);
-  max-height: min(88vh, 680px);
-  overflow: hidden;
-  border: 1px solid var(--md-outline-variant);
-  border-radius: var(--md-radius-xl);
-  background: var(--md-surface-container-lowest);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
-}
-.modal-box-sm { max-width: 420px; }
-.modal-box-md { max-width: 560px; }
-.modal-box-lg { max-width: 640px; }
-.modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 16px;
-  border-bottom: 1px solid var(--md-outline-variant);
-}
-.modal-header-lead { display: flex; align-items: center; gap: 8px; }
-.modal-header-lead .material-symbols-outlined { font-size: 22px; color: var(--md-primary); }
-.modal-title { margin: 0; font-size: 1rem; font-weight: 500; }
-.modal-body { padding: 16px; overflow: auto; }
-.modal-close {
-  border: 0;
-  background: transparent;
-  border-radius: var(--md-radius-full);
-  width: 40px;
-  height: 40px;
-  display: inline-grid;
-  place-items: center;
-  color: var(--md-on-surface-variant);
-  cursor: pointer;
-}
-.modal-close:hover { background: var(--md-surface-container); color: var(--md-on-surface); }
-.modal-footer { display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px; }
-@media (max-width: 600px) {
-  .modal-box { width: 95%; border-radius: var(--md-radius-lg); }
-}
 
 /* ── Share modal ── */
 .sl-share-options { display: flex; flex-direction: column; gap: 8px; }
@@ -608,30 +480,7 @@
 .sl-share-footer { margin-top: 16px; display: flex; justify-content: flex-end; }
 
 /* ── Doc select modal ── */
-.ss-doc-select-tabs {
-  display: flex;
-  gap: 4px;
-  margin-bottom: 12px;
-  border-bottom: 1px solid var(--md-outline-variant);
-}
-.ss-doc-tab {
-  padding: 8px 16px;
-  min-height: 44px;
-  border: none;
-  background: transparent;
-  color: var(--md-on-surface-variant);
-  font-size: 0.8125rem;
-  font-weight: 500;
-  cursor: pointer;
-  border-bottom: 2px solid transparent;
-  transition: color 0.15s ease, border-color 0.15s ease;
-  font-family: inherit;
-}
-.ss-doc-tab:hover { background: var(--md-surface-container); }
-.ss-doc-tab.ss-doc-tab-active {
-  color: var(--md-primary);
-  border-bottom-color: var(--md-primary);
-}
+/* Its tab row is .neb-rail. */
 .ss-doc-select-list {
   display: flex;
   flex-direction: column;
@@ -696,32 +545,6 @@
   margin-bottom: 8px;
 }
 
-/* ── Count picker ── */
-.ss-count-picker {
-  display: inline-flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  padding: 4px;
-  border-radius: var(--md-radius-full);
-  background: var(--md-surface-container-low);
-  border: 1px solid var(--md-outline-variant);
-}
-.ss-count-choice {
-  border: 0;
-  border-radius: var(--md-radius-full);
-  padding: 8px 14px;
-  min-height: 36px;
-  background: transparent;
-  color: var(--md-on-surface-variant);
-  font-weight: 700;
-  cursor: pointer;
-  font-family: inherit;
-  transition: background 0.15s ease, color 0.15s ease;
-}
-.ss-count-choice.active {
-  background: var(--md-primary-container);
-  color: var(--md-on-primary-container);
-}
 
 /* ── Members ── */
 .ss-member-list { display: flex; flex-direction: column; gap: 2px; }
@@ -955,7 +778,7 @@
   padding: 0 !important;
   overflow: hidden !important;
 }
-#ssSettingsModal .modal-box { display: flex; flex-direction: column; }
+
 .ss-settings-scroll { flex: 1; overflow-y: auto; padding: 16px; overscroll-behavior: contain; }
 .ss-settings-footer {
   display: flex;
@@ -992,16 +815,10 @@
 }
 .ss-learning-loading { padding: 32px 16px; }
 .ss-learning-loading-hint { text-align: center; margin-top: 12px; }
-.ss-loading-skeleton {
-  background: var(--md-surface-container-high);
-  border-radius: var(--md-radius);
-  margin-bottom: 12px;
-  height: 16px;
-  animation: ss-pulse 1.5s ease-in-out infinite;
-}
-.ss-loading-skeleton-full { width: 100%; }
-.ss-loading-skeleton-half { width: 60%; }
-@keyframes ss-pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 0.8; } }
+/* The learning path's skeleton rows are .shimmer now (app/05-auth-...),
+   the one the rest of the site shows. This sheet and pages/study-space.css
+   each held a copy of a second one, a pulse rather than a sweep, and both
+   copies applied to the same markup. */
 .ss-learning-plan { padding: 0; }
 .ss-learning-plan-header {
   display: flex;
@@ -1119,7 +936,7 @@
 button.ss-confirm-armed.md-btn,
 button.ss-confirm-armed {
   background: var(--md-error) !important;
-  color: var(--md-on-error, var(--md-surface)) !important;
+  color: var(--md-on-error) !important;
   border-color: var(--md-error) !important;
 }
 
@@ -1211,13 +1028,9 @@ button.ss-confirm-armed {
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   .ss-sidebar,
-  .ss-sidebar-backdrop,
-  .ss-tab,
-  .ss-mode-btn,
   .ss-back-btn,
   .ss-gen-btn,
-  .ss-upload-btn,
-  .ss-count-choice {
+  .ss-upload-btn {
     transition: none;
   }
   .ss-loading-skeleton { animation: none; opacity: 0.5; }

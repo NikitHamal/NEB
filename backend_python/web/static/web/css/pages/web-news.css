@@ -141,11 +141,11 @@
 
 .news-card-pinned {
   border-color: var(--md-primary);
-  background: linear-gradient(180deg, #ffffff, color-mix(4%, var(--md-primary), #ffffff));
+  background: linear-gradient(180deg, #ffffff, color-mix(in srgb, var(--md-primary) 4%, #ffffff));
 }
 
 [data-theme="dark"] .news-card-pinned {
-  background: linear-gradient(180deg, var(--md-surface-container-lowest), color-mix(4%, var(--md-primary), var(--md-surface-container-lowest)));
+  background: linear-gradient(180deg, var(--md-surface-container-lowest), color-mix(in srgb, var(--md-primary) 4%, var(--md-surface-container-lowest)));
 }
 
 .news-card-cover {
@@ -260,7 +260,7 @@
 .news-card-meta {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 14px;
   font-size: 0.8rem;
   color: var(--md-on-surface-variant);
   margin-top: auto;
@@ -285,9 +285,6 @@
   border: 1px solid var(--md-outline-variant);
 }
 
-.dot-sep {
-  opacity: 0.4;
-}
 
 .icon-sm {
   font-size: 14px;
@@ -358,7 +355,7 @@
 }
 
 .news-sidebar-cat.active {
-  background: color-mix(10%, var(--cat-color, var(--md-primary)), transparent);
+  background: color-mix(in srgb, var(--cat-color, var(--md-primary)) 10%, transparent);
   color: var(--cat-color, var(--md-primary));
   font-weight: 600;
 }
@@ -369,7 +366,7 @@
 
 /* Sidebar Call to Action Widget */
 .news-sidebar-cta {
-  background: linear-gradient(135deg, color-mix(12%, var(--md-primary), var(--md-surface-container-lowest)), var(--md-surface-container-lowest));
+  background: linear-gradient(135deg, color-mix(in srgb, var(--md-primary) 12%, var(--md-surface-container-lowest)), var(--md-surface-container-lowest));
   border: 1px solid var(--md-outline-variant);
   position: relative;
   overflow: hidden;
@@ -395,7 +392,7 @@
   width: 48px;
   height: 48px;
   border-radius: 12px;
-  background: color-mix(12%, var(--md-primary), transparent);
+  background: color-mix(in srgb, var(--md-primary) 12%, transparent);
   color: var(--md-primary);
   margin-bottom: 16px;
 }

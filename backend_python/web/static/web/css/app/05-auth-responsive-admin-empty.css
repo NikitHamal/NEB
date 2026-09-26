@@ -1,7 +1,10 @@
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
-  .auth-spinner { animation: none !important; }
   .auth-panel { animation: none !important; }
+  /* A sweep that crosses the screen is the kind of motion this setting is
+     asking about. The skeleton still has to read as pending, so the plate
+     stays and only the sweep over it stops. */
+  .shimmer::after { animation: none; opacity: 0.5; }
 }
 
 .form-group {

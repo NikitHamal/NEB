@@ -3,41 +3,10 @@
   grid-template-columns: repeat(4, 1fr);
 }
 .sl-badge-map {
-  background: #E0F7FA;
-  color: #006064;
+  background: color-mix(in srgb, var(--neb-accent-cyan) 14%, transparent);
+  color: color-mix(in srgb, var(--neb-accent-cyan) 74%, var(--md-on-surface));
 }
-[data-theme="dark"] .sl-badge-map {
-  background: #064E57;
-  color: #A5F3FC;
-}
-.sl-summary-modebar {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 4px;
-  border: 1px solid var(--md-outline-variant);
-  border-radius: var(--md-radius-full);
-  background: var(--md-surface-container);
-  margin-bottom: 18px;
-}
-.sl-mode-btn {
-  border: 0;
-  background: transparent;
-  color: var(--md-on-surface-variant);
-  border-radius: var(--md-radius-full);
-  padding: 7px 14px;
-  font-family: var(--md-font);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  cursor: pointer;
-}
-.sl-mode-btn:hover {
-  color: var(--md-primary);
-}
-.sl-mode-btn.sl-mode-active {
-  background: var(--md-primary);
-  color: var(--md-on-primary);
-}
+/* Compact / Detailed: .neb-segmented. */
 .sl-summary-actions,
 .sl-mindmap-actions,
 .sl-list-head,
@@ -126,12 +95,6 @@
     flex-direction: column;
     align-items: stretch;
   }
-  .sl-summary-modebar {
-    width: 100%;
-  }
-  .sl-mode-btn {
-    flex: 1;
-  }
 }
 
 /* Study Lab Mindmap - NotebookLM-inspired visual system */
@@ -139,11 +102,14 @@
   justify-content: flex-end;
   margin-bottom: 12px;
 }
+/* The frame and the furniture around the diagram follow the theme; the nodes
+   and edges below do not, because those colours carry depth and are read as a
+   diagram rather than as chrome. */
 .sl-mindmap-stage {
   margin-top: 10px;
-  border: 1px solid #dfe7f5;
-  border-radius: 18px;
-  background: #fbfcff;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-shape-lg);
+  background: var(--md-surface-container-lowest);
   overflow: hidden;
   position: relative;
 }
@@ -158,9 +124,13 @@
   cursor: grab;
   overscroll-behavior: contain;
   scrollbar-width: thin;
-  scrollbar-color: rgba(99, 102, 241, 0.28) transparent;
-  background: radial-gradient(circle at 22px 22px, rgba(99, 102, 241, 0.055) 1px, transparent 1.1px) 0 0 / 44px 44px,
-    linear-gradient(180deg, #fcfdff 0%, #ffffff 100%);
+  scrollbar-color: color-mix(in srgb, var(--md-outline) 55%, transparent) transparent;
+  /* One dot grid for both themes: a wash of the theme's own ink, which is dark
+     dots on a light board and light dots on a dark one. It was two hand-tuned
+     grids at different spacings before, so panning felt slightly different
+     depending on the theme. */
+  background: radial-gradient(circle at 22px 22px, color-mix(in srgb, var(--md-on-surface) 7%, transparent) 1px, transparent 1.1px) 0 0 / 44px 44px,
+    var(--md-surface);
 }
 .sl-mm-wrap::-webkit-scrollbar {
   width: 7px;
@@ -168,10 +138,10 @@
 }
 .sl-mm-wrap::-webkit-scrollbar-track { background: transparent; }
 .sl-mm-wrap::-webkit-scrollbar-thumb {
-  background: rgba(99, 102, 241, 0.24);
-  border-radius: 999px;
+  background: color-mix(in srgb, var(--md-outline) 55%, transparent);
+  border-radius: var(--md-shape-full);
 }
-.sl-mm-wrap::-webkit-scrollbar-thumb:hover { background: rgba(99, 102, 241, 0.38); }
+.sl-mm-wrap::-webkit-scrollbar-thumb:hover { background: color-mix(in srgb, var(--md-outline) 85%, transparent); }
 .sl-mm-wrap.sl-mm-grabbing {
   cursor: grabbing;
   user-select: none;
@@ -215,9 +185,9 @@
   flex-direction: column;
   gap: 2px;
   z-index: 5;
-  background: rgba(255, 255, 255, 0.94);
-  border: 1px solid #dbe3f0;
-  border-radius: 18px;
+  background: color-mix(in srgb, var(--md-surface-container) 94%, transparent);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-shape-lg);
   padding: 6px;
   backdrop-filter: blur(10px);
 }
@@ -225,9 +195,9 @@
   width: 38px;
   height: 38px;
   border: 0;
-  border-radius: 12px;
+  border-radius: var(--md-shape-sm);
   background: transparent;
-  color: #475569;
+  color: var(--md-on-surface-variant);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -235,28 +205,56 @@
   transition: background 140ms ease, color 140ms ease;
 }
 .sl-mm-zb:hover {
-  background: #f1f5ff;
-  color: #334155;
+  background: var(--md-surface-container-high);
+  color: var(--md-on-surface);
 }
 .sl-mm-zb .material-symbols-outlined { font-size: 20px; }
+/* The diagram used to be two hand-maintained palettes: twenty light literals
+   and a [data-theme="dark"] block restating every one of them, none of which
+   came from the app's own set -- they were Tailwind's indigo, blue and teal.
+   Depth is the only thing the diagram encodes, so each depth names one accent
+   and everything else is derived from that accent and the board it sits on.
+   The accents swap ends between the themes, so the derivations follow them
+   and there is no second palette left to keep in step.
+
+   --mm-fill is a wash of the accent on the board and --mm-ink is the page
+   ink, which reads against that wash from either end. --mm-note is the accent
+   pulled most of the way to the ink, because an accent used as 11.5px text
+   over a wash of itself does not clear 4.5:1 on its own. */
+.sl-mm-n,
+.sl-mm-e {
+  --mm-accent: var(--neb-accent-brand);
+  --mm-fill: color-mix(in srgb, var(--mm-accent) 22%, var(--md-surface));
+  --mm-line: color-mix(in srgb, var(--mm-accent) 72%, var(--md-surface));
+  --mm-ink: var(--md-on-surface);
+  --mm-note: color-mix(in srgb, var(--mm-accent) 76%, var(--md-on-surface));
+  --mm-edge: color-mix(in srgb, var(--mm-accent) 82%, var(--md-surface));
+  --mm-pip: color-mix(in srgb, var(--mm-accent) 34%, var(--md-surface));
+}
+.sl-mm-root { --mm-accent: var(--neb-accent-violet); }
+.sl-mm-d2,
+.sl-mm-d3,
+.sl-mm-d4,
+.sl-mm-e-d2,
+.sl-mm-e-d4 { --mm-accent: var(--neb-accent-teal); }
+
 .sl-mm-e {
   fill: none;
-  stroke: #7284ff;
+  stroke: var(--mm-edge);
   stroke-width: 2.45;
   stroke-linecap: round;
   opacity: 0.92;
 }
-.sl-mm-e-d1 { stroke: #7284ff; }
-.sl-mm-e-d2 { stroke: #5acfc3; }
-.sl-mm-e-d3 { stroke: #5aa8ff; }
-.sl-mm-e-d4 { stroke: #5acfc3; }
 .sl-mm-n { outline: none; }
 .sl-mm-nr {
+  fill: var(--mm-fill);
+  stroke: var(--mm-line);
   stroke-width: 1.2;
   transition: fill 160ms ease, stroke 160ms ease;
   pointer-events: none;
 }
 .sl-mm-t {
+  fill: var(--mm-ink);
   font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 15.5px;
   font-weight: 500;
@@ -264,17 +262,19 @@
   pointer-events: none;
 }
 .sl-mm-nt {
+  fill: var(--mm-note);
   font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 11.5px;
   font-weight: 500;
   pointer-events: none;
 }
 .sl-mm-indicator {
-  stroke: #ffffff;
+  fill: var(--mm-pip);
+  stroke: var(--md-surface);
   stroke-width: 2.5px;
 }
 .sl-mm-indicator-text {
-  fill: #253069;
+  fill: var(--mm-ink);
   font-size: 17px;
   font-weight: 800;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -295,37 +295,8 @@
 .sl-mm-clickable:hover .sl-mm-nr {
   stroke-width: 1.35;
 }
-.sl-mm-root .sl-mm-nr {
-  fill: #cfd6ff;
-  stroke: #b3befd;
-}
-.sl-mm-root .sl-mm-t { fill: #111827; font-weight: 500; }
-.sl-mm-root .sl-mm-nt { fill: #4f46e5; }
-.sl-mm-root .sl-mm-indicator { fill: #dce2ff; }
-.sl-mm-d1 .sl-mm-nr {
-  fill: #c4d8f3;
-  stroke: #c4d8f3;
-}
-.sl-mm-d1 .sl-mm-t { fill: #0f172a; }
-.sl-mm-d1 .sl-mm-nt { fill: #2563eb; }
-.sl-mm-indicator-d1 { fill: #d7e6ff; }
-.sl-mm-d2 .sl-mm-nr,
-.sl-mm-d3 .sl-mm-nr,
-.sl-mm-d4 .sl-mm-nr {
-  fill: #9fd8cf;
-  stroke: #9fd8cf;
-}
-.sl-mm-d2 .sl-mm-t,
-.sl-mm-d3 .sl-mm-t,
-.sl-mm-d4 .sl-mm-t { fill: #0f172a; }
-.sl-mm-d2 .sl-mm-nt,
-.sl-mm-d3 .sl-mm-nt,
-.sl-mm-d4 .sl-mm-nt { fill: #047d73; }
-.sl-mm-indicator-d2,
-.sl-mm-indicator-d3,
-.sl-mm-indicator-d4 { fill: #c1ebe6; }
 .sl-mm-match .sl-mm-nr {
-  stroke: #4f46e5;
+  stroke: var(--mm-accent);
   stroke-width: 2;
 }
 @media (prefers-reduced-motion: reduce) {
@@ -334,65 +305,6 @@
     animation: none;
   }
 }
-[data-theme="dark"] .sl-mindmap-stage {
-  background: #0d1320;
-  border-color: #263245;
-}
-[data-theme="dark"] .sl-mm-wrap {
-  background:
-    radial-gradient(circle at 20px 20px, rgba(148, 163, 184, 0.11) 1px, transparent 1.1px) 0 0 / 40px 40px,
-    #0f1724;
-  scrollbar-color: rgba(129, 140, 248, 0.28) transparent;
-}
-[data-theme="dark"] .sl-mm-wrap::-webkit-scrollbar-thumb { background: rgba(129, 140, 248, 0.35); }
-[data-theme="dark"] .sl-mm-zoom-bar {
-  background: rgba(15, 23, 42, 0.94);
-  border-color: #334155;
-  box-shadow: none;
-}
-[data-theme="dark"] .sl-mm-zb { color: #cbd5e1; }
-[data-theme="dark"] .sl-mm-zb:hover {
-  background: #162133;
-  color: #e2e8f0;
-}
-[data-theme="dark"] .sl-mm-e { stroke: #818cf8; opacity: 0.86; }
-[data-theme="dark"] .sl-mm-e-d2,
-[data-theme="dark"] .sl-mm-e-d4 { stroke: #2dd4bf; }
-[data-theme="dark"] .sl-mm-e-d3 { stroke: #60a5fa; }
-[data-theme="dark"] .sl-mm-root .sl-mm-nr {
-  fill: #4a4bb6;
-  stroke: #6670e8;
-}
-[data-theme="dark"] .sl-mm-root .sl-mm-t { fill: #eef2ff; }
-[data-theme="dark"] .sl-mm-root .sl-mm-nt { fill: #c7d2fe; }
-[data-theme="dark"] .sl-mm-root .sl-mm-indicator { fill: #4f46e5; }
-[data-theme="dark"] .sl-mm-d1 .sl-mm-nr {
-  fill: #335a9a;
-  stroke: #4f78ba;
-}
-[data-theme="dark"] .sl-mm-d1 .sl-mm-t { fill: #eff6ff; }
-[data-theme="dark"] .sl-mm-d1 .sl-mm-nt { fill: #bfdbfe; }
-[data-theme="dark"] .sl-mm-indicator-d1 { fill: #2563eb; }
-[data-theme="dark"] .sl-mm-d2 .sl-mm-nr,
-[data-theme="dark"] .sl-mm-d3 .sl-mm-nr,
-[data-theme="dark"] .sl-mm-d4 .sl-mm-nr {
-  fill: #1f7b73;
-  stroke: #34b7aa;
-}
-[data-theme="dark"] .sl-mm-d2 .sl-mm-t,
-[data-theme="dark"] .sl-mm-d3 .sl-mm-t,
-[data-theme="dark"] .sl-mm-d4 .sl-mm-t { fill: #ecfeff; }
-[data-theme="dark"] .sl-mm-d2 .sl-mm-nt,
-[data-theme="dark"] .sl-mm-d3 .sl-mm-nt,
-[data-theme="dark"] .sl-mm-d4 .sl-mm-nt { fill: #99f6e4; }
-[data-theme="dark"] .sl-mm-indicator-d2,
-[data-theme="dark"] .sl-mm-indicator-d3,
-[data-theme="dark"] .sl-mm-indicator-d4 { fill: #0d9488; }
-[data-theme="dark"] .sl-mm-indicator {
-  stroke: #0b1120;
-}
-[data-theme="dark"] .sl-mm-indicator-text { fill: #ecfeff; }
-[data-theme="dark"] .sl-mm-match .sl-mm-nr { stroke: #c7d2fe; }
 @media (max-width: 720px) {
   .sl-mm-wrap {
     height: 420px;
@@ -401,7 +313,7 @@
   .sl-mm-zoom-bar {
     right: 8px;
     bottom: 8px;
-    border-radius: 16px;
+    border-radius: var(--md-shape-md);
     padding: 4px;
     flex-direction: row;
     gap: 2px;
@@ -409,7 +321,7 @@
   .sl-mm-zb {
     width: 40px;
     height: 40px;
-    border-radius: 10px;
+    border-radius: var(--md-shape-sm);
   }
   .sl-mm-zb .material-symbols-outlined { font-size: 22px; }
 }

@@ -1,25 +1,40 @@
-/* Wave SVG paths — light mode fills (static, no animation) */
-.pf-banner-wave-layer path { transition: fill 0.3s; }
+/* Avatar and primary action, straddling the cover's bottom edge -- the app's
+   arrangement. Only the avatar borrows the overhang: it carries its own -48px,
+   while the action starts a fixed 12px below the cover's edge. The old shape
+   put the -48px on the whole row and bottom-aligned both children, which made
+   the action's clearance arithmetic -- overhang minus button height -- so a
+   shorter avatar (80px on mobile) or a taller button pushed it back onto the
+   cover's seam. This way the gap is structural and holds at every size. */
+.pf-identity-row {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 20px;
+}
 
-[data-theme="dark"] .pf-banner-wave-layer path:nth-child(1) { fill: rgba(180, 197, 255, 0.05); }
-[data-theme="dark"] .pf-banner-wave-layer path:nth-child(2) { fill: rgba(180, 197, 255, 0.03); }
+/* The action always starts below the cover, never on it. */
+.pf-identity-action {
+  margin-top: 12px;
+  flex: none;
+}
 
-/* Overlapping Circular Avatar Frame */
 .pf-avatar-overlap-wrap {
   position: relative;
-  margin-top: -52px;
-  margin-left: 24px;
   width: 96px;
   height: 96px;
-  display: inline-block;
-  z-index: 10;
+  flex: none;
+  margin-top: -48px;
 }
 
 .pf-avatar-circle {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  border: 4px solid var(--md-surface-container-lowest);
+  /* The ring is the page behind it, not a card edge -- there is no card. */
+  border: 4px solid var(--md-surface);
   box-shadow: none;
   overflow: hidden;
   background: var(--md-surface-container-low);
@@ -49,7 +64,7 @@
   border-radius: 10px;
   width: 28px;
   height: 28px;
-  border: 3px solid var(--md-surface-container-lowest);
+  border: 3px solid var(--md-surface);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -78,7 +93,7 @@
   border-radius: 50%;
   background: var(--md-primary);
   color: var(--md-on-primary);
-  border: 3.5px solid var(--md-surface-container-lowest);
+  border: 3.5px solid var(--md-surface);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -97,43 +112,17 @@
   color: var(--md-on-primary) !important;
 }
 
-/* Card content body */
+/* Everything under the cover sits at one indent, matching the app's 20dp. */
 .pf-card-body {
-  padding: 24px;
-  padding-top: 14px;
+  padding: 14px 20px 20px;
 }
 
-/* Actions in top-right of body */
-.pf-card-top-actions {
-  position: absolute;
-  top: 188px;
-  right: 24px;
-  display: flex;
-  gap: 12px;
-  z-index: 10;
-}
-
-.pf-action-icon-btn {
-  border: none;
-  background: none;
-  cursor: pointer;
-  color: var(--md-on-surface-variant);
-  opacity: 0.6;
-  padding: 6px;
-  border-radius: 50%;
+.pf-card-name-row {
   display: flex;
   align-items: center;
-  justify-content: center;
-  transition: background 0.2s, opacity 0.2s;
-}
-
-.pf-action-icon-btn:hover {
-  background: var(--md-surface-container-high);
-  opacity: 1;
-}
-
-.pf-action-icon-btn .material-symbols-outlined {
-  font-size: 20px;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
 }
 
 /* User identity labels */
@@ -141,8 +130,10 @@
   font-size: 1.375rem;
   font-weight: 800;
   color: var(--md-on-surface);
-  margin: 0 0 4px;
+  margin: 0;
   line-height: 1.25;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .pf-card-username {
@@ -161,15 +152,47 @@
   font-size: 0.8125rem;
   font-weight: 500;
   color: var(--md-on-surface-variant);
-  margin: 0 0 20px;
+  margin: 0;
   line-height: 1.4;
+}
+
+/* The bio, with no heading over it. */
+.pf-card-bio {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--md-on-surface);
+  margin: 12px 0 0;
+  overflow-wrap: anywhere;
+}
+.pf-card-bio:empty { display: none; }
+
+/* Location, school and join date as one wrapped grey line rather than three
+   icon rows stacked down the column. */
+.pf-meta-flow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin-top: 12px;
+}
+.pf-meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.8125rem;
+  color: var(--md-on-surface-variant);
+  min-width: 0;
+}
+.pf-meta-item .material-symbols-outlined {
+  font-size: 16px !important;
+  opacity: 0.7;
+  flex: none;
 }
 
 /* Statistics row layout */
 .pf-stats-row {
   display: flex;
   gap: 28px;
-  margin-bottom: 24px;
+  margin-top: 16px;
 }
 
 .pf-stat-col {
@@ -201,9 +224,10 @@
 .pf-buttons-row {
   display: flex;
   gap: 10px;
-  margin-bottom: 24px;
+  margin-top: 16px;
   flex-wrap: wrap;
 }
+.pf-buttons-row:empty { display: none; }
 
 .pf-btn {
   display: inline-flex;
@@ -276,70 +300,6 @@
   opacity: 1 !important;
 }
 
-/* Elegant dotted divider styling */
-.pf-dotted-divider {
-  border-top: 2px dotted var(--md-outline-variant);
-  margin: 0 0 24px;
-  opacity: 0.5;
-}
-
-/* About biography block */
-.pf-about-section {
-  margin-bottom: 20px;
-}
-
-.pf-about-title {
-  font-size: 0.8125rem;
-  font-weight: 700;
-  color: var(--md-on-surface);
-  margin: 0 0 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.pf-about-bio {
-  font-size: 0.875rem;
-  line-height: 1.6;
-  color: var(--md-on-surface-variant);
-  margin: 0;
-}
-
-.pf-info-joined {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.8125rem;
-  color: var(--md-on-surface-variant);
-  margin-top: 10px;
-}
-
-.pf-info-joined .material-symbols-outlined {
-  font-size: 16px;
-  color: var(--md-on-surface-variant);
-  opacity: 0.7;
-}
-
-/* Meta info details block (location, links) */
-.pf-meta-details {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.pf-meta-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 0.8125rem;
-  color: var(--md-on-surface-variant);
-}
-
-.pf-meta-row .material-symbols-outlined {
-  font-size: 18px !important;
-  color: var(--md-on-surface-variant);
-  opacity: 0.7;
-}
-
 .pf-meta-link {
   color: var(--md-primary);
   text-decoration: none;
@@ -378,12 +338,6 @@
     overflow: hidden;
   }
   
-  .pf-compact-card {
-    max-width: 100%;
-    margin: 0;
-    border-radius: 20px;
-  }
-
   /* Remove double card-stack borders and shadows for interactive feeds on mobile */
   .profile-right-col .pf-card {
     border: none;
@@ -394,19 +348,18 @@
 }
 
 @media (max-width: 600px) {
-  .pf-compact-card {
-    border-radius: 16px;
-  }
-
   .pf-card-banner {
     height: 130px;
   }
 
+  .pf-identity-row {
+    padding: 0 16px;
+  }
+
   .pf-avatar-overlap-wrap {
-    margin-top: -44px;
-    margin-left: 16px;
     width: 80px;
     height: 80px;
+    margin-top: -40px;
   }
 
   .pf-avatar-cam {
@@ -430,23 +383,8 @@
     font-size: 14px !important;
   }
 
-  .pf-card-top-actions {
-    top: 142px;
-    right: 16px;
-    gap: 8px;
-  }
-
-  .pf-card-top-actions .pf-action-icon-btn {
-    padding: 4px;
-  }
-
-  .pf-card-top-actions .pf-action-icon-btn .material-symbols-outlined {
-    font-size: 18px;
-  }
-
   .pf-card-body {
-    padding: 16px;
-    padding-top: 12px;
+    padding: 12px 16px 18px;
   }
 
   .pf-card-name {
@@ -460,12 +398,18 @@
 
   .pf-card-headline {
     font-size: 0.75rem;
-    margin-bottom: 16px;
+  }
+
+  .pf-card-bio {
+    font-size: 0.8125rem;
+  }
+
+  .pf-meta-item {
+    font-size: 0.75rem;
   }
 
   .pf-stats-row {
     gap: 16px;
-    margin-bottom: 20px;
     justify-content: space-between;
   }
 
@@ -479,7 +423,6 @@
 
   .pf-buttons-row {
     gap: 8px;
-    margin-bottom: 20px;
   }
 
   .pf-btn {
@@ -497,28 +440,4 @@
     width: 36px;
   }
 
-  .pf-about-section {
-    margin-bottom: 16px;
-  }
-
-  .pf-about-title {
-    font-size: 0.75rem;
-    margin-bottom: 6px;
-  }
-
-  .pf-about-bio {
-    font-size: 0.8125rem;
-  }
-
-  .pf-meta-details {
-    gap: 8px;
-  }
-
-  .pf-meta-row {
-    font-size: 0.75rem;
-  }
-
-  .pf-meta-row .material-symbols-outlined {
-    font-size: 16px !important;
-  }
 }

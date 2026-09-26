@@ -1,7 +1,13 @@
 {% load static %}
 {% load web_extras %}
 <!DOCTYPE html>
-<html lang="en" {% if dark_mode %} data-theme="dark" {% endif %}>
+{% comment %} data-theme is always one of "light" or "dark", never absent and never "".
+   Anything that has to know the theme without reading CSS -- the canvas that
+   paints the generative banner art, the collab board, the mindmap -- reads this
+   attribute, and an empty value meant they all fell through to the OS
+   preference. A reader on a light page with a dark desktop got the dark palette
+   painted into the cards: the exact complaint in issue #47. {% endcomment %}
+<html lang="en" data-theme="{% if dark_mode %}dark{% else %}light{% endif %}">
 
 <head>
   <meta charset="UTF-8">
@@ -18,15 +24,19 @@
   <meta name="msapplication-TileImage" content="{% static 'web/img/n-logo-192.png' %}">
   <link rel="canonical" href="{% block canonical %}https://nebians.consica.com.np{{ request.path }}{% endblock %}">
   {% block robots %}{% endblock %}
+  {% comment %} Lengths are not decoration. Google truncates a title past ~60 characters
+     and a description past ~160; X and LinkedIn cut og:description around 125.
+     Anything written into these blocks should be counted, and written as a
+     sentence a person would read rather than a keyword list. {% endcomment %}
   <meta name="description"
-    content="{% block description %}NEBians is Nepal's open learning platform, social community, and knowledge-sharing network for teachers, students, lifelong learners, schools, institutions, and curious explorers across all disciplines and levels.{% endblock %}">
+    content="{% block description %}NEBians is Nepal's open learning community: free NEB past papers, model questions and notes, plus a study forum and AI tools for every subject.{% endblock %}">
   <meta name="application-name" content="NEBians">
   <meta name="apple-mobile-web-app-title" content="NEBians">
   <meta name="keywords"
     content="{% block keywords %}NEBians, Nepal learning platform, Nepal learning community, education social network Nepal, teachers, students, explorers, schools, institutions, study resources, discussion forum, AI study tools{% endblock %}">
   <meta property="og:title" content="{% block og_title %}NEBians — Nepal's Learning Community{% endblock %}">
   <meta property="og:description"
-    content="{% block og_description %}Nepal's open learning community and social network for teachers, students, learners, institutions, and explorers to share knowledge, discuss ideas, and learn together.{% endblock %}">
+    content="{% block og_description %}Nepal's open learning community — free past papers, notes, a study forum and AI study tools for every subject and level.{% endblock %}">
   <meta property="og:type" content="{% block og_type %}website{% endblock %}">
   <meta property="og:url" content="https://nebians.consica.com.np{{ request.path }}">
   <meta property="og:site_name" content="NEBians">
@@ -34,15 +44,20 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{% block tw_title %}NEBians — Nepal's Learning Community{% endblock %}">
   <meta name="twitter:description"
-    content="{% block tw_description %}Nepal's open learning community and social network for teachers, students, learners, institutions, and explorers to share knowledge, discuss ideas, and learn together.{% endblock %}">
-  <meta property="og:image" content="{% block og_image %}https://nebians.consica.com.np{% static 'web/img/n-logo-social-1200.png' %}{% endblock %}">
-  <meta property="og:image:secure_url" content="{% block og_image_secure %}https://nebians.consica.com.np{% static 'web/img/n-logo-social-1200.png' %}{% endblock %}">
+    content="{% block tw_description %}Nepal's open learning community — free past papers, notes, a study forum and AI study tools for every subject and level.{% endblock %}">
+  {% comment %} Every page has a drawn card of its own, served from /og/ -- see web/og_cards.py.
+     og_image_url and og_image_alt come from the og_image_context processor, which
+     works the card out from the route. A page that has a better image of its own --
+     a thread with a photo in it -- overrides the block instead. {% endcomment %}
+  {% firstof og_image_url 'https://nebians.consica.com.np/og/page/default.png' as og_img %}
+  <meta property="og:image" content="{% block og_image %}{{ og_img }}{% endblock %}">
+  <meta property="og:image:secure_url" content="{% block og_image_secure %}{{ og_img }}{% endblock %}">
   <meta property="og:image:type" content="{% block og_image_type %}image/png{% endblock %}">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="{% block og_image_alt %}NEBians logo{% endblock %}">
-  <meta name="twitter:image" content="{% block tw_image %}https://nebians.consica.com.np{% static 'web/img/n-logo-social-1200.png' %}{% endblock %}">
-  <meta name="twitter:image:alt" content="{% block tw_image_alt %}NEBians logo{% endblock %}">
+  <meta property="og:image:alt" content="{% block og_image_alt %}{% firstof og_image_alt "NEBians — Nepal's Learning Community" %}{% endblock %}">
+  <meta name="twitter:image" content="{% block tw_image %}{{ og_img }}{% endblock %}">
+  <meta name="twitter:image:alt" content="{% block tw_image_alt %}{% firstof og_image_alt "NEBians — Nepal's Learning Community" %}{% endblock %}">
   <title>{% block title %}NEBians — Nepal's Learning Community{% endblock %}</title>
   {# Sitewide structured data: the canonical Organization entity and WebSite search action. #}
   <script type="application/ld+json" nonce="{{ csp_nonce }}">
@@ -83,7 +98,7 @@
   {% block head_extra %}{% endblock %}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,0&display=swap">
   <link rel="stylesheet" href="{% static 'web/css/material3.css' %}">
@@ -95,13 +110,26 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
   {% block extra_css %}{% endblock %}
   <link rel="stylesheet" href="{% static 'web/css/ai-widgets.css' %}">
-  <link rel="stylesheet" href="{% static 'web/css/pages/neby-assist.css' %}">
+  {% comment %} Reconcile the theme before the first paint. The server renders the session's
+     choice; localStorage is what the browser last chose and wins over it, and a
+     visitor who has never chosen gets their OS preference. Running this here
+     rather than at the bottom of <body> is what stops the light-then-dark flash. {% endcomment %}
+  <script nonce="{{ csp_nonce }}">
+    (function () {
+      var el = document.documentElement;
+      var saved = null;
+      try { saved = localStorage.getItem('theme'); } catch (e) {}
+      var theme = saved === 'dark' || saved === 'light' ? saved
+        : ({% if dark_mode %}'dark'{% else %}null{% endif %}
+           || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+      el.setAttribute('data-theme', theme);
+    })();
+  </script>
+  {% comment %} delegated-events defines registerActions(), which page templates call at
+     parse time, so it is the one script that has to be here. The other ~280 KB
+     used to block the parser in this same spot for no reason: nothing runs
+     before DOMContentLoaded, and they now load at the end of <body>. {% endcomment %}
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/delegated-events.js' %}"></script>
-  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/inline-media.js' %}"></script>
-  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/forum-media.js' %}"></script>
-  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/media-player.js' %}"></script>
-  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/htmx.min.js' %}"></script>
-  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/marked.min.js' %}"></script>
 <!-- HTMX global config: disable history cache to ensure clean full page back navigation -->
   <meta name="htmx-config" content='{"historyEnabled":false,"refreshOnHistoryMiss":true}'>
 </head>
@@ -293,7 +321,8 @@
     {% block content %}{% endblock %}
   </main>
 
-  <!-- Bottom Navigation (Mobile) — only shown on Home, Library, Forum -->
+  <!-- Bottom navigation (mobile). Pages fill this with
+       web/partials/bottomnav.html; see that file for which ones and why. -->
   {% block bottomnav %}{% endblock %}
 
   <!-- Footer -->
@@ -342,6 +371,7 @@
         <div class="site-footer-col">
           <h4 class="site-footer-heading">About &amp; Legal</h4>
           <ul class="site-footer-list">
+            <li><a href="{% url 'web:faq' %}">Help &amp; FAQ</a></li>
             <li><a href="{% url 'web:privacy_policy' %}">Privacy Policy</a></li>
             <li><a href="{% url 'web:terms_of_service' %}">Terms of Service</a></li>
             <li><a href="{% url 'web:copyright_takedown' %}">Copyright Policy &amp; Takedown</a></li>
@@ -358,66 +388,6 @@
 
   <!-- Snackbar container -->
   <div id="snackbar-container"></div>
-
-  <!-- Neby AI Assistant (home + library only) -->
-  {% if request.path == '/' or '/library' in request.path %}
-  <button id="neby-fab" aria-label="Open Neby AI Assistant" aria-expanded="false" aria-controls="neby-panel">
-    <div class="neby-fab-avatar-badge">
-      <div class="neby-avatar-mini" data-neby-avatar data-animation="idle" style="pointer-events:none; width:36px; height:36px;"></div>
-    </div>
-  </button>
-  {% endif %}
-
-  <div id="neby-panel" role="dialog" aria-label="Neby AI Assistant" aria-modal="true">
-    <div class="neby-panel-header">
-      <div class="neby-header-avatar">
-        <div class="neby-avatar-mini neby-size-reply" data-neby-avatar data-animation="idle" title="Neby AI Assistant"></div>
-      </div>
-      <div class="neby-header-info">
-        <div class="neby-header-name">Neby AI</div>
-        <div class="neby-header-status">
-          <span class="neby-status-dot"></span>
-          <span id="neby-status-text">Online &middot; Neby Assistant</span>
-        </div>
-      </div>
-      <button class="neby-panel-close" id="neby-close-btn" aria-label="Close">
-        <span class="material-symbols-outlined">close</span>
-      </button>
-    </div>
-
-    <div class="neby-chat-area" id="neby-chat-area">
-      <div class="neby-empty-state">
-        <div class="neby-empty-icon" style="background:transparent;box-shadow:none;">
-          <div class="neby-avatar-mini" data-neby-avatar data-animation="idle" style="width:64px;height:64px;margin:0 auto 12px;"></div>
-        </div>
-        <p>Ask me to find resources, forum posts, subjects, or navigate around NEBians!</p>
-      </div>
-    </div>
-
-    <div class="neby-suggestions" id="neby-suggestions">
-      <div class="neby-suggestions-label">Try asking</div>
-      <button class="neby-suggestion-btn" data-query="Find Physics notes for Class 12">
-        <span class="material-symbols-outlined">science</span>
-        Find Physics notes for Class 12
-      </button>
-      <button class="neby-suggestion-btn" data-query="Show popular forum discussions">
-        <span class="material-symbols-outlined">forum</span>
-        Show popular forum discussions
-      </button>
-      <button class="neby-suggestion-btn" data-query="What subjects are available?">
-        <span class="material-symbols-outlined">school</span>
-        What subjects are available?
-      </button>
-    </div>
-
-    <div class="neby-input-row">
-      <textarea id="neby-input" data-neb-skip="1" rows="1" placeholder="Ask Neby anything..." autocomplete="off" aria-label="Message Neby AI"></textarea>
-      <button class="neby-send-btn" id="neby-send-btn" disabled aria-label="Send">
-        <span class="material-symbols-outlined">send</span>
-      </button>
-    </div>
-    <div class="neby-powered">⚡ Neby Cloud AI &middot; <a href="#" id="neby-switch-local" style="color:var(--md-sys-color-primary);text-decoration:underline;">Enable Offline Mode (~40MB)</a></div>
-  </div>
 
   <script nonce="{{ csp_nonce }}">
     const IS_AUTHENTICATED = {{ is_authenticated|yesno:"true,false" }};
@@ -465,10 +435,14 @@
       'toggle-theme': function () {
         const html = document.documentElement;
         const isDark = html.getAttribute('data-theme') === 'dark';
-        html.setAttribute('data-theme', isDark ? '' : 'dark');
+        // "light", not "": an empty attribute reads as "no opinion" to every
+        // script that asks, and they then guess from the OS.
+        html.setAttribute('data-theme', isDark ? 'light' : 'dark');
         const themeIcon = document.getElementById('theme-icon');
         themeIcon.textContent = isDark ? 'dark_mode' : 'light_mode';
         localStorage.setItem('theme', isDark ? 'light' : 'dark');
+        // Canvas-painted art can't inherit a CSS variable; it has to be told.
+        document.dispatchEvent(new CustomEvent('neb:theme-change'));
         fetch('/ajax/theme/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN } });
       },
       'toggle-profile-dropdown': function (el, e) {
@@ -538,13 +512,12 @@
       }
     });
 
+    // The attribute itself was resolved in <head>, before first paint. All that
+    // is left here is the icon, which needs the DOM.
     (function () {
-      const saved = localStorage.getItem('theme');
-      if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.setAttribute('data-theme', 'dark');
-        const themeIcon = document.getElementById('theme-icon');
-        if (themeIcon) themeIcon.textContent = 'light_mode';
-      }
+      if (document.documentElement.getAttribute('data-theme') !== 'dark') return;
+      const themeIcon = document.getElementById('theme-icon');
+      if (themeIcon) themeIcon.textContent = 'light_mode';
     })();
 
     function showSnackbar(msg, duration = 3000) {
@@ -919,10 +892,30 @@
     });
 
   </script>
+  {% comment %} Moved down from <head>. Order is the order they were in there, and every
+     consumer of them runs on DOMContentLoaded or later, so nothing changes
+     except that the page can paint before they arrive. {% endcomment %}
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neb-art.js' %}"></script>
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/inline-media.js' %}"></script>
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/forum-media.js' %}"></script>
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/media-player.js' %}"></script>
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/htmx.min.js' %}"></script>
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/marked.min.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% load static %}{% static 'web/js/realtime.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/ai-widgets.js' %}"></script>
-  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neby-assist.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neby-avatar.js' %}"></script>
+  {% comment %} The dialog, sheet, picker, menu and choice-control controller.
+     One file for all of them; see material3/09-overlays.css. {% endcomment %}
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neb-overlays.js' %}"></script>
+  {% comment %} NebTabRail's travelling container -- the one thing about the rail
+     that needs measuring. The rail is correct without it. {% endcomment %}
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neb-rail.js' %}"></script>
+  {% comment %} NebFabMenu's stagger, scrim and focus -- the create plus beside
+     the bottom rail. {% endcomment %}
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neb-fab-menu.js' %}"></script>
+  {% comment %} NebChoiceSheet and NebSelectField -- a form field that shows
+     what you chose, and the sheet of chips that is how you choose it. {% endcomment %}
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neb-choice.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script nonce="{{ csp_nonce }}" src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/mhchem.min.js"></script>
   <script nonce="{{ csp_nonce }}" src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>

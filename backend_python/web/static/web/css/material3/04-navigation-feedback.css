@@ -1,135 +1,144 @@
-/* Bottom Nav (Liquid Glass Capsule for Mobile) */
+/* ──────────────────────────────────────────────────────────────────────────
+   Bottom navigation — the app's rail, on the web.
+
+   This used to be a translucent capsule: 70% white, a 20px backdrop blur, a
+   340px fixed width and four destinations squeezed into it. The app had the
+   same bar and gave it up, for reasons that apply here unchanged — you could
+   read the page through it, so the labels sat on a moving smudge instead of on
+   a surface, and the two hardcoded greys predated the colour revamp and read as
+   the one grey object on a blue-tinted page.
+
+   So the geometry is transcribed from LiquidGlassNav.kt rather than reinvented:
+   58px tall, fully round, 6px of side padding, items 4px apart, each item a
+   round pill with a 24px icon and a 13px bold label that appears only when it
+   is the current one. The surface is a near-flat vertical fall between two
+   container tokens — enough to give the bar a top edge to catch light on, not
+   enough to read as a gradient — over one hairline of outlineVariant, which is
+   the same border every card uses.
+
+   Three destinations, matching the app exactly: Home, Library, Canvas. No
+   create button; on the web the composer is reached from the page it belongs
+   to, and a floating plus next to a three-item rail is a phone affordance.
+   ────────────────────────────────────────────────────────────────────────── */
+
 .md-bottomnav {
   display: none;
   position: fixed;
-  bottom: 20px;
+  bottom: 14px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 999;
-  width: calc(100% - 32px);
-  max-width: 340px;
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-radius: 24px;
-  padding: 6px 8px;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 74, 198, 0.04);
+  /* Content-sized, like the app's Row. A fixed width would make the label
+     appear and disappear by squeezing its neighbours. */
+  width: auto;
+  max-width: calc(100% - 32px);
+  height: 58px;
+  padding: 0 6px;
+  border-radius: var(--md-shape-full);
+  border: 1px solid var(--md-outline-variant);
+  background: linear-gradient(to bottom,
+              var(--md-surface-container-lowest),
+              var(--md-surface-container-low));
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.14);
 }
 
 [data-theme="dark"] .md-bottomnav {
-  background: rgba(6, 15, 27, 0.75);
-  border-color: rgba(255, 255, 255, 0.08);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 4px 12px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(to bottom,
+              var(--md-surface-container-high),
+              var(--md-surface-container));
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.36);
+}
+
+/* Safe-area inset, so the rail clears a gesture bar instead of sitting under
+   it. max() rather than an addition: on a device without an inset the 14px
+   stands, on one with an inset the inset wins. */
+@supports (bottom: env(safe-area-inset-bottom)) {
+  .md-bottomnav {
+    bottom: max(14px, env(safe-area-inset-bottom));
+  }
 }
 
 .md-bottomnav-pill {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  width: 100%;
-  padding: 0;
   gap: 4px;
-}
-
-@media (max-width: 480px) {
-  .md-bottomnav-pill {
-    gap: 0;
-  }
+  height: 100%;
 }
 
 .md-bottomnav-item {
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  height: 40px;
-  border-radius: 20px;
-  text-decoration: none;
+  gap: 8px;
+  /* 15px unselected, 18px selected — the app animates between the two, and the
+     3px is what makes the pill look like it grew into place rather than
+     appeared. */
+  padding: 10px 15px;
+  border-radius: var(--md-shape-full);
   color: var(--md-on-surface-variant);
-  transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
-  padding: 0 10px;
-}
-
-@media (max-width: 480px) {
-  .md-bottomnav-item {
-    padding: 0 6px;
-  }
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background var(--md-motion-effects),
+              color var(--md-motion-effects),
+              padding var(--md-motion-spatial-fast);
 }
 
 .md-bottomnav-item:hover {
   text-decoration: none;
-  color: var(--md-primary);
+  color: var(--md-on-surface);
+}
+
+.md-bottomnav-item:active {
+  transform: scale(0.92);
 }
 
 .md-bottomnav-icon-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.2s ease;
 }
 
 .md-bottomnav-item .material-symbols-outlined {
-  font-size: 20px;
-  transition: font-variation-settings var(--md-transition);
+  font-size: 24px;
+  transition: font-variation-settings var(--md-motion-effects);
 }
 
+/* Only the current destination is labelled. Three icons and one word is the
+   app's whole bar, and it is why the bar fits without shrinking anything. */
 .md-bottomnav-label {
-  display: none; /* Hidden by default */
+  display: none;
   font-family: var(--md-font);
-  font-size: 0.75rem;
-  font-weight: 600;
-  white-space: nowrap;
-  letter-spacing: 0.01em;
-  transition: color var(--md-transition);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.005em;
+  line-height: 1;
 }
 
-/* Active State: horizontal pill container */
 .md-bottomnav-item.md-nav-active {
-  flex-direction: row;
-  gap: 6px;
+  padding: 10px 18px;
   background: var(--md-primary-container);
   color: var(--md-on-primary-container);
-  padding: 0 14px;
-}
-
-@media (max-width: 480px) {
-  .md-bottomnav-item.md-nav-active {
-    padding: 0 10px;
-    gap: 4px;
-  }
 }
 
 .md-bottomnav-item.md-nav-active .md-bottomnav-label {
-  display: inline-block; /* Show label only for active item */
+  display: inline-block;
 }
 
 .md-bottomnav-item.md-nav-active .material-symbols-outlined {
   font-variation-settings: 'FILL' 1;
 }
 
-/* Mobile: compact icon-only rail */
-@media (max-width: 768px) {
-  .md-bottomnav {
-    width: auto;
-    max-width: 264px;
-    padding: 6px;
-  }
-
+/* At the narrowest widths the three pills plus one label still fit inside
+   320px, so there is nothing to collapse — which is the point of only ever
+   labelling one of them. */
+@media (max-width: 360px) {
   .md-bottomnav-item {
-    flex: 1 1 0;
-    justify-content: center;
-    padding: 0;
-    min-width: 40px;
-  }
-
-  .md-bottomnav-item .md-bottomnav-label {
-    display: none !important;
+    padding: 10px 13px;
   }
 
   .md-bottomnav-item.md-nav-active {
-    gap: 0;
-    padding: 0;
-    border-radius: 16px;
+    padding: 10px 15px;
   }
 }
 
@@ -164,29 +173,199 @@
   font-weight: 700;
 }
 
-/* FAB */
+/* FAB, drawn as the app's create button (LiquidGlassNav.kt:267).
+
+   Expressive's four-lobed clover, not a rounded rectangle: it is the one
+   control on the screen that is not a circle or a box, so it reads as a
+   deliberate object rather than one more button. The fill is the rail's own
+   gradient -- a saturated blue slab against a neutral bar reads as two
+   materials that happen to be adjacent, whereas sharing the bar's fill makes
+   it one object with a piece pushed out of it, and lets the shape carry the
+   emphasis instead of the colour. The glyph keeps the brand blue, so the
+   create action is still the accent.
+
+   No border. A border is painted and then clipped, so a hairline around a
+   scalloped silhouette comes out as four broken arcs -- the shape is the
+   frame. Add .md-shape-clover in the markup to cut it. */
 .md-fab {
   position: fixed;
   bottom: 24px;
   right: 24px;
-  width: 56px;
-  height: 56px;
-  border-radius: 16px;
-  background: var(--md-primary-container);
-  color: var(--md-on-primary-container);
+  width: 58px;
+  height: 58px;
+  border-radius: 18px;
+  background: linear-gradient(to bottom,
+              var(--md-surface-container-lowest),
+              var(--md-surface-container-low));
+  color: var(--md-primary);
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: var(--md-elevation-3);
-  transition: all var(--md-transition);
+  /* A neutral shadow. The tinted one put a blue halo round the lobes and
+     turned a button into a bloom. */
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+  transition: transform var(--md-motion-spatial-fast),
+              box-shadow var(--md-motion-effects);
   z-index: 50;
 }
 
+[data-theme="dark"] .md-fab {
+  background: linear-gradient(to bottom,
+              var(--md-surface-container-high),
+              var(--md-surface-container));
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.42);
+}
+
+/* The app spins the shape 40 degrees when the menu opens. The clover has
+   ninety-degree rotational symmetry, so at that angle the silhouette is
+   genuinely different rather than landing back on itself -- which is why it
+   is the clover and not a cookie. The web has no menu to open, so the spin
+   is the press. */
 .md-fab:hover {
-  box-shadow: var(--md-elevation-3);
-  filter: brightness(1.06);
+  transform: rotate(12deg);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.22);
+}
+
+.md-fab:active {
+  transform: rotate(40deg) scale(0.94);
+}
+
+.md-fab .material-symbols-outlined {
+  font-size: 26px;
+  /* The glyph must not turn with the shape. */
+  transition: transform var(--md-motion-spatial-fast);
+}
+
+.md-fab:hover .material-symbols-outlined { transform: rotate(-12deg); }
+.md-fab:active .material-symbols-outlined { transform: rotate(-40deg); }
+
+@media (prefers-reduced-motion: reduce) {
+  .md-fab:hover,
+  .md-fab:active,
+  .md-fab:hover .material-symbols-outlined,
+  .md-fab:active .material-symbols-outlined { transform: none; }
+}
+
+/* ── Create menu ── NebFabMenu.kt ────────────────────────
+   The plus beside the rail opens three ways to create, the app's three, in the
+   app's order: a canvas, an upload, a post. The web sent the plus straight to
+   the post composer and offered the other two only from the pages that own
+   them, which meant a phone user who wanted to upload a file had to know that
+   the library was where uploads live.
+
+   Every pill wears the same container -- the app's note on this is worth
+   keeping verbatim: three differently tinted backgrounds stacked above the
+   create button read as three unrelated controls, and the tints fought the
+   scrim behind them. The hue lives in exactly one place per row, the glyph,
+   which is enough to tell them apart and leaves the menu looking like one
+   object. The label is always ink; three colours of text would be unreadable.
+
+   The stagger runs bottom-up on open and top-down on close, 40ms a step, so
+   the row nearest the thumb is the first to arrive and the last to leave. */
+.neb-fab-menu {
+  position: fixed;
+  right: 24px;
+  bottom: 14px;
+  z-index: 1000;
+  display: none;
+  flex-direction: column;
+  align-items: flex-end;
+  /* The gap only exists while the menu is open, which is what makes the first
+     pill look like it came out of the button rather than appearing above it. */
+  gap: 0;
+  transition: gap var(--md-motion-spatial-fast);
+}
+.neb-fab-menu[data-open] { gap: 14px; }
+@supports (bottom: env(safe-area-inset-bottom)) {
+  .neb-fab-menu { bottom: max(14px, env(safe-area-inset-bottom)); }
+}
+/* Same breakpoint as the rail it sits beside. */
+@media (max-width: 768px) {
+  .neb-fab-menu { display: flex; }
+}
+
+.neb-fab-menu-items {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.neb-fab-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  max-width: 280px;
+  padding: 14px 22px;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-shape-full);
+  background: var(--md-surface-container-lowest);
+  /* Ink, always. */
+  color: var(--md-on-surface);
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 650;
+  letter-spacing: 0.005em;
+  line-height: 1.2;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: var(--md-elevation-2);
+  /* scaleIn from TransformOrigin(1f, 1f): the corner nearest the button. */
+  transform-origin: 100% 100%;
+  opacity: 0;
+  transform: translateY(50%) scale(0.72);
+  transition: opacity var(--md-motion-effects-fast),
+              transform var(--md-motion-spatial-fast);
+  /* Closed rows must not be tabbable or clickable; they are still in the DOM
+     so the stagger has something to animate. */
+  pointer-events: none;
+}
+.neb-fab-menu[data-open] .neb-fab-pill {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+.neb-fab-pill:hover { background: var(--md-surface-container-low); text-decoration: none; }
+.neb-fab-menu[data-open] .neb-fab-pill:active { transform: scale(0.96); }
+/* The glyph is the one thing allowed to carry the action's own colour. */
+.neb-fab-pill .material-symbols-outlined {
+  font-size: 22px;
+  color: var(--neb-fab-accent, var(--md-on-surface));
+}
+.neb-fab-pill-label { overflow: hidden; text-overflow: ellipsis; }
+
+/* The app's scrim for this menu is not the 34% dialog scrim: it is heavier in
+   dark theme, 0.62 against 0.34, because the pills are near-black surfaces and
+   a light scrim leaves them floating on a page that is still legible behind
+   them. Ported as-is rather than normalised. */
+.neb-fab-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: rgba(0, 0, 0, 0.34);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--md-motion-effects);
+}
+[data-theme="dark"] .neb-fab-scrim { background: rgba(0, 0, 0, 0.62); }
+.neb-fab-scrim[data-open] { opacity: 1; pointer-events: auto; }
+
+/* The anchor keeps the .md-fab look but stops being fixed -- the menu column
+   positions it now -- and spins to an x when the menu is open. */
+.neb-fab-menu .md-fab { position: static; }
+.neb-fab-menu[data-open] .md-fab { transform: rotate(40deg); }
+.neb-fab-menu[data-open] .md-fab .material-symbols-outlined { transform: rotate(-40deg); }
+
+@media (prefers-reduced-motion: reduce) {
+  .neb-fab-menu,
+  .neb-fab-pill,
+  .neb-fab-scrim { transition: none; }
+  .neb-fab-menu[data-open] .md-fab,
+  .neb-fab-menu[data-open] .md-fab .material-symbols-outlined { transform: none; }
 }
 
 .md-fab svg {
@@ -267,43 +446,12 @@
   }
 }
 
-/* Tabs */
-.md-tabs {
-  display: flex;
-  gap: 0;
-  border-bottom: 1px solid var(--md-outline-variant);
-  overflow-x: auto;
-}
-
-.md-tab {
-  padding: 12px 20px;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--md-on-surface-variant);
-  cursor: pointer;
-  white-space: nowrap;
-  border-bottom: 3px solid transparent;
-  transition: all var(--md-transition);
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.md-tab:hover {
-  color: var(--md-primary);
-  background: var(--md-surface-variant);
-  text-decoration: none;
-}
-
-.md-tab.md-tab-active {
-  color: var(--md-primary);
-  border-bottom-color: var(--md-primary);
-}
-
-.md-tab .material-symbols-outlined {
-  font-size: 18px;
-}
+/* Tabs
+   The underlined tab bar the design system shipped before .neb-rail existed.
+   Every screen that used it -- search, the forum's sort row, the study space
+   and lab, the chapter sub-tabs -- is on the rail now, which is the web half of
+   the app's NebTabRail, so this drew nothing on any page. Deleted rather than
+   left as a second answer to the question the rail already answers. */
 
 /* Badge */
 .md-badge {

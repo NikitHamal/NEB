@@ -36,7 +36,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.neb.ians.ui.components.NebArtSlot
 import com.neb.ians.ui.components.NebAuthField
 import com.neb.ians.ui.components.NebAuthTopBar
 import com.neb.ians.ui.components.NebAuthType
@@ -44,7 +43,6 @@ import com.neb.ians.ui.components.NebInlineNote
 import com.neb.ians.ui.components.NebJourneySurface
 import com.neb.ians.ui.components.NebPillButton
 import com.neb.ians.ui.components.NebTextLink
-import com.neb.ians.ui.components.art.NebOpenBookMark
 import com.neb.ians.ui.theme.LocalNebAuthPalette
 import com.neb.ians.ui.theme.NebAuthTokens
 import com.neb.ians.ui.theme.nebEffectsSpec
@@ -108,16 +106,14 @@ fun EmailAuthScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = NebAuthTokens.PageGutter)
         ) {
-            NebArtSlot {
-                NebOpenBookMark(
-                    modifier = Modifier.fillMaxWidth(),
-                    markSize = 78.dp
-                )
-            }
             val modeSlide = nebSpatialSpec<IntOffset>()
             val modeFade = nebEffectsSpec<Float>()
 
-            Spacer(modifier = Modifier.height(18.dp))
+            // No illustration above the headline any more. Sign-in and sign-up
+            // are the two screens a returning user sees most, and the book mark
+            // that used to sit here pushed the fields below the fold on a short
+            // phone for no information gained.
+            Spacer(modifier = Modifier.height(36.dp))
 
             AnimatedContent(
                 targetState = isCreate,
