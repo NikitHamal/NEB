@@ -109,8 +109,9 @@ fun ProfileHeader(
         Box(modifier = Modifier.fillMaxWidth()) {
             ProfileBanner(
                 bannerUrl = profile.bannerUrl,
-                bannerType = preset.first,
+                role = preset.first,
                 decoText = preset.second,
+                seedKey = profile.username,
                 modifier = Modifier.fillMaxWidth()
             )
             Row(
