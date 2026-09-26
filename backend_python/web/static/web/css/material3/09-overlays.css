@@ -76,6 +76,12 @@
 }
 .neb-scrim[data-open] .neb-dialog { transform: scale(1); opacity: 1; }
 .neb-scrim[data-closing] .neb-dialog { transform: scale(0.94); opacity: 0; }
+/* A dialog that is holding a workspace rather than asking a question -- the
+   formula editor's box, keys and preview -- needs the width of a sheet without
+   being one. Same corner, same elevation, one more column of room. */
+.neb-dialog-wide {
+  max-width: 560px;
+}
 
 .neb-dialog-head {
   padding: 26px 26px 0;

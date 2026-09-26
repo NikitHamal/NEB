@@ -125,12 +125,21 @@
       <div class="cp-images-grid" id="cp-images-grid"></div>
     </div>
 
-    <div class="cp-upload-overlay" id="cp-upload-overlay" style="display:none">
-      <div class="cp-upload-dialog">
-        <div class="cp-upload-spinner md-loader md-loader-screen"></div>
-        <div class="cp-upload-title" id="cp-upload-title">Uploading images...</div>
-        <div class="cp-upload-progress-bar"><div class="cp-upload-progress-fill" id="cp-upload-progress"></div></div>
-        <div class="cp-upload-detail" id="cp-upload-detail">Compressing and uploading...</div>
+    {% comment %}
+      The fifth copy of the upload wait, retired. Four pages already share
+      .upload-progress-* out of material3/09-overlays.css; the composer had its
+      own, on a literal white card behind a literal rgba(0,0,0,.5) scrim.
+    {% endcomment %}
+    <div class="upload-progress-overlay" id="cp-upload-overlay" style="display:none;">
+      <div class="upload-progress-dialog">
+        <div class="upload-progress-icon">
+          <span class="material-symbols-outlined">cloud_upload</span>
+        </div>
+        <h3 class="upload-progress-title" id="cp-upload-title">Uploading images</h3>
+        <p class="upload-progress-subtitle" id="cp-upload-detail">Compressing and uploading...</p>
+        <div class="upload-progress-bar-track">
+          <div class="upload-progress-bar-fill" id="cp-upload-progress" style="width:0%"></div>
+        </div>
       </div>
     </div>
 
@@ -293,40 +302,58 @@
     </div>
   </div>
 
-  <div class="cp-math-overlay" id="cp-math-overlay" style="display:none">
-    <div class="cp-math-dialog">
-      <div class="cp-math-header">
-        <h3>Insert Math Formula</h3>
-        <button type="button" class="cp-pick-close" id="cp-math-close">
-          <span class="material-symbols-outlined">close</span>
-        </button>
+  {% comment %}
+    The formula dialog, as the site's dialog. It used to be its own overlay
+    with its own scrim, and it was drawn in literal #fff on a literal
+    rgba(0,0,0,0.4) -- so in dark theme it was a white card with a white
+    textarea and a white preview box, the only part of the composer that did
+    not follow the theme. It is .neb-dialog now, which is where the tokens are.
+
+    What stays page-specific is the pair of things that are genuinely about
+    maths: the row of symbol keys, and the box the rendered formula lands in.
+  {% endcomment %}
+  <div class="neb-scrim" id="cp-math" data-neb-close hidden>
+    <div class="neb-dialog neb-dialog-wide" role="dialog" aria-modal="true" aria-labelledby="cp-math-title">
+      <div class="neb-dialog-head">
+        <h3 class="neb-dialog-title" id="cp-math-title">Insert a formula</h3>
+        <p class="neb-dialog-support">Type LaTeX and it renders underneath as you go.</p>
       </div>
-      <div class="cp-math-input-area">
-        <label class="cp-math-label">LaTeX Expression</label>
-        <textarea id="cp-math-input" class="cp-math-textarea" placeholder="Type LaTeX here, e.g. E=mc^2 or \frac{a}{b}" rows="4"></textarea>
-        <div class="cp-math-quick">
-          <button type="button" class="cp-math-quick-btn" data-latex="\\frac{a}{b}" title="Fraction">a/b</button>
-          <button type="button" class="cp-math-quick-btn" data-latex="\\sqrt{x}" title="Square root">&#8730;x</button>
-          <button type="button" class="cp-math-quick-btn" data-latex="x^{n}" title="Superscript">x&#8319;</button>
-          <button type="button" class="cp-math-quick-btn" data-latex="x_{i}" title="Subscript">x&#7522;</button>
-          <button type="button" class="cp-math-quick-btn" data-latex="\\int_{a}^{b}" title="Integral">&#8747;</button>
-          <button type="button" class="cp-math-quick-btn" data-latex="\\sum_{i=0}^{n}" title="Summation">&#8721;</button>
-          <button type="button" class="cp-math-quick-btn" data-latex="\\lim_{x \\to \\infty}" title="Limit">lim</button>
-          <button type="button" class="cp-math-quick-btn" data-latex="\\alpha" title="Alpha">&#945;</button>
-          <button type="button" class="cp-math-quick-btn" data-latex="\\beta" title="Beta">&#946;</button>
-          <button type="button" class="cp-math-quick-btn" data-latex="\\theta" title="Theta">&#952;</button>
-          <button type="button" class="cp-math-quick-btn" data-latex="\\pi" title="Pi">&#960;</button>
-          <button type="button" class="cp-math-quick-btn" data-latex="\\infty" title="Infinity">&#8734;</button>
+      <div class="neb-dialog-body">
+        <div>
+          <label class="neb-section-label" for="cp-math-input">LaTeX</label>
+          <textarea id="cp-math-input" class="neb-field cp-math-input" rows="4"
+                    placeholder="E=mc^2, or \frac{a}{b}" spellcheck="false"></textarea>
+        </div>
+        <div class="cp-math-keys" role="group" aria-label="Symbols">
+        {% comment %}
+          One backslash. These were written with two, which in an HTML
+          attribute is two -- and two backslashes in LaTeX is a line break, so
+          every key inserted a newline followed by the command's name as plain
+          text. The preview has been showing "fracab" instead of a fraction
+          since the keys were added.
+        {% endcomment %}
+          <button type="button" class="cp-math-key" data-latex="\frac{a}{b}" title="Fraction">a/b</button>
+          <button type="button" class="cp-math-key" data-latex="\sqrt{x}" title="Square root">&#8730;x</button>
+          <button type="button" class="cp-math-key" data-latex="x^{n}" title="Superscript">x&#8319;</button>
+          <button type="button" class="cp-math-key" data-latex="x_{i}" title="Subscript">x&#7522;</button>
+          <button type="button" class="cp-math-key" data-latex="\int_{a}^{b}" title="Integral">&#8747;</button>
+          <button type="button" class="cp-math-key" data-latex="\sum_{i=0}^{n}" title="Summation">&#8721;</button>
+          <button type="button" class="cp-math-key" data-latex="\lim_{x \to \infty}" title="Limit">lim</button>
+          <button type="button" class="cp-math-key" data-latex="\alpha" title="Alpha">&#945;</button>
+          <button type="button" class="cp-math-key" data-latex="\beta" title="Beta">&#946;</button>
+          <button type="button" class="cp-math-key" data-latex="\theta" title="Theta">&#952;</button>
+          <button type="button" class="cp-math-key" data-latex="\pi" title="Pi">&#960;</button>
+          <button type="button" class="cp-math-key" data-latex="\infty" title="Infinity">&#8734;</button>
+        </div>
+        <div>
+          <span class="neb-section-label">Preview</span>
+          <div class="cp-math-preview" id="cp-math-preview" aria-live="polite">
+            <span class="cp-math-preview-hint">The formula will appear here</span>
+          </div>
         </div>
       </div>
-      <div class="cp-math-preview-area">
-        <label class="cp-math-label">Preview</label>
-        <div class="cp-math-preview" id="cp-math-preview">
-          <span class="cp-math-preview-placeholder">Formula preview will appear here</span>
-        </div>
-      </div>
-      <div class="cp-math-actions">
-        <button type="button" class="md-btn md-btn-text" id="cp-math-cancel">Cancel</button>
+      <div class="neb-dialog-actions">
+        <button type="button" class="md-btn md-btn-text" data-neb-close>Cancel</button>
         <button type="button" class="md-btn md-btn-filled" id="cp-math-insert">Insert</button>
       </div>
     </div>
@@ -462,7 +489,7 @@
         }
         break;
       case 'format-math':
-        openMathDialog();
+        NebUI.open('cp-math');
         break;
     }
   });
@@ -477,38 +504,31 @@
     categoryDisplay.classList.toggle('has-value', !!selectedCategory);
   });
 
-  /* --- Math Formula Dialog --- */
-  var mathOverlay = document.getElementById('cp-math-overlay');
+  /* --- Math Formula Dialog ---
+     The scrim, Escape, the backdrop, the focus trap and the scroll lock are
+     NebUI's. What is left is the preview and what Insert does. */
   var mathInput = document.getElementById('cp-math-input');
   var mathPreview = document.getElementById('cp-math-preview');
+  var MATH_HINT = '<span class="cp-math-preview-hint">The formula will appear here</span>';
 
-  function openMathDialog() {
-    mathOverlay.style.display = '';
-    mathInput.value = '';
-    mathPreview.innerHTML = '<span class="cp-math-preview-placeholder">Formula preview will appear here</span>';
-    mathInput.focus();
-  }
-
-  mathInput.addEventListener('input', function() {
+  function renderMath() {
     var latex = mathInput.value.trim();
-    if (!latex) {
-      mathPreview.innerHTML = '<span class="cp-math-preview-placeholder">Formula preview will appear here</span>';
-      return;
-    }
+    if (!latex) { mathPreview.innerHTML = MATH_HINT; return; }
     try {
-      var html = katex.renderToString(latex, { throwOnError: false, displayMode: true });
-      mathPreview.innerHTML = html;
+      mathPreview.innerHTML = katex.renderToString(latex, { throwOnError: false, displayMode: true });
     } catch (e) {
-      mathPreview.innerHTML = '<span class="cp-math-preview-placeholder">Invalid LaTeX</span>';
+      mathPreview.innerHTML = '<span class="cp-math-preview-hint">That is not valid LaTeX yet.</span>';
     }
+  }
+  mathInput.addEventListener('input', renderMath);
+
+  /* An empty box every time, and the caret already in it. */
+  document.getElementById('cp-math').addEventListener('neb:open', function () {
+    mathInput.value = '';
+    mathPreview.innerHTML = MATH_HINT;
+    mathInput.focus();
   });
 
-  document.getElementById('cp-math-close').addEventListener('click', function() {
-    mathOverlay.style.display = 'none';
-  });
-  document.getElementById('cp-math-cancel').addEventListener('click', function() {
-    mathOverlay.style.display = 'none';
-  });
   document.getElementById('cp-math-insert').addEventListener('click', function() {
     var latex = mathInput.value.trim();
     if (latex) {
@@ -520,13 +540,10 @@
       range.insertNode(node);
       updateCharCount();
     }
-    mathOverlay.style.display = 'none';
-  });
-  mathOverlay.addEventListener('click', function(e) {
-    if (e.target === mathOverlay) mathOverlay.style.display = 'none';
+    NebUI.close('cp-math');
   });
 
-  document.querySelectorAll('.cp-math-quick-btn').forEach(function(btn) {
+  document.querySelectorAll('.cp-math-key').forEach(function(btn) {
     btn.addEventListener('click', function() {
       var latex = this.getAttribute('data-latex');
       var pos = mathInput.selectionStart;
@@ -1116,7 +1133,7 @@
     var uploadDetail = document.getElementById('cp-upload-detail');
     overlay.style.display = '';
     progressFill.style.width = '0%';
-    uploadTitle.textContent = 'Uploading images...';
+    uploadTitle.textContent = 'Uploading images';
     var total = pendingImages.length;
     var completed = 0;
 
