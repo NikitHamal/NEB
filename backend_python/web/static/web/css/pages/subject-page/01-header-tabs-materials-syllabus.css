@@ -206,33 +206,7 @@
     flex-direction: column;
   }
 
-  /* Chapter Sub-Tabs */
-  .chapter-subtabs {
-    display: flex;
-    border-bottom: 1px solid var(--md-outline-variant);
-    margin-bottom: 20px;
-    gap: 20px;
-  }
-  .subtab-btn {
-    background: transparent;
-    border: none;
-    border-bottom: 2px solid transparent;
-    font-family: var(--md-font);
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--md-on-surface-variant);
-    padding: 8px 0;
-    cursor: pointer;
-    transition: all 150ms ease;
-  }
-  .subtab-btn:hover {
-    color: var(--md-primary);
-  }
-  .subtab-btn.active {
-    color: var(--md-primary);
-    border-bottom-color: var(--md-primary);
-  }
-  
+  /* Chapter sub-tabs: .neb-rail, the same as the chapter list above them. */
   .subtab-content {
     display: none;
   }

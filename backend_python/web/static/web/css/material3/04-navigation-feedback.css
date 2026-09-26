@@ -446,43 +446,12 @@
   }
 }
 
-/* Tabs */
-.md-tabs {
-  display: flex;
-  gap: 0;
-  border-bottom: 1px solid var(--md-outline-variant);
-  overflow-x: auto;
-}
-
-.md-tab {
-  padding: 12px 20px;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--md-on-surface-variant);
-  cursor: pointer;
-  white-space: nowrap;
-  border-bottom: 3px solid transparent;
-  transition: all var(--md-transition);
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.md-tab:hover {
-  color: var(--md-primary);
-  background: var(--md-surface-variant);
-  text-decoration: none;
-}
-
-.md-tab.md-tab-active {
-  color: var(--md-primary);
-  border-bottom-color: var(--md-primary);
-}
-
-.md-tab .material-symbols-outlined {
-  font-size: 18px;
-}
+/* Tabs
+   The underlined tab bar the design system shipped before .neb-rail existed.
+   Every screen that used it -- search, the forum's sort row, the study space
+   and lab, the chapter sub-tabs -- is on the rail now, which is the web half of
+   the app's NebTabRail, so this drew nothing on any page. Deleted rather than
+   left as a second answer to the question the rail already answers. */
 
 /* Badge */
 .md-badge {

@@ -130,12 +130,25 @@
               <h2>{{ ch.name }}</h2>
             </div>
             
-            <!-- Sub-Tabs Navigation (plain text, no icons) -->
-            <div class="chapter-subtabs">
-              <button type="button" class="subtab-btn active" data-action="select-subtab" data-chapter-id="{{ ch.id }}" data-subtab="guide">{% if ch.rich_content.has_blocks %}Interactive Guide{% else %}Chapter Guide{% endif %}</button>
-              <button type="button" class="subtab-btn" data-action="select-subtab" data-chapter-id="{{ ch.id }}" data-subtab="qas">Solved Q&As</button>
-              <button type="button" class="subtab-btn" data-action="select-subtab" data-chapter-id="{{ ch.id }}" data-subtab="files">Study Files</button>
-            </div>
+            {% comment %}
+              NebTabRail. This page already had one -- the chapter list above runs on
+              .neb-rail -- while the sub-tabs inside each chapter stayed an underlined
+              row, so two tab bars on one screen looked like two different controls.
+            {% endcomment %}
+            <nav class="neb-rail neb-rail-divided neb-rail-flush" role="tablist" aria-label="Chapter sections" style="margin-bottom:20px;">
+              <button type="button" class="neb-rail-item" role="tab" aria-selected="true" data-action="select-subtab" data-chapter-id="{{ ch.id }}" data-subtab="guide">
+                <span class="material-symbols-outlined">menu_book</span>
+                <span class="neb-rail-label">{% if ch.rich_content.has_blocks %}Interactive Guide{% else %}Chapter Guide{% endif %}</span>
+              </button>
+              <button type="button" class="neb-rail-item" role="tab" aria-selected="false" data-action="select-subtab" data-chapter-id="{{ ch.id }}" data-subtab="qas">
+                <span class="material-symbols-outlined">help</span>
+                <span class="neb-rail-label">Solved Q&amp;As</span>
+              </button>
+              <button type="button" class="neb-rail-item" role="tab" aria-selected="false" data-action="select-subtab" data-chapter-id="{{ ch.id }}" data-subtab="files">
+                <span class="material-symbols-outlined">folder</span>
+                <span class="neb-rail-label">Study Files</span>
+              </button>
+            </nav>
             
             <div class="pane-body">
               <!-- SUBTAB 1: CHAPTER GUIDE -->
@@ -705,8 +718,8 @@
       if (!pane) return;
 
       // Update sub-tab buttons active state
-      pane.querySelectorAll('.subtab-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.subtab === subtab);
+      pane.querySelectorAll('.neb-rail-item[data-subtab]').forEach(btn => {
+        btn.setAttribute('aria-selected', String(btn.dataset.subtab === subtab));
       });
 
       // Update sub-tab content visibility
