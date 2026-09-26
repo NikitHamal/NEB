@@ -1,0 +1,10 @@
+{# ── A section title ───────────────────────────────────────────────────────
+   The app's HomeSectionTitle: the heading on the left, and on the right a
+   pill-shaped "See All" on the surface rather than a bare blue link.
+   Expects `title`, optionally `action_url` and `action_label`. #}
+<div class="hf-title">
+  <h2 class="hf-title-text">{{ title }}</h2>
+  {% if action_url %}
+  <a class="hf-title-action" href="{{ action_url }}">{{ action_label|default:"See All" }}</a>
+  {% endif %}
+</div>
