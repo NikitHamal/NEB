@@ -110,9 +110,13 @@
   padding: 24px;
   margin-bottom: 20px;
 }
+/* The trophy and the XP line are the one warm note on the results screen.
+   Amber used raw is ink over a wash of itself and goes thin on a light page,
+   so it is carried towards the theme's own ink -- which darkens it in light
+   and lightens it in dark. 86% for the 48px glyph, 78% for the 16px line. */
 .sl-quiz-results-header .material-symbols-outlined {
   font-size: 48px;
-  color: #F59E0B;
+  color: color-mix(in srgb, var(--neb-accent-amber) 86%, var(--md-on-surface));
 }
 .sl-quiz-results-header h2 {
   font-size: 1.5rem;
@@ -135,7 +139,7 @@
 .sl-quiz-xp {
   font-size: 1rem;
   font-weight: 600;
-  color: #F59E0B;
+  color: color-mix(in srgb, var(--neb-accent-amber) 78%, var(--md-on-surface));
   margin-top: 4px;
 }
 .sl-result-item {
@@ -146,23 +150,16 @@
   border-radius: var(--md-radius);
   margin-bottom: 6px;
   font-size: 0.875rem;
+  background: color-mix(in srgb, var(--sl-state, var(--md-primary)) 13%, transparent);
+  color: color-mix(in srgb, var(--sl-state, var(--md-primary)) 78%, var(--md-on-surface));
 }
-.sl-result-correct {
-  background: #E8F5E9;
-  color: #2E7D32;
-}
-.sl-result-wrong {
-  background: #FFEBEE;
-  color: #C62828;
-}
-[data-theme="dark"] .sl-result-correct {
-  background: #1B5E20;
-  color: #A5D6A7;
-}
-[data-theme="dark"] .sl-result-wrong {
-  background: #7F1D1D;
-  color: #FCA5A5;
-}
+/* Right and wrong. Four rules in eight hexes -- a light pair and a dark pair
+   that had drifted apart, the dark green a solid #1B5E20 panel where the
+   light one was a 10% tint -- become one accent per state. The accents are
+   the --neb-accent-* set, so a correct answer here is the same green the app
+   uses, and the wash and the ink both follow the theme. */
+.sl-result-correct { --sl-state: var(--neb-accent-green); }
+.sl-result-wrong { --sl-state: var(--neb-accent-rose); }
 .sl-result-answer {
   margin-left: auto;
   font-weight: 500;
@@ -266,11 +263,12 @@
   background: var(--md-primary-container);
   transform: rotateY(180deg);
 }
+/* The front of the card is the page's lowest surface, which in dark theme is
+   nearly black and reads as a hole rather than a card, so it comes up. The
+   back needs no such rule: it was declaring the same --md-primary-container
+   it already had. */
 [data-theme="dark"] .sl-flash-front {
   background: var(--md-surface-container-high);
-}
-[data-theme="dark"] .sl-flash-back {
-  background: var(--md-primary-container);
 }
 .sl-flash-label {
   font-size: 0.6875rem;
@@ -314,40 +312,16 @@
   font-size: 16px;
 }
 .sl-conf-btn.sl-conf-active {
-  border-color: var(--md-primary);
-  background: var(--md-primary-container);
-  color: var(--md-on-primary-container);
+  border-color: color-mix(in srgb, var(--sl-state, var(--md-primary)) 60%, var(--md-on-surface));
+  background: color-mix(in srgb, var(--sl-state, var(--md-primary)) 14%, transparent);
+  color: color-mix(in srgb, var(--sl-state, var(--md-primary)) 78%, var(--md-on-surface));
 }
-.sl-conf-hard.sl-conf-active {
-  background: #FFEBEE;
-  color: #C62828;
-  border-color: #C62828;
-}
-.sl-conf-medium.sl-conf-active {
-  background: #FFF3E0;
-  color: #E65100;
-  border-color: #E65100;
-}
-.sl-conf-easy.sl-conf-active {
-  background: #E8F5E9;
-  color: #2E7D32;
-  border-color: #2E7D32;
-}
-[data-theme="dark"] .sl-conf-hard.sl-conf-active {
-  background: #7F1D1D;
-  color: #FCA5A5;
-  border-color: #FCA5A5;
-}
-[data-theme="dark"] .sl-conf-medium.sl-conf-active {
-  background: #7C2D12;
-  color: #FDBA74;
-  border-color: #FDBA74;
-}
-[data-theme="dark"] .sl-conf-easy.sl-conf-active {
-  background: #14532D;
-  color: #86EFAC;
-  border-color: #86EFAC;
-}
+/* The same three states as the results above, in the same three accents, and
+   the selected button derives its wash, its ink and its border from whichever
+   one it carries. Six rules in eighteen hexes before. */
+.sl-conf-hard.sl-conf-active { --sl-state: var(--neb-accent-rose); }
+.sl-conf-medium.sl-conf-active { --sl-state: var(--neb-accent-amber); }
+.sl-conf-easy.sl-conf-active { --sl-state: var(--neb-accent-green); }
 .sl-flash-nav {
   display: flex;
   justify-content: space-between;

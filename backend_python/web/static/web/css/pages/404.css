@@ -70,16 +70,15 @@
     color: var(--md-primary) !important;
     border: 1px solid var(--md-outline-variant);
   }
+  /* A wash of the button's own ink, which is the primary it already wears,
+     so the hover follows the theme rather than needing a second rule with
+     the dark primary written out as a literal. */
   .error-btn-secondary:hover {
-    background: rgba(0, 74, 198, 0.04);
+    background: color-mix(in srgb, var(--md-primary) 7%, transparent);
     border-color: var(--md-primary);
   }
   .error-btn .material-symbols-outlined {
     font-size: 18px !important;
     color: inherit !important;
     margin-bottom: 0 !important;
-  }
-  [data-theme="dark"] .error-btn-secondary:hover {
-    background: rgba(180, 197, 255, 0.08);
-    border-color: var(--md-primary);
   }

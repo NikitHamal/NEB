@@ -32,36 +32,32 @@
     flex-shrink: 0;
   }
 
+  /* The three medals, and the one set of them. A gold medal is gold on a
+     light page and gold on a dark one, so these are the only colours in the
+     file that do not come from the palette -- and they were written twice,
+     once under [data-theme="dark"], where first place and the default badge
+     were byte-identical copies of their light selves.
+
+     What the two copies disagreed about was worth keeping: the dark half
+     lightened silver's far end and the light half did not, and at 14px on
+     the dark end of the old silver the digit sat at 3.9:1. Silver takes the
+     lighter end in both themes now. Bronze had white ink over a gradient
+     that ran from pale coral to burnt orange -- 2.7:1 at the light end,
+     3.9:1 at the dark -- so it is a copper gradient with the same dark ink
+     its neighbours use. All three clear 4.5:1 across the whole sweep. */
   .rank-badge-1 {
     background: linear-gradient(135deg, #FFD54F, #F9A825);
     color: #3E2723;
   }
   .rank-badge-2 {
-    background: linear-gradient(135deg, #B0BEC5, #78909C);
+    background: linear-gradient(135deg, #CFD8DC, #90A4AE);
     color: #263238;
   }
   .rank-badge-3 {
-    background: linear-gradient(135deg, #FFAB91, #E64A19);
-    color: #FFFFFF;
+    background: linear-gradient(135deg, #FFCCBC, #FF8A65);
+    color: #4E1F0A;
   }
   .rank-badge-default {
-    background: var(--md-surface-container-highest);
-    color: var(--md-on-surface-variant);
-  }
-
-  [data-theme="dark"] .rank-badge-1 {
-    background: linear-gradient(135deg, #FFD54F, #F9A825);
-    color: #3E2723;
-  }
-  [data-theme="dark"] .rank-badge-2 {
-    background: linear-gradient(135deg, #B0BEC5, #90A4AE);
-    color: #1A1A2E;
-  }
-  [data-theme="dark"] .rank-badge-3 {
-    background: linear-gradient(135deg, #FF8A65, #BF360C);
-    color: #FFFFFF;
-  }
-  [data-theme="dark"] .rank-badge-default {
     background: var(--md-surface-container-highest);
     color: var(--md-on-surface-variant);
   }
@@ -86,9 +82,9 @@
   }
 
   .leaderboard-card:hover {
-    background-color: var(--md-surface-container, #e5eeff);
-    border: 1.5px solid var(--md-primary, #004ac6);
-    box-shadow: 0 4px 12px rgba(0, 74, 198, 0.05);
+    background-color: var(--md-surface-container);
+    border: 1.5px solid var(--md-primary);
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--md-primary) 8%, transparent);
     text-decoration: none !important;
   }
 
@@ -151,7 +147,7 @@
     transition: color 0.2s ease;
   }
   .leaderboard-card:hover .leaderboard-username {
-    color: var(--md-primary, #004ac6);
+    color: var(--md-primary);
     text-decoration: none !important;
   }
 
