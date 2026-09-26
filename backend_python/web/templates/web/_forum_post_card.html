@@ -34,11 +34,9 @@
         <button class="follow-btn-small {% if post.isFollowingAuthor %}following{% else %}not-following{% endif %}" data-action="toggle-follow" data-user-id="{{ post.authorId }}">{% if post.isFollowingAuthor %}Following{% else %}Follow{% endif %}</button>
         {% endif %}
       </div>
-      <div class="post-card-meta-bottom" style="display:flex; align-items:center; flex-wrap:wrap; gap:6px; margin-top:2px; color:var(--md-on-surface-variant);">
+      <div class="post-card-meta-bottom" style="display:flex; align-items:center; flex-wrap:wrap; gap:12px; margin-top:2px; color:var(--md-on-surface-variant);">
         <span class="act-action-text">started a discussion</span>
-        <span style="opacity:0.4;">&middot;</span>
         <a href="{% url 'web:forum' %}?category={{ post.category }}" class="post-card-category-link">{{ post.category }}</a>
-        <span style="opacity:0.4;">&middot;</span>
         <span class="post-card-time">{{ post.createdAt|time_ago }}</span>
       </div>
     </div>

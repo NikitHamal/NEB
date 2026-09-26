@@ -212,16 +212,13 @@
 .bookmark-card-meta {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 12px;
   margin-top: 4px;
   font-size: 0.75rem;
   color: var(--md-on-surface-variant);
   opacity: 0.85;
 }
 
-.bookmark-card-meta .dot-sep {
-  opacity: 0.3;
-}
 
 .bookmark-card-meta .material-symbols-outlined {
   font-size: 14px;

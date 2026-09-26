@@ -31,7 +31,7 @@
       </div>
       <div class="resource-card-title">{{ r.title }}</div>
       <div class="resource-card-meta">
-        {{ r.grade_level }}{% if r.file_size %} &middot; {{ r.file_size|file_size_human }}{% endif %}
+        {{ r.grade_level }}{% if r.file_size %}, {{ r.file_size|file_size_human }}{% endif %}
       </div>
       {% with author=r.uploaded_by_name|default:r.uploadedByName|default:r.uploadedByUsername|default:r.author_name|default:r.authorName|default:"NEBians" photo=r.uploaded_by_photo|default:r.uploadedByPhoto %}
       <div class="resource-card-footer">
@@ -59,7 +59,7 @@
             {% endif %}
             {% endif %}
           </div>
-          <div class="resource-card-time">{{ r.added_at|default:r.addedAt|time_ago }} &middot; <span class="resource-card-views"><span class="material-symbols-outlined">visibility</span> {{ r.view_count|default:r.viewCount|short_number }}</span></div>
+          <div class="resource-card-time">{{ r.added_at|default:r.addedAt|time_ago }}, <span class="resource-card-views"><span class="material-symbols-outlined">visibility</span> {{ r.view_count|default:r.viewCount|short_number }}</span></div>
         </div>
       </div>
       {% endwith %}

@@ -651,12 +651,9 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 6px;
+  gap: 12px;
 }
 
-.nmp-audio-meta .dot-sep {
-  opacity: 0.3;
-}
 
 .nmp-audio .nmp-controls {
   padding: 0;
