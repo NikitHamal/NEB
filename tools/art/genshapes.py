@@ -208,11 +208,19 @@ def _option_cycle_css():
     out = ["", "/* \u2500\u2500 Option banks " + "\u2500" * 59,
            "   NebShapes.Option, cycled by position. Wrap a bank of .neb-option",
            "   or .neb-tile in .neb-opt-bank and their glyph tiles take one",
-           "   silhouette each, in the app's order. */"]
+           "   silhouette each, in the app's order.",
+           "",
+           "   Two hooks, because a bank is not always two levels deep. A",
+           "   .neb-glyph sitting directly in the option is the sheet and dialog",
+           "   case; .md-shape-opt is for a tile further down inside a card, like",
+           "   the icon in a tool or course card, which keeps its own size and",
+           "   its own accent fill and takes only the silhouette from here. */"]
     clips = dict(CLIPS)
     n = len(OPTION_CYCLE)
     for i, name in enumerate(OPTION_CYCLE):
-        sel = ".neb-opt-bank > *:nth-child(%dn+%d) > .neb-glyph" % (n, i + 1)
+        nth = "%dn+%d" % (n, i + 1)
+        sel = (".neb-opt-bank > *:nth-child(%s) > .neb-glyph,\n"
+               ".neb-opt-bank > *:nth-child(%s) .md-shape-opt" % (nth, nth))
         out.append("%s {\n  clip-path: %s;\n}" % (sel, _poly(clips[name])))
     return "\n".join(out) + "\n"
 
