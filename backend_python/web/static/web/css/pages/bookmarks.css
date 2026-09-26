@@ -103,55 +103,31 @@
   font-size: 22px;
 }
 
-.bookmark-type-icon.type-post {
-  background: rgba(27, 154, 240, 0.12);
-  color: #1B9AF0;
-}
+/* Three kinds of bookmark, twelve hardcoded colours between the icon and the
+   badge below, and the light halves were the light-theme values of a dark
+   palette: #1B9AF0 and #F59E0B are sky and amber picked to glow on black, and
+   on a white card at 12% they sat near 2:1. The same three accents the
+   notification icons use carry both themes, so a saved post is the same blue
+   there and here, and the [data-theme="dark"] halves are unnecessary.
 
-.bookmark-type-icon.type-post .material-symbols-outlined {
-  color: #1B9AF0;
+   The accent is carried towards --md-on-surface rather than used raw, because
+   it is ink over a wash of itself: mixing towards on-surface darkens it in
+   light theme and lightens it in dark, which is the right direction in both.
+   The 22px glyph needs 3:1 and takes 86%; the badge is 11px uppercase, the
+   smallest type on the page, so it needs 4.5:1 and takes 72%. */
+.bookmark-type-icon.type-post {
+  background: color-mix(in srgb, var(--neb-accent-brand) 13%, transparent);
+  color: color-mix(in srgb, var(--neb-accent-brand) 86%, var(--md-on-surface));
 }
 
 .bookmark-type-icon.type-reply {
-  background: rgba(0, 137, 123, 0.12);
-  color: #00897B;
-}
-
-.bookmark-type-icon.type-reply .material-symbols-outlined {
-  color: #00897B;
+  background: color-mix(in srgb, var(--neb-accent-teal) 13%, transparent);
+  color: color-mix(in srgb, var(--neb-accent-teal) 86%, var(--md-on-surface));
 }
 
 .bookmark-type-icon.type-resource {
-  background: rgba(245, 158, 11, 0.12);
-  color: #F59E0B;
-}
-
-.bookmark-type-icon.type-resource .material-symbols-outlined {
-  color: #F59E0B;
-}
-
-[data-theme="dark"] .bookmark-type-icon.type-post {
-  background: rgba(27, 154, 240, 0.2);
-}
-
-[data-theme="dark"] .bookmark-type-icon.type-post .material-symbols-outlined {
-  color: #64B5F6;
-}
-
-[data-theme="dark"] .bookmark-type-icon.type-reply {
-  background: rgba(0, 137, 123, 0.2);
-}
-
-[data-theme="dark"] .bookmark-type-icon.type-reply .material-symbols-outlined {
-  color: #4DB6AC;
-}
-
-[data-theme="dark"] .bookmark-type-icon.type-resource {
-  background: rgba(245, 158, 11, 0.2);
-}
-
-[data-theme="dark"] .bookmark-type-icon.type-resource .material-symbols-outlined {
-  color: #FBBF24;
+  background: color-mix(in srgb, var(--neb-accent-amber) 15%, transparent);
+  color: color-mix(in srgb, var(--neb-accent-amber) 86%, var(--md-on-surface));
 }
 
 /* ── Card Content ── */
@@ -183,33 +159,18 @@
 }
 
 .bookmark-type-badge.type-post {
-  background: rgba(27, 154, 240, 0.1);
-  color: #1B9AF0;
+  background: color-mix(in srgb, var(--neb-accent-brand) 12%, transparent);
+  color: color-mix(in srgb, var(--neb-accent-brand) 72%, var(--md-on-surface));
 }
 
 .bookmark-type-badge.type-reply {
-  background: rgba(0, 137, 123, 0.1);
-  color: #00897B;
+  background: color-mix(in srgb, var(--neb-accent-teal) 12%, transparent);
+  color: color-mix(in srgb, var(--neb-accent-teal) 72%, var(--md-on-surface));
 }
 
 .bookmark-type-badge.type-resource {
-  background: rgba(245, 158, 11, 0.1);
-  color: #F59E0B;
-}
-
-[data-theme="dark"] .bookmark-type-badge.type-post {
-  background: rgba(27, 154, 240, 0.2);
-  color: #64B5F6;
-}
-
-[data-theme="dark"] .bookmark-type-badge.type-reply {
-  background: rgba(0, 137, 123, 0.2);
-  color: #4DB6AC;
-}
-
-[data-theme="dark"] .bookmark-type-badge.type-resource {
-  background: rgba(245, 158, 11, 0.2);
-  color: #FBBF24;
+  background: color-mix(in srgb, var(--neb-accent-amber) 14%, transparent);
+  color: color-mix(in srgb, var(--neb-accent-amber) 72%, var(--md-on-surface));
 }
 
 .bookmark-card-time {
