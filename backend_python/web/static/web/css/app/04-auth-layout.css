@@ -4,9 +4,10 @@
    Every surface on the page sits one step higher in dark theme than in
    light, and every shadow sits far stronger. That was six rules under
    [data-theme="dark"], each restating a surface token, plus six shadow
-   literals written twice. It is five variables now: the dark block
-   below restates those and every rule in the file reads them, so a
-   surface here is declared once and the dark theme answers once.
+   literals written twice. It is three variables and the shared
+   elevation tokens now: the dark block below restates the three and
+   every rule in the file reads them, so a surface here is declared
+   once and the dark theme answers once.
    ────────────────────────────────────────────────────────────────── */
 
 /* Page-level, so it is scoped to the body class login.html sets rather
@@ -40,8 +41,6 @@ body.auth-page .md-topbar-actions .md-btn-icon[aria-label="Search"] {
   --auth-surface: var(--md-surface-container-lowest);
   --auth-field: var(--md-surface-container-lowest);
   --auth-field-hover: var(--md-surface-container-low);
-  --auth-shadow-soft: color-mix(in srgb, var(--md-scrim) 4%, transparent);
-  --auth-shadow: color-mix(in srgb, var(--md-scrim) 6%, transparent);
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -54,8 +53,6 @@ body.auth-page .md-topbar-actions .md-btn-icon[aria-label="Search"] {
   --auth-surface: var(--md-surface-container-low);
   --auth-field: var(--md-surface-container);
   --auth-field-hover: var(--md-surface-container-high);
-  --auth-shadow-soft: color-mix(in srgb, var(--md-scrim) 30%, transparent);
-  --auth-shadow: color-mix(in srgb, var(--md-scrim) 40%, transparent);
   background: linear-gradient(135deg, var(--md-n3) 0%, var(--md-n8) 100%);
 }
 
@@ -67,10 +64,7 @@ body.auth-page .md-topbar-actions .md-btn-icon[aria-label="Search"] {
   background: var(--auth-surface);
   border-radius: 24px;
   overflow: hidden;
-  box-shadow:
-    0 1px 2px var(--auth-shadow-soft),
-    0 8px 24px var(--auth-shadow),
-    0 24px 48px var(--auth-shadow-soft);
+  box-shadow: var(--md-elevation-3);
   min-height: 600px;
 }
 
@@ -422,10 +416,7 @@ body.auth-page .md-topbar-actions .md-btn-icon[aria-label="Search"] {
   border-radius: 14px;
   padding: 18px;
   color: var(--md-on-surface);
-  box-shadow:
-    0 1px 2px color-mix(in srgb, var(--md-scrim) 8%, transparent),
-    0 12px 32px color-mix(in srgb, var(--md-scrim) 18%, transparent),
-    0 24px 48px color-mix(in srgb, var(--md-scrim) 12%, transparent);
+  box-shadow: var(--md-elevation-3);
   margin-top: 8px;
   max-width: 460px;
 }
