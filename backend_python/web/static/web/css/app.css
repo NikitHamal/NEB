@@ -3183,7 +3183,7 @@ button:focus-visible {
 
 .follow-btn-inline.not-following:hover,
 .follow-btn-small.not-following:hover {
-  background: rgba(27, 110, 243, 0.08);
+  background: color-mix(in srgb, var(--md-primary) 10%, transparent);
   border-color: var(--md-primary);
   color: var(--md-primary);
 }
@@ -3198,20 +3198,9 @@ button:focus-visible {
 
 .follow-btn-inline.following:hover,
 .follow-btn-small.following:hover {
-  background: rgba(179, 38, 30, 0.08);
+  background: color-mix(in srgb, var(--md-error) 10%, transparent);
   color: var(--md-error);
   border-color: var(--md-error);
-}
-
-/* Dark theme specific overrides */
-[data-theme="dark"] .follow-btn-inline.not-following:hover,
-[data-theme="dark"] .follow-btn-small.not-following:hover {
-  background: rgba(180, 197, 255, 0.12);
-}
-
-[data-theme="dark"] .follow-btn-inline.following:hover,
-[data-theme="dark"] .follow-btn-small.following:hover {
-  background: rgba(242, 184, 181, 0.12);
 }
 
 .profile-avatar {

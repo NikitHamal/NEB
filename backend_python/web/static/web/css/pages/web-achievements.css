@@ -1,198 +1,223 @@
+/* ──────────────────────────────────────────────────────────────────
+   Achievements
+
+   This sheet was lifted out of an inline <style> and kept that block's
+   indentation and its palette: eleven literals, no dark theme at all.
+   The unlocked medal was #e9f2ff/#004ac6 and the locked one #f4f4f5 --
+   pale discs that looked right on a white card and became two bright
+   holes punched in a dark one. Everything below reads tokens now, so
+   the page answers the theme without a single [data-theme="dark"] rule.
+   ────────────────────────────────────────────────────────────────── */
+
 .achieve-page {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 0 16px 48px;
-  }
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 16px 48px;
+}
 
-  .achieve-header {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin: 16px 0 24px;
-  }
+.achieve-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 16px 0 24px;
+}
 
-  .achieve-header h1 {
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: var(--md-on-surface);
-    margin: 0;
-  }
+.achieve-header h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--md-on-surface);
+  margin: 0;
+}
 
-  .achieve-subtitle {
-    font-size: 0.9375rem;
-    color: var(--md-on-surface-variant);
-    margin-bottom: 24px;
-    line-height: 1.5;
-  }
+.achieve-subtitle {
+  font-size: 0.9375rem;
+  color: var(--md-on-surface-variant);
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
 
-  /* ── Stats Summary Row ── */
+/* ── Stats Summary Row ── */
+.achieve-stats-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.achieve-stat-card {
+  background: var(--md-surface-container-low);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-shape-lg);
+  padding: 16px;
+  text-align: center;
+}
+
+.achieve-stat-num {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--md-primary);
+}
+
+.achieve-stat-name {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--md-on-surface-variant);
+  margin-top: 4px;
+}
+
+/* ── List Layout ── */
+.achieve-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.achieve-item-card {
+  background: var(--md-surface);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-shape-xl);
+  padding: 20px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.achieve-item-card.unlocked {
+  border-color: var(--md-primary);
+  background: color-mix(in srgb, var(--md-primary) 4%, var(--md-surface));
+}
+
+.achieve-item-card.locked {
+  opacity: 0.8;
+}
+
+.achieve-icon-wrap {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--md-shape-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* The medal is a 26px glyph on a wash of its own accent, so it needs 3:1
+   and the accent is carried 86% of the way towards the page ink -- darker
+   in light theme, lighter in dark, legible in both. */
+.achieve-item-card.unlocked .achieve-icon-wrap {
+  background: color-mix(in srgb, var(--neb-accent-brand) 14%, transparent);
+  color: color-mix(in srgb, var(--neb-accent-brand) 86%, var(--md-on-surface));
+  border: 1px solid color-mix(in srgb, var(--neb-accent-brand) 28%, transparent);
+}
+
+.achieve-item-card.locked .achieve-icon-wrap {
+  background: var(--md-surface-container-high);
+  color: var(--md-on-surface-tertiary);
+  border: 1px solid var(--md-outline-variant);
+}
+
+.achieve-icon-wrap .material-symbols-outlined {
+  font-size: 26px;
+}
+
+.achieve-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.achieve-name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.achieve-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--md-on-surface);
+}
+
+.achieve-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: var(--md-shape-xs);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* 11px uppercase is the smallest type on the page: 4.5:1, which the green
+   reaches at 72%. */
+.achieve-status-badge.unlocked {
+  background: color-mix(in srgb, var(--neb-accent-green) 12%, transparent);
+  color: color-mix(in srgb, var(--neb-accent-green) 72%, var(--md-on-surface));
+}
+
+.achieve-status-badge.locked {
+  background: color-mix(in srgb, var(--md-on-surface) 6%, transparent);
+  color: var(--md-on-surface-variant);
+}
+
+.achieve-desc {
+  font-size: 0.875rem;
+  color: var(--md-on-surface-variant);
+  margin: 0 0 10px;
+  line-height: 1.45;
+}
+
+/* Progress Indicators */
+.achieve-progress-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.achieve-progress-track {
+  flex: 1;
+  height: 6px;
+  background: var(--md-surface-container-highest);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.achieve-progress-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: var(--md-primary);
+  transition: width 0.4s ease;
+}
+
+.achieve-progress-text {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--md-on-surface-variant);
+  width: 64px;
+  text-align: right;
+}
+
+@media (max-width: 600px) {
   .achieve-stats-summary {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin-bottom: 28px;
-  }
-  .achieve-stat-card {
-    background: var(--md-surface-container-low, #f8f9fc);
-    border: 1px solid var(--md-outline-variant, #e2e8f0);
-    border-radius: 16px;
-    padding: 16px;
-    text-align: center;
-  }
-  .achieve-stat-num {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--md-primary);
-  }
-  .achieve-stat-name {
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: var(--md-on-surface-variant);
-    margin-top: 4px;
-  }
-
-  /* ── List Layout ── */
-  .achieve-list {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+    grid-template-columns: 1fr;
+    gap: 8px;
   }
 
   .achieve-item-card {
-    background: var(--md-surface, #fff);
-    border: 1px solid var(--md-outline-variant, #e2e8f0);
-    border-radius: 20px;
-    padding: 20px;
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    transition: all 0.2s ease;
-  }
-
-  .achieve-item-card.unlocked {
-    border-color: var(--md-primary, #004ac6);
-    background: rgba(27, 110, 243, 0.02);
-  }
-
-  .achieve-item-card.locked {
-    opacity: 0.8;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px;
   }
 
   .achieve-icon-wrap {
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-
-  .achieve-item-card.unlocked .achieve-icon-wrap {
-    background: #e9f2ff;
-    color: #004ac6;
-    border: 1px solid #c3dafc;
-  }
-
-  .achieve-item-card.locked .achieve-icon-wrap {
-    background: #f4f4f5;
-    color: #a1a1aa;
-    border: 1px solid #e4e4e7;
+    width: 48px;
+    height: 48px;
   }
 
   .achieve-icon-wrap .material-symbols-outlined {
-    font-size: 26px;
+    font-size: 22px;
   }
-
-  .achieve-info {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .achieve-name-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 4px;
-  }
-
-  .achieve-name {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--md-on-surface);
-  }
-
-  .achieve-status-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    padding: 2px 8px;
-    border-radius: 6px;
-    font-size: 0.6875rem;
-    font-weight: 700;
-    text-transform: uppercase;
-  }
-
-  .achieve-status-badge.unlocked {
-    background: rgba(0, 110, 28, 0.08);
-    color: #006E1C;
-  }
-
-  .achieve-status-badge.locked {
-    background: rgba(0, 0, 0, 0.05);
-    color: var(--md-on-surface-variant);
-  }
-
-  .achieve-desc {
-    font-size: 0.875rem;
-    color: var(--md-on-surface-variant);
-    margin: 0 0 10px;
-    line-height: 1.45;
-  }
-
-  /* Progress Indicators */
-  .achieve-progress-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .achieve-progress-track {
-    flex: 1;
-    height: 6px;
-    background: var(--md-surface-container-highest, #e2e8f0);
-    border-radius: 3px;
-    overflow: hidden;
-  }
-  .achieve-progress-fill {
-    height: 100%;
-    border-radius: 3px;
-    background: var(--md-primary);
-    transition: width 0.4s ease;
-  }
-  .achieve-progress-text {
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--md-on-surface-variant);
-    width: 64px;
-    text-align: right;
-  }
-
-  @media (max-width: 600px) {
-    .achieve-stats-summary {
-      grid-template-columns: 1fr;
-      gap: 8px;
-    }
-    .achieve-item-card {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 14px;
-      padding: 16px;
-    }
-    .achieve-icon-wrap {
-      width: 48px;
-      height: 48px;
-    }
-    .achieve-icon-wrap .material-symbols-outlined {
-      font-size: 22px;
-    }
-  }
+}
