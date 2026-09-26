@@ -173,29 +173,79 @@
   font-weight: 700;
 }
 
-/* FAB */
+/* FAB, drawn as the app's create button (LiquidGlassNav.kt:267).
+
+   Expressive's four-lobed clover, not a rounded rectangle: it is the one
+   control on the screen that is not a circle or a box, so it reads as a
+   deliberate object rather than one more button. The fill is the rail's own
+   gradient -- a saturated blue slab against a neutral bar reads as two
+   materials that happen to be adjacent, whereas sharing the bar's fill makes
+   it one object with a piece pushed out of it, and lets the shape carry the
+   emphasis instead of the colour. The glyph keeps the brand blue, so the
+   create action is still the accent.
+
+   No border. A border is painted and then clipped, so a hairline around a
+   scalloped silhouette comes out as four broken arcs -- the shape is the
+   frame. Add .md-shape-clover in the markup to cut it. */
 .md-fab {
   position: fixed;
   bottom: 24px;
   right: 24px;
-  width: 56px;
-  height: 56px;
-  border-radius: 16px;
-  background: var(--md-primary-container);
-  color: var(--md-on-primary-container);
+  width: 58px;
+  height: 58px;
+  border-radius: 18px;
+  background: linear-gradient(to bottom,
+              var(--md-surface-container-lowest),
+              var(--md-surface-container-low));
+  color: var(--md-primary);
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: var(--md-elevation-3);
-  transition: all var(--md-transition);
+  /* A neutral shadow. The tinted one put a blue halo round the lobes and
+     turned a button into a bloom. */
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+  transition: transform var(--md-motion-spatial-fast),
+              box-shadow var(--md-motion-effects);
   z-index: 50;
 }
 
+[data-theme="dark"] .md-fab {
+  background: linear-gradient(to bottom,
+              var(--md-surface-container-high),
+              var(--md-surface-container));
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.42);
+}
+
+/* The app spins the shape 40 degrees when the menu opens. The clover has
+   ninety-degree rotational symmetry, so at that angle the silhouette is
+   genuinely different rather than landing back on itself -- which is why it
+   is the clover and not a cookie. The web has no menu to open, so the spin
+   is the press. */
 .md-fab:hover {
-  box-shadow: var(--md-elevation-3);
-  filter: brightness(1.06);
+  transform: rotate(12deg);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.22);
+}
+
+.md-fab:active {
+  transform: rotate(40deg) scale(0.94);
+}
+
+.md-fab .material-symbols-outlined {
+  font-size: 26px;
+  /* The glyph must not turn with the shape. */
+  transition: transform var(--md-motion-spatial-fast);
+}
+
+.md-fab:hover .material-symbols-outlined { transform: rotate(-12deg); }
+.md-fab:active .material-symbols-outlined { transform: rotate(-40deg); }
+
+@media (prefers-reduced-motion: reduce) {
+  .md-fab:hover,
+  .md-fab:active,
+  .md-fab:hover .material-symbols-outlined,
+  .md-fab:active .material-symbols-outlined { transform: none; }
 }
 
 .md-fab svg {

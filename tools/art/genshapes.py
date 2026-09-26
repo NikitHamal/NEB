@@ -79,6 +79,21 @@ def _gem():
     return r
 
 
+def _clover(count, depth, sharpness=2.0):
+    """A clover: fat lobes separated by narrow notches.
+
+    A cookie is a cosine, which spends as much of its circumference in the
+    valley as on the peak -- at four lobes that reads as a four-pointed star,
+    not as Expressive's Clover4Leaf. Raising the normalised valley to a power
+    above one pulls the notch in tight and leaves the lobe broad, which is the
+    difference between a sparkle and a clover.
+    """
+    def r(t):
+        u = (1.0 - math.cos(count * t)) / 2.0
+        return 1.0 - depth * (u ** sharpness)
+    return r
+
+
 def _lobed(count, depth, phase=0.0):
     """A cookie: a circle with `count` lobes pushed out of it."""
     def r(t):
@@ -104,7 +119,7 @@ SHAPES = [
 # Shapes offered as clip-paths. A couple are not in the morph but are what the
 # app puts avatars and badges in.
 CLIPS = SHAPES + [
-    ("clover", _lobed(4, 0.17, phase=math.pi / 4)),
+    ("clover", _clover(4, 0.26)),
     ("square", _superellipse(1.0, 1.0, 4.0)),
     ("circle", lambda t: 1.0),
     # The other two in the app's NebShapes.Option bank. A column of four
@@ -168,10 +183,38 @@ def build_css():
     ]
     for name, r in CLIPS:
         lines.append('.md-shape-%s { clip-path: %s; }' % (name, _poly(r)))
+    lines.append(_option_cycle_css())
     lines.append(LOADER_CSS.replace('$CYCLE', CYCLE))
     lines.append(_morph_keyframes())
     return '\n'.join(lines) + '\n'
 
+
+
+# NebShapes.Option, in order. A column of four identical rounded squares is a
+# form; four different silhouettes is a choice, and the user can tell which one
+# they picked from across the room. The app spells this as
+# NebShapes.option(index); on the web nth-child does the indexing.
+OPTION_CYCLE = ["cookie-9", "clover", "gem", "slanted"]
+
+
+def _option_cycle_css():
+    """Auto-assign the Option bank's silhouettes down a list of options.
+
+    Android calls NebGlyphTile(polygon = NebShapes.option(index)) and gets the
+    rotation for free. Putting it in a container class means web markup does
+    not have to hand-count .md-shape-* classes either -- and cannot get the
+    order wrong, which is the whole point of generating this file.
+    """
+    out = ["", "/* \u2500\u2500 Option banks " + "\u2500" * 59,
+           "   NebShapes.Option, cycled by position. Wrap a bank of .neb-option",
+           "   or .neb-tile in .neb-opt-bank and their glyph tiles take one",
+           "   silhouette each, in the app's order. */"]
+    clips = dict(CLIPS)
+    n = len(OPTION_CYCLE)
+    for i, name in enumerate(OPTION_CYCLE):
+        sel = ".neb-opt-bank > *:nth-child(%dn+%d) > .neb-glyph" % (n, i + 1)
+        out.append("%s {\n  clip-path: %s;\n}" % (sel, _poly(clips[name])))
+    return "\n".join(out) + "\n"
 
 def _poly(r):
     pts = sample(r, scale=50.0)

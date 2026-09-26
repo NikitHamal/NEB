@@ -572,11 +572,12 @@
 }
 .neb-picker-row:hover { background: var(--md-surface-container); }
 .neb-picker-row-text { flex: 1; min-width: 0; }
-/* NebShapes.Avatar, at the size the app uses in a list row. */
+/* A face in a list row, at the size the app uses. Round -- see NebAvatar. */
 .neb-picker-row-avatar {
   flex: none;
   width: 38px;
   height: 38px;
+  border-radius: 50%;
   object-fit: cover;
   background: var(--md-surface-container-highest);
 }
