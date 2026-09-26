@@ -14,6 +14,12 @@
     position: relative;
     overflow: hidden;
   }
+  /* The cover below this is generative art and stays deep in both themes
+     (ProfileCoverArt.kt says why), so its chrome cannot follow the theme
+     either. The dark plate that used to come in here sat at about 1.1:1
+     against the cover -- the icon still read, the button did not. A white
+     plate with fixed dark ink reads on the art and on a user's own photo,
+     which is the same call the media overlays make. */
   .profile-banner-back-btn {
     position: absolute;
     top: 16px;
@@ -28,7 +34,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--md-on-surface);
+    color: #16181D;
     cursor: pointer;
     z-index: 10;
     transition: background 0.2s, transform 0.2s;
@@ -40,14 +46,6 @@
   }
   .profile-banner-back-btn .material-symbols-outlined {
     font-size: 20px;
-  }
-
-  [data-theme="dark"] .profile-banner-back-btn {
-    background: rgba(30, 30, 40, 0.85);
-    border-color: rgba(255, 255, 255, 0.1);
-  }
-  [data-theme="dark"] .profile-banner-back-btn:hover {
-    background: rgba(30, 30, 40, 1);
   }
 
   .profile-banner-art {
