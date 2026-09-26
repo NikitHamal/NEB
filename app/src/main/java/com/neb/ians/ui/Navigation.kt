@@ -51,6 +51,8 @@ import com.neb.ians.ui.components.LiquidGlassProfileSheet
 import com.neb.ians.ui.components.NebFabAction
 import com.neb.ians.ui.components.NebFabMenuScrim
 import com.neb.ians.ui.components.NebNavItem
+import com.neb.ians.ui.components.nebGlassBackdrop
+import com.neb.ians.ui.components.rememberNebGlassBackdrop
 import com.neb.ians.ui.screens.home.HomeScreen
 import com.neb.ians.ui.screens.library.LibraryScreen
 import com.neb.ians.ui.screens.canvas.CanvasScreen
@@ -329,11 +331,18 @@ fun NEBiansNavHost(
         }
     }
 
+    // The page, recorded once per frame so the bar floating over it has a real
+    // backdrop to refract rather than a guess. Costs one extra draw of the
+    // NavHost's already-rasterised layer; nothing re-composes for it.
+    val glassBackdrop = rememberNebGlassBackdrop()
+
     Box(modifier = Modifier.fillMaxSize()) {
         NavHost(
             navController = navController,
             startDestination = Screen.Splash.route,
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .nebGlassBackdrop(glassBackdrop),
             enterTransition = {
                 slideInHorizontally(
                     initialOffsetX = { (it * 0.10f).toInt() },
@@ -932,6 +941,7 @@ fun NEBiansNavHost(
                 menuActions = createMenuActions,
                 menuExpanded = showCreateMenu,
                 onMenuDismiss = { showCreateMenu = false },
+                backdrop = glassBackdrop,
                 modifier = Modifier.align(Alignment.BottomCenter)
             )
         }

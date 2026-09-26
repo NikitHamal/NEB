@@ -160,10 +160,22 @@ fun LiquidGlassBottomNav(
     photoUrl: String? = null,
     username: String = "",
     onProfileClick: (() -> Unit)? = null,
+    /**
+     * The page underneath, if the caller recorded one. Given a backdrop the rail
+     * becomes real glass: it samples what is actually behind it, blurs it, and
+     * bends it at the rim. Without one — or on a device that cannot run the
+     * shader — it stays the opaque surface described below.
+     */
+    backdrop: NebGlassBackdrop? = null,
 ) {
     val isDark = MaterialTheme.colorScheme.surface.luminanceIsDark()
     val isLowEnd = com.neb.ians.util.rememberIsLowEndDevice()
     val scheme = MaterialTheme.colorScheme
+
+    // Glass if the caller gave us a page to refract and the device can do it.
+    val glassTier = rememberNebGlassTier()
+    val glassStyle = rememberNebGlassStyle(isDark)
+    val glass = backdrop != null && glassTier != NebGlassTier.FLAT
 
     // The bar is opaque, and that is the point of this block.
     //
@@ -225,9 +237,25 @@ fun LiquidGlassBottomNav(
                             ambientColor = Color.Black.copy(alpha = shadowAlpha),
                             spotColor = Color.Black.copy(alpha = shadowAlpha)
                         )
-                        .clip(CircleShape)
-                        .background(barBrush)
-                        .border(1.dp, barBorder, CircleShape)
+                        // Glass clips and rims itself, so it does not get the
+                        // outer .clip: a stroke centred on a clipped path loses
+                        // its outer half, and the rim is the edge of the
+                        // material. The opaque path keeps both, unchanged.
+                        .then(
+                            if (glass) {
+                                Modifier.nebLiquidGlass(
+                                    backdrop = backdrop!!,
+                                    shape = CircleShape,
+                                    style = glassStyle,
+                                    tier = glassTier
+                                )
+                            } else {
+                                Modifier
+                                    .clip(CircleShape)
+                                    .background(barBrush)
+                                    .border(1.dp, barBorder, CircleShape)
+                            }
+                        )
                         .padding(horizontal = 6.dp),
                     horizontalArrangement = Arrangement.spacedBy(4.dp),
                     verticalAlignment = Alignment.CenterVertically
