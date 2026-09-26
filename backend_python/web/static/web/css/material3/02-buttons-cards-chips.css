@@ -26,9 +26,7 @@
   color: var(--md-on-primary);
 }
 
-.md-btn-filled:hover {
-  filter: brightness(1.08);
-}
+/* Hover and press are the state layer in 07-expressive.css. */
 
 .md-btn-outlined {
   background: transparent;
@@ -36,26 +34,14 @@
   border: 1px solid var(--md-outline);
 }
 
-.md-btn-outlined:hover {
-  background: color-mix(in srgb, var(--md-primary) 8%, transparent);
-}
-
 .md-btn-text {
   background: transparent;
   color: var(--md-primary);
 }
 
-.md-btn-text:hover {
-  background: color-mix(in srgb, var(--md-primary) 8%, transparent);
-}
-
 .md-btn-tonal {
   background: var(--md-secondary-container);
   color: var(--md-on-secondary-container);
-}
-
-.md-btn-tonal:hover {
-  filter: brightness(1.04);
 }
 
 .md-btn-error {
