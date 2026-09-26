@@ -1,95 +1,108 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Edit Profile & Study Preferences — NEBians{% endblock %}
+{% block title %}Edit profile — NEBians{% endblock %}
 {% block robots %}<meta name="robots" content="noindex,nofollow">{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'web/css/pages/web-edit-profile.css' %}">
 <link rel="stylesheet" href="{% static 'web/css/app/10-social-links.css' %}?v=1.1">
-<style nonce="{{ csp_nonce }}">
-  .md-input-picker {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 14px;
-    border: 1px solid var(--md-outline, #79747e);
-    border-radius: 12px;
-    font-family: inherit;
-    font-size: 0.9375rem;
-    background: var(--md-surface-container-lowest, #fff);
-    color: var(--md-on-surface, #1d1b20);
-    cursor: pointer;
-    min-height: 44px;
-    box-sizing: border-box;
-    user-select: none;
-    transition: border-color 0.15s, background-color 0.15s;
-  }
-  .md-input-picker:hover {
-    border-color: var(--md-primary, #005FAF);
-    background-color: rgba(var(--md-primary-rgb, 0, 95, 175), 0.04);
-  }
-  .subject-pick-item.active {
-    background: rgba(var(--md-primary-rgb, 0, 95, 175), 0.12) !important;
-  }
-  .subject-pick-item-single {
-    display: flex;
-    align-items: center;
-    padding: 12px 16px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.15s;
-  }
-  .subject-pick-item-single:hover {
-    background: rgba(var(--md-primary-rgb, 0, 95, 175), 0.08);
-  }
-</style>
 {% endblock %}
 
 {% block content %}
-<div class="md-container-narrow" style="padding-top:24px;">
-  <h1 class="md-headline-small mb-3">{% if profile_incomplete %}Complete Your Profile{% else %}Edit Profile{% endif %}</h1>
+{# ── The profile editor ─────────────────────────────────────────────────────
+   One scroll, seven titled sections, and a save that stays within reach
+   instead of waiting at the bottom of a long form. This is the app's
+   EditProfileScreen. The web had every field in a single undivided card, so
+   scrolling it told you neither how much was left nor what any field had to do
+   with the one above it. #}
+<div class="epf-page">
+  <header class="epf-head">
+    <h1 class="epf-title">{% if profile_incomplete %}Complete your profile{% else %}Edit profile{% endif %}</h1>
+    <p class="epf-subtitle">This is what other NEBians see when they land on you.</p>
+  </header>
 
   {% if profile_incomplete %}
-  <div style="background:var(--md-primary-container, #d1e4ff);color:var(--md-on-primary-container, #001d6b);padding:12px 16px;border-radius:12px;margin-bottom:16px;font-size:0.875rem;font-weight:500;">
-    Please complete your profile to continue. Display name, gender, and role-specific fields are required.
+  <div class="epf-note epf-note-info">
+    <span class="material-symbols-outlined">info</span>
+    <span>Display name, gender and your role's own fields are needed before you can continue.</span>
   </div>
   {% elif error %}
-  <div style="background:var(--md-error-container, #fce4ec);color:var(--md-on-error-container, #b71c1c);padding:12px 16px;border-radius:12px;margin-bottom:16px;font-size:0.875rem;font-weight:500;">
-    {{ error }}
+  <div class="epf-note epf-note-error">
+    <span class="material-symbols-outlined">error</span>
+    <span>{{ error }}</span>
   </div>
   {% endif %}
 
-  <div class="md-card p-3">
-    <form method="post">
-      {% csrf_token %}
+  <form method="post" class="epf-form">
+    {% csrf_token %}
+
+    {# Who you are right now, and how much of you is filled in. The meter
+       counts the same ten things the app's profileStrength() counts. #}
+    <div class="epf-identity">
+      <div class="epf-identity-avatar">
+        {% if user.photo_url %}
+          <img id="edit-avatar-preview" src="{{ user.photo_url }}" alt="Avatar" style="width:100%;height:100%;object-fit:cover;">
+        {% else %}
+          <div id="edit-avatar-preview-initial" class="epf-identity-initial">{{ user.username|slice:":1" }}</div>
+        {% endif %}
+      </div>
+      <div class="epf-identity-main">
+        <div class="epf-identity-name">{{ user.display_name|default:user.username }}</div>
+        <div class="epf-identity-handle">@{{ user.username }}</div>
+        <div class="epf-identity-photo">
+          <input type="file" id="photo_file" accept="image/*" class="epf-file-input" data-change-action="edit-photo-upload">
+          <button type="button" class="md-btn md-btn-outlined md-btn-small" data-action="trigger-photo-upload">
+            <span class="material-symbols-outlined">photo_camera</span>
+            Change photo
+          </button>
+          <span class="epf-hint">JPG, PNG or WebP. Max 5MB.</span>
+        </div>
+      </div>
+      <div class="epf-strength" id="epf-strength">
+        <div class="epf-strength-top">
+          <span class="epf-strength-count" id="epf-strength-count">0/10</span>
+          <span class="epf-strength-word" id="epf-strength-word">Getting started</span>
+        </div>
+        <div class="epf-strength-track">
+          <div class="epf-strength-fill" id="epf-strength-fill"></div>
+        </div>
+      </div>
+    </div>
+
+    <section class="epf-section">
+      <h2 class="epf-section-title">Basics</h2>
+      <p class="epf-section-note">Your name, your handle, and the line people read first.</p>
 
       <div class="form-group">
-        <label class="md-label">Profile Picture</label>
-        <div style="display:flex;align-items:center;gap:16px;margin-top:8px;margin-bottom:16px;">
-          <div style="width:80px;height:80px;border-radius:50%;overflow:hidden;border:1px solid var(--md-outline-variant);background:var(--md-surface-container-high);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-            {% if user.photo_url %}
-              <img id="edit-avatar-preview" src="{{ user.photo_url }}" alt="Avatar" style="width:100%;height:100%;object-fit:cover;">
-            {% else %}
-              <div id="edit-avatar-preview-initial" style="font-size:2rem;font-weight:700;color:var(--md-primary);text-transform:uppercase;">
-                {{ user.username|slice:":1" }}
-              </div>
-            {% endif %}
-          </div>
-          <div style="display:flex;flex-direction:column;gap:8px;">
-            <input type="file" id="photo_file" accept="image/*" style="position:absolute;width:0;height:0;opacity:0;overflow:hidden;" data-change-action="edit-photo-upload">
-            <button type="button" class="md-btn md-btn-outlined" data-action="trigger-photo-upload" style="padding: 6px 16px; font-size: 0.875rem;">
-              <span class="material-symbols-outlined" style="font-size: 18px; margin-right: 6px;">upload</span>
-              Upload Photo
-            </button>
-            <span style="font-size:0.75rem;color:var(--md-on-surface-variant);">JPG, PNG or WebP. Max 5MB.</span>
-          </div>
+        <label class="md-label" for="username">Username *</label>
+        <input type="text" id="username" name="username" class="md-input" value="{{ user.username|default:'' }}" required minlength="3" pattern="[a-zA-Z0-9_]+">
+        <div id="username-status" class="form-error" style="display:none;"></div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="md-label" for="display_name">Display name *</label>
+          <input type="text" id="display_name" name="display_name" class="md-input" value="{{ user.display_name|default:'' }}" required>
+        </div>
+        <div class="form-group">
+          <label class="md-label" for="email">Email</label>
+          <input type="email" id="email" name="email" class="md-input" value="{{ user.email|default:'' }}">
         </div>
       </div>
 
       <div class="form-group">
-        <label class="md-label" for="role">I am a...</label>
-        <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;" id="role-selector">
+        <label class="md-label" for="bio">Bio</label>
+        <textarea id="bio" name="bio" class="md-textarea" rows="3" placeholder="Tell others about yourself...">{{ user.bio|default:'' }}</textarea>
+      </div>
+    </section>
+
+    <section class="epf-section">
+      <h2 class="epf-section-title">Role</h2>
+      <p class="epf-section-note">What you are here to do. It decides which of the fields below you get.</p>
+
+      <div class="form-group">
+        <div class="epf-role-grid" id="role-selector">
           <label class="role-radio-card{% if user.role == 'student' %} role-radio-active{% endif %}">
             <input type="radio" name="role" value="student" {% if user.role == 'student' or not user.role %}checked{% endif %} style="display:none;">
             Student
@@ -109,44 +122,6 @@
         </div>
       </div>
 
-      <div class="form-group">
-        <label class="md-label" for="username">Username *</label>
-        <input type="text" id="username" name="username" class="md-input" value="{{ user.username|default:'' }}" required minlength="3" pattern="[a-zA-Z0-9_]+">
-        <div id="username-status" class="form-error" style="display:none;"></div>
-      </div>
-
-      <div class="form-row">
-        <div class="form-group">
-          <label class="md-label" for="display_name">Display Name *</label>
-          <input type="text" id="display_name" name="display_name" class="md-input" value="{{ user.display_name|default:'' }}" required>
-        </div>
-        <div class="form-group">
-          <label class="md-label" for="email">Email</label>
-          <input type="email" id="email" name="email" class="md-input" value="{{ user.email|default:'' }}">
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label class="md-label" for="bio">Bio</label>
-        <textarea id="bio" name="bio" class="md-textarea" rows="3" placeholder="Tell others about yourself...">{{ user.bio|default:'' }}</textarea>
-      </div>
-
-      <div class="form-row">
-        <div class="form-group">
-          <label class="md-label" for="dob">Date of Birth *</label>
-          <input type="date" id="dob" name="dob" class="md-input" value="{{ user.dob|default:'' }}" required>
-        </div>
-        <div class="form-group">
-          <label class="md-label" for="gender">Gender *</label>
-          <select id="gender" name="gender" class="md-select" required>
-            <option value="">Select gender</option>
-            <option value="Male" {% if user.gender == 'Male' %}selected{% endif %}>Male</option>
-            <option value="Female" {% if user.gender == 'Female' %}selected{% endif %}>Female</option>
-            <option value="Other" {% if user.gender == 'Other' %}selected{% endif %}>Other</option>
-          </select>
-        </div>
-      </div>
-
       <!-- Student fields -->
       <div id="role-fields-student" class="role-fields" style="{% if user.role == 'student' or not user.role %}{% else %}display:none;{% endif %}">
         <div class="form-group">
@@ -161,7 +136,7 @@
                 Pick
               </button>
             </div>
-            <div style="font-size:0.8125rem;color:var(--md-on-surface-variant);margin-top:4px;">Press Enter or comma to add. Click Pick to browse suggestions.</div>
+            <div class="epf-hint">Press Enter or comma to add. Pick browses the whole list.</div>
           </div>
         </div>
       </div>
@@ -169,7 +144,7 @@
       <!-- Teacher fields -->
       <div id="role-fields-teacher" class="role-fields" style="{% if user.role == 'teacher' %}{% else %}display:none;{% endif %}">
         <div class="form-group">
-          <label class="md-label">Teaching Subjects *</label>
+          <label class="md-label">Teaching subjects *</label>
           <input type="hidden" id="teaching-subjects-hidden" name="teaching_subjects" value="{{ user.teaching_subjects|default:'' }}">
           <div class="subject-chips-area" id="teaching-subjects-chips-area">
             <div class="subject-chips" id="teaching-subjects-chips"></div>
@@ -180,7 +155,7 @@
                 Pick
               </button>
             </div>
-            <div style="font-size:0.8125rem;color:var(--md-on-surface-variant);margin-top:4px;">Add the subjects you teach. Students will find you by these.</div>
+            <div class="epf-hint">Students find you by these.</div>
           </div>
         </div>
       </div>
@@ -188,7 +163,7 @@
       <!-- Institution fields -->
       <div id="role-fields-institution" class="role-fields" style="{% if user.role == 'institution' %}{% else %}display:none;{% endif %}">
         <div class="form-group">
-          <label class="md-label" for="institution_type">Institution Type *</label>
+          <label class="md-label" for="institution_type">Institution type *</label>
           <select id="institution_type" name="institution_type" class="md-select">
             <option value="">Select type</option>
             <option value="school" {% if user.institution_type == 'school' %}selected{% endif %}>School</option>
@@ -200,23 +175,67 @@
       </div>
 
       <!-- Explorer fields -->
-      <div id="role-fields-explorer" class="role-fields" style="display:none;"></div>
+      <div id="role-fields-explorer" class="role-fields" style="{% if user.role == 'explorer' %}{% else %}display:none;{% endif %}">
+        <p class="epf-hint epf-hint-block">Explorers have nothing else to fill in here. Everything below is optional.</p>
+      </div>
+    </section>
+
+    <section class="epf-section">
+      <h2 class="epf-section-title">Personal</h2>
+      <p class="epf-section-note">Kept off your profile. Your age is what decides the feed you get.</p>
 
       <div class="form-row">
         <div class="form-group">
-          <label class="md-label" id="class-label-el">Class / Level</label>
-          <div class="md-input-picker" id="class_level_picker_trigger">
-            <span id="class_level_selected_text">
-              {% if user.class_level %}
-                {% if user.class_level == '11' %}Class 11
-                {% elif user.class_level == '12' %}Class 12
-                {% else %}{{ user.class_level }}{% endif %}
-              {% else %}Select class{% endif %}
-            </span>
-            <span class="material-symbols-outlined">arrow_drop_down</span>
-          </div>
-          <input type="hidden" id="class_level" name="class_level" value="{{ user.class_level|default:'' }}">
+          <label class="md-label" for="dob">Date of birth *</label>
+          <input type="date" id="dob" name="dob" class="md-input" value="{{ user.dob|default:'' }}" required>
         </div>
+        <div class="form-group">
+          <label class="md-label" for="gender">Gender *</label>
+          <select id="gender" name="gender" class="md-select" required>
+            <option value="">Select gender</option>
+            <option value="Male" {% if user.gender == 'Male' %}selected{% endif %}>Male</option>
+            <option value="Female" {% if user.gender == 'Female' %}selected{% endif %}>Female</option>
+            <option value="Other" {% if user.gender == 'Other' %}selected{% endif %}>Other</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <section class="epf-section">
+      <h2 class="epf-section-title">Studies</h2>
+      <p class="epf-section-note">What you are studying, and where.</p>
+
+      <div class="form-group">
+        <label class="md-label" id="class-label-el">Class / Level</label>
+        <div class="md-input-picker" id="class_level_picker_trigger">
+          <span id="class_level_selected_text">
+            {% if user.class_level %}
+              {% if user.class_level == '11' %}Class 11
+              {% elif user.class_level == '12' %}Class 12
+              {% else %}{{ user.class_level }}{% endif %}
+            {% else %}Select class{% endif %}
+          </span>
+          <span class="material-symbols-outlined">arrow_drop_down</span>
+        </div>
+        <input type="hidden" id="class_level" name="class_level" value="{{ user.class_level|default:'' }}">
+      </div>
+
+      <div class="form-group">
+        <label class="md-label" id="school-label">School/College</label>
+        <div class="md-input-picker" id="school_picker_trigger">
+          <span id="school_selected_text">{{ user.school|default:'Select school/college' }}</span>
+          <span class="material-symbols-outlined">arrow_drop_down</span>
+        </div>
+        <input type="hidden" id="school" name="school" value="{{ user.school|default:'' }}">
+        <input type="hidden" id="school_username" name="school_username" value="{{ user.school_username|default:'' }}">
+      </div>
+    </section>
+
+    <section class="epf-section">
+      <h2 class="epf-section-title">Where you are</h2>
+      <p class="epf-section-note">Province and district, so the schools and people near you can find you.</p>
+
+      <div class="form-row">
         <div class="form-group" id="province-district-group">
           <label class="md-label">Province</label>
           <div class="md-input-picker" id="pradesh_picker_trigger">
@@ -234,62 +253,59 @@
           </div>
           <input type="hidden" id="pradesh" name="pradesh" value="{{ user.pradesh|default:'' }}">
         </div>
-      </div>
-
-      <div class="form-group">
-        <label class="md-label">District</label>
-        <div class="md-input-picker" id="district_picker_trigger">
-          <span id="district_selected_text">{{ user.district|default:'Select district' }}</span>
-          <span class="material-symbols-outlined">arrow_drop_down</span>
+        <div class="form-group">
+          <label class="md-label">District</label>
+          <div class="md-input-picker" id="district_picker_trigger">
+            <span id="district_selected_text">{{ user.district|default:'Select district' }}</span>
+            <span class="material-symbols-outlined">arrow_drop_down</span>
+          </div>
+          <input type="hidden" id="district" name="district" value="{{ user.district|default:'' }}">
         </div>
-        <input type="hidden" id="district" name="district" value="{{ user.district|default:'' }}">
       </div>
+    </section>
 
-      <div class="form-group">
-        <label class="md-label" id="school-label">School/College</label>
-        <div class="md-input-picker" id="school_picker_trigger">
-          <span id="school_selected_text">{{ user.school|default:'Select school/college' }}</span>
-          <span class="material-symbols-outlined">arrow_drop_down</span>
+    <section class="epf-section">
+      <div class="epf-section-head">
+        <div>
+          <h2 class="epf-section-title">Links</h2>
+          <p class="epf-section-note">Instagram, YouTube, GitHub, a site of your own — whatever belongs on your profile.</p>
         </div>
-        <input type="hidden" id="school" name="school" value="{{ user.school|default:'' }}">
-        <input type="hidden" id="school_username" name="school_username" value="{{ user.school_username|default:'' }}">
+        <button type="button" class="md-btn md-btn-tonal md-btn-small" id="add-social-link-btn" data-action="open-social-link-dialog">
+          <span class="material-symbols-outlined">add</span>
+          Add link
+        </button>
       </div>
+      <div id="social-links-container">
+        <div id="social-links-list" class="epf-links-list"></div>
+        <div id="social-links-empty" class="epf-empty">
+          <span class="material-symbols-outlined">link_off</span>
+          <span>No links yet.</span>
+        </div>
+      </div>
+    </section>
 
-      <div class="form-group" style="display:flex;align-items:center;gap:12px;">
+    <section class="epf-section">
+      <h2 class="epf-section-title">Privacy</h2>
+      <p class="epf-section-note">Who gets to read what you post.</p>
+
+      <div class="epf-switch-row">
         <label class="md-switch">
           <input type="checkbox" name="is_locked" id="is_locked" {% if user.is_locked %}checked{% endif %}>
           <span class="slider"></span>
         </label>
-        <label for="is_locked" class="md-label" style="margin-bottom:0;">Lock Profile (private)</label>
-      </div>
-
-      <!-- Social Media Links Section -->
-      <div class="md-card p-3" style="margin-top:16px;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-          <h3 style="margin:0;font-size:1rem;font-weight:600;display:flex;align-items:center;gap:8px;">
-            <span class="material-symbols-outlined" style="font-size:20px;">link</span>
-            Social Media Links
-          </h3>
-          <button type="button" class="md-btn md-btn-tonal md-btn-small" id="add-social-link-btn" data-action="open-social-link-dialog">
-            <span class="material-symbols-outlined">add</span>
-            Add Link
-          </button>
-        </div>
-        <div id="social-links-container">
-          <div id="social-links-list" style="display:flex;flex-direction:column;gap:8px;"></div>
-          <div id="social-links-empty" style="text-align:center;padding:24px 16px;color:var(--md-on-surface-variant);font-size:0.875rem;">
-            <span class="material-symbols-outlined" style="font-size:32px;opacity:0.4;display:block;margin-bottom:8px;">link_off</span>
-            No social media links yet. Add your Instagram, YouTube, GitHub, or any website.
-          </div>
+        <div class="epf-switch-text">
+          <label for="is_locked" class="epf-switch-label">Private profile</label>
+          <p class="epf-hint epf-hint-block">Only the people you approve can see your posts, replies and resources.</p>
         </div>
       </div>
+    </section>
 
-      <div class="form-actions">
-        <button type="submit" class="md-btn md-btn-filled">Save Profile</button>
-        <a href="{% url 'web:home' %}" class="md-btn md-btn-text">Cancel</a>
-      </div>
-    </form>
-  </div>
+    {# The save does not wait out the bottom of a seven-section form. #}
+    <div class="epf-dock">
+      <a href="{% url 'web:home' %}" class="md-btn md-btn-text">Cancel</a>
+      <button type="submit" class="md-btn md-btn-filled epf-save">Save changes</button>
+    </div>
+  </form>
 </div>
 
 <!-- Social Links Dialog Overlay -->
@@ -1404,6 +1420,77 @@ registerActions({
       }
     }
   });
+})();
+</script>
+<script nonce="{{ csp_nonce }}">
+/* ── The strength meter ─────────────────────────────────────────────────────
+   The same ten criteria the app's profileStrength() counts, recomputed on
+   every edit so the number answers "is anything left" without the user having
+   to scroll the form and check. Half the fields here are written by script --
+   the dialog pickers, the subject chips, the photo upload -- and setting
+   .value from script fires no event and mutates no attribute, so a click
+   anywhere is treated as a possible edit and the avatar is watched directly.
+   Neither of those touches the meter itself, so neither can feed itself. */
+(function() {
+  var fill = document.getElementById('epf-strength-fill');
+  var countEl = document.getElementById('epf-strength-count');
+  var wordEl = document.getElementById('epf-strength-word');
+  var form = document.querySelector('.epf-form');
+  var avatar = document.querySelector('.epf-identity-avatar');
+  var linksList = document.getElementById('social-links-list');
+  if (!fill || !form) return;
+
+  var WORDS = ['Nothing yet', 'Getting started', 'Getting started', 'Coming along',
+               'Coming along', 'Half there', 'Looking good', 'Looking good',
+               'Nearly there', 'One to go', 'Complete'];
+
+  function val(id) {
+    var el = document.getElementById(id);
+    return el ? String(el.value || '').trim() : '';
+  }
+
+  function role() {
+    var active = document.querySelector('.role-radio-card.role-radio-active input[type="radio"]');
+    if (active) return active.value;
+    var checked = form.querySelector('input[name="role"]:checked');
+    return checked ? checked.value : 'student';
+  }
+
+  function score() {
+    var r = role();
+    return [
+      val('display_name') !== '',
+      val('username').length >= 3,
+      !!document.getElementById('edit-avatar-preview'),
+      val('bio') !== '',
+      val('dob') !== '',
+      val('gender') !== '',
+      val('district') !== '',
+      val('school') !== '',
+      val('subjects-hidden') !== '' || val('teaching-subjects-hidden') !== '' || r === 'explorer',
+      !!(linksList && linksList.children.length)
+    ].filter(Boolean).length;
+  }
+
+  var last = -1;
+  function render() {
+    var n = score();
+    if (n === last) return;
+    last = n;
+    fill.style.width = (n * 10) + '%';
+    if (countEl) countEl.textContent = n + '/10';
+    if (wordEl) wordEl.textContent = WORDS[n];
+  }
+
+  form.addEventListener('input', render);
+  form.addEventListener('change', render);
+  document.addEventListener('click', function() { setTimeout(render, 0); }, true);
+  if (avatar && window.MutationObserver) {
+    new MutationObserver(render).observe(avatar, {
+      childList: true, subtree: true, attributes: true, attributeFilter: ['src']
+    });
+  }
+  render();
 })();
 </script>
 {% endblock %}
