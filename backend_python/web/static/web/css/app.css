@@ -4096,9 +4096,9 @@ button:focus-visible {
 /* Realtime toast notification */
 @keyframes toastIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 .ws-state-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--md-outline); margin-left: 6px; vertical-align: middle; }
-body[data-ws-state='connected'] .ws-state-dot { background: #2e7d32; }
-body[data-ws-state='connecting'] .ws-state-dot { background: #f57c00; }
-body[data-ws-state='disconnected'] .ws-state-dot { background: #c62828; }
+body[data-ws-state='connected'] .ws-state-dot { background: var(--neb-accent-green); }
+body[data-ws-state='connecting'] .ws-state-dot { background: var(--neb-accent-amber); }
+body[data-ws-state='disconnected'] .ws-state-dot { background: var(--md-error); }
 
 /* Markdown content styles */
 .md-content, .fp-post-body, .fp-reply-body, .post-card-content, .act-preview, .pf-reply-card-body, .rd-description, .rd-comment-body {
@@ -4120,19 +4120,20 @@ body[data-ws-state='disconnected'] .ws-state-dot { background: #c62828; }
   margin: 6px 0; padding-left: 24px;
 }
 .md-content li, .fp-post-body li, .fp-reply-body li { margin: 2px 0; }
+/* The two [data-theme="dark"] rules that used to follow each of these set
+   white at 10% and 6% -- a slightly different shade of the same container
+   --md-surface-container-high already resolves to in dark theme. Mixing the
+   page ink into the container gives the same lift from both ends. */
 .md-content code, .fp-post-body code, .fp-reply-body code {
-  background: var(--md-surface-container-high);
+  background: color-mix(in srgb, var(--md-on-surface) 8%, var(--md-surface-container-high));
   color: var(--md-on-surface);
   padding: 1px 5px;
   border-radius: 4px;
   font-size: 0.875em;
   font-family: 'Courier New', Courier, monospace;
 }
-[data-theme="dark"] .md-content code, [data-theme="dark"] .fp-post-body code, [data-theme="dark"] .fp-reply-body code {
-  background: rgba(255,255,255,0.1);
-}
 .md-content pre, .fp-post-body pre, .fp-reply-body pre {
-  background: var(--md-surface-container-high);
+  background: color-mix(in srgb, var(--md-on-surface) 4%, var(--md-surface-container-high));
   border: 1px solid var(--md-outline-variant);
   border-radius: 8px;
   padding: 12px 16px;
@@ -4140,9 +4141,6 @@ body[data-ws-state='disconnected'] .ws-state-dot { background: #c62828; }
   overflow-x: auto;
   font-size: 0.8125rem;
   line-height: 1.5;
-}
-[data-theme="dark"] .md-content pre, [data-theme="dark"] .fp-post-body pre, [data-theme="dark"] .fp-reply-body pre {
-  background: rgba(255,255,255,0.06);
 }
 .md-content pre code, .fp-post-body pre code, .fp-reply-body pre code {
   background: none; padding: 0; border-radius: 0; font-size: inherit;
