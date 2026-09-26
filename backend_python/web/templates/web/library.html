@@ -52,7 +52,7 @@
 <div class="md-container">
   <!-- Header + Upload button -->
   <div class="lib-header-row" style="margin-bottom: 12px;">
-    <h1 class="md-headline-medium">{% if page_h1 %}{{ page_h1 }}{% elif current_tab == 'interactive' %}Interactive Learning Lab{% else %}Digital Library{% endif %}</h1>
+    <h1 class="md-headline-medium-emphasized">{% if page_h1 %}{{ page_h1 }}{% elif current_tab == 'interactive' %}Interactive Learning Lab{% else %}Digital Library{% endif %}</h1>
     {% if current_tab != 'interactive' %}
     <div class="lib-header-actions">
       <a href="{% url 'web:upload_resource' %}" class="md-btn md-btn-tonal" style="text-decoration:none;">
