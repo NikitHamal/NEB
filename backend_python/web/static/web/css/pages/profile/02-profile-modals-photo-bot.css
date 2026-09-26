@@ -66,13 +66,6 @@
   .photo-url-input:focus { border-color: var(--md-primary); }
 
   /* ── Bot profile (Neby) ── */
-  .pf-compact-card-bot {
-    border-color: var(--md-primary-container);
-  }
-  [data-theme="dark"] .pf-compact-card-bot {
-    border-color: var(--md-primary-container);
-  }
-
   .pf-bot-tagline {
     display: inline-flex;
     align-items: center;

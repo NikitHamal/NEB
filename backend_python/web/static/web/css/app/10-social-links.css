@@ -192,14 +192,11 @@
 }
 
 /* ===== Social Links on Profile Display ===== */
-.pf-social-links-section {
-  margin-bottom: 20px;
-}
-
 .pf-social-links-row {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  margin-top: 16px;
 }
 
 .pf-social-link-btn {
