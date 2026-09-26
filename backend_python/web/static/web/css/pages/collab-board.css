@@ -5,14 +5,11 @@
   width: 100%;
   height: min(calc(100vh - 128px), 880px);
   overflow: hidden;
-  background: var(--md-surface-container-lowest, #fafafa);
-  border-radius: 12px;
+  background: var(--md-surface-container-lowest);
+  border-radius: var(--md-shape-md);
   touch-action: none;
   user-select: none;
   -webkit-user-select: none;
-}
-[data-theme="dark"] .cb-container {
-  background: var(--md-surface-container-lowest, #0e0e0e);
 }
 
 .cb-container canvas {
@@ -39,10 +36,10 @@
   align-items: center;
   gap: 2px;
   padding: 4px;
-  background: #ffffff;
-  border: 1px solid #e2e6f0;
-  border-radius: 20px;
-  box-shadow: 0 2px 8px rgba(11, 28, 48, 0.08);
+  background: var(--md-surface-container);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-shape-xl);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--md-scrim) 10%, transparent);
   z-index: 20;
   flex-wrap: nowrap;
   justify-content: flex-end;
@@ -50,16 +47,11 @@
   overflow: visible;
 }
 .cb-toolbar::-webkit-scrollbar { display: none; }
-[data-theme="dark"] .cb-toolbar {
-  background: #131d2e;
-  border-color: #1e2b40;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.35);
-}
 
 .cb-toolbar-sep {
   width: 1px;
   height: 20px;
-  background: rgba(255,255,255,0.12);
+  background: var(--md-outline-variant);
   margin: 0 6px;
   flex-shrink: 0;
 }
@@ -73,26 +65,26 @@
   border: none;
   border-radius: 999px;
   background: transparent;
-  color: #9aa0a8;
+  color: var(--md-on-surface-variant);
   cursor: pointer;
   transition: background 0.15s, color 0.15s, transform 0.12s;
   flex-shrink: 0;
   position: relative;
 }
+/* This was a white wash and near-white ink, which is a dark-theme hover. The
+   toolbar it lives on is light in light theme, so hovering a tool turned its
+   icon white on white and the icon vanished under the pointer. */
 .cb-tool-btn:hover {
-  background: rgba(255,255,255,0.08);
-  color: #e5e7eb;
+  background: var(--md-surface-container-high);
+  color: var(--md-on-surface);
 }
 .cb-tool-btn:active {
   transform: scale(0.96);
 }
+/* The selected tool, in the same container the rest of the app selects with. */
 .cb-tool-btn.cb-active {
-  background: #2a2d34;
-  color: #ffffff;
-}
-[data-theme="dark"] .cb-tool-btn.cb-active {
-  background: #2a2d34;
-  color: #ffffff;
+  background: var(--md-secondary-container);
+  color: var(--md-on-secondary-container);
 }
 .cb-tool-btn .material-symbols-outlined {
   font-size: 20px;
@@ -105,20 +97,16 @@
   top: calc(100% + 8px);
   left: 50%;
   transform: translateX(-50%);
-  background: var(--md-surface-container, #fff);
-  border: 1px solid var(--md-outline-variant, rgba(0,0,0,0.1));
-  border-radius: 12px;
+  background: var(--md-surface-container-high);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-shape-md);
   padding: 8px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  box-shadow: 0 4px 16px color-mix(in srgb, var(--md-scrim) 16%, transparent);
   z-index: 30;
   display: none;
   gap: 4px;
   flex-wrap: wrap;
   width: 156px;
-}
-[data-theme="dark"] .cb-color-picker {
-  background: rgba(30,30,30,0.95);
-  border-color: rgba(255,255,255,0.08);
 }
 .cb-color-picker.cb-open {
   display: flex;
@@ -135,7 +123,7 @@
   transform: scale(1.15);
 }
 .cb-color-swatch.cb-swatch-active {
-  border-color: var(--md-primary, #1a73e8);
+  border-color: var(--md-primary);
   transform: scale(1.15);
 }
 
@@ -146,18 +134,14 @@
   top: calc(100% + 8px);
   left: 50%;
   transform: translateX(-50%);
-  background: var(--md-surface-container, #fff);
-  border: 1px solid var(--md-outline-variant, rgba(0,0,0,0.1));
-  border-radius: 12px;
+  background: var(--md-surface-container-high);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-shape-md);
   padding: 8px 12px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  box-shadow: 0 4px 16px color-mix(in srgb, var(--md-scrim) 16%, transparent);
   z-index: 30;
   gap: 6px;
   align-items: center;
-}
-[data-theme="dark"] .cb-stroke-picker {
-  background: rgba(30,30,30,0.95);
-  border-color: rgba(255,255,255,0.08);
 }
 .cb-stroke-picker.cb-open {
   display: flex;
@@ -167,7 +151,7 @@
   height: 32px;
   border-radius: 8px;
   border: 2px solid transparent;
-  background: var(--md-surface-container-high, #f0f0f0);
+  background: var(--md-surface-container-highest);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -175,12 +159,12 @@
   transition: border-color 0.12s;
 }
 .cb-stroke-opt.cb-stroke-active {
-  border-color: var(--md-primary, #1a73e8);
+  border-color: var(--md-primary);
 }
 .cb-stroke-opt span {
   display: block;
   border-radius: 99px;
-  background: var(--md-on-surface, #1f1f1f);
+  background: var(--md-on-surface);
 }
 
 /* ── Zoom controls ── */
@@ -192,15 +176,15 @@
   align-items: center;
   gap: 2px;
   padding: 4px;
-  background: #0b0c0e;
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 999px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+  /* Near-black with a white hairline, unconditionally -- so in light theme a
+     black pill floated over a white board while the toolbar above it was
+     white, and the two controls sitting on the same canvas did not look like
+     they came from the same product. */
+  background: var(--md-surface-container);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-shape-full);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--md-scrim) 18%, transparent);
   z-index: 20;
-}
-[data-theme="dark"] .cb-zoom-controls {
-  background: #0b0c0e;
-  border-color: rgba(255,255,255,0.12);
 }
 .cb-zoom-btn {
   display: flex;
@@ -211,13 +195,13 @@
   border: none;
   border-radius: 999px;
   background: transparent;
-  color: #9aa0a8;
+  color: var(--md-on-surface-variant);
   cursor: pointer;
   transition: background 0.12s, color 0.12s;
 }
 .cb-zoom-btn:hover {
-  background: rgba(255,255,255,0.08);
-  color: #e5e7eb;
+  background: var(--md-surface-container-high);
+  color: var(--md-on-surface);
 }
 .cb-zoom-btn .material-symbols-outlined {
   font-size: 18px;
@@ -225,7 +209,7 @@
 .cb-zoom-label {
   font-size: 11px;
   font-weight: 600;
-  color: var(--md-on-surface-variant, #5f6368);
+  color: var(--md-on-surface-variant);
   min-width: 36px;
   text-align: center;
   user-select: none;
@@ -240,28 +224,23 @@
   align-items: center;
   gap: 6px;
   padding: 6px 10px;
-  background: #0b0c0e;
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 999px;
+  background: var(--md-surface-container);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-shape-full);
   font-size: 11px;
-  color: #9aa0a8;
+  color: var(--md-on-surface-variant);
   z-index: 20;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.28);
-}
-[data-theme="dark"] .cb-status {
-  background: #0b0c0e;
-  border-color: rgba(255,255,255,0.12);
-  color: #9aa0a8;
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--md-scrim) 16%, transparent);
 }
 .cb-status-dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #34a853;
+  background: var(--neb-accent-green);
   flex-shrink: 0;
 }
 .cb-status-dot.cb-offline {
-  background: #ea4335;
+  background: var(--md-error);
 }
 
 /* ── Remote cursors ── */
@@ -304,10 +283,10 @@
 .cb-text-input {
   position: absolute;
   z-index: 25;
-  border: 2px solid var(--md-primary, #1a73e8);
-  border-radius: 6px;
-  background: var(--md-surface-container-high, #f0f4f9);
-  color: var(--md-on-surface, #1f1f1f);
+  border: 2px solid var(--md-primary);
+  border-radius: var(--md-shape-xs);
+  background: var(--md-surface-container-high);
+  color: var(--md-on-surface);
   font-family: 'Poppins', sans-serif;
   outline: none;
   resize: none;
@@ -318,7 +297,7 @@
   pointer-events: auto;
   min-width: 80px;
   min-height: 32px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--md-scrim) 15%, transparent);
 }
 
 /* ── Selection handles ── */
@@ -371,7 +350,7 @@
 .cb-ai-modal-scrim {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: color-mix(in srgb, var(--md-scrim) 34%, transparent);
   backdrop-filter: blur(4px);
   z-index: 100;
   display: flex;
@@ -382,16 +361,14 @@
 .cb-ai-modal {
   width: 100%;
   max-width: 520px;
-  background: var(--md-surface, #ffffff);
-  border-radius: 18px;
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.24);
-  border: 1px solid var(--md-outline-variant, rgba(0, 0, 0, 0.12));
+  /* NebDialog's fill and radius, so the one dialog that opens inside the
+     canvas is the same object as the ones that open over the page. */
+  background: var(--md-surface-container-high);
+  border-radius: var(--md-shape-xl);
+  box-shadow: 0 16px 36px color-mix(in srgb, var(--md-scrim) 24%, transparent);
+  border: 1px solid var(--md-outline-variant);
   padding: 20px;
-  color: var(--md-on-surface, #1f1f1f);
-}
-[data-theme="dark"] .cb-ai-modal {
-  background: var(--md-surface-container-high, #1e1e1e);
-  border-color: rgba(255, 255, 255, 0.1);
+  color: var(--md-on-surface);
 }
 
 /* ── Rich AI Card HTML Overlays ── */
@@ -409,10 +386,10 @@
 .cb-ai-card-overlay {
   position: absolute;
   pointer-events: auto;
-  background: var(--md-surface, #ffffff);
-  border: 1.5px solid var(--md-primary, #2563eb);
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  background: var(--md-surface-container-low);
+  border: 1.5px solid var(--md-primary);
+  border-radius: var(--md-shape-lg);
+  box-shadow: 0 10px 30px color-mix(in srgb, var(--md-scrim) 16%, transparent);
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
@@ -420,45 +397,34 @@
   z-index: 20;
 }
 
+/* Its own slate and its own blue, neither of which was the app's. */
 [data-theme="dark"] .cb-ai-card-overlay {
-  background: #1e2025;
-  border-color: #3b82f6;
-  color: #e2e8f0;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 10px 30px color-mix(in srgb, var(--md-scrim) 45%, transparent);
 }
 
 .cb-ai-card-header {
   padding: 10px 14px;
-  background: var(--md-primary-container, #eff6ff);
-  border-top-left-radius: 14px;
-  border-top-right-radius: 14px;
+  background: var(--md-primary-container);
+  border-top-left-radius: calc(var(--md-shape-lg) - 2px);
+  border-top-right-radius: calc(var(--md-shape-lg) - 2px);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(37, 99, 235, 0.15);
+  border-bottom: 1px solid color-mix(in srgb, var(--md-on-primary-container) 15%, transparent);
   user-select: none;
   cursor: grab;
-}
-
-[data-theme="dark"] .cb-ai-card-header {
-  background: #1e3a8a;
-  border-bottom-color: rgba(59, 130, 246, 0.25);
 }
 
 .cb-ai-card-title {
   font-size: 13px;
   font-weight: 700;
-  color: var(--md-primary, #1d4ed8);
+  color: var(--md-on-primary-container);
   display: flex;
   align-items: center;
   gap: 6px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-[data-theme="dark"] .cb-ai-card-title {
-  color: #93c5fd;
 }
 
 .cb-ai-card-actions {
@@ -470,8 +436,8 @@
 .cb-ai-card-btn {
   background: transparent;
   border: none;
-  color: var(--md-on-surface-variant, #64748b);
-  border-radius: 6px;
+  color: var(--md-on-surface-variant);
+  border-radius: var(--md-shape-xs);
   padding: 4px;
   cursor: pointer;
   display: flex;
@@ -481,11 +447,8 @@
 }
 
 .cb-ai-card-btn:hover {
-  background: rgba(0, 0, 0, 0.08);
-}
-
-[data-theme="dark"] .cb-ai-card-btn:hover {
-  background: rgba(255, 255, 255, 0.12);
+  background: var(--md-surface-container-highest);
+  color: var(--md-on-surface);
 }
 
 .cb-ai-card-body {
@@ -495,12 +458,8 @@
   max-height: 480px;
   font-size: 13px;
   line-height: 1.6;
-  color: var(--md-on-surface, #1e293b);
+  color: var(--md-on-surface);
   user-select: text;
-}
-
-[data-theme="dark"] .cb-ai-card-body {
-  color: #e2e8f0;
 }
 
 .cb-ai-card-body::-webkit-scrollbar {
@@ -510,11 +469,8 @@
   background: transparent;
 }
 .cb-ai-card-body::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.2);
+  background: var(--md-outline-variant);
   border-radius: 4px;
-}
-[data-theme="dark"] .cb-ai-card-body::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.25);
 }
 .cb-ai-modal-header {
   display: flex;
@@ -528,25 +484,24 @@
   gap: 8px;
   font-size: 17px;
   font-weight: 700;
-  color: var(--md-primary, #1a73e8);
+  color: var(--md-primary);
 }
 .cb-ai-input {
   width: 100%;
   min-height: 90px;
   padding: 12px;
-  border-radius: 12px;
-  border: 1px solid var(--md-outline-variant, #ccc);
-  background: var(--md-surface-container-lowest, #fdfdfd);
-  color: var(--md-on-surface, #1f1f1f);
+  border-radius: var(--md-shape-md);
+  border: 1px solid var(--md-outline-variant);
+  background: var(--md-surface-container-lowest);
+  color: var(--md-on-surface);
   font-family: inherit;
   font-size: 14px;
   resize: vertical;
   outline: none;
 }
-[data-theme="dark"] .cb-ai-input {
-  background: #121212;
-  border-color: rgba(255, 255, 255, 0.16);
-  color: #f1f1f1;
+.cb-ai-input:focus-visible {
+  border-color: var(--md-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--md-primary) 20%, transparent);
 }
 .cb-ai-actions {
   display: flex;
@@ -561,14 +516,16 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  /* Player chrome stays dark in both themes, the way every video surface on
+     the site is dark -- it frames a video, not the page. */
   border: 1px solid rgba(255,255,255,.18);
-  border-radius: 12px;
+  border-radius: var(--md-shape-md);
   background: rgba(15,16,18,.96);
   box-shadow: 0 10px 30px rgba(0,0,0,.32);
   transform-origin: top left;
   pointer-events: auto;
 }
-.cb-media-frame.cb-media-selected { outline: 2px solid #8b5cf6; outline-offset: 3px; }
+.cb-media-frame.cb-media-selected { outline: 2px solid var(--md-tertiary); outline-offset: 3px; }
 .cb-media-head {
   display: flex;
   align-items: center;

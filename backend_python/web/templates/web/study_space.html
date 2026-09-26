@@ -481,11 +481,24 @@
       <button class="modal-close" data-action="cb-close-file-picker"><span class="material-symbols-outlined">close</span></button>
     </div>
     <div class="modal-body" style="padding-bottom:16px;">
-      <div class="ss-doc-select-tabs" id="cbFileTabs" style="margin-bottom:12px; display: flex; gap: 8px; border-bottom: 1px solid var(--md-outline-variant, rgba(0,0,0,0.1)); padding-bottom: 8px;">
-        <button class="ss-doc-tab ss-doc-tab-active" id="cbTabLocal" style="background:transparent; border:none; padding:8px 12px; font-weight:600; cursor:pointer;" data-action="cb-file-tab" data-tab="local">Upload Local</button>
-        <button class="ss-doc-tab" id="cbTabSpace" style="background:transparent; border:none; padding:8px 12px; font-weight:600; cursor:pointer;" data-action="cb-file-tab" data-tab="space">This Space</button>
-        <button class="ss-doc-tab" id="cbTabCommunity" style="background:transparent; border:none; padding:8px 12px; font-weight:600; cursor:pointer;" data-action="cb-file-tab" data-tab="community">Community Library</button>
-      </div>
+      {% comment %}
+        NebTabRail. Three buttons carrying their own borders, paddings and
+        weights inline, over a class that drew a fourth set underneath them.
+      {% endcomment %}
+      <nav class="neb-rail neb-rail-divided neb-rail-flush" id="cbFileTabs" role="tablist" aria-label="File source" style="margin-bottom:12px;">
+        <button type="button" class="neb-rail-item" role="tab" aria-selected="true" id="cbTabLocal" data-action="cb-file-tab" data-tab="local">
+          <span class="material-symbols-outlined">upload</span>
+          <span class="neb-rail-label">Upload Local</span>
+        </button>
+        <button type="button" class="neb-rail-item" role="tab" aria-selected="false" id="cbTabSpace" data-action="cb-file-tab" data-tab="space">
+          <span class="material-symbols-outlined">groups</span>
+          <span class="neb-rail-label">This Space</span>
+        </button>
+        <button type="button" class="neb-rail-item" role="tab" aria-selected="false" id="cbTabCommunity" data-action="cb-file-tab" data-tab="community">
+          <span class="material-symbols-outlined">public</span>
+          <span class="neb-rail-label">Community Library</span>
+        </button>
+      </nav>
       
       <!-- Local Tab -->
       <div class="cb-file-pane" id="cbPaneLocal">
@@ -517,10 +530,16 @@
         <button class="modal-close" data-action="ss-close-select-doc"><span class="material-symbols-outlined">close</span></button>
       </div>
       <div class="modal-body" style="padding-bottom:8px;">
-        <div class="ss-doc-select-tabs" id="ssDocSelectTabs">
-          <button class="ss-doc-tab ss-doc-tab-active" data-tab="docs" data-action="ss-doc-tab">Study Documents</button>
-          <button class="ss-doc-tab" data-tab="resources" data-action="ss-doc-tab">Resources</button>
-        </div>
+        <nav class="neb-rail neb-rail-divided neb-rail-flush" id="ssDocSelectTabs" role="tablist" aria-label="Document source" style="margin-bottom:12px;">
+          <button type="button" class="neb-rail-item" role="tab" aria-selected="true" data-tab="docs" data-action="ss-doc-tab">
+            <span class="material-symbols-outlined">description</span>
+            <span class="neb-rail-label">Study Documents</span>
+          </button>
+          <button type="button" class="neb-rail-item" role="tab" aria-selected="false" data-tab="resources" data-action="ss-doc-tab">
+            <span class="material-symbols-outlined">auto_stories</span>
+            <span class="neb-rail-label">Resources</span>
+          </button>
+        </nav>
         <div class="ss-doc-select-list" id="ssDocSelectList"></div>
         <div class="ss-doc-select-list" id="ssResourceSelectList" style="display:none;"></div>
       </div>

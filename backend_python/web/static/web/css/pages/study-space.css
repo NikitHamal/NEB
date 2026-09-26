@@ -641,26 +641,8 @@
 .ss-invite-code { font-weight: 800; letter-spacing: 0.14em; color: var(--md-on-surface); }
 
 /* ── Doc select modal ── */
-.ss-doc-select-tabs {
-  display: flex;
-  gap: 4px;
-  margin-bottom: 12px;
-  border-bottom: 1px solid var(--md-outline-variant);
-}
-.ss-doc-tab {
-  padding: 8px 16px;
-  border: none;
-  background: transparent;
-  color: var(--md-on-surface-variant);
-  font-size: 0.8125rem;
-  font-weight: 500;
-  font-family: inherit;
-  cursor: pointer;
-  border-bottom: 2px solid transparent;
-  transition: color 0.15s, border-color 0.15s;
-}
-.ss-doc-tab:hover { background: var(--md-surface-container); }
-.ss-doc-tab.ss-doc-tab-active { color: var(--md-primary); border-bottom-color: var(--md-primary); }
+/* Its tab row is .neb-rail -- the third pair of copies of an underlined tab bar
+   this file and study-lab/05-space.css both carried. */
 .ss-doc-select-list {
   display: flex;
   flex-direction: column;
