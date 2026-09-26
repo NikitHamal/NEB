@@ -74,7 +74,7 @@
     if (busy) {
       button.dataset.label = button.innerHTML;
       button.disabled = true;
-      button.innerHTML = '<span class="ba-spinner"></span>';
+      button.innerHTML = '<span class="ba-spinner md-loader md-loader-inline"></span>';
     } else {
       button.disabled = false;
       if (button.dataset.label) button.innerHTML = button.dataset.label;

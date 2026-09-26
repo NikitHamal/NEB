@@ -413,13 +413,9 @@
 }
 
 /* Loading */
+/* The wait is .md-loader (material3/08-shapes.css); this only places it. */
 .ss-spinner {
-  width: 30px;
-  height: 30px;
-  border: 3px solid var(--md-outline-variant);
-  border-top-color: var(--md-primary);
-  border-radius: 50%;
-  animation: ss-spin 0.8s linear infinite;
+  display: block;
   margin: 0 auto 12px;
 }
 .ss-loading { text-align: center; padding: 44px 24px; }

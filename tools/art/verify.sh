@@ -10,6 +10,8 @@ echo "== generating =="
 python3 "$HERE/genjs.py"
 node --check "$HERE/../../backend_python/web/static/web/js/neb-art.js"
 python3 "$HERE/gensubjects.py"
+python3 "$HERE/genshapes.py"
+python3 "$HERE/../css/bundle.py" --check
 
 echo "== recording call streams =="
 node "$HERE/rec.js" > "$HERE/js.json"

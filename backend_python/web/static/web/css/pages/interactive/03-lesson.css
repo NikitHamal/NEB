@@ -49,16 +49,8 @@
   z-index: 2;
 }
 
-.ix-spinner {
-  width: 38px;
-  height: 38px;
-  border: 3px solid rgba(199, 212, 234, 0.25);
-  border-top-color: #c7d4ea;
-  border-radius: 50%;
-  animation: ix-spin 0.9s linear infinite;
-}
-
-@keyframes ix-spin { to { transform: rotate(360deg); } }
+/* .md-loader on the dark stage: pale rather than the site's primary. */
+.ix-spinner { color: #c7d4ea; }
 
 .ix-sim-fallback {
   position: absolute;
