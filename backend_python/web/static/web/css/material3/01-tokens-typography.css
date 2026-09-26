@@ -84,6 +84,39 @@
                     0 18px 44px rgba(0, 0, 0, 0.55);
 }
 
+/* ── Accents ── NebAccents, from the app's Color.kt, value for value.
+   Not part of the generated palette, because they are not a scheme: the brand
+   blue is the voice of action and the neutral ramp carries the page, while
+   these are for the places where several choices sit side by side and the user
+   is picking between them rather than reading them. The create menu is the case
+   that asked for them.
+
+   Each has a light and a dark value so the contrast holds either way, and none
+   of them is load-bearing -- nothing in either client is knowable only by its
+   hue. Keep in step with NebAccents or the create menu stops matching. */
+:root {
+  --neb-accent-brand: #004AC6;
+  --neb-accent-indigo: #4F46E5;
+  --neb-accent-violet: #7C3AED;
+  --neb-accent-amber: #9A6206;
+  --neb-accent-teal: #0F766E;
+  --neb-accent-green: #15803D;
+  --neb-accent-cyan: #0E7490;
+  --neb-accent-rose: #B3261E;
+  --neb-accent-pink: #9D174D;
+}
+[data-theme="dark"] {
+  --neb-accent-brand: #B4C5FF;
+  --neb-accent-indigo: #B4B0FF;
+  --neb-accent-violet: #C9B6FE;
+  --neb-accent-amber: #E8B457;
+  --neb-accent-teal: #5FD3C4;
+  --neb-accent-green: #7CD9A0;
+  --neb-accent-cyan: #5CC8E0;
+  --neb-accent-rose: #FF9186;
+  --neb-accent-pink: #F79CC0;
+}
+
 * {
   margin: 0;
   padding: 0;
