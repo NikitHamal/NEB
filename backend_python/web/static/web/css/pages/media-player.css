@@ -10,7 +10,7 @@
      than restate every rule that reads them. */
   --nmp-header-surface: color-mix(in srgb, var(--nmp-accent) 4%, var(--nmp-surface));
   --nmp-track: var(--md-surface-container-high);
-  --nmp-radius: var(--md-radius-md, 12px);
+  --nmp-radius: var(--md-radius-md);
   position: relative;
   background: var(--nmp-surface);
   border: 1px solid var(--md-outline-variant);
@@ -253,7 +253,7 @@
   border: none;
   border-radius: 50%;
   background: color-mix(in srgb, var(--nmp-accent) 92%, #fff);
-  color: var(--md-on-primary, #fff);
+  color: var(--md-on-primary);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -327,7 +327,7 @@
 }
 
 .nmp-error a {
-  color: var(--md-inverse-primary, #B4C5FF);
+  color: var(--md-inverse-primary);
   font-weight: 600;
   font-size: 0.8125rem;
 }
@@ -570,7 +570,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--md-on-primary, #fff);
+  color: var(--md-on-primary);
   box-shadow: 0 6px 20px rgba(0,0,0,0.3);
   transition: transform 400ms cubic-bezier(0.2, 0, 0, 1);
 }

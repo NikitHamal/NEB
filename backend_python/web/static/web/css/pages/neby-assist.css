@@ -390,7 +390,7 @@
   font-size: 10.5px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--md-on-surface-variant, #777);
+  color: var(--md-on-surface-variant);
   font-weight: 600;
   padding: 0 1px 3px;
 }
@@ -456,7 +456,7 @@
   flex: 1;
   padding: 20px;
   text-align: center;
-  color: var(--md-on-surface-variant, #777);
+  color: var(--md-on-surface-variant);
 }
 .neby-empty-icon {
   width: 72px;

@@ -77,7 +77,7 @@
   .rd-login-prompt p{color:var(--md-on-surface-variant);margin-bottom:12px}
 
   /* Comment cards */
-  .rd-comment{background:var(--md-surface-container-lowest,#fff);border:1px solid var(--md-outline-variant);border-radius:8px;padding:16px;margin-bottom:10px;transition:border-color .15s}
+  .rd-comment{background:var(--md-surface-container-lowest);border:1px solid var(--md-outline-variant);border-radius:8px;padding:16px;margin-bottom:10px;transition:border-color .15s}
   .rd-comment:hover{border-color:var(--md-outline)}
   .rd-comment-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
   .rd-comment-avatar{width:32px;height:32px;border-radius:50%;overflow:hidden;background:var(--md-primary);display:flex;align-items:center;justify-content:center;flex-shrink:0}
