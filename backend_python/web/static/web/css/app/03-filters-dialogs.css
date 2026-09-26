@@ -55,43 +55,6 @@
   font-size: 20px;
 }
 
-.filter-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 150;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: md-fade-in 150ms ease;
-}
-
-.filter-dialog {
-  background: var(--md-surface-container-lowest);
-  border-radius: var(--md-radius-xl);
-  padding: 24px;
-  max-width: 420px;
-  width: 90%;
-  max-height: 80vh;
-  display: flex;
-  flex-direction: column;
-  box-shadow: var(--md-elevation-3);
-  animation: md-scale-in 200ms ease;
-}
-.filter-dialog-scroll {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  scrollbar-width: none;
-}
-.filter-dialog-scroll::-webkit-scrollbar { display: none; }
-
-.filter-dialog h3 {
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-bottom: 20px;
-}
-
 .filter-section {
   margin-bottom: 20px;
 }
@@ -111,13 +74,6 @@
 
 .filter-section .chip-group {
   gap: 8px;
-}
-
-.filter-dialog-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  margin-top: 24px;
 }
 
 .search-filter-chip {

@@ -230,6 +230,21 @@
   flex-direction: column;
   gap: 10px;
 }
+/* A foot that holds a dismissive and a confirming action puts them side by
+   side, and the confirming one is wider. FilterDialog.kt weights them 1 and
+   1.4: two equal buttons make the user read both to find out which is the
+   one they want. */
+.neb-sheet-foot:has(> .neb-foot-major) { flex-direction: row; }
+.neb-foot-minor { flex: 1 1 0; }
+.neb-foot-major { flex: 1.4 1 0; }
+.neb-foot-minor,
+.neb-foot-major {
+  min-width: 0;
+  /* NebButtonSize.Hero. */
+  min-height: 52px;
+  border-radius: var(--md-shape-full);
+  justify-content: center;
+}
 .neb-sheet-body:last-child { padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
 /* A list body gives its horizontal padding back to the rows: a row has its own
    14px inset and an 18px corner, so a second gutter on top of that leaves the
@@ -370,6 +385,18 @@
   transition: width var(--md-motion-spatial-fast), opacity var(--md-motion-effects);
 }
 .neb-chip-tick svg { width: 16px; height: 16px; display: block; }
+/* Drawn rather than set, so an empty <span class="neb-chip-tick"></span> is
+   the whole markup. Two borders on a rotated box is a checkmark that cannot
+   arrive late or render as the word "check". */
+.neb-chip-tick:empty::after {
+  content: "";
+  width: 5px;
+  height: 9px;
+  margin: 0 0 2px 5px;
+  border: solid currentColor;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
 .neb-choice-chip[aria-pressed="true"],
 .neb-choice-chip[aria-selected="true"],
 .neb-choice-chip.is-selected {
