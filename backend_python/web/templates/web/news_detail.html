@@ -7,7 +7,6 @@
 {% block og_description %}{{ announcement.summary|default:announcement.title }}{% endblock %}
 
 {% block nav_news %}md-nav-active{% endblock %}
-{% block bnav_news %}md-nav-active{% endblock %}
 
 {% block head_extra %}
 <script type="application/ld+json" nonce="{{ csp_nonce }}">
@@ -40,35 +39,7 @@
 {% endblock %}
 
 {% block bottomnav %}
-<nav class="md-bottomnav">
-  <div class="md-bottomnav-pill">
-    <a href="{% url 'web:home' %}" class="md-bottomnav-item" aria-label="Home">
-      <div class="md-bottomnav-icon-wrapper">
-        <span class="material-symbols-outlined">home</span>
-      </div>
-      <span class="md-bottomnav-label">Home</span>
-    </a>
-    <a href="{% url 'web:library' %}" class="md-bottomnav-item" aria-label="Library">
-      <div class="md-bottomnav-icon-wrapper">
-        <span class="material-symbols-outlined">menu_book</span>
-      </div>
-      <span class="md-bottomnav-label">Library</span>
-    </a>
-
-    <a href="{% url 'web:forum' %}" class="md-bottomnav-item" aria-label="Forum">
-      <div class="md-bottomnav-icon-wrapper">
-        <span class="material-symbols-outlined">forum</span>
-      </div>
-      <span class="md-bottomnav-label">Forum</span>
-    </a>
-    <a href="{% url 'web:news_list' %}" class="md-bottomnav-item md-nav-active" aria-label="Blog">
-      <div class="md-bottomnav-icon-wrapper">
-        <span class="material-symbols-outlined">newspaper</span>
-      </div>
-      <span class="md-bottomnav-label">Blog</span>
-    </a>
-  </div>
-</nav>
+{% include "web/partials/bottomnav.html" %}
 {% endblock %}
 
 {% block content %}
