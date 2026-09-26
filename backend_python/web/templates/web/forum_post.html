@@ -31,6 +31,13 @@
 </script>
 {% endblock %}
 
+{% block extra_css %}
+{% comment %} In the head, not in the body. A stylesheet found part-way down
+   the document is found after the browser has already painted, so the page
+   lays itself out twice on every load. {% endcomment %}
+<link rel="stylesheet" href="{% static 'web/css/pages/forum-post.css' %}">
+{% endblock %}
+
 {% block content %}
 <script type="application/ld+json" nonce="{{ csp_nonce }}">
 {
@@ -56,7 +63,6 @@
 }
 </script>
 
-<link rel="stylesheet" href="{% static 'web/css/pages/forum-post.css' %}">
 
 <div class="md-container" style="padding-top:24px;">
   {% if post %}

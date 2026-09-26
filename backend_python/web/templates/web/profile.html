@@ -14,7 +14,14 @@
 {% block tw_image_alt %}{{ profile_user.display_name|default:profile_user.username }} profile card on NEBians{% endblock %}
 {% block robots %}{% if profile_private or profile_user.is_bot %}<meta name="robots" content="noindex,nofollow">{% endif %}{% endblock %}
 {% block extra_css %}
+{% comment %} All three belong here, in the head. The bottom two used to be the
+   first two lines of {% templatetag openblock %} block content {% templatetag closeblock %},
+   which is a stylesheet discovered part-way down the body: the browser has
+   already painted the profile unstyled by the time it finds them, so the page
+   visibly re-laid itself out on every load. {% endcomment %}
 <link rel="stylesheet" href="{% static 'web/css/pages/agents.css' %}">
+<link rel="stylesheet" href="{% static 'web/css/app/10-social-links.css' %}?v=1.1">
+<link rel="stylesheet" href="{% static 'web/css/pages/profile.css' %}">
 {% endblock %}
 
 {% block head_extra %}
@@ -55,9 +62,6 @@
 {% endblock %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'web/css/app/10-social-links.css' %}?v=1.1">
-<link rel="stylesheet" href="{% static 'web/css/pages/profile.css' %}">
-
 <div class="profile-page">
   {% if profile_user %}
     <div class="profile-grid-container">
