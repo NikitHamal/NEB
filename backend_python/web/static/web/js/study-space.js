@@ -1772,7 +1772,11 @@
     var tab = e.target.closest('[data-action="ss-doc-tab"]');
     if (tab) {
       docSelectTab = tab.dataset.tab;
-      $$('.ss-doc-tab').forEach(function (t) { t.classList.toggle('ss-doc-tab-active', t.dataset.tab === docSelectTab); });
+      /* Scoped to this row. The unscoped selector also matched the collab
+         board's three file tabs, which carried the same class in the same
+         document, so picking Resources here quietly unselected whichever
+         source that picker was showing. */
+      $$('#ssDocSelectTabs .neb-rail-item').forEach(function (t) { t.setAttribute('aria-selected', String(t.dataset.tab === docSelectTab)); });
       $('ssDocSelectList').style.display = docSelectTab === 'docs' ? '' : 'none';
       $('ssResourceSelectList').style.display = docSelectTab === 'resources' ? '' : 'none';
       selectedDocId = null;
