@@ -1,83 +1,60 @@
 {% extends "base.html" %}
+{% load static %}
 
-{% block title %}Account Settings & Study Preferences — NEBians{% endblock %}
+{% block title %}Settings — NEBians{% endblock %}
 {% block robots %}<meta name="robots" content="noindex, nofollow">{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/pages/web-settings.css' %}">
+{% endblock %}
+
 {% block content %}
-<div class="md-container-narrow" style="padding-top:24px; padding-bottom: 48px;">
-  <div style="text-align:left;margin-bottom:24px;">
-    <a href="{% url 'web:profile' username=user.username %}" class="md-btn md-btn-text" style="padding:4px 8px;margin:-4px -8px;text-decoration:none;" data-action="go-back">
-      <span class="material-symbols-outlined" style="font-size:20px;vertical-align:middle;">arrow_back</span> Back to Profile
-    </a>
+{# ── Settings ───────────────────────────────────────────────────────────────
+   The app's SettingsScreen: an identity card that is itself the way into the
+   editor, then labelled groups of rows on one rounded surface each. A row is
+   an icon in a circle, a title, a subtitle that states the current value, and
+   either a chevron or a switch. The web had this same shape drawn in inline
+   styles, which is why every group had slightly different padding and the
+   groups themselves were in a different order from the app's. #}
+<div class="st-page">
+  <a href="{% url 'web:profile' username=user.username %}" class="md-btn md-btn-text st-back" data-action="go-back">
+    <span class="material-symbols-outlined">arrow_back</span>
+    Back to profile
+  </a>
+
+  <div class="st-head">
+    <h1 class="st-title">Settings</h1>
+    <p class="st-subtitle">Your account, your preferences, and what the site is allowed to do.</p>
   </div>
 
-  <div style="margin-bottom: 24px;">
-    <h1 style="font-size:1.75rem;font-weight:600;margin:0;">Settings</h1>
-    <p style="font-size:0.875rem;color:var(--md-on-surface-variant);margin:4px 0 0;">Manage your preferences, security, and account settings.</p>
-  </div>
+  <a href="{% url 'web:edit_profile' %}" class="st-identity">
+    <img class="st-identity-avatar" src="{{ user.avatar_url }}" alt="" width="52" height="52" loading="lazy" decoding="async">
+    <div class="st-identity-text">
+      <div class="st-identity-name">{{ user.display_name|default:user.username }}</div>
+      <div class="st-identity-sub">@{{ user.username }} · Edit your profile</div>
+    </div>
+    <span class="material-symbols-outlined">chevron_right</span>
+  </a>
 
-  <!-- Account Section -->
-  <div style="margin-bottom: 24px;">
-    <h2 style="font-size:0.875rem;font-weight:600;color:var(--md-primary);text-transform:uppercase;letter-spacing:0.5px;margin:0 0 12px 4px;">Account</h2>
-    <div class="md-card" style="overflow:hidden; display: flex; flex-direction: column; gap: 0;">
-      <!-- Profile Header / Navigation -->
-      <a href="{% url 'web:edit_profile' %}" style="display:flex;align-items:center;padding:16px;text-decoration:none;color:inherit;transition:background 0.2s;" class="settings-item-hover">
-        <span class="avatar-ring" style="width:40px;height:40px;margin-right:16px;">
-          {% if user.avatar_url %}
-          <img src="{{ user.avatar_url }}" alt="Profile">
-          {% else %}
-          <span>{{ user.username|first|upper }}</span>
-          {% endif %}
+  <section class="st-group">
+    <h2 class="st-group-title">Account</h2>
+    <div class="st-list">
+      <a href="{% url 'web:password' %}" class="st-row">
+        <span class="st-row-icon"><span class="material-symbols-outlined">lock</span></span>
+        <div class="st-row-text">
+          <p class="st-row-title">Account security</p>
+          <p class="st-row-sub">{% if has_password %}Email and password{% else %}Email, and a password you haven't set yet{% endif %}</p>
+        </div>
+        <span class="material-symbols-outlined st-chevron">chevron_right</span>
+      </a>
+
+      <div class="st-row">
+        <span class="st-row-icon">
+          <span class="material-symbols-outlined" id="visibility-icon">{% if user.is_locked %}visibility_off{% else %}visibility{% endif %}</span>
         </span>
-        <div style="flex-grow:1;">
-          <h4 style="margin:0;font-size:1rem;font-weight:600;">{{ user.display_name|default:user.username }}</h4>
-          <p style="margin:2px 0 0;font-size:0.8125rem;color:var(--md-on-surface-variant);">@{{ user.username }} · Edit profile info</p>
-        </div>
-        <span class="material-symbols-outlined" style="color:var(--md-on-surface-variant);">chevron_right</span>
-      </a>
-      
-      <div style="height:1px;background:var(--md-outline-variant);opacity:0.5;margin:0 16px;"></div>
-
-      <!-- My Avatar -->
-      <a href="{% url 'web:my_avatar' %}" style="display:flex;align-items:center;padding:16px;text-decoration:none;color:inherit;transition:background 0.2s;" class="settings-item-hover">
-        <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;margin-right:16px;color:var(--md-on-surface-variant);">
-          <span class="material-symbols-outlined">blur_on</span>
-        </div>
-        <div style="flex-grow:1;">
-          <h4 style="margin:0;font-size:0.9375rem;font-weight:600;">My Avatar</h4>
-          <p style="margin:2px 0 0;font-size:0.8125rem;color:var(--md-on-surface-variant);">Preview your generated avatar and change your username</p>
-        </div>
-        <span class="material-symbols-outlined" style="color:var(--md-on-surface-variant);">chevron_right</span>
-      </a>
-
-      <div style="height:1px;background:var(--md-outline-variant);opacity:0.5;margin:0 16px;"></div>
-
-      <!-- Password / Security -->
-      <a href="{% url 'web:password' %}" style="display:flex;align-items:center;padding:16px;text-decoration:none;color:inherit;transition:background 0.2s;" class="settings-item-hover">
-        <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;margin-right:16px;color:var(--md-on-surface-variant);">
-          <span class="material-symbols-outlined">lock</span>
-        </div>
-        <div style="flex-grow:1;">
-          <h4 style="margin:0;font-size:0.9375rem;font-weight:600;">Security</h4>
-          <p style="margin:2px 0 0;font-size:0.8125rem;color:var(--md-on-surface-variant);">{% if has_password %}Change account password{% else %}Set account password{% endif %}</p>
-        </div>
-        <span class="material-symbols-outlined" style="color:var(--md-on-surface-variant);">chevron_right</span>
-      </a>
-
-      <div style="height:1px;background:var(--md-outline-variant);opacity:0.5;margin:0 16px;"></div>
-
-      <!-- Profile Visibility (Private) -->
-      <div style="display:flex;align-items:center;padding:16px;justify-content:space-between;">
-        <div style="display:flex;align-items:center;flex-grow:1;margin-right:16px;">
-          <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;margin-right:16px;color:var(--md-on-surface-variant);">
-            <span class="material-symbols-outlined" id="visibility-icon">{% if user.is_locked %}visibility_off{% else %}visibility{% endif %}</span>
-          </div>
-          <div>
-            <h4 style="margin:0;font-size:0.9375rem;font-weight:600;">Profile Visibility</h4>
-            <p style="margin:2px 0 0;font-size:0.8125rem;color:var(--md-on-surface-variant);" id="visibility-desc">
-              {% if user.is_locked %}Private — only username visible{% else %}Public — profile visible to everyone{% endif %}
-            </p>
-          </div>
+        <div class="st-row-text">
+          <p class="st-row-title">Private profile</p>
+          <p class="st-row-sub" id="visibility-desc">{% if user.is_locked %}Only your username is visible{% else %}Anyone can see your profile{% endif %}</p>
         </div>
         <label class="md-switch">
           <input type="checkbox" id="visibility-switch" {% if user.is_locked %}checked{% endif %}>
@@ -85,36 +62,58 @@
         </label>
       </div>
 
-      <div style="height:1px;background:var(--md-outline-variant);opacity:0.5;margin:0 16px;"></div>
+      <a href="{% url 'web:bookmarks' %}" class="st-row">
+        <span class="st-row-icon"><span class="material-symbols-outlined">bookmark_border</span></span>
+        <div class="st-row-text">
+          <p class="st-row-title">Bookmarks</p>
+          <p class="st-row-sub">Saved posts and resources</p>
+        </div>
+        <span class="material-symbols-outlined st-chevron">chevron_right</span>
+      </a>
 
-      <!-- Bookmarks Redirect -->
-      <a href="{% url 'web:bookmarks' %}" style="display:flex;align-items:center;padding:16px;text-decoration:none;color:inherit;transition:background 0.2s;" class="settings-item-hover">
-        <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;margin-right:16px;color:var(--md-on-surface-variant);">
-          <span class="material-symbols-outlined">bookmark_border</span>
+      <a href="{% url 'web:credits' %}" class="st-row">
+        <span class="st-row-icon"><span class="material-symbols-outlined">auto_awesome</span></span>
+        <div class="st-row-text">
+          <p class="st-row-title">Neby credits</p>
+          <p class="st-row-sub">Balance, top-ups and point conversion</p>
         </div>
-        <div style="flex-grow:1;">
-          <h4 style="margin:0;font-size:0.9375rem;font-weight:600;">Bookmarks</h4>
-          <p style="margin:2px 0 0;font-size:0.8125rem;color:var(--md-on-surface-variant);">Saved posts and study resources</p>
+        <span class="material-symbols-outlined st-chevron">chevron_right</span>
+      </a>
+
+      <a href="{% url 'web:my_avatar' %}" class="st-row">
+        <span class="st-row-icon"><span class="material-symbols-outlined">palette</span></span>
+        <div class="st-row-text">
+          <p class="st-row-title">My avatar</p>
+          <p class="st-row-sub">Shape, mood and colours</p>
         </div>
-        <span class="material-symbols-outlined" style="color:var(--md-on-surface-variant);">chevron_right</span>
+        <span class="material-symbols-outlined st-chevron">chevron_right</span>
       </a>
     </div>
-  </div>
+  </section>
 
-  <!-- Preferences Section -->
-  <div style="margin-bottom: 24px;">
-    <h2 style="font-size:0.875rem;font-weight:600;color:var(--md-primary);text-transform:uppercase;letter-spacing:0.5px;margin:0 0 12px 4px;">Preferences</h2>
-    <div class="md-card" style="overflow:hidden; display: flex; flex-direction: column; gap: 0;">
-      <!-- Dark Theme -->
-      <div style="display:flex;align-items:center;padding:16px;justify-content:space-between;">
-        <div style="display:flex;align-items:center;flex-grow:1;margin-right:16px;">
-          <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;margin-right:16px;color:var(--md-on-surface-variant);">
-            <span class="material-symbols-outlined">dark_mode</span>
-          </div>
-          <div>
-            <h4 style="margin:0;font-size:0.9375rem;font-weight:600;">Dark Theme</h4>
-            <p style="margin:2px 0 0;font-size:0.8125rem;color:var(--md-on-surface-variant);" id="theme-status">Off</p>
-          </div>
+  <section class="st-group">
+    <h2 class="st-group-title">Tools</h2>
+    <div class="st-list">
+      <a href="{% url 'web:canvas' %}" class="st-row">
+        <span class="st-row-icon"><span class="material-symbols-outlined">space_dashboard</span></span>
+        <div class="st-row-text">
+          <p class="st-row-title">NEBians Canvas</p>
+          <p class="st-row-sub">Visual concept maps and whiteboards</p>
+        </div>
+        <span class="st-badge">New</span>
+        <span class="material-symbols-outlined st-chevron">chevron_right</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="st-group">
+    <h2 class="st-group-title">Preferences</h2>
+    <div class="st-list">
+      <div class="st-row">
+        <span class="st-row-icon"><span class="material-symbols-outlined">dark_mode</span></span>
+        <div class="st-row-text">
+          <p class="st-row-title">Dark theme</p>
+          <p class="st-row-sub" id="theme-status">Off</p>
         </div>
         <label class="md-switch">
           <input type="checkbox" id="theme-switch">
@@ -122,18 +121,11 @@
         </label>
       </div>
 
-      <div style="height:1px;background:var(--md-outline-variant);opacity:0.5;margin:0 16px;"></div>
-
-      <!-- Push Notifications -->
-      <div style="display:flex;align-items:center;padding:16px;justify-content:space-between;">
-        <div style="display:flex;align-items:center;flex-grow:1;margin-right:16px;">
-          <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;margin-right:16px;color:var(--md-on-surface-variant);">
-            <span class="material-symbols-outlined">notifications</span>
-          </div>
-          <div>
-            <h4 style="margin:0;font-size:0.9375rem;font-weight:600;">Push Notifications</h4>
-            <p style="margin:2px 0 0;font-size:0.8125rem;color:var(--md-on-surface-variant);" id="notif-status">Off</p>
-          </div>
+      <div class="st-row">
+        <span class="st-row-icon"><span class="material-symbols-outlined">notifications</span></span>
+        <div class="st-row-text">
+          <p class="st-row-title">Push notifications</p>
+          <p class="st-row-sub" id="notif-status">Off</p>
         </div>
         <label class="md-switch">
           <input type="checkbox" id="notif-switch">
@@ -141,18 +133,11 @@
         </label>
       </div>
 
-      <div style="height:1px;background:var(--md-outline-variant);opacity:0.5;margin:0 16px;"></div>
-
-      <!-- Wi-Fi Only Downloads -->
-      <div style="display:flex;align-items:center;padding:16px;justify-content:space-between;">
-        <div style="display:flex;align-items:center;flex-grow:1;margin-right:16px;">
-          <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;margin-right:16px;color:var(--md-on-surface-variant);">
-            <span class="material-symbols-outlined">wifi</span>
-          </div>
-          <div>
-            <h4 style="margin:0;font-size:0.9375rem;font-weight:600;">Wi-Fi Only Downloads</h4>
-            <p style="margin:2px 0 0;font-size:0.8125rem;color:var(--md-on-surface-variant);" id="wifi-status">Any network</p>
-          </div>
+      <div class="st-row">
+        <span class="st-row-icon"><span class="material-symbols-outlined">wifi</span></span>
+        <div class="st-row-text">
+          <p class="st-row-title">Wi-Fi only downloads</p>
+          <p class="st-row-sub" id="wifi-status">Any network</p>
         </div>
         <label class="md-switch">
           <input type="checkbox" id="wifi-switch">
@@ -160,117 +145,85 @@
         </label>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- Experimental Section -->
-  <div style="margin-bottom: 24px;">
-    <h2 style="font-size:0.875rem;font-weight:600;color:var(--md-primary);text-transform:uppercase;letter-spacing:0.5px;margin:0 0 12px 4px;">Experimental</h2>
-    <div class="md-card" style="overflow:hidden; display: flex; flex-direction: column; gap: 0;">
-      <div style="display:flex;align-items:center;padding:16px;justify-content:space-between;">
-        <div style="display:flex;align-items:center;flex-grow:1;margin-right:16px;">
-          <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;margin-right:16px;color:var(--md-on-surface-variant);">
-            <span class="material-symbols-outlined">image</span>
-          </div>
-          <div>
-            <h4 style="margin:0;font-size:0.9375rem;font-weight:600;">Inline Images in Posts</h4>
-            <p style="margin:2px 0 0;font-size:0.8125rem;color:var(--md-on-surface-variant);" id="inline-images-status">{% if user.enable_inline_images is not False %}Enabled — images flow inside text{% else %}Disabled — classic attachments only{% endif %}</p>
-          </div>
+  <section class="st-group">
+    <h2 class="st-group-title">Experimental</h2>
+    <div class="st-list">
+      <div class="st-row">
+        <span class="st-row-icon"><span class="material-symbols-outlined">image</span></span>
+        <div class="st-row-text">
+          <p class="st-row-title">Inline images in posts</p>
+          <p class="st-row-sub" id="inline-images-status">{% if user.enable_inline_images is not False %}Enabled — images flow inside text{% else %}Disabled — classic attachments only{% endif %}</p>
         </div>
         <label class="md-switch">
           <input type="checkbox" id="inline-images-switch" {% if user.enable_inline_images is not False %}checked{% endif %}>
           <span class="slider"></span>
         </label>
       </div>
-      <div style="padding:0 16px 14px 72px;">
-        <p style="margin:0;font-size:0.75rem;color:var(--md-on-surface-variant);line-height:1.5;">When enabled, images sit inline with text like Meta AI — tap to view fullscreen, drag to move inside the composer. Copy keeps <code>[image]</code> for other apps but pastes back as a real image inside NEBians. Turn off to keep the classic gallery-only composer.</p>
+      <p class="st-row-note">Images sit inline with the text — click to open one fullscreen, drag to move it inside the composer. Copying keeps <code>[image]</code> for other apps but pastes back as a real image inside NEBians. Turn this off for the classic gallery-only composer.</p>
+    </div>
+  </section>
+
+  <section class="st-group">
+    <h2 class="st-group-title">About</h2>
+    <div class="st-list">
+      <a href="{% url 'web:privacy_policy' %}" class="st-row">
+        <span class="st-row-icon"><span class="material-symbols-outlined">lock</span></span>
+        <div class="st-row-text">
+          <p class="st-row-title">Privacy policy</p>
+          <p class="st-row-sub">How we protect your data</p>
+        </div>
+        <span class="material-symbols-outlined st-chevron">chevron_right</span>
+      </a>
+
+      <a href="{% url 'web:terms_of_service' %}" class="st-row">
+        <span class="st-row-icon"><span class="material-symbols-outlined">description</span></span>
+        <div class="st-row-text">
+          <p class="st-row-title">Terms of service</p>
+          <p class="st-row-sub">Rules and guidelines for usage</p>
+        </div>
+        <span class="material-symbols-outlined st-chevron">chevron_right</span>
+      </a>
+
+      <a href="{% url 'web:faq' %}" class="st-row">
+        <span class="st-row-icon"><span class="material-symbols-outlined">help</span></span>
+        <div class="st-row-text">
+          <p class="st-row-title">Help &amp; FAQ</p>
+          <p class="st-row-sub">Answers to what people ask most</p>
+        </div>
+        <span class="material-symbols-outlined st-chevron">chevron_right</span>
+      </a>
+
+      <div class="st-row">
+        <span class="st-row-icon"><span class="material-symbols-outlined">info</span></span>
+        <div class="st-row-text">
+          <p class="st-row-title">Version</p>
+          <p class="st-row-sub">1.0.5</p>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- About Section -->
-  <div style="margin-bottom: 24px;">
-    <h2 style="font-size:0.875rem;font-weight:600;color:var(--md-primary);text-transform:uppercase;letter-spacing:0.5px;margin:0 0 12px 4px;">About</h2>
-    <div class="md-card" style="overflow:hidden; display: flex; flex-direction: column; gap: 0;">
-      <!-- Version -->
-      <div style="display:flex;align-items:center;padding:16px;">
-        <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;margin-right:16px;color:var(--md-on-surface-variant);">
-          <span class="material-symbols-outlined">info</span>
+  <section class="st-group st-group-danger">
+    <h2 class="st-group-title">Account control</h2>
+    <div class="st-list">
+      <a href="{% url 'web:delete_account' %}" class="st-row st-row-danger">
+        <span class="st-row-icon"><span class="material-symbols-outlined">delete_forever</span></span>
+        <div class="st-row-text">
+          <p class="st-row-title">Delete account</p>
+          {# The view already looks up whether one is pending and the template
+             never used it; saying so here saves a click to find out. No date:
+             created_at is an epoch integer, not a datetime. #}
+          <p class="st-row-sub">{% if pending_request %}Already requested — open to cancel it{% else %}Permanently remove your profile and data{% endif %}</p>
         </div>
-        <div>
-          <h4 style="margin:0;font-size:0.9375rem;font-weight:600;">Version</h4>
-          <p style="margin:2px 0 0;font-size:0.8125rem;color:var(--md-on-surface-variant);">1.0.5</p>
-        </div>
-      </div>
-
-      <div style="height:1px;background:var(--md-outline-variant);opacity:0.5;margin:0 16px;"></div>
-
-      <!-- Privacy Policy -->
-      <a href="{% url 'web:privacy_policy' %}" style="display:flex;align-items:center;padding:16px;text-decoration:none;color:inherit;transition:background 0.2s;" class="settings-item-hover">
-        <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;margin-right:16px;color:var(--md-on-surface-variant);">
-          <span class="material-symbols-outlined">lock</span>
-        </div>
-        <div style="flex-grow:1;">
-          <h4 style="margin:0;font-size:0.9375rem;font-weight:600;">Privacy Policy</h4>
-          <p style="margin:2px 0 0;font-size:0.8125rem;color:var(--md-on-surface-variant);">How we protect your data</p>
-        </div>
-        <span class="material-symbols-outlined" style="color:var(--md-on-surface-variant);">chevron_right</span>
-      </a>
-
-      <div style="height:1px;background:var(--md-outline-variant);opacity:0.5;margin:0 16px;"></div>
-
-      <!-- Terms of Service -->
-      <a href="{% url 'web:terms_of_service' %}" style="display:flex;align-items:center;padding:16px;text-decoration:none;color:inherit;transition:background 0.2s;" class="settings-item-hover">
-        <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;margin-right:16px;color:var(--md-on-surface-variant);">
-          <span class="material-symbols-outlined">description</span>
-        </div>
-        <div style="flex-grow:1;">
-          <h4 style="margin:0;font-size:0.9375rem;font-weight:600;">Terms of Service</h4>
-          <p style="margin:2px 0 0;font-size:0.8125rem;color:var(--md-on-surface-variant);">Rules and guidelines for usage</p>
-        </div>
-        <span class="material-symbols-outlined" style="color:var(--md-on-surface-variant);">chevron_right</span>
-      </a>
-
-    </div>
-  </div>
-
-  <!-- Danger Zone Section -->
-  <div style="margin-bottom: 24px;">
-    <h2 style="font-size:0.875rem;font-weight:600;color:var(--md-error);text-transform:uppercase;letter-spacing:0.5px;margin:0 0 12px 4px;">Danger Zone</h2>
-    <div class="md-card" style="overflow:hidden; display: flex; flex-direction: column; gap: 0; border: 1px solid var(--md-error, #B3261E);">
-      <!-- Request Delete -->
-      <a href="{% url 'web:delete_account' %}" style="display:flex;align-items:center;padding:16px;text-decoration:none;color:inherit;transition:background 0.2s;" class="settings-item-hover">
-        <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;margin-right:16px;color:var(--md-error);">
-          <span class="material-symbols-outlined">delete_forever</span>
-        </div>
-        <div style="flex-grow:1;">
-          <h4 style="margin:0;font-size:0.9375rem;font-weight:600;color:var(--md-error);">Delete Account</h4>
-          <p style="margin:2px 0 0;font-size:0.8125rem;color:var(--md-on-surface-variant);">Permanently delete your profile and data</p>
-        </div>
-        <span class="material-symbols-outlined" style="color:var(--md-on-surface-variant);">chevron_right</span>
-      </a>
-
-      <div style="height:1px;background:var(--md-outline-variant);opacity:0.5;margin:0 16px;"></div>
-
-      <!-- Sign Out -->
-      <a href="{% url 'web:logout' %}" style="display:flex;align-items:center;padding:16px;text-decoration:none;color:inherit;transition:background 0.2s;" class="settings-item-hover">
-        <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;margin-right:16px;color:var(--md-error);">
-          <span class="material-symbols-outlined">logout</span>
-        </div>
-        <div style="flex-grow:1;">
-          <h4 style="margin:0;font-size:0.9375rem;font-weight:600;color:var(--md-error);">Sign Out</h4>
-          <p style="margin:2px 0 0;font-size:0.8125rem;color:var(--md-on-surface-variant);">Log out of your current session</p>
-        </div>
-        <span class="material-symbols-outlined" style="color:var(--md-on-surface-variant);">chevron_right</span>
+        <span class="material-symbols-outlined st-chevron">chevron_right</span>
       </a>
     </div>
-  </div>
+  </section>
+
+  <a href="{% url 'web:logout' %}" class="md-btn md-btn-outlined st-signout">Sign out</a>
 </div>
-
-<style nonce="{{ csp_nonce }}">
-  .settings-item-hover:hover {
-    background: rgba(var(--md-primary-rgb, 0, 95, 175), 0.08) !important;
-  }
-</style>
 {% endblock %}
 
 {% block extra_js %}
@@ -284,7 +237,7 @@
     if (visibilitySwitch) {
       visibilitySwitch.addEventListener('change', function () {
         const isLocked = visibilitySwitch.checked;
-        
+
         fetch('{% url "web:ajax_toggle_profile_visibility" %}', {
           method: 'POST',
           headers: {
@@ -297,17 +250,17 @@
         .then(data => {
           if (data.error) {
             visibilitySwitch.checked = !isLocked;
-            alert(data.error);
+            _snack(data.error);
           } else {
             visibilityIcon.textContent = data.is_locked ? 'visibility_off' : 'visibility';
-            visibilityDesc.textContent = data.is_locked 
-              ? 'Private — only username visible' 
-              : 'Public — profile visible to everyone';
+            visibilityDesc.textContent = data.is_locked
+              ? 'Only your username is visible'
+              : 'Anyone can see your profile';
           }
         })
         .catch(() => {
           visibilitySwitch.checked = !isLocked;
-          alert('Failed to update visibility setting.');
+          _snack('Failed to update visibility setting.');
         });
       });
     }
@@ -335,7 +288,7 @@
         }
         localStorage.setItem('theme', isDark ? 'dark' : 'light');
         if (themeStatus) themeStatus.textContent = isDark ? 'On' : 'Off';
-        
+
         fetch('/ajax/theme/', {
           method: 'POST',
           headers: {
