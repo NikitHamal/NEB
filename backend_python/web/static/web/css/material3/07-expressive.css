@@ -12,9 +12,11 @@
 
 /* ── Emphasized type ───────────────────────────────────────────────────────
    Expressive's headline move is weight and tracking contrast inside one
-   family, not a second typeface. Poppins goes to 700 and the tracking goes
+   family, not a second typeface. Poppins goes to 800 and the tracking goes
    negative, which is what makes a heading read as a heading at a glance
-   instead of as body text that happens to be bigger.
+   instead of as body text that happens to be bigger. (800 was already declared
+   by .md-display-large and .md-headline-large and was never loaded, so the
+   browser had been faking it with a synthetic bold; base.html now fetches it.)
 
    The sizes stay on the web's own optical scale rather than copying the app's
    sp values: 32sp is a phone heading, and a 1400px page wants more. What is
@@ -48,85 +50,75 @@
   font-family: var(--md-font);
 }
 
-.md-display-large-emphasized {
+/* Every variant below is its base role at the same size, one weight step
+   heavier, tracked tighter, and set a little closer. Same size, because the
+   site's scale is settled and an emphasized heading that also grew would be a
+   different heading. The three big roles are already at 800 and cannot go
+   further, so their emphasis is carried entirely by tracking -- which at
+   2.5rem is worth about half a character of width and reads clearly. */
+.md-display-large-emphasized,
+.md-headline-large-emphasized {
   font-size: 2.5rem;
   font-weight: 800;
-  line-height: 1.18;
-  letter-spacing: -0.035em;
+  line-height: 1.14;
+  letter-spacing: -0.038em;
 }
 
-.md-display-medium-emphasized {
+.md-display-medium-emphasized,
+.md-headline-medium-emphasized {
   font-size: 2rem;
   font-weight: 800;
-  line-height: 1.2;
-  letter-spacing: -0.03em;
+  line-height: 1.16;
+  letter-spacing: -0.028em;
 }
 
-.md-display-small-emphasized {
-  font-size: 1.5rem;
-  font-weight: 700;
-  line-height: 1.25;
-  letter-spacing: -0.025em;
-}
-
-.md-headline-large-emphasized {
-  font-size: 2.25rem;
-  font-weight: 800;
-  line-height: 1.2;
-  letter-spacing: -0.03em;
-}
-
-.md-headline-medium-emphasized {
-  font-size: 1.75rem;
-  font-weight: 700;
-  line-height: 1.24;
-  letter-spacing: -0.025em;
-}
-
+.md-display-small-emphasized,
 .md-headline-small-emphasized {
-  font-size: 1.375rem;
-  font-weight: 700;
-  line-height: 1.3;
-  letter-spacing: -0.02em;
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1.24;
+  letter-spacing: -0.022em;
 }
 
 .md-title-large-emphasized {
-  font-size: 1.125rem;
-  font-weight: 700;
-  line-height: 1.33;
-  letter-spacing: -0.01em;
+  font-size: 1.375rem;
+  font-weight: 800;
+  line-height: 1.24;
+  letter-spacing: -0.018em;
 }
 
 .md-title-medium-emphasized {
-  font-size: 0.875rem;
+  font-size: 1rem;
   font-weight: 700;
-  line-height: 1.43;
-  letter-spacing: 0.01em;
+  line-height: 1.45;
+  letter-spacing: 0;
 }
 
 .md-title-small-emphasized {
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   font-weight: 700;
-  line-height: 1.38;
-  letter-spacing: 0.01em;
+  line-height: 1.4;
+  letter-spacing: 0.03em;
 }
 
+/* Body does not go to 700 -- a paragraph at 700 is a paragraph nobody reads.
+   500 is the one step Poppins gives that still sets as text. */
 .md-body-large-emphasized {
-  font-size: 1.0625rem;
+  font-size: 1.125rem;
   font-weight: 500;
-  line-height: 1.53;
+  line-height: 1.55;
 }
 
 .md-body-medium-emphasized {
-  font-size: 0.9375rem;
+  font-size: 1rem;
   font-weight: 500;
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
 .md-body-small-emphasized {
   font-size: 0.875rem;
   font-weight: 500;
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
 .md-label-large-emphasized {
@@ -139,15 +131,15 @@
 .md-label-medium-emphasized {
   font-size: 0.75rem;
   font-weight: 700;
-  line-height: 1.33;
+  line-height: 1.35;
   letter-spacing: 0.06em;
 }
 
 .md-label-small-emphasized {
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
   font-weight: 700;
-  line-height: 1.36;
-  letter-spacing: 0.08em;
+  line-height: 1.35;
+  letter-spacing: 0.07em;
 }
 
 /* A tracked, uppercase kicker. Used above section headings, which is the one
