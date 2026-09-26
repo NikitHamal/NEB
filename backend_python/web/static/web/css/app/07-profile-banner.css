@@ -24,17 +24,25 @@
   overflow: hidden;
 }
 
-/* The head of the profile. Not a card: the app dropped the rounded panel
-   because it sat inside an already-padded column and read as a card floating
-   on a card. What is left is a cover, an avatar hanging off its bottom edge,
-   and a column of text -- so overflow has to stay visible. */
+/* The head of the profile: a cover, an avatar hanging off its bottom edge, and a
+   column of text. The panel is back after a spell without one -- borderless, the
+   lot of it sat directly on the page and the eye could not tell where the profile
+   stopped and the background began, so the stats and the social row read as
+   loose objects rather than as part of a profile. A surface plus a hairline is
+   enough to group them; it stays flat, no shadow, because the cover already
+   carries the weight. Overflow has to remain visible for the avatar. */
 .pf-compact-card {
   position: relative;
-  background: none;
-  border: 0;
+  background: var(--md-surface);
+  border: 1px solid var(--md-outline-variant);
   border-radius: 0;
   box-shadow: none;
   overflow: visible;
+}
+/* Square on mobile, where the column bleeds to the viewport edge; rounded on
+   desktop, matching the cover's own top corners. */
+@media (min-width: 901px) {
+  .pf-compact-card { border-radius: var(--md-radius-lg); }
 }
 
 /* ── Profile cover: generative art, painted by neb-art.js ──

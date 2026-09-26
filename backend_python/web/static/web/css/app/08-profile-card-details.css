@@ -12,10 +12,12 @@
   padding: 0 20px;
 }
 
-/* The action clears the cover rather than sitting flush against its edge: the
-   row is bottom-aligned and a 38px-tall button would put its top on the seam. */
+/* The action drops below the cover's edge instead of starting on it. The row is
+   bottom-aligned and the avatar overhangs by 48px while the button is 38px
+   tall, so zero padding put the button's top edge exactly on the seam -- the
+   pair read as one shape. At zero it clears the cover by 10px. */
 .pf-identity-action {
-  padding-bottom: 10px;
+  padding-bottom: 0;
 }
 
 .pf-avatar-overlap-wrap {
@@ -110,7 +112,7 @@
 
 /* Everything under the cover sits at one indent, matching the app's 20dp. */
 .pf-card-body {
-  padding: 14px 20px 0;
+  padding: 14px 20px 20px;
 }
 
 .pf-card-name-row {
@@ -380,7 +382,7 @@
   }
 
   .pf-card-body {
-    padding: 12px 16px 0;
+    padding: 12px 16px 18px;
   }
 
   .pf-card-name {
