@@ -1370,7 +1370,7 @@ def admin_agent_activity(request):
         AgentAction.objects.select_related('persona', 'persona__bot_config').order_by('-created_at')[:120]
     )
     return render(request, 'admin_panel/agent_activity.html', _ctx(
-        request, active_page='bot', recent_actions=actions,
+        request, active_page='agent_activity', recent_actions=actions,
     ))
 
 

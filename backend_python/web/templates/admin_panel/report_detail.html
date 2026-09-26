@@ -29,7 +29,7 @@
     </div>
     <form method="post" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
       {% csrf_token %}
-      <select name="status" class="md-chip" style="border:1px solid var(--md-outline-variant);background:var(--md-surface);padding:8px 12px;">
+      <select name="status" class="admin-select" aria-label="Change status">
         {% for value,label in status_choices %}
         <option value="{{ value }}" {% if report.status == value %}selected{% endif %}>{{ label }}</option>
         {% endfor %}
