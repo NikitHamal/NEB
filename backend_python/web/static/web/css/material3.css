@@ -765,10 +765,10 @@ img {
 .avatar-ring {
   width: 36px;
   height: 36px;
+  /* Geometry only. Fill and stroke belong to app/11-avatar-image-backgrounds,
+     which is the one place that knows whether an avatar is a photo or a
+     letter -- this rule cannot tell, and used to guess wrong. */
   border-radius: 50%;
-  background: transparent;
-  border: 2px solid var(--md-primary);
-  color: var(--md-primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -807,7 +807,7 @@ img {
 }
 
 .profile-dropdown-trigger:hover {
-  background: var(--md-surface-variant);
+  background: var(--md-surface-container-highest);
 }
 
 /* Notification badge in dropdown */
@@ -843,23 +843,23 @@ img {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 9px 12px;
-  border-radius: var(--md-radius-sm);
-  color: var(--md-on-surface-variant);
-  font-size: 0.875rem;
+  padding: 11px 14px;
+  border-radius: 14px;
+  color: var(--md-on-surface);
+  font-size: 0.9375rem;
   font-weight: 500;
   transition: background var(--md-transition), color var(--md-transition);
   text-decoration: none;
 }
 
 .profile-dropdown-notif-link:hover {
-  background: var(--md-surface-variant);
+  background: var(--md-surface-container-highest);
   color: var(--md-on-surface);
   text-decoration: none;
 }
 
 .profile-dropdown-notif-link .material-symbols-outlined {
-  font-size: 20px;
+  font-size: 22px;
   color: var(--md-on-surface-variant);
   transition: color var(--md-transition);
 }
@@ -876,9 +876,9 @@ img {
   min-width: 236px;
   width: max-content;
   max-width: 280px;
-  background: var(--md-surface);
+  background: var(--md-surface-container-high);
   border: 1px solid var(--md-outline-variant);
-  border-radius: var(--md-radius-md);
+  border-radius: 20px;
   box-shadow: var(--md-elevation-2);
   padding: 8px;
   display: flex;
@@ -907,7 +907,7 @@ img {
 }
 
 .profile-dropdown-header-link:hover {
-  background: var(--md-surface-variant) !important;
+  background: var(--md-surface-container-highest) !important;
 }
 
 .profile-dropdown-header-link:hover .dropdown-header-view-icon {
@@ -925,10 +925,10 @@ img {
 .profile-dropdown-avatar {
   width: 38px;
   height: 38px;
+  /* Geometry only. Fill and stroke belong to app/11-avatar-image-backgrounds,
+     which is the one place that knows whether an avatar is a photo or a
+     letter -- this rule cannot tell, and used to guess wrong. */
   border-radius: 50%;
-  background: transparent;
-  border: 2px solid var(--md-primary);
-  color: var(--md-primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -994,23 +994,23 @@ img {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 9px 12px;
-  border-radius: var(--md-radius-sm);
-  color: var(--md-on-surface-variant);
-  font-size: 0.875rem;
+  padding: 11px 14px;
+  border-radius: 14px;
+  color: var(--md-on-surface);
+  font-size: 0.9375rem;
   font-weight: 500;
   transition: background var(--md-transition), color var(--md-transition);
   text-decoration: none;
 }
 
 .profile-dropdown-menu a:hover {
-  background: var(--md-surface-variant);
+  background: var(--md-surface-container-highest);
   color: var(--md-on-surface);
   text-decoration: none;
 }
 
 .profile-dropdown-menu a .material-symbols-outlined {
-  font-size: 20px;
+  font-size: 22px;
   color: var(--md-on-surface-variant);
   transition: color var(--md-transition);
 }
@@ -2302,7 +2302,6 @@ img {
 .md-shape-circle { clip-path: polygon(100% 50%, 99.81% 54.36%, 99.24% 58.68%, 98.3% 62.94%, 96.98% 67.1%, 95.32% 71.13%, 93.3% 75%, 90.96% 78.68%, 88.3% 82.14%, 85.36% 85.36%, 82.14% 88.3%, 78.68% 90.96%, 75% 93.3%, 71.13% 95.32%, 67.1% 96.98%, 62.94% 98.3%, 58.68% 99.24%, 54.36% 99.81%, 50% 100%, 45.64% 99.81%, 41.32% 99.24%, 37.06% 98.3%, 32.9% 96.98%, 28.87% 95.32%, 25% 93.3%, 21.32% 90.96%, 17.86% 88.3%, 14.64% 85.36%, 11.7% 82.14%, 9.04% 78.68%, 6.7% 75%, 4.68% 71.13%, 3.02% 67.1%, 1.7% 62.94%, 0.76% 58.68%, 0.19% 54.36%, 0% 50%, 0.19% 45.64%, 0.76% 41.32%, 1.7% 37.06%, 3.02% 32.9%, 4.68% 28.87%, 6.7% 25%, 9.04% 21.32%, 11.7% 17.86%, 14.64% 14.64%, 17.86% 11.7%, 21.32% 9.04%, 25% 6.7%, 28.87% 4.68%, 32.9% 3.02%, 37.06% 1.7%, 41.32% 0.76%, 45.64% 0.19%, 50% 0%, 54.36% 0.19%, 58.68% 0.76%, 62.94% 1.7%, 67.1% 3.02%, 71.13% 4.68%, 75% 6.7%, 78.68% 9.04%, 82.14% 11.7%, 85.36% 14.64%, 88.3% 17.86%, 90.96% 21.32%, 93.3% 25%, 95.32% 28.87%, 96.98% 32.9%, 98.3% 37.06%, 99.24% 41.32%, 99.81% 45.64%); }
 .md-shape-gem { clip-path: polygon(88.97% 50%, 88.99% 53.41%, 89.04% 56.88%, 89.12% 60.48%, 89.23% 64.28%, 89.38% 68.36%, 89.55% 72.83%, 85.93% 75.16%, 82.6% 77.35%, 79.46% 79.46%, 76.45% 81.52%, 73.5% 83.56%, 70.57% 85.62%, 67.59% 87.73%, 64.52% 89.9%, 61.3% 92.18%, 57.86% 94.59%, 54.13% 97.18%, 50% 100%, 45.87% 97.18%, 42.14% 94.59%, 38.7% 92.18%, 35.48% 89.9%, 32.41% 87.73%, 29.43% 85.63%, 26.5% 83.56%, 23.55% 81.52%, 20.54% 79.46%, 17.4% 77.35%, 14.07% 75.16%, 10.45% 72.83%, 10.62% 68.36%, 10.77% 64.28%, 10.88% 60.48%, 10.96% 56.88%, 11.01% 53.41%, 11.03% 50%, 11.01% 46.59%, 10.96% 43.12%, 10.88% 39.52%, 10.77% 35.72%, 10.62% 31.64%, 10.45% 27.17%, 14.07% 24.84%, 17.4% 22.65%, 20.54% 20.54%, 23.55% 18.48%, 26.5% 16.44%, 29.43% 14.38%, 32.41% 12.27%, 35.48% 10.1%, 38.7% 7.82%, 42.14% 5.41%, 45.87% 2.82%, 50% 0%, 54.13% 2.82%, 57.86% 5.41%, 61.3% 7.82%, 64.52% 10.1%, 67.59% 12.27%, 70.57% 14.37%, 73.5% 16.44%, 76.45% 18.48%, 79.46% 20.54%, 82.6% 22.65%, 85.93% 24.84%, 89.55% 27.17%, 89.38% 31.64%, 89.23% 35.72%, 89.12% 39.52%, 89.04% 43.12%, 88.99% 46.59%); }
 .md-shape-slanted { clip-path: polygon(94.57% 50%, 93.71% 53.82%, 92.8% 57.55%, 91.89% 61.22%, 90.96% 64.91%, 89.99% 68.65%, 88.9% 72.46%, 87.62% 76.34%, 86.06% 80.26%, 84.1% 84.1%, 81.63% 87.69%, 78.59% 90.83%, 75% 93.3%, 70.98% 94.99%, 66.7% 95.89%, 62.36% 96.14%, 58.09% 95.9%, 53.97% 95.33%, 50% 94.57%, 46.18% 93.71%, 42.45% 92.8%, 38.78% 91.89%, 35.09% 90.96%, 31.35% 89.99%, 27.54% 88.9%, 23.66% 87.62%, 19.74% 86.06%, 15.9% 84.1%, 12.31% 81.63%, 9.17% 78.59%, 6.7% 75%, 5.01% 70.98%, 4.11% 66.7%, 3.86% 62.36%, 4.1% 58.09%, 4.67% 53.97%, 5.43% 50%, 6.29% 46.18%, 7.2% 42.45%, 8.11% 38.78%, 9.04% 35.09%, 10.01% 31.35%, 11.1% 27.54%, 12.38% 23.66%, 13.94% 19.74%, 15.9% 15.9%, 18.37% 12.31%, 21.41% 9.17%, 25% 6.7%, 29.02% 5.01%, 33.3% 4.11%, 37.64% 3.86%, 41.91% 4.1%, 46.03% 4.67%, 50% 5.43%, 53.82% 6.29%, 57.55% 7.2%, 61.22% 8.11%, 64.91% 9.04%, 68.65% 10.01%, 72.46% 11.1%, 76.34% 12.38%, 80.26% 13.94%, 84.1% 15.9%, 87.69% 18.37%, 90.83% 21.41%, 93.3% 25%, 94.99% 29.02%, 95.89% 33.3%, 96.14% 37.64%, 95.9% 41.91%, 95.33% 46.03%); }
-
 /* ── The loader ─────────────────────────────────────────────
    One wait for the whole site, at the app's four sizes: inside a button,
    inside a row, inside a card, or holding a screen. It is a solid block of
