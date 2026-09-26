@@ -5,13 +5,13 @@
 .subject-chips { display: flex; flex-wrap: wrap; gap: 6px; min-height: 0; }
 .subject-chip { display: inline-flex; align-items: center; gap: 4px; background: var(--md-primary-container); color: var(--md-on-primary-container); padding: 4px 8px 4px 12px; border-radius: 20px; font-size: 0.8125rem; font-weight: 500; line-height: 1.4; }
 .subject-chip-remove { background: none; border: none; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center; color: var(--md-on-primary-container); opacity: 0.7; border-radius: 50%; width: 18px; height: 18px; }
-.subject-chip-remove:hover { opacity: 1; background: color-mix(15%, var(--md-on-primary-container), transparent); }
+.subject-chip-remove:hover { opacity: 1; background: color-mix(in srgb, var(--md-on-primary-container) 15%, transparent); }
 .subject-chip-remove .material-symbols-outlined { font-size: 14px; }
 .subject-input-row { display: flex; gap: 8px; }
 .subject-input-row .md-input { flex: 1; }
 
 .grade-suggestion-chip { display: inline-flex; align-items: center; gap: 4px; padding: 6px 14px; border-radius: 20px; font-size: 0.8125rem; font-weight: 500; cursor: pointer; border: 1px solid var(--md-outline-variant); background: var(--md-surface-container); color: var(--md-on-surface); transition: all 0.15s; }
-.grade-suggestion-chip:hover { background: color-mix(8%, var(--md-primary), transparent); border-color: var(--md-primary); color: var(--md-primary); }
+.grade-suggestion-chip:hover { background: color-mix(in srgb, var(--md-primary) 8%, transparent); border-color: var(--md-primary); color: var(--md-primary); }
 .grade-suggestion-chip.active { background: var(--md-primary); color: var(--md-on-primary); border-color: var(--md-primary); }
 
 .slug-ok { color: #2e7d32; }
