@@ -1,8 +1,8 @@
 {% load web_extras %}
-{# ── One forum post, as a card ─────────────────────────────────────────────
+{% comment %} ── One forum post, as a card ─────────────────────────────────────────────
    Lifted out of _forum_posts.html so the home feed can place posts one at a
    time between its rails without a second copy of this markup drifting out
-   of step. Expects `post`, and `is_authenticated`/`user` from the context. #}
+   of step. Expects `post`, and `is_authenticated`/`user` from the context. {% endcomment %}
 <div class="post-card" data-action="open-post" data-post-url="{% url 'web:forum_post' post_id=post.id %}" style="cursor: pointer;">
   <div class="post-card-header">
     <div class="post-card-avatar {% if post.authorBadgeInfo and post.authorBadgeInfo.type == 'verified' %}avatar-container-verified{% endif %}">

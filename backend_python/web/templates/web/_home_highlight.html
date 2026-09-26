@@ -1,8 +1,8 @@
 {% load web_extras %}
-{# ── A resource, as one feed row ───────────────────────────────────────────
+{% comment %} ── A resource, as one feed row ───────────────────────────────────────────
    The app's HomeFeedResourceHighlight: a single wide row, so the library shows
    up in the middle of a long feed without a whole rail to scroll past.
-   Expects `r`. #}
+   Expects `r`. {% endcomment %}
 <a class="hf-highlight" href="{% url 'web:reader' resource_id=r.id %}">
   <span class="hf-highlight-icon material-symbols-outlined">{{ r.subject|split:','|first|subject_icon }}</span>
   <span class="hf-highlight-text">

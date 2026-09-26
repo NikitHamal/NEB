@@ -10,8 +10,8 @@
 {% block canonical %}https://nebians.consica.com.np/faq/{% endblock %}
 
 {% block head_extra %}
-{# Built in the view from web/faq.py, so this can never describe answers the
-   page does not show. #}
+{% comment %} Built in the view from web/faq.py, so this can never describe answers the
+   page does not show. {% endcomment %}
 <script type="application/ld+json" nonce="{{ csp_nonce }}">{{ faq_schema|safe }}</script>
 {% endblock %}
 
@@ -68,8 +68,8 @@
               <span class="faq-item-q">{{ item.q }}</span>
               <span class="faq-item-marker" aria-hidden="true"></span>
             </summary>
-            {# Answers are authored in web/faq.py and contain only our own
-               anchors — no user input reaches this. #}
+            {% comment %} Answers are authored in web/faq.py and contain only our own
+               anchors — no user input reaches this. {% endcomment %}
             <div class="faq-answer">{{ item.a|safe }}</div>
           </details>
           {% endfor %}
