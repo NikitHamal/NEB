@@ -2,17 +2,27 @@
   padding-top: 0;
 }
 
-/* The one surface on the site that does not follow the palette, and the only
-   one that should not. It is a full-bleed painting -- a pale sky, admin-swapped
-   between six seasonal variants, every one of them light -- so the ink over it
-   is fixed to what is legible on that painting rather than to the theme. A
-   reader in dark theme still sees a bright hero here; that is the artwork,
-   not a bug. Everything below the fold is on the tokens. */
+/* The one surface on the site that does not follow the palette. It is a
+   full-bleed painting -- a pale sky, admin-swapped between six seasonal
+   variants, all of them light -- and landing-responsive.css lays a dark wash
+   over that painting in dark theme rather than swapping the art, so the hero
+   has two backgrounds and the ink over it cannot come from either the palette
+   or a single fixed value.
+
+   It comes from these variables instead. This block holds the light set; the
+   [data-theme="dark"] .home-landing block in landing-responsive.css restates
+   the same names, and every rule in here reads them, so a colour in the hero
+   is declared once and the dark theme answers once. Everything below the fold
+   is on the tokens. */
 .home-landing {
   --home-sky: #dff3ff;
   --home-sky-deep: #9ed8fb;
   --home-ink: #0e2035;
   --home-muted: #334e68;
+  /* The second call to action: a pill of the sky with the hero's ink on it. */
+  --home-pill: rgba(255, 255, 255, 0.78);
+  --home-pill-hover: rgba(255, 255, 255, 0.96);
+  --home-pill-ink: #173552;
   position: relative;
   overflow: hidden;
   isolation: isolate;
@@ -168,36 +178,35 @@
   background: rgba(255, 255, 255, 0.3);
 }
 
+/* Every colour here derives from the two pill variables, so the dark theme
+   sets those two and stops. The icon chip is the part this matters most for:
+   it was a fixed navy wash with fixed navy ink, and dark theme overrode the
+   pill it sits on but never the chip, so on a dark hero the arrow was navy on
+   navy at 1.26:1 -- present in the DOM and invisible on screen. A wash of the
+   pill's own ink is legible on either pill, because the ink is what changed. */
 .home-hero-button-secondary {
-  border: 1px solid rgba(29, 70, 103, 0.16);
-  background: rgba(255, 255, 255, 0.78);
-  color: #173552;
+  border: 1px solid color-mix(in srgb, var(--home-pill-ink) 18%, transparent);
+  background: var(--home-pill);
+  color: var(--home-pill-ink);
 }
 
 .home-hero-button-secondary .material-symbols-outlined,
 .home-hero-button-secondary svg {
-  background: rgba(23, 52, 82, 0.08);
-  color: #173552;
+  background: color-mix(in srgb, var(--home-pill-ink) 10%, transparent);
+  color: var(--home-pill-ink);
 }
 
 .home-hero-button-secondary:hover {
-  border-color: rgba(29, 70, 103, 0.28);
-  background: rgba(255, 255, 255, 0.96);
-  color: #173552;
+  border-color: color-mix(in srgb, var(--home-pill-ink) 30%, transparent);
+  background: var(--home-pill-hover);
+  color: var(--home-pill-ink);
   text-decoration: none;
 }
 
 .home-hero-button-secondary:hover .material-symbols-outlined,
 .home-hero-button-secondary:hover svg {
-  background: rgba(23, 52, 82, 0.14);
+  background: color-mix(in srgb, var(--home-pill-ink) 16%, transparent);
 }
-
-/* Four rules gave this button white ink on a white film in dark theme. They
-   were written as though the hero went dark with the rest of the page, and it
-   does not -- the sky behind it is the same pale painting in both themes -- so
-   in dark theme the second of the two calls to action was near-white text on a
-   near-white sky, at roughly 1.2:1. It is the light treatment in both themes
-   now, because there is only one background here to be legible against. */
 
 /* The in-page product mockup -- a fake app window with a toolbar, a resources
    column and a community column -- lived here: 22 class names, 283 lines and
