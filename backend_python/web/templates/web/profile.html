@@ -180,9 +180,9 @@
                 </span>
               {% else %}
                 {% if profile_user.role == 'teacher' %}
-                  Teacher{% if profile_user.teaching_subjects %} &middot; {{ profile_user.teaching_subjects|comma_space }}{% endif %}{% if profile_user.school %} &middot; {{ profile_user.school }}{% endif %}
+                  Teacher{% if profile_user.teaching_subjects %}, {{ profile_user.teaching_subjects|comma_space }}{% endif %}{% if profile_user.school %}, {{ profile_user.school }}{% endif %}
                 {% elif profile_user.role == 'institution' %}
-                  {% if profile_user.institution_type == 'school' %}School{% elif profile_user.institution_type == 'college' %}College{% elif profile_user.institution_type == 'academy' %}Academy{% else %}Institution{% endif %}{% if profile_user.school %} &middot; {{ profile_user.school }}{% endif %}
+                  {% if profile_user.institution_type == 'school' %}School{% elif profile_user.institution_type == 'college' %}College{% elif profile_user.institution_type == 'academy' %}Academy{% else %}Institution{% endif %}{% if profile_user.school %}, {{ profile_user.school }}{% endif %}
                 {% elif profile_user.role == 'explorer' %}
                   {% if profile_user.class_level or profile_user.school %}
                     {{ profile_user.school|default:profile_user.class_level }}
@@ -342,7 +342,7 @@
             {% if profile_user.is_bot %}
               <div class="pf-bot-footer">
                 <span class="material-symbols-outlined">auto_awesome</span>
-                Powered by AI &middot; Always-on AI companion
+                Always-on AI companion
               </div>
             {% endif %}
 
@@ -437,11 +437,9 @@
                       <button class="follow-btn-small {% if stats.is_following %}following{% else %}not-following{% endif %}" data-action="toggle-follow" data-user-id="{{ profile_user.id }}">{% if stats.is_following %}Following{% else %}Follow{% endif %}</button>
                       {% endif %}
                     </div>
-                    <div class="post-card-meta-bottom" style="display:flex; align-items:center; flex-wrap:wrap; gap:6px; margin-top:2px; color:var(--md-on-surface-variant);">
+                    <div class="post-card-meta-bottom" style="display:flex; align-items:center; flex-wrap:wrap; gap:12px; margin-top:2px; color:var(--md-on-surface-variant);">
                       <span class="act-action-text">started a discussion</span>
-                      <span style="opacity:0.4;">&middot;</span>
                       <a href="{% url 'web:forum' %}?category={{ post.category }}" class="post-card-category-link">{{ post.category }}</a>
-                      <span style="opacity:0.4;">&middot;</span>
                       <span class="post-card-time">{{ post.createdAt|time_ago }}</span>
                     </div>
                   </div>
@@ -611,7 +609,6 @@
                      </div>
                      <div class="post-meta-sub">
                        <span>Shared a resource</span>
-                       <span class="dot-sep">&middot;</span>
                        <span class="post-card-time">{{ r.added_at|time_ago }}</span>
                      </div>
                    </div>
@@ -651,7 +648,7 @@
                       <a href="{% url 'web:reader' resource_id=r.id %}">{{ r.title }}</a>
                     </div>
                     <div class="act-resource-meta">
-                      {{ r.type }} &middot; {{ r.file_size|file_size_human|default:"2.4 MB" }}
+                      {{ r.type }}, {{ r.file_size|file_size_human|default:"2.4 MB" }}
                     </div>
                   </div>
                   <a href="{% url 'web:reader' resource_id=r.id %}" class="act-resource-download-btn" title="Download / Open">
@@ -1327,7 +1324,6 @@ async function loadMoreActivity() {
               </div>
 <div class="post-meta-sub">
                  <a href="/forum/?category=${encodeURIComponent(post.category || '')}" class="post-card-category-link">${categoryHtml}</a>
-                 <span class="dot-sep">&middot;</span>
                  <span class="post-card-time">${escapeHtml(timeAgo(post.createdAt))}</span>
                </div>
             </div>

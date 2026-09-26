@@ -67,9 +67,7 @@
                 {% if a.author_photo %}<img src="{{ a.author_photo }}" alt="">{% endif %}
                 {{ a.author_name|mention_links_plain }}
               </span>
-              <span class="dot-sep">&middot;</span>
               <span>{{ a.published_at|time_ago }}</span>
-              <span class="dot-sep">&middot;</span>
               <span class="material-symbols-outlined icon-sm">visibility</span>
               {{ a.view_count|short_number }}
             </div>

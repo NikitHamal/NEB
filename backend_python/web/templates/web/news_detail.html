@@ -93,12 +93,9 @@
               {% if announcement.author_photo %}<img src="{{ announcement.author_photo }}" alt="">{% endif %}
               {{ announcement.author_name|mention_links_plain }}
             </span>
-            <span class="dot-sep">&middot;</span>
             <span>{{ announcement.published_at|time_ago }}</span>
-            <span class="dot-sep">&middot;</span>
             <span class="material-symbols-outlined icon-sm">visibility</span>
             <span>{{ announcement.view_count|short_number }} views</span>
-            <span class="dot-sep">&middot;</span>
             <span class="material-symbols-outlined icon-sm">schedule</span>
             <span>{{ announcement.read_time }} min read</span>
           </div>

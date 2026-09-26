@@ -1297,9 +1297,9 @@
       var metaText = q.attemptCount > 0 ? q.attemptCount + ' attempt' + (q.attemptCount === 1 ? '' : 's') : '';
       if (q.lastAttemptAt) {
         var d = new Date(q.lastAttemptAt);
-        metaText += (metaText ? ' \u00b7 ' : '') + d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+        metaText += (metaText ? ', ' : '') + d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
       }
-      if (!metaText) metaText = q.questionCount + ' questions \u00b7 ' + new Date(q.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+      if (!metaText) metaText = q.questionCount + ' questions, ' + new Date(q.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
       html += '<div class="ss-quiz-history-item" data-action="ss-load-past-quiz" data-quiz-id="' + q.id + '">'
         + '<div class="ss-quiz-hist-icon"><span class="material-symbols-outlined">quiz</span></div>'
         + '<div class="ss-quiz-hist-info">'

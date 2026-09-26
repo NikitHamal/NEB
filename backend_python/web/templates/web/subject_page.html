@@ -256,7 +256,7 @@
                         <div class="s-res-icon"><span class="material-symbols-outlined">{{ r.type|resource_type_icon }}</span></div>
                         <div class="s-res-info">
                           <div class="s-res-title">{{ r.title }}</div>
-                          <div class="s-res-meta">{{ r.fileSize|file_size_human }} &middot; {{ r.viewCount }} views</div>
+                          <div class="s-res-meta">{{ r.fileSize|file_size_human }}, {{ r.viewCount }} views</div>
                         </div>
                       </a>
                       {% endfor %}
@@ -274,7 +274,7 @@
                         <div class="s-res-icon"><span class="material-symbols-outlined">{{ r.type|resource_type_icon }}</span></div>
                         <div class="s-res-info">
                           <div class="s-res-title">{{ r.title }}</div>
-                          <div class="s-res-meta">{{ r.fileSize|file_size_human }} &middot; {{ r.viewCount }} views</div>
+                          <div class="s-res-meta">{{ r.fileSize|file_size_human }}, {{ r.viewCount }} views</div>
                         </div>
                       </a>
                       {% endfor %}
@@ -292,7 +292,7 @@
                         <div class="s-res-icon"><span class="material-symbols-outlined">{{ r.type|resource_type_icon }}</span></div>
                         <div class="s-res-info">
                           <div class="s-res-title">{{ r.title }}</div>
-                          <div class="s-res-meta">{{ r.fileSize|file_size_human }} &middot; {{ r.viewCount }} views</div>
+                          <div class="s-res-meta">{{ r.fileSize|file_size_human }}, {{ r.viewCount }} views</div>
                         </div>
                       </a>
                       {% endfor %}
@@ -310,7 +310,7 @@
                         <div class="s-res-icon"><span class="material-symbols-outlined">{{ r.type|resource_type_icon }}</span></div>
                         <div class="s-res-info">
                           <div class="s-res-title">{{ r.title }}</div>
-                          <div class="s-res-meta">{{ r.fileSize|file_size_human }} &middot; {{ r.viewCount }} views</div>
+                          <div class="s-res-meta">{{ r.fileSize|file_size_human }}, {{ r.viewCount }} views</div>
                         </div>
                       </a>
                       {% endfor %}
@@ -328,7 +328,7 @@
                         <div class="s-res-icon"><span class="material-symbols-outlined">{{ r.type|resource_type_icon }}</span></div>
                         <div class="s-res-info">
                           <div class="s-res-title">{{ r.title }}</div>
-                          <div class="s-res-meta">{{ r.fileSize|file_size_human }} &middot; {{ r.viewCount }} views</div>
+                          <div class="s-res-meta">{{ r.fileSize|file_size_human }}, {{ r.viewCount }} views</div>
                         </div>
                       </a>
                       {% endfor %}
@@ -366,7 +366,7 @@
                     <div class="s-res-icon"><span class="material-symbols-outlined">{{ r.type|resource_type_icon }}</span></div>
                     <div class="s-res-info">
                       <div class="s-res-title">{{ r.title }}</div>
-                      <div class="s-res-meta">{{ r.fileSize|file_size_human }} &middot; {{ r.viewCount }} views</div>
+                      <div class="s-res-meta">{{ r.fileSize|file_size_human }}, {{ r.viewCount }} views</div>
                     </div>
                   </a>
                   {% endfor %}
@@ -383,7 +383,7 @@
                     <div class="s-res-icon"><span class="material-symbols-outlined">{{ r.type|resource_type_icon }}</span></div>
                     <div class="s-res-info">
                       <div class="s-res-title">{{ r.title }}</div>
-                      <div class="s-res-meta">{{ r.fileSize|file_size_human }} &middot; {{ r.viewCount }} views</div>
+                      <div class="s-res-meta">{{ r.fileSize|file_size_human }}, {{ r.viewCount }} views</div>
                     </div>
                   </a>
                   {% endfor %}
@@ -400,7 +400,7 @@
                     <div class="s-res-icon"><span class="material-symbols-outlined">{{ r.type|resource_type_icon }}</span></div>
                     <div class="s-res-info">
                       <div class="s-res-title">{{ r.title }}</div>
-                      <div class="s-res-meta">{{ r.fileSize|file_size_human }} &middot; {{ r.viewCount }} views</div>
+                      <div class="s-res-meta">{{ r.fileSize|file_size_human }}, {{ r.viewCount }} views</div>
                     </div>
                   </a>
                   {% endfor %}
@@ -417,7 +417,7 @@
                     <div class="s-res-icon"><span class="material-symbols-outlined">{{ r.type|resource_type_icon }}</span></div>
                     <div class="s-res-info">
                       <div class="s-res-title">{{ r.title }}</div>
-                      <div class="s-res-meta">{{ r.fileSize|file_size_human }} &middot; {{ r.viewCount }} views</div>
+                      <div class="s-res-meta">{{ r.fileSize|file_size_human }}, {{ r.viewCount }} views</div>
                     </div>
                   </a>
                   {% endfor %}
@@ -434,7 +434,7 @@
                     <div class="s-res-icon"><span class="material-symbols-outlined">{{ r.type|resource_type_icon }}</span></div>
                     <div class="s-res-info">
                       <div class="s-res-title">{{ r.title }}</div>
-                      <div class="s-res-meta">{{ r.fileSize|file_size_human }} &middot; {{ r.viewCount }} views</div>
+                      <div class="s-res-meta">{{ r.fileSize|file_size_human }}, {{ r.viewCount }} views</div>
                     </div>
                   </a>
                   {% endfor %}
@@ -483,11 +483,9 @@
                     <button class="follow-btn-small {% if p.isFollowingAuthor %}following{% else %}not-following{% endif %}" data-action="toggle-follow" data-user-id="{{ p.authorId }}">{% if p.isFollowingAuthor %}Following{% else %}Follow{% endif %}</button>
                     {% endif %}
                   </div>
-                  <div class="post-card-meta-bottom" style="display:flex; align-items:center; flex-wrap:wrap; gap:6px; margin-top:2px; color:var(--md-on-surface-variant);">
+                  <div class="post-card-meta-bottom" style="display:flex; align-items:center; flex-wrap:wrap; gap:12px; margin-top:2px; color:var(--md-on-surface-variant);">
                     <span class="act-action-text">started a discussion</span>
-                    <span style="opacity:0.4;">&middot;</span>
                     <a href="{% url 'web:forum' %}?category={{ p.category }}" class="post-card-category-link">{{ p.category }}</a>
-                    <span style="opacity:0.4;">&middot;</span>
                     <span class="post-card-time">{{ p.createdAt|time_ago }}</span>
                   </div>
                 </div>
