@@ -1,39 +1,84 @@
-/* Avatars: Transparent background with crisp stroke/border only (no solid blue bg).
-   Letter-fallback avatars and image/blobatar avatars use a transparent background
-   with a clean stroke so the avatar disc outline is clear everywhere. */
+/* Avatars, drawn the way NebAvatar draws them.
 
-.avatar-ring,
-.profile-dropdown-avatar,
-.fp-avatar,
-.fp-reply-avatar,
-.fp-user-popup-avatar,
-.fp-mention-item-avatar,
-.fp-thread-avatar,
-.comment-avatar,
-.post-card-avatar,
-.act-avatar,
-.profile-avatar,
-.user-search-avatar,
-.ss-member-avatar,
-.contributor-avatar-container,
-.behalf-avatar,
-.behalf-result-avatar,
-.mention-result-avatar,
-.suggest-post-avatar,
-.resource-card-avatar,
-.rd-uploader-avatar,
-.rd-comment-avatar,
-.ai-chat-avatar,
-.leaderboard-avatar,
-.notif-avatar,
-.cs-avatar,
-.follow-user-avatar {
-  background: transparent !important;
-  border: 1.5px solid var(--md-primary, #004ac6) !important;
-  color: var(--md-primary, #004ac6) !important;
+   NebDesign.kt:220 is the whole specification. A photo sits on
+   surfaceContainerLowest behind a 1.5dp outlineVariant stroke, so a
+   transparent PNG reads as a picture rather than a hole. Initials get no
+   stroke at all: they are a filled primaryContainer disc with
+   onPrimaryContainer text, and a ring around a filled disc is noise.
+
+   This file used to stroke every avatar in --md-primary, which put a
+   saturated brand-blue ring on every face on every screen -- the one thing
+   the app never does. `:has(img)` is what lets one rule serve both cases
+   without touching the templates.
+
+   The !important is inherited from that earlier version and has to stay:
+   several of these classes are also declared in page stylesheets that load
+   after app.css. */
+
+.avatar-ring:has(img),
+.profile-dropdown-avatar:has(img),
+.fp-avatar:has(img),
+.fp-reply-avatar:has(img),
+.fp-user-popup-avatar:has(img),
+.fp-mention-item-avatar:has(img),
+.fp-thread-avatar:has(img),
+.comment-avatar:has(img),
+.post-card-avatar:has(img),
+.act-avatar:has(img),
+.profile-avatar:has(img),
+.user-search-avatar:has(img),
+.ss-member-avatar:has(img),
+.contributor-avatar-container:has(img),
+.behalf-avatar:has(img),
+.behalf-result-avatar:has(img),
+.mention-result-avatar:has(img),
+.suggest-post-avatar:has(img),
+.resource-card-avatar:has(img),
+.rd-uploader-avatar:has(img),
+.rd-comment-avatar:has(img),
+.ai-chat-avatar:has(img),
+.leaderboard-avatar:has(img),
+.notif-avatar:has(img),
+.cs-avatar:has(img),
+.follow-user-avatar:has(img) {
+  background: var(--md-surface-container-lowest) !important;
+  border: 1.5px solid var(--md-outline-variant) !important;
   box-sizing: border-box;
 }
 
+.avatar-ring:not(:has(img)),
+.profile-dropdown-avatar:not(:has(img)),
+.fp-avatar:not(:has(img)),
+.fp-reply-avatar:not(:has(img)),
+.fp-user-popup-avatar:not(:has(img)),
+.fp-mention-item-avatar:not(:has(img)),
+.fp-thread-avatar:not(:has(img)),
+.comment-avatar:not(:has(img)),
+.post-card-avatar:not(:has(img)),
+.act-avatar:not(:has(img)),
+.profile-avatar:not(:has(img)),
+.user-search-avatar:not(:has(img)),
+.ss-member-avatar:not(:has(img)),
+.contributor-avatar-container:not(:has(img)),
+.behalf-avatar:not(:has(img)),
+.behalf-result-avatar:not(:has(img)),
+.mention-result-avatar:not(:has(img)),
+.suggest-post-avatar:not(:has(img)),
+.resource-card-avatar:not(:has(img)),
+.rd-uploader-avatar:not(:has(img)),
+.rd-comment-avatar:not(:has(img)),
+.ai-chat-avatar:not(:has(img)),
+.leaderboard-avatar:not(:has(img)),
+.notif-avatar:not(:has(img)),
+.cs-avatar:not(:has(img)),
+.follow-user-avatar:not(:has(img)) {
+  background: var(--md-primary-container) !important;
+  border: 0 !important;
+  color: var(--md-on-primary-container) !important;
+  box-sizing: border-box;
+}
+
+/* The image carries no background of its own -- the box behind it does. */
 .avatar-ring img,
 .profile-dropdown-avatar img,
 .fp-avatar img,
@@ -63,14 +108,43 @@
   background: transparent !important;
 }
 
-.fp-avatar-letter,
-.fp-reply-avatar-letter,
-.fp-thread-avatar-letter,
-.rd-uploader-avatar-letter,
-.rd-comment-avatar-letter,
-.leaderboard-avatar-letter,
-.post-card-avatar-letter {
-  color: var(--md-primary, #004ac6) !important;
+/* The initial itself. Half of these boxes hand their letter an explicit
+   colour picked for the fill they used to have -- .act-avatar span was
+   --md-on-primary against a --md-primary disc -- and on primaryContainer
+   that lands as blue on blue. Inheriting is the only way to stay correct
+   as the disc changes. */
+.avatar-ring:not(:has(img)) > *,
+.profile-dropdown-avatar:not(:has(img)) > *,
+.fp-avatar:not(:has(img)) > *,
+.fp-reply-avatar:not(:has(img)) > *,
+.fp-user-popup-avatar:not(:has(img)) > *,
+.fp-mention-item-avatar:not(:has(img)) > *,
+.fp-thread-avatar:not(:has(img)) > *,
+.comment-avatar:not(:has(img)) > *,
+.post-card-avatar:not(:has(img)) > *,
+.act-avatar:not(:has(img)) > *,
+.profile-avatar:not(:has(img)) > *,
+.user-search-avatar:not(:has(img)) > *,
+.ss-member-avatar:not(:has(img)) > *,
+.contributor-avatar-container:not(:has(img)) > *,
+.behalf-avatar:not(:has(img)) > *,
+.behalf-result-avatar:not(:has(img)) > *,
+.mention-result-avatar:not(:has(img)) > *,
+.suggest-post-avatar:not(:has(img)) > *,
+.resource-card-avatar:not(:has(img)) > *,
+.rd-uploader-avatar:not(:has(img)) > *,
+.rd-comment-avatar:not(:has(img)) > *,
+.ai-chat-avatar:not(:has(img)) > *,
+.leaderboard-avatar:not(:has(img)) > *,
+.notif-avatar:not(:has(img)) > *,
+.cs-avatar:not(:has(img)) > *,
+.follow-user-avatar:not(:has(img)) > * {
+  color: inherit !important;
   background: transparent !important;
-  font-weight: 700;
+}
+
+/* Neby is a drawn character, not a photograph: no plate behind it. */
+.ai-chat-avatar.ai-chat-avatar:has(.neby-avatar),
+.ai-chat-avatar.ai-chat-avatar:has(canvas) {
+  background: transparent !important;
 }
