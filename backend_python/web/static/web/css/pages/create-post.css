@@ -156,7 +156,7 @@
 .cp-preview-meta-top{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 .cp-preview-author{font-weight:600;color:var(--md-on-surface)}
 .cp-preview-dot{opacity:.3}
-.cp-preview-category{display:inline-block;padding:2px 8px;border-radius:6px;font-size:.75rem;font-weight:600;background:rgba(27,110,243,.08);color:var(--md-primary);text-decoration:none;border:1px solid rgba(27,110,243,.12)}
+.cp-preview-category{display:inline-block;padding:2px 8px;border-radius:6px;font-size:.75rem;font-weight:600;background:color-mix(in srgb, var(--md-primary) 8%, transparent);color:var(--md-primary);text-decoration:none;border:1px solid color-mix(in srgb, var(--md-primary) 14%, transparent)}
 .cp-preview-time{font-size:.8125rem;color:var(--md-on-surface-variant);margin-top:2px}
 .cp-preview-title{font-size:1.25rem;font-weight:700;color:var(--md-on-surface);margin:0 0 8px;line-height:1.4}
 .cp-preview-body{font-size:.9375rem;color:var(--md-on-surface-variant);line-height:1.6}
