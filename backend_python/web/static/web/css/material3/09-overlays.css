@@ -270,6 +270,55 @@
 .neb-sheet-picker .neb-sheet-title { font-size: 1.125rem; font-weight: 650; }
 .neb-sheet-picker .neb-sheet-body { max-height: 392px; gap: 0; }
 
+/* A sheet that is a workspace rather than an answer -- a thread you read and
+   write in without losing the post underneath it -- docks to the side where
+   there is room for one, and is the same bottom sheet where there is not.
+
+   One element, two presentations. The alternative is what the forum post used
+   to do: ship both, hide the wrong one with display:none, and keep them in
+   step from the page script. That is two DOM trees holding the same
+   conversation, two sets of ids, an isMobile() branch at every site that
+   touches either, and a thread that disappears if the window crosses the
+   breakpoint while it is open.
+
+   Write it as `class="neb-scrim neb-scrim-bottom neb-scrim-side"`: below the
+   breakpoint only the -bottom rules apply, and it is exactly a sheet. */
+@media (min-width: 769px) {
+  .neb-scrim-side {
+    align-items: stretch;
+    justify-content: flex-end;
+    padding: 0;
+  }
+  .neb-scrim-side .neb-sheet {
+    width: 440px;
+    max-width: 100%;
+    height: 100%;
+    max-height: none;
+    /* Docked against the edge, so there is no outside corner to round and no
+       shadow to cast past the screen. The seam is a line, like the app's. */
+    border-radius: 0;
+    border-left: 1px solid var(--md-outline-variant);
+    box-shadow: none;
+    background: var(--md-surface);
+    transform: translateX(100%);
+    transition: transform var(--md-motion-spatial);
+  }
+  .neb-scrim-side[data-open] .neb-sheet { transform: translateX(0); }
+  .neb-scrim-side[data-closing] .neb-sheet { transform: translateX(100%); }
+  /* The handle is a grip for a thumb, and a docked panel has nowhere to be
+     dragged to. */
+  .neb-scrim-side .neb-sheet-handle { display: none; }
+  /* A panel is read top-down for as long as the conversation is, so its head
+     stays put and only the body scrolls. A bottom sheet hugs its content --
+     a docked panel is already full height, so the body takes the slack and
+     anything after it stays on the bottom edge where the hand expects it. */
+  .neb-scrim-side .neb-sheet-head { border-bottom: 1px solid var(--md-outline-variant); }
+  .neb-scrim-side .neb-sheet-body { flex: 1 1 auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .neb-scrim-side .neb-sheet { transition: none; }
+}
+
 /* ── Menu / dropdown / popover ──────────────────────────────────────────────
    Not modal and not scrimmed: a menu is attached to the thing that opened it,
    so it is positioned by the controller and dismissed by a click anywhere
