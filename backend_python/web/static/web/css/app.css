@@ -3324,15 +3324,17 @@ button:focus-visible {
   overflow: hidden;
 }
 
-/* Compact Premium Card */
+/* The head of the profile. Not a card: the app dropped the rounded panel
+   because it sat inside an already-padded column and read as a card floating
+   on a card. What is left is a cover, an avatar hanging off its bottom edge,
+   and a column of text -- so overflow has to stay visible. */
 .pf-compact-card {
-  background: var(--md-surface-container-lowest);
-  border: 1px solid var(--md-outline-variant);
-  border-radius: 24px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.02);
-  overflow: hidden;
   position: relative;
-  transition: transform var(--md-transition), box-shadow var(--md-transition);
+  background: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: visible;
 }
 
 /* ── Profile cover: generative art, painted by neb-art.js ──
@@ -3350,9 +3352,57 @@ button:focus-visible {
   height: 180px;
   position: relative;
   overflow: hidden;
-  border-radius: 24px 24px 0 0;
+  /* Square on mobile, where the column bleeds to the viewport edge; softened
+     on desktop, where it would otherwise be a hard rectangle floating in the
+     grid's padding. */
+  border-radius: 0;
   background: var(--md-primary-container);
   isolation: isolate;
+}
+@media (min-width: 901px) {
+  .pf-card-banner { border-radius: var(--md-radius-lg) var(--md-radius-lg) 0 0; }
+}
+
+/* Utility actions, on the cover opposite the back button. */
+.pf-banner-actions {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 10;
+  display: flex;
+  gap: 8px;
+}
+.pf-banner-action {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  color: var(--md-on-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background var(--md-transition), transform var(--md-transition);
+}
+.pf-banner-action:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: scale(1.05);
+  text-decoration: none !important;
+}
+.pf-banner-action .material-symbols-outlined { font-size: 19px; }
+[data-theme="dark"] .pf-banner-action {
+  background: rgba(30, 30, 40, 0.85);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+[data-theme="dark"] .pf-banner-action:hover { background: rgba(30, 30, 40, 1); }
+
+@media (max-width: 600px) {
+  .pf-banner-actions { top: 10px; right: 10px; gap: 6px; }
+  .pf-banner-action { width: 30px; height: 30px; }
+  .pf-banner-action .material-symbols-outlined { font-size: 17px; }
 }
 
 @media (max-width: 600px) {
@@ -3460,22 +3510,39 @@ button:focus-visible {
 }
 
 /* ---- app/08-profile-card-details.css ---- */
-/* Overlapping Circular Avatar Frame */
+/* Avatar and primary action, straddling the cover's bottom edge -- the app's
+   arrangement. The row borrows its overhang from the text column below it,
+   which is why the body's top padding is small. */
+.pf-identity-row {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: -48px;
+  padding: 0 20px;
+}
+
+/* The action clears the cover rather than sitting flush against its edge: the
+   row is bottom-aligned and a 38px-tall button would put its top on the seam. */
+.pf-identity-action {
+  padding-bottom: 10px;
+}
+
 .pf-avatar-overlap-wrap {
   position: relative;
-  margin-top: -52px;
-  margin-left: 24px;
   width: 96px;
   height: 96px;
-  display: inline-block;
-  z-index: 10;
+  flex: none;
 }
 
 .pf-avatar-circle {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  border: 4px solid var(--md-surface-container-lowest);
+  /* The ring is the page behind it, not a card edge -- there is no card. */
+  border: 4px solid var(--md-surface);
   box-shadow: none;
   overflow: hidden;
   background: var(--md-surface-container-low);
@@ -3505,7 +3572,7 @@ button:focus-visible {
   border-radius: 10px;
   width: 28px;
   height: 28px;
-  border: 3px solid var(--md-surface-container-lowest);
+  border: 3px solid var(--md-surface);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3534,7 +3601,7 @@ button:focus-visible {
   border-radius: 50%;
   background: var(--md-primary);
   color: var(--md-on-primary);
-  border: 3.5px solid var(--md-surface-container-lowest);
+  border: 3.5px solid var(--md-surface);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3553,43 +3620,17 @@ button:focus-visible {
   color: var(--md-on-primary) !important;
 }
 
-/* Card content body */
+/* Everything under the cover sits at one indent, matching the app's 20dp. */
 .pf-card-body {
-  padding: 24px;
-  padding-top: 14px;
+  padding: 14px 20px 0;
 }
 
-/* Actions in top-right of body */
-.pf-card-top-actions {
-  position: absolute;
-  top: 188px;
-  right: 24px;
-  display: flex;
-  gap: 12px;
-  z-index: 10;
-}
-
-.pf-action-icon-btn {
-  border: none;
-  background: none;
-  cursor: pointer;
-  color: var(--md-on-surface-variant);
-  opacity: 0.6;
-  padding: 6px;
-  border-radius: 50%;
+.pf-card-name-row {
   display: flex;
   align-items: center;
-  justify-content: center;
-  transition: background 0.2s, opacity 0.2s;
-}
-
-.pf-action-icon-btn:hover {
-  background: var(--md-surface-container-high);
-  opacity: 1;
-}
-
-.pf-action-icon-btn .material-symbols-outlined {
-  font-size: 20px;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
 }
 
 /* User identity labels */
@@ -3597,8 +3638,10 @@ button:focus-visible {
   font-size: 1.375rem;
   font-weight: 800;
   color: var(--md-on-surface);
-  margin: 0 0 4px;
+  margin: 0;
   line-height: 1.25;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .pf-card-username {
@@ -3617,15 +3660,47 @@ button:focus-visible {
   font-size: 0.8125rem;
   font-weight: 500;
   color: var(--md-on-surface-variant);
-  margin: 0 0 20px;
+  margin: 0;
   line-height: 1.4;
+}
+
+/* The bio, with no heading over it. */
+.pf-card-bio {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--md-on-surface);
+  margin: 12px 0 0;
+  overflow-wrap: anywhere;
+}
+.pf-card-bio:empty { display: none; }
+
+/* Location, school and join date as one wrapped grey line rather than three
+   icon rows stacked down the column. */
+.pf-meta-flow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin-top: 12px;
+}
+.pf-meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.8125rem;
+  color: var(--md-on-surface-variant);
+  min-width: 0;
+}
+.pf-meta-item .material-symbols-outlined {
+  font-size: 16px !important;
+  opacity: 0.7;
+  flex: none;
 }
 
 /* Statistics row layout */
 .pf-stats-row {
   display: flex;
   gap: 28px;
-  margin-bottom: 24px;
+  margin-top: 16px;
 }
 
 .pf-stat-col {
@@ -3657,9 +3732,10 @@ button:focus-visible {
 .pf-buttons-row {
   display: flex;
   gap: 10px;
-  margin-bottom: 24px;
+  margin-top: 16px;
   flex-wrap: wrap;
 }
+.pf-buttons-row:empty { display: none; }
 
 .pf-btn {
   display: inline-flex;
@@ -3732,70 +3808,6 @@ button:focus-visible {
   opacity: 1 !important;
 }
 
-/* Elegant dotted divider styling */
-.pf-dotted-divider {
-  border-top: 2px dotted var(--md-outline-variant);
-  margin: 0 0 24px;
-  opacity: 0.5;
-}
-
-/* About biography block */
-.pf-about-section {
-  margin-bottom: 20px;
-}
-
-.pf-about-title {
-  font-size: 0.8125rem;
-  font-weight: 700;
-  color: var(--md-on-surface);
-  margin: 0 0 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.pf-about-bio {
-  font-size: 0.875rem;
-  line-height: 1.6;
-  color: var(--md-on-surface-variant);
-  margin: 0;
-}
-
-.pf-info-joined {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.8125rem;
-  color: var(--md-on-surface-variant);
-  margin-top: 10px;
-}
-
-.pf-info-joined .material-symbols-outlined {
-  font-size: 16px;
-  color: var(--md-on-surface-variant);
-  opacity: 0.7;
-}
-
-/* Meta info details block (location, links) */
-.pf-meta-details {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.pf-meta-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 0.8125rem;
-  color: var(--md-on-surface-variant);
-}
-
-.pf-meta-row .material-symbols-outlined {
-  font-size: 18px !important;
-  color: var(--md-on-surface-variant);
-  opacity: 0.7;
-}
-
 .pf-meta-link {
   color: var(--md-primary);
   text-decoration: none;
@@ -3834,12 +3846,6 @@ button:focus-visible {
     overflow: hidden;
   }
   
-  .pf-compact-card {
-    max-width: 100%;
-    margin: 0;
-    border-radius: 20px;
-  }
-
   /* Remove double card-stack borders and shadows for interactive feeds on mobile */
   .profile-right-col .pf-card {
     border: none;
@@ -3850,17 +3856,16 @@ button:focus-visible {
 }
 
 @media (max-width: 600px) {
-  .pf-compact-card {
-    border-radius: 16px;
-  }
-
   .pf-card-banner {
     height: 130px;
   }
 
+  .pf-identity-row {
+    margin-top: -40px;
+    padding: 0 16px;
+  }
+
   .pf-avatar-overlap-wrap {
-    margin-top: -44px;
-    margin-left: 16px;
     width: 80px;
     height: 80px;
   }
@@ -3886,23 +3891,8 @@ button:focus-visible {
     font-size: 14px !important;
   }
 
-  .pf-card-top-actions {
-    top: 142px;
-    right: 16px;
-    gap: 8px;
-  }
-
-  .pf-card-top-actions .pf-action-icon-btn {
-    padding: 4px;
-  }
-
-  .pf-card-top-actions .pf-action-icon-btn .material-symbols-outlined {
-    font-size: 18px;
-  }
-
   .pf-card-body {
-    padding: 16px;
-    padding-top: 12px;
+    padding: 12px 16px 0;
   }
 
   .pf-card-name {
@@ -3916,12 +3906,18 @@ button:focus-visible {
 
   .pf-card-headline {
     font-size: 0.75rem;
-    margin-bottom: 16px;
+  }
+
+  .pf-card-bio {
+    font-size: 0.8125rem;
+  }
+
+  .pf-meta-item {
+    font-size: 0.75rem;
   }
 
   .pf-stats-row {
     gap: 16px;
-    margin-bottom: 20px;
     justify-content: space-between;
   }
 
@@ -3935,7 +3931,6 @@ button:focus-visible {
 
   .pf-buttons-row {
     gap: 8px;
-    margin-bottom: 20px;
   }
 
   .pf-btn {
@@ -3953,30 +3948,6 @@ button:focus-visible {
     width: 36px;
   }
 
-  .pf-about-section {
-    margin-bottom: 16px;
-  }
-
-  .pf-about-title {
-    font-size: 0.75rem;
-    margin-bottom: 6px;
-  }
-
-  .pf-about-bio {
-    font-size: 0.8125rem;
-  }
-
-  .pf-meta-details {
-    gap: 8px;
-  }
-
-  .pf-meta-row {
-    font-size: 0.75rem;
-  }
-
-  .pf-meta-row .material-symbols-outlined {
-    font-size: 16px !important;
-  }
 }
 
 /* ---- app/09-global-overrides-markdown-messaging.css ---- */

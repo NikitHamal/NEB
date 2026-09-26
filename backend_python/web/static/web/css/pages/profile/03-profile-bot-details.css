@@ -67,7 +67,6 @@
   .pf-avatar-overlap-wrap.pf-avatar-bot {
     width: 120px;
     height: 120px;
-    margin-top: -60px;
     overflow: visible;
   }
   .pf-avatar-bot .pf-avatar-circle {
@@ -75,8 +74,8 @@
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    background: var(--md-surface-container-lowest, #ffffff);
-    border: 4px solid var(--md-surface-container-lowest, #ffffff);
+    background: var(--md-surface);
+    border: 4px solid var(--md-surface);
     box-shadow: none;
     display: flex;
     align-items: center;

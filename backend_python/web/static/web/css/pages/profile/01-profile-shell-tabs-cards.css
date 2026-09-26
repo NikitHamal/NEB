@@ -313,12 +313,6 @@
 
   /* ── Responsive ── */
   @media (max-width: 800px) {
-    .md-bottomnav { display: none !important; }
-    body { padding-bottom: 0 !important; }
-    .profile-header { margin-top: -40px; }
-    .profile-header-inner { flex-direction: column; align-items: center; text-align: center; padding: 20px 16px; }
-    .pf-badges { justify-content: center; }
-    .pf-actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
     .profile-tab { padding: 10px 10px 8px; font-size: 0.8125rem; }
     .profile-tab .tab-count { font-size: 0.625rem; padding: 1px 5px; min-width: 16px; }
     .overview-grid, .overview-grid.three-col { grid-template-columns: 1fr 1fr; }

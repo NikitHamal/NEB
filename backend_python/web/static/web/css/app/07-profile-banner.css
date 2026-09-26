@@ -24,15 +24,17 @@
   overflow: hidden;
 }
 
-/* Compact Premium Card */
+/* The head of the profile. Not a card: the app dropped the rounded panel
+   because it sat inside an already-padded column and read as a card floating
+   on a card. What is left is a cover, an avatar hanging off its bottom edge,
+   and a column of text -- so overflow has to stay visible. */
 .pf-compact-card {
-  background: var(--md-surface-container-lowest);
-  border: 1px solid var(--md-outline-variant);
-  border-radius: 24px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.02);
-  overflow: hidden;
   position: relative;
-  transition: transform var(--md-transition), box-shadow var(--md-transition);
+  background: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: visible;
 }
 
 /* ── Profile cover: generative art, painted by neb-art.js ──
@@ -50,9 +52,57 @@
   height: 180px;
   position: relative;
   overflow: hidden;
-  border-radius: 24px 24px 0 0;
+  /* Square on mobile, where the column bleeds to the viewport edge; softened
+     on desktop, where it would otherwise be a hard rectangle floating in the
+     grid's padding. */
+  border-radius: 0;
   background: var(--md-primary-container);
   isolation: isolate;
+}
+@media (min-width: 901px) {
+  .pf-card-banner { border-radius: var(--md-radius-lg) var(--md-radius-lg) 0 0; }
+}
+
+/* Utility actions, on the cover opposite the back button. */
+.pf-banner-actions {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 10;
+  display: flex;
+  gap: 8px;
+}
+.pf-banner-action {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  color: var(--md-on-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background var(--md-transition), transform var(--md-transition);
+}
+.pf-banner-action:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: scale(1.05);
+  text-decoration: none !important;
+}
+.pf-banner-action .material-symbols-outlined { font-size: 19px; }
+[data-theme="dark"] .pf-banner-action {
+  background: rgba(30, 30, 40, 0.85);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+[data-theme="dark"] .pf-banner-action:hover { background: rgba(30, 30, 40, 1); }
+
+@media (max-width: 600px) {
+  .pf-banner-actions { top: 10px; right: 10px; gap: 6px; }
+  .pf-banner-action { width: 30px; height: 30px; }
+  .pf-banner-action .material-symbols-outlined { font-size: 17px; }
 }
 
 @media (max-width: 600px) {
