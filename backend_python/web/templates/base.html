@@ -108,6 +108,78 @@
 </head>
 
 <body class="{% block body_class %}{% endblock %}"{% if ws_url %} data-ws-url="{{ ws_url }}"{% endif %}>
+  {# ─────────────────────────────────────────────────────────────────────────
+     Liquid glass: the refraction filters, defined once for the whole page.
+
+     feDisplacementMap offsets every pixel of the backdrop by a vector read out
+     of a second image. That image is the shader's arithmetic, precomputed --
+     the same rounded-rect signed-distance field, the same gradient for the
+     surface normal, the same cubic falloff into the outer 21px -- by
+     tools/art/genglassmap.py. Red carries the x component, green the y, and
+     neutral grey (128) means no displacement, which is why the middle of the
+     glass is flat and only the rim bends.
+
+     scale is 2 x refraction (14px), because the map stores half amplitude so
+     that a full inward normal still fits in an unsigned byte. The three
+     displacements at scale x (1 + d), scale, scale x (1 - d) and the channel
+     recombination below are the shader's dispersion: glass bends red and blue
+     by different amounts, so the refracted rim carries a colour fringe. d is
+     0.07 for both themes here; the app's dark style uses 0.08, a difference of
+     0.28px in the outermost tap.
+
+     color-interpolation-filters="sRGB" is not optional. The default is
+     linearRGB, which would gamma-shift the map before it is read as a vector
+     and bend the glass in the wrong direction near the corners.
+
+     Chromium honours url() in backdrop-filter; Safari and Firefox ignore it and
+     fall through to the blur and the drawn rim. See material3/08-liquid-glass.css.
+     ───────────────────────────────────────────────────────────────────────── #}
+  <svg class="neb-glass-defs" width="0" height="0" aria-hidden="true" focusable="false">
+    <filter id="neb-glass-pill" x="0%" y="0%" width="100%" height="100%"
+            color-interpolation-filters="sRGB">
+      <feImage href="{% static 'web/img/glass/neb-glass-pill.png' %}"
+               preserveAspectRatio="none" result="map" />
+      <feDisplacementMap in="SourceGraphic" in2="map" scale="29.96"
+                         xChannelSelector="R" yChannelSelector="G" result="warm" />
+      <feDisplacementMap in="SourceGraphic" in2="map" scale="28"
+                         xChannelSelector="R" yChannelSelector="G" result="mid" />
+      <feDisplacementMap in="SourceGraphic" in2="map" scale="26.04"
+                         xChannelSelector="R" yChannelSelector="G" result="cool" />
+      <feColorMatrix in="warm" type="matrix" result="chR"
+                     values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" />
+      <feColorMatrix in="mid" type="matrix" result="chG"
+                     values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" />
+      <feColorMatrix in="cool" type="matrix" result="chB"
+                     values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" />
+      <feComposite in="chR" in2="chG" operator="arithmetic" k2="1" k3="1"
+                   result="chRG" />
+      <feComposite in="chRG" in2="chB" operator="arithmetic" k2="1" k3="1" />
+    </filter>
+
+    {# The topbar's field varies only in y, so its map is a band with no corners
+       and stretches across any width exactly. #}
+    <filter id="neb-glass-band" x="0%" y="0%" width="100%" height="100%"
+            color-interpolation-filters="sRGB">
+      <feImage href="{% static 'web/img/glass/neb-glass-band.png' %}"
+               preserveAspectRatio="none" result="map" />
+      <feDisplacementMap in="SourceGraphic" in2="map" scale="29.96"
+                         xChannelSelector="R" yChannelSelector="G" result="warm" />
+      <feDisplacementMap in="SourceGraphic" in2="map" scale="28"
+                         xChannelSelector="R" yChannelSelector="G" result="mid" />
+      <feDisplacementMap in="SourceGraphic" in2="map" scale="26.04"
+                         xChannelSelector="R" yChannelSelector="G" result="cool" />
+      <feColorMatrix in="warm" type="matrix" result="chR"
+                     values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" />
+      <feColorMatrix in="mid" type="matrix" result="chG"
+                     values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" />
+      <feColorMatrix in="cool" type="matrix" result="chB"
+                     values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" />
+      <feComposite in="chR" in2="chG" operator="arithmetic" k2="1" k3="1"
+                   result="chRG" />
+      <feComposite in="chRG" in2="chB" operator="arithmetic" k2="1" k3="1" />
+    </filter>
+  </svg>
+
   {# WebSocket configuration. realtime.js reads window.WS_CONFIG.url. #}
   <script nonce="{{ csp_nonce }}">
     window.WS_CONFIG = window.WS_CONFIG || {};
