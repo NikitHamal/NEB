@@ -434,7 +434,7 @@ export default function init(stage) {
     xhr => {
       if (loading && xhr.total) {
         const pct = Math.round((xhr.loaded / xhr.total) * 100);
-        if (pct < 100) loading.innerHTML = `<div class="ix-spinner"></div><p>Loading anatomy model… ${pct}%</p>`;
+        if (pct < 100) loading.innerHTML = `<div class="ix-spinner md-loader md-loader-screen"></div><p>Loading anatomy model… ${pct}%</p>`;
       }
     },
     err => {

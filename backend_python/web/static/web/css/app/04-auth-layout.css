@@ -325,19 +325,11 @@
 [data-theme="dark"] .auth-back:hover { background: #1c1c20; }
 .auth-back .material-symbols-outlined { font-size: 18px !important; }
 
-.auth-spinner {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  border: 2px solid currentColor;
-  border-right-color: transparent;
-  border-radius: 50%;
-  animation: authSpin 0.7s linear infinite;
-}
+/* The spinner itself is .md-loader (material3/08-shapes.css). This class is
+   only the hook the button's JS writes; it has nothing left to say. */
 
 .auth-panel { animation: authFadeIn 250ms ease-out; }
 
-@keyframes authSpin { to { transform: rotate(360deg); } }
 @keyframes authFadeIn {
   from { opacity: 0; transform: translateY(6px); }
   to   { opacity: 1; transform: translateY(0); }
