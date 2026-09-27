@@ -414,6 +414,126 @@ In light mode, text buttons and outlined buttons had solid blue (`var(--md-prima
 
 ---
 
+## Marketplace — Creator Storefronts, Courses and Paid Notes
+
+Added Sep 27, 2026. The paid-notes economy already existed (paid resources +
+QR proof + admin verification + seller wallet); this session made it sellable
+end to end and added the marketplace the owner asked for.
+
+### The pieces
+
+- **Creator storefronts** (`api/creator_pages.py`, `CreatorPage`): one page per
+  eligible account — `teacher`, `institution` or `is_admin`. A page is
+  **data, not markup**: an ordered `blocks` list (hero, about, stats, courses,
+  resources, posts, showcase, gallery, testimonials, faq, schedule, contact,
+  links, cta, documents) plus `style` (hero/radius/density/gallery columns),
+  `socials`, an owner accent, a layout variant and a slug. Web and app render
+  the same list with one branch per block type, which is why a page looks like
+  the same page in both places.
+- **Every write passes a sanitizer** (`sanitize_blocks`, `sanitize_style`,
+  `sanitize_socials`, `sanitize_accent`): unknown block types dropped, unknown
+  keys dropped, strings trimmed and capped, and any URL that is not http(s) or
+  site-relative thrown away. That is what makes "fully customizable" safe.
+- **Courses** (`CreatorCourse`): paid or free, draft/published/archived,
+  attachable to the owner's own approved library resources
+  (`CreatorCourseResource`). Free courses are `has_access: true` for everyone.
+- **Updates** (`CreatorPost`) and a **seller dashboard** (wallet, sales,
+  verification queue, points) shared by both surfaces.
+- **Purchase** for a course reuses the resource flow exactly:
+  `api/marketplace.record_purchase()` writes one pending `PaymentVerification`
+  per (buyer, target) — `course` or `resource` — and admin approval calls
+  `grant_purchase_rewards()`. Commission now comes from `PaymentConfig`
+  (default 2.5%) on **both** paths; the hardcoded 10% in
+  `views_resources.resource_purchase` and `views_public.submit_payment_proof`
+  was the old number and is gone.
+
+### One validation path, two clients
+
+`api/creator_pages.py` owns `apply_page_update`, `apply_course_fields`,
+`apply_post_fields` and `sync_course_resources`. The REST API
+(`api/views_marketplace.py`) and the Django studio
+(`web/views_marketplace.py`, JSON endpoints under `/ajax/marketplace/…`) both
+call them, so the studio and the app cannot disagree about what a valid page or
+course is.
+
+### Where it lives
+
+| Surface | Files |
+| --- | --- |
+| Models + migration | `api/models.py`, `api/migrations/0143_creator_marketplace_pages_courses_posts.py` |
+| Data layer + payloads | `api/creator_pages.py` |
+| REST API | `api/views_marketplace.py`, wired in `api/urls.py` |
+| Web pages | `web/views_marketplace.py`, `templates/web/marketplace*.html`, `_marketplace_*.html`, `_price_setter.html` |
+| Web assets | `static/web/css/pages/marketplace.css`, `static/web/js/marketplace.js` |
+| App | `ui/screens/marketplace/`, `data/repository/MarketplaceRepository.kt`, `data/api/ApiService.kt` (§ Marketplace) |
+| Shared price control | `web/templates/web/_price_setter.html` + `ui/components/NebPriceField.kt` |
+
+### The library tab
+
+Both clients put **Marketplace between Library and Syllabus**:
+`library.html` `?tab=marketplace` (htmx-swappable into `#library-main`) and
+`LibraryScreen.kt`'s rail. The web shelf and the app shelf both read
+`marketplace_shelf_context()` / `GET api/marketplace/creators/` +
+`GET api/marketplace/courses/`, so the same creator and offering appear in the
+same order in both.
+
+### Things that were broken and are now fixed
+
+1. **`_notif.create_notification` never existed.** Every admin approval and
+   rejection reached the notification line and raised `AttributeError` **after**
+   crediting the seller, so the admin saw a 500 and the buyer was never told.
+   The wrapper now exists and maps an object onto `target_type`/`target_id`.
+2. **The admin payment queue assumed every payment had a `resource`**
+   (`{% url 'web:reader' resource_id=p.resource.id %}` with `None` →
+   `NoReverseMatch`). The queue, the approval path and the template are
+   course-aware now, and approvals add to `sale_count`/`enrollment_count`.
+3. **`realtime._send` resolved the channel layer outside its guard**, so a
+   missing/broken Redis layer turned a successful write into a 500. The resolve
+   is inside the `try` now; realtime is best-effort and never a source of truth.
+4. **`views_admin` credited the wallet by hand** (balance only: no Nebians
+   points, no `total_spent`). It calls `grant_purchase_rewards()` now, so a
+   resource sale and a course sale are rewarded identically.
+
+### Verifying it
+
+34 committed tests, one module per surface, covering the contracts that broke
+or could break:
+
+```bash
+cd backend_python
+export DEBUG=True SECRET_KEY=local-check-key DB_ENGINE=sqlite \
+       ALLOWED_HOSTS_GLOB=testserver,localhost,127.0.0.1
+python3 manage.py test api.tests_marketplace -v 2
+```
+
+- `CreatorPageApiTests` — eligibility, drafts, slug de-duplication, and the
+  sanitizers (an unknown block type, a 9 000-char body, a `javascript:` URL and
+  a nine-column gallery all get corrected rather than stored).
+- `MarketplaceCourseTests` — a paid course needs a price, a free one is
+  normalised, only the owner may edit, the checkout is gated until approval,
+  re-submitting proof updates instead of duplicating, and the commission comes
+  from `PaymentConfig`.
+- `MarketplaceWebTests` — the library tab's position, the studio's JSON saves,
+  block order in the rendered storefront, the shared price setter, and the web
+  checkout unlocking after approval.
+- `AdminPaymentQueueTests` — the queue renders course *and* resource payments,
+  approval credits the seller and unlocks the course, rejection carries a
+  reason, and a non-admin cannot verify.
+
+The tests need `pip install -r requirements.txt` (or at least Django, DRF,
+channels, Markdown, bleach, curl_cffi and the docx/reportlab/pptx renderers).
+Django's test runner creates its own database, so no migration step is needed.
+
+Longer, print-as-you-go smoke scripts (locally, in the gitignored `scratch/`)
+were how the work was developed; the committed tests are the ones to trust.
+
+Android: both `:app:compileModernDebugKotlin` and `:app:compileLegacyDebugKotlin`
+are green (see ANDROID_UI_CONTINUITY.md §8 for the toolchain exports). The
+app-side marketplace is compile-verified only — like everything else in this
+file's Android section, nothing has been seen on a device.
+
+---
+
 ## Community Chat Proxies (Neby AI on Android + web)
 
 The "Neby AI" chat (Android `NebyAiViewModel`, web `subject_page.html` chat panel, admin bot panel) talks to a set of free, keyless web-chat proxies through a shared Django session store. **The AI4Bharat Arena proxy was removed (Aug 2026)** â€” no code, UI, or docs references remain (except in applied historical migrations). Sessions use `ArenaChatSession`/`ArenaChatMessage` rows with a `provider` discriminator:

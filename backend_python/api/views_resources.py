@@ -565,8 +565,10 @@ def resource_purchase(request, resource_id):
         except DjangoValidationError as exc:
             return Response({'error': ' '.join(exc.messages)}, status=400)
 
-    commission_dec = (price_dec * Decimal('0.10')).quantize(Decimal('0.01'))
-    earnings_dec = price_dec - commission_dec
+    from .marketplace import get_payment_config, compute_commission, seller_earnings_for
+    _cfg = get_payment_config()
+    commission_dec = compute_commission(price_dec, _cfg)
+    earnings_dec = seller_earnings_for(price_dec, _cfg)
 
     existing_pending = PaymentVerification.objects.filter(buyer=user, resource=resource_obj, status='pending').first()
     if existing_pending:

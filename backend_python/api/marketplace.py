@@ -14,12 +14,13 @@ Business rules (per the platform model):
     (``ai_credits``) persist across months. Spending consumes free credits first.
 """
 import time
+import uuid
 from decimal import Decimal, ROUND_HALF_UP
 
 from django.db import transaction
 from django.db.models import F
 
-from .models import User, SellerBalance, PaymentConfig
+from .models import User, SellerBalance, PaymentConfig, PaymentVerification
 from .utils import now_ms
 
 
@@ -165,3 +166,83 @@ def convert_points_to_credits(user, points, cfg=None):
     user.nebians_points = max(0, (user.nebians_points or 0) - used)
     user.ai_credits = (user.ai_credits or 0) + credits
     return credits, used
+
+
+@transaction.atomic
+def record_purchase(buyer, seller, *, course=None, resource=None, transaction_id='',
+                    proof_file=None, proof_url=''):
+    """Create or refresh the buyer's pending payment for one target.
+
+    One pending row per (buyer, target): re-submitting better proof updates the
+    row an admin is already looking at instead of queueing a duplicate. The
+    seller earns nothing yet — only admin approval calls
+    :func:`grant_purchase_rewards`.
+    """
+    cfg = get_payment_config()
+    price = Decimal((course.price if course is not None else resource.price) or 0)
+    commission = compute_commission(price, cfg)
+    earnings = seller_earnings_for(price, cfg)
+
+    pv = PaymentVerification.objects.filter(
+        buyer=buyer, status='pending', course=course, resource=resource,
+    ).first()
+
+    if pv is None:
+        pv = PaymentVerification(
+            id=str(uuid.uuid4()),
+            buyer=buyer,
+            course=course,
+            resource=resource,
+            seller=seller,
+            payment_method='qr_code',
+            status='pending',
+            created_at=now_ms(),
+        )
+
+    if transaction_id:
+        pv.transaction_id = transaction_id
+    if proof_file is not None:
+        pv.payment_proof = proof_file
+        pv.payment_proof_url = proof_url
+    pv.amount = price
+    pv.platform_commission = commission
+    pv.seller_earnings = earnings
+    pv.save()
+    return pv
+
+
+def _money_str(value):
+    try:
+        amount = float(value or 0)
+    except (TypeError, ValueError):
+        return '0'
+    return ('%g' % amount) if amount else '0'
+
+
+def seller_sales(user, limit=50):
+    """The seller's sales, newest first, as plain dicts.
+
+    Shared by the REST dashboard and the web studio so a creator sees the same
+    sale described the same way in both places.
+    """
+    if user is None:
+        return []
+    rows = (PaymentVerification.objects
+            .filter(seller=user)
+            .select_related('buyer', 'resource', 'course')
+            .order_by('-created_at')[:limit])
+    return [{
+        'id': pv.id,
+        'target_type': pv.target_kind,
+        'target_id': pv.course_id or pv.resource_id,
+        'target_title': pv.target_title,
+        'buyer_name': (pv.buyer.display_name or pv.buyer.username) if pv.buyer else 'Nebian',
+        'buyer_username': pv.buyer.username if pv.buyer else '',
+        'amount': _money_str(pv.amount),
+        'seller_earnings': _money_str(pv.seller_earnings),
+        'commission': _money_str(pv.platform_commission),
+        'transaction_id': pv.transaction_id or '',
+        'status': pv.status,
+        'created_at': pv.created_at,
+        'verified_at': pv.verified_at,
+    } for pv in rows]
