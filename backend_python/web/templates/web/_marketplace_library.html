@@ -1,0 +1,106 @@
+{% load static web_extras %}
+{% comment %} ── The marketplace shelf inside the library ───────────────────────────────
+   This is the "Marketplace" tab: the same position in the rail on the web and
+   in the app — right after Library, before Syllabus. It swaps into #library-main
+   over htmx exactly like _library_content.html does, so filtering a creator
+   list never reloads the page.
+
+   Expects: creators, featured_courses, current_kind, query, subject, my_page,
+   can_create, total_creators, total_courses, subjects.
+{% endcomment %}
+<div class="mkt-shelf">
+  {% if can_create %}
+  <div class="mkt-owner-banner" style="--creator-accent: {{ my_page.accent_hex|default:'#004BD4' }};">
+    <span class="mkt-owner-icon material-symbols-outlined" aria-hidden="true">storefront</span>
+    <div class="mkt-owner-text">
+      {% if my_page %}
+        <strong>{{ my_page.display_name }}</strong>
+        <span>{% if my_page.published %}Your page is live{% else %}Your page is a draft — publish it when it is ready{% endif %}</span>
+      {% else %}
+        <strong>Your marketplace page</strong>
+        <span>Teachers, institutes and admins can build a page, list courses and get paid.</span>
+      {% endif %}
+    </div>
+    <a href="{% url 'web:marketplace_studio' %}" class="md-btn md-btn-filled mkt-owner-cta">
+      <span class="material-symbols-outlined" aria-hidden="true">{% if my_page %}edit{% else %}add{% endif %}</span>
+      {% if my_page %}Open studio{% else %}Create your page{% endif %}
+    </a>
+  </div>
+  {% endif %}
+
+  <div class="mkt-shelf-filters">
+    <form class="mkt-search" method="get" action="{% url 'web:library' %}"
+          hx-get="{% url 'web:library' %}" hx-target="#library-main" hx-swap="innerHTML" hx-push-url="true">
+      <input type="hidden" name="tab" value="marketplace">
+      {% if current_kind %}<input type="hidden" name="kind" value="{{ current_kind }}">{% endif %}
+      <span class="material-symbols-outlined" aria-hidden="true">search</span>
+      <input type="search" name="q" value="{{ query }}" placeholder="Search tutors, institutes and subjects" aria-label="Search the marketplace">
+      <button type="submit" class="md-btn md-btn-text mkt-search-go">Search</button>
+    </form>
+
+    <div class="neb-rail mkt-kind-rail" role="tablist" aria-label="Marketplace sections">
+      <a class="neb-rail-item" role="tab" aria-selected="{% if not current_kind %}true{% else %}false{% endif %}"
+         href="{% url 'web:library' %}?tab=marketplace{% if query %}&q={{ query|urlencode }}{% endif %}"
+         hx-get="{% url 'web:library' %}?tab=marketplace{% if query %}&q={{ query|urlencode }}{% endif %}"
+         hx-target="#library-main" hx-swap="innerHTML" hx-push-url="true">Everyone</a>
+      <a class="neb-rail-item" role="tab" aria-selected="{% if current_kind == 'tutor' %}true{% else %}false{% endif %}"
+         href="{% url 'web:library' %}?tab=marketplace&kind=tutor{% if query %}&q={{ query|urlencode }}{% endif %}"
+         hx-get="{% url 'web:library' %}?tab=marketplace&kind=tutor{% if query %}&q={{ query|urlencode }}{% endif %}"
+         hx-target="#library-main" hx-swap="innerHTML" hx-push-url="true">Tutors</a>
+      <a class="neb-rail-item" role="tab" aria-selected="{% if current_kind == 'institute' %}true{% else %}false{% endif %}"
+         href="{% url 'web:library' %}?tab=marketplace&kind=institute{% if query %}&q={{ query|urlencode }}{% endif %}"
+         hx-get="{% url 'web:library' %}?tab=marketplace&kind=institute{% if query %}&q={{ query|urlencode }}{% endif %}"
+         hx-target="#library-main" hx-swap="innerHTML" hx-push-url="true">Institutes</a>
+      <a class="neb-rail-item" role="tab" aria-selected="{% if current_kind == 'admin' %}true{% else %}false{% endif %}"
+         href="{% url 'web:library' %}?tab=marketplace&kind=admin{% if query %}&q={{ query|urlencode }}{% endif %}"
+         hx-get="{% url 'web:library' %}?tab=marketplace&kind=admin{% if query %}&q={{ query|urlencode }}{% endif %}"
+         hx-target="#library-main" hx-swap="innerHTML" hx-push-url="true">Official</a>
+    </div>
+  </div>
+
+  {% if featured_courses %}
+  <section class="mkt-section">
+    <div class="mkt-section-head">
+      <h2 class="md-title-medium">Paid and free offerings</h2>
+      <a href="{% url 'web:marketplace' %}" class="mkt-section-link">See all<span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a>
+    </div>
+    <div class="mkt-course-grid">
+      {% for course in featured_courses %}
+        {% include "web/_marketplace_course_card.html" with course=course show_creator=True accent=course.accent_hex|default:"#004BD4" %}
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  <section class="mkt-section">
+    <div class="mkt-section-head">
+      <h2 class="md-title-medium">
+        {% if query %}Results for "{{ query }}"{% elif current_kind == 'tutor' %}Tutors{% elif current_kind == 'institute' %}Institutes{% elif current_kind == 'admin' %}NEBians Official{% else %}Pages on NEBians{% endif %}
+      </h2>
+      <span class="mkt-section-count">{{ total_creators }} page{{ total_creators|pluralize }}</span>
+    </div>
+
+    {% if creators %}
+      <div class="creator-grid">
+        {% for c in creators %}{% include "web/_marketplace_creator_card.html" with c=c %}{% endfor %}
+      </div>
+      {% if total_creators > creators|length %}
+      <a class="md-btn md-btn-outlined mkt-more" href="{% url 'web:marketplace' %}{% if current_kind %}?kind={{ current_kind }}{% endif %}">
+        Browse all {{ total_creators }} pages
+        <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+      </a>
+      {% endif %}
+    {% else %}
+      <div class="empty-state">
+        <span class="material-symbols-outlined">storefront</span>
+        {% if query %}
+          <h3>No page matches "{{ query }}"</h3>
+          <p>Try a subject like Physics, or browse every page in the <a href="{% url 'web:marketplace' %}">marketplace</a>.</p>
+        {% else %}
+          <h3>No pages here yet</h3>
+          <p>The marketplace opens as tutors and institutes build their pages. {% if can_create %}<a href="{% url 'web:marketplace_studio' %}">Yours can be first.</a>{% endif %}</p>
+        {% endif %}
+      </div>
+    {% endif %}
+  </section>
+</div>

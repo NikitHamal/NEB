@@ -1,0 +1,521 @@
+{% extends "base.html" %}
+{% load static web_extras %}
+{% comment %} ── The marketplace studio ─────────────────────────────────────────────────
+   Where a tutor, institute or admin builds their page: the identity, the look,
+   the sections in their own order, the courses they sell and the updates they
+   post — plus the wallet those sales land in.
+
+   The editor is progressive: without JavaScript the identity, style and course
+   fields are ordinary inputs that still post to the same validators the REST API
+   uses (via `marketplace.js`). With JavaScript the block builder adds, removes,
+   reorders and previews sections live. Nothing is saved that the server would
+   not have accepted from the app.
+{% endcomment %}
+{% block title %}Marketplace studio — {{ creator.display_name|default:"Your page" }} | NEBians{% endblock %}
+{% block robots %}<meta name="robots" content="noindex, nofollow">{% endblock %}
+{% block canonical %}https://nebians.consica.com.np/marketplace/studio/{% endblock %}
+
+{% block bottomnav %}
+{% include "web/partials/bottomnav.html" with current="library" %}
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/pages/marketplace.css' %}">
+{% endblock %}
+
+{% block content %}
+{% csrf_token %}
+<div class="md-container mkt-studio" id="mkt-studio"
+     style="--creator-accent: {{ accent|default:'#004BD4' }};"
+     data-page-save-url="{% url 'web:marketplace_page_save' %}"
+     data-course-save-url="{% url 'web:marketplace_course_save' %}"
+     data-course-delete-url="{% url 'web:marketplace_course_delete' %}"
+     data-post-save-url="{% url 'web:marketplace_post_save' %}"
+     data-post-delete-url="{% url 'web:marketplace_post_delete' %}">
+
+{% if not eligible %}
+  <div class="empty-state">
+    <span class="material-symbols-outlined">storefront</span>
+    <h3>Marketplace pages are for teachers, institutes and admins</h3>
+    <p>
+      Your account is set up as a {{ viewer_role|default:"student" }}. Add your role in
+      <a href="{% url 'web:edit_profile' %}">profile settings</a> — teachers and institutes get a page, a
+      studio, courses and payouts. If you believe this is wrong, contact the NEBians team.
+    </p>
+  </div>
+</div>
+{% else %}
+
+  <header class="mkt-studio-head">
+    <div>
+      <span class="mkt-studio-kicker">Marketplace studio</span>
+      <h1 class="md-headline-small">{{ creator.display_name }}</h1>
+      <p class="mkt-studio-sub">
+        {% if creator.published %}
+          Live at <a href="{% url 'web:marketplace_creator' slug=creator.slug %}">/marketplace/{{ creator.slug }}/</a>
+        {% else %}
+          Still a draft — publish when you are ready.
+        {% endif %}
+      </p>
+    </div>
+    <div class="mkt-studio-head-actions">
+      <a class="md-btn md-btn-outlined" href="{% url 'web:marketplace_creator' slug=creator.slug %}">
+        <span class="material-symbols-outlined" aria-hidden="true">visibility</span>View page
+      </a>
+      <button type="button" class="md-btn {% if creator.published %}md-btn-tonal{% else %}md-btn-filled{% endif %}"
+              data-mkt-toggle-publish data-published="{% if creator.published %}1{% else %}0{% endif %}">
+        <span class="material-symbols-outlined" aria-hidden="true">{% if creator.published %}pause_circle{% else %}publish{% endif %}</span>
+        <span data-mkt-publish-label>{% if creator.published %}Unpublish{% else %}Publish page{% endif %}</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="mkt-studio-stats">
+    <div class="mkt-studio-stat"><strong>{{ creator.view_count|short_number }}</strong><span>views</span></div>
+    <div class="mkt-studio-stat"><strong>{{ creator.course_count }}</strong><span>offerings</span></div>
+    <div class="mkt-studio-stat"><strong>Rs. {{ balance.current_balance|npr }}</strong><span>balance</span></div>
+    <div class="mkt-studio-stat"><strong>Rs. {{ balance.total_earned|npr }}</strong><span>earned</span></div>
+    <div class="mkt-studio-stat"><strong>{{ nebians_points }}</strong><span>points</span></div>
+  </div>
+
+  <div class="neb-rail mkt-studio-rail" role="tablist" aria-label="Studio sections" data-mkt-rail>
+    <button class="neb-rail-item" role="tab" aria-selected="true" data-mkt-tab="page">Page</button>
+    <button class="neb-rail-item" role="tab" aria-selected="false" data-mkt-tab="courses">Courses</button>
+    <button class="neb-rail-item" role="tab" aria-selected="false" data-mkt-tab="updates">Updates</button>
+    <button class="neb-rail-item" role="tab" aria-selected="false" data-mkt-tab="earnings">Earnings</button>
+  </div>
+
+  <p class="mkt-toast" data-mkt-toast hidden aria-live="polite"></p>
+
+  {# ── PAGE ─────────────────────────────────────────────────────────────── #}
+  <section class="mkt-tab-panel" data-mkt-panel="page">
+    <div class="mkt-studio-grid">
+      <div class="mkt-studio-col">
+        <div class="mkt-card">
+          <h2 class="md-title-medium">Identity</h2>
+          <label class="md-label" for="mkt-display-name">Page name</label>
+          <input class="md-input" id="mkt-display-name" type="text" value="{{ creator.display_name }}" data-mkt-field="display_name">
+
+          <label class="md-label" for="mkt-tagline">One line about you</label>
+          <input class="md-input" id="mkt-tagline" type="text" value="{{ creator.tagline }}" maxlength="180" data-mkt-field="tagline">
+          <p class="mkt-field-hint">Shown under your name on the card and the page.</p>
+
+          <label class="md-label" for="mkt-slug">Page address</label>
+          <div class="mkt-slug-row">
+            <span class="mkt-slug-prefix">/marketplace/</span>
+            <input class="md-input" id="mkt-slug" type="text" value="{{ creator.slug }}" data-mkt-field="slug">
+          </div>
+
+          {% if allowed_kinds|length > 1 %}
+          <label class="md-label" for="mkt-kind">Page type</label>
+          <select class="md-input" id="mkt-kind" data-mkt-field="kind">
+            {% for kind in allowed_kinds %}
+              <option value="{{ kind }}" {% if creator.kind == kind %}selected{% endif %}>{{ kind|creator_kind_label }}</option>
+            {% endfor %}
+          </select>
+          {% endif %}
+
+          <label class="md-label" for="mkt-about">About</label>
+          <textarea class="md-input" id="mkt-about" rows="5" data-mkt-field="about">{{ creator.about }}</textarea>
+
+          <div class="mkt-grid-2">
+            <div>
+              <label class="md-label" for="mkt-avatar">Avatar image URL</label>
+              <input class="md-input" id="mkt-avatar" type="url" value="{{ creator.avatar_url }}" data-mkt-field="avatar_url">
+            </div>
+            <div>
+              <label class="md-label" for="mkt-cover">Cover image URL</label>
+              <input class="md-input" id="mkt-cover" type="url" value="{{ creator.cover_url }}" data-mkt-field="cover_url">
+            </div>
+          </div>
+
+          <div class="mkt-grid-2">
+            <div>
+              <label class="md-label" for="mkt-email">Contact email</label>
+              <input class="md-input" id="mkt-email" type="email" value="{{ creator.contact_email }}" data-mkt-field="contact_email">
+            </div>
+            <div>
+              <label class="md-label" for="mkt-phone">Contact phone</label>
+              <input class="md-input" id="mkt-phone" type="tel" value="{{ creator.contact_phone }}" data-mkt-field="contact_phone">
+            </div>
+          </div>
+
+          <div class="mkt-grid-2">
+            <div>
+              <label class="md-label" for="mkt-location">Location</label>
+              <input class="md-input" id="mkt-location" type="text" value="{{ creator.location }}" data-mkt-field="location">
+            </div>
+            <div>
+              <label class="md-label" for="mkt-languages">Languages (comma separated)</label>
+              <input class="md-input" id="mkt-languages" type="text" value="{{ creator.languages|join:', ' }}" data-mkt-field="languages">
+            </div>
+          </div>
+
+          <label class="md-label" for="mkt-subjects">Subjects (comma separated)</label>
+          <input class="md-input" id="mkt-subjects" type="text" value="{{ creator.subjects|join:', ' }}" data-mkt-field="subjects">
+          <p class="mkt-field-hint">These are what the marketplace search matches on.</p>
+
+          <label class="md-label">Social links</label>
+          <div class="mkt-social-grid">
+            {% for key, value in creator.socials.items %}
+              <input class="md-input" type="text" placeholder="{{ key }}" value="{{ value }}" data-mkt-social="{{ key }}">
+            {% empty %}
+              <input class="md-input" type="text" placeholder="website" data-mkt-social="website">
+              <input class="md-input" type="text" placeholder="youtube" data-mkt-social="youtube">
+              <input class="md-input" type="text" placeholder="instagram" data-mkt-social="instagram">
+              <input class="md-input" type="text" placeholder="facebook" data-mkt-social="facebook">
+            {% endfor %}
+          </div>
+
+          <label class="mkt-switch">
+            <input type="checkbox" data-mkt-field="accepting_students" {% if creator.accepting_students %}checked{% endif %}>
+            <span>Accepting new students</span>
+          </label>
+
+          <button type="button" class="md-btn md-btn-filled mkt-save" data-mkt-save-page>Save page</button>
+        </div>
+
+        <div class="mkt-card">
+          <h2 class="md-title-medium">Look</h2>
+          <label class="md-label" for="mkt-layout">Layout</label>
+          <select class="md-input" id="mkt-layout" data-mkt-field="layout">
+            {% for layout in layouts %}
+              <option value="{{ layout }}" {% if creator.layout == layout %}selected{% endif %}>{{ layout|capfirst }}</option>
+            {% endfor %}
+          </select>
+
+          <label class="md-label" for="mkt-accent">Accent colour</label>
+          <div class="mkt-accent-row">
+            <input id="mkt-accent" type="color" value="{{ accent }}" data-mkt-field="accent_hex">
+            <input class="md-input" type="text" value="{{ accent }}" data-mkt-accent-text>
+            <span class="mkt-accent-swatches">
+              <button type="button" class="mkt-swatch" data-mkt-accent-swatch="#0F766E" style="--s:#0F766E" aria-label="Teal"></button>
+              <button type="button" class="mkt-swatch" data-mkt-accent-swatch="#B45309" style="--s:#B45309" aria-label="Amber"></button>
+              <button type="button" class="mkt-swatch" data-mkt-accent-swatch="#9D174D" style="--s:#9D174D" aria-label="Rose"></button>
+              <button type="button" class="mkt-swatch" data-mkt-accent-swatch="#4C1D95" style="--s:#4C1D95" aria-label="Violet"></button>
+              <button type="button" class="mkt-swatch" data-mkt-accent-swatch="#166534" style="--s:#166534" aria-label="Green"></button>
+            </span>
+          </div>
+
+          <div class="mkt-grid-2">
+            <div>
+              <label class="md-label" for="mkt-hero">Hero</label>
+              <select class="md-input" id="mkt-hero" data-mkt-style="hero">
+                <option value="art" {% if style.hero != 'cover' and style.hero != 'plain' %}selected{% endif %}>Banner art</option>
+                <option value="cover" {% if style.hero == 'cover' %}selected{% endif %}>Cover image</option>
+                <option value="plain" {% if style.hero == 'plain' %}selected{% endif %}>Plain</option>
+              </select>
+            </div>
+            <div>
+              <label class="md-label" for="mkt-radius">Corners</label>
+              <select class="md-input" id="mkt-radius" data-mkt-style="radius">
+                <option value="soft" {% if style.radius == 'soft' %}selected{% endif %}>Soft</option>
+                <option value="round" {% if style.radius != 'soft' and style.radius != 'sharp' %}selected{% endif %}>Round</option>
+                <option value="sharp" {% if style.radius == 'sharp' %}selected{% endif %}>Sharp</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mkt-grid-2">
+            <div>
+              <label class="md-label" for="mkt-density">Density</label>
+              <select class="md-input" id="mkt-density" data-mkt-style="density">
+                <option value="comfortable" {% if style.density != 'compact' %}selected{% endif %}>Comfortable</option>
+                <option value="compact" {% if style.density == 'compact' %}selected{% endif %}>Compact</option>
+              </select>
+            </div>
+            <div>
+              <label class="md-label" for="mkt-gallery-cols">Gallery columns</label>
+              <select class="md-input" id="mkt-gallery-cols" data-mkt-style="gallery_columns">
+                <option value="2" {% if style.gallery_columns == 2 %}selected{% endif %}>2</option>
+                <option value="3" {% if style.gallery_columns != 2 and style.gallery_columns != 4 %}selected{% endif %}>3</option>
+                <option value="4" {% if style.gallery_columns == 4 %}selected{% endif %}>4</option>
+              </select>
+            </div>
+          </div>
+
+          <button type="button" class="md-btn md-btn-filled mkt-save" data-mkt-save-page>Save look</button>
+        </div>
+      </div>
+
+      <div class="mkt-studio-col">
+        <div class="mkt-card">
+          <div class="mkt-block-builder-head">
+            <h2 class="md-title-medium">Sections</h2>
+            <span class="mkt-field-hint">Drag-free reordering: use the arrows. Order is what visitors see.</span>
+          </div>
+          <div class="mkt-blocks" data-mkt-blocks></div>
+          <div class="mkt-add-block">
+            <select class="md-input" data-mkt-add-block-select>
+              {% for entry in block_schema %}
+                <option value="{{ entry.type }}">{{ entry.label }}</option>
+              {% endfor %}
+            </select>
+            <button type="button" class="md-btn md-btn-outlined" data-mkt-add-block>
+              <span class="material-symbols-outlined" aria-hidden="true">add</span>Add section
+            </button>
+          </div>
+          <button type="button" class="md-btn md-btn-filled mkt-save" data-mkt-save-page>Save sections</button>
+        </div>
+      </div>
+    </div>
+
+    {{ block_schema|json_script:"mkt-block-schema" }}
+    {{ creator.blocks|json_script:"mkt-blocks-data" }}
+  </section>
+
+  {# ── COURSES ──────────────────────────────────────────────────────────── #}
+  <section class="mkt-tab-panel" data-mkt-panel="courses" hidden>
+    <div class="mkt-studio-grid mkt-studio-grid-courses">
+      <div class="mkt-studio-col">
+        <div class="mkt-card">
+          <h2 class="md-title-medium">Offerings</h2>
+          <p class="mkt-field-hint">Paid courses, classes and batches. Free ones show under "Free" on your page.</p>
+          <div class="mkt-course-list" data-mkt-course-list>
+            {% for course in courses %}
+              <div class="mkt-course-row" data-mkt-course-row="{{ course.id }}">
+                <div class="mkt-course-row-main">
+                  <strong>{{ course.title }}</strong>
+                  <span>
+                    {% if course.is_free %}Free{% else %}Rs. {{ course.price|npr }}{% endif %}
+                    · {{ course.status|capfirst }}
+                    {% if course.sale_count %} · {{ course.sale_count }} sold{% endif %}
+                  </span>
+                </div>
+                <div class="mkt-course-row-actions">
+                  <button type="button" class="md-btn md-btn-text" data-mkt-course-edit="{{ course.id }}">Edit</button>
+                  <button type="button" class="md-btn md-btn-text mkt-danger" data-mkt-course-delete="{{ course.id }}">Delete</button>
+                </div>
+              </div>
+            {% empty %}
+              <p class="mkt-quiet">No offerings yet. Add your first on the right.</p>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <div class="mkt-studio-col">
+        <div class="mkt-card">
+          <h2 class="md-title-medium" data-mkt-course-form-title>New offering</h2>
+          <input type="hidden" data-mkt-course-field="id" value="">
+          <label class="md-label" for="mkt-course-title">Title</label>
+          <input class="md-input" id="mkt-course-title" type="text" data-mkt-course-field="title" placeholder="Physics Grade 12 — Full Course">
+
+          <label class="md-label" for="mkt-course-summary">One-line summary</label>
+          <input class="md-input" id="mkt-course-summary" type="text" maxlength="300" data-mkt-course-field="summary" placeholder="Mechanics to modern physics in 48 lessons">
+
+          <label class="md-label" for="mkt-course-description">Description</label>
+          <textarea class="md-input" id="mkt-course-description" rows="4" data-mkt-course-field="description"></textarea>
+
+          <div data-mkt-course-price>
+            {% include "web/_price_setter.html" with id_prefix="course" is_paid=False price_value="" commission_pct=commission_percent title="Price this offering" mode_title="Free offerings show in the marketplace for everyone; paid ones check out by QR with your share credited to your wallet." %}
+          </div>
+
+          <div class="mkt-grid-2">
+            <div>
+              <label class="md-label" for="mkt-course-level">Level</label>
+              <input class="md-input" id="mkt-course-level" type="text" data-mkt-course-field="level" placeholder="Class 12 / Bachelor">
+            </div>
+            <div>
+              <label class="md-label" for="mkt-course-duration">Duration</label>
+              <input class="md-input" id="mkt-course-duration" type="text" data-mkt-course-field="duration_label" placeholder="12 weeks">
+            </div>
+          </div>
+
+          <div class="mkt-grid-2">
+            <div>
+              <label class="md-label" for="mkt-course-lessons">Lessons</label>
+              <input class="md-input" id="mkt-course-lessons" type="number" min="0" data-mkt-course-field="lesson_count" value="0">
+            </div>
+            <div>
+              <label class="md-label" for="mkt-course-seats">Seats (0 = unlimited)</label>
+              <input class="md-input" id="mkt-course-seats" type="number" min="0" data-mkt-course-field="seat_limit" value="0">
+            </div>
+          </div>
+
+          <label class="md-label" for="mkt-course-includes">What's included (one per line)</label>
+          <textarea class="md-input" id="mkt-course-includes" rows="3" data-mkt-course-field="includes" placeholder="Live classes&#10;Weekly tests"></textarea>
+
+          <label class="md-label" for="mkt-course-tags">Tags (comma separated)</label>
+          <input class="md-input" id="mkt-course-tags" type="text" data-mkt-course-field="tags" placeholder="Physics, NEB, Class 12">
+
+          <div class="mkt-grid-2">
+            <div>
+              <label class="md-label" for="mkt-course-status">Status</label>
+              <select class="md-input" id="mkt-course-status" data-mkt-course-field="status">
+                <option value="draft">Draft</option>
+                <option value="published">Published</option>
+                <option value="archived">Archived</option>
+              </select>
+            </div>
+            <div>
+              <label class="md-label" for="mkt-course-cover">Cover image URL</label>
+              <input class="md-input" id="mkt-course-cover" type="url" data-mkt-course-field="cover_url">
+            </div>
+          </div>
+
+          <label class="mkt-switch">
+            <input type="checkbox" data-mkt-course-field="featured">
+            <span>Feature this offering</span>
+          </label>
+
+          {% if resources %}
+          <label class="md-label">Attach your library resources</label>
+          <div class="mkt-resource-picker">
+            {% for r in resources %}
+              <label class="mkt-resource-option">
+                <input type="checkbox" data-mkt-course-resource="{{ r.id }}">
+                <span>{{ r.title }}</span>
+              </label>
+            {% endfor %}
+          </div>
+          {% endif %}
+
+          <div class="mkt-form-actions">
+            <button type="button" class="md-btn md-btn-filled" data-mkt-save-course>Save offering</button>
+            <button type="button" class="md-btn md-btn-text" data-mkt-course-reset>Start a new one</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{ courses|json_script:"mkt-courses-data" }}
+    {{ course_resources|json_script:"mkt-course-resources-data" }}
+  </section>
+
+  {# ── UPDATES ──────────────────────────────────────────────────────────── #}
+  <section class="mkt-tab-panel" data-mkt-panel="updates" hidden>
+    <div class="mkt-studio-grid mkt-studio-grid-courses">
+      <div class="mkt-studio-col">
+        <div class="mkt-card">
+          <h2 class="md-title-medium">Updates</h2>
+          <p class="mkt-field-hint">Announcements, new batches, exam tips — whatever your students should see first.</p>
+          <div class="mkt-post-list" data-mkt-post-list>
+            {% for post in posts %}
+              <div class="mkt-course-row" data-mkt-post-row="{{ post.id }}">
+                <div class="mkt-course-row-main">
+                  <strong>{{ post.title|default:post.body|truncatechars:48 }}</strong>
+                  <span>{% if post.pinned %}Pinned · {% endif %}{{ post.created_at|time_ago }}{% if not post.published %} · Hidden{% endif %}</span>
+                </div>
+                <div class="mkt-course-row-actions">
+                  <button type="button" class="md-btn md-btn-text" data-mkt-post-edit="{{ post.id }}">Edit</button>
+                  <button type="button" class="md-btn md-btn-text mkt-danger" data-mkt-post-delete="{{ post.id }}">Delete</button>
+                </div>
+              </div>
+            {% empty %}
+              <p class="mkt-quiet">No updates yet.</p>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <div class="mkt-studio-col">
+        <div class="mkt-card">
+          <h2 class="md-title-medium" data-mkt-post-form-title>New update</h2>
+          <input type="hidden" data-mkt-post-field="id" value="">
+          <label class="md-label" for="mkt-post-title">Headline (optional)</label>
+          <input class="md-input" id="mkt-post-title" type="text" data-mkt-post-field="title">
+          <label class="md-label" for="mkt-post-body">Message</label>
+          <textarea class="md-input" id="mkt-post-body" rows="5" data-mkt-post-field="body"></textarea>
+          <div class="mkt-grid-2">
+            <div>
+              <label class="md-label" for="mkt-post-media">Image URL</label>
+              <input class="md-input" id="mkt-post-media" type="url" data-mkt-post-field="media_url">
+            </div>
+            <div>
+              <label class="md-label" for="mkt-post-link">Link</label>
+              <input class="md-input" id="mkt-post-link" type="url" data-mkt-post-field="link_url">
+            </div>
+          </div>
+          <label class="mkt-switch">
+            <input type="checkbox" data-mkt-post-field="pinned">
+            <span>Pin to the top</span>
+          </label>
+          <label class="mkt-switch">
+            <input type="checkbox" data-mkt-post-field="published" checked>
+            <span>Visible on my page</span>
+          </label>
+          <div class="mkt-form-actions">
+            <button type="button" class="md-btn md-btn-filled" data-mkt-save-post>Post update</button>
+            <button type="button" class="md-btn md-btn-text" data-mkt-post-reset>Start a new one</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{ posts|json_script:"mkt-posts-data" }}
+  </section>
+
+  {# ── EARNINGS ─────────────────────────────────────────────────────────── #}
+  <section class="mkt-tab-panel" data-mkt-panel="earnings" hidden>
+    <div class="mkt-earn-grid">
+      <div class="mkt-card">
+        <h2 class="md-title-medium">Wallet</h2>
+        <div class="mkt-wallet">
+          <div><span>Available</span><strong>Rs. {{ balance.current_balance|npr }}</strong></div>
+          <div><span>Lifetime earned</span><strong>Rs. {{ balance.total_earned|npr }}</strong></div>
+          <div><span>Withdrawn</span><strong>Rs. {{ balance.total_withdrawn|npr }}</strong></div>
+          <div><span>Platform fee</span><strong>{{ commission_percent|npr }}%</strong></div>
+        </div>
+
+        <form class="mkt-withdraw" data-mkt-withdraw action="{% url 'web:ajax_request_withdrawal' %}" method="post">
+          {% csrf_token %}
+          <h3 class="mkt-subhead">Request a withdrawal</h3>
+          <p class="mkt-field-hint">Minimum Rs. {{ withdraw_min|npr }}. Funds arrive within 7 days of approval.</p>
+          <label class="md-label" for="mkt-withdraw-amount">Amount (Rs.)</label>
+          <input class="md-input" id="mkt-withdraw-amount" type="number" min="{{ withdraw_min|npr_plain }}" name="amount" required>
+          <label class="md-label" for="mkt-withdraw-method">Payout method</label>
+          <select class="md-input" id="mkt-withdraw-method" name="payout_method">
+            <option value="esewa">eSewa</option>
+            <option value="khalti">Khalti</option>
+            <option value="bank">Bank transfer</option>
+          </select>
+          <label class="md-label" for="mkt-withdraw-details">Account holder name, ID or number</label>
+          <input class="md-input" id="mkt-withdraw-details" type="text" name="payout_details" required>
+          <button type="submit" class="md-btn md-btn-filled">Request withdrawal</button>
+        </form>
+
+        {% if withdrawals %}
+        <h3 class="mkt-subhead">Recent requests</h3>
+        <div class="mkt-wallet">
+          {% for w in withdrawals %}
+            <div><span>{{ w.created_at|time_ago }}</span><strong>Rs. {{ w.amount|npr }} · {{ w.status|capfirst }}</strong></div>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="mkt-card">
+        <h2 class="md-title-medium">Sales</h2>
+        {% if sales %}
+        <div class="mkt-sales">
+          {% for sale in sales %}
+            <div class="mkt-sale">
+              <div class="mkt-sale-main">
+                <strong>{{ sale.target_title }}</strong>
+                <span>{{ sale.buyer_name }} · {{ sale.created_at|time_ago }}</span>
+              </div>
+              <div class="mkt-sale-amount">
+                <strong>Rs. {{ sale.amount|npr }}</strong>
+                <span class="mkt-sale-status mkt-sale-{{ sale.status }}">{{ sale.status|capfirst }}</span>
+                <small>You receive Rs. {{ sale.seller_earnings|npr }}</small>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        {% else %}
+          <div class="empty-state">
+            <span class="material-symbols-outlined">receipt_long</span>
+            <h3>No sales yet</h3>
+            <p>A verified sale shows here with the buyer, the amount and your share.</p>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+{% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/marketplace.js' %}"></script>
+{% endblock %}

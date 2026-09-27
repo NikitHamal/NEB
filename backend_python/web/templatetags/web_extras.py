@@ -656,3 +656,35 @@ def parse_qa(value):
         if question or answer:
             result.append({'question': question, 'answer': answer})
     return result
+
+
+@register.filter
+def creator_kind_label(kind):
+    """The word a visitor reads for a storefront kind."""
+    return {
+        'tutor': 'Tutor',
+        'institute': 'Institute',
+        'admin': 'NEBians Official',
+    }.get((kind or '').strip().lower(), 'Creator')
+
+
+@register.filter
+def npr(value):
+    """Rupees as a person writes them: no trailing .0, thousands separated."""
+    try:
+        amount = float(value or 0)
+    except (TypeError, ValueError):
+        return '0'
+    if amount == int(amount):
+        return f'{int(amount):,}'
+    return f'{amount:,.2f}'
+
+
+@register.filter
+def npr_plain(value):
+    """Rupees without thousands separators, for input values and JSON."""
+    try:
+        amount = float(value or 0)
+    except (TypeError, ValueError):
+        return '0'
+    return str(int(amount)) if amount == int(amount) else f'{amount:.2f}'

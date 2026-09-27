@@ -62,14 +62,21 @@ def wallet_purchases(request):
         return err
     qs = (PaymentVerification.objects
           .filter(buyer=user)
-          .select_related('resource', 'seller')
+          .select_related('resource', 'course', 'course__page', 'seller')
           .order_by('-created_at'))[:100]
     items = []
     for p in qs:
+        course = p.course if p.course_id else None
         items.append({
             'id': p.id,
+            # target_* is the general shape; resource_* stays for older clients.
+            'target_type': p.target_kind,
+            'target_id': p.course_id or p.resource_id,
+            'target_title': p.target_title,
+            'target_url': f'/marketplace/course/{p.course_id}/' if course else f'/resource/{p.resource_id}/',
+            'page_slug': course.page.slug if course and course.page_id else '',
             'resource_id': p.resource_id,
-            'resource_title': p.resource.title if p.resource else '(removed)',
+            'resource_title': p.resource.title if p.resource else (p.target_title if course else '(removed)'),
             'amount': _rs(p.amount),
             'status': p.status,
             'transaction_id': p.transaction_id or '',

@@ -428,10 +428,30 @@ def library(request, seo_title=None, seo_description=None, page_h1=None, canonic
     exam_types = [e.strip() for e in request.GET.getlist('exam_type') if e.strip()]
     sort_by = request.GET.get('sort', 'relevant')
     current_tab = request.GET.get('tab', 'digital')
-    if current_tab not in ['digital', 'community', 'categories', 'interactive']:
+    if current_tab not in ['digital', 'community', 'categories', 'interactive', 'marketplace']:
         current_tab = 'digital'
 
     pricing = request.GET.get('pricing', '').strip().lower()
+
+    marketplace_creators = []
+    marketplace_courses = []
+    marketplace_kind = ''
+    marketplace_query = ''
+    marketplace_total = 0
+    marketplace_my_page = None
+    marketplace_can_create = False
+    if current_tab == 'marketplace':
+        from .views_marketplace import marketplace_shelf_context
+        shelf = marketplace_shelf_context(request, query=request.GET.get('q', ''),
+                                          kind=request.GET.get('kind', ''))
+        marketplace_creators = shelf['creators']
+        marketplace_courses = shelf['featured_courses']
+        marketplace_kind = shelf['current_kind']
+        marketplace_query = shelf['query']
+        marketplace_total = shelf['total_creators']
+        marketplace_my_page = shelf['my_page']
+        marketplace_can_create = shelf['can_create']
+        current_sort = 'relevant'
 
     interactive_categories = []
     interactive_stats = None
@@ -632,6 +652,13 @@ def library(request, seo_title=None, seo_description=None, page_h1=None, canonic
         categories_list=categories_list,
         interactive_categories=interactive_categories,
         interactive_stats=interactive_stats,
+        marketplace_creators=marketplace_creators,
+        marketplace_featured_courses=marketplace_courses,
+        marketplace_kind=marketplace_kind,
+        marketplace_query=marketplace_query,
+        marketplace_total=marketplace_total,
+        marketplace_my_page=marketplace_my_page,
+        marketplace_can_create=marketplace_can_create,
         seo_title=seo_title,
         seo_description=seo_description,
         page_h1=page_h1,
@@ -1138,9 +1165,11 @@ def submit_payment_proof(request, resource_id):
             return redirect('web:reader', resource_id=resource_id)
 
         from decimal import Decimal
+        from api.marketplace import get_payment_config, compute_commission, seller_earnings_for
         price_dec = resource_obj.price
-        commission_dec = (price_dec * Decimal('0.10')).quantize(Decimal('0.01'))
-        earnings_dec = price_dec - commission_dec
+        _cfg = get_payment_config()
+        commission_dec = compute_commission(price_dec, _cfg)
+        earnings_dec = seller_earnings_for(price_dec, _cfg)
 
         if proof_file:
             from api.security import save_payment_proof_upload
@@ -1285,6 +1314,8 @@ def upload_resource(request):
             pass
     if user and not getattr(user, 'email_verified', False):
         user = None
+
+    from .views_marketplace import commission_percent
 
     _default_subjects = [
         'Physics', 'Chemistry', 'Mathematics', 'Biology', 'English', 'Nepali',
@@ -1577,6 +1608,7 @@ def upload_resource(request):
             errors=errors,
             form_data=request.POST,
             is_authenticated=bool(user),
+            commission_percent=commission_percent(),
         ))
 
     return render(request, 'web/upload.html', _ctx(request,
@@ -1584,6 +1616,7 @@ def upload_resource(request):
         exam_types=exam_types, pradesh_options=pradesh_options,
         resource_types=resource_types, common_tags=common_tags,
         is_authenticated=bool(user),
+        commission_percent=commission_percent(),
     ))
 
 def upload_success(request):
@@ -1760,6 +1793,7 @@ def edit_resource(request, resource_id):
         pradesh_options=pradesh_options,
         resource_types=resource_types,
         is_authenticated=True,
+        commission_percent=commission_percent(),
     ))
 
 def subject_page(request, grade_slug, subject_slug):

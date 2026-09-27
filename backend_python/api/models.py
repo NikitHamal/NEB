@@ -2398,7 +2398,11 @@ class PaymentVerification(models.Model):
 
     id = models.CharField(max_length=36, primary_key=True)  # UUID
     buyer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='resource_purchases')
-    resource = models.ForeignKey(Resource, on_delete=models.CASCADE, related_name='purchases')
+    # Exactly one of `resource` / `course` is set: a paid-library purchase or a
+    # paid offering on a creator's marketplace page. Both are settled the same
+    # way (QR proof -> admin verification -> seller wallet).
+    resource = models.ForeignKey(Resource, on_delete=models.CASCADE, related_name='purchases', null=True, blank=True)
+    course = models.ForeignKey('CreatorCourse', on_delete=models.SET_NULL, related_name='purchases', null=True, blank=True)
     seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name='resource_sales')
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     platform_commission = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
@@ -2418,12 +2422,25 @@ class PaymentVerification(models.Model):
         ordering = ['-created_at']
         indexes = [
             models.Index(fields=['buyer', 'resource', 'status']),
+            models.Index(fields=['buyer', 'course', 'status']),
             models.Index(fields=['seller', 'status']),
             models.Index(fields=['status', '-created_at']),
         ]
 
+    @property
+    def target_title(self):
+        if self.course_id and self.course:
+            return self.course.title
+        if self.resource_id and self.resource:
+            return self.resource.title
+        return 'Removed item'
+
+    @property
+    def target_kind(self):
+        return 'course' if self.course_id else 'resource'
+
     def __str__(self):
-        return f"Payment {self.id[:8]} - {self.buyer.username} for {self.resource.title} ({self.status})"
+        return f"Payment {self.id[:8]} - {self.buyer.username} for {self.target_title} ({self.status})"
 
 
 class SellerBalance(models.Model):
@@ -2806,3 +2823,167 @@ from api.agent_social.models import AgentPersona, AgentAction, AgentApiKey  # no
 
 
 
+
+
+CREATOR_KINDS = [
+    ('tutor', 'Tutor'),
+    ('institute', 'Institute'),
+    ('admin', 'NEBians Official'),
+]
+
+CREATOR_LAYOUTS = [
+    ('editorial', 'Editorial'),
+    ('spotlight', 'Spotlight'),
+    ('grid', 'Grid'),
+    ('classic', 'Classic'),
+]
+
+COURSE_STATUSES = [
+    ('draft', 'Draft'),
+    ('published', 'Published'),
+    ('archived', 'Archived'),
+]
+
+
+class CreatorPage(models.Model):
+    """A marketplace storefront a teacher, institute or admin builds for
+    themselves — their own page, in their own arrangement.
+
+    Everything a visitor reads is data, not markup: `blocks` is an ordered list
+    of section descriptors the owner reorders and fills in, and `style` holds
+    the surface choices (hero treatment, radius, density, cover/avatar art).
+    The renderers on the web and in the app read the same list, so a page looks
+    like the same page in both places.
+    """
+    id = models.CharField(max_length=36, primary_key=True)  # UUID
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='creator_page')
+    kind = models.CharField(max_length=16, choices=CREATOR_KINDS, default='tutor')
+    slug = models.SlugField(max_length=80, unique=True)
+    display_name = models.CharField(max_length=120)
+    tagline = models.CharField(max_length=180, blank=True, default='')
+    about = models.TextField(blank=True, default='')
+    avatar_url = models.TextField(blank=True, default='')
+    cover_url = models.TextField(blank=True, default='')
+    accent_hex = models.CharField(max_length=7, default='#004BD4')
+    layout = models.CharField(max_length=20, choices=CREATOR_LAYOUTS, default='editorial')
+    style = models.JSONField(default=dict, blank=True)
+    blocks = models.JSONField(default=list, blank=True)
+    socials = models.JSONField(default=dict, blank=True)
+    contact_email = models.EmailField(blank=True, default='')
+    contact_phone = models.CharField(max_length=40, blank=True, default='')
+    location = models.CharField(max_length=120, blank=True, default='')
+    subjects = models.TextField(blank=True, default='')  # comma-separated
+    languages = models.TextField(blank=True, default='')  # comma-separated
+    verified = models.BooleanField(default=False)
+    featured = models.BooleanField(default=False, db_index=True)
+    published = models.BooleanField(default=False, db_index=True)
+    accepting_students = models.BooleanField(default=True)
+    follower_count = models.PositiveIntegerField(default=0)
+    view_count = models.PositiveIntegerField(default=0)
+    created_at = models.BigIntegerField(default=0)
+    updated_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'creator_pages'
+        ordering = ['-featured', '-updated_at']
+        indexes = [
+            models.Index(fields=['published', '-featured', '-updated_at'], name='creator_pub_feat_idx'),
+            models.Index(fields=['kind', 'published']),
+            models.Index(fields=['-view_count']),
+        ]
+
+    def __str__(self):
+        return f"{self.display_name} (@{self.slug})"
+
+    @property
+    def subject_list(self):
+        return [s.strip() for s in (self.subjects or '').split(',') if s.strip()]
+
+    @property
+    def language_list(self):
+        return [s.strip() for s in (self.languages or '').split(',') if s.strip()]
+
+
+class CreatorCourse(models.Model):
+    """A paid or free offering on a creator page — a course, a class, a batch."""
+    id = models.CharField(max_length=36, primary_key=True)  # UUID
+    page = models.ForeignKey(CreatorPage, on_delete=models.CASCADE, related_name='courses')
+    title = models.CharField(max_length=180)
+    slug = models.SlugField(max_length=90)
+    summary = models.CharField(max_length=300, blank=True, default='')
+    description = models.TextField(blank=True, default='')
+    cover_url = models.TextField(blank=True, default='')
+    promo_url = models.TextField(blank=True, default='')
+    is_free = models.BooleanField(default=False, db_index=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal('0.00'))
+    level = models.CharField(max_length=60, blank=True, default='')
+    duration_label = models.CharField(max_length=60, blank=True, default='')
+    lesson_count = models.PositiveIntegerField(default=0)
+    seat_limit = models.PositiveIntegerField(default=0)  # 0 = unlimited
+    includes = models.JSONField(default=list, blank=True)
+    tags = models.TextField(blank=True, default='')
+    status = models.CharField(max_length=12, choices=COURSE_STATUSES, default='draft', db_index=True)
+    featured = models.BooleanField(default=False)
+    enrollment_count = models.PositiveIntegerField(default=0)
+    view_count = models.PositiveIntegerField(default=0)
+    sale_count = models.PositiveIntegerField(default=0)
+    rating = models.DecimalField(max_digits=3, decimal_places=2, default=Decimal('0.00'))
+    rating_count = models.PositiveIntegerField(default=0)
+    sort_order = models.IntegerField(default=0)
+    created_at = models.BigIntegerField(default=0)
+    updated_at = models.BigIntegerField(default=0)
+    published_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'creator_courses'
+        ordering = ['sort_order', '-created_at']
+        unique_together = ('page', 'slug')
+        indexes = [
+            models.Index(fields=['page', 'status', 'sort_order'], name='course_page_status_idx'),
+            models.Index(fields=['status', 'is_free', '-created_at']),
+            models.Index(fields=['-sale_count']),
+        ]
+
+    def __str__(self):
+        return f"{self.title} ({self.page.display_name})"
+
+    @property
+    def tag_list(self):
+        return [t.strip() for t in (self.tags or '').split(',') if t.strip()]
+
+
+class CreatorCourseResource(models.Model):
+    """A library resource attached to a course as its reading material."""
+    course = models.ForeignKey(CreatorCourse, on_delete=models.CASCADE, related_name='course_resources')
+    resource = models.ForeignKey(Resource, on_delete=models.CASCADE, related_name='course_links')
+    sort_order = models.IntegerField(default=0)
+
+    class Meta:
+        db_table = 'creator_course_resources'
+        ordering = ['sort_order']
+        unique_together = ('course', 'resource')
+
+
+class CreatorPost(models.Model):
+    """An update the owner posts on their page — announcements, batches, notes."""
+    id = models.CharField(max_length=36, primary_key=True)  # UUID
+    page = models.ForeignKey(CreatorPage, on_delete=models.CASCADE, related_name='page_posts')
+    title = models.CharField(max_length=180, blank=True, default='')
+    body = models.TextField(blank=True, default='')
+    media_url = models.TextField(blank=True, default='')
+    link_url = models.TextField(blank=True, default='')
+    pinned = models.BooleanField(default=False)
+    published = models.BooleanField(default=True)
+    like_count = models.PositiveIntegerField(default=0)
+    created_at = models.BigIntegerField(default=0)
+    updated_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'creator_posts'
+        ordering = ['-pinned', '-created_at']
+        indexes = [
+            models.Index(fields=['page', 'published', '-created_at'], name='creatorpost_page_pub_idx'),
+        ]
+
+    def __str__(self):
+        return self.title or f"Post {self.id[:8]}"
