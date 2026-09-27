@@ -1,0 +1,244 @@
+/* ===== NEBians study-notes print theme =========================
+   Brand: Graphite neutrals + one subject accent, Poppins display. */
+@page {
+  size: A4;
+  margin: 19mm 17mm 17mm 17mm;
+  /* NEBians mark, faint, behind the text block */
+  background-image: url("brand/watermark.svg");
+  background-position: 50% 54%;
+  background-repeat: no-repeat;
+  background-size: 104mm auto;
+  @top-left  { content: string(booktitle); font-family: Inter; font-size: 7.6pt;
+               color: #8a8f99; letter-spacing: .06em; text-transform: uppercase; }
+  @top-right { content: string(chaptitle); font-family: Inter; font-size: 7.6pt;
+               color: #8a8f99; letter-spacing: .02em; }
+  @bottom-left  { content: "NEBians — nebians.consica.com.np"; font-family: Inter;
+                  font-size: 7.2pt; color: #b0b5bd; }
+  @bottom-right { content: counter(page); font-family: Inter; font-size: 8.4pt;
+                  color: #5b6472; font-weight: 600; }
+}
+@page :first { margin: 0; background-image: url("brand/watermark-cover.svg");
+               background-position: 128% 62%; background-size: 150mm auto; @top-left{content:none} @top-right{content:none}
+               @bottom-left{content:none} @bottom-right{content:none} }
+@page cover  { margin: 0; background-image: url("brand/watermark-cover.svg");
+               background-position: 128% 62%; background-size: 150mm auto; @top-left{content:none} @top-right{content:none}
+               @bottom-left{content:none} @bottom-right{content:none} }
+@page frontmatter { @bottom-right { content: counter(page, lower-roman); } }
+
+:root { --ink:#14181f; --body:#23272f; --muted:#5b6472; --faint:#8a8f99;
+        --rule:#e2e5ea; --wash:#f6f7f9; --accent:#4A42D6; --accent-wash:#f0efff; }
+
+html { font-family:"Source Serif 4", "Noto Sans Devanagari", serif;
+       font-size:10.2pt; line-height:1.52; color:var(--body);
+       -weasy-hyphens:auto; text-align:justify; }
+body { margin:0; }
+:lang(ne), .deva { font-family:"Noto Sans Devanagari","Source Serif 4",serif; line-height:1.72; }
+
+/* ---------- cover ---------- */
+.cover { page:cover; height:297mm; width:210mm; position:relative;
+         background:var(--accent); color:#fff; overflow:hidden; }
+.cover .band { position:absolute; inset:0; background:
+    linear-gradient(155deg, var(--accent) 0%, #14181f 155%); }
+.cover .inner { position:relative; padding:34mm 20mm 20mm 20mm; height:100%;
+                box-sizing:border-box; display:block; }
+.cover .brand { font-family:Poppins,Inter,sans-serif; font-weight:700; font-size:13pt;
+                letter-spacing:.20em; text-transform:uppercase; opacity:.86; }
+.cover .brand small { display:block; font-weight:400; font-size:7.6pt;
+                letter-spacing:.14em; opacity:.72; margin-top:2mm; }
+.cover h1 { font-family:Poppins,Inter,sans-serif; font-weight:700; font-size:44pt;
+            line-height:1.04; margin:54mm 0 0 0; letter-spacing:-.018em; text-align:left; }
+.cover .grade { font-family:Poppins,Inter,sans-serif; font-weight:600; font-size:16pt;
+                margin-top:5mm; opacity:.92; }
+.cover .rule { width:38mm; height:1.6mm; background:#fff; opacity:.9; margin:9mm 0 7mm 0; }
+.cover .sub { font-family:Inter,sans-serif; font-size:10pt; line-height:1.66;
+              opacity:.88; max-width:112mm; text-align:left; }
+.cover .foot { position:absolute; left:20mm; right:20mm; bottom:18mm;
+               font-family:Inter,sans-serif; font-size:8.4pt; opacity:.8;
+               border-top:.4mm solid rgba(255,255,255,.28); padding-top:4mm;
+               display:flex; justify-content:space-between; }
+
+/* ---------- front matter ---------- */
+.frontmatter { page:frontmatter; }
+.fm-title { font-family:Poppins,Inter,sans-serif; font-weight:700; font-size:19pt;
+            color:var(--ink); margin:0 0 6mm 0; letter-spacing:-.01em; text-align:left; }
+.fm-lead { font-size:10.6pt; color:var(--muted); margin-bottom:7mm; text-align:left; }
+
+/* ---------- table of contents ---------- */
+.toc h2 { font-family:Poppins,Inter,sans-serif; font-size:19pt; font-weight:700;
+          color:var(--ink); margin:0 0 7mm 0; text-align:left; }
+.toc .area { font-family:Inter,sans-serif; font-size:8pt; font-weight:700;
+             text-transform:uppercase; letter-spacing:.12em; color:var(--accent);
+             margin:6mm 0 2.5mm 0; padding-bottom:1.4mm; border-bottom:.35mm solid var(--rule); }
+.toc a { display:block; text-decoration:none; color:var(--body); font-size:10pt;
+         padding:1.5mm 0; border-bottom:.2mm dotted #e8eaee; text-align:left; }
+.toc a::after { content: target-counter(attr(href), page); float:right;
+                font-family:Inter,sans-serif; font-weight:600; color:var(--muted);
+                font-size:9pt; }
+.toc a .n { display:inline-block; min-width:9mm; font-family:Inter,sans-serif;
+            font-weight:700; color:var(--accent); }
+.toc a .hrs { color:var(--faint); font-size:8.4pt; font-family:Inter,sans-serif; }
+
+/* ---------- chapter ---------- */
+.chapter { break-before:page; }
+.chapter h1 { string-set: chaptitle content(); }
+.ch-head { border-bottom:.7mm solid var(--accent); padding-bottom:4mm; margin-bottom:6mm; }
+.ch-eyebrow { font-family:Inter,sans-serif; font-size:7.8pt; font-weight:700;
+              letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
+.ch-head h1 { font-family:Poppins,Inter,sans-serif; font-size:24pt; font-weight:700;
+              color:var(--ink); margin:2.5mm 0 0 0; line-height:1.14;
+              letter-spacing:-.016em; text-align:left; }
+.ch-meta { font-family:Inter,sans-serif; font-size:8.6pt; color:var(--muted); margin-top:3mm; }
+.ch-meta span + span::before { content:"  •  "; color:var(--rule); }
+
+.syllabus { background:var(--wash); border-left:1.1mm solid var(--accent);
+            padding:4mm 5mm; margin:0 0 7mm 0; break-inside:avoid; }
+.syllabus .t { font-family:Inter,sans-serif; font-size:7.8pt; font-weight:700;
+               letter-spacing:.12em; text-transform:uppercase; color:var(--muted);
+               margin-bottom:2mm; }
+.syllabus ul { margin:0; padding-left:5mm; }
+.syllabus li { font-size:9.2pt; color:var(--body); margin:.8mm 0; text-align:left; }
+
+h2 { font-family:Poppins,Inter,sans-serif; font-size:13.2pt; font-weight:600; color:var(--ink);
+     margin:7mm 0 2.5mm 0; line-height:1.24; letter-spacing:-.008em;
+     break-after:avoid; text-align:left; }
+h3 { font-family:Poppins,Inter,sans-serif; font-size:11pt; font-weight:600; color:var(--ink);
+     margin:5mm 0 1.8mm 0; break-after:avoid; text-align:left; }
+h4 { font-family:Inter,sans-serif; font-size:9.6pt; font-weight:700; color:var(--muted);
+     margin:4mm 0 1.4mm 0; text-transform:uppercase; letter-spacing:.06em;
+     break-after:avoid; text-align:left; }
+p { margin:0 0 2.4mm 0; orphans:2; widows:2; }
+ul,ol { margin:0 0 2.8mm 0; padding-left:6mm; }
+li { margin:.9mm 0; }
+li > p { margin:0 0 1mm 0; }
+strong { font-weight:600; color:var(--ink); }
+em { font-style:italic; }
+a { color:var(--accent); text-decoration:none; }
+code { font-family:"JetBrains Mono",monospace; font-size:8.6pt;
+       background:var(--wash); padding:.3mm 1mm; border-radius:.8mm; color:#b02a37; }
+pre { font-family:"JetBrains Mono",monospace; font-size:8.2pt; line-height:1.48;
+      background:#fbfcfd; border:.25mm solid var(--rule); border-left:1mm solid var(--accent);
+      padding:3mm 4mm; margin:3mm 0; overflow-wrap:break-word; white-space:pre-wrap;
+      break-inside:avoid; text-align:left; }
+pre code { background:none; padding:0; color:var(--ink); }
+
+/* ---------- math ---------- */
+img.im { vertical-align:baseline; }
+.dm { display:block; text-align:center; margin:3.4mm 0; break-inside:avoid; }
+.dm img { max-width:96%; }
+.dm.numbered { position:relative; }
+.dm .eqno { position:absolute; right:0; top:50%; font-family:Inter,sans-serif;
+            font-size:8.6pt; color:var(--muted); }
+
+/* ---------- figures ---------- */
+figure { margin:4mm 0; text-align:center; break-inside:avoid; }
+figure img { max-width:100%; }
+figcaption { font-family:Inter,sans-serif; font-size:8.4pt; color:var(--muted);
+             margin-top:2mm; line-height:1.46; text-align:center; }
+figcaption b { color:var(--ink); font-weight:600; }
+
+/* ---------- tables ---------- */
+table { width:100%; border-collapse:collapse; margin:3.5mm 0; font-size:9pt;
+        break-inside:avoid; }
+caption { caption-side:top; font-family:Inter,sans-serif; font-size:8.4pt;
+          color:var(--muted); text-align:left; margin-bottom:1.6mm; }
+th { font-family:Inter,sans-serif; font-size:8.4pt; font-weight:700; color:var(--ink);
+     text-align:left; background:var(--wash); padding:2mm 2.4mm;
+     border-bottom:.5mm solid var(--accent); }
+td { padding:1.9mm 2.4mm; border-bottom:.25mm solid var(--rule); vertical-align:top;
+     text-align:left; }
+tbody tr:nth-child(even) td { background:#fcfcfd; }
+
+/* ---------- callouts ---------- */
+.box { padding:3.6mm 4.4mm; margin:4mm 0; break-inside:auto;
+       border:.25mm solid var(--rule); border-radius:1.2mm; background:#fff; }
+.box .bt { font-family:Inter,sans-serif; font-size:7.8pt; font-weight:700;
+           letter-spacing:.12em; text-transform:uppercase; margin-bottom:2mm; }
+.box > :last-child { margin-bottom:0; }
+.box.key  { background:var(--accent-wash); border-color:transparent;
+            border-left:1.1mm solid var(--accent); }
+.box.key .bt { color:var(--accent); }
+.box.example { background:#fbfcfd; border-left:1.1mm solid #5b6472; }
+.box.example .bt { color:#5b6472; }
+.box.caution { background:#fff8f2; border-left:1.1mm solid #8F5507; }
+.box.caution .bt { color:#8F5507; }
+.box.tip { background:#f2f9f6; border-left:1.1mm solid #0B6A62; }
+.box.tip .bt { color:#0B6A62; }
+.box.definition { background:#fff; border-left:1.1mm solid var(--ink); }
+.box.definition .bt { color:var(--ink); }
+.box.derivation { background:#fcfcfd; border-left:1.1mm solid #4A42D6; }
+.box.derivation .bt { color:#4A42D6; }
+
+/* ---------- questions ---------- */
+.qsec { break-before:auto; margin-top:7mm; }
+.qsec h2 { border-top:.5mm solid var(--rule); padding-top:4mm; }
+ol.q { padding-left:7mm; }
+ol.q > li { margin:2.4mm 0; }
+.marks { font-family:Inter,sans-serif; font-size:8.2pt; color:var(--muted); white-space:nowrap; margin-left:3pt; }
+.ans { font-size:9.2pt; color:var(--muted); border-left:.5mm solid var(--rule);
+       padding-left:3mm; margin:1.5mm 0 3mm 0; }
+.ans b { color:var(--ink); }
+
+/* paper look for model questions */
+.paper { break-before:page; }
+.paper .ph { text-align:center; border-bottom:.5mm solid var(--ink); padding-bottom:3mm;
+             margin-bottom:5mm; }
+.paper .ph .code { font-family:Inter,sans-serif; font-size:8.4pt; color:var(--muted);
+                   display:flex; justify-content:space-between; }
+.paper .ph h2 { font-family:Poppins,Inter,sans-serif; font-size:15pt; margin:2mm 0 1mm;
+                text-align:center; }
+.paper .ph .meta { font-family:Inter,sans-serif; font-size:9pt; color:var(--muted);
+                   display:flex; justify-content:space-between; margin-top:2.5mm; }
+.paper .grp { font-family:Inter,sans-serif; font-weight:700; font-size:10pt;
+              text-align:center; margin:5mm 0 1mm; color:var(--ink); }
+.paper .grp small { display:block; font-weight:400; font-size:8.6pt; color:var(--muted); }
+.nobreak { break-inside:avoid; }
+
+/* short callouts stay whole; long expository boxes may break across pages */
+.box.key, .box.tip, .box.caution, .box.definition, .box.memory { break-inside:avoid; }
+.box > *:first-child { break-after:avoid; }
+
+
+/* ---------- MCQ options and multi-part questions ----------
+   Built by md2html._restructure_questions. Options never justify and never
+   split across a page from their stem. */
+.opts { display:block; margin:1.6mm 0 0 0; text-align:left; }
+.opt  { display:inline-block; vertical-align:top; box-sizing:border-box;
+        padding:0 3mm 0 0; margin:.5mm 0; font-size:9.6pt; text-align:left;
+        -weasy-hyphens:none; }
+.opt > i { font-family:Inter,sans-serif; font-style:normal; font-weight:700;
+           font-size:7.8pt; color:var(--accent); background:var(--accent-wash);
+           border-radius:50%; width:3.6mm; height:3.6mm; line-height:3.6mm;
+           text-align:center; display:inline-block; margin-right:1.5mm; }
+.opts.c4 .opt { width:25%; }
+.opts.c2 .opt { width:50%; }
+.opts.c1 .opt { width:100%; }
+
+.parts { display:block; margin:1.4mm 0 0 0; }
+.part  { display:block; margin:1.4mm 0; padding-left:7mm; text-indent:-7mm;
+         text-align:left; }
+.part > i { font-family:Inter,sans-serif; font-style:normal; font-weight:700;
+            color:var(--ink); margin-right:1.6mm; }
+
+ol.q > li, .qsec ol > li { break-inside:avoid; }
+
+/* answer keys: one answer per line, not one justified block */
+.ansline { display:block; margin:0 0 1.5mm 0; text-align:left;
+           padding-left:6mm; text-indent:-6mm; }
+.ansline:last-child { margin-bottom:0; }
+.box.note { background:#f7f9fc; border-left:1.1mm solid #3b4a63; }
+.box.note .bt { color:#3b4a63; }
+
+/* ---------- chapter summary ----------
+   The page students actually revise from, so it gets a frame of its own. */
+.chsum { display:block; break-inside:avoid; margin:7mm 0 5mm 0;
+         background:linear-gradient(180deg,var(--accent-wash) 0%,#ffffff 78%);
+         border:.3mm solid var(--accent); border-radius:1.6mm;
+         padding:5mm 6mm 4mm 6mm; }
+.chsum h2 { margin:0 0 3mm 0; padding:0 0 2.5mm 0; font-size:14pt;
+            color:var(--accent); border-bottom:.3mm solid var(--accent); }
+.chsum h2::before { content:"\2713\00a0\00a0"; font-weight:700; }
+.chsum ul, .chsum ol { padding-left:5.5mm; margin-bottom:0; }
+.chsum li { margin:1.2mm 0; text-align:left; }
+.chsum p { text-align:left; }
+.chsum table { background:#fff; }
+.chsum > :last-child { margin-bottom:0; }
