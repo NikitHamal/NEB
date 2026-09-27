@@ -35,6 +35,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.neb.ians.ui.components.NebPriceField
 import com.neb.ians.ui.components.NebSelectField
 import com.neb.ians.ui.components.NebButton
 import com.neb.ians.ui.components.NebButtonSize
@@ -128,7 +129,8 @@ fun UploadMoreDetails(
     onOpenExamPicker: () -> Unit,
     onOpenProvincePicker: () -> Unit,
     onPickCover: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    commissionPercent: Double = 2.5
 ) {
     Column(modifier = modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(10.dp)) {
         NebSectionLabel(text = "What is inside")
@@ -207,35 +209,13 @@ fun UploadMoreDetails(
         NebSectionLabel(text = "How it looks and what it costs")
         CoverRow(state = state, onPickCover = onPickCover)
 
-        val sellShape = RoundedCornerShape(20.dp)
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clip(sellShape)
-                .background(MaterialTheme.colorScheme.surfaceContainerLow)
-                .border(1.dp, MaterialTheme.colorScheme.outlineVariant, sellShape)
-                .padding(horizontal = 14.dp, vertical = 12.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            Column(Modifier.weight(1f)) {
-                Text("Sell this resource", style = MaterialTheme.typography.bodyLarge)
-                Text(
-                    text = "Buyers pay once, you keep the credit",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-            Switch(checked = state.isPaid, onCheckedChange = viewModel::updateIsPaid)
-        }
-        AnimatedVisibility(visible = state.isPaid) {
-            UploadTextField(
-                value = state.price,
-                onValueChange = viewModel::updatePrice,
-                label = "Price (Rs.)",
-                keyboardType = KeyboardType.Number
-            )
-        }
+        NebPriceField(
+            isPaid = state.isPaid,
+            price = state.price,
+            onIsPaidChange = viewModel::updateIsPaid,
+            onPriceChange = viewModel::updatePrice,
+            commissionPercent = commissionPercent
+        )
     }
 }
 

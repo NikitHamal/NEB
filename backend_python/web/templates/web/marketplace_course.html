@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+{% load static web_extras %}
+{% comment %} ── One course, and the QR checkout that unlocks it ────────────────────────
+   Same verification flow as a paid library resource: the buyer pays the company
+   QR, submits a reference or a screenshot, and an admin approves it. Access is
+   per (buyer, course) and re-submitting better proof updates the pending row
+   instead of queueing a second one. {% endcomment %}
+{% block title %}{{ course.title }} — {{ creator.display_name }} | NEBians{% endblock %}
+{% block description %}{{ course.summary|default:course.description|truncatechars:155 }}{% endblock %}
+{% block og_title %}{{ course.title }} — {{ creator.display_name }}{% endblock %}
+{% block og_description %}{{ course.summary|default:course.description|truncatechars:150 }}{% endblock %}
+{% block og_type %}product{% endblock %}
+{% block canonical %}https://nebians.consica.com.np{% url 'web:marketplace_course' course_id=course.id %}{% endblock %}
+
+{% block bottomnav %}
+{% include "web/partials/bottomnav.html" with current="library" %}
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/pages/marketplace.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="md-container mkt-course-page" style="--creator-accent: {{ accent }};">
+  <nav class="mkt-crumbs" aria-label="Breadcrumb">
+    <a href="{% url 'web:marketplace' %}">Marketplace</a>
+    <span class="material-symbols-outlined" aria-hidden="true">chevron_right</span>
+    <a href="{% url 'web:marketplace_creator' slug=creator.slug %}">{{ creator.display_name }}</a>
+  </nav>
+
+  <div class="mkt-course-hero">
+    <div class="mkt-course-hero-art">
+      <div class="neb-art" data-neb-art="banner" data-neb-subject="{{ course.tags|first|default:'Study' }}" data-neb-seed="{{ course.id }}|course"></div>
+      {% if course.cover_url %}<img src="{{ course.cover_url }}" alt="">{% endif %}
+    </div>
+    <div class="mkt-course-hero-copy">
+      <span class="mkt-hero-kind">{{ course.is_free|yesno:"Free offering,Paid offering" }}</span>
+      <h1 class="md-headline-small">{{ course.title }}</h1>
+      {% if course.summary %}<p class="mkt-course-lead">{{ course.summary }}</p>{% endif %}
+      <div class="mkt-course-meta">
+        {% if course.level %}<span class="md-chip mkt-chip-quiet">{{ course.level }}</span>{% endif %}
+        {% if course.duration_label %}<span class="md-chip mkt-chip-quiet">{{ course.duration_label }}</span>{% endif %}
+        {% if course.lesson_count %}<span class="md-chip mkt-chip-quiet">{{ course.lesson_count }} lessons</span>{% endif %}
+        {% if course.seat_limit %}<span class="md-chip mkt-chip-quiet">{{ course.seat_limit }} seats</span>{% endif %}
+      </div>
+      <a class="mkt-course-teacher" href="{% url 'web:marketplace_creator' slug=creator.slug %}">
+        <span class="mkt-course-teacher-mark">{{ creator.display_name|truncate_chars:1 }}</span>
+        <span>
+          <strong>{{ creator.display_name }}</strong>
+          <small>{{ creator.kind|creator_kind_label }}{% if creator.verified %} · Verified{% endif %}</small>
+        </span>
+      </a>
+    </div>
+  </div>
+
+  <div class="mkt-course-body-grid">
+    <div class="mkt-course-main">
+      {% if course.description %}
+      <section class="mkt-block">
+        <h2 class="md-title-medium mkt-block-title">About this offering</h2>
+        <div class="mkt-prose">{{ course.description|linebreaks }}</div>
+      </section>
+      {% endif %}
+
+      {% if course.includes %}
+      <section class="mkt-block">
+        <h2 class="md-title-medium mkt-block-title">What's included</h2>
+        <ul class="mkt-includes">
+          {% for item in course.includes %}
+            <li><span class="material-symbols-outlined" aria-hidden="true">check</span>{{ item }}</li>
+          {% endfor %}
+        </ul>
+      </section>
+      {% endif %}
+
+      {% if resources %}
+      <section class="mkt-block">
+        <h2 class="md-title-medium mkt-block-title">Course material</h2>
+        <div class="mkt-links">
+          {% for r in resources %}
+            <a class="mkt-link" href="{% url 'web:reader' resource_id=r.id %}">
+              <span class="material-symbols-outlined" aria-hidden="true">description</span>
+              <span>{{ r.title }}</span>
+              {% if r.is_paid %}<span class="mkt-price-chip">Rs. {{ r.price|npr }}</span>{% endif %}
+            </a>
+          {% endfor %}
+        </div>
+      </section>
+      {% endif %}
+
+      {% if course.tags %}
+      <section class="mkt-block">
+        <div class="mkt-course-meta">
+          {% for tag in course.tags %}<span class="md-chip mkt-chip-quiet">{{ tag }}</span>{% endfor %}
+        </div>
+      </section>
+      {% endif %}
+    </div>
+
+    <aside class="mkt-course-aside">
+      <div class="mkt-buy">
+        <div class="mkt-buy-price">
+          {% if course.is_free %}
+            <strong>Free</strong><small>No payment needed</small>
+          {% else %}
+            <strong>Rs. {{ course.price|npr }}</strong><small>One-time payment</small>
+          {% endif %}
+        </div>
+
+        {% if is_owner %}
+          <p class="mkt-quiet">You own this offering. Manage it in your <a href="{% url 'web:marketplace_studio' %}">studio</a>.</p>
+        {% elif has_access %}
+          <div class="mkt-buy-state mkt-buy-state-ok">
+            <span class="material-symbols-outlined" aria-hidden="true">check_circle</span>
+            <div>
+              <strong>Unlocked</strong>
+              <small>{% if access_reason == 'purchased' %}Your payment was verified.{% elif access_reason == 'free' %}Free for every Nebian.{% else %}You already have access.{% endif %}</small>
+            </div>
+          </div>
+        {% else %}
+          {% if access_reason == 'pending_verification' %}
+            <div class="mkt-buy-state">
+              <span class="material-symbols-outlined" aria-hidden="true">hourglass_top</span>
+              <div>
+                <strong>Awaiting verification</strong>
+                <small>We received {{ purchase.transaction_id|default:"your payment" }}. Access unlocks as soon as our team approves it.</small>
+              </div>
+            </div>
+          {% elif access_reason == 'rejected' %}
+            <div class="mkt-buy-state mkt-buy-state-bad">
+              <span class="material-symbols-outlined" aria-hidden="true">error</span>
+              <div>
+                <strong>Payment not verified</strong>
+                <small>{% if purchase.admin_notes %}{{ purchase.admin_notes }}{% else %}Check the reference and submit again below.{% endif %}</small>
+              </div>
+            </div>
+          {% endif %}
+
+          <ol class="mkt-buy-steps">
+            <li>Pay <strong>Rs. {{ course.price|npr }}</strong> to the NEBians QR.</li>
+            <li>Save the transaction ID or a screenshot.</li>
+            <li>Submit below — access unlocks after verification.</li>
+          </ol>
+
+          {% if company_qr_url %}
+            <div class="mkt-qr">
+              <img src="{{ company_qr_url }}" alt="NEBians payment QR">
+              <span>{{ company_qr_caption|default:"NEBians — Company QR" }}</span>
+            </div>
+          {% else %}
+            <p class="mkt-quiet">The company QR appears here once the team uploads it in the admin panel. You can still submit your transaction reference.</p>
+          {% endif %}
+
+          {% if signed_in %}
+            <form class="mkt-buy-form" method="post" action="{% url 'web:marketplace_course' course_id=course.id %}" enctype="multipart/form-data">
+              {% csrf_token %}
+              <label class="md-label" for="course-txn">Transaction ID / reference / phone</label>
+              <input class="md-input" id="course-txn" type="text" name="transaction_id"
+                     value="{{ purchase.transaction_id|default:'' }}" placeholder="e.g. 98XXXXXXXX or TXN-4821">
+              <label class="md-label" for="course-proof">Or attach a payment screenshot</label>
+              <input class="md-input" id="course-proof" type="file" name="payment_proof" accept="image/*">
+              <button type="submit" class="md-btn md-btn-filled mkt-buy-submit">Submit payment</button>
+              <p class="mkt-buy-fine">
+                <span class="material-symbols-outlined" aria-hidden="true">verified_user</span>
+                Verified by the NEBians team. The teacher keeps the amount minus a {{ commission_percent|npr }}% platform fee.
+              </p>
+            </form>
+          {% else %}
+            <a class="md-btn md-btn-filled mkt-buy-submit" href="{% url 'web:login' %}?next={{ request.path|urlencode }}">Sign in to buy</a>
+          {% endif %}
+        {% endif %}
+
+        {% if payment_instructions %}
+          <details class="mkt-buy-help">
+            <summary>How payment works</summary>
+            <div class="mkt-prose">{{ payment_instructions|linebreaks }}</div>
+          </details>
+        {% endif %}
+      </div>
+    </aside>
+  </div>
+</div>
+{% endblock %}

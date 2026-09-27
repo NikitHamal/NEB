@@ -53,6 +53,9 @@ import com.neb.ians.ui.components.NebFabMenuScrim
 import com.neb.ians.ui.components.NebNavItem
 import com.neb.ians.ui.screens.home.HomeScreen
 import com.neb.ians.ui.screens.library.LibraryScreen
+import com.neb.ians.ui.screens.marketplace.CreatorPageScreen
+import com.neb.ians.ui.screens.marketplace.CreatorStudioScreen
+import com.neb.ians.ui.screens.marketplace.MarketplaceCourseScreen
 import com.neb.ians.ui.screens.canvas.CanvasScreen
 import com.neb.ians.ui.screens.canvas.CanvasListScreen
 import com.neb.ians.ui.screens.forum.ForumScreen
@@ -170,6 +173,13 @@ sealed class Screen(val route: String) {
         fun createRoute(resourceId: String) = "resource/$resourceId/edit"
     }
     data object ResourceRequests : Screen("resource/requests")
+    data object CreatorStudio : Screen("marketplace/studio")
+    data object CreatorPage : Screen("marketplace/creator/{slug}") {
+        fun createRoute(slug: String) = "marketplace/creator/$slug"
+    }
+    data object MarketplaceCourse : Screen("marketplace/course/{courseId}") {
+        fun createRoute(courseId: String) = "marketplace/course/$courseId"
+    }
     data object ForumPostDetail : Screen("forum/post/{postId}") {
         fun createRoute(postId: String) = "forum/post/$postId"
     }
@@ -494,7 +504,46 @@ fun NEBiansNavHost(
                         navController.navigate(Screen.InteractiveCourse.createRoute(courseSlug))
                     },
                     onSyllabusDetailChromeChanged = { hideLibraryDetailChrome = it },
-                    onRequestResourceClick = { navController.navigate(Screen.ResourceRequests.route) }
+                    onRequestResourceClick = { navController.navigate(Screen.ResourceRequests.route) },
+                    onCreatorClick = { slug -> navController.navigate(Screen.CreatorPage.createRoute(slug)) },
+                    onMarketplaceCourseClick = { courseId ->
+                        navController.navigate(Screen.MarketplaceCourse.createRoute(courseId))
+                    },
+                    onStudioClick = { navController.navigate(Screen.CreatorStudio.route) }
+                )
+            }
+            composable(Screen.CreatorStudio.route) {
+                CreatorStudioScreen(
+                    onNavigateBack = { navController.popBackStack() },
+                    onViewPage = { slug -> navController.navigate(Screen.CreatorPage.createRoute(slug)) }
+                )
+            }
+            composable(
+                route = Screen.CreatorPage.route,
+                arguments = listOf(navArgument("slug") { type = NavType.StringType })
+            ) {
+                CreatorPageScreen(
+                    onNavigateBack = { navController.popBackStack() },
+                    onCourseClick = { courseId ->
+                        navController.navigate(Screen.MarketplaceCourse.createRoute(courseId))
+                    },
+                    onResourceClick = { resourceId ->
+                        navController.navigate(Screen.ResourceDetail.createRoute(resourceId))
+                    },
+                    onOpenStudio = { navController.navigate(Screen.CreatorStudio.route) }
+                )
+            }
+            composable(
+                route = Screen.MarketplaceCourse.route,
+                arguments = listOf(navArgument("courseId") { type = NavType.StringType })
+            ) {
+                MarketplaceCourseScreen(
+                    onNavigateBack = { navController.popBackStack() },
+                    onCreatorClick = { slug -> navController.navigate(Screen.CreatorPage.createRoute(slug)) },
+                    onResourceClick = { resourceId ->
+                        navController.navigate(Screen.ResourceDetail.createRoute(resourceId))
+                    },
+                    onSignInRequired = { navController.navigate(Screen.Login.route) }
                 )
             }
             composable(Screen.Forum.route) {

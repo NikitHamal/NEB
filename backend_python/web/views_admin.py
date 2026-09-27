@@ -2728,7 +2728,10 @@ def admin_pending_payments(request):
         reason = request.POST.get('reason', '').strip()[:500]
 
         try:
-            payment_obj = PaymentVerification.objects.select_related('buyer', 'seller', 'resource').get(pk=payment_id)
+            payment_obj = (PaymentVerification.objects
+                           .select_related('buyer', 'seller', 'resource', 'course', 'course__page')
+                           .get(pk=payment_id))
+            title = payment_obj.target_title
             if action == 'approve' and payment_obj.status == 'pending':
                 with transaction.atomic():
                     payment_obj.status = 'approved'
@@ -2737,27 +2740,33 @@ def admin_pending_payments(request):
                     payment_obj.admin_notes = reason
                     payment_obj.save()
 
-                    # Credit seller balance
-                    seller_bal = get_or_create_seller_balance(payment_obj.seller)
-                    seller_bal.total_earned += payment_obj.seller_earnings
-                    seller_bal.current_balance += payment_obj.seller_earnings
-                    seller_bal.updated_at = now_ms()
-                    seller_bal.save()
+                    # Credit the seller's wallet, both parties' Nebians points and
+                    # the buyer's lifetime spend — one shared implementation, so a
+                    # course sale and a resource sale are rewarded identically.
+                    from api.marketplace import grant_purchase_rewards
+                    grant_purchase_rewards(payment_obj)
 
-                    # Notify buyer and seller
+                    if payment_obj.course_id:
+                        from django.db.models import F
+                        from api.models import CreatorCourse
+                        CreatorCourse.objects.filter(pk=payment_obj.course_id).update(
+                            sale_count=F('sale_count') + 1,
+                            enrollment_count=F('enrollment_count') + 1,
+                        )
+
                     _notif.create_notification(
                         recipient=payment_obj.buyer,
                         actor=admin_user or payment_obj.seller,
                         verb='payment_approved',
-                        target=payment_obj.resource,
-                        message=f"Your payment of Rs. {payment_obj.amount} for '{payment_obj.resource.title}' has been verified & approved! You now have full access."
+                        target=payment_obj.course or payment_obj.resource,
+                        message=f"Your payment of Rs. {payment_obj.amount} for '{title}' has been verified & approved! You now have full access."
                     )
                     _notif.create_notification(
                         recipient=payment_obj.seller,
                         actor=payment_obj.buyer,
                         verb='sale_credited',
-                        target=payment_obj.resource,
-                        message=f"You earned Rs. {payment_obj.seller_earnings} from the sale of '{payment_obj.resource.title}' to @{payment_obj.buyer.username}!"
+                        target=payment_obj.course or payment_obj.resource,
+                        message=f"You earned Rs. {payment_obj.seller_earnings} from the sale of '{title}' to @{payment_obj.buyer.username}!"
                     )
 
             elif action == 'reject' and payment_obj.status == 'pending':
@@ -2771,16 +2780,20 @@ def admin_pending_payments(request):
                     recipient=payment_obj.buyer,
                     actor=admin_user or payment_obj.seller,
                     verb='payment_rejected',
-                    target=payment_obj.resource,
-                    message=f"Your payment verification for '{payment_obj.resource.title}' was rejected. Reason: {reason or 'Invalid proof'}"
+                    target=payment_obj.course or payment_obj.resource,
+                    message=f"Your payment verification for '{title}' was rejected. Reason: {reason or 'Invalid proof'}"
                 )
         except PaymentVerification.DoesNotExist:
             pass
 
         return redirect('web:admin_pending_payments')
 
-    pending_payments = PaymentVerification.objects.filter(status='pending').select_related('buyer', 'seller', 'resource').order_by('-created_at')
-    processed_payments = PaymentVerification.objects.exclude(status='pending').select_related('buyer', 'seller', 'resource', 'verified_by').order_by('-verified_at')[:50]
+    pending_payments = (PaymentVerification.objects.filter(status='pending')
+                        .select_related('buyer', 'seller', 'resource', 'course', 'course__page')
+                        .order_by('-created_at'))
+    processed_payments = (PaymentVerification.objects.exclude(status='pending')
+                          .select_related('buyer', 'seller', 'resource', 'course', 'course__page', 'verified_by')
+                          .order_by('-verified_at')[:50])
 
     return render(request, 'admin_panel/payments.html', _ctx(request,
         active_page='payments',

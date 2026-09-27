@@ -1,7 +1,7 @@
 # NEBians Android — UI/UX Revamp Continuity
 
-**Last updated:** September 25, 2026
-**Working branches:** `design/nebians-onboarding-experience` (issue #44, §4), then `design/profile-revamp` (§5)
+**Last updated:** September 27, 2026
+**Working branches:** `design/nebians-onboarding-experience` (issue #44, §4), `design/profile-revamp` (§5), then `feature/marketplace-creator-pages` (§10)
 **Scope:** the mono / Material 3 Expressive redesign of the Android app (GitHub issues #41–#44). This file is the handoff for that work; `CONTINUITY.md` covers the Django/web side and is unrelated.
 
 ---
@@ -151,15 +151,19 @@ Every row and skeleton in `ProfileScreen.kt` now goes through a private `CardSlo
    `ui/screens/study/StudySpaceScreen.kt`, `StudyLabScreen.kt`, `StudyDocumentDetailView.kt`, `ui/screens/library/LibraryScreen.kt`, `SyllabusScreen.kt`, `SyllabusSubjectDetailContent.kt`, `InteractiveLibraryContent.kt`, `ui/screens/home/HomeScreen.kt`, `ui/screens/ai/NebyAiScreen.kt`, `ui/screens/forum/ForumScreen.kt`, `ui/screens/results/ToolsScreen.kt`, `ResultCheckerScreen.kt`, `ui/screens/canvas/CanvasListScreen.kt`.
    **Read this before starting:** on Home / Library / Forum, `WebTopBar` is not legacy chrome — it is the app's intentional global bar (greeting, avatar, notification badge, `TopBarViewModel`). Swapping it for a plain `TopAppBar` there would be a regression, not a cleanup. Only the `WebEmptyState` call sites and the genuinely secondary screens are in scope; ask the owner before touching the three main tabs.
 2. **Deploying §6e.** Migration `0142_user_pending_email` has to be applied, and the email change only works where `send_verification_email` can actually send — the same SMTP path signup already depends on.
-3. **Visual verification.** Nothing in §4, §5 or §6 has been seen on a device — only compiled. There is no emulator or screenshot path in this environment, so this cannot be closed here. `assembleModernDebug` and a screenshot pass on real hardware is the next sanity check, and it is the only remaining unknown for the profile rewrite and the Account security screen.
+3. **Visual verification.** Nothing in §4, §5, §6 or §10 has been seen on a device — only compiled. There is no emulator or screenshot path in this environment, so this cannot be closed here. `assembleModernDebug` and a screenshot pass on real hardware is the next sanity check, and it is the only remaining unknown for the profile rewrite and the Account security screen.
 
 ## 8. Build and push mechanics
 
-**Build.** The environment does not export these; set them every time:
+**Build.** The pod no longer ships a JDK or an Android SDK — install them once
+per session (Temurin 17 tarball from `api.adoptium.net`, then
+`cmdline-tools` + `sdkmanager "platform-tools" "platforms;android-36"
+"build-tools;36.0.0"`), copy `google-services.json.example` to
+`app/google-services.json`, then set these every time:
 
 ```bash
 export JAVA_HOME=/workspace/tools/jdk PATH=/workspace/tools/jdk/bin:$PATH
-export ANDROID_HOME=/data/workspace/android-sdk        # no local.properties in the repo
+export ANDROID_HOME=/workspace/tools/android-sdk        # no local.properties in the repo
 cd /data/workspace/NEB
 KEYSTORE_PASSWORD=android KEY_PASSWORD=android KEY_ALIAS=neb \
   ./gradlew :app:compileModernDebugKotlin :app:compileLegacyDebugKotlin \
@@ -184,3 +188,62 @@ actl connector call github --url https://api.github.com/repos/NikitHamal/NEB/...
 - **#42** — delivered as `6844e864`.
 - **#43** — delivered as `592ac588`, then a follow-up comment delivered as `6b78500f` + `1a8404f0` (white canvas background on both web and Android).
 - Process lesson that still applies: **every scripted replacement must assert its match count.** A silent no-op `sed` caused a regression in #42. The Python edits in this session all `assert s.count(old) == 1`.
+
+## 10. What was delivered in the marketplace session — compiles in both variants
+
+The ask: complete the paid-notes feature so people can actually sell their
+notes, build one reusable price-setting component for both platforms, and add a
+**Marketplace** section to the library between Library and Syllabus where
+teachers, institutes and admins get a fully customizable page of their own.
+
+**a) The tab.** `LibraryScreen.kt`'s rail is now
+`library → marketplace → syllabus → interactive`, and the new key renders
+`MarketplaceTabContent` (shelf: owner banner, search, kind rail, offering row,
+creator grid, skeletons, inline error + retry). The same position on the web
+(`library.html`), so §6.1's "ask before touching the three main tabs" does not
+apply here: this adds a shelf to the existing `NebTabRail`, it does not
+restyle `WebTopBar` or the glass nav.
+
+**b) Screens** (`ui/screens/marketplace/`):
+- `MarketplaceViewModel.kt`, `MarketplaceTabContent.kt` — the shelf.
+- `CreatorPageViewModel.kt` + `CreatorPageScreen.kt` — a storefront rendered
+  from the owner's `blocks` in their order, one branch per block type. Every
+  string is data; adding a block type means adding a branch in this file and on
+  the web.
+- `MarketplaceCourseViewModel.kt` + `MarketplaceCourseScreen.kt` — an offering
+  and its checkout. **It reuses `ResourcePurchaseSheet` verbatim**, because it
+  is the same QR flow; only the words around it are course-shaped.
+- `CreatorStudioViewModel.kt`, `CreatorStudioScreen.kt`,
+  `CreatorStudioContent.kt` — page identity, look (accent/layout/hero/radius),
+  the block builder (add, reorder, hide, remove, edit fields and items), courses
+  and updates CRUD, and earnings (wallet, sales, commission).
+- `MarketplaceComponents.kt` — `MarketplaceCreatorCard`,
+  `MarketplaceCourseCard`, `CreatorCardSkeleton`, `creatorAccent()`. The
+  owner's accent is used **only** on their own identity marks (avatar, verified
+  tick, price chip, hero wash) — never on app chrome, per §1.
+
+**c) Data.** `data/api/ApiService.kt` gained an `ApiCreator*`/`ApiMarketplace*`
+model block and the marketplace endpoints; `data/repository/MarketplaceRepository.kt`
+wraps them. Writes are hand-built `buildJsonObject` bodies, not serialised data
+classes: the server reads "key present" as "change this field", so a nullable
+field would otherwise wipe the value nobody touched.
+
+**d) One price control, two platforms.** `ui/components/NebPriceField.kt` is
+the app's half of `web/templates/web/_price_setter.html`: free/paid as two
+answers with the consequence written under each, an amount field, the presets
+Nepali students actually pay (99/149/199/499/999), and a live **"You receive
+Rs. X per sale after the Y% platform fee"** line. `UploadDetails` uses it for
+upload *and* edit (edit reuses the wizard), and the studio uses it for a
+course. `commissionPercent` comes from the server's `PaymentConfig` via
+`GET api/payments/config/`, so the app and the site can never quote different
+fees. The old inline `Switch` + price field is gone.
+
+**e) Build.** `:app:compileModernDebugKotlin` and
+`:app:compileLegacyDebugKotlin` are **both green**. The toolchain is not in the
+image by default any more: install a JDK 17 and the Android SDK, then export
+`JAVA_HOME`, `ANDROID_HOME`, and the three keystore vars (a placeholder
+`app/google-services.json` is also needed — it is gitignored, so generate it
+from `google-services.json.example`). Everything else in §8 still applies.
+
+**f) Not verified visually.** Same caveat as §4–§6: no emulator or device here.
+The storefront and studio are compile-verified only.

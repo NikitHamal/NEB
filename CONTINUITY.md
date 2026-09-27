@@ -1,12 +1,62 @@
 # NEBians - Continuity Notes
 
-**Last updated:** May 30, 2026
+**Last updated:** September 27, 2026
 
 > **Android UI work lives in [`ANDROID_UI_CONTINUITY.md`](ANDROID_UI_CONTINUITY.md).** This file covers the Django/web side only.
 
 ---
 
 ## Current Status
+
+### Creator Marketplace + paid notes, end to end (COMPLETE, Sep 27, 2026)
+- **Backend.** New `CreatorPage` / `CreatorCourse` / `CreatorCourseResource` /
+  `CreatorPost` models (migration `0143_creator_marketplace_pages_courses_posts`),
+  a shared data layer in `api/creator_pages.py`, and a REST surface in
+  `api/views_marketplace.py`: creators list, creator detail, course detail,
+  the course shelf, `marketplace/me/*` for the owner, and `marketplace/dashboard/`.
+- **Buying a course** reuses the resource checkout: `PaymentVerification` now
+  carries a nullable `course` next to a now-nullable `resource`, and
+  `api/marketplace.record_purchase()` writes one pending row per (buyer, target).
+- **Commission** is read from `PaymentConfig` (default 2.5%) everywhere. The
+  hardcoded 10% in `views_resources.resource_purchase` and in
+  `web/views_public.submit_payment_proof` was wrong and is gone.
+- **Web.** `/marketplace/` directory, `/marketplace/<slug>/` storefront rendered
+  from the owner's blocks, `/marketplace/course/<id>/` with the QR checkout, and
+  `/marketplace/studio/` for the owner. The library page gained a **Marketplace
+  tab between Library and Syllabus** (`?tab=marketplace`).
+- **App.** The same tab in `LibraryScreen.kt`, plus storefront, course and
+  studio screens under `ui/screens/marketplace/` and
+  `data/repository/MarketplaceRepository.kt`.
+- **One price control, both platforms.** `_price_setter.html` +
+  `static/web/js/marketplace.js` on the web, `ui/components/NebPriceField.kt` in
+  the app: free/paid with the consequence written under each answer, price
+  presets, and a live "you receive Rs. X after the Y% fee" line. Used by
+  upload, edit-resource and the studio's course form.
+
+**Bugs found and fixed while wiring this up (all in the paid-content path):**
+1. `_notif.create_notification` was called by the admin panel but **did not
+   exist** — every payment approval/rejection raised `AttributeError` after the
+   seller had been credited, so the admin saw a 500 and the buyer was never
+   notified. Added (object → `target_type`/`target_id` mapping).
+2. The admin payment queue and template assumed `payment.resource` was always
+   set, so a course purchase would break the queue
+   (`{% url 'web:reader' resource_id=None %}`). Both are course-aware now.
+3. `api/realtime._send` resolved the channel layer **outside** its try/except:
+   a broken Redis layer turned a successful write into a 500. Resolving is part
+   of the attempt now.
+4. `web/views_admin.admin_pending_payments` credited the wallet by hand —
+   balance only, no Nebians points, no `total_spent`. It calls
+   `marketplace.grant_purchase_rewards()` now.
+
+**Still to do:** apply `0143` on the server and `collectstatic` (the new pages
+ship CSS + JS). The pre-existing `botconfig.system_prompt` model/migration drift
+is untouched; `makemigrations` will still offer `0144` for it.
+
+**Verified by** `python3 manage.py test api.tests_marketplace` — 34 tests over
+four classes (creator-page API, courses and checkout, web pages + studio, and
+the admin payment queue). Run it with `DEBUG=True DB_ENGINE=sqlite`; see the
+Marketplace section of AGENTS.md for the command and what each class covers.
+
 
 ### Google Sign-In Migration (IN PROGRESS)
 - **Status:** GIS button renders, but "origin not allowed" error from Google
