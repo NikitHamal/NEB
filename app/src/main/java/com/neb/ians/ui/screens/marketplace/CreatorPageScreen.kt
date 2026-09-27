@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -54,6 +55,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -201,6 +203,16 @@ private fun CreatorPageBody(
     val blocks = remember(page.blocks) { page.blocks.filter { it.enabled } }
     val paid = remember(page.courses) { page.courses.filter { !it.isFree } }
     val free = remember(page.courses) { page.courses.filter { it.isFree } }
+    val listState = rememberLazyListState()
+    val scope = rememberCoroutineScope()
+
+    // A "See offerings" button in a hero is an anchor, so it scrolls to that
+    // section rather than pretending to be a second page.
+    val jumpTo: (String) -> Unit = { anchor ->
+        val wanted = if (anchor == "offerings") "courses" else anchor
+        val index = blocks.indexOfFirst { it.type == wanted }
+        if (index >= 0) scope.launch { listState.animateScrollToItem(index) }
+    }
 
     if (blocks.isEmpty()) {
         NebEmptyState(
@@ -212,13 +224,14 @@ private fun CreatorPageBody(
     }
 
     LazyColumn(
+        state = listState,
         contentPadding = PaddingValues(bottom = 110.dp),
         verticalArrangement = Arrangement.spacedBy(0.dp),
         modifier = Modifier.fillMaxSize()
     ) {
         items(blocks, key = { it.id.ifBlank { it.type } }) { block ->
             when (block.type) {
-                "hero" -> CreatorHeroBlock(page, block, accent)
+                "hero" -> CreatorHeroBlock(page, block, accent, jumpTo)
                 "about" -> CreatorAboutBlock(page, block)
                 "stats" -> CreatorStatsBlock(page, block, accent)
                 "courses" -> CreatorCoursesBlock(block, paid, free, accent, onCourseClick)
@@ -231,10 +244,29 @@ private fun CreatorPageBody(
                 "schedule" -> CreatorScheduleBlock(block, accent)
                 "links" -> CreatorLinksBlock(block, accent)
                 "contact" -> CreatorContactBlock(page, block, accent)
-                "cta" -> CreatorCtaBlock(block, accent)
+                "cta" -> CreatorCtaBlock(block, accent, jumpTo)
                 else -> Unit
             }
         }
+    }
+}
+
+
+/** Opens a creator's own link. http(s) goes to the browser, anything else to
+ *  whichever app claims the scheme; a link with no handler says so out loud
+ *  rather than looking like a dead row. */
+private fun openCreatorLink(context: android.content.Context, url: String) {
+    val trimmed = url.trim()
+    if (trimmed.isEmpty() || trimmed.startsWith("#")) return
+    val scheme = trimmed.substringBefore(':', "").lowercase()
+    if (scheme !in setOf("http", "https", "mailto", "tel")) return
+    runCatching {
+        context.startActivity(
+            android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse(trimmed))
+                .addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK)
+        )
+    }.onFailure {
+        android.widget.Toast.makeText(context, "No app found to open that link", android.widget.Toast.LENGTH_SHORT).show()
     }
 }
 
@@ -277,7 +309,12 @@ private fun CreatorBlockShell(
 }
 
 @Composable
-private fun CreatorHeroBlock(page: ApiCreatorPage, block: ApiCreatorBlock, accent: Color) {
+private fun CreatorHeroBlock(
+    page: ApiCreatorPage,
+    block: ApiCreatorBlock,
+    accent: Color,
+    onJumpTo: (String) -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -401,9 +438,18 @@ private fun CreatorHeroBlock(page: ApiCreatorPage, block: ApiCreatorBlock, accen
         }
 
         if (block.ctaLabel.isNotBlank()) {
+            val context = LocalContext.current
+            val target = block.ctaUrl.ifBlank { "#offerings" }
             NebButton(
                 text = block.ctaLabel,
-                onClick = { },
+                onClick = {
+                    if (target.startsWith("#")) {
+                        // an in-page jump: the offerings sit further down this list
+                        onJumpTo("offerings")
+                    } else {
+                        openCreatorLink(context, target)
+                    }
+                },
                 tone = NebButtonTone.Primary,
                 size = NebButtonSize.Small,
                 icon = Icons.Outlined.OpenInNew
@@ -834,6 +880,7 @@ private fun CreatorScheduleBlock(block: ApiCreatorBlock, accent: Color) {
 private fun CreatorLinksBlock(block: ApiCreatorBlock, accent: Color) {
     if (block.items.isEmpty()) return
     CreatorBlockShell(title = block.title.ifBlank { "Links" }) {
+        val context = LocalContext.current
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             block.items.forEach { item ->
                 Row(
@@ -841,6 +888,7 @@ private fun CreatorLinksBlock(block: ApiCreatorBlock, accent: Color) {
                         .fillMaxWidth()
                         .clip(WebCardShape)
                         .background(MaterialTheme.colorScheme.surfaceContainerLowest)
+                        .clickable { openCreatorLink(context, item.url) }
                         .padding(12.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
@@ -890,10 +938,20 @@ private fun CreatorContactBlock(page: ApiCreatorPage, block: ApiCreatorBlock, ac
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         } else {
+            val context = LocalContext.current
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 rows.forEach { (label, value) ->
+                    val href = when (label.lowercase()) {
+                        "email" -> "mailto:$value"
+                        "phone" -> "tel:$value"
+                        else -> value
+                    }
                     Row(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(WebCardShape)
+                            .clickable { openCreatorLink(context, href) }
+                            .padding(horizontal = 10.dp, vertical = 8.dp),
                         horizontalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
                         Text(
@@ -916,7 +974,7 @@ private fun CreatorContactBlock(page: ApiCreatorPage, block: ApiCreatorBlock, ac
 }
 
 @Composable
-private fun CreatorCtaBlock(block: ApiCreatorBlock, accent: Color) {
+private fun CreatorCtaBlock(block: ApiCreatorBlock, accent: Color, onJumpTo: (String) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -944,11 +1002,19 @@ private fun CreatorCtaBlock(block: ApiCreatorBlock, accent: Color) {
                 )
             }
             if (block.ctaLabel.isNotBlank()) {
+                val context = LocalContext.current
                 NebButton(
                     text = block.ctaLabel,
-                    onClick = { },
+                    onClick = {
+                        if (block.ctaUrl.startsWith("#")) {
+                            onJumpTo(block.ctaUrl.removePrefix("#"))
+                        } else {
+                            openCreatorLink(context, block.ctaUrl)
+                        }
+                    },
                     tone = NebButtonTone.Primary,
-                    size = NebButtonSize.Small
+                    size = NebButtonSize.Small,
+                    icon = Icons.Outlined.OpenInNew
                 )
             }
         }
