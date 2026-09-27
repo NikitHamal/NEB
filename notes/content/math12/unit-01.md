@@ -435,7 +435,7 @@ used again, the number of choices does **not** shrink: each of the $r$ places ca
 be filled in $n$ ways independently. By the multiplication principle the number
 of arrangements is
 
-$$ \underline{n \times n \times \cdots \times n} \;=\; n^{r},
+$$ n \times n \times \cdots \times n \;=\; n^{r},
 \qquad r \text{ factors} $$
 
 Note the contrast with $^{n}P_{r}$: there the factors *decrease*, here they stay
