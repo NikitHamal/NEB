@@ -1,107 +1,131 @@
 # NEBians Study Notes — Session Handoff (for Claude Code on AgentSky)
 
-Date: 2026-09-27. Branch: `resources/neb-notes-11-12` (from `main` @ `a0f5c55`).
-Goal: complete chapter-by-chapter study books (PDF) for NEB/CDC Grade 11 & 12
-Science stream, plus English (compulsory) and Nepali, built from Markdown
-sources in this repo and uploaded to the NEBians library.
+Branch: `resources/neb-notes-11-12` (from `main` @ `a0f5c55`). Head at handoff:
+`cc3e796c` (pushed). Goal: complete chapter-by-chapter study books (PDF) for
+NEB/CDC Grade 11 & 12 Science + Compulsory English + Nepali, built from
+Markdown sources in this repo, uploaded to the NEBians library.
 
-## Where things live
+## Session history (compacted) — AgentSky `claude-opus-5`, 2026-09-25 → 26
 
-- `notes/content/<subj><grade>/unit-NN.md` — chapter sources. Frontmatter:
-  `subject, grade, unit, title, hours, area`. Body uses the pipeline's
-  Markdown dialect: `::: key/definition/example/caution/tip/memory/note`,
-  `## N.N` sections, `**Group A/B/C**` practice + answer keys, and
-  ` ```figure caption="..." ` blocks containing real matplotlib code
-  (globals provided: `INK, MUTED, GRID, ACCENT, SERIES, np, plt`).
-- `notes/pipeline/` — `build_pdf.py` (books via WeasyPrint), `check.py`
-  (renders every math expr + figure; must print OK), `preview.py`,
+12,640 events, 7 user turns, ~76 subagent dispatches. The agent never had git
+credentials, so it committed locally (`1d78b2c`, `c0846b7`) but never pushed;
+the owner exported the tree as `6a54d59f`. Two sessions ran in parallel in the
+same playground: this Claude session (content authoring) and a Deepseek
+session (a separate ReportLab prototype in `/workspace/nebians` — unrelated,
+ignore anything about `nbrender.py`/`figlib.py`/`bookkit.py`/`.py` content
+modules; the shipped system is Markdown → `notes/pipeline` → WeasyPrint).
+
+- **T1 – the brief (Sep 25 18:45 UTC).** Clone NEB; an account-deletion
+  complaint ("not really effective") + resource requests for classes 8/11/12
+  exposed an empty library. Task: research NEB/CDC end-to-end, then write
+  complete no-shortcut notes (all subjects/chapters, Class 11+12 Science,
+  figures/diagrams/tables/formulas/solutions/model questions). Method
+  approved: parallel subagents, hours-long run. Agent started with recon
+  (repo, `api.models.Resource`, toolchain) + syllabus research.
+- **Research base.** Indexed the CDC PDF store (~11.5k files); pulled official
+  CDC Grade 11/12 textbooks (Physics/Chemistry/Biology) + curriculum 2076/2078
+  via Wayback where `neb.gov.np`/`moecdc.gov.np` routes 404/500. Chapter lists
+  in `notes/curriculum/*.md` come from the official CDC tables of contents;
+  each book's cover states its source (CDC vs NEB) explicitly.
+- **T2 – "push to a new branch first, then keep writing" (Sep 26 04:35).**
+  Created `resources/neb-notes-11-12`, commit `1d78b2c` (151 files, source +
+  pipeline + spines). Continued authoring (chem12 units 13–14 etc.).
+- **T3 – "push the made PDFs too, not just pipeline" (07:57).** `notes/pdf/`
+  now ships built books alongside sources (`sync_notes.sh` pattern: mirror
+  working tree → `notes/{content,curriculum,pipeline,pdf}`).
+- **T4 – issue #48 (09:45).** Teacher/student review of the Physics 11 PDF.
+  Fixes committed as `c0846b7`: inline-math hard-wrap repair, UNPAIRED-`$`
+  check, `\\command` repair, MCQ option grid, per-answer answer keys,
+  chapter-summary panel, site URL + N-watermark branding.
+- **T5/T6/T7 – "push occasionally" + `continue` ×2 (11:20 → 13:16).**
+  Steady-state authoring: cs12 OOP/C++ (9 programs actually compiled and run,
+  real outputs pasted), chem11 organics, math11 17/18/21, chem12 07–09,
+  eng11 grammar units 21–30, nep11 units 13–25. Session ended 18:45 UTC with
+  work uncommitted (recovered since — see Recovery notes).
+
+## How the work gets done (keep this architecture)
+
+- **Swarm**: parent dispatches 2–4 chapter subagents with a tight brief
+  (units, spine file, pipeline notes); each writes + validates + PNG-inspects
+  its figures, reports words/figures/examples + check.py status.
+- **Spine-first**: `notes/curriculum/<subj>.md` is law — frontmatter
+  (title/hours/area) verbatim, every syllabus bullet a numbered `## N.N`
+  section in spine order. Extra sections allowed only if labelled.
+- **QA gate per chapter**: `check.py` must print `OK` (renders ALL math via
+  mathsvg + ALL figures via figrun); every figure inspected as PNG via
+  `preview.py` (private `/tmp` dirs), never judged from code. Practice sets:
+  Group A MCQ + B short + C long, with answer keys/worked solutions.
+- **Dialect** (`notes/AUTHORING.md` §1–13, read fully before writing):
+  `::: key/definition/example/caution/tip/memory/note` boxes,
+  `## N.N` sections, `**Group A/B/C**` practice, ` ```figure caption="..."`
+  fences with real matplotlib code (`INK, MUTED, GRID, ACCENT, SERIES`).
+
+## Repo map
+
+- `notes/content/<subj><grade>/unit-NN.md` — chapter sources.
+- `notes/pipeline/` — `build_pdf.py` (books), `check.py`, `preview.py`,
   `md2html.py`, `mathsvg.py`, `figrun.py`, `patchfig.py`, `spine.py`
-  (subject roster + `ALL`), `theme.css`, `brand/` (N watermark SVGs),
-  `fonts/` (README + install.sh only — fonts are NOT vendored).
-- `notes/curriculum/*.md` — per-subject syllabus spines (unit order lives here).
-- `notes/pdf/` — built books, committed. Regenerate with the pipeline whenever
-  chapters change; never hand-edit a PDF.
-- `notes/AUTHORING.md` — the authoring contract (§1–13). Read it fully before
-  writing any chapter.
+  (`ALL` roster), `theme.css`, `brand/`, `fonts/` (README + install.sh only —
+  fonts NOT vendored, fetch via install.sh).
+- `notes/curriculum/*.md` — syllabus spines. `notes/pdf/` — built books
+  (regenerate on any chapter change; never hand-edit). `notes/AUTHORING.md`
+  — the contract.
 
-## Build / verify (canonical)
+## Coverage + built books (all in `notes/pdf/`, 2,820 pages total)
 
-```bash
-cd notes/pipeline
-python3 check.py ../content/<subj>/unit-NN.md        # must end OK
-python3 build_pdf.py <subj><grade>...                # e.g. build_pdf.py phy12
-# or all: build_pdf.py phy11 phy12 chem11 chem12 bio11 bio12 math11 math12 cs11 cs12 eng11 eng12 nep11 nep12
-```
+| Book | Units | Pages | MB |
+|---|---|---|---|
+| Physics 11 / 12 | 26/26, 25/25 | 381 / 271 | 11.2 / 9.3 |
+| Chemistry 11 / 12 | 17/17, 21/21 | 258 / 319 | 4.7 / 5.7 |
+| Biology 11 / 12 | 8, 7 units | 167 / 153 | 4.0 / 3.2 |
+| Mathematics 11 / 12 | 21/21, 16/17 | 368 / 329 | 13.9 / 13.6 |
+| CS 11 / 12 | 4/8, 7/7 | 76 / 148 | 1.4 / 2.2 |
+| English 11 | 23/35 (units 01–13, 21–30) | 235 | 2.6 |
+| Nepali 11 | 13/27 (units 13–25) | 115 | 1.2 |
 
-IMPORTANT layout quirk: `build_pdf.py` resolves the theme as
-`<parent-of-pipeline>/build/theme.css`. It runs from a working tree shaped
-`nebians/{content,curriculum,build,pdf}` (pipeline files live in `build/`).
-To build from this repo, copy `notes/content`, `notes/curriculum` and
-`notes/pipeline/*` into a scratch tree as `nebians/{content,curriculum,build}`
-and run there; copy resulting PDFs back to `notes/pdf/`. There is a mirror
-script pattern for this (`cp -r` content/curriculum, copy pipeline files).
-
-Environment that is PROVEN to build clean: Python 3.12, matplotlib **3.11.2**,
-numpy 2.x, reportlab + pypdf, WeasyPrint 70 + Pango/Cairo system libs, and the
-5 book fonts (Poppins ×4 weights, Inter, Source Serif 4, Noto Sans Devanagari,
-JetBrains Mono — see `pipeline/fonts/install.sh`). `check.py` math validation
-is matplotlib-version-sensitive (see Gotchas).
-
-## Coverage right now (units on disk / curriculum total)
-
-| Subject | G11 | G12 |
-|---|---|---|
-| Physics | 26/26 | 25/25 |
-| Chemistry | 17/17 | 21/21 |
-| Biology | 8 units | 7 units |
-| Mathematics | 21/21 | 16/17 (unit-09 Product of Vectors missing) |
-| CS | 4/8 | 7/7 |
-| English | 23/35 (units 01–13, 21–30; 14–20 missing) | 0 (not started) |
-| Nepali | 13/27 (units 13–25; 01–12 missing) | 0 (not started) |
-
-Built PDFs in `notes/pdf/` (12): all subjects above except eng12/nep12.
-`build_pdf.py` prints `chapters=X/Y` per book — partial subjects build fine.
+Missing: English 12 + Nepali 12 (not started, no sources), math12 unit-09
+(Product of Vectors), eng11 units 14–20, nep11 units 01–12, cs11 units 05–08.
 
 ## Gotchas (learned the hard way — do not regress)
 
-1. **Inline `$...$` must never hard-wrap across source lines.** A wrap splits
-   delimiters across lines and raw LaTeX reaches the PDF. `check.py` reports
-   `UNPAIRED $` and fails the file. Keep each inline formula on one line
-   (may span up to ~4 physical lines only via the pipeline's own rules).
-2. **`\\command` (double backslash + letters) prints the bare word.** Always
-   single backslash for commands; `\\` is a line break only at end of line.
-3. **Braced args everywhere the parser needs them**: `\sqrt{3}` not `\sqrt3`,
-   `\frac{1}{2}` not `\frac12` (mathsvg fixes `\frac<digit><digit>` only).
-   matplotlib 3.10 REJECTS braceless `\sqrt`; 3.11.2 accepts — always write
-   the braced form so every environment passes.
-4. **matplotlib mathtext has no `\underline`.** Restate without it.
-5. **Figure blocks**: one ` ```figure caption="..." ` fence per block, fence
-   on its own line. `check.py` renders every figure (`figrun`) — inspect
-   each as PNG via `preview.py`, never judge from code alone.
-6. **MCQ option runs** `(a) … (b) … (c) … (d) …` become an option grid;
-   multi-part questions become stacked parts (pipeline handles layout —
-   keep authoring them inline).
-7. **Answer keys get one line per answer.** `## Chapter summary` goes in a
-   highlighted panel (pipeline).
-8. Devanagari (Nepali) content needs Noto Sans Devanagari installed or figures
-   silently fall back and `check.py`/`preview.py` print findfont warnings.
-9. Branding: site URL is `nebians.consica.com.np`; NEBians N mark is a
-   low-opacity page watermark (`pipeline/brand/`).
+1. Inline `$...$` must never hard-wrap across source lines — delimiters pair
+   with neighbours and raw LaTeX reaches the PDF. `check.py` fails the file
+   on UNPAIRED `$`.
+2. `\\command` prints the bare word; single backslash for commands.
+3. Braced args always: `\sqrt{3}` not `\sqrt3`, `\frac{1}{2}`. (mathtext
+   strictness varies by matplotlib version — the braced form passes
+   everywhere.)
+4. No `\underline` in mathtext — restate without it.
+5. Figure fences on their own lines, one block per figure; PNG-inspect all.
+6. MCQ runs → option grid; multi-part → stacked parts; answer keys one line
+   per answer; `## Chapter summary` in a highlighted panel (all pipeline).
+7. Devanagari needs Noto Sans Devanagari installed or figures fall back
+   (findfont warnings) — and Windows builds need `PYTHONUTF8=1` + a UTF-8
+   console or Nepali titles crash the build.
+8. Branding: `nebians.consica.com.np`; N mark watermark from `pipeline/brand/`.
 
-## Last session state (2026-09-26, Claude Opus 5)
+## Recovery notes (what happened between the session and this file)
 
-Committed: `1d78b2c` (source+pipeline+spines, 151 files) then `c0846b7`
-("fix issue #48 — math rendering, MCQ layout, figures, branding", 63 files:
-inline-math wrap fix, UNPAIRED-$ check, `\\command` repair, MCQ grid, answer
-keys, chapter-summary panel, URL + watermark branding). Local head
-`6a54d59f` is the same content. Uncommitted follow-ups after that (already in
-this tree): cs11 units 03–04, eng11 units 01–13 + 21–30, math11 18/21,
-math12 13/14, nep11 13–25, bio11 unit-04, chem12 unit-09.
+After the session died with work uncommitted, its 44 post-export units were
+replayed op-by-op from the session event log into `notes/content` and
+verified with `check.py` (42 clean immediately). Three minimal fixes were
+required, all matching session intent: 7× unbraced `\sqrt` (the session's own
+`sed` for this was a GNU-`\s` no-op), 1× `\underline` unwrap in math12
+unit-01. All 12 books were then rebuilt with the repo pipeline (WeasyPrint 70
++ Pango/Cairo + the 5 book fonts) and committed with the sources.
 
-## What "continue the job" means
+Build recipe that works: `build_pdf.py` resolves its theme as
+`<parent-of-pipeline>/build/theme.css`, i.e. it expects a working tree shaped
+`nebians/{content,curriculum,build,pdf}`. To build from this repo, copy
+`notes/content`, `notes/curriculum`, `notes/pipeline/*` into scratch as
+`nebians/{content,curriculum,build}` and run `build_pdf.py <targets>` there
+(`targets` default to `spine.ALL`); copy PDFs back to `notes/pdf/`.
+Proven env: Python 3.12, matplotlib 3.11.2, WeasyPrint 70. Physics-scale
+books take ~5–9 min each; build big subjects one at a time.
 
-1. Write the missing units (table above), each passing `check.py` with zero
-   math/figure failures and every figure PNG-inspected.
-2. Rebuild affected books, verify page counts grow, commit sources + PDFs.
-3. Keep issue #48's review standard: teacher/student-facing accuracy first,
-   NEB exam pattern (Group A 11×1, B 8×5, C 3×8 for model questions).
+## Continue-job checklist
+
+1. Write the missing units (table above), each `check.py`-OK + PNG-inspected.
+2. Rebuild affected books, confirm page counts grow, commit sources + PDFs.
+3. Keep issue #48's bar: teacher/student-facing accuracy first, NEB exam
+   pattern (Group A 11×1, B 8×5, C 3×8 for model questions).
