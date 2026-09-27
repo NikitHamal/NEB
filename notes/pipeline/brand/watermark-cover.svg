@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Same mark in white, for the dark cover panel. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="34 26 920 1344">
+  <g opacity="0.085" fill="#ffffff">
+    <path d="M500 42 L501 135 L856 370 L858 1287 L943 1219 L943 331 Z"/>
+    <path d="M441 191 L441 282 L691 447 L691 799 L774 886 L775 408 Z"/>
+    <path d="M306 320 L307 377 L613 706 L613 485 Z"/>
+    <path d="M51 228 L51 1132 L263 1346 L267 812 L775 1353 L775 887 L691 800 L685 902 Z"/>
+  </g>
+</svg>
