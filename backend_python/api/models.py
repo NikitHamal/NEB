@@ -2426,6 +2426,25 @@ class PaymentVerification(models.Model):
             models.Index(fields=['seller', 'status']),
             models.Index(fields=['status', '-created_at']),
         ]
+        # One pending submission per buyer per target, enforced by the database.
+        # `record_purchase` looks for an existing pending row before inserting,
+        # but two taps of Submit racing each other both saw none and both
+        # inserted -- leaving an admin two identical proofs to verify and the
+        # seller at risk of being credited twice. Split in two so neither index
+        # ever spans a NULL column (a NULL makes a unique row unique by itself,
+        # which would defeat the constraint).
+        constraints = [
+            models.UniqueConstraint(
+                fields=['buyer', 'course'],
+                condition=models.Q(status='pending', course__isnull=False),
+                name='uniq_pending_payment_per_course',
+            ),
+            models.UniqueConstraint(
+                fields=['buyer', 'resource'],
+                condition=models.Q(status='pending', resource__isnull=False),
+                name='uniq_pending_payment_per_resource',
+            ),
+        ]
 
     @property
     def target_title(self):

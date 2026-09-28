@@ -22,15 +22,16 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 
 from api.models import (
-    CreatorCourse, CreatorPage, CreatorPost, PaymentVerification, Resource, SellerBalance,
-    User, WithdrawalRequest,
+    CreatorCourse, CreatorCourseResource, CreatorPage, CreatorPost, PaymentVerification,
+    Resource, SellerBalance, User, WithdrawalRequest,
 )
 from api.creator_pages import (
     BLOCK_LABELS, LAYOUTS, allowed_kinds, apply_course_fields, apply_page_update,
     apply_post_fields, block_schema, can_have_storefront, check_user_course_access,
     course_access_map,
     course_payload, listing_queryset, page_for_user, page_payload, post_payload,
-    sanitize_accent, sync_course_resources, unique_course_slug, unique_page_slug,
+    sanitize_accent, sold_course_delete_error, sync_course_resources,
+    unique_course_slug, unique_page_slug,
 )
 from api.marketplace import get_payment_config, record_purchase, seller_sales
 from api.utils import now_ms
@@ -245,6 +246,9 @@ def course_detail(request, course_id):
             return redirect('web:marketplace_course', course_id=course.id)
         if course.is_free:
             return redirect('web:marketplace_course', course_id=course.id)
+        if check_user_course_access(viewer, course)[0]:
+            messages.info(request, 'You already have access to this course.')
+            return redirect('web:marketplace_course', course_id=course.id)
 
         transaction_id = (request.POST.get('transaction_id') or '').strip()
         proof = request.FILES.get('payment_proof')
@@ -306,8 +310,16 @@ def studio(request):
 
     page = page_for_user(viewer, create=True)
     payload = page_payload(page, viewer)
-    courses = page.courses.all()
-    posts = page.page_posts.all()
+    courses = list(page.courses.select_related('page'))
+    posts = list(page.page_posts.all()[:60])
+    # One query for every course's attached notes instead of one per course: a
+    # creator with 30 offerings was costing 30 round trips to draw the editor.
+    linked = {}
+    for course_id, resource_id in (CreatorCourseResource.objects
+                                   .filter(course__page=page)
+                                   .order_by('sort_order')
+                                   .values_list('course_id', 'resource_id')):
+        linked.setdefault(course_id, []).append(resource_id)
     resources = (Resource.objects
                  .filter(uploaded_by=viewer, approval_status='approved')
                  .order_by('-added_at')[:100])
@@ -328,8 +340,7 @@ def studio(request):
         layouts=LAYOUTS,
         allowed_kinds=allowed_kinds(viewer),
         courses=[course_payload(course, viewer, include_purchase=False) for course in courses],
-        course_resources={course.id: list(course.course_resources.values_list('resource_id', flat=True))
-                          for course in courses},
+        course_resources={course.id: linked.get(course.id, []) for course in courses},
         posts=[post_payload(post) for post in posts],
         resources=resources,
         balance=balance,
@@ -415,6 +426,9 @@ def ajax_course_delete(request):
     course = page.courses.filter(pk=str((data or {}).get('id') or '')).first()
     if course is None:
         return JsonResponse({'error': 'Course not found'}, status=404)
+    blocked = sold_course_delete_error(course)
+    if blocked:
+        return JsonResponse({'error': blocked}, status=409)
     course.delete()
     return JsonResponse({'ok': True, 'message': 'Course removed'})
 

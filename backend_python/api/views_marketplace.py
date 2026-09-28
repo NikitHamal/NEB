@@ -22,18 +22,11 @@ from .models import (
 from .creator_pages import (
     can_have_storefront, allowed_kinds, page_for_user, page_payload, course_payload,
     post_payload, listing_queryset, unique_page_slug, unique_course_slug,
-    check_user_course_access, course_access_map, LAYOUTS,
+    check_user_course_access, course_access_map, sold_course_delete_error, LAYOUTS,
     apply_page_update, apply_course_fields, apply_post_fields, sync_course_resources,
 )
 from .marketplace import get_payment_config, record_purchase, seller_sales
-
-
-def _money(value):
-    try:
-        amount = float(value or 0)
-    except (TypeError, ValueError):
-        return '0'
-    return ('%g' % amount) if amount else '0'
+from .utils import money_str as _money
 
 
 def _viewer(request):
@@ -172,6 +165,7 @@ def marketplace_course_detail(request, course_id):
         'type': item.resource.type or '',
         'thumbnail_url': item.resource.thumbnail_url or '',
         'is_paid': bool(item.resource.is_paid),
+        'price': _money(item.resource.price),
     } for item in course.course_resources.select_related('resource')
         if item.resource and item.resource.approval_status == 'approved']
     return Response(payload)
@@ -221,6 +215,11 @@ def marketplace_course_purchase(request, course_id):
         return Response({'error': 'This course is free — just open it'}, status=400)
     if seller is not None and seller.id == user.id:
         return Response({'error': 'You own this course'}, status=400)
+    # Nobody pays twice for the same seat. Letting an owner of the course
+    # submit again queued a second payment whose status then decided their
+    # access, which is how a paid-up buyer could end up locked out.
+    if check_user_course_access(user, course)[0]:
+        return Response({'error': 'You already have access to this course'}, status=400)
 
     transaction_id = (request.data.get('transaction_id') or '').strip()
     proof_file = request.FILES.get('payment_proof')
@@ -311,6 +310,25 @@ def marketplace_courses(request):
 # Owner endpoints
 # ---------------------------------------------------------------------------
 
+def _owner_page(user, create=False):
+    """The caller's own page, or an error Response.
+
+    Eligibility is re-checked on every owner write, not just when the page is
+    created: a teacher demoted to student or an account an admin has locked
+    still has a CreatorPage row, and `page_for_user` hands it back. Without
+    this the REST API would keep publishing courses and posts on a storefront
+    the web studio already refuses to open.
+    """
+    if not can_have_storefront(user):
+        return None, Response(
+            {'error': 'Marketplace pages are for teachers, institutes and admins.',
+             'eligible': False}, status=403)
+    page = page_for_user(user, create=create)
+    if page is None:
+        return None, Response({'error': 'You do not have a marketplace page yet'}, status=403)
+    return page, None
+
+
 @api_view(['GET', 'POST', 'PUT', 'PATCH'])
 @throttle_classes([WriteActionRateThrottle])
 def marketplace_me_page(request):
@@ -346,9 +364,9 @@ def marketplace_me_courses(request):
     user, err = _require_user(request)
     if err:
         return err
-    page = page_for_user(user, create=True)
-    if page is None:
-        return Response({'error': 'Marketplace pages are for teachers, institutes and admins.'}, status=403)
+    page, err = _owner_page(user, create=True)
+    if err:
+        return err
 
     if request.method == 'GET':
         return Response({
@@ -379,9 +397,9 @@ def marketplace_me_course(request, course_id):
     user, err = _require_user(request)
     if err:
         return err
-    page = page_for_user(user, create=False)
-    if page is None:
-        return Response({'error': 'You do not have a marketplace page yet'}, status=403)
+    page, err = _owner_page(user, create=False)
+    if err:
+        return err
     course = CreatorCourse.objects.filter(pk=course_id, page=page).first()
     if course is None:
         return Response({'error': 'Course not found'}, status=404)
@@ -390,6 +408,9 @@ def marketplace_me_course(request, course_id):
         return Response({'course': course_payload(course, user, include_purchase=False)})
 
     if request.method == 'DELETE':
+        blocked = sold_course_delete_error(course)
+        if blocked:
+            return Response({'error': blocked}, status=409)
         course.delete()
         return Response({'message': 'Course removed'})
 
@@ -415,12 +436,12 @@ def marketplace_me_posts(request):
     user, err = _require_user(request)
     if err:
         return err
-    page = page_for_user(user, create=False)
-    if page is None:
-        return Response({'error': 'You do not have a marketplace page yet'}, status=403)
+    page, err = _owner_page(user, create=False)
+    if err:
+        return err
 
     if request.method == 'GET':
-        return Response({'posts': [post_payload(post) for post in page.page_posts.all()]})
+        return Response({'posts': [post_payload(post) for post in page.page_posts.all()[:60]]})
 
     data = request.data if isinstance(request.data, dict) else {}
     if not str(data.get('body') or '').strip() and not str(data.get('title') or '').strip():
@@ -441,9 +462,9 @@ def marketplace_me_post(request, post_id):
     user, err = _require_user(request)
     if err:
         return err
-    page = page_for_user(user, create=False)
-    if page is None:
-        return Response({'error': 'You do not have a marketplace page yet'}, status=403)
+    page, err = _owner_page(user, create=False)
+    if err:
+        return err
     post = CreatorPost.objects.filter(pk=post_id, page=page).first()
     if post is None:
         return Response({'error': 'Post not found'}, status=404)
