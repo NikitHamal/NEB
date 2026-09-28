@@ -268,7 +268,7 @@
 
 {% block extra_js %}
 {% if current_tab == 'marketplace' %}
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/marketplace.js' %}"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/marketplace_price.js' %}"></script>
 {% endif %}
 <script nonce="{{ csp_nonce }}">
   document.addEventListener('DOMContentLoaded', function () {
