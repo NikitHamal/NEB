@@ -45,7 +45,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -111,8 +110,9 @@ fun CreatorStudioScreen(
     var isRefreshing by remember { mutableStateOf(false) }
     var tab by remember { mutableStateOf(0) }
 
-    LaunchedEffect(Unit) { viewModel.load() }
-
+    // The view model loads itself; a LaunchedEffect here would reload on every
+    // re-entry and throw away whatever is typed but not yet saved. Pull to
+    // refresh is the deliberate way back to the server.
     Scaffold(
         topBar = {
             TopAppBar(
@@ -185,7 +185,7 @@ fun CreatorStudioScreen(
                     onRefresh = {
                         scope.launch {
                             isRefreshing = true
-                            viewModel.load()
+                            viewModel.refresh()
                             isRefreshing = false
                         }
                     },
@@ -318,17 +318,46 @@ private fun androidx.compose.foundation.lazy.LazyListScope.studioPageTab(
                 label = "Page address",
                 helper = "nebians.consica.com.np/marketplace/${uiState.slug.ifBlank { "your-name" }}/"
             )
+            // Only worth asking when the account actually has a choice; most
+            // tutors have exactly one kind and the web studio hides it too.
+            if (uiState.allowedKinds.size > 1) {
+                NebSectionLabel("Page type")
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier.horizontalScroll(rememberScrollState())
+                ) {
+                    uiState.allowedKinds.forEach { kind ->
+                        NebChip(
+                            label = creatorKindLabel(kind),
+                            selected = uiState.kind == kind,
+                            onClick = { viewModel.updateKind(kind) }
+                        )
+                    }
+                }
+            }
             NebAuthField(
                 value = uiState.subjects,
                 onValueChange = viewModel::updateSubjects,
                 label = "Subjects",
                 helper = "Comma separated. These are what marketplace search matches."
             )
-            NebAuthField(
-                value = uiState.location,
-                onValueChange = viewModel::updateLocation,
-                label = "Location"
-            )
+            Row(horizontalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.fillMaxWidth()) {
+                Box(modifier = Modifier.weight(1f)) {
+                    NebAuthField(
+                        value = uiState.location,
+                        onValueChange = viewModel::updateLocation,
+                        label = "Location"
+                    )
+                }
+                Box(modifier = Modifier.weight(1f)) {
+                    NebAuthField(
+                        value = uiState.languages,
+                        onValueChange = viewModel::updateLanguages,
+                        label = "Languages",
+                        helper = "Comma separated"
+                    )
+                }
+            }
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.fillMaxWidth()) {
                 Box(modifier = Modifier.weight(1f)) {
                     NebAuthField(
@@ -359,6 +388,16 @@ private fun androidx.compose.foundation.lazy.LazyListScope.studioPageTab(
                 label = "Cover image URL",
                 keyboardType = KeyboardType.Uri
             )
+            NebSectionLabel("Social links")
+            NebFieldHint("Full addresses work best. Leave one empty to take it off your page.")
+            uiState.socials.forEach { (network, value) ->
+                NebAuthField(
+                    value = value,
+                    onValueChange = { viewModel.updateSocial(network, it) },
+                    label = network.replaceFirstChar { c -> c.uppercase() },
+                    keyboardType = KeyboardType.Uri
+                )
+            }
             NebToggleRow(
                 title = "Accepting new students",
                 subtitle = "Shows a small badge on your page",
@@ -437,6 +476,46 @@ private fun androidx.compose.foundation.lazy.LazyListScope.studioPageTab(
                     )
                 }
             }
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(6.dp),
+                modifier = Modifier.horizontalScroll(rememberScrollState())
+            ) {
+                listOf("comfortable" to "Comfortable", "compact" to "Compact").forEach { (value, label) ->
+                    NebChip(
+                        label = label,
+                        selected = uiState.density == value,
+                        onClick = { viewModel.updateDensity(value) }
+                    )
+                }
+            }
+            NebSectionLabel("Gallery columns")
+            Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                listOf(2, 3, 4).forEach { columns ->
+                    NebChip(
+                        label = "$columns",
+                        selected = uiState.galleryColumns == columns,
+                        onClick = { viewModel.updateGalleryColumns(columns) }
+                    )
+                }
+            }
+            NebToggleRow(
+                title = "Lead with your numbers",
+                subtitle = "Offerings, views and followers, under your name",
+                checked = uiState.showStats,
+                onCheckedChange = viewModel::updateShowStats
+            )
+            NebToggleRow(
+                title = "Publish your contact details",
+                subtitle = "Your email, phone and socials in the contact section",
+                checked = uiState.showContact,
+                onCheckedChange = viewModel::updateShowContact
+            )
+            NebToggleRow(
+                title = "Show your verified badge",
+                subtitle = "Only appears once we have verified you",
+                checked = uiState.showVerified,
+                onCheckedChange = viewModel::updateShowVerified
+            )
             SaveRow(label = "Save look", saving = uiState.isSavingPage, onSave = viewModel::savePage)
         }
     }
@@ -466,7 +545,7 @@ private fun androidx.compose.foundation.lazy.LazyListScope.studioPageTab(
                     .fillMaxWidth()
                     .horizontalScroll(rememberScrollState())
             ) {
-                listOf("hero", "about", "courses", "resources", "posts").forEach { type ->
+                listOf("hero", "about", "stats", "courses", "resources", "documents", "posts").forEach { type ->
                     NebChip(
                         label = blockLabel(type),
                         selected = false,
@@ -536,11 +615,52 @@ private fun androidx.compose.foundation.lazy.LazyListScope.studioPageTab(
                         keyboardType = KeyboardType.Uri
                     )
                 }
-                if (block.type in listOf("showcase", "testimonials", "faq", "schedule", "links")) {
+                if (block.type == "hero") {
+                    // Only the hero carries a picture of its own (`BLOCK_FIELDS`
+                    // on the server agrees). Left empty it falls back to the
+                    // cover, which is what most creators want.
+                    NebAuthField(
+                        value = block.imageUrl,
+                        onValueChange = { viewModel.updateBlockImageUrl(index, it) },
+                        label = "Image URL",
+                        keyboardType = KeyboardType.Uri
+                    )
+                    NebFieldHint("Leave this empty to use your cover picture.")
+                }
+                if (block.type == "gallery") {
                     NebFieldHint(
-                        "This section has ${block.items.size} item${if (block.items.size == 1) "" else "s"}. " +
-                            "Add or edit items from the studio on the web for long lists; " +
-                            "the app keeps the first few in step."
+                        "${block.images.size} picture${if (block.images.size == 1) "" else "s"}, " +
+                            "laid out in ${uiState.galleryColumns} columns."
+                    )
+                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                        NebButton(
+                            text = "Add picture",
+                            onClick = { viewModel.addBlockImage(index) },
+                            icon = Icons.Outlined.Add,
+                            tone = NebButtonTone.Tonal,
+                            size = NebButtonSize.Small
+                        )
+                        if (block.images.isNotEmpty()) {
+                            NebButton(
+                                text = "Remove last",
+                                onClick = { viewModel.removeLastBlockImage(index) },
+                                tone = NebButtonTone.Text,
+                                size = NebButtonSize.Small
+                            )
+                        }
+                    }
+                    block.images.forEachIndexed { imageIndex, image ->
+                        NebAuthField(
+                            value = image,
+                            onValueChange = { viewModel.updateBlockImage(index, imageIndex, it) },
+                            label = "Picture ${imageIndex + 1} URL",
+                            keyboardType = KeyboardType.Uri
+                        )
+                    }
+                }
+                if (block.type in listOf("stats", "showcase", "testimonials", "faq", "schedule", "links")) {
+                    NebFieldHint(
+                        "This section has ${block.items.size} item${if (block.items.size == 1) "" else "s"}."
                     )
                     Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                         NebButton(

@@ -2251,6 +2251,17 @@ interface ApiService {
         @Header("Authorization") bearerToken: String
     ): ApiMarketplaceDashboard
 
+    @GET("api/wallet/withdrawals/")
+    suspend fun getWithdrawals(
+        @Header("Authorization") bearerToken: String
+    ): ApiWithdrawalsResponse
+
+    @POST("api/wallet/withdrawals/")
+    suspend fun requestWithdrawal(
+        @Header("Authorization") bearerToken: String,
+        @Body body: okhttp3.RequestBody
+    ): ApiWithdrawal
+
     companion object {
         private const val BASE_URL = "https://nebians.consica.com.np/"
 
@@ -3070,6 +3081,9 @@ data class ApiCreatorStyle(
     val density: String = "comfortable",
     @SerialName("show_stats") val showStats: Boolean = false,
     @SerialName("show_contact") val showContact: Boolean = true,
+    // the server's sanitize_style() defaults this on, so the app has to carry it:
+    // a style saved from here without the key would turn every badge off
+    @SerialName("show_verified") val showVerified: Boolean = true,
     @SerialName("gallery_columns") val galleryColumns: Int = 3
 )
 
@@ -3112,6 +3126,10 @@ data class ApiCreatorCourse(
     @SerialName("rating_count") val ratingCount: Int = 0,
     @SerialName("created_at") val createdAt: Long = 0,
     @SerialName("updated_at") val updatedAt: Long = 0,
+    /** The notes attached to this offering. Only sent to its owner, and only
+     *  by the studio's own endpoints — the editor needs it, because saving an
+     *  empty list is how you detach everything. */
+    @SerialName("resource_ids") val resourceIds: List<String> = emptyList(),
     @SerialName("has_access") val hasAccess: Boolean = false,
     @SerialName("access_reason") val accessReason: String = "",
     @SerialName("purchase_status") val purchaseStatus: String = "",
@@ -3306,6 +3324,26 @@ data class ApiMarketplaceWallet(
     @SerialName("total_withdrawn") val totalWithdrawn: String = "0",
     @SerialName("withdraw_min") val withdrawMin: String = "1000",
     @SerialName("pending_withdrawals") val pendingWithdrawals: Int = 0
+)
+
+@Serializable
+data class ApiWithdrawal(
+    val id: String = "",
+    val amount: String = "0",
+    @SerialName("payout_method") val payoutMethod: String = "esewa",
+    @SerialName("payout_details") val payoutDetails: String = "",
+    val status: String = "pending",
+    @SerialName("admin_notes") val adminNotes: String = "",
+    val message: String = "",
+    @SerialName("created_at") val createdAt: Long = 0,
+    @SerialName("processed_at") val processedAt: Long = 0
+)
+
+@Serializable
+data class ApiWithdrawalsResponse(
+    val withdrawals: List<ApiWithdrawal> = emptyList(),
+    @SerialName("withdraw_min") val withdrawMin: String = "1000",
+    @SerialName("current_balance") val currentBalance: String = "0"
 )
 
 @Serializable

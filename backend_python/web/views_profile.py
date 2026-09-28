@@ -3,6 +3,8 @@ from .view_helpers import *  # noqa: F401,F403
 from api.services import record_username_change
 from api.view_helpers import _profile_incomplete, _can_view_locked_profile
 from api.models import Follow, FollowRequest, NEPAL_DISTRICTS, SocialLink, SocialLinkClick
+from api.marketplace import get_payment_config
+from api.utils import money_str
 from api.social_links import (
     get_user_links, get_all_user_links, create_link as _create_social_link,
     update_link as _update_social_link, delete_link as _delete_social_link,
@@ -299,7 +301,9 @@ def ajax_request_withdrawal(request):
     payout_method = request.POST.get('payout_method', 'esewa').strip().lower()
     payout_details = request.POST.get('payout_details', '').strip()
 
-    if payout_method not in ['esewa', 'khalti', 'bank']:
+    # The model offers five; hardcoding three here quietly turned a ConnectIPS or
+    # mobile-banking request into an eSewa one.
+    if payout_method not in [choice[0] for choice in WithdrawalRequest.PAYOUT_METHODS]:
         payout_method = 'esewa'
 
     try:
@@ -311,8 +315,14 @@ def ajax_request_withdrawal(request):
     if not amount.is_finite():
         return JsonResponse({'status': 'error', 'error': 'Invalid withdrawal amount.'}, status=400)
 
-    if amount < Decimal('1000.00'):
-        return JsonResponse({'status': 'error', 'error': 'Minimum withdrawal threshold is Rs. 1,000.'}, status=400)
+    # The studio advertises the configured floor, so this has to be the same
+    # number -- a hardcoded Rs. 1,000 rejected requests the page invited.
+    minimum = get_payment_config().withdraw_min or Decimal('1000.00')
+    if amount < minimum:
+        return JsonResponse(
+            {'status': 'error', 'error': f'Minimum withdrawal threshold is Rs. {money_str(minimum)}.'},
+            status=400,
+        )
 
     if not payout_details:
         return JsonResponse({'status': 'error', 'error': 'Please provide payout account details (Account holder name, ID, or phone number).'}, status=400)

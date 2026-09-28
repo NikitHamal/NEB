@@ -14,6 +14,7 @@ Three classes, one per surface, because they fail for different reasons:
 Run: ``python manage.py test api.tests_marketplace -v 2``
 """
 import json
+import re
 import uuid
 from decimal import Decimal
 
@@ -439,6 +440,53 @@ class MarketplaceCourseTests(MarketplaceTestBase):
         # someone who bought nothing is still locked out
         self.assertFalse(check_user_resource_access(self.other_teacher, note)[0])
 
+    def test_the_owners_own_course_payload_carries_its_attachments(self):
+        """An editor that cannot see the current attachments will save an empty
+        list over them, so every studio round trip has to carry them."""
+        note = Resource.objects.create(
+            id=str(uuid.uuid4()), title='Attached note', subject='Physics', type='Note',
+            uploaded_by=self.teacher, approval_status='approved', added_at=now_ms(),
+        )
+        created = self.make_course(resource_ids=[note.id]).json()['course']
+        self.assertEqual(created['resource_ids'], [note.id])
+
+        course_id = created['id']
+        self.assertEqual(
+            self.get(self.teacher, f'/api/marketplace/me/courses/{course_id}/').json()['course']['resource_ids'],
+            [note.id],
+        )
+        listed = self.get(self.teacher, '/api/marketplace/me/courses/').json()['courses']
+        self.assertEqual(next(c for c in listed if c['id'] == course_id)['resource_ids'], [note.id])
+        mine = self.get(self.teacher, '/api/marketplace/me/page/').json()['page']
+        self.assertEqual(next(c for c in mine['courses'] if c['id'] == course_id)['resource_ids'], [note.id])
+
+    def test_a_buyer_never_sees_which_notes_a_course_wraps(self):
+        note = Resource.objects.create(
+            id=str(uuid.uuid4()), title='Attached note', subject='Physics', type='Note',
+            uploaded_by=self.teacher, approval_status='approved', added_at=now_ms(),
+        )
+        course_id = self.make_course(resource_ids=[note.id]).json()['course']['id']
+        payload = self.get(self.student, f'/api/marketplace/courses/{course_id}/').json()
+        self.assertNotIn('resource_ids', payload)
+
+    def test_editing_a_course_without_touching_its_notes_keeps_them(self):
+        """`resource_ids` absent means "leave the attachments alone" -- only an
+        explicit empty list detaches."""
+        note = Resource.objects.create(
+            id=str(uuid.uuid4()), title='Attached note', subject='Physics', type='Note',
+            uploaded_by=self.teacher, approval_status='approved', added_at=now_ms(),
+        )
+        course_id = self.make_course(resource_ids=[note.id]).json()['course']['id']
+
+        renamed = self.patch_json(self.teacher, f'/api/marketplace/me/courses/{course_id}/',
+                                  {'title': 'Renamed'})
+        self.assertEqual(renamed.status_code, 200)
+        self.assertEqual(renamed.json()['course']['resource_ids'], [note.id])
+
+        detached = self.patch_json(self.teacher, f'/api/marketplace/me/courses/{course_id}/',
+                                   {'resource_ids': []})
+        self.assertEqual(detached.json()['course']['resource_ids'], [])
+
     def test_course_resources_must_belong_to_the_page_owner(self):
         mine = Resource.objects.create(
             id=str(uuid.uuid4()), title='Mine', subject='Physics', type='Note',
@@ -534,6 +582,55 @@ class MarketplaceWebTests(MarketplaceTestBase):
         self.assertLess(html.index('When?'), html.index('Fifteen years of NEB physics.'))
         self.assertIn('#1F6F5C', html)
 
+    def test_the_hero_choice_never_lands_on_the_page_container(self):
+        """`mkt-hero-art` is the art layer, so the page cannot also wear it.
+
+        The modifier used to be `mkt-hero-{{ style.hero }}`, which on the default
+        hero gave the whole page `position: absolute; inset: 0; opacity: 0.5`
+        from the art layer's own rule.
+        """
+        self.make_published_page(self.teacher, slug='t-hero')
+        html = self.client.get('/marketplace/t-hero/').content.decode()
+        container = html[html.index('class="mkt-page'):]
+        container = container[:container.index('>')]
+        self.assertIn('mkt-hero-mode-art', container)
+        self.assertNotIn('mkt-hero-art', container)
+
+    def test_the_verified_badge_and_the_contact_rows_follow_the_creators_choice(self):
+        self.make_published_page(self.teacher, slug='t-flags', blocks=[
+            {'type': 'hero', 'title': 'Hero'},
+            {'type': 'contact', 'title': 'Get in touch'},
+        ], contact_email='sabina@example.com', style={
+            'hero': 'art', 'show_verified': False, 'show_contact': False, 'show_stats': True,
+        })
+        CreatorPage.objects.filter(slug='t-flags').update(verified=True, view_count=1200)
+        html = self.client.get('/marketplace/t-flags/').content.decode()
+        self.assertNotIn('mkt-verified', html)
+        self.assertNotIn('sabina@example.com', html)
+        # show_stats on: the platform numbers sit under the name
+        self.assertIn('mkt-hero-stats', html)
+        self.assertIn('followers', html)
+
+    def test_the_badge_and_the_contact_rows_are_on_by_default(self):
+        self.make_published_page(self.teacher, slug='t-flags-on', blocks=[
+            {'type': 'hero', 'title': 'Hero'},
+            {'type': 'contact', 'title': 'Get in touch'},
+        ], contact_email='sabina@example.com')
+        CreatorPage.objects.filter(slug='t-flags-on').update(verified=True)
+        html = self.client.get('/marketplace/t-flags-on/').content.decode()
+        self.assertIn('mkt-verified', html)
+        self.assertIn('sabina@example.com', html)
+        self.assertNotIn('mkt-hero-stats', html)
+
+    def test_a_stats_section_keeps_its_own_heading(self):
+        self.make_published_page(self.teacher, slug='t-stats', blocks=[
+            {'type': 'stats', 'title': 'By the numbers',
+             'items': [{'label': 'Students', 'value': '400'}]},
+        ])
+        html = self.client.get('/marketplace/t-stats/').content.decode()
+        self.assertIn('By the numbers', html)
+        self.assertIn('400', html)
+
     def test_the_price_setter_is_the_shared_component(self):
         html = self.session_client(self.teacher).get('/upload/').content.decode()
         self.assertIn('data-neb-price', html)
@@ -574,6 +671,84 @@ class MarketplaceWebTests(MarketplaceTestBase):
         client = self.session_client(self.teacher)
         client.post(f'/marketplace/course/{course.id}/', {'transaction_id': 'X'})
         self.assertFalse(PaymentVerification.objects.filter(buyer=self.teacher, course=course).exists())
+
+    def selected_option(self, html, attr, value):
+        """The value the studio's `<select ... {attr}="{value}">` opens on."""
+        start = html.index(f'{attr}="{value}"')
+        block = html[start:html.index('</select>', start)]
+        match = re.search(r'<option value="([^"]+)"\s+selected', block)
+        return match.group(1) if match else None
+
+    def test_the_look_tab_opens_on_what_the_creator_saved(self):
+        """The Look tab used to render against an undefined `style`.
+
+        Every `{% if style.X %}` was false, so the tab showed the defaults, and
+        the first save sent those defaults back -- `style` is replaced wholesale,
+        so a creator who touched the Content tab lost their whole look.
+        """
+        self.make_published_page(self.teacher, slug='t-look', style={
+            'hero': 'plain', 'radius': 'sharp', 'density': 'compact',
+            'gallery_columns': 4, 'show_stats': True, 'show_verified': False,
+        })
+        html = self.session_client(self.teacher).get('/marketplace/studio/').content.decode()
+        self.assertEqual(self.selected_option(html, 'data-mkt-style', 'hero'), 'plain')
+        self.assertEqual(self.selected_option(html, 'data-mkt-style', 'radius'), 'sharp')
+        self.assertEqual(self.selected_option(html, 'data-mkt-style', 'density'), 'compact')
+        self.assertEqual(self.selected_option(html, 'data-mkt-style', 'gallery_columns'), '4')
+        stats = html[html.index('data-mkt-style-bool="show_stats"'):]
+        self.assertIn('checked', stats[:stats.index('>')])
+        verified = html[html.index('data-mkt-style-bool="show_verified"'):]
+        self.assertNotIn('checked', verified[:verified.index('>')])
+
+    def test_a_course_on_an_unpublished_page_is_not_reachable(self):
+        """Unpublishing has to take the offerings with it.
+
+        The storefront 404s for a stranger, but the course page did not, so every
+        course link -- QR checkout included -- stayed live after the creator
+        pulled the page down.
+        """
+        self.make_published_page(self.teacher, slug='t-hidden')
+        page = CreatorPage.objects.get(slug='t-hidden')
+        course = CreatorCourse.objects.create(
+            id=str(uuid.uuid4()), page=page, title='Hidden Course', slug='hidden',
+            is_free=False, price='500', status='published',
+            created_at=now_ms(), updated_at=now_ms(),
+        )
+        student = self.session_client(self.student)
+        self.assertEqual(student.get(f'/marketplace/course/{course.id}/').status_code, 200)
+
+        CreatorPage.objects.filter(id=page.id).update(published=False)
+        self.assertEqual(student.get(f'/marketplace/course/{course.id}/').status_code, 404)
+        self.assertEqual(self.client.get(f'/marketplace/course/{course.id}/').status_code, 404)
+        # its owner still needs the preview, and an admin still needs to moderate it
+        self.assertEqual(self.session_client(self.teacher).get(f'/marketplace/course/{course.id}/').status_code, 200)
+        self.assertEqual(self.session_client(self.admin).get(f'/marketplace/course/{course.id}/').status_code, 200)
+
+    def test_an_empty_section_does_not_render_a_bare_heading(self):
+        """A section a creator added but never filled stays invisible.
+
+        Otherwise the page reads as broken: a "Gallery" heading with nothing
+        under it, then "What students say" with nothing under that.
+        """
+        self.make_published_page(self.teacher, slug='t-empty', blocks=[
+            {'type': 'hero', 'title': 'Hero'},
+            {'type': 'gallery', 'title': 'My gallery', 'images': []},
+            {'type': 'testimonials', 'title': 'What students say', 'items': []},
+            {'type': 'faq', 'title': 'Common queries', 'items': []},
+            {'type': 'showcase', 'title': 'My work', 'items': []},
+        ])
+        html = self.client.get('/marketplace/t-empty/').content.decode()
+        for heading in ('My gallery', 'What students say', 'Common queries', 'My work'):
+            self.assertNotIn(heading, html)
+
+        # ...and the moment one has something in it, it comes back
+        self.make_published_page(self.teacher, slug='t-empty', blocks=[
+            {'type': 'hero', 'title': 'Hero'},
+            {'type': 'gallery', 'title': 'My gallery',
+             'images': ['https://cdn.example.com/1.jpg']},
+        ])
+        html = self.client.get('/marketplace/t-empty/').content.decode()
+        self.assertIn('My gallery', html)
 
     def test_the_studio_lists_the_sellers_sales(self):
         self.make_published_page(self.teacher, slug='t-sales')

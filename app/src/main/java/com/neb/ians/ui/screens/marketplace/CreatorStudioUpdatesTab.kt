@@ -3,6 +3,7 @@
 package com.neb.ians.ui.screens.marketplace
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Edit
@@ -30,10 +32,12 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.neb.ians.data.api.ApiMarketplaceSale
+import com.neb.ians.data.api.ApiWithdrawal
 import com.neb.ians.ui.components.NebAuthField
 import com.neb.ians.ui.components.NebButton
 import com.neb.ians.ui.components.NebButtonSize
 import com.neb.ians.ui.components.NebButtonTone
+import com.neb.ians.ui.components.NebChip
 import com.neb.ians.ui.components.NebEmptyState
 import com.neb.ians.ui.components.NebFieldHint
 import com.neb.ians.ui.components.NebSectionLabel
@@ -166,6 +170,15 @@ internal fun LazyListScope.studioUpdatesTab(
     }
 }
 
+/** `WithdrawalRequest.PAYOUT_METHODS`, in the server's order. */
+private val PAYOUT_METHODS = listOf(
+    "esewa" to "eSewa",
+    "khalti" to "Khalti",
+    "mobile_banking" to "Mobile banking",
+    "connectips" to "ConnectIPS",
+    "bank" to "Bank transfer"
+)
+
 internal fun LazyListScope.studioEarningsTab(
     uiState: CreatorStudioUiState,
     viewModel: CreatorStudioViewModel
@@ -185,7 +198,55 @@ internal fun LazyListScope.studioEarningsTab(
                 "Withdrawals open at Rs. ${uiState.wallet.withdrawMin}. The platform fee is " +
                     "${uiState.commissionPercent}% of a sale, and it is already deducted in the numbers above."
             )
-            NebFieldHint("Request a withdrawal from the web studio, or from your profile's wallet page in the app.")
+        }
+    }
+
+    item(key = "withdraw") {
+        StudioCard {
+            NebSectionLabel("Withdraw")
+            NebFieldHint(
+                "We pay out by hand after a check, so give us the account exactly as it is " +
+                    "registered. The amount leaves your available balance the moment you ask."
+            )
+            NebAuthField(
+                value = uiState.withdrawAmount,
+                onValueChange = viewModel::updateWithdrawAmount,
+                label = "Amount (Rs.)",
+                keyboardType = KeyboardType.Decimal
+            )
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(6.dp),
+                modifier = Modifier.horizontalScroll(rememberScrollState())
+            ) {
+                PAYOUT_METHODS.forEach { (value, label) ->
+                    NebChip(
+                        label = label,
+                        selected = uiState.withdrawMethod == value,
+                        onClick = { viewModel.updateWithdrawMethod(value) }
+                    )
+                }
+            }
+            NebAuthField(
+                value = uiState.withdrawDetails,
+                onValueChange = viewModel::updateWithdrawDetails,
+                label = "Account name and number",
+                singleLine = false,
+                minHeight = 84.dp
+            )
+            NebButton(
+                text = "Request withdrawal",
+                onClick = viewModel::requestWithdrawal,
+                tone = NebButtonTone.Primary,
+                size = NebButtonSize.Standard,
+                loading = uiState.isRequestingWithdrawal
+            )
+            if (uiState.withdrawals.isNotEmpty()) {
+                NebSectionLabel("Your requests")
+                uiState.withdrawals.forEach { withdrawal ->
+                    WithdrawalRow(withdrawal)
+                    HorizontalDivider(color = nebBorderSubtle(), thickness = 1.dp)
+                }
+            }
         }
     }
 
@@ -230,6 +291,64 @@ internal fun WalletCell(label: String, value: String, modifier: Modifier = Modif
     }
 }
 
+/** Approved, pending, or neither — the same chip for a sale and for a payout. */
+@Composable
+internal fun StatusChip(status: String) {
+    Surface(
+        shape = WebPillShape,
+        color = when (status) {
+            "approved", "paid", "completed" -> MaterialTheme.colorScheme.surfaceContainerHighest
+            "pending", "processing" -> MaterialTheme.colorScheme.surfaceContainerHigh
+            else -> MaterialTheme.colorScheme.errorContainer
+        }
+    ) {
+        Text(
+            text = status.replace('_', ' ').replaceFirstChar { it.uppercase() },
+            style = MaterialTheme.typography.labelSmall,
+            fontWeight = FontWeight.SemiBold,
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp)
+        )
+    }
+}
+
+@Composable
+internal fun WithdrawalRow(withdrawal: ApiWithdrawal) {
+    val label = PAYOUT_METHODS.firstOrNull { it.first == withdrawal.payoutMethod }?.second
+        ?: withdrawal.payoutMethod
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = "Rs. ${withdrawal.amount}",
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.SemiBold
+            )
+            Text(
+                text = listOf(label, formatTimeAgo(withdrawal.createdAt))
+                    .filter { it.isNotBlank() }
+                    .joinToString(" · "),
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+            if (withdrawal.adminNotes.isNotBlank()) {
+                Text(
+                    text = withdrawal.adminNotes,
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        }
+        StatusChip(withdrawal.status)
+    }
+}
+
 @Composable
 internal fun SaleRow(sale: ApiMarketplaceSale) {
     Row(
@@ -259,21 +378,7 @@ internal fun SaleRow(sale: ApiMarketplaceSale) {
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.Bold
             )
-            Surface(
-                shape = WebPillShape,
-                color = when (sale.status) {
-                    "approved" -> MaterialTheme.colorScheme.surfaceContainerHighest
-                    "pending" -> MaterialTheme.colorScheme.surfaceContainerHigh
-                    else -> MaterialTheme.colorScheme.errorContainer
-                }
-            ) {
-                Text(
-                    text = sale.status.replaceFirstChar { it.uppercase() },
-                    style = MaterialTheme.typography.labelSmall,
-                    fontWeight = FontWeight.SemiBold,
-                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp)
-                )
-            }
+            StatusChip(sale.status)
             Text(
                 text = "You receive Rs. ${sale.sellerEarnings}",
                 style = MaterialTheme.typography.labelSmall,
