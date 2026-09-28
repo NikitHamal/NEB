@@ -1,13 +1,13 @@
-/* ── Storefront blocks ───────────────────────────────────────────────────── */
+/* ── Storefront blocks ─────────────────────────────────────────────────────
+ * Layout and structure only. Colour, type, corner radius, density and texture
+ * all arrive from theme.css via the creator's palette -- the rules here name
+ * `--md-*` tokens and get re-pointed at the page owner's colours for free.
+ */
 .mkt-page {
   display: flex;
   flex-direction: column;
-  padding-bottom: 40px;
 }
 
-.mkt-page.mkt-radius-soft { --mkt-block-radius: var(--md-radius-sm); }
-.mkt-page.mkt-radius-round { --mkt-block-radius: var(--md-radius-lg); }
-.mkt-page.mkt-radius-sharp { --mkt-block-radius: 2px; }
 .mkt-page.mkt-density-compact .mkt-block { padding: 18px 0; }
 
 .mkt-hero {

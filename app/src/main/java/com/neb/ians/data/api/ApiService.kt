@@ -2187,6 +2187,20 @@ interface ApiService {
         @Part paymentProof: okhttp3.MultipartBody.Part?
     ): ApiCoursePurchaseResponse
 
+    @GET("api/marketplace/editor-schema/")
+    suspend fun getCreatorEditorSchema(): ApiCreatorEditorSchema
+
+    @GET("api/marketplace/templates/")
+    suspend fun getCreatorTemplates(
+        @Query("kind") kind: String? = null
+    ): ApiCreatorTemplatesResponse
+
+    @POST("api/marketplace/me/page/template/")
+    suspend fun applyCreatorTemplate(
+        @Header("Authorization") bearerToken: String,
+        @Body body: okhttp3.RequestBody
+    ): ApiMyCreatorPageResponse
+
     @GET("api/marketplace/me/page/")
     suspend fun getMyCreatorPage(
         @Header("Authorization") bearerToken: String
@@ -3056,7 +3070,30 @@ data class ApiCreatorBlockItem(
     val day: String = "",
     val time: String = "",
     val note: String = "",
-    val url: String = ""
+    val url: String = "",
+    // pricing plans: `features` is one benefit per line, which is how the web
+    // renders it and how the server's `lines` filter reads it back
+    val price: String = "",
+    val period: String = "",
+    val features: String = "",
+    @SerialName("cta_label") val ctaLabel: String = "",
+    @SerialName("cta_url") val ctaUrl: String = ""
+)
+
+/**
+ * A section's own overrides: where its text sits, how loud its background is,
+ * how wide it runs and how many columns its items form.
+ *
+ * The server drops any value equal to the default, so an untouched section
+ * carries no `settings` key at all -- which is why every field here defaults to
+ * the same thing `sanitize_block_settings` treats as "not set".
+ */
+@Serializable
+data class ApiCreatorBlockSettings(
+    val align: String = "start",
+    val tone: String = "plain",
+    val width: String = "standard",
+    val columns: Int = 0
 )
 
 @Serializable
@@ -3070,12 +3107,24 @@ data class ApiCreatorBlock(
     @SerialName("cta_label") val ctaLabel: String = "",
     @SerialName("cta_url") val ctaUrl: String = "",
     @SerialName("image_url") val imageUrl: String = "",
+    @SerialName("media_url") val mediaUrl: String = "",
+    val settings: ApiCreatorBlockSettings = ApiCreatorBlockSettings(),
     val items: List<ApiCreatorBlockItem> = emptyList(),
     val images: List<String> = emptyList()
 )
 
 @Serializable
 data class ApiCreatorStyle(
+    // The palette, scheme, font, texture and card treatment arrived with the
+    // theme work. They are carried here for the same reason the older keys are:
+    // the server replaces `page.style` wholesale, so a key the app cannot hold
+    // is a choice the app silently erases the first time a creator saves.
+    val palette: String = "indigo",
+    val scheme: String = "light",
+    val font: String = "sans",
+    val pattern: String = "none",
+    val card: String = "elevated",
+    val width: String = "standard",
     val hero: String = "art",
     val radius: String = "round",
     val density: String = "comfortable",
@@ -3085,6 +3134,39 @@ data class ApiCreatorStyle(
     // a style saved from here without the key would turn every badge off
     @SerialName("show_verified") val showVerified: Boolean = true,
     @SerialName("gallery_columns") val galleryColumns: Int = 3
+)
+
+/**
+ * A creator's colours, already worked out by the server.
+ *
+ * The app deliberately does not carry its own copy of the palette table: one
+ * table lives in `api/creator_themes.py`, and the day somebody nudged a hex
+ * there would otherwise be the day the same page looked different on a phone.
+ */
+@Serializable
+data class ApiCreatorThemeColors(
+    val accent: String = "#004BD4",
+    @SerialName("on_accent") val onAccent: String = "#FFFFFF",
+    val bg: String = "#FFFFFF",
+    val surface: String = "#FFFFFF",
+    val ink: String = "#0B1020",
+    val muted: String = "#535E78",
+    val line: String = "#E2E7F2",
+    val soft: String = "#E8EEFF"
+)
+
+@Serializable
+data class ApiCreatorTheme(
+    val palette: String = "indigo",
+    val scheme: String = "light",
+    val font: String = "sans",
+    val pattern: String = "none",
+    val card: String = "elevated",
+    val radius: String = "round",
+    val density: String = "comfortable",
+    val width: String = "standard",
+    val hero: String = "art",
+    val colors: ApiCreatorThemeColors = ApiCreatorThemeColors()
 )
 
 @Serializable
@@ -3176,6 +3258,7 @@ data class ApiCreatorPage(
     @SerialName("accent_hex") val accentHex: String = "#004BD4",
     val layout: String = "editorial",
     val style: ApiCreatorStyle = ApiCreatorStyle(),
+    val theme: ApiCreatorTheme = ApiCreatorTheme(),
     val blocks: List<ApiCreatorBlock> = emptyList(),
     val socials: Map<String, String> = emptyMap(),
     @SerialName("contact_email") val contactEmail: String = "",
@@ -3235,6 +3318,107 @@ data class ApiMarketplaceStats(
     val courses: Int = 0,
     @SerialName("paid_courses") val paidCourses: Int = 0,
     @SerialName("free_courses") val freeCourses: Int = 0
+)
+
+/**
+ * The section catalogue and style vocabulary, fetched once when the studio
+ * opens.
+ *
+ * The builder draws itself from this rather than from a hardcoded list, which
+ * is what lets a section added on the server appear in a shipped app without a
+ * release -- and, more to the point, stops the app and the web studio from ever
+ * offering different sections.
+ */
+@Serializable
+data class ApiCreatorSchemaField(
+    val key: String = "",
+    val label: String = "",
+    val multiline: Boolean = false,
+    val url: Boolean = false
+)
+
+@Serializable
+data class ApiCreatorSchemaBlock(
+    val type: String = "",
+    val label: String = "",
+    val hint: String = "",
+    val group: String = "",
+    @SerialName("server_fed") val serverFed: Boolean = false,
+    val fields: List<ApiCreatorSchemaField> = emptyList(),
+    @SerialName("list_key") val listKey: String? = null,
+    @SerialName("item_fields") val itemFields: List<ApiCreatorSchemaField> = emptyList(),
+    @SerialName("item_hint") val itemHint: String = ""
+)
+
+@Serializable
+data class ApiCreatorSchemaGroup(
+    val label: String = "",
+    val types: List<String> = emptyList()
+)
+
+@Serializable
+data class ApiCreatorChoice(
+    val id: String = "",
+    val label: String = ""
+)
+
+@Serializable
+data class ApiCreatorPaletteChoice(
+    val id: String = "",
+    val label: String = "",
+    val accent: String = "#004BD4",
+    val soft: String = "#E8EEFF",
+    val ink: String = "#0B1020"
+)
+
+@Serializable
+data class ApiCreatorThemeVocabulary(
+    val palettes: List<ApiCreatorPaletteChoice> = emptyList(),
+    val schemes: List<ApiCreatorChoice> = emptyList(),
+    val heroes: List<ApiCreatorChoice> = emptyList(),
+    val fonts: List<ApiCreatorChoice> = emptyList(),
+    val patterns: List<ApiCreatorChoice> = emptyList(),
+    val cards: List<ApiCreatorChoice> = emptyList(),
+    val radii: List<ApiCreatorChoice> = emptyList(),
+    val densities: List<ApiCreatorChoice> = emptyList(),
+    val widths: List<ApiCreatorChoice> = emptyList(),
+    @SerialName("block_tones") val blockTones: List<ApiCreatorChoice> = emptyList(),
+    @SerialName("block_aligns") val blockAligns: List<ApiCreatorChoice> = emptyList(),
+    @SerialName("block_widths") val blockWidths: List<ApiCreatorChoice> = emptyList()
+)
+
+@Serializable
+data class ApiCreatorEditorSchema(
+    val blocks: List<ApiCreatorSchemaBlock> = emptyList(),
+    val groups: List<ApiCreatorSchemaGroup> = emptyList(),
+    val theme: ApiCreatorThemeVocabulary = ApiCreatorThemeVocabulary(),
+    val layouts: List<ApiCreatorChoice> = emptyList(),
+    @SerialName("max_blocks") val maxBlocks: Int = 24,
+    @SerialName("max_items") val maxItems: Int = 24,
+    val error: String? = null
+)
+
+@Serializable
+data class ApiCreatorTemplate(
+    val id: String = "",
+    val name: String = "",
+    val summary: String = "",
+    @SerialName("best_for") val bestFor: String = "",
+    val kinds: List<String> = emptyList(),
+    val layout: String = "editorial",
+    val style: ApiCreatorStyle = ApiCreatorStyle(),
+    /** Resolved by the server so a gallery card can paint itself in the
+     *  template's own colours -- a thumbnail in the wrong colour is worse than
+     *  no thumbnail, because the colour is the thing being chosen. */
+    val colors: ApiCreatorThemeColors = ApiCreatorThemeColors(),
+    val sections: List<String> = emptyList(),
+    @SerialName("section_count") val sectionCount: Int = 0
+)
+
+@Serializable
+data class ApiCreatorTemplatesResponse(
+    val templates: List<ApiCreatorTemplate> = emptyList(),
+    val error: String? = null
 )
 
 @Serializable

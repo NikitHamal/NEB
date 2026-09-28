@@ -200,6 +200,13 @@ fun CreatorStudioScreen(
                 }
             }
         }
+
+        // Both sheets live here rather than inside the list. A ModalBottomSheet
+        // composed inside a LazyColumn item is disposed the moment that item
+        // scrolls out of view, which would close the editor under the creator's
+        // fingers.
+        StudioSectionPickerSheet(uiState, viewModel)
+        StudioBlockEditorSheet(uiState, viewModel)
     }
 }
 
@@ -376,17 +383,22 @@ private fun androidx.compose.foundation.lazy.LazyListScope.studioPageTab(
                     )
                 }
             }
-            NebAuthField(
+            // Pictures, with the picture. A field that only says "AVATAR IMAGE
+            // URL" is one you fill in blind and find out about after publishing.
+            NebSectionLabel("Pictures")
+            StudioImageField(
+                label = "Profile picture",
                 value = uiState.avatarUrl,
                 onValueChange = viewModel::updateAvatarUrl,
-                label = "Avatar image URL",
-                keyboardType = KeyboardType.Uri
+                shape = StudioImageShape.Round,
+                hint = "Square works best. Used on your card and at the top of your page."
             )
-            NebAuthField(
+            StudioImageField(
+                label = "Cover picture",
                 value = uiState.coverUrl,
                 onValueChange = viewModel::updateCoverUrl,
-                label = "Cover image URL",
-                keyboardType = KeyboardType.Uri
+                shape = StudioImageShape.Wide,
+                hint = "Wide. Sits behind your name, and is what shows when your page is shared."
             )
             NebSectionLabel("Social links")
             NebFieldHint("Full addresses work best. Leave one empty to take it off your page.")
@@ -408,289 +420,9 @@ private fun androidx.compose.foundation.lazy.LazyListScope.studioPageTab(
         }
     }
 
-    item(key = "look") {
-        StudioCard {
-            NebSectionLabel("Look")
-            NebFieldHint("Your accent is used on your avatar, your name and your price chips — never on the app's own chrome.")
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier.horizontalScroll(rememberScrollState())
-            ) {
-                listOf("#004BD4", "#0F766E", "#B45309", "#9D174D", "#4C1D95", "#166534").forEach { hex ->
-                    val selected = uiState.accentHex.equals(hex, ignoreCase = true)
-                    Surface(
-                        shape = CircleShape,
-                        color = creatorAccent(hex),
-                        modifier = Modifier
-                            .size(34.dp)
-                            .clip(CircleShape)
-                            .clickable { viewModel.updateAccent(hex) },
-                        border = if (selected) {
-                            androidx.compose.foundation.BorderStroke(
-                                3.dp,
-                                MaterialTheme.colorScheme.onSurface
-                            )
-                        } else null
-                    ) {}
-                }
-            }
-            NebAuthField(
-                value = uiState.accentHex,
-                onValueChange = viewModel::updateAccent,
-                label = "Accent hex"
-            )
-            NebSectionLabel("Layout")
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(6.dp),
-                modifier = Modifier.horizontalScroll(rememberScrollState())
-            ) {
-                listOf("editorial", "spotlight", "grid", "classic").forEach { layout ->
-                    NebChip(
-                        label = layout.replaceFirstChar { it.uppercase() },
-                        selected = uiState.layout == layout,
-                        onClick = { viewModel.updateLayout(layout) }
-                    )
-                }
-            }
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(6.dp),
-                modifier = Modifier.horizontalScroll(rememberScrollState())
-            ) {
-                listOf("art" to "Banner art", "cover" to "Cover", "plain" to "Plain").forEach { (value, label) ->
-                    NebChip(
-                        label = label,
-                        selected = uiState.heroStyle == value,
-                        onClick = { viewModel.updateHeroStyle(value) }
-                    )
-                }
-            }
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(6.dp),
-                modifier = Modifier.horizontalScroll(rememberScrollState())
-            ) {
-                listOf("soft", "round", "sharp").forEach { radius ->
-                    NebChip(
-                        label = radius.replaceFirstChar { it.uppercase() },
-                        selected = uiState.radius == radius,
-                        onClick = { viewModel.updateRadius(radius) }
-                    )
-                }
-            }
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(6.dp),
-                modifier = Modifier.horizontalScroll(rememberScrollState())
-            ) {
-                listOf("comfortable" to "Comfortable", "compact" to "Compact").forEach { (value, label) ->
-                    NebChip(
-                        label = label,
-                        selected = uiState.density == value,
-                        onClick = { viewModel.updateDensity(value) }
-                    )
-                }
-            }
-            NebSectionLabel("Gallery columns")
-            Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                listOf(2, 3, 4).forEach { columns ->
-                    NebChip(
-                        label = "$columns",
-                        selected = uiState.galleryColumns == columns,
-                        onClick = { viewModel.updateGalleryColumns(columns) }
-                    )
-                }
-            }
-            NebToggleRow(
-                title = "Lead with your numbers",
-                subtitle = "Offerings, views and followers, under your name",
-                checked = uiState.showStats,
-                onCheckedChange = viewModel::updateShowStats
-            )
-            NebToggleRow(
-                title = "Publish your contact details",
-                subtitle = "Your email, phone and socials in the contact section",
-                checked = uiState.showContact,
-                onCheckedChange = viewModel::updateShowContact
-            )
-            NebToggleRow(
-                title = "Show your verified badge",
-                subtitle = "Only appears once we have verified you",
-                checked = uiState.showVerified,
-                onCheckedChange = viewModel::updateShowVerified
-            )
-            SaveRow(label = "Save look", saving = uiState.isSavingPage, onSave = viewModel::savePage)
-        }
-    }
+    item(key = "templates") { StudioTemplateGallery(uiState, viewModel) }
 
-    item(key = "blocks") {
-        StudioCard {
-            NebSectionLabel("Sections")
-            NebFieldHint("Your page is these sections in this order. Add, reorder or remove them freely — that is the whole layout.")
-            uiState.blocks.forEachIndexed { index, block ->
-                BlockRow(
-                    index = index,
-                    block = block,
-                    canMoveUp = index > 0,
-                    canMoveDown = index < uiState.blocks.lastIndex,
-                    onMoveUp = { viewModel.moveBlock(index, -1) },
-                    onMoveDown = { viewModel.moveBlock(index, 1) },
-                    onRemove = { viewModel.removeBlock(index) },
-                    onToggle = { viewModel.toggleBlock(index) },
-                    onOpenEditor = { viewModel.openBlockEditor(index) }
-                )
-            }
-            Spacer(Modifier.height(4.dp))
-            NebFieldHint("Add a section")
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(6.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .horizontalScroll(rememberScrollState())
-            ) {
-                listOf("hero", "about", "stats", "courses", "resources", "documents", "posts").forEach { type ->
-                    NebChip(
-                        label = blockLabel(type),
-                        selected = false,
-                        onClick = { viewModel.addBlock(type) }
-                    )
-                }
-            }
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(6.dp),
-                modifier = Modifier.horizontalScroll(rememberScrollState())
-            ) {
-                listOf("showcase", "gallery", "testimonials", "faq", "schedule", "links", "contact", "cta").forEach { type ->
-                    NebChip(
-                        label = blockLabel(type),
-                        selected = false,
-                        onClick = { viewModel.addBlock(type) }
-                    )
-                }
-            }
-            SaveRow(label = "Save sections", saving = uiState.isSavingPage, onSave = viewModel::savePage)
-        }
-    }
+    item(key = "look") { StudioLookCard(uiState, viewModel) }
 
-    uiState.editingBlock?.let { (index, block) ->
-        item(key = "block_editor_$index") {
-            StudioCard {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(
-                        text = "Editing ${blockLabel(block.type)}",
-                        style = MaterialTheme.typography.titleSmall,
-                        fontWeight = FontWeight.SemiBold,
-                        modifier = Modifier.weight(1f)
-                    )
-                    IconButton(onClick = viewModel::closeBlockEditor) {
-                        Icon(Icons.Outlined.Delete, contentDescription = "Close editor")
-                    }
-                }
-                NebAuthField(
-                    value = block.title,
-                    onValueChange = { viewModel.updateBlockTitle(index, it) },
-                    label = "Heading"
-                )
-                NebAuthField(
-                    value = block.subtitle,
-                    onValueChange = { viewModel.updateBlockSubtitle(index, it) },
-                    label = "Subheading"
-                )
-                if (block.type == "about" || block.type == "contact") {
-                    NebAuthField(
-                        value = block.body,
-                        onValueChange = { viewModel.updateBlockBody(index, it) },
-                        label = "Text",
-                        singleLine = false,
-                        minHeight = 108.dp
-                    )
-                }
-                if (block.type == "hero" || block.type == "cta") {
-                    NebAuthField(
-                        value = block.ctaLabel,
-                        onValueChange = { viewModel.updateBlockCtaLabel(index, it) },
-                        label = "Button label"
-                    )
-                    NebAuthField(
-                        value = block.ctaUrl,
-                        onValueChange = { viewModel.updateBlockCtaUrl(index, it) },
-                        label = "Button link",
-                        keyboardType = KeyboardType.Uri
-                    )
-                }
-                if (block.type == "hero") {
-                    // Only the hero carries a picture of its own (`BLOCK_FIELDS`
-                    // on the server agrees). Left empty it falls back to the
-                    // cover, which is what most creators want.
-                    NebAuthField(
-                        value = block.imageUrl,
-                        onValueChange = { viewModel.updateBlockImageUrl(index, it) },
-                        label = "Image URL",
-                        keyboardType = KeyboardType.Uri
-                    )
-                    NebFieldHint("Leave this empty to use your cover picture.")
-                }
-                if (block.type == "gallery") {
-                    NebFieldHint(
-                        "${block.images.size} picture${if (block.images.size == 1) "" else "s"}, " +
-                            "laid out in ${uiState.galleryColumns} columns."
-                    )
-                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                        NebButton(
-                            text = "Add picture",
-                            onClick = { viewModel.addBlockImage(index) },
-                            icon = Icons.Outlined.Add,
-                            tone = NebButtonTone.Tonal,
-                            size = NebButtonSize.Small
-                        )
-                        if (block.images.isNotEmpty()) {
-                            NebButton(
-                                text = "Remove last",
-                                onClick = { viewModel.removeLastBlockImage(index) },
-                                tone = NebButtonTone.Text,
-                                size = NebButtonSize.Small
-                            )
-                        }
-                    }
-                    block.images.forEachIndexed { imageIndex, image ->
-                        NebAuthField(
-                            value = image,
-                            onValueChange = { viewModel.updateBlockImage(index, imageIndex, it) },
-                            label = "Picture ${imageIndex + 1} URL",
-                            keyboardType = KeyboardType.Uri
-                        )
-                    }
-                }
-                if (block.type in listOf("stats", "showcase", "testimonials", "faq", "schedule", "links")) {
-                    NebFieldHint(
-                        "This section has ${block.items.size} item${if (block.items.size == 1) "" else "s"}."
-                    )
-                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                        NebButton(
-                            text = "Add item",
-                            onClick = { viewModel.addBlockItem(index) },
-                            icon = Icons.Outlined.Add,
-                            tone = NebButtonTone.Tonal,
-                            size = NebButtonSize.Small
-                        )
-                        if (block.items.isNotEmpty()) {
-                            NebButton(
-                                text = "Remove last",
-                                onClick = { viewModel.removeLastBlockItem(index) },
-                                tone = NebButtonTone.Text,
-                                size = NebButtonSize.Small
-                            )
-                        }
-                    }
-                    block.items.forEachIndexed { itemIndex, item ->
-                        BlockItemEditor(
-                            index = index,
-                            itemIndex = itemIndex,
-                            blockType = block.type,
-                            item = item,
-                            viewModel = viewModel
-                        )
-                    }
-                }
-                SaveRow(label = "Save section", saving = uiState.isSavingPage, onSave = viewModel::savePage)
-            }
-        }
-    }
+    item(key = "blocks") { StudioSectionsCard(uiState, viewModel) }
 }

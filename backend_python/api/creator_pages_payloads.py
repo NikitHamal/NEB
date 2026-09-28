@@ -5,8 +5,45 @@ Django views hand the same dicts to their templates, which is what keeps a
 storefront looking like the same storefront in both places.
 """
 from .creator_pages_access import check_user_course_access
+from .creator_themes import palette as _palette
 from .models import CreatorPage, CreatorCourseResource, Resource
 from .utils import money_str as _money
+
+
+def theme_payload(style, accent_hex=''):
+    """A creator's look with the colours already worked out.
+
+    The renderers get hex, not a palette name. That is deliberate: if Android
+    carried its own copy of the palette table, the day somebody nudged one hex
+    in Python would be the day the same page looked different on a phone. There
+    is one table, it lives in `creator_themes.py`, and this is where it is read.
+
+    `accent_hex` still wins when the creator has picked their own colour -- the
+    palette is a starting point, not a cage. It is compared against the
+    palette's *light* accent to decide whether it is a choice at all, because
+    that is the value `apply_page_update` writes when a creator picks a palette
+    and nothing else. Without that comparison a dark Ink page would wear the
+    near-black accent meant for its light ramp, and nothing on it would be
+    visible.
+    """
+    style = style or {}
+    scheme = style.get('scheme') if style.get('scheme') in ('light', 'dark') else 'light'
+    colours = dict(_palette(style.get('palette'), scheme))
+    custom = (accent_hex or '').strip().upper()
+    if custom and custom != _palette(style.get('palette'), 'light')['accent'].upper():
+        colours['accent'] = custom
+    return {
+        'palette': style.get('palette') or 'indigo',
+        'scheme': scheme,
+        'font': style.get('font') or 'sans',
+        'pattern': style.get('pattern') or 'none',
+        'card': style.get('card') or 'elevated',
+        'radius': style.get('radius') or 'round',
+        'density': style.get('density') or 'comfortable',
+        'width': style.get('width') or 'standard',
+        'hero': style.get('hero') or 'art',
+        'colors': colours,
+    }
 
 
 def _account_payload(user):
@@ -107,6 +144,7 @@ def page_payload(page, viewer=None, include_drafts=False, with_content=True):
         'accent_hex': page.accent_hex or '#004BD4',
         'layout': page.layout,
         'style': page.style or {},
+        'theme': theme_payload(page.style, page.accent_hex),
         'blocks': page.blocks or [],
         'socials': page.socials or {},
         'contact_email': page.contact_email or '',

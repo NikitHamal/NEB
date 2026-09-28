@@ -274,7 +274,7 @@ private fun HeroStat(value: String, label: String, accent: Color) {
 internal fun CreatorAboutBlock(page: ApiCreatorPage, block: ApiCreatorBlock, isLast: Boolean) {
     val body = block.body.ifBlank { page.about }
     if (body.isBlank()) return
-    CreatorBlockShell(title = block.title.ifBlank { "About" }, isLast = isLast) {
+    CreatorBlockShell(settings = block.settings, title = block.title.ifBlank { "About" }, isLast = isLast) {
         Text(
             text = body,
             style = MaterialTheme.typography.bodyMedium,
@@ -296,7 +296,7 @@ internal fun CreatorStatsBlock(page: ApiCreatorPage, block: ApiCreatorBlock, acc
         )
     }
     val style = LocalCreatorStyle.current
-    CreatorBlockShell(title = block.title.ifBlank { "Numbers" }, isLast = isLast) {
+    CreatorBlockShell(settings = block.settings, title = block.title.ifBlank { "Numbers" }, isLast = isLast) {
         Column(verticalArrangement = Arrangement.spacedBy(style.itemGap)) {
             items.chunked(3).forEach { row ->
                 Row(horizontalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.fillMaxWidth()) {
@@ -344,6 +344,7 @@ internal fun CreatorCoursesBlock(
 ) {
     val style = LocalCreatorStyle.current
     CreatorBlockShell(
+        settings = block.settings,
         title = block.title.ifBlank { "Courses and classes" },
         subtitle = block.subtitle,
         isLast = isLast
@@ -429,7 +430,7 @@ internal fun CreatorResourcesBlock(
     onResourceClick: (String) -> Unit
 ) {
     val style = LocalCreatorStyle.current
-    CreatorBlockShell(title = block.title.ifBlank { "Resources" }, subtitle = block.subtitle, isLast = isLast) {
+    CreatorBlockShell(settings = block.settings, title = block.title.ifBlank { "Resources" }, subtitle = block.subtitle, isLast = isLast) {
         if (page.resources.isEmpty()) {
             Text(
                 text = "No library resources yet.",
@@ -526,7 +527,7 @@ internal fun CreatorDocumentsBlock(
     onResourceClick: (String) -> Unit
 ) {
     val style = LocalCreatorStyle.current
-    CreatorBlockShell(title = block.title.ifBlank { "Documents" }, subtitle = block.subtitle, isLast = isLast) {
+    CreatorBlockShell(settings = block.settings, title = block.title.ifBlank { "Documents" }, subtitle = block.subtitle, isLast = isLast) {
         if (page.resources.isEmpty()) {
             Text(
                 text = "No documents yet.",
@@ -576,7 +577,7 @@ internal fun CreatorDocumentsBlock(
 internal fun CreatorPostsBlock(block: ApiCreatorBlock, page: ApiCreatorPage, accent: Color, isLast: Boolean) {
     val style = LocalCreatorStyle.current
     val context = LocalContext.current
-    CreatorBlockShell(title = block.title.ifBlank { "Updates" }, subtitle = block.subtitle, isLast = isLast) {
+    CreatorBlockShell(settings = block.settings, title = block.title.ifBlank { "Updates" }, subtitle = block.subtitle, isLast = isLast) {
         if (page.posts.isEmpty()) {
             Text(
                 text = "No updates posted yet.",

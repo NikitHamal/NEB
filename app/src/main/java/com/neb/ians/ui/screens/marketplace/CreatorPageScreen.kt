@@ -5,6 +5,7 @@
 
 package com.neb.ians.ui.screens.marketplace
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,11 +41,14 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.neb.ians.data.api.ApiCreatorBlockSettings
 import com.neb.ians.data.api.ApiCreatorPage
 import com.neb.ians.ui.components.ErrorCard
 import com.neb.ians.ui.components.NebButton
@@ -173,7 +177,11 @@ private fun CreatorPageBody(
     onCourseClick: (String) -> Unit,
     onResourceClick: (String) -> Unit
 ) {
-    val accent = creatorAccent(page.accentHex)
+    val colors = rememberCreatorColors(page.theme)
+    // The server resolved the palette, so the accent a block draws with is the
+    // theme's -- `page.accentHex` is only the fallback for a page saved before
+    // themes existed.
+    val accent = colors.accent
     val style = rememberCreatorStyle(page)
     val blocks = remember(page.blocks) { page.blocks.filter { it.enabled } }
     val paid = remember(page.courses) { page.courses.filter { !it.isFree } }
@@ -185,7 +193,12 @@ private fun CreatorPageBody(
     // section rather than pretending to be a second page.
     val jumpTo: (String) -> Unit = { anchor ->
         val wanted = if (anchor == "offerings") "courses" else anchor
-        val index = blocks.indexOfFirst { it.type == wanted }
+        // Sections are addressed by their own id on the web (`#pricing`,
+        // `#b3f1a2`), and the templates lean on that -- a hero button pointing
+        // at the fees is the most useful link a storefront has. Falling back to
+        // the type keeps the older `#courses` style of link working.
+        val index = blocks.indexOfFirst { it.id == wanted }
+            .takeIf { it >= 0 } ?: blocks.indexOfFirst { it.type == wanted }
         if (index >= 0) scope.launch { listState.animateScrollToItem(index) }
     }
 
@@ -198,12 +211,17 @@ private fun CreatorPageBody(
         return
     }
 
-    CompositionLocalProvider(LocalCreatorStyle provides style) {
+    CompositionLocalProvider(
+        LocalCreatorStyle provides style,
+        LocalCreatorColors provides colors
+    ) {
         LazyColumn(
             state = listState,
             contentPadding = PaddingValues(bottom = 110.dp),
             verticalArrangement = Arrangement.spacedBy(0.dp),
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
+                .background(colors.background)
         ) {
             itemsIndexed(blocks, key = { _, block -> block.id.ifBlank { block.type } }) { index, block ->
                 // the web page draws no rule under its final section, so neither
@@ -225,6 +243,16 @@ private fun CreatorPageBody(
                     "links" -> CreatorLinksBlock(block, accent, last)
                     "contact" -> CreatorContactBlock(page, block, accent, last)
                     "cta" -> CreatorCtaBlock(block, accent, jumpTo)
+                    "pricing" -> CreatorPricingBlock(block, last, jumpTo)
+                    "video" -> CreatorVideoBlock(block, last)
+                    "team" -> CreatorTeamBlock(block, last)
+                    "logos" -> CreatorLogosBlock(block, last)
+                    "timeline" -> CreatorTimelineBlock(block, last)
+                    "steps" -> CreatorStepsBlock(block, last)
+                    "quote" -> CreatorQuoteBlock(block, last)
+                    "banner" -> CreatorBannerBlock(block, jumpTo)
+                    "richtext" -> CreatorRichTextBlock(block, last, jumpTo)
+                    "divider" -> CreatorDividerBlock(block)
                     else -> Unit
                 }
             }
@@ -261,39 +289,81 @@ internal fun CreatorBlockShell(
     title: String?,
     subtitle: String? = null,
     isLast: Boolean = false,
+    settings: ApiCreatorBlockSettings = ApiCreatorBlockSettings(),
     content: @Composable () -> Unit
 ) {
     val style = LocalCreatorStyle.current
+    val colors = LocalCreatorColors.current
+    val centred = settings.align == "center"
+
+    // `tone` is the creator saying how loud this section should be, and it is
+    // the same three steps as `.mkt-tone-*` on the web: a tint, the accent
+    // itself, or ink. A section with no tone sits straight on the page.
+    val background = when (settings.tone) {
+        "soft" -> colors.soft
+        "accent" -> colors.accent
+        "contrast" -> colors.ink
+        else -> Color.Transparent
+    }
+    val ink = when (settings.tone) {
+        "accent" -> colors.onAccent
+        "contrast" -> colors.surface
+        else -> colors.ink
+    }
+    val quiet = when (settings.tone) {
+        // A muted grey on top of the accent is unreadable, so on a toned
+        // section the "quiet" colour is the same ink at less weight.
+        "accent", "contrast" -> ink.copy(alpha = 0.78f)
+        else -> colors.muted
+    }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
+            .background(background)
             .padding(horizontal = 16.dp, vertical = style.blockPadding),
-        verticalArrangement = Arrangement.spacedBy(style.itemGap)
+        verticalArrangement = Arrangement.spacedBy(style.itemGap),
+        horizontalAlignment = if (centred) Alignment.CenterHorizontally else Alignment.Start
     ) {
         if (!title.isNullOrBlank() || !subtitle.isNullOrBlank()) {
+            // Heading and subtitle on one baseline, the heading taking the
+            // room: the two used to be free to collide, and a long subheading
+            // pushed the heading down to one word a line.
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.Bottom,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = if (centred) Arrangement.Center else Arrangement.spacedBy(8.dp)
             ) {
                 Text(
                     text = title.orEmpty(),
                     style = MaterialTheme.typography.titleMediumEmphasized,
                     fontWeight = FontWeight.SemiBold,
-                    modifier = Modifier.weight(1f)
+                    fontFamily = style.fontFamily,
+                    color = ink,
+                    textAlign = if (centred) TextAlign.Center else null,
+                    modifier = if (centred) Modifier else Modifier.weight(1f)
                 )
-                if (!subtitle.isNullOrBlank()) {
+                if (!subtitle.isNullOrBlank() && !centred) {
                     Text(
                         text = subtitle,
                         style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = quiet
                     )
                 }
             }
+            if (!subtitle.isNullOrBlank() && centred) {
+                Text(
+                    text = subtitle,
+                    style = MaterialTheme.typography.labelMedium,
+                    color = quiet,
+                    textAlign = TextAlign.Center
+                )
+            }
         }
         content()
-        if (style.dividers && !isLast) {
-            HorizontalDivider(color = nebBorderSubtle(), thickness = 1.dp)
+        // A toned section is its own visual break, so it never also gets a rule.
+        if (style.dividers && !isLast && settings.tone == "plain") {
+            HorizontalDivider(color = colors.line, thickness = 1.dp)
         }
     }
 }

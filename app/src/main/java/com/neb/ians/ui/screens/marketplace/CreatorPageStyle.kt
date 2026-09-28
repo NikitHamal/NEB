@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.neb.ians.data.api.ApiCreatorPage
@@ -20,6 +21,7 @@ import com.neb.ians.data.api.ApiCreatorStyle
  * | style key         | web                                             | here                      |
  * |-------------------|-------------------------------------------------|---------------------------|
  * | `radius`          | `--mkt-block-radius`: 6px / 20px / 2px          | [blockShape]              |
+ * | `font`            | `.mkt-font-*` swaps the page's font stack       | [fontFamily]              |
  * | `density`         | `.mkt-block` padding 26px → 18px                | [blockPadding], [itemGap] |
  * | `hero`            | `.mkt-hero-plain` hides the art and the cover   | [heroArt], [heroCover]    |
  * | `gallery_columns` | `--mkt-gallery-cols`                            | [galleryColumns]          |
@@ -32,6 +34,7 @@ import com.neb.ians.data.api.ApiCreatorStyle
  */
 internal data class CreatorStyle(
     val blockShape: Shape,
+    val fontFamily: FontFamily,
     val pillShape: Shape,
     val blockPadding: Dp,
     val itemGap: Dp,
@@ -63,6 +66,7 @@ internal fun resolveCreatorStyle(style: ApiCreatorStyle, layout: String): Creato
     val grid = layout == "grid"
     return CreatorStyle(
         blockShape = RoundedCornerShape(corner),
+        fontFamily = creatorFontFamily(style.font),
         pillShape = RoundedCornerShape(999.dp),
         blockPadding = if (compact) 9.dp else 14.dp,
         itemGap = if (compact) 7.dp else 10.dp,

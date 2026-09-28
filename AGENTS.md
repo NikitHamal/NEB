@@ -462,22 +462,41 @@ course is.
 | --- | --- |
 | Models + migration | `api/models.py`, `api/migrations/0143_creator_marketplace_pages_courses_posts.py` |
 | Data layer | `api/creator_pages.py` (slugs, page creation, the `apply_*` write path) |
-| — block catalogue | `api/creator_pages_schema.py` — block types, their fields, the labels, `block_schema()` |
+| — block catalogue | `api/creator_pages_schema.py` — the 25 block types, their fields, the labels, `block_schema()` / `editor_schema()` |
+| — style vocabulary | `api/creator_themes.py` — palettes, schemes, heroes, fonts, patterns, cards, radii, densities, widths, tones; `theme_vocabulary()` resolves a palette to hex |
+| — templates | `api/creator_templates.py` — the ten starters and `apply_template(page, template_id, mode)` (`page` / `theme` / `sections`) |
 | — sanitizers | `api/creator_pages_sanitize.py` |
 | — eligibility + access | `api/creator_pages_access.py` |
 | — JSON payloads | `api/creator_pages_payloads.py` |
 | REST API | `api/views_marketplace.py`, wired in `api/urls.py` |
 | Web pages | `web/views_marketplace.py`, `templates/web/marketplace*.html`, `_marketplace_*.html`, `_price_setter.html` |
-| Web CSS | `static/web/css/pages/marketplace.src.css` → seven modules in `pages/marketplace/`, bundled to `pages/marketplace.css` |
-| Web JS | `static/web/js/marketplace_price.js` (everyone) + `marketplace_studio.js` and `marketplace_studio_forms.js` (studio only) |
-| App — storefront | `ui/screens/marketplace/CreatorPageScreen.kt` (scaffold + block dispatch), `CreatorPageBlocks.kt`, `CreatorPageDetailBlocks.kt` |
-| App — studio | `CreatorStudioScreen.kt`, `CreatorStudioContent.kt` (shared widgets + block editor), `CreatorStudioCoursesTab.kt`, `CreatorStudioUpdatesTab.kt` |
+| Web CSS | `static/web/css/pages/marketplace.src.css` → nine modules in `pages/marketplace/` (incl. `theme.css`, `sections.css`), bundled to `pages/marketplace.css` |
+| Web JS | `static/web/js/marketplace_price.js` (everyone) + `marketplace_studio.js`, `marketplace_studio_forms.js` and `marketplace_studio_look.js` (studio only) |
+| App — storefront | `ui/screens/marketplace/CreatorPageScreen.kt` (scaffold + block dispatch), `CreatorPageBlocks.kt`, `CreatorPageDetailBlocks.kt`, `CreatorPageSections.kt` |
+| App — creator theme | `CreatorPageTheme.kt` (`CreatorColors`, `LocalCreatorColors`), `CreatorPageStyle.kt` (`CreatorStyle`, `LocalCreatorStyle`) |
+| App — studio | `CreatorStudioScreen.kt`, `CreatorStudioContent.kt` (shared widgets), `CreatorStudioControls.kt` (form primitives), `CreatorStudioDesign.kt` (templates + Look), `CreatorStudioSections.kt` (section list + sheets), `CreatorStudioCoursesTab.kt`, `CreatorStudioUpdatesTab.kt` |
 | App — rest | `ui/screens/marketplace/`, `data/repository/MarketplaceRepository.kt`, `data/api/ApiService.kt` (§ Marketplace) |
 | Shared price control | `web/templates/web/_price_setter.html` + `ui/components/NebPriceField.kt` |
 
 `api/creator_pages.py` re-exports the whole four-module surface, so
 `from api.creator_pages import …` keeps working and callers never need to know
 which module a name came from.
+
+**The colour table lives once, in `api/creator_themes.py`.** The server resolves
+a creator's palette to eight hex values and ships them in `page.theme.colors`;
+the web reads them as `--creator-*` custom properties on `.mkt-page`, the app as
+`LocalCreatorColors`. Neither client owns a palette table, because the day one
+hex is nudged in Python is otherwise the day the same storefront looks different
+on a phone. Both studios build their controls from `theme_vocabulary()` for the
+same reason.
+
+**Two write-path rules that do not follow the rest.** `creator_pages._has()`
+treats "key present" as "change this field", *except*: `style` is replaced
+**wholesale** (a client that cannot carry a key erases it — the Kotlin
+`savePage()` sends all thirteen), and an empty `resource_ids` list means
+"detach all" rather than "leave alone". Separately, `sanitize_block_settings`
+drops any value equal to its default, so both clients mirror that when building
+a payload.
 
 The marketplace stylesheet goes through `tools/css/bundle.py` like
 `material3` and `app` do: edit a module under `css/pages/marketplace/`, then
@@ -488,7 +507,7 @@ bundle, so the split costs no extra render-blocking request.
 Only the studio loads the editor JavaScript. Upload, edit-resource and the
 library shelf load `marketplace_price.js` alone, because the price setter is
 all they use; the studio scripts extend the same prototype through
-`window.NebMarket` and must load in the order price → studio → forms.
+`window.NebMarket` and must load in the order price → studio → look → forms.
 
 ### The library tab
 
@@ -518,7 +537,7 @@ same order in both.
 
 ### Verifying it
 
-34 committed tests, one module per surface, covering the contracts that broke
+72 committed tests, one module per surface, covering the contracts that broke
 or could break:
 
 ```bash
@@ -538,6 +557,10 @@ python3 manage.py test api.tests_marketplace -v 2
 - `MarketplaceWebTests` — the library tab's position, the studio's JSON saves,
   block order in the rendered storefront, the shared price setter, and the web
   checkout unlocking after approval.
+- `CreatorThemeTests` — the style vocabulary is well-formed and every palette
+  resolves to eight colours, `apply_template` in all three modes (and that
+  `page`/`theme` move `accent_hex` onto the new palette's accent), and the
+  per-section `tone`/`align`/`width`/`columns` sanitizers.
 - `AdminPaymentQueueTests` — the queue renders course *and* resource payments,
   approval credits the seller and unlocks the course, rejection carries a
   reason, and a non-admin cannot verify.

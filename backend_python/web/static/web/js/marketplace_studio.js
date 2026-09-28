@@ -80,14 +80,6 @@
       });
     });
 
-    var addButton = this.root.querySelector('[data-mkt-add-block]');
-    if (addButton) {
-      addButton.addEventListener('click', function () {
-        var select = self.root.querySelector('[data-mkt-add-block-select]');
-        self.addBlock(select ? select.value : 'about');
-      });
-    }
-
     var publish = this.root.querySelector('[data-mkt-toggle-publish]');
     if (publish) {
       publish.addEventListener('click', function () {
@@ -118,6 +110,7 @@
       });
     });
 
+    this.bindLook();
     this.bindCourses();
     this.bindPosts();
     this.bindWithdraw();
@@ -169,6 +162,7 @@
           var slugField = self.root.querySelector('[data-mkt-field="slug"]');
           if (slugField) slugField.value = data.page.slug;
         }
+        self.reloadPreview();
       })
       .catch(function (error) { self.toast(error.message, true); })
       .finally(function () { if (button) button.disabled = false; });
@@ -229,12 +223,207 @@
   NebStudio.prototype.renderBlocks = function () {
     if (!this.blocksWrap) return;
     var self = this;
+    if (!this._menuDismiss) {
+      this._menuDismiss = true;
+      document.addEventListener('click', function () { self.closeMenus(null); });
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') self.closeMenus(null);
+      });
+    }
     this.blocksWrap.innerHTML = '';
 
     if (!this.blocks.length) {
       var empty = document.createElement('p');
       empty.className = 'mkt-quiet';
-      empty.textContent = 'No sections yet. Add one below — Hero and About are a good start.';
+      empty.textContent = 'No sections yet. Pick a template above, or add a section — Hero and About are a good start.';
+      this.blocksWrap.appendChild(empty);
+      return;
+    }
+
+    this.blocks.forEach(function (block, index) {
+      var schema = self.schemaFor(block.type);
+      if (!schema) return;
+      self.blocksWrap.appendChild(self.blockNode(block, index, schema));
+    });
+  };
+
+  NebStudio.prototype.duplicateBlock = function (index) {
+    var copy = JSON.parse(JSON.stringify(this.blocks[index]));
+    copy.id = 'b' + Math.random().toString(36).slice(2, 10);
+    this.blocks.splice(index + 1, 0, copy);
+    this.renderBlocks();
+    this.toast('Section duplicated.');
+  };
+
+  NebStudio.prototype.blockNode = function (block, index, schema) {
+    var self = this;
+    var item = document.createElement('div');
+    item.className = 'mkt-block-item is-collapsed';
+    item.dataset.index = String(index);
+
+    var head = document.createElement('div');
+    head.className = 'mkt-block-item-head';
+
+    /* The handle is the only draggable part of the row, so a creator can still
+       scroll the list with a thumb laid anywhere else on it. Dragging is never
+       the only way to reorder -- the overflow menu moves a section up or down
+       for anyone using a keyboard, a screen reader, or a small screen where
+       dragging across a scrolling list is miserable (WCAG 2.5.1). */
+    var handle = document.createElement('span');
+    handle.className = 'mkt-block-handle';
+    handle.setAttribute('draggable', 'true');
+    handle.setAttribute('aria-hidden', 'true');
+    handle.innerHTML = '<span class="material-symbols-outlined">drag_indicator</span>';
+    this.bindDrag(handle, item, index);
+
+    /* The whole title area opens the section. A 44px-tall target beats a 24px
+       chevron on a phone, and the chevron stays as the visual affordance. */
+    var titleBtn = document.createElement('button');
+    titleBtn.type = 'button';
+    titleBtn.className = 'mkt-block-item-title';
+    titleBtn.setAttribute('aria-expanded', 'false');
+
+    var titleText = document.createElement('span');
+    titleText.className = 'mkt-block-item-name';
+    var paintTitle = function () {
+      titleText.textContent = block.title || schema.label;
+    };
+    paintTitle();
+
+    var kind = document.createElement('span');
+    kind.className = 'mkt-block-item-kind';
+    kind.textContent = schema.label;
+
+    var chevron = document.createElement('span');
+    chevron.className = 'material-symbols-outlined mkt-block-chevron';
+    chevron.textContent = 'expand_more';
+
+    titleBtn.appendChild(chevron);
+    var titleStack = document.createElement('span');
+    titleStack.className = 'mkt-block-item-stack';
+    titleStack.appendChild(titleText);
+    titleStack.appendChild(kind);
+    titleBtn.appendChild(titleStack);
+    titleBtn.addEventListener('click', function () {
+      var open = item.classList.toggle('is-collapsed') === false;
+      titleBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+
+    /* Hiding a section keeps everything typed into it; removing it does not.
+       The app has had this since day one and the two studios have to agree. */
+    var hide = document.createElement('button');
+    hide.type = 'button';
+    hide.className = 'mkt-icon-btn';
+    var paintHide = function () {
+      var on = block.enabled !== false;
+      hide.innerHTML = '<span class="material-symbols-outlined">' + (on ? 'visibility' : 'visibility_off') + '</span>';
+      hide.setAttribute('aria-label', on ? 'Hide this section' : 'Show this section');
+      hide.setAttribute('aria-pressed', on ? 'false' : 'true');
+      item.classList.toggle('is-hidden', !on);
+    };
+    hide.addEventListener('click', function () {
+      block.enabled = block.enabled === false;
+      paintHide();
+    });
+    paintHide();
+
+    /* One menu instead of a row of five icons. Five icons on a phone either
+       wrap or squeeze their labels down to a character apiece, which is the
+       exact failure the app row had. */
+    var menuWrap = document.createElement('div');
+    menuWrap.className = 'mkt-block-menu-wrap';
+    var menuBtn = document.createElement('button');
+    menuBtn.type = 'button';
+    menuBtn.className = 'mkt-icon-btn';
+    menuBtn.setAttribute('aria-label', 'More actions for this section');
+    menuBtn.setAttribute('aria-expanded', 'false');
+    menuBtn.innerHTML = '<span class="material-symbols-outlined">more_vert</span>';
+    var menu = document.createElement('div');
+    menu.className = 'mkt-block-menu';
+    menu.hidden = true;
+
+    var addAction = function (icon, label, handler, danger) {
+      var action = document.createElement('button');
+      action.type = 'button';
+      action.className = 'mkt-block-menu-item' + (danger ? ' mkt-danger' : '');
+      action.innerHTML = '<span class="material-symbols-outlined">' + icon + '</span>';
+      action.appendChild(document.createTextNode(label));
+      action.addEventListener('click', function () {
+        menu.hidden = true;
+        menuBtn.setAttribute('aria-expanded', 'false');
+        handler();
+      });
+      menu.appendChild(action);
+      return action;
+    };
+    var moveUp = addAction('arrow_upward', 'Move up', function () { self.moveBlock(index, -1); });
+    var moveDown = addAction('arrow_downward', 'Move down', function () { self.moveBlock(index, 1); });
+    if (index === 0) moveUp.disabled = true;
+    if (index === this.blocks.length - 1) moveDown.disabled = true;
+    addAction('content_copy', 'Duplicate', function () { self.duplicateBlock(index); });
+    addAction('delete', 'Remove', function () {
+      if (window.confirm('Remove this section and everything in it?')) self.removeBlock(index);
+    }, true);
+
+    menuBtn.addEventListener('click', function (event) {
+      event.stopPropagation();
+      self.closeMenus(menu);
+      menu.hidden = !menu.hidden;
+      menuBtn.setAttribute('aria-expanded', menu.hidden ? 'false' : 'true');
+    });
+    menuWrap.appendChild(menuBtn);
+    menuWrap.appendChild(menu);
+
+    head.appendChild(handle);
+    head.appendChild(titleBtn);
+    head.appendChild(hide);
+    head.appendChild(menuWrap);
+    item.appendChild(head);
+
+    var body = document.createElement('div');
+    body.className = 'mkt-block-item-body';
+
+    schema.fields.forEach(function (field) { block[field.key] = ''; });
+    if (schema.list_key) {
+      block[schema.list_key] = [];
+      if (type === 'stats' || type === 'faq' || type === 'schedule') {
+        block[schema.list_key].push({});
+      }
+    }
+    this.blocks.push(block);
+    this.renderBlocks();
+    this.toast('Section added. Save sections to publish it.');
+  };
+
+  NebStudio.prototype.moveBlock = function (index, delta) {
+    var target = index + delta;
+    if (target < 0 || target >= this.blocks.length) return;
+    var moved = this.blocks.splice(index, 1)[0];
+    this.blocks.splice(target, 0, moved);
+    this.renderBlocks();
+  };
+
+  NebStudio.prototype.removeBlock = function (index) {
+    this.blocks.splice(index, 1);
+    this.renderBlocks();
+  };
+
+  NebStudio.prototype.renderBlocks = function () {
+    if (!this.blocksWrap) return;
+    var self = this;
+    if (!this._menuDismiss) {
+      this._menuDismiss = true;
+      document.addEventListener('click', function () { self.closeMenus(null); });
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') self.closeMenus(null);
+      });
+    }
+    this.blocksWrap.innerHTML = '';
+
+    if (!this.blocks.length) {
+      var empty = document.createElement('p');
+      empty.className = 'mkt-quiet';
+      empty.textContent = 'No sections yet. Pick a template above, or add a section — Hero and About are a good start.';
       this.blocksWrap.appendChild(empty);
       return;
     }
@@ -329,9 +518,8 @@
       input.placeholder = field.url ? 'https://' : '';
       input.addEventListener('input', function () {
         block[field.key] = input.value;
-        if (field.key === 'title') {
-          title.textContent = schema.label + (input.value ? ' — ' + input.value : '');
-        }
+        if (field.key === 'title') paintTitle();
+        self.markPreviewStale();
       });
       body.appendChild(input);
     });
@@ -405,8 +593,145 @@
       body.appendChild(listWrap);
     }
 
+    body.appendChild(this.blockSettings(block, schema));
     item.appendChild(body);
     return item;
+  };
+
+  /* ── Per-section settings ────────────────────────────────────────────────
+   * The four knobs that make a page look composed rather than assembled: where
+   * a section's text sits, how loud its background is, how far it runs, and how
+   * many columns its items form. They live behind a summary because most
+   * sections want the defaults and a row of four selects on every card would
+   * bury the fields that actually carry the writing.
+   */
+  NebStudio.prototype.blockSettings = function (block, schema) {
+    var self = this;
+    var theme = (this.editorSchema || {}).theme || {};
+    var settings = block.settings || (block.settings = {});
+
+    var wrap = document.createElement('details');
+    wrap.className = 'mkt-block-settings';
+    var summary = document.createElement('summary');
+    summary.innerHTML = '<span class="material-symbols-outlined">tune</span>';
+    summary.appendChild(document.createTextNode('Look of this section'));
+    wrap.appendChild(summary);
+
+    var grid = document.createElement('div');
+    grid.className = 'mkt-settings-grid';
+
+    var addSelect = function (key, label, options, fallback, asNumber) {
+      if (!options || !options.length) return;
+      var field = document.createElement('div');
+      field.className = 'mkt-settings-field';
+      var tag = document.createElement('label');
+      tag.className = 'md-label';
+      tag.textContent = label;
+      var select = document.createElement('select');
+      select.className = 'md-input';
+      options.forEach(function (option) {
+        var node = document.createElement('option');
+        node.value = String(option.id);
+        node.textContent = option.label;
+        select.appendChild(node);
+      });
+      select.value = String(settings[key] != null ? settings[key] : fallback);
+      select.addEventListener('change', function () {
+        /* The server drops anything that equals the default, so writing the
+           default back as a deletion here keeps the two in step and keeps a
+           page that never touched these as small on the wire as it was. */
+        if (select.value === String(fallback)) delete settings[key];
+        else settings[key] = asNumber ? parseInt(select.value, 10) : select.value;
+        self.markPreviewStale();
+      });
+      tag.setAttribute('for', (field.id = 'set-' + block.id + '-' + key));
+      select.id = field.id;
+      field.appendChild(tag);
+      field.appendChild(select);
+      grid.appendChild(field);
+    };
+
+    addSelect('align', 'Text alignment', theme.block_aligns, 'start');
+    addSelect('tone', 'Background', theme.block_tones, 'plain');
+    addSelect('width', 'Width', theme.block_widths, 'standard');
+    if (schema.list_key && schema.list_key !== 'images') {
+      addSelect('columns', 'Columns', [
+        { id: 0, label: 'Automatic' }, { id: 1, label: '1' },
+        { id: 2, label: '2' }, { id: 3, label: '3' }, { id: 4, label: '4' }
+      ], 0, true);
+    }
+
+    wrap.appendChild(grid);
+    return wrap;
+  };
+
+  NebStudio.prototype.closeMenus = function (except) {
+    this.root.querySelectorAll('.mkt-block-menu').forEach(function (menu) {
+      if (menu === except) return;
+      menu.hidden = true;
+      var button = menu.parentNode.querySelector('.mkt-icon-btn');
+      if (button) button.setAttribute('aria-expanded', 'false');
+    });
+  };
+
+  /* ── Dragging a section into place ───────────────────────────────────────
+   * A live indicator rather than a ghost that lands somewhere surprising: the
+   * row you would drop onto grows a rule on the edge you are nearest, so the
+   * result is visible before you let go.
+   */
+  NebStudio.prototype.bindDrag = function (handle, item, index) {
+    var self = this;
+
+    handle.addEventListener('dragstart', function (event) {
+      self.dragIndex = index;
+      event.dataTransfer.effectAllowed = 'move';
+      event.dataTransfer.setData('text/plain', String(index));
+      if (event.dataTransfer.setDragImage) event.dataTransfer.setDragImage(item, 20, 20);
+      window.setTimeout(function () { item.classList.add('is-dragging'); }, 0);
+    });
+
+    handle.addEventListener('dragend', function () {
+      self.dragIndex = null;
+      self.clearDropMarks();
+      item.classList.remove('is-dragging');
+    });
+
+    item.addEventListener('dragover', function (event) {
+      if (self.dragIndex == null || self.dragIndex === index) return;
+      event.preventDefault();
+      event.dataTransfer.dropEffect = 'move';
+      var box = item.getBoundingClientRect();
+      var after = event.clientY > box.top + box.height / 2;
+      self.clearDropMarks();
+      item.classList.add(after ? 'is-drop-after' : 'is-drop-before');
+    });
+
+    item.addEventListener('dragleave', function (event) {
+      if (item.contains(event.relatedTarget)) return;
+      item.classList.remove('is-drop-before', 'is-drop-after');
+    });
+
+    item.addEventListener('drop', function (event) {
+      if (self.dragIndex == null) return;
+      event.preventDefault();
+      var after = item.classList.contains('is-drop-after');
+      self.clearDropMarks();
+      var from = self.dragIndex;
+      self.dragIndex = null;
+      var to = index + (after ? 1 : 0);
+      if (from < to) to -= 1;
+      if (from === to) return;
+      var moved = self.blocks.splice(from, 1)[0];
+      self.blocks.splice(to, 0, moved);
+      self.renderBlocks();
+      self.markPreviewStale();
+    });
+  };
+
+  NebStudio.prototype.clearDropMarks = function () {
+    this.root.querySelectorAll('.mkt-block-item').forEach(function (node) {
+      node.classList.remove('is-drop-before', 'is-drop-after');
+    });
   };
 
   window.NebMarket.Studio = NebStudio;

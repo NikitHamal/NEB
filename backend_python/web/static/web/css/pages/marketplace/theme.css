@@ -1,0 +1,249 @@
+/* ── A creator's own look ────────────────────────────────────────────────────
+ *
+ * The page carries its palette in eight custom properties, written onto
+ * `.mkt-page` by the template from the resolved `theme.colors` the server sent.
+ * Everything below is plumbing: those eight are mapped onto the platform's
+ * `--md-*` names *inside the creator's page only*, so the six hundred lines of
+ * block CSS that already existed pick up a creator's palette without being
+ * rewritten, and nothing outside `.mkt-page` is affected.
+ *
+ * That is also why a creator page can be black while the rest of NEBians is
+ * white, and why a dark page stays dark for a visitor whose app is in light
+ * mode: the palette belongs to the page, not to the reader.
+ *
+ * Source of truth for the values: `api/creator_themes.py`.
+ */
+
+.mkt-page {
+  /* fallbacks only -- the template writes the real values inline */
+  --creator-accent: var(--md-primary);
+  --creator-on-accent: #fff;
+  --creator-bg: transparent;
+  --creator-surface: var(--md-surface-container-lowest);
+  --creator-ink: var(--md-on-surface);
+  --creator-muted: var(--md-on-surface-variant);
+  --creator-line: var(--md-outline-variant);
+  --creator-soft: var(--md-surface-container);
+
+  --md-primary: var(--creator-accent);
+  --md-on-surface: var(--creator-ink);
+  --md-on-surface-variant: var(--creator-muted);
+  --md-outline-variant: var(--creator-line);
+  --md-outline: var(--creator-line);
+  --md-surface-container-lowest: var(--creator-surface);
+  --md-surface-container: var(--creator-soft);
+  --md-surface-container-high: var(--creator-soft);
+  --md-surface-container-highest: var(--creator-soft);
+
+  color: var(--creator-ink);
+  background: var(--creator-bg);
+  font-family: var(--creator-font, var(--md-font));
+  border-radius: var(--md-radius-lg);
+  /* The palette is the page's, so it has to reach the edges of the page and no
+     further. `isolation` keeps the pattern layer's blend inside it. */
+  isolation: isolate;
+  position: relative;
+  padding: 4px 0 28px;
+}
+
+/* A dark page inside a light app needs its own selection and scrollbar colours,
+   or the browser picks them from the app and they vanish against the page. */
+.mkt-scheme-dark ::selection { background: var(--creator-accent); color: var(--creator-on-accent); }
+.mkt-scheme-dark { color-scheme: dark; }
+
+/* ── Type ──────────────────────────────────────────────────────────────────
+ * Five personalities, all from stacks already on the machine. A creator page
+ * must never wait on a webfont to become readable -- a tutor in Kanchanpur on
+ * 3G would be looking at nothing for two seconds.
+ */
+.mkt-font-sans    { --creator-font: var(--md-font); --creator-display-font: var(--md-font); --creator-title-tracking: -0.015em; }
+.mkt-font-serif   { --creator-font: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+                    --creator-display-font: inherit; --creator-title-tracking: -0.005em; }
+.mkt-font-display { --creator-font: var(--md-font); --creator-display-font: var(--md-font);
+                    --creator-title-tracking: -0.04em; --creator-title-weight: 800; }
+.mkt-font-mono    { --creator-font: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+                    --creator-display-font: inherit; --creator-title-tracking: -0.02em; }
+.mkt-font-rounded { --creator-font: ui-rounded, "SF Pro Rounded", "Hiragino Maru Gothic ProN", Quicksand, var(--md-font);
+                    --creator-display-font: inherit; --creator-title-tracking: 0; }
+
+.mkt-page h1, .mkt-page h2, .mkt-page h3, .mkt-page .mkt-block-head {
+  font-family: var(--creator-display-font, inherit);
+  letter-spacing: var(--creator-title-tracking, -0.01em);
+  font-weight: var(--creator-title-weight, 700);
+}
+.mkt-font-display .mkt-hero-name { text-transform: none; line-height: 1.02; }
+.mkt-font-mono .mkt-hero-kind,
+.mkt-font-mono .mkt-block-sub { letter-spacing: 0.04em; }
+
+/* ── Measure ───────────────────────────────────────────────────────────────
+ * `narrow` is the reading width a long about-page wants; `wide` is what an
+ * institute's grid of nine courses wants. Both are max-widths, so neither
+ * changes anything on a phone -- the phone is already narrower than both.
+ */
+.mkt-width-narrow  { max-width: 42rem; margin-inline: auto; }
+.mkt-width-standard { max-width: 60rem; margin-inline: auto; }
+.mkt-width-wide    { max-width: 76rem; margin-inline: auto; }
+
+/* ── Section surfaces ──────────────────────────────────────────────────────
+ * How a section reads as an object. `flat` is the editorial default -- rules
+ * between sections and no boxes at all.
+ */
+/* A section that has become a card needs inner padding and air around it; a
+   section that is still just a run of the page does not. That is the whole
+   difference between `flat` and the other three. */
+.mkt-card-elevated .mkt-block,
+.mkt-card-outlined .mkt-block,
+.mkt-card-glass .mkt-block {
+  padding: clamp(20px, 3.5vw, 30px) clamp(18px, 3vw, 26px);
+  border-radius: var(--mkt-block-radius, var(--md-radius-lg));
+  border-bottom: none;
+}
+.mkt-card-elevated .mkt-block + .mkt-block,
+.mkt-card-outlined .mkt-block + .mkt-block,
+.mkt-card-glass .mkt-block + .mkt-block { margin-top: 12px; }
+
+.mkt-card-elevated .mkt-block,
+.mkt-card-elevated .mkt-hero {
+  background: var(--creator-surface);
+  border: 1px solid transparent;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .06), 0 8px 24px -12px rgba(0, 0, 0, .18);
+}
+.mkt-card-outlined .mkt-block,
+.mkt-card-outlined .mkt-hero {
+  background: var(--creator-surface);
+  border: 1px solid var(--creator-line);
+  box-shadow: none;
+}
+.mkt-card-flat .mkt-block,
+.mkt-card-flat .mkt-hero {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+.mkt-card-flat .mkt-block + .mkt-block { border-top: 1px solid var(--creator-line); }
+.mkt-card-glass .mkt-block,
+.mkt-card-glass .mkt-hero {
+  background: color-mix(in srgb, var(--creator-surface) 64%, transparent);
+  border: 1px solid color-mix(in srgb, var(--creator-line) 70%, transparent);
+  backdrop-filter: blur(14px) saturate(1.3);
+  -webkit-backdrop-filter: blur(14px) saturate(1.3);
+}
+
+/* ── Corners ───────────────────────────────────────────────────────────────
+ * `pill` is for the link-hub look, where every row is a lozenge.
+ */
+.mkt-radius-soft  { --mkt-block-radius: 6px; }
+.mkt-radius-round { --mkt-block-radius: 20px; }
+.mkt-radius-sharp { --mkt-block-radius: 2px; }
+.mkt-radius-pill  { --mkt-block-radius: 28px; }
+.mkt-radius-pill .md-btn,
+.mkt-radius-pill .mkt-link-row { border-radius: 999px; }
+
+/* ── Density ───────────────────────────────────────────────────────────────*/
+.mkt-density-airy .mkt-block { padding: clamp(28px, 6vw, 56px) clamp(20px, 4vw, 40px); }
+.mkt-density-airy .mkt-block + .mkt-block { margin-top: 18px; }
+
+/* ── Texture ───────────────────────────────────────────────────────────────
+ * Drawn with gradients, so there is nothing to download and nothing to wait
+ * for. The layer is behind everything and never takes a pointer event.
+ */
+.mkt-pattern::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  border-radius: inherit;
+}
+.mkt-page > * { position: relative; z-index: 1; }
+
+.mkt-pattern-dots::before {
+  background-image: radial-gradient(color-mix(in srgb, var(--creator-ink) 14%, transparent) 1px, transparent 1px);
+  background-size: 18px 18px;
+  opacity: .6;
+}
+.mkt-pattern-grid::before {
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--creator-ink) 8%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--creator-ink) 8%, transparent) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+.mkt-pattern-rays::before {
+  background: repeating-conic-gradient(
+    from 12deg at 80% -10%,
+    color-mix(in srgb, var(--creator-accent) 10%, transparent) 0deg 6deg,
+    transparent 6deg 18deg);
+  mask-image: linear-gradient(to bottom, #000, transparent 55%);
+  -webkit-mask-image: linear-gradient(to bottom, #000, transparent 55%);
+}
+.mkt-pattern-waves::before {
+  background-image: repeating-radial-gradient(
+    circle at 50% 120%,
+    transparent 0 38px,
+    color-mix(in srgb, var(--creator-accent) 12%, transparent) 38px 40px);
+  mask-image: linear-gradient(to bottom, #000, transparent 60%);
+  -webkit-mask-image: linear-gradient(to bottom, #000, transparent 60%);
+}
+.mkt-pattern-glow::before {
+  background:
+    radial-gradient(60% 40% at 15% 0%, color-mix(in srgb, var(--creator-accent) 26%, transparent), transparent 70%),
+    radial-gradient(50% 36% at 92% 8%, color-mix(in srgb, var(--creator-accent) 16%, transparent), transparent 72%);
+}
+.mkt-pattern-mesh::before {
+  background:
+    radial-gradient(42% 32% at 8% 4%, color-mix(in srgb, var(--creator-accent) 22%, transparent), transparent 68%),
+    radial-gradient(38% 28% at 96% 18%, color-mix(in srgb, var(--creator-ink) 10%, transparent), transparent 70%),
+    radial-gradient(46% 30% at 50% 100%, color-mix(in srgb, var(--creator-accent) 14%, transparent), transparent 70%);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .mkt-pattern-glow::before,
+  .mkt-pattern-mesh::before { transition: opacity .4s var(--md-motion-effects, ease); }
+}
+
+/* ── Per-section overrides ─────────────────────────────────────────────────
+ * The three controls that give a page its rhythm: where a section sits, how
+ * loud it is, how wide it runs.
+ */
+.mkt-align-center { text-align: center; }
+.mkt-align-center .mkt-block-head,
+.mkt-align-center .mkt-block-headrow { justify-content: center; text-align: center; }
+.mkt-align-center .mkt-stat-grid,
+.mkt-align-center .mkt-steps,
+.mkt-align-center .mkt-links { justify-items: center; }
+.mkt-align-center .mkt-block-body { margin-inline: auto; }
+
+.mkt-tone-soft {
+  background: var(--creator-soft) !important;
+  border-color: transparent !important;
+}
+.mkt-tone-accent {
+  background: var(--creator-accent) !important;
+  color: var(--creator-on-accent) !important;
+  border-color: transparent !important;
+}
+.mkt-tone-accent .mkt-block-head,
+.mkt-tone-accent .mkt-block-sub,
+.mkt-tone-accent .mkt-block-body,
+.mkt-tone-accent p, .mkt-tone-accent h2, .mkt-tone-accent h3 { color: var(--creator-on-accent) !important; }
+.mkt-tone-accent .md-btn-filled {
+  background: var(--creator-on-accent);
+  color: var(--creator-accent);
+}
+.mkt-tone-contrast {
+  background: var(--creator-ink) !important;
+  color: var(--creator-surface) !important;
+  border-color: transparent !important;
+}
+.mkt-tone-contrast .mkt-block-head,
+.mkt-tone-contrast .mkt-block-sub,
+.mkt-tone-contrast .mkt-stat-value,
+.mkt-tone-contrast .mkt-stat-label,
+.mkt-tone-contrast p, .mkt-tone-contrast h2, .mkt-tone-contrast h3 { color: var(--creator-surface) !important; }
+
+.mkt-bwidth-wide { margin-inline: clamp(-24px, -3vw, 0px); }
+.mkt-bwidth-full {
+  margin-inline: calc(50% - 50vw);
+  max-width: 100vw;
+  border-radius: 0 !important;
+}

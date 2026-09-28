@@ -29,10 +29,10 @@ from api.creator_pages import (
     BLOCK_LABELS, LAYOUTS, allowed_kinds, apply_course_fields, apply_page_update,
     apply_post_fields, block_schema, can_have_storefront, check_user_course_access,
     course_access_map,
-    course_payload, course_resource_map, listing_queryset, page_for_user, page_payload,
-    post_payload,
+    apply_template, course_payload, course_resource_map, editor_schema, listing_queryset,
+    page_for_user, page_payload, post_payload,
     sanitize_accent, sanitize_style, sold_course_delete_error, sync_course_resources,
-    unique_course_slug, unique_page_slug,
+    template_list, unique_course_slug, unique_page_slug,
 )
 from api.marketplace import get_payment_config, record_purchase, seller_sales
 from api.utils import now_ms
@@ -190,6 +190,9 @@ def creator(request, slug):
         # normalised, so a page saved before a style key existed still gets
         # that key's default instead of a falsy miss in the template
         style=sanitize_style(payload.get('style') or {}),
+        # the palette already resolved to hex by the server, so the page and
+        # the app cannot disagree about what "Teal, dark" looks like
+        theme=payload.get('theme') or {},
         blocks=blocks,
         courses=courses,
         paid_courses=[c for c in courses if not c['is_free']],
@@ -335,6 +338,10 @@ def studio(request):
     return render(request, 'web/marketplace_studio.html', _ctx(request,
         eligible=True,
         creator=payload,
+        # Resolved here rather than with `{% url %}` on the studio's root
+        # element, which is rendered for ineligible accounts too -- and those
+        # have no page, no slug and nothing to reverse.
+        page_url=reverse('web:marketplace_creator', kwargs={'slug': page.slug}),
         accent=sanitize_accent(payload.get('accent_hex')),
         # Without this every `{% if style.X %}` in the Look tab tests an
         # undefined variable, so the tab renders defaults, and saving sends those
@@ -342,8 +349,16 @@ def studio(request):
         # one field the server replaces wholesale, so the studio has to show the
         # truth before it is allowed to send it.
         style=sanitize_style(payload.get('style') or {}),
+        theme=payload.get('theme') or {},
+        # One payload for every control the Look tab and the section editor
+        # draw -- palettes, hero shapes, fonts, textures, section groups and
+        # their hints. The studio builds its options from this rather than
+        # hardcoding them, so a palette added in `creator_themes.py` appears
+        # here without anybody editing a template.
+        editor_schema=editor_schema(),
         block_schema=block_schema(),
         block_labels=BLOCK_LABELS,
+        templates=template_list(page.kind),
         layouts=LAYOUTS,
         allowed_kinds=allowed_kinds(viewer),
         courses=[course_payload(course, viewer, include_purchase=False) for course in courses],
@@ -383,6 +398,37 @@ def ajax_page_save(request):
     if message:
         return JsonResponse({'error': message}, status=400)
     return JsonResponse({'ok': True, 'page': page_payload(page, viewer), 'message': 'Page saved'})
+
+
+def ajax_template_apply(request):
+    """Put a ready-made page under the signed-in creator.
+
+    Three modes, because "use a template" means three different things
+    depending on how much of a page somebody already has: `page` replaces the
+    look and the sections, `theme` repaints and keeps every word they wrote,
+    `sections` brings new sections into the palette they already chose.
+    Nothing outside layout, style and blocks is touched in any of them, so a
+    creator's name, slug, contacts, courses and sales are never at risk from
+    pressing a template button.
+    """
+    if request.method != 'POST':
+        return JsonResponse({'error': 'POST only'}, status=405)
+    page, viewer, error = _owned_page_or_none(request)
+    if error:
+        return error
+    data = _json_body(request)
+    if data is None:
+        return JsonResponse({'error': 'Invalid payload'}, status=400)
+
+    template_id = str(data.get('template') or data.get('id') or '').strip()
+    mode = str(data.get('mode') or 'page').strip().lower()
+    page, message = apply_template(page, template_id, mode=mode)
+    if message:
+        return JsonResponse({'error': message}, status=400)
+    page.updated_at = now_ms()
+    page.save(update_fields=['layout', 'style', 'blocks', 'accent_hex', 'updated_at'])
+    return JsonResponse({'ok': True, 'page': page_payload(page, viewer),
+                         'message': 'Template applied'})
 
 
 def ajax_course_save(request):
