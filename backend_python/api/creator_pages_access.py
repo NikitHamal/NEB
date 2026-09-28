@@ -35,13 +35,9 @@ def default_kind_for(user):
     return kinds[0] if kinds else 'tutor'
 
 
-def check_user_course_access(user, course):
-    """Mirror of check_user_resource_access() for paid courses.
-
-    Returns (has_access, reason, purchase|None) with the same reasons so a
-    client can render one purchase state machine for both kinds."""
-    if course is None:
-        return False, 'missing', None
+def _settled(user, course):
+    """The part of the decision that needs no query, or None if a purchase
+    lookup is the only thing left to check."""
     if course.is_free or not course.price or Decimal(course.price) <= 0:
         return True, 'free', None
     if user is None:
@@ -50,10 +46,10 @@ def check_user_course_access(user, course):
         return True, 'owner', None
     if getattr(user, 'is_admin', False):
         return True, 'admin', None
-    purchase = (PaymentVerification.objects
-                .filter(buyer_id=user.id, course_id=course.id)
-                .order_by('-created_at')
-                .first())
+    return None
+
+
+def _from_purchase(purchase):
     if purchase:
         if purchase.status == 'approved':
             return True, 'purchased', purchase
@@ -62,3 +58,48 @@ def check_user_course_access(user, course):
         if purchase.status == 'rejected':
             return False, 'rejected', purchase
     return False, 'unpurchased', None
+
+
+def check_user_course_access(user, course):
+    """Mirror of check_user_resource_access() for paid courses.
+
+    Returns (has_access, reason, purchase|None) with the same reasons so a
+    client can render one purchase state machine for both kinds."""
+    if course is None:
+        return False, 'missing', None
+    settled = _settled(user, course)
+    if settled is not None:
+        return settled
+    purchase = (PaymentVerification.objects
+                .filter(buyer_id=user.id, course_id=course.id)
+                .order_by('-created_at')
+                .first())
+    return _from_purchase(purchase)
+
+
+def course_access_map(user, courses):
+    """The same decision for a whole list, in one query instead of one each.
+
+    A marketplace shelf of 48 offerings used to cost 48 PaymentVerification
+    lookups for any signed-in visitor. Ordering newest-first and keeping the
+    first row per course reproduces the single-course `.first()` exactly.
+    """
+    courses = list(courses)
+    decided = {}
+    pending = []
+    for course in courses:
+        settled = _settled(user, course)
+        if settled is not None:
+            decided[course.id] = settled
+        else:
+            pending.append(course)
+    if pending:
+        newest = {}
+        rows = (PaymentVerification.objects
+                .filter(buyer_id=user.id, course_id__in=[c.id for c in pending])
+                .order_by('-created_at'))
+        for row in rows:
+            newest.setdefault(row.course_id, row)
+        for course in pending:
+            decided[course.id] = _from_purchase(newest.get(course.id))
+    return decided

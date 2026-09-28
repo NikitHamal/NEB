@@ -16,6 +16,7 @@ import uuid
 
 from django.conf import settings
 from django.contrib import messages
+from django.db.models import F
 from django.http import Http404, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -27,6 +28,7 @@ from api.models import (
 from api.creator_pages import (
     BLOCK_LABELS, LAYOUTS, allowed_kinds, apply_course_fields, apply_page_update,
     apply_post_fields, block_schema, can_have_storefront, check_user_course_access,
+    course_access_map,
     course_payload, listing_queryset, page_for_user, page_payload, post_payload,
     sanitize_accent, sync_course_resources, unique_course_slug, unique_page_slug,
 )
@@ -170,12 +172,14 @@ def creator(request, slug):
         raise Http404('This page is not published yet')
 
     if not is_owner:
-        CreatorPage.objects.filter(pk=page.pk).update(view_count=page.view_count + 1)
+        CreatorPage.objects.filter(pk=page.pk).update(view_count=F('view_count') + 1)
 
     payload = page_payload(page, viewer)
-    courses = [course_payload(course, viewer)
-               for course in page.courses.all()
+    visible = [course for course in page.courses.all()
                if course.status == 'published' or is_owner or is_admin]
+    access = course_access_map(viewer, visible)
+    courses = [course_payload(course, viewer, access=access.get(course.id))
+               for course in visible]
 
     blocks = payload.get('blocks') or []
     return render(request, 'web/marketplace_page.html', _ctx(request,
@@ -231,7 +235,7 @@ def course_detail(request, course_id):
         raise Http404('This course does not exist')
 
     if not is_owner:
-        CreatorCourse.objects.filter(pk=course.pk).update(view_count=course.view_count + 1)
+        CreatorCourse.objects.filter(pk=course.pk).update(view_count=F('view_count') + 1)
 
     if request.method == 'POST':
         if viewer is None:
@@ -263,8 +267,9 @@ def course_detail(request, course_id):
         messages.success(request, 'Payment submitted. Your seat unlocks once our team verifies it.')
         return redirect('web:marketplace_course', course_id=course.id)
 
-    has_access, reason, purchase = check_user_course_access(viewer, course)
-    payload = course_payload(course, viewer)
+    access = check_user_course_access(viewer, course)
+    has_access, reason, purchase = access
+    payload = course_payload(course, viewer, access=access)
     config = get_payment_config()
     return render(request, 'web/marketplace_course.html', _ctx(request,
         course=payload,

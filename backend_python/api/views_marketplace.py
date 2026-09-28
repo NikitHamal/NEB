@@ -22,7 +22,7 @@ from .models import (
 from .creator_pages import (
     can_have_storefront, allowed_kinds, page_for_user, page_payload, course_payload,
     post_payload, listing_queryset, unique_page_slug, unique_course_slug,
-    check_user_course_access, LAYOUTS,
+    check_user_course_access, course_access_map, LAYOUTS,
     apply_page_update, apply_course_fields, apply_post_fields, sync_course_resources,
 )
 from .marketplace import get_payment_config, record_purchase, seller_sales
@@ -286,9 +286,11 @@ def marketplace_courses(request):
     total = qs.count()
     rows = qs[:limit]
 
+    rows = list(rows)
+    access = course_access_map(viewer, rows)
     courses = []
     for course in rows:
-        payload = course_payload(course, viewer)
+        payload = course_payload(course, viewer, access=access.get(course.id))
         payload['page_name'] = course.page.display_name
         payload['page_slug'] = course.page.slug
         payload['accent_hex'] = course.page.accent_hex
@@ -306,6 +308,7 @@ def marketplace_courses(request):
 # ---------------------------------------------------------------------------
 
 @api_view(['GET', 'POST', 'PUT', 'PATCH'])
+@throttle_classes([WriteActionRateThrottle])
 def marketplace_me_page(request):
     user, err = _require_user(request)
     if err:
@@ -334,6 +337,7 @@ def marketplace_me_page(request):
 
 
 @api_view(['GET', 'POST'])
+@throttle_classes([WriteActionRateThrottle])
 def marketplace_me_courses(request):
     user, err = _require_user(request)
     if err:
@@ -366,6 +370,7 @@ def marketplace_me_courses(request):
 
 
 @api_view(['GET', 'PATCH', 'PUT', 'DELETE'])
+@throttle_classes([WriteActionRateThrottle])
 def marketplace_me_course(request, course_id):
     user, err = _require_user(request)
     if err:
@@ -401,6 +406,7 @@ def marketplace_me_course(request, course_id):
 
 
 @api_view(['GET', 'POST'])
+@throttle_classes([WriteActionRateThrottle])
 def marketplace_me_posts(request):
     user, err = _require_user(request)
     if err:
@@ -426,6 +432,7 @@ def marketplace_me_posts(request):
 
 
 @api_view(['PATCH', 'DELETE'])
+@throttle_classes([WriteActionRateThrottle])
 def marketplace_me_post(request, post_id):
     user, err = _require_user(request)
     if err:
