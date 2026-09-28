@@ -1,6 +1,7 @@
 """Execute authored matplotlib figure code -> cached SVG. House style applied globally."""
 import hashlib, os, io, traceback, warnings
 import matplotlib
+import fonts
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
@@ -17,9 +18,15 @@ GRID     = "#dfe3ea"
 ACCENT   = "#1d6fb8"     # primary
 SERIES   = ["#1d6fb8", "#d9534f", "#2e8b57", "#b8860b", "#6a5acd", "#008b8b"]
 
+FAMILY   = ["Inter", "DejaVu Sans", "Noto Sans Devanagari"]
+
+fonts.ensure()   # static bold instances, so fontweight="bold" is actually bold
+
 matplotlib.rcParams.update({
-    "font.family": "sans-serif",
-    "font.sans-serif": ["Inter", "DejaVu Sans"],
+    # A family *list* (not the "sans-serif" generic) is what turns on
+    # matplotlib's per-glyph fallback, so a Nepali label falls through to Noto
+    # while arrows and maths signs still come from Inter/DejaVu.
+    "font.family": FAMILY,
     "mathtext.fontset": "stix",
     "font.size": 8.6,
     "axes.labelsize": 8.8, "axes.titlesize": 9.4,
@@ -34,8 +41,7 @@ matplotlib.rcParams.update({
 
 def _style():
     matplotlib.rcParams.update({
-        "font.family": "sans-serif",
-        "font.sans-serif": ["Inter", "DejaVu Sans"],
+        "font.family": FAMILY,
         "mathtext.fontset": "stix",
         "svg.fonttype": "path",
         "font.size": 9.5,
