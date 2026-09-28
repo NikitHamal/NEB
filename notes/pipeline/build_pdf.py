@@ -1,12 +1,19 @@
 """Assemble a subject PDF from authored chapter files."""
 import os, re, sys, html as _html, datetime
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import spine, md2html, mathsvg, figrun
+import spine, md2html, mathsvg, figrun, photo, assets
 from weasyprint import HTML, CSS
 
-ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
+HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.abspath(os.path.join(HERE, ".."))
 CONTENT = os.path.join(ROOT, "content")
-OUT = os.path.join(ROOT, "out")
+# Built books ship in the repo next to their sources, so the app can serve them
+# without anyone running the pipeline.
+OUT = os.path.join(ROOT, "pdf")
+# theme.css and brand/ live beside this file. (They used to be looked for in a
+# sibling `build/` directory, which meant every build had to be run out of a
+# scratch copy of the tree shaped a particular way.)
+THEME = os.path.join(HERE, "theme.css")
 EDITION = "Edition 1.0 · 2082 BS (2025–26 AD)"
 
 def esc(s): return _html.escape(str(s))
@@ -100,9 +107,53 @@ def chapter_html(u, body, subject, grade, fig_start):
 {body}
 </section>"""
 
+
+def credits_html(asset_ids):
+    """Picture Credits appendix. Generated from assets/credits.json, never typed:
+    every licence we reproduce under (CC BY, CC BY-SA, GFDL) requires the author
+    and the licence to travel with the image, and a hand-kept list goes stale."""
+    if not asset_ids:
+        return ""
+    rows = []
+    for aid in asset_ids:
+        r = assets.record(aid) or {}
+        if not r:
+            continue
+        author = r.get("author") or "Unknown author"
+        lic = r.get("license") or "licence unknown"
+        lurl = r.get("license_url") or ""
+        rows.append(
+            f'<div class="cr"><b>{esc(r.get("title", aid))}</b> — '
+            f'<span>{esc(author)}, {esc(lic)}'
+            + (f' (<code>{esc(lurl)}</code>)' if lurl else "")
+            + f', via {esc(r.get("source", "the web"))}.</span><br>'
+            f'<code>{esc(r.get("page", ""))}</code></div>')
+    if not rows:
+        return ""
+    return f"""<section class="chapter credits"><div class="ch-head">
+<div class="ch-eyebrow">Appendix</div><h1>Picture Credits</h1></div>
+<p>Schematic diagrams, graphs and derivation figures in this book were drawn for
+it and are part of the book. The photographs, micrographs and reference diagrams
+listed here came from free-licence sources and remain under their own licences;
+they are reproduced with the attribution each licence asks for. Follow a licence
+link to see exactly what it permits.</p>
+<p>Where a source diagram was published in a numbered or non-English form, the
+labels you see over it are ours, added so the terminology matches the CDC
+syllabus. The underlying image is unchanged apart from cropping and those labels;
+such an annotated version is a derivative work and is offered under the same
+licence as the original.</p>
+<h2>Images used in this book</h2>
+{''.join(rows)}
+<p style="margin-top:6mm;font-size:8pt;color:#8a8f99">
+If you believe an image here is wrongly attributed or wrongly licensed, report it
+in the NEBians app and it will be corrected or removed in the next edition.</p>
+</section>"""
+
+
 def build(slug, verbose=True):
     head, units = spine.load(slug)
     subject, accent, grade = spine.meta_for(slug)
+    photo.USED.clear()          # credits are per book, in order of first use
     code = head.get("code", "").split()[0]
     cdir = os.path.join(CONTENT, slug)
     present, bodies, figno = set(), {}, 1
@@ -140,11 +191,12 @@ html{{string-set:booktitle "{esc(subject)} · Grade {grade}"}}</style>
 {toc_html(units, present)}
 {''.join(chapter_html(u, bodies[u['no']], subject, grade, 1) for u in units if u['no'] in present)}
 {''.join(extras)}
+{credits_html(list(photo.USED))}
 </body></html>"""
     os.makedirs(OUT, exist_ok=True)
     name = f"NEBians-{subject.replace(' ', '-')}-Grade-{grade}.pdf"
     path = os.path.join(OUT, name)
-    HTML(string=doc, base_url=ROOT).write_pdf(path, stylesheets=[CSS(filename=os.path.join(ROOT, "build", "theme.css"))])
+    HTML(string=doc, base_url=HERE).write_pdf(path, stylesheets=[CSS(filename=THEME)])
     import pypdf_pages
     pages = pypdf_pages.count(path)
     if verbose:
@@ -165,3 +217,6 @@ if __name__ == "__main__":
     if figrun.FAILS:
         print(f"\n[figures] {len(figrun.FAILS)} failed")
         for c, e in figrun.FAILS[:5]: print("   ", c, e.strip().splitlines()[-1][:90])
+    if photo.FAILS:
+        print(f"\n[photos] {len(photo.FAILS)} failed")
+        for c, e in photo.FAILS[:8]: print("   ", c, e.strip().splitlines()[-1][:100])

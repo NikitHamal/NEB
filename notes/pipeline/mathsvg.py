@@ -15,6 +15,13 @@ os.makedirs(CACHE, exist_ok=True)
 _parser = MathTextParser("path")
 FAILS = []
 
+# A display equation wider than the text column is not an error — CSS shrinks it
+# to fit — but it lands on the page as a strip of 6pt type nobody can read. The
+# fix belongs in the source (break it at an `=`), so record it and let check.py
+# fail the file.
+OVERWIDE = []
+COLUMN_IN = 6.93        # A4 210mm less 17mm margins each side
+
 # Common LaTeX that mathtext does not know -> safe equivalents
 _FIX = [
     (r"\\left\s*\|", "|"), (r"\\right\s*\|", "|"),
@@ -76,12 +83,15 @@ def render(tex: str, fontsize: float = 11.0, display: bool = False):
     s = _clean(tex)
     if not s:
         return None, 0, 0
-    key = hashlib.sha1(f"{s}|{fontsize}|{display}|v3".encode()).hexdigest()[:20]
+    key = hashlib.sha1(f"{s}|{fontsize}|{display}|v4".encode()).hexdigest()[:20]
     out = os.path.join(CACHE, key + ".svg")
     meta = out + ".meta"
     if os.path.exists(out) and os.path.exists(meta):
-        h, d = open(meta).read().split()
-        return out, float(h), float(d)
+        parts = open(meta).read().split()
+        h, d = float(parts[0]), float(parts[1])
+        if display and len(parts) > 2 and float(parts[2]) / 100.0 > COLUMN_IN:
+            OVERWIDE.append((tex, float(parts[2]) / 100.0 * 25.4))
+        return out, h, d
     prop = FontProperties(size=fontsize)
     expr = "$" + s + "$"
     try:
@@ -89,6 +99,8 @@ def render(tex: str, fontsize: float = 11.0, display: bool = False):
     except Exception as e:
         FAILS.append((tex, str(e)[:160]))
         return None, 0, 0
+    if display and w / 100.0 > COLUMN_IN:
+        OVERWIDE.append((tex, w / 100.0 * 25.4))
     try:
         fig = plt.figure(figsize=(max(w, 1) / 100.0, max(h, 1) / 100.0), dpi=100)
         fig.patch.set_alpha(0.0)
@@ -101,5 +113,5 @@ def render(tex: str, fontsize: float = 11.0, display: bool = False):
         FAILS.append((tex, str(e)[:160]))
         plt.close("all")
         return None, 0, 0
-    open(meta, "w").write(f"{h} {d}")
+    open(meta, "w").write(f"{h} {d} {w}")
     return out, h, d

@@ -6,16 +6,18 @@ Exits non-zero and prints every failure if anything does not compile.
 """
 import sys, os, re
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import mathsvg, figrun, md2html
+import mathsvg, figrun, md2html, photo
 
 def main(path):
     text = open(path, encoding="utf-8").read()
     slug = os.path.basename(os.path.dirname(path))
     mathsvg.FAILS.clear(); figrun.FAILS.clear(); md2html.LEAKS.clear()
+    photo.FAILS.clear(); photo.USED.clear(); mathsvg.OVERWIDE.clear()
     meta, html, _ = md2html.convert(text, f"{slug}-{os.path.basename(path)}", 1)
 
     words = len(re.sub(r"<[^>]+>", " ", html).split())
     figs = html.count("<figcaption>")
+    pics = html.count('class="nobreak photo"')
     exs  = len(re.findall(r'class="box example"', html))
     ok = True
     if mathsvg.FAILS:
@@ -33,10 +35,22 @@ def main(path):
         print(f"\n!! {len(figrun.FAILS)} FIGURE FAILURES")
         for code, err in figrun.FAILS:
             print(f"   -> {err}")
+    if photo.FAILS:
+        ok = False
+        print(f"\n!! {len(photo.FAILS)} PHOTO FAILURES")
+        for aid, err in photo.FAILS:
+            print(f"   {aid} -> {err.strip().splitlines()[-1][:140]}")
+    wide = mathsvg.OVERWIDE
+    if wide:
+        ok = False
+        print(f"\n!! {len(wide)} DISPLAY EQUATIONS TOO WIDE for the text column")
+        print("   (break them at an = sign into two $$…$$ blocks, or shorten them)")
+        for tex, w in wide:
+            print(f"   {w:.0f}mm  {tex.strip()[:100]!r}")
     for k in ("subject", "grade", "unit", "title", "hours"):
         if not meta.get(k):
             ok = False; print(f"!! frontmatter missing: {k}")
-    print(f"\n{path}: {words} words, {figs} figures, {exs} worked examples, "
+    print(f"\n{path}: {words} words, {figs} figures, {pics} photos, {exs} worked examples, "
           f"{'OK' if ok else 'FAILED'}")
     return 0 if ok else 1
 
