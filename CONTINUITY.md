@@ -28,7 +28,7 @@
   studio screens under `ui/screens/marketplace/` and
   `data/repository/MarketplaceRepository.kt`.
 - **One price control, both platforms.** `_price_setter.html` +
-  `static/web/js/marketplace.js` on the web, `ui/components/NebPriceField.kt` in
+  `static/web/js/marketplace_price.js` on the web, `ui/components/NebPriceField.kt` in
   the app: free/paid with the consequence written under each answer, price
   presets, and a live "you receive Rs. X after the Y% fee" line. Used by
   upload, edit-resource and the studio's course form.

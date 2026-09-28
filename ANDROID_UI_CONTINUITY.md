@@ -208,15 +208,25 @@ restyle `WebTopBar` or the glass nav.
 - `MarketplaceViewModel.kt`, `MarketplaceTabContent.kt` — the shelf.
 - `CreatorPageViewModel.kt` + `CreatorPageScreen.kt` — a storefront rendered
   from the owner's `blocks` in their order, one branch per block type. Every
-  string is data; adding a block type means adding a branch in this file and on
-  the web.
+  string is data. `CreatorPageScreen.kt` holds the scaffold, the `when` that
+  dispatches a block and the `CreatorBlockShell` they all sit in; the block
+  composables themselves are in `CreatorPageBlocks.kt` (hero, about, stats,
+  courses, resources, posts) and `CreatorPageDetailBlocks.kt` (showcase,
+  gallery, testimonials, FAQ, schedule, links, contact, CTA). Adding a block
+  type means a branch in the dispatch, a composable in one of those two, and
+  the matching branch on the web.
 - `MarketplaceCourseViewModel.kt` + `MarketplaceCourseScreen.kt` — an offering
   and its checkout. **It reuses `ResourcePurchaseSheet` verbatim**, because it
   is the same QR flow; only the words around it are course-shaped.
 - `CreatorStudioViewModel.kt`, `CreatorStudioScreen.kt`,
-  `CreatorStudioContent.kt` — page identity, look (accent/layout/hero/radius),
-  the block builder (add, reorder, hide, remove, edit fields and items), courses
-  and updates CRUD, and earnings (wallet, sales, commission).
+  `CreatorStudioContent.kt` — page identity, look (accent/layout/hero/radius)
+  and the block builder (add, reorder, hide, remove, edit fields and items).
+  `CreatorStudioContent.kt` also owns the widgets the tabs draw with
+  (`StudioCard`, `SaveRow`, `BlockRow`, `BlockItemEditor`); the tab bodies are
+  `CreatorStudioCoursesTab.kt` (course CRUD and the price form) and
+  `CreatorStudioUpdatesTab.kt` (updates CRUD, plus earnings: wallet, sales,
+  commission). Anything shared across those files is `internal`, not
+  `private` — `private` in Kotlin is file-scoped.
 - `MarketplaceComponents.kt` — `MarketplaceCreatorCard`,
   `MarketplaceCourseCard`, `CreatorCardSkeleton`, `creatorAccent()`. The
   owner's accent is used **only** on their own identity marks (avatar, verified

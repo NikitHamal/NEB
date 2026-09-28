@@ -461,12 +461,34 @@ course is.
 | Surface | Files |
 | --- | --- |
 | Models + migration | `api/models.py`, `api/migrations/0143_creator_marketplace_pages_courses_posts.py` |
-| Data layer + payloads | `api/creator_pages.py` |
+| Data layer | `api/creator_pages.py` (slugs, page creation, the `apply_*` write path) |
+| — block catalogue | `api/creator_pages_schema.py` — block types, their fields, the labels, `block_schema()` |
+| — sanitizers | `api/creator_pages_sanitize.py` |
+| — eligibility + access | `api/creator_pages_access.py` |
+| — JSON payloads | `api/creator_pages_payloads.py` |
 | REST API | `api/views_marketplace.py`, wired in `api/urls.py` |
 | Web pages | `web/views_marketplace.py`, `templates/web/marketplace*.html`, `_marketplace_*.html`, `_price_setter.html` |
-| Web assets | `static/web/css/pages/marketplace.css`, `static/web/js/marketplace.js` |
-| App | `ui/screens/marketplace/`, `data/repository/MarketplaceRepository.kt`, `data/api/ApiService.kt` (§ Marketplace) |
+| Web CSS | `static/web/css/pages/marketplace.src.css` → seven modules in `pages/marketplace/`, bundled to `pages/marketplace.css` |
+| Web JS | `static/web/js/marketplace_price.js` (everyone) + `marketplace_studio.js` and `marketplace_studio_forms.js` (studio only) |
+| App — storefront | `ui/screens/marketplace/CreatorPageScreen.kt` (scaffold + block dispatch), `CreatorPageBlocks.kt`, `CreatorPageDetailBlocks.kt` |
+| App — studio | `CreatorStudioScreen.kt`, `CreatorStudioContent.kt` (shared widgets + block editor), `CreatorStudioCoursesTab.kt`, `CreatorStudioUpdatesTab.kt` |
+| App — rest | `ui/screens/marketplace/`, `data/repository/MarketplaceRepository.kt`, `data/api/ApiService.kt` (§ Marketplace) |
 | Shared price control | `web/templates/web/_price_setter.html` + `ui/components/NebPriceField.kt` |
+
+`api/creator_pages.py` re-exports the whole four-module surface, so
+`from api.creator_pages import …` keeps working and callers never need to know
+which module a name came from.
+
+The marketplace stylesheet goes through `tools/css/bundle.py` like
+`material3` and `app` do: edit a module under `css/pages/marketplace/`, then
+re-run the script — `pages/marketplace.css` is generated and checked in, and
+`tools/css/bundle.py --check` fails if you forget. Templates still link the one
+bundle, so the split costs no extra render-blocking request.
+
+Only the studio loads the editor JavaScript. Upload, edit-resource and the
+library shelf load `marketplace_price.js` alone, because the price setter is
+all they use; the studio scripts extend the same prototype through
+`window.NebMarket` and must load in the order price → studio → forms.
 
 ### The library tab
 
