@@ -25,6 +25,7 @@ from .creator_pages import (
     post_payload, listing_queryset, unique_page_slug, unique_course_slug,
     check_user_course_access, course_access_map, sold_course_delete_error, LAYOUTS,
     apply_page_update, apply_course_fields, apply_post_fields, sync_course_resources,
+    apply_template, editor_schema, template_list,
 )
 from .marketplace import get_payment_config, record_purchase, seller_sales
 from .utils import money_str as _money
@@ -359,6 +360,61 @@ def marketplace_me_page(request):
     if error:
         return Response({'error': error}, status=400)
     return Response({'page': page_payload(page, user), 'message': 'Page saved'})
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def marketplace_editor_schema(request):
+    """Everything a builder needs to draw itself: sections, groups, theme, layouts.
+
+    Public and cacheable because it is a catalogue, not anybody's data. The app
+    fetches it on entering the studio, which is what lets a section added on the
+    server show up in a shipped app without a release.
+    """
+    response = Response(editor_schema())
+    response['Cache-Control'] = 'public, max-age=900'
+    return response
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def marketplace_templates(request):
+    """The template gallery, filtered to the kind of page asked for."""
+    kind = (request.GET.get('kind') or '').strip().lower() or None
+    if kind not in ('tutor', 'institute', 'admin', None):
+        kind = None
+    response = Response({'templates': template_list(kind)})
+    response['Cache-Control'] = 'public, max-age=900'
+    return response
+
+
+@api_view(['POST'])
+@throttle_classes([WriteActionRateThrottle])
+def marketplace_apply_template(request):
+    """Put a template under the caller's own page.
+
+    `mode` decides how much it replaces -- see `apply_template`. The default is
+    the cautious one: a creator who has already written their page gets the new
+    look and keeps their words.
+    """
+    user, err = _require_user(request)
+    if err:
+        return err
+    page, err = _owner_page(user, create=True)
+    if err:
+        return err
+
+    template_id = str(request.data.get('template') or request.data.get('id') or '').strip()
+    mode = str(request.data.get('mode') or 'theme').strip().lower()
+    if mode not in ('page', 'theme', 'sections'):
+        return Response({'error': 'Unknown template mode'}, status=400)
+
+    page, error = apply_template(page, template_id, mode)
+    if error:
+        return Response({'error': error}, status=400)
+    page.updated_at = now_ms()
+    page.save(update_fields=['layout', 'style', 'blocks', 'accent_hex', 'updated_at'])
+    return Response({'page': page_payload(page, user), 'message': 'Template applied'})
 
 
 def _own_course_payload(course, page, user):

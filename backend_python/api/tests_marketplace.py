@@ -17,6 +17,9 @@ import json
 import re
 import uuid
 from decimal import Decimal
+from pathlib import Path
+
+from django.conf import settings
 
 from django.core.cache import cache
 from django.db import connection
@@ -24,7 +27,10 @@ from django.test import Client, RequestFactory, TestCase
 from django.test.utils import CaptureQueriesContext
 from django.urls import reverse
 
-from api.creator_pages import check_user_course_access
+from api.creator_pages import (
+    BLOCK_FIELDS, PALETTES, TEMPLATES_BY_ID, apply_template, check_user_course_access,
+    editor_schema, palette, template_list,
+)
 from api.marketplace import get_payment_config
 from api.models import (
     CreatorCourse, CreatorPage, CreatorPost, Notification, PaymentVerification, Resource,
@@ -32,6 +38,7 @@ from api.models import (
 )
 from api.security import AUTH_TOKEN_TTL_MS, hash_auth_token
 from api.utils import now_ms
+from web.templatetags.web_extras import video_embed
 
 
 class MarketplaceTestBase(TestCase):
@@ -679,6 +686,25 @@ class MarketplaceWebTests(MarketplaceTestBase):
         match = re.search(r'<option value="([^"]+)"\s+selected', block)
         return match.group(1) if match else None
 
+    def hidden_style(self, html, key):
+        """The value behind a segmented or swatch control.
+
+        Palette, scheme and hero are picked by eye rather than from a list, so
+        what gets saved lives in a hidden input the buttons write into.
+        """
+        match = re.search(
+            r'<input type="hidden" data-mkt-style="' + key + r'" value="([^"]*)"', html)
+        return match.group(1) if match else None
+
+    def pressed_choice(self, html, key):
+        """The segment drawn as chosen, which has to agree with the hidden input
+        or the studio opens showing one thing and saves another."""
+        for match in re.finditer(
+                r'data-mkt-choice="' + key + r'" data-value="([^"]+)"[^>]*aria-checked="(\w+)"', html):
+            if match.group(2) == 'true':
+                return match.group(1)
+        return None
+
     def test_the_look_tab_opens_on_what_the_creator_saved(self):
         """The Look tab used to render against an undefined `style`.
 
@@ -691,7 +717,8 @@ class MarketplaceWebTests(MarketplaceTestBase):
             'gallery_columns': 4, 'show_stats': True, 'show_verified': False,
         })
         html = self.session_client(self.teacher).get('/marketplace/studio/').content.decode()
-        self.assertEqual(self.selected_option(html, 'data-mkt-style', 'hero'), 'plain')
+        self.assertEqual(self.hidden_style(html, 'hero'), 'plain')
+        self.assertEqual(self.pressed_choice(html, 'hero'), 'plain')
         self.assertEqual(self.selected_option(html, 'data-mkt-style', 'radius'), 'sharp')
         self.assertEqual(self.selected_option(html, 'data-mkt-style', 'density'), 'compact')
         self.assertEqual(self.selected_option(html, 'data-mkt-style', 'gallery_columns'), '4')
@@ -699,6 +726,65 @@ class MarketplaceWebTests(MarketplaceTestBase):
         self.assertIn('checked', stats[:stats.index('>')])
         verified = html[html.index('data-mkt-style-bool="show_verified"'):]
         self.assertNotIn('checked', verified[:verified.index('>')])
+
+    def test_the_studio_opens_on_a_gallery_not_a_blank_canvas(self):
+        """A first page should be a choice between finished ones.
+
+        Twenty-five section names and an empty list is how a creator abandons a
+        storefront half-built, so the studio leads with templates -- each card
+        painted in the template's own resolved colours, because the colours are
+        the thing being chosen.
+        """
+        client = self.session_client(self.teacher)
+        html = client.get('/marketplace/studio/').content.decode()
+        entries = template_list('tutor')
+        self.assertGreaterEqual(len(entries), 5, 'a gallery of one is not a gallery')
+        for entry in entries:
+            self.assertIn(f'data-mkt-template="{entry["id"]}"', html)
+            self.assertIn(f'--t-accent: {entry["colors"]["accent"]}', html)
+        self.assertIn('data-mkt-preview-frame', html)
+        self.assertIn('data-mkt-preview-size="phone"', html)
+
+    def test_every_section_can_be_reached_from_the_picker(self):
+        """A section the server knows about and the picker does not is a section
+        no creator can ever add."""
+        html = self.session_client(self.teacher).get('/marketplace/studio/').content.decode()
+        for entry in editor_schema()['blocks']:
+            self.assertIn(f'data-mkt-add-block="{entry["type"]}"', html)
+
+    def test_a_template_applied_from_the_studio_takes(self):
+        self.make_published_page(self.teacher, slug='t-apply')
+        client = self.session_client(self.teacher)
+        response = self.ajax(client, 'marketplace_template_apply',
+                             {'template': template_list('tutor')[0]['id'], 'mode': 'page'})
+        self.assertEqual(response.status_code, 200, response.content)
+        page = CreatorPage.objects.get(slug='t-apply')
+        template = TEMPLATES_BY_ID[template_list('tutor')[0]['id']]
+        self.assertEqual([b['type'] for b in page.blocks], [b['type'] for b in template['blocks']])
+        self.assertEqual(page.style['palette'], template['style']['palette'])
+
+    def test_a_template_cannot_be_applied_to_somebody_elses_page(self):
+        self.make_published_page(self.teacher, slug='t-mine')
+        response = self.ajax(self.session_client(self.student), 'marketplace_template_apply',
+                             {'template': template_list()[0]['id']})
+        self.assertIn(response.status_code, (403, 404))
+        self.assertEqual(CreatorPage.objects.get(slug='t-mine').blocks[0]['type'], 'hero')
+
+    def test_a_sections_own_look_survives_a_studio_save(self):
+        """The per-section controls write into `settings`, which the sanitizer
+        keeps only when it differs from the default -- so a page that never
+        touches them stays exactly as small on the wire as it was."""
+        self.make_published_page(self.teacher, slug='t-settings')
+        response = self.ajax(self.session_client(self.teacher), 'marketplace_page_save', {
+            'blocks': [
+                {'type': 'hero', 'title': 'Loud', 'settings': {'tone': 'accent', 'align': 'center'}},
+                {'type': 'about', 'title': 'Quiet', 'settings': {'tone': 'plain', 'align': 'start'}},
+            ],
+        })
+        self.assertEqual(response.status_code, 200, response.content)
+        blocks = CreatorPage.objects.get(slug='t-settings').blocks
+        self.assertEqual(blocks[0]['settings'], {'align': 'center', 'tone': 'accent'})
+        self.assertNotIn('settings', blocks[1])
 
     def test_a_course_on_an_unpublished_page_is_not_reachable(self):
         """Unpublishing has to take the offerings with it.
@@ -767,6 +853,211 @@ class MarketplaceWebTests(MarketplaceTestBase):
         html = self.session_client(self.teacher).get('/marketplace/studio/').content.decode()
         self.assertIn('Sold Course', html)
         self.assertIn('t_student', html)
+
+
+class CreatorThemeTests(MarketplaceTestBase):
+    """Templates, palettes and the per-section overrides.
+
+    These exist because the theme layer is the one part of the marketplace with
+    no obvious failure mode: a page with a broken palette still returns 200, it
+    just looks wrong, and nobody notices until a creator does.
+    """
+
+    def test_every_starter_template_renders_in_every_scheme(self):
+        """Ten templates x two schemes x four card styles, all 200.
+
+        The real value here is the template *engine*: a section type that a
+        starter template uses but `marketplace_page.html` has no branch for
+        renders as nothing at all, silently, and this catches it by size.
+        """
+        for index, template_id in enumerate(TEMPLATES_BY_ID):
+            user = self.make_user(f't_tpl{index}', role=User.ROLE_TEACHER)
+            page = CreatorPage.objects.create(
+                id=f'cp-tpl-{index}', user=user, slug=f'tpl-{template_id}',
+                display_name='Sunrise Tuition', kind='tutor', published=True,
+                subjects='Physics,Maths', tagline='Board physics, small batches',
+                about='Ten years of it.', contact_email='hello@example.com',
+                created_at=now_ms(), updated_at=now_ms())
+            page, error = apply_template(page, template_id, mode='page')
+            self.assertIsNone(error, template_id)
+            self.assertTrue(page.blocks, f'{template_id} has no sections')
+            page.save()
+
+            url = reverse('web:marketplace_creator', kwargs={'slug': page.slug})
+            for scheme in ('light', 'dark'):
+                for card in ('elevated', 'outlined', 'flat', 'glass'):
+                    page.style = dict(page.style, scheme=scheme, card=card)
+                    page.save(update_fields=['style'])
+                    response = self.client.get(url)
+                    self.assertEqual(response.status_code, 200,
+                                     f'{template_id} / {scheme} / {card}')
+            html = response.content.decode()
+            self.assertIn('--creator-accent', html)
+            self.assertIn('mkt-card-glass', html)
+
+    def test_every_section_type_has_somewhere_to_render(self):
+        """No block type may exist in the schema without a branch on the page.
+
+        A type the server accepts and the page ignores is the worst kind of
+        bug here: the studio saves it, tells the creator it worked, and the
+        section is simply absent when they go and look.
+        """
+        markup = (Path(settings.BASE_DIR) / 'web' / 'templates' / 'web'
+                  / 'marketplace_page.html').read_text()
+        rendered = set(re.findall(r"block\.type == '([a-z]+)'", markup))
+        self.assertEqual(sorted(set(BLOCK_FIELDS) - rendered), [])
+
+    def test_a_template_can_be_applied_to_the_look_alone(self):
+        """`theme` mode repaints without touching a word the creator wrote."""
+        self.make_published_page(self.teacher, slug='t-keep')
+        page = CreatorPage.objects.get(user=self.teacher)
+        page.blocks = [{'id': 'about', 'type': 'about', 'title': 'My own heading',
+                        'body': 'My own words', 'enabled': True}]
+        page.save(update_fields=['blocks'])
+
+        response = self.post_json(self.teacher, '/api/marketplace/me/page/template/',
+                                  {'template': 'night-editorial', 'mode': 'theme'})
+        self.assertEqual(response.status_code, 200, response.content)
+        page.refresh_from_db()
+        self.assertEqual(page.style['scheme'], 'dark')
+        self.assertEqual(page.blocks[0]['body'], 'My own words')
+
+        # ...and `sections` mode is the other half: new sections, same look.
+        before = dict(page.style)
+        response = self.post_json(self.teacher, '/api/marketplace/me/page/template/',
+                                  {'template': 'link-hub', 'mode': 'sections'})
+        self.assertEqual(response.status_code, 200, response.content)
+        page.refresh_from_db()
+        self.assertEqual(page.style, before)
+        self.assertNotEqual(page.blocks[0].get('body'), 'My own words')
+
+    def test_an_unknown_template_is_refused(self):
+        response = self.post_json(self.teacher, '/api/marketplace/me/page/template/',
+                                  {'template': 'no-such-template'})
+        self.assertEqual(response.status_code, 400)
+
+    def test_the_resolved_palette_travels_with_the_page(self):
+        """The app reads hex, not palette names.
+
+        If Android carried its own copy of the palette table, the day somebody
+        nudged one hex in Python would be the day the same page looked
+        different on a phone.
+        """
+        # A blank accent means "follow the palette" -- the studio's reset.
+        self.make_published_page(self.teacher, slug='t-theme', accent_hex='',
+                                 style={'palette': 'ink', 'scheme': 'dark'})
+        response = self.get(self.teacher, '/api/marketplace/me/page/')
+        theme = response.json()['page']['theme']
+        self.assertEqual(theme['palette'], 'ink')
+        self.assertEqual(theme['colors']['bg'], '#000000')
+        # Ink's accent inverts in the dark ramp, or it would be invisible.
+        self.assertEqual(theme['colors']['accent'], '#FFFFFF')
+        for key in ('bg', 'surface', 'ink', 'muted', 'line', 'soft', 'accent', 'on_accent'):
+            self.assertRegex(theme['colors'][key], r'^#[0-9A-Fa-f]{6}$', key)
+
+    def test_a_custom_accent_overrides_the_palettes_own(self):
+        self.make_published_page(self.teacher, slug='t-accent',
+                                 accent_hex='#AA3311', style={'palette': 'teal'})
+        theme = self.get(self.teacher, '/api/marketplace/me/page/').json()['page']['theme']
+        self.assertEqual(theme['colors']['accent'], '#AA3311')
+        self.assertEqual(theme['colors']['soft'], palette('teal')['soft'])
+
+    def test_a_nonsense_look_falls_back_instead_of_failing(self):
+        """A page saved by an app that has never heard of `pattern` still opens."""
+        self.make_published_page(self.teacher, slug='t-junk', style={
+            'palette': 'chartreuse', 'scheme': 'sepia', 'card': 'hologram',
+            'gallery_columns': 99, 'pattern': None,
+        })
+        page = CreatorPage.objects.get(user=self.teacher)
+        self.assertEqual(page.style['palette'], 'indigo')
+        self.assertEqual(page.style['scheme'], 'light')
+        self.assertEqual(page.style['card'], 'elevated')
+        self.assertEqual(page.style['gallery_columns'], 4)
+        self.assertEqual(page.style['pattern'], 'none')
+
+    def test_two_sections_of_one_type_get_distinct_anchors(self):
+        """Ids are anchors, and a duplicate anchor makes the first unreachable."""
+        self.make_published_page(self.teacher, slug='t-ids', blocks=[
+            {'type': 'courses', 'title': 'Morning batch'},
+            {'type': 'courses', 'title': 'Evening batch'},
+            {'type': 'about', 'id': 'has spaces and is too long to be an anchor at all'},
+        ])
+        page = CreatorPage.objects.get(user=self.teacher)
+        ids = [block['id'] for block in page.blocks]
+        self.assertEqual(len(set(ids)), 3, ids)
+        for block_id in ids:
+            self.assertRegex(block_id, r'^[A-Za-z0-9_-]+$')
+
+    def test_a_hero_button_may_point_at_another_section(self):
+        """`#pricing` has to survive the URL allowlist; `javascript:` must not."""
+        self.make_published_page(self.teacher, slug='t-anchor', blocks=[
+            {'type': 'hero', 'cta_label': 'See fees', 'cta_url': '#pricing'},
+            {'type': 'cta', 'cta_label': 'Bad', 'cta_url': 'javascript:alert(1)'},
+            {'type': 'banner', 'cta_label': 'Worse', 'cta_url': '#not a fragment'},
+        ])
+        blocks = CreatorPage.objects.get(user=self.teacher).blocks
+        self.assertEqual(blocks[0]['cta_url'], '#pricing')
+        self.assertEqual(blocks[1]['cta_url'], '')
+        self.assertEqual(blocks[2]['cta_url'], '')
+
+    def test_a_sections_own_settings_reach_the_markup(self):
+        self.make_published_page(self.teacher, slug='t-settings', blocks=[
+            {'type': 'hero', 'title': 'Hi'},
+            {'type': 'quote', 'title': 'Teach the child, not the syllabus.',
+             'settings': {'align': 'center', 'tone': 'accent', 'width': 'full', 'columns': 2}},
+        ])
+        html = self.client.get(
+            reverse('web:marketplace_creator', kwargs={'slug': 't-settings'})).content.decode()
+        for css_class in ('mkt-align-center', 'mkt-tone-accent', 'mkt-bwidth-full', 'mkt-cols-2'):
+            self.assertIn(css_class, html)
+
+    def test_untouched_settings_are_not_stored(self):
+        """Defaults do not travel. A page that never used these stays small."""
+        self.make_published_page(self.teacher, slug='t-default-settings', blocks=[
+            {'type': 'about', 'settings': {'align': 'start', 'tone': 'plain',
+                                           'width': 'standard', 'columns': 0}},
+        ])
+        self.assertNotIn('settings', CreatorPage.objects.get(user=self.teacher).blocks[0])
+
+    def test_only_trusted_hosts_become_an_iframe(self):
+        """A pasted video link is framed; anything else is only ever a link."""
+        self.assertEqual(video_embed('https://www.youtube.com/watch?v=dQw4w9WgXcQ'),
+                         'https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ')
+        self.assertEqual(video_embed('https://youtu.be/dQw4w9WgXcQ'),
+                         'https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ')
+        self.assertEqual(video_embed('https://vimeo.com/123456789'),
+                         'https://player.vimeo.com/video/123456789')
+        self.assertEqual(video_embed('https://evil.example.com/player'), '')
+
+        self.make_published_page(self.teacher, slug='t-video', blocks=[
+            {'type': 'video', 'title': 'Intro', 'media_url': 'https://evil.example.com/p'},
+        ])
+        html = self.client.get(
+            reverse('web:marketplace_creator', kwargs={'slug': 't-video'})).content.decode()
+        self.assertNotIn('<iframe', html)
+        self.assertIn('evil.example.com', html)
+
+    def test_the_editor_schema_describes_every_section(self):
+        """Both studios draw their controls from this, so it has to be complete."""
+        response = self.client.get('/api/marketplace/editor-schema/')
+        self.assertEqual(response.status_code, 200)
+        schema = response.json()
+        self.assertEqual(sorted(b['type'] for b in schema['blocks']), sorted(BLOCK_FIELDS))
+        grouped = {t for group in schema['groups'] for t in group['types']}
+        self.assertEqual(sorted(grouped), sorted(BLOCK_FIELDS))
+        for block in schema['blocks']:
+            self.assertTrue(block['hint'], block['type'])
+        self.assertEqual(len(schema['theme']['palettes']), len(PALETTES))
+
+    def test_the_gallery_is_filtered_by_who_is_asking(self):
+        response = self.client.get('/api/marketplace/templates/?kind=institute')
+        self.assertEqual(response.status_code, 200)
+        templates = response.json()['templates']
+        self.assertTrue(templates)
+        for template in templates:
+            self.assertIn('institute', template['kinds'])
+            self.assertTrue(template['summary'])
+            self.assertTrue(template['best_for'])
 
 
 class AdminPaymentQueueTests(MarketplaceTestBase):

@@ -1,12 +1,65 @@
 # NEBians - Continuity Notes
 
-**Last updated:** September 27, 2026
+**Last updated:** September 28, 2026
 
 > **Android UI work lives in [`ANDROID_UI_CONTINUITY.md`](ANDROID_UI_CONTINUITY.md).** This file covers the Django/web side only.
 
 ---
 
 ## Current Status
+
+### Creator page themes, templates and the rebuilt studio (COMPLETE, Sep 28, 2026)
+
+The first storefronts worked but looked the same as each other and the builder
+was hostile on a phone (issue #52). This pass gave a creator something to
+actually design with, on both surfaces.
+
+- **A style vocabulary, decided once.** `api/creator_themes.py` owns every
+  choice a creator can make -- palettes, colour schemes, hero treatments, fonts,
+  page textures, card styles, corner radii, densities, page widths, and the
+  per-section tone/align/width sets -- and `theme_vocabulary()` is what both
+  clients build their controls from. The server *resolves* the palette to eight
+  hex values and ships them; neither client owns a colour table, because the day
+  one hex is nudged in Python is the day the same page looks different on a
+  phone.
+- **Ten templates.** `api/creator_templates.py` + `apply_template(page,
+  template_id, mode)` with three modes: `page` (look and sections), `theme`
+  (look only), `sections` (structure only). `page`/`theme` also move
+  `accent_hex` onto the new palette's accent, so a palette change never leaves
+  a teal card in front of a violet page.
+- **Fifteen new section types** on top of the original ten: `pricing`, `video`,
+  `team`, `logos`, `timeline`, `steps`, `quote`, `banner`, `richtext`,
+  `divider` and friends. Each one is described by `api/creator_pages_schema.py`
+  (`editor_schema`), so a section added on the server is editable in both
+  studios with no client change.
+- **Per-section settings.** `tone` (plain/soft/accent/contrast), `align`,
+  `width` and `columns`, sanitized in `creator_pages_sanitize.py`. Note the
+  sanitizer drops any value equal to its default -- both clients mirror that
+  when they build their payloads.
+- **CSS.** Two new partials, `pages/marketplace/theme.css` (the `--creator-*`
+  custom properties and the `.mkt-font-*` / `.mkt-tone-*` / pattern classes) and
+  `pages/marketplace/sections.css` (the fifteen new sections). Remember the
+  bundle: edit the partial, list it in `pages/marketplace.src.css`, then run
+  `python3 ../tools/css/bundle.py` from `backend_python/`.
+- **Web studio.** `static/web/js/marketplace_studio_look.js` adds the template
+  gallery with live silhouette thumbnails, the look controls, and the
+  drag-to-reorder section list.
+
+**Two rules that will bite whoever touches this next:**
+1. `style` is replaced **wholesale** on save -- a client that cannot carry a key
+   silently erases it. The Kotlin `savePage()` sends all thirteen.
+2. `resource_ids` treats an empty list as "detach all", unlike every other
+   field, where an absent key means "leave alone" (`_has()` in
+   `creator_pages.py`).
+
+**Still to do:** apply `0145_creator_page_layouts` on the server and re-run
+`collectstatic`.
+
+**Verified by** `python3 manage.py test api.tests_marketplace` -- now 72 tests
+over six classes; `CreatorThemeTests` covers the vocabulary, template
+application in all three modes, and section sanitizing.
+
+---
 
 ### Creator Marketplace + paid notes, end to end (COMPLETE, Sep 27, 2026)
 - **Backend.** New `CreatorPage` / `CreatorCourse` / `CreatorCourseResource` /
@@ -52,8 +105,8 @@
 ship CSS + JS). The pre-existing `botconfig.system_prompt` model/migration drift
 is untouched; `makemigrations` will still offer `0144` for it.
 
-**Verified by** `python3 manage.py test api.tests_marketplace` — 34 tests over
-four classes (creator-page API, courses and checkout, web pages + studio, and
+**Verified by** `python3 manage.py test api.tests_marketplace` — these four of
+the six classes (creator-page API, courses and checkout, web pages + studio, and
 the admin payment queue). Run it with `DEBUG=True DB_ENGINE=sqlite`; see the
 Marketplace section of AGENTS.md for the command and what each class covers.
 
