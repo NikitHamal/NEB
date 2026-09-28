@@ -17,11 +17,11 @@ import time
 import uuid
 from decimal import Decimal, ROUND_HALF_UP
 
-from django.db import transaction
+from django.db import IntegrityError, transaction
 from django.db.models import F
 
 from .models import User, SellerBalance, PaymentConfig, PaymentVerification
-from .utils import now_ms
+from .utils import money_str as _money_str, now_ms
 
 
 def get_payment_config():
@@ -84,13 +84,19 @@ def grant_purchase_rewards(payment, cfg=None):
         User.objects.filter(pk=payment.seller_id).update(
             nebians_points=F('nebians_points') + seller_pts,
         )
-        bal, _ = SellerBalance.objects.get_or_create(user_id=payment.seller_id, defaults={
+        # F() rather than read-modify-write: a wallet row is touched by every
+        # approval and by every withdrawal, and bal.save() would rewrite whole
+        # columns from a value read before the other writer committed -- one of
+        # the two amounts would silently vanish.
+        SellerBalance.objects.get_or_create(user_id=payment.seller_id, defaults={
             'total_earned': 0, 'total_withdrawn': 0, 'current_balance': 0, 'updated_at': now_ms(),
         })
-        bal.total_earned = _q2(bal.total_earned) + _q2(payment.seller_earnings)
-        bal.current_balance = _q2(bal.current_balance) + _q2(payment.seller_earnings)
-        bal.updated_at = now_ms()
-        bal.save()
+        earned = _q2(payment.seller_earnings)
+        SellerBalance.objects.filter(user_id=payment.seller_id).update(
+            total_earned=F('total_earned') + earned,
+            current_balance=F('current_balance') + earned,
+            updated_at=now_ms(),
+        )
     return buyer_pts, seller_pts
 
 
@@ -183,40 +189,48 @@ def record_purchase(buyer, seller, *, course=None, resource=None, transaction_id
     commission = compute_commission(price, cfg)
     earnings = seller_earnings_for(price, cfg)
 
-    pv = PaymentVerification.objects.filter(
-        buyer=buyer, status='pending', course=course, resource=resource,
-    ).first()
+    def _apply(pv):
+        if transaction_id:
+            pv.transaction_id = transaction_id
+        if proof_file is not None:
+            pv.payment_proof = proof_file
+            pv.payment_proof_url = proof_url
+        pv.amount = price
+        pv.platform_commission = commission
+        pv.seller_earnings = earnings
+        pv.save()
+        return pv
 
-    if pv is None:
-        pv = PaymentVerification(
-            id=str(uuid.uuid4()),
-            buyer=buyer,
-            course=course,
-            resource=resource,
-            seller=seller,
-            payment_method='qr_code',
-            status='pending',
-            created_at=now_ms(),
-        )
+    def _open_row():
+        return PaymentVerification.objects.filter(
+            buyer=buyer, status='pending', course=course, resource=resource,
+        ).first()
 
-    if transaction_id:
-        pv.transaction_id = transaction_id
-    if proof_file is not None:
-        pv.payment_proof = proof_file
-        pv.payment_proof_url = proof_url
-    pv.amount = price
-    pv.platform_commission = commission
-    pv.seller_earnings = earnings
-    pv.save()
-    return pv
+    pv = _open_row()
+    if pv is not None:
+        return _apply(pv)
 
-
-def _money_str(value):
+    fresh = PaymentVerification(
+        id=str(uuid.uuid4()),
+        buyer=buyer,
+        course=course,
+        resource=resource,
+        seller=seller,
+        payment_method='qr_code',
+        status='pending',
+        created_at=now_ms(),
+    )
     try:
-        amount = float(value or 0)
-    except (TypeError, ValueError):
-        return '0'
-    return ('%g' % amount) if amount else '0'
+        # Racing submissions both reach here having seen no open row; the
+        # uniq_pending_payment_per_* constraints let exactly one insert land, and
+        # the loser refreshes the winner's row rather than queueing a duplicate.
+        with transaction.atomic():
+            return _apply(fresh)
+    except IntegrityError:
+        existing = _open_row()
+        if existing is None:
+            raise
+        return _apply(existing)
 
 
 def seller_sales(user, limit=50):

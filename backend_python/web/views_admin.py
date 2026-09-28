@@ -2733,48 +2733,56 @@ def admin_pending_payments(request):
                            .get(pk=payment_id))
             title = payment_obj.target_title
             if action == 'approve' and payment_obj.status == 'pending':
-                with transaction.atomic():
-                    payment_obj.status = 'approved'
-                    payment_obj.verified_at = now_ms()
-                    payment_obj.verified_by = admin_user
-                    payment_obj.admin_notes = reason
-                    payment_obj.save()
+                # Claim the row before crediting anybody. A double-clicked
+                # Approve, a retried POST or two admins working the same queue
+                # all used to pass the `status == 'pending'` check above and
+                # credit the seller twice for one transfer; the conditional
+                # UPDATE is the lock, and only the request that actually
+                # flipped the row goes on to pay out.
+                claimed = (PaymentVerification.objects
+                           .filter(pk=payment_obj.pk, status='pending')
+                           .update(status='approved', verified_at=now_ms(),
+                                   verified_by=admin_user, admin_notes=reason))
+                if claimed:
+                    payment_obj.refresh_from_db()
+                    with transaction.atomic():
+                        # Credit the seller's wallet, both parties' Nebians points and
+                        # the buyer's lifetime spend — one shared implementation, so a
+                        # course sale and a resource sale are rewarded identically.
+                        from api.marketplace import grant_purchase_rewards
+                        grant_purchase_rewards(payment_obj)
 
-                    # Credit the seller's wallet, both parties' Nebians points and
-                    # the buyer's lifetime spend — one shared implementation, so a
-                    # course sale and a resource sale are rewarded identically.
-                    from api.marketplace import grant_purchase_rewards
-                    grant_purchase_rewards(payment_obj)
+                        if payment_obj.course_id:
+                            from django.db.models import F
+                            from api.models import CreatorCourse
+                            CreatorCourse.objects.filter(pk=payment_obj.course_id).update(
+                                sale_count=F('sale_count') + 1,
+                                enrollment_count=F('enrollment_count') + 1,
+                            )
 
-                    if payment_obj.course_id:
-                        from django.db.models import F
-                        from api.models import CreatorCourse
-                        CreatorCourse.objects.filter(pk=payment_obj.course_id).update(
-                            sale_count=F('sale_count') + 1,
-                            enrollment_count=F('enrollment_count') + 1,
+                        _notif.create_notification(
+                            recipient=payment_obj.buyer,
+                            actor=admin_user or payment_obj.seller,
+                            verb='payment_approved',
+                            target=payment_obj.course or payment_obj.resource,
+                            message=f"Your payment of Rs. {payment_obj.amount} for '{title}' has been verified & approved! You now have full access."
+                        )
+                        _notif.create_notification(
+                            recipient=payment_obj.seller,
+                            actor=payment_obj.buyer,
+                            verb='sale_credited',
+                            target=payment_obj.course or payment_obj.resource,
+                            message=f"You earned Rs. {payment_obj.seller_earnings} from the sale of '{title}' to @{payment_obj.buyer.username}!"
                         )
 
-                    _notif.create_notification(
-                        recipient=payment_obj.buyer,
-                        actor=admin_user or payment_obj.seller,
-                        verb='payment_approved',
-                        target=payment_obj.course or payment_obj.resource,
-                        message=f"Your payment of Rs. {payment_obj.amount} for '{title}' has been verified & approved! You now have full access."
-                    )
-                    _notif.create_notification(
-                        recipient=payment_obj.seller,
-                        actor=payment_obj.buyer,
-                        verb='sale_credited',
-                        target=payment_obj.course or payment_obj.resource,
-                        message=f"You earned Rs. {payment_obj.seller_earnings} from the sale of '{title}' to @{payment_obj.buyer.username}!"
-                    )
-
             elif action == 'reject' and payment_obj.status == 'pending':
-                payment_obj.status = 'rejected'
-                payment_obj.verified_at = now_ms()
-                payment_obj.verified_by = admin_user
-                payment_obj.admin_notes = reason
-                payment_obj.save()
+                rejected = (PaymentVerification.objects
+                            .filter(pk=payment_obj.pk, status='pending')
+                            .update(status='rejected', verified_at=now_ms(),
+                                    verified_by=admin_user, admin_notes=reason))
+                if not rejected:
+                    return redirect('web:admin_pending_payments')
+                payment_obj.refresh_from_db()
 
                 _notif.create_notification(
                     recipient=payment_obj.buyer,
@@ -2788,9 +2796,11 @@ def admin_pending_payments(request):
 
         return redirect('web:admin_pending_payments')
 
+    # Capped like the processed list below: this queue is unbounded by nature, and
+    # a backlog of thousands would render thousands of proof thumbnails into one page.
     pending_payments = (PaymentVerification.objects.filter(status='pending')
                         .select_related('buyer', 'seller', 'resource', 'course', 'course__page')
-                        .order_by('-created_at'))
+                        .order_by('-created_at')[:200])
     processed_payments = (PaymentVerification.objects.exclude(status='pending')
                           .select_related('buyer', 'seller', 'resource', 'course', 'course__page', 'verified_by')
                           .order_by('-verified_at')[:50])

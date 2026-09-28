@@ -307,6 +307,10 @@ def ajax_request_withdrawal(request):
     except Exception:
         return JsonResponse({'status': 'error', 'error': 'Invalid withdrawal amount.'}, status=400)
 
+    # Decimal('nan') parses happily and then raises on every comparison below.
+    if not amount.is_finite():
+        return JsonResponse({'status': 'error', 'error': 'Invalid withdrawal amount.'}, status=400)
+
     if amount < Decimal('1000.00'):
         return JsonResponse({'status': 'error', 'error': 'Minimum withdrawal threshold is Rs. 1,000.'}, status=400)
 
@@ -324,6 +328,20 @@ def ajax_request_withdrawal(request):
         return JsonResponse({'status': 'error', 'error': 'You already have a pending withdrawal request under review.'}, status=400)
 
     with transaction.atomic():
+        # Debit with a guarded UPDATE rather than a read-modify-write. The same
+        # row is credited by every payment approval, and a full-row save() here
+        # would write back a balance read before that credit committed; the
+        # `current_balance__gte` filter doubles as the check, so two requests
+        # racing each other cannot both pass it.
+        debited = (SellerBalance.objects
+                   .filter(pk=seller_bal.pk, current_balance__gte=amount)
+                   .update(current_balance=F('current_balance') - amount,
+                           updated_at=now_ms()))
+        if not debited:
+            return JsonResponse({
+                'status': 'error',
+                'error': 'Insufficient balance. Please reload and try again.',
+            }, status=400)
         WithdrawalRequest.objects.create(
             id=uuid_str(),
             user=user,
@@ -333,10 +351,8 @@ def ajax_request_withdrawal(request):
             status='pending',
             created_at=now_ms(),
         )
-        seller_bal.current_balance -= amount
-        seller_bal.updated_at = now_ms()
-        seller_bal.save()
 
+    seller_bal.refresh_from_db()
     return JsonResponse({
         'status': 'success',
         'message': f'Withdrawal request for Rs. {amount:.2f} submitted successfully!',
