@@ -1,0 +1,112 @@
+/* ── Shared marketplace furniture ─────────────────────────────────────────── */
+.mkt-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 12px 0 18px;
+  flex-wrap: wrap;
+}
+
+.mkt-head-sub {
+  margin: 6px 0 0;
+  color: var(--md-on-surface-variant);
+  font-size: 0.875rem;
+}
+
+.mkt-section {
+  margin: 26px 0;
+}
+
+.mkt-section-head,
+.mkt-block-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.mkt-section-head h2,
+.mkt-block-title {
+  margin: 0;
+}
+
+.mkt-section-count,
+.mkt-block-sub {
+  font-size: 0.8125rem;
+  color: var(--md-on-surface-variant);
+}
+
+.mkt-section-link,
+.mkt-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.8125rem;
+  color: var(--md-primary);
+  text-decoration: none;
+}
+
+.mkt-more {
+  margin-top: 14px;
+}
+
+.mkt-section-link .material-symbols-outlined,
+.mkt-more .material-symbols-outlined {
+  font-size: 18px;
+}
+
+.mkt-subhead {
+  margin: 20px 0 10px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--md-on-surface-variant);
+}
+
+.mkt-quiet {
+  margin: 8px 0;
+  font-size: 0.875rem;
+  color: var(--md-on-surface-variant);
+}
+
+.mkt-chip-quiet {
+  background: var(--md-surface-container);
+  border-color: transparent;
+  color: var(--md-on-surface-variant);
+  font-size: 0.75rem;
+}
+
+.mkt-price-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: var(--md-radius-full);
+  background: var(--creator-accent, var(--md-primary));
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.mkt-danger {
+  color: var(--md-error) !important;
+}
+
+.mkt-toast {
+  margin: 12px 0 0;
+  padding: 10px 14px;
+  border-radius: var(--md-radius-md);
+  background: var(--md-surface-container-high);
+  color: var(--md-on-surface);
+  font-size: 0.8125rem;
+}
+
+.mkt-toast[hidden] {
+  display: none;
+}
+
+.mkt-toast.is-error {
+  background: var(--md-error-container);
+  color: var(--md-on-error-container, var(--md-on-surface));
+}
