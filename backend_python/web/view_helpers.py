@@ -21,6 +21,7 @@ from django.utils.html import escape
 
 from api.models import User, Resource, ResourceRequest, ResourceRequestUpvote, Post, PostLike, PostImage, PostMedia, Poll, PollOption, PollVote, Reply, ReplyLike, Follow, UserPhoto, EditHistory, Bookmark, Notification, Report, BotConfig, TakedownRequest, BlogComment, BlogCommentLike, AiFeedback
 from api.models import ResourceLike, ResourceComment, ResourceCommentLike, PaymentVerification, SellerBalance, WithdrawalRequest
+from api.models import CreatorCourseResource
 from api.serializers import UserSerializer, ResourceSerializer, PostSerializer, ReplySerializer
 from api.security import (
     get_user_by_auth_token, hash_auth_token, issue_auth_token, revoke_auth_token,
@@ -300,10 +301,25 @@ def check_user_resource_access(user, resource_obj):
 
     # Check buyer payment records
     purchase = PaymentVerification.objects.filter(buyer_id=user_id, resource_id=resource_obj.id).order_by('-created_at').first()
+    if purchase and purchase.status == 'approved':
+        return True, 'purchased', purchase
+
+    # A course sale includes the material its seller attached to it. Both
+    # surfaces list those notes under "Course material", so charging for them
+    # again is not what the buyer was shown -- and only the page owner's own
+    # resources can be attached, so this never unlocks anyone else's note.
+    course_purchase = (PaymentVerification.objects
+                       .filter(buyer_id=user_id, status='approved',
+                               course_id__in=CreatorCourseResource.objects
+                               .filter(resource_id=resource_obj.id)
+                               .values_list('course_id', flat=True))
+                       .order_by('-created_at')
+                       .first())
+    if course_purchase:
+        return True, 'purchased', course_purchase
+
     if purchase:
-        if purchase.status == 'approved':
-            return True, 'purchased', purchase
-        elif purchase.status == 'pending':
+        if purchase.status == 'pending':
             return False, 'pending_verification', purchase
         elif purchase.status == 'rejected':
             return False, 'rejected', purchase
