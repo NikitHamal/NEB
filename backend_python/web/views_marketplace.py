@@ -22,15 +22,16 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 
 from api.models import (
-    CreatorCourse, CreatorCourseResource, CreatorPage, CreatorPost, PaymentVerification,
+    CreatorCourse, CreatorPage, CreatorPost, PaymentVerification,
     Resource, SellerBalance, User, WithdrawalRequest,
 )
 from api.creator_pages import (
     BLOCK_LABELS, LAYOUTS, allowed_kinds, apply_course_fields, apply_page_update,
     apply_post_fields, block_schema, can_have_storefront, check_user_course_access,
     course_access_map,
-    course_payload, listing_queryset, page_for_user, page_payload, post_payload,
-    sanitize_accent, sold_course_delete_error, sync_course_resources,
+    course_payload, course_resource_map, listing_queryset, page_for_user, page_payload,
+    post_payload,
+    sanitize_accent, sanitize_style, sold_course_delete_error, sync_course_resources,
     unique_course_slug, unique_page_slug,
 )
 from api.marketplace import get_payment_config, record_purchase, seller_sales
@@ -186,7 +187,9 @@ def creator(request, slug):
     return render(request, 'web/marketplace_page.html', _ctx(request,
         creator=payload,
         accent=sanitize_accent(payload.get('accent_hex')),
-        style=payload.get('style') or {},
+        # normalised, so a page saved before a style key existed still gets
+        # that key's default instead of a falsy miss in the template
+        style=sanitize_style(payload.get('style') or {}),
         blocks=blocks,
         courses=courses,
         paid_courses=[c for c in courses if not c['is_free']],
@@ -232,7 +235,10 @@ def course_detail(request, course_id):
 
     is_owner = bool(viewer and course.page.user_id == viewer.id)
     is_admin = bool(viewer and getattr(viewer, 'is_admin', False))
-    if course.status != 'published' and not (is_owner or is_admin):
+    # An unpublished storefront 404s, so its offerings have to as well --
+    # otherwise unpublishing hides the page from the directory while leaving
+    # every course link live, QR checkout included.
+    if not (course.status == 'published' and course.page.published) and not (is_owner or is_admin):
         raise Http404('This course does not exist')
 
     if not is_owner:
@@ -314,12 +320,7 @@ def studio(request):
     posts = list(page.page_posts.all()[:60])
     # One query for every course's attached notes instead of one per course: a
     # creator with 30 offerings was costing 30 round trips to draw the editor.
-    linked = {}
-    for course_id, resource_id in (CreatorCourseResource.objects
-                                   .filter(course__page=page)
-                                   .order_by('sort_order')
-                                   .values_list('course_id', 'resource_id')):
-        linked.setdefault(course_id, []).append(resource_id)
+    linked = course_resource_map(page)
     resources = (Resource.objects
                  .filter(uploaded_by=viewer, approval_status='approved')
                  .order_by('-added_at')[:100])
@@ -335,6 +336,12 @@ def studio(request):
         eligible=True,
         creator=payload,
         accent=sanitize_accent(payload.get('accent_hex')),
+        # Without this every `{% if style.X %}` in the Look tab tests an
+        # undefined variable, so the tab renders defaults, and saving sends those
+        # defaults back over whatever the creator actually chose. `style` is the
+        # one field the server replaces wholesale, so the studio has to show the
+        # truth before it is allowed to send it.
+        style=sanitize_style(payload.get('style') or {}),
         block_schema=block_schema(),
         block_labels=BLOCK_LABELS,
         layouts=LAYOUTS,

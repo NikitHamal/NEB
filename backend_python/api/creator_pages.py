@@ -25,7 +25,8 @@ from .creator_pages_access import (
     default_kind_for, sold_course_delete_error,
 )
 from .creator_pages_payloads import (
-    course_payload, linked_resource_ids, listing_queryset, page_payload, post_payload,
+    course_payload, course_resource_map, linked_resource_ids, listing_queryset,
+    page_payload, post_payload,
 )
 from .creator_pages_sanitize import (
     sanitize_accent, sanitize_blocks, sanitize_include_list, sanitize_socials,
@@ -49,7 +50,7 @@ __all__ = [
     'RADII', 'SOCIAL_KEYS', 'URL_FIELDS',
     'allowed_kinds', 'apply_course_fields', 'apply_page_update', 'apply_post_fields',
     'block_schema', 'can_have_storefront', 'check_user_course_access',
-    'course_access_map', 'course_payload', 'default_kind_for', 'linked_resource_ids', 'listing_queryset', 'page_for_user',
+    'course_access_map', 'course_payload', 'course_resource_map', 'default_kind_for', 'linked_resource_ids', 'listing_queryset', 'page_for_user',
     'page_payload', 'post_payload', 'sanitize_accent', 'sanitize_blocks',
     'sanitize_include_list', 'sanitize_socials', 'sanitize_style', 'slugify_creator',
     'sold_course_delete_error', 'sync_course_resources', 'unique_course_slug',

@@ -21,6 +21,7 @@ from .models import (
 )
 from .creator_pages import (
     can_have_storefront, allowed_kinds, page_for_user, page_payload, course_payload,
+    course_resource_map,
     post_payload, listing_queryset, unique_page_slug, unique_course_slug,
     check_user_course_access, course_access_map, sold_course_delete_error, LAYOUTS,
     apply_page_update, apply_course_fields, apply_post_fields, sync_course_resources,
@@ -150,7 +151,9 @@ def marketplace_course_detail(request, course_id):
         return Response({'error': 'This course does not exist'}, status=404)
     is_owner = viewer is not None and course.page.user_id == getattr(viewer, 'id', None)
     is_admin = viewer is not None and getattr(viewer, 'is_admin', False)
-    if course.status != 'published' and not (is_owner or is_admin):
+    # Same rule as the web course page: an unpublished storefront takes its
+    # offerings with it, or unpublishing leaves every course link purchasable.
+    if not (course.status == 'published' and course.page.published) and not (is_owner or is_admin):
         return Response({'error': 'This course does not exist'}, status=404)
     if not is_owner:
         CreatorCourse.objects.filter(pk=course.pk).update(view_count=F('view_count') + 1)
@@ -358,6 +361,13 @@ def marketplace_me_page(request):
     return Response({'page': page_payload(page, user), 'message': 'Page saved'})
 
 
+def _own_course_payload(course, page, user):
+    """The owner's own offering, with its attachments. Every studio round trip
+    has to carry them or the next save detaches them all."""
+    return course_payload(course, user, include_purchase=False,
+                          resource_ids=course_resource_map(page).get(course.id, []))
+
+
 @api_view(['GET', 'POST'])
 @throttle_classes([WriteActionRateThrottle])
 def marketplace_me_courses(request):
@@ -369,8 +379,13 @@ def marketplace_me_courses(request):
         return err
 
     if request.method == 'GET':
+        links = course_resource_map(page)
         return Response({
-            'courses': [course_payload(course, user, include_purchase=False) for course in page.courses.all()],
+            'courses': [
+                course_payload(course, user, include_purchase=False,
+                               resource_ids=links.get(course.id, []))
+                for course in page.courses.all()
+            ],
             'page_slug': page.slug,
         })
 
@@ -388,7 +403,7 @@ def marketplace_me_courses(request):
     course.save()
     if pending_resource_ids is not None:
         sync_course_resources(course, page, pending_resource_ids)
-    return Response({'course': course_payload(course, user, include_purchase=False)}, status=201)
+    return Response({'course': _own_course_payload(course, page, user)}, status=201)
 
 
 @api_view(['GET', 'PATCH', 'PUT', 'DELETE'])
@@ -405,7 +420,7 @@ def marketplace_me_course(request, course_id):
         return Response({'error': 'Course not found'}, status=404)
 
     if request.method == 'GET':
-        return Response({'course': course_payload(course, user, include_purchase=False)})
+        return Response({'course': _own_course_payload(course, page, user)})
 
     if request.method == 'DELETE':
         blocked = sold_course_delete_error(course)
@@ -427,7 +442,7 @@ def marketplace_me_course(request, course_id):
     course.save()
     if pending_resource_ids is not None:
         sync_course_resources(course, page, pending_resource_ids)
-    return Response({'course': course_payload(course, user, include_purchase=False), 'message': 'Course saved'})
+    return Response({'course': _own_course_payload(course, page, user), 'message': 'Course saved'})
 
 
 @api_view(['GET', 'POST'])

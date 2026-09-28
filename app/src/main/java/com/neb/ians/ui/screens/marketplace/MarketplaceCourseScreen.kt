@@ -234,6 +234,23 @@ fun MarketplaceCourseScreen(
                                                 maxLines = 1,
                                                 overflow = TextOverflow.Ellipsis
                                             )
+                                            // Buying the course covers its material, so the
+                                            // chip says so instead of quoting a second price.
+                                            if (resource.isPaid) {
+                                                Surface(
+                                                    shape = WebPillShape,
+                                                    color = MaterialTheme.colorScheme.surfaceContainerHigh
+                                                ) {
+                                                    Text(
+                                                        text = if (course.hasAccess) "Included"
+                                                               else "Rs. ${resource.price.ifBlank { "0" }}",
+                                                        style = MaterialTheme.typography.labelSmall,
+                                                        fontWeight = FontWeight.SemiBold,
+                                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp)
+                                                    )
+                                                }
+                                            }
                                         }
                                     }
                                 }

@@ -22,13 +22,19 @@ def _account_payload(user):
     }
 
 
-def course_payload(course, viewer=None, include_purchase=True, access=None):
+def course_payload(course, viewer=None, include_purchase=True, access=None, resource_ids=None):
     """One offering as JSON.
 
     `access` takes a pre-resolved (has_access, reason, purchase) triple from
     `course_access_map()` so a list of offerings costs one purchase query
     instead of one per card; without it the check runs here, and when the
-    caller does not want purchase state it does not run at all."""
+    caller does not want purchase state it does not run at all.
+
+    `resource_ids` is the notes attached to this offering. It is only ever sent
+    to the owner, and it has to be sent: an editor that cannot see the current
+    attachments will save an empty list over them, and `sync_course_resources`
+    reads an empty list as "detach everything". Pass `[]` to say "no
+    attachments" and leave it `None` to leave the key out."""
     payload = {
         'id': course.id,
         'page_id': course.page_id,
@@ -58,6 +64,8 @@ def course_payload(course, viewer=None, include_purchase=True, access=None):
         'created_at': course.created_at or 0,
         'updated_at': course.updated_at or 0,
     }
+    if resource_ids is not None:
+        payload['resource_ids'] = list(resource_ids)
     if include_purchase:
         has_access, reason, purchase = access or check_user_course_access(viewer, course)
         payload['has_access'] = bool(has_access)
@@ -119,7 +127,12 @@ def page_payload(page, viewer=None, include_drafts=False, with_content=True):
     }
     if not with_content:
         return payload
-    course_list = [course_payload(course, viewer, include_purchase=False) for course in courses]
+    links = course_resource_map(page) if not only_published else {}
+    course_list = [
+        course_payload(course, viewer, include_purchase=False,
+                       resource_ids=links.get(course.id) if not only_published else None)
+        for course in courses
+    ]
     payload['courses'] = course_list
     payload['course_count'] = len(course_list)
     payload['paid_course_count'] = sum(1 for c in course_list if not c['is_free'])
@@ -172,3 +185,16 @@ def listing_queryset(viewer=None, viewer_is_admin=False):
 
 def linked_resource_ids(page):
     return list(CreatorCourseResource.objects.filter(course__page=page).values_list('resource_id', flat=True))
+
+
+def course_resource_map(page):
+    """`{course_id: [resource_id, ...]}` for one storefront, in one query, so a
+    studio listing its offerings does not pay a query per card."""
+    links = {}
+    rows = (CreatorCourseResource.objects
+            .filter(course__page=page)
+            .order_by('sort_order')
+            .values_list('course_id', 'resource_id'))
+    for course_id, resource_id in rows:
+        links.setdefault(course_id, []).append(resource_id)
+    return links

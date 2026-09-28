@@ -700,8 +700,18 @@
   opacity: 0.55;
 }
 
-.mkt-hero-plain .mkt-hero-art,
-.mkt-hero-plain .mkt-hero-cover {
+/* The page carries the creator's hero choice as `mkt-hero-mode-*` rather than
+   `mkt-hero-*`: the latter collided with `.mkt-hero-art` and `.mkt-hero-cover`
+   below, so a page on the default "art" hero was itself getting
+   `position: absolute; inset: 0; opacity: 0.5`. */
+.mkt-hero-mode-plain .mkt-hero-art,
+.mkt-hero-mode-plain .mkt-hero-cover {
+  display: none;
+}
+
+/* "cover" means the creator's own picture instead of the generated drawing,
+   not on top of it. */
+.mkt-hero-mode-cover .mkt-hero-art {
   display: none;
 }
 
@@ -795,6 +805,24 @@
 
 .mkt-hero-actions {
   margin-top: 6px;
+}
+
+.mkt-hero-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: baseline;
+}
+
+.mkt-hero-stats b {
+  font-size: 1.0625rem;
+  color: var(--creator-accent);
+}
+
+.mkt-hero-stats span {
+  font-size: 0.8125rem;
+  color: var(--md-on-surface-variant);
+  margin-left: 4px;
 }
 
 .mkt-block {
@@ -1099,6 +1127,11 @@
   color: var(--md-on-surface-variant);
 }
 
+.mkt-schedule-what {
+  font-weight: 600;
+  color: var(--md-on-surface);
+}
+
 .mkt-schedule-note {
   color: var(--md-on-surface-variant);
   font-size: 0.8125rem;
@@ -1163,6 +1196,21 @@
 .mkt-contact-row .material-symbols-outlined {
   font-size: 18px;
   color: var(--creator-accent);
+}
+
+/* Label then value, the way the app's contact rows read -- a row that said only
+   "Telegram" made the visitor click to find out the handle. */
+.mkt-contact-label {
+  min-width: 78px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--creator-accent);
+}
+
+.mkt-contact-value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .mkt-layout-spotlight .mkt-hero-inner {
@@ -1696,6 +1744,17 @@
 
 .mkt-block-item.is-collapsed .mkt-block-item-body {
   display: none;
+}
+
+/* A hidden section still edits normally; it just says, at a glance, that
+   visitors are not seeing it. */
+.mkt-block-item.is-hidden {
+  border-style: dashed;
+}
+
+.mkt-block-item.is-hidden .mkt-block-item-title {
+  opacity: 0.55;
+  text-decoration: line-through;
 }
 
 .mkt-add-block {

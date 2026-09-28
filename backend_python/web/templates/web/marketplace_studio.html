@@ -234,6 +234,19 @@
             </div>
           </div>
 
+          <label class="mkt-switch">
+            <input type="checkbox" data-mkt-style-bool="show_stats" {% if style.show_stats %}checked{% endif %}>
+            <span>Lead with your numbers — offerings, views and followers, under your name</span>
+          </label>
+          <label class="mkt-switch">
+            <input type="checkbox" data-mkt-style-bool="show_contact" {% if style.show_contact %}checked{% endif %}>
+            <span>Publish your contact details in the contact section</span>
+          </label>
+          <label class="mkt-switch">
+            <input type="checkbox" data-mkt-style-bool="show_verified" {% if style.show_verified %}checked{% endif %}>
+            <span>Show your verified badge</span>
+          </label>
+
           <button type="button" class="md-btn md-btn-filled mkt-save" data-mkt-save-page>Save look</button>
         </div>
       </div>
@@ -466,6 +479,8 @@
           <select class="md-input" id="mkt-withdraw-method" name="payout_method">
             <option value="esewa">eSewa</option>
             <option value="khalti">Khalti</option>
+            <option value="mobile_banking">Mobile banking</option>
+            <option value="connectips">ConnectIPS</option>
             <option value="bank">Bank transfer</option>
           </select>
           <label class="md-label" for="mkt-withdraw-details">Account holder name, ID or number</label>

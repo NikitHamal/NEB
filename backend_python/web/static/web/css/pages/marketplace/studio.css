@@ -255,6 +255,17 @@
   display: none;
 }
 
+/* A hidden section still edits normally; it just says, at a glance, that
+   visitors are not seeing it. */
+.mkt-block-item.is-hidden {
+  border-style: dashed;
+}
+
+.mkt-block-item.is-hidden .mkt-block-item-title {
+  opacity: 0.55;
+  text-decoration: line-through;
+}
+
 .mkt-add-block {
   display: flex;
   gap: 8px;

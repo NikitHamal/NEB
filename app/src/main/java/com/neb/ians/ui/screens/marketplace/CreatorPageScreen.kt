@@ -16,7 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Verified
@@ -32,6 +32,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -88,7 +89,7 @@ fun CreatorPageScreen(
                         uiState.page?.let { page ->
                             Text(
                                 text = creatorKindLabel(page.kind) +
-                                    if (page.verified) " · Verified" else "",
+                                    if (page.verified && page.style.showVerified) " · Verified" else "",
                                 style = MaterialTheme.typography.labelMedium,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
@@ -173,6 +174,7 @@ private fun CreatorPageBody(
     onResourceClick: (String) -> Unit
 ) {
     val accent = creatorAccent(page.accentHex)
+    val style = rememberCreatorStyle(page)
     val blocks = remember(page.blocks) { page.blocks.filter { it.enabled } }
     val paid = remember(page.courses) { page.courses.filter { !it.isFree } }
     val free = remember(page.courses) { page.courses.filter { it.isFree } }
@@ -196,29 +198,35 @@ private fun CreatorPageBody(
         return
     }
 
-    LazyColumn(
-        state = listState,
-        contentPadding = PaddingValues(bottom = 110.dp),
-        verticalArrangement = Arrangement.spacedBy(0.dp),
-        modifier = Modifier.fillMaxSize()
-    ) {
-        items(blocks, key = { it.id.ifBlank { it.type } }) { block ->
-            when (block.type) {
-                "hero" -> CreatorHeroBlock(page, block, accent, jumpTo)
-                "about" -> CreatorAboutBlock(page, block)
-                "stats" -> CreatorStatsBlock(page, block, accent)
-                "courses" -> CreatorCoursesBlock(block, paid, free, accent, onCourseClick)
-                "resources", "documents" -> CreatorResourcesBlock(block, page, accent, onResourceClick)
-                "posts" -> CreatorPostsBlock(block, page, accent)
-                "showcase" -> CreatorShowcaseBlock(block, accent)
-                "gallery" -> CreatorGalleryBlock(block, page)
-                "testimonials" -> CreatorTestimonialsBlock(block, accent)
-                "faq" -> CreatorFaqBlock(block)
-                "schedule" -> CreatorScheduleBlock(block, accent)
-                "links" -> CreatorLinksBlock(block, accent)
-                "contact" -> CreatorContactBlock(page, block, accent)
-                "cta" -> CreatorCtaBlock(block, accent, jumpTo)
-                else -> Unit
+    CompositionLocalProvider(LocalCreatorStyle provides style) {
+        LazyColumn(
+            state = listState,
+            contentPadding = PaddingValues(bottom = 110.dp),
+            verticalArrangement = Arrangement.spacedBy(0.dp),
+            modifier = Modifier.fillMaxSize()
+        ) {
+            itemsIndexed(blocks, key = { _, block -> block.id.ifBlank { block.type } }) { index, block ->
+                // the web page draws no rule under its final section, so neither
+                // does this one
+                val last = index == blocks.lastIndex
+                when (block.type) {
+                    "hero" -> CreatorHeroBlock(page, block, accent, jumpTo)
+                    "about" -> CreatorAboutBlock(page, block, last)
+                    "stats" -> CreatorStatsBlock(page, block, accent, last)
+                    "courses" -> CreatorCoursesBlock(block, paid, free, page.accentHex, last, onCourseClick)
+                    "resources" -> CreatorResourcesBlock(block, page, accent, last, onResourceClick)
+                    "documents" -> CreatorDocumentsBlock(block, page, accent, last, onResourceClick)
+                    "posts" -> CreatorPostsBlock(block, page, accent, last)
+                    "showcase" -> CreatorShowcaseBlock(block, accent, last)
+                    "gallery" -> CreatorGalleryBlock(block, last)
+                    "testimonials" -> CreatorTestimonialsBlock(block, accent, last)
+                    "faq" -> CreatorFaqBlock(block, last)
+                    "schedule" -> CreatorScheduleBlock(block, accent, last)
+                    "links" -> CreatorLinksBlock(block, accent, last)
+                    "contact" -> CreatorContactBlock(page, block, accent, last)
+                    "cta" -> CreatorCtaBlock(block, accent, jumpTo)
+                    else -> Unit
+                }
             }
         }
     }
@@ -243,17 +251,24 @@ internal fun openCreatorLink(context: android.content.Context, url: String) {
     }
 }
 
+/**
+ * One section: its heading, its content and the hairline that separates it from
+ * the next. The vertical rhythm and the rule come from the creator's `density`
+ * and `layout` choices, exactly as `.mkt-block` does on the web.
+ */
 @Composable
 internal fun CreatorBlockShell(
     title: String?,
     subtitle: String? = null,
+    isLast: Boolean = false,
     content: @Composable () -> Unit
 ) {
+    val style = LocalCreatorStyle.current
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 14.dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp)
+            .padding(horizontal = 16.dp, vertical = style.blockPadding),
+        verticalArrangement = Arrangement.spacedBy(style.itemGap)
     ) {
         if (!title.isNullOrBlank() || !subtitle.isNullOrBlank()) {
             Row(
@@ -277,6 +292,8 @@ internal fun CreatorBlockShell(
             }
         }
         content()
-        HorizontalDivider(color = nebBorderSubtle(), thickness = 1.dp)
+        if (style.dividers && !isLast) {
+            HorizontalDivider(color = nebBorderSubtle(), thickness = 1.dp)
+        }
     }
 }

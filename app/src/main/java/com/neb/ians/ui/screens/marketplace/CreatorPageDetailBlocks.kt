@@ -16,17 +16,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.OpenInNew
+import androidx.compose.material.icons.automirrored.outlined.OpenInNew
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,9 +39,6 @@ import com.neb.ians.data.api.ApiCreatorPage
 import com.neb.ians.ui.components.NebButton
 import com.neb.ians.ui.components.NebButtonSize
 import com.neb.ians.ui.components.NebButtonTone
-import com.neb.ians.ui.components.WebCardShape
-import com.neb.ians.ui.components.WebPanelShape
-import com.neb.ians.ui.components.WebPillShape
 import com.neb.ians.ui.components.getMaterialIcon
 
 /* The supporting storefront blocks: showcase, gallery, testimonials, FAQ,
@@ -52,16 +46,27 @@ import com.neb.ians.ui.components.getMaterialIcon
  * CreatorPageScreen.kt alongside CreatorPageBlocks.kt. */
 
 @Composable
-internal fun CreatorShowcaseBlock(block: ApiCreatorBlock, accent: Color) {
+internal fun CreatorShowcaseBlock(block: ApiCreatorBlock, accent: Color, isLast: Boolean) {
     if (block.items.isEmpty()) return
-    CreatorBlockShell(title = block.title.ifBlank { "Showcase" }, subtitle = block.subtitle) {
+    val style = LocalCreatorStyle.current
+    val context = LocalContext.current
+    CreatorBlockShell(title = block.title.ifBlank { "Showcase" }, subtitle = block.subtitle, isLast = isLast) {
         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
             block.items.forEach { item ->
+                // `.mkt-showcase-item` is an <a> when the creator gave it a
+                // link and a plain <div> otherwise; a card that does nothing
+                // should not look like one that does, so only the linked ones
+                // take a click.
+                val link = item.linkUrl.trim()
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clip(WebCardShape)
+                        .clip(style.blockShape)
                         .background(MaterialTheme.colorScheme.surfaceContainerLowest)
+                        .then(
+                            if (link.isNotBlank()) Modifier.clickable { openCreatorLink(context, link) }
+                            else Modifier
+                        )
                         .padding(14.dp),
                     verticalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
@@ -73,11 +78,11 @@ internal fun CreatorShowcaseBlock(block: ApiCreatorBlock, accent: Color) {
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(150.dp)
-                                .clip(WebCardShape)
+                                .clip(style.blockShape)
                         )
                     }
                     if (item.badge.isNotBlank()) {
-                        Surface(shape = WebPillShape, color = accent) {
+                        Surface(shape = style.pillShape, color = accent) {
                             Text(
                                 text = item.badge,
                                 style = MaterialTheme.typography.labelSmall,
@@ -87,8 +92,23 @@ internal fun CreatorShowcaseBlock(block: ApiCreatorBlock, accent: Color) {
                             )
                         }
                     }
-                    if (item.title.isNotBlank()) {
-                        Text(item.title, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
+                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                        if (item.title.isNotBlank()) {
+                            Text(
+                                text = item.title,
+                                style = MaterialTheme.typography.titleSmall,
+                                fontWeight = FontWeight.SemiBold,
+                                modifier = Modifier.weight(1f, fill = false)
+                            )
+                        }
+                        if (link.isNotBlank()) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Outlined.OpenInNew,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier.size(14.dp)
+                            )
+                        }
                     }
                     if (item.subtitle.isNotBlank()) {
                         Text(
@@ -104,11 +124,21 @@ internal fun CreatorShowcaseBlock(block: ApiCreatorBlock, accent: Color) {
 }
 
 @Composable
-internal fun CreatorGalleryBlock(block: ApiCreatorBlock, page: ApiCreatorPage) {
+internal fun CreatorGalleryBlock(block: ApiCreatorBlock, isLast: Boolean) {
     if (block.images.isEmpty()) return
-    CreatorBlockShell(title = block.title.ifBlank { "Gallery" }, subtitle = block.subtitle) {
+    val style = LocalCreatorStyle.current
+    // `--mkt-gallery-cols` is the creator's own choice on the web; the tiles get
+    // shorter as the columns multiply so a four-up row still reads as a row of
+    // pictures rather than a row of slivers.
+    val columns = style.galleryColumns
+    val tileHeight = when (columns) {
+        2 -> 130.dp
+        3 -> 104.dp
+        else -> 84.dp
+    }
+    CreatorBlockShell(title = block.title.ifBlank { "Gallery" }, subtitle = block.subtitle, isLast = isLast) {
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            block.images.chunked(2).forEach { row ->
+            block.images.chunked(columns).forEach { row ->
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth()) {
                     row.forEach { image ->
                         AsyncImage(
@@ -117,11 +147,11 @@ internal fun CreatorGalleryBlock(block: ApiCreatorBlock, page: ApiCreatorPage) {
                             contentScale = ContentScale.Crop,
                             modifier = Modifier
                                 .weight(1f)
-                                .height(130.dp)
-                                .clip(WebCardShape)
+                                .height(tileHeight)
+                                .clip(style.blockShape)
                         )
                     }
-                    if (row.size == 1) Spacer(Modifier.weight(1f))
+                    repeat(columns - row.size) { Spacer(Modifier.weight(1f)) }
                 }
             }
         }
@@ -129,15 +159,16 @@ internal fun CreatorGalleryBlock(block: ApiCreatorBlock, page: ApiCreatorPage) {
 }
 
 @Composable
-internal fun CreatorTestimonialsBlock(block: ApiCreatorBlock, accent: Color) {
+internal fun CreatorTestimonialsBlock(block: ApiCreatorBlock, accent: Color, isLast: Boolean) {
     if (block.items.isEmpty()) return
-    CreatorBlockShell(title = block.title.ifBlank { "What students say" }) {
+    val style = LocalCreatorStyle.current
+    CreatorBlockShell(title = block.title.ifBlank { "What students say" }, subtitle = block.subtitle, isLast = isLast) {
         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
             block.items.forEach { item ->
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clip(WebCardShape)
+                        .clip(style.blockShape)
                         .background(MaterialTheme.colorScheme.surfaceContainerLowest)
                         .padding(14.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -180,15 +211,16 @@ internal fun CreatorTestimonialsBlock(block: ApiCreatorBlock, accent: Color) {
 }
 
 @Composable
-internal fun CreatorFaqBlock(block: ApiCreatorBlock) {
+internal fun CreatorFaqBlock(block: ApiCreatorBlock, isLast: Boolean) {
     if (block.items.isEmpty()) return
-    CreatorBlockShell(title = block.title.ifBlank { "Questions" }) {
+    val style = LocalCreatorStyle.current
+    CreatorBlockShell(title = block.title.ifBlank { "Questions" }, subtitle = block.subtitle, isLast = isLast) {
         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
             block.items.forEach { item ->
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clip(WebCardShape)
+                        .clip(style.blockShape)
                         .background(MaterialTheme.colorScheme.surfaceContainerLowest)
                         .padding(14.dp),
                     verticalArrangement = Arrangement.spacedBy(4.dp)
@@ -206,9 +238,9 @@ internal fun CreatorFaqBlock(block: ApiCreatorBlock) {
 }
 
 @Composable
-internal fun CreatorScheduleBlock(block: ApiCreatorBlock, accent: Color) {
+internal fun CreatorScheduleBlock(block: ApiCreatorBlock, accent: Color, isLast: Boolean) {
     if (block.items.isEmpty()) return
-    CreatorBlockShell(title = block.title.ifBlank { "Schedule" }) {
+    CreatorBlockShell(title = block.title.ifBlank { "Schedule" }, subtitle = block.subtitle, isLast = isLast) {
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             block.items.forEach { item ->
                 Row(
@@ -239,16 +271,17 @@ internal fun CreatorScheduleBlock(block: ApiCreatorBlock, accent: Color) {
 }
 
 @Composable
-internal fun CreatorLinksBlock(block: ApiCreatorBlock, accent: Color) {
+internal fun CreatorLinksBlock(block: ApiCreatorBlock, accent: Color, isLast: Boolean) {
     if (block.items.isEmpty()) return
-    CreatorBlockShell(title = block.title.ifBlank { "Links" }) {
+    val style = LocalCreatorStyle.current
+    CreatorBlockShell(title = block.title.ifBlank { "Links" }, subtitle = block.subtitle, isLast = isLast) {
         val context = LocalContext.current
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             block.items.forEach { item ->
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clip(WebCardShape)
+                        .clip(style.blockShape)
                         .background(MaterialTheme.colorScheme.surfaceContainerLowest)
                         .clickable { openCreatorLink(context, item.url) }
                         .padding(12.dp),
@@ -269,7 +302,7 @@ internal fun CreatorLinksBlock(block: ApiCreatorBlock, accent: Color) {
                         overflow = TextOverflow.Ellipsis
                     )
                     Icon(
-                        imageVector = Icons.Outlined.OpenInNew,
+                        imageVector = Icons.AutoMirrored.Outlined.OpenInNew,
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.size(16.dp)
@@ -281,19 +314,22 @@ internal fun CreatorLinksBlock(block: ApiCreatorBlock, accent: Color) {
 }
 
 @Composable
-internal fun CreatorContactBlock(page: ApiCreatorPage, block: ApiCreatorBlock, accent: Color) {
-    val rows = buildList {
+internal fun CreatorContactBlock(page: ApiCreatorPage, block: ApiCreatorBlock, accent: Color, isLast: Boolean) {
+    val style = LocalCreatorStyle.current
+    // `show_contact` off means the creator wants the section without publishing
+    // an address to the world: the copy stays, the rows go.
+    val rows = if (!style.showContact) emptyList() else buildList {
         if (page.contactEmail.isNotBlank()) add("Email" to page.contactEmail)
         if (page.contactPhone.isNotBlank()) add("Phone" to page.contactPhone)
         page.socials.forEach { (key, value) ->
             if (value.isNotBlank()) add(key.replaceFirstChar { it.uppercase() } to value)
         }
     }
-    CreatorBlockShell(title = block.title.ifBlank { "Get in touch" }, subtitle = block.subtitle) {
+    CreatorBlockShell(title = block.title.ifBlank { "Get in touch" }, subtitle = block.subtitle, isLast = isLast) {
         if (block.body.isNotBlank()) {
             Text(block.body, style = MaterialTheme.typography.bodyMedium)
         }
-        if (rows.isEmpty()) {
+        if (rows.isEmpty() && style.showContact) {
             Text(
                 text = "No contact details published yet.",
                 style = MaterialTheme.typography.bodySmall,
@@ -311,7 +347,7 @@ internal fun CreatorContactBlock(page: ApiCreatorPage, block: ApiCreatorBlock, a
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .clip(WebCardShape)
+                            .clip(style.blockShape)
                             .clickable { openCreatorLink(context, href) }
                             .padding(horizontal = 10.dp, vertical = 8.dp),
                         horizontalArrangement = Arrangement.spacedBy(10.dp)
@@ -337,15 +373,16 @@ internal fun CreatorContactBlock(page: ApiCreatorPage, block: ApiCreatorBlock, a
 
 @Composable
 internal fun CreatorCtaBlock(block: ApiCreatorBlock, accent: Color, onJumpTo: (String) -> Unit) {
+    val style = LocalCreatorStyle.current
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 14.dp)
+            .padding(horizontal = 16.dp, vertical = style.blockPadding)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .clip(WebPanelShape)
+                .clip(style.blockShape)
                 .background(MaterialTheme.colorScheme.surfaceContainerLowest)
                 .padding(18.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -365,18 +402,22 @@ internal fun CreatorCtaBlock(block: ApiCreatorBlock, accent: Color, onJumpTo: (S
             }
             if (block.ctaLabel.isNotBlank()) {
                 val context = LocalContext.current
+                // `href="{{ block.cta_url|default:'#offerings' }}"`: a label with
+                // no link still goes somewhere, and it goes to the offerings.
+                val target = block.ctaUrl.trim()
+                val anchored = target.isBlank() || target.startsWith("#")
                 NebButton(
                     text = block.ctaLabel,
                     onClick = {
-                        if (block.ctaUrl.startsWith("#")) {
-                            onJumpTo(block.ctaUrl.removePrefix("#"))
+                        if (anchored) {
+                            onJumpTo(target.removePrefix("#").ifBlank { "offerings" })
                         } else {
-                            openCreatorLink(context, block.ctaUrl)
+                            openCreatorLink(context, target)
                         }
                     },
                     tone = NebButtonTone.Primary,
                     size = NebButtonSize.Small,
-                    icon = Icons.Outlined.OpenInNew
+                    icon = if (anchored) null else Icons.AutoMirrored.Outlined.OpenInNew
                 )
             }
         }

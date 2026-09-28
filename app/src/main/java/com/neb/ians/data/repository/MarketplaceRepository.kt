@@ -16,6 +16,8 @@ import com.neb.ians.data.api.ApiMyCreatorCoursesResponse
 import com.neb.ians.data.api.ApiMyCreatorPageResponse
 import com.neb.ians.data.api.ApiMyCreatorPostsResponse
 import com.neb.ians.data.api.ApiService
+import com.neb.ians.data.api.ApiWithdrawal
+import com.neb.ians.data.api.ApiWithdrawalsResponse
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
@@ -125,6 +127,25 @@ class MarketplaceRepository @Inject constructor(
 
     suspend fun myPosts(): Result<ApiMyCreatorPostsResponse> = runCatching {
         apiService.getMyCreatorPosts(token(required = true)!!)
+    }
+
+    suspend fun withdrawals(): Result<ApiWithdrawalsResponse> = runCatching {
+        apiService.getWithdrawals(token(required = true)!!)
+    }
+
+    /** Ask for a payout. The server reserves the amount out of the wallet the
+     *  moment the request lands, so the caller should refresh the dashboard. */
+    suspend fun requestWithdrawal(
+        amount: String,
+        payoutMethod: String,
+        payoutDetails: String
+    ): Result<ApiWithdrawal> = runCatching {
+        val payload = buildJsonObject {
+            put("amount", amount)
+            put("payout_method", payoutMethod)
+            put("payout_details", payoutDetails)
+        }
+        apiService.requestWithdrawal(token(required = true)!!, body(payload))
     }
 
     // ----- Writing -----

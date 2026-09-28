@@ -24,7 +24,7 @@
    platform's mono surfaces. Expects: creator, accent, style, blocks, courses,
    paid_courses, free_courses, resources, posts, contact_rows, is_owner.
 {% endcomment %}
-<div class="mkt-page mkt-layout-{{ creator.layout|default:'editorial' }} mkt-hero-{{ style.hero|default:'art' }} mkt-radius-{{ style.radius|default:'round' }} mkt-density-{{ style.density|default:'comfortable' }}"
+<div class="mkt-page mkt-layout-{{ creator.layout|default:'editorial' }} mkt-hero-mode-{{ style.hero|default:'art' }} mkt-radius-{{ style.radius|default:'round' }} mkt-density-{{ style.density|default:'comfortable' }}"
      style="--creator-accent: {{ accent }};">
   {% for block in blocks %}
     {% if block.enabled %}
@@ -36,7 +36,13 @@
                data-neb-subject="{{ creator.subjects|first|default:'Study' }}"
                data-neb-seed="{{ creator.slug }}|hero"></div>
         </div>
-        {% if creator.cover_url %}<img class="mkt-hero-cover" src="{{ creator.cover_url }}" alt="">{% endif %}
+        {% comment %}The hero's own Image URL wins over the page cover, so a creator
+        can give the top of their page a different picture without changing the one
+        their marketplace card uses. The app reads the same two fields in the same
+        order.{% endcomment %}
+        {% with hero_image=block.image_url|default:creator.cover_url %}
+          {% if hero_image %}<img class="mkt-hero-cover" src="{{ hero_image }}" alt="">{% endif %}
+        {% endwith %}
         <div class="mkt-hero-inner">
           <div class="mkt-hero-avatar">
             {% if creator.avatar_url %}
@@ -49,13 +55,20 @@
             <span class="mkt-hero-kind">{{ creator.kind|creator_kind_label }}</span>
             <h1 class="md-headline-medium-emphasized mkt-hero-name">
               {{ block.title|default:creator.display_name }}
-              {% if creator.verified %}<span class="material-symbols-outlined mkt-verified" title="Verified" aria-label="Verified">verified</span>{% endif %}
+              {% if creator.verified and style.show_verified %}<span class="material-symbols-outlined mkt-verified" title="Verified" aria-label="Verified">verified</span>{% endif %}
             </h1>
             <p class="mkt-hero-tagline">{{ block.subtitle|default:creator.tagline }}</p>
             {% if creator.subjects or creator.location %}
             <div class="mkt-hero-meta">
               {% for subject in creator.subjects|slice:":4" %}<span class="md-chip mkt-chip-quiet">{{ subject }}</span>{% endfor %}
               {% if creator.location %}<span class="mkt-hero-place"><span class="material-symbols-outlined" aria-hidden="true">location_on</span>{{ creator.location }}</span>{% endif %}
+            </div>
+            {% endif %}
+            {% if style.show_stats %}
+            <div class="mkt-hero-stats">
+              <span><b>{{ creator.course_count }}</b><span>offerings</span></span>
+              <span><b>{{ creator.view_count|short_number }}</b><span>views</span></span>
+              <span><b>{{ creator.follower_count|short_number }}</b><span>followers</span></span>
             </div>
             {% endif %}
             <div class="mkt-hero-actions">
@@ -79,19 +92,24 @@
       </header>
 
       {% elif block.type == 'about' %}
+      {% if block.body or creator.about %}
       <section class="mkt-block" id="about">
         <h2 class="md-title-medium mkt-block-title">{{ block.title|default:"About" }}</h2>
         <div class="mkt-prose">{{ block.body|default:creator.about|linebreaks }}</div>
       </section>
+      {% endif %}
 
       {% elif block.type == 'stats' %}
-      <section class="mkt-block mkt-stats">
+      <section class="mkt-block">
+        {% if block.title %}<h2 class="md-title-medium mkt-block-title">{{ block.title }}</h2>{% endif %}
+        <div class="mkt-stats">
         {% for item in block.items %}
           <div class="mkt-stat">
             <span class="mkt-stat-value">{{ item.value }}</span>
             <span class="mkt-stat-label">{{ item.label }}</span>
           </div>
         {% endfor %}
+        </div>
       </section>
 
       {% elif block.type == 'courses' %}
@@ -167,8 +185,12 @@
       </section>
 
       {% elif block.type == 'showcase' %}
+      {% if block.items %}
       <section class="mkt-block" id="showcase">
-        <h2 class="md-title-medium mkt-block-title">{{ block.title|default:"Showcase" }}</h2>
+        <div class="mkt-block-head">
+          <h2 class="md-title-medium mkt-block-title">{{ block.title|default:"Showcase" }}</h2>
+          {% if block.subtitle %}<span class="mkt-block-sub">{{ block.subtitle }}</span>{% endif %}
+        </div>
         <div class="mkt-showcase">
           {% for item in block.items %}
             {% if item.link_url %}<a href="{{ item.link_url }}" class="mkt-showcase-item">{% else %}<div class="mkt-showcase-item">{% endif %}
@@ -180,16 +202,23 @@
           {% endfor %}
         </div>
       </section>
+      {% endif %}
 
       {% elif block.type == 'gallery' %}
+      {% if block.images %}
       <section class="mkt-block" id="gallery">
-        <h2 class="md-title-medium mkt-block-title">{{ block.title|default:"Gallery" }}</h2>
+        <div class="mkt-block-head">
+          <h2 class="md-title-medium mkt-block-title">{{ block.title|default:"Gallery" }}</h2>
+          {% if block.subtitle %}<span class="mkt-block-sub">{{ block.subtitle }}</span>{% endif %}
+        </div>
         <div class="mkt-gallery" style="--mkt-gallery-cols: {{ style.gallery_columns|default:3 }};">
           {% for image in block.images %}<img src="{{ image }}" alt="" loading="lazy">{% endfor %}
         </div>
       </section>
+      {% endif %}
 
       {% elif block.type == 'testimonials' %}
+      {% if block.items %}
       <section class="mkt-block" id="testimonials">
         <h2 class="md-title-medium mkt-block-title">{{ block.title|default:"What students say" }}</h2>
         <div class="mkt-testimonials">
@@ -204,8 +233,10 @@
           {% endfor %}
         </div>
       </section>
+      {% endif %}
 
       {% elif block.type == 'faq' %}
+      {% if block.items %}
       <section class="mkt-block" id="faq">
         <h2 class="md-title-medium mkt-block-title">{{ block.title|default:"Questions" }}</h2>
         <div class="mkt-faq">
@@ -217,8 +248,10 @@
           {% endfor %}
         </div>
       </section>
+      {% endif %}
 
       {% elif block.type == 'schedule' %}
+      {% if block.items %}
       <section class="mkt-block" id="schedule">
         <h2 class="md-title-medium mkt-block-title">{{ block.title|default:"Schedule" }}</h2>
         <div class="mkt-schedule">
@@ -231,8 +264,10 @@
           {% endfor %}
         </div>
       </section>
+      {% endif %}
 
       {% elif block.type == 'links' %}
+      {% if block.items %}
       <section class="mkt-block" id="links">
         <h2 class="md-title-medium mkt-block-title">{{ block.title|default:"Links" }}</h2>
         <div class="mkt-links">
@@ -245,6 +280,7 @@
           {% endfor %}
         </div>
       </section>
+      {% endif %}
 
       {% elif block.type == 'cta' %}
       <section class="mkt-block mkt-cta">
@@ -259,6 +295,7 @@
       <section class="mkt-block" id="contact">
         <h2 class="md-title-medium mkt-block-title">{{ block.title|default:"Get in touch" }}</h2>
         <div class="mkt-prose">{{ block.body|default:""|linebreaks }}</div>
+        {% if style.show_contact %}
         <div class="mkt-contact">
           {% if creator.contact_email %}
             <a class="mkt-contact-row" href="mailto:{{ creator.contact_email }}">
@@ -272,18 +309,24 @@
           {% endif %}
           {% for row in contact_rows %}
             <a class="mkt-contact-row" href="{{ row.href }}" target="_blank" rel="noopener noreferrer">
-              <span class="material-symbols-outlined" aria-hidden="true">link</span>{{ row.label }}
+              <span class="material-symbols-outlined" aria-hidden="true">link</span>
+              <span class="mkt-contact-label">{{ row.label }}</span>
+              <span class="mkt-contact-value">{{ row.value }}</span>
             </a>
           {% endfor %}
           {% if not creator.contact_email and not creator.contact_phone and not contact_rows %}
             <p class="mkt-quiet">No contact details published yet.</p>
           {% endif %}
         </div>
+        {% endif %}
       </section>
 
       {% elif block.type == 'documents' %}
       <section class="mkt-block" id="documents">
-        <h2 class="md-title-medium mkt-block-title">{{ block.title|default:"Documents" }}</h2>
+        <div class="mkt-block-head">
+          <h2 class="md-title-medium mkt-block-title">{{ block.title|default:"Documents" }}</h2>
+          {% if block.subtitle %}<span class="mkt-block-sub">{{ block.subtitle }}</span>{% endif %}
+        </div>
         {% if resources %}
           <div class="mkt-links">
             {% for r in resources|slice:":10" %}

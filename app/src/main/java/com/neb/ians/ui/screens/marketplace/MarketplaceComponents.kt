@@ -35,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -283,20 +284,24 @@ fun MarketplaceCourseCard(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     showCreator: Boolean = false,
-    accentHex: String = "#1F2937"
+    accentHex: String = "#1F2937",
+    // A shelf scrolls sideways at a fixed card width; a `grid` storefront lays
+    // the same card into a cell it has to fill.
+    fillCell: Boolean = false,
+    shape: Shape = WebPanelShape
 ) {
     val accent = creatorAccent(accentHex)
     val tactile = rememberTactileFeedback()
 
     Card(
         modifier = modifier
-            .width(236.dp)
-            .clip(WebPanelShape)
+            .then(if (fillCell) Modifier.fillMaxWidth() else Modifier.width(236.dp))
+            .clip(shape)
             .clickable {
                 tactile.perform(TactileType.LightTap)
                 onClick()
             },
-        shape = WebPanelShape,
+        shape = shape,
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest),
         border = BorderStroke(1.dp, nebBorderSubtle())
     ) {
