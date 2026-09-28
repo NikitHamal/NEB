@@ -1,6 +1,8 @@
 package com.neb.ians.data.repository
 
 import com.neb.ians.data.api.ApiCreatorCourse
+import com.neb.ians.data.api.ApiCreatorEditorSchema
+import com.neb.ians.data.api.ApiCreatorTemplatesResponse
 import com.neb.ians.data.api.ApiCreatorCourseEnvelope
 import com.neb.ians.data.api.ApiCreatorPage
 import com.neb.ians.data.api.ApiCreatorPost
@@ -197,6 +199,32 @@ class MarketplaceRepository @Inject constructor(
         apiService.updateMyCreatorPage(token(required = true)!!, body(payload))
     }
 
+    /** The section catalogue and style vocabulary. Public and cacheable -- it is
+     *  a catalogue, not anybody's data -- so no token goes with it. */
+    suspend fun editorSchema(): Result<ApiCreatorEditorSchema> = runCatching {
+        apiService.getCreatorEditorSchema()
+    }
+
+    suspend fun templates(kind: String? = null): Result<ApiCreatorTemplatesResponse> = runCatching {
+        apiService.getCreatorTemplates(kind?.takeIf { it.isNotBlank() })
+    }
+
+    /**
+     * Put a ready-made page under the signed-in creator.
+     *
+     * `mode` decides how much it replaces: `page` takes the look and the
+     * sections, `theme` repaints and keeps every word, `sections` brings the
+     * sections into the colours already chosen.
+     */
+    suspend fun applyTemplate(templateId: String, mode: String = "theme"): Result<ApiMyCreatorPageResponse> =
+        runCatching {
+            val payload = buildJsonObject {
+                put("template", templateId)
+                put("mode", mode)
+            }
+            apiService.applyCreatorTemplate(token(required = true)!!, body(payload))
+        }
+
     suspend fun saveCourse(
         id: String? = null,
         title: String,
@@ -313,6 +341,22 @@ class MarketplaceRepository @Inject constructor(
             put("cta_label", block.ctaLabel)
             put("cta_url", block.ctaUrl)
             put("image_url", block.imageUrl)
+            put("media_url", block.mediaUrl)
+            // Only sent when the creator moved one of them off its default.
+            // `sanitize_block_settings` drops defaults anyway, so an untouched
+            // page stays exactly as small on the wire as it was before these
+            // existed.
+            val settings = block.settings
+            if (settings.align != "start" || settings.tone != "plain" ||
+                settings.width != "standard" || settings.columns in 1..4
+            ) {
+                put("settings", buildJsonObject {
+                    put("align", settings.align)
+                    put("tone", settings.tone)
+                    put("width", settings.width)
+                    if (settings.columns in 1..4) put("columns", settings.columns)
+                })
+            }
             if (block.items.isNotEmpty()) {
                 put("items", JsonArray(block.items.map { item ->
                     buildJsonObject {
@@ -334,6 +378,11 @@ class MarketplaceRepository @Inject constructor(
                         if (item.time.isNotEmpty()) put("time", item.time)
                         if (item.note.isNotEmpty()) put("note", item.note)
                         if (item.url.isNotEmpty()) put("url", item.url)
+                        if (item.price.isNotEmpty()) put("price", item.price)
+                        if (item.period.isNotEmpty()) put("period", item.period)
+                        if (item.features.isNotEmpty()) put("features", item.features)
+                        if (item.ctaLabel.isNotEmpty()) put("cta_label", item.ctaLabel)
+                        if (item.ctaUrl.isNotEmpty()) put("cta_url", item.ctaUrl)
                     }
                 }))
             }

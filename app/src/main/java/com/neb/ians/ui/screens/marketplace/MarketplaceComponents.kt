@@ -1,4 +1,7 @@
-@file:OptIn(androidx.compose.material3.ExperimentalMaterial3ExpressiveApi::class)
+@file:OptIn(
+    androidx.compose.material3.ExperimentalMaterial3ExpressiveApi::class,
+    androidx.compose.foundation.layout.ExperimentalLayoutApi::class
+)
 
 package com.neb.ians.ui.screens.marketplace
 
@@ -8,6 +11,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -160,7 +164,11 @@ fun MarketplaceCreatorCard(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 14.dp, end = 14.dp, top = 12.dp, bottom = 12.dp),
+                    // 70dp, not 12: the cover band is 96dp, so a 52dp avatar
+                    // starting here overhangs it by 26 and clears the two pills
+                    // sitting in the band's top 32. At 12 the avatar landed on
+                    // top of the kind pill, which is what it was doing.
+                    .padding(start = 14.dp, end = 14.dp, top = 70.dp, bottom = 12.dp),
                 verticalArrangement = Arrangement.spacedBy(6.dp)
             ) {
                 CreatorAvatar(creator = creator, accent = accent, size = 52.dp)
@@ -194,7 +202,13 @@ fun MarketplaceCreatorCard(
                 }
 
                 if (creator.subjects.isNotEmpty()) {
-                    Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+                    // Three chips reading "Computer Science", "Business Studies"
+                    // and "Account" do not fit one phone-width line, and a Row
+                    // clips the third rather than admitting it. This wraps.
+                    FlowRow(
+                        horizontalArrangement = Arrangement.spacedBy(5.dp),
+                        verticalArrangement = Arrangement.spacedBy(5.dp)
+                    ) {
                         creator.subjects.take(3).forEach { subject ->
                             Surface(
                                 shape = WebPillShape,
@@ -218,7 +232,15 @@ fun MarketplaceCreatorCard(
                 ) {
                     CreatorStat(Icons.Outlined.School, "${creator.courseCount} offering${if (creator.courseCount == 1) "" else "s"}")
                     if (creator.location.isNotBlank()) {
-                        CreatorStat(Icons.Outlined.LocationOn, creator.location.take(18))
+                        // The location is the one stat of variable length, so it
+                        // is the one that gives way. `take(18)` used to cut it
+                        // mid-word with no ellipsis, so "Kathmandu Valley, Nepal"
+                        // read as "Kathmandu Valley, ".
+                        CreatorStat(
+                            icon = Icons.Outlined.LocationOn,
+                            text = creator.location,
+                            modifier = Modifier.weight(1f, fill = false)
+                        )
                     }
                     Spacer(Modifier.weight(1f))
                     CreatorStat(Icons.Outlined.Visibility, compactCount(creator.viewCount))
@@ -264,8 +286,16 @@ private fun CreatorAvatar(creator: ApiCreatorPage, accent: Color, size: androidx
 }
 
 @Composable
-private fun CreatorStat(icon: androidx.compose.ui.graphics.vector.ImageVector, text: String) {
-    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(3.dp)) {
+private fun CreatorStat(
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    text: String,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(3.dp)
+    ) {
         Icon(icon, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(13.dp))
         Text(
             text = text,

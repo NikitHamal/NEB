@@ -50,7 +50,7 @@ internal fun CreatorShowcaseBlock(block: ApiCreatorBlock, accent: Color, isLast:
     if (block.items.isEmpty()) return
     val style = LocalCreatorStyle.current
     val context = LocalContext.current
-    CreatorBlockShell(title = block.title.ifBlank { "Showcase" }, subtitle = block.subtitle, isLast = isLast) {
+    CreatorBlockShell(settings = block.settings, title = block.title.ifBlank { "Showcase" }, subtitle = block.subtitle, isLast = isLast) {
         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
             block.items.forEach { item ->
                 // `.mkt-showcase-item` is an <a> when the creator gave it a
@@ -136,7 +136,7 @@ internal fun CreatorGalleryBlock(block: ApiCreatorBlock, isLast: Boolean) {
         3 -> 104.dp
         else -> 84.dp
     }
-    CreatorBlockShell(title = block.title.ifBlank { "Gallery" }, subtitle = block.subtitle, isLast = isLast) {
+    CreatorBlockShell(settings = block.settings, title = block.title.ifBlank { "Gallery" }, subtitle = block.subtitle, isLast = isLast) {
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             block.images.chunked(columns).forEach { row ->
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth()) {
@@ -162,7 +162,7 @@ internal fun CreatorGalleryBlock(block: ApiCreatorBlock, isLast: Boolean) {
 internal fun CreatorTestimonialsBlock(block: ApiCreatorBlock, accent: Color, isLast: Boolean) {
     if (block.items.isEmpty()) return
     val style = LocalCreatorStyle.current
-    CreatorBlockShell(title = block.title.ifBlank { "What students say" }, subtitle = block.subtitle, isLast = isLast) {
+    CreatorBlockShell(settings = block.settings, title = block.title.ifBlank { "What students say" }, subtitle = block.subtitle, isLast = isLast) {
         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
             block.items.forEach { item ->
                 Column(
@@ -214,7 +214,7 @@ internal fun CreatorTestimonialsBlock(block: ApiCreatorBlock, accent: Color, isL
 internal fun CreatorFaqBlock(block: ApiCreatorBlock, isLast: Boolean) {
     if (block.items.isEmpty()) return
     val style = LocalCreatorStyle.current
-    CreatorBlockShell(title = block.title.ifBlank { "Questions" }, subtitle = block.subtitle, isLast = isLast) {
+    CreatorBlockShell(settings = block.settings, title = block.title.ifBlank { "Questions" }, subtitle = block.subtitle, isLast = isLast) {
         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
             block.items.forEach { item ->
                 Column(
@@ -240,7 +240,7 @@ internal fun CreatorFaqBlock(block: ApiCreatorBlock, isLast: Boolean) {
 @Composable
 internal fun CreatorScheduleBlock(block: ApiCreatorBlock, accent: Color, isLast: Boolean) {
     if (block.items.isEmpty()) return
-    CreatorBlockShell(title = block.title.ifBlank { "Schedule" }, subtitle = block.subtitle, isLast = isLast) {
+    CreatorBlockShell(settings = block.settings, title = block.title.ifBlank { "Schedule" }, subtitle = block.subtitle, isLast = isLast) {
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             block.items.forEach { item ->
                 Row(
@@ -274,7 +274,7 @@ internal fun CreatorScheduleBlock(block: ApiCreatorBlock, accent: Color, isLast:
 internal fun CreatorLinksBlock(block: ApiCreatorBlock, accent: Color, isLast: Boolean) {
     if (block.items.isEmpty()) return
     val style = LocalCreatorStyle.current
-    CreatorBlockShell(title = block.title.ifBlank { "Links" }, subtitle = block.subtitle, isLast = isLast) {
+    CreatorBlockShell(settings = block.settings, title = block.title.ifBlank { "Links" }, subtitle = block.subtitle, isLast = isLast) {
         val context = LocalContext.current
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             block.items.forEach { item ->
@@ -325,7 +325,7 @@ internal fun CreatorContactBlock(page: ApiCreatorPage, block: ApiCreatorBlock, a
             if (value.isNotBlank()) add(key.replaceFirstChar { it.uppercase() } to value)
         }
     }
-    CreatorBlockShell(title = block.title.ifBlank { "Get in touch" }, subtitle = block.subtitle, isLast = isLast) {
+    CreatorBlockShell(settings = block.settings, title = block.title.ifBlank { "Get in touch" }, subtitle = block.subtitle, isLast = isLast) {
         if (block.body.isNotBlank()) {
             Text(block.body, style = MaterialTheme.typography.bodyMedium)
         }

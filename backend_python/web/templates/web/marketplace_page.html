@@ -20,17 +20,43 @@
    order, the headings and the copy all come from the data, which is what makes
    the page "fully customizable" without a template per creator.
 
-   Identity marks use the owner's accent; everything structural stays on the
-   platform's mono surfaces. Expects: creator, accent, style, blocks, courses,
-   paid_courses, free_courses, resources, posts, contact_rows, is_owner.
+   The look comes from two places and only two. `theme.colors` is the palette
+   the *server* resolved -- eight hex values, written onto the root element as
+   custom properties, so `theme.css` can re-point the platform's own `--md-*`
+   tokens at them and every existing block style picks the creator's colours up
+   for free. `style.*` carries the shapes: hero arrangement, type, texture,
+   card treatment, corner radius, density, measure. Both are sanitised server
+   side against fixed vocabularies (`api/creator_themes.py`), which is why it
+   is safe to interpolate them into a `style` attribute here.
+
+   Expects: creator, accent, style, theme, blocks, courses, paid_courses,
+   free_courses, resources, posts, contact_rows, is_owner.
 {% endcomment %}
-<div class="mkt-page mkt-layout-{{ creator.layout|default:'editorial' }} mkt-hero-mode-{{ style.hero|default:'art' }} mkt-radius-{{ style.radius|default:'round' }} mkt-density-{{ style.density|default:'comfortable' }}"
-     style="--creator-accent: {{ accent }};">
+{% with colors=theme.colors %}
+<div class="mkt-page
+            mkt-layout-{{ creator.layout|default:'editorial' }}
+            mkt-hero-mode-{{ style.hero|default:'art' }}
+            mkt-scheme-{{ style.scheme|default:'light' }}
+            mkt-font-{{ style.font|default:'sans' }}
+            mkt-card-{{ style.card|default:'elevated' }}
+            mkt-radius-{{ style.radius|default:'round' }}
+            mkt-density-{{ style.density|default:'comfortable' }}
+            mkt-width-{{ style.width|default:'standard' }}
+            {% if style.pattern and style.pattern != 'none' %}mkt-pattern mkt-pattern-{{ style.pattern }}{% endif %}"
+     style="--creator-accent: {{ colors.accent|default:accent }};
+            --creator-on-accent: {{ colors.on_accent|default:'#FFFFFF' }};
+            --creator-bg: {{ colors.bg|default:'transparent' }};
+            --creator-surface: {{ colors.surface|default:'#FFFFFF' }};
+            --creator-ink: {{ colors.ink|default:'#0B1020' }};
+            --creator-muted: {{ colors.muted|default:'#535E78' }};
+            --creator-line: {{ colors.line|default:'#E2E7F2' }};
+            --creator-soft: {{ colors.soft|default:'#E8EEFF' }};">
   {% for block in blocks %}
     {% if block.enabled %}
+    {% with cls=block|creator_block_classes bid=block.id %}
 
       {% if block.type == 'hero' %}
-      <header class="mkt-hero">
+      <header class="mkt-hero" id="{{ bid|default:'top' }}">
         <div class="mkt-hero-art" aria-hidden="true">
           <div class="neb-art" data-neb-art="banner"
                data-neb-subject="{{ creator.subjects|first|default:'Study' }}"
@@ -93,14 +119,15 @@
 
       {% elif block.type == 'about' %}
       {% if block.body or creator.about %}
-      <section class="mkt-block" id="about">
+      <section class="mkt-block {{ cls }}" id="{{ bid|default:'about' }}">
         <h2 class="md-title-medium mkt-block-title">{{ block.title|default:"About" }}</h2>
         <div class="mkt-prose">{{ block.body|default:creator.about|linebreaks }}</div>
       </section>
       {% endif %}
 
       {% elif block.type == 'stats' %}
-      <section class="mkt-block">
+      {% if block.items %}
+      <section class="mkt-block {{ cls }}" id="{{ bid|default:'stats' }}">
         {% if block.title %}<h2 class="md-title-medium mkt-block-title">{{ block.title }}</h2>{% endif %}
         <div class="mkt-stats">
         {% for item in block.items %}
@@ -111,9 +138,14 @@
         {% endfor %}
         </div>
       </section>
+      {% endif %}
 
+      {% comment %}The courses shelf keeps `#offerings` alongside its own id: every
+      hero button written before block ids existed points at it, and a dead anchor
+      in a published page is a broken page.{% endcomment %}
       {% elif block.type == 'courses' %}
-      <section class="mkt-block" id="offerings">
+      <section class="mkt-block {{ cls }}" id="{{ bid|default:'courses' }}">
+        {% if bid != 'offerings' %}<span id="offerings" class="mkt-anchor-alias" aria-hidden="true"></span>{% endif %}
         <div class="mkt-block-head">
           <h2 class="md-title-medium mkt-block-title">{{ block.title|default:"Courses and classes" }}</h2>
           {% if block.subtitle %}<span class="mkt-block-sub">{{ block.subtitle }}</span>{% endif %}
@@ -135,7 +167,7 @@
       </section>
 
       {% elif block.type == 'resources' %}
-      <section class="mkt-block" id="resources">
+      <section class="mkt-block {{ cls }}" id="{{ bid|default:'resources' }}">
         <div class="mkt-block-head">
           <h2 class="md-title-medium mkt-block-title">{{ block.title|default:"Resources" }}</h2>
           {% if block.subtitle %}<span class="mkt-block-sub">{{ block.subtitle }}</span>{% endif %}
@@ -161,7 +193,7 @@
       </section>
 
       {% elif block.type == 'posts' %}
-      <section class="mkt-block" id="updates">
+      <section class="mkt-block {{ cls }}" id="{{ bid|default:'updates' }}">
         <div class="mkt-block-head">
           <h2 class="md-title-medium mkt-block-title">{{ block.title|default:"Updates" }}</h2>
           {% if block.subtitle %}<span class="mkt-block-sub">{{ block.subtitle }}</span>{% endif %}
@@ -186,7 +218,7 @@
 
       {% elif block.type == 'showcase' %}
       {% if block.items %}
-      <section class="mkt-block" id="showcase">
+      <section class="mkt-block {{ cls }}" id="{{ bid|default:'showcase' }}">
         <div class="mkt-block-head">
           <h2 class="md-title-medium mkt-block-title">{{ block.title|default:"Showcase" }}</h2>
           {% if block.subtitle %}<span class="mkt-block-sub">{{ block.subtitle }}</span>{% endif %}
@@ -206,7 +238,7 @@
 
       {% elif block.type == 'gallery' %}
       {% if block.images %}
-      <section class="mkt-block" id="gallery">
+      <section class="mkt-block {{ cls }}" id="{{ bid|default:'gallery' }}">
         <div class="mkt-block-head">
           <h2 class="md-title-medium mkt-block-title">{{ block.title|default:"Gallery" }}</h2>
           {% if block.subtitle %}<span class="mkt-block-sub">{{ block.subtitle }}</span>{% endif %}
@@ -219,7 +251,7 @@
 
       {% elif block.type == 'testimonials' %}
       {% if block.items %}
-      <section class="mkt-block" id="testimonials">
+      <section class="mkt-block {{ cls }}" id="{{ bid|default:'testimonials' }}">
         <h2 class="md-title-medium mkt-block-title">{{ block.title|default:"What students say" }}</h2>
         <div class="mkt-testimonials">
           {% for item in block.items %}
@@ -237,7 +269,7 @@
 
       {% elif block.type == 'faq' %}
       {% if block.items %}
-      <section class="mkt-block" id="faq">
+      <section class="mkt-block {{ cls }}" id="{{ bid|default:'faq' }}">
         <h2 class="md-title-medium mkt-block-title">{{ block.title|default:"Questions" }}</h2>
         <div class="mkt-faq">
           {% for item in block.items %}
@@ -252,7 +284,7 @@
 
       {% elif block.type == 'schedule' %}
       {% if block.items %}
-      <section class="mkt-block" id="schedule">
+      <section class="mkt-block {{ cls }}" id="{{ bid|default:'schedule' }}">
         <h2 class="md-title-medium mkt-block-title">{{ block.title|default:"Schedule" }}</h2>
         <div class="mkt-schedule">
           {% for item in block.items %}
@@ -268,7 +300,7 @@
 
       {% elif block.type == 'links' %}
       {% if block.items %}
-      <section class="mkt-block" id="links">
+      <section class="mkt-block {{ cls }}" id="{{ bid|default:'links' }}">
         <h2 class="md-title-medium mkt-block-title">{{ block.title|default:"Links" }}</h2>
         <div class="mkt-links">
           {% for item in block.items %}
@@ -283,7 +315,7 @@
       {% endif %}
 
       {% elif block.type == 'cta' %}
-      <section class="mkt-block mkt-cta">
+      <section class="mkt-block mkt-cta {{ cls }}" id="{{ bid|default:'cta' }}">
         <div class="mkt-cta-inner">
           <h2 class="md-title-medium">{{ block.title|default:"Ready to start?" }}</h2>
           {% if block.subtitle %}<p>{{ block.subtitle }}</p>{% endif %}
@@ -291,8 +323,201 @@
         </div>
       </section>
 
+      {% comment %} ── Sections added with the theme work ──────────────────────
+      Ten types the old page could not express. Every one of them is something a
+      tutor or an institute asked the page to do and had to fake with prose: what
+      a batch costs, who teaches it, how to enrol, what the building looks like.
+      {% endcomment %}
+
+      {% elif block.type == 'pricing' %}
+      {% if block.items %}
+      <section class="mkt-block {{ cls }}" id="{{ bid|default:'pricing' }}">
+        <div class="mkt-block-head">
+          <h2 class="md-title-medium mkt-block-title">{{ block.title|default:"Fees" }}</h2>
+          {% if block.subtitle %}<span class="mkt-block-sub">{{ block.subtitle }}</span>{% endif %}
+        </div>
+        <div class="mkt-pricing">
+          {% for item in block.items %}
+            <div class="mkt-plan{% if item.badge %} mkt-plan-featured{% endif %}">
+              {% if item.badge %}<span class="mkt-plan-badge">{{ item.badge }}</span>{% endif %}
+              <span class="mkt-plan-name">{{ item.name }}</span>
+              {% if item.price %}
+              <span class="mkt-plan-price">
+                <span class="mkt-plan-amount">{{ item.price }}</span>
+                {% if item.period %}<span class="mkt-plan-period">{{ item.period }}</span>{% endif %}
+              </span>
+              {% endif %}
+              {% if item.features %}
+              <ul class="mkt-plan-features">
+                {% for feature in item.features|lines %}
+                  <li><span class="material-symbols-outlined" aria-hidden="true">check</span>{{ feature }}</li>
+                {% endfor %}
+              </ul>
+              {% endif %}
+              {% if item.cta_label %}
+                <a class="md-btn md-btn-filled" href="{{ item.cta_url|default:'#contact' }}">{{ item.cta_label }}</a>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      </section>
+      {% endif %}
+
+      {% elif block.type == 'video' %}
+      {% if block.media_url %}
+      <section class="mkt-block {{ cls }}" id="{{ bid|default:'video' }}">
+        <div class="mkt-block-head">
+          <h2 class="md-title-medium mkt-block-title">{{ block.title|default:"Watch" }}</h2>
+          {% if block.subtitle %}<span class="mkt-block-sub">{{ block.subtitle }}</span>{% endif %}
+        </div>
+        {% comment %}Only a handful of hosts become an iframe; anything else is shown
+        as a link. Framing an arbitrary origin because a creator pasted it is not a
+        trade we make.{% endcomment %}
+        {% with embed=block.media_url|video_embed %}
+          {% if embed %}
+            <div class="mkt-video">
+              <iframe src="{{ embed }}" title="{{ block.title|default:'Video' }}"
+                      loading="lazy" allowfullscreen
+                      referrerpolicy="strict-origin-when-cross-origin"
+                      allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+            </div>
+          {% else %}
+            <a class="mkt-link" href="{{ block.media_url }}" target="_blank" rel="noopener noreferrer">
+              <span class="material-symbols-outlined" aria-hidden="true">play_circle</span>
+              <span>{{ block.title|default:"Watch the video" }}</span>
+              <span class="material-symbols-outlined mkt-link-go" aria-hidden="true">north_east</span>
+            </a>
+          {% endif %}
+        {% endwith %}
+      </section>
+      {% endif %}
+
+      {% elif block.type == 'team' %}
+      {% if block.items %}
+      <section class="mkt-block {{ cls }}" id="{{ bid|default:'team' }}">
+        <div class="mkt-block-head">
+          <h2 class="md-title-medium mkt-block-title">{{ block.title|default:"Teachers" }}</h2>
+          {% if block.subtitle %}<span class="mkt-block-sub">{{ block.subtitle }}</span>{% endif %}
+        </div>
+        <div class="mkt-team">
+          {% for item in block.items %}
+            <div class="mkt-member">
+              {% if item.avatar_url %}
+                <img class="mkt-member-avatar" src="{{ item.avatar_url }}" alt="" loading="lazy">
+              {% else %}
+                <span class="mkt-member-initial" aria-hidden="true">{{ item.name|truncate_chars:1 }}</span>
+              {% endif %}
+              <span class="mkt-member-name">{{ item.name }}</span>
+              {% if item.role %}<span class="mkt-member-role">{{ item.role }}</span>{% endif %}
+              {% if item.note %}<span class="mkt-member-note">{{ item.note }}</span>{% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      </section>
+      {% endif %}
+
+      {% elif block.type == 'logos' %}
+      {% if block.items %}
+      <section class="mkt-block {{ cls }}" id="{{ bid|default:'logos' }}">
+        {% if block.title %}
+        <div class="mkt-block-head">
+          <h2 class="md-title-medium mkt-block-title">{{ block.title }}</h2>
+          {% if block.subtitle %}<span class="mkt-block-sub">{{ block.subtitle }}</span>{% endif %}
+        </div>
+        {% endif %}
+        <div class="mkt-logos">
+          {% for item in block.items %}
+            {% if item.link_url %}<a class="mkt-logo" href="{{ item.link_url }}" target="_blank" rel="noopener noreferrer">{% else %}<span class="mkt-logo">{% endif %}
+              {% if item.image_url %}<img src="{{ item.image_url }}" alt="{{ item.label }}" loading="lazy">{% else %}{{ item.label }}{% endif %}
+            {% if item.link_url %}</a>{% else %}</span>{% endif %}
+          {% endfor %}
+        </div>
+      </section>
+      {% endif %}
+
+      {% elif block.type == 'timeline' %}
+      {% if block.items %}
+      <section class="mkt-block {{ cls }}" id="{{ bid|default:'timeline' }}">
+        <div class="mkt-block-head">
+          <h2 class="md-title-medium mkt-block-title">{{ block.title|default:"Milestones" }}</h2>
+          {% if block.subtitle %}<span class="mkt-block-sub">{{ block.subtitle }}</span>{% endif %}
+        </div>
+        <div class="mkt-timeline">
+          {% for item in block.items %}
+            <div class="mkt-tl-item">
+              <span class="mkt-tl-label">{{ item.label }}</span>
+              <span class="mkt-tl-title">{{ item.title }}</span>
+              {% if item.note %}<span class="mkt-tl-note">{{ item.note }}</span>{% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      </section>
+      {% endif %}
+
+      {% elif block.type == 'steps' %}
+      {% if block.items %}
+      <section class="mkt-block {{ cls }}" id="{{ bid|default:'steps' }}">
+        <div class="mkt-block-head">
+          <h2 class="md-title-medium mkt-block-title">{{ block.title|default:"How to join" }}</h2>
+          {% if block.subtitle %}<span class="mkt-block-sub">{{ block.subtitle }}</span>{% endif %}
+        </div>
+        {% comment %}The numbers are a CSS counter, so reordering steps in the studio
+        never leaves a page reading 1, 2, 2, 4.{% endcomment %}
+        <ol class="mkt-steps">
+          {% for item in block.items %}
+            <li class="mkt-step">
+              <span class="mkt-step-title">{{ item.title }}</span>
+              {% if item.note %}<span class="mkt-step-note">{{ item.note }}</span>{% endif %}
+            </li>
+          {% endfor %}
+        </ol>
+      </section>
+      {% endif %}
+
+      {% elif block.type == 'quote' %}
+      {% if block.title %}
+      <section class="mkt-block {{ cls }}" id="{{ bid|default:'quote' }}">
+        <blockquote class="mkt-pullquote">
+          {{ block.title }}
+          {% if block.subtitle %}<cite>{{ block.subtitle }}</cite>{% endif %}
+        </blockquote>
+      </section>
+      {% endif %}
+
+      {% elif block.type == 'banner' %}
+      {% if block.title %}
+      <section class="mkt-block mkt-block-bare {{ cls }}" id="{{ bid|default:'banner' }}">
+        <div class="mkt-banner">
+          <div class="mkt-banner-copy">
+            <p class="mkt-banner-title">{{ block.title }}</p>
+            {% if block.subtitle %}<p class="mkt-banner-sub">{{ block.subtitle }}</p>{% endif %}
+          </div>
+          {% if block.cta_label %}<a class="md-btn md-btn-filled" href="{{ block.cta_url|default:'#contact' }}">{{ block.cta_label }}</a>{% endif %}
+        </div>
+      </section>
+      {% endif %}
+
+      {% elif block.type == 'richtext' %}
+      {% if block.body or block.title %}
+      <section class="mkt-block {{ cls }}" id="{{ bid|default:'section' }}">
+        <div class="mkt-rich">
+          {% if block.image_url %}<img class="mkt-rich-media" src="{{ block.image_url }}" alt="" loading="lazy">{% endif %}
+          {% if block.title %}<h2 class="md-title-medium mkt-block-title">{{ block.title }}</h2>{% endif %}
+          {% if block.subtitle %}<p class="mkt-block-sub">{{ block.subtitle }}</p>{% endif %}
+          <div>
+            {% if block.body %}<div class="mkt-prose">{{ block.body|linebreaks }}</div>{% endif %}
+            {% if block.cta_label %}<a class="md-btn md-btn-outlined" href="{{ block.cta_url|default:'#contact' }}">{{ block.cta_label }}</a>{% endif %}
+          </div>
+        </div>
+      </section>
+      {% endif %}
+
+      {% elif block.type == 'divider' %}
+      <div class="mkt-block mkt-block-divider" id="{{ bid|default:'divider' }}"><hr class="mkt-divider-rule"></div>
+
       {% elif block.type == 'contact' %}
-      <section class="mkt-block" id="contact">
+      <section class="mkt-block {{ cls }}" id="{{ bid|default:'contact' }}">
+        {% if bid != 'contact' %}<span id="contact" class="mkt-anchor-alias" aria-hidden="true"></span>{% endif %}
         <h2 class="md-title-medium mkt-block-title">{{ block.title|default:"Get in touch" }}</h2>
         <div class="mkt-prose">{{ block.body|default:""|linebreaks }}</div>
         {% if style.show_contact %}
@@ -322,7 +547,7 @@
       </section>
 
       {% elif block.type == 'documents' %}
-      <section class="mkt-block" id="documents">
+      <section class="mkt-block {{ cls }}" id="{{ bid|default:'documents' }}">
         <div class="mkt-block-head">
           <h2 class="md-title-medium mkt-block-title">{{ block.title|default:"Documents" }}</h2>
           {% if block.subtitle %}<span class="mkt-block-sub">{{ block.subtitle }}</span>{% endif %}
@@ -342,6 +567,7 @@
       </section>
       {% endif %}
 
+    {% endwith %}
     {% endif %}
   {% endfor %}
 
@@ -355,5 +581,6 @@
     </section>
   {% endif %}
 </div>
+{% endwith %}
 </div>
 {% endblock %}

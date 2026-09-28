@@ -2855,6 +2855,8 @@ CREATOR_LAYOUTS = [
     ('spotlight', 'Spotlight'),
     ('grid', 'Grid'),
     ('classic', 'Classic'),
+    ('magazine', 'Magazine'),
+    ('stack', 'Stack'),
 ]
 
 COURSE_STATUSES = [

@@ -29,27 +29,33 @@ from .creator_pages_payloads import (
     page_payload, post_payload,
 )
 from .creator_pages_sanitize import (
-    sanitize_accent, sanitize_blocks, sanitize_include_list, sanitize_socials,
-    sanitize_style, _clean_url, _text,
+    sanitize_accent, sanitize_block_settings, sanitize_blocks,
+    sanitize_include_list, sanitize_socials, sanitize_style, _clean_url, _text,
 )
 from .creator_pages_schema import (
-    ACCENT_RE, BLOCK_FIELDS, BLOCK_LABELS, DEFAULT_BLOCKS, DENSITIES, ELIGIBLE_ROLES,
-    FIELD_LABELS, HERO_STYLES, ITEM_FIELDS, ITEM_LABELS, LAYOUTS, LIST_FIELDS,
-    MAX_BLOCKS, MAX_LIST_ITEMS, RADII, SOCIAL_KEYS, URL_FIELDS, block_schema,
+    ACCENT_RE, BLOCK_FIELDS, BLOCK_GROUPS, BLOCK_HINTS, BLOCK_LABELS, DEFAULT_BLOCKS,
+    DENSITIES, ELIGIBLE_ROLES, FIELD_LABELS, HERO_STYLES, ITEM_FIELDS, ITEM_LABELS,
+    LAYOUTS, LIST_FIELDS, MAX_BLOCKS, MAX_LIST_ITEMS, RADII, SOCIAL_KEYS,
+    URL_FIELDS, block_anchors, block_schema, editor_schema,
 )
+from .creator_templates import TEMPLATES_BY_ID, template_list, template_payload
+from .creator_themes import PALETTES, palette, theme_vocabulary
 from .models import (
     CreatorCourse, CreatorCourseResource, CreatorPage, Resource, User,
 )
 from .utils import now_ms
 
 __all__ = [
-    'ACCENT_RE', 'BLOCK_FIELDS', 'BLOCK_LABELS', 'DEFAULT_BLOCKS', 'DENSITIES',
+    'ACCENT_RE', 'BLOCK_FIELDS', 'BLOCK_GROUPS', 'BLOCK_HINTS', 'BLOCK_LABELS',
+    'DEFAULT_BLOCKS', 'DENSITIES', 'PALETTES', 'TEMPLATES_BY_ID',
     'ELIGIBLE_ROLES', 'FIELD_LABELS', 'HERO_STYLES', 'ITEM_FIELDS', 'ITEM_LABELS',
     'LAYOUTS', 'LIST_FIELDS', 'MAX_BLOCKS', 'MAX_COURSE_RESOURCES', 'MAX_LIST_ITEMS',
     'PAGE_TEXT_FIELDS',
     'RADII', 'SOCIAL_KEYS', 'URL_FIELDS',
     'allowed_kinds', 'apply_course_fields', 'apply_page_update', 'apply_post_fields',
-    'block_schema', 'can_have_storefront', 'check_user_course_access',
+    'apply_template', 'block_anchors', 'block_schema', 'editor_schema',
+    'palette', 'template_list', 'template_payload', 'theme_vocabulary',
+    'sanitize_block_settings', 'can_have_storefront', 'check_user_course_access',
     'course_access_map', 'course_payload', 'course_resource_map', 'default_kind_for', 'linked_resource_ids', 'listing_queryset', 'page_for_user',
     'page_payload', 'post_payload', 'sanitize_accent', 'sanitize_blocks',
     'sanitize_include_list', 'sanitize_socials', 'sanitize_style', 'slugify_creator',
@@ -140,6 +146,46 @@ def _default_tagline(user):
 PAGE_TEXT_FIELDS = (('tagline', 180), ('about', 4000), ('location', 120), ('contact_phone', 40))
 
 
+def apply_template(page, template_id, mode='page'):
+    """Put a ready-made page under a creator. Returns (page, error_message).
+
+    Three modes, because "use this template" means different things depending
+    on how far along you are:
+
+    * ``page``  -- the whole thing: theme, layout and sections. For a page that
+      is still the default five sections, or a creator who wants to start over.
+    * ``theme`` -- the look only. Keeps every word they have written. This is
+      the one most people want on their second visit, and getting it wrong is
+      how a builder eats somebody's afternoon.
+    * ``sections`` -- the sections only, keeping the palette they chose.
+
+    Nothing outside `layout`, `style` and `blocks` is touched in any mode, so a
+    creator's name, slug, contacts, courses, posts and sales are never at risk
+    from pressing a template button.
+    """
+    # `subjects` is a comma-separated string on the model, so the first subject
+    # is the part before the first comma -- indexing the string would hand the
+    # template a single letter.
+    first_subject = (page.subjects or '').split(',')[0].strip()
+    resolved = template_payload(template_id, page.display_name, first_subject)
+    if not resolved:
+        return page, 'That template does not exist'
+    layout, style, blocks = resolved
+
+    if mode in ('page', 'theme'):
+        page.layout = layout
+        page.style = sanitize_style(style)
+        # The marketplace card and the page header read `accent_hex`, so a
+        # template that does not also move it leaves a violet page wearing a
+        # teal card in the directory.
+        page.accent_hex = sanitize_accent(palette(page.style['palette'])['accent'])
+    if mode in ('page', 'sections'):
+        page.blocks = sanitize_blocks(blocks)
+    if mode not in ('page', 'theme', 'sections'):
+        return page, 'Unknown template mode'
+    return page, None
+
+
 def apply_page_update(page, data, allowed=None):
     """Apply a page payload from either client. Returns (page, error_message).
 
@@ -186,16 +232,27 @@ def apply_page_update(page, data, allowed=None):
             value = str(data.get(field) or '').strip()
             setattr(page, field, _clean_url(value))
 
-    if _has('accent_hex'):
-        page.accent_hex = sanitize_accent(data.get('accent_hex'))
-
     if _has('layout'):
         layout = str(data.get('layout') or '').strip().lower()
         if layout in LAYOUTS:
             page.layout = layout
 
+    previous_palette = (page.style or {}).get('palette')
     if _has('style'):
         page.style = sanitize_style(data.get('style'))
+
+    # The accent is settled after the style, because it depends on it. A blank
+    # `accent_hex` means "whatever the palette says" -- that is the studio's
+    # reset -- and so does moving to a new palette without naming an accent in
+    # the same breath. Leaving the accent behind on the palette the creator
+    # just walked away from is never what anybody means by it.
+    palette_accent = sanitize_accent(palette((page.style or {}).get('palette'))['accent'])
+    if _has('accent_hex'):
+        custom = str(data.get('accent_hex') or '').strip()
+        page.accent_hex = sanitize_accent(custom) if custom else palette_accent
+    elif (page.style or {}).get('palette') != previous_palette:
+        page.accent_hex = palette_accent
+
     if _has('blocks'):
         page.blocks = sanitize_blocks(data.get('blocks'))
     if _has('socials'):

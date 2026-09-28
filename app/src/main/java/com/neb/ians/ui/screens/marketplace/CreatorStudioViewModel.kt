@@ -5,8 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.neb.ians.data.api.ApiCreatorBlock
 import com.neb.ians.data.api.ApiCreatorBlockItem
 import com.neb.ians.data.api.ApiCreatorCourse
+import com.neb.ians.data.api.ApiCreatorEditorSchema
 import com.neb.ians.data.api.ApiCreatorPage
 import com.neb.ians.data.api.ApiCreatorPost
+import com.neb.ians.data.api.ApiCreatorTemplate
 import com.neb.ians.data.api.ApiErrorMapper
 import com.neb.ians.data.api.ApiMarketplaceSale
 import com.neb.ians.data.api.ApiMarketplaceWallet
@@ -85,6 +87,16 @@ data class CreatorStudioUiState(
     val coverUrl: String = "",
     val accentHex: String = "#004BD4",
     val layout: String = "editorial",
+
+    /** The look, key for key as the server stores it in `page.style`. The app
+     *  holds all of them because the server replaces `style` wholesale: a key
+     *  the studio cannot carry is a choice it silently erases on the next save. */
+    val palette: String = "indigo",
+    val scheme: String = "light",
+    val font: String = "sans",
+    val pattern: String = "none",
+    val cardStyle: String = "elevated",
+    val pageWidth: String = "standard",
     val heroStyle: String = "art",
     val radius: String = "round",
     val density: String = "comfortable",
@@ -95,6 +107,21 @@ data class CreatorStudioUiState(
     val acceptingStudents: Boolean = true,
     val blocks: List<ApiCreatorBlock> = emptyList(),
     val editingBlock: Pair<Int, ApiCreatorBlock>? = null,
+
+    /** The option lists every Look control draws from, straight off the server.
+     *  A palette added in `api/creator_themes.py` appears here without an app
+     *  release -- and, more to the point, the web and the app can never end up
+     *  offering different lists. */
+    val schema: ApiCreatorEditorSchema = ApiCreatorEditorSchema(),
+    val templates: List<ApiCreatorTemplate> = emptyList(),
+    /** Which of the three things "use this template" can mean. See
+     *  `apply_template` on the server. */
+    val templateMode: String = "page",
+    /** The template awaiting confirmation. Applying one rewrites work, so it is
+     *  always a deliberate second tap. */
+    val pendingTemplate: ApiCreatorTemplate? = null,
+    val isApplyingTemplate: Boolean = false,
+    val showSectionPicker: Boolean = false,
 
     val courses: List<ApiCreatorCourse> = emptyList(),
     val courseDraft: CourseDraft = CourseDraft(),
@@ -139,6 +166,12 @@ private fun CreatorStudioUiState.adopt(page: ApiCreatorPage): CreatorStudioUiSta
     coverUrl = page.coverUrl,
     accentHex = page.accentHex,
     layout = page.layout,
+    palette = page.style.palette.ifBlank { "indigo" },
+    scheme = page.style.scheme.ifBlank { "light" },
+    font = page.style.font.ifBlank { "sans" },
+    pattern = page.style.pattern.ifBlank { "none" },
+    cardStyle = page.style.card.ifBlank { "elevated" },
+    pageWidth = page.style.width.ifBlank { "standard" },
     heroStyle = page.style.hero.ifBlank { "art" },
     radius = page.style.radius.ifBlank { "round" },
     density = page.style.density.ifBlank { "comfortable" },
@@ -221,6 +254,16 @@ class CreatorStudioViewModel @Inject constructor(
         // the older ones to edit or delete them.
         repository.myPosts().onSuccess { response ->
             _uiState.update { it.copy(posts = response.posts) }
+        }
+        // The option lists and the template gallery, both public reads. They are
+        // fetched rather than hardcoded so the app and the web studio can never
+        // drift apart on what a palette or a section is called; a failure here
+        // leaves the Look tab on its built-in defaults rather than empty.
+        repository.editorSchema().onSuccess { schema ->
+            _uiState.update { it.copy(schema = schema) }
+        }
+        repository.templates(_uiState.value.kind.takeIf { it.isNotBlank() }).onSuccess { response ->
+            _uiState.update { it.copy(templates = response.templates) }
         }
         loadDashboard()
     }
@@ -326,6 +369,33 @@ class CreatorStudioViewModel @Inject constructor(
     fun updateCoverUrl(value: String) = _uiState.update { it.copy(coverUrl = value) }
     fun updateAccent(value: String) = _uiState.update { it.copy(accentHex = value) }
     fun updateLayout(value: String) = _uiState.update { it.copy(layout = value) }
+
+    /**
+     * Pick a palette, and move the accent with it.
+     *
+     * `apply_template` does exactly this on the server, and for the same reason:
+     * the marketplace card and the page header read `accent_hex`, so a palette
+     * change that leaves the accent behind puts a violet page behind a teal card
+     * in the directory. A creator with a brand colour sets it afterwards --
+     * that field is still theirs.
+     */
+    fun updatePalette(value: String) = _uiState.update { state ->
+        val accent = state.schema.theme.palettes.firstOrNull { it.id == value }?.accent
+        state.copy(palette = value, accentHex = accent ?: state.accentHex)
+    }
+
+    /** The accent back to whatever the chosen palette says, which is what almost
+     *  everybody wants -- the picker exists for the one creator who does not. */
+    fun resetAccentToPalette() = _uiState.update { state ->
+        val accent = state.schema.theme.palettes.firstOrNull { it.id == state.palette }?.accent
+        if (accent == null) state else state.copy(accentHex = accent)
+    }
+
+    fun updateScheme(value: String) = _uiState.update { it.copy(scheme = value) }
+    fun updateFont(value: String) = _uiState.update { it.copy(font = value) }
+    fun updatePattern(value: String) = _uiState.update { it.copy(pattern = value) }
+    fun updateCardStyle(value: String) = _uiState.update { it.copy(cardStyle = value) }
+    fun updatePageWidth(value: String) = _uiState.update { it.copy(pageWidth = value) }
     fun updateHeroStyle(value: String) = _uiState.update { it.copy(heroStyle = value) }
     fun updateRadius(value: String) = _uiState.update { it.copy(radius = value) }
     fun updateDensity(value: String) = _uiState.update { it.copy(density = value) }
@@ -383,6 +453,12 @@ class CreatorStudioViewModel @Inject constructor(
                 // values loaded from their page, edited here, sent back whole --
                 // saving from the app must not undo a choice made on the web.
                 style = mapOf(
+                    "palette" to kotlinx.serialization.json.JsonPrimitive(state.palette),
+                    "scheme" to kotlinx.serialization.json.JsonPrimitive(state.scheme),
+                    "font" to kotlinx.serialization.json.JsonPrimitive(state.font),
+                    "pattern" to kotlinx.serialization.json.JsonPrimitive(state.pattern),
+                    "card" to kotlinx.serialization.json.JsonPrimitive(state.cardStyle),
+                    "width" to kotlinx.serialization.json.JsonPrimitive(state.pageWidth),
                     "hero" to kotlinx.serialization.json.JsonPrimitive(state.heroStyle),
                     "radius" to kotlinx.serialization.json.JsonPrimitive(state.radius),
                     "density" to kotlinx.serialization.json.JsonPrimitive(state.density),
@@ -416,28 +492,100 @@ class CreatorStudioViewModel @Inject constructor(
         }
     }
 
+    // ----- Templates -----
+
+    fun chooseTemplateMode(mode: String) = _uiState.update { it.copy(templateMode = mode) }
+
+    /** Ask first. A template rewrites the look, the sections or both, and an
+     *  accidental tap that threw away an afternoon's writing would be the worst
+     *  thing this screen could do. */
+    fun previewTemplate(template: ApiCreatorTemplate) =
+        _uiState.update { it.copy(pendingTemplate = template) }
+
+    fun dismissTemplate() = _uiState.update { it.copy(pendingTemplate = null) }
+
+    fun applyPendingTemplate() {
+        val state = _uiState.value
+        val template = state.pendingTemplate ?: return
+        _uiState.update { it.copy(isApplyingTemplate = true) }
+        viewModelScope.launch {
+            repository.applyTemplate(template.id, state.templateMode).fold(
+                onSuccess = { response ->
+                    _uiState.update { current ->
+                        // The whole studio re-reads the server's copy, because a
+                        // template moves the look and the sections together --
+                        // adopting half of it would leave the Look tab showing
+                        // the old palette over the new sections.
+                        val next = response.page?.let(current::adopt) ?: current
+                        next.copy(
+                            isApplyingTemplate = false,
+                            pendingTemplate = null,
+                            editingBlock = null,
+                            transientMessage = "${template.name} applied.",
+                            messageIsError = false
+                        )
+                    }
+                },
+                onFailure = { failure ->
+                    _uiState.update { it.copy(isApplyingTemplate = false, pendingTemplate = null) }
+                    showError(failure)
+                }
+            )
+        }
+    }
+
     // ----- Blocks -----
 
+    fun openSectionPicker() = _uiState.update { it.copy(showSectionPicker = true) }
+    fun closeSectionPicker() = _uiState.update { it.copy(showSectionPicker = false) }
+
     fun addBlock(type: String) {
+        val state = _uiState.value
+        if (state.blocks.size >= state.schema.maxBlocks) {
+            _uiState.update {
+                it.copy(
+                    showSectionPicker = false,
+                    transientMessage = "A page holds ${state.schema.maxBlocks} sections. Remove one first.",
+                    messageIsError = true
+                )
+            }
+            return
+        }
+        // A section that takes items opens with one, so the editor has something
+        // to show. An empty item list reads as "this section is broken" rather
+        // than "fill this in", which is what the old blank editor looked like.
+        val takesItems = state.schema.blocks.firstOrNull { it.type == type }
+            ?.listKey?.let { it != "images" } ?: false
         val block = ApiCreatorBlock(
             id = "b" + System.currentTimeMillis().toString(36),
             type = type,
             enabled = true,
-            items = when (type) {
-                "stats" -> listOf(ApiCreatorBlockItem())
-                "faq" -> listOf(ApiCreatorBlockItem())
-                "schedule" -> listOf(ApiCreatorBlockItem())
-                else -> emptyList()
-            }
+            items = if (takesItems) listOf(ApiCreatorBlockItem()) else emptyList()
         )
         _uiState.update {
             it.copy(
                 blocks = it.blocks + block,
                 editingBlock = (it.blocks.size) to block,
+                showSectionPicker = false,
                 transientMessage = "Section added — save to publish it",
                 messageIsError = false
             )
         }
+    }
+
+    /** A copy, just below the original. Two price tables or three showcase rows
+     *  is the normal shape of a storefront, and rebuilding the second by hand is
+     *  the kind of work a builder is supposed to remove. */
+    fun duplicateBlock(index: Int) = _uiState.update { state ->
+        val source = state.blocks.getOrNull(index) ?: return@update state
+        val blocks = state.blocks.toMutableList()
+        blocks.add(index + 1, source.copy(id = "b" + System.currentTimeMillis().toString(36)))
+        state.copy(
+            blocks = blocks,
+            editingBlock = null,
+            transientMessage = "Section duplicated.",
+            messageIsError = false
+        )
     }
 
     fun moveBlock(index: Int, delta: Int) {
@@ -501,6 +649,31 @@ class CreatorStudioViewModel @Inject constructor(
     fun updateBlockCtaLabel(index: Int, value: String) = editBlock(index) { it.copy(ctaLabel = value) }
     fun updateBlockCtaUrl(index: Int, value: String) = editBlock(index) { it.copy(ctaUrl = value) }
     fun updateBlockImageUrl(index: Int, value: String) = editBlock(index) { it.copy(imageUrl = value) }
+    fun updateBlockMediaUrl(index: Int, value: String) = editBlock(index) { it.copy(mediaUrl = value) }
+
+    // ----- A section's own look -----
+    //
+    // Alignment, background, width and column count, per section. These are what
+    // let one page have a centred quote on the accent between two plain
+    // left-aligned shelves, which is the difference between a page that looks
+    // designed and a page that looks like a form.
+    //
+    // `blocksPayload` drops any of these that still equals its default, matching
+    // `sanitize_block_settings` on the server -- so a creator who never opens
+    // these controls sends exactly what they sent before they existed.
+
+    fun updateBlockAlign(index: Int, value: String) =
+        editBlock(index) { it.copy(settings = it.settings.copy(align = value)) }
+
+    fun updateBlockTone(index: Int, value: String) =
+        editBlock(index) { it.copy(settings = it.settings.copy(tone = value)) }
+
+    fun updateBlockWidth(index: Int, value: String) =
+        editBlock(index) { it.copy(settings = it.settings.copy(width = value)) }
+
+    /** 0 means "however many fit", which is what the shelves do by default. */
+    fun updateBlockColumns(index: Int, value: Int) =
+        editBlock(index) { it.copy(settings = it.settings.copy(columns = value.coerceIn(0, 4))) }
 
     // A gallery is a list of picture URLs rather than a list of items, so it gets
     // its own three calls instead of sharing the item ones.
@@ -517,10 +690,34 @@ class CreatorStudioViewModel @Inject constructor(
         block.copy(images = images)
     }
 
-    fun addBlockItem(index: Int) = editBlock(index) { it.copy(items = it.items + ApiCreatorBlockItem()) }
+    fun addBlockItem(index: Int) = editBlock(index) { block ->
+        if (block.items.size >= _uiState.value.schema.maxItems) block
+        else block.copy(items = block.items + ApiCreatorBlockItem())
+    }
 
     fun removeLastBlockItem(index: Int) = editBlock(index) {
         if (it.items.isEmpty()) it else it.copy(items = it.items.dropLast(1))
+    }
+
+    /** Remove the item a creator is looking at, not the last one. Deleting the
+     *  wrong row because the only delete was "remove last" is the sort of thing
+     *  that makes somebody retype a price table. */
+    fun removeBlockItem(index: Int, itemIndex: Int) = editBlock(index) { block ->
+        if (itemIndex !in block.items.indices) block
+        else block.copy(items = block.items.toMutableList().also { it.removeAt(itemIndex) })
+    }
+
+    fun moveBlockItem(index: Int, itemIndex: Int, delta: Int) = editBlock(index) { block ->
+        val target = itemIndex + delta
+        if (itemIndex !in block.items.indices || target !in block.items.indices) block
+        else block.copy(
+            items = block.items.toMutableList().also { it.add(target, it.removeAt(itemIndex)) }
+        )
+    }
+
+    fun removeBlockImage(index: Int, imageIndex: Int) = editBlock(index) { block ->
+        if (imageIndex !in block.images.indices) block
+        else block.copy(images = block.images.toMutableList().also { it.removeAt(imageIndex) })
     }
 
     fun updateBlockItem(index: Int, itemIndex: Int, transform: (ApiCreatorBlockItem) -> ApiCreatorBlockItem) {

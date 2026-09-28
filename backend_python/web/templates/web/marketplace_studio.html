@@ -28,6 +28,8 @@
 <div class="md-container mkt-studio" id="mkt-studio"
      style="--creator-accent: {{ accent|default:'#004BD4' }};"
      data-page-save-url="{% url 'web:marketplace_page_save' %}"
+     data-template-url="{% url 'web:marketplace_template_apply' %}"
+     data-page-url="{{ page_url }}"
      data-course-save-url="{% url 'web:marketplace_course_save' %}"
      data-course-delete-url="{% url 'web:marketplace_course_delete' %}"
      data-post-save-url="{% url 'web:marketplace_post_save' %}"
@@ -118,14 +120,32 @@
           <label class="md-label" for="mkt-about">About</label>
           <textarea class="md-input" id="mkt-about" rows="5" data-mkt-field="about">{{ creator.about }}</textarea>
 
-          <div class="mkt-grid-2">
-            <div>
-              <label class="md-label" for="mkt-avatar">Avatar image URL</label>
-              <input class="md-input" id="mkt-avatar" type="url" value="{{ creator.avatar_url }}" data-mkt-field="avatar_url">
+          {% comment %}A picture field that does not show the picture is a field you
+          fill in blind and find out about later. These paste a link and show it
+          immediately, at the shape it will actually be used at.{% endcomment %}
+          <label class="md-label">Pictures</label>
+          <div class="mkt-image-fields">
+            <div class="mkt-image-field">
+              <span class="mkt-image-preview mkt-image-preview-round" data-mkt-preview-for="avatar_url">
+                {% if creator.avatar_url %}<img src="{{ creator.avatar_url }}" alt="">{% else %}<span class="material-symbols-outlined" aria-hidden="true">account_circle</span>{% endif %}
+              </span>
+              <div class="mkt-image-field-body">
+                <label class="md-label" for="mkt-avatar">Profile picture</label>
+                <input class="md-input" id="mkt-avatar" type="url" placeholder="https://…"
+                       value="{{ creator.avatar_url }}" data-mkt-field="avatar_url" data-mkt-image>
+                <p class="mkt-field-hint">Square works best. Shown on your card and at the top of your page.</p>
+              </div>
             </div>
-            <div>
-              <label class="md-label" for="mkt-cover">Cover image URL</label>
-              <input class="md-input" id="mkt-cover" type="url" value="{{ creator.cover_url }}" data-mkt-field="cover_url">
+            <div class="mkt-image-field">
+              <span class="mkt-image-preview mkt-image-preview-wide" data-mkt-preview-for="cover_url">
+                {% if creator.cover_url %}<img src="{{ creator.cover_url }}" alt="">{% else %}<span class="material-symbols-outlined" aria-hidden="true">image</span>{% endif %}
+              </span>
+              <div class="mkt-image-field-body">
+                <label class="md-label" for="mkt-cover">Cover picture</label>
+                <input class="md-input" id="mkt-cover" type="url" placeholder="https://…"
+                       value="{{ creator.cover_url }}" data-mkt-field="cover_url" data-mkt-image>
+                <p class="mkt-field-hint">Wide. Used behind your name, and when your page is shared.</p>
+              </div>
             </div>
           </div>
 
@@ -175,63 +195,186 @@
           <button type="button" class="md-btn md-btn-filled mkt-save" data-mkt-save-page>Save page</button>
         </div>
 
-        <div class="mkt-card">
-          <h2 class="md-title-medium">Look</h2>
-          <label class="md-label" for="mkt-layout">Layout</label>
-          <select class="md-input" id="mkt-layout" data-mkt-field="layout">
-            {% for layout in layouts %}
-              <option value="{{ layout }}" {% if creator.layout == layout %}selected{% endif %}>{{ layout|capfirst }}</option>
+        <div class="mkt-card" id="mkt-templates">
+          <div class="mkt-card-head">
+            <h2 class="md-title-medium">Start from a template</h2>
+            <span class="mkt-field-hint">Ten finished pages. Pick one, then change anything.</span>
+          </div>
+          {% comment %}A gallery before a blank canvas. Nobody's first page should
+          be twenty-five section names and no idea which they need — a template
+          leaves a creator with a page they could publish as-is and edit down.
+          Each card previews its own palette so the choice is made by eye.{% endcomment %}
+          <div class="mkt-template-gallery" data-mkt-templates>
+            {% for template in templates %}
+              <button type="button" class="mkt-template" data-mkt-template="{{ template.id }}"
+                      aria-label="Use the {{ template.name }} template">
+                <span class="mkt-template-thumb mkt-tt-{{ template.style.hero }} mkt-tt-{{ template.style.card }}"
+                      aria-hidden="true"
+                      style="--t-accent: {{ template.colors.accent }};
+                             --t-bg: {{ template.colors.bg }};
+                             --t-surface: {{ template.colors.surface }};
+                             --t-ink: {{ template.colors.ink }};
+                             --t-muted: {{ template.colors.muted }};
+                             --t-soft: {{ template.colors.soft }};
+                             --t-line: {{ template.colors.line }};">
+                  <span class="mkt-tt-bar"></span>
+                  <span class="mkt-tt-dot"></span>
+                  <span class="mkt-tt-line"></span>
+                  <span class="mkt-tt-line mkt-tt-line-short"></span>
+                  <span class="mkt-tt-grid"><i></i><i></i><i></i></span>
+                </span>
+                <span class="mkt-template-name">{{ template.name }}</span>
+                <span class="mkt-template-summary">{{ template.summary }}</span>
+                <span class="mkt-template-meta">{{ template.section_count }} sections · {{ template.best_for }}</span>
+              </button>
             {% endfor %}
-          </select>
+          </div>
+          <div class="mkt-template-modes" role="radiogroup" aria-label="What a template replaces">
+            <label class="mkt-radio">
+              <input type="radio" name="mkt-template-mode" value="page" checked>
+              <span><strong>Whole page</strong><small>Look and sections. Best when you are starting out.</small></span>
+            </label>
+            <label class="mkt-radio">
+              <input type="radio" name="mkt-template-mode" value="theme">
+              <span><strong>Look only</strong><small>Repaint. Keeps every word you have written.</small></span>
+            </label>
+            <label class="mkt-radio">
+              <input type="radio" name="mkt-template-mode" value="sections">
+              <span><strong>Sections only</strong><small>New sections in the colours you already chose.</small></span>
+            </label>
+          </div>
+        </div>
 
-          <label class="md-label" for="mkt-accent">Accent colour</label>
-          <div class="mkt-accent-row">
-            <input id="mkt-accent" type="color" value="{{ accent }}" data-mkt-field="accent_hex">
-            <input class="md-input" type="text" value="{{ accent }}" data-mkt-accent-text>
-            <span class="mkt-accent-swatches">
-              <button type="button" class="mkt-swatch" data-mkt-accent-swatch="#0F766E" style="--s:#0F766E" aria-label="Teal"></button>
-              <button type="button" class="mkt-swatch" data-mkt-accent-swatch="#B45309" style="--s:#B45309" aria-label="Amber"></button>
-              <button type="button" class="mkt-swatch" data-mkt-accent-swatch="#9D174D" style="--s:#9D174D" aria-label="Rose"></button>
-              <button type="button" class="mkt-swatch" data-mkt-accent-swatch="#4C1D95" style="--s:#4C1D95" aria-label="Violet"></button>
-              <button type="button" class="mkt-swatch" data-mkt-accent-swatch="#166534" style="--s:#166534" aria-label="Green"></button>
-            </span>
+        <div class="mkt-card" id="mkt-look">
+          <div class="mkt-card-head">
+            <h2 class="md-title-medium">Look</h2>
+            <span class="mkt-field-hint">Every change shows in the preview before you save.</span>
+          </div>
+
+          {% comment %}All of these are drawn from `editor_schema.theme`, which the
+          server builds from `api/creator_themes.py`. A palette added there turns up
+          here without this template being touched — and, more to the point, without
+          the web and the app ever offering different lists.{% endcomment %}
+          <label class="md-label">Palette</label>
+          <div class="mkt-palette-row" role="radiogroup" aria-label="Palette">
+            {% for palette in editor_schema.theme.palettes %}
+              <button type="button" class="mkt-palette{% if style.palette == palette.id %} is-on{% endif %}"
+                      data-mkt-palette="{{ palette.id }}" role="radio"
+                      aria-checked="{% if style.palette == palette.id %}true{% else %}false{% endif %}"
+                      style="--p-accent: {{ palette.accent }}; --p-soft: {{ palette.soft }}; --p-ink: {{ palette.ink }};"
+                      title="{{ palette.label }}">
+                <span class="mkt-palette-chip" aria-hidden="true"></span>
+                <span class="mkt-palette-name">{{ palette.label }}</span>
+              </button>
+            {% endfor %}
+          </div>
+          <input type="hidden" data-mkt-style="palette" value="{{ style.palette }}">
+
+          <label class="md-label">Page colours</label>
+          <div class="mkt-seg" role="radiogroup" aria-label="Page colours">
+            {% for scheme in editor_schema.theme.schemes %}
+              <button type="button" class="mkt-seg-item{% if style.scheme == scheme.id %} is-on{% endif %}"
+                      data-mkt-choice="scheme" data-value="{{ scheme.id }}" role="radio"
+                      aria-checked="{% if style.scheme == scheme.id %}true{% else %}false{% endif %}">{{ scheme.label }}</button>
+            {% endfor %}
+          </div>
+          <input type="hidden" data-mkt-style="scheme" value="{{ style.scheme }}">
+          <p class="mkt-field-hint">A dark page stays dark for every visitor, whatever their own app theme is set to.</p>
+
+          <label class="md-label">Top of the page</label>
+          <div class="mkt-seg mkt-seg-wrap" role="radiogroup" aria-label="Top of the page">
+            {% for hero in editor_schema.theme.heroes %}
+              <button type="button" class="mkt-seg-item{% if style.hero == hero.id %} is-on{% endif %}"
+                      data-mkt-choice="hero" data-value="{{ hero.id }}" role="radio"
+                      aria-checked="{% if style.hero == hero.id %}true{% else %}false{% endif %}">{{ hero.label }}</button>
+            {% endfor %}
+          </div>
+          <input type="hidden" data-mkt-style="hero" value="{{ style.hero }}">
+
+          <div class="mkt-grid-2">
+            <div>
+              <label class="md-label" for="mkt-font">Type</label>
+              <select class="md-input" id="mkt-font" data-mkt-style="font">
+                {% for font in editor_schema.theme.fonts %}
+                  <option value="{{ font.id }}" {% if style.font == font.id %}selected{% endif %}>{{ font.label }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div>
+              <label class="md-label" for="mkt-pattern">Texture</label>
+              <select class="md-input" id="mkt-pattern" data-mkt-style="pattern">
+                {% for pattern in editor_schema.theme.patterns %}
+                  <option value="{{ pattern.id }}" {% if style.pattern == pattern.id %}selected{% endif %}>{{ pattern.label }}</option>
+                {% endfor %}
+              </select>
+            </div>
           </div>
 
           <div class="mkt-grid-2">
             <div>
-              <label class="md-label" for="mkt-hero">Hero</label>
-              <select class="md-input" id="mkt-hero" data-mkt-style="hero">
-                <option value="art" {% if style.hero != 'cover' and style.hero != 'plain' %}selected{% endif %}>Banner art</option>
-                <option value="cover" {% if style.hero == 'cover' %}selected{% endif %}>Cover image</option>
-                <option value="plain" {% if style.hero == 'plain' %}selected{% endif %}>Plain</option>
+              <label class="md-label" for="mkt-card-style">Sections</label>
+              <select class="md-input" id="mkt-card-style" data-mkt-style="card">
+                {% for card in editor_schema.theme.cards %}
+                  <option value="{{ card.id }}" {% if style.card == card.id %}selected{% endif %}>{{ card.label }}</option>
+                {% endfor %}
               </select>
             </div>
             <div>
               <label class="md-label" for="mkt-radius">Corners</label>
               <select class="md-input" id="mkt-radius" data-mkt-style="radius">
-                <option value="soft" {% if style.radius == 'soft' %}selected{% endif %}>Soft</option>
-                <option value="round" {% if style.radius != 'soft' and style.radius != 'sharp' %}selected{% endif %}>Round</option>
-                <option value="sharp" {% if style.radius == 'sharp' %}selected{% endif %}>Sharp</option>
+                {% for radius in editor_schema.theme.radii %}
+                  <option value="{{ radius.id }}" {% if style.radius == radius.id %}selected{% endif %}>{{ radius.label }}</option>
+                {% endfor %}
               </select>
             </div>
           </div>
 
           <div class="mkt-grid-2">
             <div>
-              <label class="md-label" for="mkt-density">Density</label>
+              <label class="md-label" for="mkt-density">Spacing</label>
               <select class="md-input" id="mkt-density" data-mkt-style="density">
-                <option value="comfortable" {% if style.density != 'compact' %}selected{% endif %}>Comfortable</option>
-                <option value="compact" {% if style.density == 'compact' %}selected{% endif %}>Compact</option>
+                {% for density in editor_schema.theme.densities %}
+                  <option value="{{ density.id }}" {% if style.density == density.id %}selected{% endif %}>{{ density.label }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div>
+              <label class="md-label" for="mkt-width">Page width</label>
+              <select class="md-input" id="mkt-width" data-mkt-style="width">
+                {% for width in editor_schema.theme.widths %}
+                  <option value="{{ width.id }}" {% if style.width == width.id %}selected{% endif %}>{{ width.label }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+
+          <div class="mkt-grid-2">
+            <div>
+              <label class="md-label" for="mkt-layout">Layout</label>
+              <select class="md-input" id="mkt-layout" data-mkt-field="layout">
+                {% for layout in editor_schema.layouts %}
+                  <option value="{{ layout.id }}" {% if creator.layout == layout.id %}selected{% endif %}>{{ layout.label }}</option>
+                {% endfor %}
               </select>
             </div>
             <div>
               <label class="md-label" for="mkt-gallery-cols">Gallery columns</label>
               <select class="md-input" id="mkt-gallery-cols" data-mkt-style="gallery_columns">
                 <option value="2" {% if style.gallery_columns == 2 %}selected{% endif %}>2</option>
-                <option value="3" {% if style.gallery_columns != 2 and style.gallery_columns != 4 %}selected{% endif %}>3</option>
+                <option value="3" {% if style.gallery_columns == 3 %}selected{% endif %}>3</option>
                 <option value="4" {% if style.gallery_columns == 4 %}selected{% endif %}>4</option>
               </select>
             </div>
+          </div>
+
+          {% comment %}The accent is the palette's until a creator overrides it. Left
+          blank it follows whatever palette they pick, which is what almost everybody
+          wants — the picker is here for the one who has a brand colour.{% endcomment %}
+          <label class="md-label" for="mkt-accent">Accent colour</label>
+          <div class="mkt-accent-row">
+            <input id="mkt-accent" type="color" value="{{ accent }}" data-mkt-field="accent_hex">
+            <input class="md-input" type="text" value="{{ accent }}" data-mkt-accent-text>
+            <button type="button" class="md-btn md-btn-text" data-mkt-accent-reset>Use palette colour</button>
           </div>
 
           <label class="mkt-switch">
@@ -252,27 +395,88 @@
       </div>
 
       <div class="mkt-studio-col">
+        {% comment %}The preview is an iframe pointed at the creator's own page, not a
+        reimplementation of it. A second renderer in JavaScript is a second thing to
+        keep in step with the template and the app, and it would be wrong within a
+        week. The cost is that it shows the last *saved* state — which the label says
+        plainly, and the reload button makes cheap.{% endcomment %}
+        <div class="mkt-card mkt-preview-card">
+          <div class="mkt-card-head">
+            <h2 class="md-title-medium">Preview</h2>
+            <div class="mkt-seg mkt-preview-sizes" role="radiogroup" aria-label="Preview size">
+              <button type="button" class="mkt-seg-item is-on" data-mkt-preview-size="phone" role="radio" aria-checked="true">
+                <span class="material-symbols-outlined" aria-hidden="true">smartphone</span>
+                <span class="mkt-seg-text">Phone</span>
+              </button>
+              <button type="button" class="mkt-seg-item" data-mkt-preview-size="tablet" role="radio" aria-checked="false">
+                <span class="material-symbols-outlined" aria-hidden="true">tablet</span>
+                <span class="mkt-seg-text">Tablet</span>
+              </button>
+              <button type="button" class="mkt-seg-item" data-mkt-preview-size="desktop" role="radio" aria-checked="false">
+                <span class="material-symbols-outlined" aria-hidden="true">desktop_windows</span>
+                <span class="mkt-seg-text">Desktop</span>
+              </button>
+            </div>
+          </div>
+          <div class="mkt-preview-frame" data-mkt-preview-frame data-size="phone">
+            <iframe data-mkt-preview title="Preview of your page"
+                    src="{{ page_url }}"
+                    loading="lazy" referrerpolicy="same-origin"></iframe>
+          </div>
+          <div class="mkt-preview-foot">
+            <span class="mkt-field-hint" data-mkt-preview-state>Showing your page as it is saved right now.</span>
+            <button type="button" class="md-btn md-btn-text" data-mkt-preview-reload>
+              <span class="material-symbols-outlined" aria-hidden="true">refresh</span>Reload
+            </button>
+          </div>
+        </div>
+
         <div class="mkt-card">
           <div class="mkt-block-builder-head">
             <h2 class="md-title-medium">Sections</h2>
-            <span class="mkt-field-hint">Drag-free reordering: use the arrows. Order is what visitors see.</span>
+            <span class="mkt-field-hint">
+              Drag a section by its handle, or use Move up / Move down in its menu —
+              both do the same thing. Top to bottom here is top to bottom on your page.
+            </span>
           </div>
           <div class="mkt-blocks" data-mkt-blocks></div>
-          <div class="mkt-add-block">
-            <select class="md-input" data-mkt-add-block-select>
-              {% for entry in block_schema %}
-                <option value="{{ entry.type }}">{{ entry.label }}</option>
+
+          {% comment %}Grouped, because twenty-five names in one flat list is a list
+          nobody reads to the end of. The groups and the one-line hints both come from
+          `editor_schema`, so the app's picker says the same words.{% endcomment %}
+          <button type="button" class="md-btn md-btn-filled mkt-add-section-open" data-mkt-add-open>
+            <span class="material-symbols-outlined" aria-hidden="true">add</span>Add a section
+          </button>
+          <div class="mkt-add-sheet" data-mkt-add-sheet hidden>
+            <div class="mkt-add-sheet-head">
+              <strong>Add a section</strong>
+              <button type="button" class="md-btn md-btn-text" data-mkt-add-close aria-label="Close">
+                <span class="material-symbols-outlined" aria-hidden="true">close</span>
+              </button>
+            </div>
+            <div class="mkt-add-sheet-body">
+              {% for group in editor_schema.groups %}
+                <p class="mkt-add-group">{{ group.label }}</p>
+                <div class="mkt-add-grid">
+                  {% for type in group.types %}
+                    {% for entry in editor_schema.blocks %}{% if entry.type == type %}
+                      <button type="button" class="mkt-add-option" data-mkt-add-block="{{ entry.type }}">
+                        <span class="mkt-add-option-name">{{ entry.label }}</span>
+                        <span class="mkt-add-option-hint">{{ entry.hint }}</span>
+                      </button>
+                    {% endif %}{% endfor %}
+                  {% endfor %}
+                </div>
               {% endfor %}
-            </select>
-            <button type="button" class="md-btn md-btn-outlined" data-mkt-add-block>
-              <span class="material-symbols-outlined" aria-hidden="true">add</span>Add section
-            </button>
+            </div>
           </div>
+
           <button type="button" class="md-btn md-btn-filled mkt-save" data-mkt-save-page>Save sections</button>
         </div>
       </div>
     </div>
 
+    {{ editor_schema|json_script:"mkt-editor-schema" }}
     {{ block_schema|json_script:"mkt-block-schema" }}
     {{ creator.blocks|json_script:"mkt-blocks-data" }}
   </section>
@@ -534,5 +738,6 @@
 {% block extra_js %}
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/marketplace_price.js' %}"></script>
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/marketplace_studio.js' %}"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/marketplace_studio_look.js' %}"></script>
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/marketplace_studio_forms.js' %}"></script>
 {% endblock %}
