@@ -21,7 +21,8 @@ from decimal import Decimal
 from django.utils.text import slugify
 
 from .creator_pages_access import (
-    allowed_kinds, can_have_storefront, check_user_course_access, default_kind_for,
+    allowed_kinds, can_have_storefront, check_user_course_access, course_access_map,
+    default_kind_for,
 )
 from .creator_pages_payloads import (
     course_payload, linked_resource_ids, listing_queryset, page_payload, post_payload,
@@ -46,8 +47,8 @@ __all__ = [
     'LAYOUTS', 'LIST_FIELDS', 'MAX_BLOCKS', 'MAX_LIST_ITEMS', 'PAGE_TEXT_FIELDS',
     'RADII', 'SOCIAL_KEYS', 'URL_FIELDS',
     'allowed_kinds', 'apply_course_fields', 'apply_page_update', 'apply_post_fields',
-    'block_schema', 'can_have_storefront', 'check_user_course_access', 'course_payload',
-    'default_kind_for', 'linked_resource_ids', 'listing_queryset', 'page_for_user',
+    'block_schema', 'can_have_storefront', 'check_user_course_access',
+    'course_access_map', 'course_payload', 'default_kind_for', 'linked_resource_ids', 'listing_queryset', 'page_for_user',
     'page_payload', 'post_payload', 'sanitize_accent', 'sanitize_blocks',
     'sanitize_include_list', 'sanitize_socials', 'sanitize_style', 'slugify_creator',
     'sync_course_resources', 'unique_course_slug', 'unique_page_slug',

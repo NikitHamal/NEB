@@ -59,7 +59,11 @@ ITEM_FIELDS = {
     'links': ('label', 'url', 'icon'),
 }
 
-URL_FIELDS = ('cta_url', 'image_url', 'link_url', 'url', 'media_url', 'promo_url')
+# Every field whose value ends up in an href or src. `avatar_url` belongs here
+# too: a testimonial's portrait is rendered by both surfaces, so it goes
+# through the same scheme allowlist as any other creator-supplied link.
+URL_FIELDS = ('cta_url', 'image_url', 'link_url', 'url', 'media_url', 'promo_url',
+              'avatar_url')
 
 SOCIAL_KEYS = (
     'website', 'facebook', 'instagram', 'youtube', 'tiktok', 'x', 'linkedin',
