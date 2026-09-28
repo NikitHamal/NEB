@@ -94,6 +94,9 @@ class MarketplaceTestBase(TestCase):
             HTTP_AUTHORIZATION=f'Bearer {user.raw_token}',
         )
 
+    def delete(self, user, path):
+        return self.client.delete(path, HTTP_AUTHORIZATION=f'Bearer {user.raw_token}')
+
     def patch_json(self, user, path, payload):
         return self.client.patch(
             path,
@@ -230,6 +233,72 @@ class MarketplaceCourseTests(MarketplaceTestBase):
                                   {'title': 'No price', 'is_free': False, 'status': 'published'})
         self.assertEqual(response.status_code, 400)
         self.assertIn('price', response.json()['error'].lower())
+
+    def test_a_draft_may_still_be_priceless(self):
+        """Half-written is a normal state for a course: the price rule only
+        bites when the creator actually puts it on the shelf."""
+        draft = self.post_json(self.teacher, '/api/marketplace/me/courses/',
+                               {'title': 'Still thinking', 'is_free': False, 'status': 'draft'})
+        self.assertEqual(draft.status_code, 201)
+        course_id = draft.json()['course']['id']
+        listing = self.patch_json(self.teacher, f'/api/marketplace/me/courses/{course_id}/',
+                                  {'status': 'published'})
+        self.assertEqual(listing.status_code, 400)
+
+    def test_dropping_the_price_cannot_leave_a_paid_course_free(self):
+        """PATCHing price alone used to leave a listed course priced at Rs. 0
+        while still marked paid -- the shelf and the access check then
+        disagreed about whether anyone had to pay for it."""
+        course = self.make_course().json()['course']
+        response = self.patch_json(self.teacher, f"/api/marketplace/me/courses/{course['id']}/",
+                                   {'price': '0'})
+        self.assertEqual(response.status_code, 400)
+
+    def test_a_price_keeps_its_paisa_and_never_goes_scientific(self):
+        """'%g' formatting dropped the cents past six significant digits and
+        rendered a big price as 1.23457e+06."""
+        cheap = self.make_course(title='Paisa', price='1499.50').json()['course']
+        self.assertEqual(cheap['price'], '1499.50')
+        dear = self.make_course(title='Big', price='999999.99').json()['course']
+        self.assertEqual(dear['price'], '999999.99')
+        self.assertEqual(self.make_course(title='Round', price='2500').json()['course']['price'], '2500')
+
+    def test_a_sold_course_is_archived_not_deleted(self):
+        """The purchase row points at the course with SET_NULL, so deleting a
+        sold offering would strip the buyer's access and the seller's sale."""
+        course = self.make_course(title='Sold out').json()['course']
+        PaymentVerification.objects.create(
+            id=str(uuid.uuid4()), buyer=self.student, seller=self.teacher,
+            course_id=course['id'], amount=Decimal('2500'), status='approved',
+            created_at=now_ms(),
+        )
+        response = self.delete(self.teacher, f"/api/marketplace/me/courses/{course['id']}/")
+        self.assertEqual(response.status_code, 409)
+        self.assertIn('archive', response.json()['error'].lower())
+        self.assertTrue(CreatorCourse.objects.filter(pk=course['id']).exists())
+
+        archived = self.patch_json(self.teacher, f"/api/marketplace/me/courses/{course['id']}/",
+                                   {'status': 'archived'})
+        self.assertEqual(archived.status_code, 200)
+        has_access, reason, _ = check_user_course_access(self.student,
+                                                        CreatorCourse.objects.get(pk=course['id']))
+        self.assertTrue(has_access)
+        self.assertEqual(reason, 'purchased')
+
+    def test_an_unsold_course_can_be_deleted(self):
+        course = self.make_course(title='Nobody bought this').json()['course']
+        self.assertEqual(self.delete(self.teacher, f"/api/marketplace/me/courses/{course['id']}/").status_code, 200)
+        self.assertFalse(CreatorCourse.objects.filter(pk=course['id']).exists())
+
+    def test_a_double_submit_queues_one_payment_not_two(self):
+        """Both taps see no open row and both insert; the database keeps one."""
+        course = self.make_course(title='Raced').json()['course']
+        for _ in range(2):
+            response = self.post_json(self.student, f"/api/marketplace/courses/{course['id']}/purchase/",
+                                      {'transaction_id': 'TXN-1'})
+            self.assertEqual(response.status_code, 201, response.content)
+        self.assertEqual(PaymentVerification.objects.filter(
+            buyer=self.student, course_id=course['id'], status='pending').count(), 1)
 
     def test_a_free_course_normalises_its_price(self):
         course = self.make_course(title='Free notes', is_free=True, price='500').json()['course']

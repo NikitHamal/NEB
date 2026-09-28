@@ -6,6 +6,7 @@ storefront looking like the same storefront in both places.
 """
 from .creator_pages_access import check_user_course_access
 from .models import CreatorPage, CreatorCourseResource, Resource
+from .utils import money_str as _money
 
 
 def _account_payload(user):
@@ -78,14 +79,6 @@ def post_payload(post):
         'like_count': post.like_count or 0,
         'created_at': post.created_at or 0,
     }
-
-
-def _money(value):
-    try:
-        amount = float(value or 0)
-    except (TypeError, ValueError):
-        return '0'
-    return ('%g' % amount) if amount else '0'
 
 
 def page_payload(page, viewer=None, include_drafts=False, with_content=True):

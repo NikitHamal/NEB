@@ -22,14 +22,14 @@ from django.utils.text import slugify
 
 from .creator_pages_access import (
     allowed_kinds, can_have_storefront, check_user_course_access, course_access_map,
-    default_kind_for,
+    default_kind_for, sold_course_delete_error,
 )
 from .creator_pages_payloads import (
     course_payload, linked_resource_ids, listing_queryset, page_payload, post_payload,
 )
 from .creator_pages_sanitize import (
     sanitize_accent, sanitize_blocks, sanitize_include_list, sanitize_socials,
-    sanitize_style, _text,
+    sanitize_style, _clean_url, _text,
 )
 from .creator_pages_schema import (
     ACCENT_RE, BLOCK_FIELDS, BLOCK_LABELS, DEFAULT_BLOCKS, DENSITIES, ELIGIBLE_ROLES,
@@ -44,14 +44,16 @@ from .utils import now_ms
 __all__ = [
     'ACCENT_RE', 'BLOCK_FIELDS', 'BLOCK_LABELS', 'DEFAULT_BLOCKS', 'DENSITIES',
     'ELIGIBLE_ROLES', 'FIELD_LABELS', 'HERO_STYLES', 'ITEM_FIELDS', 'ITEM_LABELS',
-    'LAYOUTS', 'LIST_FIELDS', 'MAX_BLOCKS', 'MAX_LIST_ITEMS', 'PAGE_TEXT_FIELDS',
+    'LAYOUTS', 'LIST_FIELDS', 'MAX_BLOCKS', 'MAX_COURSE_RESOURCES', 'MAX_LIST_ITEMS',
+    'PAGE_TEXT_FIELDS',
     'RADII', 'SOCIAL_KEYS', 'URL_FIELDS',
     'allowed_kinds', 'apply_course_fields', 'apply_page_update', 'apply_post_fields',
     'block_schema', 'can_have_storefront', 'check_user_course_access',
     'course_access_map', 'course_payload', 'default_kind_for', 'linked_resource_ids', 'listing_queryset', 'page_for_user',
     'page_payload', 'post_payload', 'sanitize_accent', 'sanitize_blocks',
     'sanitize_include_list', 'sanitize_socials', 'sanitize_style', 'slugify_creator',
-    'sync_course_resources', 'unique_course_slug', 'unique_page_slug',
+    'sold_course_delete_error', 'sync_course_resources', 'unique_course_slug',
+    'unique_page_slug',
 ]
 
 
@@ -81,10 +83,13 @@ def unique_course_slug(page, base, exclude_id=None):
     qs = CreatorCourse.objects.filter(page=page)
     if exclude_id:
         qs = qs.exclude(pk=exclude_id)
+    # Retry off the slugified stem, not the raw title: building the candidate
+    # from `base` let spaces and punctuation back into the slug.
+    stem = candidate[:76]
     suffix = 1
     while qs.filter(slug=candidate).exists():
         suffix += 1
-        candidate = f'{base[:76]}-{suffix}'
+        candidate = f'{stem}-{suffix}'
     return candidate
 
 
@@ -178,7 +183,7 @@ def apply_page_update(page, data, allowed=None):
     for field in ('avatar_url', 'cover_url'):
         if _has(field):
             value = str(data.get(field) or '').strip()
-            setattr(page, field, value[:600] if value.startswith(('http://', 'https://', '/')) else '')
+            setattr(page, field, _clean_url(value))
 
     if _has('accent_hex'):
         page.accent_hex = sanitize_accent(data.get('accent_hex'))
@@ -252,7 +257,7 @@ def apply_course_fields(course, page, data):
     for field in ('cover_url', 'promo_url'):
         if _has(field):
             value = str(data.get(field) or '').strip()
-            setattr(course, field, value[:600] if value.startswith(('http://', 'https://', '/')) else '')
+            setattr(course, field, _clean_url(value))
 
     if _has('is_free'):
         course.is_free = data.get('is_free') in (True, 'true', 'True', 'on', '1', 1)
@@ -263,6 +268,11 @@ def apply_course_fields(course, page, data):
             price = Decimal(raw)
         except Exception:
             return None, None, 'Enter a valid price'
+        # Decimal('nan') parses, so the except above never sees it -- and then
+        # every comparison below raises InvalidOperation instead of returning
+        # this message.
+        if not price.is_finite():
+            return None, None, 'Enter a valid price'
         if price < 0:
             return None, None, 'Price cannot be negative'
         if price > Decimal('1000000'):
@@ -271,10 +281,6 @@ def apply_course_fields(course, page, data):
 
     if course.is_free:
         course.price = Decimal('0.00')
-    elif (course.price or 0) <= 0:
-        publish_intent = _has('status') and str(data.get('status')).lower() == 'published'
-        if publish_intent or _has('is_free'):
-            return None, None, 'A paid course needs a price above Rs. 0'
 
     for field, limit in (('lesson_count', 999), ('seat_limit', 100000)):
         if _has(field):
@@ -297,9 +303,15 @@ def apply_course_fields(course, page, data):
         status_value = str(data.get('status') or '').strip().lower()
         if status_value not in ('draft', 'published', 'archived'):
             return None, None, 'Unknown course status'
-        if status_value == 'published' and (not course.is_free) and (course.price or 0) <= 0:
-            return None, None, 'A paid course needs a price above Rs. 0'
         course.status = status_value
+
+    # Judge the state the course will be saved in, not the keys this request
+    # happened to carry. PATCHing price=0 alone used to leave a published course
+    # priced at Rs. 0 while still listed as paid, which the shelf and the access
+    # check then disagreed about. A draft is allowed to be priceless -- that is
+    # what a half-written course looks like -- so only a listed one is held to it.
+    if course.status == 'published' and not course.is_free and (course.price or 0) <= 0:
+        return None, None, 'A paid course needs a price above Rs. 0'
 
     if _has('featured'):
         course.featured = data.get('featured') in (True, 'true', 'True', 'on', '1', 1)
@@ -316,7 +328,13 @@ def apply_course_fields(course, page, data):
     return course, pending_resource_ids, None
 
 
+MAX_COURSE_RESOURCES = 60
+
+
 def sync_course_resources(course, page, resource_ids):
+    # Capped: the id list arrives from a client, and an `IN (...)` of arbitrary
+    # length is a free way to make the database do unbounded work.
+    resource_ids = list(dict.fromkeys(resource_ids or []))[:MAX_COURSE_RESOURCES]
     valid = list(Resource.objects.filter(id__in=resource_ids, uploaded_by_id=page.user_id).values_list('id', flat=True))
     CreatorCourseResource.objects.filter(course=course).exclude(resource_id__in=valid).delete()
     existing = set(CreatorCourseResource.objects.filter(course=course).values_list('resource_id', flat=True))
@@ -336,7 +354,7 @@ def apply_post_fields(post, data):
     for field in ('media_url', 'link_url'):
         if field in data:
             value = str(data.get(field) or '').strip()
-            setattr(post, field, value[:600] if value.startswith(('http://', 'https://', '/')) else '')
+            setattr(post, field, _clean_url(value))
     for field in ('pinned', 'published'):
         if field in data:
             setattr(post, field, data.get(field) in (True, 'true', 'True', 'on', '1', 1))
