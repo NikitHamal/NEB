@@ -1,13 +1,19 @@
 """NEBians chapter markdown -> styled HTML fragment."""
 import base64, os, re, html as _html
 import markdown as _md
-import mathsvg, figrun
+import mathsvg, figrun, photo, assets
 
 _PLACE = "\x00NEB{}\x00"
 
 def _svg_data_uri(path):
     with open(path, "rb") as f:
         return "data:image/svg+xml;base64," + base64.b64encode(f.read()).decode()
+
+
+def _png_uri(path):
+    """PNGs go in by file URL, not base64 — a photo is ~0.5 MB and WeasyPrint
+    can then share one decoded copy between every place it appears."""
+    return "file://" + os.path.abspath(path)
 
 # ---------- frontmatter ----------
 def parse_front(text):
@@ -46,6 +52,43 @@ def _extract_figures(body, store, chapter_id):
             + "</figure>")
         return "\n\n" + _PLACE.format(i) + "\n\n"
     return re.sub(r"^```figure([^\n]*)\n(.*?)^```\s*$", rep, body, flags=re.S | re.M)
+
+
+def _extract_photos(body, store, chapter_id):
+    """```photo id="slug/name" caption="…" width="86"  + overlay directives."""
+    def rep(m):
+        info, script = m.group(1) or "", m.group(2)
+        at = photo.parse_attrs(info)
+        aid = at.get("id", "").strip()
+        if not aid:
+            photo.FAILS.append((chapter_id, "photo block with no id="))
+            return ""
+        try:
+            wpct = float(at.get("width", "88"))
+        except ValueError:
+            wpct = 88.0
+        path = photo.render(aid, script, wpct)
+        if not path:
+            return ""
+        _, keys, _ = photo.parse_script(script)
+        rec = assets.record(aid) or {}
+        src_note = ""
+        if rec:
+            who = rec.get("author") or "unknown"
+            src_note = (f'<span class="src">Source: {_html.escape(who[:70])} / '
+                        f'{_html.escape(rec.get("source", ""))} '
+                        f'({_html.escape(rec.get("license", ""))})</span>')
+        cap = re.search(r'caption\s*=\s*"([^"]*)"', info)
+        i = len(store)
+        store.append(
+            f'<figure class="nobreak photo">'
+            f'<img src="{_png_uri(path)}" style="width:{wpct:.0f}%" alt="photograph">'
+            + photo.key_html(keys)
+            + (f'<figcaption>{{CAP}}{_inline_math_html(cap.group(1))} {src_note}</figcaption>'
+               if cap else (f"<figcaption>{src_note}</figcaption>" if src_note else ""))
+            + "</figure>")
+        return "\n\n" + _PLACE.format(i) + "\n\n"
+    return re.sub(r"^```photo([^\n]*)\n(.*?)^```\s*$", rep, body, flags=re.S | re.M)
 
 # Inline math may be hard-wrapped across a line break in the source. It must
 # not run past a blank line or into a new block construct, or one stray `$`
@@ -254,6 +297,7 @@ def convert(text, chapter_id="", fig_no_start=1):
     meta, body = parse_front(text)
     store = []
     body = _extract_figures(body, store, chapter_id)
+    body = _extract_photos(body, store, chapter_id)
     body = _extract_display_math(body, store)
     body = _extract_inline_math(body, store)
     _find_leaks(body)

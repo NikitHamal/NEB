@@ -136,6 +136,34 @@ figcaption { font-family:Inter,sans-serif; font-size:8.4pt; color:var(--muted);
              margin-top:2mm; line-height:1.46; text-align:center; }
 figcaption b { color:var(--ink); font-weight:600; }
 
+/* ---------- photographs and reference diagrams ---------- */
+/* A real image needs a frame — without one a white-background diagram and a
+   photographic edge sit differently on the page and the block stops reading as
+   one object. */
+figure.photo img { border:.25mm solid var(--rule); border-radius:1.2mm;
+                   background:#fff; }
+figcaption .src { display:block; font-size:7pt; color:var(--faint);
+                  margin-top:.9mm; font-style:normal; }
+/* Numbered key under a "numbers version" reference diagram. */
+.photokey { display:block; margin:2mm auto 0 auto; max-width:96%;
+            font-family:Inter,sans-serif; font-size:8pt; color:var(--body);
+            text-align:left; column-count:2; column-gap:7mm; }
+.photokey .pk { display:block; break-inside:avoid; padding:.35mm 0;
+                line-height:1.4; }
+.photokey .pk i { display:inline-block; min-width:4.6mm; font-style:normal;
+                  font-weight:700; color:var(--accent); }
+.photokey.one { column-count:1; }
+
+/* ---------- picture credits appendix ---------- */
+.credits { font-size:8.6pt; }
+.credits h2 { margin-top:6mm; }
+.credits .cr { break-inside:avoid; padding:1.5mm 0; border-bottom:.2mm dotted #e8eaee;
+               text-align:left; line-height:1.44; }
+.credits .cr b { font-family:Inter,sans-serif; font-weight:600; color:var(--ink); }
+.credits .cr span { color:var(--muted); }
+.credits .cr code { background:none; font-size:7.6pt; color:var(--faint);
+                    word-break:break-all; }
+
 /* ---------- tables ---------- */
 table { width:100%; border-collapse:collapse; margin:3.5mm 0; font-size:9pt;
         break-inside:avoid; }

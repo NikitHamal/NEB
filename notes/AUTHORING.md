@@ -4,9 +4,9 @@ You are writing one chapter of a printed study book for Nepali NEB (National
 Examination Board) Grade 11/12 science-stream students. The output is a PDF
 built by a custom pipeline. **Follow this format exactly** or the build breaks.
 
-Your file: `/workspace/nebians/content/<slug>/unit-NN.md` (NN zero-padded).
+Your file: `notes/content/<slug>/unit-NN.md` in the NEB repo (NN zero-padded).
 The exemplar to imitate for depth, tone and structure:
-`/workspace/nebians/content/phy11/unit-03.md` — **read it first.**
+`notes/content/phy11/unit-03.md` — **read it first.**
 
 ---
 
@@ -24,7 +24,7 @@ area: Mechanics
 ```
 
 Copy `title`, `hours`, `area` **verbatim from the curriculum spine** at
-`/workspace/nebians/curriculum/<slug>.md`. Do not invent or reword them. The
+`notes/curriculum/<slug>.md`. Do not invent or reword them. The
 syllabus bullet list under the unit in the spine is injected automatically — you
 do not write it, but **every bullet must be covered** by a section of your
 chapter, in the same order.
@@ -179,7 +179,7 @@ Rules:
 Run the build on your file to prove it compiles:
 
 ```
-cd /workspace/nebians/build && python3 check.py ../content/<slug>/unit-NN.md
+cd notes/pipeline && python3 check.py ../content/<slug>/unit-NN.md
 ```
 
 It prints any math that failed to parse and any figure code that raised. **Fix
@@ -291,3 +291,100 @@ result being derived, and follow this shape:
 Follow it with a `::: tip The examiner is looking for` listing the
 marks-bearing steps. Write for a 16-year-old whose first language is not
 English: short sentences, ordinary words.
+
+---
+
+## 14. Real images — when a drawn figure is not enough
+
+Added after the owner's review of edition 1.0: *"lots of figures we drew from
+code are not themselves sufficient — replace many of them with actual images
+from the internet, and we can overlay labels on them, so that we give the
+correct idea to students."*
+
+**Keep the drawn figures where drawing is the right answer.** A graph, a
+free-body diagram, a ray diagram, a circuit, an energy-level diagram, a
+titration curve, a geometric construction — these are *better* as clean vector
+drawings, and the Physics and Mathematics figures in edition 1.0 are staying.
+
+**Use a real image when the student needs to recognise the actual thing:**
+
+| Subject | Replace drawings with real images for |
+|---|---|
+| Biology | micrographs, cell and organelle ultrastructure, dissections, tissue sections, specimen plates, plant families, life cycles, human organ anatomy |
+| Chemistry | apparatus, crystal and molecular models, flame tests, precipitates and colour changes, ores and minerals, the periodic table |
+| Computer Science | motherboards, ports, connectors, storage media, network hardware, real UI/IDE screenshots, logic-gate IC packages |
+| English | portraits of the authors studied, the places and objects a text turns on |
+| Physics / Maths | instruments (screw gauge, vernier, galvanometer), real apparatus, astronomical images, historical photographs |
+
+### 14.1 Fetching an image
+
+Never paste a URL into a chapter and never download by hand. Everything goes
+through `pipeline/assets.py`, which refuses any file that is not under a free
+licence and records the attribution the licence requires:
+
+```
+cd notes/pipeline
+python3 assets.py search "paramecium micrograph"        # candidates + licences
+python3 assets.py get bio11/paramecium "File:Paramecium.jpg" --width 1400
+python3 assets.py list bio11
+python3 assets.py verify
+```
+
+`search` prints `FREE` or `----` against each hit. **Only `FREE` files can be
+fetched** — `get` exits with `REFUSED` otherwise; do not try to work around it.
+Asset ids are `<subject-slug>/<short-name>`, lower-case, hyphenated.
+
+Prefer, in this order: a **"numbers version"** diagram (you supply the labels,
+so the terminology is CDC's), a **CC0 / public-domain** file, then CC BY / CC
+BY-SA. Prefer a photograph of the real thing over a stylised drawing when the
+point is recognition; prefer a clean diagram when the point is structure.
+
+### 14.2 Placing it in a chapter
+
+````
+```photo id="bio11/mitochondrion" caption="Ultrastructure of a mitochondrion." width="76"
+crop 0.03 0.03 0.97 0.97
+key 1 Outer membrane
+key 2 Intermembrane space
+key 3 Inner membrane
+key 4 Cristae
+```
+````
+
+`width` is a percentage of the text column (60–100; use 70–80 for a portrait
+image, 90–100 for a wide plate). The `Source: …` line under the caption and the
+book's **Picture Credits** appendix are both generated from the registry — do
+not type attributions into the chapter.
+
+Overlay directives, one per line, coordinates as fractions of the image with
+y measured from the **bottom**:
+
+| Directive | Draws |
+|---|---|
+| `crop L B R T` | keep only this part of the image |
+| `label X Y "text"` | a label on a soft white plate |
+| `call X Y TX TY "text"` | a label at (X,Y) with a leader line to the point (TX,TY) |
+| `mark X Y "3"` | a small numbered disc on the image |
+| `box X Y W H ["text"]` | a highlight rectangle, x/y at its lower-left corner |
+| `arrow X Y TX TY` | a bare arrow |
+| `scale X Y W "10 μm"` | a scale bar of fractional width W |
+| `key 3 Inner membrane` | an entry in the numbered key printed below the image |
+| `tint 0.18` | fade the image towards white so overlays read over it |
+
+Rules that matter:
+
+- **If the source image is already correctly labelled in English, add nothing.**
+  Two sets of labels is worse than one. Overlays are for numbered diagrams,
+  non-English diagrams, and photographs of real objects.
+- A `key` list is the right tool for a numbered diagram — it keeps the image
+  clean and gives you room for the CDC term *and* a few words of explanation.
+  Give a key entry for **every** number visible in the image, or crop the ones
+  you are not using out.
+- Overlay coordinates are guesses until you have looked at the render. Use
+  `python3 photoprev.py ../content/<slug>/unit-NN.md /tmp/mydir` and **look at
+  every PNG**, exactly as §12 requires for drawn figures. A label sitting on top
+  of the structure it names is worse than no label.
+- 2–5 real images per chapter in the subjects listed above is the target; do not
+  pad a chapter with images that carry no information.
+- Photographs are large. Do not fetch above `--width 1400`, and use `crop` to
+  throw away empty margins rather than shipping them.
