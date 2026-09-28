@@ -7,7 +7,7 @@
 
    The editor is progressive: without JavaScript the identity, style and course
    fields are ordinary inputs that still post to the same validators the REST API
-   uses (via `marketplace.js`). With JavaScript the block builder adds, removes,
+   uses (via `marketplace_studio*.js`). With JavaScript the block builder adds, removes,
    reorders and previews sections live. Nothing is saved that the server would
    not have accepted from the app.
 {% endcomment %}
@@ -517,5 +517,7 @@
 {% endblock %}
 
 {% block extra_js %}
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/marketplace.js' %}"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/marketplace_price.js' %}"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/marketplace_studio.js' %}"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/marketplace_studio_forms.js' %}"></script>
 {% endblock %}
