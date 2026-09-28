@@ -17,7 +17,10 @@ import json
 import uuid
 from decimal import Decimal
 
+from django.core.cache import cache
+from django.db import connection
 from django.test import Client, RequestFactory, TestCase
+from django.test.utils import CaptureQueriesContext
 from django.urls import reverse
 
 from api.creator_pages import check_user_course_access
@@ -34,6 +37,10 @@ class MarketplaceTestBase(TestCase):
     """Shared fixtures: a teacher with a storefront, a student and an admin."""
 
     def setUp(self):
+        # Throttle counters live in the shared cache and the fixture user ids
+        # are deterministic, so without this one test's writes would spend the
+        # next test's allowance.
+        cache.clear()
         self.teacher = self.make_user('t_teacher', role=User.ROLE_TEACHER)
         self.institute = self.make_user('t_institute', role=User.ROLE_INSTITUTION)
         self.student = self.make_user('t_student')
@@ -154,6 +161,18 @@ class CreatorPageApiTests(MarketplaceTestBase):
         self.assertIn('https://example.com', urls)
         self.assertNotIn('javascript:alert(1)', urls)
 
+    def test_a_testimonial_portrait_goes_through_the_url_allowlist(self):
+        """Every field that lands in a src is sanitised, not just the ones
+        named *_url in the hero."""
+        page = self.make_published_page(self.teacher, slug='t-avatar', blocks=[
+            {'type': 'testimonials', 'items': [
+                {'name': 'A', 'quote': 'Great', 'avatar_url': 'javascript:alert(1)'},
+                {'name': 'B', 'quote': 'Good', 'avatar_url': 'https://cdn.example.com/b.png'},
+            ]},
+        ])
+        avatars = [item['avatar_url'] for item in page['blocks'][0]['items']]
+        self.assertEqual(avatars, ['', 'https://cdn.example.com/b.png'])
+
     def test_pages_are_public_and_drafts_are_not(self):
         self.make_published_page(self.teacher, slug='t-live')
         self.client.post('/api/marketplace/me/page/', data=json.dumps({'published': False}),
@@ -234,6 +253,24 @@ class MarketplaceCourseTests(MarketplaceTestBase):
         free = self.client.get('/api/marketplace/courses/?pricing=free').json()
         self.assertTrue(all(course['is_free'] for course in free['courses']))
         self.assertEqual(self.client.get('/api/marketplace/courses/?kind=institute').json()['total'], 0)
+
+    def test_the_shelf_costs_the_same_whatever_its_length(self):
+        """A signed-in browser used to pay one purchase lookup per paid card,
+        so a full shelf cost forty-eight of them. They batch into one now."""
+        for index in range(2):
+            self.make_course(title=f'Paid {index}')
+        with CaptureQueriesContext(connection) as small:
+            self.get(self.student, '/api/marketplace/courses/')
+        for index in range(2, 8):
+            self.make_course(title=f'Paid {index}')
+        with CaptureQueriesContext(connection) as large:
+            response = self.get(self.student, '/api/marketplace/courses/')
+
+        self.assertEqual(response.json()['total'], 8)
+        self.assertEqual(len(large), len(small))
+        lookups = [q for q in large.captured_queries
+                   if 'payment_verifications' in q['sql']]
+        self.assertEqual(len(lookups), 1)
 
     def test_buying_is_gated_until_an_admin_approves(self):
         course_id = self.make_course().json()['course']['id']

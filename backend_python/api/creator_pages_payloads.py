@@ -21,8 +21,13 @@ def _account_payload(user):
     }
 
 
-def course_payload(course, viewer=None, include_purchase=True):
-    has_access, reason, purchase = check_user_course_access(viewer, course)
+def course_payload(course, viewer=None, include_purchase=True, access=None):
+    """One offering as JSON.
+
+    `access` takes a pre-resolved (has_access, reason, purchase) triple from
+    `course_access_map()` so a list of offerings costs one purchase query
+    instead of one per card; without it the check runs here, and when the
+    caller does not want purchase state it does not run at all."""
     payload = {
         'id': course.id,
         'page_id': course.page_id,
@@ -53,6 +58,7 @@ def course_payload(course, viewer=None, include_purchase=True):
         'updated_at': course.updated_at or 0,
     }
     if include_purchase:
+        has_access, reason, purchase = access or check_user_course_access(viewer, course)
         payload['has_access'] = bool(has_access)
         payload['access_reason'] = reason
         payload['purchase_status'] = getattr(purchase, 'status', '') if purchase else ''
