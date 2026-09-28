@@ -6,6 +6,7 @@ from .marketplace import (
     get_payment_config, convert_points_to_credits, ensure_monthly_free_credits,
     total_ai_credits,
 )
+from .utils import money_str
 from decimal import Decimal
 
 
@@ -20,11 +21,10 @@ def _balance_for(user):
 
 
 def _rs(value):
-    try:
-        f = float(value or 0)
-    except (TypeError, ValueError):
-        f = 0.0
-    return ('%g' % f) if f else '0'
+    """Rupees as a display string. This went through ``'%g' % float(...)``,
+    which turned a Rs. 1,234,567.89 balance into ``1.23457e+06`` on the way to
+    the app; ``money_str`` is what the rest of the marketplace already uses."""
+    return money_str(value)
 
 
 @api_view(['GET'])

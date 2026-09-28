@@ -148,10 +148,11 @@
     this.root.querySelectorAll('[data-mkt-style]').forEach(function (input) {
       style[input.dataset.mktStyle] = input.value;
     });
+    this.root.querySelectorAll('[data-mkt-style-bool]').forEach(function (input) {
+      style[input.dataset.mktStyleBool] = input.checked;
+    });
     payload.style = style;
     payload.style.gallery_columns = parseInt(payload.style.gallery_columns, 10) || 3;
-    payload.style.show_stats = true;
-    payload.style.show_contact = true;
 
     return payload;
   };
@@ -279,6 +280,24 @@
     down.setAttribute('aria-label', 'Move down');
     down.addEventListener('click', function () { self.moveBlock(index, 1); });
 
+    /* Hiding a section keeps everything typed into it; removing it does not.
+       The app has had this since day one and the two studios have to agree. */
+    var hide = document.createElement('button');
+    hide.type = 'button';
+    hide.className = 'md-btn md-btn-text';
+    var paintHide = function () {
+      var on = block.enabled !== false;
+      hide.innerHTML = '<span class="material-symbols-outlined">' + (on ? 'visibility' : 'visibility_off') + '</span>';
+      hide.setAttribute('aria-label', on ? 'Hide this section' : 'Show this section');
+      hide.setAttribute('aria-pressed', on ? 'false' : 'true');
+      item.classList.toggle('is-hidden', !on);
+    };
+    hide.addEventListener('click', function () {
+      block.enabled = block.enabled === false;
+      paintHide();
+    });
+    paintHide();
+
     var remove = document.createElement('button');
     remove.type = 'button';
     remove.className = 'md-btn md-btn-text mkt-danger';
@@ -290,6 +309,7 @@
     head.appendChild(title);
     head.appendChild(up);
     head.appendChild(down);
+    head.appendChild(hide);
     head.appendChild(remove);
     item.appendChild(head);
 

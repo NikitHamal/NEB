@@ -6,7 +6,6 @@
   'use strict';
 
   var NebStudio = window.NebMarket.Studio;
-  var initPriceSetter = window.NebMarket.initPriceSetter;
 
   NebStudio.prototype.courseField = function (key) {
     return this.root.querySelector('[data-mkt-course-field="' + key + '"]');
@@ -65,8 +64,10 @@
     this.root.querySelectorAll('[data-mkt-course-resource]').forEach(function (box) { box.checked = false; });
     var title = this.root.querySelector('[data-mkt-course-form-title]');
     if (title) title.textContent = 'New offering';
-    var price = this.root.querySelector('[data-mkt-course-price]');
-    if (price) initPriceSetter(price);
+    // The setter inside this wrapper booted itself on page load; re-running the
+    // initialiser on the wrapper bound a second set of handlers to the wrong
+    // element (and read no `data-commission` off it, so the "you receive" line
+    // showed the full price). Dispatching `change` is all a reset needs.
     var mode = this.root.querySelector('[data-mkt-course-price] [data-neb-price-mode]:checked');
     if (mode) mode.dispatchEvent(new Event('change'));
   };
@@ -134,8 +135,16 @@
       resource_ids: []
     };
 
+    /* The picker only lists the 100 most recent notes, so a note attached before
+       that window would be saved away by a ticked-boxes-only payload. Anything
+       already attached but not on screen rides along untouched. */
+    var listed = {};
     this.root.querySelectorAll('[data-mkt-course-resource]').forEach(function (box) {
+      listed[box.dataset.mktCourseResource] = true;
       if (box.checked) payload.resource_ids.push(box.dataset.mktCourseResource);
+    });
+    (this.courseResources[payload.id] || []).forEach(function (id) {
+      if (!listed[id]) payload.resource_ids.push(id);
     });
 
     ['title', 'summary', 'description', 'level', 'duration_label', 'tags', 'cover_url', 'status'].forEach(function (key) {

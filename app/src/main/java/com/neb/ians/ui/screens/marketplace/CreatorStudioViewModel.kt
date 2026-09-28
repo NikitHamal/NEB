@@ -10,11 +10,16 @@ import com.neb.ians.data.api.ApiCreatorPost
 import com.neb.ians.data.api.ApiErrorMapper
 import com.neb.ians.data.api.ApiMarketplaceSale
 import com.neb.ians.data.api.ApiMarketplaceWallet
+import com.neb.ians.data.api.ApiWithdrawal
 import com.neb.ians.data.repository.MarketplaceRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -64,7 +69,15 @@ data class CreatorStudioUiState(
     val tagline: String = "",
     val about: String = "",
     val slug: String = "",
+    val kind: String = "tutor",
+    /** The page types this account is allowed to be. One entry means no choice
+     *  to offer, so the studio hides the row -- same rule as the web studio. */
+    val allowedKinds: List<String> = emptyList(),
     val subjects: String = "",
+    val languages: String = "",
+    /** Handle per network, in the order the fields are drawn. Blank values are
+     *  dropped on save, so clearing a field removes the link. */
+    val socials: Map<String, String> = emptyMap(),
     val location: String = "",
     val contactEmail: String = "",
     val contactPhone: String = "",
@@ -74,6 +87,11 @@ data class CreatorStudioUiState(
     val layout: String = "editorial",
     val heroStyle: String = "art",
     val radius: String = "round",
+    val density: String = "comfortable",
+    val galleryColumns: Int = 3,
+    val showStats: Boolean = false,
+    val showContact: Boolean = true,
+    val showVerified: Boolean = true,
     val acceptingStudents: Boolean = true,
     val blocks: List<ApiCreatorBlock> = emptyList(),
     val editingBlock: Pair<Int, ApiCreatorBlock>? = null,
@@ -87,8 +105,62 @@ data class CreatorStudioUiState(
     val sales: List<ApiMarketplaceSale> = emptyList(),
     val commissionPercent: Double = 2.5,
     val nebiansPoints: Int = 0,
+    val withdrawals: List<ApiWithdrawal> = emptyList(),
+    val withdrawAmount: String = "",
+    val withdrawMethod: String = "esewa",
+    val withdrawDetails: String = "",
+    val isRequestingWithdrawal: Boolean = false,
     val resourceOptions: List<Pair<String, String>> = emptyList()
 )
+
+/**
+ * Take the server's copy of the page as the truth for every editable field.
+ *
+ * Both loading and saving end here, because both end with a page the server
+ * sanitized: `_clean_url` drops an address with no scheme, `sanitize_accent`
+ * replaces a colour it cannot read, `sanitize_blocks` throws away fields a
+ * section type does not have. A studio that kept showing what was typed would
+ * be showing something that is not saved -- and would send it again next time.
+ */
+private fun CreatorStudioUiState.adopt(page: ApiCreatorPage): CreatorStudioUiState = copy(
+    page = page,
+    displayName = page.displayName,
+    tagline = page.tagline,
+    about = page.about,
+    slug = page.slug,
+    kind = page.kind,
+    subjects = page.subjects.joinToString(", "),
+    languages = page.languages.joinToString(", "),
+    socials = socialFields(page.socials),
+    location = page.location,
+    contactEmail = page.contactEmail,
+    contactPhone = page.contactPhone,
+    avatarUrl = page.avatarUrl,
+    coverUrl = page.coverUrl,
+    accentHex = page.accentHex,
+    layout = page.layout,
+    heroStyle = page.style.hero.ifBlank { "art" },
+    radius = page.style.radius.ifBlank { "round" },
+    density = page.style.density.ifBlank { "comfortable" },
+    galleryColumns = page.style.galleryColumns,
+    showStats = page.style.showStats,
+    showContact = page.style.showContact,
+    showVerified = page.style.showVerified,
+    acceptingStudents = page.acceptingStudents,
+    blocks = page.blocks,
+    courses = page.courses,
+    resourceOptions = page.resources.take(60).map { it.id to it.title }
+)
+
+/** The networks the creator already filled in, plus the ones the web studio
+ *  offers by default, so both studios show the same four empty boxes to
+ *  somebody who has never added a link. */
+private fun socialFields(saved: Map<String, String>): Map<String, String> {
+    val fields = linkedMapOf<String, String>()
+    saved.forEach { (key, value) -> fields[key] = value }
+    listOf("website", "youtube", "instagram", "facebook").forEach { key -> fields.putIfAbsent(key, "") }
+    return fields
+}
 
 @HiltViewModel
 class CreatorStudioViewModel @Inject constructor(
@@ -100,69 +172,139 @@ class CreatorStudioViewModel @Inject constructor(
 
     init {
         load()
-    }
-
-    fun load() {
-        _uiState.update { it.copy(isLoading = it.page == null, error = null) }
+        // Every message clears itself after a few seconds, the way the web
+        // studio's toast does -- otherwise "Section added" stays pinned above
+        // the earnings tab for the rest of the session.
         viewModelScope.launch {
-            repository.myPage().fold(
-                onSuccess = { response ->
-                    if (!response.eligible || response.page == null) {
-                        _uiState.update {
-                            it.copy(isLoading = false, notEligible = !response.eligible, page = response.page)
-                        }
-                        return@fold
-                    }
-                    val page = response.page
-                    _uiState.update { current ->
-                        current.copy(
-                            isLoading = false,
-                            notEligible = false,
-                            error = null,
-                            page = page,
-                            displayName = page.displayName,
-                            tagline = page.tagline,
-                            about = page.about,
-                            slug = page.slug,
-                            subjects = page.subjects.joinToString(", "),
-                            location = page.location,
-                            contactEmail = page.contactEmail,
-                            contactPhone = page.contactPhone,
-                            avatarUrl = page.avatarUrl,
-                            coverUrl = page.coverUrl,
-                            accentHex = page.accentHex,
-                            layout = page.layout,
-                            heroStyle = page.style.hero.ifBlank { "art" },
-                            radius = page.style.radius.ifBlank { "round" },
-                            acceptingStudents = page.acceptingStudents,
-                            blocks = page.blocks,
-                            courses = page.courses,
-                            resourceOptions = page.resources.take(60).map { it.id to it.title }
-                        )
-                    }
-                },
-                onFailure = { failure ->
-                    _uiState.update {
-                        it.copy(isLoading = false, error = ApiErrorMapper.mapException(failure))
-                    }
+            _uiState.map { it.transientMessage }.distinctUntilChanged().collectLatest { message ->
+                if (message != null) {
+                    delay(MESSAGE_VISIBLE_MS)
+                    _uiState.update { if (it.transientMessage == message) it.copy(transientMessage = null) else it }
                 }
-            )
-            loadDashboard()
+            }
         }
     }
 
-    private fun loadDashboard() {
-        viewModelScope.launch {
-            repository.dashboard().onSuccess { dashboard ->
-                _uiState.update {
-                    it.copy(
-                        wallet = dashboard.wallet,
-                        sales = dashboard.sales,
-                        commissionPercent = dashboard.commissionPercent.toDoubleOrNull() ?: 2.5,
-                        nebiansPoints = dashboard.nebiansPoints
+    fun load() {
+        viewModelScope.launch { refresh() }
+    }
+
+    /** The same load, awaitable, so the pull-to-refresh spinner lasts as long as
+     *  the requests do. */
+    suspend fun refresh() {
+        _uiState.update { it.copy(isLoading = it.page == null, error = null) }
+        repository.myPage().fold(
+            onSuccess = { response ->
+                if (!response.eligible || response.page == null) {
+                    _uiState.update {
+                        it.copy(isLoading = false, notEligible = !response.eligible, page = response.page)
+                    }
+                    return@fold
+                }
+                _uiState.update { current ->
+                    current.adopt(response.page).copy(
+                        isLoading = false,
+                        notEligible = false,
+                        error = null,
+                        allowedKinds = response.yourKinds
                     )
                 }
+            },
+            onFailure = { failure ->
+                _uiState.update {
+                    it.copy(isLoading = false, error = ApiErrorMapper.mapException(failure))
+                }
             }
+        )
+        // `page_payload` caps its posts at 12 for everybody, so the studio asks
+        // for its own list -- an owner with forty updates has to be able to reach
+        // the older ones to edit or delete them.
+        repository.myPosts().onSuccess { response ->
+            _uiState.update { it.copy(posts = response.posts) }
+        }
+        loadDashboard()
+    }
+
+    private suspend fun loadDashboard() {
+        repository.dashboard().onSuccess { dashboard ->
+            _uiState.update {
+                it.copy(
+                    wallet = dashboard.wallet,
+                    sales = dashboard.sales,
+                    commissionPercent = dashboard.commissionPercent.toDoubleOrNull() ?: 2.5,
+                    nebiansPoints = dashboard.nebiansPoints
+                )
+            }
+        }
+        repository.withdrawals().onSuccess { response ->
+            _uiState.update { it.copy(withdrawals = response.withdrawals) }
+        }
+    }
+
+    // ----- Withdrawals -----
+
+    fun updateWithdrawAmount(value: String) =
+        _uiState.update { it.copy(withdrawAmount = value.filter { c -> c.isDigit() || c == '.' }) }
+
+    fun updateWithdrawMethod(value: String) = _uiState.update { it.copy(withdrawMethod = value) }
+    fun updateWithdrawDetails(value: String) = _uiState.update { it.copy(withdrawDetails = value) }
+
+    fun requestWithdrawal() {
+        val state = _uiState.value
+        val amount = state.withdrawAmount.trim().toBigDecimalOrNull()
+        val minimum = state.wallet.withdrawMin.toBigDecimalOrNull()
+        // The server checks all of this again; catching it here just saves the
+        // creator a round trip to be told their own numbers.
+        if (amount == null || amount.signum() <= 0) {
+            _uiState.update { it.copy(transientMessage = "Enter the amount you want to withdraw", messageIsError = true) }
+            return
+        }
+        if (minimum != null && amount < minimum) {
+            _uiState.update {
+                it.copy(transientMessage = "Withdrawals start at Rs. ${state.wallet.withdrawMin}", messageIsError = true)
+            }
+            return
+        }
+        val available = state.wallet.currentBalance.toBigDecimalOrNull()
+        if (available != null && amount > available) {
+            _uiState.update {
+                it.copy(
+                    transientMessage = "You have Rs. ${state.wallet.currentBalance} available right now",
+                    messageIsError = true
+                )
+            }
+            return
+        }
+        if (state.withdrawDetails.isBlank()) {
+            _uiState.update { it.copy(transientMessage = "Add the account we should pay into", messageIsError = true) }
+            return
+        }
+        _uiState.update { it.copy(isRequestingWithdrawal = true) }
+        viewModelScope.launch {
+            repository.requestWithdrawal(
+                amount = state.withdrawAmount.trim(),
+                payoutMethod = state.withdrawMethod,
+                payoutDetails = state.withdrawDetails.trim()
+            ).fold(
+                onSuccess = { withdrawal ->
+                    _uiState.update {
+                        it.copy(
+                            isRequestingWithdrawal = false,
+                            withdrawAmount = "",
+                            withdrawDetails = "",
+                            transientMessage = withdrawal.message.ifBlank {
+                                "Withdrawal requested. Funds arrive within 7 days."
+                            },
+                            messageIsError = false
+                        )
+                    }
+                    loadDashboard()
+                },
+                onFailure = { failure ->
+                    _uiState.update { it.copy(isRequestingWithdrawal = false) }
+                    showError(failure)
+                }
+            )
         }
     }
 
@@ -173,6 +315,10 @@ class CreatorStudioViewModel @Inject constructor(
     fun updateAbout(value: String) = _uiState.update { it.copy(about = value) }
     fun updateSlug(value: String) = _uiState.update { it.copy(slug = value.lowercase().filter { c -> c.isLetterOrDigit() || c == '-' }) }
     fun updateSubjects(value: String) = _uiState.update { it.copy(subjects = value) }
+    fun updateLanguages(value: String) = _uiState.update { it.copy(languages = value) }
+    fun updateKind(value: String) = _uiState.update { it.copy(kind = value) }
+    fun updateSocial(network: String, value: String) =
+        _uiState.update { it.copy(socials = it.socials + (network to value)) }
     fun updateLocation(value: String) = _uiState.update { it.copy(location = value) }
     fun updateContactEmail(value: String) = _uiState.update { it.copy(contactEmail = value) }
     fun updateContactPhone(value: String) = _uiState.update { it.copy(contactPhone = value) }
@@ -182,6 +328,11 @@ class CreatorStudioViewModel @Inject constructor(
     fun updateLayout(value: String) = _uiState.update { it.copy(layout = value) }
     fun updateHeroStyle(value: String) = _uiState.update { it.copy(heroStyle = value) }
     fun updateRadius(value: String) = _uiState.update { it.copy(radius = value) }
+    fun updateDensity(value: String) = _uiState.update { it.copy(density = value) }
+    fun updateGalleryColumns(value: Int) = _uiState.update { it.copy(galleryColumns = value.coerceIn(2, 4)) }
+    fun updateShowStats(value: Boolean) = _uiState.update { it.copy(showStats = value) }
+    fun updateShowContact(value: Boolean) = _uiState.update { it.copy(showContact = value) }
+    fun updateShowVerified(value: Boolean) = _uiState.update { it.copy(showVerified = value) }
     fun updateAccepting(value: Boolean) = _uiState.update { it.copy(acceptingStudents = value) }
 
     fun setPublished(published: Boolean) {
@@ -222,26 +373,36 @@ class CreatorStudioViewModel @Inject constructor(
                 location = state.location,
                 contactEmail = state.contactEmail,
                 contactPhone = state.contactPhone,
+                kind = state.kind.takeIf { it.isNotBlank() && it in state.allowedKinds },
                 subjects = state.subjects.split(',').map { it.trim() }.filter { it.isNotEmpty() },
+                languages = state.languages.split(',').map { it.trim() }.filter { it.isNotEmpty() },
                 blocks = repository.blocksPayload(state.page!!.copy(blocks = state.blocks)),
                 acceptingStudents = state.acceptingStudents,
+                // The server replaces `page.style` wholesale, so every key the
+                // studio does not send is a key the creator loses. These are the
+                // values loaded from their page, edited here, sent back whole --
+                // saving from the app must not undo a choice made on the web.
                 style = mapOf(
                     "hero" to kotlinx.serialization.json.JsonPrimitive(state.heroStyle),
                     "radius" to kotlinx.serialization.json.JsonPrimitive(state.radius),
-                    "density" to kotlinx.serialization.json.JsonPrimitive("comfortable"),
-                    "show_stats" to kotlinx.serialization.json.JsonPrimitive(true),
-                    "show_contact" to kotlinx.serialization.json.JsonPrimitive(true),
-                    "gallery_columns" to kotlinx.serialization.json.JsonPrimitive(3)
+                    "density" to kotlinx.serialization.json.JsonPrimitive(state.density),
+                    "show_stats" to kotlinx.serialization.json.JsonPrimitive(state.showStats),
+                    "show_contact" to kotlinx.serialization.json.JsonPrimitive(state.showContact),
+                    "show_verified" to kotlinx.serialization.json.JsonPrimitive(state.showVerified),
+                    "gallery_columns" to kotlinx.serialization.json.JsonPrimitive(state.galleryColumns)
                 ),
-                socials = state.page.socials
+                socials = state.socials
             ).fold(
                 onSuccess = { response ->
                     _uiState.update { current ->
-                        current.copy(
+                        // The server sanitizes as it saves -- a URL without a
+                        // scheme is dropped, an accent it cannot parse goes back
+                        // to the default. Adopting its copy is how the creator
+                        // finds that out, instead of the field still showing
+                        // what they typed under a "Page saved".
+                        val next = response.page?.let(current::adopt) ?: current
+                        next.copy(
                             isSavingPage = false,
-                            page = response.page ?: current.page,
-                            slug = response.page?.slug ?: current.slug,
-                            blocks = response.page?.blocks ?: current.blocks,
                             transientMessage = "Page saved",
                             messageIsError = false
                         )
@@ -288,7 +449,18 @@ class CreatorStudioViewModel @Inject constructor(
                 val blocks = state.blocks.toMutableList()
                 val moved = blocks.removeAt(index)
                 blocks.add(target, moved)
-                state.copy(blocks = blocks)
+                // The editor addresses its section by position, so a reorder has
+                // to move the editor with it -- otherwise the next keystroke
+                // rewrites whichever section took this slot.
+                val editing = state.editingBlock?.let { (editingIndex, block) ->
+                    when (editingIndex) {
+                        index -> target to block
+                        in minOf(index, target)..maxOf(index, target) ->
+                            (if (target > index) editingIndex - 1 else editingIndex + 1) to block
+                        else -> editingIndex to block
+                    }
+                }
+                state.copy(blocks = blocks, editingBlock = editing)
             }
         }
     }
@@ -328,6 +500,22 @@ class CreatorStudioViewModel @Inject constructor(
     fun updateBlockBody(index: Int, value: String) = editBlock(index) { it.copy(body = value) }
     fun updateBlockCtaLabel(index: Int, value: String) = editBlock(index) { it.copy(ctaLabel = value) }
     fun updateBlockCtaUrl(index: Int, value: String) = editBlock(index) { it.copy(ctaUrl = value) }
+    fun updateBlockImageUrl(index: Int, value: String) = editBlock(index) { it.copy(imageUrl = value) }
+
+    // A gallery is a list of picture URLs rather than a list of items, so it gets
+    // its own three calls instead of sharing the item ones.
+    fun addBlockImage(index: Int) = editBlock(index) { it.copy(images = it.images + "") }
+
+    fun removeLastBlockImage(index: Int) = editBlock(index) {
+        if (it.images.isEmpty()) it else it.copy(images = it.images.dropLast(1))
+    }
+
+    fun updateBlockImage(index: Int, imageIndex: Int, value: String) = editBlock(index) { block ->
+        val images = block.images.toMutableList()
+        if (imageIndex !in images.indices) return@editBlock block
+        images[imageIndex] = value
+        block.copy(images = images)
+    }
 
     fun addBlockItem(index: Int) = editBlock(index) { it.copy(items = it.items + ApiCreatorBlockItem()) }
 
@@ -365,7 +553,10 @@ class CreatorStudioViewModel @Inject constructor(
                 tags = course.tags.joinToString(", "),
                 coverUrl = course.coverUrl,
                 status = course.status,
-                featured = course.featured
+                featured = course.featured,
+                // Without this the picker would open with nothing ticked and the
+                // save would detach every note the offering already had.
+                resourceIds = course.resourceIds
             ),
             transientMessage = null
         )
@@ -535,9 +726,15 @@ class CreatorStudioViewModel @Inject constructor(
         }
     }
 
+    private companion object {
+        /** Matches the web studio's toast (`_toastTimer`, 4.2s). */
+        const val MESSAGE_VISIBLE_MS = 4_200L
+    }
+
     private fun showError(failure: Throwable) {
         _uiState.update {
             it.copy(transientMessage = ApiErrorMapper.mapException(failure), messageIsError = true)
         }
     }
+
 }

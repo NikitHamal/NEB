@@ -170,6 +170,7 @@ internal fun BlockItemEditor(
             "stats" -> {
                 NebAuthField(item.label, { value -> viewModel.updateBlockItem(index, itemIndex) { it.copy(label = value) } }, "Label")
                 NebAuthField(item.value, { value -> viewModel.updateBlockItem(index, itemIndex) { it.copy(value = value) } }, "Value")
+                NebAuthField(item.icon, { value -> viewModel.updateBlockItem(index, itemIndex) { it.copy(icon = value) } }, "Icon name (optional)")
             }
             "faq" -> {
                 NebAuthField(item.q, { value -> viewModel.updateBlockItem(index, itemIndex) { it.copy(q = value) } }, "Question")
@@ -179,6 +180,7 @@ internal fun BlockItemEditor(
                 NebAuthField(item.quote, { value -> viewModel.updateBlockItem(index, itemIndex) { it.copy(quote = value) } }, "Quote", singleLine = false, minHeight = 88.dp)
                 NebAuthField(item.name, { value -> viewModel.updateBlockItem(index, itemIndex) { it.copy(name = value) } }, "Name")
                 NebAuthField(item.role, { value -> viewModel.updateBlockItem(index, itemIndex) { it.copy(role = value) } }, "Role")
+                NebAuthField(item.avatarUrl, { value -> viewModel.updateBlockItem(index, itemIndex) { it.copy(avatarUrl = value) } }, "Photo URL", keyboardType = KeyboardType.Uri)
             }
             "schedule" -> {
                 NebAuthField(item.day, { value -> viewModel.updateBlockItem(index, itemIndex) { it.copy(day = value) } }, "Day")
@@ -189,6 +191,7 @@ internal fun BlockItemEditor(
             "links" -> {
                 NebAuthField(item.label, { value -> viewModel.updateBlockItem(index, itemIndex) { it.copy(label = value) } }, "Label")
                 NebAuthField(item.url, { value -> viewModel.updateBlockItem(index, itemIndex) { it.copy(url = value) } }, "Link", keyboardType = KeyboardType.Uri)
+                NebAuthField(item.icon, { value -> viewModel.updateBlockItem(index, itemIndex) { it.copy(icon = value) } }, "Icon name (optional)")
             }
             else -> {
                 NebAuthField(
@@ -212,6 +215,11 @@ internal fun BlockItemEditor(
                     { value -> viewModel.updateBlockItem(index, itemIndex) { it.copy(linkUrl = value) } },
                     "Link",
                     keyboardType = KeyboardType.Uri
+                )
+                NebAuthField(
+                    item.badge,
+                    { value -> viewModel.updateBlockItem(index, itemIndex) { it.copy(badge = value) } },
+                    "Badge"
                 )
             }
         }
