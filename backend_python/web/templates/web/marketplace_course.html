@@ -81,7 +81,7 @@
             <a class="mkt-link" href="{% url 'web:reader' resource_id=r.id %}">
               <span class="material-symbols-outlined" aria-hidden="true">description</span>
               <span>{{ r.title }}</span>
-              {% if r.is_paid %}<span class="mkt-price-chip">Rs. {{ r.price|npr }}</span>{% endif %}
+              {% if r.is_paid %}<span class="mkt-price-chip">{% if has_access %}Included{% else %}Rs. {{ r.price|npr }}{% endif %}</span>{% endif %}
             </a>
           {% endfor %}
         </div>

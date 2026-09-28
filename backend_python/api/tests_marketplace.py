@@ -343,6 +343,33 @@ class MarketplaceCourseTests(MarketplaceTestBase):
         items = self.get(self.student, '/api/wallet/purchases/').json()['purchases']
         self.assertTrue(any(item['target_type'] == 'course' for item in items))
 
+    def test_buying_a_course_unlocks_the_material_it_lists(self):
+        """Both surfaces show the seller's attached notes as "Course material",
+        so the sale has to cover them."""
+        from web.view_helpers import check_user_resource_access
+
+        note = Resource.objects.create(
+            id=str(uuid.uuid4()), title='Chapter notes', subject='Physics', type='Note',
+            uploaded_by=self.teacher, approval_status='approved', is_paid=True,
+            price=Decimal('300'), added_at=now_ms(),
+        )
+        course_id = self.make_course(resource_ids=[note.id]).json()['course']['id']
+        self.assertEqual(check_user_resource_access(self.student, note)[1], 'unpurchased')
+
+        self.post_json(self.student, f'/api/marketplace/courses/{course_id}/purchase/',
+                       {'transaction_id': 'TXN-MATERIAL'})
+        # an unverified course payment unlocks nothing
+        self.assertFalse(check_user_resource_access(self.student, note)[0])
+
+        payment = PaymentVerification.objects.get(buyer=self.student, course_id=course_id)
+        payment.status = 'approved'
+        payment.save()
+        has_access, reason, _ = check_user_resource_access(self.student, note)
+        self.assertTrue(has_access)
+        self.assertEqual(reason, 'purchased')
+        # someone who bought nothing is still locked out
+        self.assertFalse(check_user_resource_access(self.other_teacher, note)[0])
+
     def test_course_resources_must_belong_to_the_page_owner(self):
         mine = Resource.objects.create(
             id=str(uuid.uuid4()), title='Mine', subject='Physics', type='Note',

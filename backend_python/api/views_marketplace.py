@@ -163,13 +163,17 @@ def marketplace_course_detail(request, course_id):
         CreatorCourse.objects.filter(pk=course.pk).update(view_count=F('view_count') + 1)
     payload = course_payload(course, viewer)
     payload['page'] = page_payload(course.page, viewer, with_content=False)
+    # Approved material only, same as the web course page: a note still in the
+    # moderation queue is not part of the offering yet.
     payload['resources'] = [{
         'id': item.resource_id,
-        'title': item.resource.title if item.resource else '',
-        'subject': getattr(item.resource, 'subject', '') or '',
-        'type': getattr(item.resource, 'type', '') or '',
-        'thumbnail_url': getattr(item.resource, 'thumbnail_url', '') or '',
-    } for item in course.course_resources.select_related('resource')]
+        'title': item.resource.title,
+        'subject': item.resource.subject or '',
+        'type': item.resource.type or '',
+        'thumbnail_url': item.resource.thumbnail_url or '',
+        'is_paid': bool(item.resource.is_paid),
+    } for item in course.course_resources.select_related('resource')
+        if item.resource and item.resource.approval_status == 'approved']
     return Response(payload)
 
 
