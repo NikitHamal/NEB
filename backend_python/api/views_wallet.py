@@ -6,6 +6,7 @@ from .marketplace import (
     get_payment_config, convert_points_to_credits, ensure_monthly_free_credits,
     total_ai_credits,
 )
+from .utils import money_str
 from decimal import Decimal
 
 
@@ -20,11 +21,10 @@ def _balance_for(user):
 
 
 def _rs(value):
-    try:
-        f = float(value or 0)
-    except (TypeError, ValueError):
-        f = 0.0
-    return ('%g' % f) if f else '0'
+    """Rupees as a display string. This went through ``'%g' % float(...)``,
+    which turned a Rs. 1,234,567.89 balance into ``1.23457e+06`` on the way to
+    the app; ``money_str`` is what the rest of the marketplace already uses."""
+    return money_str(value)
 
 
 @api_view(['GET'])
@@ -62,14 +62,21 @@ def wallet_purchases(request):
         return err
     qs = (PaymentVerification.objects
           .filter(buyer=user)
-          .select_related('resource', 'seller')
+          .select_related('resource', 'course', 'course__page', 'seller')
           .order_by('-created_at'))[:100]
     items = []
     for p in qs:
+        course = p.course if p.course_id else None
         items.append({
             'id': p.id,
+            # target_* is the general shape; resource_* stays for older clients.
+            'target_type': p.target_kind,
+            'target_id': p.course_id or p.resource_id,
+            'target_title': p.target_title,
+            'target_url': f'/marketplace/course/{p.course_id}/' if course else f'/resource/{p.resource_id}/',
+            'page_slug': course.page.slug if course and course.page_id else '',
             'resource_id': p.resource_id,
-            'resource_title': p.resource.title if p.resource else '(removed)',
+            'resource_title': p.resource.title if p.resource else (p.target_title if course else '(removed)'),
             'amount': _rs(p.amount),
             'status': p.status,
             'transaction_id': p.transaction_id or '',

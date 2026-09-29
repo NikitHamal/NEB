@@ -3,6 +3,8 @@ from .view_helpers import *  # noqa: F401,F403
 from api.services import record_username_change
 from api.view_helpers import _profile_incomplete, _can_view_locked_profile
 from api.models import Follow, FollowRequest, NEPAL_DISTRICTS, SocialLink, SocialLinkClick
+from api.marketplace import get_payment_config
+from api.utils import money_str
 from api.social_links import (
     get_user_links, get_all_user_links, create_link as _create_social_link,
     update_link as _update_social_link, delete_link as _delete_social_link,
@@ -299,7 +301,9 @@ def ajax_request_withdrawal(request):
     payout_method = request.POST.get('payout_method', 'esewa').strip().lower()
     payout_details = request.POST.get('payout_details', '').strip()
 
-    if payout_method not in ['esewa', 'khalti', 'bank']:
+    # The model offers five; hardcoding three here quietly turned a ConnectIPS or
+    # mobile-banking request into an eSewa one.
+    if payout_method not in [choice[0] for choice in WithdrawalRequest.PAYOUT_METHODS]:
         payout_method = 'esewa'
 
     try:
@@ -307,8 +311,18 @@ def ajax_request_withdrawal(request):
     except Exception:
         return JsonResponse({'status': 'error', 'error': 'Invalid withdrawal amount.'}, status=400)
 
-    if amount < Decimal('1000.00'):
-        return JsonResponse({'status': 'error', 'error': 'Minimum withdrawal threshold is Rs. 1,000.'}, status=400)
+    # Decimal('nan') parses happily and then raises on every comparison below.
+    if not amount.is_finite():
+        return JsonResponse({'status': 'error', 'error': 'Invalid withdrawal amount.'}, status=400)
+
+    # The studio advertises the configured floor, so this has to be the same
+    # number -- a hardcoded Rs. 1,000 rejected requests the page invited.
+    minimum = get_payment_config().withdraw_min or Decimal('1000.00')
+    if amount < minimum:
+        return JsonResponse(
+            {'status': 'error', 'error': f'Minimum withdrawal threshold is Rs. {money_str(minimum)}.'},
+            status=400,
+        )
 
     if not payout_details:
         return JsonResponse({'status': 'error', 'error': 'Please provide payout account details (Account holder name, ID, or phone number).'}, status=400)
@@ -324,6 +338,20 @@ def ajax_request_withdrawal(request):
         return JsonResponse({'status': 'error', 'error': 'You already have a pending withdrawal request under review.'}, status=400)
 
     with transaction.atomic():
+        # Debit with a guarded UPDATE rather than a read-modify-write. The same
+        # row is credited by every payment approval, and a full-row save() here
+        # would write back a balance read before that credit committed; the
+        # `current_balance__gte` filter doubles as the check, so two requests
+        # racing each other cannot both pass it.
+        debited = (SellerBalance.objects
+                   .filter(pk=seller_bal.pk, current_balance__gte=amount)
+                   .update(current_balance=F('current_balance') - amount,
+                           updated_at=now_ms()))
+        if not debited:
+            return JsonResponse({
+                'status': 'error',
+                'error': 'Insufficient balance. Please reload and try again.',
+            }, status=400)
         WithdrawalRequest.objects.create(
             id=uuid_str(),
             user=user,
@@ -333,10 +361,8 @@ def ajax_request_withdrawal(request):
             status='pending',
             created_at=now_ms(),
         )
-        seller_bal.current_balance -= amount
-        seller_bal.updated_at = now_ms()
-        seller_bal.save()
 
+    seller_bal.refresh_from_db()
     return JsonResponse({
         'status': 'success',
         'message': f'Withdrawal request for Rs. {amount:.2f} submitted successfully!',

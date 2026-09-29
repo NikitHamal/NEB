@@ -273,7 +273,8 @@ fun UploadScreen(
                                 coverPicker.launch(
                                     PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
                                 )
-                            }
+                            },
+                            commissionPercent = uiState.commissionPercent
                         )
                     }
                 }

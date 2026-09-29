@@ -1,0 +1,162 @@
+/* ── The price setter ─────────────────────────────────────────────────────── */
+.neb-price {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-radius-lg);
+  background: var(--md-surface-container-lowest);
+  margin: 16px 0;
+}
+
+.neb-price-head {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.neb-price-icon {
+  font-size: 22px;
+  color: var(--md-on-surface-variant);
+}
+
+.neb-price-title {
+  font-weight: 600;
+  color: var(--md-on-surface);
+}
+
+.neb-price-sub,
+.neb-price-hint,
+.mkt-field-hint {
+  margin: 4px 0 0;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: var(--md-on-surface-variant);
+}
+
+.neb-price-modes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 4px;
+  border-radius: var(--md-radius-lg);
+  background: var(--md-surface-container);
+}
+
+.neb-price-mode {
+  cursor: pointer;
+  border-radius: var(--md-radius-md);
+}
+
+.neb-price-mode input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.neb-price-mode-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--md-radius-md);
+  border: 1px solid transparent;
+  transition: background var(--md-motion-effects), border-color var(--md-motion-effects);
+}
+
+.neb-price-mode-label .material-symbols-outlined {
+  font-size: 20px;
+  color: var(--md-on-surface-variant);
+}
+
+.neb-price-mode-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.neb-price-mode-text strong {
+  font-size: 0.875rem;
+  color: var(--md-on-surface);
+}
+
+.neb-price-mode-text small {
+  font-size: 0.75rem;
+  color: var(--md-on-surface-variant);
+}
+
+.neb-price-mode input:checked + .neb-price-mode-label {
+  background: var(--md-surface-container-lowest);
+  border-color: var(--md-outline-variant);
+}
+
+.neb-price-mode input:checked + .neb-price-mode-label .material-symbols-outlined,
+.neb-price-mode input:checked + .neb-price-mode-label strong {
+  color: var(--md-primary);
+}
+
+.neb-price-mode input:focus-visible + .neb-price-mode-label {
+  outline: 2px solid var(--md-primary);
+  outline-offset: 2px;
+}
+
+.neb-price-amount[hidden] {
+  display: none;
+}
+
+.neb-price-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.neb-price-currency {
+  font-weight: 600;
+  color: var(--md-on-surface-variant);
+}
+
+.neb-price-input-field {
+  flex: 1;
+}
+
+.neb-price-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.neb-price-preset {
+  font-variant-numeric: tabular-nums;
+}
+
+.neb-price-preset.is-chosen {
+  border-color: var(--md-primary);
+  color: var(--md-primary);
+}
+
+.neb-price-earnings {
+  margin: 10px 0 0;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--md-on-surface);
+}
+
+.neb-price-hint {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.neb-price-hint .material-symbols-outlined {
+  font-size: 16px;
+  margin-top: 1px;
+}
+
+.neb-price.is-unset .neb-price-earnings::after {
+  content: 'Enter a price above Rs. 0';
+  font-weight: 500;
+  color: var(--md-on-surface-variant);
+}

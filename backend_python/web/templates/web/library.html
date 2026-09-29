@@ -17,6 +17,8 @@
 <link rel="stylesheet" href="{% static 'web/css/pages/web-library.css' %}">
 {% if current_tab == 'interactive' %}
 <link rel="stylesheet" href="{% static 'web/css/pages/interactive.css' %}">{% endif %}
+{% if current_tab == 'marketplace' %}
+<link rel="stylesheet" href="{% static 'web/css/pages/marketplace.css' %}">{% endif %}
 {% endblock %}
 
 {% block content %}
@@ -46,6 +48,10 @@
         class="neb-rail-item" role="tab" aria-selected="{% if current_tab == 'digital' %}true{% else %}false{% endif %}">
         <span class="neb-rail-label">Library</span>
       </a>
+      <a href="?tab=marketplace"
+        class="neb-rail-item" role="tab" aria-selected="{% if current_tab == 'marketplace' %}true{% else %}false{% endif %}">
+        <span class="neb-rail-label">Marketplace</span>
+      </a>
       <a href="?tab=categories{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}"
         class="neb-rail-item" role="tab" aria-selected="{% if current_tab == 'categories' %}true{% else %}false{% endif %}">
         <span class="neb-rail-label">Syllabus</span>
@@ -70,6 +76,10 @@
 
   {% if current_tab == 'interactive' %}
   {% include "web/interactive/_hub_content.html" %}
+  {% elif current_tab == 'marketplace' %}
+  <div id="library-main">
+    {% include "web/_marketplace_library.html" with creators=marketplace_creators featured_courses=marketplace_featured_courses current_kind=marketplace_kind query=marketplace_query total_creators=marketplace_total my_page=marketplace_my_page can_create=marketplace_can_create %}
+  </div>
   {% elif current_tab == 'digital' or current_tab == 'community' %}
   <div id="library-main">
     <!-- Active filter chips -->
@@ -257,6 +267,9 @@
 {% endblock %}
 
 {% block extra_js %}
+{% if current_tab == 'marketplace' %}
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/marketplace_price.js' %}"></script>
+{% endif %}
 <script nonce="{{ csp_nonce }}">
   document.addEventListener('DOMContentLoaded', function () {
     if (!window.WS) return;

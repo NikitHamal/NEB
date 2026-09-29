@@ -1,12 +1,115 @@
 # NEBians - Continuity Notes
 
-**Last updated:** May 30, 2026
+**Last updated:** September 28, 2026
 
 > **Android UI work lives in [`ANDROID_UI_CONTINUITY.md`](ANDROID_UI_CONTINUITY.md).** This file covers the Django/web side only.
 
 ---
 
 ## Current Status
+
+### Creator page themes, templates and the rebuilt studio (COMPLETE, Sep 28, 2026)
+
+The first storefronts worked but looked the same as each other and the builder
+was hostile on a phone (issue #52). This pass gave a creator something to
+actually design with, on both surfaces.
+
+- **A style vocabulary, decided once.** `api/creator_themes.py` owns every
+  choice a creator can make -- palettes, colour schemes, hero treatments, fonts,
+  page textures, card styles, corner radii, densities, page widths, and the
+  per-section tone/align/width sets -- and `theme_vocabulary()` is what both
+  clients build their controls from. The server *resolves* the palette to eight
+  hex values and ships them; neither client owns a colour table, because the day
+  one hex is nudged in Python is the day the same page looks different on a
+  phone.
+- **Ten templates.** `api/creator_templates.py` + `apply_template(page,
+  template_id, mode)` with three modes: `page` (look and sections), `theme`
+  (look only), `sections` (structure only). `page`/`theme` also move
+  `accent_hex` onto the new palette's accent, so a palette change never leaves
+  a teal card in front of a violet page.
+- **Fifteen new section types** on top of the original ten: `pricing`, `video`,
+  `team`, `logos`, `timeline`, `steps`, `quote`, `banner`, `richtext`,
+  `divider` and friends. Each one is described by `api/creator_pages_schema.py`
+  (`editor_schema`), so a section added on the server is editable in both
+  studios with no client change.
+- **Per-section settings.** `tone` (plain/soft/accent/contrast), `align`,
+  `width` and `columns`, sanitized in `creator_pages_sanitize.py`. Note the
+  sanitizer drops any value equal to its default -- both clients mirror that
+  when they build their payloads.
+- **CSS.** Two new partials, `pages/marketplace/theme.css` (the `--creator-*`
+  custom properties and the `.mkt-font-*` / `.mkt-tone-*` / pattern classes) and
+  `pages/marketplace/sections.css` (the fifteen new sections). Remember the
+  bundle: edit the partial, list it in `pages/marketplace.src.css`, then run
+  `python3 ../tools/css/bundle.py` from `backend_python/`.
+- **Web studio.** `static/web/js/marketplace_studio_look.js` adds the template
+  gallery with live silhouette thumbnails, the look controls, and the
+  drag-to-reorder section list.
+
+**Two rules that will bite whoever touches this next:**
+1. `style` is replaced **wholesale** on save -- a client that cannot carry a key
+   silently erases it. The Kotlin `savePage()` sends all thirteen.
+2. `resource_ids` treats an empty list as "detach all", unlike every other
+   field, where an absent key means "leave alone" (`_has()` in
+   `creator_pages.py`).
+
+**Still to do:** apply `0145_creator_page_layouts` on the server and re-run
+`collectstatic`.
+
+**Verified by** `python3 manage.py test api.tests_marketplace` -- now 72 tests
+over six classes; `CreatorThemeTests` covers the vocabulary, template
+application in all three modes, and section sanitizing.
+
+---
+
+### Creator Marketplace + paid notes, end to end (COMPLETE, Sep 27, 2026)
+- **Backend.** New `CreatorPage` / `CreatorCourse` / `CreatorCourseResource` /
+  `CreatorPost` models (migration `0143_creator_marketplace_pages_courses_posts`),
+  a shared data layer in `api/creator_pages.py`, and a REST surface in
+  `api/views_marketplace.py`: creators list, creator detail, course detail,
+  the course shelf, `marketplace/me/*` for the owner, and `marketplace/dashboard/`.
+- **Buying a course** reuses the resource checkout: `PaymentVerification` now
+  carries a nullable `course` next to a now-nullable `resource`, and
+  `api/marketplace.record_purchase()` writes one pending row per (buyer, target).
+- **Commission** is read from `PaymentConfig` (default 2.5%) everywhere. The
+  hardcoded 10% in `views_resources.resource_purchase` and in
+  `web/views_public.submit_payment_proof` was wrong and is gone.
+- **Web.** `/marketplace/` directory, `/marketplace/<slug>/` storefront rendered
+  from the owner's blocks, `/marketplace/course/<id>/` with the QR checkout, and
+  `/marketplace/studio/` for the owner. The library page gained a **Marketplace
+  tab between Library and Syllabus** (`?tab=marketplace`).
+- **App.** The same tab in `LibraryScreen.kt`, plus storefront, course and
+  studio screens under `ui/screens/marketplace/` and
+  `data/repository/MarketplaceRepository.kt`.
+- **One price control, both platforms.** `_price_setter.html` +
+  `static/web/js/marketplace_price.js` on the web, `ui/components/NebPriceField.kt` in
+  the app: free/paid with the consequence written under each answer, price
+  presets, and a live "you receive Rs. X after the Y% fee" line. Used by
+  upload, edit-resource and the studio's course form.
+
+**Bugs found and fixed while wiring this up (all in the paid-content path):**
+1. `_notif.create_notification` was called by the admin panel but **did not
+   exist** — every payment approval/rejection raised `AttributeError` after the
+   seller had been credited, so the admin saw a 500 and the buyer was never
+   notified. Added (object → `target_type`/`target_id` mapping).
+2. The admin payment queue and template assumed `payment.resource` was always
+   set, so a course purchase would break the queue
+   (`{% url 'web:reader' resource_id=None %}`). Both are course-aware now.
+3. `api/realtime._send` resolved the channel layer **outside** its try/except:
+   a broken Redis layer turned a successful write into a 500. Resolving is part
+   of the attempt now.
+4. `web/views_admin.admin_pending_payments` credited the wallet by hand —
+   balance only, no Nebians points, no `total_spent`. It calls
+   `marketplace.grant_purchase_rewards()` now.
+
+**Still to do:** apply `0143` on the server and `collectstatic` (the new pages
+ship CSS + JS). The pre-existing `botconfig.system_prompt` model/migration drift
+is untouched; `makemigrations` will still offer `0144` for it.
+
+**Verified by** `python3 manage.py test api.tests_marketplace` — these four of
+the six classes (creator-page API, courses and checkout, web pages + studio, and
+the admin payment queue). Run it with `DEBUG=True DB_ENGINE=sqlite`; see the
+Marketplace section of AGENTS.md for the command and what each class covers.
+
 
 ### Google Sign-In Migration (IN PROGRESS)
 - **Status:** GIS button renders, but "origin not allowed" error from Google

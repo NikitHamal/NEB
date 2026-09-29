@@ -1,0 +1,54 @@
+{% load static web_extras %}
+{% comment %} ── A creator, as a card ───────────────────────────────────────────────────
+   The app's `MarketplaceCreatorCard` on the web. Expects `c` (a creator payload
+   from api/creator_pages.page_payload) and optional `compact`. The accent is the
+   owner's own colour and is used only on this card's identity marks — the cover
+   wash, the avatar ring and the verified tick — never on chrome. {% endcomment %}
+<a href="{% url 'web:marketplace_creator' slug=c.slug %}"
+   class="creator-card{% if compact %} creator-card-compact{% endif %}"
+   style="--creator-accent: {{ c.accent_hex|default:'#004BD4' }};">
+  <div class="creator-card-cover">
+    {% if c.cover_url %}
+      <img src="{{ c.cover_url }}" alt="" loading="lazy">
+    {% else %}
+      <span class="creator-card-cover-wash" aria-hidden="true"></span>
+    {% endif %}
+    <span class="creator-card-kind">{{ c.kind|creator_kind_label }}</span>
+    {% if c.featured %}
+    <span class="creator-card-featured">
+      <span class="material-symbols-outlined" aria-hidden="true">star</span>Featured
+    </span>
+    {% endif %}
+  </div>
+
+  <div class="creator-card-body">
+    <div class="creator-card-avatar">
+      {% if c.avatar_url %}
+        <img src="{{ c.avatar_url }}" alt="" loading="lazy">
+      {% else %}
+        <span class="creator-card-avatar-letter">{{ c.display_name|truncate_chars:1|default:"N" }}</span>
+      {% endif %}
+    </div>
+
+    <div class="creator-card-name">
+      {{ c.display_name }}
+      {% if c.verified %}
+      <span class="material-symbols-outlined creator-card-verified" title="Verified" aria-label="Verified">verified</span>
+      {% endif %}
+    </div>
+
+    {% if c.tagline %}<p class="creator-card-tagline">{{ c.tagline }}</p>{% endif %}
+
+    {% if c.subjects %}
+    <div class="creator-card-subjects">
+      {% for subject in c.subjects|slice:":3" %}<span class="creator-card-subject">{{ subject }}</span>{% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="creator-card-meta">
+      <span><span class="material-symbols-outlined" aria-hidden="true">school</span>{{ c.course_count|default:0 }} offering{{ c.course_count|default:0|pluralize }}</span>
+      {% if c.location %}<span><span class="material-symbols-outlined" aria-hidden="true">location_on</span>{{ c.location }}</span>{% endif %}
+      <span><span class="material-symbols-outlined" aria-hidden="true">visibility</span>{{ c.view_count|short_number }}</span>
+    </div>
+  </div>
+</a>

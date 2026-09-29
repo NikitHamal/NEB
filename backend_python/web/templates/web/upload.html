@@ -253,42 +253,10 @@
     <div class="upload-section">
       <div class="upload-section-header">
         <span class="material-symbols-outlined">payments</span>
-        <h2>Pricing & Monetization</h2>
+        <h2>Pricing &amp; Monetization</h2>
       </div>
-
-      <div class="upload-field" style="background:var(--md-surface-container-low, #f8fafc);padding:16px;border-radius:12px;border:1px solid var(--md-outline-variant, #e2e8f0);">
-        <label class="md-label" style="display:flex;align-items:center;gap:10px;cursor:pointer;margin:0;font-weight:600;color:var(--md-on-surface,#0f172a);">
-          <input type="checkbox" name="is_paid" id="is_paid_toggle" style="width:20px;height:20px;accent-color:var(--md-primary,#004bd4);" {% if form_data.is_paid %}checked{% endif %}>
-          <span>Sell as Paid Resource / Class</span>
-        </label>
-        <div class="upload-hint" style="margin-top:6px;margin-left:30px;">Mark this note, resource, or class as paid content. Buyers pay via QR code and funds are added to your balance after verification.</div>
-      </div>
-
-      <div class="upload-field" id="price_field_container" style="display:{% if form_data.is_paid %}block{% else %}none{% endif %};margin-top:16px;">
-        <label class="md-label" for="price_input">Price in NPR (Rs.) *</label>
-        <div style="position:relative;display:flex;align-items:center;">
-          <span style="position:absolute;left:14px;font-weight:600;color:var(--md-primary,#004bd4);">Rs.</span>
-          <input class="md-input" type="number" id="price_input" name="price" min="1" step="1" value="{{ form_data.price|default:'100' }}" placeholder="e.g. 150" style="padding-left:48px;">
-        </div>
-        <div class="upload-hint">Set the purchase price in Nepali Rupees (NPR). You receive 90% of earnings (10% platform commission).</div>
-      </div>
+      {% include "web/_price_setter.html" with id_prefix="upload" is_paid=form_data.is_paid price_value=form_data.price commission_pct=commission_percent %}
     </div>
-
-    <script nonce="{{ csp_nonce }}">
-      document.addEventListener('DOMContentLoaded', function() {
-        const toggle = document.getElementById('is_paid_toggle');
-        const container = document.getElementById('price_field_container');
-        const priceInput = document.getElementById('price_input');
-        if (toggle && container) {
-          toggle.addEventListener('change', function() {
-            container.style.display = this.checked ? 'block' : 'none';
-            if (this.checked && priceInput && (!priceInput.value || Number(priceInput.value) <= 0)) {
-              priceInput.value = '100';
-            }
-          });
-        }
-      });
-    </script>
 
     <div class="upload-actions">
       <div class="upload-note">
@@ -417,11 +385,13 @@
 {% endblock %}
 
 {% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/pages/marketplace.css' %}">
 <link rel="stylesheet" href="{% static 'web/css/pages/upload.css' %}">
 <link rel="stylesheet" href="{% static 'web/css/pages/resource-attribution.css' %}">
 {% endblock %}
 
 {% block extra_js %}
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/marketplace_price.js' %}"></script>
 <script src="{% static 'web/js/author-mention-picker.js' %}" nonce="{{ csp_nonce }}"></script>
 <script nonce="{{ csp_nonce }}">
 (function() {

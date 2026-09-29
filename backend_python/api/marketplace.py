@@ -14,13 +14,14 @@ Business rules (per the platform model):
     (``ai_credits``) persist across months. Spending consumes free credits first.
 """
 import time
+import uuid
 from decimal import Decimal, ROUND_HALF_UP
 
-from django.db import transaction
+from django.db import IntegrityError, transaction
 from django.db.models import F
 
-from .models import User, SellerBalance, PaymentConfig
-from .utils import now_ms
+from .models import User, SellerBalance, PaymentConfig, PaymentVerification
+from .utils import money_str as _money_str, now_ms
 
 
 def get_payment_config():
@@ -83,13 +84,19 @@ def grant_purchase_rewards(payment, cfg=None):
         User.objects.filter(pk=payment.seller_id).update(
             nebians_points=F('nebians_points') + seller_pts,
         )
-        bal, _ = SellerBalance.objects.get_or_create(user_id=payment.seller_id, defaults={
+        # F() rather than read-modify-write: a wallet row is touched by every
+        # approval and by every withdrawal, and bal.save() would rewrite whole
+        # columns from a value read before the other writer committed -- one of
+        # the two amounts would silently vanish.
+        SellerBalance.objects.get_or_create(user_id=payment.seller_id, defaults={
             'total_earned': 0, 'total_withdrawn': 0, 'current_balance': 0, 'updated_at': now_ms(),
         })
-        bal.total_earned = _q2(bal.total_earned) + _q2(payment.seller_earnings)
-        bal.current_balance = _q2(bal.current_balance) + _q2(payment.seller_earnings)
-        bal.updated_at = now_ms()
-        bal.save()
+        earned = _q2(payment.seller_earnings)
+        SellerBalance.objects.filter(user_id=payment.seller_id).update(
+            total_earned=F('total_earned') + earned,
+            current_balance=F('current_balance') + earned,
+            updated_at=now_ms(),
+        )
     return buyer_pts, seller_pts
 
 
@@ -165,3 +172,91 @@ def convert_points_to_credits(user, points, cfg=None):
     user.nebians_points = max(0, (user.nebians_points or 0) - used)
     user.ai_credits = (user.ai_credits or 0) + credits
     return credits, used
+
+
+@transaction.atomic
+def record_purchase(buyer, seller, *, course=None, resource=None, transaction_id='',
+                    proof_file=None, proof_url=''):
+    """Create or refresh the buyer's pending payment for one target.
+
+    One pending row per (buyer, target): re-submitting better proof updates the
+    row an admin is already looking at instead of queueing a duplicate. The
+    seller earns nothing yet — only admin approval calls
+    :func:`grant_purchase_rewards`.
+    """
+    cfg = get_payment_config()
+    price = Decimal((course.price if course is not None else resource.price) or 0)
+    commission = compute_commission(price, cfg)
+    earnings = seller_earnings_for(price, cfg)
+
+    def _apply(pv):
+        if transaction_id:
+            pv.transaction_id = transaction_id
+        if proof_file is not None:
+            pv.payment_proof = proof_file
+            pv.payment_proof_url = proof_url
+        pv.amount = price
+        pv.platform_commission = commission
+        pv.seller_earnings = earnings
+        pv.save()
+        return pv
+
+    def _open_row():
+        return PaymentVerification.objects.filter(
+            buyer=buyer, status='pending', course=course, resource=resource,
+        ).first()
+
+    pv = _open_row()
+    if pv is not None:
+        return _apply(pv)
+
+    fresh = PaymentVerification(
+        id=str(uuid.uuid4()),
+        buyer=buyer,
+        course=course,
+        resource=resource,
+        seller=seller,
+        payment_method='qr_code',
+        status='pending',
+        created_at=now_ms(),
+    )
+    try:
+        # Racing submissions both reach here having seen no open row; the
+        # uniq_pending_payment_per_* constraints let exactly one insert land, and
+        # the loser refreshes the winner's row rather than queueing a duplicate.
+        with transaction.atomic():
+            return _apply(fresh)
+    except IntegrityError:
+        existing = _open_row()
+        if existing is None:
+            raise
+        return _apply(existing)
+
+
+def seller_sales(user, limit=50):
+    """The seller's sales, newest first, as plain dicts.
+
+    Shared by the REST dashboard and the web studio so a creator sees the same
+    sale described the same way in both places.
+    """
+    if user is None:
+        return []
+    rows = (PaymentVerification.objects
+            .filter(seller=user)
+            .select_related('buyer', 'resource', 'course')
+            .order_by('-created_at')[:limit])
+    return [{
+        'id': pv.id,
+        'target_type': pv.target_kind,
+        'target_id': pv.course_id or pv.resource_id,
+        'target_title': pv.target_title,
+        'buyer_name': (pv.buyer.display_name or pv.buyer.username) if pv.buyer else 'Nebian',
+        'buyer_username': pv.buyer.username if pv.buyer else '',
+        'amount': _money_str(pv.amount),
+        'seller_earnings': _money_str(pv.seller_earnings),
+        'commission': _money_str(pv.platform_commission),
+        'transaction_id': pv.transaction_id or '',
+        'status': pv.status,
+        'created_at': pv.created_at,
+        'verified_at': pv.verified_at,
+    } for pv in rows]

@@ -1,0 +1,1140 @@
+/* ── Studio ──────────────────────────────────────────────────────────────── */
+.mkt-studio-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 12px 0 16px;
+  flex-wrap: wrap;
+}
+
+.mkt-studio-kicker {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--creator-accent);
+}
+
+.mkt-studio-head h1 {
+  margin: 4px 0;
+}
+
+.mkt-studio-sub {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--md-on-surface-variant);
+}
+
+.mkt-studio-head-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.mkt-studio-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.mkt-studio-stat {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 14px;
+  border-radius: var(--md-radius-md);
+  border: 1px solid var(--md-outline-variant);
+  background: var(--md-surface-container-lowest);
+}
+
+.mkt-studio-stat strong {
+  font-size: 1.125rem;
+}
+
+.mkt-studio-stat span {
+  font-size: 0.75rem;
+  color: var(--md-on-surface-variant);
+}
+
+.mkt-studio-rail {
+  margin-bottom: 16px;
+}
+
+.mkt-tab-panel[hidden] {
+  display: none;
+}
+
+.mkt-studio-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: 16px;
+  align-items: start;
+}
+
+@media (max-width: 960px) {
+  .mkt-studio-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mkt-studio-grid-courses {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+}
+
+.mkt-studio-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.mkt-card {
+  padding: 18px;
+  border-radius: var(--md-radius-lg);
+  border: 1px solid var(--md-outline-variant);
+  background: var(--md-surface-container-lowest);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mkt-card h2 {
+  margin: 0 0 6px;
+}
+
+.mkt-card .md-label {
+  margin-top: 10px;
+}
+
+.mkt-card .md-input {
+  width: 100%;
+}
+
+.mkt-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 620px) {
+  .mkt-grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mkt-slug-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mkt-slug-prefix {
+  font-size: 0.8125rem;
+  color: var(--md-on-surface-variant);
+  white-space: nowrap;
+}
+
+.mkt-social-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.mkt-switch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.mkt-accent-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.mkt-accent-row input[type='color'] {
+  width: 46px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-radius-sm);
+  background: none;
+}
+
+.mkt-accent-row .md-input {
+  flex: 1;
+  min-width: 110px;
+}
+
+.mkt-accent-swatches {
+  display: flex;
+  gap: 6px;
+}
+
+.mkt-swatch {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid var(--md-outline-variant);
+  background: var(--s);
+  cursor: pointer;
+}
+
+.mkt-save {
+  margin-top: 16px;
+  align-self: flex-start;
+}
+
+.mkt-block-builder-head {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 6px;
+}
+
+.mkt-blocks {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mkt-block-item {
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-radius-md);
+  background: var(--md-surface-container);
+  overflow: hidden;
+}
+
+.mkt-block-item-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+}
+
+.mkt-block-item-head .md-btn {
+  min-height: 30px;
+  padding: 2px 8px;
+}
+
+.mkt-block-item-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0 12px 12px;
+  background: var(--md-surface-container-lowest);
+}
+
+.mkt-block-item-body textarea {
+  min-height: 74px;
+}
+
+.mkt-block-list-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.mkt-block-list-row .mkt-list-remove {
+  grid-column: 2;
+  justify-self: end;
+}
+
+.mkt-block-item.is-collapsed .mkt-block-item-body {
+  display: none;
+}
+
+/* A hidden section still edits normally; it just says, at a glance, that
+   visitors are not seeing it. */
+.mkt-block-item.is-hidden {
+  border-style: dashed;
+}
+
+.mkt-add-block {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+  align-items: center;
+}
+
+.mkt-add-block .md-input {
+  flex: 1;
+}
+
+.mkt-course-list,
+.mkt-post-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.mkt-course-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-radius-md);
+  background: var(--md-surface-container);
+}
+
+.mkt-course-row-main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  line-height: 1.4;
+}
+
+.mkt-course-row-main span {
+  font-size: 0.8125rem;
+  color: var(--md-on-surface-variant);
+}
+
+.mkt-course-row-actions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.mkt-resource-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 200px;
+  overflow-y: auto;
+  padding: 8px;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-radius-md);
+}
+
+.mkt-resource-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8125rem;
+}
+
+.mkt-form-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.mkt-earn-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: 16px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .mkt-earn-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mkt-wallet {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.mkt-wallet > div {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 12px;
+  border-radius: var(--md-radius-md);
+  background: var(--md-surface-container);
+}
+
+.mkt-wallet span {
+  font-size: 0.75rem;
+  color: var(--md-on-surface-variant);
+}
+
+.mkt-withdraw {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+  padding-top: 12px;
+  border-top: 1px solid var(--md-outline-variant);
+}
+
+.mkt-withdraw .md-btn {
+  align-self: flex-start;
+  margin-top: 10px;
+}
+
+.mkt-sales {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mkt-sale {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-radius-md);
+  background: var(--md-surface-container);
+}
+
+.mkt-sale-main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.4;
+}
+
+.mkt-sale-main span {
+  font-size: 0.8125rem;
+  color: var(--md-on-surface-variant);
+}
+
+.mkt-sale-amount {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: 1.4;
+}
+
+.mkt-sale-amount small {
+  font-size: 0.75rem;
+  color: var(--md-on-surface-variant);
+}
+
+.mkt-sale-status {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--md-on-surface-variant);
+}
+
+.mkt-sale-approved {
+  color: #166534;
+}
+
+.mkt-sale-pending {
+  color: #B45309;
+}
+
+.mkt-sale-rejected {
+  color: var(--md-error);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .creator-card,
+  .mkt-course,
+  .neb-price-mode-label {
+    transition: none;
+  }
+}
+
+/* ══ The rebuilt studio ══════════════════════════════════════════════════════
+ * Template gallery, Look tab, live preview, section picker and the section
+ * rows. Everything below is built phone-first: controls are at least 44px
+ * tall, nothing depends on hover to be discoverable, and every grid is an
+ * `auto-fit` so there is no breakpoint to forget.
+ */
+
+.mkt-card-head {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 14px;
+}
+
+.mkt-card-head .mkt-seg {
+  margin-top: 8px;
+}
+
+/* ── Template gallery ─────────────────────────────────────────────────────── */
+.mkt-template-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(176px, 1fr));
+  gap: 12px;
+}
+
+.mkt-template {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 10px;
+  text-align: left;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-radius-md);
+  background: var(--md-surface-container-lowest);
+  cursor: pointer;
+  transition: border-color 0.16s ease, box-shadow 0.16s ease, transform 0.16s ease;
+}
+
+.mkt-template:hover,
+.mkt-template:focus-visible {
+  border-color: var(--md-primary);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.12);
+  transform: translateY(-2px);
+}
+
+.mkt-template:disabled {
+  opacity: 0.5;
+  cursor: progress;
+}
+
+.mkt-template-name {
+  font-weight: 700;
+  font-size: 0.875rem;
+  color: var(--md-on-surface);
+}
+
+.mkt-template-summary {
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: var(--md-on-surface-variant);
+}
+
+.mkt-template-meta {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--md-on-surface-variant);
+  opacity: 0.8;
+}
+
+/* A miniature of the page rather than a screenshot: it is painted from the
+   template's own resolved palette, so it can never drift out of date, and it
+   costs no image request. */
+.mkt-template-thumb {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--md-radius-sm);
+  overflow: hidden;
+  margin-bottom: 7px;
+  background: var(--t-bg, var(--t-surface));
+  border: 1px solid var(--t-line);
+  padding: 0 9px;
+}
+
+.mkt-tt-bar {
+  display: block;
+  height: 34%;
+  margin: 0 -9px 7px;
+  background: linear-gradient(135deg, var(--t-accent), color-mix(in srgb, var(--t-accent) 45%, var(--t-surface)));
+}
+
+.mkt-tt-dot {
+  display: block;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: var(--t-surface);
+  border: 2px solid var(--t-bg, var(--t-surface));
+  margin: -17px 0 6px;
+  position: relative;
+}
+
+.mkt-tt-line {
+  display: block;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--t-ink);
+  opacity: 0.8;
+  margin-bottom: 4px;
+}
+
+.mkt-tt-line-short {
+  width: 56%;
+  background: var(--t-muted);
+  opacity: 0.55;
+}
+
+.mkt-tt-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  margin-top: 7px;
+}
+
+.mkt-tt-grid i {
+  display: block;
+  height: 19px;
+  border-radius: 3px;
+  background: var(--t-soft);
+  border: 1px solid var(--t-line);
+}
+
+/* Hero styles change the shape of the miniature, because the shape of the top
+   of the page is most of what a creator is picking between. */
+.mkt-tt-center { text-align: center; }
+.mkt-tt-center .mkt-tt-dot { margin-left: auto; margin-right: auto; }
+.mkt-tt-center .mkt-tt-line { margin-left: auto; margin-right: auto; width: 72%; }
+.mkt-tt-center .mkt-tt-line-short { width: 44%; }
+
+.mkt-tt-plain .mkt-tt-bar {
+  height: 5px;
+  margin-bottom: 14px;
+  background: var(--t-accent);
+}
+.mkt-tt-plain .mkt-tt-dot { display: none; }
+
+.mkt-tt-gradient .mkt-tt-bar {
+  background: radial-gradient(120% 140% at 20% 0%, var(--t-accent) 0%, var(--t-surface) 72%);
+}
+.mkt-tt-gradient .mkt-tt-dot { display: none; }
+
+.mkt-tt-split .mkt-tt-bar {
+  height: 40%;
+  margin: 0 -9px 8px 46%;
+}
+.mkt-tt-split .mkt-tt-dot { display: none; }
+.mkt-tt-split .mkt-tt-line { margin-top: -22%; width: 40%; }
+.mkt-tt-split .mkt-tt-line-short { width: 28%; }
+
+.mkt-tt-banner .mkt-tt-bar { height: 42%; }
+
+.mkt-tt-outlined .mkt-tt-grid i { background: transparent; }
+.mkt-tt-flat .mkt-tt-grid i { border-color: transparent; }
+.mkt-tt-glass .mkt-tt-grid i { opacity: 0.68; }
+
+.mkt-template-modes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.mkt-radio {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 10px 12px;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-radius-md);
+  cursor: pointer;
+}
+
+.mkt-radio:has(input:checked) {
+  border-color: var(--md-primary);
+  background: var(--md-surface-container);
+}
+
+.mkt-radio input {
+  margin-top: 3px;
+  accent-color: var(--md-primary);
+}
+
+.mkt-radio span {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.mkt-radio strong {
+  font-size: 0.8125rem;
+  color: var(--md-on-surface);
+}
+
+.mkt-radio small {
+  font-size: 0.6875rem;
+  line-height: 1.35;
+  color: var(--md-on-surface-variant);
+}
+
+/* ── Palette swatches ─────────────────────────────────────────────────────── */
+.mkt-palette-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.mkt-palette {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 6px 10px;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-radius-md);
+  background: var(--md-surface-container-lowest);
+  cursor: pointer;
+  text-align: left;
+}
+
+.mkt-palette.is-on {
+  border-color: var(--p-accent);
+  box-shadow: inset 0 0 0 1px var(--p-accent);
+}
+
+.mkt-palette-chip {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--p-accent) 0 52%, var(--p-soft) 52% 100%);
+  border: 1px solid rgba(15, 23, 42, 0.14);
+}
+
+.mkt-palette-name {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--md-on-surface);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Segmented controls ───────────────────────────────────────────────────── */
+.mkt-seg {
+  display: flex;
+  gap: 2px;
+  padding: 3px;
+  border-radius: var(--md-radius-full, 999px);
+  background: var(--md-surface-container-high);
+  border: 1px solid var(--md-outline-variant);
+  margin-bottom: 4px;
+}
+
+.mkt-seg-item {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: var(--md-radius-full, 999px);
+  background: transparent;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--md-on-surface-variant);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.14s ease, color 0.14s ease;
+}
+
+.mkt-seg-item.is-on {
+  background: var(--md-surface-container-lowest);
+  color: var(--md-primary);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.12);
+}
+
+/* Seven hero styles will not sit on one line of a phone, and squeezing them
+   there is how labels end up one character wide. They wrap instead. */
+.mkt-seg-wrap {
+  flex-wrap: wrap;
+  border-radius: var(--md-radius-md);
+}
+
+.mkt-seg-wrap .mkt-seg-item {
+  flex: 1 1 auto;
+  border-radius: var(--md-radius-sm);
+}
+
+/* ── Image fields ─────────────────────────────────────────────────────────── */
+.mkt-image-fields {
+  display: grid;
+  gap: 12px;
+}
+
+.mkt-image-field {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.mkt-image-field-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.mkt-image-preview {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  overflow: hidden;
+  background: var(--md-surface-container-high);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-radius-sm);
+  color: var(--md-on-surface-variant);
+}
+
+.mkt-image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mkt-image-preview-round {
+  border-radius: 50%;
+}
+
+.mkt-image-preview-wide {
+  width: 96px;
+  height: 58px;
+}
+
+.mkt-image-preview.is-broken {
+  border-color: var(--md-error);
+  color: var(--md-error);
+}
+
+/* ── Live preview ─────────────────────────────────────────────────────────── */
+.mkt-preview-card {
+  position: sticky;
+  top: 14px;
+}
+
+.mkt-preview-sizes {
+  max-width: 320px;
+}
+
+.mkt-preview-frame {
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-radius-md);
+  overflow: hidden;
+  background: var(--md-surface-container-high);
+  margin-inline: auto;
+  transition: max-width 0.22s ease;
+}
+
+.mkt-preview-frame[data-size="phone"] { max-width: 390px; }
+.mkt-preview-frame[data-size="tablet"] { max-width: 768px; }
+.mkt-preview-frame[data-size="desktop"] { max-width: 100%; }
+
+.mkt-preview-frame iframe {
+  display: block;
+  width: 100%;
+  height: 560px;
+  border: 0;
+  background: #fff;
+}
+
+.mkt-preview-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+/* ── Section picker ───────────────────────────────────────────────────────── */
+.mkt-add-section-open {
+  width: 100%;
+  margin-top: 14px;
+}
+
+/* On a phone this is a bottom sheet, because a picker that pushes the list it
+   belongs to off the screen loses the context you are adding to. Above 720px
+   it is an ordinary panel — there is room for both. */
+.mkt-add-sheet {
+  margin-top: 12px;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-radius-lg);
+  background: var(--md-surface-container-lowest);
+  overflow: hidden;
+}
+
+.mkt-add-sheet-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--md-outline-variant);
+  background: var(--md-surface-container);
+}
+
+.mkt-add-sheet-body {
+  padding: 12px 14px 16px;
+  max-height: min(60vh, 520px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.mkt-add-group {
+  margin: 12px 0 7px;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--md-on-surface-variant);
+}
+
+.mkt-add-group:first-child {
+  margin-top: 0;
+}
+
+.mkt-add-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px;
+}
+
+.mkt-add-option {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-height: 56px;
+  padding: 9px 11px;
+  text-align: left;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-radius-md);
+  background: var(--md-surface-container-lowest);
+  cursor: pointer;
+}
+
+.mkt-add-option:hover,
+.mkt-add-option:focus-visible {
+  border-color: var(--md-primary);
+  background: var(--md-surface-container);
+}
+
+.mkt-add-option-name {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--md-on-surface);
+}
+
+.mkt-add-option-hint {
+  font-size: 0.6875rem;
+  line-height: 1.35;
+  color: var(--md-on-surface-variant);
+}
+
+@media (max-width: 720px) {
+  .mkt-add-sheet {
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: 40;
+    margin: 0;
+    border-radius: var(--md-radius-lg) var(--md-radius-lg) 0 0;
+    box-shadow: 0 -8px 32px rgba(15, 23, 42, 0.26);
+  }
+
+  .mkt-add-sheet-body {
+    max-height: 56vh;
+    padding-bottom: calc(16px + env(safe-area-inset-bottom));
+  }
+
+  .mkt-preview-card {
+    position: static;
+  }
+}
+
+/* ── Section rows ─────────────────────────────────────────────────────────── */
+.mkt-icon-btn {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--md-on-surface-variant);
+  cursor: pointer;
+}
+
+.mkt-icon-btn:hover,
+.mkt-icon-btn:focus-visible {
+  background: var(--md-surface-container-high);
+  color: var(--md-on-surface);
+}
+
+.mkt-block-handle {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 38px;
+  color: var(--md-on-surface-variant);
+  cursor: grab;
+  touch-action: pan-y;
+}
+
+.mkt-block-handle:active {
+  cursor: grabbing;
+}
+
+/* The title is the row's big target: tapping anywhere on the name or the kind
+   opens the section. */
+.mkt-block-item-title {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 2px;
+  border: none;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
+}
+
+.mkt-block-item-stack {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.mkt-block-item-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--md-on-surface);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mkt-block-item-kind {
+  font-size: 0.6875rem;
+  color: var(--md-on-surface-variant);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mkt-block-chevron {
+  flex: none;
+  color: var(--md-on-surface-variant);
+  transition: transform 0.16s ease;
+}
+
+.mkt-block-item:not(.is-collapsed) .mkt-block-chevron {
+  transform: rotate(180deg);
+}
+
+.mkt-block-item.is-hidden .mkt-block-item-name {
+  opacity: 0.55;
+  text-decoration: line-through;
+}
+
+.mkt-block-menu-wrap {
+  position: relative;
+  flex: none;
+}
+
+.mkt-block-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 4px);
+  z-index: 20;
+  min-width: 176px;
+  padding: 6px;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-radius-md);
+  background: var(--md-surface-container-lowest);
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.18);
+}
+
+.mkt-block-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  min-height: 40px;
+  padding: 6px 10px;
+  border: none;
+  border-radius: var(--md-radius-sm);
+  background: transparent;
+  font-size: 0.8125rem;
+  color: var(--md-on-surface);
+  text-align: left;
+  cursor: pointer;
+}
+
+.mkt-block-menu-item:hover:not(:disabled),
+.mkt-block-menu-item:focus-visible {
+  background: var(--md-surface-container-high);
+}
+
+.mkt-block-menu-item:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.mkt-block-menu-item .material-symbols-outlined {
+  font-size: 19px;
+}
+
+.mkt-block-item.is-dragging {
+  opacity: 0.45;
+}
+
+/* The drop rule is drawn on the row you are over, on the edge you are nearest,
+   so where the section is about to land is visible before you let go. */
+.mkt-block-item.is-drop-before {
+  box-shadow: inset 0 3px 0 0 var(--md-primary);
+}
+
+.mkt-block-item.is-drop-after {
+  box-shadow: inset 0 -3px 0 0 var(--md-primary);
+}
+
+.mkt-block-settings {
+  margin-top: 8px;
+  border-top: 1px solid var(--md-outline-variant);
+  padding-top: 8px;
+}
+
+.mkt-block-settings summary {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--md-on-surface-variant);
+  cursor: pointer;
+  list-style: none;
+}
+
+.mkt-block-settings summary::-webkit-details-marker {
+  display: none;
+}
+
+.mkt-block-settings summary .material-symbols-outlined {
+  font-size: 18px;
+}
+
+.mkt-settings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+  gap: 8px;
+  padding: 6px 0 2px;
+}
+
+.mkt-settings-field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mkt-template,
+  .mkt-preview-frame,
+  .mkt-block-chevron,
+  .mkt-seg-item {
+    transition: none;
+  }
+}

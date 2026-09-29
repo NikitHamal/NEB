@@ -1,0 +1,46 @@
+{% load static web_extras %}
+{% comment %} ── A course or class, as a card ──────────────────────────────────────────
+   The app's `MarketplaceCourseCard` on the web. Expects `course` (a payload from
+   api/creator_pages.course_payload) and optional `show_creator`. Cards without a
+   cover fall back to the same generative banner art the library uses, seeded by
+   the course id, so an unfilled page still looks intentional. {% endcomment %}
+<a href="{% url 'web:marketplace_course' course_id=course.id %}"
+   class="mkt-course{% if course.is_free %} mkt-course-free{% endif %}"
+   style="--creator-accent: {{ accent|default:'#004BD4' }};">
+  <div class="mkt-course-art">
+    <div class="neb-art" data-neb-art="banner"
+         data-neb-subject="{{ course.tags|first|default:'Study' }}"
+         data-neb-seed="{{ course.id }}|course"></div>
+    {% if course.cover_url %}
+      <img src="{{ course.cover_url }}" alt="" loading="lazy">
+    {% endif %}
+    <span class="mkt-course-price">
+      {% if course.is_free %}
+        Free
+      {% else %}
+        Rs. {{ course.price|npr }}
+      {% endif %}
+    </span>
+    {% if course.status != 'published' %}
+      <span class="mkt-course-draft">{{ course.status|capfirst }}</span>
+    {% endif %}
+  </div>
+
+  <div class="mkt-course-body">
+    {% if show_creator and course.page_name %}
+      <div class="mkt-course-creator">{{ course.page_name }}</div>
+    {% endif %}
+    <div class="mkt-course-title">{{ course.title }}</div>
+    {% if course.summary %}<p class="mkt-course-summary">{{ course.summary }}</p>{% endif %}
+    <div class="mkt-course-tags">
+      {% if course.level %}<span class="md-chip mkt-course-tag">{{ course.level }}</span>{% endif %}
+      {% if course.duration_label %}<span class="md-chip mkt-course-tag">{{ course.duration_label }}</span>{% endif %}
+      {% if course.lesson_count %}<span class="md-chip mkt-course-tag">{{ course.lesson_count }} lessons</span>{% endif %}
+    </div>
+    <div class="mkt-course-foot">
+      <span class="mkt-course-stat"><span class="material-symbols-outlined" aria-hidden="true">group</span>{{ course.enrollment_count }}</span>
+      <span class="mkt-course-stat"><span class="material-symbols-outlined" aria-hidden="true">shopping_bag</span>{{ course.sale_count }}</span>
+      {% if course.has_access %}<span class="mkt-course-owned">Unlocked</span>{% endif %}
+    </div>
+  </div>
+</a>
