@@ -1,0 +1,23 @@
+{
+  "name": "nebians-launch-video",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Deterministic motion-graphics pipeline for the NEBians launch video. Zero npm dependencies.",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "doctor": "node cli.mjs doctor",
+    "sync": "node cli.mjs sync",
+    "drift": "node cli.mjs drift",
+    "capture": "node cli.mjs capture",
+    "still": "node cli.mjs still",
+    "contact": "node cli.mjs contact",
+    "draft": "node cli.mjs render --draft",
+    "render": "node cli.mjs render",
+    "audio": "node cli.mjs audio",
+    "mux": "node cli.mjs mux",
+    "qa": "node cli.mjs qa",
+    "all": "node cli.mjs all",
+    "test": "node --test \"test/*.test.mjs\""
+  }
+}

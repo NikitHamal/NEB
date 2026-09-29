@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>NEBians launch stage</title>
+  <link rel="stylesheet" href="/stage/stage.css">
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <filter id="chroma" x="-2%" y="-2%" width="104%" height="104%" color-interpolation-filters="sRGB">
+        <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="r"/>
+        <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="g"/>
+        <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="b"/>
+        <feOffset id="chroma-r" in="r" dx="0" dy="0" result="ro"/>
+        <feOffset id="chroma-b" in="b" dx="0" dy="0" result="bo"/>
+        <feBlend in="ro" in2="g" mode="screen" result="rg"/>
+        <feBlend in="rg" in2="bo" mode="screen"/>
+      </filter>
+    </defs>
+  </svg>
+  <div id="stage"></div>
+  <script src="/site/js/blobatar.js"></script>
+  <script src="/site/js/neb-art.js"></script>
+  <script type="module" src="/stage/main.js"></script>
+</body>
+</html>
