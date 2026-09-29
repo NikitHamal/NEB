@@ -749,3 +749,46 @@ def delete_notifications_for_actor_and_target(actor_id, verb, target_type, targe
     )
     notifs.delete()
     batch_fix_unread_counts(unread_recipient_ids)
+
+def create_notification(*, recipient=None, actor=None, verb='system', target=None,
+                        target_type='', target_id='', reference_type='', reference_id='',
+                        message='', anonymous_actor=False):
+    """Notify through an object rather than through ids.
+
+    The admin panel has always called this (`_notif.create_notification`) — and
+    it did not exist, so approving a payment blew up on the notification line
+    after the seller had already been credited. This maps the object form onto
+    :func:`_create_notification` and derives a target type the client knows how
+    to open: a library resource, a marketplace course, a post, a user or a
+    plain system notice.
+    """
+    if target is None and not target_id:
+        target_type, target_id = 'system', ''
+    elif target is not None:
+        name = target.__class__.__name__.lower()
+        target_type = target_type or {
+            'resource': 'resource',
+            'creatorcourse': 'course',
+            'post': 'post',
+            'reply': 'reply',
+            'user': 'user',
+        }.get(name, 'system')
+        target_id = target_id or str(getattr(target, 'id', '') or getattr(target, 'pk', ''))
+
+    recipient_id = getattr(recipient, 'id', None) or getattr(recipient, 'pk', None) or recipient
+    actor_id = getattr(actor, 'id', None) or getattr(actor, 'pk', None) or (actor or '')
+
+    if not recipient_id:
+        return None
+    return _create_notification(
+        recipient_id=recipient_id,
+        actor_id=actor_id,
+        verb=verb,
+        target_type=target_type,
+        target_id=target_id,
+        reference_type=reference_type,
+        reference_id=reference_id,
+        message=message,
+        anonymous_actor=anonymous_actor,
+    )
+

@@ -36,8 +36,19 @@ logger = logging.getLogger(__name__)
 
 
 def _send(group: str, event: str, data: Dict[str, Any]):
-    """Push an event to a single group. No-op if the channel layer is missing."""
-    layer = get_channel_layer()
+    """Push an event to a single group. Best effort, never fatal.
+
+    Resolving the layer is part of the attempt, not a precondition: a channel
+    layer that cannot even be constructed (Redis not installed, wrong BACKEND,
+    Redis down) used to raise *outside* the guard, so a websocket push could
+    turn a successful database write — an approved payment, a posted reply —
+    into a 500 for the person who did it.
+    """
+    try:
+        layer = get_channel_layer()
+    except Exception as e:  # noqa: BLE001
+        logger.warning('channel layer unavailable (group=%s event=%s): %s', group, event, e)
+        return
     if layer is None:
         return
     try:

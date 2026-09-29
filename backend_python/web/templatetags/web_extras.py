@@ -656,3 +656,108 @@ def parse_qa(value):
         if question or answer:
             result.append({'question': question, 'answer': answer})
     return result
+
+
+@register.filter
+def creator_kind_label(kind):
+    """The word a visitor reads for a storefront kind."""
+    return {
+        'tutor': 'Tutor',
+        'institute': 'Institute',
+        'admin': 'NEBians Official',
+    }.get((kind or '').strip().lower(), 'Creator')
+
+
+@register.filter
+def npr(value):
+    """Rupees as a person writes them: no trailing .0, thousands separated."""
+    try:
+        amount = float(value or 0)
+    except (TypeError, ValueError):
+        return '0'
+    if amount == int(amount):
+        return f'{int(amount):,}'
+    return f'{amount:,.2f}'
+
+
+@register.filter
+def npr_plain(value):
+    """Rupees without thousands separators, for input values and JSON."""
+    try:
+        amount = float(value or 0)
+    except (TypeError, ValueError):
+        return '0'
+    return str(int(amount)) if amount == int(amount) else f'{amount:.2f}'
+
+
+@register.filter
+def creator_block_classes(block):
+    """The per-section classes a creator's own settings ask for.
+
+    A section carries at most four overrides -- alignment, tone, width, column
+    count -- and they are absent from the stored block unless the creator
+    changed them, so the common case produces an empty string and no markup
+    noise. Kept here rather than in the template because four `{% if %}`s
+    repeated across twenty-five section branches is how templates rot.
+    """
+    settings = (block or {}).get('settings') or {}
+    classes = []
+    if settings.get('align') == 'center':
+        classes.append('mkt-align-center')
+    tone = settings.get('tone')
+    if tone in ('soft', 'accent', 'contrast'):
+        classes.append(f'mkt-tone-{tone}')
+    width = settings.get('width')
+    if width in ('wide', 'full'):
+        classes.append(f'mkt-bwidth-{width}')
+    columns = settings.get('columns')
+    if isinstance(columns, int) and 1 <= columns <= 4:
+        classes.append(f'mkt-cols-{columns}')
+    return ' '.join(classes)
+
+
+#: Hosts we are willing to put inside an iframe on a creator's page. A creator
+#: can paste any URL; only these become an embed, everything else becomes an
+#: ordinary link. The list is deliberately short -- an iframe runs someone
+#: else's code in our origin's neighbourhood.
+_EMBED_PATTERNS = (
+    (re.compile(r'^https?://(?:www\.)?youtube\.com/watch\?(?:.*&)?v=([\w-]{6,20})'),
+     'https://www.youtube-nocookie.com/embed/{0}'),
+    (re.compile(r'^https?://(?:www\.)?youtube\.com/embed/([\w-]{6,20})'),
+     'https://www.youtube-nocookie.com/embed/{0}'),
+    (re.compile(r'^https?://youtu\.be/([\w-]{6,20})'),
+     'https://www.youtube-nocookie.com/embed/{0}'),
+    (re.compile(r'^https?://(?:www\.)?vimeo\.com/(\d{6,12})'),
+     'https://player.vimeo.com/video/{0}'),
+)
+
+
+@register.filter
+def video_embed(url):
+    """A watch URL turned into an embeddable one, or '' if we do not trust it.
+
+    Creators paste the link from the address bar; nobody pastes an embed URL.
+    Returning '' rather than the original is the point -- the template shows a
+    plain link in that case instead of framing an arbitrary origin.
+    """
+    if not isinstance(url, str) or not url.strip():
+        return ''
+    url = url.strip()
+    for pattern, template in _EMBED_PATTERNS:
+        match = pattern.match(url)
+        if match:
+            return template.format(match.group(1))
+    return ''
+
+
+@register.filter
+def lines(value):
+    """Non-empty lines, for the fields a creator fills in one-per-line.
+
+    Plan features and the like. `split` takes its separator as a template
+    argument and a template argument cannot carry a real newline, so this
+    exists rather than a cleverer call site.
+    """
+    if not value:
+        return []
+    return [line.strip() for line in str(value).splitlines() if line.strip()]

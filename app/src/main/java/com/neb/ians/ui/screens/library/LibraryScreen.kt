@@ -106,7 +106,10 @@ import androidx.compose.material.icons.outlined.PlayLesson
 import androidx.compose.material.icons.automirrored.outlined.MenuBook
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.material.icons.outlined.Storefront
 import com.neb.ians.ui.components.NebLoaderSize
+import com.neb.ians.ui.screens.marketplace.MarketplaceTabContent
+import com.neb.ians.ui.screens.marketplace.MarketplaceViewModel
 import com.neb.ians.ui.components.NebLoader
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -120,11 +123,16 @@ fun LibraryScreen(
     onInteractiveCourseClick: (String) -> Unit = {},
     onSyllabusDetailChromeChanged: (Boolean) -> Unit = {},
     onRequestResourceClick: () -> Unit = {},
+    onCreatorClick: (String) -> Unit = {},
+    onMarketplaceCourseClick: (String) -> Unit = {},
+    onStudioClick: () -> Unit = {},
     viewModel: LibraryViewModel = hiltViewModel(),
-    interactiveViewModel: InteractiveViewModel = hiltViewModel()
+    interactiveViewModel: InteractiveViewModel = hiltViewModel(),
+    marketplaceViewModel: MarketplaceViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val interactiveState by interactiveViewModel.uiState.collectAsStateWithLifecycle()
+    val marketplaceState by marketplaceViewModel.uiState.collectAsStateWithLifecycle()
     var currentTab by rememberSaveable { mutableStateOf("library") }
     val scope = rememberCoroutineScope()
     var isRefreshing by remember { mutableStateOf(false) }
@@ -189,7 +197,11 @@ fun LibraryScreen(
             onRefresh = {
                 scope.launch {
                     isRefreshing = true
-                    viewModel.refresh().join()
+                    if (currentTab == "marketplace") {
+                        marketplaceViewModel.refresh()
+                    } else {
+                        viewModel.refresh().join()
+                    }
                     isRefreshing = false
                 }
             },
@@ -219,6 +231,19 @@ fun LibraryScreen(
                         onSortSelected = viewModel::selectSort,
                         onLoadMore = viewModel::loadNextPage,
                         onRequestResourceClick = onRequestResourceClick
+                    )
+                }
+                "marketplace" -> {
+                    MarketplaceTabContent(
+                        state = marketplaceState,
+                        onRetry = marketplaceViewModel::retry,
+                        onCreatorClick = onCreatorClick,
+                        onCourseClick = onMarketplaceCourseClick,
+                        onOpenStudio = onStudioClick,
+                        onKindSelected = marketplaceViewModel::selectKind,
+                        onQueryChange = marketplaceViewModel::updateQuery,
+                        onSubmitQuery = marketplaceViewModel::submitQuery,
+                        onLoadMore = marketplaceViewModel::loadNextPage
                     )
                 }
                 "syllabus" -> {
@@ -253,10 +278,11 @@ private fun LibraryTabs(
     activeFilterCount: Int = 0,
     onFilterClick: () -> Unit = {}
 ) {
-    val keys = remember { listOf("library", "syllabus", "interactive") }
+    val keys = remember { listOf("library", "marketplace", "syllabus", "interactive") }
     val tabs = remember {
         listOf(
             NebRailTab("Library", Icons.Outlined.Inventory2),
+            NebRailTab("Marketplace", Icons.Outlined.Storefront),
             NebRailTab("Syllabus", Icons.AutoMirrored.Outlined.MenuBook),
             NebRailTab("Interactive", Icons.Outlined.PlayLesson)
         )

@@ -1,0 +1,18 @@
+/* ── Marketplace ─────────────────────────────────────────────────────────────
+ * The library's marketplace shelf, creator pages, course checkout and the
+ * studio. Everything coloured here is either a platform token (--md-*) or the
+ * page owner's own accent (--creator-accent); the accent is never applied to
+ * chrome, only to identity marks inside a creator's own page and cards.
+ *
+ * The import order below is the cascade order. Edit the modules, then re-run
+ * tools/css/bundle.py -- the bundle is what the templates link.
+ */
+@import url("pages/marketplace/theme.css");
+@import url("pages/marketplace/price.css");
+@import url("pages/marketplace/furniture.css");
+@import url("pages/marketplace/shelf.css");
+@import url("pages/marketplace/cards.css");
+@import url("pages/marketplace/blocks.css");
+@import url("pages/marketplace/sections.css");
+@import url("pages/marketplace/course.css");
+@import url("pages/marketplace/studio.css");

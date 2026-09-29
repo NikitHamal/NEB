@@ -2,6 +2,7 @@ from django.urls import path, include
 from django.views.generic import RedirectView
 from . import views
 from . import views_admin_chat
+from . import views_marketplace
 from . import views_admin_media
 from . import views_admin_neby
 from . import views_admin_lazy
@@ -37,6 +38,16 @@ urlpatterns = [
     path('online-learning/', views.online_learning, name='online_learning'),
     path('faq/', views.faq, name='faq'),
     path('library/', views.library, name='library'),
+    path('marketplace/', views_marketplace.directory, name='marketplace'),
+    path('marketplace/studio/', views_marketplace.studio, name='marketplace_studio'),
+    path('marketplace/course/<str:course_id>/', views_marketplace.course_detail, name='marketplace_course'),
+    path('marketplace/<slug:slug>/', views_marketplace.creator, name='marketplace_creator'),
+    path('ajax/marketplace/page/save/', views_marketplace.ajax_page_save, name='marketplace_page_save'),
+    path('ajax/marketplace/template/', views_marketplace.ajax_template_apply, name='marketplace_template_apply'),
+    path('ajax/marketplace/course/save/', views_marketplace.ajax_course_save, name='marketplace_course_save'),
+    path('ajax/marketplace/course/delete/', views_marketplace.ajax_course_delete, name='marketplace_course_delete'),
+    path('ajax/marketplace/post/save/', views_marketplace.ajax_post_save, name='marketplace_post_save'),
+    path('ajax/marketplace/post/delete/', views_marketplace.ajax_post_delete, name='marketplace_post_delete'),
     path('interactive/', views.interactive_hub, name='interactive_hub'),
     path('interactive/sandbox/frame/', views.interactive_sandbox_frame, name='interactive_sandbox_frame'),
     path('interactive/<str:course_slug>/', views.interactive_course, name='interactive_course'),

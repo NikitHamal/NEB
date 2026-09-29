@@ -1,0 +1,529 @@
+/* ── Hero shapes ───────────────────────────────────────────────────────────
+ *
+ * Seven arrangements of the same four things: a picture, a name, a line of
+ * copy, two buttons. The old page had one, and its generated artwork sat
+ * *behind the text at half opacity*, which is why the name was hard to read on
+ * a phone. Every shape below either scrims the art or keeps it out of the
+ * text's way.
+ */
+
+/* A scrim under the copy, always. Text over an arbitrary creator-uploaded
+   photo is unreadable often enough that "usually fine" is not good enough. */
+.mkt-hero-mode-art .mkt-hero-inner::before,
+.mkt-hero-mode-cover .mkt-hero-inner::before,
+.mkt-hero-mode-banner .mkt-hero-inner::before,
+.mkt-hero-mode-gradient .mkt-hero-inner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--creator-surface) 96%, transparent) 0%,
+    color-mix(in srgb, var(--creator-surface) 88%, transparent) 46%,
+    color-mix(in srgb, var(--creator-surface) 52%, transparent) 100%);
+}
+.mkt-hero-inner > * { position: relative; z-index: 1; }
+
+/* Plain: no picture at all, just the accent hairline at the top. */
+.mkt-hero-mode-plain .mkt-hero {
+  border-top: 3px solid var(--creator-accent);
+}
+
+/* Gradient: the accent washing out of the corner. No image to load. */
+.mkt-hero-mode-gradient .mkt-hero-art,
+.mkt-hero-mode-gradient .mkt-hero-cover { display: none; }
+.mkt-hero-mode-gradient .mkt-hero {
+  background:
+    radial-gradient(90% 120% at 0% 0%, color-mix(in srgb, var(--creator-accent) 30%, transparent), transparent 62%),
+    radial-gradient(70% 90% at 100% 0%, var(--creator-soft), transparent 70%),
+    var(--creator-surface);
+}
+
+/* Centred: the link-in-bio shape. Avatar on top, everything stacked under it.
+   This is the one that reads best on a phone, and it is the same on a laptop. */
+.mkt-hero-mode-center .mkt-hero-inner {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 40px 24px 30px;
+}
+.mkt-hero-mode-center .mkt-hero-copy { align-items: center; min-width: 0; }
+.mkt-hero-mode-center .mkt-hero-meta,
+.mkt-hero-mode-center .mkt-hero-actions,
+.mkt-hero-mode-center .mkt-hero-stats { justify-content: center; }
+.mkt-hero-mode-center .mkt-hero-tagline { max-width: 48ch; }
+.mkt-hero-mode-center .mkt-hero-avatar { width: 104px; height: 104px; }
+
+/* Split: copy on the left, picture as a real column on the right rather than a
+   wash behind the words. Collapses to stacked below 720px. */
+.mkt-hero-mode-split .mkt-hero-art,
+.mkt-hero-mode-split .mkt-hero-cover {
+  position: static;
+  inset: auto;
+  opacity: 1;
+  width: 100%;
+  height: 100%;
+  min-height: 220px;
+  border-radius: var(--mkt-block-radius, 20px);
+}
+.mkt-hero-mode-split .mkt-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: 20px;
+  align-items: center;
+  padding: 22px;
+}
+.mkt-hero-mode-split .mkt-hero-inner {
+  order: -1;
+  padding: 8px 0;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.mkt-hero-mode-split .mkt-hero-avatar { width: 64px; height: 64px; }
+.mkt-hero-mode-split .mkt-hero-art { grid-column: 2; }
+
+/* Banner: a wide strip of picture, then the identity below it. The shape an
+   institute wants -- the building photo is the point, and nothing sits on it. */
+.mkt-hero-mode-banner .mkt-hero {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+.mkt-hero-mode-banner .mkt-hero-art,
+.mkt-hero-mode-banner .mkt-hero-cover {
+  position: static;
+  inset: auto;
+  opacity: 1;
+  width: 100%;
+  height: clamp(120px, 26vw, 220px);
+  border-radius: 0;
+}
+.mkt-hero-mode-banner .mkt-hero-inner::before { display: none; }
+.mkt-hero-mode-banner .mkt-hero-inner { align-items: flex-end; padding: 0 24px 24px; }
+/* The avatar laps onto the banner, the way a profile header does. */
+.mkt-hero-mode-banner .mkt-hero-avatar { margin-top: -44px; }
+
+@media (max-width: 720px) {
+  .mkt-hero-mode-split .mkt-hero { grid-template-columns: 1fr; padding: 16px; }
+  .mkt-hero-mode-split .mkt-hero-art,
+  .mkt-hero-mode-split .mkt-hero-cover { grid-column: 1; min-height: 160px; }
+  .mkt-hero-inner { padding: 22px 16px 20px; }
+  .mkt-hero-avatar { width: 68px; height: 68px; }
+  .mkt-hero-avatar-letter { font-size: 1.75rem; }
+  .mkt-hero-mode-center .mkt-hero-avatar { width: 84px; height: 84px; }
+  .mkt-hero-mode-banner .mkt-hero-inner { padding: 0 16px 18px; }
+  .mkt-hero-mode-banner .mkt-hero-avatar { margin-top: -30px; }
+  /* Full-width buttons in the hero: they are the page's one job on a phone. */
+  .mkt-hero-actions { width: 100%; }
+  .mkt-hero-actions .md-btn { flex: 1 1 140px; justify-content: center; }
+}
+
+/* ── Section headings ──────────────────────────────────────────────────────
+ * Heading and its subtitle on one row when there is room, stacked when there
+ * is not. Previously they were two siblings with no rule between them, so the
+ * subtitle ran into the heading's baseline.
+ */
+.mkt-block-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+  margin-bottom: 14px;
+}
+.mkt-block-title { margin: 0; }
+.mkt-block-sub {
+  font-size: 0.875rem;
+  color: var(--md-on-surface-variant);
+  line-height: 1.5;
+}
+.mkt-block > .mkt-block-title { margin-bottom: 14px; }
+
+/* An anchor target must not land under a sticky header. */
+.mkt-block[id] { scroll-margin-top: 84px; }
+
+/* ── Pricing ───────────────────────────────────────────────────────────────
+ * The section a tutor actually needs and did not have: fee plans, side by
+ * side, one of them marked. Features are one per line in the editor, so they
+ * render as a list without the creator learning any syntax.
+ */
+.mkt-pricing {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+  gap: 14px;
+  align-items: stretch;
+}
+.mkt-plan {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  border-radius: var(--mkt-block-radius, var(--md-radius-lg));
+  border: 1px solid var(--md-outline-variant);
+  background: var(--md-surface-container-lowest);
+}
+/* One plan carries a badge; it is the one the creator wants picked. */
+.mkt-plan-featured {
+  border-color: var(--creator-accent);
+  box-shadow: 0 0 0 1px var(--creator-accent) inset;
+}
+.mkt-plan-badge {
+  align-self: flex-start;
+  padding: 3px 10px;
+  border-radius: var(--md-radius-full);
+  background: var(--creator-accent);
+  color: var(--creator-on-accent, #fff);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.mkt-plan-name { font-weight: 700; font-size: 1.0625rem; }
+.mkt-plan-price {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+.mkt-plan-amount {
+  font-size: 1.875rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--md-on-surface);
+  line-height: 1.1;
+}
+.mkt-plan-period { font-size: 0.8125rem; color: var(--md-on-surface-variant); }
+.mkt-plan-features {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.mkt-plan-features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--md-on-surface-variant);
+}
+.mkt-plan-features .material-symbols-outlined {
+  font-size: 18px;
+  color: var(--creator-accent);
+  flex-shrink: 0;
+}
+.mkt-plan .md-btn { margin-top: auto; justify-content: center; }
+
+/* ── Video ─────────────────────────────────────────────────────────────────
+ * An intro clip, held at 16:9 so the page does not jump when it loads. The
+ * server turns a YouTube watch URL into an embed URL; anything else renders as
+ * a link rather than an iframe we cannot vouch for.
+ */
+.mkt-video {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--mkt-block-radius, var(--md-radius-lg));
+  overflow: hidden;
+  border: 1px solid var(--md-outline-variant);
+  background: var(--md-surface-container);
+}
+.mkt-video iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+/* ── Team ──────────────────────────────────────────────────────────────────*/
+.mkt-team {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 170px), 1fr));
+  gap: 14px;
+}
+.mkt-member {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  padding: 18px 14px;
+  border-radius: var(--mkt-block-radius, var(--md-radius-lg));
+  border: 1px solid var(--md-outline-variant);
+  background: var(--md-surface-container-lowest);
+}
+.mkt-member-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--creator-soft);
+}
+.mkt-member-initial {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--creator-soft);
+  color: var(--creator-accent);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+.mkt-member-name { font-weight: 650; }
+.mkt-member-role { font-size: 0.8125rem; color: var(--creator-accent); font-weight: 600; }
+.mkt-member-note { font-size: 0.8125rem; color: var(--md-on-surface-variant); line-height: 1.5; }
+
+/* ── Logos ─────────────────────────────────────────────────────────────────
+ * Schools taught at, boards affiliated with. Greyed until hovered, so a row of
+ * mismatched logos does not shout over the creator's own colours.
+ */
+.mkt-logos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 28px;
+}
+.mkt-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--md-on-surface-variant);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  text-decoration: none;
+  opacity: 0.75;
+  filter: grayscale(1);
+  transition: opacity .2s, filter .2s;
+}
+.mkt-logo:hover { opacity: 1; filter: none; text-decoration: none; }
+.mkt-logo img { height: 34px; width: auto; max-width: 140px; object-fit: contain; }
+
+/* ── Timeline ──────────────────────────────────────────────────────────────
+ * Milestones down a rule. Works for "since 2074" as well as for a course plan.
+ */
+.mkt-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding-left: 4px;
+}
+.mkt-tl-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 82px 1fr;
+  gap: 4px 16px;
+  padding: 0 0 22px 20px;
+  border-left: 2px solid var(--md-outline-variant);
+}
+.mkt-tl-item:last-child { border-left-color: transparent; padding-bottom: 0; }
+.mkt-tl-item::before {
+  content: "";
+  position: absolute;
+  left: -7px;
+  top: 4px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--creator-accent);
+  box-shadow: 0 0 0 3px var(--creator-surface);
+}
+.mkt-tl-label {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--creator-accent);
+  letter-spacing: 0.02em;
+}
+.mkt-tl-title { font-weight: 650; }
+.mkt-tl-note {
+  grid-column: 2;
+  font-size: 0.875rem;
+  color: var(--md-on-surface-variant);
+  line-height: 1.55;
+}
+
+/* ── Steps ─────────────────────────────────────────────────────────────────
+ * "How to join", numbered. The number is generated, so a creator reordering
+ * steps never has to renumber anything.
+ */
+.mkt-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+  gap: 14px;
+  counter-reset: mkt-step;
+}
+.mkt-step {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding: 18px;
+  border-radius: var(--mkt-block-radius, var(--md-radius-lg));
+  border: 1px solid var(--md-outline-variant);
+  background: var(--md-surface-container-lowest);
+  counter-increment: mkt-step;
+}
+.mkt-step::before {
+  content: counter(mkt-step);
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--creator-soft);
+  color: var(--creator-accent);
+  font-weight: 800;
+  font-size: 0.9375rem;
+}
+.mkt-step-title { font-weight: 650; }
+.mkt-step-note { font-size: 0.875rem; color: var(--md-on-surface-variant); line-height: 1.55; }
+
+/* ── Pull quote ────────────────────────────────────────────────────────────
+ * One line, big. A page needs somewhere for its best sentence to breathe.
+ */
+.mkt-pullquote {
+  margin: 0;
+  padding: 8px 0 8px 20px;
+  border-left: 3px solid var(--creator-accent);
+  font-size: clamp(1.125rem, 2.6vw, 1.5rem);
+  line-height: 1.45;
+  letter-spacing: -0.015em;
+  font-weight: 600;
+  color: var(--md-on-surface);
+}
+.mkt-pullquote cite {
+  display: block;
+  margin-top: 10px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  font-style: normal;
+  color: var(--md-on-surface-variant);
+}
+.mkt-align-center .mkt-pullquote {
+  border-left: 0;
+  padding-left: 0;
+  max-width: 34ch;
+}
+
+/* ── Banner strip ──────────────────────────────────────────────────────────
+ * The full-width announcement: admissions open, last date, one button.
+ */
+.mkt-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px 22px;
+  padding: 22px clamp(18px, 4vw, 32px);
+  border-radius: var(--mkt-block-radius, var(--md-radius-lg));
+  background: var(--creator-accent);
+  color: var(--creator-on-accent, #fff);
+}
+.mkt-banner-copy { display: flex; flex-direction: column; gap: 4px; min-width: min(100%, 220px); }
+.mkt-banner-title { margin: 0; font-size: 1.1875rem; font-weight: 700; letter-spacing: -0.02em; }
+.mkt-banner-sub { margin: 0; opacity: 0.88; font-size: 0.9375rem; line-height: 1.5; }
+.mkt-banner .md-btn {
+  background: var(--creator-on-accent, #fff);
+  color: var(--creator-accent);
+  border: 0;
+  flex-shrink: 0;
+}
+
+/* ── Rich text ─────────────────────────────────────────────────────────────
+ * Prose with an optional picture beside it. The workhorse: any section a
+ * creator can imagine that we did not build a type for.
+ */
+.mkt-rich {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+.mkt-rich-media {
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  width: 100%;
+  border-radius: var(--mkt-block-radius, var(--md-radius-lg));
+  object-fit: cover;
+}
+.mkt-rich:has(.mkt-rich-media) { grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); }
+@media (max-width: 720px) {
+  .mkt-rich:has(.mkt-rich-media) { grid-template-columns: minmax(0, 1fr); }
+  .mkt-rich-media { grid-column: 1; grid-row: auto; }
+}
+
+/* ── Divider ───────────────────────────────────────────────────────────────*/
+.mkt-block-divider {
+  padding: 0;
+  border-bottom: none;
+}
+.mkt-divider-rule {
+  height: 1px;
+  margin: 18px 0;
+  border: 0;
+  background: linear-gradient(to right, transparent, var(--md-outline-variant) 22%, var(--md-outline-variant) 78%, transparent);
+}
+
+/* ── Per-section column override ───────────────────────────────────────────
+ * When a creator sets a column count on a section, it wins -- but only above
+ * the phone breakpoint. Three columns on a 360px screen is not a layout.
+ */
+@media (min-width: 721px) {
+  .mkt-cols-1 .mkt-pricing, .mkt-cols-1 .mkt-team, .mkt-cols-1 .mkt-steps,
+  .mkt-cols-1 .mkt-showcase, .mkt-cols-1 .mkt-resource-grid,
+  .mkt-cols-1 .mkt-testimonials, .mkt-cols-1 .mkt-course-grid { grid-template-columns: minmax(0, 1fr); }
+  .mkt-cols-2 .mkt-pricing, .mkt-cols-2 .mkt-team, .mkt-cols-2 .mkt-steps,
+  .mkt-cols-2 .mkt-showcase, .mkt-cols-2 .mkt-resource-grid,
+  .mkt-cols-2 .mkt-testimonials, .mkt-cols-2 .mkt-course-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .mkt-cols-3 .mkt-pricing, .mkt-cols-3 .mkt-team, .mkt-cols-3 .mkt-steps,
+  .mkt-cols-3 .mkt-showcase, .mkt-cols-3 .mkt-resource-grid,
+  .mkt-cols-3 .mkt-testimonials, .mkt-cols-3 .mkt-course-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .mkt-cols-4 .mkt-pricing, .mkt-cols-4 .mkt-team, .mkt-cols-4 .mkt-steps,
+  .mkt-cols-4 .mkt-showcase, .mkt-cols-4 .mkt-resource-grid,
+  .mkt-cols-4 .mkt-testimonials, .mkt-cols-4 .mkt-course-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+/* A toned or full-bleed section needs its own inner padding -- the default
+   sections have none because they sit directly on the page. */
+.mkt-tone-soft, .mkt-tone-accent, .mkt-tone-contrast,
+.mkt-bwidth-full {
+  padding: clamp(20px, 4vw, 32px) clamp(18px, 4vw, 28px);
+  border-radius: var(--mkt-block-radius, var(--md-radius-lg));
+  border-bottom: none;
+}
+.mkt-bwidth-full > * { max-width: 60rem; margin-inline: auto; }
+
+/* ── Phone ─────────────────────────────────────────────────────────────────
+ * Every grid on this page is `auto-fit`/`minmax`, so most of them already
+ * collapse. What is left is the handful with fixed tracks.
+ */
+@media (max-width: 600px) {
+  .mkt-gallery { grid-template-columns: repeat(min(var(--mkt-gallery-cols, 3), 2), 1fr); }
+  .mkt-schedule-row { grid-template-columns: 1fr; gap: 2px; padding: 12px 0; }
+  .mkt-tl-item { grid-template-columns: 1fr; padding-left: 16px; }
+  .mkt-tl-note { grid-column: 1; }
+  .mkt-banner { flex-direction: column; align-items: stretch; text-align: left; }
+  .mkt-banner .md-btn { justify-content: center; }
+  .mkt-block { padding: 20px 0; }
+  .mkt-page.mkt-density-airy .mkt-block { padding: 26px 18px; }
+}
+
+/* ── Anchor aliases ────────────────────────────────────────────────────────
+ * `#offerings` and `#contact` were the anchors before sections had ids of
+ * their own, and they are baked into every hero button a creator has already
+ * saved. A zero-size marker keeps them working without constraining what a
+ * section may now be called.
+ */
+.mkt-anchor-alias {
+  display: block;
+  height: 0;
+  scroll-margin-top: 84px;
+}
+
+/* A section whose content is already a self-contained card -- the banner strip
+   -- must not be given a second box around it by the card style. */
+.mkt-block-bare,
+.mkt-card-elevated .mkt-block-bare,
+.mkt-card-outlined .mkt-block-bare,
+.mkt-card-glass .mkt-block-bare {
+  padding: 14px 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}

@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load static web_extras %}
+{% comment %} ── The marketplace directory ──────────────────────────────────────────────
+   Every published page, plus the newest paid and free offerings. The marketplace
+   tab inside the library is the same content in a smaller frame; this page is
+   where "see all" lands, so it can afford the full width and the filters.
+{% endcomment %}
+{% block title %}Marketplace — Tutors, Institutes and Courses | NEBians{% endblock %}
+{% block description %}Browse NEBians marketplace pages: verified tutors and institutes, their paid and free courses, classes and study resources — all in Nepali rupees.{% endblock %}
+{% block keywords %}NEBians marketplace, tutors in Nepal, institutes, paid notes, online classes Nepal, sell notes{% endblock %}
+{% block og_title %}Marketplace — Tutors, Institutes and Courses | NEBians{% endblock %}
+{% block og_description %}Verified tutors and institutes across Nepal with paid and free courses, classes and resources.{% endblock %}
+{% block canonical %}https://nebians.consica.com.np/marketplace/{% endblock %}
+
+{% block bottomnav %}
+{% include "web/partials/bottomnav.html" with current="library" %}
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/pages/marketplace.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="md-container">
+  <div class="mkt-head">
+    <div>
+      <h1 class="md-headline-medium-emphasized">Marketplace</h1>
+      <p class="mkt-head-sub">
+        {{ total_creators }} page{{ total_creators|pluralize }} · {{ total_courses }} offering{{ total_courses|pluralize }}
+        from tutors, institutes and the NEBians team.
+      </p>
+    </div>
+    {% if can_create %}
+    <a class="md-btn md-btn-filled" href="{% url 'web:marketplace_studio' %}">
+      <span class="material-symbols-outlined" aria-hidden="true">add_business</span>
+      {% if my_page %}Your studio{% else %}Create your page{% endif %}
+    </a>
+    {% endif %}
+  </div>
+
+  <form class="mkt-search mkt-search-wide" method="get" action="{% url 'web:marketplace' %}">
+    <span class="material-symbols-outlined" aria-hidden="true">search</span>
+    <input type="search" name="q" value="{{ query }}" placeholder="Search tutors, institutes, subjects" aria-label="Search the marketplace">
+    {% if current_kind %}<input type="hidden" name="kind" value="{{ current_kind }}">{% endif %}
+    {% if subject %}<input type="hidden" name="subject" value="{{ subject }}">{% endif %}
+    <button type="submit" class="md-btn md-btn-text">Search</button>
+  </form>
+
+  <div class="neb-rail mkt-kind-rail" role="tablist" aria-label="Marketplace filters">
+    <a class="neb-rail-item" role="tab" aria-selected="{% if not current_kind %}true{% else %}false{% endif %}"
+       href="{% url 'web:marketplace' %}{% if query %}?q={{ query|urlencode }}{% endif %}">Everyone</a>
+    <a class="neb-rail-item" role="tab" aria-selected="{% if current_kind == 'tutor' %}true{% else %}false{% endif %}"
+       href="{% url 'web:marketplace' %}?kind=tutor{% if query %}&q={{ query|urlencode }}{% endif %}">Tutors</a>
+    <a class="neb-rail-item" role="tab" aria-selected="{% if current_kind == 'institute' %}true{% else %}false{% endif %}"
+       href="{% url 'web:marketplace' %}?kind=institute{% if query %}&q={{ query|urlencode }}{% endif %}">Institutes</a>
+    <a class="neb-rail-item" role="tab" aria-selected="{% if current_kind == 'admin' %}true{% else %}false{% endif %}"
+       href="{% url 'web:marketplace' %}?kind=admin{% if query %}&q={{ query|urlencode }}{% endif %}">Official</a>
+  </div>
+
+  {% if featured_courses %}
+  <section class="mkt-section">
+    <div class="mkt-section-head">
+      <h2 class="md-title-medium">Newest offerings</h2>
+    </div>
+    <div class="mkt-course-grid">
+      {% for course in featured_courses %}
+        {% include "web/_marketplace_course_card.html" with course=course show_creator=True accent=course.accent_hex|default:"#004BD4" %}
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  <section class="mkt-section">
+    <div class="mkt-section-head">
+      <h2 class="md-title-medium">Pages</h2>
+      <span class="mkt-section-count">{{ creators|length }} shown</span>
+    </div>
+    {% if creators %}
+      <div class="creator-grid">
+        {% for c in creators %}{% include "web/_marketplace_creator_card.html" with c=c %}{% endfor %}
+      </div>
+    {% else %}
+      <div class="empty-state">
+        <span class="material-symbols-outlined">storefront</span>
+        <h3>{% if query %}Nothing matches "{{ query }}"{% else %}No pages yet{% endif %}</h3>
+        <p>
+          {% if can_create %}
+            Teachers, institutes and admins can build a page and list their first course —
+            <a href="{% url 'web:marketplace_studio' %}">start yours</a>.
+          {% else %}
+            Marketplace pages appear here as tutors and institutes publish them.
+          {% endif %}
+        </p>
+      </div>
+    {% endif %}
+  </section>
+</div>
+{% endblock %}

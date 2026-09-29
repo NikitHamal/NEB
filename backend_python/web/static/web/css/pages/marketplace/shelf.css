@@ -1,0 +1,76 @@
+/* ── The marketplace shelf inside the library ────────────────────────────── */
+.mkt-shelf-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 14px 0 6px;
+}
+
+.mkt-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 6px 4px 14px;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-radius-full);
+  background: var(--md-surface-container-lowest);
+}
+
+.mkt-search .material-symbols-outlined {
+  font-size: 20px;
+  color: var(--md-on-surface-variant);
+}
+
+.mkt-search input[type='search'] {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: var(--md-on-surface);
+  font-family: var(--md-font);
+  font-size: 0.875rem;
+  padding: 8px 0;
+  min-width: 0;
+}
+
+.mkt-search input[type='search']:focus {
+  outline: none;
+}
+
+.mkt-search-go {
+  flex-shrink: 0;
+}
+
+.mkt-owner-banner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  margin: 14px 0 6px;
+  border: 1px solid var(--md-outline-variant);
+  border-left: 3px solid var(--creator-accent, var(--md-primary));
+  border-radius: var(--md-radius-lg);
+  background: var(--md-surface-container-lowest);
+  flex-wrap: wrap;
+}
+
+.mkt-owner-icon {
+  font-size: 26px;
+  color: var(--creator-accent, var(--md-primary));
+}
+
+.mkt-owner-text {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 200px;
+  line-height: 1.4;
+}
+
+.mkt-owner-text strong {
+  color: var(--md-on-surface);
+}
+
+.mkt-owner-text span {
+  font-size: 0.8125rem;
+  color: var(--md-on-surface-variant);
+}

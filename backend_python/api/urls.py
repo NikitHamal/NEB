@@ -7,6 +7,7 @@ from . import views
 from . import views_presence
 from . import pdf_assistant_views
 from . import views_wallet
+from . import views_marketplace
 from . import credit_views
 from . import views_avatar_api
 from . import views_content_images
@@ -158,6 +159,23 @@ urlpatterns = [
     path('credits/balance/', credit_views.credit_balance, name='credit-balance'),
     path('credits/convert/', credit_views.convert_points_to_credits, name='credit-convert'),
     path('credits/history/', credit_views.credit_history, name='credit-history'),
+
+    # Marketplace — creator storefronts, courses and the seller dashboard
+    path('marketplace/stats/', views_marketplace.marketplace_stats, name='marketplace-stats'),
+    path('marketplace/creators/', views_marketplace.marketplace_creators, name='marketplace-creators'),
+    path('marketplace/creators/<slug:slug>/', views_marketplace.marketplace_creator_detail, name='marketplace-creator-detail'),
+    path('marketplace/courses/', views_marketplace.marketplace_courses, name='marketplace-courses'),
+    path('marketplace/courses/<str:course_id>/', views_marketplace.marketplace_course_detail, name='marketplace-course-detail'),
+    path('marketplace/courses/<str:course_id>/purchase/', views_marketplace.marketplace_course_purchase, name='marketplace-course-purchase'),
+    path('marketplace/editor-schema/', views_marketplace.marketplace_editor_schema, name='marketplace-editor-schema'),
+    path('marketplace/templates/', views_marketplace.marketplace_templates, name='marketplace-templates'),
+    path('marketplace/me/page/', views_marketplace.marketplace_me_page, name='marketplace-me-page'),
+    path('marketplace/me/page/template/', views_marketplace.marketplace_apply_template, name='marketplace-apply-template'),
+    path('marketplace/me/courses/', views_marketplace.marketplace_me_courses, name='marketplace-me-courses'),
+    path('marketplace/me/courses/<str:course_id>/', views_marketplace.marketplace_me_course, name='marketplace-me-course'),
+    path('marketplace/me/posts/', views_marketplace.marketplace_me_posts, name='marketplace-me-posts'),
+    path('marketplace/me/posts/<str:post_id>/', views_marketplace.marketplace_me_post, name='marketplace-me-post'),
+    path('marketplace/dashboard/', views_marketplace.marketplace_dashboard, name='marketplace-dashboard'),
 
     path('v1/', include('api.agent_social.urls')),
 
