@@ -1,0 +1,77 @@
+{% comment %} ── The price setter ─────────────────────────────────────────────────────────
+   One component, three surfaces: uploading a resource, editing one, and pricing
+   a course in the marketplace studio. The Android app ships the same control as
+   `NebPriceField`, so "set a price" looks and behaves the same everywhere.
+
+   Server-rendered and working without JS — the free/paid choice is a real radio
+   pair and the amount is a real number input. `marketplace_price.js` only upgrades it:
+   preset chips, the live "you receive" line, and keeping the hidden `is_paid`
+   field in step. Nothing here writes a value that the server would not accept.
+
+   Context: price_value, is_paid, commission_pct, id_prefix, title (optional),
+   mode_title (optional).
+{% endcomment %}
+{% with prefix=id_prefix|default:"price" fee=commission_pct|default:"2.5" %}
+<div class="neb-price" data-neb-price data-commission="{{ fee }}" data-min="1">
+  <div class="neb-price-head">
+    <span class="neb-price-icon material-symbols-outlined" aria-hidden="true">sell</span>
+    <div class="neb-price-head-text">
+      <div class="neb-price-title">{{ title|default:"Sell this resource" }}</div>
+      <p class="neb-price-sub">{{ mode_title|default:"Buyers pay once by QR. You keep every sale after the platform fee, and the money lands in your wallet as soon as our team verifies it." }}</p>
+    </div>
+  </div>
+
+  <div class="neb-price-modes" role="radiogroup" aria-label="Free or paid">
+    <label class="neb-price-mode">
+      <input type="radio" name="{{ prefix }}_mode" value="free" {% if not is_paid %}checked{% endif %} data-neb-price-mode>
+      <span class="neb-price-mode-label">
+        <span class="material-symbols-outlined" aria-hidden="true">public</span>
+        <span class="neb-price-mode-text">
+          <strong>Free</strong>
+          <small>Open to every Nebian</small>
+        </span>
+      </span>
+    </label>
+    <label class="neb-price-mode">
+      <input type="radio" name="{{ prefix }}_mode" value="paid" {% if is_paid %}checked{% endif %} data-neb-price-mode>
+      <span class="neb-price-mode-label">
+        <span class="material-symbols-outlined" aria-hidden="true">payments</span>
+        <span class="neb-price-mode-text">
+          <strong>Paid</strong>
+          <small>Earn from every unlock</small>
+        </span>
+      </span>
+    </label>
+  </div>
+
+  <input type="hidden" name="is_paid" value="{% if is_paid %}1{% else %}0{% endif %}" data-neb-price-flag>
+
+  <div class="neb-price-amount" data-neb-price-amount {% if not is_paid %}hidden{% endif %}>
+    <label class="md-label" for="{{ prefix }}-price-input">Price in NPR (Rs.)</label>
+    <div class="neb-price-input">
+      <span class="neb-price-currency" aria-hidden="true">Rs.</span>
+      <input class="md-input neb-price-input-field"
+             id="{{ prefix }}-price-input"
+             type="number" inputmode="decimal" min="1" step="1"
+             name="price"
+             value="{% if price_value %}{{ price_value|floatformat:'0' }}{% endif %}"
+             placeholder="199"
+             data-neb-price-field>
+    </div>
+
+    <div class="neb-price-presets" role="group" aria-label="Suggested prices">
+      <button type="button" class="md-chip neb-price-preset" data-neb-price-preset="99">Rs. 99</button>
+      <button type="button" class="md-chip neb-price-preset" data-neb-price-preset="149">Rs. 149</button>
+      <button type="button" class="md-chip neb-price-preset" data-neb-price-preset="199">Rs. 199</button>
+      <button type="button" class="md-chip neb-price-preset" data-neb-price-preset="499">Rs. 499</button>
+      <button type="button" class="md-chip neb-price-preset" data-neb-price-preset="999">Rs. 999</button>
+    </div>
+
+    <p class="neb-price-earnings" data-neb-price-earnings aria-live="polite"></p>
+    <p class="neb-price-hint">
+      <span class="material-symbols-outlined" aria-hidden="true">info</span>
+      <span>Paid unlocks are verified by the NEBians team from your buyer's transaction reference or screenshot. Withdrawals open at Rs. 1,000.</span>
+    </p>
+  </div>
+</div>
+{% endwith %}

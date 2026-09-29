@@ -2134,6 +2134,148 @@ interface ApiService {
     @GET("api/users/institutions/")
     suspend fun getInstitutions(): ApiInstitutionsResponse
 
+    // --- Marketplace: creator storefronts, courses and the seller dashboard ---
+    @GET("api/marketplace/creators/")
+    suspend fun getMarketplaceCreators(
+        @Header("Authorization") bearerToken: String?,
+        @Query("kind") kind: String? = null,
+        @Query("q") query: String? = null,
+        @Query("sort") sort: String? = null,
+        @Query("page") page: Int? = null,
+        @Query("page_size") pageSize: Int? = null
+    ): ApiMarketplaceCreatorsResponse
+
+    @GET("api/marketplace/courses/")
+    suspend fun getMarketplaceCourseShelf(
+        @Header("Authorization") bearerToken: String?,
+        @Query("kind") kind: String? = null,
+        @Query("q") query: String? = null,
+        @Query("sort") sort: String? = null,
+        @Query("limit") limit: Int? = null
+    ): ApiMarketplaceCoursesResponse
+
+    @GET("api/payments/config/")
+    suspend fun getPaymentsConfig(): ApiPaymentsConfig
+
+    @GET("api/marketplace/stats/")
+    suspend fun getMarketplaceStats(): ApiMarketplaceStats
+
+    @GET("api/marketplace/creators/{slug}/")
+    suspend fun getCreatorPage(
+        @Header("Authorization") bearerToken: String?,
+        @Path("slug") slug: String
+    ): ApiCreatorPage
+
+    @GET("api/marketplace/courses/{courseId}/")
+    suspend fun getMarketplaceCourse(
+        @Header("Authorization") bearerToken: String?,
+        @Path("courseId") courseId: String
+    ): ApiMarketplaceCourseDetail
+
+    @GET("api/marketplace/courses/{courseId}/purchase/")
+    suspend fun getCoursePurchaseStatus(
+        @Header("Authorization") bearerToken: String,
+        @Path("courseId") courseId: String
+    ): ApiCoursePurchaseResponse
+
+    @Multipart
+    @POST("api/marketplace/courses/{courseId}/purchase/")
+    suspend fun submitCoursePurchase(
+        @Header("Authorization") bearerToken: String,
+        @Path("courseId") courseId: String,
+        @Part("transaction_id") transactionId: okhttp3.RequestBody?,
+        @Part paymentProof: okhttp3.MultipartBody.Part?
+    ): ApiCoursePurchaseResponse
+
+    @GET("api/marketplace/editor-schema/")
+    suspend fun getCreatorEditorSchema(): ApiCreatorEditorSchema
+
+    @GET("api/marketplace/templates/")
+    suspend fun getCreatorTemplates(
+        @Query("kind") kind: String? = null
+    ): ApiCreatorTemplatesResponse
+
+    @POST("api/marketplace/me/page/template/")
+    suspend fun applyCreatorTemplate(
+        @Header("Authorization") bearerToken: String,
+        @Body body: okhttp3.RequestBody
+    ): ApiMyCreatorPageResponse
+
+    @GET("api/marketplace/me/page/")
+    suspend fun getMyCreatorPage(
+        @Header("Authorization") bearerToken: String
+    ): ApiMyCreatorPageResponse
+
+    @PUT("api/marketplace/me/page/")
+    suspend fun updateMyCreatorPage(
+        @Header("Authorization") bearerToken: String,
+        @Body body: okhttp3.RequestBody
+    ): ApiMyCreatorPageResponse
+
+    @GET("api/marketplace/me/courses/")
+    suspend fun getMyCreatorCourses(
+        @Header("Authorization") bearerToken: String
+    ): ApiMyCreatorCoursesResponse
+
+    @POST("api/marketplace/me/courses/")
+    suspend fun createCreatorCourse(
+        @Header("Authorization") bearerToken: String,
+        @Body body: okhttp3.RequestBody
+    ): ApiCreatorCourseEnvelope
+
+    @PATCH("api/marketplace/me/courses/{courseId}/")
+    suspend fun updateCreatorCourse(
+        @Header("Authorization") bearerToken: String,
+        @Path("courseId") courseId: String,
+        @Body body: okhttp3.RequestBody
+    ): ApiCreatorCourseEnvelope
+
+    @DELETE("api/marketplace/me/courses/{courseId}/")
+    suspend fun deleteCreatorCourse(
+        @Header("Authorization") bearerToken: String,
+        @Path("courseId") courseId: String
+    ): ApiMessageResponse
+
+    @GET("api/marketplace/me/posts/")
+    suspend fun getMyCreatorPosts(
+        @Header("Authorization") bearerToken: String
+    ): ApiMyCreatorPostsResponse
+
+    @POST("api/marketplace/me/posts/")
+    suspend fun createCreatorPost(
+        @Header("Authorization") bearerToken: String,
+        @Body body: okhttp3.RequestBody
+    ): ApiCreatorPostEnvelope
+
+    @PATCH("api/marketplace/me/posts/{postId}/")
+    suspend fun updateCreatorPost(
+        @Header("Authorization") bearerToken: String,
+        @Path("postId") postId: String,
+        @Body body: okhttp3.RequestBody
+    ): ApiCreatorPostEnvelope
+
+    @DELETE("api/marketplace/me/posts/{postId}/")
+    suspend fun deleteCreatorPost(
+        @Header("Authorization") bearerToken: String,
+        @Path("postId") postId: String
+    ): ApiMessageResponse
+
+    @GET("api/marketplace/dashboard/")
+    suspend fun getMarketplaceDashboard(
+        @Header("Authorization") bearerToken: String
+    ): ApiMarketplaceDashboard
+
+    @GET("api/wallet/withdrawals/")
+    suspend fun getWithdrawals(
+        @Header("Authorization") bearerToken: String
+    ): ApiWithdrawalsResponse
+
+    @POST("api/wallet/withdrawals/")
+    suspend fun requestWithdrawal(
+        @Header("Authorization") bearerToken: String,
+        @Body body: okhttp3.RequestBody
+    ): ApiWithdrawal
+
     companion object {
         private const val BASE_URL = "https://nebians.consica.com.np/"
 
@@ -2898,4 +3040,539 @@ data class ApiInstitution(
 @Serializable
 data class ApiInstitutionsResponse(
     val institutions: List<ApiInstitution> = emptyList()
+)
+
+// -------------------------------------------------------------
+// MARKETPLACE — creator storefronts, courses and the seller wallet
+// -------------------------------------------------------------
+
+/**
+ * One section of a creator page. The server whitelists the keys per block type,
+ * so this is the union of everything a block can carry rather than a class per
+ * type — the same shape the web renderer reads.
+ */
+@Serializable
+data class ApiCreatorBlockItem(
+    val label: String = "",
+    val value: String = "",
+    val icon: String = "",
+    val title: String = "",
+    val subtitle: String = "",
+    @SerialName("image_url") val imageUrl: String = "",
+    @SerialName("link_url") val linkUrl: String = "",
+    val badge: String = "",
+    val name: String = "",
+    val role: String = "",
+    val quote: String = "",
+    @SerialName("avatar_url") val avatarUrl: String = "",
+    val q: String = "",
+    val a: String = "",
+    val day: String = "",
+    val time: String = "",
+    val note: String = "",
+    val url: String = "",
+    // pricing plans: `features` is one benefit per line, which is how the web
+    // renders it and how the server's `lines` filter reads it back
+    val price: String = "",
+    val period: String = "",
+    val features: String = "",
+    @SerialName("cta_label") val ctaLabel: String = "",
+    @SerialName("cta_url") val ctaUrl: String = ""
+)
+
+/**
+ * A section's own overrides: where its text sits, how loud its background is,
+ * how wide it runs and how many columns its items form.
+ *
+ * The server drops any value equal to the default, so an untouched section
+ * carries no `settings` key at all -- which is why every field here defaults to
+ * the same thing `sanitize_block_settings` treats as "not set".
+ */
+@Serializable
+data class ApiCreatorBlockSettings(
+    val align: String = "start",
+    val tone: String = "plain",
+    val width: String = "standard",
+    val columns: Int = 0
+)
+
+@Serializable
+data class ApiCreatorBlock(
+    val id: String = "",
+    val type: String = "",
+    val enabled: Boolean = true,
+    val title: String = "",
+    val subtitle: String = "",
+    val body: String = "",
+    @SerialName("cta_label") val ctaLabel: String = "",
+    @SerialName("cta_url") val ctaUrl: String = "",
+    @SerialName("image_url") val imageUrl: String = "",
+    @SerialName("media_url") val mediaUrl: String = "",
+    val settings: ApiCreatorBlockSettings = ApiCreatorBlockSettings(),
+    val items: List<ApiCreatorBlockItem> = emptyList(),
+    val images: List<String> = emptyList()
+)
+
+@Serializable
+data class ApiCreatorStyle(
+    // The palette, scheme, font, texture and card treatment arrived with the
+    // theme work. They are carried here for the same reason the older keys are:
+    // the server replaces `page.style` wholesale, so a key the app cannot hold
+    // is a choice the app silently erases the first time a creator saves.
+    val palette: String = "indigo",
+    val scheme: String = "light",
+    val font: String = "sans",
+    val pattern: String = "none",
+    val card: String = "elevated",
+    val width: String = "standard",
+    val hero: String = "art",
+    val radius: String = "round",
+    val density: String = "comfortable",
+    @SerialName("show_stats") val showStats: Boolean = false,
+    @SerialName("show_contact") val showContact: Boolean = true,
+    // the server's sanitize_style() defaults this on, so the app has to carry it:
+    // a style saved from here without the key would turn every badge off
+    @SerialName("show_verified") val showVerified: Boolean = true,
+    @SerialName("gallery_columns") val galleryColumns: Int = 3
+)
+
+/**
+ * A creator's colours, already worked out by the server.
+ *
+ * The app deliberately does not carry its own copy of the palette table: one
+ * table lives in `api/creator_themes.py`, and the day somebody nudged a hex
+ * there would otherwise be the day the same page looked different on a phone.
+ */
+@Serializable
+data class ApiCreatorThemeColors(
+    val accent: String = "#004BD4",
+    @SerialName("on_accent") val onAccent: String = "#FFFFFF",
+    val bg: String = "#FFFFFF",
+    val surface: String = "#FFFFFF",
+    val ink: String = "#0B1020",
+    val muted: String = "#535E78",
+    val line: String = "#E2E7F2",
+    val soft: String = "#E8EEFF"
+)
+
+@Serializable
+data class ApiCreatorTheme(
+    val palette: String = "indigo",
+    val scheme: String = "light",
+    val font: String = "sans",
+    val pattern: String = "none",
+    val card: String = "elevated",
+    val radius: String = "round",
+    val density: String = "comfortable",
+    val width: String = "standard",
+    val hero: String = "art",
+    val colors: ApiCreatorThemeColors = ApiCreatorThemeColors()
+)
+
+@Serializable
+data class ApiCreatorOwner(
+    val id: String = "",
+    val username: String = "",
+    @SerialName("display_name") val displayName: String = "",
+    @SerialName("photo_url") val photoUrl: String = "",
+    val role: String = "",
+    val verified: Boolean = false
+)
+
+@Serializable
+data class ApiCreatorCourse(
+    val id: String = "",
+    @SerialName("page_id") val pageId: String = "",
+    @SerialName("page_slug") val pageSlug: String = "",
+    @SerialName("page_name") val pageName: String = "",
+    val title: String = "",
+    val slug: String = "",
+    val summary: String = "",
+    val description: String = "",
+    @SerialName("cover_url") val coverUrl: String = "",
+    @SerialName("promo_url") val promoUrl: String = "",
+    @SerialName("is_free") val isFree: Boolean = false,
+    val price: String = "0",
+    val level: String = "",
+    @SerialName("duration_label") val durationLabel: String = "",
+    @SerialName("lesson_count") val lessonCount: Int = 0,
+    @SerialName("seat_limit") val seatLimit: Int = 0,
+    val includes: List<String> = emptyList(),
+    val tags: List<String> = emptyList(),
+    val status: String = "draft",
+    val featured: Boolean = false,
+    @SerialName("enrollment_count") val enrollmentCount: Int = 0,
+    @SerialName("view_count") val viewCount: Int = 0,
+    @SerialName("sale_count") val saleCount: Int = 0,
+    val rating: Double = 0.0,
+    @SerialName("rating_count") val ratingCount: Int = 0,
+    @SerialName("created_at") val createdAt: Long = 0,
+    @SerialName("updated_at") val updatedAt: Long = 0,
+    /** The notes attached to this offering. Only sent to its owner, and only
+     *  by the studio's own endpoints — the editor needs it, because saving an
+     *  empty list is how you detach everything. */
+    @SerialName("resource_ids") val resourceIds: List<String> = emptyList(),
+    @SerialName("has_access") val hasAccess: Boolean = false,
+    @SerialName("access_reason") val accessReason: String = "",
+    @SerialName("purchase_status") val purchaseStatus: String = "",
+    @SerialName("purchase_id") val purchaseId: String = ""
+)
+
+@Serializable
+data class ApiCreatorResource(
+    val id: String = "",
+    val title: String = "",
+    val subject: String = "",
+    val type: String = "",
+    @SerialName("grade_level") val gradeLevel: String = "",
+    @SerialName("thumbnail_url") val thumbnailUrl: String = "",
+    @SerialName("is_paid") val isPaid: Boolean = false,
+    val price: String = "0",
+    @SerialName("view_count") val viewCount: Int = 0,
+    @SerialName("added_at") val addedAt: Long = 0
+)
+
+@Serializable
+data class ApiCreatorPost(
+    val id: String = "",
+    val title: String = "",
+    val body: String = "",
+    @SerialName("media_url") val mediaUrl: String = "",
+    @SerialName("link_url") val linkUrl: String = "",
+    val pinned: Boolean = false,
+    val published: Boolean = true,
+    @SerialName("like_count") val likeCount: Int = 0,
+    @SerialName("created_at") val createdAt: Long = 0
+)
+
+@Serializable
+data class ApiCreatorPage(
+    val id: String = "",
+    val slug: String = "",
+    val kind: String = "tutor",
+    @SerialName("display_name") val displayName: String = "",
+    val tagline: String = "",
+    val about: String = "",
+    @SerialName("avatar_url") val avatarUrl: String = "",
+    @SerialName("cover_url") val coverUrl: String = "",
+    @SerialName("accent_hex") val accentHex: String = "#004BD4",
+    val layout: String = "editorial",
+    val style: ApiCreatorStyle = ApiCreatorStyle(),
+    val theme: ApiCreatorTheme = ApiCreatorTheme(),
+    val blocks: List<ApiCreatorBlock> = emptyList(),
+    val socials: Map<String, String> = emptyMap(),
+    @SerialName("contact_email") val contactEmail: String = "",
+    @SerialName("contact_phone") val contactPhone: String = "",
+    val location: String = "",
+    val subjects: List<String> = emptyList(),
+    val languages: List<String> = emptyList(),
+    val verified: Boolean = false,
+    val featured: Boolean = false,
+    val published: Boolean = false,
+    @SerialName("accepting_students") val acceptingStudents: Boolean = true,
+    @SerialName("follower_count") val followerCount: Int = 0,
+    @SerialName("view_count") val viewCount: Int = 0,
+    @SerialName("course_count") val courseCount: Int = 0,
+    @SerialName("is_mine") val isMine: Boolean = false,
+    val owner: ApiCreatorOwner? = null,
+    val courses: List<ApiCreatorCourse> = emptyList(),
+    @SerialName("paid_course_count") val paidCourseCount: Int = 0,
+    val resources: List<ApiCreatorResource> = emptyList(),
+    val posts: List<ApiCreatorPost> = emptyList(),
+    val url: String = ""
+)
+
+@Serializable
+data class ApiMarketplaceCreatorsResponse(
+    val creators: List<ApiCreatorPage> = emptyList(),
+    val total: Int = 0,
+    val page: Int = 1,
+    @SerialName("page_size") val pageSize: Int = 12,
+    @SerialName("has_more") val hasMore: Boolean = false,
+    @SerialName("you_are_eligible") val youAreEligible: Boolean = false,
+    @SerialName("your_kinds") val yourKinds: List<String> = emptyList(),
+    val layouts: List<String> = emptyList()
+)
+
+@Serializable
+data class ApiPaymentsConfig(
+    @SerialName("company_qr_url") val companyQrUrl: String = "",
+    @SerialName("company_qr_caption") val companyQrCaption: String = "",
+    @SerialName("payment_instructions") val paymentInstructions: String = "",
+    @SerialName("commission_percent") val commissionPercent: String = "0",
+    @SerialName("withdraw_min") val withdrawMin: String = "1000"
+)
+
+@Serializable
+data class ApiMarketplaceCoursesResponse(
+    val courses: List<ApiCreatorCourse> = emptyList(),
+    val total: Int = 0,
+    @SerialName("has_more") val hasMore: Boolean = false
+)
+
+@Serializable
+data class ApiMarketplaceStats(
+    val creators: Int = 0,
+    val tutors: Int = 0,
+    val institutes: Int = 0,
+    val courses: Int = 0,
+    @SerialName("paid_courses") val paidCourses: Int = 0,
+    @SerialName("free_courses") val freeCourses: Int = 0
+)
+
+/**
+ * The section catalogue and style vocabulary, fetched once when the studio
+ * opens.
+ *
+ * The builder draws itself from this rather than from a hardcoded list, which
+ * is what lets a section added on the server appear in a shipped app without a
+ * release -- and, more to the point, stops the app and the web studio from ever
+ * offering different sections.
+ */
+@Serializable
+data class ApiCreatorSchemaField(
+    val key: String = "",
+    val label: String = "",
+    val multiline: Boolean = false,
+    val url: Boolean = false
+)
+
+@Serializable
+data class ApiCreatorSchemaBlock(
+    val type: String = "",
+    val label: String = "",
+    val hint: String = "",
+    val group: String = "",
+    @SerialName("server_fed") val serverFed: Boolean = false,
+    val fields: List<ApiCreatorSchemaField> = emptyList(),
+    @SerialName("list_key") val listKey: String? = null,
+    @SerialName("item_fields") val itemFields: List<ApiCreatorSchemaField> = emptyList(),
+    @SerialName("item_hint") val itemHint: String = ""
+)
+
+@Serializable
+data class ApiCreatorSchemaGroup(
+    val label: String = "",
+    val types: List<String> = emptyList()
+)
+
+@Serializable
+data class ApiCreatorChoice(
+    val id: String = "",
+    val label: String = ""
+)
+
+@Serializable
+data class ApiCreatorPaletteChoice(
+    val id: String = "",
+    val label: String = "",
+    val accent: String = "#004BD4",
+    val soft: String = "#E8EEFF",
+    val ink: String = "#0B1020"
+)
+
+@Serializable
+data class ApiCreatorThemeVocabulary(
+    val palettes: List<ApiCreatorPaletteChoice> = emptyList(),
+    val schemes: List<ApiCreatorChoice> = emptyList(),
+    val heroes: List<ApiCreatorChoice> = emptyList(),
+    val fonts: List<ApiCreatorChoice> = emptyList(),
+    val patterns: List<ApiCreatorChoice> = emptyList(),
+    val cards: List<ApiCreatorChoice> = emptyList(),
+    val radii: List<ApiCreatorChoice> = emptyList(),
+    val densities: List<ApiCreatorChoice> = emptyList(),
+    val widths: List<ApiCreatorChoice> = emptyList(),
+    @SerialName("block_tones") val blockTones: List<ApiCreatorChoice> = emptyList(),
+    @SerialName("block_aligns") val blockAligns: List<ApiCreatorChoice> = emptyList(),
+    @SerialName("block_widths") val blockWidths: List<ApiCreatorChoice> = emptyList()
+)
+
+@Serializable
+data class ApiCreatorEditorSchema(
+    val blocks: List<ApiCreatorSchemaBlock> = emptyList(),
+    val groups: List<ApiCreatorSchemaGroup> = emptyList(),
+    val theme: ApiCreatorThemeVocabulary = ApiCreatorThemeVocabulary(),
+    val layouts: List<ApiCreatorChoice> = emptyList(),
+    @SerialName("max_blocks") val maxBlocks: Int = 24,
+    @SerialName("max_items") val maxItems: Int = 24,
+    val error: String? = null
+)
+
+@Serializable
+data class ApiCreatorTemplate(
+    val id: String = "",
+    val name: String = "",
+    val summary: String = "",
+    @SerialName("best_for") val bestFor: String = "",
+    val kinds: List<String> = emptyList(),
+    val layout: String = "editorial",
+    val style: ApiCreatorStyle = ApiCreatorStyle(),
+    /** Resolved by the server so a gallery card can paint itself in the
+     *  template's own colours -- a thumbnail in the wrong colour is worse than
+     *  no thumbnail, because the colour is the thing being chosen. */
+    val colors: ApiCreatorThemeColors = ApiCreatorThemeColors(),
+    val sections: List<String> = emptyList(),
+    @SerialName("section_count") val sectionCount: Int = 0
+)
+
+@Serializable
+data class ApiCreatorTemplatesResponse(
+    val templates: List<ApiCreatorTemplate> = emptyList(),
+    val error: String? = null
+)
+
+@Serializable
+data class ApiMyCreatorPageResponse(
+    val eligible: Boolean = false,
+    @SerialName("your_kinds") val yourKinds: List<String> = emptyList(),
+    val layouts: List<String> = emptyList(),
+    val page: ApiCreatorPage? = null,
+    val message: String = "",
+    val error: String? = null
+)
+
+@Serializable
+data class ApiMyCreatorCoursesResponse(
+    val courses: List<ApiCreatorCourse> = emptyList(),
+    @SerialName("page_slug") val pageSlug: String = "",
+    val error: String? = null
+)
+
+@Serializable
+data class ApiCreatorCourseEnvelope(
+    val course: ApiCreatorCourse? = null,
+    val message: String = "",
+    val error: String? = null
+)
+
+@Serializable
+data class ApiMyCreatorPostsResponse(
+    val posts: List<ApiCreatorPost> = emptyList(),
+    val error: String? = null
+)
+
+@Serializable
+data class ApiCreatorPostEnvelope(
+    val post: ApiCreatorPost? = null,
+    val message: String = "",
+    val error: String? = null
+)
+
+@Serializable
+data class ApiMarketplaceCourseDetail(
+    val id: String = "",
+    val title: String = "",
+    val summary: String = "",
+    val description: String = "",
+    @SerialName("cover_url") val coverUrl: String = "",
+    @SerialName("is_free") val isFree: Boolean = false,
+    val price: String = "0",
+    val level: String = "",
+    @SerialName("duration_label") val durationLabel: String = "",
+    @SerialName("lesson_count") val lessonCount: Int = 0,
+    @SerialName("seat_limit") val seatLimit: Int = 0,
+    val includes: List<String> = emptyList(),
+    val tags: List<String> = emptyList(),
+    val status: String = "draft",
+    @SerialName("enrollment_count") val enrollmentCount: Int = 0,
+    @SerialName("sale_count") val saleCount: Int = 0,
+    @SerialName("has_access") val hasAccess: Boolean = false,
+    @SerialName("access_reason") val accessReason: String = "",
+    @SerialName("purchase_status") val purchaseStatus: String = "",
+    val page: ApiCreatorPage? = null,
+    val resources: List<ApiCreatorResource> = emptyList(),
+    val error: String? = null
+)
+
+@Serializable
+data class ApiCoursePurchaseResponse(
+    val status: String = "",
+    @SerialName("is_paid") val isPaid: Boolean = false,
+    val price: String = "0",
+    @SerialName("seller_name") val sellerName: String = "",
+    @SerialName("has_access") val hasAccess: Boolean = false,
+    @SerialName("access_reason") val accessReason: String = "",
+    @SerialName("purchase_status") val purchaseStatus: String = "",
+    @SerialName("purchase_id") val purchaseId: String = "",
+    @SerialName("commission_percent") val commissionPercent: String = "0",
+    val title: String = "",
+    val message: String = "",
+    val error: String? = null
+)
+
+@Serializable
+data class ApiMarketplaceWallet(
+    val currency: String = "NPR",
+    @SerialName("current_balance") val currentBalance: String = "0",
+    @SerialName("total_earned") val totalEarned: String = "0",
+    @SerialName("total_withdrawn") val totalWithdrawn: String = "0",
+    @SerialName("withdraw_min") val withdrawMin: String = "1000",
+    @SerialName("pending_withdrawals") val pendingWithdrawals: Int = 0
+)
+
+@Serializable
+data class ApiWithdrawal(
+    val id: String = "",
+    val amount: String = "0",
+    @SerialName("payout_method") val payoutMethod: String = "esewa",
+    @SerialName("payout_details") val payoutDetails: String = "",
+    val status: String = "pending",
+    @SerialName("admin_notes") val adminNotes: String = "",
+    val message: String = "",
+    @SerialName("created_at") val createdAt: Long = 0,
+    @SerialName("processed_at") val processedAt: Long = 0
+)
+
+@Serializable
+data class ApiWithdrawalsResponse(
+    val withdrawals: List<ApiWithdrawal> = emptyList(),
+    @SerialName("withdraw_min") val withdrawMin: String = "1000",
+    @SerialName("current_balance") val currentBalance: String = "0"
+)
+
+@Serializable
+data class ApiMarketplaceSale(
+    val id: String = "",
+    @SerialName("target_type") val targetType: String = "",
+    @SerialName("target_id") val targetId: String = "",
+    @SerialName("target_title") val targetTitle: String = "",
+    @SerialName("buyer_name") val buyerName: String = "",
+    @SerialName("buyer_username") val buyerUsername: String = "",
+    val amount: String = "0",
+    @SerialName("seller_earnings") val sellerEarnings: String = "0",
+    val commission: String = "0",
+    val status: String = "",
+    @SerialName("created_at") val createdAt: Long = 0,
+    @SerialName("verified_at") val verifiedAt: Long = 0
+)
+
+@Serializable
+data class ApiMarketplaceStatsBlock(
+    @SerialName("total_sales") val totalSales: Int = 0,
+    @SerialName("approved_sales") val approvedSales: Int = 0,
+    @SerialName("pending_sales") val pendingSales: Int = 0,
+    @SerialName("paid_courses") val paidCourses: Int = 0,
+    @SerialName("published_courses") val publishedCourses: Int = 0,
+    val resources: Int = 0
+)
+
+@Serializable
+data class ApiMarketplaceDashboard(
+    val eligible: Boolean = false,
+    @SerialName("your_kinds") val yourKinds: List<String> = emptyList(),
+    @SerialName("has_page") val hasPage: Boolean = false,
+    @SerialName("page_slug") val pageSlug: String = "",
+    @SerialName("page_published") val pagePublished: Boolean = false,
+    val wallet: ApiMarketplaceWallet = ApiMarketplaceWallet(),
+    @SerialName("commission_percent") val commissionPercent: String = "0",
+    @SerialName("nebians_points") val nebiansPoints: Int = 0,
+    val stats: ApiMarketplaceStatsBlock = ApiMarketplaceStatsBlock(),
+    val sales: List<ApiMarketplaceSale> = emptyList(),
+    val error: String? = null
+)
+
+@Serializable
+data class ApiMessageResponse(
+    val message: String = "",
+    val error: String? = null
 )

@@ -26,7 +26,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 CSS = os.path.join(ROOT, "backend_python/web/static/web/css")
 
-ENTRIES = ["material3", "app"]
+ENTRIES = ["material3", "app", "pages/marketplace"]
 IMPORT = re.compile(r'^@import\s+url\("([^"]+)"\);\s*$')
 
 BANNER = (
@@ -76,7 +76,7 @@ def main():
             with open(path, "w", encoding="utf-8") as f:
                 f.write(text)
             status = "written"
-        print("%-10s %2d module(s)  %7d bytes  %s"
+        print("%-20s %2d module(s)  %7d bytes  %s"
               % (name + ".css", len(modules), len(text.encode("utf-8")), status))
     if stale:
         raise SystemExit("stale bundle(s): %s -- run tools/css/bundle.py"

@@ -1,7 +1,7 @@
 # NEBians Android — UI/UX Revamp Continuity
 
-**Last updated:** September 25, 2026
-**Working branches:** `design/nebians-onboarding-experience` (issue #44, §4), then `design/profile-revamp` (§5)
+**Last updated:** September 28, 2026
+**Working branches:** `design/nebians-onboarding-experience` (issue #44, §4), `design/profile-revamp` (§5), then `feature/marketplace-creator-pages` (§10)
 **Scope:** the mono / Material 3 Expressive redesign of the Android app (GitHub issues #41–#44). This file is the handoff for that work; `CONTINUITY.md` covers the Django/web side and is unrelated.
 
 ---
@@ -151,15 +151,19 @@ Every row and skeleton in `ProfileScreen.kt` now goes through a private `CardSlo
    `ui/screens/study/StudySpaceScreen.kt`, `StudyLabScreen.kt`, `StudyDocumentDetailView.kt`, `ui/screens/library/LibraryScreen.kt`, `SyllabusScreen.kt`, `SyllabusSubjectDetailContent.kt`, `InteractiveLibraryContent.kt`, `ui/screens/home/HomeScreen.kt`, `ui/screens/ai/NebyAiScreen.kt`, `ui/screens/forum/ForumScreen.kt`, `ui/screens/results/ToolsScreen.kt`, `ResultCheckerScreen.kt`, `ui/screens/canvas/CanvasListScreen.kt`.
    **Read this before starting:** on Home / Library / Forum, `WebTopBar` is not legacy chrome — it is the app's intentional global bar (greeting, avatar, notification badge, `TopBarViewModel`). Swapping it for a plain `TopAppBar` there would be a regression, not a cleanup. Only the `WebEmptyState` call sites and the genuinely secondary screens are in scope; ask the owner before touching the three main tabs.
 2. **Deploying §6e.** Migration `0142_user_pending_email` has to be applied, and the email change only works where `send_verification_email` can actually send — the same SMTP path signup already depends on.
-3. **Visual verification.** Nothing in §4, §5 or §6 has been seen on a device — only compiled. There is no emulator or screenshot path in this environment, so this cannot be closed here. `assembleModernDebug` and a screenshot pass on real hardware is the next sanity check, and it is the only remaining unknown for the profile rewrite and the Account security screen.
+3. **Visual verification.** Nothing in §4, §5, §6, §10 or §11 has been seen on a device — only compiled. There is no emulator or screenshot path in this environment, so this cannot be closed here. `assembleModernDebug` and a screenshot pass on real hardware is the next sanity check, and it is the only remaining unknown for the profile rewrite and the Account security screen.
 
 ## 8. Build and push mechanics
 
-**Build.** The environment does not export these; set them every time:
+**Build.** The pod no longer ships a JDK or an Android SDK — install them once
+per session (Temurin 17 tarball from `api.adoptium.net`, then
+`cmdline-tools` + `sdkmanager "platform-tools" "platforms;android-36"
+"build-tools;36.0.0"`), copy `google-services.json.example` to
+`app/google-services.json`, then set these every time:
 
 ```bash
 export JAVA_HOME=/workspace/tools/jdk PATH=/workspace/tools/jdk/bin:$PATH
-export ANDROID_HOME=/data/workspace/android-sdk        # no local.properties in the repo
+export ANDROID_HOME=/workspace/tools/android-sdk        # no local.properties in the repo
 cd /data/workspace/NEB
 KEYSTORE_PASSWORD=android KEY_PASSWORD=android KEY_ALIAS=neb \
   ./gradlew :app:compileModernDebugKotlin :app:compileLegacyDebugKotlin \
@@ -184,3 +188,156 @@ actl connector call github --url https://api.github.com/repos/NikitHamal/NEB/...
 - **#42** — delivered as `6844e864`.
 - **#43** — delivered as `592ac588`, then a follow-up comment delivered as `6b78500f` + `1a8404f0` (white canvas background on both web and Android).
 - Process lesson that still applies: **every scripted replacement must assert its match count.** A silent no-op `sed` caused a regression in #42. The Python edits in this session all `assert s.count(old) == 1`.
+
+## 10. What was delivered in the marketplace session — compiles in both variants
+
+The ask: complete the paid-notes feature so people can actually sell their
+notes, build one reusable price-setting component for both platforms, and add a
+**Marketplace** section to the library between Library and Syllabus where
+teachers, institutes and admins get a fully customizable page of their own.
+
+**a) The tab.** `LibraryScreen.kt`'s rail is now
+`library → marketplace → syllabus → interactive`, and the new key renders
+`MarketplaceTabContent` (shelf: owner banner, search, kind rail, offering row,
+creator grid, skeletons, inline error + retry). The same position on the web
+(`library.html`), so §6.1's "ask before touching the three main tabs" does not
+apply here: this adds a shelf to the existing `NebTabRail`, it does not
+restyle `WebTopBar` or the glass nav.
+
+**b) Screens** (`ui/screens/marketplace/`):
+- `MarketplaceViewModel.kt`, `MarketplaceTabContent.kt` — the shelf.
+- `CreatorPageViewModel.kt` + `CreatorPageScreen.kt` — a storefront rendered
+  from the owner's `blocks` in their order, one branch per block type. Every
+  string is data. `CreatorPageScreen.kt` holds the scaffold, the `when` that
+  dispatches a block and the `CreatorBlockShell` they all sit in; the block
+  composables themselves are in `CreatorPageBlocks.kt` (hero, about, stats,
+  courses, resources, posts) and `CreatorPageDetailBlocks.kt` (showcase,
+  gallery, testimonials, FAQ, schedule, links, contact, CTA). Adding a block
+  type means a branch in the dispatch, a composable in one of those two, and
+  the matching branch on the web.
+- `MarketplaceCourseViewModel.kt` + `MarketplaceCourseScreen.kt` — an offering
+  and its checkout. **It reuses `ResourcePurchaseSheet` verbatim**, because it
+  is the same QR flow; only the words around it are course-shaped.
+- `CreatorStudioViewModel.kt`, `CreatorStudioScreen.kt`,
+  `CreatorStudioContent.kt` — page identity, look and the block builder.
+  **This trio was rebuilt in §11; read that before changing any of it.**
+  `CreatorStudioContent.kt` still owns the widgets the tabs draw with
+  (`StudioCard`, `SaveRow`); the tab bodies are
+  `CreatorStudioCoursesTab.kt` (course CRUD and the price form) and
+  `CreatorStudioUpdatesTab.kt` (updates CRUD, plus earnings: wallet, sales,
+  commission). Anything shared across those files is `internal`, not
+  `private` — `private` in Kotlin is file-scoped.
+- `MarketplaceComponents.kt` — `MarketplaceCreatorCard`,
+  `MarketplaceCourseCard`, `CreatorCardSkeleton`, `creatorAccent()`. The
+  owner's accent is used **only** on their own identity marks (avatar, verified
+  tick, price chip, hero wash) — never on app chrome, per §1.
+
+**c) Data.** `data/api/ApiService.kt` gained an `ApiCreator*`/`ApiMarketplace*`
+model block and the marketplace endpoints; `data/repository/MarketplaceRepository.kt`
+wraps them. Writes are hand-built `buildJsonObject` bodies, not serialised data
+classes: the server reads "key present" as "change this field", so a nullable
+field would otherwise wipe the value nobody touched.
+
+**d) One price control, two platforms.** `ui/components/NebPriceField.kt` is
+the app's half of `web/templates/web/_price_setter.html`: free/paid as two
+answers with the consequence written under each, an amount field, the presets
+Nepali students actually pay (99/149/199/499/999), and a live **"You receive
+Rs. X per sale after the Y% platform fee"** line. `UploadDetails` uses it for
+upload *and* edit (edit reuses the wizard), and the studio uses it for a
+course. `commissionPercent` comes from the server's `PaymentConfig` via
+`GET api/payments/config/`, so the app and the site can never quote different
+fees. The old inline `Switch` + price field is gone.
+
+**e) Build.** `:app:compileModernDebugKotlin` and
+`:app:compileLegacyDebugKotlin` are **both green**. The toolchain is not in the
+image by default any more: install a JDK 17 and the Android SDK, then export
+`JAVA_HOME`, `ANDROID_HOME`, and the three keystore vars (a placeholder
+`app/google-services.json` is also needed — it is gitignored, so generate it
+from `google-services.json.example`). Everything else in §8 still applies.
+
+**f) Not verified visually.** Same caveat as §4–§6: no emulator or device here.
+The storefront and studio are compile-verified only.
+
+---
+
+## 11. The themes/templates pass — issue #52, and what was wrong before
+
+The owner opened the builder on a phone and found it unusable, and the pages it
+made all looked alike. The screenshots in issue #52 are the spec for this
+section. Every fix below names the failure it answers, because the failures are
+the kind that come back.
+
+**a) The creator's palette is the theme inside their page.**
+`CreatorPageTheme.kt` adds `CreatorColors` (eight colours parsed from hex the
+*server* resolved) and `LocalCreatorColors`; `CreatorPageStyle.kt` adds
+`fontFamily` to `CreatorStyle`. Together they are the Compose reading of the
+eight `--creator-*` custom properties `.mkt-page` carries on the web.
+
+> **Do not use `NebButton` or `MaterialTheme.colorScheme` inside a creator's
+> page.** `NebButton` reads `MaterialTheme`, so it paints one NEBians-blue
+> button in the middle of a terracotta storefront. `CreatorActionButton`
+> (`CreatorPageSections.kt`, tones `Filled` / `Outlined` / `Inverse`) is the
+> button for that context. This is not a §1 violation: §1 governs app *chrome*,
+> and a creator's storefront is their surface, not ours.
+
+**b) Ten new sections** — `CreatorPageSections.kt`: `pricing`, `video`, `team`,
+`logos`, `timeline`, `steps`, `quote`, `banner`, `richtext`, `divider`. Two
+judgment calls worth keeping:
+- **Pricing is a `LazyRow`, not the web's auto-fit grid.** A third-phone-width
+  plan card cannot show its feature list, and the feature list is what sells
+  the plan. One plan at a time, 248dp.
+- **Video is a poster plus a hand-off to the installed player**, not a WebView
+  iframe. Faster, remembers position, handles full screen, and frames no
+  arbitrary origin. `youTubeVideoId()` mirrors the server's `_EMBED_PATTERNS`
+  allowlist, so an untrusted link degrades to a plain link on both surfaces.
+
+`CreatorBlockShell` now takes the block's `settings` and honours `tone`,
+`align` and `width`. A toned section never also draws a divider — it is its own
+visual break.
+
+**c) The studio rebuild.** Three new files:
+- `CreatorStudioControls.kt` — `StudioSegmented`, `StudioPaletteRow`,
+  `StudioImageField`, `StudioIconButton`. Three rules stated in its header:
+  44dp minimum targets, nothing behind hover or long-press *alone*
+  (WCAG 2.5.1), and every option list comes from the server's `editor_schema`.
+  `StudioImageField` **shows the picture**; the old form asked for
+  "AVATAR IMAGE URL" and showed nothing, so a creator pasted a link, saved,
+  opened their page and found out there.
+- `CreatorStudioDesign.kt` — the template gallery (silhouette thumbnails in
+  each template's resolved colours), the three apply modes with a confirm
+  dialog whose wording changes per mode, and the whole Look card.
+- `CreatorStudioSections.kt` — the section list and both bottom sheets.
+
+> **The #52 section list.** The old row put five icon buttons next to the
+> section name. On a phone that leaves the name about 150dp, so it wrapped —
+> one character per line, a column of single letters. It is now one drag
+> handle, one title and one overflow menu. Long-press the handle to drag, or
+> use Move up / Move down in the menu: the gesture is the fast path and never
+> the only path.
+
+> **Both `ModalBottomSheet`s live in the `Scaffold`, not in a `LazyColumn`
+> item.** A sheet composed inside a list item is disposed the moment that item
+> scrolls out of view, which closes the editor under the creator's fingers.
+
+The block editor is **schema-driven** (`schemaBlock.fields` +
+`itemFields`, with `itemValue`/`setItemValue` covering all 23 item keys), so a
+section added on the server is editable with no app change. The old editor
+hardcoded seven types and silently offered nothing for the other eighteen.
+
+**d) `savePage()` must send all thirteen style keys.** The server replaces
+`page.style` wholesale, so a key the app omits is a choice the app erases —
+saving from the phone would have wiped the palette, font and card style chosen
+on the web. Relatedly, `updatePalette()` moves `accentHex` onto the new
+palette's accent, mirroring `apply_template` on the server.
+
+**e) The creator card** (`MarketplaceComponents.kt`, also from #52). The content
+`Column` starts at `top = 70.dp`, not 12: the cover band is 96dp, so a 52dp
+avatar starting there overhangs it by 26 and clears the two pills sitting in
+the band's top 32. At 12 the avatar sat on top of the kind pill. The location
+stat is the full string with `weight(1f, fill = false)` instead of
+`take(18)` — which cut mid-word with no ellipsis — and the subjects are a
+`FlowRow` so three long subject names wrap instead of being clipped.
+
+**f) Build.** Both `:app:compileModernDebugKotlin` and
+`:app:compileLegacyDebugKotlin` are green. Still not seen on a device — §7.3
+stands, and now covers §11 too.

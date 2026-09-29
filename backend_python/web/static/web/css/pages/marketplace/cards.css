@@ -1,0 +1,304 @@
+/* ── Creator cards ───────────────────────────────────────────────────────── */
+.creator-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(268px, 1fr));
+  gap: 14px;
+}
+
+.creator-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-radius-lg);
+  background: var(--md-surface-container-lowest);
+  transition: border-color var(--md-motion-effects), transform var(--md-motion-spatial-fast);
+}
+
+.creator-card:hover {
+  border-color: var(--creator-accent, var(--md-primary));
+  text-decoration: none;
+}
+
+.creator-card:active {
+  transform: scale(0.985);
+}
+
+.creator-card-cover {
+  position: relative;
+  height: 92px;
+  background: var(--md-surface-container);
+  overflow: hidden;
+}
+
+.creator-card-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.creator-card-cover-wash {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--creator-accent, var(--md-primary)), transparent 70%);
+  opacity: 0.35;
+}
+
+.creator-card-kind,
+.creator-card-featured {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: var(--md-radius-full);
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.creator-card-featured {
+  left: auto;
+  right: 10px;
+  background: var(--creator-accent, var(--md-primary));
+}
+
+.creator-card-featured .material-symbols-outlined {
+  font-size: 13px;
+}
+
+.creator-card-body {
+  position: relative;
+  padding: 26px 16px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.creator-card-avatar {
+  position: absolute;
+  top: -26px;
+  left: 16px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 3px solid var(--md-surface-container-lowest);
+  background: var(--creator-accent, var(--md-primary));
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+
+.creator-card-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.creator-card-avatar-letter {
+  font-weight: 700;
+  color: #fff;
+  font-size: 1.25rem;
+}
+
+.creator-card-name {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 600;
+  color: var(--md-on-surface);
+}
+
+.creator-card-verified {
+  font-size: 16px;
+  color: var(--creator-accent, var(--md-primary));
+}
+
+.creator-card-tagline {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--md-on-surface-variant);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.creator-card-subjects {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.creator-card-subject {
+  padding: 2px 9px;
+  border-radius: var(--md-radius-full);
+  background: var(--md-surface-container);
+  font-size: 0.6875rem;
+  color: var(--md-on-surface-variant);
+}
+
+.creator-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px solid var(--md-outline-variant);
+  font-size: 0.75rem;
+  color: var(--md-on-surface-variant);
+}
+
+.creator-card-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.creator-card-meta .material-symbols-outlined {
+  font-size: 15px;
+}
+
+/* ── Course cards ────────────────────────────────────────────────────────── */
+.mkt-course-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(238px, 1fr));
+  gap: 14px;
+}
+
+.mkt-course {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-radius-lg);
+  background: var(--md-surface-container-lowest);
+  transition: border-color var(--md-motion-effects);
+}
+
+.mkt-course:hover {
+  border-color: var(--creator-accent, var(--md-primary));
+  text-decoration: none;
+}
+
+.mkt-course-art {
+  position: relative;
+  height: 118px;
+  overflow: hidden;
+  background: var(--md-surface-container);
+}
+
+.mkt-course-art img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mkt-course-price,
+.mkt-course-draft {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 3px 10px;
+  border-radius: var(--md-radius-full);
+  background: var(--creator-accent, var(--md-primary));
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.mkt-course-free .mkt-course-price {
+  background: var(--md-surface-container-highest);
+  color: var(--md-on-surface);
+}
+
+.mkt-course-draft {
+  top: auto;
+  bottom: 10px;
+  left: 10px;
+  right: auto;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.mkt-course-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px;
+  flex: 1;
+}
+
+.mkt-course-creator {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--md-on-surface-variant);
+}
+
+.mkt-course-title {
+  font-weight: 600;
+  color: var(--md-on-surface);
+}
+
+.mkt-course-summary {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--md-on-surface-variant);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.mkt-course-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.mkt-course-tag {
+  padding: 2px 9px;
+  font-size: 0.6875rem;
+  color: var(--md-on-surface-variant);
+}
+
+.mkt-course-foot {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 10px;
+  font-size: 0.75rem;
+  color: var(--md-on-surface-variant);
+}
+
+.mkt-course-stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.mkt-course-stat .material-symbols-outlined {
+  font-size: 15px;
+}
+
+.mkt-course-owned {
+  margin-left: auto;
+  color: var(--creator-accent, var(--md-primary));
+  font-weight: 600;
+}
