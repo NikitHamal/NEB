@@ -597,6 +597,19 @@
   "source": "Wikimedia Commons",
   "title": "Susan Glaspell portrait, ca. 1918"
  },
+ "eng12/aracataca-station": {
+  "author": "Jdvillalobos",
+  "bytes": 171215,
+  "credit": "Own work",
+  "fetched": "2026-09-30",
+  "file": "eng12/aracataca-station.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Estaci%C3%B3n_del_Tren,_Aracataca,_Colombia.jpg",
+  "sha1": "6b96ac0d887bf3c0",
+  "source": "Wikimedia Commons",
+  "title": "Estación del Tren, Aracataca, Colombia"
+ },
  "eng12/bertrand-russell": {
   "author": "Unknown (Mondadori Publishers)",
   "bytes": 419552,
@@ -609,6 +622,19 @@
   "sha1": "1ea0d5fd52e9105c",
   "source": "Wikimedia Commons",
   "title": "Bertrand Russell 1954"
+ },
+ "eng12/chobhar-view": {
+  "author": "Anuja Sharma",
+  "bytes": 546049,
+  "credit": "Own work",
+  "fetched": "2026-09-30",
+  "file": "eng12/chobhar-view.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:View_from_Chobhar_01.jpg",
+  "sha1": "8993d0dca2584c7b",
+  "source": "Wikimedia Commons",
+  "title": "View from Chobhar 01"
  },
  "eng12/de-burgos-bust": {
   "author": "Ir2409",
@@ -648,6 +674,19 @@
   "sha1": "02964ba56b3630d1",
   "source": "Wikimedia Commons",
   "title": "Inside the Royal Dramatic Theatre Stockholm"
+ },
+ "eng12/galleon-model": {
+  "author": "EyeTrick",
+  "bytes": 539863,
+  "credit": "Own work",
+  "fetched": "2026-09-30",
+  "file": "eng12/galleon-model.jpg",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Scale_model_of_a_Spanish_galleon.jpg",
+  "sha1": "06bb73ce2e848e68",
+  "source": "Wikimedia Commons",
+  "title": "Scale model of a Spanish galleon"
  },
  "eng12/harari": {
   "author": "Martin Kraft",
@@ -701,6 +740,19 @@
   "source": "Wikimedia Commons",
   "title": "Ipa-chart-vowels"
  },
+ "eng12/jalebi": {
+  "author": "Gaurav Dhwaj Khadka",
+  "bytes": 1031588,
+  "credit": "Own work",
+  "fetched": "2026-09-30",
+  "file": "eng12/jalebi.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Jalebi_1.jpg",
+  "sha1": "dfa436d31722a292",
+  "source": "Wikimedia Commons",
+  "title": "Jalebi 1"
+ },
  "eng12/kate-chopin": {
   "author": "Photographer not credited",
   "bytes": 82126,
@@ -713,6 +765,19 @@
   "sha1": "29194edfba3ead64",
   "source": "Wikimedia Commons",
   "title": "Kate Chopin portrait T-P"
+ },
+ "eng12/lamichhane": {
+  "author": "MasterLuffy",
+  "bytes": 51251,
+  "credit": "Own work",
+  "fetched": "2026-09-30",
+  "file": "eng12/lamichhane.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:%E0%A4%B6%E0%A4%99%E0%A5%8D%E0%A4%95%E0%A4%B0_%E0%A4%B2%E0%A4%BE%E0%A4%AE%E0%A4%BF%E0%A4%9B%E0%A4%BE%E0%A4%A8%E0%A5%87.jpg",
+  "sha1": "7b97050f682f224c",
+  "source": "Wikimedia Commons",
+  "title": "शङ्कर लामिछाने"
  },
  "eng12/letter-to-editor": {
   "author": "Unknown author Unknown author or not provided",
@@ -739,6 +804,19 @@
   "sha1": "f9f33b6ef3adac62",
   "source": "Wikimedia Commons",
   "title": "Lu Xun 1936"
+ },
+ "eng12/lu-xun-residence": {
+  "author": "猫猫的日记本",
+  "bytes": 559662,
+  "credit": "Own work",
+  "fetched": "2026-09-30",
+  "file": "eng12/lu-xun-residence.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Former_Residence_of_Lu_Xun_in_Shaoxing_01_2018-09.jpg",
+  "sha1": "f372d818f1232c56",
+  "source": "Wikimedia Commons",
+  "title": "Former Residence of Lu Xun in Shaoxing 01 2018-09"
  },
  "eng12/marquez": {
   "author": "Gorup de Besanez",
@@ -987,6 +1065,32 @@
   "source": "Wikimedia Commons",
   "title": "Arun River of Nepal"
  },
+ "nep11/chitlang-view": {
+  "author": "Shristi Kapali",
+  "bytes": 1208907,
+  "credit": "Own work",
+  "fetched": "2026-09-30",
+  "file": "nep11/chitlang-view.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:View_of_chitlang.jpg",
+  "sha1": "7f89c74707d2aeeb",
+  "source": "Wikimedia Commons",
+  "title": "View of chitlang"
+ },
+ "nep11/chitlang-village": {
+  "author": "Vaupk12",
+  "bytes": 739675,
+  "credit": "Own work",
+  "fetched": "2026-09-30",
+  "file": "nep11/chitlang-village.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Chitlang_Village.jpg",
+  "sha1": "e8285fab380a5b25",
+  "source": "Wikimedia Commons",
+  "title": "Chitlang Village"
+ },
  "nep11/chitwan-safari": {
   "author": "Yogwis",
   "bytes": 1115347,
@@ -1104,6 +1208,19 @@
   "source": "Wikimedia Commons",
   "title": "कुलेखानी The Kulekhani Dam"
  },
+ "nep11/markhu-village": {
+  "author": "Nabin K. Sapkota",
+  "bytes": 480027,
+  "credit": "Own work",
+  "fetched": "2026-09-30",
+  "file": "nep11/markhu-village.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Markhu_Village,_Kulekhani_Nepal_01.jpg",
+  "sha1": "616461a95048732d",
+  "source": "Wikimedia Commons",
+  "title": "Markhu Village, Kulekhani Nepal 01"
+ },
  "nep11/patrika": {
   "author": "Bijay Chaurasia",
   "bytes": 561777,
@@ -1116,6 +1233,19 @@
   "sha1": "b387c273bae10d27",
   "source": "Wikimedia Commons",
   "title": "Old man reading newspaper early in the morning at Basantapur-IMG 6800"
+ },
+ "nep11/postbox": {
+  "author": "Subhashish Panigrahi",
+  "bytes": 722046,
+  "credit": "Own work",
+  "fetched": "2026-09-30",
+  "file": "nep11/postbox.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:A_postbox_of_Nepal_Post_at_Tribhuvan_International_Airport,_Kathmandu,_Nepal.jpg",
+  "sha1": "1185a6e1d531b489",
+  "source": "Wikimedia Commons",
+  "title": "A postbox of Nepal Post at Tribhuvan International Airport, Kathmandu, Nepal"
  },
  "nep11/rara": {
   "author": "Nirojsedhai",
