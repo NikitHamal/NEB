@@ -636,6 +636,19 @@
   "source": "Wikimedia Commons",
   "title": "View from Chobhar 01"
  },
+ "eng12/croesus-pyre": {
+  "author": "Myson",
+  "bytes": 391966,
+  "credit": "User:Bibi Saint-Pol , own work, 2007-06-06",
+  "fetched": "2026-09-30",
+  "file": "eng12/croesus-pyre.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Kroisos_stake_Louvre_G197.jpg",
+  "sha1": "6ceb38f43379e768",
+  "source": "Wikimedia Commons",
+  "title": "Kroisos stake Louvre G197"
+ },
  "eng12/de-burgos-bust": {
   "author": "Ir2409",
   "bytes": 832111,
@@ -779,6 +792,19 @@
   "source": "Wikimedia Commons",
   "title": "शङ्कर लामिछाने"
  },
+ "eng12/lavaux-leman": {
+  "author": "JoachimKohler-HB",
+  "bytes": 1089107,
+  "credit": "Own work",
+  "fetched": "2026-09-30",
+  "file": "eng12/lavaux-leman.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:%C3%89glise_r%C3%A9form%C3%A9e_Saint-Symphorien,_Lac_Leman_et_les_vignobles_en_terrasses_de_Lavaux_(2013).jpg",
+  "sha1": "72f9b0d7f92086d4",
+  "source": "Wikimedia Commons",
+  "title": "Église réformée Saint-Symphorien, Lac Leman et les vignobles en terrasses de Lavaux (2013)"
+ },
  "eng12/letter-to-editor": {
   "author": "Unknown author Unknown author or not provided",
   "bytes": 1061067,
@@ -857,6 +883,19 @@
   "source": "Wikimedia Commons",
   "title": "Portrait of Ferenc Molnár LCCN2004663345"
  },
+ "eng12/moyn": {
+  "author": "Queen's University Belfast School of Law",
+  "bytes": 940221,
+  "credit": "YouTube https://www.youtube.com/watch?v=VNx8bAB4vz4",
+  "fetched": "2026-09-30",
+  "file": "eng12/moyn.png",
+  "license": "CC BY 3.0",
+  "license_url": "https://creativecommons.org/licenses/by/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Samuel_Moyn_at_Queen%27s_University_Belfast.png",
+  "sha1": "37ae5f86cd31a502",
+  "source": "Wikimedia Commons",
+  "title": "Samuel Moyn at Queen's University Belfast"
+ },
  "eng12/nautalle-durbar": {
   "author": "Bijay chaurasia",
   "bytes": 677829,
@@ -896,6 +935,19 @@
   "source": "Wikimedia Commons",
   "title": "Dr. Oliver Sacks, Physician, Author"
  },
+ "eng12/pale-blue-dot": {
+  "author": "NASA/JPL-Caltech",
+  "bytes": 86565,
+  "credit": "https://photojournal.jpl.nasa.gov/catalog/PIA23645",
+  "fetched": "2026-09-30",
+  "file": "eng12/pale-blue-dot.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Pale_Blue_Dot_from_Voyager_1_-_PIA23645.tiff",
+  "sha1": "a92b1c493f42d38f",
+  "source": "Wikimedia Commons",
+  "title": "Pale Blue Dot from Voyager 1 - PIA23645"
+ },
  "eng12/passive-sign": {
   "author": "The Navigators",
   "bytes": 953990,
@@ -934,6 +986,32 @@
   "sha1": "8e89149a5bccfee8",
   "source": "Wikimedia Commons",
   "title": "The Queen's College Upper Library"
+ },
+ "eng12/radcliffe-camera": {
+  "author": "Photograph by Mike Peel ( www.mikepeel.net ).",
+  "bytes": 304842,
+  "credit": "Own work",
+  "fetched": "2026-09-30",
+  "file": "eng12/radcliffe-camera.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Radcliffe_Camera,_Oxford.jpg",
+  "sha1": "ed302439391ee29b",
+  "source": "Wikimedia Commons",
+  "title": "Radcliffe Camera, Oxford"
+ },
+ "eng12/rana-bahadur": {
+  "author": "Amar Chitrakar",
+  "bytes": 406806,
+  "credit": "https://nationalmuseum.gov.np/",
+  "fetched": "2026-09-30",
+  "file": "eng12/rana-bahadur.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Amar_Chitrakar_-_Portrait_of_King_Rana_Bahadur_Shah.jpg",
+  "sha1": "4d039207f5f739d0",
+  "source": "Wikimedia Commons",
+  "title": "Amar Chitrakar - Portrait of King Rana Bahadur Shah"
  },
  "eng12/strindberg": {
   "author": "Christian du Jardin & Ida du Jardin",
@@ -1012,6 +1090,19 @@
   "sha1": "5cec732e01cf9de2",
   "source": "Wikimedia Commons",
   "title": "Tim Winton375-500e"
+ },
+ "eng12/tiwari": {
+  "author": "Pbadhikari",
+  "bytes": 70285,
+  "credit": "The sketch has been drawn by myself",
+  "fetched": "2026-09-30",
+  "file": "eng12/tiwari.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Bhim_Nidhi_Tiwari.jpg",
+  "sha1": "5c308c88e499f0df",
+  "source": "Wikimedia Commons",
+  "title": "Bhim Nidhi Tiwari"
  },
  "eng12/train-board": {
   "author": "Ravi Dwivedi",
