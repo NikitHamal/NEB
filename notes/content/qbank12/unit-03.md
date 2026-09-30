@@ -665,47 +665,48 @@ $$ \text{rate of rejection} = 17.8-8.0 = 9.8\ \text{kW} $$
 
 ```figure caption="Left: the Otto cycle of a petrol engine (1→2 adiabatic compression, 2→3 heating at constant volume, 3→4 adiabatic expansion, 4→1 cooling at constant volume). Right: the Carnot cycle (A→B and C→D isothermal, B→C and D→A adiabatic)."
 import numpy as np, matplotlib.pyplot as plt
-fig, (a1, a2) = plt.subplots(1, 2, figsize=(5.0, 2.6))
+fig, (a1, a2) = plt.subplots(1, 2, figsize=(5.0, 2.8))
 g = 1.4
-V1, V2 = 5.0, 1.0
+V1, V2 = 4.0, 1.0
 P1 = 1.0
 Va = np.linspace(V2, V1, 80)
-P12 = P1*(V1/Va)**g
 P2 = P1*(V1/V2)**g
-P3 = 2.4*P2
-Vb = np.linspace(V2, V1, 80)
-P34 = P3*(V2/Vb)**g
+P3 = 3.5*P2
 P4 = P3*(V2/V1)**g
-a1.plot(Va, P12, color=ACCENT, lw=1.7)
+a1.plot(Va, P1*(V1/Va)**g, color=ACCENT, lw=1.7)
 a1.plot([V2, V2], [P2, P3], color=SERIES[1], lw=1.7)
-a1.plot(Vb, P34, color=ACCENT, lw=1.7)
-a1.plot([V1, V1], [P4, P1], color=SERIES[1], lw=1.7)
-for lab, (x, y), off in [('1', (V1, P1), (0.15, -0.6)), ('2', (V2, P2), (-0.65, 0.0)), ('3', (V2, P3), (-0.65, 0.0)), ('4', (V1, P4), (0.15, 0.1))]:
+a1.plot(Va, P3*(V2/Va)**g, color=ACCENT, lw=1.7)
+a1.plot([V1, V1], [P1, P4], color=SERIES[1], lw=1.7)
+for lab, (x, y), off in [('1', (V1, P1), (0.12, -0.6)), ('2', (V2, P2), (-0.42, 0.0)), ('3', (V2, P3), (-0.42, 0.2)), ('4', (V1, P4), (0.12, 0.2))]:
     a1.plot([x], [y], 'o', color=INK, ms=3)
     a1.text(x+off[0], y+off[1], lab, fontsize=8.5, color=INK)
 a1.set_xlabel('V', fontsize=8.5); a1.set_ylabel('P', fontsize=8.5)
 a1.set_xticks([]); a1.set_yticks([])
-a1.set_xlim(0, 6); a1.set_ylim(0, P3*1.1)
+a1.set_xlim(0, 4.7); a1.set_ylim(-1.0, P3*1.08)
 a1.set_title('Otto cycle', fontsize=9, color=INK)
-T1, T2 = 2.0, 1.0
-VA, VB = 1.0, 2.0
-VC = VB*(T1/T2)**(1/(g-1)); VD = VA*(T1/T2)**(1/(g-1))
-VAB = np.linspace(VA, VB, 60); VBC = np.linspace(VB, VC, 60)
-VCD = np.linspace(VC, VD, 60); VDA = np.linspace(VD, VA, 60)
-a2.plot(VAB, T1/VAB, color=SERIES[1], lw=1.7)
+T1, T2 = 1.6, 1.0
+VA, VB = 1.0, 1.8
+k = (T1/T2)**(1/(g-1))
+VC, VD = VB*k, VA*k
+def iso(T, v0, v1): 
+    v = np.linspace(v0, v1, 60); return v, T/v
+def adi(p0, v0, v1):
+    v = np.linspace(v0, v1, 60); return v, p0*(v0/v)**g
+x, y = iso(T1, VA, VB); a2.plot(x, y, color=SERIES[1], lw=1.7)
 pB = T1/VB
-a2.plot(VBC, pB*(VB/VBC)**g, color=ACCENT, lw=1.7)
-a2.plot(VCD, T2/VCD, color=SERIES[1], lw=1.7)
+x, y = adi(pB, VB, VC); a2.plot(x, y, color=ACCENT, lw=1.7)
+x, y = iso(T2, VC, VD); a2.plot(x, y, color=SERIES[1], lw=1.7)
 pA = T1/VA
-a2.plot(VDA, pA*(VA/VDA)**g, color=ACCENT, lw=1.7)
-for lab, (x, y), off in [('A', (VA, pA), (-0.35, 0.0)), ('B', (VB, pB), (0.1, 0.1)), ('C', (VC, pB*(VB/VC)**g), (0.1, 0.05)), ('D', (VD, T2/VD), (-0.35, -0.12))]:
-    a2.plot([x], [y], 'o', color=INK, ms=3)
-    a2.text(x+off[0], y+off[1], lab, fontsize=8.5, color=INK)
-a2.text(1.35, 1.72, '$T_1$', fontsize=8.5, color=SERIES[1])
-a2.text(3.2, 0.42, '$T_2$', fontsize=8.5, color=SERIES[1])
+x, y = adi(pA, VA, VD); a2.plot(x, y, color=ACCENT, lw=1.7)
+pts = {'A': (VA, pA, (-0.25, 0.04)), 'B': (VB, pB, (0.08, 0.06)), 'C': (VC, T2/VC, (0.08, 0.08)), 'D': (VD, T2/VD, (-0.1, -0.2))}
+for lab, (xx, yy, off) in pts.items():
+    a2.plot([xx], [yy], 'o', color=INK, ms=3)
+    a2.text(xx+off[0], yy+off[1], lab, fontsize=8.5, color=INK)
+a2.text(1.25, 1.52, '$T_1$', fontsize=8.5, color=SERIES[1])
+a2.text(3.55, 0.45, '$T_2$', fontsize=8.5, color=SERIES[1])
 a2.set_xlabel('V', fontsize=8.5)
 a2.set_xticks([]); a2.set_yticks([])
-a2.set_xlim(0.4, VC+1.0); a2.set_ylim(0, pA*1.12)
+a2.set_xlim(0.4, VC+0.8); a2.set_ylim(0, pA*1.1)
 a2.set_title('Carnot cycle', fontsize=9, color=INK)
 for a in (a1, a2):
     a.spines[['top','right']].set_visible(False)
@@ -1604,7 +1605,7 @@ ax.plot(th, e, color=ACCENT, lw=1.9)
 ax.axhline(0, color=INK, lw=0.9)
 ax.plot([200, 200], [0, 1600], color=MUTED, lw=1.0, ls='--')
 ax.plot([200], [1600], 'o', color=INK, ms=4)
-ax.annotate('maximum e.m.f.', (200, 1600), xytext=(215, 1560), fontsize=8.5, color=INK, va='center')
+ax.annotate('maximum e.m.f.', (200, 1600), xytext=(255, 1790), fontsize=8.5, color=INK, va='center', arrowprops=dict(arrowstyle='-', color=MUTED, lw=0.8))
 ax.text(200, -330, '$\\theta_n$', ha='center', fontsize=9.5, color=INK)
 ax.text(400, -330, '$\\theta_i$', ha='center', fontsize=9.5, color=INK)
 ax.plot([400], [0], 'o', color=INK, ms=4)
