@@ -701,9 +701,17 @@ and hence evaluate the right side when $a=1$, $b=2$, $c=3$.
 
 **Solution.** Multiply the last two factors first. Expanding term by term:
 
-$$ \left(a+b\omega+c\omega^{2}\right)\left(a+b\omega^{2}+c\omega\right)
+$$
+\left(a+b\omega+c\omega^{2}\right)\left(a+b\omega^{2}+c\omega\right)
+$$
+
+$$
 = a^{2} + ab\omega^{2} + ac\omega + ab\omega + b^{2}\omega^{3} + bc\omega^{2}
-+ ac\omega^{2} + bc\omega^{4} + c^{2}\omega^{3} $$
+$$
+
+$$
++ ac\omega^{2} + bc\omega^{4} + c^{2}\omega^{3}
+$$
 
 Use $\omega^{3} = 1$ and $\omega^{4} = \omega$, then collect the $\omega$ and
 $\omega^{2}$ terms:

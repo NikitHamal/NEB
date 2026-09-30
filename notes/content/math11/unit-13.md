@@ -219,8 +219,13 @@ triangle.
 
 **Solution.**
 
-$$ AB^{2} = 1^{2}+1^{2}+(-2)^{2} = 6, \quad BC^{2} = 1^{2}+(-2)^{2}+1^{2} = 6,
-\quad CA^{2} = (-2)^{2}+1^{2}+1^{2} = 6 $$
+$$
+AB^{2} = 1^{2}+1^{2}+(-2)^{2} = 6, \quad BC^{2} = 1^{2}+(-2)^{2}+1^{2} = 6
+$$
+
+$$
+\quad CA^{2} = (-2)^{2}+1^{2}+1^{2} = 6
+$$
 
 All three sides equal $\sqrt{6}$ units, so the triangle is equilateral.
 :::
