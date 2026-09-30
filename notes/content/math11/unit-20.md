@@ -720,17 +720,9 @@ rule with six sub-intervals.
 **Solution.** When $n$ is a multiple of three, fitting a cubic through four points
 at a time gives
 
-$$
-\int_{a}^{b}f\,dx \approx \frac{3h}{8}\left[(y_{0}+y_{n})
-$$
-
-$$
-+ 3(\text{ordinates whose subscript is not a multiple of }3)
-$$
-
-$$
-+ 2(\text{the rest})\right]
-$$
+$$ \int_{a}^{b}f\,dx \approx \frac{3h}{8}\left[(y_{0}+y_{n})
+ + 3(\text{ordinates whose subscript is not a multiple of }3)
+ + 2(\text{the rest})\right] $$
 
 Here $h = \frac{6-0}{6} = 1$.
 
