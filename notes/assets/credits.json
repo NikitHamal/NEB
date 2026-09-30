@@ -428,6 +428,32 @@
   "source": "Wikimedia Commons",
   "title": "Example phishing email"
  },
+ "cs12/coaxial-cable-cut": {
+  "author": "FDominec",
+  "bytes": 315801,
+  "credit": "Own work",
+  "fetched": "2026-09-30",
+  "file": "cs12/coaxial-cable-cut.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+  "page": "https://commons.wikimedia.org/wiki/File:Coaxial_cable_cut.jpg",
+  "sha1": "7d8f1e2376c03bfa",
+  "source": "Wikimedia Commons",
+  "title": "Coaxial cable cut"
+ },
+ "cs12/utp-cable": {
+  "author": "Leon Brooks",
+  "bytes": 371769,
+  "credit": "http://www.public-domain-image.com/public-domain-images-pictures-free-stock-photos/objects-public-domain-images-pictures/electronics-devices-public-domain-image",
+  "fetched": "2026-09-30",
+  "file": "cs12/utp-cable.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Network_utp_unshielded_twisted_pair_cable.jpg",
+  "sha1": "08945f42d911cafe",
+  "source": "Wikimedia Commons",
+  "title": "Network utp unshielded twisted pair cable"
+ },
  "eng11/alvarez-quintero": {
   "author": "Crónica Gráfica",
   "bytes": 2033247,
@@ -1728,32 +1754,6 @@
   "source": "Wikimedia Commons",
   "title": "Copper sulfate pentahydrate crystals"
  },
- "qbank/cardiac-muscle": {
-  "author": "Berkshire Community College Bioscience Image Library",
-  "bytes": 594244,
-  "credit": "Muscle Tissue: Cardiac Muscle",
-  "fetched": "2026-09-30",
-  "file": "qbank/cardiac-muscle.jpg",
-  "license": "CC0",
-  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
-  "page": "https://commons.wikimedia.org/wiki/File:Muscle_Tissue_Cardiac_Muscle_(27187637567).jpg",
-  "sha1": "e5bdc8192f8cc3d7",
-  "source": "Wikimedia Commons",
-  "title": "Muscle Tissue Cardiac Muscle (27187637567)"
- },
- "qbank/compact-bone": {
-  "author": "Berkshire Community College Bioscience Image Library",
-  "bytes": 526385,
-  "credit": "Connective Tissue: Compact Bone",
-  "fetched": "2026-09-30",
-  "file": "qbank/compact-bone.jpg",
-  "license": "CC0",
-  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
-  "page": "https://commons.wikimedia.org/wiki/File:Connective_Tissue_Compact_Bone_(39978304590).jpg",
-  "sha1": "d2b52a3bfbe64187",
-  "source": "Wikimedia Commons",
-  "title": "Connective Tissue Compact Bone (39978304590)"
- },
  "qbank/hyaline-cartilage": {
   "author": "Berkshire Community College Bioscience Image Library",
   "bytes": 818020,
@@ -1805,19 +1805,6 @@
   "sha1": "bf12af38d07cbfb8",
   "source": "Wikimedia Commons",
   "title": "Lichen cross section – heteromeric thallus unlabelled"
- },
- "qbank/motor-neuron": {
-  "author": "Berkshire Community College Bioscience Image Library",
-  "bytes": 325541,
-  "credit": "Nervous Tissue: Spinal Cord Motor Neuron",
-  "fetched": "2026-09-30",
-  "file": "qbank/motor-neuron.jpg",
-  "license": "CC0",
-  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
-  "page": "https://commons.wikimedia.org/wiki/File:Nervous_Tissue_Spinal_Cord_Motor_Neuron_(41850850692).jpg",
-  "sha1": "54bcb961d88ee534",
-  "source": "Wikimedia Commons",
-  "title": "Nervous Tissue Spinal Cord Motor Neuron (41850850692)"
  },
  "qbank/onion-mitosis": {
   "author": "Ibn Anvar",
