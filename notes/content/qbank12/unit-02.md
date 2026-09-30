@@ -606,8 +606,8 @@ original and built to the same pattern — it is practice, not a leaked paper.
    (a) $0.05\ \Omega$ (b) $0.25\ \Omega$ (c) $5\ \Omega$ (d) $50\ \Omega$
 5. To convert a galvanometer of $100\ \Omega$ and $1\ \text{mA}$ full-scale into a $10\ \text{V}$ voltmeter, the series resistance is <span class="marks">[1]</span>
    (a) $100\ \Omega$ (b) $9.9\ \text{k}\Omega$ (c) $10\ \text{k}\Omega$ (d) $10.1\ \text{k}\Omega$
-6. In which circuit is the maximum power dissipated (same r.m.s. voltage)? <span class="marks">[1]</span> (NEB 2079 model)
-   (a) resistor and inductor in series (b) pure resistor (c) pure inductor (d) pure capacitor
+6. Kirchhoff's loop rule is a statement of the conservation of <span class="marks">[1]</span>
+   (a) charge (b) energy (c) momentum (d) mass
 7. A potentiometer is called a voltmeter of infinite resistance because <span class="marks">[1]</span>
    (a) its wire has infinite resistance (b) at balance it draws no current from the cell being measured (c) it has a high-resistance galvanometer (d) it reads the terminal voltage of the driver
 8. The wire of a potentiometer is made of manganin or constantan because these alloys have <span class="marks">[1]</span>
@@ -625,7 +625,7 @@ original and built to the same pattern — it is practice, not a leaked paper.
 **3.** (b) — $E_2 = E_1 l_2/l_1 = 1.50\times25.0/37.5 = 1.00\ \text{V}$. Option (c) inverts the ratio.
 **4.** (b) — $S = \dfrac{0.005\times50}{1-0.005} = 0.251\ \Omega$.
 **5.** (b) — $R = V/I_g - G = 10/10^{-3} - 100 = 9900\ \Omega$. Option (d) adds $G$ instead of subtracting.
-**6.** (b) — power $= V_{rms}I_{rms}\cos\phi$ and only a resistor has $\cos\phi = 1$; in a pure $L$ or $C$ the average power is zero.
+**6.** (b) — the sum of the e.m.f.s round a closed loop equals the sum of the $IR$ drops: the net work per unit charge round a loop is zero. The junction rule (option a) is the charge statement.
 **7.** (b) — at the null point no current flows through the cell under test, so its terminal p.d. equals its e.m.f.
 **8.** (b) — high resistivity allows a long wire in a small space, and a tiny temperature coefficient keeps the potential gradient steady as the wire warms.
 **9.** (c) — a smaller potential gradient means a longer balance length per volt, so a given error in length is a smaller error in voltage.
@@ -840,7 +840,9 @@ original and built to the same pattern — it is practice, not a leaked paper.
    (a) lags the voltage by $90^{\circ}$ (b) leads the voltage by $90^{\circ}$ (c) is in phase with the voltage (d) leads by $45^{\circ}$
 9. A series LCR circuit has $L = 0.10\ \text{H}$, $R = 10\ \Omega$ and $\omega_0 = 1000\ \text{rad s}^{-1}$. Its quality factor is <span class="marks">[1]</span>
    (a) $1$ (b) $10$ (c) $100$ (d) $0.1$
-10. A choke coil controls the current in an a.c. circuit with very little loss of power because <span class="marks">[1]</span> (NEB 2079 model)
+10. In which of these circuits is the maximum average power dissipated (same r.m.s. voltage)? <span class="marks">[1]</span> (NEB 2079 model)
+   (a) resistor and inductor in series (b) pure resistor (c) pure inductor (d) pure capacitor
+11. A choke coil controls the current in an a.c. circuit with very little loss of power because <span class="marks">[1]</span> (NEB 2079 model)
    (a) it has large resistance (b) its reactance limits the current while its resistance is small, so the average power consumed is nearly zero (c) it stores charge (d) it converts a.c. to d.c.
 
 ::: note Answers — 2.19
@@ -853,7 +855,8 @@ original and built to the same pattern — it is practice, not a leaked paper.
 **7.** (b) — $f_0 = \dfrac{1}{2\pi\sqrt{10^{-3}\times10^{-5}}} = \dfrac{1}{2\pi\times10^{-4}} = 1.59\ \text{kHz}$.
 **8.** (b) — "ICE": in a capacitor $I$ leads $V$; in an inductor ($ELI$) $V$ leads $I$.
 **9.** (b) — $Q = \omega_0L/R = 1000\times0.10/10 = 10$.
-**10.** (b) — with $\cos\phi\approx0$, $P = VI\cos\phi\approx0$; a resistor of the same impedance would waste $I^{2}R$ as heat.
+**10.** (b) — power $= V_{rms}I_{rms}\cos\phi$ and only a resistor has $\cos\phi = 1$; in a pure $L$ or $C$ the average power is zero.
+**11.** (b) — with $\cos\phi\approx0$, $P = VI\cos\phi\approx0$; a resistor of the same impedance would waste $I^{2}R$ as heat.
 :::
 
 ## 2.20 Electrons

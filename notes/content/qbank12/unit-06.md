@@ -735,3 +735,802 @@ The reaction is reversible. The air oxidises the sodium sulphide as it forms, 2N
 Every extraction answer follows the same headings: **concentration, roasting (or calcination), smelting or reduction, refining** and the **uses** — write the headings and a balanced equation under each. A "draw the furnace" mark is earned by the labels: charge, blast, tuyères, slag and matte taps. For corrosive sublimate, learn the two-stage reactions with KI and SnCl₂ (a colour change with excess reagent is what the examiner looks for).
 :::
 
+## 6.8 Haloalkanes
+
+CDC allots **8 teaching hours**. Chloroform (trichloromethane) is the examiner's favourite compound in this unit — it appeared in the 2079 model, 2081, 2082 and 2083 papers — followed by nucleophilic substitution (SN1 and SN2) and elimination.
+
+**Short answer questions [5 marks each]**
+
+1. A chemical reaction occurs as CH₃CH₂CH₂Br + KOH(aq) → B + KBr. (a) Identify B. [1] (b) Which substitution mechanism occurs, and why? [1] (c) What is formed if alcoholic KOH is used instead of aqueous KOH? [2] (d) How can nitropropane be obtained from the haloalkane? [1] <span class="marks">[5]</span> (NEB 2082)
+2. Compound A gives a hypnotic (sleep-inducing) drug when heated with acetone in the presence of a base, and forms carbonyl chloride when it is exposed to air. (a) Identify A. [1] (b) How is A formed from ethanol? [2] (c) What happens when A is treated with conc. HNO₃? [1] (d) Convert A into acetylene. [1] <span class="marks">[5]</span> (NEB 2079 model)
+3. Compounds are given as P = C₃H₇Br, Q = C₆H₁₄, R = CH₂O, S = C₂H₄O and T = C₃H₈O (straight-chain compounds). Write reactions to (a) convert P into Q [1], (b) obtain P from T [1], (c) convert P into R and S [3]. <span class="marks">[5]</span> (NEB 2078 model)
+4. Compound A, on heating with silver powder, gives B. B on hydration with dilute H₂SO₄ and HgSO₄ gives C. C reacts with dilute alkali to give D, and C is also obtained by the reduction of ethanoyl chloride with H₂/Pd–BaSO₄. Identify A, B, C and D with the reactions. <span class="marks">[5]</span> (NEB 2083)
+5. (a) Differentiate between SN1 and SN2 reactions. [3] (b) State Saytzeff's rule with an example. [2] <span class="marks">[5]</span>
+
+::: note Model answers — short
+**1.** (a) **B = propan-1-ol**, CH₃CH₂CH₂OH.
+(b) **SN2.** 1-Bromopropane is a primary halide with little steric hindrance, and OH⁻ is a strong nucleophile, so it attacks the carbon from the back in a single step with inversion and no carbocation forms (a primary carbocation is unstable).
+(c) Alcoholic KOH gives **elimination** (dehydrohalogenation): CH₃CH₂CH₂Br + KOH(alc.) → CH₃CH=CH₂ + KBr + H₂O, that is **propene**.
+(d) By heating with silver nitrite: CH₃CH₂CH₂Br + AgNO₂ → CH₃CH₂CH₂NO₂ + AgBr, giving **1-nitropropane**.
+
+**2.** (a) **A = chloroform (trichloromethane), CHCl₃.**
+(b) Ethanol is oxidised by bleaching powder and the ethanal formed is chlorinated to chloral, which is hydrolysed:
+CaOCl₂ + H₂O → Ca(OH)₂ + Cl₂
+CH₃CH₂OH + Cl₂ → CH₃CHO + 2HCl; CH₃CHO + 3Cl₂ → CCl₃CHO + 3HCl
+2CCl₃CHO + Ca(OH)₂ → 2CHCl₃ + (HCOO)₂Ca
+(c) Conc. HNO₃ gives **chloropicrin** (nitrochloroform), a component of tear gas: CHCl₃ + HNO₃ → CCl₃NO₂ + H₂O.
+(d) Heated with silver powder, chloroform gives acetylene: 2CHCl₃ + 6Ag → HC≡CH + 6AgCl.
+
+**3.** P is 1-bromopropane, Q is hexane, R is methanal, S is ethanal and T is propan-1-ol.
+(a) **Wurtz reaction:** 2CH₃CH₂CH₂Br + 2Na → CH₃(CH₂)₄CH₃ + 2NaBr (dry ether).
+(b) T → P: CH₃CH₂CH₂OH + PBr₃ → CH₃CH₂CH₂Br (or HBr/H₂SO₄).
+(c) P → propene with alcoholic KOH: CH₃CH₂CH₂Br + KOH → CH₃CH=CH₂ + KBr + H₂O. Ozonolysis of propene: CH₃CH=CH₂ + O₃ → ozonide, which on hydrolysis with Zn/H₂O gives **CH₃CHO (S) + HCHO (R)**.
+
+**4.** **A = chloroform, CHCl₃**; with silver powder, 2CHCl₃ + 6Ag → **B = ethyne (acetylene)**, HC≡CH + 6AgCl.
+Hydration: HC≡CH + H₂O → (dil. H₂SO₄, HgSO₄, 333 K) CH₃CHO, so **C = ethanal**. (C is also the product of the Rosenmund reduction: CH₃COCl + H₂ → CH₃CHO + HCl over Pd/BaSO₄.)
+Ethanal with dilute alkali undergoes aldol condensation: 2CH₃CHO → CH₃CH(OH)CH₂CHO, so **D = 3-hydroxybutanal (aldol)**.
+
+**5.** (a)
+
+| | SN1 | SN2 |
+|---|---|---|
+| Steps | two steps, through a carbocation | one step, through a transition state |
+| Rate | rate = k[RX] (first order) | rate = k[RX][Nu⁻] (second order) |
+| Favoured by | tertiary halides, polar protic solvent | primary halides, strong nucleophile |
+| Stereochemistry | racemisation | inversion of configuration |
+
+(b) **Saytzeff's rule:** in dehydrohalogenation, the alkene with the **more highly substituted** double bond is the major product. CH₃CH₂CHBrCH₃ + KOH(alc.) → CH₃CH=CHCH₃ (but-2-ene, major) + CH₃CH₂CH=CH₂ (but-1-ene, minor).
+:::
+
+**Long answer questions [8 marks each]**
+
+1. The vapour of an organic compound A causes loss of consciousness and forms a component of tear gas when heated with conc. HNO₃. (a) Prepare A from an isomer of C₂H₆O. [2] (b) What happens when A is (i) exposed to air, (ii) heated with silver powder, (iii) condensed with acetone, (iv) heated with aniline in the presence of alcoholic KOH? [4] (c) Give reasons: ether is stored in a bottle containing iron wire; ethanol, though organic, is soluble in water. [2] <span class="marks">[8]</span> (NEB 2081)
+2. An unsaturated hydrocarbon C₃H₆ adds HBr according to Markovnikov's rule to give A. A on hydrolysis with aqueous alkali gives B. B with PBr₃ gives C. C reacts with AgCN (alcoholic) to give D, which on reduction with LiAlH₄ gives E. (a) Define Markovnikov's rule. [1] (b) Identify A, B, C, D and E with the reactions. [5] (c) How does E react with nitrous acid? [1] (d) Convert B into propane. [1] <span class="marks">[8]</span> (NEB 2079)
+
+::: note Model answers — long
+**1.** A is **chloroform**, CHCl₃ (anaesthetic vapour; conc. HNO₃ gives chloropicrin, the tear-gas component).
+(a) The isomer is **ethanol** (the other isomer, methoxymethane, cannot be used). CaOCl₂ + H₂O → Ca(OH)₂ + Cl₂; CH₃CH₂OH + Cl₂ → CH₃CHO + 2HCl; CH₃CHO + 3Cl₂ → CCl₃CHO + 3HCl; 2CCl₃CHO + Ca(OH)₂ → 2CHCl₃ + (HCOO)₂Ca.
+(b) (i) In air and light chloroform is oxidised to the poisonous **phosgene**: 2CHCl₃ + O₂ → 2COCl₂ + 2HCl. (ii) With silver powder it gives **ethyne**: 2CHCl₃ + 6Ag → HC≡CH + 6AgCl. (iii) With acetone in the presence of a base it gives **chloretone**, a hypnotic: (CH₃)₂CO + CHCl₃ → (CH₃)₂C(OH)CCl₃. (iv) With aniline and alcoholic KOH it gives **phenyl isocyanide** (carbylamine reaction), a foul-smelling liquid: C₆H₅NH₂ + CHCl₃ + 3KOH → C₆H₅NC + 3KCl + 3H₂O.
+(c) Ether is stored over **iron wire** because, on standing in air and light, ether forms explosive peroxides; iron reduces these peroxides. **Ethanol dissolves in water** because its –OH group forms hydrogen bonds with water molecules, so the small non-polar ethyl group cannot prevent miscibility.
+
+**2.** (a) **Markovnikov's rule:** when an unsymmetrical reagent HX adds to an unsymmetrical alkene, the hydrogen adds to the carbon that already carries more hydrogens and the halogen to the carbon with fewer hydrogens.
+(b) CH₃CH=CH₂ + HBr → **A = 2-bromopropane**, CH₃CHBrCH₃.
+A + aq. KOH → **B = propan-2-ol**, CH₃CH(OH)CH₃.
+B + PBr₃ → **C = 2-bromopropane**, CH₃CHBrCH₃ (3CH₃CH(OH)CH₃ + PBr₃ → 3CH₃CHBrCH₃ + H₃PO₃).
+C + AgCN(alc.) → **D = isopropyl isocyanide** (2-isocyanopropane), (CH₃)₂CH–NC + AgBr: silver cyanide is covalent, so the attack is through nitrogen.
+D + LiAlH₄ (or H₂/Ni) → **E = N-methylpropan-2-amine**, (CH₃)₂CH–NH–CH₃.
+(c) E is a secondary amine; with HNO₂ (NaNO₂ + HCl) it gives a yellow oily **N-nitrosoamine**: (CH₃)₂CH–NH–CH₃ + HNO₂ → (CH₃)₂CH–N(NO)–CH₃ + H₂O.
+(d) B → C (with PBr₃) → propane by reduction: CH₃CHBrCH₃ + Zn + HCl → CH₃CH₂CH₃ + ZnBrCl (or heat B with HI and red phosphorus).
+:::
+
+**Most repeated in Haloalkanes:** chloroform — preparation from ethanol, phosgene, chloretone, chloropicrin, acetylene (2079 model, 2081, 2082, 2083); SN1/SN2 and elimination with alcoholic KOH (2082, model set A); the "identify A–E" chain through Markovnikov addition (2079, 2078 model).
+
+::: tip Examiner's note — Haloalkanes
+Name the **medium** in every substitution–elimination answer: aqueous KOH gives the alcohol, alcoholic KOH the alkene, KCN the nitrile, AgCN the isocyanide and AgNO₂ the nitroalkane. For chloroform list the five reactions in order — air (phosgene), Ag (acetylene), acetone (chloretone), HNO₃ (chloropicrin), aniline/KOH (isocyanide) — and keep each to one balanced equation.
+:::
+
+## 6.9 Haloarenes
+
+CDC allots **3 teaching hours**. The unit is short but supplies a regular one- or two-mark part: DDT, the lower reactivity of chlorobenzene, the Sandmeyer route and the Fittig reactions.
+
+**Short answer questions [5 marks each]**
+
+1. An aromatic compound A contains one chlorine on the ring. A reacts with trichloroethanal in the presence of conc. H₂SO₄ to give an insecticide B, and A reacts with ethanoyl chloride in the presence of anhydrous AlCl₃ to give C. (a) Obtain A from benzenediazonium chloride. [1] (b) Identify B and C. [2] (c) Why does aqueous NaOH react less readily with A than with chloroethane? [2] <span class="marks">[5]</span> (NEB 2078 model)
+2. How will you carry out the following conversions? (a) Phenol into DDT. [3] (b) Aniline into chlorobenzene. [2] <span class="marks">[5]</span> (NEB 2082)
+3. Write equations for (a) the Fittig reaction, (b) the Wurtz–Fittig reaction, (c) the nitration of chlorobenzene, and say which positions the chlorine directs to. [1+1+2+1] <span class="marks">[5]</span> (NEB 2082 for (b))
+
+::: note Model answers — short
+**1.** A is **chlorobenzene**, C₆H₅Cl.
+(a) C₆H₅N₂Cl + CuCl/HCl → C₆H₅Cl + N₂ (Sandmeyer reaction); Cu powder and HCl give the same product (Gattermann reaction).
+(b) **B = DDT**, 2C₆H₅Cl + CCl₃CHO → (conc. H₂SO₄) (ClC₆H₄)₂CH–CCl₃ + H₂O (1,1,1-trichloro-2,2-bis(4-chlorophenyl)ethane). **C = 4-chloroacetophenone**, ClC₆H₄COCH₃ (Friedel–Crafts acylation; the para isomer is the major product).
+(c) In chlorobenzene the carbon–chlorine bond is shorter and stronger than in chloroethane: the carbon is sp² hybridised, and the lone pair on chlorine is delocalised into the ring by resonance, giving the C–Cl bond partial double-bond character. The electron-rich ring also repels the approaching OH⁻ nucleophile, and the phenyl cation needed for SN1 is unstable. The haloalkane has none of these effects, so substitution is easy.
+
+**2.** (a) Phenol → benzene → chlorobenzene → DDT.
+C₆H₅OH + Zn → C₆H₆ + ZnO (distil with zinc dust)
+C₆H₆ + Cl₂ → (anhyd. FeCl₃) C₆H₅Cl + HCl
+2C₆H₅Cl + CCl₃CHO → (conc. H₂SO₄) DDT + H₂O
+(b) Aniline → diazonium salt → chlorobenzene (Sandmeyer): C₆H₅NH₂ + NaNO₂ + 2HCl → (273–278 K) C₆H₅N₂Cl + NaCl + 2H₂O; C₆H₅N₂Cl + CuCl → C₆H₅Cl + N₂.
+
+**3.** (a) **Fittig reaction:** 2C₆H₅Br + 2Na → C₆H₅–C₆H₅ (biphenyl) + 2NaBr (dry ether).
+(b) **Wurtz–Fittig reaction:** C₆H₅Br + CH₃Br + 2Na → C₆H₅CH₃ (toluene) + 2NaBr.
+(c) C₆H₅Cl + HNO₃ → (conc. H₂SO₄) 4-nitrochlorobenzene (major) + 2-nitrochlorobenzene (minor) + H₂O. Chlorine is deactivating by its −I effect but **ortho–para directing** because its lone pairs donate by resonance.
+:::
+
+**Long answer questions [8 marks each]**
+
+1. (a) Explain why chlorobenzene is less reactive than chloroethane towards nucleophilic substitution. [3] (b) How is chlorobenzene prepared from benzene and from benzenediazonium chloride? [3] (c) Write the reaction by which DDT is made and give one use and one harmful effect of DDT. [2] <span class="marks">[8]</span>
+
+::: note Model answers — long
+**1.** (a) The lower reactivity of chlorobenzene has three causes. (i) **Resonance:** the lone pair of chlorine is delocalised into the benzene ring, so the C–Cl bond has partial double-bond character and is stronger and shorter (about 169 pm against 177 pm in chloroethane). (ii) **Hybridisation:** the carbon bearing chlorine is sp² (more electronegative, holding the bond electrons closer) and not sp³. (iii) The electron-rich π cloud **repels an incoming nucleophile**, and the phenyl cation needed for SN1 is unstable, while backside attack for SN2 is blocked by the ring.
+(b) **From benzene:** C₆H₆ + Cl₂ → (anhydrous FeCl₃, dark) C₆H₅Cl + HCl. **From benzenediazonium chloride** (Sandmeyer): C₆H₅N₂Cl + CuCl/HCl → C₆H₅Cl + N₂; (Gattermann): C₆H₅N₂Cl + Cu/HCl → C₆H₅Cl + N₂.
+(c) 2C₆H₅Cl + CCl₃CHO → (conc. H₂SO₄) (ClC₆H₄)₂CH–CCl₃ + H₂O. **Use:** an insecticide used against mosquitoes and in malaria control. **Harm:** it is not biodegradable, accumulates in the food chain, and thins the eggshells of birds; its use has been restricted.
+:::
+
+**Most repeated in Haloarenes:** chlorobenzene with chloral to give DDT (2078 model, 2081 MCQ, 2082, 2083); low reactivity towards nucleophiles (2078 model); Sandmeyer route (2078 model, 2082); Wurtz–Fittig (2082).
+
+::: tip Examiner's note — Haloarenes
+Give **two** reasons (resonance and sp² hybridisation) whenever the question asks why chlorobenzene is unreactive, and mention that the reaction needs harsh conditions (623 K, 300 atm, for phenol). For DDT write the structure with the two *para*-chlorophenyl groups and the CCl₃ group.
+:::
+
+## 6.10 Alcohols
+
+CDC allots **7 teaching hours**. Victor Meyer's test to distinguish 1°, 2° and 3° alcohols is the most repeated organic question in the syllabus: it was set in the 2078 model, 2079 model, 2081 and 2083 papers. Fermentation and the industrial preparations come next.
+
+**Short answer questions [5 marks each]**
+
+1. Give an example of a primary and a secondary alcohol. How is Victor Meyer's test applied to distinguish between them? [1+4] <span class="marks">[5]</span> (NEB 2081, 2083, 2078 model, 2079 model)
+2. Ethyl alcohol is made from sugar-containing materials such as molasses by fermentation. (a) Define fermentation. [1] (b) What is molasses? [1] (c) State the function of yeast. [1] (d) Write the reactions for the conversion of cane sugar into ethyl alcohol. [1] (e) Give one difference between absolute alcohol and denatured alcohol. [1] <span class="marks">[5]</span> (NEB 2079)
+3. A primary alcohol has a molecular mass of 46. Write the reaction of this alcohol with (a) NaOH and I₂, (b) ethanoic acid and conc. H₂SO₄, (c) conc. H₂SO₄, and (d) state how it is distinguished from methanol. [1+1+2+1] <span class="marks">[5]</span> (NEB 2078 model)
+4. Write the structural formula and IUPAC name of a tertiary alcohol of formula C₄H₁₀O, and all isomeric alcohols of C₃H₈O with their IUPAC names. [1+2] How are the C₃H₈O isomers distinguished? [2] <span class="marks">[5]</span> (NEB 2078 model, 2079 model)
+5. Explain (a) the oxo process for the manufacture of propan-1-ol, (b) hydroboration–oxidation of ethene, and (c) the terms absolute alcohol, power alcohol and rectified spirit. [2+1+2] <span class="marks">[5]</span> (NEB 2079, 2083 for (a), (b))
+
+::: note Model answers — short
+**1.** Primary: ethanol, CH₃CH₂OH. Secondary: propan-2-ol, (CH₃)₂CHOH.
+**Victor Meyer's test.** The alcohol is converted into its iodide, then the nitroalkane, then treated with nitrous acid and made alkaline:
+
+| Step | Primary (R–CH₂OH) | Secondary (R₂CHOH) | Tertiary (R₃COH) |
+|---|---|---|---|
+| 1. Red P + I₂ | R–CH₂I | R₂CHI | R₃CI |
+| 2. AgNO₂ | R–CH₂NO₂ (nitroalkane) | R₂CH–NO₂ | alkene or nitrite (no nitro compound) |
+| 3. HNO₂ (NaNO₂ + H₂SO₄) | R–C(NO₂)=NOH, nitrolic acid | R₂C(NO₂)–NO, pseudonitrole | no reaction |
+| 4. NaOH | **blood-red** solution | **blue** solution | **colourless** |
+
+For a 1° alcohol, CH₃CH₂OH → CH₃CH₂I → CH₃CH₂NO₂ → CH₃C(NO₂)=NOH (ethyl nitrolic acid) → red sodium salt. For a 2° alcohol, (CH₃)₂CHOH → (CH₃)₂CHI → (CH₃)₂CHNO₂ → (CH₃)₂C(NO₂)NO (pseudonitrole) → blue. The red or blue colour therefore tells primary from secondary.
+
+**2.** (a) **Fermentation** is the slow decomposition of complex organic compounds such as sugars into simpler ones, with the evolution of a gas, by the action of enzymes from micro-organisms.
+(b) **Molasses** is the dark, viscous mother liquor left after the crystallisation of sugar from sugar-cane juice; it still holds about 40–50 % fermentable sugar.
+(c) Yeast supplies the enzymes **invertase** and **zymase** that catalyse the conversion.
+(d) C₁₂H₂₂O₁₁ + H₂O → (invertase) C₆H₁₂O₆ (glucose) + C₆H₁₂O₆ (fructose); C₆H₁₂O₆ → (zymase) 2C₂H₅OH + 2CO₂.
+(e) **Absolute alcohol** is 100 % ethanol; **denatured alcohol** is ethanol made unfit for drinking by adding methanol, pyridine or a dye, so it is sold without the heavy excise duty.
+
+**3.** The primary alcohol of M = 46 is **ethanol**.
+(a) C₂H₅OH + 4I₂ + 6NaOH → CHI₃↓ (yellow) + HCOONa + 5NaI + 5H₂O (iodoform test).
+(b) CH₃COOH + C₂H₅OH ⇌ CH₃COOC₂H₅ + H₂O (conc. H₂SO₄, warm): ethyl ethanoate, a fruity-smelling ester.
+(c) With conc. H₂SO₄ at 443 K, dehydration gives ethene: C₂H₅OH → CH₂=CH₂ + H₂O; at 413 K with excess alcohol, ethoxyethane: 2C₂H₅OH → C₂H₅OC₂H₅ + H₂O.
+(d) Ethanol gives the yellow iodoform precipitate with I₂/NaOH, methanol does not (it has no CH₃CH(OH)– group).
+
+**4.** The tertiary alcohol of C₄H₁₀O is (CH₃)₃C–OH, **2-methylpropan-2-ol**. The isomers of C₃H₈O that are alcohols are CH₃CH₂CH₂OH, **propan-1-ol**, and CH₃CH(OH)CH₃, **propan-2-ol** (the third isomer, methoxyethane, is an ether). They are distinguished by **Victor Meyer's test**: propan-1-ol gives a blood-red colour (nitrolic acid sodium salt) and propan-2-ol a blue colour (pseudonitrole).
+
+**5.** (a) The **oxo process** converts an alkene to an aldehyde with carbon monoxide and hydrogen, and then reduces the aldehyde: CH₃CH=CH₂ + CO + H₂ → (Co₂(CO)₈, 420 K, 100 atm) CH₃CH₂CH₂CHO → (H₂, Ni) CH₃CH₂CH₂CH₂OH (butan-1-ol); with ethene the product is propan-1-ol.
+(b) **Hydroboration–oxidation:** 6CH₂=CH₂ + B₂H₆ → 2(CH₃CH₂)₃B; (CH₃CH₂)₃B + 3H₂O₂ + NaOH → 3CH₃CH₂OH + Na₃BO₃ (anti-Markovnikov addition of water).
+(c) **Absolute alcohol:** 100 % ethanol. **Power alcohol:** a mixture of ethanol (about 20 %) and petrol used as a motor fuel. **Rectified spirit:** ethanol of about 95 % purity (the azeotrope with water) obtained by fractional distillation.
+:::
+
+**Long answer questions [8 marks each]**
+
+1. (a) Describe the preparation of ethanol by (i) the hydrolysis of a haloalkane, (ii) the reduction of ethanal and (iii) the fermentation of glucose. [3] (b) Describe the action of ethanol with (i) sodium, (ii) PCl₅, (iii) conc. H₂SO₄ at two temperatures, (iv) acidified K₂Cr₂O₇, and (v) heated copper at 573 K. [5] <span class="marks">[8]</span>
+
+::: note Model answers — long
+**1.** (a) (i) C₂H₅Br + KOH(aq) → C₂H₅OH + KBr. (ii) CH₃CHO + H₂ → (Ni) C₂H₅OH, or with LiAlH₄. (iii) C₆H₁₂O₆ → (zymase, 303 K) 2C₂H₅OH + 2CO₂.
+(b) (i) **Sodium:** 2C₂H₅OH + 2Na → 2C₂H₅ONa + H₂↑ (sodium ethoxide; shows the weak acidic nature). (ii) **PCl₅:** C₂H₅OH + PCl₅ → C₂H₅Cl + POCl₃ + HCl↑ (white fumes; a test for –OH). (iii) **Conc. H₂SO₄:** at 443 K, C₂H₅OH → CH₂=CH₂ + H₂O; at 413 K with excess alcohol, 2C₂H₅OH → C₂H₅OC₂H₅ + H₂O. (iv) **Acidified K₂Cr₂O₇:** a primary alcohol is oxidised to the aldehyde and then the acid: CH₃CH₂OH → (O) CH₃CHO → (O) CH₃COOH (the orange Cr₂O₇²⁻ turns green Cr³⁺). (v) **Heated copper at 573 K:** catalytic dehydrogenation, CH₃CH₂OH → CH₃CHO + H₂ (a secondary alcohol gives a ketone and a tertiary alcohol gives an alkene).
+:::
+
+**Most repeated in Alcohols:** Victor Meyer's test (2078 model, 2079 model, 2081, 2083); fermentation and the types of alcohol (2079); the reactions of ethanol — iodoform, esterification, dehydration (2078 model); the oxo process and hydroboration–oxidation (2079, 2083).
+
+::: tip Examiner's note — Alcohols
+In Victor Meyer's test write **all four steps** and the colours: red (primary), blue (secondary), colourless (tertiary). A missing step costs a mark each; the colours alone score only the last mark. For oxidation questions state the oxidant and the product at each stage.
+:::
+
+## 6.11 Phenols
+
+CDC allots **4 teaching hours**. Phenol appears in short parts about its acidity, its preparation, the named reactions (Reimer–Tiemann, Kolbe) and its tests.
+
+**Short answer questions [5 marks each]**
+
+1. (a) Give the chemical reaction for the preparation of phenol from chlorobenzene. [2] (b) Why is phenol nitrated more easily than benzene? [2] (c) How is phenol converted into phenolphthalein? [1] <span class="marks">[5]</span> (NEB model set A)
+2. (a) Phenol is more acidic than ethanol but less acidic than ethanoic acid. Explain. [3] (b) How can phenol be distinguished from a carboxylic acid? [2] <span class="marks">[5]</span> (NEB 2079 MCQ for (b))
+3. Write one equation each for (a) the Reimer–Tiemann reaction, (b) Kolbe's reaction, (c) the coupling of phenol with benzenediazonium chloride, (d) the reaction of phenol with zinc dust, (e) the reaction of phenol with aqueous bromine. <span class="marks">[5]</span> (NEB 2082 for (a))
+4. Describe the FeCl₃ test, the bromine water test and the Liebermann test for phenol. <span class="marks">[5]</span>
+
+::: note Model answers — short
+**1.** (a) **Dow's process:** C₆H₅Cl + 2NaOH → (623 K, 300 atm) C₆H₅ONa + NaCl + H₂O; C₆H₅ONa + HCl → C₆H₅OH + NaCl.
+(b) The –OH group is a strong activating group: its lone pair is delocalised into the ring (+M effect), raising the electron density at the ortho and para positions. The ring therefore attacks the NO₂⁺ electrophile more readily, and phenol is nitrated by dilute HNO₃ at room temperature, whereas benzene needs a conc. HNO₃–H₂SO₄ mixture.
+(c) Two molecules of phenol condense with phthalic anhydride in conc. H₂SO₄: 2C₆H₅OH + C₆H₄(CO)₂O → (conc. H₂SO₄) phenolphthalein + H₂O.
+
+**2.** (a) **Acidity order:** ethanoic acid > phenol > ethanol. In ethanol the ethoxide ion has the charge on oxygen with an electron-releasing ethyl group, so it is unstable and ethanol is very weakly acidic. In phenol the phenoxide ion is stabilised by **resonance**, the negative charge being spread over the ring, so phenol (pKa ≈ 10) is more acidic than ethanol (pKa ≈ 16) and dissolves in NaOH. In ethanoate the charge is shared equally by two oxygen atoms (resonance), a more effective delocalisation, so ethanoic acid (pKa 4.76) is stronger still.
+(b) **NaHCO₃ test:** a carboxylic acid liberates CO₂ with effervescence; phenol is too weak an acid and gives none. (Phenol gives a violet colour with neutral FeCl₃, which carboxylic acids do not.)
+
+**3.** (a) **Reimer–Tiemann:** C₆H₅OH + CHCl₃ + 3NaOH → o-HOC₆H₄CHO (salicylaldehyde) + 3NaCl + 2H₂O.
+(b) **Kolbe:** C₆H₅ONa + CO₂ → (400 K, 4–7 atm) o-HOC₆H₄COONa → (H⁺) salicylic acid.
+(c) **Coupling:** C₆H₅N₂Cl + C₆H₅OH → (alkaline, 273 K) p-HOC₆H₄–N=N–C₆H₅ + HCl (p-hydroxyazobenzene, an orange dye).
+(d) C₆H₅OH + Zn → C₆H₆ + ZnO.
+(e) C₆H₅OH + 3Br₂ → 2,4,6-tribromophenol (white precipitate) + 3HBr.
+
+**4.** **FeCl₃ test:** a few drops of neutral FeCl₃ with phenol give a violet (purple) colour because of a complex, [Fe(OC₆H₅)₆]³⁻. **Bromine water test:** aqueous bromine is decolourised and a white precipitate of 2,4,6-tribromophenol forms at once. **Liebermann test:** phenol is warmed with conc. H₂SO₄ and a crystal of NaNO₂; a deep green or blue colour forms that turns red on dilution with water and green or blue again on adding alkali.
+:::
+
+**Long answer questions [8 marks each]**
+
+1. (a) Describe three methods of preparing phenol (from chlorobenzene, from benzenediazonium chloride, from benzene sulphonic acid). [3] (b) Explain the acidic nature of phenol by comparison with alcohol and water. [3] (c) Write the nitration and bromination of phenol. [2] <span class="marks">[8]</span>
+
+::: note Model answers — long
+**1.** (a) (i) **From chlorobenzene:** C₆H₅Cl + 2NaOH → (623 K, 300 atm) C₆H₅ONa + NaCl + H₂O, then HCl gives phenol. (ii) **From diazonium salt:** C₆H₅N₂Cl + H₂O → (warm, 283 K) C₆H₅OH + N₂ + HCl. (iii) **From benzene sulphonic acid:** C₆H₅SO₃H + 2NaOH → (fusion, 573 K) C₆H₅ONa + Na₂SO₃ + H₂O, then C₆H₅ONa + HCl → C₆H₅OH.
+(b) Phenol reacts with NaOH and with sodium: C₆H₅OH + NaOH → C₆H₅ONa + H₂O, but not with NaHCO₃. Phenol is **more acidic than water and alcohol** because its conjugate base, the phenoxide ion, is stabilised by resonance; in an alkoxide the negative charge on oxygen is intensified by the electron-releasing alkyl group. Water has pKa 15.7, ethanol 16, phenol about 10. Phenol is a weaker acid than carbonic acid, so it does not liberate CO₂ from carbonates.
+(c) **Nitration:** C₆H₅OH + dil. HNO₃ → o-nitrophenol + p-nitrophenol + H₂O (conc. HNO₃/H₂SO₄ gives picric acid, 2,4,6-trinitrophenol). **Bromination:** C₆H₅OH + 3Br₂ → 2,4,6-tribromophenol↓ + 3HBr (in water); in CS₂ at low temperature, p-bromophenol is the main product.
+:::
+
+**Most repeated in Phenols:** Reimer–Tiemann reaction (2079, 2082, model set A, 2083); phenol against carboxylic acid (2079 MCQ); the nitration and acidity of phenol (model set A); phenol to DDT or to benzene (2082).
+
+::: tip Examiner's note — Phenols
+For "why is phenol acidic" write the word **resonance** and draw or describe the delocalisation of the negative charge into the ring — without it the answer scores half. For the named reactions write the conditions (NaOH/CHCl₃ for Reimer–Tiemann; CO₂ at 400 K and 4–7 atm for Kolbe).
+:::
+
+## 6.12 Ethers
+
+CDC allots **2 teaching hours**. Expect a three-mark part on Williamson's synthesis, and the behaviour of ethoxyethane with HI and with air.
+
+**Short answer questions [5 marks each]**
+
+1. Convert ethoxyethane from a haloalkane C₂H₅Br using Williamson's reaction. (a) What product is obtained when ethoxyethane is heated with excess HI? [1] (b) Why are old samples of ether not distilled to dryness in air? [2] (c) Convert phenol into anisole. [2] <span class="marks">[5]</span> (NEB 2079)
+2. (a) Give reasons: ether is stored in a bottle containing iron wire; ethanol, though organic, is soluble in water. [2] (b) Write the action of ethoxyethane with cold HI, conc. H₂SO₄ and chlorine in sunlight. [3] <span class="marks">[5]</span> (NEB 2081 for (a))
+3. Starting from ethoxyethane, propanamine, ethyl cyanide, iodoethane and ethanol, prepare a correct sequence of reactions with suitable conditions. <span class="marks">[5]</span> (NEB 2083)
+
+::: note Model answers — short
+**1.** **Williamson's synthesis:** C₂H₅Br + C₂H₅ONa → C₂H₅OC₂H₅ + NaBr, with sodium ethoxide from 2C₂H₅OH + 2Na → 2C₂H₅ONa + H₂.
+(a) Heated with excess HI, ethoxyethane gives two molecules of iodoethane: C₂H₅OC₂H₅ + 2HI → 2C₂H₅I + H₂O.
+(b) On exposure to air and light ether forms **explosive peroxides**, which have higher boiling points and concentrate in the residue; if the ether is distilled to dryness the peroxide residue may explode.
+(c) Phenol with NaOH gives sodium phenoxide, which with CH₃Br (Williamson) gives anisole: C₆H₅OH + NaOH → C₆H₅ONa + H₂O; C₆H₅ONa + CH₃Br → C₆H₅OCH₃ + NaBr.
+
+**2.** (a) Ether forms peroxides by auto-oxidation in air; **iron wire** reduces the peroxides as they form. **Ethanol dissolves in water** because it forms hydrogen bonds with water through its –OH group.
+(b) **Cold HI:** C₂H₅OC₂H₅ + HI → C₂H₅OH + C₂H₅I. **Conc. H₂SO₄ (cold):** ether dissolves as an oxonium salt, [(C₂H₅)₂OH]⁺HSO₄⁻, because the oxygen lone pair can accept a proton. **Cl₂ in sunlight:** substitution at the carbon next to oxygen, C₂H₅OC₂H₅ + 10Cl₂ → C₂Cl₅OC₂Cl₅ + 10HCl (perchloroethoxyethane with excess chlorine).
+
+**3.** One correct sequence: ethoxyethane → iodoethane → ethyl cyanide → propanamine, with ethanol as the second product of the first step.
+C₂H₅OC₂H₅ + HI(cold) → C₂H₅I + C₂H₅OH
+C₂H₅I + KCN(alc.) → C₂H₅CN + KI
+C₂H₅CN + 4[H] → (LiAlH₄ or H₂/Ni) C₂H₅CH₂NH₂ (propanamine)
+Ethanol is also the starting point for iodoethane: C₂H₅OH + HI → C₂H₅I + H₂O, which closes the list.
+:::
+
+**Long answer questions [8 marks each]**
+
+1. (a) Describe Williamson's synthesis and use it to prepare ethoxyethane and anisole. [3] (b) Write the action of ethoxyethane with (i) excess hot HI, (ii) cold conc. H₂SO₄, (iii) air and (iv) chlorine. [3] (c) State two uses of ethers. [2] <span class="marks">[8]</span> (NEB 2079, 2081, 2082, 2083 for parts)
+
+::: note Model answers — long
+**1.** (a) **Williamson's synthesis** is the reaction of a **sodium alkoxide (or phenoxide) with a primary alkyl halide**, which gives an ether by SN2 substitution: R–ONa + R′–X → R–O–R′ + NaX. *Ethoxyethane:* C₂H₅ONa + C₂H₅Br → C₂H₅OC₂H₅ + NaBr. *Anisole:* C₆H₅ONa + CH₃Br → C₆H₅OCH₃ + NaBr (the phenoxide from phenol and NaOH). A tertiary halide cannot be used, because the strongly basic alkoxide would eliminate HX to give an alkene.
+(b) (i) C₂H₅OC₂H₅ + 2HI → (hot, excess) 2C₂H₅I + H₂O. (ii) Cold conc. H₂SO₄ dissolves ether as an oxonium salt, (C₂H₅)₂O + H₂SO₄ → [(C₂H₅)₂OH]⁺HSO₄⁻, which is how ether is separated from alkanes. (iii) **Air and light:** ether slowly forms explosive peroxides, so it is stored over iron wire and away from light. (iv) **Chlorine** in sunlight substitutes the hydrogen on the carbons next to oxygen, finally giving C₂Cl₅OC₂Cl₅.
+(c) Ethers are used as solvents for fats, oils and Grignard reagents, and diethyl ether was the first general anaesthetic; it is also used as a fuel starter for engines.
+:::
+
+**Most repeated in Ethers:** Williamson's synthesis (2079, 2081, 2082, 2083 lists); peroxide formation and the iron wire (2079, 2081); action of HI (2079).
+
+::: tip Examiner's note — Ethers
+Williamson's synthesis needs a **primary** halide; write "sodium alkoxide + alkyl halide" and give the by-product NaX. With HI always say which alkyl group takes the iodine: the smaller group, unless one is aryl, in which case the product is phenol and an alkyl iodide.
+:::
+
+## 6.13 Aldehydes and Ketones
+
+CDC allots **10 teaching hours**, the largest organic unit, and it supplies the most questions of any unit. Two items recur in nearly every paper: the five-part "write an equation for each named reaction" question (2079, 2081, 2082, 2083) and the X–Y–Z identification chain built on the iodoform test (2079 model, 2081 MCQ, 2082, model set A).
+
+**Short answer questions [5 marks each]**
+
+1. A carbonyl compound M contains three carbon atoms and undergoes the iodoform test. (a) Identify M. [1] (b) Write a reaction for its preparation. [1] (c) How is M converted into propane? [1] (d) Predict the final product when M is treated with CH₃MgBr in dry ether followed by hydrolysis. [1] (e) Give a laboratory test reaction of a carbonyl compound. [1] <span class="marks">[5]</span> (NEB 2079; the reagent in (d) re-set)
+2. Write a chemical equation for each of (i) carbonylation, (ii) Fehling's test, (iii) aldol condensation, (iv) Williamson's ether synthesis and (v) the 2,4-DNP test. <span class="marks">[5]</span> (NEB 2081)
+3. Give an example of each of (a) Tollens' test, (b) Cannizzaro's reaction, (c) decarbonylation, (d) the Reimer–Tiemann reaction and (e) the oxo process. <span class="marks">[5]</span> (NEB 2083)
+4. Write the products when propanone reacts with (a) Zn–Hg/conc. HCl, (b) NH₂NH₂ followed by KOH in glycol, (c) LiAlH₄, (d) PCl₅, (e) NaHSO₃. <span class="marks">[5]</span>
+5. An organic compound X reacts with methyl magnesium bromide followed by acid hydrolysis to give Y. Y on oxidation with acidified KMnO₄ gives Z. All three give a positive iodoform test. (a) Predict X, Y and Z with the reactions and IUPAC names. [3] (b) What is obtained when Z reacts with dilute NaOH? [2] <span class="marks">[5]</span> (NEB 2079 model)
+6. Make a correct sequence of reactions, with suitable reagents and conditions, from the following compounds: benzoin, toluene, benzenediazonium chloride, phenol, benzaldehyde and benzene. <span class="marks">[5]</span> (NEB 2081)
+
+::: note Model answers — short
+**1.** (a) **M = propanone (acetone)**, CH₃COCH₃ (it has the CH₃CO– group).
+(b) Oxidation of propan-2-ol: CH₃CH(OH)CH₃ + [O] → (K₂Cr₂O₇/H₂SO₄) CH₃COCH₃ + H₂O; or dehydrogenation over hot copper at 573 K.
+(c) **Clemmensen reduction:** CH₃COCH₃ + 4[H] → (Zn–Hg, conc. HCl) CH₃CH₂CH₃ + H₂O (or Wolff–Kishner).
+(d) CH₃COCH₃ + CH₃MgBr → (CH₃)₂C(OMgBr)CH₃; H₂O/H⁺ → **(CH₃)₃C–OH, 2-methylpropan-2-ol**, a tertiary alcohol.
+(e) **2,4-DNP test:** propanone gives an orange-yellow precipitate of 2,4-dinitrophenylhydrazone (all carbonyl compounds give it).
+
+**2.** (i) **Carbonylation:** CH₃ONa + CO → (425 K, 3 atm) CH₃COONa. (ii) **Fehling's test:** CH₃CHO + 2Cu²⁺ + 5OH⁻ → CH₃COO⁻ + Cu₂O↓ (red) + 3H₂O. (iii) **Aldol:** 2CH₃CHO → (dil. NaOH) CH₃CH(OH)CH₂CHO. (iv) **Williamson:** C₂H₅ONa + C₂H₅Br → C₂H₅OC₂H₅ + NaBr. (v) **2,4-DNP:** CH₃CHO + H₂N–NH–C₆H₃(NO₂)₂ → CH₃CH=N–NH–C₆H₃(NO₂)₂ + H₂O (yellow-orange precipitate).
+
+**3.** (a) **Tollens':** CH₃CHO + 2[Ag(NH₃)₂]OH → CH₃COONH₄ + 2Ag↓ (silver mirror) + 3NH₃ + H₂O. (b) **Cannizzaro:** 2HCHO + NaOH(conc.) → CH₃OH + HCOONa. (c) **Decarbonylation** (loss of CO): CH₃CH₂CHO → (Pd or Rh catalyst, heat) CH₃CH₃ + CO. (d) **Reimer–Tiemann:** C₆H₅OH + CHCl₃ + 3NaOH → o-HOC₆H₄CHO + 3NaCl + 2H₂O. (e) **Oxo process:** CH₂=CH₂ + CO + H₂ → (Co₂(CO)₈, 420 K, 100 atm) CH₃CH₂CHO, which is reduced to propan-1-ol.
+
+**4.** (a) Clemmensen: propane, CH₃CH₂CH₃. (b) Wolff–Kishner: propane (via the hydrazone, with loss of N₂). (c) LiAlH₄: propan-2-ol, CH₃CH(OH)CH₃. (d) PCl₅: 2,2-dichloropropane, CH₃CCl₂CH₃ + POCl₃. (e) NaHSO₃: the white crystalline bisulphite addition compound, (CH₃)₂C(OH)SO₃Na.
+
+**5.** (a) **X = ethanal**, CH₃CHO; **Y = propan-2-ol**, CH₃CH(OH)CH₃; **Z = propanone**, CH₃COCH₃.
+CH₃CHO + CH₃MgBr → CH₃CH(OMgBr)CH₃ (dry ether); CH₃CH(OMgBr)CH₃ + H₂O → CH₃CH(OH)CH₃ + Mg(OH)Br.
+CH₃CH(OH)CH₃ + [O] → (acidified KMnO₄) CH₃COCH₃ + H₂O.
+Each compound contains CH₃CO– (ethanal, propanone) or CH₃CH(OH)– (propan-2-ol), so all give yellow iodoform.
+(b) Propanone with dilute NaOH undergoes aldol condensation: 2CH₃COCH₃ → (CH₃)₂C(OH)CH₂COCH₃, **diacetone alcohol (4-hydroxy-4-methylpentan-2-one)**.
+
+**6.** Benzene → benzenediazonium chloride → phenol → benzene → toluene → benzaldehyde → benzoin:
+1. C₆H₆ → (conc. HNO₃ + conc. H₂SO₄, 330 K) C₆H₅NO₂ → (Sn/HCl) C₆H₅NH₂ → (NaNO₂/HCl, 273 K) **C₆H₅N₂Cl**.
+2. C₆H₅N₂Cl + H₂O → (warm) **C₆H₅OH** + N₂ + HCl.
+3. C₆H₅OH + Zn (dust, heat) → **C₆H₆** + ZnO.
+4. C₆H₆ + CH₃Cl → (anhydrous AlCl₃) **C₆H₅CH₃** + HCl (Friedel–Crafts alkylation).
+5. C₆H₅CH₃ + CrO₂Cl₂ → (CS₂) chromium complex → (H₃O⁺) **C₆H₅CHO** (Etard reaction).
+6. 2C₆H₅CHO → (alcoholic KCN, warm) **C₆H₅CH(OH)COC₆H₅, benzoin** (benzoin condensation).
+:::
+
+**Long answer questions [8 marks each]**
+
+1. Give one example, with reagents and conditions, of each of the following reactions. (a) Hydroboration–oxidation, (b) decarbonylation, (c) Sandmeyer's reaction, (d) iodoform reaction, (e) an elimination reaction, (f) Cannizzaro's reaction, (g) Reimer–Tiemann reaction, (h) Friedel–Crafts alkylation. [8 × 1] <span class="marks">[8]</span> (NEB 2079)
+2. An organic compound X reacts with Grignard's reagent to give Y, which on oxidation gives Z. All three give a positive iodoform test. (a) Identify X, Y and Z with the reactions and conditions. [2] (b) Why do these compounds give a positive iodoform test? [2] (c) How would you convert Y into pseudonitrol? [2] (d) Write any two methods for the preparation of Z. [2] <span class="marks">[8]</span> (NEB 2082)
+
+::: note Model answers — long
+**1.** (a) **Hydroboration–oxidation:** 6CH₃CH=CH₂ + B₂H₆ → 2(CH₃CH₂CH₂)₃B; (CH₃CH₂CH₂)₃B + 3H₂O₂ + NaOH → 3CH₃CH₂CH₂OH + Na₃BO₃ (anti-Markovnikov hydration).
+(b) **Decarbonylation:** CH₃CH₂CHO → (Pd or Rh, heat) CH₃CH₃ + CO.
+(c) **Sandmeyer:** C₆H₅N₂Cl + CuCl/HCl → C₆H₅Cl + N₂.
+(d) **Iodoform:** CH₃COCH₃ + 3I₂ + 4NaOH → CHI₃↓ (yellow) + CH₃COONa + 3NaI + 3H₂O.
+(e) **Elimination:** CH₃CH₂Br + KOH(alc.) → CH₂=CH₂ + KBr + H₂O (dehydrohalogenation); or ethanol with conc. H₂SO₄ at 443 K.
+(f) **Cannizzaro:** 2C₆H₅CHO + NaOH(conc.) → C₆H₅CH₂OH + C₆H₅COONa.
+(g) **Reimer–Tiemann:** C₆H₅OH + CHCl₃ + NaOH → salicylaldehyde.
+(h) **Friedel–Crafts alkylation:** C₆H₆ + CH₃Cl → (anhydrous AlCl₃) C₆H₅CH₃ + HCl.
+
+**2.** (a) **X = ethanal**, **Y = propan-2-ol**, **Z = propanone**.
+CH₃CHO + CH₃MgBr → (dry ether) CH₃CH(OMgBr)CH₃; + H₂O/H⁺ → CH₃CH(OH)CH₃ + Mg(OH)Br. Then CH₃CH(OH)CH₃ + [O] → (acidified K₂Cr₂O₇ or KMnO₄) CH₃COCH₃ + H₂O.
+(b) The iodoform test is given by compounds with the **CH₃CO–** group, or the **CH₃CH(OH)–** group, which the hypoiodite (NaOH + I₂) first oxidises to CH₃CO–. The three α-hydrogens are replaced by iodine to give –COCI₃, which is cleaved by alkali into CHI₃ (yellow) and a carboxylate. Ethanal (CH₃CO–H), propan-2-ol (CH₃CH(OH)–) and propanone (CH₃CO–) all meet this requirement.
+(c) Propan-2-ol → 2-iodopropane → 2-nitropropane → pseudonitrole: CH₃CH(OH)CH₃ + I₂/red P → CH₃CHICH₃; CH₃CHICH₃ + AgNO₂ → CH₃CH(NO₂)CH₃ + AgI; CH₃CH(NO₂)CH₃ + HNO₂ → (CH₃)₂C(NO₂)(NO) + H₂O. The pseudonitrole dissolves in NaOH with a **blue** colour.
+(d) Propanone can be prepared by (i) oxidation of propan-2-ol with acidified K₂Cr₂O₇; (ii) catalytic dehydrogenation of propan-2-ol over copper at 573 K; (iii) dry distillation of calcium ethanoate, (CH₃COO)₂Ca → CH₃COCH₃ + CaCO₃; or (iv) hydration of propyne with HgSO₄/dilute H₂SO₄.
+:::
+
+**Most repeated in Aldehydes and Ketones:** lists of named reactions — Tollens', Fehling's, 2,4-DNP, aldol, Cannizzaro, Reimer–Tiemann, Perkin, Williamson (2079, 2081, 2082, 2083, model sets); the iodoform identification chain X → Y → Z (2079 model, 2082, 2081 MCQ, model set A); Clemmensen and Wolff–Kishner (2079); benzaldehyde reactions (2081, model set B).
+
+::: tip Examiner's note — Aldehydes and Ketones
+In an "example of each reaction" question write **one balanced equation with its reagent over the arrow**, nothing more: each item is worth one mark and extra explanation earns none. In an iodoform chain, write the structure, the IUPAC name and the reaction for each of X, Y and Z, and state the CH₃CO– or CH₃CH(OH)– rule when asked why the test is positive.
+:::
+
+## 6.14 Carboxylic Acid and its Derivatives
+
+CDC allots **9 teaching hours**. Reaction chains through the acid chloride, amide and Hofmann bromamide reaction (2082) and the comparison of acid strengths (2079 model) are the standard forms.
+
+**Short answer questions [5 marks each]**
+
+1. An aliphatic compound A reacts with SOCl₂ to give B. B is heated with ammonia to give C. C is heated with Br₂/KOH to give D. D treated with NaNO₂/HCl at low temperature gives E, a primary alcohol that gives a positive iodoform test. Identify A to E with the reactions. <span class="marks">[5]</span> (NEB 2082)
+2. Starting from CH₃MgBr, how would you prepare ethanoic acid? Write the action of ethanoic acid on (i) NH₃, (ii) SOCl₂, (iii) P₂O₅ and (iv) LiAlH₄. <span class="marks">[5]</span> (NEB 2083)
+3. (a) How is ethanoic acid prepared from (i) CH₃MgBr, (ii) CH₃CN and (iii) CH₃ONa? [3] (b) Convert ethanoic acid into methanoic acid. [2] <span class="marks">[5]</span> (NEB model set A)
+4. (a) Arrange CH₃COOH, ClCH₂COOH, FCH₂COOH and C₆H₅COOH in decreasing order of acidic strength, with reasons. [2] (b) Name a test that distinguishes ethanoic acid from methanoic acid. [1] (c) What is the Hell–Volhard–Zelinsky reaction? Give the reaction for ethanoic acid. [2] <span class="marks">[5]</span> (NEB 2079 model for (a) and (b))
+5. (a) Write the Hofmann bromamide reaction for ethanamide. [2] (b) Why is an amide amphoteric? [1] (c) Arrange acid chloride, anhydride, ester and amide in decreasing order of reactivity towards nucleophiles. [1] (d) What is the Claisen condensation? [1] <span class="marks">[5]</span>
+
+::: note Model answers — short
+**1.** Work backwards: E is a primary alcohol giving iodoform, so E = ethanol, CH₃CH₂OH, which comes from ethylamine D by nitrous acid. Ethylamine comes by Hofmann bromamide degradation (one carbon lost) from propanamide C, so B = propanoyl chloride and **A = propanoic acid**.
+A: CH₃CH₂COOH + SOCl₂ → **B: CH₃CH₂COCl** + SO₂↑ + HCl↑
+B + 2NH₃ → **C: CH₃CH₂CONH₂** (propanamide) + NH₄Cl
+C + Br₂ + 4KOH → **D: CH₃CH₂NH₂** (ethanamine) + K₂CO₃ + 2KBr + 2H₂O
+D + HNO₂ (NaNO₂ + HCl, 273 K) → **E: CH₃CH₂OH** + N₂↑ + H₂O
+**2.** The Grignard reagent adds to solid CO₂ (dry ice) and the product is hydrolysed:
+CH₃MgBr + CO₂ → (dry ether) CH₃COOMgBr; CH₃COOMgBr + H₂O/H⁺ → CH₃COOH + Mg(OH)Br.
+(i) CH₃COOH + NH₃ → CH₃COONH₄ → (heat) CH₃CONH₂ + H₂O (ethanamide).
+(ii) CH₃COOH + SOCl₂ → CH₃COCl + SO₂ + HCl (ethanoyl chloride).
+(iii) 2CH₃COOH → (P₂O₅, heat) (CH₃CO)₂O + H₂O (ethanoic anhydride).
+(iv) CH₃COOH + 4[H] → (LiAlH₄, dry ether) CH₃CH₂OH + H₂O.
+**3.** (a) (i) CH₃MgBr + CO₂ → CH₃COOMgBr → (H₃O⁺) CH₃COOH. (ii) CH₃CN + 2H₂O → (H⁺ or OH⁻, heat) CH₃COOH + NH₃. (iii) CH₃ONa + CO → (425 K, 3 atm) CH₃COONa; CH₃COONa + HCl → CH₃COOH + NaCl.
+(b) CH₃COOH → (NH₃, heat) CH₃CONH₂ → (Br₂/KOH) CH₃NH₂ → (HNO₂) CH₃OH → (K₂Cr₂O₇/H⁺) HCOOH. (Each step loses or oxidises one carbon unit: Hofmann removes the carboxyl carbon, and oxidation of methanol gives methanoic acid.)
+**4.** (a) **FCH₂COOH > ClCH₂COOH > C₆H₅COOH > CH₃COOH.** Electron-withdrawing groups stabilise the carboxylate ion by the −I effect and increase acidity: F (pKa of FCH₂COOH 2.66) is more electronegative than Cl (2.86). The phenyl group is weakly electron-withdrawing (sp² carbon), so benzoic acid (4.20) is stronger than ethanoic acid (4.76), where the methyl group releases electrons (+I effect) and destabilises the ion.
+(b) **Tollens' test** (or Fehling's, or HgCl₂): methanoic acid has an aldehyde group and gives a silver mirror; ethanoic acid does not.
+(c) **HVZ reaction:** α-halogenation of a carboxylic acid with Cl₂ or Br₂ in the presence of red phosphorus: CH₃COOH + Cl₂ → (red P) ClCH₂COOH + HCl.
+**5.** (a) CH₃CONH₂ + Br₂ + 4NaOH → CH₃NH₂ + Na₂CO₃ + 2NaBr + 2H₂O (a primary amine with one carbon fewer).
+(b) An amide can accept a proton on its nitrogen lone pair (weakly basic) and can lose an N–H proton to a strong base such as sodium, forming a salt (weakly acidic); it is amphoteric.
+(c) **Acid chloride > anhydride > ester > amide.**
+(d) **Claisen condensation:** two molecules of an ester with α-hydrogens condense in the presence of sodium ethoxide to give a β-keto ester: 2CH₃COOC₂H₅ → (C₂H₅ONa) CH₃COCH₂COOC₂H₅ + C₂H₅OH (ethyl acetoacetate).
+:::
+
+**Long answer questions [8 marks each]**
+
+1. The compound C₂H₄O₂ has two functional isomers A and B. A turns blue litmus red, and B has a fruity smell. (a) How is A formed using a Grignard reagent? [1] (b) Convert A into B. [2] (c) Give a test to distinguish A from methanoic acid. [1] (d) Arrange CH₃COOH, ClCH₂COOH, FCH₂COOH and C₆H₅COOH in decreasing acidic strength. [2] (e) Identify A and B. [2] <span class="marks">[8]</span> (NEB 2079 model)
+2. (a) How are an acid chloride, an amide, an ester and an anhydride prepared from ethanoic acid? Give the reaction of each. [4] (b) Write the products of hydrolysis, ammonolysis and alcoholysis of ethanoyl chloride. [3] (c) Arrange the derivatives in decreasing order of reactivity. [1] <span class="marks">[8]</span>
+
+::: note Model answers — long
+**1.** (e) **A = ethanoic acid**, CH₃COOH (acidic, turns blue litmus red) and **B = methyl methanoate**, HCOOCH₃ (an ester with a fruity smell).
+(a) CH₃MgBr + CO₂ → CH₃COOMgBr → (H₂O/H⁺) CH₃COOH + Mg(OH)Br.
+(b) Ethanoic acid is first converted to methanol, and methanoic acid is made from it: CH₃COOH → (NH₃, heat) CH₃CONH₂ → (Br₂/KOH) CH₃NH₂ → (HNO₂) CH₃OH. Part of the methanol is oxidised, CH₃OH → (K₂Cr₂O₇/H⁺) HCOOH, and the rest is esterified with it: HCOOH + CH₃OH ⇌ (conc. H₂SO₄) HCOOCH₃ + H₂O. (Any valid route scores.)
+(c) **Tollens' test:** methanoic acid gives a silver mirror; ethanoic acid does not. (Methanoic acid also decolourises warm KMnO₄ and gives a white precipitate then Hg with HgCl₂.)
+(d) **FCH₂COOH > ClCH₂COOH > C₆H₅COOH > CH₃COOH** (the stronger the electron-withdrawing group, the stronger the acid; the +I methyl group weakens ethanoic acid).
+**2.** (a) **Acid chloride:** CH₃COOH + SOCl₂ → CH₃COCl + SO₂ + HCl (or PCl₅, PCl₃). **Amide:** CH₃COOH + NH₃ → CH₃COONH₄ → (heat) CH₃CONH₂ + H₂O. **Ester:** CH₃COOH + C₂H₅OH ⇌ (conc. H₂SO₄) CH₃COOC₂H₅ + H₂O. **Anhydride:** 2CH₃COOH → (P₂O₅, heat) (CH₃CO)₂O + H₂O; or CH₃COCl + CH₃COONa → (CH₃CO)₂O + NaCl.
+(b) **Hydrolysis:** CH₃COCl + H₂O → CH₃COOH + HCl. **Ammonolysis:** CH₃COCl + 2NH₃ → CH₃CONH₂ + NH₄Cl. **Alcoholysis:** CH₃COCl + C₂H₅OH → CH₃COOC₂H₅ + HCl.
+(c) **Acid chloride > anhydride > ester > amide** — the better the leaving group (Cl⁻, RCOO⁻, RO⁻, NH₂⁻) and the less the lone pair donates into the carbonyl, the more reactive the derivative.
+:::
+
+**Most repeated in Carboxylic Acids:** the acid-chloride–amide–Hofmann–alcohol chain (2082, 2081 Or, 2079 model); preparation of ethanoic acid from CH₃MgBr and reactions with NH₃, SOCl₂, P₂O₅, LiAlH₄ (2083, model set A); acid-strength order (2079 model); ethanoic anhydride from P₂O₅ (2081, 2079 MCQ).
+
+::: tip Examiner's note — Carboxylic Acid and its Derivatives
+In "arrange in order of acidic strength" questions give the **order**, then one sentence on the inductive effect of each substituent — F and Cl withdraw (−I) and strengthen; CH₃ releases (+I) and weakens. In Hofmann's bromamide reaction say **"one carbon fewer"** and write the carbonate by-product; that line decides whether a chain question is solved from the right end.
+:::
+
+## 6.15 Nitro Compounds
+
+CDC allots **3 teaching hours**. The examiner asks for the reduction of nitrobenzene in different media almost every year (2078 model, 2079 model, 2081, 2082, 2083) and often as a chain question that starts from benzene.
+
+**Short answer questions [5 marks each]**
+
+1. (a) Why is the nitro group meta-directing? [2] (b) Write the products when nitrobenzene is treated with (i) Zn/NH₄Cl and (ii) LiAlH₄. [2] (c) Write the isomers of C₂H₇N. [1] <span class="marks">[5]</span> (NEB 2079 model)
+2. Starting from benzene, how would you prepare nitrobenzene? How would you convert nitrobenzene into (i) azoxybenzene, (ii) p-aminophenol, (iii) aniline and (iv) azobenzene? <span class="marks">[5]</span> (NEB 2081)
+3. (a) How are nitroethane and nitrobenzene prepared? [2] (b) Write the action of Sn/HCl on nitroethane. [1] (c) What happens when nitrobenzene is subjected to electrolytic reduction in conc. H₂SO₄? [1] (d) Give one use of nitrobenzene. [1] <span class="marks">[5]</span> (NEB 2083 for (c))
+
+::: note Model answers — short
+**1.** (a) The NO₂ group withdraws electrons by both the −I and −M effects. In the resonance structures of nitrobenzene the ortho and para carbons carry a positive charge, so they are **less** electron-rich than the meta carbons. The electrophile therefore attacks the **meta** position, and the ring is deactivated towards substitution.
+(b) (i) **Zn/NH₄Cl (neutral):** C₆H₅NO₂ + 4[H] → C₆H₅NHOH + H₂O (N-phenylhydroxylamine). (ii) **LiAlH₄:** 2C₆H₅NO₂ + 8[H] → C₆H₅N=NC₆H₅ + 4H₂O (azobenzene).
+(c) C₂H₇N has two isomers: CH₃CH₂NH₂ (ethanamine, primary) and CH₃NHCH₃ (N-methylmethanamine, secondary).
+
+**2.** **Nitration:** C₆H₆ + HNO₃ → (conc. H₂SO₄, 330 K) C₆H₅NO₂ + H₂O.
+(i) **Azoxybenzene:** 2C₆H₅NO₂ + 6[H] → (Na₃AsO₃/NaOH, weakly alkaline) C₆H₅N(O)=NC₆H₅ + 3H₂O.
+(ii) **p-Aminophenol:** C₆H₅NO₂ + 4[H] → (electrolytic reduction in conc. H₂SO₄; the intermediate phenylhydroxylamine rearranges) p-H₂NC₆H₄OH + H₂O.
+(iii) **Aniline:** C₆H₅NO₂ + 6[H] → (Sn/conc. HCl, acidic medium) C₆H₅NH₂ + 2H₂O.
+(iv) **Azobenzene:** 2C₆H₅NO₂ + 8[H] → (Zn/NaOH, limited, or LiAlH₄) C₆H₅N=NC₆H₅ + 4H₂O.
+
+**3.** (a) **Nitroethane:** C₂H₅Br + AgNO₂ → C₂H₅NO₂ + AgBr (the nitro compound is the main product with silver nitrite). **Nitrobenzene:** nitration of benzene with conc. HNO₃ + conc. H₂SO₄ at 330 K.
+(b) C₂H₅NO₂ + 6[H] → (Sn/HCl) C₂H₅NH₂ + 2H₂O (ethanamine).
+(c) Electrolytic reduction in conc. H₂SO₄ gives **p-aminophenol**, the raw material for paracetamol.
+(d) Nitrobenzene (oil of mirbane) is used as a solvent, in shoe polish and soap perfume, and above all to make **aniline** for dyes.
+:::
+
+**Long answer questions [8 marks each]**
+
+1. Describe the reduction of nitrobenzene in (a) acidic, (b) neutral, (c) weakly alkaline, (d) alkaline and (e) electrolytic media. Write the product and the equation for each. <span class="marks">[8]</span> (NEB 2078 model, 2081, 2082 for the products)
+
+::: note Model answers — long
+**1.** The product depends on the **medium**:
+
+| Medium | Reagent | Product | Equation |
+|---|---|---|---|
+| Acidic | Sn/HCl (or Fe/HCl) | aniline | C₆H₅NO₂ + 6[H] → C₆H₅NH₂ + 2H₂O |
+| Neutral | Zn dust + NH₄Cl(aq) | N-phenylhydroxylamine | C₆H₅NO₂ + 4[H] → C₆H₅NHOH + H₂O |
+| Weakly alkaline | Na₃AsO₃ | azoxybenzene | 2C₆H₅NO₂ + 6[H] → C₆H₅N(O)=NC₆H₅ + 3H₂O |
+| Alkaline (mild) | Zn + NaOH (limited), or LiAlH₄ | azobenzene | 2C₆H₅NO₂ + 8[H] → C₆H₅N=NC₆H₅ + 4H₂O |
+| Strongly alkaline | Zn dust + NaOH (excess) | hydrazobenzene | 2C₆H₅NO₂ + 10[H] → C₆H₅NHNHC₆H₅ + 4H₂O |
+| Electrolytic | conc. H₂SO₄ | p-aminophenol | C₆H₅NO₂ + 4[H] → p-H₂NC₆H₄OH + H₂O |
+
+In acid, reduction goes all the way to the amine. In neutral solution it stops half-way at the hydroxylamine. In alkaline media the intermediates couple so that two rings are joined (azoxy, then azo, then hydrazo). In strongly acidic electrolytic reduction the phenylhydroxylamine rearranges to put the –OH para to the nitrogen.
+:::
+
+**Most repeated in Nitro Compounds:** reduction of nitrobenzene in different media (2078 model, 2079 model, 2081, 2083); the meta-directing effect (2079 model); chains from benzene through nitrobenzene to aniline and diazonium salts (2078 model, 2082).
+
+::: tip Examiner's note — Nitro Compounds
+Give the **medium together with the product** — "Sn/HCl → aniline; Zn/NH₄Cl → phenylhydroxylamine" — and balance each equation with [H]. The explanation of the meta-directing effect needs the word **resonance** and the statement that ortho and para positions carry the positive charge.
+:::
+
+## 6.16 Amines
+
+CDC allots **7 teaching hours**. Hoffmann's method of separating amines has been asked in the 2079 model, 2079, 2082, 2083 and model set B papers, and the conversion chains through aniline and the diazonium salt in 2078 model, 2081, 2082 and model set A.
+
+**Short answer questions [5 marks each]**
+
+1. How would you apply Hoffmann's method for the separation of primary, secondary and tertiary amines from their mixture? <span class="marks">[5]</span> (NEB 2079)
+2. A mixture has A = CH₃CH₂CH₂NH₂ and B = CH₃CH₂NHCH₃. (a) How would you separate them by Hoffmann's method? [3] (b) Give the nitrous acid test to distinguish A from B. [2] <span class="marks">[5]</span> (NEB 2082)
+3. Make a correct sequence of reactions, with conditions and reagents, from the compounds p-aminoazobenzene, benzenediazonium chloride, aniline, nitrobenzene, phenol and benzene. <span class="marks">[5]</span> (NEB 2082)
+4. (a) Compare the basic strength of aniline with that of ammonia and ethylamine. [3] (b) Give a test to distinguish an alkyl from an aryl primary amine. [2] <span class="marks">[5]</span> (NEB 2079 model for (b))
+5. Write the reaction of a primary amine (ethylamine) with (a) chloroform and alcoholic KOH, (b) conc. HCl, (c) ethanoyl chloride, (d) nitrous acid, (e) excess CH₃Br. <span class="marks">[5]</span>
+
+::: note Model answers — short
+**1.** **Hoffmann's method** uses **diethyl oxalate**, (COOC₂H₅)₂, which reacts differently with the three classes.
+- **Primary** amine: (COOC₂H₅)₂ + 2RNH₂ → (CONHR)₂ + 2C₂H₅OH, a **solid** dialkyl oxamide.
+- **Secondary** amine: (COOC₂H₅)₂ + R₂NH → C₂H₅OOC–CO–NR₂ + C₂H₅OH, a **liquid** oxamic ester.
+- **Tertiary** amine: no reaction (no N–H), so it is recovered as such.
+**Separation:** the mixture is heated with diethyl oxalate and the products are distilled. The tertiary amine distils first (it is volatile). The liquid oxamic ester (b.p. higher) distils next, leaving the solid oxamide in the flask, or the solid is filtered off. The oxamide and the ester are then each **hydrolysed with aqueous KOH** to give back the primary amine, (CONHR)₂ + 2KOH → 2RNH₂ + (COOK)₂, and the secondary amine, C₂H₅OOC–CO–NR₂ + 2KOH → R₂NH + (COOK)₂ + C₂H₅OH.
+
+**2.** (a) Heat the mixture with diethyl oxalate. Propylamine (A) forms the **solid** N,N′-dipropyloxamide, (CONHC₃H₇)₂, and N-methylethanamine (B) forms the **liquid** oxamic ester, C₂H₅OOC–CO–N(CH₃)C₂H₅. The liquid is distilled off (or the solid is filtered), and each is hydrolysed with KOH to regenerate the amine.
+(b) **Nitrous acid test (NaNO₂ + HCl):** A, a primary amine, gives **colourless gas bubbles of N₂** and the alcohol: CH₃CH₂CH₂NH₂ + HNO₂ → CH₃CH₂CH₂OH + N₂↑ + H₂O. B, a secondary amine, gives a **yellow oily liquid**, the N-nitrosoamine, with no gas: CH₃CH₂NHCH₃ + HNO₂ → CH₃CH₂N(NO)CH₃ + H₂O.
+
+**3.** Benzene → nitrobenzene → aniline → diazonium chloride → phenol, and diazonium chloride + aniline → p-aminoazobenzene:
+C₆H₆ + HNO₃ → (conc. H₂SO₄, 330 K) **C₆H₅NO₂** + H₂O
+C₆H₅NO₂ + 6[H] → (Sn/HCl) **C₆H₅NH₂** + 2H₂O
+C₆H₅NH₂ + NaNO₂ + 2HCl → (273–278 K) **C₆H₅N₂Cl** + NaCl + 2H₂O
+C₆H₅N₂Cl + H₂O → (warm) **C₆H₅OH** + N₂ + HCl
+C₆H₅N₂Cl + C₆H₅NH₂ → (pH 4–5, 273 K) **p-H₂NC₆H₄–N=N–C₆H₅ (p-aminoazobenzene)** + HCl (coupling).
+
+**4.** (a) **Basic strength: ethylamine > ammonia > aniline.** In ethylamine the ethyl group is electron-releasing (+I), so the lone pair on nitrogen is more available for protonation than in ammonia. In aniline the lone pair on nitrogen is delocalised into the benzene ring by resonance, so it is much less available and aniline (Kb ≈ 4 × 10⁻¹⁰) is a weaker base than ammonia (Kb ≈ 1.8 × 10⁻⁵).
+(b) **Azo-dye test:** treat the amine with NaNO₂/HCl at 273 K and then with alkaline β-naphthol. An **aryl** amine gives a stable diazonium salt that couples to give an orange-red dye; an **alkyl** primary amine gives an unstable salt that decomposes to an alcohol and nitrogen, and no dye forms.
+
+**5.** (a) **Carbylamine:** C₂H₅NH₂ + CHCl₃ + 3KOH → C₂H₅NC (foul-smelling ethyl isocyanide) + 3KCl + 3H₂O. (b) **Conc. HCl:** C₂H₅NH₂ + HCl → C₂H₅NH₃⁺Cl⁻. (c) **Acylation:** C₂H₅NH₂ + CH₃COCl → CH₃CONHC₂H₅ + HCl. (d) **Nitrous acid:** C₂H₅NH₂ + HNO₂ → C₂H₅OH + N₂ + H₂O. (e) **Alkylation:** C₂H₅NH₂ + 3CH₃Br → C₂H₅N⁺(CH₃)₃Br⁻ + 2HBr (quaternary salt with excess halide).
+:::
+
+**Long answer questions [8 marks each]**
+
+1. (a) Give a test to distinguish an alkyl from an aryl primary amine. [2] (b) Separate ethylamine and dimethylamine from their mixture by Hoffmann's method. [3] (c) Arrange propylamine, ethylmethylamine and trimethylamine in increasing order of basic strength. [1] (d) Convert ethanamine into methanamine. [2] <span class="marks">[8]</span> (NEB 2079 model)
+2. (a) Describe two methods of preparing aniline. [2] (b) Write the reactions of aniline with (i) acetyl chloride, (ii) bromine water, (iii) NaNO₂/HCl at 273 K, (iv) chloroform and alcoholic KOH. [4] (c) What is a coupling reaction? Give an example. [2] <span class="marks">[8]</span>
+
+::: note Model answers — long
+**1.** (a) **Azo-dye test** with NaNO₂/HCl at 273 K followed by alkaline β-naphthol: an aryl amine gives an orange-red azo dye, an alkyl amine does not (the alkyl diazonium salt decomposes at once to an alcohol and N₂).
+(b) Ethylamine (primary) and dimethylamine (secondary) are heated with diethyl oxalate. Ethylamine gives the solid N,N′-diethyloxamide, (CONHC₂H₅)₂; dimethylamine gives the liquid ester C₂H₅OOC–CO–N(CH₃)₂. The liquid is distilled from the solid. Each is boiled with aqueous KOH to regenerate the amine: (CONHC₂H₅)₂ + 2KOH → 2C₂H₅NH₂ + (COOK)₂.
+(c) In water the order is **trimethylamine < propylamine < ethylmethylamine** (3° < 1° < 2°): the +I effect raises the basicity, but in the tertiary amine the three methyl groups hinder solvation of the ion, so it is the weakest of the three.
+(d) CH₃CH₂NH₂ → (HNO₂) CH₃CH₂OH → (K₂Cr₂O₇/H⁺) CH₃COOH → (NH₃, heat) CH₃CONH₂ → (Br₂/KOH) CH₃NH₂ (**Hofmann bromamide**, one carbon fewer).
+
+**2.** (a) (i) **Reduction of nitrobenzene:** C₆H₅NO₂ + 6[H] → (Sn/HCl, then NaOH) C₆H₅NH₂ + 2H₂O. (ii) **From phenol:** C₆H₅OH + NH₃ → (anhydrous ZnCl₂, 573 K, pressure) C₆H₅NH₂ + H₂O.
+(b) (i) C₆H₅NH₂ + CH₃COCl → C₆H₅NHCOCH₃ (acetanilide) + HCl. (ii) C₆H₅NH₂ + 3Br₂ → 2,4,6-tribromoaniline (white precipitate) + 3HBr. (iii) C₆H₅NH₂ + NaNO₂ + 2HCl → C₆H₅N₂Cl + NaCl + 2H₂O. (iv) C₆H₅NH₂ + CHCl₃ + 3KOH → C₆H₅NC (phenyl isocyanide) + 3KCl + 3H₂O.
+(c) **Coupling** is the reaction of a diazonium salt with a phenol or an aromatic amine to form an azo compound, the parent of the azo dyes: C₆H₅N₂Cl + C₆H₅OH → (NaOH, 273 K) p-HOC₆H₄–N=N–C₆H₅ + HCl (p-hydroxyazobenzene, orange).
+:::
+
+**Most repeated in Amines:** Hoffmann's separation (2079, 2079 model, 2082, 2083, model set B); nitrous acid test of primary and secondary amines (2082); chains through aniline, diazonium chloride and azo dyes (2078 model, 2082, model set A); basicity order (2083 MCQ, 2081 MCQ, 2079 model).
+
+::: tip Examiner's note — Amines
+In Hoffmann's method name the reagent (**diethyl oxalate**), state what each class gives (solid oxamide, liquid oxamic ester, no reaction) and finish with the **KOH hydrolysis** that regenerates the amines. In a chain from benzene, write every reagent over its arrow and keep the diazotisation at **273–278 K** — at higher temperature the diazonium salt gives phenol.
+:::
+
+## 6.17 Organometallic Compounds
+
+CDC allots **2 teaching hours**. The unit is short, but Grignard reagents supply reactions in the chains of other units (alcohols, ketones, acids) in every paper.
+
+**Short answer questions [5 marks each]**
+
+1. Which of the following are organometallic compounds: CH₃MgI, Ni(CO)₄, C₂H₅Li, C₂H₅ONa, (C₄H₉)₂SnCl₂? Define an organometallic compound and justify your answer. [1+4] <span class="marks">[5]</span> (NEB 2082 MCQ)
+2. (a) How is a Grignard reagent prepared from a haloalkane and from a haloarene? [2] (b) Why must the preparation be carried out in dry ether? [1] (c) Write the reaction of CH₃MgBr with water. [1] (d) What product results from CH₃MgBr and HCN? [1] <span class="marks">[5]</span>
+3. How are a primary, a secondary and a tertiary alcohol prepared from Grignard reagents? Write one equation for each. <span class="marks">[5]</span> (NEB 2081 MCQ)
+4. (a) Give the general formula and one example of an organolithium, an organocopper and an organocadmium compound. [3] (b) What is the nature of the metal–carbon bond in these compounds? [1] (c) Name a π-bonded organometallic compound. [1] <span class="marks">[5]</span> (NEB 2078 model for (c))
+
+::: note Model answers — short
+**1.** An **organometallic compound** contains at least one **direct bond between a metal and a carbon atom**. **CH₃MgI** (Mg–C), **Ni(CO)₄** (Ni–C of the carbonyl), **C₂H₅Li** (Li–C) and **(C₄H₉)₂SnCl₂** (Sn–C) are organometallic. **C₂H₅ONa** is **not**: sodium is bonded to **oxygen** (a metal alkoxide), so there is no metal–carbon bond.
+
+**2.** (a) **From a haloalkane:** CH₃CH₂Br + Mg → (dry ether) CH₃CH₂MgBr. **From a haloarene:** C₆H₅Br + Mg → (dry ether, or THF) C₆H₅MgBr.
+(b) Grignard reagents are strongly basic and are destroyed by any water or alcohol; ether also dissolves the reagent by co-ordinating to magnesium.
+(c) CH₃MgBr + H₂O → CH₄ + Mg(OH)Br.
+(d) With HCN the Grignard reagent takes up the acidic hydrogen: CH₃MgBr + HCN → CH₄ + Mg(CN)Br (so HCN is a proton source; addition to a nitrile carbon needs RCN, not HCN).
+
+**3.** Grignard reagent + carbonyl compound, then hydrolysis:
+- **Primary alcohol:** with methanal, RMgX + HCHO → RCH₂OMgX → (H₂O) RCH₂OH. Example: CH₃MgBr + HCHO → CH₃CH₂OH (ethanol) after hydrolysis.
+- **Secondary alcohol:** with any other aldehyde, RMgX + R′CHO → R(R′)CHOH. Example: CH₃MgBr + CH₃CHO → CH₃CH(OH)CH₃ (propan-2-ol).
+- **Tertiary alcohol:** with a ketone, RMgX + R′COR″ → R(R′)(R″)COH. Example: CH₃MgBr + CH₃COCH₃ → (CH₃)₃COH (2-methylpropan-2-ol).
+
+**4.** (a) **Organolithium:** RLi, for example CH₃Li or C₄H₉Li. **Organocopper:** R₂CuLi (a Gilman reagent), for example (CH₃)₂CuLi. **Organocadmium:** R₂Cd, for example (CH₃)₂Cd, which converts an acid chloride into a ketone: R′COCl + R₂Cd → 2R′COR + CdCl₂.
+(b) The bond is **polar covalent**, with carbon the negative end. It is more ionic for Li, Na, K, Mg (electropositive metals) and more covalent for Cu, Cd, Sn, Pb.
+(c) **Zeise's salt**, K[PtCl₃(C₂H₄)], in which ethene binds to platinum through its π bond (the first organometallic compound made); ferrocene, Fe(C₅H₅)₂, is another.
+:::
+
+**Long answer questions [8 marks each]**
+
+1. What is a Grignard reagent? How is it prepared? Write the reactions of ethylmagnesium bromide with (a) water, (b) carbon dioxide, (c) ethanal, (d) propanone, (e) ethanenitrile, and (f) ethanoyl chloride. <span class="marks">[8]</span> (NEB 2079 model, 2081, 2082, model set B)
+
+::: note Model answers — long
+**1.** A **Grignard reagent** is an alkyl or aryl magnesium halide, RMgX, made by reacting a haloalkane or haloarene with magnesium turnings in **dry ether**: C₂H₅Br + Mg → C₂H₅MgBr. The C–Mg bond is polar, C^δ−–Mg^δ+, so the carbon acts as a strong nucleophile and a strong base.
+(a) **Water:** C₂H₅MgBr + H₂O → C₂H₆ + Mg(OH)Br.
+(b) **Carbon dioxide:** C₂H₅MgBr + CO₂ → C₂H₅COOMgBr → (H₃O⁺) C₂H₅COOH (propanoic acid).
+(c) **Ethanal:** C₂H₅MgBr + CH₃CHO → CH₃CH(OMgBr)C₂H₅ → (H₂O) CH₃CH(OH)C₂H₅ (butan-2-ol, secondary).
+(d) **Propanone:** C₂H₅MgBr + CH₃COCH₃ → (CH₃)₂C(OMgBr)C₂H₅ → (H₂O) (CH₃)₂C(OH)C₂H₅ (2-methylbutan-2-ol, tertiary).
+(e) **Ethanenitrile:** C₂H₅MgBr + CH₃CN → CH₃C(=NMgBr)C₂H₅ → (H₃O⁺) CH₃COC₂H₅ (butanone) + NH₃.
+(f) **Ethanoyl chloride:** C₂H₅MgBr + CH₃COCl → CH₃COC₂H₅ + MgBrCl (butanone); with excess Grignard reagent this ketone goes on to the tertiary alcohol, 3-methylpentan-3-ol.
+:::
+
+**Most repeated in Organometallic Compounds:** which compounds are organometallic (2082 MCQ); π-bonded Zeise's salt (2078 model MCQ); Grignard reagent with CO₂ and carbonyl compounds (2081 MCQ, 2079 model, 2082, 2083); Grignard with CH₃CN (model set B).
+
+::: tip Examiner's note — Organometallic Compounds
+The **definition** is a metal–**carbon** bond: use it to reject sodium ethoxide (Na–O) in a "which are organometallic" question. For Grignard reactions, write two steps — addition (RMgX + carbonyl → alkoxide salt) and hydrolysis — because the marking scheme gives a mark for each, and name the class of alcohol or acid formed.
+:::
+
+## 6.18 Chemistry in the service of mankind
+
+CDC allots **4 teaching hours**. The unit supplies a regular three-to-four-mark part of the last Group C question (Q22): polymers first — addition against condensation, the monomers of Bakelite, nylon and polystyrene — then drugs, dyes and pesticides.
+
+**Short answer questions [5 marks each]**
+
+1. (a) Define condensation polymerisation and give the monomers of Bakelite. [2] (b) How are addition and condensation polymers formed? Give one example of each. [3] <span class="marks">[5]</span> (NEB 2078 model, 2082, 2079 model)
+2. (a) Differentiate between a homopolymer and a copolymer, with one example of each. [2] (b) Name the monomers of polystyrene and Bakelite and write their molecular formulae. [2] (c) Give one use of polystyrene. [1] <span class="marks">[5]</span> (NEB 2079)
+3. Give the structural formula of the monomer(s) and one use of (a) nylon 6,6 and (b) polystyrene. [2+2] (c) What is a fibre? [1] <span class="marks">[5]</span> (NEB 2081)
+4. (a) Give the structural formulae of aspirin and DDT. [2] (b) Differentiate between an antipyretic and an analgesic drug with one example of each. [2] (c) What is a habit-forming drug? [1] <span class="marks">[5]</span> (NEB 2083 for (a), model set B for (b))
+
+::: note Model answers — short
+**1.** (a) **Condensation polymerisation** is the joining of many molecules of one or more monomers, each with two or more functional groups, with the **loss of a small molecule** such as water or HCl at every step. **Bakelite** is formed from **phenol** (C₆H₅OH) and **methanal** (HCHO).
+(b) **Addition polymers** are formed by the repeated addition of unsaturated monomers (alkenes) with no loss of atoms: n CH₂=CH₂ → (–CH₂–CH₂–)n, polythene. **Condensation polymers** are formed from bifunctional monomers with elimination of water: n H₂N(CH₂)₆NH₂ + n HOOC(CH₂)₄COOH → nylon 6,6 + 2n H₂O.
+
+**2.** (a) A **homopolymer** is made of one kind of monomer: polythene from ethene, (–CH₂–CH₂–)n. A **copolymer** is made from two or more different monomers: Buna-S from buta-1,3-diene and styrene.
+(b) **Polystyrene:** styrene (phenylethene), C₆H₅CH=CH₂, molecular formula C₈H₈. **Bakelite:** phenol, C₆H₅OH (C₆H₆O), and methanal, HCHO (CH₂O).
+(c) Polystyrene is used for disposable cups, packaging foam and thermal insulation.
+
+**3.** (a) **Nylon 6,6:** hexane-1,6-diamine, H₂N–(CH₂)₆–NH₂, and hexanedioic acid (adipic acid), HOOC–(CH₂)₄–COOH. Use: textile fibres, ropes, fishing nets, parachutes.
+(b) **Polystyrene:** styrene, C₆H₅–CH=CH₂. Use: packaging, toys, insulation.
+(c) A **fibre** is a polymer with strong intermolecular forces (hydrogen bonds in nylon) that can be drawn into long threads; nylon and terylene are synthetic fibres, and cotton and silk are natural.
+
+**4.** (a) **Aspirin** (2-acetoxybenzoic acid): a benzene ring with –COOH and –OCOCH₃ on adjacent carbons, C₆H₄(OCOCH₃)COOH. **DDT:** two p-chlorophenyl groups on one carbon that also carries a CCl₃ group, (ClC₆H₄)₂CH–CCl₃.
+(b) An **antipyretic** lowers raised body temperature (paracetamol); an **analgesic** relieves pain without loss of consciousness (aspirin, ibuprofen). Paracetamol acts as both.
+(c) A **habit-forming drug** causes physical or psychological dependence, so the user needs more and more of it (morphine, heroin, cocaine, alcohol, tobacco).
+:::
+
+**Long answer questions [8 marks each]**
+
+1. Give the monomer(s), the type of polymerisation and one use of each of the following polymers: polythene, PVC, Teflon, polystyrene, nylon 6,6 and Bakelite. [6] State what elastomers are, with an example. [2] <span class="marks">[8]</span>
+2. (a) List the characteristics of an ideal drug. [2] (b) Classify common drugs with one example each. [3] (c) What is drug addiction? [1] (d) What are insecticides, herbicides and fungicides? Give an example of each. [2] <span class="marks">[8]</span>
+
+::: note Model answers — long
+**1.**
+
+| Polymer | Monomer | Type | Use |
+|---|---|---|---|
+| Polythene | ethene, CH₂=CH₂ | addition | bags, bottles, pipes |
+| PVC | chloroethene (vinyl chloride), CH₂=CHCl | addition | pipes, cable insulation, rainwear |
+| Teflon | tetrafluoroethene, CF₂=CF₂ | addition | non-stick coatings, gaskets |
+| Polystyrene | styrene, C₆H₅CH=CH₂ | addition | packaging, insulation |
+| Nylon 6,6 | hexane-1,6-diamine + hexanedioic acid | condensation | fibres, ropes, fabrics |
+| Bakelite | phenol + methanal | condensation | electrical switches, handles |
+
+**Elastomers** are polymers with weak intermolecular forces and a coiled structure, so they stretch and return to their shape: natural rubber (polyisoprene) and Buna-S.
+
+**2.** (a) An ideal drug (i) acts on the target site only, (ii) has few or no side effects, (iii) is effective in a small dose, and (iv) is non-addictive and stable.
+(b) **Classification:** analgesics (aspirin, paracetamol); antipyretics (paracetamol); antibiotics (penicillin); antiseptics and disinfectants (dettol, boric acid, chlorine); tranquillisers (diazepam); antacids (Mg(OH)₂, NaHCO₃); anaesthetics (chloroform, ether, N₂O).
+(c) **Drug addiction** is physical and mental dependence on a drug such that stopping it causes withdrawal symptoms.
+(d) **Insecticides** kill insects (DDT, malathion); **herbicides** kill weeds (2,4-D); **fungicides** kill fungi (Bordeaux mixture, CuSO₄ + Ca(OH)₂).
+:::
+
+**Most repeated in Chemistry in the service of mankind:** addition against condensation polymers with examples and monomers of Bakelite, nylon and polystyrene (2078 model, 2079, 2079 model, 2081, 2082); the structures of aspirin and DDT (2083); drug classes (model set B).
+
+::: tip Examiner's note — Chemistry in the service of mankind
+In every polymer question write **monomer → polymer with "n"** and name the type of polymerisation; for condensation polymers state the small molecule lost. A structural formula means the skeletal structure with functional groups drawn out, not just the molecular formula.
+:::
+
+## 6.19 Cement
+
+CDC allots **4 teaching hours**. Cement has been in Group C question 22 in every paper — the definition and components of Portland cement, the manufacturing flow sheet, OPC against PPC, and quality control.
+
+**Short answer questions [5 marks each]**
+
+1. (a) What is Portland cement? [1] (b) Name its major components. [1] (c) Why is gypsum added to the clinker? [1] (d) Name two instruments used for the quality control of cement. [2] <span class="marks">[5]</span> (NEB 2079)
+2. Draw the flow sheet diagram for the manufacture of Portland cement and describe each step briefly. <span class="marks">[5]</span> (NEB 2082, model set A, model set B)
+3. (a) Differentiate between OPC and PPC. [3] (b) Classify cement on the basis of setting and hardening. [2] <span class="marks">[5]</span> (NEB 2078 model, 2079 model)
+4. Explain the quality control system in the manufacture of Portland cement. <span class="marks">[5]</span> (NEB 2083)
+
+```figure caption="Flow sheet for the manufacture of Portland cement by the dry process: limestone and clay are crushed and ground together, burnt in the rotary kiln at 1400–1500 °C to form clinker, cooled, ground with 2–5 % gypsum and bagged."
+import matplotlib.pyplot as plt
+from matplotlib.patches import FancyBboxPatch
+
+fig, ax = plt.subplots(figsize=(3.6, 4.4))
+ax.set_xlim(0, 10); ax.set_ylim(0, 14); ax.axis("off")
+steps = [
+    (12.6, "limestone + clay (shale)\nraw materials", "#E8EEF8"),
+    (10.4, "crushing and grinding\n(raw mill, blending)", "#E8EEF8"),
+    (8.2, "rotary kiln\n1400–1500 °C", "#F7D5C8"),
+    (6.0, "clinker (cooled)", "#F2F2F2"),
+    (3.8, "final grinding in ball mill\n+ 2–5 % gypsum", "#E8EEF8"),
+    (1.6, "storage and bagging\nPortland cement", "#DDEBDD"),
+]
+for y, txt, col in steps:
+    ax.add_patch(FancyBboxPatch((1.2, y-0.75), 7.6, 1.5, boxstyle="round,pad=0.05,rounding_size=0.25", fc=col, ec=INK, lw=1.1))
+    ax.text(5.0, y, txt, ha="center", va="center", fontsize=8.0, color=INK)
+for (y1, _, _), (y2, _, _) in zip(steps[:-1], steps[1:]):
+    ax.annotate("", xy=(5.0, y2+0.8), xytext=(5.0, y1-0.8), arrowprops=dict(arrowstyle="->", color=INK, lw=1.1))
+```
+
+::: note Model answers — short
+**1.** (a) **Portland cement** is a fine grey powder made by burning a mixture of limestone (CaCO₃) and clay to clinker and grinding it with a little gypsum; it sets and hardens by hydration, even under water (a hydraulic cement).
+(b) The major components are **calcium oxide (lime, 60–67 %), silica (17–25 %), alumina (3–8 %), iron oxide (0.5–6 %), magnesia and SO₃**, present in the clinker as tricalcium silicate (C₃S), dicalcium silicate (C₂S), tricalcium aluminate (C₃A) and tetracalcium aluminoferrite (C₄AF).
+(c) **Gypsum** (2–5 %) acts as a **retarder**: without it, tricalcium aluminate reacts with water at once and the cement undergoes flash set; gypsum forms calcium sulphoaluminate that slows the reaction, so the cement has time to be placed.
+(d) **Vicat apparatus** (initial and final setting time), **Le Chatelier apparatus** (soundness), and the Blaine air-permeability apparatus (fineness) or a compression-testing machine (strength).
+
+**2.** See the flow sheet. **Steps:** (i) *Crushing and grinding:* limestone and clay are crushed and ground to a fine raw mix in a ball mill, and the proportions are checked (lime : silica : alumina). (ii) *Strong heating:* the mix passes through a rotary kiln inclined at 1 in 30 and is heated by a flame at the lower end. It is dried, then calcined (CaCO₃ → CaO + CO₂ at about 900 °C) and finally clinkered at 1400–1500 °C, where lime combines with silica, alumina and iron oxide to give greenish-black nodules of **clinker**. (iii) *Cooling and final grinding:* the clinker is cooled in air, **2–5 % gypsum** is added, and the mixture is ground to a very fine powder in a ball mill, then stored in silos and bagged.
+
+**3.** (a)
+
+| | OPC | PPC |
+|---|---|---|
+| Made by grinding | clinker + 2–5 % gypsum | clinker + gypsum + 15–35 % pozzolana (fly ash, volcanic ash, calcined clay) |
+| Early strength | higher | lower, but the final strength is higher |
+| Heat of hydration | high | low |
+| Durability | free lime leaches from the paste | pozzolana consumes free lime, giving denser, more durable concrete |
+| Use | general and quick-setting work | mass concrete, marine and house construction |
+
+(b) **On the basis of setting and hardening:** **hydraulic cements** set and harden by reaction with water even under water (Portland cement, pozzolana cement); **non-hydraulic cements** harden only in air, by drying and absorbing CO₂ (lime mortar, gypsum plaster).
+
+**4.** **Quality control** is exercised at every stage. (i) *Raw materials:* samples of limestone and clay are analysed chemically and the **lime saturation** and the hydraulic and silica moduli are checked so that the raw mix has the correct composition. (ii) *Kiln:* temperature, flame and the amount of free lime in the clinker are monitored, since excess free lime causes unsoundness. (iii) *Final grinding:* the gypsum dose (2–5 %) and the **fineness** are controlled (Blaine apparatus, sieve test). (iv) *Finished cement:* the **Vicat apparatus** tests the setting time (initial not less than 30 minutes, final not more than 600 minutes), the **Le Chatelier apparatus** tests soundness, and cubes are cast and crushed at 3, 7 and 28 days for **compressive strength**.
+:::
+
+**Long answer questions [8 marks each]**
+
+1. Describe the manufacture of Portland cement: the raw materials, the main steps with the flow sheet, the chemical composition of the clinker and the role of gypsum. <span class="marks">[8]</span> (NEB 2079, 2081, 2082, 2083)
+
+::: note Model answers — long
+**1.** **Raw materials:** limestone (about 75 %, the source of CaO), clay or shale (SiO₂, Al₂O₃, Fe₂O₃), with sand, bauxite or iron ore to correct the composition, gypsum as a retarder, and coal or fuel oil as fuel.
+**Steps** (see the flow sheet in short answer 2):
+1. **Crushing and grinding.** Limestone and clay are crushed and ground, dry or with water, to a fine mix (raw meal or slurry), blended so that the lime content is correct.
+2. **Strong heating in the rotary kiln** (60–150 m long, inclined 1 in 30, turning 1–2 rpm): the charge is dried; at about 900 °C the limestone decomposes, CaCO₃ → CaO + CO₂; and at 1400–1500 °C the lime combines with SiO₂, Al₂O₃ and Fe₂O₃ and about a quarter of the charge melts to form **clinker** nodules of 5–25 mm.
+3. **Final grinding.** Clinker is cooled, mixed with **2–5 % gypsum** and ground in a ball mill to a fine powder, which is bagged.
+**Composition of the clinker:** CaO 60–67 %, SiO₂ 17–25 %, Al₂O₃ 3–8 %, Fe₂O₃ 0.5–6 %, MgO 0.1–4 %, SO₃ 1–3 %, combined as C₃S (alite, the main compound), C₂S (belite), C₃A and C₄AF. **Role of gypsum:** it retards the very rapid hydration of C₃A and so prevents flash set; the cement then sets in about 30–600 minutes.
+:::
+
+**Most repeated in Cement:** what Portland cement is and its components (2079, 2081, 2078 model); the flow-sheet diagram (2082, model sets A and B); OPC against PPC (2078 model, 2079 model, 2082); quality control (2079, 2083); the role of gypsum (2079, 2078 model MCQ).
+
+::: tip Examiner's note — Cement
+A flow-sheet mark goes for **boxes in order with the temperature on the kiln box** (1400–1500 °C) and the gypsum addition before the final grinding. When asked for the role of gypsum write "retarder — prevents flash set by controlling the hydration of C₃A".
+:::
+
+## 6.20 Paper and Pulp
+
+CDC allots **3 teaching hours**. The examiner asks for the raw materials, fibrous against non-fibrous materials and paper against pulp, usually as a two-mark part of Group C question 22.
+
+**Short answer questions [5 marks each]**
+
+1. (a) What are the raw materials for the production of paper? [2] (b) Differentiate between the fibrous and non-fibrous raw materials. [2] (c) Name one Nepali raw material. [1] <span class="marks">[5]</span> (NEB 2081, 2082, model sets A and B)
+2. (a) Write any two differences between paper and pulp. [2] (b) Why must lignin be removed from the wood fibre? [1] (c) Name the two common chemical pulping processes. [2] <span class="marks">[5]</span> (NEB 2083, 2078 model MCQ)
+3. Describe the stages of paper production with a flow sheet. <span class="marks">[5]</span>
+
+::: note Model answers — short
+**1.** (a) **Raw materials** are (i) **fibrous**: wood (spruce, pine), bamboo, straw, bagasse, cotton rags and waste paper, which supply cellulose fibres; and (ii) **non-fibrous** additives: fillers (china clay, talc, CaCO₃, TiO₂), sizing agents (rosin with alum, starch), dyes and water.
+(b)
+
+| | Fibrous raw materials | Non-fibrous raw materials |
+|---|---|---|
+| Role | supply cellulose fibres that form the sheet | improve the paper: smoothness, opacity, ink resistance, colour |
+| Examples | wood, bamboo, rags, bagasse, straw | china clay, talc, rosin, starch, alum, dye |
+| Share | most of the paper | a small fraction |
+
+(c) **Lokta** (the inner bark of *Daphne* shrubs), a bast fibre, is the traditional Nepali raw material; bamboo, sabai grass and rice straw are also used.
+
+**2.** (a)
+
+| | Pulp | Paper |
+|---|---|---|
+| Nature | a soft, wet mass of separated cellulose fibres | a thin, dry sheet made by matting and pressing the pulp |
+| Additives | none or few | filler, size and dye added |
+
+(b) **Lignin** is the brown cementing material between fibres; it makes paper weak and yellow. Removing it frees the cellulose fibres, and since the fibres can then lie closer it **increases fibre-to-fibre bonding** and the strength of the paper.
+(c) The **sulphate (Kraft) process**, with white liquor NaOH + Na₂S at about 170 °C, and the **sulphite process**, with Ca(HSO₃)₂ or Mg(HSO₃)₂ containing SO₂.
+
+**3.** Raw material (wood, bamboo) → **debarking and chipping** → **pulping** (cooking the chips with chemicals, for example white liquor in the Kraft process at about 170 °C, to dissolve the lignin) → washing → **bleaching** (Cl₂, ClO₂ or H₂O₂ removes the colour) → **beating and refining** (the fibres are fibrillated in water) → **addition of filler, size and dye** → **sheet formation** on a moving wire screen (Fourdrinier machine) → **pressing** → **drying** on heated rollers → **calendering** (smoothing between rollers) → reeling and cutting.
+:::
+
+**Long answer questions [8 marks each]**
+
+1. Describe the manufacture of paper from wood by the Kraft process, giving the raw materials, the chemicals used, the stages and two properties that decide the quality of paper. <span class="marks">[8]</span>
+
+::: note Model answers — long
+**1.** **Raw materials:** wood (spruce, pine, eucalyptus) or bamboo as the fibrous material; white liquor (NaOH + Na₂S), bleach (ClO₂ or H₂O₂), filler (china clay), size (rosin + alum) and water.
+**Stages:** (1) **Debarking and chipping:** logs are debarked and cut into chips of 2–3 cm. (2) **Pulping:** chips are cooked in a digester with white liquor at about 170 °C and 7–8 atm for 2–4 hours; the alkali and HS⁻ break the lignin into soluble sodium salts and leave the cellulose fibres; the spent dark liquor (black liquor) is burnt to recover the chemicals. (3) **Washing and screening** remove the liquor and uncooked knots. (4) **Bleaching** with chlorine dioxide or hydrogen peroxide gives a white pulp. (5) **Beating and refining** roughen the fibres so they bond; filler, size and dye are added. (6) **Sheet formation:** the dilute stock is spread on a moving wire belt (Fourdrinier), water drains away and the fibres mat together. (7) **Pressing, drying and calendering** give the smooth finished paper, which is reeled.
+**Quality of paper** is judged by (i) **strength** (tensile and tear strength, which depend on fibre length and bonding) and (ii) **brightness and opacity**, together with smoothness, ink absorbency and pH (acid-free paper lasts longer).
+:::
+
+**Most repeated in Paper and Pulp:** raw materials and fibrous against non-fibrous (2081, 2082, both model sets); paper against pulp (2083, 2079 model); Kraft and sulphite processes and the effect of lignin (2078 model MCQ).
+
+::: tip Examiner's note — Paper and Pulp
+Answer "raw materials" in **two groups** — fibrous and non-fibrous — rather than as a single list; the examiner looks for both. For the flow sheet give the chemicals at the pulping step (white liquor) and at bleaching.
+:::
+
+## 6.21 Nuclear Chemistry and Applications of Radioactivity
+
+CDC allots **2 teaching hours**. The unit is usually the last two-mark part of the paper: nuclear against chemical reactions, natural against artificial radioactivity, units, and fusion.
+
+**Short answer questions [5 marks each]**
+
+1. (a) Differentiate between nuclear reactions and chemical reactions. [2] (b) What is artificial radioactivity? Give one example. [1+1] (c) Name the unit of radioactivity. [1] <span class="marks">[5]</span> (NEB 2081, 2083, model set A)
+2. (a) Why is nuclear fusion also called a thermonuclear reaction? [2] (b) Write one fusion reaction and one fission reaction. [2] (c) Why does fusion release more energy per kilogram of fuel than fission? [1] <span class="marks">[5]</span> (NEB 2082 for (a))
+3. (a) Differentiate between natural and artificial radioactivity. [2] (b) A sample of wood has a ¹⁴C activity that is 25 % of that in a living tree. Find its age (half-life of ¹⁴C = 5730 years). [3] <span class="marks">[5]</span> (NEB 2079 model for (a))
+
+::: note Model answers — short
+**1.** (a)
+
+| | Nuclear reaction | Chemical reaction |
+|---|---|---|
+| Involves | the nucleus (protons, neutrons) | the outer electrons |
+| Elements | one element changes into another | elements are conserved |
+| Energy change | very large (about 10⁸ kJ mol⁻¹) | small (about 10² kJ mol⁻¹) |
+| Affected by | not affected by temperature, pressure or catalyst | depends on T, P and catalyst |
+| Isotopes | different isotopes behave differently | isotopes react alike |
+
+(b) **Artificial (induced) radioactivity** is radioactivity produced in a stable nucleus by bombarding it with particles (discovered by Irène Curie and Frédéric Joliot). Example: ²⁷₁₃Al + ⁴₂He → ³⁰₁₅P + ¹₀n, and ³⁰₁₅P → ³⁰₁₄Si + ⁰₊₁e (positron).
+(c) The **becquerel** (Bq) = 1 disintegration per second (SI unit); the **curie** (Ci) = 3.7 × 10¹⁰ Bq.
+
+**2.** (a) Fusion needs a temperature of about 10⁷–10⁸ K to give the nuclei enough kinetic energy to overcome the electrostatic repulsion between them, so it is called a **thermonuclear** reaction (as in the Sun).
+(b) **Fusion:** ²₁H + ³₁H → ⁴₂He + ¹₀n + 17.6 MeV. **Fission:** ²³⁵₉₂U + ¹₀n → ¹⁴¹₅₆Ba + ⁹²₃₆Kr + 3¹₀n + energy (about 200 MeV per nucleus).
+(c) The fusion fuel is made of very light nuclei, so one kilogram contains many more nuclei than a kilogram of uranium; although fission releases more energy per nucleus, fusion releases about three to four times as much energy **per unit mass**.
+
+**3.** (a) **Natural radioactivity** is the spontaneous emission of α, β or γ rays by heavy unstable nuclei found in nature (U, Th, Ra); **artificial radioactivity** is produced by bombarding a stable nucleus with particles, giving unstable isotopes (³⁰P, ²⁴Na) that then decay.
+(b) 25 % = ¼ = (½)², so two half-lives have elapsed.
+$$ t = 2\times5730 = 11\,460\ \text{years} $$
+Check with the decay law: N/N₀ = (½)^(t/t½) = (½)² = 0.25.
+:::
+
+**Long answer questions [8 marks each]**
+
+1. (a) Explain nuclear fission with an equation and the chain reaction. [3] (b) Describe the use of nuclear energy in power generation and state how it differs from a nuclear weapon. [2] (c) Give two medical and two industrial uses of radioactivity. [2] (d) State one harmful effect of nuclear radiation. [1] <span class="marks">[8]</span>
+
+::: note Model answers — long
+**1.** (a) **Nuclear fission** is the splitting of a heavy nucleus into two lighter nuclei, with a large release of energy, when it absorbs a neutron: ²³⁵₉₂U + ¹₀n → ¹⁴¹₅₆Ba + ⁹²₃₆Kr + 3¹₀n + 200 MeV. The three neutrons released each split another uranium nucleus, so a **chain reaction** is set up. If the chain is **uncontrolled** the energy is released in a flash (an atomic bomb); if the neutrons are absorbed by control rods (cadmium or boron) it is **controlled**, as in a reactor.
+(b) In a **nuclear power plant** a controlled fission chain heats water, the steam drives turbines and the turbines drive generators; a moderator (graphite or heavy water) slows the neutrons. A **nuclear weapon** uses an uncontrolled chain reaction.
+(c) **Medical:** cobalt-60 for cancer radiotherapy; iodine-131 for the diagnosis and treatment of thyroid disease; sterilisation of instruments. **Industrial:** radioactive tracers for detecting leaks in pipes; thickness gauges; irradiation to preserve food; radiocarbon dating of fossils.
+(d) **Harmful effects:** radiation damages cells and DNA, causing burns, cancer, genetic mutations and, at a high dose, death; radioactive waste stays hazardous for many years.
+:::
+
+**Most repeated in Nuclear Chemistry:** nuclear against chemical reactions (2081); artificial radioactivity with an example (2083); fusion as a thermonuclear reaction (2082); natural against artificial radioactivity (2079 model, model set A); units of radioactivity (model set A).
+
+::: tip Examiner's note — Nuclear Chemistry
+Use **proper nuclear notation** with the mass number above and the atomic number below, and check that both add up on the two sides of every equation — a balanced nuclear equation is where the marks are. For radiocarbon dating convert the fraction remaining into a number of half-lives first.
+:::
+
+## Chapter summary
+
+- **Sixty-four of the seventy-five marks are subjective.** Group B carries 8 × 5 = 40 and Group C 3 × 8 = 24, so this chapter gives every one of the twenty-one CDC units at least three five-mark questions and one eight-mark question, each with a full model answer.
+- **Organic chemistry is the largest block.** Units 8 to 17 carry 55 of the 128 teaching hours, and in the 2079 to 2083 papers they account for roughly half of Groups B and C: the X–Y–Z chains, the "equation for each named reaction" lists, Victor Meyer's test and Hoffmann's separation recur in every sitting.
+- **Numericals recur in a fixed set of forms**: equivalent weight and normality from a titration; pH, Ksp and precipitation; order and rate constant from a table of initial rates; Hess's law for a heat of formation; cell notation and emf from two E° values. Show the data, the formula, the substitution and the unit.
+- **The inorganic unit is about extraction and compounds**: copper with its blast furnace and matte, zinc with its retort, mercury from cinnabar, iron to steel, and the vitriols. Always write concentration, roasting, smelting or reduction, and refining as headings.
+- **Year tags mean "set in that paper".** The board papers of 2079, 2081, 2082 and 2083 and the model papers of 2078 and 2079, together with model sets A and B, were the sources; where printed numbers could not be read the item says **data re-set**.
+- **Five figures** carry the diagrams that examiners ask for by name — concentration–time graphs, energy profiles, the standard hydrogen electrode, the octahedral d-orbital splitting and the copper blast furnace — and a flow sheet of the cement process.
+
+## Sources and verification
+
+::: note Sources reached for this chapter
+**Question papers.** The Grade 12 Chemistry board papers of **2079, 2081, 2082 and 2083** and the model papers of **2078** and **2079** and two further model sets (A and B) were read as transcribed text on a public question-bank site, and the question stems and marks were compared unit by unit with the earlier Group A record held with the objective chapter. No paper for 2080 could be reached, so no question carries a 2080 tag. The 2083 paper is used as printed on that site. Where the transcription dropped the numerical data of a question (chiefly some tables and the values of electrode potentials) the stem, the skill tested and the marks are kept and the data re-set; those items carry the words **data re-set**.
+
+**Answers and numericals.** Every answer was written from the Grade 12 Chemistry chapters in this collection so that nothing here contradicts them, and every numerical was recomputed before printing: for example ΔH = −196 kJ (2079), ΔH_f of acetic acid = −126 kcal mol⁻¹ (2082), E°cell = +1.62 V (2082), k = 3.2 × 10⁻⁴ s⁻¹ (2083). Where a printed paper used a textbook value that differs from the usual one (−99 kcal for the combustion of carbon in 2082), the paper's data are used as given.
+
+**Not verified.** The scripts of the boards were not seen, only the transcribed questions; model-answer wording is our own and is not the board's marking scheme. Structural formulae are described in words where the printed paper expected a drawing.
+:::

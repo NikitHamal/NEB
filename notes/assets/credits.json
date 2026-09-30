@@ -1702,6 +1702,19 @@
   "source": "Wikimedia Commons",
   "title": "Bacterial morphology diagram"
  },
+ "qbank/blood-leukocytes": {
+  "author": "Berkshire Community College Bioscience Image Library",
+  "bytes": 436497,
+  "credit": "Connective Tissue: Human Blood Leukocyte Survey",
+  "fetched": "2026-09-30",
+  "file": "qbank/blood-leukocytes.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Connective_Tissue_Human_Blood_Leukocyte_Survey_(26921278527).jpg",
+  "sha1": "f13faf73fa19dd8d",
+  "source": "Wikimedia Commons",
+  "title": "Connective Tissue Human Blood Leukocyte Survey (26921278527)"
+ },
  "qbank/blue-vitriol": {
   "author": "W. Oelen",
   "bytes": 89215,
@@ -1714,6 +1727,45 @@
   "sha1": "0cb14c2b5f39e4c3",
   "source": "Wikimedia Commons",
   "title": "Copper sulfate pentahydrate crystals"
+ },
+ "qbank/cardiac-muscle": {
+  "author": "Berkshire Community College Bioscience Image Library",
+  "bytes": 594244,
+  "credit": "Muscle Tissue: Cardiac Muscle",
+  "fetched": "2026-09-30",
+  "file": "qbank/cardiac-muscle.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Muscle_Tissue_Cardiac_Muscle_(27187637567).jpg",
+  "sha1": "e5bdc8192f8cc3d7",
+  "source": "Wikimedia Commons",
+  "title": "Muscle Tissue Cardiac Muscle (27187637567)"
+ },
+ "qbank/compact-bone": {
+  "author": "Berkshire Community College Bioscience Image Library",
+  "bytes": 526385,
+  "credit": "Connective Tissue: Compact Bone",
+  "fetched": "2026-09-30",
+  "file": "qbank/compact-bone.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Connective_Tissue_Compact_Bone_(39978304590).jpg",
+  "sha1": "d2b52a3bfbe64187",
+  "source": "Wikimedia Commons",
+  "title": "Connective Tissue Compact Bone (39978304590)"
+ },
+ "qbank/hyaline-cartilage": {
+  "author": "Berkshire Community College Bioscience Image Library",
+  "bytes": 818020,
+  "credit": "Connective Tissue: Developing Hyaline Cartilage",
+  "fetched": "2026-09-30",
+  "file": "qbank/hyaline-cartilage.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Connective_Tissue_Developing_Hyaline_Cartilage_(41815119992).jpg",
+  "sha1": "c5f3f71b6deb6d45",
+  "source": "Wikimedia Commons",
+  "title": "Connective Tissue Developing Hyaline Cartilage (41815119992)"
  },
  "qbank/lan-switch": {
   "author": "Sub",
@@ -1754,6 +1806,19 @@
   "source": "Wikimedia Commons",
   "title": "Lichen cross section – heteromeric thallus unlabelled"
  },
+ "qbank/motor-neuron": {
+  "author": "Berkshire Community College Bioscience Image Library",
+  "bytes": 325541,
+  "credit": "Nervous Tissue: Spinal Cord Motor Neuron",
+  "fetched": "2026-09-30",
+  "file": "qbank/motor-neuron.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Nervous_Tissue_Spinal_Cord_Motor_Neuron_(41850850692).jpg",
+  "sha1": "54bcb961d88ee534",
+  "source": "Wikimedia Commons",
+  "title": "Nervous Tissue Spinal Cord Motor Neuron (41850850692)"
+ },
  "qbank/onion-mitosis": {
   "author": "Ibn Anvar",
   "bytes": 329142,
@@ -1780,6 +1845,19 @@
   "source": "Wikimedia Commons",
   "title": "Paramecium sp+Nr"
  },
+ "qbank/plant-callus": {
+  "author": "Iripseudocorus",
+  "bytes": 1718928,
+  "credit": "Own work",
+  "fetched": "2026-09-30",
+  "file": "qbank/plant-callus.png",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Callus_in_MS-Media.png",
+  "sha1": "3bcd9ebaf221d8d0",
+  "source": "Wikimedia Commons",
+  "title": "Callus in MS-Media"
+ },
  "qbank/silver-mirror": {
   "author": "Tmv23",
   "bytes": 84415,
@@ -1792,5 +1870,18 @@
   "sha1": "da4eb67ef107ab81",
   "source": "Wikimedia Commons",
   "title": "Tollensprobe"
+ },
+ "qbank/sunflower-stem": {
+  "author": "Tgru001",
+  "bytes": 1167109,
+  "credit": "Own work",
+  "fetched": "2026-09-30",
+  "file": "qbank/sunflower-stem.jpg",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Sunflower_Helianthus_stem_mag_100x_actual_1.4-1.6mm.jpg",
+  "sha1": "ed4ded57e7c0302c",
+  "source": "Wikimedia Commons",
+  "title": "Sunflower Helianthus stem mag 100x actual 1.4-1.6mm"
  }
 }
