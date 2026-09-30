@@ -408,7 +408,7 @@ for ax, (l, r, tp, ttl) in zip((a1, a2), [(60, 25, 90, "exothermic"), (25, 60, 9
     ax.annotate("", xy=(9.3, r), xytext=(9.3, l), arrowprops=dict(arrowstyle="<->", color="#A8271F", lw=0.9))
     ax.text(9.0, (l+r)/2, "ΔH", fontsize=8, color="#A8271F", va="center", ha="right")
     ax.text(0.4, l+3.5, "reactants", fontsize=7.4, color=MUTED)
-    ax.text(6.3, r+3.5 if ttl == "exothermic" else r-9, "products", fontsize=7.4, color=MUTED)
+    ax.text(6.8, r+7 if ttl == "exothermic" else r-9, "products", fontsize=7.4, color=MUTED)
     ax.set_title(ttl, fontsize=8.6, color=INK)
     ax.set_xlabel("reaction coordinate", fontsize=7.6)
     ax.set_xlim(0, 10); ax.set_ylim(10, 100)
@@ -533,5 +533,205 @@ Anode: 2H₂ + 4OH⁻ → 4H₂O + 4e⁻. Cathode: O₂ + 2H₂O + 4e⁻ → 4OH
 
 ::: tip Examiner's note — Electrochemistry
 Write E°cell = E°cathode − E°anode **with the numbers in it**, and check that the answer is positive: a negative value means you have swapped the electrodes. In the notation put the anode on the left and the cathode on the right, with a double vertical line for the salt bridge; mention the concentration (1 M) and the gas pressure (1 atm) each time. The lead storage battery and the fuel cell come as a Group A item or as a three-mark part; learn the electrode equations.
+:::
+
+## 6.6 Transition Metals
+
+CDC allots **5 teaching hours**. Expect one Group B question built on crystal field theory or on the properties of transition metals, and a Group A item on colour, oxidation states or catalysis.
+
+**Short answer questions [5 marks each]**
+
+1. What is a d–d electron transition? List the characteristics of transition metals. [1+4] <span class="marks">[5]</span> (NEB 2079 model)
+2. (a) State the assumptions of crystal field theory. [3] (b) Draw the diagram showing the splitting of the d-orbitals in an octahedral complex. [2] <span class="marks">[5]</span> (NEB model set A)
+3. (a) Why does an octahedral complex of Cu²⁺ become distorted according to crystal field theory? [2] (b) Why is [Cu(H₂O)₆]²⁺ blue? [1] (c) Which is more stable, Fe³⁺ or Fe²⁺, and why? [1] (d) Why are transition metals good catalysts? [1] <span class="marks">[5]</span> (NEB 2078 model)
+4. (a) Write the electronic configurations of Cr and Cu and explain why they are exceptions. [2] (b) Why is zinc not regarded as a transition element? [1] (c) Why are Sc³⁺ and Zn²⁺ colourless? [1] (d) How many d electrons has Cr in [Cr(H₂O)₆]³⁺? [1] <span class="marks">[5]</span>
+
+```figure caption="Splitting of the five d-orbitals in an octahedral field. The two $e_g$ orbitals, which point at the ligands, rise by 0.6 Δo above the average energy; the three $t_{2g}$ orbitals, which point between the ligands, fall by 0.4 Δo. Δo is the crystal field splitting energy; light of energy Δo promotes an electron from $t_{2g}$ to $e_g$."
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(4.6, 3.3))
+ax.set_xlim(0, 10); ax.set_ylim(0, 9); ax.axis("off")
+def level(x0, x1, y, col=INK):
+    ax.plot([x0, x1], [y, y], color=col, lw=2.0)
+ax.text(1.2, 8.3, "free ion", fontsize=8, color=MUTED, ha="center")
+level(0.5, 1.9, 4.7, MUTED)
+ax.text(1.2, 5.1, "five d-orbitals", fontsize=7.4, color=MUTED, ha="center")
+ax.text(4.3, 8.3, "average (spherical field)", fontsize=8, color=MUTED, ha="center")
+ax.plot([3.2, 5.4], [4.7, 4.7], color=MUTED, lw=1.0, ls="--")
+ax.text(7.7, 8.3, "octahedral field", fontsize=8, color=MUTED, ha="center")
+level(6.3, 7.0, 6.5, "#A8271F"); level(7.2, 7.9, 6.5, "#A8271F")
+ax.text(8.15, 6.5, "$e_g$", fontsize=9.6, color="#A8271F", va="center")
+ax.text(6.25, 7.0, "$d_{z^2}$", fontsize=8.2, color=INK, ha="left"); ax.text(7.2, 7.0, "$d_{x^2-y^2}$", fontsize=8.2, color=INK, ha="left")
+level(6.0, 6.6, 2.6, ACCENT); level(6.8, 7.4, 2.6, ACCENT); level(7.6, 8.2, 2.6, ACCENT)
+ax.text(8.45, 2.6, "$t_{2g}$", fontsize=9.6, color=ACCENT, va="center")
+ax.text(6.0, 1.9, "$d_{xy}$", fontsize=8.2, color=INK); ax.text(6.8, 1.9, "$d_{yz}$", fontsize=8.2, color=INK); ax.text(7.6, 1.9, "$d_{xz}$", fontsize=8.2, color=INK)
+ax.plot([1.9, 6.0], [4.7, 2.6], color=GRID, lw=0.8, ls=":"); ax.plot([1.9, 6.3], [4.7, 6.5], color=GRID, lw=0.8, ls=":")
+ax.annotate("", xy=(5.6, 6.5), xytext=(5.6, 2.6), arrowprops=dict(arrowstyle="<->", color=INK, lw=1.1))
+ax.text(5.45, 3.6, "Δo", fontsize=10, color=INK, ha="right", va="center")
+ax.text(9.3, 5.6, "+0.6 Δo", fontsize=7.4, color="#A8271F", ha="right"); ax.text(9.3, 3.6, "−0.4 Δo", fontsize=7.4, color=ACCENT, ha="right")
+```
+
+::: note Model answers — short
+**1.** A **d–d transition** is the excitation of an electron from a lower-energy d-orbital to a higher-energy d-orbital of the same metal ion (for an octahedral complex, from t₂g to e_g) when the ion absorbs a photon of visible light of energy equal to the crystal-field splitting Δo. The complementary colour is transmitted, so the compound is coloured.
+**Characteristics of transition metals:**
+1. **Variable oxidation states**, because the (n−1)d and ns electrons have similar energy (Mn shows +2 to +7).
+2. **Coloured compounds**, from d–d transitions in ions with a partly filled d subshell.
+3. **Complex formation**, because the ions are small, highly charged and have vacant d-orbitals ([Cu(NH₃)₄]²⁺, [Fe(CN)₆]⁴⁻).
+4. **Catalytic activity**, from variable oxidation state and the ability to adsorb reactants on the surface (Fe in the Haber process, V₂O₅ in the contact process).
+5. **Paramagnetism**, from unpaired d electrons; also high melting points, hardness, high density and the formation of alloys and interstitial compounds.
+
+**2.** (a) **Assumptions of crystal field theory:**
+1. The ligands are treated as **point negative charges** (or dipoles), and the bond between metal and ligand is purely **electrostatic**.
+2. In the free ion the five d-orbitals have the same energy; the approaching ligands repel the d electrons, and the orbitals **split** into sets of different energy according to their orientation relative to the ligands.
+3. The difference in energy, the crystal field splitting Δ, depends on the ligand and on the geometry, and electrons fill the split orbitals according to Δ and the pairing energy.
+(b) See the figure: in an octahedral complex the three t₂g orbitals are lowered by 0.4Δo and the two e_g orbitals are raised by 0.6Δo.
+
+**3.** (a) Cu²⁺ is d⁹: the t₂g set is full and the e_g set holds three electrons, with unequal occupancy of d_z² and d_x²−y². Unequal repulsion on the ligands along z and in the xy plane makes the complex **elongate along the z-axis** (Jahn–Teller distortion), which lowers the total energy.
+(b) In [Cu(H₂O)₆]²⁺ the d–d transition absorbs light in the red-orange region, so the transmitted (complementary) colour is **blue**.
+(c) **Fe³⁺** (d⁵) is more stable than Fe²⁺ (d⁶) because a half-filled d subshell gives extra exchange energy and symmetry.
+(d) They have **variable oxidation states** and vacant d-orbitals, so they form intermediate compounds with reactants and offer a surface for adsorption.
+
+**4.** (a) Cr: [Ar] 3d⁵4s¹ (not 3d⁴4s²) and Cu: [Ar] 3d¹⁰4s¹ (not 3d⁹4s²). A half-filled (d⁵) or fully filled (d¹⁰) subshell has extra stability from symmetry and exchange energy, so one 4s electron moves into the 3d subshell.
+(b) Zn is [Ar] 3d¹⁰4s² and forms only Zn²⁺ (3d¹⁰): its d subshell is full in both the atom and its common ion, so it does not meet the definition of a transition element (an ion with a partly filled d subshell).
+(c) Sc³⁺ is 3d⁰ and Zn²⁺ is 3d¹⁰, so there is no partly filled d subshell and **no d–d transition** is possible.
+(d) Cr³⁺ is [Ar] 3d³: **three** d electrons.
+:::
+
+**Long answer questions [8 marks each]**
+
+1. (a) Define a transition element and write the general electronic configuration. [2] (b) Explain the variable oxidation states of manganese with one compound for each state. [2] (c) Explain why [Ti(H₂O)₆]³⁺ is coloured while Sc³⁺ compounds are not. [2] (d) Give two examples of catalysis by transition metals with the catalyst and reaction. [2] <span class="marks">[8]</span>
+
+::: note Model answers — long
+**1.** (a) A **transition element** is one that has a partly filled d subshell in its atom or in any of its common ions. General configuration: **(n−1)d¹⁻¹⁰ ns¹⁻²** (in the 3d series, [Ar] 3d¹⁻¹⁰ 4s¹⁻²).
+(b) Manganese ([Ar] 3d⁵4s²) uses its 4s and 3d electrons and shows every state from +2 to +7: +2 in MnSO₄, +3 in Mn₂O₃, +4 in MnO₂, +6 in K₂MnO₄ and +7 in KMnO₄. The 4s and 3d energies are close, so successive electrons can be removed with small increases in ionisation energy; the highest state +7 equals the number of 3d + 4s electrons.
+(c) Ti³⁺ is 3d¹: in [Ti(H₂O)₆]³⁺ the single electron is in t₂g, and absorbing light of energy Δo (green–yellow, about 500 nm) promotes it to e_g, so the complex transmits violet-purple and is coloured. Sc³⁺ is 3d⁰ with no d electron to excite, so it is colourless.
+(d) (i) **Iron** in the Haber process: N₂ + 3H₂ ⇌ 2NH₃ (heterogeneous; reactants adsorbed on the Fe surface). (ii) **V₂O₅** in the contact process: 2SO₂ + O₂ ⇌ 2SO₃ (V⁵⁺ ⇌ V⁴⁺ cycling). (Also Ni in hydrogenation of oils; MnO₂ in the decomposition of KClO₃.)
+:::
+
+**Most repeated in Transition Metals:** d–d transition and characteristics (2079 model); crystal field splitting and its assumptions (2078 model, model set A); variable oxidation states and catalytic behaviour (2081 MCQ, 2078 model); colour of ions (2081, 2082 MCQs).
+
+::: tip Examiner's note — Transition Metals
+Always link **colour to a partly filled d subshell** and say "d–d transition" by name. For catalysis give both reasons — variable oxidation state *and* surface adsorption — and one named example with its reaction. Never call zinc a transition element without the qualifier "non-typical": it has a full d subshell in its atom and its ion.
+:::
+
+## 6.7 Studies of Heavy Metals
+
+CDC allots **15 teaching hours**, the largest inorganic unit. The five-mark extraction and compound questions on copper, zinc, mercury and iron are as regular as the organic reaction chains: the 2079, 2081, 2082 and 2083 papers each carry two or three of them.
+
+**Short answer questions [5 marks each]**
+
+1. An ammonia solution is added to the sulphate of a coinage metal A. The blue precipitate B that forms dissolves in excess of the reagent to give a deep blue solution C. (a) Identify A, B and C with the reactions. [3] (b) Write the electronic configuration of A. [1] (c) Name a method for the purification of A. [1] <span class="marks">[5]</span> (NEB 2079 model, model set B)
+2. A coinage metal M of group IB has the configuration [Ar] 3d¹⁰4s¹. (a) Draw the blast furnace used for smelting its chief ore. [2] (b) Explain the reactions that form the matte in the furnace. [3] <span class="marks">[5]</span> (NEB 2081, 2083)
+3. Write the preparation, properties and uses of corrosive sublimate. [1+3+1] <span class="marks">[5]</span> (NEB 2081, 2083, model set B)
+4. White vitriol is an important compound of zinc, a non-typical transition metal. (a) Write a method of preparation of white vitriol. [1] (b) What happens when it is heated to 800 °C? [1] (c) Define a double salt with an example. [1] (d) How is lithopone obtained from white vitriol? [1] (e) Why is zinc a non-typical transition metal? [1] <span class="marks">[5]</span> (NEB 2079)
+5. Steel is made by the open hearth process. (a) What is the open hearth process? [1] (b) Write the chemical reactions that occur in the furnace. [2] (c) Why is spiegeleisen added? [1] (d) Give the composition of stainless steel. [1] <span class="marks">[5]</span> (NEB 2079)
+6. The metal M, [Ar] 3d¹⁰4s², is called "Jasta". (a) Identify M and its main ore. [1] (b) Why is M not regarded as a transition element? [1] (c) Draw the vertical retort and write the reduction reaction. [2] (d) What happens to M when it is exposed to air for a long time? [1] <span class="marks">[5]</span> (NEB 2082)
+7. What is rusting? Describe the electrochemical theory of the rusting of iron and give two methods of preventing it. [1+3+1] <span class="marks">[5]</span> (NEB 2082)
+
+```figure caption="A water-jacketed blast furnace for smelting roasted copper ore with coke and silica. The charge enters at the top; hot air enters through the tuyères; the heavy copper matte (Cu₂S + FeS) sinks below the lighter slag (FeSiO₃), and each is tapped separately."
+import matplotlib.pyplot as plt
+from matplotlib.patches import Polygon, Rectangle
+
+fig, ax = plt.subplots(figsize=(4.6, 3.6))
+ax.set_xlim(0, 11); ax.set_ylim(0, 9); ax.axis("off")
+ax.add_patch(Polygon([(3.6, 1.2), (7.4, 1.2), (7.6, 6.6), (3.4, 6.6)], closed=True, fc="#F2F2F2", ec=INK, lw=1.4))
+ax.add_patch(Rectangle((3.63, 1.22), 3.74, 0.9, fc="#8C6A3A", ec="none"))
+ax.add_patch(Rectangle((3.65, 2.12), 3.7, 0.75, fc="#B7B7B7", ec="none"))
+ax.add_patch(Polygon([(3.6, 6.6), (7.4, 6.6), (6.8, 7.4), (4.2, 7.4)], closed=True, fc="white", ec=INK, lw=1.2))
+ax.text(5.5, 4.6, "charge: roasted ore,\ncoke, silica", fontsize=7.6, color=INK, ha="center", va="center")
+ax.text(5.5, 2.5, "slag  FeSiO₃", fontsize=7.4, color=INK, ha="center", va="center")
+ax.text(5.5, 1.65, "matte  Cu₂S + FeS", fontsize=7.4, color="white", ha="center", va="center")
+ax.annotate("charge in", xy=(5.5, 7.4), xytext=(5.5, 8.6), fontsize=8, color=INK, ha="center",
+            arrowprops=dict(arrowstyle="->", color=INK, lw=0.9))
+ax.annotate("waste gases (SO₂, CO₂)", xy=(6.8, 7.3), xytext=(7.4, 8.3), fontsize=7.6, color=INK, ha="left",
+            arrowprops=dict(arrowstyle="->", color=INK, lw=0.9))
+ax.annotate("hot air blast\n(tuyères)", xy=(3.5, 3.3), xytext=(0.2, 3.3), fontsize=7.6, color=INK, ha="left", va="center",
+            arrowprops=dict(arrowstyle="->", color=INK, lw=0.9))
+ax.annotate("hot air blast", xy=(7.5, 3.3), xytext=(9.8, 3.3), fontsize=7.6, color=INK, ha="right", va="center",
+            arrowprops=dict(arrowstyle="->", color=INK, lw=0.9))
+ax.annotate("slag tap", xy=(7.6, 2.5), xytext=(8.6, 1.9), fontsize=7.6, color=INK, ha="left",
+            arrowprops=dict(arrowstyle="->", color=INK, lw=0.9))
+ax.annotate("matte tap", xy=(3.6, 1.55), xytext=(0.3, 0.6), fontsize=7.6, color=INK, ha="left",
+            arrowprops=dict(arrowstyle="->", color=INK, lw=0.9))
+ax.text(5.5, 0.5, "water jacket around the shaft", fontsize=7.2, color=MUTED, ha="center")
+```
+
+::: note Model answers — short (1–4)
+**1.** (a) **A = copper (Cu)**, in the sulphate CuSO₄. With a little NH₄OH a blue precipitate **B = Cu(OH)₂** forms; excess ammonia dissolves it to the deep blue **C = tetraamminecopper(II) sulphate, [Cu(NH₃)₄]SO₄**.
+CuSO₄ + 2NH₄OH → Cu(OH)₂↓ + (NH₄)₂SO₄
+Cu(OH)₂ + (NH₄)₂SO₄ + 2NH₄OH → [Cu(NH₃)₄]SO₄ + 4H₂O
+(b) Cu: [Ar] 3d¹⁰4s¹.
+(c) **Electrolytic refining** (after poling): impure copper is the anode, pure copper the cathode, and acidified CuSO₄ is the electrolyte; 99.95 % pure copper deposits.
+
+**2.** (a) See the figure: the chief ore is copper pyrite, CuFeS₂, and the roasted ore is smelted with coke and silica in a small water-jacketed blast furnace. (b) The reactions that occur in the furnace:
+FeO + SiO₂ → FeSiO₃ (slag; silica is the flux that removes iron as a fusible silicate)
+Cu₂O + FeS → Cu₂S + FeO
+The FeO formed in the second reaction is slagged by silica. The molten **matte** (Cu₂S + FeS, about 45 % Cu) sinks below the lighter slag and is tapped off for the Bessemer converter. Matte forms because copper has a greater affinity for sulphur than iron has, so the sulphur stays with copper and the iron passes into the slag as FeSiO₃.
+
+**3.** **Preparation:** (i) directly, by heating mercury in excess chlorine, Hg + Cl₂ → HgCl₂; (ii) industrially, by heating mercury(II) sulphate with sodium chloride and subliming the product, HgSO₄ + 2NaCl → HgCl₂↑ + Na₂SO₄ (a little MnO₂ is added to oxidise any mercurous salt).
+**Properties:** white crystalline, poisonous, sublimes on heating, sparingly soluble in water and largely un-ionised (covalent). Reactions: (i) with KI, a scarlet precipitate that dissolves in excess KI: HgCl₂ + 2KI → HgI₂↓ + 2KCl; HgI₂ + 2KI → K₂[HgI₄]; (ii) with SnCl₂, a white precipitate that turns grey: 2HgCl₂ + SnCl₂ → Hg₂Cl₂↓ + SnCl₄, then Hg₂Cl₂ + SnCl₂ → 2Hg + SnCl₄; (iii) with NH₃, a white precipitate: HgCl₂ + 2NH₃ → Hg(NH₂)Cl↓ + NH₄Cl.
+**Uses:** as an antiseptic and disinfectant (1 : 1000), to preserve wood and anatomical specimens, to make Nessler's reagent and calomel, and as a catalyst (with HgSO₄) for the hydration of ethyne.
+
+**4.** (a) Dissolve zinc (or ZnO or ZnCO₃) in dilute H₂SO₄ and crystallise below 30 °C: Zn + H₂SO₄ → ZnSO₄ + H₂; the solution gives ZnSO₄·7H₂O.
+(b) At red heat (about 800 °C) it loses its water and then decomposes: 2ZnSO₄ → 2ZnO + 2SO₂ + O₂.
+(c) A **double salt** is a compound formed by the crystallisation of a solution containing two simple salts in equimolar amounts; it exists in the solid state but dissociates into its ions in water. Example: potash alum, K₂SO₄·Al₂(SO₄)₃·24H₂O (or Mohr's salt).
+(d) By mixing solutions of zinc sulphate and barium sulphide: ZnSO₄ + BaS → ZnS↓ + BaSO₄↓. The mixed white precipitate of ZnS and BaSO₄ is **lithopone**, a white pigment.
+(e) The zinc atom ([Ar] 3d¹⁰4s²) and its only ion Zn²⁺ (3d¹⁰) both have a completely filled d subshell, so zinc does not show the properties of a typical transition element (variable oxidation states, coloured ions, paramagnetism).
+:::
+
+::: note Model answers — short (5–7)
+**5.** (a) The **open hearth process** is a method of making steel from pig iron in a shallow, saucer-shaped furnace heated by producer gas and pre-heated air (the Siemens regenerative principle); the impurities are oxidised by haematite in the charge.
+(b) Fe₂O₃ + 3C → 2Fe + 3CO↑; 2Fe₂O₃ + 3Si → 4Fe + 3SiO₂; Fe₂O₃ + 3Mn → 2Fe + 3MnO; 5Fe₂O₃ + 6P → 10Fe + 3P₂O₅. Lime is added as a flux and the SiO₂ and P₂O₅ pass into the slag (CaSiO₃, Ca₃(PO₄)₂).
+(c) **Spiegeleisen** is an alloy of iron, manganese and carbon. It is added at the end to restore the required amount of carbon and, through manganese, to remove dissolved oxygen (as MnO), since excess oxygen makes steel brittle.
+(d) **Stainless steel:** about 74 % Fe, 18 % Cr, 8 % Ni (and about 0.1 % C).
+
+**6.** (a) M is **zinc**, and its main ore is **zinc blende, ZnS**.
+(b) Zn²⁺ is 3d¹⁰ and the atom has a full d subshell, so there is no partly filled d subshell in either; it is a non-typical transition (d-block) element.
+(c) **Vertical retort:** a tall, narrow column of fireclay or silicon carbide heated from outside. Briquettes of roasted ore (ZnO) and coke are fed in at the top, and zinc vapour and CO leave from the top to a condenser. **Roasting:** 2ZnS + 3O₂ → 2ZnO + 2SO₂. **Reduction:** ZnO + C → Zn + CO at about 1673 K; the zinc distils as vapour (b.p. 907 °C).
+(d) In moist air a thin protective layer of basic zinc carbonate forms, 2Zn + O₂ + CO₂ + H₂O → ZnCO₃·Zn(OH)₂, which stops further corrosion (the basis of galvanising).
+
+**7.** **Rusting** is the slow corrosion of iron in moist air to form hydrated iron(III) oxide, Fe₂O₃·xH₂O, a brown flaky solid.
+**Electrochemical theory.** The impure iron surface with water containing dissolved CO₂ and O₂ acts as a tiny galvanic cell.
+- **Anode** (oxygen-poor region): Fe → Fe²⁺ + 2e⁻.
+- **Cathode** (oxygen-rich region): O₂ + 4H⁺ + 4e⁻ → 2H₂O. The electrons flow through the metal and the ions through the moisture.
+- Fe²⁺ is further oxidised by air and water: 4Fe²⁺ + O₂ + 4H₂O → 2Fe₂O₃ + 8H⁺, and the oxide hydrates to rust, Fe₂O₃·xH₂O.
+
+**Prevention:** (i) painting, oiling or plastic coating to keep out air and water; (ii) galvanising (coating with zinc, which also acts as a sacrificial anode); (iii) alloying to stainless steel; (iv) cathodic protection with magnesium blocks.
+:::
+
+**Long answer questions [8 marks each]**
+
+1. Describe the extraction of copper from copper pyrite, giving the reactions of each stage: concentration, roasting, smelting, Bessemerisation and refining. <span class="marks">[8]</span> (NEB 2078 model, 2079 model, 2081, 2083)
+2. Describe the manufacture of steel by (a) the Basic Oxygen Process [4] and (b) the Open Hearth Process [3], and state one advantage of the open hearth process. [1] <span class="marks">[8]</span> (NEB 2079 for (b))
+3. Describe the extraction of silver from argentite by the cyanide process. Write the reactions, explain why air is blown through the solution and how silver is refined. <span class="marks">[8]</span>
+
+::: note Model answers — long
+**1.** **Ore:** copper pyrite, CuFeS₂ (2–3 % Cu).
+1. **Concentration by froth flotation.** The powdered ore is agitated with water, pine oil and sodium ethyl xanthate while air is blown through; the sulphide particles are wetted by oil and rise in the froth, the earthy gangue sinks.
+2. **Roasting** in a reverberatory furnace in a limited supply of air at about 1070 K, which drives off moisture, As and Sb as oxides, and burns part of the sulphur:
+2CuFeS₂ + O₂ → Cu₂S + 2FeS + SO₂; 2FeS + 3O₂ → 2FeO + 2SO₂; 2Cu₂S + 3O₂ → 2Cu₂O + 2SO₂.
+3. **Smelting** of the roasted ore with coke and silica in a water-jacketed blast furnace: FeO + SiO₂ → FeSiO₃ (slag), Cu₂O + FeS → Cu₂S + FeO. The molten product is **copper matte**, Cu₂S + FeS (about 45 % Cu).
+4. **Bessemerisation.** Molten matte is poured into a **Bessemer converter** lined with silica; hot air is blown through. 2FeS + 3O₂ → 2FeO + 2SO₂, FeO + SiO₂ → FeSiO₃; 2Cu₂S + 3O₂ → 2Cu₂O + 2SO₂; and then **auto-reduction**: 2Cu₂O + Cu₂S → 6Cu + SO₂↑. The product is **blister copper** (98 % pure; the escaping SO₂ makes blisters).
+5. **Refining.** First poling (green wood poles reduce residual Cu₂O), then **electrolytic refining**: anode of impure copper, cathode of pure copper, electrolyte CuSO₄ + dilute H₂SO₄. Anode: Cu → Cu²⁺ + 2e⁻; cathode: Cu²⁺ + 2e⁻ → Cu. The pure copper (99.95 %) deposits and the impurities fall as **anode mud** (Ag, Au).
+
+**2.** (a) **Basic Oxygen Process (LD process).** Vessel: a pear-shaped converter lined with basic dolomite (CaO·MgO). Charge: molten pig iron, up to 30 % scrap, and quicklime as flux. A water-cooled lance blows 99.5 % pure oxygen at about 10 atm for 20 minutes; no fuel is needed because the oxidation of the impurities supplies the heat.
+C: 2C + O₂ → 2CO↑ (burns at the mouth); Si: Si + O₂ → SiO₂, then SiO₂ + CaO → CaSiO₃ (slag); Mn: 2Mn + O₂ → 2MnO, then MnO + SiO₂ → MnSiO₃; P: 4P + 5O₂ → 2P₂O₅, then P₂O₅ + 3CaO → Ca₃(PO₄)₂ (slag); S: S + O₂ → SO₂↑. When the carbon is down to the required level, ferro-manganese or other alloying metals are added.
+(b) **Open Hearth Process.** Vessel: shallow, saucer-shaped hearth with a basic (dolomite) lining for phosphoric iron; heated by producer gas and pre-heated air through regenerators. The oxidising agent is haematite in the charge: Fe₂O₃ + 3C → 2Fe + 3CO; 2Fe₂O₃ + 3Si → 4Fe + 3SiO₂; 5Fe₂O₃ + 6P → 10Fe + 3P₂O₅; Fe₂O₃ + 3Mn → 2Fe + 3MnO. Lime takes SiO₂ and P₂O₅ into the slag. A charge takes 8–10 hours.
+(c) **Advantage:** because it is slow, samples can be analysed and the composition adjusted, so alloy and special steels of accurately controlled composition can be made.
+
+**3.** **Ore:** argentite (silver glance), Ag₂S.
+1. **Concentration** by froth flotation.
+2. **Leaching.** The concentrate is agitated with a dilute (0.1–0.5 %) NaCN solution while **air is blown** through:
+Ag₂S + 4NaCN ⇌ 2Na[Ag(CN)₂] + Na₂S
+The reaction is reversible. The air oxidises the sodium sulphide as it forms, 2Na₂S + 2O₂ + H₂O → Na₂S₂O₃ + 2NaOH, which **removes a product and drives the equilibrium to the right** (Le Chatelier's principle). The silver dissolves as sodium dicyanoargentate(I).
+3. **Precipitation.** Zinc dust displaces silver because zinc is more electropositive:
+2Na[Ag(CN)₂] + Zn → Na₂[Zn(CN)₄] + 2Ag↓
+4. **Refining** by the **Moebius electrolytic process**: anode of impure silver, cathode of pure silver, electrolyte of AgNO₃ with about 1 % HNO₃. Pure silver (99.9 %) collects as crystals at the cathode and falls into a bag below the anode; gold and platinum remain in the anode mud.
+:::
+
+**Most repeated in Heavy Metals:** copper — ore, blast-furnace matte reactions, blue vitriol and the blue ammonia complex (2078 model, 2079 model, 2081, 2083, model set B); zinc — white vitriol, vertical retort, Jasta (2079, 2082); mercury — corrosive sublimate (2081, 2083, model set B) and the quick-silver furnace (model set A); steel by open hearth (2079); rusting (2082).
+
+::: tip Examiner's note — Heavy Metals
+Every extraction answer follows the same headings: **concentration, roasting (or calcination), smelting or reduction, refining** and the **uses** — write the headings and a balanced equation under each. A "draw the furnace" mark is earned by the labels: charge, blast, tuyères, slag and matte taps. For corrosive sublimate, learn the two-stage reactions with KI and SnCl₂ (a colour change with excess reagent is what the examiner looks for).
 :::
 
