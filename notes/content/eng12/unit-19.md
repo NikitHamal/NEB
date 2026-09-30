@@ -171,7 +171,7 @@ The end is a double story. On the surface, Durand is sending his daughters away 
 windows; underneath, he is making sure the fire catches. He is **telling the truth in
 code**: "Put out the fire in the stove" means *make it look as though there was no fire of
 ours*; the candle count is a fuse; "I am going away to get money for you" is literally
-true. Adèle alone understands (she "looks Durand in the eyes", and after a pause obeys),
+true. Adèle alone understands (she looks Durand in the eyes, and after a pause obeys),
 and so she, not the ungrateful younger girls, becomes the keeper of the secret.
 
 ## 19.4 Characters
@@ -456,7 +456,7 @@ even bread?*
 
 Two reasons. On the surface the candles are for a mass on the anniversary of the death of
 his small son René, "the most beautiful thing life ever gave me", and he pays for them with his
-tips, which he calls "my only contentment". Secretly, one of the candles will act as a **fuse**
+tips, which he calls "the only contentment I possess". Secretly, one of the candles will act as a **fuse**
 to set fire to the house so that his daughters can collect the fire insurance.
 
 *d. Why did Monsieur Durand sell his life insurance?*
@@ -516,7 +516,7 @@ railway that bypassed it ruined its value; there has been "only one tourist in t
 two months"; the pension is "bankrupt" and Durand cannot "borrow a sou". The family is also
 emotionally at a dead end: the daughters despise their father and quarrel, the eldest is worn
 out, and he hopes that "everything" will "crash at once". Durand is reduced to eating the rats'
-bait, and Antonio leaves "the sinking ship".
+bait, and Antonio leaves with a joke about a "sinking ship".
 
 *c. "The mother, though already dead, seems to have had a great influence on the daughters,
 especially Thérèse." Do you agree?*
@@ -526,7 +526,7 @@ mother said". She taught the children to despise their father, told them he was 
 deserter, and claimed that he wasted their dowry. Thérèse repeats these accusations at the
 moment of crisis ("you who deserted!"). Adèle calls him "the wretch", says he should have been put
 in the lunatic asylum "the time mother said he was ripe for it" and cries "Oh, if mother were only
-living!" Even Annette, "how like your mother you are today", uses her mother's tone. Durand says
+living!" Durand himself remarks to Annette, "How like your mother you are today!" Durand says
 that he has been met at every attempt at reform by "But mother said". Thérèse is the most
 affected because she is the youngest, the most spoiled and the most eager to imitate her mother's
 contempt, though she is also the one who finally breaks away from it.
@@ -549,9 +549,9 @@ examples.*
 Money is the main hidden character. (1) **Durand and his daughters:** their quarrels are about bread,
 bills, milk and matches; they measure his worth by what he can pay. Adèle says, "You can afford to buy such
 things!" of candles. (2) **Durand and his wife:** her debts turned her love to hatred. (3) **Antonio and
-the Durands:** Antonio is welcome as a paying guest; Durand refuses his money when it would
-be charity but accepts the ten francs he owes; Thérèse asks Antonio to wait for coffee "as a
-married man" and speaks of "my position, my debt, my weakness". (4) **Durand and his
+the Durands:** Antonio is welcome as a paying guest; Durand refuses his offer to pay a month in advance
+as charity but accepts the ten francs he says he owes, and later, insulted, throws a gold piece after
+him: "My curses follow your gold, scamp!" (4) **Durand and his
 creditors:** the bills set the plot in motion. (5) **Durand and the insurance company:** the only way
 he can give his daughters a fortune is by dying. When Durand says he will get them money, Thérèse's
 first concern is "How much can you get for it?" From first bill to last policy, every
@@ -621,7 +621,7 @@ person. So it is a **modern tragedy** in form, subject and spirit.
 
 **2.** Because Pierre brings no bread but three unpaid bills. The baker will send no more until he is paid and the butcher and grocer have also sent bills. She sees that the family's credit is finished.
 
-**3.** Antonio suspects the story his daughters tell, that Durand is really French. Durand answers "uncertainly" that he was born in Switzerland, and later his daughters and Durand himself reveal that he was born in France.
+**3.** Antonio seems to have guessed that Durand may not be Swiss by birth. Durand answers "uncertainly" that he was, and later Thérèse and Durand himself reveal that he was born in France.
 
 **4.** He lifts his stick against Antonio and tells him to choose his weapon; when Antonio leaves, Durand throws a gold piece after him, breaks his stick in two and says, "He who cannot kill must die."
 
@@ -646,7 +646,7 @@ person. So it is a **modern tragedy** in form, subject and spirit.
 ::: note Model answers — long questions
 **1.** A tragic hero is a central figure whom we pity because he suffers more than he deserves, and whose fall comes from character and circumstance. Durand is such a figure in a modern key. He is a good man: patient, honourable and tender. He buys candles for a dead child, says that he once got up at night to cover his daughters and gave them water in secret, and never speaks ill of his dead wife. Yet he is also flawed: for twenty years he has watched the family "go toward an abyss" without reaching "the engine valves"; even when an American guest assaulted Thérèse he did not act, "father-like". His fall comes from debt, a failing pension and a family that despises him. In the last scene he recovers his dignity: he forgives Thérèse, tells Adèle the truth about his honour, arranges the future of the girls and dies so that the insurance will rescue them. Because he dies for people who have not loved him, we feel both pity and admiration. The tragedy is that he is understood only at the end, and by one daughter.
 
-**2.** The play prepares the ending through clues that seem ordinary until the last minutes. **Foreshadowing:** on the first page Durand tells Adèle to put out the fire in the stove and Adèle asks whether the fire insurance is paid; Durand wishes everything would "crash at once"; the wind is "going to blow soon"; bells and clanging are heard towards Cully; Antonio leaves the "sinking ship". **Symbols:** the **candles** are first a memorial for the dead child, then a fuse, since the sixth is placed "very high up and very near"; **fire** is destruction but also rescue; **milk and matches** stand for the small kindnesses the daughters withhold and Thérèse finally returns; the **lake and churchyard** in the window make death part of the view; the **glass of water** is the means of the poison. Together these make the audience feel that the end is fated and deliberate, and the sight of the candle and smoke gives a final picture that needs little explanation.
+**2.** The play prepares the ending through clues that seem ordinary until the last minutes. **Foreshadowing:** on the first page Durand tells Adèle to put out the fire in the stove and Adèle asks whether the fire insurance is paid; Durand wishes everything would "crash at once"; the wind is "going to blow soon"; a clanging is heard "down toward Cully"; Antonio jokes about a "sinking ship". **Symbols:** the **candles** are first a memorial for the dead child, then a fuse, since the sixth is placed "very high up and very near"; **fire** is destruction but also rescue; **milk and matches** stand for the small kindnesses the daughters withhold and Thérèse finally returns; the **lake and churchyard** in the window make death part of the view; the **glass of water** is the means of the poison. Together these make the audience feel that the end is fated and deliberate, and the sight of the candle and smoke gives a final picture that needs little explanation.
 
 **3.** Money is the force that damages love in the household and, paradoxically, the only language in which Durand can express it. **Money destroys love:** the quarrels concern bills, bread, milk and matches; Adèle resents the cost of candles; the dead mother turned against her husband as she owed him more ("the limitless hatred of her indebtedness"); Thérèse's first question about his plan is "How much can you get for it?". **Love uses money:** Durand's only way to help his daughters is to raise insurance by burning his house and dying. **Love without thanks:** he gives milk, water, matches and finally his life, and receives contempt until the last moment. **Honour and money:** he will not take Antonio's charity but pays for candles with his tips. So the play's two themes are linked: money creates the need for sacrifice and sacrifice shows the value of love.
 
