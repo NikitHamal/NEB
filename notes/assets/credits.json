@@ -623,6 +623,19 @@
   "source": "Wikimedia Commons",
   "title": "Bertrand Russell 1954"
  },
+ "eng12/castle-bravo": {
+  "author": "United States Department of Energy",
+  "bytes": 316938,
+  "credit": "US gov",
+  "fetched": "2026-09-30",
+  "file": "eng12/castle-bravo.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Castle_Bravo_Blast.jpg",
+  "sha1": "d10563b9dfef2da8",
+  "source": "Wikimedia Commons",
+  "title": "Castle Bravo Blast"
+ },
  "eng12/chobhar-view": {
   "author": "Anuja Sharma",
   "bytes": 546049,
@@ -687,6 +700,19 @@
   "sha1": "02964ba56b3630d1",
   "source": "Wikimedia Commons",
   "title": "Inside the Royal Dramatic Theatre Stockholm"
+ },
+ "eng12/durkheim": {
+  "author": "Unknown author Unknown author",
+  "bytes": 614511,
+  "credit": "https://archive.org/details/emiledurkheim1850000wolf/page/n7/mode/2up",
+  "fetched": "2026-09-30",
+  "file": "eng12/durkheim.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Portrait_of_Emile_Durkheim_in_%22a_collection_of_essays,_with_translations_and_a_bibliography%22_(cropped).jpg",
+  "sha1": "b2f84640343e15ba",
+  "source": "Wikimedia Commons",
+  "title": "Portrait of Emile Durkheim in \"a collection of essays, with translations and a bibliography\" (cropped)"
  },
  "eng12/galleon-model": {
   "author": "EyeTrick",
@@ -818,6 +844,19 @@
   "source": "Wikimedia Commons",
   "title": "Letters to the editor of the Heart Mountain Sentinel from Mary Mittwer of Denver, CO and Paul Nakadate, internee at... - NARA - 292811"
  },
+ "eng12/lincoln": {
+  "author": "Alexander Gardner",
+  "bytes": 227200,
+  "credit": "Christie's , LotFinder: entry 5217020",
+  "fetched": "2026-09-30",
+  "file": "eng12/lincoln.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Abraham_Lincoln_O-74_by_Gardner,_1863_bw.jpg",
+  "sha1": "4777a7f778fc77e6",
+  "source": "Wikimedia Commons",
+  "title": "Abraham Lincoln O-74 by Gardner, 1863 bw"
+ },
  "eng12/lu-xun": {
   "author": "Sha Fei",
   "bytes": 121105,
@@ -908,6 +947,32 @@
   "sha1": "0627591d95804560",
   "source": "Wikimedia Commons",
   "title": "Nautalle Durbar- Basantapur, Kathmandu Nepal-0340"
+ },
+ "eng12/nepali-hindu-wedding": {
+  "author": "Bijaya2043",
+  "bytes": 479213,
+  "credit": "Own work",
+  "fetched": "2026-09-30",
+  "file": "eng12/nepali-hindu-wedding.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Nepali_Hindu_Wedding_(30).jpg",
+  "sha1": "005c9ae8a292fc3b",
+  "source": "Wikimedia Commons",
+  "title": "Nepali Hindu Wedding (30)"
+ },
+ "eng12/nepali-hindu-wedding-b": {
+  "author": "Bijaya2043",
+  "bytes": 363660,
+  "credit": "Own work",
+  "fetched": "2026-09-30",
+  "file": "eng12/nepali-hindu-wedding-b.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Nepali_Hindu_Wedding_(20).jpg",
+  "sha1": "616511f9f32983a2",
+  "source": "Wikimedia Commons",
+  "title": "Nepali Hindu Wedding (20)"
  },
  "eng12/nepali-marriage-ritual": {
   "author": "Nirmal Dulal",
@@ -1637,6 +1702,19 @@
   "source": "Wikimedia Commons",
   "title": "Bacterial morphology diagram"
  },
+ "qbank/blue-vitriol": {
+  "author": "W. Oelen",
+  "bytes": 89215,
+  "credit": "http://woelen.homescience.net/science/index.html",
+  "fetched": "2026-09-30",
+  "file": "qbank/blue-vitriol.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Copper_sulfate_pentahydrate_crystals.jpg",
+  "sha1": "0cb14c2b5f39e4c3",
+  "source": "Wikimedia Commons",
+  "title": "Copper sulfate pentahydrate crystals"
+ },
  "qbank/lan-switch": {
   "author": "Sub",
   "bytes": 283242,
@@ -1701,5 +1779,18 @@
   "sha1": "50c68fca69feda02",
   "source": "Wikimedia Commons",
   "title": "Paramecium sp+Nr"
+ },
+ "qbank/silver-mirror": {
+  "author": "Tmv23",
+  "bytes": 84415,
+  "credit": "Own work",
+  "fetched": "2026-09-30",
+  "file": "qbank/silver-mirror.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Tollensprobe.jpg",
+  "sha1": "da4eb67ef107ab81",
+  "source": "Wikimedia Commons",
+  "title": "Tollensprobe"
  }
 }
