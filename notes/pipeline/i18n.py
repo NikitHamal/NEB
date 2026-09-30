@@ -124,3 +124,7 @@ _D = str.maketrans("0123456789", "०१२३४५६७८९")
 def num(x):
     s = str(x)
     return s.translate(_D) if CUR["digits"] else s
+
+def for_title(title, book):
+    """A chapter whose title is Devanagari gets Nepali furniture even inside an English book."""
+    return NE if re.match(r"\W*[\u0900-\u097F]", title or "") else book
