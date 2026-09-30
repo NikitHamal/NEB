@@ -420,7 +420,7 @@ and it moves in a horizontal circle so that the string sweeps out a cone at a
 constant angle $\theta$ to the vertical. From the geometry of that cone,
 
 $$
-r = L\sin\theta \quad (\text{radius of the circle}), \qquad
+r = L\sin\theta \quad (\text{radius of the circle}),
 $$
 
 $$

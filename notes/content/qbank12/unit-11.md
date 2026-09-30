@@ -615,12 +615,12 @@ sides are $b$ and $c$, so the angle must be $A$.
 
 Only 4 working hours, and no MCQ has yet come from it in 2079, 2080, 2081 or 2082.
 It reached Group C once, in 2081 Q21a ("if $a = 3+\sqrt{3}$, $b=2$, $c=\sqrt{3}$
-then solve the triangle"). Learn the decision rule — which law for which given
+then solve the triangle"); as recorded, those data give $b+c<a$, which no triangle can satisfy, so the printed numbers were probably misread or misprinted. Learn the decision rule — which law for which given
 data — and move on.
 
 | Data given | Method to use | Notes |
 |---|---|---|
-| Three sides $a,b,c$ | cosine law, or the half-angle formulae | always exactly one triangle |
+| Three sides $a,b,c$ | cosine law, or the half-angle formulae | exactly one triangle if the largest side is less than the sum of the other two; none otherwise |
 | Two sides and the included angle | tangent law for the angles, then sine law | one triangle |
 | Two angles and one side | sine law (find the third angle first) | one triangle |
 | Two sides and a non-included angle | sine law | the **ambiguous case**: $0$, $1$ or $2$ triangles |
