@@ -1871,6 +1871,19 @@
   "source": "Wikimedia Commons",
   "title": "Tollensprobe"
  },
+ "qbank/silver-mirror2": {
+  "author": "Deljackson",
+  "bytes": 651280,
+  "credit": "Own work",
+  "fetched": "2026-09-30",
+  "file": "qbank/silver-mirror2.jpg",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Espejo_de_plata.jpg",
+  "sha1": "66044365d14f9586",
+  "source": "Wikimedia Commons",
+  "title": "Espejo de plata"
+ },
  "qbank/sunflower-stem": {
   "author": "Tgru001",
   "bytes": 1167109,
