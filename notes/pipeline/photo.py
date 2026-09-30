@@ -178,6 +178,9 @@ def render(asset_id: str, body: str, width_pct: float = 88.0) -> str | None:
     try:
         import matplotlib.image as mpimg
         img = mpimg.imread(src)
+        if img.ndim == 2:
+            import numpy as np
+            img = np.stack([img] * 3, axis=-1)
         h_px, w_px = img.shape[0], img.shape[1]
         if "crop" in opt:
             l, b, r, t = opt["crop"]
