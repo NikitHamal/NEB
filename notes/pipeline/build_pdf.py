@@ -93,6 +93,14 @@ def chapter_html(u, body, subject, grade, fig_start):
 </section>"""
 
 
+def chapter_html_for(u, body, subject, grade, L):
+    i18n.CUR = i18n.for_title(u["title"], L)
+    try:
+        return chapter_html(u, body, subject, grade, 1)
+    finally:
+        i18n.CUR = L
+
+
 def credits_html(asset_ids):
     """Picture Credits appendix. Generated from assets/credits.json, never typed:
     every licence we reproduce under (CC BY, CC BY-SA, GFDL) requires the author
@@ -140,9 +148,11 @@ def build(slug, verbose=True):
         if not os.path.exists(p): continue
         txt = open(p, encoding="utf-8").read()
         if len(txt.strip()) < 400: continue
+        i18n.CUR = i18n.for_title(u["title"], L)
         _, htm, figno = md2html.convert(txt, f"{slug}-u{u['no']}", figno)
         bodies[u["no"]] = htm
         present.add(u["no"])
+    i18n.CUR = L
     if not present:
         return None, 0, 0
     extras = []
@@ -167,7 +177,7 @@ html{{string-set:booktitle "{esc(subject)} · {L["grade"].split(" ·")[0].format
 {cover_html(subject, grade, accent, code, head)}
 {front_html(subject, grade, head, units, exam_notes)}
 {toc_html(units, present)}
-{''.join(chapter_html(u, bodies[u['no']], subject, grade, 1) for u in units if u['no'] in present)}
+{''.join(chapter_html_for(u, bodies[u['no']], subject, grade, L) for u in units if u['no'] in present)}
 {''.join(extras)}
 {credits_html(list(photo.USED))}
 </body></html>"""
