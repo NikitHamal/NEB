@@ -66,7 +66,7 @@ Across the papers of 2078 (model) to 2083, the eleven Group A questions come fro
 
 ::: note Answers — Volumetric Analysis
 **1.** (b) — H₃PO₃ is dibasic, and here both replaceable H are used (Na₂HPO₃), so E = 82/2 = 41. Option (a) forgets to divide; (c) divides by 3 because the formula has three H, but one of them is bonded to P and is not acidic.
-**2.** (a) — 5 g per 100 mL = 50 g L⁻¹; equivalent weight = 106/2 = 53; N = 50/53 = 0.94. Option (d) doubles by treating 50 g L⁻¹ as 10 %.
+**2.** (a) — 5 g per 100 mL = 50 g L⁻¹; equivalent weight = 106/2 = 53; N = 50/53 = 0.94. Option (c) is the molarity (50/106), which forgets the n-factor, and (d) doubles the n-factor.
 **3.** (d) — Cl⁻ + Ag⁺ → AgCl↓. This is precipitation titration (Mohr's method), with K₂CrO₄ only as the indicator, so K₂CrO₄ alone cannot be the titrant.
 **4.** (a) — Na₂CO₃ is a weak base; at complete neutralisation the solution holds H₂CO₃ (pH about 4), which methyl orange signals. Phenolphthalein changes colour at the half-way stage, NaHCO₃, so it would give a wrong end point.
 **5.** (c) — Cr₂O₇²⁻ + 14H⁺ + 6e⁻ → 2Cr³⁺ + 7H₂O takes six electrons, so E = 294/6 = 49. Option (b) uses three electrons, the n-factor of dilute-acid reduction of a different oxidant.
@@ -964,7 +964,8 @@ reagent line *and* the solvent line before you look at the options.
 | Benzaldehyde from toluene | Etard reaction, CrO₂Cl₂ in CS₂ |
 | Acetophenone from benzene | C₆H₆ + CH₃COCl / anhydrous AlCl₃ (Friedel–Crafts acylation) |
 
-```photo id="qbank/silver-mirror" caption="A positive Tollens' test. The ammoniacal silver nitrate has been reduced by an aldehyde and metallic silver has plated out as a mirror on the clean glass. A ketone leaves the solution unchanged, which is why this is the standard way to tell the two apart." width="52"
+```photo id="qbank/silver-mirror2" caption="A positive Tollens' test. The ammoniacal silver nitrate has been reduced by an aldehyde and metallic silver has plated out as a mirror on the clean glass. A ketone leaves the solution unchanged, which is why this is the standard way to tell the two apart." width="52"
+crop 0.20 0.20 0.72 0.56
 ```
 
 ```figure caption="Four compounds an iodoform question is built from. A positive test needs a CH₃CO– group or a CH₃CH(OH)– group, shown shaded. Propanone and propan-2-ol respond; propanal and propan-1-ol do not, even though each pair has the same number of carbons."
