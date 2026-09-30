@@ -174,7 +174,8 @@ html{{string-set:booktitle "{esc(subject)} · {L["grade"].split(" ·")[0].format
     os.makedirs(OUT, exist_ok=True)
     name = f"NEBians-{subject.replace(' ', '-')}-Grade-{grade}.pdf"
     path = os.path.join(OUT, name)
-    HTML(string=doc, base_url=HERE).write_pdf(path, stylesheets=[CSS(filename=THEME)])
+    HTML(string=doc, base_url=HERE).write_pdf(path, stylesheets=[CSS(filename=THEME)],
+                                             optimize_images=True, jpeg_quality=80, dpi=170)
     import pypdf_pages
     pages = pypdf_pages.count(path)
     if verbose:
