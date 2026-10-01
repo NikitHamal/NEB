@@ -68,3 +68,13 @@
 - Mean deviation and its coefficient
 - Standard deviation, variance and coefficient of variation
 - Exercises of the SEE type
+## 12. Functions and Polynomials [G]
+- Relations: ordered pairs, domain and range
+- Functions: definition, vertical line test, values of a function
+- Domain and range of a function; one-one, onto, constant and identity functions
+- Composite functions
+- Inverse functions and their graphs
+- Polynomials: degree, standard form and the division algorithm
+- Remainder theorem and factor theorem
+- Synthetic division, zeros of a polynomial and factorisation
+- Exercises of the SEE type
