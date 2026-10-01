@@ -1,0 +1,49 @@
+# The Python side of the Manim video pipeline.
+#
+# Installed by tools/manim/bootstrap.sh into a virtualenv.  manim is installed
+# --no-deps because its dependency list contains pycairo, which has no wheel
+# here and cannot compile without cairo's headers -- tools/manim/shims/cairo
+# replaces it with a Skia raster backend.  Everything else is a normal wheel.
+manim==0.18.1
+
+# manim's declared dependencies (what pycairo would otherwise have pulled in)
+numpy
+scipy
+Pillow
+click
+cloup
+decorator
+isosurfaces
+mapbox-earcut
+moderngl
+moderngl-window
+networkx
+pygments
+rich
+screeninfo
+skia-pathops
+srt
+svgelements
+tqdm
+typing-extensions
+watchdog
+pydub
+
+# The two backends the shims sit on: Skia for raster, FreeType for glyph
+# outlines.  Neither is a manim dependency.
+skia-python
+freetype-py
+
+# Maths typesetting without LaTeX, and the ffmpeg manim shells out to.
+matplotlib
+imageio-ffmpeg
+
+# matplotlib's own dependencies.  They are wheels, but nothing installs them
+# for us because the whole file goes in --no-deps.
+contourpy
+cycler
+fonttools
+kiwisolver
+packaging
+pyparsing
+python-dateutil

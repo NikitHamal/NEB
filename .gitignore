@@ -104,3 +104,6 @@ __pycache__/
 *.pyc
 
 .agents
+# Manim pipeline: generated text cache and renders
+tools/manim/media/
+tools/manim/build/
