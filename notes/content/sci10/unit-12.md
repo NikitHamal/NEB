@@ -61,6 +61,9 @@ In the core of a star, the temperature is millions of degrees. Hydrogen nuclei f
 - The colour of a star shows its surface temperature: blue-white stars are the hottest, yellow (like the Sun) are medium, red stars are cooler.
 - Stars differ in size, from tiny neutron stars to supergiants hundreds of times the Sun's diameter, and in brightness.
 
+```photo id="sci10/sun-flare" caption="Our Sun, the nearest star, photographed in extreme ultraviolet by NASA's Solar Dynamics Observatory. The bright patches are active regions." width="60"
+```
+
 ### Life cycle of a star
 
 A star is born, lives and dies. The path depends on its mass.
@@ -73,32 +76,7 @@ A star is born, lives and dies. The path depends on its mass.
    - A star like the Sun throws off its outer layers (a planetary nebula) and the core shrinks into a **white dwarf**, which cools slowly into a black dwarf.
    - A star much heavier than the Sun (about 8 or more solar masses) ends in a violent explosion called a **supernova**. The core then becomes a **neutron star**, or, if the star was very heavy, a **black hole**.
 
-```figure caption="Life cycle of stars. A low-mass star like the Sun ends as a white dwarf; a massive star explodes as a supernova and leaves a neutron star or a black hole."
-import numpy as np, matplotlib.pyplot as plt
-from matplotlib.patches import FancyBboxPatch
-fig, ax = plt.subplots(figsize=(5.0, 3.4))
-ax.set_xlim(0, 12); ax.set_ylim(0, 9); ax.axis('off')
-def box(x, y, w, h, t, fc='#E5ECF6'):
-    ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle='round,pad=0.05,rounding_size=0.2', fc=fc, ec=INK, lw=1.2))
-    ax.text(x + w/2, y + h/2, t, ha='center', va='center', fontsize=7.6, color=INK)
-def arr(x1, y1, x2, y2):
-    ax.annotate('', xy=(x2, y2), xytext=(x1, y1), arrowprops=dict(arrowstyle='-|>', color=INK, lw=1.3))
-box(0.1, 3.9, 1.8, 1.2, 'Nebula\n(gas, dust)')
-box(2.2, 3.9, 1.7, 1.2, 'Protostar')
-box(4.2, 3.9, 2.4, 1.2, 'Main sequence\nstar', fc='#FFF1C9')
-arr(1.9, 4.5, 2.2, 4.5); arr(3.9, 4.5, 4.2, 4.5)
-box(7.1, 6.3, 2.2, 1.2, 'Red giant', fc='#F9D5D0')
-box(7.1, 1.5, 2.2, 1.2, 'Red supergiant', fc='#F9D5D0')
-arr(6.2, 5.1, 7.3, 6.3); arr(6.2, 3.9, 7.3, 2.7)
-box(9.7, 7.2, 2.2, 1.0, 'Planetary\nnebula')
-box(9.7, 5.5, 2.2, 1.0, 'White dwarf', fc='#FFFFFF')
-arr(9.3, 7.0, 9.7, 7.6); arr(10.8, 7.2, 10.8, 6.5)
-box(9.7, 2.9, 2.2, 1.0, 'Supernova', fc='#FFE3A0')
-box(9.7, 1.6, 2.2, 0.9, 'Neutron star', fc='#FFFFFF')
-box(9.7, 0.3, 2.2, 0.9, 'Black hole', fc='#D0D0D0')
-arr(9.3, 2.3, 9.7, 3.3); arr(10.8, 2.9, 10.8, 2.5); arr(10.8, 1.6, 10.8, 1.2)
-ax.text(8.3, 8.1, 'like the Sun', ha='center', fontsize=8, color=MUTED)
-ax.text(8.3, 0.7, 'massive star', ha='center', fontsize=8, color=MUTED)
+```photo id="sci10/star-life" caption="Life cycle of stars. A star is born in a nebula; a Sun-like star becomes a red giant and then a white dwarf, while a massive star explodes as a supernova." width="100"
 ```
 
 ::: example Time on the main sequence
@@ -134,6 +112,12 @@ There are hundreds of billions of galaxies in the observable universe. Galaxies 
 
 **The Milky Way** is our home galaxy: a spiral galaxy about 100,000 light years across with at least 100 billion stars. Our Sun lies in one of its arms, about 26,000 light years from the centre, and takes about 230 million years to go once around it. From the Earth we see the Milky Way edge-on as a band of light across the sky. The nearest large galaxy is **Andromeda**, about 2.5 million light years away.
 
+```photo id="sci10/milky-way" caption="Centre of the Milky Way galaxy in infrared light (NASA Spitzer). Our solar system lies in one of its spiral arms." width="80"
+```
+
+```photo id="sci10/hubble-udf" caption="The Hubble Ultra Deep Field: almost every spot of light is a whole galaxy of billions of stars." width="70"
+```
+
 ### The solar system
 
 ::: definition Solar system
@@ -160,6 +144,15 @@ The Sun contains more than 99 % of the mass of the solar system, and its gravity
 | Neptune | 30.1 | 49,244 | 165 years | 16 | Farthest planet; windy and cold |
 
 The first four (Mercury to Mars) are the **inner (terrestrial) planets**: small, rocky and dense. Jupiter, Saturn, Uranus and Neptune are the **outer (giant) planets**: very large, made mostly of gas and ice, and having rings. Jupiter and Saturn are **gas giants**; Uranus and Neptune are **ice giants**.
+
+```photo id="sci10/solar-system" caption="The Sun, the eight planets, the asteroid belt and the Kuiper belt (not to scale for size or distance)." width="100"
+```
+
+```photo id="sci10/jupiter" caption="Jupiter, the largest planet, photographed by the Cassini spacecraft. The Great Red Spot is a giant storm." width="56"
+```
+
+```photo id="sci10/saturn" caption="Saturn and its rings, photographed by the Cassini spacecraft." width="80"
+```
 
 ```figure caption="Average distance of the planets from the Sun in astronomical units, drawn on a logarithmic scale because the distances range from 0.4 to 30 AU."
 import numpy as np, matplotlib.pyplot as plt
@@ -270,6 +263,9 @@ To understand the origin and future of the universe, to find life elsewhere, to 
 
 **Telescopes.** Optical telescopes collect visible light. Radio telescopes collect radio waves from space (Jodrell Bank, Arecibo). Space telescopes avoid the blurring and absorption of the atmosphere: the **Hubble Space Telescope** (1990) and the **James Webb Space Telescope** (launched 2021, infrared) have shown galaxies at enormous distances.
 
+```photo id="sci10/saturn-v" caption="Launch of Apollo 11 on a Saturn V rocket in 1969. A rocket burns fuel to push gas down so that it can lift itself away from the Earth." width="56"
+```
+
 **Rockets.** A rocket works on Newton's third law: hot gas is thrown out backward at high speed, and the rocket moves forward with an equal momentum. To reach orbit, the rocket must reach about 8 km s⁻¹. Rockets are built in **stages**; each stage is dropped when its fuel is used up so that the remaining rocket is lighter.
 
 ::: example Speed needed to leave the Earth
@@ -317,6 +313,9 @@ Uses of satellites: communication (telephone, TV, internet), weather forecasting
 - **Space station.** The **International Space Station** is a large laboratory orbiting about 400 km above the Earth, built and run by the USA, Russia, Europe, Japan and Canada. Astronauts live there for months and carry out experiments in weightlessness.
 - **Space probes** are unmanned spacecraft sent to study planets and other bodies from near or far: Voyager, Cassini (Saturn), New Horizons (Pluto).
 - **Rovers** are vehicles that drive on another world: Curiosity and Perseverance on Mars.
+
+```photo id="sci10/iss" caption="The International Space Station orbiting the Earth, with its large solar panels." width="80"
+```
 
 ### Problems and dangers
 

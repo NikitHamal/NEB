@@ -4159,6 +4159,32 @@
   "source": "Wikimedia Commons",
   "title": "Sunflower Helianthus stem mag 100x actual 1.4-1.6mm"
  },
+ "sci10/air-kathmandu": {
+  "author": "Gaurav Dhwaj Khadka",
+  "bytes": 329897,
+  "credit": "Own work",
+  "fetched": "2026-10-01",
+  "file": "sci10/air-kathmandu.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Air_Pollution_in_Kathmandu.jpg",
+  "sha1": "6cd33a8469068e77",
+  "source": "Wikimedia Commons",
+  "title": "Air Pollution in Kathmandu"
+ },
+ "sci10/alternator": {
+  "author": "Contraix",
+  "bytes": 468890,
+  "credit": "Own work",
+  "fetched": "2026-10-01",
+  "file": "sci10/alternator.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:CH_Capdella,_alternador.jpg",
+  "sha1": "493830bec48c54b1",
+  "source": "Wikimedia Commons",
+  "title": "CH Capdella, alternador"
+ },
  "sci10/amoeba": {
   "author": "SmallRex",
   "bytes": 257111,
@@ -4172,6 +4198,19 @@
   "source": "Wikimedia Commons",
   "title": "Amoeba proteus locomotive form"
  },
+ "sci10/apollo-feather": {
+  "author": "NASA",
+  "bytes": 895492,
+  "credit": "http://www.hq.nasa.gov/alsj/a15/AS15-88-11890HR.jpg",
+  "fetched": "2026-10-01",
+  "file": "sci10/apollo-feather.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Apollo_15_F%26H.jpg",
+  "sha1": "67a4ff6d0ee56a00",
+  "source": "Wikimedia Commons",
+  "title": "Apollo 15 F&H"
+ },
  "sci10/bacteria-shapes": {
   "author": "Pearson Scott Foresman",
   "bytes": 182062,
@@ -4184,6 +4223,45 @@
   "sha1": "4ead23588483b5b5",
   "source": "Wikimedia Commons",
   "title": "Bacteria (PSF)"
+ },
+ "sci10/bagmati-waste": {
+  "author": "Aashmas123",
+  "bytes": 174991,
+  "credit": "Own work",
+  "fetched": "2026-10-01",
+  "file": "sci10/bagmati-waste.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Solid_waste_at_bank_of_the_Bagmati_River,_Chobhar.jpg",
+  "sha1": "5fd6bf8737696a8f",
+  "source": "Wikimedia Commons",
+  "title": "Solid waste at bank of the Bagmati River, Chobhar"
+ },
+ "sci10/barometer": {
+  "author": "Hannes Grobe 19:02, 3 September 2006 (UTC)",
+  "bytes": 319980,
+  "credit": "Own work",
+  "fetched": "2026-10-01",
+  "file": "sci10/barometer.jpg",
+  "license": "CC BY-SA 2.5",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.5",
+  "page": "https://commons.wikimedia.org/wiki/File:Barometer_mercury_column_hg.jpg",
+  "sha1": "e7020382549216dc",
+  "source": "Wikimedia Commons",
+  "title": "Barometer mercury column hg"
+ },
+ "sci10/bauxite": {
+  "author": "James St. John",
+  "bytes": 801704,
+  "credit": "https://www.flickr.com/photos/47445767@N05/54369088786/",
+  "fetched": "2026-10-01",
+  "file": "sci10/bauxite.jpg",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Pisolitic_bauxite_(Alcoa_Bauxite_Mine,_Arkansas,_USA)_8.jpg",
+  "sha1": "526f9760998e0ebb",
+  "source": "Wikimedia Commons",
+  "title": "Pisolitic bauxite (Alcoa Bauxite Mine, Arkansas, USA) 8"
  },
  "sci10/bee-brood": {
   "author": "Monika Fischer",
@@ -4250,6 +4328,71 @@
   "source": "Wikimedia Commons",
   "title": "Blast furnace Campbell"
  },
+ "sci10/blood-smear": {
+  "author": "Bondarev.gal",
+  "bytes": 456476,
+  "credit": "Own work",
+  "fetched": "2026-10-01",
+  "file": "sci10/blood-smear.jpg",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Human_peripheral_blood_smear,_May-Gr%C3%BCnwald_stain.jpg",
+  "sha1": "547bca16ec03b376",
+  "source": "Wikimedia Commons",
+  "title": "Human peripheral blood smear, May-Grünwald stain"
+ },
+ "sci10/bp-monitor": {
+  "author": "Jacek Halicki",
+  "bytes": 361241,
+  "credit": "Own work",
+  "fetched": "2026-10-01",
+  "file": "sci10/bp-monitor.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:2017_Sfigmomanometr_elektroniczny.jpg",
+  "sha1": "e2645962a2026a53",
+  "source": "Wikimedia Commons",
+  "title": "2017 Sfigmomanometr elektroniczny"
+ },
+ "sci10/brain": {
+  "author": "John A Beal, PhD Dep't. of Cellular Biology & Anatomy, Louisiana State University Health Sciences Center Shreveport",
+  "bytes": 43763,
+  "credit": "http://www.healcentral.org/healapp/showMetadata?metadataId=40566",
+  "fetched": "2026-10-01",
+  "file": "sci10/brain.jpg",
+  "license": "CC BY 2.5",
+  "license_url": "https://creativecommons.org/licenses/by/2.5",
+  "page": "https://commons.wikimedia.org/wiki/File:Human_brain_lateral_view.JPG",
+  "sha1": "1cf44732a0a6c942",
+  "source": "Wikimedia Commons",
+  "title": "Human brain lateral view"
+ },
+ "sci10/bunsen": {
+  "author": "Arthur Jan Fijałkowski",
+  "bytes": 89305,
+  "credit": "Own work",
+  "fetched": "2026-10-01",
+  "file": "sci10/bunsen.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+  "page": "https://commons.wikimedia.org/wiki/File:Bunsen_burner_flame_types.jpg",
+  "sha1": "d65a1c86ec38f0f3",
+  "source": "Wikimedia Commons",
+  "title": "Bunsen burner flame types"
+ },
+ "sci10/butterfly": {
+  "author": "Charles J. Sharp",
+  "bytes": 512218,
+  "credit": "Own work , from Sharp Photography, sharpphotography",
+  "fetched": "2026-10-01",
+  "file": "sci10/butterfly.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Common_brimstone_butterfly_(Gonepteryx_rhamni)_male.jpg",
+  "sha1": "f160f02d614dde95",
+  "source": "Wikimedia Commons",
+  "title": "Common brimstone butterfly (Gonepteryx rhamni) male"
+ },
  "sci10/cement": {
   "author": "KVDP",
   "bytes": 196988,
@@ -4262,6 +4405,19 @@
   "sha1": "be9b85ac25eb6f5d",
   "source": "Wikimedia Commons",
   "title": "Portland Cement Bags"
+ },
+ "sci10/cockroach": {
+  "author": "Alvesgaspar",
+  "bytes": 437952,
+  "credit": "Self-photographed",
+  "fetched": "2026-10-01",
+  "file": "sci10/cockroach.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Cockroach_May_2007-1.jpg",
+  "sha1": "fd0d8911670c9852",
+  "source": "Wikimedia Commons",
+  "title": "Cockroach May 2007-1"
  },
  "sci10/convex-lens": {
   "author": "AntanO",
@@ -4276,6 +4432,19 @@
   "source": "Wikimedia Commons",
   "title": "Convex lens (magnifying glass) and upside-down image"
  },
+ "sci10/dialysis": {
+  "author": "Anna Frodesiak",
+  "bytes": 579359,
+  "credit": "Own work",
+  "fetched": "2026-10-01",
+  "file": "sci10/dialysis.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Patient_receiving_dialysis_03.jpg",
+  "sha1": "64e7aa508969caf4",
+  "source": "Wikimedia Commons",
+  "title": "Patient receiving dialysis 03"
+ },
  "sci10/drone-pupae": {
   "author": "Waugsberg",
   "bytes": 576454,
@@ -4289,6 +4458,32 @@
   "source": "Wikimedia Commons",
   "title": "Drohnenpuppen 81b"
  },
+ "sci10/earthrise": {
+  "author": "NASA/Bill Anders",
+  "bytes": 217652,
+  "credit": "http://www.hq.nasa.gov/office/pao/History/alsj/a410/AS8-14-2383HR.jpg",
+  "fetched": "2026-10-01",
+  "file": "sci10/earthrise.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:NASA-Apollo8-Dec24-Earthrise.jpg",
+  "sha1": "a2c9c2a16d8f0241",
+  "source": "Wikimedia Commons",
+  "title": "NASA-Apollo8-Dec24-Earthrise"
+ },
+ "sci10/earthworm": {
+  "author": "Donald Hobern from Copenhagen, Denmark",
+  "bytes": 560140,
+  "credit": "Lumbricus terrestris",
+  "fetched": "2026-10-01",
+  "file": "sci10/earthworm.jpg",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Lumbricus_terrestris_(26559560801).jpg",
+  "sha1": "8d0107aad8a6a79c",
+  "source": "Wikimedia Commons",
+  "title": "Lumbricus terrestris (26559560801)"
+ },
  "sci10/ecoli": {
   "author": "NIAID",
   "bytes": 625040,
@@ -4301,6 +4496,58 @@
   "sha1": "0b06f6b4e78b6be1",
   "source": "Wikimedia Commons",
   "title": "E. coli Bacteria (7316101966)"
+ },
+ "sci10/electromagnet": {
+  "author": "SeanShriner",
+  "bytes": 421142,
+  "credit": "Own work",
+  "fetched": "2026-10-01",
+  "file": "sci10/electromagnet.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Nail_Electromagnet.JPG",
+  "sha1": "4f9641163aa49aac",
+  "source": "Wikimedia Commons",
+  "title": "Nail Electromagnet"
+ },
+ "sci10/ethanol": {
+  "author": "LHcheM",
+  "bytes": 444135,
+  "credit": "Own work",
+  "fetched": "2026-10-01",
+  "file": "sci10/ethanol.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Sample_of_Absolute_Ethanol.jpg",
+  "sha1": "3b27c2d7f20bfe97",
+  "source": "Wikimedia Commons",
+  "title": "Sample of Absolute Ethanol"
+ },
+ "sci10/euglena": {
+  "author": "Environmental Protection Agency",
+  "bytes": 47403,
+  "credit": "http://www.epa.gov/glnpo/image/viz_nat6.html",
+  "fetched": "2026-10-01",
+  "file": "sci10/euglena.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Euglena_EPA.jpg",
+  "sha1": "dba5f2f5d1876398",
+  "source": "Wikimedia Commons",
+  "title": "Euglena EPA"
+ },
+ "sci10/eye": {
+  "author": "Chabacano",
+  "bytes": 1053053,
+  "credit": "References: [1] [2] [3] among others",
+  "fetched": "2026-10-01",
+  "file": "sci10/eye.png",
+  "license": "CC BY-SA 3.0",
+  "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+  "page": "https://commons.wikimedia.org/wiki/File:Eye-diagram_no_circles_border.svg",
+  "sha1": "ce4018dfa33c3f07",
+  "source": "Wikimedia Commons",
+  "title": "Eye-diagram no circles border"
  },
  "sci10/female-repro": {
   "author": "CDC, Mysid",
@@ -4328,6 +4575,45 @@
   "source": "Wikimedia Commons",
   "title": "Fern sori pattern"
  },
+ "sci10/frog": {
+  "author": "Batrachophile",
+  "bytes": 114319,
+  "credit": "Own work",
+  "fetched": "2026-10-01",
+  "file": "sci10/frog.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Rara.frog.jpg",
+  "sha1": "34efe3f5ccfe7ca0",
+  "source": "Wikimedia Commons",
+  "title": "Rara.frog"
+ },
+ "sci10/glass-recycling": {
+  "author": "P Flannagan",
+  "bytes": 72640,
+  "credit": "From geograph.org.uk",
+  "fetched": "2026-10-01",
+  "file": "sci10/glass-recycling.jpg",
+  "license": "CC BY-SA 2.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Recycling_of_glass_bottles,_cans_and_tins._-_geograph.org.uk_-_1202977.jpg",
+  "sha1": "f47986a19fb4296c",
+  "source": "Wikimedia Commons",
+  "title": "Recycling of glass bottles, cans and tins. - geograph.org.uk - 1202977"
+ },
+ "sci10/hdd": {
+  "author": "RetroEditor",
+  "bytes": 242349,
+  "credit": "Own work",
+  "fetched": "2026-10-01",
+  "file": "sci10/hdd.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:2.5_Inch_Hard_Drive_Mechanism.jpg",
+  "sha1": "8d0d351ea4b37f32",
+  "source": "Wikimedia Commons",
+  "title": "2.5 Inch Hard Drive Mechanism"
+ },
  "sci10/heart": {
   "author": "Wapcaplet .",
   "bytes": 383407,
@@ -4340,6 +4626,32 @@
   "sha1": "ef56dca9a276a44d",
   "source": "Wikimedia Commons",
   "title": "Heart numlabels"
+ },
+ "sci10/heart-real": {
+  "author": "Jebulon",
+  "bytes": 192461,
+  "credit": "Own work",
+  "fetched": "2026-10-01",
+  "file": "sci10/heart-real.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Human_heart_male_adult_autopsy.jpg",
+  "sha1": "07e8477f22f257f2",
+  "source": "Wikimedia Commons",
+  "title": "Human heart male adult autopsy"
+ },
+ "sci10/hibiscus": {
+  "author": "Pushkar Tripathi",
+  "bytes": 822983,
+  "credit": "Own work",
+  "fetched": "2026-10-01",
+  "file": "sci10/hibiscus.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Hibiscus_Plant.jpg",
+  "sha1": "e3f8634614727866",
+  "source": "Wikimedia Commons",
+  "title": "Hibiscus Plant"
  },
  "sci10/honeycomb": {
   "author": "איתן פרמן",
@@ -4419,6 +4731,19 @@
   "source": "Wikimedia Commons",
   "title": "Portrait of Jupiter from Cassini"
  },
+ "sci10/kaligandaki": {
+  "author": "Bhumbdr",
+  "bytes": 667110,
+  "credit": "Own work",
+  "fetched": "2026-10-01",
+  "file": "sci10/kaligandaki.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Kaligandaki_A_Hydroelectric_Power_Station_Dam01.jpg",
+  "sha1": "6ad618224d0a2e3a",
+  "source": "Wikimedia Commons",
+  "title": "Kaligandaki A Hydroelectric Power Station Dam01"
+ },
  "sci10/karyotype": {
   "author": "National Human Genome Research Institute (NHGRI)",
   "bytes": 299798,
@@ -4431,6 +4756,19 @@
   "sha1": "3dec1db88b09990d",
   "source": "Wikimedia Commons",
   "title": "Human karyotype diagram showing autosomes and sex chromosomes - NHGRI"
+ },
+ "sci10/khumbu-glacier": {
+  "author": "Vyacheslav Argenberg",
+  "bytes": 900700,
+  "credit": "Own work",
+  "fetched": "2026-10-01",
+  "file": "sci10/khumbu-glacier.jpg",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Everest,_Nuptse,_Khumbu_Glacier,_Nepal,_Himalayas.jpg",
+  "sha1": "907033a44b7ac343",
+  "source": "Wikimedia Commons",
+  "title": "Everest, Nuptse, Khumbu Glacier, Nepal, Himalayas"
  },
  "sci10/landfill": {
   "author": "I.Shevtsov",
@@ -4445,6 +4783,58 @@
   "source": "Wikimedia Commons",
   "title": "Waste landfill in Derhachi"
  },
+ "sci10/limestone": {
+  "author": "Luthfibadr28",
+  "bytes": 1144742,
+  "credit": "Own work",
+  "fetched": "2026-10-01",
+  "file": "sci10/limestone.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Limestone_outcrop_in_Citatah.jpg",
+  "sha1": "7676256764d37f12",
+  "source": "Wikimedia Commons",
+  "title": "Limestone outcrop in Citatah"
+ },
+ "sci10/litmus": {
+  "author": "Chemicalinterest",
+  "bytes": 484145,
+  "credit": "Own work",
+  "fetched": "2026-10-01",
+  "file": "sci10/litmus.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Litmus_paper.JPG",
+  "sha1": "6e8eecbf04eecebc",
+  "source": "Wikimedia Commons",
+  "title": "Litmus paper"
+ },
+ "sci10/malachite": {
+  "author": "“Jon Zander ( Digon3 )\"",
+  "bytes": 252608,
+  "credit": "Own work",
+  "fetched": "2026-10-01",
+  "file": "sci10/malachite.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+  "page": "https://commons.wikimedia.org/wiki/File:Malachite_Macro_43.jpg",
+  "sha1": "c0c193c79e374fb5",
+  "source": "Wikimedia Commons",
+  "title": "Malachite Macro 43"
+ },
+ "sci10/microscope": {
+  "author": "Rama",
+  "bytes": 167099,
+  "credit": "Own work",
+  "fetched": "2026-10-01",
+  "file": "sci10/microscope.jpg",
+  "license": "CC BY-SA 3.0 fr",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0/fr/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Compound_microscope-CNAM_22318-IMG_5029-white.jpg",
+  "sha1": "b6ea3d6e70b18ca9",
+  "source": "Wikimedia Commons",
+  "title": "Compound microscope-CNAM 22318-IMG 5029-white"
+ },
  "sci10/milky-way": {
   "author": "Credit: NASA/JPL-Caltech/S. Stolovy (Spitzer Science Center/Caltech)",
   "bytes": 1474355,
@@ -4457,6 +4847,19 @@
   "sha1": "a7211964dd09fa18",
   "source": "Wikimedia Commons",
   "title": "Milky Way IR Spitzer"
+ },
+ "sci10/moss": {
+  "author": "LunarLight",
+  "bytes": 824325,
+  "credit": "https://drive.google.com/drive/folders/1WPktKDlTPJAZU6t1zW_dNx1XK-2oAesXF98a6-EYwJwGifp8dajI66jCAFPDUjx9a8hEyi7u",
+  "fetched": "2026-10-01",
+  "file": "sci10/moss.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Moss_Sporophyte_1.jpg",
+  "sha1": "fe5af0e26e6da152",
+  "source": "Wikimedia Commons",
+  "title": "Moss Sporophyte 1"
  },
  "sci10/motherboard": {
   "author": "Kurt Kaiser",
@@ -4523,6 +4926,19 @@
   "source": "Wikimedia Commons",
   "title": "Paramecium caudatum (250 20) Cultured"
  },
+ "sci10/pea-flower": {
+  "author": "Dyorkey",
+  "bytes": 227489,
+  "credit": "Own work",
+  "fetched": "2026-10-01",
+  "file": "sci10/pea-flower.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Pisum_sativum_flower.jpg",
+  "sha1": "59947731152d797f",
+  "source": "Wikimedia Commons",
+  "title": "Pisum sativum flower"
+ },
  "sci10/pea-pods": {
   "author": "Salicyna",
   "bytes": 836377,
@@ -4536,6 +4952,58 @@
   "source": "Wikimedia Commons",
   "title": "Pisum sativum var. macrocarpum Ilowiecki 2017-04-15 7157"
  },
+ "sci10/penicillium": {
+  "author": "Medmyco at English Wikipedia",
+  "bytes": 200202,
+  "credit": "Transferred from en.wikipedia to Commons.",
+  "fetched": "2026-10-01",
+  "file": "sci10/penicillium.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Penicillium_digitatum_orange.jpg",
+  "sha1": "a63b9a23f210c3fc",
+  "source": "Wikimedia Commons",
+  "title": "Penicillium digitatum orange"
+ },
+ "sci10/pet-bottles": {
+  "author": "Radulf del Maresme",
+  "bytes": 939697,
+  "credit": "Own work",
+  "fetched": "2026-10-01",
+  "file": "sci10/pet-bottles.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Plastic_bottles_for_recycling.jpg",
+  "sha1": "b5191bc9a4989872",
+  "source": "Wikimedia Commons",
+  "title": "Plastic bottles for recycling"
+ },
+ "sci10/pigeon": {
+  "author": "Satdeep Gill",
+  "bytes": 360505,
+  "credit": "Own work",
+  "fetched": "2026-10-01",
+  "file": "sci10/pigeon.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Common_pigeon_at_Waterlow_Park,_London_01.jpg",
+  "sha1": "5286635b1c0c2130",
+  "source": "Wikimedia Commons",
+  "title": "Common pigeon at Waterlow Park, London 01"
+ },
+ "sci10/plastic-waste": {
+  "author": "Mandeiya flower",
+  "bytes": 1194487,
+  "credit": "Own work",
+  "fetched": "2026-10-01",
+  "file": "sci10/plastic-waste.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Plastic_waste_pollution_12.jpg",
+  "sha1": "02c29855b03216bd",
+  "source": "Wikimedia Commons",
+  "title": "Plastic waste pollution 12"
+ },
  "sci10/queen-bee": {
   "author": "U.S. Geological Survey from Reston, VA, USA",
   "bytes": 551701,
@@ -4548,6 +5016,19 @@
   "sha1": "53b192fb8a9e3e26",
   "source": "Wikimedia Commons",
   "title": "Queen Bee (16545241268)"
+ },
+ "sci10/ram": {
+  "author": "Peter Fiskerstrand",
+  "bytes": 891885,
+  "credit": "Own work",
+  "fetched": "2026-10-01",
+  "file": "sci10/ram.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Memory_modules.jpg",
+  "sha1": "f9538c009f9a8eee",
+  "source": "Wikimedia Commons",
+  "title": "Memory modules"
  },
  "sci10/reflex-arc": {
   "author": "Dervate work: MrArifnajafov",
@@ -4575,6 +5056,84 @@
   "source": "Wikimedia Commons",
   "title": "Greater one-horned rhinoceros at Chitwan"
  },
+ "sci10/rohu": {
+  "author": "Salil Kumar Mukherjee",
+  "bytes": 1366166,
+  "credit": "Own work",
+  "fetched": "2026-10-01",
+  "file": "sci10/rohu.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Rohu_(Labeo_rohita).jpg",
+  "sha1": "ec52c39cacd543e9",
+  "source": "Wikimedia Commons",
+  "title": "Rohu (Labeo rohita)"
+ },
+ "sci10/router": {
+  "author": "Solijon Solayev",
+  "bytes": 342478,
+  "credit": "Own work",
+  "fetched": "2026-10-01",
+  "file": "sci10/router.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Wi-fi_router.jpg",
+  "sha1": "8e0eba781fe415cc",
+  "source": "Wikimedia Commons",
+  "title": "Wi-fi router"
+ },
+ "sci10/rust": {
+  "author": "Laitr Keiows",
+  "bytes": 1252002,
+  "credit": "Own work",
+  "fetched": "2026-10-01",
+  "file": "sci10/rust.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Rust_on_iron.jpg",
+  "sha1": "96bf178fa455e89a",
+  "source": "Wikimedia Commons",
+  "title": "Rust on iron"
+ },
+ "sci10/saturn": {
+  "author": "NASA / JPL / Space Science Institute",
+  "bytes": 75097,
+  "credit": "http://www.ciclops.org/view/5155/Saturn-Four-Years-On http://www.nasa.gov/images/content/365640main_PIA11141_full.jpg http://photojournal.jpl.nasa.gov/catalog/P",
+  "fetched": "2026-10-01",
+  "file": "sci10/saturn.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Saturn_during_Equinox.jpg",
+  "sha1": "73faaec77e37a80f",
+  "source": "Wikimedia Commons",
+  "title": "Saturn during Equinox"
+ },
+ "sci10/saturn-v": {
+  "author": "NASA; restored by Michel Vuijlsteke",
+  "bytes": 1328526,
+  "credit": "https://images.nasa.gov/details/S69-39963 http://grin.hq.nasa.gov/IMAGES/LARGE/GPN-2000-000629.jpg on the Wayback Machine at the Wayback Machine http://grin.hq.",
+  "fetched": "2026-10-01",
+  "file": "sci10/saturn-v.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Apollo_11_Launch2.jpg",
+  "sha1": "2ea3c230ce8a3e32",
+  "source": "Wikimedia Commons",
+  "title": "Apollo 11 Launch2"
+ },
+ "sci10/skeleton": {
+  "author": "LadyofHats Mariana Ruiz Villarreal",
+  "bytes": 1317674,
+  "credit": "Own work. Image renamed from File:Human skeleton front.svg",
+  "fetched": "2026-10-01",
+  "file": "sci10/skeleton.png",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Human_skeleton_front_en.svg",
+  "sha1": "6b975c379a3facd1",
+  "source": "Wikimedia Commons",
+  "title": "Human skeleton front en"
+ },
  "sci10/snow-leopard": {
   "author": "Tambako The Jaguar",
   "bytes": 990309,
@@ -4587,6 +5146,32 @@
   "sha1": "8612e6252d0b43bb",
   "source": "Wikimedia Commons",
   "title": "Snow leopard portrait"
+ },
+ "sci10/soap": {
+  "author": "DimiTalen",
+  "bytes": 394686,
+  "credit": "Own work",
+  "fetched": "2026-10-01",
+  "file": "sci10/soap.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Bars_of_pure_Marseille_and_Aleppo_soap,_2024.jpg",
+  "sha1": "a6a59fac92263295",
+  "source": "Wikimedia Commons",
+  "title": "Bars of pure Marseille and Aleppo soap, 2024"
+ },
+ "sci10/solar-nepal": {
+  "author": "Sgroey",
+  "bytes": 739754,
+  "credit": "Own work",
+  "fetched": "2026-10-01",
+  "file": "sci10/solar-nepal.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Solar_panels_remote_nepal.jpg",
+  "sha1": "4ed80cb403dff5fb",
+  "source": "Wikimedia Commons",
+  "title": "Solar panels remote nepal"
  },
  "sci10/solar-system": {
   "author": "NASA",
@@ -4640,6 +5225,19 @@
   "source": "Wikimedia Commons",
   "title": "Netgear Gigabit Switch 5-port"
  },
+ "sci10/tiger": {
+  "author": "Nirojsedhai",
+  "bytes": 523423,
+  "credit": "Own work",
+  "fetched": "2026-10-01",
+  "file": "sci10/tiger.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Bengal_Tiger_in_Bardiya_National_Park.jpg",
+  "sha1": "e087ef6a6f4249a3",
+  "source": "Wikimedia Commons",
+  "title": "Bengal Tiger in Bardiya National Park"
+ },
  "sci10/transformer": {
   "author": "Sonia Budini",
   "bytes": 593210,
@@ -4652,6 +5250,19 @@
   "sha1": "1c7799403ee456bb",
   "source": "Wikimedia Commons",
   "title": "Power Transformer 03"
+ },
+ "sci10/transformer-pole": {
+  "author": "Rsparks3",
+  "bytes": 1479552,
+  "credit": "Own work",
+  "fetched": "2026-10-01",
+  "file": "sci10/transformer-pole.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Single_phase_pole-mount_step_down_transformer.jpg",
+  "sha1": "eedeaae43db2dbf9",
+  "source": "Wikimedia Commons",
+  "title": "Single phase pole-mount step down transformer"
  },
  "sci10/trisomy21": {
   "author": "U.S. Department of Energy Human Genome Program.",
@@ -4666,6 +5277,32 @@
   "source": "Wikimedia Commons",
   "title": "21 trisomy - Down syndrome"
  },
+ "sci10/tuning-fork": {
+  "author": "K.Venkataramana",
+  "bytes": 896727,
+  "credit": "Own work",
+  "fetched": "2026-10-01",
+  "file": "sci10/tuning-fork.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Tuning_forks_-_Various_frequencies.jpg",
+  "sha1": "364a358bfaea1931",
+  "source": "Wikimedia Commons",
+  "title": "Tuning forks - Various frequencies"
+ },
+ "sci10/urea": {
+  "author": "Michael Trolove",
+  "bytes": 85518,
+  "credit": "geograph.org.uk",
+  "fetched": "2026-10-01",
+  "file": "sci10/urea.jpg",
+  "license": "CC BY-SA 2.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Granular_Urea_application_-_geograph.org.uk_-_1219037.jpg",
+  "sha1": "d8dbac3f69884e3c",
+  "source": "Wikimedia Commons",
+  "title": "Granular Urea application - geograph.org.uk - 1219037"
+ },
  "sci10/vacuum-flask": {
   "author": "B. Burger 1907",
   "bytes": 77993,
@@ -4678,5 +5315,18 @@
   "sha1": "0a47b6aeea69ff65",
   "source": "Wikimedia Commons",
   "title": "Vacuum flask diagram"
+ },
+ "sci10/vernier": {
+  "author": "Stephanie cheks",
+  "bytes": 1023080,
+  "credit": "Own work",
+  "fetched": "2026-10-01",
+  "file": "sci10/vernier.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Vernier_calliper_1.jpg",
+  "sha1": "2fa24bccda42b6aa",
+  "source": "Wikimedia Commons",
+  "title": "Vernier calliper 1"
  }
 }

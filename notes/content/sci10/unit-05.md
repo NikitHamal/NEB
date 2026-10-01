@@ -33,32 +33,7 @@ The nervous system is made of **neurons** (nerve cells). It has two main parts:
 
 **Neuron.** A neuron has a **cell body** (with nucleus), short branches called **dendrites** that receive impulses, and a long **axon** that carries impulses away; the axon is often covered by an insulating **myelin sheath**. The end of the axon meets the next neuron at a gap called a **synapse**, which the impulse crosses by chemicals (neurotransmitters).
 
-```figure caption="Structure of a neuron. The impulse travels from the dendrites through the cell body and along the axon to the axon terminals."
-import numpy as np, matplotlib.pyplot as plt
-from matplotlib.patches import Circle, Rectangle, Ellipse
-fig, ax = plt.subplots(figsize=(4.8,2.6))
-ax.axis('off'); ax.set_xlim(0,14); ax.set_ylim(0,6)
-ax.add_patch(Circle((3.0,3.0),0.9,fc="#cfe0ff",ec=ACCENT,lw=1.3))
-ax.add_patch(Circle((3.0,3.0),0.35,fc=ACCENT,ec=ACCENT))
-for a in (150,180,210,120,240):
-    r=np.deg2rad(a)
-    x1,y1=3.0+0.9*np.cos(r),3.0+0.9*np.sin(r)
-    x2,y2=3.0+2.0*np.cos(r),3.0+2.0*np.sin(r)
-    ax.plot([x1,x2],[y1,y2],color=ACCENT,lw=1.5)
-    ax.plot([x2,x2+0.4*np.cos(r+0.5)],[y2,y2+0.4*np.sin(r+0.5)],color=ACCENT,lw=1.2)
-    ax.plot([x2,x2+0.4*np.cos(r-0.5)],[y2,y2+0.4*np.sin(r-0.5)],color=ACCENT,lw=1.2)
-ax.plot([3.9,12.0],[3.0,3.0],color=ACCENT,lw=2)
-for x in np.arange(5.0,11.5,1.8):
-    ax.add_patch(Ellipse((x,3.0),1.4,0.7,fc="#f3c34b",ec=INK,lw=0.8))
-for dy in (-0.5,0,0.5):
-    ax.plot([12.0,12.9],[3.0,3.0+dy],color=ACCENT,lw=1.3)
-    ax.add_patch(Circle((12.95,3.0+dy),0.12,fc=ACCENT))
-ax.annotate("Dendrites",xy=(1.4,4.2),xytext=(0.4,5.3),fontsize=8,color=INK,arrowprops=dict(arrowstyle="-",color=INK,lw=0.8))
-ax.annotate("Cell body\n(with nucleus)",xy=(3.0,2.1),xytext=(3.0,0.6),fontsize=8,color=INK,ha='center',arrowprops=dict(arrowstyle="-",color=INK,lw=0.8))
-ax.annotate("Axon",xy=(5.8,3.0),xytext=(5.2,4.7),fontsize=8,color=INK,ha='center',arrowprops=dict(arrowstyle="-",color=INK,lw=0.8))
-ax.annotate("Myelin sheath",xy=(8.6,3.35),xytext=(8.6,4.9),fontsize=8,color=INK,ha='center',arrowprops=dict(arrowstyle="-",color=INK,lw=0.8))
-ax.annotate("Axon terminals",xy=(12.9,3.0),xytext=(11.6,1.0),fontsize=8,color=INK,ha='center',arrowprops=dict(arrowstyle="-",color=INK,lw=0.8))
-ax.annotate("direction of impulse",xy=(11.5,2.35),xytext=(5.2,2.35),fontsize=7.5,color=MUTED,va='center',arrowprops=dict(arrowstyle="->",color=MUTED,lw=1))
+```photo id="sci10/neuron" caption="A neuron (nerve cell). Impulses are received by the dendrites, pass through the cell body and travel down the axon to the synapse." width="90"
 ```
 
 Neurons are of three kinds:
@@ -72,6 +47,9 @@ Neurons are of three kinds:
 ### The brain
 
 The brain is protected by the skull, by three membranes (meninges) and by a fluid (cerebrospinal fluid). It weighs about 1.4 kg and has three main parts.
+
+```photo id="sci10/brain" caption="A human brain seen from the left side. The wrinkled outer layer is the cerebrum; the cerebellum lies under its back part." width="70"
+```
 
 | Part | Function |
 |---|---|
@@ -171,22 +149,7 @@ The **pituitary** is called the master gland because it controls most of the oth
 | **Cervix** | The neck of the uterus |
 | **Vagina** | Receives the sperm; the birth canal |
 
-```figure caption="Female reproductive system, side view (schematic)."
-import numpy as np, matplotlib.pyplot as plt
-from matplotlib.patches import Ellipse, Polygon, Circle
-fig, ax = plt.subplots(figsize=(4.4,3.2))
-ax.axis('off'); ax.set_xlim(0,12); ax.set_ylim(0,8)
-ax.add_patch(Polygon([(4.6,6.4),(7.4,6.4),(6.9,3.3),(5.1,3.3)],fc="#f7c6c6",ec=INK,lw=1.2))
-ax.add_patch(Polygon([(5.1,3.3),(6.9,3.3),(6.5,0.6),(5.5,0.6)],fc="#f0a8a8",ec=INK,lw=1.0))
-ax.plot([4.6,3.4,2.5,2.2],[6.2,6.6,6.4,5.7],color=INK,lw=3.5,solid_capstyle='round',alpha=0.55)
-ax.plot([7.4,8.6,9.5,9.8],[6.2,6.6,6.4,5.7],color=INK,lw=3.5,solid_capstyle='round',alpha=0.55)
-ax.add_patch(Ellipse((1.9,5.1),1.1,1.3,fc="#f3c34b",ec=INK,lw=1))
-ax.add_patch(Ellipse((10.1,5.1),1.1,1.3,fc="#f3c34b",ec=INK,lw=1))
-ax.annotate("Fallopian tube\n(fertilisation)",xy=(3.0,6.5),xytext=(0.2,7.5),fontsize=8,color=INK,arrowprops=dict(arrowstyle="-",color=INK,lw=0.8),annotation_clip=False)
-ax.annotate("Ovary",xy=(10.5,4.6),xytext=(10.9,2.9),fontsize=8,color=INK,arrowprops=dict(arrowstyle="-",color=INK,lw=0.8))
-ax.annotate("Uterus",xy=(6.0,5.0),xytext=(8.2,7.6),fontsize=8,color=INK,arrowprops=dict(arrowstyle="-",color=INK,lw=0.8))
-ax.annotate("Cervix",xy=(6.1,3.3),xytext=(8.6,2.4),fontsize=8,color=INK,arrowprops=dict(arrowstyle="-",color=INK,lw=0.8))
-ax.annotate("Vagina",xy=(6.1,1.5),xytext=(8.4,0.8),fontsize=8,color=INK,arrowprops=dict(arrowstyle="-",color=INK,lw=0.8))
+```photo id="sci10/female-repro" caption="Female reproductive system in its place in the body (front view; the left half shows the inside of the uterus and vagina)." width="76"
 ```
 
 ### Puberty, gametes and menstruation
@@ -261,6 +224,9 @@ The **circulatory system** carries oxygen, digested food, hormones and waste pro
 
 An adult has about **5 litres** of blood, which is about 7–8% of the body mass. Blood is made of a liquid, **plasma** (about 55%), and cells (about 45%).
 
+```photo id="sci10/blood-smear" caption="A smear of human blood under the microscope. The many pale-red discs are red blood cells; the larger cells with purple nuclei are white blood cells." width="70"
+```
+
 | Component | Feature | Function |
 |---|---|---|
 | **Plasma** | Pale yellow liquid, 90% water | Carries food, hormones, wastes (urea), carbon dioxide |
@@ -282,6 +248,9 @@ Haemoglobin is an iron-containing red pigment. Lack of iron or of haemoglobin ca
 ### The heart
 
 The heart is a muscular organ about the size of a fist, between the lungs, a little to the left. It has **four chambers**:
+
+```photo id="sci10/heart-real" caption="A real human heart removed from an adult body, with the large vessels cut short. Compare it with the plan below." width="60"
+```
 
 - two upper **atria** (auricles), which receive blood;
 - two lower **ventricles**, which pump blood out. The left ventricle has a thicker wall because it pumps blood to the whole body.
@@ -347,6 +316,9 @@ William Harvey (1628) first described the circulation of blood.
 - **Heartbeat.** A resting adult heart beats about **72 times a minute**. The **pulse** felt at the wrist is the stretch of an artery with each beat.
 - **Blood pressure** is the force of blood on the vessel wall. Normal adult value is about **120/80 mm Hg** (systolic/diastolic), measured with a sphygmomanometer.
 - **Stroke volume** is the blood pumped by one ventricle in one beat (about 70 mL). **Cardiac output** = heart rate × stroke volume.
+
+```photo id="sci10/bp-monitor" caption="A digital blood-pressure monitor on the wrist. It shows the systolic pressure (SYS), the diastolic pressure (DIA) in mm of mercury, and the pulse rate (PUL)." width="56"
+```
 
 ::: example Worked example 5.2 (cardiac output)
 **Problem.** The heart of a resting man beats 72 times per minute and pumps 70 mL of blood at each beat from the left ventricle. Find (a) the volume of blood pumped in one minute, and (b) in one day.
@@ -449,6 +421,7 @@ Only about 0.8% of the filtrate leaves as urine.
 
 - **Kidney stones:** hard deposits of salts (calcium oxalate) in the kidney or ureter; they cause severe pain. Drinking enough water helps to prevent them.
 - **Kidney failure:** the kidneys stop cleaning the blood. Urea builds up in the blood. Treatment is **dialysis** (**haemodialysis**), where the patient's blood passes through a machine with a membrane that removes urea and extra salts and returns the clean blood, or a **kidney transplant** from a donor. Nepal has dialysis and transplant centres, such as the Tribhuvan University Teaching Hospital in Kathmandu.
+
 
 ### Role of the skin and liver
 

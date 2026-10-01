@@ -27,6 +27,9 @@ Most marks come from crosses: a monohybrid cross with the 3 : 1 phenotypic ratio
 
 **Gregor Johann Mendel** (1822–1884) was an Austrian monk. Between 1856 and 1863 he did experiments on the garden pea (*Pisum sativum*) in the garden of his monastery in Brno (now in the Czech Republic) and published them in 1866. His work was not noticed until 1900, when three scientists (de Vries, Correns, Tschermak) found his results independently. Mendel is called the **father of genetics**.
 
+```photo id="sci10/pea-pods" caption="A young pea seedling (Pisum sativum) pushing up through the soil. Mendel grew thousands of such plants and counted their characters." width="60"
+```
+
 **Why did Mendel choose the pea plant?**
 
 - It has clear, contrasting characters (tall or dwarf, round or wrinkled seed).
@@ -62,6 +65,9 @@ Mendel studied **seven pairs of contrasting characters**:
 | Hybrid | Offspring of parents that differ in one or more characters |
 | P generation | Parental generation |
 | F₁ and F₂ | First and second filial generation (children and grandchildren) |
+
+```photo id="sci10/pea-flower" caption="Flower of the garden pea. Mendel crossed pea plants by moving pollen from the flower of one plant to the flower of another." width="60"
+```
 
 ### Monohybrid cross
 
@@ -221,6 +227,9 @@ Hierarchy: **cell → nucleus → chromosome → DNA → gene**.
 ### Chromosome number
 
 Each species has a fixed number of chromosomes. They occur in pairs (one from each parent), called **homologous chromosomes**.
+
+```photo id="sci10/karyotype" caption="The 46 human chromosomes arranged in pairs by size (22 pairs of autosomes) with the sex chromosomes: XY in a male and XX in a female." width="90"
+```
 
 | Organism | Number of chromosomes in body cell (2n) |
 |---|---|
@@ -391,19 +400,7 @@ These are due to a change in the number of chromosomes, usually from a mistake i
 | **Turner's syndrome** | 45: one X only (**XO**), female | Short, no ovaries, infertile |
 | **Klinefelter's syndrome** | 47: **XXY**, male | Tall, small testes, infertile, some breast growth |
 
-```figure caption="Number of chromosomes in normal and abnormal human conditions. The dashed line marks the normal count of 46."
-import numpy as np, matplotlib.pyplot as plt
-fig, ax = plt.subplots(figsize=(4.6,2.6))
-names=["Normal\nwoman\n(XX)","Normal\nman\n(XY)","Down's\n(trisomy 21)","Turner's\n(XO)","Klinefelter's\n(XXY)"]
-vals=[46,46,47,45,47]
-cols=[SERIES[0],SERIES[0],SERIES[1],SERIES[2],SERIES[3]]
-ax.bar(range(5),vals,color=cols,width=0.6)
-ax.axhline(46,color=INK,ls='--',lw=0.9)
-for i,v in enumerate(vals):
-    ax.text(i,v+0.12,str(v),ha='center',fontsize=8,color=INK)
-ax.set_ylim(43,48.2); ax.set_xticks(range(5)); ax.set_xticklabels(names,fontsize=7)
-ax.set_ylabel("Chromosomes in a body cell", color=INK, fontsize=8)
-ax.spines[['top','right']].set_visible(False)
+```photo id="sci10/trisomy21" caption="Human chromosomes arranged in pairs (karyotype) of a person with Down syndrome. Chromosome 21 (boxed) has three copies instead of two." width="70"
 ```
 
 ### Prevention and management
