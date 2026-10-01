@@ -122,14 +122,14 @@ $$ \tan\theta=\left|\frac{m_1-m_2}{1+m_1m_2}\right|=\left|\frac{-2-\frac13}{1-\f
 So the acute angle is $\theta=\tan^{-1}7\approx 81.87^\circ$, and the obtuse angle is $180^\circ-81.87^\circ\approx 98.13^\circ$.
 :::
 
-```figure caption="The lines $2x+y-3=0$ and $x-3y+1=0$ meet at $(1,1)$. They make an acute angle of about $81.9^\circ$ and an obtuse angle of about $98.1^\circ$."
+```figure caption="The lines $2x+y-3=0$ and $x-3y+1=0$ meet at $\left(\frac{8}{7},\frac{5}{7}\right)$. They make an acute angle of about $81.9^\circ$ and an obtuse angle of about $98.1^\circ$."
 import numpy as np, matplotlib.pyplot as plt
 fig, ax = plt.subplots(figsize=(4.4, 3.2))
 x = np.linspace(-1.5, 3.5, 100)
 ax.plot(x, 3-2*x, color=ACCENT, lw=1.6, label='2x + y − 3 = 0')
 ax.plot(x, (x+1)/3, color=SERIES[1], lw=1.6, label='x − 3y + 1 = 0')
-ax.plot([1], [1], 'o', color=INK, ms=4)
-ax.text(1.12, 0.78, '(1, 1)', fontsize=8.5)
+ax.plot([8/7], [5/7], 'o', color=INK, ms=4)
+ax.text(1.3, 0.5, '(8/7, 5/7)', fontsize=8.5)
 ax.annotate('acute\n81.9°', xy=(1.7, 1.3), fontsize=8.5, color=INK)
 ax.annotate('obtuse\n98.1°', xy=(-0.5, 0.3), fontsize=8.5, color=INK, ha='center')
 ax.axhline(0, color=MUTED, lw=0.7); ax.axvline(0, color=MUTED, lw=0.7)
