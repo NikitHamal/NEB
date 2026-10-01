@@ -235,6 +235,9 @@ ax.spines[['top','right']].set_visible(False)
 ax.grid(True, alpha=.5); ax.legend(loc='upper left')
 ```
 
+```photo id="phy11/hudf" caption="The Hubble Ultra Deep Field: almost every smear and speck in this small patch of sky is an entire galaxy, each receding from us." width="60"
+```
+
 Run the expansion backwards and all the matter was once packed into an extremely
 hot, dense state. The **Big Bang** model says the universe began in such a state
 about **13.8 billion years ago** and has expanded and cooled ever since. Three
@@ -294,6 +297,9 @@ w, t = ax.pie(vals, labels=labs, colors=cols, startangle=90, counterclock=False,
               textprops=dict(fontsize=8.4, color=INK),
               wedgeprops=dict(width=0.42, edgecolor='white', lw=1.2))
 ax.set_aspect('equal')
+```
+
+```photo id="phy11/cmb" caption="The cosmic microwave background as mapped by ESA's Planck satellite. Blue and red patches differ by only about one part in 100 000 in temperature; they are the seeds of today's galaxies." width="75"
 ```
 
 One open problem: the distance-ladder value $H_0 = 73.0 \pm 1.0$ (SH0ES, 2022)
@@ -363,6 +369,9 @@ ax.set_ylabel(r'orbital speed  $v$  (km s$^{-1}$)')
 ax.set_xlim(0, 30); ax.set_ylim(0, 280)
 ax.spines[['top','right']].set_visible(False)
 ax.grid(True, alpha=.5); ax.legend(loc='lower right')
+```
+
+```photo id="phy11/andromeda" caption="The Andromeda Galaxy (M31), our nearest large spiral. Its outer stars orbit far faster than the visible matter alone can explain." width="55"
 ```
 
 ::: definition Dark matter

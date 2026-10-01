@@ -985,6 +985,9 @@ side, without blending. In cattle, red (C^R^C^R^) × white (C^W^C^W^) gives
 the I^A^I^B^ genotype gives blood group AB, with **both** A and B antigens on
 the red cells.
 
+```photo id="bio12/roan-cattle" caption="Codominance in cattle: a roan Shorthorn carries both red and white hairs, because both alleles are fully expressed in the heterozygote." width="64"
+```
+
 ```figure caption="(a) Incomplete dominance in *Mirabilis jalapa*: the F₂ ratio is 1 : 2 : 1. (b) Codominance in cattle: the roan coat carries both kinds of hair."
 import numpy as np, matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle, Circle

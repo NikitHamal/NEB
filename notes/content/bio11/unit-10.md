@@ -478,6 +478,9 @@ ax.set_ylim(-0.55, 8.5)
 ax.axis('off')
 ```
 
+```photo id="bio11/red-panda" caption="The red panda, *Ailurus fulgens*, a threatened species of the forests of eastern and central Nepal." width="68"
+```
+
 ::: memory Order of the categories
 **E**very **E**vening **C**hildren **E**at **V**ery **N**ice **L**addu —
 **EX, EW, CR, EN, VU, NT, LC** (then DD and NE, which are not risk categories
@@ -545,6 +548,12 @@ for ax in (ax1, ax2):
     ax.spines[['top', 'right']].set_visible(False)
 
 fig.subplots_adjust(wspace=0.38)
+```
+
+```photo id="bio11/rhino" caption="The greater one-horned rhinoceros, *Rhinoceros unicornis*, a flagship species of Nepal's Terai." width="76"
+```
+
+```photo id="bio11/tiger" caption="A Bengal tiger in Bardiya National Park." width="76"
 ```
 
 **The rhinoceros.** Poaching and habitat loss cut Nepal's rhinos to about 100 in

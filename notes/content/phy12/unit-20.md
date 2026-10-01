@@ -97,6 +97,9 @@ arrow(0.72,1.25,2.05,'#1d6fb8','$U$',-0.62)
 arrow(1.28,1.25,2.05,'#b8860b','$qE$',0.10)
 bx.set_xlim(-0.7,2.6); bx.set_ylim(-0.35,5.1); bx.axis('off')
 ```
+
+```photo id="phy12/millikan" caption="The viewing microscope of a Millikan oil-drop apparatus (teaching model). The drop is watched between the charged plates through this eyepiece." width="55"
+```
 Fine drops of low-volatility oil are sprayed from an **atomiser** into the space
 between two horizontal metal plates a distance $d$ apart. Friction in the nozzle
 leaves each drop with a small charge; a beam of X-rays can add or remove further
@@ -368,6 +371,9 @@ ax.annotate('', xy=(9.5,0.95), xytext=(9.5,0.0),
             arrowprops=dict(arrowstyle='<|-|>', color=INK, lw=0.9, mutation_scale=7))
 ax.text(9.35,0.5,'$y$', fontsize=9.5, color=INK, ha='right')
 ax.set_xlim(0.0,10.9); ax.set_ylim(-2.6,2.2); ax.axis('off')
+```
+
+```photo id="phy12/thomson" caption="J. J. Thomson at work with a cathode-ray tube (colourised photograph)." width="60"
 ```
 **Method.** The tube is evacuated. Electrons boiled off the cathode C are
 accelerated by the anode A, collimated by the slit S, and strike a fluorescent

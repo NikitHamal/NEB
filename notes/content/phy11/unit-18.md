@@ -225,6 +225,9 @@ ax.annotate('R', (xS+0.17,-0.39), color='#c0392b', fontsize=8.4, ha='left', va='
 ax.annotate('V', (xS+0.17,-0.91), color='#6a0dad', fontsize=8.4, ha='left', va='center')
 ax.set_xlim(-0.35, 6.30); ax.set_ylim(-1.45, 1.40); ax.axis('off')
 ```
+
+```photo id="phy12/spectroscope" caption="An old brass prism spectroscope: the collimator (with slit) on the right sends a parallel beam to the prism on the central table, and the telescope on the left views the spectrum." width="70"
+```
 ::: memory Four conditions for a pure spectrum
 1. The source slit must be **narrow**.
 2. Light must fall on the prism as a **parallel beam** (slit at the focus of the
