@@ -30,3 +30,18 @@ if __name__ == "__main__":
     print(f"{'book':8} real generated candidates")
     for b, (re_, g, c) in agg.items(): print(f"{b:8} {re_:4} {g:9} {c:9}")
     print("TOTAL", sum(a[0] for a in agg.values()), sum(a[1] for a in agg.values()), sum(a[2] for a in agg.values()))
+
+def write_md(rows):
+    by = collections.OrderedDict()
+    for r in rows: by.setdefault(r["book"], []).append(r)
+    o = open(os.path.join(ROOT, "inventory", "FIGURES.md"), "w", encoding="utf-8")
+    o.write("# Figure inventory\n\nRegenerate with `python3 pipeline/figinventory.py`. `real` = ```photo block (licensed image in `assets/`); `generated` = ```figure block (matplotlib). ⚑ = generated figure whose caption names a real-world thing, flagged for review.\n\n| book | real | generated | flagged |\n|---|---|---|---|\n")
+    for b, rs in by.items():
+        o.write(f"| {b} | {sum(r['kind']=='real' for r in rs)} | {sum(r['kind']=='generated' for r in rs)} | {sum(r['candidate'] for r in rs)} |\n")
+    for b, rs in by.items():
+        o.write(f"\n## {b}\n\n| unit | line | kind | id | caption |\n|---|---|---|---|---|\n")
+        for r in rs:
+            o.write(f"| {r['unit']} | {r['line']} | {r['kind']}{' ⚑' if r['candidate'] else ''} | {r['id']} | {r['caption'].replace('|','/')[:110]} |\n")
+rows = scan()
+for r in rows: r["candidate"] = bool(r["kind"] == "generated" and KW.search(r["caption"]))
+write_md(rows)
