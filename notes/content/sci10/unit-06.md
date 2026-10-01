@@ -140,6 +140,9 @@ A **pollutant** is any substance that causes pollution. Pollution may come from 
 
 **Air pollution** is the presence of harmful gases, smoke and dust in the air.
 
+```photo id="sci10/air-kathmandu" caption="Air pollution in Kathmandu: smoke and dust hang over the city and cut down the view." width="76"
+```
+
 | Pollutant | Source | Harm |
 |---|---|---|
 | Carbon monoxide (CO) | Incomplete burning of fuel, vehicle exhaust, cooking on firewood | Binds haemoglobin, so less oxygen reaches the body; causes headache and even death |
@@ -168,6 +171,9 @@ SO₂ + H₂O → H₂SO₃ (then oxidised to H₂SO₄)
 
 **Water pollution** is the addition of harmful substances to water so that it becomes unfit for use.
 
+```photo id="sci10/bagmati-waste" caption="Solid waste dumped on the bank of the Bagmati river near Kathmandu. Garbage like this pollutes the river water." width="76"
+```
+
 | Source | Pollutant |
 |---|---|
 | Households | Sewage, soaps, detergents, kitchen waste |
@@ -185,6 +191,9 @@ SO₂ + H₂O → H₂SO₃ (then oxidised to H₂SO₄)
 ### Soil pollution
 
 Soil pollution is the addition of harmful substances to the soil. **Causes:** plastic and other garbage, chemical fertilisers and pesticides, industrial wastes, and mining. **Effects:** loss of soil fertility, harm to soil organisms such as earthworms, poisoning of crops and groundwater, and spread of diseases. **Control:** use organic manure and compost, reduce plastic, practise integrated pest management, sort and recycle waste, and plant trees to stop erosion.
+
+```photo id="sci10/plastic-waste" caption="Plastic waste choking a roadside drain. Plastic does not rot, so it stays in the soil and blocks water." width="70"
+```
 
 ### Noise pollution
 
@@ -240,6 +249,9 @@ ax.text(9.0,7.4,"escapes\nto space",fontsize=7.5,color=SERIES[1],ha='right')
 
 **Global warming** is the rise of the average temperature of the Earth's surface because of more greenhouse gases in the air. Since about 1850 the Earth has warmed by about **1.1–1.2 °C**, and the amount of CO₂ in the air has risen from about 280 parts per million (ppm) before industry to over **420 ppm** today. The main causes are:
 
+```photo id="sci10/khumbu-glacier" caption="The Khumbu Glacier below Mount Everest in Nepal. Many Himalayan glaciers are shrinking as the climate warms." width="80"
+```
+
 - burning coal, petrol, diesel and gas;
 - **deforestation**, which removes the trees that absorb CO₂;
 - agriculture (methane from cattle and rice fields, nitrous oxide from fertilisers);
@@ -290,6 +302,7 @@ The **Montreal Protocol** (1987) is an international agreement that has phased o
 - Reduce, reuse and recycle waste.
 - Buy local food and avoid waste of food.
 - Spread awareness; support the national and global agreements (the **Kyoto Protocol**, **Paris Agreement of 2015**, which aims to keep warming well below 2 °C).
+
 
 ::: example Worked example 6.2 (carbon dioxide change)
 **Problem.** The carbon dioxide level in the air was 280 ppm before industry and is about 420 ppm today. Find the increase and the percentage increase.
@@ -372,6 +385,9 @@ Compost = 27 / 4 = **6.75 kg**.
 The other 40% (18 kg) is non-biodegradable and must be reduced, reused or recycled.
 :::
 
+```photo id="sci10/landfill" caption="A landfill site: mixed waste is dumped, compacted and covered with soil. Leachate and methane from it must be managed." width="80"
+```
+
 ### E-waste and plastic
 
 **Plastic** takes hundreds of years to break down. It chokes drains, kills cows and fish that swallow it, and gives off poisonous gases when burned. Use cloth or jute bags, avoid single-use plastic, and recycle. **E-waste** contains lead, mercury and cadmium, and also precious metals; old phones and computers should be given to authorised recyclers, not thrown away.
@@ -390,6 +406,9 @@ Management of solid waste is the duty of local government (municipality) under t
 |---|---|
 | Can be replaced naturally in a short time: forests, water, sunlight, wind, soil | Cannot be replaced in a human lifetime: coal, petroleum, natural gas, metals |
 
+```photo id="sci10/kaligandaki" caption="The Kaligandaki A hydroelectric power station in Nepal. Falling water is a renewable source of energy." width="80"
+```
+
 ### Biodiversity
 
 **Biodiversity** is the variety of all living things on Earth: the variety of species, of genes within species, and of ecosystems. It is important because it gives us food, medicine, wood and clean air; keeps the ecosystem stable; and has beauty and culture value. Nepal is a "hotspot" of biodiversity. Threats to biodiversity: **loss of habitat** (deforestation, expansion of cities), **poaching** and illegal trade of wildlife, **pollution**, **climate change**, **invasive alien species** (such as the weed *Mikania micrantha* in Chitwan) and over-use of resources.
@@ -405,12 +424,21 @@ Management of solid waste is the duty of local government (municipality) under t
 
 Nepal has about **23%** of its land in protected areas. It has **12 national parks** (such as **Chitwan**, the first, established in 1973; **Sagarmatha**; **Langtang**; **Bardia**; **Shey-Phoksundo**, the biggest), a **wildlife reserve** (Koshi Tappu, also a Ramsar site, famous for birds and wild water buffalo), a **hunting reserve** (Dhorpatan) and **conservation areas** (Annapurna, the first; Manaslu; Kanchenjunga, and others). The national parks and conservation areas are surrounded by **buffer zones**, where local people share the income and manage the forest. **Chitwan National Park** and **Sagarmatha National Park** are **World Heritage Sites**.
 
+```photo id="sci10/tiger" caption="A Bengal tiger in Bardiya National Park, Nepal. National parks protect the habitat of such rare animals." width="76"
+```
+
 | Wildlife | Status in Nepal |
 |---|---|
 | One-horned rhinoceros | Recovered to over 750 in the terai |
 | Bengal tiger | Doubled to about 355 (2022 count) |
 | Snow leopard, red panda, musk deer | Endangered or vulnerable |
 | Gharial, Ganges river dolphin | Critically endangered / endangered |
+
+```photo id="sci10/rhino" caption="Greater one-horned rhinoceros with calf in Chitwan National Park, one of the species saved by protection in Nepal." width="80"
+```
+
+```photo id="sci10/snow-leopard" caption="The snow leopard, the top predator of the high Himalaya, found in Nepal's mountain national parks such as Shey Phoksundo." width="60"
+```
 
 ### Community forestry
 

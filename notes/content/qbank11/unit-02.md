@@ -33,6 +33,12 @@ it. Treat this as a bank of exam-shaped questions, not a leaked paper.
 
 ## 2.1 Physical Quantities
 
+```photo id="phy11/vernier" caption="A vernier calliper, the instrument behind most least-count questions: the main scale is on the fixed jaw and the vernier scale slides along it." width="60"
+```
+
+```photo id="phy11/micrometer" caption="A micrometer screw gauge. The sleeve gives the main-scale reading and the rotating thimble gives the fractions of a division." width="56"
+```
+
 | High-yield fact | Value / form |
 |---|---|
 | Force | $[MLT^{-2}]$, newton |
@@ -860,6 +866,9 @@ ax.set_aspect('equal'); ax.axis('off')
 :::
 
 ## 2.19 Electric Charges
+
+```photo id="phy11/electroscope" caption="A gold-leaf electroscope. A charged body brought near the cap makes the two leaves repel and diverge." width="46"
+```
 
 | High-yield fact | Value / form |
 |---|---|

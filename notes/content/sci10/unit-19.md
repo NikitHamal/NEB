@@ -19,6 +19,9 @@ Expect: the cleaning action of soap and the difference between soap and detergen
 
 **Soap** is the sodium or potassium salt of a long-chain fatty acid (such as stearic, palmitic or oleic acid). A typical soap is sodium stearate, C₁₇H₃₅COONa.
 
+```photo id="sci10/soap" caption="Bars of soap. Soap is made by boiling a fat or oil with an alkali such as sodium hydroxide." width="60"
+```
+
 **Making soap: saponification.** Vegetable oil or animal fat (a compound of glycerol and fatty acids, called an ester) is boiled with a strong alkali (caustic soda, NaOH). The change is called **saponification**.
 
 Fat or oil + NaOH → Soap + Glycerol
@@ -122,6 +125,9 @@ A **fertiliser** is a natural or synthetic substance added to the soil to supply
 | DAP (diammonium phosphate) | (NH₄)₂HPO₄ | N and P | 18 % N, 46 % P₂O₅ |
 | NPK complex | mixture | N, P, K | e.g. 15-15-15 |
 
+```photo id="sci10/urea" caption="A tractor spreading chemical fertiliser, such as urea, over a field." width="66"
+```
+
 **Urea** is made from ammonia and carbon dioxide at high pressure:
 
 2NH₃ + CO₂ → CO(NH₂)₂ + H₂O
@@ -160,6 +166,9 @@ Fertilisers are not the enemy; **excess** and **wrong** use is. Nepali farmers f
 ## 19.3 Cement
 
 **Cement** is a fine grey powder which, when mixed with water, sets into a hard, stone-like mass. The type commonly used is **Portland cement**, invented by Joseph Aspdin in 1824, so called because the hardened cement looked like Portland stone. Nepal has several cement factories (for example at Hetauda, Udayapur and Butwal), using limestone found in the country.
+
+```photo id="sci10/cement" caption="Bags of Portland cement, each holding 25 kg. Cement is mixed with sand and water to make mortar and concrete." width="60"
+```
 
 ### Raw materials
 
@@ -210,6 +219,9 @@ Concrete is strong when it is pressed (compression) but weak when it is pulled (
 
 **Glass** is a hard, transparent, brittle, **amorphous** solid (it has no regular crystal arrangement). It is sometimes called a super-cooled liquid. Glass is made by fusing sand with other chemicals.
 
+```photo id="sci10/glass-recycling" caption="Containers for collecting glass for recycling. Used glass can be melted again and made into new bottles." width="60"
+```
+
 ### Raw materials
 
 | Raw material | Chemical | Role |
@@ -256,6 +268,9 @@ Polymers are **natural** (cellulose, starch, protein, rubber, DNA) or **syntheti
 ### Plastics
 
 **Plastics** are synthetic polymers that can be moulded into any shape by heat and pressure. They are light, cheap, strong, waterproof, corrosion-resistant and poor conductors of heat and electricity.
+
+```photo id="sci10/pet-bottles" caption="Plastic (PET) bottles collected for recycling. Plastics are polymers." width="60"
+```
 
 | Type | Behaviour on heating | Examples and uses |
 |---|---|---|

@@ -166,23 +166,8 @@ Monera includes the simplest and oldest living things, the **bacteria** and the 
 
 Bacteria are classified by shape into **cocci** (spherical), **bacilli** (rod-shaped), **spirilla** (spiral) and **vibrios** (comma-shaped).
 
-```figure caption="Four shapes of bacteria, drawn schematically, with examples."
-import numpy as np, matplotlib.pyplot as plt
-from matplotlib.patches import Circle, FancyBboxPatch
-fig, ax = plt.subplots(figsize=(4.8,2.5))
-ax.axis('off'); ax.set_xlim(0,12); ax.set_ylim(0,5.5)
-for cx,cy in [(1.3,3.5),(2.1,3.5),(1.7,2.8),(1.0,2.8)]:
-    ax.add_patch(Circle((cx,cy),0.35,fc="#cfe0ff",ec=ACCENT))
-ax.text(1.6,2.0,"Cocci\n(sphere)\nStreptococcus",ha='center',va='top',fontsize=7.5,color=INK)
-for cx,cy,a in [(4.5,3.4,10),(5.3,3.0,-20),(4.6,2.6,5)]:
-    ax.add_patch(FancyBboxPatch((cx-0.6,cy-0.2),1.2,0.4,boxstyle="round,pad=0.1",fc="#cfe0ff",ec=ACCENT,transform=matplotlib.transforms.Affine2D().rotate_deg_around(cx,cy,a)+ax.transData))
-ax.text(4.9,2.0,"Bacilli\n(rod)\nBacillus",ha='center',va='top',fontsize=7.5,color=INK)
-t=np.linspace(0,4*np.pi,200)
-ax.plot(7.2+0.35*np.sin(t)*0+0.3*np.sin(t)+0.0, 2.2+ t/(4*np.pi)*2.4, color=ACCENT, lw=3)
-ax.text(7.2,2.0,"Spirilla\n(spiral)\nSpirillum",ha='center',va='top',fontsize=7.5,color=INK)
-tt=np.linspace(-0.9,0.9,50)
-ax.plot(10+tt*1.0, 3.6-1.0*tt**2+0.0, color=ACCENT, lw=5, solid_capstyle='round')
-ax.text(10,2.0,"Vibrios\n(comma)\nVibrio cholerae",ha='center',va='top',fontsize=7.5,color=INK)
+```photo id="sci10/ecoli" caption="Bacteria seen under a scanning electron microscope: these are rod-shaped bacilli (Escherichia coli). Cocci are round and spirilla are spiral." width="70"
+scale 0.05 0.04 0.2 "2 μm"
 ```
 
 **Importance.** *Lactobacillus* turns milk into curd; *Rhizobium* fixes nitrogen in the root nodules of legumes; bacteria decompose dead bodies. Harmful bacteria cause cholera (*Vibrio cholerae*), typhoid, tuberculosis and tetanus.
@@ -198,12 +183,21 @@ ax.text(10,2.0,"Vibrios\n(comma)\nVibrio cholerae",ha='center',va='top',fontsize
 
 Protista is often called the "kingdom of leftovers", because it contains eukaryotes that are neither plants, animals nor fungi.
 
+```photo id="sci10/paramecium" caption="Paramecium, a ciliate protist, seen through a microscope. It swims with the help of the cilia that cover its body." width="70"
+```
+
 | Protist | Locomotion | Nutrition |
 |---|---|---|
 | *Amoeba* | Pseudopodia | Heterotrophic |
 | *Paramecium* | Cilia | Heterotrophic |
 | *Euglena* | Flagellum | Autotrophic and heterotrophic |
 | *Plasmodium* | None (parasite) | Heterotrophic |
+
+```photo id="sci10/euglena" caption="Euglena and other pond-water protists under the microscope. Euglena has a whip-like flagellum for swimming and chloroplasts for photosynthesis." width="70"
+```
+
+```photo id="sci10/amoeba" caption="Amoeba, a protist, seen through a microscope. It moves by extending temporary false feet (pseudopodia)." width="70"
+```
 
 ### Kingdom Fungi
 
@@ -216,6 +210,12 @@ Protista is often called the "kingdom of leftovers", because it contains eukaryo
 - Store food as glycogen, as animals do.
 
 **Importance.** Yeast is used in making bread and alcohol; *Penicillium* gives the antibiotic penicillin; some mushrooms are food (*Agaricus*, the button mushroom); other fungi cause athlete's foot, ringworm and food spoilage. Fungi, along with bacteria, are **decomposers**.
+
+```photo id="sci10/penicillium" caption="Penicillium growing on an orange: the green powder is the mass of spores. Penicillium is the fungus that gave us the antibiotic penicillin." width="56"
+```
+
+```photo id="sci10/mushroom" caption="A mushroom (fly agaric), the fruiting body of a fungus. The cap sits on a stalk and the body of the fungus lies in the soil." width="70"
+```
 
 ### Kingdom Plantae
 
@@ -237,12 +237,21 @@ Plants are divided into five groups:
 
 Angiosperms are further divided into **monocots** (one seed leaf, parallel leaf veins, fibrous roots: maize, rice, wheat) and **dicots** (two seed leaves, net-like veins, tap root: pea, mustard, mango).
 
+```photo id="sci10/hibiscus" caption="Flower of a hibiscus plant. Angiosperms bear flowers, and their seeds are enclosed in fruits." width="56"
+```
+
 | Monocotyledon | Dicotyledon |
 |---|---|
 | One cotyledon in the seed | Two cotyledons |
 | Parallel venation | Reticulate (net) venation |
 | Fibrous roots | Tap root |
 | Flower parts in threes | Flower parts in fours or fives |
+
+```photo id="sci10/moss" caption="Moss with its spore capsules (sporophytes) on thin stalks. Mosses are bryophytes: small plants of moist places that have no true roots." width="70"
+```
+
+```photo id="sci10/fern-sori" caption="Underside of a fern frond, showing the brown clusters of spore-producing sori. Ferns reproduce by spores, not seeds." width="70"
+```
 
 ### Kingdom Animalia
 
@@ -266,6 +275,12 @@ Animals are divided into **invertebrates** (no backbone) and **vertebrates** (ba
 | Echinodermata | Spiny skin | Starfish |
 | Chordata | Notochord; vertebrates are included | Fish, frog, lizard, bird, human |
 
+```photo id="sci10/earthworm" caption="An earthworm (phylum Annelida): the body is divided into many ring-like segments." width="60"
+```
+
+```photo id="sci10/cockroach" caption="A cockroach (phylum Arthropoda): jointed legs, three pairs, and a hard outer skeleton." width="60"
+```
+
 Vertebrates are placed in five classes:
 
 | Class | Body covering | Respiration | Body temperature | Examples |
@@ -275,6 +290,15 @@ Vertebrates are placed in five classes:
 | Reptilia | Dry scales | Lungs | Cold-blooded | Lizard, snake, crocodile |
 | Aves (birds) | Feathers | Lungs | Warm-blooded | Pigeon, Himalayan monal (Danphe) |
 | Mammalia | Hair or fur | Lungs | Warm-blooded | Cow, tiger, human |
+
+```photo id="sci10/rohu" caption="Rohu, a fish (class Pisces): the body is covered with scales and it breathes with gills." width="60"
+```
+
+```photo id="sci10/frog" caption="A frog (class Amphibia): moist skin, and it lives both in water and on land." width="56"
+```
+
+```photo id="sci10/pigeon" caption="A pigeon (class Aves): a bird has feathers, wings and a beak and is warm-blooded." width="56"
+```
 
 ::: tip Mammals
 Mammals are the only animals with milk-producing glands (mammary glands) and external ears (pinna). Most give birth to young ones; the platypus lays eggs.

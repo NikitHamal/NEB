@@ -61,6 +61,15 @@ arr(2.6, 3.75, 4.2, 3.75); arr(7.8, 3.75, 9.4, 3.75)
 arr(6.0, 4.9, 6.0, 5.8, both=True); arr(6.0, 2.6, 6.0, 1.5, both=True)
 ```
 
+```photo id="sci10/motherboard" caption="Inside a desktop computer: the motherboard, the power supply (top left), the storage drives and the connecting cables." width="70"
+```
+
+```photo id="sci10/ram" caption="RAM (main memory) modules. They plug into the motherboard and hold the programs and data in use." width="56"
+```
+
+```photo id="sci10/hdd" caption="A hard disk drive with its cover removed. Data are stored on the spinning disc (platter) and read by the arm." width="56"
+```
+
 ### Primary memory and storage units
 
 | Memory | Meaning |
@@ -172,6 +181,12 @@ for k in range(6):
     t = 2*np.pi*k/6
     c.plot([1.4*np.cos(t)], [1.4*np.sin(t)], 's', color=ACCENT, ms=9)
 fig.tight_layout()
+```
+
+```photo id="sci10/switch" caption="A network switch with two Ethernet cables plugged in. A switch connects the computers of a star network." width="66"
+```
+
+```photo id="sci10/router" caption="A wireless router. It connects the computers of a home to the internet by cable and by Wi-Fi." width="50"
 ```
 
 ### The internet

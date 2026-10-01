@@ -221,6 +221,9 @@ An **alcohol** is an organic compound in which one or more hydrogen atoms of an 
 
 **Preparation by fermentation.** Sugar from molasses, rice, millet or grapes is changed to ethanol by the enzymes in yeast (zymase). Local drinks of Nepal such as *jaand* and *raksi* are made by fermentation.
 
+```photo id="sci10/ethanol" caption="Ethanol (ethyl alcohol), a colourless liquid. It is used as a solvent and as a fuel." width="46"
+```
+
 C₆H₁₂O₆ --zymase--> 2C₂H₅OH + 2CO₂ ↑
 
 Other methods: hydration of ethene (C₂H₄ + H₂O → C₂H₅OH, steam, phosphoric acid catalyst, high pressure).
