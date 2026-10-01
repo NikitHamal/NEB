@@ -154,6 +154,9 @@ ax.set_xlim(-4.4, 13.8); ax.set_ylim(-4.30, 4.26)
 ax.set_aspect('equal'); ax.axis('off')
 ```
 
+```photo id="bio11/rohu" caption="The rohu, *Labeo rohita*, a common freshwater carp: streamlined body, overlapping scales, paired and median fins and a forked tail." width="72"
+```
+
 The teleost solves five problems at once:
 
 1. **Drag.** A fusiform (spindle) body, scales pointing backwards and a slippery

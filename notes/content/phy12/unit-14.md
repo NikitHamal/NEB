@@ -541,6 +541,9 @@ ax.annotate('$I_g$', (-0.15,0.52), ha='center', color=ACCENT, fontsize=9.2)
 ax.set_title('voltmeter: high $R$ in series', fontsize=8.8)
 ax.set_xlim(-2.2,2.6); ax.set_ylim(-2.0,1.0); ax.set_aspect('equal'); ax.axis('off')
 ```
+
+```photo id="phy12/galvanometer" caption="A moving-coil galvanometer from the early 20th century: the coil hangs between the poles of the permanent magnet and turns a pointer over a scale." width="60"
+```
 ::: derivation Shunt for an ammeter, multiplier for a voltmeter
 **Ammeter.** To read up to a current $I$, a low resistance $S$ (the **shunt**) is
 joined in parallel with the galvanometer so that only $I_g$ passes through the

@@ -300,92 +300,10 @@ by cross-walls into uninucleate, binucleate or multinucleate compartments, as in
 as starch. In the higher fungi the hyphae may be packed into hard, tissue-like
 masses called **plectenchyma** that form the stalk and cap of a mushroom.
 
-```figure caption="Three fungi: the coenocytic mycelium of *Rhizopus stolonifer*, the basidiocarp of *Agaricus*, and a budding yeast cell of *Saccharomyces cerevisiae*."
-import numpy as np, matplotlib.pyplot as plt
-from matplotlib.patches import Circle, Ellipse, FancyBboxPatch, Polygon, FancyArrowPatch
+```photo id="bio11/rhizopus" caption="The mycelium of *Rhizopus stolonifer* under the microscope. The long, unbranched-looking hyphae carry upright sporangiophores topped by dark, round sporangia. The scale bar is 0.1 mm." width="80"
+```
 
-fig, (a, b, c) = plt.subplots(1, 3, figsize=(5.2, 2.7),
-                              gridspec_kw={'width_ratios': [1.05, 1.0, 0.60],
-                                           'wspace': 0.06})
-rng = np.random.default_rng(4)
-
-def lab(ax, s, xy, xytext, ha='left', fs=6.2):
-    ax.annotate(s, xy=xy, xytext=xytext, ha=ha, va='center', fontsize=fs,
-                color=INK, arrowprops=dict(arrowstyle='-', lw=0.6, color=MUTED,
-                                           shrinkA=1, shrinkB=1))
-
-# ---------------- (a) Rhizopus ------------------------------------------
-a.plot([0.30, 2.55], [1.05, 1.05], color=INK, lw=1.2)
-for bx in (0.62, 2.25):
-    a.plot([bx, bx], [1.05, 2.05], color=INK, lw=1.2)
-    a.add_patch(Circle((bx, 2.28), 0.245, fc='#5b4636', ec=INK, lw=0.9))
-    for k in range(16):
-        t = rng.uniform(0, 2 * np.pi)
-        r = 0.20 * np.sqrt(rng.uniform(0, 1))
-        a.plot([bx + r * np.cos(t)], [2.28 + r * np.sin(t)], marker='o',
-               ms=1.1, color='#e8e0d4')
-    a.plot([bx - 0.10, bx, bx + 0.10], [2.10, 2.16, 2.10], color=INK, lw=0.8)
-    # rhizoids
-    for dx in (-0.20, -0.07, 0.07, 0.20):
-        a.plot([bx, bx + dx * 1.3], [1.02, 0.62], color=INK, lw=0.8)
-        a.plot([bx + dx * 1.3, bx + dx * 1.9], [0.62, 0.42], color=INK, lw=0.7)
-a.text(0.02, 2.96, 'a', ha='left', va='top', fontsize=7,
-       color=MUTED, fontweight='bold')
-lab(a, 'sporangium\n(spores)', (0.85, 2.32), (1.06, 2.70), fs=6.0)
-lab(a, 'columella', (0.70, 2.13), (1.06, 2.26), fs=6.0)
-lab(a, 'sporangiophore', (2.25, 1.55), (2.10, 1.55), ha='right', fs=6.0)
-lab(a, 'stolon', (1.60, 1.05), (1.60, 0.82), ha='center', fs=6.0)
-lab(a, 'rhizoids', (0.50, 0.50), (1.15, 0.36), fs=6.0)
-a.set_xlim(-0.05, 3.00)
-a.set_ylim(0.10, 3.00)
-
-# ---------------- (b) Agaricus ------------------------------------------
-t = np.linspace(0, np.pi, 200)
-cap = np.column_stack([1.35 + 1.05 * np.cos(t), 1.92 + 0.60 * np.sin(t)])
-b.add_patch(Polygon(cap, closed=True, fc='#c9a882', ec=INK, lw=1.0))
-for gx in np.linspace(0.45, 2.25, 15):
-    b.plot([gx, gx], [1.92, 1.64], color='#8c6b52', lw=0.8)
-b.plot([0.35, 2.35], [1.92, 1.92], color=INK, lw=1.0)
-b.add_patch(FancyBboxPatch((1.18, 0.45), 0.34, 1.50,
-                           boxstyle='round,pad=0,rounding_size=0.08',
-                           fc='#f0e6d6', ec=INK, lw=1.0))
-b.add_patch(Ellipse((1.35, 1.32), 0.66, 0.16, fc='#e2d2ba', ec=INK, lw=0.9))
-for k, x0 in enumerate(np.linspace(0.55, 2.15, 5)):
-    tt = np.linspace(0, 1, 60)
-    b.plot(x0 + 0.34 * tt, 0.44 - 0.11 * np.sin(np.pi * tt * 2) - 0.05 * tt,
-           color=MUTED, lw=0.7)
-b.text(-0.50, 2.88, 'b', ha='left', va='top', fontsize=7,
-       color=MUTED, fontweight='bold')
-lab(b, 'pileus (cap)', (1.35, 2.40), (1.35, 2.74), ha='center', fs=6.0)
-lab(b, 'gills', (2.15, 1.76), (2.62, 2.05), fs=6.0)
-lab(b, 'annulus', (1.66, 1.32), (2.62, 1.42), fs=6.0)
-lab(b, 'stipe', (1.52, 0.90), (2.62, 0.90), fs=6.0)
-lab(b, 'mycelium', (0.75, 0.40), (0.30, 0.66), ha='right', fs=6.0)
-b.set_xlim(-0.55, 3.55)
-b.set_ylim(0.02, 2.92)
-
-# ---------------- (c) yeast --------------------------------------------
-c.add_patch(Ellipse((0.55, 2.25), 0.70, 0.86, fc='#f4ecdc', ec=INK, lw=1.0))
-c.add_patch(Circle((0.52, 2.25), 0.13, fc='#cfe3f3', ec=INK, lw=0.8))
-c.add_patch(Ellipse((1.00, 2.62), 0.30, 0.34, fc='#f4ecdc', ec=INK, lw=1.0))
-c.add_patch(FancyArrowPatch((0.62, 1.66), (0.62, 1.34),
-                            arrowstyle='-|>', mutation_scale=7,
-                            lw=0.9, color=MUTED))
-c.add_patch(Ellipse((0.55, 0.82), 0.70, 0.86, fc='#f4ecdc', ec=INK, lw=1.0))
-c.add_patch(Circle((0.48, 0.82), 0.13, fc='#cfe3f3', ec=INK, lw=0.8))
-c.add_patch(Ellipse((1.12, 1.24), 0.52, 0.58, fc='#f4ecdc', ec=INK, lw=1.0))
-c.add_patch(Circle((1.18, 1.26), 0.11, fc='#cfe3f3', ec=INK, lw=0.8))
-c.text(0.02, 0.30, 'c', ha='left', va='top', fontsize=7,
-       color=MUTED, fontweight='bold')
-lab(c, 'bud', (1.06, 2.66), (1.34, 2.90), fs=6.0)
-lab(c, 'nucleus', (0.52, 2.25), (0.06, 2.86), ha='left', fs=6.0)
-lab(c, 'nucleus\ndivides', (1.18, 1.26), (1.42, 0.92), fs=6.0)
-c.set_xlim(0.00, 2.30)
-c.set_ylim(0.02, 3.12)
-
-for ax in (a, b, c):
-    ax.set_aspect('equal')
-    ax.axis('off')
+```photo id="bio11/agaricus" caption="Fruiting bodies (basidiocarps) of the button mushroom *Agaricus bisporus*. What we eat is the compact, tissue-like mass of hyphae; the mycelium itself stays hidden in the compost." width="72"
 ```
 
 **Nutrition.** Saprophytes (*Mucor*, *Agaricus*) live on dead organic matter;
@@ -578,6 +496,12 @@ for ax in (a, b):
     ax.axis('off')
 ```
 
+```photo id="bio11/lichen-forms" caption="Lichens on one twig. The broad lobed grey-green patches are foliose; the thread-like branched tufts are fruticose. A crustose lichen is a thin crust glued to the surface, like paint." width="84"
+```
+
+```photo id="bio11/usnea" caption="*Usnea*, a fruticose ("beard") lichen: pale green, branched and hanging like tiny shrubs from the bark." width="72"
+```
+
 **Growth forms.** Three are recognised and are easy marks in a diagram question.
 **Crustose** lichens form a thin crust fused to rock or bark and cannot be
 removed intact (*Graphis*, *Lecanora*). **Foliose** lichens are leaf-like, lobed,
@@ -713,6 +637,9 @@ b.set_ylim(-1.92, 2.05)
 for ax in (a, b):
     ax.set_aspect('equal')
     ax.axis('off')
+```
+
+```photo id="bio11/spirogyra" caption="Filaments of *Spirogyra* under the light microscope. Each cylindrical cell holds one or more green spiral ribbon-shaped chloroplasts, and the cross walls between cells are plain to see." width="84"
 ```
 
 *Spirogyra*, the commonest pond alga of Nepal and the standard laboratory
@@ -904,6 +831,9 @@ b.set_ylim(-1.95, 2.00)
 for ax in (a, b):
     ax.set_aspect('equal')
     ax.axis('off')
+```
+
+```photo id="bio11/funaria" caption="*Funaria hygrometrica* growing on soil. The small green leafy gametophyte is the plant you see; each slender yellow seta lifts a capsule, the sporophyte, which stays attached to the gametophyte." width="82"
 ```
 
 *Funaria hygrometrica*, the cord moss, is the prescribed type. Its leafy shoot
@@ -1175,6 +1105,9 @@ for ax in (a, b, c):
     ax.axis('off')
 ```
 
+```photo id="bio11/dryopteris" caption="The underside of a *Dryopteris* frond: each pinnule carries rounded brown sori, each a cluster of sporangia that is covered, while young, by a kidney-shaped indusium." width="68"
+```
+
 **Homospory and heterospory.** Most pteridophytes are **homosporous**: they
 produce one kind of spore, which gives a bisexual prothallus. A few are
 **heterosporous**, producing large **megaspores** that give a female gametophyte
@@ -1390,6 +1323,9 @@ c.set_ylim(-1.55, 2.10)
 for ax in (a, b, c):
     ax.set_aspect('equal')
     ax.axis('off')
+```
+
+```photo id="bio11/pinus" caption="*Pinus*: needle-leaves in fascicles on a dwarf shoot, with two woody female cones. The seeds lie naked on the cone scales; there is no ovary or fruit." width="64"
 ```
 
 | Character | Gymnosperm | Angiosperm |
@@ -1692,6 +1628,12 @@ fig.text(0.055, 0.695, 'MONOCOT', ha='center', va='center', fontsize=6.8,
 fig.text(0.055, 0.285, 'DICOT', ha='center', va='center', fontsize=6.8,
          color=INK, fontweight='bold', rotation=90)
 fig.subplots_adjust(left=0.10)
+```
+
+```photo id="bio11/monocot-stem" caption="Transverse section of a monocot stem (stained, low power): vascular bundles scattered through the ground tissue, with no ring and no clear cortex." width="60"
+```
+
+```photo id="bio11/dicot-stem" caption="Transverse section of a dicot stem (stained, low power): the vascular bundles lie in a ring around a central pith." width="60"
 ```
 
 | Character | Monocotyledon | Dicotyledon |

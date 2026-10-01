@@ -41,153 +41,37 @@ which lie outside the tube and pour their secretions into it through ducts.
 
 ### The alimentary canal
 
-```figure caption="The human alimentary canal with its associated glands (anterior view; the liver is drawn semi-transparent so the stomach behind it is visible)."
-import numpy as np, matplotlib.pyplot as plt
-from matplotlib.patches import Polygon, Circle, Ellipse
-from matplotlib.path import Path
-from matplotlib.patches import PathPatch
-
-fig, ax = plt.subplots(figsize=(5.0, 4.6))
-WALL = "#c98a5e"; LUM = "#f6e2cf"; LIV = "#a4563f"; GLAND = "#d9b36b"
-PANC = "#e0c083"; GB = "#7fa86a"
-
-def tube(pts, w=7.4, z=3, c=WALL, l=LUM):
-    x, y = np.array(pts).T
-    ax.plot(x, y, color=c, lw=w, solid_capstyle='round', zorder=z)
-    ax.plot(x, y, color=l, lw=w*0.55, solid_capstyle='round', zorder=z+0.1)
-
-def blob(verts, codes, fc, ec="#8a5a3a", lw=1.0, z=3, alpha=1.0):
-    p = PathPatch(Path(verts, codes), fc=fc, ec=ec, lw=lw, zorder=z, alpha=alpha)
-    ax.add_patch(p); return p
-
-def lab(txt, tip, tx, ty, ha='left', fs=6.2, c=INK):
-    ax.annotate(txt, xy=tip, xytext=(tx, ty), fontsize=fs, color=c, ha=ha,
-                va='center', zorder=20,
-                arrowprops=dict(arrowstyle='-', color=MUTED, lw=0.65,
-                                shrinkA=1.5, shrinkB=1.0))
-
-# ---- head: buccal cavity, tongue, pharynx ----
-ax.add_patch(Ellipse((0.0, 9.42), 1.5, 0.78, fc=LUM, ec="#8a5a3a", lw=1.0, zorder=3))
-ax.plot([-0.62, 0.55], [9.30, 9.30], color=WALL, lw=2.4, zorder=4,
-        solid_capstyle='round')          # tongue
-for k in range(7):                        # upper teeth
-    ax.plot([-0.62+0.19*k]*2, [9.66, 9.55], color="#f4f1e8", lw=2.0, zorder=5)
-tube([(0.0, 9.05), (0.02, 8.80)], w=7.0, z=2)   # pharynx
-
-# ---- oesophagus ----
-tube([(0.02, 8.86), (0.06, 8.40), (0.14, 7.95), (0.22, 7.58)], w=5.8, z=2)
-
-# ---- liver (4 lobes, wedge) drawn semi-transparent ----
-lv = [(-2.15, 7.30), (-2.00, 8.02), (-1.20, 8.32), (-0.30, 8.28),
-      (0.28, 8.02), (0.30, 7.44), (-0.40, 7.02), (-1.30, 6.92), (-2.15, 7.30)]
-ax.add_patch(Polygon(lv, closed=True, fc=LIV, ec="#6f3628", lw=1.1,
-                     zorder=6, alpha=0.62))
-ax.plot([-1.02, -0.92], [8.30, 6.96], color="#6f3628", lw=0.8, zorder=6.1,
-        alpha=0.8)                        # falciform ligament
-# gall bladder + bile duct
-ax.add_patch(Ellipse((-0.78, 6.80), 0.40, 0.26, angle=-20, fc=GB,
-                     ec="#4e6b41", lw=0.9, zorder=7))
-ax.plot([-0.66, -0.40, -0.30], [6.72, 6.52, 6.20], color="#4e6b41", lw=1.0, zorder=7)
-
-# ---- stomach ----
-st = [(0.20, 7.56), (0.58, 7.96), (1.04, 7.90), (1.34, 7.48),
-      (1.40, 6.92), (1.20, 6.46), (0.82, 6.26), (0.50, 6.28),
-      (0.40, 6.54), (0.46, 6.90), (0.52, 7.18), (0.44, 7.42),
-      (0.24, 7.48), (0.20, 7.56)]
-ax.add_patch(Polygon(st, closed=True, fc=LUM, ec="#8a5a3a", lw=1.2, zorder=4))
-for k in range(5):                        # rugae
-    ax.plot([0.62+0.15*k, 0.76+0.15*k], [7.62-0.08*k, 7.36-0.08*k],
-            color="#c98a5e", lw=0.6, zorder=4.1)
-tube([(0.50, 6.28), (0.24, 6.22), (0.02, 6.20)], w=5.4, z=4)   # pylorus
-
-# ---- duodenum (C-loop) ----
-tube([(0.02, 6.20), (-0.44, 6.22), (-0.62, 5.92), (-0.58, 5.54),
-      (-0.28, 5.34), (0.14, 5.40), (0.44, 5.62)], w=5.4, z=4)
-# ---- pancreas ----
-pn = [(-0.32, 5.62), (-0.10, 5.86), (0.42, 6.02), (0.95, 6.16),
-      (1.18, 6.22), (1.20, 6.06), (0.80, 5.92), (0.30, 5.74),
-      (-0.14, 5.50), (-0.32, 5.62)]
-ax.add_patch(Polygon(pn, closed=True, fc=PANC, ec="#a8842f", lw=1.0, zorder=5))
-ax.plot([-0.24, 0.30, 0.80], [5.70, 5.86, 6.02], color="#a8842f", lw=0.6, zorder=5.1)
-
-# ---- large intestine frame ----
-tube([(-2.10, 1.95), (-2.10, 3.40), (-2.10, 4.86)], w=9.0, z=2.5)   # ascending
-tube([(-2.10, 4.92), (-1.60, 5.06), (-0.80, 4.84), (0.0, 4.74),
-      (0.90, 4.86), (1.62, 5.06), (2.10, 4.92)], w=9.0, z=2.5)      # transverse
-tube([(2.10, 4.86), (2.10, 3.40), (2.10, 1.95)], w=9.0, z=2.5)      # descending
-tube([(2.10, 1.98), (1.90, 1.40), (1.20, 1.18), (0.55, 1.30),
-      (0.30, 1.08)], w=7.6, z=2.5)                                   # sigmoid
-for yy in np.arange(2.25, 4.80, 0.42):                               # haustra
-    for sx in (-2.10, 2.10):
-        ax.plot([sx-0.155, sx+0.155], [yy, yy], color="#b3784f", lw=0.7, zorder=3.4)
-for xx in np.arange(-1.60, 1.90, 0.46):
-    yy = np.interp(xx, [-2.10, -1.60, -0.80, 0.0, 0.90, 1.62, 2.10],
-                   [4.92, 5.06, 4.84, 4.74, 4.86, 5.06, 4.92])
-    ax.plot([xx, xx], [yy-0.155, yy+0.155], color="#b3784f", lw=0.7, zorder=3.4)
-tube([(0.26, 1.10), (0.22, 0.58)], w=8.4, z=2.5)                     # rectum
-ax.add_patch(Ellipse((0.22, 0.44), 0.30, 0.13, fc="#8a5a3a", ec="#6f3628",
-                     lw=0.8, zorder=3))
-# caecum + appendix
-ax.add_patch(Ellipse((-2.10, 1.76), 0.46, 0.56, fc=LUM, ec="#8a5a3a",
-                     lw=1.1, zorder=3))
-ax.plot([-1.98, -1.80, -1.86], [1.54, 1.28, 1.04], color=WALL, lw=2.0,
-        zorder=3, solid_capstyle='round')
-
-# ---- small intestine coil ----
-ysr = [4.35, 3.85, 3.35, 2.85, 2.35]; r = 0.25; XL, XR = -1.28, 1.28
-X, Y = [], []
-for k, y in enumerate(ysr):
-    a, b = (XR, XL) if k % 2 == 0 else (XL, XR)
-    X += list(np.linspace(a, b, 40)); Y += [y]*40
-    if k < len(ysr)-1:
-        yc = (y + ysr[k+1])/2
-        th = (np.linspace(np.pi/2, 1.5*np.pi, 26) if k % 2 == 0
-              else np.linspace(np.pi/2, -np.pi/2, 26))
-        X += list(b + r*np.cos(th)); Y += list(yc + r*np.sin(th))
-tube([(0.44, 5.62), (0.90, 5.30), (1.22, 4.80), (1.28, 4.42)], w=5.4, z=3)
-tube(list(zip(X, Y)), w=5.4, z=3)
-tube([(-1.28, 2.35), (-1.70, 2.08), (-1.92, 1.88)], w=5.4, z=3)
-
-# ---- salivary glands ----
-for (cx, cy, w_, h_, an, nm) in [(-1.02, 9.62, 0.52, 0.38, 20, 'parotid'),
-                                 (-0.86, 9.06, 0.44, 0.28, -10, 'submandibular'),
-                                 (-0.28, 9.12, 0.30, 0.20, 0, 'sublingual')]:
-    ax.add_patch(Ellipse((cx, cy), w_, h_, angle=an, fc=GLAND,
-                         ec="#9a7a2c", lw=0.9, zorder=5))
-ax.plot([-0.80, -0.50], [9.55, 9.42], color="#9a7a2c", lw=0.7, zorder=5)
-
-# ---- labels: left column ----
-lab("parotid gland", (-1.24, 9.68), -2.55, 9.95, ha='right')
-lab("submandibular gland", (-1.06, 9.02), -2.55, 9.42, ha='right')
-lab("sublingual gland", (-0.40, 9.06), -2.55, 8.88, ha='right')
-lab("liver (4 lobes)", (-1.70, 7.90), -2.60, 8.24, ha='right')
-lab("gall bladder", (-0.96, 6.78), -2.60, 7.44, ha='right')
-lab("bile duct", (-0.36, 6.34), -2.60, 6.88, ha='right')
-lab("duodenum\n(C-shaped)", (-0.62, 5.72), -2.62, 6.18, ha='right')
-lab("hepatic flexure", (-2.08, 4.86), -2.70, 5.40, ha='right')
-lab("ascending colon", (-2.14, 3.60), -2.70, 3.92, ha='right')
-lab("ileo-caecal valve", (-1.88, 1.92), -2.70, 2.60, ha='right')
-lab("caecum", (-2.22, 1.72), -2.70, 1.92, ha='right')
-lab("vermiform appendix", (-1.86, 1.10), -2.70, 1.30, ha='right')
-
-# ---- labels: right column ----
-lab("buccal cavity\n(teeth + tongue)", (0.60, 9.44), 2.30, 9.92)
-lab("pharynx", (0.06, 8.86), 2.30, 9.20)
-lab("oesophagus (≈25 cm)", (0.16, 8.10), 2.30, 8.52)
-lab("cardiac sphincter", (0.24, 7.52), 2.42, 7.92)
-lab("stomach (1–1.5 L)", (1.20, 7.10), 2.60, 7.30)
-lab("pyloric sphincter", (0.22, 6.22), 2.60, 6.72)
-lab("pancreas", (0.90, 6.06), 2.62, 6.16)
-lab("transverse colon", (0.46, 4.80), 2.62, 5.50)
-lab("jejunum", (1.30, 4.10), 2.62, 4.70)
-lab("descending colon", (2.16, 3.70), 2.66, 3.96)
-lab("ileum (≈3.5 m)", (0.90, 2.62), 2.66, 2.98)
-lab("sigmoid colon", (1.30, 1.18), 2.66, 1.80)
-lab("rectum", (0.34, 0.86), 2.66, 1.06)
-lab("anus", (0.36, 0.44), 2.66, 0.44)
-
-ax.set_xlim(-5.55, 5.55); ax.set_ylim(0.05, 10.25)
-ax.set_aspect('equal'); ax.axis('off')
+```photo id="bio12/alimentary" caption="The human alimentary canal with its associated glands, anterior view. Numbers 1–11 are the mouth and pharynx region, 12–17 the glands, 18–30 the intestines." width="62"
+key 1 Mouth (oral cavity)
+key 2 Palate
+key 3 Uvula
+key 4 Tongue
+key 5 Teeth
+key 6 Salivary glands (the three pairs are numbered 7–9)
+key 7 Sublingual gland
+key 8 Submandibular gland
+key 9 Parotid gland
+key 10 Pharynx
+key 11 Oesophagus
+key 12 Liver
+key 13 Gall bladder
+key 14 Common bile duct
+key 15 Stomach
+key 16 Pancreas
+key 17 Pancreatic duct
+key 18 Small intestine (19–21 are its three parts)
+key 19 Duodenum
+key 20 Jejunum
+key 21 Ileum
+key 22 Appendix
+key 23 Large intestine (24–29 are its parts)
+key 24 Transverse colon
+key 25 Ascending colon
+key 26 Caecum
+key 27 Descending colon
+key 28 Sigmoid colon
+key 29 Rectum
+key 30 Anus
 ```
 
 The canal is regionally specialised:
@@ -526,6 +410,9 @@ the chemistry, happens in the mitochondria.
 Air passes through a **conducting portion**, which warms, moistens and filters it
 but takes no part in exchange, and a **respiratory portion**, where exchange
 occurs.
+
+```photo id="bio12/alveoli" caption="Alveoli in a lung lobule. Each alveolar sac is a cluster of alveoli at the end of an alveolar duct, wrapped in a network of capillaries where gas exchange takes place." width="72"
+```
 
 ```figure caption="The human respiratory tract, with a magnified alveolar sac. The capillary enters blue (deoxygenated, from the pulmonary artery) and leaves red (oxygenated, to the pulmonary vein)."
 import numpy as np, matplotlib.pyplot as plt
@@ -924,123 +811,20 @@ and to the left. It is enclosed in a double **pericardium** with pericardial
 fluid between the layers, and its wall has three coats: outer **epicardium**,
 thick middle **myocardium** of cardiac muscle, and inner **endocardium**.
 
-```figure caption="Longitudinal (frontal) section of the human heart. Blue = deoxygenated blood, red = oxygenated. Note the left ventricular wall, about three times thicker than the right."
-import numpy as np, matplotlib.pyplot as plt
-from matplotlib.patches import Polygon, Circle, Ellipse, PathPatch
-from matplotlib.path import Path
-
-fig, ax = plt.subplots(figsize=(5.2, 4.6))
-MUS = "#c98275"; MED = "#8a4a40"; BLUE = "#9fc0e0"; RED = "#eeb0a6"
-VBLUE = "#4a67b8"; VRED = "#b03a3a"
-
-def bez(pts, fc, ec, lw=1.2, z=3):
-    assert (len(pts)-1) % 3 == 0, len(pts)
-    ax.add_patch(PathPatch(Path(pts, [Path.MOVETO]+[Path.CURVE4]*(len(pts)-1)),
-                           fc=fc, ec=ec, lw=lw, zorder=z))
-
-def vessel(pts, c, w=7.0, z=5.5):
-    x, y = np.array(pts).T
-    ax.plot(x, y, color=MED, lw=w+1.6, solid_capstyle='round', zorder=z)
-    ax.plot(x, y, color=c, lw=w, solid_capstyle='round', zorder=z+0.1)
-
-def lab(txt, tip, tx, ty, ha='left', fs=6.2, c=INK):
-    ax.annotate(txt, xy=tip, xytext=(tx, ty), fontsize=fs, color=c, ha=ha,
-                va='center', zorder=30,
-                arrowprops=dict(arrowstyle='-', color=MUTED, lw=0.65,
-                                shrinkA=1.5, shrinkB=1.0))
-
-# ---- great vessels (drawn first, behind the heart mass) ----
-vessel([(0.55, 3.82), (0.46, 5.20), (0.30, 6.45), (-0.30, 7.32),
-        (-1.35, 7.55), (-2.15, 7.00), (-2.48, 6.10), (-2.55, 4.90),
-        (-2.58, 4.05)], "#d96a5a", w=7.4, z=5.5)          # aorta + arch
-for bx in (-0.20, -0.70, -1.25):
-    vessel([(bx, 7.34), (bx-0.05, 8.35)], "#d96a5a", w=4.0, z=5.3)
-vessel([(-0.44, 3.80), (-0.34, 5.10), (-0.14, 5.90)], BLUE, w=6.6, z=5.6)
-vessel([(-0.14, 5.90), (-0.95, 6.16), (-1.92, 6.28)], BLUE, w=5.4, z=5.6)
-vessel([(-0.14, 5.90), (0.70, 6.20), (1.72, 6.32)], BLUE, w=5.4, z=5.6)
-vessel([(-1.55, 6.95), (-1.52, 5.90), (-1.50, 5.05)], BLUE, w=6.2, z=5.6)
-vessel([(-3.30, 2.05), (-2.85, 3.05), (-2.05, 3.92)], BLUE, w=6.2, z=5.6)
-for (ys, ye) in [(5.45, 5.02), (4.20, 4.38)]:
-    vessel([(3.20, ys), (2.55, (ys+ye)/2), (1.92, ye)], "#d96a5a", w=5.0, z=5.6)
-
-# ---- heart muscle mass ----
-OUT = [(-2.30, 5.30),
-       (-2.55, 4.20), (-2.45, 2.70), (-1.70, 1.70),
-       (-1.05, 0.90), (0.10, 0.20), (0.95, 0.45),
-       (1.75, 0.68), (2.35, 2.20), (2.35, 3.70),
-       (2.35, 4.75), (2.10, 5.50), (1.50, 5.60),
-       (0.50, 5.78), (-1.40, 5.75), (-2.30, 5.30)]
-bez(OUT, MUS, MED, lw=1.3, z=5)
-
-RA = [(-2.02, 4.10), (-2.02, 4.90), (-1.65, 5.24), (-1.00, 5.28),
-      (-0.78, 4.95), (-0.76, 4.05), (-1.00, 3.72), (-1.60, 3.68)]
-LA = [(0.78, 4.10), (0.80, 4.95), (1.10, 5.26), (1.70, 5.22),
-      (2.00, 4.88), (2.02, 4.05), (1.70, 3.70), (1.05, 3.68)]
-RV = [(-1.78, 2.95), (-1.70, 3.35), (-0.28, 3.38), (-0.25, 1.85),
-      (-0.62, 1.32), (-1.20, 1.50), (-1.62, 2.30)]
-LV = [(0.38, 3.30), (1.24, 3.24), (1.40, 2.50), (1.20, 1.66),
-      (0.92, 1.24), (0.64, 1.58), (0.40, 2.36)]
-for poly, c in [(RA, BLUE), (LA, RED), (RV, BLUE), (LV, RED)]:
-    ax.add_patch(Polygon(poly, closed=True, fc=c, ec=MED, lw=1.0, zorder=7))
-
-# ---- valves ----
-def av_valve(x0, x1, ytop, ybot, c):
-    for xa, xb in [(x0, (x0+x1)/2), ((x0+x1)/2, x1)]:
-        ax.add_patch(Polygon([(xa, ytop), (xb, ytop), ((xa+xb)/2, ybot)],
-                             closed=True, fc="#fdf4ef", ec=MED, lw=0.9, zorder=8))
-        for k in (0.25, 0.75):
-            ax.plot([(xa+xb)/2, xa + (xb-xa)*k], [ybot, ybot-0.42],
-                    color=MED, lw=0.5, zorder=8)
-    ax.plot([x0+0.10, x1-0.10], [ybot-0.48, ybot-0.48], color="#a8625a",
-            lw=3.0, zorder=8, solid_capstyle='round')
-av_valve(-1.42, -0.34, 3.40, 2.78, MED)     # tricuspid
-av_valve(0.42, 1.28, 3.34, 2.76, MED)       # bicuspid (mitral)
-for (cx, cy) in [(-0.44, 3.70), (0.55, 3.76)]:
-    for s in (-1, 1):
-        u = np.linspace(0, 1, 40)
-        xs = cx + s*0.21*u
-        ax.plot(xs, cy - 0.17*np.sin(np.pi*u), color=MED, lw=1.2, zorder=9.2,
-                solid_capstyle='round')
-    ax.plot([cx-0.23, cx+0.23], [cy+0.02, cy+0.02], color=MED, lw=0.8,
-            zorder=9.2)
-
-# ---- flow arrows ----
-def flow(p0, p1, c, z=12, lw=1.5):
-    ax.annotate('', xy=p1, xytext=p0, zorder=z,
-                arrowprops=dict(arrowstyle='-|>', color=c, lw=lw,
-                                mutation_scale=9))
-flow((-1.52, 5.85), (-1.50, 5.10), VBLUE)
-flow((-2.62, 3.20), (-2.10, 3.82), VBLUE)
-flow((-1.30, 4.20), (-1.05, 3.30), VBLUE)
-flow((-1.10, 2.30), (-0.52, 3.55), VBLUE)
-flow((-0.36, 4.70), (-0.24, 5.60), VBLUE)
-flow((2.55, 4.80), (2.05, 4.55), VRED)
-flow((1.42, 4.35), (1.12, 3.40), VRED)
-flow((0.95, 2.40), (0.50, 3.44), VRED)
-flow((0.46, 4.60), (0.36, 5.80), VRED)
-
-# ---- labels ----
-lab("aorta (to the body)", (-0.32, 7.36), -3.15, 8.25, ha='right')
-lab("carotid / subclavian\nbranches", (-0.72, 8.15), 0.20, 8.42)
-lab("superior vena cava", (-1.55, 6.70), -3.15, 7.15, ha='right')
-lab("right pulmonary artery", (-1.55, 6.20), -3.15, 6.40, ha='right')
-lab("right atrium", (-1.60, 4.70), -3.15, 5.05, ha='right')
-lab("tricuspid valve\n(3 cusps)", (-0.95, 3.10), -3.15, 3.55, ha='right')
-lab("right ventricle\n(thin wall)", (-1.05, 2.30), -3.15, 2.55, ha='right')
-lab("inferior vena cava", (-2.95, 2.60), -3.15, 1.55, ha='right')
-lab("pulmonary trunk", (-0.26, 5.45), 0.75, 6.95)
-lab("left pulmonary artery", (1.30, 6.24), 2.15, 7.35)
-lab("pulmonary veins (4)", (2.75, 5.30), 3.35, 6.35)
-lab("left atrium", (1.45, 4.55), 3.35, 5.45)
-lab("bicuspid (mitral) valve", (0.86, 3.05), 3.35, 4.20)
-lab("semilunar valves", (0.52, 3.72), 3.35, 3.30)
-lab("left ventricle —\nwall ≈ 3× thicker", (1.05, 2.10), 3.35, 2.30)
-lab("interventricular\nseptum", (0.06, 2.20), 3.35, 1.20)
-lab("apex of the heart", (0.95, 0.48), 3.35, 0.35)
-lab("chordae tendineae\n+ papillary muscle", (-0.88, 2.40), -1.60, 0.45, ha='center')
-
-ax.set_xlim(-6.20, 6.20); ax.set_ylim(-0.10, 8.90)
-ax.set_aspect('equal'); ax.axis('off')
+```photo id="bio12/heart-numbered" caption="Longitudinal (frontal) section of the human heart. Blue = deoxygenated blood, red = oxygenated; arrows show the direction of flow. Note the left ventricular wall, about three times thicker than the right." width="74"
+key 1 Right atrium
+key 2 Left atrium
+key 3 Superior vena cava
+key 4 Aorta
+key 5 Pulmonary artery
+key 6 Pulmonary veins
+key 7 Bicuspid (mitral) valve
+key 8 Aortic (semilunar) valve
+key 9 Left ventricle
+key 10 Right ventricle
+key 11 Inferior vena cava
+key 12 Tricuspid valve
+key 13 Pulmonary (semilunar) valve
 ```
 
 **Four chambers.** Two thin-walled **atria** (auricles) receive blood; two
@@ -1392,120 +1176,17 @@ and insects, which must save water, excrete almost insoluble uric acid
 
 ### The urinary system and the kidney
 
-```figure caption="(a) The human urinary system, anterior view. (b) Longitudinal section of a kidney."
-from matplotlib.path import Path
-from matplotlib.patches import PathPatch, Circle, Polygon, Ellipse
+```photo id="bio12/urinary-system" caption="(a) The human urinary system, anterior view: the kidneys make urine, the ureters carry it to the bladder, and the urethra discharges it." width="52"
+```
 
-fig, (axA, axB) = plt.subplots(1, 2, figsize=(5.2, 3.4),
-                               gridspec_kw=dict(width_ratios=[1.0, 1.28],
-                                                wspace=0.06))
-CORT = "#f1d8d1"; MED = "#d79a90"; EDGE = "#9d5a52"
-RED = "#c0392b"; BLU = "#1d6fb8"; PEL = "#fbf3de"
-
-def bean(cx, cy, sx, sy, mirror=False):
-    P = [(0.00, 1.00),
-         (-0.62, 0.98), (-0.98, 0.52), (-0.98, 0.00),
-         (-0.98, -0.52), (-0.62, -0.98), (0.00, -1.00),
-         (0.46, -1.00), (0.74, -0.66), (0.56, -0.33),
-         (0.36, -0.10), (0.36, 0.10), (0.56, 0.33),
-         (0.74, 0.66), (0.46, 1.00), (0.00, 1.00)]
-    m = -1.0 if mirror else 1.0
-    return [(cx + m*x*sx, cy + y*sy) for x, y in P]
-
-def kid(ax, cx, cy, sx, sy, mirror=False, fc=CORT, lw=1.1, z=3):
-    pts = bean(cx, cy, sx, sy, mirror)
-    ax.add_patch(PathPatch(Path(pts, [Path.MOVETO]+[Path.CURVE4]*15),
-                           fc=fc, ec=EDGE, lw=lw, zorder=z))
-
-def tube(ax, pts, w=5.0, c=EDGE, l="#fdf7ef", z=4):
-    x, y = np.array(pts).T
-    ax.plot(x, y, color=c, lw=w, solid_capstyle='round', zorder=z)
-    ax.plot(x, y, color=l, lw=w*0.5, solid_capstyle='round', zorder=z+0.1)
-
-# ============================ (a) urinary system
-ax = axA
-def la(txt, tip, tx, ty, ha='left', fs=5.9):
-    ax.annotate(txt, xy=tip, xytext=(tx, ty), fontsize=fs, color=INK, ha=ha,
-                va='center', zorder=15,
-                arrowprops=dict(arrowstyle='-', color=MUTED, lw=0.6,
-                                shrinkA=1.5, shrinkB=1.0))
-ax.plot([0.34, 0.34], [1.55, 6.30], color=RED, lw=3.4, zorder=2,
-        solid_capstyle='round')
-ax.plot([-0.34, -0.34], [1.55, 6.30], color=BLU, lw=3.4, zorder=2,
-        solid_capstyle='round')
-kid(ax, -1.62, 4.05, 0.72, 1.00, mirror=False)
-kid(ax, 1.62, 4.35, 0.72, 1.00, mirror=True)
-for s, cy in ((-1, 5.20), (1, 5.50)):
-    ax.add_patch(Polygon([(s*1.62, cy+0.40), (s*1.62-0.52, cy-0.14),
-                          (s*1.62+0.52, cy-0.14)], closed=True,
-                         fc="#e9d9a8", ec="#a08a3c", lw=0.9, zorder=4))
-ax.plot([0.34, -1.24], [4.30, 4.16], color=RED, lw=2.2, zorder=3)
-ax.plot([-0.34, -1.24], [3.88, 3.92], color=BLU, lw=2.2, zorder=3)
-ax.plot([0.34, 1.24], [4.62, 4.46], color=RED, lw=2.2, zorder=3)
-ax.plot([-0.34, 1.24], [4.16, 4.22], color=BLU, lw=2.2, zorder=3)
-tube(ax, [(-1.26, 3.82), (-1.26, 3.05), (-1.00, 2.30), (-0.70, 1.72)], w=4.2)
-tube(ax, [(1.26, 4.12), (1.26, 3.15), (1.00, 2.30), (0.70, 1.72)], w=4.2)
-BL = [(0.00, 1.86),
-      (0.62, 1.84), (1.05, 1.42), (1.05, 0.92),
-      (1.05, 0.34), (0.58, 0.02), (0.00, 0.02),
-      (-0.58, 0.02), (-1.05, 0.34), (-1.05, 0.92),
-      (-1.05, 1.42), (-0.62, 1.84), (0.00, 1.86)]
-ax.add_patch(PathPatch(Path(BL, [Path.MOVETO]+[Path.CURVE4]*12),
-                       fc="#f8e7c8", ec="#a8823c", lw=1.1, zorder=3))
-tube(ax, [(0.0, 0.18), (0.0, -0.70)], w=4.6)
-la("adrenal gland", (-1.62, 5.08), -2.20, 6.30, ha='center')
-la("kidney", (-2.20, 3.80), -2.60, 4.95, ha='center')
-la("renal artery", (0.80, 4.54), 2.50, 6.30, ha='center')
-la("renal vein", (0.55, 4.18), 2.62, 4.25, ha='center')
-la("ureter", (1.14, 2.90), 2.38, 3.05, ha='center')
-la("urinary\nbladder", (0.90, 1.24), 2.30, 1.55, ha='center')
-la("urethra", (0.0, -0.45), 1.55, -0.60, ha='center')
-la("abdominal aorta", (0.34, 6.10), 1.05, 6.95, ha='center')
-la("inferior\nvena cava", (-0.34, 2.45), -1.95, 1.95, ha='center')
-ax.text(-0.2, 7.85, "(a) urinary system", ha='center', fontsize=7.2, color=INK)
-ax.set_xlim(-3.45, 3.45); ax.set_ylim(-1.30, 8.20)
-ax.set_aspect('equal'); ax.axis('off')
-
-# ============================ (b) kidney L.S.
-ax = axB
-def lb(txt, tip, tx, ty, ha='left', fs=5.9):
-    ax.annotate(txt, xy=tip, xytext=(tx, ty), fontsize=fs, color=INK, ha=ha,
-                va='center', zorder=15,
-                arrowprops=dict(arrowstyle='-', color=MUTED, lw=0.6,
-                                shrinkA=1.5, shrinkB=1.0))
-kid(ax, 0, 0, 2.55, 3.25, fc=CORT, lw=1.3, z=3)
-PYR = [(2.10, 2.72, 1.52, -0.90), (1.05, 1.78, 0.52, -1.48),
-       (0.00, 0.64, -0.64, -1.66), (-1.05, -0.52, -1.78, -1.48),
-       (-2.10, -1.52, -2.72, -0.90)]
-for ay, by1, by2, bx in PYR:
-    ax.add_patch(Polygon([(0.36, ay), (bx, by1), (bx, by2)], closed=True,
-                         fc=MED, ec=EDGE, lw=0.8, zorder=4))
-PELV = [(0.22, 2.55), (0.22, -2.55), (0.95, -0.52), (1.62, -0.40),
-        (1.62, 0.40), (0.95, 0.52)]
-ax.add_patch(Polygon(PELV, closed=True, fc=PEL, ec="#a8823c", lw=1.0, zorder=5))
-for ay, *_ in PYR:
-    ax.add_patch(Ellipse((0.30, ay), 0.34, 0.46, fc=PEL, ec="#a8823c",
-                         lw=0.7, zorder=6))
-ax.plot([1.55, 3.25], [0.05, 0.05], color="#a8823c", lw=4.4, zorder=5,
-        solid_capstyle='round')
-ax.plot([1.55, 3.25], [0.05, 0.05], color=PEL, lw=2.2, zorder=5.1,
-        solid_capstyle='round')
-ax.plot([1.18, 3.25], [0.78, 1.95], color=RED, lw=3.0, zorder=6,
-        solid_capstyle='round')
-ax.plot([1.18, 3.25], [-0.72, -1.95], color=BLU, lw=3.0, zorder=6,
-        solid_capstyle='round')
-lb("fibrous capsule", (-2.00, -2.05), -3.85, -3.45, ha='center')
-lb("cortex", (-2.10, 0.55), -4.05, 1.35, ha='center')
-lb("medulla\n(renal pyramid)", (-0.90, -0.10), -3.95, -0.60, ha='center')
-lb("renal column", (-1.15, -1.02), -4.00, -2.45, ha='center')
-lb("renal papilla\n+ minor calyx", (0.30, -1.05), 2.55, -3.05, ha='center')
-lb("renal pelvis", (0.70, 1.55), 3.25, 3.30, ha='center')
-lb("renal artery", (2.30, 1.35), 4.35, 2.20, ha='left', fs=5.9)
-lb("renal vein", (2.30, -1.35), 4.35, -1.15, ha='left', fs=5.9)
-lb("ureter", (2.85, 0.05), 4.35, 0.45, ha='left', fs=5.9)
-ax.text(0.0, 4.35, "(b) kidney in L.S.", ha='center', fontsize=7.2, color=INK)
-ax.set_xlim(-4.95, 6.35); ax.set_ylim(-4.05, 4.75)
-ax.set_aspect('equal'); ax.axis('off')
+```photo id="bio12/kidney-gray" caption="(b) Longitudinal section of a kidney (Gray's Anatomy). The cortex is the outer band; the medulla is everything inside it, built of pyramids whose tips (papillae) open into the pelvis." width="62"
+key 1 Adrenal (suprarenal) gland
+key 2 Renal pyramid
+key 3 Renal hilum
+key 4 Renal papilla
+key 5 Renal pelvis
+key 6 Renal cortex
+key 7 Ureter
 ```
 
 Each kidney is a dark-red bean about 11 cm × 6 cm × 3 cm weighing roughly 150 g,
@@ -1523,6 +1204,21 @@ liver is above it. A section shows, from outside in:
   the pelvis, which narrows into the **ureter**.
 
 ### The nephron
+
+```photo id="bio12/nephron-numbered" caption="Parts of a nephron and its blood supply. The drawn figure that follows adds the osmolarity gradient of the medulla." width="64"
+key 1 Interlobular artery
+key 2 Afferent arteriole
+key 3 Juxtaglomerular apparatus
+key 4 Renal corpuscle
+key 5 Glomerulus
+key 6 Bowman's capsule
+key 7 Efferent arteriole
+key 8 Proximal convoluted tubule
+key 9 Loop of Henle
+key 10 Distal convoluted tubule
+key 11 Connecting tubule leading to the collecting duct
+key 12 Interlobular vein
+```
 
 ```figure caption="A nephron and its blood supply. Osmolarity of the medullary fluid rises from 300 to 1200 mOsm L$^{-1}$ — the counter-current gradient that lets us make concentrated urine."
 from matplotlib.patches import Wedge, Circle, Rectangle
@@ -1770,76 +1466,15 @@ cranial nerves** and **31 pairs of spinal nerves**. The PNS in turn has a
 
 ### The neuron
 
-```figure caption="A myelinated motor neuron. The impulse always travels dendrite → cell body → axon → synaptic knob."
-from matplotlib.patches import Circle, Ellipse, Polygon
-
-fig, ax = plt.subplots(figsize=(5.2, 2.9))
-MEM = "#8a6a3a"; CYT = "#fdf0d8"; MYE = "#cfe0f2"; MYE_E = "#4a67b8"
-NUC = "#e4c37a"
-
-SX, SY = -4.55, 0.0
-th = np.linspace(0, 2*np.pi, 200)
-rr = 0.80 + 0.07*np.sin(5*th)
-ax.fill(SX + rr*np.cos(th), SY + rr*np.sin(th)*1.02, fc=CYT, ec=MEM,
-        lw=1.2, zorder=4)
-ax.add_patch(Circle((SX - 0.10, SY + 0.05), 0.30, fc=NUC, ec=MEM, lw=0.9,
-                    zorder=5))
-ax.add_patch(Circle((SX - 0.10, SY + 0.05), 0.10, fc=MEM, ec='none', zorder=6))
-for k in range(9):
-    ax.add_patch(Circle((SX + 0.30*np.cos(k), SY + 0.42*np.sin(k*2.1)), 0.055,
-                        fc="#c08a4a", ec='none', zorder=5))
-
-DEN = [(140, 1.9), (168, 2.1), (196, 1.9), (110, 1.5), (226, 1.5)]
-for a_deg, L in DEN:
-    a = np.radians(a_deg)
-    x0, y0 = SX + 0.72*np.cos(a), SY + 0.72*np.sin(a)
-    x1, y1 = SX + L*np.cos(a), SY + L*np.sin(a)
-    ax.plot([x0, x1], [y0, y1], color=MEM, lw=2.4, solid_capstyle='round',
-            zorder=3)
-    for s in (-1, 1):
-        b = a + s*0.42
-        ax.plot([x1, x1 + 0.52*np.cos(b)], [y1, y1 + 0.52*np.sin(b)],
-                color=MEM, lw=1.4, solid_capstyle='round', zorder=3)
-
-ax.plot([-3.78, 4.20], [0, 0], color=MEM, lw=4.6, solid_capstyle='round',
-        zorder=3)
-ax.plot([-3.78, 4.20], [0, 0], color=CYT, lw=2.0, solid_capstyle='round',
-        zorder=3.1)
-for cx in (-2.55, -1.05, 0.45, 1.95, 3.45):
-    ax.add_patch(Ellipse((cx, 0), 1.20, 0.74, fc=MYE, ec=MYE_E, lw=1.0,
-                         zorder=4))
-    ax.add_patch(Circle((cx + 0.30, 0.22), 0.075, fc=MYE_E, ec='none', zorder=5))
-
-for s, dy in ((1, 0.9), (0, 0.0), (-1, -0.9)):
-    ax.plot([4.20, 4.85, 5.35], [0, dy*0.6, dy], color=MEM, lw=1.8,
-            solid_capstyle='round', zorder=3)
-    ax.add_patch(Circle((5.45, dy), 0.16, fc="#d9a05b", ec=MEM, lw=0.9,
-                        zorder=5))
-
-ax.annotate('', xy=(2.10, -1.55), xytext=(-2.60, -1.55), zorder=6,
-            arrowprops=dict(arrowstyle='-|>', color=ACCENT, lw=1.2,
-                            mutation_scale=10))
-ax.text(-0.25, -1.85, "direction of nerve impulse", fontsize=6.2, color=ACCENT,
-        ha='center')
-
-def lab(txt, tip, tx, ty, ha='left', fs=6.1):
-    ax.annotate(txt, xy=tip, xytext=(tx, ty), fontsize=fs, color=INK, ha=ha,
-                va='center', zorder=20,
-                arrowprops=dict(arrowstyle='-', color=MUTED, lw=0.65,
-                                shrinkA=2.0, shrinkB=1.0))
-
-lab("dendrites", (-6.05, 0.95), -6.40, 2.30, ha='left')
-lab("cell body (cyton)", (-4.35, -0.72), -5.90, -1.95, ha='left')
-lab("nucleus", (-4.65, 0.05), -4.30, 2.35, ha='center')
-lab("Nissl granules", (-4.25, 0.40), -2.90, 2.75, ha='center')
-lab("axon hillock", (-3.70, -0.20), -2.85, -1.10, ha='center')
-lab("myelin sheath", (-1.05, 0.36), -0.60, 2.35, ha='center')
-lab("node of Ranvier", (0.45 + 0.75, 0.0), 1.90, -1.05, ha='center')
-lab("Schwann cell\nnucleus", (2.25, 0.22), 2.60, 2.45, ha='center')
-lab("axon", (3.45, -0.36), 4.30, -1.85, ha='center')
-lab("synaptic knobs", (5.52, 0.95), 5.05, 2.35, ha='center')
-ax.set_xlim(-6.90, 6.90); ax.set_ylim(-3.20, 3.20)
-ax.set_aspect('equal'); ax.axis('off')
+```photo id="bio12/neuron-smear" caption="A motor neuron from the spinal cord (smear, ×400). The large cell body holds a prominent nucleus and gives off several branching dendrites; the small dark nuclei around it belong to neuroglial cells. The impulse always travels dendrite → cell body → axon → synaptic knob." width="84"
+mark 0.38 0.70 "1"
+mark 0.45 0.55 "2"
+mark 0.11 0.58 "3"
+mark 0.68 0.65 "4"
+key 1 Cell body (cyton)
+key 2 Nucleus with its dark nucleolus
+key 3 Dendrite
+key 4 Nucleus of a neuroglial cell
 ```
 
 A **neuron** never divides after birth. Its **cell body (cyton)** contains the
@@ -1966,75 +1601,19 @@ motor nerve suggest demyelination.)
 
 ### The brain
 
-```figure caption="The human brain in longitudinal (sagittal) section. Anterior is to the left."
-from matplotlib.patches import Ellipse, Circle, Polygon, FancyBboxPatch
-
-fig, ax = plt.subplots(figsize=(5.2, 3.4))
-CB = "#f2ddd8"; CBE = "#a8625a"; IN = "#e8c9a4"; INE = "#9c7440"
-CER = "#e6cfe4"; CERE = "#8a5f86"; STEM = "#f6e3c4"
-
-th = np.linspace(0, 2*np.pi, 600)
-rr = 1 + 0.030*np.sin(13*th)
-ax.fill(-0.80 + 4.25*rr*np.cos(th), 1.20 + 2.45*rr*np.sin(th),
-        fc=CB, ec=CBE, lw=1.2, zorder=2)
-for k in range(7):
-    a0 = 0.28 + k*0.82
-    aa = np.linspace(a0, a0 + 0.30, 30)
-    ax.plot(-0.80 + 4.25*0.90*np.cos(aa), 1.20 + 2.45*0.90*np.sin(aa),
-            color=CBE, lw=0.6, alpha=0.7, zorder=3)
-
-cc = np.linspace(0, 1, 120)
-ccx = -2.70 + 4.60*cc
-ccy = 0.52 + 1.15*np.sin(np.pi*cc)
-ax.plot(ccx, ccy, color=INE, lw=7.5, solid_capstyle='round', zorder=4)
-ax.plot(ccx, ccy, color="#fbf1d8", lw=5.5, solid_capstyle='round', zorder=4.1)
-
-ax.add_patch(Ellipse((-0.15, -0.05), 1.75, 1.00, angle=-8, fc=IN, ec=INE,
-                     lw=1.0, zorder=5))
-ax.add_patch(Ellipse((-1.15, -0.85), 1.10, 0.58, angle=-16, fc="#dcb894",
-                     ec=INE, lw=1.0, zorder=5))
-ax.plot([-1.45, -1.62], [-1.08, -1.52], color=INE, lw=1.6, zorder=5)
-ax.add_patch(Ellipse((-1.72, -1.78), 0.66, 0.52, fc="#e9d09a", ec=INE,
-                     lw=1.0, zorder=5))
-ax.add_patch(Circle((1.02, 0.28), 0.17, fc="#c9a24a", ec=INE, lw=0.8, zorder=6))
-
-STEMPTS = [(0.62, 0.02), (1.28, -0.62), (1.55, -1.30), (1.70, -2.10),
-           (1.92, -3.10), (2.05, -4.05)]
-xs, ys = np.array(STEMPTS).T
-ax.plot(xs, ys, color=INE, lw=11.0, solid_capstyle='round', zorder=4)
-ax.plot(xs, ys, color=STEM, lw=9.0, solid_capstyle='round', zorder=4.1)
-ax.add_patch(Ellipse((1.62, -1.62), 1.55, 1.05, angle=-20, fc="#f0d6a8",
-                     ec=INE, lw=1.0, zorder=5))
-
-ax.add_patch(Ellipse((3.85, -1.45), 3.10, 2.15, angle=-12, fc=CER, ec=CERE,
-                     lw=1.1, zorder=3))
-for k in range(8):
-    a = -0.25 + k*0.42
-    ax.plot([3.85 + 0.35*np.cos(a), 3.85 + 1.48*np.cos(a)],
-            [-1.45 + 0.28*np.sin(a), -1.45 + 1.02*np.sin(a)],
-            color=CERE, lw=0.6, alpha=0.8, zorder=4)
-
-def lab(txt, tip, tx, ty, ha='left', fs=6.1):
-    ax.annotate(txt, xy=tip, xytext=(tx, ty), fontsize=fs, color=INK, ha=ha,
-                va='center', zorder=20,
-                arrowprops=dict(arrowstyle='-', color=MUTED, lw=0.65,
-                                shrinkA=2.0, shrinkB=1.0))
-
-lab("cerebrum\n(cerebral cortex,\ngyri and sulci)", (-3.30, 2.70), -7.20, 3.05)
-lab("corpus callosum", (-1.40, 1.44), -7.20, 1.25)
-lab("thalamus", (-0.55, 0.05), -7.20, 0.05)
-lab("hypothalamus", (-1.30, -0.92), -7.20, -1.05)
-lab("pituitary gland", (-1.95, -1.90), -7.20, -2.30)
-lab("pineal body", (1.06, 0.42), -1.62, -3.62, ha='center')
-lab("mid-brain", (1.18, -0.72), 0.15, -3.35, ha='center')
-lab("pons Varolii", (1.72, -1.72), 2.55, -3.35, ha='center')
-lab("medulla oblongata", (1.95, -3.05), 5.55, -2.95, ha='left')
-lab("spinal cord", (2.05, -3.95), 5.55, -3.95, ha='left')
-lab("cerebellum", (4.45, -1.05), 5.55, -0.35, ha='left')
-ax.text(-6.10, 3.95, "ANTERIOR", fontsize=6.0, color=MUTED, ha='center')
-ax.text(5.90, 3.95, "POSTERIOR", fontsize=6.0, color=MUTED, ha='center')
-ax.set_xlim(-7.40, 7.40); ax.set_ylim(-4.55, 4.35)
-ax.set_aspect('equal'); ax.axis('off')
+```photo id="bio12/brain-sagittal" caption="The human brain in longitudinal (sagittal) section. Anterior is to the left." width="66"
+mark 0.28 0.91 "1"
+mark 0.53 0.79 "2"
+mark 0.49 0.63 "3"
+mark 0.50 0.50 "4"
+mark 0.70 0.52 "5"
+mark 0.56 0.275 "6"
+key 1 Cerebrum — the folded cerebral cortex
+key 2 Corpus callosum — the band of fibres joining the two hemispheres
+key 3 Thalamus and hypothalamus
+key 4 Midbrain and pons
+key 5 Cerebellum
+key 6 Medulla oblongata, continuing as the spinal cord
 ```
 
 The brain weighs about 1.35 kg, floats in **cerebrospinal fluid** and is wrapped
@@ -2170,77 +1749,37 @@ statoreceptor), **nose** (olfactoreceptor), **tongue** (gustatoreceptor) and
 
 ### The eye
 
-```figure caption="Horizontal section of the human eye. Light passes cornea → aqueous humour → pupil → lens → vitreous humour → retina, where it forms a real, inverted, diminished image."
-from matplotlib.patches import Circle, Wedge, Ellipse, Polygon, PathPatch
-from matplotlib.path import Path
-
-fig, ax = plt.subplots(figsize=(5.2, 3.4))
-SCLE = "#7c766a"; CHO = "#a8504a"; RET = "#e0b075"
-AQ = "#e6f2fb"; VIT = "#f0f7fc"; LENS = "#cfe4f5"
-
-R = 2.60
-ax.add_patch(Circle((0, 0), R, fc=VIT, ec=SCLE, lw=1.5, zorder=2))
-ax.add_patch(Wedge((0, 0), R - 0.03, -66, 66, width=0.17, fc=CHO, ec='none',
-                   zorder=3))
-ax.add_patch(Wedge((0, 0), R - 0.20, -66, 66, width=0.17, fc=RET, ec='none',
-                   zorder=3))
-
-CO = [(-1.90, 1.77),
-      (-2.52, 1.42), (-2.98, 0.78), (-2.98, 0.00),
-      (-2.98, -0.78), (-2.52, -1.42), (-1.90, -1.77)]
-ax.add_patch(PathPatch(Path(CO, [Path.MOVETO] + [Path.CURVE4]*6), fc=AQ,
-                       ec="#4a8fc0", lw=1.8, zorder=5))
-
-ax.add_patch(Ellipse((-0.72, 0), 0.98, 2.50, fc=LENS, ec="#4a67b8", lw=1.3,
-                     zorder=6))
-for s_ in (1, -1):
-    ax.add_patch(Polygon([(-1.86, s_*1.74), (-1.28, s_*1.44), (-1.74, s_*1.16)],
-                         closed=True, fc="#d4b06a", ec="#8a6a3a", lw=0.8,
-                         zorder=7))
-    ax.add_patch(Polygon([(-1.36, s_*1.38), (-1.52, s_*1.40), (-1.52, s_*0.50),
-                          (-1.36, s_*0.48)], closed=True, fc="#6f7fa8",
-                         ec="#3d4a6b", lw=0.8, zorder=7))
-    for k in range(3):
-        ax.plot([-1.26, -0.78], [s_*(1.40 - 0.07*k), s_*(1.26 - 0.10*k)],
-                color="#8a6a3a", lw=0.7, zorder=7)
-
-for y in (-1.05, -0.52, 0.0, 0.52, 1.05):
-    ax.plot([-5.30, -3.05], [y, y*0.88], color="#f2c14e", lw=0.9, zorder=1)
-ax.annotate('', xy=(-2.05, 0), xytext=(-5.30, 0), zorder=8,
-            arrowprops=dict(arrowstyle='-|>', color="#d4a017", lw=1.5,
-                            mutation_scale=10))
-ax.text(-4.20, 0.30, "light", fontsize=6.2, color="#a8770c", ha='center')
-
-ax.add_patch(Ellipse((2.24, -0.78), 0.26, 0.46, angle=-16, fc="#f6eecf",
-                     ec="#8a6a3a", lw=0.9, zorder=7))
-ax.plot([2.42, 4.05], [-0.88, -1.62], color="#c9b98d", lw=7.0, zorder=4.8,
-        solid_capstyle='round')
-ax.plot([2.42, 4.05], [-0.88, -1.62], color="#f2e6c8", lw=5.0, zorder=4.9,
-        solid_capstyle='round')
-ax.add_patch(Circle((2.32, 0.42), 0.15, fc="#8a3a3a", ec='none', zorder=7))
-
-def lab(txt, tip, tx, ty, ha='left', fs=6.0):
-    ax.annotate(txt, xy=tip, xytext=(tx, ty), fontsize=fs, color=INK, ha=ha,
-                va='center', zorder=20,
-                arrowprops=dict(arrowstyle='-', color=MUTED, lw=0.65,
-                                shrinkA=2.0, shrinkB=1.0))
-
-lab("cornea", (-2.86, 0.92), -4.30, 2.55, ha='center')
-lab("aqueous humour", (-2.10, -0.95), -4.05, -2.55, ha='center')
-lab("pupil", (-1.46, 0.00), -1.55, 3.55, ha='center')
-lab("iris", (-1.44, -0.95), -1.35, -3.45, ha='center')
-lab("ciliary body", (-1.62, 1.48), 0.55, 3.55, ha='center')
-lab("suspensory\nligament", (-1.02, 1.32), 2.75, 3.25, ha='center')
-lab("lens", (-0.72, -0.30), 0.55, -3.45, ha='center')
-lab("vitreous humour", (1.05, 0.95), 2.75, -3.45, ha='center')
-lab("sclera", (2.32, 1.18), 4.70, 2.85, ha='left')
-lab("choroid", (2.20, 1.42), 4.70, 2.05, ha='left')
-lab("retina", (2.00, 1.68), 4.70, 1.25, ha='left')
-lab("yellow spot\n(fovea centralis)", (2.32, 0.42), 4.70, 0.25, ha='left')
-lab("blind spot\n(optic disc)", (2.30, -0.78), 4.95, -1.35, ha='left')
-lab("optic nerve", (3.70, -1.46), 4.95, -2.85, ha='left')
-ax.set_xlim(-6.30, 7.10); ax.set_ylim(-4.15, 4.15)
-ax.set_aspect('equal'); ax.axis('off')
+```photo id="bio12/eye" caption="Horizontal section of the human eye. Light passes cornea → aqueous humour → pupil → lens → vitreous humour → retina, where it forms a real, inverted, diminished image." width="76"
+key 1 Posterior segment — vitreous humour filling the eyeball
+key 2 Ora serrata — front edge of the retina
+key 3 Ciliary muscle
+key 4 Suspensory ligament (ciliary zonules) of the lens
+key 5 Canal of Schlemm
+key 6 Pupil
+key 7 Anterior chamber — filled with aqueous humour
+key 8 Cornea
+key 9 Iris
+key 10 Lens cortex
+key 11 Lens nucleus
+key 12 Ciliary process
+key 13 Conjunctiva
+key 14 Inferior oblique muscle
+key 15 Inferior rectus muscle
+key 16 Medial rectus muscle
+key 17 Retinal arteries and veins
+key 18 Blind spot (optic disc)
+key 19 Dura mater
+key 20 Central retinal artery
+key 21 Central retinal vein
+key 22 Optic nerve
+key 23 Vorticose vein
+key 24 Sheath around the eyeball
+key 25 Macula
+key 26 Fovea — centre of sharpest vision
+key 27 Sclera
+key 28 Choroid
+key 29 Superior rectus muscle
+key 30 Retina
 ```
 
 
@@ -2267,98 +1806,23 @@ is a lens that has gone opaque — treated by replacing it with an artificial on
 
 ### The ear
 
-```figure caption="The human ear: outer, middle and inner divisions. The cochlea hears; the semicircular canals and vestibule give balance."
-from matplotlib.patches import Ellipse, Circle, Polygon, PathPatch
-from matplotlib.path import Path
-
-fig, ax = plt.subplots(figsize=(5.2, 3.4))
-BN = "#ece3d4"; BNE = "#a79878"; TUB = "#8a6a3a"; LUM = "#fdf6e6"
-OSS = "#e0c88a"; OSE = "#8a6a3a"; NRV = "#c9a24a"
-
-PIN = [(-4.45, 1.85),
-       (-5.45, 2.05), (-6.35, 1.35), (-6.30, 0.30),
-       (-6.25, -0.70), (-5.55, -1.55), (-4.85, -1.60),
-       (-4.35, -1.64), (-4.20, -0.55), (-4.45, 1.85)]
-ax.add_patch(PathPatch(Path(PIN, [Path.MOVETO] + [Path.CURVE4]*9),
-                       fc="#f6ded6", ec="#a8625a", lw=1.2, zorder=3))
-ax.add_patch(PathPatch(Path([(-4.75, 1.15), (-5.35, 1.15), (-5.65, 0.35),
-                             (-5.15, -0.45)],
-                            [Path.MOVETO] + [Path.CURVE4]*3),
-                       fc='none', ec="#a8625a", lw=0.8, zorder=4))
-
-def tube(pts, w=7.0, c=TUB, l=LUM, z=4):
-    x, y = np.array(pts).T
-    ax.plot(x, y, color=c, lw=w, solid_capstyle='round', zorder=z)
-    ax.plot(x, y, color=l, lw=w*0.55, solid_capstyle='round', zorder=z+0.1)
-
-tube([(-4.55, 0.35), (-3.20, 0.25), (-1.95, 0.10)], w=13.0)
-ax.plot([-1.85, -1.55], [0.95, -0.85], color="#4a8fc0", lw=2.2, zorder=6,
-        solid_capstyle='round')
-
-ax.add_patch(Polygon([(-1.72, 0.42), (-1.10, 1.05), (-0.92, 0.82),
-                      (-1.62, 0.20)], closed=True, fc=OSS, ec=OSE, lw=0.9,
-                     zorder=6))
-ax.add_patch(Polygon([(-1.05, 1.02), (-0.30, 0.96), (-0.28, 0.68),
-                      (-0.95, 0.76)], closed=True, fc=OSS, ec=OSE, lw=0.9,
-                     zorder=6))
-ax.add_patch(Polygon([(-0.32, 0.92), (0.38, 0.62), (0.38, 0.28),
-                      (-0.30, 0.66)], closed=True, fc=OSS, ec=OSE, lw=0.9,
-                     zorder=6))
-ax.plot([0.42, 0.42], [0.66, 0.24], color="#4a8fc0", lw=2.0, zorder=6)
-ax.plot([0.42, 0.42], [-0.35, -0.72], color="#4a8fc0", lw=2.0, zorder=6)
-
-ax.add_patch(Ellipse((1.05, 0.30), 1.05, 1.25, angle=-14, fc="#dce8f5",
-                     ec="#4a67b8", lw=1.1, zorder=5))
-for cx, cy, w, h, an in ((2.05, 2.05, 1.85, 1.15, 8), (1.55, 1.75, 1.15, 1.95, 28),
-                         (2.85, 1.65, 1.25, 1.85, -32)):
-    ax.add_patch(Ellipse((cx, cy), w, h, angle=an, fill=False, ec="#4a67b8",
-                         lw=2.4, zorder=4))
-ax.add_patch(Circle((1.32, 1.02), 0.17, fc="#dce8f5", ec="#4a67b8", lw=0.9,
-                    zorder=6))
-
-th = np.linspace(0, 2.7*2*np.pi, 700)
-rr = 1.18*(1 - th/(3.05*2*np.pi))
-cxc, cyc = 3.05, -1.35
-ax.plot(cxc + rr*np.cos(th + np.pi), cyc + rr*np.sin(th + np.pi),
-        color=TUB, lw=5.0, solid_capstyle='round', zorder=4)
-ax.plot(cxc + rr*np.cos(th + np.pi), cyc + rr*np.sin(th + np.pi),
-        color="#f6e6c0", lw=2.6, solid_capstyle='round', zorder=4.1)
-ax.plot([1.30, 1.87], [-0.25, -1.30], color=TUB, lw=5.0, zorder=4,
-        solid_capstyle='round')
-ax.plot([1.30, 1.87], [-0.25, -1.30], color="#f6e6c0", lw=2.6, zorder=4.1,
-        solid_capstyle='round')
-
-ax.plot([2.60, 3.80, 4.95], [-2.42, -2.92, -3.05], color=NRV, lw=3.2, zorder=3,
-        solid_capstyle='round')
-tube([(0.95, -0.55), (0.10, -1.65), (-0.95, -2.75), (-1.85, -3.10)], w=7.0)
-
-for x in (-1.98, 0.72):
-    ax.plot([x, x], [-3.55, 3.15], color=MUTED, lw=0.7, ls=(0, (4, 3)), zorder=1)
-ax.text(-4.00, 3.35, "OUTER EAR", fontsize=6.2, color=MUTED, ha='center')
-ax.text(-0.65, 3.35, "MIDDLE EAR", fontsize=6.2, color=MUTED, ha='center')
-ax.text(3.00, 3.35, "INNER EAR", fontsize=6.2, color=MUTED, ha='center')
-
-def lab(txt, tip, tx, ty, ha='left', fs=6.0):
-    ax.annotate(txt, xy=tip, xytext=(tx, ty), fontsize=fs, color=INK, ha=ha,
-                va='center', zorder=20,
-                arrowprops=dict(arrowstyle='-', color=MUTED, lw=0.65,
-                                shrinkA=2.0, shrinkB=1.0))
-
-lab("pinna", (-5.85, 1.05), -6.90, 2.35, ha='left')
-lab("auditory canal", (-3.40, 0.25), -6.90, -1.45, ha='left')
-lab("tympanic membrane\n(ear drum)", (-1.72, -0.55), -5.15, -2.85, ha='center')
-lab("malleus", (-1.35, 0.72), -2.55, 2.15, ha='center')
-lab("incus", (-0.65, 0.88), -1.05, 2.60, ha='center')
-lab("stapes", (0.05, 0.62), 0.35, 2.15, ha='center')
-lab("oval window", (0.45, 0.45), 1.95, -0.05, ha='left', fs=5.9)
-lab("round window", (0.40, -0.58), -0.20, -1.25, ha='right', fs=5.9)
-lab("Eustachian tube\n→ pharynx", (-1.05, -2.62), -2.30, -3.95, ha='center')
-lab("semicircular\ncanals", (2.62, 2.55), 4.85, 2.60, ha='left')
-lab("vestibule (utriculus\n+ sacculus)", (1.15, 0.72), 4.85, 1.30, ha='left')
-lab("cochlea", (3.05, -0.55), 4.85, -0.35, ha='left')
-lab("auditory nerve\n→ brain", (4.20, -2.98), 4.85, -1.95, ha='left')
-ax.set_xlim(-7.05, 7.05); ax.set_ylim(-4.35, 3.75)
-ax.set_aspect('equal'); ax.axis('off')
+```photo id="bio12/ear" caption="The human ear: outer, middle and inner divisions. The cochlea hears; the semicircular canals and vestibule give balance." width="80"
+mark 0.12 0.555 "1"
+mark 0.33 0.447 "2"
+mark 0.56 0.40 "3"
+mark 0.555 0.54 "4"
+mark 0.68 0.60 "5"
+mark 0.77 0.44 "6"
+mark 0.90 0.52 "7"
+mark 0.77 0.24 "8"
+key 1 Pinna (auricle) — collects sound
+key 2 External auditory canal
+key 3 Tympanic membrane (eardrum)
+key 4 Ear ossicles — malleus, incus and stapes
+key 5 Semicircular canals — balance
+key 6 Cochlea — hearing
+key 7 Auditory nerve
+key 8 Eustachian tube — to the pharynx, equalises pressure
 ```
 
 Sound waves collected by the **pinna** travel down the auditory canal and
@@ -2694,112 +2158,10 @@ Blood glucose is *raised* by glucagon, adrenaline, cortisol and GH, but *lowered
 
 Every other system in this chapter keeps *one* body alive. The reproductive system keeps the *species* alive, and it is the only system that is not needed for the individual's own survival. In humans reproduction is **sexual**, **viviparous** (the young develop inside the mother) and **dioecious** (the sexes are in separate individuals), with internal fertilisation.
 
-```figure caption="The human reproductive systems in front view. (a) Male. (b) Female, with the uterus opened to show the cavity."
-from matplotlib.patches import Ellipse, Circle, PathPatch, FancyBboxPatch, Arc
-from matplotlib.path import Path
+```photo id="bio12/male-repro-nci" caption="The human reproductive systems. (a) Male, sectional side view." width="66"
+```
 
-fig, axs = plt.subplots(1, 2, figsize=(5.2, 3.6),
-                        gridspec_kw=dict(width_ratios=[1, 1], wspace=0.16))
-ORG = "#f2ddc6"; OE = "#b08a5e"; GL = "#e2b24a"; GE = "#8a6a20"
-TUB = "#9c7f63"; LUM = "#fdf4e8"; MUS = "#e8c3c3"; ME = "#b07878"
-
-def tube(ax, pts, w=5.0, c=TUB, l=LUM, z=6):
-    x, y = np.array(pts).T
-    ax.plot(x, y, color=c, lw=w, solid_capstyle='round', zorder=z)
-    ax.plot(x, y, color=l, lw=w*0.45, solid_capstyle='round', zorder=z+0.1)
-
-def lab(ax, txt, tip, tx, ty, ha='left', fs=6.0):
-    ax.annotate(txt, xy=tip, xytext=(tx, ty), fontsize=fs, color=INK, ha=ha,
-                va='center', zorder=25,
-                arrowprops=dict(arrowstyle='-', color=MUTED, lw=0.65,
-                                shrinkA=2.0, shrinkB=1.0))
-
-# ------------------------------------------------ (a) male
-ax = axs[0]
-ax.add_patch(Ellipse((0.00, 1.55), 4.70, 2.35, fc="#f7ece2", ec="#c9b09a",
-                     lw=1.0, zorder=1))                      # scrotum
-for s in (-1, 1):
-    ax.add_patch(Ellipse((s*1.42, 1.58), 1.05, 1.30, fc=ORG, ec=OE, lw=1.0,
-                         zorder=3))                          # testis
-    ax.add_patch(Arc((s*1.42, 1.58), 1.62, 1.80, angle=0,
-                     theta1=-78 if s > 0 else 102, theta2=78 if s > 0 else 258,
-                     color="#7a6046", lw=2.4, zorder=4))     # epididymis
-    tube(ax, [(s*2.05, 2.15), (s*1.86, 2.95), (s*1.48, 3.58),
-              (s*0.92, 3.86), (s*0.40, 3.62)], w=4.2)        # vas deferens
-    ax.add_patch(Ellipse((s*1.30, 4.32), 1.25, 0.52, angle=-s*32, fc=GL,
-                         ec=GE, lw=0.9, zorder=5))           # seminal vesicle
-    ax.add_patch(Circle((s*0.62, 2.88), 0.16, fc=GL, ec=GE, lw=0.8, zorder=7))
-ax.add_patch(Ellipse((0.00, 5.10), 2.20, 1.55, fc="#dfe8f4", ec="#7a94b6",
-                     lw=1.0, zorder=4))                      # bladder
-ax.add_patch(Ellipse((0.00, 3.42), 1.30, 0.82, fc=GL, ec=GE, lw=1.0, zorder=6))
-ax.add_patch(FancyBboxPatch((-0.40, -0.28), 0.80, 2.60,
-                            boxstyle="round,pad=0.02,rounding_size=0.32",
-                            fc=ORG, ec=OE, lw=1.0, zorder=8))  # penis
-ax.add_patch(Ellipse((0.00, -0.26), 0.94, 0.58, fc="#e9cdb2", ec=OE, lw=1.0,
-                     zorder=9))                              # glans
-tube(ax, [(0.00, 4.30), (0.00, -0.36)], w=3.6, z=10)         # urethra
-
-lab(ax, "urinary bladder", (-0.94, 5.42), -1.70, 6.20, ha='right')
-lab(ax, "vas deferens", (-1.86, 3.05), -2.65, 4.15, ha='right')
-lab(ax, "epididymis", (-2.18, 1.90), -2.75, 2.65, ha='right')
-lab(ax, "testis", (-1.42, 1.30), -2.85, 1.55, ha='right')
-lab(ax, "scrotum", (-2.05, 0.90), -2.85, 0.55, ha='right')
-lab(ax, "seminal vesicle", (1.72, 4.55), 1.75, 5.70, ha='left')
-lab(ax, "prostate", (0.58, 3.46), 1.75, 4.30, ha='left')
-lab(ax, "Cowper's gland", (0.76, 2.88), 1.75, 3.05, ha='left')
-lab(ax, "urethra", (0.00, 2.05), 1.55, 1.95, ha='left')
-lab(ax, "penis", (0.40, 0.90), 1.55, 0.75, ha='left')
-ax.text(-0.25, 6.62, "(a) male", fontsize=6.6, color=MUTED, ha='center',
-        va='bottom', fontweight='bold')
-ax.set_xlim(-5.45, 4.75); ax.set_ylim(-1.05, 7.05)
-ax.set_aspect('equal'); ax.axis('off')
-
-# ------------------------------------------------ (b) female
-ax = axs[1]
-UT = [(-0.95, 3.30), (-0.80, 3.76), (0.80, 3.76), (0.95, 3.30),
-      (1.02, 2.90), (0.72, 2.25), (0.52, 1.80),
-      (0.44, 1.62), (-0.44, 1.62), (-0.52, 1.80),
-      (-0.72, 2.25), (-1.02, 2.90), (-0.95, 3.30)]
-ax.add_patch(PathPatch(Path(UT, [Path.MOVETO] + [Path.CURVE4]*12),
-                       fc=MUS, ec=ME, lw=1.1, zorder=4))
-CAV = [(-0.58, 3.22), (-0.46, 3.54), (0.46, 3.54), (0.58, 3.22),
-       (0.60, 2.86), (0.34, 2.28), (0.18, 1.92),
-       (0.12, 1.80), (-0.12, 1.80), (-0.18, 1.92),
-       (-0.34, 2.28), (-0.60, 2.86), (-0.58, 3.22)]
-ax.add_patch(PathPatch(Path(CAV, [Path.MOVETO] + [Path.CURVE4]*12),
-                       fc="#fbeeee", ec=ME, lw=0.7, zorder=5))
-for s in (-1, 1):
-    tube(ax, [(s*0.92, 3.50), (s*1.55, 3.92), (s*2.22, 3.74),
-              (s*2.56, 3.12), (s*2.52, 2.74)], w=4.6, z=6)   # oviduct
-    for k in range(5):                                        # fimbriae
-        th = np.deg2rad(202 + k*34)
-        ax.plot([s*2.52, s*2.52 + 0.48*np.cos(th)],
-                [2.68, 2.68 + 0.48*np.sin(th)],
-                color="#7a6046", lw=0.9, zorder=7, solid_capstyle='round')
-    ax.add_patch(Ellipse((s*2.30, 1.90), 1.00, 0.68, angle=-s*12, fc=ORG,
-                         ec=OE, lw=1.0, zorder=6))            # ovary
-    for k in range(3):
-        ax.add_patch(Circle((s*2.30 + (k-1)*0.26,
-                             1.90 + (0.11 if k == 1 else -0.05)),
-                            0.10, fc="#fdf4e8", ec=OE, lw=0.7, zorder=7))
-ax.add_patch(FancyBboxPatch((-0.33, 0.98), 0.66, 0.62,
-                            boxstyle="round,pad=0.02,rounding_size=0.10",
-                            fc="#dcc4c4", ec=ME, lw=1.0, zorder=6))  # cervix
-tube(ax, [(0.00, 1.06), (0.00, 0.08)], w=7.0, c=ME, l="#fbeeee", z=4)
-
-lab(ax, "fallopian tube\n(oviduct)", (1.92, 3.88), 2.55, 5.05, ha='left')
-lab(ax, "fimbriae", (2.88, 2.52), 3.40, 3.05, ha='left')
-lab(ax, "ovary", (2.76, 1.78), 3.40, 1.90, ha='left')
-lab(ax, "Graafian\nfollicles", (2.16, 1.98), 3.40, 0.95, ha='left')
-lab(ax, "myometrium", (-0.88, 3.08), -1.70, 4.35, ha='right')
-lab(ax, "endometrium", (-0.54, 2.86), -1.70, 3.45, ha='right')
-lab(ax, "uterine cavity", (-0.22, 2.30), -1.95, 2.50, ha='right')
-lab(ax, "cervix", (-0.35, 1.28), -1.70, 1.40, ha='right')
-lab(ax, "vagina", (-0.14, 0.50), -1.70, 0.50, ha='right')
-ax.text(0.20, 5.60, "(b) female", fontsize=6.6, color=MUTED, ha='center',
-        va='bottom', fontweight='bold')
-ax.set_xlim(-4.85, 5.35); ax.set_ylim(-1.05, 7.05)
-ax.set_aspect('equal'); ax.axis('off')
+```photo id="bio12/female-repro" caption="(b) Female, front view of the pelvic organs." width="66"
 ```
 
 ### Male reproductive system

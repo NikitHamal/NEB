@@ -137,6 +137,12 @@ ax.text(0.1, 11.1, 'The arrangement is part of the name:   diplo- = pair,   stre
 ax.set_xlim(-0.1, 13.6); ax.set_ylim(0.3, 11.6)
 ax.set_aspect('equal'); ax.axis('off')
 ```
+
+```photo id="bio11/ecoli" caption="Rod-shaped bacteria (bacilli): a colony of *Escherichia coli* under the scanning electron microscope (false colour). The scale bar is 5 μm." width="74"
+```
+
+```photo id="bio11/staph" caption="Spherical bacteria (cocci) of *Staphylococcus*, in the irregular grape-like clusters that give the genus its name, seen in a stained smear." width="74"
+```
 ### Structure of a bacterial cell
 
 ```figure caption="Ultrastructure of a rod-shaped bacterium. Compare it with the eukaryotic cell of Unit 1: there is no nuclear envelope and no membrane-bound organelle of any kind."
@@ -252,6 +258,9 @@ ax.annotate('', xy=(4.15, 4.15), xytext=(4.15, 1.0),
 ax.text(4.30, 2.6, 'outside\nof cell', fontsize=6.0, ha='left', va='center', color=INK)
 ax.set_xlim(0.0, 12.9); ax.set_ylim(-0.35, 5.9)
 ax.axis('off')
+```
+
+```photo id="bio11/gram" caption="A real Gram-stained smear of mixed bacteria: Gram-positive cells keep the crystal violet and appear purple, Gram-negative cells lose it and take the pink counterstain." width="84"
 ```
 
 | Feature | Gram-positive | Gram-negative |
@@ -493,6 +502,12 @@ axB.text(cx, 1.0, 'diameter 18 nm', fontsize=6.2, ha='center', color=INK)
 axB.text(-3.3, 17.0, '(b)  tobacco mosaic virus', fontsize=6.8, color=INK)
 axB.set_xlim(-3.4, 11.0); axB.set_ylim(0.2, 17.6)
 axB.set_aspect('equal'); axB.axis('off')
+```
+
+```photo id="bio11/t4" caption="Electron micrograph of a T4 bacteriophage: the angular head holds the DNA, and a rigid tail ends in a base plate and thin tail fibres." width="52"
+```
+
+```photo id="bio11/tmv" caption="Tobacco mosaic virus particles (negative-stain TEM): stiff straight rods, each a helix of protein around a single RNA strand. Scale bar 0.2 μm." width="60"
 ```
 
 Every virus has two essential parts. The **capsid** is the protein coat, built of

@@ -82,6 +82,9 @@ for ax in axes.ravel():
 fig.subplots_adjust(hspace=0.55, wspace=0.06)
 ```
 
+```photo id="phy12/seismogram" caption="A paper seismogram: each trace is the ground motion recorded at a seismometer. The large, jagged oscillations that follow the first small ones are the arrival of the stronger S and surface waves." width="75"
+```
+
 **P-waves (primary, longitudinal).** The ground is alternately compressed and
 stretched *along* the direction of travel, like sound in air. At about
 6 km s⁻¹ in the crust they are the fastest waves and arrive first. A compression
