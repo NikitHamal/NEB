@@ -299,6 +299,9 @@ The gun recoils at 1.5 m s⁻¹ opposite to the bullet.
 
 An apple falls from a tree. The Moon does not fall to Earth, but it keeps circling it. Newton saw that one force explains both: the force of **gravitation**, an attraction between every two bodies in the universe.
 
+```photo id="sci10/earthrise" caption="The Earth rising above the Moon, photographed by the Apollo 8 crew in 1968. The Moon is held in its orbit round the Earth by gravitation." width="70"
+```
+
 ::: definition Newton's law of universal gravitation
 Every body in the universe attracts every other body with a force that is directly proportional to the product of their masses and inversely proportional to the square of the distance between their centres.
 :::
@@ -429,6 +432,9 @@ A spring balance on which you stand shows a reading equal to the reaction force 
 ::: definition Free fall
 The motion of a body falling toward the Earth under the action of gravity alone, with no air resistance, is called free fall.
 :::
+
+```photo id="sci10/apollo-feather" caption="A feather lying on the lunar surface after astronaut David Scott dropped it together with a hammer during Apollo 15 (1971). With no air to slow it down, the feather fell as fast as the hammer." width="66"
+```
 
 In free fall, the acceleration is $g$ for every body, whatever its mass. A coin and a feather fall at the same rate in a vacuum. In air, the feather falls slowly only because of air resistance. Galileo is said to have shown this long ago; astronaut David Scott repeated it on the Moon in 1971 with a hammer and a feather, and both reached the ground together.
 

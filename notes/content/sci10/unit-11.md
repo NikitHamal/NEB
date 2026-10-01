@@ -304,6 +304,9 @@ A magnet at rest inside a coil, or a steady DC current in the primary coil, indu
 
 A generator changes mechanical energy into electrical energy, using electromagnetic induction. A rectangular coil (the armature) rotates between the poles of a strong magnet. As it turns, the magnetic flux through it keeps changing, so an emf is induced. The ends of the coil are connected to two **slip rings**, which rub against carbon brushes that lead to the external circuit.
 
+```photo id="sci10/alternator" caption="A large alternator (AC generator) in a power station. Water or steam turns the rotor, and electromagnetic induction produces the alternating current." width="76"
+```
+
 - In half a turn, the induced current flows one way; in the next half it reverses. So the output is an **alternating current (AC)**.
 - In Nepal and India, the AC supply is 220 V and 50 Hz: the current reverses direction 100 times a second.
 - The output is increased by rotating the coil faster, using a stronger magnet, more turns, or a larger coil.
@@ -321,6 +324,9 @@ In a hydropower station, falling water turns a turbine, which turns the coil (or
 ### Transformer
 
 A transformer is a device used to increase (step up) or decrease (step down) an AC voltage. It works on mutual induction.
+
+```photo id="sci10/transformer-pole" caption="A step-down transformer on an electricity pole. It lowers the high voltage of the supply line to a safe voltage for houses." width="56"
+```
 
 ```figure caption="A transformer. Alternating current in the primary coil sets up a changing magnetic flux in the soft iron core; it induces an alternating emf in the secondary coil."
 import numpy as np, matplotlib.pyplot as plt

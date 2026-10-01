@@ -87,6 +87,9 @@ NEB does not publish its Grade 11 question papers, and this book could not verif
 
 ## 5.3 Atomic Structure
 
+```photo id="chem11/flame-colours" caption="Flame colours of different metal salts. The colour is the emission spectrum of the excited electrons of the metal ion." width="66"
+```
+
 | High-yield fact | Value / form |
 |---|---|
 | Quantum numbers | $n$ (size, energy), $l$ (shape: $0$ to $n-1$), $m_l$ (orientation: $-l$ to $+l$), $m_s$ ($\pm\tfrac{1}{2}$) |
@@ -156,6 +159,9 @@ NEB does not publish its Grade 11 question papers, and this book could not verif
 :::
 
 ## 5.5 Chemical Bonding and Shapes of Molecules
+
+```photo id="chem11/halite-crystal" caption="A crystal of halite (rock salt, NaCl), a typical ionic solid." width="46"
+```
 
 | Species | Shape | Hybridization | Bond angle |
 |---|---|---|---|
@@ -296,6 +302,9 @@ NEB does not publish its Grade 11 question papers, and this book could not verif
 
 ## 5.9 Chemistry of Non-metals
 
+```photo id="chem11/kipp" caption="A Kipp's apparatus, used in the laboratory to prepare gases such as hydrogen and carbon dioxide on demand." width="46"
+```
+
 | High-yield fact | Value / form |
 |---|---|
 | Heavy water | $\text{D}_2\text{O}$ (deuterium oxide); used as a moderator in reactors |
@@ -336,6 +345,15 @@ NEB does not publish its Grade 11 question papers, and this book could not verif
 :::
 
 ## 5.10 Chemistry of Metals
+
+```photo id="chem11/haematite" caption="Haematite, the chief ore of iron." width="56"
+```
+
+```photo id="chem11/malachite" caption="Malachite, an ore of copper." width="56"
+```
+
+```photo id="chem11/bauxite" caption="Bauxite, the ore of aluminium." width="56"
+```
 
 | High-yield fact | Value / form |
 |---|---|

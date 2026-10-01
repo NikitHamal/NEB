@@ -220,6 +220,15 @@ division. Never multiply or divide by 2 without first naming the division.
 
 ## 8.2 Floral Diversity
 
+```photo id="bio11/funaria" caption="The moss Funaria with its spore capsules: a bryophyte." width="60"
+```
+
+```photo id="bio11/dryopteris" caption="The male fern (Dryopteris): a pteridophyte with sori on the underside of the frond." width="56"
+```
+
+```photo id="bio11/pinus" caption="Pine (Pinus) with its needles and cones: a gymnosperm." width="56"
+```
+
 1. The three-domain system of classification was proposed by <span class="marks">[1]</span>
    (a) R. H. Whittaker (b) Carl Woese (c) Carolus Linnaeus (d) Ernst Haeckel
 2. The three domains of life are <span class="marks">[1]</span>
@@ -501,6 +510,10 @@ fig.subplots_adjust(wspace=0.02, hspace=0.30)
 
 ## 8.3 Introductory Microbiology
 
+```photo id="bio11/rhizopus" caption="Rhizopus, the bread mould: a coenocytic mycelium with sporangia." width="60"
+```
+
+
 1. Bacteria were first observed and described by <span class="marks">[1]</span>
    (a) Louis Pasteur (b) Robert Koch (c) Anton van Leeuwenhoek (d) Edward Jenner
 2. A spherical bacterium is called a <span class="marks">[1]</span>
@@ -587,6 +600,9 @@ fig.subplots_adjust(wspace=0.02, hspace=0.30)
 | Biotechnology tools | restriction endonuclease (cut), ligase (join), plasmid (vector), PCR (amplify) |
 
 ## 8.4 Ecology
+
+```photo id="bio11/sal-forest" caption="A sal forest in Chitwan National Park, one of the main forest ecosystems of Nepal." width="70"
+```
 
 1. The term *ecosystem* was coined in 1935 by <span class="marks">[1]</span>
    (a) E. P. Odum (b) A. G. Tansley (c) Charles Elton (d) R. L. Lindeman
@@ -757,6 +773,9 @@ fig.subplots_adjust(hspace=0.42, left=0.02, right=0.99, top=0.97, bottom=0.02)
 
 ## 8.5 Vegetation
 
+```photo id="bio11/rhododendron-forest" caption="Rhododendron forest in the Annapurna Conservation Area: the national flower of Nepal grows in the temperate and subalpine belts." width="70"
+```
+
 1. The vegetation of Nepal is chiefly determined by <span class="marks">[1]</span>
    (a) longitude (b) altitude and the rainfall that goes with it (c) soil colour (d) political boundaries
 2. Sal (*Shorea robusta*) forest is the characteristic vegetation of <span class="marks">[1]</span>
@@ -867,6 +886,9 @@ fig.subplots_adjust(hspace=0.42, left=0.02, right=0.99, top=0.97, bottom=0.02)
 | Life processes | nutrition, respiration, excretion, growth, movement, reproduction, sensitivity, adaptation |
 
 ## 8.7 Evolutionary Biology
+
+```photo id="bio11/biston" caption="The light and dark forms of the peppered moth (Biston betularia), the standard example of natural selection." width="56"
+```
 
 1. The theory that life originated from non-living matter under the conditions of the early Earth is <span class="marks">[1]</span>
    (a) special creation (b) spontaneous generation (c) chemical evolution (d) panspermia
@@ -990,6 +1012,18 @@ shared ancestor; analogy means convergence on a shared job.
 | Human line | *Proconsul* → *Dryopithecus*/*Ramapithecus* → *Australopithecus* (450 cc) → *H. habilis* (700 cc, tools) → *H. erectus* (900 cc, fire) → *H. sapiens* (1350 cc) |
 
 ## 8.8 Faunal Diversity
+
+```photo id="bio11/earthworm-ext" caption="An earthworm (Annelida), with its ring-like segments and the clitellum." width="60"
+```
+
+```photo id="bio11/cockroach" caption="The American cockroach Periplaneta americana (Arthropoda)." width="56"
+```
+
+```photo id="bio11/rana-tigrina" caption="The Indian bullfrog Hoplobatrachus tigerinus (Amphibia)." width="56"
+```
+
+```photo id="bio11/rohu" caption="Rohu, Labeo rohita (Pisces)." width="56"
+```
 
 1. *Paramecium* moves by means of <span class="marks">[1]</span>
    (a) pseudopodia (b) cilia (c) a flagellum (d) muscles
@@ -1256,6 +1290,12 @@ one-mark question in Zoology.
 | Biomagnification | DDT, mercury, PCB — highest in the top carnivore |
 
 ## 8.10 Conservation Biology
+
+```photo id="bio11/red-panda" caption="The red panda, a threatened mammal of the eastern hills of Nepal." width="56"
+```
+
+```photo id="bio11/rhino" caption="The greater one-horned rhinoceros of Nepal." width="56"
+```
 
 1. Conservation biology is best defined as the scientific study of <span class="marks">[1]</span>
    (a) how to harvest forests profitably (b) the protection, restoration and sustainable management of biodiversity (c) fossil formation (d) animal breeding for meat

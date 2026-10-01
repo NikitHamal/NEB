@@ -282,6 +282,9 @@ Shortcut: to change km/h to m/s, multiply by 5/18.
 | Temperature | Thermometer |
 | Current | Ammeter |
 
+```photo id="sci10/vernier" caption="A vernier calliper. The jaws grip the object; the fixed main scale and the sliding vernier scale together give the reading." width="66"
+```
+
 ### Least count
 
 The **least count** of an instrument is the smallest value it can measure correctly.

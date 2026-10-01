@@ -49,6 +49,9 @@ A colony has three kinds of individuals, called **castes**: the queen, the worke
 | Life span | 2–5 years | 6 weeks (summer), up to 6 months (winter) | About 2–3 months |
 | Main job | Lays eggs | All the work of the colony | Mates with the queen |
 
+```photo id="sci10/bee-worker" caption="The queen (marked with a red dot) among her workers. The queen is longer than the workers and is the only egg-laying female." width="66"
+```
+
 ## 3.2 Life cycle
 
 The honey bee shows **complete metamorphosis**: **egg → larva → pupa → adult**. The four stages look entirely different.
@@ -109,32 +112,7 @@ If the same egg had been placed in a queen cell, the queen would emerge on 1 + 1
 
 So the difference between queen and worker is only a matter of feeding, not of heredity.
 
-```figure caption="Life cycle of the honey bee (worker) with the number of days in each stage."
-import numpy as np, matplotlib.pyplot as plt
-from matplotlib.patches import Ellipse, Circle, FancyBboxPatch
-fig, ax = plt.subplots(figsize=(4.6,3.4))
-ax.axis('off'); ax.set_xlim(0,10); ax.set_ylim(0,8)
-pos={"egg":(2,6),"larva":(8,6),"pupa":(8,2),"adult":(2,2)}
-ax.add_patch(Ellipse(pos["egg"],0.5,1.2,fc="white",ec=INK,lw=1.2))
-ax.text(2,7.3,"1. Egg",ha='center',fontsize=9,color=INK,fontweight='bold')
-ax.text(2,4.6,"3 days",ha='center',fontsize=8,color=MUTED)
-t=np.linspace(0,np.pi*1.4,60)
-ax.plot(8+0.9*np.cos(t)-0.4, 6+0.9*np.sin(t)-0.4, color=SERIES[1], lw=7, solid_capstyle='round')
-ax.text(8,7.3,"2. Larva",ha='center',fontsize=9,color=INK,fontweight='bold')
-ax.text(9.5,5.9,"6 days",ha="center",fontsize=8,color=MUTED)
-ax.add_patch(Ellipse(pos["pupa"],1.0,1.8,fc="#e8d9a8",ec=INK,lw=1.2))
-ax.plot([7.7,8.3],[2.4,2.4],color=INK,lw=0.8); ax.plot([7.7,8.3],[2.0,2.0],color=INK,lw=0.8); ax.plot([7.7,8.3],[1.6,1.6],color=INK,lw=0.8)
-ax.text(8,3.5,"3. Pupa (sealed cell)",ha='center',fontsize=9,color=INK,fontweight='bold')
-ax.text(8,0.5,"12 days",ha='center',fontsize=8,color=MUTED)
-ax.add_patch(Ellipse((2,2),1.6,0.8,fc="#f3c34b",ec=INK,lw=1.2))
-ax.add_patch(Circle((1.1,2),0.3,fc="#3a2a10",ec=INK))
-ax.add_patch(Ellipse((2.0,2.6),1.2,0.5,angle=30,fc="#cfe0ff",ec=ACCENT,alpha=0.8))
-ax.text(2,3.5,"4. Adult worker",ha='center',fontsize=9,color=INK,fontweight='bold')
-ax.text(2,0.5,"emerges on day 21",ha='center',fontsize=8,color=MUTED)
-ax.annotate("",xy=(6.6,6),xytext=(3.4,6),arrowprops=dict(arrowstyle="->",color=INK,lw=1.3))
-ax.annotate("",xy=(8,3.9),xytext=(8,4.3),arrowprops=dict(arrowstyle="->",color=INK,lw=1.3))
-ax.annotate("",xy=(3.4,2),xytext=(6.6,2),arrowprops=dict(arrowstyle="->",color=INK,lw=1.3))
-ax.annotate("",xy=(2,4.4),xytext=(2,3.9),arrowprops=dict(arrowstyle="->",color=INK,lw=1.3))
+```photo id="sci10/drone-pupae" caption="Developing honey bees taken from their cells: larvae (white, left) and pupae (right) show the stages between egg and adult." width="76"
 ```
 
 ## 3.3 Colony and division of labour
@@ -154,26 +132,7 @@ The **comb** is a wall of wax cells, built by the workers from the wax secreted 
 
 The centre of the comb is the **brood area**, where eggs, larvae and pupae lie; pollen is stored in a ring around it, and honey at the top and edges.
 
-```figure caption="A section of comb. Hexagonal cells hold the brood (centre), pollen (ring) and honey (top). Labels are by use of the cell."
-import numpy as np, matplotlib.pyplot as plt
-from matplotlib.patches import RegularPolygon
-fig, ax = plt.subplots(figsize=(4.4,3.2))
-ax.set_aspect('equal'); ax.axis('off')
-r=0.5; w=np.sqrt(3)*r
-for row in range(9):
-    for col in range(11):
-        x=col*w+(w/2 if row%2 else 0); y=row*1.5*r
-        cx,cy=5*w,4*1.5*r
-        d=np.hypot(x-cx,y-cy)
-        if y>5.3: c="#f3c34b"
-        elif d<1.8: c="#fff3c9"
-        elif d<3.0: c="#e07a3c"
-        else: c="#f7dc8a"
-        ax.add_patch(RegularPolygon((x,y),6,radius=r*0.97,orientation=0,fc=c,ec="#8a6a1a",lw=0.7))
-ax.set_xlim(-0.6,12.4); ax.set_ylim(-0.7,6.8)
-ax.annotate("Honey (capped)",xy=(10.0,6.0),xytext=(10.3,7.3),fontsize=8,color=INK,ha='center',annotation_clip=False,arrowprops=dict(arrowstyle="-",color=INK,lw=0.8))
-ax.annotate("Brood: eggs,\nlarvae, pupae",xy=(5*w,3.0),xytext=(-0.3,7.0),fontsize=8,color=INK,ha='left',annotation_clip=False,arrowprops=dict(arrowstyle="-",color=INK,lw=0.8))
-ax.annotate("Pollen",xy=(8.3,3.0),xytext=(11.2,1.0),fontsize=8,color=INK,ha='center',annotation_clip=False,arrowprops=dict(arrowstyle="-",color=INK,lw=0.8))
+```photo id="sci10/bee-brood" caption="A frame of comb. The pale capped cells in the middle hold developing brood; workers crowd over the comb." width="90"
 ```
 
 ### Division of labour
@@ -266,6 +225,9 @@ The queen does not "rule" or give orders to the colony; she is the egg-layer. Al
 6. **Swarm control:** give more space (extra super), or remove queen cells.
 7. **Migration:** move hives to places where flowers are in bloom (for example, mustard in the terai in winter, and hill flowers in spring and summer).
 8. **Harvest:** take the honey from sealed combs only, in the flow season, leaving enough for the bees.
+
+```photo id="sci10/beekeeper" caption="A beekeeper lifting a frame out of a hive to inspect the comb." width="76"
+```
 
 ### Products of bee keeping
 

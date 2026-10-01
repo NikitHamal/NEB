@@ -194,6 +194,9 @@ fig.tight_layout()
 
 An **acid** is a substance that gives hydrogen ions (H⁺) in water. It tastes sour, turns blue litmus red and reacts with metals to release hydrogen.
 
+```photo id="sci10/litmus" caption="Litmus paper strips. Litmus turns red in an acid and blue in a base." width="46"
+```
+
 | Acid | Formula | Source / use |
 |---|---|---|
 | Hydrochloric acid | HCl | gastric juice; cleaning |

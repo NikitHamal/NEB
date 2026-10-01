@@ -147,6 +147,9 @@ You can show this with a hollow glass sphere having holes all over it, filled wi
 
 A hydraulic machine has two cylinders joined by a pipe and filled with a liquid (oil). They have pistons of different areas: a small piston of area $a$ and a large piston of area $A$.
 
+```photo id="sci10/hydraulic-jack" caption="A hydraulic bottle jack of the kind used to lift a vehicle. A small force on the handle gives a large lifting force." width="50"
+```
+
 ```figure caption="A hydraulic press. A small force f on the small piston (area a) gives a large force F on the large piston (area A), because the pressure is the same in the liquid."
 import numpy as np, matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
@@ -234,6 +237,9 @@ We are not crushed because the fluids inside our body press outward with the sam
 ### Barometer
 
 A **barometer** measures atmospheric pressure. In the simple mercury barometer (Torricelli, 1643) a glass tube about 1 m long, closed at one end, is filled with mercury and turned upside down in a dish of mercury. The mercury falls until its column is about **76 cm** high above the level in the dish. Above the mercury is an empty space (Torricelli's vacuum).
+
+```photo id="sci10/barometer" caption="A laboratory mercury barometer: the height of the mercury column in the glass tube balances the pressure of the atmosphere." width="40"
+```
 
 At the level of the dish, the pressure of the mercury column equals atmospheric pressure:
 

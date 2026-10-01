@@ -89,6 +89,9 @@ This is the **wave equation**. It applies to every kind of wave. The speed of a 
 
 Sound is produced by **vibrating** bodies: a plucked guitar string, a struck drum skin, the vocal cords in your throat. Sound is a mechanical, longitudinal wave. It needs a material medium (solid, liquid or gas) and **cannot travel through a vacuum**. This can be shown with an electric bell in a bell jar: as the air is pumped out, the sound fades away though the hammer is seen striking.
 
+```photo id="sci10/tuning-fork" caption="A set of tuning forks. When a fork is struck its prongs vibrate and produce a sound of one fixed frequency." width="56"
+```
+
 ### Speed of sound
 
 | Medium | Speed (m s⁻¹) |
@@ -374,6 +377,9 @@ ax.text(60, -13.6, 'image', ha='center', fontsize=8.5, color='#A8271F')
 
 A concave lens always forms a virtual, erect, diminished image on the same side as the object.
 
+```photo id="sci10/convex-lens" caption="A convex lens held in front of a house: the image is real, inverted and diminished." width="70"
+```
+
 ### Lens formula, magnification and power
 
 Using the same "real is positive" convention (convex lens $f$ positive; concave lens $f$ negative):
@@ -437,6 +443,9 @@ A convex lens of short focal length held close to a small object (between F and 
 ### Compound microscope
 
 It uses two convex lenses: the **objective** (very short focal length, near the object) forms a real, inverted, magnified image; the **eyepiece** (longer focal length) acts as a magnifying glass on that image and gives a final virtual, inverted, highly magnified image. It is used to see cells, bacteria and tiny parts of insects.
+
+```photo id="sci10/microscope" caption="An early compound microscope kept in a museum. A lens near the specimen and a lens near the eye magnify the specimen in two steps." width="50"
+```
 
 ### Astronomical telescope
 

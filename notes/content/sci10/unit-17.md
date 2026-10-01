@@ -155,6 +155,12 @@ ax.set_xlim(-1.0, 5.2); ax.set_ylim(-0.2, n+0.1); ax.axis('off')
 - **Gangue** (matrix) is the sand, soil and rock impurity mixed with the ore.
 - **Metallurgy** is the whole process of extracting a metal from its ore and refining it.
 
+```photo id="sci10/iron-ore" caption="A piece of iron ore (hematite and limonite) with a ruler for scale. Iron is extracted from ores like this." width="56"
+```
+
+```photo id="sci10/bauxite" caption="Bauxite, the ore from which aluminium is extracted." width="56"
+```
+
 | Metal | Chief ore | Formula |
 |---|---|---|
 | Iron | haematite | Fe₂O₃ |
@@ -165,6 +171,9 @@ ax.set_xlim(-1.0, 5.2); ax.set_ylim(-0.2, n+0.1); ax.axis('off')
 | Zinc | zinc blende | ZnS |
 | Sodium | rock salt | NaCl |
 | Lead | galena | PbS |
+
+```photo id="sci10/malachite" caption="Malachite, a green ore of copper (copper carbonate)." width="56"
+```
 
 All ores are minerals, but not all minerals are ores. Clay contains aluminium, but it is not an ore of aluminium because extraction from it is not profitable.
 
@@ -240,6 +249,9 @@ Overall: 2Al₂O₃ → 4Al + 3O₂
 ## 17.4 Corrosion
 
 **Corrosion** is the slow destruction of a metal by the action of air, moisture or chemicals in its surroundings.
+
+```photo id="sci10/rust" caption="Rust on iron: the reddish-brown flaky layer forms when iron is in contact with moist air." width="70"
+```
 
 | Metal | Corrosion product |
 |---|---|
