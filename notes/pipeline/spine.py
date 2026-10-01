@@ -44,6 +44,7 @@ SUBJECTS = {
  "cs":  ("Computer Science",   "#2E4057"),
  "eng": ("Compulsory English", "#6B3FA0"),
  "nep": ("अनिवार्य नेपाली",       "#A8551F"),
+ "sci": ("Science and Technology", "#0B6A62"),
  "qbank": ("Question Bank",    "#B02A5B"),
 }
 ALL = [f"{k}{g}" for k in SUBJECTS for g in (11, 12)]
