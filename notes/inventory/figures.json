@@ -20,7 +20,16 @@
 {
 "book": "bio11",
 "unit": "01",
-"line": 448,
+"line": 432,
+"kind": "real",
+"id": "bio11/pseudomonas",
+"caption": "A real rod-shaped bacterium (*Pseudomonas*) in negative-stain electron microscopy. The tuft of polar flagella and the plain, membrane-bounded outline of the cell are visible; there is no nucleus or ot",
+"candidate": false
+},
+{
+"book": "bio11",
+"unit": "01",
+"line": 455,
 "kind": "generated",
 "id": "",
 "caption": "A generalised plant cell and animal cell as seen under the electron microscope. Only the plant cell has a wall, plastids and a large central vacuole; only the animal cell has centrioles.",
@@ -29,7 +38,7 @@
 {
 "book": "bio11",
 "unit": "01",
-"line": 626,
+"line": 633,
 "kind": "generated",
 "id": "",
 "caption": "The fluid-mosaic model of the plasma membrane (Singer and Nicolson, 1972) -- a fluid phospholipid bilayer in which proteins float like icebergs.",
@@ -38,7 +47,7 @@
 {
 "book": "bio11",
 "unit": "01",
-"line": 715,
+"line": 722,
 "kind": "generated",
 "id": "",
 "caption": "Mitochondrion and chloroplast in section. Both are double-membraned and semi-autonomous, with their own circular DNA and 70S ribosomes.",
@@ -47,7 +56,25 @@
 {
 "book": "bio11",
 "unit": "01",
-"line": 956,
+"line": 789,
+"kind": "real",
+"id": "bio11/mito-tem",
+"caption": "Two mitochondria in a mammalian lung cell (TEM). Each is bounded by a double membrane; the inner membrane is thrown into cristae. Scale bar 50 nm.",
+"candidate": false
+},
+{
+"book": "bio11",
+"unit": "01",
+"line": 793,
+"kind": "real",
+"id": "bio11/chloroplast-tem",
+"caption": "Part of a chloroplast in a leaf cell of *Anemone* (TEM): stacks of thylakoids (grana) joined by stroma lamellae, inside the double envelope. Scale bar 500 nm.",
+"candidate": false
+},
+{
+"book": "bio11",
+"unit": "01",
+"line": 970,
 "kind": "generated",
 "id": "",
 "caption": "The cell cycle. Interphase occupies about 95 % of the cycle; DNA content doubles from 2C to 4C in S phase but the chromosome number stays 2n.",
@@ -56,7 +83,7 @@
 {
 "book": "bio11",
 "unit": "01",
-"line": 1042,
+"line": 1056,
 "kind": "generated",
 "id": "",
 "caption": "Mitosis in a cell with $2n = 4$, followed by cytokinesis. Sister chromatids separate at anaphase, so each daughter cell is again diploid.",
@@ -65,7 +92,7 @@
 {
 "book": "bio11",
 "unit": "01",
-"line": 1180,
+"line": 1194,
 "kind": "generated",
 "id": "",
 "caption": "Meiosis in a cell with $2n = 4$. Homologues cross over in prophase I and separate at anaphase I; sister chromatids separate only at anaphase II, giving four haploid cells.",
@@ -84,15 +111,24 @@
 "book": "bio11",
 "unit": "02",
 "line": 303,
-"kind": "generated",
-"id": "",
-"caption": "Three fungi: the coenocytic mycelium of *Rhizopus stolonifer*, the basidiocarp of *Agaricus*, and a budding yeast cell of *Saccharomyces cerevisiae*.",
-"candidate": true
+"kind": "real",
+"id": "bio11/rhizopus",
+"caption": "The mycelium of *Rhizopus stolonifer* under the microscope. The long, unbranched-looking hyphae carry upright sporangiophores topped by dark, round sporangia. The scale bar is 0.1 mm.",
+"candidate": false
 },
 {
 "book": "bio11",
 "unit": "02",
-"line": 484,
+"line": 306,
+"kind": "real",
+"id": "bio11/agaricus",
+"caption": "Fruiting bodies (basidiocarps) of the button mushroom *Agaricus bisporus*. What we eat is the compact, tissue-like mass of hyphae; the mycelium itself stays hidden in the compost.",
+"candidate": false
+},
+{
+"book": "bio11",
+"unit": "02",
+"line": 402,
 "kind": "generated",
 "id": "",
 "caption": "The three growth forms of lichens -- crustose, foliose and fruticose -- and a vertical section of a heteromerous foliose thallus showing the algal zone sandwiched between fungal layers.",
@@ -101,7 +137,25 @@
 {
 "book": "bio11",
 "unit": "02",
-"line": 633,
+"line": 499,
+"kind": "real",
+"id": "bio11/lichen-forms",
+"caption": "Lichens on one twig. The broad lobed grey-green patches are foliose; the thread-like branched tufts are fruticose. A crustose lichen is a thin crust glued to the surface, like paint.",
+"candidate": false
+},
+{
+"book": "bio11",
+"unit": "02",
+"line": 502,
+"kind": "real",
+"id": "bio11/usnea",
+"caption": "*Usnea*, a fruticose (",
+"candidate": false
+},
+{
+"book": "bio11",
+"unit": "02",
+"line": 557,
 "kind": "generated",
 "id": "",
 "caption": "Two algae: a filament of *Spirogyra* with its spiral ribbon chloroplast and pyrenoids, and a single cell of *Chlamydomonas* with its cup-shaped chloroplast, eyespot and two apical flagella.",
@@ -110,7 +164,16 @@
 {
 "book": "bio11",
 "unit": "02",
-"line": 807,
+"line": 642,
+"kind": "real",
+"id": "bio11/spirogyra",
+"caption": "Filaments of *Spirogyra* under the light microscope. Each cylindrical cell holds one or more green spiral ribbon-shaped chloroplasts, and the cross walls between cells are plain to see.",
+"candidate": false
+},
+{
+"book": "bio11",
+"unit": "02",
+"line": 734,
 "kind": "generated",
 "id": "",
 "caption": "*Funaria hygrometrica*: the leafy gametophyte carrying the attached sporophyte, and the capsule enlarged to show the operculum, peristome teeth, theca and columella.",
@@ -119,7 +182,16 @@
 {
 "book": "bio11",
 "unit": "02",
-"line": 920,
+"line": 836,
+"kind": "real",
+"id": "bio11/funaria",
+"caption": "*Funaria hygrometrica* growing on soil. The small green leafy gametophyte is the plant you see; each slender yellow seta lifts a capsule, the sporophyte, which stays attached to the gametophyte.",
+"candidate": false
+},
+{
+"book": "bio11",
+"unit": "02",
+"line": 850,
 "kind": "generated",
 "id": "",
 "caption": "Alternation of generations in a moss. The gametophyte generation (green) is dominant; the sporophyte (brown) stays attached to it. Ploidy changes only at fertilisation and at meiosis.",
@@ -128,7 +200,7 @@
 {
 "book": "bio11",
 "unit": "02",
-"line": 1052,
+"line": 982,
 "kind": "generated",
 "id": "",
 "caption": "*Dryopteris*: the sporophyte with its rhizome, adventitious roots and circinate young frond; a vertical section of a sorus showing sporangia with the annulus, under the indusium; and the heart-shaped ",
@@ -137,7 +209,16 @@
 {
 "book": "bio11",
 "unit": "02",
-"line": 1187,
+"line": 1108,
+"kind": "real",
+"id": "bio11/dryopteris",
+"caption": "The underside of a *Dryopteris* frond: each pinnule carries rounded brown sori, each a cluster of sporangia that is covered, while young, by a kidney-shaped indusium.",
+"candidate": false
+},
+{
+"book": "bio11",
+"unit": "02",
+"line": 1120,
 "kind": "generated",
 "id": "",
 "caption": "Alternation of generations in a fern. Compare with the moss: here the sporophyte (brown) is the large independent plant and the gametophyte (green) is a short-lived prothallus.",
@@ -146,7 +227,7 @@
 {
 "book": "bio11",
 "unit": "02",
-"line": 1308,
+"line": 1241,
 "kind": "generated",
 "id": "",
 "caption": "*Pinus*: a long shoot bearing dwarf shoots with fascicles of needles, the male and female cones, and a winged seed lying naked on a cone scale.",
@@ -155,7 +236,16 @@
 {
 "book": "bio11",
 "unit": "02",
-"line": 1472,
+"line": 1328,
+"kind": "real",
+"id": "bio11/pinus",
+"caption": "*Pinus*: needle-leaves in fascicles on a dwarf shoot, with two woody female cones. The seeds lie naked on the cone scales; there is no ovary or fruit.",
+"candidate": false
+},
+{
+"book": "bio11",
+"unit": "02",
+"line": 1408,
 "kind": "generated",
 "id": "",
 "caption": "Longitudinal section of a typical hypogynous flower, showing the four whorls -- calyx, corolla, androecium and gynoecium -- on the receptacle, with ovules on an axile placenta.",
@@ -164,7 +254,7 @@
 {
 "book": "bio11",
 "unit": "02",
-"line": 1601,
+"line": 1537,
 "kind": "generated",
 "id": "",
 "caption": "Monocotyledon and dicotyledon compared through the seed, leaf venation, root system and a transverse section of the stem.",
@@ -173,7 +263,25 @@
 {
 "book": "bio11",
 "unit": "02",
-"line": 1827,
+"line": 1633,
+"kind": "real",
+"id": "bio11/monocot-stem",
+"caption": "Transverse section of a monocot stem (stained, low power): vascular bundles scattered through the ground tissue, with no ring and no clear cortex.",
+"candidate": false
+},
+{
+"book": "bio11",
+"unit": "02",
+"line": 1636,
+"kind": "real",
+"id": "bio11/dicot-stem",
+"caption": "Transverse section of a dicot stem (stained, low power): the vascular bundles lie in a ring around a central pith.",
+"candidate": false
+},
+{
+"book": "bio11",
+"unit": "02",
+"line": 1769,
 "kind": "generated",
 "id": "",
 "caption": "Floral diagrams of the four prescribed families. The dot at the top of each is the position of the mother axis; brackets in the formulae mean fused members.",
@@ -191,7 +299,25 @@
 {
 "book": "bio11",
 "unit": "03",
-"line": 142,
+"line": 141,
+"kind": "real",
+"id": "bio11/ecoli",
+"caption": "Rod-shaped bacteria (bacilli): a colony of *Escherichia coli* under the scanning electron microscope (false colour). The scale bar is 5 μm.",
+"candidate": false
+},
+{
+"book": "bio11",
+"unit": "03",
+"line": 144,
+"kind": "real",
+"id": "bio11/staph",
+"caption": "Spherical bacteria (cocci) of *Staphylococcus*, in the irregular grape-like clusters that give the genus its name, seen in a stained smear.",
+"candidate": false
+},
+{
+"book": "bio11",
+"unit": "03",
+"line": 148,
 "kind": "generated",
 "id": "",
 "caption": "Ultrastructure of a rod-shaped bacterium. Compare it with the eukaryotic cell of Unit 1: there is no nuclear envelope and no membrane-bound organelle of any kind.",
@@ -200,7 +326,7 @@
 {
 "book": "bio11",
 "unit": "03",
-"line": 209,
+"line": 215,
 "kind": "generated",
 "id": "",
 "caption": "The two wall patterns revealed by Gram's stain, drawn in section with the outside of the cell upwards. The Gram-negative wall has little peptidoglycan but adds an outer membrane of lipopolysaccharide.",
@@ -209,7 +335,16 @@
 {
 "book": "bio11",
 "unit": "03",
-"line": 423,
+"line": 263,
+"kind": "real",
+"id": "bio11/gram",
+"caption": "A real Gram-stained smear of mixed bacteria: Gram-positive cells keep the crystal violet and appear purple, Gram-negative cells lose it and take the pink counterstain.",
+"candidate": false
+},
+{
+"book": "bio11",
+"unit": "03",
+"line": 432,
 "kind": "generated",
 "id": "",
 "caption": "Structure of the T4 bacteriophage (a tailed DNA virus of *E. coli*) and of tobacco mosaic virus (a helical RNA virus). Sizes are approximate.",
@@ -218,7 +353,25 @@
 {
 "book": "bio11",
 "unit": "03",
-"line": 526,
+"line": 507,
+"kind": "real",
+"id": "bio11/t4",
+"caption": "Electron micrograph of a T4 bacteriophage: the angular head holds the DNA, and a rigid tail ends in a base plate and thin tail fibres.",
+"candidate": false
+},
+{
+"book": "bio11",
+"unit": "03",
+"line": 510,
+"kind": "real",
+"id": "bio11/tmv",
+"caption": "Tobacco mosaic virus particles (negative-stain TEM): stiff straight rods, each a helix of protein around a single RNA strand. Scale bar 0.2 μm.",
+"candidate": false
+},
+{
+"book": "bio11",
+"unit": "03",
+"line": 541,
 "kind": "generated",
 "id": "",
 "caption": "The lytic cycle of a bacteriophage. The dashed branch shows the lysogenic alternative, in which the phage DNA integrates into the host chromosome as a prophage and is copied silently for many generati",
@@ -371,16 +524,25 @@
 {
 "book": "bio11",
 "unit": "07",
-"line": 368,
-"kind": "generated",
-"id": "",
-"caption": "Comparative embryology. At the earliest stage the three embryos are nearly indistinguishable and all three show pharyngeal gill slits and a post-anal tail; species characters appear only later. This i",
-"candidate": true
+"line": 356,
+"kind": "real",
+"id": "bio11/homology",
+"caption": "Analogous wings in three vertebrates: a pterodactyl (a reptile), a bat (a mammal) and a bird. The wing of each is built on the same forelimb skeleton, but the flight surface is different: a skin membr",
+"candidate": false
 },
 {
 "book": "bio11",
 "unit": "07",
-"line": 499,
+"line": 371,
+"kind": "real",
+"id": "bio11/haeckel",
+"caption": "Comparative embryology: Haeckel's plate of eight vertebrates (fish, salamander, tortoise, chick, hog, calf, rabbit, human) at three stages. In row I the embryos are nearly alike, all with pharyngeal g",
+"candidate": false
+},
+{
+"book": "bio11",
+"unit": "07",
+"line": 398,
 "kind": "generated",
 "id": "",
 "caption": "Evolution of the horse from *Eohippus* to *Equus*: size increases about five-fold, the fore-foot loses toes from four to one, and the cheek tooth changes from a low-crowned browsing tooth to a tall ce",
@@ -389,7 +551,16 @@
 {
 "book": "bio11",
 "unit": "07",
-"line": 617,
+"line": 497,
+"kind": "real",
+"id": "bio11/horse-evo",
+"caption": "Fore-foot bones and crown view of a cheek tooth in four stages of horse evolution (left to right: four toes and a low-crowned tooth; three; three with a bigger central toe; one toe and a complex high-",
+"candidate": false
+},
+{
+"book": "bio11",
+"unit": "07",
+"line": 519,
 "kind": "generated",
 "id": "",
 "caption": "Darwin's finches of the Galápagos. One immigrant seed-eating ancestor radiated into 13 species differing mainly in beak size and shape, each beak matching a different food.",
@@ -398,7 +569,16 @@
 {
 "book": "bio11",
 "unit": "07",
-"line": 702,
+"line": 578,
+"kind": "real",
+"id": "bio11/finches-gould",
+"caption": "Beaks of four Galápagos finches (Gould's plate for Darwin): 1 *Geospiza magnirostris*, the large ground finch with a heavy crushing beak; 2 *G. fortis*; 3 *G. parvula*; 4 *Certhidea olivacea*, the war",
+"candidate": false
+},
+{
+"book": "bio11",
+"unit": "07",
+"line": 607,
 "kind": "generated",
 "id": "",
 "caption": "Industrial melanism in *Biston betularia*. (a) Kettlewell's 1955 mark–recapture percentages — each form survives better where it is camouflaged. (b) The rise and fall of the melanic form, tracking soo",
@@ -407,7 +587,16 @@
 {
 "book": "bio11",
 "unit": "07",
-"line": 856,
+"line": 649,
+"kind": "real",
+"id": "bio11/biston",
+"caption": "Two forms of the peppered moth on one birch trunk: the pale form blends with the lichen-covered bark, while the dark form shows up clearly against it.",
+"candidate": false
+},
+{
+"book": "bio11",
+"unit": "07",
+"line": 764,
 "kind": "generated",
 "id": "",
 "caption": "The three types of natural selection acting on one continuously varying character. The dashed curve is the distribution before selection, the filled curve after it; the shaded tails are the individual",
@@ -416,7 +605,7 @@
 {
 "book": "bio11",
 "unit": "07",
-"line": 942,
+"line": 850,
 "kind": "generated",
 "id": "",
 "caption": "Hardy–Weinberg genotype frequencies as a function of the allele frequency $p$. Heterozygotes are commonest at $p = q = 0.5$, where $2pq = 0.5$. For a rare recessive allele the disorder is rare but car",
@@ -425,7 +614,7 @@
 {
 "book": "bio11",
 "unit": "07",
-"line": 1097,
+"line": 1005,
 "kind": "generated",
 "id": "",
 "caption": "Simplified phylogeny of the hominoids. Note that *Ramapithecus* (now referred to *Sivapithecus*) sits on the orangutan branch, not on ours; the hominin line runs *Australopithecus* → *H. habilis* → *H",
@@ -443,7 +632,34 @@
 {
 "book": "bio11",
 "unit": "08",
-"line": 244,
+"line": 202,
+"kind": "real",
+"id": "bio11/paramecium",
+"caption": "*Paramecium caudatum* cells in a culture, light microscopy. The scale bar is 50 μm; the cells are slipper-shaped with a blunt front end and a tapering rear end.",
+"candidate": false
+},
+{
+"book": "bio11",
+"unit": "08",
+"line": 205,
+"kind": "real",
+"id": "bio11/amoeba",
+"caption": "*Amoeba proteus* under differential interference contrast: a single cell that moves by extending blunt pseudopodia (compare with ciliary movement in *Paramecium*).",
+"candidate": false
+},
+{
+"book": "bio11",
+"unit": "08",
+"line": 208,
+"kind": "real",
+"id": "bio11/euglena",
+"caption": "*Euglena* under the light microscope: green, spindle-shaped cells; chloroplasts give the green colour and a red eyespot is visible near the front end.",
+"candidate": false
+},
+{
+"book": "bio11",
+"unit": "08",
+"line": 253,
 "kind": "generated",
 "id": "",
 "caption": "*Paramecium*: binary fission (left) and conjugation (right).",
@@ -452,7 +668,7 @@
 {
 "book": "bio11",
 "unit": "08",
-"line": 439,
+"line": 448,
 "kind": "generated",
 "id": "",
 "caption": "Body symmetry: asymmetrical, radial and bilateral.",
@@ -461,7 +677,7 @@
 {
 "book": "bio11",
 "unit": "08",
-"line": 550,
+"line": 559,
 "kind": "generated",
 "id": "",
 "caption": "Coelom types in transverse section.",
@@ -470,7 +686,7 @@
 {
 "book": "bio11",
 "unit": "08",
-"line": 644,
+"line": 653,
 "kind": "generated",
 "id": "",
 "caption": "Classification of Kingdom Animalia into nine phyla.",
@@ -479,7 +695,7 @@
 {
 "book": "bio11",
 "unit": "08",
-"line": 772,
+"line": 781,
 "kind": "generated",
 "id": "",
 "caption": "L.S. of (a) the sponge *Sycon* and (b) *Hydra*.",
@@ -488,7 +704,16 @@
 {
 "book": "bio11",
 "unit": "08",
-"line": 928,
+"line": 896,
+"kind": "real",
+"id": "bio11/hydra",
+"caption": "A living *Hydra*: a slender column attached by its basal disc, with tentacles around the mouth (hypostome) at the free end. Its green colour comes from symbiotic algae.",
+"candidate": false
+},
+{
+"book": "bio11",
+"unit": "08",
+"line": 940,
 "kind": "generated",
 "id": "",
 "caption": "(a) *Planaria*; (b) *Ascaris lumbricoides*, both sexes.",
@@ -497,7 +722,25 @@
 {
 "book": "bio11",
 "unit": "08",
-"line": 1105,
+"line": 1055,
+"kind": "real",
+"id": "bio11/planaria",
+"caption": "*Planaria*, a free-living flatworm: leaf-shaped, flattened from top to bottom and unsegmented, with a smooth ciliated surface.",
+"candidate": false
+},
+{
+"book": "bio11",
+"unit": "08",
+"line": 1058,
+"kind": "real",
+"id": "bio11/ascaris-jar",
+"caption": "Preserved *Ascaris lumbricoides* in a jar: long, cylindrical, unsegmented, tapering at both ends.",
+"candidate": false
+},
+{
+"book": "bio11",
+"unit": "08",
+"line": 1123,
 "kind": "generated",
 "id": "",
 "caption": "(a) *Periplaneta*, (b) *Pila*, (c) *Asterias*.",
@@ -506,7 +749,25 @@
 {
 "book": "bio11",
 "unit": "08",
-"line": 1263,
+"line": 1237,
+"kind": "real",
+"id": "bio11/cockroach",
+"caption": "The American cockroach *Periplaneta americana*: a flattened body in head, thorax and abdomen, with long antennae, wings and three pairs of jointed legs.",
+"candidate": false
+},
+{
+"book": "bio11",
+"unit": "08",
+"line": 1241,
+"kind": "real",
+"id": "bio11/asterias",
+"caption": "The starfish *Asterias*: a pentamerous body of five arms around a central disc with the spiny, studded upper surface visible.",
+"candidate": false
+},
+{
+"book": "bio11",
+"unit": "08",
+"line": 1288,
 "kind": "generated",
 "id": "",
 "caption": "A generalised chordate and the three subphyla.",
@@ -515,7 +776,7 @@
 {
 "book": "bio11",
 "unit": "08",
-"line": 1537,
+"line": 1562,
 "kind": "generated",
 "id": "",
 "caption": "External features of *Pheretima posthuma*.",
@@ -524,7 +785,25 @@
 {
 "book": "bio11",
 "unit": "08",
-"line": 1661,
+"line": 1655,
+"kind": "real",
+"id": "bio11/earthworm-ext",
+"caption": "A living earthworm on moist ground: elongated, cylindrical and segmented, with no limbs.",
+"candidate": false
+},
+{
+"book": "bio11",
+"unit": "08",
+"line": 1659,
+"kind": "real",
+"id": "bio11/earthworm-dissect",
+"caption": "An earthworm opened along the back and pinned out in the laboratory. The body wall is cut and the long alimentary canal and the segmental organs are exposed.",
+"candidate": false
+},
+{
+"book": "bio11",
+"unit": "08",
+"line": 1693,
 "kind": "generated",
 "id": "",
 "caption": "T.S. of *Pheretima posthuma*, intestinal region.",
@@ -533,7 +812,7 @@
 {
 "book": "bio11",
 "unit": "08",
-"line": 1800,
+"line": 1832,
 "kind": "generated",
 "id": "",
 "caption": "Alimentary canal of *Pheretima posthuma*, L.S.",
@@ -542,7 +821,7 @@
 {
 "book": "bio11",
 "unit": "08",
-"line": 1914,
+"line": 1946,
 "kind": "generated",
 "id": "",
 "caption": "Blood vascular system of *Pheretima posthuma*.",
@@ -551,7 +830,7 @@
 {
 "book": "bio11",
 "unit": "08",
-"line": 2061,
+"line": 2093,
 "kind": "generated",
 "id": "",
 "caption": "Nervous system of *Pheretima posthuma*.",
@@ -560,7 +839,7 @@
 {
 "book": "bio11",
 "unit": "08",
-"line": 2215,
+"line": 2247,
 "kind": "generated",
 "id": "",
 "caption": "Digestive system of *Rana tigrina*, liver displaced.",
@@ -569,7 +848,25 @@
 {
 "book": "bio11",
 "unit": "08",
-"line": 2353,
+"line": 2364,
+"kind": "real",
+"id": "bio11/rana-tigrina",
+"caption": "The Indian bullfrog *Hoplobatrachus tigerinus* (the frog historically called *Rana tigrina*). It has smooth moist skin, large eyes, a broad head and webbed hind feet.",
+"candidate": false
+},
+{
+"book": "bio11",
+"unit": "08",
+"line": 2367,
+"kind": "real",
+"id": "bio11/frog-anglas",
+"caption": "Dissection plate of a frog opened from the ventral side, showing the chief organs of the body cavity: the red heart and liver at the top and the coiled intestine below. The legs are fully extended.",
+"candidate": false
+},
+{
+"book": "bio11",
+"unit": "08",
+"line": 2391,
 "kind": "generated",
 "id": "",
 "caption": "Frog respiration: (a) the air path, (b) a lung.",
@@ -578,7 +875,7 @@
 {
 "book": "bio11",
 "unit": "08",
-"line": 2507,
+"line": 2545,
 "kind": "generated",
 "id": "",
 "caption": "The frog's heart and aortic arches, ventral view.",
@@ -587,7 +884,7 @@
 {
 "book": "bio11",
 "unit": "08",
-"line": 2621,
+"line": 2659,
 "kind": "generated",
 "id": "",
 "caption": "Double but incomplete circulation in the frog.",
@@ -596,7 +893,7 @@
 {
 "book": "bio11",
 "unit": "08",
-"line": 2721,
+"line": 2759,
 "kind": "generated",
 "id": "",
 "caption": "Urinogenital system: (a) male, (b) female frog.",
@@ -605,7 +902,7 @@
 {
 "book": "bio11",
 "unit": "08",
-"line": 2849,
+"line": 2887,
 "kind": "generated",
 "id": "",
 "caption": "Frog's brain: (a) dorsal, (b) ventral view.",
@@ -623,7 +920,16 @@
 {
 "book": "bio11",
 "unit": "09",
-"line": 278,
+"line": 157,
+"kind": "real",
+"id": "bio11/rohu",
+"caption": "The rohu, *Labeo rohita*, a common freshwater carp: streamlined body, overlapping scales, paired and median fins and a forked tail.",
+"candidate": false
+},
+{
+"book": "bio11",
+"unit": "09",
+"line": 281,
 "kind": "generated",
 "id": "",
 "caption": "Exponential (J) and logistic (S) growth plotted from $N_t = N_0e^{rt}$ and the logistic equation, both with $N_0 = 10$, $r = 0.5$ yr$^{-1}$ and $K = 1000$. Growth is fastest at $N = K/2$.",
@@ -632,7 +938,7 @@
 {
 "book": "bio11",
 "unit": "09",
-"line": 459,
+"line": 462,
 "kind": "generated",
 "id": "",
 "caption": "The waggle dance of the honeybee. On the vertical comb the angle of the straight waggle run from the upward vertical equals the angle between the sun and the food source as seen from the hive. Longer ",
@@ -641,7 +947,7 @@
 {
 "book": "bio11",
 "unit": "09",
-"line": 608,
+"line": 611,
 "kind": "generated",
 "id": "",
 "caption": "The seven possible interspecific interactions, classified by the effect on each partner ($+$ benefit, $-$ harm, $0$ no effect).",
@@ -650,7 +956,7 @@
 {
 "book": "bio11",
 "unit": "09",
-"line": 678,
+"line": 681,
 "kind": "generated",
 "id": "",
 "caption": "The carbon cycle. The grey and green arrows are the natural loops, which balance. The red arrow — combustion of fossil fuel, together with deforestation — is the human addition that is raising atmosph",
@@ -659,7 +965,7 @@
 {
 "book": "bio11",
 "unit": "09",
-"line": 788,
+"line": 791,
 "kind": "generated",
 "id": "",
 "caption": "The nitrogen cycle. Grey and green arrows are the natural route: fixation, nitrification, assimilation, ammonification and denitrification. Red arrows are human additions — fertiliser and combustion —",
@@ -704,11 +1010,38 @@
 {
 "book": "bio11",
 "unit": "10",
-"line": 514,
+"line": 481,
+"kind": "real",
+"id": "bio11/red-panda",
+"caption": "The red panda, *Ailurus fulgens*, a threatened species of the forests of eastern and central Nepal.",
+"candidate": false
+},
+{
+"book": "bio11",
+"unit": "10",
+"line": 517,
 "kind": "generated",
 "id": "",
 "caption": "Recovery of Nepal's two flagship mammals from national censuses. Rhino counts come from the National Rhino Count (block count from elephant back); tiger numbers come from the National Tiger and Prey B",
 "candidate": true
+},
+{
+"book": "bio11",
+"unit": "10",
+"line": 553,
+"kind": "real",
+"id": "bio11/rhino",
+"caption": "The greater one-horned rhinoceros, *Rhinoceros unicornis*, a flagship species of Nepal's Terai.",
+"candidate": false
+},
+{
+"book": "bio11",
+"unit": "10",
+"line": 556,
+"kind": "real",
+"id": "bio11/tiger",
+"caption": "A Bengal tiger in Bardiya National Park.",
+"candidate": false
 },
 {
 "book": "bio12",
@@ -732,24 +1065,42 @@
 "book": "bio12",
 "unit": "01",
 "line": 256,
-"kind": "generated",
-"id": "",
-"caption": "The three simple permanent tissues, in transverse section. The difference is entirely in the wall: thin cellulose in parenchyma, unevenly thickened with pectin at the corners in collenchyma, uniformly",
-"candidate": true
+"kind": "real",
+"id": "bio12/ground-tissues",
+"caption": "Parenchyma and sclerenchyma side by side in a transverse section of a *Cucurbita* stem (×100). The difference is in the wall: thin cellulose and large living cells in parenchyma; thick, uniformly lign",
+"candidate": false
 },
 {
 "book": "bio12",
 "unit": "01",
-"line": 399,
-"kind": "generated",
-"id": "",
-"caption": "Elements of the two complex tissues. Xylem conducts through dead cells with lignified walls: tracheids with bordered pits and vessels joined end to end into an open pipe. Phloem conducts through livin",
-"candidate": true
+"line": 263,
+"kind": "real",
+"id": "bio12/stone-cells",
+"caption": "Sclereids (stone cells) in the flesh of a pear (×400). A cluster of isodiametric cells with very thick, layered, lignified walls and a narrow lumen gives pear its gritty texture.",
+"candidate": false
 },
 {
 "book": "bio12",
 "unit": "01",
-"line": 509,
+"line": 345,
+"kind": "real",
+"id": "bio12/xylem-elements",
+"caption": "Xylem vessels in longitudinal section (*Cucurbita* stem, ×400). The walls are lignified and carry pits and bars of thickening; the cross-walls between vessel elements have broken down, so the vessel i",
+"candidate": false
+},
+{
+"book": "bio12",
+"unit": "01",
+"line": 352,
+"kind": "real",
+"id": "bio12/sieve-tubes",
+"caption": "Phloem sieve tubes in longitudinal section (*Cucurbita* stem, ×400). Sieve tubes are living cells joined end to end; their thin cross-walls are perforated as sieve plates and they have lost their nucl",
+"candidate": false
+},
+{
+"book": "bio12",
+"unit": "01",
+"line": 418,
 "kind": "real",
 "id": "bio12/dicot-root-ts",
 "caption": "Transverse section of a young dicot root (*Ranunculus*), ×100. The boxed stele is tiny compared with the cortex — that proportion is itself diagnostic of a dicot root.",
@@ -758,7 +1109,7 @@
 {
 "book": "bio12",
 "unit": "01",
-"line": 534,
+"line": 443,
 "kind": "real",
 "id": "bio12/monocot-root-ts",
 "caption": "Transverse section of a monocot root (*Zea mays*), ×40. The vascular bundles form a ring enclosing a large central pith.",
@@ -767,7 +1118,7 @@
 {
 "book": "bio12",
 "unit": "01",
-"line": 545,
+"line": 454,
 "kind": "generated",
 "id": "",
 "caption": "Transverse section of a dicot and a monocot root. Read the number of xylem arms first: two to six in a dicot, many in a monocot. The dicot has little or no pith and will later form cambium; the monoco",
@@ -776,7 +1127,7 @@
 {
 "book": "bio12",
 "unit": "01",
-"line": 643,
+"line": 552,
 "kind": "real",
 "id": "bio12/dicot-stem-ts",
 "caption": "Transverse section of a young dicot stem (*Helianthus*), ×40. The vascular bundles lie in a single ring around a wide pith.",
@@ -785,7 +1136,7 @@
 {
 "book": "bio12",
 "unit": "01",
-"line": 685,
+"line": 594,
 "kind": "real",
 "id": "bio12/monocot-stem-ts",
 "caption": "Transverse section of a monocot stem (*Zea mays*), ×40. The bundles are scattered through a continuous ground tissue — small and crowded near the surface, large and widely spaced towards the centre.",
@@ -794,7 +1145,7 @@
 {
 "book": "bio12",
 "unit": "01",
-"line": 695,
+"line": 604,
 "kind": "generated",
 "id": "",
 "caption": "Transverse section of a dicot and a monocot stem. In the dicot the bundles are open — they contain cambium — and stand in one ring around a pith. In the monocot they are closed and scattered through t",
@@ -803,7 +1154,7 @@
 {
 "book": "bio12",
 "unit": "01",
-"line": 816,
+"line": 725,
 "kind": "real",
 "id": "bio12/dicot-leaf-ts",
 "caption": "Transverse section of a dorsiventral dicot leaf (*Ligustrum*, privet), ×100. Palisade cells stand on end directly under the upper epidermis; the spongy mesophyll below is full of air spaces.",
@@ -812,7 +1163,7 @@
 {
 "book": "bio12",
 "unit": "01",
-"line": 846,
+"line": 755,
 "kind": "generated",
 "id": "",
 "caption": "Transverse section of a dorsiventral and an isobilateral leaf. The dicot leaf has palisade above and spongy mesophyll below, with most stomata on the lower surface; the monocot leaf has uniform mesoph",
@@ -821,7 +1172,7 @@
 {
 "book": "bio12",
 "unit": "01",
-"line": 1006,
+"line": 915,
 "kind": "generated",
 "id": "",
 "caption": "Secondary growth in a dicot stem, in three steps. A complete cambial ring forms first, then it cuts secondary xylem to the inside and secondary phloem to the outside, and finally a cork cambium in the",
@@ -830,7 +1181,7 @@
 {
 "book": "bio12",
 "unit": "01",
-"line": 1084,
+"line": 993,
 "kind": "real",
 "id": "bio12/annual-rings",
 "caption": "Transverse section of a woody dicot stem (*Tilia*), ×40. Each annual ring is one band of wide-vesselled early wood followed by one band of dense late wood.",
@@ -1011,6 +1362,15 @@
 "book": "bio12",
 "unit": "03",
 "line": 988,
+"kind": "real",
+"id": "bio12/roan-cattle",
+"caption": "Codominance in cattle: a roan Shorthorn carries both red and white hairs, because both alleles are fully expressed in the heterozygote.",
+"candidate": false
+},
+{
+"book": "bio12",
+"unit": "03",
+"line": 991,
 "kind": "generated",
 "id": "",
 "caption": "(a) Incomplete dominance in *Mirabilis jalapa*: the F₂ ratio is 1 : 2 : 1. (b) Codominance in cattle: the roan coat carries both kinds of hair.",
@@ -1019,7 +1379,7 @@
 {
 "book": "bio12",
 "unit": "03",
-"line": 1062,
+"line": 1065,
 "kind": "generated",
 "id": "",
 "caption": "Inheritance of the ABO blood groups. A cross between group A and group B heterozygotes can give all four groups.",
@@ -1028,7 +1388,7 @@
 {
 "book": "bio12",
 "unit": "03",
-"line": 1164,
+"line": 1167,
 "kind": "generated",
 "id": "",
 "caption": "Sex determination of the XX–XY type. The father's sperm decides the sex of the child; the expected ratio is 1 girl : 1 boy.",
@@ -1037,7 +1397,7 @@
 {
 "book": "bio12",
 "unit": "03",
-"line": 1257,
+"line": 1260,
 "kind": "generated",
 "id": "",
 "caption": "Pedigree analysis. (a) The standard symbols. (b) An autosomal recessive trait — it skips generations and affects both sexes. (c) An X-linked recessive trait — only males are affected, through carrier ",
@@ -1046,7 +1406,7 @@
 {
 "book": "bio12",
 "unit": "03",
-"line": 1460,
+"line": 1463,
 "kind": "generated",
 "id": "",
 "caption": "Crossing over between two non-sister chromatids of a bivalent. Two chromatids stay parental (AB, ab) and two become recombinant (Ab, aB).",
@@ -1055,7 +1415,7 @@
 {
 "book": "bio12",
 "unit": "03",
-"line": 1637,
+"line": 1640,
 "kind": "generated",
 "id": "",
 "caption": "Structural chromosomal aberrations. The normal chromosome carries the gene order A B C D E F.",
@@ -1074,15 +1434,15 @@
 "book": "bio12",
 "unit": "04",
 "line": 242,
-"kind": "generated",
-"id": "",
-"caption": "Transverse section of a young tetrasporangiate anther, with one microsporangium magnified to show the four wall layers.",
-"candidate": true
+"kind": "real",
+"id": "bio12/anther-lilium",
+"caption": "Transverse section of a young tetrasporangiate anther (*Lilium*). Two thecae, each with two microsporangia (pollen sacs), are joined by a central connective carrying the vascular strand; the sacs are ",
+"candidate": false
 },
 {
 "book": "bio12",
 "unit": "04",
-"line": 342,
+"line": 289,
 "kind": "generated",
 "id": "",
 "caption": "Development of the male gametophyte, from the microspore mother cell to the pollen tube carrying two male gametes.",
@@ -1091,7 +1451,7 @@
 {
 "book": "bio12",
 "unit": "04",
-"line": 451,
+"line": 398,
 "kind": "generated",
 "id": "",
 "caption": "(a) L.S. of an anatropous ovule. (b) The mature 7-celled, 8-nucleate Polygonum-type embryo sac.",
@@ -1100,7 +1460,7 @@
 {
 "book": "bio12",
 "unit": "04",
-"line": 536,
+"line": 483,
 "kind": "generated",
 "id": "",
 "caption": "Megasporogenesis and megagametogenesis: one megaspore mother cell gives the 7-celled, 8-nucleate embryo sac. Degenerating megaspores are shaded grey.",
@@ -1109,7 +1469,7 @@
 {
 "book": "bio12",
 "unit": "04",
-"line": 655,
+"line": 602,
 "kind": "generated",
 "id": "",
 "caption": "Stages in the development of a dicot embryo, as in Capsella bursa-pastoris.",
@@ -1118,7 +1478,7 @@
 {
 "book": "bio12",
 "unit": "04",
-"line": 752,
+"line": 699,
 "kind": "generated",
 "id": "",
 "caption": "(a) A mature dicot embryo inside a bean seed. (b) L.S. of a maize grain, a monocot, showing the scutellum, coleoptile and coleorhiza.",
@@ -1164,33 +1524,51 @@
 "book": "bio12",
 "unit": "05",
 "line": 718,
-"kind": "generated",
-"id": "",
-"caption": "Agarose gel electrophoresis. DNA is negatively charged, so it runs from the cathode towards the anode; small fragments travel furthest. Lane M is a ladder of known sizes.",
+"kind": "real",
+"id": "bio12/gel-uv",
+"caption": "A real agarose gel under ultraviolet light. DNA is negatively charged, so it runs from the cathode (wells, top) towards the anode (bottom); small fragments travel furthest. The ladder lane is a mixtur",
 "candidate": false
 },
 {
 "book": "bio12",
 "unit": "06",
 "line": 55,
-"kind": "generated",
-"id": "",
-"caption": "Simple epithelia in vertical section, as seen under the microscope. All cells touch the basement membrane (gold).",
-"candidate": true
-},
-{
-"book": "bio12",
-"unit": "06",
-"line": 182,
-"kind": "generated",
-"id": "",
-"caption": "Compound epithelia. Transitional epithelium is drawn relaxed and stretched to show why the bladder can fill without tearing.",
+"kind": "real",
+"id": "bio12/squamous-epithelium",
+"caption": "(a) Simple squamous epithelium in surface view (silver-stained whole mount, ×100): thin, flat, polygonal cells fit edge to edge like paving stones, and the silver outlines each boundary.",
 "candidate": false
 },
 {
 "book": "bio12",
 "unit": "06",
-"line": 276,
+"line": 58,
+"kind": "real",
+"id": "bio12/cuboidal-epithelium",
+"caption": "(b) Simple cuboidal epithelium lining kidney tubules (×100): each tube is a single layer of cube-shaped cells with a round central nucleus around an open lumen.",
+"candidate": false
+},
+{
+"book": "bio12",
+"unit": "06",
+"line": 65,
+"kind": "real",
+"id": "bio12/columnar-epithelium",
+"caption": "(c) Simple columnar epithelium with goblet cells (×400): tall cells with basal oval nuclei line the lumen; the pale rounded cells between them are mucus-filled goblet cells.",
+"candidate": false
+},
+{
+"book": "bio12",
+"unit": "06",
+"line": 82,
+"kind": "real",
+"id": "bio12/transitional-epithelium",
+"caption": "Transitional epithelium of the urinary bladder (×100). Several layers of cells with large, rounded surface cells that flatten when the bladder is stretched, which is why the organ can fill without tea",
+"candidate": false
+},
+{
+"book": "bio12",
+"unit": "06",
+"line": 106,
 "kind": "generated",
 "id": "",
 "caption": "Glandular epithelium: a unicellular goblet cell and the two commonest multicellular forms.",
@@ -1199,61 +1577,115 @@
 {
 "book": "bio12",
 "unit": "06",
-"line": 456,
-"kind": "generated",
-"id": "",
-"caption": "Areolar tissue and adipose tissue. In adipose tissue the fat droplet fills the cell and pushes the nucleus to one side.",
-"candidate": true
-},
-{
-"book": "bio12",
-"unit": "06",
-"line": 541,
-"kind": "generated",
-"id": "",
-"caption": "Dense regular connective tissue: a tendon is built of straight white collagen bundles, a ligament of branching yellow elastic fibres.",
+"line": 286,
+"kind": "real",
+"id": "bio12/areolar",
+"caption": "(a) Areolar (loose) connective tissue, spread preparation (×400): a loose meshwork of fibres with scattered cells in a soft ground substance.",
 "candidate": false
 },
 {
 "book": "bio12",
 "unit": "06",
-"line": 619,
-"kind": "generated",
-"id": "",
-"caption": "The three common types of cartilage. Chondrocytes lie in lacunae; what changes between types is the fibre content of the matrix.",
+"line": 295,
+"kind": "real",
+"id": "bio12/adipose",
+"caption": "(b) Adipose tissue (×100). The fat droplet fills each cell and pushes the cytoplasm and nucleus into a thin rim at the edge, so the cells look empty in a stained section.",
 "candidate": false
 },
 {
 "book": "bio12",
 "unit": "06",
-"line": 717,
-"kind": "generated",
-"id": "",
-"caption": "T.S. of mammalian compact bone showing two Haversian systems (osteons). Every osteocyte reaches the central canal through its canaliculi.",
-"candidate": true
+"line": 309,
+"kind": "real",
+"id": "bio12/tendon",
+"caption": "Dense regular connective tissue of a tendon (×400): parallel, wavy bundles of collagen with a few flattened fibroblast nuclei squeezed between them, which gives great strength along one direction. A l",
+"candidate": false
 },
 {
 "book": "bio12",
 "unit": "06",
-"line": 817,
-"kind": "generated",
-"id": "",
-"caption": "The formed elements of mammalian blood, drawn to the same scale. The mammalian red cell has no nucleus; that of the frog and bird does.",
-"candidate": true
+"line": 337,
+"kind": "real",
+"id": "qbank/hyaline-cartilage",
+"caption": "(a) Hyaline cartilage (×100): chondrocytes sit singly or in small groups in lacunae in a smooth, glassy matrix.",
+"candidate": false
 },
 {
 "book": "bio12",
 "unit": "06",
-"line": 956,
-"kind": "generated",
-"id": "",
-"caption": "The three types of muscle. Look for three things in an exam diagram: striations, the shape of the fibre, and the number and position of the nuclei.",
-"candidate": true
+"line": 340,
+"kind": "real",
+"id": "bio12/elastic-cartilage",
+"caption": "(b) Elastic cartilage (×100): the matrix is full of dark-stained elastic fibres, giving flexibility (external ear, epiglottis).",
+"candidate": false
 },
 {
 "book": "bio12",
 "unit": "06",
-"line": 1069,
+"line": 347,
+"kind": "real",
+"id": "bio12/fibrocartilage",
+"caption": "(c) Fibrocartilage (×100): dense bundles of collagen run in rows through the matrix, resisting compression (intervertebral discs, pubic symphysis).",
+"candidate": false
+},
+{
+"book": "bio12",
+"unit": "06",
+"line": 365,
+"kind": "real",
+"id": "bio12/compact-bone",
+"caption": "T.S. of compact bone (ground section, ×100): concentric lamellae surround each central canal to form an osteon (Haversian system). The right-hand copy is the same section with its parts named; every o",
+"candidate": false
+},
+{
+"book": "bio12",
+"unit": "06",
+"line": 403,
+"kind": "real",
+"id": "qbank/blood-leukocytes",
+"caption": "Human blood smear (×400). The many small pink discs without nuclei are red blood cells; the few cells with a dark-stained nucleus are white blood cells. Compare the proportions — red cells outnumber w",
+"candidate": false
+},
+{
+"book": "bio12",
+"unit": "06",
+"line": 453,
+"kind": "real",
+"id": "bio12/skeletal-muscle",
+"caption": "(a) Skeletal muscle in longitudinal section (×400): long, unbranched, cross-striated fibres, each with many nuclei at the edge.",
+"candidate": false
+},
+{
+"book": "bio12",
+"unit": "06",
+"line": 460,
+"kind": "real",
+"id": "bio12/cardiac-discs2",
+"caption": "(b) Cardiac muscle (iron haematoxylin, ×400): short, striated, branching fibres joined end to end — each with one central nucleus — form a continuous network.",
+"candidate": false
+},
+{
+"book": "bio12",
+"unit": "06",
+"line": 463,
+"kind": "real",
+"id": "bio12/smooth-muscle",
+"caption": "(c) Smooth muscle (×400): spindle-shaped, unstriated cells, each with a single central nucleus, lie in overlapping bundles.",
+"candidate": false
+},
+{
+"book": "bio12",
+"unit": "06",
+"line": 489,
+"kind": "real",
+"id": "bio12/sarcomere-tem",
+"caption": "Electron micrograph of a skeletal-muscle fibre in longitudinal section. The dark Z lines mark the ends of each sarcomere; between them the darker A band and paler I band alternate regularly, which is ",
+"candidate": false
+},
+{
+"book": "bio12",
+"unit": "06",
+"line": 492,
 "kind": "generated",
 "id": "",
 "caption": "One sarcomere, the unit between two Z lines. During contraction the filaments do not shorten — the actin slides over the myosin, so the I band and H zone narrow while the A band stays the same length.",
@@ -1262,11 +1694,20 @@
 {
 "book": "bio12",
 "unit": "06",
-"line": 1166,
-"kind": "generated",
-"id": "",
-"caption": "A myelinated motor neuron and an enlarged view of a synapse. The impulse travels dendrite → cyton → axon → synaptic knob, and never the other way.",
-"candidate": true
+"line": 589,
+"kind": "real",
+"id": "bio12/neuron-motor",
+"caption": "A multipolar motor neuron in a spinal-cord smear (×100). The cell body with its large nucleus gives off several branching dendrites; the small dark dots around it are the nuclei of supporting neurogli",
+"candidate": false
+},
+{
+"book": "bio12",
+"unit": "06",
+"line": 598,
+"kind": "real",
+"id": "bio12/synapse",
+"caption": "An enlarged chemical synapse. Transmitter stored in synaptic vesicles is released at the active zone of the presynaptic terminal and binds receptors on the post-synaptic membrane.",
+"candidate": false
 },
 {
 "book": "bio12",
@@ -1308,15 +1749,15 @@
 "book": "bio12",
 "unit": "07",
 "line": 489,
-"kind": "generated",
-"id": "",
-"caption": "Cleavage in the frog, seen from the side with the animal pole uppermost. The third furrow is horizontal and lies above the equator, so the micromeres are smaller than the macromeres.",
-"candidate": true
+"kind": "real",
+"id": "bio12/frog-blastopore",
+"caption": "Cleavage and the start of gastrulation in the frog egg, seen from the side with the animal pole uppermost (stages A to I in order). The furrows cut the pigmented animal half faster than the yolky vege",
+"candidate": false
 },
 {
 "book": "bio12",
 "unit": "07",
-"line": 569,
+"line": 526,
 "kind": "generated",
 "id": "",
 "caption": "V.S. of the frog blastula (coeloblastula). The blastocoel is eccentric — pushed into the animal half by the bulky yolk-laden macromeres.",
@@ -1325,7 +1766,7 @@
 {
 "book": "bio12",
 "unit": "07",
-"line": 632,
+"line": 589,
 "kind": "generated",
 "id": "",
 "caption": "Gastrulation in the frog, in vertical section. The blastocoel is squeezed out as the archenteron grows; the vegetal cells left in the blastopore form the yolk plug.",
@@ -1334,7 +1775,7 @@
 {
 "book": "bio12",
 "unit": "07",
-"line": 759,
+"line": 716,
 "kind": "generated",
 "id": "",
 "caption": "Neurulation in transverse section. The notochord induces the ectoderm above it to fold into the neural tube; the mesoderm splits into somites and lateral plate.",
@@ -1343,16 +1784,16 @@
 {
 "book": "bio12",
 "unit": "07",
-"line": 867,
-"kind": "generated",
-"id": "",
-"caption": "Life history of the frog. The tadpole is a herbivore with gills and a tail; metamorphosis rebuilds it as a carnivore with lungs and legs.",
-"candidate": true
+"line": 824,
+"kind": "real",
+"id": "bio12/frog-metamorph",
+"caption": "Life history of the frog, from tadpole to adult. The tadpole is a herbivore with gills and a tail; metamorphosis rebuilds it as a carnivore with lungs and legs.",
+"candidate": false
 },
 {
 "book": "bio12",
 "unit": "07",
-"line": 956,
+"line": 841,
 "kind": "generated",
 "id": "",
 "caption": "Hormonal control of metamorphosis. Thyroxine drives the change; without iodine the tadpole never becomes a frog.",
@@ -1362,15 +1803,15 @@
 "book": "bio12",
 "unit": "08",
 "line": 44,
-"kind": "generated",
-"id": "",
-"caption": "The human alimentary canal with its associated glands (anterior view; the liver is drawn semi-transparent so the stomach behind it is visible).",
-"candidate": true
+"kind": "real",
+"id": "bio12/alimentary",
+"caption": "The human alimentary canal with its associated glands, anterior view. Numbers 1–11 are the mouth and pharynx region, 12–17 the glands, 18–30 the intestines.",
+"candidate": false
 },
 {
 "book": "bio12",
 "unit": "08",
-"line": 232,
+"line": 116,
 "kind": "generated",
 "id": "",
 "caption": "(a) Vertical section of a human molar. (b) One side of the adult jaws, giving the permanent dental formula $2\\left(\\frac{2\\,1\\,2\\,3}{2\\,1\\,2\\,3}\\right) = 32$.",
@@ -1379,7 +1820,7 @@
 {
 "book": "bio12",
 "unit": "08",
-"line": 416,
+"line": 300,
 "kind": "generated",
 "id": "",
 "caption": "A single intestinal villus. Sugars and amino acids leave in the blood capillaries; fats leave as chylomicrons in the lacteal.",
@@ -1388,7 +1829,16 @@
 {
 "book": "bio12",
 "unit": "08",
-"line": 530,
+"line": 414,
+"kind": "real",
+"id": "bio12/alveoli",
+"caption": "Alveoli in a lung lobule. Each alveolar sac is a cluster of alveoli at the end of an alveolar duct, wrapped in a network of capillaries where gas exchange takes place.",
+"candidate": false
+},
+{
+"book": "bio12",
+"unit": "08",
+"line": 417,
 "kind": "generated",
 "id": "",
 "caption": "The human respiratory tract, with a magnified alveolar sac. The capillary enters blue (deoxygenated, from the pulmonary artery) and leaves red (oxygenated, to the pulmonary vein).",
@@ -1397,7 +1847,7 @@
 {
 "book": "bio12",
 "unit": "08",
-"line": 718,
+"line": 605,
 "kind": "generated",
 "id": "",
 "caption": "A spirometer trace: three quiet breaths, then one maximal inspiration followed by a maximal expiration. Volumes are drawn in colour, capacities (sums of volumes) to the right.",
@@ -1406,16 +1856,16 @@
 {
 "book": "bio12",
 "unit": "08",
-"line": 927,
-"kind": "generated",
-"id": "",
-"caption": "Longitudinal (frontal) section of the human heart. Blue = deoxygenated blood, red = oxygenated. Note the left ventricular wall, about three times thicker than the right.",
-"candidate": true
+"line": 814,
+"kind": "real",
+"id": "bio12/heart-numbered",
+"caption": "Longitudinal (frontal) section of the human heart. Blue = deoxygenated blood, red = oxygenated; arrows show the direction of flow. Note the left ventricular wall, about three times thicker than the ri",
+"candidate": false
 },
 {
 "book": "bio12",
 "unit": "08",
-"line": 1069,
+"line": 853,
 "kind": "generated",
 "id": "",
 "caption": "Double circulation. Blood passes through the heart twice in one complete circuit: once in the pulmonary circuit and once in the systemic circuit.",
@@ -1424,7 +1874,7 @@
 {
 "book": "bio12",
 "unit": "08",
-"line": 1164,
+"line": 948,
 "kind": "generated",
 "id": "",
 "caption": "The cardiac cycle at 72 beats per minute: pressures in the aorta, left ventricle and left atrium, with left-ventricular volume below. AV = atrio-ventricular valve, SL = semilunar valve.",
@@ -1433,7 +1883,7 @@
 {
 "book": "bio12",
 "unit": "08",
-"line": 1265,
+"line": 1049,
 "kind": "generated",
 "id": "",
 "caption": "(a) The conducting system of the heart. (b) A normal ECG: P = atrial depolarisation, QRS = ventricular depolarisation, T = ventricular repolarisation.",
@@ -1442,16 +1892,34 @@
 {
 "book": "bio12",
 "unit": "08",
-"line": 1395,
-"kind": "generated",
-"id": "",
-"caption": "(a) The human urinary system, anterior view. (b) Longitudinal section of a kidney.",
-"candidate": true
+"line": 1179,
+"kind": "real",
+"id": "bio12/urinary-system",
+"caption": "(a) The human urinary system, anterior view: the kidneys make urine, the ureters carry it to the bladder, and the urethra discharges it.",
+"candidate": false
 },
 {
 "book": "bio12",
 "unit": "08",
-"line": 1527,
+"line": 1182,
+"kind": "real",
+"id": "bio12/kidney-gray",
+"caption": "(b) Longitudinal section of a kidney (Gray's Anatomy). The cortex is the outer band; the medulla is everything inside it, built of pyramids whose tips (papillae) open into the pelvis.",
+"candidate": false
+},
+{
+"book": "bio12",
+"unit": "08",
+"line": 1208,
+"kind": "real",
+"id": "bio12/nephron-numbered",
+"caption": "Parts of a nephron and its blood supply. The drawn figure that follows adds the osmolarity gradient of the medulla.",
+"candidate": false
+},
+{
+"book": "bio12",
+"unit": "08",
+"line": 1223,
 "kind": "generated",
 "id": "",
 "caption": "A nephron and its blood supply. Osmolarity of the medullary fluid rises from 300 to 1200 mOsm L$^{-1}$ — the counter-current gradient that lets us make concentrated urine.",
@@ -1460,16 +1928,16 @@
 {
 "book": "bio12",
 "unit": "08",
-"line": 1773,
-"kind": "generated",
-"id": "",
-"caption": "A myelinated motor neuron. The impulse always travels dendrite → cell body → axon → synaptic knob.",
-"candidate": true
+"line": 1469,
+"kind": "real",
+"id": "bio12/neuron-smear",
+"caption": "A motor neuron from the spinal cord (smear, ×400). The large cell body holds a prominent nucleus and gives off several branching dendrites; the small dark nuclei around it belong to neuroglial cells. ",
+"candidate": false
 },
 {
 "book": "bio12",
 "unit": "08",
-"line": 1855,
+"line": 1490,
 "kind": "generated",
 "id": "",
 "caption": "An action potential recorded from a single axon. Resting potential $-70$ mV, threshold $-55$ mV, peak about $+35$ mV.",
@@ -1478,16 +1946,16 @@
 {
 "book": "bio12",
 "unit": "08",
-"line": 1969,
-"kind": "generated",
-"id": "",
+"line": 1604,
+"kind": "real",
+"id": "bio12/brain-sagittal",
 "caption": "The human brain in longitudinal (sagittal) section. Anterior is to the left.",
-"candidate": true
+"candidate": false
 },
 {
 "book": "bio12",
 "unit": "08",
-"line": 2061,
+"line": 1640,
 "kind": "generated",
 "id": "",
 "caption": "A spinal reflex arc (withdrawal of the hand). The impulse reaches the effector without waiting for the brain.",
@@ -1496,25 +1964,25 @@
 {
 "book": "bio12",
 "unit": "08",
-"line": 2173,
-"kind": "generated",
-"id": "",
+"line": 1752,
+"kind": "real",
+"id": "bio12/eye",
 "caption": "Horizontal section of the human eye. Light passes cornea → aqueous humour → pupil → lens → vitreous humour → retina, where it forms a real, inverted, diminished image.",
-"candidate": true
+"candidate": false
 },
 {
 "book": "bio12",
 "unit": "08",
-"line": 2270,
-"kind": "generated",
-"id": "",
+"line": 1809,
+"kind": "real",
+"id": "bio12/ear",
 "caption": "The human ear: outer, middle and inner divisions. The cochlea hears; the semicircular canals and vestibule give balance.",
-"candidate": true
+"candidate": false
 },
 {
 "book": "bio12",
 "unit": "08",
-"line": 2411,
+"line": 1875,
 "kind": "generated",
 "id": "",
 "caption": "The main endocrine glands of the human body. Hypophysis = pituitary.",
@@ -1523,7 +1991,7 @@
 {
 "book": "bio12",
 "unit": "08",
-"line": 2495,
+"line": 1959,
 "kind": "generated",
 "id": "",
 "caption": "The hypothalamo-hypophyseal axis. Left: the two lobes and their two control routes. Right: negative feedback in the thyroid axis — the product switches off its own command.",
@@ -1532,16 +2000,25 @@
 {
 "book": "bio12",
 "unit": "08",
-"line": 2697,
-"kind": "generated",
-"id": "",
-"caption": "The human reproductive systems in front view. (a) Male. (b) Female, with the uterus opened to show the cavity.",
-"candidate": true
+"line": 2161,
+"kind": "real",
+"id": "bio12/male-repro-nci",
+"caption": "The human reproductive systems. (a) Male, sectional side view.",
+"candidate": false
 },
 {
 "book": "bio12",
 "unit": "08",
-"line": 2827,
+"line": 2164,
+"kind": "real",
+"id": "bio12/female-repro",
+"caption": "(b) Female, front view of the pelvic organs.",
+"candidate": false
+},
+{
+"book": "bio12",
+"unit": "08",
+"line": 2189,
 "kind": "generated",
 "id": "",
 "caption": "The 28-day menstrual cycle: pituitary and ovarian hormones, the ovarian events they cause, and the resulting changes in the uterine lining.",
@@ -1587,24 +2064,24 @@
 "book": "bio12",
 "unit": "09",
 "line": 425,
-"kind": "generated",
-"id": "",
-"caption": "Life cycle of *Plasmodium*. Asexual multiplication (schizogony) takes place in the human liver and red blood cells; fertilisation and sporogony take place in the female *Anopheles*, which is therefore",
-"candidate": true
+"kind": "real",
+"id": "bio12/plasmodium-cycle",
+"caption": "Life cycle of *Plasmodium* (CDC). Asexual multiplication (schizogony) takes place in the human liver and red blood cells; fertilisation and sporogony take place in the female *Anopheles*, which is the",
+"candidate": false
 },
 {
 "book": "bio12",
 "unit": "09",
-"line": 500,
-"kind": "generated",
-"id": "",
+"line": 449,
+"kind": "real",
+"id": "bio12/hiv-virion",
 "caption": "Structure of the HIV virion. The gp120–gp41 spike binds CD4; reverse transcriptase copies the viral RNA into DNA, which integrase then inserts into the host chromosome.",
 "candidate": false
 },
 {
 "book": "bio12",
 "unit": "09",
-"line": 546,
+"line": 457,
 "kind": "generated",
 "id": "",
 "caption": "Course of untreated HIV infection. The acute phase is a burst of viraemia; through the long asymptomatic phase the CD4⁺ count falls steadily, and AIDS is defined by a CD4⁺ count below 200 cells mm⁻³.",
@@ -1613,7 +2090,7 @@
 {
 "book": "bio12",
 "unit": "09",
-"line": 612,
+"line": 523,
 "kind": "generated",
 "id": "",
 "caption": "The acquired immune response. An antigen-presenting macrophage activates a helper T cell, which drives the humoral limb (B cells → plasma cells → antibodies) and the cell-mediated limb (cytotoxic T ce",
@@ -1641,15 +2118,15 @@
 "book": "bio12",
 "unit": "10",
 "line": 251,
-"kind": "generated",
-"id": "",
-"caption": "Life cycle of *Bombyx mori*. The commercially important fact is where the cycle is interrupted: the cocoon is harvested and the pupa killed by stifling, because a moth that emerges bites its way out a",
+"kind": "real",
+"id": "bio12/silkworm-cycle",
+"caption": "Life cycle of the silkworm *Bombyx mori*, from an old plate, with its printed legend. The commercially important fact is where the cycle is interrupted: the cocoon is harvested and the pupa killed by ",
 "candidate": false
 },
 {
 "book": "bio12",
 "unit": "10",
-"line": 321,
+"line": 272,
 "kind": "real",
 "id": "bio12/silkworm-cocoon",
 "caption": "An adult *Bombyx mori* moth on a cocoon. This is the stage sericulture prevents from ever happening: a moth that completes its development bites its way out, and the single filament of that cocoon is ",
@@ -1658,7 +2135,52 @@
 {
 "book": "bio12",
 "unit": "10",
-"line": 431,
+"line": 382,
+"kind": "real",
+"id": "bio12/fish-catla",
+"caption": "Catla (*Labeo catla*) — a surface feeder on zooplankton; the deep, broad head carries an upturned mouth.",
+"candidate": false
+},
+{
+"book": "bio12",
+"unit": "10",
+"line": 385,
+"kind": "real",
+"id": "bio12/fish-silver-carp",
+"caption": "Silver carp (*Hypophthalmichthys molitrix*) — a surface feeder on phytoplankton.",
+"candidate": false
+},
+{
+"book": "bio12",
+"unit": "10",
+"line": 388,
+"kind": "real",
+"id": "bio12/fish-rohu",
+"caption": "Rohu (*Labeo rohita*) — a column feeder, shown here as market fish.",
+"candidate": false
+},
+{
+"book": "bio12",
+"unit": "10",
+"line": 391,
+"kind": "real",
+"id": "bio12/fish-grass-carp",
+"caption": "Grass carp (*Ctenopharyngodon idella*) — a herbivore that eats aquatic weeds and cut grass.",
+"candidate": false
+},
+{
+"book": "bio12",
+"unit": "10",
+"line": 394,
+"kind": "real",
+"id": "bio12/fish-mrigal",
+"caption": "Mrigal (*Cirrhinus mrigala*) — a bottom feeder on detritus and decaying matter (engraving).",
+"candidate": false
+},
+{
+"book": "bio12",
+"unit": "10",
+"line": 397,
 "kind": "generated",
 "id": "",
 "caption": "Composite fish culture. Six species are stocked together because each feeds in a different part of the pond, so the whole standing crop of food is harvested instead of one layer of it.",
@@ -1667,7 +2189,7 @@
 {
 "book": "bio12",
 "unit": "10",
-"line": 629,
+"line": 595,
 "kind": "generated",
 "id": "",
 "caption": "Two Nepali livestock statistics an examiner may ask you to interpret (MoALD 2081/82). Left: buffalo supply more milk than all cattle. Right: farmed fish now outweigh wild-caught fish by more than five",
@@ -1676,7 +2198,7 @@
 {
 "book": "bio12",
 "unit": "10",
-"line": 679,
+"line": 645,
 "kind": "generated",
 "id": "",
 "caption": "The three ecological groups of earthworms. Vermicomposting uses epigeic species only: they live in the litter layer itself, which is exactly what a worm bed is.",
@@ -1685,7 +2207,7 @@
 {
 "book": "bio12",
 "unit": "10",
-"line": 736,
+"line": 702,
 "kind": "real",
 "id": "bio12/vermicompost",
 "caption": "*Eisenia fetida* massed on the rim and walls of a compost bin. Epigeic worms live in the surface litter and not in deep burrows, so when the bed turns against them — waterlogged, too acid, too hot — t",
@@ -1694,7 +2216,7 @@
 {
 "book": "bio12",
 "unit": "10",
-"line": 954,
+"line": 920,
 "kind": "real",
 "id": "bio12/afb-sputum",
 "caption": "Sputum smear stained by the Ziehl–Neelsen method. Every red rod is an acid-fast bacillus; everything that is not a mycobacterium has been decolourised and has taken only the blue counterstain.",
@@ -1703,7 +2225,7 @@
 {
 "book": "bio12",
 "unit": "10",
-"line": 998,
+"line": 964,
 "kind": "generated",
 "id": "",
 "caption": "Primary and secondary antibody responses to the same antigen. The secondary response is faster, far larger, longer-lasting and dominated by IgG — the reason a vaccine protects and a booster dose is gi",
@@ -1712,7 +2234,7 @@
 {
 "book": "bio12",
 "unit": "10",
-"line": 1098,
+"line": 1064,
 "kind": "generated",
 "id": "",
 "caption": "Where antibiotics attack. Every target is a structure or pathway that bacteria have and human cells do not — which is what makes an antibiotic selectively toxic, and why none of these targets exists i",
@@ -1721,7 +2243,16 @@
 {
 "book": "bio12",
 "unit": "10",
-"line": 1234,
+"line": 1200,
+"kind": "real",
+"id": "bio12/aeration-tank",
+"caption": "An aeration tank in a working sewage treatment plant (Bengaluru, India). Air is bubbled through the sewage so that the flocs of bacteria and fungi in it can consume the organic matter — the secondary ",
+"candidate": false
+},
+{
+"book": "bio12",
+"unit": "10",
+"line": 1203,
 "kind": "generated",
 "id": "",
 "caption": "Sewage treatment. Primary treatment is purely physical; it is the secondary stage — an aeration tank full of flocs of bacteria and fungi — that actually consumes the organic matter and cuts the BOD by",
@@ -2008,6 +2539,24 @@
 },
 {
 "book": "chem11",
+"unit": "07",
+"line": 643,
+"kind": "real",
+"id": "chem11/nacl-cell",
+"caption": "A ball-and-stick model of the sodium chloride unit cell: each ion sits at the centre of an octahedron of six ions of the opposite charge (6 : 6 coordination).",
+"candidate": false
+},
+{
+"book": "chem11",
+"unit": "07",
+"line": 646,
+"kind": "real",
+"id": "chem11/halite-crystal",
+"caption": "A crystal of halite (rock salt, NaCl). Its cube-like faces and cleavage planes reflect the face-centred cubic arrangement of the ions inside.",
+"candidate": false
+},
+{
+"book": "chem11",
 "unit": "08",
 "line": 58,
 "kind": "generated",
@@ -2089,8 +2638,71 @@
 },
 {
 "book": "chem11",
+"unit": "09",
+"line": 1057,
+"kind": "real",
+"id": "chem11/kipp",
+"caption": "A glass Kipp's apparatus. Solid sits in the middle bulb, acid is fed from the top reservoir, and the tap at the side draws off the gas.",
+"candidate": false
+},
+{
+"book": "chem11",
 "unit": "10",
-"line": 126,
+"line": 73,
+"kind": "real",
+"id": "chem11/bauxite",
+"caption": "Bauxite, Al₂O₃·2H₂O — the ore of aluminium, a pale, pea-like (pisolitic) rock.",
+"candidate": false
+},
+{
+"book": "chem11",
+"unit": "10",
+"line": 76,
+"kind": "real",
+"id": "chem11/cryolite",
+"caption": "Cryolite, Na₃AlF₆ — used as the solvent for alumina in the Hall–Héroult cell.",
+"candidate": false
+},
+{
+"book": "chem11",
+"unit": "10",
+"line": 79,
+"kind": "real",
+"id": "chem11/haematite",
+"caption": "Haematite, Fe₂O₃ — the chief ore of iron.",
+"candidate": false
+},
+{
+"book": "chem11",
+"unit": "10",
+"line": 82,
+"kind": "real",
+"id": "chem11/chalcopyrite",
+"caption": "Copper pyrites (chalcopyrite), CuFeS₂ — with its brassy yellow colour and iridescent tarnish.",
+"candidate": false
+},
+{
+"book": "chem11",
+"unit": "10",
+"line": 85,
+"kind": "real",
+"id": "chem11/sphalerite",
+"caption": "Zinc blende (sphalerite), ZnS — the main ore of zinc.",
+"candidate": false
+},
+{
+"book": "chem11",
+"unit": "10",
+"line": 88,
+"kind": "real",
+"id": "chem11/galena-ore",
+"caption": "Galena, PbS — the ore of lead, with bright metallic cubic crystals.",
+"candidate": false
+},
+{
+"book": "chem11",
+"unit": "10",
+"line": 144,
 "kind": "generated",
 "id": "",
 "caption": "Froth flotation cell. Sulphide particles wetted by pine oil ride up on the air bubbles; the water-wetted gangue sinks.",
@@ -2099,7 +2711,16 @@
 {
 "book": "chem11",
 "unit": "10",
-"line": 249,
+"line": 195,
+"kind": "real",
+"id": "chem11/flotation",
+"caption": "A row of flotation cells in a concentrator: the froth carrying the mineral overflows into the launders while the gangue stays in the pulp.",
+"candidate": false
+},
+{
+"book": "chem11",
+"unit": "10",
+"line": 270,
 "kind": "generated",
 "id": "",
 "caption": "Vertical section of a blast furnace showing the five temperature zones and the main reaction in each.",
@@ -2108,7 +2729,16 @@
 {
 "book": "chem11",
 "unit": "10",
-"line": 378,
+"line": 329,
+"kind": "real",
+"id": "chem11/blast-furnace",
+"caption": "A blast furnace on the outside: the tall shaft, the hot-blast stoves and chimneys beside it, and the conveyor that charges ore, coke and limestone at the top (Duisburg, Germany; preserved plant).",
+"candidate": false
+},
+{
+"book": "chem11",
+"unit": "10",
+"line": 402,
 "kind": "generated",
 "id": "",
 "caption": "Electrolytic refining of copper. Copper dissolves from the impure anode and plates out on the pure cathode; Ag, Au and Pt collect as anode mud.",
@@ -2117,7 +2747,16 @@
 {
 "book": "chem11",
 "unit": "10",
-"line": 531,
+"line": 520,
+"kind": "real",
+"id": "chem11/flame-colours",
+"caption": "Flame colours of metal salts burning in methanol: each metal ion gives its own colour because its electrons fall between its own energy levels.",
+"candidate": false
+},
+{
+"book": "chem11",
+"unit": "10",
+"line": 558,
 "kind": "generated",
 "id": "",
 "caption": "Vertical section of the Down's cell for sodium. The steel gauze diaphragm keeps molten sodium and chlorine apart.",
@@ -2126,7 +2765,7 @@
 {
 "book": "chem11",
 "unit": "10",
-"line": 779,
+"line": 806,
 "kind": "generated",
 "id": "",
 "caption": "Solubility at 298 K of the group 2 hydroxides and sulphates. The two trends run in opposite directions; note the logarithmic scale.",
@@ -2495,7 +3134,16 @@
 {
 "book": "chem12",
 "unit": "01",
-"line": 450,
+"line": 147,
+"kind": "real",
+"id": "chem12/volflask",
+"caption": "A 500 cm³ volumetric flask: the single mark on the narrow neck is the volume it is calibrated to contain.",
+"candidate": false
+},
+{
+"book": "chem12",
+"unit": "01",
+"line": 453,
 "kind": "generated",
 "id": "",
 "caption": "Reading a burette. The eye must be level with the bottom of the meniscus; a high or low eye introduces a parallax error of a few tenths of a cm³.",
@@ -2504,7 +3152,7 @@
 {
 "book": "chem12",
 "unit": "01",
-"line": 514,
+"line": 517,
 "kind": "generated",
 "id": "",
 "caption": "Titration of $25.0$ cm³ of $0.1$ M HCl with $0.1$ M NaOH. The pH leaps through more than six units on the addition of one drop, so both indicator ranges (shaded) lie inside the jump and either indicat",
@@ -2513,7 +3161,7 @@
 {
 "book": "chem12",
 "unit": "01",
-"line": 550,
+"line": 553,
 "kind": "generated",
 "id": "",
 "caption": "Titration of $25.0$ cm³ of $0.05$ M Na₂CO₃ with $0.1$ M HCl, computed from the acid dissociation constants of carbonic acid. Two end points appear, one inside each indicator range.",
@@ -2684,7 +3332,16 @@
 {
 "book": "chem12",
 "unit": "05",
-"line": 336,
+"line": 286,
+"kind": "real",
+"id": "chem12/daniell",
+"caption": "A Daniell cell set up in the laboratory: zinc in ZnSO₄ (left beaker) and copper in blue CuSO₄ (right beaker), joined through a voltmeter that reads about 1.07 V.",
+"candidate": false
+},
+{
+"book": "chem12",
+"unit": "05",
+"line": 339,
 "kind": "generated",
 "id": "",
 "caption": "An electrolytic cell for molten sodium chloride. The battery forces electrons on to the cathode, where Na⁺ is reduced, and pulls them from the anode, where Cl⁻ is oxidised. Here the cathode is negativ",
@@ -2693,11 +3350,20 @@
 {
 "book": "chem12",
 "unit": "05",
-"line": 590,
+"line": 593,
 "kind": "generated",
 "id": "",
 "caption": "The hydrogen–oxygen fuel cell. Hydrogen and oxygen are fed continuously to porous carbon electrodes containing a finely divided platinum catalyst; the only product is water, and $E^{\\circ}_{cell} = 1.",
 "candidate": true
+},
+{
+"book": "chem12",
+"unit": "05",
+"line": 644,
+"kind": "real",
+"id": "chem12/fuel-cell-stack",
+"caption": "The fuel-cell stack (grey case, centre) of a hydrogen car, beside its hydrogen tank. Hundreds of cells like the one above are stacked in series to give a useful voltage.",
+"candidate": false
 },
 {
 "book": "chem12",
@@ -2743,6 +3409,24 @@
 "id": "",
 "caption": "Colours of some common aqueous transition-metal species. Sc³⁺ (3d⁰) and Zn²⁺ (3d¹⁰) have no possible d–d transition and are colourless; the permanganate and dichromate colours come from charge transfe",
 "candidate": true
+},
+{
+"book": "chem12",
+"unit": "06",
+"line": 456,
+"kind": "real",
+"id": "chem12/tm-colours",
+"caption": "Solutions of transition-metal compounds span the whole visible spectrum — the colour comes from d–d transitions in the hydrated or complexed ion.",
+"candidate": false
+},
+{
+"book": "chem12",
+"unit": "06",
+"line": 459,
+"kind": "real",
+"id": "chem12/cuso4",
+"caption": "Hydrated copper(II) sulfate, CuSO₄·5H₂O: the blue crystals owe their colour to the [Cu(H₂O)₄]²⁺ unit.",
+"candidate": false
 },
 {
 "book": "chem12",
@@ -3215,7 +3899,16 @@
 {
 "book": "chem12",
 "unit": "19",
-"line": 181,
+"line": 144,
+"kind": "real",
+"id": "chem12/kiln",
+"caption": "The rotary kiln of a cement works: a long steel cylinder, slightly inclined, that turns slowly while the charge moves down through the hot zone.",
+"candidate": false
+},
+{
+"book": "chem12",
+"unit": "19",
+"line": 184,
 "kind": "generated",
 "id": "",
 "caption": "Typical composition of ordinary Portland cement and the heat of hydration of each Bogue compound. C₃S gives early strength, C₂S later strength, and C₃A most of the heat.",
@@ -3224,7 +3917,7 @@
 {
 "book": "chem12",
 "unit": "19",
-"line": 298,
+"line": 301,
 "kind": "generated",
 "id": "",
 "caption": "Flow sheet for the manufacture of Portland cement by the dry process.",
@@ -3323,7 +4016,25 @@
 {
 "book": "cs11",
 "unit": "01",
-"line": 457,
+"line": 433,
+"kind": "real",
+"id": "cs11/motherboard-bare",
+"caption": "A bare PC motherboard. The processor socket (centre), the memory slots and the expansion slots are all joined by the copper tracks that make up the buses.",
+"candidate": false
+},
+{
+"book": "cs11",
+"unit": "01",
+"line": 436,
+"kind": "real",
+"id": "cs11/cpu-i7",
+"caption": "Both faces of a desktop microprocessor: the metal lid that carries the name (left) and the array of contacts that plug into the socket (right).",
+"candidate": false
+},
+{
+"book": "cs11",
+"unit": "01",
+"line": 463,
 "kind": "generated",
 "id": "",
 "caption": "The memory hierarchy. Moving down, capacity and cost per byte improve while speed falls by roughly a factor of ten at each step.",
@@ -3332,7 +4043,16 @@
 {
 "book": "cs11",
 "unit": "01",
-"line": 539,
+"line": 494,
+"kind": "real",
+"id": "cs11/ram",
+"caption": "A DDR4 RAM module: the memory chips sit on a small circuit board that plugs into a slot on the motherboard.",
+"candidate": false
+},
+{
+"book": "cs11",
+"unit": "01",
+"line": 548,
 "kind": "generated",
 "id": "",
 "caption": "Surface geometry of a magnetic (hard) disk: concentric tracks divided into sectors, and the read/write head on its access arm. Aligned tracks on all platters form a cylinder.",
@@ -3341,7 +4061,25 @@
 {
 "book": "cs11",
 "unit": "01",
-"line": 606,
+"line": 585,
+"kind": "real",
+"id": "cs11/hdd-platter",
+"caption": "A hard disk with its cover removed: the shiny disc is the platter and the arm swinging over it carries the read/write head.",
+"candidate": false
+},
+{
+"book": "cs11",
+"unit": "01",
+"line": 588,
+"kind": "real",
+"id": "cs11/hdd-actuator",
+"caption": "The actuator arm of a hard disk, ending in the tiny read/write head that floats just above the platter.",
+"candidate": false
+},
+{
+"book": "cs11",
+"unit": "01",
+"line": 621,
 "kind": "generated",
 "id": "",
 "caption": "Typical capacities of storage media, on a logarithmic scale — each grid step is a factor of ten. Figures are the common maximum for each medium as of 2026.",
@@ -3350,10 +4088,37 @@
 {
 "book": "cs11",
 "unit": "01",
-"line": 699,
+"line": 637,
+"kind": "real",
+"id": "cs11/ssd",
+"caption": "An M.2 NVMe solid-state drive: flash chips on a small board, with no moving parts.",
+"candidate": false
+},
+{
+"book": "cs11",
+"unit": "01",
+"line": 640,
+"kind": "real",
+"id": "cs11/tape",
+"caption": "Magnetic tape media: an LTO data cartridge (top left) and other tape cartridges, still used for archives and backups.",
+"candidate": false
+},
+{
+"book": "cs11",
+"unit": "01",
+"line": 720,
 "kind": "generated",
 "id": "",
 "caption": "Common connectors on the back panel of a desktop computer, drawn to relative scale, with the shape by which each is recognised.",
+"candidate": false
+},
+{
+"book": "cs11",
+"unit": "01",
+"line": 768,
+"kind": "real",
+"id": "cs11/usbc",
+"caption": "A USB Type-C port beside a USB-A port on the side of a laptop.",
 "candidate": false
 },
 {
@@ -3908,7 +4673,34 @@
 {
 "book": "cs12",
 "unit": "02",
-"line": 310,
+"line": 258,
+"kind": "real",
+"id": "cs12/rj45",
+"caption": "An RJ45 plug on a twisted-pair Ethernet cable, the most common guided medium in a LAN.",
+"candidate": false
+},
+{
+"book": "cs12",
+"unit": "02",
+"line": 261,
+"kind": "real",
+"id": "cs12/coax",
+"caption": "A coaxial cable stripped back to show the central conductor, insulation, braided shield and outer jacket.",
+"candidate": false
+},
+{
+"book": "cs12",
+"unit": "02",
+"line": 264,
+"kind": "real",
+"id": "cs12/fibre",
+"caption": "An optical-fibre patch cable (yellow) terminated with duplex connectors.",
+"candidate": false
+},
+{
+"book": "cs12",
+"unit": "02",
+"line": 319,
 "kind": "generated",
 "id": "",
 "caption": "Client–server: all shared resources sit on a dedicated server. Peer-to-peer: every computer is both client and server to the others.",
@@ -3917,7 +4709,7 @@
 {
 "book": "cs12",
 "unit": "02",
-"line": 395,
+"line": 404,
 "kind": "generated",
 "id": "",
 "caption": "A small campus network. The NIC attaches each host, a switch forms the LAN, the router joins two networks, and the modem converts the LAN's digital data for the ISP's line.",
@@ -3926,7 +4718,52 @@
 {
 "book": "cs12",
 "unit": "02",
-"line": 455,
+"line": 444,
+"kind": "real",
+"id": "cs12/nic",
+"caption": "A network interface card (NIC) for a PCI slot, with its RJ45 socket at the left edge.",
+"candidate": false
+},
+{
+"book": "cs12",
+"unit": "02",
+"line": 447,
+"kind": "real",
+"id": "cs12/hub",
+"caption": "An 8-port Ethernet hub or switch seen from the front: every computer's cable ends in one of these sockets.",
+"candidate": false
+},
+{
+"book": "cs12",
+"unit": "02",
+"line": 450,
+"kind": "real",
+"id": "cs12/switch",
+"caption": "A small five-port Ethernet switch with two cables plugged in.",
+"candidate": false
+},
+{
+"book": "cs12",
+"unit": "02",
+"line": 453,
+"kind": "real",
+"id": "cs12/router",
+"caption": "A home Wi-Fi router with its external antennae.",
+"candidate": false
+},
+{
+"book": "cs12",
+"unit": "02",
+"line": 456,
+"kind": "real",
+"id": "cs12/modem",
+"caption": "A modem: it converts the digital signals of the computer to and from the form the line carries.",
+"candidate": false
+},
+{
+"book": "cs12",
+"unit": "02",
+"line": 479,
 "kind": "generated",
 "id": "",
 "caption": "The three basic topologies. Bus: one shared backbone with terminators. Star: every node to a central switch. Ring: each node to the next, closing a loop.",
@@ -3935,7 +4772,16 @@
 {
 "book": "cs12",
 "unit": "02",
-"line": 515,
+"line": 539,
+"kind": "real",
+"id": "cs12/server-racks",
+"caption": "Rack-mounted servers and network equipment in a server room: the cables behind them follow the star pattern of the topology above.",
+"candidate": false
+},
+{
+"book": "cs12",
+"unit": "02",
+"line": 542,
 "kind": "generated",
 "id": "",
 "caption": "Three further topologies. Mesh: every node linked to every other. Tree: stars joined into a hierarchy. Hybrid: a mixture — here a star of a bus, a ring and a star.",
@@ -3944,7 +4790,7 @@
 {
 "book": "cs12",
 "unit": "02",
-"line": 620,
+"line": 647,
 "kind": "generated",
 "id": "",
 "caption": "The seven-layer OSI model beside the four-layer TCP/IP model, with the unit of data (PDU) and an example protocol at each level.",
@@ -3953,7 +4799,7 @@
 {
 "book": "cs12",
 "unit": "02",
-"line": 689,
+"line": 716,
 "kind": "generated",
 "id": "",
 "caption": "IPv4 address classes. The leading bits fix the class, which fixes how many octets are network and how many are host.",
@@ -10280,7 +11126,25 @@
 {
 "book": "phy11",
 "unit": "01",
-"line": 521,
+"line": 136,
+"kind": "real",
+"id": "phy11/vernier",
+"caption": "A vernier calliper. The jaws on the left grip the object; the sliding vernier scale beside the fixed main scale gives the fractional millimetre.",
+"candidate": false
+},
+{
+"book": "phy11",
+"unit": "01",
+"line": 139,
+"kind": "real",
+"id": "phy11/micrometer",
+"caption": "A micrometer screw gauge. The object is held between the anvil and the spindle; the thimble (circular scale) is turned until the ratchet clicks.",
+"candidate": false
+},
+{
+"book": "phy11",
+"unit": "01",
+"line": 527,
 "kind": "generated",
 "id": "",
 "caption": "Testing the dimensional prediction $T \\propto \\sqrt{l}$ for a simple pendulum. The $T^2$ against $l$ graph is a straight line through the origin of slope $4\\pi^2/g$.",
@@ -10928,7 +11792,16 @@
 {
 "book": "phy11",
 "unit": "18",
-"line": 266,
+"line": 229,
+"kind": "real",
+"id": "phy12/spectroscope",
+"caption": "An old brass prism spectroscope: the collimator (with slit) on the right sends a parallel beam to the prism on the central table, and the telescope on the left views the spectrum.",
+"candidate": false
+},
+{
+"book": "phy11",
+"unit": "18",
+"line": 269,
 "kind": "generated",
 "id": "",
 "caption": "Chromatic aberration. A converging lens brings violet to a focus at $F_V$ and red at $F_R$; the separation $f_R - f_V$ is the longitudinal chromatic aberration.",
@@ -10937,7 +11810,7 @@
 {
 "book": "phy11",
 "unit": "18",
-"line": 383,
+"line": 386,
 "kind": "generated",
 "id": "",
 "caption": "Spherical aberration. Marginal rays cross the axis at $F_M$, paraxial rays at $F_P$. The narrowest waist between them is the circle of least confusion.",
@@ -10946,7 +11819,7 @@
 {
 "book": "phy11",
 "unit": "18",
-"line": 530,
+"line": 533,
 "kind": "generated",
 "id": "",
 "caption": "Achromatic doublet: a strong crown-glass convex lens cemented to a weaker flint-glass concave lens. The dispersion of the second cancels that of the first, so red and violet meet at the same focus $F$",
@@ -10964,7 +11837,16 @@
 {
 "book": "phy11",
 "unit": "19",
-"line": 150,
+"line": 121,
+"kind": "real",
+"id": "phy11/electroscope",
+"caption": "A gold-leaf electroscope: the brass disc on top, the rod, and the leaves hanging inside the glass case.",
+"candidate": false
+},
+{
+"book": "phy11",
+"unit": "19",
+"line": 153,
 "kind": "generated",
 "id": "",
 "caption": "Charging a metal sphere positively by induction with a negatively charged rod. The sphere ends up with a charge opposite to that of the rod, and the rod itself loses nothing.",
@@ -10973,7 +11855,7 @@
 {
 "book": "phy11",
 "unit": "19",
-"line": 246,
+"line": 249,
 "kind": "generated",
 "id": "",
 "caption": "Coulomb forces are equal, opposite and directed along the line joining the charges — outwards for like charges, inwards for unlike charges.",
@@ -10982,7 +11864,7 @@
 {
 "book": "phy11",
 "unit": "19",
-"line": 388,
+"line": 391,
 "kind": "generated",
 "id": "",
 "caption": "Superposition. The two Coulomb forces on $q_1$ are combined by the parallelogram law; for three equal charges at the corners of an equilateral triangle the resultant is $\\sqrt{3}F$ directed away from ",
@@ -11270,7 +12152,16 @@
 {
 "book": "phy11",
 "unit": "26",
-"line": 287,
+"line": 238,
+"kind": "real",
+"id": "phy11/hudf",
+"caption": "The Hubble Ultra Deep Field: almost every smear and speck in this small patch of sky is an entire galaxy, each receding from us.",
+"candidate": false
+},
+{
+"book": "phy11",
+"unit": "26",
+"line": 290,
 "kind": "generated",
 "id": "",
 "caption": "Energy content of the present universe (Planck 2018 values). Everything ever seen with a telescope is the 5% slice.",
@@ -11279,7 +12170,16 @@
 {
 "book": "phy11",
 "unit": "26",
-"line": 350,
+"line": 302,
+"kind": "real",
+"id": "phy11/cmb",
+"caption": "The cosmic microwave background as mapped by ESA's Planck satellite. Blue and red patches differ by only about one part in 100 000 in temperature; they are the seeds of today's galaxies.",
+"candidate": false
+},
+{
+"book": "phy11",
+"unit": "26",
+"line": 356,
 "kind": "generated",
 "id": "",
 "caption": "Rotation curve of a spiral galaxy. The flat measured curve needs far more mass than the visible matter can supply.",
@@ -11288,7 +12188,16 @@
 {
 "book": "phy11",
 "unit": "26",
-"line": 480,
+"line": 374,
+"kind": "real",
+"id": "phy11/andromeda",
+"caption": "The Andromeda Galaxy (M31), our nearest large spiral. Its outer stars orbit far faster than the visible matter alone can explain.",
+"candidate": false
+},
+{
+"book": "phy11",
+"unit": "26",
+"line": 489,
 "kind": "generated",
 "id": "",
 "caption": "A LIGO detector: a Michelson interferometer with 4 km arms. A passing wave lengthens one arm and shortens the other, shifting the interference pattern at the photodetector.",
@@ -11809,6 +12718,15 @@
 },
 {
 "book": "phy12",
+"unit": "14",
+"line": 545,
+"kind": "real",
+"id": "phy12/galvanometer",
+"caption": "A moving-coil galvanometer from the early 20th century: the coil hangs between the poles of the permanent magnet and turns a pointer over a scale.",
+"candidate": false
+},
+{
+"book": "phy12",
 "unit": "15",
 "line": 44,
 "kind": "generated",
@@ -12044,7 +12962,16 @@
 {
 "book": "phy12",
 "unit": "20",
-"line": 144,
+"line": 101,
+"kind": "real",
+"id": "phy12/millikan",
+"caption": "The viewing microscope of a Millikan oil-drop apparatus (teaching model). The drop is watched between the charged plates through this eyepiece.",
+"candidate": false
+},
+{
+"book": "phy12",
+"unit": "20",
+"line": 147,
 "kind": "generated",
 "id": "",
 "caption": "Charges measured on successive drops. Every value falls on a line $q = ne$ with $e = 1.6\\\\times10^{-19}$ C; no drop ever carries a fraction of $e$.",
@@ -12053,7 +12980,7 @@
 {
 "book": "phy12",
 "unit": "20",
-"line": 236,
+"line": 239,
 "kind": "generated",
 "id": "",
 "caption": "An electron beam in a transverse electric field follows a parabola (left); in a transverse magnetic field it follows a circular arc of radius $r = mv/eB$ (right).",
@@ -12062,11 +12989,20 @@
 {
 "book": "phy12",
 "unit": "20",
-"line": 336,
+"line": 339,
 "kind": "generated",
 "id": "",
 "caption": "Thomson's apparatus. The beam is accelerated, collimated, then passed through crossed electric and magnetic fields; the spot position is read on the fluorescent screen.",
 "candidate": true
+},
+{
+"book": "phy12",
+"unit": "20",
+"line": 376,
+"kind": "real",
+"id": "phy12/thomson",
+"caption": "J. J. Thomson at work with a cathode-ray tube (colourised photograph).",
+"candidate": false
 },
 {
 "book": "phy12",
@@ -12242,7 +13178,16 @@
 {
 "book": "phy12",
 "unit": "25",
-"line": 125,
+"line": 85,
+"kind": "real",
+"id": "phy12/seismogram",
+"caption": "A paper seismogram: each trace is the ground motion recorded at a seismometer. The large, jagged oscillations that follow the first small ones are the arrival of the stronger S and surface waves.",
+"candidate": false
+},
+{
+"book": "phy12",
+"unit": "25",
+"line": 128,
 "kind": "generated",
 "id": "",
 "caption": "Shape of a seismogram close to the 2015 Gorkha epicentre. The small, fast P arrival is followed by the larger S waves, and then by long-period surface waves. Kathmandu's soft basin sediments amplified",
@@ -12251,7 +13196,7 @@
 {
 "book": "phy12",
 "unit": "25",
-"line": 253,
+"line": 256,
 "kind": "generated",
 "id": "",
 "caption": "Model of the GW150914 chirp. As the two black holes spiral in, the frequency and amplitude rise together (inspiral), peak at the merger, and then decay as the new black hole settles down (ringdown).",
@@ -12260,7 +13205,7 @@
 {
 "book": "phy12",
 "unit": "25",
-"line": 306,
+"line": 309,
 "kind": "generated",
 "id": "",
 "caption": "The nanoscale in context. The shaded band from 1 nm to 100 nm is the working range of nanotechnology — larger than single atoms, smaller than the wavelength of visible light.",
@@ -12278,7 +13223,25 @@
 {
 "book": "qbank11",
 "unit": "02",
-"line": 130,
+"line": 36,
+"kind": "real",
+"id": "phy11/vernier",
+"caption": "A vernier calliper, the instrument behind most least-count questions: the main scale is on the fixed jaw and the vernier scale slides along it.",
+"candidate": false
+},
+{
+"book": "qbank11",
+"unit": "02",
+"line": 39,
+"kind": "real",
+"id": "phy11/micrometer",
+"caption": "A micrometer screw gauge. The sleeve gives the main-scale reading and the rotating thimble gives the fractions of a division.",
+"candidate": false
+},
+{
+"book": "qbank11",
+"unit": "02",
+"line": 136,
 "kind": "generated",
 "id": "",
 "caption": "Velocity–time graph for question 1 of section 2.3. The displacement is the total area under the graph.",
@@ -12287,7 +13250,7 @@
 {
 "book": "qbank11",
 "unit": "02",
-"line": 198,
+"line": 204,
 "kind": "generated",
 "id": "",
 "caption": "Free-body diagram of a block on the point of sliding down a rough incline (question 5 of section 2.4).",
@@ -12296,7 +13259,7 @@
 {
 "book": "qbank11",
 "unit": "02",
-"line": 642,
+"line": 648,
 "kind": "generated",
 "id": "",
 "caption": "Concave mirror with the object between the centre of curvature C and the focus F. The image is real, inverted, magnified and lies beyond C.",
@@ -12305,7 +13268,16 @@
 {
 "book": "qbank11",
 "unit": "02",
-"line": 1034,
+"line": 870,
+"kind": "real",
+"id": "phy11/electroscope",
+"caption": "A gold-leaf electroscope. A charged body brought near the cap makes the two leaves repel and diverge.",
+"candidate": false
+},
+{
+"book": "qbank11",
+"unit": "02",
+"line": 1043,
 "kind": "generated",
 "id": "",
 "caption": "Resistor network for question 6 of section 2.23: a 2 ohm resistor in series with a parallel pair of 3 ohm and 6 ohm.",
@@ -12314,10 +13286,64 @@
 {
 "book": "qbank11",
 "unit": "02",
-"line": 1146,
+"line": 1155,
 "kind": "generated",
 "id": "",
 "caption": "Energy-band picture of a conductor, a semiconductor and an insulator. The width of the forbidden gap is what decides the electrical behaviour.",
+"candidate": false
+},
+{
+"book": "qbank11",
+"unit": "05",
+"line": 90,
+"kind": "real",
+"id": "chem11/flame-colours",
+"caption": "Flame colours of different metal salts. The colour is the emission spectrum of the excited electrons of the metal ion.",
+"candidate": false
+},
+{
+"book": "qbank11",
+"unit": "05",
+"line": 163,
+"kind": "real",
+"id": "chem11/halite-crystal",
+"caption": "A crystal of halite (rock salt, NaCl), a typical ionic solid.",
+"candidate": false
+},
+{
+"book": "qbank11",
+"unit": "05",
+"line": 305,
+"kind": "real",
+"id": "chem11/kipp",
+"caption": "A Kipp's apparatus, used in the laboratory to prepare gases such as hydrogen and carbon dioxide on demand.",
+"candidate": false
+},
+{
+"book": "qbank11",
+"unit": "05",
+"line": 349,
+"kind": "real",
+"id": "chem11/haematite",
+"caption": "Haematite, the chief ore of iron.",
+"candidate": false
+},
+{
+"book": "qbank11",
+"unit": "05",
+"line": 352,
+"kind": "real",
+"id": "chem11/malachite",
+"caption": "Malachite, an ore of copper.",
+"candidate": false
+},
+{
+"book": "qbank11",
+"unit": "05",
+"line": 355,
+"kind": "real",
+"id": "chem11/bauxite",
+"caption": "Bauxite, the ore of aluminium.",
 "candidate": false
 },
 {
@@ -12332,7 +13358,34 @@
 {
 "book": "qbank11",
 "unit": "08",
-"line": 392,
+"line": 223,
+"kind": "real",
+"id": "bio11/funaria",
+"caption": "The moss Funaria with its spore capsules: a bryophyte.",
+"candidate": false
+},
+{
+"book": "qbank11",
+"unit": "08",
+"line": 226,
+"kind": "real",
+"id": "bio11/dryopteris",
+"caption": "The male fern (Dryopteris): a pteridophyte with sori on the underside of the frond.",
+"candidate": false
+},
+{
+"book": "qbank11",
+"unit": "08",
+"line": 229,
+"kind": "real",
+"id": "bio11/pinus",
+"caption": "Pine (Pinus) with its needles and cones: a gymnosperm.",
+"candidate": false
+},
+{
+"book": "qbank11",
+"unit": "08",
+"line": 401,
 "kind": "generated",
 "id": "",
 "caption": "Floral diagrams of the four families prescribed by the CDC, with the floral formula under each. The dot at the top of every panel is the mother axis and the arc at the bottom is the bract. Read the wh",
@@ -12341,7 +13394,16 @@
 {
 "book": "qbank11",
 "unit": "08",
-"line": 574,
+"line": 513,
+"kind": "real",
+"id": "bio11/rhizopus",
+"caption": "Rhizopus, the bread mould: a coenocytic mycelium with sporangia.",
+"candidate": false
+},
+{
+"book": "qbank11",
+"unit": "08",
+"line": 587,
 "kind": "real",
 "id": "qbank/bacteria-shapes",
 "caption": "Bacterial morphology. Objective questions about Monera nearly always come down to naming one of these shapes or one of these groupings, so learn the picture rather than the words.",
@@ -12350,7 +13412,16 @@
 {
 "book": "qbank11",
 "unit": "08",
-"line": 704,
+"line": 604,
+"kind": "real",
+"id": "bio11/sal-forest",
+"caption": "A sal forest in Chitwan National Park, one of the main forest ecosystems of Nepal.",
+"candidate": false
+},
+{
+"book": "qbank11",
+"unit": "08",
+"line": 720,
 "kind": "generated",
 "id": "",
 "caption": "Why the pyramid of energy can never invert while the pyramids of number and biomass can. Each bar is drawn to scale within its own panel; the pond biomass pyramid at the bottom is inverted because the",
@@ -12359,10 +13430,82 @@
 {
 "book": "qbank11",
 "unit": "08",
-"line": 1142,
+"line": 776,
+"kind": "real",
+"id": "bio11/rhododendron-forest",
+"caption": "Rhododendron forest in the Annapurna Conservation Area: the national flower of Nepal grows in the temperate and subalpine belts.",
+"candidate": false
+},
+{
+"book": "qbank11",
+"unit": "08",
+"line": 890,
+"kind": "real",
+"id": "bio11/biston",
+"caption": "The light and dark forms of the peppered moth (Biston betularia), the standard example of natural selection.",
+"candidate": false
+},
+{
+"book": "qbank11",
+"unit": "08",
+"line": 1016,
+"kind": "real",
+"id": "bio11/earthworm-ext",
+"caption": "An earthworm (Annelida), with its ring-like segments and the clitellum.",
+"candidate": false
+},
+{
+"book": "qbank11",
+"unit": "08",
+"line": 1019,
+"kind": "real",
+"id": "bio11/cockroach",
+"caption": "The American cockroach Periplaneta americana (Arthropoda).",
+"candidate": false
+},
+{
+"book": "qbank11",
+"unit": "08",
+"line": 1022,
+"kind": "real",
+"id": "bio11/rana-tigrina",
+"caption": "The Indian bullfrog Hoplobatrachus tigerinus (Amphibia).",
+"candidate": false
+},
+{
+"book": "qbank11",
+"unit": "08",
+"line": 1025,
+"kind": "real",
+"id": "bio11/rohu",
+"caption": "Rohu, Labeo rohita (Pisces).",
+"candidate": false
+},
+{
+"book": "qbank11",
+"unit": "08",
+"line": 1176,
 "kind": "real",
 "id": "qbank/paramecium-numbered",
 "caption": "*Paramecium* in surface view. Objective questions on Protista are usually a matter of naming one of these nine structures, so learn the numbers and then learn what each one does.",
+"candidate": false
+},
+{
+"book": "qbank11",
+"unit": "08",
+"line": 1294,
+"kind": "real",
+"id": "bio11/red-panda",
+"caption": "The red panda, a threatened mammal of the eastern hills of Nepal.",
+"candidate": false
+},
+{
+"book": "qbank11",
+"unit": "08",
+"line": 1297,
+"kind": "real",
+"id": "bio11/rhino",
+"caption": "The greater one-horned rhinoceros of Nepal.",
 "candidate": false
 },
 {
@@ -12756,15 +13899,15 @@
 "book": "qbank12",
 "unit": "08",
 "line": 738,
-"kind": "generated",
-"id": "",
-"caption": "A nephron. 1 = filtration in the glomerulus; 2 = selective reabsorption, largest in the proximal tubule; 3 = tubular secretion and final adjustment in the distal tubule. Urine leaves by the collecting",
-"candidate": true
+"kind": "real",
+"id": "bio12/nephron-numbered",
+"caption": "A nephron and its blood supply. Filtration happens at the glomerulus inside Bowman's capsule; selective reabsorption is largest in the proximal tubule; tubular secretion and final adjustment occur in ",
+"candidate": false
 },
 {
 "book": "qbank12",
 "unit": "08",
-"line": 880,
+"line": 867,
 "kind": "generated",
 "id": "",
 "caption": "Two patterns of population growth. J-shaped growth is exponential and stops abruptly; S-shaped (logistic) growth levels off at the carrying capacity K set by food, space and disease.",
@@ -12855,15 +13998,33 @@
 "book": "qbank12",
 "unit": "09",
 "line": 934,
-"kind": "generated",
-"id": "",
-"caption": "Simple epithelia in vertical section (question 1): squamous, cuboidal, columnar, ciliated columnar and glandular forms; all rest on the basement membrane.",
-"candidate": true
+"kind": "real",
+"id": "bio12/squamous-epithelium",
+"caption": "Simple epithelia (question 1). (a) Simple squamous in surface view: flat polygonal cells fit edge to edge, the silver outlining each boundary.",
+"candidate": false
 },
 {
 "book": "qbank12",
 "unit": "09",
-"line": 1047,
+"line": 937,
+"kind": "real",
+"id": "bio12/cuboidal-epithelium",
+"caption": "(b) Simple cuboidal epithelium of kidney tubules: one layer of cube-shaped cells with round central nuclei around a lumen.",
+"candidate": false
+},
+{
+"book": "qbank12",
+"unit": "09",
+"line": 944,
+"kind": "real",
+"id": "bio12/columnar-epithelium",
+"caption": "(c) Simple columnar epithelium with goblet cells: tall cells with basal nuclei and, between them, pale mucus-filled goblet cells; all rest on the basement membrane.",
+"candidate": false
+},
+{
+"book": "qbank12",
+"unit": "09",
+"line": 947,
 "kind": "real",
 "id": "qbank/hyaline-cartilage",
 "caption": "Developing hyaline cartilage (×100). The chondrocytes sit singly or in pairs in small spaces (lacunae) in a smooth, glassy matrix. Mature hyaline cartilage has no blood vessels; it is fed by diffusion",
@@ -12872,16 +14033,34 @@
 {
 "book": "qbank12",
 "unit": "09",
-"line": 1097,
-"kind": "generated",
-"id": "",
-"caption": "The three types of muscle (question 6). Look for striations, the shape of the fibre and the number and position of the nuclei.",
-"candidate": true
+"line": 997,
+"kind": "real",
+"id": "bio12/skeletal-muscle",
+"caption": "The three types of muscle (question 6). (a) Skeletal: long unbranched striated fibres with many peripheral nuclei.",
+"candidate": false
 },
 {
 "book": "qbank12",
 "unit": "09",
-"line": 1216,
+"line": 1004,
+"kind": "real",
+"id": "bio12/cardiac-discs2",
+"caption": "(b) Cardiac: short striated branching fibres joined end to end into a network, each with a central nucleus.",
+"candidate": false
+},
+{
+"book": "qbank12",
+"unit": "09",
+"line": 1007,
+"kind": "real",
+"id": "bio12/smooth-muscle",
+"caption": "(c) Smooth: unstriated spindle-shaped cells with one central nucleus.",
+"candidate": false
+},
+{
+"book": "qbank12",
+"unit": "09",
+"line": 1039,
 "kind": "generated",
 "id": "",
 "caption": "Spermatogenesis and oogenesis compared (question 3): one primary oocyte gives one ovum and three polar bodies, one primary spermatocyte gives four sperms.",
@@ -12890,34 +14069,34 @@
 {
 "book": "qbank12",
 "unit": "09",
-"line": 1367,
-"kind": "generated",
-"id": "",
-"caption": "Section of the human eye (question 2 and long question 11). Cornea, aqueous humour, iris and pupil, lens, ciliary body, vitreous humour, retina, choroid, sclera, fovea, optic disc and optic nerve.",
-"candidate": true
+"line": 1190,
+"kind": "real",
+"id": "bio12/eye",
+"caption": "Section of the human eye (question 2 and long question 11), opened to show the layers of the wall and the structures in front of and behind the lens.",
+"candidate": false
 },
 {
 "book": "qbank12",
 "unit": "09",
-"line": 1440,
-"kind": "generated",
-"id": "",
-"caption": "The human ear (question 3): outer ear, middle ear with three ossicles, inner ear with cochlea, vestibule and semicircular canals, and the Eustachian tube.",
-"candidate": true
+"line": 1223,
+"kind": "real",
+"id": "bio12/ear",
+"caption": "The human ear (question 3): outer ear (pinna, canal, eardrum), middle ear with three ossicles and the Eustachian tube, and inner ear with the cochlea and semicircular canals.",
+"candidate": false
 },
 {
 "book": "qbank12",
 "unit": "09",
-"line": 1561,
-"kind": "generated",
-"id": "",
+"line": 1269,
+"kind": "real",
+"id": "bio12/alimentary",
 "caption": "The human alimentary canal with its associated glands (questions 6 and 7).",
-"candidate": true
+"candidate": false
 },
 {
 "book": "qbank12",
 "unit": "09",
-"line": 1710,
+"line": 1302,
 "kind": "generated",
 "id": "",
 "caption": "(a) The conducting system of the heart (question 9): SA node, AV node, bundle of His and its branches, Purkinje fibres. (b) A normal ECG.",
@@ -12926,20 +14105,29 @@
 {
 "book": "qbank12",
 "unit": "09",
-"line": 1798,
-"kind": "generated",
-"id": "",
-"caption": "The human reproductive systems in front view (questions 10 and 12): (a) male; (b) female.",
-"candidate": true
+"line": 1390,
+"kind": "real",
+"id": "bio12/male-repro-nci",
+"caption": "The human reproductive systems (questions 10 and 12): (a) male, sectional side view.",
+"candidate": false
 },
 {
 "book": "qbank12",
 "unit": "09",
-"line": 1906,
-"kind": "generated",
-"id": "",
-"caption": "A nephron and its blood supply (question 13).",
-"candidate": true
+"line": 1393,
+"kind": "real",
+"id": "bio12/female-repro",
+"caption": "(b) Female, front view of the pelvic organs.",
+"candidate": false
+},
+{
+"book": "qbank12",
+"unit": "09",
+"line": 1396,
+"kind": "real",
+"id": "bio12/nephron-numbered",
+"caption": "A nephron and its blood supply (question 13). Blood is filtered in the glomerulus; reabsorption is largest in the proximal tubule; the loop of Henle sets up the concentration gradient; final adjustmen",
+"candidate": false
 },
 {
 "book": "qbank12",
@@ -13250,7 +14438,16 @@
 {
 "book": "sci10",
 "unit": "01",
-"line": 297,
+"line": 285,
+"kind": "real",
+"id": "sci10/vernier",
+"caption": "A vernier calliper. The jaws grip the object; the fixed main scale and the sliding vernier scale together give the reading.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "01",
+"line": 300,
 "kind": "generated",
 "id": "",
 "caption": "Reading a vernier calliper. The zero of the vernier lies just after the 2.3 cm mark, and the 4th vernier line coincides with a main-scale line.",
@@ -13278,15 +14475,141 @@
 "book": "sci10",
 "unit": "02",
 "line": 169,
-"kind": "generated",
-"id": "",
-"caption": "Four shapes of bacteria, drawn schematically, with examples.",
+"kind": "real",
+"id": "sci10/ecoli",
+"caption": "Bacteria seen under a scanning electron microscope: these are rod-shaped bacilli (Escherichia coli). Cocci are round and spirilla are spiral.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "02",
+"line": 186,
+"kind": "real",
+"id": "sci10/paramecium",
+"caption": "Paramecium, a ciliate protist, seen through a microscope. It swims with the help of the cilia that cover its body.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "02",
+"line": 196,
+"kind": "real",
+"id": "sci10/euglena",
+"caption": "Euglena and other pond-water protists under the microscope. Euglena has a whip-like flagellum for swimming and chloroplasts for photosynthesis.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "02",
+"line": 199,
+"kind": "real",
+"id": "sci10/amoeba",
+"caption": "Amoeba, a protist, seen through a microscope. It moves by extending temporary false feet (pseudopodia).",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "02",
+"line": 214,
+"kind": "real",
+"id": "sci10/penicillium",
+"caption": "Penicillium growing on an orange: the green powder is the mass of spores. Penicillium is the fungus that gave us the antibiotic penicillin.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "02",
+"line": 217,
+"kind": "real",
+"id": "sci10/mushroom",
+"caption": "A mushroom (fly agaric), the fruiting body of a fungus. The cap sits on a stalk and the body of the fungus lies in the soil.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "02",
+"line": 240,
+"kind": "real",
+"id": "sci10/hibiscus",
+"caption": "Flower of a hibiscus plant. Angiosperms bear flowers, and their seeds are enclosed in fruits.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "02",
+"line": 250,
+"kind": "real",
+"id": "sci10/moss",
+"caption": "Moss with its spore capsules (sporophytes) on thin stalks. Mosses are bryophytes: small plants of moist places that have no true roots.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "02",
+"line": 253,
+"kind": "real",
+"id": "sci10/fern-sori",
+"caption": "Underside of a fern frond, showing the brown clusters of spore-producing sori. Ferns reproduce by spores, not seeds.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "02",
+"line": 278,
+"kind": "real",
+"id": "sci10/earthworm",
+"caption": "An earthworm (phylum Annelida): the body is divided into many ring-like segments.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "02",
+"line": 281,
+"kind": "real",
+"id": "sci10/cockroach",
+"caption": "A cockroach (phylum Arthropoda): jointed legs, three pairs, and a hard outer skeleton.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "02",
+"line": 294,
+"kind": "real",
+"id": "sci10/rohu",
+"caption": "Rohu, a fish (class Pisces): the body is covered with scales and it breathes with gills.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "02",
+"line": 297,
+"kind": "real",
+"id": "sci10/frog",
+"caption": "A frog (class Amphibia): moist skin, and it lives both in water and on land.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "02",
+"line": 300,
+"kind": "real",
+"id": "sci10/pigeon",
+"caption": "A pigeon (class Aves): a bird has feathers, wings and a beak and is warm-blooded.",
 "candidate": false
 },
 {
 "book": "sci10",
 "unit": "03",
-"line": 77,
+"line": 52,
+"kind": "real",
+"id": "sci10/bee-worker",
+"caption": "The queen (marked with a red dot) among her workers. The queen is longer than the workers and is the only egg-laying female.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "03",
+"line": 80,
 "kind": "generated",
 "id": "",
 "caption": "Days taken in each stage of development of the queen, the worker and the drone.",
@@ -13295,25 +14618,52 @@
 {
 "book": "sci10",
 "unit": "03",
-"line": 112,
-"kind": "generated",
-"id": "",
-"caption": "Life cycle of the honey bee (worker) with the number of days in each stage.",
-"candidate": true
+"line": 115,
+"kind": "real",
+"id": "sci10/drone-pupae",
+"caption": "Developing honey bees taken from their cells: larvae (white, left) and pupae (right) show the stages between egg and adult.",
+"candidate": false
 },
 {
 "book": "sci10",
 "unit": "03",
-"line": 157,
-"kind": "generated",
-"id": "",
-"caption": "A section of comb. Hexagonal cells hold the brood (centre), pollen (ring) and honey (top). Labels are by use of the cell.",
-"candidate": true
+"line": 135,
+"kind": "real",
+"id": "sci10/bee-brood",
+"caption": "A frame of comb. The pale capped cells in the middle hold developing brood; workers crowd over the comb.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "03",
+"line": 229,
+"kind": "real",
+"id": "sci10/beekeeper",
+"caption": "A beekeeper lifting a frame out of a hive to inspect the comb.",
+"candidate": false
 },
 {
 "book": "sci10",
 "unit": "04",
-"line": 87,
+"line": 30,
+"kind": "real",
+"id": "sci10/pea-pods",
+"caption": "A young pea seedling (Pisum sativum) pushing up through the soil. Mendel grew thousands of such plants and counted their characters.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "04",
+"line": 69,
+"kind": "real",
+"id": "sci10/pea-flower",
+"caption": "Flower of the garden pea. Mendel crossed pea plants by moving pollen from the flower of one plant to the flower of another.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "04",
+"line": 93,
 "kind": "generated",
 "id": "",
 "caption": "Monohybrid cross between pure tall (TT) and pure dwarf (tt) pea plants, giving the F1 and F2 generations.",
@@ -13322,7 +14672,7 @@
 {
 "book": "sci10",
 "unit": "04",
-"line": 162,
+"line": 168,
 "kind": "generated",
 "id": "",
 "caption": "Dihybrid F2 ratio 9 : 3 : 3 : 1. Each square is one of the 16 boxes in the Punnett square, coloured by phenotype.",
@@ -13331,7 +14681,16 @@
 {
 "book": "sci10",
 "unit": "04",
-"line": 266,
+"line": 231,
+"kind": "real",
+"id": "sci10/karyotype",
+"caption": "The 46 human chromosomes arranged in pairs by size (22 pairs of autosomes) with the sex chromosomes: XY in a male and XX in a female.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "04",
+"line": 275,
 "kind": "generated",
 "id": "",
 "caption": "Levels of organisation of heredity: from nucleus to chromosome to the DNA double helix with base pairs.",
@@ -13340,7 +14699,7 @@
 {
 "book": "sci10",
 "unit": "04",
-"line": 307,
+"line": 316,
 "kind": "generated",
 "id": "",
 "caption": "Sex determination in human beings. The sex of the baby is decided by the sperm, not by the egg.",
@@ -13349,25 +14708,34 @@
 {
 "book": "sci10",
 "unit": "04",
-"line": 394,
-"kind": "generated",
-"id": "",
-"caption": "Number of chromosomes in normal and abnormal human conditions. The dashed line marks the normal count of 46.",
-"candidate": true
+"line": 403,
+"kind": "real",
+"id": "sci10/trisomy21",
+"caption": "Human chromosomes arranged in pairs (karyotype) of a person with Down syndrome. Chromosome 21 (boxed) has three copies instead of two.",
+"candidate": false
 },
 {
 "book": "sci10",
 "unit": "05",
 "line": 36,
-"kind": "generated",
-"id": "",
-"caption": "Structure of a neuron. The impulse travels from the dendrites through the cell body and along the axon to the axon terminals.",
-"candidate": true
+"kind": "real",
+"id": "sci10/neuron",
+"caption": "A neuron (nerve cell). Impulses are received by the dendrites, pass through the cell body and travel down the axon to the synapse.",
+"candidate": false
 },
 {
 "book": "sci10",
 "unit": "05",
-"line": 98,
+"line": 51,
+"kind": "real",
+"id": "sci10/brain",
+"caption": "A human brain seen from the left side. The wrinkled outer layer is the cerebrum; the cerebellum lies under its back part.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "05",
+"line": 76,
 "kind": "generated",
 "id": "",
 "caption": "Reflex arc for withdrawing the hand from a hot object. The impulse reaches the spinal cord and returns without passing through the brain first.",
@@ -13376,16 +14744,16 @@
 {
 "book": "sci10",
 "unit": "05",
-"line": 174,
-"kind": "generated",
-"id": "",
-"caption": "Female reproductive system, side view (schematic).",
+"line": 152,
+"kind": "real",
+"id": "sci10/female-repro",
+"caption": "Female reproductive system in its place in the body (front view; the left half shows the inside of the uterus and vagina).",
 "candidate": false
 },
 {
 "book": "sci10",
 "unit": "05",
-"line": 209,
+"line": 172,
 "kind": "generated",
 "id": "",
 "caption": "The 28-day menstrual cycle. The uterus lining is shed in days 1 to 5, rebuilds, and keeps thickening after ovulation (day 14); if there is no pregnancy it breaks down again.",
@@ -13394,7 +14762,25 @@
 {
 "book": "sci10",
 "unit": "05",
-"line": 300,
+"line": 227,
+"kind": "real",
+"id": "sci10/blood-smear",
+"caption": "A smear of human blood under the microscope. The many pale-red discs are red blood cells; the larger cells with purple nuclei are white blood cells.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "05",
+"line": 252,
+"kind": "real",
+"id": "sci10/heart-real",
+"caption": "A real human heart removed from an adult body, with the large vessels cut short. Compare it with the plan below.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "05",
+"line": 269,
 "kind": "generated",
 "id": "",
 "caption": "Plan of the human heart showing the four chambers, the main vessels and the direction of blood flow (red: oxygenated, blue: deoxygenated).",
@@ -13403,7 +14789,16 @@
 {
 "book": "sci10",
 "unit": "05",
-"line": 400,
+"line": 320,
+"kind": "real",
+"id": "sci10/bp-monitor",
+"caption": "A digital blood-pressure monitor on the wrist. It shows the systolic pressure (SYS), the diastolic pressure (DIA) in mm of mercury, and the pulse rate (PUL).",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "05",
+"line": 372,
 "kind": "generated",
 "id": "",
 "caption": "A nephron (schematic): filtration in the glomerulus and Bowman's capsule, reabsorption along the tubule, and urine passing to the collecting duct.",
@@ -13412,7 +14807,7 @@
 {
 "book": "sci10",
 "unit": "05",
-"line": 476,
+"line": 449,
 "kind": "generated",
 "id": "",
 "caption": "Negative feedback in temperature control. A change from 37 C is detected and corrected so that the temperature returns to normal.",
@@ -13439,7 +14834,34 @@
 {
 "book": "sci10",
 "unit": "06",
-"line": 219,
+"line": 143,
+"kind": "real",
+"id": "sci10/air-kathmandu",
+"caption": "Air pollution in Kathmandu: smoke and dust hang over the city and cut down the view.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "06",
+"line": 174,
+"kind": "real",
+"id": "sci10/bagmati-waste",
+"caption": "Solid waste dumped on the bank of the Bagmati river near Kathmandu. Garbage like this pollutes the river water.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "06",
+"line": 195,
+"kind": "real",
+"id": "sci10/plastic-waste",
+"caption": "Plastic waste choking a roadside drain. Plastic does not rot, so it stays in the soil and blocks water.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "06",
+"line": 228,
 "kind": "generated",
 "id": "",
 "caption": "The greenhouse effect (schematic). Sunlight passes through the atmosphere; some heat from the Earth is trapped by greenhouse gases and sent back to the surface.",
@@ -13448,7 +14870,16 @@
 {
 "book": "sci10",
 "unit": "06",
-"line": 248,
+"line": 252,
+"kind": "real",
+"id": "sci10/khumbu-glacier",
+"caption": "The Khumbu Glacier below Mount Everest in Nepal. Many Himalayan glaciers are shrinking as the climate warms.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "06",
+"line": 260,
 "kind": "generated",
 "id": "",
 "caption": "Carbon dioxide in the air (annual average, ppm, measured at Mauna Loa, Hawaii) has risen steadily. The values are rounded.",
@@ -13457,10 +14888,55 @@
 {
 "book": "sci10",
 "unit": "06",
-"line": 329,
+"line": 342,
 "kind": "generated",
 "id": "",
 "caption": "The waste hierarchy. Methods nearer the top are better for the environment.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "06",
+"line": 388,
+"kind": "real",
+"id": "sci10/landfill",
+"caption": "A landfill site: mixed waste is dumped, compacted and covered with soil. Leachate and methane from it must be managed.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "06",
+"line": 409,
+"kind": "real",
+"id": "sci10/kaligandaki",
+"caption": "The Kaligandaki A hydroelectric power station in Nepal. Falling water is a renewable source of energy.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "06",
+"line": 427,
+"kind": "real",
+"id": "sci10/tiger",
+"caption": "A Bengal tiger in Bardiya National Park, Nepal. National parks protect the habitat of such rare animals.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "06",
+"line": 437,
+"kind": "real",
+"id": "sci10/rhino",
+"caption": "Greater one-horned rhinoceros with calf in Chitwan National Park, one of the species saved by protection in Nepal.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "06",
+"line": 440,
+"kind": "real",
+"id": "sci10/snow-leopard",
+"caption": "The snow leopard, the top predator of the high Himalaya, found in Nepal's mountain national parks such as Shey Phoksundo.",
 "candidate": false
 },
 {
@@ -13484,7 +14960,16 @@
 {
 "book": "sci10",
 "unit": "07",
-"line": 367,
+"line": 302,
+"kind": "real",
+"id": "sci10/earthrise",
+"caption": "The Earth rising above the Moon, photographed by the Apollo 8 crew in 1968. The Moon is held in its orbit round the Earth by gravitation.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "07",
+"line": 370,
 "kind": "generated",
 "id": "",
 "caption": "Variation of g with height above the Earth's surface (R = 6400 km). g falls as 1/(R + h)^2.",
@@ -13493,7 +14978,16 @@
 {
 "book": "sci10",
 "unit": "07",
-"line": 449,
+"line": 436,
+"kind": "real",
+"id": "sci10/apollo-feather",
+"caption": "A feather lying on the lunar surface after astronaut David Scott dropped it together with a hammer during Apollo 15 (1971). With no air to slow it down, the feather fell as fast as the hammer.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "07",
+"line": 455,
 "kind": "generated",
 "id": "",
 "caption": "Velocity-time graph for a stone thrown upward at 20 m/s (g = 10 m/s2). It rises for 2 s, stops, then falls back, passing the starting point at 4 s.",
@@ -13512,6 +15006,15 @@
 "book": "sci10",
 "unit": "08",
 "line": 150,
+"kind": "real",
+"id": "sci10/hydraulic-jack",
+"caption": "A hydraulic bottle jack of the kind used to lift a vehicle. A small force on the handle gives a large lifting force.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "08",
+"line": 153,
 "kind": "generated",
 "id": "",
 "caption": "A hydraulic press. A small force f on the small piston (area a) gives a large force F on the large piston (area A), because the pressure is the same in the liquid.",
@@ -13520,7 +15023,16 @@
 {
 "book": "sci10",
 "unit": "08",
-"line": 312,
+"line": 241,
+"kind": "real",
+"id": "sci10/barometer",
+"caption": "A laboratory mercury barometer: the height of the mercury column in the glass tube balances the pressure of the atmosphere.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "08",
+"line": 318,
 "kind": "generated",
 "id": "",
 "caption": "Sinking, suspended and floating bodies. W is the weight, U the upthrust. A floating body has U = W.",
@@ -13574,7 +15086,16 @@
 {
 "book": "sci10",
 "unit": "10",
-"line": 179,
+"line": 92,
+"kind": "real",
+"id": "sci10/tuning-fork",
+"caption": "A set of tuning forks. When a fork is struck its prongs vibrate and produce a sound of one fixed frequency.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "10",
+"line": 182,
 "kind": "generated",
 "id": "",
 "caption": "Concave mirror: object beyond C. The image forms between F and C and is real, inverted and diminished. (P is the pole, F the focus and C the centre of curvature.)",
@@ -13583,7 +15104,7 @@
 {
 "book": "sci10",
 "unit": "10",
-"line": 289,
+"line": 292,
 "kind": "generated",
 "id": "",
 "caption": "Light going from glass (n = 1.5) to air. In the first diagram the ray is refracted; at the critical angle (about 42 degrees) the refracted ray grazes the surface; at larger angles the ray is totally i",
@@ -13592,10 +15113,28 @@
 {
 "book": "sci10",
 "unit": "10",
-"line": 346,
+"line": 349,
 "kind": "generated",
 "id": "",
 "caption": "Convex lens with the object at 20 cm and f = 15 cm. The image is formed 60 cm on the other side: real, inverted and magnified three times.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "10",
+"line": 380,
+"kind": "real",
+"id": "sci10/convex-lens",
+"caption": "A convex lens held in front of a house: the image is real, inverted and diminished.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "10",
+"line": 447,
+"kind": "real",
+"id": "sci10/microscope",
+"caption": "An early compound microscope kept in a museum. A lens near the specimen and a lens near the eye magnify the specimen in two steps.",
 "candidate": false
 },
 {
@@ -13628,7 +15167,25 @@
 {
 "book": "sci10",
 "unit": "11",
-"line": 325,
+"line": 307,
+"kind": "real",
+"id": "sci10/alternator",
+"caption": "A large alternator (AC generator) in a power station. Water or steam turns the rotor, and electromagnetic induction produces the alternating current.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "11",
+"line": 328,
+"kind": "real",
+"id": "sci10/transformer-pole",
+"caption": "A step-down transformer on an electricity pole. It lowers the high voltage of the supply line to a safe voltage for houses.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "11",
+"line": 331,
 "kind": "generated",
 "id": "",
 "caption": "A transformer. Alternating current in the primary coil sets up a changing magnetic flux in the soft iron core; it induces an alternating emf in the secondary coil.",
@@ -13637,16 +15194,70 @@
 {
 "book": "sci10",
 "unit": "12",
-"line": 76,
-"kind": "generated",
-"id": "",
-"caption": "Life cycle of stars. A low-mass star like the Sun ends as a white dwarf; a massive star explodes as a supernova and leaves a neutron star or a black hole.",
-"candidate": true
+"line": 64,
+"kind": "real",
+"id": "sci10/sun-flare",
+"caption": "Our Sun, the nearest star, photographed in extreme ultraviolet by NASA's Solar Dynamics Observatory. The bright patches are active regions.",
+"candidate": false
 },
 {
 "book": "sci10",
 "unit": "12",
-"line": 164,
+"line": 79,
+"kind": "real",
+"id": "sci10/star-life",
+"caption": "Life cycle of stars. A star is born in a nebula; a Sun-like star becomes a red giant and then a white dwarf, while a massive star explodes as a supernova.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "12",
+"line": 115,
+"kind": "real",
+"id": "sci10/milky-way",
+"caption": "Centre of the Milky Way galaxy in infrared light (NASA Spitzer). Our solar system lies in one of its spiral arms.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "12",
+"line": 118,
+"kind": "real",
+"id": "sci10/hubble-udf",
+"caption": "The Hubble Ultra Deep Field: almost every spot of light is a whole galaxy of billions of stars.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "12",
+"line": 148,
+"kind": "real",
+"id": "sci10/solar-system",
+"caption": "The Sun, the eight planets, the asteroid belt and the Kuiper belt (not to scale for size or distance).",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "12",
+"line": 151,
+"kind": "real",
+"id": "sci10/jupiter",
+"caption": "Jupiter, the largest planet, photographed by the Cassini spacecraft. The Great Red Spot is a giant storm.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "12",
+"line": 154,
+"kind": "real",
+"id": "sci10/saturn",
+"caption": "Saturn and its rings, photographed by the Cassini spacecraft.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "12",
+"line": 157,
 "kind": "generated",
 "id": "",
 "caption": "Average distance of the planets from the Sun in astronomical units, drawn on a logarithmic scale because the distances range from 0.4 to 30 AU.",
@@ -13655,10 +15266,28 @@
 {
 "book": "sci10",
 "unit": "12",
-"line": 229,
+"line": 222,
 "kind": "generated",
 "id": "",
 "caption": "Timeline of the universe on a logarithmic time axis, from the Big Bang to the present (13.8 billion years).",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "12",
+"line": 266,
+"kind": "real",
+"id": "sci10/saturn-v",
+"caption": "Launch of Apollo 11 on a Saturn V rocket in 1969. A rocket burns fuel to push gas down so that it can lift itself away from the Earth.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "12",
+"line": 317,
+"kind": "real",
+"id": "sci10/iss",
+"caption": "The International Space Station orbiting the Earth, with its large solar panels.",
 "candidate": false
 },
 {
@@ -13673,7 +15302,34 @@
 {
 "book": "sci10",
 "unit": "13",
-"line": 152,
+"line": 64,
+"kind": "real",
+"id": "sci10/motherboard",
+"caption": "Inside a desktop computer: the motherboard, the power supply (top left), the storage drives and the connecting cables.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "13",
+"line": 67,
+"kind": "real",
+"id": "sci10/ram",
+"caption": "RAM (main memory) modules. They plug into the motherboard and hold the programs and data in use.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "13",
+"line": 70,
+"kind": "real",
+"id": "sci10/hdd",
+"caption": "A hard disk drive with its cover removed. Data are stored on the spinning disc (platter) and read by the arm.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "13",
+"line": 161,
 "kind": "generated",
 "id": "",
 "caption": "Star, bus and ring network layouts. In a star network every computer connects to a central switch; in a bus, to one shared cable; in a ring, each to its two neighbours.",
@@ -13682,7 +15338,25 @@
 {
 "book": "sci10",
 "unit": "13",
-"line": 199,
+"line": 186,
+"kind": "real",
+"id": "sci10/switch",
+"caption": "A network switch with two Ethernet cables plugged in. A switch connects the computers of a star network.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "13",
+"line": 189,
+"kind": "real",
+"id": "sci10/router",
+"caption": "A wireless router. It connects the computers of a home to the internet by cable and by Wi-Fi.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "13",
+"line": 214,
 "kind": "generated",
 "id": "",
 "caption": "What happens when you type a web address. The browser asks a DNS server for the IP address, then requests the page from the web server, which sends it back.",
@@ -13718,7 +15392,16 @@
 {
 "book": "sci10",
 "unit": "15",
-"line": 251,
+"line": 197,
+"kind": "real",
+"id": "sci10/litmus",
+"caption": "Litmus paper strips. Litmus turns red in an acid and blue in a base.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "15",
+"line": 254,
 "kind": "generated",
 "id": "",
 "caption": "The pH scale with common substances. Each step in pH is a tenfold change in acidity.",
@@ -13754,10 +15437,46 @@
 {
 "book": "sci10",
 "unit": "17",
-"line": 201,
+"line": 158,
+"kind": "real",
+"id": "sci10/iron-ore",
+"caption": "A piece of iron ore (hematite and limonite) with a ruler for scale. Iron is extracted from ores like this.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "17",
+"line": 161,
+"kind": "real",
+"id": "sci10/bauxite",
+"caption": "Bauxite, the ore from which aluminium is extracted.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "17",
+"line": 175,
+"kind": "real",
+"id": "sci10/malachite",
+"caption": "Malachite, a green ore of copper (copper carbonate).",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "17",
+"line": 210,
 "kind": "generated",
 "id": "",
 "caption": "Blast furnace for iron: raw materials enter at the top, hot air enters near the bottom, and molten iron and slag are tapped at the base.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "17",
+"line": 253,
+"kind": "real",
+"id": "sci10/rust",
+"caption": "Rust on iron: the reddish-brown flaky layer forms when iron is in contact with moist air.",
 "candidate": false
 },
 {
@@ -13780,8 +15499,26 @@
 },
 {
 "book": "sci10",
+"unit": "18",
+"line": 224,
+"kind": "real",
+"id": "sci10/ethanol",
+"caption": "Ethanol (ethyl alcohol), a colourless liquid. It is used as a solvent and as a fuel.",
+"candidate": false
+},
+{
+"book": "sci10",
 "unit": "19",
-"line": 45,
+"line": 22,
+"kind": "real",
+"id": "sci10/soap",
+"caption": "Bars of soap. Soap is made by boiling a fat or oil with an alkali such as sodium hydroxide.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "19",
+"line": 48,
 "kind": "generated",
 "id": "",
 "caption": "Cleaning action of soap. Tails dissolve in the grease droplet; the charged heads point into water, forming a micelle that is washed away.",
@@ -13790,7 +15527,43 @@
 {
 "book": "sci10",
 "unit": "19",
-"line": 276,
+"line": 128,
+"kind": "real",
+"id": "sci10/urea",
+"caption": "A tractor spreading chemical fertiliser, such as urea, over a field.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "19",
+"line": 170,
+"kind": "real",
+"id": "sci10/cement",
+"caption": "Bags of Portland cement, each holding 25 kg. Cement is mixed with sand and water to make mortar and concrete.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "19",
+"line": 222,
+"kind": "real",
+"id": "sci10/glass-recycling",
+"caption": "Containers for collecting glass for recycling. Used glass can be melted again and made into new bottles.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "19",
+"line": 272,
+"kind": "real",
+"id": "sci10/pet-bottles",
+"caption": "Plastic (PET) bottles collected for recycling. Plastics are polymers.",
+"candidate": false
+},
+{
+"book": "sci10",
+"unit": "19",
+"line": 291,
 "kind": "generated",
 "id": "",
 "caption": "Classification of polymers and plastics.",
