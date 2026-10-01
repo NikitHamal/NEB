@@ -132,6 +132,12 @@ ax.plot([v0, v0], [-0.14, 0.94], color='#2e8b57', lw=1.0, ls='--')
 ax.annotate('zero of vernier', (v0, 1.06), ha='right', fontsize=8.2, color='#2e8b57')
 ax.set_xlim(-1.5, 31.5); ax.set_ylim(-1.8, 1.9); ax.axis('off')
 ```
+
+```photo id="phy11/vernier" caption="A vernier calliper. The jaws on the left grip the object; the sliding vernier scale beside the fixed main scale gives the fractional millimetre." width="80"
+```
+
+```photo id="phy11/micrometer" caption="A micrometer screw gauge. The object is held between the anvil and the spindle; the thimble (circular scale) is turned until the ratchet clicks." width="70"
+```
 ### Errors in measurement
 
 | | Systematic error | Random error |

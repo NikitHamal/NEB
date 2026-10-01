@@ -141,6 +141,9 @@ ax.text(5.6, 0.75, 'kiln 60–150 m long, 3–8 m across, inclined 1 in 30, 1–
         ha='center', fontsize=7.4, color=MUTED)
 ```
 
+```photo id="chem12/kiln" caption="The rotary kiln of a cement works: a long steel cylinder, slightly inclined, that turns slowly while the charge moves down through the hot zone." width="75"
+```
+
 The chemistry happens zone by zone:
 
 | Zone | Temperature | What happens |

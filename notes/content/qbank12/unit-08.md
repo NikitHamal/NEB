@@ -735,32 +735,19 @@ fig.subplots_adjust(left=0.005, right=0.995, top=0.80, bottom=0.12, wspace=0.03)
 | Endocrine | pituitary: GH, ADH, **oxytocin** (birth hormone); thyroid: thyroxine (goitre, myxoedema, cretinism, Graves'); parathyroid: PTH; adrenal: adrenaline, cortisol; **islets of Langerhans**: β cells insulin, α cells glucagon |
 | Reproduction | testes lie in the scrotum (2–3 °C cooler); LH surge triggers ovulation (≈ day 14); corpus luteum secretes progesterone; fertilisation in the fallopian tube; amniocentesis samples amniotic fluid; IVF uses a surrogate who carries the pregnancy |
 
-```figure caption="A nephron. 1 = filtration in the glomerulus; 2 = selective reabsorption, largest in the proximal tubule; 3 = tubular secretion and final adjustment in the distal tubule. Urine leaves by the collecting duct."
-import numpy as np, matplotlib.pyplot as plt
-from matplotlib.patches import Circle, Wedge
-fig, ax = plt.subplots(figsize=(4.5, 4.0)); ax.axis('off'); ax.set_xlim(0, 10); ax.set_ylim(0, 10)
-TC = '#2b6cb0'
-ax.add_patch(Wedge((2.1, 8.3), 0.95, 35, 325, fc='#fde9e9', ec=TC, lw=1.4))
-ax.add_patch(Circle((2.0, 8.3), 0.5, fc='#e05a5a', ec=INK, lw=0.6))
-ax.plot([0.3, 1.45], [9.2, 8.7], color='#e05a5a', lw=1.6); ax.plot([0.3, 1.45], [7.4, 7.95], color='#e05a5a', lw=1.3)
-t = np.linspace(0, 1, 120); x = 2.95 + 1.3*t; y = 8.0 - 0.6*t + 0.18*np.sin(t*26)
-ax.plot(x, y, color=TC, lw=2.2)
-ax.plot([4.25, 4.25], [7.35, 2.4], color=TC, lw=2.2)
-th = np.linspace(np.pi, 2*np.pi, 40); ax.plot(4.85 + 0.6*np.cos(th), 2.4 + 0.6*np.sin(th), color=TC, lw=2.2)
-ax.plot([5.45, 5.45], [2.4, 7.0], color=TC, lw=1.1)
-t = np.linspace(0, 1, 100); ax.plot(5.45 + 1.15*t, 7.0 + 0.7*t + 0.15*np.sin(t*22), color=TC, lw=1.6)
-ax.plot([6.6, 7.7], [7.75, 7.75], color=TC, lw=1.6)
-ax.plot([7.7, 7.7], [8.4, 0.9], color=TC, lw=2.6)
-ax.annotate('', xy=(7.7, 0.35), xytext=(7.7, 0.95), arrowprops=dict(arrowstyle='-|>', color=TC, lw=1.6))
-ax.axhline(5.0, color=MUTED, lw=0.8, ls='--', xmin=0.02, xmax=0.98)
-ax.text(0.15, 5.3, 'cortex', fontsize=7.5, color=MUTED); ax.text(0.15, 4.55, 'medulla', fontsize=7.5, color=MUTED)
-for s, xy, tx, ty in [('Bowman\'s capsule\nand glomerulus', (2.5, 9.0), 0.1, 9.75), ('proximal convoluted tubule', (3.7, 7.75), 4.6, 9.8),
-                      ('distal convoluted tubule', (6.3, 7.5), 6.6, 9.1), ('descending limb', (4.25, 4.6), 0.35, 3.3),
-                      ('ascending limb', (5.45, 4.4), 6.0, 4.25), ('loop of Henle', (4.85, 1.8), 2.3, 1.1),
-                      ('collecting duct', (7.7, 6.3), 8.25, 5.4), ('to renal pelvis', (7.7, 0.55), 8.15, 0.5)]:
-    ax.annotate(s, xy=xy, xytext=(tx, ty), fontsize=6.6, color=INK, va='center', arrowprops=dict(arrowstyle='-', lw=0.6, color=MUTED, shrinkA=1, shrinkB=1))
-for n, (bx, by) in [('1', (2.1, 6.85)), ('2', (3.45, 6.5)), ('3', (6.15, 6.65))]:
-    ax.add_patch(Circle((bx, by), 0.27, fc=ACCENT, ec='none')); ax.text(bx, by-0.02, n, color='white', ha='center', va='center', fontsize=7.5, fontweight='bold')
+```photo id="bio12/nephron-numbered" caption="A nephron and its blood supply. Filtration happens at the glomerulus inside Bowman's capsule; selective reabsorption is largest in the proximal tubule; tubular secretion and final adjustment occur in the distal tubule. Urine leaves by the collecting duct." width="66"
+key 1 Interlobular artery
+key 2 Afferent arteriole
+key 3 Juxtaglomerular apparatus
+key 4 Renal corpuscle
+key 5 Glomerulus
+key 6 Bowman's capsule
+key 7 Efferent arteriole
+key 8 Proximal convoluted tubule
+key 9 Loop of Henle
+key 10 Distal convoluted tubule
+key 11 Connecting tubule leading to the collecting duct
+key 12 Interlobular vein
 ```
 
 1. Which enzyme is needed for the digestion of milk protein in human beings? <span class="marks">[1]</span> (NEB model 2079)

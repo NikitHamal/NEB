@@ -422,58 +422,7 @@ Students reverse this constantly — the definitive host is defined by sex, not 
 size or by who suffers.
 :::
 
-```figure caption="Life cycle of *Plasmodium*. Asexual multiplication (schizogony) takes place in the human liver and red blood cells; fertilisation and sporogony take place in the female *Anopheles*, which is therefore the definitive host."
-import numpy as np, matplotlib.pyplot as plt
-from matplotlib.patches import Circle, FancyArrowPatch, FancyBboxPatch
-fig, ax = plt.subplots(figsize=(5.15,4.55))
-ax.axis('off'); ax.set_xlim(-0.1,10.1); ax.set_ylim(0.6,10.4)
-ax.add_patch(FancyBboxPatch((0.15,6.55), 9.7, 3.35, boxstyle='round,pad=0.05',
-             fc='#eaf1f8', ec=ACCENT, lw=1.0, alpha=.55, zorder=0))
-ax.add_patch(FancyBboxPatch((0.15,1.35), 9.7, 3.10, boxstyle='round,pad=0.05',
-             fc='#fdeeed', ec='#d9534f', lw=1.0, alpha=.55, zorder=0))
-ax.text(5.0, 9.66, 'HUMAN — intermediate host   (asexual: schizogony)',
-        fontsize=7.8, color=ACCENT, weight='bold', ha='center')
-ax.text(5.0, 1.60, 'FEMALE ANOPHELES — definitive host   (sexual: gamogony + sporogony)',
-        fontsize=7.6, color='#d9534f', weight='bold', ha='center')
-
-def stage(x, y, sub, label, c, dy=0.42):
-    ax.add_patch(Circle((x,y), 0.27, fc='white', ec=c, lw=1.3, zorder=4))
-    ax.text(x, y, sub, ha='center', va='center', fontsize=6.2, color=c, zorder=5)
-    ax.text(x, y-dy, label, ha='center', va='top', fontsize=6.2, color=INK,
-            zorder=5, linespacing=1.25)
-
-def arrow(p, q, rad=0.0, c=MUTED, lw=1.2):
-    ax.add_patch(FancyArrowPatch(p, q, connectionstyle=f'arc3,rad={rad}',
-                 arrowstyle='-|>', mutation_scale=11, lw=lw, color=c, zorder=3))
-
-hx = [1.25, 3.05, 4.95, 6.85, 8.75]
-stage(hx[0], 8.35, 'sp', 'sporozoites\ninjected\nin saliva', ACCENT)
-stage(hx[1], 8.35, 'lv', 'liver cells:\npre-erythrocytic\nschizogony', ACCENT)
-stage(hx[2], 8.35, 'tr', 'RBC: ring\ntrophozoite', ACCENT)
-stage(hx[3], 8.35, 'mz', 'schizont bursts:\nmerozoites\n(fever)', ACCENT)
-stage(hx[4], 8.35, 'gc', 'gametocytes\n♂ micro,\n♀ macro', ACCENT)
-for a, b in zip(hx[:-1], hx[1:]):
-    arrow((a+0.31, 8.35), (b-0.31, 8.35))
-arrow((6.85, 8.66), (4.95, 8.66), rad=0.45, c='#8F5507')
-ax.text(5.90, 9.24, 're-invade fresh RBCs', fontsize=6.3, color='#8F5507', ha='center')
-
-mx = [1.25, 3.60, 6.20, 8.75]
-stage(mx[3], 3.30, 'gm', 'micro- and\nmacrogametes', '#d9534f')
-stage(mx[2], 3.30, 'ok', 'zygote →\nmotile ookinete', '#d9534f')
-stage(mx[1], 3.30, 'oc', 'oocyst on\nstomach wall', '#d9534f')
-stage(mx[0], 3.30, 'sp', 'sporozoites in\nsalivary glands', '#d9534f')
-for a, b in zip(mx[1:][::-1], mx[:-1][::-1]):
-    arrow((a-0.31, 3.30), (b+0.31, 3.30))
-ax.text(7.48, 3.58, 'fertilisation', fontsize=6.4, color='#d9534f', ha='center')
-ax.text(4.90, 3.58, 'sporogony', fontsize=6.4, color='#d9534f', ha='center')
-ax.text(2.42, 3.58, 'migration', fontsize=6.4, color='#d9534f', ha='center')
-
-arrow((9.35, 6.45), (9.35, 4.55), c='#2e8b57', lw=1.7)
-ax.text(9.62, 5.50, 'mosquito sucks blood', fontsize=6.6, color='#2e8b57',
-        rotation=90, ha='center', va='center')
-arrow((0.62, 4.55), (0.62, 6.45), c='#2e8b57', lw=1.7)
-ax.text(0.34, 5.50, 'infective bite', fontsize=6.6, color='#2e8b57',
-        rotation=90, ha='center', va='center')
+```photo id="bio12/plasmodium-cycle" caption="Life cycle of *Plasmodium* (CDC). Asexual multiplication (schizogony) takes place in the human liver and red blood cells; fertilisation and sporogony take place in the female *Anopheles*, which is therefore the definitive host." width="96"
 ```
 
 The fever comes from the bursting of red cells. In *P. vivax* the erythrocytic
@@ -497,45 +446,7 @@ with **HIV**, a retrovirus of the family *Retroviridae*. HIV is a spherical
 enveloped virus about 100–120 nm across, with two identical strands of
 single-stranded RNA and three enzymes of its own.
 
-```figure caption="Structure of the HIV virion. The gp120–gp41 spike binds CD4; reverse transcriptase copies the viral RNA into DNA, which integrase then inserts into the host chromosome."
-import numpy as np, matplotlib.pyplot as plt
-from matplotlib.patches import Circle, Polygon, FancyArrowPatch
-fig, ax = plt.subplots(figsize=(5.0,3.8))
-ax.axis('off'); ax.set_aspect('equal')
-ax.set_xlim(-3.3,4.0); ax.set_ylim(-2.5,2.7)
-ax.add_patch(Circle((0,0), 1.62, fc='#eaf1f8', ec=ACCENT, lw=1.6, zorder=2))
-ax.add_patch(Circle((0,0), 1.48, fc='#eaf1f8', ec=ACCENT, lw=1.0, zorder=2))
-ax.add_patch(Circle((0,0), 1.30, fc='#f5f2fb', ec='#6a5acd', lw=1.2, zorder=3))
-# spikes
-for a in np.linspace(0, 2*np.pi, 13)[:-1]:
-    x0, y0 = 1.55*np.cos(a), 1.55*np.sin(a)
-    x1, y1 = 1.95*np.cos(a), 1.95*np.sin(a)
-    ax.plot([x0,x1],[y0,y1], color='#2e8b57', lw=1.3, zorder=4)
-    ax.add_patch(Circle((x1,y1), 0.13, fc='#2e8b57', ec='none', zorder=5))
-# conical capsid
-ax.add_patch(Polygon([(-0.62,-0.95),(0.62,-0.95),(0.30,0.92),(-0.30,0.92)],
-             closed=True, fc='#fdeeed', ec='#d9534f', lw=1.4, zorder=5))
-# RNA strands
-t = np.linspace(-0.80, 0.78, 120)
-for dx in (-0.14, 0.14):
-    ax.plot(dx + 0.10*np.sin(t*11), t, color='#8F5507', lw=1.3, zorder=6)
-ax.add_patch(Circle((-0.34,0.40), 0.10, fc=INK, ec='none', zorder=6))
-ax.add_patch(Circle(( 0.36,-0.12), 0.10, fc=INK, ec='none', zorder=6))
-ax.add_patch(Circle((-0.30,-0.55), 0.10, fc=INK, ec='none', zorder=6))
-
-def lab(txt, xy, xytext, c=INK):
-    ax.annotate(txt, xy=xy, xytext=xytext, fontsize=7.2, color=c,
-                ha='left' if xytext[0] > xy[0] else 'right',
-                va='center',
-                arrowprops=dict(arrowstyle='-', color=MUTED, lw=0.9,
-                                shrinkA=0, shrinkB=2))
-lab('gp120 knob (binds CD4)', (0.98,1.69), (1.70,2.42), '#2e8b57')
-lab('gp41 stalk', (1.51,0.87), (2.55,1.55), '#2e8b57')
-lab('lipid envelope', (1.35,-0.79), (2.45,-0.28), ACCENT)
-lab('p17 matrix', (1.07,-0.74), (2.45,-1.02), '#6a5acd')
-lab('p24 conical capsid', (0.62,-0.95), (2.45,-1.78), '#d9534f')
-lab('two (+) ssRNA strands', (-0.16,0.66), (-1.95,2.05), '#8F5507')
-lab('reverse transcriptase,\nintegrase, protease', (-0.34,-0.55), (-2.05,-1.62), INK)
+```photo id="bio12/hiv-virion" caption="Structure of the HIV virion. The gp120–gp41 spike binds CD4; reverse transcriptase copies the viral RNA into DNA, which integrase then inserts into the host chromosome." width="68"
 ```
 
 The target of HIV is the **helper T lymphocyte (CD4⁺ T cell)**, the cell that
