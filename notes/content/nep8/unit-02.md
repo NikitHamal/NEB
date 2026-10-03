@@ -152,7 +152,7 @@ box(8.2, 3.7, "अङ्ग्रेज\nगोल्डिङ, किनलक\
 ax.annotate("", xy=(4.0, 3.7), xytext=(3.0, 3.7),
             arrowprops=dict(arrowstyle="<->", color=SERIES[2], lw=1.1))
 ax.annotate("", xy=(7.2, 3.7), xytext=(6.2, 3.7),
-            arrowprops=dict(arrowstyle="-->", color=GRID, lw=1.1))
+            arrowprops=dict(arrowstyle="->", color=GRID, lw=1.1))
 ax.text(3.5, 4.35, "युद्ध", ha="center", fontsize=6.2, color=SERIES[2])
 ax.text(6.7, 4.35, "सहयोगको प्रस्ताव", ha="center", fontsize=6.2, color=MUTED)
 box(5.0, 1.5, "परिणाम : एकीकरण सफल, बाहिरी सहयोग निरर्थक", SERIES[3], 7.0)
