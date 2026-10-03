@@ -36,12 +36,16 @@ _FIX = [
     (r"\\dfrac", r"\\frac"), (r"\\tfrac", r"\\frac"),
     (r"\\ce\b", r"\\text"), (r"\\degree", r"^\\circ"), (r"\\micro", r"\\mu"),
     (r"\\textbf\b", r"\\mathbf"), (r"\\textit\b", r"\\mathit"),
-    (r"\\le\b", r"\\leq"), (r"\\ge\b", r"\\geq"),
-    (r"\\ne\b", r"\\neq"), (r"\\to\b", r"\\rightarrow"),
+    (r"\\le(?![a-zA-Z])", r"\\leq"), (r"\\ge(?![a-zA-Z])", r"\\geq"),
+    (r"\\ne(?![a-zA-Z])", r"\\neq"), (r"\\to(?![a-zA-Z])", r"\\rightarrow"),
     (r"\\nonumber", ""), (r"\\notag", ""), (r"\\label\{[^}]*\}", ""),
 ]
 
 _DIGIT_ARG = re.compile(r"\\(frac|binom)\s*([0-9a-zA-Z])\s*([0-9a-zA-Z])")
+# `\sqrt3` and `\sqrt x` both parse in no matplotlib version; the braced form
+# parses in every one. Repair the unbraced single-token argument here so an
+# author's slip cannot fail a whole chapter at build time.
+_SQRT_ARG = re.compile(r"\\sqrt\s*([0-9a-zA-Z])(?![0-9a-zA-Z{])")
 
 def _strip_wrapper(s: str, name: str) -> str:
     """Remove \\name{...} keeping its argument, brace-balanced."""
@@ -68,6 +72,7 @@ def _clean(tex: str) -> str:
     for pat, rep in _FIX:
         s = re.sub(pat, rep, s)
     s = _DIGIT_ARG.sub(r"\\\1{\2}{\3}", s)   # \frac12 -> \frac{1}{2} (after \tfrac->\frac)
+    s = _SQRT_ARG.sub(r"\\sqrt{\1}", s)       # \sqrt3 -> \sqrt{3}, \sqrt x -> \sqrt{x}
     # strip alignment environments mathtext cannot parse
     s = re.sub(r"\\begin\{(aligned|align\*?|gather\*?|split|equation\*?)\}", "", s)
     s = re.sub(r"\\end\{(aligned|align\*?|gather\*?|split|equation\*?)\}", "", s)
