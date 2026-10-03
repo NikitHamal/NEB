@@ -69,6 +69,45 @@ the web app's Interactive hub ships NEB practical labs for grades 11/12 only.
 | Grade 8 Mathematics | **complete, 21/21 chapters, built (149 pp)** |
 | Grade 8 Nepali, English, Social Studies, Health/PE | **not started** — the CDC textbook contents for these four still have to be sourced; the science and maths spines were built from the CDC textbooks at `moecdc.gov.np/content/72/` and `/74/` (Nepali editions) and their English translations at `/71/` and `/73/` |
 
+## Second session (continuation) — what changed
+
+**Grade 8 Nepali is now 12 of 17 chapters written, gated and pushed.** The spine
+(`notes/curriculum/nep8.md`) is built from the CDC **Nepali, Grade 8** textbook
+(2082 edition, `moecdc.gov.np/content/583`) cross-checked against its teacher's
+guide (`/content/221`), so the पाठ titles, विधा and **कार्यघण्टा are the official
+ones** — this is the first book in the series whose `hours:` frontmatter carries
+real CDC hours instead of 0.
+
+| done | pending |
+|---|---|
+| 1 सहिदहरूको सम्झनामा · 2 साकार सपना · 3 स्वामी प्रपन्नाचार्य · 4 व्यावसायिक चिठी · 5 मानव अधिकार · 6 अमर पुत्र · 7 पदमार्ग · 8 फर्क आफ्नै देश · 9 नेपालको वैदेशिक व्यापार · 10 हजुरआमाको जन्मोत्सव · 11 एकजोर जुत्ता · 12 जुन्को ताबेई | 13 प्यारो प्रकृति · 14 शैक्षिक भ्रमण · 15 से गुम्बाको सुन्दरता · 16 सम्पादकलाई चिठी · 17 डल्ले खोला |
+
+**Two more grade-8 spines are ready to write against**, both built from the CDC
+textbooks themselves:
+
+- `notes/curriculum/soc8.md` — Social Studies grade 8: 9 units, 41 lessons,
+  with the unit कार्यघण्टा from the teacher's guide (16+20+20+20+20+20+20+12+12
+  = 160 hours).
+- `notes/curriculum/eng8.md` — English grade 8: **19 units**, each with its two
+  reading texts, grammar, writing and project task, taken from the textbook's own
+  Table of Contents (`English, Grade 8`, CDC 2082, `moecdc.gov.np/content/582`).
+
+**New tooling in `notes/tools/`:**
+
+- **`preeti2unicode.py`** + `preeti_map.json` — converts the legacy Preeti /
+  Kantipur / Himalb font encoding that every CDC Nepali PDF uses into Unicode
+  Devanagari. Without it the textbooks are unreadable (`kf7\oj|md ljsf; s]Gb|`
+  instead of `पाठ्यक्रम विकास केन्द्र`). It applies the published character map
+  plus the pre/post reordering rules **word by word**, and adds one CDC-specific
+  repair: the CDC files write the क्र ligature as `j|m`, which the published
+  tables read as व्र, so `पाठ्यक्रम` came out as `फाठ्यव्रम` until that rule was
+  added. The mapping table comes from the `casualsnek/npttf2utf` project.
+- `pdf_page_text` / `pdf_text` convert a whole PDF span-by-span using each
+  span's own font, which is what makes a mixed Preeti/Unicode document readable.
+
+**Class-8 publishable books so far:** Science 8 (11/11) and Mathematics 8
+(21/21), both built. Nepali 8 needs chapters 13–17 before it can be built.
+
 ## Work queue (continued)
 
 1. [ ] Interactive layer for class 10 — the web app's Interactive hub ships NEB
