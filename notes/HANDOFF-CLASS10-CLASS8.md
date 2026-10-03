@@ -56,7 +56,35 @@ Also: `qbank10` stops at unit 16 while its spine lists 19 units; the
 "Organisation of the book" table prints em-dashes where 11/12 print hours; and
 the web app's Interactive hub ships NEB practical labs for grades 11/12 only.
 
-## Work queue
+## Status at the end of this session
+
+| Item | State |
+|---|---|
+| qbank10 units 17–19 | **done** (book 19/19) |
+| Nepali 10 information-graphics pass | **done** (8 figures -> 36, 2.1 per chapter) |
+| Class 10 `hours:` backfill | not done — the spines carry a subject-level total only, not per-unit hours, so nothing was invented |
+| Interactive layer for class 10 | not started (see below) |
+| All class-10 books rebuilt + shrunk + pushed | **done** |
+| Grade 8 Science and Technology | **complete, 11/11 units, built (110 pp)** |
+| Grade 8 Mathematics | **complete, 21/21 chapters, built (149 pp)** |
+| Grade 8 Nepali, English, Social Studies, Health/PE | **not started** — the CDC textbook contents for these four still have to be sourced; the science and maths spines were built from the CDC textbooks at `moecdc.gov.np/content/72/` and `/74/` (Nepali editions) and their English translations at `/71/` and `/73/` |
+
+## Work queue (continued)
+
+1. [ ] Interactive layer for class 10 — the web app's Interactive hub ships NEB
+   practical labs for grades 11 and 12 (`backend_python/web/interactive/`) and
+   nothing for grade 10. The natural addition is a Class 10 Science virtual-lab
+   course (the SEE science practicals) plus a Class 10 Mathematics explorer.
+2. [ ] Grade 8 spines and content for Nepali, English, Social Studies and
+   Health/Physical & Creative Arts.
+3. [ ] Grade 8 question bank, once the four remaining subject books exist.
+4. [ ] Class 10 `hours:` frontmatter, from the CDC per-unit working hours if a
+   source can be found.
+5. [ ] Mathematics 8 is thinner on figures than Mathematics 11 (25 figures over
+   21 shorter chapters, against 142 over 21 long ones); a figure pass would
+   bring it in line.
+
+## Work queue (original note)
 
 1. [x] qbank10 units 17–19 (spine completion) — written, `check.py` OK; also fixed the mathsvg `\le0`/`\sqrt3` repair rules
 2. [~] Class 10 information-graphics pass — nep10 taken from 8 to 36 figures (2.1 per chapter); eng10/math10/omath10 already match their 11/12 density (eng10 2.0 fig/ch vs eng11 1.9; math has no photos in 11/12 either)
