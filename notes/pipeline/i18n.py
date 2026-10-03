@@ -115,9 +115,81 @@ NE.update(
 )
 
 CUR = EN
+
+# The same pipeline prints the books for the basic level (grades 1-8) and for
+# the secondary level (grades 9-12). The furniture differs where it matters:
+# a Grade 8 book is basic level, examined by the local level, not a "Science
+# Stream" NEB book, and saying otherwise on the cover would be wrong.
+BASIC_EN = dict(
+    grade="Grade {g} · Basic Level (Grades 1–8)",
+    cover_sub=("Complete study notes for the CDC basic level curriculum, "
+               "Grades 1–8. Every unit of the official syllabus, with worked "
+               "examples, diagrams, tables, summaries, practice questions and "
+               "full answer keys."),
+    front_lead=("These notes cover the complete official curriculum for "
+                "{subject}, Grade {g}, as published by the Curriculum "
+                "Development Centre (CDC), Sanothimi. Grade 8 is assessed by "
+                "the Basic Education Examination, conducted by the local level "
+                "under the CDC assessment scheme."),
+    exam_h="Assessment pattern",
+    no_grid=("The basic level assessment scheme gives continuous (internal) "
+             "assessment 50 % weight and the written paper 50 %; confirm your "
+             "local level's grid."),
+)
+
+BASIC_NE = dict(
+    grade="कक्षा {g} · आधारभूत तह (कक्षा १–८)",
+    cover_sub=("पाठ्यक्रम विकास केन्द्रको आधारभूत तह (कक्षा १–८) पाठ्यक्रममा "
+               "आधारित सम्पूर्ण अध्ययन टिपोट — हल गरिएका उदाहरण, चित्र, तालिका, "
+               "सारांश, अभ्यास प्रश्न र पूर्ण उत्तरकुञ्जीसहित।"),
+    front_lead=("यी टिपोटले पाठ्यक्रम विकास केन्द्र, सानोठिमीले प्रकाशन गरेको "
+                "{subject}, कक्षा {g} को सम्पूर्ण आधिकारिक पाठ्यक्रम समेट्छन्। "
+                "कक्षा ८ को मूल्याङ्कन स्थानीय तहबाट सञ्चालित आधारभूत तह "
+                "परीक्षाबाट हुन्छ।"),
+    exam_h="मूल्याङ्कन ढाँचा",
+    no_grid=("आधारभूत तहको मूल्याङ्कन योजनाअनुसार आन्तरिक (निरन्तर) मूल्याङ्कनको "
+             "भार ५० प्रतिशत र लिखित परीक्षाको भार ५० प्रतिशत हुन्छ; आफ्नो "
+             "स्थानीय तहको विशिष्टीकरण तालिका पुष्टि गर्नुहोस्।"),
+)
+
+
+SEC_EN = dict(
+    grade="Grade {g} · Secondary Level (SEE)",
+    cover_sub=("Complete study notes for the CDC secondary education "
+               "curriculum (Grades 9–10), examined by the Secondary Education "
+               "Examination. Every unit of the official syllabus, with "
+               "derivations, worked examples, diagrams, tables, summaries and "
+               "practice questions with full model question papers."),
+    front_lead=("These notes cover the complete official curriculum for "
+                "{subject}, Grade {g}, as published by the Curriculum "
+                "Development Centre (CDC), Sanothimi, and examined by the "
+                "Secondary Education Examination (SEE) of the National "
+                "Examination Board."),
+)
+
+SEC_NE = dict(
+    grade="कक्षा {g} · माध्यमिक तह (SEE)",
+    cover_sub=("पाठ्यक्रम विकास केन्द्रको माध्यमिक तह (कक्षा ९–१०) पाठ्यक्रममा "
+               "आधारित सम्पूर्ण अध्ययन टिपोट — व्युत्पत्ति, हल गरिएका उदाहरण, "
+               "चित्र, तालिका, सारांश र पूर्ण नमुना प्रश्नपत्रसहित अभ्यास प्रश्न।"),
+    front_lead=("यी टिपोटले पाठ्यक्रम विकास केन्द्र, सानोठिमीले प्रकाशन गरेको र "
+                "राष्ट्रिय परीक्षा बोर्डको माध्यमिक शिक्षा परीक्षा (SEE) बाट "
+                "परीक्षा लिइने {subject}, कक्षा {g} को सम्पूर्ण आधिकारिक "
+                "पाठ्यक्रम समेट्छन्।"),
+)
+
+
 def set_book(slug):
     global CUR
-    CUR = NE if slug.startswith("nep") else EN
+    m = re.match(r"([a-z]+)(\d+)", slug or "")
+    grade = int(m.group(2)) if m else 12
+    base = NE if (slug or "").startswith("nep") else EN
+    if grade <= 8:
+        CUR = dict(base, **(BASIC_NE if base is NE else BASIC_EN))
+    elif grade <= 10:
+        CUR = dict(base, **(SEC_NE if base is NE else SEC_EN))
+    else:
+        CUR = base
     return CUR
 
 _D = str.maketrans("0123456789", "०१२३४५६७८९")
