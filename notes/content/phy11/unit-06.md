@@ -419,8 +419,13 @@ and reach an expression for the time of one revolution.
 and it moves in a horizontal circle so that the string sweeps out a cone at a
 constant angle $\theta$ to the vertical. From the geometry of that cone,
 
-$$ r = L\sin\theta \quad (\text{radius of the circle}), \qquad
-h = L\cos\theta \quad (\text{depth of the circle below the support}) $$
+$$
+r = L\sin\theta \quad (\text{radius of the circle}),
+$$
+
+$$
+h = L\cos\theta \quad (\text{depth of the circle below the support})
+$$
 
 Only two forces act on the bob: its weight $mg$ straight down, and the tension $T$
 along the string towards the support.

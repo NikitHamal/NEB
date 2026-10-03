@@ -453,6 +453,12 @@ ax.set_xlim(-0.05, ncol); ax.set_ylim(-1.25, 1.05)
 ax.axis('off')
 ```
 
+```photo id="chem12/tm-colours" caption="Solutions of transition-metal compounds span the whole visible spectrum — the colour comes from d–d transitions in the hydrated or complexed ion." width="70"
+```
+
+```photo id="chem12/cuso4" caption="Hydrated copper(II) sulfate, CuSO₄·5H₂O: the blue crystals owe their colour to the [Cu(H₂O)₄]²⁺ unit." width="35"
+```
+
 Three consequences:
 
 1. **d⁰ and d¹⁰ ions are colourless** — Sc³⁺, Ti⁴⁺, Zn²⁺, Cu⁺, Ag⁺ — because

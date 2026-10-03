@@ -353,6 +353,9 @@ for xt, tt in [(2.60, "(a) homologous"), (6.90, "(b) analogous"),
             fontweight="bold", ha="center", va="center")
 ```
 
+```photo id="bio11/homology" caption="Analogous wings in three vertebrates: a pterodactyl (a reptile), a bat (a mammal) and a bird. The wing of each is built on the same forelimb skeleton, but the flight surface is different: a skin membrane on one long finger, a membrane stretched over four fingers, and feathers." width="50"
+```
+
 ### Evidence from embryology
 
 **Von Baer's law**: the general characters of a large group appear in the embryo
@@ -365,111 +368,7 @@ recapitulation** ("ontogeny repeats phylogeny", the embryo passing through the
 inherit the same early developmental programme, so useless leftovers persist: gill
 slits in a human, teeth in a baleen-whale foetus, a tail at six weeks.
 
-```figure caption="Comparative embryology. At the earliest stage the three embryos are nearly indistinguishable and all three show pharyngeal gill slits and a post-anal tail; species characters appear only later. This is von Baer's law, not Haeckel's recapitulation."
-import numpy as np, matplotlib.pyplot as plt
-from matplotlib.patches import Polygon, Circle, Ellipse
-
-fig, ax = plt.subplots(figsize=(5.2, 4.0))
-ax.set_xlim(0, 15.6); ax.set_ylim(0, 12.0)
-ax.set_aspect("equal"); ax.axis("off")
-BODY = "#eef1f5"
-
-def embryo(cx, cy, L, B, wid, headr, tail, gills, limbs=(),
-           beak=False, caudal=False):
-    N = 200
-    u = np.linspace(0, 1, N)
-    th = np.radians(18.0 + B * u)
-    sx = np.cumsum(np.cos(th)) * L / N
-    sy = np.cumsum(np.sin(th)) * L / N
-    w = wid * ((1 - u) ** 0.80 * 0.92 + 0.08)
-    nx, ny = -np.sin(th), np.cos(th)          # left of travel = dorsal
-    up = np.c_[sx + nx * w, sy + ny * w]
-    dn = np.c_[sx - nx * w, sy - ny * w]
-    allp = np.vstack([up, dn])
-    ox = cx - 0.5 * (allp[:, 0].min() + allp[:, 0].max())
-    oy = cy - 0.5 * (allp[:, 1].min() + allp[:, 1].max())
-    sx += ox; sy += oy
-    ax.add_patch(Polygon(np.vstack([np.c_[sx + nx * w, sy + ny * w],
-                                    np.c_[sx - nx * w, sy - ny * w][::-1]]),
-                         closed=True, facecolor=BODY, edgecolor=INK,
-                         lw=0.9, zorder=3))
-    hx = sx[0] - np.cos(th[0]) * headr * 0.55
-    hy = sy[0] - np.sin(th[0]) * headr * 0.55
-    ax.add_patch(Circle((hx, hy), headr, facecolor=BODY, edgecolor=INK,
-                        lw=0.9, zorder=4))
-    ax.add_patch(Circle((hx - 0.34 * headr, hy + 0.20 * headr), 0.25 * headr,
-                        facecolor=INK, edgecolor="none", zorder=5))
-    if beak:
-        ax.add_patch(Polygon([(hx - 0.92 * headr, hy + 0.16 * headr),
-                              (hx - 1.95 * headr, hy - 0.16 * headr),
-                              (hx - 0.86 * headr, hy - 0.50 * headr)],
-                             closed=True, facecolor=SERIES[3], edgecolor=INK,
-                             lw=0.7, zorder=5))
-    for j in range(gills):
-        i = 14 + j * 11
-        ax.plot([sx[i] - nx[i] * w[i] * 1.0, sx[i] + nx[i] * w[i] * 1.0],
-                [sy[i] - ny[i] * w[i] * 1.0, sy[i] + ny[i] * w[i] * 1.0],
-                color=SERIES[1], lw=1.5, solid_capstyle="round", zorder=6)
-    tx = sx[-1] + np.cos(th[-1]) * tail
-    ty = sy[-1] + np.sin(th[-1]) * tail
-    ax.plot([sx[-1], tx], [sy[-1], ty], color=INK, lw=1.7,
-            solid_capstyle="round", zorder=3)
-    if caudal:
-        d = np.array([np.cos(th[-1]), np.sin(th[-1])])
-        p = np.array([-d[1], d[0]])
-        ax.add_patch(Polygon([(tx, ty), (tx + (d * 0.52 + p * 0.46)[0],
-                                         ty + (d * 0.52 + p * 0.46)[1]),
-                              (tx + d[0] * 0.30, ty + d[1] * 0.30),
-                              (tx + (d * 0.52 - p * 0.44)[0],
-                               ty + (d * 0.52 - p * 0.44)[1])],
-                             closed=True, facecolor=BODY, edgecolor=INK,
-                             lw=0.8, zorder=2))
-    for frac, d1, d2, bend in limbs:
-        i = int(frac * (N - 1))
-        a = np.arctan2(-ny[i], -nx[i])
-        p1 = (sx[i] - nx[i] * w[i] * 0.85, sy[i] - ny[i] * w[i] * 0.85)
-        p2 = (p1[0] + d1 * np.cos(a), p1[1] + d1 * np.sin(a))
-        a2 = a + np.radians(bend)
-        p3 = (p2[0] + d2 * np.cos(a2), p2[1] + d2 * np.sin(a2))
-        ax.plot([p1[0], p2[0], p3[0]], [p1[1], p2[1], p3[1]], color=INK,
-                lw=2.0 if d2 else 3.2, solid_capstyle="round", zorder=2)
-        if d2:
-            ax.add_patch(Ellipse(p3, 0.30, 0.18,
-                                 angle=np.degrees(a2), facecolor=INK,
-                                 edgecolor="none", zorder=2))
-
-COLX = [3.95, 7.45, 10.90]
-ROWY = [9.05, 5.65, 2.25]
-NAMES = ["fish\n(Labeo)", "chick\n(Gallus)", "human\n(Homo)"]
-NOTES = ["gill slits (red) and a\ntail in every early\nembryo",
-         "the middle stages are\nstill hard to tell\napart",
-         "only at the end do fin,\nbeak, wing and hand\nappear"]
-BUD = (0.13, 0.0, 0)
-
-for x, t in zip(COLX, ["early", "middle", "late"]):
-    ax.text(x, 11.55, t, fontsize=7.6, color=INK, fontweight="bold", ha="center")
-for i, y in enumerate(ROWY):
-    ax.text(0.10, y, NAMES[i], fontsize=7.2, color=INK, va="center")
-    ax.text(13.00, y, NOTES[i], fontsize=6.2, color=MUTED, va="center")
-    ax.plot([1.60, 15.5], [y + 1.70, y + 1.70], color=GRID, lw=0.7)
-ax.plot([1.60, 15.5], [ROWY[2] - 1.70, ROWY[2] - 1.70], color=GRID, lw=0.7)
-ax.plot([12.72, 12.72], [0.55, 10.75], color=GRID, lw=0.7)
-
-y = ROWY[0]
-embryo(COLX[0], y, 2.70, -195, 0.40, 0.46, 0.26, 4)
-embryo(COLX[1], y, 2.70, -135, 0.38, 0.44, 0.48, 4)
-embryo(COLX[2] - 0.60, y, 2.85, -36, 0.32, 0.36, 0.38, 3, caudal=True,
-       limbs=[(0.46, 0.32, 0.0, 0), (0.74, 0.28, 0.0, 0)])
-y = ROWY[1]
-embryo(COLX[0], y, 2.70, -195, 0.40, 0.46, 0.24, 4)
-embryo(COLX[1], y, 2.70, -140, 0.38, 0.46, 0.40, 4, limbs=[(0.40,) + BUD, (0.70,) + BUD])
-embryo(COLX[2] + 0.10, y, 2.45, -96, 0.38, 0.48, 0.36, 0, beak=True,
-       limbs=[(0.40, 0.40, 0.32, -60), (0.72, 0.38, 0.30, 62)])
-y = ROWY[2]
-embryo(COLX[0], y, 2.70, -195, 0.40, 0.48, 0.22, 4)
-embryo(COLX[1], y, 2.70, -145, 0.38, 0.50, 0.34, 3, limbs=[(0.40,) + BUD, (0.70,) + BUD])
-embryo(COLX[2], y, 2.30, -104, 0.42, 0.62, 0.09, 0,
-       limbs=[(0.38, 0.40, 0.30, -58), (0.72, 0.42, 0.34, 58)])
+```photo id="bio11/haeckel" caption="Comparative embryology: Haeckel's plate of eight vertebrates (fish, salamander, tortoise, chick, hog, calf, rabbit, human) at three stages. In row I the embryos are nearly alike, all with pharyngeal gill slits and a post-anal tail; species characters appear only in rows II and III. Haeckel overstated the similarity of the earliest stage; the lesson is von Baer's law, not recapitulation." width="90"
 ```
 
 ### Evidence from palaeontology (fossils)
@@ -595,6 +494,9 @@ for yy in (8.78, 5.46, 3.16):
     ax.plot([-0.05, 11.45], [yy, yy], color=GRID, lw=0.7)
 ```
 
+```photo id="bio11/horse-evo" caption="Fore-foot bones and crown view of a cheek tooth in four stages of horse evolution (left to right: four toes and a low-crowned tooth; three; three with a bigger central toe; one toe and a complex high-crowned tooth)." width="90"
+```
+
 The **trends** are: increase in body size; lengthening of limbs, head and neck;
 reduction of the toes from four to one with the weight on the enlarged third digit;
 increase in tooth-crown height with cement filling the folds; and enlargement of
@@ -673,6 +575,9 @@ ax.set_xlim(0.1, 11.0); ax.set_ylim(0.5, 9.3)
 ax.set_aspect("equal"); ax.axis("off")
 ```
 
+```photo id="bio11/finches-gould" caption="Beaks of four Galápagos finches (Gould's plate for Darwin): 1 *Geospiza magnirostris*, the large ground finch with a heavy crushing beak; 2 *G. fortis*; 3 *G. parvula*; 4 *Certhidea olivacea*, the warbler finch with a thin probing beak." width="76"
+```
+
 ### Evidence from taxonomy, biochemistry and artificial selection
 
 Only common descent explains why living things can be arranged in nested groups
@@ -739,6 +644,9 @@ b.set_xlim(1840, 2012); b.set_ylim(0, 108)
 b.spines[["top", "right"]].set_visible(False)
 b.grid(True, alpha=0.45)
 b.set_title("(b) rise and fall of carbonaria", fontsize=7.6, pad=3)
+```
+
+```photo id="bio11/biston" caption="Two forms of the peppered moth on one birch trunk: the pale form blends with the lichen-covered bark, while the dark form shows up clearly against it." width="76"
 ```
 
 The same process runs around us: *Staphylococcus* resistant to penicillin,

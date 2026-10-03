@@ -1,3 +1,199 @@
+---
+subject: Question Bank
+grade: 12
+unit: 5
+title: "Chemistry: Unit-wise Objective Question Bank"
+hours: 0
+area: Chemistry
+---
+
+Group A of the Grade 12 Chemistry paper is eleven one-mark questions, all compulsory, and it is the cheapest part of the paper to win if you practise it the right way. This chapter walks through **all twenty-one syllabus units in the order of the CDC curriculum**. Every unit opens with a one-table digest of the facts the examiner keeps returning to, then sets a block of multiple-choice questions, and closes with an answer key in which each option is justified in one line — including the wrong-answer trap that the distractors were built to catch.
+
+::: caution How to read the year tags
+A tag such as (NEB 2081) or (NEB 2079 model) means that **the question, or the same stem on the same topic, was actually set** in that board paper or official model paper. Where the original print was garbled in the source we could reach, the options here are re-set but the stem and the answer are unchanged. Untagged questions are new, written to the syllabus and to the same pattern. There is no published per-unit marks grid for Grade 12 Chemistry, so teaching hours are used as a *proxy* for weight — not as a promise.
+:::
+
+::: key What Group A actually tests
+Across the papers of 2078 (model) to 2083, the eleven Group A questions come from six families: an **equivalent weight** or normality calculation; a **Ksp, pH or Ka** calculation; the **order** of a reaction from its half-life or rate law; a comparison of **E° values**; an identification of a **transition-metal or heavy-metal fact**; and the **product of a named organic reaction**. Organic chemistry carries 55 of the 128 teaching hours, and about seven of the eleven questions. Do each numerical on paper before you look at the options: the wrong options are built from arithmetic slips, not from ignorance of the chemistry.
+:::
+
+## 5.1 Volumetric Analysis
+
+| Idea | What you must be able to state |
+|---|---|
+| Equivalent weight | molar mass ÷ n-factor; the n-factor is the H⁺ or OH⁻ replaced, or the electrons exchanged, **in that reaction** |
+| Acid | M ÷ basicity actually used (H₃PO₃ is dibasic; H₃PO₂ is monobasic) |
+| Base | M ÷ acidity actually used |
+| Salt | M ÷ total positive (or negative) charge |
+| Oxidant or reductant | M ÷ electrons gained or lost per formula unit |
+| KMnO₄ | 158/5 = 31.6 in acid; 158/3 = 52.7 in neutral or weak alkali; 158/1 = 158 in strong alkali |
+| K₂Cr₂O₇ in acid | 294/6 = 49 |
+| Oxalic acid crystals, H₂C₂O₄·2H₂O | M = 126, so equivalent weight = 63 |
+| Molarity | moles of solute per litre of **solution**; changes with temperature |
+| Molality | moles of solute per kg of **solvent**; independent of temperature |
+| Normality | gram equivalents per litre = molarity × n-factor |
+| ppm | mg of solute per kg of solution, which is mg L⁻¹ for dilute aqueous solutions |
+| Primary standard | pure, stable, non-hygroscopic, high molar mass, exact formula: oxalic acid crystals, anhydrous Na₂CO₃, K₂Cr₂O₇ |
+| Secondary standard | standardised against a primary one: NaOH, HCl, KMnO₄, Na₂S₂O₃ |
+| Normality equation | N₁V₁ = N₂V₂ at the end point |
+| Indicators | strong acid–strong base: phenolphthalein or methyl orange; strong acid–weak base (Na₂CO₃): methyl orange; weak acid–strong base: phenolphthalein; KMnO₄ is its own indicator |
+| Mohr's method | Cl⁻ estimated with standard AgNO₃ and K₂CrO₄ indicator (brick-red Ag₂CrO₄ at the end point) |
+
+1. The equivalent weight of H₃PO₃ in the reaction 2NaOH + H₃PO₃ → Na₂HPO₃ + 2H₂O is (NEB 2078 model) <span class="marks">[1]</span>
+   (a) 82 (b) 41 (c) 27.3 (d) 20.5
+2. The normality of a 5 % (w/v) Na₂CO₃ solution, taking Na₂CO₃ as a dibasic base of molar mass 106, is (NEB 2083) <span class="marks">[1]</span>
+   (a) 0.94 N (b) 0.98 N (c) 0.47 N (d) 1.88 N
+3. To estimate chloride ion in tap water by volumetric analysis the standard solution used is (NEB 2082) <span class="marks">[1]</span>
+   (a) BaCl₂ (b) NaOH (c) K₂CrO₄ alone (d) AgNO₃
+4. For the titration of H₂SO₄ against Na₂CO₃ the indicator to be recommended is (NEB model set A) <span class="marks">[1]</span>
+   (a) methyl orange (b) phenolphthalein (c) litmus paper (d) starch
+5. The equivalent weight of K₂Cr₂O₇ (M = 294) acting as an oxidising agent in acidic medium is <span class="marks">[1]</span>
+   (a) 294 (b) 98 (c) 49 (d) 42
+6. The equivalent weight of KMnO₄ (M = 158) in acidic medium is <span class="marks">[1]</span>
+   (a) 158 (b) 79 (c) 52.7 (d) 31.6
+7. A liquor ammonia sample is 25 % (w/w) NH₃ and has specific gravity 0.91. Its molarity is (NEB 2079 model) <span class="marks">[1]</span>
+   (a) 13.4 M (b) 14.7 M (c) 25 M (d) 6.7 M
+8. 100 cc of N/2 HCl, 20 cc of N/10 HNO₃ and 50 cc of N/5 H₂SO₄ are mixed. The pH of the mixture is about (NEB model set A) <span class="marks">[1]</span>
+   (a) 0.30 (b) 0.44 (c) 0.56 (d) 1.00
+9. 3.15 g of oxalic acid crystals (H₂C₂O₄·2H₂O) are dissolved to make 500 mL of solution. Its normality is (NEB 2083) <span class="marks">[1]</span>
+   (a) 0.05 N (b) 0.10 N (c) 0.20 N (d) 0.50 N
+10. Which of the following is a primary standard substance? <span class="marks">[1]</span>
+   (a) NaOH (b) KMnO₄ (c) HCl (d) oxalic acid crystals
+11. In the titration of oxalic acid against KMnO₄ in acidic medium the indicator is <span class="marks">[1]</span>
+   (a) phenolphthalein (b) methyl orange (c) KMnO₄ itself (d) starch
+12. 25.0 mL of 0.100 N HCl exactly neutralises 20.0 mL of NaOH solution. The normality of the alkali is <span class="marks">[1]</span>
+   (a) 0.080 N (b) 0.125 N (c) 0.200 N (d) 0.500 N
+
+::: note Answers — Volumetric Analysis
+**1.** (b) — H₃PO₃ is dibasic, and here both replaceable H are used (Na₂HPO₃), so E = 82/2 = 41. Option (a) forgets to divide; (c) divides by 3 because the formula has three H, but one of them is bonded to P and is not acidic.
+**2.** (a) — 5 g per 100 mL = 50 g L⁻¹; equivalent weight = 106/2 = 53; N = 50/53 = 0.94. Option (c) is the molarity (50/106), which forgets the n-factor, and (d) doubles the n-factor.
+**3.** (d) — Cl⁻ + Ag⁺ → AgCl↓. This is precipitation titration (Mohr's method), with K₂CrO₄ only as the indicator, so K₂CrO₄ alone cannot be the titrant.
+**4.** (a) — Na₂CO₃ is a weak base; at complete neutralisation the solution holds H₂CO₃ (pH about 4), which methyl orange signals. Phenolphthalein changes colour at the half-way stage, NaHCO₃, so it would give a wrong end point.
+**5.** (c) — Cr₂O₇²⁻ + 14H⁺ + 6e⁻ → 2Cr³⁺ + 7H₂O takes six electrons, so E = 294/6 = 49. Option (b) uses three electrons, the n-factor of dilute-acid reduction of a different oxidant.
+**6.** (d) — MnO₄⁻ + 8H⁺ + 5e⁻ → Mn²⁺ + 4H₂O, so E = 158/5 = 31.6. Option (c) is the neutral-medium value (three electrons).
+**7.** (a) — M = (10 × 0.91 × 25)/17 = 227.5/17 = 13.4 mol L⁻¹. Option (d) uses 34 as the molar mass, which is 2 × 17.
+**8.** (b) — equivalents = 100 × 0.5 + 20 × 0.1 + 50 × 0.2 = 50 + 2 + 10 = 62 milli-equivalents in 170 mL, so N = 0.3647 and pH = −log 0.3647 = 0.44. Option (c) is the pH if the volumes were forgotten and the three normalities were simply averaged.
+**9.** (b) — E = 126/2 = 63; N = (3.15/63)/0.5 = 0.05/0.5 = 0.10 N. Option (a) forgets that the volume is 0.5 L, not 1 L.
+**10.** (d) — oxalic acid crystals are pure, stable and of exactly known formula. NaOH absorbs CO₂ and water, HCl is volatile, and KMnO₄ is reduced by traces of organic matter, so all three are secondary standards.
+**11.** (c) — one drop of excess MnO₄⁻ makes the solution permanently pink, so KMnO₄ is a self-indicator. The solution is warmed to about 60–70 °C because the first reaction is slow at room temperature, and dilute H₂SO₄ supplies the H⁺ the half-reaction needs.
+**12.** (b) — N₁V₁ = N₂V₂ gives N₂ = (0.100 × 25.0)/20.0 = 0.125 N. Option (a) inverts the ratio of the volumes.
+:::
+
+## 5.2 Ionic Equilibrium
+
+| Idea | What you must be able to state |
+|---|---|
+| Brønsted–Lowry acid / base | proton donor / proton acceptor; every acid has a conjugate base, and the stronger the acid the weaker its conjugate base |
+| Lewis acid / base | electron-pair acceptor (BF₃, AlCl₃, H⁺) / donor (NH₃, OH⁻, H₂O) |
+| Ostwald's dilution law | Ka = Cα²/(1 − α) ≈ Cα², so α = √(Ka/C); α rises on dilution; it fails for strong electrolytes |
+| Ionic product of water | Kw = [H⁺][OH⁻] = 1 × 10⁻¹⁴ at 25 °C; it **increases** with temperature, because ionisation is endothermic |
+| pH and pOH | pH = −log[H⁺]; pH + pOH = 14 at 25 °C |
+| pH of a weak acid | [H⁺] = √(KaC) = Cα |
+| Solubility product | AB: Ksp = s²; AB₂ or A₂B: Ksp = 4s³, so s = (Ksp/4)^(1/3) |
+| Precipitation rule | precipitate forms when the ionic product exceeds Ksp |
+| Common ion effect | adding a common ion lowers the solubility of a sparingly soluble salt and suppresses the ionisation of a weak electrolyte |
+| Buffer | pH = pKa + log([salt]/[acid]); resists change on adding small amounts of acid or alkali |
+| Indicators | methyl orange (3.1–4.4), methyl red (4.2–6.3), phenolphthalein (8.3–10.0) |
+| Salt hydrolysis | strong acid + strong base: neutral; weak acid + strong base: alkaline; strong acid + weak base: acidic |
+| Qualitative analysis | group II sulphides need low [S²⁻], so dilute HCl is added; group IV needs high [S²⁻], so NH₄OH/NH₄Cl is added |
+
+```figure caption="Titration curves for 25 mL of 0.1 M acid titrated with 0.1 M NaOH. HCl (strong acid) starts at pH 1 and jumps through pH 7 at the equivalence point; ethanoic acid starts near pH 2.9 and its jump is centred above 7, which is why phenolphthalein (8.3–10.0) suits it and methyl orange (3.1–4.4) does not."
+import numpy as np, matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(4.8, 3.1))
+Ca, Va, Cb = 0.1, 25.0, 0.1
+Ka, Kw = 1.8e-5, 1e-14
+vb = np.linspace(0.01, 49.9, 600)
+
+def strong(v):
+    nH = Ca*Va - Cb*v
+    tot = Va + v
+    h = nH/tot
+    out = np.empty_like(v)
+    for i, (hh, n) in enumerate(zip(h, nH)):
+        if abs(hh) < 1e-8:
+            out[i] = 7.0
+        elif hh > 0:
+            out[i] = -np.log10(hh)
+        else:
+            out[i] = 14 + np.log10(-hh)
+    return out
+
+def weak(v):
+    out = []
+    for x in v:
+        tot = Va + x
+        ca = Ca*Va/tot
+        cb = Cb*x/tot
+        lo, hi = 0.0, 14.0
+        for _ in range(80):
+            mid = (lo+hi)/2
+            h = 10**(-mid)
+            oh = Kw/h
+            f = h + cb - oh - ca*Ka/(Ka+h)
+            if f > 0:
+                lo = mid
+            else:
+                hi = mid
+        out.append((lo+hi)/2)
+    return np.array(out)
+
+ax.plot(vb, strong(vb), color=ACCENT, lw=1.9, label="HCl + NaOH")
+ax.plot(vb, weak(vb), color="#A8271F", lw=1.9, ls="--", label="CH₃COOH + NaOH")
+ax.axhspan(8.3, 10.0, color="#A8271F", alpha=0.10)
+ax.axhspan(3.1, 4.4, color=ACCENT, alpha=0.10)
+ax.text(1.0, 9.05, "phenolphthalein", fontsize=7.2, color="#A8271F", va="center")
+ax.text(1.0, 3.75, "methyl orange", fontsize=7.2, color=ACCENT, va="center")
+ax.axvline(25, color=GRID, lw=0.8, ls=":")
+ax.set_xlabel("volume of NaOH added / mL")
+ax.set_ylabel("pH")
+ax.set_xlim(0, 50); ax.set_ylim(0, 14)
+ax.spines[["top", "right"]].set_visible(False)
+ax.legend(loc="lower right", fontsize=7.6, frameon=False)
+```
+
+1. The pH of 10⁻⁸ M aqueous HCl at 25 °C is (NEB 2079) <span class="marks">[1]</span>
+   (a) 8 (b) 7 (c) slightly less than 7 (d) more than 8
+2. Equal volumes of 1 M NaNO₃ and 1 M KCl are mixed. The concentration of nitrate ions in the mixture is (NEB 2079) <span class="marks">[1]</span>
+   (a) 0.25 M (b) 0.5 M (c) 1 M (d) 2 M
+3. The ionic product of water at 393 K is (NEB 2083) <span class="marks">[1]</span>
+   (a) greater than 1 × 10⁻¹⁴ (b) less than 1 × 10⁻¹⁴ (c) equal to 1 × 10⁻¹⁴ (d) equal to 1 × 10⁻⁷
+4. The pH of 10 mL of 1 × 10⁻⁷ M H₂SO₄ at 25 °C is (NEB model set B) <span class="marks">[1]</span>
+   (a) exactly 7.00 (b) 6.62 (c) 7.30 (d) 6.70
+5. The solubility product of chalk (CaCO₃, M = 100) is 9.3 × 10⁻⁸. Its solubility is about (NEB 2078 model) <span class="marks">[1]</span>
+   (a) 3.05 × 10⁻⁴ g L⁻¹ (b) 3.05 × 10⁻² g L⁻¹ (c) 9.3 × 10⁻⁸ g L⁻¹ (d) 0.93 g L⁻¹
+6. For a sparingly soluble salt A₂B the solubility s is related to Ksp by (NEB model set A) <span class="marks">[1]</span>
+   (a) s = Ksp^(1/2) (b) s = (Ksp/2)^(1/3) (c) s = (Ksp/4)^(1/3) (d) s = (Ksp/27)^(1/4)
+7. The degree of ionisation of 0.01 M HCN (Ka = 4.8 × 10⁻¹⁰) is (NEB 2082) <span class="marks">[1]</span>
+   (a) 2.2 × 10⁻⁴ (b) 4.8 × 10⁻⁸ (c) 2.2 × 10⁻² (d) 6.9 × 10⁻⁶
+8. A 0.1 M solution of ethanoic acid is 1.34 % ionised. Its dissociation constant is (NEB 2079 model) <span class="marks">[1]</span>
+   (a) 1.8 × 10⁻⁵ (b) 1.34 × 10⁻³ (c) 1.8 × 10⁻³ (d) 1.34 × 10⁻⁵
+9. A solution of KOH has pH 8. It is diluted 1000 times. The pH of the diluted solution is (NEB 2078 model) <span class="marks">[1]</span>
+   (a) 5 (b) 11 (c) 8 (d) just above 7
+10. A buffer contains 0.2 M ethanoic acid and 0.1 M sodium ethanoate (pKa = 4.74). Its pH is <span class="marks">[1]</span>
+   (a) 4.74 (b) 5.04 (c) 4.44 (d) 4.14
+11. The conjugate base of H₂PO₄⁻ is <span class="marks">[1]</span>
+   (a) H₃PO₄ (b) HPO₄²⁻ (c) PO₄³⁻ (d) OH⁻
+12. Equal volumes of 2 × 10⁻⁴ M BaCl₂ and 2 × 10⁻⁴ M Na₂SO₄ are mixed (Ksp of BaSO₄ = 1 × 10⁻¹⁰). A precipitate <span class="marks">[1]</span>
+   (a) forms, because the ionic product is 1 × 10⁻⁸ (b) does not form, because the ionic product is 4 × 10⁻⁸ (c) does not form, because both salts are soluble (d) forms only on heating
+13. The aqueous solution of sodium ethanoate is <span class="marks">[1]</span>
+   (a) acidic (b) alkaline (c) neutral (d) amphoteric
+
+::: note Answers — Ionic Equilibrium
+**1.** (c) — the acid contributes 10⁻⁸ M H⁺, but water supplies about 9.5 × 10⁻⁸ M more, so [H⁺] = 1.05 × 10⁻⁷ and pH = 6.98. An acid can never give a pH of 8, which is the trap in option (a).
+**2.** (b) — mixing doubles the volume and NaNO₃ is diluted from 1 M to 0.5 M. Neither KCl nor the spectator ions contribute nitrate. Option (c) forgets the dilution.
+**3.** (a) — ionisation of water is endothermic, so Kw rises with temperature (about 3.8 × 10⁻¹³ at 100 °C). Kw = 10⁻¹⁴ is valid only at 25 °C.
+**4.** (b) — [H⁺] from the acid is 2 × 10⁻⁷ and water adds a little more: [H⁺]² − 2 × 10⁻⁷[H⁺] − 10⁻¹⁴ = 0, so [H⁺] = 2.41 × 10⁻⁷ and pH = 6.62. Option (a) ignores the fact that H₂SO₄ gives two H⁺.
+**5.** (b) — s = √(9.3 × 10⁻⁸) = 3.05 × 10⁻⁴ mol L⁻¹; multiplying by M = 100 gives 3.05 × 10⁻² g L⁻¹. Option (a) stops at mol L⁻¹.
+**6.** (c) — A₂B gives 2s of A⁺ and s of B²⁻, so Ksp = (2s)²(s) = 4s³.
+**7.** (a) — α = √(Ka/C) = √(4.8 × 10⁻¹⁰/0.01) = √(4.8 × 10⁻⁸) = 2.2 × 10⁻⁴. Option (c) uses √Ka alone.
+**8.** (a) — Ka ≈ Cα² = 0.1 × (0.0134)² = 1.8 × 10⁻⁵. Option (d) squares only part of the expression.
+**9.** (d) — 10⁻⁶ M OH⁻ becomes 10⁻⁹ M, which is far below the 10⁻⁷ M that water itself supplies, so the solution is essentially neutral: [OH⁻] = 1.005 × 10⁻⁷, pH = 7.002. A base can never be diluted into an acid (option a).
+**10.** (c) — pH = 4.74 + log(0.1/0.2) = 4.74 − 0.30 = 4.44. Option (b) inverts the ratio of salt to acid.
+**11.** (b) — the conjugate base is formed by removing one proton: H₂PO₄⁻ → HPO₄²⁻ + H⁺. Option (a) is the conjugate *acid*.
+**12.** (a) — after mixing, [Ba²⁺] = [SO₄²⁻] = 1 × 10⁻⁴ M, so Qsp = 10⁻⁸ > 10⁻¹⁰ and BaSO₄ precipitates. Option (b) forgets to halve each concentration.
+**13.** (b) — CH₃COO⁻ + H₂O ⇌ CH₃COOH + OH⁻; the salt of a weak acid and a strong base hydrolyses to an alkaline solution.
+:::
 
 ## 5.3 Chemical Kinetics
 
@@ -768,7 +964,8 @@ reagent line *and* the solvent line before you look at the options.
 | Benzaldehyde from toluene | Etard reaction, CrO₂Cl₂ in CS₂ |
 | Acetophenone from benzene | C₆H₆ + CH₃COCl / anhydrous AlCl₃ (Friedel–Crafts acylation) |
 
-```photo id="qbank/silver-mirror" caption="A positive Tollens' test. The ammoniacal silver nitrate has been reduced by an aldehyde and metallic silver has plated out as a mirror on the clean glass. A ketone leaves the solution unchanged, which is why this is the standard way to tell the two apart." width="52"
+```photo id="qbank/silver-mirror2" caption="A positive Tollens' test. The ammoniacal silver nitrate has been reduced by an aldehyde and metallic silver has plated out as a mirror on the clean glass. A ketone leaves the solution unchanged, which is why this is the standard way to tell the two apart." width="52"
+crop 0.20 0.20 0.72 0.56
 ```
 
 ```figure caption="Four compounds an iodoform question is built from. A positive test needs a CH₃CO– group or a CH₃CH(OH)– group, shown shaded. Propanone and propan-2-ol respond; propanal and propan-1-ol do not, even though each pair has the same number of carbons."

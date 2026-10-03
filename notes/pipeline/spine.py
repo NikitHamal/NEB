@@ -44,9 +44,12 @@ SUBJECTS = {
  "cs":  ("Computer Science",   "#2E4057"),
  "eng": ("Compulsory English", "#6B3FA0"),
  "nep": ("अनिवार्य नेपाली",       "#A8551F"),
+ "sci": ("Science and Technology", "#0B6A62"),
+ "soc": ("Social Studies and Human Value Education", "#2F6B3A"),
+ "omath": ("Optional Mathematics", "#7A3E8E"),
  "qbank": ("Question Bank",    "#B02A5B"),
 }
-ALL = [f"{k}{g}" for k in SUBJECTS for g in (11, 12)]
+ALL = [f"{k}{g}" for k in SUBJECTS for g in (11, 12) if k not in ("sci", "soc", "omath")]
 def meta_for(slug):
     k = re.match(r"([a-z]+)(\d+)", slug)
     return SUBJECTS[k.group(1)][0], SUBJECTS[k.group(1)][1], int(k.group(2))
