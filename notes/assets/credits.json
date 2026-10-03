@@ -5927,6 +5927,58 @@
   "source": "Wikimedia Commons",
   "title": "Vernier calliper 1"
  },
+ "sci8/bread-mould": {
+  "author": "zygolife",
+  "bytes": 110124,
+  "credit": "https://www.flickr.com/photos/138586443@N06/27815927353/",
+  "fetched": "2026-10-03",
+  "file": "sci8/bread-mould.jpg",
+  "license": "CC BY-SA 2.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Rhizopus_stolonifer_1.jpg",
+  "sha1": "e5dc32e151b3d8dd",
+  "source": "Wikimedia Commons",
+  "title": "Rhizopus stolonifer 1"
+ },
+ "sci8/cheek-cells": {
+  "author": "Krishna satya 333",
+  "bytes": 197508,
+  "credit": "Own work",
+  "fetched": "2026-10-03",
+  "file": "sci8/cheek-cells.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Nucleus_in_human_cheek_cells_3.jpg",
+  "sha1": "60ca2896e54a470f",
+  "source": "Wikimedia Commons",
+  "title": "Nucleus in human cheek cells 3"
+ },
+ "sci8/onion-root": {
+  "author": "ELaurent",
+  "bytes": 1035853,
+  "credit": "Own work",
+  "fetched": "2026-10-03",
+  "file": "sci8/onion-root.png",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Onion_root_cells.png",
+  "sha1": "6fbbcb4564fe9a66",
+  "source": "Wikimedia Commons",
+  "title": "Onion root cells"
+ },
+ "sci8/paramecium": {
+  "author": "Barfooz at the English Wikipedia .",
+  "bytes": 186911,
+  "credit": "Originally uploaded to the English Wikipedia , where it was made by Barfooz .",
+  "fetched": "2026-10-03",
+  "file": "sci8/paramecium.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+  "page": "https://commons.wikimedia.org/wiki/File:Paramecium.jpg",
+  "sha1": "feb34284fdb2ba56",
+  "source": "Wikimedia Commons",
+  "title": "Paramecium"
+ },
  "soc10/amazon": {
   "author": "Alexander Gerst",
   "bytes": 800509,
