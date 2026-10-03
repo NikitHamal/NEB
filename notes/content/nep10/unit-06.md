@@ -76,6 +76,29 @@ area: पाठ
 tint 0.03
 ```
 
+```figure caption="वादविवादको ढाँचा। दुवै पक्षले एउटै तथ्य प्रयोग गर्न सक्छन् — भिन्नता व्याख्यामा हुन्छ, त्यसैले तर्कको क्रम महत्त्वपूर्ण हुन्छ।"
+fig, ax = plt.subplots(figsize=(4.9, 2.8))
+ax.set_xlim(0, 10)
+ax.set_ylim(0, 6)
+ax.axis("off")
+ax.text(5.0, 5.55, "विषय : अधिकार ठुलो कि कर्तव्य ठुलो ?", ha="center", fontsize=7.4,
+        color=INK, bbox=dict(boxstyle="round,pad=0.3", fc="white", ec=INK, lw=1.1))
+ax.text(2.5, 4.3, "पक्ष : अधिकार", ha="center", fontsize=7.8, color=ACCENT,
+        bbox=dict(boxstyle="round,pad=0.3", fc="white", ec=ACCENT, lw=1.1))
+ax.text(7.5, 4.3, "विपक्ष : कर्तव्य", ha="center", fontsize=7.8, color=SERIES[1],
+        bbox=dict(boxstyle="round,pad=0.3", fc="white", ec=SERIES[1], lw=1.1))
+ax.plot([5.0, 3.0], [5.15, 4.7], color=MUTED, lw=1.0)
+ax.plot([5.0, 7.0], [5.15, 4.7], color=MUTED, lw=1.0)
+ax.text(2.5, 3.0, "अधिकारविना\nकर्तव्य निर्वाह हुँदैन", ha="center", va="center",
+        fontsize=6.8, color=INK)
+ax.text(7.5, 3.0, "कर्तव्यविना\nअधिकार टिक्दैन", ha="center", va="center",
+        fontsize=6.8, color=INK)
+ax.text(5.0, 1.5, "निष्कर्ष : सिक्काका दुई पाटा — दुवै सँगै चल्छन्।", ha="center",
+        fontsize=7.0, color=MUTED,
+        bbox=dict(boxstyle="round,pad=0.3", fc="white", ec=GRID, lw=1.0))
+fig.tight_layout()
+```
+
 ## ६.३ पक्ष र विपक्षका तर्कको तुलना
 
 | आधार | पक्ष (कर्तव्य ठुलो) | विपक्ष (अधिकार ठुलो) |
@@ -235,6 +258,25 @@ tint 0.03
 | सुत | छोरो | सूत | धागो |
 
 **डोल्माको अनुच्छेदबाट पहिचान.** 'दीन-दुःखी' मा 'दीन', 'जून-सूर्य-द्वीप-शीत-स्वर्ग' मा श्रुतिसम शब्द छन्; 'दीप प्रज्वलन' मा 'दीप' र 'द्वीप' को भेद छुट्याउनुपर्छ।
+
+```figure caption="उद्घोषणाको क्रम। कार्यक्रम सुरु हुनुअघि नै यही छ खण्ड तयार भइसक्नुपर्छ; बोल्दा मात्र बनाउँदा क्रम बिग्रन्छ।"
+fig, ax = plt.subplots(figsize=(4.8, 2.7))
+ax.set_xlim(0, 10)
+ax.set_ylim(0, 5.8)
+ax.axis("off")
+parts = ["१. सम्बोधन", "२. कार्यक्रमको परिचय", "३. कार्यक्रमको उद्देश्य",
+         "४. कार्यक्रमको क्रम", "५. धन्यवाद", "६. शुभकामना"]
+for i, name in enumerate(parts):
+    col = i % 2
+    row = i // 2
+    x = 0.5 + col * 4.9
+    y = 4.7 - row * 1.6
+    ax.add_patch(plt.Rectangle((x, y - 0.42), 4.3, 0.84, fc="white", ec=ACCENT, lw=1.0))
+    ax.text(x + 2.15, y, name, ha="center", va="center", fontsize=7.0, color=INK)
+ax.text(5.0, 0.55, "पहिले लेख्नु, त्यसपछि बोल्नु — हतियार यही हो।", ha="center",
+        fontsize=6.9, color=MUTED)
+fig.tight_layout()
+```
 
 ## ६.८ रचना र लेखन
 
