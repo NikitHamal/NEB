@@ -715,47 +715,16 @@ orange bands under UV light. Comparing them with a **DNA ladder** of known
 sizes run alongside gives the size of each fragment. The wanted band is then
 cut out of the gel and the DNA recovered — this is called elution.
 
-```figure caption="Agarose gel electrophoresis. DNA is negatively charged, so it runs from the cathode towards the anode; small fragments travel furthest. Lane M is a ladder of known sizes."
-import numpy as np
-from matplotlib.patches import Rectangle, FancyBboxPatch
-fig, ax = plt.subplots(figsize=(4.8, 3.2))
-ax.add_patch(Rectangle((0.0, 0.2), 6.0, 4.9, fc='#f2f5f9', ec=GRID, lw=1.0))
-LAD = [10, 5, 3, 1.5, 0.5]
-
-def ypos(kb):
-    return 4.35 - 3.30*(np.log10(10.0/kb)/np.log10(10.0/0.5))
-
-lanes = [(0.85, 'M', LAD), (2.20, '1', [9.0]), (3.55, '2', [6.0, 3.0]),
-         (4.90, '3', [6.0, 2.0, 1.0])]
-for x, name, bands in lanes:
-    ax.add_patch(Rectangle((x - 0.42, 4.62), 0.84, 0.30, fc='white', ec=INK, lw=0.9))
-    ax.text(x, 5.02, name, fontsize=7.0, color=INK, ha='center', va='bottom')
-    for kb in bands:
-        ax.add_patch(Rectangle((x - 0.42, ypos(kb) - 0.075), 0.84, 0.15,
-                               fc=(MUTED if name == 'M' else ACCENT), ec='none'))
-for kb in LAD:
-    ax.plot([-0.22, -0.02], [ypos(kb)]*2, color=MUTED, lw=0.8)
-    ax.text(-0.34, ypos(kb), f'{kb:g}', fontsize=6.1, color=MUTED, ha='right', va='center')
-ax.text(-0.34, 4.86, 'kb', fontsize=6.1, color=INK, ha='right', va='center')
-ax.add_patch(FancyBboxPatch((0.6, 5.70), 4.8, 0.16, boxstyle='round,pad=0.05,rounding_size=0.08',
-                            fc=INK, ec='none'))
-ax.text(3.0, 6.06, 'cathode  −   (wells loaded here)', fontsize=6.3, color=INK,
-        ha='center', va='bottom')
-ax.add_patch(FancyBboxPatch((0.6, -0.34), 4.8, 0.16, boxstyle='round,pad=0.05,rounding_size=0.08',
-                            fc='#d9534f', ec='none'))
-ax.text(3.0, -0.60, 'anode  +', fontsize=6.3, color='#d9534f', ha='center', va='top')
-ax.annotate('', xy=(6.45, 0.55), xytext=(6.45, 4.35),
-            arrowprops=dict(arrowstyle='-|>', color=ACCENT, lw=1.2, mutation_scale=11))
-ax.text(6.45, 4.52, 'migration', fontsize=6.3, color=ACCENT, ha='center', va='bottom')
-ax.annotate('large fragments\nstay near the wells', xy=(5.35, ypos(6.0)), xytext=(8.15, 3.55),
-            fontsize=6.1, color=INK, ha='center', va='center', linespacing=1.35,
-            arrowprops=dict(arrowstyle='-', color=MUTED, lw=0.7))
-ax.annotate('small fragments\ntravel furthest', xy=(5.35, ypos(1.0)), xytext=(8.15, 1.15),
-            fontsize=6.1, color=INK, ha='center', va='center', linespacing=1.35,
-            arrowprops=dict(arrowstyle='-', color=MUTED, lw=0.7))
-ax.text(3.0, -1.18, 'M ladder   1 uncut plasmid   2 single digest   3 double digest',
-        fontsize=6.1, color=MUTED, ha='center', va='center')
-ax.set_xlim(-1.35, 9.95); ax.set_ylim(-1.55, 6.65); ax.axis('off')
+```photo id="bio12/gel-uv" caption="A real agarose gel under ultraviolet light. DNA is negatively charged, so it runs from the cathode (wells, top) towards the anode (bottom); small fragments travel furthest. The ladder lane is a mixture of fragments of known size used to read off the others." width="52"
+mark 0.55 0.82 "1"
+mark 0.14 0.60 "2"
+mark 0.64 0.50 "3"
+mark 0.82 0.36 "4"
+arrow 0.94 0.90 0.94 0.30
+key 1 Wells where the DNA samples were loaded (cathode end)
+key 2 Ladder lane — marker fragments of known sizes
+key 3 A band: fragments of one size, stained with a fluorescent dye
+key 4 Loading-dye front, running ahead of the smallest DNA
 ```
 
 ::: example 5.3 Reading a digest

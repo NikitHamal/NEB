@@ -429,6 +429,13 @@ ax.set_xlim(-0.1, 12.8); ax.set_ylim(0.0, 9.0)
 ax.set_aspect('equal'); ax.axis('off')
 ```
 
+```photo id="bio11/pseudomonas" caption="A real rod-shaped bacterium (*Pseudomonas*) in negative-stain electron microscopy. The tuft of polar flagella and the plain, membrane-bounded outline of the cell are visible; there is no nucleus or other organelle to see. The scale bar is 0.5 μm." width="64"
+key 1 Rod-shaped cell (bacillus)
+key 2 Polar flagella — the whip-like organs of locomotion
+mark 0.5 0.55 "1"
+mark 0.56 0.24 "2"
+```
+
 A **eukaryotic** cell has a true nucleus bounded by a double envelope, and a
 whole set of membrane-bound organelles. Protists, fungi, plants and animals are
 eukaryotes.
@@ -777,6 +784,13 @@ lab(ax2, 'stroma', (4.60, 7.35), (5.5, 2.2), ha='center')
 lab(ax2, 'stroma lamella', (6.45, 5.95), (9.8, 2.2), ha='center')
 ax2.set_xlim(-0.3, 12.5); ax2.set_ylim(0.8, 11.4)
 ax2.set_aspect('equal'); ax2.axis('off')
+```
+
+```photo id="bio11/mito-tem" caption="Two mitochondria in a mammalian lung cell (TEM). Each is bounded by a double membrane; the inner membrane is thrown into cristae. Scale bar 50 nm." width="70"
+crop 0 0.1 1 1
+```
+
+```photo id="bio11/chloroplast-tem" caption="Part of a chloroplast in a leaf cell of *Anemone* (TEM): stacks of thylakoids (grana) joined by stroma lamellae, inside the double envelope. Scale bar 500 nm." width="70"
 ```
 
 A mitochondrion has **two membranes**. The outer is smooth and permeable; the

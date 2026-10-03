@@ -1,0 +1,64 @@
+@font-face { font-family: 'Poppins'; font-weight: 400; src: url('/assets/fonts/Poppins-Regular.ttf') format('truetype'); }
+@font-face { font-family: 'Poppins'; font-weight: 500; src: url('/assets/fonts/Poppins-Medium.ttf') format('truetype'); }
+@font-face { font-family: 'Poppins'; font-weight: 600; src: url('/assets/fonts/Poppins-SemiBold.ttf') format('truetype'); }
+@font-face { font-family: 'Poppins'; font-weight: 700; src: url('/assets/fonts/Poppins-Bold.ttf') format('truetype'); }
+@font-face { font-family: 'Poppins'; font-weight: 800; src: url('/assets/fonts/Poppins-ExtraBold.ttf') format('truetype'); }
+@font-face { font-family: 'Poppins'; font-weight: 900; src: url('/assets/fonts/Poppins-Black.ttf') format('truetype'); }
+@font-face {
+  font-family: 'Material Symbols Outlined';
+  font-weight: 400;
+  src: url('/assets/fonts/material-symbols-subset.woff2') format('woff2');
+}
+
+html, body { margin: 0; padding: 0; background: #000; overflow: hidden; }
+body { font-family: 'Poppins', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+#stage { position: relative; overflow: hidden; background: #0E2035; isolation: isolate; }
+
+.layer, .scene, .fill { position: absolute; inset: 0; width: 100%; height: 100%; }
+.layer { pointer-events: none; }
+.scene { overflow: hidden; }
+.layer.world { transform-origin: 50% 50%; }
+.neb-art-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.icon {
+  font-family: 'Material Symbols Outlined';
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+  direction: ltr;
+  font-variation-settings: 'FILL' 1;
+  -webkit-font-feature-settings: 'liga';
+  font-feature-settings: 'liga';
+  display: inline-block;
+}
+.icon.line { font-variation-settings: 'FILL' 0; }
+
+.flash { background: #fff; opacity: 0; }
+.vignette { background: radial-gradient(120% 120% at 50% 45%, rgba(2, 27, 84, 0) 55%, rgba(2, 27, 84, 0.22) 100%); }
+
+.hook-panel { overflow: hidden; }
+.hook-icon { position: absolute; left: 0; top: 0; color: #fff; opacity: 0.13; }
+.hook-word {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  white-space: nowrap;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  overflow: hidden;
+  padding: 0.14em 0.1em 0.26em;
+  margin: -0.14em -0.1em -0.26em;
+}
+.hook-letter { display: inline-block; will-change: auto; }
+.hook-meta { position: absolute; left: 0; top: 0; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
+.hook-bar { position: absolute; left: 0; bottom: 0; height: 8px; background: currentColor; transform-origin: 0 50%; }
+.hook-dot { position: absolute; left: 50%; top: 50%; border-radius: 50%; background: #fff; }
+
+.logo-lockup { position: absolute; left: 0; top: 0; display: flex; align-items: center; }
+.logo-word { font-weight: 800; letter-spacing: -0.045em; line-height: 1; white-space: nowrap; overflow: hidden; }
+.tagline { position: absolute; left: 0; top: 0; font-weight: 500; letter-spacing: -0.01em; white-space: nowrap; display: flex; }
+.tag-letter { display: inline-block; white-space: pre; }

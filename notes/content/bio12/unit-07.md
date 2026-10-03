@@ -486,55 +486,12 @@ In the frog the cleavage is **holoblastic** (the furrow cuts right through) but
 | Fourth | two vertical furrows | 16 cells |
 | Fifth | two horizontal furrows | 32 cells, then a solid **morula** |
 
-```figure caption="Cleavage in the frog, seen from the side with the animal pole uppermost. The third furrow is horizontal and lies above the equator, so the micromeres are smaller than the macromeres."
-import numpy as np, matplotlib.pyplot as plt
-from matplotlib.patches import Circle, Wedge, Polygon
-fig, axes = plt.subplots(1, 5, figsize=(5.2, 2.5), gridspec_kw=dict(wspace=0.04))
-EDGE = "#2c5f96"; ANIM = "#6c7180"; VEG = "#f2e3b0"
-R = 1.05
-
-def base(ax):
-    ax.set_xlim(-1.45, 1.45); ax.set_ylim(-2.35, 1.35)
-    ax.set_aspect('equal'); ax.axis('off')
-    ax.add_patch(Circle((0, 0), R, fc=VEG, ec=EDGE, lw=1.0, zorder=3))
-    ax.add_patch(Wedge((0, 0), R, 18, 162, fc=ANIM, ec=EDGE, lw=1.0, zorder=4))
-
-def lab(ax, t, s=''):
-    ax.text(0, -1.28, t, ha='center', va='top', fontsize=6.3, color=INK)
-    if s:
-        ax.text(0, -1.63, s, ha='center', va='top', fontsize=5.2, color=MUTED,
-                linespacing=1.25)
-
-def vline(ax, x=0.0):
-    y = np.sqrt(max(R**2 - x**2, 0))
-    ax.plot([x, x], [-y, y], color=EDGE, lw=1.0, zorder=6)
-
-def hline(ax, y):
-    x = np.sqrt(max(R**2 - y**2, 0))
-    ax.plot([-x, x], [y, y], color=EDGE, lw=1.0, zorder=6)
-
-def frontplane(ax, w=0.46):
-    """Second (vertical) furrow at 90 deg, seen as the near half of a plane."""
-    t = np.linspace(-np.pi/2, np.pi/2, 60)
-    ax.plot(w*np.cos(t), R*np.sin(t), color=EDGE, lw=1.0, zorder=6)
-
-ax = axes[0]; base(ax); vline(ax, 0.0)
-lab(ax, '2-cell', 'first furrow:\nvertical')
-
-ax = axes[1]; base(ax); vline(ax, 0.0); frontplane(ax)
-lab(ax, '4-cell', 'second furrow:\nvertical, at 90°')
-
-ax = axes[2]; base(ax); vline(ax, 0.0); frontplane(ax); hline(ax, 0.40)
-lab(ax, '8-cell', '4 micromeres +\n4 macromeres')
-
-ax = axes[3]; base(ax)
-vline(ax, -0.52); vline(ax, 0.0); vline(ax, 0.52); hline(ax, 0.40)
-lab(ax, '16-cell', 'two more\nvertical furrows')
-
-ax = axes[4]; base(ax)
-vline(ax, -0.52); vline(ax, 0.0); vline(ax, 0.52)
-hline(ax, 0.66); hline(ax, 0.40); hline(ax, -0.34)
-lab(ax, 'morula', 'solid ball of\nblastomeres')
+```photo id="bio12/frog-blastopore" caption="Cleavage and the start of gastrulation in the frog egg, seen from the side with the animal pole uppermost (stages A to I in order). The furrows cut the pigmented animal half faster than the yolky vegetal half, so the cells grow smaller towards the animal pole; the last two stages show the blastopore forming and then closing around the yolk plug." width="70"
+key A–C The first cleavage furrows: two vertical furrows, then a horizontal one above the equator
+key D–F Successive divisions — many small micromeres above, a few large macromeres below
+key G Blastula — a ball of cells with the blastocoel inside
+key H Blastopore appears as a crescent-shaped groove (the dorsal lip) — gastrulation begins
+key I Blastopore closing round the yolk plug
 ```
 ::: example Worked example 7.3 — cell number and cell size during cleavage
 **Problem.** A frog's egg is a sphere of diameter $1.8\ \text{mm}$. Assume the
@@ -864,84 +821,12 @@ Everything in between — muscle, bone, blood, kidney — is **mesoderm**.
 
 ### Hatching and metamorphosis
 
-```figure caption="Life history of the frog. The tadpole is a herbivore with gills and a tail; metamorphosis rebuilds it as a carnivore with lungs and legs."
-import numpy as np, matplotlib.pyplot as plt
-from matplotlib.patches import Circle, Ellipse, Polygon, Wedge
-fig, axes = plt.subplots(1, 5, figsize=(5.2, 2.4), gridspec_kw=dict(wspace=0.04))
-EDGE = "#2c5f96"; BODY = "#7f8798"; FIN = "#cfdcea"; VEG = "#f2e3b0"
-for ax in axes:
-    ax.set_xlim(-2.4, 2.4); ax.set_ylim(-3.05, 1.85)
-    ax.set_aspect('equal'); ax.axis('off')
-
-def lab(ax, t, s):
-    ax.text(0, -1.30, t, ha='center', va='top', fontsize=6.0, color=INK)
-    ax.text(0, -1.92, s, ha='center', va='top', fontsize=5.0, color=MUTED,
-            linespacing=1.25)
-
-def tadpole(ax, bw=1.25, bh=0.85, tl=1.85, fin=0.42, bx=-0.55):
-    t = np.linspace(0, 1, 60)
-    tipx = bx + bw/2 + tl
-    xs = bx + bw/2 + tl*t
-    hw = fin*np.sin(np.pi*t**0.8) + 0.10*(1 - t)
-    ax.add_patch(Polygon(np.vstack([np.column_stack([xs, hw]),
-                                    np.column_stack([xs[::-1], -hw[::-1]])]),
-                         closed=True, fc=FIN, ec=EDGE, lw=0.7, zorder=3))
-    ax.plot([bx + bw/2, tipx], [0, 0], color=EDGE, lw=1.6, zorder=4)
-    ax.add_patch(Ellipse((bx, 0), bw, bh, fc=BODY, ec=EDGE, lw=0.9, zorder=5))
-    ax.add_patch(Circle((bx - bw*0.26, bh*0.16), 0.10, fc='white', ec=EDGE,
-                        lw=0.6, zorder=6))
-
-# (1) fertilised egg in jelly
-ax = axes[0]
-ax.add_patch(Circle((0, 0), 1.18, fc="#dfe9f3", ec="#9db6cc", lw=0.8, alpha=0.55, zorder=2))
-ax.add_patch(Circle((0, 0), 0.72, fc=VEG, ec=EDGE, lw=1.0, zorder=3))
-ax.add_patch(Wedge((0, 0), 0.72, 15, 165, fc="#4a4a55", ec=EDGE, lw=1.0, zorder=4))
-lab(ax, 'egg in jelly', 'fertilised;\nhatches in ~6 days')
-
-# (2) early tadpole with external gills + sucker
-ax = axes[1]
-tadpole(ax, 1.05, 0.72, 1.70, 0.34, -0.60)
-for k, a in enumerate((118, 92, 66)):
-    r = np.radians(a)
-    x0, y0 = -0.60 + 0.50*np.cos(r), 0.34*np.sin(r)
-    tt = np.linspace(0, 1, 20)
-    ax.plot(x0 + 0.42*tt*np.cos(r), y0 + 0.42*tt*np.sin(r) + 0.07*np.sin(9*tt),
-            color="#c0392b", lw=0.9, zorder=7)
-ax.add_patch(Ellipse((-1.12, -0.22), 0.22, 0.14, fc='white', ec=EDGE, lw=0.7, zorder=7))
-ax.text(0, 1.30, 'external gills', ha='center', fontsize=5.0, color='#c0392b')
-lab(ax, 'early tadpole', 'external gills,\nadhesive sucker')
-
-# (3) tadpole with operculum
-ax = axes[2]
-tadpole(ax, 1.25, 0.85, 1.85, 0.42, -0.55)
-ax.add_patch(Wedge((-0.55, 0), 0.62, 200, 160, width=0.10, fc='none',
-                   ec="#a8433c", lw=1.0, zorder=7))
-ax.plot([-0.98], [-0.20], marker='o', ms=2.2, color="#a8433c", zorder=8)
-ax.text(0, 1.30, 'operculum + spiracle', ha='center', fontsize=5.0, color='#a8433c')
-lab(ax, 'gilled tadpole', 'internal gills,\nherbivore, long gut')
-
-# (4) tadpole with limbs
-ax = axes[3]
-tadpole(ax, 1.25, 0.85, 1.55, 0.36, -0.55)
-for s in (-1, 1):
-    ax.add_patch(Polygon([[0.16, s*0.16], [0.72, s*0.62], [1.02, s*0.46]],
-                         closed=False, fc='none', ec=EDGE, lw=1.3, zorder=8))
-    ax.plot([0.72, 1.02], [s*0.62, s*0.46], color=EDGE, lw=1.3, zorder=8)
-    ax.add_patch(Polygon([[-1.02, s*0.12], [-1.38, s*0.50], [-1.16, s*0.66]],
-                         closed=False, fc='none', ec=EDGE, lw=1.1, zorder=8))
-ax.text(0, 1.30, 'lungs develop', ha='center', fontsize=5.0, color=MUTED)
-lab(ax, 'limbed tadpole', 'hind limbs first,\nthen forelimbs')
-
-# (5) froglet / adult
-ax = axes[4]
-ax.add_patch(Ellipse((0, 0), 1.75, 1.00, fc="#5f8f63", ec=EDGE, lw=1.0, zorder=5))
-ax.add_patch(Ellipse((-0.98, 0.10), 0.72, 0.62, fc="#5f8f63", ec=EDGE, lw=1.0, zorder=6))
-ax.add_patch(Circle((-1.12, 0.30), 0.12, fc='white', ec=EDGE, lw=0.6, zorder=7))
-for s in (-1, 1):
-    ax.plot([0.55, 1.15, 0.80], [s*0.28, s*0.78, s*0.95], color=EDGE, lw=1.3, zorder=7)
-    ax.plot([-0.55, -0.95], [s*0.30, s*0.72], color=EDGE, lw=1.1, zorder=7)
-ax.text(0, 1.30, 'tail resorbed', ha='center', fontsize=5.0, color=MUTED)
-lab(ax, 'froglet → adult', 'carnivore, short gut,\nlungs and skin')
+```photo id="bio12/frog-metamorph" caption="Life history of the frog, from tadpole to adult. The tadpole is a herbivore with gills and a tail; metamorphosis rebuilds it as a carnivore with lungs and legs." width="80"
+key a Young tadpole, still breathing by gills, with a long finned tail
+key b Older tadpole with a deeper tail fin
+key c Tadpole with hind limbs and fore limbs; the tail is being absorbed
+key d Young frog with the tail reduced to a stump
+key e Adult frog — lungs, four limbs, no tail
 ```
 
 The tadpole hatches about six days after fertilisation. At first it has **external

@@ -94,16 +94,16 @@
 - fully solved
 - ranked predicted questions for the coming exam
 # PART: अनिवार्य नेपाली
-## 20. अनिवार्य नेपाली: Unit-wise Objective Question Bank [R]
-- every syllabus unit
-- past-paper MCQs
-- answer key with one-line reasons
-- distractor analysis
-## 21. अनिवार्य नेपाली: Unit-wise Subjective Question Bank [R]
-- short-answer and long-answer questions by unit
-- years each appeared
-- full model answers
-## 22. अनिवार्य नेपाली: Model Question Sets and Predicted Questions [R]
-- two complete model papers to the CDC grid
-- fully solved
-- ranked predicted questions for the coming exam
+## 20. अनिवार्य नेपाली: एकाइअनुसार वस्तुगत प्रश्नसङ्ग्रह [R]
+- पाठ्यक्रमका प्रत्येक एकाइ
+- विगतका परीक्षामा सोधिएका वस्तुगत प्रश्न
+- कारणसहितको उत्तरकुञ्जी
+- भ्रममा पार्ने विकल्पको विश्लेषण
+## 21. अनिवार्य नेपाली: एकाइअनुसार विषयगत प्रश्नसङ्ग्रह [R]
+- एकाइअनुसार छोटा र लामा प्रश्न
+- कुन वर्ष सोधिएको भन्ने विवरण
+- पूर्ण नमुना उत्तर
+## 22. अनिवार्य नेपाली: नमुना प्रश्नसेट र सम्भावित प्रश्न [R]
+- पाठ्यक्रम विकास केन्द्रको तालिकाअनुसार दुई पूर्ण नमुना प्रश्नपत्र
+- पूर्ण हल गरिएको
+- आगामी परीक्षाका लागि क्रमबद्ध सम्भावित प्रश्न

@@ -1,0 +1,191 @@
+{
+  "schema": 1,
+  "meta": {
+    "title": "NEBians launch film",
+    "duration": 15,
+    "fps": 60,
+    "bpm": 128,
+    "beatsPerBar": 4,
+    "poster": 14.4,
+    "aspects": { "16:9": [1920, 1080], "9:16": [1080, 1920], "1:1": [1080, 1080] }
+  },
+  "brand": {
+    "name": "NEBians",
+    "url": "nebians.consica.com.np",
+    "tagline": "Nepal's learning community",
+    "cta": "Live now",
+    "subline": "Free on the web. Android app on Google Play."
+  },
+  "palette": {
+    "blue": { "hex": "#004AC6", "source": { "file": "backend_python/web/static/web/css/material3.css", "token": "--md-primary" } },
+    "blueBright": { "hex": "#0058DF" },
+    "blueWash": { "hex": "#DBE1FF", "source": { "file": "backend_python/web/static/web/css/material3.css", "token": "--md-primary-container" } },
+    "navy": { "hex": "#021B54" },
+    "sky": { "hex": "#DFF3FF", "source": { "file": "backend_python/web/static/web/css/pages/home/landing.css", "token": "--home-sky" } },
+    "skyDeep": { "hex": "#9ED8FB", "source": { "file": "backend_python/web/static/web/css/pages/home/landing.css", "token": "--home-sky-deep" } },
+    "ink": { "hex": "#0E2035", "source": { "file": "backend_python/web/static/web/css/pages/home/landing.css", "token": "--home-ink" } },
+    "muted": { "hex": "#334E68", "source": { "file": "backend_python/web/static/web/css/pages/home/landing.css", "token": "--home-muted" } },
+    "purple": { "hex": "#6246D7", "source": { "file": "backend_python/web/static/web/css/pages/home/landing.css", "rule": ".home-title-chip-resource", "prop": "color" } },
+    "purpleWash": { "hex": "#EBE7FF", "source": { "file": "backend_python/web/static/web/css/pages/home/landing.css", "rule": ".home-title-chip-resource", "prop": "background" } },
+    "amber": { "hex": "#B84B0B", "source": { "file": "backend_python/web/static/web/css/pages/home/landing.css", "rule": ".home-title-chip-community", "prop": "color" } },
+    "amberWash": { "hex": "#FFEFCF", "source": { "file": "backend_python/web/static/web/css/pages/home/landing.css", "rule": ".home-title-chip-community", "prop": "background" } },
+    "pink": { "hex": "#F7A8B8" },
+    "mint": { "hex": "#BDEBD0" },
+    "gold": { "hex": "#FFC53D" },
+    "white": { "hex": "#FFFFFF" }
+  },
+  "timeline": [
+    { "id": "hook", "from": 0, "to": 4 },
+    { "id": "logo", "from": 4, "to": 8 },
+    { "id": "materials", "from": 8, "to": 14 },
+    { "id": "mates", "from": 14, "to": 20 },
+    { "id": "smarter", "from": 20, "to": 27 },
+    { "id": "end", "from": 27, "to": 32 }
+  ],
+  "background": [
+    { "beat": 0, "base": "#0E2035", "blobs": ["#004AC6", "#0E2035", "#004AC6", "#6246D7", "#0E2035", "#021B54"] },
+    { "beat": 3, "base": "#DFF3FF", "blobs": ["#9ED8FB", "#FFFFFF", "#F7A8B8", "#BDEBD0", "#9ED8FB", "#FFFFFF"] },
+    { "beat": 8, "base": "#EEF0FF", "blobs": ["#C9BDFB", "#FFFFFF", "#9ED8FB", "#F7C6D3", "#DDE6FF", "#FFFFFF"] },
+    { "beat": 14, "base": "#FFF6E8", "blobs": ["#FFD9A8", "#FFFFFF", "#F7A8B8", "#FFE9B8", "#FFC9B0", "#FFFFFF"] },
+    { "beat": 20, "base": "#E9F8F1", "blobs": ["#BDEBD0", "#FFFFFF", "#9ED8FB", "#C9BDFB", "#DFF3FF", "#FFFFFF"] },
+    { "beat": 27.4, "base": "#004AC6", "blobs": ["#0A6BFF", "#003CC3", "#1F73F0", "#021B54", "#0058DF", "#0A5BE0"] }
+  ],
+  "chrome": {
+    "from": 8,
+    "to": 27,
+    "nav": ["Home", "Library", "Forum", "Blog"],
+    "tabs": ["Study Materials", "Discussions", "Neby AI helper"],
+    "cta": "Get the app",
+    "active": [
+      { "beat": 8, "group": "nav", "item": "Library" },
+      { "beat": 14, "group": "nav", "item": "Forum" },
+      { "beat": 20, "group": "tabs", "item": "Neby AI helper" }
+    ]
+  },
+  "scenes": {
+    "hook": {
+      "words": [
+        { "text": "Notes.", "bg": "blue", "fg": "white", "icon": "edit_note", "tag": "Class 11 & 12" },
+        { "text": "Papers.", "bg": "sky", "fg": "ink", "icon": "description", "tag": "Every year" },
+        { "text": "Books.", "bg": "purple", "fg": "white", "icon": "auto_stories", "tag": "Every subject" },
+        { "text": "Answers.", "bg": "navy", "fg": "white", "icon": "forum", "tag": "Any time" }
+      ]
+    },
+    "logo": {
+      "tagline": "Nepal's learning community"
+    },
+    "materials": {
+      "lead": "Study",
+      "chip": "materials",
+      "icon": "menu_book",
+      "url": "nebians.consica.com.np/library",
+      "cards": [
+        { "subject": "Physics", "type": "Past paper", "title": "NEB Class 12 Physics: board questions 2081", "meta": "Class 12 · 4.2 MB", "seed": "phys-2081" },
+        { "subject": "Chemistry", "type": "Notes", "title": "Organic chemistry reaction maps", "meta": "Class 12 · 6.8 MB", "seed": "chem-organic" },
+        { "subject": "Mathematics", "type": "Textbook", "title": "Mathematics Grade 11: worked solutions", "meta": "Class 11 · 12 MB", "seed": "math-11" },
+        { "subject": "Biology", "type": "Notes", "title": "Human nervous system: diagrams", "meta": "Class 12 · 5.1 MB", "seed": "bio-nerve" }
+      ]
+    },
+    "mates": {
+      "lead": "Study",
+      "chip": "mates",
+      "icon": "forum",
+      "categories": ["All discussions", "General", "Science", "Chemistry", "Exam/Test"],
+      "thread": [
+        { "name": "Aarav", "when": "2m", "text": "Stuck on Gauss's law before the board exam. Any simple way to think about it?", "likes": 4 },
+        { "name": "Sita", "when": "1m", "text": "Flux is just field lines crossing a surface. More charge inside means more flux out.", "likes": 12 },
+        { "name": "Bikash", "when": "now", "text": "Sharing my notes and the solved 2081 paper in the library.", "attach": "Physics-2081-solved.pdf", "likes": 9 }
+      ],
+      "crowd": ["Anisha", "Rohan", "Prisha", "Kiran", "Sujal", "Mina"]
+    },
+    "smarter": {
+      "lead": "Study",
+      "chip": "smarter",
+      "icon": "auto_awesome",
+      "ai": {
+        "name": "Neby AI helper",
+        "context": "Class 12 Physics",
+        "question": "Explain Newton's second law in one line.",
+        "answer": "Force equals mass times acceleration (F = ma). Push twice as hard and it speeds up twice as fast."
+      },
+      "tools": [
+        { "title": "Result checker", "text": "SEE, Class 11 and 12 results", "icon": "fact_check" },
+        { "title": "PDF tools", "text": "Merge, split, compress, convert", "icon": "description" },
+        { "title": "Scan to text", "text": "Photos of notes to clean text", "icon": "document_scanner", "badge": "On-device" },
+        { "title": "Voice to text", "text": "Dictate in English or Hindi", "icon": "mic", "badge": "On-device" }
+      ]
+    },
+    "end": {
+      "live": "Live now."
+    }
+  },
+  "cues": [
+    { "beat": 0, "kind": "hit" },
+    { "beat": 1, "kind": "hit" },
+    { "beat": 2, "kind": "hit" },
+    { "beat": 3, "kind": "hit" },
+    { "beat": 2, "kind": "riser", "beats": 2 },
+    { "beat": 4, "kind": "boom" },
+    { "beat": 4.85, "kind": "whoosh" },
+    { "beat": 5.3, "kind": "pop" },
+    { "beat": 5.9, "kind": "sparkle" },
+    { "beat": 7.15, "kind": "whoosh" },
+    { "beat": 8.4, "kind": "pop" },
+    { "beat": 8.95, "kind": "pop" },
+    { "beat": 9.2, "kind": "pop" },
+    { "beat": 9.45, "kind": "pop" },
+    { "beat": 13.3, "kind": "whoosh" },
+    { "beat": 14.45, "kind": "pop" },
+    { "beat": 14.95, "kind": "pop" },
+    { "beat": 15.15, "kind": "type", "beats": 1 },
+    { "beat": 16.25, "kind": "pop" },
+    { "beat": 16.45, "kind": "type", "beats": 1.1 },
+    { "beat": 17.5, "kind": "pop" },
+    { "beat": 17.7, "kind": "type", "beats": 1 },
+    { "beat": 19.3, "kind": "whoosh" },
+    { "beat": 20.45, "kind": "pop" },
+    { "beat": 21.3, "kind": "pop" },
+    { "beat": 22.05, "kind": "pop" },
+    { "beat": 22.5, "kind": "pop" },
+    { "beat": 22.95, "kind": "pop" },
+    { "beat": 23.4, "kind": "pop" },
+    { "beat": 23.1, "kind": "type", "beats": 2.8 },
+    { "beat": 24, "kind": "swell", "beats": 3 },
+    { "beat": 25.85, "kind": "whoosh" },
+    { "beat": 27.1, "kind": "pop" },
+    { "beat": 27.95, "kind": "thud" },
+    { "beat": 27.95, "kind": "sting" },
+    { "beat": 28.8, "kind": "pop" },
+    { "beat": 29.25, "kind": "tick" }
+  ],
+  "icons": [
+    "arrow_forward", "article", "auto_awesome", "auto_stories", "bolt", "bookmark", "chat_bubble", "check", "check_circle",
+    "description", "document_scanner", "download", "edit_note", "fact_check", "favorite", "forum", "graphic_eq", "groups",
+    "history_edu", "lightbulb", "menu_book", "mic", "north_east", "picture_as_pdf", "psychology", "question_answer", "quiz",
+    "record_voice_over", "school", "search", "smart_toy", "smartphone", "star", "sticky_note_2", "thumb_up", "upload",
+    "verified", "volume_up"
+  ],
+  "captures": [
+    {
+      "id": "library",
+      "url": "/library/",
+      "viewport": { "width": 1440, "height": 900, "deviceScaleFactor": 1.5 },
+      "fullPage": true,
+      "maxHeight": 3200,
+      "settleMs": 2200,
+      "quality": 88,
+      "hide": [".app-banner"],
+      "redact": [".resource-card-avatar", ".resource-card-author-col"]
+    }
+  ],
+  "claims": [
+    { "id": "site-live", "says": "The site is live", "url": "/", "status": 200 },
+    { "id": "hero-copy", "says": "Hero line: Study materials. Study mates.", "url": "/", "contains": ["Study", "materials", "mates"] },
+    { "id": "play-store", "says": "The Android app is on Google Play", "url": "/", "contains": ["play.google.com/store/apps/details?id=com.neb.ians", "now live on Google Play"] },
+    { "id": "library", "says": "Digital library of notes, textbooks and past papers", "url": "/library/", "contains": ["Digital Library"] },
+    { "id": "forum", "says": "Forum with General, Science, Chemistry and Exam/Test categories", "url": "/forum/", "contains": ["Forum", "General", "Science", "Chemistry", "Exam/Test"] },
+    { "id": "tools", "says": "Result checker, PDF tools, scan to text and voice to text", "url": "/tools/", "contains": ["Result Checker", "Convert PDFs", "Doc Intelligence", "Voice"] },
+    { "id": "neby-helper", "says": "Neby AI helper tab on subject pages", "url": "/subject/class-12/chemistry/", "contains": ["Neby AI helper"] },
+    { "id": "marketplace", "says": "Not in the video. Creator marketplace is in the repo but not deployed. Add a beat when this turns 200.", "url": "/marketplace/", "status": 404, "watch": true }
+  ]
+}

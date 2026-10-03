@@ -239,66 +239,13 @@ lobes, and each lobe contains two **microsporangia** (pollen sacs), so a
 transverse section is four-lobed and butterfly-shaped. The two lobes are joined
 by the **connective**, through which a vascular bundle runs.
 
-```figure caption="Transverse section of a young tetrasporangiate anther, with one microsporangium magnified to show the four wall layers."
-import numpy as np, matplotlib.pyplot as plt
-from matplotlib.patches import Circle, Ellipse
-rng = np.random.default_rng(7)
-fig, axs = plt.subplots(1, 2, figsize=(5.2, 3.0), gridspec_kw=dict(width_ratios=[1.35, 1.0],
-                        wspace=0.05))
-# ---------------- (a) whole anther ----------------
-ax = axs[0]
-for sx in (-1, 1):
-    ax.add_patch(Ellipse((sx*1.48, 0), 1.72, 3.05, fc='#eef3ea', ec=INK, lw=1.2, zorder=2))
-ax.add_patch(Ellipse((0, 0), 2.30, 1.62, fc='#f6efdc', ec=INK, lw=1.2, zorder=3))
-ax.add_patch(Circle((0, 0), 0.26, fc='#d6e4ef', ec=ACCENT, lw=1.0, zorder=4))
-for sx in (-1, 1):
-    for sy in (-1, 1):
-        cx, cy = sx*1.48, sy*0.72
-        ax.add_patch(Circle((cx, cy), 0.60, fc='#ffffff', ec=INK, lw=1.0, zorder=5))
-        for _ in range(14):
-            r, th = 0.44*np.sqrt(rng.random()), rng.random()*2*np.pi
-            ax.add_patch(Circle((cx + r*np.cos(th), cy + r*np.sin(th)), 0.075,
-                                fc='#f3c86b', ec='#a6802f', lw=0.5, zorder=6))
-for sx in (-1, 1):
-    ax.plot([sx*2.31, sx*2.31], [-0.28, 0.28], color='#d9534f', lw=1.6, zorder=7)
-def lab(txt, xy, xytext, ha='left'):
-    ax.annotate(txt, xy=xy, xytext=xytext, fontsize=6.4, color=INK, ha=ha,
-                va='center', linespacing=1.25,
-                arrowprops=dict(arrowstyle='-', color=MUTED, lw=0.7,
-                                shrinkA=0, shrinkB=1))
-lab('epidermis', (-1.48, 1.50), (-3.30, 1.80))
-lab('microsporangium\n(pollen sac)', (-1.48, -0.72), (-3.35, -2.05))
-lab('pollen grains', (1.48, 0.72), (2.50, 1.80))
-lab('connective', (0.55, 0.58), (0.25, 2.15), ha='center')
-lab('vascular bundle', (0.00, -0.26), (0.85, -2.35), ha='center')
-lab('stomium\n(line of dehiscence)', (2.31, 0.0), (2.50, -1.30))
-ax.set_title('(a) T.S. of anther', fontsize=7.8, loc='left', pad=4)
-ax.set_xlim(-3.45, 4.55); ax.set_ylim(-2.85, 2.45); ax.set_aspect('equal'); ax.axis('off')
-# ---------------- (b) one microsporangium magnified ----------------
-ax = axs[1]
-layers = [(1.42, '#cfe0c6', 'epidermis'), (1.24, '#f0d9b8', 'endothecium'),
-          (1.06, '#e3e8ef', 'middle layers'), (0.92, '#f0c9c4', 'tapetum')]
-for r, c, _ in layers:
-    ax.add_patch(Circle((0, 0), r, fc=c, ec=INK, lw=0.9, zorder=2))
-ax.add_patch(Circle((0, 0), 0.76, fc='#ffffff', ec=INK, lw=0.9, zorder=3))
-for _ in range(17):
-    r, th = 0.56*np.sqrt(rng.random()), rng.random()*2*np.pi
-    ax.add_patch(Circle((r*np.cos(th), r*np.sin(th)), 0.10, fc='#f3c86b',
-                        ec='#a6802f', lw=0.5, zorder=4))
-ang = [100, 125, 150, 172]
-ty  = [2.05, 1.40, 0.75, 0.10]
-for (r, _, name), a, y in zip(layers, ang, ty):
-    a = np.deg2rad(a)
-    rr = r - 0.08
-    ax.annotate(name, xy=(rr*np.cos(a), rr*np.sin(a)), xytext=(-1.80, y),
-                fontsize=6.4, color=INK, ha='right', va='center',
-                arrowprops=dict(arrowstyle='-', color=MUTED, lw=0.7,
-                                shrinkA=1, shrinkB=1))
-ax.annotate('sporogenous tissue /\npollen grains', xy=(0.30, -0.34), xytext=(-0.45, -1.72),
-            fontsize=6.4, color=INK, ha='center', va='center', linespacing=1.25,
-            arrowprops=dict(arrowstyle='-', color=MUTED, lw=0.7, shrinkA=1, shrinkB=1))
-ax.set_title('(b) one microsporangium', fontsize=7.8, loc='left', pad=4)
-ax.set_xlim(-4.05, 1.60); ax.set_ylim(-2.35, 2.45); ax.set_aspect('equal'); ax.axis('off')
+```photo id="bio12/anther-lilium" caption="Transverse section of a young tetrasporangiate anther (*Lilium*). Two thecae, each with two microsporangia (pollen sacs), are joined by a central connective carrying the vascular strand; the sacs are packed with developing pollen." width="80"
+mark 0.21 0.74 "1"
+mark 0.51 0.57 "2"
+mark 0.72 0.93 "3"
+key 1 Microsporangium (pollen sac) packed with microspore mother cells / pollen grains
+key 2 Connective with the vascular bundle
+key 3 Anther wall — epidermis, endothecium and middle layers surround the sporogenous tissue; the tapetum is the innermost layer
 ```
 
 The wall of each microsporangium has four layers, from outside in:

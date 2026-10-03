@@ -1,0 +1,117 @@
+{
+  "palette": {
+    "blue": {
+      "spec": "#004AC6",
+      "found": "#004AC6",
+      "source": {
+        "file": "backend_python/web/static/web/css/material3.css",
+        "token": "--md-primary"
+      }
+    },
+    "blueWash": {
+      "spec": "#DBE1FF",
+      "found": "#DBE1FF",
+      "source": {
+        "file": "backend_python/web/static/web/css/material3.css",
+        "token": "--md-primary-container"
+      }
+    },
+    "sky": {
+      "spec": "#DFF3FF",
+      "found": "#DFF3FF",
+      "source": {
+        "file": "backend_python/web/static/web/css/pages/home/landing.css",
+        "token": "--home-sky"
+      }
+    },
+    "skyDeep": {
+      "spec": "#9ED8FB",
+      "found": "#9ED8FB",
+      "source": {
+        "file": "backend_python/web/static/web/css/pages/home/landing.css",
+        "token": "--home-sky-deep"
+      }
+    },
+    "ink": {
+      "spec": "#0E2035",
+      "found": "#0E2035",
+      "source": {
+        "file": "backend_python/web/static/web/css/pages/home/landing.css",
+        "token": "--home-ink"
+      }
+    },
+    "muted": {
+      "spec": "#334E68",
+      "found": "#334E68",
+      "source": {
+        "file": "backend_python/web/static/web/css/pages/home/landing.css",
+        "token": "--home-muted"
+      }
+    },
+    "purple": {
+      "spec": "#6246D7",
+      "found": "#6246D7",
+      "source": {
+        "file": "backend_python/web/static/web/css/pages/home/landing.css",
+        "rule": ".home-title-chip-resource",
+        "prop": "color"
+      }
+    },
+    "purpleWash": {
+      "spec": "#EBE7FF",
+      "found": "#EBE7FF",
+      "source": {
+        "file": "backend_python/web/static/web/css/pages/home/landing.css",
+        "rule": ".home-title-chip-resource",
+        "prop": "background"
+      }
+    },
+    "amber": {
+      "spec": "#B84B0B",
+      "found": "#B84B0B",
+      "source": {
+        "file": "backend_python/web/static/web/css/pages/home/landing.css",
+        "rule": ".home-title-chip-community",
+        "prop": "color"
+      }
+    },
+    "amberWash": {
+      "spec": "#FFEFCF",
+      "found": "#FFEFCF",
+      "source": {
+        "file": "backend_python/web/static/web/css/pages/home/landing.css",
+        "rule": ".home-title-chip-community",
+        "prop": "background"
+      }
+    }
+  },
+  "hero": {
+    "lead": "Study",
+    "chips": [
+      {
+        "icon": "menu_book",
+        "text": "materials"
+      },
+      {
+        "icon": "forum",
+        "text": "mates"
+      }
+    ],
+    "subtitle": "Find notes, textbooks, and past papers, ask questions, share what you know, and study alongside learners and educators."
+  },
+  "nav": [
+    "Home",
+    "Library",
+    "Forum",
+    "Blog"
+  ],
+  "banner": {
+    "text": "NEBians is now live on Google Play Store!",
+    "button": "Get the App",
+    "href": "https://play.google.com/store/apps/details?id=com.neb.ians"
+  },
+  "logo": {
+    "sha256": "4d91cb797e4dc2b42cd8d4bfdbbab2a0ab722fae4eca59206ac18fda33ce83c8",
+    "filledPaths": 5
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "file": "nebians-launch-16x9.mp4",
+  "checks": [
+    {
+      "name": "container has video and audio",
+      "ok": true,
+      "level": "pass",
+      "detail": "h264, aac"
+    },
+    {
+      "name": "duration matches spec",
+      "ok": true,
+      "level": "pass",
+      "detail": "15.000s vs 15s"
+    },
+    {
+      "name": "frame size",
+      "ok": true,
+      "level": "pass",
+      "detail": "1920x1080 (want 1920x1080)"
+    },
+    {
+      "name": "frame rate",
+      "ok": true,
+      "level": "pass",
+      "detail": "60.00 fps (want 60)"
+    },
+    {
+      "name": "codec is H.264 yuv420p",
+      "ok": true,
+      "level": "pass",
+      "detail": "h264 yuv420p"
+    },
+    {
+      "name": "colour tagged bt709",
+      "ok": true,
+      "level": "pass",
+      "detail": "bt709/bt709/bt709"
+    },
+    {
+      "name": "audio is stereo 48 kHz",
+      "ok": true,
+      "level": "pass",
+      "detail": "2ch 48000Hz"
+    },
+    {
+      "name": "audio length matches video",
+      "ok": true,
+      "level": "pass",
+      "detail": "15.000s"
+    },
+    {
+      "name": "file size is share-friendly (< 25 MB)",
+      "ok": true,
+      "level": "pass",
+      "detail": "17.6 MB"
+    },
+    {
+      "name": "no black frames",
+      "ok": true,
+      "level": "pass",
+      "detail": "none"
+    },
+    {
+      "name": "no frozen picture",
+      "ok": true,
+      "level": "pass",
+      "detail": "none"
+    },
+    {
+      "name": "loudness near -14 LUFS",
+      "ok": true,
+      "level": "pass",
+      "detail": "-14.1 LUFS"
+    },
+    {
+      "name": "true peak under -1 dBFS",
+      "ok": true,
+      "level": "pass",
+      "detail": "-3.9 dBFS"
+    },
+    {
+      "name": "no dead air",
+      "ok": true,
+      "level": "pass",
+      "detail": "none"
+    }
+  ]
+}

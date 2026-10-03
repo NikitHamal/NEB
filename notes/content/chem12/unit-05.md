@@ -283,6 +283,9 @@ ax.text(9.55, 0.62, 'cathode (+)  reduction', fontsize=8.0, color=INK, ha='right
 ax.text(9.55, 0.18, 'Cu²⁺ + 2e⁻ → Cu', fontsize=8.0, color=RED, ha='right')
 ```
 
+```photo id="chem12/daniell" caption="A Daniell cell set up in the laboratory: zinc in ZnSO₄ (left beaker) and copper in blue CuSO₄ (right beaker), joined through a voltmeter that reads about 1.07 V." width="75"
+```
+
 **The Daniell cell (Zn–Cu cell).** A zinc rod stands in 1 M ZnSO₄ in one beaker
 and a copper rod in 1 M CuSO₄ in another. The rods are joined by a wire through
 a voltmeter, and the two solutions by a **salt bridge** — an inverted U-tube
@@ -636,6 +639,9 @@ ax.text(0.10, 3.70, '4H₂O + 4e⁻', fontsize=7.0, color=RED, ha='left')
 ax.text(9.90, 4.55, 'cathode (+)', fontsize=8.0, color=INK, ha='right')
 ax.text(9.90, 4.10, 'O₂ + 2H₂O + 4e⁻', fontsize=7.0, color=RED, ha='right')
 ax.text(9.90, 3.70, '→ 4OH⁻', fontsize=7.0, color=RED, ha='right')
+```
+
+```photo id="chem12/fuel-cell-stack" caption="The fuel-cell stack (grey case, centre) of a hydrogen car, beside its hydrogen tank. Hundreds of cells like the one above are stacked in series to give a useful voltage." width="75"
 ```
 - Anode: 2H₂(g) + 4OH⁻(aq) → 4H₂O(l) + 4e⁻
 - Cathode: O₂(g) + 2H₂O(l) + 4e⁻ → 4OH⁻(aq)

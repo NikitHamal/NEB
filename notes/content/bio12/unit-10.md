@@ -248,56 +248,7 @@ domesticated that it is **flightless and unknown in the wild**. It is
 Growing the mulberry is therefore half of sericulture — the branch of the subject
 called **moriculture**.
 
-```figure caption="Life cycle of *Bombyx mori*. The commercially important fact is where the cycle is interrupted: the cocoon is harvested and the pupa killed by stifling, because a moth that emerges bites its way out and cuts the single filament into short lengths."
-fig, ax = plt.subplots(figsize=(5.0, 3.5))
-ax.set_xlim(0, 10.6); ax.set_ylim(0, 7.6); ax.axis("off")
-FB = matplotlib.patches.FancyBboxPatch
-
-def stage(x, y, w, h, title, body, col, fc):
-    ax.add_patch(FB((x, y), w, h, boxstyle="round,pad=0.10",
-                    fc=fc, ec=col, lw=1.3, zorder=3))
-    ax.text(x + w / 2, y + h - 0.40, title, ha="center", va="center",
-            fontsize=7.0, color=col, zorder=4)
-    ax.text(x + w / 2, y + h / 2 - 0.42, body, ha="center", va="center",
-            fontsize=5.9, color=INK, linespacing=1.35, zorder=4)
-
-def arrow(p, q, text=None, tx=0, ty=0):
-    ax.annotate("", xy=q, xytext=p,
-                arrowprops=dict(arrowstyle="-|>", color=MUTED, lw=1.3,
-                                mutation_scale=11), zorder=2)
-    if text:
-        ax.text((p[0] + q[0]) / 2 + tx, (p[1] + q[1]) / 2 + ty, text,
-                ha="center", va="center", fontsize=5.9, color=MUTED,
-                style="italic", zorder=4)
-
-stage(0.25, 4.35, 4.30, 2.85, "1. EGG",
-      "laid on paper, 300–500\nper female; hatches in\nabout 10–14 days",
-      ACCENT, "#eaf1f8")
-stage(6.05, 4.35, 4.30, 2.85, "2. LARVA (caterpillar)",
-      "5 instars, 4 moults;\n29–30 days of eating\nmulberry leaf only",
-      "#2e8b57", "#eaf6ee")
-stage(6.05, 0.40, 4.30, 2.85, "3. PUPA in COCOON",
-      "spins for 2–3 days, then\npupates inside; one\ncontinuous filament",
-      "#b8860b", "#fbf6e6")
-stage(0.25, 0.40, 4.30, 2.85, "4. ADULT MOTH",
-      "white, flightless, and\ndoes not feed at all;\nmates, lays, dies",
-      "#6a5acd", "#f0eefa")
-
-arrow((4.70, 5.78), (5.90, 5.78), "hatching", 0, 0.42)
-arrow((8.20, 4.20), (8.20, 3.40), "spinning", 1.25, 0)
-arrow((5.90, 1.83), (4.70, 1.83), "emergence", 0, -0.46)
-arrow((2.40, 3.40), (2.40, 4.20), "laying", -1.25, 0)
-
-RED = "#d9534f"
-ax.plot([5.10, 5.50], [1.63, 2.03], color=RED, lw=1.5, zorder=6)
-ax.plot([5.10, 5.50], [2.03, 1.63], color=RED, lw=1.5, zorder=6)
-ax.annotate("", xy=(5.30, 2.16), xytext=(5.30, 3.48),
-            arrowprops=dict(arrowstyle="-|>", color=RED, lw=1.0,
-                            mutation_scale=8), zorder=6)
-ax.text(5.30, 3.82, "cocoon harvested and pupa\nstifled here: the cycle stops",
-        ha="center", va="center", fontsize=6.0, color=RED,
-        linespacing=1.3, zorder=6)
-fig.tight_layout()
+```photo id="bio12/silkworm-cycle" caption="Life cycle of the silkworm *Bombyx mori*, from an old plate, with its printed legend. The commercially important fact is where the cycle is interrupted: the cocoon is harvested and the pupa killed by stifling, because a moth that emerges bites its way out and cuts the single filament into short lengths." width="92"
 ```
 
 **The rearing cycle.** Eggs are incubated and hatch in about 10–14 days into
@@ -427,6 +378,21 @@ swapped in a large fraction of South Asian textbooks and is a favourite MCQ.
 Two more from the same family of errors: rohu is a **column** feeder, not a
 bottom feeder, and catla feeds on **zooplankton**, not phytoplankton.
 :::
+
+```photo id="bio12/fish-catla" caption="Catla (*Labeo catla*) — a surface feeder on zooplankton; the deep, broad head carries an upturned mouth." width="54"
+```
+
+```photo id="bio12/fish-silver-carp" caption="Silver carp (*Hypophthalmichthys molitrix*) — a surface feeder on phytoplankton." width="54"
+```
+
+```photo id="bio12/fish-rohu" caption="Rohu (*Labeo rohita*) — a column feeder, shown here as market fish." width="54"
+```
+
+```photo id="bio12/fish-grass-carp" caption="Grass carp (*Ctenopharyngodon idella*) — a herbivore that eats aquatic weeds and cut grass." width="54"
+```
+
+```photo id="bio12/fish-mrigal" caption="Mrigal (*Cirrhinus mrigala*) — a bottom feeder on detritus and decaying matter (engraving)." width="54"
+```
 
 ```figure caption="Composite fish culture. Six species are stocked together because each feeds in a different part of the pond, so the whole standing crop of food is harvested instead of one layer of it."
 fig, ax = plt.subplots(figsize=(5.1, 3.2))
@@ -1230,6 +1196,9 @@ acetogens convert these into organic acids, hydrogen and acetate, and finally
 **methanogenic archaea** produce methane. The gas burns for cooking and light,
 and the spent slurry is a good manure — so a biogas plant replaces firewood,
 removes the smoke from the kitchen, and fertilises the field at the same time.
+
+```photo id="bio12/aeration-tank" caption="An aeration tank in a working sewage treatment plant (Bengaluru, India). Air is bubbled through the sewage so that the flocs of bacteria and fungi in it can consume the organic matter — the secondary stage that cuts the BOD." width="80"
+```
 
 ```figure caption="Sewage treatment. Primary treatment is purely physical; it is the secondary stage — an aeration tank full of flocs of bacteria and fungi — that actually consumes the organic matter and cuts the BOD by around 90 per cent."
 fig, ax = plt.subplots(figsize=(5.0, 3.4))

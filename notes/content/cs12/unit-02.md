@@ -255,6 +255,15 @@ ax.set_xlim(0.0, 8.5); ax.set_ylim(0.3, 3.6)
 ax.axis("off")
 ```
 
+```photo id="cs12/rj45" caption="An RJ45 plug on a twisted-pair Ethernet cable, the most common guided medium in a LAN." width="50"
+```
+
+```photo id="cs12/coax" caption="A coaxial cable stripped back to show the central conductor, insulation, braided shield and outer jacket." width="45"
+```
+
+```photo id="cs12/fibre" caption="An optical-fibre patch cable (yellow) terminated with duplex connectors." width="55"
+```
+
 | Medium | Structure | Typical speed / bandwidth | Range before repeater | Notes |
 |---|---|---|---|---|
 | **Twisted pair (UTP)** | 4 pairs of insulated copper twisted together; RJ-45 plug | Cat 5e 1 Gbps (100 MHz); Cat 6 up to 10 Gbps over 55 m (250 MHz); Cat 6a 10 Gbps over 100 m (500 MHz) | 100 m | Cheapest, easiest to install; twisting cancels crosstalk; most LAN cabling |
@@ -432,6 +441,21 @@ ax.set_xlim(0.0, 8.3); ax.set_ylim(0.14, 3.15)
 ax.axis("off")
 ```
 
+```photo id="cs12/nic" caption="A network interface card (NIC) for a PCI slot, with its RJ45 socket at the left edge." width="55"
+```
+
+```photo id="cs12/hub" caption="An 8-port Ethernet hub or switch seen from the front: every computer's cable ends in one of these sockets." width="70"
+```
+
+```photo id="cs12/switch" caption="A small five-port Ethernet switch with two cables plugged in." width="55"
+```
+
+```photo id="cs12/router" caption="A home Wi-Fi router with its external antennae." width="60"
+```
+
+```photo id="cs12/modem" caption="A modem: it converts the digital signals of the computer to and from the form the line carries." width="50"
+```
+
 | Device | OSI layer | Function |
 |---|---|---|
 | **NIC** (network interface card) | 1 and 2 | Connects a computer to the medium; holds the MAC address; converts parallel data to serial signals |
@@ -510,6 +534,9 @@ ax.set_xlim(0.0, 3.0); ax.set_ylim(0.1, 2.25)
 for ax in axes:
     ax.set_aspect("equal"); ax.axis("off")
 fig.subplots_adjust(wspace=0.05)
+```
+
+```photo id="cs12/server-racks" caption="Rack-mounted servers and network equipment in a server room: the cables behind them follow the star pattern of the topology above." width="65"
 ```
 
 ```figure caption="Three further topologies. Mesh: every node linked to every other. Tree: stars joined into a hierarchy. Hybrid: a mixture — here a star of a bus, a ring and a star."

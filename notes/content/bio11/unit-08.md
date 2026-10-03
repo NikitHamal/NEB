@@ -199,6 +199,15 @@ ax.set_xlim(-7.10, 7.10); ax.set_ylim(-2.90, 3.10)
 ax.set_aspect('equal'); ax.axis('off')
 ```
 
+```photo id="bio11/paramecium" caption="*Paramecium caudatum* cells in a culture, light microscopy. The scale bar is 50 μm; the cells are slipper-shaped with a blunt front end and a tapering rear end." width="84"
+```
+
+```photo id="bio11/amoeba" caption="*Amoeba proteus* under differential interference contrast: a single cell that moves by extending blunt pseudopodia (compare with ciliary movement in *Paramecium*)." width="84"
+```
+
+```photo id="bio11/euglena" caption="*Euglena* under the light microscope: green, spindle-shaped cells; chloroplasts give the green colour and a red eyespot is visible near the front end." width="68"
+```
+
 A thin, firm, elastic **pellicle** fixes the cell's shape; it is sculptured into
 hexagons with one cilium through the centre of each, so the cilia lie in neat
 longitudinal rows. Beneath it lie a clear outer **ectoplasm** and a granular
@@ -884,6 +893,9 @@ for ax in axes:
 fig.subplots_adjust(wspace=0.02)
 ```
 
+```photo id="bio11/hydra" caption="A living *Hydra*: a slender column attached by its basal disc, with tentacles around the mouth (hypostome) at the free end. Its green colour comes from symbiotic algae." width="68"
+```
+
 ### 2. Phylum Coelenterata (Cnidaria)
 
 - Aquatic, mostly marine, a few fresh-water (*Hydra*); solitary or colonial.
@@ -1038,6 +1050,12 @@ ax.set_xlim(-5.05, 6.45); ax.set_ylim(-2.85, 2.85)
 
 for a in axes:
     a.set_aspect('equal'); a.axis('off')
+```
+
+```photo id="bio11/planaria" caption="*Planaria*, a free-living flatworm: leaf-shaped, flattened from top to bottom and unsegmented, with a smooth ciliated surface." width="70"
+```
+
+```photo id="bio11/ascaris-jar" caption="Preserved *Ascaris lumbricoides* in a jar: long, cylindrical, unsegmented, tapering at both ends." width="34"
 ```
 
 ### 4. Phylum Nemathelminthes (Aschelminthes)
@@ -1214,6 +1232,13 @@ for ax in axes:
     ax.set_xlim(-2.15, 2.15); ax.set_ylim(-2.65, 3.25)
     ax.set_aspect('equal'); ax.axis('off')
 fig.subplots_adjust(wspace=0.02)
+```
+
+```photo id="bio11/cockroach" caption="The American cockroach *Periplaneta americana*: a flattened body in head, thorax and abdomen, with long antennae, wings and three pairs of jointed legs." width="60"
+crop 0.0 0.13 1 1
+```
+
+```photo id="bio11/asterias" caption="The starfish *Asterias*: a pentamerous body of five arms around a central disc with the spiny, studded upper surface visible." width="60"
 ```
 
 ### 7. Phylum Mollusca
@@ -1625,6 +1650,13 @@ ax.text(4.40, 0.93, "posterior", ha='center', fontsize=6.0, color="#2e6b4f")
 
 ax.set_xlim(-5.70, 5.70); ax.set_ylim(-2.25, 2.05)
 ax.set_aspect('equal'); ax.axis('off')
+```
+
+```photo id="bio11/earthworm-ext" caption="A living earthworm on moist ground: elongated, cylindrical and segmented, with no limbs." width="70"
+crop 0.3 0.25 0.9 0.8
+```
+
+```photo id="bio11/earthworm-dissect" caption="An earthworm opened along the back and pinned out in the laboratory. The body wall is cut and the long alimentary canal and the segmental organs are exposed." width="70"
 ```
 
 The body is long, narrow and cylindrical, about 150 mm long and 3–5 mm wide,
@@ -2327,6 +2359,12 @@ lab("mesentery slung\nbetween gut loops", (-0.80, -1.00), -3.05, -1.50, ha='righ
 
 ax.set_xlim(-7.00, 7.00); ax.set_ylim(-4.40, 4.40)
 ax.set_aspect('equal'); ax.axis('off')
+```
+
+```photo id="bio11/rana-tigrina" caption="The Indian bullfrog *Hoplobatrachus tigerinus* (the frog historically called *Rana tigrina*). It has smooth moist skin, large eyes, a broad head and webbed hind feet." width="76"
+```
+
+```photo id="bio11/frog-anglas" caption="Dissection plate of a frog opened from the ventral side, showing the chief organs of the body cavity: the red heart and liver at the top and the coiled intestine below. The legs are fully extended." width="46"
 ```
 
 The alimentary canal is short, as in all carnivores. The **buccal cavity** has a

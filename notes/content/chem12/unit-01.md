@@ -144,6 +144,9 @@ ax.set_xlim(-5.3, 15.2); ax.set_ylim(-1.9, 9.2)
 ax.set_aspect('equal'); ax.axis('off')
 ```
 
+```photo id="chem12/volflask" caption="A 500 cm³ volumetric flask: the single mark on the narrow neck is the volume it is calibrated to contain." width="32"
+```
+
 ## 1.2 Relationship between equivalent weight, atomic weight and valency
 
 One atom of hydrogen has valency 1 and a relative atomic mass of 1.008, so by
