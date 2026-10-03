@@ -16,8 +16,11 @@ the owner's private repo is not reachable by plain `git push` from the pod.
   fast-forward the branch ref.
 - Hard ceiling found by probing: a single blob body above ~27 MB is rejected
   with `413 Request Entity Too Large`. **Every committed file must stay under
-  25 MB**, so oversized books get a lossless-ish image-downsample pass before
-  they are pushed.
+  25 MB**, so an oversized book is first run through
+  `python3 notes/tools/shrink_pdf.py <book.pdf>` — that re-encodes only the
+  embedded photographs (`rewrite_images(dpi_threshold=200, dpi_target=150,
+  quality=72)`) and leaves the vector figures, the maths and the text untouched.
+  Science 10 went 52.3 MB -> 11.0 MB with all 275 pages and 72 images intact.
 
 ## Environment recipe (rebuilt from scratch each session)
 
