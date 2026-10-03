@@ -20,6 +20,7 @@
 
 - **`ANDROID_UI_CONTINUITY.md`** — the Android mono / Material 3 Expressive redesign (GitHub issues #41–#44): the owner's design contract, the house component signatures, platform constraints, what has shipped, what is still open, and the build/push recipe. **Read it before touching anything under `app/src/main/java/com/neb/ians/ui/`.**
 - **`CONTINUITY.md`** — Django/web backend, auth and deployment state.
+- **`docs/LAUNCH_VIDEO.md`** - the 15-second launch film (`tools/video/`, code-driven, no npm dependencies): storyboard, spec reference, and the table of what to change when the site changes. **After changing the brand palette, hero copy or chips, header nav, the logo, the library/forum/tools pages, or shipping a new headline feature, run `node tools/video/cli.mjs drift` and follow `docs/LAUNCH_VIDEO.md` to keep the film true.**
 
 ## Overview
 
@@ -853,6 +854,15 @@ A trycloudflare URL looks like `https://abc123.trycloudflare.com` â€” diffe
 ---
 
 ## Continuity Notes
+
+### What Was Worked On (Current Session - launch film)
+**Built a code-driven 15-second launch film for nebians.consica.com.np (Sep 29 2026), plus the pipeline and docs so any agent can keep it in sync.**
+
+- **Where:** `tools/video/` (pipeline, stage, audio, spec, tests), `docs/LAUNCH_VIDEO.md` (maintenance guide), deliverables in `tools/video/dist/`. Zero npm dependencies: Node 22+, ffmpeg, Chrome.
+- **How it works:** deterministic HTML/JS stage (`window.__seek(t)`) -> headless Chrome over CDP (`tools/video/lib/cdp.mjs`) -> PNG -> ffmpeg (3-sample `tmix` motion blur, bt709, x264) plus a procedural 128 BPM score (`tools/video/audio/`) -> loudnorm -14 LUFS -> mux + QA. One spec (`tools/video/spec/launch.spec.json`) carries copy, timeline (in beats), palette (with `source` pointers into the site CSS), cues (they drive both visuals and sound) and `claims` about the live site.
+- **Keeping it true:** `node tools/video/cli.mjs drift` compares the spec with the repo (palette tokens, hero chips, header nav, Play banner, logo facet count) and probes the live site; `sync --write` rewrites sourced palette values; `capture` re-shoots the library page (uploader avatars and names are blurred).
+- **Facts learned:** `/marketplace/` was 404 in production (in the repo, not deployed; deliberately not in the film, and watched by a `claims` entry); `/past-papers/` renders a literal `&amp;` in its `<h1>`; the Android app is live on Google Play (`com.neb.ians`) per the site banner.
+- **Not verified:** the soundtrack was checked by measurement only, not by ear; only 16:9 was designed and reviewed (9:16 and 1:1 exist in `meta.aspects` but are unreviewed).
 
 ### What Was Worked On (Current Session)
 **HIGH findings fixed end-to-end + deployed (Sep 2026): H1/H2/H3/H4/H5/H6/H7/H8/H9/H11/H12/H14. H10 + H13 skipped per user.**

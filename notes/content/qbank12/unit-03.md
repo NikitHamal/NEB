@@ -1,3 +1,1741 @@
+---
+subject: Question Bank
+grade: 12
+unit: 3
+title: "Physics: Unit-wise Subjective Question Bank"
+hours: 0
+area: Physics
+---
+
+Group B (eight questions of 5 marks) and Group C (three questions of 8 marks) carry
+sixty-four of the seventy-five written marks in NEB Grade 12 Physics. This chapter
+takes the twenty-five CDC units in syllabus order, and in every unit it gives a set of
+short-answer questions (the shape of a Group B question, often split $1+2+2$ or
+$2+3$), a set of long-answer questions (the shape of a Group C question, split
+$2+2+2+2$, $3+3+2$ or $5+3$), and a complete model answer to each, written at the
+length and in the order a full-mark script would follow.
+
+::: key How to use a section
+Attempt each question on paper *before* opening the model answer. Mark yourself
+part by part against the answer, because the examiner awards marks part by part too:
+a derivation earns its marks for the **starting law**, the **steps** and the
+**boxed result**; a numerical earns them for the **formula**, the **substitution with
+units** and the **answer**. Read the Examiner's note at the end of each section last —
+it lists what the marker looks for and the mistakes that cost marks in real papers.
+:::
+
+::: caution What a year tag means here
+**(NEB 2081)** is printed only on a question that we saw in that year's board paper;
+**(NEB 2079 model)** marks the official NEB model question for 2079, which we
+downloaded and read. A tag covers the *question as set*; where the printed question
+depended on a figure we could not reproduce, the data in the stem have been rebuilt
+and the question is given without a tag. The 2078 paper circulates under two labels
+(board and model); it is tagged **(NEB 2078)** and its label is treated as disputed.
+Untagged questions are original practice questions of the same pattern, not
+leaked papers.
+:::
+
+## 3.1 Rotational dynamics
+
+CDC allots **7 teaching hours**. The unit produces a Group B question almost every
+year: the moment of inertia of a rod, a conservation-of-angular-momentum argument
+(the ballet dancer, the rotating platform, the Earth), or a torque–energy numerical
+on a flywheel. It supplies the opening part of longer questions too.
+
+**Short answer questions [5 marks each]**
+
+1. (a) Define moment of inertia. [1] (b) Derive the moment of inertia of a uniform rod about an axis through one end and perpendicular to its length. [2] (c) A flywheel of moment of inertia $0.32\ \text{kg m}^{2}$ rotates at $120\ \text{rad s}^{-1}$, driven by a motor of power $50\ \text{W}$. Find its kinetic energy and the frictional couple. [2] <span class="marks">[5]</span> (NEB 2081)
+2. (a) Define radius of gyration. [1] (b) Find the moment of inertia of a thin uniform rod about a perpendicular axis through its centre. [2] (c) A teacher sitting on a rotating platform with her arms outstretched turns at $1.5\ \text{rad s}^{-1}$; she pulls her arms in and the speed becomes $5.0\ \text{rad s}^{-1}$. Find the ratio of her final to initial kinetic energy. [2] <span class="marks">[5]</span> (NEB 2080)
+3. (a) Why does a ballet dancer spin faster when she folds her arms? [2] (b) Establish the relation between torque and moment of inertia. [2] (c) Why is a wrench with a longer handle easier to use? [1] <span class="marks">[5]</span> (NEB 2082)
+4. (a) Why does the angular velocity of the Earth about the Sun increase when it is nearer the Sun? [2] (b) If the Earth suddenly shrank without loss of mass, what would happen to the length of the day? [2] (c) State the law you used in both parts. [1] <span class="marks">[5]</span> (NEB 2078)
+5. (a) Write the equations of angular motion and deduce the relations between linear and angular quantities. [3] (b) A wheel turning at $120\ \text{rev min}^{-1}$ is brought uniformly to rest in $20\ \text{s}$. Find the angular retardation and the number of revolutions it makes. [2] <span class="marks">[5]</span>
+6. (a) Show that the kinetic energy of a rotating rigid body is $\tfrac12I\omega^{2}$. [3] (b) A solid body has $I = 0.8\ \text{kg m}^{2}$ and $K = 160\ \text{J}$; find its angular momentum. [2] <span class="marks">[5]</span>
+
+::: note Model answers — short (1–3)
+**1.** (a) The **moment of inertia** of a body about an axis is the sum $\sum mr^{2}$ of the products of the mass of each particle and the square of its perpendicular distance from the axis. It is the rotational analogue of mass: it measures the body's resistance to a change in its rotation. Unit: $\text{kg m}^{2}$.
+
+(b) For a uniform rod of mass $M$ and length $l$, take an element of length $dx$ at distance $x$ from the end; its mass is $dm = (M/l)\,dx$.
+$$ I_{end} = \int_0^{l}x^{2}\,\frac{M}{l}\,dx = \frac{M}{l}\cdot\frac{l^{3}}{3} = \frac{Ml^{2}}{3} $$
+
+(c) Kinetic energy and frictional couple:
+$$ K = \tfrac12I\omega^{2} = \tfrac12(0.32)(120)^{2} = 2304\ \text{J} $$
+At a steady speed the motor's power is used entirely against friction, $P = \tau\omega$:
+$$ \tau = \frac{P}{\omega} = \frac{50}{120} = 0.42\ \text{N m} $$
+
+**2.** (a) The **radius of gyration** $k$ is the distance from the axis at which the whole mass of the body could be concentrated without changing its moment of inertia: $I = Mk^{2}$, so $k = \sqrt{I/M}$.
+
+(b) Integrate from the centre outwards, $x$ from $-l/2$ to $+l/2$:
+$$ I_{cm} = \int_{-l/2}^{l/2}x^{2}\,\frac{M}{l}\,dx = \frac{M}{l}\left[\frac{x^{3}}{3}\right]_{-l/2}^{l/2} = \frac{Ml^{2}}{12} $$
+
+(c) There is no external torque on the platform, so the angular momentum is conserved, $I_1\omega_1 = I_2\omega_2$. Since $K = \tfrac12I\omega^{2} = \tfrac12L\omega$ and $L$ is constant,
+$$ \frac{K_2}{K_1} = \frac{\omega_2}{\omega_1} = \frac{5.0}{1.5} = 3.3 $$
+The kinetic energy rises $3.3$ times; the extra energy is the work her muscles do pulling her arms in against the outward tendency of the mass.
+
+**3.** (a) With no external torque on her, her angular momentum $L = I\omega$ stays constant. Folding her arms brings the mass close to the axis, so $I$ decreases; to keep $L$ constant her angular velocity $\omega$ must increase. Extending them again increases $I$ and slows her.
+
+(b) A particle of mass $m$ at distance $r$ from the axis, acted on by a tangential force $F$, has tangential acceleration $a = r\alpha$, so $F = mr\alpha$. Its torque about the axis is $\tau = Fr = mr^{2}\alpha$. For the whole rigid body, all particles share the same $\alpha$:
+$$ \tau = \Big(\sum mr^{2}\Big)\alpha = I\alpha $$
+
+(c) The torque is $\tau = Fr$; a longer handle increases the perpendicular distance $r$, so a smaller force $F$ gives the same torque.
+:::
+
+::: note Model answers — short (4–6)
+**4.** (a) The Earth is subject only to the Sun's gravitational pull, which acts along the line joining them and so has **zero torque** about the Sun. Its orbital angular momentum $L = mr^{2}\omega$ is therefore conserved. When $r$ decreases, $\omega$ must increase — equivalently the radius vector sweeps equal areas in equal times (Kepler's second law).
+
+(b) The Earth's spin angular momentum $L = I\omega$ is conserved, since no external torque acts. Shrinking decreases $I$ (for a sphere $I\propto R^{2}$), so $\omega$ increases and the **day becomes shorter**. For example, if $R$ fell to half, $I$ would fall to a quarter and the day would be $24/4 = 6\ \text{h}$.
+
+(c) The **law of conservation of angular momentum**: if the resultant external torque on a system is zero, its total angular momentum remains constant.
+
+**5.** (a) For constant angular acceleration $\alpha$, starting with angular velocity $\omega_0$:
+$$ \omega = \omega_0+\alpha t $$
+$$ \theta = \omega_0t+\tfrac12\alpha t^{2} $$
+$$ \omega^{2} = \omega_0^{2}+2\alpha\theta $$
+A point at distance $r$ from the axis moves along an arc $s = r\theta$, so $v = r\omega$ and the tangential acceleration is $a = r\alpha$.
+
+(b) $\omega_0 = 120\times2\pi/60 = 12.57\ \text{rad s}^{-1}$, $\omega = 0$, $t = 20\ \text{s}$.
+$$ \alpha = \frac{\omega-\omega_0}{t} = \frac{0-12.57}{20} = -0.63\ \text{rad s}^{-2} $$
+$$ \theta = \frac{\omega_0+\omega}{2}\,t = \frac{12.57}{2}\times20 = 125.7\ \text{rad} $$
+Number of revolutions $= 125.7/2\pi = 20$.
+
+**6.** (a) A rigid body is made of particles $m_1, m_2,\dots$ at distances $r_1, r_2,\dots$ from the axis, all turning at the same $\omega$. Particle $i$ moves with speed $v_i = r_i\omega$, so its kinetic energy is $\tfrac12m_ir_i^{2}\omega^{2}$. Summing over all particles,
+$$ K = \tfrac12\Big(\sum m_ir_i^{2}\Big)\omega^{2} = \tfrac12I\omega^{2} $$
+
+(b) $K = L^{2}/2I$, so
+$$ L = \sqrt{2IK} = \sqrt{2\times0.8\times160} = \sqrt{256} = 16\ \text{kg m}^{2}\text{s}^{-1} $$
+:::
+
+**Long answer / numerical questions [8 marks each]**
+
+1. (a) Define moment of inertia and radius of gyration. [2] (b) Derive the moment of inertia of a uniform rod about a perpendicular axis through its centre and, using the parallel-axis theorem, about one end. [4] (c) A uniform rod of mass $1.2\ \text{kg}$ and length $0.60\ \text{m}$ is pivoted at one end and released from the horizontal. Find the angular acceleration at release. [2] <span class="marks">[8]</span>
+2. (a) Derive $\tau = I\alpha$ for a rigid body. [2] (b) Deduce the expressions for work and power in rotational motion. [3] (c) A flywheel of moment of inertia $2.5\ \text{kg m}^{2}$ is acted on by a constant torque of $10\ \text{N m}$ for $5.0\ \text{s}$, starting from rest. Find its final angular velocity, the work done, the final kinetic energy and the instantaneous power at $5.0\ \text{s}$. [3] <span class="marks">[8]</span>
+3. (a) State the law of conservation of angular momentum. [1] (b) A horizontal disc of moment of inertia $0.50\ \text{kg m}^{2}$ rotates freely at $4.0\ \text{rad s}^{-1}$. A small lump of putty of mass $0.10\ \text{kg}$ dropped on it sticks at a distance $0.40\ \text{m}$ from the axis. Find the new angular velocity and the loss of kinetic energy, and explain where the energy has gone. [4] (c) Explain why a diver tucks into a ball during a somersault. [3] <span class="marks">[8]</span>
+
+::: note Model answers — long
+**1.** (a) **Moment of inertia** $I = \sum mr^{2}$ is the rotational analogue of mass. **Radius of gyration** $k = \sqrt{I/M}$ is the distance from the axis at which the whole mass would give the same $I$.
+
+(b) Let the rod have mass $M$ and length $l$; a length $dx$ at distance $x$ from the centre has mass $(M/l)dx$.
+$$ I_{cm} = \int_{-l/2}^{l/2}\frac{M}{l}x^{2}\,dx = \frac{M}{l}\cdot\frac{2}{3}\left(\frac{l}{2}\right)^{3} = \frac{Ml^{2}}{12} $$
+The **parallel-axis theorem** states $I = I_{cm}+Md^{2}$, where $d$ is the distance between the parallel axes. For the end of the rod $d = l/2$:
+$$ I_{end} = \frac{Ml^{2}}{12}+M\left(\frac{l}{2}\right)^{2} = \frac{Ml^{2}}{12}+\frac{Ml^{2}}{4} = \frac{Ml^{2}}{3} $$
+which agrees with the direct integration from one end.
+
+(c) At release the weight $Mg$ acts at the centre, distance $l/2$ from the pivot, so
+$$ \tau = Mg\,\frac{l}{2},\qquad I = \frac{Ml^{2}}{3} $$
+$$ \alpha = \frac{\tau}{I} = \frac{Mgl/2}{Ml^{2}/3} = \frac{3g}{2l} = \frac{3\times9.8}{2\times0.60} = 24.5\ \text{rad s}^{-2} $$
+The mass cancels: a heavier rod of the same length falls at the same rate.
+
+**2.** (a) Consider particle $i$ of mass $m_i$ at distance $r_i$ with tangential force $F_i$. Its tangential acceleration is $r_i\alpha$, so $F_i = m_ir_i\alpha$ and its torque is $F_ir_i = m_ir_i^{2}\alpha$. Summing over all particles, since $\alpha$ is common to all,
+$$ \tau = \alpha\sum m_ir_i^{2} = I\alpha $$
+
+(b) A torque $\tau$ turning a body through a small angle $d\theta$ does work $dW = F\,ds = F\,r\,d\theta = \tau\,d\theta$. For a constant torque through angle $\theta$:
+$$ W = \tau\theta $$
+Dividing by the time taken:
+$$ P = \frac{dW}{dt} = \tau\frac{d\theta}{dt} = \tau\omega $$
+
+(c) $\alpha = \tau/I = 10/2.5 = 4.0\ \text{rad s}^{-2}$.
+$$ \omega = \alpha t = 4.0\times5.0 = 20\ \text{rad s}^{-1} $$
+$$ \theta = \tfrac12\alpha t^{2} = \tfrac12(4.0)(25) = 50\ \text{rad} $$
+$$ W = \tau\theta = 10\times50 = 500\ \text{J} $$
+$$ K = \tfrac12I\omega^{2} = \tfrac12(2.5)(20)^{2} = 500\ \text{J} $$
+The two agree, as they must when no energy is lost. The instantaneous power is
+$$ P = \tau\omega = 10\times20 = 200\ \text{W} $$
+(the *average* power is $W/t = 100\ \text{W}$; the power grows linearly because $\omega$ does).
+
+**3.** (a) If the resultant external torque on a system is zero, its total angular momentum is constant.
+
+(b) The putty adds a moment of inertia $mr^{2} = 0.10\times(0.40)^{2} = 0.016\ \text{kg m}^{2}$, so $I_2 = 0.516\ \text{kg m}^{2}$. No external torque acts on the disc-and-putty system:
+$$ I_1\omega_1 = I_2\omega_2\ \Rightarrow\ \omega_2 = \frac{0.50\times4.0}{0.516} = 3.88\ \text{rad s}^{-1} $$
+$$ K_1 = \tfrac12(0.50)(4.0)^{2} = 4.00\ \text{J},\qquad K_2 = \tfrac12(0.516)(3.88)^{2} = 3.88\ \text{J} $$
+$$ \Delta K = 4.00-3.88 = 0.12\ \text{J} $$
+The lost energy has gone to heat and sound in the inelastic sticking of the putty, exactly as in a linear perfectly inelastic collision: momentum (here angular momentum) is conserved, kinetic energy is not.
+
+(c) In the air there is no external torque about the centre of mass, so $L = I\omega$ is fixed. Tucking reduces $I$, so the diver rotates faster and completes the somersault; opening out before entry raises $I$ and slows the rotation for a clean entry.
+:::
+
+::: tip Examiner's note — Rotational dynamics
+Quote the **starting principle** before the algebra — "no external torque, so $L$ is conserved" — because that sentence alone is worth a mark in every angular-momentum question. For the rod, always state the **limits** of the integral and the **element** $dm = (M/l)dx$; writing only the final $Ml^{2}/12$ earns one mark out of two. In flywheel numericals, check that the units of power and torque agree ($\text{W} = \text{N m s}^{-1}$), and do not confuse the energy $\tfrac12I\omega^{2}$ with the work $\tau\theta$ — they are equal only if no energy is lost to friction. Convert $\text{rev min}^{-1}$ to $\text{rad s}^{-1}$ first.
+:::
+
+## 3.2 Periodic motion
+
+CDC allots **6 teaching hours**. Expect the vertical-spring derivation, an energy argument for SHM (often with a graph), a simple-pendulum item and, in recent papers, a build-your-own-SHM argument from a restoring force such as the earthquake question of 2078.
+
+**Short answer questions [5 marks each]**
+
+1. (a) Define simple harmonic motion. [1] (b) Derive an expression for the time period of a mass $m$ attached to a vertical spring of force constant $k$. [3] (c) What would the time period be inside an orbiting satellite? [1] <span class="marks">[5]</span> (NEB 2079 model)
+2. (a) A particle moves as $y = r\sin\omega t$. Define amplitude and calculate the acceleration. [1+2] (b) A uniform spring is cut into two equal halves. What happens to the force constant and to the frequency of a given mass on one half? [1+1] <span class="marks">[5]</span> (NEB 2080)
+3. (a) Show that the total energy in SHM is constant. [3] (b) Sketch the potential energy against displacement. [1] (c) What is the time period of a simple pendulum on the Moon, compared with that on Earth? [1] <span class="marks">[5]</span> (NEB 2082)
+4. A spring of force constant $18\ \text{N m}^{-1}$ carries a mass $0.15\ \text{kg}$ and is pulled $4\ \text{cm}$ down and released. (a) Define SHM. [1] (b) Find the maximum acceleration and the time period. [2] (c) Write the expression for the total energy and draw the kinetic and potential energy graphs. [2] <span class="marks">[5]</span> (NEB 2081)
+5. (a) Distinguish between free, damped and forced oscillations. [3] (b) What is resonance? Give two examples. [2] <span class="marks">[5]</span>
+6. (a) Derive the time period of a simple pendulum. [3] (b) How can the $l$–$T^{2}$ graph be used to find $g$? [2] <span class="marks">[5]</span>
+
+::: note Model answers — short (1–3)
+**1.** (a) **Simple harmonic motion** is the periodic motion of a particle whose acceleration is directly proportional to its displacement from a fixed point (the mean position) and is always directed towards that point: $a = -\omega^{2}x$.
+
+(b) At equilibrium the spring is stretched by $e$ so that $ke = mg$. If the mass is pulled a further distance $y$ down, the net restoring force is
+$$ F = mg-k(e+y) = -ky $$
+Newton's second law gives $ma = -ky$, so
+$$ a = -\frac{k}{m}\,y = -\omega^{2}y,\qquad \omega^{2} = \frac{k}{m} $$
+This is the defining equation of SHM, and
+$$ T = \frac{2\pi}{\omega} = 2\pi\sqrt{\frac{m}{k}} $$
+
+(c) The time period is **unchanged**. The expression for $T$ contains only $m$ and $k$, not $g$. In the satellite the mass and the spring are both "weightless", but the spring still exerts $-ky$ on the mass and its inertia is unchanged, so it oscillates with the same $T$. (A *simple pendulum* would not oscillate at all, since its restoring force is the weight.)
+
+**2.** (a) **Amplitude** $r$ is the maximum displacement from the mean position. With $y = r\sin\omega t$,
+$$ v = \frac{dy}{dt} = r\omega\cos\omega t,\qquad a = \frac{dv}{dt} = -r\omega^{2}\sin\omega t = -\omega^{2}y $$
+The acceleration is proportional to the displacement, opposite in direction, with maximum value $r\omega^{2}$.
+
+(b) A spring of half the length is twice as stiff, because the same force now stretches each of only half as many coils: **the force constant doubles** ($k' = 2k$). The frequency $f = \dfrac{1}{2\pi}\sqrt{k/m}$ therefore increases by the factor $\sqrt{2}$: $f' = \sqrt{2}\,f$.
+
+**3.** (a) At displacement $x$ the speed is $v = \omega\sqrt{A^{2}-x^{2}}$, so
+$$ K = \tfrac12mv^{2} = \tfrac12m\omega^{2}(A^{2}-x^{2}) = \tfrac12k(A^{2}-x^{2}) $$
+The restoring force $F = -kx$ does work $-\int F\,dx$ in displacing the particle, stored as
+$$ U = \tfrac12kx^{2} $$
+$$ E = K+U = \tfrac12k(A^{2}-x^{2})+\tfrac12kx^{2} = \tfrac12kA^{2} $$
+which does not depend on $x$ or $t$: the energy is constant.
+
+(b) $U = \tfrac12kx^{2}$ is a parabola with its minimum ($U = 0$) at $x = 0$, rising to $\tfrac12kA^{2}$ at $x = \pm A$ (see the figure below).
+
+(c) $T = 2\pi\sqrt{l/g}$ and $g_{Moon}\approx g/6$, so
+$$ \frac{T_{Moon}}{T_{Earth}} = \sqrt{\frac{g}{g_{Moon}}} = \sqrt{6} = 2.45 $$
+The pendulum swings $2.45$ times more slowly on the Moon.
+:::
+
+::: note Model answers — short (4–6)
+**4.** (a) SHM is motion in which the acceleration is proportional to the displacement from the mean position and directed towards it.
+
+(b) $\omega = \sqrt{k/m} = \sqrt{18/0.15} = \sqrt{120} = 10.95\ \text{rad s}^{-1}$, amplitude $A = 0.04\ \text{m}$.
+$$ a_{max} = \omega^{2}A = 120\times0.04 = 4.8\ \text{m s}^{-2} $$
+$$ T = \frac{2\pi}{\omega} = \frac{2\pi}{10.95} = 0.57\ \text{s} $$
+
+(c) The total energy is
+$$ E = \tfrac12kA^{2} = \tfrac12(18)(0.04)^{2} = 1.44\times10^{-2}\ \text{J} $$
+The kinetic energy $\tfrac12k(A^{2}-x^{2})$ is an inverted parabola, maximum at $x = 0$; the potential energy $\tfrac12kx^{2}$ is an upright parabola. They add to a horizontal line at $E$ (the figure below).
+
+**5.** (a) **Free oscillation:** the system oscillates at its natural frequency with constant amplitude, with no resistive force and no external driving (an ideal case). **Damped oscillation:** a resistive force (air drag, friction) removes energy each cycle, so the amplitude decays with time; the frequency is slightly lower than the natural value. **Forced oscillation:** a periodic external force of frequency $f_d$ drives the system; after a transient it oscillates at $f_d$, not at its natural frequency, with an amplitude that depends on how close $f_d$ is to the natural frequency.
+
+(b) **Resonance** occurs when the frequency of the driving force equals the natural frequency of the system; the amplitude of the forced oscillation is then a maximum (limited only by damping). Examples: a child's swing pushed in time with its motion; the shattering of a glass by a singer of the right pitch; radio tuning; bridges swaying under marching soldiers.
+
+**6.** (a) The bob of mass $m$ on a string of length $l$ is displaced by a small angle $\theta$. The component of weight along the arc is the restoring force $F = -mg\sin\theta\approx-mg\theta$ for small $\theta$ (in radians). The displacement along the arc is $x = l\theta$, so
+$$ F = -\frac{mg}{l}\,x $$
+This has the form $F = -kx$ with $k = mg/l$, so the motion is SHM and
+$$ T = 2\pi\sqrt{\frac{m}{k}} = 2\pi\sqrt{\frac{l}{g}} $$
+
+(b) Squaring, $T^{2} = \dfrac{4\pi^{2}}{g}\,l$. A graph of $T^{2}$ (vertical) against $l$ (horizontal) is a straight line through the origin of slope $4\pi^{2}/g$; hence $g = 4\pi^{2}/\text{slope}$. Using the whole line averages out reading errors.
+:::
+
+```figure caption="Energy in SHM. The potential energy ½kx² (blue) is a parabola, the kinetic energy ½k(A² − x²) (orange) is an inverted parabola, and their sum E = ½kA² (dashed) is constant."
+import numpy as np, matplotlib.pyplot as plt
+fig, ax = plt.subplots(figsize=(4.5,2.9))
+A = 1.0
+x = np.linspace(-A, A, 300)
+U = 0.5*x**2
+K = 0.5*(A**2 - x**2)
+ax.plot(x, U, color=ACCENT, lw=1.8)
+ax.plot(x, K, color=SERIES[1], lw=1.8)
+ax.axhline(0.5, color=INK, lw=1.1, ls='--')
+ax.text(-0.98, 0.535, '$E = \\frac{1}{2}kA^{2}$', fontsize=9, color=INK, va='bottom')
+ax.text(0.55, 0.06, 'PE', color=ACCENT, fontsize=9)
+ax.text(0.04, 0.42, 'KE', color=SERIES[1], fontsize=9, ha='left')
+ax.set_xticks([-A, 0, A]); ax.set_xticklabels(['−A', '0', '+A'])
+ax.set_yticks([0, 0.5]); ax.set_yticklabels(['0', '$E$'])
+ax.set_xlabel('displacement  $x$', fontsize=9)
+ax.set_ylabel('energy', fontsize=9)
+ax.set_ylim(0, 0.65)
+ax.spines[['top','right']].set_visible(False)
+ax.grid(color=GRID, lw=0.5)
+```
+
+**Long answer / numerical questions [8 marks each]**
+
+1. During an earthquake a building is displaced from equilibrium and feels a restoring force $F = -Ax$, where $A$ is a constant and $x$ the displacement. (a) Prove that the motion is simple harmonic. [2] (b) Show that the speed is $v = \pm\omega\sqrt{A_0^{2}-x^{2}}$, where $A_0$ is the amplitude. [2] (c) Find the maximum speed of a building shaken by $21\ \text{Hz}$ waves with amplitude $0.05\ \text{m}$. [2] (d) Why are tall buildings more susceptible to low-frequency waves? [2] <span class="marks">[8]</span> (NEB 2078)
+2. (a) Derive the time period of a mass suspended from a vertical coiled spring. [3] (b) Show that the total energy of the oscillating mass is $\tfrac12kA^{2}$ and sketch the energy graphs. [3] (c) A $0.50\ \text{kg}$ mass on a spring oscillates with amplitude $0.10\ \text{m}$ and period $0.63\ \text{s}$. Find $k$, the total energy and the speed when $x = 0.06\ \text{m}$. [2] <span class="marks">[8]</span>
+3. (a) Define angular SHM and derive the time period of a torsional pendulum. [3] (b) Derive the period of a simple pendulum from the torque on the bob. [3] (c) A second's pendulum has period $2.0\ \text{s}$. Find its length and its period on the Moon ($g_{Moon} = 1.63\ \text{m s}^{-2}$). [2] <span class="marks">[8]</span>
+
+::: note Model answers — long
+**1.** (a) In SHM the acceleration is proportional to the displacement and opposite in direction. Here, with mass $m$,
+$$ a = \frac{F}{m} = -\frac{A}{m}\,x = -\omega^{2}x,\qquad \omega^{2} = \frac{A}{m} $$
+which is the defining equation of SHM, so the motion is SHM with $T = 2\pi\sqrt{m/A}$.
+
+(b) Let the displacement be $x = A_0\sin\omega t$. Then $v = A_0\omega\cos\omega t$, and
+$$ v^{2} = A_0^{2}\omega^{2}\cos^{2}\omega t = \omega^{2}A_0^{2}(1-\sin^{2}\omega t) = \omega^{2}(A_0^{2}-x^{2}) $$
+$$ v = \pm\omega\sqrt{A_0^{2}-x^{2}} $$
+
+(c) The maximum speed is at $x = 0$:
+$$ v_{max} = \omega A_0 = 2\pi fA_0 = 2\pi\times21\times0.05 = 6.6\ \text{m s}^{-1} $$
+
+(d) A building has its own **natural frequency**, and it is lower for a taller structure (a longer, more flexible "cantilever"). A low-frequency wave is therefore more likely to match the natural frequency of a tall building, producing **resonance**: the amplitude of the building's oscillation grows large and it may collapse. Short, stiff buildings have high natural frequencies and are driven far from resonance by such waves.
+
+**2.** (a) See the derivation for the vertical spring in short answer 1(b): $F = -ky$, so
+$$ T = 2\pi\sqrt{\frac{m}{k}} $$
+The weight only changes the equilibrium position; the oscillation is about the new equilibrium and $T$ does not contain $g$.
+
+(b) $K+U = \tfrac12kA^{2}$ as in short answer 3(a); the figure shows the energy graphs: $U$ and $K$ are parabolas that exchange energy twice per cycle, their sum constant.
+
+(c) $\omega = 2\pi/T = 2\pi/0.63 = 9.97\ \text{rad s}^{-1}$.
+$$ k = m\omega^{2} = 0.50\times(9.97)^{2} = 49.7\ \text{N m}^{-1} $$
+$$ E = \tfrac12kA^{2} = \tfrac12(49.7)(0.10)^{2} = 0.25\ \text{J} $$
+$$ v = \omega\sqrt{A^{2}-x^{2}} = 9.97\sqrt{0.10^{2}-0.06^{2}} = 9.97\times0.08 = 0.80\ \text{m s}^{-1} $$
+
+**3.** (a) **Angular SHM** is oscillation in which the restoring torque is proportional to the angular displacement, $\tau = -C\theta$, where $C$ is the torsional constant. By $\tau = I\alpha$:
+$$ I\alpha = -C\theta\ \Rightarrow\ \alpha = -\frac{C}{I}\,\theta = -\omega^{2}\theta,\qquad \omega^{2} = \frac{C}{I} $$
+$$ T = 2\pi\sqrt{\frac{I}{C}} $$
+
+(b) For a bob of mass $m$ on a light string of length $l$ displaced by a small angle $\theta$, the torque of the weight about the pivot is $\tau = -mgl\sin\theta\approx-mgl\theta$, and the moment of inertia is $I = ml^{2}$. Then
+$$ ml^{2}\alpha = -mgl\,\theta\ \Rightarrow\ \alpha = -\frac{g}{l}\,\theta,\qquad T = 2\pi\sqrt{\frac{l}{g}} $$
+This is the torsional result with $C = mgl$.
+
+(c) $l = \dfrac{gT^{2}}{4\pi^{2}} = \dfrac{9.8\times4.0}{39.5} = 0.99\ \text{m}$. On the Moon,
+$$ T_{M} = 2\pi\sqrt{\frac{0.993}{1.63}} = 4.9\ \text{s} $$
+:::
+
+::: tip Examiner's note — Periodic motion
+The defining equation comes first: for any "prove it is SHM" question, reduce the force or torque to the form $a = -(\text{constant})\,x$ and *say* that this is SHM. In the vertical-spring derivation, state that $ke = mg$ at equilibrium and that the weight cancels; omitting it loses a mark. Note that $T$ for a spring–mass system does **not** depend on $g$ — the satellite and Moon questions test exactly this. In energy questions give $E = \tfrac12kA^{2}$ **and** label the graph axes; in numericals check that you used radians and $\omega$ in $\text{rad s}^{-1}$.
+:::
+
+## 3.3 Fluid statics
+
+CDC allots **9 teaching hours** — one of the heaviest units, covering pressure and buoyancy, surface tension, capillarity, viscosity and the two principles of fluid flow. Every recent paper has one Group B item on each of surface tension, viscosity/Stokes' law and Bernoulli's equation.
+
+**Short answer questions [5 marks each]**
+
+1. (a) Define surface tension. [1] (b) Establish the relation between surface tension and surface energy. [2] (c) Two equal raindrops falling at terminal velocity $v_1$ coalesce into one. Find the new terminal velocity. [2] <span class="marks">[5]</span> (NEB 2078, 2081)
+2. (a) State Stokes' law and define the coefficient of viscosity. [1+1] (b) Describe how $\eta$ of a liquid may be determined by Stokes' method. [1] (c) Water flows along a horizontal pipe of cross-section $25\ \text{cm}^{2}$ at $3\ \text{m s}^{-1}$ into a section of $15\ \text{cm}^{2}$. Find the change in pressure. [2] <span class="marks">[5]</span> (NEB 2080)
+3. (a) Distinguish between laminar (streamline) and turbulent flow. [2] (b) Water at pressure $4\times10^{4}\ \text{N m}^{-2}$ flows at $2\ \text{m s}^{-1}$ through a pipe of area $200\ \text{cm}^{2}$, which narrows to $50\ \text{cm}^{2}$. Find the pressure in the narrow part. [3] <span class="marks">[5]</span> (NEB 2082)
+4. (a) State Bernoulli's principle. [1] (b) A liquid of density $1200\ \text{kg m}^{-3}$ flows steadily through a tube of varying cross-section, $1.0\ \text{cm}^{2}$ at A and $20\ \text{mm}^{2}$ at B, at the same level. The speed at A is $10\ \text{cm s}^{-1}$. Find the speed at B [2] and the pressure difference between A and B. [2] <span class="marks">[5]</span> (NEB 2079 model)
+5. (a) Derive Bernoulli's equation. [2] (b) Why does water squirt further when a thumb partly covers the end of a hose? [2] (c) State the equation of continuity. [1] <span class="marks">[5]</span> (NEB 2078)
+6. (a) Define angle of contact and explain why mercury is depressed in a glass tube while water rises. [3] (b) Find the rise of water ($T = 0.072\ \text{N m}^{-1}$, angle of contact $0^{\circ}$) in a tube of radius $0.50\ \text{mm}$. [2] <span class="marks">[5]</span>
+7. (a) State Poiseuille's formula and name each symbol. [2] (b) If the radius of a blood vessel is reduced by $10\%$ at constant pressure difference, by what fraction does the flow fall? [3] <span class="marks">[5]</span>
+8. (a) Derive the expression for pressure at depth $h$ in a liquid. [2] (b) State Archimedes' principle and find the fraction of an iceberg ($917\ \text{kg m}^{-3}$) above sea water ($1025\ \text{kg m}^{-3}$). [3] <span class="marks">[5]</span>
+
+::: note Model answers — short (1–4)
+**1.** (a) **Surface tension** is the force acting per unit length on an imaginary line drawn in the surface of a liquid, perpendicular to the line and tangential to the surface: $T = F/l$, unit $\text{N m}^{-1}$.
+
+(b) Let a wire frame with a sliding bar of length $l$ hold a soap film of *one* surface. The surface pulls the bar with force $F = Tl$. If the bar is moved a distance $dx$, the work done against surface tension is
+$$ dW = F\,dx = T\,l\,dx = T\,\Delta A $$
+where $\Delta A = l\,dx$ is the increase in surface area. This work is stored as surface energy, so the **surface energy per unit area equals the surface tension**: $E/A = T$, in $\text{J m}^{-2}$ which is identical to $\text{N m}^{-1}$.
+
+(c) The terminal velocity is $v_t = \dfrac{2r^{2}(\rho-\sigma)g}{9\eta}\propto r^{2}$. Volume is conserved when two drops of radius $r$ coalesce: $\tfrac43\pi R^{3} = 2\times\tfrac43\pi r^{3}$, so $R = 2^{1/3}r$. Then
+$$ v_2 = v_1\left(\frac{R}{r}\right)^{2} = 2^{2/3}v_1 = 1.59\,v_1 $$
+For $N$ drops $v_2 = N^{2/3}v_1$; with $N = 2$ and $v_1 = 0.4\ \text{m s}^{-1}$ this gives $v_2 = 0.63\ \text{m s}^{-1}$.
+
+**2.** (a) **Stokes' law:** the viscous drag on a small sphere of radius $r$ moving with speed $v$ through a fluid of viscosity $\eta$ is $F = 6\pi\eta rv$. The **coefficient of viscosity** is the tangential force per unit area needed to maintain unit velocity gradient between layers: $F = \eta A\,dv/dx$; unit $\text{Pa s}$.
+
+(b) Drop a small steel ball of known radius and density into a tall jar of the liquid; time its fall between two marks once it reaches **terminal velocity**, where weight $=$ buoyancy $+$ drag. Then
+$$ \eta = \frac{2r^{2}(\rho-\sigma)g}{9v_t} $$
+
+(c) Continuity: $A_1v_1 = A_2v_2$, so $v_2 = 25\times3/15 = 5\ \text{m s}^{-1}$. For water, $\rho = 1000\ \text{kg m}^{-3}$ and Bernoulli's equation for a horizontal pipe gives
+$$ P_1-P_2 = \tfrac12\rho(v_2^{2}-v_1^{2}) = \tfrac12(1000)(25-9) = 8.0\times10^{3}\ \text{Pa} $$
+The pressure **falls** by $8.0\ \text{kPa}$ in the narrow section.
+
+**3.** (a) In **laminar flow** every particle follows the same smooth path as the ones ahead of it, layers slide over each other without mixing, and the velocity at any point is constant; it occurs at low speeds (Reynolds number below about $2000$). In **turbulent flow** the motion is irregular, with eddies and mixing, and the velocity at a point changes randomly; it occurs at high speed or in narrow constrictions.
+
+(b) $v_2 = 200\times2/50 = 8\ \text{m s}^{-1}$. With $\rho = 1000\ \text{kg m}^{-3}$:
+$$ P_2 = P_1+\tfrac12\rho(v_1^{2}-v_2^{2}) = 4\times10^{4}+\tfrac12(1000)(4-64) $$
+$$ P_2 = 4\times10^{4}-3\times10^{4} = 1.0\times10^{4}\ \text{N m}^{-2} $$
+
+**4.** (a) **Bernoulli's principle:** for the steady, non-viscous, incompressible flow of a fluid, the sum of the pressure, the kinetic energy per unit volume and the potential energy per unit volume is constant along a streamline: where the speed is high, the pressure is low.
+
+(b) $A_A = 1.0\ \text{cm}^{2} = 100\ \text{mm}^{2}$ and $A_B = 20\ \text{mm}^{2}$, so
+$$ v_B = v_A\frac{A_A}{A_B} = 10\times\frac{100}{20} = 50\ \text{cm s}^{-1} = 0.50\ \text{m s}^{-1} $$
+$$ P_A-P_B = \tfrac12\rho(v_B^{2}-v_A^{2}) = \tfrac12(1200)(0.50^{2}-0.10^{2}) = 600\times0.24 = 144\ \text{Pa} $$
+:::
+
+::: note Model answers — short (5–8)
+**5.** (a) Consider a steady flow through a pipe: at the lower end (height $h_1$, area $A_1$, speed $v_1$, pressure $P_1$) and the upper end ($h_2, A_2, v_2, P_2$). In a short time $\Delta t$ a volume $\Delta V = A_1v_1\Delta t = A_2v_2\Delta t$ enters and leaves. Work done on the fluid by the pressures: $(P_1-P_2)\Delta V$. Change in energy: kinetic $\tfrac12\rho\Delta V(v_2^{2}-v_1^{2})$ plus potential $\rho\Delta V g(h_2-h_1)$. By the work–energy theorem,
+$$ P_1-P_2 = \tfrac12\rho(v_2^{2}-v_1^{2})+\rho g(h_2-h_1) $$
+$$ P+\tfrac12\rho v^{2}+\rho gh = \text{constant} $$
+
+(b) The water leaves through a smaller area. By the equation of continuity its speed rises, and the range of a horizontal jet is proportional to its exit speed, so it goes further. (The flow rate hardly changes; the same volume per second is squeezed through a smaller opening.)
+
+(c) For the steady flow of an incompressible fluid, the volume passing per second is the same at every cross-section: $A_1v_1 = A_2v_2$.
+
+**6.** (a) The **angle of contact** is the angle between the tangent to the liquid surface at the point of contact and the solid surface, measured *inside the liquid*. For water on clean glass the adhesive force between water and glass exceeds the cohesive force between water molecules, the surface curves upward and $\theta<90^{\circ}$, so water is pulled up the tube. For mercury the cohesion is stronger, $\theta\approx140^{\circ}>90^{\circ}$, the meniscus is convex and the mercury is depressed.
+
+(b)
+$$ h = \frac{2T\cos\theta}{r\rho g} = \frac{2\times0.072\times1}{5.0\times10^{-4}\times1000\times9.8} = 2.9\times10^{-2}\ \text{m} $$
+The water rises $2.9\ \text{cm}$.
+
+**7.** (a) The volume of liquid flowing per second through a horizontal capillary tube is
+$$ \frac{V}{t} = \frac{\pi Pr^{4}}{8\eta l} $$
+where $P$ is the pressure difference across the ends, $r$ the radius, $l$ the length and $\eta$ the coefficient of viscosity.
+
+(b) $V/t\propto r^{4}$. With the radius reduced by $10\%$, $r' = 0.9r$:
+$$ \frac{V'}{V} = (0.9)^{4} = 0.656 $$
+The flow falls by $34\%$ — which is why narrowed arteries force the heart to raise the pressure sharply.
+
+**8.** (a) A liquid column of height $h$ and cross-section $A$ has weight $\rho Ahg$, and this is carried by the pressure difference acting on the area $A$:
+$$ P = P_0+\frac{\rho Ahg}{A} = P_0+\rho gh $$
+(b) **Archimedes' principle:** a body wholly or partly immersed in a fluid experiences an upthrust equal to the weight of the fluid displaced. A floating iceberg has weight $=$ upthrust, so the submerged fraction is $917/1025 = 0.895$; the fraction above the surface is $1-0.895 = 0.105$, about $10\%$.
+:::
+
+**Long answer / numerical questions [8 marks each]**
+
+1. (a) State Stokes' law. [1] (b) Derive the expression for the terminal velocity of a small sphere falling through a viscous fluid. [4] (c) A steel ball of radius $1.0\ \text{mm}$ and density $7800\ \text{kg m}^{-3}$ falls in glycerine ($\rho = 1260\ \text{kg m}^{-3}$, $\eta = 0.83\ \text{Pa s}$); find its terminal velocity. [2] (d) Why do raindrops not accelerate indefinitely? [1] <span class="marks">[8]</span>
+2. (a) Derive Bernoulli's equation and state the assumptions made. [4] (b) Explain the working of a Venturi meter and derive the speed of flow from the two pressures. [3] (c) Why does an aeroplane wing experience lift? [1] <span class="marks">[8]</span>
+3. (a) Derive the expression for the rise of a liquid in a capillary tube. [4] (b) Give two applications of capillarity. [2] (c) Eight drops of water, each of radius $1.0\ \text{mm}$, combine into a single drop. Find the change in surface energy ($T = 0.072\ \text{N m}^{-1}$). [2] <span class="marks">[8]</span>
+
+::: note Model answers — long
+**1.** (a) The viscous drag on a small sphere of radius $r$ moving at speed $v$ in a fluid of viscosity $\eta$ is $F = 6\pi\eta rv$.
+
+(b) A sphere of density $\rho$ falls in a fluid of density $\sigma$. Three forces act: the weight downward, $W = \tfrac43\pi r^{3}\rho g$; the upthrust upward, $U = \tfrac43\pi r^{3}\sigma g$; and the viscous drag upward, $F = 6\pi\eta rv$, which grows as $v$ grows. The sphere accelerates until the net force is zero; that speed is the **terminal velocity** $v_t$:
+$$ \tfrac43\pi r^{3}\rho g = \tfrac43\pi r^{3}\sigma g+6\pi\eta rv_t $$
+$$ 6\pi\eta rv_t = \tfrac43\pi r^{3}(\rho-\sigma)g $$
+$$ v_t = \frac{2r^{2}(\rho-\sigma)g}{9\eta} $$
+The speed is proportional to $r^{2}$ and inversely proportional to $\eta$.
+
+(c)
+$$ v_t = \frac{2(1.0\times10^{-3})^{2}(7800-1260)(9.8)}{9\times0.83} = \frac{0.1282}{7.47} = 1.7\times10^{-2}\ \text{m s}^{-1} $$
+
+(d) As a drop speeds up the drag $6\pi\eta rv$ increases until it (plus upthrust) balances the weight; the net force then vanishes and the drop falls at constant terminal velocity. (For real raindrops, the drag law itself changes at larger speeds, but the conclusion is the same.)
+
+**2.** (a) See short answer 5(a) for the derivation from the work–energy theorem,
+$$ P+\tfrac12\rho v^{2}+\rho gh = \text{constant} $$
+**Assumptions:** the fluid is incompressible (constant density), non-viscous (no internal friction), and its flow is steady and streamline (laminar), and the equation is applied along a single streamline.
+
+(b) A **Venturi meter** is a horizontal tube with a narrow throat, with vertical manometer tubes at the wide part (area $A_1$, pressure $P_1$) and throat ($A_2$, $P_2$). By continuity $v_2 = v_1A_1/A_2$. By Bernoulli (same level),
+$$ P_1-P_2 = \tfrac12\rho(v_2^{2}-v_1^{2}) = \tfrac12\rho v_1^{2}\left(\frac{A_1^{2}}{A_2^{2}}-1\right) $$
+$$ v_1 = \sqrt{\frac{2(P_1-P_2)}{\rho\left(\dfrac{A_1^{2}}{A_2^{2}}-1\right)}} $$
+The measured height difference $h$ in the manometers gives $P_1-P_2 = \rho_{l}gh$.
+
+(c) The wing's shape and tilt make air travel faster over the top than below. By Bernoulli's principle the pressure above is lower, so the net upward pressure force on the wing is the lift.
+
+**3.** (a) Water of surface tension $T$ rises in a tube of radius $r$ with contact angle $\theta$. The surface tension acts along the line of contact of length $2\pi r$, at angle $\theta$ to the wall; the vertical component of the pull is
+$$ F = T\cos\theta\times2\pi r $$
+This lifts a column of height $h$, whose weight is $\pi r^{2}h\rho g$. At equilibrium,
+$$ 2\pi rT\cos\theta = \pi r^{2}h\rho g $$
+$$ h = \frac{2T\cos\theta}{r\rho g} $$
+$h\propto1/r$: narrower tubes give higher rises. For $\theta>90^{\circ}$ (mercury) $h$ is negative — a depression.
+
+(b) **Applications:** (i) the rise of oil in the wick of a lamp, or of water in a blotting paper or a towel; (ii) the rise of sap and water from roots in fine vessels of plants; (iii) the supply of water to soil by fine pores.
+
+(c) Volume is conserved: $8\times\tfrac43\pi r^{3} = \tfrac43\pi R^{3}$, so $R = 2r = 2.0\ \text{mm}$.
+$$ A_{initial} = 8\times4\pi r^{2} = 32\pi r^{2},\qquad A_{final} = 4\pi(2r)^{2} = 16\pi r^{2} $$
+$$ \Delta E = T(A_{final}-A_{initial}) = -T\times16\pi r^{2} = -0.072\times16\pi\times(1.0\times10^{-3})^{2} $$
+$$ \Delta E = -3.6\times10^{-6}\ \text{J} $$
+The surface energy **decreases** by $3.6\ \mu\text{J}$; the released energy appears as a small rise in temperature.
+:::
+
+::: tip Examiner's note — Fluid statics
+State **which law** is used at each step: continuity first, then Bernoulli. In the coalescing-drop question the marks are for "volume is conserved, so $R = 2^{1/3}r$" and "$v\propto r^{2}$" — not for the final number alone. For Bernoulli numericals assume the fluid is water unless told otherwise, and convert areas to $\text{m}^{2}$ only when they are not cancelled in a ratio. Do not write that surface tension is "energy": it is force per unit length, *numerically equal* to the surface energy per unit area.
+:::
+
+## 3.4 First Law of Thermodynamics
+
+CDC allots **6 teaching hours**. The first law, $C_P-C_V = R$ and the isothermal and adiabatic processes are all standard Group B items; the $p$–$V$ diagram is also used for graph-reading questions in Group A.
+
+**Short answer questions [5 marks each]**
+
+1. (a) State the first law of thermodynamics. [1] (b) Derive $C_P-C_V = R$ for an ideal gas. [2] (c) Define the efficiency of a heat engine. [2] <span class="marks">[5]</span> (NEB 2080)
+2. (a) What is an indicator diagram? [1] (b) Show that the work done by a gas in a volume change is the area under its $p$–$V$ curve. [2] (c) A gas expands at a constant pressure of $2.0\times10^{5}\ \text{Pa}$ from $1.0\ \text{L}$ to $4.0\ \text{L}$ and absorbs $900\ \text{J}$. Find the work done and the change in internal energy. [2] <span class="marks">[5]</span> (NEB 2081)
+3. (a) Explain how the first law expresses the conservation of energy. [2] (b) Write what the law reduces to in (i) an isothermal, (ii) an adiabatic, (iii) an isochoric and (iv) an isobaric process. [3] <span class="marks">[5]</span> (NEB 2082)
+4. (a) Derive the work done by an ideal gas in an isothermal expansion. [3] (b) Find the heat absorbed when $2.0\ \text{mol}$ of gas expand isothermally at $300\ \text{K}$ to three times the volume. [2] <span class="marks">[5]</span>
+5. (a) Show that $PV^{\gamma}$ is constant in an adiabatic process. [3] (b) One mole of a monatomic gas at $300\ \text{K}$ expands adiabatically to twice its volume. Find the final temperature. [2] <span class="marks">[5]</span>
+6. $2.0\ \text{mol}$ of a monatomic ideal gas are heated at constant pressure from $300\ \text{K}$ to $400\ \text{K}$. Find $Q$, $\Delta U$ and $W$ ($R = 8.314\ \text{J mol}^{-1}\text{K}^{-1}$). [5]
+7. (a) What is meant by a thermodynamic system, and how are open, closed and isolated systems different? [3] (b) Why is internal energy called a state function while heat and work are not? [2] <span class="marks">[5]</span>
+
+::: note Model answers — short (1–4)
+**1.** (a) The **first law:** the heat supplied to a system equals the increase in its internal energy plus the work done by the system: $Q = \Delta U + W$.
+
+(b) At constant volume, $W = 0$ so all heat raises the internal energy: $Q_V = nC_V\Delta T = \Delta U$. Since $U$ of an ideal gas depends on $T$ alone, $\Delta U = nC_V\Delta T$ in *every* process. At constant pressure,
+$$ Q_P = \Delta U+P\Delta V = nC_V\Delta T+P\Delta V $$
+From $PV = nRT$ at constant $P$, $P\Delta V = nR\Delta T$. Therefore
+$$ nC_P\Delta T = nC_V\Delta T+nR\Delta T $$
+$$ C_P-C_V = R $$
+(Mayer's relation). The extra heat at constant pressure pays for the expansion work.
+
+(c) The **efficiency** of a heat engine is the fraction of the heat absorbed from the source that is converted to useful work:
+$$ \eta = \frac{W}{Q_1} = \frac{Q_1-Q_2}{Q_1} = 1-\frac{Q_2}{Q_1} $$
+
+**2.** (a) An **indicator diagram** is a graph of pressure against volume ($p$–$V$ diagram) for a system or an engine cycle.
+
+(b) For a small expansion $dV$ at pressure $P$ against a piston of area $A$, $dW = F\,dx = PA\,dx = P\,dV$. Between $V_1$ and $V_2$,
+$$ W = \int_{V_1}^{V_2}P\,dV $$
+which is the area under the curve. For a closed cycle the net work is the area enclosed.
+
+(c) 
+$$ W = P\Delta V = 2.0\times10^{5}\times(4.0-1.0)\times10^{-3} = 600\ \text{J} $$
+$$ \Delta U = Q-W = 900-600 = 300\ \text{J} $$
+
+**3.** (a) Energy can be neither created nor destroyed. Heat $Q$ is energy supplied to the system; it either raises the internal (molecular) energy, $\Delta U$, or leaves the system as work, $W$ done on the surroundings. Nothing is lost, so the accounts balance: $Q = \Delta U+W$.
+
+(b) 
+
+| Process | Condition | First law becomes |
+|---|---|---|
+| Isothermal | $\Delta T = 0$, so $\Delta U = 0$ | $Q = W$ |
+| Adiabatic | $Q = 0$ | $W = -\Delta U$ (gas cools when it expands) |
+| Isochoric | $\Delta V = 0$, so $W = 0$ | $Q = \Delta U$ |
+| Isobaric | $P$ constant | $Q = \Delta U+P\Delta V$ |
+
+**4.** (a) For $n$ moles at constant temperature $T$, $P = nRT/V$:
+$$ W = \int_{V_1}^{V_2}\frac{nRT}{V}\,dV = nRT\ln\frac{V_2}{V_1} $$
+Since $\Delta U = 0$, this equals the heat absorbed.
+
+(b) 
+$$ Q = W = 2.0\times8.314\times300\times\ln3 = 4988\times1.0986 = 5.5\times10^{3}\ \text{J} $$
+:::
+
+::: note Model answers — short (5–7)
+**5.** (a) In an adiabatic change $dQ = 0$, so $dU+P\,dV = 0$, i.e. $nC_V\,dT = -P\,dV$. Differentiating $PV = nRT$: $P\,dV+V\,dP = nR\,dT$. Eliminate $dT$:
+$$ C_V(P\,dV+V\,dP) = -R\,P\,dV = -(C_P-C_V)P\,dV $$
+$$ C_V V\,dP+C_PP\,dV = 0\ \Rightarrow\ \frac{dP}{P}+\gamma\frac{dV}{V} = 0 $$
+Integrating, $\ln P+\gamma\ln V = \text{constant}$, so
+$$ PV^{\gamma} = \text{constant} $$
+
+(b) Using $TV^{\gamma-1}$ constant with $\gamma = \tfrac53$:
+$$ T_2 = T_1\left(\frac{V_1}{V_2}\right)^{\gamma-1} = 300\times\left(\tfrac12\right)^{2/3} = 300\times0.630 = 189\ \text{K} $$
+
+**6.** For a monatomic gas $C_V = \tfrac32R$ and $C_P = \tfrac52R$.
+$$ Q = nC_P\Delta T = 2.0\times\tfrac52(8.314)\times100 = 4157\ \text{J} $$
+$$ \Delta U = nC_V\Delta T = 2.0\times\tfrac32(8.314)\times100 = 2494\ \text{J} $$
+$$ W = Q-\Delta U = 1663\ \text{J}\quad(= nR\Delta T = 2.0\times8.314\times100\ \checkmark) $$
+
+**7.** (a) A **thermodynamic system** is the part of the universe (a quantity of gas in a cylinder, say) chosen for study; everything else is the **surroundings**. An **open** system exchanges both matter and energy with its surroundings (a boiling kettle); a **closed** system exchanges energy only (gas in a sealed cylinder with a piston); an **isolated** system exchanges neither (an ideal thermos).
+
+(b) The internal energy depends only on the present state ($P$, $V$, $T$) of the system, not on how it arrived there, so $\Delta U$ between two states is fixed. Heat and work depend on the **path** taken between the states (for example, the area under different $p$–$V$ curves joining the same two points differs), so they are not properties of a state.
+:::
+
+**Long answer / numerical questions [8 marks each]**
+
+1. (a) Define the two principal heat capacities of an ideal gas. [2] (b) Derive the relation between them. [3] (c) Show that $\gamma = 1+R/C_V$ and find $C_V$ and $C_P$ for a diatomic gas. [3] <span class="marks">[8]</span>
+2. (a) Describe the isothermal and adiabatic processes of an ideal gas and sketch both on one $p$–$V$ diagram. [3] (b) Derive the work done in an adiabatic expansion from $(P_1, V_1)$ to $(P_2, V_2)$. [3] (c) One mole of monatomic gas at $300\ \text{K}$ expands adiabatically to twice its volume; find the work done. [2] <span class="marks">[8]</span>
+3. (a) Apply the first law to the four thermodynamic processes, giving $Q$, $\Delta U$, $W$ for each. [4] (b) A gas is taken from $A$ to $B$ by an isobaric expansion at $1.0\times10^{5}\ \text{Pa}$ from $2\ \text{L}$ to $6\ \text{L}$, then from $B$ to $C$ at constant volume until it reaches the isotherm through $A$. Find the pressure at $C$, the work done by the gas in $A\to B\to C$ and the heat absorbed. [4] <span class="marks">[8]</span>
+
+::: note Model answers — long
+**1.** (a) The **molar heat capacity at constant volume**, $C_V$, is the heat needed to raise the temperature of one mole by one kelvin with the volume held fixed; $C_P$ is the corresponding heat at constant pressure. Units: $\text{J mol}^{-1}\text{K}^{-1}$.
+
+(b) See short answer 1(b): $C_P-C_V = R$. The extra heat at constant pressure does the expansion work $P\Delta V = R\Delta T$ per mole.
+
+(c) Dividing by $C_V$: $\gamma = C_P/C_V = 1+R/C_V$. For a diatomic gas with five degrees of freedom (translation and rotation), $C_V = \tfrac52R = 20.8\ \text{J mol}^{-1}\text{K}^{-1}$, $C_P = \tfrac72R = 29.1\ \text{J mol}^{-1}\text{K}^{-1}$ and $\gamma = 7/5 = 1.4$.
+
+**2.** (a) **Isothermal:** the temperature is fixed (slow change, good thermal contact with a reservoir); $PV = \text{constant}$ and $\Delta U = 0$. **Adiabatic:** no heat flows (rapid change or perfect insulation); $PV^{\gamma} = \text{constant}$ with $\gamma>1$, so the adiabatic curve is **steeper** than the isotherm through the same point (see the figure below).
+
+(b) $W = \int_{V_1}^{V_2}P\,dV$ with $P = KV^{-\gamma}$, where $K = P_1V_1^{\gamma} = P_2V_2^{\gamma}$:
+$$ W = K\int_{V_1}^{V_2}V^{-\gamma}\,dV = \frac{K}{1-\gamma}\left(V_2^{1-\gamma}-V_1^{1-\gamma}\right) $$
+$$ W = \frac{P_2V_2-P_1V_1}{1-\gamma} = \frac{P_1V_1-P_2V_2}{\gamma-1} = \frac{nR(T_1-T_2)}{\gamma-1} $$
+
+(c) $T_2 = 189\ \text{K}$ (short answer 5(b)), $\gamma-1 = \tfrac23$:
+$$ W = \frac{1\times8.314\times(300-189)}{2/3} = 1.38\times10^{3}\ \text{J} $$
+Check: $W = nC_V(T_1-T_2) = 12.47\times111 = 1.38\times10^{3}\ \text{J}$.
+
+**3.** (a)
+
+| Process | $Q$ | $\Delta U$ | $W$ |
+|---|---|---|---|
+| Isothermal | $nRT\ln(V_2/V_1)$ | $0$ | $nRT\ln(V_2/V_1)$ |
+| Adiabatic | $0$ | $nC_V\Delta T$ | $-nC_V\Delta T$ |
+| Isochoric | $nC_V\Delta T$ | $nC_V\Delta T$ | $0$ |
+| Isobaric | $nC_P\Delta T$ | $nC_V\Delta T$ | $P\Delta V = nR\Delta T$ |
+
+(b) $C$ lies on the isotherm through $A$, so $P_CV_C = P_AV_A$ with $V_C = V_B = 6\ \text{L}$:
+$$ P_C = \frac{P_AV_A}{V_C} = \frac{1.0\times10^{5}\times2}{6} = 3.3\times10^{4}\ \text{Pa} $$
+In $A\to B$, $W_{AB} = P\Delta V = 1.0\times10^{5}\times(6-2)\times10^{-3} = 400\ \text{J}$. In $B\to C$ the volume is constant, so $W_{BC} = 0$. Total $W = 400\ \text{J}$. Because $A$ and $C$ are at the same temperature, $\Delta U = 0$ over the whole path, so
+$$ Q = \Delta U+W = 0+400 = 400\ \text{J} $$
+absorbed. (If the gas is monatomic, $A\to B$ absorbs $Q_{AB} = \tfrac52P\Delta V = 1000\ \text{J}$ and $B\to C$ rejects $Q_{BC} = \Delta U_{BC} = -600\ \text{J}$; the net heat absorbed is $1000-600 = 400\ \text{J}$, as found.)
+:::
+
+```figure caption="Isothermal (blue) and adiabatic (orange) expansions of an ideal gas from the same state A. The adiabat falls more steeply because the gas also cools as it does work; the area under each curve is the work done."
+import numpy as np, matplotlib.pyplot as plt
+fig, ax = plt.subplots(figsize=(4.4,3.0))
+V = np.linspace(1.0, 2.6, 200)
+P0 = 1.0
+ax.plot(V, P0/V, color=ACCENT, lw=1.9)
+ax.plot(V, P0/V**(5/3), color=SERIES[1], lw=1.9)
+ax.plot([1.0],[1.0],'o',color=INK,ms=4)
+ax.annotate('A', (1.0, 1.0), xytext=(1.04, 1.05), fontsize=9, color=INK)
+ax.annotate('isotherm  $PV$ = constant', (2.6, 1/2.6), xytext=(1.75, 0.66), fontsize=8.5, color=ACCENT)
+ax.annotate('adiabat  $PV^{\\gamma}$ = constant', (2.6, 2.6**(-5/3)), xytext=(1.55, 0.12), fontsize=8.5, color=SERIES[1])
+ax.set_xlabel('volume  $V$', fontsize=9); ax.set_ylabel('pressure  $P$', fontsize=9)
+ax.set_xticks([]); ax.set_yticks([])
+ax.set_xlim(0.9, 2.75); ax.set_ylim(0, 1.25)
+ax.spines[['top','right']].set_visible(False)
+```
+
+::: tip Examiner's note — First Law of Thermodynamics
+Write the sign convention once, at the top: $Q$ positive when heat enters, $W$ positive when the gas does work. The derivation of $C_P-C_V = R$ earns its marks for "$\Delta U = nC_V\Delta T$ in every process" and "$P\Delta V = nR\Delta T$"; both must appear. In a numerical, use kelvin for $T$ and $\text{m}^{3}$ for $V$ (litres $\times10^{-3}$). For the adiabatic questions quote $\gamma$ for the gas (monatomic $\tfrac53$, diatomic $\tfrac75$) and check that the adiabat is steeper than the isotherm.
+:::
+
+## 3.5 Second Law of Thermodynamics
+
+CDC allots **6 teaching hours**. Expect the statement of the second law, a heat-engine or refrigerator item (often with the efficiency expression), the petrol-engine cycle against the diesel cycle, and a Carnot numerical.
+
+**Short answer questions [5 marks each]**
+
+1. (a) State the second law of thermodynamics. [1] (b) Does a refrigerator violate it? Explain. [2] (c) A heat engine takes $Q_1$ from a source at $T_1$ and rejects $Q_2$ to a sink at $T_2$. Write its efficiency [1] and say when the efficiency would be zero. [1] <span class="marks">[5]</span> (NEB 2078)
+2. (a) A Carnot engine has an efficiency of $25\%$ with its sink at $9\ ^{\circ}\text{C}$. By how much must the source temperature rise to make the efficiency $50\%$? [3] (b) How does the first law express conservation of energy? [2] <span class="marks">[5]</span> (NEB 2082)
+3. (a) Draw the $p$–$V$ diagram of a petrol engine and explain its working. [3] (b) Compare the efficiency of a petrol engine with that of a diesel engine in terms of compression ratio. [2] <span class="marks">[5]</span> (NEB 2079 model)
+4. (a) Describe the four steps of the Carnot cycle. [3] (b) Write the efficiency and state why no engine can exceed it. [2] <span class="marks">[5]</span>
+5. (a) Define the coefficient of performance of a refrigerator and derive it in terms of $T_1$ and $T_2$ for an ideal one. [3] (b) An ideal refrigerator works between $273\ \text{K}$ and $300\ \text{K}$; find its coefficient of performance and the work needed to remove $1000\ \text{J}$. [2] <span class="marks">[5]</span>
+6. (a) Give the Kelvin–Planck and Clausius statements and show they express the same law. [3] (b) What is entropy, and what does it tell about the direction of natural processes? [2] <span class="marks">[5]</span>
+7. A Carnot engine works between $500\ \text{K}$ and $300\ \text{K}$ and takes $2000\ \text{J}$ from the source per cycle. Find its efficiency, the work done and the heat rejected. [5]
+
+::: note Model answers — short (1–4)
+**1.** (a) **Kelvin–Planck statement:** it is impossible to construct an engine, working in a cycle, whose sole effect is to take heat from a single reservoir and convert it completely into work. **Clausius statement:** heat cannot flow from a colder body to a hotter body by itself, with no other change.
+
+(b) No. A refrigerator does take heat from a cold body and give more heat to a hot one, but only because **work is done on it** by an external agent (the compressor motor). The Clausius statement forbids transfer *by itself*; here the transfer is not the sole effect, since electrical work is consumed and also appears as heat in the room.
+
+(c)
+$$ \eta = \frac{Q_1-Q_2}{Q_1} = 1-\frac{Q_2}{Q_1} = 1-\frac{T_2}{T_1} $$
+(the last form only for a reversible engine, since $Q_2/Q_1 = T_2/T_1$). The efficiency is **zero when $T_2 = T_1$** (equivalently $Q_2 = Q_1$): with no temperature difference no work can be extracted.
+
+**2.** (a) $T_2 = 9+273 = 282\ \text{K}$.
+$$ \eta = 1-\frac{T_2}{T_1}\ \Rightarrow\ 0.25 = 1-\frac{282}{T_1}\ \Rightarrow\ T_1 = \frac{282}{0.75} = 376\ \text{K} $$
+For $\eta = 0.50$:
+$$ T_1' = \frac{282}{0.50} = 564\ \text{K} $$
+$$ \Delta T_1 = 564-376 = 188\ \text{K} $$
+
+(b) The first law, $Q = \Delta U+W$, says that the heat supplied to a system is exactly accounted for by the gain in its internal energy and the work it does: energy changes form but the total is conserved. In an engine cycle $\Delta U = 0$, so $W = Q_1-Q_2$: the work output is the net heat input.
+
+**3.** (a) The **Otto cycle** (figure below) models a petrol engine: $1\to2$ adiabatic compression of the fuel–air mixture from $V_1$ to $V_2$; $2\to3$ heating at constant volume when the spark ignites the mixture (heat $Q_1$ absorbed); $3\to4$ adiabatic expansion (the power stroke, which delivers the work); $4\to1$ cooling at constant volume when the exhaust valve opens (heat $Q_2$ rejected). The net work is the enclosed area.
+
+(b) For the Otto cycle, with compression ratio $r = V_1/V_2$,
+$$ \eta_{petrol} = 1-\frac{1}{r^{\gamma-1}} $$
+For the diesel cycle the compression ratio is much higher ($15$ to $22$, against $6$ to $10$ for petrol) because only air is compressed, so there is no pre-ignition. A higher $r$ gives a larger $\eta$: with $\gamma = 1.4$, $r = 8$ gives $56\%$ while $r = 16$ gives $67\%$ for the ideal Otto formula. The diesel cycle's efficiency also depends on the cut-off ratio $\rho$ at which fuel injection stops: $\eta_{diesel} = 1-\dfrac{1}{r^{\gamma-1}}\,\dfrac{\rho^{\gamma}-1}{\gamma(\rho-1)}$. At the same compression ratio the Otto cycle is the more efficient; but a real diesel engine runs at a far higher $r$, so it is more efficient in practice.
+
+**4.** (a) Working substance: an ideal gas in a cylinder, between a source at $T_1$ and a sink at $T_2$.
+(i) **Isothermal expansion** at $T_1$: heat $Q_1$ absorbed from the source, work done by the gas. (ii) **Adiabatic expansion:** the gas cools from $T_1$ to $T_2$ with no heat exchange. (iii) **Isothermal compression** at $T_2$: heat $Q_2$ rejected to the sink. (iv) **Adiabatic compression:** the gas warms from $T_2$ back to $T_1$, completing the cycle.
+
+(b) $\eta = 1-T_2/T_1$, with temperatures in kelvin. **Carnot's theorem:** no engine working between two given temperatures can be more efficient than a reversible engine between the same temperatures — otherwise it could be coupled with a reversed Carnot engine to transfer heat from cold to hot with no net work, violating the Clausius statement. $\eta = 1$ would need $T_2 = 0\ \text{K}$, which cannot be reached.
+:::
+
+::: note Model answers — short (5–7)
+**5.** (a) The **coefficient of performance** of a refrigerator is the ratio of the heat removed from the cold space to the work supplied:
+$$ \text{COP} = \frac{Q_2}{W} = \frac{Q_2}{Q_1-Q_2} $$
+For a reversible refrigerator $Q_1/Q_2 = T_1/T_2$, so
+$$ \text{COP} = \frac{T_2}{T_1-T_2} $$
+
+(b) $T_2 = 273\ \text{K}$, $T_1 = 300\ \text{K}$:
+$$ \text{COP} = \frac{273}{300-273} = 10.1 $$
+$$ W = \frac{Q_2}{\text{COP}} = \frac{1000}{10.1} = 99\ \text{J} $$
+
+**6.** (a) Kelvin–Planck and Clausius statements are given in short answer 1(a). Suppose the Kelvin–Planck statement were false, so that an engine $X$ converts heat $Q$ from a cold reservoir entirely into work. Use that work to drive a refrigerator that takes $Q_c$ from the same cold reservoir and gives $Q_c+Q$ to a hot one: the combined result is a transfer of heat from cold to hot with no outside work, violating Clausius. So a violation of one is a violation of the other: they are two forms of the same law.
+
+(b) **Entropy** $S$ is a state function that measures the disorder of a system; for heat $\Delta Q$ absorbed reversibly at temperature $T$, $\Delta S = \Delta Q/T$. The second law in terms of entropy: in any spontaneous (irreversible) process in an isolated system the entropy increases; it stays constant only in a reversible one. This gives time a direction — a hot cup cools, a gas expands into a vacuum, and neither reverses by itself.
+
+**7.** $T_1 = 500\ \text{K}$, $T_2 = 300\ \text{K}$, $Q_1 = 2000\ \text{J}$.
+$$ \eta = 1-\frac{300}{500} = 0.40 $$
+$$ W = \eta Q_1 = 0.40\times2000 = 800\ \text{J} $$
+$$ Q_2 = Q_1-W = 1200\ \text{J} $$
+Check: $Q_2/Q_1 = 1200/2000 = 0.6 = T_2/T_1$.
+:::
+
+**Long answer / numerical questions [8 marks each]**
+
+1. (a) Describe the Carnot cycle with a labelled $p$–$V$ diagram. [3] (b) Derive the efficiency $\eta = 1-T_2/T_1$. [4] (c) What is the efficiency between the steam point and the ice point? [1] <span class="marks">[8]</span>
+2. (a) Draw and explain the Otto and the Diesel cycles. [4] (b) Derive the efficiency of the Otto cycle. [3] (c) Calculate it for $r = 8$, $\gamma = 1.4$. [1] <span class="marks">[8]</span>
+3. (a) Explain how a refrigerator works, with a block diagram. [2] (b) A refrigerator removes $500\ \text{J}$ per cycle from the food compartment at $-3\ ^{\circ}\text{C}$ and rejects heat to a room at $27\ ^{\circ}\text{C}$. Find the minimum work per cycle and the heat rejected. [3] (c) A real engine works between $600\ \text{K}$ and $300\ \text{K}$ with $90\%$ of the Carnot efficiency and delivers $8\ \text{kW}$. Find the rate at which it absorbs heat and the rate at which it rejects heat. [3] <span class="marks">[8]</span>
+
+::: note Model answers — long
+**1.** (a) The cycle (figure below) consists of four reversible steps on an ideal gas: $A\to B$ isothermal expansion at $T_1$; $B\to C$ adiabatic expansion to $T_2$; $C\to D$ isothermal compression at $T_2$; $D\to A$ adiabatic compression to $T_1$.
+
+(b) For the isothermal expansion $A\to B$ (volumes $V_A\to V_B$): heat absorbed
+$$ Q_1 = nRT_1\ln\frac{V_B}{V_A} $$
+For the isothermal compression $C\to D$: heat rejected
+$$ Q_2 = nRT_2\ln\frac{V_C}{V_D} $$
+For the adiabats $B\to C$ and $D\to A$, using $TV^{\gamma-1}$ constant:
+$$ T_1V_B^{\gamma-1} = T_2V_C^{\gamma-1},\qquad T_1V_A^{\gamma-1} = T_2V_D^{\gamma-1} $$
+Dividing these gives $V_B/V_A = V_C/V_D$, so the logarithms are equal and
+$$ \frac{Q_2}{Q_1} = \frac{T_2}{T_1} $$
+$$ \eta = 1-\frac{Q_2}{Q_1} = 1-\frac{T_2}{T_1} $$
+
+(c) $T_1 = 373\ \text{K}$, $T_2 = 273\ \text{K}$: $\eta = 1-273/373 = 0.268$, about $27\%$.
+
+**2.** (a) **Otto cycle** (petrol): two adiabats and two isochores, as explained in section 3.5 short answer 3(a). **Diesel cycle:** $1\to2$ adiabatic compression of air alone to a high ratio; $2\to3$ fuel injected and burns at **constant pressure** (heat $Q_1$ in, gas expands to $V_3$); $3\to4$ adiabatic expansion; $4\to1$ cooling at constant volume ($Q_2$ out). The diesel engine ignites the fuel by the heat of compression, so there is no spark plug.
+
+(b) In the Otto cycle, heat is absorbed at constant volume $2\to3$ and rejected at constant volume $4\to1$:
+$$ Q_1 = nC_V(T_3-T_2),\qquad Q_2 = nC_V(T_4-T_1) $$
+$$ \eta = 1-\frac{T_4-T_1}{T_3-T_2} $$
+For the adiabats, $T_1V_1^{\gamma-1} = T_2V_2^{\gamma-1}$ and $T_4V_1^{\gamma-1} = T_3V_2^{\gamma-1}$, so $T_2 = T_1r^{\gamma-1}$ and $T_3 = T_4r^{\gamma-1}$ with $r = V_1/V_2$. Then $T_3-T_2 = r^{\gamma-1}(T_4-T_1)$ and
+$$ \eta = 1-\frac{1}{r^{\gamma-1}} $$
+
+(c) $\eta = 1-8^{-0.4} = 1-0.435 = 0.565$: $56\%$ (an ideal upper limit; real engines reach about $25$–$30\%$).
+
+**3.** (a) A refrigerator is a heat engine run backwards. A compressor (driven by a motor, work $W$) compresses a refrigerant vapour, which gives up heat $Q_1$ in the condenser outside; the refrigerant then expands through a valve, cools and absorbs heat $Q_2$ in the evaporator inside the compartment; the cycle repeats. By energy conservation $Q_1 = Q_2+W$.
+
+(b) $T_2 = 270\ \text{K}$, $T_1 = 300\ \text{K}$:
+$$ \text{COP} = \frac{T_2}{T_1-T_2} = \frac{270}{30} = 9 $$
+$$ W = \frac{Q_2}{\text{COP}} = \frac{500}{9} = 56\ \text{J} $$
+$$ Q_1 = Q_2+W = 500+56 = 556\ \text{J} $$
+
+(c) The Carnot (ideal) efficiency is $1-300/600 = 0.50$, so the engine's efficiency is $\eta = 0.90\times0.50 = 0.45$.
+$$ \text{rate of absorption} = \frac{P_{out}}{\eta} = \frac{8.0}{0.45} = 17.8\ \text{kW} $$
+$$ \text{rate of rejection} = 17.8-8.0 = 9.8\ \text{kW} $$
+:::
+
+```figure caption="Left: the Otto cycle of a petrol engine (1→2 adiabatic compression, 2→3 heating at constant volume, 3→4 adiabatic expansion, 4→1 cooling at constant volume). Right: the Carnot cycle (A→B and C→D isothermal, B→C and D→A adiabatic)."
+import numpy as np, matplotlib.pyplot as plt
+fig, (a1, a2) = plt.subplots(1, 2, figsize=(5.0, 2.8))
+g = 1.4
+V1, V2 = 4.0, 1.0
+P1 = 1.0
+Va = np.linspace(V2, V1, 80)
+P2 = P1*(V1/V2)**g
+P3 = 3.5*P2
+P4 = P3*(V2/V1)**g
+a1.plot(Va, P1*(V1/Va)**g, color=ACCENT, lw=1.7)
+a1.plot([V2, V2], [P2, P3], color=SERIES[1], lw=1.7)
+a1.plot(Va, P3*(V2/Va)**g, color=ACCENT, lw=1.7)
+a1.plot([V1, V1], [P1, P4], color=SERIES[1], lw=1.7)
+for lab, (x, y), off in [('1', (V1, P1), (0.12, -0.6)), ('2', (V2, P2), (-0.42, 0.0)), ('3', (V2, P3), (-0.42, 0.2)), ('4', (V1, P4), (0.12, 0.2))]:
+    a1.plot([x], [y], 'o', color=INK, ms=3)
+    a1.text(x+off[0], y+off[1], lab, fontsize=8.5, color=INK)
+a1.set_xlabel('V', fontsize=8.5); a1.set_ylabel('P', fontsize=8.5)
+a1.set_xticks([]); a1.set_yticks([])
+a1.set_xlim(0, 4.7); a1.set_ylim(-1.0, P3*1.08)
+a1.set_title('Otto cycle', fontsize=9, color=INK)
+T1, T2 = 1.6, 1.0
+VA, VB = 1.0, 1.8
+k = (T1/T2)**(1/(g-1))
+VC, VD = VB*k, VA*k
+def iso(T, v0, v1): 
+    v = np.linspace(v0, v1, 60); return v, T/v
+def adi(p0, v0, v1):
+    v = np.linspace(v0, v1, 60); return v, p0*(v0/v)**g
+x, y = iso(T1, VA, VB); a2.plot(x, y, color=SERIES[1], lw=1.7)
+pB = T1/VB
+x, y = adi(pB, VB, VC); a2.plot(x, y, color=ACCENT, lw=1.7)
+x, y = iso(T2, VC, VD); a2.plot(x, y, color=SERIES[1], lw=1.7)
+pA = T1/VA
+x, y = adi(pA, VA, VD); a2.plot(x, y, color=ACCENT, lw=1.7)
+pts = {'A': (VA, pA, (-0.25, 0.04)), 'B': (VB, pB, (0.08, 0.06)), 'C': (VC, T2/VC, (0.08, 0.08)), 'D': (VD, T2/VD, (-0.1, -0.2))}
+for lab, (xx, yy, off) in pts.items():
+    a2.plot([xx], [yy], 'o', color=INK, ms=3)
+    a2.text(xx+off[0], yy+off[1], lab, fontsize=8.5, color=INK)
+a2.text(1.25, 1.52, '$T_1$', fontsize=8.5, color=SERIES[1])
+a2.text(3.55, 0.45, '$T_2$', fontsize=8.5, color=SERIES[1])
+a2.set_xlabel('V', fontsize=8.5)
+a2.set_xticks([]); a2.set_yticks([])
+a2.set_xlim(0.4, VC+0.8); a2.set_ylim(0, pA*1.1)
+a2.set_title('Carnot cycle', fontsize=9, color=INK)
+for a in (a1, a2):
+    a.spines[['top','right']].set_visible(False)
+fig.tight_layout()
+```
+
+::: tip Examiner's note — Second Law of Thermodynamics
+Always convert to **kelvin** before using $1-T_2/T_1$. In the Carnot derivation, the marks are for the two isothermal heat expressions, the two adiabatic relations and the step "$V_B/V_A = V_C/V_D$"; skipping that step is the usual reason for losing a mark. Distinguish *efficiency* (engine, $W/Q_1$, always below $1$) from *coefficient of performance* (refrigerator, $Q_2/W$, often above $1$). When comparing petrol and diesel engines, say clearly that it is the **compression ratio** that differs and that the diesel compresses air only.
+:::
+
+## 3.6 Wave motion
+
+CDC allots only **2 teaching hours**, but progressive and stationary waves underpin units 7 to 9, and the node-spacing proof appeared in a Group C question in 2082.
+
+**Short answer questions [5 marks each]**
+
+1. (a) Define a progressive wave and a stationary wave. [2] (b) Write the equation of a plane progressive wave and explain every symbol. [3] <span class="marks">[5]</span>
+2. (a) Explain how a stationary wave is formed. [2] (b) Prove that the distance between two consecutive nodes is $\lambda/2$. [3] <span class="marks">[5]</span> (NEB 2082)
+3. A wave is described by $y = 0.05\sin(40t-2x)$ in SI units. Find the amplitude, frequency, wavelength and speed, and the phase difference between two points $0.50\ \text{m}$ apart. [5]
+4. Distinguish between progressive and stationary waves in a table (five points). [5]
+5. (a) State the principle of superposition. [1] (b) Two pulses of heights $+2\ \text{cm}$ and $+3\ \text{cm}$ travel towards each other on a string; describe what you see as they meet and after. [2] (c) Repeat with $+3\ \text{cm}$ and $-3\ \text{cm}$. [2] <span class="marks">[5]</span>
+
+::: note Model answers — short
+**1.** (a) A **progressive wave** is a disturbance that travels through a medium, transferring energy from one place to another without transferring the medium itself. A **stationary (standing) wave** is formed by the superposition of two identical progressive waves travelling in opposite directions; the pattern stays in place and no energy is transferred along the medium.
+
+(b) A wave travelling in the $+x$ direction:
+$$ y = A\sin(\omega t-kx) $$
+Here $y$ is the displacement of the particle at position $x$ at time $t$, $A$ the **amplitude**, $\omega = 2\pi f$ the **angular frequency** (rad $\text{s}^{-1}$), and $k = 2\pi/\lambda$ the **angular wave number** (rad $\text{m}^{-1}$). The wave speed is $v = f\lambda = \omega/k$. For a wave travelling in the $-x$ direction, use $\sin(\omega t+kx)$.
+
+**2.** (a) A wave travelling along a string is reflected at the fixed end with a phase change of $\pi$. The incident and reflected waves, of the same frequency and amplitude, travel in opposite directions and superpose. At some points they always cancel (**nodes**); at others they always reinforce (**antinodes**). The pattern does not move, hence "stationary".
+
+(b) Let the incident wave be $y_1 = A\sin(\omega t-kx)$ and the reflected wave $y_2 = A\sin(\omega t+kx)$. The resultant is
+$$ y = y_1+y_2 = 2A\cos kx\,\sin\omega t $$
+The amplitude at $x$ is $2A\cos kx$. Nodes are where $\cos kx = 0$:
+$$ kx = \left(n+\tfrac12\right)\pi\ \Rightarrow\ x_n = \left(n+\tfrac12\right)\frac{\lambda}{2} $$
+Consecutive nodes ($n$ and $n+1$) are at
+$$ x_{n+1}-x_n = \frac{\lambda}{2} $$
+(Antinodes, where $|\cos kx| = 1$, are also $\lambda/2$ apart and lie midway between nodes, $\lambda/4$ from each.)
+
+**3.** Compare with $y = A\sin(\omega t-kx)$: $A = 0.05\ \text{m}$, $\omega = 40\ \text{rad s}^{-1}$, $k = 2\ \text{rad m}^{-1}$.
+$$ f = \frac{\omega}{2\pi} = \frac{40}{2\pi} = 6.4\ \text{Hz} $$
+$$ \lambda = \frac{2\pi}{k} = \pi = 3.14\ \text{m} $$
+$$ v = \frac{\omega}{k} = \frac{40}{2} = 20\ \text{m s}^{-1} $$
+$$ \Delta\phi = k\,\Delta x = 2\times0.50 = 1.0\ \text{rad} $$
+
+**4.**
+
+| Progressive wave | Stationary wave |
+|---|---|
+| The disturbance travels forward | The pattern stays in place |
+| Energy is transferred along the medium | No net energy is transferred |
+| All particles have the same amplitude | Amplitude varies from zero (node) to maximum (antinode) |
+| Phase differs from particle to particle | All particles between two nodes are in the same phase |
+| No nodes or antinodes | Nodes and antinodes, $\lambda/2$ apart |
+
+**5.** (a) **Superposition:** when two or more waves overlap, the resultant displacement at any point is the algebraic sum of the displacements that each wave would produce alone.
+
+(b) As the pulses overlap, the string at the centre has height $2+3 = 5\ \text{cm}$ at the instant they coincide. They then pass through each other and emerge with their original shapes and sizes (waves do not collide like particles).
+
+(c) The displacements $+3$ and $-3\ \text{cm}$ cancel: at the instant of complete overlap the string is flat everywhere there, and the energy is momentarily all kinetic; the pulses then continue unchanged.
+:::
+
+**Long answer / numerical questions [8 marks each]**
+
+1. (a) Derive the equation of a stationary wave formed on a string fixed at both ends. [3] (b) Find the positions of nodes and antinodes. [3] (c) Show that the distance between consecutive nodes is $\lambda/2$. [2] <span class="marks">[8]</span> (NEB 2082)
+2. (a) Derive the equation $y = A\sin(\omega t-kx)$ for a progressive wave. [3] (b) Find the phase difference between two particles $x_1$ and $x_2$ apart. [2] (c) A progressive wave on a string is $y = 4.0\sin(50t-0.25x)$ (cm, s, cm). Find the wavelength, speed, the maximum particle velocity and the phase difference between particles $10\ \text{cm}$ apart. [3] <span class="marks">[8]</span>
+
+::: note Model answers — long
+**1.** (a) Let the incident wave be $y_1 = A\sin(\omega t-kx)$. At the fixed end the reflected wave is $y_2 = -A\sin(\omega t+kx)$ for a reflection with a phase change of $\pi$ (taking the end at $x = 0$). Adding,
+$$ y = A\sin(\omega t-kx)-A\sin(\omega t+kx) $$
+Using $\sin C-\sin D = 2\cos\frac{C+D}{2}\sin\frac{C-D}{2}$:
+$$ y = -2A\sin kx\,\cos\omega t $$
+The amplitude $2A\sin kx$ depends on position, and every particle vibrates in SHM of frequency $f$ with its own amplitude.
+
+(b) **Nodes** have zero amplitude, $\sin kx = 0$:
+$$ kx = n\pi\ \Rightarrow\ x = \frac{n\lambda}{2},\quad n = 0, 1, 2,\dots $$
+**Antinodes** have maximum amplitude, $|\sin kx| = 1$:
+$$ kx = \left(n+\tfrac12\right)\pi\ \Rightarrow\ x = \left(n+\tfrac12\right)\frac{\lambda}{2} = (2n+1)\frac{\lambda}{4} $$
+
+(c) Consecutive nodes: $x_{n+1}-x_n = \dfrac{(n+1)\lambda}{2}-\dfrac{n\lambda}{2} = \dfrac{\lambda}{2}$. For a string fixed at both ends of length $L$, both ends are nodes, which quantizes $L = n\lambda/2$ and leads to the harmonics $f_n = nv/2L$ (section 3.8).
+
+**2.** (a) A source at $x = 0$ vibrates as $y = A\sin\omega t$. The disturbance travels at speed $v$, so a point at distance $x$ copies the source motion a time $x/v$ later:
+$$ y = A\sin\omega\left(t-\frac{x}{v}\right) = A\sin(\omega t-kx),\qquad k = \frac{\omega}{v} = \frac{2\pi}{\lambda} $$
+
+(b) The phase at $x$ is $\omega t-kx$. For two points $\Delta x = x_2-x_1$ apart at the same time,
+$$ \Delta\phi = k\,\Delta x = \frac{2\pi}{\lambda}\,\Delta x $$
+One wavelength corresponds to $2\pi$.
+
+(c) $A = 4.0\ \text{cm}$, $\omega = 50\ \text{rad s}^{-1}$, $k = 0.25\ \text{cm}^{-1}$.
+$$ \lambda = \frac{2\pi}{k} = \frac{2\pi}{0.25} = 25\ \text{cm} $$
+$$ v = \frac{\omega}{k} = \frac{50}{0.25} = 200\ \text{cm s}^{-1} = 2.0\ \text{m s}^{-1} $$
+$$ v_{particle,max} = A\omega = 4.0\times50 = 200\ \text{cm s}^{-1} $$
+$$ \Delta\phi = k\,\Delta x = 0.25\times10 = 2.5\ \text{rad} $$
+:::
+
+::: tip Examiner's note — Wave motion
+Mark-earners are the **two component waves written out**, the use of the sum-to-product identity, and the clear statement that amplitude depends on position. State the reflection phase change ($\pi$ at a fixed end, $0$ at a free end) because it decides whether there is a node or an antinode at the end. In numericals, take $\omega$ and $k$ straight from the equation and check units: $v = \omega/k$ needs the *same* length unit in $k$ as in the answer.
+:::
+
+## 3.7 Mechanical waves
+
+CDC allots **4 teaching hours**. The Newton–Laplace story has been asked in 2080 and 2081, and it is the single most predictable Group B item in Waves; the effect of temperature and pressure (asked in 2082) follows from the same formula.
+
+**Short answer questions [5 marks each]**
+
+1. (a) State Newton's formula for the speed of sound in air and its discrepancy with experiment. [2] (b) State Laplace's correction. [2] (c) Why are sound waves in a gas called pressure waves? [1] <span class="marks">[5]</span> (NEB 2080)
+2. (a) State Laplace's correction and write the corrected formula. [3] (b) Find the wavelength in air at $25\ ^{\circ}\text{C}$ of a note of $256\ \text{Hz}$, given that the speed at $0\ ^{\circ}\text{C}$ is $330\ \text{m s}^{-1}$. [2] <span class="marks">[5]</span> (NEB 2081)
+3. (a) How do temperature and pressure affect the speed of sound in a gas? [2] (b) How does humidity affect it? [1] (c) Find the speed of sound in air at $27\ ^{\circ}\text{C}$ if it is $332\ \text{m s}^{-1}$ at $0\ ^{\circ}\text{C}$. [2] <span class="marks">[5]</span> (NEB 2082)
+4. (a) Write the expressions for the speed of a longitudinal wave in a solid and in a liquid. [2] (b) Find the speed in steel ($Y = 2.0\times10^{11}\ \text{Pa}$, $\rho = 7800\ \text{kg m}^{-3}$) and in water ($K = 2.2\times10^{9}\ \text{Pa}$, $\rho = 1000\ \text{kg m}^{-3}$). [3] <span class="marks">[5]</span>
+5. Show that the speed of sound in an ideal gas is proportional to $\sqrt{T}$ and calculate the speed in air at $300\ \text{K}$ if it is $331\ \text{m s}^{-1}$ at $273\ \text{K}$. [5]
+
+::: note Model answers — short
+**1.** (a) **Newton:** sound passes through air so slowly that the compressions and rarefactions are **isothermal**, and the speed is
+$$ v = \sqrt{\frac{P}{\rho}} $$
+At $0\ ^{\circ}\text{C}$, $P = 1.01\times10^{5}\ \text{Pa}$ and $\rho = 1.29\ \text{kg m}^{-3}$ give $280\ \text{m s}^{-1}$, whereas the measured value is about $332\ \text{m s}^{-1}$: a discrepancy of about $16\%$.
+
+(b) **Laplace:** the compressions and rarefactions in a sound wave occur so rapidly that heat has no time to flow between layers, and the changes are **adiabatic**, so the bulk modulus is $\gamma P$, not $P$:
+$$ v = \sqrt{\frac{\gamma P}{\rho}} $$
+With $\gamma = 1.4$ the speed is $\sqrt{1.4}\times280 = 331\ \text{m s}^{-1}$, agreeing with experiment.
+
+(c) Sound in a gas is a series of compressions (pressure above the mean) and rarefactions (pressure below the mean) travelling outwards; the pressure at each point varies about the atmospheric value, and it is this pressure variation that the ear detects.
+
+**2.** (a) **Laplace's correction:** the changes of pressure and volume in a sound wave are adiabatic, not isothermal, so in Newton's formula $P$ must be replaced by $\gamma P$ (because the adiabatic bulk modulus of an ideal gas is $\gamma P$):
+$$ v = \sqrt{\frac{\gamma P}{\rho}},\qquad \gamma = \frac{C_P}{C_V} = 1.40\ \text{for air} $$
+(b) The speed varies with temperature as $v_t\approx v_0+0.61\,t$ ($t$ in $^{\circ}\text{C}$), so
+$$ v_{25} = 330+0.61\times25 = 345\ \text{m s}^{-1} $$
+$$ \lambda = \frac{v}{f} = \frac{345}{256} = 1.35\ \text{m} $$
+(Using $v\propto\sqrt{T}$: $330\sqrt{298/273} = 345\ \text{m s}^{-1}$, the same.)
+
+**3.** (a) For an ideal gas $P/\rho = RT/M$, so $v = \sqrt{\gamma RT/M}\propto\sqrt{T}$: **the speed rises with temperature**, about $0.61\ \text{m s}^{-1}$ per $^{\circ}\text{C}$ near room temperature. At constant temperature a change of **pressure has no effect**, because $\rho\propto P$ and the ratio $P/\rho$ stays constant.
+
+(b) **Humidity:** moist air is less dense than dry air at the same $P$ and $T$ (water vapour, molar mass $18$, replaces $\text{N}_2$ and $\text{O}_2$), so sound travels slightly faster in damp air.
+
+(c) 
+$$ v_{27} = 332+0.61\times27 = 348\ \text{m s}^{-1} $$
+
+**4.** (a) **Solid:** $v = \sqrt{Y/\rho}$, where $Y$ is Young's modulus. **Liquid:** $v = \sqrt{K/\rho}$, where $K$ is the bulk modulus. (A solid also carries transverse waves at $\sqrt{\eta/\rho}$, with $\eta$ the rigidity modulus.)
+
+(b) 
+$$ v_{steel} = \sqrt{\frac{2.0\times10^{11}}{7800}} = 5.06\times10^{3}\ \text{m s}^{-1} $$
+$$ v_{water} = \sqrt{\frac{2.2\times10^{9}}{1000}} = 1.48\times10^{3}\ \text{m s}^{-1} $$
+
+**5.** From Laplace's formula with $P = \rho RT/M$ for an ideal gas ($M$ the molar mass),
+$$ v = \sqrt{\frac{\gamma P}{\rho}} = \sqrt{\frac{\gamma RT}{M}}\propto\sqrt{T} $$
+$$ \frac{v_{300}}{v_{273}} = \sqrt{\frac{300}{273}} = 1.048 $$
+$$ v_{300} = 331\times1.048 = 347\ \text{m s}^{-1} $$
+:::
+
+**Long answer / numerical questions [8 marks each]**
+
+1. (a) Derive the expression for the speed of a longitudinal pulse in a fluid in terms of its bulk modulus and density. [4] (b) Hence state Newton's formula and Laplace's correction. [2] (c) Calculate the speed of sound in air at $0\ ^{\circ}\text{C}$ from Laplace's formula ($\gamma = 1.40$, $P = 1.013\times10^{5}\ \text{Pa}$, $\rho = 1.293\ \text{kg m}^{-3}$). [2] <span class="marks">[8]</span>
+2. (a) Explain the effect of (i) temperature, (ii) pressure and (iii) humidity on the speed of sound. [3] (b) A bat emits a pulse and hears the echo from a wall $0.50\ \text{s}$ later at an air temperature of $20\ ^{\circ}\text{C}$ ($v_0 = 332\ \text{m s}^{-1}$). How far is the wall? [2] (c) A sound wave in air has a pressure amplitude of $3.0\times10^{-2}\ \text{Pa}$ and frequency $1000\ \text{Hz}$. Using $B = 1.42\times10^{5}\ \text{Pa}$ and $v = 344\ \text{m s}^{-1}$, find the displacement amplitude. [3] <span class="marks">[8]</span>
+
+::: note Model answers — long
+**1.** (a) Let a piston in a long tube of fluid (cross-section $A$, density $\rho$, bulk modulus $B$) suddenly move with speed $u$ for a time $\Delta t$. A compression pulse travels ahead at speed $v$, so in $\Delta t$ it covers $v\Delta t$ of fluid, which has mass $\rho Av\Delta t$ and is brought from rest to speed $u$. The piston moves a distance $u\Delta t$, so the volume of the compressed part shrinks by $Au\Delta t$ from $Av\Delta t$: the fractional change is $\Delta V/V = -u/v$.
+The excess pressure needed is, by the definition of the bulk modulus,
+$$ \Delta P = -B\,\frac{\Delta V}{V} = B\,\frac{u}{v} $$
+Newton's second law (impulse = change of momentum) applied to the pulse:
+$$ \Delta P\,A\,\Delta t = (\rho Av\Delta t)\,u $$
+$$ \Delta P = \rho v u $$
+Equating the two expressions for $\Delta P$:
+$$ B\frac{u}{v} = \rho vu\ \Rightarrow\ v = \sqrt{\frac{B}{\rho}} $$
+
+(b) For a gas held at constant temperature (isothermal) $B = P$, giving **Newton's formula** $v = \sqrt{P/\rho}$. Laplace showed that the changes are adiabatic, for which $B = \gamma P$, giving $v = \sqrt{\gamma P/\rho}$.
+
+(c) 
+$$ v = \sqrt{\frac{1.40\times1.013\times10^{5}}{1.293}} = \sqrt{1.097\times10^{5}} = 331\ \text{m s}^{-1} $$
+
+**2.** (a) (i) **Temperature:** $v\propto\sqrt{T}$, so heating air makes sound faster, by about $0.61\ \text{m s}^{-1}$ per degree. (ii) **Pressure:** no effect if $T$ is constant, because $P/\rho$ is constant. (iii) **Humidity:** moist air is less dense, so the speed is higher.
+
+(b) $v_{20} = 332+0.61\times20 = 344\ \text{m s}^{-1}$. The echo covers the distance to the wall and back in $0.50\ \text{s}$:
+$$ d = \frac{vt}{2} = \frac{344\times0.50}{2} = 86\ \text{m} $$
+
+(c) The pressure and displacement amplitudes are related by $p_{max} = Bk\,s_{max}$, with $k = 2\pi f/v$:
+$$ k = \frac{2\pi\times1000}{344} = 18.3\ \text{m}^{-1} $$
+$$ s_{max} = \frac{p_{max}}{Bk} = \frac{3.0\times10^{-2}}{1.42\times10^{5}\times18.3} = 1.2\times10^{-8}\ \text{m} $$
+:::
+
+::: tip Examiner's note — Mechanical waves
+Both stories must be told: **what Newton assumed** (isothermal, $B = P$), **the number that shows it fails** ($280$ against $332\ \text{m s}^{-1}$), and **what Laplace changed** (adiabatic, $B = \gamma P$). Mention that the changes are too fast for heat to flow — that is the reason, and it is what the marker looks for. In the temperature numericals, be consistent: either $v_t = v_0+0.61t$ or $v\propto\sqrt{T}$ with kelvin — do not mix them inside one calculation.
+:::
+
+## 3.8 Wave in pipes and strings
+
+CDC allots **4 teaching hours**. Stationary waves in pipes and strings are examined every year (2080 Group B, 2081 and 2082 Group C); the sonometer beat problem of the 2079 model and the $v = \sqrt{T/\mu}$ scaling arguments are the most repeated numerical forms.
+
+**Short answer questions [5 marks each]**
+
+1. (a) A sonometer wire $75\ \text{cm}$ long is in resonance with a tuning fork. Shortening the wire by $0.50\ \text{cm}$ gives $3$ beats per second with the fork. Find the frequency of the fork. [3] (b) A vibrator of $120\ \text{Hz}$ sets up a stationary wave with $3$ loops on a string $1.2\ \text{m}$ long; find the speed of the progressive wave. [2] <span class="marks">[5]</span> (NEB 2079 model, part (a))
+2. (a) Define harmonic and overtone. [1] (b) A string $0.80\ \text{m}$ long, under tension $64\ \text{N}$, has mass per unit length $4.0\times10^{-3}\ \text{kg m}^{-1}$: find the frequency of its first overtone. [2] (c) What is the new frequency if the tension is made four times as large? [2] <span class="marks">[5]</span>
+3. (a) A flute $30\ \text{cm}$ long, open at both ends, sounds its first harmonic; find the frequency ($v = 330\ \text{m s}^{-1}$). [2] (b) Define harmonic in music. [1] (c) Why does the pitch of a bus horn seem to drop as it passes you? [2] <span class="marks">[5]</span> (NEB 2078)
+4. (a) What is end correction? [1] (b) In a resonance-tube experiment with a fork of $512\ \text{Hz}$, resonance occurs at $16.0\ \text{cm}$ and $50.5\ \text{cm}$. Find the speed of sound and the end correction. [4] <span class="marks">[5]</span>
+5. (a) State the laws of transverse vibration of a fixed string. [3] (b) A string vibrates at $200\ \text{Hz}$; find the frequency if its length is halved and its tension is quadrupled. [2] <span class="marks">[5]</span>
+6. Compare the harmonics of an open pipe and a closed pipe of the same length in a table (fundamental, allowed harmonics, ratio of the first three). [5]
+
+::: note Model answers — short (1–3)
+**1.** (a) A sonometer wire has $f\propto1/L$. Let the fork's frequency be $f$; at resonance the $75\ \text{cm}$ wire also vibrates at $f$. The shortened wire ($74.5\ \text{cm}$) vibrates faster:
+$$ f' = f\,\frac{75}{74.5} $$
+$$ f'-f = 3 = f\left(\frac{75}{74.5}-1\right) = f\times\frac{0.5}{74.5} $$
+$$ f = \frac{3\times74.5}{0.5} = 447\ \text{Hz} $$
+(b) With $3$ loops, $L = 3\lambda/2$, so $\lambda = 2L/3 = 0.80\ \text{m}$ and
+$$ v = f\lambda = 120\times0.80 = 96\ \text{m s}^{-1} $$
+
+**2.** (a) The lowest frequency of a vibrating system is the **fundamental** (first harmonic). Higher frequencies that are integer multiples of it are **harmonics** (second, third, …). An **overtone** is any mode above the fundamental: the first overtone is the second harmonic (for an open pipe or a string), the second overtone is the third harmonic, and so on.
+
+(b) 
+$$ v = \sqrt{\frac{T}{\mu}} = \sqrt{\frac{64}{4.0\times10^{-3}}} = 126\ \text{m s}^{-1} $$
+$$ f_1 = \frac{v}{2L} = \frac{126}{2\times0.80} = 79\ \text{Hz} $$
+The first overtone is the second harmonic, $f_2 = 2f_1 = 158\ \text{Hz}$.
+
+(c) $f\propto\sqrt{T}$, so quadrupling the tension doubles every frequency: the first overtone becomes $2\times158 = 316\ \text{Hz}$.
+
+**3.** (a) An open pipe has antinodes at both ends and $L = \lambda/2$ for the fundamental:
+$$ f_1 = \frac{v}{2L} = \frac{330}{2\times0.30} = 550\ \text{Hz} $$
+(b) In music a **harmonic** is a component of a note whose frequency is an integer multiple of the fundamental; the mix of harmonics determines the quality (timbre) of the note.
+
+(c) By the Doppler effect: while the bus approaches, each successive sound crest is emitted closer to you and arrives more often, so the frequency is higher; after it passes, successive crests start farther away, so the frequency is lower. The horn's actual frequency does not change.
+:::
+
+::: note Model answers — short (4–6)
+**4.** (a) At an open end the antinode is not exactly at the mouth of the pipe but a little outside it, at a distance $e\approx0.6\,r$ (for a pipe of radius $r$); this extra length is the **end correction**. The effective length is $L+e$.
+
+(b) For a closed pipe, the first resonance is at $L_1+e = \lambda/4$ and the second at $L_2+e = 3\lambda/4$. Subtracting,
+$$ L_2-L_1 = \frac{\lambda}{2}\ \Rightarrow\ \lambda = 2(0.505-0.160) = 0.690\ \text{m} $$
+$$ v = f\lambda = 512\times0.690 = 353\ \text{m s}^{-1} $$
+$$ e = \frac{L_2-3L_1}{2} = \frac{50.5-48.0}{2} = 1.3\ \text{cm} $$
+(Using the first resonance, $e = \lambda/4-L_1 = 17.25-16.0 = 1.25\ \text{cm}$.)
+
+**5.** (a) For a string of length $L$, tension $T$ and mass per unit length $\mu$ vibrating in a given mode: **Law of length** — $f\propto1/L$ (at fixed $T$ and $\mu$). **Law of tension** — $f\propto\sqrt{T}$ (at fixed $L$ and $\mu$). **Law of mass** — $f\propto1/\sqrt{\mu}$ (at fixed $L$ and $T$). These combine in $f = \dfrac{1}{2L}\sqrt{T/\mu}$.
+
+(b) 
+$$ \frac{f'}{f} = \frac{L}{L/2}\sqrt{\frac{4T}{T}} = 2\times2 = 4 $$
+$$ f' = 4\times200 = 800\ \text{Hz} $$
+
+**6.**
+
+| | Open pipe | Closed pipe (one end closed) |
+|---|---|---|
+| Ends | antinode at both | node at closed end, antinode at open end |
+| Fundamental | $v/2L$ | $v/4L$ |
+| Harmonics present | all: $1, 2, 3, \dots$ | only odd: $1, 3, 5, \dots$ |
+| First three | $f, 2f, 3f$ | $f, 3f, 5f$ |
+| Ratio | $1:2:3$ | $1:3:5$ |
+:::
+
+**Long answer / numerical questions [8 marks each]**
+
+1. (a) Describe the stationary waves in an open and in a closed organ pipe, drawing the first three modes of each. [3] (b) Derive the frequencies of the harmonics for both. [3] (c) An open pipe and a closed pipe each have fundamental $264\ \text{Hz}$; find the lengths ($v = 340\ \text{m s}^{-1}$) and the frequency of the first overtone of each. [2] <span class="marks">[8]</span>
+2. (a) Derive $f_n = \dfrac{n}{2L}\sqrt{T/\mu}$ for a string fixed at both ends. [3] (b) A guitar string of length $1.5\ \text{m}$ is made of steel of density $7800\ \text{kg m}^{-3}$ and Young's modulus $2\times10^{11}\ \text{N m}^{-2}$, stretched by $1\%$. Find the stress and the frequency of the second mode. [3] (c) What happens to the speed of a transverse wave if the radius of the string is doubled at constant tension? [2] <span class="marks">[8]</span> (NEB 2081 and 2082, parts)
+3. (a) State the laws of vibration of a fixed string and describe the sonometer experiment that verifies the law of length. [4] (b) Two wires of the same material, radii in the ratio $1:2$, are stretched with equal tension and have equal lengths; compare their fundamental frequencies. [2] (c) A $0.60\ \text{m}$ wire of mass $4.8\ \text{g}$ is under a tension of $120\ \text{N}$; find its fundamental and third harmonic. [2] <span class="marks">[8]</span>
+
+::: note Model answers — long
+**1.** (a) **Open pipe:** both ends are antinodes of displacement (pressure nodes). The three simplest modes have $L = \lambda/2,\ \lambda,\ 3\lambda/2$ (figure below, left). **Closed pipe:** the closed end is a node, the open end an antinode; the modes have $L = \lambda/4,\ 3\lambda/4,\ 5\lambda/4$ (figure below, right).
+
+(b) *Open pipe:* $L = n\lambda_n/2$, so $\lambda_n = 2L/n$ and
+$$ f_n = \frac{v}{\lambda_n} = \frac{nv}{2L},\quad n = 1, 2, 3,\dots $$
+*Closed pipe:* $L = (2n-1)\lambda_n/4$, so $\lambda_n = 4L/(2n-1)$ and
+$$ f_n = \frac{(2n-1)v}{4L} = (2n-1)f_1,\quad n = 1, 2, 3,\dots $$
+
+(c) Open pipe: $L = \dfrac{v}{2f_1} = \dfrac{340}{2\times264} = 0.64\ \text{m}$; first overtone $= 2f_1 = 528\ \text{Hz}$. Closed pipe: $L = \dfrac{v}{4f_1} = \dfrac{340}{4\times264} = 0.32\ \text{m}$; first overtone $= 3f_1 = 792\ \text{Hz}$.
+
+**2.** (a) A transverse wave on a string travels at $v = \sqrt{T/\mu}$. For a string fixed at both ends of length $L$, both ends are nodes, so the stationary wave must fit an integral number of half-wavelengths: $L = n\lambda_n/2$, $\lambda_n = 2L/n$. Then
+$$ f_n = \frac{v}{\lambda_n} = \frac{n}{2L}\sqrt{\frac{T}{\mu}},\quad n = 1, 2, 3,\dots $$
+(b) Stress $=$ Young's modulus $\times$ strain:
+$$ \sigma = Y\times\text{strain} = 2\times10^{11}\times0.01 = 2\times10^{9}\ \text{N m}^{-2} $$
+With $T = \sigma A$ and $\mu = \rho A$, the area cancels in $v = \sqrt{T/\mu} = \sqrt{\sigma/\rho}$:
+$$ v = \sqrt{\frac{2\times10^{9}}{7800}} = 506\ \text{m s}^{-1} $$
+The second mode ($n = 2$) has $f_2 = \dfrac{2v}{2L} = \dfrac{v}{L} = \dfrac{506}{1.5} = 338\ \text{Hz}$.
+
+(c) $\mu = \rho\pi r^{2}$ increases four times when $r$ doubles, so $v = \sqrt{T/\mu}$ falls to **half**.
+
+**3.** (a) The laws are stated in short answer 5(a). **Sonometer experiment:** a wire is stretched over two bridges on a wooden box and kept under a fixed tension by a hanging load. A tuning fork of known frequency is sounded and a light paper rider is placed on the wire; the movable bridge is adjusted until the rider is thrown off, which shows resonance, and the vibrating length $L$ is measured. Repeating with forks of several frequencies, one finds $f\times L$ is constant, i.e. $f\propto1/L$.
+
+(b) $\mu = \rho\pi r^{2}$, so for equal $T$ and $L$, $f\propto1/\sqrt{\mu}\propto1/r$. With $r_1:r_2 = 1:2$, $f_1:f_2 = 2:1$: the thinner wire vibrates twice as fast.
+
+(c) $\mu = \dfrac{4.8\times10^{-3}}{0.60} = 8.0\times10^{-3}\ \text{kg m}^{-1}$.
+$$ v = \sqrt{\frac{120}{8.0\times10^{-3}}} = 122\ \text{m s}^{-1} $$
+$$ f_1 = \frac{v}{2L} = \frac{122}{1.2} = 102\ \text{Hz},\qquad f_3 = 3f_1 = 306\ \text{Hz} $$
+:::
+
+```figure caption="Stationary waves in pipes (displacement envelope). Left: open pipe, fundamental and first two overtones. Right: closed pipe (node at the closed end on the left), fundamental and first two overtones."
+import numpy as np, matplotlib.pyplot as plt
+fig, (a1, a2) = plt.subplots(1, 2, figsize=(5.0, 2.9))
+x = np.linspace(0, 1, 200)
+def draw(ax, shapes, labels, closed):
+    for i, (y, lab) in enumerate(zip(shapes, labels)):
+        off = -i*1.0
+        ax.plot(x, y+off, color=ACCENT, lw=1.6)
+        ax.plot(x, -y+off, color=ACCENT, lw=1.6)
+        ax.text(1.05, off, lab, fontsize=8, va='center', color=INK)
+    top = 0.55; bot = -2.55
+    ax.plot([0, 1], [top, top], color=INK, lw=1.2)
+    ax.plot([0, 1], [bot, bot], color=INK, lw=1.2)
+    if closed:
+        ax.plot([0, 0], [bot, top], color=INK, lw=3)
+    ax.set_xlim(-0.08, 1.5); ax.set_ylim(bot-0.1, top+0.1)
+    ax.axis('off')
+draw(a1, [0.4*np.abs(np.cos(n*np.pi*x)) for n in (1, 2, 3)],
+     ['$f_1$', '$2f_1$', '$3f_1$'], False)
+draw(a2, [0.4*np.abs(np.sin(m*np.pi*x/2)) for m in (1, 3, 5)],
+     ['$f_1$', '$3f_1$', '$5f_1$'], True)
+a1.set_title('open pipe', fontsize=9, color=INK)
+a2.set_title('closed pipe', fontsize=9, color=INK)
+fig.tight_layout()
+```
+
+::: tip Examiner's note — Wave in pipes and strings
+In pipe questions **draw the pattern first**: one sketch tells you where the nodes and antinodes are and gives $L$ in terms of $\lambda$. Do not write "$f = v/4L$" for an open pipe — a classic slip that costs the whole numerical. For strings, prefer the combined formula $f = (n/2L)\sqrt{T/\mu}$ and substitute ratios rather than absolute values when the question says "if the tension is quadrupled". In the sonometer beat problem, say clearly that *shortening raises the frequency*; choosing the wrong sign gives a different answer.
+:::
+
+## 3.9 Acoustic phenomena
+
+CDC allots **5 teaching hours**. Doppler numericals have appeared in 2078, 2079 model, 2081 and 2082; intensity, pressure amplitude and the characteristics of sound make up the rest.
+
+**Short answer questions [5 marks each]**
+
+1. (a) A train travelling at $30\ \text{m s}^{-1}$ in still air sounds a whistle of $262\ \text{Hz}$. A passenger on another train moving at $18\ \text{m s}^{-1}$ in the opposite direction hears it. Find the frequency heard (i) while the trains approach and (ii) after they have passed, taking $v = 340\ \text{m s}^{-1}$. [2+2] (b) How does the intensity of sound change if the distance from the source increases four times? [1] <span class="marks">[5]</span> (NEB 2079 model)
+2. A car horn of $400\ \text{Hz}$ is heard by a stationary listener with a frequency difference of $60\ \text{Hz}$ between approach and recession. Find the speed of the car ($v = 340\ \text{m s}^{-1}$). [5] <span class="marks">[5]</span> (NEB 2081, data)
+3. A train moving at $10\ \text{m s}^{-1}$ towards a cliff sounds a horn of $600\ \text{Hz}$. Find the frequency of the echo heard by the driver [3] and explain why it is higher than $600\ \text{Hz}$. [2] <span class="marks">[5]</span> (NEB 2082, data)
+4. In a sound wave the maximum pressure variation is $3.0\times10^{-2}\ \text{Pa}$ at $1000\ \text{Hz}$ in air ($v = 344\ \text{m s}^{-1}$, bulk modulus $1.42\times10^{5}\ \text{Pa}$). Find the maximum displacement [3] and say why it is so small. [2] <span class="marks">[5]</span> (NEB 2079 model)
+5. Distinguish between intensity, loudness, pitch and quality of a sound. [5]
+6. (a) Define intensity level in decibels. [2] (b) The intensity of a sound is $1.0\times10^{-5}\ \text{W m}^{-2}$; find its level ($I_0 = 10^{-12}\ \text{W m}^{-2}$). [1] (c) By how much does the level rise if the intensity is doubled? [2] <span class="marks">[5]</span>
+
+::: note Model answers — short
+**1.** The passenger (observer) moves at $u_o = 18\ \text{m s}^{-1}$ and the source at $u_s = 30\ \text{m s}^{-1}$.
+(i) *Approaching:*
+$$ f' = f\,\frac{v+u_o}{v-u_s} = 262\times\frac{340+18}{340-30} = 262\times\frac{358}{310} = 303\ \text{Hz} $$
+(ii) *Receding:*
+$$ f' = f\,\frac{v-u_o}{v+u_s} = 262\times\frac{340-18}{340+30} = 262\times\frac{322}{370} = 228\ \text{Hz} $$
+(b) The intensity varies as $1/r^{2}$, so at four times the distance it is $1/16$ of its value.
+
+**2.** For a source moving at speed $u$ past a stationary listener, the frequency on approach is $f_1 = \dfrac{fv}{v-u}$ and on recession $f_2 = \dfrac{fv}{v+u}$.
+$$ f_1-f_2 = fv\left(\frac{1}{v-u}-\frac{1}{v+u}\right) = \frac{2fvu}{v^{2}-u^{2}} = 60 $$
+With $f = 400$, $v = 340$: $272000\,u = 60\,(115600-u^{2})$, which gives $u^{2}+4533\,u-115600 = 0$, so
+$$ u = \frac{-4533+\sqrt{4533^{2}+4\times115600}}{2} = 25\ \text{m s}^{-1} $$
+As a check, since $u\ll v$, $\Delta f\approx2fu/v$ gives $u = 60\times340/800 = 25.5\ \text{m s}^{-1}$. The car moves at about $25\ \text{m s}^{-1}$, i.e. $90\ \text{km h}^{-1}$.
+
+**3.** The cliff first acts as a stationary **observer** receiving $f_1$ from the moving source, and then as a stationary **source** emitting $f_1$ to the moving driver:
+$$ f_1 = \frac{fv}{v-10},\qquad f_2 = f_1\,\frac{v+10}{v} = f\,\frac{v+10}{v-10} $$
+$$ f_2 = 600\times\frac{340+10}{340-10} = 600\times\frac{350}{330} = 636\ \text{Hz} $$
+It is higher because the train approaches the cliff twice over, in effect: the crests are compressed at the source (shorter wavelength) and the driver moves towards the returning crests, so both effects raise the frequency.
+
+**4.** The relation $p_{max} = Bk\,s_{max}$ with $k = 2\pi f/v$:
+$$ k = \frac{2\pi\times1000}{344} = 18.3\ \text{m}^{-1} $$
+$$ s_{max} = \frac{3.0\times10^{-2}}{1.42\times10^{5}\times18.3} = 1.2\times10^{-8}\ \text{m} $$
+The displacement is tiny because a pressure variation of only $3\times10^{-2}\ \text{Pa}$ (out of $10^{5}\ \text{Pa}$) corresponds to a fractional volume change of about $2\times10^{-7}$, so each particle moves only about $10^{-8}\ \text{m}$; yet the ear detects it.
+
+**5.**
+
+| Term | Meaning | Depends on |
+|---|---|---|
+| **Intensity** | energy flowing per second through unit area normal to the wave, $\text{W m}^{-2}$; objective | amplitude$^{2}$, frequency$^{2}$, distance |
+| **Loudness** | the sensation of how strong a sound is; subjective | intensity and the ear's sensitivity (frequency) |
+| **Pitch** | sensation of how high or low the note is | frequency |
+| **Quality** (timbre) | what distinguishes two notes of the same pitch and loudness | number and strengths of harmonics (waveform) |
+
+**6.** (a) The **intensity level** is $\beta = 10\log_{10}(I/I_0)$ decibels, where $I_0 = 10^{-12}\ \text{W m}^{-2}$ is the threshold of hearing.
+
+(b) 
+$$ \beta = 10\log_{10}\frac{10^{-5}}{10^{-12}} = 10\times7 = 70\ \text{dB} $$
+(c) $\Delta\beta = 10\log_{10}2 = 3.0\ \text{dB}$, independent of the starting level.
+:::
+
+**Long answer / numerical questions [8 marks each]**
+
+1. (a) What is the Doppler effect? [1] (b) Derive the apparent frequency when a source moves towards a stationary observer and when an observer moves towards a stationary source. [4] (c) A source of $500\ \text{Hz}$ moves away at $34\ \text{m s}^{-1}$ from an observer moving towards it at $17\ \text{m s}^{-1}$; find the frequency heard ($v = 340\ \text{m s}^{-1}$). [3] <span class="marks">[8]</span>
+2. (a) Explain the characteristics of sound. [3] (b) Derive the relation between displacement amplitude and pressure amplitude, $p_{max} = Bks_{max}$. [3] (c) The intensity of a sound is $10^{-6}\ \text{W m}^{-2}$ at $2\ \text{m}$; find the intensity and the level at $8\ \text{m}$. [2] <span class="marks">[8]</span>
+
+::: note Model answers — long
+**1.** (a) The **Doppler effect** is the apparent change in the frequency of a wave heard by an observer when there is relative motion between the source and the observer.
+
+(b) Let the speed of sound be $v$, the source frequency $f$ and its wavelength $\lambda = v/f$.
+*Source moving at $u_s$ towards a stationary observer.* In one period $T = 1/f$ the source moves $u_sT$, so the wavelength in front is shortened:
+$$ \lambda' = \lambda-u_sT = \frac{v-u_s}{f} $$
+$$ f' = \frac{v}{\lambda'} = f\,\frac{v}{v-u_s} $$
+*Observer moving at $u_o$ towards a stationary source.* The wavelength is unchanged, but the speed of the waves relative to the observer is $v+u_o$:
+$$ f' = \frac{v+u_o}{\lambda} = f\,\frac{v+u_o}{v} $$
+Combined (positive direction from observer to source):
+$$ f' = f\,\frac{v+u_o}{v-u_s} $$
+Change the sign of $u_s$ or $u_o$ for motion away.
+
+(c) The source recedes ($+u_s$ in the denominator) while the observer approaches ($+u_o$ in the numerator):
+$$ f' = 500\times\frac{340+17}{340+34} = 500\times\frac{357}{374} = 477\ \text{Hz} $$
+
+**2.** (a) See short answer 5: intensity (objective), loudness (subjective, depends on intensity and frequency), pitch (frequency) and quality (harmonic content).
+
+(b) For a wave $s = s_{max}\sin(\omega t-kx)$ in a fluid of bulk modulus $B$, the fractional volume change is $\Delta V/V = \partial s/\partial x = -ks_{max}\cos(\omega t-kx)$. The pressure change is
+$$ \Delta P = -B\frac{\Delta V}{V} = Bks_{max}\cos(\omega t-kx) $$
+so the pressure amplitude is
+$$ p_{max} = Bk\,s_{max} $$
+The pressure variation is $\pi/2$ out of phase with the displacement: pressure is greatest where the displacement is zero.
+
+(c) Intensity obeys the inverse square law, $I\propto1/r^{2}$:
+$$ I_8 = 10^{-6}\times\left(\frac{2}{8}\right)^{2} = 6.3\times10^{-8}\ \text{W m}^{-2} $$
+$$ \beta_8 = 10\log_{10}\frac{6.3\times10^{-8}}{10^{-12}} = 10\times4.80 = 48\ \text{dB} $$
+At $2\ \text{m}$ the level was $60\ \text{dB}$; quadrupling the distance lowers it by $12\ \text{dB}$.
+:::
+
+::: tip Examiner's note — Acoustic phenomena
+Write the Doppler formula in its **general** form and then put in signs deliberately: toward $= +$ in the numerator for the observer, toward $= -$ in the denominator for the source. The most common mistake is to apply the observer formula when the *source* is moving (or the reverse). In echo problems there are **two** Doppler shifts — the wall is first an observer, then a source. Convert decibels carefully: $10\log_{10}$ of an *intensity* ratio (not amplitude).
+:::
+
+## 3.10 Nature and propagation of light
+
+CDC allots **3 teaching hours**. Huygens' principle and the wave-theory derivations of reflection and refraction are "prove" questions; 2081 asked for a plane wavefront becoming spherical, and 2082 asked which phenomenon Huygens' construction does not explain.
+
+**Short answer questions [5 marks each]**
+
+1. (a) State Huygens' principle. [1] (b) Use it to show how a plane wavefront passing through a small aperture becomes spherical. [2] (c) What is a wavefront, and what is its shape for a point source and for a distant source? [2] <span class="marks">[5]</span> (NEB 2081, part)
+2. Prove the law of reflection using Huygens' wave theory. [5]
+3. (a) Prove Snell's law using Huygens' construction. [3] (b) Light of wavelength $600\ \text{nm}$ in air passes into glass of refractive index $1.5$; find its speed, wavelength and frequency in glass. [2] <span class="marks">[5]</span>
+4. (a) Name two phenomena explained by the wave theory and one that is not. [3] (b) What did Foucault's experiment settle? [2] <span class="marks">[5]</span> (NEB 2082, part)
+5. (a) Define refractive index in terms of the speeds of light. [1] (b) A ray goes from water ($n = 1.33$) into glass ($n = 1.50$); find the ratio of the speeds and of the wavelengths. [2] (c) Why does the frequency not change? [2] <span class="marks">[5]</span>
+
+::: note Model answers — short
+**1.** (a) **Huygens' principle:** every point on a wavefront acts as a source of secondary wavelets, which spread out in all directions with the speed of the wave; the new wavefront after a time $t$ is the forward envelope (common tangent surface) of these wavelets.
+
+(b) When a plane wavefront reaches a small aperture (of size comparable with the wavelength), only a few points on it can send wavelets through. With so few sources the envelope is part of a sphere: the wavefront beyond the aperture is **spherical**, centred on the aperture, and the light spreads out (diffraction).
+
+(c) A **wavefront** is the locus of all points of a wave that are in the same phase at a given instant. It is a sphere for a point source, a plane for a very distant source, and a cylinder for a line source. Rays are normal to wavefronts.
+
+**2.** Let a plane wavefront $AB$ fall obliquely on a plane mirror, with $A$ touching the mirror first; let $i$ be the angle of incidence. While the wavelet from $B$ travels the distance $BC = vt$ to the mirror, the wavelet from $A$ travels the same distance $AD = vt$ in the same medium. The reflected wavefront is the tangent $CD$ from $C$ to the wavelet centred at $A$.
+In the right-angled triangles $ABC$ and $ADC$ the side $AC$ is common and $BC = AD = vt$. They are therefore congruent, and
+$$ \angle BAC = \angle DCA\ \Rightarrow\ i = r $$
+The incident ray, the reflected ray and the normal lie in one plane. This proves the **law of reflection**.
+
+**3.** (a) A plane wavefront $AB$ is incident on the boundary between medium 1 (speed $v_1$) and medium 2 ($v_2$), at angle of incidence $i$. While the wavelet from $B$ reaches the boundary at $C$ in time $t$ ($BC = v_1t$), the wavelet from $A$ travels $AD = v_2t$ in medium 2. The refracted wavefront is $CD$, making angle $r$ with the boundary. From the two triangles with the common hypotenuse $AC$:
+$$ \sin i = \frac{BC}{AC} = \frac{v_1t}{AC},\qquad \sin r = \frac{AD}{AC} = \frac{v_2t}{AC} $$
+$$ \frac{\sin i}{\sin r} = \frac{v_1}{v_2} = \text{constant} $$
+This is **Snell's law**; with $n = c/v$ it reads $n_1\sin i = n_2\sin r$.
+
+(b) 
+$$ v = \frac{c}{n} = \frac{3.0\times10^{8}}{1.5} = 2.0\times10^{8}\ \text{m s}^{-1} $$
+$$ \lambda_g = \frac{\lambda_{air}}{n} = \frac{600}{1.5} = 400\ \text{nm} $$
+The frequency is unchanged: $f = c/\lambda = 3.0\times10^{8}/(600\times10^{-9}) = 5.0\times10^{14}\ \text{Hz}$.
+
+**4.** (a) Explained by the wave theory: **reflection and refraction** (Huygens' construction), **interference and diffraction** (superposition, bending) and **polarization** (transverse waves). Not explained: the **photoelectric effect**, which needs energy in quanta (photons).
+
+(b) Foucault measured the speed of light in water and found it **less** than in air. The wave theory predicts $v = c/n<c$; Newton's corpuscular theory predicted a **greater** speed in a denser medium. The result ruled out the simple corpuscular theory.
+
+**5.** (a) The **refractive index** of a medium is the ratio of the speed of light in vacuum to its speed in the medium: $n = c/v$.
+
+(b) $\dfrac{v_w}{v_g} = \dfrac{n_g}{n_w} = \dfrac{1.50}{1.33} = 1.13$. Since $f$ is the same, $\dfrac{\lambda_w}{\lambda_g} = \dfrac{v_w}{v_g} = 1.13$.
+
+(c) Wavefronts arriving at the boundary must leave it at the same rate, or they would pile up or be created at the boundary. The number of wavefronts per second — the frequency — is therefore the same in both media.
+:::
+
+**Long answer / numerical questions [8 marks each]**
+
+1. (a) State Huygens' principle. [1] (b) Using it, derive the laws of reflection and refraction of a plane wave. [5] (c) A ray goes from air into glass with $i = 60^{\circ}$ and $r = 35^{\circ}$; find the refractive index and the speed of light in the glass. [2] <span class="marks">[8]</span>
+2. (a) Explain, using Huygens' principle, why light bends towards the normal on entering a denser medium. [2] (b) Derive the critical angle in terms of the speeds of light in the two media and find it for glass–air ($n = 1.5$). [3] (c) Explain how Huygens' principle accounts for the spread of light after a narrow slit. [3] <span class="marks">[8]</span>
+
+::: note Model answers — long
+**1.** (a) See short answer 1(a).
+
+(b) The constructions and the congruent and similar triangles are given in short answers 2 and 3(a); the results are $i = r$ for reflection and $\sin i/\sin r = v_1/v_2$ for refraction, with both rays and the normal in one plane.
+
+(c) 
+$$ n = \frac{\sin i}{\sin r} = \frac{\sin60^{\circ}}{\sin35^{\circ}} = \frac{0.866}{0.574} = 1.51 $$
+$$ v = \frac{c}{n} = \frac{3.0\times10^{8}}{1.51} = 2.0\times10^{8}\ \text{m s}^{-1} $$
+
+**2.** (a) On entering a denser medium the end of the wavefront that arrives first slows down, while the other end is still moving at the higher speed. The wavefront therefore swings round, so its normal (the ray) turns towards the normal to the surface: $r<i$.
+
+(b) For light going from a denser medium 1 ($v_1$) to a rarer medium 2 ($v_2>v_1$), $\sin i/\sin r = v_1/v_2$. The **critical angle** $i_c$ is the angle of incidence for which $r = 90^{\circ}$:
+$$ \sin i_c = \frac{v_1}{v_2} = \frac{n_2}{n_1} $$
+For glass–air, $\sin i_c = 1/1.5$, so $i_c = 41.8^{\circ}$. For $i>i_c$ the refracted wavefront cannot be constructed: total internal reflection occurs.
+
+(c) Every point of the wavefront in the slit acts as a secondary source. When the slit width is comparable with the wavelength there are few such sources and the envelope of their wavelets spreads well beyond the geometrical shadow edges: the wave **diffracts**. A wide slit leaves a large flat central part of wavefront, and the light bends only at the edges.
+:::
+
+::: tip Examiner's note — Nature and propagation of light
+For the wave-theory proofs, **draw the construction**: wavefront $AB$, the boundary, the two distances $BC = v_1t$ and $AD = v_2t$, and the two triangles. A labelled diagram is worth about half the marks. Always state that the *frequency* is unchanged on refraction and that it is the wavelength and speed that change. When asked what Huygens cannot explain, answer *photoelectric effect* (not interference or diffraction).
+:::
+
+## 3.11 Interference
+
+CDC allots **2 teaching hours**. Young's double slit is asked almost every year, often with a fringe-width numerical and the effect of immersing the apparatus in a liquid (2080), or the equal spacing of bright and dark fringes (2082 Group C).
+
+**Short answer questions [5 marks each]**
+
+1. (a) Define interference of light. [1] (b) What are coherent sources and how are they obtained in practice? [2] (c) Why are two separate light bulbs not coherent? [2] <span class="marks">[5]</span>
+2. Show that the bright and dark fringes in Young's double-slit experiment are equally spaced, and derive the fringe width $\beta = \lambda D/d$. [5]
+3. (a) Two waves of equal intensity $I$ superpose; find the resultant intensity for constructive and destructive interference. [3] (b) Write the general expression for the resultant intensity at phase difference $\phi$. [2] <span class="marks">[5]</span> (NEB 2081, part)
+4. A double slit of separation $0.50\ \text{mm}$ is illuminated by green light of wavelength $546\ \text{nm}$; the screen is $0.80\ \text{m}$ away. Find the fringe width and the width of ten fringes. [5] (NEB 2079 model, data)
+5. (a) What happens to the fringe width if the whole double-slit apparatus is immersed in water of refractive index $1.33$? [2] (b) Describe the pattern when white light is used. [3] <span class="marks">[5]</span> (NEB 2080, part)
+
+::: note Model answers — short
+**1.** (a) **Interference** is the redistribution of energy produced when two or more coherent light waves overlap: bright fringes where they reinforce and dark fringes where they cancel.
+
+(b) **Coherent sources** emit waves of the same frequency with a constant phase difference. In practice they are obtained by **dividing a single wavefront** (Young's two slits) or a single beam by amplitude (thin films), so that any random change in the source phase appears equally in both.
+
+(c) Two bulbs emit light in independent bursts of about $10^{-8}\ \text{s}$ with random phases; the phase difference between them changes randomly and faster than the eye can follow, so the pattern averages to uniform brightness.
+
+**2.** Slits $S_1$ and $S_2$ are a distance $d$ apart, and the screen is a distance $D\gg d$ away. For a point $P$ at height $y$ above the central point $O$, the path difference is
+$$ \Delta = S_2P-S_1P\approx\frac{yd}{D} $$
+*Bright:* $\Delta = n\lambda$, so $y_n = \dfrac{n\lambda D}{d}$, $n = 0, 1, 2,\dots$ *Dark:* $\Delta = (n+\tfrac12)\lambda$, so $y_n' = \left(n+\tfrac12\right)\dfrac{\lambda D}{d}$.
+The separation of consecutive bright fringes is
+$$ \beta = y_{n+1}-y_n = \frac{\lambda D}{d} $$
+and that of consecutive dark fringes is the same, $\dfrac{\lambda D}{d}$, independent of $n$. The fringes are **equally spaced**, with a dark fringe midway between successive bright ones.
+
+**3.** (a) Two waves of amplitude $a$ superpose with phase difference $\phi$: the resultant amplitude is $R = 2a\cos(\phi/2)$, so $I\propto R^{2} = 4a^{2}\cos^{2}(\phi/2)$, i.e. $I_R = 4I\cos^{2}(\phi/2)$.
+*Constructive* ($\phi = 0, 2\pi,\dots$): $I_{max} = 4I$. *Destructive* ($\phi = \pi, 3\pi,\dots$): $I_{min} = 0$.
+
+(b) 
+$$ I_R = I_1+I_2+2\sqrt{I_1I_2}\cos\phi $$
+For $I_1 = I_2 = I$ this becomes $2I(1+\cos\phi) = 4I\cos^{2}(\phi/2)$. The average intensity is $2I$: energy is redistributed, not created.
+
+**4.** 
+$$ \beta = \frac{\lambda D}{d} = \frac{546\times10^{-9}\times0.80}{0.50\times10^{-3}} = 8.7\times10^{-4}\ \text{m} = 0.87\ \text{mm} $$
+Ten fringes: $10\beta = 8.7\ \text{mm}$.
+
+**5.** (a) In a medium of refractive index $\mu$ the wavelength becomes $\lambda' = \lambda/\mu$, so
+$$ \beta' = \frac{\lambda'D}{d} = \frac{\beta}{\mu} = \frac{\beta}{1.33} = 0.75\,\beta $$
+The fringes become narrower (closer together).
+
+(b) With white light the **central fringe ($n = 0$) is white**, since all colours have zero path difference there. On either side are a few coloured fringes: in each order, blue (small $\lambda$, small $\beta$) is nearest the centre and red farthest. After a few orders the colours overlap and the pattern fades to uniform white.
+:::
+
+**Long answer / numerical questions [8 marks each]**
+
+1. (a) Define interference and state the conditions for a sustained pattern. [2] (b) Derive the fringe width in Young's double-slit experiment. [3] (c) In such an experiment with $d = 0.30\ \text{mm}$ and $D = 1.5\ \text{m}$ the fringe width is $2.0\ \text{mm}$. Find $\lambda$, and the fringe width when the apparatus is immersed in a liquid of refractive index $1.25$. [3] <span class="marks">[8]</span>
+2. (a) Derive the expression for the resultant intensity in two-beam interference. [3] (b) Show that the average intensity equals the sum of the two separate intensities. [2] (c) A thin transparent sheet of thickness $t$ and refractive index $\mu$ is placed over one slit; by how many fringes does the pattern shift? [3] <span class="marks">[8]</span>
+
+::: note Model answers — long
+**1.** (a) **Interference** is the superposition of two coherent waves to give a stable pattern of maxima and minima of intensity. **Conditions:** the sources must be coherent; the amplitudes should be nearly equal for good contrast; the slit separation must be small compared with the distance to the screen; and the light should be nearly monochromatic.
+
+(b) See short answer 2: $\beta = \lambda D/d$.
+
+(c) 
+$$ \lambda = \frac{\beta d}{D} = \frac{2.0\times10^{-3}\times0.30\times10^{-3}}{1.5} = 4.0\times10^{-7}\ \text{m} = 400\ \text{nm} $$
+$$ \beta' = \frac{\beta}{\mu} = \frac{2.0}{1.25} = 1.6\ \text{mm} $$
+
+**2.** (a) Let the two waves at $P$ be $y_1 = a_1\sin\omega t$ and $y_2 = a_2\sin(\omega t+\phi)$. Their sum is $R\sin(\omega t+\delta)$ with
+$$ R^{2} = a_1^{2}+a_2^{2}+2a_1a_2\cos\phi $$
+(from the phasor triangle). Intensity is proportional to the amplitude squared, so
+$$ I = I_1+I_2+2\sqrt{I_1I_2}\cos\phi $$
+For $I_1 = I_2 = I_0$: $I = 2I_0(1+\cos\phi) = 4I_0\cos^{2}(\phi/2)$.
+
+(b) The average of $\cos\phi$ over the pattern is zero, so $\bar{I} = I_1+I_2$ ($= 2I_0$): energy is redistributed from the dark to the bright regions, not created or destroyed.
+
+(c) The sheet adds an extra optical path $(\mu-1)t$ to that slit. The central bright fringe, where the total path difference is zero, moves towards the covered slit to the point where the geometrical path difference cancels the extra path. The shift, in fringes, is
+$$ \text{number of fringes shifted} = \frac{(\mu-1)t}{\lambda} $$
+:::
+
+::: tip Examiner's note — Interference
+In the fringe-width derivation the marks are for **path difference $\approx yd/D$**, the **bright and dark conditions**, and the statement that the spacing is **independent of $n$**; the last of these answers "show the fringes are equally spaced". Give both the $I = 4I_0\cos^{2}(\phi/2)$ form and the limiting values $4I_0$ and $0$. Do not say that energy is destroyed at dark fringes.
+:::
+
+## 3.12 Diffraction
+
+CDC allots **3 teaching hours**. A grating numerical appears in almost every paper (2079 model, 2080, 2081, 2082); single-slit theory and resolving power are the usual other parts.
+
+**Short answer questions [5 marks each]**
+
+1. (a) A diffraction grating has $6000$ lines per cm. Find the angle of the second-order maximum for light of wavelength $5890\ \text{Å}$. [2] (b) Is a third-order maximum possible? [1] (c) Define diffraction. [2] <span class="marks">[5]</span> (NEB 2081)
+2. A grating of $500$ lines per mm gives the second-order maximum at $30^{\circ}$. Find the wavelength of the light. [3] (b) Why do the maxima of a grating appear sharper than the fringes of a double slit? [2] <span class="marks">[5]</span> (NEB 2082)
+3. Green light of wavelength $546\ \text{nm}$ falls on a grating of $3000$ lines per cm. (a) Find the angle of the second-order maximum. [2] (b) Which gives a more accurate measurement of wavelength, a double slit of $0.50\ \text{mm}$ or this grating, and why? [2] (c) State the condition for the highest order. [1] <span class="marks">[5]</span> (NEB 2079 model, part)
+4. (a) Explain diffraction at a single slit and derive the condition for the minima. [3] (b) Find the width of the central maximum on a screen $1.0\ \text{m}$ away for a slit of $0.20\ \text{mm}$ and light of $600\ \text{nm}$. [2] <span class="marks">[5]</span>
+5. (a) State the Rayleigh criterion for the resolution of two point sources. [2] (b) Find the minimum angular separation resolved by a telescope objective of diameter $10\ \text{cm}$ for $550\ \text{nm}$ light. [2] (c) How can the resolving power be increased? [1] <span class="marks">[5]</span>
+
+::: note Model answers — short
+**1.** (a) The grating spacing is $d = \dfrac{1}{6000}\ \text{cm} = 1.667\times10^{-6}\ \text{m}$ and $\lambda = 5890\ \text{Å} = 5.89\times10^{-7}\ \text{m}$. For the $n$th maximum $d\sin\theta = n\lambda$:
+$$ \sin\theta_2 = \frac{2\lambda}{d} = \frac{2\times5.89\times10^{-7}}{1.667\times10^{-6}} = 0.707\ \Rightarrow\ \theta_2 = 45^{\circ} $$
+(b) For $n = 3$, $\sin\theta_3 = 3\lambda/d = 1.06>1$, which is impossible: **the third order cannot be observed**. The highest order satisfies $n<d/\lambda = 2.8$, i.e. $n = 2$.
+
+(c) **Diffraction** is the bending of light around the edges of an obstacle or through a narrow aperture, spreading it into the geometrical shadow and producing a pattern of bright and dark fringes; it is marked when the size of the obstacle or aperture is comparable with the wavelength.
+
+**2.** (a) $d = \dfrac{1}{500}\ \text{mm} = 2.0\times10^{-6}\ \text{m}$; $n = 2$, $\theta = 30^{\circ}$:
+$$ \lambda = \frac{d\sin\theta}{n} = \frac{2.0\times10^{-6}\times0.5}{2} = 5.0\times10^{-7}\ \text{m} = 500\ \text{nm} $$
+(b) A grating has a very large number $N$ of slits. For a direction slightly away from a principal maximum the waves from the $N$ slits have phases spread right round the cycle and cancel almost exactly, so each principal maximum is narrow and bright; a double slit has only two sources, so its fringes are broad and of gradually varying intensity.
+
+**3.** (a) $d = \dfrac{1}{3000}\ \text{cm} = 3.33\times10^{-6}\ \text{m}$:
+$$ \sin\theta_2 = \frac{2\times546\times10^{-9}}{3.33\times10^{-6}} = 0.328\ \Rightarrow\ \theta_2 = 19.1^{\circ} $$
+(b) The **grating**. The maxima are far apart (angles measured to a fraction of a degree, not fringes of $0.9\ \text{mm}$ read with a ruler), sharp and bright, and $\lambda = d\sin\theta/n$ involves directly measured angles. In the double slit, $\beta = 0.87\ \text{mm}$ is small and has a fractional reading error several times larger.
+
+(c) The highest order obeys $n<d/\lambda$ because $\sin\theta\leq 1$.
+
+**4.** (a) A single slit of width $a$ is lit by a plane wavefront. Each point in the slit is a source of secondary wavelets. In a direction $\theta$ the paths from the two edges differ by $a\sin\theta$. If $a\sin\theta = \lambda$, divide the slit into two halves: for every point in the top half there is a point in the bottom half $a/2$ away whose wavelet is half a wavelength out of phase, so they cancel in pairs. The same holds for $a\sin\theta = n\lambda$:
+$$ a\sin\theta = n\lambda,\quad n = 1, 2, 3,\dots\ \text{(minima)} $$
+The central maximum lies between the first minima at $\theta = \pm\lambda/a$.
+
+(b) Width of the central maximum $= 2\lambda D/a = \dfrac{2\times600\times10^{-9}\times1.0}{0.20\times10^{-3}} = 6.0\times10^{-3}\ \text{m} = 6.0\ \text{mm}$.
+
+**5.** (a) **Rayleigh criterion:** two point sources are just resolved when the central maximum of the diffraction pattern of one falls on the first minimum of the pattern of the other; for a circular aperture of diameter $D$ the minimum angular separation is $\theta_{min} = 1.22\,\lambda/D$.
+
+(b) 
+$$ \theta_{min} = \frac{1.22\times550\times10^{-9}}{0.10} = 6.7\times10^{-6}\ \text{rad} $$
+(c) Increase the diameter $D$ of the objective, or use light of shorter wavelength (as in the electron microscope, where $\lambda$ is about $10^{-11}\ \text{m}$).
+:::
+
+**Long answer / numerical questions [8 marks each]**
+
+1. (a) Describe and explain the diffraction pattern of a single slit, giving the intensity distribution qualitatively. [3] (b) Derive the condition for the first minimum and for the secondary maxima (approximately). [3] (c) A slit of width $0.10\ \text{mm}$ is lit by $500\ \text{nm}$ light; find the angular width of the central maximum. [2] <span class="marks">[8]</span>
+2. (a) Explain the action of a plane transmission diffraction grating and derive $(a+b)\sin\theta = n\lambda$. [4] (b) A grating has $5000$ lines per cm. Find the angular positions of the first and second order for $600\ \text{nm}$ and the maximum order. [3] (c) What is seen if white light is used? [1] <span class="marks">[8]</span> (NEB 2080, data)
+
+::: note Model answers — long
+**1.** (a) Light from a narrow slit, instead of forming a sharp image, spreads out into a **broad bright central maximum** flanked by much weaker, narrower secondary maxima, separated by dark minima. The central band is twice as wide as each secondary one, and most of the energy is in it. The narrower the slit, the wider the pattern.
+
+(b) The path difference between the edge rays is $a\sin\theta$. For the **first minimum**, $a\sin\theta = \lambda$: the slit divides into two halves whose wavelets cancel in pairs. The general minima are $a\sin\theta = n\lambda$. Secondary maxima lie approximately midway between successive minima, at
+$$ a\sin\theta\approx\left(n+\tfrac12\right)\lambda,\quad n = 1, 2,\dots $$
+and are of rapidly decreasing intensity ($4.5\%$, $1.6\%$, … of the central one).
+
+(c) First minimum: $\sin\theta = \lambda/a = 5.0\times10^{-7}/1.0\times10^{-4} = 5.0\times10^{-3}$, so $\theta = 5.0\times10^{-3}\ \text{rad}$. The angular width of the central maximum is
+$$ 2\theta = 1.0\times10^{-2}\ \text{rad} = 0.57^{\circ} $$
+
+**2.** (a) A **plane transmission grating** is a glass plate ruled with a great many parallel, equally spaced opaque lines: the width of each transparent slit is $a$, of each opaque line $b$, so the grating spacing is $d = a+b$. A parallel beam falls normally on it. In a direction $\theta$ the rays from corresponding points of adjacent slits differ in path by $(a+b)\sin\theta$. They reinforce in every slit of the grating when this equals a whole number of wavelengths:
+$$ (a+b)\sin\theta = n\lambda,\quad n = 0, 1, 2,\dots $$
+These are the principal maxima; $n = 0$ is the undeviated central image.
+
+(b) $d = \dfrac{1}{5000}\ \text{cm} = 2.0\times10^{-6}\ \text{m}$.
+$$ \sin\theta_1 = \frac{600\times10^{-9}}{2.0\times10^{-6}} = 0.30\ \Rightarrow\ \theta_1 = 17.5^{\circ} $$
+$$ \sin\theta_2 = 0.60\ \Rightarrow\ \theta_2 = 36.9^{\circ} $$
+The maximum order: $n<d/\lambda = 3.3$, so $n_{max} = 3$ (at $\sin\theta_3 = 0.90$, $\theta_3 = 64.2^{\circ}$).
+
+(c) White light gives a white central image ($n = 0$) and on either side a series of spectra in which violet is nearest the centre and red farthest (because $\sin\theta\propto\lambda$); higher orders overlap.
+:::
+
+::: tip Examiner's note — Diffraction
+In grating numericals the first step is **$d = 1/N$ in metres** ($N$ in lines per metre): $6000\ \text{lines/cm} = 6\times10^{5}\ \text{lines/m}$. Always test whether the order asked for is possible: if $n\lambda/d>1$ the order does not exist, and the question "is the third order possible?" is worth a mark on its own. For single-slit work, remember that the given formula $a\sin\theta = n\lambda$ is for **minima**, not maxima — the classic confusion with the double slit and grating.
+:::
+
+## 3.13 Polarization
+
+CDC allots **3 teaching hours**. Brewster's law has been asked with proof (2082) and as a numerical for water (2079 model); the sunglasses question of 2079 is a typical application.
+
+**Short answer questions [5 marks each]**
+
+1. (a) What is polarization of light? [1] (b) How can you tell a polaroid sunglass from an ordinary tinted one? [1] (c) What does polarization prove about the nature of light? [1] (d) Name two uses of polaroids. [2] <span class="marks">[5]</span> (NEB 2079 model, part)
+2. (a) State Brewster's law. [1] (b) Find the angle of incidence at which light reflected from water ($\mu = 1.3$) is completely plane polarized. [2] (c) What is the angle of refraction then? [2] <span class="marks">[5]</span> (NEB 2079 model, part)
+3. State and prove Brewster's law. [5] (NEB 2082)
+4. (a) State Malus' law. [1] (b) Unpolarized light of intensity $I_0$ falls on two polaroids whose axes are at $60^{\circ}$; find the final intensity. [2] (c) What happens when the axes are crossed? [2] <span class="marks">[5]</span>
+5. (a) Explain, with a diagram, how the transverse nature of light is shown by two tourmaline crystals. [3] (b) Why can sound waves not be polarized? [2] <span class="marks">[5]</span>
+
+::: note Model answers — short
+**1.** (a) **Polarization** is the restriction of the vibrations of the electric vector of a transverse wave to a single plane (plane of vibration), perpendicular to the direction of travel.
+
+(b) Look at glare (reflection from water or a road) through one lens and rotate the lens, or hold one pair of glasses in front of another and rotate it: polaroid lenses darken to almost black at $90^{\circ}$; ordinary tinted glass shows no change in transmitted light.
+
+(c) Only transverse waves can be polarized, so the phenomenon shows that light is a **transverse** wave.
+
+(d) Polaroid sunglasses (cut glare), camera filters, liquid-crystal displays, 3-D cinema glasses, stress analysis of transparent models.
+
+**2.** (a) **Brewster's law:** the tangent of the polarizing angle $i_p$ of a transparent medium is equal to its refractive index: $\tan i_p = \mu$.
+
+(b) 
+$$ i_p = \tan^{-1}(1.3) = 52.4^{\circ} $$
+(c) At $i_p$, reflected and refracted rays are perpendicular, so $r = 90^{\circ}-i_p = 37.6^{\circ}$. Check: $\sin52.4^{\circ}/\sin37.6^{\circ} = 0.792/0.610 = 1.30$.
+
+**3.** **Brewster's law:** $\tan i_p = \mu$. **Proof:** at the polarizing angle the reflected ray is completely polarized and is perpendicular to the refracted ray, so
+$$ i_p+r = 90^{\circ} $$
+Snell's law: $\mu = \dfrac{\sin i_p}{\sin r}$. With $r = 90^{\circ}-i_p$, $\sin r = \cos i_p$, so
+$$ \mu = \frac{\sin i_p}{\cos i_p} = \tan i_p $$
+**Why the rays are perpendicular:** the reflected light is re-radiated by electrons in the glass that are set vibrating by the refracted wave. For the component with its electric vector in the plane of incidence, these electrons vibrate perpendicular to the refracted ray. If the reflected ray were *along* that direction of vibration (which happens exactly when the reflected and refracted rays are perpendicular), no light could be radiated that way, because an oscillating charge does not radiate along its own axis. Only the component vibrating perpendicular to the plane of incidence is reflected, so the reflected light is completely plane polarized.
+
+**4.** (a) **Malus' law:** the intensity of plane-polarized light transmitted by an analyser is $I = I_0\cos^{2}\theta$, where $\theta$ is the angle between the polarization direction of the light and the axis of the analyser.
+
+(b) The first polaroid passes half: $I_1 = I_0/2$. The second, at $60^{\circ}$: 
+$$ I_2 = I_1\cos^{2}60^{\circ} = \frac{I_0}{2}\times\frac14 = \frac{I_0}{8} $$
+(c) With crossed axes, $\theta = 90^{\circ}$ and $I = 0$: no light gets through.
+
+**5.** (a) Light from a source passes through a tourmaline crystal $T_1$ (the polarizer) and then a second crystal $T_2$ (the analyser), with their axes initially parallel: light emerges from both. When $T_2$ is rotated about the beam, the emergent light dims, becoming zero when the axes are at $90^{\circ}$, and brightens again at $180^{\circ}$. This behaviour is possible only if the vibrations are perpendicular to the direction of travel — if light were longitudinal, rotation about the beam's axis would not matter by symmetry.
+
+(b) Sound in air is **longitudinal**: the particles vibrate along the direction of propagation, so every direction perpendicular to it is equivalent, and there is no plane of vibration that could be selected.
+:::
+
+**Long answer / numerical questions [8 marks each]**
+
+1. (a) Distinguish unpolarized, plane polarized and partially polarized light. [2] (b) State and prove Brewster's law. [3] (c) Find the polarizing angle for glass of refractive index $1.52$ and the angle of refraction. [2] (d) What is seen on looking at the reflected light through a rotating polaroid? [1] <span class="marks">[8]</span>
+2. (a) Explain polarization by a polaroid and state Malus' law. [3] (b) Unpolarized light of intensity $I_0$ passes through a polarizer and then an analyser at $45^{\circ}$; find the emergent intensity. [2] (c) A third polaroid is inserted between two crossed polaroids at $45^{\circ}$ to each; find the transmitted fraction of the original unpolarized intensity. [3] <span class="marks">[8]</span>
+
+::: note Model answers — long
+**1.** (a) **Unpolarized** light has vibrations in all directions perpendicular to the ray (ordinary sunlight). **Plane polarized** light has vibrations in one plane only. **Partially polarized** light has a preference for one plane but with some vibrations in other planes (light reflected at any angle other than $i_p$).
+
+(b) See short answer 3: $\tan i_p = \mu$ follows from $i_p+r = 90^{\circ}$ and Snell's law.
+
+(c) 
+$$ i_p = \tan^{-1}(1.52) = 56.7^{\circ},\qquad r = 90^{\circ}-56.7^{\circ} = 33.3^{\circ} $$
+(d) At $i_p$ the reflected light is completely plane polarized: through the rotating polaroid it goes from bright to extinction twice per full turn.
+
+**2.** (a) A **polaroid** is a sheet containing long molecular chains aligned in one direction (for example iodoquinine sulfate crystals or stretched polyvinyl alcohol doped with iodine); the chains absorb light whose electric vector is along the chain and transmit the component perpendicular to it. Unpolarized light is thus turned into plane polarized light with half the intensity. **Malus' law:** $I = I_0\cos^{2}\theta$ (defined in short answer 4).
+
+(b) After the polarizer, $I_1 = I_0/2$. After the analyser at $45^{\circ}$,
+$$ I_2 = \frac{I_0}{2}\cos^{2}45^{\circ} = \frac{I_0}{4} $$
+(c) After the first polaroid: $I_0/2$. After the middle polaroid at $45^{\circ}$ to the first: $\frac{I_0}{2}\cos^{2}45^{\circ} = I_0/4$. The third is at $45^{\circ}$ to the second: $\frac{I_0}{4}\cos^{2}45^{\circ} = I_0/8$. The transmitted fraction is $1/8 = 12.5\%$ — whereas with *no* middle polaroid the two crossed polaroids transmit nothing.
+:::
+
+::: tip Examiner's note — Polarization
+In the proof of Brewster's law, **state the perpendicularity of the reflected and refracted rays** as the starting point: the marks are for this condition, the use of Snell's law and $\sin r = \cos i_p$. For Malus' law, remember the first polaroid always halves *unpolarized* light; only afterwards does $\cos^{2}\theta$ apply. A sketch of the two tourmaline crystals or the reflecting surface with the two perpendicular rays gives the diagram mark.
+:::
+
+## 3.14 Electrical circuits
+
+CDC allots **6 teaching hours**. The Wheatstone bridge and meter bridge (2079 model), the potentiometer (2078, 2079 model, 2081, 2082) and the conversion of a galvanometer to an ammeter or voltmeter (2081) make this one of the most reliably examined units in Electricity.
+
+**Short answer questions [5 marks each]**
+
+1. (a) State Kirchhoff's two laws. [2] (b) Using them, derive the balance condition of a Wheatstone bridge. [3] <span class="marks">[5]</span> (NEB 2082)
+2. (a) State the principle of the potentiometer and explain why it is called a voltmeter of infinite resistance. [1+1] (b) In a meter bridge the balance point is at $20\ \text{cm}$. The two resistances are doubled and then interchanged; where is the new balance point? [2] (c) If the galvanometer and the battery are interchanged, how is the balance point affected? [1] <span class="marks">[5]</span> (NEB 2079 model)
+3. In a meter bridge the null point is at $60.0\ \text{cm}$ from end $A$ with $R$ in the left gap and $S$ in the right. When $5\ \Omega$ is connected in series with $S$, the null point moves to $50.0\ \text{cm}$. Find $R$ and $S$. [5] (NEB 2079 model)
+4. (a) Derive the expression for the internal resistance of a cell using a potentiometer. [3] (b) A cell balances at $75\ \text{cm}$ on open circuit and at $60\ \text{cm}$ when a $10\ \Omega$ resistor is connected across it; find its internal resistance. [2] <span class="marks">[5]</span> (NEB 2081)
+5. (a) How is a moving-coil galvanometer converted into an ammeter? [2] (b) A galvanometer of resistance $50\ \Omega$ gives full-scale deflection for $5\ \text{mA}$; find the shunt to read $1\ \text{A}$. [3] <span class="marks">[5]</span> (NEB 2081, part)
+6. (a) How is a galvanometer converted into a voltmeter? [2] (b) Find the series resistance needed to make a $10\ \text{V}$ voltmeter from a galvanometer of $100\ \Omega$ and $1\ \text{mA}$. [3] <span class="marks">[5]</span>
+7. (a) State Joule's law of heating. [1] (b) What are superconductors, and how do they differ from perfect conductors? [2] (c) Describe an ohmmeter briefly. [2] <span class="marks">[5]</span>
+8. A standard cell of $1.50\ \text{V}$ is balanced at $37.5\ \text{cm}$ on a potentiometer wire and a test cell at $25.0\ \text{cm}$. (a) Find the e.m.f. of the test cell. [2] (b) Why is the potentiometer more precise than an ordinary voltmeter? [2] (c) Why is the wire made of manganin? [1] <span class="marks">[5]</span> (NEB 2078, part)
+
+::: note Model answers — short (1–4)
+**1.** (a) **Junction (current) law:** the algebraic sum of the currents at a junction is zero, $\sum I = 0$ — charge does not accumulate (conservation of charge). **Loop (voltage) law:** the algebraic sum of the e.m.f.s in any closed loop equals the sum of the products $IR$ round it, $\sum\mathcal{E} = \sum IR$, i.e. the net change of potential round a closed loop is zero (conservation of energy).
+
+(b) In the Wheatstone bridge four resistors $P, Q, R, S$ form a quadrilateral $ABCD$ with the battery across $A$–$C$ and the galvanometer across $B$–$D$. At balance the galvanometer current is zero, so the same current $I_1$ flows in $P$ and $Q$, and $I_2$ in $R$ and $S$. The loop law for $ABDA$ (potential of $B$ equals that of $D$) gives
+$$ I_1P = I_2R $$
+and for $BCDB$
+$$ I_1Q = I_2S $$
+Dividing,
+$$ \frac{P}{Q} = \frac{R}{S} $$
+
+**2.** (a) **Principle:** when a steady current flows through a wire of uniform cross-section, the potential difference between two points is proportional to the length of wire between them. A potentiometer compares or measures voltages by balancing them against this known fall along the wire. **Voltmeter of infinite resistance:** at the balance point no current flows in the cell (or circuit) being measured, so its terminal voltage equals its e.m.f. — unlike a voltmeter, which draws some current and reads less than the e.m.f.
+
+(b) At balance $\dfrac{R}{X} = \dfrac{l}{100-l} = \dfrac{20}{80} = \dfrac14$. Doubling both keeps the ratio $\tfrac14$, so the balance point does not move. Interchanging them inverts the ratio:
+$$ \frac{l'}{100-l'} = 4\ \Rightarrow\ l' = 80\ \text{cm} $$
+(c) The balance point is **unaffected**: the Wheatstone bridge condition $P/Q = R/S$ is symmetric with respect to the battery and galvanometer positions. (It is more sensitive with the more convenient arrangement, but the null point is the same.)
+
+**3.** Let the ratio of resistances be in proportion to the wire lengths: $R/S = l/(100-l)$.
+$$ \frac{R}{S} = \frac{60}{40} = 1.5\ \Rightarrow\ R = 1.5S $$
+After adding $5\ \Omega$ to $S$:
+$$ \frac{R}{S+5} = \frac{50}{50} = 1\ \Rightarrow\ R = S+5 $$
+Equating, $1.5S = S+5$, so $S = 10\ \Omega$ and $R = 15\ \Omega$.
+
+**4.** (a) A cell of e.m.f. $E$ and internal resistance $r$ is balanced on the potentiometer wire: on open circuit at length $l_1$, so $E = kl_1$ ($k$ is the potential gradient). Then a resistance $R$ is connected across the cell. A current $I = E/(R+r)$ flows and the terminal voltage $V = IR$ balances at length $l_2$: $V = kl_2$. Dividing,
+$$ \frac{E}{V} = \frac{l_1}{l_2} = \frac{R+r}{R} $$
+$$ r = R\left(\frac{l_1-l_2}{l_2}\right) $$
+(b) 
+$$ r = 10\times\frac{75-60}{60} = 2.5\ \Omega $$
+
+:::
+
+::: note Model answers — short (5–8)
+**5.** (a) A low-resistance **shunt** $S$ is connected in **parallel** with the galvanometer. Most of the current bypasses the coil and only the fraction it can stand flows through it; the scale is recalibrated. The combined resistance is very small, so the ammeter disturbs the circuit very little.
+
+(b) The galvanometer carries $I_g = 5\ \text{mA}$ and the shunt $I-I_g = 1-0.005 = 0.995\ \text{A}$ at the same potential difference:
+$$ I_gG = (I-I_g)S\ \Rightarrow\ S = \frac{I_gG}{I-I_g} = \frac{0.005\times50}{0.995} = 0.25\ \Omega $$
+
+**6.** (a) A high resistance $R$ is connected in **series** with the galvanometer. The current stays within $I_g$ up to the maximum voltage $V$, and the scale is calibrated in volts. The high resistance means the voltmeter draws little current from the circuit.
+
+(b) 
+$$ V = I_g(G+R)\ \Rightarrow\ R = \frac{V}{I_g}-G = \frac{10}{1.0\times10^{-3}}-100 = 9900\ \Omega $$
+
+**7.** (a) **Joule's law:** the heat produced in a conductor in time $t$ is $H = I^{2}Rt$ — proportional to the square of the current, to the resistance and to the time.
+
+(b) A **superconductor** is a material whose resistance drops to exactly zero below a critical temperature $T_c$ (for example mercury at $4.2\ \text{K}$). Unlike a *perfect conductor* (only zero resistance), it also expels magnetic field from its interior, the Meissner effect, and this persists if the field is applied before or after cooling. Uses: powerful electromagnets in MRI, maglev trains, lossless transmission.
+
+(c) An **ohmmeter** has a galvanometer in series with a cell and a variable resistor. With the terminals shorted the galvanometer gives full-scale deflection (marked $0\ \Omega$) after adjusting the resistor; with the terminals open there is no deflection ($\infty$). An unknown resistance joined between the terminals reduces the current in proportion, so the scale can be marked in ohms; it is non-linear and crowded at the high end.
+
+**8.** (a) $E_1/E_2 = l_1/l_2$, so
+$$ E_2 = E_1\frac{l_2}{l_1} = 1.50\times\frac{25.0}{37.5} = 1.00\ \text{V} $$
+(b) At the balance point **no current** is drawn from the cell, so the reading is the true e.m.f. and is independent of the cell's internal resistance; a voltmeter draws current and reads less. The reading is obtained as a ratio of *lengths*, which can be measured very precisely, and needs no calibrated meter scale.
+
+(c) Manganin has a **high resistivity** (so a long, thin wire fits in a short length) and a **very small temperature coefficient of resistance**, so the potential gradient stays steady as the wire warms.
+:::
+
+**Long answer / numerical questions [8 marks each]**
+
+1. (a) Describe the meter bridge and derive the expression for an unknown resistance. [4] (b) Why is it best to have the balance point near the middle? [1] (c) A $4.0\ \Omega$ resistor is in the left gap and the null point is at $40.0\ \text{cm}$; find the unknown resistance in the right gap, and the new null point if the two resistors are interchanged. [3] <span class="marks">[8]</span>
+2. (a) Explain with a circuit diagram how a potentiometer is used to compare the e.m.f.s of two cells. [4] (b) Derive the ratio. [2] (c) A potentiometer wire $10\ \text{m}$ long carries a steady $0.20\ \text{A}$ and has resistance $20\ \Omega$; what is the potential gradient? [2] <span class="marks">[8]</span>
+3. (a) Explain how a moving-coil galvanometer is converted into (i) an ammeter and (ii) a voltmeter. [4] (b) A galvanometer of $30\ \Omega$ gives full-scale deflection at $10\ \text{mA}$. Find the shunt for a $0$–$3\ \text{A}$ range and the series resistor for a $0$–$30\ \text{V}$ range. [4] <span class="marks">[8]</span>
+
+::: note Model answers — long
+**1.** (a) The **meter bridge** is a practical Wheatstone bridge: a uniform wire $AC$ of length $100\ \text{cm}$ is stretched along a metre scale, with a known resistance $R$ in the left gap and the unknown $X$ in the right gap of a copper strip; a battery is across $AC$ and a galvanometer connected between the junction $B$ of $R$ and $X$ and a sliding jockey $J$ on the wire. The jockey is moved until the galvanometer shows no deflection, at distance $l$ from $A$. The resistances of the wire lengths are proportional to lengths, so
+$$ \frac{R}{X} = \frac{l}{100-l}\ \Rightarrow\ X = R\,\frac{100-l}{l} $$
+(b) Near the middle the bridge is most sensitive and the percentage error in $(100-l)/l$ from a fixed error in reading $l$ is smallest.
+
+(c) $X = 4.0\times\dfrac{100-40}{40} = 6.0\ \Omega$. After interchanging, the left gap holds $6.0\ \Omega$ and the right $4.0\ \Omega$:
+$$ \frac{l'}{100-l'} = \frac{6.0}{4.0} = 1.5\ \Rightarrow\ l' = 60\ \text{cm} $$
+
+**2.** (a) A potentiometer wire $AB$ of uniform cross-section is connected in series with a driver cell (steady current) and a key. The positive terminals of the two cells $E_1, E_2$ are joined to $A$; their negative terminals go through a galvanometer and a two-way switch to a sliding jockey $J$ (circuit in the figure below). With $E_1$ connected, slide $J$ until the galvanometer shows zero deflection; note the length $l_1$. Repeat with $E_2$ to get $l_2$.
+
+(b) With potential gradient $k$ (volts per unit length) along the wire,
+$$ E_1 = kl_1,\qquad E_2 = kl_2\ \Rightarrow\ \frac{E_1}{E_2} = \frac{l_1}{l_2} $$
+The driver e.m.f. must exceed both cell e.m.f.s and the current must stay constant.
+
+(c) The potential difference across the wire is $V = IR = 0.20\times20 = 4.0\ \text{V}$; the gradient is
+$$ k = \frac{V}{L} = \frac{4.0}{10} = 0.40\ \text{V m}^{-1} $$
+
+**3.** (a) (i) **Ammeter:** a small shunt resistance $S$ in parallel with the galvanometer of resistance $G$ diverts the excess current, so that only $I_g$ goes through the coil when the total current is $I$: $S = I_gG/(I-I_g)$. The resulting resistance $GS/(G+S)$ is smaller than $S$. (ii) **Voltmeter:** a large resistance $R$ in series limits the current to $I_g$ at the full-scale voltage $V$: $R = V/I_g-G$. The resulting resistance $G+R$ is very large.
+
+(b) Shunt: $S = \dfrac{I_gG}{I-I_g} = \dfrac{0.010\times30}{3.0-0.010} = 0.10\ \Omega$. Series resistor: $R = \dfrac{V}{I_g}-G = \dfrac{30}{0.010}-30 = 2970\ \Omega$.
+:::
+
+```figure caption="Potentiometer circuit for comparing e.m.f.s. The driver cell sends a steady current through wire AB. Cell E₁ or E₂ (chosen by a two-way switch, shown as one cell) is joined, through the galvanometer G, to the jockey J, which is slid along AB until G reads zero."
+import matplotlib.pyplot as plt
+from matplotlib.patches import Circle
+fig, ax = plt.subplots(figsize=(4.8, 2.9))
+ax.set_xlim(0, 10); ax.set_ylim(0, 6.2); ax.axis('off')
+ax.plot([1.0, 9.0], [3.9, 3.9], color=INK, lw=3.2)
+ax.text(0.85, 4.05, 'A', fontsize=9, ha='right', va='bottom', color=INK)
+ax.text(9.15, 4.05, 'B', fontsize=9, ha='left', va='bottom', color=INK)
+ax.plot([1.0, 1.0, 4.3], [3.9, 5.5, 5.5], color=INK, lw=1.2)
+ax.plot([5.0, 9.0, 9.0], [5.5, 5.5, 3.9], color=INK, lw=1.2)
+ax.plot([4.3, 4.3], [5.25, 5.75], color=INK, lw=2.4)
+ax.plot([5.0, 5.0], [5.38, 5.62], color=INK, lw=1.2)
+ax.text(4.65, 5.95, 'driver cell', fontsize=8, ha='center', color=MUTED)
+ax.plot([1.0, 1.0, 2.6], [3.9, 1.3, 1.3], color=INK, lw=1.2)
+ax.plot([3.2, 5.3], [1.3, 1.3], color=INK, lw=1.2)
+ax.plot([2.6, 2.6], [1.05, 1.55], color=INK, lw=2.4)
+ax.plot([3.2, 3.2], [1.18, 1.42], color=INK, lw=1.2)
+ax.text(2.9, 0.55, '$E_1$ or $E_2$', fontsize=8.5, ha='center', color=INK)
+ax.add_patch(Circle((5.7, 1.3), 0.4, fc='white', ec=INK, lw=1.3))
+ax.text(5.7, 1.3, 'G', fontsize=9, ha='center', va='center', color=INK)
+ax.plot([6.1, 7.3, 7.3], [1.3, 1.3, 3.0], color=INK, lw=1.2)
+ax.annotate('', xy=(7.3, 3.85), xytext=(7.3, 3.0), arrowprops=dict(arrowstyle='-|>', color=INK, lw=1.0))
+ax.text(7.5, 3.3, 'J', fontsize=9, color=INK)
+```
+
+::: tip Examiner's note — Electrical circuits
+For the Wheatstone bridge, **apply the loop law to two loops** and divide: that is the proof the examiner wants, not a quoted formula. In meter-bridge numericals, always write $X = R(100-l)/l$ with **$l$ measured from the end where $R$ is**. For a potentiometer the two marks are "no current at balance" and "ratio of lengths". In the conversion of a galvanometer, remember the ammeter *shunt is in parallel and small*, the voltmeter *resistor is in series and large*; and always state the full-scale current $I_g$ being used.
+:::
+
+## 3.15 Thermoelectric effects
+
+CDC allots **3 teaching hours**. The neutral and inversion temperatures are examined in a Group A item nearly every year, and a full Group B question (2080) and a Group C alternative (2082) have asked for the $e$–$\theta$ graph.
+
+**Short answer questions [5 marks each]**
+
+1. (a) What is the thermoelectric effect? [1] (b) Define neutral temperature and inversion temperature. [2] (c) What happens to the inversion temperature if the cold junction is moved from $0\ ^{\circ}\text{C}$ to $-10\ ^{\circ}\text{C}$? [1] (d) Give one application of a thermocouple. [1] <span class="marks">[5]</span> (NEB 2080)
+2. (a) Sketch and explain the variation of thermo-e.m.f. with the temperature of the hot junction. [3] (b) Write the empirical equation and deduce the neutral temperature. [2] <span class="marks">[5]</span> (NEB 2082, part)
+3. A thermocouple has a neutral temperature of $500\ ^{\circ}\text{C}$ with its cold junction at $0\ ^{\circ}\text{C}$. By what percentage does the inversion temperature change when the cold junction is raised to $20\ ^{\circ}\text{C}$? [5] <span class="marks">[5]</span> (NEB 2079 model)
+4. A thermocouple has an inversion temperature of $600\ ^{\circ}\text{C}$ and a neutral temperature of $310\ ^{\circ}\text{C}$. (a) Find the temperature of the cold junction. [2] (b) What is the temperature of the cold junction if the neutral temperature is $320\ ^{\circ}\text{C}$ for the same inversion temperature? [1] (c) Explain why the neutral temperature is independent of the cold junction. [2] <span class="marks">[5]</span> (NEB 2081, 2082 model)
+5. (a) Explain the Peltier effect. [2] (b) How does it differ from Joule heating? [2] (c) Name one use. [1] <span class="marks">[5]</span>
+6. (a) What is a thermopile? [2] (b) Why is it more sensitive than a single thermocouple? [1] (c) For $e = 16\theta-0.04\theta^{2}\ \mu\text{V}$ find the neutral temperature and the maximum e.m.f. [2] <span class="marks">[5]</span>
+
+::: note Model answers — short
+**1.** (a) The **thermoelectric (Seebeck) effect:** when the two junctions of a closed circuit of two different metals are kept at different temperatures, an e.m.f. (and a current) appears in the circuit.
+
+(b) The **neutral temperature** $\theta_n$ is the temperature of the hot junction at which the thermo-e.m.f. is a maximum (the graph of $e$ against $\theta$ has zero slope there). The **inversion temperature** $\theta_i$ is the hot-junction temperature at which the thermo-e.m.f. falls back to zero and then reverses.
+
+(c) $\theta_i = 2\theta_n-\theta_c$, and $\theta_n$ is fixed. Lowering $\theta_c$ by $10\ ^{\circ}\text{C}$ **raises $\theta_i$ by $10\ ^{\circ}\text{C}$**.
+
+(d) Measuring temperatures (a thermocouple thermometer in furnaces, engines and laboratories), or detecting radiation in a thermopile; also thermoelectric generators.
+
+**2.** (a) With the cold junction at $0\ ^{\circ}\text{C}$, the thermo-e.m.f. first rises as the hot-junction temperature rises, reaches a **maximum** at $\theta_n$, then falls, reaching zero at $\theta_i$ and reversing beyond it. The curve is a **parabola** with its peak at $\theta_n$ and intercept at $\theta_i = 2\theta_n$ (figure below).
+
+(b) $e = a\theta+\tfrac12b\theta^{2}$ ($a>0$, $b<0$). At the maximum $de/d\theta = 0$: $a+b\theta_n = 0$, so
+$$ \theta_n = -\frac{a}{b} $$
+and $e = 0$ again at $\theta_i = -2a/b = 2\theta_n$ (for $\theta_c = 0$).
+
+**3.** With $\theta_c = 0$: $\theta_i = 2\theta_n-0 = 1000\ ^{\circ}\text{C}$. With $\theta_c = 20\ ^{\circ}\text{C}$, $\theta_n$ is unchanged: $\theta_i' = 2(500)-20 = 980\ ^{\circ}\text{C}$.
+$$ \text{change} = \frac{1000-980}{1000}\times100 = 2\% $$
+(a decrease of $2\%$).
+
+**4.** (a) $\theta_i = 2\theta_n-\theta_c$ so
+$$ \theta_c = 2\theta_n-\theta_i = 2(310)-600 = 20\ ^{\circ}\text{C} $$
+(b) $\theta_c = 2(320)-600 = 40\ ^{\circ}\text{C}$.
+
+(c) The e.m.f. for a pair of metals is a function $e = a(\theta_h-\theta_c)+\tfrac12b(\theta_h^{2}-\theta_c^{2})$. Its maximum with respect to $\theta_h$ is where $a+b\theta_h = 0$ — which does not contain $\theta_c$. Changing the cold junction changes the *size* of the e.m.f. but not the hot-junction temperature at which it peaks.
+
+**5.** (a) The **Peltier effect:** when a current flows across a junction of two different metals, heat is absorbed at the junction for one direction of the current and evolved for the other; this is because the electrons carry different energy in the two metals.
+
+(b) Joule heating $I^{2}R$ is **irreversible** (the heat is always evolved) and proportional to $I^{2}$; the Peltier heat is proportional to $I$ and **reversible**: reversing the current turns the heating at a junction into cooling.
+
+(c) Small thermoelectric coolers for portable refrigerators and for cooling electronic detectors.
+
+**6.** (a) A **thermopile** is a number of thermocouples connected in series, with all the "hot" junctions on one face and all the "cold" junctions on another; it is used to detect and measure radiant heat.
+
+(b) The e.m.f.s of the individual junction pairs add, so a given small rise of temperature gives several times the e.m.f. of a single couple, increasing sensitivity.
+
+(c) $de/d\theta = 16-0.08\theta = 0$ gives $\theta_n = 200\ ^{\circ}\text{C}$, and
+$$ e_{max} = 16(200)-0.04(200)^{2} = 3200-1600 = 1600\ \mu\text{V} $$
+The inversion temperature is $400\ ^{\circ}\text{C}$.
+:::
+
+**Long answer / numerical questions [8 marks each]**
+
+1. (a) Describe the Seebeck effect with a labelled diagram and name the factors on which the thermo-e.m.f. depends. [3] (b) Explain the graph of thermo-e.m.f. against hot-junction temperature and define $\theta_n$ and $\theta_i$. [3] (c) For a copper–iron couple the neutral temperature is $270\ ^{\circ}\text{C}$; find the inversion temperature when the cold junction is at $15\ ^{\circ}\text{C}$. [2] <span class="marks">[8]</span>
+2. (a) Explain the Peltier effect and show that Peltier heat is reversible. [3] (b) Describe how a thermopile works and one use. [3] (c) A thermocouple has $e = 12\theta-0.03\theta^{2}\ \mu\text{V}$ ($\theta$ in $^{\circ}\text{C}$, cold junction at $0\ ^{\circ}\text{C}$). Find $\theta_n$, $\theta_i$ and the e.m.f. at $100\ ^{\circ}\text{C}$. [2] <span class="marks">[8]</span>
+
+::: note Model answers — long
+**1.** (a) Two different metals, say copper and iron, are joined at two junctions to form a closed loop; one junction (hot) is kept at a higher temperature $\theta_h$ than the other (cold) $\theta_c$. A galvanometer in the circuit shows a current. The e.m.f. depends on (i) the **pair of metals** (their positions in the thermoelectric series — the farther apart, the larger the e.m.f.), (ii) the **temperatures of the two junctions**, and to first order on their difference.
+
+(b) With $\theta_c = 0\ ^{\circ}\text{C}$, raising $\theta_h$ increases $e$ roughly linearly at first; the rise slows, $e$ reaches a maximum at the neutral temperature $\theta_n$, then decreases, reaching zero at $\theta_i$, and reverses in sign above it. The parabola $e = a\theta+\tfrac12b\theta^{2}$ is symmetric about $\theta_n$. $\theta_n$ depends only on the metals; $\theta_i = 2\theta_n-\theta_c$ depends on $\theta_c$ too.
+
+(c) $\theta_i = 2(270)-15 = 525\ ^{\circ}\text{C}$.
+
+**2.** (a) See short answer 5. When current $I$ passes through a junction, the heat $\Pi I$ per second is absorbed or evolved, where $\Pi$ is the Peltier coefficient of the pair. Reversing $I$ changes the sign of $\Pi I$: heat absorbed becomes heat evolved. By contrast $I^{2}R$ does not change sign.
+
+(b) See short answer 6(a). When radiation falls on the blackened hot junctions, they warm relative to the cold junctions; the summed e.m.f. is measured with a galvanometer and is proportional to the radiation received. Used to measure the intensity of infrared and heat radiation, e.g. in radiometers and some infrared thermometers.
+
+(c) $\theta_n = -a/b = 12/0.06 = 200\ ^{\circ}\text{C}$ (from $12-0.06\theta = 0$), $\theta_i = 400\ ^{\circ}\text{C}$, and
+$$ e(100) = 12(100)-0.03(100)^{2} = 1200-300 = 900\ \mu\text{V} $$
+:::
+
+```figure caption="Thermo-e.m.f. of a thermocouple against the hot-junction temperature (cold junction at 0 °C). The e.m.f. peaks at the neutral temperature θn and falls to zero again at the inversion temperature θi = 2θn."
+import numpy as np, matplotlib.pyplot as plt
+fig, ax = plt.subplots(figsize=(4.4, 2.8))
+th = np.linspace(0, 440, 300)
+e = 16*th - 0.04*th**2
+ax.plot(th, e, color=ACCENT, lw=1.9)
+ax.axhline(0, color=INK, lw=0.9)
+ax.plot([200, 200], [0, 1600], color=MUTED, lw=1.0, ls='--')
+ax.plot([200], [1600], 'o', color=INK, ms=4)
+ax.annotate('maximum e.m.f.', (200, 1600), xytext=(255, 1790), fontsize=8.5, color=INK, va='center', arrowprops=dict(arrowstyle='-', color=MUTED, lw=0.8))
+ax.text(200, -330, '$\\theta_n$', ha='center', fontsize=9.5, color=INK)
+ax.text(400, -330, '$\\theta_i$', ha='center', fontsize=9.5, color=INK)
+ax.plot([400], [0], 'o', color=INK, ms=4)
+ax.set_xlabel('hot-junction temperature  $\\theta$ (°C)', fontsize=9)
+ax.set_ylabel('thermo-e.m.f.  $e$ (μV)', fontsize=9)
+ax.set_xticks([]); ax.set_yticks([])
+ax.set_xlim(0, 450); ax.set_ylim(-520, 1900)
+ax.spines[['top','right']].set_visible(False)
+```
+
+::: tip Examiner's note — Thermoelectric effects
+Do not define the neutral temperature as "the temperature at which the e.m.f. is zero" — that is the **inversion** temperature. The two formulae to have ready are $\theta_n = -a/b$ and $\theta_i = 2\theta_n-\theta_c$; nearly every numerical uses the second. Draw the parabola with the maximum at $\theta_n$ and the zero crossing at $\theta_i$. For the cold-junction question say explicitly that *only the inversion temperature shifts*.
+:::
+
+## 3.16 Magnetic field
+
+CDC allots **9 teaching hours** — the largest unit in Electricity and Magnetism. Biot–Savart and Ampère's law, the galvanometer, the Hall effect and the force between parallel currents account for a Group B or Group C question in every paper (2078, 2079 model, 2080, 2081, 2082).
+
+**Short answer questions [5 marks each]**
+
+1. (a) State the Biot–Savart law. [1] (b) Derive the magnetic field at the centre of a circular current-carrying coil. [3] (c) State the direction rule. [1] <span class="marks">[5]</span> (NEB 2080)
+2. (a) Use Ampère's circuital law to find the magnetic field at a distance $r$ from a long straight conductor carrying current $I$. [3] (b) A wire $0.5\ \text{m}$ long carries $2\ \text{A}$ in a field of $0.4\ \text{T}$; find the maximum and minimum force on it. [2] <span class="marks">[5]</span> (NEB 2081)
+3. (a) Define the voltage sensitivity of a moving-coil galvanometer and state the factors on which it depends. [2] (b) Why is a radial magnetic field used? [1] (c) Coil data: $N = 100$, $A = 4.0\times10^{-4}\ \text{m}^{2}$, $B = 0.25\ \text{T}$, torsional constant $5.0\times10^{-5}\ \text{N m rad}^{-1}$, resistance $50\ \Omega$. Find the current and voltage sensitivity. [2] <span class="marks">[5]</span> (NEB 2081, part)
+4. (a) Explain the Hall effect. [2] (b) An indium antimonide slice of thickness $2.5\ \text{mm}$ carries $150\ \text{mA}$ in a field of $0.5\ \text{T}$ and the Hall voltage is $8.75\ \text{mV}$. Find the carrier density. [3] <span class="marks">[5]</span> (NEB 2081)
+5. (a) Derive the force per unit length between two long parallel conductors. [3] (b) Define the ampere. [2] <span class="marks">[5]</span> (NEB 2081, 2079 model)
+6. (a) Find the force on a charge moving in a magnetic field and show the path is a circle. [3] (b) A proton of speed $2.0\times10^{6}\ \text{m s}^{-1}$ moves perpendicular to a field of $0.50\ \text{T}$; find the radius ($m = 1.67\times10^{-27}\ \text{kg}$). [2] <span class="marks">[5]</span>
+7. (a) Use Ampère's law to find the field inside a long solenoid and a toroid. [3] (b) A solenoid has $2000$ turns per metre and carries $5.0\ \text{A}$; find $B$ inside. [2] <span class="marks">[5]</span>
+8. (a) What is meant by magnetic field lines and magnetic flux? [2] (b) Describe Oersted's experiment and what it showed. [2] (c) Why do the field lines never cross? [1] <span class="marks">[5]</span>
+
+::: note Model answers — short (1–4)
+**1.** (a) The **Biot–Savart law:** the magnetic field $d\vec B$ due to a current element $I\,d\vec l$ at a point with position vector $\vec r$ from the element is
+$$ dB = \frac{\mu_0}{4\pi}\,\frac{I\,dl\,\sin\theta}{r^{2}} $$
+where $\theta$ is the angle between $d\vec l$ and $\vec r$; its direction is perpendicular to both $d\vec l$ and $\vec r$.
+
+(b) Take a coil of $N$ turns and radius $R$, carrying $I$. Every element $dl$ of the circle is perpendicular to the line $\vec r$ to the centre, so $\theta = 90^{\circ}$, $\sin\theta = 1$ and $r = R$, and all the $d\vec B$ at the centre point the same way (along the axis). Adding,
+$$ B = \sum dB = \frac{\mu_0}{4\pi}\,\frac{I}{R^{2}}\sum dl = \frac{\mu_0}{4\pi}\,\frac{I}{R^{2}}\,(2\pi R) $$
+$$ B = \frac{\mu_0I}{2R}\qquad\text{for one turn},\qquad B = \frac{\mu_0NI}{2R}\ \text{for }N\text{ turns} $$
+(c) **Right-hand rule:** curl the fingers of the right hand in the direction of the current in the coil; the thumb points along $\vec B$ at the centre.
+
+**2.** (a) Draw a circle of radius $r$ around the wire, with the wire at its centre and perpendicular to its plane. By symmetry $B$ is tangential and constant in magnitude round the circle. **Ampère's circuital law:** $\oint\vec B\cdot d\vec l = \mu_0I_{enclosed}$.
+$$ B(2\pi r) = \mu_0I\ \Rightarrow\ B = \frac{\mu_0I}{2\pi r} $$
+(b) $F = BIl\sin\theta$. Maximum at $\theta = 90^{\circ}$: $F = 0.4\times2\times0.5 = 0.40\ \text{N}$. Minimum at $\theta = 0^{\circ}$ (wire along the field): $F = 0$.
+
+**3.** (a) **Voltage sensitivity** is the deflection produced per unit voltage across the galvanometer: $\dfrac{\phi}{V} = \dfrac{NBA}{CR}$; it depends on the number of turns $N$, the field $B$, the coil area $A$, the torsional constant $C$ (smaller is more sensitive) and the coil resistance $R$. Current sensitivity is $\phi/I = NBA/C$.
+
+(b) A **radial field** (concave pole pieces with a soft-iron core) keeps the plane of the coil always parallel to $\vec B$, so the deflecting torque $NIAB$ is the same at every angle and the deflection is proportional to the current — a **linear scale**.
+
+(c) 
+$$ \frac{\phi}{I} = \frac{NBA}{C} = \frac{100\times0.25\times4.0\times10^{-4}}{5.0\times10^{-5}} = 200\ \text{rad A}^{-1} = 0.20\ \text{rad mA}^{-1} $$
+$$ \frac{\phi}{V} = \frac{\phi/I}{R} = \frac{200}{50} = 4.0\ \text{rad V}^{-1} $$
+
+**4.** (a) When a current-carrying conductor is placed in a magnetic field perpendicular to the current, the moving charge carriers are pushed sideways by the force $qvB$. Charge accumulates on one face, and a transverse electric field (Hall field) builds up until its force balances the magnetic force. The resulting transverse potential difference is the **Hall voltage** $V_H$. Its sign tells whether the carriers are electrons or holes.
+
+(b) At balance $eE_H = evB$ and $V_H = E_Hw$; with $I = nevwt$ (where $w$ is the width and $t$ the thickness in the direction of $\vec B$), $V_H = \dfrac{BI}{net}$:
+$$ n = \frac{BI}{eV_Ht} = \frac{0.5\times0.150}{1.6\times10^{-19}\times8.75\times10^{-3}\times2.5\times10^{-3}} = 2.1\times10^{22}\ \text{m}^{-3} $$
+:::
+
+::: note Model answers — short (5–8)
+**5.** (a) Two long parallel wires a distance $r$ apart carry currents $I_1$ and $I_2$ in the same direction. Wire 1 produces at wire 2 a field
+$$ B_1 = \frac{\mu_0I_1}{2\pi r} $$
+directed perpendicular to the plane of the wires. Wire 2 (length $l$) carries $I_2$ perpendicular to this field, so the force on it is $F = B_1I_2l$:
+$$ \frac{F}{l} = \frac{\mu_0I_1I_2}{2\pi r} $$
+For currents in the same direction the force is **attractive**; for opposite currents, repulsive.
+
+(b) The **ampere** is that constant current which, if maintained in two straight parallel conductors of infinite length and negligible cross-section, placed one metre apart in vacuum, produces between them a force of $2\times10^{-7}\ \text{newton per metre}$ of length. (From $\mu_0/2\pi = 2\times10^{-7}\ \text{N A}^{-2}$ with $I_1 = I_2 = 1\ \text{A}$, $r = 1\ \text{m}$.)
+
+**6.** (a) A charge $q$ with velocity $\vec v$ in a field $\vec B$ experiences $\vec F = q\vec v\times\vec B$, of magnitude $qvB\sin\theta$ and perpendicular to both $\vec v$ and $\vec B$. For $\vec v\perp\vec B$ the force is always perpendicular to the velocity: it changes the direction of motion but not the speed, and provides the centripetal force:
+$$ qvB = \frac{mv^{2}}{r}\ \Rightarrow\ r = \frac{mv}{qB} $$
+a constant radius: the path is a circle.
+
+(b) 
+$$ r = \frac{mv}{qB} = \frac{1.67\times10^{-27}\times2.0\times10^{6}}{1.6\times10^{-19}\times0.50} = 4.2\times10^{-2}\ \text{m} $$
+
+**7.** (a) *Solenoid:* take a rectangular Amperian loop with one side of length $l$ inside the solenoid and parallel to its axis, the other outside where $B\approx0$. The enclosed current is $nlI$ (with $n$ turns per metre), and $\oint\vec B\cdot d\vec l = Bl$, so
+$$ B = \mu_0nI $$
+*Toroid:* a circle of radius $r$ inside the ring encloses $N$ turns, each carrying $I$; with $B$ tangential and constant,
+$$ B(2\pi r) = \mu_0NI\ \Rightarrow\ B = \frac{\mu_0NI}{2\pi r} $$
+Outside the toroid the enclosed current is zero, so $B = 0$.
+
+(b) 
+$$ B = \mu_0nI = 4\pi\times10^{-7}\times2000\times5.0 = 1.3\times10^{-2}\ \text{T} $$
+**8.** (a) A **magnetic field line** is a curve whose tangent at every point gives the direction of $\vec B$, and whose density shows its strength. **Magnetic flux** through a surface is $\Phi = BA\cos\theta$, the number of lines crossing it, in weber.
+
+(b) **Oersted's experiment (1820):** a compass needle held parallel to a straight wire deflects when a current is passed and reverses when the current is reversed. It showed that an electric current produces a magnetic field circulating round the wire — the first link between electricity and magnetism.
+
+(c) At every point $\vec B$ has a single direction, so a field line has a single tangent there; two lines crossing would give two directions at one point.
+:::
+
+**Long answer / numerical questions [8 marks each]**
+
+1. (a) State the Biot–Savart law and use it to find the magnetic field at the centre of a circular coil. [3] (b) A thin slice of indium antimonide, thickness $2.5\ \text{mm}$, carries $150\ \text{mA}$ in a field of $0.5\ \text{T}$ with Hall voltage $8.75\ \text{mV}$; find the carrier density. [2] (c) Derive the force per unit length between two parallel conductors and define the ampere. [3] <span class="marks">[8]</span> (NEB 2081)
+2. (a) Derive the torque on a rectangular current-carrying coil in a uniform magnetic field. [3] (b) Describe the construction and working of a moving-coil galvanometer. [3] (c) A coil of $50$ turns, $3.0\ \text{cm}\times4.0\ \text{cm}$, carries $0.20\ \text{A}$ in a field of $0.80\ \text{T}$ at $30^{\circ}$ between the normal and the field; find the torque. [2] <span class="marks">[8]</span>
+3. (a) Define one ampere in terms of the force between two parallel conductors. [1] (b) Explain why a solenoid contracts when a current passes through it. [2] (c) A conductor of linear mass density $0.2\ \text{g m}^{-1}$ hangs horizontally between two flexible wires in a horizontal magnetic field of $1\ \text{T}$ at right angles to it. The tension in the wires is zero; find the current [3], and then the torque on a $100$-turn coil of area $100\ \text{cm}^{2}$ carrying this current with its plane parallel to a field of $10\ \text{T}$. [2] <span class="marks">[8]</span> (NEB 2079 model)
+
+::: note Model answers — long
+**1.** (a) The Biot–Savart law and the derivation of $B = \mu_0NI/2R$ are given in short answer 1.
+
+(b) $n = 2.1\times10^{22}\ \text{m}^{-3}$ as in short answer 4(b).
+
+(c) As in short answer 5: $F/l = \mu_0I_1I_2/2\pi r$, attractive for parallel currents; the ampere is defined through $F/l = 2\times10^{-7}\ \text{N m}^{-1}$ for $1\ \text{A}$ at $1\ \text{m}$.
+
+**2.** (a) Let a rectangular coil of sides $a$ (vertical) and $b$ (horizontal) carry $I$ in a uniform field $\vec B$, with the normal making an angle $\theta$ with $\vec B$. The forces on the two vertical sides are equal and opposite, $F = BIa$ each, forming a couple with arm $b\sin\theta$. The forces on the horizontal sides are equal, opposite and collinear, so they do not produce torque. The torque is
+$$ \tau = F\,b\sin\theta = BIab\sin\theta = BIA\sin\theta $$
+and for $N$ turns
+$$ \tau = NBIA\sin\theta = mB\sin\theta,\qquad m = NIA $$
+where $m$ is the magnetic moment of the coil.
+
+(b) **Moving-coil galvanometer:** a rectangular coil of many turns on a soft-iron core is suspended between the concave poles of a permanent magnet by a phosphor-bronze strip, which supplies the restoring torque $C\phi$. The field is radial. A current $I$ gives a torque $NBAI$ and the coil turns through $\phi$ until $NBAI = C\phi$:
+$$ \phi = \frac{NBA}{C}\,I\propto I $$
+The deflection, read by a lamp-and-scale or pointer, is proportional to the current.
+
+(c) 
+$$ A = 0.030\times0.040 = 1.2\times10^{-3}\ \text{m}^{2} $$
+$$ \tau = NBIA\sin\theta = 50\times0.80\times0.20\times1.2\times10^{-3}\times\sin30^{\circ} = 4.8\times10^{-3}\ \text{N m} $$
+Here $\theta$ is the angle between the normal to the coil and the field, as in the derivation.
+
+**3.** (a) One **ampere** is the constant current which, flowing in each of two infinitely long straight parallel conductors one metre apart in vacuum, produces a force of $2\times10^{-7}\ \text{N}$ per metre of length between them.
+
+(b) Adjacent turns of the solenoid carry current in the **same direction**, so, like parallel currents, they attract one another. The mutual attraction of all the turns compresses the coil along its axis, and the solenoid contracts (it would return to its length when the current is stopped).
+
+(c) With zero tension in the supporting wires the upward magnetic force on the conductor just balances its weight. For a length $l$ of conductor with linear density $\mu = 0.2\ \text{g m}^{-1} = 2.0\times10^{-4}\ \text{kg m}^{-1}$:
+$$ BIl = \mu lg\ \Rightarrow\ I = \frac{\mu g}{B} = \frac{2.0\times10^{-4}\times9.8}{1} = 1.96\times10^{-3}\ \text{A}\approx2.0\ \text{mA} $$
+For the coil, with its plane *parallel* to the field the normal is perpendicular to $\vec B$, so $\sin\theta = 1$ and the torque is maximum:
+$$ \tau = NBIA = 100\times10\times1.96\times10^{-3}\times1.0\times10^{-2} = 1.96\times10^{-2}\ \text{N m} $$
+(with $A = 100\ \text{cm}^{2} = 1.0\times10^{-2}\ \text{m}^{2}$).
+:::
+
+::: tip Examiner's note — Magnetic field
+For Biot–Savart derivations, say why $\sin\theta = 1$ (every element is perpendicular to the radius) and why the contributions add (all along the axis). For Ampère's law, **name the Amperian loop** and use symmetry to pull $B$ outside the integral. Distinguish $B$ at the centre of a coil ($\mu_0NI/2R$) from $B$ of a straight wire ($\mu_0I/2\pi r$) — the most common slip. In torque numericals, check whether the angle given is between the *field and the normal* (use $\sin\theta$) or between the *field and the plane* (use $\cos$). Convert $\text{cm}^{2}$ to $\text{m}^{2}$ before multiplying.
+:::
 
 ## 3.17 Magnetic properties of materials
 
@@ -2134,17 +3872,17 @@ distance formula, so make sure you can rearrange it quickly.
   is built to the real mark splits — $1+2+2$, $2+3$, $1+1+3$ and $1+4$ for the
   five-mark questions, and $2+2+2+2$, $3+3+2$ and $5+3$ for the eight-mark ones.
 - **The chapter covers all twenty-five CDC units in spine order**, from Rotational
-  dynamics to Recent trends in physics, with at least eight short and three long
+  dynamics to Recent trends in physics, with at least five short and two long
   questions in each, every one followed by a complete model answer written at the
   length an examiner expects to see in the answer book.
-- **Twenty derivations are set out step by step** in their own boxes — moment of
-  inertia of a rod, the vertical spring, Bernoulli, Stokes, $C_p-C_v = R$, Carnot
-  efficiency, Laplace's correction, pipes and strings, Doppler, fringe width,
-  Brewster, the Wheatstone balance, the circular coil, Ampère's law, parallel
-  conductors, energy in an inductor, the LCR phasor diagram, Thomson's $e/m$,
-  Einstein's photoelectric equation, the Bohr orbit and the decay law. Each gives
-  one algebraic move per line, with a plain-English reason above it, so that the
-  proof can be reproduced under examination pressure rather than recited.
+- **Every examinable derivation is worked step by step**, either in a derivation box
+  (energy in an inductor, the LCR impedance, Thomson's $e/m$, Einstein's photoelectric
+  equation, the Bohr orbit) or inside the model answer itself: the moment of inertia of a
+  rod, the vertical spring, Bernoulli's equation, Stokes' law, $C_P-C_V = R$, Carnot
+  efficiency, the speed of a pulse in a fluid, pipes and strings, Doppler, fringe width,
+  Brewster, the Wheatstone balance, the circular coil, Ampère's law and parallel
+  conductors. Each gives one algebraic move per line, so the proof can be reproduced
+  under examination pressure rather than recited.
 - **Every numerical was recomputed before it was printed**, and the answers are
   written out with units at each step. Where a result can be checked a second way —
   $P = VI\cos\phi$ against $I^{2}R$, $\beta$ against $\alpha/(1-\alpha)$, a Bohr
@@ -2154,12 +3892,12 @@ distance formula, so make sure you can rearrange it quickly.
   that year or in that model set. Untagged questions are new, but are built to the
   same pattern. Where several years carry the same tag, the topic is one that the
   board returns to almost every session and should be prepared first.
-- **Twenty-one figures** carry the parts of the answer that words cannot: the
-  indicator diagrams, the stationary-wave patterns in pipes, the Young's-slit and
-  single-slit geometry, the Wheatstone and potentiometer circuits, the hysteresis
-  loop, the LCR phasor and resonance curve, the rectifier waveforms, the hydrogen
-  energy levels, the decay curve and the seismogram. In the examination, a clear
-  labelled diagram is often worth two of the five marks on its own.
+- **Twelve figures** carry the parts of the answer that words cannot: the energy graphs
+  of SHM, the isotherm and adiabat, the Otto and Carnot cycles, the stationary-wave
+  patterns in pipes, the potentiometer circuit, the thermocouple curve, the hysteresis
+  loop, the LCR phasor and resonance curve and the rectifier waveforms, with the
+  remaining diagrams of the modern-physics units. In the examination, a clear labelled
+  diagram is often worth two of the five marks on its own.
 - **The units are not equally weighted.** Magnetic field ($9$ h), Quantization of
   energy ($8$ h) and Fluid statics ($9$ h) are the largest, while Wave motion,
   Interference and Photons run to only two or three hours each — but the short units

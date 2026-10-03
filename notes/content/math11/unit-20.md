@@ -628,8 +628,13 @@ $y_{2} = 0.666667$. Therefore
 
 $$ S = \frac{0.25}{3}\left[1.500000 + 4(1.371429) + 2(0.666667)\right] $$
 
-$$ = 0.083333 \times \left[1.500000 + 5.485714 + 1.333333\right]
- = 0.083333 \times 8.319048 = 0.693254 $$
+$$
+= 0.083333 \times \left[1.500000 + 5.485714 + 1.333333\right]
+$$
+
+$$
+= 0.083333 \times 8.319048 = 0.693254
+$$
 
 **Error estimate.** $f(x) = x^{-1}$ gives $f^{(4)}(x) = \frac{24}{x^{5}}$, so
 $M_{4} = 24$ at $x = 1$ and
@@ -695,8 +700,13 @@ $$ T = \frac{0.392699}{2}\left[1.000000 + 2(2.013670)\right]
 
 (b) Odd $= 0.382683+0.923880 = 1.306563$; even $= 0.707107$:
 
-$$ S = \frac{0.392699}{3}\left[1.000000 + 4(1.306563) + 2(0.707107)\right]
- = 0.130900 \times 7.640466 = 1.000135 $$
+$$
+S = \frac{0.392699}{3}\left[1.000000 + 4(1.306563) + 2(0.707107)\right]
+$$
+
+$$
+= 0.130900 \times 7.640466 = 1.000135
+$$
 
 The exact value is $\left[-\cos x\right]_{0}^{\pi/2} = 1$. The trapezoidal error is
 $0.012884$; Simpson's error is $0.000135$, about a hundred times smaller from the
@@ -1106,8 +1116,13 @@ Trapezoidal: ends $= 2.414214$, interiors $= 3.260866$, so
 $$ T = \frac{0.25}{2}\left[2.414214 + 2(3.260866)\right] = 0.125 \times 8.935946
  = 1.116993 $$
 Simpson: odd $= 1.007782+1.192424 = 2.200206$, even $= 1.060660$, so
-$$ S = \frac{0.25}{3}\left[2.414214 + 4(2.200206) + 2(1.060660)\right]
- = 0.083333 \times 13.336158 = 1.111363 $$
+$$
+S = \frac{0.25}{3}\left[2.414214 + 4(2.200206) + 2(1.060660)\right]
+$$
+
+$$
+= 0.083333 \times 13.336158 = 1.111363
+$$
 Simpson's value is the more reliable, because its error is of order $h^{4}$ against
 $h^{2}$ for the trapezoidal rule. (The true value is $1.111448$, so Simpson is out
 by $0.000085$ and the trapezoidal rule by $0.005545$.)

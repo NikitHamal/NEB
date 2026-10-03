@@ -70,6 +70,24 @@ heating.
 | Dolomite | CaCO₃·MgCO₃ | Ca, Mg |
 | Gypsum | CaSO₄·2H₂O | Ca |
 
+```photo id="chem11/bauxite" caption="Bauxite, Al₂O₃·2H₂O — the ore of aluminium, a pale, pea-like (pisolitic) rock." width="55"
+```
+
+```photo id="chem11/cryolite" caption="Cryolite, Na₃AlF₆ — used as the solvent for alumina in the Hall–Héroult cell." width="45"
+```
+
+```photo id="chem11/haematite" caption="Haematite, Fe₂O₃ — the chief ore of iron." width="55"
+```
+
+```photo id="chem11/chalcopyrite" caption="Copper pyrites (chalcopyrite), CuFeS₂ — with its brassy yellow colour and iridescent tarnish." width="55"
+```
+
+```photo id="chem11/sphalerite" caption="Zinc blende (sphalerite), ZnS — the main ore of zinc." width="50"
+```
+
+```photo id="chem11/galena-ore" caption="Galena, PbS — the ore of lead, with bright metallic cubic crystals." width="55"
+```
+
 ::: definition The five words you must be able to define
 **Gangue (matrix).** The earthy, worthless material — sand, clay, rock — mixed
 with the ore.
@@ -172,6 +190,9 @@ ax.text(1.18,1.72,'slurry: ore, water,\npine oil, cresol', fontsize=7.6, color=I
         ha='left', va='center', linespacing=1.3)
 
 ax.set_xlim(0.0,8.0); ax.set_ylim(0.0,4.40); ax.axis('off')
+```
+
+```photo id="chem11/flotation" caption="A row of flotation cells in a concentrator: the froth carrying the mineral overflows into the launders while the gangue stays in the pulp." width="75"
 ```
 **Leaching** is a chemical concentration. Bauxite containing Fe₂O₃ and SiO₂ as
 impurities is purified by **Bayer's process**: the powdered ore is digested with
@@ -303,6 +324,9 @@ ax.annotate('', xy=(1.28,0.32), xytext=(0.92,0.32),
 ax.text(1.34,0.32,'molten pig iron', fontsize=7.0, color=INK, ha='left', va='center')
 
 ax.set_xlim(-4.15, 4.25); ax.set_ylim(-0.15, 7.85); ax.axis('off')
+```
+
+```photo id="chem11/blast-furnace" caption="A blast furnace on the outside: the tall shaft, the hot-blast stoves and chimneys beside it, and the conveyor that charges ore, coke and limestone at the top (Duisburg, Germany; preserved plant)." width="80"
 ```
 **(b) Self-reduction (auto-reduction).** For copper and lead, part of the
 sulphide is roasted to the oxide and the two are then heated together without
@@ -492,6 +516,9 @@ electron*:
   This is the basis of the flame test.
 - **Photoelectric effect.** K, Rb and Cs emit electrons when light falls on them,
   so they are used in photoelectric cells.
+
+```photo id="chem11/flame-colours" caption="Flame colours of metal salts burning in methanol: each metal ion gives its own colour because its electrons fall between its own energy levels." width="70"
+```
 
 Characteristic reactions of sodium:
 

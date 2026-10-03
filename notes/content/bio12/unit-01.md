@@ -253,70 +253,16 @@ products of a dedifferentiated cell mature again into permanent tissue.
 
 #### Simple permanent tissues
 
-```figure caption="The three simple permanent tissues, in transverse section. The difference is entirely in the wall: thin cellulose in parenchyma, unevenly thickened with pectin at the corners in collenchyma, uniformly lignified in sclerenchyma — and only the first two are alive."
-fig, ax = plt.subplots(figsize=(5.1, 2.8))
-ax.set_xlim(0, 15.6); ax.set_ylim(0, 8.4); ax.axis('off')
-CYT = "#f3ead9"; WALL = "#8a6d3b"
+```photo id="bio12/ground-tissues" caption="Parenchyma and sclerenchyma side by side in a transverse section of a *Cucurbita* stem (×100). The difference is in the wall: thin cellulose and large living cells in parenchyma; thick, uniformly lignified walls and a tiny lumen in sclerenchyma, whose cells are dead at maturity." width="84"
+mark 0.50 0.62 "1"
+mark 0.75 0.80 "2"
+key 1 Sclerenchyma — thick, lignified walls, narrow lumen, no living contents
+key 2 Parenchyma — thin-walled, large, living cells with intercellular spaces
+```
 
-def cellgrid(ox, fc, ec, lw=0.9):
-    cells = []
-    for i in range(3):
-        for j in range(2):
-            x, y = ox + i*1.50, 2.55 + j*1.90
-            ax.add_patch(matplotlib.patches.FancyBboxPatch(
-                (x, y), 1.50, 1.90, boxstyle="round,pad=0.0,rounding_size=0.22",
-                fc=fc, ec=ec, lw=lw, zorder=2))
-            cells.append((x + 0.75, y + 0.95))
-    return cells
-
-# --- parenchyma: thin walls, rounded cells, intercellular spaces at the joins
-ox = 0.35
-cells = cellgrid(ox, CYT, WALL)
-for (x, y) in cells:
-    ax.add_patch(matplotlib.patches.Circle((x - 0.36, y + 0.42), 0.20,
-                                           fc="#6a4a78", ec='none', zorder=3))
-for vx in (ox + 1.50, ox + 3.00):
-    ax.add_patch(matplotlib.patches.Circle((vx, 4.45), 0.24, fc="white",
-                                           ec=WALL, lw=0.7, zorder=4))
-ax.annotate("intercellular space", xy=(ox + 1.50, 4.72), xytext=(ox + 2.25, 7.75),
-            fontsize=6.3, color=MUTED, ha='center', va='center',
-            arrowprops=dict(arrowstyle='-', color=MUTED, lw=0.7, shrinkA=3, shrinkB=3))
-ax.text(ox + 2.25, 1.60, "Parenchyma", fontsize=7.8, ha='center', color=INK,
-        fontweight='600')
-ax.text(ox + 2.25, 0.85, "thin cellulose wall,", fontsize=6.3, ha='center', color=MUTED)
-ax.text(ox + 2.25, 0.25, "living, stores food", fontsize=6.3, ha='center', color=MUTED)
-
-# --- collenchyma: cellulose piled up at the shared corners only
-ox = 5.65
-cellgrid(ox, CYT, WALL)
-for i in range(4):
-    for j in range(3):
-        ax.add_patch(matplotlib.patches.Circle((ox + i*1.50, 2.55 + j*1.90), 0.34,
-                                               fc=WALL, ec='none', zorder=4))
-ax.annotate("thickening at the corners", xy=(ox + 1.50, 4.45 + 0.34),
-            xytext=(ox + 2.25, 7.75), fontsize=6.3, color=MUTED, ha='center',
-            va='center',
-            arrowprops=dict(arrowstyle='-', color=MUTED, lw=0.7, shrinkA=3, shrinkB=3))
-ax.text(ox + 2.25, 1.60, "Collenchyma", fontsize=7.8, ha='center', color=INK,
-        fontweight='600')
-ax.text(ox + 2.25, 0.85, "pectin-rich, unevenly", fontsize=6.3, ha='center', color=MUTED)
-ax.text(ox + 2.25, 0.25, "thickened, living", fontsize=6.3, ha='center', color=MUTED)
-
-# --- sclerenchyma: uniformly lignified wall, narrow lumen, dead
-ox = 10.95
-cells = cellgrid(ox, WALL, "#5c4522")
-for (x, y) in cells:
-    ax.add_patch(matplotlib.patches.Circle((x, y), 0.34, fc="white",
-                                           ec="#5c4522", lw=0.6, zorder=4))
-ax.annotate("narrow lumen, no protoplast", xy=(ox + 2.25, 5.45 + 0.34),
-            xytext=(ox + 2.25, 7.75), fontsize=6.3, color=MUTED, ha='center',
-            va='center',
-            arrowprops=dict(arrowstyle='-', color=MUTED, lw=0.7, shrinkA=3, shrinkB=3))
-ax.text(ox + 2.25, 1.60, "Sclerenchyma", fontsize=7.8, ha='center', color=INK,
-        fontweight='600')
-ax.text(ox + 2.25, 0.85, "uniformly lignified,", fontsize=6.3, ha='center', color=MUTED)
-ax.text(ox + 2.25, 0.25, "dead, rigid", fontsize=6.3, ha='center', color=MUTED)
-fig.tight_layout()
+```photo id="bio12/stone-cells" caption="Sclereids (stone cells) in the flesh of a pear (×400). A cluster of isodiametric cells with very thick, layered, lignified walls and a narrow lumen gives pear its gritty texture." width="70"
+mark 0.50 0.50 "1"
+key 1 Sclereid — thick layered wall with simple pits, almost no lumen
 ```
 
 **Parenchyma** is the least specialised and most abundant tissue — the "packing"
@@ -396,53 +342,16 @@ unlike xylem the flow can be **in either direction**. Its four elements:
 | **Phloem fibres (bast fibres)** | dead | sclerenchymatous | support; the only *hard* element of phloem |
 | **Phloem parenchyma** | living | thin-walled | storage of food, resin and latex |
 
-```figure caption="Elements of the two complex tissues. Xylem conducts through dead cells with lignified walls: tracheids with bordered pits and vessels joined end to end into an open pipe. Phloem conducts through living sieve tubes that have lost their nucleus and are kept working by the companion cell beside them."
-fig, ax = plt.subplots(figsize=(5.1, 3.1))
-ax.set_xlim(0, 13.0); ax.set_ylim(0, 9.6); ax.axis('off')
-W = "#8a6d3b"; L = "#f3ead9"; PH = "#dff0e4"; PHE = "#2e8b57"
+```photo id="bio12/xylem-elements" caption="Xylem vessels in longitudinal section (*Cucurbita* stem, ×400). The walls are lignified and carry pits and bars of thickening; the cross-walls between vessel elements have broken down, so the vessel is an open pipe made of dead cells." width="84"
+mark 0.55 0.60 "1"
+mark 0.90 0.55 "2"
+key 1 Vessel with pitted, lignified wall — the lumen is empty (dead cell)
+key 2 Vessel with ladder-like (scalariform) thickening of the wall
+```
 
-# tracheid
-ax.add_patch(matplotlib.patches.Polygon(
-    [[1.0,7.9],[1.9,8.6],[2.8,7.9],[2.8,2.2],[1.9,1.5],[1.0,2.2]],
-    closed=True, fc=L, ec=W, lw=1.1))
-for y in (3.2, 4.2, 5.2, 6.2, 7.0):
-    for x in (1.0, 2.8):
-        ax.add_patch(matplotlib.patches.Ellipse((x, y), 0.34, 0.52, fc="white", ec=W, lw=0.8))
-ax.text(1.9, 0.85, "Tracheid", fontsize=7.4, ha='center', fontweight='600', color=INK)
-ax.text(1.9, 0.20, "bordered pits", fontsize=6.2, ha='center', color=MUTED)
-
-# vessel: three members stacked, perforated plates
-for (yb, yt) in ((2.0, 4.3), (4.5, 6.8), (7.0, 8.9)):
-    ax.add_patch(matplotlib.patches.Rectangle((4.3, yb), 1.9, yt-yb, fc=L, ec=W, lw=1.1))
-for y in (4.4, 6.9):
-    ax.plot([4.3, 6.2], [y, y], color=W, lw=1.4)
-    for x in (4.65, 5.05, 5.45, 5.85):
-        ax.plot([x, x], [y-0.16, y+0.16], color="white", lw=1.8, solid_capstyle='butt')
-ax.annotate("perforated\nend wall", xy=(6.2, 6.9), xytext=(8.2, 8.95), fontsize=6.4,
-            color=MUTED, ha='center', va='center',
-            arrowprops=dict(arrowstyle='-', color=MUTED, lw=0.7, shrinkA=2, shrinkB=2))
-ax.text(5.25, 0.85, "Vessel", fontsize=7.4, ha='center', fontweight='600', color=INK)
-ax.text(5.25, 0.20, "open pipe", fontsize=6.2, ha='center', color=MUTED)
-
-# sieve tube + companion cell
-for (yb, yt) in ((2.0, 4.8), (4.8, 7.6)):
-    ax.add_patch(matplotlib.patches.Rectangle((9.3, yb), 1.6, yt-yb, fc=PH, ec=PHE, lw=1.1))
-    ax.add_patch(matplotlib.patches.Rectangle((10.95, yb+0.15), 0.72, yt-yb-0.3,
-                                              fc="#cbe3d3", ec=PHE, lw=0.9))
-    ax.add_patch(matplotlib.patches.Circle((11.31, (yb+yt)/2), 0.22, fc="#6a4a78", ec='none'))
-for y in (4.8,):
-    ax.plot([9.3, 10.9], [y, y], color=PHE, lw=1.4)
-    for x in (9.6, 9.95, 10.3, 10.65):
-        ax.plot([x, x], [y-0.15, y+0.15], color="white", lw=1.8, solid_capstyle='butt')
-ax.annotate("sieve plate", xy=(9.8, 4.8), xytext=(8.3, 3.05), fontsize=6.4, color=MUTED,
-            ha='center', va='center',
-            arrowprops=dict(arrowstyle='-', color=MUTED, lw=0.7, shrinkA=2, shrinkB=2))
-ax.annotate("companion\ncell", xy=(11.31, 6.4), xytext=(11.9, 8.55), fontsize=6.4,
-            color=MUTED, ha='center', va='center',
-            arrowprops=dict(arrowstyle='-', color=MUTED, lw=0.7, shrinkA=2, shrinkB=2))
-ax.text(10.4, 0.85, "Sieve tube", fontsize=7.4, ha='center', fontweight='600', color=INK)
-ax.text(10.4, 0.20, "living, no nucleus", fontsize=6.2, ha='center', color=MUTED)
-fig.tight_layout()
+```photo id="bio12/sieve-tubes" caption="Phloem sieve tubes in longitudinal section (*Cucurbita* stem, ×400). Sieve tubes are living cells joined end to end; their thin cross-walls are perforated as sieve plates and they have lost their nucleus, being kept alive by the companion cell beside each one." width="84"
+mark 0.48 0.60 "1"
+key 1 Sieve tube element — thin-walled, living, enucleate
 ```
 
 **Protoxylem and metaxylem.** Xylem formed first, while the organ is still

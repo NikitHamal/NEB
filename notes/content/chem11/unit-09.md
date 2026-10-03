@@ -1054,6 +1054,9 @@ ax.set_xlim(-3.3, 4.4); ax.set_ylim(-0.9, 7.9)
 ax.set_aspect('equal'); ax.axis('off')
 ```
 
+```photo id="chem11/kipp" caption="A glass Kipp's apparatus. Solid sits in the middle bulb, acid is fed from the top reservoir, and the tap at the side draws off the gas." width="40"
+```
+
 With the stopcock open, acid from the reservoir rises into the middle bulb and
 attacks the FeS. With it closed, the gas pressure forces the acid back down into
 the bottom bulb and up the stem, contact with the solid is broken and the

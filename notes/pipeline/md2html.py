@@ -1,7 +1,7 @@
 """NEBians chapter markdown -> styled HTML fragment."""
 import base64, os, re, html as _html
 import markdown as _md
-import mathsvg, figrun, photo, assets
+import mathsvg, figrun, photo, assets, i18n
 
 _PLACE = "\x00NEB{}\x00"
 
@@ -75,7 +75,7 @@ def _extract_photos(body, store, chapter_id):
         src_note = ""
         if rec:
             who = rec.get("author") or "unknown"
-            src_note = (f'<span class="src">Source: {_html.escape(who[:70])} / '
+            src_note = (f'<span class="src">{i18n.CUR['source']} {_html.escape(who[:70])} / '
                         f'{_html.escape(rec.get("source", ""))} '
                         f'({_html.escape(rec.get("license", ""))})</span>')
         cap = re.search(r'caption\s*=\s*"([^"]*)"', info)
@@ -187,7 +187,7 @@ def _callouts(body):
         if not m:
             out.append(lines[i]); i += 1; continue
         kind = m.group(1).lower()
-        title = m.group(2).strip() or _BOXES.get(kind, kind.title())
+        title = m.group(2).strip() or i18n.CUR['boxes'].get(kind, kind.title())
         cls = kind if kind in _BOXES else "note"
         inner, i = [], i + 1
         depth = 1
@@ -289,7 +289,7 @@ def _frame_summary(htm):
         head, rest = m.group(1), m.group(2)
         return (f'<section class="chsum">{head}{rest}</section>')
     return re.sub(
-        r'(<h2[^>]*>\s*(?:Chapter summary|Summary|Unit summary)\s*</h2>)'
+        r'(<h2[^>]*>\s*(?:' + i18n.CUR["summary_re"] + r')\s*</h2>)'
         r'(.*?)(?=<h2|<section|\Z)', rep, htm, flags=re.S | re.I)
 
 
@@ -309,13 +309,13 @@ def convert(text, chapter_id="", fig_no_start=1):
     # number figures
     n = [fig_no_start]
     def fignum(m):
-        s = m.group(0).replace("{CAP}", f"<b>Figure {n[0]}.</b> ")
+        s = m.group(0).replace("{CAP}", f"<b>{i18n.CUR['figure']} {i18n.num(n[0])}.</b> ")
         n[0] += 1
         return s
     htm = re.sub(r"<figcaption>\{CAP\}.*?</figcaption>", fignum, htm, flags=re.S)
     htm = htm.replace("{CAP}", "")
     # style question sections
-    htm = re.sub(r"<h2([^>]*)>\s*((?:Practice|Exercise|Review|Model|Self)[^<]*)</h2>",
+    htm = re.sub(r"<h2([^>]*)>\s*((?:" + i18n.CUR["qs_re"] + r")[^<]*)</h2>",
                  r'<h2\1 class="qs">\2</h2>', htm, flags=re.I)
     htm = _frame_summary(htm)
     htm = _restructure_questions(htm)

@@ -430,6 +430,12 @@ ax.text(2.9,0.16,'$n$ address lines  ⇒  $2^{n}$ addressable locations',
 ax.set_xlim(0.0,7.7); ax.set_ylim(-0.30,3.45); ax.set_aspect('equal'); ax.axis('off')
 ```
 
+```photo id="cs11/motherboard-bare" caption="A bare PC motherboard. The processor socket (centre), the memory slots and the expansion slots are all joined by the copper tracks that make up the buses." width="60"
+```
+
+```photo id="cs11/cpu-i7" caption="Both faces of a desktop microprocessor: the metal lid that carries the name (left) and the array of contacts that plug into the socket (right)." width="70"
+```
+
 | Bus | Direction | Carries | Width decides |
 |---|---|---|---|
 | **Address bus** | unidirectional (CPU → memory/IO) | the address of the location to be read or written | how much memory can be addressed: $2^{n}$ locations |
@@ -483,6 +489,9 @@ ax.annotate('',xy=(4.55,0.05),xytext=(4.55,n*H-0.05),
 ax.text(4.70,n*H/2,'bigger, cheaper per byte',rotation=270,ha='left',va='center',
         fontsize=8.0,color='#2e8b57')
 ax.set_xlim(-5.45,5.95); ax.set_ylim(-0.15,n*H+0.48); ax.axis('off')
+```
+
+```photo id="cs11/ram" caption="A DDR4 RAM module: the memory chips sit on a small circuit board that plugs into a slot on the motherboard." width="65"
 ```
 
 **RAM (Random Access Memory)** is read/write, **volatile** (contents lost when
@@ -573,6 +582,12 @@ ax.text(4.70,1.80,'platters (side view)',fontsize=8.0,color=MUTED,ha='center')
 ax.set_xlim(-3.3,6.6); ax.set_ylim(-2.35,2.35); ax.set_aspect('equal'); ax.axis('off')
 ```
 
+```photo id="cs11/hdd-platter" caption="A hard disk with its cover removed: the shiny disc is the platter and the arm swinging over it carries the read/write head." width="60"
+```
+
+```photo id="cs11/hdd-actuator" caption="The actuator arm of a hard disk, ending in the tiny read/write head that floats just above the platter." width="55"
+```
+
 **Magnetic disk.** A hard disk drive (HDD) stores bits as magnetised spots on
 rotating aluminium or glass **platters** coated with magnetic material. Each
 surface is divided into concentric **tracks**, each track into **sectors**
@@ -617,6 +632,12 @@ ax.set_ylabel('capacity (bytes, log scale)')
 ax.set_ylim(1e6, 3e14)
 ax.spines[['top','right']].set_visible(False)
 ax.grid(True, axis='y', alpha=.55)
+```
+
+```photo id="cs11/ssd" caption="An M.2 NVMe solid-state drive: flash chips on a small board, with no moving parts." width="70"
+```
+
+```photo id="cs11/tape" caption="Magnetic tape media: an LTO data cartridge (top left) and other tape cartridges, still used for archives and backups." width="65"
 ```
 
 ## 1.12 Input Devices
@@ -742,6 +763,9 @@ for x0,w,nm,c in [(0.25,0.55,'PCIe x1',MUTED),(1.20,1.35,'PCIe x4',SERIES[0]),
     ax.add_patch(Rectangle((x0,0.16),w,0.16,fc=c,ec=c,lw=1.0,alpha=0.30))
     ax.text(x0+w/2,0.06,nm,ha='center',va='top',fontsize=7.4,color=c)
 ax.set_xlim(-0.05,6.15); ax.set_ylim(-0.30,2.95); ax.set_aspect('equal'); ax.axis('off')
+```
+
+```photo id="cs11/usbc" caption="A USB Type-C port beside a USB-A port on the side of a laptop." width="50"
 ```
 
 | Interface | Transmission | Connector | Speed | Status |

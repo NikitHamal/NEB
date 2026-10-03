@@ -118,6 +118,9 @@ ax.set_xlim(-2.15, 2.30); ax.set_ylim(-2.25, 1.85)
 ax.set_aspect('equal'); ax.axis('off')
 ```
 
+```photo id="phy11/electroscope" caption="A gold-leaf electroscope: the brass disc on top, the rod, and the leaves hanging inside the glass case." width="45"
+```
+
 ::: example Worked example 19.1
 **Problem.** A polythene rod acquires a charge of $-3.2\ \mu\text{C}$ when rubbed
 with wool. (a) How many electrons has it gained? (b) What is the charge on the
