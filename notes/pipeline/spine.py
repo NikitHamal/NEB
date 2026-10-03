@@ -49,7 +49,11 @@ SUBJECTS = {
  "omath": ("Optional Mathematics", "#7A3E8E"),
  "qbank": ("Question Bank",    "#B02A5B"),
 }
-ALL = [f"{k}{g}" for k in SUBJECTS for g in (11, 12) if k not in ("sci", "soc", "omath")]
+# Every subject-grade that actually has a spine file, so a bare
+# `build_pdf.py` covers the whole library — grade 10 (the SEE series), the
+# grade 11/12 science stream, the language papers and the question bank — and
+# any spine added later (grade 8, for instance) joins the build by itself.
+ALL = sorted(f[:-3] for f in os.listdir(CUR) if f.endswith(".md"))
 def meta_for(slug):
     k = re.match(r"([a-z]+)(\d+)", slug)
     return SUBJECTS[k.group(1)][0], SUBJECTS[k.group(1)][1], int(k.group(2))
