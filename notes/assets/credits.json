@@ -5927,6 +5927,32 @@
   "source": "Wikimedia Commons",
   "title": "Vernier calliper 1"
  },
+ "sci8/bean-germination": {
+  "author": "B. Domangue",
+  "bytes": 351656,
+  "credit": "Own work",
+  "fetched": "2026-10-03",
+  "file": "sci8/bean-germination.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Navy_Bean_Seed_to_Seedling_Germination.jpg",
+  "sha1": "b2351148fd3b16fe",
+  "source": "Wikimedia Commons",
+  "title": "Navy Bean Seed to Seedling Germination"
+ },
+ "sci8/bee-pollination": {
+  "author": "John Severns ( Severnjc )",
+  "bytes": 501352,
+  "credit": "Photo by John Severns.",
+  "fetched": "2026-10-03",
+  "file": "sci8/bee-pollination.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:European_honey_bee_extracts_nectar.jpg",
+  "sha1": "7ab4e9bdaf44c5b6",
+  "source": "Wikimedia Commons",
+  "title": "European honey bee extracts nectar"
+ },
  "sci8/bread-mould": {
   "author": "zygolife",
   "bytes": 110124,
@@ -5953,6 +5979,19 @@
   "source": "Wikimedia Commons",
   "title": "Nucleus in human cheek cells 3"
  },
+ "sci8/chitwan-forest": {
+  "author": "Bharatadhikarimb",
+  "bytes": 790413,
+  "credit": "Own work",
+  "fetched": "2026-10-03",
+  "file": "sci8/chitwan-forest.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Chitwan_National_Park_Forest_20161015_144144.jpg",
+  "sha1": "484b8950c095d9d8",
+  "source": "Wikimedia Commons",
+  "title": "Chitwan National Park Forest 20161015 144144"
+ },
  "sci8/onion-root": {
   "author": "ELaurent",
   "bytes": 1035853,
@@ -5978,6 +6017,19 @@
   "sha1": "feb34284fdb2ba56",
   "source": "Wikimedia Commons",
   "title": "Paramecium"
+ },
+ "sci8/sun-and-planets": {
+  "author": "Dave Jarvis ( https://dave.autonoma.ca/ )",
+  "bytes": 387205,
+  "credit": "Own work",
+  "fetched": "2026-10-03",
+  "file": "sci8/sun-and-planets.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Star-sizes.jpg",
+  "sha1": "9d7136d10e079697",
+  "source": "Wikimedia Commons",
+  "title": "Star-sizes"
  },
  "soc10/amazon": {
   "author": "Alexander Gerst",
