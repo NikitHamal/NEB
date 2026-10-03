@@ -46,6 +46,9 @@ _DIGIT_ARG = re.compile(r"\\(frac|binom)\s*([0-9a-zA-Z])\s*([0-9a-zA-Z])")
 # parses in every one. Repair the unbraced single-token argument here so an
 # author's slip cannot fail a whole chapter at build time.
 _SQRT_ARG = re.compile(r"\\sqrt\s*([0-9a-zA-Z])(?![0-9a-zA-Z{])")
+# `\frac1{12}` has one braced argument and one bare one; mathtext wants
+# both braced. Repair it the same way as the unbraced square root.
+_FRAC_ARG = re.compile(r"\\frac\s*([0-9a-zA-Z])\s*\{")
 
 def _strip_wrapper(s: str, name: str) -> str:
     """Remove \\name{...} keeping its argument, brace-balanced."""
@@ -73,6 +76,7 @@ def _clean(tex: str) -> str:
         s = re.sub(pat, rep, s)
     s = _DIGIT_ARG.sub(r"\\\1{\2}{\3}", s)   # \frac12 -> \frac{1}{2} (after \tfrac->\frac)
     s = _SQRT_ARG.sub(r"\\sqrt{\1}", s)       # \sqrt3 -> \sqrt{3}, \sqrt x -> \sqrt{x}
+    s = _FRAC_ARG.sub(r"\\frac{\1}{", s)      # \frac1{12} -> \frac{1}{12}
     # strip alignment environments mathtext cannot parse
     s = re.sub(r"\\begin\{(aligned|align\*?|gather\*?|split|equation\*?)\}", "", s)
     s = re.sub(r"\\end\{(aligned|align\*?|gather\*?|split|equation\*?)\}", "", s)
