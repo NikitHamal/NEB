@@ -119,6 +119,30 @@ ax.text(5.0, 3.75, 'पिपले खेतको\nविवाद', ha='cente
 
 कथाले **घटनाको क्रम सीधा** राखेको छ (कालक्रमिक)। न फ्ल्यासब्याक छ, न जटिल सङ्केत। यही सहजताले ग्रामीण परिवेशको वातावरण जीवन्त बनाएको हो।
 
+```figure caption="'कर्तव्य' को कथानक-विकास। कथा बिग्रँदो सम्बन्धबाट सुरु भई निःस्वार्थ कर्तव्यमार्फत पुनर्मिलनमा टुङ्गिन्छ।"
+import numpy as np
+fig, ax = plt.subplots(figsize=(5.0, 2.6))
+x = np.arange(5)
+y = [0.5, 1.9, 2.9, 1.6, 2.3]
+ax.plot(x, y, "-o", color=ACCENT, lw=1.6, ms=5)
+labels = ["सम्पत्ति\nबाँडफाँट", "श्रीधरको\nबिहे", "पिपले खेतको\nविवाद",
+          "श्रीधरको\nबिरामी", "क्षमा र\nपुनर्मिलन"]
+for i, name in enumerate(labels):
+    ax.text(i, y[i] + 0.18, name, ha="center", va="bottom", fontsize=6.4, color=INK)
+ax.axhline(1.2, color=GRID, lw=1.0, ls="--")
+ax.text(4.75, 1.3, "दाज्यू-भाइको मतभेद", ha="right", fontsize=6.6, color=MUTED)
+ax.set_xlim(-0.6, 4.9)
+ax.set_ylim(0, 3.9)
+ax.set_xticks(x)
+ax.set_xticklabels([])
+ax.set_ylabel("द्वन्द्वको तीव्रता", fontsize=7.3)
+ax.tick_params(labelsize=7, length=0)
+ax.spines[["top", "right"]].set_visible(False)
+ax.yaxis.grid(True, color=GRID, lw=0.6)
+ax.set_axisbelow(True)
+fig.tight_layout()
+```
+
 ## ११.६ पात्र र चरित्रचित्रण
 
 ### ११.६.१ मुरलीधर — नायक
@@ -280,6 +304,26 @@ ax.text(5.0, 3.75, 'पिपले खेतको\nविवाद', ha='cente
 ::: caution सावधानी
 सबै 'आउ' अन्त्य भएका क्रियामा नामधातु हुँदैन। 'आउनु' आफैँ मौलिक क्रियामूल हो। नामधातु पहिचान गर्दा शब्दबाट नाम वा विशेषण निकाल्न सकिन्छ कि सकिँदैन हेर्नुहोस्।
 :::
+
+```figure caption="प्रेरणार्थक क्रियाको बनोट। जसले काम गर्छ त्यो कसैलाई गराउँछ भने क्रियामा प्रेरणार्थक रूप जोडिन्छ।"
+fig, ax = plt.subplots(figsize=(4.9, 2.6))
+ax.set_xlim(0, 10)
+ax.set_ylim(0, 5.8)
+ax.axis("off")
+rows = [("गर्नु", "गराउनु"), ("लेख्नु", "लेखाउनु"), ("पढ्नु", "पढाउनु"),
+        ("खानु", "खुवाउनु"), ("सुन्नु", "सुनाउनु")]
+ax.text(2.2, 5.1, "सामान्य क्रिया", ha="center", fontsize=7.6, color=INK)
+ax.text(6.8, 5.1, "प्रेरणार्थक रूप", ha="center", fontsize=7.6, color=ACCENT)
+for i, (a, b) in enumerate(rows):
+    y = 4.3 - i * 0.85
+    ax.text(2.2, y, a, ha="center", va="center", fontsize=7.2, color=INK)
+    ax.annotate("", xy=(5.5, y), xytext=(4.0, y),
+                arrowprops=dict(arrowstyle="->", color=GRID, lw=1.0))
+    ax.text(6.8, y, b, ha="center", va="center", fontsize=7.2, color=ACCENT)
+ax.text(5.0, 0.15, "अर्थ : आफैँ गर्नु होइन, अरूलाई गराउनु।", ha="center", fontsize=6.9,
+        color=MUTED)
+fig.tight_layout()
+```
 
 ### ११.१०.३ प्रेरणार्थक क्रिया
 

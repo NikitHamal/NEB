@@ -81,6 +81,34 @@ tint 0.04
 | ६ | बहादुर शाहको योगदानको पुनर्स्मरण | समाधानको सङ्केत |
 | ७ | चौबिसीको आक्रमणको खबर र 'अब के गर्ने ?' | खुला अन्त्य |
 
+```figure caption="दुई मुख्य पात्रको स्थान र सम्बन्ध। दुवैले राज्यको भलो चाहन्छन्; भिन्नता विश्वासमा पर्छ, नियतमा होइन।"
+fig, ax = plt.subplots(figsize=(4.9, 2.8))
+ax.set_xlim(0, 10)
+ax.set_ylim(0, 6)
+ax.axis("off")
+ax.text(5, 5.4, "राजदरबार", ha="center", fontsize=7.8, color=INK,
+        bbox=dict(boxstyle="round,pad=0.32", fc="white", ec=INK, lw=1.2))
+ax.text(2.4, 3.5, "रानी राजेन्द्रलक्ष्मी\nमुख्य पात्र", ha="center", va="center",
+        fontsize=7.3, color=ACCENT,
+        bbox=dict(boxstyle="round,pad=0.35", fc="white", ec=ACCENT, lw=1.1))
+ax.text(7.6, 3.5, "बहादुर शाह\n(देवर, सहायक तर निर्णायक)", ha="center", va="center",
+        fontsize=7.3, color=SERIES[1],
+        bbox=dict(boxstyle="round,pad=0.35", fc="white", ec=SERIES[1], lw=1.1))
+ax.plot([4.6, 5.4], [4.9, 4.0], color=MUTED, lw=1.0)
+ax.plot([2.4, 2.4], [4.9, 4.1], color=MUTED, lw=1.0)
+ax.plot([7.6, 7.6], [4.9, 4.1], color=MUTED, lw=1.0)
+ax.annotate("", xy=(6.35, 3.5), xytext=(3.65, 3.5),
+            arrowprops=dict(arrowstyle="<->", color="#b00020", lw=1.2))
+ax.text(5.0, 3.95, "शङ्का र असुरक्षा", ha="center", fontsize=6.9, color="#b00020")
+ax.text(2.4, 1.6, "चिन्ता : छोराको\nसिंहासन र आफ्नो स्थान", ha="center", va="center",
+        fontsize=6.7, color=INK)
+ax.text(7.6, 1.6, "चिन्ता : राज्यको\nस्थिरता र भविष्य", ha="center", va="center",
+        fontsize=6.7, color=INK)
+ax.text(5.0, 0.45, "कमजोरी व्यक्तिमा होइन, विश्वासको अभावमा छ।", ha="center",
+        fontsize=7.0, color=MUTED)
+fig.tight_layout()
+```
+
 ## २.४ पात्र र विषयवस्तुको विश्लेषण
 
 ### राजेन्द्रलक्ष्मी — मुख्य पात्र
@@ -127,6 +155,25 @@ tint 0.04
 ### वातावरण
 
 कथाको वातावरण **तनाव, अनिश्चितता र अविश्वास** को छ। नजरबन्द, षड्यन्त्र, बेतिया, आक्रमणको खबर र 'हमला' जस्ता शब्दले समयको राजनीतिक अस्थिरता देखाउँछन्।
+
+```figure caption="कथाका दुई तहका द्वन्द्व। बाहिरको सत्ता-संघर्ष र भित्रको मनोद्वन्द्व एकै बेला चल्छन्; दुवै समेटे उत्तरले पूरा अङ्क पाउँछ।"
+fig, ax = plt.subplots(figsize=(4.8, 2.6))
+ax.set_xlim(0, 10)
+ax.set_ylim(0, 5.6)
+ax.axis("off")
+ax.text(2.5, 4.6, "बाह्य द्वन्द्व", ha="center", fontsize=8.0, color=ACCENT,
+        bbox=dict(boxstyle="round,pad=0.3", fc="white", ec=ACCENT, lw=1.1))
+ax.text(2.5, 3.3, "रानी र बहादुर शाहबिच\nसत्ताको संघर्ष; पर्वत, लमजुङ\nर तनहुँबाट आउन सक्ने आक्रमण",
+        ha="center", va="center", fontsize=6.8, color=INK)
+ax.text(7.5, 4.6, "आन्तरिक द्वन्द्व", ha="center", fontsize=8.0, color=SERIES[1],
+        bbox=dict(boxstyle="round,pad=0.3", fc="white", ec=SERIES[1], lw=1.1))
+ax.text(7.5, 3.3, "आमा कि रानी,\nशङ्का कि सहयोग,\nसजाय कि क्षमा",
+        ha="center", va="center", fontsize=6.8, color=INK)
+ax.plot([5, 5], [1.2, 4.3], color=GRID, lw=1.2, ls="--")
+ax.text(5.0, 0.6, "दुवै तह मिल्दा घरझगडा बाहिरी सङ्कटसँग जोडिन्छ।", ha="center",
+        fontsize=6.9, color=MUTED)
+fig.tight_layout()
+```
 
 ## २.५ पाठबाट शब्दार्थ
 

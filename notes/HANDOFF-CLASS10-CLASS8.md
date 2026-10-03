@@ -56,7 +56,7 @@ the web app's Interactive hub ships NEB practical labs for grades 11/12 only.
 ## Work queue
 
 1. [x] qbank10 units 17–19 (spine completion) — written, `check.py` OK; also fixed the mathsvg `\le0`/`\sqrt3` repair rules
-2. [ ] Class 10 information-graphics pass (figures, infographics, real images)
+2. [~] Class 10 information-graphics pass — nep10 taken from 8 to 36 figures (2.1 per chapter); eng10/math10/omath10 already match their 11/12 density (eng10 2.0 fig/ch vs eng11 1.9; math has no photos in 11/12 either)
 3. [ ] `hours:` frontmatter backfill for every class-10 chapter
 4. [ ] Interactive layer for class 10 (NEB Science/Maths virtual labs)
 5. [ ] Rebuild + size-normalise the class-10 books, push
