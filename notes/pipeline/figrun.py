@@ -1,6 +1,7 @@
 """Execute authored matplotlib figure code -> cached SVG. House style applied globally."""
 import hashlib, os, io, traceback, warnings
 import matplotlib
+import matplotlib.patches as mpatches
 import fonts
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -67,9 +68,16 @@ def run(code: str, chapter_id: str = "") -> str | None:
     if os.path.exists(out):
         return out
     _style()
+    # Common patch classes are injected so a figure never fails on a missing
+    # import; `plt.Ellipse` and friends do not exist on pyplot.
     ns = {"plt": plt, "np": np, "matplotlib": matplotlib,
           "INK": INK, "MUTED": MUTED, "GRID": GRID, "ACCENT": ACCENT, "SERIES": SERIES,
-          "matrix": matrix, "mateq": mateq}
+          "matrix": matrix, "mateq": mateq,
+          "Rectangle": mpatches.Rectangle, "Circle": mpatches.Circle,
+          "Ellipse": mpatches.Ellipse, "Polygon": mpatches.Polygon,
+          "Arc": mpatches.Arc, "Wedge": mpatches.Wedge,
+          "FancyArrow": mpatches.FancyArrow, "FancyArrowPatch": mpatches.FancyArrowPatch,
+          "matplotlib.patches": mpatches}
     try:
         exec(compile(code, "<figure>", "exec"), ns)
         fig = ns.get("fig") or plt.gcf()
