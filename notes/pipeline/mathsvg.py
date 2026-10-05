@@ -36,19 +36,12 @@ _FIX = [
     (r"\\dfrac", r"\\frac"), (r"\\tfrac", r"\\frac"),
     (r"\\ce\b", r"\\text"), (r"\\degree", r"^\\circ"), (r"\\micro", r"\\mu"),
     (r"\\textbf\b", r"\\mathbf"), (r"\\textit\b", r"\\mathit"),
-    (r"\\le(?![a-zA-Z])", r"\\leq"), (r"\\ge(?![a-zA-Z])", r"\\geq"),
-    (r"\\ne(?![a-zA-Z])", r"\\neq"), (r"\\to(?![a-zA-Z])", r"\\rightarrow"),
+    (r"\\le\b", r"\\leq"), (r"\\ge\b", r"\\geq"),
+    (r"\\ne\b", r"\\neq"), (r"\\to\b", r"\\rightarrow"),
     (r"\\nonumber", ""), (r"\\notag", ""), (r"\\label\{[^}]*\}", ""),
 ]
 
 _DIGIT_ARG = re.compile(r"\\(frac|binom)\s*([0-9a-zA-Z])\s*([0-9a-zA-Z])")
-# `\sqrt3` and `\sqrt x` both parse in no matplotlib version; the braced form
-# parses in every one. Repair the unbraced single-token argument here so an
-# author's slip cannot fail a whole chapter at build time.
-_SQRT_ARG = re.compile(r"\\sqrt\s*([0-9a-zA-Z])(?![0-9a-zA-Z{])")
-# `\frac1{12}` has one braced argument and one bare one; mathtext wants
-# both braced. Repair it the same way as the unbraced square root.
-_FRAC_ARG = re.compile(r"\\frac\s*([0-9a-zA-Z])\s*\{")
 
 def _strip_wrapper(s: str, name: str) -> str:
     """Remove \\name{...} keeping its argument, brace-balanced."""
@@ -75,8 +68,6 @@ def _clean(tex: str) -> str:
     for pat, rep in _FIX:
         s = re.sub(pat, rep, s)
     s = _DIGIT_ARG.sub(r"\\\1{\2}{\3}", s)   # \frac12 -> \frac{1}{2} (after \tfrac->\frac)
-    s = _SQRT_ARG.sub(r"\\sqrt{\1}", s)       # \sqrt3 -> \sqrt{3}, \sqrt x -> \sqrt{x}
-    s = _FRAC_ARG.sub(r"\\frac{\1}{", s)      # \frac1{12} -> \frac{1}{12}
     # strip alignment environments mathtext cannot parse
     s = re.sub(r"\\begin\{(aligned|align\*?|gather\*?|split|equation\*?)\}", "", s)
     s = re.sub(r"\\end\{(aligned|align\*?|gather\*?|split|equation\*?)\}", "", s)
@@ -96,11 +87,15 @@ def render(tex: str, fontsize: float = 11.0, display: bool = False):
     out = os.path.join(CACHE, key + ".svg")
     meta = out + ".meta"
     if os.path.exists(out) and os.path.exists(meta):
+        # A concurrent writer may have created the file but not yet filled it.
+        # Treat a short/partial read as a cache miss and re-render rather than
+        # crashing the whole chapter (audit.py runs 12 of these in parallel).
         parts = open(meta).read().split()
-        h, d = float(parts[0]), float(parts[1])
-        if display and len(parts) > 2 and float(parts[2]) / 100.0 > COLUMN_IN:
-            OVERWIDE.append((tex, float(parts[2]) / 100.0 * 25.4))
-        return out, h, d
+        if len(parts) >= 2:
+            h, d = float(parts[0]), float(parts[1])
+            if display and len(parts) > 2 and float(parts[2]) / 100.0 > COLUMN_IN:
+                OVERWIDE.append((tex, float(parts[2]) / 100.0 * 25.4))
+            return out, h, d
     prop = FontProperties(size=fontsize)
     expr = "$" + s + "$"
     try:
@@ -115,12 +110,20 @@ def render(tex: str, fontsize: float = 11.0, display: bool = False):
         fig.patch.set_alpha(0.0)
         fig.text(0, d / h if h else 0, expr, fontsize=fontsize,
                  va="baseline", ha="left", color="#14181f")
-        fig.savefig(out, format="svg", transparent=True,
+        # Write both files atomically: a reader in another process must never
+        # observe a half-written SVG or an empty .meta.
+        tmp = f"{out}.{os.getpid()}.tmp"
+        fig.savefig(tmp, format="svg", transparent=True,
                     bbox_inches="tight", pad_inches=0.012)
         plt.close(fig)
+        os.replace(tmp, out)
     except Exception as e:
         FAILS.append((tex, str(e)[:160]))
         plt.close("all")
         return None, 0, 0
-    open(meta, "w").write(f"{h} {d} {w}")
+    mtmp = f"{meta}.{os.getpid()}.tmp"
+    with open(mtmp, "w") as fh:
+        fh.write(f"{h} {d} {w}")
+    os.replace(mtmp, meta)
     return out, h, d
+
