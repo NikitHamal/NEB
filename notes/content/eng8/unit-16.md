@@ -21,6 +21,9 @@ past perfect correctly inside a story, and (4) write a story and a paragraph
 about a historical event.
 :::
 
+```photo id="eng8/quill-pen" caption="A quill pen cut from a feather, with its slit holding the ink. Before steel nibs, every writer kept a penknife and re-cut the point every few days." width="92"
+```
+
 ## 16.1 An Anecdote: Why I Became a Vegan
 
 ### About the text

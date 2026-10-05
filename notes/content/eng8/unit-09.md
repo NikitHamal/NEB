@@ -21,6 +21,9 @@ rather, far, much, slightly, extremely* — correctly, and (4) write an essay on
 technology that gives both advantages and disadvantages.
 :::
 
+```photo id="eng8/classroom-sankhu" caption="Students outside a classroom at Shree Bhagawati Secondary School, Sankhu. The leap to college takes them out of a room like this one, where every teacher knows their name." width="92"
+```
+
 ## 9.1 The Leap between High School and College
 
 ### About the text

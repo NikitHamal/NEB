@@ -22,6 +22,12 @@ which, that, where and whose, and (4) choose correctly between *a*, *an*, *the*
 and no article.
 :::
 
+```photo id="eng8/newton-portrait" caption="Sir Isaac Newton, painted by Godfrey Kneller in 1689, two years after the Principia was published." width="68"
+```
+
+```photo id="eng8/khaptad" caption="The open plateau of Khaptad National Park in far-western Nepal. Its high-altitude grassland, ringed by oak and rhododendron forest, is the habitat that makes the park unusual." width="92"
+```
+
 ## 11.1 Sir Isaac Newton
 
 ### About the text
