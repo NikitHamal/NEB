@@ -87,11 +87,15 @@ def render(tex: str, fontsize: float = 11.0, display: bool = False):
     out = os.path.join(CACHE, key + ".svg")
     meta = out + ".meta"
     if os.path.exists(out) and os.path.exists(meta):
+        # A concurrent writer may have created the file but not yet filled it.
+        # Treat a short/partial read as a cache miss and re-render rather than
+        # crashing the whole chapter (audit.py runs 12 of these in parallel).
         parts = open(meta).read().split()
-        h, d = float(parts[0]), float(parts[1])
-        if display and len(parts) > 2 and float(parts[2]) / 100.0 > COLUMN_IN:
-            OVERWIDE.append((tex, float(parts[2]) / 100.0 * 25.4))
-        return out, h, d
+        if len(parts) >= 2:
+            h, d = float(parts[0]), float(parts[1])
+            if display and len(parts) > 2 and float(parts[2]) / 100.0 > COLUMN_IN:
+                OVERWIDE.append((tex, float(parts[2]) / 100.0 * 25.4))
+            return out, h, d
     prop = FontProperties(size=fontsize)
     expr = "$" + s + "$"
     try:
@@ -106,12 +110,19 @@ def render(tex: str, fontsize: float = 11.0, display: bool = False):
         fig.patch.set_alpha(0.0)
         fig.text(0, d / h if h else 0, expr, fontsize=fontsize,
                  va="baseline", ha="left", color="#14181f")
-        fig.savefig(out, format="svg", transparent=True,
+        # Write both files atomically: a reader in another process must never
+        # observe a half-written SVG or an empty .meta.
+        tmp = f"{out}.{os.getpid()}.tmp"
+        fig.savefig(tmp, format="svg", transparent=True,
                     bbox_inches="tight", pad_inches=0.012)
         plt.close(fig)
+        os.replace(tmp, out)
     except Exception as e:
         FAILS.append((tex, str(e)[:160]))
         plt.close("all")
         return None, 0, 0
-    open(meta, "w").write(f"{h} {d} {w}")
+    mtmp = f"{meta}.{os.getpid()}.tmp"
+    with open(mtmp, "w") as fh:
+        fh.write(f"{h} {d} {w}")
+    os.replace(mtmp, meta)
     return out, h, d
