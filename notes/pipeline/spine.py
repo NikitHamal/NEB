@@ -46,6 +46,7 @@ SUBJECTS = {
  "nep": ("अनिवार्य नेपाली",       "#A8551F"),
  "sci": ("Science and Technology", "#0B6A62"),
  "soc": ("Social Studies and Human Value Education", "#2F6B3A"),
+ "health": ("Health, Physical and Creative Arts", "#B24A37"),
  "omath": ("Optional Mathematics", "#7A3E8E"),
  "qbank": ("Question Bank",    "#B02A5B"),
 }

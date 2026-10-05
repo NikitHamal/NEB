@@ -18,17 +18,18 @@ You can turn a broad curiosity into a testable question, plan a fair comparison,
 Scientific learning moves forward in connected steps. You may return to an earlier step when evidence shows that the method needs improvement.
 
 ```figure caption="Scientific inquiry is a cycle: evidence can lead to a better question or method."
+import math
 import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch
 fig, ax = plt.subplots(figsize=(5.4, 2.7))
 steps = ['Question', 'Prediction', 'Fair method', 'Observe', 'Explain', 'Share']
 for index, step in enumerate(steps):
     angle = 2 * 3.14159 * index / len(steps)
-    x, y = 2.55 + 1.75 * __import__('math').cos(angle), 1.35 + 0.85 * __import__('math').sin(angle)
+    x, y = 2.55 + 1.75 * math.cos(angle), 1.35 + 0.85 * math.sin(angle)
     ax.add_patch(FancyBboxPatch((x - 0.48, y - 0.2), 0.96, 0.4, boxstyle='round,pad=0.03', fc='#e9f3fb', ec=ACCENT, lw=1.0))
     ax.text(x, y, step, ha='center', va='center', fontsize=8.3, weight='bold')
     next_angle = 2 * 3.14159 * ((index + 1) % len(steps)) / len(steps)
-    nx, ny = 2.55 + 1.75 * __import__('math').cos(next_angle), 1.35 + 0.85 * __import__('math').sin(next_angle)
+    nx, ny = 2.55 + 1.75 * math.cos(next_angle), 1.35 + 0.85 * math.sin(next_angle)
     ax.annotate('', xy=(nx, ny), xytext=(x, y), arrowprops=dict(arrowstyle='->', color=MUTED, lw=1.0))
 ax.set_xlim(0, 5.1); ax.set_ylim(0.1, 2.6); ax.axis('off')
 ```
