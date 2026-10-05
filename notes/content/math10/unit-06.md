@@ -13,6 +13,9 @@ Water tanks, gas cylinders, rolling pins, road rollers, footballs, domes and bal
 Expect a 3- or 4-mark question such as: (i) curved surface area, total surface area and volume of a cylinder; (ii) capacity of a tank **in litres**; (iii) volume of metal in a **pipe**; (iv) a **sphere melted** and recast into smaller spheres; (v) a **combined solid** (cylinder with hemispherical ends). Use $\pi=\dfrac{22}{7}$ unless told otherwise, and always write the unit: cm², cm³, m², m³, litres.
 :::
 
+```photo id="math10/water-tank" caption="An overhead water tank is a cylinder, and its capacity is the volume formula $V = \pi r^2 h$ of this chapter. The hemispherical cap on top is the sphere formula." width="62"
+```
+
 ## 6.1 Cylinder and Sphere: concepts, formulas and worked problems
 
 ### Units of volume and capacity

@@ -13,6 +13,9 @@ Roads cross, rafters meet, and the two edges of a ramp make an angle with the gr
 Expect (i) the angle between two given lines, or the slope of a line that makes a given angle with another line; (ii) the value of $k$ that makes two lines parallel or perpendicular; (iii) the combined equation of two given lines through the origin, or the two lines hidden in an equation like $2x^2+7xy+3y^2=0$; (iv) the angle between the pair, or the condition that the pair is perpendicular ($a+b=0$) or coincident ($h^2=ab$). Everything in the chapter depends on one fact: **slope $=\tan$ of the inclination**.
 :::
 
+```photo id="omath10/railway-vanishing" caption="Rails meeting at a vanishing point. Any two non-parallel straight lines meet at an angle, and the tangent of that angle is fixed by their gradients." width="64"
+```
+
 ## 6.1 Angle between two straight lines
 
 ### Slope and inclination: a quick review
