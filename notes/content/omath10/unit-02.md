@@ -13,6 +13,9 @@ When a ball is thrown upward, a bridge cable hangs between two towers, or a farm
 Typical questions are: (i) solve a quadratic equation by factorisation or by the formula; (ii) a word problem that leads to a quadratic equation; (iii) find the vertex, axis and intercepts of $y=ax^2+bx+c$ and **draw its graph** from a table; (iv) read the roots or the minimum/maximum value from a graph; (v) draw a cubic graph from a table; (vi) solve a quadratic and a linear equation, and find where a line meets a parabola. Always give a table of values and plot at least five points when asked to draw a graph.
 :::
 
+```photo id="omath10/golden-gate" caption="The cables of the Golden Gate Bridge hang in a curve very close to a parabola. The graph of a quadratic equation is an exact parabola, with one turning point and an axis of symmetry." width="100"
+```
+
 ## 2.1 Quadratic equations: roots and their nature
 
 ::: definition Quadratic equation

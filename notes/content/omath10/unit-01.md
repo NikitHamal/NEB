@@ -13,6 +13,9 @@ A bank adds the same interest to a deposit every month. A bacterium divides into
 Expect a 3- or 4-mark question on this chapter almost every year. The common types are: (i) find a term or the number of terms of an AP or GP; (ii) find a term from two given terms; (iii) **insert** arithmetic or geometric means; (iv) three numbers in AP or GP with a given sum and product; (v) the sum of $n$ terms; (vi) a real-life problem on savings, salary or growth. Write the formula first, then substitute. Marks are given for the formula, the substitution and the answer.
 :::
 
+```photo id="omath10/sunflower" caption="The seeds in a sunflower head spiral in two directions, and the two counts are consecutive Fibonacci numbers. A sequence is a rule that produces a list; nature uses this particular one." width="84"
+```
+
 ## 1.1 Arithmetic sequence and the nth term
 
 A **sequence** is a list of numbers written in a definite order, each number being called a **term**. We write the terms $t_1, t_2, t_3, \ldots, t_n, \ldots$ (the symbol $t_n$ is read "the $n$th term").
