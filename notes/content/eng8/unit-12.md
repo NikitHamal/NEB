@@ -22,6 +22,9 @@ infinitive correctly after other verbs, and (4) form both yes/no questions and
 wh- questions.
 :::
 
+```photo id="eng8/vulture-nepal" caption="A white-rumped vulture in Chitwan National Park. Three South Asian vulture species fell by more than ninety per cent in a decade after the veterinary drug diclofenac entered their food chain." width="92"
+```
+
 ## 12.1 Nepal's Bird Man
 
 ### About the text

@@ -19,6 +19,9 @@ news report with a headline, a lead and a body, (3) report statements, questions
 and orders in indirect speech, and (4) design the front page of a newspaper.
 :::
 
+```photo id="eng8/pokhara-airport" caption="The signboard at Pokhara Regional International Airport, inaugurated on 1 January 2023 — Nepal's second international airport." width="68"
+```
+
 ## 19.1 A Tale of Two Birds
 
 ### About the text

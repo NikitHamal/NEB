@@ -26,6 +26,9 @@ closing and signature, (4) fill in a form neatly, and (5) say which syllable in
 a word carries the stress.
 :::
 
+```photo id="eng8/central-zoo" caption="An Indian elephant at the Central Zoo, Jawalakhel. The zoo holds more than six hundred animals of about a hundred species — the collection a school tour is built around." width="82"
+```
+
 ## 1.1 A Tour to Central Zoo
 
 ### About the text

@@ -21,6 +21,9 @@ they appear, (3) explain how a drama differs from a story, and (4) use *much,
 many, some, any, a few, a little, a lot of, plenty of* correctly.
 :::
 
+```photo id="eng8/bengal-tiger" caption="A royal Bengal tiger in Chitwan National Park. Nepal's camera-trap surveys identify each animal by its stripe pattern, which is unique to that tiger." width="92"
+```
+
 ## 13.1 Nepal is the First Country to Double its Tiger Population
 
 ### About the text
