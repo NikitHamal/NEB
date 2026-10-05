@@ -13,6 +13,9 @@ A town's population grows year after year, and a new motorbike loses value year 
 One 3- or 4-mark question, almost always in one of these forms: (i) population after 2 or 3 years at a given rate; (ii) population changing at **different rates** in different years; (iii) a rate made from **birth, death and migration**; (iv) the **present population** of a town given its population 2 years ago, or the reverse; (v) value of a machine/vehicle after depreciation, or the **original cost** from the present value. Write the formula, substitute, simplify, and answer in a sentence.
 :::
 
+```photo id="math10/kathmandu-valley" caption="The Kathmandu valley seen from Battisputali. The number of people living here does not grow by the same number each year — it grows by a fixed percentage of the number already there, which is exactly compound growth." width="88"
+```
+
 ## 4.1 Population Growth and Depreciation: concepts, formulas and worked problems
 
 ### Growth and decay are repeated multiplications

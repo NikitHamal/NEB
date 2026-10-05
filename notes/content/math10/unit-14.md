@@ -13,6 +13,9 @@ A **construction** is a drawing made with only two tools: an unmarked **ruler** 
 Expect one of: (i) construct a **triangle equal in area** to a given quadrilateral; (ii) construct a **parallelogram equal in area to a triangle** with a given angle; (iii) construct a **rectangle** or a **square** equal in area to a given figure; (iv) construct a triangle or quadrilateral from the given sides and angles first, then do (i)–(iii). Always write **Steps of construction** in order, leave all compass arcs visible, and add a line of justification ("Proof") explaining why the areas are equal.
 :::
 
+```photo id="math10/drawing-pen" caption="Technical drawing pens. Every construction in this chapter is done with a compass and a straight edge, and the result is only as accurate as the instrument and the hand that holds it." width="58"
+```
+
 ## 14.1 Construction: concepts, formulas and worked problems
 
 ### Equipment and conventions

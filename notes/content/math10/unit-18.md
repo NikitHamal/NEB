@@ -13,6 +13,9 @@ Will it rain tomorrow? Will the coin land heads? Will a ticket win the lottery? 
 Expect: (i) write the sample space and find a probability for coins, dice or cards (2–3 marks); (ii) a probability with the **complement** ("at least one", "not"); (iii) balls drawn from a bag **with or without replacement**, with a **tree diagram** (4 marks); (iv) a Venn-diagram or "like football / like cricket" problem using $P(A\cup B)=P(A)+P(B)-P(A\cap B)$; (v) an algebra question ("find $x$ if $P(\text{blue})=\frac{3}{5}$"). Always write the favourable outcomes, the total outcomes, and a fraction in lowest terms.
 :::
 
+```photo id="math10/dice" caption="A die. Each of the six faces has the same chance of landing face up, so the probability of any one face is 1/6 — the simplest equally likely sample space." width="80"
+```
+
 ## 18.1 Probability: concepts, formulas and worked problems
 
 ### Key terms
