@@ -75,7 +75,7 @@ def _extract_photos(body, store, chapter_id):
         src_note = ""
         if rec:
             who = rec.get("author") or "unknown"
-            src_note = (f'<span class="src">{i18n.CUR['source']} {_html.escape(who[:70])} / '
+            src_note = (f'<span class="src">{i18n.CUR["source"]} {_html.escape(who[:70])} / '
                         f'{_html.escape(rec.get("source", ""))} '
                         f'({_html.escape(rec.get("license", ""))})</span>')
         cap = re.search(r'caption\s*=\s*"([^"]*)"', info)

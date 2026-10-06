@@ -1,5 +1,5 @@
 # SUBJECT: Social Studies and Human Value Education | GRADE: 10 | CODE: SEE | WORKING_HOURS: 150
-# EXAM: SEE, 2 hr 30 min, FM 75 written (+25 internal)
+# EXAM: SEE, 3 hr, FM 75 written (+25 internal)
 # TEXTBOOK: Social Studies and Human Value Education, Class 10, CDC Sanothimi (2080 BS); 10 units, 74 chapters. This book is written in English, one chapter per CDC unit.
 # PART: Units
 ## 1. Our Society and We [G]

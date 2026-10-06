@@ -24,10 +24,11 @@ notes/
 ## Building
 
 ```
-pip install weasyprint markdown matplotlib numpy pymupdf
+pip install weasyprint markdown matplotlib numpy pypdf
 cd notes/pipeline
 python3 check.py ../content/phy11/unit-03.md      # validate one chapter
-python3 build_pdf.py phy11                        # build one book -> ../out/
+python3 coverage.py qbank10                       # require every curriculum chapter before release
+python3 build_pdf.py qbank10                      # build one book -> ../pdf/
 ```
 
 `check.py` renders every maths expression and executes every figure block in a
