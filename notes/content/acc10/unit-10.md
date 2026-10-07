@@ -1,5 +1,5 @@
 ---
-subject: Accountancy (कार्यालय सञ्चालन तथा लेखा)
+subject: Accountancy
 grade: 10
 title: Accounting of Government Expenditure (सरकारी खर्चको लेखा)
 unit: 10

@@ -1,5 +1,5 @@
 ---
-subject: Accountancy (कार्यालय सञ्चालन तथा लेखा)
+subject: Accountancy
 grade: 10
 unit: 8
 title: System of Government Accounting in Nepal (नेपालको सरकारी लेखा प्रणाली)

@@ -1,5 +1,5 @@
 ---
-subject: Accountancy (कार्यालय सञ्चालन तथा लेखा)
+subject: Accountancy
 grade: 10
 unit: 3
 title: Introduction to Tax (करको परिचय)

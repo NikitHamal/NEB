@@ -1,5 +1,5 @@
 ---
-subject: Accountancy (कार्यालय सञ्चालन तथा लेखा)
+subject: Accountancy
 grade: 10
 title: Bank Reconciliation Statement (बैंक हिसाब मिलान)
 unit: 5

@@ -1,5 +1,5 @@
 ---
-subject: Accountancy (कार्यालय सञ्चालन तथा लेखा)
+subject: Accountancy
 grade: 10
 unit: 2
 title: Bank, Insurance and Financial Institutions (बैंक, बीमा तथा वित्तीय संस्थाहरू)
