@@ -1,5 +1,5 @@
 ---
-subject: Accountancy (कार्यालय सञ्चालन तथा लेखा)
+subject: Accountancy
 grade: 10
 title: Revenue Accounting (राजस्व लेखा)
 unit: 9

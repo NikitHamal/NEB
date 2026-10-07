@@ -1,5 +1,5 @@
 ---
-subject: Accountancy (कार्यालय सञ्चालन तथा लेखा)
+subject: Accountancy
 grade: 10
 unit: 1
 title: Office Management and Procedure (कार्यालय व्यवस्थापन र कार्यविधि)
