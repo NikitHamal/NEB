@@ -71,7 +71,7 @@ Assets are what the business owns; liabilities are what it owes to outsiders; ca
 Step 1 — Cash Rs. 5,00,000 = Capital Rs. 5,00,000: $5{,}00{,}000 = 0 + 5{,}00{,}000$.
 Step 2 — Add loan: cash becomes $5{,}00{,}000 + 2{,}00{,}000 = Rs.\ 7{,}00{,}000$; liabilities Rs. 2,00,000. $7{,}00{,}000 = 2{,}00{,}000 + 5{,}00{,}000$. ✔
 Step 3 — Buy furniture for cash: cash $= 7{,}00{,}000 - 1{,}50{,}000 = Rs.\ 5{,}50{,}000$; furniture Rs. 1,50{,}000. Total assets $= 5{,}50{,}000 + 1{,}50{,}000 = Rs.\ 7{,}00{,}000$. $7{,}00{,}000 = 2{,}00{,}000 + 5{,}00{,}000$. ✔
-Step 4 — Buy goods on credit: stock Rs. 3,00,000, creditors Rs. 3,00{,}000$. Total assets $= 5{,}50{,}000 + 1{,}50{,}000 + 3{,}00{,}000 = Rs.\ 10{,}00{,}000$; right side $= (2{,}00{,}000 + 3{,}00{,}000) + 5{,}00{,}000 = Rs.\ 10{,}00{,}000$. ✔
+Step 4 — Buy goods on credit: stock Rs. 3,00,000, creditors Rs. 3,00,000. Total assets $= 5{,}50{,}000 + 1{,}50{,}000 + 3{,}00{,}000 = Rs.\ 10{,}00{,}000$; right side $= (2{,}00{,}000 + 3{,}00{,}000) + 5{,}00{,}000 = Rs.\ 10{,}00{,}000$. Balanced.
 
 **Answer.** After all four transactions: assets Rs. 10,00,000, liabilities Rs. 5,00,000, capital Rs. 5,00,000. The equation holds after every single transaction.
 :::
