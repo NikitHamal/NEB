@@ -155,6 +155,32 @@
   "source": "Wikimedia Commons",
   "title": "Kathmandu metropolitan"
  },
+ "acc10/old-note": {
+  "author": "Prasna siwakoti",
+  "bytes": 152284,
+  "credit": "Own work",
+  "fetched": "2026-10-07",
+  "file": "acc10/old-note.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Old_nepali_paper_note.jpg",
+  "sha1": "c5c57a86323303ce",
+  "source": "Wikimedia Commons",
+  "title": "Old nepali paper note"
+ },
+ "acc10/parliament": {
+  "author": "Bijay Chaurasia",
+  "bytes": 345782,
+  "credit": "Own work",
+  "fetched": "2026-10-07",
+  "file": "acc10/parliament.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Sansad_Bhavan_of_Nepal_(International_Convention_Centre_Nepal)-070A4427.jpg",
+  "sha1": "20b6e8b4aafb4f94",
+  "source": "Wikimedia Commons",
+  "title": "Sansad Bhavan of Nepal (International Convention Centre Nepal)-070A4427"
+ },
  "acc10/passbook": {
   "author": "Wainuiomartian",
   "bytes": 531444,
@@ -180,6 +206,58 @@
   "sha1": "2d1206ce49fa8a15",
   "source": "Wikimedia Commons",
   "title": "1953 - Savings Account Passbook - Allentown National Bank - Allentown PA"
+ },
+ "acc10/singha-durbar": {
+  "author": "Gunjan Raj Giri",
+  "bytes": 72684,
+  "credit": "Own work",
+  "fetched": "2026-10-07",
+  "file": "acc10/singha-durbar.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:1st_parliament_building_of_nepal_Government_office_%E0%A4%A8%E0%A5%87%E0%A4%AA%E0%A4%BE%E0%A4%B2%E0%A4%95%E0%A5%8B_%E0%A4%AA%E0%A4%B9%E0%A4%BF%E0%A4%B2%E0%A5%8B_%E0%A4%B8%E0%A4%82%E0%A4%B8%E0%A4%A6_%E0%A4%AD%E0%A4%B5%E0%A4%A8_%E0%A4%B8%E0%A4%BF%E0%A4%82%E0%A4%B9%E0%A4%A6%E0%A4%B0%E0%A4%B5%E0%A4%BE%E0%A4%B0.jpg",
+  "sha1": "e7f3a6a826039045",
+  "source": "Wikimedia Commons",
+  "title": "1st parliament building of nepal Government office नेपालको पहिलो संसद भवन सिंहदरवार"
+ },
+ "acc10/vault": {
+  "author": "P199",
+  "bytes": 219727,
+  "credit": "Own work",
+  "fetched": "2026-10-07",
+  "file": "acc10/vault.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Bank_vault_1901.jpg",
+  "sha1": "131844eb49540dc4",
+  "source": "Wikimedia Commons",
+  "title": "Bank vault 1901"
+ },
+ "acc10/warehouse": {
+  "author": "Shixart1985",
+  "bytes": 696166,
+  "credit": "Own work",
+  "fetched": "2026-10-07",
+  "file": "acc10/warehouse.jpg",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Warehouse_interior_showcasing_organized_shelving_and_packages.jpg",
+  "sha1": "6d31c629f3b77c49",
+  "source": "Wikimedia Commons",
+  "title": "Warehouse interior showcasing organized shelving and packages"
+ },
+ "acc10/workstation": {
+  "author": "Mnicolois",
+  "bytes": 119999,
+  "credit": "Own work",
+  "fetched": "2026-10-07",
+  "file": "acc10/workstation.jpg",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Velocity_Micro_%22ProMagix_HD60%22_Workstation_Computer.jpg",
+  "sha1": "7e83553973eb2e76",
+  "source": "Wikimedia Commons",
+  "title": "Velocity Micro \"ProMagix HD60\" Workstation Computer"
  },
  "bio11/agaricus": {
   "author": "Fumikas Sagisavas",
