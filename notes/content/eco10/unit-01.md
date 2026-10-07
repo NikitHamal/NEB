@@ -312,6 +312,7 @@ Opportunity cost is very often answered as "the money spent on the thing we chos
 **9.** Any two of: national income, per capita income, consumption, saving, investment, inflation, unemployment, money supply, balance of payments, government revenue and expenditure, population.
 **10.** Per capita income is the national income of a country divided by its population — the average income of one person in a year.
 **11.** The circular flow of income is the continuous movement of factor services and goods from households to firms and back, and of income and expenditure from firms to households and back, in a two-sector economy.
+:::
 
 **Group B — Short answer (5 marks each)**
 
