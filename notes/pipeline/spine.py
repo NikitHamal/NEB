@@ -47,7 +47,11 @@ SUBJECTS = {
  "sci": ("Science and Technology", "#0B6A62"),
  "soc": ("Social Studies and Human Value Education", "#2F6B3A"),
  "omath": ("Optional Mathematics", "#7A3E8E"),
+ "acc": ("Accountancy (कार्यालय सञ्चालन तथा लेखा)", "#9D174D"),
+ "eco": ("Economics (अर्थशास्त्र)", "#C2410C"),
  "qbank": ("Question Bank",    "#B02A5B"),
+ "qbankacc": ("Accountancy Question Bank", "#B02A5B"),
+ "qbankeco": ("Economics Question Bank", "#B02A5B"),
 }
 # Every subject-grade that actually has a spine file, so a bare
 # `build_pdf.py` covers the whole library — grade 10 (the SEE series), the
