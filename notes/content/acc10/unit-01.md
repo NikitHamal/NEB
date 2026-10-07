@@ -343,6 +343,21 @@ ax.text(5.0,1.4,"Retrieval:\nask the index",ha='center',va='center',fontsize=8,c
 ax.add_patch(FancyArrowPatch((8.1,3.3),(6.4,2.2),arrowstyle="-|>",mutation_scale=10,color=MUTED,lw=1.1,connectionstyle="arc3,rad=0.2"))
 ```
 
+::: example How long is each record kept?
+**Problem.** A village municipality is clearing its record room and has to decide what to do with each of the following. Advise the office, giving a reason in each case. (a) The cash book and the annual financial statements for the last 12 years. (b) Paid vouchers and bills for the last 8 years that have already been audited. (c) Correspondence about a street-light repair completed five years ago. (d) Land ownership and plot maps of the whole municipality. (e) A tender file for a road contract that was completed last month but carries a two-year defect liability period.
+
+**Solution.**
+Step 1 — Apply the rule: the retention period follows **legal and audit need**, not the age of the paper.
+Step 2 — (a) Cash books and annual statements are permanent records of accountability — **retain permanently**.
+Step 3 — (b) Vouchers supporting audited accounts are usually kept five to ten years; at eight years and already audited, they may be **transferred to the record room and disposed of under a written disposal order** once the period fixed by the prescribed authority has run.
+Step 4 — (c) Routine correspondence is kept two to five years — **due for disposal** after making sure no dispute or claim is pending.
+Step 5 — (d) Title and property documents are **permanent**; they must never be destroyed.
+Step 6 — (e) The contract file must remain until the defect liability period expires, because a claim can still arise — **retain for at least two more years**.
+
+**Answer.** (a) permanent, (b) dispose after the fixed period and a written order, (c) dispose, (d) permanent, (e) retain until the liability period ends.
+**What it means.** Two rules decide every case: keep what the law and the audit require, and destroy nothing that forms part of an audited account without the written permission of the prescribed authority.
+:::
+
 ## 1.12 Records management: retention, disposal and safety
 
 Not every paper can be kept for ever, and not every paper may be destroyed. **Records management** is the policy that decides how long each class of record is kept, where, and how it is finally disposed of.
