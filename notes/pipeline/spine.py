@@ -52,6 +52,7 @@ SUBJECTS = {
  "qbank": ("Question Bank",    "#B02A5B"),
  "qbankacc": ("Accountancy Question Bank", "#B02A5B"),
  "qbankeco": ("Economics Question Bank", "#B02A5B"),
+ "qbankc": ("Commerce Question Bank", "#B02A5B"),
 }
 # Every subject-grade that actually has a spine file, so a bare
 # `build_pdf.py` covers the whole library — grade 10 (the SEE series), the
