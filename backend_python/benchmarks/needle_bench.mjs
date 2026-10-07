@@ -46,7 +46,7 @@ function runOne(runtime, outPtr, query, maxNewTokens) {
   runtime._needle_reset();
   const qPtr = allocateCString(runtime, query);
   const start = process.hrtime.bigint();
-  const rc = runtime._needle_complete(qPtr, maxNewTokens, outPtr, 16384);
+  const rc = runtime._needle_complete(qPtr, 0, 0, maxNewTokens, outPtr, 16384);
   const end = process.hrtime.bigint();
   runtime._free(qPtr);
   const elapsed = Number(end - start) / 1e6;

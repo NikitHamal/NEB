@@ -1,10 +1,10 @@
 /* global createNeedle */
 
-importScripts("./needle.js");
+importScripts("./needle.js?v=4");
 
-var RUNTIME_VERSION = "needle3-runtime-v1";
-var BINARY_CACHE = "needle3-assets-v1";
-var WASM_URL = "./needle.wasm?v=3";
+var RUNTIME_VERSION = "needle3-runtime-v2";
+var BINARY_CACHE = "needle3-assets-v2";
+var WASM_URL = "./needle.wasm?v=4";
 var CACT_URL = "./needle3.cact?v=3";
 var SNAPSHOT_DB = "neby-needle3";
 var SNAPSHOT_STORE = "runtime-snapshots";
@@ -333,7 +333,9 @@ async function run(message) {
   var startedAt = performance.now();
   try {
     var limit = Number.isInteger(message.maxNewTokens) ? Math.max(16, Math.min(256, message.maxNewTokens)) : 128;
-    var written = runtime._needle_complete(queryPointer, limit, outputPointer, 16384);
+    // Whistle-capable engine: needle_complete(input, pcm, samples, max, out, cap).
+    // Text-only turn: null PCM (0) with 0 samples.
+    var written = runtime._needle_complete(queryPointer, 0, 0, limit, outputPointer, 16384);
     if (written <= 0) throw new Error("completion failed");
     var result = JSON.parse(runtime.UTF8ToString(outputPointer));
     self.postMessage({
