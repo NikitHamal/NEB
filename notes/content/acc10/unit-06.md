@@ -141,6 +141,27 @@ Step 4 — Total the suspense account: three credits of Rs. 5,000, Rs. 7,200 and
 **Answer.** The debit side of the trial balance was short by Rs. 14,900, which was sitting in the credit of the suspense account. The three entries above clear it.
 :::
 
+::: example Which errors make the trial balance disagree?
+**Problem.** State, with a reason, whether the trial balance will agree in each of the following cases, and name the kind of error.
+(a) A credit sale of Rs. 20,000 to Gita was not entered anywhere.
+(b) The purchases returns book was overcast by Rs. 2,000.
+(c) A purchase from Bimal of Rs. 6,000 was posted to his account as Rs. 6,600.
+(d) Wages paid for the erection of a machine of Rs. 15,000 were debited to the wages account.
+(e) A payment of Rs. 4,000 to a creditor was posted to the creditor's account twice on the debit side while cash was posted once.
+(f) The carriage inward account was undercast by Rs. 3,000 and the carriage outward account was undercast by Rs. 3,000.
+
+**Solution.**
+Step 1 — (a) Nothing was written on either side, so both sides of the trial balance keep the same totals. **Agrees** — complete omission.
+Step 2 — (b) The returns book total is used for postings on one side only, so one side becomes short by Rs. 2,000. **Does not agree** — one-sided casting error; suspense account needed.
+Step 3 — (c) The journal and the debit to purchases are right; only the creditor's account is wrong, by Rs. 600 on the credit side. **Does not agree** — one-sided error; suspense account needed.
+Step 4 — (d) The entry is complete and balanced; only the head is wrong. **Agrees** — error of principle; but profit and the asset figure are both wrong.
+Step 5 — (e) The creditor's account has been debited Rs. 8,000 while cash was credited Rs. 4,000, so one side is short by Rs. 4,000. **Does not agree** — one-sided error; suspense account needed.
+Step 6 — (f) Both errors are Rs. 3,000 on the same side (debit), so they add up: the debit side is short by Rs. 6,000. **Does not agree** — two one-sided errors, not a compensating pair.
+
+**Answer.** Agrees: (a) and (d). Does not agree: (b) Rs. 2,000, (c) Rs. 600, (e) Rs. 4,000, (f) Rs. 6,000.
+**What it means.** The test is not the size of the error but **how many sides of the trial balance it disturbs**. If it disturbs one side only, the trial balance will not agree and a suspense account is opened.
+:::
+
 ## 6.5 Suspense account
 
 A **suspense account (उज्राती खाता)** is a temporary account opened to hold the difference in the trial balance so that the trial balance can be made to agree and the books can be closed and the final accounts prepared while the mistake is still being traced.
