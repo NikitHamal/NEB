@@ -118,6 +118,10 @@ CUR = EN
 def set_book(slug):
     global CUR
     CUR = NE if slug.startswith("nep") else EN
+    grade = re.search(r"(\d+)$", slug)
+    if grade and int(grade.group(1)) <= 10:
+        CUR = CUR.copy()
+        CUR["grade"] = "कक्षा {g}" if CUR["lang"] == "ne" else "Grade {g}"
     return CUR
 
 _D = str.maketrans("0123456789", "०१२३४५६७८९")

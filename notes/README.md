@@ -1,11 +1,12 @@
-# NEBians Notes — Grade 11 & 12 Science
+# NEBians Notes — NEB / CDC study books
 
-Source for the NEBians study books: complete, chapter-by-chapter notes for the
-NEB / CDC Grade 11 and 12 science stream, written against the CDC curriculum
-(2076/2078 BS editions, in force for 2082 BS / 2025-26 AD).
+Source for NEBians study books: chapter-by-chapter resources mapped to the CDC
+curriculum, including Grade 8 Science and Technology, Grade 10 subject and
+question-bank books, and Grades 11 and 12 science-stream courses. The repository
+covers CDC curriculum editions in force for 2082 BS (2025–26 AD).
 
-Each subject-grade builds into a single print-ready PDF with running headers, a
-linked table of contents, figures, worked examples, callout boxes and NEB-pattern
+The pipeline can build each subject-grade into a print-ready PDF with running
+headers, a linked table of contents, figures, worked examples, callout boxes and
 practice questions with answer keys.
 
 ## Layout
@@ -48,9 +49,10 @@ worked solution.
 
 ## Status
 
-Edition 1.0 drafts. Physics 11 and 12 are complete and built. The remaining
-subjects are in progress. **Every book needs a subject-teacher review pass
-before it is published to students** — the content is written to the syllabus
+Edition 1.0 drafts. Physics 11 and 12 are complete and built. Grade 8 Science
+and Technology now has all 11 curriculum-unit source chapters; its PDF has not
+yet been generated. Other subjects remain in progress. **Every book needs a
+subject-teacher review pass before it is published to students** — the content is written to the syllabus
 and independently checked, but it has not yet been read by a Nepali subject
 teacher against the current NEB question papers.
 
