@@ -117,7 +117,7 @@ Step 5 — Compare: the average agricultural worker produces Rs. 1,20,000 while 
 
 **Solution.**
 Step 1 — Total visitor-days $= 1{,}200{,}000 \times 12 = 14{,}400{,}000$ days.
-Step 2 — Gross spending in dollars $= 14{,}400{,}000 \times 45 = US\$\ 648{,}000{,}000$.
+Step 2 — Gross spending in dollars $= 14{,}400{,}000 \times 45 = 648{,}000{,}000$ US dollars.
 Step 3 — In rupees $= 648{,}000{,}000 \times 133 = Rs.\ 86{,}184$ million, that is about **Rs. 86.2 billion**.
 Step 4 — $Share\ of\ GDP = \frac{86.2}{4{,}800} \times 100 = 1.8\%$.
 Step 5 — Compared with merchandise exports of Rs. 250 billion, tourist spending is about **34 per cent** of the goods Nepal exports.
