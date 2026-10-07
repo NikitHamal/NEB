@@ -67,7 +67,7 @@ function complete(runtime, outputPointer, query) {
   runtime._needle_reset();
   const queryPointer = cstring(runtime, query);
   const started = now();
-  const written = runtime._needle_complete(queryPointer, 128, outputPointer, 16384);
+  const written = runtime._needle_complete(queryPointer, 0, 0, 128, outputPointer, 16384);
   const milliseconds = elapsed(started, now());
   runtime._free(queryPointer);
   if (written <= 0) throw new Error('completion failed for ' + query);
