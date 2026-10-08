@@ -256,6 +256,13 @@ class PageViewTrackingMiddleware:
     def __call__(self, request):
         response = self.get_response(request)
 
+        # Anonymous page-cache hits are served without running the view. They
+        # still pass through here because this middleware wraps the cache.
+        # Writing a PageView row per hit would trade the cache win back for
+        # MySQL pressure on an overloaded box, so cached hits are not tracked.
+        if response.get('X-Page-Cache') == 'hit':
+            return response
+
         if request.method != 'GET':
             return response
         if response.status_code != 200:
