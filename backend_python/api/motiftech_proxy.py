@@ -17,7 +17,7 @@ import json
 import logging
 from typing import Dict, Generator, List, Optional
 
-from curl_cffi.requests import Session as CurlSession
+from .proxy_http import new_session, resilient_post
 
 logger = logging.getLogger(__name__)
 
@@ -110,11 +110,11 @@ def stream_chat(
         "model": model,
     }
 
-    session = CurlSession(headers=_BROWSER_HEADERS, impersonate="chrome")
+    session = new_session(impersonate="chrome", headers=_BROWSER_HEADERS)
     conv_id = conversation_id
     saw_text = False
     try:
-        resp = session.post(CHAT_ENDPOINT, json=payload, stream=True, timeout=REQUEST_TIMEOUT)
+        resp, session = resilient_post(session, CHAT_ENDPOINT, json=payload, stream=True, timeout=REQUEST_TIMEOUT)
         if resp.status_code != 200:
             body = resp.text[:300]
             yield {"type": "error", "error": f"Motif HTTP {resp.status_code}: {body}"}

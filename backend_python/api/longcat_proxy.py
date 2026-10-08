@@ -24,7 +24,7 @@ import threading
 import time
 from typing import Dict, Generator, List, Optional
 
-from curl_cffi.requests import Session as CurlSession
+from .proxy_http import new_session, resilient_get, resilient_post
 
 logger = logging.getLogger(__name__)
 
@@ -234,7 +234,7 @@ def stream_chat(
 
     for attempt in range(MAX_RETRIES):
         proxy_choice = proxies[attempt % len(proxies)]
-        session = CurlSession(headers=dict(_BROWSER_HEADERS), impersonate="chrome", timeout=REQUEST_TIMEOUT)
+        session = new_session(impersonate="chrome", headers=dict(_BROWSER_HEADERS), timeout=REQUEST_TIMEOUT)
         try:
             signed = _signed_request(CHAT_ENDPOINT, body_str)
             target_url = signed["url"] if signed else CHAT_ENDPOINT
@@ -242,11 +242,11 @@ def stream_chat(
             if signed:
                 headers.update(signed["headers"])
             try:
-                session.get(f"{LONGCAT_URL}/t", headers={"user-agent": _UA}, timeout=30)
+                _, session = resilient_get(session, f"{LONGCAT_URL}/t", headers={"user-agent": _UA}, timeout=30)
             except Exception:
                 pass
 
-            resp = session.post(target_url, data=body_str.encode("utf-8"), headers=headers,
+            resp, session = resilient_post(session, target_url, data=body_str.encode("utf-8"), headers=headers,
                                 stream=True, proxy=proxy_choice)
             if resp.status_code != 200:
                 last_error = f"LongCat HTTP {resp.status_code}"

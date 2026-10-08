@@ -56,7 +56,7 @@ import string
 import uuid
 from typing import Dict, Generator, List, Optional
 
-from curl_cffi.requests import Session as CurlSession
+from .proxy_http import new_session, resilient_get, resilient_post
 
 logger = logging.getLogger(__name__)
 
@@ -114,16 +114,15 @@ def _umidtoken() -> str:
     )
 
 
-def _new_session() -> CurlSession:
-    s = CurlSession(impersonate="chrome")
-    s.headers.update({
+def _new_session():
+    s = new_session(impersonate="chrome", headers={
         "origin": "https://www.qwencloud.com",
         "referer": PAGE_URL,
         "user-agent": _UA,
         "accept": "application/json, text/plain, */*",
         "bx-umidtoken": _umidtoken(),
     })
-    s.get(PAGE_URL, timeout=30)
+    _, s = resilient_get(s, PAGE_URL, timeout=30)
     return s
 
 
@@ -138,13 +137,14 @@ def _cornerstone(anon: str) -> Dict:
             "X-Anonymous-Id": anon}
 
 
-def _rpc(session: CurlSession, anon: str, api: str, data: Dict) -> Dict:
+def _rpc(session, anon: str, api: str, data: Dict) -> Dict:
     body = {"product": "sfm_bailian", "action": "IntlBroadScopeAspnGateway",
             "sec_token": "", "region": "ap-southeast-1",
             "params": json.dumps({"Api": api,
                                   "Data": {**data, "cornerstoneParam": _cornerstone(anon)},
                                   "V": "1.0"})}
-    resp = session.post(
+    resp, session = resilient_post(
+        session,
         f"{DATA_BASE}/data/api.json",
         params={"product": "sfm_bailian", "action": "IntlBroadScopeAspnGateway", "api": api},
         data=body, headers={"x-anonymous-id": anon}, timeout=REQUEST_TIMEOUT)
@@ -164,7 +164,7 @@ def _rpc(session: CurlSession, anon: str, api: str, data: Dict) -> Dict:
     return payload
 
 
-def _open_tab(session: CurlSession, anon: str, model: str, label: str):
+def _open_tab(session, anon: str, model: str, label: str):
     sess = _rpc(session, anon, SESSION_CREATE_API,
                 {"session": {"bizId": "", "label": label[:256], "bizType": "TextGeneration"}})
     session_id = sess["sessionId"] if "sessionId" in sess else sess["data"]["sessionId"]
@@ -174,7 +174,7 @@ def _open_tab(session: CurlSession, anon: str, model: str, label: str):
     return session_id, tab_code
 
 
-def _fresh_token(session: CurlSession, anon: str) -> str:
+def _fresh_token(session, anon: str) -> str:
     tok = _rpc(session, anon, TOKEN_API, {"source": ""})
     return tok["accessToken"] if "accessToken" in tok else tok["data"]["accessToken"]
 
@@ -217,7 +217,7 @@ def _extract_system(messages: List[Dict]) -> str:
     return ""
 
 
-def _stream_predict(session: CurlSession, anon: str, model: str, session_id: str,
+def _stream_predict(session, anon: str, model: str, session_id: str,
                     tab_code: str, text: str, system_prompt: str, thinking: bool,
                     thinking_budget: int, temperature: float, top_p: float,
                     enable_search: bool) -> Generator[Dict, None, None]:
@@ -230,7 +230,7 @@ def _stream_predict(session: CurlSession, anon: str, model: str, session_id: str
                                            "Data": {"predictRequest": preq,
                                                     "cornerstoneParam": _cornerstone(anon)},
                                            "V": "1.0"})}]}
-    resp = session.post(f"{STREAM_BASE}/sse/console4Json/{token}", json=body,
+    resp, session = resilient_post(session, f"{STREAM_BASE}/sse/console4Json/{token}", json=body,
                         headers={"Accept": "text/event-stream",
                                  "x-anonymous-id": anon},
                         stream=True, timeout=RESPONSE_TIMEOUT)

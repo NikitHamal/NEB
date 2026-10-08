@@ -11,7 +11,7 @@ import logging
 import uuid
 from typing import Dict, Generator, List
 
-from curl_cffi.requests import Session as CurlSession
+from .proxy_http import new_session, resilient_post
 
 logger = logging.getLogger(__name__)
 
@@ -88,12 +88,13 @@ def _split_history(messages: List[Dict], system_prompt: str = ""):
 
 
 def _post(history: List[Dict], message: str, model: str):
-    session = CurlSession(impersonate="chrome")
+    session = new_session(impersonate="chrome")
     last_status = 0
     last_body = ""
     for _ in range(2):
         try:
-            resp = session.post(
+            resp, session = resilient_post(
+                session,
                 CHAT_URL,
                 json={
                     "message": message,
