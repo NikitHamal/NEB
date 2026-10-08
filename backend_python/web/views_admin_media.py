@@ -1,4 +1,4 @@
-"""Admin media test — TTS (Airy/LazyPy/Google/Moe/Kokoro/Chatterbox/Fish)
+"""Admin media test — TTS (Airy/LazyPy/Google/Moe/Kokoro/Paradee/Chatterbox/Fish)
 
 Session-authenticated (staff) AJAX endpoint so the admin panel can test
 without Bearer tokens:
@@ -20,7 +20,7 @@ def admin_media_test(request):
     if resp:
         return resp
 
-    tts_presets = [p for p in SCRAPER_PRESETS if p.slug in ("lazypy", "googletts", "moetts", "kokoro", "chatterbox", "fishaudio", "airy")]
+    tts_presets = [p for p in SCRAPER_PRESETS if p.slug in ("lazypy", "googletts", "moetts", "kokoro", "paradee", "chatterbox", "fishaudio", "airy")]
 
     tts_models = []
     for p in tts_presets:
@@ -124,6 +124,15 @@ def _run_tts(payload):
             from api.kokoro_proxy import generate_tts as kokoro_tts
 
             result = kokoro_tts(
+                text=text,
+                voice=voice,
+                speed=payload.get("speed") or 1.0,
+                model=payload.get("provider") or provider,
+            )
+        elif provider.startswith("paradee"):
+            from api.paradee_proxy import generate_tts as paradee_tts
+
+            result = paradee_tts(
                 text=text,
                 voice=voice,
                 speed=payload.get("speed") or 1.0,
