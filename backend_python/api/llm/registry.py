@@ -30,7 +30,7 @@ FORMAT_SCRAPER = 'scraper'      # Existing NEBians web proxies (qwen & friends)
 
 OFFICIAL_FORMATS = (FORMAT_OPENAI, FORMAT_ANTHROPIC, FORMAT_GEMINI)
 
-SCRAPER_PROVIDERS = ('qwen', 'qwencloud', 'deepai', 'inception', 'k2think', 'poolside', 'motiftech', 'metaai', 'tryingopen', 'longcat', 'geminiweb', 'yqcloud', 'chatjimmy', 'unikey', 'ptero', 'lazypy', 'googletts', 'moetts', 'kokoro', 'chatterbox', 'fishaudio', 'airy')
+SCRAPER_PROVIDERS = ('qwen', 'qwencloud', 'deepai', 'inception', 'k2think', 'poolside', 'motiftech', 'metaai', 'tryingopen', 'longcat', 'geminiweb', 'yqcloud', 'chatjimmy', 'unikey', 'ptero', 'lazypy', 'googletts', 'moetts', 'kokoro', 'paradee', 'chatterbox', 'fishaudio', 'airy')
 
 
 @dataclass(frozen=True)
@@ -406,6 +406,15 @@ SCRAPER_PRESETS: List[ProviderPreset] = [
         ],
         context_window=2000, max_output_tokens=0,
         key_required=False, official=False, scraper_module='kokoro_proxy',
+    ),
+    ProviderPreset(
+        slug='paradee', label='Paradee TTS (Kokoro-82M distilled to 8M)', format=FORMAT_SCRAPER,
+        base_url='https://sahilmahendrakar-paradee.hf.space', default_model='paradee/paradee-8m',
+        models=[
+            ModelSpec('paradee/paradee-8m', 'Paradee 8M', '8M · 9MB · af_heart · ~8x realtime CPU · no signup'),
+        ],
+        context_window=4800, max_output_tokens=0,
+        key_required=False, official=False, scraper_module='paradee_proxy',
     ),
     ProviderPreset(
         slug='chatterbox', label='Chatterbox TTS (ResembleAI)', format=FORMAT_SCRAPER,
