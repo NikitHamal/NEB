@@ -11,7 +11,7 @@ import logging
 import time
 from typing import Dict, Generator, List
 
-from curl_cffi.requests import Session as CurlSession
+from .proxy_http import new_session, resilient_post
 
 logger = logging.getLogger(__name__)
 
@@ -100,9 +100,9 @@ def stream_chat(
         "withoutContext": False,
         "stream": True,
     }
-    session = CurlSession(headers=_BROWSER_HEADERS, impersonate="chrome")
+    session = new_session(impersonate="chrome", headers=_BROWSER_HEADERS)
     try:
-        resp = session.post(API_ENDPOINT, json=body, stream=True, timeout=REQUEST_TIMEOUT)
+        resp, session = resilient_post(session, API_ENDPOINT, json=body, stream=True, timeout=REQUEST_TIMEOUT)
     except Exception as exc:
         yield {"type": "error", "error": f"yqcloud: cannot reach upstream ({exc})"}
         return

@@ -631,13 +631,15 @@ def _create_session_with_profile(profile):
     headers = build_session_headers(bx_ua, profile=profile)
     proxies = {"https": QWEN_PROXY_URL, "http": QWEN_PROXY_URL} if QWEN_PROXY_URL else {}
 
-    if _USE_CURL_CFFI:
-        session = _CurlSession(impersonate=profile["impersonate"], headers=headers, proxies=proxies)
-    else:
-        session = requests.Session()
-        session.headers.update(headers)
-        if QWEN_PROXY_URL:
+    from .proxy_http import new_session as _neb_new_session
+
+    session = _neb_new_session(impersonate=profile["impersonate"], headers=headers,
+                               force_requests=not _USE_CURL_CFFI)
+    if QWEN_PROXY_URL:
+        try:
             session.proxies.update(proxies)
+        except Exception:
+            pass
 
     for key, value in (
         ("ssxmod_itna", cookies_data["ssxmod_itna"]),
@@ -651,7 +653,9 @@ def _create_session_with_profile(profile):
         session.headers["bx-v"] = "2.5.36"
     session.headers["x-request-id"] = str(uuid.uuid4())
 
-    warmup = session.get(f"{QWEN_URL}/", timeout=20, allow_redirects=True)
+    from .proxy_http import resilient_get as _neb_rget
+
+    warmup, _ = _neb_rget(session, f"{QWEN_URL}/", timeout=20, allow_redirects=True)
     waf_err = _check_waf_response(warmup)
     if waf_err:
         # Try to solve Aliyun acw_sc__v2 / x5secdata JS challenge via REA-traced JS evaluation
@@ -664,7 +668,7 @@ def _create_session_with_profile(profile):
                 if "x5secdata" in html and "acw_sc__v2" not in solved:
                     session.cookies.set("x5secdata", solved, domain="chat.qwen.ai")
                 logger.info(f"Qwen WAF solved acw_sc__v2 len={len(solved)} via js2py, retrying warmup")
-                warmup = session.get(f"{QWEN_URL}/", timeout=20, allow_redirects=True)
+                warmup, _ = _neb_rget(session, f"{QWEN_URL}/", timeout=20, allow_redirects=True)
                 waf_err = _check_waf_response(warmup)
                 if not waf_err:
                     logger.debug("Qwen warmup after WAF solve %s via %s: %s", profile["impersonate"], profile["platform"], warmup.status_code)
@@ -803,7 +807,9 @@ def create_chat(session, model=None, _pool_session=None):
         "project_id": "",
     }
     try:
-        resp = session.post(f"{QWEN_URL}/api/v2/chats/new", json=payload, timeout=30)
+        from .proxy_http import resilient_post as _neb_rpost
+
+        resp, _ = _neb_rpost(session, f"{QWEN_URL}/api/v2/chats/new", json=payload, timeout=30)
         waf_err = _check_waf_response(resp)
         if waf_err:
             logger.error(f"Qwen create_chat WAF blocked: {waf_err}")
@@ -889,7 +895,10 @@ def send_message(session, chat_id, message, model=None, parent_id=None,
         stream=True,
     )
     try:
-        resp = session.post(
+        from .proxy_http import resilient_post as _neb_rpost2
+
+        resp, _ = _neb_rpost2(
+            session,
             f"{QWEN_URL}/api/v2/chat/completions?chat_id={chat_id}",
             json=payload,
             timeout=240,
@@ -1065,8 +1074,10 @@ def probe_qwen(model="qwen3.8-max"):
         "error": "",
     }
     try:
+        from .proxy_http import resilient_get as _neb_rget2
+
         session, _ = _get_session()
-        warmup = session.get(f"{QWEN_URL}/", timeout=20, allow_redirects=True)
+        warmup, _ = _neb_rget2(session, f"{QWEN_URL}/", timeout=20, allow_redirects=True)
         report["warmup_status"] = warmup.status_code
         chat_id = create_chat(session, model, _pool_session=session)
         report["chat_id"] = chat_id

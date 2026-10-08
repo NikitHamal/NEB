@@ -12,7 +12,7 @@ import random
 import re
 from typing import Dict, Generator, List
 
-from curl_cffi.requests import Session as CurlSession
+from .proxy_http import new_session, resilient_post
 
 logger = logging.getLogger(__name__)
 
@@ -81,9 +81,10 @@ def stream_chat(
     if not any(m["role"] == "user" for m in convo):
         yield {"type": "error", "error": "chatjimmy: no user content to send"}
         return
-    session = CurlSession(impersonate="chrome")
+    session = new_session(impersonate="chrome")
     try:
-        resp = session.post(
+        resp, session = resilient_post(
+            session,
             CHAT_URL,
             json={"messages": convo,
                   "chatOptions": {"selectedModel": model, "topK": 8}},
