@@ -318,20 +318,39 @@ def home(request):
 
     # "Suggested for you" — intelligent mixed rail (resources + discussions).
     # The deck is guaranteed non-empty whenever the platform has content.
+    # Anonymous visitors share one deck (no personalization inputs), so it is
+    # cached 90s: the build pulls 90 posts + 90 resources and re-serializes
+    # them on every cold render otherwise.
     suggested_items = []
-    try:
-        from api.views_feed import build_suggested_deck
-        deck, _suggest_note = build_suggested_deck(user_profile, limit=10)
-        deck_posts = [obj for kind, obj in deck if kind == 'post']
-        deck_resources = [obj for kind, obj in deck if kind == 'resource']
-        posts_by_id = {p['id']: p for p in _serialize_posts(deck_posts, user_id)} if deck_posts else {}
-        resources_by_id = {r['id']: r for r in _serialize_resources(deck_resources)} if deck_resources else {}
-        for kind, obj in deck:
-            card = posts_by_id.get(obj.id) if kind == 'post' else resources_by_id.get(obj.id)
-            if card:
-                suggested_items.append({'type': kind, ('post' if kind == 'post' else 'resource'): card})
-    except Exception:
-        suggested_items = []
+    _anon_suggest = user_id is None and user_profile is None
+    _suggest_cached = False
+    if _anon_suggest:
+        try:
+            _hit = cache.get('home_suggest_anon_v1')
+        except Exception:
+            _hit = None
+        if _hit is not None:
+            suggested_items = _hit
+            _suggest_cached = True
+    if not _suggest_cached:
+        try:
+            from api.views_feed import build_suggested_deck
+            deck, _suggest_note = build_suggested_deck(user_profile, limit=10)
+            deck_posts = [obj for kind, obj in deck if kind == 'post']
+            deck_resources = [obj for kind, obj in deck if kind == 'resource']
+            posts_by_id = {p['id']: p for p in _serialize_posts(deck_posts, user_id)} if deck_posts else {}
+            resources_by_id = {r['id']: r for r in _serialize_resources(deck_resources)} if deck_resources else {}
+            for kind, obj in deck:
+                card = posts_by_id.get(obj.id) if kind == 'post' else resources_by_id.get(obj.id)
+                if card:
+                    suggested_items.append({'type': kind, ('post' if kind == 'post' else 'resource'): card})
+            if _anon_suggest and suggested_items:
+                try:
+                    cache.set('home_suggest_anon_v1', suggested_items, 90)
+                except Exception:
+                    pass
+        except Exception:
+            suggested_items = []
     latest_news = cache.get('home_latest_news_v3')
     if latest_news is None:
         from api.models import Announcement
