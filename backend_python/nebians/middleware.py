@@ -419,7 +419,7 @@ class SecurityHeadersMiddleware:
 
 
 class ApiUnhandledExceptionMiddleware:
-    """Intercepts and records server errors, 429 rate limit lockouts, and unhandled exceptions
+    """Intercepts and records server errors (5xx) and unhandled exceptions
     on API endpoints into structured logs for the background agent to analyze and self-heal."""
 
     def __init__(self, get_response):
@@ -427,9 +427,12 @@ class ApiUnhandledExceptionMiddleware:
 
     def __call__(self, request):
         response = self.get_response(request)
-        
-        # Log critical API response failures (429 rate limits, 400 bad requests on uploads/auth, 500s)
-        if request.path.startswith('/api/') and response.status_code in (400, 429, 500, 502, 503):
+
+        # Log only server errors (5xx) here. 4xx (including 429 throttles)
+        # are normal client behavior — DRF already answers them as JSON
+        # with Retry-After — and file-logging each one churns the disk on
+        # an overloaded box with zero diagnostic value.
+        if request.path.startswith('/api/') and response.status_code in (500, 502, 503):
             try:
                 log_dir = Path(getattr(settings, 'BASE_DIR', '.')) / 'logs'
                 log_dir.mkdir(parents=True, exist_ok=True)
@@ -437,10 +440,7 @@ class ApiUnhandledExceptionMiddleware:
                 client_ip = request.META.get('HTTP_X_FORWARDED_FOR', request.META.get('REMOTE_ADDR', 'unknown'))
                 with open(err_file, 'a', encoding='utf-8') as f:
                     f.write(f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] HTTP {response.status_code} | {request.method} {request.path} | IP: {client_ip}\n")
-                    if response.status_code == 429:
-                        f.write("Event: RATE_LIMIT_LOCKOUT (Too many requests)\n")
-                    elif response.status_code >= 500:
-                        f.write(f"Event: SERVER_ERROR_{response.status_code}\n")
+                    f.write(f"Event: SERVER_ERROR_{response.status_code}\n")
                     f.write("---\n")
             except Exception:
                 pass
