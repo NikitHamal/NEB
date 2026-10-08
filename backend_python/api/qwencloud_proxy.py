@@ -217,10 +217,78 @@ def _extract_system(messages: List[Dict]) -> str:
     return ""
 
 
+def _extract_message_deltas(messages_out, prev):
+    """Parse one cumulative messageList snapshot into new deltas.
+
+    ``prev`` maps ``(msg_pos, part_idx, kind)`` to the last full text seen,
+    so each assistant message is tracked independently: a static message
+    (e.g. an opening greeting) yields once and never poisons the deltas of
+    the message carrying the actual answer.
+
+    Returns ``(events, saw_any, saw_unparsed)`` where events is a list of
+    ``{"type": "thought"/"text", "content": delta}`` and ``saw_unparsed``
+    counts assistant messages with no recognizable parts (upstream shape
+    change — surfaced in the end-of-stream error hint).
+    """
+    events = []
+    saw_any = False
+    saw_unparsed = 0
+    for pos, msg in enumerate(messages_out or []):
+        if not isinstance(msg, dict):
+            continue
+        if str(msg.get("role") or "").lower() != "assistant":
+            continue
+        parts = {}
+        for p in msg.get("contentList") or []:
+            if not isinstance(p, dict):
+                continue
+            jp = p.get("jsonPath") or ""
+            segs = jp.strip("/").split("/")
+            if len(segs) == 3 and segs[0] == "contentList" and segs[1].isdigit():
+                parts.setdefault(int(segs[1]), {})[segs[2]] = p.get(segs[2], p.get("content"))
+        matched = False
+        for idx in sorted(parts):
+            part = parts[idx]
+            ptype = ""
+            for p in msg.get("contentList") or []:
+                if not isinstance(p, dict):
+                    continue
+                if (p.get("jsonPath") or "") == f"/contentList/{idx}/type":
+                    ptype = p.get("content") or ""
+            text_val = str(part.get("content") or "")
+            if idx == 0 and ptype == "DeepThink":
+                kind = "thought"
+            elif ptype in ("Text", "text", ""):
+                kind = "text"
+            else:
+                continue
+            matched = True
+            saw_any = True
+            key = (pos, idx, kind)
+            prev_val = prev.get(key, "")
+            if text_val.startswith(prev_val):
+                delta = text_val[len(prev_val):]
+            else:
+                delta = text_val
+            prev[key] = text_val
+            if delta.strip():
+                events.append({"type": kind, "content": delta})
+        if not matched:
+            saw_unparsed += 1
+    return events, saw_any, saw_unparsed
+
+
 def _stream_predict(session, anon: str, model: str, session_id: str,
                     tab_code: str, text: str, system_prompt: str, thinking: bool,
                     thinking_budget: int, temperature: float, top_p: float,
-                    enable_search: bool) -> Generator[Dict, None, None]:
+                     enable_search: bool) -> Generator[Dict, None, None]:
+    # Never spend a (single-use) access token on an empty turn: the model
+    # answers those with a greeting, which is exactly the "wrong response"
+    # symptom. The fresh-tab path already guards this; the tab-reuse path
+    # reaches here directly.
+    if not (text or "").strip():
+        yield {"type": "error", "error": "qwencloud: no user content to send"}
+        return
     token = _fresh_token(session, anon)
     preq = _predict_request(model, session_id, tab_code, text, system_prompt,
                             thinking, thinking_budget, temperature, top_p, enable_search)
@@ -241,8 +309,8 @@ def _stream_predict(session, anon: str, model: str, session_id: str,
         yield {"type": "error",
                "error": f"qwencloud SSE HTTP {resp.status_code}: {resp.text[:200]}"}
         return
-    prev_answer = ""
-    prev_reasoning = ""
+    prev: Dict = {}
+    unparsed_total = 0
     saw_any = False
     stream_done = False
     try:
@@ -275,43 +343,11 @@ def _stream_predict(session, anon: str, model: str, session_id: str,
                     messages_out = inner["data"]["messageList"]
                 except (KeyError, TypeError):
                     continue
-                for msg in messages_out:
-                    if not isinstance(msg, dict) or msg.get("role") != "assistant":
-                        continue
-                    parts = {}
-                    for p in msg.get("contentList") or []:
-                        if not isinstance(p, dict):
-                            continue
-                        jp = p.get("jsonPath") or ""
-                        segs = jp.strip("/").split("/")
-                        if len(segs) == 3 and segs[0] == "contentList" and segs[1].isdigit():
-                            parts.setdefault(int(segs[1]), {})[segs[2]] = p.get(segs[2], p.get("content"))
-                    for idx in sorted(parts):
-                        part = parts[idx]
-                        ptype = ""
-                        for p in msg.get("contentList") or []:
-                            jp = (p.get("jsonPath") or "")
-                            if jp == f"/contentList/{idx}/type":
-                                ptype = p.get("content") or ""
-                        text_val = str(part.get("content") or "")
-                        if idx == 0 and ptype == "DeepThink":
-                            saw_any = True
-                            if text_val.startswith(prev_reasoning):
-                                delta = text_val[len(prev_reasoning):]
-                            else:
-                                delta = text_val
-                            prev_reasoning = text_val
-                            if delta.strip():
-                                yield {"type": "thought", "content": delta}
-                        elif ptype in ("Text", "text", ""):
-                            saw_any = True
-                            if text_val.startswith(prev_answer):
-                                delta = text_val[len(prev_answer):]
-                            else:
-                                delta = text_val
-                            prev_answer = text_val
-                            if delta.strip():
-                                yield {"type": "text", "content": delta}
+                events, saw, unparsed = _extract_message_deltas(messages_out, prev)
+                saw_any = saw_any or saw
+                unparsed_total += unparsed
+                for event in events:
+                    yield event
                 if stream_done:
                     break
             if stream_done:
@@ -324,6 +360,9 @@ def _stream_predict(session, anon: str, model: str, session_id: str,
             return
     if not saw_any:
         hint = ""
+        if unparsed_total:
+            hint += (f" ({unparsed_total} assistant message(s) arrived in an "
+                     f"unrecognized shape — the upstream protocol may have changed)")
         try:
             q = quota()
             if q.get("ok") and q.get("limit") and (q.get("used") or 0) >= q["limit"]:
