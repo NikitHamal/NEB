@@ -49,6 +49,7 @@ SUBJECTS = {
  "omath": ("Optional Mathematics", "#7A3E8E"),
  "acc": ("Accountancy", "#9D174D"),
  "eco": ("Economics", "#C2410C"),
+ "health": ("Health, Physical and Creative Arts", "#0F766E"),
  "qbank": ("Question Bank",    "#B02A5B"),
  "qbankacc": ("Accountancy Question Bank", "#B02A5B"),
  "qbankeco": ("Economics Question Bank", "#B02A5B"),
