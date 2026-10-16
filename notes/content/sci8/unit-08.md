@@ -283,6 +283,12 @@ lets go, the spring pulls the armature back, the contact is made again, and the
 whole thing repeats — which is why a bell rings continuously while the button is
 pressed.
 
+```photo id="sci10/electromagnet" caption="An electromagnet lifting scrap iron. Its magnetism lasts only while the current flows." width="62"
+```
+
+```photo id="sci10/transformer-pole" caption="A pole-mounted distribution transformer. It steps the voltage down for household supply." width="62"
+```
+
 ## Chapter summary
 
 - A magnet attracts iron, cobalt and nickel; like poles repel and unlike poles

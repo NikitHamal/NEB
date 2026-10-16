@@ -291,6 +291,12 @@ $$\text{solubility}=\frac{8}{32}\times100=25\ \text{g per 100 g of water}$$
 $8+32=40$ g of solution ✓.
 :::
 
+```photo id="sci10/litmus" caption="Litmus paper tests. Blue turns red in acid; red turns blue in a base." width="64"
+```
+
+```photo id="sci10/malachite" caption="Malachite, a copper ore. Minerals are naturally occurring compounds, not mixtures." width="58"
+```
+
 ## Chapter summary
 
 - Matter is anything with mass that occupies space; it is made of particles.
