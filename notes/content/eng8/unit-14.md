@@ -331,12 +331,12 @@ you would learn, and how it would end. Do not mix in the first conditional.
 
 **Group B (2 marks each)**
 
-11. Punctuate: *where did you find it asked grandmother*
-12. Rewrite to show, not tell: *The old man was very poor.*
+**11.** Punctuate: *where did you find it asked grandmother*
+**12.** Rewrite to show, not tell: *The old man was very poor.*
 
 **Group C (4 marks)**
 
-13. Write a story in about 150 words ending with the sentence: *…and the mirror
+**13.** Write a story in about 150 words ending with the sentence: *…and the mirror
     was never found again.*
 
 ::: note Extra practice — answers

@@ -323,12 +323,12 @@ $2(x+1)=5$, so $2x+2=5$, $2x=3$, and $x=1.5$.
 
 **Group B (2 marks)**
 
-11. Simplify: $\dfrac{x^5 \times x^{-2}}{x^{-3}}$.
-12. Find the value of $16^{3/4}$.
+**11.** Simplify: $\dfrac{x^5 \times x^{-2}}{x^{-3}}$.
+**12.** Find the value of $16^{3/4}$.
 
 **Group C (4 marks)**
 
-13. Solve: (i) $2^{x+2} = 128$ (ii) $5^{2x} = \dfrac{1}{125}$.
+**13.** Solve: (i) $2^{x+2} = 128$ (ii) $5^{2x} = \dfrac{1}{125}$.
 
 ::: note Extra practice — answers
 **11.** $x^{5-2} = x^3$; then $\frac{x^3}{x^{-3}} = x^{3+3} = x^6$.

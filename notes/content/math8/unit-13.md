@@ -350,13 +350,13 @@ again, and each of 2, 4, 6, 8 is the supplement of one of them.
 
 **Group B (2 marks)**
 
-14. Two angles of a triangle are $42°$ and $78°$. Find the third angle and the
+**14.** Two angles of a triangle are $42°$ and $78°$. Find the third angle and the
     exterior angle at that vertex.
-15. Find each exterior angle of a regular polygon of 12 sides.
+**15.** Find each exterior angle of a regular polygon of 12 sides.
 
 **Group C (4 marks)**
 
-16. In a parallelogram $PQRS$, $\angle P = 72°$. Find the other three angles
+**16.** In a parallelogram $PQRS$, $\angle P = 72°$. Find the other three angles
     with reasons.
 
 ::: note Extra practice — answers

@@ -430,12 +430,12 @@ figures, the date in the order the form shows, and a signature in the last box.
 
 **Group B (2 marks each)**
 
-11. Give one word for: *a place where wild animals are kept for public view*.
-12. Use *species* and *habitat* in sentences of your own.
+**11.** Give one word for: *a place where wild animals are kept for public view*.
+**12.** Use *species* and *habitat* in sentences of your own.
 
 **Group C (4 marks)**
 
-13. Write a request letter to the zoo authority asking permission for a school
+**13.** Write a request letter to the zoo authority asking permission for a school
     visit of 40 students.
 
 ::: note Extra practice — answers

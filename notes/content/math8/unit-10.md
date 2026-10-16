@@ -425,12 +425,12 @@ $3x^2y$ ✓. LCM: numbers—18; $x$—$x^3$; $y$—$y^2$; so $18x^3y^2$ ✓.
 
 **Group B (2 marks)**
 
-11. Expand $(3x - 5)^2$.
-12. Evaluate $104 \times 96$ using an identity.
+**11.** Expand $(3x - 5)^2$.
+**12.** Evaluate $104 \times 96$ using an identity.
 
 **Group C (4 marks)**
 
-13. Factorise completely: (i) $3x^2 - 27$ (ii) $x^2 + 10x + 25$
+**13.** Factorise completely: (i) $3x^2 - 27$ (ii) $x^2 + 10x + 25$
     (iii) $4a^2 - 9b^2$.
 
 ::: note Extra practice — answers

@@ -363,12 +363,12 @@ so $(212)_5$. Check: $2\times25+1\times5+2=57$ ✓.
 
 **Group B (2 marks)**
 
-11. Name the property used: $17 \times (10 + 3) = 170 + 51$.
-12. Show that subtraction is not commutative, with an example.
+**11.** Name the property used: $17 \times (10 + 3) = 170 + 51$.
+**12.** Show that subtraction is not commutative, with an example.
 
 **Group C (4 marks)**
 
-13. Use suitable properties to evaluate: (i) $125 \times 8 \times 7$
+**13.** Use suitable properties to evaluate: (i) $125 \times 8 \times 7$
     (ii) $999 \times 12$ (iii) $27 + 89 + 73 + 11$.
 
 ::: note Extra practice — answers

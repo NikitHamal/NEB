@@ -341,13 +341,13 @@ $\frac{20^2}{100}=4\%$ ✓.
 
 **Group B (2 marks)**
 
-11. An article costing Rs 1,250 is sold at a profit of 16 %. Find the selling
+**11.** An article costing Rs 1,250 is sold at a profit of 16 %. Find the selling
     price.
-12. VAT of Rs 338 was charged at 13 %. Find the price before VAT.
+**12.** VAT of Rs 338 was charged at 13 %. Find the price before VAT.
 
 **Group C (4 marks)**
 
-13. A radio marked at Rs 2,800 is sold at a 15 % discount with 13 % VAT. If the
+**13.** A radio marked at Rs 2,800 is sold at a 15 % discount with 13 % VAT. If the
     shopkeeper still makes a 19 % profit, find the cost price.
 
 ::: note Extra practice — answers

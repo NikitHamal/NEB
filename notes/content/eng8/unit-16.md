@@ -332,12 +332,12 @@ ordinary people; end with the effect, not with the date.
 
 **Group B (2 marks each)**
 
-11. Write a one-sentence hook for an anecdote about your first day at school.
-12. Rewrite as showing, not telling: *The food was delicious.*
+**11.** Write a one-sentence hook for an anecdote about your first day at school.
+**12.** Rewrite as showing, not telling: *The food was delicious.*
 
 **Group C (4 marks)**
 
-13. Write an anecdote of about 150 words called *The Day I Changed My Mind*.
+**13.** Write an anecdote of about 150 words called *The Day I Changed My Mind*.
 
 ::: note Extra practice — answers
 **11.** e.g. *I spent my first day at school hiding behind a water tank with
