@@ -404,3 +404,22 @@ $\frac{28}{50} = \frac{14}{25}$. Infinitely many exist because the denominator
 can always be made larger — between any two rational numbers there is always
 their mean, $\frac{a+b}{2}$, which is again rational.
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** Which of these is irrational?
+   (a) $0.25$ (b) $\frac{3}{7}$ (c) $\sqrt{9}$ (d) $\sqrt{11}$
+**2.** $\frac{22}{7}$ is
+   (a) irrational (b) rational (c) an integer (d) a whole number
+**3.** $0.\overline{3}$ as a fraction is
+   (a) $\frac{3}{10}$ (b) $\frac{1}{3}$ (c) $\frac{3}{11}$ (d) $\frac{33}{100}$
+**4.** Every integer is
+   (a) a natural number (b) a whole number (c) a rational number (d) irrational
+**5.** The additive inverse of $-\frac{4}{9}$ is
+   (a) $\frac{9}{4}$ (b) $\frac{4}{9}$ (c) $-\frac{9}{4}$ (d) 0
+
+::: note Objective practice — answers
+**1.** (d) — 11 is not a perfect square. **2.** (b) — it is a ratio of two integers. **3.** (b) — $\frac{3}{9}=\frac{1}{3}$. **4.** (c) — every integer can be written as $\frac{p}{1}$. **5.** (b) — the inverse changes the sign.
+:::

@@ -395,3 +395,22 @@ $=80+50=130$. **Check.** $80+40+50+30=200$ ✓.
 **16.** At least one $= 80 - 9 = 71$. Both $= 52 + 41 - 71 = 22$.
 Goats only $= 52 - 22 = 30$. (Check: $30 + 22 + 19 + 9 = 80$.)
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** If $n(A)=15$, $n(B)=11$ and $n(A\cap B)=6$, then $n(A\cup B)$ is
+   (a) 20 (b) 26 (c) 32 (d) 9
+**2.** A set with 5 elements has subsets numbering
+   (a) 10 (b) 25 (c) 32 (d) 5
+**3.** The set of vowels written in set-builder form is
+   (a) $\{a,e,i,o,u\}$ (b) $\{x : x$ is a vowel$\}$ (c) five vowels (d) $\{1,2,3,4,5\}$
+**4.** "Students who play neither game" is written as
+   (a) $A\cup B$ (b) $A\cap B$ (c) $(A\cup B)'$ (d) $A-B$
+**5.** If $A\subseteq B$ then $A\cap B$ is
+   (a) $A$ (b) $B$ (c) $\emptyset$ (d) $A\cup B$
+
+::: note Objective practice — answers
+**1.** (a) — $15+11-6=20$. **2.** (c) — $2^5=32$. **3.** (b) — the set-builder form. **4.** (c) — the complement of the union. **5.** (a) — every member of $A$ is in $B$.
+:::

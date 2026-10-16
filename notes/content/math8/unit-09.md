@@ -336,3 +336,22 @@ $2(x+1)=5$, so $2x+2=5$, $2x=3$, and $x=1.5$.
 **13.** (i) $128 = 2^7$, so $x + 2 = 7$ and $x = 5$.
 (ii) $\frac{1}{125} = 5^{-3}$, so $2x = -3$ and $x = -\frac{3}{2} = -1.5$.
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** $3^4 \times 3^2$ equals
+   (a) $3^6$ (b) $3^8$ (c) $9^6$ (d) $3^2$
+**2.** $5^0 + 2^{-1}$ equals
+   (a) 0 (b) 1 (c) 1.5 (d) 2
+**3.** $16^{1/2}$ equals
+   (a) 8 (b) 4 (c) 32 (d) 2
+**4.** If $3^x = 81$, then $x$ is
+   (a) 3 (b) 4 (c) 9 (d) 27
+**5.** $(-3)^2$ equals
+   (a) $-9$ (b) 9 (c) $-6$ (d) 6
+
+::: note Objective practice — answers
+**1.** (a) — add the indices. **2.** (c) — $1+0.5=1.5$. **3.** (b) — $\sqrt{16}=4$. **4.** (b) — $3^4=81$. **5.** (b) — the bracket squares the sign too.
+:::

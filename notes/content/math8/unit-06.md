@@ -339,3 +339,22 @@ Work left $= 300 - 120 = 180$ worker-days.
 Workers left $= 20 - 5 = 15$.
 Days needed $= \frac{180}{15} = \textbf{12 days}$.
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** If 10 workers finish a job in 12 days, 15 workers will take
+   (a) 6 days (b) 8 days (c) 18 days (d) 20 days
+**2.** Speed and time for a fixed distance are in
+   (a) direct proportion (b) inverse proportion (c) no relation (d) equal ratio
+**3.** 7 pens cost Rs 210; 12 pens cost
+   (a) Rs 300 (b) Rs 330 (c) Rs 360 (d) Rs 420
+**4.** In direct variation, the quantity that stays constant is
+   (a) the product $xy$ (b) the ratio $y/x$ (c) the sum (d) the difference
+**5.** A tap fills a tank in 5 hours; in 2 hours it fills
+   (a) $\frac{1}{5}$ (b) $\frac{2}{5}$ (c) $\frac{3}{5}$ (d) $\frac{1}{2}$
+
+::: note Objective practice — answers
+**1.** (b) — $\frac{10\times12}{15}=8$ days. **2.** (b) — their product is constant. **3.** (c) — one pen Rs 30, so $12\times30=360$. **4.** (b) — the ratio stays constant. **5.** (b) — $\frac{2}{5}$ of the tank.
+:::

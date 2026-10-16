@@ -375,3 +375,22 @@ simplify — 5 is not a factor of $x+5$. (ii) $\frac{(x+3)(x-3)}{x-3} = x+3$.
 (iii) $\frac{2x}{2(x+2)} = \frac{x}{x+2}$. (iv) $\frac{1}{x}+\frac{1}{y} =
 \frac{x+y}{xy}$.
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** $\dfrac{x^2-25}{x+5}$ simplifies to
+   (a) $x-5$ (b) $x+5$ (c) $x-25$ (d) $x^2-5$
+**2.** $\dfrac{x+3}{x}$ simplifies to
+   (a) 3 (b) $x+3$ (c) it does not simplify (d) $\frac{3}{x}$
+**3.** $\dfrac{1}{a}+\dfrac{1}{b}$ equals
+   (a) $\frac{1}{a+b}$ (b) $\frac{a+b}{ab}$ (c) $\frac{2}{ab}$ (d) $\frac{ab}{a+b}$
+**4.** $\dfrac{x^2-9}{x^2+5x+6}$ is undefined at
+   (a) $x=3$ only (b) $x=-2$ and $x=-3$ (c) $x=2$ (d) nowhere
+**5.** $\dfrac{5a}{6}-\dfrac{a}{3}$ equals
+   (a) $\frac{a}{2}$ (b) $\frac{4a}{3}$ (c) $\frac{a}{6}$ (d) $\frac{7a}{6}$
+
+::: note Objective practice — answers
+**1.** (a) — cancel $(x+5)$. **2.** (c) — a sum, not a product, so nothing cancels. **3.** (b) — common denominator $ab$. **4.** (b) — the denominator is $(x+2)(x+3)$. **5.** (a) — $\frac{5a-2a}{6}=\frac{a}{2}$.
+:::
