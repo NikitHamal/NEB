@@ -1,95 +1,85 @@
-# Grade 8 and Grade 10 — session handoff
+# Grade 8 and Grade 10 — state of the library
 
-Branch: `resources/grade8-rebuild-grade10-books`, cut from
-`resources/class8-rebuild-class10-complete-20261012`.
+Branch: `resources/grade8-rebuild-grade10-books`. Everything below is built from
+the sources in this repo with `notes/pipeline`, and every PDF in `notes/pdf/`
+was produced by that pipeline — none is hand-made, so any chapter edit means a
+rebuild, never a hand-patch of the PDF.
 
-## The thing that was actually wrong
+## What ships
 
-Social Studies and Health/PE/Creative Arts are **Nepali-medium** subjects. The
-CDC publishes both in Nepali and both boards examine them in Nepali. Edition 1
-had written `soc10` entirely in English (≈ 44,000 Latin words across 10 units)
-and `health8` in English too. A Grade 10 student sitting the SEE social studies
-paper cannot use an English book.
+| Book | Units | Pages |
+|---|---|---|
+| **Grade 8** | | |
+| नेपाली | 17 | 155 |
+| Mathematics | 21 | 166 |
+| Science and Technology | 11 | 119 |
+| Compulsory English | 19 | 157 |
+| सामाजिक अध्ययन तथा मानव मूल्य शिक्षा | 9 | 94 |
+| स्वास्थ्य, शारीरिक तथा सिर्जनात्मक कला | 13 | 90 |
+| Question Bank (all six subjects) | 19 | 122 |
+| **Grade 10** | | |
+| अनिवार्य नेपाली | 17 | 256 |
+| Compulsory English | 19 | 281 |
+| Mathematics | 16 | 222 |
+| Optional Mathematics | 14 | — |
+| Science and Technology | 19 | 275 |
+| सामाजिक अध्ययन तथा मानव मूल्य शिक्षा | 10 | 126 |
+| Accountancy | 15 | 192 |
+| Economics | 6 | 97 |
+| Question Bank | 19 | 248 |
+| Commerce Question Bank | 7 | 86 |
 
-That is now fixed in the pipeline and fixed in two of the three affected books.
+`check.py` passes on every chapter in `notes/content/`.
 
-## Done this session
+## The rules that shaped this work
 
-**Pipeline — Devanagari is now first-class**
+1. **Nepali-medium books are Nepali all the way through.** `nep*`, `soc*` and
+   `health*` are published and examined in Nepali, so their furniture is Nepali
+   too: cover, running heads, section labels, figure captions, axis labels,
+   marks chips and numerals (`i18n.NEPALI_MEDIUM` drives this). The only Latin
+   left is in the picture-credit appendix, where each licence requires the file
+   title, author and licence code to travel unchanged — a Nepali line on that
+   page now says so.
+2. **Devanagari needs real shaping.** Three bugs were found by rendering pages
+   and looking at them, not by reading code: `letter-spacing` shattered
+   conjuncts, Poppins' secondary Devanagari was being used for display type,
+   and the `@page` margin boxes fell back to a Latin font. All three are fixed
+   in `build_pdf.py`.
+3. **A formula written in Nepali words is text, not maths.** matplotlib's
+   mathtext places glyphs one at a time and its maths fonts have no Devanagari,
+   so `\text{जनघनत्व}` used to print as dummy boxes. `devaeqn.py` now typesets
+   any Devanagari-bearing formula as HTML in the book's own font, with stacked
+   fractions; `md2html.py` routes to it automatically.
+4. **Photographs are embedded as JPEG.** `photo.py` used to composite to
+   lossless PNG at 250 dpi, which took Science 10 to 50 MB. It now writes JPEG
+   q84 and the source assets are capped at 1200 px: same pages, same quality on
+   the page, 10.7 MB.
+5. **Every chapter earns its pages.** The grade 8 and grade 10 books were taken
+   to the grade 11/12 standard: a data or concept chart in every unit, a
+   comparison table, at least one fully worked example, activity and project
+   boxes for interactive learning, and an extra practice set with answer keys.
 
-| Fault | Fix |
-|---|---|
-| `letter-spacing` broke conjuncts — "नेबियन्स" printed "ने बि य न्स" | `DEVA_CSS` resets tracking and `text-transform` for every furniture class in a Nepali book |
-| Cover and headings used Poppins' secondary Devanagari | Nepali books set `Noto Sans Devanagari` for all display type |
-| Page footer brand and page number fell back to a Latin font | the `@page` margin boxes carry the Devanagari family explicitly |
-| `[5]` marks chips stayed in Latin digits | `localise_marks()` runs over every chapter body |
-| A Latin subject code printed on a Nepali cover | the code is dropped when it is not Devanagari |
-| `i18n` treated only `nep*` as Nepali | `NEPALI_MEDIUM = ("nep", "soc", "health")` |
+## Pipeline notes for the next session
 
-**Content**
+- Build from a scratch tree shaped `nebians/{content,curriculum,build,pdf}`;
+  `/workspace/tools/runbuild.sh` syncs the repo into it, builds a queue and
+  copies the PDFs back. Launch it as `(setsid runbuild.sh soc10 nep8 &)`.
+- Repo I/O goes through the GitHub REST API (`tools/ghapi.py`, `tools/push.py`,
+  `tools/rmpath.py`); there is no git credential in the sandbox and
+  `actl connector call --body` cannot carry a large payload.
+- A single request body over ~50 MB is rejected, so push large PDFs one at a
+  time.
+- `assets.py get_commons <id> "<File:…>"` fetches and registers a Commons image
+  with its credit line; `assets.py verify` checks that every registered id has
+  bytes on disk.
+- mathtext gotchas: braces always (`\sqrt{3}`), no `\begin{align}`, no
+  `\ce{}`, and a command butted against a digit (`\ge1`) needs a space —
+  `mathsvg.py` inserts it now.
 
-- `health8` — **13/13 units written from scratch in Nepali.** The book existed
-  as 2 English units. 68 pages, built.
-- `soc10` — **units 1–2 rewritten in Nepali.** Spine rewritten in Nepali and
-  units 6–10 given the syllabus bullets they never had.
-- `soc8` — all remaining English removed: organisation names are Nepali only
-  (the Latin initialisms in brackets are gone), and every demography, interest
-  and trade-balance formula is restated in Nepali terms.
-- `math8` — unbraced `\sqrt3` repaired; it was failing the build.
-- `curriculum/soc10.md`, `curriculum/health8.md` — rewritten in Nepali.
+## What a future session could do next
 
-**Books built and committed to `notes/pdf/`**
-
-| Book | Pages |
-|---|---|
-| अनिवार्य नेपाली — कक्षा ८ | 130 |
-| गणित — कक्षा ८ | 149 |
-| विज्ञान तथा प्रविधि — कक्षा ८ | 110 |
-| अनिवार्य अङ्ग्रेजी — कक्षा ८ | 145 |
-| सामाजिक अध्ययन — कक्षा ८ | 69 |
-| स्वास्थ्य, शारीरिक तथा सिर्जनात्मक कला — कक्षा ८ | 68 |
-| अनिवार्य नेपाली — कक्षा १० | 256 |
-
-## Next, in priority order
-
-1. **`soc10` units 3–10 are still English.** Rewrite them in Nepali the way
-   units 1–2 were done: keep the section order (it follows the CDC book), keep
-   the `photo` ids (the assets are already registered under `soc10/`), redraw
-   the figures with Nepali labels. Do **not** machine-translate — the register
-   has to be textbook Nepali. Only build the book once all ten are converted;
-   a half-English book is worse than the English one.
-2. **Depth pass on Grade 8.** The chapters average 1,800–2,400 words where the
-   Grade 10 books run 4,000–6,000. `soc8` carries almost no worked examples.
-   The thin ones, worst first: `math8` (1,831 avg), `soc8` (2,265, 1 example
-   across 9 units), `nep8` (2,202), `eng8` (2,414).
-3. **Remaining Grade 10 books**: `sci10`, `qbank10` still to build.
-
-## How to check Nepali purity
-
-```
-python3 - <<'PY'
-import re, glob, collections
-c = collections.Counter()
-for f in glob.glob('content/soc10/*.md'):
-    s = open(f, encoding='utf-8').read()
-    s = re.sub(r'```.*?```', '', s, flags=re.S)      # figure/photo code
-    s = re.sub(r'<[^>]+>|^---$.*?^---$', '', s, flags=re.S | re.M)
-    c.update(re.findall(r'[A-Za-z][A-Za-z\'-]{2,}', s))
-print(sum(c.values()), c.most_common(15))
-PY
-```
-Box markers (`::: note`), figure code and the site URL are the only Latin that
-may remain. Everything a student reads must be Devanagari.
-
-## Build
-
-Fonts and deps once:
-
-```
-pip install weasyprint markdown matplotlib numpy pymupdf
-cd notes/pipeline/fonts && ./install.sh
-```
-
-`build_pdf.py` resolves `theme.css` beside itself now, so a scratch tree shaped
-`nebians/{content,curriculum,assets,build,pdf}` works — copy `notes/pipeline/*`
-into `build/`. Grade 8 books take 1–3 minutes each; `nep10` about 5.
+- Grade 9 (the other half of the secondary level) has no sources yet.
+- Grade 8 Nepali-medium books could carry more photographs; only a handful of
+  `health8/*` assets have been fetched so far.
+- The Optional Mathematics and Accountancy books would benefit from the same
+  activity-and-project pass the rest of the library has had.
