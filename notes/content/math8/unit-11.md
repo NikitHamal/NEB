@@ -235,23 +235,9 @@ An algebraic fraction is simplified by **factorising and cancelling common
 factors** — never by cancelling across a plus or minus sign.
 
 ```figure caption="The three steps of simplifying an algebraic fraction. Skipping step 1 is what produces the classic wrong cancellation."
-steps = ["Factorise\nnumerator", "Factorise\ndenominator",
-         "Cancel common\nfactors", "State excluded\nvalues"]
-fig, ax = plt.subplots(figsize=(5.0, 2.2))
-for i, s in enumerate(steps):
-    ax.add_patch(matplotlib.patches.FancyBboxPatch(
-        (i * 1.02, 0), 0.9, 0.76,
-        boxstyle="round,pad=0.03,rounding_size=0.08",
-        facecolor=SERIES[i % len(SERIES)], edgecolor="none", alpha=0.86))
-    ax.text(i * 1.02 + 0.45, 0.38, s, ha="center", va="center",
-            color="white", fontsize=7.8)
-    if i < len(steps) - 1:
-        ax.annotate("", xy=(i * 1.02 + 1.0, 0.38),
-                    xytext=(i * 1.02 + 0.92, 0.38),
-                    arrowprops=dict(arrowstyle="-|>", color=MUTED, lw=1.1))
-ax.set_xlim(-0.08, len(steps) * 1.02)
-ax.set_ylim(-0.1, 0.88)
-ax.axis("off")
+fig, ax = flow([("Factorise", "numerator"), ("Factorise", "denominator"),
+                ("Cancel", "common factors"), ("State", "excluded values")],
+               note="skipping step 1 is what produces the wrong cancellation")
 ```
 
 ::: caution The cancellation that is never allowed

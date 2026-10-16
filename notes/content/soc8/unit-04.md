@@ -143,31 +143,8 @@ fig.tight_layout
 | अन्धविश्वास | बोक्सीको आरोप, धामीमा भर | वैज्ञानिक शिक्षाको अभाव | विज्ञान शिक्षा, स्वास्थ्य सेवाको पहुँच, कानुन |
 
 ```figure caption="सामाजिक समस्याको चक्र। गरिबी र अशिक्षाले अवसर घटाउँछ, घटेको अवसरले जोखिम बढाउँछ, र जोखिमले फेरि गरिबी गहिरो बनाउँछ — चक्र तोड्ने सबैभन्दा सस्तो ठाउँ शिक्षा हो।"
-import math
-nodes = ["गरिबी", "अशिक्षा", "कम अवसर", "जोखिम"]
-fig, ax = plt.subplots(figsize=(4.3, 3.2))
-cx, cy, R = 0.5, 0.5, 0.31
-pts = []
-for i in range(4):
-    a = math.pi / 2 - i * math.pi / 2
-    pts.append((cx + R * math.cos(a), cy + R * math.sin(a)))
-for (x, y), lab, col in zip(pts, nodes, SERIES):
-    ax.add_patch(matplotlib.patches.Circle((x, y), 0.135, facecolor=col,
-                                           edgecolor="none", alpha=0.88))
-    ax.text(x, y, lab, ha="center", va="center", color="white", fontsize=8.2)
-for i in range(4):
-    x1, y1 = pts[i]
-    x2, y2 = pts[(i + 1) % 4]
-    dx, dy = x2 - x1, y2 - y1
-    d = math.hypot(dx, dy)
-    ux, uy = dx / d, dy / d
-    ax.annotate("", xy=(x2 - ux * 0.15, y2 - uy * 0.15),
-                xytext=(x1 + ux * 0.15, y1 + uy * 0.15),
-                arrowprops=dict(arrowstyle="-|>", color=MUTED, lw=1.2,
-                                connectionstyle="arc3,rad=0.16"))
-ax.set_xlim(0, 1)
-ax.set_ylim(0.05, 0.95)
-ax.axis("off")
+fig, ax = cycle(["गरिबी", "अशिक्षा", "कम अवसर", "शोषणको\nजोखिम"],
+                centre="समस्याको\nचक्र")
 ```
 
 ::: note क्रियाकलाप — उजुरीको बाटो पत्ता लगाउने

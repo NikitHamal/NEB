@@ -47,22 +47,13 @@ Before you write anything, ask: *which formula is this?* Write the formula, subs
 
 
 ```figure caption="Where the Mathematics marks sit. Arithmetic (profit, interest, ratio, unitary method) and mensuration together are nearly half the paper; geometry and statistics carry most of the rest."
-groups = ["Sets &\nnumbers", "Arithmetic", "Mensuration", "Algebra",
-          "Geometry", "Coordinates &\ntransformation", "Statistics"]
-marks = [6, 11, 8, 8, 9, 4, 4]
-fig, ax = plt.subplots(figsize=(5.6, 3.0))
-bars = ax.bar(groups, marks, color=SERIES[:len(groups)], width=0.6,
-              edgecolor="white", linewidth=1.1)
-for b, v in zip(bars, marks):
-    ax.text(b.get_x() + b.get_width() / 2, v + 0.2, str(v), ha="center",
-            color=INK, fontsize=9)
-ax.set_ylabel("approximate marks of 50", color=MUTED)
-ax.set_ylim(0, 13)
-ax.grid(axis="y", color=GRID, linewidth=0.7)
-ax.set_axisbelow(True)
-for s in ("top", "right"):
-    ax.spines[s].set_visible(False)
-plt.setp(ax.get_xticklabels(), fontsize=7.4)
+fig, ax = barh_ranked(
+    ["Arithmetic (profit, interest, ratio)", "Geometry (angles, figures)",
+     "Mensuration (area and volume)", "Algebra (indices, equations)",
+     "Sets and number systems", "Coordinates and transformation",
+     "Statistics"],
+    [11, 9, 8, 8, 6, 4, 4], unit=" marks",
+    highlight={"Arithmetic (profit, interest, ratio)"})
 ```
 
 ## 5.2 Ratio, Proportion and the Unitary Method

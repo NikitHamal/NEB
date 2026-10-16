@@ -64,20 +64,9 @@ area: सिर्जनात्मक कला
 | सात्त्विक | भित्री भावको स्वाभाविक अभिव्यक्ति | आँसु, काँप, लाज |
 
 ```figure caption="अभिनयका चार अङ्ग। एउटै पात्र विश्वसनीय बन्न चारै अङ्ग मिल्नुपर्छ — सात्त्विक नभए अभिनय नक्कली देखिन्छ।"
-import numpy as np, matplotlib.pyplot as plt
-fig, ax = plt.subplots(figsize=(4.8, 2.9))
-ax.set_xlim(-1.9, 1.9); ax.set_ylim(-1.7, 1.7); ax.axis("off"); ax.set_aspect("equal")
-parts = [("आङ्गिक\nशरीर", 90), ("वाचिक\nबोली", 0), ("आहार्य\nवेशभूषा", 270),
-         ("सात्त्विक\nभाव", 180)]
-for i, (t, a) in enumerate(parts):
-    r = np.deg2rad(a)
-    x, y = 1.12*np.cos(r), 1.12*np.sin(r)
-    ax.add_patch(plt.Circle((x, y), 0.52, fc="white", ec=SERIES[i % len(SERIES)], lw=1.6))
-    ax.text(x, y, t, ha="center", va="center", fontsize=6.4, color=INK)
-    ax.plot([0.42*np.cos(r), 0.62*np.cos(r)], [0.42*np.sin(r), 0.62*np.sin(r)],
-            color=MUTED, lw=1.0)
-ax.add_patch(plt.Circle((0, 0), 0.42, fc=ACCENT, ec="none", alpha=0.2))
-ax.text(0, 0, "अभिनय", ha="center", va="center", fontsize=7.4, color=ACCENT)
+fig, ax = cards([("आङ्गिक", "शरीर र हाउभाउ"), ("वाचिक", "संवाद र स्वर"),
+                 ("आहार्य", "वेशभूषा र श्रृङ्गार"), ("सात्विक", "भित्री भाव")],
+                cols=4, title_size=8.8)
 ```
 
 ```photo id="health8/deuda" caption="देउडा नृत्य। सुदूरपश्चिम र कर्णालीको यो सामूहिक नृत्यमा हातमा हात मिलाई गोलो घेरामा गाइन्छ र नाचिन्छ।" width="72"

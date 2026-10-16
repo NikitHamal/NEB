@@ -129,22 +129,10 @@ for i, s in enumerate(steps):
 | निर्माण कला | बट्टा, तार, काठ, बोतल | मध्यम | त्रिआयामिक नमुना, पुनःप्रयोगका वस्तु |
 
 ```figure caption="माटाको भाँडो बनाउने पाँच चरण। कुनै चरण छुटे वा हतार गरे भाँडो पोल्दा फुट्छ।"
-steps = ["माटो छानी\nमुछ्ने", "मिचेर हावा\nनिकाल्ने", "आकार\nदिने",
-         "छायामा\nसुकाउने", "भट्टीमा\nपोल्ने"]
-fig, ax = plt.subplots(figsize=(5.0, 2.3))
-for i, s in enumerate(steps):
-    ax.add_patch(matplotlib.patches.FancyBboxPatch(
-        (i * 1.02, 0), 0.9, 0.78,
-        boxstyle="round,pad=0.03,rounding_size=0.08",
-        facecolor=SERIES[i % len(SERIES)], edgecolor="none", alpha=0.86))
-    ax.text(i * 1.02 + 0.45, 0.39, s, ha="center", va="center",
-            color="white", fontsize=8.0)
-    if i < len(steps) - 1:
-        ax.annotate("", xy=(i * 1.02 + 1.0, 0.39), xytext=(i * 1.02 + 0.92, 0.39),
-                    arrowprops=dict(arrowstyle="-|>", color=MUTED, lw=1.1))
-ax.set_xlim(-0.08, len(steps) * 1.02)
-ax.set_ylim(-0.1, 0.9)
-ax.axis("off")
+fig, ax = flow([("माटो छान्ने", "ढुङ्गा निकाल्ने"), ("मुछ्ने", "हावा हटाउने"),
+                ("आकार दिने", "हात वा चक्का"), ("सुकाउने", "छायामा"),
+                ("पोल्ने", "भट्टीमा")],
+               note="कुनै चरण छुटे वा हतार गरे भाँडो पोल्दा फुट्छ")
 ```
 
 ::: note परियोजना — पुनःप्रयोगको कला प्रदर्शनी
