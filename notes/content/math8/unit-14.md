@@ -338,3 +338,22 @@ gives exactly one triangle, which is why the two measurements agree from any
 correct drawing. The side opposite the 60° angle is the one you were asked to
 measure, and it is the middle length, as it must be.
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** The sum of the interior angles of a quadrilateral is
+   (a) $180°$ (b) $270°$ (c) $360°$ (d) $540°$
+**2.** Each interior angle of a regular pentagon is
+   (a) $72°$ (b) $108°$ (c) $120°$ (d) $135°$
+**3.** A quadrilateral with all sides equal and no right angle is a
+   (a) square (b) rhombus (c) rectangle (d) trapezium
+**4.** The diagonals of a rectangle are
+   (a) equal and bisect each other (b) perpendicular (c) unequal (d) parallel
+**5.** The number of sides of a regular polygon whose exterior angle is $36°$ is
+   (a) 8 (b) 9 (c) 10 (d) 12
+
+::: note Objective practice — answers
+**1.** (c) — $360°$. **2.** (b) — $\frac{(5-2)180°}{5} = 108°$. **3.** (b) — a rhombus. **4.** (a) — equal and bisecting. **5.** (c) — $\frac{360°}{36°} = 10$.
+:::

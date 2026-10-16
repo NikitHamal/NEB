@@ -360,3 +360,22 @@ writing to ask for leave from … to … because I am suffering from fever and t
 doctor has advised three days' rest. I will complete the work I miss. Thank
 you. Yours sincerely, name, class, roll number.
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** He has been working here ______ 2019.
+   (a) for (b) since (c) from (d) by
+**2.** The passive of *They have planted trees* is
+   (a) Trees are planted (b) Trees have been planted (c) Trees were planted (d) Trees had planted
+**3.** Add the tag: *Let's begin, ______?*
+   (a) shall we (b) will we (c) do we (d) don't we
+**4.** *Change* as a noun means
+   (a) to make different (b) an alteration (c) changing (d) changeable
+**5.** She said, "I am busy." → She said that she ______ busy.
+   (a) is (b) was (c) has been (d) were
+
+::: note Objective practice — answers
+**1.** (b) — *since* with a point of time. **2.** (b) — present perfect passive. **3.** (a) — *Let's* takes *shall we*. **4.** (b) — an alteration. **5.** (b) — the tense moves back one step.
+:::

@@ -329,3 +329,22 @@ one personal detail. Paragraph 4: why their work still matters.
 like and what lives there. Paragraph 3: why it matters to the people around it.
 Paragraph 4: one problem and one thing that should be done about it.
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** Isaac Newton is best known for the law of
+   (a) relativity (b) gravitation (c) thermodynamics (d) natural selection
+**2.** Khaptad National Park lies in
+   (a) the far west (b) the east (c) the Tarai (d) the Kathmandu valley
+**3.** The passive of *Newton discovered the law* is
+   (a) The law is discovered (b) The law was discovered by Newton (c) The law has discovered (d) The law discovered Newton
+**4.** *Scientist* is formed from *science* by adding
+   (a) a prefix (b) a suffix (c) a hyphen (d) nothing
+**5.** The word *meadow* means
+   (a) a grassy field (b) a forest (c) a river (d) a hill
+
+::: note Objective practice — answers
+**1.** (b) — the law of gravitation. **2.** (a) — the far west of Nepal. **3.** (b) — past simple passive with the doer after *by*. **4.** (b) — the suffix *-ist*. **5.** (a) — a grassy field.
+:::
