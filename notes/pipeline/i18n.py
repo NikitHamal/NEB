@@ -168,22 +168,28 @@ SEC_EN = dict(
 )
 
 SEC_NE = dict(
-    grade="कक्षा {g} · माध्यमिक तह (SEE)",
+    grade="कक्षा {g} · माध्यमिक तह (कक्षा ९–१०)",
     cover_sub=("पाठ्यक्रम विकास केन्द्रको माध्यमिक तह (कक्षा ९–१०) पाठ्यक्रममा "
                "आधारित सम्पूर्ण अध्ययन टिपोट — व्युत्पत्ति, हल गरिएका उदाहरण, "
                "चित्र, तालिका, सारांश र पूर्ण नमुना प्रश्नपत्रसहित अभ्यास प्रश्न।"),
     front_lead=("यी टिपोटले पाठ्यक्रम विकास केन्द्र, सानोठिमीले प्रकाशन गरेको र "
-                "राष्ट्रिय परीक्षा बोर्डको माध्यमिक शिक्षा परीक्षा (SEE) बाट "
+                "राष्ट्रिय परीक्षा बोर्डको माध्यमिक शिक्षा परीक्षाबाट "
                 "परीक्षा लिइने {subject}, कक्षा {g} को सम्पूर्ण आधिकारिक "
                 "पाठ्यक्रम समेट्छन्।"),
 )
+
+
+# Books the CDC publishes and the boards examine in Nepali. Their furniture,
+# their cover and every label the pipeline prints must be Nepali too — a
+# student reading सामाजिक अध्ययन should not meet a single Latin word.
+NEPALI_MEDIUM = ("nep", "soc", "health")
 
 
 def set_book(slug):
     global CUR
     m = re.match(r"([a-z]+)(\d+)", slug or "")
     grade = int(m.group(2)) if m else 12
-    base = NE if (slug or "").startswith("nep") else EN
+    base = NE if (slug or "").startswith(NEPALI_MEDIUM) else EN
     if grade <= 8:
         CUR = dict(base, **(BASIC_NE if base is NE else BASIC_EN))
     elif grade <= 10:

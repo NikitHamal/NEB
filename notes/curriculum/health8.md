@@ -1,32 +1,32 @@
-# SUBJECT: Health, Physical and Creative Arts | GRADE: 8 | CODE: BLE | WORKING_HOURS: 48
-# EXAM: Basic Level Examination | 2 hours | 50 marks | Group A 10×1, Group B 10×2, Group C 5×4
-# SOURCE: CDC specification grid for Grades 6–8, Health, Physical and Creative Arts (content 289); unit hours and marks below are official.
-# PART: Health Education
-## 1. Human Body [4]
-- Nervous system; reproductive system; endocrine and glandular system
-## 2. Community Health and Mental Health [7]
-- Community health; total sanitation; safe toilet use; mental health and common disorders
-## 3. Nutrition and Food Security [4]
-- Malnutrition and related diseases; food safety and consumer health
-## 4. Disease, Safety and First Aid [7]
-- Non-communicable and sexually transmitted infections; first aid; school risk management and disaster safety
-## 5. Sexual and Reproductive Health [4]
-- Menstruation and hygiene; contraception and informed, respectful health choices
-# PART: Physical Education
-## 6. Physical Exercise and Drill [2]
-- Physical exercises; drill and march
-## 7. Athletics and Adventurous Activities [2]
-- Running, relay and field events; hiking and safe adventurous activity
-## 8. Games [5]
-- Volleyball, basketball, football, cricket and fair play
-## 9. Yoga [2]
-- Yoga postures, breathing and safe regular practice
-# PART: Creative Arts
-## 10. Introduction to Arts, Line Art and Colour [4]
-- Visual arts; lines, shapes, colour and local artistic expression
-## 11. Printmaking, Clay Work, Collage and Construction [2]
-- Safe creative processes, materials and original composition
-## 12. Singing and Playing Instruments [3]
-- Voice care, rhythm, melody and Nepali musical instruments
-## 13. Dance and Acting [2]
-- Expressive movement, local dance, role play and drama
+# SUBJECT: स्वास्थ्य, शारीरिक तथा सिर्जनात्मक कला | GRADE: 8 | CODE: BLE | WORKING_HOURS: 48
+# EXAM: आधारभूत तह परीक्षा (कक्षा ८) | २ घण्टा | पूर्णाङ्क ५० | समूह 'क' १०×१, समूह 'ख' १०×२, समूह 'ग' ५×४
+# SOURCE: पाठ्यक्रम विकास केन्द्रको कक्षा ६–८ स्वास्थ्य, शारीरिक तथा सिर्जनात्मक कला विशिष्टीकरण तालिका (विषय सङ्केत २८९)। तलका एकाइ, कार्यघण्टा र अङ्कभार आधिकारिक हुन्।
+# PART: स्वास्थ्य शिक्षा
+## 1. मानव शरीर [4]
+- स्नायु प्रणाली; प्रजनन प्रणाली; अन्तःस्रावी ग्रन्थि प्रणाली
+## 2. सामुदायिक स्वास्थ्य र मानसिक स्वास्थ्य [7]
+- सामुदायिक स्वास्थ्य; पूर्ण सरसफाइ; शौचालयको सुरक्षित प्रयोग; मानसिक स्वास्थ्य र सामान्य मानसिक समस्या
+## 3. पोषण र खाद्य सुरक्षा [4]
+- कुपोषण र यससँग सम्बन्धित रोग; खाद्य सुरक्षा र उपभोक्ता स्वास्थ्य
+## 4. रोग, सुरक्षा र प्राथमिक उपचार [7]
+- नसर्ने रोग र यौन सम्पर्कबाट सर्ने सङ्क्रमण; प्राथमिक उपचार; विद्यालय जोखिम व्यवस्थापन र विपद् सुरक्षा
+## 5. यौन तथा प्रजनन स्वास्थ्य [4]
+- महिनावारी र सरसफाइ; परिवार नियोजनका साधन र सम्मानपूर्ण, सुसूचित स्वास्थ्य निर्णय
+# PART: शारीरिक शिक्षा
+## 6. शारीरिक व्यायाम र कवायत [2]
+- शारीरिक व्यायाम; कवायत र मार्चपास
+## 7. एथलेटिक्स र साहसिक क्रियाकलाप [2]
+- दौड, रिले र फिल्ड खेल; पदयात्रा र सुरक्षित साहसिक क्रियाकलाप
+## 8. खेलहरू [5]
+- भलिबल, बास्केटबल, फुटबल, क्रिकेट र खेल भावना
+## 9. योग [2]
+- योगका आसन, प्राणायाम र सुरक्षित नियमित अभ्यास
+# PART: सिर्जनात्मक कला
+## 10. कलाको परिचय, रेखा कला र रङ [4]
+- दृश्य कला; रेखा, आकार, रङ र स्थानीय कलात्मक अभिव्यक्ति
+## 11. छापाकला, माटोको काम, कोलाज र निर्माण [2]
+- सुरक्षित सिर्जनात्मक प्रक्रिया, सामग्री र मौलिक रचना
+## 12. गायन र वादन [3]
+- स्वर संरक्षण, लय, धुन र नेपाली बाजागाजा
+## 13. नृत्य र अभिनय [2]
+- भावपूर्ण चाल, स्थानीय नृत्य, भूमिका अभिनय र नाटक
