@@ -60,6 +60,14 @@ SUBJECTS = {
 # grade 11/12 science stream, the language papers and the question bank — and
 # any spine added later (grade 8, for instance) joins the build by itself.
 ALL = sorted(f[:-3] for f in os.listdir(CUR) if f.endswith(".md"))
+# The basic level (grades 1-8) names two subjects differently from the
+# secondary level: Nepali is not yet "compulsory", and science is "Science".
+BASIC_NAMES = {"nep": "नेपाली"}
+
 def meta_for(slug):
     k = re.match(r"([a-z]+)(\d+)", slug)
-    return SUBJECTS[k.group(1)][0], SUBJECTS[k.group(1)][1], int(k.group(2))
+    name, colour = SUBJECTS[k.group(1)]
+    grade = int(k.group(2))
+    if grade <= 8:
+        name = BASIC_NAMES.get(k.group(1), name)
+    return name, colour, grade
