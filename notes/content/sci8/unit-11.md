@@ -280,6 +280,45 @@ position relative to the sun. That extra travel takes about 2.2 days, giving
 of the phases, which is what we actually watch.
 :::
 
+## 11.5 Distances, eclipses and living with earthquakes
+
+| Idea | Value to remember |
+|---|---|
+| Light-year | the distance light travels in one year, about $9.46 \times 10^{12}$ km |
+| Distance to the sun | about 150 million km (8.3 light-minutes) |
+| Distance to the moon | about 384,400 km |
+| Earth's rotation | about 24 hours — day and night |
+| Earth's revolution | about 365¼ days — seasons, with the 23.5° tilt |
+| Moon's revolution | about 27.3 days |
+
+::: example A light-year calculation
+**Question.** A star is 4.2 light-years away. How far is that in kilometres,
+taking one light-year as $9.46 \times 10^{12}$ km?
+
+**Answer.** Distance $= 4.2 \times 9.46 \times 10^{12} =
+\textbf{3.97} \times \textbf{10}^{13}$ **km** (about 39.7 trillion km) — which
+is why astronomers measure in light-years rather than kilometres.
+:::
+
+::: example Why a solar eclipse is rare
+**Question.** The moon comes between the earth and the sun every month at
+new moon. Why, then, is a solar eclipse not seen every month?
+
+**Answer.** The moon's orbit is tilted about 5° to the earth's orbit, so at
+most new moons the moon's shadow passes above or below the earth. Only when
+the new moon happens near the point where the two orbits cross does the
+shadow fall on the earth — and then the eclipse is seen only along the
+narrow track of that shadow.
+:::
+
+::: note Project — the earthquake preparedness plan
+Draw the floor plan of your home. Mark the safest spot in each room (under a
+strong table, away from windows and cupboards), the exit route, and the
+family meeting point outside. List the contents of an emergency bag — water,
+torch, whistle, dry food, first aid, a copy of documents — and check it with
+your family. Practise one drill and write what you would improve.
+:::
+
 ## Chapter summary
 
 - A **mineral** is a natural solid with a definite composition; an **ore** is a
@@ -399,4 +438,23 @@ piece of rock or dust travelling in space. A *meteor* is a meteoroid that enters
 the earth's atmosphere and burns up, appearing as a streak of light or
 "shooting star". A *meteorite* is a meteoroid that survives the passage through
 the atmosphere and lands on the ground.
+:::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** A light-year is a unit of
+   (a) time (b) distance (c) brightness (d) speed
+**2.** Day and night are caused by the earth's
+   (a) revolution (b) rotation (c) tilt alone (d) orbit shape
+**3.** A lunar eclipse occurs when
+   (a) the moon is between the sun and the earth (b) the earth is between the sun and the moon (c) the sun is between them (d) the moon is new
+**4.** Nepal lies in a seismically active zone because
+   (a) it is landlocked (b) the Indian plate is pushing under the Eurasian plate (c) it has many rivers (d) it is mountainous
+**5.** The seasons are caused mainly by
+   (a) rotation (b) the axial tilt with revolution (c) distance from the sun (d) the moon
+
+::: note Objective practice — answers
+**1.** (b) — distance. **2.** (b) — rotation, in about 24 hours. **3.** (b) — the earth's shadow falls on the moon, at full moon. **4.** (b) — the collision of the two plates. **5.** (b) — the 23.5° tilt together with revolution.
 :::

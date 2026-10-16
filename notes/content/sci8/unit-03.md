@@ -272,6 +272,42 @@ from falling in. The same reaction is used on purpose to make curd and *mohi*
 from milk.
 :::
 
+## 3.5 Using a microscope, and what a drawing must show
+
+A biological drawing is marked on accuracy and labels, not on shading.
+
+| Rule | Why |
+|---|---|
+| Draw large and in the middle of the space | small drawings hide detail |
+| Use sharp pencil lines, no shading or colouring | shading hides the outline |
+| Draw only what is actually seen | an invented chloroplast costs marks |
+| Label with straight, non-crossing lines | crossing lines confuse the examiner |
+| Write the title and the magnification | identifies the specimen and the scale |
+
+**Using the microscope:** carry it with two hands; start with the lowest
+objective; focus with the coarse knob first and the fine knob afterwards;
+keep both eyes open; never touch the lens with fingers.
+
+::: example Plant cell or animal cell?
+**Question.** A student sees a cell with a rigid outer boundary, one large
+central space and many small green bodies. Identify the cell with three
+reasons.
+
+**Answer.** It is a **plant cell**. (i) The rigid outer boundary is the
+**cell wall**, which animal cells do not have. (ii) The one large central
+space is the **vacuole**, large and permanent only in plant cells.
+(iii) The small green bodies are **chloroplasts**, the site of
+photosynthesis, found in plant cells only.
+:::
+
+::: note Activity — the onion peel slide
+Peel a thin membrane from an onion, place it on a slide with a drop of
+water, add a drop of iodine, lower the cover slip at an angle to avoid air
+bubbles, and view it under low power. Draw what you see, label four parts,
+and write the magnification. Repeat with a cheek smear (stained with
+methylene blue, under the teacher's supervision) and list three differences.
+:::
+
 ## Chapter summary
 
 - The **cell** is the smallest living unit; the cell theory says all living
@@ -377,4 +413,23 @@ contaminated water and food. (ii) Ringworm, a fungal disease spread by skin
 contact and shared clothes. (iii) Malaria, caused by a protozoan and spread by
 the bite of an infected *Anopheles* mosquito. Protection: boiled water, soap,
 covered food, clean surroundings and vaccination.
+:::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** The cell was discovered by
+   (a) Robert Hooke (b) Leeuwenhoek (c) Schwann (d) Whittaker
+**2.** Which structure is found in a plant cell but not in an animal cell?
+   (a) nucleus (b) cell wall (c) cytoplasm (d) mitochondrion
+**3.** The site of protein synthesis is the
+   (a) ribosome (b) vacuole (c) lysosome (d) nucleolus
+**4.** Fungi are placed in a separate kingdom mainly because
+   (a) they are green (b) their cell wall is of chitin and they are not autotrophic (c) they are unicellular (d) they move
+**5.** A group of similar cells doing one job is a
+   (a) tissue (b) organ (c) system (d) organism
+
+::: note Objective practice — answers
+**1.** (a) — Hooke saw cork cells in 1665. **2.** (b) — the cellulose cell wall. **3.** (a) — the ribosome. **4.** (b) — chitin walls and heterotrophic nutrition. **5.** (a) — a tissue.
 :::

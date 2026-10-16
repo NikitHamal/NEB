@@ -387,6 +387,50 @@ changed, and the pressure changed with it. This is the whole reason for wide
 foundations under buildings and wide tyres on tractors.
 :::
 
+## 6.5 Solving a motion problem in four steps
+
+Nearly every numerical in this unit yields to the same routine: **list what
+is given, write the formula, substitute, answer with the unit.**
+
+| Quantity | Formula | SI unit |
+|---|---|---|
+| Speed | $v = \frac{d}{t}$ | m/s |
+| Acceleration | $a = \frac{v-u}{t}$ | m/s² |
+| Force | $F = ma$ | newton (N) |
+| Weight | $W = mg$ | newton (N) |
+| Distance (uniform acceleration) | $s = ut + \frac{1}{2}at^2$ | metre (m) |
+| Momentum | $p = mv$ | kg m/s |
+
+::: example A three-part numerical
+**Question.** A bus of mass 4,000 kg starts from rest and reaches 15 m/s in
+10 s. Find (i) its acceleration (ii) the force on it (iii) the distance it
+covers in those 10 s.
+
+**Answer.**
+(i) $a = \frac{v-u}{t} = \frac{15-0}{10} = 1.5$ m/s².
+(ii) $F = ma = 4000 \times 1.5 = \textbf{6000 N}$.
+(iii) $s = ut + \frac{1}{2}at^2 = 0 + \frac{1}{2}\times1.5\times10^2 =
+\textbf{75 m}$.
+:::
+
+::: example Weight on the earth and the moon
+**Question.** A student has a mass of 50 kg. Find the weight on the earth
+($g = 9.8$ m/s²) and on the moon ($g = 1.6$ m/s²), and explain the
+difference.
+
+**Answer.** Earth: $W = 50 \times 9.8 = \textbf{490 N}$.
+Moon: $W = 50 \times 1.6 = \textbf{80 N}$.
+The **mass is the same** in both places, because it is the quantity of
+matter; the weight differs because the moon's gravitational pull is about
+one-sixth of the earth's.
+:::
+
+::: note Activity — measure your own walking speed
+Mark 50 m in the school ground. Walk it normally, timing yourself three
+times; then run it once. Work out each speed in m/s and convert to km/h
+(multiply by 3.6). Plot a simple bar chart of the four speeds.
+:::
+
 ## Chapter summary
 
 - **Distance** is the path length; **displacement** is the straight line from
@@ -499,4 +543,23 @@ volume of water. The upthrust — the weight of all that displaced water — is 
 equal to the ship's weight, and the ship floats. **Calculation.**
 $V=500\ \text{cm}^3=500\times10^{-6}=5\times10^{-4}$ m³;
 $F=Vdg=5\times10^{-4}\times1000\times9.8=4.9$ N.
+:::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** A force of 30 N acts on a mass of 6 kg. The acceleration is
+   (a) 180 m/s² (b) 5 m/s² (c) 0.2 m/s² (d) 36 m/s²
+**2.** 54 km/h expressed in m/s is
+   (a) 10 (b) 15 (c) 18 (d) 20
+**3.** A passenger falls backwards when a bus starts suddenly because of
+   (a) inertia of rest (b) inertia of motion (c) friction (d) momentum
+**4.** The SI unit of momentum is
+   (a) N (b) kg m/s (c) m/s² (d) J
+**5.** Which quantity is the same on the earth and on the moon?
+   (a) weight (b) mass (c) value of $g$ (d) gravitational force
+
+::: note Objective practice — answers
+**1.** (b) — $a = F/m = 30/6 = 5$ m/s². **2.** (b) — $54 \times \frac{1000}{3600} = 15$ m/s. **3.** (a) — the body tends to stay at rest. **4.** (b) — kg m/s. **5.** (b) — mass is a constant quantity of matter.
 :::
