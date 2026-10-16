@@ -229,6 +229,63 @@ sign errors, the mis-copied terms and the wrong LCM, which is where nearly all
 the marks in this chapter are lost.
 :::
 
+## 11.4 Why factorising comes first
+
+An algebraic fraction is simplified by **factorising and cancelling common
+factors** — never by cancelling across a plus or minus sign.
+
+```figure caption="The three steps of simplifying an algebraic fraction. Skipping step 1 is what produces the classic wrong cancellation."
+steps = ["Factorise\nnumerator", "Factorise\ndenominator",
+         "Cancel common\nfactors", "State excluded\nvalues"]
+fig, ax = plt.subplots(figsize=(5.0, 2.2))
+for i, s in enumerate(steps):
+    ax.add_patch(matplotlib.patches.FancyBboxPatch(
+        (i * 1.02, 0), 0.9, 0.76,
+        boxstyle="round,pad=0.03,rounding_size=0.08",
+        facecolor=SERIES[i % len(SERIES)], edgecolor="none", alpha=0.86))
+    ax.text(i * 1.02 + 0.45, 0.38, s, ha="center", va="center",
+            color="white", fontsize=7.8)
+    if i < len(steps) - 1:
+        ax.annotate("", xy=(i * 1.02 + 1.0, 0.38),
+                    xytext=(i * 1.02 + 0.92, 0.38),
+                    arrowprops=dict(arrowstyle="-|>", color=MUTED, lw=1.1))
+ax.set_xlim(-0.08, len(steps) * 1.02)
+ax.set_ylim(-0.1, 0.88)
+ax.axis("off")
+```
+
+::: caution The cancellation that is never allowed
+$\frac{x+3}{x}$ does **not** simplify to $3$. You may cancel only a factor of
+the *whole* numerator against a factor of the *whole* denominator. Since $x+3$
+is a sum, not a product, nothing cancels.
+:::
+
+::: example Simplify and state the excluded values
+**Question.** Simplify $\dfrac{x^2 - 4}{x^2 + 5x + 6}$ and state the values of
+$x$ for which it is undefined.
+
+**Answer.** Numerator $= (x+2)(x-2)$. Denominator $= (x+2)(x+3)$.
+Cancelling $(x+2)$: $\dfrac{x-2}{x+3}$.
+The original denominator is zero at $x = -2$ and $x = -3$, so the expression is
+**undefined at $x = -2$ and $x = -3$**.
+:::
+
+::: example Adding two algebraic fractions
+**Question.** Simplify $\dfrac{2}{x-1} + \dfrac{3}{x+2}$.
+
+**Answer.** LCM of the denominators is $(x-1)(x+2)$.
+$$\frac{2(x+2) + 3(x-1)}{(x-1)(x+2)} = \frac{2x + 4 + 3x - 3}{(x-1)(x+2)}
+= \frac{5x + 1}{(x-1)(x+2)}$$
+:::
+
+::: note Activity — spot the error
+Each line below contains one mistake. Working in pairs, find it and write the
+correct simplification.
+(i) $\frac{x+5}{5} = x$ &nbsp;&nbsp; (ii) $\frac{x^2-9}{x-3} = x-3$ &nbsp;&nbsp;
+(iii) $\frac{2x}{2x+4} = \frac{1}{4}$ &nbsp;&nbsp;
+(iv) $\frac{1}{x} + \frac{1}{y} = \frac{1}{x+y}$
+:::
+
 ## Chapter summary
 
 - Factorise the top and bottom before cancelling anything; only factors cancel.
@@ -309,4 +366,26 @@ $$\frac{(x-3)(x+3)}{(x+2)(x+3)}\times\frac{x+2}{x-3}
 $x\ne-2$, $x\ne-3$ and $x\ne3$. At every other value the expression equals 1,
 which is consistent: the numerator and denominator are the same product written
 in a different order.
+:::
+
+**Extra practice**
+
+**Group B (2 marks)**
+
+11. Simplify: $\dfrac{x^2 - 16}{x + 4}$.
+12. Simplify: $\dfrac{3a}{4} - \dfrac{a}{6}$.
+
+**Group C (4 marks)**
+
+13. Simplify $\dfrac{x^2 + 7x + 12}{x^2 - 9}$ and state where it is undefined.
+
+::: note Extra practice — answers
+**11.** $\frac{(x+4)(x-4)}{x+4} = x - 4$ (for $x \neq -4$).
+**12.** LCM 12: $\frac{9a - 2a}{12} = \frac{7a}{12}$.
+**13.** Numerator $= (x+3)(x+4)$; denominator $= (x+3)(x-3)$.
+Cancelling: $\frac{x+4}{x-3}$. Undefined at $x = 3$ and $x = -3$.
+**Answers to the spot-the-error activity.** (i) $\frac{x+5}{5}$ does not
+simplify — 5 is not a factor of $x+5$. (ii) $\frac{(x+3)(x-3)}{x-3} = x+3$.
+(iii) $\frac{2x}{2(x+2)} = \frac{x}{x+2}$. (iv) $\frac{1}{x}+\frac{1}{y} =
+\frac{x+y}{xy}$.
 :::

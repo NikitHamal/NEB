@@ -175,6 +175,57 @@ $\frac{\text{total distance}}{\text{total time}}$. It equals the simple mean onl
 when the two speeds are used for equal **times**, which is rare.
 :::
 
+## 6.4 Direct and inverse variation side by side
+
+The whole unitary method rests on one question: **does the second quantity rise
+or fall when the first rises?** Answer that, and the arithmetic follows.
+
+```figure caption="Direct and inverse variation. In direct variation the ratio y/x stays constant (a straight line through the origin); in inverse variation the product xy stays constant (a curve)."
+x = np.linspace(1, 10, 100)
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(5.0, 2.5))
+ax1.plot(x, 2.0 * x, color=SERIES[0], linewidth=2)
+ax1.set_title("Direct:  $y = kx$", fontsize=8.5, color=INK)
+ax2.plot(x, 20.0 / x, color=SERIES[3], linewidth=2)
+ax2.set_title("Inverse:  $xy = k$", fontsize=8.5, color=INK)
+for ax in (ax1, ax2):
+    ax.set_xlabel("x", color=MUTED, fontsize=8)
+    ax.set_ylabel("y", color=MUTED, fontsize=8)
+    ax.grid(color=GRID, linewidth=0.7)
+    ax.set_axisbelow(True)
+    for s in ("top", "right"):
+        ax.spines[s].set_visible(False)
+    ax.tick_params(colors=MUTED, labelsize=7.5)
+fig.tight_layout()
+```
+
+| Situation | Type | Rule |
+|---|---|---|
+| More pens, more cost | direct | $\frac{\text{cost}}{\text{pens}}$ constant |
+| More workers, less time | inverse | workers × time constant |
+| More speed, less time (fixed distance) | inverse | speed × time constant |
+| More days, more wages | direct | $\frac{\text{wages}}{\text{days}}$ constant |
+| More taps, less filling time | inverse | taps × time constant |
+
+::: example A two-step unitary problem
+**Question.** 12 workers build 150 m of wall in 10 days. How many days will 15
+workers take to build 225 m of the same wall?
+
+**Answer.** Work with one worker and one day at a time.
+In one day 12 workers build $\frac{150}{10} = 15$ m, so **one worker builds
+$\frac{15}{12} = 1.25$ m a day**.
+15 workers build $15 \times 1.25 = 18.75$ m a day.
+Days needed $= \frac{225}{18.75} = \textbf{12 days}$.
+**Check:** more workers but much more wall, so more days than 10 — the answer is
+believable.
+:::
+
+::: note Activity — the price of a kilogram
+Visit a shop and note the price of the same item in three pack sizes (say rice
+in 1 kg, 5 kg and 25 kg). Work out the price **per kilogram** in each case.
+**Discussion:** Which pack is cheapest per kilogram? Why do shops price it that
+way? Is the biggest pack always the better buy for a small family?
+:::
+
 ## Chapter summary
 
 - In direct variation, find the value of one unit by division and multiply.
@@ -264,4 +315,27 @@ $=$ **3:00 p.m.**
 **Check.** By 3:00 p.m. the bus has travelled 8 hours at 45 km/h $=360$ km, and
 the car has travelled 6 hours at 60 km/h $=360$ km ✓. Both cover the same
 distance, as they must at the meeting point.
+:::
+
+**Extra practice**
+
+**Group B (2 marks)**
+
+11. If 8 pipes fill a tank in 18 hours, how long will 12 such pipes take?
+12. A car covers 180 km in 3 hours. At the same speed, how far will it go in
+    5 hours?
+
+**Group C (4 marks)**
+
+13. 20 workers can finish a job in 15 days. After 6 days, 5 workers leave. In
+    how many more days will the remaining workers finish the job?
+
+::: note Extra practice — answers
+**11.** Inverse: $8 \times 18 = 12 \times t$, so $t = \frac{144}{12} = 12$ hours.
+**12.** Direct: speed $= 60$ km/h, so distance $= 60 \times 5 = 300$ km.
+**13.** Total work $= 20 \times 15 = 300$ worker-days.
+Work done in 6 days $= 20 \times 6 = 120$ worker-days.
+Work left $= 300 - 120 = 180$ worker-days.
+Workers left $= 20 - 5 = 15$.
+Days needed $= \frac{180}{15} = \textbf{12 days}$.
 :::
