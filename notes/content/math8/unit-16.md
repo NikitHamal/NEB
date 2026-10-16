@@ -338,3 +338,22 @@ $1.92+0.96+1.44=4.32$ ✓.
 **3000 litres**. Number of buckets $=3000\div15=200$.
 **Check.** $200\times15=3000$ ✓.
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** A cube has edges numbering
+   (a) 6 (b) 8 (c) 12 (d) 16
+**2.** Euler's relation for a solid is
+   (a) $F + V - E = 2$ (b) $F + E - V = 2$ (c) $F - V + E = 2$ (d) $F + V + E = 2$
+**3.** A triangular prism has faces numbering
+   (a) 4 (b) 5 (c) 6 (d) 9
+**4.** The volume of a cube of edge 6 cm is
+   (a) 36 cm³ (b) 72 cm³ (c) 216 cm³ (d) 108 cm³
+**5.** The total surface area of a cube of edge 5 cm is
+   (a) 25 cm² (b) 125 cm² (c) 150 cm² (d) 100 cm²
+
+::: note Objective practice — answers
+**1.** (c) — 12 edges. **2.** (a) — $F + V - E = 2$. **3.** (b) — two triangles and three rectangles. **4.** (c) — $6^3 = 216$ cm³. **5.** (c) — $6 \times 5^2 = 150$ cm².
+:::

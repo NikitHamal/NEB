@@ -389,3 +389,22 @@ $QR$.
 (iv) The right angle is at $Q$, so area $= \frac{1}{2} \times 4 \times 5 =
 10$ square units.
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** The point $(0, -4)$ lies on
+   (a) the $x$-axis (b) the $y$-axis (c) the first quadrant (d) the third quadrant
+**2.** The distance of $(9, 12)$ from the origin is
+   (a) 15 (b) 21 (c) 3 (d) $\sqrt{21}$
+**3.** The midpoint of $(2, 6)$ and $(8, 10)$ is
+   (a) $(10, 16)$ (b) $(5, 8)$ (c) $(3, 2)$ (d) $(6, 4)$
+**4.** $(-6, -2)$ lies in quadrant
+   (a) I (b) II (c) III (d) IV
+**5.** The distance between $(1, 2)$ and $(4, 6)$ is
+   (a) 5 (b) 7 (c) 25 (d) $\sqrt{7}$
+
+::: note Objective practice — answers
+**1.** (b) — $x = 0$, so it is on the $y$-axis. **2.** (a) — $\sqrt{81 + 144} = 15$. **3.** (b) — $\left(\frac{2+8}{2}, \frac{6+10}{2}\right)$. **4.** (c) — both coordinates negative. **5.** (a) — $\sqrt{9 + 16} = 5$.
+:::

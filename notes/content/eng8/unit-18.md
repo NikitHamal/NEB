@@ -278,3 +278,22 @@ gate, teaching younger students the "stop, look, listen" rule, inviting a
 traffic officer to speak, and putting up a sign asking drivers to slow down
 outside the school.
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** A *road accident* report should answer
+   (a) what, where, when, who (b) only what (c) only who (d) the writer's opinion
+**2.** *Solely* means
+   (a) partly (b) only (c) sadly (d) slowly
+**3.** The passive of *Poor roads cause accidents* is
+   (a) Accidents are caused by poor roads (b) Accidents cause poor roads (c) Poor roads are caused (d) Accidents were caused
+**4.** Which is **not** a cause of road accidents?
+   (a) over-speeding (b) drunk driving (c) seat belts (d) poor road design
+**5.** A news report is written in
+   (a) the first person with opinion (b) the third person, factually (c) the second person (d) the future tense
+
+::: note Objective practice — answers
+**1.** (a) — the lead answers what, where, when and who. **2.** (b) — only. **3.** (a) — the object becomes the subject. **4.** (c) — seat belts prevent injury. **5.** (b) — third person and factual.
+:::

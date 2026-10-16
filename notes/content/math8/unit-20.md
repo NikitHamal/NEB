@@ -373,3 +373,22 @@ right-angled triangle with legs 8 km and 6 km.
 Distance $= \sqrt{8^2 + 6^2} = \sqrt{64 + 36} = \sqrt{100} = \textbf{10 km}$
 from the start.
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** The bearing of due north is written as
+   (a) $0°$ (b) $000°$ (c) $360°$ only (d) $090°$
+**2.** The back bearing of $065°$ is
+   (a) $115°$ (b) $245°$ (c) $295°$ (d) $025°$
+**3.** On a map of scale $1:50{,}000$, 4 cm represents
+   (a) 200 m (b) 2 km (c) 20 km (d) 50 km
+**4.** A bearing is always measured
+   (a) anticlockwise from north (b) clockwise from north (c) clockwise from east (d) from the nearest road
+**5.** A distance of 7.5 km on a $1:25{,}000$ map is
+   (a) 3 cm (b) 15 cm (c) 30 cm (d) 75 cm
+
+::: note Objective practice — answers
+**1.** (b) — bearings use three figures. **2.** (b) — $065° + 180° = 245°$. **3.** (b) — $4 \times 50{,}000 = 200{,}000$ cm $= 2$ km. **4.** (b) — clockwise from north. **5.** (c) — $750{,}000 \div 25{,}000 = 30$ cm.
+:::

@@ -313,3 +313,22 @@ give its effect on the number of people who die — for example ORS, which treat
 the dehydration caused by diarrhoea and can be mixed at home, so it reaches
 children who never see a clinic.
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** A *custom* is
+   (a) a tax at the border only (b) a traditional practice of a community (c) a customer (d) a costume
+**2.** *Traditional* is the adjective form of
+   (a) trade (b) tradition (c) traditionally (d) trader
+**3.** If it ______ tomorrow, the wedding will move indoors.
+   (a) rain (b) rains (c) will rain (d) rained
+**4.** The invention that saved most lives in the passage sense is best called a
+   (a) life-saving invention (b) lifelong invention (c) lively invention (d) living invention
+**5.** The opposite of *ancient* is
+   (a) antique (b) historic (c) modern (d) old
+
+::: note Objective practice — answers
+**1.** (b) — a traditional practice. **2.** (b) — *tradition* → *traditional*. **3.** (b) — type 1 conditional: *if* + present simple. **4.** (a) — life-saving invention. **5.** (c) — modern.
+:::
