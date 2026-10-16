@@ -253,6 +253,38 @@ replanting plan and a deposit for it; require a cleaner kiln technology
 uses the money for tree planting and for the families that lose access.
 :::
 
+## 4.5 Conservation in Nepal: what is actually done
+
+| Measure | What it is | Example |
+|---|---|---|
+| Protected areas | parks, reserves and conservation areas under law | 12 national parks, 6 conservation areas, 1 wildlife reserve, 1 hunting reserve |
+| Buffer zones | the belt round a park, managed with local users | Chitwan and Bardiya buffer zones |
+| Community forestry | forest handed to a user group to manage and use | nearly 23,000 user groups |
+| Species programmes | plans for a single threatened species | tiger, rhinoceros, snow leopard, vulture |
+| Anti-poaching | patrols, informer networks, prosecution | zero-poaching years for the rhinoceros |
+| Benefit sharing | part of park income returned to communities | buffer-zone schools, biogas, compensation |
+
+```figure caption="Why community forestry worked: when the forest belongs to the people who use it, protection becomes self-interest rather than policing."
+fig, ax = cycle(["User group\nformed", "Rules and\nharvest plan",
+                 "Forest recovers", "Income and\nfuel for members"],
+                centre="Community\nforestry")
+```
+
+::: example A four-mark answer on biodiversity loss
+**Question.** Explain four causes of biodiversity loss in Nepal and one
+measure against each.
+
+**Answer.** (i) **Habitat loss** — forest cleared for settlement, roads and
+farming; the answer is land-use planning and protected corridors.
+(ii) **Poaching and illegal trade** — rhinoceros horn, pangolin scales and
+timber; the answer is patrolling, prosecution and community informers.
+(iii) **Pollution and over-extraction** — river sand mining, pesticides and
+untreated waste; the answer is regulation of mining and waste treatment.
+(iv) **Invasive species** — *Mikania* and water hyacinth smothering native
+plants; the answer is early removal and planting of native species.
+(Climate change, with forest and wetland protection, is the fifth.)
+:::
+
 ## Chapter summary
 
 - **Biodiversity** is the variety of living beings at three levels: genetic,
