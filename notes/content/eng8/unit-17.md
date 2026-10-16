@@ -188,6 +188,54 @@ until Sunday. I hope the party goes very well, and please wish your sister a
 happy birthday from me. Yours, Binod."
 :::
 
+## 17.4 Describing a journey: the language of narrative
+
+| Function | Useful expressions |
+|---|---|
+| Setting the scene | *It was a cold morning in Poush …*, *We set out just after dawn.* |
+| Sequencing | *first, then, after that, meanwhile, at last* |
+| Describing movement | *the train rattled past*, *we climbed steadily*, *the bus crawled uphill* |
+| Sudden events | *all of a sudden*, *before we knew it*, *out of nowhere* |
+| Sensory detail | *the smell of wet earth*, *the clang of the bell*, *the taste of smoky tea* |
+| Closing a narrative | *By the time we reached home …*, *Looking back, I realise …* |
+
+```figure caption="The shape of a narrative. Marks in a story or a memoir come from the middle — the complication and the climax — not from a long introduction."
+stages = ["Orientation\n(who, where, when)", "Complication",
+          "Climax", "Resolution", "Reflection"]
+fig, ax = plt.subplots(figsize=(5.0, 2.4))
+xs = np.arange(len(stages))
+ys = [0.25, 0.55, 0.9, 0.5, 0.3]
+ax.plot(xs, ys, color=SERIES[0], linewidth=2.2, marker="o", markersize=7)
+for x, y, lab in zip(xs, ys, stages):
+    ax.annotate(lab, xy=(x, y), xytext=(x, y + 0.14), ha="center",
+                fontsize=7.6, color=INK)
+ax.set_ylim(0, 1.25)
+ax.set_xlim(-0.5, len(stages) - 0.5)
+ax.axis("off")
+```
+
+::: note Activity — the journey in six sentences
+Think of a journey you remember — to school in the monsoon, to a relative's
+village, a first bus ride alone. Write exactly six sentences, one for each
+stage of the narrative shape above, plus one sensory detail somewhere.
+Read it aloud to a partner; the partner names the stage each sentence belongs
+to. If two sentences land in the same stage, rewrite one.
+:::
+
+::: example From flat to vivid
+**Flat.** *We went to Pokhara by bus. It took a long time. We were tired. The
+lake was nice.*
+
+**Vivid.** *We left Kathmandu at five in the morning, when the air still smelt
+of last night's rain. For seven hours the bus swung round the bends above the
+Trishuli, and by Mugling my brother had stopped complaining and fallen asleep
+on my shoulder. Then, just as the light was going, the valley opened and the
+lake lay flat and grey below us — and nobody in the bus said anything at all.*
+
+The second version adds no new events. It adds **time**, **place**, **a sense**
+and **one small human detail** — which is exactly what the marks reward.
+:::
+
 ## Chapter summary
 
 - Suspense is the reader's uncertainty about what happens next, built by a
@@ -251,4 +299,24 @@ Close with *Yours* or *Best wishes* and your name.
 **7.** Thank the host first, say you are sorry not to be able to come, give one
 brief reason, wish the couple well, and sign off politely. Do not explain at
 length — a short reason is more polite than a long excuse.
+:::
+
+**Extra practice**
+
+**Group B (2 marks each)**
+
+11. Rewrite with sensory detail: *It was raining and we waited for the bus.*
+12. Join using *as soon as*: *The bell rang. The children ran out.*
+
+**Group C (4 marks)**
+
+13. Write a short memoir (about 120 words) of a day that did not go as planned.
+
+::: note Extra practice — answers
+**11.** e.g. *Rain hammered on the tin roof of the shelter, and we stood
+shoulder to shoulder, watching the empty road and smelling the wet dust.*
+**12.** *As soon as the bell rang, the children ran out.*
+**13.** Marks: the five narrative stages in order; past tense held
+consistently; at least two sensory details; one short reflection at the end;
+and correct paragraphing with no more than five serious language errors.
 :::

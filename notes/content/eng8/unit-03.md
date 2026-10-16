@@ -216,6 +216,59 @@ imperative. Add one short *why* wherever a reader might be tempted to skip the
 step — "close the door firmly **so that water does not leak**". A warning goes
 before the step it applies to, never after it.
 
+## 3.4 The language of instructions
+
+Instructions are written to be **followed**, not admired: imperative verbs,
+one step per sentence, sequence words, and a warning where a mistake could
+cost something.
+
+| Element | Example |
+|---|---|
+| Imperative verb first | *Sort* the clothes by colour. |
+| One step, one sentence | *Add* the detergent. *Close* the lid. |
+| Sequence words | *first, next, then, after that, finally* |
+| Quantities and settings | *about 30 g of detergent*, *a 40 °C wash* |
+| Warning | *Do not overload the drum; the clothes will not rinse.* |
+| Result | *The machine will beep when the cycle ends.* |
+
+```figure caption="Washing clothes in a machine, as a flow of steps. A flow chart is the clearest way to check that no step is missing and none is out of order."
+steps = ["Sort by\ncolour", "Load the\ndrum", "Add\ndetergent",
+         "Choose the\nprogramme", "Start and\nwait", "Hang out\nto dry"]
+fig, ax = plt.subplots(figsize=(5.1, 2.4))
+for i, s in enumerate(steps):
+    ax.add_patch(matplotlib.patches.FancyBboxPatch(
+        (i * 0.86, 0), 0.78, 0.8,
+        boxstyle="round,pad=0.02,rounding_size=0.07",
+        facecolor=SERIES[i % len(SERIES)], edgecolor="none", alpha=0.87))
+    ax.text(i * 0.86 + 0.39, 0.4, s, ha="center", va="center", color="white",
+            fontsize=7.2)
+    if i < len(steps) - 1:
+        ax.annotate("", xy=(i * 0.86 + 0.85, 0.4), xytext=(i * 0.86 + 0.79, 0.4),
+                    arrowprops=dict(arrowstyle="-|>", color=MUTED, lw=1.0))
+ax.set_xlim(-0.06, len(steps) * 0.86)
+ax.set_ylim(-0.1, 0.9)
+ax.axis("off")
+```
+
+::: note Activity — instructions that actually work
+Write six steps for a task you can do well: making tea, mending a puncture,
+charging a solar lamp, planting a sapling. Give your steps to a partner who
+must do **exactly** what is written, nothing more. Most first drafts fail at
+one step — rewrite until a stranger could follow it.
+:::
+
+::: example A public announcement, annotated
+> *May I have your attention, please.* *(opening)*
+> *The bus to Birgunj, due to leave at 7 a.m., will now leave at 7.45 a.m.*
+> *(what and when)*
+> *This is because of road repairs near Hetauda.* *(reason)*
+> *Passengers are requested to stay near Gate 2.* *(what to do)*
+> *We are sorry for the inconvenience.* *(apology)*
+
+Five elements, in that order. An announcement that gives no reason, or no
+instruction, always sounds incomplete.
+:::
+
 ## Chapter summary
 
 - An announcement gives one piece of information in a hurry and answers what,
@@ -285,4 +338,28 @@ cable is not cut or frayed. 3. Plug the charger into the socket first, then
 into the phone. 4. Do not leave the phone charging overnight on a bed or a
 pillow. 5. Unplug the charger when the battery reaches 100 %. 6. Never charge a
 phone while it is inside a bag where heat cannot escape.
+:::
+
+**Extra practice**
+
+**Group B (2 marks each)**
+
+11. Turn into an instruction: *The detergent should be added to the drawer.*
+12. Write a two-sentence public announcement about a cancelled sports day.
+
+**Group C (4 marks)**
+
+13. Write instructions in six steps for using a mobile banking application to
+    send money, including one warning.
+
+::: note Extra practice — answers
+**11.** *Add the detergent to the drawer.*
+**12.** e.g. *May I have your attention, please. Today's inter-house sports day
+has been postponed to Friday because of heavy rain; students should report to
+their class teachers at 10 a.m. as usual.*
+**13.** Marks: six imperative steps in a sensible order (open the app, log in
+with the PIN, choose *send money*, enter the account number and amount, check
+the name shown, confirm with the password or fingerprint); sequence words; one
+clear warning (never share the PIN or one-time password with anyone, and check
+the account number twice because a transfer cannot be reversed).
 :::

@@ -203,6 +203,66 @@ without telling anybody where I was going. Then I heard the bell of a bicycle
 behind me…"
 :::
 
+## 16.4 Writing from a personal angle: the anecdote
+
+An anecdote is a short true story told to make a point. It is the easiest way
+to turn a dull topic — food, pens, a bus ride — into writing someone wants to
+read.
+
+| Part | What it does | Example opening |
+|---|---|---|
+| Hook | one surprising sentence | *I stopped eating meat because of a goat I knew by name.* |
+| Context | who, where, when, briefly | *We kept her behind the house in Dhading …* |
+| The incident | one scene, in detail | *On the morning of the festival …* |
+| The turn | what changed | *I could not eat anything that day.* |
+| The point | one sentence, not a sermon | *A decision made by a child for a bad reason can still be a good decision.* |
+
+```figure caption="Anecdote against essay. The anecdote spends most of its words on one scene; the essay spreads them over several arguments. Both are valid — the question tells you which is wanted."
+cats = ["Hook", "Context", "Scene", "Turn", "Point"]
+anec = [10, 15, 50, 15, 10]
+cats2 = ["Intro", "Arg 1", "Arg 2", "Arg 3", "Conclusion"]
+essay = [15, 25, 25, 20, 15]
+x = np.arange(5)
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(5.1, 2.5))
+ax1.bar(x, anec, color=SERIES[0], width=0.6, edgecolor="white", linewidth=0.9)
+ax1.set_xticks(x); ax1.set_xticklabels(cats, fontsize=6.8, rotation=30)
+ax1.set_title("Anecdote", fontsize=8.5, color=INK)
+ax2.bar(x, essay, color=SERIES[2], width=0.6, edgecolor="white", linewidth=0.9)
+ax2.set_xticks(x); ax2.set_xticklabels(cats2, fontsize=6.8, rotation=30)
+ax2.set_title("Essay", fontsize=8.5, color=INK)
+for ax in (ax1, ax2):
+    ax.set_ylabel("% of words", color=MUTED, fontsize=8)
+    ax.set_ylim(0, 60)
+    ax.grid(axis="y", color=GRID, linewidth=0.7)
+    ax.set_axisbelow(True)
+    for s in ("top", "right"):
+        ax.spines[s].set_visible(False)
+    ax.tick_params(colors=MUTED, labelsize=7.4)
+fig.tight_layout()
+```
+
+::: note Activity — the object with a history
+Bring one ordinary object to class: a pen, a water bottle, a spoon, a shoe.
+Write 100 words about **one day** in which that object mattered. Read it out
+without naming the object; the class guesses what it was. The best pieces are
+always the ones with the smallest, most exact details.
+:::
+
+::: example The same fact, three ways
+**As a fact.** *Ballpoint pens became common after 1945.*
+
+**As a history.** *The quill lasted a week, the steel nib a year, and the
+ballpoint the whole of your school life — three technologies in two hundred
+years.*
+
+**As an anecdote.** *My grandfather still keeps a fountain pen in his shirt
+pocket, and refuses mine. "Your pen never runs out," he says, "so you never
+think before you write."*
+
+All three are accurate. The third is the one the reader remembers — which is
+why the examiner rewards it in a *personal* writing task and not in a report.
+:::
+
 ## Chapter summary
 
 - An anecdote is a short account of one incident, told to explain a decision or
@@ -266,4 +326,26 @@ the past perfect once for something that had happened earlier, and finish with
 what came of it.
 **7.** Give the date and the invention, the problem it solved, and its effect on
 ordinary people; end with the effect, not with the date.
+:::
+
+**Extra practice**
+
+**Group B (2 marks each)**
+
+11. Write a one-sentence hook for an anecdote about your first day at school.
+12. Rewrite as showing, not telling: *The food was delicious.*
+
+**Group C (4 marks)**
+
+13. Write an anecdote of about 150 words called *The Day I Changed My Mind*.
+
+::: note Extra practice — answers
+**11.** e.g. *I spent my first day at school hiding behind a water tank with
+somebody else's tiffin box.*
+**12.** e.g. *Nobody spoke for the first five minutes, and my cousin asked for
+a third helping before anyone else had finished the second.*
+**13.** Marks: a hook in the first sentence; brief context; one scene given in
+detail rather than several summarised; a clear turning point; a closing point
+of one or two sentences without preaching; consistent past tense and clean
+paragraphing.
 :::

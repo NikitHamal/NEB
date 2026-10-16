@@ -204,6 +204,52 @@ I had a mirror that showed the truth, I would use it on myself first, because
 that is where it would be hardest to look."
 :::
 
+## 14.4 Writing a story: dialogue and description together
+
+| Technique | Weak version | Stronger version |
+|---|---|---|
+| Show, don't tell | *She was frightened.* | *She did not move, and her hand stayed on the latch.* |
+| Dialogue to move the plot | *They talked about the mirror.* | *"Don't look into it," he said. "Not after dark."* |
+| Specific nouns | *There was a thing on the table.* | *A cracked hand-mirror lay face down on the table.* |
+| Vary sentence length | three long sentences | *He ran. The gate was shut, and behind him the footsteps had stopped.* |
+| End with consequence | *That was the end.* | *The mirror was gone the next morning, and so was the key.* |
+
+```figure caption="The dialogue layout. Each new speaker begins on a new line; the punctuation goes inside the quotation marks."
+fig, ax = plt.subplots(figsize=(4.9, 2.3))
+lines = ['"Don\'t look into it," he said.',
+         '"Why not?" asked Mira.',
+         '"Because the last person who did',
+         'never told anyone what she saw."']
+for i, t in enumerate(lines):
+    ax.text(0.06, 0.82 - i * 0.2, t, fontsize=9.4, color=INK, family="serif")
+ax.annotate("new speaker,\nnew line", xy=(0.52, 0.62), xytext=(0.66, 0.74),
+            fontsize=7.4, color=MUTED,
+            arrowprops=dict(arrowstyle="-|>", color=MUTED, lw=0.9))
+ax.annotate("comma inside\nthe quotes", xy=(0.30, 0.84), xytext=(0.60, 0.94),
+            fontsize=7.4, color=MUTED,
+            arrowprops=dict(arrowstyle="-|>", color=MUTED, lw=0.9))
+ax.set_xlim(0, 1)
+ax.set_ylim(0, 1.05)
+ax.axis("off")
+```
+
+::: note Activity — the four-line story
+Write a complete story in exactly four sentences: one to set the scene, one
+line of dialogue, one event, one consequence. Read it out; the class votes on
+which four-line story makes them want to hear the fifth sentence. Then write
+that fifth sentence.
+:::
+
+::: example Opening lines, compared
+**Ordinary.** *One day a boy found a magic mirror in his grandmother's house.*
+
+**Better.** *The mirror had been in the store room for as long as anyone could
+remember, turned to the wall.*
+
+The second opening gives the same information but adds a question — *why turned
+to the wall?* — and a question is what makes a reader continue.
+:::
+
 ## Chapter summary
 
 - A magic-object folk tale uses the object to **test** a character: the magic
@@ -279,4 +325,26 @@ close with one sentence that shows the moral.
 **8.** Use the second conditional all the way through and keep to one day: how
 it would begin, the one thing you would do that you could not otherwise do, what
 you would learn, and how it would end. Do not mix in the first conditional.
+:::
+
+**Extra practice**
+
+**Group B (2 marks each)**
+
+11. Punctuate: *where did you find it asked grandmother*
+12. Rewrite to show, not tell: *The old man was very poor.*
+
+**Group C (4 marks)**
+
+13. Write a story in about 150 words ending with the sentence: *…and the mirror
+    was never found again.*
+
+::: note Extra practice — answers
+**11.** *"Where did you find it?" asked Grandmother.*
+**12.** e.g. *He counted the coins twice before buying half a kilo of rice, and
+his shirt had been mended at both elbows.*
+**13.** Marks: a clear setting and one or two characters; at least two lines of
+correctly punctuated dialogue; one event that builds tension; the given
+sentence used as the last line and not merely tacked on; past tense held
+throughout; and accurate paragraphing.
 :::

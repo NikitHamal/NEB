@@ -190,6 +190,68 @@ place and the chief guest, then add the R.S.V.P. line. Informal: begin *Dear
 with your own name.
 :::
 
+## 10.4 Vocabulary of announcements and invitations
+
+| Word | Meaning | Used in a sentence |
+|---|---|---|
+| vacancy | an unfilled post | *The notice announced two vacancies for lab assistants.* |
+| applicant | a person who applies | *Each applicant must attach a copy of the certificate.* |
+| eligible | qualified to be chosen | *Only candidates above 18 are eligible.* |
+| deadline | the last date | *The deadline for applications is 20 Asar.* |
+| curriculum vitae | a summary of one's education and experience | *Send your curriculum vitae with the letter.* |
+| remuneration | payment for work | *The remuneration is negotiable for the right candidate.* |
+| RSVP | please reply (to an invitation) | *Kindly RSVP by Friday.* |
+| venue | the place where an event is held | *The venue is the school hall.* |
+
+```figure caption="Which text type to use when. Choosing the wrong format costs the format mark however good the English is."
+rows = [("Vacancy announcement", "an organisation needs staff"),
+        ("Application letter", "you want the post"),
+        ("Invitation", "you are inviting a guest"),
+        ("Notice", "you are informing many people"),
+        ("Email", "quick, informal-to-formal message")]
+fig, ax = plt.subplots(figsize=(5.0, 2.8))
+for i, (left, right) in enumerate(rows):
+    y = 0.88 - i * 0.19
+    ax.add_patch(matplotlib.patches.FancyBboxPatch(
+        (0.03, y - 0.07), 0.40, 0.14,
+        boxstyle="round,pad=0.008,rounding_size=0.04",
+        facecolor=SERIES[i % len(SERIES)], edgecolor="none", alpha=0.88))
+    ax.text(0.23, y, left, ha="center", va="center", color="white",
+            fontsize=8.2)
+    ax.annotate("", xy=(0.52, y), xytext=(0.44, y),
+                arrowprops=dict(arrowstyle="-|>", color=MUTED, lw=1.0))
+    ax.text(0.54, y, right, ha="left", va="center", color=INK, fontsize=8.0)
+ax.set_xlim(0, 1)
+ax.set_ylim(0, 1)
+ax.axis("off")
+```
+
+::: tip A vacancy announcement in six lines
+Organisation and post; number of vacancies; qualification and experience;
+documents required; deadline and where to apply; contact. Anything more belongs
+in an advertisement, not a notice.
+:::
+
+::: note Activity — the hiring game
+In groups of four, write a vacancy announcement for a post at your school
+(librarian, sports coach, lab assistant). Swap announcements with another
+group, and each member writes an application for one of the posts. The first
+group then shortlists and explains, in two sentences, why each applicant was or
+was not called — using only what the letters actually said.
+:::
+
+::: example A short invitation, annotated
+> **The Principal and staff of Shree Janata Secondary School** *(host)*
+> request the pleasure of your company at the **Annual Prize Day** *(occasion)*
+> on **Friday, 12 Mangsir, at 11 a.m.** *(date and time)*
+> in the **school hall, Dhapasi** *(venue)*.
+> The chief guest will give away the prizes.
+> **RSVP: 01-4XXXXXX by 9 Mangsir.** *(reply)*
+
+Six elements, six lines. An invitation that runs to a paragraph has usually
+turned into a letter.
+:::
+
 ## Chapter summary
 
 - A vacancy announcement is a formal public notice; it must give the post, the
@@ -253,4 +315,30 @@ sign it with the issuer's name, designation and the date.
 **7.** Begin with the school's name and the words "request the pleasure of your
 company at…", then give the event, the date, the time and the venue, name the
 chief guest, add the R.S.V.P. line, and close with the Principal's name.
+:::
+
+**Extra practice**
+
+**Group B (2 marks each)**
+
+11. Write an email of two sentences applying for the post of school librarian.
+12. Rewrite correctly: *Applicants should submit their CV before the dateline.*
+
+**Group C (4 marks)**
+
+13. Write a vacancy announcement for two science teachers at your school.
+
+::: note Extra practice — answers
+**11.** *Subject: Application for the post of school librarian* — *Dear Sir /
+Madam, I should like to apply for the post of school librarian advertised on
+your notice board on 5 Asar. I have completed Grade 12 and have worked as a
+student volunteer in our school library for two years; my curriculum vitae is
+attached. Yours faithfully, —*
+**12.** *Applicants should submit their curriculum vitae before the deadline.*
+(*dateline* is the place-and-date line of a news report, not a last date.)
+**13.** Must contain: school name and address; post and number of vacancies
+(two science teachers); qualification (Bachelor's in science education or
+equivalent) and experience; documents required; deadline and place of
+application; salary "as per school rules"; contact number; and the signature
+of the Principal with the date.
 :::
