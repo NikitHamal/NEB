@@ -334,3 +334,22 @@ $3s+12+s=48$, so $4s=36$ and $s=9$; then $f=48-9=39$.
 **Answer.** The father is 39 and the son is 9.
 **Check.** In 6 years they are 45 and 15, and $45=3\times15$ ✓.
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** The solution of $4x - 9 = 2x + 7$ is
+   (a) 4 (b) 8 (c) 16 (d) $-8$
+**2.** The slope of the line $y = -2x + 5$ is
+   (a) 5 (b) $-2$ (c) 2 (d) $-5$
+**3.** The line $y = 3x - 6$ cuts the $y$-axis at
+   (a) $(0,3)$ (b) $(0,-6)$ (c) $(2,0)$ (d) $(-6,0)$
+**4.** If $\frac{x}{5} + 2 = 7$, then $x$ is
+   (a) 15 (b) 20 (c) 25 (d) 45
+**5.** The graph of $y = 4$ is a line that is
+   (a) parallel to the $x$-axis (b) parallel to the $y$-axis (c) through the origin (d) slanting
+
+::: note Objective practice — answers
+**1.** (b) — $2x = 16$, so $x = 8$. **2.** (b) — the coefficient of $x$. **3.** (b) — put $x = 0$. **4.** (c) — $\frac{x}{5} = 5$, so $x = 25$. **5.** (a) — every point has $y = 4$, so it is horizontal.
+:::

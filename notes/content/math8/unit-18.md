@@ -296,3 +296,22 @@ repeats every two squares across and every two rows up), and rotations of order
 vertex, because the triangle-and-square order runs the same way round each
 vertex — which is exactly what "semi-regular" requires.
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** A tessellation is an arrangement with
+   (a) gaps only (b) overlaps only (c) no gaps and no overlaps (d) curved tiles only
+**2.** Which regular polygon does **not** tessellate by itself?
+   (a) equilateral triangle (b) square (c) regular pentagon (d) regular hexagon
+**3.** Three regular hexagons meet at a point because
+   (a) $3 \times 120° = 360°$ (b) $3 \times 108° = 324°$ (c) they are curved (d) they are small
+**4.** The number of equilateral triangles meeting at a point in a tessellation is
+   (a) 3 (b) 4 (c) 5 (d) 6
+**5.** A honeycomb is a natural example of a tessellation of
+   (a) squares (b) hexagons (c) pentagons (d) octagons
+
+::: note Objective practice — answers
+**1.** (c) — the plane is covered exactly. **2.** (c) — $108°$ does not divide $360°$. **3.** (a) — the angles fill $360°$ exactly. **4.** (d) — $6 \times 60° = 360°$. **5.** (b) — hexagons.
+:::

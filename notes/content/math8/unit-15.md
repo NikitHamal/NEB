@@ -353,3 +353,22 @@ condition. **Check.** The scale factor of the shadows is
 $21\div3=7$, so the heights must also be in the ratio $7:1$, and
 $14=7\times2$ ✓.
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** Which test does **not** prove two triangles congruent?
+   (a) SSS (b) SAS (c) AAA (d) ASA
+**2.** In two similar triangles the corresponding sides are
+   (a) equal (b) proportional (c) perpendicular (d) unrelated
+**3.** Triangles with sides $5, 12, 13$ cm and $10, 24, 26$ cm are
+   (a) congruent (b) similar only (c) neither (d) equal in area
+**4.** The RHS test applies to
+   (a) all triangles (b) right-angled triangles (c) isosceles triangles (d) equilateral triangles
+**5.** If two figures are congruent then they are
+   (a) also similar (b) never similar (c) similar only if squares (d) equal in perimeter but not area
+
+::: note Objective practice — answers
+**1.** (c) — equal angles fix the shape, not the size. **2.** (b) — proportional. **3.** (b) — the ratio is $1:2$, so similar but not congruent. **4.** (b) — right angle, hypotenuse and one side. **5.** (a) — congruent figures are similar with ratio 1.
+:::

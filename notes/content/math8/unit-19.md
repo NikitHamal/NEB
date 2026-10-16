@@ -378,3 +378,22 @@ $$\text{ratio}=4:36=1:9=1^2:3^2$$
 **Check.** The side ratio is $6:2=3:1$, and the area ratio must be the square of
 that, $9:1$ ✓.
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** The image of $(5, -3)$ after reflection in the $x$-axis is
+   (a) $(-5,-3)$ (b) $(5,3)$ (c) $(-5,3)$ (d) $(3,5)$
+**2.** Translation by $\binom{-2}{3}$ maps $(4,1)$ to
+   (a) $(2,4)$ (b) $(6,4)$ (c) $(2,-2)$ (d) $(-8,3)$
+**3.** Rotation through $180°$ about the origin maps $(x,y)$ to
+   (a) $(-x,y)$ (b) $(x,-y)$ (c) $(-x,-y)$ (d) $(y,x)$
+**4.** Which transformation does **not** preserve size?
+   (a) reflection (b) rotation (c) translation (d) enlargement
+**5.** Reflection in the $y$-axis maps $(x,y)$ to
+   (a) $(x,-y)$ (b) $(-x,y)$ (c) $(-x,-y)$ (d) $(y,x)$
+
+::: note Objective practice — answers
+**1.** (b) — the sign of $y$ changes. **2.** (a) — $(4-2,\,1+3)$. **3.** (c) — both signs change. **4.** (d) — an enlargement changes the size. **5.** (b) — the sign of $x$ changes.
+:::
