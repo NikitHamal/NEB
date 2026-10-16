@@ -197,6 +197,71 @@ family member working abroad.*
 working outside the country.*
 :::
 
+## 7.4 Reading a weather forecast
+
+A forecast is a table turned into sentences. The marks come from reading the
+numbers correctly, not from knowing the weather.
+
+| Term | Meaning | Reading it |
+|---|---|---|
+| maximum / minimum | highest and lowest temperature of the day | *a high of 28 °C and a low of 17 °C* |
+| humidity | water vapour in the air, as a percentage | *85 % — the air feels heavy and clothes dry slowly* |
+| precipitation | rain, snow or hail | *chance of precipitation 60 %* |
+| overcast | completely covered with cloud | *overcast with occasional drizzle* |
+| gusty | wind in sudden bursts | *gusty winds up to 40 km/h* |
+| visibility | how far one can see | *visibility below 500 m — flights delayed* |
+
+```figure caption="A seven-day forecast for a hill town. Reading a chart like this is itself an examination skill: say what rises, what falls, and where the extreme is."
+days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+hi = [26, 27, 24, 22, 23, 25, 28]
+lo = [15, 16, 15, 14, 14, 15, 17]
+rain = [10, 20, 70, 85, 50, 20, 5]
+x = np.arange(len(days))
+fig, ax = plt.subplots(figsize=(5.0, 3.0))
+ax.plot(x, hi, color=SERIES[3], marker="o", markersize=4.5, linewidth=2,
+        label="maximum (°C)")
+ax.plot(x, lo, color=SERIES[0], marker="s", markersize=4.5, linewidth=2,
+        label="minimum (°C)")
+ax.set_ylabel("temperature (°C)", color=MUTED, fontsize=9)
+ax.set_ylim(5, 35)
+ax2 = ax.twinx()
+ax2.bar(x, rain, color=SERIES[2], alpha=0.35, width=0.5,
+        label="chance of rain (%)")
+ax2.set_ylabel("chance of rain (%)", color=MUTED, fontsize=9)
+ax2.set_ylim(0, 110)
+ax.set_xticks(x)
+ax.set_xticklabels(days, fontsize=8.4)
+h1, l1 = ax.get_legend_handles_labels()
+h2, l2 = ax2.get_legend_handles_labels()
+ax.legend(h1 + h2, l1 + l2, fontsize=7.6, frameon=False, loc="upper left")
+for a in (ax, ax2):
+    a.tick_params(colors=MUTED, labelsize=8.2)
+    a.spines["top"].set_visible(False)
+ax.grid(axis="y", color=GRID, linewidth=0.7)
+ax.set_axisbelow(True)
+```
+
+::: note Activity — your own forecast board
+Keep a weather board in the classroom for two weeks. Each morning one student
+writes the maximum and minimum of the previous day, the sky (clear, partly
+cloudy, overcast) and whether it rained. At the end, write a 100-word report
+using the language of trends: *rose, fell, remained steady, the wettest day
+was …*
+:::
+
+::: example Describing a chart in four sentences
+> *The week begins warm, with a maximum of 26 °C on Sunday.*
+> *Temperatures then fall through the middle of the week, reaching 22 °C on
+> Wednesday, when the chance of rain is highest at 85 %.*
+> *After Wednesday the rain clears and the maximum climbs steadily to 28 °C by
+> Saturday.*
+> *Night temperatures change very little, staying between 14 °C and 17 °C
+> throughout.*
+
+Four sentences, four jobs: **start, trend, turning point, what stays the
+same.** Any chart question can be answered on that frame.
+:::
+
 ## Chapter summary
 
 - A weather forecast is predictive writing; its *may*, *likely* and *expected*
@@ -272,4 +337,27 @@ pay school fees and start small shops. Bad effect: fields go out of
 cultivation, schools close for want of children, and the elderly are left
 without help at home. Consequence: the village keeps its houses but loses its
 workers.
+:::
+
+**Extra practice**
+
+**Group B (2 marks each)**
+
+11. Use *humidity* and *visibility* in sentences of your own.
+12. From the chart above, say which day is wettest and which is warmest.
+
+**Group C (4 marks)**
+
+13. Write a weather forecast of about 100 words for your district for tomorrow,
+    using at least four of the terms in the table.
+
+::: note Extra practice — answers
+**11.** e.g. *The humidity was 90 % and nothing we washed would dry.* /
+*Visibility fell below 100 m, so the morning flights were cancelled.*
+**12.** Wednesday is wettest (85 % chance of rain); Saturday is warmest
+(28 °C).
+**13.** Marks: a clear statement of maximum and minimum; the state of the sky;
+chance of precipitation; at least one of humidity, wind or visibility; a
+practical note for readers (carry an umbrella, flights may be delayed); present
+and future tenses used correctly (*will be, is expected to*).
 :::

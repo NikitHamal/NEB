@@ -215,6 +215,61 @@ before selling, whereas twenty years ago both had to rely on what somebody
 told them."
 :::
 
+## 9.4 Talking about technology: useful vocabulary
+
+| Word | Meaning | Used in a sentence |
+|---|---|---|
+| device | a machine made for a purpose | *A smartphone is a device, not a toy.* |
+| application | a program for a particular task | *She uses a dictionary application offline.* |
+| notification | an alert from an application | *Turning off notifications helped him study.* |
+| screen time | the hours spent looking at a screen | *My screen time fell by half this month.* |
+| distraction | something that takes attention away | *A phone on the desk is a distraction even when silent.* |
+| cyberbullying | harassing someone online | *Cyberbullying should be reported, not answered.* |
+| privacy | the right to keep one's life to oneself | *Posting a friend's photo without asking breaks their privacy.* |
+| verify | to check that something is true | *Verify a forwarded message before you share it.* |
+
+```figure caption="A week of screen time for two students. Both use a phone, but one of them keeps study hours phone-free — and that is the difference the marks, and the sleep, show."
+days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+a = [3.0, 2.8, 3.2, 3.0, 2.9, 4.5, 5.0]
+b = [6.5, 6.0, 6.8, 7.0, 6.4, 8.0, 8.5]
+x = np.arange(len(days))
+fig, ax = plt.subplots(figsize=(4.9, 2.9))
+ax.bar(x - 0.18, a, width=0.34, color=SERIES[0], label="Student A",
+       edgecolor="white", linewidth=0.9)
+ax.bar(x + 0.18, b, width=0.34, color=SERIES[3], label="Student B",
+       edgecolor="white", linewidth=0.9)
+ax.set_xticks(x)
+ax.set_xticklabels(days, fontsize=8.4)
+ax.set_ylabel("hours", color=MUTED, fontsize=9)
+ax.legend(fontsize=8, frameon=False)
+ax.grid(axis="y", color=GRID, linewidth=0.7)
+ax.set_axisbelow(True)
+for s in ("top", "right"):
+    ax.spines[s].set_visible(False)
+ax.tick_params(colors=MUTED, labelsize=8.2)
+```
+
+::: note Activity — a week of your own data
+For seven days, write down your own screen time each night (most phones report
+it). Draw a bar chart like the one above. Then write a paragraph of about 80
+words: what the chart shows, which day was worst, and one change you will make.
+**Speaking:** present your chart to the class in one minute, using the
+expressions *it rose, it fell, it stayed about the same, the highest was …*
+:::
+
+::: example A balanced argument in four sentences
+> *A smartphone is the cheapest library a village student has ever had.*
+> *With it a child in Humla can read the same book as a child in Kathmandu,
+> look up a word, or watch a lesson she missed.*
+> *But the same device sells attention: a short video is designed to be
+> followed by another, and an hour disappears without a page being read.*
+> *The answer is not to throw the phone away but to put it in a drawer during
+> study hours — a rule about time, not about technology.*
+
+Notice the shape: **claim → evidence → counter-claim → resolution.** Any
+four-mark argument can be built on it.
+:::
+
 ## Chapter summary
 
 - School and college differ in supervision, breadth, the contact between
@@ -280,4 +335,27 @@ example. Paragraph 4: a balanced conclusion with one practical rule.
 **6.** Use comparatives such as "bigger than", "more crowded than", "further
 from home than", and at least one superlative ("the strictest teacher I have
 had"). Finish with which school suited you better and why.
+:::
+
+**Extra practice**
+
+**Group B (2 marks each)**
+
+11. Use *verify* and *distraction* in sentences of your own.
+12. Rewrite in the passive: *Students use smartphones for research.*
+
+**Group C (4 marks)**
+
+13. Write a paragraph (about 120 words) on *Smartphones in Our Life*, using the
+    claim–evidence–counter-claim–resolution shape.
+
+::: note Extra practice — answers
+**11.** e.g. *Always verify a news photograph before forwarding it.* /
+*The notification light was a constant distraction during the test.*
+**12.** *Smartphones are used by students for research.*
+**13.** Marks: a clear claim; at least two concrete pieces of evidence (offline
+dictionaries, recorded lessons, payments, emergency calls); a genuine
+counter-claim (lost study hours, poor sleep, cyberbullying, false
+information); and a resolution that is specific (fixed phone-free hours, no
+phone at night, verify before sharing) rather than a slogan.
 :::
