@@ -18,6 +18,33 @@ EDITION = "Edition 1.0 · 2082 BS (2025–26 AD)"
 
 def esc(s): return _html.escape(str(s))
 
+
+def localise_marks(html):
+    """Devanagari digits inside the [n] marks chips of a Nepali book."""
+    if not i18n.CUR["digits"]:
+        return html
+    return re.sub(r'(<span class="marks">)([^<]*)(</span>)',
+                  lambda m: m.group(1) + i18n.num_str(m.group(2)) + m.group(3), html)
+
+# Devanagari conjuncts break when tracked, and uppercasing is meaningless for
+# it. Nepali books get this sheet appended after theme.css, so every tracked
+# label in the furniture reverts to normal spacing and mixed case.
+DEVA_FONT_NE = 'font-family:"Noto Sans Devanagari",Inter,sans-serif'
+DEVA_CSS = """
+.cover .brand, .cover .brand small, .cover .grade, .cover .foot,
+.front h2, .front .exam h3, .toc .area, .unit .eyebrow, .syl h4,
+.box .lab, .credits h2, .credits .sub, .back h2, .qs .grp, .chapsum h2,
+.front .lede, .front li, th, .figcap .n, .fin, .runhead
+  { letter-spacing: normal !important; text-transform: none !important; }
+/* Poppins carries a Devanagari set, but its numerals and conjuncts are a
+   secondary design. Nepali books set every display string in Noto Sans
+   Devanagari, which is the reference shaping for the script. */
+.cover .brand, .cover h1, .cover .grade, .cover .sub, .cover .foot,
+h1, h2, h3, h4, h5, .toc, .front, .back, .credits, .qs .grp, .chapsum,
+.box .lab, .unit .eyebrow, .syl, .runhead, .fin, table, .figcap
+  { font-family: "Noto Sans Devanagari", Poppins, Inter, sans-serif !important; }
+""".strip()
+
 def cover_html(subject, grade, accent, code, head):
     L = i18n.CUR
     return f"""<section class="cover"><div class="band"></div><div class="inner">
@@ -26,7 +53,7 @@ def cover_html(subject, grade, accent, code, head):
   <div class="grade">{L["grade"].format(g=i18n.num(grade))}</div>
   <div class="rule"></div>
   <div class="sub">{L["cover_sub"]}</div>
-  <div class="foot"><span>{L["code"]} {esc(code)}</span><span>{L["edition"]}</span></div>
+  <div class="foot"><span>{(L["code"] + " " + esc(code)) if code else ""}</span><span>{L["edition"]}</span></div>
 </div></section>"""
 
 def front_html(subject, grade, head, units, exam_notes):
@@ -138,9 +165,13 @@ def credits_html(asset_ids):
 def build(slug, verbose=True):
     head, units = spine.load(slug)
     L = i18n.set_book(slug)
+    DEVA_FONT = DEVA_FONT_NE if L["digits"] else ""
     subject, accent, grade = spine.meta_for(slug)
     photo.USED.clear()          # credits are per book, in order of first use
-    code = head.get("code", "").split()[0]
+    code = head.get("code", "").split()[0] if head.get("code") else ""
+    # Nepali books print nothing rather than a Latin code.
+    if L["digits"] and code and not re.search(r"[\u0900-\u097F]", code):
+        code = ""
     cdir = os.path.join(CONTENT, slug)
     present, bodies, figno = set(), {}, 1
     for u in units:
@@ -150,7 +181,7 @@ def build(slug, verbose=True):
         if len(txt.strip()) < 400: continue
         i18n.CUR = i18n.for_title(u["title"], L)
         _, htm, figno = md2html.convert(txt, f"{slug}-u{u['no']}", figno)
-        bodies[u["no"]] = htm
+        bodies[u["no"]] = localise_marks(htm)
         present.add(u["no"])
     i18n.CUR = L
     if not present:
@@ -168,11 +199,12 @@ def build(slug, verbose=True):
                  [L["no_grid"]]
     doc = f"""<!DOCTYPE html><html lang="{L["lang"]}"><head><meta charset="utf-8">
 <title>{esc(subject)} {L["grade"].split(" ·")[0].format(g=i18n.num(grade))} — {"नेबियन्स" if L["digits"] else "NEBians"}</title>
+<style>{DEVA_CSS if L["digits"] else ""}</style>
 <style>:root{{--accent:{accent};--accent-wash:{accent}12}}
 .cover .band{{background:linear-gradient(155deg,{accent} 0%,#14181f 155%)}}
 html{{string-set:booktitle "{esc(subject)} · {L["grade"].split(" ·")[0].format(g=i18n.num(grade))}"}}
-@page{{@bottom-left{{content:"{L["footer"]}"}}@bottom-right{{content:counter(page{", devanagari" if L["digits"] else ""})}}}}
-@page frontmatter{{@bottom-right{{content:counter(page,{"devanagari" if L["digits"] else "lower-roman"})}}}}</style>
+@page{{@bottom-left{{content:"{L["footer"]}";{DEVA_FONT}}}@bottom-right{{content:counter(page{", devanagari" if L["digits"] else ""});{DEVA_FONT}}}@top-left{{{DEVA_FONT}}}@top-right{{{DEVA_FONT}}}}}
+@page frontmatter{{@bottom-right{{content:counter(page,{"devanagari" if L["digits"] else "lower-roman"});{DEVA_FONT}}}}}</style>
 </head><body>
 {cover_html(subject, grade, accent, code, head)}
 {front_html(subject, grade, head, units, exam_notes)}
