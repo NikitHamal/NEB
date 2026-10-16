@@ -1,45 +1,88 @@
-# SUBJECT: Social Studies and Human Value Education | GRADE: 10 | CODE: SEE | WORKING_HOURS: 150
-# EXAM: SEE, 2 hr 30 min, FM 75 written (+25 internal)
-# TEXTBOOK: Social Studies and Human Value Education, Class 10, CDC Sanothimi (2080 BS); 10 units, 74 chapters. This book is written in English, one chapter per CDC unit.
-# PART: Units
-## 1. Our Society and We [G]
-- Socialization
-- Our identities
-- Unity in diversity
-- Our national pride
-## 2. Development and the Foundations of Development [G]
-- Human Development Index
-- Sustainable development
-- Federalism in Nepal
-- National pride projects
-## 3. Our Social Values and Beliefs [G]
-- Our national heritage
-- Our folk songs
-- Nepali folk instruments
-- Our folk and classical dances
-- Our national days
-- International personalities
-- Universal brotherhood and humanity
-- Our social responsibility
-## 4. Social Problems and Solutions [G]
-- Human trafficking: a serious social problem
-- Sexual abuse and abnormal sexual behaviour
-- Domestic violence
-- Corruption as a social evil
-- Let us remove superstition
-- Identifying social problems and problem-solving skills
-- Role of international organisations in solving social problems
-## 5. Civic Consciousness [G]
-- Legislature
-- Federal executive
-- Judiciary
-- Political parties
-- Election process and the role of citizens
-- Human rights
-- Role of organisations in the protection of human rights
-- Consumer rights
-## 6. Our Earth [G]
-## 7. Our Past [G]
-## 8. Economic Activities [G]
-## 9. Our International Relations and Cooperation [G]
-## 10. Population and Its Management [G]
+# SUBJECT: सामाजिक अध्ययन तथा मानव मूल्य शिक्षा | GRADE: 10 | CODE: SEE | WORKING_HOURS: 150
+# EXAM: माध्यमिक शिक्षा परीक्षा (कक्षा १०) — लिखित परीक्षा २ घण्टा ३० मिनेट, पूर्णाङ्क ७५ (आन्तरिक मूल्याङ्कन २५ थप)। अभ्यास प्रश्न वस्तुगत (१ अङ्क), छोटो उत्तर (५ अङ्क) र लामो उत्तर (८ अङ्क) ढाँचामा दिइएका छन्।
+# TEXTBOOK: सामाजिक अध्ययन तथा मानव मूल्य शिक्षा, कक्षा १० (पाठ्यक्रम विकास केन्द्र, सानोठिमी; २०८० संस्करण) — १० एकाइ, ७४ पाठ। यो पुस्तक पूर्ण रूपमा नेपाली भाषामा लेखिएको छ; एक एकाइ बराबर एक अध्याय।
+# PART: एकाइ
+## 1. हामी र हाम्रो समाज [G]
+- सामाजिकीकरण
+- हाम्रा पहिचान
+- विविधतामा एकता
+- हाम्रा राष्ट्रिय गौरव
+## 2. विकास र विकासका आधार [G]
+- मानव विकास सूचकाङ्क
+- दिगो विकास
+- नेपालमा सङ्घीयता
+- राष्ट्रिय गौरवका आयोजना
+## 3. हाम्रा सामाजिक मूल्य र मान्यता [G]
+- हाम्रो राष्ट्रिय सम्पदा
+- हाम्रा लोकगीत
+- नेपाली लोकवाद्य
+- हाम्रा लोक तथा शास्त्रीय नृत्य
+- हाम्रा राष्ट्रिय दिवस
+- अन्तर्राष्ट्रिय व्यक्तित्व
+- विश्वबन्धुत्व र मानवता
+- हाम्रो सामाजिक उत्तरदायित्व
+## 4. सामाजिक समस्या र समाधान [G]
+- मानव बेचबिखन: गम्भीर सामाजिक समस्या
+- यौनजन्य दुर्व्यवहार र अस्वाभाविक यौन व्यवहार
+- घरेलु हिंसा
+- सामाजिक विकृतिका रूपमा भ्रष्टाचार
+- अन्धविश्वास हटाऔँ
+- सामाजिक समस्याको पहिचान र समस्या समाधान सीप
+- सामाजिक समस्या समाधानमा अन्तर्राष्ट्रिय संस्थाको भूमिका
+## 5. नागरिक चेतना [G]
+- व्यवस्थापिका
+- सङ्घीय कार्यपालिका
+- न्यायपालिका
+- राजनीतिक दल
+- निर्वाचन प्रक्रिया र नागरिकको भूमिका
+- मानव अधिकार
+- मानव अधिकार संरक्षणमा संस्थाहरूको भूमिका
+- उपभोक्ता अधिकार
+## 6. हाम्रो पृथ्वी [G]
+- हावापानीमा असर पार्ने तत्त्व
+- विश्वका हावापानीका प्रकार
+- उष्ण प्रदेश
+- समशीतोष्ण प्रदेश
+- शीत प्रदेश
+- विश्वको हावापानी: धरातल र त्यसको प्रभाव
+- उत्तर अमेरिका महादेश
+- दक्षिण अमेरिका महादेश
+- अफ्रिका महादेश
+- प्राकृतिक प्रकोप: भूकम्प
+- नक्सा कार्य
+- नक्साङ्कनमा आधुनिक प्रविधि
+## 7. हाम्रो विगत [G]
+- २००७ सालको क्रान्ति र दिल्ली सम्झौता
+- प्रजातन्त्रको दशक (२००७–२०१७)
+- २०१७ देखि २०४६ सम्मका राजनीतिक घटना
+- २०४६ देखि २०६३ सम्मका राजनीतिक घटना
+- २०६३ देखि २०७९ सम्मका राजनीतिक घटना
+- प्रथम विश्वयुद्ध: कारण र घटनाक्रम
+- प्रथम विश्वयुद्धका परिणाम
+- दोस्रो विश्वयुद्ध र यसका कारण
+- दोस्रो विश्वयुद्धका परिणाम र नेपालको भूमिका
+- स्थानीय ऐतिहासिक स्थलको पहिचान र संरक्षण
+## 8. आर्थिक क्रियाकलाप [G]
+- ऊर्जा र विकास
+- पर्यटन प्रवर्धन
+- रोजगारी
+- वित्तीय शिक्षा
+- वित्तीय उपकरण
+- सहकारी
+- बचत र बिमा
+- राजस्व
+- आवधिक योजना
+## 9. हाम्रो अन्तर्राष्ट्रिय सम्बन्ध र सहयोग [G]
+- नेपालको परराष्ट्र नीति
+- संयुक्त राष्ट्रसङ्घ
+- संयुक्त राष्ट्रसङ्घका विशिष्टीकृत निकाय
+- विश्वव्यापीकरण र स्थानीयकरण
+- सूचना तथा सञ्चार प्रविधि
+- समसामयिक घटना
+## 10. जनसङ्ख्या र यसको व्यवस्थापन [G]
+- नेपालको जनसङ्ख्याको आकार र वृद्धि
+- जनसङ्ख्याको बनोट
+- जनसङ्ख्याको वितरण
+- परिवार नियोजन र जीवनस्तर
+- जनसङ्ख्या र वातावरणबीचको सम्बन्ध
+- सामुदायिक स्वास्थ्य
