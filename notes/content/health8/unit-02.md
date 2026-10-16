@@ -1,197 +1,244 @@
 ---
-subject: Health, Physical and Creative Arts
+subject: स्वास्थ्य, शारीरिक तथा सिर्जनात्मक कला
 grade: 8
 unit: 2
-title: Community Health and Mental Health
+title: सामुदायिक स्वास्थ्य र मानसिक स्वास्थ्य
 hours: 7
-area: Health Education
+area: स्वास्थ्य शिक्षा
 ---
 
-Health is shaped not only by personal habits but also by water, toilets, waste management, housing, relationships and access to care. A community becomes healthier when people identify shared problems and act together. Mental health is part of the same picture: a safe, supportive community helps people think, feel and cope well.
+एक जना मात्र सफा भएर समुदाय स्वस्थ हुँदैन। छिमेकीको शौचालय छैन भने उसको फोहोर
+पानीमा मिसिन्छ र सबैलाई झाडापखाला लाग्छ। त्यसैले स्वास्थ्य व्यक्तिगत कुरा मात्र
+होइन — यो **सामुदायिक** कुरा पनि हो। त्यसै गरी स्वास्थ्य भनेको शरीर निरोगी हुनु
+मात्र होइन; मन पनि स्वस्थ हुनुपर्छ। यस एकाइमा सामुदायिक स्वास्थ्य, पूर्ण सरसफाइ,
+शौचालयको सुरक्षित प्रयोग र मानसिक स्वास्थ्य — चारै कुरा पढिन्छ।
 
-::: key High-value examination idea
-A strong answer links a health problem to its cause, effect and practical community-level solution. For mental health questions, use respectful language, identify warning signs and recommend support rather than blame.
+::: key यस एकाइको मुटु
+सामुदायिक स्वास्थ्यका अङ्ग र यसमा सबैको भूमिका; पूर्ण सरसफाइका पाँच व्यवहार;
+खुला दिसामुक्त क्षेत्र भनेको के; मानसिक स्वास्थ्यका लक्षण, सामान्य समस्या र
+सहयोगका उपाय — यिनै कुरामा प्रश्न आउँछन्।
 :::
 
-## 2.1 Community health
+## २.१ सामुदायिक स्वास्थ्य
 
-**Community health** is the organised effort of people and services to protect and improve the health of everyone living in a particular area. It includes prevention, health education, treatment, rehabilitation and a healthy environment.
+::: definition सामुदायिक स्वास्थ्य
+कुनै समुदायका सबै सदस्यको स्वास्थ्य जोगाउन, रोग रोक्न र जीवनस्तर उकास्न समुदाय
+आफैँले संगठित रूपमा गर्ने प्रयासलाई **सामुदायिक स्वास्थ्य** भनिन्छ।
+:::
 
-Important community health services in Nepal include immunisation, antenatal and postnatal care, growth monitoring, nutrition counselling, family-planning information, treatment of common illnesses, disease surveillance, school health programmes and referral. Health posts, basic hospitals, female community health volunteers, schools, municipalities, water-user groups and families all have roles.
+विश्व स्वास्थ्य सङ्गठनका अनुसार स्वास्थ्य भनेको **शारीरिक, मानसिक र सामाजिक**
+— तीनै पक्षमा पूर्ण रूपमा सबल हुनु हो; रोग नहुनु मात्र होइन।
 
-| Community health problem | Possible causes | Community response |
+| पक्ष | के हो | दैनिक उदाहरण |
 |---|---|---|
-| diarrhoeal disease | unsafe water, open defecation, unwashed hands | protect the source, treat water, use toilets, wash hands |
-| mosquito-borne disease | stagnant water and unmanaged containers | remove breeding sites, use nets, seek timely care |
-| respiratory illness | smoke, dust, poor ventilation | cleaner stoves, ventilation, smoke-free homes |
-| malnutrition | poor diet, illness, food insecurity | growth monitoring, diverse local foods, treatment and support |
-| injury | unsafe roads, buildings or work | hazard mapping, safety rules, first-aid readiness |
+| शारीरिक | शरीरका अङ्ग ठिकसँग काम गर्नु | थकान नभई दिनभरि काम गर्न सक्नु |
+| मानसिक | मन शान्त र सन्तुलित हुनु | तनावमा पनि सोचेर निर्णय गर्न सक्नु |
+| सामाजिक | अरूसँग मिलेर बस्न सक्नु | साथी, परिवार र छिमेकीसँग सुमधुर सम्बन्ध |
 
-### Community diagnosis and participation
+### सामुदायिक स्वास्थ्यका मुख्य काम
 
-A **community diagnosis** is a systematic study of a community’s health problems, resources and priorities. Students can contribute safely through observation, interviews supervised by a teacher and review of public records.
+1. **रोग रोकथाम** — खोप, झुलको प्रयोग, सरसफाइ अभियान।
+2. **स्वास्थ्य प्रवर्धन** — पोषण शिक्षा, व्यायाम, सुर्तीजन्य पदार्थविरुद्ध चेतना।
+3. **स्वास्थ्य सेवा पहुँच** — स्वास्थ्य चौकी, महिला स्वास्थ्य स्वयंसेविका, खोप केन्द्र।
+4. **वातावरण सुधार** — स्वच्छ खानेपानी, फोहोर व्यवस्थापन, शौचालय निर्माण।
 
-1. Define the area and population.
-2. Collect information about health problems and available services.
-3. Identify causes and groups most affected.
-4. Rank problems by seriousness, number affected and possibility of action.
-5. Plan a realistic response with responsible people and a time frame.
-6. Carry out the plan and evaluate whether conditions improved.
+::: note नेपालमा सामुदायिक स्वास्थ्यका संवाहक
+प्रत्येक वडामा खटिने **महिला सामुदायिक स्वास्थ्य स्वयंसेविका** नेपालको
+सामुदायिक स्वास्थ्यको मेरुदण्ड हुन्। उनीहरूले खोप सम्झाउने, जीवनजल बाँड्ने,
+गर्भवती जाँच गराउन पठाउने र पोषणबारे सिकाउने काम गर्छन्। उनीहरूकै मिहिनेतले
+नेपालमा शिशु मृत्युदर उल्लेख्य घटेको छ।
+:::
 
-```figure caption="A community-health action cycle: evidence leads to action and review."
+## २.२ पूर्ण सरसफाइ
+
+**पूर्ण सरसफाइ** भनेको एउटा मात्र काम होइन, पाँचवटा व्यवहार सँगै अपनाउनु हो।
+कुनै एक छुट्यो भने बाँकी चारको फाइदा घट्छ।
+
+| व्यवहार | के गर्ने | नगरे के हुन्छ |
+|---|---|---|
+| शौचालयको प्रयोग | हरेक घरमा शौचालय, सबैले प्रयोग | दिसा पानी र खानामा मिसिन्छ |
+| हात धुने बानी | साबुनपानीले महत्त्वपूर्ण बेला | झाडापखाला, जुका, आँखा पाक्ने |
+| सुरक्षित पिउने पानी | उमालेर वा छानेर, ढाकेर राख्ने | हैजा, टाइफाइड, झाडापखाला |
+| खाद्य सरसफाइ | ढाकेर राख्ने, पकाएर खाने | खाद्य विषाक्तता |
+| घरपरिवेश सफा | फोहोर व्यवस्थापन, पानी नजम्ने | लामखुट्टे, झिँगा, रोग सार्ने जीव |
+
+::: memory हात धुनुपर्ने पाँच महत्त्वपूर्ण बेला
+**खा–शौ–सि–पा–बि:** **खा**ना खानुअघि, **शौ**चालय प्रयोगपछि, **सि**सुलाई खुवाउनुअघि,
+**पा**लतु जनावर छोएपछि, **बि**रामीको हेरचाह गरेपछि। साबुनले कम्तीमा २० सेकेन्ड —
+हत्केला, औँलाबिच, नङ र नाडीसम्म।
+:::
+
+```figure caption="पूर्ण सरसफाइका पाँच खम्बा। एउटा खम्बा भाँचिए पनि रोग छिर्ने बाटो खुल्छ।"
 import matplotlib.pyplot as plt
-import numpy as np
-fig, ax = plt.subplots(figsize=(4.8, 3.1))
-labels = ["Observe", "Identify\nproblem", "Plan", "Act", "Review"]
-angles = np.linspace(np.pi/2, np.pi/2 - 2*np.pi, len(labels), endpoint=False)
-for i, (label, angle) in enumerate(zip(labels, angles)):
-    x, y = 2.5 + 1.55*np.cos(angle), 1.7 + 1.15*np.sin(angle)
-    ax.text(x, y, label, ha="center", va="center", fontsize=7.2, color=INK,
-            bbox=dict(boxstyle="round,pad=0.35", fc="#ecfeff", ec=SERIES[i % len(SERIES)], lw=1.2))
-    angle2 = angles[(i+1) % len(labels)]
-    x2, y2 = 2.5 + 1.55*np.cos(angle2), 1.7 + 1.15*np.sin(angle2)
-    ax.annotate("", xy=(x2, y2), xytext=(x, y), arrowprops=dict(arrowstyle="-|>", color=MUTED, lw=1.15, shrinkA=22, shrinkB=22, connectionstyle="arc3,rad=-0.12"))
-ax.text(2.5, 1.7, "Participation", ha="center", va="center", fontsize=8, color=ACCENT, weight="bold")
-ax.set_xlim(0.2, 4.8); ax.set_ylim(0.15, 3.35); ax.axis("off"); fig.tight_layout()
+fig, ax = plt.subplots(figsize=(5.0, 2.7))
+ax.set_xlim(0, 10.5); ax.set_ylim(0, 5.4); ax.axis("off")
+items = [("शौचालय\nप्रयोग", 1.3), ("हात\nधुने", 3.1), ("सुरक्षित\nपानी", 4.9),
+         ("खाद्य\nसरसफाइ", 6.7), ("घरपरिवेश\nसफा", 8.5)]
+for i, (t, x) in enumerate(items):
+    ax.add_patch(plt.Rectangle((x - 0.78, 1.1), 1.56, 2.5, fc="white",
+                               ec=SERIES[i % len(SERIES)], lw=1.5))
+    ax.text(x, 2.35, t, ha="center", va="center", fontsize=6.8, color=INK)
+ax.add_patch(plt.Rectangle((0.4, 3.65), 9.7, 0.85, fc="white", ec=ACCENT, lw=1.6))
+ax.text(5.25, 4.07, "स्वस्थ समुदाय", ha="center", va="center",
+        fontsize=8.2, color=ACCENT, fontweight="bold")
+ax.plot([0.4, 10.1], [0.95, 0.95], color=INK, lw=1.6)
+ax.text(5.25, 0.5, "आधार: सबैको सहभागिता", ha="center", fontsize=7.0, color=MUTED)
 ```
 
-::: example Prioritising a local problem
-**Situation.** A survey finds scattered plastic waste, two uncovered water tanks and frequent diarrhoea in one neighbourhood.
+### खुला दिसामुक्त क्षेत्र
 
-**Response.** Students should not claim that plastic alone caused the illness. They can report the evidence, help adults cover and clean tanks, promote handwashing and safe water, arrange waste separation with the municipality, and compare diarrhoea reports before and after action. This connects evidence, prevention and evaluation.
+कुनै वडा, गाउँपालिका वा जिल्लाका **सबै** घरमा शौचालय भएर सबैले प्रयोग गर्न थालेपछि
+त्यसलाई **खुला दिसामुक्त क्षेत्र** घोषणा गरिन्छ। नेपालले सन् २०१९ मा आफूलाई
+खुला दिसामुक्त राष्ट्र घोषणा गरेको थियो। तर घोषणा अन्त्य होइन — शौचालय
+प्रयोगमै रहनु, मर्मत हुनु र हात धुने ठाउँ भइरहनु पनि उत्तिकै आवश्यक छ।
+
+## २.३ शौचालयको सुरक्षित प्रयोग
+
+शौचालय भएर मात्र पुग्दैन; **सुरक्षित** हुनुपर्छ। सुरक्षित शौचालयका सर्त:
+
+- दिसा माटोभित्रै थुनिने (रिंग/सेप्टिक ट्याङ्की), खुला नबग्ने।
+- पानीको मुहान, इनार वा धारादेखि कम्तीमा **१० मिटर** टाढा र तलतिर।
+- झिँगा र गन्ध रोक्न ढकनी वा पानी-सिल भएको प्यान।
+- छेवैमा **साबुनपानीसहितको हात धुने ठाउँ**।
+- महिनावारीका बेला प्रयोग गर्न मिल्ने गरी ढोका, चुकुल, पानी र फोहोर फाल्ने भाँडो।
+- अपाङ्गता भएका र वृद्धवृद्धा सजिलै प्रयोग गर्न सक्ने बनोट।
+
+::: caution शौचालय बनाउनु र सफा राख्नु उत्तिकै जरुरी
+बनाएर सफा नराखिएको, पानी नभएको वा गन्ह्याउने शौचालय मानिसले प्रयोग गर्दैनन् र
+फेरि खुला ठाउँमै जान थाल्छन्। दैनिक सफा गर्ने, मासिक रूपमा मर्मत हेर्ने र
+भरिएपछि सुरक्षित तरिकाले खाली गर्ने व्यवस्था नगरे शौचालयको लगानी खेर जान्छ।
 :::
 
-## 2.2 Total sanitation and safe toilet use
+## २.४ मानसिक स्वास्थ्य
 
-**Sanitation** means safe management of human excreta, wastewater and solid waste together with hygienic behaviour. **Total sanitation** goes beyond constructing toilets. It aims for sustained hygienic behaviour in every household, school and public place.
-
-Key elements include:
-
-- regular use of an improved toilet by every person;
-- handwashing with soap at critical times;
-- safe drinking-water collection, treatment, transport and storage;
-- hygienic preparation and storage of food;
-- safe management of solid and liquid waste;
-- clean homes, schools, animal sheds and surroundings;
-- menstrual hygiene and accessible facilities for all users.
-
-Critical times for handwashing with soap are after defecation, after cleaning a child, before preparing food, before eating or feeding someone, and after contact with waste or animals.
-
-### Safe toilet use
-
-A toilet separates faeces from people, flies, soil and water. Use it every time, put cleansing material in the correct place, flush or pour water as designed, close the lid where present, wash hands with soap and report damage. Keep the floor dry and clean. Do not put plastic, cloth, sanitary pads or other items into a pit or pipe unless the system is designed for them.
-
-Children, older people and persons with disabilities need privacy, a reachable latch, adequate space, safe paths, handrails where needed and nearby handwashing facilities. A toilet is not truly safe if some community members cannot use it.
-
-```figure caption="The faecal–oral transmission routes and barriers that break them."
-import matplotlib.pyplot as plt
-from matplotlib.patches import FancyBboxPatch
-fig, ax = plt.subplots(figsize=(5.2, 3.0))
-left = (0.25, 1.25); right = (4.35, 1.25)
-ax.text(*left, "Faeces", ha="center", va="center", fontsize=8, weight="bold", color="#991b1b",
-        bbox=dict(boxstyle="round,pad=0.35", fc="#fee2e2", ec="#ef4444"))
-ax.text(*right, "Mouth", ha="center", va="center", fontsize=8, weight="bold", color="#166534",
-        bbox=dict(boxstyle="round,pad=0.35", fc="#dcfce7", ec="#22c55e"))
-routes = [("Fluids", 2.45), ("Fingers", 1.85), ("Flies", 1.25), ("Fields", 0.65)]
-for label, y in routes:
-    ax.annotate("", xy=(4.0, y), xytext=(0.65, y), arrowprops=dict(arrowstyle="->", color=GRID, lw=1.2))
-    ax.text(1.45, y+0.1, label, fontsize=6.8, color=MUTED)
-barriers = [("Safe toilet", 0.95), ("Soap", 1.75), ("Cover food", 2.55), ("Safe water", 3.35)]
-for label, x in barriers:
-    ax.plot([x, x], [0.4, 2.7], color=ACCENT, lw=3, alpha=0.7)
-    ax.text(x, 2.82, label, ha="center", fontsize=6.3, color=ACCENT)
-ax.set_xlim(-0.2, 4.8); ax.set_ylim(0.2, 3.2); ax.axis("off"); fig.tight_layout()
-```
-
-::: example Making stored water safer
-**Problem.** A family boils drinking water but repeatedly dips an unwashed cup into the storage vessel.
-
-**Solution.** Boiling can kill many disease-causing organisms, but unsafe handling can contaminate water again. Let treated water cool in a covered vessel, use a clean narrow-necked container or tap, avoid hand contact, and clean the vessel regularly.
+::: definition मानसिक स्वास्थ्य
+आफ्नो क्षमता चिन्न सक्ने, दैनिक तनाव व्यवस्थापन गर्न सक्ने, सिक्न र काम गर्न
+सक्ने र समुदायमा योगदान दिन सक्ने मानसिक अवस्थालाई **मानसिक स्वास्थ्य** भनिन्छ।
 :::
 
-::: caution Never mix cleaning chemicals
-Bleach or toilet cleaner must never be mixed with acid, ammonia or another cleaner. Dangerous gas can form. Read the label, use ventilation, keep chemicals away from children and ask an adult to handle concentrated products.
+### स्वस्थ मनका लक्षण
+
+- आफूलाई स्वीकार्नु र आफूमाथि विश्वास हुनु।
+- रिस, दुःख र खुसीलाई सन्तुलित ढङ्गले व्यक्त गर्न सक्नु।
+- साथी र परिवारसँग राम्रो सम्बन्ध राख्न सक्नु।
+- असफलता र आलोचना सहन सक्नु र फेरि प्रयास गर्नु।
+- निद्रा, भोक र दैनिक दिनचर्या नियमित हुनु।
+
+### किशोरावस्थामा देखिने सामान्य मानसिक समस्या
+
+| समस्या | देखिने लक्षण | सामान्य उपाय |
+|---|---|---|
+| तनाव | टाउको दुख्ने, निद्रा नलाग्ने, छिटो रिसाउने | समय व्यवस्थापन, व्यायाम, गहिरो सास |
+| चिन्ता | बिनाकारण डर, मुटु ढुकढुक, एकाग्र नहुने | कुरा खोल्ने, नियमित दिनचर्या |
+| उदासीनता | लामो समय दुःखी, रुचि हराउने, एक्लिने | परिवार/शिक्षकसँग कुरा, परामर्श सेवा |
+| परीक्षा त्रास | परीक्षा सम्झँदै डर, पेट बाउँडिने | तयारी योजना, अभ्यास परीक्षा, पर्याप्त निद्रा |
+
+::: example तनाव व्यवस्थापनको योजना
+**प्रश्न.** कक्षा ८ को सविनालाई परीक्षा नजिकिँदा राति निद्रा लाग्दैन, पढ्न बसे
+पनि ध्यान जाँदैन र सानो कुरामा रिस उठ्छ। उसलाई के सल्लाह दिने?
+
+**उत्तर.** यी **तनाव**का सामान्य लक्षण हुन्। सल्लाह: (क) पढाइलाई साना भागमा
+बाँडेर दैनिक समयतालिका बनाउने — एकैपटक सबै सिध्याउने सोच नराख्ने; (ख) हरेक ४५
+मिनेटपछि १० मिनेट उठेर हिँड्ने वा लामो सास फेर्ने अभ्यास गर्ने; (ग) राति
+कम्तीमा ८ घण्टा सुत्ने र सुत्नुअघि मोबाइल नचलाउने; (घ) शारीरिक व्यायाम वा खेल
+दैनिक आधा घण्टा; (ङ) आफ्नो डर अभिभावक, शिक्षक वा साथीसँग भन्ने। दुई हप्तासम्म
+सुधार नभए विद्यालयको परामर्शकर्ता वा स्वास्थ्य चौकीमा लैजानुपर्छ।
 :::
 
-## 2.3 Mental health
+::: example साथीलाई सहयोग
+**प्रश्न.** तपाईँको साथी केही हप्तादेखि एक्लै बस्छ, खेल्न आउँदैन र "मबाट केही
+हुँदैन" भन्छ। तपाईँ के गर्नुहुन्छ?
 
-**Mental health** is a state of emotional, psychological and social well-being that helps a person learn, build relationships, cope with ordinary stress and contribute to the community. It does not mean feeling happy all the time. Sadness, worry and anger can be normal responses; the concern grows when symptoms are intense, continue for a long time or disrupt daily life.
-
-### Factors that influence mental health
-
-Protective factors include caring relationships, safety, sleep, exercise, meaningful activity, problem-solving skills, inclusion and access to support. Risk factors include violence, bullying, discrimination, isolation, harmful substance use, severe academic pressure, family conflict, disaster, chronic illness and poverty. A risk factor does not guarantee illness, and a mental-health problem is never proof of weak character.
-
-| Possible warning sign | Helpful first response |
-|---|---|
-| lasting sadness, fear or irritability | listen privately and without judgement |
-| withdrawal from friends or usual activities | check in and involve a trusted adult |
-| major changes in sleep, appetite or school work | encourage professional assessment |
-| repeated unexplained physical complaints | take the concern seriously; seek health advice |
-| talk of self-harm, death or hopelessness | stay with the person and get urgent adult/professional help |
-
-### Healthy coping and support
-
-Useful coping strategies include a regular sleep schedule, physical activity, slow breathing, breaking a large task into small steps, talking to a trusted person, limiting distressing media and avoiding alcohol, tobacco and drugs. Coping does not replace treatment when a problem is severe or persistent.
-
-To support a friend: choose a private safe place; listen more than you speak; say what you noticed; do not promise secrecy if safety is at risk; involve a trusted adult, counsellor or health worker; and continue ordinary friendship. Do not diagnose, shame, threaten or circulate their story.
-
-::: example Responding to exam stress
-**Situation.** Arun has slept poorly for two weeks, cannot concentrate and says he feels useless before examinations.
-
-**Support plan.** A friend can listen, encourage Arun to tell a parent or teacher, help divide revision into small sessions, include breaks and sleep, and seek a counsellor or health worker if symptoms continue. If Arun mentions self-harm, the friend must stay with him and obtain urgent adult help rather than keeping it secret.
+**उत्तर.** (क) **सुन्ने** — सल्लाह दिन हतार नगरी उसको कुरा धैर्यपूर्वक सुन्ने।
+(ख) **नजिसक्याउने** — "यति सानो कुरामा के भा'को" नभन्ने; भावना सामान्य हो भनी
+स्वीकार गर्ने। (ग) **सँगै राख्ने** — खेल, पढाइ र समूह कार्यमा सहभागी गराउने।
+(घ) **वयस्कलाई जानकारी दिने** — शिक्षक वा उसको अभिभावकलाई भन्ने; यो चुक्ली होइन,
+सहयोग हो। (ङ) आफैँ उपचार गर्न नखोज्ने — आवश्यक परे परामर्श सेवामा पुर्‍याउने।
 :::
 
-::: key Psychological first aid after a distressing event
-**Look** for safety and urgent needs. **Listen** calmly without forcing the person to retell the event. **Link** the person with family, practical help and qualified services. Do not make promises you cannot keep.
+::: caution मानसिक समस्या कमजोरी होइन
+"पागल", "बौलाहा" जस्ता शब्दले मानसिक समस्या भएका मानिसलाई समाजबाट टाढा पार्छ र
+उपचार लिन रोक्छ। मानसिक समस्या पनि ज्वरोजस्तै उपचार गर्न सकिने अवस्था हो।
+शब्द रोज्दा होस् पुर्‍याउनु आफैँमा स्वास्थ्य सेवा हो।
 :::
 
-## Chapter summary
+## अध्यायको सारांश
 
-- Community health combines organised prevention, care, education and environmental action.
-- Community diagnosis follows observation, problem identification, priority setting, action and evaluation.
-- Total sanitation includes toilet use, handwashing, safe water and food, waste management and inclusive clean surroundings.
-- A toilet prevents disease only when it is consistently used, maintained and linked with handwashing.
-- Treated water can be contaminated again during unsafe storage or handling.
-- Mental health includes the ability to learn, relate, cope and participate; it is not constant happiness.
-- Warning signs that persist or disrupt life deserve support from a trusted adult or qualified professional.
-- Talk of self-harm requires immediate safety, supervision and urgent help.
+- स्वास्थ्य = शारीरिक + मानसिक + सामाजिक सबलता; रोग नहुनु मात्र होइन।
+- सामुदायिक स्वास्थ्यका काम: रोग रोकथाम, स्वास्थ्य प्रवर्धन, सेवा पहुँच, वातावरण सुधार।
+- पूर्ण सरसफाइका पाँच व्यवहार: शौचालय प्रयोग, हात धुने, सुरक्षित पानी, खाद्य सरसफाइ, घरपरिवेश सफा।
+- हात धुनुपर्ने पाँच बेला: खाना खानुअघि, शौचालयपछि, शिशुलाई खुवाउनुअघि, जनावर छोएपछि, बिरामी हेरेपछि।
+- सबै घरमा शौचालय भई प्रयोग भएपछि खुला दिसामुक्त क्षेत्र घोषणा हुन्छ; नेपाल सन् २०१९ मा घोषित।
+- सुरक्षित शौचालय: पानीको मुहानदेखि १० मिटर टाढा, ढकनी, हात धुने ठाउँ, सबैले प्रयोग गर्न मिल्ने।
+- किशोरावस्थाका सामान्य मानसिक समस्या: तनाव, चिन्ता, उदासीनता, परीक्षा त्रास।
+- सहयोगका उपाय: सुन्ने, नजिसक्याउने, सँगै राख्ने, वयस्कलाई जानकारी दिने, परामर्शमा पुर्‍याउने।
 
-## Practice questions
+## अभ्यास
 
-**Group A — Very short answer (1 mark each)**
+**समूह क — वस्तुगत प्रश्न (१ अङ्क)**
 
-1. What is community health? <span class="marks">[1]</span>
-2. State one critical time for washing hands with soap. <span class="marks">[1]</span>
-3. What is total sanitation? <span class="marks">[1]</span>
-4. Write one protective factor for mental health. <span class="marks">[1]</span>
+१. विश्व स्वास्थ्य सङ्गठनका अनुसार स्वास्थ्यका कति पक्ष छन्? <span class="marks">[1]</span>
+   (क) एक (ख) दुई (ग) तीन (घ) चार
+२. शौचालय पानीको मुहानदेखि कम्तीमा कति टाढा हुनुपर्छ? <span class="marks">[1]</span>
+   (क) २ मिटर (ख) ५ मिटर (ग) १० मिटर (घ) २५ मिटर
+३. नेपाल खुला दिसामुक्त राष्ट्र कहिले घोषित भयो? <span class="marks">[1]</span>
+   (क) सन् २०१५ (ख) सन् २०१७ (ग) सन् २०१९ (घ) सन् २०२१
+४. लामो समय दुःखी रहने र हरेक कुरामा रुचि हराउने अवस्था कुन हो? <span class="marks">[1]</span>
+   (क) तनाव (ख) उदासीनता (ग) परीक्षा त्रास (घ) चिन्ता
+५. वडा तहमा सामुदायिक स्वास्थ्यमा खटिने स्वयंसेविका को हुन्? <span class="marks">[1]</span>
+   (क) महिला सामुदायिक स्वास्थ्य स्वयंसेविका (ख) शिक्षक (ग) वडा सचिव (घ) प्रहरी
 
-::: note Answers to Group A
-**1.** Organised efforts to protect and improve the health of people in a defined community.  
-**2.** Any valid time, such as after defecation or before preparing food.  
-**3.** Sustained safe sanitation and hygiene behaviour covering toilets, hands, water, food, waste and surroundings.  
-**4.** Any valid factor, such as supportive relationships, adequate sleep or safety.
+::: note समूह क का उत्तर
+**१.** (ग) — शारीरिक, मानसिक र सामाजिक।
+**२.** (ग) — १० मिटर, र मुहानभन्दा तलतिर।
+**३.** (ग) — सन् २०१९।
+**४.** (ख) — उदासीनता।
+**५.** (क) — महिला सामुदायिक स्वास्थ्य स्वयंसेविका।
 :::
 
-**Group B — Short answer (2 marks each)**
+**समूह ख — छोटो उत्तर (२ अङ्क)**
 
-1. Give two reasons why merely constructing a toilet does not achieve total sanitation. <span class="marks">[2]</span>
-2. Write two ways to prevent recontamination of treated drinking water. <span class="marks">[2]</span>
-3. Mention two differences between ordinary short-term sadness and a possible mental-health problem. <span class="marks">[2]</span>
-4. How should a student support a distressed friend? Write two actions. <span class="marks">[2]</span>
+१. सामुदायिक स्वास्थ्यको परिभाषा दिनुहोस्। <span class="marks">[2]</span>
+२. पूर्ण सरसफाइका पाँच व्यवहार लेख्नुहोस्। <span class="marks">[2]</span>
+३. सुरक्षित शौचालयका कुनै चार विशेषता लेख्नुहोस्। <span class="marks">[2]</span>
+४. स्वस्थ मनका कुनै चार लक्षण लेख्नुहोस्। <span class="marks">[2]</span>
 
-::: note Answer outlines to Group B
-**1.** The toilet must be used and maintained, and hygiene also requires handwashing, safe water, food and waste management.  
-**2.** Store covered; use a tap or clean pouring method; avoid dipping hands or dirty utensils; clean the vessel.  
-**3.** A concerning problem may be intense, persistent and disruptive to sleep, learning, relationships or daily activities.  
-**4.** Listen without judgement and connect the friend with a trusted adult or professional; never promise secrecy when safety is at risk.
+::: note समूह ख का उत्तर
+**१.** समुदायका सबै सदस्यको स्वास्थ्य जोगाउन, रोग रोक्न र जीवनस्तर उकास्न
+समुदाय आफैँले संगठित रूपमा गर्ने प्रयास नै सामुदायिक स्वास्थ्य हो।
+**२.** शौचालयको प्रयोग, साबुनपानीले हात धुने बानी, सुरक्षित पिउने पानी, खाद्य
+सरसफाइ र घरपरिवेशको सफाइ।
+**३.** दिसा माटोभित्रै थुनिने; पानीको मुहानदेखि १० मिटर टाढा; झिँगा र गन्ध
+रोक्ने ढकनी; छेवैमा साबुनपानीसहित हात धुने ठाउँ। (महिनावारी अनुकूल र अपाङ्गमैत्री
+बनोट पनि लेख्न सकिन्छ।)
+**४.** आफूमाथि विश्वास हुनु; भावना सन्तुलित ढङ्गले व्यक्त गर्न सक्नु; अरूसँग
+राम्रो सम्बन्ध राख्न सक्नु; असफलता सहेर फेरि प्रयास गर्नु; निद्रा र दिनचर्या
+नियमित हुनु।
 :::
 
-**Group C — Long answer (4 marks each)**
+**समूह ग — लामो उत्तर (४ अङ्क)**
 
-1. Your community reports repeated diarrhoea after monsoon flooding. Describe four coordinated actions that address the transmission route. <span class="marks">[4]</span>
-2. Explain four steps a school should take when a learner shows persistent distress and mentions self-harm. <span class="marks">[4]</span>
+१. आफ्नो विद्यालयलाई पूर्ण सरसफाइयुक्त बनाउने चार बुँदे कार्ययोजना लेख्नुहोस्।
+   <span class="marks">[4]</span>
+२. किशोरावस्थामा देखिने चार मानसिक समस्या र तिनका व्यवस्थापनका उपाय तालिकामा
+   लेख्नुहोस्। <span class="marks">[4]</span>
+३. "शौचालय बनाउनु मात्र पर्याप्त छैन" — यो भनाइ उदाहरणसहित पुष्टि गर्नुहोस्।
+   <span class="marks">[4]</span>
 
-::: note Answer outlines to Group C
-**1.** Protect and treat drinking water, ensure toilet use and safe excreta disposal, provide handwashing with soap, protect food, clean flood contamination and connect ill people with care. Award any four explained actions.  
-**2.** Take the statement seriously, keep the learner with a safe adult, reduce immediate danger, inform the designated guardian or safeguarding lead, obtain urgent professional help and follow up. Award four safe, relevant steps.
+::: note समूह ग का उत्तर
+**१.** (क) **पूर्वाधार** — छात्र र छात्राका लागि छुट्टै, चुकुल भएका, पानी
+पुग्ने शौचालय; महिनावारी व्यवस्थापन कक्ष; हरेक शौचालयछेउ साबुनसहित हात धुने
+ठाउँ। (ख) **व्यवहार** — प्रत्येक कक्षामा सरसफाइ नायक तोक्ने, खाजाअघि सामूहिक
+हात धुने अभ्यास। (ग) **वातावरण** — कुहिने/नकुहिने फोहोर छुट्याउने भाँडो, पानी
+नजम्ने गरी परिसर सफा। (घ) **निरन्तरता** — मासिक अनुगमन टोली, मर्मत कोष र
+अभिभावकसँग नियमित जानकारी।
+**२.** तनाव — समय व्यवस्थापन, व्यायाम, गहिरो सासको अभ्यास। चिन्ता — नियमित
+दिनचर्या, विश्वासिलो व्यक्तिसँग कुरा। उदासीनता — परिवार/शिक्षकसँग कुरा, परामर्श
+सेवा, एक्लो नछाड्ने। परीक्षा त्रास — तयारी योजना, अभ्यास परीक्षा, पर्याप्त निद्रा।
+**३.** शौचालय बने पनि (क) पानी नभए, (ख) गन्ह्याए वा फोहोर भए, (ग) ढोकाचुकुल
+नभए, (घ) हात धुने ठाउँ नभए मानिसले प्रयोग गर्दैनन्। उदाहरण: पानी नआउने
+विद्यालयको शौचालयमा विद्यार्थी जान छाड्छन् र खुला ठाउँ प्रयोग गर्छन्; महिनावारीका
+बेला चुकुल नभएको शौचालयले छात्रालाई विद्यालय नै छुटाउँछ। त्यसैले निर्माणसँगै
+**प्रयोग, सफाइ, मर्मत र पानीको निरन्तर व्यवस्था** चाहिन्छ — त्यो भएमात्र
+शौचालयले रोग रोक्छ।
 :::
