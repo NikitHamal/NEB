@@ -252,6 +252,47 @@ firewood. Reading which region the question wants is worth more marks than the
 arithmetic.
 :::
 
+## 1.6 Venn diagrams as a method, not a decoration
+
+A Venn diagram is not an illustration drawn after the answer; it is the
+fastest way **to** the answer. Fill the overlap first, then work outwards.
+
+```figure caption="The order of filling a two-set Venn diagram: the intersection first, then each 'only' region, then whatever is left outside."
+fig, ax = flow([("Both", "fill n(A∩B)"), ("Only A", "n(A) − n(A∩B)"),
+                ("Only B", "n(B) − n(A∩B)"), ("Neither", "total − union")],
+               note="filling any other order means guessing")
+```
+
+| Phrase in the question | Region it means |
+|---|---|
+| both / and | $A \cap B$ |
+| at least one / either | $A \cup B$ |
+| only A | $n(A) - n(A \cap B)$ |
+| neither | total $- n(A \cup B)$ |
+| exactly one | $n(A \cup B) - n(A \cap B)$ |
+
+::: example A full four-mark set question
+**Question.** In a class of 60 students, 38 play football, 29 play
+volleyball and 12 play neither. Find (i) how many play at least one game
+(ii) how many play both (iii) how many play only football.
+
+**Answer.**
+(i) At least one $= 60 - 12 = \textbf{48}$.
+(ii) $n(F \cup V) = n(F) + n(V) - n(F \cap V)$, so
+$48 = 38 + 29 - n(F \cap V)$, giving $n(F \cap V) = 67 - 48 = \textbf{19}$.
+(iii) Only football $= 38 - 19 = \textbf{19}$.
+**Check:** $19 + 19 + 10 + 12 = 60$ ✓ (only football, both, only volleyball,
+neither).
+:::
+
+::: note Activity — the class survey
+Ask every student in the class two yes/no questions (for example: *Do you
+walk to school?* and *Do you have a kitchen garden at home?*). Fill a Venn
+diagram with the four regions and check that the four numbers add up to the
+class size. Then write three questions about your own diagram, of the
+"only", "both" and "neither" kind, and swap them with a partner.
+:::
+
 ## Chapter summary
 
 - A set is a well-defined collection; it is written by the listing method or the
@@ -334,4 +375,23 @@ rectangle. **Check.** $18+10+12+5=45$ ✓.
 **2.** (a) $n(N\cup R)=120+90-40=170$, so neither $=200-170=30$.
 (b) Only newspaper $=120-40=80$; only radio $=90-40=50$; exactly one
 $=80+50=130$. **Check.** $80+40+50+30=200$ ✓.
+:::
+
+**Extra practice**
+
+**Group B (2 marks)**
+
+14. If $n(A) = 24$, $n(B) = 18$ and $n(A \cup B) = 35$, find $n(A \cap B)$.
+15. Write in set notation: *students who play neither game*.
+
+**Group C (4 marks)**
+
+16. Of 80 households, 52 keep goats, 41 keep poultry and 9 keep neither. Find
+    how many keep both, and how many keep goats only.
+
+::: note Extra practice — answers
+**14.** $n(A \cap B) = 24 + 18 - 35 = 7$.
+**15.** $(A \cup B)'$ — the complement of the union.
+**16.** At least one $= 80 - 9 = 71$. Both $= 52 + 41 - 71 = 22$.
+Goats only $= 52 - 22 = 30$. (Check: $30 + 22 + 19 + 9 = 80$.)
 :::

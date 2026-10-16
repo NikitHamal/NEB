@@ -282,6 +282,55 @@ A form asks for information in boxes. Write **clearly and completely**:
 **7.** Would **8.** can **9.** could **10.** cannot
 :::
 
+## 1.5 Reading for different purposes
+
+The same page is read differently depending on what you want from it, and the
+examination tests all three ways.
+
+```figure caption="Three ways of reading, and what each is for. Most comprehension marks are lost by scanning when the question needed close reading."
+fig, ax = cards([("Skimming", "the gist, in seconds — headings, first lines"),
+                 ("Scanning", "one fact — a date, a name, a number"),
+                 ("Close reading", "meaning and attitude — every word matters")],
+                cols=3)
+```
+
+| The question says | Read like this | Time to spend |
+|---|---|---|
+| *What is the passage mainly about?* | skim | 20 seconds |
+| *In which year …? How many …?* | scan | 10 seconds |
+| *What does the writer suggest / imply?* | close | a minute, twice |
+| *What does the word X mean here?* | close, with the sentence round it | half a minute |
+
+::: tip Vocabulary in context
+A word's meaning in a passage is set by its neighbours, not by a dictionary
+you remember. Read the whole sentence, replace the word with your guess, and
+see whether the sentence still makes sense. That single habit answers most
+vocabulary-in-context items.
+:::
+
+::: example Comprehension, answered properly
+> *The Central Zoo at Jawalakhel keeps about 870 animals of 109 species on six
+> hectares. It was built in 1932 as a private collection of the Rana prime
+> minister and opened to the public in 1956. Today it breeds the red panda and
+> the spiny babbler, and school groups make up nearly half its visitors.*
+
+**Q1. When was the zoo opened to the public?** → *In 1956* (scan).
+**Q2. What does the word *species* mean here?** → *Kinds or types of animal*
+(close reading: *870 animals of 109 species* contrasts number with kind).
+**Q3. What does the last sentence suggest about the zoo's role?** → *That it
+is not only a place to see animals but also a centre for breeding rare species
+and for school education* (inference, not a copied line).
+
+Notice that Q3 cannot be answered by copying; the marks are for the inference.
+:::
+
+::: note Activity — three readings of one text
+Take any page of a newspaper. Skim it in 30 seconds and write the gist in one
+sentence. Scan it for three facts (a number, a name, a place). Then read one
+paragraph closely and write what the writer thinks about the subject, quoting
+two words that show it.
+:::
+
 ## Chapter summary
 
 - The Central Zoo is in Jawalakhel, Lalitpur; it opened in 1932 and is now run
@@ -375,4 +424,27 @@ request and thank the principal. Close with *Yours faithfully* and your name,
 class and roll number.
 **7.** All entries in block capitals, the roll number and the contact number in
 figures, the date in the order the form shows, and a signature in the last box.
+:::
+
+**Extra practice**
+
+**Group B (2 marks each)**
+
+11. Give one word for: *a place where wild animals are kept for public view*.
+12. Use *species* and *habitat* in sentences of your own.
+
+**Group C (4 marks)**
+
+13. Write a request letter to the zoo authority asking permission for a school
+    visit of 40 students.
+
+::: note Extra practice — answers
+**11.** A zoo (or a zoological garden).
+**12.** e.g. *The red panda is an endangered species.* / *Clearing the forest
+destroys the habitat of hundreds of birds.*
+**13.** Marks: layout (address, date, *The Chief, Central Zoo, Jawalakhel*,
+*Subject: Request for permission for an educational visit*, *Yours
+faithfully*); content (date and time of the visit, number of students and
+accompanying teachers, purpose, request for a guide and for group entry,
+assurance of discipline and cleanliness); formal and polite language.
 :::
