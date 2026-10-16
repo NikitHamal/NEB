@@ -156,6 +156,7 @@ def credits_html(asset_ids):
 <p>{L["cr_p1"]}</p>
 <p>{L["cr_p2"]}</p>
 <h2>{L["credits_sub"]}</h2>
+<p class="sub">{L["credits_note"]}</p>
 {''.join(rows)}
 <p style="margin-top:6mm;font-size:8pt;color:#8a8f99">
 {L["cr_foot"]}</p>
