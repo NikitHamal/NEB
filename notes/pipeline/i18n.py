@@ -199,6 +199,11 @@ def set_book(slug):
     return CUR
 
 _D = str.maketrans("0123456789", "०१२३४५६७८९")
+def num_str(s):
+    """Every ASCII digit in a string, in the book's numeral system."""
+    return str(s).translate(_D) if CUR["digits"] else str(s)
+
+
 def num(x):
     s = str(x)
     return s.translate(_D) if CUR["digits"] else s
