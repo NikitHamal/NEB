@@ -359,3 +359,22 @@ counter-claim (lost study hours, poor sleep, cyberbullying, false
 information); and a resolution that is specific (fixed phone-free hours, no
 phone at night, verify before sharing) rather than a slogan.
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** *Screen time* means
+   (a) cinema time (b) hours spent looking at a screen (c) break time (d) study time
+**2.** Harassing someone online is called
+   (a) cyberbullying (b) surfing (c) streaming (d) browsing
+**3.** Before forwarding a message you should
+   (a) verify it (b) add your name (c) delete the date (d) translate it
+**4.** *A phone on the desk is a distraction even when silent* — *distraction* means
+   (a) attraction (b) something that takes attention away (c) an alarm (d) an application
+**5.** Posting a friend's photo without asking breaks their
+   (a) privacy (b) screen time (c) notification (d) password
+
+::: note Objective practice — answers
+**1.** (b) — hours spent looking at a screen. **2.** (a) — cyberbullying. **3.** (a) — verify it. **4.** (b) — something that takes attention away. **5.** (a) — privacy.
+:::

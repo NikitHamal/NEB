@@ -349,3 +349,22 @@ detail rather than several summarised; a clear turning point; a closing point
 of one or two sentences without preaching; consistent past tense and clean
 paragraphing.
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** An anecdote is
+   (a) a long novel (b) a short true story making a point (c) a poem (d) a report
+**2.** *Vegan* means a person who
+   (a) eats only vegetables and no animal product (b) eats meat (c) cooks (d) farms
+**3.** An anecdote spends most of its words on
+   (a) one scene (b) several arguments (c) statistics (d) the title
+**4.** *Show, don't tell* means
+   (a) state the feeling (b) give the detail that proves the feeling (c) draw a picture (d) use capitals
+**5.** An anecdote usually ends with
+   (a) a long sermon (b) one or two sentences of point (c) a date (d) an address
+
+::: note Objective practice — answers
+**1.** (b) — a short true story told to make a point. **2.** (a) — no animal product. **3.** (a) — one scene, in detail. **4.** (b) — give the proving detail. **5.** (b) — a short point, not a sermon.
+:::

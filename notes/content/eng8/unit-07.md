@@ -361,3 +361,22 @@ chance of precipitation; at least one of humidity, wind or visibility; a
 practical note for readers (carry an umbrella, flights may be delayed); present
 and future tenses used correctly (*will be, is expected to*).
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** *Humidity* means
+   (a) temperature (b) water vapour in the air (c) wind speed (d) cloud cover
+**2.** *Visibility below 500 m* would most affect
+   (a) flights (b) cooking (c) reading (d) sleeping
+**3.** *Overcast* means
+   (a) partly cloudy (b) completely covered with cloud (c) clear (d) windy
+**4.** A forecast is usually written in the
+   (a) past tense (b) present and future (c) imperative (d) first person
+**5.** *Migration* in the weather chapter sense means
+   (a) seasonal movement (b) a storm (c) a flood (d) a drought
+
+::: note Objective practice — answers
+**1.** (b) — water vapour in the air. **2.** (a) — flights. **3.** (b) — completely covered. **4.** (b) — present and future. **5.** (a) — seasonal movement.
+:::

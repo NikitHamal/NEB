@@ -281,3 +281,22 @@ Paragraph 4: why you recommend it. Use *enjoy / like + -ing*.
 polluted, birds caught for the cage-bird trade — and match each with an action:
 Ramsar protection, community forests, enforcement, school bird clubs.
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** A biography is written
+   (a) by the person themselves (b) by someone else (c) in the future tense (d) as a poem
+**2.** The noun form of *conserve* is
+   (a) conservative (b) conservation (c) conserving (d) conserved
+**3.** *Nepal's Bird Man* is best described as
+   (a) a biography (b) a news report (c) a letter (d) an advertisement
+**4.** *He has studied birds since 1995* uses the
+   (a) past simple (b) present perfect (c) past perfect (d) future
+**5.** A poem's speaker is
+   (a) always the poet (b) the voice that speaks in the poem (c) the reader (d) the title
+
+::: note Objective practice — answers
+**1.** (b) — by someone else; an autobiography is by the person. **2.** (b) — conservation. **3.** (a) — a biography. **4.** (b) — present perfect with *since*. **5.** (b) — the voice in the poem, not necessarily the poet.
+:::

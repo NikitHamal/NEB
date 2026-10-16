@@ -348,3 +348,22 @@ correctly punctuated dialogue; one event that builds tension; the given
 sentence used as the last line and not merely tacked on; past tense held
 throughout; and accurate paragraphing.
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** In dialogue, each new speaker begins
+   (a) on the same line (b) on a new line (c) in brackets (d) in capitals
+**2.** *"Don't look into it," he said.* — the comma goes
+   (a) inside the quotation marks (b) outside them (c) after *said* (d) nowhere
+**3.** *Show, don't tell* means
+   (a) draw a picture (b) give the proving detail (c) use dialogue only (d) write shorter
+**4.** A story's turning point is the
+   (a) orientation (b) climax (c) title (d) moral
+**5.** *If I was a superhero* is an example of a
+   (a) type 1 conditional (b) type 2 conditional (c) type 0 conditional (d) command
+
+::: note Objective practice — answers
+**1.** (b) — on a new line. **2.** (a) — inside the quotation marks. **3.** (b) — give the proving detail. **4.** (b) — the climax. **5.** (b) — an unreal present situation.
+:::

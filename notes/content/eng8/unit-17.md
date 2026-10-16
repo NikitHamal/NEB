@@ -320,3 +320,22 @@ shoulder to shoulder, watching the empty road and smelling the wet dust.*
 consistently; at least two sensory details; one short reflection at the end;
 and correct paragraphing with no more than five serious language errors.
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** A narrative usually opens with
+   (a) the climax (b) the orientation (c) the resolution (d) the moral
+**2.** *All of a sudden* is used to signal
+   (a) sequence (b) a sudden event (c) a conclusion (d) a reason
+**3.** *The train rattled past* appeals mainly to
+   (a) sight (b) sound (c) smell (d) taste
+**4.** The stage after the complication is the
+   (a) orientation (b) climax (c) reflection (d) setting
+**5.** A narrative is normally written in the
+   (a) past tense (b) present simple (c) future (d) imperative
+
+::: note Objective practice — answers
+**1.** (b) — the orientation: who, where, when. **2.** (b) — a sudden event. **3.** (b) — sound. **4.** (b) — the climax. **5.** (a) — the past tense.
+:::

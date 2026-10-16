@@ -328,3 +328,22 @@ equivalent) and experience; documents required; deadline and place of
 application; salary "as per school rules"; contact number; and the signature
 of the Principal with the date.
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** A vacancy announcement invites
+   (a) complaints (b) applications for a post (c) donations (d) tenders only
+**2.** *RSVP* on an invitation asks the reader to
+   (a) reply (b) arrive early (c) bring a gift (d) dress formally
+**3.** *Deadline* means
+   (a) the last date (b) a dead end (c) a headline (d) a time zone
+**4.** A notice is addressed to
+   (a) one person (b) many people (c) the editor (d) the government only
+**5.** *Curriculum vitae* is
+   (a) a syllabus (b) a summary of education and experience (c) a certificate (d) a timetable
+
+::: note Objective practice — answers
+**1.** (b) — applications for a post. **2.** (a) — please reply. **3.** (a) — the last date. **4.** (b) — many people. **5.** (b) — a summary of education and experience.
+:::
