@@ -306,6 +306,12 @@ more usefully. The saving comes from a higher cooking temperature and from
 stopping the heat from leaving with the steam.
 :::
 
+```photo id="sci10/solar-nepal" caption="A solar array in Nepal. Sunlight is the renewable source most easily used where the grid has not reached." width="70"
+```
+
+```photo id="sci10/biogas" caption="A household biogas plant. Dung and kitchen waste become a smokeless cooking gas and a good manure." width="66"
+```
+
 ## Chapter summary
 
 - **Heat** is energy in transfer; **temperature** measures how hot a body is;

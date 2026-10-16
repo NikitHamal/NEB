@@ -296,6 +296,12 @@ not a few grams. If the number looks impossible, the unit or the instrument is
 wrong.
 :::
 
+```photo id="sci10/vernier" caption="A vernier calliper. Scientific measurement depends on reading an instrument correctly, not on guessing." width="62"
+```
+
+```photo id="sci10/microscope" caption="A compound microscope. Observation — the first step of the scientific method — often needs an instrument to extend the senses." width="62"
+```
+
 ## Chapter summary
 
 - Science works by the **scientific method**: observation, question, hypothesis,

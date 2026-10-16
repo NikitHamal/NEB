@@ -265,6 +265,12 @@ into the air, spreading the fire. Burning oil is never put out with a jet of
 water: cover it, or use sand or a fire blanket.
 :::
 
+```photo id="sci10/rust" caption="Rust on iron. Rusting needs both oxygen and moisture, which is why a painted or oiled surface is protected." width="64"
+```
+
+```photo id="sci10/pet-bottles" caption="Collected plastic bottles. Most plastics are non-biodegradable, so segregation and recycling are the only real answers." width="68"
+```
+
 ## Chapter summary
 
 - Fresh water comes from rain and is stored as groundwater; springs, wells,
