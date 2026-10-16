@@ -103,6 +103,14 @@ def convert(tex):
             out.append(" = ")
             i += 1
             continue
+        if c == "-":                            # a minus sign, not a hyphen
+            out.append(" \u2212 ")
+            i += 1
+            continue
+        if c == "+":
+            out.append(" + ")
+            i += 1
+            continue
         out.append(_html.escape(c))
         i += 1
     return re.sub(r"\s{2,}", " ", "".join(out))
