@@ -1,417 +1,366 @@
 ---
-subject: Social Studies and Human Value Education
+subject: सामाजिक अध्ययन तथा मानव मूल्य शिक्षा
 grade: 10
 unit: 1
-title: Our Society and We
+title: हामी र हाम्रो समाज
 hours: 0
-area: Units
+area: एकाइ
 ---
 
-No one is born knowing how to greet an elder, why we put tika on Dashain, or what the crimson flag with two triangles stands for. We learn all of this from the people around us. This unit asks four questions. How does a newborn child become a member of society (socialization)? What makes each of us who we are, to ourselves and to others (identity)? How do 142 caste and ethnic groups, 124 mother tongues and ten religions live as one country (unity in diversity)? And what are the things that make every Nepali proud (national pride)? The unit is short but it carries many easy marks, because the questions are about things you already live every day.
+कुनै पनि बालक जन्मँदै ठुलालाई ढोग गर्न, दसैँमा टीका लगाउन वा दुई त्रिकोण भएको
+रातो झन्डाको अर्थ बुझ्न जान्दैन। यी सबै कुरा उसले वरिपरिका मानिसबाट सिक्छ।
+यस एकाइले चार प्रश्नको उत्तर खोज्छ। एउटा नवजात शिशु कसरी समाजको सदस्य बन्छ
+(**सामाजिकीकरण**)? हामी को हौँ भन्ने कुरा कसले निर्धारण गर्छ (**पहिचान**)?
+१४२ जातजाति, १२४ मातृभाषा र दस धर्म मान्ने मानिस कसरी एउटै देश बनेर बस्छन्
+(**विविधतामा एकता**)? अनि हरेक नेपालीले गर्व गर्ने कुरा के-के हुन् (**राष्ट्रिय
+गौरव**)? एकाइ छोटो छ तर अङ्क सजिलो छ, किनभने यी कुरा हामी दैनिक जीवनमै भोगिरहेका
+हुन्छौँ।
 
-::: key What the SEE paper expects from this unit
-Expect one or two 1-mark objective questions (agencies of socialization, national symbols), one 2-mark short question ("Define socialization", "Write any two national symbols of Nepal") and often one 4-mark question that asks you to **explain** or **describe** with reasons and examples ("Explain the role of the family in socialization", "How can we maintain unity in diversity? Explain."). Always give a definition, two or three points with a one-line example each, and a closing sentence.
+::: key यस एकाइबाट परीक्षाले खोज्ने कुरा
+सामाजिकीकरणका साधन र राष्ट्रिय चिह्नमा एक-दुई वस्तुगत प्रश्न; "सामाजिकीकरण
+भनेको के हो?", "नेपालका कुनै दुई राष्ट्रिय चिह्न लेख्नुहोस्" जस्ता छोटा
+प्रश्न; र "परिवारको भूमिका व्याख्या गर्नुहोस्", "विविधतामा एकता कसरी कायम
+गर्न सकिन्छ?" जस्ता लामो प्रश्न। उत्तरमा सधैँ **परिभाषा → दुई-तीन बुँदा
+(उदाहरणसहित) → निष्कर्ष वाक्य** को ढाँचा अपनाउनुहोस्।
 :::
 
-## 1.1 Socialization
+## १.१ सामाजिकीकरण
 
-### Meaning of society and socialization
+### समाज र सामाजिकीकरणको अर्थ
 
-A **society** is a group of people who live together in an area, share a culture and depend on one another. A village in Dolakha, a city such as Pokhara and the whole of Nepal are all societies of different size. A human baby, unlike a young calf, cannot survive alone for years. It must be fed, protected and taught. The baby also has to learn the language, the manners, the beliefs and the skills of the group it is born into. That learning is called socialization.
+**समाज** भनेको एउटै क्षेत्रमा बसोबास गर्ने, साझा संस्कृति बाँड्ने र एकअर्कामा
+निर्भर रहने मानिसहरूको समूह हो। दोलखाको एउटा गाउँ, पोखरा सहर र सिङ्गो नेपाल —
+यी तीनै फरक आकारका समाज हुन्। मानिसको बच्चा बाछोजस्तो जन्मनासाथ आफैँ हिँड्न
+सक्दैन; वर्षौँसम्म उसलाई खुवाउनु, जोगाउनु र सिकाउनु पर्छ। साथै उसले आफू जन्मेको
+समूहको भाषा, चालचलन, विश्वास र सीप पनि सिक्नुपर्छ। यही सिकाइलाई सामाजिकीकरण
+भनिन्छ।
 
-::: definition Socialization
-Socialization is the lifelong process through which a person learns the language, values, norms, customs and skills of society and so becomes a useful and acceptable member of it.
+::: definition सामाजिकीकरण
+व्यक्तिले समाजको भाषा, मूल्य, मान्यता, आचरण र सीप सिकेर समाजको उपयोगी र
+स्वीकार्य सदस्य बन्ने जीवनपर्यन्त चल्ने प्रक्रियालाई **सामाजिकीकरण** भनिन्छ।
 :::
 
-Three words in the definition matter for marks. It is a **process** (it never happens at one moment), it is **lifelong** (a ten-year-old, a bride in a new home and a retired teacher are all still learning) and it makes a person **acceptable** to others.
+परिभाषाका तीन शब्द अङ्कका लागि महत्त्वपूर्ण छन् — यो एउटा **प्रक्रिया** हो (एकै
+क्षणमा हुँदैन), **जीवनभर** चल्छ (दस वर्षको बालक, नयाँ घर गएकी बुहारी र अवकाश
+पाएका शिक्षक — सबै अझै सिकिरहेका छन्) र यसले व्यक्तिलाई समाजमा **स्वीकार्य**
+बनाउँछ।
 
-### What we learn through socialization
+### सामाजिकीकरणबाट हामी के सिक्छौँ
 
-- **Language and communication** — a child in Ilam learns Nepali or Limbu, a child in Janakpur learns Maithili, simply by hearing it.
-- **Norms** — rules of behaviour: take off shoes before entering a temple or kitchen, greet elders with *namaste*, queue at the ticket counter.
-- **Values** — ideas of what is good and bad: honesty, respect for elders, cooperation, kindness.
-- **Roles** — what is expected of a son or daughter, student, friend, shopkeeper, voter.
-- **Skills** — washing, cooking, farming, using a phone, reading.
-- **Self-identity** — "I am a student of Class 10, a Nepali, a daughter, a football fan".
+- **भाषा र सञ्चार** — इलामको बालकले नेपाली वा लिम्बू, जनकपुरको बालकले मैथिली
+  सुन्दासुन्दै सिक्छ।
+- **मान्यता (आचरणका नियम)** — मन्दिर वा भान्सामा छिर्नुअघि जुत्ता फुकाल्नु,
+  ठुलालाई नमस्कार गर्नु, टिकट लाइनमा बस्नु।
+- **मूल्य** — के असल र के खराब भन्ने धारणा: इमानदारी, ठुलाको सम्मान, सहयोग, दया।
+- **भूमिका** — छोरा-छोरी, विद्यार्थी, साथी, पसले, मतदाताबाट के अपेक्षा गरिन्छ।
+- **सीप** — नुहाउने, पकाउने, खेती गर्ने, मोबाइल चलाउने, पढ्ने।
+- **आत्मपहिचान** — "म कक्षा १० को विद्यार्थी हुँ, नेपाली हुँ, छोरी हुँ।"
 
-### Norms and values
+### मान्यता र मूल्य
 
-**Social norms** are the accepted rules of behaviour in a society. They are of different strength.
+**सामाजिक मान्यता** भनेका समाजले स्वीकार गरेका आचरणका नियम हुन्। यिनको कडाइ
+फरक-फरक हुन्छ।
 
-| Kind of norm | Meaning | Nepali example |
+| मान्यताको प्रकार | अर्थ | नेपाली उदाहरण |
 |---|---|---|
-| Folkways | Everyday habits and manners; breaking them is only frowned upon | Saying *namaste*, eating with the right hand, offering tea to a guest |
-| Mores | Strongly held moral rules; breaking them brings serious disapproval | Respecting elders and teachers, not insulting a religion |
-| Laws | Rules written down and enforced by the state with punishment | Not stealing, paying tax, wearing a helmet |
-| Customs | Long-practised ways of doing things at festivals, births, marriages and deaths | *Bratabandha*, *pasni* (first rice-feeding), tika on Dashain |
+| लोकरीति | दैनिक बानी र शिष्टाचार; उल्लङ्घनमा हल्का असहमति | नमस्कार गर्नु, पाहुनालाई चिया दिनु |
+| लोकनीति | कडा नैतिक नियम; उल्लङ्घनमा गम्भीर असहमति | ठुला र शिक्षकको सम्मान, धर्मको अपमान नगर्नु |
+| कानुन | राज्यले लेखेर लागु गर्ने नियम; उल्लङ्घनमा सजाय | चोरी नगर्नु, कर तिर्नु, हेलमेट लगाउनु |
 
-**Values** are the deep beliefs behind the norms. A value such as "respect for life" produces the norm "do not harm others" and later the law against murder.
+**सामाजिक मूल्य** भनेका समाजले राम्रो ठानेका आदर्श हुन् — इमानदारी, सहिष्णुता,
+परोपकार, समानता। मान्यताले "के गर्ने" भन्छ, मूल्यले "किन गर्ने" भन्छ।
 
-### Types of socialization
+### सामाजिकीकरणका साधन
 
-| Type | Meaning | Example |
-|---|---|---|
-| Primary socialization | Learning in early childhood, mainly in the family | A two-year-old learns to say "ama", "buwa" and to eat with her hand |
-| Secondary socialization | Learning later, in school, workplace, peer group, media | A student learns discipline, the national anthem, teamwork |
-| Anticipatory socialization | Learning in advance the role one expects to take | A Class 10 student studies nursing to become a nurse; a young couple learns about parenting |
-| Re-socialization | Giving up old habits and learning new ones in a new situation | A villager moving to Kathmandu learns city life; a person leaving a bad habit |
+सामाजिकीकरण गराउने समूह र संस्थालाई यसका **साधन** भनिन्छ।
 
-### Agencies of socialization
-
-The groups and institutions that carry out socialization are its **agencies**.
-
-```figure caption="Agencies of socialization. The family comes first and is the strongest in early years; later the other agencies grow in importance."
+```figure caption="सामाजिकीकरणका साधन। सुरुका वर्षमा परिवार सबैभन्दा बलियो हुन्छ; पछि अरू साधनको प्रभाव बढ्दै जान्छ।"
 import matplotlib.pyplot as plt
 from matplotlib.patches import Circle, FancyBboxPatch
-fig, ax = plt.subplots(figsize=(4.8,3.6))
-ax.set_xlim(0,10); ax.set_ylim(0,8); ax.axis('off')
-ax.add_patch(Circle((5,4),1.15,fc=ACCENT,ec='none'))
-ax.text(5,4,'Child /\nperson',ha='center',va='center',color='white',fontsize=9,weight='bold')
-items=[(5,7.1,'Family'),(8.4,5.6,'School'),(8.4,2.4,'Peer group'),(5,0.9,'Mass media'),(1.6,2.4,'Religion and\nculture'),(1.6,5.6,'Community\nand state')]
-for x,y,t in items:
-    ax.add_patch(FancyBboxPatch((x-1.15,y-0.5),2.3,1.0,boxstyle='round,pad=0.05',fc='white',ec=INK,lw=1))
-    ax.text(x,y,t,ha='center',va='center',fontsize=8,color=INK)
-    dx,dy=x-5,y-4
-    n=(dx*dx+dy*dy)**0.5
-    ax.annotate('',xy=(5+dx/n*1.3,4+dy/n*1.3),xytext=(x-dx/n*1.2,y-dy/n*0.9),arrowprops=dict(arrowstyle='->',color=MUTED,lw=1.2))
+fig, ax = plt.subplots(figsize=(4.9, 3.6))
+ax.set_xlim(0, 10); ax.set_ylim(0, 8); ax.axis('off')
+ax.add_patch(Circle((5, 4), 1.18, fc=ACCENT, ec='none'))
+ax.text(5, 4, 'बालक /\nव्यक्ति', ha='center', va='center', color='white',
+        fontsize=8.4, weight='bold')
+items = [(5, 7.1, 'परिवार'), (8.4, 5.6, 'विद्यालय'), (8.4, 2.4, 'साथी समूह'),
+         (5, 0.9, 'सञ्चार माध्यम'), (1.6, 2.4, 'धर्म र\nसंस्कृति'),
+         (1.6, 5.6, 'समुदाय र\nराज्य')]
+for x, y, t in items:
+    ax.add_patch(FancyBboxPatch((x - 1.2, y - 0.52), 2.4, 1.04,
+                                boxstyle='round,pad=0.05', fc='white', ec=INK, lw=1))
+    ax.text(x, y, t, ha='center', va='center', fontsize=7.4, color=INK)
+    dx, dy = x - 5, y - 4
+    n = (dx * dx + dy * dy) ** 0.5
+    ax.annotate('', xy=(5 + dx / n * 1.34, 4 + dy / n * 1.34),
+                xytext=(x - dx / n * 1.24, y - dy / n * 0.94),
+                arrowprops=dict(arrowstyle='->', color=MUTED, lw=1.2))
 ```
 
-**1. Family.** The family is the first and most powerful agency. Parents and grandparents teach language, food habits, manners, religion and the first sense of right and wrong. Children learn mostly by imitation: a child who sees the father honouring a guest honours guests too. Because the family teaches at the most open stage of life, its effects last longest. Family socialization also passes on gender roles; a modern family should teach sons and daughters equal responsibility.
+**१. परिवार।** परिवार पहिलो र सबैभन्दा प्रभावकारी साधन हो। आमाबुबा र हजुरबुबा-
+हजुरआमाले भाषा, खानपान, शिष्टाचार, धर्म र असल-खराबको पहिलो बोध सिकाउँछन्। बालकले
+प्रायः नक्कल गरेर सिक्छ — बुबाले पाहुनाको सम्मान गरेको देख्ने बालकले पनि
+सम्मान गर्छ। जीवनको सबैभन्दा ग्रहणशील अवस्थामा सिकाउने भएकाले परिवारको प्रभाव
+सबैभन्दा लामो समय रहन्छ। आधुनिक परिवारले छोरा र छोरीलाई समान जिम्मेवारी
+सिकाउनुपर्छ।
 
-**2. Peer group.** Peers are friends of about the same age. They influence dress, speech, music, hobbies and sometimes risky habits such as smoking or excessive phone use. Peers teach equality, cooperation and how to win and lose, because friends are not "above" the child as parents are. Good peers push a child to study and play sport; bad peers can do the opposite.
+**२. विद्यालय।** विद्यालयले अनुशासन, समयपालन, सहकार्य, प्रतिस्पर्धा र औपचारिक
+ज्ञान सिकाउँछ। यहाँ बालकले पहिलो पटक परिवारबाहिरको **नियमबद्ध** संसार भेट्छ —
+घण्टी बजेपछि कक्षामा जानु, पालो कुर्नु, टोलीमा खेल्नु।
 
-**3. School.** The school teaches knowledge and skills **on purpose** (the formal curriculum) and also values, such as punctuality, discipline, respect for the national flag and equality among children of different castes, through what is called the *hidden curriculum*. Morning assembly with the national anthem, class monitor duty, scouts, Junior Red Cross, clubs and sports build citizenship.
+**३. साथी समूह।** किशोरावस्थामा साथीको प्रभाव सबैभन्दा बढी हुन्छ। साथीबाट
+आत्मविश्वास, नेतृत्व र सहकार्य सिकिन्छ; तर असल सङ्गत नभए कुलतमा फस्ने जोखिम
+पनि यहीँबाट आउँछ।
 
-**4. Religion and culture.** Temples, monasteries, mosques, churches and *gumbas*, and festivals such as Dashain, Tihar, Buddha Jayanti, Eid, Christmas and Udhauli-Ubhauli, teach moral lessons: truth, compassion, charity, non-violence, service.
+**४. सञ्चार माध्यम।** रेडियो, टेलिभिजन, पत्रपत्रिका र सामाजिक सञ्जालले सूचना र
+दृष्टिकोण दुवै दिन्छन्। यिनले देशभरिका घटना घरमै पुर्‍याउँछन्, तर भ्रामक सूचना
+पनि उत्तिकै छिटो फैलाउँछन् — त्यसैले स्रोत छान्न जान्नु आजको आवश्यक सीप हो।
 
-**5. Mass media.** Radio, television, newspapers, films, the internet and social media reach the whole country at once. They educate, entertain, spread news, warn about disasters and bring ideas from other countries. They can also spread false news, violent content and wrong ideas about beauty and success. A critical user checks the source before believing.
+**५. धर्म र संस्कृति।** पूजा, जात्रा, पर्व, व्रत र संस्कारले नैतिक मूल्य,
+सहिष्णुता र सामूहिकता सिकाउँछन्।
 
-**6. Community and state.** Neighbours, clubs, youth groups, cooperatives, the local government and the laws of the state teach rights and duties. Voting at 18, paying tax and following traffic rules are learned through this agency.
+**६. समुदाय र राज्य।** टोल, आमा समूह, सहकारी, स्थानीय तह र कानुनले नागरिक
+कर्तव्य, अधिकार र अनुशासन सिकाउँछन्।
 
-::: caution Do not mix up agency and process
-Students often write "socialization is the family". The family is an **agency** (a means). Socialization is the **process**. In an answer, first define the process, then name the agencies.
+::: caution साधन र प्रक्रिया नमिलाउनुहोस्
+**सामाजिकीकरण** प्रक्रिया हो — सिक्ने क्रम। **साधन** त्यो प्रक्रिया गराउने
+संस्था हो — परिवार, विद्यालय, साथी समूह आदि। प्रश्नमा "साधन लेख्नुहोस्" भनिएको
+छ भने संस्थाको नाम लेख्नुपर्छ, सिक्ने तरिका होइन।
 :::
 
-### Importance of socialization
-
-1. It makes a biological baby a social being; without human contact a child does not even learn to speak properly.
-2. It passes culture from one generation to the next, so language, festivals and skills do not die out.
-3. It teaches discipline and social control, which keeps peace in society.
-4. It builds personality and self-confidence.
-5. It prepares people for roles: student, worker, voter, parent.
-6. It creates a feeling of "we" — belonging, cooperation and national unity.
-
-```photo id="soc10/dashain-tika" caption="A younger member of the family receives *tika* and *jamara* from an elder on Dashain. Festivals like this are family socialization in action: the child learns respect, blessing and togetherness by taking part." width="62"
+```photo id="soc10/dashain-tika" caption="दसैँमा ठुलाबाट टीका र जमरा ग्रहण गर्दै सानो सदस्य। यस्ता पर्वमा सहभागी हुँदै बालकले आदर, आशीर्वाद र सामूहिकता सिक्छ — यो परिवारद्वारा हुने सामाजिकीकरण नै हो।" width="62"
 ```
 
-### Problems in socialization today
-
-- **Weak family contact**, because many parents work abroad or in distant cities and children live with grandparents.
-- **Unfiltered media and social media**, which can spread violence, false news and unrealistic role models.
-- **Gender and caste discrimination** taught as "custom" — for example, assuming that daughters do not need schooling or that some people are "untouchable". The constitution has made caste-based untouchability a punishable crime.
-- **Peer pressure** towards smoking, alcohol and drug use.
-
-::: tip Four-mark answer pattern
-"Role of the family in socialization" — (1) first school of the child; (2) teaches language and manners; (3) teaches values and religion; (4) gives emotional security and shapes personality. Add one example for each.
+::: tip चार अङ्कको उत्तर कसरी लेख्ने
+(१) एक वाक्यको **परिभाषा**। (२) **चार बुँदा**, प्रत्येकमा एक लाइनको उदाहरण।
+(३) एक वाक्यको **निष्कर्ष**। बुँदा नम्बर हालेर लेख्नुहोस् — परीक्षकले बुँदा
+गन्छन्, अनुच्छेद होइन।
 :::
 
-## 1.2 Our identities
+## १.२ हाम्रा पहिचान
 
-### What is identity?
-
-**Identity** is the answer to "Who am I?" and "Who are we?". It is the set of features by which a person or a group is recognised and by which they recognise themselves.
-
-::: definition Identity
-Identity is the distinctive set of characteristics — such as name, language, religion, culture, dress, place and nationality — by which a person, group or country is known and distinguished from others.
+::: definition पहिचान
+व्यक्ति वा समूहलाई अरूभन्दा फरक देखाउने र आफूलाई चिनाउने विशेषताहरूको
+समष्टिलाई **पहिचान** भनिन्छ।
 :::
 
-### Levels of identity
+पहिचान एउटै हुँदैन — एउटै व्यक्तिका धेरै पहिचान सँगै रहन्छन्। एक जना किशोरी
+एकै समयमा छोरी, विद्यार्थी, तामाङ, बौद्ध, नेपाली र फुटबल खेलाडी हुन सक्छिन्।
 
-| Level | What it includes | Example |
-|---|---|---|
-| Personal identity | Name, age, sex, appearance, talents, habits, family | "Sunita Gurung, 16, likes drawing" |
-| Social or group identity | Caste/ethnicity, language, religion, village or region, school, profession | Tharu of Dang, Newar of Kathmandu, a student of Class 10 |
-| National identity | Citizenship, flag, anthem, national symbols, shared history | "I am a Nepali" |
-| Global identity | Being a member of the world community | Taking part in the Olympics, UN activities, science |
-
-A person has several identities at once. Sunita can be a Gurung, a Pokhara resident, a Class 10 student and a Nepali, and none of these cancels the others.
-
-### Elements that form our identity
-
-1. **Name and family** — surname often shows the family and ethnic group.
-2. **Language** — mother tongue and Nepali as the official language.
-3. **Religion and belief** — Hindu, Buddhist, Kirat, Muslim, Christian, Prakriti and others.
-4. **Culture** — festivals, music, dance, food, dress, ornaments, folk tales.
-5. **Place** — Himalayan, hill or Terai home; village or city; province.
-6. **Occupation** — farmer, teacher, trader, soldier.
-7. **Nationality** — the legal bond between a person and the state.
-
-### Our national identity and its documents
-
-A modern state identifies its people by documents. The **Constitution of Nepal** (2072 BS, 2015) gives Nepali citizenship by descent and by birth, and also by naturalisation under law. The citizenship certificate is issued from the age of 16. The **National Identity Card** (a smart card with a unique number and fingerprint data) is being issued to citizens, and the **passport** identifies a Nepali abroad. **Citizenship** also gives rights such as voting at 18, taking part in government and owning property, and duties such as paying tax and defending the country.
-
-| Document | Used for |
+| पहिचानको प्रकार | उदाहरण |
 |---|---|
-| Birth registration certificate | First proof of existence and age; issued by the local ward office |
-| Citizenship certificate | Voting, passport, job, land, bank account |
-| National Identity Card | A single card for services and records |
-| Passport | Travel and identity abroad |
-| School certificate | Educational identity |
+| व्यक्तिगत | नाम, उमेर, रुचि, स्वभाव |
+| पारिवारिक | थर, वंश, पारिवारिक भूमिका |
+| जातीय र भाषिक | मगर, थारू, नेवार; नेपाली, मैथिली, भोजपुरी भाषी |
+| धार्मिक र सांस्कृतिक | हिन्दु, बौद्ध, मुस्लिम, किरात, क्रिस्चियन |
+| भौगोलिक | हिमाली, पहाडी, तराईवासी; प्रदेश र पालिका |
+| राष्ट्रिय | नेपाली नागरिक |
 
-### Why identity matters
+**पहिचानको महत्त्व:** पहिचानले आत्मसम्मान दिन्छ, संस्कृति जोगाउँछ र समुदायलाई
+जोड्छ। तर पहिचानलाई अरूभन्दा श्रेष्ठ ठान्न थालियो भने त्यो विभाजनको कारण बन्छ।
+त्यसैले **आफ्नो पहिचानमा गर्व, अरूको पहिचानमा सम्मान** — यही सन्तुलन चाहिन्छ।
 
-- It gives a sense of **belonging and self-respect**.
-- It is the base of **rights and recognition**: communities who are proud of their language and culture ask to preserve them.
-- It builds **unity** when different identities are respected, and **conflict** when one is forced on others.
-- It guides **choices** in education, marriage, work and community.
-
-### Threats to identity, and how to protect it
-
-Threats: copying foreign fashion and language without thought; migration that breaks village life; the fading of small languages (the census records 124 mother tongues, but several are spoken by only a few thousand people); commercialisation of culture; discrimination that makes people ashamed of their origin.
-
-Protection: teaching in the mother tongue in the early grades; celebrating local festivals; recording folk songs, stories and crafts; protecting temples and heritage; letting every community use its dress and language with pride; using new media to promote Nepali culture.
-
-::: note Mother tongues in the constitution
-Article 6 of the Constitution says that all the languages spoken as mother tongues in Nepal are national languages of Nepal. Article 7 says that Nepali in the Devanagari script is the official language, and that a province may choose one or more other national languages as its official language in addition to Nepali.
+::: note संविधानमा मातृभाषा
+नेपालको संविधानले नेपालमा बोलिने सबै मातृभाषालाई **राष्ट्रभाषा** मानेको छ।
+देवनागरी लिपिमा लेखिने **नेपाली भाषा** सरकारी कामकाजको भाषा हो, र प्रदेशले
+आफ्नो प्रदेशभित्र बहुसङ्ख्यकले बोल्ने एक वा एकभन्दा बढी भाषालाई थप सरकारी
+कामकाजको भाषा तोक्न सक्छ।
 :::
 
-```photo id="soc10/tharu-dance" caption="A Tharu cultural dance performed at Sauraha, Chitwan. Dress, music and dance like this are a community's visible identity, and also a tourist attraction and a source of income." width="76"
+```photo id="soc10/tharu-dance" caption="चितवनको सौराहामा प्रस्तुत थारू सांस्कृतिक नृत्य। पहिरन, सङ्गीत र नृत्य कुनै समुदायको देखिने पहिचान हुन्, साथै पर्यटन र आम्दानीको स्रोत पनि।" width="76"
 ```
 
-## 1.3 Unity in diversity
+## १.३ विविधतामा एकता
 
-### Diversity in Nepal
+२०७८ सालको राष्ट्रिय जनगणनाअनुसार नेपालमा **१४२ जातजाति**, **१२४ मातृभाषा**
+र दस वटाभन्दा बढी धर्म छन्। यति धेरै भिन्नता हुँदाहुँदै पनि नेपाल एउटै राष्ट्र
+भएर टिकेको छ — यसैलाई विविधतामा एकता भनिन्छ।
 
-**Diversity** means variety. Nepal is small — about 147,516 km² — but one of the most diverse countries in the world, because its three ecological belts (Himal, Pahad, Terai) hold many different peoples, and because people from the north, south and east settled here over centuries.
-
-| Census 2021 fact | Figure |
-|---|---|
-| Population | 29,164,578 |
-| Caste and ethnic groups | 142 |
-| Mother tongues | 124 |
-| Religions recorded | 10 |
-| Largest language group | Nepali, about 45% of people |
-| Largest religion | Hindu, about 81% |
-
-*(Source: National Statistics Office, National Population and Housing Census 2021.)*
-
-```figure caption="Religions of Nepal by share of population (Census 2021). Figures are rounded; 'Others' includes Prakriti, Bon, Jain, Sikh and Baha'i."
+```figure caption="धर्मअनुसार जनसङ्ख्याको हिस्सा (राष्ट्रिय जनगणना २०७८)। अङ्क नजिकको दशमलवमा राखिएका छन्; 'अन्य' मा प्रकृति, बोन, जैन, सिख र बहाई पर्छन्।"
 import matplotlib.pyplot as plt
-fig, ax = plt.subplots(figsize=(4.8,2.6))
-names=['Hindu','Buddhist','Muslim','Kirat','Christian','Others']
-vals=[81.19,8.21,5.09,3.17,1.76,0.58]
-y=list(range(len(names)))[::-1]
-ax.barh(y,vals,color=[ACCENT]+[SERIES[1]]*5,height=0.62)
-for yy,v in zip(y,vals):
-    ax.text(v+1,yy,f'{v:.2f}%',va='center',fontsize=8,color=INK)
-ax.set_yticks(y); ax.set_yticklabels(names,fontsize=8)
-ax.set_xlim(0,95); ax.set_xlabel('Percent of population',fontsize=8)
-ax.spines[['top','right']].set_visible(False)
-ax.tick_params(axis='x',labelsize=8)
+fig, ax = plt.subplots(figsize=(4.9, 2.7))
+names = ['हिन्दु', 'बौद्ध', 'इस्लाम', 'किरात', 'क्रिस्चियन', 'अन्य']
+vals = [81.19, 8.21, 5.09, 3.17, 1.76, 0.58]
+y = list(range(len(names)))[::-1]
+ax.barh(y, vals, color=[ACCENT] + [SERIES[1]] * 5, height=0.62)
+for yy, v in zip(y, vals):
+    ax.text(v + 1.4, yy, format(v, '.2f') + '%', va='center', fontsize=7.6, color=INK)
+ax.set_yticks(y); ax.set_yticklabels(names, fontsize=7.8)
+ax.set_xlim(0, 96)
+ax.set_xlabel('जनसङ्ख्याको प्रतिशत', fontsize=7.8)
+ax.spines[['top', 'right']].set_visible(False)
+ax.tick_params(axis='x', labelsize=7.6)
 ```
 
-**The five kinds of diversity** a student should be able to list:
+**विविधताका पाँच रूप:**
 
-1. **Ethnic and caste diversity** — Brahmin, Chhetri, Magar, Tharu, Tamang, Newar, Rai, Limbu, Gurung, Sherpa, Madhesi castes, Dalits, Muslims and many more. The 2021 census lists 142 groups, the largest being Chhetri at about 16%.
-2. **Linguistic diversity** — languages from several families (Indo-Aryan, Tibeto-Burman, Austroasiatic and Dravidian, with some isolates).
-3. **Religious diversity** — Hinduism, Buddhism, Islam, Kirat, Christianity, Prakriti, Bon, Jainism, Sikhism, Baha'i.
-4. **Geographical diversity** — Himalayan peaks, mid-hills, valleys, river plains: from about 60 m above sea level in the Terai (Jhapa) to 8,848.86 m at the summit of Sagarmatha.
-5. **Cultural diversity** — festivals, food (*dhido*, *momo*, *sel roti*, *bara*, *chiura*), dress, music and dance.
+1. **जातीय विविधता** — बाहुन, क्षत्री, मगर, थारू, तामाङ, नेवार, राई, लिम्बू,
+   गुरुङ, शेर्पा, मधेशी समुदाय, दलित, मुस्लिम आदि गरी १४२ समूह।
+2. **भाषिक विविधता** — १२४ मातृभाषा; नेपाली, मैथिली, भोजपुरी, थारू, तामाङ
+   सबैभन्दा बढी बोलिने भाषा हुन्।
+3. **धार्मिक विविधता** — हिन्दु, बौद्ध, इस्लाम, किरात, क्रिस्चियन, प्रकृति, बोन।
+4. **सांस्कृतिक विविधता** — पहिरन, खानपान, नाचगान, पर्व र संस्कार।
+5. **भौगोलिक विविधता** — हिमाल, पहाड र तराई; फरक हावापानी, पेसा र जीवनशैली।
 
-### Unity in diversity
-
-::: definition Unity in diversity
-Unity in diversity means living together in peace, respect and cooperation, as one nation, in spite of differences of caste, language, religion, culture and region.
+::: definition विविधतामा एकता
+भाषा, धर्म, जाति, संस्कृति र भूगोलमा भिन्नता हुँदाहुँदै पनि सबै समुदाय
+मिलेर एउटै राष्ट्रिय भावना र साझा उद्देश्यमा बाँधिनुलाई **विविधतामा एकता**
+भनिन्छ।
 :::
 
-Nepal is often compared to a garden of many flowers — each flower is different, but together they make the garden beautiful. The preamble of the constitution expresses the same idea: it describes Nepal as a multi-ethnic, multi-lingual, multi-religious, multi-cultural nation with diverse regional characteristics, held together in the bond of a common aspiration for equality and of unity and a single national identity.
+**एकता कायम राख्ने उपाय:**
 
-### Factors that hold us together
+- सबै भाषा, धर्म र संस्कृतिलाई **समान सम्मान**; कसैलाई सानो वा ठुलो नभन्ने।
+- **समावेशी सहभागिता** — राज्यका निकाय, नीति र अवसरमा सबै समुदायको प्रतिनिधित्व।
+- **अन्तरसांस्कृतिक सहभागिता** — एक समुदायको पर्वमा अर्को समुदायको सहभागिता।
+- **समान विकास** — कुनै क्षेत्र वा समुदाय विकासबाट छुट्न नदिने।
+- **भेदभावविरुद्ध कानुनको कार्यान्वयन** — छुवाछुत र जातीय विभेद दण्डनीय छ।
+- विद्यालय र सञ्चार माध्यमबाट **सहिष्णुताको शिक्षा**।
 
-- **One nation, one flag, one anthem, one constitution** and one citizenship for all.
-- **Shared festivals** — Dashain, Tihar and Holi are celebrated across groups; Buddha Jayanti and Eid are national holidays; many communities join each other's festivals.
-- **Nepali as the link language** that lets a Tharu from Bardiya talk to a Sherpa from Solukhumbu.
-- **Common history and heroes** — the unification, the movements of 2007, 2046 and 2062/63 BS, and the earthquake of 2015 when the whole country helped.
-- **Trade, travel, education and marriage** across groups.
-- **The tradition of tolerance** — Hindu temples and Buddhist stupas stand side by side at Swayambhu and Pashupati, and Lumbini, Janakpur and Muktinath draw pilgrims of several faiths.
-- **Legal protection** of equality and rights of all.
-
-```photo id="soc10/swayambhu" caption="Swayambhunath stupa, Kathmandu. Buddhists and Hindus both worship here; this shared sacred space is one of the best symbols of Nepal's religious harmony." width="66"
+```photo id="soc10/swayambhu" caption="काठमाडौँको स्वयम्भूनाथ स्तूप। यहाँ बौद्ध र हिन्दु दुवैले पूजा गर्छन्; साझा पूजास्थल नेपालको धार्मिक सहिष्णुताको उत्कृष्ट प्रतीक हो।" width="66"
 ```
 
-### Constitutional provisions for equality and inclusion
-
-- Article 18 guarantees the right to equality: no discrimination on the basis of origin, religion, race, caste, tribe, sex, language or ideology.
-- Article 24 makes caste-based untouchability and discrimination a punishable offence.
-- Article 42 gives the right to social justice: marginalised groups such as women, Dalits, indigenous peoples (Adivasi Janajati), Madhesi, Tharu, Muslims, backward classes and persons with disabilities may take part in state bodies on the basis of inclusion.
-- Article 31 gives the right to education in the mother tongue up to secondary level.
-- Article 32 gives every person and community the right to use their language and take part in their cultural life.
-- Nepal is a **secular** state: all religions are equal in the eyes of the state and no religion is forced on anyone, while traditional religions and cultures are protected (Article 4).
-
-### Problems against unity
-
-1. **Caste and ethnic discrimination** and the remains of untouchability.
-2. **Communalism and religious intolerance** — hatred of other faiths.
-3. **Regionalism** — hill-versus-Terai or centre-versus-province thinking.
-4. **Language dominance** — looking down on small languages.
-5. **Gender inequality.**
-6. **Unequal development** between regions, which causes grievance.
-7. **Misuse of social media** for hate speech and rumours.
-
-### How we can maintain unity in diversity
-
-- Respect every language, religion, dress and custom, and learn at least a little about the others.
-- Take part in each other's festivals.
-- Obey the constitution and law; punish discrimination.
-- Make schools and jobs open to all, with special support for the disadvantaged.
-- Use media for harmony, not hate.
-- Teach children in schools and homes about the contributions of all communities.
-- Develop all regions fairly so that none feels left behind.
-
-::: tip Example to quote
-In April 2015 an earthquake of magnitude 7.8 killed about 9,000 people. People from every caste, region and religion shared food, sent help and dug through rubble. Examiners like such a concrete example of unity.
+::: tip उदाहरण दिन सकिने कुरा
+स्वयम्भूनाथ र पशुपतिनाथमा हिन्दु र बौद्ध दुवैको पूजा; मुस्लिम समुदायले दसैँमा
+शुभकामना दिनु; नेवार समुदायको इन्द्रजात्रामा सबै समुदायको सहभागिता — यस्ता
+ठोस उदाहरणले उत्तरलाई अङ्क दिलाउँछ।
 :::
 
-## 1.4 Our national pride
+## १.४ हाम्रा राष्ट्रिय गौरव
 
-### Meaning
+**राष्ट्रिय चिह्न**
 
-**National pride** (*rastriya gaurav*) is the feeling of honour and love for the things that make our country great: our symbols, mountains, heritage, heroes, culture and achievements. National pride is not about thinking others are lower; it is respect for our own and the duty to protect it.
-
-### National symbols
-
-| Symbol | Details |
+| चिह्न | विवरण |
 |---|---|
-| National flag | Two stacked triangular pennons, crimson with a deep-blue border; a white moon with eight rays in the upper pennon and a white sun with twelve rays in the lower. It is the only national flag in the world that is not a rectangle. The present flag dates from 1962 and the Constitution of 2015 describes its construction in Schedule 1. |
-| National anthem | *Sayaun Thunga Phulka* ("Woven from hundreds of flowers"), words by Pradeep Kumar Rai and music by Ambar Gurung; adopted on 19 Shrawan 2063 (3 August 2007). |
-| National emblem | Mount Sagarmatha, green hills and the yellow Terai plain; a map of Nepal; clasped hands of a man and a woman; a garland of rhododendron; the motto "Janani Janmabhumishcha Swargadapi Gariyasi" (mother and motherland are greater than heaven). |
-| National flower | Rhododendron (*laligurans*, *Rhododendron arboreum*) |
-| National bird | Danphe, Himalayan monal (*Lophophorus impejanus*) |
-| National animal | Cow |
-| National colour | Crimson (*sinduri* red) |
-| National language | All mother tongues; Nepali is the official language |
-| National sport | Volleyball (declared in 2017); *dandi biyo* is the traditional national game |
-| National dress | Daura-suruwal and dhaka topi for men, *gunyu-cholo* or *sari* for women |
+| राष्ट्रिय झन्डा | दुई त्रिकोण जोडिएको; विश्वकै एक मात्र चतुर्भुज नभएको झन्डा। चन्द्रमा र सूर्यले राष्ट्रको चिरस्थायित्व जनाउँछन् |
+| राष्ट्रिय गान | 'सयौँ थुँगा फूलका हामी, एउटै माला नेपाली' |
+| राष्ट्रिय फूल | लालीगुराँस |
+| राष्ट्रिय रङ | सिम्रिक (गाढा रातो) |
+| राष्ट्रिय जनावर | गाई |
+| राष्ट्रिय पक्षी | डाँफे |
+| राष्ट्रिय भाषा | देवनागरी लिपिमा लेखिने नेपाली (सरकारी कामकाजको भाषा) |
 
-```photo id="soc10/flag-nepal" caption="The national flag of Nepal, the only non-rectangular national flag in the world." width="46"
+```photo id="soc10/flag-nepal" caption="नेपालको राष्ट्रिय झन्डा — संसारकै एक मात्र चतुर्भुज आकार नभएको राष्ट्रिय झन्डा।" width="46"
 ```
 
-::: note What the flag shapes mean
-Textbooks explain that the two triangles stand for the Himalayas and for the two main religions of Nepal, Hinduism and Buddhism. The moon is said to stand for the cool, calm nature of Nepalis and the sun for their hardiness and fierce resolve. These are traditional interpretations rather than constitutional text.
+**गर्व गर्न लायक अरू कुरा:**
+
+- **सगरमाथा** — संसारको सर्वोच्च शिखर (८,८४८.८६ मिटर)।
+- **लुम्बिनी** — गौतम बुद्धको जन्मस्थल; विश्व सम्पदा सूचीमा सूचीकृत।
+- **कहिल्यै उपनिवेश नबनेको इतिहास** र गोर्खाली वीरताको परम्परा।
+- **जैविक विविधता** — सानो क्षेत्रफलमा हिमालदेखि तराईसम्मको पारिस्थितिक विविधता।
+- **सांस्कृतिक सम्पदा** — काठमाडौँ उपत्यकाका सात स्मारक समूह।
+
+::: example चार अङ्कको नमुना उत्तर
+**प्रश्न.** सामाजिकीकरणमा परिवारको भूमिका व्याख्या गर्नुहोस्। [४]
+
+**उत्तर.** व्यक्तिले समाजको भाषा, मूल्य र सीप सिकेर स्वीकार्य सदस्य बन्ने
+जीवनपर्यन्त प्रक्रिया नै सामाजिकीकरण हो, र यसको पहिलो तथा सबैभन्दा प्रभावकारी
+साधन परिवार हो।
+
+**(१) भाषा र सञ्चारको जग** — बालकले बोल्न परिवारबाटै सिक्छ; घरमा बोलिने
+भाषा नै उसको मातृभाषा बन्छ। **(२) मूल्य र आचरण** — सत्य बोल्नु, ठुलाको
+सम्मान गर्नु, पाहुनाको सत्कार गर्नु — यी सबै आमाबुबालाई देखेर सिकिन्छ।
+**(३) भूमिका बोध** — छोरा-छोरी, दाजु-भाइ, दिदी-बहिनीको जिम्मेवारी परिवारमै
+बुझिन्छ; आधुनिक परिवारले छोरा र छोरीलाई समान जिम्मेवारी दिनुपर्छ। **(४)
+भावनात्मक सुरक्षा** — माया र सुरक्षाको अनुभवले आत्मविश्वास र सामाजिक
+सम्बन्ध बनाउने क्षमता विकास हुन्छ।
+
+जीवनको सबैभन्दा ग्रहणशील अवस्थामा सिकाउने भएकाले परिवारले दिएको संस्कार
+जीवनभर रहन्छ; त्यसैले परिवारलाई सामाजिकीकरणको पहिलो पाठशाला भनिन्छ।
 :::
 
-### Natural pride
+## अध्यायको सारांश
 
-- **Sagarmatha (Mount Everest, 8,848.86 m)** — the highest point on Earth. The height was jointly announced by Nepal and China in December 2020. Eight of the world's fourteen peaks above 8,000 m lie wholly or partly in Nepal: Sagarmatha, Kanchenjunga, Lhotse, Makalu, Cho Oyu, Dhaulagiri, Manaslu and Annapurna I.
-- **Rivers** — the Koshi, Gandaki (Narayani) and Karnali with their tributaries, a huge source of hydropower and water.
-- **Biodiversity** — about 23% of the land is protected (national parks, wildlife reserves, conservation areas such as Chitwan, Bardiya, Sagarmatha and Langtang), home to the one-horned rhinoceros, Bengal tiger and snow leopard.
-- **Kali Gandaki gorge** — one of the deepest river gorges in the world.
+- समाज: एउटै क्षेत्रमा बसी साझा संस्कृति बाँड्ने र एकअर्कामा निर्भर मानिसको समूह।
+- सामाजिकीकरण: भाषा, मूल्य, मान्यता र सीप सिकेर समाजको स्वीकार्य सदस्य बन्ने जीवनपर्यन्त प्रक्रिया।
+- साधन: परिवार (पहिलो र सबैभन्दा प्रभावकारी), विद्यालय, साथी समूह, सञ्चार माध्यम, धर्म र संस्कृति, समुदाय र राज्य।
+- मान्यताका तीन तह: लोकरीति, लोकनीति, कानुन।
+- पहिचानका प्रकार: व्यक्तिगत, पारिवारिक, जातीय-भाषिक, धार्मिक-सांस्कृतिक, भौगोलिक, राष्ट्रिय।
+- जनगणना २०७८: १४२ जातजाति, १२४ मातृभाषा; हिन्दु ८१.१९%, बौद्ध ८.२१%, इस्लाम ५.०९%।
+- विविधतामा एकता कायम राख्ने उपाय: समान सम्मान, समावेशिता, अन्तरसांस्कृतिक सहभागिता, समान विकास, कानुनको कार्यान्वयन।
+- राष्ट्रिय चिह्न: झन्डा, गान, लालीगुराँस, सिम्रिक रङ, गाई, डाँफे, नेपाली भाषा।
 
-### Cultural and historical pride
+## अभ्यास
 
-- **Gautam Buddha** was born in **Lumbini** (a UNESCO World Heritage Site since 1997). The Ashoka pillar inscription, set up in about 249 BCE, records the visit of the emperor Ashoka and is the oldest written evidence that this is the Buddha's birthplace.
-- **Sita (Janaki)** is traditionally said to have been born at Janakpur, now the capital of Madhesh Province, where the Janaki Temple stands.
-- **Kathmandu Valley** (UNESCO World Heritage, 1979) — seven monument zones: the three Durbar Squares (Kathmandu, Patan, Bhaktapur), Swayambhunath, Boudhanath, Pashupatinath and Changu Narayan.
-- **Arniko** (13th century) went to the court of Kublai Khan in China and is remembered for building the white stupa at Miaoying Temple in Beijing.
-- **Bhanubhakta Acharya** (1814–1868), the *Adikavi*, gave the Nepali language its first great poem, the Nepali *Ramayana*.
-- **Prithvi Narayan Shah** (1723–1775) began the unification of Nepal; his birthday, 27 Poush, is celebrated as National Unity Day.
-- **Gurkha soldiers** — known the world over for courage.
-- **Mountaineers** — Tenzing Norgay Sherpa (who with Edmund Hillary first stood on Everest on 29 May 1953) and Pasang Lhamu Sherpa (the first Nepali woman to climb Everest, 1993).
-- **Laxmi Prasad Devkota** (1909–1959), *Mahakavi*, author of *Muna Madan*.
+**समूह क — वस्तुगत प्रश्न (१ अङ्क)**
 
-```photo id="soc10/lumbini" caption="The Maya Devi Temple at Lumbini, birthplace of Gautam Buddha. Lumbini is a World Heritage Site and the most important pilgrimage place for Buddhists." width="76"
-```
+१. सामाजिकीकरणको पहिलो साधन कुन हो? <span class="marks">[1]</span>
+   (क) विद्यालय (ख) परिवार (ग) साथी समूह (घ) सञ्चार माध्यम
+२. नेपालको राष्ट्रिय पक्षी कुन हो? <span class="marks">[1]</span>
+   (क) डाँफे (ख) कालिज (ग) मयूर (घ) चिल
+३. जनगणना २०७८ अनुसार नेपालमा कति मातृभाषा छन्? <span class="marks">[1]</span>
+   (क) ९२ (ख) १२३ (ग) १२४ (घ) १४२
+४. राज्यले लेखेर लागु गर्ने र उल्लङ्घनमा सजाय हुने मान्यता कुन हो? <span class="marks">[1]</span>
+   (क) लोकरीति (ख) लोकनीति (ग) कानुन (घ) परम्परा
+५. विश्वकै एक मात्र चतुर्भुज आकार नभएको राष्ट्रिय झन्डा कुन देशको हो? <span class="marks">[1]</span>
+   (क) भुटान (ख) नेपाल (ग) स्विट्जरल्यान्ड (घ) जापान
 
-```photo id="soc10/everest" caption="Sagarmatha (Mount Everest), at 8,848.86 m the highest mountain on Earth, rises above the Khumbu region of Nepal. Sagarmatha National Park has been a World Heritage Site since 1979." width="82"
-```
-
-### How to protect and promote national pride
-
-1. Show respect for the flag, anthem and symbols.
-2. Protect heritage sites and do not damage monuments or write on them.
-3. Learn and use Nepali and our mother tongues; read Nepali literature.
-4. Protect the environment — keep the rivers, forests and trails clean.
-5. Be honest, work hard and speak well of Nepal abroad.
-6. Buy and use Nepali products where they are good and promote tourism.
-7. Practise the duties of a citizen: vote, pay tax, follow laws.
-
-::: memory National symbols in one line
-Flag — two pennons; Anthem — *Sayaun Thunga Phulka* (2007); Flower — rhododendron; Bird — danphe; Animal — cow; Colour — crimson; Sport — volleyball; Mountain — Sagarmatha.
+::: note समूह क का उत्तर
+**१.** (ख) — परिवार; यसले जीवनको सबैभन्दा ग्रहणशील अवस्थामा सिकाउँछ।
+**२.** (क) — डाँफे।
+**३.** (ग) — १२४ मातृभाषा।
+**४.** (ग) — कानुन।
+**५.** (ख) — नेपाल।
 :::
 
-## Chapter summary
+**समूह ख — छोटो उत्तर (५ अङ्क)**
 
-- **Socialization** is the lifelong process of learning the language, norms, values and skills of society. Types: primary, secondary, anticipatory, re-socialization.
-- **Agencies:** family, peer group, school, religion and culture, mass media, community and state. The family is the first and strongest.
-- **Identity** answers "Who am I/we?"; it has personal, social, national and global levels, built from name, language, religion, culture, place and nationality.
-- Citizenship certificate (from age 16), National ID card and passport are the legal documents of national identity.
-- **Nepal's diversity (Census 2021):** 29,164,578 people, 142 caste/ethnic groups, 124 mother tongues, 10 religions.
-- **Unity in diversity** is peace and cooperation despite differences; it is protected by Articles 4, 18, 24, 31, 32 and 42 of the Constitution and endangered by discrimination, intolerance and regional imbalance.
-- **National symbols:** two-pennon flag (1962), anthem *Sayaun Thunga Phulka* (2007), rhododendron, danphe, cow, crimson, volleyball.
-- **National pride:** Sagarmatha (8,848.86 m), Lumbini, the Kathmandu Valley monuments, Janaki Temple, great persons and national culture.
+१. सामाजिकीकरणको परिभाषा दिँदै यसका कुनै चार साधन उदाहरणसहित लेख्नुहोस्।
+   <span class="marks">[5]</span>
+२. पहिचान भनेको के हो? यसका कुनै चार प्रकार उदाहरणसहित लेख्नुहोस्।
+   <span class="marks">[5]</span>
+३. नेपालका कुनै पाँच राष्ट्रिय चिह्न लेख्दै राष्ट्रिय झन्डाको विशेषता
+   बताउनुहोस्। <span class="marks">[5]</span>
+४. लोकरीति, लोकनीति र कानुनबिचको भिन्नता उदाहरणसहित छुट्याउनुहोस्।
+   <span class="marks">[5]</span>
 
-## Practice questions
-
-**Group A — Objective questions (1 mark each)**
-
-1. The lifelong process of learning the norms and values of society is called <span class="marks">[1]</span>
-   (a) civilization (b) socialization (c) urbanization (d) modernization
-2. The first and most important agency of socialization is the <span class="marks">[1]</span>
-   (a) school (b) peer group (c) family (d) mass media
-3. Nepal's national bird is <span class="marks">[1]</span>
-   (a) peacock (b) danphe (c) eagle (d) kalij pheasant
-4. The number of caste and ethnic groups recorded in Census 2021 is <span class="marks">[1]</span>
-   (a) 125 (b) 142 (c) 103 (d) 124
-5. Which article of the Constitution of Nepal makes caste-based untouchability a punishable offence? <span class="marks">[1]</span>
-   (a) Article 18 (b) Article 24 (c) Article 31 (d) Article 42
-6. Learning in advance the role one will have to play in future is called <span class="marks">[1]</span>
-   (a) primary socialization (b) anticipatory socialization (c) re-socialization (d) secondary socialization
-7. Who wrote the words of the national anthem *Sayaun Thunga Phulka*? <span class="marks">[1]</span>
-   (a) Laxmi Prasad Devkota (b) Bhanubhakta Acharya (c) Pradeep Kumar Rai (d) Ambar Gurung
-8. A citizenship certificate in Nepal is issued from the age of <span class="marks">[1]</span>
-   (a) 14 (b) 16 (c) 18 (d) 20
-
-::: note Answers to Group A
-**1.** (b) — socialization is the lifelong learning of the ways of society.
-**2.** (c) — the family is the first school of a child.
-**3.** (b) — the danphe (Himalayan monal) is the national bird.
-**4.** (b) — Census 2021 lists 142 caste/ethnic groups (124 is the number of mother tongues).
-**5.** (b) — Article 24 gives the right against untouchability and discrimination.
-**6.** (b) — preparing in advance for a future role is anticipatory socialization.
-**7.** (c) — Pradeep Kumar Rai wrote the lyrics; Ambar Gurung composed the music.
-**8.** (b) — citizenship certificates are issued to persons of 16 and above.
+::: note समूह ख का उत्तर
+**१.** व्यक्तिले समाजको भाषा, मूल्य, मान्यता र सीप सिकेर समाजको स्वीकार्य
+सदस्य बन्ने जीवनपर्यन्त प्रक्रिया। साधन: **परिवार** — भाषा र पहिलो संस्कार;
+**विद्यालय** — अनुशासन, समयपालन, औपचारिक ज्ञान; **साथी समूह** — सहकार्य र
+आत्मविश्वास; **सञ्चार माध्यम** — सूचना र दृष्टिकोण (धर्म-संस्कृति र राज्य पनि)।
+**२.** व्यक्ति वा समूहलाई अरूभन्दा फरक देखाउने विशेषताहरूको समष्टि नै पहिचान
+हो। प्रकार: व्यक्तिगत (नाम, रुचि), जातीय-भाषिक (मगर, मैथिली भाषी),
+धार्मिक-सांस्कृतिक (हिन्दु, बौद्ध), भौगोलिक (हिमाली, तराईवासी) र राष्ट्रिय
+(नेपाली नागरिक)।
+**३.** राष्ट्रिय झन्डा, राष्ट्रिय गान, लालीगुराँस (फूल), सिम्रिक (रङ), गाई
+(जनावर), डाँफे (पक्षी)। **झन्डाको विशेषता:** दुई त्रिकोण जोडिएको, विश्वकै
+एक मात्र चतुर्भुज नभएको राष्ट्रिय झन्डा; माथिल्लो त्रिकोणमा चन्द्रमा र
+तल्लोमा सूर्य — यिनले राष्ट्रको चिरस्थायित्व जनाउँछन्।
+**४.** **लोकरीति** दैनिक बानी र शिष्टाचार हुन्; उल्लङ्घनमा हल्का असहमति मात्र
+हुन्छ (नमस्कार नगर्नु)। **लोकनीति** कडा नैतिक नियम हुन्; उल्लङ्घनमा समाजको
+गम्भीर असहमति हुन्छ (शिक्षकको अपमान गर्नु)। **कानुन** राज्यले लेखेर लागु
+गर्ने नियम हो; उल्लङ्घनमा सजाय हुन्छ (चोरी, कर छली)।
 :::
 
-**Group B — Short answer (2 marks each)**
+**समूह ग — लामो उत्तर (८ अङ्क)**
 
-1. Define socialization. <span class="marks">[2]</span>
-2. Write any four agencies of socialization. <span class="marks">[2]</span>
-3. What is meant by national identity? Write any two documents that show it. <span class="marks">[2]</span>
-4. What is unity in diversity? <span class="marks">[2]</span>
-5. Write any four national symbols of Nepal. <span class="marks">[2]</span>
-6. Why is Lumbini a national pride of Nepal? <span class="marks">[2]</span>
+१. सामाजिकीकरणका साधनको विस्तृत व्याख्या गर्दै किशोरावस्थामा साथी समूहको
+   प्रभाव कसरी सकारात्मक बनाउन सकिन्छ लेख्नुहोस्। <span class="marks">[8]</span>
+२. नेपालको विविधता पाँच शीर्षकमा वर्णन गर्दै विविधतामा एकता कायम राख्ने उपाय
+   सुझाउनुहोस्। <span class="marks">[8]</span>
 
-::: note Answers to Group B
-**1.** Socialization is the lifelong process by which a person learns the language, values, norms and skills of society and becomes an acceptable member of it.
-**2.** Family, peer group, school, religion and culture, mass media, community and state (any four).
-**3.** National identity is the identity by which a person is known as a member of a nation, shown by citizenship, flag, anthem and symbols. Two documents: citizenship certificate, passport (or national ID card).
-**4.** It is living together in peace, respect and cooperation as one nation in spite of differences of caste, language, religion, culture and region.
-**5.** National flag, national anthem, rhododendron (national flower), danphe (national bird), cow (national animal), crimson (national colour) (any four).
-**6.** Lumbini is the birthplace of Gautam Buddha, the founder of Buddhism and a light of peace to the world. It is a UNESCO World Heritage Site (1997) and draws pilgrims from many countries.
-:::
-
-**Group C — Long answer (4 marks each)**
-
-1. Explain the role of the family and the school in the socialization of a child. <span class="marks">[4]</span>
-2. Nepal is a country of diversity. Explain the diversity in Nepal and mention the factors that help to maintain unity. <span class="marks">[4]</span>
-3. What is identity? Describe any four elements that make up the identity of a Nepali. <span class="marks">[4]</span>
-4. "National pride must be protected." Write four ways in which you can protect and promote our national pride. <span class="marks">[4]</span>
-5. Write a short note on the problems of socialization in present-day society and suggest remedies. <span class="marks">[4]</span>
-
-::: note Answers to Group C
-**1.** The family is the first agency: it teaches language, manners, religion and values, gives love and security and shapes personality, mainly by imitation. The school gives formal knowledge and skills and also teaches discipline, punctuality, equality and respect for the flag and anthem through the hidden curriculum. The family builds the base; the school widens it and prepares the child for citizenship.
-**2.** Diversity: 142 caste and ethnic groups, 124 mother tongues, ten religions, and geographical variety from the Terai to the Himal, with varied festivals, dress and food. Factors of unity: common nationality and constitution, shared festivals, Nepali as the link language, common history, tolerance, intermarriage and trade, and the constitutional guarantee of equality.
-**3.** Identity is the set of features by which a person or group is known. Elements: name and family; language; religion; culture (festivals, dress, food); place; nationality and citizenship (any four, one line each with an example).
-**4.** Respect the flag and anthem; protect heritage sites; use and develop our languages and culture; protect the environment; promote tourism and Nepali products; be honest and perform duties as citizens (any four).
-**5.** Problems: weak family contact because of migration, harmful media content, discrimination taught as custom, peer pressure to bad habits. Remedies: parental time and guidance, media literacy, school education on equality, good peer groups and counselling, and strict enforcement of laws.
+::: note समूह ग का उत्तर
+**१.** **साधन:** (क) **परिवार** — पहिलो पाठशाला; भाषा, मूल्य, भूमिका र
+भावनात्मक सुरक्षा दिन्छ; प्रभाव सबैभन्दा लामो रहन्छ। (ख) **विद्यालय** —
+अनुशासन, समयपालन, सहकार्य, प्रतिस्पर्धा र औपचारिक ज्ञान; परिवारबाहिरको पहिलो
+नियमबद्ध संसार। (ग) **साथी समूह** — किशोरावस्थामा सबैभन्दा प्रभावकारी;
+आत्मविश्वास, नेतृत्व, सहकार्य सिकाउँछ। (घ) **सञ्चार माध्यम** — सूचना,
+दृष्टिकोण र मनोरञ्जन; भ्रामक सूचनाको जोखिम पनि यहीँ। (ङ) **धर्म र संस्कृति**
+— पर्व, संस्कार र व्रतबाट नैतिक मूल्य र सहिष्णुता। (च) **समुदाय र राज्य** —
+टोल, सहकारी, स्थानीय तह र कानुनबाट नागरिक कर्तव्य।
+**साथी समूहको प्रभाव सकारात्मक बनाउने उपाय:** असल सङ्गत छान्न सिकाउने; विद्यालयमा
+खेलकुद, वादविवाद र सिर्जनात्मक क्लब चलाउने जसले ऊर्जा सही दिशामा लगोस्; अभिभावक
+र शिक्षकले खुला संवाद राख्ने ताकि किशोरले समस्या लुकाउनु नपरोस्; "नाइँ" भन्न
+सक्ने सीप सिकाउने; कुलत र लागुऔषधका असरबारे तथ्यमा आधारित शिक्षा दिने।
+**२.** **विविधताका पाँच रूप:** (क) **जातीय** — १४२ जातजाति। (ख) **भाषिक** —
+१२४ मातृभाषा; नेपाली, मैथिली, भोजपुरी, थारू, तामाङ प्रमुख। (ग) **धार्मिक** —
+हिन्दु ८१.१९%, बौद्ध ८.२१%, इस्लाम ५.०९%, किरात ३.१७%, क्रिस्चियन १.७६%।
+(घ) **सांस्कृतिक** — पहिरन, खानपान, नाचगान, पर्व र संस्कारको भिन्नता। (ङ)
+**भौगोलिक** — हिमाल, पहाड, तराई; फरक हावापानी, पेसा र जीवनशैली।
+**एकता कायम राख्ने उपाय:** सबै भाषा, धर्म र संस्कृतिलाई समान सम्मान; राज्यका
+निकाय र अवसरमा समावेशी प्रतिनिधित्व; एक समुदायको पर्वमा अर्कोको सहभागिता;
+कुनै क्षेत्र वा समुदाय छुट्न नदिने समान विकास; छुवाछुत र जातीय विभेदविरुद्धको
+कानुनको प्रभावकारी कार्यान्वयन; विद्यालय र सञ्चार माध्यमबाट सहिष्णुताको शिक्षा।
+स्वयम्भूनाथ र पशुपतिनाथमा हिन्दु-बौद्ध दुवैको साझा पूजा यसको जीवन्त उदाहरण हो।
 :::
