@@ -365,3 +365,22 @@ answering what, where, when and who; the figures with their years; a
 quotation from an official or a local resident; a closing sentence on what
 happens next. Third person, past tense, no personal opinion.
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** Nepal's wild tiger count in 2022 was
+   (a) 121 (b) 198 (c) 235 (d) 355
+**2.** *Poaching* means
+   (a) legal hunting (b) illegal hunting (c) farming (d) cooking
+**3.** A wildlife *corridor* is
+   (a) a hospital passage (b) a strip of habitat joining two areas (c) a road (d) a fence
+**4.** The global target set in 2010 was to double tiger numbers by
+   (a) 2018 (b) 2020 (c) 2022 (d) 2030
+**5.** *Camera-trap surveys* are used to
+   (a) count animals (b) catch poachers only (c) film tourists (d) map roads
+
+::: note Objective practice — answers
+**1.** (d) — 355. **2.** (b) — illegal hunting. **3.** (b) — a strip of habitat joining two areas. **4.** (c) — by 2022. **5.** (a) — to count animals.
+:::

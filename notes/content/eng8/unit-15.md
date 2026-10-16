@@ -354,3 +354,22 @@ distances); at least one number or named local example; a counter-point
 acknowledged (one household alone changes little) and answered (habits scale
 through a community); and a short, specific conclusion.
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** Nepal's forest cover rose to about
+   (a) 29 % (b) 35 % (c) 45 % (d) 60 %
+**2.** *Every household should separate its waste* — *should* expresses
+   (a) obligation (b) possibility (c) permission (d) ability
+**3.** An official notice ends with
+   (a) the writer's feelings (b) a signature and designation (c) a poem (d) an address only
+**4.** *Conservation* means
+   (a) using resources carefully so they survive (b) using them fast (c) selling them (d) ignoring them
+**5.** Which sentence is strongest in an argument?
+   (a) *Forests are good.* (b) *Community forests cover about a third of Nepal's forest area.* (c) *Everyone likes trees.* (d) *Trees are nice to see.*
+
+::: note Objective practice — answers
+**1.** (c) — about 45 %. **2.** (a) — obligation. **3.** (b) — signature and designation. **4.** (a) — careful use so resources survive. **5.** (b) — it carries evidence.
+:::

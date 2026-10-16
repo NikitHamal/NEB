@@ -288,3 +288,22 @@ courtyard after dinner") and the present simple with an adverb for yourself
 ("I usually watch videos before bed"). End with one sentence about what has
 been gained and one about what has been lost.
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** *Having fun* in the unit's sense refers to
+   (a) leisure activities (b) examinations (c) housework (d) farming
+**2.** The past simple of *invent* is
+   (a) invented (b) invent (c) inventing (d) invention
+**3.** *The wheel was invented long ago* is in the
+   (a) active voice (b) passive voice (c) imperative (d) future
+**4.** An invention that changed communication most is the
+   (a) telephone (b) plough (c) umbrella (d) spoon
+**5.** *Historical* is the adjective of
+   (a) history (b) historian (c) historically (d) historic place
+
+::: note Objective practice — answers
+**1.** (a) — leisure activities. **2.** (a) — invented. **3.** (b) — passive voice. **4.** (a) — the telephone. **5.** (a) — history → historical.
+:::
