@@ -395,3 +395,22 @@ cause respiratory disease and contribute to global warming; remedy: use
 improved stoves, biogas or electricity where possible, and never leave an engine
 or a stove burning unnecessarily.
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** Brass is an alloy of copper and
+   (a) tin (b) zinc (c) nickel (d) carbon
+**2.** Rusting of iron requires
+   (a) oxygen only (b) moisture only (c) both oxygen and moisture (d) carbon dioxide only
+**3.** Coating iron with zinc is called
+   (a) galvanising (b) tinning (c) annealing (d) tempering
+**4.** Stainless steel resists rusting because of
+   (a) carbon (b) chromium (c) lead (d) zinc
+**5.** Detergent cleans greasy cloth because its molecule has
+   (a) only a water-loving end (b) only an oil-loving end (c) both a water-loving and an oil-loving end (d) neither
+
+::: note Objective practice — answers
+**1.** (b) — copper and zinc. **2.** (c) — both are needed. **3.** (a) — galvanising. **4.** (b) — chromium forms a protective oxide film. **5.** (c) — one end holds water, the other grease.
+:::

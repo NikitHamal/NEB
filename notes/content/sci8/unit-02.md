@@ -414,3 +414,22 @@ facts, so a student who copies it without checking a textbook or a reliable site
 can write a fact that is simply false. AI is a helper for finding and shaping
 information, not a source of truth.
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** Which of these is an input device?
+   (a) printer (b) monitor (c) scanner (d) speaker
+**2.** The memory whose contents vanish when the power fails is
+   (a) ROM (b) RAM (c) hard disk (d) pen drive
+**3.** One kilobyte equals
+   (a) 1000 bits (b) 1024 bytes (c) 100 bytes (d) 1024 bits
+**4.** Which is a web browser?
+   (a) Google (b) Firefox (c) Windows (d) Excel
+**5.** The safest password of these is
+   (a) 123456 (b) your own name (c) Sa#9rLm2!qd (d) password
+
+::: note Objective practice — answers
+**1.** (c) — a scanner feeds data in. **2.** (b) — RAM is volatile. **3.** (b) — $2^{10}$ bytes. **4.** (b) — Firefox; Google is a search engine. **5.** (c) — long, mixed and not guessable.
+:::
