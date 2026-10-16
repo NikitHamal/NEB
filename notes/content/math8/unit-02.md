@@ -233,6 +233,57 @@ costs thirty seconds and it catches a slipped carry, which is where nearly all
 the marks are lost in this chapter.
 :::
 
+## 2.5 Properties of whole numbers at a glance
+
+| Property | Addition | Multiplication |
+|---|---|---|
+| Closure | $a + b$ is a whole number | $a \times b$ is a whole number |
+| Commutative | $a + b = b + a$ | $a \times b = b \times a$ |
+| Associative | $(a+b)+c = a+(b+c)$ | $(ab)c = a(bc)$ |
+| Identity | $a + 0 = a$ | $a \times 1 = a$ |
+| Distributive | — | $a(b+c) = ab + ac$ |
+
+Subtraction and division are **not** closed on whole numbers: $3 - 5$ and
+$3 \div 5$ both leave the set.
+
+```figure caption="The distributive property as areas. A rectangle of width a and length (b + c) can be split into two rectangles, so a(b + c) = ab + ac."
+fig, ax = plt.subplots(figsize=(4.7, 2.3))
+ax.add_patch(matplotlib.patches.Rectangle((0.05, 0.2), 0.35, 0.5,
+             facecolor=SERIES[0], alpha=0.75, edgecolor="white", linewidth=1.4))
+ax.add_patch(matplotlib.patches.Rectangle((0.40, 0.2), 0.25, 0.5,
+             facecolor=SERIES[2], alpha=0.75, edgecolor="white", linewidth=1.4))
+ax.text(0.225, 0.45, "$a \\times b$", ha="center", va="center", color="white",
+        fontsize=11)
+ax.text(0.525, 0.45, "$a \\times c$", ha="center", va="center", color="white",
+        fontsize=11)
+ax.text(0.02, 0.45, "$a$", ha="right", va="center", color=INK, fontsize=10)
+ax.text(0.225, 0.76, "$b$", ha="center", color=INK, fontsize=10)
+ax.text(0.525, 0.76, "$c$", ha="center", color=INK, fontsize=10)
+ax.text(0.80, 0.45, "$a(b+c)$\n$= ab + ac$", ha="center", va="center",
+        color=INK, fontsize=9.5)
+ax.set_xlim(0, 1)
+ax.set_ylim(0.1, 0.9)
+ax.axis("off")
+```
+
+::: example Using the properties to calculate quickly
+**Question.** Evaluate mentally, naming the property used:
+(i) $47 \times 25 \times 4$ (ii) $98 \times 7$ (iii) $36 + 58 + 64$
+
+**Answer.**
+(i) Associative: $47 \times (25 \times 4) = 47 \times 100 = \textbf{4700}$.
+(ii) Distributive: $(100 - 2) \times 7 = 700 - 14 = \textbf{686}$.
+(iii) Commutative and associative: $(36 + 64) + 58 = 100 + 58 = \textbf{158}$.
+:::
+
+::: note Activity — the mental-maths minute
+In pairs, time each other for one minute on ten products such as
+$25 \times 16$, $99 \times 8$, $48 + 37 + 52$. After the first round, discuss
+which property made each one quick, then repeat. Nearly every pair improves on
+the second attempt — the gain comes from choosing the property, not from
+calculating faster.
+:::
+
 ## Chapter summary
 
 - A number in base $b$ uses only the digits $0$ to $b-1$, and each place is
@@ -306,4 +357,24 @@ $512+64+8+2=586$ ✓.
 For the product, $34_5=3\times5+4=19$ and $3_5=3$, so the product is 57.
 Converting 57 into base 5: $57\div5=11$ r 2, $11\div5=2$ r 1, $2\div5=0$ r 2,
 so $(212)_5$. Check: $2\times25+1\times5+2=57$ ✓.
+:::
+
+**Extra practice**
+
+**Group B (2 marks)**
+
+11. Name the property used: $17 \times (10 + 3) = 170 + 51$.
+12. Show that subtraction is not commutative, with an example.
+
+**Group C (4 marks)**
+
+13. Use suitable properties to evaluate: (i) $125 \times 8 \times 7$
+    (ii) $999 \times 12$ (iii) $27 + 89 + 73 + 11$.
+
+::: note Extra practice — answers
+**11.** The distributive property of multiplication over addition.
+**12.** $7 - 3 = 4$ but $3 - 7 = -4$, and $4 \neq -4$; so $a - b \neq b - a$.
+**13.** (i) $(125 \times 8) \times 7 = 1000 \times 7 = 7000$.
+(ii) $(1000 - 1) \times 12 = 12000 - 12 = 11988$.
+(iii) $(27 + 73) + (89 + 11) = 100 + 100 = 200$.
 :::

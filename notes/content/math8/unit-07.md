@@ -183,6 +183,61 @@ The simple interest formula is the correct tool for the questions in this book
 and for a rough comparison; for an actual loan, read the repayment schedule.
 :::
 
+## 7.4 Reading the interest formula four ways
+
+One formula, four questions. Whichever quantity is missing, rearrange and
+substitute.
+
+$$I = \frac{PTR}{100} \qquad P = \frac{100I}{TR} \qquad
+T = \frac{100I}{PR} \qquad R = \frac{100I}{PT}$$
+
+```figure caption="Rs 10,000 at 10% simple interest. The interest is the same every year, so the amount grows along a straight line — this is what makes it simple interest."
+yrs = np.arange(0, 6)
+amt = 10000 + 1000 * yrs
+fig, ax = plt.subplots(figsize=(4.7, 2.9))
+ax.plot(yrs, amt, color=SERIES[0], marker="o", markersize=5, linewidth=2)
+for y, a in zip(yrs, amt):
+    ax.text(y, a + 300, f"{a:,}", ha="center", color=INK, fontsize=8)
+ax.set_xlabel("years", color=MUTED, fontsize=9)
+ax.set_ylabel("amount (Rs)", color=MUTED, fontsize=9)
+ax.set_ylim(9000, 16500)
+ax.grid(color=GRID, linewidth=0.7)
+ax.set_axisbelow(True)
+for s in ("top", "right"):
+    ax.spines[s].set_visible(False)
+ax.tick_params(colors=MUTED, labelsize=8.4)
+```
+
+::: example Finding the rate, then the time
+**Question.** A sum of Rs 16,000 amounts to Rs 20,800 in 4 years at simple
+interest. (i) Find the rate. (ii) In how many years would the same sum earn
+Rs 9,600 at that rate?
+
+**Answer.**
+(i) $I = 20800 - 16000 = 4800$. $R = \frac{100 \times 4800}{16000 \times 4} =
+\frac{480000}{64000} = \textbf{7.5 \%}$ per annum.
+(ii) $T = \frac{100 \times 9600}{16000 \times 7.5} = \frac{960000}{120000} =
+\textbf{8 years}$.
+:::
+
+::: example Two sums, one comparison
+**Question.** Ram puts Rs 20,000 in a bank at 6 % and Sita puts Rs 15,000 in a
+cooperative at 9 %, both for 3 years. Who earns more, and by how much?
+
+**Answer.** Ram: $I = \frac{20000 \times 3 \times 6}{100} = $ Rs 3,600.
+Sita: $I = \frac{15000 \times 3 \times 9}{100} = $ Rs 4,050.
+**Sita earns Rs 450 more**, although she deposited Rs 5,000 less — the rate
+mattered more than the principal here.
+:::
+
+::: note Activity — compare three savings offers
+Collect the current interest rate for a savings account from a commercial bank,
+a development bank and a local cooperative. For a deposit of Rs 25,000 over
+2 years, work out the simple interest in each case and rank them.
+**Discussion:** A higher rate usually comes with higher risk. What else besides
+the rate would you check before depositing money?
+:::
+
 ## Chapter summary
 
 - $I=\frac{PTR}{100}$ and $A=P+I$, with $T$ always in years.
@@ -268,4 +323,23 @@ $6000+1200=\text{Rs }7200$.
 so the amount is $6000+1800=7800$ ✓. For the second part, 8 % of 6000 is 480 a
 year, and 2.5 years give $2.5\times480=1200$ ✓. Note that the same principal
 earns less here, because both the rate and the time are lower.
+:::
+
+**Extra practice**
+
+**Group B (2 marks)**
+
+11. Find the simple interest on Rs 7,500 for 2 years at 8 % per annum.
+12. What principal earns Rs 2,400 in 3 years at 8 % per annum?
+
+**Group C (4 marks)**
+
+13. A man borrows Rs 30,000 at 12 % per annum and repays the whole amount after
+    2 years 6 months. Find the interest and the total repayment.
+
+::: note Extra practice — answers
+**11.** $I = \frac{7500 \times 2 \times 8}{100} =$ **Rs 1,200**.
+**12.** $P = \frac{100 \times 2400}{3 \times 8} =$ **Rs 10,000**.
+**13.** $T = 2.5$ years. $I = \frac{30000 \times 2.5 \times 12}{100} =$
+**Rs 9,000**; total repayment $= 30000 + 9000 =$ **Rs 39,000**.
 :::

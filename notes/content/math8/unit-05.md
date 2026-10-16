@@ -190,6 +190,59 @@ The owner receives $18\,00\,000-36\,000=\text{Rs }17\,64\,000$.
 **Check.** $17\,64\,000+36\,000=18\,00\,000$ ✓.
 :::
 
+## 5.5 Marked price, discount and VAT in order
+
+The order of operations is where most marks are lost: **discount comes off the
+marked price, VAT goes on to what is left.**
+
+```figure caption="A Rs 2,000 article at 10% discount and 13% VAT. Notice that the VAT is charged on Rs 1,800, not on Rs 2,000 — the order changes the final bill."
+stages = ["Marked\nprice", "Less 10%\ndiscount", "Plus 13%\nVAT"]
+vals = [2000, 1800, 2034]
+fig, ax = plt.subplots(figsize=(4.6, 3.0))
+bars = ax.bar(stages, vals, color=[SERIES[1], SERIES[0], SERIES[3]],
+              width=0.55, edgecolor="white", linewidth=1.1)
+for b, v in zip(bars, vals):
+    ax.text(b.get_x() + b.get_width() / 2, v + 40, f"Rs {v:,}", ha="center",
+            color=INK, fontsize=9)
+ax.set_ylim(0, 2400)
+ax.set_ylabel("rupees", color=MUTED, fontsize=9)
+ax.grid(axis="y", color=GRID, linewidth=0.7)
+ax.set_axisbelow(True)
+for s in ("top", "right"):
+    ax.spines[s].set_visible(False)
+ax.tick_params(colors=MUTED, labelsize=8.6)
+```
+
+| Quantity | Formula | Always on |
+|---|---|---|
+| Profit | S.P. $-$ C.P. | — |
+| Profit per cent | $\frac{\text{profit}}{\text{C.P.}}\times100$ | cost price |
+| Loss per cent | $\frac{\text{loss}}{\text{C.P.}}\times100$ | cost price |
+| Discount | $\frac{d}{100}\times \text{M.P.}$ | marked price |
+| VAT | $\frac{v}{100}\times \text{(M.P. after discount)}$ | discounted price |
+
+::: example The full chain, in one problem
+**Question.** A shopkeeper buys a fan for Rs 3,000, marks it 25 % above cost,
+allows a 12 % discount and charges 13 % VAT. Find (i) the marked price
+(ii) the price after discount (iii) the amount the customer pays
+(iv) the shopkeeper's profit per cent.
+
+**Answer.**
+(i) M.P. $= 3000 + 25\%$ of $3000 = 3000 + 750 = $ **Rs 3,750**.
+(ii) Discount $= 12\%$ of $3750 = 450$; price after discount $=$ **Rs 3,300**.
+(iii) VAT $= 13\%$ of $3300 = 429$; customer pays $=$ **Rs 3,729**.
+(iv) The shopkeeper keeps Rs 3,300 (VAT goes to the government), so profit
+$= 3300 - 3000 = 300$ and profit per cent $= \frac{300}{3000}\times100 =$ **10 %**.
+:::
+
+::: note Activity — read a real bill
+Bring home a shop bill with VAT on it. Check three things: the price before
+VAT, the VAT amount, and whether VAT is 13 % of the pre-VAT total. Then work
+out what the bill would have been with a 10 % discount applied first.
+**Discussion:** Why is taking the bill the customer's duty as well as the
+shopkeeper's?
+:::
+
 ## Chapter summary
 
 - $\text{profit}=\text{SP}-\text{CP}$ when SP exceeds CP;
@@ -282,4 +335,27 @@ Rs 750**, which is $\frac{750}{18\,750}\times100=4\%$ of the total cost.
 the two do not cancel. Equal percentage profit and loss on equal selling prices
 always gives a net loss of $\frac{x^2}{100}\%$ — here
 $\frac{20^2}{100}=4\%$ ✓.
+:::
+
+**Extra practice**
+
+**Group B (2 marks)**
+
+11. An article costing Rs 1,250 is sold at a profit of 16 %. Find the selling
+    price.
+12. VAT of Rs 338 was charged at 13 %. Find the price before VAT.
+
+**Group C (4 marks)**
+
+13. A radio marked at Rs 2,800 is sold at a 15 % discount with 13 % VAT. If the
+    shopkeeper still makes a 19 % profit, find the cost price.
+
+::: note Extra practice — answers
+**11.** Profit $= 200$; S.P. $=$ **Rs 1,450**.
+**12.** Price $= \frac{338}{0.13} =$ **Rs 2,600**.
+**13.** After discount: $2800 - 15\%$ of $2800 = 2800 - 420 = $ Rs 2,380 — this is
+what the shopkeeper receives. If that is a 19 % profit, then
+$1.19 \times \text{C.P.} = 2380$, so C.P. $= \frac{2380}{1.19} =$ **Rs 2,000**.
+(The VAT of $13\%$ of $2380 = $ Rs 309.40 is collected for the government and is
+not part of the profit.)
 :::

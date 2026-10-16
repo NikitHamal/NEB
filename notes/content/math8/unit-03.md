@@ -232,6 +232,69 @@ irrational.
 | $\pi$ is rational | false | its decimal never repeats |
 | 0 is rational | true | $0=\frac01$ |
 
+## 3.5 The number line as a map of the number system
+
+Every number you will meet in Grade 8 has a home on the number line, and the
+line shows at a glance which sets sit inside which.
+
+```figure caption="The number system as nested sets. Every natural number is a whole number, every whole number an integer, every integer a rational number — and the irrationals sit outside the rationals but still on the real line."
+fig, ax = plt.subplots(figsize=(4.9, 3.3))
+rings = [("Real numbers", 0.46, SERIES[2], 0.10),
+         ("Rational", 0.36, SERIES[1], 0.14),
+         ("Integers", 0.26, SERIES[0], 0.18),
+         ("Whole", 0.17, SERIES[4], 0.22),
+         ("Natural", 0.09, SERIES[3], 0.30)]
+for lab, r, col, alpha in rings:
+    ax.add_patch(matplotlib.patches.Circle((0.5, 0.48), r, facecolor=col,
+                                           alpha=alpha, edgecolor=col,
+                                           linewidth=1.2))
+labels = [("Natural  1, 2, 3 ...", 0.50, 0.48, 7.2),
+          ("Whole  0", 0.50, 0.60, 7.2),
+          ("Integers  -3", 0.50, 0.68, 7.2),
+          ("Rational  3/4, 0.25", 0.50, 0.78, 7.2),
+          ("Irrational  $\\sqrt{2}$, $\\pi$", 0.50, 0.90, 7.2)]
+for t, x, y, fs in labels:
+    ax.text(x, y, t, ha="center", va="center", color=INK, fontsize=fs)
+ax.set_xlim(0, 1)
+ax.set_ylim(0, 1)
+ax.set_aspect("equal")
+ax.axis("off")
+```
+
+| Set | Symbol used in class | Members | Not members |
+|---|---|---|---|
+| Natural numbers | N | $1, 2, 3, \ldots$ | $0$, $-2$, $\frac{1}{2}$ |
+| Whole numbers | W | $0, 1, 2, \ldots$ | $-2$, $\frac{1}{2}$ |
+| Integers | Z | $\ldots, -2, -1, 0, 1, 2, \ldots$ | $\frac{1}{2}$, $\sqrt{3}$ |
+| Rational numbers | Q | $\frac{p}{q}$, $q \neq 0$; terminating or recurring decimals | $\sqrt{2}$, $\pi$ |
+| Irrational numbers | — | non-terminating, non-recurring decimals | $\frac{22}{7}$ (it is rational) |
+
+::: caution Two traps that cost marks
+$\frac{22}{7}$ is **rational**; it is only an approximation of $\pi$, which is
+irrational. And $\sqrt{9} = 3$ is **rational** — a square root is irrational
+only when the number under it is not a perfect square.
+:::
+
+::: example Deciding rational or irrational
+**Question.** Classify each number as rational or irrational, giving a reason:
+(i) $0.\overline{27}$ (ii) $\sqrt{45}$ (iii) $\sqrt{49}$ (iv) $3.141141114\ldots$
+
+**Answer.**
+(i) **Rational** — a recurring decimal; indeed $0.\overline{27} = \frac{27}{99} = \frac{3}{11}$.
+(ii) **Irrational** — $45$ is not a perfect square, and $\sqrt{45} = 3\sqrt{5}$.
+(iii) **Rational** — $\sqrt{49} = 7 = \frac{7}{1}$.
+(iv) **Irrational** — the decimal neither terminates nor settles into a repeating block.
+:::
+
+::: note Activity — build a number line on the wall
+Take a two-metre strip of chart paper. Mark $-5$ to $5$ at 10 cm intervals. Now
+place these numbers as accurately as you can, writing each on a small card and
+pinning it: $-\frac{7}{2}$, $-\sqrt{2}$, $0.75$, $\frac{5}{3}$, $\sqrt{5}$,
+$\pi$, $\frac{22}{7}$.
+**Discussion:** $\pi$ and $\frac{22}{7}$ land almost on the same spot. How far
+apart are they really? (Work to four decimal places.)
+:::
+
 ## Chapter summary
 
 - A rational number is $\frac{p}{q}$ with $q\ne0$; as a decimal it terminates or
@@ -316,4 +379,28 @@ result is $10\times10^0=10$. **Step 3 — put it in scientific notation.**
 $10=1\times10^1$. **Answer.** $1\times10^1$, which is the ordinary number 10.
 **Check.** The numerator is $0.005\times60\,000\,000=300\,000$, and
 $300\,000\div30\,000=10$ ✓.
+:::
+
+**Extra practice**
+
+**Group B (2 marks)**
+
+11. Classify as rational or irrational with a reason: $\sqrt{64}$, $\sqrt{20}$.
+12. Express $0.\overline{45}$ as a fraction in its lowest terms.
+
+**Group C (4 marks)**
+
+13. Insert any three rational numbers between $\frac{2}{5}$ and $\frac{3}{5}$,
+    and state why infinitely many exist.
+
+::: note Extra practice — answers
+**11.** $\sqrt{64} = 8$, which is $\frac{8}{1}$, so it is **rational**.
+$20$ is not a perfect square, so $\sqrt{20} = 2\sqrt{5}$ is **irrational**.
+**12.** $0.\overline{45} = \frac{45}{99} = \frac{5}{11}$.
+**13.** Write both with a larger common denominator: $\frac{2}{5} = \frac{20}{50}$
+and $\frac{3}{5} = \frac{30}{50}$. Three numbers between them are
+$\frac{22}{50} = \frac{11}{25}$, $\frac{25}{50} = \frac{1}{2}$ and
+$\frac{28}{50} = \frac{14}{25}$. Infinitely many exist because the denominator
+can always be made larger — between any two rational numbers there is always
+their mean, $\frac{a+b}{2}$, which is again rational.
 :::

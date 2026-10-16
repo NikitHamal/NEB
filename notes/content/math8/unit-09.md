@@ -188,6 +188,65 @@ first: $8^2=(2^3)^2=2^6$, so $x=6$. Comparing indices of different bases is not
 allowed.
 :::
 
+## 9.4 The laws of indices in one place
+
+```figure caption="How fast a power grows. Doubling just ten times multiplies a quantity by more than a thousand — this is why indices are used for very large and very small numbers."
+n = np.arange(0, 11)
+vals = 2.0 ** n
+fig, ax = plt.subplots(figsize=(4.7, 2.9))
+ax.plot(n, vals, color=SERIES[0], marker="o", markersize=4.5, linewidth=2)
+for i in (0, 5, 10):
+    ax.annotate(f"$2^{{{i}}}={int(vals[i])}$", xy=(i, vals[i]),
+                xytext=(i - 0.2, vals[i] + 90), fontsize=8, color=INK)
+ax.set_xlabel("index n", color=MUTED, fontsize=9)
+ax.set_ylabel("value of $2^n$", color=MUTED, fontsize=9)
+ax.set_ylim(0, 1200)
+ax.grid(color=GRID, linewidth=0.7)
+ax.set_axisbelow(True)
+for s in ("top", "right"):
+    ax.spines[s].set_visible(False)
+ax.tick_params(colors=MUTED, labelsize=8.4)
+```
+
+| Law | Statement | Example |
+|---|---|---|
+| Product | $a^m \times a^n = a^{m+n}$ | $2^3 \times 2^4 = 2^7$ |
+| Quotient | $\frac{a^m}{a^n} = a^{m-n}$ | $\frac{5^6}{5^2} = 5^4$ |
+| Power of a power | $(a^m)^n = a^{mn}$ | $(3^2)^3 = 3^6$ |
+| Power of a product | $(ab)^m = a^m b^m$ | $(2x)^3 = 8x^3$ |
+| Power of a quotient | $\left(\frac{a}{b}\right)^m = \frac{a^m}{b^m}$ | $\left(\frac{2}{3}\right)^2 = \frac{4}{9}$ |
+| Zero index | $a^0 = 1$, $a \neq 0$ | $7^0 = 1$ |
+| Negative index | $a^{-n} = \frac{1}{a^n}$ | $4^{-2} = \frac{1}{16}$ |
+| Fractional index | $a^{1/n} = \sqrt[n]{a}$ | $27^{1/3} = 3$ |
+
+::: caution The three commonest slips
+$a^m + a^n$ is **not** $a^{m+n}$ — the product law applies to multiplication,
+never to addition. $(-2)^2 = 4$ but $-2^2 = -4$, because the index binds
+tighter than the minus sign. And $(a+b)^2 \neq a^2 + b^2$.
+:::
+
+::: example Working with mixed indices
+**Question.** Simplify $\dfrac{(2^3)^2 \times 2^{-4}}{2^{-1}}$.
+
+**Answer.** Numerator: $(2^3)^2 = 2^6$, so $2^6 \times 2^{-4} = 2^{2}$.
+Dividing: $\frac{2^2}{2^{-1}} = 2^{2-(-1)} = 2^3 = \textbf{8}$.
+:::
+
+::: example Solving for an index
+**Question.** Solve $3^{2x-1} = 81$.
+
+**Answer.** Write both sides with the same base: $81 = 3^4$.
+So $2x - 1 = 4 \Rightarrow 2x = 5 \Rightarrow x = \frac{5}{2} = \textbf{2.5}$.
+:::
+
+::: note Activity — the folding paper
+Fold a sheet of paper in half as many times as you can, recording the number of
+layers after each fold: $1, 2, 4, 8, \ldots$ Write the count as a power of 2.
+**Discussion:** Most people stop at six or seven folds. If you could fold it
+30 times, the stack would be $2^{30}$ sheets thick — work out roughly how many
+kilometres that is, taking one sheet as 0.1 mm.
+:::
+
 ## Chapter summary
 
 - $a^m\times a^n=a^{m+n}$; $a^m\div a^n=a^{m-n}$; $(a^m)^n=a^{mn}$;
@@ -258,4 +317,22 @@ $\frac41=4$ ✓.
 $(2^2)^{x+1}=2^5$, that is $2^{2(x+1)}=2^5$. Equating indices:
 $2(x+1)=5$, so $2x+2=5$, $2x=3$, and $x=1.5$.
 **Check.** $4^{2.5}=4^2\times4^{0.5}=16\times2=32$ ✓.
+:::
+
+**Extra practice**
+
+**Group B (2 marks)**
+
+11. Simplify: $\dfrac{x^5 \times x^{-2}}{x^{-3}}$.
+12. Find the value of $16^{3/4}$.
+
+**Group C (4 marks)**
+
+13. Solve: (i) $2^{x+2} = 128$ (ii) $5^{2x} = \dfrac{1}{125}$.
+
+::: note Extra practice — answers
+**11.** $x^{5-2} = x^3$; then $\frac{x^3}{x^{-3}} = x^{3+3} = x^6$.
+**12.** $16^{3/4} = (2^4)^{3/4} = 2^3 = 8$.
+**13.** (i) $128 = 2^7$, so $x + 2 = 7$ and $x = 5$.
+(ii) $\frac{1}{125} = 5^{-3}$, so $2x = -3$ and $x = -\frac{3}{2} = -1.5$.
 :::
