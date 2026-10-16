@@ -232,22 +232,10 @@ cost something.
 | Result | *The machine will beep when the cycle ends.* |
 
 ```figure caption="Washing clothes in a machine, as a flow of steps. A flow chart is the clearest way to check that no step is missing and none is out of order."
-steps = ["Sort by\ncolour", "Load the\ndrum", "Add\ndetergent",
-         "Choose the\nprogramme", "Start and\nwait", "Hang out\nto dry"]
-fig, ax = plt.subplots(figsize=(5.1, 2.4))
-for i, s in enumerate(steps):
-    ax.add_patch(matplotlib.patches.FancyBboxPatch(
-        (i * 0.86, 0), 0.78, 0.8,
-        boxstyle="round,pad=0.02,rounding_size=0.07",
-        facecolor=SERIES[i % len(SERIES)], edgecolor="none", alpha=0.87))
-    ax.text(i * 0.86 + 0.39, 0.4, s, ha="center", va="center", color="white",
-            fontsize=7.2)
-    if i < len(steps) - 1:
-        ax.annotate("", xy=(i * 0.86 + 0.85, 0.4), xytext=(i * 0.86 + 0.79, 0.4),
-                    arrowprops=dict(arrowstyle="-|>", color=MUTED, lw=1.0))
-ax.set_xlim(-0.06, len(steps) * 0.86)
-ax.set_ylim(-0.1, 0.9)
-ax.axis("off")
+fig, ax = flow([("Sort", "by colour"), ("Load", "the drum"),
+                ("Add", "detergent"), ("Choose", "the programme"),
+                ("Start", "and wait"), ("Dry", "in the sun")],
+               note="one step, one sentence, in this order")
 ```
 
 ::: note Activity — instructions that actually work

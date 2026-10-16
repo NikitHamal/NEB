@@ -183,20 +183,9 @@ ax.tick_params(colors=MUTED, labelsize=9)
 तिर्न सक्ने सीमाभित्र बस्ने; अनुदानमा मात्र निर्भर नहुने।
 
 ```figure caption="विकास सहयोग नतिजामा पुग्ने शृङ्खला — प्राथमिकता नमिलेमा वा पारदर्शिता नभएमा शृङ्खला टुट्छ।"
-steps = ["राष्ट्रिय\nप्राथमिकता", "सम्झौता", "कार्यान्वयन", "अनुगमन", "नतिजा"]
-fig, ax = plt.subplots(figsize=(4.9, 2.3))
-for i, s in enumerate(steps):
-    ax.add_patch(matplotlib.patches.FancyBboxPatch(
-        (i * 1.02, 0), 0.9, 0.78, boxstyle="round,pad=0.03,rounding_size=0.08",
-        facecolor=SERIES[i % len(SERIES)], edgecolor="none", alpha=0.85))
-    ax.text(i * 1.02 + 0.45, 0.39, s, ha="center", va="center",
-            color="white", fontsize=8.5)
-    if i < len(steps) - 1:
-        ax.annotate("", xy=(i * 1.02 + 1.0, 0.39), xytext=(i * 1.02 + 0.92, 0.39),
-                    arrowprops=dict(arrowstyle="-|>", color=MUTED, lw=1.1))
-ax.set_xlim(-0.08, len(steps) * 1.02)
-ax.set_ylim(-0.1, 0.9)
-ax.axis("off")
+fig, ax = flow([("राष्ट्रिय\nप्राथमिकता", ""), ("सम्झौता", ""),
+                ("कार्यान्वयन", ""), ("अनुगमन", ""), ("नतिजा", "")],
+               note="प्राथमिकता नमिले वा पारदर्शिता नभए शृङ्खला यहीँ टुट्छ")
 ```
 
 

@@ -177,19 +177,12 @@ ax.text(5.25, 0.5, "आधार: सबैको सहभागिता", ha=
 | केन्द्र | विशिष्टीकृत अस्पताल | जटिल रोगको उपचार, अनुसन्धान |
 
 ```figure caption="मानसिक स्वास्थ्य जोगाउने पाँच आधार। कुनै एक कमजोर भए अरू चारमा पनि असर पर्छ।"
-pillars = ["पर्याप्त\nनिद्रा", "नियमित\nव्यायाम", "सन्तुलित\nभोजन",
-           "खुला\nसंवाद", "पर्दाको समय\nनियन्त्रण"]
-fig, ax = plt.subplots(figsize=(5.0, 2.5))
-for i, lab in enumerate(pillars):
-    ax.add_patch(matplotlib.patches.FancyBboxPatch(
-        (i * 1.02, 0), 0.92, 0.8,
-        boxstyle="round,pad=0.02,rounding_size=0.07",
-        facecolor=SERIES[i % len(SERIES)], edgecolor="none", alpha=0.86))
-    ax.text(i * 1.02 + 0.46, 0.4, lab, ha="center", va="center",
-            color="white", fontsize=8.0)
-ax.set_xlim(-0.08, len(pillars) * 1.02)
-ax.set_ylim(-0.12, 0.92)
-ax.axis("off")
+fig, ax = cards([("पर्याप्त निद्रा", "रातको ८–९ घण्टा"),
+                 ("नियमित व्यायाम", "दिनको ६० मिनेट"),
+                 ("सन्तुलित भोजन", "पोषण र पानी"),
+                 ("खुला संवाद", "परिवार र साथी"),
+                 ("पर्दाको समय", "सीमित र नियन्त्रित"),
+                 ("सहयोग खोज्नु", "परामर्श लिनु")], cols=3)
 ```
 
 ::: note क्रियाकलाप — समुदायको स्वास्थ्य नक्सा

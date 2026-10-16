@@ -122,26 +122,12 @@ ax.grid(axis="y", color=GRID, lw=0.6, alpha=0.6)
 | विश्राम र पानी | — | पानी, हल्का खाजा | पुनर्लाभ र जलापूर्ति |
 
 ```figure caption="शारीरिक सुयोग्यताका छ अङ्ग। एकै खेलले सबै विकास हुँदैन — त्यसैले विविध क्रियाकलाप आवश्यक छ।"
-import math
-comp = ["शक्ति", "सहनशीलता", "लचकता", "फुर्ती", "सन्तुलन", "समन्वय"]
-vals = [1] * 6
-fig, ax = plt.subplots(figsize=(4.3, 3.3))
-ang = np.linspace(0, 2 * np.pi, len(comp), endpoint=False)
-for a, lab, col in zip(ang, comp, SERIES):
-    x, y = 0.5 + 0.32 * math.cos(a), 0.5 + 0.32 * math.sin(a)
-    ax.add_patch(matplotlib.patches.Circle((x, y), 0.125, facecolor=col,
-                                           edgecolor="none", alpha=0.88))
-    ax.text(x, y, lab, ha="center", va="center", color="white", fontsize=7.8)
-    ax.annotate("", xy=(x - 0.13 * math.cos(a), y - 0.13 * math.sin(a)),
-                xytext=(0.5 + 0.09 * math.cos(a), 0.5 + 0.09 * math.sin(a)),
-                arrowprops=dict(arrowstyle="-|>", color=MUTED, lw=1.0))
-ax.add_patch(matplotlib.patches.Circle((0.5, 0.5), 0.085,
-                                       facecolor=INK, edgecolor="none"))
-ax.text(0.5, 0.5, "शारीरिक\nसुयोग्यता", ha="center", va="center",
-        color="white", fontsize=7.2)
-ax.set_xlim(0.05, 0.95)
-ax.set_ylim(0.1, 0.9)
-ax.axis("off")
+fig, ax = cards([("शक्ति", "भार उठाउने क्षमता"),
+                 ("सहनशीलता", "लामो समय काम"),
+                 ("लचकता", "जोर्नीको चाल"),
+                 ("फुर्ती", "दिशा फेर्ने गति"),
+                 ("सन्तुलन", "स्थिरता"),
+                 ("समन्वय", "आँखा–हात–खुट्टा")], cols=3)
 ```
 
 ::: note क्रियाकलाप — एक सप्ताहको सुयोग्यता जाँच

@@ -42,28 +42,12 @@ area: एकाइ
 सभा** ले स्थानीय कानुन बनाउँछन्।
 
 ```figure caption="राज्यका तीन अङ्ग र तिनको सम्बन्ध। शक्ति पृथकीकरणले कुनै एक अङ्गमा सबै अधिकार जम्मा हुन दिँदैन; नियन्त्रण र सन्तुलनले एकअर्कालाई जवाफदेही बनाउँछ।"
-import matplotlib.pyplot as plt
-import numpy as np
-fig, ax = plt.subplots(figsize=(5.0, 3.1))
-ax.set_xlim(-2.0, 2.0); ax.set_ylim(-1.5, 1.9); ax.axis('off'); ax.set_aspect('equal')
-org = [('व्यवस्थापिका\nकानुन बनाउने', 90, SERIES[0]),
-       ('कार्यपालिका\nकानुन लागु गर्ने', -30, SERIES[2]),
-       ('न्यायपालिका\nकानुनको व्याख्या', 210, SERIES[3])]
-pts = []
-for t, a, c in org:
-    r = np.deg2rad(a); x, y = 1.18 * np.cos(r), 1.18 * np.sin(r)
-    pts.append((x, y))
-    ax.add_patch(plt.Circle((x, y), 0.58, fc='white', ec=c, lw=1.7))
-    ax.text(x, y, t, ha='center', va='center', fontsize=6.3, color=INK)
-for i in range(3):
-    x0, y0 = pts[i]; x1, y1 = pts[(i + 1) % 3]
-    d = ((x1 - x0) ** 2 + (y1 - y0) ** 2) ** 0.5
-    ux, uy = (x1 - x0) / d, (y1 - y0) / d
-    ax.annotate('', xy=(x1 - ux * 0.62, y1 - uy * 0.62),
-                xytext=(x0 + ux * 0.62, y0 + uy * 0.62),
-                arrowprops=dict(arrowstyle='<->', color=MUTED, lw=1.1))
-ax.text(0, -0.08, 'नियन्त्रण र\nसन्तुलन', ha='center', va='center',
-        fontsize=6.8, color=ACCENT)
+fig, ax = relation(
+    [("व्यवस्थापिका", "कानुन बनाउने"),
+     ("कार्यपालिका", "कार्यान्वयन गर्ने"),
+     ("न्यायपालिका", "व्याख्या र न्याय")],
+    [(0, 1, "उत्तरदायी"), (0, 2, "न्यायिक पुनरावलोकन"),
+     (1, 2, "कानुनको पालना")])
 ```
 
 ## ५.२ सङ्घीय कार्यपालिका
