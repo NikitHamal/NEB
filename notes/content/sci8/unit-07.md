@@ -312,6 +312,44 @@ more usefully. The saving comes from a higher cooking temperature and from
 stopping the heat from leaving with the steam.
 :::
 
+## 7.5 Energy arithmetic for daily life
+
+| Quantity | Formula | Unit |
+|---|---|---|
+| Energy used | $E = P \times t$ | kWh (unit) |
+| Cost | units × rate | rupees |
+| Efficiency | $\frac{\text{useful output}}{\text{total input}} \times 100$ | per cent |
+| Potential energy | $PE = mgh$ | joule (J) |
+| Kinetic energy | $KE = \frac{1}{2}mv^2$ | joule (J) |
+
+::: example Comparing two cooking fuels
+**Question.** A family cooks for 2 hours a day. An induction cooker of
+1,500 W costs Rs 12 per unit; a gas cylinder of 14.2 kg costs Rs 1,900 and
+lasts 30 such days. Which is cheaper per month of 30 days?
+
+**Answer.** Induction: $1.5$ kW × 2 h $= 3$ units a day; 30 days $= 90$
+units; cost $= 90 \times 12 = $ **Rs 1,080**.
+Gas: **Rs 1,900** for the same 30 days.
+The **induction cooker is cheaper by Rs 820 a month**, and it also avoids
+indoor smoke — though it needs a reliable supply.
+:::
+
+::: example Energy of falling water
+**Question.** Find the potential energy of 500 kg of water held 20 m above a
+turbine ($g = 10$ m/s²).
+
+**Answer.** $PE = mgh = 500 \times 10 \times 20 = \textbf{100{,}000 J}$
+(100 kJ). In a hydropower plant this potential energy becomes kinetic energy
+as the water falls, and then electrical energy in the generator.
+:::
+
+::: note Activity — the household energy audit
+List every electrical appliance at home with its wattage (printed on the
+rating plate) and the hours it runs each day. Work out the daily units and
+the monthly bill, and rank the appliances from the most to the least
+expensive. Then propose three changes and estimate the saving.
+:::
+
 ## Chapter summary
 
 - **Heat** is energy in transfer; **temperature** measures how hot a body is;
@@ -425,4 +463,23 @@ where they actually meet; because the rays cross, the image is inverted, and
 because it is formed on the far side where light really arrives, it is real.
 **Two uses.** A magnifying glass and a camera lens (also a microscope objective
 lens, a projector lens, and spectacles for long sight).
+:::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** The main constituent of biogas is
+   (a) carbon dioxide (b) methane (c) hydrogen (d) butane
+**2.** A 2,000 W heater used for 3 hours consumes
+   (a) 0.6 unit (b) 6 units (c) 60 units (d) 600 units
+**3.** In a hydropower plant the energy chain is
+   (a) electrical → kinetic → potential (b) potential → kinetic → electrical (c) chemical → heat → electrical (d) heat → kinetic → chemical
+**4.** Which source is non-renewable?
+   (a) solar (b) wind (c) coal (d) biogas
+**5.** The potential energy of a 10 kg body at a height of 5 m ($g = 10$ m/s²) is
+   (a) 50 J (b) 200 J (c) 500 J (d) 5000 J
+
+::: note Objective practice — answers
+**1.** (b) — methane. **2.** (b) — $2 \text{ kW} \times 3 \text{ h} = 6$ kWh. **3.** (b) — stored water → flowing water → generator. **4.** (c) — coal is a fossil fuel. **5.** (c) — $mgh = 10 \times 10 \times 5 = 500$ J.
 :::

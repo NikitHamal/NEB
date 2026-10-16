@@ -289,6 +289,47 @@ lets go, the spring pulls the armature back, the contact is made again, and the
 whole thing repeats — which is why a bell rings continuously while the button is
 pressed.
 
+## 8.5 Electricity in the house: reading the bill
+
+| Quantity | Formula | Unit |
+|---|---|---|
+| Current | $I = \frac{Q}{t}$ | ampere (A) |
+| Ohm's law | $V = IR$ | volt, ampere, ohm |
+| Series resistance | $R = R_1 + R_2$ | ohm (Ω) |
+| Power | $P = VI = I^2R$ | watt (W) |
+| Energy | $E = P \times t$ | kilowatt-hour (unit) |
+| Cost | units × rate | rupees |
+
+::: example A monthly bill, worked through
+**Question.** A house uses five 15 W LED lamps for 6 hours a day, a 70 W fan
+for 8 hours and a 1,200 W rice cooker for 1 hour. Find the monthly
+consumption for 30 days and the bill at Rs 12 per unit.
+
+**Answer.** Lamps: $5 \times 15 = 75$ W $= 0.075$ kW for 6 h $= 0.45$ kWh.
+Fan: $0.07$ kW for 8 h $= 0.56$ kWh.
+Cooker: $1.2$ kW for 1 h $= 1.2$ kWh.
+Daily total $= 2.21$ units; monthly $= 2.21 \times 30 = 66.3$ units.
+Bill $= 66.3 \times 12 = \textbf{Rs 795.60}$.
+:::
+
+::: example Series and parallel compared
+**Question.** Two 6 Ω lamps are joined to a 12 V supply, first in series and
+then in parallel. Find the current drawn in each case.
+
+**Answer.** Series: $R = 6 + 6 = 12$ Ω, so $I = \frac{12}{12} = 1$ A.
+Parallel: each lamp carries $\frac{12}{6} = 2$ A, so the supply delivers
+$2 + 2 = 4$ A.
+**Note:** the parallel arrangement draws four times the current, which is why
+house wiring is in parallel and why overloading a socket is dangerous.
+:::
+
+::: note Activity — audit your own meter
+Read the electricity meter at home at the same time on two consecutive days
+and find the units used in 24 hours. List the appliances and their wattages,
+estimate the daily consumption from the formula, and compare the two numbers.
+Where they disagree, look for an appliance left on.
+:::
+
 ## Chapter summary
 
 - A magnet attracts iron, cobalt and nickel; like poles repel and unlike poles
@@ -397,4 +438,23 @@ slope is the resistance. (v) The value of $\frac{V}{I}$ is nearly the same in
 every row, which proves the law. **Precaution.** Keep the current small and
 switch off between readings, so that the wire does not heat up — the law holds
 only at constant temperature.
+:::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** A 220 V supply drives 2 A through a heater. Its resistance is
+   (a) 110 Ω (b) 220 Ω (c) 440 Ω (d) 55 Ω
+**2.** One unit of electrical energy equals
+   (a) 1 watt-hour (b) 1 kilowatt-hour (c) 1 joule (d) 1000 joules
+**3.** House wiring is done in parallel because
+   (a) it saves wire (b) each appliance gets the full voltage and can be switched separately (c) the current is less (d) it is cheaper
+**4.** The strength of an electromagnet increases when
+   (a) the current is reduced (b) the turns are increased (c) a steel core replaces soft iron (d) the wire is shortened
+**5.** A fuse protects a circuit by
+   (a) storing charge (b) melting and breaking the circuit on overload (c) increasing the voltage (d) reducing resistance
+
+::: note Objective practice — answers
+**1.** (a) — $R = V/I = 220/2 = 110$ Ω. **2.** (b) — one kilowatt-hour. **3.** (b) — full voltage and independent switching. **4.** (b) — more turns (and more current, soft-iron core). **5.** (b) — the fuse wire melts and breaks the circuit.
 :::
