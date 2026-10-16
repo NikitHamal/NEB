@@ -381,6 +381,12 @@ changed, and the pressure changed with it. This is the whole reason for wide
 foundations under buildings and wide tyres on tractors.
 :::
 
+```photo id="sci10/apollo-feather" caption="A feather and a hammer fall together on the Moon, where there is no air resistance — the clearest demonstration that gravity accelerates all masses equally." width="66"
+```
+
+```photo id="sci10/hydraulic-jack" caption="A hydraulic jack. A small force on the narrow piston lifts a large load on the wide one." width="58"
+```
+
 ## Chapter summary
 
 - **Distance** is the path length; **displacement** is the straight line from

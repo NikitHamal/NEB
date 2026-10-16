@@ -274,6 +274,12 @@ position relative to the sun. That extra travel takes about 2.2 days, giving
 of the phases, which is what we actually watch.
 :::
 
+```photo id="sci10/solar-system" caption="The planets of the solar system, in order from the Sun." width="74"
+```
+
+```photo id="sci8/sun-and-planets" caption="Stars compared in size. The Sun is an ordinary star; many others are far larger." width="68"
+```
+
 ## Chapter summary
 
 - A **mineral** is a natural solid with a definite composition; an **ore** is a

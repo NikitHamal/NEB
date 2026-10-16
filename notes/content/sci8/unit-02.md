@@ -296,6 +296,12 @@ programming. If the rule is one nobody can write down but the machine found it
 in the data, it is machine learning.
 :::
 
+```photo id="sci10/motherboard" caption="A computer motherboard. The processor, memory slots and ports all sit on this single board." width="70"
+```
+
+```photo id="sci10/router" caption="A wireless router. It connects the devices of a home or school to the internet." width="62"
+```
+
 ## Chapter summary
 
 - ICT is the use of computers and networks to create, store, process and send
