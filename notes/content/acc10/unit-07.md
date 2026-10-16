@@ -55,7 +55,9 @@ ax.text(7.5,3.1,"Prepared ON the closing date:\nbalances of assets and liabiliti
 **Trading account.** It deals with the goods bought and sold. On the debit side go the **opening stock, purchases, purchases returns adjusted, and all direct expenses** — carriage inward, freight, wages, wages and salaries of factory staff, fuel, power, factory rent, customs duty and clearing charges. On the credit side go **sales less sales returns, and the closing stock**. The balance is the **gross profit** (or gross loss).
 
 $$Gross\ profit = Sales - Cost\ of\ goods\ sold$$
-$$Cost\ of\ goods\ sold = Opening\ stock + Purchases + Direct\ expenses - Closing\ stock$$
+$$Cost\ of\ goods\ sold = Opening\ stock + Purchases$$
+
+$$+\ Direct\ expenses - Closing\ stock$$
 
 **Profit and loss account.** It starts with the gross profit and deals with everything else. On the debit side go all **indirect expenses** — office salaries, rent, rates and taxes, printing and stationery, postage, telephone, insurance, depreciation, bank charges, interest on loan, discount allowed, carriage outward, advertisement, bad debts. On the credit side go **other incomes** — commission received, rent received, discount received, interest received, profit on sale of an asset. The balance is the **net profit** (or net loss).
 

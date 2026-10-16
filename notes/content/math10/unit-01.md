@@ -205,7 +205,9 @@ Tea only $=3\times 15=45$. Coffee only $=15$, so all who like coffee $=15+12=27$
 For three sets the same inclusion–exclusion idea gives a longer formula. Adding $n(A)+n(B)+n(C)$ counts each pairwise overlap twice, so we subtract them; but that removes the triple overlap three times (after adding it three times), so we add it back once.
 
 ::: key Formula for three sets
-$$ n(A\cup B\cup C) = n(A)+n(B)+n(C) - n(A\cap B) - n(B\cap C) - n(A\cap C) + n(A\cap B\cap C) $$
+$$ n(A\cup B\cup C) = n(A)+n(B)+n(C) $$
+
+$$ -\ n(A\cap B) - n(B\cap C) - n(A\cap C) + n(A\cap B\cap C) $$
 
 Seven regions, found **from the centre outwards**:
 

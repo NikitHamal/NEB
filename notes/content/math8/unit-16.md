@@ -328,8 +328,9 @@ $S=2(40+20+32)=184$ cm².
 ::: note Answers to Group C
 **1.** Convert everything to metres: $l=1.2$, $b=0.8$, $h=0.6$.
 $$V=1.2\times0.8\times0.6=0.576\ \text{m}^3$$
-$$S=2(1.2\times0.8+0.8\times0.6+0.6\times1.2)=2(0.96+0.48+0.72)=2\times2.16
-=4.32\ \text{m}^2$$
+$$S=2(1.2\times0.8+0.8\times0.6+0.6\times1.2)$$
+
+$$=2(0.96+0.48+0.72)=2\times2.16=4.32\ \text{m}^2$$
 Cost $=4.32\times120=\text{Rs }518.40$.
 **Check.** The six faces are two of 0.96 m², two of 0.48 m² and two of 0.72 m²:
 $1.92+0.96+1.44=4.32$ ✓.
