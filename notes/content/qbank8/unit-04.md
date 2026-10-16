@@ -2,7 +2,7 @@
 subject: Question Bank
 grade: 8
 unit: 4
-title: "Science and Technology: Model Question Sets"
+title: "Science and Technology: Model Question Sets and Predicted Questions"
 hours: 0
 area: Science and Technology
 ---
@@ -143,6 +143,56 @@ Give the mark only if your answer contains the point named in the notes. Half a 
 **Group B.** **11.** A hypothesis is a testable guess not yet confirmed; a theory is an explanation already supported by a large body of evidence. **12.** Its length and the folds with villi give a very large surface, so digested food is absorbed quickly and completely. **13.** $W = mg = 60\times1.6 = 96$ N. **14.** Metals are lustrous, malleable, ductile and good conductors; non-metals are mostly dull, brittle in the solid state and poor conductors (graphite excepted). **15.** Nichrome has high resistivity, so it gets very hot for the current passed, and it does not oxidise quickly at red heat; copper has low resistance and would oxidise and melt its joints. **16.** Online classes and recorded lessons reach where teachers are few; e-library material, dictionaries and examination resources become available, and results, notices and teacher training can be delivered online. **17.** Only about 10 % of the energy passes from one level to the next, the rest being lost mainly as heat; so after three or four steps very little remains, which also limits the number of top carnivores. **18.** The earth is much larger than the moon, so its shadow is wide and the moon takes a long time to cross it; the moon's shadow on the earth is small and sweeps past quickly. **19.** In a physical change no new substance forms and the change is usually reversible (ice melting); in a chemical change a new substance with new properties forms and the change is usually not reversible (iron rusting). **20.** Less transpiration and infiltration, so springs dry up and the water table falls; and rain runs off bare slopes at once, causing floods below and landslides on the slope.
 
 **Group C.** **21.** Classification is the arrangement of living beings into groups on the basis of similarities and differences. **Monera** — prokaryotic, unicellular, no true nucleus; bacteria. **Protista** — unicellular eukaryotes, mostly aquatic; *Amoeba*. **Fungi** — eukaryotic, cell wall of chitin, saprophytic or parasitic; mushroom. **Plantae** — multicellular, cellulose cell wall, autotrophic; fern. **Animalia** — multicellular, no cell wall, heterotrophic, mostly able to move; frog. **22.** Speed is distance per unit time, a scalar; velocity is displacement per unit time, a vector; acceleration is the rate of change of velocity. $a = \frac{30-0}{60} = 0.5$ m/s². Distance $= ut + \frac{1}{2}at^2 = 0 + \frac{1}{2}\times0.5\times60^2 = 900$ m. **23.** (i) **Filtration** — insoluble solid from liquid, sand from water. (ii) **Evaporation** — dissolved solid from solution, salt from sea water. (iii) **Magnetic separation** — magnetic from non-magnetic, iron filings from sawdust. (iv) **Sublimation** — a subliming solid from a non-subliming one, camphor from sand; (**distillation** separates liquids of different boiling points, and a **separating funnel** separates immiscible liquids such as kerosene and water). **24.** Renewable sources are those replaced by nature as fast as they are used. **Hydropower** — large potential, about 42,000 MW feasible, but needs heavy capital and most plants are run-of-river, so output falls in the dry season. **Solar** — abundant sunshine and good for scattered hill settlements, but gives no power at night and needs costly batteries. **Biogas** — turns dung and waste into clean fuel and manure, but needs enough cattle and warm temperatures, so it works poorly in cold high hills. **25.** The earth has three main layers: the **crust**, a thin rocky shell; the **mantle**, hot semi-solid rock whose slow movement drives the plates; and the **core**, mainly iron and nickel, with a liquid outer and a solid inner part. **Rotation**, once in about 24 hours about its tilted axis, gives day and night, the apparent daily motion of the sun and stars, and the deflection of winds. **Revolution**, once in about 365¼ days, together with the 23.5° tilt, gives the seasons, the changing length of day and night, and the leap year every fourth year.
+:::
+
+## 4.4 Predicted questions: ranked practice priorities
+
+::: caution What "predicted" means here
+Nothing below is a forecast of a particular paper, and no local level's
+question is reproduced. These are **practice priorities**, ranked from the
+specification grid and from the shape of the syllabus: a topic ranks higher
+when it can be asked cleanly at the size the grid allows, when it has a fixed
+method that is quick to mark, and when the textbook gives it a full chapter.
+Work the top tier until the method is automatic.
+:::
+
+### 4.4.1 Tier A — rehearse until automatic
+
+| Rank | Topic and likely form | Marks | Why it ranks here |
+|---|---|---|---|
+| 1 | Force and motion numericals: $F=ma$, $W=mg$, speed–time, unit conversion | 4 or 2 | One-step formulas with endless variations; the easiest 4-mark question to set and to mark. |
+| 2 | Electricity: Ohm's law, series and parallel resistance, power and the electricity bill | 4 | Four question forms live in one chapter, and the bill connects to daily life. |
+| 3 | Labelled diagrams with functions: plant and animal cell, digestive system, electromagnet | 4 | A diagram plus four labelled functions is exactly four marks. |
+| 4 | Photosynthesis and respiration: word equation, conditions, aerobic versus anaerobic | 4 or 2 | A fixed answer with named products — self-checking for the examiner. |
+| 5 | Classification: five kingdoms with characteristics and examples | 4 | Five named groups make a natural four-mark table. |
+| 6 | Energy: renewable versus non-renewable, energy conversions, hydropower for Nepal | 4 | Current national topic with a ready list structure. |
+| 7 | Matter: atomic number, mass number, protons–neutrons–electrons; separation of mixtures | 2 or 4 | A one-line calculation or a four-method list. |
+| 8 | Earth and universe: rotation versus revolution, eclipses, earthquake precautions | 4 | Differences and precaution lists are standard long answers. |
+
+### 4.4.2 Tier B — second pass
+
+| Rank | Topic and likely form | Marks | Why it ranks here |
+|---|---|---|---|
+| 9 | Biodiversity: food chain with trophic levels, causes of loss with measures | 4 | Draw-and-explain format fits the marks exactly. |
+| 10 | Materials: alloys and their uses, rusting and its prevention, harm of plastics | 2 or 4 | Short definitions with named examples. |
+| 11 | Life processes: path of food, transpiration and its factors, blood cells | 2 | Recall with one reason each. |
+| 12 | ICT: hardware versus software, input and output devices, safe internet rules | 2 or 4 | Appears every year as short answers and one long answer. |
+| 13 | Density and measurement: $\rho = m/V$, volume by displacement | 2 | A single substitution, often inside Group B. |
+| 14 | Heat transfer: conduction, convection, radiation with one example each | 2 | Three named ways make a tidy two-mark answer. |
+
+### 4.4.3 Tier C — a quick pass before the paper
+
+| Rank | Topic and likely form | Marks | Why it ranks here |
+|---|---|---|---|
+| 15 | Scientific method and the qualities of a scientist | 1 or 2 | Mostly a Group A item. |
+| 16 | Magnetism: poles, making a magnet, uses of an electromagnet | 1 or 2 | Short recall. |
+| 17 | Solar system facts: planet order, largest planet, the moon | 1 | Single-fact items. |
+| 18 | Pollution and waste: causes, effects, the three Rs | 2 | Short list answers; often folded into Social Studies. |
+
+::: tip How to use the ranking
+Give Tier A four of your six revision days, writing **full answers** rather
+than reading them. Then do Tier B in a day, and leave Tier C for the evening
+before the paper — those are recall items that stay fresh for a day.
 :::
 
 ::: tip Reading your three scores

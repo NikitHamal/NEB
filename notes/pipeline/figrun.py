@@ -20,6 +20,7 @@ ACCENT   = "#1d6fb8"     # primary
 SERIES   = ["#1d6fb8", "#d9534f", "#2e8b57", "#b8860b", "#6a5acd", "#008b8b"]
 
 FAMILY   = ["Inter", "DejaVu Sans", "Noto Sans Devanagari"]
+TARGET_W = 5.9          # inches; the text column is 6.93 in
 
 fonts.ensure()   # static bold instances, so fontweight="bold" is actually bold
 
@@ -63,7 +64,7 @@ def _style():
 
 def run(code: str, chapter_id: str = "") -> str | None:
     """Exec `code`; it must leave a Figure in `fig`. Returns svg path or None."""
-    key = hashlib.sha1((code + "|v3").encode()).hexdigest()[:20]
+    key = hashlib.sha1((code + "|v4").encode()).hexdigest()[:20]
     out = os.path.join(CACHE, key + ".svg")
     if os.path.exists(out):
         return out
@@ -83,6 +84,13 @@ def run(code: str, chapter_id: str = "") -> str | None:
         fig = ns.get("fig") or plt.gcf()
         if fig is None or not fig.get_axes() and not fig.texts:
             raise RuntimeError("no figure produced")
+        # Labels are set in points, so enlarging the canvas enlarges the
+        # drawing area without touching type size: the chart reads better on
+        # a 176 mm text column, which is 6.9 in wide.
+        w, h = fig.get_size_inches()
+        if w < TARGET_W:
+            scale = min(TARGET_W / w, 1.30)
+            fig.set_size_inches(w * scale, h * scale)
         fig.savefig(out, format="svg", transparent=True,
                     bbox_inches="tight", pad_inches=0.04)
         plt.close("all")

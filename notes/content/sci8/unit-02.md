@@ -109,6 +109,9 @@ who wrote this, when, and what is their source? A government site, a school site
 or an encyclopedia with references is more dependable than an anonymous post.
 :::
 
+```photo id="sci10/motherboard" caption="A computer motherboard. The processor, memory slots and ports all sit on this single board." width="70"
+```
+
 ## 2.3 Social networking sites
 
 A **social networking site** lets a person make a profile, put things on it and
@@ -216,6 +219,9 @@ have used the number and account for a "KYC update" call and emptied the
 account.
 :::
 
+```photo id="sci10/router" caption="A wireless router. It connects the devices of a home or school to the internet." width="62"
+```
+
 ## 2.5 Robotics and virtual reality
 
 A **robot** is a machine that can sense its surroundings, decide what to do and
@@ -295,12 +301,6 @@ learning.
 programming. If the rule is one nobody can write down but the machine found it
 in the data, it is machine learning.
 :::
-
-```photo id="sci10/motherboard" caption="A computer motherboard. The processor, memory slots and ports all sit on this single board." width="70"
-```
-
-```photo id="sci10/router" caption="A wireless router. It connects the devices of a home or school to the internet." width="62"
-```
 
 ## Chapter summary
 

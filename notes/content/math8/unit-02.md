@@ -233,7 +233,7 @@ costs thirty seconds and it catches a slipped carry, which is where nearly all
 the marks are lost in this chapter.
 :::
 
-## 2.5 Properties of whole numbers at a glance
+## 2.6 Properties of whole numbers at a glance
 
 | Property | Addition | Multiplication |
 |---|---|---|
