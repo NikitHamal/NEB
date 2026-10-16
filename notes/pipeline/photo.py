@@ -165,7 +165,7 @@ def render(asset_id: str, body: str, width_pct: float = 88.0) -> str | None:
     with open(src, "rb") as f:
         digest = hashlib.sha1(f.read()).hexdigest()[:16]
     key = hashlib.sha1(f"{digest}|{body}|{width_pct}|v3".encode()).hexdigest()[:20]
-    out = os.path.join(CACHE, key + ".png")
+    out = os.path.join(CACHE, key + ".jpg")
     _note_used(asset_id)
     if os.path.exists(out):
         return out
@@ -205,7 +205,8 @@ def render(asset_id: str, body: str, width_pct: float = 88.0) -> str | None:
             ax.add_patch(Rectangle((0, 0), 1, ar, fc="white",
                                    alpha=float(opt["tint"]), ec="none", zorder=2))
         _draw(ax, ops, ar)
-        fig.savefig(out, format="png", dpi=DPI, facecolor="white",
+        fig.savefig(out, format="jpg", dpi=DPI, facecolor="white",
+                    pil_kwargs={"quality": 84, "optimize": True, "progressive": True},
                     bbox_inches=None, pad_inches=0)
         plt.close(fig)
         return out
