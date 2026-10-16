@@ -307,12 +307,12 @@ chief guest, add the R.S.V.P. line, and close with the Principal's name.
 
 **Group B (2 marks each)**
 
-11. Write an email of two sentences applying for the post of school librarian.
-12. Rewrite correctly: *Applicants should submit their CV before the dateline.*
+**11.** Write an email of two sentences applying for the post of school librarian.
+**12.** Rewrite correctly: *Applicants should submit their CV before the dateline.*
 
 **Group C (4 marks)**
 
-13. Write a vacancy announcement for two science teachers at your school.
+**13.** Write a vacancy announcement for two science teachers at your school.
 
 ::: note Extra practice — answers
 **11.** *Subject: Application for the post of school librarian* — *Dear Sir /

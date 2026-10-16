@@ -343,12 +343,12 @@ workers.
 
 **Group B (2 marks each)**
 
-11. Use *humidity* and *visibility* in sentences of your own.
-12. From the chart above, say which day is wettest and which is warmest.
+**11.** Use *humidity* and *visibility* in sentences of your own.
+**12.** From the chart above, say which day is wettest and which is warmest.
 
 **Group C (4 marks)**
 
-13. Write a weather forecast of about 100 words for your district for tomorrow,
+**13.** Write a weather forecast of about 100 words for your district for tomorrow,
     using at least four of the terms in the table.
 
 ::: note Extra practice — answers

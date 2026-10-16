@@ -370,12 +370,12 @@ rose.
 
 **Group B (2 marks)**
 
-11. Simplify the ratio 1 hour 20 minutes : 2 hours.
-12. Find the mean proportional between 8 and 18.
+**11.** Simplify the ratio 1 hour 20 minutes : 2 hours.
+**12.** Find the mean proportional between 8 and 18.
 
 **Group C (4 marks)**
 
-13. Divide Rs 7,560 among three workers in the ratio of the days they worked:
+**13.** Divide Rs 7,560 among three workers in the ratio of the days they worked:
     6 days, 7 days and 8 days.
 
 ::: note Extra practice — answers

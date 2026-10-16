@@ -372,12 +372,12 @@ $QR$.
 
 **Group B (2 marks)**
 
-11. State the quadrant of $(-7, 4)$ and of $(5, -9)$.
-12. Find the distance of $(-6, 8)$ from the origin.
+**11.** State the quadrant of $(-7, 4)$ and of $(5, -9)$.
+**12.** Find the distance of $(-6, 8)$ from the origin.
 
 **Group C (4 marks)**
 
-13. $P(2,-1)$, $Q(6,-1)$ and $R(6,4)$ are the vertices of a triangle. Find
+**13.** $P(2,-1)$, $Q(6,-1)$ and $R(6,4)$ are the vertices of a triangle. Find
     (i) $PQ$ (ii) $QR$ (iii) $PR$ (iv) the area of the triangle.
 
 ::: note Extra practice — answers

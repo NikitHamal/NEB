@@ -358,12 +358,12 @@ in a different order.
 
 **Group B (2 marks)**
 
-11. Simplify: $\dfrac{x^2 - 16}{x + 4}$.
-12. Simplify: $\dfrac{3a}{4} - \dfrac{a}{6}$.
+**11.** Simplify: $\dfrac{x^2 - 16}{x + 4}$.
+**12.** Simplify: $\dfrac{3a}{4} - \dfrac{a}{6}$.
 
 **Group C (4 marks)**
 
-13. Simplify $\dfrac{x^2 + 7x + 12}{x^2 - 9}$ and state where it is undefined.
+**13.** Simplify $\dfrac{x^2 + 7x + 12}{x^2 - 9}$ and state where it is undefined.
 
 ::: note Extra practice — answers
 **11.** $\frac{(x+4)(x-4)}{x+4} = x - 4$ (for $x \neq -4$).
