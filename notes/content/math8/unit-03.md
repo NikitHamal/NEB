@@ -91,23 +91,23 @@ decimal expansion goes on for ever without repeating.
 
 | Number | Why it is irrational |
 |---|---|
-| $\sqrt2=1.41421356\dots$ | no fraction squares to exactly 2 |
-| $\sqrt3=1.73205080\dots$ | likewise |
+| $\sqrt{2}=1.41421356\dots$ | no fraction squares to exactly 2 |
+| $\sqrt{3}=1.73205080\dots$ | likewise |
 | $\pi=3.14159265\dots$ | the ratio of a circle's circumference to its diameter |
 | $e=2.71828182\dots$ | the base of natural logarithms |
 
 Numbers of the form $\sqrt{n}$ where $n$ is a positive integer that is **not a
-perfect square** are irrational. So $\sqrt2$, $\sqrt3$, $\sqrt5$, $\sqrt7$,
-$\sqrt8$ and $\sqrt{10}$ are all irrational, while $\sqrt1$, $\sqrt4$, $\sqrt9$
+perfect square** are irrational. So $\sqrt{2}$, $\sqrt{3}$, $\sqrt{5}$, $\sqrt{7}$,
+$\sqrt{8}$ and $\sqrt{10}$ are all irrational, while $\sqrt{1}$, $\sqrt{4}$, $\sqrt{9}$
 and $\sqrt{16}$ are rational because they are 1, 2, 3 and 4.
 
-A **surd** is an irrational root left in its exact form, such as $\sqrt2$ or
-$3\sqrt5$. We keep them in that form rather than replacing them with a rounded
+A **surd** is an irrational root left in its exact form, such as $\sqrt{2}$ or
+$3\sqrt{5}$. We keep them in that form rather than replacing them with a rounded
 decimal, so that no accuracy is lost.
 
-$$\sqrt{ab}=\sqrt a\times\sqrt b,\qquad
-\sqrt{\frac ab}=\frac{\sqrt a}{\sqrt b},\qquad
-\sqrt{a^2b}=a\sqrt b$$
+$$\sqrt{ab}=\sqrt{a}\times\sqrt{b},\qquad
+\sqrt{\frac ab}=\frac{\sqrt{a}}{\sqrt{b}},\qquad
+\sqrt{a^2b}=a\sqrt{b}$$
 
 The last rule is the one used to simplify: take any perfect square you can find
 out of the root.
@@ -117,35 +117,35 @@ out of the root.
 
 **Solution.** Look for the largest perfect-square factor.
 
-$$\sqrt{72}=\sqrt{36\times2}=\sqrt{36}\times\sqrt2=6\sqrt2$$
+$$\sqrt{72}=\sqrt{36\times2}=\sqrt{36}\times\sqrt{2}=6\sqrt{2}$$
 
 For the sum, simplify each first:
 
-$$\sqrt{50}=\sqrt{25\times2}=5\sqrt2,\qquad
-\sqrt{18}=\sqrt{9\times2}=3\sqrt2$$
+$$\sqrt{50}=\sqrt{25\times2}=5\sqrt{2},\qquad
+\sqrt{18}=\sqrt{9\times2}=3\sqrt{2}$$
 
 Like surds may be added, just as like terms are:
 
-$$5\sqrt2+3\sqrt2=8\sqrt2$$
+$$5\sqrt{2}+3\sqrt{2}=8\sqrt{2}$$
 
-**Answer.** $\sqrt{72}=6\sqrt2$ and $\sqrt{50}+\sqrt{18}=8\sqrt2$.
+**Answer.** $\sqrt{72}=6\sqrt{2}$ and $\sqrt{50}+\sqrt{18}=8\sqrt{2}$.
 
-**Check.** $8\sqrt2=8\times1.414=11.31$, and
+**Check.** $8\sqrt{2}=8\times1.414=11.31$, and
 $\sqrt{50}+\sqrt{18}=7.071+4.243=11.314$ ✓.
 :::
 
 ::: example Rationalising a denominator
-**Problem.** Simplify $\frac{6}{\sqrt3}$.
+**Problem.** Simplify $\frac{6}{\sqrt{3}}$.
 
 **Solution.** A surd is not left in a denominator. Multiply the numerator and
-the denominator by $\sqrt3$ — that is, by 1 in a useful form:
+the denominator by $\sqrt{3}$ — that is, by 1 in a useful form:
 
-$$\frac{6}{\sqrt3}\times\frac{\sqrt3}{\sqrt3}
-=\frac{6\sqrt3}{3}=2\sqrt3$$
+$$\frac{6}{\sqrt{3}}\times\frac{\sqrt{3}}{\sqrt{3}}
+=\frac{6\sqrt{3}}{3}=2\sqrt{3}$$
 
-**Answer.** $2\sqrt3$.
+**Answer.** $2\sqrt{3}$.
 
-**Check.** $2\sqrt3=3.464$ and $6\div\sqrt3=6\div1.732=3.464$ ✓.
+**Check.** $2\sqrt{3}=3.464$ and $6\div\sqrt{3}=6\div1.732=3.464$ ✓.
 :::
 
 ::: tip Between which two integers?
@@ -228,7 +228,7 @@ irrational.
 |---|---|---|
 | Every integer is rational | true | $5=\frac51$ |
 | Every rational number is an integer | false | $\frac12$ is not an integer |
-| $\sqrt9$ is irrational | false | $\sqrt9=3$, an integer |
+| $\sqrt{9}$ is irrational | false | $\sqrt{9}=3$, an integer |
 | $\pi$ is rational | false | its decimal never repeats |
 | 0 is rational | true | $0=\frac01$ |
 
@@ -256,13 +256,13 @@ irrational.
    (a) $45\times10^{-5}$ (b) $4.5\times10^{-4}$ (c) $4.5\times10^{4}$
    (d) $0.45\times10^{-3}$
 3. $\sqrt{50}$ simplified is <span class="marks">[1]</span>
-   (a) $5\sqrt2$ (b) $2\sqrt5$ (c) $25\sqrt2$ (d) $10\sqrt5$
+   (a) $5\sqrt{2}$ (b) $2\sqrt{5}$ (c) $25\sqrt{2}$ (d) $10\sqrt{5}$
 4. $0.\overline{3}$ as a fraction is <span class="marks">[1]</span>
    (a) $\frac{3}{10}$ (b) $\frac13$ (c) $\frac{30}{100}$ (d) $\frac{3}{100}$
 5. $(2\times10^3)\times(4\times10^2)$ equals <span class="marks">[1]</span>
    (a) $8\times10^5$ (b) $6\times10^5$ (c) $8\times10^6$ (d) $8\times10^1$
-6. $\frac{9}{\sqrt3}$ simplified is <span class="marks">[1]</span>
-   (a) $3\sqrt3$ (b) $\sqrt{27}$ (c) 3 (d) $9\sqrt3$
+6. $\frac{9}{\sqrt{3}}$ simplified is <span class="marks">[1]</span>
+   (a) $3\sqrt{3}$ (b) $\sqrt{27}$ (c) 3 (d) $9\sqrt{3}$
 
 ::: note Answers to Group A
 **1.** (d) — 5 is not a perfect square.
@@ -270,7 +270,7 @@ irrational.
 **3.** (a) — $50=25\times2$.
 **4.** (b) — $9x=3$ gives $x=\frac13$.
 **5.** (a) — $2\times4=8$ and $3+2=5$.
-**6.** (a) — $\frac{9\sqrt3}{3}=3\sqrt3$.
+**6.** (a) — $\frac{9\sqrt{3}}{3}=3\sqrt{3}$.
 :::
 
 **Group B — Short answer (2 marks each)**
@@ -281,18 +281,18 @@ irrational.
    <span class="marks">[2]</span>
 3. Write 0.000000573 in scientific notation and write
    $6.4\times10^{-3}$ as a decimal. <span class="marks">[2]</span>
-4. Show that $\sqrt2$ lies between 1.4 and 1.5.
+4. Show that $\sqrt{2}$ lies between 1.4 and 1.5.
    <span class="marks">[2]</span>
 
 ::: note Answers to Group B
 **1.** $x=0.\overline{6}$ gives $9x=6$, so $x=\frac69=\frac23$.
 $x=0.\overline{18}$ gives $99x=18$, so $x=\frac{18}{99}=\frac{2}{11}$.
-**2.** $\sqrt{48}=\sqrt{16\times3}=4\sqrt3$. And
-$\sqrt{12}=2\sqrt3$, $\sqrt{27}=3\sqrt3$, so the sum is $5\sqrt3$.
+**2.** $\sqrt{48}=\sqrt{16\times3}=4\sqrt{3}$. And
+$\sqrt{12}=2\sqrt{3}$, $\sqrt{27}=3\sqrt{3}$, so the sum is $5\sqrt{3}$.
 **3.** $0.000000573=5.73\times10^{-7}$; and
 $6.4\times10^{-3}=0.0064$.
 **4.** $1.4^2=1.96$ and $1.5^2=2.25$. Since $1.96<2<2.25$, taking square roots
-gives $1.4<\sqrt2<1.5$.
+gives $1.4<\sqrt{2}<1.5$.
 :::
 
 **Group C — Long answer (4 marks each)**
