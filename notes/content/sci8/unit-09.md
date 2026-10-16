@@ -297,6 +297,40 @@ $$\text{solubility}=\frac{8}{32}\times100=25\ \text{g per 100 g of water}$$
 $8+32=40$ g of solution ✓.
 :::
 
+## 9.5 Separating mixtures: choosing the method
+
+The method follows the property that differs between the parts of the
+mixture.
+
+| Property that differs | Method | Example |
+|---|---|---|
+| Solubility | filtration, then evaporation | sand and salt in water |
+| Particle size | sieving | flour and bran |
+| Magnetism | magnetic separation | iron filings and sawdust |
+| Boiling point | distillation | water from salt water (pure water wanted) |
+| Density, immiscible liquids | separating funnel | kerosene and water |
+| Ability to sublime | sublimation | camphor and sand |
+| Lightness | winnowing | husk and grain |
+
+```figure caption="A decision path for separation. Name the property that differs and the method is already chosen."
+fig, ax = flow([("What differs?", "size, solubility, magnetism …"),
+                ("Choose method", "sieve, filter, magnet, distil"),
+                ("Separate", "carry it out"),
+                ("Check", "is each part pure?")])
+```
+
+::: example A four-mark separation answer
+**Question.** A mixture contains sand, common salt and iron filings.
+Describe how you would separate the three.
+
+**Answer.** (i) Pass a **magnet** over the mixture; the iron filings cling
+to it and are removed. (ii) Add water and stir; the salt dissolves and the
+sand does not. (iii) **Filter**: the sand stays on the filter paper, and
+the salt solution passes through. (iv) **Evaporate** the filtrate; the
+water leaves as vapour and solid salt remains. All three parts are now
+separate, each by the property that distinguishes it.
+:::
+
 ## Chapter summary
 
 - Matter is anything with mass that occupies space; it is made of particles.

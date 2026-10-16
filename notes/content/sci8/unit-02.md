@@ -302,6 +302,42 @@ programming. If the rule is one nobody can write down but the machine found it
 in the data, it is machine learning.
 :::
 
+## 2.5 Staying safe and useful online
+
+A computer is a tool for study long before it is a tool for entertainment.
+Knowing what each part does, and what each risk looks like, is the whole of
+this chapter in practice.
+
+| Risk | How it reaches you | What to do |
+|---|---|---|
+| Malware | a link, a pirated file, an unknown pen drive | install nothing from unknown sources; scan drives |
+| Phishing | a message that asks for a password or OTP | no genuine service ever asks for an OTP |
+| Weak password | reused, short, guessable | long, mixed, different for each account |
+| Over-sharing | address, school, daily routine posted | keep the account private; post nothing live |
+| Cyberbullying | messages meant to hurt | keep the evidence, block, tell an adult |
+| Eye and posture strain | hours at a screen | the 20-20-20 rule; screen at eye level |
+
+```figure caption="The 20-20-20 rule for screen work: every 20 minutes, look at something 20 feet away for 20 seconds. It is the cheapest protection a student has."
+fig, ax = flow([("20 minutes", "of screen work"), ("20 feet", "look far away"),
+                ("20 seconds", "let the eyes relax")],
+               note="also: screen at eye level, feet flat, back supported")
+```
+
+::: example A four-mark answer on safe use
+**Question.** Write four rules for the safe use of the internet by a
+Grade 8 student.
+
+**Answer.** (i) **Passwords** — keep a long, mixed password, different for
+each account, and never share it, not even with a close friend.
+(ii) **Personal information** — never post an address, a school name with
+a routine, or a live location; keep the account private.
+(iii) **Links and files** — do not open a link or attachment from a
+stranger, and never enter a one-time password anywhere a message asks you
+to. (iv) **Behaviour and help** — do not forward what you have not
+verified, do not reply to bullying; save the evidence and tell a parent or
+teacher.
+:::
+
 ## Chapter summary
 
 - ICT is the use of computers and networks to create, store, process and send
