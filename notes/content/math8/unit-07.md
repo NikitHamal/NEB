@@ -343,3 +343,22 @@ earns less here, because both the rate and the time are lower.
 **13.** $T = 2.5$ years. $I = \frac{30000 \times 2.5 \times 12}{100} =$
 **Rs 9,000**; total repayment $= 30000 + 9000 =$ **Rs 39,000**.
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** The simple interest on Rs 4,000 for 2 years at 10 % is
+   (a) Rs 400 (b) Rs 800 (c) Rs 1,000 (d) Rs 80
+**2.** Rs 5,000 becomes Rs 6,500 in 3 years; the rate is
+   (a) 5 % (b) 8 % (c) 10 % (d) 12 %
+**3.** In the formula $I=\frac{PTR}{100}$, $P$ stands for
+   (a) percentage (b) principal (c) profit (d) period
+**4.** The time for Rs 2,000 to earn Rs 600 at 10 % is
+   (a) 2 years (b) 3 years (c) 4 years (d) 5 years
+**5.** Simple interest is called "simple" because
+   (a) it is small (b) it is the same every year (c) it needs no formula (d) it is monthly
+
+::: note Objective practice — answers
+**1.** (b) — $\frac{4000\times2\times10}{100}=800$. **2.** (c) — $I=1500$; $R=\frac{100\times1500}{5000\times3}=10$ %. **3.** (b) — the principal. **4.** (b) — $T=\frac{100\times600}{2000\times10}=3$ years. **5.** (b) — interest is computed on the principal only.
+:::

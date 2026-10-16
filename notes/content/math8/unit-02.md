@@ -378,3 +378,22 @@ so $(212)_5$. Check: $2\times25+1\times5+2=57$ ✓.
 (ii) $(1000 - 1) \times 12 = 12000 - 12 = 11988$.
 (iii) $(27 + 73) + (89 + 11) = 100 + 100 = 200$.
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** The smallest whole number is
+   (a) $-1$ (b) 0 (c) 1 (d) there is none
+**2.** $17\times(10+3)=170+51$ illustrates the
+   (a) commutative property (b) associative property (c) distributive property (d) identity property
+**3.** Which operation is **not** closed on whole numbers?
+   (a) addition (b) multiplication (c) subtraction (d) none
+**4.** The identity element for multiplication is
+   (a) 0 (b) 1 (c) $-1$ (d) 10
+**5.** $125\times8\times7$ is quickest as
+   (a) $(125\times8)\times7$ (b) $125\times(8\times7)$ (c) $8\times(125\times7)$ (d) any order is equally quick
+
+::: note Objective practice — answers
+**1.** (b) — whole numbers start at 0. **2.** (c) — distributive over addition. **3.** (c) — $3-5$ leaves the set. **4.** (b) — 1. **5.** (a) — $125\times8=1000$ first.
+:::

@@ -359,3 +359,22 @@ $1.19 \times \text{C.P.} = 2380$, so C.P. $= \frac{2380}{1.19} =$ **Rs 2,000**.
 (The VAT of $13\%$ of $2380 = $ Rs 309.40 is collected for the government and is
 not part of the profit.)
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** An article bought for Rs 600 and sold for Rs 690 gives a profit of
+   (a) 10 % (b) 15 % (c) 20 % (d) 9 %
+**2.** Profit per cent is calculated on the
+   (a) selling price (b) marked price (c) cost price (d) discount
+**3.** VAT is charged on the
+   (a) marked price (b) price after discount (c) cost price (d) profit
+**4.** A watch marked Rs 2,000 sold at 20 % discount costs
+   (a) Rs 1,600 (b) Rs 1,800 (c) Rs 2,400 (d) Rs 400
+**5.** If the cost price is Rs 800 and the loss is 15 %, the selling price is
+   (a) Rs 680 (b) Rs 720 (c) Rs 920 (d) Rs 640
+
+::: note Objective practice — answers
+**1.** (b) — profit 90; $\frac{90}{600}\times100=15$ %. **2.** (c) — on the cost price. **3.** (b) — on the discounted price. **4.** (a) — $2000-400=1600$. **5.** (a) — $800-120=680$.
+:::

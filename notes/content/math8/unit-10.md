@@ -439,3 +439,22 @@ $3x^2y$ ✓. LCM: numbers—18; $x$—$x^3$; $y$—$y^2$; so $18x^3y^2$ ✓.
 **13.** (i) $3(x^2-9) = 3(x+3)(x-3)$. (ii) $(x+5)^2$.
 (iii) $(2a+3b)(2a-3b)$.
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** $(x-4)^2$ expands to
+   (a) $x^2-16$ (b) $x^2-8x+16$ (c) $x^2+8x+16$ (d) $x^2-4x+16$
+**2.** $x^2-49$ factorises as
+   (a) $(x-7)^2$ (b) $(x+7)(x-7)$ (c) $(x+49)(x-1)$ (d) $(x+7)^2$
+**3.** $101^2$ by an identity is
+   (a) 10201 (b) 10001 (c) 11201 (d) 10101
+**4.** $x^2+9x+20$ factorises as
+   (a) $(x+4)(x+5)$ (b) $(x+2)(x+10)$ (c) $(x+1)(x+20)$ (d) $(x+3)(x+6)$
+**5.** $3x^2-12$ factorises completely as
+   (a) $3(x^2-4)$ (b) $3(x+2)(x-2)$ (c) $(3x+6)(x-2)$ (d) $3(x-2)^2$
+
+::: note Objective practice — answers
+**1.** (b) — $(a-b)^2=a^2-2ab+b^2$. **2.** (b) — difference of two squares. **3.** (a) — $(100+1)^2=10000+200+1$. **4.** (a) — $4+5=9$, $4\times5=20$. **5.** (b) — common factor first, then the identity.
+:::
