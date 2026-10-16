@@ -369,3 +369,22 @@ village clean. **One unsustainable example.** Selling a whole slope of community
 forest to a brick kiln for five years: the money is short-term while the
 landslide, the dried spring and the lost firewood last for decades.
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** In a food chain, green plants are
+   (a) consumers (b) producers (c) decomposers (d) parasites
+**2.** About what share of energy passes to the next trophic level?
+   (a) 1 % (b) 10 % (c) 50 % (d) 90 %
+**3.** Which is an abiotic component?
+   (a) earthworm (b) fungus (c) sunlight (d) grass
+**4.** *Mikania* (lahare banmara) spreading in Nepal's forests is an example of
+   (a) an endemic species (b) an invasive species (c) a keystone species (d) a producer at risk
+**5.** The one-horned rhinoceros is best conserved in
+   (a) Chitwan National Park (b) Shey Phoksundo (c) Sagarmatha (d) Rara
+
+::: note Objective practice — answers
+**1.** (b) — they make food by photosynthesis. **2.** (b) — roughly 10 %. **3.** (c) — sunlight is non-living. **4.** (b) — an introduced species spreading at the cost of native ones. **5.** (a) — Chitwan holds the largest population.
+:::

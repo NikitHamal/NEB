@@ -417,3 +417,22 @@ formed. The burning of the wax vapour is **chemical** — it combines with oxyge
 to give carbon dioxide, water vapour, soot and heat, and the wax cannot be
 recovered.
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** An atom with 11 protons and 12 neutrons has a mass number of
+   (a) 11 (b) 12 (c) 23 (d) 1
+**2.** Which of these is a compound?
+   (a) air (b) water (c) brass (d) soil
+**3.** A solution of pH 3 is
+   (a) strongly basic (b) weakly basic (c) acidic (d) neutral
+**4.** Sublimation is the change from
+   (a) solid to liquid (b) liquid to gas (c) solid directly to gas (d) gas to liquid
+**5.** Common salt is recovered from sea water by
+   (a) filtration (b) evaporation (c) decantation (d) magnetic separation
+
+::: note Objective practice — answers
+**1.** (c) — $11 + 12 = 23$. **2.** (b) — a fixed 2:1 ratio, chemically bonded. **3.** (c) — pH below 7 is acidic. **4.** (c) — as in camphor. **5.** (b) — the water evaporates and leaves the salt.
+:::

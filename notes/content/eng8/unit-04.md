@@ -194,6 +194,47 @@ adjectives ("very nice", "very beautiful"). And the tense must be right: past
 simple for the events, present perfect only where the link to now is the point.
 :::
 
+## 4.5 Writing a memoir and a diary: the difference
+
+Both are personal, but they do different jobs, and the examiner marks them
+differently.
+
+| | Memoir | Diary entry |
+|---|---|---|
+| Written | long after the event | the same day |
+| Tense | past, reflective | past, immediate |
+| Length | several paragraphs | one or two |
+| Opens with | a scene or a hook | the date and day |
+| Ends with | what the experience meant | how the writer feels now |
+| Marked on | shape, detail, reflection | format, detail, feeling |
+
+```figure caption="A memoir looks back and selects; a diary records as it happens. Both need one specific detail the reader could not have guessed."
+fig, ax = cards([("Memoir", "written later, selective, reflective"),
+                 ("Diary", "written today, immediate, personal")], cols=2)
+```
+
+::: example The same journey, two ways
+**Diary.** *12 Asar, Friday — We reached Jomsom at two, dusty and deaf from
+the wind. I have never seen a place where the air feels so thin and so
+clean at once. My boots are by the door, full of sand.*
+
+**Memoir.** *The wind at Jomsom begins at eleven every morning and does not
+stop. I was fourteen when I first stood in it, and what I remember is not
+the mountains but the sound — a steady roar that made us shout a sentence
+twice. We laughed at that then; later I understood that the wind was the
+reason the fields were walled on three sides.*
+
+The diary records; the memoir **selects and explains**. That difference is
+where the four marks sit.
+:::
+
+::: note Activity — one event, both forms
+Choose something that happened to you this month. Write it first as a diary
+entry of about 60 words, then as a memoir of about 120 words. Read both to a
+partner and ask which one made them see the scene — then underline the
+sentence that did it.
+:::
+
 ## Chapter summary
 
 - A **memoir** is a first-person account written after the event, which ends
@@ -266,4 +307,23 @@ it"). End with a feeling or a question, not with a moral.
 **7.** Paragraph 1: when, where and who. Paragraph 2: what happened, in order,
 with at least one sentence such as "We were singing in the bus when the driver
 stopped." Paragraph 3: why it stayed with you.
+:::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** A diary entry must begin with
+   (a) an address (b) the date and day (c) a subject line (d) a greeting
+**2.** A memoir is written
+   (a) on the day of the event (b) long after the event (c) in the future tense (d) in the third person
+**3.** *I have been to Mustang twice* is in the
+   (a) present perfect (b) past simple (c) past perfect (d) present continuous
+**4.** The best detail for a memoir is one that is
+   (a) general (b) specific and remembered (c) copied from a book (d) imaginary
+**5.** A memoir usually ends with
+   (a) a date (b) the writer's reflection (c) an address (d) a signature
+
+::: note Objective practice — answers
+**1.** (b) — the date and day. **2.** (b) — long after, which is why it can reflect. **3.** (a) — present perfect with *twice*. **4.** (b) — specific and remembered. **5.** (b) — the writer's reflection.
 :::

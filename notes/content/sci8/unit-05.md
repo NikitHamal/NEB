@@ -350,3 +350,22 @@ upwards, carrying the two cotyledons above the ground; the cotyledons shrivel
 as their food is used; the first green leaves open and photosynthesis begins, so
 the seedling now makes its own food.
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** The raw materials of photosynthesis are
+   (a) glucose and oxygen (b) carbon dioxide and water (c) oxygen and water (d) glucose and carbon dioxide
+**2.** Most absorption of digested food takes place in the
+   (a) stomach (b) small intestine (c) large intestine (d) oesophagus
+**3.** Bile is produced by the
+   (a) pancreas (b) liver (c) gall bladder (d) stomach
+**4.** Anaerobic respiration in yeast produces carbon dioxide and
+   (a) lactic acid (b) ethanol (c) glucose (d) water only
+**5.** Transpiration takes place mainly through
+   (a) lenticels (b) stomata (c) roots (d) veins
+
+::: note Objective practice — answers
+**1.** (b) — glucose and oxygen are the products. **2.** (b) — the villi of the small intestine. **3.** (b) — the liver makes it; the gall bladder stores it. **4.** (b) — ethanol (fermentation). **5.** (b) — stomata.
+:::

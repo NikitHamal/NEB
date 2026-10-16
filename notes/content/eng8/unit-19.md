@@ -205,6 +205,57 @@ years at a cost of Rs 420 million, will replace a crossing that has been closed
 every monsoon for a decade."
 :::
 
+## 19.5 The news report, line by line
+
+| Part | Job | Example |
+|---|---|---|
+| Headline | the story in five or six words | *Pokhara airport opens to regional flights* |
+| Place-and-date line | where and when | *Pokhara, 15 Poush —* |
+| Lead | what, where, when, who in one sentence | *Nepal's second international airport opened on Monday with a flight from ...* |
+| Body | details in order of importance | cost, capacity, runway length, who attended |
+| Quotation | one voice, named | *"This will change how tourists reach Annapurna," said ...* |
+| Close | what happens next | schedule, next phase, pending approvals |
+
+**Register:** third person, past tense, no *I* and no opinion. A reporter
+shows; an editorial argues.
+
+```figure caption="The inverted pyramid. A news report puts the most important fact first, because a reader who stops after one sentence should still have the story."
+fig, ax = plt.subplots(figsize=(4.6, 2.8))
+rows = [("Lead — what, where, when, who", 0.92, 1.0, SERIES[0]),
+        ("Key details — numbers, cause", 0.74, 0.76, SERIES[1]),
+        ("Quotation", 0.56, 0.52, SERIES[2]),
+        ("Background and next steps", 0.38, 0.28, SERIES[3])]
+for lab, y, w, col in rows:
+    ax.add_patch(matplotlib.patches.FancyBboxPatch(
+        (0.5 - w / 2, y - 0.14), w, 0.15,
+        boxstyle="round,pad=0.006,rounding_size=0.03",
+        facecolor=col, edgecolor="none", alpha=0.9))
+    ax.text(0.5, y - 0.065, lab, ha="center", va="center", color="white",
+            fontsize=8.2)
+ax.set_xlim(0, 1)
+ax.set_ylim(0.18, 1.0)
+ax.axis("off")
+```
+
+::: example Lead sentences compared
+**Weak.** *There was a programme in Pokhara yesterday and many people came
+and it was about the airport.*
+
+**Strong.** *Pokhara International Airport received its first regional
+flight on Monday, nine years after construction began.*
+
+The strong lead answers **what, where, when** and implies **who** in
+nineteen words, which is the standard a four-mark report is judged by.
+:::
+
+::: note Activity — rewrite a rumour as a report
+Take something said at school this week — a change of timetable, a match
+result, a lost item found. Verify it with two people, then write it as a
+120-word news report with a headline, a place-and-date line, a lead, two
+details and one named quotation. Compare with a classmate's version of the
+same event: where you differ, one of you did not verify.
+:::
+
 ## Chapter summary
 
 - A folk tale uses **parallelism** — the same situation twice with one thing
@@ -278,4 +329,23 @@ and the passive, and do not use *I* or *we*.
 for example the same class, the same teacher, one who listened and one who did
 not. Keep to the past simple and end with the difference the reader has already
 noticed rather than a moral in bold.
+:::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** The lead of a news report answers
+   (a) why only (b) what, where, when and who (c) the writer's feelings (d) the headline
+**2.** A news report is written in the
+   (a) first person (b) second person (c) third person (d) imperative
+**3.** The place-and-date line comes
+   (a) before the headline (b) after the headline, before the lead (c) at the end (d) inside the quotation
+**4.** Which belongs in an editorial but not a news report?
+   (a) a quotation (b) the writer's opinion (c) a number (d) a date
+**5.** The inverted pyramid means
+   (a) the least important fact comes first (b) the most important fact comes first (c) facts are in time order (d) the report is upside down
+
+::: note Objective practice — answers
+**1.** (b) — what, where, when and who. **2.** (c) — third person, factual. **3.** (b) — between the headline and the lead. **4.** (b) — opinion belongs in an editorial. **5.** (b) — most important first.
 :::
