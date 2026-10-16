@@ -12,9 +12,9 @@ rebuild, never a hand-patch of the PDF.
 | **Grade 8** | | |
 | नेपाली | 17 | 173 |
 | Mathematics | 21 | 180 |
-| Science and Technology | 11 | 127 |
+| Science and Technology | 11 | 132 |
 | Compulsory English | 19 | 172 |
-| सामाजिक अध्ययन तथा मानव मूल्य शिक्षा | 9 | 107 |
+| सामाजिक अध्ययन तथा मानव मूल्य शिक्षा | 9 | 114 |
 | स्वास्थ्य, शारीरिक तथा सिर्जनात्मक कला | 13 | 111 |
 | Question Bank (all six subjects) | 19 | 135 |
 | **Grade 10** | | |
@@ -128,6 +128,15 @@ books now ends with a five-item objective set whose key gives a reason for
 each answer** — 90 units, 450 items. The sets were written against the facts
 line of each chapter, so they double as a last-night revision pass.
 
+### Where grade 8 now stands against grade 10
+
+Grade 8 averages about **12 pages a chapter**, grade 10 about 13 — the
+remaining difference is subject weight, not neglect. Every unit of every
+grade 8 book carries: the syllabus bullets as numbered sections, a data or
+concept table, at least one diagram from the shape library, one or more fully
+worked answers, activity or project boxes, an extra practice set with answers,
+and a five-item objective set with a reasoned key.
+
 ## Pipeline notes for the next session
 
 - Build from a scratch tree shaped `nebians/{content,curriculum,build,pdf}`;
@@ -147,8 +156,13 @@ line of each chapter, so they double as a last-night revision pass.
 
 ## What a future session could do next
 
-- Grade 9 (the other half of the secondary level) has no sources yet.
+- **Grade 9** has no sources at all. It is the real hole in the secondary
+  series: grade 10 assumes a grade 9 the library does not have.
+- The **Optional Mathematics, Accountancy and Economics** books have not had
+  the activity-and-project pass the rest of the library has had, and carry no
+  objective sets.
 - Grade 8 Nepali-medium books could carry more photographs; only a handful of
-  `health8/*` assets have been fetched so far.
-- The Optional Mathematics and Accountancy books would benefit from the same
-  activity-and-project pass the rest of the library has had.
+  `health8/*` assets have been fetched so far, and `soc8` borrows from
+  `soc10/*`.
+- The grade 10 question banks could use the weightage charts that the grade 8
+  bank now opens each objective chapter with.
