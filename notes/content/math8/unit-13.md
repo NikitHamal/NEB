@@ -205,6 +205,59 @@ sides of the transversal; **C** (co-interior) means they add up to 180°. Sketch
 the letter next to the angle before you decide.
 :::
 
+## 13.5 Reasons are the marks
+
+In a geometry answer the number is worth one mark; the **reason** is worth the
+rest. Every statement should carry the name of the rule that justifies it.
+
+| Statement | Reason to write |
+|---|---|
+| $\angle a = \angle b$ | vertically opposite angles |
+| $\angle a + \angle b = 180°$ | angles on a straight line (linear pair) |
+| $\angle a = \angle b$ (parallel lines) | corresponding angles |
+| $\angle a = \angle b$ (parallel lines, opposite sides) | alternate angles |
+| $\angle a + \angle b = 180°$ (parallel lines, same side) | co-interior angles |
+| $\angle A + \angle B + \angle C = 180°$ | angle sum of a triangle |
+| exterior $=$ sum of two opposite interior | exterior angle property |
+
+```figure caption="Two parallel lines cut by a transversal: the eight angles form just two sizes. Name which rule you are using and the marks follow."
+fig, ax = plt.subplots(figsize=(4.8, 2.9))
+ax.plot([0.07, 0.93], [0.70, 0.70], color=INK, linewidth=1.6)
+ax.plot([0.07, 0.93], [0.28, 0.28], color=INK, linewidth=1.6)
+ax.plot([0.22, 0.74], [0.14, 0.86], color=SERIES[1], linewidth=1.6)
+pts = {"a": (0.47, 0.78), "b": (0.63, 0.78), "c": (0.44, 0.62),
+       "d": (0.60, 0.62), "e": (0.31, 0.36), "f": (0.47, 0.36),
+       "g": (0.28, 0.20), "h": (0.44, 0.20)}
+for lab, (x, y) in pts.items():
+    ax.text(x, y, lab, ha="center", va="center", color=SERIES[0], fontsize=9.5)
+ax.text(0.5, 0.045, "equal angles: a = d = e = h   and   b = c = f = g",
+        ha="center", color=MUTED, fontsize=8)
+ax.set_xlim(0, 1)
+ax.set_ylim(0, 0.95)
+ax.axis("off")
+```
+
+::: example A four-mark angle chase, written for marks
+**Question.** Two parallel lines are cut by a transversal. One angle is
+$116°$. Find the other seven, with reasons.
+
+**Answer.**
+Vertically opposite to $116°$: $\textbf{116°}$ — *vertically opposite angles*.
+On the straight line with it: $180° - 116° = \textbf{64°}$ — *linear pair*;
+and its vertically opposite is $\textbf{64°}$.
+On the second parallel line, the corresponding angle is $\textbf{116°}$ —
+*corresponding angles*; its vertically opposite is $\textbf{116°}$.
+The remaining two are $\textbf{64°}$ each — *co-interior with $116°$*
+($116° + 64° = 180°$) and *vertically opposite*.
+:::
+
+::: note Activity — the angle hunt
+Find five real examples of parallel lines cut by a transversal in or near
+the school: the lines of a football pitch, a ladder against a wall, railings,
+the bars of a window grille, a zebra crossing. Sketch each, measure two
+angles with a protractor, and name the rule that connects them.
+:::
+
 ## Chapter summary
 
 - Complementary angles add to 90°; supplementary angles add to 180°; angles
@@ -273,8 +326,9 @@ the letter next to the angle before you decide.
 
 ::: note Answers to Group C
 **1.** Co-interior angles are supplementary:
-$$(4x-15)+(2x+45)=180\;\Longrightarrow\;6x+30=180\;\Longrightarrow\;6x=150
-\;\Longrightarrow\;x=25$$
+$$(4x-15)+(2x+45)=180 \;\Longrightarrow\; 6x+30=180$$
+
+$$6x=150 \;\Longrightarrow\; x=25$$
 The angles are $4(25)-15=85°$ and $2(25)+45=95°$. Every acute angle in the
 figure is $85°$ and every obtuse angle is $95°$, because corresponding and
 alternate angles are equal and each angle is supplementary to the one beside it.
@@ -290,4 +344,27 @@ $70+110+70+110=360$ ✓. Every acute angle in the figure is 70° and every obtus
 one is 110°, which is exactly what two parallel lines force: angles 1 and 3 are
 vertically opposite, 1 and 5 are corresponding, 3 and 5 are vertically opposite
 again, and each of 2, 4, 6, 8 is the supplement of one of them.
+:::
+
+**Extra practice**
+
+**Group B (2 marks)**
+
+14. Two angles of a triangle are $42°$ and $78°$. Find the third angle and the
+    exterior angle at that vertex.
+15. Find each exterior angle of a regular polygon of 12 sides.
+
+**Group C (4 marks)**
+
+16. In a parallelogram $PQRS$, $\angle P = 72°$. Find the other three angles
+    with reasons.
+
+::: note Extra practice — answers
+**14.** Third angle $= 180° - 120° = 60°$; exterior angle $= 180° - 60° = 120°$
+(which equals $42° + 78°$, the exterior angle property).
+**15.** $\frac{360°}{12} = 30°$.
+**16.** $\angle R = \angle P = 72°$ — *opposite angles of a parallelogram are
+equal*. $\angle Q = 180° - 72° = 108°$ — *co-interior angles between the
+parallel sides are supplementary*. $\angle S = \angle Q = 108°$ — *opposite
+angles*. Check: $72 + 108 + 72 + 108 = 360°$.
 :::

@@ -240,6 +240,60 @@ substituting, write every length in the **same** unit — mixing centimetres wit
 metres is the second commonest error in mensuration.
 :::
 
+## 8.5 Choosing the right formula
+
+Most lost marks in mensuration come from reaching for the wrong formula, not
+from arithmetic. Decide three things first: **flat or solid**, **which
+shape**, **which quantity**.
+
+```figure caption="A decision path for mensuration questions. Answer the three questions in order and the formula is fixed before any number is written."
+fig, ax = flow([("Flat or solid?", "area or volume"),
+                ("Which shape?", "rectangle, circle, cuboid, cylinder"),
+                ("Which quantity?", "perimeter, area, surface, volume"),
+                ("Units?", "cm², m³, litres")],
+               note="1 m³ = 1000 litres; 1 m² = 10,000 cm²")
+```
+
+| Shape | Perimeter / circumference | Area | Volume | Surface area |
+|---|---|---|---|---|
+| Rectangle | $2(l+b)$ | $lb$ | — | — |
+| Square | $4l$ | $l^2$ | — | — |
+| Triangle | sum of sides | $\frac{1}{2}bh$ | — | — |
+| Circle | $2\pi r$ | $\pi r^2$ | — | — |
+| Cuboid | — | — | $lbh$ | $2(lb+bh+lh)$ |
+| Cube | — | — | $l^3$ | $6l^2$ |
+| Cylinder | — | — | $\pi r^2h$ | curved $2\pi rh$; total $2\pi r(r+h)$ |
+
+::: example Walls, floor and cost in one question
+**Question.** A hall is 12 m long, 9 m wide and 4 m high. It has two doors of
+2 m × 1.2 m and four windows of 1.5 m × 1 m. Find (i) the area of the four
+walls to be painted (ii) the cost of painting at Rs 95 per m².
+
+**Answer.**
+(i) Four walls $= 2h(l+b) = 2 \times 4 \times (12+9) = 168$ m².
+Openings $= 2(2 \times 1.2) + 4(1.5 \times 1) = 4.8 + 6 = 10.8$ m².
+Area to paint $= 168 - 10.8 = \textbf{157.2 m}^2$.
+(ii) Cost $= 157.2 \times 95 = \textbf{Rs 14,934}$.
+:::
+
+::: example From volume to litres
+**Question.** A cylindrical tank of diameter 1.4 m and height 1.5 m is filled
+to three-quarters of its height. How many litres does it hold? Take
+$\pi = \frac{22}{7}$.
+
+**Answer.** $r = 0.7$ m; filled height $= \frac{3}{4} \times 1.5 = 1.125$ m.
+$V = \pi r^2 h = \frac{22}{7} \times 0.49 \times 1.125 = 1.7325$ m³.
+$1$ m³ $= 1000$ litres, so the tank holds **1,732.5 litres**.
+:::
+
+::: note Activity — measure your classroom
+In groups, measure the length, breadth and height of your classroom, and the
+size of every door and window. Work out (a) the floor area, (b) the area of
+the four walls less the openings, (c) the volume of air in the room. Then find
+the cost of painting the walls at the local rate, and compare the groups'
+answers — differences will come from measurement, not from the formula.
+:::
+
 ## Chapter summary
 
 - Triangle: $\frac12 bh$, or Heron's formula with $s=\frac{a+b+c}{2}$.
@@ -326,4 +380,27 @@ holds **12,320 litres**. **Time.** At 20 litres a minute,
 $\frac{12\,320}{20}=616$ minutes, that is **10 hours 16 minutes**.
 **Check.** 616 minutes is about 10.3 hours; at 20 litres a minute the tank loses
 1200 litres an hour, and $12\,320\div1200=10.27$ hours ✓.
+:::
+
+**Extra practice**
+
+**Group B (2 marks)**
+
+14. Find the total surface area of a cuboid 8 cm × 5 cm × 3 cm.
+15. The circumference of a circle is 88 cm. Find its radius
+    ($\pi = \frac{22}{7}$).
+
+**Group C (4 marks)**
+
+16. A room 6 m × 5 m × 3.5 m is to be carpeted on the floor at Rs 450 per m²
+    and painted on the four walls at Rs 110 per m², with one door
+    2 m × 1 m. Find the total cost.
+
+::: note Extra practice — answers
+**14.** $2(lb + bh + lh) = 2(40 + 15 + 24) = 158$ cm².
+**15.** $2\pi r = 88 \Rightarrow r = \frac{88 \times 7}{2 \times 22} = 14$ cm.
+**16.** Floor $= 30$ m²; carpet $= 30 \times 450 = $ Rs 13,500.
+Walls $= 2 \times 3.5 \times (6+5) = 77$ m²; less the door $2$ m² gives
+75 m²; paint $= 75 \times 110 = $ Rs 8,250.
+**Total $=$ Rs 21,750.**
 :::

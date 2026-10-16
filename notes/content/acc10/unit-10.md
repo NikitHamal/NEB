@@ -23,7 +23,9 @@ Its guiding principle is different from a businessman's. A businessman asks *is 
 - **Release (निकासा)** — the part of the appropriation actually made available to the office, usually month by month or quarter by quarter.
 - **Expenditure (खर्च)** — what has actually been spent against the head.
 
-$$Available\ balance = Appropriation - Expenditure\ to\ date - Uncleared\ advances$$
+$$Available\ balance = Appropriation$$
+
+$$-\ Expenditure\ to\ date - Uncleared\ advances$$
 
 An expenditure is **regular** only if it satisfies all of these: it falls within the approved budget head; it is incurred for the purpose for which the head exists; it is supported by evidence; it is sanctioned by the officer authorised to sanction it; the goods or services have actually been received; and it is recorded in the prescribed forms.
 

@@ -221,6 +221,55 @@ whereas the rise between 2013 and 2018 had been only about 37. The survey
 figures are estimates from camera-trap photographs, not exact counts."
 :::
 
+## 13.5 Writing about data and conservation
+
+Conservation questions almost always come with a number. Using it well is what
+separates a four-mark answer from a two-mark one.
+
+```figure caption="Nepal's wild tiger count. A number used in an answer should always carry its year and its source — that is what makes it evidence rather than decoration."
+yrs = ["2009", "2013", "2018", "2022"]
+tigers = [121, 198, 235, 355]
+fig, ax = plt.subplots(figsize=(5.0, 2.8))
+ax.plot(yrs, tigers, color=SERIES[2], marker="o", markersize=6, linewidth=2.2)
+ax.fill_between(range(len(yrs)), tigers, color=SERIES[2], alpha=0.14)
+for i, v in enumerate(tigers):
+    ax.text(i, v + 12, str(v), ha="center", color=INK, fontsize=9)
+ax.set_ylabel("wild tigers", color=MUTED)
+ax.set_ylim(0, 420)
+ax.grid(axis="y", color=GRID, linewidth=0.7)
+ax.set_axisbelow(True)
+for s in ("top", "right"):
+    ax.spines[s].set_visible(False)
+ax.tick_params(colors=MUTED)
+```
+
+| Weak sentence | Stronger sentence |
+|---|---|
+| *Tigers have increased a lot.* | *Nepal's wild tiger count rose from 121 in 2009 to 355 in 2022.* |
+| *Community forestry is good.* | *Community forests now cover about a third of Nepal's forest area and are managed by nearly 23,000 user groups.* |
+| *People and tigers have problems.* | *As the count rose, so did encounters: conservation now has to protect people as well as tigers.* |
+
+::: example A four-mark answer built on evidence
+**Question.** How did Nepal double its tiger population? Write four points.
+
+**Answer.** (i) **Protection** — soldiers and rangers patrolled the Tarai
+parks, and anti-poaching units worked with local informers, so poaching fell
+to near zero in several years. (ii) **Habitat corridors** — community forests
+joined Chitwan, Bardiya, Parsa, Banke and Shuklaphanta, so young tigers could
+move and find territory instead of dying at the edges. (iii) **Local benefit**
+— village programmes compensated livestock losses and shared tourism income,
+so farmers reported tigers instead of poisoning them. (iv) **Measurement** —
+camera-trap surveys every four years showed the count rising from 121 in 2009
+to 355 in 2022, which kept the funding and the policy in place.
+:::
+
+::: note Activity — a conservation fact file
+Choose one protected species of Nepal (one-horned rhinoceros, snow leopard,
+red panda, gharial, Bengal florican). Make a one-page fact file: where it
+lives, how many are left, the main threats, what is being done, and one
+sentence on what a student can do. Use at least two numbers with their years.
+:::
+
 ## Chapter summary
 
 - Nepal was the first of the thirteen tiger-range countries to double its wild
@@ -292,4 +341,27 @@ Use stage directions in brackets — *(looks around)*, *(whispers)*, *(the bell
 rings)* — to show how the lines are meant. Make sure the scene contains a small
 conflict, for example one student wants to keep the dog and the other is afraid
 of the caretaker.
+:::
+
+**Extra practice**
+
+**Group B (2 marks each)**
+
+11. Rewrite with evidence: *Many tourists visit Chitwan.*
+12. Use *poaching* and *corridor* in sentences of your own.
+
+**Group C (4 marks)**
+
+13. Write a news report of about 120 words on a tiger count released by the
+    government.
+
+::: note Extra practice — answers
+**11.** e.g. *Chitwan National Park drew more than 170,000 visitors in 2023,
+about a fifth of them Nepali school groups.*
+**12.** e.g. *Poaching fell sharply after the army began joint patrols.* /
+*The forest corridor lets young tigers move between Chitwan and Parsa.*
+**13.** Marks: a factual headline; a place-and-date line; a lead sentence
+answering what, where, when and who; the figures with their years; a
+quotation from an official or a local resident; a closing sentence on what
+happens next. Third person, past tense, no personal opinion.
 :::

@@ -250,6 +250,64 @@ which the $\frac{n+1}{2}$th value falls; here $\frac{31}{2}=15.5$, and the
 cumulative frequencies (2, 8, 19, …) show that the 15.5th value lies in the
 class 40–60.
 
+## 21.5 Choosing the right average
+
+Mean, median and mode answer different questions. The examiner often asks
+**which** average is suitable, and that is a reasoning mark.
+
+| Average | Best when | Weakness |
+|---|---|---|
+| Mean | the data are evenly spread and every value matters | one extreme value drags it |
+| Median | there is an extreme value (income, land size) | ignores the size of the other values |
+| Mode | the data are categories (shoe size, favourite subject) | may not exist, or there may be several |
+
+```figure caption="One extreme value moves the mean but not the median. Five daily wages of Rs 500–700 and one of Rs 5,000 give a mean nobody earns."
+wages = [500, 550, 600, 650, 700, 5000]
+mean = sum(wages) / len(wages)
+med = (600 + 650) / 2
+fig, ax = plt.subplots(figsize=(5.4, 2.6))
+ax.scatter(wages, [1] * len(wages), s=70, color=SERIES[0], zorder=3)
+ax.axvline(mean, color=SERIES[1], linewidth=1.6,
+           label=f"mean = Rs {mean:,.0f}")
+ax.axvline(med, color=SERIES[2], linewidth=1.6,
+           label=f"median = Rs {med:,.0f}")
+ax.set_yticks([])
+ax.set_xlabel("daily wage (Rs)", color=MUTED)
+ax.legend(fontsize=8, frameon=False, loc="upper center")
+ax.set_ylim(0.6, 1.8)
+for s in ("top", "right", "left"):
+    ax.spines[s].set_visible(False)
+ax.grid(axis="x", color=GRID, linewidth=0.7)
+ax.set_axisbelow(True)
+ax.tick_params(colors=MUTED)
+```
+
+::: example Mean from a frequency table, step by step
+**Question.** The marks of 50 students are: $0$–$10$: 4, $10$–$20$: 8,
+$20$–$30$: 14, $30$–$40$: 16, $40$–$50$: 8. Find the mean mark and name the
+modal class.
+
+**Answer.** Mid-values: 5, 15, 25, 35, 45.
+$\sum fx = 4(5) + 8(15) + 14(25) + 16(35) + 8(45)
+= 20 + 120 + 350 + 560 + 360 = 1410$.
+Mean $= \frac{1410}{50} = \textbf{28.2 marks}$.
+The highest frequency is 16, so the **modal class is 30–40**.
+:::
+
+::: example Reading a pie chart backwards
+**Question.** In a pie chart of 900 households, the sector for firewood is
+$140°$. How many households use firewood?
+
+**Answer.** Households $= \frac{140}{360} \times 900 = \textbf{350}$.
+:::
+
+::: note Project — a survey of your own
+Collect one piece of data from every household in your lane (say, the number
+of people, or the main cooking fuel). Make a frequency table, find the mean,
+median and mode where they apply, and draw both a bar chart and a pie chart.
+Write three sentences on which average describes your data best and why.
+:::
+
 ## Chapter summary
 
 - Data are tallied, tabulated with a total, and then presented as a table, a bar
@@ -347,4 +405,28 @@ $\frac{360}{180}=2°$.
 **Interpretation.** The mean is just over one bicycle per family, while the
 median and modal class are both "one bicycle" — which describes the typical
 family better than 1.05 does.
+:::
+
+**Extra practice**
+
+**Group B (2 marks)**
+
+14. The mean of 8 numbers is 17. Find their sum.
+15. In a pie chart of 72 students, how many degrees represent 18 students?
+
+**Group C (4 marks)**
+
+16. The daily wages of 40 workers are: $300$–$400$: 6, $400$–$500$: 12,
+    $500$–$600$: 14, $600$–$700$: 8. Find the mean wage and the modal class,
+    and say which average best describes the data.
+
+::: note Extra practice — answers
+**14.** $8 \times 17 = 136$.
+**15.** $\frac{18}{72} \times 360° = 90°$.
+**16.** Mid-values 350, 450, 550, 650.
+$\sum fx = 6(350) + 12(450) + 14(550) + 8(650) = 2100 + 5400 + 7700 + 5200
+= 20400$; mean $= \frac{20400}{40} = $ **Rs 510**.
+Modal class **500–600** (frequency 14). The mean describes these data well
+because the wages are evenly spread with no extreme value; had one worker
+earned Rs 5,000, the median would have been the fairer average.
 :::
