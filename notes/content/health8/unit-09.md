@@ -123,24 +123,11 @@ ax.text(10.1, 0.5, "भुजङ्गासन", ha="center", fontsize=7.0, col
 | ९–१२ | चरण ४, ३, २, १ को उल्टो क्रम | क्रमशः |
 
 ```figure caption="योगको आठ अङ्ग (अष्टाङ्ग योग)। आसन र प्राणायाम यसका तेस्रो र चौथो अङ्ग मात्र हुन् — योग केवल शारीरिक अभ्यास होइन।"
-limbs = ["यम", "नियम", "आसन", "प्राणायाम", "प्रत्याहार", "धारणा",
-         "ध्यान", "समाधि"]
-fig, ax = plt.subplots(figsize=(4.9, 2.9))
-for i, lab in enumerate(limbs):
-    col = i % 4
-    row = i // 4
-    x = 0.04 + col * 0.245
-    y = 0.55 - row * 0.42
-    ax.add_patch(matplotlib.patches.FancyBboxPatch(
-        (x, y), 0.22, 0.3,
-        boxstyle="round,pad=0.01,rounding_size=0.05",
-        facecolor=SERIES[i % len(SERIES)], edgecolor="none", alpha=0.86))
-    d = str(i + 1).translate(str.maketrans("0123456789", "०१२३४५६७८९"))
-    ax.text(x + 0.11, y + 0.15, f"{d}. {lab}", ha="center", va="center",
-            color="white", fontsize=8.0)
-ax.set_xlim(0, 1)
-ax.set_ylim(0.05, 0.92)
-ax.axis("off")
+fig, ax = cards([("यम", "संयम"), ("नियम", "अनुशासन"),
+                 ("आसन", "शारीरिक स्थिति"), ("प्राणायाम", "श्वास नियन्त्रण"),
+                 ("प्रत्याहार", "इन्द्रिय संयम"), ("धारणा", "मनको स्थिरता"),
+                 ("ध्यान", "एकाग्रता"), ("समाधि", "पूर्ण तल्लीनता")],
+                cols=4, title_size=8.4)
 ```
 
 ::: note क्रियाकलाप — कक्षाको योग दिनचर्या

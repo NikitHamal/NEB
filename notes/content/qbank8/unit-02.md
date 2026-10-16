@@ -19,24 +19,12 @@ Every item is an original practice question written to the CDC pattern. Values o
 
 
 ```figure caption="Where the Science marks sit. The eleven units are not equal: mechanics, electricity, life processes and matter together carry about half the written paper, which is why they are drilled hardest in this book."
-units = ["Scientific\nlearning", "ICT", "Living\nbeings", "Biodiversity",
-         "Life\nprocess", "Force &\nmotion", "Energy", "Electricity",
-         "Matter", "Materials", "Earth &\nuniverse"]
-marks = [2, 3, 5, 5, 6, 7, 5, 6, 5, 3, 3]
-fig, ax = plt.subplots(figsize=(5.6, 3.0))
-cols = [SERIES[0] if m >= 5 else SERIES[1] for m in marks]
-bars = ax.bar(units, marks, color=cols, width=0.62, edgecolor="white",
-              linewidth=1.1)
-for b, v in zip(bars, marks):
-    ax.text(b.get_x() + b.get_width() / 2, v + 0.15, str(v), ha="center",
-            color=INK, fontsize=8.6)
-ax.set_ylabel("approximate marks of 50", color=MUTED)
-ax.set_ylim(0, 8.4)
-ax.grid(axis="y", color=GRID, linewidth=0.7)
-ax.set_axisbelow(True)
-for s in ("top", "right"):
-    ax.spines[s].set_visible(False)
-plt.setp(ax.get_xticklabels(), fontsize=7.2)
+fig, ax = barh_ranked(
+    ["Force and motion", "Life process", "Electricity", "Living beings",
+     "Biodiversity", "Energy", "Matter", "ICT", "Materials",
+     "Earth and universe", "Scientific learning"],
+    [7, 6, 6, 5, 5, 5, 5, 3, 3, 3, 2], unit=" marks",
+    highlight={"Force and motion", "Life process", "Electricity"})
 ```
 
 ## 2.1 Scientific Learning

@@ -154,32 +154,9 @@ $$\text{जनघनत्व} = \frac{\text{कुल जनसङ्ख्य�
 ## १०.६ जनसङ्ख्या, स्रोत र वातावरण
 
 ```figure caption="जनसङ्ख्या–स्रोत–वातावरणको अन्तरसम्बन्ध चक्र। एउटामा चाप बढे अर्कोमा असर पुग्छ।"
-import math
-fig, ax = plt.subplots(figsize=(4.4, 3.4))
-nodes = ["जनसङ्ख्या\nवृद्धि", "स्रोतको\nबढ्दो माग", "वातावरणीय\nह्रास",
-         "उत्पादन र\nजीवनस्तरमा गिरावट"]
-cx, cy, R = 0.5, 0.5, 0.33
-pts = []
-for i in range(4):
-    a = math.pi / 2 - i * math.pi / 2
-    pts.append((cx + R * math.cos(a), cy + R * math.sin(a)))
-for (x, y), lab, col in zip(pts, nodes, SERIES):
-    ax.add_patch(matplotlib.patches.Circle((x, y), 0.135, facecolor=col,
-                                           edgecolor="none", alpha=0.88))
-    ax.text(x, y, lab, ha="center", va="center", color="white", fontsize=7.4)
-for i in range(4):
-    x1, y1 = pts[i]
-    x2, y2 = pts[(i + 1) % 4]
-    dx, dy = x2 - x1, y2 - y1
-    d = math.hypot(dx, dy)
-    ux, uy = dx / d, dy / d
-    ax.annotate("", xy=(x2 - ux * 0.15, y2 - uy * 0.15),
-                xytext=(x1 + ux * 0.15, y1 + uy * 0.15),
-                arrowprops=dict(arrowstyle="-|>", color=MUTED, lw=1.2,
-                                connectionstyle="arc3,rad=0.16"))
-ax.set_xlim(0, 1)
-ax.set_ylim(0.05, 0.95)
-ax.axis("off")
+fig, ax = cycle(["जनसङ्ख्या\nवृद्धि", "स्रोतको\nबढ्दो माग",
+                 "वातावरणीय\nह्रास", "उत्पादन र\nजीवनस्तरमा गिरावट"],
+                centre="अन्तरसम्बन्ध")
 ```
 
 जनसङ्ख्या बढेसँगै खाद्यान्न, पानी, दाउरा, जमिन र ऊर्जाको माग बढ्छ।

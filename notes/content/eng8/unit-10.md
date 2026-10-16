@@ -204,26 +204,12 @@ with your own name.
 | venue | the place where an event is held | *The venue is the school hall.* |
 
 ```figure caption="Which text type to use when. Choosing the wrong format costs the format mark however good the English is."
-rows = [("Vacancy announcement", "an organisation needs staff"),
-        ("Application letter", "you want the post"),
-        ("Invitation", "you are inviting a guest"),
-        ("Notice", "you are informing many people"),
-        ("Email", "quick, informal-to-formal message")]
-fig, ax = plt.subplots(figsize=(5.0, 2.8))
-for i, (left, right) in enumerate(rows):
-    y = 0.88 - i * 0.19
-    ax.add_patch(matplotlib.patches.FancyBboxPatch(
-        (0.03, y - 0.07), 0.40, 0.14,
-        boxstyle="round,pad=0.008,rounding_size=0.04",
-        facecolor=SERIES[i % len(SERIES)], edgecolor="none", alpha=0.88))
-    ax.text(0.23, y, left, ha="center", va="center", color="white",
-            fontsize=8.2)
-    ax.annotate("", xy=(0.52, y), xytext=(0.44, y),
-                arrowprops=dict(arrowstyle="-|>", color=MUTED, lw=1.0))
-    ax.text(0.54, y, right, ha="left", va="center", color=INK, fontsize=8.0)
-ax.set_xlim(0, 1)
-ax.set_ylim(0, 1)
-ax.axis("off")
+fig, ax = cards([("Vacancy", "an organisation needs staff"),
+                 ("Application", "you want the post"),
+                 ("Invitation", "you are inviting a guest"),
+                 ("Notice", "you are informing many people"),
+                 ("Email", "a quick message, any register"),
+                 ("News report", "something has happened")], cols=3)
 ```
 
 ::: tip A vacancy announcement in six lines
