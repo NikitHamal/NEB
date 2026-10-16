@@ -404,3 +404,22 @@ Walls $= 2 \times 3.5 \times (6+5) = 77$ m²; less the door $2$ m² gives
 75 m²; paint $= 75 \times 110 = $ Rs 8,250.
 **Total $=$ Rs 21,750.**
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** The area of a circle of radius 7 cm ($\pi=\frac{22}{7}$) is
+   (a) 44 cm² (b) 154 cm² (c) 49 cm² (d) 22 cm²
+**2.** The volume of a cuboid 5 cm × 4 cm × 3 cm is
+   (a) 12 cm³ (b) 60 cm³ (c) 94 cm³ (d) 47 cm³
+**3.** 1 m³ equals
+   (a) 100 litres (b) 1000 litres (c) 10 litres (d) 10,000 litres
+**4.** The area of the four walls of a room is
+   (a) $lb$ (b) $2h(l+b)$ (c) $2(lb+bh+lh)$ (d) $lbh$
+**5.** If the radius of a circle is doubled, its area becomes
+   (a) double (b) three times (c) four times (d) unchanged
+
+::: note Objective practice — answers
+**1.** (b) — $\frac{22}{7}\times49=154$ cm². **2.** (b) — $5\times4\times3=60$ cm³. **3.** (b) — 1000 litres. **4.** (b) — $2h(l+b)$. **5.** (c) — area varies as the square of the radius.
+:::

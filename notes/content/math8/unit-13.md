@@ -368,3 +368,22 @@ equal*. $\angle Q = 180° - 72° = 108°$ — *co-interior angles between the
 parallel sides are supplementary*. $\angle S = \angle Q = 108°$ — *opposite
 angles*. Check: $72 + 108 + 72 + 108 = 360°$.
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** Angles on a straight line add up to
+   (a) $90°$ (b) $180°$ (c) $270°$ (d) $360°$
+**2.** Vertically opposite angles are
+   (a) supplementary (b) complementary (c) equal (d) right angles
+**3.** Two parallel lines cut by a transversal: co-interior angles are
+   (a) equal (b) supplementary (c) complementary (d) unrelated
+**4.** The exterior angle of a triangle equals
+   (a) the sum of the two opposite interior angles (b) the third angle (c) $90°$ (d) half the sum
+**5.** Two angles of a triangle are $50°$ and $60°$; the third is
+   (a) $60°$ (b) $70°$ (c) $80°$ (d) $110°$
+
+::: note Objective practice — answers
+**1.** (b) — $180°$. **2.** (c) — equal. **3.** (b) — they add to $180°$. **4.** (a) — the exterior angle property. **5.** (b) — $180°-110°=70°$.
+:::

@@ -430,3 +430,22 @@ Modal class **500–600** (frequency 14). The mean describes these data well
 because the wages are evenly spread with no extreme value; had one worker
 earned Rs 5,000, the median would have been the fairer average.
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** The mean of $6, 9, 12, 13$ is
+   (a) 9 (b) 10 (c) 10.5 (d) 11
+**2.** The median of $5, 8, 11, 14, 20$ is
+   (a) 8 (b) 11 (c) 14 (d) 11.6
+**3.** Which average is most affected by one very large value?
+   (a) mean (b) median (c) mode (d) range
+**4.** In a pie chart of 120 people, 30 people are shown by an angle of
+   (a) $30°$ (b) $60°$ (c) $90°$ (d) $120°$
+**5.** The modal class is the class with the
+   (a) largest mid-value (b) highest frequency (c) smallest frequency (d) widest interval
+
+::: note Objective practice — answers
+**1.** (b) — $\frac{40}{4}=10$. **2.** (b) — the middle value. **3.** (a) — the mean uses every value. **4.** (c) — $\frac{30}{120}\times360°=90°$. **5.** (b) — the highest frequency.
+:::

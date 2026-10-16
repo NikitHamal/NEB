@@ -385,3 +385,22 @@ rose.
 Shares: $6 \times 360 = $ **Rs 2,160**, $7 \times 360 = $ **Rs 2,520**,
 $8 \times 360 = $ **Rs 2,880**. Check: they total Rs 7,560.
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** If $4:7=x:35$, then $x$ is
+   (a) 15 (b) 20 (c) 25 (d) 28
+**2.** The mean proportional between 9 and 16 is
+   (a) 12 (b) 12.5 (c) 25 (d) 144
+**3.** Rs 960 shared in the ratio $5:7$ gives the larger share
+   (a) Rs 400 (b) Rs 480 (c) Rs 560 (d) Rs 600
+**4.** The compound ratio of $3:4$ and $2:5$ is
+   (a) $6:20$ (b) $3:10$ (c) $5:9$ (d) $6:9$
+**5.** 40 minutes : 2 hours in simplest form is
+   (a) $40:2$ (b) $1:3$ (c) $2:5$ (d) $1:5$
+
+::: note Objective practice — answers
+**1.** (b) — $x=\frac{4\times35}{7}=20$. **2.** (a) — $\sqrt{144}=12$. **3.** (c) — $\frac{7}{12}\times960=560$. **4.** (b) — $\frac{6}{20}=3:10$. **5.** (b) — $40:120=1:3$.
+:::
