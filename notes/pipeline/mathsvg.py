@@ -67,6 +67,9 @@ def _strip_wrapper(s: str, name: str) -> str:
 
 def _clean(tex: str) -> str:
     s = tex.strip().strip("$").strip()
+    # `\ge1` is read as a command named "ge1"; a command butted against a
+    # digit always needs the space mathtext expects.
+    s = re.sub(r"(\\[a-zA-Z]+)(?=[0-9])", r"\1 ", s)
     s = re.sub(r"\s+", " ", s)                 # mathtext cannot span newlines
     for name in ("boxed", "mbox", "textnormal", "ensuremath", "phantom"):
         s = _strip_wrapper(s, name)
