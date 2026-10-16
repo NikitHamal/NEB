@@ -125,6 +125,19 @@ pre code { background:none; padding:0; color:var(--ink); }
 img.im { vertical-align:baseline; }
 .dm { display:block; text-align:center; margin:3.4mm 0; break-inside:avoid; }
 .dm img { max-width:96%; }
+
+/* Nepali formulas are typeset as text (devaeqn.py), not as a mathtext image:
+   the script needs real shaping. Only the fraction needs geometry. */
+.eqx { font-family:"Noto Sans Devanagari",Inter,sans-serif; font-size:10.3pt;
+       line-height:1.1; color:#14181f; }
+.eqx.eqd { font-size:11.6pt; }
+.eqx .fr { display:inline-block; vertical-align:-0.62em; text-align:center;
+           margin:0 0.22em; }
+.eqx .fr .fn { display:block; padding:0 0.34em 0.5mm;
+               border-bottom:0.6pt solid #14181f; }
+.eqx .fr .fd { display:block; padding:0.5mm 0.34em 0; }
+.eqx .sq .sqb { border-top:0.6pt solid #14181f; padding:0 0.14em; }
+.eqx sub, .eqx sup { font-size:0.72em; }
 .dm.numbered { position:relative; }
 .dm .eqno { position:absolute; right:0; top:50%; font-family:Inter,sans-serif;
             font-size:8.6pt; color:var(--muted); }
