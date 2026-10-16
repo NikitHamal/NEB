@@ -1,200 +1,268 @@
 ---
-subject: Health, Physical and Creative Arts
+subject: स्वास्थ्य, शारीरिक तथा सिर्जनात्मक कला
 grade: 8
 unit: 1
-title: Human Body
+title: मानव शरीर
 hours: 4
-area: Health Education
+area: स्वास्थ्य शिक्षा
 ---
 
-The human body works through connected systems. The nervous system receives information and coordinates responses. The reproductive system makes human reproduction possible and changes during adolescence. The endocrine system uses hormones to regulate growth, metabolism and reproduction. Understanding these systems helps us care for the body without fear, shame or misinformation.
+शरीरका अङ्गहरू छुट्टाछुट्टै काम गर्दैनन् — तिनले मिलेर काम गर्छन्। आँखाले देखेको
+कुरा मस्तिष्कसम्म पुर्‍याउने, खतरा देख्नेबित्तिकै हात तान्ने, निश्चित उमेरमा
+शरीरमा परिवर्तन ल्याउने — यी सबै काम प्रणालीहरूले गर्छन्। यस एकाइमा तीन प्रणाली
+पढिन्छ: **स्नायु प्रणाली** (सूचना ओसारपसार), **प्रजनन प्रणाली** (वंश
+निरन्तरता) र **अन्तःस्रावी ग्रन्थि प्रणाली** (हर्मोनद्वारा नियन्त्रण)। तीनै
+प्रणालीको काम बुझेपछि किशोरावस्थामा आफ्नो शरीरमा भइरहेका परिवर्तनलाई डराउनुको
+साटो बुझेर स्वीकार्न सकिन्छ।
 
-::: key What the examination expects
-Be able to label the main organs, state their functions, compare nervous and hormonal coordination, and explain healthy practices. Use accurate and respectful terms. A health lesson supports learning; it does not diagnose an illness.
+::: key यस एकाइबाट परीक्षामा सोधिने कुरा
+स्नायु प्रणालीका भाग र न्युरोनको संरचना; प्रतिवर्त क्रिया के हो र किन छिटो
+हुन्छ; प्रजनन अङ्गका नाम र काम; अन्तःस्रावी ग्रन्थिका नाम, तिनले छोड्ने हर्मोन
+र त्यसको असर — यिनै चार कुरामा प्रश्न केन्द्रित हुन्छन्।
 :::
 
-## 1.1 Nervous system
+## १.१ स्नायु प्रणाली
 
-The **nervous system** receives information, interprets it and directs a response. Its basic working unit is the **neuron**, or nerve cell. A neuron has a cell body, branching dendrites that receive signals and a long axon that carries a signal away.
+स्नायु प्रणाली शरीरको **सूचना प्रणाली** हो। यसले इन्द्रियबाट सूचना लिन्छ,
+मस्तिष्कमा पुर्‍याउँछ, निर्णय गर्छ र मांसपेशीलाई आदेश पठाउँछ। यो सबै काम
+सेकेन्डको अंशमा हुन्छ।
 
-The nervous system has two major divisions:
+### क. स्नायु प्रणालीका भाग
 
-| Division | Main parts | Main role |
+| भाग | के-के पर्छ | मुख्य काम |
 |---|---|---|
-| Central nervous system | brain and spinal cord | interprets information and coordinates responses |
-| Peripheral nervous system | cranial and spinal nerves | carries messages between the central nervous system and the body |
+| केन्द्रीय स्नायु प्रणाली | मस्तिष्क र सुषुम्ना नाडी | सूचना बुझ्ने, निर्णय गर्ने |
+| परिधीय स्नायु प्रणाली | शरीरभरि फैलिएका स्नायु | सूचना ल्याउने र आदेश लैजाने |
 
-### Brain
+**मस्तिष्क** खोपडीभित्र सुरक्षित रहन्छ। यसका तीन मुख्य भाग छन्:
 
-The brain is protected by the skull, three membranes called meninges and cerebrospinal fluid. Three parts are especially important at this level.
+- **ठुलो मस्तिष्क (सेरिब्रम)** — सोच्ने, सम्झने, बोल्ने, निर्णय गर्ने। सबैभन्दा
+  ठुलो भाग यही हो।
+- **सानो मस्तिष्क (सेरिबेलम)** — शरीरको सन्तुलन र मांसपेशीको तालमेल। साइकल
+  चलाउँदा नलड्नुको कारण यही हो।
+- **मेडुला** — सास फेर्ने, मुटु चल्ने, खाना निल्ने जस्ता आफैँ चल्ने काम।
 
-| Part | Function | Everyday example |
-|---|---|---|
-| Cerebrum | thinking, memory, sensation and voluntary movement | solving a problem or lifting a cup |
-| Cerebellum | balance and coordination of muscles | cycling or walking on a narrow path |
-| Medulla oblongata | controls involuntary activities | breathing and heartbeat |
+**सुषुम्ना नाडी** ढाडको हड्डीभित्र हुन्छ र मस्तिष्कलाई शरीरसँग जोड्छ। यसैले
+प्रतिवर्त क्रिया पनि चलाउँछ।
 
-```figure caption="Major parts of the human brain and their chief functions."
-import matplotlib.pyplot as plt
-from matplotlib.patches import Ellipse, FancyBboxPatch
-fig, ax = plt.subplots(figsize=(5.0, 3.0))
-ax.add_patch(Ellipse((3.2, 2.4), 4.3, 2.4, fc="#dbeafe", ec=ACCENT, lw=1.5))
-ax.add_patch(Ellipse((4.65, 1.45), 1.3, 0.85, fc="#fed7aa", ec=SERIES[1], lw=1.3))
-ax.plot([3.9, 4.15, 4.15], [1.45, 0.75, 0.25], color=SERIES[2], lw=4)
-labels = [("Cerebrum\nthinking, memory, movement", 0.15, 3.6, (2.5, 2.65)),
-          ("Cerebellum\nbalance and coordination", 0.15, 2.0, (4.65, 1.45)),
-          ("Medulla\nbreathing and heartbeat", 0.15, 0.55, (4.12, 0.58))]
-for text, tx, ty, target in labels:
-    ax.text(tx, ty, text, fontsize=7, va="center", color=INK)
-    ax.annotate("", xy=target, xytext=(tx + 2.1, ty), arrowprops=dict(arrowstyle="->", color=MUTED, lw=1))
-ax.set_xlim(0, 6); ax.set_ylim(0, 4.2); ax.axis("off"); fig.tight_layout()
+::: definition न्युरोन
+स्नायु प्रणालीको सबैभन्दा सानो एकाइलाई **न्युरोन** भनिन्छ। एउटा न्युरोनमा तीन
+भाग हुन्छन् — **कोषकाय** (केन्द्रक भएको भाग), **डेन्ड्राइट** (सूचना भित्र्याउने
+साना हाँगा) र **एक्सन** (सूचना बाहिर पठाउने लामो तन्तु)। सूचना सधैँ डेन्ड्राइटबाट
+कोषकाय हुँदै एक्सनतिर एकै दिशामा बग्छ।
+:::
+
+```figure caption="न्युरोनको संरचना। सूचना डेन्ड्राइटबाट भित्रिन्छ, कोषकाय हुँदै एक्सनबाट अर्को न्युरोनमा जान्छ — सधैँ एकै दिशामा।"
+import numpy as np, matplotlib.pyplot as plt
+fig, ax = plt.subplots(figsize=(5.0, 2.6))
+ax.set_xlim(0, 10); ax.set_ylim(0, 5); ax.axis("off")
+# कोषकाय
+ax.add_patch(plt.Circle((2.3, 2.5), 0.72, fc="white", ec=INK, lw=1.5))
+ax.add_patch(plt.Circle((2.3, 2.5), 0.26, fc=ACCENT, ec="none"))
+# डेन्ड्राइट
+for a in (150, 175, 200, 135, 215):
+    r = np.deg2rad(a)
+    ax.plot([2.3 + 0.7*np.cos(r), 2.3 + 1.6*np.cos(r)],
+            [2.5 + 0.7*np.sin(r), 2.5 + 1.6*np.sin(r)], color=INK, lw=1.1)
+# एक्सन
+ax.plot([3.0, 7.4], [2.5, 2.5], color=INK, lw=1.6)
+for x in (3.7, 4.6, 5.5, 6.4):
+    ax.add_patch(plt.Rectangle((x, 2.33), 0.62, 0.34, fc=SERIES[2], ec="none", alpha=0.55))
+for a in (40, 0, -40):
+    r = np.deg2rad(a)
+    ax.plot([7.4, 7.4 + 0.9*np.cos(r)], [2.5, 2.5 + 0.9*np.sin(r)], color=INK, lw=1.1)
+ax.annotate("", xy=(6.6, 3.5), xytext=(3.6, 3.5),
+            arrowprops=dict(arrowstyle="->", color=ACCENT, lw=1.3))
+ax.text(5.1, 3.72, "सूचना बग्ने दिशा", ha="center", fontsize=7.2, color=ACCENT)
+ax.text(0.5, 3.6, "डेन्ड्राइट", fontsize=7.4, color=INK)
+ax.text(2.3, 1.35, "कोषकाय", ha="center", fontsize=7.4, color=INK)
+ax.text(5.1, 1.9, "एक्सन", ha="center", fontsize=7.4, color=INK)
+ax.text(8.5, 2.5, "अन्त्य\nशाखा", ha="center", va="center", fontsize=7.0, color=MUTED)
 ```
 
-### Spinal cord and nerves
+### ख. प्रतिवर्त क्रिया
 
-The spinal cord begins at the medulla and passes through the vertebral column. It carries impulses to and from the brain. It also coordinates many reflex actions. In humans, **31 pairs of spinal nerves** arise from the spinal cord. **Twelve pairs of cranial nerves** arise from the brain.
+तातो भाँडामा हात परे सोच्नै नपर्ने गरी हात तानिन्छ। यसलाई **प्रतिवर्त क्रिया**
+भनिन्छ। यसमा सूचना मस्तिष्कसम्म नगई सुषुम्ना नाडीबाटै आदेश फर्कन्छ, त्यसैले
+प्रतिक्रिया अत्यन्तै छिटो हुन्छ। यो शरीरको स्वतः सुरक्षा उपाय हो।
 
-A **reflex action** is a rapid, automatic response to a stimulus. In a withdrawal reflex, a receptor detects danger, a sensory neuron carries the impulse to the spinal cord, a relay neuron passes it onward, and a motor neuron activates a muscle. The brain receives the information too, but the protective movement begins before conscious thought.
+**प्रतिवर्त चापको बाटो:** संवेदी अङ्ग → संवेदी स्नायु → सुषुम्ना नाडी →
+प्रेरक स्नायु → मांसपेशी।
 
-```figure caption="Reflex arc when a finger touches a hot surface."
+```figure caption="प्रतिवर्त चाप। सुइरो छुनेबित्तिकै आदेश सुषुम्ना नाडीबाटै फर्कन्छ; मस्तिष्कलाई खबर त्यसपछि मात्र पुग्छ।"
 import matplotlib.pyplot as plt
-from matplotlib.patches import FancyBboxPatch
-fig, ax = plt.subplots(figsize=(5.2, 2.6))
-items = [("Receptor", "detects heat"), ("Sensory neuron", "impulse inward"),
-         ("Spinal cord", "relay neuron"), ("Motor neuron", "impulse outward"),
-         ("Muscle", "hand withdraws")]
-for i, (head, tail) in enumerate(items):
-    x = i * 1.18
-    ax.add_patch(FancyBboxPatch((x, 0.75), 0.98, 0.72, boxstyle="round,pad=0.04", fc="#ecfeff", ec=ACCENT, lw=1.1))
-    ax.text(x + 0.49, 1.2, head, ha="center", fontsize=6.7, weight="bold", color=INK)
-    ax.text(x + 0.49, 0.94, tail, ha="center", fontsize=6.1, color=MUTED)
-    if i < len(items) - 1:
-        ax.annotate("", xy=(x + 1.16, 1.1), xytext=(x + 1.0, 1.1), arrowprops=dict(arrowstyle="->", color=SERIES[1]))
-ax.text(2.85, 0.25, "The brain is informed while the protective response begins.", ha="center", fontsize=7, color=MUTED)
-ax.set_xlim(-0.1, 5.8); ax.set_ylim(0, 1.8); ax.axis("off"); fig.tight_layout()
+fig, ax = plt.subplots(figsize=(5.0, 2.7))
+ax.set_xlim(0, 10); ax.set_ylim(0, 5.2); ax.axis("off")
+ax.add_patch(plt.Rectangle((4.1, 1.1), 1.0, 3.2, fc="white", ec=INK, lw=1.4))
+ax.text(4.6, 0.72, "सुषुम्ना नाडी", ha="center", fontsize=7.2, color=INK)
+ax.add_patch(plt.Circle((1.3, 3.6), 0.5, fc=SERIES[3], ec="none", alpha=0.45))
+ax.text(1.3, 3.6, "छाला", ha="center", va="center", fontsize=7.0, color=INK)
+ax.add_patch(plt.Circle((1.3, 1.6), 0.5, fc=SERIES[0], ec="none", alpha=0.45))
+ax.text(1.3, 1.6, "मांसपेशी", ha="center", va="center", fontsize=6.6, color=INK)
+ax.annotate("", xy=(4.05, 3.6), xytext=(1.85, 3.6),
+            arrowprops=dict(arrowstyle="->", color=ACCENT, lw=1.4))
+ax.text(2.95, 3.85, "संवेदी स्नायु", ha="center", fontsize=6.8, color=ACCENT)
+ax.annotate("", xy=(1.85, 1.6), xytext=(4.05, 1.6),
+            arrowprops=dict(arrowstyle="->", color=SERIES[1], lw=1.4))
+ax.text(2.95, 1.18, "प्रेरक स्नायु", ha="center", fontsize=6.8, color=SERIES[1])
+ax.plot([4.6, 4.6], [3.6, 1.6], color=INK, lw=1.2, ls=":")
+ax.annotate("", xy=(7.4, 4.3), xytext=(5.15, 3.9),
+            arrowprops=dict(arrowstyle="->", color=MUTED, lw=1.1, ls="--"))
+ax.text(8.3, 4.3, "मस्तिष्कलाई\nखबर (पछि)", ha="center", va="center",
+        fontsize=6.8, color=MUTED)
 ```
 
-::: example Following a reflex arc
-**Situation.** Sita accidentally touches a hot cooking vessel and pulls her hand away.
-
-**Explanation.** Heat receptors in her skin produce an impulse. A sensory neuron carries it to the spinal cord. A relay neuron transfers it to a motor neuron. The motor neuron makes the arm muscles contract, so the hand withdraws. The brain then interprets pain. This is a protective reflex, not a decision made after thinking.
+::: caution प्रतिवर्त क्रिया र इच्छाधीन क्रिया नमिलाउनुहोस्
+हात तान्नु **प्रतिवर्त** हो — सोच्नु पर्दैन। गिलास उठाउनु **इच्छाधीन** क्रिया हो
+— मस्तिष्कले निर्णय गर्छ। परीक्षामा "प्रतिवर्त क्रिया किन छिटो हुन्छ?" सोधिए
+"मस्तिष्कसम्म नगई सुषुम्ना नाडीबाटै आदेश फर्कने भएकाले" भन्ने उत्तर चाहिन्छ।
 :::
 
-::: caution Protect the nervous system
-Never test a reflex using flame, electricity, a sharp object or a blow. Wear a helmet when cycling, avoid diving into unknown water, and seek urgent medical help after a serious head or spinal injury. Do not move a person with a suspected spinal injury unless remaining in place is immediately dangerous.
+## १.२ प्रजनन प्रणाली
+
+प्रजनन प्रणालीले वंश निरन्तरता दिन्छ। किशोरावस्थामा यी अङ्ग परिपक्व हुन थाल्छन्,
+त्यसैले शरीरमा देखिने परिवर्तन स्वाभाविक हुन्।
+
+| पुरुष प्रजनन अङ्ग | काम | महिला प्रजनन अङ्ग | काम |
+|---|---|---|---|
+| अण्डकोष | शुक्रकीट र टेस्टोस्टेरोन बनाउने | डिम्बाशय | डिम्ब र इस्ट्रोजेन–प्रोजेस्टेरोन बनाउने |
+| शुक्रवाहिनी नली | शुक्रकीट बोक्ने | डिम्बवाहिनी नली | डिम्ब बोक्ने; यहीँ निषेचन हुन्छ |
+| प्रोस्टेट ग्रन्थि | वीर्य तरल बनाउने | पाठेघर | भ्रूण हुर्काउने |
+| शिश्न | वीर्य बाहिर पठाउने | योनी | जन्म मार्ग |
+
+**निषेचन:** शुक्रकीट र डिम्ब मिलेर एउटै कोष **युग्मज** बन्नुलाई निषेचन भनिन्छ।
+यो डिम्बवाहिनी नलीमा हुन्छ। युग्मज पाठेघरमा गएर टाँसिन्छ र करिब नौ महिनामा
+शिशुको रूप लिन्छ।
+
+::: note किशोरावस्थाका परिवर्तन सामान्य हुन्
+पुरुषमा स्वर बदलिनु, दाह्रीजुँगा आउनु, कद बढ्नु; महिलामा महिनावारी सुरु हुनु,
+स्तन विकास हुनु — यी सबै हर्मोनका कारण हुने **सामान्य र स्वस्थ** परिवर्तन हुन्।
+सबैमा एकै उमेरमा हुँदैन; कसैलाई चाँडो, कसैलाई ढिलो हुन्छ। यसमा लाज मान्नु वा
+डराउनु पर्दैन; अप्ठ्यारो लागे अभिभावक वा स्वास्थ्यकर्मीसँग कुरा गर्नुपर्छ।
 :::
 
-## 1.2 Reproductive system
+## १.३ अन्तःस्रावी ग्रन्थि प्रणाली
 
-The reproductive system produces reproductive cells and hormones and enables reproduction. During puberty, hormones cause the reproductive organs to mature. Puberty begins at different ages for different people; variation is normal.
+**अन्तःस्रावी ग्रन्थि** ती ग्रन्थि हुन् जसले आफूले बनाएको रस नलीबाट नपठाई सिधै
+रगतमा छोड्छन्। यी रसलाई **हर्मोन** भनिन्छ। हर्मोन रगतसँगै बगेर टाढाको अङ्गमा
+पुग्छ र त्यहाँको काम नियन्त्रण गर्छ। त्यसैले यी ग्रन्थिलाई **नलीविहीन ग्रन्थि**
+पनि भनिन्छ।
 
-### Male reproductive organs
+| ग्रन्थि | ठाउँ | मुख्य हर्मोन | काम |
+|---|---|---|---|
+| पिट्युटरी | मस्तिष्कमुनि | वृद्धि हर्मोन | कद र हाडको वृद्धि; अरू ग्रन्थिलाई निर्देशन दिने |
+| थाइराइड | घाँटीमा | थाइरोक्सिन | चयापचयको गति; आयोडिनको अभावमा गलगाँड |
+| अधिवृक्क | मृगौलामाथि | एड्रेनालिन | खतरामा मुटुको गति र शक्ति बढाउने |
+| अग्न्याशय | पेटमा | इन्सुलिन | रगतको चिनी नियन्त्रण; अभावमा मधुमेह |
+| अण्डकोष | पुरुषमा | टेस्टोस्टेरोन | पुरुष लैङ्गिक विशेषता |
+| डिम्बाशय | महिलामा | इस्ट्रोजेन, प्रोजेस्टेरोन | महिला लैङ्गिक विशेषता, महिनावारी चक्र |
 
-| Organ | Main function |
-|---|---|
-| Testes | produce sperm and the hormone testosterone |
-| Scrotum | holds the testes outside the body at a suitable temperature |
-| Epididymis | stores and matures sperm |
-| Sperm duct | carries sperm from the epididymis |
-| Seminal vesicles and prostate gland | add fluids that nourish and protect sperm |
-| Penis and urethra | provide a passage for semen; the urethra also carries urine at a different time |
-
-### Female reproductive organs
-
-| Organ | Main function |
-|---|---|
-| Ovaries | produce ova and the hormones oestrogen and progesterone |
-| Oviducts | carry an ovum; fertilisation usually occurs here |
-| Uterus | muscular organ where an embryo can develop |
-| Cervix | narrow opening between uterus and vagina |
-| Vagina | passage connecting the cervix to the outside of the body |
-
-**Fertilisation** is the fusion of the nucleus of a sperm with the nucleus of an ovum, forming a zygote. It is different from implantation, which is the attachment of the developing embryo to the lining of the uterus.
-
-::: example Correcting a common confusion
-**Claim.** “A baby develops in the stomach.”
-
-**Correction.** Food is digested in the stomach. After fertilisation, the developing embryo normally implants and grows in the uterus. The stomach and uterus are separate organs with different functions.
+::: memory पिट्युटरीलाई किन 'मुख्य ग्रन्थि' भनिन्छ?
+किनभने यसले आफ्नो काम त गर्छ नै, थाइराइड, अधिवृक्क, अण्डकोष र डिम्बाशयलाई पनि
+"कति हर्मोन छोड्ने" भनेर निर्देशन दिन्छ। त्यसैले यसलाई **मास्टर ग्रन्थि** अर्थात्
+मुख्य ग्रन्थि भनिन्छ।
 :::
 
-Healthy reproductive care includes bathing with clean water, wearing clean underclothes, changing menstrual materials regularly, eating a balanced diet, and seeking qualified care for unusual pain, sores, discharge or other persistent symptoms. Medicines should not be taken on a friend’s advice.
+::: example हर्मोनको अभावको असर
+**प्रश्न.** हिमाली भेगका केही व्यक्तिमा घाँटी सुन्निने समस्या देखियो। कुन
+ग्रन्थि र कुन तत्त्वको अभावले यो भयो? रोकथाम कसरी गर्ने?
 
-Adolescents also protect these systems through enough sleep, regular physical activity, safe drinking water and avoidance of tobacco, alcohol and other harmful substances. Questions about body changes should be discussed with a trusted adult or trained health worker. Another person’s body and health information are private; curiosity never justifies teasing, touching without permission or spreading rumours.
-
-## 1.3 Endocrine and glandular system
-
-A **gland** is an organ or group of cells that produces a secretion. **Endocrine glands** have no ducts; they release hormones directly into the blood. **Exocrine glands** release their products through ducts, such as salivary and sweat glands. The pancreas is a **mixed gland** because it releases digestive juice through a duct and hormones into the blood.
-
-A **hormone** is a chemical messenger made in a small amount, carried by blood and active in particular target organs.
-
-| Gland | Hormone example | Main effect |
-|---|---|---|
-| Pituitary | growth hormone | supports body growth; also influences other glands |
-| Thyroid | thyroxine | helps regulate metabolism; requires iodine for production |
-| Pancreas | insulin and glucagon | helps regulate blood glucose |
-| Adrenal glands | adrenaline | prepares the body for an emergency |
-| Testes | testosterone | supports male reproductive development |
-| Ovaries | oestrogen and progesterone | support female reproductive development and cycles |
-
-Nervous and endocrine coordination work together. A nervous impulse is usually fast, brief and sent along a particular nerve. A hormone travels more slowly through blood, may reach many tissues and often has a longer-lasting effect.
-
-::: example Nervous and hormonal response together
-**Situation.** A dog suddenly runs toward Hari.
-
-**Explanation.** Sensory nerves rapidly carry visual and sound information to his central nervous system. At the same time, adrenal glands release adrenaline. His heart beats faster, breathing increases and more blood reaches muscles. The nervous response is rapid and targeted; the hormonal response is slower but affects several organs.
+**उत्तर.** **थाइराइड** ग्रन्थिले थाइरोक्सिन बनाउन **आयोडिन** चाहिन्छ। हिमाली
+माटो र पानीमा आयोडिन कम हुन्छ। आयोडिन नपुग्दा थाइराइड सुन्निन्छ — यसैलाई
+**गलगाँड** भनिन्छ। **रोकथाम:** आयोडिनयुक्त नुन (दुई बच्चा छाप) नियमित खाने,
+समुद्री खाद्य वा दुग्ध पदार्थ खाने। नेपालमा आयोडिनयुक्त नुन अनिवार्य गरिएपछि
+गलगाँड उल्लेख्य घटेको छ।
 :::
 
-::: caution Hormones are not “strength medicines”
-Hormones act in very small amounts. Too much or too little can disturb normal functions. Never use hormonal tablets, injections or bodybuilding products without a qualified clinician’s advice.
+::: example एड्रेनालिनको काम
+**प्रश्न.** बाटोमा अचानक कुकुर भुक्दा मुटु ढुकढुक बढ्छ, सास छिटो चल्छ र शरीरमा
+बल आएजस्तो लाग्छ। यो किन हुन्छ?
+
+**उत्तर.** डरको सूचना मस्तिष्कले **अधिवृक्क ग्रन्थि**लाई पठाउँछ र त्यसले
+**एड्रेनालिन** हर्मोन रगतमा छोड्छ। एड्रेनालिनले मुटुको गति र सासको गति बढाउँछ,
+मांसपेशीमा बढी रगत पठाउँछ र कलेजोबाट चिनी छोडाउँछ — जसले भाग्न वा सामना गर्न
+तुरुन्तै शक्ति दिन्छ। त्यसैले यसलाई **आपत्कालीन हर्मोन** भनिन्छ।
 :::
 
-## Chapter summary
+## अध्यायको सारांश
 
-- The central nervous system consists of the brain and spinal cord; peripheral nerves connect it with the body.
-- The cerebrum supports thought, memory, sensation and voluntary movement; the cerebellum coordinates balance; the medulla controls vital involuntary actions.
-- A reflex arc produces a rapid automatic response through receptor, sensory neuron, relay neuron, motor neuron and effector.
-- Testes produce sperm and testosterone; ovaries produce ova, oestrogen and progesterone.
-- Fertilisation usually occurs in an oviduct, while development after implantation occurs in the uterus.
-- Endocrine glands release hormones directly into blood; exocrine glands release products through ducts.
-- The pancreas is a mixed gland because it has both endocrine and exocrine functions.
-- Nervous signals are generally rapid and brief; hormonal effects are generally slower and longer lasting.
+- स्नायु प्रणालीका दुई भाग: केन्द्रीय (मस्तिष्क + सुषुम्ना नाडी) र परिधीय (स्नायु)।
+- मस्तिष्कका तीन भाग: ठुलो मस्तिष्क (सोच), सानो मस्तिष्क (सन्तुलन), मेडुला (सास, मुटु)।
+- न्युरोनका तीन भाग: डेन्ड्राइट, कोषकाय, एक्सन; सूचना एकै दिशामा बग्छ।
+- प्रतिवर्त क्रियामा आदेश सुषुम्ना नाडीबाटै फर्कन्छ, त्यसैले छिटो हुन्छ।
+- पुरुष प्रजनन अङ्ग: अण्डकोष, शुक्रवाहिनी नली, प्रोस्टेट, शिश्न। महिला: डिम्बाशय, डिम्बवाहिनी नली, पाठेघर, योनी।
+- निषेचन डिम्बवाहिनी नलीमा हुन्छ; युग्मज पाठेघरमा हुर्कन्छ।
+- अन्तःस्रावी ग्रन्थिले हर्मोन सिधै रगतमा छोड्छन्; पिट्युटरी मुख्य ग्रन्थि हो।
+- आयोडिनको अभाव → गलगाँड; इन्सुलिनको अभाव → मधुमेह; एड्रेनालिन → आपत्कालीन हर्मोन।
 
-## Practice questions
+## अभ्यास
 
-**Group A — Very short answer (1 mark each)**
+**समूह क — वस्तुगत प्रश्न (१ अङ्क)**
 
-1. How many pairs of spinal nerves arise from the spinal cord? <span class="marks">[1]</span>
-2. Name the part of the brain mainly responsible for balance. <span class="marks">[1]</span>
-3. Which two principal hormones are produced by the testes and ovaries respectively? <span class="marks">[1]</span>
-4. Why is the pancreas called a mixed gland? <span class="marks">[1]</span>
+१. शरीरको सन्तुलन मिलाउने मस्तिष्कको भाग कुन हो? <span class="marks">[1]</span>
+   (क) ठुलो मस्तिष्क (ख) सानो मस्तिष्क (ग) मेडुला (घ) सुषुम्ना नाडी
+२. न्युरोनमा सूचना भित्र्याउने भाग कुन हो? <span class="marks">[1]</span>
+   (क) एक्सन (ख) कोषकाय (ग) डेन्ड्राइट (घ) केन्द्रक
+३. निषेचन कहाँ हुन्छ? <span class="marks">[1]</span>
+   (क) पाठेघर (ख) डिम्बाशय (ग) डिम्बवाहिनी नली (घ) योनी
+४. रगतको चिनी नियन्त्रण गर्ने हर्मोन कुन हो? <span class="marks">[1]</span>
+   (क) थाइरोक्सिन (ख) इन्सुलिन (ग) एड्रेनालिन (घ) इस्ट्रोजेन
+५. कुन ग्रन्थिलाई मुख्य ग्रन्थि भनिन्छ? <span class="marks">[1]</span>
+   (क) थाइराइड (ख) अधिवृक्क (ग) पिट्युटरी (घ) अग्न्याशय
 
-::: note Answers to Group A
-**1.** Thirty-one pairs.  
-**2.** Cerebellum.  
-**3.** Testosterone by the testes and oestrogen by the ovaries.  
-**4.** It releases digestive juice through a duct and hormones directly into blood.
+::: note समूह क का उत्तर
+**१.** (ख) — सानो मस्तिष्कले मांसपेशीको तालमेल र सन्तुलन मिलाउँछ।
+**२.** (ग) — डेन्ड्राइटले सूचना भित्र्याउँछ, एक्सनले बाहिर पठाउँछ।
+**३.** (ग) — शुक्रकीट र डिम्ब डिम्बवाहिनी नलीमा मिल्छन्।
+**४.** (ख) — अग्न्याशयले छोड्ने इन्सुलिनले रगतको चिनी घटाउँछ।
+**५.** (ग) — पिट्युटरीले अरू ग्रन्थिलाई पनि निर्देशन दिने भएकाले।
 :::
 
-**Group B — Short answer (2 marks each)**
+**समूह ख — छोटो उत्तर (२ अङ्क)**
 
-1. Write two differences between nervous and hormonal coordination. <span class="marks">[2]</span>
-2. State one function each of the cerebrum and medulla oblongata. <span class="marks">[2]</span>
-3. Distinguish fertilisation from implantation. <span class="marks">[2]</span>
-4. Write the path of an impulse in a withdrawal reflex. <span class="marks">[2]</span>
+१. न्युरोनका तीन भाग नाम लेखी काम बताउनुहोस्। <span class="marks">[2]</span>
+२. प्रतिवर्त क्रिया भनेको के हो? एउटा उदाहरण दिनुहोस्। <span class="marks">[2]</span>
+३. अन्तःस्रावी ग्रन्थिलाई नलीविहीन ग्रन्थि किन भनिन्छ? <span class="marks">[2]</span>
+४. गलगाँड हुनुको कारण र रोकथामका दुई उपाय लेख्नुहोस्। <span class="marks">[2]</span>
 
-::: note Answer outlines to Group B
-**1.** Nervous messages travel rapidly along nerves and are usually brief; hormones travel in blood more slowly and often act longer.  
-**2.** Cerebrum: thought, memory, sensation or voluntary movement; medulla: heartbeat, breathing or another involuntary activity.  
-**3.** Fertilisation is fusion of sperm and ovum, usually in an oviduct; implantation is attachment of the developing embryo to the uterine lining.  
-**4.** Receptor → sensory neuron → relay neuron in spinal cord → motor neuron → muscle.
+::: note समूह ख का उत्तर
+**१.** **डेन्ड्राइट** — अरू न्युरोनबाट सूचना भित्र्याउने; **कोषकाय** — केन्द्रक
+भएको भाग, न्युरोनलाई जीवित राख्ने; **एक्सन** — सूचना अर्को न्युरोन वा मांसपेशीसम्म
+पुर्‍याउने लामो तन्तु।
+**२.** मस्तिष्कले सोच्नै नपाई सुषुम्ना नाडीबाटै आदेश फर्केर हुने तत्कालको
+स्वतः प्रतिक्रिया नै प्रतिवर्त क्रिया हो। उदाहरण: तातो वस्तु छुँदा हात तानिनु;
+आँखामा उज्यालो पर्दा नानी सानो हुनु।
+**३.** यी ग्रन्थिले आफूले बनाएको हर्मोन कुनै नलीबाट नपठाई **सिधै रगतमा** छोड्छन्;
+नली नहुने भएकाले नलीविहीन ग्रन्थि भनिन्छ।
+**४.** कारण: खानपानमा **आयोडिनको अभाव** हुँदा थाइराइडले थाइरोक्सिन बनाउन नसकी
+ग्रन्थि सुन्निन्छ। रोकथाम: (क) आयोडिनयुक्त नुन नियमित प्रयोग गर्ने, (ख) दुग्ध
+पदार्थ र समुद्री खाद्य वा चिकित्सकको सल्लाहमा आयोडिन पूरक लिने।
 :::
 
-**Group C — Long answer (4 marks each)**
+**समूह ग — लामो उत्तर (४ अङ्क)**
 
-1. Draw a labelled reflex arc and explain how it protects a person touching a hot object. <span class="marks">[4]</span>
-2. Name four endocrine glands, give one hormone from each and state one function of each hormone. <span class="marks">[4]</span>
+१. चित्रसहित प्रतिवर्त चापको बाटो देखाउँदै प्रतिवर्त क्रिया किन छिटो हुन्छ भनी
+   व्याख्या गर्नुहोस्। <span class="marks">[4]</span>
+२. कुनै चार अन्तःस्रावी ग्रन्थिको नाम, तिनले छोड्ने हर्मोन र काम तालिकामा
+   देखाउनुहोस्। <span class="marks">[4]</span>
+३. किशोरावस्थामा शरीरमा हुने परिवर्तन किन हुन्छन्? यस समयमा किशोरकिशोरीले
+   अपनाउनुपर्ने चार व्यवहार लेख्नुहोस्। <span class="marks">[4]</span>
 
-::: note Answer outlines to Group C
-**1.** The diagram must show receptor, sensory neuron, spinal cord or relay neuron, motor neuron and muscle with arrows in the correct direction. Explain that the spinal pathway begins withdrawal rapidly while information also reaches the brain.  
-**2.** Any four correct gland–hormone–function sets from the chapter table earn credit; each set must match correctly.
+::: note समूह ग का उत्तर
+**१.** बाटो: **संवेदी अङ्ग (छाला) → संवेदी स्नायु → सुषुम्ना नाडी → प्रेरक
+स्नायु → मांसपेशी।** छिटो हुनुको कारण: सूचना मस्तिष्कसम्म पुगेर निर्णय लिने
+लामो बाटो नहिँडी सुषुम्ना नाडीमै आदेश बन्छ। मस्तिष्कलाई खबर त्यसपछि मात्र
+पुग्छ — त्यसैले हात तानिसकेपछि मात्र "पोल्यो" भन्ने थाहा हुन्छ। यसले शरीरलाई
+चोटबाट जोगाउँछ।
+**२.** पिट्युटरी — वृद्धि हर्मोन — कद र हाडको वृद्धि, अरू ग्रन्थिको नियन्त्रण।
+थाइराइड — थाइरोक्सिन — चयापचयको गति। अग्न्याशय — इन्सुलिन — रगतको चिनी नियन्त्रण।
+अधिवृक्क — एड्रेनालिन — आपत्कालमा मुटु र सासको गति बढाउने। (डिम्बाशय —
+इस्ट्रोजेन, अण्डकोष — टेस्टोस्टेरोन पनि लेख्न सकिन्छ।)
+**३.** कारण: पिट्युटरीको निर्देशनमा अण्डकोष/डिम्बाशयले **टेस्टोस्टेरोन** र
+**इस्ट्रोजेन–प्रोजेस्टेरोन** हर्मोन छोड्न थाल्छन्; तिनैले कद, स्वर, शरीरको
+बनोट र प्रजनन अङ्गमा परिवर्तन ल्याउँछन्। अपनाउनुपर्ने व्यवहार: (क) दैनिक
+सरसफाइ र नुहाइधुवाइ नियमित गर्ने, (ख) सन्तुलित भोजन र पर्याप्त निद्रा लिने,
+(ग) शारीरिक परिवर्तनबारे अभिभावक, शिक्षक वा स्वास्थ्यकर्मीसँग खुलेर सोध्ने र
+भ्रामक सूचनामा नलाग्ने, (घ) आफ्नो र अरूको शरीरप्रति सम्मान राख्ने तथा असहज
+स्पर्श वा व्यवहार भए तुरुन्तै विश्वासिलो वयस्कलाई भन्ने।
 :::
