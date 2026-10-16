@@ -271,6 +271,70 @@ $$2x^3-8x=2x(x^2-4)=2x(x+2)(x-2)$$
 satisfied by $2x(x^2-4)$; the bracket still factorises.
 :::
 
+## 10.5 The three identities as areas
+
+```figure caption="The identity (a + b)² = a² + 2ab + b² seen as a square. The big square of side (a + b) is made of two squares and two equal rectangles."
+fig, ax = plt.subplots(figsize=(3.9, 3.5))
+A, B = 0.46, 0.28
+x0, y0 = 0.1, 0.1
+ax.add_patch(matplotlib.patches.Rectangle((x0, y0 + B), A, A,
+             facecolor=SERIES[0], alpha=0.8, edgecolor="white", linewidth=1.4))
+ax.add_patch(matplotlib.patches.Rectangle((x0 + A, y0 + B), B, A,
+             facecolor=SERIES[2], alpha=0.8, edgecolor="white", linewidth=1.4))
+ax.add_patch(matplotlib.patches.Rectangle((x0, y0), A, B,
+             facecolor=SERIES[2], alpha=0.8, edgecolor="white", linewidth=1.4))
+ax.add_patch(matplotlib.patches.Rectangle((x0 + A, y0), B, B,
+             facecolor=SERIES[3], alpha=0.8, edgecolor="white", linewidth=1.4))
+ax.text(x0 + A / 2, y0 + B + A / 2, "$a^2$", ha="center", va="center",
+        color="white", fontsize=12)
+ax.text(x0 + A + B / 2, y0 + B + A / 2, "$ab$", ha="center", va="center",
+        color="white", fontsize=10)
+ax.text(x0 + A / 2, y0 + B / 2, "$ab$", ha="center", va="center",
+        color="white", fontsize=10)
+ax.text(x0 + A + B / 2, y0 + B / 2, "$b^2$", ha="center", va="center",
+        color="white", fontsize=10)
+ax.text(x0 + A / 2, y0 + A + B + 0.03, "$a$", ha="center", color=INK,
+        fontsize=10)
+ax.text(x0 + A + B / 2, y0 + A + B + 0.03, "$b$", ha="center", color=INK,
+        fontsize=10)
+ax.set_xlim(0, 1)
+ax.set_ylim(0, 1)
+ax.set_aspect("equal")
+ax.axis("off")
+```
+
+| Identity | Expanded form | Used for |
+|---|---|---|
+| $(a+b)^2$ | $a^2 + 2ab + b^2$ | squaring a sum, mental arithmetic ($102^2$) |
+| $(a-b)^2$ | $a^2 - 2ab + b^2$ | squaring a difference ($98^2$) |
+| $a^2 - b^2$ | $(a+b)(a-b)$ | factorising, quick products ($53 \times 47$) |
+
+::: example Identities as a shortcut
+**Question.** Evaluate without a calculator: (i) $103^2$ (ii) $97^2$
+(iii) $56 \times 44$.
+
+**Answer.**
+(i) $(100+3)^2 = 10000 + 600 + 9 = \textbf{10609}$.
+(ii) $(100-3)^2 = 10000 - 600 + 9 = \textbf{9409}$.
+(iii) $(50+6)(50-6) = 2500 - 36 = \textbf{2464}$.
+:::
+
+::: example Factorising in two steps
+**Question.** Factorise $2x^2 - 18$.
+
+**Answer.** Take out the common factor first: $2(x^2 - 9)$.
+Now use the difference of two squares: $2(x+3)(x-3)$.
+**Note:** always look for the common factor before reaching for an identity.
+:::
+
+::: note Activity — the algebra tile wall
+Cut squares of side $a$, squares of side $b$ and rectangles $a \times b$ from
+card (take $a = 6$ cm, $b = 4$ cm). Arrange them to build a square of side
+$(a+b)$ and count what you used: one $a^2$, two $ab$, one $b^2$. Then try to
+build $(a+b)^2$ using only $a^2$ and $b^2$ — you cannot, and that is the proof
+that $(a+b)^2 \neq a^2 + b^2$.
+:::
+
 ## Chapter summary
 
 - Terms, coefficient, constant and degree describe the parts of an expression;
@@ -355,4 +419,23 @@ $$\frac{54x^5y^3}{6x^2y^2}=9x^3y$$
 
 **Check.** HCF of $6x^2y^2$ and $9x^3y$: numbers—3; $x$—$x^2$; $y$—$y$; so
 $3x^2y$ ✓. LCM: numbers—18; $x$—$x^3$; $y$—$y^2$; so $18x^3y^2$ ✓.
+:::
+
+**Extra practice**
+
+**Group B (2 marks)**
+
+11. Expand $(3x - 5)^2$.
+12. Evaluate $104 \times 96$ using an identity.
+
+**Group C (4 marks)**
+
+13. Factorise completely: (i) $3x^2 - 27$ (ii) $x^2 + 10x + 25$
+    (iii) $4a^2 - 9b^2$.
+
+::: note Extra practice — answers
+**11.** $9x^2 - 30x + 25$.
+**12.** $(100+4)(100-4) = 10000 - 16 = 9984$.
+**13.** (i) $3(x^2-9) = 3(x+3)(x-3)$. (ii) $(x+5)^2$.
+(iii) $(2a+3b)(2a-3b)$.
 :::

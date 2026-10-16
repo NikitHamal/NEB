@@ -236,6 +236,49 @@ $$150\,000\text{ cm}=1500\text{ m}=1.5\text{ km}$$
 $6\times0.25=1.5$ km ✓.
 :::
 
+## 4.5 Sharing in a given ratio
+
+```figure caption="Rs 1,800 shared in the ratio 2 : 3 : 4. The total is divided into 2 + 3 + 4 = 9 equal parts of Rs 200 each."
+labels = ["A  2 parts", "B  3 parts", "C  4 parts"]
+vals = [400, 600, 800]
+fig, ax = plt.subplots(figsize=(4.4, 3.0))
+ax.pie(vals, labels=labels, colors=[SERIES[0], SERIES[1], SERIES[2]],
+       autopct=lambda p: f"Rs {int(round(p * 18)):,}", startangle=90,
+       textprops=dict(color=INK, fontsize=8.6),
+       wedgeprops=dict(edgecolor="white", linewidth=1.5))
+ax.set_aspect("equal")
+```
+
+| Task | Method |
+|---|---|
+| Simplify a ratio | divide both terms by their HCF; make units the same first |
+| Share $x$ in $m:n$ | shares are $\frac{m}{m+n}x$ and $\frac{n}{m+n}x$ |
+| Compound ratio of $a:b$ and $c:d$ | $ac : bd$ |
+| Mean proportional between $a$ and $b$ | $\sqrt{ab}$ |
+| Check a proportion $a:b = c:d$ | $ad = bc$ (product of extremes = product of means) |
+
+::: example Sharing with a condition
+**Question.** Rs 4,500 is shared among A, B and C so that A : B $= 2 : 3$ and
+B : C $= 4 : 5$. Find each share.
+
+**Answer.** Make B common. A : B $= 2:3 = 8:12$; B : C $= 4:5 = 12:15$.
+So A : B : C $= 8 : 12 : 15$, giving $8 + 12 + 15 = 35$ parts.
+One part $= \frac{4500}{35} = 128.57$ (to 2 d.p.), so it is cleaner to compute
+each share directly:
+A $= \frac{8}{35}\times4500 = \textbf{Rs 1,028.57}$,
+B $= \frac{12}{35}\times4500 = \textbf{Rs 1,542.86}$,
+C $= \frac{15}{35}\times4500 = \textbf{Rs 1,928.57}$.
+**Check:** the three add to Rs 4,500.
+:::
+
+::: note Activity — the ratio in a recipe
+Take a simple recipe (say, rice and water in the ratio $1 : 2$, or tea with
+milk, water and sugar). Write the ratio, then scale it for 4 people and for 15
+people. Cook or prepare it if you can, and compare with the recipe for one.
+**Discussion:** Which ingredients scale in direct proportion and which do not
+(spices, cooking time)?
+:::
+
 ## Chapter summary
 
 - A ratio compares two quantities of the same kind and has no unit; write both
@@ -321,4 +364,24 @@ is $40\times6=240$ km. **Time at 60 km/h.** $240\div60=4$ hours.
 **Verify.** $40\times6=240$ and $60\times4=240$ ✓ — the product is the same, as
 inverse variation requires, and the time fell from 6 hours to 4 as the speed
 rose.
+:::
+
+**Extra practice**
+
+**Group B (2 marks)**
+
+11. Simplify the ratio 1 hour 20 minutes : 2 hours.
+12. Find the mean proportional between 8 and 18.
+
+**Group C (4 marks)**
+
+13. Divide Rs 7,560 among three workers in the ratio of the days they worked:
+    6 days, 7 days and 8 days.
+
+::: note Extra practice — answers
+**11.** $80 : 120 = 2 : 3$.
+**12.** $\sqrt{8 \times 18} = \sqrt{144} = 12$.
+**13.** Parts $= 6 + 7 + 8 = 21$; one part $= \frac{7560}{21} = 360$.
+Shares: $6 \times 360 = $ **Rs 2,160**, $7 \times 360 = $ **Rs 2,520**,
+$8 \times 360 = $ **Rs 2,880**. Check: they total Rs 7,560.
 :::

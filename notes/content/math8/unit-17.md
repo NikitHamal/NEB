@@ -220,6 +220,70 @@ with one right angle (or with equal diagonals) give a square. Check the angles,
 not only the lengths.
 :::
 
+## 17.4 Reading a point in four quadrants
+
+```figure caption="The four quadrants with the sign pattern of (x, y). Mixing up the order of the coordinates is the commonest error — x always comes first."
+fig, ax = plt.subplots(figsize=(4.3, 3.6))
+ax.axhline(0, color=INK, linewidth=1.2)
+ax.axvline(0, color=INK, linewidth=1.2)
+quad = [("I\n$(+,+)$", 2.2, 2.2), ("II\n$(-,+)$", -2.2, 2.2),
+        ("III\n$(-,-)$", -2.2, -2.2), ("IV\n$(+,-)$", 2.2, -2.2)]
+for lab, x, y in quad:
+    ax.text(x, y, lab, ha="center", va="center", color=MUTED, fontsize=9)
+pts = [("A(3,2)", 3, 2), ("B(-3,1)", -3, 1), ("C(-2,-3)", -2, -3),
+       ("D(4,-2)", 4, -2)]
+for lab, x, y in pts:
+    ax.plot([x], [y], marker="o", markersize=6, color=SERIES[0])
+    ax.annotate(lab, xy=(x, y), xytext=(x + 0.25, y + 0.3), fontsize=8,
+                color=INK)
+ax.set_xlim(-5, 5)
+ax.set_ylim(-5, 5)
+ax.set_xticks(range(-4, 5, 2))
+ax.set_yticks(range(-4, 5, 2))
+ax.grid(color=GRID, linewidth=0.7)
+ax.set_axisbelow(True)
+for s in ("top", "right"):
+    ax.spines[s].set_visible(False)
+ax.tick_params(colors=MUTED, labelsize=8)
+ax.set_aspect("equal")
+```
+
+| Task | Rule |
+|---|---|
+| Plot $(x, y)$ | $x$ along the horizontal axis first, then $y$ |
+| Distance from the origin | $\sqrt{x^2 + y^2}$ |
+| Distance between two points | $\sqrt{(x_2-x_1)^2 + (y_2-y_1)^2}$ |
+| Point on the $x$-axis | $y = 0$, e.g. $(5, 0)$ |
+| Point on the $y$-axis | $x = 0$, e.g. $(0, -3)$ |
+| Midpoint of a segment | $\left(\frac{x_1+x_2}{2}, \frac{y_1+y_2}{2}\right)$ |
+
+::: example Distance and midpoint together
+**Question.** For $P(2, 3)$ and $Q(8, 11)$, find (i) the distance $PQ$
+(ii) the midpoint of $PQ$.
+
+**Answer.**
+(i) $PQ = \sqrt{(8-2)^2 + (11-3)^2} = \sqrt{36 + 64} = \sqrt{100} =
+\textbf{10 units}$.
+(ii) Midpoint $= \left(\frac{2+8}{2}, \frac{3+11}{2}\right) = \textbf{(5, 7)}$.
+:::
+
+::: example Area of a triangle from coordinates
+**Question.** Find the area of the triangle with vertices $A(1,1)$, $B(5,1)$
+and $C(1,6)$.
+
+**Answer.** $AB$ is horizontal with length $5 - 1 = 4$; $AC$ is vertical with
+length $6 - 1 = 5$; the angle at $A$ is a right angle.
+Area $= \frac{1}{2} \times 4 \times 5 = \textbf{10 square units}$.
+:::
+
+::: note Activity — treasure hunt on squared paper
+In pairs, each student hides a "treasure" at a lattice point on a grid from
+$-6$ to $6$ and writes down its coordinates. Partners take turns guessing a
+point; the hider answers only with the **distance** to the treasure, worked out
+with the distance formula. Three correct distances are usually enough to locate
+it.
+:::
+
 ## Chapter summary
 
 - A point is written $(x,y)$, $x$ first; the axes divide the plane into four
@@ -302,4 +366,26 @@ Hypotenuse $=QR=10$ units.
 **Check.** $PQ$ lies along the $x$-axis and $PR$ along the $y$-axis, so they meet
 at 90° ✓, and the hypotenuse is the side opposite the right angle, which is
 $QR$.
+:::
+
+**Extra practice**
+
+**Group B (2 marks)**
+
+11. State the quadrant of $(-7, 4)$ and of $(5, -9)$.
+12. Find the distance of $(-6, 8)$ from the origin.
+
+**Group C (4 marks)**
+
+13. $P(2,-1)$, $Q(6,-1)$ and $R(6,4)$ are the vertices of a triangle. Find
+    (i) $PQ$ (ii) $QR$ (iii) $PR$ (iv) the area of the triangle.
+
+::: note Extra practice — answers
+**11.** $(-7,4)$ is in the second quadrant; $(5,-9)$ is in the fourth.
+**12.** $\sqrt{36+64} = 10$ units.
+**13.** (i) $PQ = 6 - 2 = 4$ units (horizontal).
+(ii) $QR = 4 - (-1) = 5$ units (vertical).
+(iii) $PR = \sqrt{4^2 + 5^2} = \sqrt{41} \approx 6.4$ units.
+(iv) The right angle is at $Q$, so area $= \frac{1}{2} \times 4 \times 5 =
+10$ square units.
 :::

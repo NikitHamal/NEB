@@ -192,6 +192,69 @@ point, and whether the scale is stated. Write the scale on the drawing; it is
 worth a mark on its own.
 :::
 
+## 20.4 Bearings on the compass rose
+
+A bearing is always measured **clockwise from north** and written with
+**three figures**: $045°$, not $45°$.
+
+```figure caption="The compass rose with the four cardinal and four intercardinal bearings. The back bearing of any direction differs by 180 degrees."
+import math
+fig, ax = plt.subplots(figsize=(4.0, 3.8))
+pts = [("N  000°", 0), ("NE  045°", 45), ("E  090°", 90), ("SE  135°", 135),
+       ("S  180°", 180), ("SW  225°", 225), ("W  270°", 270),
+       ("NW  315°", 315)]
+for lab, b in pts:
+    a = math.radians(90 - b)
+    x, y = 0.5 + 0.36 * math.cos(a), 0.5 + 0.36 * math.sin(a)
+    ax.annotate("", xy=(x, y), xytext=(0.5, 0.5),
+                arrowprops=dict(arrowstyle="-|>", color=SERIES[b // 45 % 6],
+                                lw=1.3))
+    ax.text(0.5 + 0.455 * math.cos(a), 0.5 + 0.455 * math.sin(a), lab,
+            ha="center", va="center", color=INK, fontsize=7.6)
+ax.add_patch(matplotlib.patches.Circle((0.5, 0.5), 0.36, facecolor="none",
+                                       edgecolor=GRID, linewidth=1.0))
+ax.set_xlim(0, 1)
+ax.set_ylim(0, 1)
+ax.set_aspect("equal")
+ax.axis("off")
+```
+
+| Idea | Rule | Example |
+|---|---|---|
+| Bearing | clockwise from north, three figures | due east $= 090°$ |
+| Back bearing | add $180°$ (subtract if the sum exceeds $360°$) | bearing $070° \to$ back bearing $250°$ |
+| Scale as a ratio | $1 : n$ means 1 unit on the map is $n$ units on the ground | $1 : 50{,}000$ |
+| Map to ground | ground $=$ map length $\times n$ | 4 cm on $1:25{,}000 = 1$ km |
+| Ground to map | map $=$ ground length $\div n$ | 3 km on $1:50{,}000 = 6$ cm |
+
+::: example Bearing and back bearing
+**Question.** A village B lies on a bearing of $130°$ from A. What is the
+bearing of A from B?
+
+**Answer.** Back bearing $= 130° + 180° = \textbf{310°}$.
+(If the first bearing had been more than $180°$, we would subtract instead: the
+back bearing of $250°$ is $250° - 180° = 070°$.)
+:::
+
+::: example Scale drawing
+**Question.** On a map of scale $1:40{,}000$, two towns are 6.5 cm apart. Find
+the real distance in kilometres. How far apart would they be on a $1:25{,}000$
+map?
+
+**Answer.** Real distance $= 6.5 \times 40{,}000 = 260{,}000$ cm $= \textbf{2.6
+km}$.
+On the $1:25{,}000$ map: $\frac{260000}{25000} = \textbf{10.4 cm}$ — a larger
+scale gives a bigger picture of the same ground.
+:::
+
+::: note Activity — map your route to school
+Pace out the route from your home to school, counting paces for each straight
+stretch and noting the bearing at each turn with a compass (or a compass app).
+Then draw the route to a scale of 1 cm to 50 m, marking each bearing.
+**Check:** measure the straight-line distance on your drawing and convert it
+back to metres. How does it compare with the distance you actually walk?
+:::
+
 ## Chapter summary
 
 - A bearing is measured clockwise from north and written in three figures, from
@@ -288,4 +351,25 @@ $\theta\approx76.9°$ east of north, that is a bearing of about **077°**.
 legs: the total path is 140 km, so a direct distance of 100 km implies a good
 deal of turning, which is true here (90° between the two legs), and the final
 bearing of 077° is between 040° and 130° as it must be.
+:::
+
+**Extra practice**
+
+**Group B (2 marks)**
+
+11. Write the bearing of due south-west and its back bearing.
+12. On a $1:20{,}000$ map, how long is a 3 km road?
+
+**Group C (4 marks)**
+
+13. A boat sails 8 km on a bearing of $090°$, then 6 km on a bearing of $000°$.
+    Draw a rough sketch, and find its distance from the starting point.
+
+::: note Extra practice — answers
+**11.** South-west $= 225°$; back bearing $= 225° - 180° = 045°$.
+**12.** $3$ km $= 300{,}000$ cm; map length $= \frac{300000}{20000} = 15$ cm.
+**13.** The two legs are at right angles (east then north), so the path forms a
+right-angled triangle with legs 8 km and 6 km.
+Distance $= \sqrt{8^2 + 6^2} = \sqrt{64 + 36} = \sqrt{100} = \textbf{10 km}$
+from the start.
 :::
