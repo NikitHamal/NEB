@@ -17,6 +17,8 @@ EN = dict(
             ("answer-key", "Answer Key")),
     credits_h="Picture Credits", credits_sub="Images used in this book",
     unknown_author="Unknown author", lic_unknown="licence unknown", via="via", web="the web",
+    credits_note=("File titles, author names and licence codes are reproduced in "
+                  "their original form, as each licence requires."),
     no_grid="See the NEB specification grid for the current pattern.",
     boxes={"key": "Key point", "example": "Worked example", "caution": "Common mistake",
            "tip": "Exam tip", "definition": "Definition", "derivation": "Derivation",
@@ -76,6 +78,8 @@ NE.update(
             ("answer-key", "उत्तरकुञ्जी")),
     credits_h="चित्र श्रेय", credits_sub="यस पुस्तकमा प्रयोग भएका चित्र",
     unknown_author="अज्ञात रचनाकार", lic_unknown="अनुमतिपत्र अज्ञात", via="स्रोत:", web="इन्टरनेट",
+    credits_note=("फाइलको नाम, रचनाकारको नाम र अनुमतिपत्रको सङ्केत अनुमतिपत्रले "
+                  "माग गरेअनुसार मूल रूपमै राखिएका छन्।"),
     no_grid="हालको ढाँचाका लागि राष्ट्रिय परीक्षा बोर्डको विशिष्टीकरण तालिका हेर्नुहोस्।",
     boxes={"key": "मुख्य बुँदा", "example": "हल गरिएको उदाहरण", "caution": "सामान्य त्रुटि",
            "tip": "परीक्षा सुझाव", "definition": "परिभाषा", "derivation": "व्युत्पत्ति",
