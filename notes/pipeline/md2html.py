@@ -1,7 +1,8 @@
 """NEBians chapter markdown -> styled HTML fragment."""
 import base64, os, re, html as _html
 import markdown as _md
-import mathsvg, figrun, photo, assets, i18n
+import mathsvg
+import devaeqn, figrun, photo, assets, i18n
 
 _PLACE = "\x00NEB{}\x00"
 
@@ -106,6 +107,10 @@ def _inline_math_html(text: str) -> str:
     out, pos = [], 0
     for m in _IMATH.finditer(text):
         out.append(_html.escape(text[pos:m.start()]))
+        if devaeqn.DEVA.search(m.group(1)):
+            out.append(devaeqn.html(m.group(1)))
+            pos = m.end()
+            continue
         path, h, d = mathsvg.render(m.group(1), 10.2)
         out.append(f'<img class="im" src="{_svg_data_uri(path)}" '
                    f'style="vertical-align:-{d * 0.72 + 0.86:.2f}pt" alt="math">'
@@ -138,8 +143,13 @@ def _outside_code(body, fn):
 def _extract_display_math(body, store):
     def rep(m):
         tex = m.group(1)
-        path, h, d = mathsvg.render(tex, 14.6, display=True)
         i = len(store)
+        if devaeqn.DEVA.search(tex):
+            # A formula written in Nepali words is running text, not maths:
+            # typeset it in the book's Devanagari font (see devaeqn.py).
+            store.append('<div class="dm">%s</div>' % devaeqn.html(tex, True))
+            return "\n\n" + _PLACE.format(i) + "\n\n"
+        path, h, d = mathsvg.render(tex, 14.6, display=True)
         if not path:
             store.append(f'<div class="dm"><code>{_html.escape(tex.strip())}</code></div>')
         else:
@@ -151,8 +161,11 @@ def _extract_display_math(body, store):
 def _extract_inline_math(body, store):
     def rep(m):
         tex = m.group(1)
-        path, h, d = mathsvg.render(tex, 10.2)
         i = len(store)
+        if devaeqn.DEVA.search(tex):
+            store.append(devaeqn.html(tex))
+            return _PLACE.format(i)
+        path, h, d = mathsvg.render(tex, 10.2)
         if not path:
             store.append(f'<code>{_html.escape(tex)}</code>')
         else:
