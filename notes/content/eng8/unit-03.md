@@ -332,12 +332,12 @@ phone while it is inside a bag where heat cannot escape.
 
 **Group B (2 marks each)**
 
-11. Turn into an instruction: *The detergent should be added to the drawer.*
-12. Write a two-sentence public announcement about a cancelled sports day.
+**11.** Turn into an instruction: *The detergent should be added to the drawer.*
+**12.** Write a two-sentence public announcement about a cancelled sports day.
 
 **Group C (4 marks)**
 
-13. Write instructions in six steps for using a mobile banking application to
+**13.** Write instructions in six steps for using a mobile banking application to
     send money, including one warning.
 
 ::: note Extra practice — answers

@@ -357,12 +357,12 @@ bearing of 077° is between 040° and 130° as it must be.
 
 **Group B (2 marks)**
 
-11. Write the bearing of due south-west and its back bearing.
-12. On a $1:20{,}000$ map, how long is a 3 km road?
+**11.** Write the bearing of due south-west and its back bearing.
+**12.** On a $1:20{,}000$ map, how long is a 3 km road?
 
 **Group C (4 marks)**
 
-13. A boat sails 8 km on a bearing of $090°$, then 6 km on a bearing of $000°$.
+**13.** A boat sails 8 km on a bearing of $090°$, then 6 km on a bearing of $000°$.
     Draw a rough sketch, and find its distance from the starting point.
 
 ::: note Extra practice — answers

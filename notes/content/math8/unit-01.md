@@ -381,12 +381,12 @@ $=80+50=130$. **Check.** $80+40+50+30=200$ ✓.
 
 **Group B (2 marks)**
 
-14. If $n(A) = 24$, $n(B) = 18$ and $n(A \cup B) = 35$, find $n(A \cap B)$.
-15. Write in set notation: *students who play neither game*.
+**14.** If $n(A) = 24$, $n(B) = 18$ and $n(A \cup B) = 35$, find $n(A \cap B)$.
+**15.** Write in set notation: *students who play neither game*.
 
 **Group C (4 marks)**
 
-16. Of 80 households, 52 keep goats, 41 keep poultry and 9 keep neither. Find
+**16.** Of 80 households, 52 keep goats, 41 keep poultry and 9 keep neither. Find
     how many keep both, and how many keep goats only.
 
 ::: note Extra practice — answers

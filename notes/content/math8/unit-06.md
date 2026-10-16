@@ -321,13 +321,13 @@ distance, as they must at the meeting point.
 
 **Group B (2 marks)**
 
-11. If 8 pipes fill a tank in 18 hours, how long will 12 such pipes take?
-12. A car covers 180 km in 3 hours. At the same speed, how far will it go in
+**11.** If 8 pipes fill a tank in 18 hours, how long will 12 such pipes take?
+**12.** A car covers 180 km in 3 hours. At the same speed, how far will it go in
     5 hours?
 
 **Group C (4 marks)**
 
-13. 20 workers can finish a job in 15 days. After 6 days, 5 workers leave. In
+**13.** 20 workers can finish a job in 15 days. After 6 days, 5 workers leave. In
     how many more days will the remaining workers finish the job?
 
 ::: note Extra practice — answers

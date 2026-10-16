@@ -305,12 +305,12 @@ length — a short reason is more polite than a long excuse.
 
 **Group B (2 marks each)**
 
-11. Rewrite with sensory detail: *It was raining and we waited for the bus.*
-12. Join using *as soon as*: *The bell rang. The children ran out.*
+**11.** Rewrite with sensory detail: *It was raining and we waited for the bus.*
+**12.** Join using *as soon as*: *The bell rang. The children ran out.*
 
 **Group C (4 marks)**
 
-13. Write a short memoir (about 120 words) of a day that did not go as planned.
+**13.** Write a short memoir (about 120 words) of a day that did not go as planned.
 
 ::: note Extra practice — answers
 **11.** e.g. *Rain hammered on the tin roof of the shelter, and we stood

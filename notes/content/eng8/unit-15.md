@@ -335,12 +335,12 @@ subject line, the information (what, where, when, who), the action required
 
 **Group B (2 marks each)**
 
-11. Rewrite with a modal verb of obligation: *Separating waste is necessary.*
-12. Write one cause-and-effect sentence about deforestation.
+**11.** Rewrite with a modal verb of obligation: *Separating waste is necessary.*
+**12.** Write one cause-and-effect sentence about deforestation.
 
 **Group C (4 marks)**
 
-13. Write an essay of about 150 words on *Conservation of the Earth Begins at
+**13.** Write an essay of about 150 words on *Conservation of the Earth Begins at
     Home*.
 
 ::: note Extra practice — answers

@@ -329,12 +329,12 @@ earns less here, because both the rate and the time are lower.
 
 **Group B (2 marks)**
 
-11. Find the simple interest on Rs 7,500 for 2 years at 8 % per annum.
-12. What principal earns Rs 2,400 in 3 years at 8 % per annum?
+**11.** Find the simple interest on Rs 7,500 for 2 years at 8 % per annum.
+**12.** What principal earns Rs 2,400 in 3 years at 8 % per annum?
 
 **Group C (4 marks)**
 
-13. A man borrows Rs 30,000 at 12 % per annum and repays the whole amount after
+**13.** A man borrows Rs 30,000 at 12 % per annum and repays the whole amount after
     2 years 6 months. Find the interest and the total repayment.
 
 ::: note Extra practice — answers

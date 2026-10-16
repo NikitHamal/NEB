@@ -347,12 +347,12 @@ of the caretaker.
 
 **Group B (2 marks each)**
 
-11. Rewrite with evidence: *Many tourists visit Chitwan.*
-12. Use *poaching* and *corridor* in sentences of your own.
+**11.** Rewrite with evidence: *Many tourists visit Chitwan.*
+**12.** Use *poaching* and *corridor* in sentences of your own.
 
 **Group C (4 marks)**
 
-13. Write a news report of about 120 words on a tiger count released by the
+**13.** Write a news report of about 120 words on a tiger count released by the
     government.
 
 ::: note Extra practice — answers

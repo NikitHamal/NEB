@@ -341,12 +341,12 @@ had"). Finish with which school suited you better and why.
 
 **Group B (2 marks each)**
 
-11. Use *verify* and *distraction* in sentences of your own.
-12. Rewrite in the passive: *Students use smartphones for research.*
+**11.** Use *verify* and *distraction* in sentences of your own.
+**12.** Rewrite in the passive: *Students use smartphones for research.*
 
 **Group C (4 marks)**
 
-13. Write a paragraph (about 120 words) on *Smartphones in Our Life*, using the
+**13.** Write a paragraph (about 120 words) on *Smartphones in Our Life*, using the
     claim–evidence–counter-claim–resolution shape.
 
 ::: note Extra practice — answers

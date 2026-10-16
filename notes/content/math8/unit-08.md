@@ -386,13 +386,13 @@ $\frac{12\,320}{20}=616$ minutes, that is **10 hours 16 minutes**.
 
 **Group B (2 marks)**
 
-14. Find the total surface area of a cuboid 8 cm × 5 cm × 3 cm.
-15. The circumference of a circle is 88 cm. Find its radius
+**14.** Find the total surface area of a cuboid 8 cm × 5 cm × 3 cm.
+**15.** The circumference of a circle is 88 cm. Find its radius
     ($\pi = \frac{22}{7}$).
 
 **Group C (4 marks)**
 
-16. A room 6 m × 5 m × 3.5 m is to be carpeted on the floor at Rs 450 per m²
+**16.** A room 6 m × 5 m × 3.5 m is to be carpeted on the floor at Rs 450 per m²
     and painted on the four walls at Rs 110 per m², with one door
     2 m × 1 m. Find the total cost.
 

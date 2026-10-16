@@ -385,12 +385,12 @@ $300\,000\div30\,000=10$ ✓.
 
 **Group B (2 marks)**
 
-11. Classify as rational or irrational with a reason: $\sqrt{64}$, $\sqrt{20}$.
-12. Express $0.\overline{45}$ as a fraction in its lowest terms.
+**11.** Classify as rational or irrational with a reason: $\sqrt{64}$, $\sqrt{20}$.
+**12.** Express $0.\overline{45}$ as a fraction in its lowest terms.
 
 **Group C (4 marks)**
 
-13. Insert any three rational numbers between $\frac{2}{5}$ and $\frac{3}{5}$,
+**13.** Insert any three rational numbers between $\frac{2}{5}$ and $\frac{3}{5}$,
     and state why infinitely many exist.
 
 ::: note Extra practice — answers

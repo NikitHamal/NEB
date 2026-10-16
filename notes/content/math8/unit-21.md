@@ -411,12 +411,12 @@ family better than 1.05 does.
 
 **Group B (2 marks)**
 
-14. The mean of 8 numbers is 17. Find their sum.
-15. In a pie chart of 72 students, how many degrees represent 18 students?
+**14.** The mean of 8 numbers is 17. Find their sum.
+**15.** In a pie chart of 72 students, how many degrees represent 18 students?
 
 **Group C (4 marks)**
 
-16. The daily wages of 40 workers are: $300$–$400$: 6, $400$–$500$: 12,
+**16.** The daily wages of 40 workers are: $300$–$400$: 6, $400$–$500$: 12,
     $500$–$600$: 14, $600$–$700$: 8. Find the mean wage and the modal class,
     and say which average best describes the data.
 
