@@ -11,25 +11,57 @@ rebuild, never a hand-patch of the PDF.
 |---|---|---|
 | **Grade 8** | | |
 | नेपाली | 17 | 155 |
-| Mathematics | 21 | 166 |
-| Science and Technology | 11 | 119 |
-| Compulsory English | 19 | 157 |
+| Mathematics | 21 | 174 |
+| Science and Technology | 11 | 117 |
+| Compulsory English | 19 | 160 |
 | सामाजिक अध्ययन तथा मानव मूल्य शिक्षा | 9 | 94 |
-| स्वास्थ्य, शारीरिक तथा सिर्जनात्मक कला | 13 | 90 |
-| Question Bank (all six subjects) | 19 | 122 |
+| स्वास्थ्य, शारीरिक तथा सिर्जनात्मक कला | 13 | 105 |
+| Question Bank (all six subjects) | 19 | 135 |
 | **Grade 10** | | |
-| अनिवार्य नेपाली | 17 | 256 |
-| Compulsory English | 19 | 281 |
-| Mathematics | 16 | 222 |
-| Optional Mathematics | 14 | — |
+| अनिवार्य नेपाली | 17 | 261 |
+| Compulsory English | 18 | 281 |
+| Mathematics | 18 | 227 |
+| Optional Mathematics | 12 | 186 |
 | Science and Technology | 19 | 275 |
 | सामाजिक अध्ययन तथा मानव मूल्य शिक्षा | 10 | 126 |
-| Accountancy | 15 | 192 |
-| Economics | 6 | 97 |
-| Question Bank | 19 | 248 |
+| Accountancy | 15 | 188 |
+| Economics | 6 | 96 |
+| Question Bank | 19 | 247 |
 | Commerce Question Bank | 7 | 86 |
 
-`check.py` passes on every chapter in `notes/content/`.
+`check.py` passes on every chapter in `notes/content/`. The two sets total
+about 2,900 pages.
+
+## The polish pass (what changed after the first build)
+
+- **Predicted questions.** The grade 8 bank now has the ranked, tiered
+  predicted-question chapters the grade 10 bank has — six of them, one per
+  subject, each explaining *why* a form ranks where it does. Every objective
+  chapter opens with a marks-weightage chart, and every answer carries a
+  reason.
+- **Diagrams.** `figrun` gained a small shape library — `flow()`, `cycle()`,
+  `cards()`, `relation()`, `barh_ranked()` — so a chapter asks for a shape
+  instead of hand-placing rectangles. The thin hand-drawn diagrams were
+  redrawn with it, and bar charts whose category names collided on the x axis
+  became ranked horizontal bars.
+- **Summaries.** Several Nepali books name the summary पाठको सार or एकाइको
+  सार; the frame regex matched neither, so those summaries printed as bare
+  bullets. Fixed, and a summary of short points is now set two to a row.
+- **Photographs** that had been parked above the summary are distributed
+  through the sections they illustrate, and the Latin source line under each
+  photograph is dropped from Nepali books (the credits appendix keeps the full
+  attribution, with a Nepali note explaining why those lines stay in their
+  original form).
+- **Page economy.** Headings stay with their text, long tables repeat their
+  header, rows do not split, and a long summary flows instead of pushing a
+  gap to the next page.
+- **Maths and figures.** Inline maths is set at body size and cropped tight;
+  display maths is larger; charts are drawn on a larger canvas at the same
+  type size. Four display equations that no longer fitted the column were
+  split at an `=`.
+- **Practice numbering.** Markdown restarts an ordered list at 1, so the extra
+  practice questions were numbered 1, 2, 3 against answer keys numbered 4, 5,
+  6. They are bold-numbered paragraphs now and keep their numbers.
 
 ## The rules that shaped this work
 
