@@ -11,11 +11,11 @@ rebuild, never a hand-patch of the PDF.
 |---|---|---|
 | **Grade 8** | | |
 | नेपाली | 17 | 173 |
-| Mathematics | 21 | 176 |
-| Science and Technology | 11 | 125 |
-| Compulsory English | 19 | 162 |
+| Mathematics | 21 | 180 |
+| Science and Technology | 11 | 127 |
+| Compulsory English | 19 | 172 |
 | सामाजिक अध्ययन तथा मानव मूल्य शिक्षा | 9 | 107 |
-| स्वास्थ्य, शारीरिक तथा सिर्जनात्मक कला | 13 | 105 |
+| स्वास्थ्य, शारीरिक तथा सिर्जनात्मक कला | 13 | 111 |
 | Question Bank (all six subjects) | 19 | 135 |
 | **Grade 10** | | |
 | अनिवार्य नेपाली | 17 | 261 |
@@ -119,6 +119,14 @@ paper is ten objective items, and the first draft trained none of them.
 - **English** — reading for purpose, writing from data, instructions,
   narrative shape, persuasion, the anecdote, plus objective sets.
   157 → 162 pp.
+
+### Objective practice is now complete
+
+Group A of the Basic Level paper is ten one-mark items, and the first draft
+trained none of them inside the chapters. **Every unit of all six grade 8
+books now ends with a five-item objective set whose key gives a reason for
+each answer** — 90 units, 450 items. The sets were written against the facts
+line of each chapter, so they double as a last-night revision pass.
 
 ## Pipeline notes for the next session
 
