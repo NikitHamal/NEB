@@ -200,6 +200,60 @@ at the usual time. Students must collect their holiday assignments from their
 class teachers before 9 Bhadra. By order of the Principal, (name), Principal.
 :::
 
+## 15.4 The language of persuasion
+
+Writing about conservation means asking someone to **act**. Four tools do most
+of the work.
+
+| Tool | How it sounds | Example |
+|---|---|---|
+| Evidence | numbers, named places | *Nepal's forest cover rose from 39 % to about 45 % under community forestry.* |
+| Modal verbs | obligation, possibility | *Every household **should** separate its waste; a village **can** compost its own leaves.* |
+| Imperatives | direct call to act | *Plant one tree. Keep it alive.* |
+| Cause and effect | consequences made visible | *Because the slope was cleared, the spring below it dried within three years.* |
+
+```figure caption="Nepal's forest cover over three decades (approximate figures). The rise after community forestry began is one of the strongest conservation arguments available to a Nepali student."
+yrs = ["1994", "2004", "2014", "2024"]
+cover = [39, 39.6, 44.7, 45.3]
+fig, ax = plt.subplots(figsize=(4.7, 2.8))
+ax.plot(yrs, cover, color=SERIES[1], marker="o", markersize=5.5, linewidth=2.2)
+ax.fill_between(range(len(yrs)), cover, color=SERIES[1], alpha=0.14)
+for i, v in enumerate(cover):
+    ax.text(i, v + 0.5, f"{v}%", ha="center", color=INK, fontsize=8.6)
+ax.set_ylim(36, 48)
+ax.set_ylabel("forest cover (% of land)", color=MUTED, fontsize=9)
+ax.grid(axis="y", color=GRID, linewidth=0.7)
+ax.set_axisbelow(True)
+for s in ("top", "right"):
+    ax.spines[s].set_visible(False)
+ax.tick_params(colors=MUTED, labelsize=8.4)
+```
+
+::: note Activity — the two-minute campaign
+In groups of four, choose one problem in your school or ward: waste, a dried
+spring, plastic in the river, a bare slope. Prepare a two-minute spoken
+campaign with: one number, one local example, one thing you ask the listener to
+do this week, and one thing you will do yourselves. Deliver it to the class;
+the class votes on which campaign they would actually join, and says why.
+:::
+
+::: example Notice and essay from the same facts
+**As a notice (for the board).**
+> **NOTICE** — *All students are informed that waste will be separated from
+> Sunday. Two bins will be placed in every corridor: green for kitchen and
+> garden waste, blue for paper, plastic and glass. Class monitors will keep the
+> weekly record. — Coordinator, Eco Club, 5 Asar*
+
+**As an essay opening.**
+> *Our school throws away about forty kilograms of waste a week, and almost
+> half of it is vegetable peel that could be compost by next month. Separating
+> waste is not an environmental slogan; it is a change of two bins and one
+> habit.*
+
+Same facts, two jobs: a notice tells people **what will happen**; an essay
+argues **why it should**.
+:::
+
 ## Chapter summary
 
 - An argumentative essay has four parts: position, reasons with evidence,
@@ -275,4 +329,28 @@ answer it. Paragraph 4: say exactly what should happen, by whom and by when.
 **7.** Use the seven-line form: office name, NOTICE, reference number and date,
 subject line, the information (what, where, when, who), the action required
 (bring gloves and a spade, report at 7 a.m.), and the signature block.
+:::
+
+**Extra practice**
+
+**Group B (2 marks each)**
+
+11. Rewrite with a modal verb of obligation: *Separating waste is necessary.*
+12. Write one cause-and-effect sentence about deforestation.
+
+**Group C (4 marks)**
+
+13. Write an essay of about 150 words on *Conservation of the Earth Begins at
+    Home*.
+
+::: note Extra practice — answers
+**11.** *Every household should separate its waste.*
+**12.** e.g. *Because the slope above the village was cleared for firewood, the
+monsoon rain carried the topsoil away and the spring below dried up.*
+**13.** Marks: an introduction that states the claim; a body with concrete
+household actions (separate waste, compost, refuse single-use plastic, repair
+leaking taps, LED lamps, plant and water a sapling, walk or cycle short
+distances); at least one number or named local example; a counter-point
+acknowledged (one household alone changes little) and answered (habits scale
+through a community); and a short, specific conclusion.
 :::
