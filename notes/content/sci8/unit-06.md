@@ -174,6 +174,9 @@ on your legs. A heavy loaded truck has more inertia than a bicycle, which is why
 it takes much longer to stop.
 :::
 
+```photo id="sci10/apollo-feather" caption="A feather and a hammer fall together on the Moon, where there is no air resistance — the clearest demonstration that gravity accelerates all masses equally." width="66"
+```
+
 ## 6.2 Lever
 
 A **simple machine** is a device that makes work easier by changing the size or
@@ -257,6 +260,9 @@ the load does.
 
 **Note.** MA has no unit, because it is a ratio of two forces.
 :::
+
+```photo id="sci10/hydraulic-jack" caption="A hydraulic jack. A small force on the narrow piston lifts a large load on the wide one." width="58"
+```
 
 ## 6.3 Pressure
 
@@ -380,12 +386,6 @@ $$P=\frac{300}{0.25}=1200\ \text{Pa}$$
 changed, and the pressure changed with it. This is the whole reason for wide
 foundations under buildings and wide tyres on tractors.
 :::
-
-```photo id="sci10/apollo-feather" caption="A feather and a hammer fall together on the Moon, where there is no air resistance — the clearest demonstration that gravity accelerates all masses equally." width="66"
-```
-
-```photo id="sci10/hydraulic-jack" caption="A hydraulic jack. A small force on the narrow piston lifts a large load on the wide one." width="58"
-```
 
 ## Chapter summary
 

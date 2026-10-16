@@ -84,6 +84,12 @@ to find direction.
 - A compass is unreliable near iron, a loudspeaker or a magnet; keep it away
   from your phone and your steel bottle.
 
+```photo id="sci10/transformer-pole" caption="A pole-mounted distribution transformer. It steps the voltage down for household supply." width="62"
+```
+
+```photo id="sci10/electromagnet" caption="An electromagnet lifting scrap iron. Its magnetism lasts only while the current flows." width="62"
+```
+
 ## 8.2 Electricity
 
 ### 8.2.1 Static electricity
@@ -282,12 +288,6 @@ movement breaks the contact at the screw, so the current stops, the electromagne
 lets go, the spring pulls the armature back, the contact is made again, and the
 whole thing repeats — which is why a bell rings continuously while the button is
 pressed.
-
-```photo id="sci10/electromagnet" caption="An electromagnet lifting scrap iron. Its magnetism lasts only while the current flows." width="62"
-```
-
-```photo id="sci10/transformer-pole" caption="A pole-mounted distribution transformer. It steps the voltage down for household supply." width="62"
-```
 
 ## Chapter summary
 

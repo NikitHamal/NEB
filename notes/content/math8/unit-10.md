@@ -271,7 +271,7 @@ $$2x^3-8x=2x(x^2-4)=2x(x+2)(x-2)$$
 satisfied by $2x(x^2-4)$; the bracket still factorises.
 :::
 
-## 10.5 The three identities as areas
+## 10.7 The three identities as areas
 
 ```figure caption="The identity (a + b)² = a² + 2ab + b² seen as a square. The big square of side (a + b) is made of two squares and two equal rectangles."
 fig, ax = plt.subplots(figsize=(3.9, 3.5))

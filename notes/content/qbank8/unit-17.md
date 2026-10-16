@@ -47,6 +47,20 @@ area: स्वास्थ्य, शारीरिक तथा सिर्�
 **५.** (ख) — मृगौला।
 :::
 
+
+```figure caption="विषयका तीन भागको अङ्कभार। कला र शारीरिक शिक्षाले मिलेर झन्डै आधा अङ्क ओगट्ने हुँदा स्वास्थ्यका एकाइ मात्र पढेर यो पत्र उत्तीर्ण गर्न कठिन हुन्छ।"
+parts = ["स्वास्थ्य शिक्षा\n(५ एकाइ)", "शारीरिक शिक्षा\n(४ एकाइ)",
+         "सिर्जनात्मक कला\n(४ एकाइ)"]
+share = [22, 14, 14]
+fig, ax = plt.subplots(figsize=(4.5, 3.2))
+ax.pie(share, labels=parts, colors=[SERIES[2], SERIES[0], SERIES[3]],
+       autopct=lambda p: str(round(p * 0.5)).translate(
+           str.maketrans("0123456789", "०१२३४५६७८९")) + " अङ्क",
+       startangle=120, textprops=dict(color=INK, fontsize=8.6),
+       wedgeprops=dict(edgecolor="white", linewidth=1.5))
+ax.set_aspect("equal")
+```
+
 ## १७.२ सामुदायिक स्वास्थ्य र मानसिक स्वास्थ्य
 
 **तथ्य।** विश्व स्वास्थ्य सङ्गठनअनुसार स्वास्थ्य भनेको शारीरिक,

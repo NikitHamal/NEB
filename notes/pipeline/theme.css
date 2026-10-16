@@ -271,7 +271,7 @@ ol.q > li, .qsec ol > li { break-inside:avoid; }
 
 /* ---------- chapter summary ----------
    The page students actually revise from, so it gets a frame of its own. */
-.chsum { display:block; break-inside:avoid; margin:7mm 0 5mm 0;
+.chsum { display:block; break-inside:auto; margin:7mm 0 5mm 0;
          background:linear-gradient(180deg,var(--accent-wash) 0%,#ffffff 78%);
          border:.3mm solid var(--accent); border-radius:1.6mm;
          padding:5mm 6mm 4mm 6mm; }
@@ -279,7 +279,22 @@ ol.q > li, .qsec ol > li { break-inside:avoid; }
             color:var(--accent); border-bottom:.3mm solid var(--accent); }
 .chsum h2::before { content:"\2713\00a0\00a0"; font-weight:700; }
 .chsum ul, .chsum ol { padding-left:5.5mm; margin-bottom:0; }
-.chsum li { margin:1.2mm 0; text-align:left; }
+.chsum li { margin:1.2mm 0; text-align:left; break-inside:avoid; }
+/* A summary of short points reads as a card of facts, two to a row. */
+.chsum ul.cols2 { columns:2; column-gap:7mm; }
+.chsum ul.cols2 li { margin:0 0 1.6mm 0; }
 .chsum p { text-align:left; }
 .chsum table { background:#fff; }
 .chsum > :last-child { margin-bottom:0; }
+
+
+/* ---------- page economy ---------- */
+/* A heading at the foot of a page with its text overleaf is a wasted line and
+   an orphaned thought; keep each heading with what follows it. */
+h2, h3, h4 { break-after:avoid-page; }
+figure, table, .box, .chsum { break-before:auto; }
+/* Long tables repeat their header rather than losing it at a page turn. */
+thead { display:table-header-group; }
+tr { break-inside:avoid; }
+/* Two short paragraphs should not be split across a page turn. */
+p, li { orphans:2; widows:2; }

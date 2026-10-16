@@ -2,7 +2,7 @@
 subject: Question Bank
 grade: 8
 unit: 7
-title: "Mathematics: Model Question Sets"
+title: "Mathematics: Model Question Sets and Predicted Questions"
 hours: 0
 area: Mathematics
 ---
@@ -143,6 +143,57 @@ Do not rub out working. If the final number is wrong but the method is visible, 
 **Group B.** **11.** $n(A\cap B) = 20+16-30 = 6$. **12.** $3x-6 = 2x+8 \Rightarrow x = 14$. **13.** C.P. $= \frac{1045}{1.10} =$ Rs 950. **14.** $\frac{240}{4} = 60$ km/h, so $60\times7 = 420$ km. **15.** $2\pi rh = 2\times\frac{22}{7}\times3.5\times10 = 220$ cm². **16.** $4x^2+20x+25$. **17.** $\frac{360°}{24°} = 15$ sides. **18.** $(1,3)$. **19.** Mode 9; range $12-2 = 10$. **20.** All four sides equal; diagonals bisect each other at right angles (opposite angles equal, opposite sides parallel).
 
 **Group C.** **21.** At least one $= 45+50-25 = 70$; neither $= 80-70 = 10$. Venn: 20 newspaper only, 25 both, 25 television only, 10 outside. **22.** Cost $= 120\times85 =$ Rs 10,200. Sales $= 70\times95 + 50\times80 = 6650 + 4000 =$ Rs 10,650. Profit $=$ **Rs 450**; profit per cent $= \frac{450}{10200}\times100 =$ **4.41 %** (2 d.p.). **23.** Four walls $= 2h(l+b) = 2\times3\times9 = 54$ m². Openings $= 2 + 2(1.5) = 5$ m². Area to be papered $= 54 - 5 =$ **49 m²**. **24.** Multiply by 6: $2(2x+1) + 3(x-1) = 18 \Rightarrow 4x+2+3x-3 = 18 \Rightarrow 7x = 19$, so $x = \frac{19}{7}$. Check: $\frac{2(19/7)+1}{3} + \frac{(19/7)-1}{2} = \frac{45/7}{3} + \frac{12/7}{2} = \frac{15}{7} + \frac{6}{7} = 3$. ✓ **25.** Mid-values 10, 30, 50, 70, 90. $\sum fx = 5(10)+12(30)+20(50)+15(70)+8(90) = 50+360+1000+1050+720 = 3180$; mean $= \frac{3180}{60} =$ **53 marks**. Modal class $=$ **40–60**, with the highest frequency 20.
+:::
+
+## 7.4 Predicted questions: ranked practice priorities
+
+::: caution What "predicted" means here
+Nothing below is a forecast of a particular paper, and no local level's
+question is reproduced. These are **practice priorities**, ranked from the
+specification grid and from the shape of the syllabus: a topic ranks higher
+when it can be asked cleanly at the size the grid allows, when it has a fixed
+method that is quick to mark, and when the textbook gives it a full chapter.
+Work the top tier until the method is automatic.
+:::
+
+### 7.4.1 Tier A — rehearse until automatic
+
+| Rank | Topic and likely form | Marks | Why it ranks here |
+|---|---|---|---|
+| 1 | Profit and loss with discount and VAT, in one chain | 4 | Four steps, one answer — the classic long question of this paper. |
+| 2 | Simple interest, with the formula rearranged for $P$, $T$ or $R$ | 4 or 2 | Four question forms from a single formula. |
+| 3 | Area and volume: walls and ceiling of a room, cylinder in litres, cost of plastering | 4 | A real-life application with units to carry, which the grid rewards. |
+| 4 | Sets: $n(A \cup B)$ with a Venn diagram and a "neither" count | 4 | One formula, one diagram, one subtraction — easy to mark in steps. |
+| 5 | Statistics: mean from a frequency table, median, mode, pie-chart angles | 4 | Table-based and mechanical; nearly always present. |
+| 6 | Unitary method: workers and days, pipes and hours, speed and time | 4 or 2 | Direct and inverse variation in one question. |
+| 7 | Algebra: factorise and simplify an algebraic fraction, state excluded values | 4 | Tests identities and the cancelling rule together. |
+| 8 | Linear equations, including fractional equations and two-number problems | 4 or 2 | Solve-and-check is a complete four-mark answer. |
+
+### 7.4.2 Tier B — second pass
+
+| Rank | Topic and likely form | Marks | Why it ranks here |
+|---|---|---|---|
+| 9 | Angles: triangle and polygon angle sums, parallel lines with a transversal | 2 or 4 | Reasons carry the marks, and every reason is a named rule. |
+| 10 | Indices: simplification and solving $a^x = b$ | 2 | Short, exact, and quick to mark. |
+| 11 | Ratio and proportion: sharing in a ratio, compound ratio, mean proportional | 2 or 4 | Appears in both groups in most papers. |
+| 12 | Coordinates: distance, midpoint, plotting a triangle and its area | 4 | A diagram plus two formulas. |
+| 13 | Transformation: reflection and translation of a triangle | 4 | The image is easy to state and to check. |
+| 14 | Solid objects: Euler's relation, surface area and volume of a cuboid or cube | 2 | One relation, one substitution. |
+
+### 7.4.3 Tier C — a quick pass before the paper
+
+| Rank | Topic and likely form | Marks | Why it ranks here |
+|---|---|---|---|
+| 15 | Rational and irrational numbers: classify with a reason | 1 or 2 | Mostly objective items. |
+| 16 | Tessellation: which regular polygons tessellate and why | 2 | One idea — the interior angle must divide 360°. |
+| 17 | Bearing and scale drawing: three-figure bearings, back bearing, map scale | 2 or 4 | Short but regularly examined; practise the conversion. |
+| 18 | Congruency and similarity: name the test, find a missing side | 2 | A named test and a scale factor. |
+
+::: tip Formula card
+Write every formula from Tier A on a single card: profit per cent, discount,
+VAT, $I=\frac{PTR}{100}$, areas, volumes, $n(A\cup B)$, mean from a table,
+pie-chart angle. Read the card once a day. Most lost marks in this paper come
+from a half-remembered formula, not from arithmetic.
 :::
 
 ::: tip After the third set

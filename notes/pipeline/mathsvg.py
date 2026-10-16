@@ -91,7 +91,7 @@ def render(tex: str, fontsize: float = 11.0, display: bool = False):
     s = _clean(tex)
     if not s:
         return None, 0, 0
-    key = hashlib.sha1(f"{s}|{fontsize}|{display}|v5".encode()).hexdigest()[:20]
+    key = hashlib.sha1(f"{s}|{fontsize}|{display}|v6".encode()).hexdigest()[:20]
     out = os.path.join(CACHE, key + ".svg")
     meta = out + ".meta"
     if os.path.exists(out) and os.path.exists(meta):
@@ -122,7 +122,7 @@ def render(tex: str, fontsize: float = 11.0, display: bool = False):
         # observe a half-written SVG or an empty .meta.
         tmp = f"{out}.{os.getpid()}.tmp"
         fig.savefig(tmp, format="svg", transparent=True,
-                    bbox_inches="tight", pad_inches=0.012)
+                    bbox_inches="tight", pad_inches=0.005)
         plt.close(fig)
         os.replace(tmp, out)
     except Exception as e:

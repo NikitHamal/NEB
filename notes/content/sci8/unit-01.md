@@ -132,6 +132,9 @@ a burn, a broken glass? A student who can answer all three works safely and
 also writes a better report.
 :::
 
+```photo id="sci10/vernier" caption="A vernier calliper. Scientific measurement depends on reading an instrument correctly, not on guessing." width="62"
+```
+
 ## 1.3 Experimental work
 
 An experiment is a controlled test of an idea. A good experimental report has
@@ -206,6 +209,9 @@ research; it is copying, and it teaches nothing. When you use someone else's
 finding, say where it came from in your own list of sources. Your own reading
 from the meter or your own count of the households is the part that is yours.
 :::
+
+```photo id="sci10/microscope" caption="A compound microscope. Observation — the first step of the scientific method — often needs an instrument to extend the senses." width="62"
+```
 
 ## 1.5 Survey
 
@@ -295,12 +301,6 @@ classroom is about 8 m long, not 8 cm, and a school bag weighs a few kilograms,
 not a few grams. If the number looks impossible, the unit or the instrument is
 wrong.
 :::
-
-```photo id="sci10/vernier" caption="A vernier calliper. Scientific measurement depends on reading an instrument correctly, not on guessing." width="62"
-```
-
-```photo id="sci10/microscope" caption="A compound microscope. Observation — the first step of the scientific method — often needs an instrument to extend the senses." width="62"
-```
 
 ## Chapter summary
 

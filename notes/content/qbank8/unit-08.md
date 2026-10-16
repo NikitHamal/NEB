@@ -39,8 +39,21 @@ Roughly: three or four from a reading passage, three or four from grammar (tense
     (a) complaints (b) applications for a post (c) tenders for goods (d) donations
 
 ::: note Answers
-**1.** (b). **2.** (b) — *extinct* means already gone. **3.** (a). **4.** (b). **5.** (b). **6.** (b). **7.** (c). **8.** (b). **9.** (a) — *hibernation* is winter sleep. **10.** (b).
+**1.** (b) — an itinerary is the plan of a journey, not the ticket for it. **2.** (b) — *extinct* means already gone; *endangered* means still alive but at risk. **3.** (a) — a habitat is the place where a species naturally lives. **4.** (b) — a poacher hunts illegally; a ranger protects. **5.** (b) — *hospitality* is the friendly welcome of guests; *hostility* is its near-opposite. **6.** (b) — an anecdote is a short true story about a real incident. **7.** (c) — *ancient* and *modern* are the opposites; *old* and *antique* are near-synonyms. **8.** (b) — to inaugurate is to open formally. **9.** (a) — *hibernation* is winter sleep; *emigration* is of people leaving a country. **10.** (b) — a vacancy announcement invites applications for a post.
 :::
+
+
+```figure caption="How the English paper divides. Half of it is writing, a quarter is reading an unseen passage and a quarter is grammar and vocabulary — so reading the textbook units alone prepares for only a part of it."
+parts = ["Writing\n(letter, notice,\nessay, diary)", "Reading\n(unseen passage)",
+         "Grammar", "Vocabulary"]
+share = [24, 12, 9, 5]
+fig, ax = plt.subplots(figsize=(4.6, 3.2))
+ax.pie(share, labels=parts, colors=[SERIES[0], SERIES[2], SERIES[1], SERIES[3]],
+       autopct=lambda p: f"{round(p * 0.5)} marks", startangle=100,
+       textprops=dict(color=INK, fontsize=8.4),
+       wedgeprops=dict(edgecolor="white", linewidth=1.5))
+ax.set_aspect("equal")
+```
 
 ## 8.2 Tense
 
@@ -89,7 +102,7 @@ Roughly: three or four from a reading passage, three or four from grammar (tense
    (a) *of* (b) *with* (c) *by* (d) *from*
 
 ::: note Answers
-**1.** (b). **2.** (c) — present perfect passive. **3.** (b). **4.** (b). **5.** (b) — *arrive* is intransitive. **6.** (b). **7.** (a). **8.** (c) — though *with* is used for an instrument.
+**1.** (b) — present continuous passive: *is being repaired*. **2.** (c) — present perfect passive: *has been stolen*. **3.** (b) — the past simple active of *was written* is *wrote*. **4.** (b) — a modal passive keeps the modal: *must be obeyed*. **5.** (b) — *arrive* is intransitive, so it has no object to become a subject. **6.** (b) — present simple passive of a general fact. **7.** (a) — a past simple question becomes *Was … by …?* **8.** (c) — the doer takes *by*; *with* introduces the instrument.
 :::
 
 ## 8.4 Question tags, articles and prepositions
@@ -114,7 +127,7 @@ Roughly: three or four from a reading passage, three or four from grammar (tense
    (a) in (b) at (c) to (d) on
 
 ::: note Answers
-**1.** (b). **2.** (b). **3.** (b). **4.** (b) — *honest* begins with a vowel sound. **5.** (c) — unique superlative. **6.** (b). **7.** (c). **8.** (b) — *arrive at* a point, *arrive in* a country or city.
+**1.** (b) — a positive statement takes a negative tag, and the auxiliary is repeated: *hasn't she*. **2.** (b) — *Let's* always takes *shall we*. **3.** (b) — an imperative takes *will you*. **4.** (b) — *honest* begins with a vowel sound, so *an*. **5.** (c) — a unique superlative takes *the*. **6.** (b) — the fixed pair is *good at*. **7.** (c) — the fixed pair is *depend on*. **8.** (b) — *arrive at* a point, *arrive in* a country or city.
 :::
 
 ## 8.5 Reported speech and conditionals
@@ -139,7 +152,7 @@ Roughly: three or four from a reading passage, three or four from grammar (tense
    (a) that (b) what (c) if (d) which
 
 ::: note Answers
-**1.** (b). **2.** (b) — statement order, tense back. **3.** (b) — *told* takes an object. **4.** (b) — type 1. **5.** (c) — type 2 uses *were*. **6.** (a) — a general truth. **7.** (b). **8.** (c).
+**1.** (b) — the tense moves back one step: *am* becomes *was*. **2.** (b) — a reported question takes statement order and the tense moves back. **3.** (b) — *told* takes an object (*told us*); *said* does not. **4.** (b) — type 1: *if* + present, *will* + verb. **5.** (c) — type 2 uses *were* for every person. **6.** (a) — a general truth keeps the present simple in both clauses. **7.** (b) — *tomorrow* becomes *the next day* in reported speech. **8.** (c) — a yes/no question is reported with *if* or *whether*.
 :::
 
 ## 8.6 Unseen passage 1
@@ -181,7 +194,7 @@ Roughly: three or four from a reading passage, three or four from grammar (tense
    (a) certain of failure (b) satisfied that the problem is solved (c) cautious about coexistence (d) opposed to conservation
 
 ::: note Answers
-**1.** (c). **2.** (d) — 355. **3.** (b). **4.** (b) — village programmes paid for losses. **5.** (b). **6.** (c) — success has brought its own problem, and the next decade will be judged by coexistence.
+**1.** (c) — *to double the number of wild tigers by 2022*. **2.** (d) — 355, up from 121 in 2009. **3.** (b) — they joined the parks into corridors so young tigers could find territory. **4.** (b) — village programmes paid for livestock losses, so reporting was worth more than poisoning. **5.** (b) — an encounter here is a meeting between people and tigers. **6.** (c) — the writer says success has brought its own problem and the next decade will be judged by coexistence.
 :::
 
 ## 8.8 Word formation and spelling
@@ -206,7 +219,7 @@ Roughly: three or four from a reading passage, three or four from grammar (tense
    (a) dangerly (b) dangerous (c) endanger (d) dangered
 
 ::: note Answers
-**1.** (b). **2.** (c). **3.** (c). **4.** (b). **5.** (b). **6.** (b). **7.** (c). **8.** (b).
+**1.** (b) — *decide* → *decision*; *decisive* is the adjective. **2.** (c) — *nature* → *natural*; *naturally* is the adverb. **3.** (c) — *regular* takes the prefix *ir-*. **4.** (b) — *government* keeps the *n* of *govern*. **5.** (b) — *conserve* → *conservation*. **6.** (b) — *environment* keeps *iron* inside it, which is the easiest way to remember the spelling. **7.** (c) — *possible* takes *im-* before *p*. **8.** (b) — *danger* → *dangerous*.
 :::
 
 ::: tip Three minutes that are worth four marks

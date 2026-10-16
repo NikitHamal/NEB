@@ -127,6 +127,9 @@ the concrete wet for a few days is not optional — it is part of what makes it
 strong.
 :::
 
+```photo id="sci10/rust" caption="Rust on iron. Rusting needs both oxygen and moisture, which is why a painted or oiled surface is protected." width="64"
+```
+
 ## 10.3 Plastics and polymers
 
 A **polymer** is a very large molecule built by joining many small units.
@@ -182,6 +185,9 @@ rivers and lakes, where it makes algae grow uncontrollably. The algae die, their
 decay uses up the oxygen in the water, and fish are suffocated. Chemical
 fertiliser is therefore used together with compost, in the amount the crop
 actually needs.
+
+```photo id="sci10/pet-bottles" caption="Collected plastic bottles. Most plastics are non-biodegradable, so segregation and recycling are the only real answers." width="68"
+```
 
 ## 10.5 Fibre
 
@@ -264,12 +270,6 @@ the water turns to steam suddenly under the hot oil and throws burning oil up
 into the air, spreading the fire. Burning oil is never put out with a jet of
 water: cover it, or use sand or a fire blanket.
 :::
-
-```photo id="sci10/rust" caption="Rust on iron. Rusting needs both oxygen and moisture, which is why a painted or oiled surface is protected." width="64"
-```
-
-```photo id="sci10/pet-bottles" caption="Collected plastic bottles. Most plastics are non-biodegradable, so segregation and recycling are the only real answers." width="68"
-```
 
 ## Chapter summary
 

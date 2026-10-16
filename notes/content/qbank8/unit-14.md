@@ -23,6 +23,29 @@ area: सामाजिक अध्ययन तथा मानव मूल�
 सबै प्रश्न पाठ्यक्रमको ढाँचाअनुसार तयार पारिएका मौलिक अभ्यास प्रश्न हुन्।
 :::
 
+
+```figure caption="सामाजिक अध्ययनका नौ एकाइको अनुमानित अङ्कभार। संविधान र नागरिक चेतना, सामाजिक समस्या तथा हाम्रो विगत — यी तीन एकाइले मात्र पचासमध्ये झन्डै आधा अङ्क ओगट्छन्।"
+units = ["हामी र हाम्रो\nसमाज", "मानव\nमूल्यमान्यता", "नागरिक\nचेतना",
+         "सामाजिक\nसमस्या", "हाम्रो\nविगत", "आर्थिक\nक्रियाकलाप",
+         "हाम्रो\nपृथ्वी", "जनसङ्ख्या", "अन्तर्राष्ट्रिय\nसम्बन्ध"]
+marks = [5, 4, 8, 7, 7, 5, 5, 5, 4]
+fig, ax = plt.subplots(figsize=(5.7, 3.0))
+cols = [SERIES[0] if m >= 7 else SERIES[1] for m in marks]
+bars = ax.bar(units, marks, color=cols, width=0.62, edgecolor="white",
+              linewidth=1.1)
+for b, v in zip(bars, marks):
+    d = str(v).translate(str.maketrans("0123456789", "०१२३४५६७८९"))
+    ax.text(b.get_x() + b.get_width() / 2, v + 0.15, d, ha="center",
+            color=INK, fontsize=9)
+ax.set_ylabel("पचास अङ्कमध्ये अनुमानित अङ्क", color=MUTED)
+ax.set_ylim(0, 9.5)
+ax.grid(axis="y", color=GRID, linewidth=0.7)
+ax.set_axisbelow(True)
+for s in ("top", "right"):
+    ax.spines[s].set_visible(False)
+plt.setp(ax.get_xticklabels(), fontsize=7)
+```
+
 ## १४.१ हामी र हाम्रो समाज
 
 **तथ्य।** समाज भनेको निश्चित भूगोलमा साझा संस्कृति र अन्तरसम्बन्ध राखी
