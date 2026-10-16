@@ -302,6 +302,43 @@ not a few grams. If the number looks impossible, the unit or the instrument is
 wrong.
 :::
 
+## 1.5 Measurement, error and the honest result
+
+A measurement is never a single perfect number; it is a best value together
+with the uncertainty of the instrument.
+
+| Instrument | Measures | Smallest division | Typical use |
+|---|---|---|---|
+| Metre rule | length | 1 mm | book, desk, rope |
+| Measuring tape | long length | 1 mm | room, field |
+| Measuring cylinder | volume of liquid | 1 ml | liquids, irregular solids by displacement |
+| Beam balance | mass | 1 g | solids in the laboratory |
+| Spring balance | weight (force) | 0.1 N | force, weight |
+| Stopwatch | time | 0.01 s | pendulum, races |
+| Thermometer | temperature | 1 °C | body, water, air |
+
+**Rules that keep a result honest:** read at eye level (to avoid parallax);
+take three readings and use the mean; record the unit every time; and never
+write more digits than the instrument can justify.
+
+::: example A full measurement question
+**Question.** A stone of mass 84 g is lowered into a measuring cylinder
+holding 40 ml of water. The level rises to 72 ml. Find the volume and the
+density of the stone, and say whether it will float in water.
+
+**Answer.** Volume $= 72 - 40 = 32$ cm³.
+Density $= \frac{84}{32} = 2.625$ g/cm³.
+Water has a density of 1 g/cm³, and the stone's density is greater, so the
+stone **sinks**.
+:::
+
+::: note Activity — three readings, one result
+In pairs, measure the length of your classroom three times with a tape, and
+the time for a 20-swing pendulum three times with a stopwatch. Record each
+reading, take the mean, and write the result with its unit. Compare the
+spread of the two sets: which quantity was harder to measure, and why?
+:::
+
 ## Chapter summary
 
 - Science works by the **scientific method**: observation, question, hypothesis,
@@ -407,4 +444,23 @@ you come to school — on foot, by bicycle, by bus or by other?" **Table.** Tall
 and number for each answer, with a total and a percentage. **One limit.** The
 sample includes only the grades present on the day of the survey, so classes
 absent for an exam are not represented.
+:::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** The SI base unit of mass is the
+   (a) gram (b) kilogram (c) newton (d) quintal
+**2.** The volume of an irregular solid is found with a
+   (a) beam balance (b) measuring cylinder (c) stopwatch (d) thermometer
+**3.** Reading a scale from an angle causes
+   (a) parallax error (b) zero error (c) random error only (d) no error
+**4.** A body of mass 60 g and volume 20 cm³ has a density of
+   (a) 0.33 g/cm³ (b) 3 g/cm³ (c) 12 g/cm³ (d) 1200 g/cm³
+**5.** A hypothesis is
+   (a) a proved law (b) a testable guess (c) a conclusion (d) an observation
+
+::: note Objective practice — answers
+**1.** (b) — the kilogram. **2.** (b) — by displacement of water. **3.** (a) — parallax error; read at eye level. **4.** (b) — $60 \div 20 = 3$ g/cm³. **5.** (b) — a testable guess made before the experiment.
 :::
