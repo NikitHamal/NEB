@@ -10,11 +10,11 @@ rebuild, never a hand-patch of the PDF.
 | Book | Units | Pages |
 |---|---|---|
 | **Grade 8** | | |
-| नेपाली | 17 | 155 |
-| Mathematics | 21 | 174 |
-| Science and Technology | 11 | 117 |
-| Compulsory English | 19 | 160 |
-| सामाजिक अध्ययन तथा मानव मूल्य शिक्षा | 9 | 94 |
+| नेपाली | 17 | 173 |
+| Mathematics | 21 | 176 |
+| Science and Technology | 11 | 125 |
+| Compulsory English | 19 | 162 |
+| सामाजिक अध्ययन तथा मानव मूल्य शिक्षा | 9 | 107 |
 | स्वास्थ्य, शारीरिक तथा सिर्जनात्मक कला | 13 | 105 |
 | Question Bank (all six subjects) | 19 | 135 |
 | **Grade 10** | | |
@@ -90,6 +90,35 @@ about 2,900 pages.
    to the grade 11/12 standard: a data or concept chart in every unit, a
    comparison table, at least one fully worked example, activity and project
    boxes for interactive learning, and an extra practice set with answer keys.
+
+## The second content pass (grade 8)
+
+Every grade 8 book now carries, in each chapter, the things the grade 11/12
+books have: a teaching section the first draft lacked, a table, a diagram
+drawn with the shape library, at least one fully worked answer, and an
+**objective practice set with a reasoned key** — Group A of the Basic Level
+paper is ten objective items, and the first draft trained none of them.
+
+- **नेपाली** — a पाठको विश्लेषण table for every lesson (genre, setting,
+  characters or imagery, style, message), a structure diagram where it helps,
+  and five objective items per lesson. 155 → 173 pp.
+- **सामाजिक अध्ययन** — culture and change, values online, elections and
+  participation, substance abuse, historical sources, value chains, climate
+  zones and hazards, census and vital registration, digital citizenship.
+  94 → 107 pp.
+- **Science** — measurement and error, a four-step routine for motion
+  numericals, the household electricity bill, microscope work and biological
+  drawing, energy arithmetic, distances and earthquake preparedness.
+  117 → 125 pp.
+- **स्वास्थ्य/शारीरिक/कला** — system interdependence, malnutrition,
+  vaccination, school health, rest and routine, athletics technique, design
+  principles, pranayama, reuse, rhythm. 86 → 105 pp.
+- **Mathematics** — Venn method, choosing the mensuration formula, reasons as
+  marks in geometry, choosing the right average, plus objective sets.
+  166 → 176 pp.
+- **English** — reading for purpose, writing from data, instructions,
+  narrative shape, persuasion, the anecdote, plus objective sets.
+  157 → 162 pp.
 
 ## Pipeline notes for the next session
 
