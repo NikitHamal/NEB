@@ -129,6 +129,9 @@ milder climate than a desert.
 
 $$Q=mc\Delta\theta$$
 
+```photo id="sci10/solar-nepal" caption="A solar array in Nepal. Sunlight is the renewable source most easily used where the grid has not reached." width="70"
+```
+
 ## 7.2 Light
 
 **Light** is the form of energy that makes things visible. It travels in
@@ -256,6 +259,9 @@ lens.
   objects and a second lens magnifies the image.
 - **Periscope** — two plane mirrors at 45°, letting you see over an obstacle.
 
+```photo id="sci10/biogas" caption="A household biogas plant. Dung and kitchen waste become a smokeless cooking gas and a good manure." width="66"
+```
+
 ## 7.3 Energy sources and conservation
 
 | Source | Renewable? | Notes |
@@ -305,12 +311,6 @@ faster, and since the lid is closed, little heat escapes with the steam.
 more usefully. The saving comes from a higher cooking temperature and from
 stopping the heat from leaving with the steam.
 :::
-
-```photo id="sci10/solar-nepal" caption="A solar array in Nepal. Sunlight is the renewable source most easily used where the grid has not reached." width="70"
-```
-
-```photo id="sci10/biogas" caption="A household biogas plant. Dung and kitchen waste become a smokeless cooking gas and a good manure." width="66"
-```
 
 ## Chapter summary
 

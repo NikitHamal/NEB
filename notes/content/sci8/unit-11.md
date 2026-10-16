@@ -121,6 +121,9 @@ slow movement of the mantle moves the crustal plates, and where plates meet
 there are earthquakes, volcanoes and mountain building — which is why the
 Himalaya is still rising by a few millimetres a year.
 
+```photo id="sci10/solar-system" caption="The planets of the solar system, in order from the Sun." width="74"
+```
+
 ## 11.3 Origin and age of the earth
 
 The earth is about **4.6 billion years (4,600 million years)** old. The age is
@@ -175,6 +178,9 @@ changes: as it goes round the earth we see different fractions of its lit half.
 The phases repeat in about 29.5 days, which is the basis of the lunar calendar
 used for Dashain, Tihar and other Nepali festivals.
 :::
+
+```photo id="sci8/sun-and-planets" caption="Stars compared in size. The Sun is an ordinary star; many others are far larger." width="68"
+```
 
 ## 11.5 Stars, constellations and galaxies
 
@@ -273,12 +279,6 @@ position relative to the sun. That extra travel takes about 2.2 days, giving
 **Conclusion.** 27.3 days is the moon's orbital period; 29.5 days is the period
 of the phases, which is what we actually watch.
 :::
-
-```photo id="sci10/solar-system" caption="The planets of the solar system, in order from the Sun." width="74"
-```
-
-```photo id="sci8/sun-and-planets" caption="Stars compared in size. The Sun is an ordinary star; many others are far larger." width="68"
-```
 
 ## Chapter summary
 

@@ -2,7 +2,7 @@
 subject: Question Bank
 grade: 8
 unit: 10
-title: "Compulsory English: Model Question Sets"
+title: "Compulsory English: Model Question Sets and Predicted Questions"
 hours: 0
 area: Compulsory English
 ---
@@ -152,6 +152,56 @@ Give the format mark only if every element of the layout is there. Give the cont
 **Group B.** **11.** Saplings were being planted by the children. **12.** The teacher told us not to waste water. **13.** She is good at English and weak in Mathematics (*good at*, *weak in*). **14.** would have passed. **15.** *The road is not only narrow but also broken.* **16.** e.g. *Unless you revise regularly, you will not do well in the examination.* **17.** e.g. *I will visit my grandparents in Palpa. After that I am going to learn to repair bicycles with my uncle.* **18.** *Migration* is the movement of people or animals from one place to another to live or breed — *The migration of young people to the cities has left many hill villages with only the old.* **19.** "Hurry up!" shouted the driver. "The bus is leaving." **20.** e.g. *Friday, 12 Asar — I had been waiting all month for the district quiz, and this evening the list came out without my name on it. I am trying to tell myself that next year will come.*
 
 **Group C.** **21.** Informal letter format: address and date, *Dear Rohan*, friendly opening, the book's title and author, what it is about in two or three sentences with no spoilers, what you liked and one criticism, a recommendation, *Yours affectionately*. **22.** School name, **NOTICE**, date; the eco club's purpose, who may join, the first meeting's date, time and venue, the activities planned (plantation, waste segregation, kitchen garden), how to enrol and by when; signature with designation. **23.** Introduction: a clean school is made by three hundred small habits, not by one sweeper. Body 1 — what I do: use the bin, carry a cloth bag, keep my desk and classroom clean, no writing on walls, turn off taps, bring a water bottle. Body 2 — what we do together: duty roster, waste segregation, compost from leaves, plantation and its care, a monthly clean-up, reminding others politely. Conclusion: the habit transfers home and to the street. **24.** Six labelled turns: pointing out the shortfall, the shopkeeper's doubt, re-counting the bill and the notes, finding the error, apology, polite close. **25.** Headline; place and date line; lead with who, what, where, when; details — the project, the level of the competition, the number of competitors, the prize; one quotation from the student or the teacher; close with the school's reaction or the next competition.
+:::
+
+## 10.4 Predicted questions: ranked practice priorities
+
+::: caution What "predicted" means here
+Nothing below is a forecast of a particular paper, and no local level's
+question is reproduced. These are **practice priorities**, ranked from the
+specification grid and from the shape of the syllabus: a topic ranks higher
+when it can be asked cleanly at the size the grid allows, when it has a fixed
+method that is quick to mark, and when the textbook gives it a full chapter.
+Work the top tier until the method is automatic.
+:::
+
+### 10.4.1 Tier A — rehearse until automatic
+
+| Rank | Topic and likely form | Marks | Why it ranks here |
+|---|---|---|---|
+| 1 | Unseen passage: four comprehension items plus one vocabulary-in-context item | 4–6 | Every paper opens with one; the text changes, the skill does not. |
+| 2 | Formal letter — application to the headteacher, or a letter to the editor | 4 | Format marks are guaranteed if the layout is learnt. |
+| 3 | Tense and voice transformations | 1–2 each | The commonest grammar items, decided by a signal word. |
+| 4 | Notice or vacancy announcement | 4 | Short, formulaic, and heavily rewarded for format. |
+| 5 | Essay or description of about 150 words on a familiar topic | 4 | Paragraphing and examples carry the marks. |
+| 6 | Reported speech, including questions and requests | 2 | A fixed set of changes: tense, pronoun, time word. |
+| 7 | Diary entry or news report | 4 | Both have a fixed shape that can be rehearsed. |
+| 8 | Question tags, articles and prepositions | 1 each | Small, certain marks — never leave one blank. |
+
+### 10.4.2 Tier B — second pass
+
+| Rank | Topic and likely form | Marks | Why it ranks here |
+|---|---|---|---|
+| 9 | Dialogue writing of six turns | 4 | Natural speech plus correct layout. |
+| 10 | Conditionals (types 0, 1 and 2) | 1–2 | Signal word *if* makes the type obvious. |
+| 11 | Subject–verb agreement corrections | 1 | Regular in Group A. |
+| 12 | Word formation: noun from verb, adjective from noun, prefixes | 1 | Pure vocabulary work. |
+| 13 | Invitation and email | 2–4 | Short formats with a fixed element list. |
+| 14 | Punctuation of a given sentence | 1–2 | Capitals, quotation marks, question mark. |
+
+### 10.4.3 Tier C — a quick pass before the paper
+
+| Rank | Topic and likely form | Marks | Why it ranks here |
+|---|---|---|---|
+| 15 | Poem-based short answers from the textbook units | 2 | A small share of the paper, but easy marks if the poems were read. |
+| 16 | Spelling of examination words (*necessary, government, environment*) | 1 | One item at most, but free. |
+| 17 | Matching words with meanings | 1 | Vocabulary recall. |
+| 18 | Rearranging jumbled sentences into a paragraph | 2 | Tests linking words. |
+
+::: tip The format half-hour
+Spend thirty minutes writing nothing but **layouts**: the letter, the notice,
+the diary entry, the news report, the invitation. Format marks are the only
+marks in this paper you can be certain of before you read the question.
 :::
 
 ::: tip The last thing to do in an English paper

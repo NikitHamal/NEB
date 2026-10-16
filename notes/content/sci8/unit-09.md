@@ -101,6 +101,9 @@ freely; it may contain one atom (as in helium) or several (H₂O has three).
 Copper, hydrogen and oxygen are written as symbols; water is H₂O and carbon
 dioxide is CO₂.
 
+```photo id="sci10/litmus" caption="Litmus paper tests. Blue turns red in acid; red turns blue in a base." width="64"
+```
+
 ## 9.3 Physical and chemical change
 
 | | Physical change | Chemical change |
@@ -187,6 +190,9 @@ ax.text(8.6, 1.5, "pure solvent", ha="center", fontsize=6.2, color=SERIES[2])
 ax.text(7.5, 5.15, "condenser", ha="center", fontsize=6.3, color=INK)
 ax.text(6.9, 0.35, "distillation", ha="center", fontsize=6.8, color=INK)
 fig.tight_layout()
+```
+
+```photo id="sci10/malachite" caption="Malachite, a copper ore. Minerals are naturally occurring compounds, not mixtures." width="58"
 ```
 
 ## 9.6 Acids, bases and salts
@@ -290,12 +296,6 @@ $$\text{solubility}=\frac{8}{32}\times100=25\ \text{g per 100 g of water}$$
 **Check.** $32\times\frac{25}{100}=8$ g of salt in 32 g of water ✓, and
 $8+32=40$ g of solution ✓.
 :::
-
-```photo id="sci10/litmus" caption="Litmus paper tests. Blue turns red in acid; red turns blue in a base." width="64"
-```
-
-```photo id="sci10/malachite" caption="Malachite, a copper ore. Minerals are naturally occurring compounds, not mixtures." width="58"
-```
 
 ## Chapter summary
 

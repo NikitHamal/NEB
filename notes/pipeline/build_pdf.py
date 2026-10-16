@@ -39,6 +39,7 @@ DEVA_CSS = """
 /* Poppins carries a Devanagari set, but its numerals and conjuncts are a
    secondary design. Nepali books set every display string in Noto Sans
    Devanagari, which is the reference shaping for the script. */
+figcaption .src { display:none; }
 .cover .brand, .cover h1, .cover .grade, .cover .sub, .cover .foot,
 h1, h2, h3, h4, h5, .toc, .front, .back, .credits, .qs .grp, .chapsum,
 .box .lab, .unit .eyebrow, .syl, .runhead, .fin, table, .figcap

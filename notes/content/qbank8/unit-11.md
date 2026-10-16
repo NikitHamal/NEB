@@ -25,6 +25,28 @@ area: नेपाली
 प्रश्न हुन्। कुनै पनि वर्षको प्रश्नपत्रको प्रतिलिपि दाबी गरिएको छैन।
 :::
 
+
+```figure caption="पाठ्यपुस्तकका सत्र पाठको विधाअनुसार बाँडफाँट। कथा र कविताका पाठ धेरै भएकाले तीबाटै बढी प्रश्न आउँछन्; व्यावहारिक लेखनका दुई पाठले भने ढाँचाका निश्चित अङ्क दिन्छन्।"
+vidha = ["कथा", "कविता", "जीवनी", "रूपक", "निबन्ध", "व्यावहारिक\nलेखन", "प्रबन्ध"]
+n = [4, 3, 2, 3, 2, 2, 1]
+fig, ax = plt.subplots(figsize=(5.4, 2.9))
+bars = ax.bar(vidha, n, color=SERIES[:len(vidha)], width=0.6,
+              edgecolor="white", linewidth=1.1)
+for b, v in zip(bars, n):
+    d = str(v).translate(str.maketrans("0123456789", "०१२३४५६७८९"))
+    ax.text(b.get_x() + b.get_width() / 2, v + 0.08, d, ha="center",
+            color=INK, fontsize=9.4)
+ax.set_ylabel("पाठ सङ्ख्या", color=MUTED)
+ax.set_ylim(0, 5)
+ax.set_yticks([0, 1, 2, 3, 4, 5])
+ax.set_yticklabels(["०", "१", "२", "३", "४", "५"])
+ax.grid(axis="y", color=GRID, linewidth=0.7)
+ax.set_axisbelow(True)
+for s in ("top", "right"):
+    ax.spines[s].set_visible(False)
+plt.setp(ax.get_xticklabels(), fontsize=8)
+```
+
 ## ११.१ सहिदहरूको सम्झनामा, साकार सपना
 
 **तथ्य।** 'सहिदहरूको सम्झनामा' कविता हो — देशका लागि ज्यान दिने सहिदप्रति

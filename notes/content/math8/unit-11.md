@@ -229,7 +229,7 @@ sign errors, the mis-copied terms and the wrong LCM, which is where nearly all
 the marks in this chapter are lost.
 :::
 
-## 11.4 Why factorising comes first
+## 11.5 Why factorising comes first
 
 An algebraic fraction is simplified by **factorising and cancelling common
 factors** — never by cancelling across a plus or minus sign.
