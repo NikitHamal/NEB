@@ -48,7 +48,7 @@ ax.text(5.0, 1.3, "सन्तुलन र जवाफदेहिता: ह
         ha="center", fontsize=6.4, color=MUTED)
 ax.text(5.0, 0.4, "जनताबाट निर्वाचित प्रतिनिधि उही जनताप्रति उत्तरदायी हुन्छन्",
         ha="center", fontsize=6.2, color=MUTED)
-fig.tight_layout()
+fig.tight_layout
 ```
 
 ## ३.२ सङ्घीय संसद्: संरचना र कार्य

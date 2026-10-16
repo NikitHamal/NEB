@@ -98,7 +98,7 @@ for i, (name, pct, c) in enumerate(rows):
     ax.add_patch(plt.Rectangle((2.1, y - 0.22), pct / 10, 0.44, fc=c, ec="none"))
     ax.text(2.3 + pct / 10, y, f"{pct}%", fontsize=6.6, color=INK, va="center")
 ax.text(5.0, 0.2, "स्रोत: राष्ट्रिय जनगणना २०६८", ha="center", fontsize=6.0, color=MUTED)
-fig.tight_layout()
+fig.tight_layout
 ```
 
 ## २.५ विविधतामा एकता; सहिष्णुता र राष्ट्रिय एकता
@@ -163,7 +163,7 @@ for (x1, y1), (x2, y2) in [((2.6, 4.4), (3.2, 4.4)), ((5.6, 4.4), (6.2, 4.4)),
                 arrowprops=dict(arrowstyle="->", color=MUTED, lw=1.0))
 ax.text(5.0, 0.25, "स्काउट आन्दोलनको मूल: सिक, सेवा गर, चरित्र बनाऊ", ha="center",
         fontsize=6.2, color=MUTED)
-fig.tight_layout()
+fig.tight_layout
 ```
 
 ## एकाइको सार
