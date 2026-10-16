@@ -307,3 +307,22 @@ axe down, and the old man smiles. End with what the boy understood.
 food that is offered inside the cage — and say plainly what it costs them and
 what it wins them.
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** A poem's rhyme scheme is the pattern of
+   (a) line lengths (b) end sounds (c) stanzas (d) punctuation
+**2.** *The old woman planted the lime tree* — the tense is
+   (a) present simple (b) past simple (c) present perfect (d) past perfect
+**3.** *Free* as used in *Free Birds* means
+   (a) costing nothing (b) not captive (c) generous (d) empty
+**4.** A stanza is
+   (a) a group of lines in a poem (b) a single line (c) the title (d) the rhyme
+**5.** The passive of *She planted a tree* is
+   (a) A tree is planted (b) A tree was planted by her (c) A tree has planted (d) She was planted
+
+::: note Objective practice — answers
+**1.** (b) — the pattern of end sounds. **2.** (b) — past simple. **3.** (b) — not captive. **4.** (a) — a group of lines. **5.** (b) — past simple passive.
+:::

@@ -297,3 +297,22 @@ outside the school.
 ::: note Objective practice — answers
 **1.** (a) — the lead answers what, where, when and who. **2.** (b) — only. **3.** (a) — the object becomes the subject. **4.** (c) — seat belts prevent injury. **5.** (b) — third person and factual.
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** A news report avoids
+   (a) facts (b) the writer's opinion (c) quotations (d) dates
+**2.** *Solely* means
+   (a) only (b) partly (c) sadly (d) slowly
+**3.** Which is a cause of road accidents?
+   (a) over-speeding (b) wearing a helmet (c) a seat belt (d) road signs
+**4.** The place-and-date line appears
+   (a) before the headline (b) after the headline (c) at the end (d) in a quotation
+**5.** *Long Life* as a poem title suggests a theme of
+   (a) longevity and living well (b) travel (c) machinery (d) weather
+
+::: note Objective practice — answers
+**1.** (b) — opinion belongs in an editorial. **2.** (a) — only. **3.** (a) — over-speeding. **4.** (b) — after the headline. **5.** (a) — longevity and living well.
+:::

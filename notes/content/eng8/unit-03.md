@@ -351,3 +351,22 @@ the name shown, confirm with the password or fingerprint); sequence words; one
 clear warning (never share the PIN or one-time password with anyone, and check
 the account number twice because a transfer cannot be reversed).
 :::
+
+## Objective practice
+
+**Choose the correct answer.** <span class="marks">[5×1=5]</span>
+
+**1.** Instructions are written mainly in the
+   (a) imperative (b) past tense (c) passive voice (d) first person
+**2.** The correct order word for the last step is
+   (a) first (b) next (c) meanwhile (d) finally
+**3.** A public announcement should include
+   (a) the reason and what to do (b) the writer's opinion (c) a story (d) a poem
+**4.** *Add the detergent to the drawer* is
+   (a) a question (b) an instruction (c) a report (d) a request letter
+**5.** Which is **not** needed in instructions?
+   (a) sequence words (b) quantities (c) a warning (d) personal feelings
+
+::: note Objective practice — answers
+**1.** (a) — the imperative. **2.** (d) — *finally*. **3.** (a) — reason and instruction. **4.** (b) — an instruction. **5.** (d) — feelings belong in a diary, not in instructions.
+:::
