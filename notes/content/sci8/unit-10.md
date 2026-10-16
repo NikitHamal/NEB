@@ -271,6 +271,43 @@ into the air, spreading the fire. Burning oil is never put out with a jet of
 water: cover it, or use sand or a fire blanket.
 :::
 
+## 10.5 Waste, recycling and the three Rs
+
+| Waste | Time to break down | Better practice |
+|---|---|---|
+| Vegetable peel | 2–4 weeks | compost at home or in school |
+| Paper | 2–6 weeks | collect and recycle |
+| Cotton cloth | 2–5 months | reuse, then use as a cleaning rag |
+| Tin can | 50–100 years | wash and sell to a scrap dealer |
+| Plastic bottle | 400–1,000 years | refuse single use; refill or recycle |
+| Glass | effectively never | return, reuse, recycle |
+
+**The order matters:** **refuse and reduce** first (do not take the bag at
+all), then **reuse**, and only then **recycle** — recycling still costs
+energy and water, which is why it is the third choice, not the first.
+
+```figure caption="How long common waste stays in the soil. The numbers explain why a plastic bottle used for ten minutes is a poor bargain."
+fig, ax = barh_ranked(["Glass (effectively never)", "Plastic bottle",
+                       "Tin can", "Cotton cloth", "Paper", "Vegetable peel"],
+                      [1000, 700, 75, 4, 1, 0.5], unit=" years",
+                      highlight={"Plastic bottle"})
+```
+
+::: example A four-mark answer on plastic
+**Question.** Why is plastic waste a serious problem, and what can a school
+do about it?
+
+**Answer.** **Problem:** most plastics are non-biodegradable and last for
+centuries; burning them releases poisonous gases; discarded bags block
+drains and cause local flooding; animals swallow them and die, and
+microplastic enters the food chain. **What a school can do:** (i) ban
+single-use bottles and bags on the premises and provide drinking water
+points; (ii) separate waste into kitchen, paper-plastic and other, with
+labelled bins in every corridor; (iii) compost the kitchen waste for the
+school garden and sell the recyclables; (iv) run a monthly clean-up and a
+"refuse the bag" campaign with the shops nearby.
+:::
+
 ## Chapter summary
 
 - Fresh water comes from rain and is stored as groundwater; springs, wells,

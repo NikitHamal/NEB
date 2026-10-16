@@ -238,6 +238,41 @@ for germination first, and the space for growth afterwards — the same two
 requirements, separated in time.
 :::
 
+## 5.5 Experiments that prove the life processes
+
+A life process is not learnt by definition alone; each one has a classic
+school experiment behind it.
+
+| Process | Experiment | What proves it |
+|---|---|---|
+| Photosynthesis needs light | destarch a plant, cover part of a leaf, test with iodine | the covered part stays brown, the rest turns blue-black |
+| Photosynthesis releases oxygen | *Hydrilla* under a funnel and test tube in water | gas collected relights a glowing splint |
+| Respiration releases carbon dioxide | breathe through lime water | the lime water turns milky |
+| Transpiration | tie a polythene bag round a leafy shoot | water droplets collect inside the bag |
+| Starch in food | iodine on a potato slice | the slice turns blue-black |
+| Protein in food | copper sulphate and sodium hydroxide on egg white | a violet colour appears |
+
+```figure caption="The starch test, step by step. Boiling in alcohol removes the chlorophyll so the iodine colour can be seen — skipping that step is the usual reason the test 'fails'."
+fig, ax = flow([("Destarch", "plant in the dark 48 h"),
+                ("Expose", "partly covered leaf in light"),
+                ("Boil in water", "to kill the cells"),
+                ("Boil in alcohol", "to remove chlorophyll"),
+                ("Add iodine", "blue-black where starch is")])
+```
+
+::: example A four-mark experimental answer
+**Question.** How would you show that light is necessary for photosynthesis?
+
+**Answer.** (i) Keep a potted plant in the dark for about 48 hours so that
+the stored starch is used up. (ii) Cover part of one leaf on both sides
+with black paper and place the plant in sunlight for a few hours.
+(iii) Pluck the leaf, boil it in water, then boil it in alcohol over a
+water bath until the chlorophyll is removed, wash it and add iodine
+solution. (iv) The uncovered part turns **blue-black**, showing starch,
+while the covered part stays brown — so starch, and therefore
+photosynthesis, formed only where light fell.
+:::
+
 ## Chapter summary
 
 - **Reproduction** keeps a species alive; it is asexual (one parent, no
