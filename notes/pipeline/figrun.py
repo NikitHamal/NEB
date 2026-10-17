@@ -11,6 +11,8 @@ warnings.filterwarnings("ignore")
 CACHE = os.path.join(os.path.dirname(__file__), "..", "figures", "_fig")
 os.makedirs(CACHE, exist_ok=True)
 FAILS = []
+LINT = []      # (chapter_id, message): legibility problems found while rendering
+MIN_PT = 6.8   # smallest type a printed figure may carry, after canvas scaling
 
 # Nebians figure house style
 INK      = "#14181f"
@@ -66,7 +68,7 @@ def run(code: str, chapter_id: str = "") -> str | None:
     """Exec `code`; it must leave a Figure in `fig`. Returns svg path or None."""
     key = hashlib.sha1((code + "|v4").encode()).hexdigest()[:20]
     out = os.path.join(CACHE, key + ".svg")
-    if os.path.exists(out):
+    if os.path.exists(out) and not os.environ.get("FIG_LINT"):
         return out
     _style()
     # Common patch classes are injected so a figure never fails on a missing
@@ -93,6 +95,10 @@ def run(code: str, chapter_id: str = "") -> str | None:
         if w < TARGET_W:
             scale = min(TARGET_W / w, 1.30)
             fig.set_size_inches(w * scale, h * scale)
+        else:
+            scale = 1.0
+        if os.environ.get("FIG_LINT"):
+            _lint(fig, scale, chapter_id, code)
         fig.savefig(out, format="svg", transparent=True,
                     bbox_inches="tight", pad_inches=0.04)
         plt.close("all")
@@ -101,6 +107,36 @@ def run(code: str, chapter_id: str = "") -> str | None:
         FAILS.append((chapter_id, traceback.format_exc(limit=2)[-400:]))
         plt.close("all")
         return None
+
+
+def _lint(fig, scale, chapter_id, code):
+    """Flag type too small to read in print, and labels that overprint each other."""
+    fig.canvas.draw()
+    r = fig.canvas.get_renderer()
+    boxes = []
+    head = (code.strip().splitlines() or [""])[0][:60]
+    for t in fig.findobj(matplotlib.text.Text):
+        s = t.get_text().strip()
+        if not s or not t.get_visible() or t.get_alpha() == 0:
+            continue
+        pt = t.get_fontsize() * scale * (5.9 / max(fig.get_size_inches()[0], 5.9)) ** 0
+        if "\\n" in s and "$" not in s:
+            LINT.append((chapter_id, f"literal backslash-n prints as text: {s[:40]!r}  [{head}]"))
+        if pt < MIN_PT:
+            LINT.append((chapter_id, f"tiny text {pt:.1f}pt: {s[:40]!r}  [{head}]"))
+        try:
+            bb = t.get_window_extent(r)
+        except Exception:
+            continue
+        if bb.width > 1 and bb.height > 1:
+            boxes.append((bb, s))
+    for i in range(len(boxes)):
+        for j in range(i + 1, len(boxes)):
+            a, b = boxes[i][0], boxes[j][0]
+            ox = min(a.x1, b.x1) - max(a.x0, b.x0)
+            oy = min(a.y1, b.y1) - max(a.y0, b.y0)
+            if ox > 2 and oy > 2 and ox * oy > 0.25 * min(a.width * a.height, b.width * b.height):
+                LINT.append((chapter_id, f"labels overlap: {boxes[i][1][:30]!r} / {boxes[j][1][:30]!r}  [{head}]"))
 
 
 # ---------------------------------------------------------------- matrices
