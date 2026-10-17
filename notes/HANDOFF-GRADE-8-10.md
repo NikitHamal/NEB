@@ -1,6 +1,6 @@
 # Grade 8 and Grade 10 — state of the library
 
-Branch: `resources/grade8-rebuild-grade10-books`. Everything below is built from
+Branch: `resources/agent-c-grade8-grade10-final` (continued from `resources/grade8-rebuild-grade10-books`). Everything below is built from
 the sources in this repo with `notes/pipeline`, and every PDF in `notes/pdf/`
 was produced by that pipeline — none is hand-made, so any chapter edit means a
 rebuild, never a hand-patch of the PDF.
@@ -14,8 +14,8 @@ rebuild, never a hand-patch of the PDF.
 | Mathematics | 21 | 180 |
 | Science and Technology | 11 | 132 |
 | Compulsory English | 19 | 172 |
-| सामाजिक अध्ययन तथा मानव मूल्य शिक्षा | 9 | 114 |
-| स्वास्थ्य, शारीरिक तथा सिर्जनात्मक कला | 13 | 111 |
+| सामाजिक अध्ययन तथा मानव मूल्य शिक्षा | 9 | **216** (rewritten from the CDC text) |
+| स्वास्थ्य, शारीरिक तथा सिर्जनात्मक कला | 13 | **200** (rewritten from the CDC text) |
 | Question Bank (all six subjects) | 19 | 135 |
 | **Grade 10** | | |
 | अनिवार्य नेपाली | 17 | 261 |
@@ -23,14 +23,14 @@ rebuild, never a hand-patch of the PDF.
 | Mathematics | 18 | 227 |
 | Optional Mathematics | 12 | 186 |
 | Science and Technology | 19 | 275 |
-| सामाजिक अध्ययन तथा मानव मूल्य शिक्षा | 10 | 126 |
+| सामाजिक अध्ययन तथा मानव मूल्य शिक्षा | 10 | **297** (rewritten from the CDC text) |
 | Accountancy | 15 | 188 |
 | Economics | 6 | 96 |
 | Question Bank | 19 | 247 |
 | Commerce Question Bank | 7 | 86 |
 
 `check.py` passes on every chapter in `notes/content/`. The two sets total
-about 2,900 pages.
+about 3,350 pages (grade 8 ≈ 1,210, grade 10 ≈ 2,140).
 
 ## The polish pass (what changed after the first build)
 
@@ -166,3 +166,54 @@ and a five-item objective set with a reasoned key.
   `soc10/*`.
 - The grade 10 question banks could use the weightage charts that the grade 8
   bank now opens each objective chapter with.
+
+## Session of 2026-10-17 (agent C, final branch) — rewrite from the CDC textbooks
+
+The owner judged the grade 8 first drafts "very poor" and asked for them to be
+recreated. This session rewrote the thin Nepali-medium books **lesson by lesson
+from the official CDC textbooks**, to the standard of `soc8/unit-07.md`:
+every textbook lesson is a section, every textbook table is reproduced with its
+numbers checked (errors fixed and flagged in a `::: caution`), every activity and
+project appears, **every textbook अभ्यास question has a full model answer**
+(`### पाठको अभ्यास: नमुना उत्तर`), then a summary and a graded practice set
+with reasoned keys. Zero Latin script in any Nepali book (prose, tables and
+figure labels — the figure check is a separate scan, see below).
+
+| Book | Source | Result |
+|---|---|---|
+| सामाजिक ८ units 1–9 | CDC 2082, `moecdc.gov.np/content/584` (Preeti text layer) | 9 units, ~65k words, 216 pp |
+| स्वास्थ्य, शारीरिक तथा सिर्जनात्मक कला ८ units 1–13 | CDC 2080, `/content/68` — **scanned**, OCR'd with `tesseract -l nep` at 200 dpi | 13 units, ~60k words, 200 pp |
+| सामाजिक अध्ययन १० units 1–10 (SEE) | CDC 2082, `/content/591` | 10 units, ~106k words, 297 pp; SEE set क[1]/ख[2]/ग[4]/घ[8] |
+
+Corrections made to the textbooks are listed in `notes/rewrite-logs/` and in
+the caution boxes themselves (e.g. census 2078 sex split 48.87/51.13, doubling time 76 years,
+BMI example, Stockholm 1972, first UN veto 1946).
+
+### Pipeline fixes found by looking at pages
+
+- **`- १.` bullets printed as `• 1.`** — Python-Markdown's list regex uses `\d`,
+  which matches Devanagari digits, so every Nepali-numbered bullet became a
+  nested `<ol>` restarting at a Latin "1.". `md2html.py` now escapes the dot
+  and marks such items `li.num` (no bullet); plain ordered lists in Nepali
+  books count in Devanagari (`html:lang(ne) ol:not([class])`).
+- **Photos silently missing** — 14 entries in `assets/credits.json` pointed at
+  `.jpg` files while the bytes on disk are `.png` (Science 10 heart, eye,
+  nephron, neuron, skeleton, reproductive system; Science 8 onion root;
+  Accountancy ledger; Nepali portraits). Repointed; those books were rebuilt.
+- Stale English-named duplicates of the Social Studies 8 and 10 PDFs removed.
+
+### Rebuilt and pushed this session
+soc8, health8, soc10, nep8, nep10, sci8, sci10, acc10.
+
+### Still open
+- Grade 8 question bank (`qbank8`) predates the soc8/health8 rewrite; its
+  social and health chapters could be re-derived from the new books.
+- Grade 8 नेपाली (2.8k words/lesson), Mathematics, Science and English were
+  not rewritten this session; the same CDC-text method applies (textbooks:
+  नेपाली `/content/583`, English `/582`, Science `/72`, Maths `/73`).
+- Grade 9 still has no books.
+
+### Launch film
+A new 18-second mascot film, **Neby**, lives in `tools/video/neby/`
+(Skia + numpy, no browser). Master: `tools/video/dist/nebians-neby-launch-16x9.mp4`.
+See `tools/video/neby/README.md`.
