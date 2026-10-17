@@ -66,7 +66,8 @@ def _style():
 
 def run(code: str, chapter_id: str = "") -> str | None:
     """Exec `code`; it must leave a Figure in `fig`. Returns svg path or None."""
-    key = hashlib.sha1((code + "|v4").encode()).hexdigest()[:20]
+    nep = chapter_id.startswith(("nep", "soc", "health"))
+    key = hashlib.sha1((code + ("|v5ne" if nep else "|v4")).encode()).hexdigest()[:20]
     out = os.path.join(CACHE, key + ".svg")
     if os.path.exists(out) and not os.environ.get("FIG_LINT"):
         return out
@@ -97,6 +98,8 @@ def run(code: str, chapter_id: str = "") -> str | None:
             fig.set_size_inches(w * scale, h * scale)
         else:
             scale = 1.0
+        if chapter_id.startswith(("nep", "soc", "health")):
+            _devanagari_digits(fig)
         if os.environ.get("FIG_LINT"):
             _lint(fig, scale, chapter_id, code)
         fig.savefig(out, format="svg", transparent=True,
@@ -107,6 +110,31 @@ def run(code: str, chapter_id: str = "") -> str | None:
         FAILS.append((chapter_id, traceback.format_exc(limit=2)[-400:]))
         plt.close("all")
         return None
+
+
+_DEVA = str.maketrans("0123456789", "०१२३४५६७८९")
+
+def _devanagari_digits(fig):
+    """A Nepali-medium book prints Nepali numerals everywhere, tick labels included.
+    Text inside $...$ is mathtext and is left alone."""
+    import re as _re
+    fig.canvas.draw()
+    def conv(s):
+        parts = _re.split(r"(\$[^$]*\$)", s)
+        return "".join(p if p.startswith("$") else p.translate(_DEVA) for p in parts)
+    for ax in fig.get_axes():
+        for axis in (ax.xaxis, ax.yaxis):
+            ticks = axis.get_ticklabels()
+            if any(_re.search(r"[0-9]", t.get_text()) for t in ticks):
+                locs = axis.get_ticklocs()
+                labels = [conv(t.get_text().replace("\u2212", "-")) for t in ticks]
+                if len(labels) == len(locs):
+                    axis.set_ticks(locs)
+                    axis.set_ticklabels(labels)
+    for t in fig.findobj(matplotlib.text.Text):
+        s = t.get_text()
+        if s and _re.search(r"[0-9]", s):
+            t.set_text(conv(s))
 
 
 def _lint(fig, scale, chapter_id, code):
