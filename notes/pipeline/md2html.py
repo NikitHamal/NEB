@@ -322,6 +322,11 @@ def convert(text, chapter_id="", fig_no_start=1):
     body = _extract_inline_math(body, store)
     _find_leaks(body)
     body = _callouts(body)
+    # Python-Markdown's list regex uses \d, which also matches Devanagari
+    # digits, so a bullet written "- १. text" became a nested <ol> that
+    # restarted at a Latin "1." for every item. Escape the dot so the number
+    # stays literal text after the bullet.
+    body = re.sub(r"(?m)^(\s*[-*+]\s+)([\u0966-\u096F]+)\.(\s)", r"\1\2\\.\3", body)
     _MD.reset()
     htm = _MD.convert(body)
     for i, frag in enumerate(store):
@@ -337,6 +342,7 @@ def convert(text, chapter_id="", fig_no_start=1):
     # style question sections
     htm = re.sub(r"<h2([^>]*)>\s*((?:" + i18n.CUR["qs_re"] + r")[^<]*)</h2>",
                  r'<h2\1 class="qs">\2</h2>', htm, flags=re.I)
+    htm = re.sub(r"<li>(?=[\u0966-\u096F]+\.)", '<li class="num">', htm)
     htm = _frame_summary(htm)
     htm = _restructure_questions(htm)
     htm = _split_answer_runs(htm)
