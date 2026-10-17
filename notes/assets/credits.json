@@ -7668,5 +7668,44 @@
   "sha1": "7333c5e2f934995f",
   "source": "Wikimedia Commons",
   "title": "World Health Organisation headquarters, Geneva, north and west sides 2007"
+ },
+ "soc8/mohenjo-daro": {
+  "author": "Saqib Qayyum",
+  "bytes": 379008,
+  "credit": "Own work",
+  "fetched": "2026-10-17",
+  "file": "soc8/mohenjo-daro.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Mohenjo-daro.jpg",
+  "sha1": "fe1230ce68b796b4",
+  "source": "Wikimedia Commons",
+  "title": "Mohenjo-daro"
+ },
+ "soc8/mona-lisa": {
+  "author": "Leonardo da Vinci",
+  "bytes": 517340,
+  "credit": "Cropped and relevelled from File:Mona Lisa, by Leonardo da Vinci, from C2RMF.jpg . Originally C2RMF: Galerie de tableaux en très haute définition : image page",
+  "fetched": "2026-10-17",
+  "file": "soc8/mona-lisa.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Mona_Lisa,_by_Leonardo_da_Vinci,_from_C2RMF_retouched.jpg",
+  "sha1": "7099a8e99479bf73",
+  "source": "Wikimedia Commons",
+  "title": "Mona Lisa, by Leonardo da Vinci, from C2RMF retouched"
+ },
+ "soc8/parthenon": {
+  "author": "George E. Koronaios",
+  "bytes": 456363,
+  "credit": "Own work",
+  "fetched": "2026-10-17",
+  "file": "soc8/parthenon.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:The_Parthenon_(West_Facade)_on_May_19,_2020.jpg",
+  "sha1": "fce09a5750654487",
+  "source": "Wikimedia Commons",
+  "title": "The Parthenon (West Facade) on May 19, 2020"
  }
 }
