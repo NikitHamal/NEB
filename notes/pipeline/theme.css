@@ -108,6 +108,8 @@ h4 { font-family:Inter,sans-serif; font-size:9.6pt; font-weight:700; color:var(-
      break-after:avoid; text-align:left; }
 p { margin:0 0 2.4mm 0; orphans:2; widows:2; }
 ul,ol { margin:0 0 2.8mm 0; padding-left:6mm; }
+li.num { list-style-type:none; }
+html:lang(ne) ol:not([class]) { list-style-type:devanagari; }
 li { margin:.9mm 0; }
 li > p { margin:0 0 1mm 0; }
 strong { font-weight:600; color:var(--ink); }
