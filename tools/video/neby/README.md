@@ -1,3 +1,8 @@
+> **Superseded.** This first cut used a hand-drawn stand-in mascot. The launch film is now
+> `../nebians-launch/`, which uses the product's real Neby. This folder is kept because the new
+> film reuses `kit.py`, `characters.logo()`, the synth in `score.py`, and `neby_capture.mjs`
+> (which runs the real avatar engine).
+
 # Neby — the NEBians launch film (18 s)
 
 A minimal, vector, mascot-led motion film. Every frame is a pure function of time,

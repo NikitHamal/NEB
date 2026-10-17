@@ -1,8 +1,9 @@
 # NEBians launch film
 
-> **New (2026-10-17): "Neby", an 18-second mascot-led vector film** —
-> `tools/video/neby/` (Skia + synthesised score, no browser needed), master at
-> `tools/video/dist/nebians-neby-launch-16x9.mp4`. See `tools/video/neby/README.md`.
+> **Current launch film (Dashain release, 2026-10): `tools/video/nebians-launch/`** — 20 s,
+> starring the real Neby (captured from `neby-avatar.js` by `tools/video/neby/neby_capture.mjs`),
+> announcing the class 8, 10, 11 and 12 notes and question banks. Master:
+> `tools/video/dist/nebians-launch-dashain-16x9.mp4`. See `tools/video/nebians-launch/README.md`.
 > The browser-based 15-second film below is kept as the earlier cut.
 
 A 15-second motion-graphics film for the NEBians launch, built as code. Every frame is computed from a timeline, rendered by headless Chrome, encoded by ffmpeg and scored by a small synthesiser, so **any agent can change the film by editing a spec and re-running one command**. Nothing is edited by hand in a video editor and the pipeline has **zero npm dependencies**.
