@@ -8,6 +8,10 @@ const PRACTICALS = {
   'plasmolysis-rhoeo-peel': () => import('./practicals/peel.js'),
   'stomata-upper-lower-distribution': () => import('./practicals/peel.js'),
   'ts-dicot-monocot-root-stem': () => import('./practicals/sections.js'),
+  'animal-tissue-slides': () => import('./practicals/slides.js'),
+  'plant-tissue-diversity': () => import('./practicals/slides.js'),
+  'grasshopper-animal-mitosis': () => import('./practicals/slides.js'),
+  'frog-development-stages': () => import('./practicals/slides.js'),
   'onion-root-tip-mitosis-11': () => import('./practicals/onion-mitosis.js'),
   'onion-root-tip-mitosis-12': () => import('./practicals/onion-mitosis.js'),
 };

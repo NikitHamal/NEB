@@ -9,7 +9,7 @@ const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&l
 
 export const TOOL_NAMES = {
   hand: 'Hand', scalpel: 'Scalpel', scissors: 'Fine scissors', forceps: 'Forceps', needle: 'Needle', pin: 'Pins', dropper: 'Dropper',
-  coverslip: 'Coverslip', brush: 'Brush', lens: 'Hand lens', razor: 'Razor', paper: 'Blotting paper', washbottle: 'Wash bottle', slide: 'Slide', lamp: 'Spirit lamp', tube: 'Test tube',
+  coverslip: 'Coverslip', brush: 'Brush', lens: 'Hand lens', razor: 'Razor', paper: 'Paper', washbottle: 'Wash bottle', slide: 'Slide', lamp: 'Spirit lamp', tube: 'Test tube',
 };
 
 export function createUI(stage, opts) {
