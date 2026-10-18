@@ -78,7 +78,8 @@ export function createEyepiece(ctx, field, opts = {}) {
   lightInput.addEventListener('input', () => { st.light = Number(lightInput.value) / 100; applyFilter(); changed(); });
   const back = el('button', 'bh-eye-back', '<span>Look up</span>'); back.type = 'button';
   back.addEventListener('click', () => { if (opts.onClose) opts.onClose(); });
-  ctrl.append(turret, knobs, lightRow, back);
+  const actions = el('div', 'bh-eye-actions');
+  ctrl.append(turret, knobs, lightRow, actions, back);
   if (opts.closable === false) back.style.display = 'none';
 
   function blurPx() {
@@ -185,6 +186,8 @@ export function createEyepiece(ctx, field, opts = {}) {
       if (opts.onObjective) opts.onObjective(m, prev, user);
       changed();
     },
+    action(label, onClick, cls = '') { const b = el('button', `bh-eye-act ${cls}`, label); b.type = 'button'; b.addEventListener('click', () => onClick(b)); actions.appendChild(b); return b; },
+    clearActions() { actions.innerHTML = ''; },
     setFocus(f) { st.focus = f; applyFilter(); },
     redraw() { dirty = true; },
     /** Screen position (px inside the view) of a field point, for markers. */
