@@ -5,7 +5,7 @@
 <div class="admin-page-header">
   <div class="admin-eyebrow">AI &amp; Automation</div>
   <h1>TTS Providers</h1>
-  <p class="md-body-small" style="color:var(--md-on-surface-variant)">Test free no-signup TTS — Airy (104 voices, en+ko), LazyPy (Bing/Google/iSpeech), Google direct, Moe, Kokoro, Chatterbox, Fish.</p>
+  <p class="md-body-small" style="color:var(--md-on-surface-variant)">Test free no-signup TTS — Airy (104 voices, en+ko), LazyPy (Bing/Google/iSpeech), Google direct, Moe, Kokoro, Paradee (8M distill), Chatterbox, Fish.</p>
 </div>
 
 <div class="admin-card" style="max-width:720px">
@@ -19,6 +19,7 @@
       <option value="moe/moe-tts">Moe TTS — anime</option>
       <option value="kokoro/kokoro-82m">Kokoro 82M — warm natural</option>
       <option value="kokoro/kokoro-82m-af-bella">Kokoro Bella — bright female</option>
+      <option value="paradee/paradee-8m">Paradee 8M — Kokoro distill, tiny & fast</option>
       <option value="chatterbox/chatterbox">Chatterbox — expressive</option>
       <option value="fishaudio/s1">Fish Audio S1 — high quality</option>
     </select>
@@ -201,12 +202,15 @@
       body.speaker = voice || 'Hoshino';
     } else if (provider.indexOf('kokoro') === 0) {
       body.voice = voice || '';
+    } else if (provider.indexOf('paradee') === 0) {
+      body.voice = voice || '';
+      body.speed = 1.0;
     } else if (provider.indexOf('chatterbox') === 0) {
       body.voice = voice || '';
     } else if (provider.indexOf('fish') === 0) {
       body.voice = voice || 'default';
     }
-    setStatus('tts-status', provider.indexOf('airy') === 0 && text.length > 640 ? 'Batching (up to ~5s per 640 chars)…' : 'Synthesizing…');
+    setStatus('tts-status', provider.indexOf('airy') === 0 && text.length > 640 ? 'Batching (up to ~5s per 640 chars)…' : provider.indexOf('paradee') === 0 && text.length > 600 ? 'Batching (600 chars/batch)…' : 'Synthesizing…');
     $('tts-generate').disabled = true;
     $('tts-result').style.display = 'none';
     post('/ajax/admin/media/tts/', body)

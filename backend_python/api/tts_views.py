@@ -24,12 +24,13 @@ def tts_models(request):
     from .fish_proxy import get_models as fish_models
     from .google_tts_proxy import get_models as g_models
     from .kokoro_proxy import get_models as k_models
+    from .paradee_proxy import get_models as paradee_models
     from .lazypy_proxy import get_models as lz_models
     from .moe_tts_proxy import get_models as moe_models
 
     return Response(
         {
-            "tts": airy_models() + lz_models() + g_models() + moe_models() + k_models() + ch_models() + fish_models(),
+            "tts": airy_models() + lz_models() + g_models() + moe_models() + k_models() + paradee_models() + ch_models() + fish_models(),
             "image": [],
         }
     )
@@ -84,6 +85,15 @@ def tts_generate(request):
         from .kokoro_proxy import generate_tts as kokoro_tts
 
         result = kokoro_tts(
+            text=text,
+            voice=request.data.get("voice") or request.data.get("speaker"),
+            speed=request.data.get("speed") or 1.0,
+            model=provider,
+        )
+    elif provider.startswith("paradee"):
+        from .paradee_proxy import generate_tts as paradee_tts
+
+        result = paradee_tts(
             text=text,
             voice=request.data.get("voice") or request.data.get("speaker"),
             speed=request.data.get("speed") or 1.0,

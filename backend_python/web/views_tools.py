@@ -79,10 +79,10 @@ def intelligence_tools_page(request):
         },
         {
             "id": "whisper_stt",
-            "label": "Voice → Text (Whisper)",
+            "label": "Voice → Text (Whistle)",
             "icon": "mic",
-            "desc": "100% on-device STT — tiny.en 39MB to large-v3-turbo 400MB. English+Hindi, VAD, timestamps, offline forever.",
-            "size": "39 MB – 400 MB",
+            "desc": "100% on-device STT — Whistle 17MB default (7 languages, auto-detect) or Whisper tiny.en 39MB to large-v3-turbo 400MB. VAD, timestamps, offline forever.",
+            "size": "17 MB – 400 MB",
             "badge": "ON-DEVICE",
             "files": [],
             "params": [],

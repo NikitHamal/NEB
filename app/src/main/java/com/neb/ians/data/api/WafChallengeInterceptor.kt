@@ -25,7 +25,8 @@ class WafChallengeInterceptor(private val context: Context) : Interceptor {
         private const val BASE_URL = "https://nebians.consica.com.np/"
         private const val BASE_HOST = "nebians.consica.com.np"
         private const val RETRY_HEADER = "X-Waf-Retried"
-        private const val CHALLENGE_TIMEOUT_SECONDS = 35L
+        private const val CHALLENGE_TIMEOUT_SECONDS = 25L
+        private const val SHORT_SOLVE_TIMEOUT_SECONDS = 12L
         private const val WEBVIEW_SETTLE_MS = 900L
         private const val MAX_SOLVE_ATTEMPTS = 2
         private const val BROWSER_UA = "Mozilla/5.0 (Linux; Android 13; Mobile) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Mobile Safari/537.36"
@@ -43,12 +44,22 @@ class WafChallengeInterceptor(private val context: Context) : Interceptor {
         var request = browserRequest(originalRequest)
         var response = chain.proceed(request)
 
+        // Interactive captchas can never clear inside a headless WebView —
+        // fail immediately instead of stalling 25s+ per attempt.
+        if (isHardCaptchaBlock(originalRequest, response)) {
+            val code = response.code
+            response.close()
+            throw wafException(responseCode = code)
+        }
+
         var attempt = originalRequest.header(RETRY_HEADER)?.toIntOrNull() ?: 0
-        while (shouldSolve(originalRequest, response) && attempt < MAX_SOLVE_ATTEMPTS) {
+        var budget = solveBudgetSeconds(originalRequest, response)
+        while (attempt < MAX_SOLVE_ATTEMPTS) {
+            val solveSeconds = budget ?: break
             response.close()
             val solvedCookies = synchronized(challengeLock) {
                 val existing = allCookiesFor(originalRequest)
-                if (hasUsefulCookie(existing)) existing else solveChallengeInWebView(originalRequest.url.toString())
+                if (hasUsefulCookie(existing)) existing else solveChallengeInWebView(originalRequest.url.toString(), solveSeconds)
             }
 
             if (solvedCookies.isNullOrBlank()) {
@@ -64,9 +75,15 @@ class WafChallengeInterceptor(private val context: Context) : Interceptor {
                     .build()
             )
             response = chain.proceed(request)
+            if (isHardCaptchaBlock(originalRequest, response)) {
+                val code = response.code
+                response.close()
+                throw wafException(responseCode = code)
+            }
+            budget = solveBudgetSeconds(originalRequest, response)
         }
 
-        if (shouldSolve(originalRequest, response)) {
+        if (solveBudgetSeconds(originalRequest, response) != null) {
             response.close()
             throw wafException(responseCode = response.code)
         }
@@ -104,7 +121,13 @@ class WafChallengeInterceptor(private val context: Context) : Interceptor {
         return builder.build()
     }
 
-    private fun shouldSolve(request: Request, response: Response): Boolean {
+    /**
+     * Seconds of WebView solving this response deserves, or null to not try.
+     * Only auto-solvable shield pages earn a budget — a plain 5xx HTML page
+     * from an overloaded server would never clear, so it fails fast and lets
+     * the retry/UI layer handle it in milliseconds instead of ~25s.
+     */
+    private fun solveBudgetSeconds(request: Request, response: Response): Long? {
         val path = request.url.encodedPath
         val contentType = response.body?.contentType()?.toString().orEmpty()
         val likelyText = contentType.contains("text", true) ||
@@ -112,23 +135,36 @@ class WafChallengeInterceptor(private val context: Context) : Interceptor {
                 contentType.contains("json", true) ||
                 contentType.isBlank()
         val protectedStatus = response.code in listOf(200, 403, 409, 429, 503, 520, 522, 524)
-        if (!protectedStatus && !path.startsWith("/api/")) return false
-        if (!likelyText && response.code !in listOf(403, 429, 503, 520, 522, 524)) return false
+        if (!protectedStatus && !path.startsWith("/api/")) return null
+        if (!likelyText && response.code !in listOf(403, 429, 503, 520, 522, 524)) return null
 
         val sample = try {
             response.peekBody(192 * 1024).string()
         } catch (_: Exception) {
             ""
         }
-        if (isChallengeBody(sample)) return true
-        if (response.code in listOf(403, 429, 503, 520, 522, 524) && !contentType.contains("application/json", true)) return true
-        // Any HTML reply on the API — e.g. a host security block page returned
-        // for a binary multipart upload that the browser's same-origin form
-        // doesn't trigger — is treated as a WAF/challenge. That way we attempt
-        // to clear it and, if we can't, surface the actionable security message
-        // instead of an unhelpful generic / "invalid response" error.
-        if (path.startsWith("/api/") && contentType.contains("text/html", true)) return true
-        return false
+        if (isChallengeBody(sample)) return CHALLENGE_TIMEOUT_SECONDS
+        // Non-JSON 403/409 without shield markers is usually a WAF variant
+        // page worth one short attempt; anything else fails fast.
+        if (response.code in listOf(403, 409) && !contentType.contains("application/json", true)) {
+            return SHORT_SOLVE_TIMEOUT_SECONDS
+        }
+        // Any other HTML reply on the API (e.g. a generic 503 page) is still
+        // surfaced as a block so callers show the actionable message — but
+        // without spending a WebView solve on it.
+        return null
+    }
+
+    private fun isHardCaptchaBlock(request: Request, response: Response): Boolean {
+        if (!request.url.encodedPath.startsWith("/api/")) return false
+        val contentType = response.body?.contentType()?.toString().orEmpty()
+        if (contentType.contains("application/json", true)) return false
+        val sample = try {
+            response.peekBody(192 * 1024).string()
+        } catch (_: Exception) {
+            ""
+        }
+        return isHardCaptchaBody(sample)
     }
 
     private fun isUnexpectedHtmlForApi(request: Request, response: Response): Boolean {
@@ -157,7 +193,19 @@ class WafChallengeInterceptor(private val context: Context) : Interceptor {
                 lower.contains("security check") && lower.contains("browser")
     }
 
-    private fun solveChallengeInWebView(targetUrl: String): String? {
+    private fun isHardCaptchaBody(body: String): Boolean {
+        if (body.isBlank()) return false
+        val lower = body.lowercase(Locale.US)
+        return lower.contains("window.toshowcaptcha") ||
+                lower.contains("g-recaptcha") ||
+                lower.contains("hcaptcha") ||
+                lower.contains("turnstile") ||
+                lower.contains("human verification") ||
+                lower.contains("verify you are human") && lower.contains("captcha") ||
+                lower.contains("select all images") && lower.contains("captcha")
+    }
+
+    private fun solveChallengeInWebView(targetUrl: String, timeoutSeconds: Long = CHALLENGE_TIMEOUT_SECONDS): String? {
         val result = AtomicReference<String?>(null)
         val finished = AtomicBoolean(false)
         val latch = CountDownLatch(1)
@@ -192,7 +240,7 @@ class WafChallengeInterceptor(private val context: Context) : Interceptor {
                 cookieManager.setAcceptCookie(true)
                 cookieManager.setAcceptThirdPartyCookies(webView, true)
 
-                val deadline = System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(CHALLENGE_TIMEOUT_SECONDS)
+                val deadline = System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(timeoutSeconds)
 
                 fun poll() {
                     if (finished.get()) return
@@ -244,7 +292,7 @@ class WafChallengeInterceptor(private val context: Context) : Interceptor {
             }
         }
 
-        latch.await(CHALLENGE_TIMEOUT_SECONDS + 3L, TimeUnit.SECONDS)
+        latch.await(timeoutSeconds + 3L, TimeUnit.SECONDS)
         tryDestroyWebView(webViewRef.get())
         return result.get()
     }

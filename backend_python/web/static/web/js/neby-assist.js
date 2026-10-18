@@ -116,7 +116,7 @@
   }
 
   function getWorkerUrl() {
-    return '/static/web/js/needle3/needle.worker.js?v=3';
+    return '/static/web/js/needle3/needle.worker.js?v=4';
   }
 
   function statusLabel(msg) {
