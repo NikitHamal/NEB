@@ -1,0 +1,40 @@
+/* Pixel sprites for empty states, shared with the Android app (ui/pixel, exported by
+   PixelSkySceneTest). Each strip plays in whole-frame steps, scaled up crisp. */
+.px-sprite{display:inline-block;flex:none;background-repeat:no-repeat;image-rendering:pixelated;image-rendering:crisp-edges}
+.px-nebyIdle{width:96px;height:96px;background-image:url(../img/pixel/nebyIdle.png);background-size:1536px 96px;animation:px-nebyIdle 1840ms steps(16) infinite}
+@keyframes px-nebyIdle{to{background-position-x:-1536px}}
+.px-nebyHop{width:96px;height:96px;background-image:url(../img/pixel/nebyHop.png);background-size:1152px 96px;animation:px-nebyHop 864ms steps(12) infinite}
+@keyframes px-nebyHop{to{background-position-x:-1152px}}
+.px-nebyThink{width:96px;height:96px;background-image:url(../img/pixel/nebyThink.png);background-size:768px 96px;animation:px-nebyThink 1280ms steps(8) infinite}
+@keyframes px-nebyThink{to{background-position-x:-768px}}
+.px-nebySleep{width:96px;height:96px;background-image:url(../img/pixel/nebySleep.png);background-size:1152px 96px;animation:px-nebySleep 1680ms steps(12) infinite}
+@keyframes px-nebySleep{to{background-position-x:-1152px}}
+.px-nebyWink{width:96px;height:96px;background-image:url(../img/pixel/nebyWink.png);background-size:960px 96px;animation:px-nebyWink 1100ms steps(10) infinite}
+@keyframes px-nebyWink{to{background-position-x:-960px}}
+.px-sleepyBell{width:96px;height:96px;background-image:url(../img/pixel/sleepyBell.png);background-size:1152px 96px;animation:px-sleepyBell 1440ms steps(12) infinite}
+@keyframes px-sleepyBell{to{background-position-x:-1152px}}
+.px-magnifier{width:96px;height:96px;background-image:url(../img/pixel/magnifier.png);background-size:960px 96px;animation:px-magnifier 1300ms steps(10) infinite}
+@keyframes px-magnifier{to{background-position-x:-960px}}
+.px-rainCloud{width:96px;height:96px;background-image:url(../img/pixel/rainCloud.png);background-size:768px 96px;animation:px-rainCloud 760ms steps(8) infinite}
+@keyframes px-rainCloud{to{background-position-x:-768px}}
+.px-ribbon{width:96px;height:96px;background-image:url(../img/pixel/ribbon.png);background-size:960px 96px;animation:px-ribbon 1100ms steps(10) infinite}
+@keyframes px-ribbon{to{background-position-x:-960px}}
+.px-downloadTray{width:96px;height:96px;background-image:url(../img/pixel/downloadTray.png);background-size:960px 96px;animation:px-downloadTray 900ms steps(10) infinite}
+@keyframes px-downloadTray{to{background-position-x:-960px}}
+.px-typing{width:96px;height:78px;background-image:url(../img/pixel/typing.png);background-size:576px 78px;animation:px-typing 840ms steps(6) infinite}
+@keyframes px-typing{to{background-position-x:-576px}}
+.px-bookLoader{width:144px;height:96px;background-image:url(../img/pixel/bookLoader.png);background-size:2016px 96px;animation:px-bookLoader 980ms steps(14) infinite}
+@keyframes px-bookLoader{to{background-position-x:-2016px}}
+.px-padlock{width:96px;height:96px;background-image:url(../img/pixel/padlock.png);background-size:1152px 96px;animation:px-padlock 1200ms steps(12) infinite}
+@keyframes px-padlock{to{background-position-x:-1152px}}
+.px-newspaper{width:96px;height:96px;background-image:url(../img/pixel/newspaper.png);background-size:768px 96px;animation:px-newspaper 1040ms steps(8) infinite}
+@keyframes px-newspaper{to{background-position-x:-768px}}
+.px-coin{width:96px;height:96px;background-image:url(../img/pixel/coin.png);background-size:960px 96px;animation:px-coin 850ms steps(10) infinite}
+@keyframes px-coin{to{background-position-x:-960px}}
+.px-pushPin{width:96px;height:96px;background-image:url(../img/pixel/pushPin.png);background-size:768px 96px;animation:px-pushPin 960ms steps(8) infinite}
+@keyframes px-pushPin{to{background-position-x:-768px}}
+.px-storefront{width:96px;height:96px;background-image:url(../img/pixel/storefront.png);background-size:768px 96px;animation:px-storefront 1040ms steps(8) infinite}
+@keyframes px-storefront{to{background-position-x:-768px}}
+.px-trophy{width:96px;height:96px;background-image:url(../img/pixel/trophy.png);background-size:1152px 96px;animation:px-trophy 1320ms steps(12) infinite}
+@keyframes px-trophy{to{background-position-x:-1152px}}
+@media (prefers-reduced-motion:reduce){.px-sprite{animation:none}}
