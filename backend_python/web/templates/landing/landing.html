@@ -73,8 +73,8 @@
       <span class="lp-mask"><span style="--d:1"><em>Pass it.</em></span></span>
       <span class="lp-mask"><span style="--d:2">Pass it on.</span></span>
     </h1>
+    {% if site_theme.greeting %}<p class="lp-greet"><span lang="ne">{{ site_theme.greeting.ne }}</span></p>{% endif %}
     <div class="lp-hero-side">
-      {% if site_theme.greeting %}<p class="lp-greet"><span lang="ne">{{ site_theme.greeting.ne }}</span></p>{% endif %}
       <p class="lp-lede">Notes, past papers and solved books for Class&nbsp;8 to&nbsp;12. Free.</p>
       <div class="lp-actions">
         <a class="lp-btn" href="{% url 'web:library' %}"><span>Start reading</span></a>
