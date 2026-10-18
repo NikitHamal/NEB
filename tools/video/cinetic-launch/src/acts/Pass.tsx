@@ -1,16 +1,15 @@
 import React from 'react';
 import { AbsoluteFill, useCurrentFrame } from 'remotion';
-import { C, TYPE } from '../brand/tokens';
+import { C } from '../brand/tokens';
 import { GPA, GRADES, HERO_GRADE, QUESTION } from '../data';
-import { Words } from '../fx/Words';
 import { E, fd, hitPulse, prog } from '../lib/anim';
 import { breath, camera, lc, type Shot } from '../lib/camera';
-import { ACT, copy, CUE, f60 } from '../timeline';
+import { ACT, CUE, f60 } from '../timeline';
 import { Card, PageShape, rectQuad, T } from '../ui/kit';
 import { useStage } from '../ui/stage';
 
 // ACT 5 - pass. Back on paper, in close-up: one bar grows, Chemistry, the subject the film was
-// stuck on, and lands on A+. "Pass it." Then the camera pulls back to the whole gradesheet (the
+// stuck on, and lands on A+, with no words: the picture says it. Then the camera pulls back to the whole gradesheet (the
 // page again, as its header) and the GPA rolls in and locks.
 
 const L = (abs: number) => abs - ACT.pass.from;
@@ -45,15 +44,13 @@ export const Pass: React.FC = () => {
   const leave = prog(f, ACT.pass.dur - f60(30), ACT.pass.dur, E.exit);
 
   const grow = prog(f, L(CUE.bar), L(CUE.bar) + f60(60), E.out);
-  const plus = prog(f, L(CUE.bar) + f60(50), L(CUE.bar) + f60(62), E.out);
+  const plus = prog(f, L(CUE.plus) - f60(8), L(CUE.plus) + f60(4), E.out);
+  const pulse = hitPulse(f - L(CUE.pulse) - 2);
   const gpaP = prog(f, L(CUE.gpa), L(CUE.gpaLock), E.out);
   const gpa = (Math.round(fd(gpaP * GPA * 100)) / 100).toFixed(2);
   const lock = hitPulse(f - L(CUE.gpaLock) - 2);
   const locked = f >= L(CUE.gpaLock);
 
-  const c = copy('pass');
-  const size = TYPE.display.size * S.ut;
-  const textPos = S.portrait || S.square ? { x: S.band.x, y: S.band.y + (S.portrait ? 20 : 0) * u } : { x: S.band.x, y: S.cy - size * 0.55 };
 
   return (
     <AbsoluteFill style={{ background: C.paper, overflow: 'hidden' }}>
@@ -79,7 +76,7 @@ export const Pass: React.FC = () => {
           const others = hero ? 1 : prog(f, L(CUE.pullback), L(CUE.pullback) + f60(40), E.smooth);
           return (
             <div key={g.subject} style={{ opacity: others }}>
-              <div style={{ position: 'absolute', left: 0, top: 0, width: barW, height: h, borderRadius: `${10 * u}px ${10 * u}px 0 0`, background: hero ? C.accent : C.sky, transform: `translate(${barX(i)}px, ${chart.y + chart.h - h}px)` }} />
+              <div style={{ position: 'absolute', left: 0, top: 0, width: barW, height: h, borderRadius: `${10 * u}px ${10 * u}px 0 0`, background: hero ? C.accent : C.sky, transformOrigin: '50% 100%', transform: `translate(${barX(i)}px, ${chart.y + chart.h - h}px) scaleX(${hero ? 1 + 0.08 * pulse : 1})` }} />
               <div style={{ position: 'absolute', left: 0, top: 0, width: slotW, textAlign: 'center', transform: `translate(${chart.x + i * slotW}px, ${chart.y + chart.h - h - 40 * u}px)`, opacity: hero ? plus : 1 }}>
                 <T role="ui" size={(hero ? 26 : 22) * u} color={hero ? C.accent : C.ink} style={{ fontWeight: 700 }}>{g.grade}</T>
               </div>
@@ -90,9 +87,6 @@ export const Pass: React.FC = () => {
           );
         })}
         </div>
-      </div>
-      <div style={{ position: 'absolute', left: 0, top: 0, transform: `translate(${textPos.x}px, ${textPos.y}px)` }}>
-        <Words id="pass" text={c.text} frame={f} start={c.in - ACT.pass.from} out={c.out - ACT.pass.from} size={size} style={{ fontFamily: '"Poppins"', fontSize: size, fontWeight: TYPE.display.weight, letterSpacing: `${TYPE.display.track}em`, lineHeight: TYPE.display.lead, color: C.ink }} />
       </div>
     </AbsoluteFill>
   );

@@ -11,7 +11,7 @@ import { mixQuad, PageShape, type Quad, rectQuad, T } from '../ui/kit';
 import { useStage } from '../ui/stage';
 import { PassOn, passOnLayout } from './PassOn';
 
-// ACT 7 - the lockup. "Pass it on." leaves; the file's page lifts off and, in one move, becomes the
+// ACT 7 - the lockup. "Study mates." leaves; the file's page lifts off and, in one move, becomes the
 // logo's light facet and docks. The rest of the N assembles round it. The mark slides aside and the
 // name follows out from behind it (stacked in 9:16); after the name is read, one line says what
 // NEBians is, and the address. A slow creep keeps the held card alive.
@@ -93,13 +93,14 @@ export const Lockup: React.FC = () => {
             <T role="display" size={nameSize} ui={false} style={{ fontWeight: 700 }}>NEBians</T>
           </div>
         </div>
+      </div>
+      {/* the line and the address sit outside the creep: scaled small text re-rasterises and shimmers */}
         <div style={{ position: 'absolute', left: 0, top: 0, transform: `translate(${S.cx - endW / 2}px, ${endY}px)` }}>
-          <Words id="endline" text={end.text} frame={f} start={end.in - ACT.lockup.from} size={endSize} style={{ fontFamily: '"Poppins"', fontSize: endSize, fontWeight: TYPE.secondary.weight, letterSpacing: `${TYPE.secondary.track}em`, lineHeight: TYPE.secondary.lead, color: C.mute }} />
+          <Words id="endline" text={end.text} frame={f} start={end.in - ACT.lockup.from} size={endSize} style={{ fontFamily: '"Poppins"', fontSize: endSize, fontWeight: TYPE.secondary.weight, letterSpacing: `${TYPE.secondary.track}em`, lineHeight: TYPE.secondary.lead, color: C.ink }} />
         </div>
         <div style={{ position: 'absolute', left: 0, top: 0, width: S.w, textAlign: 'center', transform: `translate(0px, ${endY + endSize * 1.6 + (1 - url) * 10 * u}px)`, opacity: url }}>
           <T role="ui" size={30 * u} color={C.accent} style={{ fontWeight: 600 }}>{URL}</T>
         </div>
-      </div>
     </AbsoluteFill>
   );
 };

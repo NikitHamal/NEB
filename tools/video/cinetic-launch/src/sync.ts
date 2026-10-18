@@ -81,8 +81,9 @@ export default function cues(): SoundEvent[] {
   ev.push({ f: CUE.readerOut + f60(34), kind: 'whoosh', weight: 0.9, pan: 0, dur: f60(36), apexFrac: 34 / 36, id: 'paper-rises' });
 
   // 5 pass
-  ev.push({ f: settleOf(CUE.bar, CUE.bar + f60(60), E.out), kind: 'pop', weight: 0.9, pan: 0.2, id: 'a-plus' });
-  ev.push({ f: resolveOf('pass'), kind: 'text', weight: 0.8, id: 'pass' });
+  ev.push({ f: settleOf(CUE.bar, CUE.bar + f60(60), E.out), kind: 'land', variant: 'light', weight: 0.7, pan: 0.2, id: 'bar-grows' });
+  ev.push({ f: CUE.plus, kind: 'pop', weight: 0.9, pan: 0.2, id: 'a-plus' });
+  ev.push({ f: CUE.pulse + 2, kind: 'bell', weight: 0.7, pan: 0.2, id: 'yours' });
   ev.push(move(CUE.pullback, CUE.pullback + f60(60), E.cam, 0.8, 0, 'pull-back'));
   ev.push({ f: CUE.gpaLock + 1, kind: 'tick', variant: 'crisp', weight: 0.9, pan: 0.3, id: 'gpa-locks' });
 

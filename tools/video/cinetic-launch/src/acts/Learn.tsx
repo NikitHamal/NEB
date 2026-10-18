@@ -11,7 +11,7 @@ import { useStage } from '../ui/stage';
 
 // ACT 3 - learn. The blue chapter. The page drops in from the forum and multiplies into the library:
 // notes, a past paper, a solved book, each carrying the page as its header band. Every level the
-// library serves blooms round them. Only then the words: "Learn it." Stepped ink columns rise from
+// library serves blooms round them. Only then the words: "Study materials." Stepped ink columns rise from
 // the bottom edge and close into the ink stage the reader opens on.
 
 const L = (abs: number) => abs - ACT.learn.from;
@@ -44,7 +44,7 @@ export const Learn: React.FC = () => {
   const chipGap = 16 * u;
   const chipTop = groupTop + groupH + (S.portrait ? 54 : 56) * u;
 
-  // "Learn it." over the cards
+  // "Study materials." over the cards
   const c = copy('learn');
   const size = TYPE.display.size * S.ut * (S.portrait ? 0.95 : 1);
   const textW = measureTracked(c.text, size, TYPE.display.weight, TYPE.display.track);
@@ -58,6 +58,7 @@ export const Learn: React.FC = () => {
 
   return (
     <AbsoluteFill style={{ background: C.accent, overflow: 'hidden' }}>
+      <div style={{ position: 'absolute', inset: 0, transformOrigin: `${S.cx}px ${S.cy}px`, transform: `scale(${1 + 0.04 * prog(f, 0, L(CUE.columns), E.linear)})` }}>
       <div style={{ position: 'absolute', left: 0, top: 0, transform: `translate(${S.cx - textW / 2}px, ${textTop}px)` }}>
         <Words id="learn" text={c.text} frame={f} start={c.in - ACT.learn.from} out={c.out - ACT.learn.from} size={size} style={{ fontFamily: '"Poppins"', fontSize: size, fontWeight: TYPE.display.weight, letterSpacing: `${TYPE.display.track}em`, lineHeight: TYPE.display.lead, color: C.white }} />
       </div>
@@ -100,6 +101,7 @@ export const Learn: React.FC = () => {
           );
         });
       })}
+      </div>
       {Array.from({ length: cols }, (_, i) => {
         const s0 = t0 + Math.abs(i - mid) * f60(2);
         const hgt = prog(f, s0, s0 + f60(40), E.smooth) * S.h;

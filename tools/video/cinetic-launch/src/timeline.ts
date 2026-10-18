@@ -73,7 +73,7 @@ export const CUE = {
   // learn: the picture first, the words after it
   multiply: b(6), // the page multiplies into resources
   chips: b(6, 2), // levels bloom round them
-  fragLearn: b(6, 3), // "Learn it."
+  fragLearn: b(6, 3), // "Study materials."
   columns: b(7, 2), // after the read, shelf columns rise and close to ink
   // reader
   phone: b(8), // zoom-out hop: the phone, the page open in the reader
@@ -85,16 +85,17 @@ export const CUE = {
   readerOut: b(9, 3), // the phone falls away
   // pass
   bar: b(10), // the A+ bar grows in close-up
-  fragPass: b(10, 2), // "Pass it."
-  pullback: b(11, 1, 2), // after the read, pull back to the gradesheet
-  gpa: b(11, 2), // GPA rolls in
+  plus: b(10, 1, 2), // the A+ lands on top of it
+  pulse: b(10, 3), // the bar takes one accent pulse: the grade is yours
+  pullback: b(11), // pull back to the gradesheet
+  gpa: b(11, 1, 2), // GPA rolls in
   gpaLock: b(11, 3), // ...and locks
   // pass on
   upload: b(12), // the page is uploaded
   checked: b(12, 1, 2), // checked by a moderator
   published: b(12, 2, 2), // published (accent)
   readers: b(12, 3), // read by: the counter climbs
-  fragPassOn: b(13), // the line: Pass it on
+  fragPassOn: b(13), // the line: Study mates (the people the notes go to)
   // lockup
   lift: b(14), // the page lifts off the spine and flies for the N
   dock: b(14, 1, 2), // ...and docks as the light facet (a 54 f flight: slow enough to blur cleanly)
@@ -163,11 +164,10 @@ export const COPY: Copy[] = [
   { id: 'askNeby', text: 'Ask Neby', in: CUE.phone, resolved: CUE.phone + f60(30), out: CUE.askNeby + f60(40), kind: 'ui' },
   { id: 'answer1', text: 'Fewer electrons,', in: CUE.answer, resolved: CUE.answer + f60(36), out: CUE.readerOut + f60(36), kind: 'ui' },
   { id: 'answer2', text: 'held more tightly.', in: CUE.answer2, resolved: CUE.answer2 + f60(40), out: CUE.readerOut + f60(36), kind: 'ui' },
-  line('learn', 'Learn it.', CUE.fragLearn),
-  line('pass', 'Pass it.', CUE.fragPass),
-  line('passon', 'Pass it on.', CUE.fragPassOn, CUE.lift),
+  line('learn', 'Study materials.', CUE.fragLearn),
+  line('passon', 'Study mates.', CUE.fragPassOn, CUE.lift),
   { id: 'wordmark', text: 'NEBians', in: CUE.name, resolved: CUE.name + f60(34), out: TOTAL },
-  line('endline', 'Free, for every student.', CUE.line, TOTAL),
+  line('endline', 'Study materials. Study mates.', CUE.line, TOTAL),
   { id: 'url', text: 'nebians.consica.com.np', in: CUE.line + f60(20), resolved: CUE.line + f60(44), out: TOTAL, kind: 'ui' },
 ];
 

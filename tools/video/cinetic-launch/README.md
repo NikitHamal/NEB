@@ -9,6 +9,8 @@ light facet: the exercise page in the hook, the post's header in the forum, the 
 library resource, the reader's page, the gradesheet, the uploaded notes, and at the end it flies
 into the mark as the light facet and the rest of the N assembles round it.
 
+**Copy.** The motto carries the film: "Study materials." over the library, "Study mates." as the notes reach other students, and the end card resolves into "Study materials. Study mates." under the name.
+
 **Acts** (`src/acts/`): Hook (inside "Stuck", pull back; the line becomes the Ask bar) · Ask (the
 post lands, replies bloom, the teacher's is the answer; tip-back into blue) · Learn (the page
 multiplies into the library; every level; ink columns close) · Reader (zoom-out hop to the
