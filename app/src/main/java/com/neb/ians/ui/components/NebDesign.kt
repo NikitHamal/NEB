@@ -447,20 +447,26 @@ fun NebEmptyState(
     subtitle: String? = null,
     modifier: Modifier = Modifier,
     action: (@Composable () -> Unit)? = null,
+    /** The animated pixel art shown above the title; picked from [icon] unless given. Null: the plain icon disc. */
+    art: com.neb.ians.ui.pixel.PixelSprite? = com.neb.ians.ui.pixel.PixelStates.forIcon(icon),
 ) {
     androidx.compose.foundation.layout.Column(
         modifier = modifier.fillMaxWidth().padding(32.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        Box(
-            modifier = Modifier
-                .size(64.dp)
-                .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.surfaceContainerHigh),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(icon, null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(28.dp))
+        if (art != null) {
+            com.neb.ians.ui.pixel.PixelSpriteView(sprite = art, modifier = Modifier.size(96.dp))
+        } else {
+            Box(
+                modifier = Modifier
+                    .size(64.dp)
+                    .clip(CircleShape)
+                    .background(MaterialTheme.colorScheme.surfaceContainerHigh),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(icon, null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(28.dp))
+            }
         }
         Text(title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
         if (subtitle != null) {

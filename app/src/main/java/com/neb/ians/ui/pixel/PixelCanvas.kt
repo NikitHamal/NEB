@@ -68,6 +68,55 @@ class PixelCanvas(val width: Int, val height: Int) {
         }
     }
 
+    /** A filled disc centred on (cx, cy); half-pixel centres give even-width discs. */
+    fun disc(cx: Float, cy: Float, r: Float, color: Int) {
+        val r2 = r * r
+        for (y in (cy - r).toInt() - 1..(cy + r).toInt() + 1) for (x in (cx - r).toInt() - 1..(cx + r).toInt() + 1) {
+            val dx = x + 0.5f - cx; val dy = y + 0.5f - cy
+            if (dx * dx + dy * dy <= r2) set(x, y, color)
+        }
+    }
+
+    /** An ellipse, for shadows and lenses. */
+    fun ellipse(cx: Float, cy: Float, rx: Float, ry: Float, color: Int) {
+        for (y in (cy - ry).toInt() - 1..(cy + ry).toInt() + 1) for (x in (cx - rx).toInt() - 1..(cx + rx).toInt() + 1) {
+            val dx = (x + 0.5f - cx) / rx; val dy = (y + 0.5f - cy) / ry
+            if (dx * dx + dy * dy <= 1f) set(x, y, color)
+        }
+    }
+
+    /** A rectangle with its corners cut by [r] pixels (pixel-art rounding). */
+    fun roundRect(x: Int, y: Int, w: Int, h: Int, r: Int, color: Int) {
+        for (yy in 0 until h) {
+            val d = minOf(yy, h - 1 - yy)
+            val cut = if (d < r) r - d else 0
+            hline(x + cut, x + w - 1 - cut, y + yy, color)
+        }
+    }
+
+    /** Replaces every pixel of [from] with [to]: palette swaps for states (on/off, lit/dim). */
+    fun swap(from: Int, to: Int) {
+        for (i in pixels.indices) if (pixels[i] == from) pixels[i] = to
+    }
+
+    /**
+     * Outlines whatever has been drawn: every transparent pixel touching an opaque one becomes
+     * [color]. Draw the shape, then call this, and the sprite gets the clean 1 px line pixel art
+     * is read by.
+     */
+    fun outline(color: Int) {
+        val src = pixels.copyOf()
+        for (y in 0 until height) for (x in 0 until width) {
+            if ((src[y * width + x] ushr 24) != 0) continue
+            var touch = false
+            if (x > 0 && (src[y * width + x - 1] ushr 24) != 0) touch = true
+            if (x < width - 1 && (src[y * width + x + 1] ushr 24) != 0) touch = true
+            if (y > 0 && (src[(y - 1) * width + x] ushr 24) != 0) touch = true
+            if (y < height - 1 && (src[(y + 1) * width + x] ushr 24) != 0) touch = true
+            if (touch) pixels[y * width + x] = color
+        }
+    }
+
     /** Plots [color] where an ordered-dither threshold says [amount] (0..1) of the pixels should be. */
     fun dither(x: Int, y: Int, color: Int, amount: Float) {
         if (amount > Bayer.threshold(x, y)) set(x, y, color)
