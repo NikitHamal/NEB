@@ -4765,3 +4765,41 @@ button.cp-media-item-icon.cp-audio-play.playing {
 .comment-text .neb-chip img{height:1.5em;max-width:5.5em}
 
 [data-theme="dark"] .neb-chip img{box-shadow:0 0 0 1px color-mix(in srgb, var(--md-on-surface) 10%, transparent)}
+
+/* ---- Polish layer (2026-10) ----------------------------------------------------------------
+   Later rules win: the shared chrome, refined without touching the component sheets above. */
+
+/* The wordmark is the brand: it stays brand blue whatever the season's primary colour is. */
+.md-topbar-brand { color: #004AC6; }
+[data-theme="dark"] .md-topbar-brand { color: #B4C5FF; }
+.md-topbar-brand .st-motif { margin-top: -8px; }
+
+/* The app banner: a quiet strip on the surface, one line, one button. It used to be a saturated
+   blue gradient bar with a floating white pill, the loudest thing on every page. */
+.app-banner {
+  background: var(--md-surface-container);
+  color: var(--md-on-surface);
+  border-bottom: 1px solid var(--md-outline-variant);
+  box-shadow: none;
+  min-height: 40px;
+  padding: 6px 48px 6px 16px;
+  font-size: .8125rem;
+}
+.app-banner-content { flex-wrap: nowrap; gap: 12px; min-width: 0; }
+.app-banner-icon { color: var(--md-primary); font-size: 18px; }
+.app-banner-text { overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.app-banner-btn {
+  background: var(--md-primary);
+  color: var(--md-on-primary);
+  box-shadow: none;
+  padding: 5px 14px;
+  border-radius: 999px;
+}
+.app-banner-btn:hover { background: var(--md-primary); color: var(--md-on-primary); transform: none; box-shadow: none; filter: brightness(1.08); }
+.app-banner-close { color: var(--md-on-surface-variant); }
+.app-banner-close:hover { background: var(--md-surface-container-high); color: var(--md-on-surface); }
+@media (max-width: 600px) {
+  .app-banner { padding: 6px 44px 6px 12px; }
+  .app-banner-content { justify-content: flex-start; }
+  .app-banner-icon { display: none; }
+}
