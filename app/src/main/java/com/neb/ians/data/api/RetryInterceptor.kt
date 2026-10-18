@@ -24,10 +24,11 @@ class RetryInterceptor(private val maxRetries: Int = 3, private val initialBacko
 
                 if (!shouldRetry) return response
 
+                val waitMs = retryAfterMs(response) ?: (initialBackoffMs * (1L shl attempt))
                 response.close()
 
                 if (attempt < maxRetries) {
-                    Thread.sleep(initialBackoffMs * (1L shl attempt))
+                    Thread.sleep(waitMs)
                 }
             } catch (e: SocketTimeoutException) {
                 lastException = e
@@ -35,7 +36,12 @@ class RetryInterceptor(private val maxRetries: Int = 3, private val initialBacko
                     Thread.sleep(initialBackoffMs * (1L shl attempt))
                 }
             } catch (e: UnknownHostException) {
-                throw e
+                // Transient mobile DNS failures are common when switching
+                // networks; retry with a longer backoff instead of failing.
+                lastException = IOException("DNS resolution failed", e)
+                if (attempt < maxRetries) {
+                    Thread.sleep((initialBackoffMs * 2) * (1L shl attempt))
+                }
             } catch (e: IOException) {
                 lastException = e
                 if (attempt < maxRetries) {
@@ -47,7 +53,21 @@ class RetryInterceptor(private val maxRetries: Int = 3, private val initialBacko
         throw lastException ?: IOException("Max retries ($maxRetries) exhausted")
     }
 
+    private fun retryAfterMs(response: Response): Long? {
+        if (response.code != 429) return null
+        val header = response.header("Retry-After")?.trim().orEmpty()
+        if (header.isEmpty()) return null
+        val seconds = header.toLongOrNull()
+        // Bound the wait so a far-future Retry-After never freezes the UI;
+        // the repository layer surfaces the 429 and can retry later.
+        val bounded = when {
+            seconds != null -> seconds.coerceIn(0L, 30L) * 1000L
+            else -> null
+        }
+        return bounded
+    }
+
     companion object {
-        private val RETRYABLE_STATUS_CODES = listOf(408, 429, 500, 502, 503, 504)
+        private val RETRYABLE_STATUS_CODES = listOf(408, 429, 500, 502, 503, 504, 520, 522, 524)
     }
 }

@@ -58,8 +58,10 @@ def _probe():
         if mtime <= newest_mtime:
             continue
         try:
-            with open(path, 'r', errors='ignore') as fh:
-                content = fh.read()
+            with open(path, 'rb') as fh:
+                fh.seek(0, 2)
+                fh.seek(max(0, fh.tell() - 65536))
+                content = fh.read().decode('utf-8', 'ignore')
         except OSError:
             continue
         if not _HOST.search(content):
