@@ -45,4 +45,16 @@
 .neb-art > img.neb-pixel-night { display:none; }
 [data-theme="dark"] .neb-art > img.neb-pixel-night { display:block; }
 [data-theme="dark"] .neb-art > img.neb-pixel-day { display:none; }
-@media (prefers-reduced-motion:reduce){.px-sprite{animation:none}}
+/* season motifs (themes/_motif.html): the app's own animated pixel motifs */
+.st-motif-px{display:block;width:100%;height:100%;background-repeat:no-repeat;background-size:calc(var(--n,1) * 100%) 100%;image-rendering:pixelated;animation:st-motif-px var(--d,1s) steps(var(--n,2),jump-none) infinite}
+@keyframes st-motif-px{from{background-position-x:0%}to{background-position-x:100%}}
+.st-motif:has(.st-motif-px){width:16px;height:16px;animation:none}
+.st-season .st-motif:has(.st-motif-px){width:32px;height:32px}
+.st-motif-px.motif-kite{background-image:url(../img/pixel/motif-kite.png);--n:8;--d:1120ms}
+.st-motif-px.motif-diyo{background-image:url(../img/pixel/motif-diyo.png);--n:6;--d:660ms}
+.st-motif-px.motif-gulal{background-image:url(../img/pixel/motif-gulal.png);--n:8;--d:1200ms}
+.st-motif-px.motif-gurans{background-image:url(../img/pixel/motif-gurans.png);--n:10;--d:1600ms}
+.st-motif-px.motif-drop{background-image:url(../img/pixel/motif-drop.png);--n:8;--d:880ms}
+.st-motif-px.motif-snow{background-image:url(../img/pixel/motif-snow.png);--n:8;--d:1360ms}
+.st-motif-px.motif-pencil{background-image:url(../img/pixel/motif-pencil.png);--n:8;--d:960ms}
+@media (prefers-reduced-motion:reduce){.px-sprite,.st-motif-px{animation:none}}
