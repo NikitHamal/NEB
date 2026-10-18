@@ -54,7 +54,9 @@ const LIB = {
   knob: () => noise(0.015, { freq: 3000, q: 8, gain: 0.08 }),
 };
 
+export { tone, noise };
 export const sfx = {
+  register(name, f) { LIB[name] = f; },
   play(name) { if (muted) return; const c = ac(); if (!c) return; if (c.state === 'suspended') c.resume(); const f = LIB[name]; if (f) f(); },
   get muted() { return muted; },
   setMuted(v) { muted = !!v; if (!muted) { const c = ac(); if (c && c.state === 'suspended') c.resume(); } },

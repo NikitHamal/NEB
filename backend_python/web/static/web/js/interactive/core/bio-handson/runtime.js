@@ -15,7 +15,7 @@ export function runPractical(stage, config, practical) {
   if (!engine) return null;
   const { scene, camera, quality } = engine;
   camera.near = 0.02; camera.updateProjectionMatrix();
-  buildRoom(scene, { subject: 'biology', title: config.title, subtitle: config.aim }, quality);
+  buildRoom(scene, { subject: config.subject || 'biology', title: config.title, subtitle: config.aim }, quality);
   if (quality.tier !== 'low') { engine.renderer.shadowMap.enabled = true; engine.renderer.shadowMap.type = THREE.PCFSoftShadowMap; }
 
   const rig = createRig(camera);
