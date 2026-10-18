@@ -194,10 +194,9 @@
 .bh-belt.bh-hidden { opacity: 0; pointer-events: none; transform: translate(-50%, 20px); }
 .bh-belt { transition: opacity .25s, transform .3s; }
 @media (max-width: 640px) {
-  .ix-sim-stage.bh-stage { aspect-ratio: auto; height: min(72vh, 640px); max-height: none; }
-  .ix-fake-fullscreen .ix-sim-stage.bh-stage, .ix-sim-shell:fullscreen .ix-sim-stage.bh-stage { height: auto; }
-  .bh-card.bh-collapsed .bh-card-text { display: none; }
-  .bh-toast { padding: 8px 11px; gap: 8px; }
+  .ix-lesson-page[data-sim-type] .ix-sim-shell .ix-sim-stage.bh-stage { aspect-ratio: auto; height: min(72vh, 640px); max-height: none; }
+  .ix-lesson-page[data-sim-type] .ix-fake-fullscreen .ix-sim-stage.bh-stage, .ix-lesson-page[data-sim-type] .ix-sim-shell:fullscreen .ix-sim-stage.bh-stage { height: auto; }
+    .bh-toast { padding: 8px 11px; gap: 8px; }
   .bh-toast-ico { flex-basis: 22px; width: 22px; height: 22px; }
 }
 .bh-card { cursor: pointer; }
@@ -276,3 +275,6 @@
 .bh-clock button { min-height: 38px; border: 0; border-radius: 10px; background: #16a34a; color: #fff; font: inherit; font-weight: 700; padding: 0 12px; cursor: pointer; }
 .bh-clock button:disabled { opacity: .5; }
 @media (max-width: 640px) { .bh-clock { top: auto; bottom: 80px; right: 8px; } }
+
+.bh-card.bh-collapsed .bh-card-text { display: none; }
+.bh-card.bh-collapsed::after { content: 'tap for instructions'; display: block; font-size: .66rem; opacity: .6; margin-top: 2px; }

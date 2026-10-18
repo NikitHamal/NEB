@@ -104,6 +104,7 @@ export function createUI(stage, opts) {
       if (onToolChange) onToolChange(id, user);
     },
     get tool() { return activeTool; },
+    collapseCard(v) { card.classList.toggle('bh-collapsed', v); },
     showBelt(v) { belt.classList.toggle('bh-hidden', !v); },
     onTool(fn) { onToolChange = fn; },
     glowTool(id, on = true) { const b = toolButtons.get(id); if (b) b.classList.toggle('glow', on && activeTool !== id); },
