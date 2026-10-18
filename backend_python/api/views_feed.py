@@ -81,6 +81,26 @@ def _score_resource(resource, now_ms, subjects):
     return relevance + recency + base
 
 
+def _candidate_pools():
+    """The newest posts and resources everyone's deck is ranked from. Identical for
+    every viewer, so they are cached for a minute; only the ranking is personal."""
+    from django.core.cache import cache
+    pools = cache.get('suggest_pools_v1')
+    if pools is None:
+        posts = list(
+            Post.objects.filter(is_archived=False, user__email_verified=True)
+            .select_related('user').prefetch_related('images', 'media', 'poll__options')
+            .order_by('-created_at')[:_RECENT_POOL]
+        )
+        resources = list(
+            Resource.objects.filter(approval_status='approved')
+            .select_related('uploaded_by').order_by('-added_at')[:_RECENT_POOL]
+        )
+        pools = (posts, resources)
+        cache.set('suggest_pools_v1', pools, 60)
+    return pools
+
+
 def build_suggested_deck(user, limit=18):
     """Returns (deck, note) where deck is a list of (kind, obj) pairs with
     kind in {'post', 'resource'}. Never empty when the platform holds any
@@ -88,15 +108,7 @@ def build_suggested_deck(user, limit=18):
     now_ms = int(time.time() * 1000)
     categories, subjects = _user_interest_sets(user)
 
-    post_pool = list(
-        Post.objects.filter(is_archived=False, user__email_verified=True)
-        .select_related('user').prefetch_related('images', 'media', 'poll')
-        .order_by('-created_at')[:_RECENT_POOL]
-    )
-    resource_pool = list(
-        Resource.objects.filter(approval_status='approved')
-        .order_by('-added_at')[:_RECENT_POOL]
-    )
+    post_pool, resource_pool = _candidate_pools()
 
     ranked_posts = sorted(post_pool, key=lambda p: _score_post(p, now_ms, categories), reverse=True)
     ranked_resources = sorted(resource_pool, key=lambda r: _score_resource(r, now_ms, subjects), reverse=True)
@@ -137,7 +149,10 @@ def build_suggested_feed(user, limit=18, request=None):
     """Returns (items, note) — DRF-serialized cards for API clients. Never
     empty when the platform holds any content."""
     deck, note = build_suggested_deck(user, limit)
+    from .view_helpers import prime_for_serializers
     serializer_context = {'request': request} if request is not None else {}
+    serializer_context.update(prime_for_serializers(
+        user, posts=[o for k, o in deck if k == 'post'], resources=[o for k, o in deck if k == 'resource']))
     items = []
     for kind, obj in deck:
         if kind == 'post':

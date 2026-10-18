@@ -870,6 +870,24 @@ def _get_distinct_subjects():
         return sorted(subjects)
     return cache.get_or_set('distinct_subjects', _resolver, 600)
 
+def _request_db_user(request, user_id):
+    """The signed-in user's row, fetched at most once per request (the view, _ctx and the
+    template helpers all want it). Returns None for a missing id or user."""
+    if not user_id:
+        return None
+    memo = request.__dict__.setdefault('_nebians_users', {})
+    if user_id not in memo:
+        memo[user_id] = User.objects.filter(pk=user_id).first()
+    return memo[user_id]
+
+
+def _request_db_user_or_raise(request, user_id):
+    user = _request_db_user(request, user_id)
+    if user is None:
+        raise User.DoesNotExist
+    return user
+
+
 def _ctx(request, **extra):
     token = api.get_session_token(request)
     user = api.get_session_user(request)
@@ -877,7 +895,7 @@ def _ctx(request, **extra):
     if user:
         user = _normalize_user_data(user)
         if user.get('id'):
-            db_user = User.objects.filter(pk=user['id']).first()
+            db_user = _request_db_user(request, user['id'])
             if db_user:
                 user['is_admin'] = db_user.is_admin
                 user['verification_level'] = db_user.verification_level
@@ -1067,8 +1085,9 @@ def _build_local_stats_fallback(user_id):
     }
 
 def _build_contributors_batch():
+    from api.services import AVATAR_FIELDS
     users = User.objects.filter(email_verified=True).order_by('-contribution_score').only(
-        'id', 'username', 'display_name', 'photo_url',
+        'id', 'display_name', *AVATAR_FIELDS,
         'contribution_score', 'post_count', 'reply_count',
         'likes_given_count', 'likes_received_count',
         'is_bot', 'is_admin', 'moderator_level', 'verification_level',

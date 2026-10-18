@@ -1,3 +1,4 @@
+from functools import lru_cache
 import json
 import re
 import time
@@ -409,8 +410,12 @@ def _linkify_html(html):
     return ''.join(out)
 
 
+@lru_cache(maxsize=2048)
 def _render_user_content(value):
-    """Render markdown formatting and @mention links."""
+    """Render markdown formatting and @mention links.
+
+    Pure in its input (no database reads), so the result is memoised per worker: a feed
+    page used to re-run markdown + bleach on twenty posts on every request."""
     text = content_images.tokenize_for_markdown(value)
     mention_re = re.compile(r'@([A-Za-z0-9_]+)')
 
