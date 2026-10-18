@@ -1,0 +1,133 @@
+package com.neb.ians.ui.screens.reader.pdf
+
+import android.graphics.Bitmap
+import android.graphics.Color
+import android.graphics.pdf.PdfRenderer
+import android.os.ParcelFileDescriptor
+import android.util.LruCache
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withContext
+import java.io.Closeable
+import java.io.File
+
+/**
+ * One open PDF: page geometry read once at open, pages rendered on demand through
+ * [PdfRenderer] (which allows a single open page at a time, hence the mutex), and a
+ * memory-bounded bitmap cache shared by full pages and thumbnails.
+ *
+ * Widths are bucketed so that small layout changes reuse cached bitmaps instead of
+ * re-rendering, and the cache is sized from the app's heap so long books never push the
+ * process towards an OutOfMemoryError.
+ */
+class PdfDocumentEngine private constructor(
+    private val descriptor: ParcelFileDescriptor,
+    private val renderer: PdfRenderer,
+    /** Height / width of every page, in document order. */
+    val pageAspects: List<Float>
+) : Closeable {
+
+    val pageCount: Int get() = pageAspects.size
+
+    private val mutex = Mutex()
+    @Volatile private var closed = false
+
+    private val cache = object : LruCache<String, Bitmap>(cacheBudgetKb()) {
+        override fun sizeOf(key: String, value: Bitmap): Int = value.allocationByteCount / 1024
+    }
+
+    fun cached(index: Int, widthPx: Int): Bitmap? =
+        if (index in 0 until pageCount) cache.get(key(index, widthFor(index, widthPx))) else null
+
+    suspend fun render(index: Int, widthPx: Int): Bitmap? {
+        if (index !in 0 until pageCount || widthPx <= 0) return null
+        val width = widthFor(index, widthPx)
+        val key = key(index, width)
+        cache.get(key)?.let { return it }
+        return withContext(Dispatchers.IO) {
+            mutex.withLock {
+                cache.get(key)?.let { return@withLock it }
+                if (closed) return@withLock null
+                val bitmap = runCatching {
+                    renderer.openPage(index).use { page ->
+                        val height = (width * page.height.toFloat() / page.width).toInt().coerceAtLeast(1)
+                        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+                        bitmap.eraseColor(Color.WHITE)
+                        page.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY)
+                        bitmap
+                    }
+                }.getOrNull()
+                // close() arrived mid-render and left the release to us
+                if (closed) release() else bitmap?.let { cache.put(key, it) }
+                bitmap
+            }
+        }
+    }
+
+    suspend fun thumbnail(index: Int): Bitmap? = render(index, THUMB_WIDTH)
+
+    override fun close() {
+        closed = true
+        cache.evictAll()
+        // PdfRenderer must not be closed while a page is open; a render in flight releases it.
+        if (mutex.tryLock()) {
+            try { release() } finally { mutex.unlock() }
+        }
+    }
+
+    private var released = false
+
+    private fun release() {
+        if (released) return
+        released = true
+        runCatching { renderer.close() }
+        runCatching { descriptor.close() }
+    }
+
+    private fun key(index: Int, width: Int) = "$index@$width"
+
+    /** Bucketed width, lowered so one page never exceeds [MAX_PIXELS] (about 24 MB). */
+    private fun widthFor(index: Int, widthPx: Int): Int {
+        val width = bucket(widthPx)
+        val aspect = pageAspects[index].coerceAtLeast(0.1f)
+        val cap = kotlin.math.sqrt(MAX_PIXELS / aspect).toInt()
+        return if (width <= cap) width else (cap / BUCKET * BUCKET).coerceAtLeast(THUMB_WIDTH)
+    }
+
+    companion object {
+        const val THUMB_WIDTH = 240
+        private const val BUCKET = 160
+        private const val MAX_WIDTH = 2800
+        private const val MAX_PIXELS = 6_000_000f
+
+        /** Width rounded up to a 160 px bucket and capped, so near-equal widths share a bitmap. */
+        fun bucket(widthPx: Int): Int {
+            if (widthPx <= THUMB_WIDTH) return THUMB_WIDTH
+            val rounded = ((widthPx + BUCKET - 1) / BUCKET) * BUCKET
+            return rounded.coerceAtMost(MAX_WIDTH)
+        }
+
+        private fun cacheBudgetKb(): Int {
+            val maxKb = (Runtime.getRuntime().maxMemory() / 1024).toInt()
+            return (maxKb / 6).coerceIn(16 * 1024, 96 * 1024)
+        }
+
+        /** Opens [file] and reads every page's size. Call off the main thread. */
+        fun open(file: File): PdfDocumentEngine {
+            val descriptor = ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY)
+            try {
+                val renderer = PdfRenderer(descriptor)
+                val aspects = List(renderer.pageCount) { i ->
+                    renderer.openPage(i).use { page ->
+                        if (page.width > 0) page.height.toFloat() / page.width else 1.414f
+                    }
+                }
+                return PdfDocumentEngine(descriptor, renderer, aspects)
+            } catch (t: Throwable) {
+                runCatching { descriptor.close() }
+                throw t
+            }
+        }
+    }
+}
