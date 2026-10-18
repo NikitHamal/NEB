@@ -108,7 +108,7 @@ export function buildMicroscope() {
   let knobAngle = 0;
   const stageY0 = stage.position.y;
   return {
-    root, stage, eyepiece, objectives, turret,
+    root, stage, eyepiece, objectives, turret, mirror, mirrorDisc: disc,
     /** World-space top of the stage, where a slide rests. */
     stageTop: 0.06,
     stageY0,
