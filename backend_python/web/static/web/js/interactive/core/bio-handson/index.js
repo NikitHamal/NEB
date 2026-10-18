@@ -7,6 +7,7 @@ const PRACTICALS = {
   'flower-family-dissection': () => import('./practicals/flower.js'),
   'plasmolysis-rhoeo-peel': () => import('./practicals/peel.js'),
   'stomata-upper-lower-distribution': () => import('./practicals/peel.js'),
+  'ts-dicot-monocot-root-stem': () => import('./practicals/sections.js'),
   'onion-root-tip-mitosis-11': () => import('./practicals/onion-mitosis.js'),
   'onion-root-tip-mitosis-12': () => import('./practicals/onion-mitosis.js'),
 };
