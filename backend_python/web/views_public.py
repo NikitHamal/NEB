@@ -250,7 +250,7 @@ def home(request):
     user_profile = None
     if user_id:
         try:
-            user_profile = User.objects.get(id=user_id)
+            user_profile = _request_db_user_or_raise(request, user_id)
             if user_profile and not (user_profile.display_name and user_profile.gender):
                 needs_profile = True
         except User.DoesNotExist:
@@ -401,7 +401,7 @@ def library(request, seo_title=None, seo_description=None, page_h1=None, canonic
     user_profile = None
     if user_id:
         try:
-            user_profile = _LocalUser.objects.get(id=user_id)
+            user_profile = _request_db_user_or_raise(request, user_id)
         except _LocalUser.DoesNotExist:
             pass
 
@@ -487,7 +487,7 @@ def library(request, seo_title=None, seo_description=None, page_h1=None, canonic
         user_profile = None
         if user_id:
             try:
-                user_profile = _LocalUser.objects.get(id=user_id)
+                user_profile = _request_db_user_or_raise(request, user_id)
             except _LocalUser.DoesNotExist:
                 pass
 
@@ -725,7 +725,7 @@ def search(request):
     user_profile = None
     if user_id:
         try:
-            user_profile = _LocalUser.objects.get(id=user_id)
+            user_profile = _request_db_user_or_raise(request, user_id)
         except _LocalUser.DoesNotExist:
             pass
 
@@ -963,7 +963,7 @@ def reader(request, resource_id):
     current_user = None
     if user_id:
         try:
-            current_user = User.objects.get(pk=user_id)
+            current_user = _request_db_user_or_raise(request, user_id)
         except User.DoesNotExist:
             pass
 
