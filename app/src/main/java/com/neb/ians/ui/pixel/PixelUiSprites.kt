@@ -33,11 +33,11 @@ object PixelUiSprites {
     private val redHi = Px.rgb(0xFF8A8F)
 
     // Neby: the 48 px set
-    val nebyIdle get() = PixelNeby.idle
-    val nebyHop get() = PixelNeby.hop
-    val nebyThink get() = PixelNeby.think
-    val nebySleep get() = PixelNeby.sleep
-    val nebyWink get() = PixelNeby.wink
+    val nebyIdle get() = NebyState.Idle.sprite
+    val nebyHop get() = NebyState.Hop.sprite
+    val nebyThink get() = NebyState.Think.sprite
+    val nebySleep get() = NebyState.Sleep.sprite
+    val nebyWink get() = NebyState.Wink.sprite
 
     private fun PixelCanvas.zed(x: Int, y: Int, color: Int) {
         hline(x, x + 3, y, color); set(x + 2, y + 1, color); set(x + 1, y + 2, color); hline(x, x + 3, y + 3, color)
@@ -273,11 +273,10 @@ object PixelUiSprites {
 
     val all: List<Pair<String, PixelSprite>> by lazy {
         listOf(
-            "nebyIdle" to nebyIdle, "nebyHop" to nebyHop, "nebyThink" to nebyThink, "nebySleep" to nebySleep, "nebyWink" to nebyWink,
             "sleepyBell" to sleepyBell, "magnifier" to magnifier, "rainCloud" to rainCloud, "ribbon" to ribbon,
             "downloadTray" to downloadTray, "typing" to typing, "bookLoader" to bookLoader,
             "padlock" to padlock, "newspaper" to newspaper, "coin" to coin, "pushPin" to pushPin,
             "storefront" to storefront, "trophy" to trophy,
-        )
+        ) + NebyState.entries.map { "neby" + it.name to it.sprite }
     }
 }
