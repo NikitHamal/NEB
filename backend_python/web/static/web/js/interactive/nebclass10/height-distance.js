@@ -191,7 +191,8 @@ export default function init(stage) {
     void modeSel; void distSlider; void angSlider;
   }
 
-  sim.setUpdate(draw);
+  // the canvas helper calls (ctx, dt, width, height); draw wants (ctx, width, height)
+  sim.setUpdate((ctx, dt, w, h) => draw(ctx, w, h));
   sim.onResize(() => sim.renderOnce());
   sim.start();
 
