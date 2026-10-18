@@ -1,17 +1,15 @@
 """The public landing page at ``/`` and the redirects for pages that moved to ``/app/``.
 
 The landing page is its own small document: no base.html, no app bundles, one CSS file,
-one deferred JS file, two subset fonts. Everything it shows is real and cached --
-counts, the most-read resources, live discussions -- so it is cheap to serve and never
-claims something the library does not have.
+one deferred JS file, self-hosted fonts. The only data it shows is the live forum threads,
+cached, so it is cheap to serve.
 """
 from django.core.cache import cache
-from django.db.models import Count, Sum
 from django.http import HttpResponsePermanentRedirect
 from django.shortcuts import render
 from django.views.decorators.http import require_GET
 
-from api.models import Post, Resource, User
+from api.models import Post
 
 from .view_helpers import _get_user_id
 
@@ -39,58 +37,21 @@ for _g in GRADES:
     _g['subjects'] = [{'name': n, 'slug': n.lower().replace(' & ', '-').replace(' ', '-')} for n in _g['subjects']]
 
 
-def _round_down(n):
-    """1,284 reads as "1,200+": a number people can say out loud, and never an overclaim."""
-    if n < 100:
-        return n
-    step = 100 if n < 10_000 else 1000
-    return n - n % step
-
-
-def _stats():
-    data = cache.get('landing_stats_v1')
-    if data is None:
-        approved = Resource.objects.filter(approval_status='approved')
-        agg = approved.aggregate(n=Count('id'), reads=Sum('view_count'))
-        data = {
-            'resources': _round_down(agg['n'] or 0),
-            'reads': _round_down(agg['reads'] or 0),
-            'members': _round_down(User.objects.filter(email_verified=True).count()),
-            'discussions': _round_down(Post.objects.filter(is_archived=False).count()),
-        }
-        cache.set('landing_stats_v1', data, 900)
-    return data
-
-
-def _featured_resources():
-    data = cache.get('landing_resources_v1')
-    if data is None:
-        rows = (Resource.objects.filter(approval_status='approved', is_lead=True)
-                .order_by('-view_count')
-                .only('id', 'title', 'subject', 'grade_level', 'type', 'view_count', 'file_size')[:8])
-        data = [{
-            'id': r.id, 'title': r.title, 'subject': r.subject or '', 'grade': r.grade_level or '',
-            'type': (r.type or 'PDF'), 'reads': r.view_count or 0,
-        } for r in rows]
-        cache.set('landing_resources_v1', data, 900)
-    return data
-
-
 def _live_discussions():
-    data = cache.get('landing_posts_v1')
+    data = cache.get('landing_posts_v2')
     if data is None:
         rows = (Post.objects.select_related('user')
                 .filter(is_archived=False, is_anonymous=False, user__email_verified=True)
                 .order_by('-reply_count', '-created_at')
                 .only('id', 'title', 'category', 'reply_count', 'thumbs_up_count',
-                      'user__username', 'user__display_name')[:3])
+                      'user__username', 'user__display_name')[:4])
         data = [{
             'id': p.id, 'title': p.title, 'category': p.category or 'General',
             'replies': p.reply_count or 0, 'likes': p.thumbs_up_count or 0,
             'name': (p.user.display_name or p.user.username) if p.user else 'A member',
             'initial': ((p.user.display_name or p.user.username or 'N')[:1] if p.user else 'N').upper(),
         } for p in rows]
-        cache.set('landing_posts_v1', data, 600)
+        cache.set('landing_posts_v2', data, 600)
     return data
 
 
@@ -98,8 +59,6 @@ def _live_discussions():
 def landing(request):
     ctx = {
         'signed_in': bool(_get_user_id(request)),
-        'stats': _stats(),
-        'resources': _featured_resources(),
         'discussions': _live_discussions(),
         'grades': GRADES,
     }
