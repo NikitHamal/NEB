@@ -240,12 +240,14 @@ fun NebDialogTextField(
     isError: Boolean = false,
     supportingText: String? = null,
     visualTransformation: VisualTransformation = VisualTransformation.None,
-    trailingIcon: (@Composable () -> Unit)? = null
+    trailingIcon: (@Composable () -> Unit)? = null,
+    keyboardOptions: androidx.compose.foundation.text.KeyboardOptions = androidx.compose.foundation.text.KeyboardOptions.Default
 ) {
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
         modifier = modifier.fillMaxWidth(),
+        keyboardOptions = keyboardOptions,
         enabled = enabled,
         isError = isError,
         visualTransformation = visualTransformation,

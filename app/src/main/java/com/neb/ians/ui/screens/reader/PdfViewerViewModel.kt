@@ -1,17 +1,20 @@
 package com.neb.ians.ui.screens.reader
 
+import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.Color
-import android.graphics.pdf.PdfRenderer
-import android.os.ParcelFileDescriptor
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.neb.ians.data.api.ApiErrorMapper
 import com.neb.ians.data.api.ApiResource
 import com.neb.ians.data.repository.ResourceRepository
+import com.neb.ians.ui.screens.reader.pdf.PdfDocumentEngine
+import com.neb.ians.ui.screens.reader.pdf.ReaderPrefs
+import com.neb.ians.ui.screens.reader.pdf.ReadingLayout
+import com.neb.ians.ui.screens.reader.pdf.ReadingTheme
 import com.neb.ians.util.ResourceDownloadManager
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
@@ -23,8 +26,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import java.io.File
 import javax.inject.Inject
@@ -36,26 +37,79 @@ data class PdfViewerUiState(
     val isDownloading: Boolean = false,
     val downloadProgress: Int = 0,
     val isLocalFileReady: Boolean = false,
-    val error: String? = null
+    val error: String? = null,
+    /** Height / width of each page, so the layout is right before a page is rendered. */
+    val pageAspects: List<Float> = emptyList(),
+    val currentPage: Int = 0,
+    /** Page to restore on open; consumed once by the screen. */
+    val resumePage: Int? = null,
+    val bookmarks: Set<Int> = emptySet(),
+    val theme: ReadingTheme = ReadingTheme.Paper,
+    val layout: ReadingLayout = ReadingLayout.Scroll,
+    val keepScreenOn: Boolean = true
 )
 
 @HiltViewModel
 class PdfViewerViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val resourceRepository: ResourceRepository,
-    private val downloadManager: ResourceDownloadManager
+    private val downloadManager: ResourceDownloadManager,
+    @ApplicationContext context: Context
 ) : ViewModel() {
     private val resourceId: String = savedStateHandle.get<String>("resourceId").orEmpty()
     private val _uiState = MutableStateFlow(PdfViewerUiState())
     val uiState: StateFlow<PdfViewerUiState> = _uiState.asStateFlow()
-    private var pdfRenderer: PdfRenderer? = null
-    private var fileDescriptor: ParcelFileDescriptor? = null
-    private val renderMutex = Mutex()
+    private val prefs = ReaderPrefs(context)
+    private var engine: PdfDocumentEngine? = null
     private var resource: ApiResource? = null
     private var downloadJob: Job? = null
-    private val targetWidthPx = 1240
 
-    init { load() }
+    init {
+        _uiState.update {
+            it.copy(
+                bookmarks = prefs.bookmarks(resourceId),
+                theme = prefs.theme,
+                layout = prefs.layout,
+                keepScreenOn = prefs.keepScreenOn
+            )
+        }
+        load()
+    }
+
+    fun onPageVisible(page: Int) {
+        if (page == _uiState.value.currentPage) return
+        _uiState.update { it.copy(currentPage = page) }
+        prefs.setLastPage(resourceId, page)
+    }
+
+    fun consumeResume() {
+        _uiState.update { it.copy(resumePage = null) }
+    }
+
+    fun toggleBookmark(page: Int = _uiState.value.currentPage) {
+        val next = _uiState.value.bookmarks.let { if (page in it) it - page else it + page }
+        prefs.setBookmarks(resourceId, next)
+        _uiState.update { it.copy(bookmarks = next) }
+    }
+
+    fun setTheme(theme: ReadingTheme) {
+        prefs.theme = theme
+        _uiState.update { it.copy(theme = theme) }
+    }
+
+    fun setLayout(layout: ReadingLayout) {
+        prefs.layout = layout
+        _uiState.update { it.copy(layout = layout) }
+    }
+
+    fun setKeepScreenOn(on: Boolean) {
+        prefs.keepScreenOn = on
+        _uiState.update { it.copy(keepScreenOn = on) }
+    }
+
+    fun cachedPage(index: Int, widthPx: Int): Bitmap? = engine?.cached(index, widthPx)
+
+    suspend fun thumbnail(index: Int): Bitmap? = engine?.thumbnail(index)
 
     fun retry() {
         resource?.let { startDownload(it) } ?: load()
@@ -141,15 +195,17 @@ class PdfViewerViewModel @Inject constructor(
     private suspend fun openPdf(file: File) {
         withContext(Dispatchers.IO) {
             runCatching {
-                runCatching { pdfRenderer?.close() }
-                runCatching { fileDescriptor?.close() }
-                val descriptor = ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY)
-                val renderer = PdfRenderer(descriptor)
-                fileDescriptor = descriptor
-                pdfRenderer = renderer
+                engine?.close()
+                engine = null
+                val opened = PdfDocumentEngine.open(file)
+                engine = opened
+                val last = prefs.lastPage(resourceId).coerceIn(0, (opened.pageCount - 1).coerceAtLeast(0))
                 _uiState.update {
                     it.copy(
-                        pageCount = renderer.pageCount,
+                        pageCount = opened.pageCount,
+                        pageAspects = opened.pageAspects,
+                        currentPage = last,
+                        resumePage = last.takeIf { page -> page > 0 },
                         isLoading = false,
                         isDownloading = false,
                         isLocalFileReady = true,
@@ -162,26 +218,11 @@ class PdfViewerViewModel @Inject constructor(
         }
     }
 
-    suspend fun renderPage(index: Int): Bitmap? = withContext(Dispatchers.IO) {
-        val renderer = pdfRenderer ?: return@withContext null
-        renderMutex.withLock {
-            runCatching {
-                if (index !in 0 until renderer.pageCount) return@runCatching null
-                renderer.openPage(index).use { page ->
-                    val scale = targetWidthPx.toFloat() / page.width
-                    val height = (page.height * scale).toInt().coerceAtLeast(1)
-                    val bitmap = Bitmap.createBitmap(targetWidthPx, height, Bitmap.Config.ARGB_8888)
-                    bitmap.eraseColor(Color.WHITE)
-                    page.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY)
-                    bitmap
-                }
-            }.getOrNull()
-        }
-    }
+    suspend fun renderPage(index: Int, widthPx: Int): Bitmap? = engine?.render(index, widthPx)
 
     override fun onCleared() {
-        runCatching { pdfRenderer?.close() }
-        runCatching { fileDescriptor?.close() }
+        engine?.close()
+        engine = null
         super.onCleared()
     }
 }
