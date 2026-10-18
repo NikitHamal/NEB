@@ -1,0 +1,40 @@
+/* Pixel Neby, the mascot, on the web. neby-pixel.js puts an <i> inside each
+   [data-neby-avatar]; the <i> plays a horizontal strip of 48 x 48 frames.
+   background-size n*100% and steps(n, jump-none) from 0% to 100% land on
+   every frame at any size, so one rule fits the 28 px avatar and the hero.
+   Strips are exported from the Android app (PixelNebyStates), one Neby for both. */
+.neby-px{display:inline-flex;align-items:center;justify-content:center;position:relative;overflow:visible;cursor:default;user-select:none;-webkit-tap-highlight-color:transparent}
+.neby-px>i{display:block;width:100%;height:100%;background-repeat:no-repeat;background-size:calc(var(--n,1) * 100%) 100%;background-position:0 0;image-rendering:pixelated;animation:neby-px-run var(--d,1s) steps(var(--n,2),jump-none) infinite;pointer-events:none}
+.neby-px[data-state="still"]>i{animation:none}
+@keyframes neby-px-run{from{background-position-x:0%}to{background-position-x:100%}}
+/* the 3D plate and ring do not suit a sprite: the pixel figure stands on its own */
+.neby-px.neby-avatar-mini{border-color:transparent;border-radius:0;overflow:visible}
+.neby-px.neby-avatar-hero{background:transparent;border-color:transparent;border-radius:0}
+.neby-px[data-interactive]{cursor:pointer}
+.neby-px[data-interactive]>i{transition:transform .22s cubic-bezier(.34,1.56,.64,1)}
+.neby-px[data-interactive]:hover>i{transform:translateY(-2px)}
+.neby-px[data-interactive]:active>i{transform:scale(.94)}
+.neby-px[data-interactive]:focus-visible{outline:2px solid var(--md-primary);outline-offset:4px;border-radius:12px}
+@media (prefers-reduced-motion:reduce){.neby-px>i{animation:none}}
+.neby-px[data-state="idle"]>i{background-image:url(../img/neby/idle.png);--n:16;--d:1840ms}
+.neby-px[data-state="still"]>i{background-image:url(../img/neby/still.png);--n:1;--d:1000ms}
+.neby-px[data-state="blink"]>i{background-image:url(../img/neby/blink.png);--n:6;--d:660ms}
+.neby-px[data-state="hop"]>i{background-image:url(../img/neby/hop.png);--n:12;--d:864ms}
+.neby-px[data-state="think"]>i{background-image:url(../img/neby/think.png);--n:8;--d:1280ms}
+.neby-px[data-state="sleep"]>i{background-image:url(../img/neby/sleep.png);--n:12;--d:1680ms}
+.neby-px[data-state="wink"]>i{background-image:url(../img/neby/wink.png);--n:10;--d:1100ms}
+.neby-px[data-state="talk"]>i{background-image:url(../img/neby/talk.png);--n:8;--d:760ms}
+.neby-px[data-state="love"]>i{background-image:url(../img/neby/love.png);--n:12;--d:1320ms}
+.neby-px[data-state="surprised"]>i{background-image:url(../img/neby/surprised.png);--n:10;--d:800ms}
+.neby-px[data-state="sad"]>i{background-image:url(../img/neby/sad.png);--n:12;--d:1560ms}
+.neby-px[data-state="laugh"]>i{background-image:url(../img/neby/laugh.png);--n:10;--d:800ms}
+.neby-px[data-state="dizzy"]>i{background-image:url(../img/neby/dizzy.png);--n:12;--d:1200ms}
+.neby-px[data-state="wave"]>i{background-image:url(../img/neby/wave.png);--n:10;--d:1100ms}
+.neby-px[data-state="success"]>i{background-image:url(../img/neby/success.png);--n:12;--d:960ms}
+.neby-px[data-state="oops"]>i{background-image:url(../img/neby/oops.png);--n:10;--d:1000ms}
+.neby-px[data-state="read"]>i{background-image:url(../img/neby/read.png);--n:14;--d:1960ms}
+.neby-px[data-state="listen"]>i{background-image:url(../img/neby/listen.png);--n:8;--d:1120ms}
+.neby-px[data-state="celebrate"]>i{background-image:url(../img/neby/celebrate.png);--n:14;--d:1190ms}
+.neby-px[data-state="cool"]>i{background-image:url(../img/neby/cool.png);--n:10;--d:1200ms}
+.neby-px[data-state="kiss"]>i{background-image:url(../img/neby/kiss.png);--n:12;--d:1320ms}
+.neby-px[data-state="look-around"]>i{background-image:url(../img/neby/look-around.png);--n:12;--d:1560ms}

@@ -31,6 +31,7 @@
 <link rel="stylesheet" href="{% static 'web/css/tool-groups.css' %}?v=49">
 <link rel="stylesheet" href="{% static 'web/css/widgets.css' %}?v=49">
 <link rel="stylesheet" href="{% static 'web/css/neby-avatar.css' %}?v=49">
+<link rel="stylesheet" href="{% static 'web/css/neby-pixel.css' %}?v=50">
 <meta name="theme-color" content="#f5f7fb">
 </head>
 <body class="canvas-body{% if readonly %} readonly{% endif %}" data-board-id="{{ current_board_id|default:'' }}" data-authenticated="{{ is_authenticated|yesno:'true,false' }}">
@@ -204,6 +205,6 @@ window.CANVAS_CONFIG = {
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/canvas/collab.js' %}?v=49"></script>
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/canvas/agent-loop.js' %}?v=49"></script>
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/canvas/history-export.js' %}?v=49"></script>
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/neby-avatar.js' %}?v=49"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/neby-pixel.js' %}?v=50"></script>
 </body>
 </html>
