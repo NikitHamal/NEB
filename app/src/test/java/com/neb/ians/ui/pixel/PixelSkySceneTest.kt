@@ -83,6 +83,32 @@ class PixelSkySceneTest {
             }
         }
         File(nebyDir, "meta.txt").writeText(nebyMeta.toString())
+        // every resource banner, by day and by night
+        val bannerDir = File(dir, "banners").apply { mkdirs() }
+        for (family in com.neb.ians.ui.pixel.art.PixelBanners.FAMILIES) for (v in 0 until com.neb.ians.ui.pixel.art.PixelBanners.VARIANTS) for (night in listOf(false, true)) {
+            val cv = com.neb.ians.ui.pixel.art.PixelBanners.render(family, v, night)
+            writeArgb(cv.pixels, cv.width, cv.height, File(bannerDir, "${family.lowercase()}-$v-${if (night) "night" else "day"}.pam"))
+        }
+        val coverDir = File(dir, "covers").apply { mkdirs() }
+        for (role in com.neb.ians.ui.pixel.art.PixelCovers.ROLES) for (v in 0 until com.neb.ians.ui.pixel.art.PixelCovers.VARIANTS) {
+            val cv = com.neb.ians.ui.pixel.art.PixelCovers.render(role, v)
+            writeArgb(cv.pixels, cv.width, cv.height, File(coverDir, "${role.lowercase()}-$v.pam"))
+        }
+    }
+
+    @Test
+    fun every_banner_fills_its_frame() {
+        val pb = com.neb.ians.ui.pixel.art.PixelBanners
+        for (family in pb.FAMILIES) for (v in 0 until pb.VARIANTS) for (night in listOf(false, true)) {
+            val cv = pb.render(family, v, night)
+            // a banner is a full picture: no transparent holes for the card to show through
+            assertEquals("$family $v $night", 0, cv.pixels.count { (it ushr 24) == 0 })
+        }
+        val pc = com.neb.ians.ui.pixel.art.PixelCovers
+        for (role in pc.ROLES) for (v in 0 until pc.VARIANTS) {
+            val cv = pc.render(role, v)
+            assertEquals("$role $v", 0, cv.pixels.count { (it ushr 24) == 0 })
+        }
     }
 
     @Test

@@ -70,6 +70,18 @@ fun ResourceBannerArt(
     subject: String,
     modifier: Modifier = Modifier
 ) {
+    // Banners are pixel art now (ui/pixel/art). The vector drawings below are kept, and stay the
+    // source the web's neb-art.js is generated from, but no screen shows them.
+    com.neb.ians.ui.pixel.art.PixelBannerArt(seed = seed, subject = subject, modifier = modifier)
+}
+
+/** The vector banner art this app shipped before pixel art; kept for reference and for tools/art. */
+@Composable
+fun ResourceBannerArtVector(
+    seed: String,
+    subject: String,
+    modifier: Modifier = Modifier
+) {
     val theme = getSubjectTheme(subject)
     val family = remember(subject) { subjectFamily(subject) }
     val surface = MaterialTheme.colorScheme.surface
