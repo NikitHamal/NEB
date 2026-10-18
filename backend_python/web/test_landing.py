@@ -77,3 +77,28 @@ class SiteThemeResolutionTests(TestCase):
     def test_admin_page_needs_staff(self):
         r = Client().get('/admin/themes/')
         self.assertEqual(r.status_code, 302)
+
+
+class AppThemeTests(TestCase):
+    def setUp(self):
+        cache.clear()
+
+    def test_a_festive_theme_recolours_the_app_and_shows_the_season_card(self):
+        SiteTheme.objects.create(key='tihar', is_forced=True)
+        site_themes.invalidate()
+        r = Client().get('/app/')
+        self.assertContains(r, 'html[data-site-theme="tihar"]{--md-primary:#9A4600')
+        self.assertContains(r, 'html[data-theme="dark"][data-site-theme="tihar"]')
+        self.assertContains(r, 'class="st-season"')
+        self.assertContains(r, 'st-motif-diyo')
+
+    def test_everyday_leaves_the_app_alone(self):
+        r = Client().get('/app/')
+        self.assertNotContains(r, 'class="st-season"')
+        self.assertNotContains(r, '--md-primary:#')
+
+    def test_every_festive_theme_has_an_app_palette(self):
+        for key in site_themes.THEMES:
+            if key != site_themes.DEFAULT_KEY:
+                self.assertIn(key, site_themes.APP)
+                self.assertEqual(len(site_themes.APP[key]['light']), 4)

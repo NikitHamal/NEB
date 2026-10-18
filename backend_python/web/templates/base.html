@@ -101,7 +101,9 @@
   <link rel="stylesheet" href="{% static 'web/css/fonts.css' %}">
   <link rel="stylesheet" href="{% static 'web/css/material3.css' %}">
   <link rel="stylesheet" href="{% static 'web/css/app.css' %}">
-  {% if site_theme.show_in_app and site_theme.festive %}<link rel="stylesheet" href="{% static 'web/css/themes.css' %}">{% endif %}
+  {% if site_theme.show_in_app and site_theme.festive %}<link rel="stylesheet" href="{% static 'web/css/themes.css' %}">
+  <style>{{ site_theme.app_css|safe }}</style>
+  <script src="{% static 'web/js/themes.js' %}" defer></script>{% endif %}
   <link rel="stylesheet" href="{% static 'web/css/forum-media.css' %}">
   <link rel="stylesheet" href="{% static 'web/css/pages/media-player.css' %}">
   <link rel="stylesheet" href="{% static 'web/css/pages/tools.css' %}">
@@ -202,7 +204,7 @@
           </g>
         </g>
       </svg>
-      <span>NEBians</span>
+      <span>NEBians</span>{% if site_theme.show_in_app and site_theme.festive %}{% include "themes/_motif.html" %}{% endif %}
     </a>
     <nav class="md-nav-pill md-topbar-nav">
       <a href="{% url 'web:home' %}" class="{% block nav_home %}{% endblock %}">Home</a>
@@ -312,7 +314,6 @@
   </header>
   {% if site_theme.show_in_app and site_theme.festive %}
   <div class="st-app-strip" aria-hidden="true"></div>
-  {% if site_theme.greeting %}<p class="st-app-greet"><span lang="ne">{{ site_theme.greeting.ne }}</span><span aria-hidden="true">·</span><span>{{ site_theme.greeting.en }}</span></p>{% endif %}
   {% endif %}
   {% endblock %}
 
