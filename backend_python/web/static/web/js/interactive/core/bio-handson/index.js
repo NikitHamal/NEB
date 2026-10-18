@@ -12,6 +12,7 @@ const PRACTICALS = {
   'plant-tissue-diversity': () => import('./practicals/slides.js'),
   'grasshopper-animal-mitosis': () => import('./practicals/slides.js'),
   'frog-development-stages': () => import('./practicals/slides.js'),
+  'compound-microscope-parts': () => import('./practicals/scope-parts.js'),
   'onion-root-tip-mitosis-11': () => import('./practicals/onion-mitosis.js'),
   'onion-root-tip-mitosis-12': () => import('./practicals/onion-mitosis.js'),
 };
