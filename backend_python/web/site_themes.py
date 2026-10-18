@@ -15,7 +15,7 @@ import datetime as _dt
 
 from django.core.cache import cache
 
-CACHE_KEY = 'site_theme_resolved_v1'
+CACHE_KEY = 'site_theme_resolved_v2'
 DEFAULT_KEY = 'everyday'
 
 THEMES = {
@@ -101,6 +101,63 @@ THEMES = {
     },
 }
 
+# How each festive theme dresses the app itself (the web app and the Android app): the primary
+# colour family in light and dark (Material roles: primary, on-primary, container, on-container),
+# a small motif beside the logo, and the season card at the top of the home feed. Colours are
+# chosen for contrast, not just mood: primary on surface and on-container on container both
+# clear 4.5:1 in each mode.
+APP = {
+    'dashain': {
+        'light': ('#B3261E', '#FFFFFF', '#FFDAD5', '#410002'), 'dark': ('#FFB4AB', '#690005', '#93000A', '#FFDAD6'),
+        'motif': 'kite', 'message': 'Every book works offline in the app, so the library comes home with you.',
+        'cta': ('Get the app', 'https://play.google.com/store/apps/details?id=com.neb.ians'),
+    },
+    'tihar': {
+        'light': ('#9A4600', '#FFFFFF', '#FFDBC8', '#321200'), 'dark': ('#FFB68B', '#532200', '#753400', '#FFDBC8'),
+        'motif': 'diyo', 'message': 'Light a diyo, then read one chapter. The library is open all five days.',
+        'cta': ('Open the library', '/app/library/'),
+    },
+    'holi': {
+        'light': ('#A8336B', '#FFFFFF', '#FFD9E5', '#3E001F'), 'dark': ('#FFB0CB', '#5E1137', '#7C2A4E', '#FFD9E5'),
+        'motif': 'gulal', 'message': 'Colours today, questions tomorrow. Someone in the forum is stuck on yours.',
+        'cta': ('Visit the forum', '/app/forum/'),
+    },
+    'new-year': {
+        'light': ('#BA1A3A', '#FFFFFF', '#FFDADC', '#40000E'), 'dark': ('#FFB2B8', '#67001B', '#91102B', '#FFDADC'),
+        'motif': 'gurans', 'message': 'A new year, a new class. Start with the notes for it.',
+        'cta': ('Find your class', '/app/library/'),
+    },
+    'monsoon': {
+        'light': ('#006A60', '#FFFFFF', '#9EF2E4', '#00201C'), 'dark': ('#82D5C8', '#003731', '#005048', '#9EF2E4'),
+        'motif': 'drop', 'message': 'Rainy days are reading days. Save books now and read them offline.',
+        'cta': ('Open the library', '/app/library/'),
+    },
+    'winter': {
+        'light': ('#2E5AAC', '#FFFFFF', '#D8E2FF', '#001A41'), 'dark': ('#ADC6FF', '#002E69', '#1F4592', '#D8E2FF'),
+        'motif': 'snow', 'message': 'Short days, long nights. The forum is open late.',
+        'cta': ('Visit the forum', '/app/forum/'),
+    },
+    'exams': {
+        'light': ('#26418F', '#FFFFFF', '#DBE1FF', '#00174B'), 'dark': ('#B4C5FF', '#002A77', '#1B3A88', '#DBE1FF'),
+        'motif': 'pencil', 'message': 'Past papers, model questions and fully solved books, all free.',
+        'cta': ('Practise past papers', '/app/past-papers/'),
+    },
+}
+
+ROLES = ('--md-primary', '--md-on-primary', '--md-primary-container', '--md-on-primary-container')
+
+
+def app_css(key: str) -> str:
+    """The CSS that recolours the app for a festive theme, light and dark."""
+    a = APP.get(key)
+    if not a:
+        return ''
+    light = ';'.join(f'{r}:{c}' for r, c in zip(ROLES, a['light']))
+    dark = ';'.join(f'{r}:{c}' for r, c in zip(ROLES, a['dark']))
+    return (f'html[data-site-theme="{key}"]{{{light}}}'
+            f'html[data-theme="dark"][data-site-theme="{key}"]{{{dark}}}')
+
+
 CHOICES = [(k, v['name']) for k, v in THEMES.items()]
 
 
@@ -143,6 +200,8 @@ def _payload(key: str, why: str, show_in_app: bool = True, show_greeting: bool =
         'show_in_app': show_in_app,
         'why': why,
         'festive': key != DEFAULT_KEY,
+        'app_css': app_css(key),
+        'app': APP.get(key),
     }
 
 
