@@ -843,7 +843,7 @@ export function addScanGradeEnhancement(root, opts = {}) {
   upgradeSceneMaterials(root, { seed, textureSize: quality.tier === 'low' ? 128 : 256 });
   applyOrganicDisplacement(root, { seed, kind: opts.kind, intensity: quality.tier === 'low' ? 0.008 : quality.tier === 'medium' ? 0.014 : 0.020, frequency: opts.frequency || 1.28 });
   addSpecimenMicroDetails(root, { kind: opts.kind, seed, state: opts.state, quality });
-  if (opts.plaque !== false) addScanPlaque(root, opts.kind || 'biology');
+  // (the 'scan-grade PBR' plaque described the renderer, not the specimen: no longer added)
   return root;
 }
 export function disposeScanGradeAssets() {

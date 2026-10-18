@@ -20,8 +20,8 @@ function boardTexture(title, subtitle, subject) {
   for (let i = 0; i < 14; i++) g.fillRect(80 + i * 97 % 1300, 120 + (i * 211) % 560, 180 + (i * 37) % 160, 6);
   g.globalAlpha = 1;
   g.fillStyle = '#6b7280'; g.font = '600 38px "Segoe Print", "Comic Sans MS", system-ui, sans-serif';
-  g.fillText(`NEB ${subject === 'chemistry' ? 'Chemistry' : 'Physics'} Practical`, 80, 110);
-  g.fillStyle = subject === 'chemistry' ? '#0f766e' : '#1d4ed8';
+  g.fillText(`NEB ${subject === 'chemistry' ? 'Chemistry' : subject === 'biology' ? 'Biology' : 'Physics'} Practical`, 80, 110);
+  g.fillStyle = subject === 'chemistry' ? '#0f766e' : subject === 'biology' ? '#15803d' : '#1d4ed8';
   g.font = '700 84px "Segoe Print", "Comic Sans MS", system-ui, sans-serif';
   const words = title.split(' '); let line = ''; let y = 240;
   for (const w of words) { const t = line ? `${line} ${w}` : w; if (g.measureText(t).width > 1360) { g.fillText(line, 80, y); y += 100; line = w; } else line = t; }
@@ -58,6 +58,7 @@ function windowTexture() {
 export function buildRoom(scene, config, quality) {
   const room = new THREE.Group();
   const chem = config.subject === 'chemistry';
+  const bio = config.subject === 'biology';
   scene.background = new THREE.Color(0xd9dee5);
   scene.fog = new THREE.Fog(0xd9dee5, 34, 70);
 
@@ -69,7 +70,9 @@ export function buildRoom(scene, config, quality) {
   const skirting = box(80, 0.5, 0.06, M.paint(0x9aa3ad), [0, -7.95, -4.17]); room.add(skirting);
 
   // the bench: a carcass with drawers and a worktop slightly overhanging
-  const top = chem
+  const top = bio
+    ? new THREE.Mesh(new THREE.BoxGeometry(16, 0.16, 6.6), new THREE.MeshPhysicalMaterial({ color: 0xe9ecef, roughness: 0.42, clearcoat: 0.5, clearcoatRoughness: 0.3 }))
+    : chem
     ? new THREE.Mesh(new THREE.BoxGeometry(16, 0.16, 6.6), new THREE.MeshPhysicalMaterial({ color: 0x1c2125, roughness: 0.38, clearcoat: 0.55, clearcoatRoughness: 0.3 }))
     : new THREE.Mesh(new THREE.BoxGeometry(16, 0.16, 6.6), new THREE.MeshPhysicalMaterial({ map: benchWood(), color: 0xd9cbb8, roughness: 0.5, clearcoat: 0.4, clearcoatRoughness: 0.35 }));
   top.position.set(0, BENCH_Y - 0.08, 0); top.receiveShadow = true; top.castShadow = true; room.add(top);
@@ -100,7 +103,16 @@ export function buildRoom(scene, config, quality) {
   // a shelf stocked for the subject
   const shelf = new THREE.Group(); shelf.position.set(9.2, 5.4, -3.8);
   shelf.add(box(4.2, 0.1, 0.8, M.wood('oak'), [0, 0, 0]), box(4.2, 0.1, 0.8, M.wood('oak'), [0, 1.5, 0]));
-  if (chem) {
+  if (bio) {
+    // specimen jars in pale formalin, and a potted plant
+    for (let i = 0; i < 5; i++) {
+      const jar = glassVessel('beaker100', { fill: 0.82, color: 0xf3e3a6, opacity: 0.55, scale: 1.1 }); jar.position.set(-1.7 + i * 0.75, 0.05, 0); shelf.add(jar);
+      const spec = new THREE.Mesh(new THREE.SphereGeometry(0.13, 16, 12), M.paint([0xc08b6b, 0x9aa66b, 0xd9b38c, 0x8a6a5a, 0xb6a07a][i])); spec.scale.set(1, 1.4, 0.8); spec.position.set(-1.7 + i * 0.75, 0.38, 0); shelf.add(spec);
+      shelf.add(cyl(0.3, 0.3, 0.06, M.plastic(0x1f2937), [-1.7 + i * 0.75, 0.86, 0], 20));
+    }
+    shelf.add(cyl(0.28, 0.22, 0.5, M.paint(0xb5651d), [0, 1.8, 0], 20));
+    for (let k = 0; k < 7; k++) { const leaf = new THREE.Mesh(new THREE.SphereGeometry(0.22, 12, 8), M.paint(0x3f8f3a)); leaf.scale.set(1, 0.35, 0.6); leaf.position.set(Math.cos(k) * 0.25, 2.2 + (k % 3) * 0.15, Math.sin(k) * 0.2); leaf.rotation.z = Math.cos(k) * 0.7; shelf.add(leaf); }
+  } else if (chem) {
     const reagents = [0x8a5a2b, 0x1f6fb5, 0xf2f2ee, 0x6b2f86, 0xc0392b, 0x2e7d32, 0xf2f2ee];
     reagents.forEach((col, i) => {
       const b = glassVessel('beaker100', { fill: 0.7, color: col, opacity: 0.9, scale: 0.9 });
