@@ -279,8 +279,8 @@ def results_guide(request):
             'desc': 'Go to <a href="https://neb.gov.np" target="_blank" rel="noopener">neb.gov.np</a> and look for the "Results" section. Direct result links are also posted below in the Quick Links card.',
             'links': [
                 {'label': 'NEB Official Site', 'url': 'https://neb.gov.np'},
-                {'label': 'Class 12 Results', 'url': 'https://neb.gov.np/results/'},
-                {'label': 'Class 11 Results', 'url': 'https://neb.gov.np/results/'},
+                {'label': 'Class 12 Results', 'url': 'https://neb.gov.np/app/results/'},
+                {'label': 'Class 11 Results', 'url': 'https://neb.gov.np/app/results/'},
             ],
         },
         {
@@ -323,7 +323,7 @@ def results_guide(request):
 
     quick_links = [
         {'label': 'NEB Official Website', 'url': 'https://neb.gov.np', 'icon': 'public'},
-        {'label': 'Check Result Instantly', 'url': '/results/check/', 'icon': 'search'},
+        {'label': 'Check Result Instantly', 'url': '/app/results/check/', 'icon': 'search'},
         {'label': 'Class 12 Result', 'url': 'https://neb.ntc.net.np/', 'icon': 'school'},
         {'label': 'SEE Result', 'url': 'https://see.ntc.net.np/', 'icon': 'school'},
         {'label': 'Examination Routine', 'url': 'https://neb.gov.np/routines/', 'icon': 'event'},

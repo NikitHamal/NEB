@@ -243,18 +243,6 @@ def home(request):
     user_id = _get_user_id(request)
     needs_profile = False
     
-    hero_bg_filename = cache.get('active_hero_background_filename')
-    if hero_bg_filename is None:
-        try:
-            from api.models import HeroBackground
-            active_bg = HeroBackground.objects.filter(is_active=True).first()
-            if active_bg:
-                hero_bg_filename = active_bg.filename
-            else:
-                hero_bg_filename = "paper_sky_hero_background.svg"
-        except Exception:
-            hero_bg_filename = "paper_sky_hero_background.svg"
-        cache.set('active_hero_background_filename', hero_bg_filename, 60)
     resources = cache.get('home_resources')
     if resources is None:
         resources = _serialize_resources(Resource.objects.filter(approval_status='approved')[:50])
@@ -368,7 +356,6 @@ def home(request):
     # itself. They are entries in the feed now, so the only things left to hand
     # over are the feed and the hero's backdrop.
     return render(request, 'web/home.html', _ctx(request,
-        hero_bg_filename=hero_bg_filename,
         hide_footer_links=False,
         needs_profile=needs_profile,
         feed_entries=feed_entries,
@@ -621,7 +608,7 @@ def library(request, seo_title=None, seo_description=None, page_h1=None, canonic
             subjs_list.append({
                 'name': s,
                 'slug': subject_slug,
-                'url': f"/subject/{grade_slug}/{subject_slug}/"
+                'url': f"/app/subject/{grade_slug}/{subject_slug}/"
             })
         categories_list.append({
             'grade': grade,
@@ -679,7 +666,7 @@ def past_papers(request):
         seo_title="NEB Past Papers (Class 11 & 12) PDF Download — NEBians",
         seo_description="Download free NEB Class 11 and Class 12 previous years board exam question papers in PDF. Science, Management, Humanities, and Law past papers.",
         page_h1="NEB Past Papers (Class 11 &amp; 12)",
-        canonical_url="https://nebians.consica.com.np/past-papers/",
+        canonical_url="https://nebians.consica.com.np/app/past-papers/",
         default_type="Past Paper",
     )
 
@@ -689,7 +676,7 @@ def model_questions(request):
         seo_title="NEB Model Questions (Class 11 & 12) with Solutions PDF — NEBians",
         seo_description="Download official NEB model questions with answers and blueprints for Class 11 and Class 12 exams. Practice latest syllabus question sets.",
         page_h1="NEB Model Questions &amp; Solutions",
-        canonical_url="https://nebians.consica.com.np/model-questions/",
+        canonical_url="https://nebians.consica.com.np/app/model-questions/",
         default_type="Model Paper",
     )
 
@@ -925,7 +912,7 @@ def ajax_instant_search(request):
                 for hit in meili_res:
                     r = res_map.get(hit['id'])
                     if r:
-                        resources.append({'id': r.id, 'title': r.title, 'description': (r.description or '')[:200], 'subject': r.subject or '', 'type': r.type or '', 'grade_level': r.grade_level or '', 'url': f'/reader/{r.id}/', 'highlight': hit.get('_formatted', {})})
+                        resources.append({'id': r.id, 'title': r.title, 'description': (r.description or '')[:200], 'subject': r.subject or '', 'type': r.type or '', 'grade_level': r.grade_level or '', 'url': f'/app/reader/{r.id}/', 'highlight': hit.get('_formatted', {})})
         if tab in ('all', 'posts'):
             meili_posts = search_posts(query, category=subject, limit=10)
             if meili_posts is not None:
@@ -934,13 +921,13 @@ def ajax_instant_search(request):
                 for hit in meili_posts:
                     p = post_map.get(hit['id'])
                     if p and not p.is_anonymous:
-                        posts.append({'id': p.id, 'title': p.title, 'content': p.content[:200], 'category': p.category or '', 'username': p.user.username if p.user else '', 'thumbs_up_count': p.thumbs_up_count, 'reply_count': p.reply_count, 'url': f'/forum/post/{p.id}/', 'highlight': hit.get('_formatted', {})})
+                        posts.append({'id': p.id, 'title': p.title, 'content': p.content[:200], 'category': p.category or '', 'username': p.user.username if p.user else '', 'thumbs_up_count': p.thumbs_up_count, 'reply_count': p.reply_count, 'url': f'/app/forum/post/{p.id}/', 'highlight': hit.get('_formatted', {})})
         if tab in ('all', 'users'):
             meili_users = search_users(query, limit=10)
             if meili_users is not None:
                 u_ids = [h['id'] for h in meili_users]
                 for u in User.objects.filter(pk__in=u_ids, email_verified=True):
-                    users.append({'id': u.id, 'username': u.username, 'displayName': u.display_name or u.username, 'photoUrl': _avatar_url(u), 'url': f'/profile/{u.username}/'})
+                    users.append({'id': u.id, 'username': u.username, 'displayName': u.display_name or u.username, 'photoUrl': _avatar_url(u), 'url': f'/app/profile/{u.username}/'})
     if not use_meili:
         import re
         import operator
@@ -951,16 +938,16 @@ def ajax_instant_search(request):
                 res_q_list = [Q(title__icontains=t) | Q(description__icontains=t) | Q(subject__icontains=t) | Q(tags__icontains=t) for t in terms]
                 qs = Resource.objects.filter(reduce(operator.and_, res_q_list), approval_status='approved', is_lead=True)[:10]
                 for r in qs:
-                    resources.append({'id': r.id, 'title': r.title, 'description': (r.description or '')[:200], 'subject': r.subject or '', 'type': r.type or '', 'grade_level': r.grade_level or '', 'url': f'/reader/{r.id}/'})
+                    resources.append({'id': r.id, 'title': r.title, 'description': (r.description or '')[:200], 'subject': r.subject or '', 'type': r.type or '', 'grade_level': r.grade_level or '', 'url': f'/app/reader/{r.id}/'})
             if tab in ('all', 'posts'):
                 post_q_list = [Q(title__icontains=t) | Q(content__icontains=t) for t in terms]
                 qs = Post.objects.select_related('user').filter(reduce(operator.and_, post_q_list), is_archived=False, is_anonymous=False)[:10]
                 for p in qs:
-                    posts.append({'id': p.id, 'title': p.title, 'content': p.content[:200], 'category': p.category or '', 'username': p.user.username if p.user else '', 'thumbs_up_count': p.thumbs_up_count, 'reply_count': p.reply_count, 'url': f'/forum/post/{p.id}/'})
+                    posts.append({'id': p.id, 'title': p.title, 'content': p.content[:200], 'category': p.category or '', 'username': p.user.username if p.user else '', 'thumbs_up_count': p.thumbs_up_count, 'reply_count': p.reply_count, 'url': f'/app/forum/post/{p.id}/'})
             if tab in ('all', 'users'):
                 qs = User.objects.filter(Q(username__icontains=query) | Q(display_name__icontains=query), is_locked=False, email_verified=True).order_by('-follower_count')[:10]
                 for u in qs:
-                    users.append({'id': u.id, 'username': u.username, 'displayName': u.display_name or u.username, 'photoUrl': _avatar_url(u), 'url': f'/profile/{u.username}/'})
+                    users.append({'id': u.id, 'username': u.username, 'displayName': u.display_name or u.username, 'photoUrl': _avatar_url(u), 'url': f'/app/profile/{u.username}/'})
     return JsonResponse({'results': {'resources': resources, 'posts': posts, 'users': users}})
 def reader(request, resource_id):
     """Resource detail page — shows title, description, view/download/like actions, and comments."""
@@ -2104,24 +2091,24 @@ def sitemap_xml(request):
     now = timezone.now().isoformat()
     urls = [
         {'loc': f'{base}/', 'changefreq': 'daily', 'priority': '1.0', 'lastmod': now},
-        {'loc': f'{base}/past-papers/', 'changefreq': 'daily', 'priority': '0.95', 'lastmod': now},
-        {'loc': f'{base}/model-questions/', 'changefreq': 'daily', 'priority': '0.95', 'lastmod': now},
-        {'loc': f'{base}/online-learning/', 'changefreq': 'weekly', 'priority': '0.9', 'lastmod': now},
-        {'loc': f'{base}/library/', 'changefreq': 'daily', 'priority': '0.9', 'lastmod': now},
-        {'loc': f'{base}/forum/', 'changefreq': 'daily', 'priority': '0.8', 'lastmod': now},
-        {'loc': f'{base}/news/', 'changefreq': 'daily', 'priority': '0.7', 'lastmod': now},
-        {'loc': f'{base}/results/', 'changefreq': 'monthly', 'priority': '0.7', 'lastmod': now},
-        {'loc': f'{base}/results/check/', 'changefreq': 'monthly', 'priority': '0.7', 'lastmod': now},
-        {'loc': f'{base}/tools/', 'changefreq': 'monthly', 'priority': '0.5', 'lastmod': now},
-        {'loc': f'{base}/faq/', 'changefreq': 'monthly', 'priority': '0.6', 'lastmod': now},
-        {'loc': f'{base}/library/?tab=interactive', 'changefreq': 'weekly', 'priority': '0.8', 'lastmod': now},
+        {'loc': f'{base}/app/past-papers/', 'changefreq': 'daily', 'priority': '0.95', 'lastmod': now},
+        {'loc': f'{base}/app/model-questions/', 'changefreq': 'daily', 'priority': '0.95', 'lastmod': now},
+        {'loc': f'{base}/app/online-learning/', 'changefreq': 'weekly', 'priority': '0.9', 'lastmod': now},
+        {'loc': f'{base}/app/library/', 'changefreq': 'daily', 'priority': '0.9', 'lastmod': now},
+        {'loc': f'{base}/app/forum/', 'changefreq': 'daily', 'priority': '0.8', 'lastmod': now},
+        {'loc': f'{base}/app/news/', 'changefreq': 'daily', 'priority': '0.7', 'lastmod': now},
+        {'loc': f'{base}/app/results/', 'changefreq': 'monthly', 'priority': '0.7', 'lastmod': now},
+        {'loc': f'{base}/app/results/check/', 'changefreq': 'monthly', 'priority': '0.7', 'lastmod': now},
+        {'loc': f'{base}/app/tools/', 'changefreq': 'monthly', 'priority': '0.5', 'lastmod': now},
+        {'loc': f'{base}/app/faq/', 'changefreq': 'monthly', 'priority': '0.6', 'lastmod': now},
+        {'loc': f'{base}/app/library/?tab=interactive', 'changefreq': 'weekly', 'priority': '0.8', 'lastmod': now},
     ]
 
     from . import interactive as interactive_catalog
     for course in interactive_catalog.get_all_courses():
-        urls.append({'loc': f'{base}/interactive/{course["slug"]}/', 'changefreq': 'monthly', 'priority': '0.7', 'lastmod': now})
+        urls.append({'loc': f'{base}/app/interactive/{course["slug"]}/', 'changefreq': 'monthly', 'priority': '0.7', 'lastmod': now})
         for lesson in course.get('lessons', []):
-            urls.append({'loc': f'{base}/interactive/{course["slug"]}/{lesson["slug"]}/', 'changefreq': 'monthly', 'priority': '0.6', 'lastmod': now})
+            urls.append({'loc': f'{base}/app/interactive/{course["slug"]}/{lesson["slug"]}/', 'changefreq': 'monthly', 'priority': '0.6', 'lastmod': now})
 
     def _slugify(value):
         import re
@@ -2149,7 +2136,7 @@ def sitemap_xml(request):
         subject_slug = _slugify(subject)
         if not grade_slug or not subject_slug or grade_slug == 'other':
             return
-        loc = f'{base}/subject/{grade_slug}/{subject_slug}/'
+        loc = f'{base}/app/subject/{grade_slug}/{subject_slug}/'
         if loc in seen_subject_urls:
             return
         seen_subject_urls.add(loc)
@@ -2184,7 +2171,7 @@ def sitemap_xml(request):
             if not slug:
                 continue
             urls.append({
-                'loc': f'{base}/news/{quote(str(slug), safe="")}/',
+                'loc': f'{base}/app/news/{quote(str(slug), safe="")}/',
                 'changefreq': 'weekly',
                 'priority': '0.6',
                 'lastmod': _lastmod(published_at),
@@ -2214,7 +2201,7 @@ def sitemap_xml(request):
             continue
         ts = getattr(r, 'updated_at', None) or getattr(r, 'added_at', None)
         urls.append({
-            'loc': f'{base}/reader/{r.id}/',
+            'loc': f'{base}/app/reader/{r.id}/',
             'changefreq': 'weekly',
             'priority': '0.6',
             'lastmod': _lastmod(ts),
@@ -2231,7 +2218,7 @@ def sitemap_xml(request):
         if _looks_low_quality(post.title, post.content):
             continue
         urls.append({
-            'loc': f'{base}/forum/post/{post.id}/',
+            'loc': f'{base}/app/forum/post/{post.id}/',
             'changefreq': 'daily',
             'priority': '0.7',
             'lastmod': _lastmod(post.created_at),
@@ -2246,7 +2233,7 @@ def sitemap_xml(request):
         if not uname or any(term in uname.lower() for term in ('test', 'demo', 'dummy', 'adminadmin')):
             continue
         urls.append({
-            'loc': f'{base}/profile/{uname}/',
+            'loc': f'{base}/app/profile/{uname}/',
             'changefreq': 'weekly',
             'priority': '0.4',
             'lastmod': _lastmod(getattr(u, 'created_at', None)),
@@ -2270,8 +2257,8 @@ def robots_txt(request):
     lines = [
         'User-agent: *',
         'Allow: /',
-        'Allow: /profile/',
-        'Disallow: /profile/edit/',
+        'Allow: /app/profile/',
+        'Disallow: /app/profile/edit/',
         'Disallow: /admin/',
         'Disallow: /admin-django/',
         'Disallow: /api/',
@@ -2279,7 +2266,7 @@ def robots_txt(request):
         'Disallow: /auth/',
         'Disallow: /login/',
         'Disallow: /logout/',
-        'Disallow: /settings/',
+        'Disallow: /app/settings/',
         'Disallow: /*?next=*',
         'Disallow: /*?*next=*',
         '',

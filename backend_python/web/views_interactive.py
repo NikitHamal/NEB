@@ -8,7 +8,7 @@ from .view_helpers import _ctx
 
 
 def interactive_hub(request):
-    return redirect('/library/?tab=interactive')
+    return redirect('/app/library/?tab=interactive')
 
 
 def interactive_course(request, course_slug):

@@ -107,7 +107,7 @@ function doRun(){
   fd.append("params",JSON.stringify(collectParams()));
   state.files.forEach(function(f){fd.append("files",f,f.name)});
   $("dtResult").innerHTML='<div class="dt-result-status">Working… this can take a few seconds for large files.</div>';
-  fetch("/tools/run/",{method:"POST",credentials:"same-origin",headers:{"X-CSRFToken":getCsrf()},body:fd})
+  fetch("/app/tools/run/",{method:"POST",credentials:"same-origin",headers:{"X-CSRFToken":getCsrf()},body:fd})
     .then(function(r){return r.json().then(function(j){if(!r.ok)throw j;return j})})
     .then(function(d){renderResult(d)})
     .catch(function(err){$("dtResult").innerHTML='<div class="dt-err">'+esc((err&&err.error)||"Request failed")+'</div>'})

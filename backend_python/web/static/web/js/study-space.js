@@ -569,7 +569,7 @@
     var fd = new FormData();
     fd.append('file', file);
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/ajax/study-space/' + SPACE_ID + '/upload/');
+    xhr.open('POST', '/ajax/study-space/' + SPACE_ID + '/app/upload/');
     xhr.setRequestHeader('X-CSRFToken', csrf());
     xhr.upload.onprogress = function (e) {
       if (e.lengthComputable) {
@@ -1388,7 +1388,7 @@
   }
 
   function inviteLink() {
-    return window.location.origin + '/study-space/shared/' + SPACE_DATA.shareToken + '/';
+    return window.location.origin + '/app/study-space/shared/' + SPACE_DATA.shareToken + '/';
   }
 
   function openShareModal() {
@@ -1566,7 +1566,7 @@
       invite_min_role: $('ssPermInvite').value,
       publish_min_role: $('ssPermPublish').value
     };
-    fetch('/ajax/study-space/' + SPACE_ID + '/settings/', {
+    fetch('/ajax/study-space/' + SPACE_ID + '/app/settings/', {
       method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrf() }, body: JSON.stringify(body)
     }).then(function (r) { return r.json() })
       .then(function (data) {
@@ -1647,7 +1647,7 @@
       headers: { 'X-CSRFToken': csrf() }
     }).then(function (r) { return r.json() })
       .then(function (data) {
-        if (data.success) window.location.href = '/study-lab/';
+        if (data.success) window.location.href = '/app/study-lab/';
         else toast(data.error || 'Failed to delete');
       });
   }
@@ -1710,7 +1710,7 @@
 
   function loadDocSelectResources() {
     var list = $('ssResourceSelectList');
-    fetch('/ajax/study-space/' + SPACE_ID + '/resource/list/', { headers: { 'X-CSRFToken': csrf(), 'Accept': 'application/json' } })
+    fetch('/ajax/study-space/' + SPACE_ID + '/app/resource/list/', { headers: { 'X-CSRFToken': csrf(), 'Accept': 'application/json' } })
       .then(function (r) { return r.json() })
       .then(function (data) {
         var resources = data.resources || [];
@@ -1751,7 +1751,7 @@
     }
     var url, body;
     if (docType === 'resource') {
-      url = '/ajax/study-space/' + SPACE_ID + '/resource/add/';
+      url = '/ajax/study-space/' + SPACE_ID + '/app/resource/add/';
       body = JSON.stringify({ resource_id: selectedDocId });
     } else {
       url = '/ajax/study-space/' + SPACE_ID + '/document/add/';

@@ -1,0 +1,106 @@
+{% extends "admin_panel/base.html" %}
+{% load static %}
+
+{% block title %}Site Themes{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/themes.css' %}">
+<style nonce="{{ csp_nonce }}">
+  .st-live { display:flex; gap:16px; align-items:center; padding:18px 20px; border-radius:var(--md-radius-lg);
+    background:var(--md-surface-container-lowest); border:1px solid var(--md-outline-variant); margin:8px 0 24px; flex-wrap:wrap; }
+  .st-live strong { font-size:1.05rem; }
+  .st-live .st-why { color:var(--md-on-surface-variant); font-size:.9rem; }
+  .st-live form { margin-left:auto; }
+  .st-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:18px; }
+  .st-card { background:var(--md-surface-container-lowest); border:1px solid var(--md-outline-variant);
+    border-radius:var(--md-radius-lg); overflow:hidden; display:flex; flex-direction:column; }
+  .st-card.is-live { border:2px solid var(--st-accent); }
+  .st-prev { position:relative; height:150px; overflow:hidden; isolation:isolate;
+    background: radial-gradient(60% 80% at 20% 10%, var(--st-glow-1), transparent 70%),
+                radial-gradient(60% 80% at 90% 30%, var(--st-glow-2), transparent 70%), var(--st-tint); }
+  .st-prev .st-mock { position:absolute; left:18px; top:34px; right:18px; }
+  .st-prev .st-mock b { display:block; height:12px; width:62%; border-radius:6px; background:#0e2035; opacity:.85; }
+  .st-prev .st-mock i { display:block; height:8px; width:44%; margin-top:8px; border-radius:6px; background:#0e2035; opacity:.3; }
+  .st-prev .st-mock span { display:inline-block; margin-top:14px; height:22px; width:86px; border-radius:11px; background:var(--st-accent); }
+  .st-prev .st-mock span + span { width:64px; margin-left:6px; background:transparent; border:2px solid var(--st-accent-2); }
+  .st-prev .st-decor { position:absolute; inset:0; pointer-events:none; }
+  .st-body { padding:14px 16px 16px; display:flex; flex-direction:column; gap:10px; flex:1; }
+  .st-body h3 { margin:0; font-size:1.05rem; display:flex; gap:8px; align-items:center; }
+  .st-body p { margin:0; color:var(--md-on-surface-variant); font-size:.9rem; }
+  .st-sw { display:flex; gap:6px; }
+  .st-sw i { width:18px; height:18px; border-radius:50%; border:1px solid rgba(0,0,0,.08); }
+  .st-badge { font-size:.72rem; font-weight:600; padding:2px 8px; border-radius:99px; background:var(--st-accent); color:var(--st-accent-ink); }
+  .st-forms { display:grid; gap:8px; margin-top:auto; }
+  .st-forms form { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+  .st-forms input[type=date] { flex:1; min-width:120px; padding:6px 8px; border-radius:8px; border:1px solid var(--md-outline-variant); background:var(--md-surface); color:var(--md-on-surface); }
+  .st-opts { display:flex; gap:12px; font-size:.82rem; color:var(--md-on-surface-variant); }
+  .st-table { width:100%; border-collapse:collapse; margin-top:12px; }
+  .st-table td, .st-table th { text-align:left; padding:10px 8px; border-bottom:1px solid var(--md-outline-variant); font-size:.92rem; }
+  .st-greet { font-size:.85rem; color:var(--st-accent); font-weight:600; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="admin-page-header">
+  <h1>Site themes</h1>
+  <p>One theme is live at a time. Switch one on now, or schedule it for a festival and it starts and ends by itself (Nepal time). Each theme is hand-built: palette, decoration and greeting are designed together, so there is nothing to upload.</p>
+</div>
+
+<div class="st-live" data-site-theme="{{ live.key }}" style="{{ live.css }}">
+  <span class="st-badge">Live</span>
+  <div><strong>{{ live.name }}</strong><div class="st-why">{{ live.why }} · today is {{ today|date:"d M Y" }}</div></div>
+  {% if forced %}
+  <form method="post">{% csrf_token %}<input type="hidden" name="action" value="release">
+    <button class="md-btn md-btn-outlined" type="submit">Return to the calendar</button></form>
+  {% endif %}
+</div>
+
+<div class="st-grid">
+  {% for t in themes %}
+  <article class="st-card{% if t.live %} is-live{% endif %}" data-site-theme="{{ t.key }}" style="{{ t.css }}">
+    <div class="st-prev">
+      <div class="st-mock"><b></b><i></i><span></span><span></span></div>
+      {% include "themes/_decor.html" with t=t compact=True %}
+    </div>
+    <div class="st-body">
+      <h3>{{ t.name }} {% if t.live %}<span class="st-badge">Live</span>{% endif %}</h3>
+      <p>{{ t.about }}</p>
+      {% if t.greeting %}<div class="st-greet">{{ t.greeting.ne }} · {{ t.greeting.en }}</div>{% endif %}
+      <div class="st-sw">{% for k, v in t.tokens.items %}<i style="background:{{ v }}" title="{{ k }}"></i>{% endfor %}</div>
+      <div class="st-forms">
+        <form method="post">{% csrf_token %}
+          <input type="hidden" name="action" value="force"><input type="hidden" name="key" value="{{ t.key }}">
+          <span class="st-opts"><label><input type="checkbox" name="show_in_app" checked> In the app</label>
+          {% if t.greeting %}<label><input type="checkbox" name="show_greeting" checked> Greeting</label>{% endif %}</span>
+          <button class="md-btn md-btn-filled" type="submit">Turn on now</button>
+        </form>
+        {% if t.key != 'everyday' %}
+        <form method="post">{% csrf_token %}
+          <input type="hidden" name="action" value="schedule"><input type="hidden" name="key" value="{{ t.key }}">
+          <input type="hidden" name="show_in_app" value="on"><input type="hidden" name="show_greeting" value="on">
+          <input type="date" name="starts_on" required aria-label="Starts on">
+          <input type="date" name="ends_on" required aria-label="Ends on">
+          <button class="md-btn md-btn-tonal" type="submit">Schedule</button>
+        </form>
+        {% endif %}
+      </div>
+    </div>
+  </article>
+  {% endfor %}
+</div>
+
+<h2 style="margin-top:32px">Schedule</h2>
+{% if schedule %}
+<table class="st-table">
+  <tr><th>Theme</th><th>From</th><th>To</th><th>App</th><th></th></tr>
+  {% for row in schedule %}
+  <tr><td>{{ row.theme_name }}</td><td>{{ row.starts_on|date:"d M Y" }}</td><td>{{ row.ends_on|date:"d M Y" }}</td>
+    <td>{% if row.show_in_app %}Yes{% else %}Landing only{% endif %}</td>
+    <td><form method="post">{% csrf_token %}<input type="hidden" name="action" value="delete"><input type="hidden" name="id" value="{{ row.id }}">
+      <button class="md-btn md-btn-text" type="submit">Remove</button></form></td></tr>
+  {% endfor %}
+</table>
+{% else %}
+<p>Nothing scheduled. Add Dashain, Tihar or exam season above and it will switch itself on and off.</p>
+{% endif %}
+{% endblock %}

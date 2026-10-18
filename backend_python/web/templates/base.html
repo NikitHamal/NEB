@@ -7,7 +7,7 @@
    attribute, and an empty value meant they all fell through to the OS
    preference. A reader on a light page with a dark desktop got the dark palette
    painted into the cards: the exact complaint in issue #47. {% endcomment %}
-<html lang="en" data-theme="{% if dark_mode %}dark{% else %}light{% endif %}">
+<html lang="en" data-theme="{% if dark_mode %}dark{% else %}light{% endif %}"{% if site_theme.show_in_app %} data-site-theme="{{ site_theme.key }}" style="{{ site_theme.css }}"{% endif %}>
 
 <head>
   <meta charset="UTF-8">
@@ -88,7 +88,7 @@
         "inLanguage": "en-NP",
         "potentialAction": {
           "@type": "SearchAction",
-          "target": "https://nebians.consica.com.np/search/?q={search_term_string}",
+          "target": "https://nebians.consica.com.np/app/search/?q={search_term_string}",
           "query-input": "required name=search_term_string"
         }
       }
@@ -103,6 +103,7 @@
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,0&display=swap">
   <link rel="stylesheet" href="{% static 'web/css/material3.css' %}">
   <link rel="stylesheet" href="{% static 'web/css/app.css' %}">
+  {% if site_theme.show_in_app and site_theme.festive %}<link rel="stylesheet" href="{% static 'web/css/themes.css' %}">{% endif %}
   <link rel="stylesheet" href="{% static 'web/css/forum-media.css' %}">
   <link rel="stylesheet" href="{% static 'web/css/pages/media-player.css' %}">
   <link rel="stylesheet" href="{% static 'web/css/pages/tools.css' %}">
@@ -311,6 +312,10 @@
       {% endif %}
     </div>
   </header>
+  {% if site_theme.show_in_app and site_theme.festive %}
+  <div class="st-app-strip" aria-hidden="true"></div>
+  {% if site_theme.greeting %}<p class="st-app-greet"><span lang="ne">{{ site_theme.greeting.ne }}</span><span aria-hidden="true">·</span><span>{{ site_theme.greeting.en }}</span></p>{% endif %}
+  {% endif %}
   {% endblock %}
 
   <!-- HTMX loading indicator -->
@@ -350,12 +355,12 @@
         <div class="site-footer-col">
           <h4 class="site-footer-heading">Popular Subjects</h4>
           <ul class="site-footer-list">
-            <li><a href="/subject/class-12/physics/">Class 12 Physics</a></li>
-            <li><a href="/subject/class-12/chemistry/">Class 12 Chemistry</a></li>
-            <li><a href="/subject/class-12/mathematics/">Class 12 Mathematics</a></li>
-            <li><a href="/subject/class-12/english/">Class 12 English</a></li>
-            <li><a href="/subject/class-11/physics/">Class 11 Physics</a></li>
-            <li><a href="/subject/class-11/chemistry/">Class 11 Chemistry</a></li>
+            <li><a href="/app/subject/class-12/physics/">Class 12 Physics</a></li>
+            <li><a href="/app/subject/class-12/chemistry/">Class 12 Chemistry</a></li>
+            <li><a href="/app/subject/class-12/mathematics/">Class 12 Mathematics</a></li>
+            <li><a href="/app/subject/class-12/english/">Class 12 English</a></li>
+            <li><a href="/app/subject/class-11/physics/">Class 11 Physics</a></li>
+            <li><a href="/app/subject/class-11/chemistry/">Class 11 Chemistry</a></li>
           </ul>
         </div>
         <div class="site-footer-col">
@@ -543,7 +548,7 @@
         renderer.link = function(token) {
           const isInternal = token.href && (token.href.startsWith('/') || token.href.startsWith(window.location.origin));
           const html = origLink(token);
-          if (token.href && token.href.startsWith('/profile/')) {
+          if (token.href && token.href.startsWith('/app/profile/')) {
             return html.replace('<a ', '<a class="fp-mention" ');
           }
           if (!isInternal && token.href) {

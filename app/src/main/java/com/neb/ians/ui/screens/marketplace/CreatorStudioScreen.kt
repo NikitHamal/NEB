@@ -323,7 +323,7 @@ private fun androidx.compose.foundation.lazy.LazyListScope.studioPageTab(
                 value = uiState.slug,
                 onValueChange = viewModel::updateSlug,
                 label = "Page address",
-                helper = "nebians.consica.com.np/marketplace/${uiState.slug.ifBlank { "your-name" }}/"
+                helper = "nebians.consica.com.np/app/marketplace/${uiState.slug.ifBlank { "your-name" }}/"
             )
             // Only worth asking when the account actually has a choice; most
             // tutors have exactly one kind and the web studio hides it too.
