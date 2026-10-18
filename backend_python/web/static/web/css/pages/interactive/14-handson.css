@@ -1,0 +1,34 @@
+/* Hands-on physics and chemistry practicals: the action bar and the chips pinned to the scene. */
+.ho-hud { position: absolute; inset: 0; pointer-events: none; z-index: 5; }
+.ho-actions {
+  position: absolute; left: 50%; bottom: 14px; display: flex; gap: 8px; padding: 6px;
+  transform: translate(-50%, 16px); opacity: 0; pointer-events: none;
+  background: rgba(15, 23, 42, .62); border: 1px solid rgba(255, 255, 255, .12); border-radius: 18px;
+  backdrop-filter: blur(14px) saturate(1.3); -webkit-backdrop-filter: blur(14px) saturate(1.3);
+  transition: opacity .22s ease, transform .38s cubic-bezier(.2, 1.3, .4, 1);
+}
+.ho-actions.show { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+.ho-act {
+  min-height: 44px; padding: 0 18px; border: 0; border-radius: 13px; font: inherit; font-weight: 700; font-size: .88rem;
+  background: rgba(255, 255, 255, .1); color: #e2e8f0; cursor: pointer; white-space: nowrap;
+  transition: transform .18s cubic-bezier(.2, 1.4, .4, 1), background .2s, opacity .2s;
+}
+.ho-act.primary { background: linear-gradient(180deg, #22c55e, #16a34a); color: #fff; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25); }
+.ho-act:hover:not(:disabled) { transform: translateY(-1px); }
+.ho-act:active:not(:disabled) { transform: scale(.96); }
+.ho-act:disabled { opacity: .4; cursor: default; }
+.ho-act:focus-visible { outline: 2px solid #93c5fd; outline-offset: 2px; }
+.ho-chip {
+  position: absolute; left: 0; top: 0; opacity: 0; padding: 5px 10px; border-radius: 10px; white-space: nowrap;
+  background: rgba(255, 255, 255, .95); color: #0f172a; font-size: .8rem; font-variant-numeric: tabular-nums;
+  box-shadow: 0 6px 18px rgba(2, 6, 23, .22); transition: opacity .2s; will-change: transform;
+}
+.ho-chip.show { opacity: 1; }
+.ho-chip b { font-size: 1.05rem; }
+.ho-chip-read { border-left: 3px solid #dc2626; }
+.bh-stage .ho-actions ~ .bh-belt { display: none; }
+@media (max-width: 640px) {
+  .ho-actions { bottom: 10px; max-width: calc(100% - 16px); }
+  .ho-act { padding: 0 14px; font-size: .82rem; }
+}
+@media (prefers-reduced-motion: reduce) { .ho-actions, .ho-act { transition: none; } }
