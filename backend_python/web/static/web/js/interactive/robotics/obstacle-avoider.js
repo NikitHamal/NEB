@@ -1,5 +1,19 @@
 import { THREE, createEngine, createOrbitControls, basicLights } from '../core/engine.js';
 import { createPanel, createHud } from '../core/sim-ui.js';
+import { workshop, miniBot } from '../core/robot-kit.js';
+
+// corrugated cardboard with a strip of packing tape: the obstacles a classroom robot meets
+let CARD = null;
+function cardboard() {
+  if (CARD) return CARD;
+  const c = document.createElement('canvas'); c.width = c.height = 256; const g = c.getContext('2d');
+  g.fillStyle = '#c69c6d'; g.fillRect(0, 0, 256, 256);
+  for (let i = 0; i < 256; i += 6) { g.fillStyle = i % 12 ? 'rgba(120,84,48,0.10)' : 'rgba(255,240,210,0.08)'; g.fillRect(i, 0, 3, 256); }
+  g.fillStyle = 'rgba(210,190,150,0.85)'; g.fillRect(0, 112, 256, 32);
+  const t = new THREE.CanvasTexture(c); if (t.colorSpace !== undefined) t.colorSpace = THREE.SRGBColorSpace;
+  CARD = new THREE.MeshStandardMaterial({ map: t, roughness: 0.85 });
+  return CARD;
+}
 
 const ARENA = 10;
 
@@ -9,21 +23,14 @@ export default function init(stage) {
   const { scene, camera, quality } = engine;
   const seg = quality.segments;
 
-  camera.position.set(0, 13, 10);
+  camera.position.set(0, 9, 9.5);
   const controls = createOrbitControls(camera, engine.canvas, {
     minDistance: 5, maxDistance: 26, target: new THREE.Vector3(0, 0, 0),
   });
 
-  basicLights(scene);
-  const floor = new THREE.Mesh(
-    new THREE.PlaneGeometry(ARENA * 2, ARENA * 2),
-    new THREE.MeshStandardMaterial({ color: 0x152741, roughness: 0.95 })
-  );
-  floor.rotation.x = -Math.PI / 2;
-  scene.add(floor);
-  scene.add(new THREE.GridHelper(ARENA * 2, 20, 0x35507c, 0x22344f));
+  workshop(scene, engine, quality, { radius: ARENA * 2.2, tiles: 6, shadowSize: ARENA });
 
-  const wallMat = new THREE.MeshStandardMaterial({ color: 0x2c4368, roughness: 0.8 });
+  const wallMat = new THREE.MeshPhysicalMaterial({ color: 0xf5f7fa, roughness: 0.35, clearcoat: 0.6 });
   const wallGeo = new THREE.BoxGeometry(ARENA * 2, 0.7, 0.25);
   [[0, -ARENA, 0], [0, ARENA, 0], [-ARENA, 0, Math.PI / 2], [ARENA, 0, Math.PI / 2]].forEach((w) => {
     const m = new THREE.Mesh(wallGeo, wallMat);
@@ -33,7 +40,7 @@ export default function init(stage) {
   });
 
   const obstacles = [];
-  const boxMat = new THREE.MeshStandardMaterial({ color: 0xc97b4a, roughness: 0.75 });
+  const boxMat = cardboard();
   const count = quality.tier === 'low' ? 6 : 9;
   let s = 7;
   function rand() { s = (s * 16807) % 2147483647; return (s - 1) / 2147483646; }
@@ -46,22 +53,16 @@ export default function init(stage) {
       z = (rand() * 2 - 1) * (ARENA - 2);
     } while (Math.hypot(x, z) < 2.5);
     m.position.set(x, m.geometry.parameters.height / 2, z);
+    m.rotation.y = rand() * 0.6 - 0.3; m.castShadow = true; m.receiveShadow = true;
     scene.add(m);
     obstacles.push({ x, z, r: size * 0.72 });
   }
 
-  const robot = new THREE.Group();
-  const bodyMat = new THREE.MeshStandardMaterial({ color: 0x2da4ec, roughness: 0.45, metalness: 0.3 });
-  const darkMat = new THREE.MeshStandardMaterial({ color: 0x1c2c44, roughness: 0.6 });
-  const body = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.65, 0.35, seg), bodyMat);
-  body.position.y = 0.35;
-  robot.add(body);
-  const sensorHead = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.22, 0.34), darkMat);
-  sensorHead.position.set(0, 0.6, 0.42);
-  robot.add(sensorHead);
+  const bot = miniBot({ color: 0xf97316 });
+  const robot = bot.group;
   scene.add(robot);
 
-  const coneMat = new THREE.MeshBasicMaterial({ color: 0x7fe9ff, transparent: true, opacity: 0.16, side: THREE.DoubleSide, depthWrite: false });
+  const coneMat = new THREE.MeshBasicMaterial({ color: 0x0ea5e9, transparent: true, opacity: 0.14, side: THREE.DoubleSide, depthWrite: false });
   let cone = null;
   function rebuildCone(range) {
     if (cone) {
@@ -180,6 +181,9 @@ export default function init(stage) {
       pos.z = Math.max(-lim, Math.min(lim, pos.z));
     }
 
+    // the wheels turn with the distance travelled
+    const moved = Math.hypot(pos.x - robot.position.x, pos.z - robot.position.z);
+    bot.wheelL.rotation.x += moved / 0.33; bot.wheelR.rotation.x += moved / 0.33;
     robot.position.set(pos.x, 0, pos.z);
     robot.rotation.y = heading;
     coneMat.opacity = curState === 'TURNING' ? 0.3 : 0.16;
