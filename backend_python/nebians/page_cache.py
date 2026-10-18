@@ -10,7 +10,7 @@ from django.middleware.csrf import CsrfViewMiddleware, get_token
 
 _TTL = int(getattr(settings, 'PAGE_CACHE_TTL', 45))
 _MAX_BYTES = 512 * 1024
-_PATHS = ('/', '/faq/', '/library/', '/forum/', '/news/')
+_PATHS = ('/', '/app/faq/', '/app/library/', '/app/forum/', '/app/news/')
 _NONCE_PH = b'\x00nebnonce\x00'
 _TOKEN_PH = b'\x00nebcsrf\x00'
 _TOKEN_CTX = re.compile(
@@ -24,7 +24,7 @@ _MOBILE_UA = re.compile(r'android|iphone|ipad|ipod|mobile|phone', re.I)
 def _whitelisted(path):
     if path == '/':
         return True
-    return path.startswith(('/faq/', '/library/', '/forum/', '/news/'))
+    return path.startswith(('/app/faq/', '/app/library/', '/app/forum/', '/app/news/'))
 
 
 def _device(request):
