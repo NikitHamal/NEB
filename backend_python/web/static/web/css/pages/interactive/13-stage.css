@@ -65,3 +65,5 @@
 .ix-lesson-page[data-sim-type] .ix-ctrl-panel.ix-ctrl-docked.collapsed { max-height: none; }
 .ix-lesson-page[data-sim-type] .ix-ctrl-docked .ix-ctrl-info { display: block; }
 .ix-lesson-page[data-sim-type] .ix-sim-shell { position: relative; top: auto; }
+/* the observation book scrolls sideways inside the dock rather than pushing it wider */
+.ix-ctrl-docked .ix-lab-data-table { display: block; max-width: 100%; overflow-x: auto; }
