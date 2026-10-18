@@ -247,10 +247,10 @@ fun NebyAiScreen(
                                         .padding(vertical = 18.dp),
                                     horizontalAlignment = Alignment.CenterHorizontally
                                 ) {
-                                    com.neb.ians.ui.avatar.neby.NebyAvatarHero(
-                                        animation = "idle",
-                                        size = 96.dp,
-                                        interactive = true
+                                    com.neb.ians.ui.pixel.NebyPixel(
+                                        size = 120.dp,
+                                        interactive = true,
+                                        intro = com.neb.ians.ui.pixel.NebyState.Wave
                                     )
                                     Spacer(Modifier.height(12.dp))
                                     Text(
@@ -282,10 +282,10 @@ fun NebyAiScreen(
                                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                                     modifier = Modifier.padding(horizontal = 6.dp)
                                 ) {
-                                    com.neb.ians.ui.avatar.neby.NebyAvatarMini(
-                                        animation = "idle",
-                                        size = 28.dp,
-                                        interactive = false
+                                    com.neb.ians.ui.pixel.NebyPixel(
+                                        state = com.neb.ians.ui.pixel.NebyState.Think,
+                                        size = 32.dp,
+                                        ambient = false
                                     )
                                     Text(
                                         text = "Neby is responding…",

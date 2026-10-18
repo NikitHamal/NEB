@@ -128,11 +128,10 @@ fun ProfileHeader(
                         .padding(4.dp)
                 ) {
                     if (profile.isBot) {
-                        com.neb.ians.ui.avatar.neby.NebyAvatar(
-                            animation = "idle",
+                        com.neb.ians.ui.pixel.NebyPixel(
                             size = 84.dp,
                             interactive = true,
-                            modifier = Modifier.clip(CircleShape)
+                            intro = com.neb.ians.ui.pixel.NebyState.Wave
                         )
                     } else {
                         Avatar(
