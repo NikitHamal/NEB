@@ -8,6 +8,7 @@ const PRACTICALS = {
   'vernier-calipers': () => import('./practicals/vernier.js'),
   'meter-bridge': () => import('./practicals/meter-bridge.js'),
   'screw-gauge': () => import('./practicals/screw-gauge.js'),
+  'anion-tests': () => import('./practicals/anion-tests.js'),
   'flame-tests': () => import('./practicals/flame-tests.js'),
 };
 
