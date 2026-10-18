@@ -20,6 +20,12 @@ object PixelStates {
             name.startsWith("Forum") || name.startsWith("Chat") || name.startsWith("QuestionAnswer") || name.startsWith("Comment") -> PixelUiSprites.typing
             name.startsWith("MenuBook") || name.startsWith("AutoStories") || name.startsWith("LibraryBooks") || name.startsWith("Description") -> PixelUiSprites.bookLoader
             name.startsWith("Inbox") || name.startsWith("Hourglass") || name.startsWith("Schedule") -> PixelUiSprites.nebySleep
+            name.startsWith("Lock") || name.startsWith("Shield") || name.startsWith("Key") -> PixelUiSprites.padlock
+            name.startsWith("Newspaper") || name.startsWith("Article") || name.startsWith("Feed") || name.startsWith("Campaign") -> PixelUiSprites.newspaper
+            name.startsWith("Payment") || name.startsWith("Paid") || name.startsWith("AccountBalance") || name.startsWith("Toll") || name.startsWith("Savings") || name.startsWith("Wallet") -> PixelUiSprites.coin
+            name.startsWith("PushPin") || name.startsWith("Pin") -> PixelUiSprites.pushPin
+            name.startsWith("Storefront") || name.startsWith("Store") || name.startsWith("ShoppingBag") || name.startsWith("Sell") -> PixelUiSprites.storefront
+            name.startsWith("EmojiEvents") || name.startsWith("Leaderboard") || name.startsWith("Insights") || name.startsWith("BarChart") || name.startsWith("Analytics") || name.startsWith("MilitaryTech") -> PixelUiSprites.trophy
             else -> PixelUiSprites.nebyIdle
         }
     }
