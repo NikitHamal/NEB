@@ -41,8 +41,6 @@ import com.neb.ians.ui.components.NebButton
 import com.neb.ians.ui.components.NebButtonSize
 import com.neb.ians.ui.components.NebButtonTone
 import com.neb.ians.ui.components.NebSectionLabel
-import com.neb.ians.ui.components.art.NebStateArt
-import com.neb.ians.ui.components.art.NebStateKind
 import com.neb.ians.ui.components.nebPressable
 
 /**
@@ -258,7 +256,8 @@ fun UploadSuccessScreen(onUploadAnother: () -> Unit, onBrowseLibrary: () -> Unit
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        NebStateArt(kind = NebStateKind.Success, height = 150.dp)
+        // Neby hops: the notes are in, and the next student will find them
+        com.neb.ians.ui.pixel.PixelSpriteView(sprite = com.neb.ians.ui.pixel.PixelUiSprites.nebyHop, modifier = Modifier.size(150.dp))
         Spacer(Modifier.height(20.dp))
         Text(
             text = "Sent for review",

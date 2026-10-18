@@ -17,8 +17,8 @@ class PixelSkySceneTest {
 
     @Test
     fun sprites_have_consistent_frames() {
-        listOf(PixelSprites.bird, PixelSprites.sparkle, PixelSprites.paperPlane, PixelSprites.heartPop,
-            PixelSprites.star, PixelSprites.hourglass, PixelSprites.book).forEach { s ->
+        (listOf(PixelSprites.bird, PixelSprites.sparkle, PixelSprites.paperPlane, PixelSprites.heartPop,
+            PixelSprites.star, PixelSprites.hourglass, PixelSprites.book) + PixelUiSprites.all.map { it.second }).forEach { s ->
             s.frames.forEach { assertEquals(s.width * s.height, it.size) }
             assertTrue(s.frames.any { f -> f.any { (it ushr 24) != 0 } })
         }
@@ -36,7 +36,7 @@ class PixelSkySceneTest {
             write(scene.canvas.pixels, PixelSkyScene.WIDTH, PixelSkyScene.HEIGHT, File(dir, "scene_%05d.ppm".format(i)))
         }
         val sprites = listOf(PixelSprites.bird, PixelSprites.sparkle, PixelSprites.paperPlane, PixelSprites.heartPop,
-            PixelSprites.star, PixelSprites.hourglass, PixelSprites.book)
+            PixelSprites.star, PixelSprites.hourglass, PixelSprites.book) + PixelUiSprites.all.map { it.second }
         val sheetW = sprites.maxOf { it.width * it.frames.size + it.frames.size * 2 }
         val sheetH = sprites.sumOf { it.height + 4 }
         val sheet = IntArray(sheetW * sheetH) { 0xFFF2ECE1.toInt() }
