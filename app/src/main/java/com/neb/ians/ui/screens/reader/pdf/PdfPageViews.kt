@@ -1,6 +1,7 @@
 package com.neb.ians.ui.screens.reader.pdf
 
 import android.graphics.Bitmap
+import android.graphics.RectF
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -26,6 +27,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.snapshotFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
@@ -103,7 +106,16 @@ private val NIGHT: ColorMatrix = run {
  * bitmap stays on screen until the sharper one is ready.
  */
 @Composable
-fun PdfPage(index: Int, aspect: Float, widthPx: Int, look: ReaderLook, source: PageSource, modifier: Modifier = Modifier) {
+fun PdfPage(
+    index: Int,
+    aspect: Float,
+    widthPx: Int,
+    look: ReaderLook,
+    source: PageSource,
+    modifier: Modifier = Modifier,
+    marks: List<RectF> = emptyList(),
+    activeMark: RectF? = null
+) {
     val bitmap by produceState(initialValue = source.cached(index, widthPx), index, widthPx) {
         source.render(index, widthPx)?.let { value = it }
     }
@@ -120,7 +132,7 @@ fun PdfPage(index: Int, aspect: Float, widthPx: Int, look: ReaderLook, source: P
                 contentDescription = "Page ${index + 1}",
                 contentScale = ContentScale.FillBounds,
                 colorFilter = look.filter,
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize().searchMarks(marks, activeMark)
             )
         }
     }
@@ -137,7 +149,8 @@ fun ScrollReader(
     look: ReaderLook,
     source: PageSource,
     contentPadding: PaddingValues,
-    onTap: () -> Unit
+    onTap: () -> Unit,
+    search: ReaderSearch = ReaderSearch()
 ) {
     val scope = rememberCoroutineScope()
     val zoomedIn by remember(zoom) { derivedStateOf { zoom.isZoomed } }
@@ -157,6 +170,14 @@ fun ScrollReader(
         val density = LocalDensity.current
         val pageWidthPx = with(density) { (maxWidth - PageGutter * 2).roundToPx() }
         val renderWidth = (pageWidthPx * zoom.renderScale).toInt()
+        // render the pages just past the screen ahead of time, so scrolling never meets a blank page
+        LaunchedEffect(listState, renderWidth) {
+            snapshotFlow { listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: 0 }
+                .distinctUntilChanged()
+                .collect { last ->
+                    for (i in last + 1..minOf(last + 2, aspects.size - 1)) source.render(i, renderWidth)
+                }
+        }
         LazyColumn(
             state = listState,
             modifier = Modifier.fillMaxSize().zoomed(zoom),
@@ -171,7 +192,9 @@ fun ScrollReader(
                     widthPx = renderWidth,
                     look = look,
                     source = source,
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = PageGutter)
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = PageGutter),
+                    marks = search.byPage[index].orEmpty(),
+                    activeMark = search.current?.takeIf { it.page == index }?.rect
                 )
             }
         }
@@ -187,7 +210,8 @@ fun PagedReader(
     look: ReaderLook,
     source: PageSource,
     verticalInset: Dp,
-    onTap: () -> Unit
+    onTap: () -> Unit,
+    search: ReaderSearch = ReaderSearch()
 ) {
     val scope = rememberCoroutineScope()
     val zoomedIn by remember(zoom) { derivedStateOf { zoom.isZoomed } }
@@ -225,7 +249,11 @@ fun PagedReader(
                 Modifier.fillMaxSize().then(if (active) Modifier.zoomed(zoom) else Modifier),
                 contentAlignment = Alignment.Center
             ) {
-                PdfPage(page, aspect, widthPx, look, source, Modifier.width(fitWidth))
+                PdfPage(
+                    page, aspect, widthPx, look, source, Modifier.width(fitWidth),
+                    marks = search.byPage[page].orEmpty(),
+                    activeMark = search.current?.takeIf { it.page == page }?.rect
+                )
             }
         }
     }

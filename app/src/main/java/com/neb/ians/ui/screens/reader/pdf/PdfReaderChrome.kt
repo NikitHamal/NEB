@@ -28,6 +28,7 @@ import androidx.compose.material.icons.outlined.Bookmark
 import androidx.compose.material.icons.outlined.BookmarkBorder
 import androidx.compose.material.icons.outlined.Bookmarks
 import androidx.compose.material.icons.outlined.GridView
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Tune
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -56,7 +57,7 @@ import kotlin.math.roundToInt
 val ReaderBarHeight = 60.dp
 
 @Composable
-private fun barColor() = MaterialTheme.colorScheme.surface.copy(alpha = 0.97f)
+internal fun barColor() = MaterialTheme.colorScheme.surface.copy(alpha = 0.97f)
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -69,7 +70,8 @@ fun ReaderTopBar(
     onBack: () -> Unit,
     onToggleBookmark: () -> Unit,
     onOptions: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onSearch: (() -> Unit)? = null
 ) {
     AnimatedVisibility(
         visible = visible,
@@ -108,6 +110,7 @@ fun ReaderTopBar(
                     onToggleBookmark,
                     tint = if (bookmarked) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant
                 )
+                if (onSearch != null) NebIconButton(Icons.Outlined.Search, "Search in document", onSearch)
                 NebIconButton(Icons.Outlined.Tune, "Reading options", onOptions)
             }
             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
