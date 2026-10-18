@@ -3,6 +3,9 @@ import { createPanel, createHud, showInfoCard } from './sim-ui.js';
 import { ANION_RESULTS, CATION_COLORS, GAS_RESULTS, GROUP_RESULTS, PRESETS, SUBJECT } from './lab3d-data.js';
 import { addObservationTable, currentProcedureText, indicatorColor, indicatorColorName, lassaigneResult, procedureSteps, recordObservation, titrationStatus } from './lab3d-science.js';
 import { buildPrecisionCaliper, buildPrecisionMicrometer, buildPrecisionSpherometer } from './lab3d-precision.js';
+import { buildRoom } from './lab3d-room.js';
+import * as PHY from './lab3d-physics.js';
+import * as CHEM from './lab3d-chemistry.js';
 
 function makeScaleTexture({ length = 100, major = 10, minor = 1, label = 'cm', width = 1024, height = 128, dark = false } = {}) {
   const canvas = document.createElement('canvas');
@@ -97,18 +100,22 @@ function randomValue(control) {
 
 function cameraViewFor(kind, quality) {
   const mobile = quality && quality.mobile;
-  const distanceBoost = mobile ? 1.32 : 1;
-  const heightBoost = mobile ? 1.08 : 1;
-  const views = {
-    caliper: { position: [0.4, 6.4 * heightBoost, 8.8 * distanceBoost], target: [0.0, 1.62, 0.16], min: 4.6, max: 16 },
-    micrometer: { position: [3.6 * distanceBoost, 3.3 * heightBoost, 6.4 * distanceBoost], target: [0.25, 1.82, 0.12], min: 3.8, max: 15 },
-    spherometer: { position: [4.1 * distanceBoost, 4.6 * heightBoost, 6.6 * distanceBoost], target: [0, 1.7, 0.1], min: 3.8, max: 14 },
-    circuit: { position: [5.6 * distanceBoost, 4.8 * heightBoost, 7.2 * distanceBoost], target: [0, 1.10, 0], min: 4, max: 17 },
-    meterbridge: { position: [0.0, 6.1 * heightBoost, 8.8 * distanceBoost], target: [0, 1.08, 0], min: 5, max: 18 },
-    titration: { position: [4.4 * distanceBoost, 4.2 * heightBoost, 7.4 * distanceBoost], target: [0, 1.75, 0], min: 4, max: 15 },
-    apparatus: { position: [5.8 * distanceBoost, 4.5 * heightBoost, 8.4 * distanceBoost], target: [0, 1.45, 0], min: 4.5, max: 18 },
+  const k = mobile ? 1.3 : 1;
+  // [position, target, minDistance, maxDistance], framed for the rebuilt apparatus
+  const V = {
+    caliper: [[0.4, 6.4, 8.8], [0.0, 1.62, 0.16], 4.6, 16], micrometer: [[3.6, 3.3, 6.4], [0.25, 1.82, 0.12], 3.8, 15], spherometer: [[4.1, 4.6, 6.6], [0, 1.7, 0.1], 3.8, 14],
+    pendulum: [[6.5, 3.2, 16.5], [0.2, 1.4, 3.6], 6, 32], forceboard: [[0.6, 4.4, 11.5], [0, 3.1, -0.6], 5, 22], incline: [[2.4, 4.2, 10], [0.6, 1.8, 0], 4, 20],
+    spring: [[3.2, 4.6, 11], [0.6, 3.4, -0.6], 4, 20], calorimeter: [[1.4, 4.2, 10], [-0.4, 2.0, 0], 4, 20], resonance: [[4.2, 5.2, 12.5], [0.7, 3.8, -0.4], 5, 24],
+    sonometer: [[0.0, 5.4, 12.5], [0, 1.4, 0], 5, 24], circuit: [[0.0, 6.4, 8.4], [-0.6, 1.0, 0], 4, 18], meterbridge: [[0.0, 7.8, 9.6], [0, 0.9, 0], 5, 22],
+    potentiometer: [[0.0, 7.8, 9.6], [0, 0.9, 0], 5, 22], galvanometer: [[0.0, 4.8, 8.4], [0, 1.6, 0], 4, 18], optics: [[0.0, 5.0, 13.5], [0, 2.4, 0], 5, 26],
+    prism: [[0.4, 6.6, 7.4], [0, 1.2, 0.4], 3.5, 18], apparatus: [[0.4, 4.8, 11.5], [0.3, 2.2, 0], 4, 22], separation: [[1.4, 4.2, 9.6], [-0.4, 2.0, -0.3], 4, 20],
+    titration: [[2.6, 4.8, 10.5], [0, 3.0, -0.2], 4, 20], flame: [[1.4, 3.6, 7.8], [-0.6, 1.8, 0], 3, 16], testtubes: [[0.0, 3.4, 6.8], [0, 1.3, 0], 3, 14],
+    gasprep: [[0.4, 4.2, 9.2], [0, 1.6, 0], 3.5, 18], crystallization: [[1.0, 4.0, 8.4], [0.4, 1.6, 0], 3.5, 18], saltanalysis: [[0.4, 4.2, 10], [0.4, 1.4, 0], 4, 20],
+    electrolysis: [[0.2, 4.0, 8.8], [-1.0, 1.5, 0], 3.5, 18], ph: [[0.8, 3.8, 8.4], [1.0, 1.2, 0], 3.5, 18], functional: [[0.0, 3.4, 6.8], [0, 1.3, 0], 3, 14],
+    thermochemistry: [[0.5, 4.0, 8.4], [0, 1.6, 0], 3.5, 18], lassaigne: [[0.3, 4.0, 8.4], [0.2, 1.6, 0], 3.5, 18],
   };
-  return views[kind] || { position: [6.2 * distanceBoost, 5.1 * heightBoost, 10.8 * distanceBoost], target: [0, 1.25, 0], min: 5, max: 20 };
+  const v = V[kind] || V.apparatus;
+  return { position: [v[0][0] * k, v[0][1] * (mobile ? 1.06 : 1), v[0][2] * k], target: v[1], min: v[2], max: v[3] * (mobile ? 1.2 : 1) };
 }
 
 function resetCameraView(camera, controls, view) {
@@ -123,13 +130,17 @@ function resetCameraView(camera, controls, view) {
 }
 
 function disposeObject(obj) {
+  // Frees what this rebuild made, and nothing shared: the kit caches geometry, materials and
+  // textures across rebuilds (userData.sharedFx), and a texture is only freed when it was made
+  // for this apparatus alone (userData.owned).
   if (!obj) return;
   obj.traverse((child) => {
-    if (child.geometry) child.geometry.dispose();
+    if (child.geometry && !child.geometry.userData?.sharedFx) child.geometry.dispose();
     if (child.material) {
       const mats = Array.isArray(child.material) ? child.material : [child.material];
       mats.forEach((m) => {
-        Object.keys(m).forEach((k) => { if (m[k] && m[k].isTexture) m[k].dispose(); });
+        if (m.userData?.sharedFx) return;
+        Object.keys(m).forEach((k) => { const t = m[k]; if (t && t.isTexture && t.userData?.owned) t.dispose(); });
         m.dispose();
       });
     }
@@ -144,8 +155,10 @@ export function initRealLab3D(stage, opts = {}) {
   if (!engine) return null;
   const { scene, camera, quality } = engine;
 
-  scene.background = new THREE.Color(config.subject === 'chemistry' ? 0x061a16 : 0x0b1020);
-  scene.fog = new THREE.Fog(scene.background, 18, 52);
+  // the room is built once; only the apparatus is rebuilt when a control changes
+  buildRoom(scene, config, quality);
+  if (quality.tier !== 'low') { engine.renderer.shadowMap.enabled = true; engine.renderer.shadowMap.type = THREE.PCFSoftShadowMap; }
+  if (engine.renderer.toneMappingExposure !== undefined) engine.renderer.toneMappingExposure = 1.05;
   if (engine.renderer.toneMapping !== undefined) engine.renderer.toneMapping = THREE.ACESFilmicToneMapping;
   if (engine.renderer.outputColorSpace !== undefined && THREE.SRGBColorSpace) engine.renderer.outputColorSpace = THREE.SRGBColorSpace;
 
@@ -158,16 +171,14 @@ export function initRealLab3D(stage, opts = {}) {
     maxPolar: Math.PI * 0.78, minPolar: Math.PI * 0.08,
   });
   resetCameraView(camera, controls, view);
-  controls.setAutoRotate(quality.tier === 'high' ? 0.012 : 0);
-  basicLights(scene, { ambient: config.subject === 'chemistry' ? 0.62 : 0.56, key: 1.45, fill: 0.55, keyPos: [5, 10, 7] });
+
 
   const state = initState(config);
   let currentLab = null;
   let needsRefresh = true;
   let readouts = [];
   const hud = createHud(stage);
-  const status = hud.badge('3D calibrated · real formula active', config.accent || subject.color);
-  const perf = hud.badge(`${quality.tier} quality · DPR ${quality.pixelRatio}`, '#60a5fa');
+  const status = hud.badge(currentProcedureText(config, state), config.accent || subject.color);
 
   const panel = createPanel(stage, { title: config.title, compact: true });
   panel.info(config.subtitle || 'Interactive 3D virtual practical with live readings.');
@@ -267,44 +278,26 @@ function randomizeTrial(config, state, handles, requestRefresh, updateReadouts) 
   updateReadouts();
 }
 
+const BUILDERS = {
+  pendulum: PHY.pendulum, forceboard: PHY.forceboard, incline: PHY.incline, spring: PHY.spring, calorimeter: PHY.calorimeter,
+  resonance: PHY.resonance, sonometer: PHY.sonometer, circuit: PHY.circuit, meterbridge: PHY.meterbridge, potentiometer: PHY.potentiometer,
+  galvanometer: PHY.galvanometer, optics: PHY.optics, prism: PHY.prism,
+  apparatus: CHEM.apparatus, separation: CHEM.separation, titration: CHEM.titration, flame: CHEM.flame, testtubes: CHEM.testtubes,
+  gasprep: CHEM.gasprep, crystallization: CHEM.crystallization, saltanalysis: CHEM.saltanalysis, electrolysis: CHEM.electrolysis,
+  ph: CHEM.ph, functional: CHEM.functional, thermochemistry: CHEM.thermochemistry, lassaigne: CHEM.lassaigne,
+};
+
 function buildLabScene(config, state, quality) {
   const group = new THREE.Group();
-  const actors = {};
-  addRoom(group, config);
-  addTitle(group, config);
+  const anim = [];
   switch (config.kind) {
     case 'caliper': buildPrecisionCaliper(group, state, config); break;
     case 'micrometer': buildPrecisionMicrometer(group, state, config); break;
     case 'spherometer': buildPrecisionSpherometer(group, state, config); break;
-    case 'pendulum': buildPendulum(group, actors, state, config); break;
-    case 'forceboard': buildForceBoard(group, state, config); break;
-    case 'incline': buildIncline(group, actors, state, config); break;
-    case 'spring': buildSpring(group, actors, state, config); break;
-    case 'calorimeter': buildCalorimeter(group, actors, state, config); break;
-    case 'resonance': buildResonance(group, actors, state, config); break;
-    case 'sonometer': buildSonometer(group, actors, state, config); break;
-    case 'circuit': buildCircuit(group, actors, state, config); break;
-    case 'meterbridge': buildMeterBridge(group, state, config); break;
-    case 'potentiometer': buildPotentiometer(group, state, config); break;
-    case 'galvanometer': buildGalvanometer(group, actors, state, config); break;
-    case 'optics': buildOptics(group, state, config); break;
-    case 'prism': buildPrism(group, state, config); break;
-    case 'apparatus': buildApparatus(group, state, config); break;
-    case 'separation': buildSeparation(group, actors, state, config); break;
-    case 'titration': buildTitration(group, actors, state, config); break;
-    case 'flame': buildFlame(group, actors, state, config); break;
-    case 'testtubes': buildTestTubes(group, actors, state, config); break;
-    case 'gasprep': buildGasPrep(group, actors, state, config); break;
-    case 'crystallization': buildCrystallization(group, actors, state, config); break;
-    case 'saltanalysis': buildSaltAnalysis(group, actors, state, config); break;
-    case 'electrolysis': buildElectrolysis(group, actors, state, config); break;
-    case 'ph': buildPH(group, actors, state, config); break;
-    case 'functional': buildFunctional(group, actors, state, config); break;
-    case 'thermochemistry': buildThermo(group, actors, state, config); break;
-    case 'lassaigne': buildLassaigne(group, actors, state, config); break;
-    default: buildApparatus(group, state, config);
+    default: (BUILDERS[config.kind] || CHEM.apparatus)(group, anim, state, config);
   }
-  return { group, update: (dt, t) => updateActors(actors, dt, t, state, config) };
+  group.traverse((o) => { if (o.isMesh && !o.material.transparent) { o.castShadow = true; o.receiveShadow = true; } });
+  return { group, update: (dt, t) => { for (const f of anim) f(dt, t, state); } };
 }
 
 function mat(color, opts = {}) {
