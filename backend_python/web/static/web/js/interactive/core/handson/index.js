@@ -4,6 +4,7 @@ import { runPractical } from '../bio-handson/runtime.js';
 
 const PRACTICALS = {
   'acid-base-titration': () => import('./practicals/titration.js'),
+  'flame-tests': () => import('./practicals/flame-tests.js'),
 };
 
 export function hasHandsOn(slug) { return Object.prototype.hasOwnProperty.call(PRACTICALS, slug); }
