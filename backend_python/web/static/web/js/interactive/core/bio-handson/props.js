@@ -39,8 +39,11 @@ export function slide(opts = {}) {
   return g;
 }
 export function coverslip() {
-  const m = mesh(new THREE.BoxGeometry(0.22, 0.0018, 0.22), MAT.glass(), null, { cast: false });
+  const geo = new THREE.BoxGeometry(0.22, 0.0018, 0.22);
+  const m = mesh(geo, MAT.glass(), null, { cast: false });
   m.renderOrder = 4;
+  const edges = new THREE.LineSegments(new THREE.EdgesGeometry(geo), new THREE.LineBasicMaterial({ color: 0xbfe6f0, transparent: true, opacity: 0.9 }));
+  edges.userData.noPick = true; m.add(edges);
   return m;
 }
 /** A flat lens of liquid on a surface (a drop of stain or water). */

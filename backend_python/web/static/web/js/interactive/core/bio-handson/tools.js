@@ -75,7 +75,8 @@ export function pinModel(color = 0xef4444) {
 function dropper() {
   const g = new THREE.Group();
   g.add(mesh(lathe([[0.004, 0], [0.008, 0.02], [0.012, 0.18], [0.03, 0.26], [0.032, 0.62], [0.036, 0.64], [0.0, 0.64]], 16), MAT.glass(), null, { cast: false }));
-  const liq = mesh(lathe([[0.002, 0.003], [0.006, 0.02], [0.009, 0.18], [0.026, 0.26], [0.027, 0.38], [0, 0.38]], 14), MAT.liquid(0xbe185d, 0.75), null, { cast: false });
+  const liq = mesh(lathe([[0.002, 0.003], [0.006, 0.02], [0.009, 0.18], [0.026, 0.26], [0.027, 0.38], [0, 0.38]], 14), MAT.liquid(0xbe185d, 0.75).clone(), null, { cast: false });
+  liq.material.userData.sharedFx = false;
   g.add(liq);
   const bulb = mesh(lathe([[0.034, 0.62], [0.05, 0.68], [0.055, 0.8], [0.04, 0.88], [0, 0.9]], 18), MAT.gloss(0x991b1b));
   g.add(bulb);
@@ -186,7 +187,8 @@ export function createToolRig(scene, camera) {
       m4.makeBasis(vx, vy, vz);
       holder.quaternion.setFromRotationMatrix(m4);
       if (currentId === 'razor') { tiltQ.setFromAxisAngle(vx.set(1, 0, 0), -1.35); holder.quaternion.multiply(tiltQ); }
-      const s = (0.85 + 0.15 * visibleK.v) * (SCALE[currentId] || 0.62);
+      const camDist = camera.position.distanceTo(pos.v);
+      const s = (0.85 + 0.15 * visibleK.v) * (SCALE[currentId] || 0.62) * clamp(camDist / 2.2, currentId === 'lens' ? 0.7 : 0.38, 1);
       holder.scale.setScalar(s);
       if (current.userData.set) current.userData.set(clamp(action.v, 0, 1));
     },

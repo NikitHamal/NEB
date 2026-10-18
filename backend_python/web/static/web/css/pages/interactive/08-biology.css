@@ -201,3 +201,57 @@
   .bh-toast-ico { flex-basis: 22px; width: 22px; height: 22px; }
 }
 .bh-card { cursor: pointer; }
+
+/* eyepiece view */
+.bh-eye { position: absolute; inset: 0; z-index: 3; display: flex; align-items: center; justify-content: center; gap: 18px; padding: 12px; padding-top: 70px;
+  background: radial-gradient(circle at 40% 50%, #111 0%, #030405 70%); opacity: 0; pointer-events: none; transition: opacity .45s ease; }
+.bh-eye.show { opacity: 1; pointer-events: auto; }
+.bh-eye.narrow { flex-direction: column; gap: 8px; padding-top: 64px; justify-content: flex-start; }
+.bh-eye-view { position: relative; border-radius: 50%; overflow: hidden; flex: 0 0 auto; touch-action: none; cursor: grab;
+  box-shadow: 0 0 0 3px #000, 0 0 40px rgba(255,240,200,.08); transform: scale(.92); transition: transform .6s cubic-bezier(.2,1,.3,1); }
+.bh-eye.show .bh-eye-view { transform: none; }
+.bh-eye-view canvas { display: block; will-change: filter; }
+.bh-eye-glare { position: absolute; inset: 0; border-radius: 50%; pointer-events: none; box-shadow: inset 0 0 30px 8px rgba(0,0,0,.65); background: radial-gradient(circle at 30% 25%, rgba(255,255,255,.07), transparent 40%); }
+.bh-eye-crack { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .1s;
+  background: linear-gradient(118deg, transparent 49.6%, rgba(255,255,255,.85) 49.8%, rgba(30,30,30,.7) 50.1%, transparent 50.4%),
+    linear-gradient(31deg, transparent 49.7%, rgba(255,255,255,.7) 49.9%, rgba(30,30,30,.6) 50.1%, transparent 50.3%),
+    linear-gradient(74deg, transparent 63.7%, rgba(255,255,255,.6) 63.9%, transparent 64.2%); }
+.bh-eye-crack.show { opacity: 1; }
+.bh-eye-marks { position: absolute; inset: 0; pointer-events: none; }
+.bh-eye-mark { position: absolute; left: 0; top: 0; width: 0; height: 0; }
+.bh-eye-mark::before { content: ''; position: absolute; left: -16px; top: -16px; width: 32px; height: 32px; border-radius: 50%; border: 2px solid #22c55e; box-shadow: 0 0 0 2px rgba(0,0,0,.4); }
+.bh-eye-mark.bad::before { border-color: #ef4444; }
+.bh-eye-mark.count::before { left: -6px; top: -6px; width: 12px; height: 12px; border-width: 2px; background: rgba(250,204,21,.5); border-color: #facc15; }
+.bh-eye-mark span { position: absolute; left: 18px; top: -10px; white-space: nowrap; font-size: .7rem; font-weight: 700; color: #052e16; background: #bbf7d0; padding: 2px 7px; border-radius: 999px; }
+.bh-eye-ctrl { display: flex; flex-direction: column; gap: 12px; width: 200px; color: #e2e8f0; }
+.bh-eye.narrow .bh-eye-ctrl { flex-direction: row; flex-wrap: wrap; width: 100%; justify-content: center; gap: 8px 10px; }
+.bh-turret { display: flex; gap: 6px; }
+.bh-obj { flex: 1; min-height: 40px; border-radius: 10px; border: 1px solid rgba(255,255,255,.15); background: rgba(255,255,255,.06); color: #e2e8f0; font: inherit; font-weight: 700; font-size: .8rem; display: flex; align-items: center; justify-content: center; gap: 5px; cursor: pointer; }
+.bh-obj i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.bh-obj.active { background: #f8fafc; color: #0f172a; }
+.bh-knobs { display: flex; gap: 14px; justify-content: center; }
+.bh-knob { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: .7rem; font-weight: 600; opacity: .9; }
+.bh-knob-dial { width: 70px; height: 70px; border-radius: 50%; touch-action: none; cursor: ns-resize; position: relative;
+  background: repeating-conic-gradient(#2a2f36 0 6deg, #15181c 6deg 12deg); box-shadow: inset 0 0 0 6px rgba(0,0,0,.25), 0 4px 10px rgba(0,0,0,.5); }
+.bh-knob.fine .bh-knob-dial { width: 52px; height: 52px; margin: 9px 0; background: repeating-conic-gradient(#c9d1d9 0 8deg, #8b949e 8deg 16deg); }
+.bh-knob-dial i { position: absolute; left: 50%; top: 5px; width: 4px; height: 12px; margin-left: -2px; border-radius: 2px; background: #fbbf24; }
+.bh-knob.turning .bh-knob-dial { box-shadow: 0 0 0 3px rgba(251,191,36,.5), 0 4px 10px rgba(0,0,0,.5); }
+.bh-eye.narrow .bh-knob-dial { width: 58px; height: 58px; }
+.bh-eye.narrow .bh-knob.fine .bh-knob-dial { width: 44px; height: 44px; margin: 7px 0; }
+.bh-light { display: flex; flex-direction: column; gap: 4px; font-size: .7rem; font-weight: 600; }
+.bh-light input { width: 100%; accent-color: #fbbf24; }
+.bh-eye.narrow .bh-light { width: 120px; }
+.bh-eye-back { min-height: 40px; border-radius: 10px; border: 0; background: #334155; color: #fff; font: inherit; font-weight: 700; cursor: pointer; }
+.bh-eye.narrow .bh-eye-back { padding: 0 14px; }
+.bh-eye-mag { position: absolute; left: 12px; bottom: 10px; font-size: .72rem; color: #94a3b8; }
+.bh-eye.narrow .bh-eye-mag { display: none; }
+.bh-pick { position: absolute; z-index: 7; display: flex; flex-wrap: wrap; gap: 5px; max-width: 250px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,.97); box-shadow: 0 10px 30px rgba(0,0,0,.4); }
+.bh-pick b { width: 100%; font-size: .72rem; color: #475569; }
+.bh-pick button { border: 0; border-radius: 999px; padding: 7px 11px; font: inherit; font-size: .76rem; font-weight: 700; background: #e2e8f0; color: #0f172a; cursor: pointer; }
+.bh-pick button:hover { background: #bbf7d0; }
+.bh-card { z-index: 4; }
+.bh-toast { z-index: 6; }
+.bh-belt { z-index: 4; }
+.bh-gauge { display: inline-block; vertical-align: middle; width: 120px; height: 8px; border-radius: 4px; margin: 4px 6px 0 0;
+  background: linear-gradient(90deg, #60a5fa 0 37%, #22c55e 37% 75%, #ef4444 75%); position: relative; }
+.bh-gauge i { position: absolute; top: -3px; left: calc(var(--t) * 100%); width: 3px; height: 14px; margin-left: -1px; background: #fff; border-radius: 2px; box-shadow: 0 0 0 1px #0f172a; }
