@@ -24,6 +24,7 @@ export function createOnionField(mount = {}) {
   const R = rng(20240611);
   const cells = []; const grid = new Map(); const B = 60;
   const squash = mount.squash || 'good'; // good | under | over
+  const animal = !!mount.animal; const NCH = animal ? 23 : 16;
   const spread = squash === 'under' ? 0.55 : squash === 'over' ? 1.45 : 1;
   function halfWidth(u) { return 430 * spread * Math.sqrt(Math.min(1, Math.max(0, u + 40) / 360)); }
   function pickPhase(u) {
@@ -76,10 +77,11 @@ export function createOnionField(mount = {}) {
   let low = null; const LOW = 0.45;
   function drawCell(g, c, s, detail) {
     const p = c.p;
-    g.beginPath(); g.moveTo(p[0], p[1]); g.lineTo(p[2], p[3]); g.lineTo(p[4], p[5]); g.lineTo(p[6], p[7]); g.closePath();
+    if (animal) { g.beginPath(); if (c.phase === 'telophase') { g.ellipse(c.cx - c.len * 0.24, c.cy, c.len * 0.3, c.wid * 0.46, 0, 0, Math.PI * 2); g.moveTo(c.cx + c.len * 0.54, c.cy); g.ellipse(c.cx + c.len * 0.24, c.cy, c.len * 0.3, c.wid * 0.46, 0, 0, Math.PI * 2); } else g.ellipse(c.cx, c.cy, c.len * 0.47, c.wid * 0.46, 0, 0, Math.PI * 2); }
+    else { g.beginPath(); g.moveTo(p[0], p[1]); g.lineTo(p[2], p[3]); g.lineTo(p[4], p[5]); g.lineTo(p[6], p[7]); g.closePath(); }
     const pale = c.zone === 'elongation' ? 0.55 : c.zone === 'cap' ? 0.5 : 1;
     g.fillStyle = `rgba(236,182,196,${0.22 * pale * stain + 0.06})`; g.fill();
-    if (!c.broken) { g.strokeStyle = 'rgba(122,62,86,0.55)'; g.lineWidth = Math.max(0.7, 1.1 / s); g.stroke(); }
+    if (!c.broken) { g.strokeStyle = animal ? 'rgba(122,62,86,0.3)' : 'rgba(122,62,86,0.55)'; g.lineWidth = Math.max(0.7, 1.1 / s); g.stroke(); }
     const r = Math.min(c.len, c.wid) * (c.zone === 'meristem' ? 0.33 : c.zone === 'cap' ? 0.18 : 0.24);
     const ax = c.cx; const ay = c.cy;
     const R2 = rng(c.seed | 0);
@@ -107,16 +109,16 @@ export function createOnionField(mount = {}) {
     } else if (c.phase === 'metaphase') {
       g.strokeStyle = ink(1); g.lineWidth = 1.35;
       const half = c.wid * 0.36;
-      for (let i = 0; i < 16; i++) {
-        const y = ay - half + (i / 15) * half * 2 + (R2() - 0.5) * 1.2; const x = ax + (R2() - 0.5) * 2.2; const L = 2.2 + R2() * 2.5;
+      for (let i = 0; i < NCH; i++) {
+        const y = ay - half + (i / (NCH - 1)) * half * 2 + (R2() - 0.5) * 1.2; const x = ax + (R2() - 0.5) * 2.2; const L = 2.2 + R2() * 2.5;
         g.beginPath(); g.moveTo(x - L / 2, y + (R2() - 0.5)); g.lineTo(x + L / 2, y + (R2() - 0.5)); g.stroke();
       }
     } else if (c.phase === 'anaphase') {
       g.strokeStyle = ink(1); g.lineWidth = 1.1;
       const d = c.len * (0.14 + c.k * 0.14); const half = c.wid * 0.33;
       for (const side of [-1, 1]) {
-        for (let i = 0; i < 16; i++) {
-          const y = ay - half + (i / 15) * half * 2 + (R2() - 0.5); const x = ax + side * d; const arm = 2 + R2() * 2.5;
+        for (let i = 0; i < NCH; i++) {
+          const y = ay - half + (i / (NCH - 1)) * half * 2 + (R2() - 0.5); const x = ax + side * d; const arm = 2 + R2() * 2.5;
           g.beginPath(); g.moveTo(x - side * arm, y - 1.1); g.lineTo(x, y); g.lineTo(x - side * arm, y + 1.1); g.stroke();
         }
       }
@@ -126,8 +128,7 @@ export function createOnionField(mount = {}) {
         g.fillStyle = ink(0.95); g.beginPath(); g.ellipse(ax + side * d, ay, r * 0.55, c.wid * 0.3, 0, 0, Math.PI * 2); g.fill();
         g.fillStyle = ink(0.6); for (let i = 0; i < 8; i++) g.fillRect(ax + side * d + (R2() - 0.5) * r, ay + (R2() - 0.5) * c.wid * 0.5, 1.1, 1.1);
       }
-      g.strokeStyle = `rgba(150,80,110,${0.25 + c.k * 0.4})`; g.lineWidth = 0.8;
-      g.beginPath(); g.moveTo(ax, ay - c.wid * 0.45); g.lineTo(ax, ay + c.wid * 0.45); g.stroke();
+      if (!animal) { g.strokeStyle = `rgba(150,80,110,${0.25 + c.k * 0.4})`; g.lineWidth = 0.8; g.beginPath(); g.moveTo(ax, ay - c.wid * 0.45); g.lineTo(ax, ay + c.wid * 0.45); g.stroke(); }
     }
   }
   function drawAll(g, s, x0, y0, x1, y1, detail) {
