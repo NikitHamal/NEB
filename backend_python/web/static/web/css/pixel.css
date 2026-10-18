@@ -57,4 +57,9 @@
 .st-motif-px.motif-drop{background-image:url(../img/pixel/motif-drop.png);--n:8;--d:880ms}
 .st-motif-px.motif-snow{background-image:url(../img/pixel/motif-snow.png);--n:8;--d:1360ms}
 .st-motif-px.motif-pencil{background-image:url(../img/pixel/motif-pencil.png);--n:8;--d:960ms}
+/* Dashain decor: the same pixel kite, flown at whole-number sizes, in three colours */
+.st-kite.st-motif-px{width:64px;height:64px;opacity:.95;animation:st-motif-px var(--d,1s) steps(var(--n,2),jump-none) infinite,st-kite 9s ease-in-out infinite alternate}
+.st-kite-2.st-motif-px{width:48px;height:48px;filter:hue-rotate(28deg) saturate(1.3);animation-duration:var(--d,1s),11s}
+.st-kite-3.st-motif-px{width:32px;height:32px;filter:hue-rotate(210deg) saturate(1.2);animation-duration:var(--d,1s),13s}
+.st-decor.is-compact .st-kite.st-motif-px{width:32px;height:32px}
 @media (prefers-reduced-motion:reduce){.px-sprite,.st-motif-px{animation:none}}

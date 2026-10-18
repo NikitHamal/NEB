@@ -6,9 +6,9 @@ no JS. Every moving part animates transform/opacity only and stops under reduced
 {% if decor == 'dashain' %}
   <svg class="st-garland" viewBox="0 0 1200 90" preserveAspectRatio="none"><path d="{{ t.path }}" fill="none" stroke="#2e7d32" stroke-width="2"/></svg>
   <div class="st-flowers">{% for d in t.dots %}<i style="--x:{{ d.x }}%;--y:{{ d.y }};--i:{{ forloop.counter0 }}"></i>{% endfor %}</div>
-  <svg class="st-kite st-kite-1" viewBox="-50 -70 100 220"><path d="M0-62 44-6 0 62-44-6Z" fill="#e8890c"/><path d="M0-62 44-6H0Z" fill="#ffc56b"/><path d="M0 62q-12 22 6 44t-6 44" fill="none" stroke="#c8102e" stroke-width="3"/></svg>
-  <svg class="st-kite st-kite-2" viewBox="-50 -70 100 220"><path d="M0-62 44-6 0 62-44-6Z" fill="#c8102e"/><path d="M0-62 44-6H0Z" fill="#ff8a8a"/><path d="M0 62q-12 22 6 44t-6 44" fill="none" stroke="#0b57d0" stroke-width="3"/></svg>
-  <svg class="st-kite st-kite-3" viewBox="-50 -70 100 220"><path d="M0-62 44-6 0 62-44-6Z" fill="#0b57d0"/><path d="M0-62 44-6H0Z" fill="#8fb4ff"/><path d="M0 62q-12 22 6 44t-6 44" fill="none" stroke="#e8890c" stroke-width="3"/></svg>
+  <i class="st-kite st-kite-1 st-motif-px motif-kite"></i>
+  <i class="st-kite st-kite-2 st-motif-px motif-kite"></i>
+  <i class="st-kite st-kite-3 st-motif-px motif-kite"></i>
 {% elif decor == 'tihar' %}
   <svg class="st-garland" viewBox="0 0 1200 90" preserveAspectRatio="none"><path d="{{ t.path }}" fill="none" stroke="#5b3a1a" stroke-width="1.5"/></svg>
   <div class="st-lights">{% for d in t.dots %}<i style="--x:{{ d.x }}%;--y:{{ d.y }};--i:{{ forloop.counter0 }}"></i>{% endfor %}</div>
