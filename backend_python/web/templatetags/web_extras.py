@@ -1,3 +1,4 @@
+from functools import lru_cache
 import json
 import re
 import time
@@ -316,7 +317,7 @@ def mention_links_plain(value):
     def repl(m):
         username = m.group(1)
         safe_user = escape(username)
-        return f'<a href="/profile/{quote(username)}/" class="author-mention">@{safe_user}</a>'
+        return f'<a href="/app/profile/{quote(username)}/" class="author-mention">@{safe_user}</a>'
 
     html = _MENTION_ONLY_RE.sub(repl, escape(text))
     return mark_safe(html)
@@ -409,8 +410,12 @@ def _linkify_html(html):
     return ''.join(out)
 
 
+@lru_cache(maxsize=2048)
 def _render_user_content(value):
-    """Render markdown formatting and @mention links."""
+    """Render markdown formatting and @mention links.
+
+    Pure in its input (no database reads), so the result is memoised per worker: a feed
+    page used to re-run markdown + bleach on twenty posts on every request."""
     text = content_images.tokenize_for_markdown(value)
     mention_re = re.compile(r'@([A-Za-z0-9_]+)')
 
@@ -424,7 +429,7 @@ def _render_user_content(value):
             if uname.lower() == 'all':
                 parts.append('<span class="mention-all">@all</span>')
             else:
-                parts.append('[@' + uname + '](/profile/' + quote(uname) + '/)')
+                parts.append('[@' + uname + '](/app/profile/' + quote(uname) + '/)')
             last = m.end()
         if last < len(text):
             parts.append(text[last:])
@@ -434,8 +439,8 @@ def _render_user_content(value):
     html = md_lib.markdown(md_text, extensions=['nl2br', 'tables', 'sane_lists', 'smarty'], output_format='html5')
 
     html = re.sub(
-        r'<a href="/profile/([^"]+)/">',
-        r'<a href="/profile/\1/" class="fp-mention">',
+        r'<a href="/app/profile/([^"]+)/">',
+        r'<a href="/app/profile/\1/" class="fp-mention">',
         html,
     )
     html = re.sub(

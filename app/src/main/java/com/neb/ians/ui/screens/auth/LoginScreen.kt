@@ -11,6 +11,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.toArgb
+import com.neb.ians.ui.pixel.PixelSkyHero
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
@@ -98,17 +100,16 @@ fun LoginScreen(
                 .padding(bottom = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // 1. Top Hero Image (Exact artwork from uploaded image, zero animations, no logo/header)
+            // 1. Top hero
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(heroHeight)
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.auth_hero_sky),
-                    contentDescription = "Open Book in Sky",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.fillMaxSize()
+                // The open book in a dawn sky, in animated pixel art (ui/pixel/PixelSkyScene).
+                PixelSkyHero(
+                    modifier = Modifier.fillMaxSize(),
+                    ground = screenBgColor.toArgb()
                 )
 
                 // Seamless gradient fade from image to screen background

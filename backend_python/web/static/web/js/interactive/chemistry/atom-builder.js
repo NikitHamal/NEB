@@ -97,9 +97,14 @@ export default function init(stage) {
   realisticLights(scene, { shadows: quality.shadows, shadowMap: quality.tier === 'low' ? 512 : 1024 });
   scene.fog = new THREE.FogExp2(0x0a1424, 0.012);
 
+  // a deep studio sweep instead of a flat void, so the glossy nucleons have depth around them
   const backdrop = new THREE.Mesh(
-    new THREE.SphereGeometry(120, 24, 16),
-    new THREE.MeshBasicMaterial({ color: 0x0a1424, side: THREE.BackSide })
+    new THREE.SphereGeometry(120, 32, 16),
+    new THREE.ShaderMaterial({
+      side: THREE.BackSide, depthWrite: false, fog: false,
+      vertexShader: 'varying vec3 vP; void main(){ vP = normalize(position); gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.0); }',
+      fragmentShader: 'varying vec3 vP; void main(){ float t = clamp(vP.y*0.5+0.5,0.0,1.0); vec3 c = mix(vec3(0.03,0.05,0.10), vec3(0.12,0.18,0.30), pow(t,1.4)); float v = 1.0 - 0.35*length(vP.xz); gl_FragColor = vec4(c*v, 1.0); }',
+    })
   );
   scene.add(backdrop);
 
@@ -129,10 +134,8 @@ export default function init(stage) {
     emissive: 0x9a6a00, emissiveIntensity: 0.7,
   });
   const electronMatCore = new THREE.MeshBasicMaterial({ color: 0xfff2b0 });
-  const orbitMat = new THREE.MeshStandardMaterial({
-    color: 0x6fa0ff, emissive: 0x2a4a80, emissiveIntensity: 0.6,
-    transparent: true, opacity: 0.5, roughness: 0.3, metalness: 0.4,
-  });
+  // shells glow like the lit paths they stand for
+  const orbitMat = new THREE.MeshBasicMaterial({ color: 0x7fb2ff, transparent: true, opacity: 0.55, blending: THREE.AdditiveBlending, depthWrite: false });
 
   const nucleusGlowTex = makeGlowTexture(
     'rgba(255,120,90,0.9)', 'rgba(255,70,40,0.35)', 'rgba(255,60,30,0)'
@@ -201,10 +204,10 @@ export default function init(stage) {
       group.rotation.x = 0.35 * (s % 2 === 0 ? 1 : -1);
       group.rotation.z = 0.18 * s;
 
-      const orbit = new THREE.Mesh(new THREE.TorusGeometry(radius, 0.012, 8, 96), orbitMat);
+      const orbit = new THREE.Mesh(new THREE.TorusGeometry(radius, 0.028, 8, 160), orbitMat);
       group.add(orbit);
 
-      const cloudN = quality.tier === 'low' ? 40 : 90;
+      const cloudN = quality.tier === 'low' ? 80 : 260;
       const cloudPts = [];
       for (let i = 0; i < cloudN; i++) {
         const a = Math.random() * Math.PI * 2;
@@ -214,7 +217,7 @@ export default function init(stage) {
       const cloudGeo = new THREE.BufferGeometry();
       cloudGeo.setAttribute('position', new THREE.Float32BufferAttribute(cloudPts, 3));
       const cloud = new THREE.Points(cloudGeo, new THREE.PointsMaterial({
-        color: 0x9fc4ff, size: 0.05, transparent: true, opacity: 0.35,
+        color: 0x9fc4ff, size: 0.09, transparent: true, opacity: 0.4, map: electronGlowTex,
         blending: THREE.AdditiveBlending, depthWrite: false,
       }));
       group.add(cloud);

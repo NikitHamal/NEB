@@ -295,7 +295,7 @@ def ajax_canvas_clone_shared(request, token):
         board.delete()
         return JsonResponse({'error': str(exc) or 'Could not copy canvas'}, status=400)
     board._node_count = CanvasNode.objects.filter(board=board).count()
-    return JsonResponse({'board': _serialize_board(board), 'url': f'/canvas/?board={board.id}'}, status=201)
+    return JsonResponse({'board': _serialize_board(board), 'url': f'/app/canvas/?board={board.id}'}, status=201)
 
 
 @require_POST

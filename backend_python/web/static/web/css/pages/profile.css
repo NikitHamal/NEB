@@ -36,3 +36,12 @@
     overflow: hidden;
   }
 }
+
+/* Phones and tablets: one column that can never be wider than the screen.
+   A plain 1fr track grows to its widest child (the mood pills row is one long
+   nowrap line), which pushed the whole profile off the right edge. */
+@media (max-width: 900px) {
+  .profile-grid-container { grid-template-columns: minmax(0, 1fr); }
+  .profile-left-col,
+  .profile-right-col { min-width: 0; max-width: 100%; }
+}

@@ -84,14 +84,14 @@ export function createPlayground(stage, config) {
   if (showPreview) {
     frame = document.createElement('iframe');
     frame.className = 'ix-pg-frame';
-    frame.src = '/interactive/sandbox/frame/';
+    frame.src = '/app/interactive/sandbox/frame/';
     frame.setAttribute('sandbox', 'allow-scripts');
     frame.setAttribute('title', 'Live preview');
     outBody.appendChild(frame);
   } else {
     frame = document.createElement('iframe');
     frame.className = 'ix-pg-frame ix-pg-frame-hidden';
-    frame.src = '/interactive/sandbox/frame/';
+    frame.src = '/app/interactive/sandbox/frame/';
     frame.setAttribute('sandbox', 'allow-scripts');
     frame.setAttribute('title', 'Code runner');
     outBody.appendChild(frame);

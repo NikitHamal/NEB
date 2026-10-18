@@ -1,7 +1,8 @@
 """NEBians chapter markdown -> styled HTML fragment."""
 import base64, os, re, html as _html
 import markdown as _md
-import mathsvg, figrun, photo, assets, i18n
+import mathsvg
+import devaeqn, figrun, photo, assets, i18n
 
 _PLACE = "\x00NEB{}\x00"
 
@@ -106,7 +107,11 @@ def _inline_math_html(text: str) -> str:
     out, pos = [], 0
     for m in _IMATH.finditer(text):
         out.append(_html.escape(text[pos:m.start()]))
-        path, h, d = mathsvg.render(m.group(1), 10.2)
+        if devaeqn.DEVA.search(m.group(1)):
+            out.append(devaeqn.html(m.group(1)))
+            pos = m.end()
+            continue
+        path, h, d = mathsvg.render(m.group(1), 10.7)
         out.append(f'<img class="im" src="{_svg_data_uri(path)}" '
                    f'style="vertical-align:-{d * 0.72 + 0.86:.2f}pt" alt="math">'
                    if path else "<code>" + _html.escape(m.group(1)) + "</code>")
@@ -116,7 +121,7 @@ def _inline_math_html(text: str) -> str:
 
 def _unused_inline_math_html(text: str) -> str:
     def rep(m):
-        path, h, d = mathsvg.render(m.group(1), 10.2)
+        path, h, d = mathsvg.render(m.group(1), 10.7)
         if not path:
             return "<code>" + _html.escape(m.group(1)) + "</code>"
         return (f'<img class="im" src="{_svg_data_uri(path)}" '
@@ -138,8 +143,13 @@ def _outside_code(body, fn):
 def _extract_display_math(body, store):
     def rep(m):
         tex = m.group(1)
-        path, h, d = mathsvg.render(tex, 14.6, display=True)
         i = len(store)
+        if devaeqn.DEVA.search(tex):
+            # A formula written in Nepali words is running text, not maths:
+            # typeset it in the book's Devanagari font (see devaeqn.py).
+            store.append('<div class="dm">%s</div>' % devaeqn.html(tex, True))
+            return "\n\n" + _PLACE.format(i) + "\n\n"
+        path, h, d = mathsvg.render(tex, 15.4, display=True)
         if not path:
             store.append(f'<div class="dm"><code>{_html.escape(tex.strip())}</code></div>')
         else:
@@ -151,8 +161,11 @@ def _extract_display_math(body, store):
 def _extract_inline_math(body, store):
     def rep(m):
         tex = m.group(1)
-        path, h, d = mathsvg.render(tex, 10.2)
         i = len(store)
+        if devaeqn.DEVA.search(tex):
+            store.append(devaeqn.html(tex))
+            return _PLACE.format(i)
+        path, h, d = mathsvg.render(tex, 10.7)
         if not path:
             store.append(f'<code>{_html.escape(tex)}</code>')
         else:
@@ -287,6 +300,13 @@ def _split_answer_runs(htm):
 def _frame_summary(htm):
     def rep(m):
         head, rest = m.group(1), m.group(2)
+        # A summary whose points are short is set two to a row: the page then
+        # shows the whole chapter at a glance instead of a long thin column.
+        items = re.findall(r"<li>(.*?)</li>", rest, re.S)
+        if items:
+            plain = [re.sub(r"<[^>]+>", "", t) for t in items]
+            if len(items) >= 4 and sum(len(t) for t in plain) / len(plain) <= 118:
+                rest = rest.replace("<ul>", '<ul class="cols2">', 1)
         return (f'<section class="chsum">{head}{rest}</section>')
     return re.sub(
         r'(<h2[^>]*>\s*(?:' + i18n.CUR["summary_re"] + r')\s*</h2>)'
@@ -302,6 +322,11 @@ def convert(text, chapter_id="", fig_no_start=1):
     body = _extract_inline_math(body, store)
     _find_leaks(body)
     body = _callouts(body)
+    # Python-Markdown's list regex uses \d, which also matches Devanagari
+    # digits, so a bullet written "- १. text" became a nested <ol> that
+    # restarted at a Latin "1." for every item. Escape the dot so the number
+    # stays literal text after the bullet.
+    body = re.sub(r"(?m)^(\s*[-*+]\s+)([\u0966-\u096F]+)\.(\s)", r"\1\2\\.\3", body)
     _MD.reset()
     htm = _MD.convert(body)
     for i, frag in enumerate(store):
@@ -317,6 +342,7 @@ def convert(text, chapter_id="", fig_no_start=1):
     # style question sections
     htm = re.sub(r"<h2([^>]*)>\s*((?:" + i18n.CUR["qs_re"] + r")[^<]*)</h2>",
                  r'<h2\1 class="qs">\2</h2>', htm, flags=re.I)
+    htm = re.sub(r"<li>(?=[\u0966-\u096F]+\.)", '<li class="num">', htm)
     htm = _frame_summary(htm)
     htm = _restructure_questions(htm)
     htm = _split_answer_runs(htm)

@@ -55,7 +55,7 @@ import java.util.Calendar
 fun WelcomeStep() {
     val palette = LocalNebAuthPalette.current
     Column(modifier = Modifier.fillMaxWidth()) {
-        NebArtSlot { NebHorizonArt(height = 196.dp) }
+        NebArtSlot { com.neb.ians.ui.pixel.art.PixelOnboardingArt(com.neb.ians.ui.pixel.art.PixelOnboarding.Kind.Welcome, height = 196.dp) }
         Spacer(modifier = Modifier.height(16.dp))
         NebStepHeader(
             title = "Welcome to NEBians",
@@ -90,7 +90,7 @@ fun RoleStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewModel)
     val palette = LocalNebAuthPalette.current
     val selectedIndex = NEB_ROLES.indexOfFirst { it.key == state.role }
     Column(modifier = Modifier.fillMaxWidth()) {
-        NebArtSlot { NebPathsArt(selectedIndex = selectedIndex, pathCount = NEB_ROLES.size) }
+        NebArtSlot { com.neb.ians.ui.pixel.art.PixelOnboardingArt(com.neb.ians.ui.pixel.art.PixelOnboarding.Kind.Paths, a = selectedIndex, b = NEB_ROLES.size, height = 150.dp) }
         Spacer(modifier = Modifier.height(14.dp))
         NebStepHeader(
             title = "Which path is yours?",
@@ -126,10 +126,7 @@ fun NameStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewModel)
     val name = state.displayName
     Column(modifier = Modifier.fillMaxWidth()) {
         NebArtSlot {
-            NebNameplateArt(
-                initial = name.trim().firstOrNull(),
-                progress = (name.trim().length / 16f).coerceIn(0f, 1f)
-            )
+            com.neb.ians.ui.pixel.art.PixelOnboardingArt(com.neb.ians.ui.pixel.art.PixelOnboarding.Kind.Name, a = ((name.trim().length / 16f).coerceIn(0f, 1f) * 1000).toInt(), height = 140.dp)
         }
         Spacer(modifier = Modifier.height(10.dp))
         NebStepHeader(
@@ -158,7 +155,7 @@ fun HandleStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewMode
         else -> NebHandleState.Idle
     }
     Column(modifier = Modifier.fillMaxWidth()) {
-        NebArtSlot { NebHandleArt(state = handleState) }
+        NebArtSlot { com.neb.ians.ui.pixel.art.PixelOnboardingArt(com.neb.ians.ui.pixel.art.PixelOnboarding.Kind.Handle, handle = com.neb.ians.ui.pixel.art.PixelOnboarding.Handle.valueOf(handleState.name), height = 140.dp) }
         Spacer(modifier = Modifier.height(10.dp))
         NebStepHeader(
             title = "Claim your handle",
@@ -215,7 +212,7 @@ fun BirthdayStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewMo
     val day = parsed?.third ?: 1
 
     Column(modifier = Modifier.fillMaxWidth()) {
-        NebArtSlot(collapseOnKeyboard = false) { NebCalendarArt(dayOfMonth = parsed?.third) }
+        NebArtSlot(collapseOnKeyboard = false) { com.neb.ians.ui.pixel.art.PixelOnboardingArt(com.neb.ians.ui.pixel.art.PixelOnboarding.Kind.Birthday, a = parsed?.third ?: -1, height = 150.dp) }
         Spacer(modifier = Modifier.height(10.dp))
         NebStepHeader(
             title = "When were you born?",
@@ -235,7 +232,7 @@ fun BirthdayStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewMo
 fun GenderStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewModel) {
     val selectedIndex = NEB_GENDERS.indexOf(state.gender)
     Column(modifier = Modifier.fillMaxWidth()) {
-        NebArtSlot(collapseOnKeyboard = false) { NebFacetsArt(selectedIndex = selectedIndex, count = NEB_GENDERS.size) }
+        NebArtSlot(collapseOnKeyboard = false) { com.neb.ians.ui.pixel.art.PixelOnboardingArt(com.neb.ians.ui.pixel.art.PixelOnboarding.Kind.Facets, a = selectedIndex, b = NEB_GENDERS.size, height = 130.dp) }
         Spacer(modifier = Modifier.height(10.dp))
         NebStepHeader(
             title = "How do you identify?",

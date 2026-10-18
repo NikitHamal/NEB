@@ -1,537 +1,1045 @@
 ---
-subject: Social Studies and Human Value Education
+subject: सामाजिक अध्ययन तथा मानव मूल्य शिक्षा
 grade: 10
 unit: 3
-title: Our Social Values and Beliefs
+title: हाम्रा सामाजिक मूल्य र मान्यता
 hours: 0
-area: Units
+area: एकाइ
 ---
 
-Every society keeps a stock of things it values: the temples and stupas built by its ancestors, the songs sung while planting rice, the drums that call people to a festival, the days it sets apart to remember its history and the persons whose lives teach it how to live. Together these make up the social values and beliefs of a nation. This unit has eight topics: national heritage, folk songs, folk instruments, folk and classical dances, national days, international personalities who served humanity, universal brotherhood and humanity, and our social responsibility. The first six describe what we have inherited; the last two ask what a good person does with that inheritance. Most questions are factual and short, so names, places and dates matter.
+दसैँमा पिङ खेल्दा बजेको मादल, असारमा धान रोप्दा गाइने असारे गीत, भक्तपुरको
+पचपन्न झ्याले दरबार र चितवनमा चर्ने एक सिङ्गे गैँडा — यी सबै पुर्खाले हामीलाई
+सुम्पिएका साझा सम्पत्ति हुन्। तर सम्पदा, गीत, बाजा र नाच मात्र हाम्रो मूल्य होइनन्;
+सहिदको बलिदान सम्झने राष्ट्रिय दिवस, मन्डेला र मलाला जस्ता व्यक्तित्वबाट लिने
+प्रेरणा, संसारलाई एउटै परिवार ठान्ने विश्वबन्धुत्व र घरका हजुरआमा–हजुरबुबा तथा
+अपाङ्गता भएका छिमेकीप्रतिको दायित्व पनि हाम्रा सामाजिक मूल्य र मान्यता हुन्। यस
+एकाइमा यी आठ विषय क्रमैसँग पढ्नेछौँ।
 
-::: key What the SEE paper expects from this unit
-Common questions: "What is heritage? Name the World Heritage Sites of Nepal" (2 marks); "Write any four folk instruments of Nepal" (2 marks); "Why do we celebrate Constitution Day?" (2 marks); "Write a short note on Mahatma Gandhi / Nelson Mandela / Mother Teresa" (4 marks); "What is social responsibility? Explain with examples" (4 marks). Prepare a table for each topic: item, place or community, and one fact.
+::: key यस एकाइबाट परीक्षाले खोज्ने कुरा
+सम्पदाको अर्थ र प्रकार (मूर्त–अमूर्त; ऐतिहासिक, सांस्कृतिक, प्राकृतिक); विश्व सम्पदा
+सूचीका चार क्षेत्र र काठमाडौँ उपत्यकाका सात स्थल, सूचीकृत वर्ष (१९७९, १९८४,
+१९९७) र मुख्य विशेषता; सम्पदाको महत्त्व र संरक्षणका उपाय; लोकगीतको अर्थ,
+महत्त्व, चुनौती र संरक्षण; लोकबाजाको अर्थ, बजाउने तरिका र पञ्चेबाजा; लोकनृत्य र
+शास्त्रीय नृत्यको भिन्नता र प्रमुख नाच; राष्ट्रिय दिवसका मिति र महत्त्व; नेल्सन
+मन्डेला र मलाला युसुफजईको योगदान; विश्वबन्धुत्व, विश्वग्राम र "वसुधैव कुटुम्बकम्";
+जेष्ठ नागरिक, असहाय र अपाङ्गता भएका व्यक्तिप्रतिको दायित्व र कानुनी व्यवस्था।
+सम्पादकीय, नारा र पत्र लेख्ने प्रश्नमा **शीर्षक → परिचय → मुख्य बुँदा → निष्कर्ष**
+को ढाँचा नछोड्नुहोस्।
 :::
 
-## 3.1 Our national heritage
+## ३.१ हाम्रा राष्ट्रिय सम्पदा
 
-### Meaning and kinds of heritage
+पाठ्यपुस्तकले यो पाठ केही तस्बिर देखाएर ती सांस्कृतिक हुन् वा प्राकृतिक, छुट्याउन
+लगाएर सुरु गरेको छ। ऐतिहासिक, धार्मिक, सांस्कृतिक र प्राकृतिक महत्त्वका क्षेत्र, कला
+र संस्कृति सबै सम्पदा हुन्।
 
-::: definition Heritage
-Heritage is what we inherit from the past and pass on to the future: monuments, buildings, art, language, customs, and also nature that must be protected. National heritage is the heritage that belongs to the nation as a whole.
+::: definition राष्ट्रिय सम्पदा
+हाम्रा पूर्वजबाट प्राप्त, राष्ट्रिय महत्त्व बोकेका, महत्त्वपूर्ण तथा संरक्षणयोग्य स्थान,
+वस्तु, कला, संस्कृति र प्राकृतिक स्थललाई **राष्ट्रिय सम्पदा** भनिन्छ।
 :::
 
-| Kind | Meaning | Examples in Nepal |
+### सम्पदाका प्रकार
+
+सम्पदालाई दुई तरिकाले वर्गीकरण गरिन्छ:
+
+| आधार | प्रकार | उदाहरण (पाठ्यपुस्तकअनुसार) |
 |---|---|---|
-| Cultural (tangible) | Buildings, monuments, sculptures, manuscripts made by people | Pashupatinath, Boudhanath, Durbar Squares, Ashoka pillar, Janaki Mandir |
-| Natural | Mountains, forests, rivers, national parks and wildlife | Sagarmatha, Chitwan, Rara, Phewa |
-| Intangible (living) | Festivals, language, music, dance, crafts, knowledge, traditions | Indra Jatra, Rato Machhindranath rath jatra, Maruni dance, thangka painting |
+| रूपका आधारमा | **मूर्त** (देख्न, छुन सकिने) | मन्दिर, मस्जिद, गुम्बा, वनजङ्गल, धार्मिक ग्रन्थ, लोकनृत्य, योमरी, खाप्से जस्ता परिकार |
+| | **अमूर्त** (ज्ञान, विधि, पद्धति) | संस्कार, चाड मनाउने पद्धति, पूजा विधि, मण्डला बनाउने तरिका, योमरी बनाउने तरिका |
+| प्रकृतिका आधारमा | **ऐतिहासिक** | दरबार, गढी, स्मारक |
+| | **सांस्कृतिक** | धार्मिक स्थल, भाषा, कला, लवाइखवाइ |
+| | **प्राकृतिक** | हिमाल, पहाड, नदी, ताल, वनस्पति |
 
-### World Heritage Sites of Nepal
+::: tip योमरी मूर्त कि अमूर्त?
+योमरी आफैँ (खान, छुन सकिने परिकार) **मूर्त** सम्पदा हो, तर योमरी **बनाउने तरिका**
+(पुस्तौँदेखि सिकिएको ज्ञान) **अमूर्त** सम्पदा हो। पाठ्यपुस्तकले यही उदाहरणबाट दुईको
+भिन्नता देखाएको छ — परीक्षामा यो जोडी उदाहरण लेख्दा उत्तर प्रस्ट हुन्छ।
+:::
 
-The **UNESCO World Heritage** list names places of outstanding value to all humanity. Nepal has **four** sites: two cultural and two natural.
+### विश्व सम्पदा सूचीमा सूचीकृत हाम्रा सम्पदा
 
-| Site | Year listed | Type | Why it matters |
-|---|---|---|---|
-| Kathmandu Valley | 1979 | Cultural | Seven monument zones that show Newar art and architecture |
-| Sagarmatha National Park | 1979 | Natural | Mount Everest and the Sherpa homeland, about 1,148 km² |
-| Chitwan National Park | 1984 | Natural | One-horned rhinoceros, Bengal tiger, gharial; Nepal's first national park (1973) |
-| Lumbini, the birthplace of the Lord Buddha | 1997 | Cultural | Maya Devi Temple, Ashoka pillar and monasteries |
+नेपालका **चार** सम्पदा क्षेत्र विश्व सम्पदा सूचीमा छन्: काठमाडौँ उपत्यका सम्पदा
+क्षेत्र, लुम्बिनी सम्पदा क्षेत्र, चितवन राष्ट्रिय निकुञ्ज र सगरमाथा राष्ट्रिय निकुञ्ज।
+यीमध्ये काठमाडौँ उपत्यकाका सात स्थल र लुम्बिनी **ऐतिहासिक–सांस्कृतिक** सम्पदा हुन्
+भने सगरमाथा र चितवन **प्राकृतिक** सम्पदा हुन्।
 
-```figure caption="World Heritage Sites of Nepal on a schematic outline of the country (not to scale)."
-import matplotlib.pyplot as plt
-fig, ax = plt.subplots(figsize=(4.8,2.5))
-pts=[(80.06,28.8),(80.2,30.2),(81.0,30.2),(81.6,30.0),(82.2,29.8),(83.0,29.3),(83.9,28.9),(84.5,28.7),(85.2,28.3),(86.0,27.95),(86.9,28.1),(87.8,27.9),(88.2,27.85),(88.1,27.4),(88.2,26.4),(87.3,26.4),(86.0,26.6),(85.0,26.8),(84.1,27.4),(83.3,27.4),(82.6,28.0),(81.5,28.4),(80.6,28.7)]
-xs=[p[0] for p in pts]+[pts[0][0]]; ys=[p[1] for p in pts]+[pts[0][1]]
-ax.fill(xs,ys,color='#e8f0f8',ec=INK,lw=1)
-sites=[(85.3,27.7,'Kathmandu Valley (1979)',(0,34),'center'),(86.9,27.95,'Sagarmatha (1979)',(-14,-28),'center'),(84.4,27.55,'Chitwan (1984)',(0,-30),'center'),(83.28,27.47,'Lumbini (1997)',(-14,28),'center')]
-for x,y,t,off,ha in sites:
-    ax.plot(x,y,'o',color=SERIES[1],ms=6,zorder=3)
-    ax.annotate(t,(x,y),xytext=off,textcoords='offset points',fontsize=8,ha=ha,color=INK,arrowprops=dict(arrowstyle='-',color=MUTED,lw=0.8))
-ax.set_aspect(1.0); ax.axis('off'); ax.set_xlim(79.5,88.8); ax.set_ylim(25.6,30.6)
+```figure caption="विश्व सम्पदा सूचीमा रहेका नेपालका चार सम्पदा क्षेत्र। काठमाडौँ उपत्यका र लुम्बिनी सांस्कृतिक, चितवन र सगरमाथा प्राकृतिक सम्पदा हुन्।"
+fig, ax = cards([("काठमाडौँ उपत्यका", "सात स्मारक स्थल;\nसन् १९७९ मा सूचीकृत"),
+                 ("लुम्बिनी", "गौतम बुद्धको जन्मस्थल;\nसन् १९९७ मा सूचीकृत"),
+                 ("चितवन राष्ट्रिय निकुञ्ज", "९५२.६३ वर्ग किलोमिटर;\nसन् १९८४ मा सूचीकृत"),
+                 ("सगरमाथा राष्ट्रिय निकुञ्ज", "११४८ वर्ग किलोमिटर;\nसन् १९७९ मा सूचीकृत")],
+                cols=2, figsize=(5.6, 2.4),
+                colors=[SERIES[1], SERIES[1], SERIES[2], SERIES[2]])
 ```
 
-### Major heritage sites
+**(क) काठमाडौँ उपत्यकाका सात सम्पदा स्थल** — सातै स्थल **सन् १९७९** मा सूचीकृत
+भएका हुन्:
 
-**Kathmandu Valley's seven monument zones.**
+| स्थल | जिल्ला | मुख्य विशेषता |
+|---|---|---|
+| पशुपति क्षेत्र | काठमाडौँ | पशुपतिनाथ मन्दिर, गौरीघाट, गौशाला, श्लेषमान्तक वन, विश्वरूप मन्दिर, राजराजेश्वरी घाट, बागमती नदी, आर्यघाट, गुह्येश्वरी मन्दिर; एक हजारभन्दा बढी शिवलिङ्ग र विभिन्न शैलीका ४९२ मन्दिर, देवालय, सत्तल र चैत्य |
+| स्वयम्भूनाथ स्तूप | काठमाडौँ | बौद्धमार्गीको महत्त्वपूर्ण धार्मिक स्थल; वरपर सरस्वती मन्दिर र अरू मठमन्दिर — धार्मिक सहिष्णुताको असल अभ्यास |
+| बौद्धनाथ महाचैत्य | काठमाडौँ | पाँचौँ शताब्दीमा बनेको विश्वास; वरपर धेरै बौद्ध विहार |
+| चाँगुनारायण मन्दिर | भक्तपुर | लिच्छविकालीन वास्तुकलाको उत्कृष्ट नमुना; प्यागोडा शैली; शिलालेख, ढुङ्गा, काठ र धातुका कलाकृति — लिच्छवि इतिहासको जीवित स्रोत |
+| काठमाडौँ दरबार क्षेत्र | काठमाडौँ | मल्लकालीन वास्तुकला; वसन्तपुर दरबार, तलेजु भवानी मन्दिर, कुमारी घर, काष्ठमण्डप, हनुमान्को मूर्ति, ठुलो घण्टा, नगरा, कालभैरवको मूर्ति |
+| पाटन दरबार क्षेत्र | ललितपुर | मल्लकालीन; कृष्ण मन्दिर, विश्वनाथ मन्दिर, कुम्भेश्वर महादेव, रातो मच्छिन्द्रनाथ मन्दिर, राजा योगनरेन्द्र मल्लको मूर्ति |
+| भक्तपुर दरबार क्षेत्र | भक्तपुर | मल्लकालीन; पचपन्न झ्याले दरबार, दत्तात्रय मन्दिर, न्यातपोल मन्दिर, स्वर्णद्वार, सिद्ध पोखरी, रानी पोखरी |
 
-| Monument zone | Notes |
+```photo id="soc10/bhaktapur" caption="भक्तपुर दरबार क्षेत्र — काठमाडौँ उपत्यकाका सात स्मारक स्थलमध्ये एक। पचपन्न झ्याले दरबार, न्यातपोल र स्वर्णद्वार मल्लकालीन कलाका नमुना हुन्।" width="70"
+```
+
+**(ख) लुम्बिनी:** शान्तिका अग्रदूत गौतम बुद्धको जन्मस्थल लुम्बिनी, लुम्बिनी प्रदेशको
+रूपन्देही जिल्लामा पर्छ। यो विश्वभरका बौद्धमार्गीको पवित्र तीर्थस्थल हो। अशोक स्तम्भ,
+पुष्करिणी पोखरी, मायादेवी मन्दिर, बुद्ध पुस्तकालय, अन्वेषण केन्द्र र सङ्ग्रहालय यहाँका
+महत्त्वपूर्ण सम्पदा हुन्; विश्वका विभिन्न राष्ट्रले यहाँ बौद्ध विहार बनाएका छन्। यसलाई
+**सन् १९९७** मा विश्व सम्पदा सूचीमा राखियो।
+
+**(ग) चितवन राष्ट्रिय निकुञ्ज:** नेपालको **पहिलो राष्ट्रिय निकुञ्ज** हो। यो चितवन,
+मकवानपुर, नवलपरासी (बर्दघाट सुस्ता पूर्व) र पर्सा जिल्लामा फैलिएको छ र यसको
+क्षेत्रफल **९५२.६३ वर्ग किलोमिटर** छ। विश्वमै दुर्लभ मानिने **एक सिङ्गे गैँडा** यहाँ
+पाइन्छ; गोही, हात्ती, पाटेबाघ, सालक, धनेस र मयूर पनि पाइन्छन्। यसलाई **सन् १९८४**
+मा सूचीकृत गरियो।
+
+```photo id="soc10/rhino" caption="चितवन राष्ट्रिय निकुञ्जको एक सिङ्गे गैँडा। दुर्लभ वन्यजन्तुको बासस्थान भएकाले चितवन प्राकृतिक विश्व सम्पदा बनेको हो।" width="60"
+```
+
+**(घ) सगरमाथा राष्ट्रिय निकुञ्ज:** कोशी प्रदेशको सोलुखुम्बु जिल्लामा पर्ने यस
+निकुञ्जभित्र सगरमाथा, ल्होत्से, पुमोरी, नुप्से, चोयु र आमादब्लम जस्ता हिमाल छन्।
+डाँफे, हिमाली भालु, कस्तुरी, हिउँ चितुवा, घोरल र न्याउरीमुसो जस्ता जीवजन्तु तथा
+गुराँस, धुपी र भोजपत्र जस्ता वनस्पति यहाँ पाइन्छन्। क्षेत्रफल **११४८ वर्ग किलोमिटर**
+छ र यसलाई **सन् १९७९** मा सूचीकृत गरियो।
+
+::: caution सूचीकृत वर्ष नझुक्याउनुहोस्
+काठमाडौँ उपत्यका र सगरमाथा — **१९७९**; चितवन — **१९८४**; लुम्बिनी — **१९९७**।
+पाठ्यपुस्तकमा "नुत्से" लेखिएको हिमाल सामान्यतया **नुप्से** भनेर चिनिन्छ। चितवन
+"पहिलो राष्ट्रिय निकुञ्ज" र सगरमाथा "क्षेत्रफलमा ठुलो" भन्ने तुलना पनि सोधिन सक्छ।
+:::
+
+### अन्य राष्ट्रिय सम्पदा
+
+विश्व सम्पदा सूचीमा नपरे पनि देशभरि अमूल्य सम्पदा छन्:
+
+- **धार्मिक–ऐतिहासिक:** ताप्लेजुङको पाथीभरा, धरानको बुढासुब्बा, जनकपुरको रामजानकी
+  मन्दिर, काभ्रेको पलाञ्चोक भगवती र पनौती, नुवाकोटको साततले दरबार र भैरवी मन्दिर,
+  रसुवाको गोसाइँकुण्ड, धादिङको त्रिपुरासुन्दरी, गोरखाको गोरखकाली मन्दिर, मनकामना
+  र गोरखा दरबार, मुस्ताङको मुक्तिनाथ र ल्होमान्थाङ दरबार, तनहुँको देवघाट, सुर्खेतको
+  काँक्रेविहार, बागलुङ कालिका, कपिलवस्तुको तिलौराकोट पुरातात्त्विक क्षेत्र, प्युठानको
+  स्वर्गद्वारी, गुल्मीको रेसुङ्गा, जुम्लाको सिँजा उपत्यका र खप्तड क्षेत्र।
+- **प्राकृतिक:** रारा, फेवा र तिलिचो ताल; कोशी, गण्डकी र कर्णाली नदी; राष्ट्रिय निकुञ्ज।
+- **जात्रा:** गाईजात्रा, घोडेजात्रा, बिस्केट जात्रा।
+- **नाच:** धान नाच, कौरा, देउडा, झिझिया, रोदी।
+- **परिकार:** योमरी, ढिकरी, क्वाँटी, सेलरोटी, खिचडी, भुसुवा, खाप्से।
+
+### राष्ट्रिय सम्पदाको महत्त्व
+
+राष्ट्रिय सम्पदा गौरवपूर्ण इतिहास बोकेका हाम्रा पहिचान हुन्। यिनका महत्त्व:
+(क) पुर्खाको ज्ञान, सिप र प्रविधिको जानकारी र हस्तान्तरण हुन्छ; (ख) स्थानीय तथा
+राष्ट्रिय पहिचान स्थापित हुन्छ; (ग) राष्ट्रिय गौरव बढ्छ; (घ) खोज, अध्ययन र
+अनुसन्धानमा सहयोग पुग्छ; (ङ) पर्यटन प्रवर्धन हुन्छ; (च) जैविक विविधता संरक्षणमा
+सहयोग पुग्छ; (छ) देशको चौतर्फी विकासमा टेवा पुग्छ।
+
+### सम्पदा संरक्षणका उपाय
+
+```figure caption="सम्पदा संरक्षणका सात उपाय। सचेतना र सहभागिताबिना मर्मत र कानुन मात्रले सम्पदा जोगिँदैन।"
+fig, ax = cards([("फोहोर नगर्ने", "सम्पदा क्षेत्र र\nआसपास सफा राख्ने"),
+                 ("संरचना नबनाउने", "सम्पदा आसपास भौतिक\nनिर्माण नगर्ने"),
+                 ("स्थानीय सहभागिता", "स्थानीयलाई सचेत र\nसहभागी गराउने"),
+                 ("मर्मत र जीर्णोद्धार", "ऐतिहासिक–सांस्कृतिक\nसम्पदाको मर्मत"),
+                 ("अतिक्रमण रोक्ने", "जग्गा र संरचना\nमिच्न नदिने"),
+                 ("प्रचारप्रसार", "सम्पदाको महत्त्व\nसबैलाई बुझाउने")],
+                cols=3, figsize=(5.8, 2.6))
+```
+
+सातौँ उपाय: प्राकृतिक सम्पदाको हकमा **वनस्पति र जीवजन्तुको संरक्षण** गर्ने।
+
+::: note क्रियाकलाप — पाठ ३.१
+**१.** आफ्नो स्थानीय तह वा जिल्लाका राष्ट्रिय सम्पदा खोजी गरी प्राकृतिक, धार्मिक र
+सांस्कृतिकमा वर्गीकरण गर्नुहोस् र संरक्षणका उपाय प्रस्तुत गर्नुहोस्।
+**२.** विश्व सम्पदा सूचीका सम्पदाको चित्र सङ्कलन गरी चार्टमा टाँस्नुहोस् र प्रत्येकका
+दुई दुई विशेषता लेख्नुहोस्।
+**३.** सम्पदा संरक्षणमा विद्यार्थी, समुदाय र राज्यको भूमिकाबारे समूहमा छलफल गरी
+सूची बनाउनुहोस्।
+**४.** स्थानीय तहमा सम्पदा संरक्षणका लागि भएका प्रयास समेटेर समाचार तयार गर्नुहोस्।
+:::
+
+### पाठको अभ्यास: नमुना उत्तर
+
+**१. राष्ट्रिय सम्पदा भनेको के हो? ऐतिहासिक, सांस्कृतिक र प्राकृतिक सम्पदाको एक
+एकओटा उदाहरण दिनुहोस्।**
+पूर्वजबाट प्राप्त, राष्ट्रिय महत्त्व बोकेका र संरक्षण गर्नुपर्ने स्थान, वस्तु, कला,
+संस्कृति र प्राकृतिक स्थल राष्ट्रिय सम्पदा हुन्। उदाहरण: **ऐतिहासिक** — गोरखा
+दरबार; **सांस्कृतिक** — पशुपतिनाथ मन्दिर; **प्राकृतिक** — रारा ताल।
+
+**२. मूर्त र अमूर्त सम्पदा भनेको के हो, उदाहरणसहित लेख्नुहोस्।**
+देख्न, छुन र नाप्न सकिने भौतिक रूप भएका सम्पदा **मूर्त सम्पदा** हुन्, जस्तै मन्दिर,
+मस्जिद, गुम्बा, वनजङ्गल, धार्मिक ग्रन्थ, योमरी र खाप्से। भौतिक रूप नभएका तर
+पुस्तौँदेखि सिकिँदै आएका ज्ञान, विधि र पद्धति **अमूर्त सम्पदा** हुन्, जस्तै संस्कार,
+चाड मनाउने पद्धति, पूजा विधि, मण्डला बनाउने तरिका र योमरी बनाउने तरिका। मूर्त
+सम्पदा भत्किन सक्छ भने अमूर्त सम्पदा अभ्यास नहुँदा बिर्सिन्छ।
+
+**३. हाम्रा राष्ट्रिय सम्पदाको आर्थिक, सामाजिक एवम् सांस्कृतिक महत्त्व उल्लेख गर्नुहोस्।**
+**आर्थिक:** सम्पदा हेर्न आउने पर्यटकबाट विदेशी मुद्रा, होटेल, गाइड र हस्तकलामा
+रोजगारी तथा स्थानीय आम्दानी बढ्छ; चितवन र सगरमाथा पर्यटनका ठुला आधार हुन्।
+**सामाजिक:** जात्रा, मेला र तीर्थस्थलमा सबै समुदाय भेला हुँदा सद्भाव र एकता बढ्छ;
+स्थानीय र राष्ट्रिय पहिचान बन्छ; खोज र अध्ययनको अवसर मिल्छ। **सांस्कृतिक:**
+पुर्खाको ज्ञान, सिप र प्रविधि नयाँ पुस्तामा सर्छ; धार्मिक आस्था र परम्परा जीवित
+रहन्छ; राष्ट्रिय गौरव बढ्छ।
+
+**४. राष्ट्रिय सम्पदा संरक्षणमा प्रेरणा जगाउने नारा तयार गर्नुहोस्।**
+(क) "सम्पदा हाम्रो पहिचान, संरक्षण गरौँ सबै नेपाली मिलेर।" (ख) "पुर्खाको सिप, हाम्रो
+शान — सम्पदा जोगाउनु हाम्रो अभियान।" (ग) "सम्पदामा फोहोर होइन, फूल चढाऔँ।"
+(घ) "आज जोगाऔँ सम्पदा, भोलि पाउँछ पुस्ताले।"
+
+**५. "राष्ट्रिय सम्पदा संरक्षणमा सरोकारवालाको भूमिका" शीर्षकमा सम्पादकीय तयार
+गर्नुहोस्।**
+**सम्पादकीय: राष्ट्रिय सम्पदा संरक्षणमा सरोकारवालाको भूमिका**
+पशुपति, लुम्बिनी, चितवन र सगरमाथाले नेपाललाई संसारमा चिनाएका छन्, तर अतिक्रमण,
+फोहोर, अव्यवस्थित निर्माण र भूकम्पले धेरै सम्पदा जोखिममा छन्। सम्पदा कसैको
+एक्लो होइन, त्यसैले संरक्षण पनि सबैको साझा काम हो। **राज्यले** संरक्षणसम्बन्धी कानुन
+कडाइका साथ लागु गर्नुपर्छ, मर्मत–जीर्णोद्धारमा बजेट र विशेषज्ञ लगाउनुपर्छ र सम्पदा
+क्षेत्रको सिमाना तोकेर अतिक्रमण रोक्नुपर्छ। **स्थानीय तहले** गुठी र टोल समितिसँग
+मिलेर नियमित सरसफाइ र निगरानी गर्नुपर्छ। **समुदायले** जात्रा, पर्व र परम्परागत सिप
+निरन्तर चलाएर अमूर्त सम्पदा जीवित राख्नुपर्छ। **विद्यार्थीले** सम्पदाको खोज, प्रचार
+र सरसफाइ अभियानमा भाग लिनुपर्छ। **पर्यटक र सञ्चारमाध्यमले** सम्पदाको सम्मान र
+सचेतना फैलाउनुपर्छ। सबै सरोकारवाला एकै ठाउँ उभिए मात्र पुर्खाको यो धरोहर भावी
+पुस्तासम्म पुग्छ।
+
+## ३.२ हाम्रा लोकगीत
+
+मच्छिन्द्र माध्यमिक विद्यालयको कक्षा १० मा लोकगीत पाठ पढाउँदा स्रोतव्यक्तिका रूपमा
+एक अग्रज लोकगायक आउनुभयो। प्रीति, सजना र सुजनले उहाँसँग गरेको संवादबाट यो पाठ
+बनेको छ।
+
+::: definition लोकगीत
+लोकगीत र लोकसङ्गीत लोकसंस्कृतिका अभिन्न अङ्ग हुन्। स्थानीय स्तरमा सिर्जित र
+सङ्कलित, मानिसका सुख, दुःख, पीडा, उमङ्ग र सम्पूर्ण लोकजीवनको अनुभव समेटेको सरल,
+बोधगम्य र लोकप्रिय कलात्मक अभिव्यक्तिलाई **लोकगीत** भनिन्छ।
+:::
+
+लोकगीतलाई **समुदायको गीत** पनि भनिन्छ, किनभने यो एक पुस्ताबाट अर्को पुस्तामा
+हस्तान्तरण हुँदै जान्छ, समाजमा गाइन्छ र समाजले नै बचाएको हुन्छ। उमेर, स्थान,
+परिवेश, भोगाइ र अनुभूतिअनुसार लोकगीत फरक हुन्छन् — वृद्धवृद्धा, वयस्क, युवा,
+किशोरकिशोरी र बालबालिकाले गाउने गीत फरक हुन्छन्। मानिसले प्रत्यक्ष भन्न नसकेका
+कुरा गीतबाट सजिलै भन्छ, त्यसैले लोकगीत **मनोभावना अभिव्यक्त गर्ने माध्यम** हो।
+
+### लोकगीतको महत्त्व
+
+लोकगायकका अनुसार लोकगीत: (क) हाम्रो **मौलिक पहिचान** हो; (ख) मनोरञ्जन दिन्छ;
+(ग) सामाजिक एकता कायम राख्छ; (घ) पुर्खाको परम्परा र संस्कृति जोगाउँछ; (ङ) तनाव
+र चिन्ताबाट मुक्त गर्छ; (च) समाजलाई राष्ट्रिय तथा अन्तर्राष्ट्रिय रूपमा चिनाउँछ;
+(छ) इतिहासको स्रोत बन्छ; (ज) समाजको वास्तविकता, दुःख–पीडा–खुसी र मूल्यमान्यता
+उजागर गर्छ।
+
+### चुनौती र संरक्षणका उपाय
+
+| लोकगीतका समस्या र चुनौती | संरक्षणका उपाय |
 |---|---|
-| Kathmandu Durbar Square (Hanuman Dhoka) | Old royal palace complex, Taleju temple, Kumari Ghar; Kasthamandap (rebuilt after 2015) |
-| Patan Durbar Square | Krishna Mandir (1637), Newar metalwork and stone carving; a city of artisans |
-| Bhaktapur Durbar Square | 55-window palace, Golden Gate, Nyatapola, a five-storey temple (1702) |
-| Swayambhunath | Hilltop Buddhist stupa, also called the "monkey temple", with eyes of the Buddha painted on the spire |
-| Boudhanath | One of the largest spherical stupas in the world; centre of Tibetan Buddhism in Nepal |
-| Pashupatinath | Shiva's temple on the Bagmati; the holiest Hindu shrine in Nepal; Maha Shivaratri draws large crowds |
-| Changu Narayan | A Vishnu temple on a hill near Bhaktapur; its inscription of 464 CE is the oldest of the Valley |
+| मौलिकता जोगाउनु | मौलिक परम्परा जोगाइराख्ने; मर्म र भावनाको सम्मान हुने गरी शब्द र लय प्रयोग गर्ने |
+| स्रोताको मनोभावना सम्बोधन गर्नु | नयाँ पुस्ताले लोकगीतको महत्त्व बुझ्ने–बुझाउने र पुस्तान्तरणमा सहयोग गर्ने |
+| बौद्धिक चोरीले कलाकार मर्कामा | सर्जकको बौद्धिक सम्पत्तिको संरक्षण गर्ने |
+| युवामा विदेशी गीतप्रतिको मोह | उत्सव, पर्व, संस्कार र मेलामा आफ्नै लोकगीत सुन्ने–सुनाउने |
+| मौलिक संस्कृति लोप र विदेशी संस्कृतिको प्रभाव | विद्यालय र समुदायका कार्यक्रममा लोकगीतलाई प्राथमिकता; सङ्कलक र गायकलाई हौसला र सम्मान |
 
-```photo id="soc10/pashupati" caption="The Pashupatinath temple on the bank of the Bagmati river, Kathmandu. The golden-roofed pagoda is the holiest Hindu shrine of Nepal and a World Heritage monument zone." width="80"
+### केही नेपाली लोकगीत
+
+```figure caption="पाठ्यपुस्तकमा दिइएका सात लोकगीत र गाइने अवसर वा समुदाय।"
+fig, ax = cards([("तामाङ सेलो", "तामाङ जाति; बागमती\nलगायतका जिल्ला"),
+                 ("खजडी भजन", "धार्मिक कार्यमा एकले\nभट्याउँछ, अरू गाउँछन्"),
+                 ("झ्याउरे", "घाँसदाउरा र\nगोठालो जाँदा"),
+                 ("असारे", "असारमा रोपाइँ गर्ने\nखेतालाले"),
+                 ("तिज गीत", "तिज पर्वमा\nमहिलाले"),
+                 ("होरी", "पूर्वी तराईमा होली;\nराम–सीताको चरित्र"),
+                 ("पालम", "पूर्वी पहाडका\nलिम्बु जातिले"),
+                 ("साझा गुण", "लोकजीवनका सुख–दुःख;\nपुस्तौँदेखि सर्दै आएका")],
+                cols=2, figsize=(5.6, 5.4), title_size=8.8)
 ```
 
-```photo id="soc10/boudhanath" caption="Boudhanath stupa, Kathmandu. Its huge white dome, golden spire and painted eyes of the Buddha make it one of the best-known Buddhist monuments in the world." width="80"
-```
+पाठ्यपुस्तकमा दिइएका नमुना हरफ:
 
-```photo id="soc10/bhaktapur" caption="Bhaktapur Durbar Square. The brick and carved-wood buildings show the high skill of Newar craftsmen. Bhaktapur was damaged in the 2015 earthquake and many monuments were rebuilt." width="80"
-```
+- **तामाङ सेलो:** "घोर्की स्याउरी ग्याल्मरी, गेङ्ला टुक्रा साप्ररी…"
+- **खजडी भजन:** "हे नारायण… हरि हरि, राम राम… कैलाशमा बस्ने, खरानी घस्ने, श्री
+  महादेवलाई पहिलो दर्शन…"
+- **झ्याउरे:** "कस्की छोरी हौ नानी लालीपाउडर घसेको, झन्डै मसँग माया बसेको…"
+- **असारे:** "गैरी खेतको रोपाइँ मेला आको तपाइँ, काँधमा हलो बोकेर…"
+- **तिज:** "वर्ष दिनको तिजलाई आए दाजु लिनलाई, जान्छु म त माइत अब केही दिनलाई…"
+- **होरी:** "मिथिलामे राम खेलत होरी, किनकाके हाथ कनक पिचकारी…"
+- **पालम:** "सिङ्घाओ थुङ्वे कक्मा फाग, मिन्छाङ्गेन आनी याम्मी साग…"
 
-**Other heritage:** Janaki Temple (Janakpur), Muktinath (Mustang), Gosainkunda, Gadhimai, the palaces of Gorkha and Nuwakot, the old Malla towns of Panauti and Kirtipur, Rara Lake and Phewa Lake, Shey Phoksundo, Langtang, Bardiya and Koshi Tappu reserves, and many local heritage sites in each district.
-
-### Importance of heritage
-
-1. It is our **identity** and a proof of a long history and civilisation.
-2. It earns **income**: tourism, jobs for guides, hotels, craft-makers and farmers who sell food.
-3. It teaches **history, art and religion** to the young.
-4. It is a source of **peace and unity**: sites such as Lumbini and Pashupati are shared by many.
-5. It is a **world treasure** and a research resource.
-6. Natural heritage keeps the **balance of nature** and protects wild species and water sources.
-
-### Threats and protection
-
-Threats: earthquakes (the 2015 earthquake damaged many monuments, such as Dharahara and the temples of Basantapur); fire and decay; theft and smuggling of statues; unplanned building around monuments; pollution; poaching and encroachment in parks; lack of money and trained experts.
-
-Protection: the Department of Archaeology and the Pashupati Area Development Trust, laws such as the Ancient Monument Preservation Act and the National Parks and Wildlife Conservation Act, listing of sites, reconstruction with traditional methods, entry fees used for repair, guarded buffer zones, community participation and school heritage clubs. Every citizen can help by not damaging or writing on monuments, by not buying stolen art, and by reporting damage.
-
-::: caution Do not mix up the World Heritage dates
-Kathmandu Valley and Sagarmatha were both listed in **1979**; Chitwan in **1984**; Lumbini in **1997**. Two sites are cultural (Kathmandu Valley, Lumbini) and two are natural (Sagarmatha, Chitwan).
+::: note क्रियाकलाप — पाठ ३.२
+**१.** स्थानीय क्षेत्रमा प्रचलित लोकगीत खोजी गरी कक्षामा सुनाउनुहोस्।
+**२.** धेरैजसो सुन्ने लोकगीतका चार हरफ लेखी मन पर्नुका कारण लेख्नुहोस्।
+**३.** लोकगीत संरक्षणका स्थानीय अभ्यास खोजी गरी कक्षामा प्रस्तुत गर्नुहोस्।
+**४.** शिक्षक र प्रधानाध्यापकसँग समन्वय गरी विद्यालयमा लोकगीत प्रतियोगिता चलाउनुहोस्
+र त्यसको प्रभावको समीक्षा गर्नुहोस्।
+**५.** लोकगीतका चुनौती र समाधान समेटेर संवाद तयार गर्नुहोस्।
+**परियोजना कार्य:** स्थानीय तहमा प्रचलित लोकगीत, सम्बन्धित जाति–समुदाय, गाइने
+अवसर र संरक्षणका उपाय समेटी प्रतिवेदन तयार गर्नुहोस्।
 :::
 
-## 3.2 Our folk songs
+### पाठको अभ्यास: नमुना उत्तर
 
-### What is a folk song?
+**१. लोकगीत भनेको के हो?**
+स्थानीय स्तरमा सिर्जित र सङ्कलित, मानिसका सुख, दुःख, पीडा, उमङ्ग र लोकजीवनका
+अनुभव समेटिएका, पुस्तौँदेखि मौखिक रूपमा सर्दै आएका सरल, बोधगम्य र लोकप्रिय
+गीतलाई लोकगीत भनिन्छ। समाजले नै गाउने र बचाउने भएकाले यसलाई समुदायको गीत पनि
+भनिन्छ; जस्तै झ्याउरे, असारे, तिज, पालम र तामाङ सेलो।
 
-::: definition Folk song (lok geet)
-A folk song is a song born among ordinary people, passed from one generation to the next by mouth, in the language of a community, and expressing its work, joys, sorrows and beliefs. Its writer is usually unknown.
+**२. पालम, तामाङ सेलो र तिजको गीतको छोटो परिचय दिनुहोस्।**
+**पालम:** पूर्वी पहाडका लिम्बु जातिले गाउने लोकगीत; धान नाच नाच्दा पालम गाइन्छ।
+**तामाङ सेलो:** बागमती प्रदेशलगायत विभिन्न जिल्लामा बस्ने तामाङ जातिको गीत;
+डम्फुको तालमा गाइने यो गीत तामाङ पहिचानको प्रतीक हो। **तिज गीत:** तिज पर्वमा
+महिलाले गाउने गीत; यसमा माइत जाने रहर, आमाले पकाएको दर र नारीका सुख–दुःख
+व्यक्त हुन्छन्।
+
+**३. "लोकगीत हाम्रो मौलिक पहिचान हो।" यस भनाइलाई उदाहरणसहित प्रस्ट पार्नुहोस्।**
+लोकगीत कुनै ठाउँ र समुदायको भाषा, भाका, पेसा, चाडपर्व र जीवनशैलीबाट जन्मन्छ,
+त्यसैले यसले त्यो समुदायलाई अरूभन्दा फरक चिनाउँछ। पालम सुन्नेबित्तिकै लिम्बु
+समुदाय, तामाङ सेलोबाट तामाङ समुदाय, होरीबाट मिथिला र झ्याउरे–असारेबाट पहाडको
+कृषि जीवन झल्किन्छ। असारे गीतले धानखेतीको परम्परा र तिज गीतले नारीका भावना
+बोक्छन्। विदेशमा बस्ने नेपालीले पनि लोकगीत सुनेर आफूलाई नेपाली भएको अनुभव
+गर्छन्। यसरी लोकगीत भाषा, संस्कृति र इतिहासको जीवित स्रोत भएकाले हाम्रो मौलिक
+पहिचान हो।
+
+**४. नेपाली लोकगीतको संरक्षणमा तपाईँको भूमिका उल्लेख गर्नुहोस्।**
+(क) हजुरबुबा–हजुरआमाबाट स्थानीय लोकगीत सिकेर टिपोट वा रेकर्ड गर्ने; (ख) विद्यालयका
+कार्यक्रम र प्रतियोगितामा लोकगीत गाउने; (ग) चाडपर्व, मेला र संस्कारमा आफ्नै लोकगीत
+सुन्ने–सुनाउने; (घ) गीत चोरी नगर्ने र मौलिक सर्जकको नाम खुलाएर मात्र साझा गर्ने;
+(ङ) सामाजिक सञ्जालमा मौलिक भाकाका गीत प्रवर्धन गर्ने; (च) लोकगायक र सङ्कलकलाई
+सम्मान र हौसला दिने।
+
+## ३.३ नेपाली लोकबाजा
+
+::: definition लोकबाजा
+नेपालका विभिन्न भूभागमा बस्ने जातजाति तथा समुदायमा प्रचलित **मौलिक वाद्यवादनका
+साधन** लाई लोकबाजा भनिन्छ। यिनले नेपाली संस्कृतिलाई पहिचान दिएका छन् र जाति तथा
+समुदायलाई चिनाएका छन्।
 :::
 
-A folk song is simple in words and tune, and is sung in a group or in the fields. It changes slightly each time it is sung. It keeps alive the language, history, customs and feelings of a community.
+लोकबाजा तीन तरिकाले बजाइन्छन् — कुनै **फुकेर**, कुनै **रेटेर** र कुनै **ठटाएर**।
+पाठ्यपुस्तकले एउटा गीतमार्फत लोकबाजाको परिचय, बनावट, बजाउने ठाउँ र सम्बन्धित
+समुदाय चिनाएको छ।
 
-### Features of folk songs
-
-- Composed by the community; no known author
-- Passed on orally
-- Simple words and tunes close to daily life
-- Sung at work, festivals, fairs and rituals, often with a madal or other instrument
-- Different in every region and language
-
-### Some Nepali folk songs
-
-| Song | Where and when | Nature |
-|---|---|---|
-| Asare geet | Sung while transplanting rice in the month of Asar (June–July) | Work song; the song gives rhythm to the work, and answers pass between men and women |
-| Jhyaure | Hill communities, often with the madal | Lively song of village life, sung in a lively rhythm |
-| Maruni | Sung and danced during Tihar by Magar, Gurung and other hill communities | Song with a dance |
-| Sorathi | Gurung and Magar communities of the hills | Story-telling song and dance |
-| Ghatu | Gurung of Kaski and Lamjung, in spring | Dance-song performed by girls |
-| Selo | Tamang community with the damphu | Sung and danced at festivals and weddings |
-| Deuda | Far-western hills (Doti, Baitadi, Dadeldhura) | Group song-and-dance on festival nights, in a circle, in poetic exchange |
-| Dohori | Hills of all regions | Song of question and answer between a group of men and a group of women |
-| Lahure geet | Village hills | Songs of young men who left to serve in foreign armies, and of the longing of those at home |
-| Bhajan, Ratyauli | Religious and wedding songs | Devotional and marriage songs of the night |
-
-::: tip Learn one fact for each song
-Asare — rice transplanting; Maruni — Tihar; Sorathi — Gurung; Selo — Tamang and damphu; Deuda — far west; Dohori — question-answer competition; Lahure — soldiers' longing.
-:::
-
-### Importance of folk songs
-
-1. They preserve the **language, history and customs** of each community.
-2. They give **entertainment and relief** from hard work.
-3. They strengthen **unity** in the community.
-4. They carry **social messages** about love, justice, migration, bad customs and politics.
-5. They are **raw material for modern music** and for tourism.
-
-### Problems and protection
-
-Pop music, films and phones draw young people away; old singers are dying without recording their songs; there is little money for collection. We can protect folk songs by recording and writing them, teaching them in school and at community events, holding competitions and festivals, airing them on radio and television, and making new songs that grow out of old tunes.
-
-## 3.3 Nepali folk instruments
-
-### The four types of instruments
-
-Musical instruments are grouped by the way they make sound.
-
-| Type | Sound made by | Nepali examples |
-|---|---|---|
-| String (*tat*) | Vibrating strings | Sarangi, arbajo, ektare, tungna |
-| Wind (*sushir*) | Blowing air | Bansuri (flute), murali, sanai, narsingha, karnal |
-| Drums (*avanaddha*) | Stretched skin | Madal, dholak, damaha, khaijadi, damphu, dhime, nagara |
-| Cymbal and metal (*ghan*) | Striking solid metal | Jhyali, kartal, bhusya (Newar cymbals), ghanta |
-
-### Important instruments
-
-| Instrument | Type | Community or use |
-|---|---|---|
-| **Madal** | Two-headed drum played with the hands | The most famous drum of Nepal, used in almost all folk songs and dances; made of a wooden barrel (khoul) with skin on both ends and a paste of mixed clay and iron-dust on one end that gives the deeper note |
-| **Sarangi** | Four-string bowed instrument | Played mainly by the Gandharva (Gaine) community, who traditionally travelled villages singing news and stories; the song *Resham Firiri* is linked with it |
-| **Bansuri** | Bamboo flute | Used by herders and in folk and modern music |
-| **Panche baja** | Group of five instruments | Played by the Damai community at weddings and festivals; commonly includes sahanai, narsingha, damaha, tyamko and jhyali |
-| **Damphu** | Round, flat frame drum | Tamang community; accompanies the Selo song |
-| **Murchunga** | Small metal mouth instrument | Played in the hills and by the Rai and Limbu, a type of jaw harp |
-| **Dhime** | Large barrel drum | Newar community, used in jatras (street festivals) |
-| **Khaijadi** | Hand drum | Newar bhajan groups |
-| **Arbajo** | Lute | Gurung and Magar communities |
-
-```photo id="soc10/madal" caption="A woman plays the madal, the best-known drum of Nepal. The player sits or stands with the barrel across the lap or hung from the shoulder and strikes both heads with the hands." width="70"
-```
-
-```photo id="soc10/sarangi" caption="The sarangi, a bowed string instrument of Nepal, played by the Gandharva community, who have traditionally been singers and storytellers." width="52"
-```
-
-```photo id="soc10/panche-baja" caption="A panche baja band plays tyamko and damaha drums and narsingha horns. The Damai community's music is an essential part of weddings and festivals." width="80"
-```
-
-### Importance and problems
-
-Folk instruments are part of identity, entertain the community at festivals and weddings, and give music to our songs and dance. The problems are that cheaper electronic music and DJ sets are replacing local players, that many makers and players belong to communities that were poorly paid and treated unequally, and that young people do not want to learn. To protect them we should teach instruments in school, pay and honour traditional musicians, give them stage in festivals and media, and record and write down tunes.
-
-## 3.4 Our folk and classical dances
-
-### Meaning
-
-Dance is a form of expression through body movement, usually with music. Nepali dances fall into two main groups.
-
-| | Folk dance (*lok nritya*) | Classical dance (*shastriya nritya*) |
-|---|---|---|
-| Origin | Grows among ordinary people in a community | Developed in courts and temples with fixed rules |
-| Learning | Learned by watching and joining in | Learned from a master (guru) over many years |
-| Rules | Few and flexible | Strict rules of steps, gestures (mudra) and expression |
-| Occasion | Festivals, harvest, weddings, fairs | Religious rituals, temple and court performances |
-| Dress | Everyday or traditional dress of the community | Special costumes, masks and make-up |
-| Examples | Maruni, Sorathi, Ghatu, Tharu stick dance, Deuda, Sakela | Charya nritya of the Newars, Newar mask dances |
-
-### Folk dances of Nepal
-
-| Dance | Community or region | Notes |
-|---|---|---|
-| Maruni | Magar, Gurung, and other hill groups | A Tihar dance in which men dressed as women (maruni) go from house to house to bring good luck; performed with the madal and with songs |
-| Sorathi | Gurung and Magar | Dance-drama that tells a story |
-| Ghatu | Gurung of Kaski and Lamjung | Danced by girls in spring |
-| Tharu stick dance (*lathi nach*, *sakhiya*) | Tharu of the Terai | Dancers strike sticks in rhythm with the drum, usually at festivals such as Maghi and Dashain |
-| Deuda | Far-western hills | A circle dance with songs of challenge and reply |
-| Sakela (Chandi) | Rai community of eastern Nepal | Performed at Ubhauli and Udhauli festivals, in thanks to nature and ancestors |
-| Selo and Damphu dance | Tamang | Danced to the damphu drum |
-| Jhyaure | Hill communities | Dance to the quick rhythm of the madal |
-
-### Classical and ritual dances
-
-The classical dance tradition of Nepal grew in the Kathmandu Valley, where the Malla kings and the temples supported dancers and artists.
-
-- **Charya nritya** is a sacred Buddhist dance of the Newar community, performed by priests of the Vajrayana tradition. It is a form of meditation in movement, and the dancer's steps and hand gestures represent deities.
-- **Newar mask dances** such as the **Lakhe** dance, **Navadurga** dance and the Bhairav dances are performed at festivals such as Indra Jatra and Gai Jatra. The dancers wear masks of gods and demons, and the dance tells the stories of struggle between good and evil.
-
-```figure caption="Folk dance and classical dance compared: where each is learned and how strict its rules are (schematic)."
-import matplotlib.pyplot as plt
+```figure caption="बजाउने तरिकाअनुसार पाठमा आएका लोकबाजा। फुक्ने बाजामा हावा, रेट्ने बाजामा तार र ठटाउने बाजामा छाला वा धातुले आवाज निकाल्छ।"
 from matplotlib.patches import FancyBboxPatch
-fig, ax = plt.subplots(figsize=(4.8,2.4))
-ax.set_xlim(0,10); ax.set_ylim(0,5); ax.axis('off')
-ax.add_patch(FancyBboxPatch((0.3,0.4),4.2,3.6,boxstyle='round,pad=0.05',fc='#e8f0f8',ec=ACCENT,lw=1.2))
-ax.add_patch(FancyBboxPatch((5.5,0.4),4.2,3.6,boxstyle='round,pad=0.05',fc='#fbefe9',ec=SERIES[1],lw=1.2))
-ax.text(2.4,3.5,'Folk dance',ha='center',va='center',fontsize=10,weight='bold',color=ACCENT)
-ax.text(7.6,3.5,'Classical dance',ha='center',va='center',fontsize=10,weight='bold',color=SERIES[1])
-ax.text(2.4,1.9,'Learned by joining in\nFlexible rules\nFestivals and fields\nMaruni, Sorathi,\nTharu stick dance, Deuda',ha='center',va='center',fontsize=8,color=INK,linespacing=1.5)
-ax.text(7.6,1.9,'Learned from a guru\nStrict rules and mudras\nTemples and courts\nCharya nritya,\nNewar mask dances',ha='center',va='center',fontsize=8,color=INK,linespacing=1.5)
-ax.text(5,4.65,'Two kinds of Nepali dance',ha='center',va='center',fontsize=9,color=INK)
+fig, ax = plt.subplots(figsize=(5.8, 2.9))
+ax.set_xlim(0, 12); ax.set_ylim(0, 6); ax.axis("off")
+groups = [("फुकेर बजाउने", ["बाँसुरी, मुरली", "सहनाई, नरसिङ्गा", "बिनायो, मुर्चुङ्गा", "मसक, शृङ्गनाद", "काहाल बाजा"], SERIES[1]),
+          ("रेटेर बजाउने", ["सारङ्गी", "(गन्धर्व समुदाय)", "आरबाजो", "(गन्धर्व जाति)", ""], SERIES[2]),
+          ("ठटाएर बजाउने", ["मादल, ढोलक", "दमाहा वा नगरा", "खैँजडी, ढ्याङ्ग्रो", "हुड्को, डफली", "झ्याली, झ्याम्टा, झुर्मा"], SERIES[3])]
+for i, (t, items, c) in enumerate(groups):
+    x = 0.2 + i * 4.0
+    ax.add_patch(FancyBboxPatch((x, 0.2), 3.6, 5.6, boxstyle="round,pad=0.02,rounding_size=0.25", fc="#f4f6f8", ec=c, lw=1.4))
+    ax.add_patch(FancyBboxPatch((x, 4.8), 3.6, 1.0, boxstyle="round,pad=0.02,rounding_size=0.25", fc=c, ec="none"))
+    ax.text(x + 1.8, 5.3, t, ha="center", va="center", color="white", fontsize=9.2, fontweight="bold")
+    for j, it in enumerate(items):
+        ax.text(x + 1.8, 4.1 - j * 0.85, it, ha="center", va="center", color=INK, fontsize=8.0)
 ```
 
-### Importance and protection
+### गीतमा आएका लोकबाजाको परिचय
 
-Dances are a living record of a community's history, belief and joy. They bring people together, attract tourists and give artists an income. They are in danger because of modern entertainment, migration of young people and lack of support for trainers. We can protect them through school and cultural programmes, support to dance groups and teachers, documentation on video, cultural festivals and respect and fair pay for the performers.
-
-## 3.5 Our national days
-
-### Meaning
-
-A **national day** is a day marked by the whole nation, usually a public holiday, to remember a great event or person. These days remind us of the sacrifices behind our freedom and of our values. Some are national days of Nepal; others, like UN Day, are international days we also observe.
-
-### National days of Nepal
-
-| Day | Date (BS) | What we remember |
+| लोकबाजा | बनावट वा बजाउने तरिका | समुदाय वा ठाउँ (गीतअनुसार) |
 |---|---|---|
-| **National Unity Day** (Prithvi Jayanti) | 27 Poush | Birthday of Prithvi Narayan Shah, who began the unification of modern Nepal |
-| **Martyrs' Day** (*Shahid Diwas*) | 16 Magh | The four martyrs Dharma Bhakta Mathema, Dashrath Chand, Gangalal Shrestha and Shukra Raj Shastri, executed by the Rana regime in 1997 BS, and all who gave their lives for the country |
-| **Democracy Day** (*Prajatantra Diwas*) | 7 Falgun | The success of the 2007 BS revolution: King Tribhuvan declared the end of Rana rule and the beginning of democracy, after the armed movement and the Delhi compromise |
-| **Republic Day** (*Ganatantra Diwas*) | 15 Jestha | 15 Jestha 2065 (28 May 2008): the first Constituent Assembly abolished the monarchy and declared Nepal a federal democratic republic |
-| **Constitution Day** (*Sambidhan Diwas*) | 3 Ashwin | 3 Ashwin 2072 (20 September 2015): promulgation of the Constitution of Nepal drafted by the elected Constituent Assembly |
-| **Loktantra Diwas** | 11 Baisakh | The end of the 19-day people's movement of 2063 BS (April 2006), which restored the dissolved House of Representatives |
+| मादल | छाला मोरिएको, दुवैतिर बजाइने | सबैतिर प्रचलित |
+| बाँसुरी, मुरली | बाँसबाट बनेको; फुकेर | आफ्नै सुरमा नाच्दा |
+| सारङ्गी | रेटेर बजाइने तारबाजा | गन्धर्व समुदाय; झ्याउरे भाका |
+| झ्याली, झ्याम्टा, झुर्मा | काँसबाट बनेका; ठटाएर | पञ्चेबाजा, भजन, नाच |
+| नरसिङ्गा | लामो र घुमाउरो; जोडले फुक्ने | पञ्चेबाजा |
+| सहनाई | पित्तलबाट बनेको; ओठले च्यापी फुक्ने | पञ्चेबाजामा प्रचलित |
+| ढोलक | छालाले मोरेको तालबाजा | विभिन्न समुदाय |
+| काहाल बाजा | लामो, फुक्ने बाजा | भैरवी मन्दिरमा अझै जीवित |
+| नगरा (दमाहा) | एउटै गजोले हानिने | पञ्चेबाजा, धार्मिक कार्य |
+| खैँजडी | हातले ठटाउने | रोइला र बालन नाच |
+| ढ्याङ्ग्रो | जोडले ठोकिने | धामीले मन्त्र भन्दा; शेर्पा–तामाङको मौलिक बाजा |
+| बिनायो, मुर्चुङ्गा | बाँस खिपेर बनेको / जोडले फुक्दा बिनायो जस्तो स्वर | पहाडी समुदाय |
+| हुड्को | ठटाउने बाजा | हुड्के समुदाय; खप्तड मेला |
+| मसक | फुक्ने बाजा | बझाङ |
+| डफली | ठटाउने बाजा | पश्चिम तराई |
+| फामुक, पुङ् | तीन टुक्रा बाँस खिपेर बनेको / किरातीले बजाउने | किराती समुदाय |
+| डाङ्मेन | तारबाजा | हिमाली शेर्पा |
+| काकुवयन | — | ज्यापू नेवार |
+| शृङ्गनाद | सिङ आकारको फुक्ने बाजा | संन्यासी |
+| इर्लुङ पिपरी, डक्कारी | — | मिथिला क्षेत्र |
 
-```figure caption="National days of Nepal along the Nepali year, from Baisakh (April–May) to Chaitra (March–April)."
-import matplotlib.pyplot as plt
-fig, ax = plt.subplots(figsize=(4.8,2.8))
-months=['Baisakh','Jestha','Asar','Shrawan','Bhadra','Ashwin','Kartik','Mangsir','Poush','Magh','Falgun','Chaitra']
-ax.hlines(0,0,12,color=INK,lw=1.5)
-for i,m in enumerate(months):
-    ax.plot([i,i],[-0.08,0.08],color=INK,lw=1)
-    ax.text(i+0.5,-0.22,m,rotation=60,ha='right',va='top',fontsize=7,color=MUTED)
-ev=[(0.33,'Loktantra Diwas\n11 Baisakh',1.0,'right'),(1.5,'Republic Day\n15 Jestha',2.2,'center'),(5.1,'Constitution Day\n3 Ashwin',2.2,'center'),(8.87,'National Unity Day\n27 Poush',1.0,'right'),(9.5,'Martyrs Day\n16 Magh',2.2,'right'),(10.23,'Democracy Day\n7 Falgun',3.4,'center')]
-for x,t,h,d in ev:
-    ax.plot([x,x],[0,h-0.15],color=SERIES[1],lw=1)
-    ax.plot(x,0,'o',color=SERIES[1],ms=5)
-    ax.text(x+(0.15 if d=='right' else 0),h,t,ha=d,va='bottom',fontsize=7.5,color=INK,linespacing=1.2)
-ax.set_xlim(-2.0,12.5); ax.set_ylim(-1.5,4.4); ax.axis('off')
+::: caution स्रोतको सीमा
+पाठ्यपुस्तकले यी बाजा गीतमा मात्र परिचय दिएको छ; काकुवयन, इर्लुङ पिपरी र
+डक्कारीको बनावट उल्लेख छैन, त्यसैले तालिकामा खाली (—) राखिएको छ। गीतको "शेर्पा
+तामाङको मौलिक बाजा" भन्ने हरफ ढ्याङ्ग्रोपछि आएकाले त्यहीसँग जोडिएको छ।
+:::
+
+```photo id="soc10/panche-baja" caption="पञ्चेबाजा — विवाह, व्रतबन्ध र शुभकार्यमा बजाइने पाँच बाजाको समूह; परम्परागत रूपमा दमाई (परियार) समुदायले बजाउँदै आएका छन्।" width="68"
 ```
 
-### Importance of national days
+### पञ्चेबाजा
 
-1. They recall our **history and sacrifice** and give respect to heroes.
-2. They create **national unity and feeling**.
-3. They teach the **values** of democracy, freedom and equality to the new generation.
-4. They encourage people to take up **duties** for the nation.
+**पञ्चेबाजा** पाँच बाजाको समूह हो: **सहनाई, नरसिङ्गा, झ्याली, दमाहा र ट्याम्को**।
+सहनाई र नरसिङ्गा फुकेर, झ्याली ठटाएर, दमाहा गजोले र ट्याम्को दुई सिर्काले हानेर बजाइन्छ।
+विवाह, व्रतबन्ध, पास्नी, मेला र देवकार्यमा बजाइने पञ्चेबाजालाई शुभ मानिन्छ।
 
-### How we celebrate
+::: note क्रियाकलाप — पाठ ३.३
+**१.** पाठमा उल्लिखित लोकबाजाका विशेषता तालिका वा चार्टमा प्रस्तुत गर्नुहोस्। (माथिको
+तालिका नमुना हो।)
+**२.** आफ्नो क्षेत्रमा प्रचलित लोकबाजा र बजाइने अवसरबारे छलफल गरी लेख्नुहोस्।
+**३.** कतिपय लोकबाजा लोप हुने अवस्थामा किन पुगे र समुदाय तथा स्थानीय तहले के गर्नुपर्छ,
+छलफल गरी निष्कर्ष प्रस्तुत गर्नुहोस्। (सङ्केत: कारण — आधुनिक बाजाको प्रभाव, नयाँ
+पुस्ताको अरुचि, बजाउने पेसाबाट आम्दानी नहुनु, जातीय हेयभाव; उपाय — तालिम, प्रशिक्षक
+भत्ता, सङ्ग्रहालय, उत्सवमा अनिवार्य प्रयोग।)
+**४.** लोकबाजाको चित्र सङ्कलन गरी एल्बम बनाउनुहोस्।
+:::
 
-Hoisting the national flag, programmes at schools and offices, rallies and cultural programmes, tributes to martyrs, the President's or Prime Minister's message, essay and speech competitions, tree planting, voluntary service and cleaning programmes. A student should celebrate by learning the true meaning and by serving the community, not only by taking a holiday.
+### पाठको अभ्यास: नमुना उत्तर
 
-### International days observed in Nepal
+**१. लोकबाजाको परिचय दिनुहोस्।**
+नेपालका विभिन्न भूभागमा बस्ने जातजाति र समुदायमा परम्परादेखि प्रचलित मौलिक
+वाद्यवादनका साधन लोकबाजा हुन्। यी फुकेर (बाँसुरी, सहनाई, नरसिङ्गा), रेटेर (सारङ्गी)
+र ठटाएर (मादल, दमाहा, खैँजडी) बजाइन्छन्। मादल, सारङ्गी, ढ्याङ्ग्रो, हुड्को र पञ्चेबाजा
+जस्ता बाजाले नेपाली संस्कृति र समुदायलाई पहिचान दिएका छन्।
 
-| Day | Date | Theme |
+**२. नेपाली पञ्चेबाजा समूहमा पर्ने बाजाको नाम र तिनको विशेषता लेख्नुहोस्।**
+(क) **सहनाई** — पित्तलबाट बनेको, ओठले च्यापी फुकेर बजाइने, धुन दिने मुख्य बाजा;
+(ख) **नरसिङ्गा** — लामो र घुमाउरो, जोडले फुकेर बजाइने, गुन्जिने आवाज; (ग) **झ्याली**
+— काँसका दुई गोला चक्का, ठटाएर ताल दिने; (घ) **दमाहा** — ठुलो, छालाले मोरेको,
+एउटै गजोले हानिने; (ङ) **ट्याम्को** — सानो दमाहा जस्तो, दुई सिर्काले बजाइने, छिटो
+ताल दिने। यी पाँचै मिलेर शुभकार्यमा बजाइने भएकाले पञ्चेबाजा भनिन्छ।
+
+**३. नेपाली लोकबाजाको महत्त्व उल्लेख गर्नुहोस्।**
+(क) नेपाली संस्कृति र जाति–समुदायको पहिचान दिन्छन्; (ख) लोकगीत र लोकनृत्यलाई
+सुर, ताल र लय दिन्छन्; (ग) विवाह, व्रतबन्ध, जात्रा र पूजाजस्ता संस्कार पूरा गर्छन्;
+(घ) मनोरञ्जन दिई सामाजिक एकता बढाउँछन्; (ङ) पुर्खाको सिप र प्रविधि हस्तान्तरण
+गर्छन्; (च) पर्यटक आकर्षित गरी आम्दानी र रोजगारी दिन्छन्।
+
+**४. "नेपाली लोकबाजा नेपालीहरूको पहिचान हो।" यस भनाइलाई उदाहरणसहित पुष्टि
+गर्नुहोस्।**
+हरेक लोकबाजा कुनै समुदाय, ठाउँ वा संस्कारसँग जोडिएको छ। सारङ्गी र आरबाजो
+गन्धर्व समुदायका, हुड्को सुदूरपश्चिमका हुड्केका, मसक बझाङको, ढ्याङ्ग्रो धामी र
+शेर्पा–तामाङको, डाङ्मेन हिमाली शेर्पाको, फामुक र पुङ् किराती समुदायका, काकुवयन
+ज्यापू नेवारका र डक्कारी मिथिलाका पहिचान हुन्। मादल सबैतिर बजाइन्छ र पञ्चेबाजाविना
+नेपाली विवाह अधुरो मानिन्छ। विदेशमा मादलको ताल सुन्नेबित्तिकै नेपाली चिनिन्छ। यसरी
+लोकबाजाले नेपाल र नेपालीलाई अरूभन्दा फरक चिनाउने भएकाले यी हाम्रो पहिचान हुन्।
+
+**५. तपाईँलाई मन पर्ने लोकबाजाको चित्र बनाई कक्षामा प्रस्तुत गर्नुहोस्।**
+उदाहरणका लागि **मादल** को चित्र बनाउँदा बेलनाकार काठको खोल, दुवैतिर मोरिएको
+छाला, छालालाई कस्ने छालाकै डोरी र घाँटीमा भिर्ने पेटी देखाउनुहोस्। प्रस्तुतिमा
+यसलाई दुवै हातले ठटाएर बजाइने, सबैतिर प्रचलित र दसैँ–तिहार, विवाह तथा लोकनाचमा
+प्रयोग हुने बाजा भनेर चिनाउनुहोस्।
+
+```photo id="soc10/madal" caption="मादल — दुवैतिर छाला मोरिएको, ठटाएर बजाइने र नेपालभरि प्रचलित लोकबाजा।" width="56"
+```
+
+## ३.४ हाम्रा लोक तथा शास्त्रीय नृत्य
+
+::: definition लोकनृत्य र शास्त्रीय नृत्य
+नेपाली मौलिक लोकगीत वा लोकभाकामा आधारित भएर सुर, ताल र लयमा गरिने
+अभिनयसहितको प्रस्तुतिलाई **लोकनृत्य** भनिन्छ; जस्तै घाटु, मारुनी, चण्डी, ख्याली र
+झ्याउरे नाच। धर्मशास्त्र र सम्बन्धित देवीदेवताको चरित्र वर्णन गर्दै आँखा, औँला, मुख र
+हातद्वारा गीत–सङ्गीतको भाव व्यक्त गरेर गरिने नृत्यलाई **शास्त्रीय नृत्य** भनिन्छ;
+जस्तै पञ्चबुद्ध, चर्या, भैरव र कार्तिक नृत्य।
+:::
+
+लोकनृत्यले सामाजिक संस्कार, संस्कृति र परम्पराको जगेर्ना गर्छ र मनोरञ्जन दिन्छ;
+शास्त्रीय नृत्यले धार्मिक आस्था र विश्वास बलियो बनाउँछ।
+
+### नेपालमा प्रचलित केही लोक तथा शास्त्रीय नृत्य
+
+| नाच | समुदाय / क्षेत्र | मुख्य विशेषता |
 |---|---|---|
-| International Women's Day | 8 March | Equality of women |
-| International Labour Day | 1 May | Workers' rights |
-| World Environment Day | 5 June | Protecting nature |
-| International Day of Non-Violence | 2 October | Gandhi's birthday; promotes peace |
-| United Nations Day | 24 October | UN Charter came into force (1945) |
-| Human Rights Day | 10 December | Universal Declaration of Human Rights (1948) |
+| देउडा | कर्णाली र सुदूरपश्चिमका पहाडी समुदाय | गोलो घेरामा हात र कुम जोडेर सामूहिक नाच; गीतमा क्रियाकलाप, स्वभाव, दुःख, पिर, हर्ष र परिवेशको वर्णन |
+| मारुनी | मगर जाति; अहिले अरू जातिमा पनि | पुरुषले महिलाको वेशभूषा लगाएर नाच्ने |
+| झिझिया | पूर्वी तराईको मैथिली समुदाय | माटाको घैलामा आगो बाली महिलाको शिरमा राखेर नाच्ने |
+| घाटु | गुरुङ, मगर र दुरा | वसन्त पञ्चमीदेखि पूर्णिमासम्म; परशुराम राजा र यम्मावती रानीको कथा; रजस्वला नभएकी कन्यालाई नचाइने |
+| धान नाच | पूर्वी पहाडका लिम्बु | पालम गाउँदै; बाली भित्र्याउने बेला र मेलापर्वमा युवायुवतीले |
+| साकेला (सिली) | किरात राई | उधौली र उभौलीमा; सबै उमेरका मानिस गोलाकार भई ढोल–झ्याम्टा बजाउँदै; खेती, तान बुन्ने र जीवजन्तुको अभिनय; भाषिक भिन्नताअनुसार साकेन्वा, साक्खेवा आदि नाम |
+| सोरठी | गण्डकी र लुम्बिनीका गुरुङ र मगर | ठुलो समूहमा; थकान मेट्न र मनको भाव पोख्न; सद्भाव र एकता बलियो |
+| जट–जटिन | मिथिला क्षेत्र | नायक जट र नायिका जटिनको प्रेमकथा; साउन पूर्णिमादेखि भदौ पूर्णिमासम्म; खडेरीबाट मुक्तिका लागि इन्द्रलाई खुसी पार्न |
+| बालन | ब्राह्मण–क्षेत्री समुदाय | राम, कृष्ण, शिवको चरित्र बयान गर्दै खैँजडी बजाएर; सत्यनारायण पूजा, विवाह, व्रतबन्धमा राति |
+| कार्तिक नाच (शास्त्रीय) | पाटन, ललितपुर | राजा सिद्धिनरसिंह मल्लको पालादेखि; हरेक कार्तिकमा; नृसिंह अवतारको कथा; साताभर पोङ्खा, खीं, ताः र झ्याली बजाउँदै विष्णुका अवतार |
+| सराय | गुल्मी, अर्घाखाँची, बागलुङ, पाल्पा | खुँडा, खुकुरी, तरबार वा लट्ठी लिई लाम लागेर; दसैँमा मठमन्दिरमा |
+| चर्या नृत्य (शास्त्रीय) | नेवार समुदाय | देवीदेवताको अभिनय गरेर नाचिने |
+| पञ्चबुद्ध नाच (शास्त्रीय) | बौद्ध परम्परा | बुद्ध धर्म र परम्परामा आधारित |
+| टप्पा | दाङ र आसपासका पहाडी जिल्ला; मगर | सुरुमा मादलको तालमा बिस्तारै, अन्त्यतिर छिटो छिटो |
+| कौरा | गण्डकी र लुम्बिनीका मगर र गुरुङ | "कौरा" = हामी आइपुग्यौँ; घाँसदाउरा र मेलापातमा "हामी पनि आयौँ है" भन्ने सन्दर्भ; खैँजडीको तालमा |
 
-::: caution Do not confuse the three "political" days
-**Democracy Day** (7 Falgun) is for the 2007 BS change; **Republic Day** (15 Jestha) is for the end of monarchy in 2065 BS; **Constitution Day** (3 Ashwin) is for the 2072 BS constitution. A common error in exams is to swap the first two.
-:::
-
-## 3.6 International personalities
-
-Some people's lives were so full of service to others that their influence crossed national borders. The CDC textbook asks you to study such persons for their values. Four are described here.
-
-### Mahatma Gandhi (1869–1948)
-
-Mohandas Karamchand Gandhi was born at Porbandar, India. He worked as a lawyer in South Africa, where he led peaceful protests against racial discrimination, and then led India's freedom movement. He believed in **satyagraha** (insistence on truth) and **ahimsa** (non-violence), refused to hit back at violence, and led the Salt March (1930) and the Quit India movement (1942). India became independent in 1947. He was assassinated on 30 January 1948. His birthday, 2 October, is observed by the UN as the International Day of Non-Violence. His message: *truth, non-violence, simple living, equality, service*.
-
-```photo id="soc10/gandhi" caption="Mahatma Gandhi, photographed in 1931. He led India's freedom struggle by non-violent means and inspired movements for civil rights around the world." width="52"
+```photo id="soc10/tharu-dance" caption="थारू समुदायको लोकनृत्य। हरेक लोकनृत्यमा समुदायको मौलिक वेशभूषा, लोकगीत र लोकबाजा एकै ठाउँ जोडिन्छन्।" width="62"
 ```
 
-### Nelson Mandela (1918–2013)
+::: example लोकगीत, लोकबाजा र लोकनृत्यको सम्बन्ध
+**प्रश्न.** धान नाचलाई उदाहरण बनाएर लोकगीत, लोकबाजा र लोकनृत्यको सम्बन्ध देखाउनुहोस्।
 
-Nelson Rolihlahla Mandela was a South African lawyer who fought **apartheid**, the system in which people of colour were denied equal rights. He was imprisoned for 27 years (1962–1990), most of them on Robben Island. After his release he worked with the white government to end apartheid peacefully, shared the **Nobel Peace Prize in 1993** and became the first Black president of South Africa (1994–1999). He chose reconciliation, not revenge. 18 July is Nelson Mandela International Day. His message: *equality, forgiveness, peace, sacrifice*.
-
-```photo id="soc10/mandela" caption="Nelson Mandela in 1994, the year he became the first Black president of South Africa after spending 27 years in prison for opposing apartheid." width="50"
-```
-
-### Mother Teresa (1910–1997)
-
-Born in Skopje (now in North Macedonia) as Anjezë Gonxhe Bojaxhiu, she came to India in 1929 as a nun and began working for the poorest people of Kolkata. In 1950 she founded the **Missionaries of Charity**, which runs homes for the dying, the sick, orphans and lepers in many countries, including Nepal. She received the **Nobel Peace Prize in 1979** and was declared a saint of the Catholic Church in 2016. Her message: *love, service to the poor and the sick without discrimination*.
-
-```photo id="soc10/mother-teresa" caption="Mother Teresa, who devoted her life to the poorest and the sick and received the Nobel Peace Prize in 1979." width="62"
-```
-
-### Martin Luther King Jr. (1929–1968)
-
-An American Baptist minister, Martin Luther King Jr. led the **civil rights movement** against racial segregation in the United States, using peaceful marches and boycotts, inspired by Gandhi. At the March on Washington on 28 August 1963 he gave the famous "I have a dream" speech. He received the Nobel Peace Prize in 1964, and was assassinated on 4 April 1968. His message: *equality, justice and non-violent struggle*.
-
-### Comparison
-
-| Person | Country | Fought against | Method | Honour |
-|---|---|---|---|---|
-| Mahatma Gandhi | India | Colonial rule and injustice | Non-violence, satyagraha | "Father of the Nation" of India |
-| Nelson Mandela | South Africa | Apartheid | Struggle, then reconciliation | Nobel Peace Prize 1993 |
-| Mother Teresa | India (born in Skopje) | Poverty, illness, neglect | Service and love | Nobel Peace Prize 1979 |
-| Martin Luther King Jr. | USA | Racial segregation | Non-violent protest | Nobel Peace Prize 1964 |
-
-### What we learn from them
-
-Truth, equality, non-violence, service to the poor, courage to face hardship and sacrifice for others. A student can follow them by treating all friends equally, speaking out against discrimination, solving quarrels without violence and helping the needy.
-
-## 3.7 Universal brotherhood and humanity
-
-### Meaning
-
-::: definition Universal brotherhood
-Universal brotherhood (*vishwa bandhutva*) is the feeling that all human beings of the world, whatever their country, caste, religion, language or colour, belong to one family and should treat one another with love, respect and help.
+**उत्तर.** लिम्बु युवायुवतीले बाली भित्र्याउने बेला धान नाच नाच्दा **पालम** (लोकगीत)
+गाउँछन्; गीतकै सुर, ताल र लयमा पाइला चल्छन् (लोकनृत्य)। त्यस्तै सोरठी र टप्पामा
+**मादल**, कौरा र बालनमा **खैँजडी** र साकेलामा **ढोल–झ्याम्टा** (लोकबाजा) ले ताल दिन्छन्।
+गीतले भाव, बाजाले ताल र नाचले अभिनय दिन्छ; एउटा नभए अर्को अधुरो हुन्छ।
 :::
 
-::: definition Humanity
-Humanity (*manavata*) is the quality of being kind, compassionate and helpful to other people, especially those in need, without asking about their caste, religion or country.
+::: note क्रियाकलाप — पाठ ३.४
+**१.** कौरा, पुलकिसी, सहलेस, भैरव, हनुमान्, चरित्र नृत्य, ख्याली, तरबारे र सिङ्गारु नाचको
+खोजी गरी विवरण प्रस्तुत गर्नुहोस्।
+**२.** लोक तथा शास्त्रीय नृत्य लोप हुनबाट जोगाउन समुदाय र स्थानीय तहले गर्नुपर्ने कामको
+अलग अलग सूची बनाउनुहोस्।
+**३.** नृत्य संरक्षणका सुझाव समेटेर पर्यटन, संस्कृति तथा नागरिक उड्डयन मन्त्रालयलाई
+पत्र लेख्नुहोस्।
+**४.** पाठका नृत्यलाई शास्त्रीय र लोक नृत्यमा छुट्याई तालिका बनाउनुहोस्। (शास्त्रीय:
+कार्तिक, चर्या, पञ्चबुद्ध, भैरव; बाँकी सबै लोकनृत्य।)
 :::
 
-The ancient Sanskrit saying **"Vasudhaiva Kutumbakam"** (the world is one family) expresses the same idea. The Lord Buddha, born at Lumbini, taught *maitri* (loving-kindness) and *karuna* (compassion) towards all beings.
+### पाठको अभ्यास: नमुना उत्तर
 
-### Sources of the idea
+**१. "लोकबाजा, लोकगीत र लोकनृत्य एकअर्काका परिपूरक हुन्।" यस भनाइलाई पुष्टि
+गर्नुहोस्।**
+परिपूरक भनेको एकले अर्कालाई पूर्ण बनाउनु हो। लोकनृत्य लोकगीत वा लोकभाकामा
+आधारित भएर सुर, ताल र लयमा गरिन्छ; ताल लोकबाजाले दिन्छ। धान नाच पालम
+गीतबिना, बालन र कौरा खैँजडीबिना, सोरठी मादलबिना र साकेला ढोल–झ्याम्टाबिना
+नाचिँदैनन्। त्यस्तै झ्याउरे गीत सारङ्गी र मादलको ताल पाएर मात्र रमाइलो हुन्छ।
+गीतले भाव र कथा, बाजाले ताल र लय तथा नृत्यले अभिनय र दृश्य दिन्छ; त्यसैले यी
+तीन एकअर्काका परिपूरक हुन्।
 
-- **Religions**: Hindu, Buddhist, Muslim, Christian and Kirat teachings all tell us to serve others and to help the weak.
-- **Great persons**: Buddha, Gandhi, Mother Teresa, Henry Dunant, Mandela.
-- **International organisations**: the United Nations, the Red Cross and Red Crescent movement, UNICEF and others. Henry Dunant, a Swiss businessman, was moved by the suffering of wounded soldiers at the battle of Solferino (1859) and helped to found the Red Cross (1863); 8 May is World Red Cross Day. The Nepal Red Cross Society was founded in 1963.
-- **Charter and law**: the Universal Declaration of Human Rights (1948) starts by saying that all human beings are born free and equal in dignity and rights.
+**२. लोक तथा शास्त्रीय नृत्यको महत्त्व उल्लेख गर्नुहोस्।**
+(क) सामाजिक संस्कार, संस्कृति र परम्पराको जगेर्ना गर्छन्; (ख) मनोरञ्जन र थकान
+मेट्ने अवसर दिन्छन्; (ग) सोरठी र देउडा जस्ता सामूहिक नाचले सद्भाव र एकता बढाउँछन्;
+(घ) शास्त्रीय नृत्यले धार्मिक आस्था र विश्वास बलियो बनाउँछ; (ङ) जाति र क्षेत्रको
+पहिचान दिन्छन्; (च) कृषि, इतिहास र मिथकको ज्ञान पुस्तान्तरण गर्छन्; (छ) पर्यटक
+आकर्षित गरी आम्दानी दिन्छन्।
 
-### Examples of humanity and brotherhood
+**३. लोक नृत्य र शास्त्रीय नृत्यबिचका भिन्नता तालिकामा देखाउनुहोस्।**
 
-- After the **2015 earthquake**, teams and aid came from dozens of countries, and Nepalis themselves ran across the country to help villages that were cut off.
-- Blood donation camps run by the Red Cross, and volunteer rescue after floods and landslides.
-- Vaccines, medicines and food sent between countries during the COVID-19 pandemic.
-- Refugee protection by countries and organisations such as the UNHCR.
-- Free eye camps, free health camps, and student volunteers who help the elderly.
+| आधार | लोकनृत्य | शास्त्रीय नृत्य |
+|---|---|---|
+| आधार | लोकगीत र लोकभाका | धर्मशास्त्र र देवीदेवताको चरित्र |
+| नियम | सरल, लचिलो; जोसुकैले सिक्न सक्ने | शास्त्रीय नियम, मुद्रा र हाउभाउ अनिवार्य |
+| अभिव्यक्ति | सामूहिक पाइला र अभिनय | आँखा, औँला, मुख र हातका मुद्राबाट भाव |
+| उद्देश्य | मनोरञ्जन, संस्कार र परम्पराको जगेर्ना | धार्मिक आस्था र विश्वास बलियो बनाउनु |
+| अवसर | मेला, पर्व, खेतीपाती, उत्सव | पूजा, जात्रा, धार्मिक पर्व |
+| उदाहरण | देउडा, मारुनी, घाटु, धान नाच, सोरठी | कार्तिक, चर्या, पञ्चबुद्ध, भैरव नृत्य |
 
-### Why universal brotherhood matters
+**४. अन्तर्राष्ट्रिय समारोहमा नेपाली लोक तथा शास्त्रीय नृत्यको परिचय दिनुपर्‍यो भने कुन
+नृत्यको परिचय दिनुहुन्छ, कारण दिनुहोस्।**
+लोकनृत्यमा म **मारुनी** र **देउडा** को परिचय दिन्छु: मारुनीको रङ्गीन वेशभूषा र मादलको
+ताल दर्शकलाई तुरुन्तै आकर्षित गर्छ र पुरुषले महिलाको भेषमा नाच्ने यसको विशेषता
+अनौठो छ; देउडाले हात–कुम जोडेर घेरामा नाच्ने सामूहिकता र एकता देखाउँछ। शास्त्रीय
+नृत्यमा **कार्तिक नाच** रोज्छु, किनभने यो मल्लकालदेखि निरन्तर चलेको, पौराणिक कथामा
+आधारित र नेपालको जीवित ऐतिहासिक सम्पदा हो। यी तीनले नेपालको विविधता, इतिहास र
+एकता एकैसाथ देखाउँछन्।
 
-1. It prevents **war and conflict** and brings **peace**.
-2. It removes **discrimination** of caste, colour, sex and religion.
-3. It brings **cooperation** in solving world problems such as climate change, disease and poverty.
-4. It strengthens **human values** like love, honesty and forgiveness.
-5. It makes us feel secure, because help is available in time of need.
+**५. देउडा नाच र धान नाचको छोटो वर्णन गर्नुहोस्।**
+**देउडा नाच:** कर्णाली र सुदूरपश्चिमका पहाडी समुदायमा गोलो घेरामा उभिएर एकअर्काको
+हात र कुम जोडेर सामूहिक रूपमा नाचिने नाच हो। गाइने देउडा गीतमा मानिसका
+क्रियाकलाप, स्वभाव, दुःख, पिर, हर्ष र परिवेशको वर्णन हुन्छ। **धान नाच:** पूर्वी
+पहाडी जिल्लाका लिम्बु जातिको नाच हो; युवायुवतीले बाली भित्र्याउने बेला र मेलापर्व
+तथा उत्सवमा पालम गीत गाउँदै नाच्छन्।
 
-### Obstacles
+**६. तपाईँ बसोबास गरेको क्षेत्रको प्रचलित कुनै एक नाचको परिचय दिनुहोस्।**
+(पाल्पा–गुल्मी क्षेत्रका विद्यार्थीको नमुना) हाम्रो क्षेत्रमा **सोरठी नाच** प्रचलित छ। गुरुङ र
+मगर समुदायमा ठुलो समूह बनाएर मादलको तालमा नाचिन्छ। दिनभरको थकान मेट्न र
+मनको भावना पोख्न नाचिने यो नाचमा गाउँका सबै भेला हुन्छन्, त्यसैले यसले सामाजिक
+सद्भाव र एकता बलियो बनाएको छ। आफ्नो क्षेत्रको नाच लेख्दा नाम, समुदाय, अवसर,
+बाजा, वेशभूषा र महत्त्व समेट्नुहोस्।
 
-Racism and communal hatred, extreme nationalism, selfishness, terrorism and war, poverty and inequality, and the misuse of media that spreads rumours and hate.
+## ३.५ हाम्रा राष्ट्रिय दिवस
 
-### How we can develop it
-
-- Respect every person and religion; do not use abusive or hateful words.
-- Help friends and neighbours without expecting reward.
-- Join school clubs: Junior Red Cross, Scouts, Eco clubs, volunteer groups.
-- Learn about other cultures and countries.
-- Speak against injustice; do not join in bullying.
-- Support relief for victims of disasters, near or far.
-
-## 3.8 Our social responsibility
-
-### Meaning
-
-::: definition Social responsibility
-Social responsibility is the duty of every person and organisation to act in a way that benefits society, to do the tasks that society expects of them and to avoid harming others or the environment.
+::: definition राष्ट्रिय दिवस
+राष्ट्रमा सामाजिक, आर्थिक, राजनीतिक, सांस्कृतिक आदि क्षेत्रमा महत्त्वपूर्ण घटना वा
+परिवर्तन भई समाज र जनताले उपलब्धि हासिल गरेको गौरवपूर्ण दिनलाई **राष्ट्रिय दिवस**
+भनिन्छ; जस्तै सहिद दिवस, प्रजातन्त्र दिवस, बाल दिवस, नारी दिवस।
 :::
 
-Every right we enjoy has a duty beside it. Because society gives us education, safety, roads, and clean water, we owe something back. The Constitution of Nepal (Article 48) lists the **fundamental duties** of citizens: to protect the nationality, sovereignty and integrity of the nation; to abide by the constitution and law; to serve the nation when required by law; and to protect and preserve public property.
+राष्ट्रिय दिवसलाई औपचारिकता मात्र नठानी ती दिनमा घटेका घटना र परिवर्तनले दिएको
+**सन्देश आत्मसात् गर्नुपर्छ**; सन्देश आत्मसात् गर्न सके मात्र दिवस मनाउनुको सार्थकता
+रहन्छ।
 
-```figure caption="Circles of social responsibility, from the self outwards to the world."
-import matplotlib.pyplot as plt
-from matplotlib.patches import Circle
-fig, ax = plt.subplots(figsize=(4.8,3.2))
-ax.set_xlim(-3.7,9.2); ax.set_ylim(-3.6,3.6); ax.set_aspect('equal'); ax.axis('off')
-rings=[(3.4,'#eef3f9'),(2.7,'#dbe7f3'),(2.0,'#c3d7ea'),(1.3,'#9fc0de'),(0.6,ACCENT)]
-for r,c in rings:
-    ax.add_patch(Circle((0,0),r,fc=c,ec='white',lw=1.5))
-ax.text(0,0,'Self',ha='center',va='center',fontsize=7.5,color='white',weight='bold')
-import math
-labs=[(3.4,'World: peace, environment, humanity',2.9),(2.7,'Nation: laws, taxes, heritage',1.6),(2.0,'Community: help, cleanliness',0.3),(1.3,'Family and school: care, respect',-1.0),(0.6,'Self: study, health, honesty',-2.3)]
-for r,t,ty in labs:
-    ang=math.asin(min(0.95,(ty*0.6)/r)) if False else 0
-    rr=r-0.35 if r>0.7 else r
-    px=math.sqrt(max(rr*rr-(ty*0.35)**2,0.01)); py=ty*0.35
-    ax.annotate(t,xy=(px,py),xytext=(3.9,ty),fontsize=7.5,color=INK,va='center',arrowprops=dict(arrowstyle='-',color=MUTED,lw=0.8))
+```figure caption="पाठ्यपुस्तकमा परिचय दिइएका प्रमुख राष्ट्रिय दिवस, मिति र मुख्य सन्देश।"
+fig, ax = cards([("संविधान दिवस", "असोज ३; संविधानको\nरक्षा र पालना"),
+                 ("गणतन्त्र दिवस", "जेठ १५; जनताप्रति\nउत्तरदायी हुन"),
+                 ("सहिद दिवस", "माघ १६; बलिदानको\nकदर र सम्मान"),
+                 ("मजदुर दिवस", "मे १; श्रम र\nश्रमिकको सम्मान"),
+                 ("नारी दिवस", "मार्च ८; महिला अधिकार\nर लैङ्गिक समानता"),
+                 ("बाल दिवस", "भदौ २९; बाल अधिकार\nप्राप्ति र संरक्षण")],
+                cols=3, figsize=(5.8, 2.7))
 ```
 
-### Kinds of social responsibility
+**(क) संविधान दिवस — असोज ३:** नेपालको हालको संविधान **वि.सं. २०७२ असोज ३** मा
+संविधानसभाबाट जारी भएको थियो। यस दिन विभिन्न कार्यक्रम गरेर संविधान दिवस मनाइन्छ।
+यसले संविधानको रक्षा र पालना गर्न सचेत गराउँछ।
 
-| Level | Responsibilities |
+```photo id="soc10/ca-2013" caption="संविधानसभाको बैठक। दोस्रो संविधानसभाले वि.सं. २०७२ असोज ३ मा नेपालको संविधान जारी गर्‍यो; त्यही दिन संविधान दिवस मनाइन्छ।" width="62"
+```
+
+**(ख) गणतन्त्र दिवस — जेठ १५:** नेपालमा **वि.सं. २०६५ जेठ १५** मा गणतन्त्र स्थापना
+भयो। त्यसअघिसम्म राजतन्त्रात्मक शासन थियो; अब सर्वसाधारण जनताबाटै राष्ट्रप्रमुख हुने
+व्यवस्था छ। यो दिवसले जनताको वर्षौँदेखिको त्याग र बलिदान सम्झाउँदै जनताप्रति
+उत्तरदायी हुन सिकाउँछ।
+
+**(ग) सहिद दिवस — माघ १६:** राष्ट्रिय स्वाधीनता र जनअधिकारका लागि आन्दोलनमा
+बलिदान दिने व्यक्तिलाई **सहिद** भनिन्छ। राणा शासन अन्त्यका लागि सङ्घर्ष गर्ने
+**शुक्रराज शास्त्री, धर्मभक्त माथेमा, गङ्गालाल श्रेष्ठ र दशरथ चन्द** लाई तत्कालीन राणा
+शासकले (वि.सं. १९९७ मा) मृत्युदण्ड दिए। यसको सम्झना र सहिदप्रति सम्मानमा माघ १६
+लाई सहिद दिवस मनाइन्छ। लोकतन्त्र र गणतन्त्रका आन्दोलनमा सहादत प्राप्त गर्ने वीरलाई
+पनि सहिदका रूपमा सम्मान गरिन्छ। यस दिवसले सहिदको बलिदानको कदर गर्न र उनीहरूको
+सपना साकार पार्न प्रेरित गर्छ।
+
+**(घ) मजदुर दिवस — मे १:** संसारभरका मजदुरले हकअधिकार (आठ घण्टे कामको माग
+लगायत) प्राप्त गरेको सम्झनामा हरेक वर्ष **मे १** मा अन्तर्राष्ट्रिय मजदुर दिवस मनाइन्छ;
+नेपालमा पनि सोही दिन मनाइन्छ। यसले श्रम र श्रमिकप्रति सम्मान गर्न प्रेरित गर्छ।
+
+**(ङ) नारी दिवस — मार्च ८:** हरेक वर्ष **मार्च ८** मा विश्वभर अन्तर्राष्ट्रिय नारी दिवस
+मनाइन्छ। महिला अधिकार, महिला सशक्तीकरण र लैङ्गिक समानता यसका विषय हुन्।
+
+**(च) बाल दिवस:** नेपालले **सन् १९९० सेप्टेम्बर १४** मा संयुक्त राष्ट्रसङ्घको **बाल
+अधिकार महासन्धि** स्वीकार गरेको सम्झनामा बाल दिवस मनाइन्छ। यसले बालबालिकाको
+अधिकार प्राप्ति र संरक्षणमा व्यक्ति, समुदाय र राष्ट्रलाई जिम्मेवारी बोध गराउँछ।
+
+::: caution "हस्ताक्षर" र "अनुमोदन"
+पाठ्यपुस्तकले सन् १९९० सेप्टेम्बर १४ लाई महासन्धिमा "हस्ताक्षर" गरेको दिन भनेको छ।
+ठ्याक्कै भन्दा नेपालले सन् १९९० जनवरीमा हस्ताक्षर गरेको थियो र **सेप्टेम्बर १४ मा
+अनुमोदन** गरेको थियो। यो दिन वि.सं. २०४७ **भदौ २९** पर्छ, त्यसैले नेपालमा राष्ट्रिय
+बाल दिवस भदौ २९ मा मनाइन्छ। प्रजातन्त्र दिवस वि.सं. २००७ सालको परिवर्तनको सम्झनामा
+**फागुन ७** मा मनाइन्छ।
+:::
+
+### राष्ट्रिय दिवसको महत्त्व
+
+(क) हाम्रो पहिचानको संरक्षण र संवर्धन गर्छ; (ख) देशमा घटेका महत्त्वपूर्ण घटना र
+तिनले ल्याएको परिवर्तन सम्झाइरहन्छ; (ग) राष्ट्रको गौरव बढाउँछ; (घ) ती घटना र
+परिवर्तनको रक्षा गर्न प्रेरित गर्छ; (ङ) भावी पुस्तालाई पुर्खाको योगदानको बोध गराई
+राष्ट्रप्रति जिम्मेवार हुन प्रेरित गर्छ; (च) नागरिक र राष्ट्रप्रति उत्तरदायी भई राज्य
+सञ्चालन गर्न मार्गनिर्देश गर्छ; (छ) आम नागरिकमा चेतना र जागरण ल्याउँछ; (ज)
+ऐतिहासिक तथ्य र घटनाको महत्त्वपूर्ण स्रोत बन्छ।
+
+::: note क्रियाकलाप — पाठ ३.५
+**१.** राष्ट्रिय दिवस मनाउने तौरतरिकामा के सुधार गर्नुपर्छ, समूहमा छलफल गरी निष्कर्ष
+प्रस्तुत गर्नुहोस्। (सङ्केत: भाषण मात्र होइन — सरसफाइ, रक्तदान, सहिद परिवार भेट,
+संविधान पढ्ने कार्यक्रम।)
+**२.** विद्यालयमा राष्ट्रिय दिवस कसरी मनाइन्छ, जोडीमा छलफल गरी दिवसले दिने सन्देश
+टिपोट गर्नुहोस्।
+**३.** कुनै एक राष्ट्रिय दिवस मनाउने कार्यक्रमको खाका तयार गर्नुहोस्।
+**परियोजना कार्य:** विद्यालयमा बाल दिवस वा अर्को कुनै दिवस मनाउने योजना बनाई
+साथीबिच जिम्मेवारी बाँड्नुहोस् र कार्यक्रमपछि समीक्षा गर्नुहोस्।
+:::
+
+### पाठको अभ्यास: नमुना उत्तर
+
+**१. राष्ट्रिय दिवस भनेको के हो, राष्ट्रिय दिवसको महत्त्व उल्लेख गर्नुहोस्।**
+राष्ट्रमा सामाजिक, आर्थिक, राजनीतिक वा सांस्कृतिक क्षेत्रमा महत्त्वपूर्ण घटना वा
+परिवर्तन भई जनताले उपलब्धि हासिल गरेको गौरवपूर्ण दिनलाई राष्ट्रिय दिवस भनिन्छ;
+जस्तै संविधान दिवस (असोज ३), गणतन्त्र दिवस (जेठ १५), सहिद दिवस (माघ १६)।
+**महत्त्व:** (क) पहिचानको संरक्षण र संवर्धन; (ख) ऐतिहासिक घटना र परिवर्तनको स्मरण;
+(ग) राष्ट्रिय गौरवमा वृद्धि; (घ) प्राप्त उपलब्धिको रक्षा गर्न प्रेरणा; (ङ) भावी पुस्तालाई
+पुर्खाको योगदानको बोध; (च) उत्तरदायी राज्य सञ्चालनको मार्गनिर्देश; (छ) नागरिक चेतना र
+जागरण; (ज) इतिहासको स्रोत।
+
+**२. हामी सहिद दिवस किन मनाउँछौँ, कारण दिनुहोस्।**
+(क) राणा शासनविरुद्ध लड्दा मृत्युदण्ड पाएका शुक्रराज शास्त्री, धर्मभक्त माथेमा,
+गङ्गालाल श्रेष्ठ र दशरथ चन्दलगायत सहिदको सम्झना र सम्मान गर्न; (ख) प्रजातन्त्र,
+लोकतन्त्र र गणतन्त्रका लागि ज्यान दिने सबै सहिदको बलिदानको कदर गर्न; (ग) आज हामीले
+पाएका अधिकार उनीहरूकै त्यागबाट आएको बोध गर्न; (घ) उनीहरूको स्वतन्त्र, न्यायपूर्ण र
+समृद्ध नेपालको सपना साकार पार्न प्रेरणा लिन; (ङ) नयाँ पुस्तामा देशभक्ति र
+जिम्मेवारीको भावना जगाउन।
+
+**३. "हाम्रा राष्ट्रिय दिवस हाम्रा चिनारी र गौरव हुन्।" भन्ने शीर्षकमा सम्पादकीय तयार
+गर्नुहोस्।**
+**सम्पादकीय: हाम्रा राष्ट्रिय दिवस हाम्रा चिनारी र गौरव हुन्**
+हरेक राष्ट्रिय दिवस इतिहासको एउटा उज्यालो पाना हो। माघ १६ ले राणा शासनविरुद्ध ज्यान
+दिने सहिदको, जेठ १५ ले राजतन्त्रबाट गणतन्त्रमा पुगेको जनताको लामो सङ्घर्षको र असोज
+३ ले जनताले आफैँ बनाएको संविधानको सम्झना गराउँछन्। मे १ र मार्च ८ ले श्रमिक र
+महिलाको अधिकार, भदौ २९ ले बालअधिकारको सन्देश दिन्छन्। यी दिवसले हामी को हौँ र
+कहाँबाट आयौँ भन्ने चिनारी दिन्छन्, त्यसैले यी हाम्रा गौरव हुन्। तर दिवस भाषण र
+बिदामा मात्र सीमित हुँदा यसको अर्थ हराउँछ। विद्यालयले घटनाको इतिहास पढाउने, सहिद
+परिवार र जेष्ठ नागरिकलाई सम्मान गर्ने, सरसफाइ र रक्तदान जस्ता रचनात्मक काम
+गर्नुपर्छ। राज्यले दिवसको भावनाअनुसार नीति लागु गर्नुपर्छ। दिवसको सन्देश आफ्नो
+आचरणमा उतार्न सके मात्र यी साँच्चै हाम्रा चिनारी र गौरव बन्छन्।
+
+## ३.६ अन्तर्राष्ट्रिय व्यक्तित्वहरू
+
+गौरव र प्रदिमनले पुस्तकालयमा "अन्तर्राष्ट्रिय व्यक्तित्व र उनीहरूका योगदान" नामक पुस्तक
+भेटे। पुस्तक र इन्टरनेट खोजीबाट उनीहरूले **नेल्सन मन्डेला** र **मलाला युसुफजई** बारे
+जानकारीमूलक लेख तयार पारे।
+
+### नेल्सन मन्डेला
+
+```photo id="soc10/mandela" caption="नेल्सन मन्डेला (सन् १९१८–२०१३) — रङ्गभेदविरुद्ध २७ वर्ष जेल बसेका, दक्षिण अफ्रिकाका पहिलो अश्वेत राष्ट्रपति र सन् १९९३ को नोबेल शान्ति पुरस्कार विजेता।" width="50"
+```
+
+| विवरण | तथ्य |
 |---|---|
-| To oneself | Study well, keep healthy and clean, be honest, avoid bad habits |
-| To the family | Respect and care for parents and elders, help in household work, protect the family's good name |
-| To the school | Obey rules, be regular and punctual, keep the school clean, help classmates |
-| To the community | Take part in cleaning and development work, settle quarrels peacefully, protect public property, help the poor, sick and elderly, do not discriminate |
-| To the nation | Obey the law, pay tax, vote, protect national heritage and symbols, support national unity, defend the country |
-| To the environment | Plant and care for trees, manage waste, save water and energy, do not pollute |
-| To humanity | Help victims of disaster, respect human rights, work for peace |
+| जन्म | १८ जुलाई, सन् १९१८, दक्षिण अफ्रिका |
+| मुख्य योगदान | रङ्गभेदी शासन अन्त्यका लागि नेतृत्व |
+| जेल जीवन | २७ वर्ष |
+| नोबेल शान्ति पुरस्कार | सन् १९९३ (शान्ति प्रक्रियामा योगदानका लागि) |
+| राष्ट्रपति | सन् १९९४; दक्षिण अफ्रिकाका पहिलो अश्वेत राष्ट्रप्रमुख |
+| अन्य काम | एचआइभी–एड्सविरुद्ध अभियान; कङ्गो, बुरुन्डी जस्ता अफ्रिकी देशमा शान्ति स्थापना |
+| निधन | ५ डिसेम्बर, सन् २०१३, जोहानेसबर्ग (९५ वर्षको उमेरमा) |
 
-### Examples of socially responsible action
+राष्ट्रपति भएपछि उनले सबैप्रति समान व्यवहार गरे। उनी शालीन, शान्त र हँसमुख स्वभावका
+थिए; उनको व्यक्तित्व र असल कर्मले पूरै विश्वलाई प्रभावित पार्‍यो। उनको योगदानले
+वर्तमान पुस्तालाई शान्ति र मानव अधिकारका लागि लाग्न मार्गदर्शन गरेको छ।
 
-- Taking part in a **community clean-up** of a river bank or trail.
-- **Blood donation** at age 18 and above, when healthy.
-- **Planting trees** on school grounds or hill slopes.
-- **Teaching** younger children or illiterate adults in the locality.
-- **Reporting** crimes such as child marriage, trafficking or domestic violence to the police or ward office.
-- **Paying taxes** and electricity bills on time; **asking for a bill** when shopping.
-- Using **public transport** and following traffic rules.
-- Giving priority seats to the elderly, the disabled and pregnant women.
+**मन्डेलाका केही महत्त्वपूर्ण विचार:**
 
-### Why social responsibility is important
+- १. स्वतन्त्रता भनेको बन्धनबाट मुक्त हुनु मात्र होइन, अरूको स्वतन्त्रताको सम्मान र
+  अभिवृद्धि गर्दै जिउन सक्नु हो।
+- २. म कहिल्यै हार्दिनँ, म या त जित्छु या सिक्छु।
+- ३. शिक्षा यस्तो सशक्त हतियार हो, जसले विश्व बदल्न सक्छ।
+- ४. सबैभन्दा गाह्रो काम समाजलाई होइन, आफैँलाई बदल्नु हो।
+- ५. कसैसँग उसले बुझ्ने भाषामा बोल्दा कुरा उसको दिमागमा जान्छ, उसकै मातृभाषामा
+  बोल्दा उसको दिलमा गएर बस्छ।
+- ६. बहादुर त्यो होइन जो डराउँदैन; बहादुर त्यो हो जो डरको बाबजुद अघि बढ्छ।
 
-1. It creates a **peaceful, clean and safe** society.
-2. It makes the **development** of the community faster, because people work together.
-3. It develops **good citizens** with human values.
-4. It reduces **crime, corruption and discrimination**.
-5. It helps **protect heritage and the environment** for the future.
+### मलाला युसुफजई
 
-### Why people fail in their responsibility, and remedies
+मलाला युसुफजई पाकिस्तानी **महिला शिक्षा तथा बालअधिकार अभियन्ता** हुन्।
 
-Causes: selfishness, lack of awareness, lack of time because of work and migration, weak enforcement of rules, the habit of leaving everything to the government. Remedies: education from childhood, good family example, school service projects and volunteering, rewards for good citizens, strict but fair laws, and the use of media to spread good examples.
+```figure caption="मलाला युसुफजईको जीवनयात्रा (पाठ्यपुस्तकका तथ्यअनुसार)। उनी नोबेल पुरस्कार पाउने हालसम्मकै सबैभन्दा कम उमेरकी व्यक्ति हुन्।"
+fig, ax = flow([("सन् १९९७", "जन्म;\nस्वात"),
+                ("विरोध", "शिक्षामा\nप्रतिबन्ध"),
+                ("आक्रमण", "गोली लाग्यो;\nबाँचिन्"),
+                ("सन् २०१३", "धेरै\nपुरस्कार"),
+                ("सन् २०१४", "नोबेल\nपुरस्कार")],
+               figsize=(5.9, 1.9))
+```
 
-::: tip Rights and duties
-When a question asks about rights, mention the **related duty** as well: the right to education — the duty to study honestly; the right to a clean environment — the duty not to pollute.
+- उनको जन्म **सन् १९९७ जुलाई १२** मा पाकिस्तानको खैबर पख्तुनख्वा प्रान्तको स्वात
+  जिल्लामा भयो।
+- तालिबानले स्वात उपत्यकामा बालिकालाई विद्यालय जान प्रतिबन्ध लगाएको थियो; मलालाले
+  सानै उमेरमा त्यसको विरोध गरिन् र धम्कीका बाबजुद बालिका शिक्षाको अभियान चलाइन्।
+- महिला शिक्षाको वकालत गरेबापत तालिबानले उनलाई गोली हानी हत्याको प्रयास गरे, तर
+  उनी बाँच्न सफल भइन्।
+- बालअधिकारको वकालत गर्ने संस्था किड्स राइट्स फाउन्डेसनले उनलाई अन्तर्राष्ट्रिय बाल
+  शान्ति पुरस्कारका लागि मनोनयन गरेको थियो।
+- पाठ्यपुस्तकअनुसार उनलाई सन् २०१३ मा भाइटल भोइसेज ग्लोबल लिडरसिप एवार्ड,
+  इन्टरनेसनल पिस एवार्ड, क्लिन्टन ग्लोबल सिटिजन एवार्ड, इन्टरनेसनल इक्वालिटी
+  एवार्ड र नेसनल युथ पिस पुरस्कार दिइयो।
+- **सन् २०१४** को नोबेल शान्ति पुरस्कार पाउने मलाला नोबेल पुरस्कार पाउने हालसम्मकै
+  **सबैभन्दा कम उमेरकी** व्यक्ति हुन् (त्यस बेला १७ वर्ष)।
+
+::: caution उमेर र मितिबारे
+पाठ्यपुस्तकले तालिबानको विरोध गर्दा मलाला "१३ वर्षकी" थिइन् भनेको छ। उनले सन् २००९
+देखि (११–१२ वर्षको उमेरदेखि) विरोध सुरु गरेकी थिइन् र उनीमाथि आक्रमण **सन् २०१२**
+मा, १५ वर्षको उमेरमा भएको थियो। पाकिस्तानको राष्ट्रिय युवा शान्ति पुरस्कार उनले
+सन् २०११ मै पाएकी थिइन्। सन् २०१४ को नोबेल शान्ति पुरस्कार उनले भारतका कैलाश
+सत्यार्थीसँग संयुक्त रूपमा पाएकी थिइन्।
 :::
 
-## Chapter summary
-
-- **Heritage** is what we inherit; it may be cultural, natural or intangible. Nepal has **four World Heritage Sites**: Kathmandu Valley (1979), Sagarmatha National Park (1979), Chitwan National Park (1984) and Lumbini (1997).
-- The **Kathmandu Valley** has seven monument zones: Kathmandu, Patan and Bhaktapur Durbar Squares, Swayambhunath, Boudhanath, Pashupatinath and Changu Narayan.
-- **Folk songs** are community songs passed on orally: Asare, Jhyaure, Maruni, Sorathi, Selo, Deuda, Dohori, Lahure.
-- **Instruments** are string (sarangi), wind (bansuri, narsingha), drums (madal, damphu, dhime) and cymbals (jhyali); the madal is the best-known; panche baja is played by the Damai.
-- **Folk dances** (Maruni, Tharu stick dance, Deuda, Sakela) come from communities; **classical dances** such as Charya nritya have strict rules and training.
-- **National days:** Unity Day (27 Poush), Martyrs' Day (16 Magh), Democracy Day (7 Falgun), Republic Day (15 Jestha), Constitution Day (3 Ashwin), Loktantra Diwas (11 Baisakh).
-- **International personalities:** Gandhi (non-violence), Mandela (anti-apartheid, Nobel 1993), Mother Teresa (service to the poor, Nobel 1979), Martin Luther King Jr. (civil rights).
-- **Universal brotherhood** means the world is one family; **social responsibility** means doing our duty to self, family, community, nation, environment and humanity.
-
-## Practice questions
-
-**Group A — Objective questions (1 mark each)**
-
-1. How many World Heritage Sites does Nepal have? <span class="marks">[1]</span>
-   (a) 2 (b) 3 (c) 4 (d) 5
-2. In which year was Lumbini listed as a World Heritage Site? <span class="marks">[1]</span>
-   (a) 1979 (b) 1984 (c) 1997 (d) 2006
-3. The best-known drum of Nepal is the <span class="marks">[1]</span>
-   (a) damphu (b) madal (c) dhime (d) nagara
-4. The Asare geet is sung while <span class="marks">[1]</span>
-   (a) harvesting wheat (b) transplanting rice (c) herding yaks (d) marching to war
-5. Constitution Day of Nepal is celebrated on <span class="marks">[1]</span>
-   (a) 7 Falgun (b) 15 Jestha (c) 3 Ashwin (d) 27 Poush
-6. Who founded the Missionaries of Charity? <span class="marks">[1]</span>
-   (a) Mother Teresa (b) Henry Dunant (c) Gandhi (d) Mandela
-7. The UN observes Gandhi's birthday, 2 October, as <span class="marks">[1]</span>
-   (a) Human Rights Day (b) International Day of Non-Violence (c) World Peace Day (d) United Nations Day
-8. Which of the following is a classical dance of the Newar community? <span class="marks">[1]</span>
-   (a) Maruni (b) Deuda (c) Charya nritya (d) Sakela
-
-::: note Answers to Group A
-**1.** (c) — four: Kathmandu Valley, Sagarmatha, Chitwan, Lumbini.
-**2.** (c) — 1997.
-**3.** (b) — the madal is used in most folk songs and dances.
-**4.** (b) — Asare songs go with rice transplanting in Asar.
-**5.** (c) — 3 Ashwin; 7 Falgun is Democracy Day, 15 Jestha is Republic Day, 27 Poush is Unity Day.
-**6.** (a) — Mother Teresa, in 1950.
-**7.** (b) — the UN has declared 2 October the International Day of Non-Violence.
-**8.** (c) — Charya nritya is a ritual Buddhist dance of the Newar community.
+::: note क्रियाकलाप — पाठ ३.६
+**१.** मन्डेला र मलालाको जीवनीबाट पाएको प्रेरणा लेख्नुहोस्; पुस्तकालय वा सामाजिक
+सञ्जालबाट अरू दुई अन्तर्राष्ट्रिय व्यक्तित्व (जस्तै महात्मा गान्धी, मदर टेरेसा) को जीवनी
+खोजी विवरण तयार गर्नुहोस्।
+**२.** मन्डेला जस्तै प्रसिद्ध व्यक्ति बन्न आफूले गर्ने कामबारे कक्षामा साथीसँग
+आदानप्रदान गर्नुहोस्।
 :::
 
-**Group B — Short answer (2 marks each)**
+### पाठको अभ्यास: नमुना उत्तर
 
-1. What is heritage? Name any two World Heritage Sites of Nepal. <span class="marks">[2]</span>
-2. What is a folk song? Write any two examples. <span class="marks">[2]</span>
-3. Write any four folk instruments of Nepal. <span class="marks">[2]</span>
-4. Why do we celebrate Democracy Day? <span class="marks">[2]</span>
-5. Write any two contributions of Mahatma Gandhi. <span class="marks">[2]</span>
-6. What is universal brotherhood? <span class="marks">[2]</span>
-7. Write any four social responsibilities of a student. <span class="marks">[2]</span>
+**१. अन्तर्राष्ट्रिय व्यक्तित्वको जीवनी अध्ययन गर्नु किन आवश्यक छ?**
+(क) उनीहरूको सङ्घर्ष र सफलताबाट जीवनमा अघि बढ्ने प्रेरणा मिल्छ — मन्डेला २७ वर्ष जेल
+बसेर पनि हार मानेनन्; (ख) शान्ति, अहिंसा, मानव अधिकार र समानता जस्ता मूल्य सिकिन्छ;
+(ग) अरू देशको इतिहास, समाज र समस्या बुझिन्छ; (घ) डरको बाबजुद सत्यका पक्षमा उभिने
+साहस आउँछ — मलालाले गोली खाएर पनि शिक्षाको अभियान छोडिनन्; (ङ) आफ्नो लक्ष्य
+तय गर्न र असल नेतृत्व विकास गर्न आदर्श पाइन्छ।
 
-::: note Answers to Group B
-**1.** Heritage is what we inherit from the past and pass on to the future. Two sites: Lumbini and Sagarmatha National Park (or Kathmandu Valley, Chitwan National Park).
-**2.** A folk song is a community song passed on orally in the language of ordinary people. Examples: Asare geet, Deuda, Maruni, Selo.
-**3.** Madal, sarangi, bansuri, damphu, dhime, panche baja, murchunga, jhyali (any four).
-**4.** Democracy Day (7 Falgun) marks the 2007 BS revolution that ended Rana rule and brought democracy, with freedom and rights for the people.
-**5.** He led India's freedom movement by non-violence and satyagraha (Salt March, Quit India) and worked for truth, equality and simple living.
-**6.** It is the feeling that all human beings are one family and should treat each other with love, respect and help.
-**7.** Study sincerely, obey school rules, keep surroundings clean, respect elders, help classmates, protect public property, plant trees (any four).
+**२. तपाईँको स्थानीय तहमा योगदान दिएका व्यक्तिको जीवनी तयार गर्नुहोस्।**
+जीवनी लेख्दा यो ढाँचा अपनाउनुहोस् — (क) नाम, जन्ममिति र जन्मस्थान; (ख) परिवार र
+शिक्षा; (ग) मुख्य कार्यक्षेत्र (शिक्षा, स्वास्थ्य, समाजसेवा, खेलकुद, संस्कृति); (घ)
+उल्लेखनीय योगदान र उपलब्धि; (ङ) पाएका सम्मान; (च) उहाँबाट लिनुपर्ने प्रेरणा।
+**नमुना:** "हाम्रो वडाका सेवानिवृत्त शिक्षक श्री … ले ३० वर्ष गाउँको विद्यालयमा पढाउनुभयो।
+उहाँले घरदैलो अभियान चलाएर छोरीलाई विद्यालय पठाउन अभिभावकलाई सम्झाउनुभयो, आफ्नै
+जग्गा दान गरेर पुस्तकालय बनाउनुभयो र प्रौढ शिक्षा कक्षा चलाउनुभयो। उहाँको लगनले
+आज गाउँमा कोही निरक्षर छैनन्। उहाँबाट हामीले निःस्वार्थ सेवा र शिक्षाप्रतिको
+प्रतिबद्धता सिक्नुपर्छ।"
+
+**३. नेल्सन मन्डेलाका महत्त्वपूर्ण योगदानको सूची तयार गर्नुहोस्।**
+(क) दक्षिण अफ्रिकाको रङ्गभेदी शासन अन्त्य गर्न नेतृत्व; (ख) अधिकारका लागि २७ वर्ष
+जेल जीवन; (ग) रङ्गभेद र जातिभेदविरुद्धको आन्दोलन सफल पारी सन् १९९४ मा पहिलो अश्वेत
+राष्ट्रपति; (घ) राष्ट्रपति भएपछि सबैप्रति समान व्यवहार; (ङ) द्वन्द्व अन्त्य गरी शान्ति
+प्रक्रिया टुङ्ग्याउन महत्त्वपूर्ण भूमिका — सन् १९९३ को नोबेल शान्ति पुरस्कार; (च)
+एचआइभी–एड्सविरुद्ध अभियान; (छ) कङ्गो र बुरुन्डी जस्ता अफ्रिकी देशमा शान्ति
+स्थापनामा संलग्नता; (ज) शिक्षा, स्वतन्त्रता र साहसका प्रेरक विचार।
+
+**४. मलाला युसुफजईले जस्तै तपाईँ आफ्नो समाजमा योगदान दिनुपर्दा कुन क्षेत्रमा योगदान
+दिन चाहनुहुन्छ, कारणसहित उल्लेख गर्नुहोस्।**
+म **बालिका शिक्षा** को क्षेत्रमा योगदान दिन चाहन्छु। कारण: (क) हाम्रो समाजमा अझै
+घरको काम, बालविवाह र गरिबीका कारण कतिपय छोरी विद्यालय छाड्छन्; (ख) शिक्षित छोरीले
+पूरै परिवार र अर्को पुस्तालाई शिक्षित बनाउँछिन्; (ग) मलालाले भनेझैँ शिक्षा नै परिवर्तनको
+सबैभन्दा बलियो हतियार हो। यसका लागि म टोलमा विद्यालय छाडेका बालिकाको सूची बनाउने,
+अभिभावकलाई सम्झाउने, साना बालबालिकालाई निःशुल्क ट्युसन दिने र बालविवाहविरुद्ध
+जनचेतना फैलाउने काम गर्छु।
+
+## ३.७ विश्वबन्धुत्व र मानवता
+
+सुजनकी आमा वैदेशिक रोजगारीमा इजरायलमा हुनुहुन्छ। उहाँले त्यहाँका अनुभव समेटेर कक्षा
+१० मा पढ्ने छोरालाई विश्वबन्धुत्व के हो र किन आवश्यक छ भन्ने विषयमा **मिति
+२०७९/०३/१०** मा चिठी लेख्नुभयो।
+
+### चिठीका मुख्य कुरा
+
+- घर छोडेर विदेश पुगेपछि आफन्तसँग कहिलेकाहीँ हुने खटपट बेकार रहेछ जस्तो लाग्यो;
+  त्यहाँ अपरिचित र विदेशीसँग सम्बन्ध, सहयोग, सद्भाव र सहकार्य बढेको छ।
+- मानिस दुरी, भूगोल, प्रजाति, पेसा, धर्म, संस्कृति र परम्पराले भिन्न होलान्, तर
+  **मानवीयता र मानवीय व्यवहारमा सबै एक हौँ**; संसारका सबै मानव आफन्त हौँ।
+- विभिन्न देशका साथी एउटै परिवारका सदस्य झैँ मिलेर काम गर्छन्; बिरामी पर्दा
+  उनीहरूले सहयोग गरे; त्यहाँका नागरिकले पनि परिवारकै सदस्यझैँ व्यवहार गरे।
+- को काला, को गोरा, को हिन्दु, को मुस्लिम, को इसाई भन्दा **मानवीयताको भावना ठुलो**।
+- विश्वबन्धुत्वले समाजमा एकत्व र सबैले शान्ति र सहअस्तित्वका साथ बाँच्न पाउने
+  मानवीय हक सुनिश्चित गर्छ; **युद्ध र हिंसामुक्त विश्व समाज** यसको मूल अभिप्राय हो।
+- जातीय, भाषिक, धार्मिक र क्षेत्रीय सबै विभेदको अन्त्य यसको मूल चासो हो।
+- सम्मान, जिम्मेवारी बोध, सहिष्णुता र इमानदारिताको पालनाले विश्वबन्धुत्व बढ्छ।
+- सुजनले समाजका मानिसलाई काका, मामा, काकी भनी नाता लगाएर सम्बोधन गर्नु र
+  फुपाजु आउँदा आतिथ्य गर्नु आमालाई मन पर्‍यो — यस्तै व्यवहार विश्वबन्धुत्वको आधार हो।
+
+::: definition विश्वबन्धुत्व
+विश्वभर बसेका मानिसलाई आफ्नै परिवारको सदस्य जस्तै ठानेर सुखदुःखमा साथ दिने भावना,
+सहयोग र सहकार्यको संस्कार तथा एकले अर्कालाई आफन्त ठानेर मानवताको व्यवहार
+गर्नुपर्छ भन्ने अवधारणालाई **विश्वबन्धुत्व** भनिन्छ।
 :::
 
-**Group C — Long answer (4 marks each)**
+::: definition विश्वग्राम
+सूचना प्रविधिको युगमा कुनै ठाउँको घटना तत्कालै विश्वको अर्को ठाउँमा थाहा हुन्छ।
+भूगोल अलग र दुरी टाढा भए पनि मानवीय व्यवहार, सद्भाव, सहकार्य र सहयोगका कारण
+संसार एउटा सानो गाउँ जस्तो सीमाविहीन समाजमा बदलिएको छ; यसैलाई **विश्वग्राम**
+भनिन्छ।
+:::
 
-1. Describe the importance of national heritage and suggest four ways of protecting it. <span class="marks">[4]</span>
-2. Write a short note on the folk dances and folk instruments of Nepal and their importance. <span class="marks">[4]</span>
-3. Explain the importance of national days and describe any two national days of Nepal. <span class="marks">[4]</span>
-4. Write about the life and message of Nelson Mandela or Mother Teresa. <span class="marks">[4]</span>
-5. What is social responsibility? Explain the responsibilities of a student to family, school and community. <span class="marks">[4]</span>
-6. "The world is one family." Explain the meaning and write four ways of promoting universal brotherhood. <span class="marks">[4]</span>
+```figure caption="विश्वबन्धुत्व बढाउने मानवीय मूल्य। यी मूल्यको पालनाले मानिस एकअर्कालाई आफन्त ठान्छन् र युद्ध तथा हिंसामुक्त विश्व समाज बन्छ।"
+fig, ax = cycle(["सम्मान", "जिम्मेवारी\nबोध", "सहिष्णुता", "इमानदारिता", "सहयोग र\nसहानुभूति"],
+                centre="विश्व–\nबन्धुत्व", figsize=(4.4, 3.6))
+```
 
-::: note Answers to Group C
-**1.** Importance: identity and history; tourism income; education; peace and unity; world value. Protection: laws and the Department of Archaeology; repair with traditional methods; guarded sites and fees used for repair; awareness and community involvement; no theft or damage.
-**2.** Folk dances such as Maruni, Tharu stick dance, Deuda and Sakela belong to communities and are shown at festivals; instruments such as the madal, sarangi, bansuri, damphu and panche baja give them music. Importance: they preserve culture and identity, entertain, unite people and attract tourists; they need protection from fading.
-**3.** National days remember history and sacrifice, build unity and teach democratic values. Two examples with date and meaning: Constitution Day (3 Ashwin 2072, promulgation of the constitution by the elected Constituent Assembly) and Republic Day (15 Jestha 2065, abolition of monarchy and declaration of the federal democratic republic).
-**4.** Mandela: born 1918; fought apartheid; imprisoned 27 years; released 1990; Nobel Peace Prize 1993; president 1994–1999; message of equality, forgiveness and reconciliation. Mother Teresa: born 1910; came to India 1929; founded the Missionaries of Charity 1950; Nobel Peace Prize 1979; message of service to the poorest with love.
-**5.** Definition. Family: respect and care; household help. School: discipline, regularity, cleanliness. Community: cleaning and development work, helping the needy, no discrimination, protecting public property.
-**6.** The world is one family means all humans belong together. Ways: respect others' religion and culture; help the needy; join Red Cross, scouts or volunteer groups; oppose discrimination and violence; learn about other nations.
+```photo id="soc10/un-ga" caption="संयुक्त राष्ट्रसङ्घको महासभा कक्ष। संसारका देश एकै ठाउँ बसेर शान्ति र सहयोगबारे छलफल गर्नु विश्वबन्धुत्वको संस्थागत रूप हो।" width="60"
+```
+
+::: note क्रियाकलाप — पाठ ३.७
+**१. तालिका पूरा गर्नुहोस्:**
+
+| विश्वबन्धुत्वका फाइदा | विश्वबन्धुत्वका मूल्य |
+|---|---|
+| युद्ध र हिंसाबाट मुक्ति, शान्ति | सम्मान |
+| विदेशमा पनि सहयोग र सुरक्षा | जिम्मेवारी बोध |
+| विभेदको अन्त्य, सहअस्तित्व | सहिष्णुता |
+| विपद्मा अन्तर्राष्ट्रिय सहयोग | इमानदारिता |
+| ज्ञान, व्यापार र संस्कृतिको आदानप्रदान | सहानुभूति, सहयोग, अरूको अस्तित्व स्वीकार |
+
+**२.** विदेशबाट फर्केका मानिससँग भेटेर विदेशीले गरेको व्यवहार र त्यसबाट उहाँले के
+महसुस गर्नुभयो, सोधखोज गरी प्रतिवेदन तयार गर्नुहोस्।
+:::
+
+### पाठको अभ्यास: नमुना उत्तर
+
+**१. विश्वबन्धुत्व भनेको के हो? विश्वबन्धुत्व कायम गर्न हामीले के के गर्नुपर्छ, लेख्नुहोस्।**
+संसारभरका मानिसलाई आफ्नै परिवारका सदस्य ठानेर सुखदुःखमा साथ दिने, सहयोग र
+सहकार्य गर्ने र मानवताको व्यवहार गर्ने भावना विश्वबन्धुत्व हो। **कायम गर्न:** (क)
+सङ्कीर्णता त्याग्ने; (ख) जात, भाषा, धर्म, रङ र क्षेत्रका आधारमा विभेद नगर्ने; (ग)
+सम्मान, जिम्मेवारी बोध, सहिष्णुता र इमानदारिता अपनाउने; (घ) सबैलाई नाता लगाएर
+परिवारका सदस्यझैँ व्यवहार गर्ने; (ङ) पाहुना र विदेशीलाई आतिथ्य दिने; (च) सबैप्रति
+सहानुभूति र सहयोग देखाउने र अरूको अस्तित्व स्वीकार गर्ने; (छ) विपद्मा परेका जुनसुकै
+देशका मानिसलाई सहयोग गर्ने।
+
+**२. विश्वग्रामको परिचय दिँदै यसले मानव जीवनमा पारेको प्रभाव उल्लेख गर्नुहोस्।**
+सूचना प्रविधिका कारण संसारका घटना तत्कालै जहाँसुकै थाहा हुने र दुरी टाढा भए पनि
+मानिस एउटै गाउँका बासिन्दाझैँ जोडिएको अवस्थालाई विश्वग्राम भनिन्छ। **सकारात्मक
+प्रभाव:** (क) विदेशमा रहेका परिवारसँग तुरुन्तै कुरा गर्न सकिन्छ; (ख) शिक्षा, स्वास्थ्य र
+प्रविधिको ज्ञान छिट्टै फैलिन्छ; (ग) व्यापार, रोजगारी र पर्यटन बढेका छन्; (घ) विपद्मा
+अन्तर्राष्ट्रिय सहयोग चाँडो आउँछ; (ङ) फरक संस्कृति बुझ्ने र सम्मान गर्ने अवसर
+मिलेको छ। **नकारात्मक प्रभाव:** विदेशी संस्कृतिको अन्धानुकरण, मौलिक संस्कृतिको
+ह्रास, भ्रामक सूचना र साइबर अपराध पनि बढेका छन्। त्यसैले विश्वग्रामको फाइदा लिँदै
+आफ्नो पहिचान जोगाउनुपर्छ।
+
+**३. वर्तमान विश्वमा विश्वबन्धुत्व र मानवताको महत्त्व उल्लेख गर्नुहोस्।**
+(क) युद्ध, हिंसा र आतङ्कबाट मुक्त शान्त विश्व बनाउन; (ख) जातीय, भाषिक, धार्मिक र
+क्षेत्रीय विभेद हटाउन; (ग) सबैलाई शान्ति र सहअस्तित्वसहित बाँच्ने मानवीय हक
+सुनिश्चित गर्न; (घ) लाखौँ नेपाली विदेशमा काम गर्ने भएकाले उनीहरूलाई सुरक्षित र
+सम्मानित वातावरण दिन; (ङ) भूकम्प, महामारी र जलवायु परिवर्तन जस्ता साझा समस्याको
+सामना संसार मिलेर मात्र गर्न सकिने भएकाले; (च) ज्ञान, प्रविधि र व्यापारको आदानप्रदान
+गरी सबैको विकास गर्न।
+
+**४. "वसुधैव कुटुम्बकम्" भनेको के हो?**
+"वसुधैव कुटुम्बकम्" संस्कृत भनाइ हो — **वसुधा** (पृथ्वी) **एव** (नै) **कुटुम्बकम्**
+(परिवार), अर्थात् "सारा पृथ्वी नै एउटा परिवार हो"। प्राचीन पूर्वीय ग्रन्थ (महोपनिषद्)
+मा पाइने यो भनाइ विश्वबन्धुत्वको मूल भावना हो। यसले संसारका सबै मानिस आफन्त हुन्,
+आफ्नो र अर्काको भनेर भेद गर्नु सानो मनको काम हो र सबैप्रति प्रेम, सहयोग र सम्मान
+गर्नुपर्छ भन्ने सिकाउँछ।
+
+## ३.८ हाम्रो सामाजिक दायित्व
+
+समाजमा सहयोग र सेवा चाहिने मानिस हुन्छन्; तीमध्ये **जेष्ठ नागरिक, असहाय र अपाङ्गता
+भएका व्यक्ति** प्रति व्यक्ति, परिवार र समाजको जिम्मेवारी बढी हुन्छ। उनीहरूलाई सामाजिक
+सुरक्षा, सहयोग र मानवीय सेवा दिनु हरेक नागरिकको दायित्व हो। यो दायित्व पूरा गर्दा
+सामाजिक सहअस्तित्व र एकता सुदृढ हुन्छ र असल संस्कार तथा मूल्यमान्यता स्थापित
+हुन्छन्। पाठ्यपुस्तकमा कक्षा १० का एक विद्यार्थीले लेखेको सम्पादकीय दिइएको छ।
+
+### जेष्ठ नागरिक: हाम्रा गौरव
+
+जेष्ठ नागरिक हाम्रा गौरव हुन् — समाज, संस्कृति, मूल्यमान्यता र परम्पराका **स्रोत**,
+असल बाटो देखाउने **पथप्रदर्शक** र कला–संस्कृति पुस्तान्तरण गर्ने **अग्रज**। उनीहरूले
+जीवनको महत्त्वपूर्ण समय परिवार, समाज र राष्ट्रलाई दिएका हुन्छन् र उनीहरूसँग ज्ञान,
+सिप र अनुभवको भण्डार हुन्छ।
+
+| तह | जेष्ठ नागरिकका लागि भएका व्यवस्था र गर्नुपर्ने काम |
+|---|---|
+| संविधान | जेष्ठ नागरिकलाई राज्यबाट विशेष संरक्षण र सामाजिक सुरक्षाको हक (धारा ४१) |
+| जेष्ठ नागरिकसम्बन्धी ऐन (२०६३) | आर्थिक हैसियत र इज्जतअनुसार पालनपोषण र हेरचाह गर्नु परिवारका प्रत्येक सदस्यको कर्तव्य |
+| राज्य | मासिक सामाजिक सुरक्षा भत्ता; सार्वजनिक सवारी, स्वास्थ्य सेवा लगायतमा सुविधा र छुट |
+| हामी (परिवार–समाज) | उचित स्याहार र हेरचाह; उनीहरूको ज्ञान र अनुभव समेटेर पारिवारिक योजना; रुचिअनुसार काम र भ्रमण; सम्मान र सहयोग |
+
+### असहाय र अपाङ्गता भएका व्यक्ति
+
+असहाय र अपाङ्गता भएका व्यक्तिसँग पनि विविध ज्ञान, सिप, क्षमता र योग्यता हुन्छन्;
+तिनलाई देश विकासमा उपयोग गर्न सकिन्छ। उनीहरूलाई आवश्यकताअनुसार सेवा–सहयोग र
+**सम्मान तथा समानुभूतिपूर्ण व्यवहार** गर्नुपर्छ।
+
+- **संविधानको धारा ४३:** असहाय र आफ्नो हेरचाह आफैँ गर्न नसक्ने नागरिकलाई
+  कानुनबमोजिम **सामाजिक सुरक्षाको हक** हुन्छ।
+- **आरक्षण:** अपाङ्गता भएका व्यक्तिलाई राज्यको मूल प्रवाहमा ल्याउन सरकारी सेवा, शिक्षा,
+  स्वास्थ्य, सामाजिक र सार्वजनिक क्षेत्रलगायत राज्यका हरेक निकायमा आरक्षण।
+- **अपाङ्गतामैत्री वातावरण:** सार्वजनिक स्थानमा र्‍याम्प, शौचालय जस्ता पहुँचयोग्य संरचना
+  बनाई विशेष संरक्षणको प्रयास।
+- **अपाङ्गता भएका व्यक्तिको अधिकारसम्बन्धी ऐन, २०७४** (एकाइ १ मा पढिएको) ले
+  अपाङ्गताको वर्गीकरण र अधिकार तोकेको छ।
+
+```figure caption="जेष्ठ नागरिक, असहाय र अपाङ्गता भएका व्यक्तिप्रतिको दायित्व तीन तहमा। कानुन र सुविधा मात्र होइन, सम्मानपूर्ण व्यवहार नै अन्तिम लक्ष्य हो।"
+fig, ax = flow([("राज्य", "कानुन, भत्ता,\nआरक्षण"),
+                ("समुदाय", "पहुँचयोग्य\nसंरचना, अवसर"),
+                ("परिवार", "स्याहार, सम्मान,\nसमानुभूति"),
+                ("लक्ष्य", "सम्मानपूर्ण\nजीवन")],
+               figsize=(5.8, 1.9))
+```
+
+सम्पादकीयको निष्कर्ष: कानुन र सुविधाले मात्र दायित्व पूरा हुँदैन। सबैभन्दा महत्त्वपूर्ण
+कुरा, उनीहरूले **अन्य नागरिकसरह सम्मानपूर्वक र सुविधाजनक तरिकाले** जीवन बिताउन
+पाउनुपर्छ; यस्तो वातावरण बनाउनु हामी सबैको कर्तव्य हो।
+
+::: note क्रियाकलाप — पाठ ३.८
+**१.** जेष्ठ नागरिक, असहाय र अपाङ्गता भएका व्यक्तिको सहयोग र सम्मानका लागि आफूले
+गर्ने कामबारे छलफल गरी विवरण बनाउनुहोस्।
+**२.** "असहाय र अपाङ्गता भएका व्यक्तिप्रतिको हाम्रो दायित्व" शीर्षकमा वक्तृत्वकला
+प्रतियोगिता चलाउनुहोस्।
+**सामुदायिक कार्य:** परिवार र छरछिमेकका जेष्ठ नागरिक, असहाय र अपाङ्गता भएका व्यक्तिको
+अवस्था साथीसँग मिलेर खोजी गर्नुहोस् र संरक्षण तथा सम्मानका सुझावसहित प्रतिवेदन
+तयार गर्नुहोस्।
+:::
+
+### पाठको अभ्यास: नमुना उत्तर
+
+**१. जेष्ठ नागरिकको महत्त्व कुनै चार बुँदामा उल्लेख गर्नुहोस्।**
+(क) जेष्ठ नागरिक समाज, संस्कृति, मूल्यमान्यता र परम्पराका स्रोत हुन्; (ख) असल बाटो
+देखाउने पथप्रदर्शक हुन्; (ग) कला, संस्कृति र मूल्यमान्यता नयाँ पुस्तामा पुस्तान्तरण
+गर्ने अग्रज हुन्; (घ) उनीहरूसँग भएको ज्ञान, सिप र अनुभवको भण्डार परिवार, समाज र
+राष्ट्रको हितमा उपयोग गर्न सकिन्छ।
+
+**२. "जेष्ठ नागरिक हाम्रा पथप्रदर्शक, संस्कृति, मूल्यमान्यता र परम्पराका स्रोत हुन्।" यस
+भनाइलाई तर्कसहित पुष्टि गर्नुहोस्।**
+जेष्ठ नागरिकले जीवनभर परिवार, समाज र राष्ट्रका लागि काम गरेर धेरै अनुभव बटुलेका
+हुन्छन्। **पथप्रदर्शक:** परिवारमा समस्या पर्दा, खेतीपाती वा व्यापारमा निर्णय गर्दा र
+झैझगडा मिलाउँदा उनीहरूको अनुभवले सही बाटो देखाउँछ। **संस्कृतिका स्रोत:** चाडपर्व
+मनाउने विधि, लोकगीत, लोककथा, परम्परागत परिकार र जडीबुटीको ज्ञान उनीहरूबाटै
+नयाँ पुस्तामा सर्छ। **मूल्यमान्यताका स्रोत:** ठुलालाई आदर, इमानदारी, सहयोग र मेलमिलाप
+जस्ता मूल्य उनीहरूले आफ्नो आचरणबाट सिकाउँछन्। **परम्पराका स्रोत:** संस्कार, जात्रा र
+पूजा विधिको निरन्तरता उनीहरूकै कारण छ। त्यसैले यो भनाइ पूर्ण सत्य हो; उनीहरूको
+हेरचाह र सम्मान गर्नु हाम्रो कर्तव्य हो।
+
+**३. असहाय र अपाङ्गता भएका व्यक्तिको सुविधा र संरक्षणका लागि भएका कानुनी व्यवस्था
+के के छन्, उल्लेख गर्नुहोस्।**
+(क) संविधानको धारा ४३ ले असहाय र आफ्नो हेरचाह आफैँ गर्न नसक्ने नागरिकलाई
+कानुनबमोजिम सामाजिक सुरक्षाको हक दिएको छ; (ख) संविधानले असहाय र अपाङ्गको सहयोग
+र संरक्षणका लागि विशेष व्यवस्था गर्ने नीति लिएको छ; (ग) सरकारी सेवा, शिक्षा, स्वास्थ्य,
+सामाजिक र सार्वजनिक क्षेत्रलगायत राज्यका हरेक निकायमा आरक्षण; (घ) सार्वजनिक
+स्थानमा अपाङ्गतामैत्री वातावरण; (ङ) अपाङ्गता भएका व्यक्तिको अधिकारसम्बन्धी ऐन,
+२०७४ ले अपाङ्गताको वर्गीकरण, परिचयपत्र र अधिकार तोकेको छ; (च) राज्यले सामाजिक
+सुरक्षा भत्ता दिँदै आएको छ।
+
+**४. अपाङ्गता भएका व्यक्तिलाई दया माया होइन, अवसर प्रदान गर्नुपर्छ, किन?**
+(क) अपाङ्गता भएका व्यक्तिसँग पनि ज्ञान, सिप, क्षमता र योग्यता हुन्छन्; अवसर पाए
+उनीहरू पनि शिक्षक, खेलाडी, कलाकार, उद्यमी बनेर देश विकासमा योगदान दिन सक्छन्।
+(ख) दयाले उनीहरूलाई अरूमा निर्भर र आत्मविश्वासहीन बनाउँछ; अवसरले आत्मनिर्भर र
+स्वाभिमानी बनाउँछ। (ग) अन्य नागरिकसरह सम्मानपूर्वक बाँच्न पाउनु उनीहरूको अधिकार हो,
+कसैको कृपा होइन। (घ) शिक्षा, रोजगारी, आरक्षण र अपाङ्गतामैत्री संरचनाले उनीहरूलाई
+राज्यको मूल प्रवाहमा ल्याउँछ। (ङ) दयाको व्यवहारले विभेद र हेयभाव बढाउँछ भने
+अवसरले समानता र समावेशिता बढाउँछ। त्यसैले उनीहरूलाई सहानुभूति होइन, समानुभूति र
+अवसर चाहिन्छ।
+
+## अध्यायको सारांश
+
+- पूर्वजबाट प्राप्त, राष्ट्रिय महत्त्वका र संरक्षणयोग्य स्थान, वस्तु, कला, संस्कृति र प्राकृतिक स्थल राष्ट्रिय सम्पदा हुन्; सम्पदा मूर्त–अमूर्त र ऐतिहासिक, सांस्कृतिक, प्राकृतिक हुन्छन्।
+- नेपालका चार विश्व सम्पदा: काठमाडौँ उपत्यकाका सात स्थल (१९७९), सगरमाथा राष्ट्रिय निकुञ्ज (१९७९, ११४८ वर्ग किलोमिटर), चितवन राष्ट्रिय निकुञ्ज (१९८४, ९५२.६३ वर्ग किलोमिटर, पहिलो निकुञ्ज) र लुम्बिनी (१९९७)।
+- सात स्थल: पशुपति, स्वयम्भू, बौद्धनाथ, चाँगुनारायण, काठमाडौँ, पाटन र भक्तपुर दरबार क्षेत्र।
+- लोकगीत स्थानीय स्तरमा सिर्जित, पुस्तौँदेखि सर्दै आएको समुदायको गीत हो; तामाङ सेलो, खजडी भजन, झ्याउरे, असारे, तिज, होरी र पालम यसका उदाहरण हुन्; मौलिकता, बौद्धिक चोरी र विदेशी मोह मुख्य चुनौती हुन्।
+- लोकबाजा फुकेर, रेटेर र ठटाएर बजाइन्छन्; पञ्चेबाजामा सहनाई, नरसिङ्गा, झ्याली, दमाहा र ट्याम्को पर्छन्।
+- लोकनृत्य लोकगीत–भाकामा आधारित हुन्छ (देउडा, मारुनी, घाटु, धान, साकेला, सोरठी); शास्त्रीय नृत्य धर्मशास्त्र र देवीदेवताको चरित्रमा आधारित हुन्छ (कार्तिक, चर्या, पञ्चबुद्ध, भैरव)।
+- राष्ट्रिय दिवस: संविधान दिवस असोज ३ (२०७२), गणतन्त्र दिवस जेठ १५ (२०६५), सहिद दिवस माघ १६, मजदुर दिवस मे १, नारी दिवस मार्च ८, बाल दिवस भदौ २९ (सन् १९९० सेप्टेम्बर १४)।
+- मन्डेला: रङ्गभेदविरुद्ध २७ वर्ष जेल, नोबेल शान्ति पुरस्कार १९९३, राष्ट्रपति १९९४; मलाला: जन्म १९९७, बालिका शिक्षाकी अभियन्ता, नोबेल २०१४ — सबैभन्दा कम उमेरकी विजेता।
+- संसारलाई एउटै परिवार ठानेर सुखदुःखमा साथ दिने भावना विश्वबन्धुत्व हो ("वसुधैव कुटुम्बकम्"); सूचना प्रविधिले जोडिएको सीमाविहीन संसार विश्वग्राम हो।
+- संविधानको धारा ४१ ले जेष्ठ नागरिकलाई र धारा ४३ ले असहायलाई सामाजिक सुरक्षाको हक दिएका छन्; अपाङ्गता भएकालाई आरक्षण र अपाङ्गतामैत्री वातावरण दिइएको छ — तर दया होइन, सम्मान र अवसर मुख्य दायित्व हो।
+
+## अभ्यास
+
+**समूह क — वस्तुगत प्रश्न (१ अङ्क)**
+
+१. काठमाडौँ उपत्यकाका सम्पदा स्थल विश्व सम्पदा सूचीमा कहिले सूचीकृत भए? <span class="marks">[1]</span>
+   (क) सन् १९७९ (ख) सन् १९८४ (ग) सन् १९९७ (घ) सन् २००१
+२. नेपालको पहिलो राष्ट्रिय निकुञ्ज कुन हो? <span class="marks">[1]</span>
+   (क) सगरमाथा (ख) चितवन (ग) रारा (घ) बर्दिया
+३. पालम गीत कुन जातिको लोकगीत हो? <span class="marks">[1]</span>
+   (क) तामाङ (ख) मगर (ग) लिम्बु (घ) थारू
+४. तलकामध्ये कुन बाजा पञ्चेबाजामा पर्दैन? <span class="marks">[1]</span>
+   (क) सहनाई (ख) नरसिङ्गा (ग) दमाहा (घ) सारङ्गी
+५. कार्तिक नाच कुन राजाको पालादेखि प्रचलित छ? <span class="marks">[1]</span>
+   (क) सिद्धिनरसिंह मल्ल (ख) योगनरेन्द्र मल्ल (ग) प्रताप मल्ल (घ) भूपतीन्द्र मल्ल
+६. नेपालमा गणतन्त्र दिवस कहिले मनाइन्छ? <span class="marks">[1]</span>
+   (क) असोज ३ (ख) माघ १६ (ग) जेठ १५ (घ) फागुन ७
+७. नेल्सन मन्डेलाले नोबेल शान्ति पुरस्कार कुन वर्ष पाए? <span class="marks">[1]</span>
+   (क) सन् १९९० (ख) सन् १९९३ (ग) सन् १९९४ (घ) सन् २०१३
+८. संविधानको कुन धाराले असहाय र आफ्नो हेरचाह आफैँ गर्न नसक्ने नागरिकलाई सामाजिक सुरक्षाको हक दिएको छ? <span class="marks">[1]</span>
+   (क) धारा ३ (ख) धारा ९ (ग) धारा २६ (घ) धारा ४३
+
+::: note समूह क का उत्तर
+**१.** (क) — पशुपतिदेखि भक्तपुर दरबारसम्म सातै स्थल सन् १९७९ मा सूचीकृत भए; १९८४ चितवन र १९९७ लुम्बिनीको वर्ष हो।
+**२.** (ख) — चितवन राष्ट्रिय निकुञ्ज नेपालको पहिलो राष्ट्रिय निकुञ्ज हो।
+**३.** (ग) — पूर्वी पहाडका लिम्बु जातिले पालम गाउँछन् र यसैमा धान नाच नाच्छन्।
+**४.** (घ) — सारङ्गी गन्धर्व समुदायको रेटेर बजाइने बाजा हो; पञ्चेबाजामा सहनाई, नरसिङ्गा, झ्याली, दमाहा र ट्याम्को पर्छन्।
+**५.** (क) — राजा सिद्धिनरसिंह मल्लले दरबारमा देखाउन थालेको नाच हालसम्म चलेको छ।
+**६.** (ग) — वि.सं. २०६५ जेठ १५ मा गणतन्त्र स्थापना भयो; असोज ३ संविधान दिवस हो।
+**७.** (ख) — शान्ति प्रक्रियामा योगदानका लागि सन् १९९३ मा नोबेल पाए र सन् १९९४ मा राष्ट्रपति भए।
+**८.** (घ) — धारा ४३ सामाजिक सुरक्षाको हकसम्बन्धी धारा हो।
+:::
+
+**समूह ख — छोटो उत्तर (२ अङ्क)**
+
+१. ऐतिहासिक र प्राकृतिक सम्पदाबिच के फरक छ? <span class="marks">[2]</span>
+२. चाँगुनारायण मन्दिरको कुनै दुई विशेषता लेख्नुहोस्। <span class="marks">[2]</span>
+३. लोकगीतलाई समुदायको गीत किन भनिन्छ? <span class="marks">[2]</span>
+४. लोकबाजा बजाउने तीन तरिका उदाहरणसहित लेख्नुहोस्। <span class="marks">[2]</span>
+५. घाटु नाचको परिचय दिनुहोस्। <span class="marks">[2]</span>
+६. बाल दिवस किन मनाइन्छ? <span class="marks">[2]</span>
+७. विश्वग्राम भनेको के हो? <span class="marks">[2]</span>
+८. जेष्ठ नागरिकप्रति परिवारको दायित्व के के हुन्? <span class="marks">[2]</span>
+
+::: note समूह ख का उत्तर
+**१.** दरबार, गढी र स्मारक जस्ता मानवले बनाएका, विगतका घटना र शासनको साक्षी सम्पदा ऐतिहासिक सम्पदा हुन्; जस्तै गोरखा दरबार। हिमाल, पहाड, नदी, ताल, वनस्पति र वन्यजन्तु जस्ता प्रकृतिले दिएका सम्पदा प्राकृतिक सम्पदा हुन्; जस्तै सगरमाथा र रारा ताल।
+**२.** (क) भक्तपुरमा रहेको यो मन्दिर लिच्छविकालीन वास्तुकलाको उत्कृष्ट नमुना हो र प्यागोडा शैलीमा बनेको छ। (ख) यहाँका शिलालेख र ढुङ्गा, काठ तथा धातुका कलाकृति लिच्छवि इतिहासका जीवित स्रोत हुन्; सन् १९७९ मा यो विश्व सम्पदा सूचीमा पर्‍यो।
+**३.** लोकगीत कुनै एक व्यक्तिको नभई समुदायभित्रै सिर्जित र सङ्कलित हुन्छ, समाजमा सामूहिक रूपमा गाइन्छ, एक पुस्ताबाट अर्को पुस्तामा मौखिक रूपमा सर्छ र समाजले नै बचाएको हुन्छ। त्यसैले यसलाई समुदायको गीत भनिन्छ।
+**४.** (क) **फुकेर** — बाँसुरी, सहनाई, नरसिङ्गा, मुर्चुङ्गा; (ख) **रेटेर** — सारङ्गी, आरबाजो; (ग) **ठटाएर** — मादल, ढोलक, दमाहा, खैँजडी, झ्याली।
+**५.** घाटु गुरुङ, मगर र दुरा समुदायमा प्रचलित लोकनृत्य हो। वसन्त पञ्चमीदेखि पूर्णिमासम्म नाचिने यो नाच परशुराम राजा र यम्मावती रानीको कथामा आधारित छ र यसमा रजस्वला नभएकी कन्यालाई नचाइन्छ।
+**६.** नेपालले सन् १९९० सेप्टेम्बर १४ (वि.सं. २०४७ भदौ २९) मा संयुक्त राष्ट्रसङ्घको बाल अधिकार महासन्धि स्वीकार गरेको सम्झनामा बाल दिवस मनाइन्छ। यसले बालबालिकाको अधिकार प्राप्ति र संरक्षणमा व्यक्ति, समुदाय र राष्ट्रलाई जिम्मेवार बनाउँछ।
+**७.** सूचना प्रविधिका कारण कुनै ठाउँको घटना तत्कालै संसारभर थाहा हुने र दुरी टाढा भए पनि मानवीय व्यवहार, सहयोग र सहकार्यले संसार एउटा सानो गाउँ जस्तो सीमाविहीन समाज बनेको अवस्था विश्वग्राम हो।
+**८.** जेष्ठ नागरिकसम्बन्धी ऐनअनुसार आर्थिक हैसियत र इज्जतअनुसार उनीहरूको पालनपोषण र हेरचाह गर्नु परिवारका प्रत्येक सदस्यको कर्तव्य हो। साथै उचित स्याहार, सम्मान, उनीहरूको अनुभव समेटेर पारिवारिक योजना बनाउने र रुचिअनुसार काम तथा भ्रमणको प्रबन्ध गर्नुपर्छ।
+:::
+
+**समूह ग — लामो उत्तर (४ अङ्क)**
+
+१. विश्व सम्पदा सूचीमा परेका नेपालका प्राकृतिक सम्पदाको परिचय दिनुहोस्। <span class="marks">[4]</span>
+२. नेपाली लोकगीतका चुनौती र संरक्षणका उपाय लेख्नुहोस्। <span class="marks">[4]</span>
+३. संविधान दिवस, गणतन्त्र दिवस र सहिद दिवसको परिचय र सन्देश लेख्नुहोस्। <span class="marks">[4]</span>
+४. मलाला युसुफजईको जीवनबाट हामीले के प्रेरणा लिन सक्छौँ? <span class="marks">[4]</span>
+
+::: note समूह ग का उत्तर
+**१.** **चितवन राष्ट्रिय निकुञ्ज:** नेपालको पहिलो राष्ट्रिय निकुञ्ज; चितवन, मकवानपुर, नवलपरासी (बर्दघाट सुस्ता पूर्व) र पर्सामा फैलिएको; क्षेत्रफल ९५२.६३ वर्ग किलोमिटर; दुर्लभ एक सिङ्गे गैँडा, गोही, हात्ती, पाटेबाघ, सालक, धनेस र मयूर पाइने; सन् १९८४ मा सूचीकृत। **सगरमाथा राष्ट्रिय निकुञ्ज:** कोशी प्रदेशको सोलुखुम्बुमा; क्षेत्रफल ११४८ वर्ग किलोमिटर; सगरमाथा, ल्होत्से, पुमोरी, नुप्से, चोयु र आमादब्लम जस्ता हिमाल; डाँफे, हिमाली भालु, कस्तुरी, हिउँ चितुवा, घोरल, न्याउरीमुसो तथा गुराँस, धुपी र भोजपत्र पाइने; सन् १९७९ मा सूचीकृत। दुवैले जैविक विविधता जोगाउँछन् र पर्यटनबाट ठुलो आम्दानी दिन्छन्।
+**२.** **चुनौती:** (क) व्यावसायिकताका नाममा मौलिक शब्द र लय बिग्रनु; (ख) बदलिँदो स्रोताको मनोभावना सम्बोधन गर्न कठिन; (ग) बौद्धिक चोरीले कलाकार मर्कामा; (घ) युवामा विदेशी गीतप्रतिको मोह; (ङ) मौलिक संस्कृति लोप हुँदै विदेशी संस्कृतिको प्रभाव बढ्नु। **उपाय:** (क) मौलिक परम्परा जोगाउने र मर्म तथा भावनाको सम्मान हुने गरी शब्द र लय प्रयोग गर्ने; (ख) नयाँ पुस्ताले महत्त्व बुझेर पुस्तान्तरणमा सहयोग गर्ने; (ग) उत्सव, पर्व, संस्कार र मेलामा आफ्नै लोकगीत सुन्ने–सुनाउने; (घ) विद्यालय र समुदायका कार्यक्रममा लोकगीतलाई प्राथमिकता; (ङ) सर्जकको बौद्धिक सम्पत्तिको संरक्षण; (च) सङ्कलक र गायकलाई हौसला र सम्मान।
+**३.** **संविधान दिवस (असोज ३):** वि.सं. २०७२ असोज ३ मा संविधानसभाबाट नेपालको संविधान जारी भएको दिन; यसले संविधानको रक्षा र पालना गर्न सचेत गराउँछ। **गणतन्त्र दिवस (जेठ १५):** वि.सं. २०६५ जेठ १५ मा राजतन्त्र अन्त्य भई गणतन्त्र स्थापना भएको दिन; अब जनताबाटै राष्ट्रप्रमुख हुन्छ; यसले जनताको त्याग र बलिदान सम्झाउँदै जनताप्रति उत्तरदायी हुन सिकाउँछ। **सहिद दिवस (माघ १६):** राणा शासनविरुद्ध लड्दा मृत्युदण्ड पाएका शुक्रराज शास्त्री, धर्मभक्त माथेमा, गङ्गालाल श्रेष्ठ र दशरथ चन्दलगायत सबै सहिदको सम्झना; यसले बलिदानको कदर गर्न र सहिदको सपना साकार पार्न प्रेरित गर्छ।
+**४.** (क) **साहस:** सानै उमेरमा तालिबानको प्रतिबन्ध र धम्कीको बाबजुद बालिका शिक्षाका पक्षमा बोलिन् — अन्यायविरुद्ध डर नमानी उभिनुपर्छ। (ख) **शिक्षाप्रति प्रतिबद्धता:** गोली लाग्दा पनि अभियान छोडिनन् — शिक्षा नै परिवर्तनको हतियार हो। (ग) **लैङ्गिक समानता:** छोरा–छोरीलाई समान अवसर दिनुपर्छ। (घ) **उमेर बाधक होइन:** सन् २०१४ मा सबैभन्दा कम उमेरमा नोबेल शान्ति पुरस्कार पाएर उनले सानो उमेरमै पनि विश्व बदल्न सकिन्छ भन्ने देखाइन्। (ङ) **अहिंसा:** आक्रमणकारीप्रति बदला होइन, शिक्षा र शान्तिको सन्देश दिइन्। हामीले पनि टोलमा विद्यालय छाडेका बालबालिकालाई पढ्न प्रेरित गर्न सक्छौँ।
+:::
+
+**समूह घ — विस्तृत उत्तर (८ अङ्क)**
+
+१. राष्ट्रिय सम्पदा भनेको के हो? काठमाडौँ उपत्यकाका विश्व सम्पदा स्थलको परिचय दिँदै सम्पदाको महत्त्व र संरक्षणका उपाय लेख्नुहोस्। <span class="marks">[8]</span>
+२. "लोकगीत, लोकबाजा र लोकनृत्य नेपाली संस्कृतिका प्राण हुन्।" यस भनाइलाई उदाहरणसहित पुष्टि गर्दै तिनको संरक्षणमा विद्यार्थी, समुदाय र राज्यको भूमिका लेख्नुहोस्। <span class="marks">[8]</span>
+
+::: note समूह घ का उत्तर
+**१.** **परिचय:** पूर्वजबाट प्राप्त, राष्ट्रिय महत्त्व बोकेका र संरक्षणयोग्य स्थान, वस्तु, कला, संस्कृति र प्राकृतिक स्थल राष्ट्रिय सम्पदा हुन्। **काठमाडौँ उपत्यकाका सात स्थल (सबै सन् १९७९):** (क) **पशुपति क्षेत्र** — पशुपतिनाथ, गुह्येश्वरी, आर्यघाट, श्लेषमान्तक वन; हजारभन्दा बढी शिवलिङ्ग र ४९२ मन्दिर, देवालय, सत्तल र चैत्य; (ख) **स्वयम्भूनाथ** — बौद्ध स्तूप र सरस्वती मन्दिर; धार्मिक सहिष्णुताको नमुना; (ग) **बौद्धनाथ महाचैत्य** — पाँचौँ शताब्दीमा बनेको विश्वास, धेरै विहार; (घ) **चाँगुनारायण** — लिच्छविकालीन प्यागोडा शैली, शिलालेख र कलाकृति; (ङ) **काठमाडौँ दरबार क्षेत्र** — वसन्तपुर दरबार, तलेजु, कुमारी घर, काष्ठमण्डप, कालभैरव; (च) **पाटन दरबार क्षेत्र** — कृष्ण मन्दिर, कुम्भेश्वर, योगनरेन्द्र मल्लको मूर्ति; (छ) **भक्तपुर दरबार क्षेत्र** — पचपन्न झ्याले दरबार, न्यातपोल, स्वर्णद्वार। **महत्त्व:** पुर्खाको ज्ञान, सिप र प्रविधिको हस्तान्तरण; स्थानीय र राष्ट्रिय पहिचान; राष्ट्रिय गौरव; खोज र अनुसन्धान; पर्यटन र आम्दानी; जैविक विविधता संरक्षण; चौतर्फी विकास। **संरक्षणका उपाय:** सम्पदा क्षेत्रमा फोहोर नगर्ने; आसपास भौतिक संरचना नबनाउने; स्थानीयलाई सचेत र सहभागी गराउने; मर्मत र जीर्णोद्धार; अतिक्रमण रोक्ने; महत्त्वको प्रचारप्रसार; वनस्पति र जीवजन्तुको संरक्षण। **निष्कर्ष:** सम्पदा पुर्खाको धरोहर र भावी पुस्ताको सम्पत्ति भएकाले यसको संरक्षण सबैको साझा कर्तव्य हो।
+**२.** **प्राण किन:** संस्कृतिलाई जीवित राख्ने तत्त्व यिनै हुन्। (क) **लोकगीत** समुदायका सुख–दुःख, पेसा र पर्व बोक्छ — असारेले कृषि जीवन, तिजले नारीका भावना, पालमले लिम्बु र तामाङ सेलोले तामाङ पहिचान दिन्छन्। (ख) **लोकबाजा** ले गीत–नाचलाई ताल दिन्छन् र संस्कार पूरा गर्छन् — पञ्चेबाजाबिना विवाह, ढ्याङ्ग्रोबिना धामीको पूजा र मादलबिना सोरठी हुँदैन; सारङ्गी गन्धर्व, हुड्को हुड्के र मसक बझाङको पहिचान हो। (ग) **लोकनृत्य** ले कथा, मिथक र श्रम अभिनयमा देखाउँछ — घाटुमा परशुराम र यम्मावतीको कथा, साकेलामा खेती र तान बुन्ने अभिनय, जट–जटिनमा वर्षाको कामना। यी तीन परिपूरक भएकाले एक हराए अर्को अधुरो हुन्छ र संस्कृति नै कमजोर हुन्छ। **विद्यार्थीको भूमिका:** हजुरबा–हजुरआमाबाट लोकगीत, बाजा र नाच सिक्ने; विद्यालय प्रतियोगिता र कार्यक्रममा प्रस्तुत गर्ने; सङ्कलन र प्रचार गर्ने; मौलिक सर्जकको सम्मान गर्ने। **समुदायको भूमिका:** चाडपर्व, मेला र संस्कारमा आफ्नै गीत, बाजा र नाच प्रयोग गर्ने; बजाउने र नाच्ने कलाकारलाई सम्मान र पारिश्रमिक दिने; जातीय हेयभाव हटाउने; सांस्कृतिक समूह बनाउने। **राज्यको भूमिका:** लोपोन्मुख बाजा र नाचको अभिलेख, सङ्ग्रहालय र तालिम; बौद्धिक सम्पत्ति कानुन लागु गर्ने; कलाकारलाई भत्ता र पुरस्कार; पाठ्यक्रममा समावेश गर्ने; पर्यटनसँग जोडेर आम्दानीको स्रोत बनाउने। **निष्कर्ष:** लोकगीत, लोकबाजा र लोकनृत्य जोगिए मात्र नेपाली संस्कृति र पहिचान जीवित रहन्छ।
 :::

@@ -27,11 +27,18 @@ export function createPanel(stage, opts = {}) {
   header.addEventListener('click', toggle);
   collapseBtn.addEventListener('click', (event) => { event.stopPropagation(); toggle(); });
 
-  if (opts.startCollapsed || (window.innerWidth < 640 && opts.collapseOnMobile !== false)) {
-    panel.classList.add('collapsed');
+  // Panels go in the shell's dock (beside the stage, or under it on phones) so they never
+  // cover the simulation. A stage outside the lesson shell keeps the old overlay.
+  const dock = stage.closest && stage.closest('.ix-sim-shell') ? stage.closest('.ix-sim-shell').querySelector('.ix-sim-dock') : null;
+  if (dock) {
+    panel.classList.add('ix-ctrl-docked');
+    dock.appendChild(panel);
+    dock.classList.add('has-panels');
+    dock.parentNode.classList.add('has-dock');
+  } else {
+    if (opts.startCollapsed || (window.innerWidth < 640 && opts.collapseOnMobile !== false)) panel.classList.add('collapsed');
+    stage.appendChild(panel);
   }
-
-  stage.appendChild(panel);
 
   const api = {
     el: panel,

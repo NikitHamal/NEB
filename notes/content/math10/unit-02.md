@@ -13,6 +13,9 @@ Every time you buy a packet of biscuits in a shop in Kathmandu, part of the pric
 Almost every SEE paper has one 4-mark question from this unit and often a 3-mark one. The common types are: (i) **a bill with discount and VAT**; (ii) **a price with excise duty and then VAT**, sometimes worked backwards; (iii) **income tax by slabs**; (iv) **converting currencies at a buying or selling rate**, including gain or loss. Show the rate, the working and a final sentence with the unit (Rs, USD, INR).
 :::
 
+```photo id="math10/bank-nepal" caption="Every bank in Nepal runs on the percentage arithmetic of this chapter. A branch of Nepal Rastra Bank, Janakpur: tax, commission and money exchange are the same calculations applied to millions of rupees." width="100"
+```
+
 ## 2.1 Tax and Money Exchange: concepts, formulas and worked problems
 
 ### Taxes: what they are and why we pay them

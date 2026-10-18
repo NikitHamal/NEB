@@ -4765,3 +4765,13 @@ button.cp-media-item-icon.cp-audio-play.playing {
 .comment-text .neb-chip img{height:1.5em;max-width:5.5em}
 
 [data-theme="dark"] .neb-chip img{box-shadow:0 0 0 1px color-mix(in srgb, var(--md-on-surface) 10%, transparent)}
+
+/* ---- app/13-card-polish.css ---- */
+/* Post cards on phones: the header read as three lines (name, "started a discussion" and the
+   category, then the time). The phrase restates what the card already is, so it goes on narrow
+   screens and the category and time share one quiet line under the name. */
+@media (max-width: 600px) {
+  .post-card-meta-bottom { gap: 8px !important; }
+  .post-card-meta-bottom .act-action-text { display: none; }
+  .post-card-meta-bottom .post-card-time::before { content: "·"; margin-right: 8px; opacity: .6; }
+}

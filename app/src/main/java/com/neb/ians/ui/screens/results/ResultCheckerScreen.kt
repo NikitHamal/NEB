@@ -824,7 +824,7 @@ private fun Context.shareResultSummary(payload: ResultPayload) {
         appendLine("Symbol: ${payload.symbol.ifBlank { "—" }}")
         appendLine("GPA: ${payload.gpa.ifBlank { "—" }}")
         appendLine("Grade: ${payload.grade.ifBlank { "—" }}")
-        appendLine("Checked via https://nebians.consica.com.np/results/check/")
+        appendLine("Checked via https://nebians.consica.com.np/app/results/check/")
     }
     val intent = Intent(Intent.ACTION_SEND).apply {
         type = "text/plain"

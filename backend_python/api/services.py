@@ -445,6 +445,13 @@ def avatar_options_for(user):
     return opts
 
 
+# Every field avatar_or_photo_url() reads. A queryset that renders avatars and uses
+# .only() must include these, or each user costs one extra query per field.
+AVATAR_FIELDS = ('username', 'photo_url', 'avatar_use_pp', 'avatar_bg', 'avatar_hue', 'avatar_tone',
+                 'avatar_anim', 'avatar_shape', 'avatar_expression', 'avatar_color', 'avatar_bg_color',
+                 'avatar_eye_color')
+
+
 def avatar_url_for(user):
     from urllib.parse import quote as _q
     username = getattr(user, 'username', '') or ''

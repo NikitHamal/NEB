@@ -13,6 +13,9 @@ A room, a water tank, a tent, a roof, a Toblerone box and a temple spire are all
 Typical 3- or 4-mark questions: (i) surface area and volume of a **triangular prism** or a prism with a trapezium base; (ii) area of the **four walls** of a room and the cost of painting; (iii) a **square pyramid** where the height is given and you must find the **slant height** (or the reverse) before finding the surface area and volume; (iv) volume of a pyramid and finding the missing height; (v) a **tent** (pyramid or cone) and the cloth needed. Unit conversions: 1 dm³ $=1$ litre, 1 m³ $=1000$ litres.
 :::
 
+```photo id="math10/pyramid" caption="The Great Pyramid of Cheops. A pyramid has one polygonal base and triangular faces that meet at a single apex; its volume is one third of the prism standing on the same base." width="96"
+```
+
 ## 7.1 Prism and Pyramid: concepts, formulas and worked problems
 
 ### Prisms

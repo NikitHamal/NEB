@@ -13,6 +13,9 @@ In Chapter 5 you calculated areas with formulas. Here we ask a deeper question: 
 Expect: (i) **prove** that parallelograms on the same base and between the same parallels are equal in area (3–4 marks, figure required); (ii) **prove** that a triangle and a parallelogram on the same base and between the same parallels satisfy $\Delta=\frac{1}{2}\,\text{parallelogram}$; (iii) apply the theorems: "prove that the diagonals of a parallelogram divide it into four equal triangles", "a median divides a triangle into two equal parts", or find an area from a ratio; (iv) numerical problems with heights and bases. Write: **Given, To prove, Construction, Proof** and give a reason for every line.
 :::
 
+```photo id="math10/terraced-field" caption="Terraced fields cut into a hillside. A farmer measures such a plot by splitting it into triangles and quadrilaterals and adding their areas — the method of this chapter." width="92"
+```
+
 ## 13.1 Area of Triangles and Quadrilaterals: concepts, formulas and worked problems
 
 ### Basic area formulas to remember

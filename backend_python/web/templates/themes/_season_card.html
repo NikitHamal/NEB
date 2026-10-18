@@ -1,0 +1,17 @@
+{% comment %}The season card: the theme's greeting, one line, one link. Sits at the top of the home
+feed while a festive theme is on; once closed it stays closed for that theme (themes.js).{% endcomment %}
+{% if site_theme.show_in_app and site_theme.festive and site_theme.app %}
+<section class="st-season" data-st-card="{{ site_theme.key }}" aria-label="{{ site_theme.name }}">
+  {% include "themes/_decor.html" with t=site_theme compact=True %}
+  <div class="st-season-in">
+    {% include "themes/_motif.html" %}
+    <div class="st-season-copy">
+      {% if site_theme.greeting %}<p class="st-season-title"><span lang="ne">{{ site_theme.greeting.ne }}</span><span class="st-season-en">{{ site_theme.greeting.en }}</span></p>
+      {% else %}<p class="st-season-title">{{ site_theme.name }}</p>{% endif %}
+      <p class="st-season-text">{{ site_theme.app.message }}</p>
+    </div>
+    <a class="md-btn md-btn-filled st-season-cta" href="{{ site_theme.app.cta.1 }}"{% if 'http' in site_theme.app.cta.1 %} rel="noopener"{% endif %}>{{ site_theme.app.cta.0 }}</a>
+    <button class="md-btn-icon st-season-close" type="button" data-st-close aria-label="Close"><span class="material-symbols-outlined" aria-hidden="true">close</span></button>
+  </div>
+</section>
+{% endif %}

@@ -13,6 +13,9 @@ This chapter has two halves. The first uses straight-line graphs to make **decis
 Expect (i) the graph of a system of inequalities and the shaded solution region; (ii) a word problem in linear programming, with the constraints, the feasible region, the corner points and the optimum value (4–6 marks); (iii) the image of a point or triangle under a **combined transformation**; (iv) the inverse point $P'$ of $P$ with respect to a circle; (v) the image of a point or a figure under a given matrix, or the matrix that maps given points to given images.
 :::
 
+```photo id="omath10/warehouse" caption="A warehouse. Deciding how many shelves of each product to hold, under limits of space, money and staff, is a linear-programming problem: maximise a linear profit subject to linear constraints." width="66"
+```
+
 ## 9.1 Linear inequalities in two variables and systems of inequalities
 
 An inequality such as $ax+by+c\geq 0$ (or $>$, $\leq $, $<$) is a **linear inequality in two variables**. Its graph is a **region** of the plane bounded by the straight line $ax+by+c=0$, called the **boundary line**.

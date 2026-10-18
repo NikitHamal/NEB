@@ -666,8 +666,8 @@
       self.sessions.set(ses.id, ses);
       self.tabs.push(ses);
       self.activeSessionId = ses.id;
-      if (!skipPushState && window.location.pathname !== "/code/" + ses.id + "/") {
-        history.pushState({ sessionId: ses.id }, "", "/code/" + ses.id + "/");
+      if (!skipPushState && window.location.pathname !== "/app/code/" + ses.id + "/") {
+        history.pushState({ sessionId: ses.id }, "", "/app/code/" + ses.id + "/");
       }
       self.renderTabs();
       self.renderSidebarSessions();
@@ -683,8 +683,8 @@
     this.activeSessionId = id;
     this.closeMobileSidebar();
 
-    if (!skipPushState && window.location.pathname !== "/code/" + id + "/") {
-      history.pushState({ sessionId: id }, "", "/code/" + id + "/");
+    if (!skipPushState && window.location.pathname !== "/app/code/" + id + "/") {
+      history.pushState({ sessionId: id }, "", "/app/code/" + id + "/");
     }
 
     var existingTab = this.tabs.find(function(t) { return t.id === id; });

@@ -1,565 +1,988 @@
 ---
-subject: Social Studies and Human Value Education
+subject: सामाजिक अध्ययन तथा मानव मूल्य शिक्षा
 grade: 10
 unit: 4
-title: Social Problems and Solutions
+title: सामाजिक समस्या र समाधान
 hours: 0
-area: Units
+area: एकाइ
 ---
 
-A social problem is a condition that harms many people in a society and that society wants to change. Nepal is a country of open-hearted people, but like every society it has problems: girls and boys sold into slavery, women and children beaten or abused at home, officials who take bribes, and old beliefs that cost lives. This unit studies seven topics: human trafficking, sexual abuse and abnormal sexual behaviour, domestic violence, corruption, superstition, the skills used to identify and solve problems, and the part played by international organisations. For each problem, learn four things in the same order: **meaning, causes, effects, solutions**. That order is also how a good 4-mark answer is built.
+गाउँकी एउटी सोझी चेली "विदेशमा राम्रो जागिर" को आश्वासनमा हराउँछिन्; एउटी नवविवाहिता
+दाइजो कम ल्याइस् भनेर कुटिन्छिन्; ठेक्कामा कमिसन खाएर बनाइएको सडक एकै वर्षमा
+भत्किन्छ; कर्णालीकी किशोरी छाउगोठमा सर्पको टोकाइले मर्छिन्। यी सबै अलग अलग
+घटना जस्ता देखिन्छन्, तर सबैको जरा एउटै छ — समाजका मूल्यमान्यता र नियमविपरीतका
+व्यवहार, जसलाई **सामाजिक समस्या** भनिन्छ। यस एकाइमा हामी मानव बेचबिखन, यौन विकृति, घरेलु
+हिंसा, भ्रष्टाचार र अन्धविश्वासका कारण, असर र समाधान पढ्नेछौँ, समस्या पहिचान गरी
+समाधान खोज्ने **सिप** सिक्नेछौँ र यस्ता समस्या समाधानमा अन्तर्राष्ट्रिय संस्थाले खेलेको
+भूमिका बुझ्नेछौँ।
 
-::: key What the SEE paper expects from this unit
-Typical questions: "What is human trafficking? Write any two causes" (2 marks); "Define corruption" (2 marks); "Write four ways to control domestic violence" (4 marks); "Explain the steps of problem solving" (4 marks); "Write the role of UNICEF/ILO in solving social problems" (2–4 marks). Always give causes, effects **and** remedies, and use Nepali examples.
+::: key यस एकाइबाट परीक्षाले खोज्ने कुरा
+पाठ्यपुस्तकका तीन सिकाइ उपलब्धि: (१) सामाजिक समस्या पहिचान गरी असर विश्लेषण र
+समाधानका उपाय खोज्ने, (२) समस्या समाधान सिपको प्रदर्शन गर्ने, (३) सामाजिक सुधारमा
+अन्तर्राष्ट्रिय संस्थाको भूमिका खोज्ने। प्रत्येक समस्यामा **परिभाषा → कारण → असर →
+समाधान** को ढाँचामा प्रश्न आउँछन्। मानव बेचबिखन तथा ओसारपसार (नियन्त्रण) ऐन, २०६४
+का सजाय, प्रहरीको बेचबिखन तथ्याङ्क, भ्रष्टाचार सूचकाङ्क २०२४ मा नेपाल (३४ अङ्क,
+१०७ औँ) र सार्क देशको तुलना, घुम्टो–छाउपडी–दाइजोको अर्थ, समस्या समाधानका चरण तथा
+युनिसेफ (१९४६), जनसङ्ख्या कोष (१९६९), अन्तर्राष्ट्रिय श्रम सङ्गठन र ट्रान्सपरेन्सी
+इन्टरनेसनल (१९९३, बर्लिन) का तथ्य बारम्बार सोधिन्छन्। समाधान लेख्दा **कानुनी,
+सामाजिक, शैक्षिक र आर्थिक** — चारै कोणबाट लेख्नुहोस्।
 :::
 
-::: caution A note on sensitive topics
-Some topics in this unit concern violence and abuse. They are in the syllabus because knowing the facts, the law and where to get help protects you and your friends. If you or someone you know is in danger, tell a trusted adult and use the helplines given in this unit. **The fault is never with the person who was harmed.**
+## ४.१ मानव बेचबिखन: एक गम्भीर सामाजिक समस्या
+
+पाठ्यपुस्तकले यो पाठ सहिद शुक्र माध्यमिक विद्यालयका विद्यार्थीले वार्षिकोत्सवमा मानव
+बेचबिखनविरुद्ध प्रस्तुत गरेको जनचेतनामूलक **नाटक** बाट सुरु गरेको छ।
+
+### नाटकको सार
+
+ढोकामा प्रहरीले ढकढक्याउँदा **धनवीर** आत्तिँदै बुइँगलमा लुक्छन्। भेटिएपछि "धान उठाउन
+बसेको" भन्छन्। प्रहरी बताउँछन् — धनवीरविरुद्ध इलाका प्रहरी कार्यालयमा **एक महिलालाई
+विदेश लगेर बेचेको** उजुरी परेको छ र पक्राउ पुर्जी जारी भएको छ। छिमेकी **मदन** र
+उनकी श्रीमती सम्झन्छन् — धनवीर पहिले **मृगौला बेच्ने गिरोह** मा लागेर जेल परेका थिए
+र भर्खर छुटेका थिए; पल्लो गाउँकी सोझी नानी धेरै दिनदेखि सम्पर्कविहीन थिइन्। शिक्षक
+**सानुमाया** थप्छिन् — अघिल्लो वर्ष उनले मानबहादुरलाई **गैरकानुनी तरिकाले दुबई पठाएर
+अलपत्र** पारेका थिए। मदनका अनुसार धनवीरले आफ्नै श्रीमतीलाई कुटेर माइत पठाएका छन्
+र सानो छोरो घरमा टिक्न नसकेर होटेलमा काम गर्छ।
+
+प्रहरीले स्पष्ट पार्छन् — आरोप अझै प्रमाणित भएको छैन, उजुरी परेकाले अनुसन्धानका लागि
+पक्राउ गरिएको हो; बेचिएकी चेलीलाई **प्रहरी र सामाजिक संस्थाको सहयोगमा उद्धार** गरी
+ल्याइएको छ र धनवीरको नाममा **किटानी जाहेरी** परेको छ। धनवीर माफी माग्छन्, तर
+वडा सदस्य भन्छन् — "हामीले माफी दिएर उम्किने कसुर होइन, यो त **जघन्य अपराध** हो;
+कानुनबमोजिम सजाय पाउनै पर्छ।" अन्त्यमा सानुमाया, वडाध्यक्ष र मदन मिलेर गाउँमा मानव
+बेचबिखनविरुद्ध **चेतना अभियान** चलाउने निर्णय गर्छन्।
+
+::: tip नाटकबाट निकाल्नुपर्ने पाठ
+(१) बेचबिखन गर्ने प्रायः **चिनजानकै मानिस** हुन्छन्; (२) एउटा अपराधी धेरै अपराधमा
+संलग्न हुन सक्छ — बेचबिखन, अङ्ग बिक्री, अवैध वैदेशिक रोजगारी, घरेलु हिंसा; (३)
+दोषीलाई माफी होइन, **कानुनी कारबाही** चाहिन्छ; (४) प्रहरी, स्थानीय सरकार, शिक्षक
+र समुदाय मिलेर मात्र यो समस्या रोकिन्छ; (५) अनुसन्धान कानुनी प्रक्रियाबाटै हुन्छ।
 :::
 
-## 4.1 Human trafficking: a serious social problem
-
-### Meaning
-
-::: definition Human trafficking
-Human trafficking is the buying, selling, recruiting, transporting, harbouring or receiving of human beings, by force, threat, deceit or the misuse of a person's helplessness, in order to exploit them — for example in forced sex work, forced labour, slavery-like conditions or the removal of body organs.
+::: definition मानव बेचबिखन
+आर्थिक लाभ वा शोषणका उद्देश्यले कुनै व्यक्तिलाई धम्की, बल, छल, प्रलोभन वा
+अधिकारको दुरुपयोग गरी **किन्ने, बेच्ने, वेश्यावृत्ति वा अन्य शोषणमा लगाउने, देशभित्र
+एक ठाउँबाट अर्को ठाउँ वा विदेश ओसारपसार गर्ने** कार्यलाई **मानव बेचबिखन तथा
+ओसारपसार** भनिन्छ। यो मानव अधिकारको गम्भीर उल्लङ्घन र दण्डनीय अपराध हो।
 :::
 
-Two points matter. First, trafficking can take place **inside** a country or **across borders**. Second, the person's "consent" is meaningless if it was gained by deceit or pressure, and a child (under 18) cannot consent to being trafficked at all. Trafficking is different from **smuggling**: a smuggled person pays to cross a border illegally, while a trafficked person is exploited.
+### कानुनी व्यवस्था: मानव बेचबिखन तथा ओसारपसार (नियन्त्रण) ऐन, २०६४
 
-### Forms of trafficking
-
-| Form | Example |
+| कसुर | सजाय |
 |---|---|
-| Sexual exploitation | A girl is offered a "job in a hotel" but is forced into sex work |
-| Forced labour | Workers sent abroad on false promises who work for no pay in dangerous conditions; children in brick kilns, carpet factories or as domestic servants |
-| Child trafficking | Children taken from villages with the promise of schooling, then made to beg or work |
-| Organ removal | A poor person is tricked or pressed to give a kidney |
-| Forced and fake marriage | A girl is married off to be sold or made a servant |
+| मानिस किन्ने वा बेच्ने | २० वर्ष कैद र २ लाख रुपैयाँसम्म जरिवाना |
+| कुनै फाइदा लिई वा नलिई वेश्यावृत्तिमा लगाउने | १० देखि १५ वर्षसम्म कैद र ५० हजारदेखि १ लाख रुपैयाँसम्म जरिवाना |
+| बालबालिकालाई किन्ने, बेच्ने वा वेश्यावृत्तिमा लगाउने उद्देश्यले विदेश लैजाने | १५ देखि २० वर्षसम्म कैद र १ लाखदेखि २ लाख रुपैयाँसम्म जरिवाना |
+| मानिसलाई किन्ने, बेच्ने वा वेश्यावृत्तिमा लगाउने उद्देश्यले विदेश लैजाने | १० देखि १५ वर्षसम्म कैद र ५० हजारदेखि १ लाख रुपैयाँसम्म जरिवाना |
+| बालबालिकालाई सोही उद्देश्यले नेपालभित्र एक ठाउँबाट अर्को ठाउँ लैजाने | १० देखि १२ वर्षसम्म कैद र १ लाख रुपैयाँसम्म जरिवाना |
+| शोषण गर्ने उद्देश्यले मानिसलाई विदेश लैजाने | २ देखि ५ वर्षसम्म कैद |
+| माथिबाहेकका अन्य ओसारपसारसम्बन्धी कसुर | ७ देखि १० वर्षसम्म कैद |
 
-### Situation in Nepal
+*स्रोत: पाठ्यपुस्तक (मानव बेचबिखन तथा ओसारपसार (नियन्त्रण) ऐन, २०६४)*
 
-Nepal is a country of **origin**, **transit** and, in smaller ways, **destination** of trafficking. Girls and women have been taken to India and the Gulf, and men and women have been exploited as migrant workers. Children have been taken from poor families, and children's homes have sometimes been misused. The 2015 earthquake and the poverty it caused raised the risk. The open border with India makes crossing easy. The Constitution of Nepal (Article 29) guarantees the right against exploitation and prohibits trafficking, slavery and forced labour. The Human Trafficking and Transportation (Control) Act, 2064 (2007) makes buying, selling, taking away and forcing into prostitution punishable offences, with heavy prison terms and compensation for the victim. The United Nations marks **30 July** as the World Day against Trafficking in Persons.
+तालिकाबाट देखिन्छ — **बालबालिका** सम्बन्धी कसुरमा सजाय वयस्कसम्बन्धी कसुरभन्दा
+कडा छ (विदेश लैजाँदा वयस्कमा १०–१५ वर्ष, बालबालिकामा १५–२० वर्ष)। सबैभन्दा कडा
+सजाय **मानिस किन्ने–बेच्ने** लाई छ।
 
-```photo id="soc10/brick-kiln" caption="Children carrying bricks at a brick kiln in Nepal. Child labour and forced labour in industries such as brick kilns are forms of exploitation that trafficking and poverty feed." width="70"
-```
+### नेपालमा मानव बेचबिखनको अवस्था: प्रहरीको तथ्याङ्क
 
-### Causes
+पाठ्यपुस्तकको क्रियाकलापमा नेपाल प्रहरी प्रधान कार्यालयको तथ्याङ्क छ। यसले
+आर्थिक वर्ष २०७५/७६ मा बेचबिखन तथा ओसारपसारसम्बन्धी मुद्दाका पीडित वा प्रभावितको
+सङ्ख्या प्रयोजनअनुसार देखाउँछ:
 
-```figure caption="Causes, the problem and the effects of human trafficking (schematic)."
-import matplotlib.pyplot as plt
-from matplotlib.patches import FancyBboxPatch
-fig, ax = plt.subplots(figsize=(4.8,3.2))
-ax.set_xlim(0,12); ax.set_ylim(0,8); ax.axis('off')
-def box(x,y,w,h,t,fc,tc=INK,fs=7.5,bold=False):
-    ax.add_patch(FancyBboxPatch((x,y),w,h,boxstyle='round,pad=0.05',fc=fc,ec=INK,lw=0.8))
-    ax.text(x+w/2,y+h/2,t,ha='center',va='center',fontsize=fs,color=tc,weight='bold' if bold else 'normal')
-causes=['Poverty and\nunemployment','Illiteracy and\nlack of awareness','Gender\ndiscrimination','Fake job and\nmarriage offers','Open border,\nweak control']
-for i,c in enumerate(causes):
-    y=6.7-i*1.55
-    box(0.1,y,3.4,1.1,c,'#e8f0f8')
-    ax.annotate('',xy=(4.6,4.0),xytext=(3.55,y+0.55),arrowprops=dict(arrowstyle='->',color=MUTED,lw=0.9))
-box(4.6,3.2,3.0,1.6,'HUMAN\nTRAFFICKING',ACCENT,'white',9,True)
-effects=['Physical and\nmental trauma','HIV and other\ndiseases','Stigma, family\nbreakdown','Loss of\neducation, income']
-for i,e in enumerate(effects):
-    y=6.4-i*1.9
-    box(8.5,y,3.4,1.1,e,'#fbefe9')
-    ax.annotate('',xy=(8.45,y+0.55),xytext=(7.65,4.0),arrowprops=dict(arrowstyle='->',color=MUTED,lw=0.9))
-ax.text(1.8,7.95,'Causes',ha='center',fontsize=8,weight='bold',color=INK)
-ax.text(10.2,7.95,'Effects',ha='center',fontsize=8,weight='bold',color=INK)
-```
+| प्रयोजन वा कारण | कोशी | मधेश | बागमती | गण्डकी | लुम्बिनी | कर्णाली | सुदूरपश्चिम | उपत्यका | जम्मा |
+|---|---|---|---|---|---|---|---|---|---|
+| वेश्यावृत्ति | १ | ९ | १० | १ | ९ | ३ | १३ | २८ | ७४ |
+| श्रमशोषण | १३ | १ | ११ | ३ | १४ | २ | ८ | २ | ५४ |
+| विदेश पठाउने | २ | ० | ० | ० | ० | ० | ० | १० | १२ |
+| जबरजस्ती विवाह | ११ | ० | २ | ० | ८ | ४ | २ | २ | २९ |
+| अङ्ग झिक्ने | ० | ० | १ | ० | ० | ० | ० | १ | २ |
+| यौनशोषण | १० | ७ | ३ | ० | ८ | १ | १ | १२ | ४२ |
+| पी.आर. (स्थायी बसोबास) दिलाउने | १३ | ४ | ० | ० | १५ | ० | ५ | २७ | ६४ |
+| बेचबिखन | १८ | ९ | ३ | ३ | १० | ६ | ८ | १८ | ७५ |
+| **जम्मा** | **६८** | **३०** | **३०** | **७** | **६४** | **१६** | **३७** | **१००** | **३५२** |
 
-- **Poverty and unemployment** make families accept any offer of work, and make children easy to take away.
-- **Illiteracy and lack of awareness** — families cannot check an agent's claims.
-- **Gender discrimination**, early marriage and family violence push girls to run away or be sent away.
-- **Fake promises** of jobs, marriage, schooling or foreign employment by agents and relatives.
-- **Open borders**, weak checking and corruption among some officials.
-- **Conflict and disaster** which leave families homeless and poor.
-- **Demand** from people who profit from cheap, forced labour and sex.
+*स्रोत: नेपाल प्रहरी प्रधान कार्यालय (पाठ्यपुस्तकमा दिइएअनुसार)। अन्तिम पङ्क्तिको जम्मा
+हामीले जोडेका हौँ।*
 
-### Effects
-
-On the victim: injury, mental trauma, fear, HIV and other diseases, loss of schooling, shame and loss of the family. On the family and community: broken families, rejection of the returned survivor, loss of trust. On the nation: loss of young people, damage to the country's image, spread of crime and disease and a higher cost of rescue and rehabilitation.
-
-### Prevention and control
-
-1. **Educate** girls and boys, and run awareness programmes in schools and villages: "Check before you go".
-2. **Create jobs** and income at home: skills training, cooperatives, microcredit, scholarships for girls.
-3. **Safe migration:** go for foreign employment only through agencies with a licence of the Department of Foreign Employment, and check the job contract, the visa and the destination before leaving.
-4. **Strengthen the border**, including checkposts, coordinated work with the police of neighbouring countries and keeping watch on transport.
-5. **Enforce the law:** quick arrest and punishment of traffickers and of corrupt officials who help them.
-6. **Rescue, protect and rehabilitate:** safe homes, counselling, schooling, skills and legal help for survivors.
-7. **Community watch:** ward committees, women's groups, teachers and local police should report missing and suspicious cases. In Nepal the **Child Helpline 1098** and **Police 100** are free to call.
-8. **Work with NGOs and international bodies** (see 4.7).
-
-```photo id="soc10/anuradha" caption="Anuradha Koirala, who founded Maiti Nepal in 1993 to rescue and rehabilitate girls and women who were trafficked, and to prevent trafficking at the border. Survivor-led organisations such as Shakti Samuha also play a major role." width="52"
-```
-
-::: tip Four-mark answer pattern
-"Trafficking is a serious problem. Why? Explain." Meaning (1) + any two causes (1) + two effects (1) + two ways to prevent (1). Mention the right against exploitation in Article 29 of the Constitution.
+::: caution तालिकाको जाँच
+पाठ्यपुस्तकको हरेक पङ्क्तिको जम्मा मिल्छ (जस्तै वेश्यावृत्ति: १ + ९ + १० + १ + ९ + ३ +
+१३ + २८ = ७४)। पाठ्यपुस्तकमा प्रदेशअनुसारको जम्मा र कुल जम्मा दिइएको छैन; जोड्दा
+कुल **३५२** पीडित हुन्छन् र स्तम्भका जम्मा (६८ + ३० + ३० + ७ + ६४ + १६ + ३७ + १००)
+पनि ३५२ नै हुन्छ। यहाँ "उपत्यका" भनेको काठमाडौँ उपत्यकाको प्रहरी कार्यालय हो, त्यसैले
+बागमतीको अङ्कमा उपत्यकाको अङ्क समावेश छैन।
 :::
 
-## 4.2 Sexual abuse and abnormal sexual behaviour
+```figure caption="आर्थिक वर्ष २०७५/७६ मा बेचबिखनसम्बन्धी मुद्दाका पीडितको सङ्ख्या, प्रयोजनअनुसार (नेपाल प्रहरी प्रधान कार्यालय)। कुल ३५२ मध्ये प्रत्यक्ष बेचबिखन र वेश्यावृत्ति सबैभन्दा धेरै छन्।"
+fig, ax = barh_ranked(["बेचबिखन", "वेश्यावृत्ति", "पी.आर. दिलाउने", "श्रमशोषण",
+                       "यौनशोषण", "जबरजस्ती विवाह", "विदेश पठाउने", "अङ्ग झिक्ने"],
+                      [75, 74, 64, 54, 42, 29, 12, 2], figsize=(5.6, 3.3))
+ax.set_xlabel("पीडितको सङ्ख्या", fontsize=8, color=MUTED)
+```
 
-### Meaning
+::: example तथ्याङ्कको विश्लेषण (क्रियाकलाप १ को नमुना)
+**प्रश्न.** माथिको तथ्याङ्कबाट नेपालमा मानव बेचबिखनको अवस्था विश्लेषण गर्नुहोस्।
 
-::: definition Sexual abuse and abnormal sexual behaviour
-Sexual abuse is any sexual act or behaviour forced on a person without free consent, or on a child; abnormal sexual behaviour (*yaun bikriti ra bisangati*) means sexual conduct that is harmful, illegal or against the values of society, such as rape, sexual harassment, abuse of children and misuse of the internet for sexual exploitation.
+**उत्तर.** (क) एक वर्षमा कुल **३५२** पीडित वा प्रभावित दर्ता भएका छन्; उजुरी नै नपरेका
+घटना यसभन्दा धेरै हुन सक्छन्। (ख) प्रयोजनमा **बेचबिखन (७५)**, **वेश्यावृत्ति (७४)** र
+**पी.आर. दिलाउने प्रलोभन (६४)** अगाडि छन्; वेश्यावृत्ति र यौनशोषण जोड्दा ११६
+(करिब ३३ प्रतिशत) हुन्छ, त्यसैले यौन शोषण मुख्य उद्देश्य देखिन्छ। (ग) श्रमशोषण
+(५४) र विदेश पठाउने (१२) ले **वैदेशिक रोजगारीको नाममा** हुने ठगी देखाउँछन्।
+(घ) अङ्ग झिक्ने घटना कम (२) भए पनि अत्यन्त जघन्य छन्। (ङ) स्थानका आधारमा
+**काठमाडौँ उपत्यका (१००)**, **कोशी (६८)** र **लुम्बिनी (६४)** मा सबैभन्दा धेरै र
+**गण्डकी (७)** मा सबैभन्दा कम घटना छन्। उपत्यका अन्तर्राष्ट्रिय विमानस्थल र
+वैदेशिक रोजगार कम्पनीको केन्द्र भएकाले, कोशी र लुम्बिनी भारतसँग खुला सिमाना भएकाले
+जोखिममा छन्। (च) **जबरजस्ती विवाह** कोशी (११) र लुम्बिनी (८) मा बढी छ। निष्कर्ष:
+बेचबिखन सबै प्रदेशमा छ, तर सिमाना, विमानस्थल र सहरी क्षेत्रमा बढी केन्द्रित छ।
 :::
 
-Respect for one's own body and for the body and dignity of others is at the centre of human values. Any sexual act without consent is a **crime**, and the survivor is never to blame.
+### मानव बेचबिखनका कारण
 
-### Forms
+- १. **गरिबी र बेरोजगारी:** सजिलो कमाइको लोभमा परिवार र युवा दलालको जालमा पर्छन्।
+- २. **अशिक्षा र चेतनाको कमी:** कानुन, अधिकार र ठगीका तरिकाबारे थाहा नहुनु।
+- ३. **झुटो प्रलोभन:** विदेशमा राम्रो जागिर, पी.आर., प्रेम वा विवाहको झुटो आश्वासन।
+- ४. **लैङ्गिक विभेद:** छोरीलाई बोझ ठान्ने सोच, बालविवाह र घरेलु हिंसाबाट भाग्नुपर्ने बाध्यता।
+- ५. **खुला सिमाना र कमजोर अनुगमन:** भारतसँगको खुला सिमाना र अवैध वैदेशिक रोजगारीको बाटो।
+- ६. **पारिवारिक विखण्डन र विपद्:** परिवार टुटेका, अनाथ वा भूकम्प–बाढीपछि विस्थापित
+  बालबालिका सजिलै सिकार बन्छन्।
 
-| Form | Meaning |
+### मानव बेचबिखनका असर
+
+| व्यक्तिमा पर्ने असर | परिवार र समाजमा पर्ने असर |
 |---|---|
-| Rape and attempted rape | Sexual intercourse without consent, or with a girl under 18 with or without consent |
-| Sexual harassment | Unwelcome touching, teasing, remarks, gestures, messages or staring that make a person unsafe or uncomfortable (in the street, at school, at work, online) |
-| Child sexual abuse | Any sexual act with a child, by a stranger, relative or other trusted adult |
-| Incest | Sexual abuse within the family |
-| Online sexual exploitation | Sending or demanding obscene pictures, sharing private photos, blackmail ("sextortion"), grooming of children on social media |
-| Early and forced marriage | Marriage below the legal age (20 in Nepal), which is a form of sexual and social harm |
+| शारीरिक यातना, यौन शोषण र बाध्यकारी श्रम | परिवारको प्रतिष्ठामा आँच र विखण्डन |
+| एचआइभी, यौनरोग र अङ्ग झिक्दा दीर्घ रोग वा मृत्यु | उद्धार भएकालाई समेत सामाजिक बहिष्कार |
+| डर, त्रास, अवसाद र आत्मसम्मान गुम्ने | अपराध, गिरोह र लागुऔषधको कारोबार बढ्ने |
+| शिक्षा, स्वास्थ्य र नागरिक अधिकारबाट वञ्चित | देशको जनशक्ति घट्ने र अन्तर्राष्ट्रिय छवि बिग्रने |
 
-### Causes
+```photo id="soc10/anuradha" caption="माइती नेपालकी संस्थापक अनुराधा कोइराला। बेचिएका हजारौँ चेलीको उद्धार र पुनःस्थापनामा योगदान गरेबापत उनले सन् २०१० मा अन्तर्राष्ट्रिय सम्मान पाइन् — यो गैरसरकारी प्रयासको उदाहरण हो।" width="54"
+```
 
-- Lack of **awareness and age-appropriate education** about the body, consent, safety and rights, so that children do not know what is wrong and are afraid to tell.
-- **Harmful attitudes** that treat women and girls as less equal, and blame the survivor.
-- **Alcohol and drugs**, which reduce control.
-- **Harmful media content**, pornography and unsafe internet use.
-- **Poverty, migration and broken families** that leave children without protection.
-- **Weak enforcement** and fear, shame and silence, so offenders are not punished.
-- **Overcrowding and unsafe places**, such as dark roads, shared workplaces and unsupervised hostels.
+### रोकथाम र नियन्त्रणका उपाय
 
-### Effects
+- १. **कानुनी:** ऐनको कडा कार्यान्वयन, किटानी जाहेरीमा तुरुन्त पक्राउ र दोषीलाई छिटो सजाय;
+  नाटकमा जस्तै "माफी" दिएर नछाड्ने।
+- २. **सुरक्षा:** सिमाना नाका, विमानस्थल र बसपार्कमा निगरानी तथा सहायता कक्ष।
+- ३. **चेतना:** गाउँ–टोल, विद्यालय र सञ्चारमाध्यममार्फत बेचबिखनका तरिका र जोखिमबारे सचेतना।
+- ४. **आर्थिक:** गरिब परिवारलाई सिप, स्वरोजगार र छात्रवृत्ति; वैदेशिक रोजगारीमा जानुपरे
+  सरकारबाट स्वीकृत संस्था र श्रम स्वीकृतिसहित मात्र जाने।
+- ५. **पुनःस्थापना:** उद्धार भएकालाई परामर्श, उपचार, सिप तालिम र परिवार–समाजमा सम्मानजनक
+  पुनर्मिलन।
+- ६. **सहकार्य:** प्रहरी, स्थानीय तह, गैरसरकारी संस्था र छिमेकी देशबिच समन्वय।
 
-On the survivor: physical injury, fear, depression, loss of confidence, drop-out from school, sexually transmitted infections including HIV, unwanted pregnancy and in the worst cases suicide. On the family: shame and distress. On society: fear, unsafe public places, loss of trust and a cycle of violence if offenders are not punished.
-
-### Law and protection
-
-The **Constitution** (Article 38) guarantees that no woman shall be subjected to physical, mental, sexual, psychological or other violence, and Article 39 protects children against abuse. The **Muluki Criminal Code, 2074** (in force from Bhadra 2075) defines rape, sexual abuse and related crimes and sets severe punishments, with heavier punishment where the survivor is a child. There are **One-stop Crisis Management Centres** in hospitals, **Women, Children and Senior Citizen Service Centres** of the Nepal Police, and free helplines: **Police 100**, **Child Helpline 1098**, **Women's Helpline 1145**.
-
-### Prevention and solutions
-
-1. **Education about the body, consent and safety** at home and in school, using age-appropriate lessons: *safe touch and unsafe touch*, *"no" is a complete answer*, and the right to tell a trusted adult.
-2. **Open family communication.** Parents and teachers must listen and believe, not blame.
-3. **Counselling** in schools and communities; teachers trained to respond.
-4. **Strict, quick justice**, protection of the survivor's name and privacy, and free legal help.
-5. **Safe public places:** street lighting, safe transport, women police, safe hostels.
-6. **Safe internet use:** do not share passwords or private pictures, do not meet online strangers alone, block and report.
-7. **Regulation of harmful media** and limits on alcohol sales to minors.
-8. **Social change:** respect and equality between boys and girls, and men taking responsibility for stopping harassment.
-
-::: tip What a student can do
-If someone harms you or a friend: move away from the person, say no clearly, tell a trusted adult (parent, teacher, school counsellor), and call 100, 1098 or 1145. Keep any messages as evidence. Support the survivor; never share their name or photos.
+::: note क्रियाकलाप — पाठ ४.१
+**१. तथ्याङ्क विश्लेषण:** माथिको प्रहरी तथ्याङ्क अध्ययन गरी नेपालमा मानव बेचबिखनको
+अवस्था विश्लेषण गर्नुहोस्। (माथिको नमुना विश्लेषण हेर्नुहोस्।)
+**२. समाचार सङ्कलन:** मानव बेचबिखनविरुद्ध विभिन्न सञ्चारमाध्यममा प्रकाशित समाचार
+सङ्कलन गरी कक्षामा छलफल गर्नुहोस्।
+**३. नाटक मञ्चन:** पाठमा दिइएको नाटक कक्षामा अभिनय गरी प्रस्तुत गर्नुहोस्।
+**४. ब्यानर र प्लेकार्ड:** "चेली बेच्ने समाजको कलङ्क", "विदेश जानुअघि सोधौँ, बुझौँ,
+जाँचौँ" जस्ता नारासहित ब्यानर र प्लेकार्ड बनाई स्थानीय समुदायमा प्रदर्शन गर्नुहोस्।
+**५. पुनःस्थापनाबारे छलफल:** बेचिएका चेली र बालबालिकालाई समाजमा पुनःस्थापना गर्न के
+गर्नुपर्ला, समूहमा छलफल गरी निष्कर्ष कक्षामा सुनाउनुहोस्। (सङ्केत: मनोसामाजिक परामर्श,
+उपचार, सिप तालिम र रोजगारी, परिवारसँग पुनर्मिलन, पहिचान गोप्य राख्ने, लान्छना नलगाउने।)
 :::
 
-## 4.3 Domestic violence
+### पाठको अभ्यास: नमुना उत्तर
 
-### Meaning
+**१. मानव बेचबिखन भनेको के हो? यसबाट बच्न के के गर्नुपर्ला?**
+आर्थिक लाभ वा शोषणका उद्देश्यले धम्की, बल, छल वा प्रलोभनद्वारा मानिसलाई किन्ने, बेच्ने,
+वेश्यावृत्ति वा श्रमशोषणमा लगाउने र देशभित्र वा विदेश ओसारपसार गर्ने कार्य मानव बेचबिखन
+हो। **बच्ने उपाय:** (क) अपरिचित वा चिनजानकै व्यक्तिले दिएको "विदेशमा राम्रो जागिर" वा
+विवाहको प्रस्तावमा तुरुन्त विश्वास नगर्ने; (ख) वैदेशिक रोजगारीमा सरकारी स्वीकृति र
+सम्झौतापत्र हेरेर मात्र जाने; (ग) घर छोड्दा परिवारलाई गन्तव्य, सम्पर्क नम्बर र साथमा
+जाने व्यक्तिको विवरण दिने; (घ) राहदानी र कागजात अरूलाई नदिने; (ङ) शङ्का लागे प्रहरी
+१०० वा हेल्पलाइनमा खबर गर्ने; (च) शिक्षा र सिप सिकेर आत्मनिर्भर बन्ने।
 
-::: definition Domestic violence
-Domestic violence is any physical, mental, sexual or economic harm done by one member of a family to another within the home or a domestic relationship, including threats and the denial of basic needs.
+**२. नेपालमा मानव बेचबिखनविरुद्ध सरकारी तथा गैरसरकारी संस्थाले गरेका प्रयासबाट कस्ता
+उपलब्धि हासिल भएका छन्, लेख्नुहोस्।**
+**सरकारी प्रयास:** मानव बेचबिखन तथा ओसारपसार (नियन्त्रण) ऐन, २०६४ लागु भई दोषीलाई
+२० वर्षसम्म कैदको व्यवस्था भयो; नेपाल प्रहरीले बेचबिखनसम्बन्धी छुट्टै अनुसन्धान
+संयन्त्र बनाएर उजुरी, उद्धार र तथ्याङ्क सङ्कलन गर्न थाल्यो; सिमाना र विमानस्थलमा
+निगरानी बढ्यो; वैदेशिक रोजगारीमा श्रम स्वीकृति अनिवार्य भयो; स्थानीय तहले सचेतना
+कार्यक्रम चलाए। **गैरसरकारी प्रयास:** माइती नेपाल जस्ता संस्थाले सिमानामा निगरानी,
+उद्धार, पुनःस्थापना केन्द्र, कानुनी सहायता र सिप तालिम दिए। **उपलब्धि:** (क) हजारौँ
+चेली र बालबालिकाको उद्धार र पुनःस्थापना भयो; (ख) उजुरी दर्ता र दोषीलाई सजाय बढ्यो —
+नाटकको धनवीर जस्तै अपराधी पक्राउ पर्न थाले; (ग) समुदायमा बेचबिखनबारे खुलेर बोल्ने
+चेतना बढ्यो; (घ) पीडितलाई लान्छना होइन सहयोग गर्नुपर्छ भन्ने सोच विकास भयो; (ङ) प्रहरीले
+प्रदेश र प्रयोजनअनुसार तथ्याङ्क राख्न थालेकाले नीति बनाउन सजिलो भयो।
+
+**३. मानव बेचबिखनबाट व्यक्ति र समाजमा पर्ने असरको सूची बनाउनुहोस्।**
+**व्यक्तिमा:** (क) शारीरिक यातना र यौन शोषण; (ख) बाध्यकारी श्रम र दासत्व; (ग) एचआइभी,
+यौनरोग र अङ्ग झिकिँदा दीर्घ रोग वा मृत्यु; (घ) डर, अवसाद र आत्महत्याको सोच; (ङ) शिक्षा
+र नागरिक अधिकारबाट वञ्चित। **समाजमा:** (क) परिवार विखण्डन र प्रतिष्ठामा आँच; (ख)
+उद्धार भएकालाई पनि सामाजिक बहिष्कार; (ग) अपराध र आपराधिक गिरोह बढ्ने; (घ) जनशक्ति
+गुम्ने; (ङ) देशको अन्तर्राष्ट्रिय छवि बिग्रने; (च) समाजमा अविश्वास र त्रास फैलिने।
+
+**४. नेपालबाट विभिन्न राष्ट्रमा वैदेशिक रोजगारीका नाममा मानव तस्करी गर्ने अन्तर्राष्ट्रिय
+गिरोहको सञ्जालमा नेपाली पनि फसेका देखिन्छन्। यस्तो तस्करी केका लागि हुन्छ, खोजी गरी
+यसको निराकरण गर्न कसकसले के के गर्नुपर्छ, लेख्नुहोस्।**
+**तस्करीका उद्देश्य:** वेश्यावृत्ति र यौनशोषण, घरेलु कामदार वा कारखानामा श्रमशोषण,
+जबरजस्ती विवाह, अङ्ग (विशेषगरी मृगौला) झिक्ने, पी.आर. वा राम्रो जागिरको नाममा ठगी,
+आपराधिक काम वा युद्धमा प्रयोग। प्रहरी तथ्याङ्कमा पनि वेश्यावृत्ति (७४), श्रमशोषण (५४)
+र पी.आर. दिलाउने (६४) मुख्य छन्। **कसले के गर्ने:** (क) **सरकार** — कानुनको कडा
+कार्यान्वयन, अवैध म्यानपावर कम्पनीमाथि कारबाही, गन्तव्य देशसँग श्रम सम्झौता र दूतावासमार्फत
+उद्धार; (ख) **प्रहरी** — सिमाना र विमानस्थलमा निगरानी, अन्तर्राष्ट्रिय प्रहरीसँग सहकार्य;
+(ग) **स्थानीय तह** — जोखिममा परेका परिवार पहिचान, रोजगारी र सचेतना; (घ) **गैरसरकारी
+संस्था** — उद्धार, आश्रय र पुनःस्थापना; (ङ) **सञ्चारमाध्यम** — ठगीका तरिका सार्वजनिक गर्ने;
+(च) **परिवार र व्यक्ति** — स्वीकृत संस्थाबाट मात्र जाने, कागजात जाँच्ने र शङ्का लागे उजुरी गर्ने।
+
+## ४.२ यौन विकृति र विसङ्गति
+
+किशोरावस्थामा शरीर र मनमा तीव्र परिवर्तन हुन्छ। यही बेला सही जानकारी, परिवारको साथ
+र असल सङ्गत नपाउँदा मानिस गलत बाटोमा लाग्न सक्छ। उमेर नपुगी यौन सम्बन्ध, विवाहबाहिरको
+अनैतिक सम्बन्ध, अश्लील सामग्रीको लत, यौन दुर्व्यवहार र बलात्कार जस्ता समाजका नियम र
+मूल्यमान्यताविपरीतका यौनजन्य व्यवहारलाई **यौन विकृति र विसङ्गति** भनिन्छ।
+
+::: definition यौन विकृति र विसङ्गति
+समाजले स्वीकार नगरेका, कानुनविपरीत वा व्यक्ति र परिवारलाई शारीरिक, मानसिक र
+सामाजिक हानि पुर्‍याउने यौनसम्बन्धी गलत व्यवहार र प्रवृत्तिलाई **यौन विकृति र
+विसङ्गति** भनिन्छ। कसैको इच्छाविरुद्ध गरिने यौन प्रकृतिको स्पर्श, बोली, इसारा वा
+सन्देश **यौन दुर्व्यवहार** हो र यो अपराध हो।
 :::
 
-The Domestic Violence (Offence and Punishment) Act, 2066 (2009) defines domestic violence in this wider sense: it includes not only beating but also insults, threats, forced sex, and keeping a person from food, money or property. It can happen to wives, husbands, children, elderly parents or domestic workers, but in Nepal the great majority of victims are women and girls.
+पाठ्यपुस्तकले तीन घटना दिएर छलफल गर्न भनेको छ:
 
-### Kinds
+**घटना १ — कञ्चन र विनय:** एउटै कक्षामा पढ्ने १६ वर्षका कञ्चन र विनयबिच विद्यालय आउँदा–
+जाँदा नजिकपन बढ्यो। एकान्तमा बसेका बेला विनयले शारीरिक सम्बन्धको प्रस्ताव राखे।
+कञ्चनले आफ्ना साथीको उदाहरण दिँदै सम्झाइन् — रीताले सानै उमेरमा सङ्गमसँग प्रेमविवाह
+गरी बच्चा जन्माउँदा दुवैको पढाइ छुट्यो; अहिले रीता बच्चाको स्याहारमा र सङ्गम परिवार
+पाल्न काममा लागेका छन्। नम्रता विवाहअघि नै बच्चा जन्माएर धेरै समस्या भोगिरहेकी छिन्।
+उमेर नपुगी यौन सम्बन्ध राख्दा जटिलता आउँछ र कम उमेरमा आमा बन्दा स्वास्थ्यमा नराम्रो
+असर पर्छ। विनयले आँखा खोलिदिएकामा धन्यवाद दिए र पढाइमा ध्यान दिने वाचा गरे।
 
-| Kind | Examples |
+**घटना २ — रजनी:** श्रीमान् तीन वर्षदेखि वैदेशिक रोजगारीमा भएकी रजनी छोराछोरी पढाउन
+सहरमा बस्छिन्। एक्लोपनमा नजिकैको ग्यारेजमा काम गर्ने हरिसँग घुमफिर गर्न थालिन्।
+अचानक उनलाई साथी निशाको याद आयो — श्रीमान् विदेश हुँदा मनिषसँगको अनैतिक सम्बन्ध थाहा
+पाएपछि निशाको सम्बन्धविच्छेद भयो र छोरीको बिचल्ली भयो। रजनी झस्किइन्, हरिबाट टाढा
+भइन् र छोराछोरी विद्यालय गएपछिको समयमा तीन महिना सिलाइबुनाइ सिकेर सटर भाडामा लिई
+सिलाइ पसल खोलिन्। नयाँ डिजाइनका कपडाले ग्राहक खुसी छन्। "श्रीमान्–श्रीमती एकअर्काप्रति
+इमानदार हुनुपर्छ, क्षणिक खुसीका पछि लाग्नु हुँदैन" भन्ने कुरा उनी साथीलाई पनि सुनाउँछिन्।
+
+**घटना ३ — कृष्ण:** कृष्णको कक्षामा ध्यान घट्यो र प्रथम त्रैमासिक परीक्षाको नतिजा खस्कियो।
+सामाजिक शिक्षक तथा विद्यालयकी **मनोसामाजिक परामर्शदाता** विनिताले उसलाई पुस्तकालयमा
+एक्लै बोलाएर कुरा बुझ्नुभयो। कसैलाई नभन्ने विश्वास दिलाएपछि कृष्णले बतायो — अपरिचित
+साथीले मोबाइलमा पठाएको लिङ्कबाट अश्लील भिडियो हेर्न थालेकाले मन अशान्त भयो र पढ्न मन
+लागेन। शिक्षकले लिङ्क हटाउन, केही समय सामाजिक सञ्जालबाट टाढा रहन र त्यस्ता साथीको
+सङ्गत नगर्न भन्नुभयो; हरेक हप्ता रमाइला र ज्ञानवर्धक किताब पढ्न दिएर सुनाउन लगाउनुभयो।
+कृष्णले मोबाइलमा समय खेर फाल्न छाड्यो र पढाइमा सुधार आयो।
+
+```figure caption="पाठका तीन घटना र तिनको समाधान। तीनै घटनामा समस्या चिनेर सही निर्णय लिँदा जीवन सुध्रिएको छ।"
+fig, ax = cards([("कञ्चन र विनय", "उमेर नपुगी यौन सम्बन्धको\nप्रस्ताव अस्वीकार"),
+                 ("रजनी", "एक्लोपनको समाधान सिप\nर स्वरोजगारमा खोजिन्"),
+                 ("कृष्ण", "अश्लील भिडियोको लत;\nपरामर्शले सुधार"),
+                 ("साझा पाठ", "'नाइँ' भन्ने आँट, इमानदारी\nर विश्वासिलो मान्छेको साथ")],
+                cols=2, figsize=(5.6, 2.5))
+```
+
+### यौन विकृति र विसङ्गतिका कारण र असर
+
+| कारण | असर |
 |---|---|
-| Physical | Hitting, kicking, burning, pushing, tying up |
-| Mental / psychological | Scolding, insulting, threatening, blaming for no son, isolating from friends and family |
-| Sexual | Forced sex within marriage or relationship, forcing to watch obscene things |
-| Economic | Taking away a person's earnings, refusing money for food, school or medicine, denying property rights |
-| Neglect of children and elders | Denying food, care, schooling or medical treatment |
+| यौन तथा प्रजनन स्वास्थ्यबारे सही जानकारीको कमी | कम उमेरमा गर्भ, असुरक्षित गर्भपतन, आमा–शिशुको स्वास्थ्यमा जोखिम |
+| इन्टरनेट र मोबाइलमा अश्लील सामग्रीको सहज पहुँच | पढाइमा ध्यान नहुने, मानसिक अशान्ति र लत |
+| खराब सङ्गत, लागुऔषध र मदिरा | यौनरोग र एचआइभीको सङ्क्रमण |
+| एक्लोपन, परिवारसँग संवादको कमी | परिवारमा अविश्वास, सम्बन्धविच्छेद र बालबालिकाको बिचल्ली |
+| कानुनको कमजोर कार्यान्वयन र पीडितलाई दोष दिने प्रवृत्ति | यौन दुर्व्यवहार र बलात्कार बढ्ने; पीडित चुप लाग्ने |
 
-### Causes
+::: caution दोष पीडितको होइन
+"उसले त्यस्तो लुगा लगाएकी थिई", "त्यति राति किन हिँडेको?" — यस्ता भनाइले अपराधीलाई
+जोगाउँछन् र पीडितलाई चुप लगाउँछन्। यौन दुर्व्यवहारमा दोष सधैँ **अपराध गर्नेको** हो।
+नेपालमा विवाहको न्यूनतम कानुनी उमेर २० वर्ष हो; त्योभन्दा कम उमेरमा विवाह गर्नु र
+गराउनु दुवै दण्डनीय छ।
+:::
 
-- **Patriarchal ideas**: the belief that men are superior and may "discipline" women and children.
-- **Illiteracy and economic dependence** of women, so they cannot leave.
-- **Alcohol and drug abuse** by the abuser.
-- **Poverty, unemployment and family stress.**
-- **Dowry demands and early marriage.**
-- **Lack of knowledge of the law**, social silence ("it is a family matter") and fear of shame.
-- **Weak legal service** and slow action.
+::: note क्रियाकलाप — पाठ ४.२
+**१. समाचार सङ्कलन:** पत्रपत्रिका वा सञ्चारमाध्यमबाट यौन विकृतिका घटनासँग सम्बन्धित
+समाचार सङ्कलन गरी ती घटनाका कारण आउने परिणामबारे कक्षामा छलफल गर्नुहोस्। (समाचार
+प्रस्तुत गर्दा पीडितको नाम र पहिचान नखुलाउनुहोस्।)
+**२. प्लेकार्ड:** यौन विकृति र विसङ्गतिविरुद्ध जनचेतना जगाउने प्लेकार्ड (जस्तै "मेरो शरीर,
+मेरो अधिकार", "चुप नबसौँ, विश्वासिलो व्यक्तिलाई भनौँ") तयार पारी कक्षामा प्रदर्शन गर्नुहोस्।
+:::
 
-### Effects
+### पाठको अभ्यास: नमुना उत्तर
 
-| On | Effects |
+**१. कम उमेरमा विवाह गर्दा कस्ता समस्या आइपर्न सक्छन्?**
+(क) **पढाइ छुट्छ** — रीता र सङ्गम जस्तै दुवैले शिक्षा निरन्तर गर्न सक्दैनन्। (ख)
+**स्वास्थ्य जोखिम** — शरीर पूर्ण विकास नभई आमा बन्दा प्रसवमा जटिलता, आङ खस्ने,
+कम तौलका बच्चा र मातृ तथा शिशु मृत्युको जोखिम। (ग) **आर्थिक समस्या** — सिप र
+योग्यता नहुँदा राम्रो रोजगारी नपाइने; गरिबी बढ्ने। (घ) **मानसिक तनाव** — परिवार
+सम्हाल्ने परिपक्वता नहुँदा झगडा, घरेलु हिंसा र सम्बन्धविच्छेद। (ङ) **कानुनी समस्या** —
+२० वर्षभन्दा कम उमेरमा विवाह दण्डनीय छ। (च) **सामाजिक** — जनसङ्ख्या वृद्धि र
+अर्को पुस्तामा पनि गरिबी र अशिक्षाको चक्र।
+
+**२. यदि तपाईँमाथि यौन दुर्व्यवहार हुन खोज्यो भने तपाईँ के गर्नुहुन्छ?**
+(क) दृढतापूर्वक "नाइँ" भन्छु र चर्को स्वरमा विरोध गर्छु। (ख) सकेसम्म चाँडो त्यहाँबाट
+भागेर मानिस भएको सुरक्षित ठाउँमा पुग्छु र सहयोग माग्छु। (ग) घटना गोप्य राख्दिन; आमाबुबा,
+शिक्षक वा विश्वासिलो वयस्कलाई तुरुन्त भन्छु — "कसैलाई नभन्नू" भन्नु आफैँमा खतराको
+सङ्केत हो। (घ) प्रहरी १०० वा बाल हेल्पलाइन १०९८ मा खबर गर्छु। (ङ) मोबाइल सन्देश,
+तस्बिर वा लुगा जस्ता प्रमाण नमेटी जोगाउँछु। (च) आफूलाई दोषी ठान्दिन र आवश्यक परे
+परामर्शदाताको सहयोग लिन्छु।
+
+**३. आफ्ना बालबालिकालाई यौन विसङ्गतिबाट बचाउन अभिभावकले खेल्न सक्ने भूमिका लेख्नुहोस्।**
+(क) उमेरअनुसार **असल र खराब स्पर्श**, शरीरका अङ्ग र आफ्नो शरीर आफ्नो हो भन्ने कुरा
+सिकाउने; (ख) बालबालिकासँग खुला र मायालु संवाद गर्ने, ताकि उनीहरू डर नमानी कुरा भनून्;
+(ग) मोबाइल र इन्टरनेट प्रयोगमा समयसीमा र निगरानी राख्ने, अश्लील साइट रोक्ने व्यवस्था गर्ने;
+(घ) साथीसङ्गत र व्यवहारमा आएको परिवर्तनमा ध्यान दिने — शिक्षक विनिताले कृष्णमा जस्तै;
+(ङ) किशोरावस्थाका परिवर्तन र प्रजनन स्वास्थ्यबारे सही जानकारी दिने; (च) बालविवाह नगर्ने र
+पढाइ निरन्तर गराउने; (छ) आफैँ असल आचरणको नमुना बन्ने।
+
+**४. समाजमा हुने यौन विकृति र विसङ्गति हटाउन के के गर्नुपर्ला?**
+(क) विद्यालयमा उमेरअनुकूल **यौन तथा प्रजनन स्वास्थ्य शिक्षा**; (ख) परिवारमा खुला संवाद
+र बालबालिकाको निगरानी; (ग) विद्यालयमा **मनोसामाजिक परामर्शदाता** को व्यवस्था; (घ)
+बलात्कार, बालयौन दुरुपयोग र बालविवाहविरुद्ध कानुनको कडा कार्यान्वयन र छिटो न्याय; (ङ)
+अश्लील सामग्री र साइबर अपराध नियन्त्रण; (च) पीडितलाई दोष नदिई उपचार, कानुनी सहायता र
+गोपनीयता; (छ) युवालाई खेलकुद, सिप र रचनात्मक काममा व्यस्त राख्ने; (ज) पति–पत्नीबिच
+इमानदारी र पारिवारिक मूल्यको प्रवर्धन; (झ) सञ्चारमाध्यमबाट जनचेतना।
+
+## ४.३ घरेलु हिंसा
+
+पाठ्यपुस्तकले दुई समाचार दिएको छ।
+
+**समाचार १ (राष्ट्रिय घटना दैनिक, काठमाडौँ, २१ भदौ):** भर्खरै विवाह भएकी **सञ्जिला
+खातुन** लाई धेरै दाइजो नल्याएको निहुँमा श्रीमान् र सासुससुराले केही महिनादेखि यातना दिन
+थाले। दिनभर काममा लगाउने, खानपिनमा बेवास्ता गर्ने र बेलुका कुटपिट गर्ने गरेपछि उनले
+माइतीमा सुनाइन्। माइतीले सम्झाउँदा पनि कुटपिट नरोकिएपछि प्रहरीमा उजुरी दिइयो। श्रीमान्ले
+**विवाह दर्ता गर्न र नागरिकता बनाइदिन** समेत अस्वीकार गरेका थिए। जिल्ला प्रहरी
+कार्यालयले दुवै पक्षसँग बुझ्दै छ।
+
+**समाचार २ (नयाँ पत्रिका, काठमाडौँ, २१ भदौ):** नेपाल बहुसूचक सर्वेक्षण, २०१४ अनुसार
+नेपालमा **१ देखि १४ वर्ष उमेरका ८० प्रतिशतभन्दा धेरै बालबालिका अनुशासनका नाममा हुने
+हिंसा** बाट प्रभावित छन्; १–२ वर्षका शिशुलाई समेत बल प्रयोग गरेर अनुशासनमा राखिन्छ।
+यस्तो हिंसा प्रायः आफ्नै अभिभावक वा हेरचाह गर्नेबाट हुन्छ। यसले पढाइ पूरा गर्न नसक्ने,
+व्यवहारजन्य विकृति र उदासीनता (अवसाद) जस्ता दीर्घकालीन असर पार्छ। बाल्यकालमा हिंसा
+भोगेका वा परिवारमा हिंसा देखेका बालबालिकाले वयस्क भएपछि अरूमाथि र आफ्नै सन्तानमाथि
+हिंसा गर्ने सम्भावना धेरै हुन्छ।
+
+::: definition घरेलु हिंसा
+परिवारभित्र परिवारकै कुनै सदस्यले अर्को सदस्यमाथि गर्ने **शारीरिक, मानसिक, आर्थिक तथा
+यौनिक दुर्व्यवहार** लाई **घरेलु हिंसा** भनिन्छ। यसले व्यक्तिलाई शारीरिक र मानसिक रूपमा
+पीडित बनाउँछ र उसको व्यक्तित्व विकासमा असर पुर्‍याउँछ; जस्तै दाइजोका नाममा हुने
+दुर्व्यवहार, पैतृक सम्पत्तिको विषयमा हुने हिंसा।
+:::
+
+| प्रकार | उदाहरण |
 |---|---|
-| The victim | Injury, disability, depression, fear, suicide, loss of self-respect, health risks |
-| Children | Fear and trauma, poor results at school, learning violence as normal, running away |
-| Family | Broken relations, divorce, loss of income |
-| Society | A less safe society, higher health cost, cycle of violence passed on to the next generation |
+| शारीरिक | कुटपिट, पोल्ने, भोकै राख्ने — सञ्जिलालाई बेलुका कुट्नु र खानपिनमा बेवास्ता |
+| मानसिक | गाली, अपमान, धम्की, एक्ल्याउने, दाइजो नल्याएको भनी होच्याउने |
+| आर्थिक | कमाइ खोस्ने, खर्च नदिने, पैतृक सम्पत्ति वा अंशबाट वञ्चित गर्ने |
+| यौनिक | इच्छाविरुद्धको यौन सम्पर्क वा यौन दुर्व्यवहार |
+| अन्य रूप | विवाह दर्ता र नागरिकता बनाइदिन अस्वीकार, ज्येष्ठ नागरिकको हेला |
 
-### Law and support
-
-- **Constitution** Article 38(3): no woman shall be subjected to physical, mental, sexual, psychological or other form of violence; and Article 39 protects the rights of the child.
-- **Domestic Violence (Offence and Punishment) Act, 2066**: provides for complaint, protection orders, and punishment, and for compensation for the victim.
-- **Where to complain:** the ward office or the local Judicial Committee; the Women, Children and Senior Citizen Service Centre or nearest police station; the National Women Commission (helpline **1145**); the Child Helpline **1098**; and hospital One-stop Crisis Management Centres, plus safe homes run by NGOs.
-
-### How to reduce domestic violence
-
-1. **Educate** girls and boys and teach equality of both sexes.
-2. **Economic independence**: skills training, jobs and property rights for women.
-3. **Awareness** of the law through media, schools and local governments.
-4. **Counselling and mediation** for families, and treatment for alcohol dependence.
-5. **Quick legal action** against offenders and safe shelter for victims.
-6. **End dowry and early marriage.**
-7. **Break the silence:** neighbours, teachers and ward representatives should report and not look away.
-8. **Positive parenting:** teach children to resolve conflict without violence; no corporal punishment at home or in school.
-
-## 4.4 Corruption as a social evil
-
-### Meaning
-
-::: definition Corruption
-Corruption is the misuse of power, public office or trust to gain money, favour or other personal benefit illegally or unfairly.
-:::
-
-A clerk who asks for "tea money" to pass a file, a contractor who bribes an engineer to approve poor work, and a teacher who gives marks for a gift are all corrupt, however small the sum. Corruption is called a **social evil** because it harms everybody, particularly the poor, who cannot pay.
-
-### Forms of corruption
-
-| Form | Meaning | Example |
-|---|---|---|
-| Bribery (*ghus*) | Giving or taking money or gifts to do or not do an official duty | Paying to get a licence faster |
-| Commission and kickback | Illegal share in contracts | A percentage to an official to award a road contract |
-| Embezzlement | Stealing public or institutional funds | Using school funds for personal use |
-| Nepotism and favouritism (*afno manche*, *chakari*) | Giving jobs or benefits to relatives and friends instead of merit | Appointing a relative with no qualification |
-| Tax evasion and false bills | Hiding income or issuing false invoices | Not giving a bill, under-declaring goods at customs |
-| Smuggling and black marketing | Illegal trade and hoarding | Hoarding fuel or rice to raise prices |
-| Misuse of authority and of public property | Using government vehicles, land or staff for private ends | Using an office car for a family trip |
-| Fake documents | Forged certificates and records | Fake educational certificates to get a job |
-
-### Causes
-
-- **Greed** and the wish to become rich quickly, and a social habit of respecting wealth without asking where it comes from.
-- **Low pay** for some employees and **weak ethics**.
-- **Weak enforcement:** slow courts, light punishment, political protection of the guilty.
-- **Lack of transparency and long, complicated procedures**, which create a market for "speed money".
-- **Lack of public awareness** and of the habit of asking for receipts and information.
-- **Poverty and unemployment.**
-- **Acceptance:** "everyone does it".
-
-### Effects
-
-1. **Slows development**: roads, bridges and schools are built poorly or never finished; the cost of projects rises.
-2. **Increases poverty and inequality** — the poor pay and the powerful gain.
-3. **Weakens public trust** and democracy, and makes people hate the state.
-4. **Discourages investment** and honest business.
-5. **Injustice:** unqualified people get posts; criminals escape.
-6. **Damages the country's image** and the flow of aid and tourism.
-
-```figure caption="Corruption Perceptions Index 2024 for South Asian countries (0 = highly corrupt, 100 = very clean). Nepal scored 34 out of 100. A score below 50 shows a serious perceived problem. Source: Transparency International."
-import matplotlib.pyplot as plt
-fig, ax = plt.subplots(figsize=(4.8,2.8))
-c=['Bhutan','India','Maldives','Nepal','Sri Lanka','Pakistan','Bangladesh','Afghanistan']
-v=[72,38,38,34,32,27,23,17]
-y=list(range(len(c)))[::-1]
-ax.barh(y,v,color=[SERIES[1] if n=='Nepal' else ACCENT for n in c],height=0.62)
-for yy,x in zip(y,v):
-    ax.text(x+1,yy,str(x),va='center',fontsize=8,color=INK)
-ax.axvline(50,color=MUTED,ls='--',lw=0.8)
-ax.text(50.8,-0.9,'50',fontsize=7,color=MUTED,va='center')
-ax.set_yticks(y); ax.set_yticklabels(c,fontsize=8)
-ax.set_xlim(0,82); ax.set_xlabel('CPI score',fontsize=8)
-ax.spines[['top','right']].set_visible(False); ax.tick_params(axis='x',labelsize=8)
+```figure caption="घरेलु हिंसाको पुस्तान्तरण चक्र। बाल्यकालमा हिंसा भोगेका वा देखेका बालबालिकाले वयस्क भएपछि हिंसा दोहोर्‍याउने सम्भावना धेरै हुन्छ; यो चक्र चेतना र कानुनले मात्र तोडिन्छ।"
+fig, ax = cycle(["घरमा\nहिंसा", "बालबालिकाले\nभोग्छन्, देख्छन्", "अवसाद,\nविकृत व्यवहार", "वयस्क भई\nहिंसा दोहोर्‍याउँछन्"],
+                centre="हिंसाको\nचक्र", figsize=(4.8, 3.7))
 ```
 
-### Controlling corruption: laws and institutions
+### घरेलु हिंसाका कारण
 
-| Institution or law | Role |
-|---|---|
-| **Commission for the Investigation of Abuse of Authority (CIAA)** | A constitutional body (Article 238) that investigates and files cases against public officials for corruption and misuse of authority; complaints may be made by phoning 107 |
-| **Prevention of Corruption Act, 2059 (2002)** | Defines corruption and sets punishment |
-| **Right to Information Act, 2064 (2007)** | Allows any citizen to ask for public information, giving transparency |
-| **Office of the Auditor General** | Audits government accounts |
-| **Public Procurement Act and e-bidding** | Reduces secrecy in contract awarding |
-| **Courts, Department of Money Laundering Investigation** | Try and investigate corruption and illegal money |
-| **Citizen charter, public hearing and social audit** | Make local governments and offices answerable to the people |
-| **United Nations Convention against Corruption (UNCAC)** | International agreement Nepal has joined; **9 December** is International Anti-Corruption Day |
+- १. **पितृसत्तात्मक सोच:** महिलालाई पुरुषभन्दा तल ठान्ने र "घरको कुरा घरमै" भन्ने प्रवृत्ति।
+- २. **दाइजो प्रथा:** सञ्जिलाको घटनाजस्तै दाइजो कम ल्याएको निहुँमा यातना।
+- ३. **मदिरा, लागुऔषध र जुवा।**
+- ४. **गरिबी र आर्थिक परनिर्भरता:** कमाइ नहुँदा महिला हिंसा सहन बाध्य हुनु।
+- ५. **अशिक्षा र कानुनबारे अज्ञानता।**
+- ६. **पैतृक सम्पत्तिको विवाद** र **अनुशासनका नाममा** बालबालिकालाई कुट्ने परम्परा।
 
-```photo id="soc10/ciaa" caption="The headquarters of the Commission for the Investigation of Abuse of Authority (CIAA) at Tangal, Kathmandu. The CIAA is Nepal's constitutional anti-corruption body." width="76"
-```
+### घरेलु हिंसाका असर
 
-### What each citizen can do
+पीडितमा चोटपटक, अपाङ्गता वा मृत्यु; डर, अवसाद र आत्महत्याको सोच; बालबालिकाको पढाइ
+छुट्ने र व्यवहार बिग्रने; परिवार विखण्डन र सम्बन्धविच्छेद; अर्को पुस्तामा हिंसाको
+पुनरावृत्ति; समाजमा अपराध बढ्ने र महिलाको विकास तथा राष्ट्रिय उत्पादनमा कमी।
 
-- **Never give or take a bribe**; ask for a receipt and a bill for everything you buy.
-- **Ask for information** under the Right to Information Act, and know the citizen charter of the office you visit.
-- **Report** corruption to the CIAA (107), the police or your ward, even anonymously.
-- **Choose honest persons** as leaders and vote against corrupt candidates.
-- **Be honest in school**: do not cheat, copy or use fake documents.
-- **Support social audits and public hearings** in your ward.
-- **Practise honesty at home**: parents who ignore small dishonesty teach large dishonesty.
+### रोकथामका उपाय
 
-::: caution Corruption is not only about money
-Nepotism (favouring relatives) and misuse of authority are corruption even when no money changes hands. Say this in a 4-mark answer.
+**घरेलु हिंसा (कसुर र सजाय) ऐन, २०६६** ले घरेलु हिंसालाई दण्डनीय कसुर मानेको छ।
+यसको कार्यान्वयन, महिलाको शिक्षा र आर्थिक आत्मनिर्भरता, सम्पत्तिमा समान अधिकार, दाइजो
+प्रथाको अन्त्य, मदिरा नियन्त्रण, परामर्श र सुरक्षित आवास केन्द्र, बालबालिकालाई सकारात्मक
+तरिकाले अनुशासन सिकाउने अभिभावक शिक्षा र हिंसा देख्नेबित्तिकै प्रहरी **१००** वा राष्ट्रिय
+महिला आयोगको हेल्पलाइन **११४५** मा खबर गर्ने बानी आवश्यक छ।
+
+::: note क्रियाकलाप — पाठ ४.३
+**१. समाचारप्रति प्रतिक्रिया र खोजी:** पहिलो समाचार पढेर तपाईँलाई कस्तो महसुस भयो?
+महिला, पुरुष वा ज्येष्ठ नागरिकमाथि हुने घरेलु हिंसाका प्रकार खोजी गरी कारण र असरको सूची
+कक्षामा प्रस्तुत गर्नुहोस्। (ज्येष्ठ नागरिकमाथि: हेला, खान–बस्न नदिने, भत्ता खोस्ने;
+पुरुषमाथि पनि मानसिक र आर्थिक हिंसा हुन सक्छ।)
+**२. बालबालिकामाथिको हिंसा:** घर, छरछिमेक र समुदायमा बालबालिकामाथि हुने घरेलु हिंसाको
+विवरण सङ्कलन गरी तिनको असर पहिचान गर्नुहोस्।
+**३. समाचार प्रस्तुति:** घरेलु हिंसासम्बन्धी समाचार सङ्कलन गरी पालैपालो कक्षामा प्रस्तुत
+गर्नुहोस्।
+**४. सिर्जनात्मक सामग्री:** घरेलु हिंसाविरुद्ध चेतना जगाउने गीत, कविता, प्लेकार्ड वा
+पर्चाको नमुना तयार गरी कक्षामा प्रस्तुत गर्नुहोस्।
 :::
 
-## 4.5 Let us remove superstition
+### पाठको अभ्यास: नमुना उत्तर
 
-### Meaning
+**१. घरेलु हिंसा भनेको के हो, उदाहरणसहित लेख्नुहोस्।**
+परिवारभित्र परिवारकै सदस्यले अर्को सदस्यमाथि गर्ने शारीरिक, मानसिक, आर्थिक तथा यौनिक
+दुर्व्यवहारलाई घरेलु हिंसा भनिन्छ। यसले पीडितलाई शारीरिक र मानसिक रूपमा कमजोर बनाउँछ
+र व्यक्तित्व विकास रोक्छ। **उदाहरण:** (क) सञ्जिला खातुनलाई दाइजो कम ल्याएको निहुँमा
+श्रीमान् र सासुससुराले कुटपिट गर्नु, दिनभर काम लगाएर खान नदिनु र विवाह दर्ता गर्न
+अस्वीकार गर्नु; (ख) अनुशासनका नाममा बालबालिकालाई कुट्नु; (ग) पैतृक सम्पत्तिको विवादमा
+दाजुभाइबिच मारपिट; (घ) वृद्ध आमाबुबालाई हेला गर्नु वा भत्ता खोस्नु।
 
-::: definition Superstition
-Superstition is a blind belief in things that have no scientific basis or reason, such as the idea that a woman can be a witch, that a menstruating woman is impure, or that illness is always the work of an angry spirit.
+**२. घरेलु हिंसाबाट बच्न र बचाउन तपाईँले गर्न सक्ने कार्यको सूची तयार गर्नुहोस्।**
+(क) आफू कसैमाथि गाली, कुटपिट वा हेला नगर्ने; (ख) परिवारमा समस्या आए रिसले होइन,
+छलफलबाट समाधान गर्ने; (ग) छिमेकमा हिंसा देखे चुप नबसी प्रहरी १०० वा ११४५ मा खबर गर्ने;
+(घ) पीडितलाई सान्त्वना दिई कानुनी सहायता र सुरक्षित आवासबारे जानकारी दिने; (ङ) दाइजो
+नलिने र नदिने प्रतिबद्धता गर्ने; (च) मदिरा, जुवा र लागुऔषधबाट टाढा रहने; (छ) विद्यालय
+र टोलमा घरेलु हिंसाविरुद्ध सचेतना कार्यक्रम, नाटक र प्लेकार्ड प्रदर्शन गर्ने; (ज) साना
+भाइबहिनीलाई कुटेर होइन, माया र सम्झाएर अनुशासन सिकाउने।
+
+**३. घरेलु हिंसाविरुद्ध जनचेतना फैलाउने कुनै दुईओटा नारा लेख्नुहोस्।**
+(क) "हिंसा घरको कुरा होइन, अपराध हो — चुप नबसौँ, खबर गरौँ।"
+(ख) "दाइजो होइन, शिक्षा देऔँ; हिंसा होइन, माया देऔँ।"
+
+**४. "घरेलु हिंसा सामाजिक अपराध हो।" यस भनाइलाई आफ्ना तर्कसहित पुष्टि गर्नुहोस्।**
+घरेलु हिंसा घरभित्र हुने भए पनि यसको असर पूरै समाजमा पर्छ, त्यसैले यो सामाजिक अपराध हो।
+**तर्क:** (क) घरेलु हिंसा (कसुर र सजाय) ऐन, २०६६ ले यसलाई कसुर मानी सजायको व्यवस्था
+गरेको छ — त्यसैले यो "पारिवारिक मामला" मात्र होइन, अपराध हो। (ख) यसले व्यक्तिको बाँच्न
+पाउने, सम्मानपूर्वक जिउने र समानताको हक हनन गर्छ। (ग) हिंसा भोगेका वा देखेका
+बालबालिकाले वयस्क भएपछि हिंसा दोहोर्‍याउँछन्; यसरी हिंसा पुस्तौँसम्म सर्छ। (घ) ८० प्रतिशतभन्दा
+धेरै बालबालिका अनुशासनका नाममा हिंसा भोग्छन्; यसले पढाइ छुटाउँछ र अवसाद ल्याउँछ —
+देशको भावी जनशक्ति कमजोर हुन्छ। (ङ) दाइजो, सम्पत्ति विवाद र मदिराजस्ता सामाजिक
+कुरीतिबाटै हिंसा जन्मन्छ। (च) परिवार विखण्डन, आत्महत्या र हत्याले समाजको शान्ति भङ्ग
+गर्छ। त्यसैले घरेलु हिंसालाई सबैले मिलेर रोक्नुपर्ने सामाजिक अपराध मान्नुपर्छ।
+
+## ४.४ सामाजिक विकृतिका रूपमा भ्रष्टाचार
+
+भ्रष्टाचारको शाब्दिक अर्थ **खराब आचरण** हो। भ्रष्टाचारबाट सार्वजनिक सम्पत्तिको दुरुपयोग
+भई राष्ट्र र समाजलाई हानि–नोक्सानी पुग्छ। यो विश्वभर फैलिएको सामाजिक समस्या हो, तर
+**विकासशील र अल्पविकसित** देश यसबाट बढी प्रभावित छन् र तिनको विकासमा गतिरोध आएको
+छ। नेपाल पनि विकासशील राष्ट्र भएकाले यो समस्याबाट मुक्त हुन सकेको छैन।
+
+::: definition भ्रष्टाचार
+शक्ति र पदका आडमा अधिकारको दुरुपयोग गरी अनुचित कार्यबाट आर्थिक तथा अन्य लाभ प्राप्त
+गर्नुलाई **भ्रष्टाचार** भनिन्छ। घुस लिनु–दिनु, कमिसन खानु, नक्कली बिल बनाउनु, नियुक्ति र
+ठेक्कामा नातावाद–कृपावाद गर्नु, सार्वजनिक सम्पत्ति हिनामिना गर्नु र जानीजानी ढिलासुस्ती
+गरी घुस माग्नु यसका रूप हुन्।
 :::
 
-Faith, religion and culture are respected in Nepal. The problem is **harmful** superstition and harmful customs — beliefs and practices that hurt people, take away their rights or make them delay proper treatment. Education, science and law are the ways to remove them.
+### विश्वमा भ्रष्टाचारको अवस्था: भ्रष्टाचार अनुभूति सूचकाङ्क
 
-### Harmful superstitions and practices in Nepal
+विश्वभर भ्रष्टाचारविरुद्ध काम गर्ने **ट्रान्सपरेन्सी इन्टरनेसनल** ले सन् १९९५ देखि हरेक
+वर्ष **भ्रष्टाचार अनुभूति सूचकाङ्क** प्रकाशन गर्दै आएको छ। यसमा **१०० अङ्कले अति स्वच्छ**
+र **० अङ्कले अति भ्रष्ट** अवस्था जनाउँछ। सन् २०२४ को सूचकाङ्कमा १८० राष्ट्रमध्ये नेपाल
+**३४ अङ्कसहित १०७ औँ** स्थानमा छ; यसले नेपाल भ्रष्टाचार व्याप्त देशको सूचीमा पर्छ भन्ने
+देखाउँछ।
 
-| Practice | What happens | Why it is wrong |
-|---|---|---|
-| **Witchcraft accusation** (*boksi pratha*) | A woman, often widowed, poor, old or Dalit, is blamed for illness or death, beaten, forced to eat filth or driven from her home | A violation of human rights; illness has natural causes. The Witchcraft Accusation (Crime and Punishment) Act, 2072 (2015) makes it a punishable crime |
-| **Chhaupadi** | In parts of the far-western hills, girls and women are kept in a hut or shed during menstruation and after childbirth | Menstruation is natural. Women have died in these sheds from cold, smoke and snakebite. The Supreme Court ordered an end in 2005, and the Criminal Code (in force 2018) makes forcing a woman into chhaupadi a punishable offence |
-| **Dowry** (*daijo*) | Gifts and money demanded from the bride's family | Leads to violence, debt and the murder of brides; against the law |
-| **Faith healing over treatment** (*dhami-jhankri*) | Sick people, snakebite victims and women in labour taken first to a healer | Delays proper treatment, which can cost lives |
-| **Child marriage** | Marriage before the legal age of 20 | Ends schooling, harms girls' health, leads to early childbirth |
-| **Caste-based untouchability** | A person is called "impure" because of birth | Banned by Article 24 of the Constitution and by law |
-| **Superstition about omens and bad luck** | People delay important jobs for "bad days" | Waste of time and resources |
+| देश | अङ्क | स्थान | देश | अङ्क | स्थान |
+|---|---|---|---|---|---|
+| डेनमार्क | ९० | १ | भुटान | ७२ | १८ |
+| फिनल्यान्ड | ८८ | २ | भारत | ३८ | ९६ |
+| संयुक्त राज्य अमेरिका | ६५ | २८ | माल्दिभ्स | ३८ | ९६ |
+| चीन | ४३ | ७६ | नेपाल | ३४ | १०७ |
+| घाना | ४२ | ८० | श्रीलङ्का | ३२ | १२१ |
+| सुडान | १५ | १७० | पाकिस्तान | २७ | १३५ |
+| सोमालिया | ९ | १७९ | बङ्गलादेश | २३ | १५१ |
+| दक्षिण सुडान | ८ | १८० | अफगानिस्तान | १७ | १६५ |
 
-### Causes
+*स्रोत: ट्रान्सपरेन्सी इन्टरनेसनल, भ्रष्टाचार अनुभूति सूचकाङ्क २०२४*
 
-- **Illiteracy** and lack of scientific knowledge.
-- **Poverty** and lack of health posts, doctors and hospitals nearby.
-- **Fear** of the unknown, and belief in tradition without questioning it.
-- **Patriarchy**, which lets men and elders control women.
-- **Weak law enforcement** and silence of the community.
-- **Influence of healers** and the interests of people who gain from such beliefs.
-
-### Effects
-
-Death and injury (from snakebite, cold, untreated illness or violence); torture and exile of innocent persons, mainly women; fear and mental illness; lost schooling; poverty through spending on rituals and dowry; breakdown of harmony and a bad image of the country.
-
-```photo id="soc10/health-post" caption="A health post in Pokhara. Easy access to health posts and trained health workers is one of the best remedies against faith-healing and superstition, because people can go to a proper place for treatment." width="66"
+```figure caption="सार्क राष्ट्रको भ्रष्टाचार अनुभूति सूचकाङ्क २०२४ (१०० = अति स्वच्छ, ० = अति भ्रष्ट)। भुटान दक्षिण एसियामा सबैभन्दा स्वच्छ र अफगानिस्तान सबैभन्दा भ्रष्ट; नेपाल बिचतिर छ।"
+fig, ax = barh_ranked(["भुटान (१८ औँ)", "भारत (९६ औँ)", "माल्दिभ्स (९६ औँ)", "नेपाल (१०७ औँ)",
+                       "श्रीलङ्का (१२१ औँ)", "पाकिस्तान (१३५ औँ)", "बङ्गलादेश (१५१ औँ)", "अफगानिस्तान (१६५ औँ)"],
+                      [72, 38, 38, 34, 32, 27, 23, 17], highlight=["नेपाल (१०७ औँ)"], figsize=(5.6, 3.3))
+ax.set_xlabel("सूचकाङ्कको अङ्क", fontsize=8, color=MUTED)
 ```
 
-### How to remove superstition
+प्रतिवेदनअनुसार ९० अङ्कसहित **डेनमार्क** विश्वकै सबैभन्दा कम र ८ अङ्कसहित **दक्षिण
+सुडान** सबैभन्दा बढी भ्रष्टाचार हुने देश हो। दक्षिण एसियामा सबैभन्दा कम भ्रष्टाचार हुने
+देश **भुटान** र सबैभन्दा बढी हुने **अफगानिस्तान** हो। तथ्याङ्कले अविकसित र विकासशील
+राष्ट्रमा भ्रष्टाचारको जरा गहिरो गरी फैलिएको देखाउँछ।
 
-1. **Education** in science from the first grades, so that children can ask "why" and "how do we know?"
-2. **Health facilities near the village**, and the trust of people in doctors; ambulance and emergency services.
-3. **Awareness campaigns** by schools, local governments, women's groups, radio and social media, using real examples and the voices of survivors.
-4. **Strong law enforcement:** punish those who accuse, torture or confine women.
-5. **Role of leaders**: teachers, religious leaders, elected representatives and local elders should speak against such practices.
-6. **Support for victims**: shelter, legal aid and rehabilitation.
-7. **Menstrual health education** with proper facilities so that girls attend school with dignity.
-8. **Economic empowerment** of women so that they cannot be so easily victimised.
+### नेपालमा भ्रष्टाचार नियन्त्रणका प्रयास
 
-::: tip Telling belief from harmful practice
-A useful test in the exam: does it **harm** a person, deny a right, or **delay treatment**? If yes, it is a harmful superstition to be removed. Prayers and festivals that harm nobody are culture and faith and are respected.
+नेपालमा प्राचीन समयदेखि नै भ्रष्टाचार नियन्त्रणको प्रयास भएको पाइन्छ। **पृथ्वीनारायण
+शाह** ले दिव्योपदेशमा "**घुस लिन्या र घुस दिन्या दुवै देशका महासत्रु हुन्**" भनेका थिए।
+उनको आशय भ्रष्टाचारले देशको विकासमा अवरोध ल्याउँछ, त्यसैले यसलाई बेलैमा नियन्त्रण
+गर्नुपर्छ भन्ने थियो।
+
+हाल भ्रष्टाचार नियन्त्रणका लागि **अख्तियार दुरुपयोग अनुसन्धान आयोग**, **राष्ट्रिय
+सतर्कता केन्द्र**, **राष्ट्रिय सूचना आयोग**, **सम्पत्ति शुद्धीकरण** अनुसन्धान गर्ने निकाय,
+**राजस्व अनुसन्धान विभाग** र **महालेखा परीक्षकको कार्यालय** जस्ता निकाय कार्यरत छन्।
+**भ्रष्टाचार निवारण ऐन, २०५९** र **सुशासन (व्यवस्थापन तथा सञ्चालन) ऐन, २०६४** कार्यान्वयनमा
+छन्। भ्रष्टाचार जरैदेखि उन्मूलन नगरेसम्म "**समृद्ध नेपाल, सुखी नेपाली**" बनाउन कठिन हुन्छ।
+
+```photo id="soc10/ciaa" caption="अख्तियार दुरुपयोग अनुसन्धान आयोगको भवन, टङ्गाल, काठमाडौँ। सार्वजनिक पदमा बसेर घुस लिने वा अधिकारको दुरुपयोग गर्नेविरुद्ध उजुरी यहाँ दिन सकिन्छ।" width="60"
+```
+
+::: caution पाठ्यपुस्तकका केही शब्द
+पाठ्यपुस्तकमा "राष्ट्रिय सर्तकता केन्द्र" छापिएको छ; शुद्ध नाम **राष्ट्रिय सतर्कता केन्द्र**
+हो। पाठ्यपुस्तकको सूचीमा "महालेखा परीक्षण" र "सम्पत्ति शुद्धीकरण आयोग" लेखिएको छ;
+संवैधानिक निकायको पूरा नाम **महालेखा परीक्षकको कार्यालय** हो र सम्पत्ति शुद्धीकरणको
+अनुसन्धान गर्ने सरकारी निकाय **सम्पत्ति शुद्धीकरण अनुसन्धान विभाग** हो। परीक्षामा
+"अख्तियार दुरुपयोग अनुसन्धान आयोग" को नाम पूरा र शुद्ध लेख्नुहोस्।
 :::
 
-## 4.6 Identifying social problems and problem-solving skills
+### भ्रष्टाचार नियन्त्रणका उपाय (पाठ्यपुस्तकअनुसार)
 
-### Why we need these skills
+- १. घुस **लिने र दिने दुवै** लाई दण्डसजाय गर्नुपर्छ।
+- २. सार्वजनिक सम्पत्तिको दुरुपयोग गर्नुहुँदैन।
+- ३. उपभोगवादी, फजुल खर्च र अनावश्यक देखासिकीको व्यवहार गर्नुहुँदैन।
+- ४. अनुशासनमा रहने र सदाचारको पालना गर्नुपर्छ।
+- ५. प्रशासनिक संयन्त्रलाई **पारदर्शी, उत्तरदायी र जवाफदेही** बनाउन अभिप्रेरित गर्नुपर्छ।
+- ६. भ्रष्टाचारीलाई **राजनीतिक संरक्षण** गर्नुहुँदैन।
+- ७. पैसा, पद र पहुँचका आधारमा व्यक्तिगत फाइदा लिने संस्कृतिविरुद्ध जनचेतना अभियान चलाउनुपर्छ।
+- ८. अख्तियार दुरुपयोग अनुसन्धान आयोगलाई **स्वतन्त्रतापूर्वक** काम गर्ने वातावरण दिनुपर्छ।
+- ९. अख्तियार, सम्पत्ति शुद्धीकरण, राष्ट्रिय सतर्कता केन्द्र, राजस्व अनुसन्धान विभाग र
+  महालेखा परीक्षक जस्ता निकायबिच **समन्वय** गरी एक भई लाग्नुपर्छ।
+- १०. तीनै तहका सरकार, नागरिक समाज, सञ्चारमाध्यम र सामाजिक सङ्घसंस्था **एकीकृत र
+  समन्वयात्मक** रूपमा अग्रसर हुनुपर्छ।
+- ११. भ्रष्टाचारविरुद्ध **शून्य सहनशीलता** को नीति अपनाउनुपर्छ।
 
-Complaining about a problem does not solve it. A citizen who can see a problem clearly, find its causes, think of options, choose the best one and carry it out with others becomes a force for change. These are life skills as much as school skills: a student who can solve a problem such as litter near the school can later help to solve a village's drinking-water problem.
-
-### Steps in problem solving
-
-```figure caption="The steps of identifying and solving a social problem. The last step feeds back: if the solution does not work, return to the earlier steps."
-import matplotlib.pyplot as plt
-from matplotlib.patches import FancyBboxPatch
-fig, ax = plt.subplots(figsize=(4.8,3.6))
-ax.set_xlim(0,12); ax.set_ylim(-0.4,9.4); ax.axis('off')
-steps=['1. Identify and name the problem','2. Collect information (observe, interview)','3. Find causes and effects (problem tree)','4. Think of possible solutions (brainstorm)','5. Choose the best solution','6. Plan and carry it out','7. Monitor, evaluate and learn']
-for i,s in enumerate(steps):
-    y=8.6-i*1.3
-    ax.add_patch(FancyBboxPatch((0.4,y-0.4),9.6,0.8,boxstyle='round,pad=0.04',fc='#e8f0f8' if i<6 else '#fbefe9',ec=ACCENT if i<6 else SERIES[1],lw=1))
-    ax.text(0.7,y,s,ha='left',va='center',fontsize=8,color=INK)
-    if i<6:
-        ax.annotate('',xy=(5.2,y-0.95),xytext=(5.2,y-0.46),arrowprops=dict(arrowstyle='->',color=MUTED,lw=1))
-ax.plot([10.04,11.3,11.3],[0.5,0.5,8.6],color=SERIES[1],lw=1.1)
-ax.annotate('',xy=(10.04,8.6),xytext=(11.3,8.6),arrowprops=dict(arrowstyle='->',color=SERIES[1],lw=1.1))
-ax.text(11.0,4.6,'if it fails,\nrepeat',rotation=90,ha='right',va='center',fontsize=7,color=SERIES[1])
-```
-
-| Step | What to do | Example: litter around our school |
-|---|---|---|
-| 1. Identify | Observe and name the problem clearly: what, where, who is affected | "Plastic and food waste is spread around the school gate and ground" |
-| 2. Collect information | Observe, ask people, count, look at records, take photos | Count the bins; ask students and neighbours; weigh the waste for a week |
-| 3. Analyse causes | Ask "why?" repeatedly; draw a problem tree | No bins; careless habits; no collection |
-| 4. Think of options | Brainstorm many ideas without judging | More bins, clean-up days, penalties, school eco-club, composting, ask ward for collection |
-| 5. Choose | Compare options by cost, effect, safety, who will help | Bins + eco-club + ward collection + awareness |
-| 6. Act | Make a plan with names, dates, tasks, resources | Eco-club leads weekly cleaning; each class owns a bin area |
-| 7. Monitor and evaluate | Check results; adapt | Weigh the waste again after a month; change what did not work |
-
-### The problem tree
-
-A **problem tree** puts the main problem in the trunk, the **causes** in the roots and the **effects** in the branches. Fixing the roots removes the problem; treating only the branches does not.
-
-```figure caption="A problem tree for the problem 'School drop-out of girls'. Solutions are aimed at the roots (causes), not at the leaves (effects)."
-import matplotlib.pyplot as plt
-from matplotlib.patches import FancyBboxPatch
-fig, ax = plt.subplots(figsize=(4.8,3.4))
-ax.set_xlim(0,12); ax.set_ylim(-0.7,9); ax.axis('off')
-def box(x,y,w,h,t,fc,tc=INK,fs=7.5,b=False):
-    ax.add_patch(FancyBboxPatch((x,y),w,h,boxstyle='round,pad=0.04',fc=fc,ec=INK,lw=0.8))
-    ax.text(x+w/2,y+h/2,t,ha='center',va='center',fontsize=fs,color=tc,weight='bold' if b else 'normal')
-box(3.4,3.9,5.2,1.2,'Girls drop out of school',ACCENT,'white',9,True)
-eff=[(0.3,'Early\nmarriage'),(4.4,'Low income,\nlow confidence'),(8.5,'Weak\nhealth')]
-for x,t in eff:
-    box(x,6.7,3.2,1.4,t,'#fbefe9')
-    ax.annotate('',xy=(x+1.6,6.65),xytext=(6,5.15),arrowprops=dict(arrowstyle='->',color=MUTED,lw=0.9))
-ax.text(6,8.7,'EFFECTS (branches)',ha='center',fontsize=8,weight='bold',color=SERIES[1])
-cau=[(0.3,'Poverty'),(3.2,'Household\nwork load'),(6.1,'No girls\' toilets,\nlong distance'),(9.0,'Belief that\ngirls need less\nschooling')]
-for x,t in cau:
-    box(x,0.6,2.7,1.5,t,'#e8f0f8')
-    ax.annotate('',xy=(6,3.85),xytext=(x+1.35,2.15),arrowprops=dict(arrowstyle='->',color=MUTED,lw=0.9))
-ax.text(6,-0.35,'CAUSES (roots)',ha='center',fontsize=8,weight='bold',color=ACCENT)
-```
-
-### Skills a good problem-solver uses
-
-| Skill | Meaning |
-|---|---|
-| Observation and inquiry | Looking carefully and asking the right questions |
-| Critical and creative thinking | Weighing facts, finding new ways |
-| Communication and listening | Hearing different people, speaking clearly and politely |
-| Empathy | Understanding how the affected people feel |
-| Cooperation and leadership | Working with others and sharing tasks |
-| Decision making | Choosing on reasons and facts |
-| Negotiation and tolerance | Reaching agreement without violence |
-| Perseverance | Not giving up when the first attempt fails |
-
-### Peaceful and lawful ways of solving social problems
-
-Discussion and dialogue; mediation by respected persons or by the local **Judicial Committee** of the municipality or rural municipality; complaint to the ward, police or the court; awareness rallies, street drama and posters; petitions and memoranda to representatives; use of the Right to Information; campaigns through clubs, cooperatives and the media. Violence, destruction of property and rumour only worsen a problem.
-
-::: example Worked example: a village drinking-water problem
-**Problem.** Families in ward 4 walk 40 minutes each way to fetch water from a spring; children arrive late at school.
-
-**Solution.** *Identify:* shortage of water near homes. *Collect information:* a student team counts 62 households, interviews women, measures the spring's flow in the dry season and asks the ward office what funds exist. *Causes:* the spring is far, no pipe, pipes damaged by landslide. *Options:* repair the old pipe, build a tank, ask the local government for a project, tap a nearer source. *Choice:* a tank and pipe scheme with the ward's money and the villagers' labour, because it costs less and the people will own it. *Action:* a water user committee is formed, with women members, to plan the work, collect a small fee and repair the pipes. *Evaluate:* after three months, check how many households have water and how many children arrive on time.
+::: note क्रियाकलाप — पाठ ४.४
+**१. नारा लेखन:** भ्रष्टाचारविरुद्धको र्‍यालीमा प्रयोग गर्न सकिने नारा (जस्तै "घुस
+लिने–दिने दुवै देशका शत्रु", "पारदर्शी सेवा, समृद्ध देश") लेखी कक्षाकोठा र विद्यालयमा
+प्रदर्शन गर्नुहोस्।
+**२. वक्तृत्वकला:** "म भ्रष्टाचार गर्दिनँ र भ्रष्टाचार हुन पनि दिन्नँ" शीर्षकमा कक्षामा
+वक्तृत्वकला प्रतियोगिता सञ्चालन गर्नुहोस्।
+**३. छलफल:** भ्रष्टाचार अन्त्य गर्न व्यक्ति, समाज र सरकारले खेल्नुपर्ने भूमिकाबारे साथीबिच
+छलफल गरी निष्कर्ष प्रस्तुत गर्नुहोस्। (व्यक्ति: घुस नदिने, उजुरी गर्ने; समाज: भ्रष्टलाई
+सम्मान नगर्ने; सरकार: कडा कानुन, पारदर्शिता र विद्युतीय सेवा।)
 :::
 
-## 4.7 Role of international organisations in solving social problems
+### पाठको अभ्यास: नमुना उत्तर
 
-No country can solve all of its social problems alone. Poverty, trafficking, disease, crime and disasters cross borders, and poor countries lack money and expertise. **International organisations** — the United Nations and its agencies, international non-government organisations (INGOs) and development banks — support Nepal with money, technical advice, standards and monitoring.
+**१. भ्रष्टाचारको परिभाषा दिनुहोस्।**
+भ्रष्टाचारको शाब्दिक अर्थ खराब आचरण हो। शक्ति र पदका आडमा अधिकारको दुरुपयोग गरी
+अनुचित कार्यबाट आर्थिक तथा अन्य लाभ प्राप्त गर्नुलाई भ्रष्टाचार भनिन्छ। घुस, कमिसन,
+नक्कली बिल, नातावाद–कृपावाद र सार्वजनिक सम्पत्तिको हिनामिना यसका रूप हुन्। यसले
+सार्वजनिक सम्पत्तिको दुरुपयोग गराई राष्ट्र र समाजलाई हानि पुर्‍याउँछ।
 
-```photo id="soc10/un-hq" caption="The headquarters of the United Nations in New York. Nepal became a member of the UN on 14 December 1955 and has been a major contributor of peacekeeping soldiers." width="62"
-```
+**२. "भ्रष्टाचार एक प्रकारको सामाजिक अपराध हो।" यस भनाइलाई उपयुक्त तथ्यसहित प्रस्ट
+पार्नुहोस्।**
+(क) भ्रष्टाचारले जनताले तिरेको करबाट बनेको **सार्वजनिक सम्पत्ति** को दुरुपयोग गर्छ, त्यसैले
+यसको पीडित पूरै समाज हो। (ख) **भ्रष्टाचार निवारण ऐन, २०५९** ले यसलाई दण्डनीय कसुर
+मानेको छ र अख्तियार दुरुपयोग अनुसन्धान आयोगले मुद्दा चलाउँछ। (ग) पृथ्वीनारायण शाहले
+समेत घुस लिने र दिने दुवैलाई **देशका महासत्रु** भनेका थिए। (घ) कमिसन खाएर बनेका सडक,
+भवन र पुल चाँडै भत्किँदा जनधनको क्षति हुन्छ। (ङ) गरिबले घुस तिर्न नसक्दा सेवाबाट
+वञ्चित हुन्छन्; असमानता बढ्छ। (च) भ्रष्टाचार सूचकाङ्क २०२४ मा नेपाल ३४ अङ्कसहित १०७ औँ
+स्थानमा छ, जसले देशको छवि र लगानी दुवै घटाउँछ। (छ) यसले कानुनको शासन र राज्यप्रतिको
+विश्वास कमजोर बनाउँछ। यसैले भ्रष्टाचार व्यक्तिको मात्र होइन, समाजविरुद्धको अपराध हो।
 
-### United Nations agencies active in Nepal
+**३. भ्रष्टाचारबाट समाजमा देखापर्ने समस्या बुँदागत रूपमा टिपोट गरी समाधानका लागि उपयुक्त
+सुझाव दिनुहोस्।**
+**समस्या:** (क) विकास निर्माणको गुणस्तर खस्कने र लागत बढ्ने; (ख) सार्वजनिक सेवा ढिलो र
+महँगो हुने; (ग) गरिब र सीमान्तकृतमाथि बढी मार; (घ) योग्य व्यक्तिले अवसर नपाउने, अयोग्य
+पदमा पुग्ने; (ङ) राज्यप्रति अविश्वास र निराशा; (च) विदेशी लगानी घट्ने र देशको छवि बिग्रने;
+(छ) राजस्व चुहावट र आर्थिक असमानता। **सुझाव:** (क) घुस लिने र दिने दुवैलाई कडा सजाय;
+(ख) अख्तियार दुरुपयोग अनुसन्धान आयोगलाई स्वतन्त्र र सक्षम बनाउने; (ग) भ्रष्टाचारीलाई
+राजनीतिक संरक्षण नदिने; (घ) विद्युतीय सेवा र सार्वजनिक खरिदमा पारदर्शिता; (ङ) सूचनाको
+हक, सामाजिक परीक्षण र सार्वजनिक सुनुवाइ; (च) निगरानी गर्ने निकायबिच समन्वय; (छ)
+फजुल खर्च र देखासिकी त्यागी सदाचार अपनाउने; (ज) शून्य सहनशीलताको नीति।
 
-| Organisation | Main work | Help to Nepal in social problems |
-|---|---|---|
-| **United Nations (UN)**, founded 24 Oct 1945 | Peace, human rights, development | Universal Declaration of Human Rights, conventions that Nepal has accepted, a Resident Coordinator's office in Kathmandu |
-| **UNICEF** | Children's rights, health, education, nutrition | Vaccination, child protection, schooling, child helpline support, work against child marriage and child labour |
-| **ILO** (International Labour Organization, 1919) | Workers' rights, decent work | Standards against child and forced labour; safe labour migration; fair recruitment |
-| **UN Women** | Equality and empowerment of women | Support to laws and programmes against gender-based violence and for women's participation |
-| **UNFPA** | Population, reproductive health | Safe motherhood, adolescent health, response to gender-based violence |
-| **IOM** (International Organization for Migration) | Migration | Safe migration, return and reintegration of trafficked and migrant persons |
-| **UNODC** | Crime and drugs | Anti-trafficking and anti-corruption advice; supports the UN Convention against Corruption |
-| **WHO** | Health | Disease control, health systems, mental health |
-| **UNDP** | Development | Local governance, poverty reduction, disaster risk reduction, the Human Development Report |
-| **UNHCR** | Refugees | Protection and resettlement of refugees |
-| **UNESCO** | Education, science, culture | Literacy, heritage protection, education for all |
+**४. सार्क राष्ट्रमा भ्रष्टाचारको अवस्था कस्तो छ, तुलनात्मक रूपमा विश्लेषण गर्नुहोस्।**
+भ्रष्टाचार अनुभूति सूचकाङ्क २०२४ अनुसार सार्कका आठ राष्ट्रको अवस्था: **भुटान** ७२ अङ्क
+(१८ औँ), **भारत** र **माल्दिभ्स** ३८ अङ्क (९६ औँ), **नेपाल** ३४ (१०७ औँ), **श्रीलङ्का**
+३२ (१२१ औँ), **पाकिस्तान** २७ (१३५ औँ), **बङ्गलादेश** २३ (१५१ औँ) र **अफगानिस्तान**
+१७ (१६५ औँ)। **विश्लेषण:** (क) भुटान मात्र ५० भन्दा माथि र विश्वका पहिलो २० भित्र छ —
+सुशासन र सानो, सुदृढ प्रशासन यसको कारण मानिन्छ। (ख) बाँकी सात राष्ट्र ४० भन्दा तल छन्,
+अर्थात् सार्क क्षेत्रमा भ्रष्टाचार व्यापक छ। (ग) नेपाल सार्कमा भुटान, भारत र माल्दिभ्सपछि चौथो
+स्थानमा छ र विश्वको औसत अङ्क (४३) भन्दा तल छ। (घ) राजनीतिक अस्थिरता र द्वन्द्व भोगेका
+अफगानिस्तान, बङ्गलादेश र पाकिस्तान सबैभन्दा तल छन्। (ङ) डेनमार्क (९०) सँग तुलना गर्दा
+भुटानबाहेक सबै सार्क राष्ट्र आधाभन्दा कम अङ्कमा छन्। **निष्कर्ष:** सार्क क्षेत्रमा राजनीतिक
+स्थिरता, पारदर्शिता र कानुनको कडा कार्यान्वयन नभएसम्म भ्रष्टाचार घट्दैन; नेपालले भुटानको
+अनुभवबाट सिक्न सक्छ।
 
-**International non-government organisations** such as Save the Children, Plan International, CARE, World Vision, WaterAid and Oxfam work through local NGOs in education, health, water, protection of children and women, and emergency relief. **Development banks and bilateral donors** — the World Bank, the Asian Development Bank and governments such as the UK, Japan and the USA — provide loans and grants for health, education and rural development.
+## ४.५ अन्धविश्वास हटाऔँ
 
-### Important international agreements Nepal has accepted
+राष्ट्रिय महिला आयोगको आयोजनामा "सामाजिक समस्या हटाऔँ र सभ्य समाजको निर्माण गरौँ" भन्ने
+शीर्षकमा **अनुभव आदानप्रदान कार्यक्रम** भयो। त्यसमा चार सङ्घसंस्थाका प्रतिनिधिले आआफ्ना
+विचार राखे।
 
-- Convention on the Rights of the Child (CRC) — protects children from abuse, labour and trafficking.
-- Convention on the Elimination of All Forms of Discrimination against Women (CEDAW).
-- ILO conventions on the minimum age of work and the worst forms of child labour.
-- The UN Convention against Transnational Organised Crime and its protocol on trafficking in persons (the "Palermo Protocol").
-- UN Convention against Corruption (UNCAC).
-
-```photo id="soc10/school-girls" caption="Schoolchildren in a Nepali classroom. Education, supported by government and development partners such as UNICEF, is the most lasting way to reduce child marriage, trafficking and exploitation." width="72"
-```
-
-### Contribution of international organisations
-
-1. **Financial support** to government and NGO programmes.
-2. **Technical help**: experts, training and data to plan and measure.
-3. **Setting standards** and helping Nepal to make and apply laws in line with human rights.
-4. **Rescue, relief and rehabilitation** in disasters like the 2015 earthquake.
-5. **Awareness and research**, for example surveys on child labour and violence.
-6. **Monitoring**: reporting on how well Nepal keeps its promises under the conventions.
-7. **Connecting countries** to cooperate on cross-border crimes like trafficking.
-
-### Limits and cautions
-
-Dependence on foreign money; projects shaped by donors' priorities rather than the country's; duplication; uneven reach to remote areas; and the need for the government to keep the lead. Nepal's own government, local governments and citizens must own the solution; foreign help works best as a partner.
-
-## Chapter summary
-
-- A **social problem** harms many people and needs collective action. For each, learn meaning, causes, effects, solutions.
-- **Human trafficking** — buying, selling or transporting people by force or deceit for exploitation; causes: poverty, illiteracy, fake offers, open border; solutions: education, jobs, safe migration, strong law, rehabilitation. Law: Constitution Art. 29; Human Trafficking and Transportation (Control) Act 2064. World Day against Trafficking: 30 July.
-- **Sexual abuse and abnormal sexual behaviour** — rape, harassment, child abuse and online exploitation; crimes under the Criminal Code 2074; remedies: education on consent and safety, counselling, strict justice; helplines 100, 1098, 1145.
-- **Domestic violence** — physical, mental, sexual and economic harm within the family; Domestic Violence Act 2066; remedies: equality, education, women's economic independence, quick legal help.
-- **Corruption** — misuse of power for personal gain; CIAA (107), Prevention of Corruption Act 2059, RTI Act 2064; Nepal scored 34/100 in CPI 2024.
-- **Superstition** — witchcraft accusation, chhaupadi, dowry, child marriage and faith healing instead of treatment; remedy: education, health services, law and awareness.
-- **Problem solving** — identify, collect information, find causes, think of options, choose, act, monitor; use the problem tree.
-- **International organisations** (UN, UNICEF, ILO, UN Women, UNFPA, IOM, UNODC, WHO, UNDP, INGOs) help with money, technical support, standards, rescue and monitoring.
-
-## Practice questions
-
-**Group A — Objective questions (1 mark each)**
-
-1. Which article of the Constitution of Nepal gives the right against exploitation and prohibits trafficking? <span class="marks">[1]</span>
-   (a) Article 18 (b) Article 29 (c) Article 38 (d) Article 42
-2. The free Child Helpline number in Nepal is <span class="marks">[1]</span>
-   (a) 100 (b) 107 (c) 1098 (d) 1145
-3. The constitutional body that investigates corruption in Nepal is <span class="marks">[1]</span>
-   (a) Election Commission (b) CIAA (c) Supreme Court (d) National Planning Commission
-4. Nepali custom of keeping women in a separate shed during menstruation is called <span class="marks">[1]</span>
-   (a) Kumari (b) Chhaupadi (c) Boksi (d) Deuda
-5. Which UN agency is mainly concerned with the rights and welfare of children? <span class="marks">[1]</span>
-   (a) ILO (b) WHO (c) UNICEF (d) UNHCR
-6. In the problem tree, the causes of a problem are shown as the <span class="marks">[1]</span>
-   (a) leaves (b) branches (c) roots (d) fruits
-7. International Anti-Corruption Day is observed on <span class="marks">[1]</span>
-   (a) 30 July (b) 9 December (c) 10 December (d) 5 June
-8. The Domestic Violence (Offence and Punishment) Act was made in <span class="marks">[1]</span>
-   (a) 2059 BS (b) 2064 BS (c) 2066 BS (d) 2074 BS
-
-::: note Answers to Group A
-**1.** (b) — Article 29, the right against exploitation.
-**2.** (c) — 1098 (100 is police, 107 is CIAA, 1145 is the women's helpline).
-**3.** (b) — the Commission for the Investigation of Abuse of Authority.
-**4.** (b) — chhaupadi.
-**5.** (c) — UNICEF.
-**6.** (c) — causes are the roots; effects are the branches.
-**7.** (b) — 9 December (10 December is Human Rights Day).
-**8.** (c) — 2066 BS (2009).
+::: definition अन्धविश्वास
+कुनै व्यक्तिले गहिरो अध्ययन वा जानकारी नलिई समाजमा प्रचलित प्रथा र प्रचलनमा आँखा चिम्लेर
+विश्वास गर्नुलाई **अन्धविश्वास** भनिन्छ। यसले मानिसलाई आधुनिक विज्ञान र प्रविधिभन्दा
+अलौकिक शक्तिमा बढी विश्वास गर्न लगाउँछ।
 :::
 
-**Group B — Short answer (2 marks each)**
+### (क) गैरसरकारी संस्थाका प्रतिनिधि: अन्धविश्वास र यसको प्रभाव
 
-1. Define human trafficking. <span class="marks">[2]</span>
-2. Write any two causes of domestic violence. <span class="marks">[2]</span>
-3. What is corruption? Give two examples. <span class="marks">[2]</span>
-4. What is superstition? Name any two harmful superstitions practised in Nepal. <span class="marks">[2]</span>
-5. Write any two ways by which a student can help to stop sexual abuse. <span class="marks">[2]</span>
-6. Write any four steps of problem solving. <span class="marks">[2]</span>
-7. Mention any two roles of the ILO in Nepal. <span class="marks">[2]</span>
+अन्धविश्वासले सामाजिक विकृति निम्त्याउँछ र धर्म, संस्कृति र समाजमा नकारात्मक असर पार्छ।
+यसकै कारण बेलाबेलामा आपराधिक घटना हुन्छन् — नेपालका विभिन्न ठाउँमा अझै पनि **बोक्सीको
+आरोपमा** महिलामाथि कुटपिट र हिंसा हुने गरेको सुनिन्छ। धामीझाँक्रीप्रतिको अन्धविश्वास, घुम्टो
+प्रथा, दाइजो प्रथा र छाउपडी प्रथा जस्ता विकृति पनि छन्। अन्धविश्वास कायम रहे समाजको
+**आधुनिकीकरण, विकास, परिवर्तन र समृद्धि** को यात्रामा बाधा पुग्छ। त्यसैले वैज्ञानिक तथ्य र
+गतिशीलतामा विश्वास गरौँ; शिक्षा, ज्ञान, चेतना र विवेकको ज्योतिले अन्धविश्वासलाई परास्त पारौँ।
 
-::: note Answers to Group B
-**1.** Human trafficking is the buying, selling, recruiting or transporting of people by force, threat or deceit, for exploitation such as forced labour, sex work or organ removal.
-**2.** Male-dominant attitudes; alcohol abuse; poverty; illiteracy and dependence of women; dowry (any two).
-**3.** Corruption is the misuse of power or public office for personal gain. Examples: taking a bribe to issue a licence; giving a job to an unqualified relative.
-**4.** Superstition is blind belief without scientific basis. Harmful examples: witchcraft accusation (boksi pratha) and chhaupadi.
-**5.** Learn about safe and unsafe touch and tell a trusted adult; support survivors and never blame them; use the internet safely; call helplines 100, 1098 or 1145 (any two).
-**6.** Identify the problem; collect information; find causes; think of options; choose the best; act; monitor and evaluate (any four).
-**7.** Sets standards against child and forced labour; promotes safe labour migration and fair recruitment; supports decent work (any two).
+### (ख) महिला तथा दिदीबहिनी समूहकी अध्यक्ष: घुम्टो प्रथा
+
+विवाहित महिलाले मान्यजन र पुरुषका अगाडि जाँदा आफ्नो अनुहार छोप्नुपर्ने प्रचलनलाई **घुम्टो
+प्रथा** भनिन्छ; यो विशेषगरी **पूर्वी तथा मध्य तराई** मा प्रचलित छ। यसले महिलाको व्यक्तित्व
+विकासमा बाधा पुर्‍याएको छ; यो **लैङ्गिक विभेद** को अवस्था हो र मानव अधिकारको दृष्टिले
+महिलाको हक, अधिकार र स्वतन्त्रताको हनन हो। घुम्टोमा बस्नुपर्दा महिला शिक्षा, स्वास्थ्य र
+रोजगारीको अवसरबाट वञ्चित भई आर्थिक, सामाजिक र राजनीतिक क्षेत्रमा पछाडि परेका छन्।
+समाधानका लागि **शिक्षा, सचेतना र सामाजिक जागरण** आवश्यक छ।
+
+### (ग) आमा समूहकी अध्यक्ष: छाउपडी प्रथा
+
+**कर्णाली र सुदूरपश्चिम** का केही पहाडी जिल्लामा रजस्वला (महिनावारी) भएका बेला महिलालाई
+घरबाहिर **छाउगोठ** मा राख्ने सामाजिक नियमलाई **छाउपडी** भनिन्छ। रजस्वला र सुत्केरी
+भएका बेला घरको आँगन टेक्न, दुधदही खान, घरभित्र बस्न, लेखपढ गर्न र अरूलाई छुन नहुने
+भनिन्छ; यात्रा र शुभकार्यमा छाउपडीलाई देखे अशुभ हुने अन्धविश्वास छ। महिलाको नियमित
+शारीरिक प्रक्रियालाई गलत ढङ्गले व्याख्या गरिएको छ। परिवारको साथ चाहिने बेला घरबाहिर
+राख्नु महिलामाथिको **दुर्व्यवहार र सामाजिक अपराध** हो। छाउगोठमा सर्पले टोक्ने, अपराधीको
+सिकार हुने र जङ्गली जनावरको आक्रमणमा पर्ने जोखिम हुन्छ। समाधानका लागि सचेतना, समान
+सामाजिक व्यवहार र सरकारी–गैरसरकारी संस्था तथा राजनीतिक दलको एकताबद्ध दबाबमूलक
+कार्यक्रम चाहिन्छ।
+
+### (घ) महिला अधिकारकर्मी: दाइजो तथा तिलक प्रथा
+
+विवाहमा दुलही पक्षले दुलाहा पक्षलाई राजीखुसी, दबाब वा अनुरोधमा दिने नगद, जिन्सी, धनसम्पत्ति
+र उपहारलाई **दाइजो** भनिन्छ; तराईमा यसलाई **दहेज** वा **तिलक** पनि भनिन्छ। पहिले आफ्नो
+गच्छेअनुसार दिइने चलन अहिले **विकृति** बनेको छ — हैसियतभन्दा बढी माग गर्ने, दबाब र धम्की
+दिने प्रवृत्तिले छोरीको विवाह नहुने हो कि भन्ने त्रास बढेको छ। दाइजोकै कारण **महिला हिंसा,
+घरेलु हिंसा, पारिवारिक विखण्डन, हत्या र आत्महत्या** सम्मका घटना भइरहेका छन् र सामाजिक
+सद्भाव बिग्रेको छ। समाधानका लागि कानुनको प्रभावकारी कार्यान्वयन, व्यक्ति–परिवार–समाजको
+सोचमा परिवर्तन, जनचेतना, महिलालाई शिक्षा, सिप र रोजगारी तथा **दाइजो लिने–दिने दुवैको
+सामाजिक बहिष्कार** आवश्यक छ।
+
+```figure caption="पाठमा चर्चा गरिएका चार कुप्रथा, तिनको क्षेत्र र मुख्य असर।"
+fig, ax = cards([("बोक्सी र धामीझाँक्री", "बोक्सीको आरोपमा कुटपिट;\nउपचारमा ढिलाइ"),
+                 ("घुम्टो प्रथा", "पूर्वी र मध्य तराई;\nलैङ्गिक विभेद"),
+                 ("छाउपडी प्रथा", "कर्णाली, सुदूरपश्चिम;\nछाउगोठमा ज्यान जोखिम"),
+                 ("दाइजो र तिलक", "हिंसा, विखण्डन, हत्या\nर आत्महत्या")],
+                cols=2, figsize=(5.6, 2.5))
+```
+
+::: caution कानुनले के भन्छ?
+यी कुप्रथा अहिले कानुनतः दण्डनीय छन्: **बोक्सीको आरोप (कसुर र सजाय) ऐन, २०७२** ले
+बोक्सीको आरोप लगाउने र यातना दिनेलाई सजाय तोकेको छ; **मुलुकी अपराध संहिता, २०७४** ले
+छाउपडीमा राख्न बाध्य पार्ने कार्यलाई दण्डनीय बनाएको छ; दाइजो माग्ने र दाइजोका कारण हिंसा
+गर्ने कार्य **सामाजिक व्यवहार (सुधार) ऐन** र **घरेलु हिंसा (कसुर र सजाय) ऐन, २०६६**
+अनुसार कसुर हुन्। जातीय छुवाछूत पनि दण्डनीय अपराध हो।
 :::
 
-**Group C — Long answer (4 marks each)**
+::: note क्रियाकलाप — पाठ ४.५
+**१. समस्याको सूची:** आफ्नो समाजमा विद्यमान सामाजिक समस्याको सूची बनाई सबैभन्दा बढी असर
+गर्ने समस्या र त्यसको समाधानका उपायबारे साथीसँग छलफल गरी निष्कर्ष कक्षामा प्रस्तुत गर्नुहोस्।
+**२. महिला वा पुरुष — कसलाई बढी असर?** नेपालमा प्रचलित अधिकांश सामाजिक समस्या (घुम्टो,
+छाउपडी, दाइजो, बोक्सीको आरोप, बालविवाह) ले **महिलालाई** बढी असर पारेका छन्, किनभने
+पितृसत्तात्मक सोच, महिलाको शिक्षा र आर्थिक आत्मनिर्भरताको कमी र निर्णय गर्ने ठाउँमा कम
+सहभागिता छ। जानकार व्यक्तिसँग छलफल गरी समाधान टिपोट गरेर कक्षामा प्रस्तुत गर्नुहोस्।
+**३. छाउपडी अन्त्यमा अन्तरक्रिया:** छाउपडी अन्त्यका लागि कसले के गर्नुपर्ला — परिवार,
+धामी र धार्मिक अगुवा, विद्यालय, स्वास्थ्यकर्मी, स्थानीय तह र प्रहरीको भूमिकामा कक्षामा
+अन्तरक्रिया कार्यक्रम सञ्चालन गर्नुहोस्।
+:::
 
-1. "Human trafficking is a serious social problem of Nepal." Explain the causes and effects of trafficking and suggest remedies. <span class="marks">[4]</span>
-2. Explain the forms and effects of domestic violence and suggest four ways to control it. <span class="marks">[4]</span>
-3. Corruption is called a social evil. Why? Write the causes and ways of controlling it. <span class="marks">[4]</span>
-4. How can superstition be removed from society? Explain with examples of witchcraft accusation and chhaupadi. <span class="marks">[4]</span>
-5. Your school has a problem of litter and waste. Write the steps you would follow to find a solution. <span class="marks">[4]</span>
-6. Explain the role of international organisations in solving social problems of Nepal. <span class="marks">[4]</span>
+### पाठको अभ्यास: नमुना उत्तर
 
-::: note Answers to Group C
-**1.** Meaning. Causes: poverty, illiteracy, unemployment, fake offers, open border, gender discrimination. Effects: trauma, disease, stigma, broken families, loss of schooling. Remedies: education and awareness, jobs at home, safe migration, strict law and border control, rescue and rehabilitation, community watch, helplines.
-**2.** Forms: physical, mental, sexual, economic. Effects: injury, depression, children's trauma, broken families, suicide. Control: education and equality, women's economic independence, awareness of the Domestic Violence Act, counselling and treatment for alcohol, quick legal action and shelter, ending dowry.
-**3.** It harms everyone, especially the poor; slows development and weakens trust. Causes: greed, weak enforcement, lack of transparency, low pay, acceptance. Control: CIAA, Prevention of Corruption Act, RTI, audit, public hearing, social audit, honest voting, refusing bribes and asking for bills.
-**4.** Define superstition. Witchcraft accusation harms innocent women; chhaupadi causes deaths of women and girls. Removal: education and science, health posts, awareness, legal punishment, role of leaders and media, support for victims, women's empowerment.
-**5.** Identify the problem; collect information (count bins, interview students, weigh waste); find causes (no bins, habit, no collection); brainstorm options; choose (bins, eco-club, ward collection, awareness); make a plan and act; monitor and evaluate after one month.
-**6.** UN agencies and INGOs give money and technical help (UNICEF for children, ILO for workers, UN Women, IOM, UNODC); help to make laws based on conventions such as CRC and CEDAW; support rescue and relief; spread awareness; monitor progress. Limits: dependence, donor priorities.
+**१. अन्धविश्वास भनेको के हो, उदाहरणसहित लेख्नुहोस्।**
+गहिरो अध्ययन वा जानकारी नलिई, तर्क र प्रमाणबिना समाजमा प्रचलित प्रथा र प्रचलनमा विश्वास
+गर्नु अन्धविश्वास हो। यसले मानिसलाई विज्ञानभन्दा अलौकिक शक्तिमा विश्वास गर्न लगाउँछ।
+**उदाहरण:** (क) रोग लाग्दा अस्पताल नगई धामीझाँक्रीकहाँ जानु; (ख) गाउँमा कोही बिरामी परे
+कुनै महिलालाई बोक्सी भनी कुटपिट गर्नु; (ग) महिनावारीमा छाउगोठमा राख्नु; (घ) विवाहित
+महिलालाई घुम्टोमा राख्नु; (ङ) छोरी दिँदा दाइजो दिनैपर्छ भन्ने मान्यता; (च) बिरालोले बाटो
+काटे यात्रा अशुभ हुन्छ भन्ने विश्वास।
+
+**२. 'अन्धविश्वासले समाजको आधुनिकीकरण, विकास, परिवर्तन र समृद्धिको यात्रामा बाधा
+पुर्‍याउँछ।' कसरी, प्रस्ट पार्नुहोस्।**
+(क) **आधुनिकीकरणमा बाधा:** मानिस विज्ञान, प्रविधि र नयाँ सोचभन्दा अलौकिक शक्तिमा भर
+पर्छन्; बिरामीलाई अस्पतालभन्दा धामीकहाँ लैजाँदा ज्यान जान्छ। (ख) **विकासमा बाधा:** छाउपडी
+र घुम्टोले आधा जनसङ्ख्या — महिला — लाई शिक्षा, स्वास्थ्य र रोजगारीबाट वञ्चित गर्छ; उत्पादन
+घट्छ। (ग) **परिवर्तनमा बाधा:** परम्परा नमान्नेलाई बहिष्कार गरिने डरले नयाँ असल अभ्यास
+अपनाइँदैन। (घ) **समृद्धिमा बाधा:** दाइजो, महँगा धार्मिक अनुष्ठान र झारफुकमा सम्पत्ति खेर जान्छ;
+ऋण र गरिबी बढ्छ। (ङ) **शान्तिमा बाधा:** बोक्सीको आरोप जस्ता घटनाले हिंसा, अपराध र
+सामाजिक कलह ल्याउँछन्। त्यसैले शिक्षा, विवेक र वैज्ञानिक सोच नभई समृद्ध समाज बन्न सक्दैन।
+
+**३. घुम्टो प्रथालाई किन सामाजिक समस्या भनिएको हो, चर्चा गर्नुहोस्।**
+विवाहित महिलाले मान्यजन र पुरुषका अगाडि अनुहार छोप्नुपर्ने पूर्वी र मध्य तराईको प्रचलन घुम्टो
+प्रथा हो। यसलाई सामाजिक समस्या भनिनुका कारण: (क) यसले महिलाको **व्यक्तित्व विकास**
+रोक्छ — उनी खुलेर बोल्न र निर्णयमा सहभागी हुन सक्दैनन्; (ख) यो **लैङ्गिक विभेद** हो,
+किनभने पुरुषलाई यस्तो नियम छैन; (ग) मानव अधिकारको दृष्टिले महिलाको **हक, अधिकार र
+स्वतन्त्रताको हनन** हो; (घ) घुम्टोमा बस्नुपर्दा महिला **शिक्षा, स्वास्थ्य र रोजगारी** बाट
+वञ्चित हुन्छन्; (ङ) उनीहरू **आर्थिक, सामाजिक र राजनीतिक** क्षेत्रमा पछाडि पर्छन्; (च)
+महिलाको क्षमता प्रयोग नहुँदा परिवार र समाजको विकास पनि ढिलो हुन्छ। यसको समाधान शिक्षा,
+सचेतना र सामाजिक जागरण हो।
+
+**४. दाइजो प्रथाले समाजमा पुर्‍याएको असर उल्लेख गरी समाधानका उपाय सुझाउनुहोस्।**
+**असर:** (क) दाइजो कम ल्याएको निहुँमा महिला हिंसा र घरेलु हिंसा — सञ्जिला खातुनको घटना;
+(ख) पारिवारिक विखण्डन, सम्बन्धविच्छेद, हत्या र आत्महत्या; (ग) गरिब परिवारलाई ऋण र
+आर्थिक बोझ; (घ) छोरीको विवाह नहुने त्रास र छोरीलाई बोझ ठान्ने सोच; (ङ) महिलालाई सम्पत्तिसरह
+हेर्ने लैङ्गिक विभेद; (च) सामाजिक सद्भाव र सन्तुलनमा बाधा। **समाधान:** (क) दाइजोविरुद्धका
+कानुनको प्रभावकारी कार्यान्वयन; (ख) व्यक्ति, परिवार र समाजको सोचमा सकारात्मक परिवर्तन; (ग)
+जनचेतनामूलक कार्यक्रम; (घ) महिलालाई शिक्षा, सिप र रोजगारी दिई आत्मनिर्भर बनाउने; (ङ) दाइजो
+लिने–दिने दुवैको सामाजिक बहिष्कार; (च) युवाले "दाइजोबिनाको विवाह" को प्रतिबद्धता गर्ने।
+
+**५. 'छाउपडी अन्धविश्वासको परिणाम हो।' यस भनाइलाई उदाहरणसहित प्रस्ट पार्नुहोस्।**
+महिनावारी महिलाको शरीरमा हुने नियमित र प्राकृतिक प्रक्रिया हो; यसले महिलालाई अपवित्र बनाउँदैन।
+तर कर्णाली र सुदूरपश्चिमका केही ठाउँमा यसलाई गलत ढङ्गले व्याख्या गरी देवता रिसाउँछन्,
+अशुभ हुन्छ भन्ने विश्वास गरिन्छ — यही तर्क र प्रमाणबिनाको विश्वास अन्धविश्वास हो। **उदाहरण:**
+(क) रजस्वला महिलाले घरको आँगन टेक्न, दुधदही खान, घरभित्र बस्न, लेखपढ गर्न र अरूलाई छुन
+नहुने भनिन्छ; (ख) यात्रा वा शुभकार्यमा छाउपडीलाई देखे अशुभ हुने मानिन्छ; (ग) सुत्केरीलाई
+समेत छाउगोठमा राखिन्छ। यस अन्धविश्वासकै कारण महिला चिसो, असुरक्षित छाउगोठमा बस्न बाध्य
+हुन्छन्, जहाँ सर्पको टोकाइ, जङ्गली जनावरको आक्रमण, आगलागी र अपराधीको सिकार भई ज्यानसमेत
+गएका घटना छन्; छात्राको पढाइ पनि छुट्छ। वैज्ञानिक ज्ञान भएको समाजमा यस्तो प्रथा हुँदैन,
+त्यसैले छाउपडी अन्धविश्वासको परिणाम हो।
+
+## ४.६ सामाजिक समस्याको पहिचान र समस्या समाधान सिप
+
+यो पाठ विद्यार्थी **रिम्की** र सामाजिक शिक्षकबिचको संवादमा आधारित छ।
+
+::: definition सामाजिक समस्या
+सामाजिक मूल्यमान्यता र नियमविपरीतका जुन व्यवहारले व्यक्ति र समाजलाई नकारात्मक असर गर्छन्,
+तिनलाई **सामाजिक समस्या** भनिन्छ। धूमपान, मद्यपान, फजुल खर्च, बालविवाह, घरेलु हिंसा र
+बालश्रम नेपाली समाजका प्रमुख सामाजिक समस्या हुन्।
+:::
+
+**समस्या कसरी पहिचान गर्ने?** शिक्षकका अनुसार दुई तरिका छन्: (१) **मूल कारण खोज्ने** —
+कसैलाई मद्यपानको लत लागेको छ भने किन थाल्यो: गलत सङ्गतले, देखासिकीले वा अरू कारणले?
+(२) **पृष्ठभूमि थाहा पाउने** — चुरोटको लत कसरी सुरु भयो: परिवारका सदस्यले पिएको देखेर,
+साथीको करकापले वा असरबारे कम जानकारीले?
+
+**असर:** समस्याअनुसार असर फरक हुन्छ। मद्यपान र धूमपानले रोग लाग्ने, समाजमा अपमानित हुने,
+पैसा खर्च हुने र गलत सङ्गत बढ्ने गर्छ। बालविवाहले शारीरिक र मानसिक असर पार्छ — कम उमेरमा
+आमा बन्दा आमा र बच्चा दुवैको स्वास्थ्य कमजोर हुन्छ, पढाइ निरन्तर हुँदैन र जागिर तथा पेसाको
+अवसर गुम्छ।
+
+**बच्ने उपाय:** उपाय समस्याको प्रकृति र अवस्थामा भर पर्छ। सबै **विकल्पका राम्रा र नराम्रा
+पक्ष** थाहा पाएर उपयुक्त विकल्प छान्नुपर्छ; जस्तै कसैले धूमपान वा मद्यपानको प्रस्ताव राखे
+**इन्कार गर्नु** नै उत्तम उपाय हो। सबै समस्याको समाधान एकै किसिमको हुँदैन, त्यसैले अवस्था,
+परिवेश र समय हेरेर निर्णय गर्नुपर्छ। कुलतमा लागेका साथीको सङ्गत नगर्ने, आफूलाई राम्रा
+काममा व्यस्त राख्ने, सिर्जनशील हुने र भविष्य निर्माणमा प्रतिबद्ध हुने उपायले कुलतबाट बच्न
+सकिन्छ। संवादको अन्त्यमा रिम्की कुलतमा नलाग्ने र अरूलाई पनि चेतना फैलाउने प्रतिबद्धता गर्छिन्।
+
+पाठ्यपुस्तकको सामुदायिक कार्यले समस्या समाधानका यी **छ चरण** दिएको छ:
+
+```figure caption="समस्या समाधानका छ चरण (पाठ्यपुस्तकको सामुदायिक कार्यअनुसार)। प्रयोगपछि नतिजा राम्रो नआए फेरि विकल्पतिर फर्किनुपर्छ।"
+fig, ax = cards([("१. पृष्ठभूमि अध्ययन", "कसरी, कहिलेदेखि सुरु?"),
+                 ("२. समस्याको पहिचान", "मूल कारण के हो?"),
+                 ("३. समस्याको असर", "कसलाई, कति हानि?"),
+                 ("४. सम्भावित विकल्प", "के के उपाय छन्?"),
+                 ("५. उत्तम विकल्प छनोट", "राम्रा–नराम्रा पक्ष तुलना"),
+                 ("६. प्रतिबद्धता र प्रयोग", "लागु गर्ने, नतिजा हेर्ने")],
+                cols=2, figsize=(5.6, 3.5))
+```
+
+::: example साथी लागुपदार्थ दुर्व्यसनमा लाग्यो — कार्ययोजना (क्रियाकलाप २)
+**पृष्ठभूमि:** साथी कहिलेदेखि, कोसँग बस्न थालेपछि बदलियो — पढाइ खस्किनु, पैसा माग्नु,
+झुट बोल्नु जस्ता सङ्केत टिप्ने। **पहिचान:** मूल कारण पत्ता लगाउने — गलत सङ्गत, पारिवारिक
+तनाव वा जिज्ञासा। **असर:** स्वास्थ्य, पढाइ, परिवारको पैसा र अपराधतिर लाग्ने जोखिम।
+**विकल्प:** (क) बेवास्ता गर्ने, (ख) साथीलाई गाली गर्ने, (ग) विश्वासमा लिएर कुरा गर्ने र
+अभिभावक, शिक्षक वा परामर्शदातासम्म पुर्‍याउने। **उत्तम विकल्प:** (ग), किनभने बेवास्ताले
+समस्या बढ्छ र गालीले साथी टाढिन्छ। **प्रयोग:** साथीसँग एकान्तमा कुरा गर्ने, विद्यालयको
+परामर्शदाता वा स्वास्थ्यकर्मीसम्म लैजाने, खेलकुद र पढाइमा सँगै व्यस्त राख्ने, आवश्यक परे
+पुनःस्थापना केन्द्रको सहयोग लिने र एक महिनापछि सुधार हेर्ने।
+:::
+
+::: note क्रियाकलाप — पाठ ४.६
+**१. चित्र प्रदर्शनी:** आफ्नो समुदायका सामाजिक समस्या झल्किने चित्र बनाई कक्षामा देखाउनुहोस्
+र साथीलाई पहिचान गर्न लगाउनुहोस्।
+**२. कार्ययोजना:** साथी लागुपदार्थ दुर्व्यसनमा लागेको थाहा भयो भने उसलाई मुक्त गराउन
+समस्या समाधानका चरणका आधारमा कार्ययोजना बनाई प्रस्तुत गर्नुहोस्। (माथिको उदाहरण हेर्नुहोस्।)
+**सामुदायिक कार्य:** समुदायको कुनै एक प्रमुख सामाजिक समस्या पहिचान गरी माथिका छ चरण
+(पृष्ठभूमि अध्ययन, पहिचान, असर, सम्भावित विकल्प, उत्तम विकल्प छनोट, प्रतिबद्धता र प्रयोग)
+का आधारमा समाधानको खाका तालिकामा प्रस्तुत गर्नुहोस्।
+:::
+
+### पाठको अभ्यास: नमुना उत्तर
+
+**१. सामाजिक समस्या कसरी पहिचान गर्न सकिन्छ?**
+(क) **मूल कारण खोजेर** — जस्तै कसैले मद्यपान किन थाल्यो: गलत सङ्गत, देखासिकी वा तनाव।
+(ख) **पृष्ठभूमि बुझेर** — समस्या कसरी सिर्जना भयो: परिवारको प्रभाव, साथीको करकाप वा
+जानकारीको कमी। (ग) **व्यवहार र असर अवलोकन गरेर** — मूल्यमान्यताविपरीत व्यवहारले
+व्यक्ति वा समाजलाई हानि पुर्‍याएको छ कि छैन हेरेर। (घ) **तथ्याङ्क, समाचार र अन्तर्वार्ता** —
+प्रहरी तथ्याङ्क, सर्वेक्षण र पीडितसँगको कुराकानीबाट समस्याको आकार बुझेर।
+
+**२. सामाजिक समस्याबाट बच्ने उपाय उल्लेख गर्नुहोस्।**
+(क) समस्याको प्रकृति बुझी सबै विकल्पका राम्रा–नराम्रा पक्ष तुलना गरेर उपयुक्त विकल्प छान्ने;
+(ख) धूमपान, मद्यपान वा लागुपदार्थको प्रस्ताव दृढतापूर्वक इन्कार गर्ने; (ग) कुलतमा लागेका
+साथीको सङ्गत नगर्ने; (घ) आफूलाई पढाइ, खेलकुद र सिर्जनशील काममा व्यस्त राख्ने; (ङ)
+भविष्य निर्माणमा प्रतिबद्ध हुने; (च) समस्या परे परिवार, शिक्षक वा परामर्शदातासँग सल्लाह
+लिने; (छ) कानुन र अधिकारबारे सचेत रहने।
+
+**३. तपाईँको वरपरका प्रमुख सामाजिक समस्याको सूची तयार गर्नुहोस्।**
+(आफ्नो ठाउँअनुसार थपघट गर्नुहोस्।) (क) मद्यपान र धूमपान; (ख) किशोरमा लागुपदार्थ र मोबाइलको
+लत; (ग) बालविवाह; (घ) दाइजो र भड्किलो विवाह–भोजमा फजुल खर्च; (ङ) घरेलु हिंसा; (च) बालश्रम;
+(छ) जुवातास; (ज) जातीय छुवाछूत; (झ) वैदेशिक रोजगारीका नाममा ठगी; (ञ) धामीझाँक्री र
+अन्धविश्वास।
+
+**४. बालविवाह रोक्न तपाईँले के के प्रयत्न गर्न सक्नुहुन्छ?**
+(क) बालविवाह नगर्ने र साथीलाई पनि नगर्न प्रेरित गर्ने; (ख) विवाहको कानुनी उमेर **२० वर्ष**
+हो र बालविवाह दण्डनीय छ भन्ने जानकारी परिवार र छिमेकमा फैलाउने; (ग) कुनै साथीको बालविवाह
+हुन लागेको थाहा पाए शिक्षक, वडा कार्यालय, प्रहरी १०० वा बाल हेल्पलाइन १०९८ मा खबर गर्ने;
+(घ) विद्यालयमा नाटक, वक्तृत्वकला र प्लेकार्डमार्फत सचेतना गर्ने; (ङ) छोरीको पढाइ निरन्तर
+गराउन छात्रवृत्तिबारे जानकारी दिने; (च) बालविवाहका असर (पढाइ छुट्ने, आमा–शिशुको स्वास्थ्य
+जोखिम) बारे अभिभावकसँग कुरा गर्ने।
+
+**५. कुलतबाट बच्ने उपाय लेख्नुहोस्।**
+(क) धूमपान, मद्यपान र लागुपदार्थको प्रस्तावमा "नाइँ" भन्ने आँट; (ख) कुलतमा लागेका साथीको
+सङ्गत नगर्ने; (ग) खेलकुद, सङ्गीत, पढाइ र सिर्जनशील काममा व्यस्त रहने; (घ) कुलतका
+स्वास्थ्य, आर्थिक र सामाजिक असरबारे सही जानकारी लिने; (ङ) तनाव वा समस्या परे परिवार र
+परामर्शदातासँग कुरा गर्ने; (च) देखासिकी नगर्ने; (छ) स्पष्ट लक्ष्य बनाई भविष्य निर्माणमा
+प्रतिबद्ध हुने।
+
+## ४.७ सामाजिक समस्या समाधानमा अन्तर्राष्ट्रिय सङ्घसंस्थाको भूमिका
+
+सामाजिक समस्या समाधानमा राष्ट्रिय तथा अन्तर्राष्ट्रिय सङ्घसंस्थाको महत्त्वपूर्ण भूमिका हुन्छ।
+**सचेतना वृद्धि, गरिबी निवारण, शिक्षामार्फत परिवर्तन र सामाजिक सुधार** मा यिनको योगदान छ।
+
+```figure caption="पाठमा चर्चा गरिएका चार अन्तर्राष्ट्रिय संस्था, स्थापना वर्ष र मुख्य कार्यक्षेत्र।"
+fig, ax = cards([("युनिसेफ (१९४६)", "बालबालिकाको शिक्षा, स्वास्थ्य,\nपोषण र बाल अधिकार"),
+                 ("जनसङ्ख्या कोष (१९६९)", "प्रजनन र मातृ स्वास्थ्य;\nमुख्यालय न्युयोर्क"),
+                 ("अन्तर्राष्ट्रिय श्रम सङ्गठन", "बालश्रम उन्मूलन, श्रम कानुन\nर श्रमिकको हकहित"),
+                 ("ट्रान्सपरेन्सी (१९९३)", "भ्रष्टाचारविरुद्ध; मुख्यालय\nबर्लिन, जर्मनी")],
+                cols=2, figsize=(5.6, 2.5))
+```
+
+### (क) युनिसेफ (संयुक्त राष्ट्रसङ्घीय बालकोष)
+
+युनिसेफको स्थापना **सन् १९४६** मा भएको हो। नेपालमा यसले **सन् १९६४** देखि सामाजिक
+सुधारका काम गर्दै आएको छ। यसले बालबालिकाको **हेरचाह, शिक्षा, स्वास्थ्य र पोषण** मा धेरै
+काम गरेको छ र **बाल अधिकारको संरक्षण र प्रवर्धन** मा महत्त्वपूर्ण भूमिका खेलेको छ — जस्तै
+खोप अभियान, विद्यालय भर्ना, कुपोषण न्यूनीकरण, बालविवाह र बालश्रमविरुद्ध सचेतना।
+
+::: caution युनिसेफ "विशिष्टीकृत संस्था" हो?
+पाठ्यपुस्तकले युनिसेफलाई संयुक्त राष्ट्रसङ्घको विशिष्टीकृत संस्था भनेको छ। प्राविधिक रूपमा
+युनिसेफ महासभाअन्तर्गतको **कोष वा कार्यक्रम** हो; विश्व स्वास्थ्य सङ्गठन, युनेस्को र अन्तर्राष्ट्रिय
+श्रम सङ्गठन जस्ता संस्था मात्र **विशिष्टीकृत संस्था** हुन्। परीक्षामा "संयुक्त राष्ट्रसङ्घको संस्था"
+लेख्नु सुरक्षित हुन्छ।
+:::
+
+### (ख) संयुक्त राष्ट्रसङ्घीय जनसङ्ख्या कोष
+
+यसको स्थापना **सन् १९६९** मा भएको हो र मुख्यालय संयुक्त राज्य अमेरिकाको **न्युयोर्क** मा
+छ। यो **प्रजनन र मातृ स्वास्थ्य** सुधारमा विश्वव्यापी रूपमा सक्रिय छ। **लैङ्गिक समानता** र
+**मानवीय सङ्कट** (जस्तै भूकम्प, बाढी) समाधानमा यसको उल्लेखनीय योगदान छ।
+
+### (ग) अन्तर्राष्ट्रिय श्रम सङ्गठन
+
+यो संयुक्त राष्ट्रसङ्घको **विशिष्टीकृत संस्था** हो। यसले **सबैखाले बालश्रमको उन्मूलन**,
+**श्रम कानुन र श्रमनीतिको निर्माण तथा कार्यान्वयन** र **श्रमिकको हकहित** मा काम गर्छ।
+नेपालबाट बालश्रम अन्त्य गर्न यसले विभिन्न कार्यक्रम चलाएको छ र विशेषगरी **सहरी र सहरोन्मुख
+क्षेत्र** मा देखिएको बालश्रम निराकरणमा सक्रिय छ।
+
+```photo id="soc10/brick-kiln" caption="नेपालको इँटाभट्टामा काम गर्दै बालबालिका। बालश्रम हटाउन अन्तर्राष्ट्रिय श्रम सङ्गठनले नेपाल सरकारसँग मिलेर काम गर्छ।" width="60"
+```
+
+### (घ) ट्रान्सपरेन्सी इन्टरनेसनल
+
+यो **अन्तर्राष्ट्रिय गैरसरकारी संस्था** हो, जसको स्थापना **सन् १९९३ को मे** महिनामा भयो र
+मुख्यालय **जर्मनीको बर्लिन** मा छ। यसको मुख्य उद्देश्य भ्रष्टाचार रोकी समाजका हरेक तहमा
+**पारदर्शिता, उत्तरदायित्व र इमानदारी** प्रवर्धन गर्नु र भ्रष्टाचारमुक्त विश्व स्थापना गर्नु हो।
+यसले अन्तर्राष्ट्रिय तहमा राजनीतिक भ्रष्टाचारको अनुगमन गरी प्रतिवेदन सार्वजनिक गर्छ, विभिन्न
+देशमा आफ्ना **शाखा (च्याप्टर)** मार्फत काम गर्छ, **सन् १९९५ देखि भ्रष्टाचार अनुभूति सूचकाङ्क**
+र **सन् १९९९ देखि घुसदाता सूचकाङ्क** प्रकाशन गर्दै आएको छ। नेपालमा यसको शाखाका रूपमा
+**ट्रान्सपरेन्सी इन्टरनेसनल नेपाल** नामक गैरसरकारी संस्था काम गरिरहेको छ।
+
+::: note क्रियाकलाप — पाठ ४.७
+**१. लोगो:** माथिका अन्तर्राष्ट्रिय संस्थाको लोगो तयार पारी कक्षामा प्रदर्शन गर्नुहोस्।
+**२. बुलेटिन बोर्ड:** नेपालमा भ्रष्टाचार नियन्त्रणमा ट्रान्सपरेन्सी इन्टरनेसनलको भूमिका समेटिएका
+लेख, सम्पादकीय र समाचार सङ्कलन गरी बुलेटिन बोर्डमा टाँस्नुहोस्।
+**३. खोज:** नेपालमा युनिसेफले बालबालिकाको क्षेत्रमा गरेका कार्य (खोप, पोषण, विद्यालय भर्ना,
+बाल संरक्षण, विपद्मा राहत) खोजी गरी कक्षामा प्रस्तुत गर्नुहोस्।
+:::
+
+### पाठको अभ्यास: नमुना उत्तर
+
+**१. अन्तर्राष्ट्रिय श्रम सङ्गठनले नेपालमा कस्तो योगदान पुर्‍याएको छ?**
+(क) नेपालबाट **सबैखाले बालश्रम उन्मूलन** गर्न विभिन्न कार्यक्रम चलाएको छ; (ख) सहरी र
+सहरोन्मुख क्षेत्रका होटल, इँटाभट्टा, कारखाना र घरेलु काममा रहेका बालश्रमिकको उद्धार र
+शिक्षामा सहयोग गरेको छ; (ग) **श्रम कानुन र श्रमनीति** निर्माण तथा कार्यान्वयनमा प्राविधिक
+सहयोग गरेको छ; (घ) श्रमिकको न्यूनतम पारिश्रमिक, सुरक्षित कार्यस्थल र सामाजिक सुरक्षा जस्ता
+**हकहित** का पक्षमा पैरवी गरेको छ; (ङ) बाध्यकारी श्रमविरुद्ध र वैदेशिक रोजगारीमा जाने
+श्रमिकको सुरक्षाबारे सचेतना फैलाएको छ।
+
+**२. ट्रान्सपरेन्सी इन्टरनेसनलका कार्य उल्लेख गर्नुहोस्।**
+(क) भ्रष्टाचार रोकी पारदर्शिता, उत्तरदायित्व र इमानदारी प्रवर्धन गर्ने; (ख) अन्तर्राष्ट्रिय तहमा
+राजनीतिक भ्रष्टाचारको अनुगमन गरी प्रतिवेदन सार्वजनिक गर्ने; (ग) सन् १९९५ देखि हरेक वर्ष
+**भ्रष्टाचार अनुभूति सूचकाङ्क** प्रकाशन गर्ने — सन् २०२४ मा १८० देशको सूचीमा नेपाल १०७ औँ;
+(घ) सन् १९९९ देखि **घुसदाता सूचकाङ्क** प्रकाशन; (ङ) विभिन्न देशमा शाखामार्फत भ्रष्टाचारविरुद्ध
+सचेतना र पैरवी — नेपालमा ट्रान्सपरेन्सी इन्टरनेसनल नेपालमार्फत; (च) भ्रष्टाचारमुक्त विश्व
+निर्माणका लागि सरकार र नागरिक समाजलाई सुझाव दिने।
+
+**३. संयुक्त राष्ट्रसङ्घीय जनसङ्ख्या कोषका प्रमुख कार्यक्षेत्र उल्लेख गर्नुहोस्।**
+सन् १९६९ मा स्थापित, न्युयोर्कमा मुख्यालय भएको यस कोषका प्रमुख कार्यक्षेत्र: (क) **प्रजनन
+स्वास्थ्य** — परिवार नियोजन र किशोरकिशोरीको प्रजनन स्वास्थ्य शिक्षा; (ख) **मातृ स्वास्थ्य** —
+सुरक्षित प्रसूति र मातृ मृत्युदर घटाउने; (ग) **लैङ्गिक समानता** — लैङ्गिक हिंसा र बालविवाह
+न्यूनीकरण; (घ) **मानवीय सङ्कट** — विपद्का बेला महिला र किशोरीलाई स्वास्थ्य र सुरक्षा
+सहयोग; (ङ) जनगणना र जनसङ्ख्यासम्बन्धी तथ्याङ्क सङ्कलनमा सहयोग।
+
+## अध्यायको सारांश
+
+- मानव बेचबिखन शोषणका लागि मानिसलाई किन्ने, बेच्ने र ओसारपसार गर्ने जघन्य अपराध हो; ऐन, २०६४ ले मानिस किन्ने–बेच्नेलाई २० वर्ष कैद र २ लाखसम्म जरिवाना तोकेको छ।
+- प्रहरी तथ्याङ्क (२०७५/७६): कुल ३५२ पीडित — बेचबिखन ७५, वेश्यावृत्ति ७४, पी.आर. दिलाउने ६४, श्रमशोषण ५४; सबैभन्दा धेरै काठमाडौँ उपत्यका (१००), सबैभन्दा कम गण्डकी (७)।
+- यौन विकृतिका तीन घटना: कञ्चन–विनय (उमेर नपुगी सम्बन्ध अस्वीकार), रजनी (इमानदारी र स्वरोजगार), कृष्ण (अश्लील भिडियोको लत, परामर्शले सुधार)।
+- घरेलु हिंसा परिवारभित्रको शारीरिक, मानसिक, आर्थिक र यौनिक दुर्व्यवहार हो; १–१४ वर्षका ८० प्रतिशतभन्दा धेरै बालबालिका अनुशासनका नाममा हिंसा भोग्छन् र हिंसा पुस्तान्तरण हुन्छ।
+- भ्रष्टाचार पदको दुरुपयोग गरी अनुचित लाभ लिनु हो; सूचकाङ्क २०२४ मा नेपाल ३४ अङ्क, १०७ औँ; डेनमार्क (९०) पहिलो, दक्षिण सुडान (८) अन्तिम; सार्कमा भुटान (७२) उत्कृष्ट, अफगानिस्तान (१७) पुछारमा।
+- पृथ्वीनारायण शाह: "घुस लिन्या र घुस दिन्या दुवै देशका महासत्रु हुन्"; भ्रष्टाचार निवारण ऐन, २०५९ र अख्तियार दुरुपयोग अनुसन्धान आयोग मुख्य संयन्त्र हुन्।
+- अन्धविश्वास जानकारीबिना प्रथामा विश्वास गर्नु हो; बोक्सीको आरोप, घुम्टो (पूर्वी–मध्य तराई), छाउपडी (कर्णाली–सुदूरपश्चिम) र दाइजो–तिलक मुख्य कुप्रथा हुन्।
+- समस्या समाधानका छ चरण: पृष्ठभूमि अध्ययन → पहिचान → असर → सम्भावित विकल्प → उत्तम विकल्प छनोट → प्रतिबद्धता र प्रयोग।
+- युनिसेफ (१९४६; नेपालमा १९६४ देखि) बालबालिका; जनसङ्ख्या कोष (१९६९, न्युयोर्क) प्रजनन र मातृ स्वास्थ्य; अन्तर्राष्ट्रिय श्रम सङ्गठन बालश्रम उन्मूलन; ट्रान्सपरेन्सी इन्टरनेसनल (मे १९९३, बर्लिन) भ्रष्टाचारविरुद्ध।
+
+## अभ्यास
+
+**समूह क — वस्तुगत प्रश्न (१ अङ्क)**
+
+१. मानव बेचबिखन तथा ओसारपसार (नियन्त्रण) ऐन कुन सालमा बनेको हो? <span class="marks">[1]</span>
+   (क) २०५९ (ख) २०६४ (ग) २०६६ (घ) २०७२
+२. प्रहरी तथ्याङ्क २०७५/७६ अनुसार बेचबिखनका सबैभन्दा धेरै पीडित कहाँ दर्ता भए? <span class="marks">[1]</span>
+   (क) कोशी (ख) लुम्बिनी (ग) काठमाडौँ उपत्यका (घ) मधेश
+३. भ्रष्टाचार अनुभूति सूचकाङ्क २०२४ मा नेपालको स्थान कुन हो? <span class="marks">[1]</span>
+   (क) ९६ औँ (ख) १०७ औँ (ग) १२१ औँ (घ) १३५ औँ
+४. दक्षिण एसियामा सबैभन्दा कम भ्रष्टाचार हुने देश कुन हो? <span class="marks">[1]</span>
+   (क) भारत (ख) माल्दिभ्स (ग) भुटान (घ) श्रीलङ्का
+५. घुम्टो प्रथा विशेषगरी कहाँ प्रचलित छ? <span class="marks">[1]</span>
+   (क) पूर्वी तथा मध्य तराई (ख) कर्णाली (ग) हिमाली क्षेत्र (घ) काठमाडौँ उपत्यका
+६. संयुक्त राष्ट्रसङ्घीय जनसङ्ख्या कोषको मुख्यालय कहाँ छ? <span class="marks">[1]</span>
+   (क) जेनेभा (ख) न्युयोर्क (ग) बर्लिन (घ) पेरिस
+७. ट्रान्सपरेन्सी इन्टरनेसनलको स्थापना कहिले भयो? <span class="marks">[1]</span>
+   (क) सन् १९४६ (ख) सन् १९६९ (ग) सन् १९९३ (घ) सन् १९९५
+८. पाठ्यपुस्तकअनुसार समस्या समाधानको अन्तिम चरण कुन हो? <span class="marks">[1]</span>
+   (क) समस्याको असर (ख) उत्तम विकल्प छनोट (ग) पृष्ठभूमि अध्ययन (घ) प्रतिबद्धता र प्रयोग
+
+::: note समूह क का उत्तर
+**१.** (ख) — २०५९ भ्रष्टाचार निवारण ऐन, २०६६ घरेलु हिंसा ऐन र २०७२ बोक्सीको आरोप ऐनको वर्ष हो।
+**२.** (ग) — उपत्यकामा १०० जना; कोशी ६८ र लुम्बिनी ६४ ले त्यसपछि पर्छन्।
+**३.** (ख) — ३४ अङ्कसहित १०७ औँ; ९६ औँ भारत र माल्दिभ्सको स्थान हो।
+**४.** (ग) — भुटान ७२ अङ्कसहित विश्वमा १८ औँ छ।
+**५.** (क) — छाउपडी कर्णाली–सुदूरपश्चिममा, घुम्टो पूर्वी र मध्य तराईमा प्रचलित छ।
+**६.** (ख) — सन् १९६९ मा स्थापित यस कोषको मुख्यालय न्युयोर्कमा छ; बर्लिनमा ट्रान्सपरेन्सी इन्टरनेसनलको मुख्यालय छ।
+**७.** (ग) — मे १९९३ मा स्थापना भयो; १९९५ बाट सूचकाङ्क प्रकाशन सुरु भयो।
+**८.** (घ) — छनोट गरेको विकल्पप्रति प्रतिबद्ध भई प्रयोग गर्नु अन्तिम (छैटौँ) चरण हो।
+:::
+
+**समूह ख — छोटो उत्तर (२ अङ्क)**
+
+१. नाटकमा वडा सदस्यले धनवीरलाई माफी दिन किन अस्वीकार गरे? <span class="marks">[2]</span>
+२. मानव बेचबिखन ऐनमा बालबालिकासम्बन्धी कसुरमा कडा सजाय किन राखिएको होला? <span class="marks">[2]</span>
+३. शिक्षक विनिताले कृष्णको समस्या कसरी समाधान गर्नुभयो? <span class="marks">[2]</span>
+४. घरेलु हिंसाको पुस्तान्तरण भनेको के हो? <span class="marks">[2]</span>
+५. भ्रष्टाचार अनुभूति सूचकाङ्कमा अङ्क र स्थानको अर्थ लेख्नुहोस्। <span class="marks">[2]</span>
+६. छाउगोठमा बस्दा महिलाले भोग्ने कुनै चार जोखिम लेख्नुहोस्। <span class="marks">[2]</span>
+७. सामाजिक समस्या भनेको के हो? दुई उदाहरण दिनुहोस्। <span class="marks">[2]</span>
+८. युनिसेफले नेपालमा गरेका कुनै दुई काम लेख्नुहोस्। <span class="marks">[2]</span>
+
+::: note समूह ख का उत्तर
+**१.** धनवीरले एउटी महिलालाई विदेश लगेर बेचेको आरोप थियो र उनी पहिले मृगौला बेच्ने गिरोहमा पनि जेल परेका थिए। मानव बेचबिखन जघन्य अपराध भएकाले यो माफी दिएर उम्किने कसुर होइन; कानुनबमोजिम सजाय पाउनैपर्छ।
+**२.** बालबालिका आफ्नो रक्षा गर्न र ठगी चिन्न नसक्ने सबैभन्दा कमजोर समूह हुन् र उनीहरूमाथिको शोषणले जीवनभर शारीरिक–मानसिक क्षति पुर्‍याउँछ। त्यसैले विदेश लैजाने कसुरमा वयस्कका लागि १०–१५ वर्ष भए पनि बालबालिकाका लागि १५–२० वर्ष कैद राखिएको छ।
+**३.** उहाँले कृष्णमा आएको परिवर्तन निगरानी गरी एकान्तमा विश्वासमा लिएर कुरा बुझ्नुभयो। अश्लील भिडियोको लिङ्क हटाउन, केही समय सामाजिक सञ्जालबाट टाढा रहन र खराब साथीको सङ्गत छोड्न लगाउनुभयो; हरेक हप्ता ज्ञानवर्धक किताब पढ्न दिएर सुनाउन लगाउनुभयो। फलस्वरूप पढाइ सुध्रियो।
+**४.** बाल्यकालमा हिंसा भोगेका वा परिवारमा हिंसा देखेका बालबालिकाले वयस्क भएपछि अरूमाथि र आफ्नै सन्तानमाथि हिंसा गर्ने सम्भावना धेरै हुन्छ। यसरी हिंसा एक पुस्ताबाट अर्को पुस्तामा सर्नुलाई पुस्तान्तरण भनिन्छ।
+**५.** ट्रान्सपरेन्सी इन्टरनेसनलको सूचकाङ्कमा १०० अङ्कले अति स्वच्छ र ० ले अति भ्रष्ट अवस्था जनाउँछ। स्थान भनेको देशहरूको क्रम हो — जति सानो स्थान, त्यति कम भ्रष्टाचार। सन् २०२४ मा नेपाल ३४ अङ्कसहित १८० मध्ये १०७ औँ छ।
+**६.** (क) सर्पले टोक्ने; (ख) जङ्गली जनावरको आक्रमण; (ग) अपराधीको सिकार भई यौन हिंसा; (घ) चिसो, धुवाँ र अस्वस्थ वातावरणले रोग लाग्ने; साथै पढाइ छुट्ने र आत्मसम्मानमा चोट।
+**७.** सामाजिक मूल्यमान्यता र नियमविपरीतका जुन व्यवहारले व्यक्ति र समाजलाई नकारात्मक असर गर्छन्, तिनलाई सामाजिक समस्या भनिन्छ। उदाहरण: बालविवाह र घरेलु हिंसा (धूमपान, मद्यपान, बालश्रम पनि)।
+**८.** युनिसेफले सन् १९६४ देखि नेपालमा (क) बालबालिकाको खोप, स्वास्थ्य र पोषण सुधार तथा (ख) विद्यालय शिक्षा र बाल अधिकारको संरक्षण–प्रवर्धनमा काम गरेको छ।
+:::
+
+**समूह ग — लामो उत्तर (४ अङ्क)**
+
+१. प्रहरीको २०७५/७६ को तथ्याङ्कका आधारमा नेपालमा मानव बेचबिखनको अवस्था विश्लेषण गर्नुहोस्। <span class="marks">[4]</span>
+२. घरेलु हिंसाका कारण र रोकथामका उपाय लेख्नुहोस्। <span class="marks">[4]</span>
+३. सार्क राष्ट्रमा भ्रष्टाचारको अवस्था तुलना गरी नेपालले अपनाउनुपर्ने कुनै चार उपाय सुझाउनुहोस्। <span class="marks">[4]</span>
+४. समस्या समाधानका चरण उल्लेख गरी बालविवाह समस्यामा लागु गर्नुहोस्। <span class="marks">[4]</span>
+
+::: note समूह ग का उत्तर
+**१.** एक वर्षमा कुल ३५२ पीडित वा प्रभावित दर्ता भए। प्रयोजनमा बेचबिखन ७५, वेश्यावृत्ति ७४, पी.आर. दिलाउने ६४, श्रमशोषण ५४, यौनशोषण ४२, जबरजस्ती विवाह २९, विदेश पठाउने १२ र अङ्ग झिक्ने २ छन्। वेश्यावृत्ति र यौनशोषण मिलाउँदा ११६ हुने भएकाले यौन शोषण मुख्य उद्देश्य हो; पी.आर. र श्रमशोषणले वैदेशिक रोजगारीको नाममा हुने ठगी देखाउँछन्। स्थानगत रूपमा काठमाडौँ उपत्यका (१००), कोशी (६८) र लुम्बिनी (६४) मा सबैभन्दा धेरै र गण्डकी (७) मा सबैभन्दा कम छ — विमानस्थल र खुला सिमाना भएका क्षेत्र बढी जोखिममा छन्। उजुरी नपरेका घटना यसभन्दा धेरै हुन सक्ने भएकाले सचेतना, सीमा निगरानी र कडा कानुनी कारबाही आवश्यक छ।
+**२.** **कारण:** पितृसत्तात्मक सोच र "घरको कुरा घरमै" भन्ने प्रवृत्ति; दाइजो प्रथा (सञ्जिला खातुनको घटना); मदिरा, लागुऔषध र जुवा; गरिबी र महिलाको आर्थिक परनिर्भरता; अशिक्षा र कानुनको अज्ञानता; पैतृक सम्पत्तिको विवाद; अनुशासनका नाममा बालबालिकालाई कुट्ने परम्परा। **रोकथाम:** घरेलु हिंसा (कसुर र सजाय) ऐन, २०६६ को कडा कार्यान्वयन; महिलाको शिक्षा, सिप र आर्थिक आत्मनिर्भरता; दाइजो अन्त्य र सम्पत्तिमा समान अधिकार; मदिरा नियन्त्रण; परामर्श र सुरक्षित आवास केन्द्र; अभिभावक शिक्षा; हिंसा देखे प्रहरी १०० वा हेल्पलाइन ११४५ मा खबर गर्ने संस्कृति।
+**३.** सूचकाङ्क २०२४ अनुसार भुटान ७२ (१८ औँ), भारत र माल्दिभ्स ३८ (९६ औँ), नेपाल ३४ (१०७ औँ), श्रीलङ्का ३२ (१२१ औँ), पाकिस्तान २७ (१३५ औँ), बङ्गलादेश २३ (१५१ औँ) र अफगानिस्तान १७ (१६५ औँ) मा छन्। भुटानबाहेक सबै ४० अङ्कभन्दा तल भएकाले सार्क क्षेत्रमा भ्रष्टाचार व्यापक छ; नेपाल चौथो स्थानमा छ। **उपाय:** (क) घुस लिने–दिने दुवैलाई कडा सजाय र भ्रष्टाचारीलाई राजनीतिक संरक्षण नदिने; (ख) अख्तियार दुरुपयोग अनुसन्धान आयोगलाई स्वतन्त्र बनाउने र निगरानी निकायबिच समन्वय; (ग) प्रशासनलाई पारदर्शी, उत्तरदायी र जवाफदेही बनाउने, विद्युतीय सेवा बढाउने; (घ) शून्य सहनशीलताको नीति र पैसा–पद–पहुँचको संस्कृतिविरुद्ध जनचेतना।
+**४.** **चरण र प्रयोग:** (१) **पृष्ठभूमि अध्ययन** — गाउँमा १६–१७ वर्षमै छोरीको विवाह हुने परम्परा कहिलेदेखि र कुन परिवारमा छ, बुझ्ने। (२) **पहिचान** — मूल कारण: गरिबी, दाइजोको डर, छोरीलाई भार ठान्ने सोच र कानुनको अज्ञानता। (३) **असर** — पढाइ छुट्ने, कम उमेरमा आमा बन्दा आमा–शिशुको स्वास्थ्य जोखिम, रोजगारीको अवसर गुम्ने। (४) **सम्भावित विकल्प** — सचेतना कार्यक्रम, छात्रवृत्ति, उजुरी र कानुनी कारबाही, अभिभावकसँग परामर्श। (५) **उत्तम विकल्प छनोट** — सचेतना र छात्रवृत्ति सँगै, आवश्यक परे १०९८ मा उजुरी। (६) **प्रतिबद्धता र प्रयोग** — विद्यालय, वडा र आमा समूह मिलेर अभियान चलाउने र एक वर्षपछि बालविवाह घटे–नघटेको मूल्याङ्कन गर्ने।
+:::
+
+**समूह घ — विस्तृत उत्तर (८ अङ्क)**
+
+१. "अन्धविश्वास र कुप्रथाले सबैभन्दा बढी महिलालाई पीडित बनाएका छन्।" बोक्सीको आरोप, घुम्टो, छाउपडी र दाइजो प्रथाका आधारमा यस भनाइको विवेचना गर्दै समाधानका उपाय सुझाउनुहोस्। <span class="marks">[8]</span>
+२. मानव बेचबिखन, घरेलु हिंसा र भ्रष्टाचारजस्ता सामाजिक समस्या समाधानमा राज्य, समुदाय र अन्तर्राष्ट्रिय संस्थाको भूमिका व्याख्या गर्नुहोस्। <span class="marks">[8]</span>
+
+::: note समूह घ का उत्तर
+**१.** **परिचय:** गहिरो अध्ययन वा जानकारीबिना प्रचलित प्रथामा विश्वास गर्नु अन्धविश्वास हो; यसबाट जन्मेका कुप्रथाको भार प्रायः महिलाले बोक्छन्। **(क) बोक्सीको आरोप:** गाउँमा कोही बिरामी पर्दा वा पशु मर्दा प्रायः एकल, वृद्ध वा गरिब महिलालाई बोक्सी भनी कुटपिट, मलमूत्र खुवाउने र गाउँनिकाला गरिन्छ; रोगको वास्तविक कारण सूक्ष्म जीव र कुपोषण हो। **(ख) घुम्टो:** पूर्वी र मध्य तराईमा विवाहित महिलाले अनुहार छोप्नुपर्दा व्यक्तित्व विकास, शिक्षा, स्वास्थ्य र रोजगारीको अवसर गुम्छ; यो लैङ्गिक विभेद र मानव अधिकारको हनन हो। **(ग) छाउपडी:** कर्णाली र सुदूरपश्चिममा रजस्वला र सुत्केरी महिलालाई छाउगोठमा राखिन्छ; सर्पदंश, जङ्गली जनावर, अपराधी र चिसोबाट ज्यानसमेत जान्छ। **(घ) दाइजो र तिलक:** हैसियतभन्दा बढी माग, दबाब र धम्कीले महिला हिंसा, घरेलु हिंसा, पारिवारिक विखण्डन, हत्या र आत्महत्या निम्त्याएको छ। यी चारै प्रथा पुरुषमा लागु हुँदैनन्, त्यसैले भनाइ सत्य हो। **समाधान:** (१) **कानुनी** — बोक्सीको आरोप (कसुर र सजाय) ऐन, २०७२, मुलुकी अपराध संहिता, २०७४ (छाउपडी) र दाइजो तथा घरेलु हिंसाविरुद्धका कानुनको कडा कार्यान्वयन; (२) **शैक्षिक** — वैज्ञानिक शिक्षा, महिनावारी र स्वास्थ्यबारे सही जानकारी; (३) **सामाजिक** — धामी, धार्मिक अगुवा, आमा समूह र राजनीतिक दलको संयुक्त अभियान; छाउगोठ भत्काउने र दाइजो लिने–दिनेको सामाजिक बहिष्कार; (४) **आर्थिक** — महिलालाई सिप, रोजगारी र सम्पत्तिमा समान अधिकार; (५) **स्वास्थ्य** — गाउँमै स्वास्थ्य सेवा। **निष्कर्ष:** शिक्षा, विवेक र समान व्यवहारले मात्र महिलामैत्री र अन्धविश्वासमुक्त सभ्य समाज बन्छ।
+**२.** **परिचय:** सामाजिक समस्या एक्लो प्रयासले समाधान हुँदैनन्; राज्य, समुदाय र अन्तर्राष्ट्रिय संस्थाको सहकार्य चाहिन्छ। **(क) राज्यको भूमिका:** मानव बेचबिखन तथा ओसारपसार (नियन्त्रण) ऐन, २०६४ (मानिस किन्ने–बेच्नेलाई २० वर्ष कैद), घरेलु हिंसा (कसुर र सजाय) ऐन, २०६६ र भ्रष्टाचार निवारण ऐन, २०५९ जस्ता कानुन बनाई कार्यान्वयन गर्ने; प्रहरीले उजुरी, उद्धार र पक्राउ गर्ने (धनवीरको घटना); अख्तियार दुरुपयोग अनुसन्धान आयोग, राष्ट्रिय सतर्कता केन्द्र र राष्ट्रिय सूचना आयोगमार्फत भ्रष्टाचार नियन्त्रण; सिमाना निगरानी, सुरक्षित वैदेशिक रोजगारी, हेल्पलाइन (१००, १०९८, ११४५) र सुरक्षित आवास। **(ख) समुदायको भूमिका:** वडाध्यक्ष, शिक्षक सानुमाया र मदनले जस्तै अपराधीलाई संरक्षण नगरी प्रहरीलाई सहयोग गर्ने; चेतना अभियान, नाटक र प्लेकार्ड; पीडितलाई लान्छना होइन पुनःस्थापनामा सहयोग; दाइजो लिने–दिने र घुस खानेको सामाजिक बहिष्कार; सामाजिक परीक्षण र सार्वजनिक सुनुवाइ; माइती नेपाल जस्ता गैरसरकारी संस्थाले उद्धार र पुनःस्थापना। **(ग) अन्तर्राष्ट्रिय संस्थाको भूमिका:** युनिसेफ — बाल अधिकार, शिक्षा र बाल संरक्षण; जनसङ्ख्या कोष — लैङ्गिक हिंसा न्यूनीकरण, प्रजनन र मातृ स्वास्थ्य; अन्तर्राष्ट्रिय श्रम सङ्गठन — बालश्रम र बाध्यकारी श्रम उन्मूलन, श्रम कानुन; ट्रान्सपरेन्सी इन्टरनेसनल — भ्रष्टाचार सूचकाङ्कमार्फत अनुगमन र पारदर्शिताको पैरवी। यिनले आर्थिक तथा प्राविधिक सहयोग, तथ्याङ्क र अन्तर्राष्ट्रिय मापदण्ड दिन्छन्। **निष्कर्ष:** अन्तर्राष्ट्रिय सहयोग पूरक हो; मुख्य जिम्मेवारी राज्य र नागरिककै हो। तीनैको समन्वयले मात्र "समृद्ध नेपाल, सुखी नेपाली" को लक्ष्य पूरा हुन्छ।
 :::

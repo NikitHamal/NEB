@@ -17,6 +17,8 @@ EN = dict(
             ("answer-key", "Answer Key")),
     credits_h="Picture Credits", credits_sub="Images used in this book",
     unknown_author="Unknown author", lic_unknown="licence unknown", via="via", web="the web",
+    credits_note=("File titles, author names and licence codes are reproduced in "
+                  "their original form, as each licence requires."),
     no_grid="See the NEB specification grid for the current pattern.",
     boxes={"key": "Key point", "example": "Worked example", "caution": "Common mistake",
            "tip": "Exam tip", "definition": "Definition", "derivation": "Derivation",
@@ -76,6 +78,8 @@ NE.update(
             ("answer-key", "उत्तरकुञ्जी")),
     credits_h="चित्र श्रेय", credits_sub="यस पुस्तकमा प्रयोग भएका चित्र",
     unknown_author="अज्ञात रचनाकार", lic_unknown="अनुमतिपत्र अज्ञात", via="स्रोत:", web="इन्टरनेट",
+    credits_note=("फाइलको नाम, रचनाकारको नाम र अनुमतिपत्रको सङ्केत अनुमतिपत्रले "
+                  "माग गरेअनुसार मूल रूपमै राखिएका छन्।"),
     no_grid="हालको ढाँचाका लागि राष्ट्रिय परीक्षा बोर्डको विशिष्टीकरण तालिका हेर्नुहोस्।",
     boxes={"key": "मुख्य बुँदा", "example": "हल गरिएको उदाहरण", "caution": "सामान्य त्रुटि",
            "tip": "परीक्षा सुझाव", "definition": "परिभाषा", "derivation": "व्युत्पत्ति",
@@ -110,17 +114,100 @@ NE.update(
            "व्युत्पन्न कृति हो र मूल चित्रकै अनुमतिपत्रमा उपलब्ध गराइएको छ।"),
     cr_foot=("यहाँको कुनै चित्रको श्रेय वा अनुमतिपत्र गलत छ भन्ने लागेमा नेबियन्स एपमा जानकारी दिनुहोस्; "
              "अर्को संस्करणमा सच्याइनेछ वा हटाइनेछ।"),
-    summary_re="अध्यायको सारांश|एकाइको सारांश|सारांश|Chapter summary|Summary|Unit summary",
+    summary_re=("अध्यायको सारांश|एकाइको सारांश|पाठको सारांश|कथाको सारांश|एकाइको सार|पाठको सार|सारांश|Chapter summary|Summary|Unit summary"),
     qs_re="अभ्यास|प्रश्न|नमुना|पुनरावलोकन|Practice|Exercise|Review|Model|Self",
 )
 
 CUR = EN
+
+# The same pipeline prints the books for the basic level (grades 1-8) and for
+# the secondary level (grades 9-12). The furniture differs where it matters:
+# a Grade 8 book is basic level, examined by the local level, not a "Science
+# Stream" NEB book, and saying otherwise on the cover would be wrong.
+BASIC_EN = dict(
+    grade="Grade {g} · Basic Level (Grades 1–8)",
+    cover_sub=("Complete study notes for the CDC basic level curriculum, "
+               "Grades 1–8. Every unit of the official syllabus, with worked "
+               "examples, diagrams, tables, summaries, practice questions and "
+               "full answer keys."),
+    front_lead=("These notes cover the complete official curriculum for "
+                "{subject}, Grade {g}, as published by the Curriculum "
+                "Development Centre (CDC), Sanothimi. Grade 8 is assessed by "
+                "the Basic Education Examination, conducted by the local level "
+                "under the CDC assessment scheme."),
+    exam_h="Assessment pattern",
+    no_grid=("The basic level assessment scheme gives continuous (internal) "
+             "assessment 50 % weight and the written paper 50 %; confirm your "
+             "local level's grid."),
+)
+
+BASIC_NE = dict(
+    grade="कक्षा {g} · आधारभूत तह (कक्षा १–८)",
+    cover_sub=("पाठ्यक्रम विकास केन्द्रको आधारभूत तह (कक्षा १–८) पाठ्यक्रममा "
+               "आधारित सम्पूर्ण अध्ययन टिपोट — हल गरिएका उदाहरण, चित्र, तालिका, "
+               "सारांश, अभ्यास प्रश्न र पूर्ण उत्तरकुञ्जीसहित।"),
+    front_lead=("यी टिपोटले पाठ्यक्रम विकास केन्द्र, सानोठिमीले प्रकाशन गरेको "
+                "{subject}, कक्षा {g} को सम्पूर्ण आधिकारिक पाठ्यक्रम समेट्छन्। "
+                "कक्षा ८ को मूल्याङ्कन स्थानीय तहबाट सञ्चालित आधारभूत तह "
+                "परीक्षाबाट हुन्छ।"),
+    exam_h="मूल्याङ्कन ढाँचा",
+    no_grid=("आधारभूत तहको मूल्याङ्कन योजनाअनुसार आन्तरिक (निरन्तर) मूल्याङ्कनको "
+             "भार ५० प्रतिशत र लिखित परीक्षाको भार ५० प्रतिशत हुन्छ; आफ्नो "
+             "स्थानीय तहको विशिष्टीकरण तालिका पुष्टि गर्नुहोस्।"),
+)
+
+
+SEC_EN = dict(
+    grade="Grade {g} · Secondary Level (SEE)",
+    cover_sub=("Complete study notes for the CDC secondary education "
+               "curriculum (Grades 9–10), examined by the Secondary Education "
+               "Examination. Every unit of the official syllabus, with "
+               "derivations, worked examples, diagrams, tables, summaries and "
+               "practice questions with full model question papers."),
+    front_lead=("These notes cover the complete official curriculum for "
+                "{subject}, Grade {g}, as published by the Curriculum "
+                "Development Centre (CDC), Sanothimi, and examined by the "
+                "Secondary Education Examination (SEE) of the National "
+                "Examination Board."),
+)
+
+SEC_NE = dict(
+    grade="कक्षा {g} · माध्यमिक तह (कक्षा ९–१०)",
+    cover_sub=("पाठ्यक्रम विकास केन्द्रको माध्यमिक तह (कक्षा ९–१०) पाठ्यक्रममा "
+               "आधारित सम्पूर्ण अध्ययन टिपोट — व्युत्पत्ति, हल गरिएका उदाहरण, "
+               "चित्र, तालिका, सारांश र पूर्ण नमुना प्रश्नपत्रसहित अभ्यास प्रश्न।"),
+    front_lead=("यी टिपोटले पाठ्यक्रम विकास केन्द्र, सानोठिमीले प्रकाशन गरेको र "
+                "राष्ट्रिय परीक्षा बोर्डको माध्यमिक शिक्षा परीक्षाबाट "
+                "परीक्षा लिइने {subject}, कक्षा {g} को सम्पूर्ण आधिकारिक "
+                "पाठ्यक्रम समेट्छन्।"),
+)
+
+
+# Books the CDC publishes and the boards examine in Nepali. Their furniture,
+# their cover and every label the pipeline prints must be Nepali too — a
+# student reading सामाजिक अध्ययन should not meet a single Latin word.
+NEPALI_MEDIUM = ("nep", "soc", "health")
+
+
 def set_book(slug):
     global CUR
-    CUR = NE if slug.startswith("nep") else EN
+    m = re.match(r"([a-z]+)(\d+)", slug or "")
+    grade = int(m.group(2)) if m else 12
+    base = NE if (slug or "").startswith(NEPALI_MEDIUM) else EN
+    if grade <= 8:
+        CUR = dict(base, **(BASIC_NE if base is NE else BASIC_EN))
+    elif grade <= 10:
+        CUR = dict(base, **(SEC_NE if base is NE else SEC_EN))
+    else:
+        CUR = base
     return CUR
 
 _D = str.maketrans("0123456789", "०१२३४५६७८९")
+def num_str(s):
+    """Every ASCII digit in a string, in the book's numeral system."""
+    return str(s).translate(_D) if CUR["digits"] else str(s)
+
+
 def num(x):
     s = str(x)
     return s.translate(_D) if CUR["digits"] else s

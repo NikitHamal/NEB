@@ -148,7 +148,7 @@
   overflow: hidden;
 }
 
-.ix-card-footer { display: flex; gap: 14px; padding: 12px 16px 14px; }
+.ix-card-footer { display: flex; flex-wrap: wrap; gap: 6px 14px; padding: 12px 16px 14px; }
 
 .ix-card-meta {
   display: inline-flex;
@@ -157,6 +157,7 @@
   font-size: 0.75rem;
   font-weight: 600;
   color: var(--md-on-surface-variant);
+  white-space: nowrap;
 }
 
 .ix-card-meta .material-symbols-outlined { font-size: 16px; }

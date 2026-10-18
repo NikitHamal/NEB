@@ -209,7 +209,18 @@ export default function init(stage) {
     maxDistance: 40,
     enablePan: false,
   });
-  basicLights(scene);
+  // a photographer's studio: a soft gradient sweep, a warm key, a cool rim, a contact shadow
+  basicLights(scene, { ambient: 0.35, key: 1.9, fill: 0.6, rim: 0.9, rimColor: 0xbfd8ff });
+  const sweep = new THREE.Mesh(new THREE.SphereGeometry(60, 32, 16), new THREE.ShaderMaterial({
+    side: THREE.BackSide, depthWrite: false,
+    vertexShader: 'varying vec3 vP; void main(){ vP = normalize(position); gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.0); }',
+    fragmentShader: 'varying vec3 vP; void main(){ float t = clamp(vP.y*0.5+0.5,0.0,1.0); gl_FragColor = vec4(mix(vec3(0.05,0.08,0.13), vec3(0.18,0.25,0.36), t), 1.0); }',
+  }));
+  scene.add(sweep);
+  const shadowTex = (() => { const c = document.createElement('canvas'); c.width = c.height = 128; const g = c.getContext('2d'); const gr = g.createRadialGradient(64, 64, 0, 64, 64, 64); gr.addColorStop(0, 'rgba(0,0,0,0.55)'); gr.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = gr; g.fillRect(0, 0, 128, 128); return new THREE.CanvasTexture(c); })();
+  const contact = new THREE.Mesh(new THREE.PlaneGeometry(8, 8), new THREE.MeshBasicMaterial({ map: shadowTex, transparent: true, depthWrite: false }));
+  contact.rotation.x = -Math.PI / 2; contact.position.y = -2.6; scene.add(contact);
+  const glossy = (color) => new THREE.MeshPhysicalMaterial({ color, roughness: 0.22, metalness: 0, clearcoat: 1, clearcoatRoughness: 0.08, envMapIntensity: 1.1 });
 
   let group = null;
   let atomMeshes = [];
@@ -235,24 +246,25 @@ export default function init(stage) {
     labelSprites = [];
   }
 
-  function makeBondMesh(a, b, order) {
+  function makeBondMesh(a, b, order, colA = 0xb8c4d8, colB = 0xb8c4d8) {
+    // ball-and-stick kits colour each half of a bond like the atom it leaves from
     const meshes = [];
     const va = new THREE.Vector3(...a).multiplyScalar(S);
     const vb = new THREE.Vector3(...b).multiplyScalar(S);
     const dir = vb.clone().sub(va);
     const len = dir.length();
-    const mid = va.clone().add(vb).multiplyScalar(0.5);
     const up = Math.abs(dir.y) > 0.93 * len ? new THREE.Vector3(1, 0, 0) : new THREE.Vector3(0, 1, 0);
     const perp = dir.clone().cross(up).normalize();
     const offsets = order === 2 ? [-0.11, 0.11] : order === 3 ? [-0.16, 0, 0.16] : [0];
+    const q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.clone().normalize());
     offsets.forEach((off) => {
       const r = order >= 2 ? 0.07 : 0.1;
-      const geo = new THREE.CylinderGeometry(r, r, len, 10);
-      const mat = new THREE.MeshStandardMaterial({ color: 0xb8c4d8, roughness: 0.6 });
-      const mesh = new THREE.Mesh(geo, mat);
-      mesh.position.copy(mid).addScaledVector(perp, off * S);
-      mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.clone().normalize());
-      meshes.push(mesh);
+      [[va, colA], [vb, colB]].forEach(([from, col], k) => {
+        const half = new THREE.Mesh(new THREE.CylinderGeometry(r, r, len / 2, 16), glossy(new THREE.Color(col).lerp(new THREE.Color(0xffffff), 0.12)));
+        half.position.copy(from).addScaledVector(dir, k === 0 ? 0.25 : -0.25).addScaledVector(perp, off * S);
+        half.quaternion.copy(q);
+        meshes.push(half);
+      });
     });
     return meshes;
   }
@@ -295,8 +307,8 @@ export default function init(stage) {
     data.atoms.forEach((atom) => {
       const style = elementStyle(atom.el);
       const scale = data.ionic ? 0.85 : 1;
-      const geo = new THREE.SphereGeometry(style.r * S * scale, seg, seg);
-      const mat = new THREE.MeshStandardMaterial({ color: style.color, roughness: 0.4, metalness: 0.05 });
+      const geo = new THREE.SphereGeometry(style.r * S * scale, 48, 32);
+      const mat = glossy(style.color);
       const mesh = new THREE.Mesh(geo, mat);
       mesh.position.set(atom.p[0] * S, atom.p[1] * S, atom.p[2] * S);
       mesh.userData.el = atom.el;
@@ -313,7 +325,7 @@ export default function init(stage) {
       const a = bond.a !== undefined ? bond.a : bond[0];
       const b = bond.b !== undefined ? bond.b : bond[1];
       const order = bond.order !== undefined ? bond.order : bond[2];
-      makeBondMesh(data.atoms[a].p, data.atoms[b].p, order).forEach((m) => group.add(m));
+      makeBondMesh(data.atoms[a].p, data.atoms[b].p, order, elementStyle(data.atoms[a].el).color, elementStyle(data.atoms[b].el).color).forEach((m) => group.add(m));
     });
     scene.add(group);
     controls.setDistance(zoom);

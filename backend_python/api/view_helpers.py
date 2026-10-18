@@ -228,6 +228,43 @@ def _clear_verification_code(user):
     user.verification_code_attempts = 0
     user.verification_code_last_sent_at = 0
 
+def prime_for_serializers(user, posts=(), resources=(), replies=()):
+    """Batch everything PostSerializer / ResourceSerializer / ReplySerializer read per row.
+
+    Relations come in one query per relation instead of one per row, and the viewer's
+    like/bookmark/vote state comes back as a serializer context (posts, replies) or as
+    ``_viewer_*`` attributes (resources). Returns the context to merge."""
+    from django.db.models import prefetch_related_objects
+    ctx = {}
+    posts, resources, replies = list(posts), list(resources), list(replies)
+    if posts:
+        prefetch_related_objects(posts, 'user', 'images', 'media', 'poll__options')
+    if replies:
+        prefetch_related_objects(replies, 'user', 'media')
+    if resources:
+        prefetch_related_objects(resources, 'uploaded_by')
+    if not user:
+        return ctx
+    if posts:
+        ids = [p.id for p in posts]
+        ctx['liked_post_ids'] = set(PostLike.objects.filter(user=user, post_id__in=ids).values_list('post_id', flat=True))
+        ctx['bookmarked_post_ids'] = set(Bookmark.objects.filter(user=user, target_type='post', target_id__in=ids)
+                                         .values_list('target_id', flat=True))
+        ctx['user_poll_votes'] = dict(PollVote.objects.filter(poll__post_id__in=ids, user=user)
+                                      .values_list('poll_id', 'option_id'))
+    if resources:
+        rids = [r.pk for r in resources]
+        liked = set(ResourceLike.objects.filter(user=user, resource_id__in=rids).values_list('resource_id', flat=True))
+        marked = set(Bookmark.objects.filter(user=user, target_type='resource', target_id__in=[str(i) for i in rids])
+                     .values_list('target_id', flat=True))
+        for r in resources:
+            r._viewer_liked = r.pk in liked
+            r._viewer_bookmarked = str(r.pk) in marked
+        ctx['liked_resource_ids'] = liked
+        ctx['bookmarked_resource_ids'] = marked
+    return ctx
+
+
 def _paginated_response(request, queryset, serializer_class, *, context=None, default_page_size=50, max_page_size=100):
     paginator = PageNumberPagination()
     try:
@@ -239,36 +276,21 @@ def _paginated_response(request, queryset, serializer_class, *, context=None, de
 
     ctx = context or {}
     user = _get_user_from_request(request)
-    if user and page:
+    if page:
         if serializer_class == PostSerializer:
-            ids = [p.id for p in page]
-            ctx['liked_post_ids'] = set(PostLike.objects.filter(
-                user=user, post_id__in=ids
-            ).values_list('post_id', flat=True))
-            ctx['bookmarked_post_ids'] = set(Bookmark.objects.filter(
-                user=user, target_type='post', target_id__in=ids
-            ).values_list('target_id', flat=True))
-            ctx['user_poll_votes'] = dict(
-                PollVote.objects.filter(
-                    poll__post_id__in=ids, user=user
-                ).values_list('poll_id', 'option_id')
-            )
-        elif serializer_class == ReplySerializer:
-            ids = [r.id for r in page]
-            ctx['liked_reply_ids'] = set(ReplyLike.objects.filter(
-                user=user, reply_id__in=ids
-            ).values_list('reply_id', flat=True))
-            ctx['bookmarked_reply_ids'] = set(Bookmark.objects.filter(
-                user=user, target_type='reply', target_id__in=ids
-            ).values_list('target_id', flat=True))
+            ctx.update(prime_for_serializers(user, posts=page))
         elif serializer_class == ResourceSerializer:
-            ids = [r.id for r in page]
-            ctx['liked_resource_ids'] = set(ResourceLike.objects.filter(
-                user=user, resource_id__in=ids
-            ).values_list('resource_id', flat=True))
-            ctx['bookmarked_resource_ids'] = set(Bookmark.objects.filter(
-                user=user, target_type='resource', target_id__in=[str(value) for value in ids]
-            ).values_list('target_id', flat=True))
+            ctx.update(prime_for_serializers(user, resources=page))
+        elif serializer_class == ReplySerializer:
+            ctx.update(prime_for_serializers(user, replies=page))
+            if user:
+                ids = [r.id for r in page]
+                ctx['liked_reply_ids'] = set(ReplyLike.objects.filter(
+                    user=user, reply_id__in=ids
+                ).values_list('reply_id', flat=True))
+                ctx['bookmarked_reply_ids'] = set(Bookmark.objects.filter(
+                    user=user, target_type='reply', target_id__in=ids
+                ).values_list('target_id', flat=True))
 
     serializer = serializer_class(page, many=True, context=ctx)
     return paginator.get_paginated_response(serializer.data)

@@ -13,6 +13,9 @@ Wheels, coins, clocks, pizza and the Moon all show the circle, the most symmetri
 Expect: (i) **prove** a theorem: the angle at the centre is twice the angle at the circumference; angles in the same segment are equal; the angle in a semicircle is $90^\circ$; the opposite angles of a cyclic quadrilateral are supplementary (4 marks, figure required); (ii) find unknown angles, often with algebra such as $(2x+10)^\circ$; (iii) problems with **tangents**: tangent $\perp$ radius, two tangents from a point are equal, with Pythagoras; (iv) chord problems with a perpendicular from the centre. Always write **Given, To prove, Construction, Proof** and a reason beside every step.
 :::
 
+```photo id="math10/ferris-wheel" caption="A Ferris wheel. Every point on the rim is the same distance from the centre, and the whole rim turns about that fixed centre — the two facts that define a circle." width="86"
+```
+
 ## 15.1 Circle: concepts, formulas and worked problems
 
 ### Vocabulary and chords

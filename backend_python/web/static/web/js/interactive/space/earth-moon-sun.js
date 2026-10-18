@@ -1,4 +1,5 @@
 import { THREE, createEngine, createOrbitControls, makeLabelSprite } from '../core/engine.js';
+import { body, earthWithClouds, sun as makeSun, starfield } from '../core/space-kit.js';
 import { createPanel, createHud } from '../core/sim-ui.js';
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -30,25 +31,13 @@ export default function init(stage) {
   camera.position.set(0, 30, 58);
   let controls = createOrbitControls(camera, engine.canvas, { minDistance: 4, maxDistance: 160 });
 
-  const starGeo = new THREE.BufferGeometry();
-  const starCount = quality.tier === 'low' ? 600 : 1800;
-  const starPos = new Float32Array(starCount * 3);
-  for (let i = 0; i < starCount; i++) {
-    const r = 400 + Math.random() * 700;
-    const theta = Math.random() * Math.PI * 2;
-    const phi = Math.acos(2 * Math.random() - 1);
-    starPos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
-    starPos[i * 3 + 1] = r * Math.cos(phi);
-    starPos[i * 3 + 2] = r * Math.sin(phi) * Math.sin(theta);
-  }
-  starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
-  scene.add(new THREE.Points(starGeo, new THREE.PointsMaterial({ color: 0xbfd0e8, size: 1.3, sizeAttenuation: false })));
+  scene.add(starfield(quality, 1400));
 
   scene.add(new THREE.AmbientLight(0xffffff, 0.14));
   const sunLight = new THREE.PointLight(0xfff2d8, 2400, 0, 2);
   scene.add(sunLight);
 
-  const sun = new THREE.Mesh(new THREE.SphereGeometry(4.2, seg, seg), new THREE.MeshBasicMaterial({ color: 0xffc24d }));
+  const sun = makeSun(4.2, quality);
   scene.add(sun);
   const glow = new THREE.Sprite(new THREE.SpriteMaterial({
     map: makeGlowTexture('rgba(255,210,120,0.85)', 'rgba(255,170,60,0.32)'),
@@ -57,7 +46,7 @@ export default function init(stage) {
     color: 0xffb340,
   }));
   glow.scale.set(19, 19, 1);
-  sun.add(glow);
+  // the kit's sun carries its own corona
 
   const earthGroup = new THREE.Group();
   scene.add(earthGroup);
@@ -66,22 +55,8 @@ export default function init(stage) {
   tiltGroup.rotation.z = -TILT;
   earthGroup.add(tiltGroup);
 
-  const earth = new THREE.Mesh(
-    new THREE.SphereGeometry(1.5, seg, seg),
-    new THREE.MeshStandardMaterial({ color: 0x4d7fff, roughness: 0.75, metalness: 0.05 })
-  );
+  const earth = earthWithClouds(1.5, quality);
   tiltGroup.add(earth);
-
-  const landMat = new THREE.MeshStandardMaterial({ color: 0x3fae6a, roughness: 0.95, transparent: true, opacity: 0.85 });
-  for (let i = 0; i < 7; i++) {
-    const blob = new THREE.Mesh(new THREE.SphereGeometry(0.45 + Math.random() * 0.35, Math.max(8, seg / 3), Math.max(8, seg / 3)), landMat);
-    const th = Math.random() * Math.PI * 2;
-    const ph = Math.acos(2 * Math.random() - 1);
-    blob.position.setFromSphericalCoords(1.32, ph, th);
-    blob.scale.z = 0.35;
-    blob.lookAt(0, 0, 0);
-    earth.add(blob);
-  }
 
   const axisGeo = new THREE.CylinderGeometry(0.04, 0.04, 5.4, 8);
   const axis = new THREE.Mesh(axisGeo, new THREE.MeshBasicMaterial({ color: 0xff6b81 }));
@@ -96,10 +71,7 @@ export default function init(stage) {
 
   const moonPivot = new THREE.Group();
   earthGroup.add(moonPivot);
-  const moon = new THREE.Mesh(
-    new THREE.SphereGeometry(0.42, Math.max(10, seg / 2), Math.max(10, seg / 2)),
-    new THREE.MeshStandardMaterial({ color: 0xb8b8b8, roughness: 1 })
-  );
+  const moon = body('moon', 0.42, quality);
   moon.position.x = MOON_DIST;
   moonPivot.add(moon);
 

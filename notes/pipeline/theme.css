@@ -108,6 +108,8 @@ h4 { font-family:Inter,sans-serif; font-size:9.6pt; font-weight:700; color:var(-
      break-after:avoid; text-align:left; }
 p { margin:0 0 2.4mm 0; orphans:2; widows:2; }
 ul,ol { margin:0 0 2.8mm 0; padding-left:6mm; }
+li.num { list-style-type:none; }
+html:lang(ne) ol:not([class]) { list-style-type:devanagari; }
 li { margin:.9mm 0; }
 li > p { margin:0 0 1mm 0; }
 strong { font-weight:600; color:var(--ink); }
@@ -125,6 +127,19 @@ pre code { background:none; padding:0; color:var(--ink); }
 img.im { vertical-align:baseline; }
 .dm { display:block; text-align:center; margin:3.4mm 0; break-inside:avoid; }
 .dm img { max-width:96%; }
+
+/* Nepali formulas are typeset as text (devaeqn.py), not as a mathtext image:
+   the script needs real shaping. Only the fraction needs geometry. */
+.eqx { font-family:"Noto Sans Devanagari",Inter,sans-serif; font-size:10.3pt;
+       line-height:1.1; color:#14181f; }
+.eqx.eqd { font-size:11.6pt; }
+.eqx .fr { display:inline-block; vertical-align:-0.62em; text-align:center;
+           margin:0 0.22em; }
+.eqx .fr .fn { display:block; padding:0 0.34em 0.5mm;
+               border-bottom:0.6pt solid #14181f; }
+.eqx .fr .fd { display:block; padding:0.5mm 0.34em 0; }
+.eqx .sq .sqb { border-top:0.6pt solid #14181f; padding:0 0.14em; }
+.eqx sub, .eqx sup { font-size:0.72em; }
 .dm.numbered { position:relative; }
 .dm .eqno { position:absolute; right:0; top:50%; font-family:Inter,sans-serif;
             font-size:8.6pt; color:var(--muted); }
@@ -258,7 +273,7 @@ ol.q > li, .qsec ol > li { break-inside:avoid; }
 
 /* ---------- chapter summary ----------
    The page students actually revise from, so it gets a frame of its own. */
-.chsum { display:block; break-inside:avoid; margin:7mm 0 5mm 0;
+.chsum { display:block; break-inside:auto; margin:7mm 0 5mm 0;
          background:linear-gradient(180deg,var(--accent-wash) 0%,#ffffff 78%);
          border:.3mm solid var(--accent); border-radius:1.6mm;
          padding:5mm 6mm 4mm 6mm; }
@@ -266,7 +281,22 @@ ol.q > li, .qsec ol > li { break-inside:avoid; }
             color:var(--accent); border-bottom:.3mm solid var(--accent); }
 .chsum h2::before { content:"\2713\00a0\00a0"; font-weight:700; }
 .chsum ul, .chsum ol { padding-left:5.5mm; margin-bottom:0; }
-.chsum li { margin:1.2mm 0; text-align:left; }
+.chsum li { margin:1.2mm 0; text-align:left; break-inside:avoid; }
+/* A summary of short points reads as a card of facts, two to a row. */
+.chsum ul.cols2 { columns:2; column-gap:7mm; }
+.chsum ul.cols2 li { margin:0 0 1.6mm 0; }
 .chsum p { text-align:left; }
 .chsum table { background:#fff; }
 .chsum > :last-child { margin-bottom:0; }
+
+
+/* ---------- page economy ---------- */
+/* A heading at the foot of a page with its text overleaf is a wasted line and
+   an orphaned thought; keep each heading with what follows it. */
+h2, h3, h4 { break-after:avoid-page; }
+figure, table, .box, .chsum { break-before:auto; }
+/* Long tables repeat their header rather than losing it at a page turn. */
+thead { display:table-header-group; }
+tr { break-inside:avoid; }
+/* Two short paragraphs should not be split across a page turn. */
+p, li { orphans:2; widows:2; }

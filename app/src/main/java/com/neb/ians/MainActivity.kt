@@ -39,6 +39,7 @@ class MainActivity : ComponentActivity() {
     @Inject lateinit var authRepository: AuthRepository
     @Inject lateinit var realtimeClient: RealtimeClient
     @Inject lateinit var inAppUpdateHelper: InAppUpdateHelper
+    @Inject lateinit var siteThemeRepository: com.neb.ians.data.theme.SiteThemeRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,11 +86,23 @@ class MainActivity : ComponentActivity() {
                 onDispose {}
             }
 
-            NEBiansTheme(darkTheme = isDarkMode) {
-                NEBiansNavHost(
-                    settingsViewModel = settingsViewModel,
-                    authRepository = authRepository
+            val siteTheme by siteThemeRepository.theme.collectAsState()
+            val dismissedCards by siteThemeRepository.dismissed.collectAsState()
+            androidx.compose.runtime.LaunchedEffect(Unit) { siteThemeRepository.refresh() }
+            val themeState = siteTheme.let { t ->
+                com.neb.ians.ui.theme.SiteThemeState(
+                    theme = t,
+                    cardOpen = t != null && siteThemeRepository.dismissKey(t) !in dismissedCards,
+                    onDismissCard = { t?.let(siteThemeRepository::dismissCard) },
                 )
+            }
+            NEBiansTheme(darkTheme = isDarkMode) {
+                androidx.compose.runtime.CompositionLocalProvider(com.neb.ians.ui.theme.LocalSiteTheme provides themeState) {
+                    NEBiansNavHost(
+                        settingsViewModel = settingsViewModel,
+                        authRepository = authRepository
+                    )
+                }
             }
         }
     }
@@ -201,11 +214,11 @@ class MainActivity : ComponentActivity() {
 
     private companion object {
         /**
-         * Long enough to clear the splash, which runs just under 4 seconds,
+         * Long enough to clear the splash, which runs about 1.5 seconds,
          * with a margin. If the timeline in SplashScreen changes, change this
          * with it.
          */
-        const val STARTUP_DEFERRAL_MS = 4_400L
+        const val STARTUP_DEFERRAL_MS = 2_200L
         const val REQUEST_CODE_NOTIFICATIONS = 101
     }
 }

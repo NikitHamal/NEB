@@ -204,6 +204,25 @@ tint 0.04
 
 **कविताको जीवनदृष्टि.** कविले नियति वा भाग्यको कुरा गरेनन्। उनको विश्वास छ — मान्छेको कर्मले उसको अवस्था बदल्छ। यो दृष्टि आजका किशोरका लागि अझ उपयोगी छ, किनकि परीक्षा, रोजगार र जीवनका निर्णय सबैमा अन्ततः आफ्नै मिहिनेत काम लाग्छ।
 
+```figure caption="अनुष्टुप छन्दको नाप। चार पाउ, हरेकमा आठ अक्षर — जम्मा ३२। परीक्षामा छन्द पहिचान गर्दा यही नाप जोखेर देखाउनुपर्छ।"
+fig, ax = plt.subplots(figsize=(4.8, 2.7))
+ax.set_xlim(0, 10.4)
+ax.set_ylim(0, 5.6)
+ax.axis("off")
+pads = ["पहिलो पाउ", "दोस्रो पाउ", "तेस्रो पाउ", "चौथो पाउ"]
+for i, name in enumerate(pads):
+    y = 4.45 - i * 1.12
+    ax.text(0.1, y, name, fontsize=7.4, va="center", color=INK)
+    for j in range(8):
+        ax.add_patch(plt.Rectangle((2.35 + j * 0.86, y - 0.32), 0.78, 0.64,
+                                   fill=False, ec=GRID, lw=1.0))
+    ax.text(9.75, y, "८", fontsize=7.4, va="center", ha="center", color=ACCENT)
+ax.text(9.75, 5.05, "अक्षर", fontsize=7.0, ha="center", color=ACCENT)
+ax.text(0.1, 0.28, "हरेक पाउमा आठ अक्षर भए छन्द अनुष्टुप हो — जम्मा ३२ अक्षर।",
+        fontsize=6.9, color=MUTED)
+fig.tight_layout()
+```
+
 ## १.७ भाषाशैली, छन्द र अलङ्कार
 
 ### अनुष्टुप छन्द
@@ -251,6 +270,28 @@ tint 0.04
 | मानवीकरण | भावना हाँस्छन्, जिन्दगी बाँच्छन् | निर्जीव कुरामा मान्छेको काम आरोपित छ |
 
 **लयबद्ध वाचनको सुझाव.** आठ–आठ अक्षरमा हल्का रोकिँदै पढ्नुहोस्: 'जसका भावना हाँस्छन् (रोक) मनमा रागिनी भरी (रोक)'। हरफको अन्त्यमा 'भरी'–'छरी' पढ्दा आवाज तल झार्नुहोस्।
+
+```figure caption="कविताका चार मूल भाव। कविले भनेका चार कुरा मिलेर 'उज्यालो यात्रा' पूरा हुन्छ — यही नक्सा व्याख्यामा लेख्दा चारै बुँदा समेटिन्छन्।"
+fig, ax = plt.subplots(figsize=(4.9, 2.9))
+ax.set_xlim(0, 10)
+ax.set_ylim(0, 6)
+ax.axis("off")
+ax.text(5, 5.35, "उज्यालो यात्रा : जीवनको मूल मन्त्र", ha="center", fontsize=7.8,
+        color=INK, bbox=dict(boxstyle="round,pad=0.35", fc="white", ec=INK, lw=1.2))
+items = [("कर्म", "चन्दनझैँ घसिएर\nसुगन्ध दिनु"),
+         ("सङ्कल्प", "इच्छाशक्तिले\nबाटो खोल्नु"),
+         ("दान", "लिनुभन्दा दिनुमा\nखुसी पाउनु"),
+         ("प्रेम", "डाह मेटाउने\nएक मात्र औषधी")]
+for i, (head, tail) in enumerate(items):
+    x = 1.3 + i * 2.5
+    ax.plot([5, x], [4.85, 4.05], color=MUTED, lw=1.0)
+    ax.text(x, 3.5, head, ha="center", fontsize=8.0, color=ACCENT,
+            bbox=dict(boxstyle="round,pad=0.3", fc="white", ec=ACCENT, lw=1.0))
+    ax.text(x, 2.35, tail, ha="center", va="center", fontsize=6.8, color=INK)
+ax.text(5, 0.85, "चारै बाटो हिँड्ने मान्छेको जीवन उज्यालो हुन्छ भन्ने कविको सन्देश हो।",
+        ha="center", fontsize=6.9, color=MUTED)
+fig.tight_layout()
+```
 
 ## १.८ पाठमा आधारित व्याकरण
 

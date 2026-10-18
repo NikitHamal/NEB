@@ -822,7 +822,7 @@ def canvas_page(request):
         from django.shortcuts import redirect
         from django.urls import reverse
         login_url = reverse('web:login')
-        return redirect(f"{login_url}?next=/canvas/")
+        return redirect(f"{login_url}?next=/app/canvas/")
     boards = []
     current_board = None
     current_board_id = request.GET.get('board') or request.GET.get('b') or ''
@@ -952,7 +952,7 @@ def ajax_canvas_board_share(request, board_id):
         board.share_token = (uuid.uuid4().hex + uuid.uuid4().hex)[:48]
         board.shared_at = now_ms()
         board.save(update_fields=['share_token', 'shared_at'])
-    return JsonResponse({'enabled': True, 'url': f'/canvas/shared/{board.share_token}/'})
+    return JsonResponse({'enabled': True, 'url': f'/app/canvas/shared/{board.share_token}/'})
 
 
 @never_cache

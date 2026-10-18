@@ -1,620 +1,1112 @@
 ---
-subject: Social Studies and Human Value Education
+subject: सामाजिक अध्ययन तथा मानव मूल्य शिक्षा
 grade: 10
 unit: 5
-title: Civic Consciousness
+title: नागरिक चेतना
 hours: 0
-area: Units
+area: एकाइ
 ---
 
-Civic consciousness is the awareness of how our country is governed, of the rights and duties of citizens and of the way citizens can take part. In a democracy the power belongs to the people, but the people use it through institutions: a legislature that makes laws, an executive that carries them out, a judiciary that decides disputes, political parties that organise the contest for power, and elections that let citizens choose. This unit studies each of these as set up by the **Constitution of Nepal, 2072 (2015)**, and then the rights that protect every person — human rights and consumer rights. The facts here are numbers, names and procedures, so the unit is high-scoring for those who revise it carefully.
+गाउँको सडक कालोपत्रे गर्ने बजेट कसले पास गर्छ? सडक बनाउने ठेकेदारले काम बिगार्‍यो
+भने कसले कारबाही गर्छ? पसलेले म्याद नाघेको बिस्कुट बेच्यो भने हामी कहाँ उजुरी गर्छौँ?
+यी सबै प्रश्नको उत्तर **नागरिक चेतना** मा छ।
+राज्यका अङ्ग, दल, निर्वाचन, मानव अधिकार र उपभोक्ता अधिकार बुझेको नागरिकले मात्र आफ्नो
+हक माग्न र कर्तव्य निभाउन सक्छ। यस एकाइमा यिनै विषय पढ्नेछौँ।
 
-::: key What the SEE paper expects from this unit
-Frequent questions: "Write any four functions of the legislature / the judiciary" (2–4 marks); "How is the Prime Minister appointed?" (2 marks); "What is human rights? Write any four human rights" (2 marks); "Explain the role of citizens in elections" (4 marks); "What are consumer rights? Write any four" (2–4 marks). Know the **numbers**: 275 and 59 members of the Federal Parliament; five-year and six-year terms; 3 levels of courts; 18 years for voting; 30 articles of the UDHR; 10 December Human Rights Day.
+::: key यस एकाइबाट परीक्षाले खोज्ने कुरा
+राज्यका तीन अङ्गको परिचय, गठन, कार्य र **अन्तरसम्बन्ध** (प्रतिनिधि सभा २७५ = १६५ +
+११०, राष्ट्रिय सभा ५९ = ५६ + ३, प्रदेश सभा ५५० = ३३० + २२०); विधेयक कानुन बन्ने
+प्रक्रिया; धारा ७६ अनुसार प्रधानमन्त्री नियुक्ति; तीन तहका अदालत; राजनीतिक दलको
+परिभाषा, इतिहास, दर्ताका सर्त, हित अभिव्यक्ति र हित संयुक्तीकरण; निर्वाचन प्रक्रिया,
+मतदाता नामावली, परिचयपत्र, मतदान अधिकृत र नागरिकको भूमिका; मानव अधिकारको
+अवधारणा, विश्वव्यापी घोषणापत्र (१९४८, ३० धारा) र वैवाहिक स्वतन्त्रता; राष्ट्रिय मानव
+अधिकार आयोग, इन्सेक र एम्नेस्टी इन्टरनेसनल; उपभोक्ता अधिकार, संविधानको धारा ४४ र
+उपभोक्ता संरक्षण ऐन, २०७५। लामो प्रश्नमा **परिभाषा → बुँदागत व्याख्या र उदाहरण →
+निष्कर्ष** को ढाँचा अपनाउनुहोस्।
 :::
 
-### The separation of powers
+## ५.१ व्यवस्थापिका
 
-No single person or body should hold all the power of the state. The constitution divides it among three organs, which check each other.
+पाठ्यपुस्तकमा श्री चतुर्भुजेश्वर माध्यमिक विद्यालयका कक्षा १० का विद्यार्थीले सामाजिक
+शिक्षकको सहयोगमा सङ्घीय संसद् भवनको **स्रोता कक्ष** मा बसेर प्रतिनिधि सभाको बैठक
+अवलोकन गरेको प्रसङ्ग छ। सभामुखले बैठक प्रारम्भ भएको घोषणा गरेपछि कार्यतालिकाअनुसार
+तोकिएका सांसदले समसामयिक विषयमा धारणा राखे र सभामुखले बैठक समाप्त भएको घोषणा
+गरे। त्यसपछि विद्यार्थीले सङ्घीय संसद्का **महासचिव** सँग कुराकानी गरी निष्कर्ष कक्षामा
+यसरी प्रस्तुत गरे।
 
-```figure caption="The three organs of the state and how they check one another."
-import matplotlib.pyplot as plt
-from matplotlib.patches import FancyBboxPatch
-fig, ax = plt.subplots(figsize=(4.8,3.2))
-ax.set_xlim(0,12); ax.set_ylim(0,8); ax.axis('off')
-def box(x,y,w,h,t,s,c):
-    ax.add_patch(FancyBboxPatch((x,y),w,h,boxstyle='round,pad=0.05',fc=c,ec='none'))
-    ax.text(x+w/2,y+h*0.68,t,ha='center',va='center',color='white',fontsize=9,weight='bold')
-    ax.text(x+w/2,y+h*0.28,s,ha='center',va='center',color='white',fontsize=7.5)
-box(3.8,5.2,4.4,2.3,'Legislature','makes laws,\napproves budget',ACCENT)
-box(0.2,0.6,4.4,2.3,'Executive','carries out laws,\nruns government','#2e6da4')
-box(7.4,0.6,4.4,2.3,'Judiciary','interprets laws,\ngives justice','#4f8bbf')
-kw=dict(arrowstyle='<->',color=INK,lw=1.1)
-ax.annotate('',xy=(3.6,5.5),xytext=(2.4,2.95),arrowprops=kw)
-ax.annotate('',xy=(8.4,5.5),xytext=(9.6,2.95),arrowprops=kw)
-ax.annotate('',xy=(4.7,1.75),xytext=(7.3,1.75),arrowprops=kw)
-ax.text(0.2,4.6,'questions,\nno-confidence,\nbudget control',fontsize=7,color=INK,ha='left',va='center')
-ax.text(11.8,4.6,'judicial review,\nimpeachment',fontsize=7,color=INK,ha='right',va='center')
-ax.text(6,1.2,'courts check\nexecutive acts',fontsize=7,color=INK,ha='center',va='center')
+::: definition व्यवस्थापिका
+राज्यका तीन अङ्गमध्ये जनताका प्रतिनिधि मिलेर **कानुन निर्माण गर्ने प्रतिनिधिमूलक
+संस्था** लाई व्यवस्थापिका भनिन्छ। नेपालमा प्रतिनिधि सभा र राष्ट्रिय सभा गरी **दुई
+सदनात्मक** सङ्घीय व्यवस्थापिका छ; दुवै सदनको संयुक्त रूपलाई **सङ्घीय संसद्** भनिन्छ।
+:::
+
+```photo id="soc10/parliament" caption="नयाँ बानेश्वरस्थित सङ्घीय संसद् भवन। यहीँ प्रतिनिधि सभा र राष्ट्रिय सभाका बैठक बस्छन्, विधेयकमाथि छलफल हुन्छ र बजेट पारित हुन्छ।" width="66"
 ```
 
-## 5.1 Legislature
+### प्रतिनिधि सभाको गठन प्रक्रिया
 
-### Meaning
+प्रतिनिधि सभामा कुल **२७५** सदस्य हुन्छन्। पहिलो हुने निर्वाचित हुने निर्वाचन
+प्रणालीका लागि देशलाई **१६५ सङ्घीय निर्वाचन क्षेत्र** मा बाँडिएको छ र प्रत्येक क्षेत्रबाट
+सबैभन्दा बढी मत पाउने एक जना निर्वाचित हुन्छन्। समानुपातिक प्रणालीमा भने सिङ्गो
+देशलाई एउटै निर्वाचन क्षेत्र मानेर **राजनीतिक दललाई** मत दिइन्छ र दलले पाएको मतको
+अनुपातमा ११० सिट बाँडिन्छ।
 
-::: definition Legislature
-The legislature is the organ of government that makes laws, approves the budget and controls the executive on behalf of the people.
-:::
-
-### Federal Parliament
-
-The legislature of Nepal at the federal level is the **Federal Parliament** (*Sangheeya Sansad*), made up of the **President** and two Houses: the **House of Representatives** (*Pratinidhi Sabha*) and the **National Assembly** (*Rastriya Sabha*).
-
-| | House of Representatives | National Assembly |
+| सदन | निर्वाचन प्रणाली | सदस्य सङ्ख्या |
 |---|---|---|
-| Nature | Lower house, the main house | Upper house, permanent house |
-| Members | **275** | **59** |
-| How elected | 165 by first-past-the-post from single-member constituencies; 110 by proportional representation (party lists) from the whole country | 56 elected, eight from each province, by an electoral college of provincial assembly members and the chiefs and deputy chiefs of local levels; 3 nominated by the President on the government's recommendation |
-| Term | 5 years (unless dissolved earlier) | 6 years; one-third of members retire every 2 years |
-| Minimum age | 25 | 35 |
-| Head | Speaker | Chairperson |
-| Special role | The Prime Minister must have its majority support; money bills start here | Reviews bills passed by the House of Representatives; represents the provinces |
+| प्रतिनिधि सभा | पहिलो हुने निर्वाचित हुने (६० प्रतिशत) | १६५ |
+| | समानुपातिक (४० प्रतिशत) | ११० |
+| | **जम्मा** | **२७५** |
+| राष्ट्रिय सभा | प्रत्येक प्रदेशबाट ८ जनाका दरले ७ प्रदेशबाट निर्वाचित | ५६ |
+| | नेपाल सरकार (प्रधानमन्त्री) को सिफारिसमा राष्ट्रपतिबाट मनोनीत (कम्तीमा एक महिला) | ३ |
+| | **जम्मा** | **५९** |
+| प्रदेश सभा (सातै प्रदेश) | पहिलो हुने निर्वाचित हुने (६० प्रतिशत) | ३३० |
+| | समानुपातिक (४० प्रतिशत) | २२० |
+| | **जम्मा** | **५५०** |
 
-Among the National Assembly's 56 elected members, from each province there are at least three women, one Dalit and one person with a disability or from a minority. Each political party must make sure that at least **one-third of its elected members** in the federal parliament are women.
+*हिसाब जाँच: १६५ + ११० = २७५ (६०:४०); ७ × ८ = ५६; ३३० + २२० = ५५०। अङ्क मिल्छन्।*
 
-```photo id="soc10/parliament" caption="The Federal Parliament building (Sansad Bhawan) at New Baneshwor, Kathmandu, where the House of Representatives and the National Assembly meet." width="80"
+```figure caption="सङ्घीय र प्रादेशिक व्यवस्थापिकाको बनोट। गाढा भाग पहिलो हुने निर्वाचित हुने वा निर्वाचित सदस्य, हल्का भाग समानुपातिक वा मनोनीत सदस्य।"
+fig, ax = plt.subplots(figsize=(5.8, 2.4))
+rows = [("प्रदेश सभा", 330, 220, "३३० + २२०"), ("राष्ट्रिय सभा", 56, 3, "५६ + ३"), ("प्रतिनिधि सभा", 165, 110, "१६५ + ११०")]
+for i, (n, a, b, t) in enumerate(rows):
+    ax.barh(i, a, color=ACCENT, height=0.55)
+    ax.barh(i, b, left=a, color="#9cc3e6", height=0.55)
+    ax.text(a + b + 8, i, f"{t} = {a + b}", va="center", fontsize=8, color=INK)
+ax.set_yticks(range(3)); ax.set_yticklabels([r[0] for r in rows], fontsize=8.4)
+ax.set_xlim(0, 700); ax.set_xlabel("सदस्य सङ्ख्या", fontsize=8, color=MUTED)
+ax.spines[["top", "right"]].set_visible(False)
+ax.grid(axis="x", color=GRID, lw=0.6); ax.set_axisbelow(True)
+ax.tick_params(axis="x", labelsize=7.6)
 ```
 
-### Provincial and local legislatures
+प्रतिनिधि सभामा एक जना **सभामुख** र एक जना **उपसभामुख** हुन्छन्; यी दुई **फरक दल र
+फरक लिङ्ग** का हुनुपर्छ (धारा ९१)। प्रतिनिधि सभाको कार्यकाल **पाँच वर्ष** हुन्छ।
 
-Each province has a **Provincial Assembly**, whose members are elected by the people (a mixture of first-past-the-post and proportional seats). Each municipality and rural municipality has an **Assembly** (*Gaun/Nagar Sabha*) made up of the elected chief, deputy chief, ward chairs and ward members, and it makes local laws. Thus all three tiers of the federal system have lawmaking bodies.
+### राष्ट्रिय सभा
 
-### Functions of the legislature
+राष्ट्रिय सभा **स्थायी सदन** हो — यो कहिल्यै पूरै विघटन हुँदैन। यसमा ५९ सदस्य हुन्छन्:
+प्रत्येक प्रदेशबाट ८ जनाका दरले निर्वाचित ५६ जना र नेपाल सरकारको सिफारिसमा
+राष्ट्रपतिबाट मनोनीत ३ जना। प्रत्येक प्रदेशका ८ जनामा कम्तीमा ३ महिला, १ दलित र १
+अपाङ्गता भएका व्यक्ति वा अल्पसङ्ख्यक हुनुपर्छ (धारा ८६)। सदस्यको पदावधि **छ वर्ष**
+हुन्छ र हरेक **दुई वर्षमा एकतिहाइ** सदस्यको पदावधि सकिन्छ, त्यसैले सदन निरन्तर रहन्छ।
+राष्ट्रिय सभामा एक **अध्यक्ष** र एक **उपाध्यक्ष** हुन्छन्, जसमध्ये एक जना महिला हुनुपर्छ।
 
-1. **Makes laws** (*kanun nirman*) and amends or repeals old ones.
-2. **Approves the budget** and controls government spending and taxation.
-3. **Controls the executive** through questions, discussion, committees and the power to remove a government by a vote of no confidence.
-4. **Elects or confirms people**: the Speaker, the Prime Minister (by majority support), and takes part in electing the President and Vice-President together with the provincial assemblies.
-5. **Approves treaties** and agreements with other countries.
-6. **Amends the constitution** by a two-thirds majority of each house.
-7. **Hears impeachment** of the President, Vice-President, judges and holders of constitutional posts, and **represents the people** by discussing public issues.
+### सङ्घीय संसद्का सदस्य हुन आवश्यक योग्यता (धारा ८७)
 
-### How a bill becomes law
+(क) नेपालको नागरिक; (ख) प्रतिनिधि सभाका लागि **२५ वर्ष** र राष्ट्रिय सभाका लागि **३५
+वर्ष** उमेर पूरा भएको; (ग) नैतिक पतन देखिने फौजदारी कसुरमा सजाय नपाएको; (घ) कुनै
+सङ्घीय कानुनले अयोग्य नठहराएको; (ङ) कुनै लाभको पदमा बहाल नरहेको।
 
-```figure caption="Steps for a bill to become a law in the Federal Parliament."
-import matplotlib.pyplot as plt
-from matplotlib.patches import FancyBboxPatch
-fig, ax = plt.subplots(figsize=(4.8,2.4))
-ax.set_xlim(0,12.4); ax.set_ylim(0,5.2); ax.axis('off')
-steps=['Bill\nintroduced','Discussion,\ncommittee','Vote,\nfirst house','Second\nhouse','President\nassents']
-for i,s in enumerate(steps):
-    x=0.1+i*2.5
-    ax.add_patch(FancyBboxPatch((x,2.0),2.1,1.6,boxstyle='round,pad=0.05',fc='#e8f0f8',ec=ACCENT,lw=1))
-    ax.text(x+1.05,2.8,s,ha='center',va='center',fontsize=7,color=INK)
-    if i<4:
-        ax.annotate('',xy=(x+2.48,2.8),xytext=(x+2.17,2.8),arrowprops=dict(arrowstyle='->',color=MUTED,lw=1))
-ax.annotate('',xy=(11.15,1.0),xytext=(11.15,1.9),arrowprops=dict(arrowstyle='->',color=ACCENT,lw=1.2))
-ax.text(11.15,0.55,'Becomes an Act (law)',ha='right',va='center',fontsize=9,weight='bold',color=ACCENT)
-ax.text(6.2,4.5,'A money bill starts only in the House of Representatives',ha='center',va='center',fontsize=7.5,color=MUTED)
-```
+### व्यवस्थापिकाका कार्य
 
-A bill is first introduced, discussed in principle, studied clause by clause (often in a committee) and voted on. After the first house passes it, the second house considers it. A bill passed by both houses is presented to the **President**, who gives assent within fifteen days; after assent it becomes an **Act**. Money bills (such as the finance bill) may be introduced only in the House of Representatives, and the National Assembly can only give suggestions.
+व्यवस्थापिकालाई प्रतिनिधिमार्फत **जनताको इच्छा व्यक्त गर्ने प्रमुख थलो** मानिन्छ। यसले
+जनभावनाको प्रतिनिधित्व गरी कानुन र नीति बनाउँछ।
 
-### Importance
+| कार्यको प्रकार | मुख्य काम |
+|---|---|
+| कानुनी कार्य | विधेयक प्रस्तुत गर्ने, दफावार छलफल गर्ने, औचित्यमा बहस गर्ने, आवश्यक भए परिमार्जन गर्ने, पारित गर्ने र प्रमाणीकरणका लागि राष्ट्रपतिसमक्ष पठाउने |
+| संसदीय निगरानी | सरकार गठन गर्ने; जनसरोकारका विषयमा सरकारलाई प्रश्न सोध्ने र ध्यानाकर्षण गराउने; अविश्वासको प्रस्ताव ल्याउने; महाअभियोग लगाउने |
+| आर्थिक कार्य | करको दर निर्धारण गर्ने, सरकारी बजेट स्वीकृत गर्ने र बजेटमाथि नियन्त्रण गर्ने |
+| संविधानसम्बन्धी कार्य | सामान्य कानुन साधारण बहुमतले संशोधन गर्ने; संविधान दुईतिहाइ बहुमतले संशोधन गर्ने |
 
-The legislature is the voice of the people, the guardian of the budget, the maker of the rules that all must follow and the place where the government is made answerable. A parliament can work well only when members attend regularly, discuss seriously and listen to the opposition.
+### विधेयक कानुन बन्ने प्रक्रिया
 
-## 5.2 Federal executive
-
-### Meaning
-
-::: definition Executive
-The executive is the organ of government that carries out the laws, runs the administration and makes and implements policies and plans.
+::: definition विधेयक
+संसद्मा छलफलका लागि प्रस्तुत गरिने **कानुनको मसौदा** लाई विधेयक भनिन्छ। विधेयक
+संसद्बाट पारित भई राष्ट्रपतिबाट प्रमाणीकरण भएपछि मात्र कानुन बन्छ।
 :::
 
-### The federal executive of Nepal
+विधेयक सङ्घीय संसद्को जुनसुकै सदनमा प्रस्तुत गर्न सकिन्छ, तर **अर्थ विधेयक**
+(कर, बजेट र सरकारी खर्चसम्बन्धी) **प्रतिनिधि सभामा मात्र** प्रस्तुत हुन्छ। देश र जनताको
+हितलाई सर्वोपरि राखेर छलफल गर्नुपर्छ। एउटा सदनले पारित गरेपछि विधेयक अर्को सदनमा
+जान्छ; त्यहाँ पनि पारित भएपछि राष्ट्रपतिसमक्ष पेस हुन्छ। राष्ट्रपतिले **१५ दिनभित्र**
+प्रमाणीकरण गर्नुपर्छ। सुधार गर्नुपर्ने लागेमा राष्ट्रपतिले (अर्थ विधेयकबाहेक) एक पटक
+फिर्ता पठाउन सक्छन्। दुवै सदनले पुनः विचार गरी पारित गरेर फेरि पठाएपछि भने
+राष्ट्रपतिले प्रमाणीकरण गर्नै पर्छ।
 
-Under the Constitution (Article 75) the executive power of Nepal is vested in the **Council of Ministers**. The structure is as follows.
+```figure caption="विधेयक कानुन बन्ने प्रक्रिया। राष्ट्रपतिले फिर्ता पठाएको विधेयक दुवै सदनले फेरि पारित गरे प्रमाणीकरण गर्नै पर्छ।"
+fig, ax = flow([("प्रस्तुति", "कुनै\nसदनमा"),
+                ("छलफल", "दफावार\nबहस"),
+                ("सदन १", "पारित"),
+                ("सदन २", "पारित"),
+                ("राष्ट्रपति", "१५ दिनभित्र\nप्रमाणीकरण")],
+               figsize=(5.9, 1.95))
+```
 
-| Post | How selected | Main role |
+**प्रदेश व्यवस्थापिका:** प्रत्येक प्रदेशमा **एक सदनात्मक** प्रदेश सभा हुन्छ। यसमा ६०
+प्रतिशत सदस्य पहिलो हुने निर्वाचित हुने र ४० प्रतिशत समानुपातिक प्रणालीबाट निर्वाचित
+हुन्छन्। सातै प्रदेश सभामा जम्मा ३३० + २२० = **५५०** सदस्य छन्। प्रदेश सभाले आफ्नो
+प्रदेशका लागि आवश्यक कानुन बनाउँछ।
+
+::: example प्रतिनिधि सभा र राष्ट्रिय सभाको तुलना
+| आधार | प्रतिनिधि सभा | राष्ट्रिय सभा |
 |---|---|---|
-| **President** (head of state) | Elected for **5 years** by an electoral college of the members of the Federal Parliament and the provincial assemblies; a person may hold the post for at most two terms | The symbol of national unity; formal acts of the state are done in the President's name; gives assent to bills; appoints the Prime Minister and judges on recommendation; Supreme Commander of the army on the Prime Minister's advice; acts on the advice of the Council of Ministers |
-| **Vice-President** | Elected with the President | Acts for the President in the President's absence |
-| **Prime Minister** (head of government) | The President appoints the leader of the parliamentary party that commands a majority in the House of Representatives. If no party has a majority, a leader who can win the support of members of two or more parties is appointed | Leads the Council of Ministers and runs the government |
-| **Council of Ministers** | Appointed by the President on the recommendation of the Prime Minister; not more than **25** members including the Prime Minister | Makes policies, prepares the budget and carries out laws; collectively responsible to the House of Representatives |
+| सदस्य | २७५ | ५९ |
+| निर्वाचन | जनताबाट प्रत्यक्ष र समानुपातिक | प्रदेशबाट अप्रत्यक्ष (निर्वाचक मण्डल) र मनोनयन |
+| कार्यकाल | ५ वर्ष; विघटन हुन सक्छ | सदस्यको ६ वर्ष; स्थायी सदन |
+| न्यूनतम उमेर | २५ वर्ष | ३५ वर्ष |
+| पदाधिकारी | सभामुख र उपसभामुख (फरक दल र लिङ्ग) | अध्यक्ष र उपाध्यक्ष (एक महिला) |
+| अर्थ विधेयक | प्रस्तुत हुन्छ | प्रस्तुत हुँदैन |
+| सरकार गठन | बहुमतको नेता प्रधानमन्त्री | भूमिका हुँदैन |
 
-The Prime Minister must keep the confidence of the House of Representatives. If the House passes a motion of no confidence, the Prime Minister loses office.
+**समानता:** दुवै सङ्घीय संसद्का अङ्ग हुन्, दुवैमा सामान्य विधेयक प्रस्तुत हुन्छ, दुवैको
+पारितबिना विधेयक कानुन बन्दैन र दुवैले सरकारलाई प्रश्न सोधेर निगरानी गर्छन्।
+:::
 
-The President is the **head of state** and the Prime Minister is the **head of government**; this system is called the *parliamentary system*, because the government is formed from, and answerable to, the parliament.
+::: note क्रियाकलाप — पाठ ५.१
+**१.** प्रतिनिधि सभामा विधेयक प्रस्तुत गर्ने, त्यसमाथि छलफल गर्ने र पारित गर्ने प्रसङ्ग
+समेटी कक्षामा नमुना अभिनय (सभामुख, मन्त्री, सत्तापक्ष र प्रतिपक्षका सांसद) गर्नुहोस्।
+**२.** प्रतिनिधि सभा र राष्ट्रिय सभाका समानता र भिन्नता तालिकामा देखाउनुहोस् (माथिको
+तालिका हेर्नुहोस्)।
+**३.** कक्षाको कुनै नियम सुधार्नुपर्ने वा नयाँ नियम बनाउनुपर्ने प्रसङ्गलाई विधेयक पारित
+हुने प्रक्रियासँग तुलना गर्नुहोस् — प्रस्ताव कसले ल्याउँछ, छलफल कसरी हुन्छ, बहुमत कति
+चाहिन्छ र अन्तिम स्वीकृति (प्रधानाध्यापक) कसले दिन्छ।
+:::
 
-### Provincial and local executives
+### पाठको अभ्यास: नमुना उत्तर
 
-| Level | Executive |
+**१. व्यवस्थापिका भनेको के हो?**
+राज्यका तीन अङ्गमध्ये जनताका निर्वाचित प्रतिनिधि मिलेर कानुन र नीति बनाउने
+प्रतिनिधिमूलक अङ्गलाई व्यवस्थापिका भनिन्छ। यो जनताको इच्छा व्यक्त गर्ने प्रमुख थलो
+हो। यसले कानुन बनाउने, बजेट पारित गर्ने, सरकार गठन गर्ने र सरकारमाथि निगरानी गर्ने
+काम गर्छ। नेपालको सङ्घीय व्यवस्थापिका प्रतिनिधि सभा (२७५) र राष्ट्रिय सभा (५९) गरी
+दुई सदनात्मक छ; प्रदेशमा एक सदनात्मक प्रदेश सभा छ।
+
+**२. प्रतिनिधि सभा गठन प्रक्रिया उल्लेख गर्नुहोस्।**
+प्रतिनिधि सभामा २७५ सदस्य हुन्छन्। (क) **पहिलो हुने निर्वाचित हुने प्रणाली:** देशलाई
+१६५ निर्वाचन क्षेत्रमा बाँडिन्छ र प्रत्येक क्षेत्रबाट सबैभन्दा बढी मत पाउने उम्मेदवार
+निर्वाचित हुन्छ — १६५ सदस्य (६० प्रतिशत)। (ख) **समानुपातिक प्रणाली:** सिङ्गो देशलाई
+एउटै निर्वाचन क्षेत्र मानेर मतदाताले दललाई मत दिन्छन्; दलले पाएको मतको अनुपातमा
+आफ्नो समावेशी सूचीबाट ११० सदस्य (४० प्रतिशत) पठाउँछ। सदस्यहरूले एक सभामुख र
+एक उपसभामुख फरक दल र फरक लिङ्गबाट चुन्छन्। कार्यकाल पाँच वर्षको हुन्छ।
+
+**३. सङ्घीय संसद् सदस्य हुन आवश्यक योग्यताको सूची बनाउनुहोस्।**
+(क) नेपालको नागरिक हुनुपर्ने; (ख) प्रतिनिधि सभाका लागि २५ वर्ष र राष्ट्रिय सभाका लागि
+३५ वर्ष उमेर पूरा भएको; (ग) नैतिक पतन देखिने फौजदारी कसुरमा सजाय नपाएको; (घ) कुनै
+सङ्घीय कानुनले अयोग्य नठहराएको; (ङ) कुनै लाभको पदमा बहाल नरहेको।
+
+**४. राष्ट्रिय सभालाई समावेशी बनाउन गरिएका कानुनी व्यवस्थाको समीक्षा गर्नुहोस्।**
+**व्यवस्था:** (क) सातै प्रदेशबाट बराबर ८ जना निर्वाचित हुने भएकाले सानो वा ठुलो सबै
+प्रदेशको समान आवाज हुन्छ; (ख) प्रत्येक प्रदेशका ८ जनामा कम्तीमा ३ महिला, १ दलित र १
+अपाङ्गता भएका व्यक्ति वा अल्पसङ्ख्यक अनिवार्य छन्; (ग) मनोनीत ३ जनामा कम्तीमा एक
+महिला हुनुपर्छ; (घ) अध्यक्ष र उपाध्यक्षमध्ये एक महिला हुनुपर्छ; (ङ) मनोनयनबाट विज्ञ र
+विशिष्ट व्यक्तिलाई पनि ल्याउन सकिन्छ। **समीक्षा:** यी व्यवस्थाले ५६ निर्वाचितमध्ये कम्तीमा २१ महिला (७ × ३) र ७ दलित
+सुनिश्चित गरेका छन्। तर सदस्य अप्रत्यक्ष रूपमा दलका निर्वाचक मण्डलबाट छानिने र आदिवासी
+जनजाति, मधेसी वा पिछडिएका क्षेत्रको छुट्टै कोटा नहुने कमजोरी छन्।
+
+## ५.२ सङ्घीय कार्यपालिका
+
+::: definition कार्यपालिका
+**कानुन कार्यान्वयन गर्ने** र दैनिक शासन चलाउने राज्यको अङ्गलाई कार्यपालिका भनिन्छ।
+यसलाई सरकार वा मन्त्रिपरिषद् पनि भनिन्छ। नेपालको कार्यकारिणी अधिकार
+**मन्त्रिपरिषद्** मा निहित छ।
+:::
+
+नेपालको संविधानअनुसार केन्द्रमा **सङ्घीय कार्यपालिका**, प्रदेशमा **प्रदेश कार्यपालिका** र
+स्थानीय तहमा **स्थानीय कार्यपालिका** (गाउँ वा नगर कार्यपालिका) रहन्छन्।
+
+### प्रधानमन्त्री नियुक्ति र मन्त्रिपरिषद्को गठन (धारा ७६)
+
+```figure caption="धारा ७६ अनुसार प्रधानमन्त्री नियुक्तिका क्रमिक विकल्प। (२), (३) र (५) अनुसार नियुक्त प्रधानमन्त्रीले ३० दिनभित्र विश्वासको मत लिनुपर्छ।"
+fig, ax = flow([("७६(१)", "बहुमत प्राप्त\nदलको नेता"),
+                ("७६(२)", "दुई वा बढी\nदलको समर्थनमा\nबहुमत जुटाउने"),
+                ("७६(३)", "सबैभन्दा ठुलो\nसंसदीय दलको\nनेता"),
+                ("७६(५)", "बहुमत जुटाउन\nसक्ने जुनसुकै\nसदस्य")],
+               figsize=(5.6, 1.95))
+```
+
+- **धारा ७६(१):** प्रतिनिधि सभामा बहुमत प्राप्त संसदीय दलको नेता प्रधानमन्त्री हुन्छन् र
+  उनको अध्यक्षतामा मन्त्रिपरिषद् गठन हुन्छ।
+- **धारा ७६(२):** कुनै दलको एकल बहुमत नभए दुई वा बढी दलको समर्थनमा बहुमत पुर्‍याउन
+  सक्ने संसदीय दलको नेता प्रधानमन्त्री हुन्छन्।
+- **धारा ७६(३):** ७६(२) अनुसार सरकार बन्न नसके वा त्यस्तो प्रधानमन्त्रीले विश्वासको मत
+  नपाए प्रतिनिधि सभाको सबैभन्दा ठुलो संसदीय दलको नेता प्रधानमन्त्री हुन्छन्; उनले
+  नियुक्त भएको **३० दिनभित्र** विश्वासको मत लिनुपर्छ।
+- **धारा ७६(५):** ७६(३) अनुसार पनि सरकार बन्न नसके संसद्मा बहुमत जुटाउन सक्ने
+  आधार देखाउने **जुनसुकै प्रतिनिधि सभा सदस्य** प्रधानमन्त्री हुन सक्छन्; उनले पनि ३०
+  दिनभित्र विश्वासको मत लिनुपर्छ। यो पनि असफल भए प्रतिनिधि सभा विघटन गरी नयाँ
+  निर्वाचनको मिति तोकिन्छ।
+- राष्ट्रपतिले प्रधानमन्त्रीको सिफारिसमा सङ्घीय संसद्का सदस्यमध्येबाट **समावेशी
+  सिद्धान्त** बमोजिम प्रधानमन्त्रीसहित **बढीमा २५ जना** को मन्त्रिपरिषद् गठन गर्छन्।
+
+```photo id="soc10/singha-durbar" caption="सिंहदरबार, काठमाडौँ — प्रधानमन्त्री र मन्त्रिपरिषद्को कार्यालय तथा धेरै मन्त्रालय रहेको सङ्घीय कार्यपालिकाको मुख्य केन्द्र।" width="64"
+```
+
+### सङ्घीय कार्यपालिकाका कार्य
+
+| कार्य | मुख्य विवरण |
 |---|---|
-| Province | Chief Minister and Council of Ministers; the Governor is the federal representative and head of the province |
-| Local | Mayor and Deputy Mayor (municipality) or Chair and Vice-chair (rural municipality) and ward chairs, who form the local executive |
+| प्रशासनिक | दैनिक प्रशासन चलाउने; व्यवस्थापिकाले बनाएको कानुन कार्यान्वयन गर्ने; शान्ति, सुव्यवस्था र स्थायित्व कायम गर्ने; नीति निर्माण गर्ने; प्रशासनको सञ्चालन, नियन्त्रण र निर्देशन गर्ने; सुशासन कायम गर्ने |
+| कूटनीतिक | विदेश नीति निर्धारण गर्ने, वैदेशिक सम्बन्ध विस्तार गर्ने, राजदूत जस्ता कूटनीतिक पदमा नियुक्ति गर्ने, आवश्यकताअनुसार सन्धि सम्झौता गर्ने |
+| आर्थिक | अर्थमन्त्रीमार्फत हरेक वर्ष बजेट संसद्मा पेस गर्ने; आर्थिक विवरण प्रस्तुत गर्ने; कर असुल्ने; राजस्व परिचालन गर्ने; ऋण स्वीकृत गर्ने; देशको आर्थिक व्यवस्थापन गर्ने |
+| सुरक्षासम्बन्धी | राष्ट्रिय हित, सुरक्षा र प्रतिरक्षाको नीति बनाउने; नेपाली सेनाको परिचालन र नियन्त्रण; बाह्य आक्रमणमा सुरक्षा; आवश्यक परे युद्ध र शान्तिको घोषणा |
 
-### Functions of the federal executive
+राष्ट्रिय सुरक्षा परिषद्को **अध्यक्ष प्रधानमन्त्री** हुने भएकाले देशको सुरक्षाको जिम्मेवारी
+कार्यपालिकामा रहन्छ। सुरक्षा परिषद्को सिफारिसमा नेपाल सरकारको निर्णयअनुसार
+राष्ट्रपतिले सेना परिचालन गर्न सक्ने व्यवस्था संविधानमा छ।
 
-1. **Implements laws** and decisions of parliament throughout the country.
-2. **Prepares policy and plans** and presents them to parliament.
-3. **Prepares and presents the annual budget** (the Finance Minister presents it on **Jestha 15** each year) and collects revenue.
-4. **Maintains peace, law and order** through the Nepal Police, Armed Police Force and the Nepal Army, as needed.
-5. **Conducts foreign relations**: embassies, treaties, trade and aid.
-6. **Runs the civil service**: ministries, departments and the appointment of officers.
-7. **Provides services**: roads, electricity, health and education policy, disaster relief.
-8. **Manages emergencies**: advises the President on declaring a state of emergency under the constitution's rules.
+**प्रदेश कार्यपालिका:** सातै प्रदेशमा प्रादेशिक सरकार हुन्छ। प्रदेशको शासनको सामान्य
+निर्देशन, नियन्त्रण र सञ्चालनको जिम्मा प्रदेश कार्यपालिकाको हुन्छ। यसको प्रमुख
+**मुख्यमन्त्री** हुन्छन्। प्रदेश मन्त्रिपरिषद्मा प्रदेश सभाको कुल सदस्य सङ्ख्याको **२०
+प्रतिशतभन्दा बढी** सदस्य हुन पाउँदैनन्।
 
-```photo id="soc10/singha-durbar" caption="Singha Durbar, Kathmandu, the main secretariat of the Government of Nepal, where ministries and the office of the Prime Minister work." width="76"
-```
-
-::: caution Do not mix up the roles
-The **President** gives formal assent but does not run the government day by day. The **Prime Minister and Council of Ministers** hold the real executive power. Questions that ask "Who is the head of government?" want the Prime Minister.
+::: note क्रियाकलाप — पाठ ५.२
+**१.** सङ्घीय कार्यपालिकाका कार्य तालिकामा देखाउनुहोस् (माथिको तालिका हेर्नुहोस्)।
+**२.** वर्तमान प्रधानमन्त्री र विभागीय मन्त्रीको नाम पत्रपत्रिका वा सरकारी वेबसाइटबाट
+खोजी गरी प्रस्तुत गर्नुहोस्।
+**३.** नेपालको सङ्घीय कार्यपालिका गठनसम्बन्धी कानुनी व्यवस्था (धारा ७४–७६) खोजी गरी
+लेख्नुहोस्।
 :::
 
-## 5.3 Judiciary
+### पाठको अभ्यास: नमुना उत्तर
 
-### Meaning
+**१. कार्यपालिका भनेको के हो?**
+व्यवस्थापिकाले बनाएको कानुन कार्यान्वयन गर्ने, दैनिक प्रशासन चलाउने र देशको शान्ति,
+सुरक्षा, विकास तथा वैदेशिक सम्बन्ध सम्हाल्ने राज्यको अङ्गलाई कार्यपालिका भनिन्छ।
+यसलाई सरकार वा मन्त्रिपरिषद् पनि भनिन्छ। नेपालमा कार्यकारिणी अधिकार
+मन्त्रिपरिषद्मा निहित छ र केन्द्र, प्रदेश र स्थानीय तीनै तहमा कार्यपालिका रहन्छन्।
 
-::: definition Judiciary
-The judiciary is the organ of government that interprets the law, decides disputes and gives justice, and protects the constitution and the rights of citizens.
-:::
+**२. कार्यपालिकाको प्रशासनिक कार्यअन्तर्गत के के कार्य पर्छन्?**
+(क) दैनिक प्रशासन सञ्चालन गर्ने; (ख) व्यवस्थापिकाले स्वीकृत गरेको कानुन कार्यान्वयन
+गर्ने; (ग) मुलुकमा शान्ति, सुव्यवस्था र स्थायित्व कायम गर्ने; (घ) राज्यको नीति निर्माण
+गर्ने; (ङ) प्रशासनको सञ्चालन, नियन्त्रण र निर्देशन गर्ने; (च) राज्यमा सुशासन कायम गर्ने।
 
-Justice in Nepal is delivered in the name of the people. The constitution declares that the judiciary is **independent**: judges are to decide cases only on the basis of law, evidence and conscience, free from pressure from the executive, legislature or anybody else.
+**३. प्रधानमन्त्रीले राष्ट्रपतिलाई जानकारी गराउनुपर्ने मुख्य विषय उल्लेख गर्नुहोस्।**
+संविधानको धारा ८२ अनुसार प्रधानमन्त्रीले राष्ट्रपतिलाई यी विषयमा जानकारी गराउनुपर्छ:
+(क) मन्त्रिपरिषद्का निर्णयहरू; (ख) सङ्घीय संसद्मा पेस गरिने विधेयकहरू; (ग)
+राष्ट्रपतिले मागेका सङ्घीय मामिलाको प्रशासनसम्बन्धी जानकारी; (घ) देशको समसामयिक
+स्थिति र वैदेशिक सम्बन्धसम्बन्धी विषय। यसले राष्ट्रप्रमुखलाई देशको अवस्थाबारे सुसूचित
+राख्छ।
 
-### Structure of the courts
+**४. सङ्घीय कार्यपालिका र प्रदेश कार्यपालिकाका भिन्नता लेख्नुहोस्।**
 
-```figure caption="Structure of the judiciary of Nepal."
-import matplotlib.pyplot as plt
-from matplotlib.patches import FancyBboxPatch
-fig, ax = plt.subplots(figsize=(4.8,3.0))
-ax.set_xlim(0,12); ax.set_ylim(0,7.4); ax.axis('off')
-rows=[(5.5,'Supreme Court','1 court, Kathmandu; Chief Justice and other judges',ACCENT),(3.3,'High Courts','7 courts, in each province; hear appeals from district courts','#2e6da4'),(1.1,'District Courts','77 courts, one in each district; first hearing of most cases','#4f8bbf')]
-for y,t,s,c in rows:
-    ax.add_patch(FancyBboxPatch((0.4,y),11.2,1.6,boxstyle='round,pad=0.04',fc=c,ec='none'))
-    ax.text(6,y+1.1,t,ha='center',va='center',color='white',fontsize=10,weight='bold')
-    ax.text(6,y+0.45,s,ha='center',va='center',color='white',fontsize=7.5)
-ax.text(6,0.5,'Alongside: Judicial Committees of local levels, Special Court, tribunals',ha='center',va='center',fontsize=7.5,color=MUTED)
-```
-
-| Court | Notes |
-|---|---|
-| **Supreme Court** | The highest court, in Kathmandu. Headed by the **Chief Justice** with not more than 20 other judges. Its decisions bind all other courts. It hears appeals, decides constitutional questions and issues writs |
-| **High Courts** | One in each province (seven). Hear appeals against district court decisions and certain cases of their own |
-| **District Courts** | One in each of the 77 districts. The first court for most civil and criminal cases |
-| **Judicial Committees** | Elected committees at each municipality and rural municipality, led by the deputy chief, with power to settle certain local disputes and to mediate |
-| **Special Court and tribunals** | Special Court hears cases of corruption filed by the CIAA; other tribunals handle revenue, administrative and labour cases |
-
-```photo id="soc10/supreme-court" caption="The Supreme Court of Nepal at Ramshahpath, Kathmandu, the highest court of the country and the final interpreter of the constitution." width="76"
-```
-
-### Appointment and independence
-
-The **Chief Justice** is appointed by the President on the recommendation of the **Constitutional Council**. Other judges of the Supreme Court, the High Courts and the District Courts are appointed on the recommendation of the **Judicial Council**, which also supervises discipline. A Supreme Court judge retires at 65 years. Salaries and conditions are protected, and judges may be removed only by a process of impeachment or by the Judicial Council for stated reasons.
-
-### Functions
-
-1. **Gives justice** — hears civil, criminal and administrative cases and punishes the guilty.
-2. **Interprets the law and the constitution**, and gives binding decisions that other courts follow.
-3. **Judicial review** — the Supreme Court may declare a law or an act of government void if it conflicts with the constitution.
-4. **Protects fundamental rights** by issuing **writs** such as *habeas corpus* (to produce a detained person before the court), *mandamus* (to order an official to perform a duty), *certiorari*, *prohibition* and *quo warranto*.
-5. **Hears public interest litigation:** anyone may go to the court on a matter of public interest, such as environment or the rights of the disadvantaged. For example, the Supreme Court has issued directives against chhaupadi and for the rights of women and sexual minorities.
-6. **Punishes contempt of court** to keep respect for the judiciary.
-7. **Settles disputes** between governments of different levels.
-
-### Principles of fair justice
-
-- Everyone is equal before the law.
-- A person is **presumed innocent** until proven guilty.
-- The accused has the right to a lawyer, to be told the reason for arrest and to be produced before a court within 24 hours of arrest (excluding journey time).
-- Trials are open and decisions are reasoned; the right of appeal.
-- Free legal aid is given to those who cannot pay.
-
-### Problems and improvement
-
-Delays in cases, many pending cases, high cost, weak access in remote areas, corruption in the system, poor enforcement of decisions. Improvements: more judges and staff, e-filing and e-courts, mediation, legal aid, circuit benches of High Courts and honest, independent appointments.
-
-## 5.4 Political parties
-
-### Meaning
-
-::: definition Political party
-A political party is an organised group of people with common ideas about how the country should be governed, who seek to win elections, to form or influence the government and to put their policies into effect.
-:::
-
-### Features of a political party
-
-- A common **ideology, programme and policy**
-- An **organisation** from the centre to the ward
-- **Members, leaders and rules** (constitution of the party)
-- Aim to **win power by elections**
-- **Registration** with the Election Commission and a **symbol** for elections
-
-### Party systems
-
-| System | Meaning | Example |
+| आधार | सङ्घीय कार्यपालिका | प्रदेश कार्यपालिका |
 |---|---|---|
-| One-party | Only one party is allowed | China, North Korea |
-| Two-party | Two main parties compete | The United States, United Kingdom (in practice) |
-| Multi-party | Many parties compete; coalition governments are common | **Nepal**, India |
+| प्रमुख | प्रधानमन्त्री | मुख्यमन्त्री |
+| गठन | प्रतिनिधि सभाबाट (धारा ७६) | प्रदेश सभाबाट |
+| मन्त्रिपरिषद्को आकार | बढीमा २५ जना | प्रदेश सभा सदस्यको २० प्रतिशतभन्दा नबढ्ने |
+| नियुक्ति गर्ने | राष्ट्रपति | प्रदेश प्रमुख |
+| कार्यक्षेत्र | सिङ्गो देश; रक्षा, सेना, विदेश नीति, मुद्रा जस्ता विषय | आफ्नो प्रदेश; प्रदेश प्रहरी, प्रदेशस्तरका विकास जस्ता विषय |
+| जवाफदेही | सङ्घीय संसद् (प्रतिनिधि सभा) प्रति | प्रदेश सभाप्रति |
 
-Nepal follows the **multi-party** system. The Constitution allows any group of citizens to form a political party, provided that its rules and aims respect the constitution and democracy, that its membership is open and that it has an internal democratic process. All political parties must register with the **Election Commission**, as laid down in the Political Parties Act, 2073 (2017). The Election Commission gives "national party" recognition to parties that win a minimum of 3% of the proportional votes and at least one directly elected seat in the House of Representatives. Examples of parties that have shaped Nepal's politics include the **Nepali Congress** (founded 1947), several parties of the communist tradition, the **Rastriya Prajatantra Party**, and newer parties such as the **Rastriya Swatantra Party** (registered 2022). New parties form and old ones change; focus on how parties work, not on memorising lists.
+**५. तपाईँ नेपालको प्रधानमन्त्री हुनुभयो भने देशमा सुशासन कायम गर्न के के काम
+गर्नुहुन्थ्यो, बुँदागत रूपमा प्रस्तुत गर्नुहोस्।**
+(क) योग्य, इमानदार र समावेशी मन्त्रिपरिषद् बनाई कामको नियमित मूल्याङ्कन गर्ने; (ख)
+भ्रष्टाचारविरुद्ध शून्य सहनशीलता अपनाउने; (ग) सरकारी सेवा छिटो, अनलाइन र पारदर्शी
+बनाउने; (घ) सरकारी निर्णय र खर्च सार्वजनिक गर्ने; (ङ) योग्यताका आधारमा कर्मचारी नियुक्ति
+र सरुवा गर्ने; (च) विकास आयोजना समयमै सक्ने; (छ) तीन तहका सरकारबिच समन्वय बढाउने।
 
-### Functions of political parties
+## ५.३ न्यायपालिका
 
-1. **Contest elections** by nominating candidates and publishing manifestos.
-2. **Form the government** (the winning party or alliance) and **act as the opposition** (the others), who check the government.
-3. **Make policies and laws** through their members in parliament.
-4. **Form public opinion** and educate citizens about issues.
-5. **Link people and the government**: carry the people's problems to the state.
-6. **Train and bring forward leaders.**
-7. **Social service** and relief work in disasters.
-8. **Protect democracy** by giving the people a choice.
+::: definition न्यायपालिका
+**न्याय सम्पादन गर्ने** र कानुनको व्याख्या गरी त्यसको वैधता स्थापित गर्ने राज्यको अङ्गलाई
+न्यायपालिका भनिन्छ। यो नागरिक अधिकार र संविधानको संरक्षक हो।
+:::
 
-### Merits and demerits
+न्यायपालिकाले कानुनको व्याख्या गर्ने, **न्यायिक पुनरवलोकन** गर्ने (कुनै कानुन वा सरकारी
+निर्णय संविधानअनुकूल छ कि छैन जाँच्ने), मानव अधिकारको संरक्षण गर्ने र कानुन उल्लङ्घन
+गर्नेलाई सजाय तोक्ने काम गर्छ। नेपालको संविधानको **भाग ११** मा न्यायपालिकाको
+व्यवस्था छ। न्यायसम्बन्धी अधिकार अदालत र न्यायिक निकायबाट प्रयोग हुन्छ। नेपालमा
+**तीन तहका अदालत** छन्।
 
-| Merits | Demerits |
+```figure caption="नेपालका तीन तहका अदालत। माथिल्लो अदालतले तल्लो अदालतको निरीक्षण र सुपरिवेक्षण गर्छ; पुनरावेदन तलबाट माथि जान्छ।"
+fig, ax = cards([("सर्वोच्च अदालत — केन्द्रमा", "अभिलेख अदालत; अन्तिम व्याख्या र नजिर"),
+                 ("उच्च अदालत — सातै प्रदेशमा", "मुख्य न्यायाधीश र अन्य न्यायाधीश"),
+                 ("जिल्ला अदालत — प्रत्येक जिल्लामा", "सुरु कारबाही, किनारा र पुनरावेदन")],
+                cols=1, figsize=(5.4, 2.9), colors=[SERIES[0], SERIES[2], SERIES[3]])
+```
+
+**(क) सर्वोच्च अदालत:** सबैभन्दा माथिल्लो तहको अदालत हो। यसलाई **अभिलेख अदालत**
+पनि भनिन्छ (यसका फैसला अभिलेख र नजिरका रूपमा रहन्छन् र यसले आफ्नो अवहेलनामा
+कारबाही गर्न सक्छ)। सबै अदालत र न्यायिक निकाय यसको मातहतमा रहन्छन्।
+प्रधानन्यायाधीशबाहेक **बढीमा २० न्यायाधीश** रहन सक्छन्। **संवैधानिक परिषद्** को
+सिफारिसमा प्रधानन्यायाधीश र **न्याय परिषद्** को सिफारिसमा अन्य न्यायाधीशलाई राष्ट्रपतिले
+नियुक्त गर्छन्। सर्वोच्च अदालतमा कम्तीमा **तीन वर्ष** न्यायाधीश भएर काम गरेको व्यक्ति
+प्रधानन्यायाधीश हुन सक्छन्। यसले संविधान र कानुनको **अन्तिम व्याख्या** गरी नजिर
+स्थापित गर्छ, आफ्नो र मातहतका अदालतको न्याय प्रशासनको निरीक्षण तथा सुपरिवेक्षण गर्छ
+र आवश्यक निर्देशन दिन्छ।
+
+```photo id="soc10/supreme-court" caption="सर्वोच्च अदालत, रामशाह पथ, काठमाडौँ। संविधानको अन्तिम व्याख्या गर्ने र मौलिक हकको रक्षा गर्ने अन्तिम थलो।" width="62"
+```
+
+**(ख) उच्च अदालत:** सातै प्रदेशमा एक एकओटा उच्च अदालत छ। यसमा एक **मुख्य
+न्यायाधीश** र अन्य न्यायाधीश हुन्छन्, जसलाई न्याय परिषद्को सिफारिसमा
+**प्रधानन्यायाधीशले** नियुक्त गर्छन्।
+
+**(ग) जिल्ला अदालत:** प्रत्येक जिल्लामा जिल्ला अदालत छ। यसले मुद्दाको **सुरु कारबाही र
+किनारा** गर्छ, मातहतका न्यायिक निकायको निर्णयउपर पुनरावेदन सुन्छ र तिनको निरीक्षण,
+सुपरिवेक्षण गरी निर्देशन दिन्छ।
+
+**न्यायपालिकाका प्रमुख कार्य** (अधिकारको संरक्षण, कानुनी उपचार, न्याय, देवानी–फौजदारी
+मुद्दाको फैसला, व्याख्या, नजिर र परामर्श) पाठको अभ्यासको प्रश्न ३ मा सूचीबद्ध छन्।
+
+### व्यवस्थापिका, कार्यपालिका र न्यायपालिकाबिचको अन्तरसम्बन्ध
+
+व्यवस्थापिकाले कानुन बनाउँछ, कार्यपालिकाले लागु गर्छ र न्यायपालिकाले व्याख्या तथा
+पुनरवलोकन गरी उल्लङ्घन गर्नेलाई कारबाही गर्छ। **शक्ति पृथकीकरणको सिद्धान्त** अनुसार
+तीनै अङ्ग आआफ्नो क्षेत्रमा स्वतन्त्र छन्, तर एकअर्कामा सम्बन्धित पनि छन् — यही
+**नियन्त्रण र सन्तुलन** हो।
+
+```figure caption="राज्यका तीन अङ्गबिचको अन्तरसम्बन्ध। तीनै अङ्ग स्वतन्त्र छन् तर एकअर्कामाथि नियन्त्रण र सन्तुलन राख्छन्।"
+fig, ax = relation([("व्यवस्थापिका", "कानुन बनाउँछ"),
+                    ("कार्यपालिका", "कानुन लागु गर्छ"),
+                    ("न्यायपालिका", "कानुनको व्याख्या")],
+                   [(0, 1, "सरकार गठन, विश्वासको मत;\nविधेयक तयार, अधिवेशन आह्वान"),
+                    (0, 2, "महाअभियोग, संसदीय सुनुवाइ;\nसंवैधानिक परीक्षण"),
+                    (1, 2, "संवैधानिक परिषद्;\nआदेश पालना, बजेट")],
+                   figsize=(5.9, 3.3))
+```
+
+| सम्बन्ध | मुख्य बुँदा |
 |---|---|
-| Give citizens a choice | Frequent split and changing of governments cause instability |
-| Make government accountable through opposition | Money and muscle power in elections |
-| Provide stable policy and leadership | Lack of internal democracy; leadership of the same persons for long |
-| Teach citizens about politics | Narrow party interest placed above national interest |
-| Make coalition and compromise possible | Political interference in civil service, schools and justice |
+| व्यवस्थापिका र कार्यपालिका | (अ) व्यवस्थापिका कानुन बनाउँछ, कार्यपालिका लागु गर्छ; (आ) मन्त्रिपरिषद् व्यवस्थापिकाबाट बन्छ; (इ) प्रधानमन्त्रीले व्यवस्थापिकाबाट विश्वासको मत लिनुपर्छ; (ई) दुवै सदनको अधिवेशनको आह्वान र अन्त्य प्रधानमन्त्रीको सिफारिसमा राष्ट्रपतिबाट हुन्छ; (उ) विधेयक मुख्यतः कार्यपालिकाले तयार पार्छ |
+| व्यवस्थापिका र न्यायपालिका | (अ) व्यवस्थापिकाले बनाएको कानुनको व्याख्या न्यायपालिका गर्छ; (आ) व्यवस्थापिकाले प्रधानन्यायाधीश र न्यायाधीशविरुद्ध महाअभियोग लगाउन सक्छ; (इ) कानुनको संवैधानिक परीक्षण न्यायपालिका गर्छ; (ई) न्यायाधीश नियुक्तिअघि संसदीय सुनुवाइ व्यवस्थापिकाले गर्छ; (उ) मुद्दाको रोहमा अदालतको आदेश व्यवस्थापिकाले पालना गर्नुपर्छ |
+| कार्यपालिका र न्यायपालिका | (अ) प्रधानन्यायाधीश सिफारिस गर्ने संवैधानिक परिषद्को अध्यक्ष प्रधानमन्त्री हुन्छन्; (आ) प्रधानन्यायाधीशसहितको संवैधानिक इजलासले सङ्घ, प्रदेश र स्थानीय सरकारबिचको क्षेत्राधिकारको विवाद हेर्छ; (इ) सरकारका नाममा अदालतको आदेश कार्यपालिकाले पालना गर्नुपर्छ; (ई) न्यायपालिकाका लागि प्रशासनिक र आर्थिक प्रबन्ध सरकारले गर्छ |
 
-### How can political parties be improved?
-
-Internal democracy and regular elections within the party; transparent funds and accounts; a code of ethics for leaders; ticket to candidates on merit; inclusion of women, youth and marginalised groups; programmes made on evidence; strict observation of the election code by the Election Commission; and informed voters who reward good performance.
-
-::: tip The opposition is not an enemy
-In exam answers, say that the **opposition** has a constructive role: it questions the government, offers alternatives and protects the rights of citizens. A government and an opposition both serve the people.
+::: note क्रियाकलाप — पाठ ५.३
+**१.** "स्वतन्त्र र निष्पक्ष न्यायपालिका लोकतन्त्रको आधार हो" विषयमा लेख तयार गरी कक्षामा
+प्रस्तुत गर्नुहोस् (मुख्य तर्क: मौलिक हकको रक्षा, शक्तिको दुरुपयोगमाथि रोक, कानुनको
+शासन, जनताको विश्वास)।
+**२.** अदालतबाट न्याय पाएको कुनै व्यक्तिलाई भेटेर अदालतको भूमिकाबारे उनको अनुभव
+समेटी आफ्नो विचार प्रस्तुत गर्नुहोस्।
+**३.** सर्वोच्च अदालतको प्रधानन्यायाधीश हुन आवश्यक योग्यता खोजी गरी लेख्नुहोस् — मुख्य
+सर्त: सर्वोच्च अदालतमा कम्तीमा तीन वर्ष न्यायाधीश भएर काम गरेको हुनुपर्ने।
 :::
 
-## 5.5 Election process and the role of citizens
+### पाठको अभ्यास: नमुना उत्तर
 
-### Meaning and importance
+**१. न्यायपालिकाको परिचय दिनुहोस्।**
+न्याय सम्पादन गर्ने, कानुनको व्याख्या गरी वैधता स्थापित गर्ने र नागरिक अधिकार तथा
+संविधानको संरक्षण गर्ने राज्यको अङ्ग न्यायपालिका हो। यसले न्यायिक पुनरवलोकन,
+मुद्दाको फैसला र कानुन उल्लङ्घन गर्नेलाई सजाय तोक्ने काम गर्छ। नेपालको संविधानको
+भाग ११ मा यसको व्यवस्था छ र नेपालमा सर्वोच्च अदालत (केन्द्रमा), उच्च अदालत
+(प्रत्येक प्रदेशमा) र जिल्ला अदालत (प्रत्येक जिल्लामा) गरी तीन तहका अदालत छन्।
 
-::: definition Election
-An election is the process by which the citizens choose their representatives to make laws and run the government, by voting at regular intervals.
+**२. सर्वोच्च अदालतमा कति जना न्यायाधीश रहन्छन्?**
+सर्वोच्च अदालतमा प्रधानन्यायाधीशबाहेक बढीमा २० जनासम्म न्यायाधीश रहन सक्छन्,
+अर्थात् प्रधानन्यायाधीशसहित बढीमा २१ जना। प्रधानन्यायाधीश संवैधानिक परिषद्को र अन्य
+न्यायाधीश न्याय परिषद्को सिफारिसमा राष्ट्रपतिबाट नियुक्त हुन्छन्।
+
+**३. न्यायपालिकाका प्रमुख कार्यको सूची प्रस्तुत गर्नुहोस्।**
+(क) संविधानप्रदत्त अधिकार र स्वतन्त्रताको संरक्षण गर्ने; (ख) अधिकार हनन भएमा कानुनी
+उपचार दिने; (ग) नागरिकलाई न्याय दिने; (घ) देवानी र फौजदारी मुद्दाको फैसला गर्ने; (ङ)
+संविधान र कानुनको व्याख्या गर्ने; (च) नजिर स्थापित गर्ने; (छ) जटिल कानुनी प्रश्नमा
+परामर्श दिने; (ज) कानुनको संवैधानिक परीक्षण (न्यायिक पुनरवलोकन) गर्ने।
+
+**४. सरकारका तीन अङ्गहरूबिचको अन्तरसम्बन्ध देखाउनुहोस्।**
+शक्ति पृथकीकरणअनुसार व्यवस्थापिका कानुन बनाउँछ, कार्यपालिका लागु गर्छ र न्यायपालिका
+व्याख्या गर्छ; तर तीनै नियन्त्रण र सन्तुलनमा बाँधिएका छन्। (क) **व्यवस्थापिका–कार्यपालिका:**
+मन्त्रिपरिषद् व्यवस्थापिकाबाटै बन्छ, प्रधानमन्त्रीले विश्वासको मत लिनुपर्छ, विधेयक मुख्यतः
+सरकार तयार गर्छ। (ख) **व्यवस्थापिका–न्यायपालिका:** अदालतले कानुनको व्याख्या र संवैधानिक
+परीक्षण गर्छ; संसद्ले न्यायाधीशको संसदीय सुनुवाइ गर्छ र महाअभियोग लगाउन सक्छ। (ग)
+**कार्यपालिका–न्यायपालिका:** प्रधानमन्त्री संवैधानिक परिषद्का अध्यक्ष हुन्छन्, सरकारले अदालतको
+आदेश पालना र अदालतको आर्थिक प्रबन्ध गर्छ। (विस्तृत बुँदा माथिको तालिकामा छन्।)
+
+## ५.४ राजनीतिक दल
+
+पाठ्यपुस्तकमा कक्षा १० का विद्यार्थीलाई दुई समूहमा बाँडिएको छ। **समूह क** ले राजनीतिक
+दलको परिचय र पृष्ठभूमि तथा **समूह ख** ले दलको भूमिका र जिम्मेवारी प्रस्तुत गरेका छन्।
+
+### समूह क: राजनीतिक दलको परिचय र पृष्ठभूमि
+
+जनताको अधिकार सुनिश्चित गर्न एक्लो व्यक्तिले सबै ठाउँमा आवाज पुर्‍याउन सक्दैन; यसका
+लागि **सङ्गठित आवाज** चाहिन्छ। जनताको यस्तै सङ्गठन राजनीतिक दल हो। अब्राहम
+लिङ्कनले लोकतन्त्रलाई **जनताको शासन** भनेका छन्, र लोकतन्त्र दलको सार्थक उपस्थिति
+भएमा मात्र सम्भव हुन्छ।
+
+::: definition राजनीतिक दल
+निश्चित **सिद्धान्त, मूल्यमान्यता र दर्शन** मा आधारित राजनीतिक उद्देश्य प्राप्तिका लागि
+खोलिएको सङ्गठनलाई राजनीतिक दल भनिन्छ। बहुदलीय व्यवस्थामा दलहरूले आफ्ना विचार,
+कार्यक्रम र व्यवहारले जनताको मन जितेर राज्य सञ्चालन गर्ने अधिकार पाउँछन्।
 :::
 
-Elections are the base of democracy. Through them the people give power to leaders and also take it back; they make rulers answerable. Without free and fair elections no democracy is real.
+नेपालमा दलहरूले २००७ सालअघिदेखि नै जनताको हकअधिकारका लागि आन्दोलन गरेका छन्।
+दमनकारी शासनविरुद्ध जनतालाई एकजुट बनाउन र जनताको आवाज, अधिकार र छनोटलाई सक्रिय
+बनाउन दलहरू स्थापित भए।
 
-### Elections in Nepal
+```figure caption="नेपालका राजनीतिक दल र राजनीतिक परिवर्तनको समयरेखा (पाठ्यपुस्तकअनुसार; घटनाबिचको दूरी समयअनुपातमा छैन)। रातो रङ दलमाथि प्रतिबन्धका घटना हुन्।"
+fig, ax = plt.subplots(figsize=(5.9, 2.6))
+ev = [(1993, "प्रजा परिषद्\n(१९९३ जेठ २०)", 0), (2005, "नेपाली\nकाङ्ग्रेस", 1), (2006, "नेपाल कम्युनिस्ट\nपार्टी", 0),
+      (2017, "पञ्चायत सुरु,\nदलमाथि प्रतिबन्ध", 1), (2036, "विद्यार्थी\nआन्दोलन", 0), (2046, "पहिलो जनआन्दोलन,\nप्रतिबन्ध हट्यो", 1),
+      (2061, "दलमाथि फेरि\nप्रतिबन्ध", 0), (2063, "दोस्रो\nजनआन्दोलन", 1), (2072, "संविधान\nजारी", 0)]
+ax.plot([-0.5, len(ev) - 0.5], [0, 0], color=MUTED, lw=1.4)
+for k, (x, t, up) in enumerate(ev):
+    c = SERIES[1] if x in (2017, 2061) else ACCENT
+    y = 0.55 if up else -0.55
+    ax.plot([k, k], [0, y * 0.7], color=c, lw=1)
+    ax.plot(k, 0, "o", color=c, ms=5)
+    ax.text(k, y, t, ha="center", va="center", fontsize=6.9, color=INK)
+    ax.text(k, -0.08 if up else 0.08, ("२०६२/६३" if x == 2063 else str(x)), ha="center", va="top" if up else "bottom", fontsize=6.9, color=c)
+ax.set_xlim(-0.7, len(ev) - 0.3); ax.set_ylim(-0.95, 0.95); ax.axis("off")
+```
 
-| Level | Body elected | Term |
+- **वि.सं. १९९३ जेठ २० गते** नेपालको पहिलो राजनीतिक दल **प्रजा परिषद्** को जन्म भयो।
+- वि.सं. २००५ मा **नेपाली काङ्ग्रेस** र २००६ मा **नेपाल कम्युनिस्ट पार्टी** लगायतका दल
+  गठन भई क्रियाशील भए।
+- पञ्चायतकालीन करिब **३० वर्ष** (२०१७–२०४६) दलमाथि प्रतिबन्ध रह्यो।
+- **२०४६ को जनआन्दोलन** पछि पञ्चायत अन्त्य भई प्रतिबन्ध हट्यो र धेरै दल अस्तित्वमा आए।
+- **वि.सं. २०६१** मा राजा ज्ञानेन्द्र शाहको शासनकालमा फेरि दलमाथि प्रतिबन्ध लगाइयो।
+- **२०६२/०६३ को दोस्रो जनआन्दोलन** बाट गणतन्त्र स्थापना भयो र विभिन्न राष्ट्रिय तथा
+  क्षेत्रीय दल स्थापना भए।
+
+### दल दर्ता र मान्यतासम्बन्धी व्यवस्था
+
+निर्वाचनमा भाग लिन दलले **निर्वाचन आयोगबाट** मान्यता लिनुपर्छ। दर्ताका लागि दलको
+**नाम, उद्देश्य, चिह्न र झन्डा** निश्चित हुनुपर्छ। धार्मिक वा साम्प्रदायिक एकतामा खलल
+पार्ने वा देश विखण्डन गर्ने प्रकृतिका दल दर्ता हुँदैनन्। संविधानले दल दर्ताका लागि यी
+सर्त राखेको छ:
+
+- (क) दलको विधान र नियमावली **लोकतान्त्रिक** हुनुपर्ने;
+- (ख) कम्तीमा **पाँच वर्षमा एक पटक** सङ्घीय र प्रदेश तहका प्रत्येक पदाधिकारीको
+  निर्वाचन भएको हुनुपर्ने;
+- (ग) दलका विभिन्न तहका समितिमा **समावेशी प्रतिनिधित्व** हुनुपर्ने।
+
+मान्यता चाहने दलले निर्वाचन आयोगमा निवेदन दिँदा **विधान र घोषणापत्र** का साथै (क)
+दलको नाम र केन्द्रीय कार्यालयको ठेगाना, (ख) कार्यकारिणी समिति वा सोसरहका समितिका
+सदस्य र पदाधिकारीको नाम–ठेगाना, (ग) दलको आयस्रोतको कोष र त्यो जुटाउने स्रोतको
+विवरण खुलाउनुपर्छ।
+
+### समूह ख: राजनीतिक दलको भूमिका र जिम्मेवारी
+
+नेपालमा राजनीतिक परिवर्तन दलकै नेतृत्वमा भएका छन्। २००७ सालको प्रजातन्त्र स्थापनामा
+प्रजा परिषद्, नेपाली काङ्ग्रेस र नेपाल कम्युनिस्ट पार्टीको भूमिका महत्त्वपूर्ण रह्यो। **२०१७
+साल पुस १ गते** राजा महेन्द्रले निर्वाचित सरकार विघटन गरी पञ्चायत सुरु गर्दा दलहरूले
+विरोध गरे; निरङ्कुशताविरुद्ध आन्दोलनमा धेरै नेता–कार्यकर्ता पक्राउ परे, कतिपय मारिए।
+**२०३६ को विद्यार्थी आन्दोलन** र **२०४६ को पहिलो जनआन्दोलन** मा दलहरू अग्रमोर्चामा
+रहे। **२०६२/०६३ को जनआन्दोलन** मा सात दल र नेकपा माओवादीको संयुक्त आन्दोलनले
+राजाको निरङ्कुशता अन्त्य गरी सङ्घीय लोकतान्त्रिक गणतन्त्र स्थापनामा मदत गर्‍यो। दलकै
+सक्रियतामा **२०७२ साल असोज ३ गते** संविधान सभाबाट नेपालको संविधान जारी भयो।
+
+```photo id="soc10/janaandolan-1990" caption="२०४६ सालको जनआन्दोलनको दृश्य, काठमाडौँ। दलहरूको नेतृत्वमा भएको यस आन्दोलनले पञ्चायत अन्त्य गरी बहुदलीय व्यवस्था पुनर्स्थापना गर्‍यो।" width="62"
+```
+
+दलको भूमिका मुख्यतः दुई पक्षमा केन्द्रित हुनुपर्छ:
+
+- **(क) हित अभिव्यक्ति:** जनतालाई सङ्गठित र सचेत गर्ने, मानव अधिकार र सामाजिक न्याय
+  प्रवर्धन गर्ने, सामाजिक समस्या र विकृतिविरुद्ध चेतना जगाउने — अर्थात् जनताको माग र
+  चाहनालाई आवाज दिने।
+- **(ख) हित संयुक्तीकरण:** निर्वाचनबाट सत्तामा पुगेपछि घोषित कार्यक्रमअनुसार विकास
+  गर्ने, राज्य सञ्चालन गर्ने, सुशासन कायम गर्ने र जनहितका काम गर्ने — अर्थात् फरक फरक
+  मागलाई मिलाएर नीति र कार्यक्रममा बदल्ने।
+
+दलहरू समानता, सशक्तीकरण, सकारात्मक विभेद र आरक्षणमार्फत **सामाजिक न्याय** दिन र वृद्ध,
+एकल महिला, दलित, अल्पसङ्ख्यकलाई **सामाजिक सुरक्षा** दिन जिम्मेवार हुनुपर्छ।  योग्यताका आधारमा नेतृत्व
+चयन गरे र प्रतिबद्धता पूरा गरे दलप्रति जनविश्वास र राजनीतिक स्थायित्व बढ्छ। आजको आवश्यकता दलगत र
+व्यक्तिगत होइन, **राष्ट्रिय स्वार्थ** मा काम गर्ने प्रणाली हो; यसका लागि दलले शान्ति, स्थिरता,
+विकास र कानुनी शासनलाई प्राथमिकता दिनुपर्छ।
+
+::: note क्रियाकलाप — पाठ ५.४
+**१.** "लोकतन्त्रमा राजनीतिक दलको भूमिका" विषयमा वक्तृत्वकला प्रतियोगिता गर्नुहोस्।
+**२.** समुदायका तीन फरक दलका पदाधिकारीलाई भेटेर तलको तालिका भर्नुहोस्:
+
+| राजनीतिक दलको नाम | दलले गरेका राम्रा काम | सुधार गर्नुपर्ने पक्ष |
 |---|---|---|
-| Federal | House of Representatives (275) | 5 years |
-| Province | Provincial Assemblies | 5 years |
-| Local | Mayor/Deputy Mayor, Chair/Vice-chair, ward chairs and members in 753 local levels | 5 years |
-| Indirect | National Assembly (6 years), President and Vice-President (5 years) | By electoral colleges |
+| १. | | |
+| २. | | |
+| ३. | | |
 
-After the Constitution of 2072, elections to all three levels were first held in 2074 BS (2017). Local elections were held again in 2079 BS (May 2022), and House of Representatives elections were held in 2079 (November 2022) and, as early elections, on 5 March 2026.
-
-### Electoral system
-
-Nepal uses a **mixed system** for the House of Representatives and the provincial assemblies.
-
-- **First-past-the-post (FPTP):** the country is divided into constituencies; each elects one member, and the candidate who gets the most votes wins, even without a majority. 165 members of the House of Representatives are elected this way.
-- **Proportional representation (PR):** parties' share of seats follows their share of the national vote, using party lists. 110 members are elected this way. The PR lists must be inclusive: women, Dalit, Adivasi Janajati, Khas Arya, Tharu, Madhesi, Muslims and backward areas.
-- A voter casts **two votes** (two ballot papers): one for a candidate and one for a party.
-
-### Who can vote and who can stand?
-
-| | Condition |
-|---|---|
-| Voter | A Nepali citizen aged **18** or above, whose name is on the voter list, and who is not disqualified by law |
-| Candidate (House of Representatives) | Citizen aged 25 or above, name on the voter list, not disqualified by law, not holding a profit office |
-
-### The Election Commission
-
-The **Election Commission** is a constitutional body (Article 245) that conducts, supervises, directs and controls elections to the federal parliament, provincial assemblies and local levels, and the elections of the President and Vice-President. It has five commissioners, one of whom is the Chief Election Commissioner, appointed for six years. It prepares the voter list, registers parties, sets the code of conduct, appoints polling officers and observers, and announces results. Its independence guarantees fair elections.
-
-### Steps of an election
-
-```figure caption="The main steps of an election."
-import matplotlib.pyplot as plt
-from matplotlib.patches import FancyBboxPatch
-fig, ax = plt.subplots(figsize=(4.8,2.6))
-ax.set_xlim(0,12.4); ax.set_ylim(0,6.2); ax.axis('off')
-steps=['1. Voter list','2. Election\nschedule','3. Candidate\nnomination','4. Campaign\n(code of conduct)','5. Voting\n(secret ballot)','6. Counting\nand result']
-for i,s in enumerate(steps):
-    col=i%3; row=i//3
-    x=0.2+col*4.1; y=3.5-row*3.0
-    ax.add_patch(FancyBboxPatch((x,y),3.3,2.1,boxstyle='round,pad=0.05',fc='#e8f0f8',ec=ACCENT,lw=1))
-    ax.text(x+1.65,y+1.05,s,ha='center',va='center',fontsize=7.5,color=INK)
-    if col<2:
-        ax.annotate('',xy=(x+4.05,y+1.05),xytext=(x+3.4,y+1.05),arrowprops=dict(arrowstyle='->',color=MUTED,lw=1))
-ax.plot([9.85,9.85,1.85],[3.45,3.05,3.05],color=MUTED,lw=1)
-ax.annotate('',xy=(1.85,2.65),xytext=(1.85,3.05),arrowprops=dict(arrowstyle='->',color=MUTED,lw=1))
-```
-
-1. **Voter list:** the Commission registers eligible citizens and publishes the list for correction.
-2. **Election schedule:** the date is announced; the code of conduct comes into force.
-3. **Nomination:** parties and independent candidates file nominations, which are checked for eligibility.
-4. **Campaign:** manifestos, meetings and house visits within the code of conduct, with limits on spending.
-5. **Voting:** at the polling station the voter's name is checked, the voter marks the ballot in secret and drops it in the box. Security forces keep peace.
-6. **Counting and results:** votes are counted at the counting centre in front of party agents and observers; the winner is declared and given a certificate.
-
-```photo id="soc10/voter" caption="A voter casts a ballot in the local elections of 2022. The secret ballot and an independent Election Commission protect free choice." width="62"
-```
-
-### Role of citizens
-
-1. **Register and vote** — vote in every election, and vote freely and by conscience.
-2. **Know the candidates and their programmes**, and choose on merit, not on caste, money, force or relation.
-3. **Never sell or buy votes**, and refuse gifts, threats and pressure.
-4. **Follow the election code of conduct**; do not spread false rumour or hate speech.
-5. **Report** violations to the Election Commission or police.
-6. **Take part** as polling officer, observer or volunteer; those who are eligible may stand as candidates.
-7. **Accept the result peacefully**, and hold the winners to their promises.
-8. **Educate others** — help first-time voters and the elderly to vote.
-
-::: caution FPTP and PR are not the same
-In FPTP the winner needs only more votes than the others in a constituency (a "plurality"), and only one person is elected. In PR the parties win seats according to their share of votes. The House of Representatives has 165 FPTP and 110 PR members: total 275.
+**३.** विभिन्न दलका प्रतिबद्धतापत्र वा घोषणापत्र सङ्कलन गरी मुख्य प्रतिबद्धता टिपेर कक्षामा
+प्रस्तुत गर्नुहोस्।
+**सामुदायिक कार्य:** समुदायमा सामाजिक समस्या र विकृतिविरुद्ध चेतना जगाउन दलले खेलेको
+भूमिकाबारे एक स्थानीय नेता वा अगुवा कार्यकर्तासँग छलफल गरी विवरण प्रस्तुत गर्नुहोस्।
 :::
 
-## 5.6 Human rights
+### पाठको अभ्यास: नमुना उत्तर
 
-### Meaning
+**१. राजनीतिक दल भनेको के हो?**
+निश्चित सिद्धान्त, मूल्यमान्यता र दर्शनमा आधारित राजनीतिक उद्देश्य प्राप्त गर्न खोलिएको
+जनताको सङ्गठनलाई राजनीतिक दल भनिन्छ। दलहरू आफ्ना विचार र कार्यक्रम जनतासमक्ष
+लगेर निर्वाचन लड्छन् र जनमत पाएमा सरकार चलाउँछन्। नेपालमा दलले निर्वाचनमा भाग
+लिन निर्वाचन आयोगबाट मान्यता लिनुपर्छ।
 
-::: definition Human rights
-Human rights are the basic rights and freedoms that every person has simply because he or she is a human being, regardless of nationality, sex, caste, religion, language or any other status, and which no one may take away.
+**२. लोकतान्त्रिक व्यवस्थामा राजनीतिक दलको भूमिका प्रस्ट्याउनुहोस्।**
+(क) **हित अभिव्यक्ति:** जनतालाई सङ्गठित र सचेत गरी उनीहरूका माग राज्यसमक्ष पुर्‍याउँछ।
+(ख) **हित संयुक्तीकरण:** फरक मागलाई नीति र कार्यक्रममा मिलाई सत्तामा पुगेपछि लागु गर्छ।
+(ग) **निर्वाचन र सरकार:** उम्मेदवार उठाउँछ, घोषणापत्र दिन्छ, बहुमत पाए सरकार बनाउँछ।
+(घ) **प्रतिपक्ष:** सत्तामा नभए सरकारको निगरानी र आलोचना गर्छ। (ङ) **सामाजिक न्याय:**
+आरक्षण, सकारात्मक विभेद र सामाजिक सुरक्षामार्फत पछाडि परेकालाई अगाडि ल्याउँछ। दलबिना
+लोकतन्त्र चल्न सक्दैन।
+
+**३. नेपालमा भएका विभिन्न राजनीतिक परिवर्तनमा राजनीतिक दलले खेलेको भूमिकाको
+विश्लेषण गर्नुहोस्।**
+(क) **२००७ साल:** प्रजा परिषद्, नेपाली काङ्ग्रेस र नेपाल कम्युनिस्ट पार्टीको सङ्घर्षले
+राणा शासन अन्त्य भई प्रजातन्त्र आयो। (ख) **पञ्चायतकाल (२०१७–२०४६):** २०१७ पुस १
+मा निर्वाचित सरकार विघटन भई दल प्रतिबन्धित भए, तर दलहरूले भूमिगत रहेर निरन्तर
+आन्दोलन गरे; धेरै नेता पक्राउ परे र मारिए। (ग) **२०३६ को विद्यार्थी आन्दोलन** मा दलहरूको
+सहभागिताले जनमत सङ्ग्रह गराउन बाध्य बनायो। (घ) **२०४६ को जनआन्दोलन** को
+नेतृत्व दलहरूले गरे र बहुदलीय व्यवस्था पुनर्स्थापना भयो। (ङ) **२०६२/०६३ को
+जनआन्दोलन** मा सात दल र नेकपा माओवादी मिलेर राजाको निरङ्कुशता अन्त्य गरे र
+सङ्घीय लोकतान्त्रिक गणतन्त्र आयो। (च) **२०७२ असोज ३** मा दलहरूको सहमतिमा संविधान
+सभाबाट संविधान जारी भयो। **विश्लेषण:** हरेक ठुलो परिवर्तन दलकै नेतृत्वमा भएकाले उनीहरूको भूमिका निर्णायक छ; तर परिवर्तनपछिको अस्थिरता र भ्रष्टाचारले जनअपेक्षा पूरा भएका छैनन्।
+
+**४. राजनीतिक दल खोल्न आवश्यक प्रावधान उल्लेख गर्नुहोस्।**
+(क) दलको नाम, उद्देश्य, चिह्न र झन्डा निश्चित हुनुपर्ने; (ख) विधान र नियमावली लोकतान्त्रिक
+हुनुपर्ने; (ग) कम्तीमा पाँच वर्षमा एक पटक सङ्घीय र प्रदेश तहका पदाधिकारीको निर्वाचन
+हुनुपर्ने; (घ) समितिहरूमा समावेशी प्रतिनिधित्व हुनुपर्ने; (ङ) धार्मिक वा साम्प्रदायिक एकतामा
+खलल पार्ने वा देश विखण्डन गर्ने प्रकृतिको हुन नहुने; (च) निर्वाचन आयोगमा निवेदन दिँदा
+विधान, घोषणापत्र, केन्द्रीय कार्यालयको ठेगाना, पदाधिकारीको नाम–ठेगाना र आयस्रोतको
+विवरण बुझाउनुपर्ने।
+
+**५. राजनीतिक दलमाथि जनताको भरोसा अभिवृद्धि गर्ने उपाय सुझाउनुहोस्।**
+(क) योग्यता, क्षमता र इमानदारीका आधारमा नेतृत्व छान्ने; (ख) घोषणापत्रका प्रतिबद्धता
+समयमै पूरा गर्ने; (ग) दलको आयव्यय पारदर्शी बनाउने र भ्रष्टाचारीलाई कारबाही गर्ने; (घ)
+दलभित्र आन्तरिक लोकतन्त्र अपनाउने; (ङ) दलगत होइन राष्ट्रिय स्वार्थमा काम गर्ने; (च) युवा,
+महिला र पछाडि परेका वर्गलाई नेतृत्वमा ल्याउने; (छ) स्थिर सरकार र सुशासन दिने।
+
+**६. नेपालमा राष्ट्रिय मान्यता प्राप्त राजनीतिक दलको सूची बनाउनुहोस्।**
+राष्ट्रिय दलको मान्यता निर्वाचन नतिजाअनुसार निर्वाचन आयोगले दिन्छ, त्यसैले सूची हरेक
+निर्वाचनपछि बदलिन सक्छ। प्रतिनिधि सभा निर्वाचन २०७९ पछि (समानुपातिकतर्फ कम्तीमा ३
+प्रतिशत मत र कम्तीमा एक प्रत्यक्ष सिट) सात राष्ट्रिय दल थिए: नेपाली काङ्ग्रेस, नेकपा
+(एमाले), नेकपा (माओवादी केन्द्र), राष्ट्रिय स्वतन्त्र पार्टी, राष्ट्रिय प्रजातन्त्र पार्टी, जनता
+समाजवादी पार्टी र जनमत पार्टी। पछिल्लो सूची निर्वाचन आयोगबाट मिलाउनुहोस्।
+
+## ५.५ निर्वाचन प्रक्रिया र नागरिकको भूमिका
+
+यो पाठ कक्षामा स्रोतव्यक्तिका रूपमा आमन्त्रित **जिल्ला निर्वाचन अधिकारी**, शिक्षक र
+विद्यार्थीबिचको अन्तरक्रियामा आधारित छ। अन्तरक्रियाका मुख्य कुरा यस्ता छन्।
+
+### अन्तरक्रियाका प्रश्न र उत्तर
+
+**महिमा — निर्वाचन भनेको के हो?** लोकतान्त्रिक व्यवस्थामा नागरिकले आफ्ना प्रतिनिधि
+चुन्ने प्रक्रियालाई निर्वाचन भनिन्छ। नेपालमा हरेक **पाँच वर्षमा** सङ्घ, प्रदेश र स्थानीय
+तहको **आवधिक निर्वाचन** हुन्छ; आवधिक निर्वाचन लोकतन्त्रको अनिवार्य सर्त हो।
+**निर्वाचन आयोग** ले राष्ट्रपति, उपराष्ट्रपति, सङ्घीय संसद्का सदस्य, प्रदेश सभा सदस्य र
+स्थानीय तहका पदाधिकारीको निर्वाचन गराउँछ।
+
+**शिशिर — निर्वाचन किन चाहिन्छ?** लोकतन्त्रमा **जनता सार्वभौम** हुन्छन्। उनीहरूले
+आफूमाथि शासन गर्न योग्य, सक्षम र आफ्नो भावना बुझ्ने प्रतिनिधि चुन्छन्। निर्वाचनले
+असल, सक्षम र **जनउत्तरदायी** प्रतिनिधि छान्ने र काम नगर्नेलाई अर्को पटक फेर्ने अवसर
+दिन्छ।
+
+**शिक्षक — मतदाता नामावली र परिचयपत्र किन महत्त्वपूर्ण छन्?** मतदाता नामावली
+अद्यावधिक गर्ने जिम्मा निर्वाचन आयोगको हो; यसका लागि हरेक जिल्लामा **निर्वाचन
+कार्यालय** छ। **१८ वर्ष** पूरा भएका नेपाली नागरिकको नाम प्रक्रियाअनुसार नामावलीमा
+समावेश हुन्छ र उनीहरूलाई **फोटोसहितको मतदाता परिचयपत्र** दिइन्छ, जसमा फोटो,
+नाम, ठेगाना र परिचयपत्र नम्बर हुन्छ। यसैका आधारमा मतदान गर्न पाइन्छ। नामावली
+**प्रत्येक वर्ष** अद्यावधिक हुन्छ र नामावलीमा नाम नभएका व्यक्तिले मतदान गर्न पाउँदैनन्।
+मतदातालाई पायक पर्ने सार्वजनिक स्थानमा **मतदान स्थल** तोकिन्छ; एक मतदान स्थलमा एक
+वा बढी **मतदान केन्द्र** हुन सक्छन्।
+
+**ल्हामो — मतदान अधिकृतको जिम्मेवारी के हो?** मतदान केन्द्रमा निष्पक्ष र भयरहित
+वातावरणमा मतदान गराउने दायित्व **मतदान अधिकृत** को हो। उनले मतदान केन्द्र र सुरक्षाको
+व्यवस्था मिलाउँछन्, नियमअनुसार मतदान सुरु र अन्त्य गर्छन्, उजुरी–गुनासो सुनेर कारबाही
+गर्छन् र मतपेटिका सम्बन्धित ठाउँमा बुझाउँछन्।
+
+**सरस्वती — उम्मेदवार हुन के योग्यता चाहिन्छ?** नेपालको नागरिक, **२१ वर्ष** उमेर
+पूरा भएको, नैतिक पतन देखिने फौजदारी कसुरमा सजाय नपाएको, लाभको पदमा बहाल
+नरहेको र कानुनले अयोग्य नठहराएको व्यक्ति उम्मेदवार हुन सक्छ।
+
+::: caution उम्मेदवारको उमेर — पदअनुसार फरक
+पाठ्यपुस्तकले संवादमा "२१ वर्ष" भनेको छ; यो **स्थानीय तह** का पदका लागि लागु हुने
+न्यूनतम उमेर हो। प्रतिनिधि सभा र प्रदेश सभा सदस्यका लागि **२५ वर्ष**, राष्ट्रिय सभाका
+लागि **३५ वर्ष** र राष्ट्रपतिका लागि **४५ वर्ष** चाहिन्छ। मतदान गर्न भने **१८ वर्ष** पुगे पुग्छ।
 :::
 
-### Features
+::: definition निर्वाचन प्रक्रिया
+निर्वाचनको **मिति घोषणादेखि अन्तिम परिणामको घोषणा र प्रमाणपत्र वितरणसम्म** का
+निर्वाचनसम्बन्धी सम्पूर्ण गतिविधिलाई निर्वाचन प्रक्रिया भनिन्छ।
+:::
 
-| Feature | Meaning |
-|---|---|
-| Universal | They belong to all persons everywhere |
-| Inherent and inalienable | We are born with them; they cannot be sold or taken away |
-| Equal and non-discriminatory | Same for everyone |
-| Indivisible and interdependent | All rights, civil and economic, are linked |
-| Come with responsibilities | Respecting others' rights is a duty |
-
-### Universal Declaration of Human Rights
-
-After the horrors of the Second World War, the United Nations General Assembly adopted the **Universal Declaration of Human Rights (UDHR)** on **10 December 1948**; it has **30 articles**. Its first article says, "All human beings are born free and equal in dignity and rights." **10 December** is celebrated every year as **Human Rights Day**. The commission that drafted it was led by **Eleanor Roosevelt**.
-
-```photo id="soc10/roosevelt-udhr" caption="Eleanor Roosevelt, who chaired the UN Commission on Human Rights that drafted the Universal Declaration of Human Rights, reads the Declaration." width="64"
+```figure caption="निर्वाचन प्रक्रियाका मुख्य चरण — मिति घोषणादेखि प्रमाणपत्र वितरणसम्म।"
+fig, ax = flow([("घोषणा", "मिति\nतोकिन्छ"),
+                ("मनोनयन", "उम्मेदवारी\nदर्ता"),
+                ("प्रचार", "आचारसंहिता"),
+                ("मतदान", "गोप्य\nमतदान"),
+                ("मतगणना", "परिणाम,\nप्रमाणपत्र")],
+               figsize=(5.9, 1.95))
 ```
 
-### Kinds of human rights
+**रश्मि — निर्वाचनमा नागरिकको भूमिका के हो?** नागरिकले (क) मतदाता नामावलीमा नाम
+समावेश गर्ने, सच्याउने र आवश्यक परे हटाउने; (ख) आर्थिक प्रलोभनमा नपरी आफूले
+चाहेको उम्मेदवारलाई मत हाल्ने; (ग) दलका घोषणापत्रबारे अरूलाई जानकारी दिने; (घ)
+मतदाता शिक्षा कार्यक्रममा भाग लिने र निर्वाचनसम्बन्धी प्रचारप्रसार गर्ने; (ङ) अनुशासित भई
+लाइनमा बसेर मतदान गर्ने र मतदान स्थलमा होहल्ला नगर्ने; (च) वृद्ध, अपाङ्गता भएका,
+सुत्केरी र गर्भवतीलाई पहिलो प्राथमिकता दिने; (छ) **फर्जी मतदान** निरुत्साहित गर्ने; (ज)
+गाउँघरमा निर्वाचनबारे छलफल र जागरणमूलक कार्यक्रममा सक्रिय सहभागी हुने।
 
-| Kind | Examples |
+```photo id="soc10/voter" caption="मतदान गर्दै नेपाली मतदाता। फोटोसहितको परिचयपत्र लिएर लाइनमा बस्नु, गोप्य रूपमा मत हाल्नु र प्रलोभनमा नपर्नु सचेत नागरिकको पहिचान हो।" width="58"
+```
+
+::: note क्रियाकलाप — पाठ ५.५
+**१.** सचेत नागरिकले निर्वाचनमा खेल्न सक्ने भूमिकालाई गीत वा कविताबाट प्रस्तुत गर्नुहोस्।
+**२.** विदेशमा रहेका नेपालीले पनि मतदान गर्न पाउनुपर्छ भन्ने विषयमा तर्क राख्नुहोस्
+(पक्षमा: उनीहरू पनि नागरिक हुन् र मताधिकार सबैको हक हो; चुनौती: पहिचान, गोप्यता र खर्च)।
+**३.** मतदाता नामावली कुन कुन अवस्थामा अद्यावधिक गर्नुपर्छ, सोधखोज गरी विवरण बनाउनुहोस्
+(जस्तै: १८ वर्ष पुगेपछि,
+बसाइँसराइ गर्दा, विवरण गलत भए वा मृत्यु भएका नाम हटाउन)।
+**सामुदायिक कार्य:** निर्वाचनमा उम्मेदवार भएका व्यक्तिसँग कुराकानी गरी निर्वाचन प्रक्रियामा
+सुधार गर्नुपर्ने पक्ष प्रस्तुत गर्नुहोस्।
+:::
+
+### पाठको अभ्यास: नमुना उत्तर
+
+**१. नेपालमा मतदाता नामावली सम्बन्धमा कस्तो व्यवस्था रहेको छ?**
+मतदाता नामावली अद्यावधिक गर्ने जिम्मेवारी निर्वाचन आयोगको हो र यसका लागि हरेक
+जिल्लामा निर्वाचन कार्यालय छ। १८ वर्ष पूरा भएका नेपाली नागरिकको नाम प्रक्रियाअनुसार
+नामावलीमा समावेश गरिन्छ। नाम समावेश भएकालाई फोटोसहितको मतदाता परिचयपत्र दिइन्छ।
+नामावली प्रत्येक वर्ष अद्यावधिक हुन्छ र नामावलीमा नाम नभएका कुनै पनि व्यक्तिले मतदान
+गर्न पाउँदैनन्।
+
+**२. फोटोसहितको मतदाता परिचयपत्रको महत्त्व उल्लेख गर्नुहोस्।**
+(क) यसमा फोटो, नाम, ठेगाना र परिचयपत्र नम्बर हुने भएकाले वास्तविक मतदाताको पहिचान
+हुन्छ; (ख) अर्काको नाममा मत हाल्ने **फर्जी मतदान** रोकिन्छ; (ग) एउटै व्यक्तिले दुई पटक
+मत हाल्न पाउँदैन; (घ) मतदान छिटो, व्यवस्थित र विश्वसनीय हुन्छ; (ङ) यही परिचयपत्रका
+आधारमा मात्र मतदान गर्न पाइने भएकाले निर्वाचन स्वच्छ र निष्पक्ष हुन्छ।
+
+**३. निर्वाचन प्रक्रियामा नागरिकले खेल्न सक्ने भूमिका उल्लेख गर्नुहोस्।**
+(क) नामावलीमा नाम दर्ता गर्ने र गलत भए सच्याउने; (ख) प्रलोभन वा डरमा नपरी योग्य
+उम्मेदवारलाई मत दिने; (ग) घोषणापत्रबारे अरूलाई जानकारी दिने; (घ) मतदाता शिक्षामा भाग
+लिने; (ङ) अनुशासित भई लाइनमा बसेर मतदान गर्ने; (च) वृद्ध, अपाङ्गता भएका, गर्भवती र
+सुत्केरीलाई प्राथमिकता दिने; (छ) फर्जी मतदान र चुनावी हिंसाको सूचना अधिकारीलाई दिने।
+
+**४. निर्वाचन प्रक्रियामा मतदान अधिकृतका प्रमुख कामको सूची तयार गर्नुहोस्।**
+(क) मतदानको दिन मतदान केन्द्रको व्यवस्था गर्ने; (ख) सुरक्षा व्यवस्था मिलाउने; (ग)
+नियमअनुसार मतदान सुरु र अन्त्य गर्ने; (घ) निष्पक्ष र भयरहित वातावरणमा मतदान गराउने;
+(ङ) मतदानसम्बन्धी उजुरी र गुनासो सुनेर कारबाही गर्ने; (च) मतपेटिका सम्बन्धित ठाउँमा
+सुरक्षित बुझाउने।
+
+**५. नेपालका सबैजसो निर्वाचनमा मतपत्र बदर हुनका कारण पत्ता लगाई समाधानका
+उपायसमेत सुझाउनुहोस्।**
+**कारण:** (क) कोठाबाहिर वा दुई चिह्नको बिचमा स्वस्तिक छाप लगाउनु; (ख) एउटै पदमा
+एकभन्दा बढी चिह्नमा छाप; (ग) पट्याउँदा ओभानो मसी अर्को कोठामा सर्नु; (घ) छाप नै
+नलगाउनु; (ङ) मतपत्रमा नाम वा सही लेख्नु; (च) मतदाता शिक्षाको कमी र धेरै पदका लागि
+एकैपटक मतदान गर्दाको अन्योल। **समाधान:** (क) नमुना मतपत्रसहित घरदैलो मतदाता शिक्षा;
+(ख) विद्यालय र सञ्चारमाध्यमबाट सही तरिका सिकाउने; (ग) मतपत्र सरल बनाउने; (घ) केन्द्रमा
+सहयोगी कर्मचारी राख्ने; (ङ) विद्युतीय मतदान यन्त्रबारे विचार गर्ने।
+
+## ५.६ मानव अधिकार
+
+### मानव अधिकारको अवधारणा
+
+::: definition मानव अधिकार
+संसारका प्रत्येक व्यक्तिलाई मानिस भएकै नाताले प्राप्त हुने **जन्मसिद्ध र आधारभूत
+अधिकार** लाई मानव अधिकार भनिन्छ। यो मानिसलाई स्वतन्त्र रहेर मानवीय मर्यादा र
+यथोचित सम्मानका साथ बाँच्न आवश्यक पर्ने अधिकार हो। जाति, भाषा, धर्म, लिङ्ग,
+अपाङ्गता, राष्ट्रियता, सामाजिक–आर्थिक अवस्था वा राष्ट्रिय सिमानाको भेदभावबिनाका
+व्यवहार यसभित्र पर्छन्।
+:::
+
+**राष्ट्रिय मानव अधिकार आयोग ऐन, २०६८** अनुसार मानव अधिकार व्यक्तिको **जीवन,
+स्वतन्त्रता, समानता र मर्यादा** सँग सम्बन्धित अधिकार हुन्; यी संविधान र प्रचलित कानुनले
+दिएका तथा नेपाल पक्ष भएका अन्तर्राष्ट्रिय सन्धि–सम्झौतामा निहित अधिकार हुन्। नेपालमा
+मानव अधिकार संरक्षणका लागि **वि.सं. २०५७** मा राष्ट्रिय मानव अधिकार आयोग स्थापना
+भयो। नेपालले अन्तर्राष्ट्रिय सन्धिमा प्रतिबद्धता जनाउनुका साथै त्यसअनुकूल कानुन बनाएर
+लागु गर्ने प्रतिबद्धता पनि जनाएको छ।
+
+पाठ्यपुस्तकअनुसार मानव अधिकारबारे सबैभन्दा पहिले आवाज उठाउने व्यक्तित्व **इलेनोर
+रुजवेल्ट** हुन्। उनकै प्रयासमा **सन् १९४८ डिसेम्बर १०** मा संयुक्त राष्ट्रसङ्घको साधारण
+सभाले **मानव अधिकारसम्बन्धी विश्वव्यापी घोषणापत्र** जारी गर्‍यो। यसमा **३० धारा** छन्।
+**धारा १** ले सबै व्यक्ति जन्मजात स्वतन्त्र हुन्छन् र सबैको समान प्रतिष्ठा र अधिकार हुन्छ
+भन्छ। यसैको सम्झनामा हरेक वर्ष डिसेम्बर १० मा **मानव अधिकार दिवस** मनाइन्छ।
+
+```photo id="soc10/roosevelt-udhr" caption="मानव अधिकारसम्बन्धी विश्वव्यापी घोषणापत्र (१९४८) समातेकी इलेनोर रुजवेल्ट। उनी घोषणापत्र तयार गर्ने संयुक्त राष्ट्रसङ्घीय मानव अधिकार आयोगकी अध्यक्ष थिइन्।" width="52"
+```
+
+::: caution "सबैभन्दा पहिले" भन्ने भनाइबारे
+मानव अधिकारको विचार धेरै पुरानो हो। इलेनोर रुजवेल्टको विशेष योगदान घोषणापत्र तयार गर्ने
+आयोगको अध्यक्ष भएर त्यसलाई पारित गराउनु हो। परीक्षामा पाठ्यपुस्तकको भनाइ लेख्न सकिन्छ।
+:::
+
+### विश्वव्यापी घोषणापत्रका मूलभूत सार
+
+```figure caption="मानव अधिकारसम्बन्धी विश्वव्यापी घोषणापत्र (१९४८) का मूलभूत सार।"
+fig, ax = cards([("स्वतन्त्र अस्तित्व", "सबैको स्वतन्त्र अस्तित्व र समान अधिकार"),
+                 ("भेदभावरहित", "जात, धर्म, भाषाका नाममा भेदभाव नहुने"),
+                 ("जीवन र सुरक्षा", "स्वतन्त्र भई जिउने, सुरक्षित रहने हक"),
+                 ("यातनाविरुद्ध", "अमानवीय व्यवहार निषेध"),
+                 ("कानुनको समानता", "सबैलाई समान कानुन"),
+                 ("मनपरी थुना निषेध", "बिनाकारण थुना र देश निकाला नहुने"),
+                 ("वाक् र आवतजावत", "बोल्ने र हिँडडुलको स्वतन्त्रता"),
+                 ("वैवाहिक स्वतन्त्रता", "आफूखुसी विवाह गरी परिवार बसाउने हक")],
+                cols=2, figsize=(5.6, 4.2), title_size=8.6)
+```
+
+१. सबै व्यक्तिको स्वतन्त्र अस्तित्व र अधिकार हुन्छ। २. जातजाति, धर्म, भाषा आदिका
+नाममा कसैमाथि भेदभाव गरिने छैन। ३. हरेक व्यक्तिलाई स्वतन्त्रतापूर्वक जिउने, सुरक्षित
+रहने र बाँच्ने अधिकार हुन्छ। ४. कसैलाई पनि अनावश्यक दण्ड, सजाय र अमानवीय व्यवहार
+गर्न पाइने छैन। ५. हरेक व्यक्तिले समान कानुनको प्रयोग गर्ने र कानुनको प्रयोगमा भेदभाव
+गर्न पाइने छैन। ६. कसैलाई बिनाकारण थुनामा राख्न, देश निकाला गर्न वा नजरबन्दमा
+राख्न पाइने छैन। ७. सबैलाई वाक् स्वतन्त्रता र स्वतन्त्र रूपमा आवतजावत तथा हिँडडुल गर्ने
+अधिकार हुने छ। ८. महिला र पुरुषलाई आफूखुसी वैवाहिक जीवन बिताउने अधिकार हुने छ।
+
+::: caution पाठ्यपुस्तकको दोहोरिएको बुँदा
+पाठ्यपुस्तकको सूचीमा बुँदा ५ र ९ एउटै छन् ("समान कानुनको प्रयोग र भेदभाव नहुने")।
+त्यसैले यहाँ आठ फरक बुँदा मात्र राखिएको छ।
+:::
+
+विश्वव्यापी घोषणापत्रका ३० धारामा उल्लिखित अधिकारलाई विभिन्न देशले **मौलिक हक** का
+रूपमा आफ्नो संविधानमा समावेश गर्दै आएका छन्। नेपालको संविधानको भाग ३ (धारा १६–४६)
+मा पनि यस्तै मौलिक हक छन्।
+
+### मानव अधिकार तथा वैवाहिक स्वतन्त्रता
+
+विवाह पुरुष र महिलाबिच दाम्पत्य तथा पारिवारिक जीवन सुरु गर्ने **स्थायी, पवित्र सामाजिक
+र कानुनी बन्धन** हो। तर नेपालमा अझै पनि बुबाआमाले छोरीका लागि जीवनसाथी खोज्ने र
+निर्णय गर्ने चलन छ। केटा पक्ष केटी "हेर्न" जाने, बिनाकारण खोट देखाएर एकतर्फी रूपमा
+अस्वीकार गर्ने, र केटा पक्षले स्वीकार गरेमा केटीको इच्छा नसोधी बुबाआमाले सहमति दिने
+चलन छ। शिक्षित परिवारमा यो चलन केही घटे पनि उन्मूलन भएको छैन। यसले विवाहमा
+महिलाको **पारस्परिक अधिकार** (दुवै पक्षको बराबर छनोट र सहमतिको अधिकार) हनन गरेको छ।
+
+| दस्तावेज | विवाहसम्बन्धी व्यवस्था |
 |---|---|
-| Civil and political | Right to life, liberty, equality before the law, freedom of expression, religion, vote |
-| Economic, social and cultural | Education, health, work, food, housing, social security, language and culture |
-| Collective and environmental rights | Right to a clean environment, right to development, rights of indigenous peoples |
+| विश्वव्यापी घोषणापत्र, १९४८ (धारा १६) | उमेर पुगेका महिला र पुरुषलाई जाति, राष्ट्रियता वा धर्मको कुनै सीमाबिना विवाह गरी परिवार बसाउने अधिकार |
+| आर्थिक, सामाजिक तथा सांस्कृतिक अधिकारसम्बन्धी अन्तर्राष्ट्रिय प्रतिज्ञापत्र, १९६६ | इच्छुक वरवधूको स्वतन्त्र सहमतिबाट मात्र विवाह हुनुपर्ने |
+| महिलाविरुद्ध सबै प्रकारका भेदभाव उन्मूलन गर्नेसम्बन्धी महासन्धि, १९७९ | स्वतन्त्र रूपले वर रोज्ने र स्वतन्त्र तथा पूर्ण सहमतिमा मात्र विवाह गर्ने समान अधिकार |
+| मुलुकी देवानी संहिता, २०७४ | पुरुष वा महिलाको मञ्जुरीबिना भएको विवाह स्वतः बदर हुने |
 
-### Human rights in the Constitution of Nepal
+नेपाल माथिका दुवै अन्तर्राष्ट्रिय सन्धिको **पक्षराष्ट्र** भएकाले तिनका व्यवस्था नेपाल
+कानुनसरह लागु हुन्छन्। विवाह प्रत्येक वयस्कको मानव अधिकार हो। विवाह प्रत्येक वयस्कको मौलिक हक र मानव अधिकार हो। कुनै पनि
+महिलाले करकाप वा प्रलोभनमा इच्छाविपरीत विवाह गर्नुहुँदैन। अभिभावकले सहजकर्ता,
+व्यवस्थापक र आर्थिक सहयोगीको भूमिका खेल्न सक्छन्, तर छोरीको सहमतिबिना जीवनसाथी
+रोज्ने हक उनीहरूलाई हुँदैन। महिलालाई वस्तुसरह हेरेर पुरुष पक्षले मात्र एकतर्फी निर्णय
+गर्ने गलत अभ्यास उन्मूलन गर्नुपर्छ।
 
-Part 3 of the Constitution (Articles 16 to 46) lists **31 fundamental rights**. Some of the main ones are:
+::: note क्रियाकलाप — पाठ ५.६
+**१.** विश्वव्यापी घोषणापत्रका ३० धाराको सूची आधिकारिक स्रोतबाट तयार गरी कक्षामा
+प्रस्तुत गर्नुहोस्।
+**२.** नेपालले मानव अधिकारको क्षेत्रमा गरेका मुख्य काम जानकार व्यक्ति वा स्रोतसामग्रीबाट
+खोजी गरी प्रस्तुत गर्नुहोस्।
+**३.** घोषणापत्रको **धारा २६** मा कम्तीमा प्रारम्भिक वा आधारभूत शिक्षा निःशुल्क र अनिवार्य
+हुने उल्लेख छ। नेपालमा यसको कार्यान्वयनको अवस्थाबारे खोजमूलक आलेख तयार गर्नुहोस्
+(सङ्केत: संविधानको धारा ३१ ले आधारभूत तहसम्म अनिवार्य र निःशुल्क तथा माध्यमिक
+तहसम्म निःशुल्क शिक्षाको हक दिएको छ)।
+:::
 
-| Right | Article | Meaning |
+### पाठको अभ्यास: नमुना उत्तर
+
+**१. मानव अधिकार भनेको के हो?**
+मानिस भएकै कारण संसारका प्रत्येक व्यक्तिलाई जन्मैदेखि प्राप्त हुने, स्वतन्त्र रहेर मर्यादा र
+सम्मानका साथ बाँच्न आवश्यक आधारभूत अधिकारलाई मानव अधिकार भनिन्छ। राष्ट्रिय मानव
+अधिकार आयोग ऐन, २०६८ अनुसार यी व्यक्तिको जीवन, स्वतन्त्रता, समानता र मर्यादासँग
+सम्बन्धित अधिकार हुन्। जाति, धर्म, लिङ्ग, भाषा वा राष्ट्रियताको भेदभावबिना यी सबैलाई
+समान रूपमा लागु हुन्छन्। सन् १९४८ डिसेम्बर १० को विश्वव्यापी घोषणापत्र यसको मुख्य
+आधार हो।
+
+**२. मानव अधिकार र मौलिक अधिकारबिचको भिन्नता उल्लेख गर्नुहोस्।**
+
+| आधार | मानव अधिकार | मौलिक अधिकार (हक) |
 |---|---|---|
-| Right to live with dignity | 16 | Every person has the right to live with dignity; no law shall provide for the death penalty |
-| Right to freedom | 17 | Freedom of opinion and expression, peaceful assembly, forming organisations and parties, movement and profession |
-| Right to equality | 18 | All citizens equal before the law; no discrimination on grounds of origin, religion, race, caste, sex or ideology; equal pay for equal work |
-| Right to justice | 20 | Fair trial, a lawyer, to be informed of the reason for arrest |
-| Right against torture | 22 | No one may be tortured during arrest or detention |
-| Right against untouchability and discrimination | 24 | Caste-based untouchability is a crime |
-| Right to property | 25 | Every citizen may acquire, own and sell property |
-| Right to religious freedom | 26 | Freedom to practise one's religion; conversion by force or temptation is not allowed |
-| Right against exploitation | 29 | No trafficking, slavery, bonded labour or forced work |
-| Right to a clean environment | 30 | Right to live in a clean and healthy environment |
-| Right to education | 31 | Free and compulsory basic education, free secondary education |
-| Right of women | 38 | Equal lineage rights, safe motherhood, no violence |
-| Right of the child | 39 | Name, identity, care, no child labour, marriage or army recruitment |
-| Right to health | 35 | Free basic health service |
-| Right to food, housing, employment, social security | 36, 37, 33, 43 | Basic needs |
-| Right of the consumer | 44 | Quality goods and services |
-| Right to constitutional remedy | 46 | Go to the Supreme Court if a fundamental right is violated |
+| स्रोत | मानिस भएकै नाताले जन्मसिद्ध; अन्तर्राष्ट्रिय घोषणापत्र र सन्धि | देशको संविधान (नेपालमा भाग ३) |
+| क्षेत्र | विश्वव्यापी; संसारभरका सबै मानिसलाई | सम्बन्धित देशका नागरिक वा व्यक्तिलाई |
+| दायरा | धेरै व्यापक | मानव अधिकारमध्ये संविधानले समेटेका मात्र |
+| कानुनी उपचार | प्रायः नैतिक र अन्तर्राष्ट्रिय दबाबबाट | अदालतमार्फत सिधै उपचार माग्न सकिने |
+| परिवर्तन | सबै देशका लागि साझा | संविधान संशोधनबाट थपघट हुन सक्ने |
 
-Fundamental **duties** (Article 48) go with these rights: to protect the nation's independence, to obey the constitution and law, to serve the nation when required by law and to protect public property.
+**३. मानव अधिकारको संरक्षणमा सरकारी तवरबाट भएका प्रयासको समीक्षा गर्नुहोस्।**
+**प्रयास:** (क) संविधानको भाग ३ (धारा १६–४६) मा ३१ मौलिक हक र संवैधानिक उपचार;
+(ख) २०५७ मा राष्ट्रिय मानव अधिकार आयोगको स्थापना, जुन अहिले संवैधानिक आयोग हो; (ग)
+राष्ट्रिय मानव अधिकार आयोग ऐन, २०६८; (घ) राष्ट्रिय महिला, दलित र समावेशी आयोग; (ङ)
+मानव अधिकारसम्बन्धी अन्तर्राष्ट्रिय सन्धिको पक्षराष्ट्र भई अनुकूल कानुन; (च) छुवाछूत, घरेलु
+हिंसा, मानव बेचबिखन र बालविवाहविरुद्ध कानुन। **समीक्षा:** कानुन र संस्था बलिया भए पनि
+कार्यान्वयन कमजोर छ — आयोगका सिफारिस पूर्ण लागु हुँदैनन्, द्वन्द्वपीडितले पूर्ण न्याय पाएका
+छैनन्, यातना, महिला हिंसा र जातीय भेदभाव अझै छन्।
 
-### Violations of human rights
+**४. मानव अधिकारलाई विश्वव्यापी रूपमा उच्च प्राथमिकता दिनुका कारण उल्लेख गर्नुहोस्।**
+(क) यो हरेक मानिसको जन्मसिद्ध अधिकार र मर्यादित जीवनको आधार हो; (ख) दुई विश्वयुद्धको
+व्यापक मानवीय क्षतिपछि फेरि यस्तो नहोस् भन्ने विश्वव्यापी सहमति बन्यो; (ग) जाति, धर्म,
+लिङ्ग, रङका आधारमा हुने भेदभाव अन्त्य गर्छ; (घ) निरङ्कुशता, यातना र मनपरी थुनाबाट
+जोगाउँछ; (ङ) लोकतन्त्र, शान्ति र विकासको पूर्वसर्त हो; (च) कमजोर वर्गको संरक्षण गर्छ।
 
-Caste-based discrimination and untouchability, trafficking, child labour and child marriage, domestic violence and violence against women, torture in custody, forced disappearances during the armed conflict (1996–2006), the lack of food and shelter for some people and discrimination against persons with disabilities and sexual and gender minorities.
+## ५.७ मानव अधिकार संरक्षणमा सङ्घसंस्थाको भूमिका
 
-### How to protect human rights
+मानव अधिकारको संरक्षण कुनै एक संस्थाबाट मात्र सम्भव नहुने भएकाले धेरै राष्ट्रिय र
+अन्तर्राष्ट्रिय संस्था उल्लङ्घन रोक्न र **खबरदारी** गर्न सक्रिय छन्। विद्यार्थीका तीन समूहले
+एक एकओटा संस्थाको नाम, परिचय र मुख्य कार्य प्रस्तुत गरे।
 
-Know our rights and respect those of others; teach human rights in school and family; strong laws and independent courts; an active National Human Rights Commission, press and NGOs; international monitoring; punishment of offenders; and victims' support through compensation and rehabilitation.
-
-## 5.7 Role of organisations in the protection of human rights
-
-Human rights can be protected only if some bodies watch, inquire and speak up. Four groups work in Nepal.
-
-| Level | Institution | Role |
-|---|---|---|
-| State | **Courts** (especially the Supreme Court) | Protect rights by writs, public interest litigation and punishment of violators |
-| State | **National Human Rights Commission (NHRC)** | A constitutional body (Article 248) that protects and promotes human rights, receives complaints, investigates violations on its own initiative or on complaint, and recommends action and compensation |
-| State | **Other commissions** | National Women Commission, National Dalit Commission, National Inclusion Commission, Indigenous Nationalities Commission and others, for their groups |
-| State | **Police and Attorney General** | Investigate and prosecute offences |
-| Civil society | **NGOs** (INSEC, Advocacy Forum, WOREC, CWIN, Maiti Nepal and others) | Monitor and report violations, give legal aid, run awareness and rehabilitation programmes |
-| Media | Press and radio | Expose violations and inform citizens |
-| International | **UN bodies** (UN Human Rights Council, Office of the High Commissioner for Human Rights, UNICEF, UN Women, ILO) | Make standards (conventions), monitor Nepal's reports, support the NHRC and government |
-| International | **International NGOs** such as Amnesty International and the International Committee of the Red Cross | Research, campaign and humanitarian work, including visits to prisons |
-
-### The NHRC at work
-
-The NHRC was formed under a law in 2000 and became a constitutional commission in the constitutions that followed. It has a chairperson and members, and it can visit prisons and police custody, summon officials, and recommend punishment and compensation. Its recommendations carry strong moral weight and the government is expected to implement them. Citizens can send a complaint to the NHRC in writing or through its offices in the regions.
-
-### International conventions Nepal is party to
-
-The International Covenant on Civil and Political Rights (ICCPR); the International Covenant on Economic, Social and Cultural Rights (ICESCR); the Convention on the Elimination of All Forms of Discrimination against Women (CEDAW); the Convention on the Rights of the Child (CRC); the Convention on the Elimination of Racial Discrimination (CERD); and the Convention against Torture (CAT). By signing these, Nepal promises to bring its laws and practice into line and to report regularly.
-
-### What citizens can do
-
-Report violations; support victims; take part in human rights clubs and awareness campaigns; refuse to join in discrimination and rumour; and ask the courts and commission for remedy.
-
-::: tip A complete answer
-For "Role of organisations in protecting human rights", cover **government** (courts, NHRC), **NGOs and media**, and **international** bodies (UN, INGOs) with one example for each.
-:::
-
-## 5.8 Consumer rights
-
-### Who is a consumer?
-
-::: definition Consumer
-A consumer is a person who buys or uses goods or services for personal or family use, and not for resale. A person who buys vegetables, a mobile phone, a bus ticket, an electricity connection or a school's tuition is a consumer.
-:::
-
-Consumers are often at a disadvantage because sellers know more about the product than buyers do. Consumer rights try to correct this. Article 44 of the Constitution of Nepal says that every consumer has the right to obtain quality goods and services and to be informed about the quality and the cost of goods and services, and that a consumer who suffers loss or damage from goods or services is entitled to compensation. The **Consumer Protection Act, 2075 (2018)** puts this into detail.
-
-```photo id="soc10/market" caption="A vegetable seller at the market in Asan, Kathmandu. Honest weights, fair prices and fresh, safe goods are the basic rights of buyers in every market." width="72"
+```figure caption="पाठ्यपुस्तकमा चर्चा गरिएका मानव अधिकारका तीन संस्था — एउटा संवैधानिक, एउटा गैरसरकारी र एउटा अन्तर्राष्ट्रिय।"
+fig, ax = cards([("राष्ट्रिय मानव अधिकार आयोग", "संवैधानिक आयोग, २०५७; नारा: गौरव, समानता, न्याय"),
+                 ("इन्सेक", "सन् १९८८; गैरसरकारी; मानव अधिकार वर्ष पुस्तक"),
+                 ("एम्नेस्टी इन्टरनेसनल", "सन् १९६१; नोबेल शान्ति पुरस्कार १९७७; ७० भन्दा बढी देश")],
+                cols=1, figsize=(5.4, 2.8), title_size=8.8)
 ```
 
-### Consumer rights
+### समूह क: राष्ट्रिय मानव अधिकार आयोग
 
-Consumers International, the world federation of consumer groups, lists eight basic rights, which are largely reflected in Nepal's law.
+**परिचय:** राष्ट्रिय मानव अधिकार आयोग नेपालको एक **संवैधानिक आयोग** हो (संविधानको
+धारा २४८–२४९)। **वि.सं. २०५७** मा स्थापित यो आयोग मानव अधिकारको क्षेत्रमा काम गर्दै
+आएको छ। **गौरव, समानता र न्याय** यसको मूल नारा हो।
 
-| Right | Meaning | Everyday example |
-|---|---|---|
-| Right to basic needs | Access to essential goods and services: food, clothing, shelter, health, education, water | Safe drinking water in every home |
-| Right to safety | Protection from goods and services that may harm health or life | Not selling expired medicines, unsafe toys or adulterated food |
-| Right to information | Correct facts about quality, quantity, price, ingredients, date of manufacture and expiry | Labels, price tag (MRP), expiry date |
-| Right to choice | Freedom to select from a variety of goods at fair prices | No forced buying or tying one product to another |
-| Right to be heard | Consumers' views are taken into account in policy and complaints are heard | Consumer forums and complaint desks |
-| Right to redress (compensation) | Compensation or replacement for loss from bad goods or service | Replacement of a faulty mobile phone |
-| Right to consumer education | Knowledge and skill to be an informed consumer | School lessons and media campaigns |
-| Right to a healthy environment | A clean and safe environment | Controlling pollution from factories |
+**मुख्य कार्य:** (क) सबैका लागि गौरव, समानता र न्याय स्थापना गर्न पहल गर्छ; (ख) मानव
+अधिकार हनन हुन नदिन सचेतनामूलक कार्यक्रम चलाउँछ; (ग) मानव अधिकार उल्लङ्घन गर्ने
+दोषीमाथि कानुनी कारबाहीका लागि सिफारिस गर्छ; (घ) संरक्षण र संवर्धनका लागि नीतिगत
+निर्णय गरी कार्यान्वयनका लागि सिफारिस गर्छ; (ङ) पीडितको अवस्था सार्वजनिक गर्छ; (च)
+सरोकारवालाको ध्यानाकर्षण गराउँछ।
 
-### Problems faced by consumers in Nepal
+### समूह ख: अनौपचारिक क्षेत्र सेवा केन्द्र (इन्सेक)
 
-- **Adulteration** of food, milk, oil, spices and medicine.
-- **Overcharging** above the printed price and **underweighing** or short measure.
-- **Black marketing and hoarding** of goods, such as fuel or sugar, in time of shortage.
-- **Expired, fake and substandard goods**, and tampered dates.
-- **Misleading advertisements.**
-- **Not giving a bill**, which also hides the seller's tax.
-- **Online fraud** and the sale of unsafe goods on social media.
-- **Weak monitoring** and slow action.
+**परिचय:** इन्सेक **सन् १९८८** मा स्थापना भएको गैरसरकारी संस्था हो। यो अनौपचारिक
+क्षेत्रमा संलग्न व्यक्ति (जस्तै कृषि मजदुर, घरेलु कामदार, ज्याला मजदुर) को मानव अधिकार
+रक्षा गर्न स्थापित भएको हो र लामो समयदेखि मानव अधिकार तथा मौलिक हकको सवालमा
+सक्रिय छ। वर्षभरिको मानव अधिकारको अवस्था अध्ययन गरी सत्य–तथ्य बाहिर ल्याउन यसले
+महत्त्वपूर्ण भूमिका खेलेको छ।
 
-### Consumer responsibilities
+**मुख्य कार्य:** (क) हरेक वर्ष **"मानव अधिकार वर्ष पुस्तक"** मार्फत वास्तविक घटना
+सार्वजनिक गर्छ; (ख) सचेतनामूलक कार्यक्रम र तालिम चलाउँछ; (ग) मानव अधिकारको अवस्था
+विश्लेषण गरी रायसल्लाह दिन्छ; (घ) उल्लङ्घनविरुद्ध उजुरी र समाधानका उपाय खोज्छ; (ङ)
+सरोकारवालासँग अन्तरक्रिया, कार्यशाला र गोष्ठी गर्छ; (च) मौलिक हक कार्यान्वयनका लागि
+दबाबमूलक कार्यक्रम चलाउँछ।
 
-1. **Check the label**: manufacturing and expiry date, price, weight, ingredients and the quality mark (**Nepal Standard "NS" mark** of the Nepal Bureau of Standards and Metrology) for goods that need it.
-2. **Take a bill** (with **13% VAT**) for every purchase, and keep it as proof.
-3. **Check weights, change and the price** before paying.
-4. **Complain** to the proper office when cheated; do not accept injustice silently.
-5. **Do not buy** smuggled, banned or doubtful goods and do not encourage hoarding.
-6. **Be careful in online buying**: use known sellers and safe payment.
-7. **Protect the environment**: avoid wasteful packaging, plastic bags and over-consumption.
+### समूह ग: एम्नेस्टी इन्टरनेसनल
 
-### Institutions that protect consumers
+**परिचय:** एम्नेस्टी इन्टरनेसनल **सन् १९६१** मा स्थापित अन्तर्राष्ट्रिय संस्था हो। यसले
+मानव अधिकारविरोधी गतिविधि रोक्न र मानव अधिकारबाट वञ्चित भएकालाई न्याय दिलाउन काम
+गर्छ। यसले **सन् १९७७ मा नोबेल शान्ति पुरस्कार** र **सन् १९७८ मा संयुक्त राष्ट्रसङ्घीय
+मानव अधिकार पुरस्कार** पाएको छ। नेपालसहित **७० भन्दा बढी देशमा** कार्यरत यो संस्था
+मानव अधिकारको क्षेत्रमा विश्वकै अग्रणी हो।
 
-| Institution | Role |
-|---|---|
-| **Department of Commerce, Supplies and Consumer Protection** | Monitors the market, controls prices and black marketing, handles complaints and enforces the Consumer Protection Act |
-| **Local governments** | Market monitoring and action under their powers in their local area |
-| **Nepal Bureau of Standards and Metrology** | Sets national standards, awards the NS mark, checks weights and measures |
-| **Department of Food Technology and Quality Control** | Tests food quality and enforces food laws |
-| **Department of Drug Administration** | Controls the quality of medicines |
-| **Consumer rights organisations and the media** | Advocate, give education, test goods and expose frauds |
-| **Courts and consumer complaint bodies** | Hear complaints and order compensation and punishment |
+**मुख्य कार्य:** (क) यातनाविरुद्ध दबाबमूलक अभियान चलाउँछ; (ख) विश्वव्यापी घोषणापत्रका
+सबै अधिकार नागरिकले निर्बाध पाउनुपर्छ भन्ने अभियान चलाउँछ; (ग) मानव अधिकार शिक्षा र
+सचेतना कार्यक्रम चलाउँछ; (घ) भेदभाव, पक्षपात, यातना, गैरकानुनी थुना र मृत्युदण्ड
+लगायतका क्रियाकलाप रोक्न विश्वव्यापी अभियान चलाउँछ; (ङ) खोज–अनुसन्धान गरी प्रतिवेदन
+सार्वजनिक गर्छ।
 
-**World Consumer Rights Day** is observed every year on **15 March**, in memory of the 1962 message of US President John F. Kennedy to the US Congress on consumer rights.
+::: note क्रियाकलाप — पाठ ५.७
+**१.** आफ्नो समुदायमा मानव अधिकारका क्षेत्रमा सक्रिय कुनै सङ्घसंस्थाले गरेका कामको
+विवरण तयार गरी कक्षामा प्रस्तुत गर्नुहोस्।
+**२.** मानव अधिकारसम्बन्धी समाचार र सम्पादकीयको कटिङ सङ्कलन गरी बुलेटिन बोर्डमा
+टाँस्नुहोस्।
+**३.** धेरै संस्था हुँदाहुँदै पनि उल्लङ्घनका घटना किन बढिरहेका छन्, समूहमा छलफल गर्नुहोस्
+(सम्भावित निष्कर्ष: कमजोर
+कार्यान्वयन, दण्डहीनता, गरिबी, अशिक्षा र पीडितमा डर)।
+**परियोजना कार्य:** "मानव अधिकार संरक्षण र प्रवर्धनमा नागरिकको भूमिका" विषयमा स्थानीय
+पत्रिकाका लागि सम्पादकीय तयार गरी कक्षामा प्रस्तुत गर्नुहोस्।
+:::
 
-### How to complain
+### पाठको अभ्यास: नमुना उत्तर
 
-```figure caption="How a consumer can seek redress."
-import matplotlib.pyplot as plt
-from matplotlib.patches import FancyBboxPatch
-fig, ax = plt.subplots(figsize=(4.8,2.2))
-ax.set_xlim(0,12.4); ax.set_ylim(0,4.0); ax.axis('off')
-steps=['Keep the bill\nand proof','Talk to the\nseller first','Complain to\nlocal office or\nDepartment','Case and\ncompensation\nunder law']
-for i,s in enumerate(steps):
-    x=0.1+i*3.1
-    ax.add_patch(FancyBboxPatch((x,0.8),2.6,2.4,boxstyle='round,pad=0.05',fc='#e8f0f8',ec=ACCENT,lw=1))
-    ax.text(x+1.3,2.0,s,ha='center',va='center',fontsize=7,color=INK)
-    if i<3:
-        ax.annotate('',xy=(x+3.08,2.0),xytext=(x+2.72,2.0),arrowprops=dict(arrowstyle='->',color=MUTED,lw=1))
+**१. राष्ट्रिय मानव अधिकार आयोगको स्थापनाका औचित्य प्रस्ट पार्नुहोस्।**
+(क) मानव अधिकारको **निगरानी गर्ने स्वतन्त्र निकाय** चाहिन्थ्यो; (ख) उल्लङ्घनको उजुरी
+छानबिन गरी दोषीमाथि कारबाहीको सिफारिस गर्न; (ग) पीडितलाई न्याय र क्षतिपूर्ति दिलाउन;
+(घ) जनतामा सचेतना फैलाउन; (ङ) सरकारलाई नीति र कानुन सुधारको सुझाव दिन; (च)
+अन्तर्राष्ट्रिय सन्धिप्रतिको प्रतिबद्धता पूरा गर्न। त्यसैले २०५७ मा स्थापित यो आयोग अहिले
+संवैधानिक आयोग बनेको छ।
+
+**२. एम्नेस्टी इन्टरनेसनलले मानव अधिकारका क्षेत्रमा गर्दै आएका मुख्य कार्यको सूची तयार
+पार्नुहोस्।**
+(क) यातनाविरुद्ध दबाबमूलक अभियान; (ख) घोषणापत्रका सबै अधिकार निर्बाध पाउनुपर्छ भन्ने
+अभियान; (ग) मानव अधिकार शिक्षा र सचेतना; (घ) भेदभाव, गैरकानुनी थुना र मृत्युदण्डविरुद्ध
+विश्वव्यापी अभियान; (ङ) खोज–अनुसन्धान गरी प्रतिवेदन प्रकाशन; (च) वञ्चितलाई न्याय दिलाउने
+पहल।
+
+**३. इन्सेकले मानवअधिकारका क्षेत्रमा पुर्‍याएको योगदानको चर्चा गर्नुहोस्।**
+सन् १९८८ मा स्थापित इन्सेकले (क) हरेक वर्ष "मानव अधिकार वर्ष पुस्तक" मा देशभरका
+उल्लङ्घनका वास्तविक घटना अभिलेख र सार्वजनिक गरेको छ; (ख) अनौपचारिक क्षेत्रका मजदुर र
+गरिबको अधिकारमा आवाज उठाएको छ; (ग) सचेतना कार्यक्रम र तालिम चलाएको छ; (घ)
+उल्लङ्घनको उजुरी लिई समाधान खोजेको छ; (ङ) गोष्ठी र अन्तरक्रियाबाट सरोकारवालालाई जोडेको
+छ; (च) मौलिक हक कार्यान्वयनका लागि दबाब दिएको छ।
+
+## ५.८ उपभोक्ता अधिकार
+
+पाठ्यपुस्तक दुई घटनाबाट सुरु हुन्छ।
+
+::: example घटना १ र घटना २
+**घटना १:** आमा भन्दै हुनुहुन्छ — "तताउँदा तताउँदै दुध फाट्यो, पाउरोटी पनि बासी परेछ।
+सामान किन्दा **उत्पादन मिति** र **उपयोग गर्नुपर्ने अन्तिम मिति** हेर्नुपर्छ, गुणस्तर र मूल्य पनि
+ख्याल गर्नुपर्छ भनेर कति सम्झाउनु!"
+
+**घटना २:** एउटा गैरसरकारी संस्थाको सहयोगमा गाउँपालिकाले सहुलियत मूल्यमा मकैको बिउ
+बाँड्यो। **४० जना** कृषकले लगाए। बोट राम्रो सप्रियो, तर घोगामा कतै कतै मात्र गेडा थिए,
+कति त रित्ता खोया मात्र। कृषि विज्ञले बिउको **म्याद गुज्रिएको र कमसल** भएको पत्ता लगाए।
+ठगिएका कृषक क्षतिपूर्तिका लागि दबाबमूलक कार्यक्रमको तयारीमा छन्।
+
+**पाठ:** हामी उपभोक्ता अधिकारप्रति संवेदनशील छैनौँ; सचेतना भए पनि चासो कम छ, त्यसैले
+गुणस्तरमा समयमै ध्यान नदिँदा ठुलो मर्कामा पर्छौँ।
+:::
+
+::: definition उपभोक्ता अधिकार
+उपभोक्ताले आफूले प्रयोग गर्ने सामानको **गुणस्तर र फाइदा जान्ने**, गलत वस्तुबाट हानि भए
+**क्षतिपूर्ति पाउने** र बजारमा उपलब्ध सामान निर्बाध रूपमा प्रयोग गर्न पाउने हकलाई उपभोक्ता
+अधिकार भनिन्छ।
+:::
+
+**इतिहास:** पाठ्यपुस्तकअनुसार अमेरिकामा **सन् १९६२** मा पहिलो पटक उपभोक्ता अधिकारको
+विषय औपचारिक रूपमा उठ्यो, जसमा **सुरक्षा, सूचना, छनोट र सुनुवाइ** का चार अधिकार
+मुख्य थिए। हरेक वर्ष **मार्च १५** लाई **विश्व उपभोक्ता अधिकार दिवस** का रूपमा मनाइन्छ।
+उपभोक्ता अधिकारलाई व्यापक बनाउन **सन् १९८५ अप्रिल ९** मा संयुक्त राष्ट्रसङ्घको
+महासभाले उपभोक्ता संरक्षणसम्बन्धी निर्देशिका पारित गर्‍यो, जसपछि उपभोक्ता अधिकार आठ
+बुँदामा विस्तार भए।
+
+::: caution पाठ्यपुस्तकको "अमेरिकी संसद्ले विधेयक पारित गर्‍यो" भन्ने भनाइ
+वास्तवमा सन् १९६२ मार्च १५ मा अमेरिकी राष्ट्रपति जोन एफ केनेडीले संसद्लाई पठाएको विशेष
+सन्देशमा यी चार अधिकार घोषणा गरेका थिए; त्यही मितिको सम्झनामा मार्च १५ उपभोक्ता अधिकार
+दिवस बनेको हो।
+:::
+
+```figure caption="उपभोक्ताका आठ अधिकार — सन् १९६२ का चार अधिकार (नीलो, माथिल्ला दुई पङ्क्ति) र पछि थपिएका चार (हरियो, तल्ला दुई पङ्क्ति)।"
+fig, ax = cards([("सुरक्षा", "हानिकारक वस्तु र सेवाबाट जोगिने"),
+                 ("सूचना", "मूल्य, गुण, परिमाण, म्याद जान्ने"),
+                 ("छनोट", "प्रतिस्पर्धात्मक मूल्यमा रोज्ने"),
+                 ("सुनुवाइ", "उजुरी र कुरा सुनिने"),
+                 ("आधारभूत आवश्यकता", "खाना, लुगा, बास, स्वास्थ्य, शिक्षा"),
+                 ("क्षतिपूर्ति", "ठगी वा हानिमा उचित क्षतिपूर्ति"),
+                 ("उपभोक्ता शिक्षा", "अधिकार र कर्तव्यको ज्ञान"),
+                 ("स्वस्थ वातावरण", "प्रदूषणरहित वातावरणमा बाँच्ने")],
+                cols=2, figsize=(5.6, 4.2), title_size=8.6,
+                colors=[SERIES[0]] * 4 + [SERIES[2]] * 4)
 ```
 
-::: example Worked example: a consumer case
-**Problem.** Rita buys a packet of biscuits for Rs 50 from a shop. At home she finds that the packet expired three months ago. What should she do?
+### नेपालमा उपभोक्ता अधिकारसम्बन्धी कानुनी व्यवस्था
 
-**Solution.** She should (1) keep the packet and the bill as proof; (2) return to the shop and ask for a refund or exchange, because selling an expired product violates her right to safety and information; (3) if the shopkeeper refuses, complain to the ward office or municipality's market monitoring team or to the Department of Commerce, Supplies and Consumer Protection with the proof; (4) report the manufacturer if the date was tampered with; and (5) share the experience with others so that they check the dates. This protects her and other consumers.
+**संविधानको धारा ४४ (उपभोक्ताको हक):** प्रत्येक उपभोक्तालाई **गुणस्तरीय वस्तु तथा सेवा**
+प्राप्त गर्ने हक हुन्छ, र गुणस्तरहीन वस्तु वा सेवाबाट क्षति पुगेको व्यक्तिलाई कानुनबमोजिम
+**क्षतिपूर्ति** पाउने हक हुन्छ।
+
+**उपभोक्ता संरक्षण ऐन, २०७५:** संवैधानिक व्यवस्था लागु गर्न ल्याइएको यस ऐनले यी अधिकार
+दिएको छ:
+
+- (क) वस्तु वा सेवामा **सहज पहुँचको** अधिकार;
+- (ख) **प्रतिस्पर्धात्मक मूल्यमा** वस्तु वा सेवा छनोट गर्न पाउने अधिकार;
+- (ग) वस्तु वा सेवाको मूल्य, गुण, परिमाण र शुद्धताबारे **सुसूचित** हुने अधिकार;
+- (घ) **मिश्रित वस्तु** मा रहेका तत्त्व र तिनको प्रतिशतबारे जानकारी पाउने अधिकार;
+- (ङ) जिउज्यान, स्वास्थ्य र सम्पत्तिमा हानि पुर्‍याउने वस्तु तथा सेवाको बिक्री वितरणबाट
+  **सुरक्षित** हुने अधिकार;
+- (च) **अनुचित व्यापारिक** र व्यवसायजन्य क्रियाकलापविरुद्ध कानुनी कारबाही गराउन पाउने
+  अधिकार।
+
+**स्थानीय सरकार सञ्चालन ऐन, २०७४:** स्थानीय सरकारलाई उपभोक्ता अधिकारसम्बन्धी
+कानुनको **कार्यान्वयन र नियमन** को जिम्मा दिएको छ। उपभोक्ता अधिकारको निर्बाध प्रयोगका
+लागि सङ्घ, प्रदेश र स्थानीय तीनै तहका सरकार सक्रिय हुनुपर्छ।
+
+```photo id="soc10/market" caption="काठमाडौँको तरकारी बजार। तौल, मूल्य, ताजापन र म्याद जाँचेर किन्नु र ठगिएमा उजुरी गर्नु सचेत उपभोक्ताको कर्तव्य हो।" width="60"
+```
+
+::: note क्रियाकलाप — पाठ ५.८
+**१.** बजारबाट किनेका खाद्यवस्तुको नाम, उत्पादन मिति, म्याद सकिने मिति, मिश्रणको
+अवस्था, मूल्य र तौल अवलोकन गरी तोकिएको गुणस्तर छ कि छैन पहिचान गर्नुहोस्।
+**२.** "उपभोक्ता अधिकार हामी सबैको अधिकार" शीर्षकमा लेख तयार गरी सूचनापाटीमा टाँस्नुहोस्।
+**३.** उपभोक्ता अधिकारबारे नागरिकलाई सचेत गराउन आफूले दिन सक्ने योगदान सहपाठीलाई
+सुनाउनुहोस्।
+**४.** बजारमा कृत्रिम अभाव सिर्जना गर्ने र अखाद्य वस्तु मिसाउने व्यक्ति, फर्म वा उद्योगविरुद्ध
+सचेत नागरिकका रूपमा आफ्नो भूमिका छलफल गरी प्रस्तुत गर्नुहोस् (प्रमाणसहित स्थानीय
+तह, प्रहरी वा खाद्य प्रविधि तथा गुण नियन्त्रण विभागमा उजुरी; बहिष्कार; सचेतना अभियान)।
+**परियोजना कार्य:** विद्यालयको दिवा खाजा अवलोकन गरी प्रयोग भएका खाद्यसामग्री
+उपभोक्ताको हितअनुकूल छन् कि छैनन् पत्ता लगाई प्रतिवेदन बनाएर प्रधानाध्यापकलाई बुझाउनुहोस्।
 :::
 
-## Chapter summary
+### पाठको अभ्यास: नमुना उत्तर
 
-- The **Constitution of Nepal 2072** divides state power among the **legislature** (makes laws), the **executive** (implements them) and the **judiciary** (interprets them and gives justice).
-- **Federal Parliament** = President + **House of Representatives** (275: 165 FPTP + 110 PR; term 5 years) + **National Assembly** (59; term 6 years; one-third retire every 2 years). Bills need passage in both houses and the President's assent.
-- **Federal executive:** the President (head of state, 5-year term), the **Prime Minister** (leader of the majority in the House of Representatives) and a **Council of Ministers** of not more than 25. The budget is presented on 15 Jestha.
-- **Judiciary:** Supreme Court (Chief Justice + up to 20 judges), 7 High Courts, 77 District Courts and local Judicial Committees; it gives justice, does judicial review and protects rights by writs.
-- **Political parties** organise the contest for power, form the government and the opposition, and shape opinion; Nepal has a multi-party system, with parties registered with the Election Commission.
-- **Elections:** every citizen of 18 years may vote; the Election Commission (5 members, 6 years) conducts them; mixed FPTP + PR system; citizens must vote wisely, refuse bribes and accept results.
-- **Human rights** are inherent rights of all; UDHR adopted 10 December 1948 (30 articles); Part 3 of Nepal's Constitution gives 31 fundamental rights; the NHRC, courts, NGOs and UN bodies protect them.
-- **Consumer rights:** basic needs, safety, information, choice, being heard, redress, education and a healthy environment; Consumer Protection Act 2075; World Consumer Rights Day is 15 March.
+**१. उपभोक्ता अधिकार भनेको के हो?**
+उपभोक्ताले प्रयोग गर्ने वस्तु तथा सेवाको गुणस्तर, मूल्य, परिमाण र फाइदाबारे जान्ने,
+हानिकारक वस्तुबाट सुरक्षित रहने, प्रतिस्पर्धात्मक मूल्यमा छनोट गर्ने, उजुरीको सुनुवाइ
+पाउने र ठगिएमा क्षतिपूर्ति पाउने हकलाई उपभोक्ता अधिकार भनिन्छ। नेपालमा संविधानको धारा
+४४ र उपभोक्ता संरक्षण ऐन, २०७५ ले यसको व्यवस्था गरेका छन्। मार्च १५ विश्व उपभोक्ता
+अधिकार दिवस हो।
 
-## Practice questions
+**२. उपभोक्ता अधिकार सम्बन्धमा नेपालको संविधानमा भएको व्यवस्था उल्लेख गर्नुहोस्।**
+नेपालको संविधानको भाग ३ को **धारा ४४** मा उपभोक्ताको हकलाई मौलिक हकका रूपमा राखिएको
+छ। यसअनुसार (क) प्रत्येक उपभोक्तालाई गुणस्तरीय वस्तु तथा सेवा प्राप्त गर्ने हक हुन्छ;
+(ख) गुणस्तरहीन वस्तु वा सेवाबाट क्षति पुगेको व्यक्तिलाई कानुनबमोजिम क्षतिपूर्ति पाउने
+हक हुन्छ। यही धारा लागु गर्न उपभोक्ता संरक्षण ऐन, २०७५ बनेको छ।
 
-**Group A — Objective questions (1 mark each)**
+**३. उपभोक्ता संरक्षण ऐन, २०७५ ले उपभोक्ता अधिकारसम्बन्धी गरेको व्यवस्था व्याख्या
+गर्नुहोस्।**
+(क) **सहज पहुँच** — आवश्यक वस्तु र सेवा सजिलै पाउने; (ख) **छनोट** — प्रतिस्पर्धात्मक
+मूल्यमा रोज्ने, एकाधिकार र मूल्य मिलेमतोबाट जोगिने; (ग) **सूचना** — मूल्य, गुण, परिमाण,
+शुद्धता र म्याद जान्ने; (घ) **मिश्रणको जानकारी** — मिश्रित वस्तुका तत्त्व र प्रतिशत जान्ने;
+(ङ) **सुरक्षा** — जिउज्यान, स्वास्थ्य र सम्पत्तिमा हानि गर्ने वस्तुबाट जोगिने; (च) **कानुनी
+उपचार** — मिसावट, कालोबजारी, कृत्रिम अभाव जस्ता अनुचित व्यापारविरुद्ध कारबाही गराउने।
+यसरी ऐनले धारा ४४ लाई व्यवहारमा लागु गर्ने आधार दिएको छ।
 
-1. The total number of members of the House of Representatives is <span class="marks">[1]</span>
-   (a) 165 (b) 110 (c) 275 (d) 59
-2. The term of the National Assembly members is <span class="marks">[1]</span>
-   (a) 4 years (b) 5 years (c) 6 years (d) 8 years
-3. Who appoints the Prime Minister of Nepal? <span class="marks">[1]</span>
-   (a) Chief Justice (b) The President (c) Speaker (d) Election Commission
-4. The highest court of Nepal is <span class="marks">[1]</span>
-   (a) High Court (b) District Court (c) Supreme Court (d) Special Court
-5. In Nepal, the minimum age for voting is <span class="marks">[1]</span>
-   (a) 16 (b) 18 (c) 20 (d) 25
-6. The Universal Declaration of Human Rights was adopted in <span class="marks">[1]</span>
-   (a) 1945 (b) 1948 (c) 1966 (d) 1990
-7. World Consumer Rights Day is observed on <span class="marks">[1]</span>
-   (a) 15 March (b) 8 March (c) 10 December (d) 5 June
-8. Which is a constitutional body that conducts elections in Nepal? <span class="marks">[1]</span>
-   (a) Election Commission (b) CIAA (c) Public Service Commission (d) National Planning Commission
+**४. उपभोक्ता अधिकार संरक्षण र संवर्धनमा स्थानीय सरकारको भूमिका कस्तो हुनुपर्ला?**
+स्थानीय सरकार सञ्चालन ऐन, २०७४ ले स्थानीय तहलाई उपभोक्ता कानुनको कार्यान्वयन र
+नियमनको जिम्मा दिएको छ। त्यसैले स्थानीय सरकारले (क) नियमित बजार अनुगमन गर्नुपर्छ; (ख) मूल्यसूची, सही तौल–नाप
+र म्याद नाघेका सामान हटाउन लगाउनुपर्छ; (ग) मिसावट, कालोबजारी र कृत्रिम अभाव गर्नेलाई
+कारबाही गर्नुपर्छ; (घ) सजिलो उजुरी व्यवस्था र सचेतना कार्यक्रम चलाउनुपर्छ; (ङ) कृषकलाई
+गुणस्तरीय बिउ–मल मात्र वितरण गर्नुपर्छ — घटना २ जस्तो ठगी रोक्न।
 
-::: note Answers to Group A
-**1.** (c) — 275 (165 FPTP + 110 PR).
-**2.** (c) — six years; one-third retire every two years.
-**3.** (b) — the President appoints the leader of the party with a majority in the House of Representatives.
-**4.** (c) — Supreme Court.
-**5.** (b) — 18 years.
-**6.** (b) — 10 December 1948.
-**7.** (a) — 15 March.
-**8.** (a) — the Election Commission.
+**५. न्यून गुणस्तरीय सामग्री उत्पादन तथा बिक्रीवितरण रोक्न एक सचेत उपभोक्ताले खेल्न
+सक्ने भूमिका उल्लेख गर्नुहोस्।**
+(क) उत्पादन मिति, म्याद, मूल्य, तौल र गुणस्तर चिह्न जाँचेर किन्ने; (ख) बिल लिने, जुन
+उजुरीमा प्रमाण बन्छ; (ग) कमसल सामानबारे स्थानीय तह, प्रहरी वा सम्बन्धित निकायमा उजुरी
+गर्ने; (घ) मिसावट गर्नेको सामान बहिष्कार गर्ने; (ङ) छिमेकी र साथीलाई सचेत बनाउने; (च)
+क्षति पुगेमा कानुनबमोजिम क्षतिपूर्ति माग्ने।
+
+## अध्यायको सारांश
+
+- व्यवस्थापिका कानुन बनाउँछ: प्रतिनिधि सभा २७५ (१६५ + ११०, ५ वर्ष), राष्ट्रिय सभा ५९ (५६ + ३, स्थायी, सदस्यको ६ वर्ष), सातै प्रदेश सभा ५५० (३३० + २२०)।
+- विधेयक दुवै सदनबाट पारित भई राष्ट्रपतिले १५ दिनभित्र प्रमाणीकरण गरेपछि कानुन बन्छ; अर्थ विधेयक प्रतिनिधि सभामा मात्र; संविधान संशोधन दुईतिहाइ बहुमतले।
+- कार्यपालिका कानुन लागु गर्छ; धारा ७६(१), (२), (३), (५) अनुसार प्रधानमन्त्री; मन्त्रिपरिषद् बढीमा २५; प्रदेश मन्त्रिपरिषद् प्रदेश सभाको २० प्रतिशतभित्र।
+- न्यायपालिका (भाग ११): सर्वोच्च अदालत (प्रधानन्यायाधीश + बढीमा २० न्यायाधीश), ७ उच्च अदालत, हरेक जिल्लामा जिल्ला अदालत; तीनै अङ्ग स्वतन्त्र तर नियन्त्रण र सन्तुलनमा जोडिएका।
+- पहिलो दल प्रजा परिषद् (१९९३ जेठ २०); २००७, २०४६ र २०६२/०६३ का परिवर्तन र २०७२ असोज ३ को संविधान दलकै नेतृत्वमा; दलका मुख्य भूमिका हित अभिव्यक्ति र हित संयुक्तीकरण।
+- निर्वाचन आयोगले आवधिक निर्वाचन गराउँछ; १८ वर्ष पुगेका नागरिक नामावलीमा दर्ता भई फोटोसहितको परिचयपत्रबाट मतदान गर्छन्।
+- मानव अधिकार जन्मसिद्ध अधिकार हो; विश्वव्यापी घोषणापत्र १९४८ डिसेम्बर १० (३० धारा); सहमतिबिनाको विवाह मुलुकी देवानी संहिता, २०७४ अनुसार बदर।
+- राष्ट्रिय मानव अधिकार आयोग (२०५७; गौरव, समानता, न्याय), इन्सेक (१९८८) र एम्नेस्टी इन्टरनेसनल (१९६१; नोबेल १९७७) मानव अधिकारका रक्षक संस्था हुन्।
+- उपभोक्ता अधिकार: सुरक्षा, सूचना, छनोट, सुनुवाइ, क्षतिपूर्ति; मार्च १५ उपभोक्ता अधिकार दिवस; धारा ४४, उपभोक्ता संरक्षण ऐन, २०७५ र स्थानीय सरकार सञ्चालन ऐन, २०७४ कानुनी आधार।
+
+## अभ्यास
+
+**समूह क — वस्तुगत प्रश्न (१ अङ्क)**
+
+१. प्रतिनिधि सभामा समानुपातिक निर्वाचन प्रणालीबाट कति सदस्य निर्वाचित हुन्छन्? <span class="marks">[1]</span>
+   (क) ५६ (ख) ११० (ग) १६५ (घ) २२०
+२. राष्ट्रिय सभाका सदस्यको पदावधि कति वर्षको हुन्छ? <span class="marks">[1]</span>
+   (क) चार (ख) पाँच (ग) छ (घ) सात
+३. राष्ट्रपतिसमक्ष पेस भएको विधेयक कति दिनभित्र प्रमाणीकरण गर्नुपर्छ? <span class="marks">[1]</span>
+   (क) ७ (ख) १५ (ग) ३० (घ) ४५
+४. संविधानको कुन धाराअनुसार सबैभन्दा ठुलो संसदीय दलको नेता प्रधानमन्त्री नियुक्त हुन्छन्? <span class="marks">[1]</span>
+   (क) ७६(१) (ख) ७६(२) (ग) ७६(३) (घ) ७६(५)
+५. उच्च अदालतका न्यायाधीश कसले नियुक्त गर्छन्? <span class="marks">[1]</span>
+   (क) राष्ट्रपति (ख) प्रधानमन्त्री (ग) प्रधानन्यायाधीश (घ) कानुनमन्त्री
+६. नेपालको पहिलो राजनीतिक दल कुन हो? <span class="marks">[1]</span>
+   (क) नेपाली काङ्ग्रेस (ख) प्रजा परिषद् (ग) नेपाल कम्युनिस्ट पार्टी (घ) गोर्खा परिषद्
+७. मानव अधिकारसम्बन्धी विश्वव्यापी घोषणापत्रमा कति धारा छन्? <span class="marks">[1]</span>
+   (क) २० (ख) २६ (ग) ३० (घ) ४४
+८. नेपालको संविधानको कुन धारामा उपभोक्ताको हक छ? <span class="marks">[1]</span>
+   (क) ३१ (ख) ४२ (ग) ४४ (घ) ७६
+
+::: note समूह क का उत्तर
+**१.** (ख) — २७५ मध्ये १६५ पहिलो हुने निर्वाचित हुने र ११० समानुपातिक; २२० प्रदेश सभाको समानुपातिक सङ्ख्या हो।
+**२.** (ग) — सदस्यको पदावधि छ वर्ष र हरेक दुई वर्षमा एकतिहाइको पदावधि सकिन्छ।
+**३.** (ख) — राष्ट्रपतिले १५ दिनभित्र प्रमाणीकरण गर्नुपर्छ।
+**४.** (ग) — ७६(२) अनुसार सरकार बन्न नसके ७६(३) अनुसार सबैभन्दा ठुलो दलको नेता प्रधानमन्त्री हुन्छन्।
+**५.** (ग) — न्याय परिषद्को सिफारिसमा प्रधानन्यायाधीशले नियुक्त गर्छन्।
+**६.** (ख) — प्रजा परिषद् वि.सं. १९९३ जेठ २० मा स्थापना भएको थियो।
+**७.** (ग) — सन् १९४८ को घोषणापत्रमा ३० धारा छन्।
+**८.** (ग) — धारा ४४ उपभोक्ताको हक हो; धारा ३१ शिक्षाको हक र धारा ७६ मन्त्रिपरिषद् गठनसम्बन्धी हो।
 :::
 
-**Group B — Short answer (2 marks each)**
+**समूह ख — छोटो उत्तर (२ अङ्क)**
 
-1. Write any two functions of the legislature. <span class="marks">[2]</span>
-2. Who is the head of state and who is the head of government in Nepal? <span class="marks">[2]</span>
-3. What is judicial review? <span class="marks">[2]</span>
-4. What is a political party? Give any two of its functions. <span class="marks">[2]</span>
-5. Write any two duties of a voter. <span class="marks">[2]</span>
-6. Define human rights. Write any two human rights guaranteed by the Constitution of Nepal. <span class="marks">[2]</span>
-7. Write any four rights of consumers. <span class="marks">[2]</span>
+१. राष्ट्रिय सभालाई किन स्थायी सदन भनिन्छ? <span class="marks">[2]</span>
+२. अर्थ विधेयक र सामान्य विधेयकमा के फरक छ? <span class="marks">[2]</span>
+३. राष्ट्रिय सुरक्षामा कार्यपालिकाको भूमिका लेख्नुहोस्। <span class="marks">[2]</span>
+४. सर्वोच्च अदालतलाई अभिलेख अदालत किन भनिन्छ? <span class="marks">[2]</span>
+५. हित अभिव्यक्ति र हित संयुक्तीकरणबिच फरक छुट्याउनुहोस्। <span class="marks">[2]</span>
+६. आवधिक निर्वाचनलाई किन लोकतन्त्रको अनिवार्य सर्त मानिन्छ? <span class="marks">[2]</span>
+७. वैवाहिक स्वतन्त्रताबारे मुलुकी देवानी संहिता, २०७४ ले के व्यवस्था गरेको छ? <span class="marks">[2]</span>
+८. घटना २ का कृषकले कुन कानुनी आधारमा क्षतिपूर्ति माग्न सक्छन्? <span class="marks">[2]</span>
 
-::: note Answers to Group B
-**1.** Makes laws; approves the budget; controls the executive; amends the constitution (any two).
-**2.** The President is the head of state; the Prime Minister is the head of government.
-**3.** It is the power of the Supreme Court to declare a law or government act void if it conflicts with the constitution.
-**4.** An organised group of people with common ideas who seek power by elections. Functions: contest elections, form government or opposition, form public opinion (any two).
-**5.** Be registered and vote freely and wisely; do not sell or buy votes; follow the code of conduct (any two).
-**6.** Human rights are basic rights every person has by being human. Examples: right to equality, right to freedom, right to education, right against untouchability (any two).
-**7.** Right to safety; information; choice; to be heard; redress; consumer education; basic needs; healthy environment (any four).
+::: note समूह ख का उत्तर
+**१.** राष्ट्रिय सभा कहिल्यै पूरै विघटन हुँदैन। यसका सदस्यको पदावधि छ वर्ष हुन्छ र हरेक दुई वर्षमा एकतिहाइ सदस्य मात्र अवकाश पाउँछन् र नयाँ आउँछन्। यसरी सदन निरन्तर रहने भएकाले यसलाई स्थायी सदन भनिन्छ।
+**२.** कर, बजेट, सरकारी खर्च र ऋणसम्बन्धी विधेयक अर्थ विधेयक हो; यो प्रतिनिधि सभामा मात्र पेस हुन्छ र राष्ट्रपतिले फिर्ता पठाउन पाउँदैनन्। सामान्य विधेयक जुनसुकै सदनमा पेस गर्न सकिन्छ र राष्ट्रपतिले एक पटक पुनर्विचारका लागि फिर्ता पठाउन सक्छन्।
+**३.** कार्यपालिकाले राष्ट्रिय हित, सुरक्षा र प्रतिरक्षाको नीति बनाउँछ, सेना परिचालन र नियन्त्रण गर्छ र बाह्य आक्रमणमा सुरक्षा दिन्छ। राष्ट्रिय सुरक्षा परिषद्को अध्यक्ष प्रधानमन्त्री हुन्छन्; परिषद्को सिफारिसमा नेपाल सरकारको निर्णयअनुसार राष्ट्रपतिले सेना परिचालन गर्छन्।
+**४.** सर्वोच्च अदालतका फैसला र आदेश अभिलेखका रूपमा सुरक्षित रहन्छन् र तिनले नजिर बन्छन्, जुन तल्ला सबै अदालतले मान्नुपर्छ। यसले आफ्नो अवहेलना गर्नेलाई कारबाही पनि गर्न सक्छ। त्यसैले यसलाई अभिलेख अदालत भनिन्छ।
+**५.** **हित अभिव्यक्ति** भनेको जनतालाई सङ्गठित र सचेत गरी उनीहरूका माग र समस्यालाई आवाज दिनु हो। **हित संयुक्तीकरण** भनेको ती फरक मागलाई मिलाएर नीति र कार्यक्रम बनाउनु र सत्तामा पुगेपछि विकास, सुशासन र जनहितका काम गर्नु हो। पहिलो माग उठाउने, दोस्रो माग पूरा गर्ने काम हो।
+**६.** लोकतन्त्रमा जनता सार्वभौम हुन्छन्। तोकिएको अवधिमा निर्वाचन भए जनताले काम गर्ने प्रतिनिधिलाई फेरि चुन्छन् र काम नगर्नेलाई हटाउँछन्; यसले प्रतिनिधिलाई जवाफदेही बनाउँछ र सत्तामा कोही सधैँ टिकिरहन पाउँदैन। निर्वाचन नभए शासन निरङ्कुश बन्छ।
+**७.** विवाह गर्ने पुरुष वा महिलाको मञ्जुरी नभई भएको विवाह स्वतः बदर हुन्छ। अर्थात् वरवधूको स्वतन्त्र र पूर्ण सहमति अनिवार्य हो; अभिभावकले सहजकर्ता र सहयोगी बन्न सक्छन्, तर छोरी वा छोराको सहमतिबिना जीवनसाथी रोज्न पाउँदैनन्।
+**८.** संविधानको धारा ४४ ले गुणस्तरहीन वस्तु वा सेवाबाट क्षति पुगेकालाई कानुनबमोजिम क्षतिपूर्ति पाउने हक दिएको छ। उपभोक्ता संरक्षण ऐन, २०७५ ले अनुचित व्यापारिक क्रियाकलापविरुद्ध कारबाही गराउने अधिकार दिएको छ। म्याद नाघेको कमसल बिउ बाँड्नु यस्तै क्रियाकलाप भएकाले कृषकले क्षतिपूर्ति माग्न सक्छन्।
 :::
 
-**Group C — Long answer (4 marks each)**
+**समूह ग — लामो उत्तर (४ अङ्क)**
 
-1. Describe the structure of the Federal Parliament of Nepal and write any four functions of the legislature. <span class="marks">[4]</span>
-2. Explain how the Prime Minister is appointed and write any four functions of the federal executive. <span class="marks">[4]</span>
-3. Describe the structure of the courts of Nepal and explain any three functions of the judiciary. <span class="marks">[4]</span>
-4. Explain the role of political parties in a democracy and suggest ways of improving them. <span class="marks">[4]</span>
-5. Write about the role of citizens in an election. <span class="marks">[4]</span>
-6. What are human rights? Explain the role of the National Human Rights Commission and other organisations in protecting human rights. <span class="marks">[4]</span>
-7. Explain the rights and responsibilities of consumers. What would you do if you were cheated by a seller? <span class="marks">[4]</span>
+१. व्यवस्थापिकाका कानुनी, निगरानी, आर्थिक र संविधानसम्बन्धी कार्य उल्लेख गर्नुहोस्। <span class="marks">[4]</span>
+२. धारा ७६ अनुसार प्रधानमन्त्री नियुक्त हुने प्रक्रिया क्रमबद्ध रूपमा लेख्नुहोस्। <span class="marks">[4]</span>
+३. मतपत्र बदर हुने कारण र निर्वाचनमा नागरिकको भूमिका लेख्नुहोस्। <span class="marks">[4]</span>
+४. मानव अधिकार संरक्षणमा राष्ट्रिय मानव अधिकार आयोग र एम्नेस्टी इन्टरनेसनलको भूमिका तुलना गर्नुहोस्। <span class="marks">[4]</span>
 
-::: note Answers to Group C
-**1.** The Federal Parliament = President + House of Representatives (275 members, 5-year term) + National Assembly (59 members, 6-year term). Functions: make laws, approve budget, control the executive, approve treaties, amend the constitution, hold impeachment.
-**2.** The President appoints the leader of the parliamentary party with a majority in the House of Representatives as Prime Minister (if no majority, a leader who can get the support of two or more parties). The Prime Minister forms a Council of Ministers of up to 25. Functions: implement laws, prepare policy and budget, maintain law and order, conduct foreign relations, run administration.
-**3.** Supreme Court (Chief Justice and up to 20 judges), 7 High Courts, 77 District Courts, Judicial Committees at local level. Functions: give justice; interpret the constitution and law; judicial review; issue writs to protect rights; public interest litigation (any three).
-**4.** Role: contest elections; form government and opposition; make policies; educate and unite citizens; link people with government. Improvement: internal democracy, financial transparency, ethical leaders, inclusion, obeying the code of conduct.
-**5.** Register and vote; choose by merit; refuse bribes and pressure; follow the code; report violations; take part as observer or volunteer; accept results peacefully.
-**6.** Human rights are the basic rights of all people. NHRC: receives complaints, investigates, recommends action and compensation. Courts: writs and public interest litigation. NGOs and media: monitor and report. UN bodies and INGOs: set standards, monitor and support.
-**7.** Rights: safety, information, choice, to be heard, redress, education, basic needs, healthy environment. Responsibilities: check labels and dates, take a bill, check weights, complain, avoid fake goods. If cheated: keep the bill and proof, speak to the seller, complain to the local government or the Department of Commerce, Supplies and Consumer Protection and seek compensation.
+::: note समूह ग का उत्तर
+**१.** **कानुनी:** विधेयक प्रस्तुत गर्ने, दफावार छलफल र बहस गर्ने, परिमार्जन गर्ने, पारित गरी प्रमाणीकरणका लागि राष्ट्रपतिसमक्ष पठाउने। **संसदीय निगरानी:** सरकार गठन गर्ने, जनसरोकारमा प्रश्न सोध्ने र ध्यानाकर्षण गराउने, अविश्वासको प्रस्ताव ल्याउने, महाअभियोग लगाउने। **आर्थिक:** करको दर निर्धारण, बजेट स्वीकृति र बजेटमाथि नियन्त्रण। **संविधानसम्बन्धी:** सामान्य कानुन साधारण बहुमतले र संविधान दुईतिहाइ बहुमतले संशोधन गर्ने। यी कार्यले व्यवस्थापिकालाई जनइच्छा व्यक्त गर्ने प्रमुख थलो बनाउँछन्।
+**२.** (क) **७६(१):** प्रतिनिधि सभामा बहुमत प्राप्त संसदीय दलको नेता प्रधानमन्त्री। (ख) **७६(२):** कुनै दलको बहुमत नभए दुई वा बढी दलको समर्थनमा बहुमत जुटाउने संसदीय दलको नेता। (ग) **७६(३):** त्यसरी सरकार नबने वा विश्वासको मत नपाए सबैभन्दा ठुलो संसदीय दलको नेता। (घ) **७६(५):** त्यो पनि असफल भए बहुमत जुटाउन सक्ने जुनसुकै प्रतिनिधि सभा सदस्य। (२), (३) र (५) अनुसारका प्रधानमन्त्रीले ३० दिनभित्र विश्वासको मत लिनुपर्छ; अन्तिम विकल्प पनि असफल भए प्रतिनिधि सभा विघटन भई नयाँ निर्वाचन हुन्छ। प्रधानमन्त्रीको सिफारिसमा राष्ट्रपतिले बढीमा २५ सदस्यीय समावेशी मन्त्रिपरिषद् बनाउँछन्।
+**३.** **बदर हुने कारण:** कोठाबाहिर वा दुई चिह्नको बिचमा छाप, एउटै पदमा एकभन्दा बढी छाप, मसी अर्को कोठामा सर्नु, छाप नै नलगाउनु, मतपत्रमा केही लेख्नु र मतदाता शिक्षाको कमी। **नागरिकको भूमिका:** नामावलीमा नाम दर्ता र सच्याउने; प्रलोभनमा नपरी योग्य उम्मेदवारलाई मत दिने; घोषणापत्र र मतदाता शिक्षाबारे अरूलाई जानकारी दिने; लाइनमा अनुशासित रहने; वृद्ध, अपाङ्गता भएका, गर्भवती र सुत्केरीलाई प्राथमिकता दिने; फर्जी मतदान रोक्ने।
+**४.** **समानता:** दुवैले उल्लङ्घन रोक्न, सचेतना फैलाउन र पीडितलाई न्याय दिलाउन काम गर्छन्। **भिन्नता:** (क) आयोग वि.सं. २०५७ मा स्थापित नेपालको संवैधानिक निकाय हो; एम्नेस्टी सन् १९६१ मा स्थापित अन्तर्राष्ट्रिय गैरसरकारी संस्था हो। (ख) आयोगको कार्यक्षेत्र नेपाल मात्र; एम्नेस्टी ७० भन्दा बढी देशमा। (ग) आयोगले उजुरी छानबिन गरी कारबाही र नीतिगत सिफारिस गर्छ; एम्नेस्टीले यातना, गैरकानुनी थुना र मृत्युदण्डविरुद्ध विश्वव्यापी दबाबमूलक अभियान र अनुसन्धान प्रतिवेदन चलाउँछ। (घ) आयोगको नारा "गौरव, समानता र न्याय"; एम्नेस्टीले १९७७ मा नोबेल शान्ति पुरस्कार पाएको। दुवैका भूमिका परिपूरक छन्।
+:::
+
+**समूह घ — विस्तृत उत्तर (८ अङ्क)**
+
+१. राज्यका तीन अङ्गको परिचय दिँदै तिनीहरूबिचको अन्तरसम्बन्धको विवेचना गर्नुहोस्। <span class="marks">[8]</span>
+२. उपभोक्ता अधिकार भनेको के हो? यसको विकास, नेपालमा भएका कानुनी व्यवस्था र अधिकार संरक्षणमा सचेत उपभोक्ता तथा स्थानीय सरकारको भूमिका व्याख्या गर्नुहोस्। <span class="marks">[8]</span>
+
+::: note समूह घ का उत्तर
+**१.** **परिचय:** (क) **व्यवस्थापिका** कानुन बनाउने प्रतिनिधिमूलक अङ्ग हो — सङ्घमा प्रतिनिधि सभा (२७५) र राष्ट्रिय सभा (५९), प्रदेशमा प्रदेश सभा (जम्मा ५५०); यसले कानुन र बजेट पारित गर्छ, सरकार बनाउँछ र निगरानी गर्छ। (ख) **कार्यपालिका** कानुन लागु गर्ने अङ्ग हो — प्रधानमन्त्रीको नेतृत्वमा बढीमा २५ सदस्यीय मन्त्रिपरिषद्; यसले प्रशासनिक, कूटनीतिक, आर्थिक र सुरक्षासम्बन्धी काम गर्छ। (ग) **न्यायपालिका** न्याय सम्पादन र कानुनको व्याख्या गर्ने अङ्ग हो — सर्वोच्च, उच्च र जिल्ला अदालत। **अन्तरसम्बन्ध:** शक्ति पृथकीकरणअनुसार तीनै स्वतन्त्र छन् तर नियन्त्रण र सन्तुलनमा जोडिएका छन्। **व्यवस्थापिका–कार्यपालिका:** मन्त्रिपरिषद् व्यवस्थापिकाबाटै बन्छ; प्रधानमन्त्रीले विश्वासको मत लिनुपर्छ र अविश्वासको प्रस्तावबाट हट्न सक्छन्; विधेयक मुख्यतः सरकार तयार गर्छ; अधिवेशनको आह्वान र अन्त्य प्रधानमन्त्रीको सिफारिसमा राष्ट्रपतिबाट हुन्छ; संसद्ले बजेट पारित नगरी सरकार खर्च गर्न सक्दैन। **व्यवस्थापिका–न्यायपालिका:** अदालतले कानुनको व्याख्या र संवैधानिक परीक्षण गर्छ, संविधानविपरीत कानुन बदर गर्न सक्छ; संसद्ले न्यायाधीशको संसदीय सुनुवाइ गर्छ र महाअभियोग लगाउन सक्छ; मुद्दाको रोहमा अदालतको आदेश संसद्ले मान्नुपर्छ। **कार्यपालिका–न्यायपालिका:** प्रधानन्यायाधीश सिफारिस गर्ने संवैधानिक परिषद्को अध्यक्ष प्रधानमन्त्री हुन्छन्; सरकारले अदालतको आदेश मान्नुपर्छ र अदालतको प्रशासनिक तथा आर्थिक प्रबन्ध गर्छ; संवैधानिक इजलासले सङ्घ, प्रदेश र स्थानीय सरकारबिचको क्षेत्राधिकार विवाद छिन्छ। **निष्कर्ष:** कुनै एक अङ्ग सर्वशक्तिमान् भए लोकतन्त्र कमजोर हुन्छ; तीनबिचको सन्तुलनले नै कानुनी शासन र नागरिक अधिकार जोगाउँछ।
+**२.** **परिचय:** वस्तु तथा सेवाको गुणस्तर, मूल्य, परिमाण र शुद्धता जान्ने, हानिकारक वस्तुबाट सुरक्षित रहने, छनोट गर्ने, सुनुवाइ र क्षतिपूर्ति पाउने हक उपभोक्ता अधिकार हो। **विकास:** सन् १९६२ मा अमेरिकाबाट सुरक्षा, सूचना, छनोट र सुनुवाइका चार अधिकार औपचारिक रूपमा उठे; मार्च १५ विश्व उपभोक्ता अधिकार दिवस बन्यो। सन् १९८५ अप्रिल ९ मा संयुक्त राष्ट्रसङ्घको महासभाले उपभोक्ता संरक्षणसम्बन्धी निर्देशिका पारित गरेपछि आधारभूत आवश्यकता, क्षतिपूर्ति, उपभोक्ता शिक्षा र स्वस्थ वातावरण थपिएर आठ अधिकार बने। **नेपालमा कानुनी व्यवस्था:** (क) संविधानको धारा ४४ — गुणस्तरीय वस्तु र सेवा पाउने तथा गुणस्तरहीन वस्तु वा सेवाबाट क्षति पुगे क्षतिपूर्ति पाउने हक; (ख) उपभोक्ता संरक्षण ऐन, २०७५ — सहज पहुँच, प्रतिस्पर्धात्मक छनोट, सुसूचित हुने, मिश्रित वस्तुका तत्त्व र प्रतिशत जान्ने, हानिकारक वस्तुबाट सुरक्षित हुने र अनुचित व्यापारविरुद्ध कारबाही गराउने अधिकार; (ग) स्थानीय सरकार सञ्चालन ऐन, २०७४ — स्थानीय तहलाई कार्यान्वयन र नियमनको जिम्मा। **सचेत उपभोक्ताको भूमिका:** मिति, म्याद, मूल्य र तौल जाँच्ने; बिल लिने; कमसल वा मिसावटयुक्त सामानको उजुरी र बहिष्कार गर्ने; अरूलाई सचेत बनाउने; क्षति भए क्षतिपूर्ति माग्ने। **स्थानीय सरकारको भूमिका:** नियमित बजार अनुगमन, मूल्यसूची र सही तौल–नाप लागु गराउने, म्याद नाघेका र मिसावटयुक्त सामान जफत गर्ने, कालोबजारी र कृत्रिम अभाव गर्नेलाई कारबाही, सहज उजुरी व्यवस्था, सचेतना कार्यक्रम र कृषकलाई गुणस्तरीय बिउ वितरण — जसले घटना २ जस्ता ठगी रोक्छ। **निष्कर्ष:** सचेत उपभोक्ता र सक्रिय तीनै तहका सरकार मिलेमा मात्र उपभोक्ता अधिकार व्यवहारमा सुरक्षित हुन्छ।
 :::

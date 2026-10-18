@@ -17,6 +17,30 @@ The Secondary Education Examination (SEE) is the first national examination a Ne
 This book does not label any question with the year it "appeared". Papers circulate on the internet with years attached, but this book could not verify individual items against an official released paper, so every question here is an **original practice question** written to the board's pattern. The sources it does stand behind are the published CDC specification grids and model questions, which give the pattern and the weights. Likewise, the "predicted questions" in chapters 4 and 7 are **ranked from the grid and the syllabus**; they are study priorities, not forecasts of what will be set.
 :::
 
+```figure caption="How the 100 marks of one subject are split, and where the pass lines fall. The external paper is 75 marks and 35 % (26.25 marks) passes it; the internal 25 marks need 40 % (10 marks)."
+import numpy as np, matplotlib.pyplot as plt
+fig, ax = plt.subplots(figsize=(4.9, 2.5))
+rows = ["Internal\n(25 marks, 40 % needed)", "External paper\n(75 marks, 35 % needed)"]
+need = [10, 26.25]
+rest = [15, 48.75]
+y = np.arange(len(rows))
+ax.barh(y, need, height=0.5, color=ACCENT, label="Minimum marks to pass")
+ax.barh(y, rest, left=need, height=0.5, color=SERIES[3], label="Remaining marks")
+for i, (n, r) in enumerate(zip(need, rest)):
+    ax.text(n / 2, i, f"{n:g}", ha="center", va="center", color="white",
+            fontsize=8.5, fontweight="bold")
+    ax.text(n + r / 2, i, f"+{r:g}", ha="center", va="center", color=INK, fontsize=8)
+ax.set_yticks(y, rows, fontsize=8)
+ax.set_xlim(0, 80)
+ax.set_xlabel("Marks", fontsize=8.5)
+ax.tick_params(axis="x", labelsize=8)
+ax.spines[["top", "right", "left"]].set_visible(False)
+ax.grid(axis="x", color=GRID, linewidth=0.6)
+ax.set_axisbelow(True)
+ax.legend(fontsize=7.5, frameon=False, loc="lower right")
+fig.tight_layout()
+```
+
 ## 1.1 The SEE at a glance
 
 Each subject paper is marked out of 75. Your school separately awards up to 25 internal marks for practical work, project work, class participation and terminal tests. The two parts are graded separately, and both must clear their minimum.
@@ -101,6 +125,34 @@ $$ \text{GPA}=\frac{109.3}{32}\approx 3.42 $$
 :::
 
 The certificate issued by the board is the final word; the calculation shows where marks matter. Science, Mathematics, English and Nepali each carry $5\div32\approx15.6\%$ of the GPA, while Social Studies and each optional carry $4\div32=12.5\%$.
+
+```figure caption="Marks to grade: the percentage you score on a subject becomes a letter grade and a grade point. Both the external paper and the internal assessment are graded on the same scale, and a GPA is the credit-weighted average of the subject grade points."
+import numpy as np, matplotlib.pyplot as plt
+fig, ax = plt.subplots(figsize=(4.9, 2.6))
+lo = np.array([90, 80, 70, 60, 50, 40, 35, 0])
+hi = np.array([100, 90, 80, 70, 60, 50, 40, 35])
+pts = np.array([4.0, 3.6, 3.2, 2.8, 2.4, 2.0, 1.6, 0.8])
+labels = ["A+", "A", "B+", "B", "C+", "C", "D+", "NG"]
+colors = [SERIES[0], SERIES[1], SERIES[2], SERIES[3], SERIES[4], SERIES[5], "#94a3b8", "#cbd5e1"]
+for i in range(len(lo)):
+    ax.barh(0, hi[i] - lo[i], left=lo[i], height=0.5, color=colors[i],
+            edgecolor="white", linewidth=0.8)
+    ax.text((lo[i] + hi[i]) / 2, 0, labels[i], ha="center", va="center",
+            fontsize=8.5, fontweight="bold", color="white" if i < 6 else INK)
+    if i < len(lo) - 1:
+        ax.text(lo[i], -0.42, f"{pts[i]:.1f}", ha="center", va="top",
+                fontsize=7.5, color=MUTED)
+ax.text(0, -0.62, "grade point", ha="left", va="top", fontsize=7.5, color=MUTED)
+ax.set_xlim(0, 100)
+ax.set_ylim(-0.85, 0.5)
+ax.set_yticks([])
+ax.set_xlabel("Percentage in the subject", fontsize=8.5)
+ax.tick_params(axis="x", labelsize=8)
+ax.spines[["top", "right", "left"]].set_visible(False)
+ax.grid(axis="x", color=GRID, linewidth=0.6)
+ax.set_axisbelow(True)
+fig.tight_layout()
+```
 
 ## 1.3 Science and Technology: the grid
 

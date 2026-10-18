@@ -1,664 +1,1373 @@
 ---
-subject: Social Studies and Human Value Education
+subject: सामाजिक अध्ययन तथा मानव मूल्य शिक्षा
 grade: 10
 unit: 6
-title: Our Earth
+title: हाम्रो पृथ्वी
 hours: 0
-area: Units
+area: एकाइ
 ---
 
-The Earth is the only home we have, and it is not the same everywhere. A farmer in the Terai grows rice under a hot monsoon sky; a herder in Mustang watches snow arrive in October; a fisher in the Amazon lives where it rains almost every afternoon; an Inuit hunter lives where the sun does not rise for weeks in winter. The difference is mostly **climate**, and climate is shaped by latitude, height, the sea and the winds. In this unit you will first learn why climates differ and how the world is divided into tropical, temperate and cold regions. Then you will take a tour of three continents (North America, South America and Africa), study the natural disaster that matters most to Nepal, the earthquake, and finish with the skills of reading and drawing maps and the modern technology that now makes them.
+धनगढीमा जेठमा चालीस डिग्रीको गर्मी हुँदा उही अक्षांशको गोरखाको सामागाउँमा मानिस
+बाक्लो लुगा लगाएर बसेका हुन्छन्। पोखरामा मुसलधारे पानी पर्दा हिमालपारिको मुस्ताङ
+सुक्खै रहन्छ। एउटै सानो देशमा यति फरक हावापानी किन? यस एकाइमा हामी हावापानीलाई
+प्रभाव पार्ने तत्त्व, संसारका तीन हावापानी मण्डल र तिनका बाह्र उपप्रदेश, हावापानी र
+धरातलले वनस्पति, जीवजन्तु तथा मानिसको जीवनमा पारेको प्रभाव, उत्तर अमेरिका, दक्षिण
+अमेरिका र अफ्रिका महादेश, नेपालका लागि सबैभन्दा डरलाग्दो प्राकृतिक प्रकोप भूकम्प र
+नक्सा बनाउने परम्परागत तथा आधुनिक प्रविधि पढ्नेछौँ।
 
-::: key What the SEE paper expects from this unit
-Expect definitions (weather, climate, earthquake, scale), "state any four factors" questions on climate, comparisons between climate regions in a table, the location and features of the three continents, the causes and safety measures for earthquakes, and one practical map question (convert a scale, find a direction, or read a grid). Learn the **facts and numbers** in the tables; they are what earns the marks.
+::: key यस एकाइबाट परीक्षाले खोज्ने कुरा
+हावापानीलाई प्रभाव पार्ने आठ तत्त्व; तीन मण्डल (उष्ण ०°–३०°, समशीतोष्ण ३०°–६०°, शीत ६०°–९०°)
+र तिनका बाह्र उपप्रदेशको अवस्थिति, तापक्रम, वर्षा, वनस्पति र जनजीवन; घाँसे मैदानका स्थानीय नाम;
+तीन महादेशका मुख्य तथ्य, हावापानी र आर्थिक क्रियाकलाप; भूकम्पको कारण, मापन, नेपालको जोखिम र
+सुरक्षाका उपाय; नक्साका तत्त्व, उतार्ने विधि, सङ्केत र आधुनिक प्रविधि। "किन?" भन्ने प्रश्नमा
+**तत्त्व → प्रक्रिया → उदाहरण** को क्रम मिलाउनुहोस्।
 :::
 
-```photo id="soc10/blue-marble" caption="The Earth photographed by the Apollo 17 crew in December 1972. Africa lies at the centre, with Arabia to its right and the white cloud of the Antarctic ice cap below. Oceans cover about 71 per cent of the surface; the climates and continents of this unit are all squeezed into the remaining 29 per cent." width="64"
+## ६.१ हावापानीमा प्रभाव पार्ने तत्त्वहरू
+
+::: definition हावापानी
+कुनै स्थानविशेषको लामो अवधिको मौसम वा वायुमण्डलको औसत अवस्थालाई **हावापानी**
+भनिन्छ। साधारणतया **३० वर्षभन्दा बढी** समयको मौसमको औसत प्रवृत्ति गणना गरेर
+हावापानी यकिन गरिन्छ। हावापानीलाई **जलवायु** पनि भनिन्छ। यसका सूचक **तापक्रम,
+वर्षा र वायुको चाप** हुन्।
+:::
+
+मौसम छोटो समय (एक दिन, एक हप्ता) को अवस्था हो भने हावापानीले ठुलो क्षेत्र र लामो
+समय ओगट्छ — जस्तै नेपालमा तराई, पहाड र हिमालको हावापानी। संसारमा एकै प्रकारको
+हावापानी पाइँदैन, किनकि स्थानअनुसार हावापानीलाई यी **आठ तत्त्व** ले प्रभाव पार्छन्:
+
+| तत्त्व | कसरी प्रभाव पार्छ | उदाहरण |
+|---|---|---|
+| (क) अक्षांश | भूमध्यरेखाबाट ध्रुवतिर जाँदा सूर्यको किरण छड्के पर्छ र तापक्रम घट्छ | भूमध्यरेखीय क्षेत्र उष्ण, ध्रुव अति चिसो |
+| (ख) उचाइ | माथि जाँदा हावा पातलो हुन्छ; हरेक १६०–१६५ मिटरमा १° से. तापक्रम घट्छ | तराई तातो, हिमाल चिसो |
+| (ग) जमिनको मोहडा | वायु सम्मुख मोहडा ओसिलो, वायु विमुख शुष्क; सूर्य सम्मुख न्यानो | नेपालमा दक्षिण फर्केको जमिन न्यानो |
+| (घ) सामुद्रिक दूरी | पानी ढिलो तात्छ र ढिलो सेलाउँछ; समुद्र नजिक सम, भित्री भाग विषम | पूर्वी चीन सुरम्य, पश्चिम चीन र मङ्गोलिया विषम |
+| (ङ) पहाडको उपस्थिति | पहाडले वायु रोक्छ; अगाडि वर्षा, पछाडि शुष्क | नेपालमा मनसुनी वर्षा, तिब्बत सुक्खा |
+| (च) सामुद्रिक धार | न्यानो धारले किनार न्यानो र ओसिलो, चिसो धारले चिसो र शुष्क बनाउँछ | अमेरिकाको पूर्वमा गल्फ स्ट्रिम, पश्चिममा क्यालिफोर्निया धार |
+| (छ) वायुको स्वभाव र दिशा | समुद्रबाट आउने बाफिलो वायुले वर्षा, जमिनबाट आउने सुक्खा वायुले खडेरी | ग्रीष्ममा मनसुनी वर्षा, हिउँद सुक्खा |
+| (ज) वनस्पति र माटो | घना वनले आर्द्रता र वर्षा बढाउँछ; कालो माटो ताप सोस्छ | कालो माटो न्यानो, सेतो/कमेरो माटो चिसो |
+
+तालिकाका केही कुरा थप स्पष्ट पारौँ। **अक्षांश** मा छड्के किरणले ठुलो क्षेत्रमा फैलिएर कम ताप दिन्छ। **उचाइ** मा कम उचाइको बाक्लो हावाले ताप थाम्छ, माथिको पातलो हावाले थाम्दैन। **सामुद्रिक दूरी** मा जमिन छिटो तात्छ र छिट्टै सेलाउँछ, पानी ढिलो तात्छ र ढिलै सेलाउँछ; समुद्र नजिक दिउँसो समुद्री वायु र राति स्थलीय वायु चल्ने भएकाले वर्षभरि सम हावापानी हुन्छ, भित्री भाग शुष्क र विषम (धेरै गर्मी र धेरै जाडो) हुन्छ। **पहाडको उपस्थिति** मा ग्रीष्ममा हिन्द महासागर र बङ्गालको खाडीबाट आउने जलवाष्पयुक्त वायुलाई हिमालयले रोकेर नेपालमा वर्षा गराउँछ, हिउँदमा उत्तरको चिसो वायु पनि रोक्छ; बाफिलो वायु नपुग्दा तिब्बत शुष्क रहन्छ।
+
+```figure caption="पहाडको उपस्थिति र वृष्टिछायाँ। बाफिलो हावा पर्वतको वायु सम्मुख भागमा उक्लँदा चिसिएर वर्षा गराउँछ; पर्वत नाघेपछि ओर्लँदा सुक्खा हुन्छ। नेपालको दक्षिणी भाग र तिब्बतको भिन्नता यही हो।"
+import numpy as np
+fig, ax = plt.subplots(figsize=(5.4, 2.7))
+ax.set_xlim(0, 10); ax.set_ylim(0, 5.6); ax.axis('off')
+x = np.array([0.3, 3.4, 4.9, 6.4, 9.7]); y = np.array([0.8, 1.4, 4.1, 2.6, 2.4])
+xs = np.linspace(x.min(), x.max(), 200)
+ys = np.interp(xs, x, y)
+ax.fill_between(xs, 0.4, ys, color="#c9dcc0")
+ax.plot(xs, ys, color=INK, lw=1.4)
+ax.annotate('', xy=(4.3, 3.6), xytext=(0.8, 1.6), arrowprops=dict(arrowstyle='->', color=ACCENT, lw=1.5))
+ax.text(1.5, 2.75, 'बाफिलो हावा\nउक्लन्छ', ha='center', fontsize=7.2, color=ACCENT)
+for cx in (2.7, 3.4, 4.1):
+    ax.add_patch(plt.Circle((cx, 4.6), 0.28, fc="#9fb4cc", ec='none'))
+    for k in range(3):
+        ax.plot([cx - 0.14 + k * 0.14] * 2, [4.3, 4.0], color="#4a78a8", lw=0.9)
+ax.text(3.4, 5.15, 'धेरै वर्षा', ha='center', fontsize=7.4, color=INK)
+ax.annotate('', xy=(8.9, 3.0), xytext=(5.6, 4.3), arrowprops=dict(arrowstyle='->', color=MUTED, lw=1.5))
+ax.text(7.6, 4.3, 'सुक्खा हावा', ha='center', fontsize=7.2, color=MUTED)
+ax.text(8.1, 1.4, 'तिब्बत: वृष्टिछायाँ, शुष्क', ha='center', fontsize=7.4, color=INK)
+ax.text(1.9, 0.55, 'नेपालको दक्षिणी भाग', ha='center', fontsize=7.4, color=INK)
+ax.text(4.9, 0.55, 'हिमालय', ha='center', fontsize=7.4, color=INK, fontweight='bold')
 ```
 
-## 6.1 Factors affecting climate
+**वनस्पति र माटो** मा कालो माटोले ताप सोस्दा ठाउँ न्यानो, कमेरो वा सेतो माटोले ताप कम सोस्दा चिसो, र बलौटे तथा रातो फुस्रो माटो छिटो तात्ने–सेलाउने भएकाले हावापानी विषम हुन्छ; वनस्पतिविहीन क्षेत्र सुक्खा र विषम हुन्छ।
 
-### Weather and climate
+::: example उचाइ र तापक्रमको हिसाब
+**प्रश्न.** समुद्र सतहबाट १०० मिटर उचाइको तराईमा तापक्रम ३०° से. छ। हरेक १६५ मिटरमा
+१° से. घट्छ भने ३,४०० मिटर उचाइको हिमाली बस्तीमा उही समयमा कति तापक्रम होला?
 
-**Weather** is the condition of the atmosphere (temperature, rain, wind, cloud, humidity) at a particular place and time. It can change within hours. **Climate** is the average weather of a place over a long period, usually **30 years or more**. "It is raining in Pokhara today" is weather; "Pokhara has heavy monsoon rain and mild winters" is climate.
-
-::: definition Climate
-Climate is the average condition of weather of a place or region over a long period of time, usually thirty years or more.
+**उत्तर.** उचाइको फरक = ३,४०० − १०० = ३,३०० मिटर। घट्ने तापक्रम = ३,३०० ÷ १६५ =
+**२०° से.**। त्यसैले हिमाली बस्तीमा करिब ३० − २० = **१०° से.** हुन्छ। एउटै अक्षांशमा
+भए पनि धनगढी र सामागाउँको हावापानी फरक हुनुको कारण यही हो।
 :::
 
-| Weather | Climate |
-|---|---|
-| Short-term condition of the atmosphere | Long-term average of weather |
-| Changes from hour to hour and day to day | Changes very slowly |
-| Describes one place at one time | Describes a whole region over many years |
-| Example: a foggy morning in Kathmandu | Example: monsoon climate of Nepal |
-
-### The main factors
-
-Seven factors decide the climate of a place. Learn them as a list.
-
-**1. Latitude.** Latitude is the distance of a place north or south of the equator. Near the equator the sun's rays fall almost vertically, so a small area receives concentrated heat. Towards the poles the rays fall at a slant and are spread over a larger area, so the ground is cooler. That is why the climate becomes colder as we move from the equator to the poles.
-
-**2. Altitude.** The air gets thinner and cooler with height. On average the temperature falls by about **6.5 °C for every 1,000 m** you climb (about 0.65 °C per 100 m). This is called the **normal lapse rate**. It explains why Kathmandu (about 1,400 m) is cooler than Birgunj (about 100 m), and why the Himalaya keep snow all year even though Nepal lies at the same latitude as Florida.
-
-::: example Altitude and temperature
-**Problem.** At Biratnagar (about 70 m above sea level) the temperature at noon is 32 °C. What temperature would you expect at Namche Bazaar (about 3,440 m) at the same moment, using the lapse rate of 6.5 °C per 1,000 m?
-
-**Solution.**
-Height difference = 3,440 m − 70 m = 3,370 m.
-Fall in temperature = 3.37 × 6.5 °C ≈ 21.9 °C.
-Temperature at Namche ≈ 32 − 21.9 = **10.1 °C**.
-
-The real value differs a little because of cloud and wind, but the method shows why high places are cold.
+::: note क्रियाकलाप — पाठ ६.१
+**१.** नेपालको तराईदेखि हिमालसम्म भ्रमण गर्दा उष्णदेखि समशीतोष्ण हुँदै शीत प्रदेशीय
+हावापानीको अनुभव हुन्छ। सानो क्षेत्रमा यति धेरै विविधता हुनुका कारण (उचाइ, मोहडा,
+पहाड, मनसुनी वायु) विभिन्न स्रोतबाट खोजेर कक्षामा प्रस्तुत गर्नुहोस्।
+**२.** पाठ्यपुस्तकको चित्र हेरी ०° अक्षांश वरिपरि वर्षैभरि गर्मी र ८०° अक्षांश वरिपरि
+वर्षैभरि हिउँ जम्नुको कारण (सिधा र छड्के किरण), नेपालको ग्रीष्मकालीन वर्षामा वायु र
+पर्वतको भूमिका तथा त्यही बेला तिब्बतमा वर्षा नहुनुको कारण (वृष्टिछायाँ) खोजी गरी
+प्रस्तुत गर्नुहोस्।
 :::
 
-```figure caption="Temperature falls with height at about 6.5 °C per 1,000 m. The places are plotted for a sea-level temperature of 30 °C; real values vary with season and weather."
-import numpy as np, matplotlib.pyplot as plt
-fig, ax = plt.subplots(figsize=(4.6,3.0))
-h = np.linspace(0, 5000, 50)
-t = 30 - 6.5*h/1000
-ax.plot(t, h, color=ACCENT, lw=2)
-pts = [("Terai plain (100 m)", 100), ("Kathmandu (1,400 m)", 1400), ("Namche Bazaar (3,440 m)", 3440), ("Everest Base Camp (5,364 m)", None)]
-for name, hh in pts[:3]:
-    tt = 30 - 6.5*hh/1000
-    ax.plot([tt],[hh],'o',color=SERIES[1])
-    ax.annotate(name, (tt, hh), xytext=(tt+2.5, hh+60), fontsize=7.5, color=INK)
-ax.set_xlabel("Temperature (deg C)", fontsize=8)
-ax.set_ylabel("Height above sea level (m)", fontsize=8)
-ax.set_ylim(0,5000); ax.set_xlim(-4,34)
-ax.grid(color=GRID, lw=0.5)
-ax.spines[['top','right']].set_visible(False)
-ax.tick_params(labelsize=8)
-```
+### पाठको अभ्यास: नमुना उत्तर
 
-**3. Distance from the sea.** Water heats and cools slowly; land heats and cools quickly. Places near the sea therefore have a **maritime (equable)** climate with mild summers and winters. Places deep inside a continent have a **continental** climate with hot summers, cold winters and little rain. Compare coastal Mumbai with inland Nagpur, or coastal Britain with inland Siberia.
+**१. हावापानी भनेको के हो?**
+कुनै स्थानविशेषको लामो अवधि (साधारणतया ३० वर्षभन्दा बढी) को मौसम वा वायुमण्डलको
+औसत अवस्थालाई हावापानी वा जलवायु भनिन्छ। तापक्रम, वर्षा र वायुको चाप यसका सूचक
+हुन्। यसले तराई, पहाड, हिमालजस्ता ठुला क्षेत्र ओगट्छ।
 
-**4. Ocean currents.** A warm current heats the air above it and carries moisture to the land, while a cold current cools and dries it. The warm North Atlantic Drift keeps the ports of Norway ice-free in winter although they lie far north. The cold Peru (Humboldt) Current helps to create the dry Atacama coast of Chile.
+**२. तराईमा उत्तरी मोहडा र पहाडमा दक्षिणी मोहडा भएको घरलाई भौगोलिक हिसाबले
+उपयुक्त मानिन्छ, किन? कारण दिनुहोस्।**
+नेपाल उत्तरी गोलार्धमा भएकाले सूर्य दक्षिणतिर देखिन्छ। गर्मी धेरै हुने तराईमा उत्तर फर्केको घरमा सिधा घाम कम पस्छ र घर शीतल रहन्छ। जाडो बढी हुने पहाडमा दक्षिण फर्केको (सूर्य सम्मुख) घरमा दिनभर घाम लाग्छ; घर न्यानो, सुक्खा र उज्यालो हुन्छ र ओसिलोपन कम हुन्छ।
 
-**5. Winds.** Winds from the sea bring rain; winds blowing from the land are dry. The **monsoon** is a seasonal wind. In summer it blows from the Indian Ocean and Bay of Bengal to South Asia and brings about 80 per cent of Nepal's annual rainfall (June to September); in winter it blows from the land and the weather is dry.
+**३. कैलालीको धनगढी र गोरखाको सामागाउँ लगभग एउटै अक्षांशमा पर्छन्, तर धनगढीमा
+अत्यन्तै गर्मी र सामागाउँमा अत्यन्तै जाडो हुन्छ, किन?**
+मुख्य कारण **उचाइ** हो। धनगढी करिब १०० मिटरको तराईमा र सामागाउँ करिब ३,५०० मिटरको हिमाली क्षेत्रमा छ। हरेक १६०–१६५ मिटरमा १° से. घट्ने हुँदा सामागाउँ करिब २० डिग्री चिसो हुन्छ; माथिको पातलो हावाले ताप थाम्दैन र हिमाल नजिक छ।
 
-**6. Relief (mountains and slope).** Mountains force moist wind to rise, cool and drop rain on the windward side (**relief rain**). The far, leeward side receives little rain and is called the **rain shadow**. Mustang, behind the Annapurna and Dhaulagiri ranges, is a rain-shadow desert with only about 25 cm rain a year, while Pokhara in front of the range receives over 3,000 mm. Slopes facing the sun are also warmer than those in shadow.
+**४. कालो माटो भएको क्षेत्रमा हावापानी न्यानो हुनाको कारण के होला?**
+कालो रङले सूर्यको ताप धेरै सोस्छ र कम परावर्तन गर्छ। कालो माटोले दिनभर ताप
+सोसेर भण्डारण गर्छ र बिस्तारै छाड्छ, त्यसैले वरिपरिको हावा न्यानो रहन्छ। सेतो वा
+कमेरो माटोले ताप फर्काइदिने भएकाले त्यस्तो ठाउँ चिसो हुन्छ।
 
-**7. Vegetation and soil.** Forests keep the air humid and cool, return water to the air by transpiration and shelter the soil, so forested lands tend to have more rain and gentler temperatures. Bare soil and cities heat up faster.
+**५. छिमेकी देश भारतको मुम्बईमा वर्षैभरि तापक्रममा भिन्नता हुँदैन तर दिल्लीमा
+तापक्रमको भिन्नता बढी हुन्छ, किन होला?**
+यसको कारण **सामुद्रिक दूरी** हो। मुम्बई अरब सागरको किनारमा छ। पानी ढिलो तात्ने र
+ढिलो सेलाउने भएकाले तथा दिउँसो समुद्री र राति स्थलीय वायु चल्ने भएकाले मुम्बईमा
+वर्षभरि सम हावापानी हुन्छ। दिल्ली समुद्रबाट टाढा भित्री भूभागमा छ; जमिन छिटो तात्ने र
+छिटो सेलाउने भएकाले त्यहाँ गर्मीमा अति गर्मी र जाडोमा अति जाडो (विषम हावापानी) हुन्छ।
 
-```figure caption="Rain-shadow effect (schematic). Moist wind rises over the mountain, cools and drops rain on the windward side; the leeward side is dry."
-import numpy as np, matplotlib.pyplot as plt
+**६. विश्वको हावापानीलाई प्रभाव पार्ने तत्त्वहरूको सूची तयार गरी कुनै दुईको वर्णन
+गर्नुहोस्।**
+सूची: अक्षांश, उचाइ, जमिनको मोहडा, सामुद्रिक दूरी, पहाडको उपस्थिति, सामुद्रिक धार, वायुको स्वभाव र दिशा, वनस्पति र माटो। **अक्षांश:** भूमध्यरेखामा सिधा किरणले उष्ण हावापानी हुन्छ; ध्रुवतिर किरण छड्के पर्दै तापक्रम घट्छ र ध्रुवमा हिउँ जम्छ। **उचाइ:** हरेक १६०–१६५ मिटरमा १° से. घट्ने भएकाले नेपालको तराई उष्ण, पहाड समशीतोष्ण र हिमाल शीत छ।
+
+## ६.२ विश्वका हावापानीका प्रकारहरू
+
+विश्वको हावापानीलाई अक्षांशका आधारमा मुख्यगरी **तीन मण्डल** मा बाँडिन्छ। एउटै
+मण्डलभित्र पनि महाद्वीपको पूर्वी, पश्चिमी वा भित्री भाग, उचाइ र समुद्रको प्रभावअनुसार
+फरक हावापानी पाइन्छ। यस्ता समान तापक्रम, वर्षा र वनस्पति भएका भागलाई **हावापानीको
+प्रदेश** वा उपप्रदेश भनिन्छ।
+
+**१. उष्ण मण्डल:** भूमध्यरेखाबाट दुवै गोलार्धको **३०° अक्षांशसम्म**। वर्षैभरि सूर्यको किरण
+सिधा पर्ने हुनाले निकै गर्मी हुन्छ; ताप, चाप र वर्षा उच्च हुन्छ। २३½° उत्तरमा कर्कट रेखा
+र २३½° दक्षिणमा मकर रेखा यसै मण्डलमा पर्छन्। यसमा **चार** उपप्रदेश छन्।
+
+**२. समशीतोष्ण मण्डल:** दुवै गोलार्धको **३०° देखि ६०°** अक्षांशसम्म। वर्षैभरि तातो र
+चिसोको सन्तुलित अवस्था र पर्याप्त वर्षा हुने भएकाले मानव जीवनका लागि अनुकूल छ।
+हावापानी, वनस्पति, मानव जाति र संस्कृतिको विविधता यहाँ छ। यसमा **छ** उपप्रदेश छन्।
+
+**३. शीत मण्डल:** दुवै गोलार्धको **६०° देखि ९०°** अक्षांशसम्मको ध्रुवीय क्षेत्र। किरण
+छड्के पर्ने र तापक्रम प्रायः शून्यभन्दा तल रहने हुनाले अत्यधिक जाडो हुन्छ; चिसो र सुक्खा
+वायुले खासै वर्षा हुँदैन। ग्रिनल्यान्ड, आइसल्यान्ड र अन्टार्कटिकामा वर्षैभरि बरफ जम्छ।
+सूर्य उत्तरायणमा हुँदा दक्षिणी ध्रुवीय क्षेत्र र दक्षिणायनमा हुँदा उत्तरी ध्रुवीय क्षेत्र प्रायः
+अन्धकार रहन्छ। यसमा **दुई** उपप्रदेश छन्।
+
+```figure caption="पृथ्वीका तीन हावापानी मण्डल (पाठ्यपुस्तकको वर्गीकरण)। उष्ण मण्डलभित्र कर्कट र मकर रेखा पर्छन्; दुवै गोलार्धमा उही क्रम दोहोरिन्छ।"
+import numpy as np
+from matplotlib.patches import Circle, Rectangle
+fig, ax = plt.subplots(figsize=(5.6, 2.9))
+ax.set_xlim(-2.5, 3.5); ax.set_ylim(-1.12, 1.12); ax.set_aspect("equal"); ax.axis("off")
 from matplotlib.patches import Polygon
-fig, ax = plt.subplots(figsize=(4.8,2.6))
-ax.add_patch(Polygon([(0,0),(3.2,0),(5,3.2),(6.8,0),(10,0)], color="#b9a98a"))
-ax.add_patch(Polygon([(4.4,2.2),(5,3.2),(5.6,2.2)], color="white", ec=GRID))
-ax.annotate("", xy=(3.4,1.9), xytext=(0.2,0.8), arrowprops=dict(arrowstyle="-|>", color=ACCENT, lw=1.6))
-ax.text(0.2,1.6,"Moist wind", fontsize=8, color=ACCENT)
-for x in (3.0,3.5,4.0):
-    ax.plot([x,x-0.15],[2.6,2.1], color=SERIES[0], lw=1.2)
-ax.text(1.3,3.0,"Heavy rain", fontsize=8, color=SERIES[0])
-ax.annotate("", xy=(9.5,1.1), xytext=(6.2,2.3), arrowprops=dict(arrowstyle="-|>", color=SERIES[3], lw=1.6))
-ax.text(7.3,2.55,"Dry, warm air", fontsize=8, color=SERIES[3])
-ax.text(1.0,-0.45,"Windward side", fontsize=8, color=INK)
-ax.text(7.0,-0.45,"Leeward side (rain shadow)", fontsize=8, color=INK)
-ax.set_xlim(0,10); ax.set_ylim(-0.7,3.8); ax.axis('off')
+bands = [(60, 90, "#b9d4ee", "शीत मण्डल (६०°–९०°)"), (30, 60, "#bfe0b6", "समशीतोष्ण मण्डल (३०°–६०°)"), (0, 30, "#f8c99a", "उष्ण मण्डल (०°–३०°)")]
+for lo, hi, c, lab in bands:
+    for sg in (1, -1):
+        t = np.radians(np.linspace(lo, hi, 40)) * sg
+        pts = [(np.cos(a), np.sin(a)) for a in t] + [(-np.cos(a), np.sin(a)) for a in t[::-1]]
+        ax.add_patch(Polygon(pts, fc=c, ec="none"))
+        ym = sg * np.sin(np.radians((lo + hi) / 2))
+        ax.text(1.12, ym, lab, va="center", fontsize=7.4, color=INK)
+ax.add_patch(Circle((0, 0), 1, fc="none", ec=INK, lw=1.2))
+for lat, name in [(0, "भूमध्यरेखा ०°"), (23.5, "कर्कट रेखा २३½° उ."), (-23.5, "मकर रेखा २३½° द.")]:
+    yv = np.sin(np.radians(lat)); xv = np.cos(np.radians(lat))
+    ax.plot([-xv, xv], [yv, yv], color=ACCENT if lat == 0 else MUTED, lw=1.0, ls="-" if lat == 0 else "--")
+    ax.text(-1.08, yv, name, ha="right", va="center", fontsize=7.2, color=INK)
+ax.text(-1.08, 0.95, "उत्तरी ध्रुव ९०°", ha="right", va="center", fontsize=7.2, color=MUTED)
+ax.text(-1.08, -0.95, "दक्षिणी ध्रुव ९०°", ha="right", va="center", fontsize=7.2, color=MUTED)
 ```
 
-::: caution Weather is not climate
-Students write "the climate of Kathmandu today is foggy". Fog today is **weather**. Climate is always a long-term average. Examiners withhold the mark for this slip.
-:::
-
-## 6.2 Types of world climate
-
-Geographers divide the world into **climate regions** (also called zones or *mandals*): large areas with a similar pattern of temperature, rainfall and natural vegetation. The textbook classifies them by **latitude, heat from the sun and air pressure** into three main groups, and each is then split into sub-types.
-
-| Main region | Latitude (approx.) | Sub-types in the textbook |
+| मण्डल | अक्षांश | उपप्रदेश |
 |---|---|---|
-| **Tropical** (hot) | 0° to 30° N and S | Equatorial, savanna, monsoon, hot desert |
-| **Temperate** (mild) | 30° to 60° N and S | Mediterranean, China type (warm temperate east margin), British (west European) type, temperate grassland |
-| **Cold** (polar and sub-polar) | 60° to 90° N and S | Taiga (coniferous forest), tundra, polar ice cap |
+| उष्ण मण्डल (४) | ०° – ३०° | १. भूमध्यरेखीय २. उष्ण तृणभूमि (सभाना) ३. उष्ण मरुस्थलीय ४. उष्ण मौसमी (मनसुनी) |
+| समशीतोष्ण मण्डल (६) | ३०° – ६०° | १. भूमध्यसागरीय २. समशीतोष्ण मरुस्थलीय ३. समशीतोष्ण मौसमी (चिनियाँ) ४. समशीतोष्ण सामुद्रिक ५. समशीतोष्ण तृणभूमि ६. सेन्ट लरेन्स र मन्चुरिया |
+| शीत मण्डल (२) | ६०° – ९०° | १. साइबेरियन वा टाइगा (६०°–७०°) २. टुन्ड्रा (७०°–९०°) |
 
-(The astronomical heat belts, torrid, temperate and frigid zones, are bounded by the Tropics at 23.5° and the Arctic and Antarctic Circles at 66.5°; the climate regions above are broader, more practical groupings.)
-
-```figure caption="World climate regions by latitude (schematic bands, not an exact map). Tropical 0-30, temperate 30-60, cold 60-90 degrees in each hemisphere."
-import numpy as np, matplotlib.pyplot as plt
-fig, ax = plt.subplots(figsize=(4.8,2.8))
-bands = [(60,90,"#cfe3f5","Cold (taiga, tundra, ice cap)"),(30,60,"#cfe8c6","Temperate"),(0,30,"#f6d9a8","Tropical")]
-for lo,hi,c,name in bands:
-    ax.axhspan(lo,hi,color=c,ec="none")
-    ax.axhspan(-hi,-lo,color=c,ec="none")
-    ax.text(0.5,(lo+hi)/2,name,ha="center",va="center",fontsize=8,color=INK)
-    if lo!=0 or True:
-        ax.text(0.5,-(lo+hi)/2,name.split(" (")[0],ha="center",va="center",fontsize=8,color=INK)
-ax.axhline(0,color=INK,lw=1)
-ax.text(0.99,1.5,"Equator",ha="right",fontsize=7.5,color=INK)
-for y in (23.5,-23.5,66.5,-66.5):
-    ax.axhline(y,color=MUTED,lw=0.7,ls="--")
-ax.text(0.01,25,"Tropic of Cancer 23.5",fontsize=7,color=MUTED)
-ax.text(0.01,-30,"Tropic of Capricorn 23.5",fontsize=7,color=MUTED)
-ax.text(0.01,68,"Arctic Circle 66.5",fontsize=7,color=MUTED)
-ax.text(0.01,-73,"Antarctic Circle 66.5",fontsize=7,color=MUTED)
-ax.set_xlim(0,1); ax.set_ylim(-90,90)
-ax.set_yticks([-90,-60,-30,0,30,60,90]); ax.set_xticks([])
-ax.set_yticklabels(["90S","60S","30S","0","30N","60N","90N"],fontsize=8)
-ax.set_ylabel("Latitude",fontsize=8)
-for s in ax.spines.values(): s.set_visible(False)
-```
-
-::: definition Climate region
-A climate region is a large area of the Earth that has a similar climate, shown by similar temperature, rainfall and natural vegetation.
+::: caution मण्डलको सिमाना: ३०° कि २३½°?
+पाठ्यपुस्तकले उष्ण मण्डललाई ०°–३०°, समशीतोष्णलाई ३०°–६०° र शीतलाई ६०°–९०° मानेको
+छ। ताप कटिबन्धका आधारमा कतिपय पुस्तकमा उष्ण कटिबन्ध कर्कट–मकर रेखासम्म
+(२३½°) र शीत कटिबन्ध ध्रुवीय वृत्त (६६½°) देखि मानिन्छ। एसईई परीक्षामा पाठ्यपुस्तकको
+३०° र ६०° को सिमाना लेख्नुहोस्।
 :::
 
-Nepal is unusual. Lying at about 26° to 30° N, it belongs to the **tropical monsoon** to **warm temperate** belt, yet because the land rises from about 60 m to 8,849 m within 150 km, it also contains alpine and polar-like conditions. Few countries in the world pack so many climates into so small an area.
-
-## 6.3 Tropical region
-
-The tropical region lies on both sides of the equator and receives strong, direct sunshine all year, so every month is warm; the average temperature seldom falls below 18 °C. It has four sub-types.
-
-### Equatorial climate
-
-- **Location:** within about 5° to 10° of the equator: the Amazon basin (Brazil), the Congo basin (Central Africa), Indonesia and Malaysia.
-- **Climate:** hot and wet all year. Average temperature about 27 °C; the yearly range is tiny (1 to 3 °C). Heavy rain of 200 cm or more falls nearly every afternoon as **convectional rain** (the hot ground heats the air, which rises, cools and condenses).
-- **Vegetation:** dense **tropical evergreen rainforest**: tall hardwood trees (mahogany, ebony, rosewood), thick undergrowth, vines, trees in several layers; so dense that little sunlight reaches the floor.
-- **Animals:** monkeys, snakes, jaguars (Amazon), gorillas, okapi (Congo), colourful birds, insects.
-- **People and economy:** thinly populated; hunter-gatherers such as the Pygmies of the Congo and tribes of the Amazon; plantation crops: rubber, oil palm, cocoa; timber extraction (threatens forests).
-
-```photo id="soc10/amazon" caption="The Amazon rainforest seen from the International Space Station: unbroken green canopy and a winding river. The Amazon basin holds the world's largest tropical rainforest and is a prime example of the equatorial climate." width="86"
-```
-
-### Savanna (tropical grassland) climate
-
-- **Location:** on the edges of the equatorial belt, about 5° to 20° (up to 30°) north and south: the Sudan region and East Africa (Serengeti, Kenya), the Llanos of Venezuela, the Campos of Brazil and northern Australia.
-- **Climate:** hot all year (about 20 to 30 °C) with a **wet summer and a long dry winter**; annual rain 75 to 150 cm.
-- **Vegetation:** tall **elephant grass** with scattered umbrella-shaped trees such as acacia and baobab; trees are drought-resistant and shed leaves in the dry season.
-- **Animals:** lion, elephant, giraffe, zebra, wildebeest, rhinoceros; the largest herds of wild animals in the world.
-- **People:** pastoral peoples (Maasai of Kenya and Tanzania) and farmers growing maize, millet, cotton; tourism from national parks is a major earner.
-
-```photo id="soc10/serengeti" caption="Wildebeest on the Serengeti plain, Tanzania. Each year about 1.5 million wildebeest, with zebra and gazelle, follow the rains in a circular migration across the savanna; the herds are the main attraction for tourists." width="84"
-```
-
-### Monsoon climate
-
-- **Location:** South Asia (India, Bangladesh, Nepal, Sri Lanka, Myanmar), Southeast Asia (Thailand, Vietnam, Cambodia) and southern China.
-- **Climate:** the seasons are named for the wind: **hot summer** (March to May), **rainy monsoon** (June to September, wet winds from the sea) and **cool, dry winter**. Rainfall varies from 50 cm to over 250 cm; it is the heaviest on windward slopes (Cherrapunji and Mawsynram in Meghalaya, India, are among the wettest places on Earth).
-- **Vegetation:** **deciduous (monsoon) forest** such as sal, teak and sissoo, which sheds its leaves in the dry season; evergreen forest where rainfall is very high.
-- **People and economy:** the most densely populated climate region on Earth. Because the rains come in one season, the main food crop is **rice**, with wheat, maize, sugarcane, jute, tea and cotton; farming depends heavily on the arrival of the monsoon.
-
-Most of the Terai and the inner Madhesh of Nepal has this climate; this is the answer to the textbook question "In which climate region do you live?".
-
-### Hot desert climate
-
-- **Location:** on the western side of continents between 15° and 30° in both hemispheres: the Sahara and Kalahari (Africa), the Arabian and Thar deserts (Asia), the Atacama (South America), the Great Australian Desert.
-- **Climate:** very hot days (over 40 °C, even 50 °C), cold nights because the clear dry sky lets heat escape; rainfall below 25 cm and irregular. The Sahara reaches 50 °C in the shade.
-- **Vegetation:** cactus, thorny shrubs, date palms at **oases**; long roots or waxy leaves to save water.
-- **Animals:** camel, snake, lizards, scorpions, desert fox.
-- **People:** nomads such as the Bedouin and Tuareg who herd camels and goats; settled life only at oases and along the Nile. Oil in Arabia has turned some deserts into rich economies.
-
-```photo id="soc10/sahara" caption="Sand dunes, the classic landscape of a hot desert. The Sahara of North Africa is the largest hot desert in the world, with an area of about 9 million square kilometres, almost as large as the United States." width="78"
-```
-
-| Feature | Equatorial | Savanna | Monsoon | Hot desert |
-|---|---|---|---|---|
-| Temperature | ~27 °C all year | 20–30 °C | Hot summer, cool winter | 40 °C+ day, cold night |
-| Rainfall | 200 cm+, daily | 75–150 cm, summer | 50–250 cm, June–Sept | Under 25 cm |
-| Vegetation | Evergreen rainforest | Tall grass, scattered trees | Deciduous forest | Cactus, thorny shrubs |
-| Famous areas | Amazon, Congo | Serengeti, Llanos | South Asia, Terai | Sahara, Thar |
-| People | Hunter-gatherers, plantation workers | Herders, farmers | Dense farming population | Nomads, oasis farmers |
-
-## 6.4 Temperate region
-
-Between 30° and 60° the sun's rays are neither vertical nor too slanting, so the region has **moderate temperature with four distinct seasons**: spring, summer, autumn and winter. It is the most favourable region for human life, which is why large parts of Europe, East Asia and the eastern United States are densely populated and highly developed.
-
-### Mediterranean climate
-
-- **Location:** the western margins of continents between 30° and 40°: around the Mediterranean Sea (Italy, Greece, Spain), California (USA), central Chile, the Cape of South Africa, south-west and south Australia.
-- **Climate:** **hot, dry, sunny summers and mild, rainy winters**; rain 40–100 cm falls mainly in winter, brought by westerly winds.
-- **Vegetation:** evergreen trees with thick leaves and long roots: olive, cork oak, citrus, and scrub; this is called **Mediterranean vegetation**.
-- **Economy:** citrus fruits (oranges, lemons), grapes and wine, olives, figs; the dry sunny summers also bring tourists to the beaches of Spain and Greece.
-
-### China type (warm temperate eastern margin) climate
-
-- **Location:** the eastern sides of continents between about 25° and 40°: central and south China, southern Japan, south-east USA, south-east Australia, Uruguay.
-- **Climate:** warm to hot, humid summers with monsoon-like rain; cool winters; rain 100–150 cm throughout the year, heaviest in summer.
-- **Vegetation:** mixed forest; much land cleared for farms.
-- **Economy:** very productive agriculture; rice, tea, silk, cotton, maize, fruits; high population density, large industrial cities such as Shanghai.
-
-### British (west European marine) climate
-
-- **Location:** western margins between 40° and 60°: Britain, Ireland, France, Norway, Netherlands, south-west Canada, southern Chile, New Zealand.
-- **Climate:** a gentle, **maritime** climate: cool summers, mild winters (the warm North Atlantic Drift prevents freezing), rain all year (60–150 cm) with frequent cloud and changeable weather.
-- **Vegetation:** deciduous broad-leaved forest (oak, beech, elm), losing leaves in autumn.
-- **Economy:** dairy farming, mixed farming, fishing; the birthplace of the Industrial Revolution; densely populated, urban.
-
-### Temperate grassland (steppe) climate
-
-- **Location:** in the interior of continents where the sea cannot moderate the weather: the **prairies** of North America, the **pampas** of Argentina, the **steppes** of Eurasia, the **veld** of South Africa and the **downs** of Australia.
-- **Climate:** continental: hot summers, very cold winters, 25–75 cm of rain (mostly spring and summer).
-- **Vegetation:** short, nutritious grass, almost treeless.
-- **Economy:** the "granary of the world": wheat, maize and cattle ranching on huge mechanised farms.
-
-| Feature | Mediterranean | China type | British type | Grassland |
-|---|---|---|---|---|
-| Position | West coast, 30–40° | East coast, 25–40° | West coast, 40–60° | Continental interior |
-| Rainy season | Winter | All year, summer peak | All year | Spring/summer |
-| Summer | Hot, dry | Hot, humid | Cool | Hot |
-| Winter | Mild, wet | Cool | Mild | Very cold |
-| Chief products | Citrus, olives, grapes | Rice, tea, silk | Dairy, wheat, fish | Wheat, beef |
-
-## 6.5 Cold region
-
-Beyond 60° the sun is low in the sky even at midday; in the polar night the sun may not rise for weeks, and in the polar summer it may not set (the **midnight sun**). The region has a long, bitter winter and a short, cool summer.
-
-### Taiga (coniferous forest) climate
-
-- **Location:** a broad belt across northern Canada, Alaska, Scandinavia and Siberia (Russia) at roughly 50° to 70° N; there is almost no equivalent in the southern hemisphere because there is little land there.
-- **Climate:** winters of 6 to 9 months with temperatures far below freezing (Verkhoyansk in Siberia has recorded about −68 °C); summers short, cool to warm; precipitation 25–50 cm, mostly snow.
-- **Vegetation:** the world's largest forests: **coniferous (softwood) trees**, namely pine, fir, spruce and larch, with needle-shaped leaves and conical shape so that snow slides off.
-- **Economy:** lumbering is the main activity (paper, pulp, furniture and matches); fur trapping; thinly populated.
-
-### Tundra climate
-
-- **Location:** the coast of the Arctic Ocean north of the taiga: northern Canada, Alaska, Greenland's margins, northern Russia and Scandinavia, and also the higher mountains.
-- **Climate:** winter temperature down to −30 to −50 °C; the short summer barely reaches 10 °C; a layer of soil stays frozen all year (**permafrost**); low precipitation, mostly snow.
-- **Vegetation:** only mosses, lichens, sedges and tiny flowering plants in the short summer.
-- **Animals:** reindeer (caribou), musk ox, Arctic fox, polar bear, seals, snowy owl.
-- **People:** thin population: the Inuit (Eskimo) of Canada and Greenland and the Sami and Nenets of Eurasia; hunting, fishing and herding of reindeer.
-
-### Polar ice cap climate
-
-- **Location:** Antarctica and most of Greenland, and the Arctic Ocean ice.
-- **Climate:** the coldest on Earth; the lowest temperature ever recorded, **−89.2 °C**, was at Vostok Station, Antarctica; permanent ice and snow; strong winds; very little precipitation (it is a "cold desert").
-- **Life:** no permanent population; scientists live in research stations; penguins, seals, whales and seabirds live on the coast.
-
-::: tip Comparing regions
-When asked to "compare the tundra and taiga", draw a two-column table of location, temperature, vegetation, animals and people. Always include **one example place** in each cell: this is how marks are earned.
+::: note क्रियाकलाप — पाठ ६.२
+**१.** पाठ्यपुस्तकको तीन मण्डल देखाउने चित्र कापीमा उतारी नामाकरण गरेर उपयुक्त
+सङ्केत र रङसहित भर्नुहोस्।
+**२.** विभिन्न स्रोत वा आफ्नै अनुभवका आधारमा बैशाखदेखि चैतसम्म बाह्रै महिनाको औसत
+तापक्रम र वर्षाको तालिका भर्नुहोस्। त्यसपछि गर्मी, जाडो, ठिक्कको मौसम, वर्षा हुने र वर्षा
+नहुने महिनाको समूह बनाई आफ्नो ठाउँको हावापानी पहिचान गर्नुहोस् र साथीसँग नतिजा
+आदानप्रदान गर्नुहोस्।
 :::
 
-## 6.6 World climate: relief and its effects
+### पाठको अभ्यास: नमुना उत्तर
 
-Climate and relief (land shape) decide where people can live, what they eat, how they dress and what work they do. The textbook asks you to connect the two.
+**१. हावापानीको प्रदेश भनेको के हो?**
+तापक्रम, वर्षा, वायु, वनस्पति र मानवीय क्रियाकलापमा समानता भएको पृथ्वीको ठुलो
+भूभागलाई हावापानीको प्रदेश भनिन्छ। एउटै प्रदेशमा पर्ने ठाउँ फरक महादेशमा भए पनि
+तिनको हावापानी उस्तै हुन्छ, जस्तै अमेजन र कङ्गो बेँसी दुवै भूमध्यरेखीय प्रदेशमा पर्छन्।
 
-| Climate or land | Natural vegetation | Typical animals | Population | Main activity |
+**२. विश्वमा पाइने हावापानीका प्रकार र तीअन्तर्गत पर्ने उपप्रदेशसहितको तालिका निर्माण
+गर्नुहोस्।**
+माथिको तालिका नै यसको उत्तर हो: उष्ण मण्डल (०°–३०°) मा भूमध्यरेखीय, उष्ण तृणभूमि,
+उष्ण मरुस्थलीय र उष्ण मौसमी; समशीतोष्ण मण्डल (३०°–६०°) मा भूमध्यसागरीय,
+समशीतोष्ण मरुस्थलीय, समशीतोष्ण मौसमी, समशीतोष्ण सामुद्रिक, समशीतोष्ण तृणभूमि र सेन्ट
+लरेन्स–मन्चुरिया; शीत मण्डल (६०°–९०°) मा साइबेरियन (टाइगा) र टुन्ड्रा गरी जम्मा १२
+उपप्रदेश छन्।
+
+**३. समशीतोष्ण क्षेत्रमा न धेरै गर्मी न धेरै जाडो अर्थात् ठिक्कको हावापानी पाइनुका
+कारण के के हुन्?**
+(क) यो क्षेत्र भूमध्यरेखा र ध्रुवको बिचमा (३०°–६०°) पर्छ, त्यसैले सूर्यको किरण न
+धेरै सिधा न धेरै छड्के पर्छ। (ख) ग्रीष्म र हिउँदमा दिनको लम्बाइ फरक हुने भएकाले ऋतु
+परिवर्तन हुन्छ तर तापक्रम अति हुँदैन। (ग) पश्चिमी वायु, चक्रवात र मनसुनी वायुले
+पर्याप्त वर्षा ल्याउँछन्। (घ) किनारी भागमा समुद्र र न्यानो धारको सन्तुलित प्रभाव पर्छ।
+
+**४. तपाईँ बसेको ठाउँ कुन हावापानीको प्रदेशमा पर्छ? सो प्रदेशमा ऋतुअनुसार वर्षभरि
+अनुभव गर्ने हावापानीको विवरण प्रस्तुत गर्नुहोस्।**
+(नमुना: काठमाडौँ) काठमाडौँ उष्ण मौसमी प्रदेशमा पर्छ, तर करिब १,३०० मिटर उचाइले समशीतोष्ण अनुभव हुन्छ। **बसन्त:** न्यानो र सुक्खा; **ग्रीष्म:** दिउँसो ३० डिग्रीसम्म गर्मी; **वर्षा (असार–भदौ):** मनसुनी वायुले धेरैजसो वर्षा; **शरद्:** सफा आकाश र ठिक्कको मौसम; **हिउँद:** चिसो, सुक्खा, बिहान तुसारो र हुस्सु। (आफ्नो ठाउँअनुसार लेख्नुहोस्।)
+
+## ६.३ उष्ण मण्डल
+
+शिक्षकले उष्ण मण्डलका चार उपप्रदेशको विवरण चित्रसहित कक्षामा प्रस्तुत गर्नुभयो।
+प्रत्येक उपप्रदेशलाई **अवस्थिति → हावापानी → वनस्पति र वन्यजन्तु → जनजीवन र आर्थिक
+क्रियाकलाप** को क्रममा पढ्नुहोस्।
+
+### १. भूमध्यरेखीय हावापानी
+
+- **अवस्थिति:** भूमध्यरेखाबाट ५° उत्तर र ५° दक्षिणसम्म — दक्षिण अमेरिकाको अमेजन बेँसी,
+  अफ्रिकाको कङ्गो बेँसी, मलेसिया र दक्षिण–पूर्वी एसियाका द्वीपसमूह।
+- **हावापानी:** वर्षैभरि औसत तापक्रम **२७° से.**, तापान्तर जम्मा **२° से.**। दैनिक मध्याह्नपछि
+  **संवाहनिक वर्षा** हुन्छ; वार्षिक औसत वर्षा **२०० से.मि.** सम्म र सापेक्षिक आर्द्रता ८०
+  प्रतिशतभन्दा बढी। दिन र रात बराबर र ऋतु परिवर्तन नहुनु यसको विशेषता हो।
+- **वनस्पति र वन्यजन्तु:** ठुला, अग्ला, कडा काठका सदाबहार रुख र लहरा; अमेजनको
+  **सेल्भास** जङ्गल। जैविक विविधताका लागि संसारमै प्रसिद्ध; अजिङ्गर, चिम्पान्जी, विषालु
+  सर्प, गोही र हाँस, बकुल्ला, धनेस, मयूर।
+- **जनजीवन:** एसियाली पूर्वी द्वीपसमूहमा आधुनिक जीवनशैली; खेती, काठ उद्योग, व्यापार र
+  पर्यटन। अमेजनमा फिरन्ते **रेड इन्डियन** र कङ्गो उपत्यकामा **पिग्मी** जाति बस्छन्।
+
+```photo id="soc10/amazon" caption="अमेजनको भूमध्यरेखीय वर्षावन (सेल्भास)। वर्षैभरि गर्मी र दैनिक संवाहनिक वर्षाले ठुला, अग्ला र सदाबहार रुख हुर्काउँछ।" width="70"
+```
+
+### २. उष्ण तृणभूमि (सभाना) को हावापानी
+
+- **अवस्थिति:** भूमध्यरेखाको उत्तर र दक्षिण ५° देखि २०° अक्षांश — अफ्रिकाको सुडान, दक्षिण
+  अफ्रिकाको उत्तरी भाग, ब्राजिलको उच्चसमस्थली, ओरिनोको उपत्यका, अस्ट्रेलियाको उत्तरी भाग,
+  डेक्कन र शान उच्चसमस्थली।
+- **हावापानी:** ग्रीष्म धेरै गर्मी (३२° से. भन्दा बढी) र वर्षा; हिउँद न्यानो (२१° से. भन्दा
+  कम) र सुक्खा। वार्षिक ५० देखि १५० से.मि. वर्षा। ग्रीष्म र हिउँद गरी दुई ऋतु।
+- **वनस्पति र वन्यजन्तु:** ग्रीष्मको वर्षाले घाँस राम्रो हुन्छ तर ठुला रुख हुर्कन नसक्दा
+  फाट्टफुट्ट रुख मात्र। घाँसे मैदानलाई भेनेजुयला र कोलम्बियामा **लानोस**, ब्राजिलमा
+  **क्याम्पोस**, मध्य र पूर्वी अफ्रिकामा **सभाना** भनिन्छ। जिराफ, जेब्रा, हात्ती, अर्ना,
+  हायनालगायत धेरै जनावर पाइने हुनाले यसलाई **संसारको चिडियाखाना** भनिन्छ।
+- **जनजीवन:** मसाई र हाउसा जस्ता जाति अझै परम्परागत र फिरन्ते जीवन बिताउँछन्।
+  जनघनत्व कम, गरिबी र पछौटेपन व्याप्त। गहुँ, कपास, मकै, पशुपालन र पर्यटन; राष्ट्रिय
+  निकुञ्ज बढेकाले पर्यटन र फिल्म छायाङ्कनको गन्तव्य बनेको छ।
+
+### ३. उष्ण मरुस्थलीय हावापानी
+
+- **अवस्थिति:** दुवै गोलार्धको २०° देखि ३०° अक्षांशमा महाद्वीपको **पश्चिमी भाग** — अफ्रिकाको
+  सहारा, कालाहारी र नामिब, एसियाको अरब र थार, उत्तर अमेरिकाको दक्षिण क्यालिफोर्निया,
+  दक्षिण अमेरिकाको अटाकामा र मध्य अस्ट्रेलिया। धेरैजसो भूभाग बालुवा र चट्टानले ढाकेको।
+- **हावापानी:** दिउँसो ४०° से. भन्दा बढी र राति १०° से. भन्दा कम; तापान्तर धेरै, अति सुक्खा,
+  वार्षिक औसत वर्षा **१२ से.मि.** मात्र।
+- **वनस्पति:** काँडेदार, लामा जरा र खस्रा पात भएका सिउँडी (क्याक्टस) जातका वनस्पति;
+  मरुद्यान वरिपरि पाम (खजुर) जातका रुख। ऊँट मुख्य यातायातको साधन।
+- **जनजीवन:** जीवन कठिन; पानी नपर्ने भएकाले घर प्रायः **मुण्डा** (समतल छाना)। जनघनत्व
+  अति कम, केही फिरन्ते जाति। भारी बोकाउन, दुध र मासुका लागि ऊँट पाल्छन्। पेट्रोलियम र
+  सुन उत्पादनले आर्थिक गतिविधि बढेको छ। पानी पाइने ठाउँ (**मरुद्यान**) मा खेती र बाक्लो
+  बस्ती हुन्छ।
+
+```photo id="soc10/sahara" caption="सहारा मरुभूमि। २०°–३०° अक्षांशको महाद्वीपको पश्चिमी भागमा पर्ने उष्ण मरुस्थलमा वार्षिक वर्षा करिब १२ सेन्टिमिटर मात्र हुन्छ।" width="66"
+```
+
+### ४. उष्ण मौसमी (मनसुनी) हावापानी
+
+- **अवस्थिति:** दुवै गोलार्धको ५° देखि ३०° अक्षांशमा महाद्वीपको **दक्षिण–पूर्वी भाग** — दक्षिण
+  एसिया (मुख्य क्षेत्र), दक्षिण–पूर्वी एसिया, उत्तरी अस्ट्रेलिया, दक्षिण–पूर्वी अफ्रिका,
+  मदागास्कर, दक्षिण–पश्चिम अफ्रिका, दक्षिण–पूर्वी ब्राजिल र क्यारिबियन क्षेत्र।
+- **हावापानी:** ग्रीष्ममा औसत ३०° से. र हिउँदमा १५° से.; स्थानअनुसार वार्षिक ५० देखि २००
+  से.मि. मनसुनी वर्षा।
+- **वनस्पति र वन्यजन्तु:** ग्रीष्म ओसिलो र हिउँद ठन्डा हुने ठाउँमा **पतझर** वन; पर्याप्त वर्षा र
+  वर्षैभरि गर्मी हुने ठाउँमा **सदाबहार** वन। हात्ती, गैँडा, बाघ, भालु, चितुवा, पानीहाँस, मयूर।
+- **जनजीवन:** कृषि, उद्योग र व्यापारका लागि अनुकूल। मुख्य बाली **धान**; उखु, जुट, सुर्ती,
+  चिया जस्ता नगदेबाली। अधिकांश देश कृषिमा निर्भर, जनघनत्व उच्च र मानव सभ्यता र
+  संस्कृतिका दृष्टिले सम्पन्न। नेपाल यसै प्रदेशमा पर्छ।
+
+```figure caption="उष्ण मण्डलका चार उपप्रदेशको तापक्रमको दायरा (पाठ्यपुस्तकका अङ्कका आधारमा)। भूमध्यरेखीय क्षेत्रमा तापान्तर जम्मा २ डिग्री छ भने मरुस्थलमा दिन र रातबिच ३० डिग्रीभन्दा बढी फरक पर्छ।"
+fig, ax = plt.subplots(figsize=(5.4, 2.7))
+names = ["भूमध्यरेखीय", "उष्ण तृणभूमि", "उष्ण मरुस्थलीय", "उष्ण मौसमी"]
+lo = [26, 21, 10, 15]; hi = [28, 32, 40, 30]
+notes = ["औसत २७°, तापान्तर २°", "हिउँद २१°, ग्रीष्म ३२°", "रात १०°, दिउँसो ४०°", "हिउँद १५°, ग्रीष्म ३०°"]
+for i, (a, b, n) in enumerate(zip(lo, hi, notes)):
+    yy = 3 - i
+    ax.plot([a, b], [yy, yy], color=SERIES[i], lw=9, solid_capstyle="round")
+    ax.text(b + 1.2, yy, n, va="center", fontsize=7.4, color=INK)
+ax.set_yticks([3, 2, 1, 0]); ax.set_yticklabels(names, fontsize=8)
+ax.set_xlim(0, 58); ax.set_ylim(-0.6, 3.6)
+ax.set_xlabel("तापक्रम (डिग्री सेल्सियस)", fontsize=8, color=MUTED)
+ax.spines[["top", "right", "left"]].set_visible(False)
+ax.grid(axis="x", color=GRID, lw=0.6); ax.set_axisbelow(True)
+ax.tick_params(axis="x", labelsize=7.6); ax.tick_params(axis="y", length=0)
+```
+
+::: caution पाठ्यपुस्तकको एउटा वाक्य
+पाठ्यपुस्तकमा "अमेजन र कङ्गो उपत्यकामा फिरन्ते स्वभावका रेड इन्डियन पिग्मिजहरू" लेखिएको
+छ। यहाँ दुई फरक जाति हुन् — **अमेजनमा रेड इन्डियन** (अमेरिकी आदिवासी) र **कङ्गोमा
+पिग्मी**। त्यस्तै "ओरिन उपत्यका" भनेको ओरिनोको नदीको उपत्यका हो।
+:::
+
+::: note क्रियाकलाप — पाठ ६.३
+**१.** विश्वको रेखाङ्कित नक्सामा उष्ण मण्डलका चार हावापानी क्षेत्र पहिचान गरी फरक रङ
+लगाएर कक्षामा प्रदर्शन गर्नुहोस्।
+**२.** समूहमा छलफल गरी समाधान खोज्नुहोस्:
+(क) **सहारा भ्रमणको तयारी:** दिउँसो ४०° से. भन्दा बढी र राति १०° से. भन्दा कम हुने भएकाले
+दिउँसोका लागि घाम छेक्ने खुकुलो, हलुका र पूरै शरीर ढाक्ने कपडा, टोपी, कालो चस्मा र
+सनस्क्रिन तथा रातिका लागि न्यानो ज्याकेट लैजाने; प्रशस्त पानी बोक्ने; ऊँट वा चार पाङ्ग्रे
+सवारीमा अनुभवी पथप्रदर्शकसँग यात्रा गर्ने र जाडो महिनामा जाने।
+(ख) **सिङ्गापुरमा वर्षैभरि न्यानो लुगा किन नचाहिने?** सिङ्गापुर, मलेसिया र इन्डोनेसिया
+भूमध्यरेखीय क्षेत्रमा पर्छन्; त्यहाँ वर्षैभरि औसत २७° से. र तापान्तर करिब २° से. मात्र हुन्छ,
+जाडो ऋतु नै हुँदैन। दिउँसो गर्मीले वाष्पीकरण भई मध्याह्नपछि संवाहनिक वर्षा हुन्छ।
+(ग) **सभानाका चरा किन भारी, नउड्ने तर दौडने?** खुला घाँसे मैदानमा लुक्ने रुख कम हुन्छन्,
+त्यसैले अस्ट्रिच जस्ता चराले शिकारीबाट छिटो दौडेर बच्ने क्षमता विकास गरे; बलिया खुट्टा र
+ठुलो शरीरले लामो दूरी हिँडेर खाना र पानी खोज्न सजिलो हुन्छ; अग्ला रुख नभएकाले फुल
+भुइँमै पार्छन्।
+**३.** समूहमा बाँडिएर पाठ्यपुस्तक, एटलस वा इन्टरनेटबाट उष्ण मण्डलका प्रत्येक प्रदेशको
+भौगोलिक अवस्थिति, हावापानी, वनस्पति, जनजीवन र आर्थिक गतिविधिको तालिका भर्नुहोस्।
+:::
+
+### पाठको अभ्यास: नमुना उत्तर
+
+**१. भूमध्यरेखीय र उष्ण मरुस्थलीय हावापानीबिच फरक छुट्याउनुहोस्।**
+
+| आधार | भूमध्यरेखीय | उष्ण मरुस्थलीय |
+|---|---|---|
+| अवस्थिति | ५° उ. – ५° द. | २०°–३०° अक्षांश, महाद्वीपको पश्चिमी भाग |
+| तापक्रम | वर्षैभरि औसत २७° से., तापान्तर २° से. | दिउँसो ४०° भन्दा बढी, राति १०° भन्दा कम |
+| वर्षा | २०० से.मि. सम्म, दैनिक संवाहनिक | वार्षिक औसत १२ से.मि. |
+| वनस्पति | घना, अग्ला, सदाबहार (सेल्भास) | सिउँडी, काँडेदार झाडी, मरुद्यानमा पाम |
+| जनजीवन | काठ उद्योग, खेती, पर्यटन | ऊँटपालन, पेट्रोलियम, मरुद्यानमा खेती |
+
+**२. नेपाल मौसमी हावापानीका क्षेत्रमा पर्ने भए तापनि हिमाली, पहाडी र तराई क्षेत्रका
+वनस्पतिबिच समानता छैन। कारण उल्लेख गर्नुहोस्।**
+नेपाल उष्ण मौसमी प्रदेशमा परे पनि करिब ६० मिटरदेखि ८,८४८.८६ मिटरसम्मको उचाइ फरक
+छ। उचाइ बढ्दा तापक्रम घट्ने भएकाले तराईमा उष्ण हावापानी र साल, सिसौ, खयरका
+उष्ण पतझर वन; पहाडमा समशीतोष्ण हावापानी र चिलाउने, कटुस, गुराँस, सल्लाका वन; हिमालमा
+शीत हावापानी र धुपी, भोजपत्र तथा अझ माथि घाँस र झाडी मात्र पाइन्छ। मोहडा, वर्षाको मात्रा
+(पूर्वमा बढी, पश्चिममा कम) र माटो पनि फरक छन्। त्यसैले वनस्पतिमा समानता छैन।
+
+**३. सभाना क्षेत्रमा बस्ने र अमेजन क्षेत्रमा बसोबास गर्ने मानिसको जीवनशैलीमा के के
+भिन्नता छ?**
+सभानामा मसाई, हाउसा जस्ता जाति खुला मैदानमा पशुपालन गर्दै पानी र घाँसको खोजीमा फिरन्ते जीवन बिताउँछन्; गहुँ, कपास, मकै खेती र वन्यजन्तु पर्यटन बढ्दो छ। अमेजनका रेड इन्डियन घना जङ्गलमा शिकार, माछा मार्ने र कन्दमूल सङ्कलन गरेर बाँच्छन्, खरको छानाका घर र पातलो कपडा प्रयोग गर्छन्; त्यहाँ वर्षैभरि एकनासको गर्मी र वर्षा हुन्छ।
+
+**४. "उष्ण तृणभूमिका मानिसको कमजोर आर्थिक अवस्थालाई पर्यटन विकास गरी सुधार गर्न
+सकिन्छ।" उदाहरणसहित पुष्टि गर्नुहोस्।**
+सभानामा जिराफ, जेब्रा, हात्ती, अर्ना, हायना जस्ता धेरै जनावर पाइन्छन्। केन्या र तान्जानियाका राष्ट्रिय निकुञ्जमा सफारीका लागि संसारभरबाट पर्यटक आउँछन्। यसबाट होटल, गाइड, यातायात, हस्तकला र सांस्कृतिक प्रदर्शनमा स्थानीयले रोजगारी पाउँछन्; मसाईको परम्परागत संस्कृति नै आकर्षण बन्छ; फिल्म छायाङ्कनबाट पनि आम्दानी हुन्छ र विदेशी मुद्राले पूर्वाधार बन्छ। यसरी पर्यटनले गरिबी घटाउन सक्छ।
+
+**५. मरुद्यान भनेको के हो? यसको महत्त्वबारे चर्चा गर्नुहोस्।**
+मरुभूमिभित्र जमिनमुनिको पानी वा मूल फुटेर पानी पाइने र त्यसैका कारण हरियाली, खेती र
+बस्ती भएको ठाउँलाई मरुद्यान भनिन्छ। **महत्त्व:** (क) मरुभूमिमा पिउने पानीको स्रोत; (ख) खजुर,
+गहुँ जस्ता खेती सम्भव; (ग) बाक्लो बस्ती र बजार बन्ने ठाउँ; (घ) ऊँटमा यात्रा गर्ने व्यापारी र
+पर्यटकका लागि विश्राम स्थल; (ङ) पशुका लागि पानी र चरन।
+
+## ६.४ समशीतोष्ण मण्डल
+
+दुवै गोलार्धको ३०° देखि ६०° अक्षांश (उत्तरी गोलार्धमा ७०° सम्म पनि) मा फैलिएको
+समशीतोष्ण मण्डलमा वर्षैभरि तातो र चिसोको सन्तुलन र पर्याप्त वर्षा हुन्छ। हावापानीका
+आधारमा यो विश्वकै अनुकूल र सघन बसोबास भएको प्रदेश हो। उत्तर अमेरिका, एसिया र युरोपका
+विकसित क्षेत्र र चीनको साङ्घाई, जापानको टोकियो, दक्षिण कोरियाको सिओल, बेलायतको लन्डन
+तथा अमेरिकाको सिकागो जस्ता ठुला औद्योगिक सहर यहीँ पर्छन्।
+
+| उपप्रदेश | अवस्थिति | तापक्रम (ग्रीष्म / हिउँद) | वार्षिक वर्षा | वनस्पति र आर्थिक क्रियाकलाप |
 |---|---|---|---|---|
-| Equatorial lowland | Rainforest | Monkey, jaguar | Sparse | Plantation, forestry |
-| Savanna | Grass and acacia | Lion, zebra | Medium | Herding, tourism |
-| Monsoon plains | Deciduous forest | Tiger, rhino, elephant | **Very dense** | Rice farming |
-| Desert | Cactus | Camel | Very sparse | Nomadism, oil |
-| Mediterranean | Olive, citrus | Sheep, goat | Dense | Fruit, tourism |
-| West European marine | Broad-leaf forest | Cattle | Dense | Dairy, industry |
-| Taiga | Conifers | Elk, bear, fox | Sparse | Lumbering |
-| Tundra / ice | Moss, lichen | Reindeer, polar bear | Almost none | Hunting, research |
-| High mountains | Alpine meadow, snow | Yak, snow leopard | Sparse | Herding, tourism |
+| १. भूमध्यसागरीय | उ. ३०°–४५°, द. ३०°–४०°, महाद्वीपको पश्चिमी भाग | २७° / १०° से. | ४०–८० से.मि., हिउँदमा | झाडी; सुन्तला, अङ्गुर, कागती, जैतुन — "विश्वको बगैँचा" |
+| २. समशीतोष्ण मरुस्थलीय | ३०°–४५°, महाद्वीपको भित्री भाग | अधिकतम २७° / ०° से. | १०–२५ से.मि., चक्रवातबाट | काँडेदार झाडी, खस्रो घाँस; पशुपालन |
+| ३. समशीतोष्ण मौसमी (चिनियाँ) | ३०°–४५°, महाद्वीपको पूर्वी भाग | २५° / ५° से. | ५०–१५० से.मि., मनसुनी | पतझर वन; रेसम, धान, गहुँ, मकै, कपास, उखु |
+| ४. समशीतोष्ण सामुद्रिक | ३०°–४५° (पाठ्यपुस्तकअनुसार), पश्चिमी किनार | १५° / ५° से. | ७५–१५० से.मि., बाह्रै महिना | कोणधारी र पतझर मिश्रित वन; उद्योग, व्यापार, पर्यटन |
+| ५. समशीतोष्ण तृणभूमि | ४५°–६०°, महाद्वीपको मध्यभाग | अधिकतम २७° / ०° भन्दा कम | कम; हिउँदमा हिउँ | घाँसे मैदान; गहुँ, गाई–भेडापालन, दुग्ध उद्योग |
+| ६. सेन्ट लरेन्स र मन्चुरिया | ४५°–६०°, पूर्वी किनार | २०° / ०° भन्दा तल | ५०–१०० से.मि., चक्रवाती | कोणधारी वन; कृषि, पशुपालन, माछापालन |
 
-**Relief matters too.** Great plains (the Ganga plain, the Mississippi valley, the Nile delta) have flat land, deep fertile soils and easy transport, so they carry the world's densest populations. Mountains (the Himalaya, the Andes) have steep slopes and thin soils, so people live scattered on terraces and in valleys. **Altitudinal zonation** is the change of vegetation with height. In Nepal one can pass from tropical sal forest in the Terai, through subtropical and temperate forest of the hills, to alpine meadow, bare rock and the permanent snow of the Himal within a day's flight.
+**मुख्य क्षेत्र र थप विशेषता:**
+- **भूमध्यसागरीय:** फ्रान्स, स्पेन, इटाली, पोर्चुगल, दक्षिण र दक्षिण–पश्चिम अस्ट्रेलिया, क्यालिफोर्निया, अफ्रिकाको उत्तरी र दक्षिण–पश्चिमी भाग र मध्य चिली। ग्रीष्म गर्मी र सुक्खा, हिउँद ठन्डा र ओसिलो; लामा जरा, साना चिल्ला पात र बाक्लो बोक्राका झाडी; फलबाट वाइन र अत्तर, जैतुनबाट तेल।
+- **समशीतोष्ण मरुस्थलीय:** क्यास्पियन सागरको पूर्वमा तुर्किस्तान, पश्चिमी चीन, मङ्गोलिया र रकी पर्वतबिचको उच्चसमस्थली; सुक्खा बलौटे जमिन, खेती कम, जीवनशैली उन्नत हुन नसकेको।
+- **समशीतोष्ण मौसमी:** मध्य र उत्तरी चीन (त्यसैले चिनियाँ हावापानी), अमेरिकाको दक्षिण–पूर्व र अस्ट्रेलियाको दक्षिण–पूर्व; ग्रीष्म गर्मी र आर्द्र, हिउँद ठन्डा र सुक्खा; ठुला सहर र उद्योगले जनसङ्ख्या अधिक।
+- **समशीतोष्ण सामुद्रिक:** पश्चिम युरोप, पश्चिम क्यानडा, चिली, तास्मानिया, दक्षिण न्युजिल्यान्ड; मनोरम र स्वास्थ्यकर; सामुद्रिक चक्रवात र पश्चिमी वायुले बाह्रै महिना वर्षा; पहाडमा कोणधारी, मैदानमा पतझर वन।
+- **समशीतोष्ण तृणभूमि:** दक्षिणी रुस, पूर्वी युरोप, दक्षिण अफ्रिकाको उच्च समस्थली, दक्षिण–पूर्वी अस्ट्रेलिया, उत्तर अमेरिकाको मध्यभाग, दक्षिण अमेरिकाको दक्षिण–पूर्व; समुद्री प्रभाव कम, उर्वर माटोमा गहुँ; प्रेरिज र स्टेप्सको गाईपालनले **दुग्धपेटी**; अस्ट्रेलियाका भेडा **ऊन** र अर्जेन्टिनाका **मासु** का लागि प्रख्यात।
+- **सेन्ट लरेन्स र मन्चुरिया:** उत्तर अमेरिकाको सेन्ट लरेन्स नदी र चीनको मन्चुरियाको नामबाट; पूर्वी किनारमा चिसो धारले हिउँद अत्यन्त ठन्डा; न्यानो र चिसो धारको सङ्गममा चक्रवाती वर्षा।
 
-**Effects on human life:** *Clothes:* cotton and light clothes in the tropics, woollen and fur in tundra and high mountains. *Houses:* thatched or stilted houses in rainy tropics, igloos or insulated houses in the cold, flat-roofed mud houses in deserts, sloping roofs in snowy lands. *Food:* rice in monsoon lands, wheat in temperate lands, dates and milk in deserts, fish and meat in the Arctic. *Health:* malaria in hot wet lands; frostbite in the cold.
+```figure caption="समशीतोष्ण तृणभूमिका घाँसे मैदानका स्थानीय नाम। यी सबै महाद्वीपको भित्री भागमा कम वर्षा हुने ४५°–६०° क्षेत्रमा पर्छन्।"
+fig, ax = cards([("स्टेप्स", "एसिया र युरोप"),
+                 ("प्रेरिज", "उत्तर अमेरिका"),
+                 ("पम्पास", "अर्जेन्टिना"),
+                 ("भेल्ड", "दक्षिण अफ्रिका"),
+                 ("डाउन्स", "अस्ट्रेलिया"),
+                 ("साझा विशेषता", "गहुँ खेती, गाई–भेडापालन")],
+                cols=3, figsize=(5.6, 2.3))
+```
 
-## 6.7 The continent of North America
+::: caution पाठ्यपुस्तकका दुई कुरा
+(क) पाठ्यपुस्तकले समशीतोष्ण सामुद्रिक हावापानीलाई पनि ३०°–४५° अक्षांशमा राखेको छ, तर
+भूमध्यसागरीय क्षेत्र पनि त्यही अक्षांशमा छ। पश्चिम युरोप, पश्चिम क्यानडा र दक्षिण न्युजिल्यान्ड
+वास्तवमा करिब ४५° देखि ६०° अक्षांशमा पर्छन्, त्यसैले भूगोलका धेरै पुस्तकले यसलाई
+भूमध्यसागरीय क्षेत्रभन्दा माथि (करिब ४५°–६०°) देखाउँछन्। (ख) "मन्चुरिया प्रायद्वीप" लेखिए
+पनि मन्चुरिया उत्तर–पूर्वी चीनको भूभाग हो, प्रायद्वीप होइन।
+:::
 
-**Location and size.** North America lies in the northern and western hemispheres, between the Arctic Ocean in the north, the Atlantic in the east, the Pacific in the west, and joined to South America at the narrow Isthmus of Panama. With an area of about **24.7 million km²** it is the **third largest** continent. It includes Canada, the United States, Mexico, the seven nations of Central America and the island states of the Caribbean, in all 23 sovereign countries (the textbook count), and Greenland. Population is about 600 million.
+::: note क्रियाकलाप — पाठ ६.४
+**१.** उत्तर अमेरिकाको प्रेरिज र युरेसियाको स्टेप्समा गहुँ खेती र पशुपालन प्रशस्त हुनुका
+कारण समूहमा छलफल गरी लेख्नुहोस्। (सङ्केत: समथर विशाल मैदान, उर्वर कालो माटो, ग्रीष्मको
+पर्याप्त घाम र मध्यम वर्षा, प्रशस्त घाँस, यान्त्रिक खेतीको सुविधा।)
+**२.** भूमध्यसागरीय क्षेत्रले फलफूलबाट प्रशस्त आम्दानी गरेझैँ नेपालमा व्यावसायिक फलफूल
+खेती गर्न के गर्नुपर्छ, छलफल गरी निष्कर्ष प्रस्तुत गर्नुहोस्। (सङ्केत: जुम्ला–मुस्ताङको स्याउ,
+गोरखा–सिन्धुलीको सुन्तला, सिँचाइ, उन्नत बिउ, शीत भण्डार, प्रशोधन उद्योग, बजार र
+ब्रान्डिङ।)
+:::
 
-### Physical features
+### पाठको अभ्यास: नमुना उत्तर
 
-- **Western mountains (the Cordillera):** the **Rocky Mountains** and the Sierra Nevada, with **Denali (Mount McKinley)** in Alaska, 6,190 m, the highest peak.
-- **Central plains:** the **Great Plains** and Mississippi basin: a huge, flat, fertile lowland.
-- **Eastern highlands:** the old, low **Appalachian Mountains**.
-- **Rivers:** the **Mississippi-Missouri** (about 6,000 km together, the longest in North America), the St Lawrence, the Colorado and Mackenzie.
-- **Lakes:** the five **Great Lakes** (Superior, Michigan, Huron, Erie, Ontario), the largest group of freshwater lakes on Earth, with **Niagara Falls** between Erie and Ontario.
-- **Lowest point:** **Death Valley**, California, about 86 m below sea level, and one of the hottest places on Earth.
+**१. समशीतोष्ण प्रदेशका हावापानीको क्षेत्रलाई तालिकामा प्रस्तुत गर्नुहोस्।**
+माथिको छ उपप्रदेशको तालिका (अवस्थिति, तापक्रम, वर्षा, वनस्पति र आर्थिक क्रियाकलापसहित)
+यसको उत्तर हो।
 
-### Climate and vegetation
+**२. समशीतोष्ण मौसमी क्षेत्रमा कुन कुन कृषि कार्य गर्न उपयुक्त हुन्छ, किन?**
+धान, गहुँ, मकै, कपास, उखु खेती र रेसमकीरा पालन उपयुक्त हुन्छ, किनकि ग्रीष्म गर्मी र आर्द्र हुन्छ र मनसुनी वायुले ५०–१५० से.मि. वर्षा गराउँछ (धान र उखुका लागि), हिउँद ठन्डा र सुक्खा हुन्छ (गहुँका लागि) र नदीका उर्वर मैदान छन्।
 
-The vast north-south extent produces almost every climate: tundra and taiga in Canada and Alaska; cool temperate forests and prairie in the middle; Mediterranean in California; warm humid China-type in the south-east; hot desert and tropical savanna in Mexico; equatorial rainforest in Central America. Hurricanes strike the Atlantic and Gulf coasts every year, and tornadoes are common in the central plains.
+**३. समशीतोष्ण तृणभूमि क्षेत्रका घाँसे मैदानको नाम लेख्नुहोस्।**
+एसिया र युरोपमा **स्टेप्स**, उत्तर अमेरिकामा **प्रेरिज**, अर्जेन्टिनामा **पम्पास**, दक्षिण
+अफ्रिकामा **भेल्ड** र अस्ट्रेलियामा **डाउन्स**।
 
-### Social and economic life
+**४. भूमध्यसागरीय क्षेत्रमा हिउँदे फलफूल खेती हुनाको कारण उल्लेख गर्नुहोस्।**
+यहाँ हिउँदमा पश्चिमी वायुले वर्षा गराउँछ र तापक्रम औसत १०° से. सम्म मात्र झर्छ, हिउँ खासै
+पर्दैन, त्यसैले हिउँदमा पनि बोटबिरुवा हुर्कन्छन्। ग्रीष्मको लामो, घमाइलो र सुक्खा मौसमले
+सुन्तला, अङ्गुर, कागती र जैतुनलाई पकाएर गुलियो र रसिलो बनाउँछ। लामा जरा भएका बोटले
+सुक्खा गर्मी सहन सक्छन्।
 
-- **People:** the Native peoples, Europeans (the English and French language zones), Africans (brought as slaves) and recent migrants from Asia and Latin America; English is the main language in the USA and Canada, Spanish in Mexico and Central America.
-- **Agriculture:** the **wheat belt** (Great Plains), the **corn belt** (Midwest), cotton and soybean, beef cattle; the USA is among the world's largest exporters of grain; Canada produces wheat and canola.
-- **Minerals and energy:** coal, oil, natural gas, iron ore (Great Lakes), copper, gold, uranium; Canada has huge forests and hydropower.
-- **Industry:** cars (Detroit), aircraft, computers and software (Silicon Valley, California), steel, finance (New York).
-- **Nepal connection:** the USA and Canada host large Nepali communities of students and workers; the USA is a major export market for Nepal's carpets and garments and a development partner; Nepali students are among the major groups studying in the USA.
+**५. समशीतोष्ण सामुद्रिक हावापानी र भूमध्यसागरीय हावापानीबिच तुलना गर्नुहोस्।**
 
-| Fact | North America |
+| आधार | भूमध्यसागरीय | समशीतोष्ण सामुद्रिक |
+|---|---|---|
+| क्षेत्र | भूमध्यसागर वरिपरि, क्यालिफोर्निया, मध्य चिली | पश्चिम युरोप, पश्चिम क्यानडा, तास्मानिया, दक्षिण न्युजिल्यान्ड |
+| तापक्रम | ग्रीष्म २७°, हिउँद १०° से. | ग्रीष्म १५°, हिउँद ५° से. |
+| वर्षा | ४०–८० से.मि., हिउँदमा मात्र | ७५–१५० से.मि., बाह्रै महिना |
+| वनस्पति | साना चिल्ला पातका झाडी | कोणधारी र पतझर मिश्रित वन |
+| आर्थिक | फलफूल, वाइन, जैतुन तेल | उद्योग, व्यापार, पर्यटन, सेवा |
+
+समानता: दुवै महाद्वीपको पश्चिमी भागमा पर्छन् र दुवैमा पश्चिमी वायुले वर्षा गराउँछ।
+
+**६. भूमध्यसागरीय हावापानीका क्षेत्रमा धेरै प्राचीन सभ्यता विकास भएको पाइन्छ, किन?**
+(क) मनोरम हावापानीले काम र चिन्तन सजिलो बनायो; (ख) फलफूल, जैतुन र अन्नले खाद्य सुरक्षा दियो; (ग) भूमध्यसागरले जलयातायात र व्यापार सहज बनाई विचार र प्रविधि आदानप्रदान गरायो; (घ) प्रकोप कम भएकाले स्थायी सहर बने। त्यसैले युनानी र रोमन जस्ता सभ्यता फस्टाए।
+
+## ६.५ शीत प्रदेश
+
+पाठ्यपुस्तकले यो पाठ कुन्साङ, प्रवीण र ईशान गरी तीन जनाको टोलीको एक महिने **यात्रा
+विवरण** बाट प्रस्तुत गरेको छ। उनीहरू काठमाडौँबाट मस्को हुँदै साइबेरिया, उत्तरी ध्रुवको करिब
+८०° अक्षांश, ग्रिनल्यान्ड, उत्तरी क्यानडा र अलास्का पुगे।
+
+शीत प्रदेश दुवै गोलार्धको ६०° देखि ९०° अक्षांशसम्म फैलिएको छ र यसका दुई उपप्रदेश छन्:
+
+**१. साइबेरियन (टाइगा) हावापानी — ६०° देखि ७०° उत्तरी अक्षांश:** साइबेरियामा चार फिटसम्म
+हिउँ थियो। ग्रीष्ममा दिन अत्यधिक लामा र हिउँदमा अत्यधिक छोटा हुन्छन्। ग्रीष्मको तापक्रम
+**१२° से.** र हिउँदमा **−१३° से.** भन्दा कम हुन्छ; चक्रवातले वार्षिक **४० देखि ५० से.मि.**
+वर्षा गराउँछ। चिसोले माटो सधैँ भिजेको हिलो (दलदली माटो) रहन्छ। यहाँ नरम काठका
+कोणधारी घना जङ्गल छन्, जसलाई **टाइगा** भनिन्छ; यो पेटी साइबेरियादेखि क्यानडा र
+अलास्कासम्म फैलिएको छ। कागज बनाउने लुगदी यही काठबाट बनाइन्छ र मानिसको मुख्य
+पेसा नरम काठको व्यवसाय (काठ कटान र ढुवानी) हो। जीवन कठिन भएकाले जनसङ्ख्या
+अत्यन्त कम छ; मानिस काठका घरमा बस्छन्, तर पर्यटकका लागि होटल र होमस्टे छन्।
+
+**२. टुन्ड्रा हावापानी — ७०° देखि ९०° अक्षांश:** हेलिकोप्टरबाट टोली करिब ८०° अक्षांश पुग्यो,
+जहाँ वर्षैभरि हिउँ जम्छ। ग्रीष्ममा तापक्रम **१०° से.** सम्म र हिउँदमा सधैँ ०° भन्दा तल
+**−४५° से.** सम्म पुग्छ। अति चिसो र सुक्खा ध्रुवीय वायु चल्छ; वार्षिक वर्षा **२५ से.मि.** भन्दा
+कम। ग्रीष्ममा मात्र झ्याउ, काई, लेउ देखिन्छन्। फिरन्ते **एस्किमो र इन्युट** जाति सिल माछा र
+हिम भालुको शिकार गर्छन्, जनावरको छाला र चराको प्वाँखबाट लुगा र पाल बनाउँछन्। हिउँको
+घरलाई **इग्लु** र छालाको अस्थायी घरलाई **ट्युपिक** भनिन्छ। कतै छ महिना दिन र छ महिना रात
+हुन्छ।
+
+```figure caption="शीत प्रदेशका दुई उपप्रदेशको तापक्रम (पाठ्यपुस्तकअनुसार)। टुन्ड्रामा हिउँदको तापक्रम माइनस ४५ डिग्रीसम्म झर्छ; साइबेरियनमा हिउँद माइनस १३ भन्दा कम हुन्छ।"
+import numpy as np
+fig, ax = plt.subplots(figsize=(5.2, 2.8))
+x = np.arange(2); w = 0.34
+s = [12, 10]; wv = [-13, -45]
+b1 = ax.bar(x - w/2, s, w, color=SERIES[3], label="ग्रीष्म")
+b2 = ax.bar(x + w/2, wv, w, color=SERIES[0], label="हिउँद")
+for xx, v in zip(x - w/2, s):
+    ax.text(xx, v + 1.5, f"{v}°", ha="center", fontsize=8, color=INK)
+for xx, v in zip(x + w/2, wv):
+    ax.text(xx, v - 4.5, f"−{abs(v)}°", ha="center", fontsize=8, color=INK)
+ax.axhline(0, color=INK, lw=0.8)
+ax.set_xticks(x); ax.set_xticklabels(["साइबेरियन (टाइगा)\n६०°–७०°", "टुन्ड्रा\n७०°–९०°"], fontsize=8)
+ax.set_ylim(-56, 22); ax.set_ylabel("तापक्रम (डिग्री सेल्सियस)", fontsize=8, color=MUTED)
+ax.legend(fontsize=7.6, frameon=False, loc="lower left")
+ax.spines[["top", "right"]].set_visible(False)
+ax.grid(axis="y", color=GRID, lw=0.6); ax.set_axisbelow(True)
+ax.tick_params(axis="y", labelsize=7.6)
+```
+
+यात्राको अन्तिम दिन साइबेरियाका स्थानीयले टोलीको बिदाइमा **हिउँ म्याराथन** आयोजना गरे।
+उत्तरी क्यानडा र अलास्कामा पनि साइबेरियाजस्तै हावापानी र वनस्पति थियो, तर आदिवासीको
+जीवनशैली बढी आधुनिक थियो। दक्षिणी ध्रुवबारे इन्टरनेटमा खोज्दा उनीहरूले थाहा पाए —
+दक्षिणमा **अन्टार्कटिका** छ, अति विषम हावापानीका कारण त्यहाँ स्थायी मानव बस्ती छैन र
+**पेन्गुइन** चरा पाइन्छ।
+
+::: caution यात्रा विवरणका केही कुरा
+पाठ्यपुस्तकमा ग्रिनल्यान्डलाई "युरोपको" भनिएको छ। राजनीतिक रूपमा ग्रिनल्यान्ड डेनमार्क
+(युरोप) अन्तर्गत छ, तर भौगोलिक रूपमा उत्तर अमेरिका महादेशको टापु हो। साथै टाइगा पेटीमा
+उच्च अक्षांशतिर रुख होचा भए पनि दक्षिणी भागमा सल्ला, स्प्रुस र फर जस्ता अग्ला कोणधारी रुख
+पाइन्छन्।
+:::
+
+::: note क्रियाकलाप — पाठ ६.५
+**१.** नेपालको हिमाली क्षेत्रमा पनि टुन्ड्रा जस्तो हावापानी छ तर जनजीवन फरक छ, किन? (सङ्केत:
+नेपालमा चिसो **उचाइ** का कारण हो, अक्षांशका कारण होइन; त्यसैले छ महिना रात हुँदैन, घाम
+चर्को लाग्छ; तल्लो उपत्यकामा खेती, चौँरी–याकपालन, व्यापार र पर्वतीय पर्यटन सम्भव छ।)
+**२.** उत्तरी ध्रुवका देश विकसित भए पनि एस्किमो र इन्युटको जीवनशैली परम्परागत किन छ —
+सरकारको बेवास्ता हो वा आफ्नै संस्कृति जोगाउने चाहना र कठोर वातावरण? नेपालका राउटेसँग
+तुलना गरी कक्षामा सुनाउनुहोस्।
+**३.** उत्तरी ध्रुवीय भ्रमणका लागि लैजानुपर्ने सामग्रीको तालिका बनाउनुहोस्: ठुलो भुवादार
+ज्याकेट (१ थान), ऊनको टोपी (२ थान), न्यानो पन्जा, हिउँमा हिँड्ने जुत्ता, थर्मल भित्री लुगा,
+कालो चस्मा, ओठ र छालाको मलम, टर्च, औषधी, सुक्खा खाना, न्यानो पानी राख्ने बोतल।
+**परियोजना कार्य:** आफूले गरेको कुनै भौगोलिक भ्रमणको योजना (गन्तव्य, समय, सामग्री,
+खर्च, सुरक्षा) र भ्रमण योजनाअनुसार सफल भएको दृष्टान्तसहित प्रतिवेदन तयार पार्नुहोस्।
+:::
+
+### पाठको अभ्यास: नमुना उत्तर
+
+**१. शीत प्रदेशको अवस्थिति उल्लेख गर्नुहोस्।**
+शीत प्रदेश पृथ्वीको दुवै गोलार्धको ६०° देखि ९०° अक्षांशसम्मको ध्रुवीय क्षेत्रमा फैलिएको छ।
+६०°–७०° उत्तरमा साइबेरिया, उत्तरी क्यानडा र अलास्काको टाइगा क्षेत्र र ७०°–९०° मा
+ग्रिनल्यान्ड, आर्कटिक तटीय क्षेत्र र दक्षिणमा अन्टार्कटिकाको टुन्ड्रा तथा हिमाच्छादित क्षेत्र पर्छन्।
+
+**२. टाइगा भनेको के हो? यसको महत्त्व बुँदागत रूपमा प्रस्तुत गर्नुहोस्।**
+शीत प्रदेशको ६०°–७०° उत्तरी अक्षांशमा साइबेरियादेखि क्यानडा र अलास्कासम्म फैलिएको नरम
+काठका कोणधारी रुखको घना जङ्गललाई टाइगा भनिन्छ। **महत्त्व:** (क) कागज बनाउने लुगदीको
+मुख्य स्रोत; (ख) नरम काठबाट घर, फर्निचर र दियासलाई उद्योग; (ग) स्थानीयको मुख्य पेसा र
+रोजगारी; (घ) जीवजन्तुको वासस्थान; (ङ) कार्बन सोसेर हावापानी सन्तुलनमा सहयोग; (च) पर्यटन।
+
+**३. अति चिसो ठाउँ हुँदा पनि टुन्ड्रा प्रदेशका आदिवासी हिउँकै घर इग्लुमा बस्छन्, किन?**
+(क) टुन्ड्रामा रुख नहुने भएकाले काठ पाइँदैन, तर हिउँ सजिलै र प्रशस्त पाइन्छ। (ख) बाक्लो
+हिउँको भित्तामा हावाका कोठा हुने भएकाले यसले भित्रको ताप बाहिर जान दिँदैन; बाहिर −४५° से.
+हुँदा पनि भित्र शरीर र बत्तीको तापले तुलनात्मक रूपमा न्यानो रहन्छ। (ग) गोलाकार आकारले
+हावाहुरी थेग्छ। (घ) फिरन्ते जीवनमा ठाउँ सर्दा छिट्टै नयाँ इग्लु बनाउन सकिन्छ।
+
+**४. शीत प्रदेशको अति उत्तरी र दक्षिणी केही भागमा छ महिना दिन र छ महिना रात हुन्छ, के
+कारणले यस्तो भएको होला?**
+पृथ्वी आफ्नो अक्षमा करिब २३½° ढल्केर सूर्यको परिक्रमा गर्छ। मार्चदेखि सेप्टेम्बरसम्म उत्तरी
+ध्रुव सूर्यतिर ढल्किने भएकाले त्यहाँ सूर्य अस्ताउँदैन (दिन) र दक्षिणी ध्रुवमा सूर्य उदाउँदैन
+(रात)। सेप्टेम्बरदेखि मार्चसम्म उल्टो हुन्छ। त्यसैले ध्रुवमा करिब छ महिना दिन र छ महिना रात
+हुन्छ।
+
+## ६.६ विश्वको हावापानी: धरातलीय विविधता र प्रभाव
+
+एउटा अन्तर्राष्ट्रिय संस्थाले इन्डोनेसियाको बालीमा हावापानी र धरातलीय विविधताले वनस्पति,
+जीवजन्तु र जनजीवनमा पारेको प्रभावबारे कार्यक्रम गर्‍यो। तीन प्रतिनिधिका विचारको सार:
+
+| आधार | पेद्रो लुकास (ब्राजिल) | एड्रियाना मुलर (जर्मनी) | लियाम ब्राउन (क्यानडा) |
+|---|---|---|---|
+| हावापानी | भूमध्यरेखीय; वर्षैभरि गर्मी र आर्द्र | पाठ्यपुस्तकअनुसार भूमध्यसागरीय; हिउँदमा वर्षा | साइबेरियन प्रकार; वर्षैभरि अति चिसो, हिउँ र चिसो हुरी |
+| धरातल | समथर; हुरी कम तर बाढीको प्रकोप | साना पहाड, उपत्यका र समथर जमिन | अग्ला हिमाल र पहाड |
+| वनस्पति | सदाबहार कडा काठका ठुला रुख; रबर, टिक, रोजवुड, एबोनी | पतझर वनस्पति | कोणधारी: सल्ला, धुपी, देवदार, फर, स्प्रुस |
+| जनजीवन | पातलो कपडा, खरको छानो, काठ उद्योग; गर्मीले अल्छी; वन अतिक्रमण; अमेजनमा रेड इन्डियन | जाँगरिला र सिर्जनशील; कृषि र उद्योग; गगनचुम्बी भवन; न्यानो कपडा | पातलो बस्ती, होचा घर, बाक्लो कपडा; कृषि, साहसिक पर्यटन, पशुपालन, घरेलु उद्योग |
+| चाड | क्रिसमस | क्रिसमस, इस्टर | — |
+
+कोणधारी रुख त्रिकोण आकारका हुन्छन्; पात मसिना (सियोजस्ता), हाँगा लचकदार र बोक्रा बाक्लो
+हुन्छ — हिउँ सजिलै झर्छ र चिसो सहन्छ। तीनै वक्तव्यबाट निष्कर्ष निस्कन्छ: **हावापानी र धरातलले
+वनस्पति र जीवजन्तु निर्धारण गर्छन्, र तिनैले मानिसको खाना, पहिरन, घर, पेसा, स्वभाव र चाडपर्वसमेत
+प्रभावित गर्छन्।**
+
+```figure caption="हावापानी र धरातलबाट जनजीवनसम्मको शृङ्खला। एउटा कडीमा परिवर्तन हुँदा अर्को पनि बदलिन्छ।"
+fig, ax = flow([("हावापानी", "तापक्रम, वर्षा,\nवायु"),
+                ("धरातल", "समथर, पहाड,\nहिमाल, उचाइ"),
+                ("वनस्पति र जीव", "सदाबहार, पतझर,\nकोणधारी, घाँस"),
+                ("जनजीवन", "खाना, पहिरन, घर,\nपेसा, संस्कृति")],
+               note="उदाहरण: अमेजनमा पातलो कपडा र खरको छानो; क्यानडामा बाक्लो कपडा र होचा घर",
+               figsize=(5.8, 2.2))
+```
+
+::: caution पाठ्यपुस्तकको संवादमा तथ्यगत त्रुटि
+(क) **जर्मनी भूमध्यसागरीय क्षेत्रमा पर्दैन।** जर्मनी मध्य युरोपमा छ; यसको हावापानी
+समशीतोष्ण सामुद्रिकदेखि महाद्वीपीय प्रकारको हो, जहाँ बाह्रै महिना वर्षा हुन्छ। हिउँदमा वर्षा र
+सुक्खा ग्रीष्म भएको भूमध्यसागरीय हावापानी स्पेन, इटाली र युनानतिर पाइन्छ। (ख) ब्राजिलका
+प्रतिनिधिले भनेका हात्ती, गैँडा, बाघ र टिक, साल जस्ता रुख एसिया–अफ्रिकाका हुन्; अमेजनमा
+जगुआर, एनाकोन्डा, स्लथ र रङ्गीन सुगा जस्ता जीव पाइन्छन्। (ग) हिमचितुवा एसियाको हिमाली
+जीव हो; क्यानडामा लिन्क्स, हिम भालु र क्यारिबु पाइन्छन्। परीक्षामा मूल अवधारणा — हावापानी र
+धरातलले जनजीवनमा प्रभाव पार्छ — लेख्नुहोस्।
+:::
+
+::: note क्रियाकलाप — पाठ ६.६
+**१.** आफ्नो क्षेत्रको धरातलीय स्वरूप, हावापानी, वनस्पति, जीवजन्तु र जनजीवनमा पारेको प्रभावको
+तालिका बनाउनुहोस्।
+**२.** अल्छीपना, सिर्जनशीलता, खाना रुच्ने–नरुच्ने, पहिरन र भ्रमण जस्ता व्यवहार ऋतुअनुसार कसरी
+बदलिन्छन्? (जस्तै: असार–साउनको उमसमा अल्छी लाग्ने, हिउँदमा तातो र चिल्लो खाना रुच्ने,
+शरद्मा भ्रमण र चाडपर्व) आफ्ना अनुभव कारणसहित कक्षामा सुनाउनुहोस्।
+:::
+
+### पाठको अभ्यास: नमुना उत्तर
+
+**१. धरातलीय स्वरूपले जनजीवनमा प्रभाव पार्छ भन्ने तथ्यलाई नेपालको दृष्टान्त दिई प्रमाणित
+गर्नुहोस्।**
+**तराई:** समथर र उर्वर — धान, गहुँ, उखु खेती, सडक, उद्योग र बाक्लो बस्ती; पातलो कपडा। **पहाड:** भिरालो — गरा बनाएर मकै, कोदो र फलफूल खेती, छरिएका बस्ती, घुमाउरा सडक। **हिमाल:** अग्लो र चिसो — आलु, फापर, चौँरी–याकपालन, व्यापार र पर्वतारोहण पर्यटन; ढुङ्गाका बाक्ला घर, ऊनी पहिरन र जाडोमा बेँसी झर्ने चलन। यसरी धरातलअनुसार पेसा, घर, यातायात र पहिरन फरक छन्।
+
+**२. सभाना क्षेत्रमा धेरै प्रजातिका जनावर पाइन्छन्, किन?**
+(क) ग्रीष्मको वर्षाले विशाल घाँसे मैदान बन्छ, जसले जेब्रा, अर्ना, जिराफ जस्ता शाकाहारीलाई प्रशस्त
+आहारा दिन्छ। (ख) धेरै शाकाहारी भएकाले सिंह, चितुवा, हायना जस्ता मांसाहारी पनि बाँच्छन्।
+(ग) फाट्टफुट्ट रुख र खुला मैदानले ठुला जनावरलाई हिँडडुल गर्न सजिलो बनाउँछ। (घ) न्यानो
+हावापानी वर्षैभरि अनुकूल हुन्छ। (ङ) राष्ट्रिय निकुञ्ज र संरक्षण क्षेत्रले जोगाएका छन्।
+
+**३. नेपालको उत्तरी क्षेत्रमा पाँच हजार मिटरमाथिको उचाइमा बोटबिरुवा पाइँदैन, किन?**
+(क) उचाइ बढ्दा तापक्रम घट्ने भएकाले त्यहाँ वर्षैभरि ०° भन्दा कम तापक्रम र हिउँ रहन्छ;
+(ख) माटो जमेको वा चट्टान मात्र हुन्छ, उर्वर माटो बन्दैन; (ग) हावा पातलो र हुरी तीव्र हुन्छ;
+(घ) पानी तरल रूपमा पाइँदैन। त्यसैले यो हिमरेखा क्षेत्र वनस्पतिविहीन छ।
+
+**४. संस्कृति र संस्कारलाई पनि हावापानी र धरातलले प्रभाव पारेको हुन्छ भन्ने तथ्यलाई आफ्नो
+परिवेशको उदाहरण दिई प्रस्ट पार्नुहोस्।**
+हिमाली शेर्पा र थकाली समुदाय चिसोका कारण बख्खु र ऊनी पहिरन लगाउँछन्, सुकुटी, जौ र चियाका परिकार खान्छन् र जाडोमा बेँसी झर्छन्। तराईका थारू गर्मीअनुसार माटोले लिपेका हावादार घरमा बस्छन् र धानमा आधारित परिकार (ढिक्री) र माघी मनाउँछन्। पहाडमा असार १५ मा दही–चिउरा खाने र रोपाइँ गीत गाउने चलन मनसुनसँग जोडिएको छ।
+
+## ६.७ उत्तर अमेरिका महादेश
+
+| विवरण | तथ्य |
 |---|---|
-| Rank by area | 3rd |
-| Area | About 24.7 million km² |
-| Highest point | Denali, 6,190 m |
-| Lowest point | Death Valley, about −86 m |
-| Longest river | Mississippi–Missouri |
-| Largest country | Canada by area, USA by population |
+| अवस्थिति | उत्तरी र पश्चिमी गोलार्ध; १०° उ. देखि ८०° उ. अक्षांश, २०° प. देखि १६०° प. देशान्तर |
+| क्षेत्रफल | करिब २,४७,०९,००० वर्ग कि.मि. (पृथ्वीको भूभागको करिब १६.९ प्रतिशत) |
+| लम्बाइ र चौडाइ | उत्तर–दक्षिण करिब ७,२०० कि.मि., पूर्व–पश्चिम करिब ४,८०० कि.मि. |
+| सिमाना | उत्तर: सुमेरु महासागर; पूर्व: आन्ध्र महासागर; दक्षिण: दक्षिण अमेरिका; पश्चिम: प्रशान्त महासागर |
+| स्थान | क्षेत्रफलमा तेस्रो, जनसङ्ख्यामा चौथो ठुलो महादेश |
+| सर्वोच्च र होचो | माउन्ट म्याकिन्ले (देनाली) ६,१९४ मि.; मृत उपत्यका, समुद्र सतहभन्दा ८६ मि. तल |
+| ताल र नदी | सबैभन्दा ठुलो सुपेरियर ताल; सबैभन्दा लामो मिसिसिपी–मिसौरी (६,२७५ कि.मि.) |
+| देश | सबैभन्दा ठुलो क्यानडा; सबैभन्दा सानो सेन्ट किट्स एन्ड नेभिस |
 
-## 6.8 The continent of South America
+सन् १४९२ मा क्रिस्टोफर कोलम्बसले युरोपेलीका लागि यो भूभाग पत्ता लगाएकाले अमेरिकालाई
+**नयाँ संसार** पनि भनिन्छ।
 
-**Location and size.** South America lies mostly in the southern and western hemispheres. It is bounded by the Caribbean Sea and the Atlantic on the north and east, the Pacific on the west, and the Drake Passage and the Southern Ocean in the south. The equator crosses its northern part (Ecuador, Colombia, Brazil) and the Tropic of Capricorn crosses the south of Brazil, Paraguay and northern Chile. With about **17.8 million km²** it is the **fourth largest** continent, with 12 independent countries (plus French Guiana, a French territory) and a population of about 440 million.
+::: caution पाठ्यपुस्तकको सानो देशको नाम
+पाठ्यपुस्तकमा सबैभन्दा सानो देश "सेन्ट भिसेन्ट एन्ड नेभिस" लेखिएको छ। सही नाम **सेन्ट किट्स
+एन्ड नेभिस** (करिब २६१ वर्ग कि.मि.) हो; "सेन्ट भिन्सेन्ट एन्ड द ग्रेनाडिन्स" छुट्टै र अलि ठुलो देश
+हो। त्यस्तै पाठ्यपुस्तकले सोनरान मरुभूमिलाई "क्यालिफोर्नियाको उत्तरी भागमा" भनेको छ;
+सोनरान मरुभूमि वास्तवमा अमेरिकाको दक्षिण–पश्चिम (एरिजोना र दक्षिणी क्यालिफोर्निया) र उत्तर–
+पश्चिम मेक्सिकोमा पर्छ।
+:::
 
-### Physical features
+### भौगोलिक स्वरूप र हावापानी
 
-- **The Andes:** the longest mountain range on land, about **7,000 km** along the Pacific coast. **Aconcagua** in Argentina, about 6,960 m, is the highest peak in the Americas and outside Asia.
-- **The Amazon basin:** the **Amazon River** carries more water than any other river on Earth (about one-fifth of all the river water reaching the oceans) and flows about 6,400 km from the Andes to the Atlantic. The basin holds the largest tropical rainforest.
-- **Highlands:** the Guiana Highlands and the Brazilian Highlands.
-- **Plains:** the Orinoco plains (the Llanos), and the Pampas of Argentina and Uruguay.
-- **Lakes and falls:** **Lake Titicaca**, one of the highest navigable lakes (about 3,800 m); **Angel Falls** in Venezuela, the world's tallest waterfall (979 m).
-- **Desert:** the **Atacama** in Chile, one of the driest places on Earth.
+| भौगोलिक क्षेत्र | अवस्थिति | हावापानी |
+|---|---|---|
+| रकी पर्वत श्रेणी | पश्चिममा उत्तर–दक्षिण फैलिएको लामो पर्वत शृङ्खला | शीतोष्ण; हिम शृङ्खला, वर्षैभरि चिसो |
+| अपलेचियन पर्वत श्रेणी | पूर्वमा उत्तर–दक्षिण फैलिएको होचो पर्वत | शीतोष्ण |
+| प्रेरिजको मैदान | मेक्सिको खाडीदेखि उत्तरमा क्यानडाको जङ्गलसम्म | सुक्खा र चिसो; समथर घाँसे मैदान |
+| ग्रेट ताल क्षेत्र | अपलेचियनको पश्चिम; सुपेरियर, मिसिगन, ह्युरन, इरी, ओन्टारियो; इरी र ओन्टारियोबिच नायग्रा झरना | समशीतोष्ण, आर्द्र |
+| पूर्वी किनारी क्षेत्र | पूर्वी किनारदेखि दक्षिण–पूर्वमा मेक्सिको खाडीसम्म | समशीतोष्ण सामुद्रिक |
+| मरुभूमि क्षेत्र | सोनरान मरुभूमि | सुक्खा मरुस्थलीय |
+| उत्तरी जङ्गल क्षेत्र | अलास्कादेखि क्यानडाको मध्य हुँदै पूर्वसम्म कोणधारी (टाइगा) | चिसो |
+| दक्षिण–पश्चिम क्षेत्र | क्यालिफोर्नियाको पश्चिमी किनार | भूमध्यसागरीय (हिउँदमा वर्षा) |
 
-### Climate and vegetation
+**वनस्पति:** उत्तरमा टुन्ड्रा, त्यसको दक्षिणमा क्यानडामा घना कोणधारी जङ्गल, मध्य मैदानमा
+प्रेरिज घाँसे मैदान, दक्षिण–पूर्व र सेन्ट लरेन्स क्षेत्रमा पतझर वन र मध्य–दक्षिणमा उष्ण सदाबहार
+जङ्गल पाइन्छ।
 
-Equatorial climate and rainforest in the Amazon basin; savanna (Llanos, Campos); hot desert (Atacama, coastal Peru); Mediterranean in central Chile; temperate grassland (Pampas); cold and windy Patagonia in the south; and highland climates in the Andes where altitude produces snow even on the equator.
-
-### Social and economic life
-
-- **People and language:** indigenous Quechua and Aymara peoples, descendants of Spanish and Portuguese settlers and Africans; **Portuguese** is spoken in Brazil, **Spanish** in most others. The Inca civilisation built Machu Picchu in the 15th century.
-- **Agriculture:** **Brazil** is the world's leading producer of coffee and sugarcane and a leading exporter of soybean and beef; Argentina's pampas supply wheat and beef; Ecuador and Colombia export bananas, flowers and coffee.
-- **Minerals:** Chile is the world's largest copper producer; Bolivia has tin and lithium; Venezuela has oil; Brazil has iron ore.
-- **Cities:** São Paulo, Buenos Aires, Lima and Bogotá are large cities; Brazil is by far the largest country by both area and population.
-- **Problems:** deforestation of the Amazon, uneven wealth, and rapid urban growth.
-
-```photo id="soc10/machu-picchu" caption="Machu Picchu, the 15th-century Inca citadel high in the Andes of Peru, about 2,430 m above sea level. Built of stone without mortar, it is a World Heritage Site and the country's most visited place." width="86"
+```figure caption="उत्तर अमेरिकाको धरातल, पश्चिमदेखि पूर्वसम्मको सरल काटछेउ। अग्लो रकी पश्चिममा, होचो अपलेचियन पूर्वमा र बिचमा प्रेरिज तथा ग्रेट ताल क्षेत्र छ।"
+import numpy as np
+fig, ax = plt.subplots(figsize=(5.6, 2.4))
+ax.set_xlim(0, 10); ax.set_ylim(0, 4.4); ax.axis("off")
+kx = [0, 0.5, 1.2, 1.9, 2.6, 3.2, 6.6, 7.4, 8.0, 8.6, 9.4, 10]
+ky = [0.5, 0.9, 3.4, 2.4, 3.7, 1.3, 0.9, 1.1, 1.9, 1.2, 0.6, 0.5]
+xs = np.linspace(0, 10, 300); ys = np.interp(xs, kx, ky)
+ax.fill_between(xs, 0.3, ys, color="#d9cbb0"); ax.plot(xs, ys, color=INK, lw=1.1)
+ax.fill_between([0, 0.35], 0.3, 0.55, color="#9fc3e6"); ax.fill_between([9.6, 10], 0.3, 0.55, color="#9fc3e6")
+ax.text(0.1, 0.05, "प्रशान्त", fontsize=7, color=MUTED)
+ax.text(9.0, 0.05, "आन्ध्र", fontsize=7, color=MUTED)
+ax.text(2.2, 3.95, "रकी पर्वत", ha="center", fontsize=7.8, color=INK, fontweight="bold")
+ax.text(4.9, 1.45, "प्रेरिजको मैदान", ha="center", fontsize=7.8, color=INK)
+ax.text(7.1, 1.6, "ग्रेट ताल", ha="center", fontsize=7.4, color=SERIES[0])
+ax.text(8.1, 2.25, "अपलेचियन", ha="center", fontsize=7.8, color=INK, fontweight="bold")
+ax.text(0.3, 4.1, "पश्चिम", fontsize=7.2, color=MUTED); ax.text(9.3, 4.1, "पूर्व", fontsize=7.2, color=MUTED)
 ```
 
-## 6.9 The continent of Africa
+### आर्थिक गतिविधि र सामाजिक जनजीवन
 
-**Location and size.** Africa straddles the equator, lying between the Mediterranean Sea in the north, the Atlantic in the west, the Indian Ocean in the east and the meeting of the two oceans at the Cape of Good Hope in the south. It is joined to Asia at the Sinai peninsula and separated from Europe by the narrow Strait of Gibraltar. At about **30.3 million km²** it is the **second largest** continent and has **54 countries** and about 1.4 billion people, the youngest population on Earth. Its latitude spans about 37° N to 35° S, so it has both tropics.
+उत्तर अमेरिका विकसित महादेश हो। क्यानडा र संयुक्त राज्य अमेरिकाले अतुलनीय पूर्वाधार र आर्थिक
+वृद्धि गरेका छन्; दक्ष जनशक्ति, उचित व्यवस्थापन र स्रोतको अधिकतम परिचालनले अर्थतन्त्र
+मजबुत छ र दुवै देश उच्च प्रतिव्यक्ति आय भएका देशमा पर्छन्। मानिस सेवा, उद्योग र प्रविधिमा
+संलग्न छन्; कृषिमा थोरै मानिस भए पनि आधुनिक र व्यावसायिक खेतीले देश आत्मनिर्भर छन्।
+**गहुँ र मकै** मुख्य बाली हुन्। पर्यटन फस्टाएको छ; तामा, फलाम, कोइला, सुन, निकेल, प्लाटिनम,
+चाँदीमा आधारित उद्योग र प्रशस्त पेट्रोलियम छ।
 
-### Physical features
+सुरुमा युरोपबाट आएका गोरा जातिले आदिवासीमाथि शासन गरे। पहिले फ्रेन्च र अङ्ग्रेजीभाषी
+बढी थिए; आज संसारभरका मानिस पुगेका छन् र अमेरिका मिश्रित बसोबासको देश बनेको छ।
+**लोकतन्त्र, स्वतन्त्रता, समानता, समावेशिता र समता** सामाजिक जीवनका विशेषता हुन्। उत्तरी
+भेगमा फिरन्ते इन्युट जाति बस्छन्।
 
-- **Plateaus:** most of Africa is a high plateau, with a narrow coastal plain.
-- **Mountains:** **Kilimanjaro** in Tanzania, 5,895 m, the highest peak; Mount Kenya; the Atlas in the north and the Drakensberg in the south.
-- **Great Rift Valley:** a huge crack in the Earth's crust running from East Africa to the Red Sea, containing long deep lakes.
-- **Rivers:** the **Nile**, about 6,650 km, the longest river in the world, flowing north from East Africa into the Mediterranean; the Congo (deepest river), the Niger and the Zambezi.
-- **Lakes and falls:** **Lake Victoria**, the largest lake in Africa and second largest freshwater lake in the world by area; **Victoria Falls** on the Zambezi.
-- **Deserts:** the **Sahara** (about 9 million km², the largest hot desert), the Kalahari and the Namib.
-- **Lowest point:** Lake Assal, Djibouti, about 155 m below sea level.
+::: note क्रियाकलाप — पाठ ६.७
+**१.** जम्मा करिब ३ प्रतिशत मानिस कृषिमा लागेर पनि खाद्यान्नमा आत्मनिर्भर अमेरिकाबाट नेपालले
+सिक्ने कुरा (यान्त्रिकीकरण, उन्नत बिउ, सिँचाइ, अनुसन्धान, ठुला फार्म, बजार र बिमा) खोजी गरी
+लेख्नुहोस्।
+**२.** उत्तर अमेरिकाको रेखाङ्कित नक्सामा एटलसको सहायताले पर्वतमाला, खाडी, नदी, ताल, वनस्पति
+क्षेत्र, खनिज स्थल, देश र प्रमुख सहर, पानामा नहर, प्रेरिज, मृत उपत्यका, आँधीहुरी क्षेत्र र मरुभूमि
+भर्नुहोस्।
+**३.** नेपालको लेकाली खर्क र प्रेरिजबिच भिन्नता समूहमा छलफल गर्नुहोस्। (लेकाली खर्क अग्लो
+भिरालो र साना टुक्रामा, गर्मीमा मात्र चरन; प्रेरिज समथर विशाल मैदान, गहुँ खेती र व्यावसायिक
+गाईपालन।)
+:::
 
-```photo id="soc10/victoria-falls" caption="Victoria Falls (Mosi-oa-Tunya, 'the smoke that thunders') on the Zambezi River between Zambia and Zimbabwe. About 1.7 km wide and over 100 m high, it is among the largest waterfalls in the world." width="96"
+### पाठको अभ्यास: नमुना उत्तर
+
+**१. उत्तर अमेरिकाका विकसित राष्ट्र र नेपालबिच आर्थिक सामाजिक अवस्थाको तुलना गर्नुहोस्।**
+
+| आधार | अमेरिका र क्यानडा | नेपाल |
+|---|---|---|
+| अर्थतन्त्र | उद्योग, सेवा र प्रविधिमा आधारित; उच्च प्रतिव्यक्ति आय | कृषि, विप्रेषण र सेवामा आधारित; न्यून आय |
+| कृषि | थोरै मानिस, यान्त्रिक र व्यावसायिक, आत्मनिर्भर | धेरै मानिस, परम्परागत, खाद्यान्न आयात |
+| पूर्वाधार | अतुलनीय सडक, रेल, हवाई र सञ्चार | विकासोन्मुख, भौगोलिक कठिनाइ |
+| खनिज | प्रशस्त पेट्रोलियम र धातु; खनिज उद्योग | खनिज उत्खनन सीमित |
+| समाज | बहुसांस्कृतिक आप्रवासी समाज; उन्नत जीवनशैली | बहुजातीय समाज; ग्रामीण बसोबास बढी |
+| जनशक्ति | दक्ष जनशक्ति आकर्षित गर्छ | युवा वैदेशिक रोजगारीमा जान्छन् |
+
+समानता: दुवैमा लोकतन्त्र, विविधता र पर्यटनको सम्भावना छ।
+
+**२. अमेरिकाको क्यालिफोर्नियामा हिउँदमा र दक्षिण–पूर्वी क्षेत्रमा ग्रीष्ममा पानी पर्छ। एउटै देशमा
+यस्तो भिन्नता किन?**
+क्यालिफोर्निया महाद्वीपको पश्चिमी किनारको भूमध्यसागरीय हावापानीमा पर्छ; त्यहाँ हिउँदमा समुद्रबाट
+आउने पश्चिमी वायुले वर्षा गराउँछ र ग्रीष्म सुक्खा हुन्छ। दक्षिण–पूर्वी भाग महाद्वीपको पूर्वी किनारको
+समशीतोष्ण मौसमी हावापानीमा पर्छ; त्यहाँ ग्रीष्ममा समुद्रबाट जमिनतर्फ आउने मनसुनी वायु र न्यानो
+गल्फ स्ट्रिमले आर्द्रता र वर्षा ल्याउँछन्। अक्षांश, महाद्वीपको भाग र वायुको दिशा फरक भएकाले वर्षाको
+समय फरक भएको हो।
+
+**३. मानौँ, तपाईँ उत्तरी क्यानडाको बासिन्दा हुनुहुन्छ। तपाईँका आर्थिक क्रियाकलाप, सामाजिक रहनसहन
+र त्यहाँको वनस्पति कस्ता हुन्छन्?**
+म टाइगा क्षेत्रमा बस्ने भएकाले मेरो पेसा नरम काठको कटान, लुगदी र कागज उद्योग, भुवादार छालाका लागि शिकार, माछा मार्ने, खानी र साहसिक पर्यटन हुन्छ। काठका होचा न्याना घरमा बस्छु र वर्षैभरि बाक्ला कपडा लगाउँछु; बस्ती पातलो हुन्छ। वरिपरि सल्ला, फर, स्प्रुस जस्ता कोणधारी वन र अझ उत्तर टुन्ड्रामा काई र झ्याउ हुन्छन्।
+
+**४. उत्तर अमेरिकाको पूर्वी क्षेत्रमा पश्चिमी क्षेत्रभन्दा ठुला सहर विकास भएका छन्, किन?**
+(क) पूर्वमा समथर तटीय मैदान र होचो अपलेचियन, पश्चिममा अग्लो रकी; (ख) न्यानो गल्फ स्ट्रिमले पूर्व न्यानो र ओसिलो; (ग) युरोपेली आप्रवासी पहिले पूर्वी किनारमै बसे र युरोपसँग व्यापारका बन्दरगाह बने; (घ) ग्रेट ताल–सेन्ट लरेन्स जलमार्ग र अपलेचियनका कोइला–फलामले उद्योग बढाए।
+
+## ६.८ दक्षिण अमेरिका महादेश
+
+| विवरण | तथ्य |
+|---|---|
+| अवस्थिति | अधिकांश दक्षिणी र पश्चिमी गोलार्ध; १२° उ. देखि ५५° द. अक्षांश, ३५° प. देखि ८०° प. देशान्तर |
+| क्षेत्रफल | १,७८,४०,००० वर्ग कि.मि. (विश्वको भूक्षेत्रको ११.९६ प्रतिशत); चौथो ठुलो महादेश |
+| सिमाना | पूर्व: आन्ध्र; पश्चिम: प्रशान्त; उत्तर: उत्तर अमेरिका; दक्षिण: कुमेरु महासागर; पानामा नहरले उत्तर अमेरिकाबाट छुट्याउँछ |
+| पर्वत र शिखर | एन्डिज, विश्वकै लामो पर्वतमाला (७,००० कि.मि.); सर्वोच्च अकोन्कागुवा (६,९६० मि.) |
+| नदी र ताल | संसारकै ठुलो नदी अमेजन; ओरिनोको; सबैभन्दा उचाइको ठुलो ताल टिटिकाका |
+| झरना | भेनेजुयलाको एन्जेल झरना (९७९ मि.), संसारकै अग्लो |
+| भूपरिवेष्टित देश | बोलिभिया र पाराग्वे |
+
+### भौगोलिक अवस्था
+
+उत्तरी भागमा भूमध्यरेखा पर्छ। पश्चिममा दक्षिणको चिलीदेखि उत्तरको भेनेजुयलासम्म **एन्डिज**
+फैलिएको छ; यसमा उच्च समस्थली र टिटिकाका ताल छन् र यो भूकम्प तथा ज्वालामुखीका दृष्टिले
+प्रकोपयुक्त क्षेत्र हो। पूर्वमा पुरानो कडा चट्टानको **ब्राजिलियन उच्चभूमि** र उत्तर–पूर्वमा **गायना
+उच्चभूमि** छन्। एन्डिज र पूर्वी उच्चभूमिका बिचमा अमेजन र ओरिनोकोले बनाएको विशाल मैदान छ।
+मध्यमा पाराना, पाराग्वे र उरुग्वे नदीले बनाएको **ग्रान चाको** निम्नभूमि, ब्राजिलको मध्यमा **माटो
+ग्रोसो** उच्च समस्थली र **पम्पास** घाँसे मैदान छन्। सुदूर दक्षिण–पूर्वमा चिसो **पाटागोनिया**
+मरुभूमि (उच्चभूमि पनि) र चिलीको उत्तर–पश्चिममा **अटाकामा** मरुभूमि छ।
+
+**हावापानी:** अमेजन बेँसीमा वर्षैभरि गर्मी, ओसिलो, दैनिक घनघोर वर्षा र बाढी; किनारी क्षेत्रमा
+सामुद्रिक प्रभावले वर्षैभरि वर्षा; मध्यका कतिपय भागमा अनिश्चित वर्षा र लामो खडेरी; उत्तर–पूर्वी
+किनारमा मनसुनी; चिलीको मध्यभागमा भूमध्यसागरीय; उत्तरको अटाकामामा उष्ण मरुस्थलीय।
+
+**वनस्पति:** अमेजनमा संसारकै विस्तृत उष्ण सदाबहार जङ्गल **सेल्भास** (कडा काठका अग्ला रुख);
+उत्तर–पूर्वी उच्चभूमिमा घाँस; मध्य र दक्षिण–पूर्वमा पम्पास घाँसे मैदान; मरुभूमि वनस्पतिविहीन, कतै
+क्याक्टस।
+
+```photo id="soc10/machu-picchu" caption="पेरुको एन्डिज पर्वतमा रहेको माचु पिच्चु, इन्का सभ्यताको अवशेष। स्पेनिस आक्रमणकारीले इन्का साम्राज्य अन्त्य गरेका थिए।" width="66"
 ```
 
-### Climate and vegetation
+### सामाजिक आर्थिक क्रियाकलाप
 
-Because the equator crosses the middle, Africa is the most tropical of continents. The climate is arranged in a nearly symmetrical pattern north and south of the equator: **equatorial rainforest** (Congo basin) in the centre; **savanna** to either side; **hot desert** (Sahara in the north, Kalahari and Namib in the south-west); **Mediterranean** at the northern and southern tips; and high-mountain climates, with snow even on Kilimanjaro near the equator.
+लामो समय युरोपेली उपनिवेश भएकाले जीवनशैली युरोपबाट प्रभावित छ। स्पेनिस र पोर्चुगाली
+आएर आदिवासीलाई परास्त गरे, **इन्का सभ्यता** लोप गराए र शासन स्थापना गरे। अमेजनमा
+प्रारम्भिक जीवनशैलीका रेड इन्डियन बस्छन्। अवसरको खोजीमा मानिस मध्य भागबाट किनार र ठुला
+सहरतिर सरेकाले पूर्वी किनार घना र मध्य भागमा जनशक्ति अभाव छ। **ब्राजिल** संसारमै धेरै
+**कफी र उखु** उत्पादन गर्छ। **अर्जेन्टिना** मा प्रशस्त गहुँ हुन्छ र पम्पासमा पालिएका भेडा–गाईको
+मासु युरोप निर्यात हुन्छ। एन्डिजका आदिवासी **लामा** पाल्छन् — मासु, ऊन र भारी बोकाउन।
+तामा, फलाम, सुन, आल्मुनियम, पेट्रोल, हिरा, कोइला पाइन्छन्; अटाकामामा बहुराष्ट्रिय कम्पनीले
+सुन (र तामा) उत्खनन गर्छन्। अधिकांश व्यापार युरोपसँग हुन्छ। धर्म: रोमन क्याथोलिक, प्रोटेस्टेन्ट,
+हिन्दु र इस्लाम; जाति: युरोपेली मूलका, रेड इन्डियन, अफ्रिकी मूलका, मुलाटो र मेस्टिजो।
 
-### Social and economic life
+::: caution पाठ्यपुस्तकका केही अङ्क र दाबी
+(क) पाठ्यपुस्तकमा "जम्मा १४ देश" लेखिएको छ; स्वतन्त्र सार्वभौम देश **१२** छन्। फ्रेन्च गयाना
+(फ्रान्सको भाग) र फकल्यान्ड टापु (बेलायती अधीन) थप्दा १४ हुन्छ। (ख) ब्राजिल कफी र उखु
+उत्पादनमा पहिलो हो, तर कोको उत्पादनमा पहिलो होइन — कोकोमा पश्चिम अफ्रिकाको आइभरी कोस्ट
+अग्रणी छ। (ग) पाठ्यपुस्तकको "पुर्तगाली" भनेको युरोपेली (स्पेनिस र पोर्चुगाली) मूलका मानिस हुन्।
+:::
 
-- **People:** hundreds of ethnic groups and languages; Arabic in the north, and Swahili, Hausa, Amharic, English and French elsewhere. Nigeria is the most populous country (over 200 million); Algeria is the largest by area.
-- **Agriculture:** subsistence farming of millet, maize, cassava and yams; cash crops: **cocoa** (Ivory Coast, Ghana), coffee (Ethiopia, Uganda), tea (Kenya), cotton (Egypt), cloves (Zanzibar).
-- **Minerals:** diamonds (Botswana, South Africa), gold (South Africa, Ghana), copper (Zambia, DR Congo), oil (Nigeria, Libya, Algeria), cobalt (DR Congo).
-- **Tourism:** wildlife safaris in Kenya and Tanzania, the pyramids of Egypt, and Victoria Falls.
-- **Challenges:** poverty, drought in the Sahel, diseases such as malaria and HIV/AIDS, conflicts, and dependence on raw material exports.
+::: note क्रियाकलाप — पाठ ६.८
+**१.** एन्डिज पर्वतमाला (पश्चिम; उच्च पर्वतीय चिसो; लामापालन, खानी, पर्यटन) र अमेजन बेँसी
+(उत्तर–मध्य; भूमध्यरेखीय; काठ, रबर, जडीबुटी) को तालिका पूरा गर्नुहोस्।
+**२.** पाठ्यपुस्तकका दुई चित्र (एन्डिजको हिमाल र अमेजनको जङ्गल) तुलना गरी लेख तयार पार्नुहोस्।
+**३.** अर्जेन्टिना र ब्राजिलले फुटबललाई सरकारी प्राथमिकता र खेल पर्यटन बनाएझैँ नेपालले पनि
+मौलिक खेल (जस्तै डन्डीबियो, कबड्डी) र पर्वतारोहण–दौड जस्ता खेलमा लगानी गरेर विश्वमा चिनाउन
+सक्छ — छलफल गरी लेख्नुहोस्।
+**४.** दक्षिण अमेरिकाको नक्सामा एन्डिज, अमेजन बेँसी, ब्राजिलियन उच्चभूमि, अटाकामा, सेल्भास,
+पम्पास, केप हर्न, ग्यालापागोस टापु, टिटिकाका, ओरिनोको, गायना उच्चभूमि, पाटागोनिया, एन्जेल झरना
+र फकल्यान्ड टापु भर्नुहोस्।
+:::
 
-| Fact | North America | South America | Africa |
+### पाठको अभ्यास: नमुना उत्तर
+
+**१. अमेजन बेँसीमा पाइने जङ्गलको आर्थिक महत्त्व लेख्नुहोस्।**
+(क) कडा काठबाट फर्निचर र काठ उद्योग; (ख) रबर, ब्राजिल नट, फलफूल र जडीबुटी तथा औषधिका
+कच्चा पदार्थ; (ग) आदिवासीको खाना, आवास र जीविकाको आधार; (घ) अपार जैविक विविधताले
+अनुसन्धान र पर्यावरणीय पर्यटन; (ङ) संसारकै ठुलो वनले कार्बन सोसेर विश्व हावापानी सन्तुलनमा
+योगदान — त्यसैले यसलाई पृथ्वीको फोक्सो पनि भनिन्छ।
+
+**२. दक्षिण अमेरिकी राष्ट्रहरूले उपलब्ध खनिजको प्रयोग गरी समृद्धि ल्याउन के गर्नुपर्छ?**
+(क) कच्चा खनिज बेच्नुको सट्टा देशभित्रै प्रशोधन र उद्योग स्थापना गर्ने; (ख) बहुराष्ट्रिय कम्पनीसँग
+न्यायोचित सम्झौता गरेर राजस्व र रोजगारी सुनिश्चित गर्ने; (ग) दक्ष जनशक्ति र प्रविधि विकास गर्ने;
+(घ) आम्दानी शिक्षा, स्वास्थ्य र पूर्वाधारमा लगानी गर्ने; (ङ) वातावरण र आदिवासीको हक जोगाउँदै
+उत्खनन गर्ने; (च) युरोपबाहेक एसियासँग पनि व्यापार विविधीकरण गर्ने।
+
+**३. दक्षिण अमेरिकी मानिसको जीवनशैली किन मौलिक नभई युरोपको प्रभाव रहेको छ?**
+लामो समय स्पेन र पोर्चुगलको उपनिवेश भएकाले उनीहरूले इन्कालगायत आदिवासी सभ्यता नष्ट
+गरी आफ्नो शासन, भाषा (स्पेनिस, पोर्चुगिज), धर्म (क्याथोलिक) र संस्कृति लादे। ठुलो सङ्ख्यामा
+युरोपेली बसाइँ सरेर आए र मिश्रित जाति बने। अहिले पनि अधिकांश व्यापार युरोपसँग हुन्छ।
+त्यसैले खानपान, पहिरन, भाषा, धर्म र खेल (फुटबल) मा युरोपेली प्रभाव छ।
+
+**४. नेपाल र दक्षिण अमेरिकी राष्ट्रहरूबिच प्राकृतिक र आर्थिक क्षेत्रका समानता तथा भिन्नता
+छुट्याउनुहोस्।**
+**समानता:** दुवैमा अग्ला पर्वत (हिमालय र एन्डिज), भूकम्पीय जोखिम, पर्वतीय पर्यटन, पशुपालन
+(चौँरी–याक र लामा) र जैविक विविधता छ; बोलिभिया र पाराग्वे नेपालजस्तै भूपरिवेष्टित छन्; दुवै
+विकासोन्मुख छन्। **भिन्नता:** दक्षिण अमेरिकामा समुद्र, विशाल नदी–मैदान, अमेजन वर्षावन र मरुभूमि
+छन्, नेपालमा छैनन्। त्यहाँ पेट्रोल, सुन, तामा जस्ता खनिजको ठुलो उत्खनन र कफी, उखु, गहुँ, मासुको
+ठुलो निर्यात हुन्छ; नेपाल कृषि र विप्रेषणमा बढी निर्भर छ। त्यहाँ युरोपेली प्रभाव छ, नेपाल कहिल्यै
+उपनिवेश भएन।
+
+## ६.९ अफ्रिका महादेश
+
+| विवरण | तथ्य |
+|---|---|
+| क्षेत्रफल | ३,०२,२१,५३२ वर्ग कि.मि. (पृथ्वीको भूभागको करिब २०.२५ प्रतिशत); दोस्रो ठुलो महादेश |
+| अवस्थिति | ३७° उ. देखि ३५° द. अक्षांश, १८° प. देखि ५१° पू. देशान्तर; भूमध्यरेखाले लगभग बिचबाट काट्छ |
+| सिमाना | पूर्व: हिन्द महासागर र लालसागर; पश्चिम: आन्ध्र; उत्तर: भूमध्यसागर; दक्षिण: कुमेरु महासागर |
+| लम्बाइ र चौडाइ | उत्तर–दक्षिण करिब ८,००० कि.मि., पूर्व–पश्चिम ७,४०० कि.मि. |
+| सर्वोच्च र होचो | किलिमन्जारो (५,८९५ मि.); असाल ताल (समुद्र सतहभन्दा ५१० फिट अर्थात् करिब १५५ मि. तल) |
+| नदी र ताल | विश्वकै लामो नाइल (६,६७० कि.मि.); सबैभन्दा ठुलो ताल भिक्टोरिया (नाइलको स्रोत मानिन्छ) |
+| मरुभूमि | सहारा (विश्वकै ठुलो तातो मरुभूमि), कालाहारी, नामिब |
+| विशेषता | विश्वमा सबैभन्दा धेरै राष्ट्र भएको महादेश |
+
+**हावापानी:** भौगोलिक स्वरूप र अवस्थितिका कारण अधिकांश भागमा विषम हावापानी छ। भूमध्यरेखीय
+भाग र कङ्गो बेँसीमा उष्ण र ओसिलो; उत्तरको सहारामा अत्यन्त गर्मी र शुष्क; दक्षिण–पूर्वमा उष्ण
+मौसमी; दक्षिण अफ्रिकी उच्च समस्थलीमा ग्रीष्ममा धेरै गर्मी र हिउँदमा धेरै जाडो; पश्चिमोत्तर र
+दक्षिण–पश्चिम छेउमा भूमध्यसागरीय; दक्षिण–पूर्वका टापुमा मौसमी।
+
+**वनस्पति र जीव:** भूमध्यरेखीय भागमा सदाबहार जङ्गल; भित्री मध्य भागमा विशाल **सभाना**; पतझर,
+क्याक्टस र छाताकार वनस्पति। जेब्रा, जिराफ, हात्ती, जलगैँडा, अस्ट्रिच जस्ता जीव पाइन्छन्।
+
+```figure caption="तीन महादेशको क्षेत्रफल (पाठ्यपुस्तकका अङ्क, लाख वर्ग किलोमिटरमा)। अफ्रिका दोस्रो, उत्तर अमेरिका तेस्रो र दक्षिण अमेरिका चौथो ठुलो महादेश हो।"
+fig, ax = barh_ranked(["अफ्रिका", "उत्तर अमेरिका", "दक्षिण अमेरिका"], [302.2, 247.1, 178.4], unit=" लाख", figsize=(5.4, 1.9), fmt="{:.1f}")
+```
+
+### क्रमशः उज्यालोतर्फ अफ्रिका
+
+लामो समय भोकमरी, गृहयुद्ध, रोग, अशिक्षा र गरिबी भोगेको अफ्रिका अहिले शान्ति, विकास र
+समृद्धितर्फ उन्मुख छ। **आठ सयभन्दा बढी जातजाति** र **दुई हजारभन्दा बढी भाषा** भएको यो
+महादेश विविधताको थलो हो। सभाना र भेल्ड जस्ता घाँसे मैदान र सयौँ प्रजातिका वन्यजन्तु, इजिप्टका
+पिरामिड र भिक्टोरिया झरनाले पर्यटन बढाएका छन्। सुन, चाँदी, हिरा, पेट्रोल र तामा जस्ता बहुमूल्य
+खनिज छन्। मिश्र (इजिप्ट), गिजाको पिरामिड र नाइल नदीको सभ्यता प्राचीन सम्पदा हुन्। मुख्य पेसा
+कृषि हो; व्यावसायीकरण र विदेशी लगानीमा बनेका औद्योगिक क्षेत्रमा खाद्यान्न, कोको, कफी, केरा र
+जुट जस्ता बालीको उत्पादन र रोजगारी बढेको छ।
+
+```photo id="soc10/victoria-falls" caption="जाम्बेजी नदीमा रहेको भिक्टोरिया झरना (जाम्बिया–जिम्बाबे सिमाना)। पिरामिड र सभानाका वन्यजन्तुसँगै यसले अफ्रिकाको पर्यटन बढाएको छ।" width="64"
+```
+
+::: caution पाठ्यपुस्तकका दुई तथ्य
+(क) पाठ्यपुस्तकले अफ्रिकाका जीवमा **इमु** उल्लेख गरेको छ। इमु अस्ट्रेलियाको चरा हो;
+अफ्रिकाको ठुलो नउड्ने चरा **अस्ट्रिच** हो। (ख) "दक्षिण अफ्रिका विश्वकै सबैभन्दा ठुलो हिरा
+उत्पादक" भन्ने पुरानो कुरा हो; पछिल्ला वर्षमा रुस र बोत्स्वाना अगाडि छन्, यद्यपि दक्षिण अफ्रिका
+प्रमुख उत्पादक र हिरा उद्योगको केन्द्र हो।
+:::
+
+::: note क्रियाकलाप — पाठ ६.९
+**१. करिना र मनिताको संवाद:** करिनालाई अफ्रिकाको एकतिहाइ भाग मरुभूमि, भोकमरी, अशिक्षा र
+युद्धका कारण जनजीवन कठिन लाग्यो। मनिताले भनिन् — समस्या मात्र केलाएर हुँदैन, समाधान
+खोज्नुपर्छ; मरुद्यानमा खेती, मरुभूमिका पेट्रोलियम र हिरा, ऊँटपालन र पर्यटनका सम्भावना छन्;
+रोजगारी बढ्दा आर्थिक उन्नति हुन्छ र द्वन्द्व अन्त्य हुन्छ।
+(क) **कसको विचार मन पर्‍यो?** मनिताको, किनकि उनले समस्यासँगै सम्भावना र समाधान देखाइन्;
+उनको सोच सकारात्मक र व्यावहारिक छ। (ख) **सन्देश:** समस्या जहाँ पनि हुन्छन्; निराश हुनुभन्दा
+उपलब्ध स्रोतको सदुपयोग गरी समाधान खोज्नु बुद्धिमानी हो। (ग) **सकारात्मक सोच किन?** यसले
+आत्मविश्वास, धैर्य र नयाँ उपाय खोज्ने ऊर्जा दिन्छ, असफलताबाट सिक्न सिकाउँछ र सम्बन्ध राम्रो
+बनाउँछ; त्यसैले जीवन सफल र सार्थक हुन्छ।
+**२.** अफ्रिकाका हिरा, पेट्रोल र सुन उत्पादक देशको सूची बनाउनुहोस् (जस्तै हिरा: बोत्स्वाना,
+दक्षिण अफ्रिका, कङ्गो; पेट्रोल: नाइजेरिया, अल्जेरिया, लिबिया, अङ्गोला; सुन: घाना, दक्षिण अफ्रिका)।
+**३.** अफ्रिकाको नक्सामा एटलस पर्वत, भूमध्यरेखा, सभाना, कङ्गो बेँसी, सहारा, किलिमन्जारो, नाइल,
+धसान घाँटी (रिफ्ट उपत्यका), भिक्टोरिया ताल, जिम्बाबे, इथियोपियन उच्चभूमि, जाम्बेजी, नाइजर र
+ओरेन्ज नदी देखाउनुहोस्।
+**परियोजना कार्य:** चार समूहले क्रमशः प्राकृतिक स्वरूप, सहरी र औद्योगिक क्षेत्र, प्राकृतिक स्रोत र
+नेपालसँगको तुलना खोजी गरी कक्षामा प्रस्तुत गर्नुहोस्।
+:::
+
+### पाठको अभ्यास: नमुना उत्तर
+
+**१. "भौगोलिक स्वरूप र अवस्थितिको प्रभावले गर्दा अफ्रिकाको अधिकांश क्षेत्रमा हावापानी विषम छ।"
+पुष्टि गर्नुहोस्।**
+(क) भूमध्यरेखाले बिचबाट काट्ने र अधिकांश भाग उष्ण मण्डलमा पर्ने भएकाले वर्षैभरि चर्को घाम
+लाग्छ। (ख) महादेश ठुलो र चौडा भएकाले भित्री भागमा समुद्रको प्रभाव पुग्दैन। (ग) २०°–३०°
+अक्षांशमा सहारा र कालाहारी जस्ता मरुभूमिमा दिन र रातको तापान्तर अति हुन्छ। (घ) पश्चिमी
+किनारमा चिसो धार र उच्च समस्थलीको उचाइले वर्षा घटाउँछ। (ङ) सभानामा ग्रीष्म वर्षा र हिउँद
+सुक्खा हुन्छ। त्यसैले भूमध्यरेखीय र भूमध्यसागरीय सानो भागबाहेक अधिकांश क्षेत्र विषम छ।
+
+**२. सभाना क्षेत्रलाई संसारको चिडियाखाना किन भनिन्छ?**
+विशाल घाँसे मैदान, फाट्टफुट्ट रुख र न्यानो हावापानीका कारण यहाँ जिराफ, जेब्रा, हात्ती, अर्ना,
+जलगैँडा, हायना, सिंह र अस्ट्रिच जस्ता सयौँ प्रजातिका जनावर ठुलो सङ्ख्यामा प्राकृतिक रूपमै बस्छन्।
+खुला मैदानमा तिनलाई सजिलै देख्न सकिन्छ र राष्ट्रिय निकुञ्जले संरक्षण गरेका छन्, त्यसैले यसलाई
+संसारको चिडियाखाना भनिन्छ।
+
+**३. "अफ्रिका पर्यटनको प्रचुर सम्भावना भएको महादेश हो।" उदाहरणसहित प्रस्ट पार्नुहोस्।**
+(क) **प्राकृतिक:** सभाना र भेल्डमा वन्यजन्तु सफारी, भिक्टोरिया झरना, किलिमन्जारो आरोहण, सहारामा ऊँट यात्रा, नाइल र भिक्टोरिया ताल; (ख) **ऐतिहासिक:** इजिप्टका पिरामिड र नाइल सभ्यता; (ग) **सांस्कृतिक:** आठ सयभन्दा बढी जातजाति र दुई हजार भाषा, मसाईका परम्परा; (घ) समुद्री तट र टापु; फिल्म छायाङ्कनको गन्तव्य पनि।
+
+**४. अफ्रिका महादेशमा पाइने प्रमुख हावापानी बुँदागत रूपमा उल्लेख गर्नुहोस्।**
+(क) भूमध्यरेखीय — कङ्गो बेँसी, उष्ण र ओसिलो; (ख) उष्ण तृणभूमि (सभाना) — भित्री मध्य भाग;
+(ग) उष्ण मरुस्थलीय — उत्तरमा सहारा, दक्षिण–पश्चिममा कालाहारी र नामिब; (घ) उष्ण मौसमी —
+दक्षिण–पूर्व र टापुहरू; (ङ) भूमध्यसागरीय — पश्चिमोत्तर छेउ र दक्षिण–पश्चिम छेउ; (च) समशीतोष्ण
+तृणभूमि (भेल्ड) — दक्षिण अफ्रिकी उच्च समस्थली।
+
+**५. नेपालको लेकाली घाँसे क्षेत्र र अफ्रिकाको भेल्डबिच तुलना गर्नुहोस्।**
+
+| आधार | नेपालको लेकाली खर्क | अफ्रिकाको भेल्ड |
+|---|---|---|
+| अवस्थिति | हिमाली र उच्च पहाडी भाग, करिब ३,००० मिटरमाथि | दक्षिण अफ्रिकाको उच्च समस्थली |
+| धरातल | भिरालो, साना टुक्रा | फराकिलो, समथर–घुम्ती उच्च मैदान |
+| हावापानी | उचाइका कारण चिसो, हिउँदमा हिउँ | ग्रीष्म गर्मी, हिउँद जाडो, कम वर्षा |
+| उपयोग | गर्मीमा चौँरी, याक, भेडा चराउने; जडीबुटी | व्यावसायिक गाई–भेडापालन, गहुँ, मकै खेती |
+
+समानता: दुवै घाँसे क्षेत्र हुन्, ठुला रुख कम छन् र पशुपालनका आधार हुन्।
+
+## ६.१० प्राकृतिक प्रकोप: भूकम्प
+
+::: definition भूकम्प
+पृथ्वीको भित्री भागमा निरन्तर हुने हलचलका कारण बाहिरी भागका भौगर्भिक चट्टानका पत्र
+(**टेक्टोनिक प्लेट**) एकआपसमा ठोक्किने, टाढिने वा च्यातिने क्रममा भित्र जम्मा भएको शक्ति
+एक्कासि बाहिर फैलिँदा पृथ्वीको सतहमा आउने कम्पनलाई **भूकम्प** भनिन्छ। यसको तरङ्ग टाढासम्म
+फैलिन्छ र शक्तिशाली भूकम्पले धनजनको क्षति गर्छ।
+:::
+
+**भूकम्प किन र कहाँ जान्छ?** पृथ्वीको करिब १०० कि.मि. बाहिरी कडा तह (स्थलमण्डल) **सातवटा
+ठुला र दर्जनौँ साना प्लेट** मा टुक्रिएको छ। यी प्लेट चलायमान भई धसिने र घर्षण हुने क्रममा ऊर्जा
+सञ्चय हुन्छ र भूकम्प जान्छ। ज्वालामुखी र आणविक हतियारको विस्फोटले पनि भूकम्प जान सक्छ।
+
+**नेपाल किन जोखिममा छ?** दक्षिणको **इन्डियन प्लेट** उत्तरको **युरेसियन (तिब्बत) प्लेट** मुनि
+**प्रतिवर्ष करिब २ से.मि.** का दरले घुसिरहेको छ। नेपालको करिब ३,००० मिटर उचाइका पहाडमुनि
+**१५ देखि २५ कि.मि.** गहिराइमा शक्ति सञ्चय हुन्छ; अवरुद्ध प्लेटले सञ्चित शक्ति थेग्न नसक्दा
+चट्टान अचानक भाँचिन्छन् र तरङ्ग चारैतिर फैलिन्छ। यही ठक्करले हिमालय बनेको र अझै अग्लिँदै
+गएको छ। म्यानमारदेखि अफगानिस्तानसम्म करिब **२,५०० कि.मि.** लामो हिमालयको बिचको करिब
+**८०० कि.मि.** खण्ड नेपालमा पर्ने भएकाले नेपाल भूकम्पीय जोखिम क्षेत्र हो।
+
+```figure caption="उद्गमविन्दु र केन्द्रविन्दु। जमिनमुनि भूकम्प उत्पन्न हुने ठाउँ उद्गमविन्दु हो; त्यसको ठिकमाथि सतहमा पहिलो झड्का महसुस हुने ठाउँ केन्द्रविन्दु हो। इन्डियन प्लेट युरेसियन प्लेटमुनि घुस्दा शक्ति सञ्चय हुन्छ।"
+from matplotlib.patches import Polygon, Circle
+fig, ax = plt.subplots(figsize=(5.4, 2.8))
+ax.set_xlim(0, 10); ax.set_ylim(0, 5.2); ax.axis("off")
+ax.add_patch(Polygon([(0, 3.6), (10, 3.6), (10, 0.2), (0, 0.2)], fc="#efe4cf", ec="none"))
+ax.add_patch(Polygon([(0, 3.6), (5.2, 3.6), (8.8, 0.2), (0, 0.2)], fc="#e3d3b4", ec="none"))
+ax.plot([5.2, 8.8], [3.6, 0.2], color=INK, lw=1.4)
+ax.plot([0, 10], [3.6, 3.6], color=INK, lw=1.2)
+ax.add_patch(Polygon([(5.6, 3.6), (6.6, 4.5), (7.4, 3.95), (8.2, 4.7), (9.2, 3.6)], fc="#c9b28a", ec=INK, lw=0.8))
+ax.text(7.6, 4.85, "हिमालय", ha="center", fontsize=7.4, color=INK)
+ax.text(2.3, 1.5, "इन्डियन प्लेट", ha="center", fontsize=7.8, color=INK, fontweight="bold")
+ax.text(8.5, 2.8, "युरेसियन\nप्लेट", ha="center", fontsize=7.8, color=INK, fontweight="bold")
+ax.annotate("", xy=(4.6, 1.0), xytext=(2.6, 1.0), arrowprops=dict(arrowstyle="-|>", color=ACCENT, lw=1.6))
+ax.text(3.6, 0.55, "वर्षमा करिब २ से.मि.", ha="center", fontsize=7, color=ACCENT)
+hx, hy = 6.4, 2.45
+for r in (0.35, 0.7, 1.05):
+    ax.add_patch(Circle((hx, hy), r, fc="none", ec="#b5121b", lw=0.8, ls="--"))
+ax.plot(hx, hy, marker="*", color="#b5121b", ms=11)
+ax.plot([hx, hx], [hy, 3.6], color="#b5121b", lw=0.9, ls=":")
+ax.plot(hx, 3.6, marker="v", color="#b5121b", ms=7)
+ax.annotate("केन्द्रविन्दु", xy=(hx, 3.62), xytext=(3.5, 4.6), fontsize=7.6, color="#b5121b", arrowprops=dict(arrowstyle="-", color="#b5121b", lw=0.7))
+ax.annotate("उद्गमविन्दु", xy=(hx, hy), xytext=(3.4, 2.6), fontsize=7.6, color="#b5121b", arrowprops=dict(arrowstyle="-", color="#b5121b", lw=0.7))
+```
+
+**उद्गमविन्दु र केन्द्रविन्दु:** पृथ्वीको सतहमुनि भूकम्प उत्पन्न हुने भाग **उद्गमविन्दु** हो। त्यसको
+ठिकमाथि सतहमा पहिलो झड्का महसुस हुने ठाउँ **केन्द्रविन्दु** हो। कहिलेकाहीँ ठुलो भूकम्पअघि साना
+**पूर्व धक्का** आउँछन्; ठुलो धक्का **मुख्य हलचल** हो र त्यसपछि सोही क्षेत्रमा निरन्तर आउने साना
+भूकम्प **पराकम्पन** हुन्, जुन हप्ता, महिना र वर्षौँसम्म रहन सक्छन्।
+
+### भूकम्प मापन
+
+भूकम्प **सिस्मोग्राफ वा सिस्मोमिटर** ले नापिन्छ। यसको आधार जमिनमा मिलाएर राखिन्छ र एउटा भारी
+तौल झुन्ड्याइएको हुन्छ; जमिन हल्लिँदा आधार हल्लिन्छ र स्प्रिङ जडित भागले कम्पन ग्राफमा रेकर्ड
+गर्छ। यसबाट भूकम्पको **म्याग्निच्युड**, उद्गमविन्दु र केन्द्रविन्दु पत्ता लाग्छ। भूकम्प दुई तरिकाले
+नापिन्छ: (क) उद्गमविन्दुमा निस्केको शक्ति **रेक्टर स्केल** मा, र (ख) स्थानविशेषमा भएको कम्पन र
+त्यसको असर (तीव्रता)। भौतिक असर तीव्रता, म्याग्निच्युड, केन्द्रविन्दुबाट दूरी, भौगर्भिक अवस्था र
+संरचनाको बलियोपनमा भर पर्छ।
+
+म्याग्निच्युड **१ अङ्कले बढ्दा शक्ति ३२ गुणा** र **कम्पन १० गुणा** बढ्छ। त्यसैले ५ को तुलनामा ६
+रेक्टरको भूकम्प ३२ गुणा र ७ रेक्टरको भूकम्प ३२ × ३२ = **१,०२४ गुणा** शक्तिशाली हुन्छ र १० × १०
+= **१०० गुणा** बढी कम्पन गराउँछ।
+
+```figure caption="रेक्टर स्केलमा ५ को तुलनामा शक्ति (लघुगणकीय मापन)। एक अङ्क बढ्दा शक्ति ३२ गुणा र दुई अङ्क बढ्दा १,०२४ गुणा हुन्छ।"
+fig, ax = plt.subplots(figsize=(5.0, 2.6))
+mags = ["५ रेक्टर", "६ रेक्टर", "७ रेक्टर"]; e = [1, 32, 1024]; sh = ["कम्पन १ गुणा", "कम्पन १० गुणा", "कम्पन १०० गुणा"]
+ax.set_yscale("log"); ax.set_ylim(0.6, 6000)
+ax.bar(mags, [v - 0.6 for v in e], bottom=0.6, color=[SERIES[1], SERIES[2], SERIES[3]], width=0.55)
+ax.set_yticks([1, 32, 1024]); ax.set_yticklabels(["१", "३२", "१०२४"], fontsize=7.6)
+ax.minorticks_off()
+for i, (v, s) in enumerate(zip(e, sh)):
+    ax.text(i, v * 1.5, f"शक्ति {v} गुणा\n{s}", ha="center", fontsize=7.4, color=INK)
+ax.spines[["top", "right"]].set_visible(False)
+ax.tick_params(axis="x", labelsize=8)
+```
+
+नेपालमा पहिलो भूकम्प मापन स्थल **ललितपुरको फुलचोकी डाँडा** मा स्थापना गरिएको हो। यसका
+आँकडा खानी तथा भूगर्भ विभागअन्तर्गतको **राष्ट्रिय भूकम्प मापन केन्द्र** मा रेकर्ड हुन्छन्।
+पाठ्यपुस्तकअनुसार नेपालमा हालसम्म **२१ मापन स्थल र २ मापन केन्द्र** छन्।
+
+### भूकम्प र यसको क्षतिबाट सुरक्षित हुने उपाय
+
+भूकम्प रोक्न सकिँदैन, तर जनचेतना र **भवन निर्माण संहिता** को पालनासहित यी सावधानीले क्षति
+घटाउन सकिन्छ:
+
+- १. एक–दुई दिनलाई पुग्ने चिउरा, चाउचाउ जस्ता सुक्खा खाना, टर्च, सिट्ठी, पानीको बोतल, औषधि
+  र परिचयपत्र भएको **आपत्कालीन झोला** सधैँ तयार राख्ने।
+- २. भूकम्प प्रतिरोधी संरचना बनाउने।
+- ३. चर्किएका वा भत्किन लागेका घर र संरचनाभित्र नबस्ने।
+- ४. भूकम्पका बेला टेबुल, खाट वा डेस्कमुनि **घुँडा टेक्ने, ओत लाग्ने र समात्ने**; त्यसपछि बिस्तारै
+  सुरक्षित खुला ठाउँतिर जाने।
+- ५. बिजुली र ग्यासको स्विच बन्द गर्ने।
+- ६. आपत्मा परेकालाई सहयोग र उद्धारमा संलग्न हुने; सूचनाका लागि रेडियो सुन्ने।
+- ७. भूकम्पपछि आगलागी, पहिरो, ढुङ्गा खस्ने र बाढीको जोखिमबाट सावधान रहने।
+
+```photo id="soc10/quake-basantapur" caption="वि.सं. २०७२ को भूकम्पपछि काठमाडौँको बसन्तपुर दरबार क्षेत्र। कमजोर र पुराना संरचना भत्किँदा धेरै क्षति भयो।" width="62"
+```
+
+::: example वि.सं. १९९० र २०७२ का भूकम्प (क्रियाकलाप १ का लागि)
+**१९९० माघ २ को भूकम्प:** करिब ८ रेक्टरको यो भूकम्पले नेपालमा करिब ८,५०० जनाको ज्यान लियो;
+काठमाडौँ उपत्यकामा धरहरा, घण्टाघरलगायत हजारौँ घर र मन्दिर भत्किए। **२०७२ बैशाख १२ को
+भूकम्प:** केन्द्रविन्दु गोरखाको बारपाक, म्याग्निच्युड ७.६ (राष्ट्रिय भूकम्प मापन केन्द्र); त्यसपछिका
+पराकम्पनसमेत गरी करिब नौ हजार जनाको मृत्यु, बाइस हजारभन्दा बढी घाइते र लगभग पाँच लाख घर
+पूर्ण क्षतिग्रस्त भए; धरहरा फेरि ढल्यो र धेरै सम्पदा क्षतिग्रस्त भए।
+:::
+
+::: note क्रियाकलाप — पाठ ६.१०
+**१.** वि.सं. १९९० र २०७२ का भूकम्पको क्षतिको सूचना सङ्कलन गरी प्रस्तुत गर्नुहोस् (माथिको
+उदाहरण हेर्नुहोस्)।
+**२.** कक्षामा पढाइ भइरहेका बेला भूकम्प गएको, शिक्षकको निर्देशनमा सुरक्षित ठाउँ गएको, घाइतेको
+उद्धार र साना बालबालिकालाई मनोसामाजिक परामर्श गरेको कृत्रिम घटना अभ्यास गर्नुहोस्।
+**३.** भूकम्पअघि, भूकम्पका बेला र पछि अपनाउनुपर्ने उपायको चित्रसहित फ्लिप चार्ट बनाएर विद्यालयमा
+प्रदर्शनी गर्नुहोस्।
+:::
+
+### पाठको अभ्यास: नमुना उत्तर
+
+**१. भूकम्प भनेको के हो?**
+पृथ्वीभित्रको हलचलले भौगर्भिक प्लेट ठोक्किने, टाढिने वा च्यातिने क्रममा जम्मा भएको शक्ति
+एक्कासि बाहिर फैलिँदा पृथ्वीको सतहमा आउने कम्पनलाई भूकम्प भनिन्छ। यसको मापन रेक्टर
+स्केलमा गरिन्छ।
+
+**२. "भूकम्पलाई रोक्न सकिँदैन तर क्षतिको न्यूनीकरण गर्न सकिन्छ।" उदाहरणसहित पुष्टि गर्नुहोस्।**
+भूकम्प प्लेटको प्राकृतिक हलचलबाट आउने भएकाले रोक्न वा ठ्याक्कै कहिले आउँछ भन्न सकिँदैन। तर क्षति घटाउन सकिन्छ: (क) भवन निर्माण संहिताअनुसार बनेका धेरै भवन २०७२ मा जोगिए, पुराना कमजोर घर ढले; (ख) आपत्कालीन झोला र "घुँडा टेक्ने, ओत लाग्ने, समात्ने" अभ्यास; (ग) खुला ठाउँ पहिचान र विद्यालयमा कृत्रिम अभ्यास; (घ) उद्धार र प्राथमिक उपचार तालिम। जापानले बारम्बार ठुला भूकम्प सहेर पनि थोरै क्षति बेहोर्नुको कारण यही तयारी हो।
+
+**३. नेपाल भूकम्पीय जोखिमको क्षेत्र हुनुका कारण प्रस्तुत गर्नुहोस्।**
+(क) इन्डियन प्लेट युरेसियन प्लेटमुनि वर्षेनि करिब २ से.मि. घुसिरहेको छ; (ख) पहाडमुनि १५–२५
+कि.मि. गहिराइमा शक्ति सञ्चय भइरहेको छ; (ग) करिब २,५०० कि.मि. लामो हिमालयको बिचको ८०० कि.मि.
+खण्ड नेपालमा छ, जुन अझै बनिरहेको र अग्लिँदै गएको पर्वत हो; (घ) भिरालो भूगोल र कमलो चट्टान;
+(ङ) सहरमा अव्यवस्थित र संहिता नमानी बनेका घरले जोखिम झन् बढाएका छन्।
+
+**४. भूकम्पको उद्गमविन्दु र केन्द्रविन्दुबिच फरक छुट्याउनुहोस्।**
+
+| उद्गमविन्दु | केन्द्रविन्दु |
+|---|---|
+| पृथ्वीको सतहमुनि भूकम्प उत्पन्न हुने भाग | उद्गमविन्दुको ठिकमाथि पृथ्वीको सतहमा रहेको ठाउँ |
+| जमिनमुनि केही कि.मि. गहिराइमा हुन्छ | सतहमै हुन्छ; पहिलो झड्का यहीँ महसुस हुन्छ |
+| यहाँबाट तरङ्ग चारैतिर फैलिन्छ | सामान्यतया यहीँ सबैभन्दा बढी क्षति हुन्छ |
+
+**५. भूकम्प कसरी मापन गरिन्छ, तरिका उल्लेख गर्नुहोस्।**
+भूकम्प सिस्मोग्राफ वा सिस्मोमिटरले नापिन्छ — जमिनमा राखिएको आधार हल्लिँदा झुन्ड्याइएको भारी तौल
+र स्प्रिङको सहायताले कम्पन ग्राफमा रेकर्ड हुन्छ। दुई तरिकाले मापन गरिन्छ: (क) उद्गमविन्दुमा निस्केको
+शक्ति रेक्टर स्केलमा (म्याग्निच्युड) — एक अङ्क बढ्दा शक्ति ३२ गुणा र कम्पन १० गुणा बढ्छ; (ख)
+स्थानविशेषमा अनुभव भएको कम्पन र क्षतिका आधारमा तीव्रता। नेपालमा फुलचोकीलगायतका मापन
+स्थलका आँकडा राष्ट्रिय भूकम्प मापन केन्द्रमा रेकर्ड हुन्छन्।
+
+## ६.११ नक्सा कार्य
+
+::: definition नक्सा र नक्साङ्कन कला
+पृथ्वीको कुनै अंश वा पूरै भागलाई कागज वा अन्य वस्तुमा निश्चित नापसहित उतारिएको आकृतिलाई
+**नक्सा** भनिन्छ। नक्सा बनाउने सिपलाई **कार्टोग्राफी** (नक्साङ्कन कला) भनिन्छ।
+:::
+
+**दिशा, सङ्केत र स्केल (नापो)** नक्साका तीन आधारभूत तत्त्व हुन्। खुला हातले कोरेको नक्सामा दिशा र
+सङ्केत मात्र देखाउन सकिन्छ, नापो प्रयोग हुँदैन। नक्सामा शीर्षक, उत्तर दिशा, सङ्केत चिह्न र नापो
+राख्नुपर्छ; सङ्केत अन्तर्राष्ट्रिय प्रचलनमा आएका हुनुपर्छ। नक्सामा सिमाना, भौगोलिक स्वरूप, उचाइ,
+वनस्पति, बस्ती, खनिज, माटो, जनसङ्ख्या वितरण, धार्मिक स्थल र सम्पदा, बाली र विकासका पूर्वाधार
+देखाउन सकिन्छ। सूचना, तथ्याङ्क र स्केलका आधारमा नक्साको वर्गीकरण गरिन्छ।
+
+### नक्सा उतार्ने विधि
+
+| विधि | तरिका |
+|---|---|
+| (क) स्वतन्त्र नक्साङ्कन | वास्तविक नक्सा हेरेर कापीमा आफैँ उतार्ने; वास्तविक स्केल हुँदैन |
+| (ख) टेम्प्लेट | नक्सा बाक्लो कागज वा काठमा उतारी काटेर बनाउने; दृष्टिविहीन बालबालिकाको पढाइमा प्रयोग |
+| (ग) ग्राफिक (जालीदार) | वास्तविक नक्सामाथि कोठा (ग्राफ) बनाई आकार र फैलावटका आधारमा उतार्ने |
+| (घ) कार्बन | नक्साको तल कार्बन कागज र सादा कागज राखी माथिबाट पेन्सिलले कोर्ने |
+| (ङ) ट्रेसिङ | वास्तविक नक्सामाथि पारदर्शी ट्रेसिङ कागज राखी रेखा उतार्ने |
+| (च) भूमण्डलीय अवस्थिति मापन प्रणाली | भूउपग्रहसँग जोडिएको उपकरणबाट सर्वेक्षण गरी नक्सा बनाउने |
+| (छ) भौगोलिक सूचना प्रणाली | भूउपग्रहबाट खिचिएका तस्बिरका आधारमा कम्प्युटर सफ्टवेयरमा नक्सा बनाउने |
+
+यसबाहेक जिग्स (टुक्रा जोड्ने) विधि पनि छ। प्रविधिले नक्साङ्कनमा फड्को मारे पनि शिक्षणमा
+**स्वतन्त्र नक्साङ्कन** बढी प्रचलित छ। नेपालको नक्सा कोर्ने चरण:
+
+- **चरण १.** नेपाल आयताकार छ।
+- **चरण २.** नेपाल पश्चिमबाट पूर्वतर्फ ढल्केको छ।
+- **चरण ३.** पश्चिममा अलि फराकिलो र पूर्वतिर साँघुरिँदै गएको छ।
+- **चरण ४.** मध्य–उत्तर भागमा बाङ्गिएको, करिब अर्धचन्द्राकार छ।
+- **चरण ५.** उत्तरी सिमानामा बाहिर निस्केका चुच्चे भाग पश्चिमबाट क्रमशः लिपुलेक–लिम्पियाधुरा,
+  मुस्ताङ, लाङटाङ, गौरीशङ्कर, सगरमाथा र कञ्चनजङ्घा छन्; पूर्वमा पाँचथर र दक्षिणमा विराटनगर,
+  जनकपुर, चितवन, भैरहवा र धनगढीमा भित्रतिर घुसेका भाग छन्।
+
+बारम्बार अभ्यासले नेपाल र अन्य महादेशको रेखाङ्कित नक्सा कोर्न सकिन्छ; ग्राफमा कोठा बनाएर पनि
+उतार्न सकिन्छ।
+
+```figure caption="स्वतन्त्र नक्साङ्कनका पहिला चरण। पहिले आयत (चरण १) कोर्ने, पश्चिमबाट पूर्वतर्फ ढल्केको अक्ष (चरण २) राख्ने, पश्चिम फराकिलो र पूर्व साँघुरो (चरण ३) तथा बिचमा बाङ्गिएको अर्धचन्द्राकार आकार (चरण ४) मिलाउने।"
+fig, ax = plt.subplots(figsize=(5.4, 3.0))
+ax.set_xlim(-0.6, 21.0); ax.set_ylim(-1.6, 13.4); ax.set_aspect("equal"); ax.axis("off")
+X = [3.8,4.2,4.7,4.7,5,5,5.3,5.2,5.4,6,6.1,6.4,6.5,6.5,6.8,7,7.4,7.6,7.9,7.9,8.1,8.1,8.3,8.3,8.7,8.8,9,9.2,9.2,9.6,9.7,9.9,10,10.2,10.1,10.2,10.1,10.3,10.2,10.7,10.8,11.2,11.4,11.7,12.1,12.3,12.4,12.6,12.6,12.4,12.4,12.6,12.8,13,13.2,13.4,13.7,13.9,14,14.2,14.3,14.5,14.5,14.6,14.8,14.8,15,15.2,15.4,15.6,15.8,16,16.1,16.3,16.4,16.5,16.7,16.9,17.1,17.4,17.7,17.9,18.1,18.2,18.4,18.5,18.8,19.1,19.2,19.6,20,20,19.6,19.7,19.6,19.7,19.5,19.6,19.8,20,19.9,19.8,19.7,19.5,19.2,19,18.9,18.7,18.5,18.2,18,17.9,17.7,17.4,17.3,17.2,16.4,15.4,15.1,14.6,14.2,14.2,13.9,13.9,13.8,13.5,12.9,12.6,12.6,12.2,12,11.3,11.3,11.3,11,10.4,10.3,10,9.8,9.4,9.3,8.7,8.2,8.2,8,7.7,7.3,7,6.6,6.5,5.9,4.9,4.7,4.5,4,3.5,3.4,3.1,3.1,2.8,2.1,2,1.8,1.3,1.1,1.1,1,0.8,0.5,-0,0.2,0.3,0.5,0.4,0.6,0.6,0.4,0.8,0.7,1.2,1.3,1.7,2.1,2.1,2.4,2.6,2.9,3,2.9,3.3,3.3,3.6,3.7,3.8]
+Y = [11.5,11.3,11.2,11.1,11.2,10.9,10.7,10.4,10.4,10.1,10.1,9.8,9.8,9.6,9.4,9.4,9.1,9.2,9,8.8,8.8,8.7,8.6,8.2,7.9,7.9,8.1,8.1,8.3,8.4,8.3,8.3,8.1,8.1,7.9,7.8,7.6,7.5,7.2,7,6.7,6.7,6.4,6.2,6.3,6.5,6.5,6.4,6.1,5.9,5.6,5.6,5.5,5.4,5.5,5.6,5.4,5.7,5.3,5.1,4.8,4.6,4.4,4.4,4.4,4.9,5.1,4.6,4.5,4.4,4.5,5,4.8,4.9,4.9,4.7,4.7,4.5,4.5,4.1,4.2,4.2,4.2,4.2,4.2,4.1,4.1,4.5,4.4,4.4,4.2,4,3.2,3,3,2.7,2.2,1.9,1.8,1.2,0.8,0.6,0.2,0,0.3,0.3,0.2,0.2,0.1,0.2,0.2,-0,0.1,0.1,0.2,0.6,0.2,0.7,0.7,0.9,0.6,0.7,0.9,1.2,1.4,1.4,1.1,1.1,1.4,1.4,1.7,1.9,2.5,2.6,2.8,2.9,3.1,3.2,3,3,2.8,3.1,3.1,2.9,2.8,3.1,3.1,3.2,3.2,3.8,3.7,4.4,4.4,4.2,4.6,4.8,5.1,5,5.2,5.6,5.9,6,6.1,6.5,6.5,6.2,6.4,6.4,6.7,7,7.7,7.8,7.8,8,8.1,8.3,8.7,9.1,9.5,9.8,10.1,10.2,10.9,10.7,10.8,10.3,10.3,10.4,10.6,10.8,11.4,11.3,11.4,11.5]
+ax.plot([0, 20, 20, 0, 0], [0, 0, 12, 12, 0], color=MUTED, lw=0.9, ls="--", zorder=1)
+ax.fill(X, [y + 0.25 for y in Y], fc="#fdf0b5", ec="#b5121b", lw=1.4, zorder=2)
+ax.annotate("", xy=(19.0, 1.6), xytext=(1.2, 9.6), arrowprops=dict(arrowstyle="-|>", color=ACCENT, lw=1.2), zorder=3)
+ax.text(10.5, 7.6, "पश्चिमबाट पूर्वतर्फ ढल्केको", ha="center", fontsize=7.4, color=ACCENT, rotation=-22, zorder=4)
+ax.text(1.0, 12.5, "चरण १: आयत", fontsize=7.4, color=MUTED)
+ax.text(2.0, -1.2, "पश्चिम: फराकिलो", fontsize=7.4, color=INK)
+ax.text(14.5, -1.2, "पूर्व: साँघुरो", fontsize=7.4, color=INK)
+ax.annotate("", xy=(17.4, 11.6), xytext=(17.4, 9.4), arrowprops=dict(arrowstyle="-|>", color=INK, lw=1.3))
+ax.text(17.9, 10.4, "उ", fontsize=8.6, color=INK, fontweight="bold", va="center")
+```
+### नक्सामा प्रयोग हुने सङ्केत
+
+सङ्केतले नक्सामा विशेष अर्थ दिन्छन् र तिनैका माध्यमबाट नक्सा पढिन्छ। पाठ्यपुस्तकमा दिइएका सङ्केत:
+
+```figure caption="नक्सामा प्रयोग हुने केही सङ्केत (पाठ्यपुस्तकको सूचीअनुसार)। सिमानाका प्रकार रेखाको बान्कीले छुट्याइन्छ।"
+import numpy as np
+from matplotlib.patches import Polygon, Rectangle, Circle
+fig, ax = plt.subplots(figsize=(5.8, 3.4))
+ax.set_xlim(0, 15); ax.set_ylim(0, 5.4); ax.axis("off")
+BL, BR, RD = "#2b7bba", "#8a5a2b", "#b5121b"
+names = ["चुचुरा", "विमानस्थल", "राजधानी", "सहर", "सडक", "रेलमार्ग", "बाटो", "अन्तर्राष्ट्रिय सिमाना",
+         "प्रादेशिक सिमाना", "जिल्ला सिमाना", "उद्योग", "भञ्ज्याङ", "नदी", "अस्पताल", "हिमाल"]
+for i, nm in enumerate(names):
+    col, row = i % 3, i // 3
+    x0, y0 = col * 5.0, 4.35 - row * 1.05
+    ax.add_patch(Rectangle((x0 + 0.08, y0), 4.84, 0.9, fc="none", ec=GRID, lw=0.7))
+    ax.text(x0 + 2.25, y0 + 0.45, nm, fontsize=7.4, va="center", color=INK)
+    cx, cy = x0 + 1.15, y0 + 0.45
+    if i == 0:
+        ax.add_patch(Polygon([(cx - 0.25, cy - 0.22), (cx + 0.25, cy - 0.22), (cx, cy + 0.25)], fc=INK))
+    elif i == 1:
+        ax.plot([cx - 0.4, cx + 0.4], [cy, cy], color=INK, lw=2.2); ax.plot([cx + 0.05, cx + 0.05], [cy - 0.3, cy + 0.3], color=INK, lw=2.2)
+        ax.plot([cx - 0.3, cx - 0.3], [cy - 0.12, cy + 0.12], color=INK, lw=1.8)
+    elif i == 2:
+        ax.add_patch(Circle((cx, cy), 0.25, fc="none", ec=RD, lw=1.4)); ax.plot(cx, cy, marker="*", color=RD, ms=8)
+    elif i == 3:
+        ax.add_patch(Circle((cx, cy), 0.15, fc=INK))
+    elif i == 4:
+        ax.plot([cx - 0.6, cx + 0.6], [cy + 0.07] * 2, color=INK, lw=1.4); ax.plot([cx - 0.6, cx + 0.6], [cy - 0.07] * 2, color=INK, lw=1.4)
+    elif i == 5:
+        ax.plot([cx - 0.6, cx + 0.6], [cy, cy], color=INK, lw=1.6)
+        for t in np.linspace(-0.5, 0.5, 6):
+            ax.plot([cx + t, cx + t], [cy - 0.12, cy + 0.12], color=INK, lw=1.2)
+    elif i == 6:
+        for a in np.arange(-0.6, 0.6, 0.3): ax.plot([cx + a, cx + a + 0.18], [cy, cy], color=BR, lw=1.6)
+    elif i == 7:
+        for a in np.arange(-0.6, 0.6, 0.4):
+            ax.plot([cx + a, cx + a + 0.22], [cy, cy], color=INK, lw=2.2); ax.plot(cx + a + 0.31, cy, marker="o", ms=2.2, color=INK)
+    elif i == 8:
+        for a in np.arange(-0.6, 0.6, 0.45):
+            ax.plot([cx + a, cx + a + 0.2], [cy, cy], color=INK, lw=1.5); ax.plot([cx + a + 0.28, cx + a + 0.38], [cy, cy], ls="none", marker="o", ms=1.8, color=INK)
+    elif i == 9:
+        ax.plot(np.arange(-0.6, 0.61, 0.12) + cx, [cy] * 11, ls="none", marker="o", ms=1.8, color=INK)
+    elif i == 10:
+        ax.add_patch(Rectangle((cx - 0.3, cy - 0.2), 0.6, 0.3, fc=INK)); ax.add_patch(Rectangle((cx + 0.12, cy + 0.1), 0.1, 0.18, fc=INK))
+    elif i == 11:
+        ax.plot([cx - 0.3, cx - 0.1, cx - 0.1, cx - 0.3], [cy + 0.25, cy + 0.12, cy - 0.12, cy - 0.25], color=BR, lw=1.8)
+        ax.plot([cx + 0.3, cx + 0.1, cx + 0.1, cx + 0.3], [cy + 0.25, cy + 0.12, cy - 0.12, cy - 0.25], color=BR, lw=1.8)
+    elif i == 12:
+        t = np.linspace(-0.6, 0.6, 60); ax.plot(cx + t, cy + 0.12 * np.sin(t * 8), color=BL, lw=1.8)
+    elif i == 13:
+        ax.add_patch(Rectangle((cx - 0.25, cy - 0.25), 0.5, 0.5, fc="none", ec=RD, lw=1.2))
+        ax.plot([cx - 0.16, cx + 0.16], [cy, cy], color=RD, lw=2.2); ax.plot([cx, cx], [cy - 0.16, cy + 0.16], color=RD, lw=2.2)
+    else:
+        ax.add_patch(Polygon([(cx - 0.55, cy - 0.25), (cx - 0.2, cy + 0.25), (cx + 0.1, cy - 0.05), (cx + 0.3, cy + 0.2), (cx + 0.6, cy - 0.25)], fc="#e8eef5", ec=BL, lw=1.2))
+```
+
+::: note क्रियाकलाप — पाठ ६.११
+**१.** नेपालको नक्सा बनाई प्रमुख हिमाल, नदी, ताल, झरना, सहर, राजमार्ग, धार्मिक स्थल, राष्ट्रिय
+निकुञ्ज, वन्यजन्तु आरक्ष, भञ्ज्याङ, उत्पादन क्षेत्र, सात प्रदेश र तिनका राजधानी देखाउनुहोस्।
+(नक्सामा लिम्पियाधुरा, कालापानी र लिपुलेक अनिवार्य समेट्नुहोस्।)
+**२.** उत्तर अमेरिका, दक्षिण अमेरिका र अफ्रिकाको रेखाङ्कित नक्सामा मरुभूमि, नदी र घाँसे मैदान
+देखाई तुलना गर्नुहोस्।
+**३.** पर्वत शृङ्खला, विमानस्थल, महासागर, ग्रामीण बस्ती, विद्यालय, अस्पताल र रज्जुमार्गका सङ्केत
+चार्टपेपरमा कोरी कक्षामा टाँस्नुहोस्।
+:::
+
+### पाठको अभ्यास: नमुना उत्तर
+
+**१. नक्सा भनेको के हो? नक्साका आधारभूत तत्त्व के के हुन्?**
+पृथ्वीको कुनै अंश वा पूरै भागलाई कागज वा अन्य वस्तुमा निश्चित नापसहित उतारिएको आकृति नक्सा हो।
+यसका तीन आधारभूत तत्त्व: (क) **दिशा** — प्रायः माथितिर उत्तर देखाइन्छ; (ख) **सङ्केत** — अन्तर्राष्ट्रिय
+चिह्नबाट तथ्य देखाउने; (ग) **स्केल वा नापो** — नक्साको दूरी र जमिनको वास्तविक दूरीको अनुपात। साथै
+शीर्षक पनि राख्नुपर्छ।
+
+**२. कार्टोग्राफी भनेको के हो?**
+नक्सा बनाउने सिप, कला र विज्ञानलाई कार्टोग्राफी वा नक्साङ्कन कला भनिन्छ। यसमा तथ्य सङ्कलन, स्केल
+निर्धारण, सङ्केत छनोट र नक्सा कोर्ने तथा छाप्ने काम पर्छन्।
+
+**३. नक्साको उपयोगिताबारे चर्चा गर्नुहोस्।**
+(क) ठाउँको अवस्थिति, दिशा र दूरी थाहा पाउन; (ख) भ्रमण र यात्राको मार्ग योजना बनाउन; (ग) सिमाना,
+भू–स्वरूप, वनस्पति, खनिज र जनसङ्ख्याको वितरण बुझ्न; (घ) सडक, सिँचाइ, बस्ती जस्ता विकास
+योजना बनाउन; (ङ) विपत्का जोखिम क्षेत्र पहिचान र उद्धार गर्न; (च) सुरक्षा र प्रशासनमा; (छ)
+शिक्षण र अनुसन्धानमा। धेरै सूचना थोरै ठाउँमा देखाउने भएकाले नक्सा सबैका लागि उपयोगी छ।
+
+**४. नक्सा कोर्ने विधि उल्लेख गर्दै तरिकासमेत प्रस्तुत गर्नुहोस्।**
+विधि: स्वतन्त्र नक्साङ्कन, टेम्प्लेट, ग्राफिक, कार्बन, ट्रेसिङ, भूमण्डलीय अवस्थिति मापन प्रणाली र भौगोलिक सूचना प्रणाली (माथिको तालिकाअनुसार तरिका)। स्वतन्त्र नक्साङ्कनबाट नेपालको नक्सा कोर्दा माथिका पाँच चरण (आयत, ढल्काइ, पश्चिम फराकिलो–पूर्व साँघुरो, अर्धचन्द्राकार, चुच्चे र भित्र घुसेका भाग) क्रमशः मिलाउने र अन्त्यमा शीर्षक, उत्तर दिशा र सङ्केत राख्ने।
+
+**५. नक्सा र चित्रबिचका भिन्नता लेख्नुहोस्।**
+
+| नक्सा | चित्र |
+|---|---|
+| निश्चित स्केल वा नापोमा बनाइन्छ | स्केल आवश्यक हुँदैन |
+| माथिबाट हेर्दा देखिने आकार (समतल) देखाउँछ | छेउबाट वा कुनै कोणबाट देखिने दृश्य देखाउँछ |
+| दिशा, सङ्केत र शीर्षक अनिवार्य | सङ्केत र दिशा आवश्यक छैन |
+| ठुलो क्षेत्र र धेरै तथ्य देखाउन सकिन्छ | सानो दृश्य वा वस्तु मात्र देखाउँछ |
+| दूरी र क्षेत्रफल नाप्न सकिन्छ | नाप्न सकिँदैन |
+
+## ६.१२ नक्सासम्बन्धी आधुनिक प्रविधि
+
+विज्ञान र प्रविधिको तीव्र विकाससँगै नक्सा निर्माण र अध्ययन सहज, सरल र स्पष्ट बनाउने यी प्रविधि
+प्रयोगमा आएका छन्:
+
+**(क) भौगोलिक सूचना प्रणाली (जिआइएस):** पृथ्वीसम्बन्धी जानकारी वा तथ्याङ्कलाई एकीकरण, भण्डारण,
+सम्पादन, विश्लेषण र विभाजन गर्ने कम्प्युटर र सफ्टवेयरमा आधारित सूचना प्रणाली। गाउँ, सहर, जिल्ला,
+प्रदेश, देशको यथार्थ अवस्थिति देखाउन उपयोगी; नक्सामा तथ्याङ्क र विवरण जोडेर (लिङ्क गरेर) राख्न
+सकिन्छ।
+
+**(ख) भूमण्डलीय अवस्थिति मापन प्रणाली (जिपिएस):** भूउपग्रहको सहायताले उपकरण वा सफ्टवेयरमार्फत
+पृथ्वीको कुनै स्थानको **अक्षांश, देशान्तर र उचाइ** लगायत सूचना दिने प्रणाली। यसले नक्सा कोर्न
+आधारभूत तथ्य दिन्छ; मोबाइलको नक्सा, सवारी र विमान सञ्चालनमा प्रयोग हुन्छ।
+
+**(ग) गुगल अर्थ:** भूउपग्रहबाट खिचिएका तस्बिरका आधारमा महासागर, महादेश, देश र आफू बसेको स्थानको
+अवस्थिति खोज्न सकिने कम्प्युटर कार्यक्रम।
+
+```figure caption="नक्सासम्बन्धी तीन आधुनिक प्रविधि र तिनको मुख्य काम।"
+fig, ax = cards([("जिआइएस", "भौगोलिक सूचना प्रणाली:\nतथ्याङ्क विश्लेषण र नक्सा"),
+                 ("जिपिएस", "अवस्थिति मापन प्रणाली:\nअक्षांश, देशान्तर, उचाइ"),
+                 ("गुगल अर्थ", "उपग्रह तस्बिरबाट\nठाउँ खोज्ने कार्यक्रम")],
+                cols=3, figsize=(5.8, 1.7))
+```
+
+**भ्रमणमा प्रविधिको प्रयोग:** नुवाकोटको विदुरको एउटा विद्यालयले रसुवाको स्याफ्रुबेँसी भ्रमण तय
+गर्‍यो। अघिल्लो दिन विद्यार्थीले यी प्रविधिबाट (क) रसुवाको दिशा, अवस्थिति, राजमार्ग, दूरी, रुट र
+लाग्ने समय; (ख) उचाइ, तापक्रम र भौतिक वातावरण पत्ता लगाई सामानको तयारी; (ग) होटल, पार्किङ र
+पर्यटकीय स्थल; (घ) अस्पताल र एम्बुलेन्स जस्ता आपत्कालीन सेवा; र (ङ) स्याफ्रुबेँसीका गतिविधि हेरेर
+मनोरञ्जन कार्यक्रम तय गरे।
+
+::: note क्रियाकलाप — पाठ ६.१२
+**१.** विद्यालयको सूचना प्रविधि प्रयोगशालामा वा मोबाइलमा गुगल अर्थ खोली आफ्नो जिल्ला, स्थानीय तह,
+गाउँ र विद्यालय खोज्नुहोस् र आफ्नो गाउँको नक्सा कोरेर प्रस्तुत गर्नुहोस्।
+**२.** आधुनिक प्रविधिबाट नक्सा अध्ययन र नक्सा कार्य कसरी गर्ने, कक्षामा प्रत्यक्ष अभ्यास गरी देखाउनुहोस्।
+:::
+
+### पाठको अभ्यास: नमुना उत्तर
+
+**१. जिपिएसले कस्ता सूचना प्राप्त गर्न सहयोग गर्छ?**
+यसले भूउपग्रहको सहायताले कुनै स्थानको अक्षांश, देशान्तर, उचाइ, दुई ठाउँबिचको दूरी, दिशा, यात्राको
+मार्ग र गति तथा आफू अहिले कहाँ छु भन्ने सूचना दिन्छ। यी तथ्य नक्सा बनाउन, सर्वेक्षण, यातायात,
+उद्धार र भ्रमणमा प्रयोग हुन्छन्।
+
+**२. जिआइएस र जिपिएसबिच के के भिन्नता छन्?**
+
+| भौगोलिक सूचना प्रणाली | भूमण्डलीय अवस्थिति मापन प्रणाली |
+|---|---|
+| तथ्याङ्क भण्डारण, सम्पादन र विश्लेषण गरी नक्सा बनाउने सफ्टवेयर प्रणाली | भूउपग्रहबाट स्थानको अवस्थिति नाप्ने प्रणाली |
+| जनसङ्ख्या, भूउपयोग जस्ता धेरै तहका विवरण नक्सामा जोड्छ | अक्षांश, देशान्तर र उचाइ मात्र दिन्छ |
+| कम्प्युटरमा काम गर्छ | मोबाइल वा हाते उपकरणबाट फिल्डमा काम गर्छ |
+| जिपिएसबाट आएको तथ्याङ्क प्रयोग गर्छ | जिआइएसका लागि कच्चा तथ्याङ्क दिन्छ |
+
+**३. सूचना प्रवाहमा परम्परागत नक्साभन्दा गुगल अर्थ लगायतका आधुनिक प्रविधि बढी प्रभावकारी हुन्छन्,
+कसरी?**
+(क) भूउपग्रहका तस्बिरले वास्तविक र अद्यावधिक दृश्य दिन्छन्; (ख) जुम गरेर संसारदेखि आफ्नै घरसम्म हेर्न सकिन्छ; (ग) दूरी, दिशा, मार्ग र समय तुरुन्तै थाहा हुन्छ; (घ) होटल, अस्पताल जस्ता सेवाको सूचना जोडिएको हुन्छ; (ङ) मोबाइलमा जहाँ पनि प्रयोग गर्न सकिन्छ। कागजी नक्सा पुरानो हुन्छ, च्यातिन्छ र एउटै स्केलमा सीमित हुन्छ।
+
+## अध्यायको सारांश
+
+- ३० वर्षभन्दा बढी अवधिको मौसमको औसत अवस्था हावापानी हो; अक्षांश, उचाइ (१६०–१६५ मि. मा १° से.), जमिनको मोहडा, सामुद्रिक दूरी, पहाड, सामुद्रिक धार, वायुको स्वभाव र दिशा तथा वनस्पति र माटोले यसलाई प्रभाव पार्छन्।
+- पाठ्यपुस्तकअनुसार उष्ण मण्डल ०°–३०° (४ उपप्रदेश), समशीतोष्ण ३०°–६०° (६) र शीत ६०°–९०° (२) छन्।
+- भूमध्यरेखीय: औसत २७° से., तापान्तर २°, दैनिक संवाहनिक वर्षा, सेल्भास; सभाना: लानोस, क्याम्पोस, संसारको चिडियाखाना; उष्ण मरुस्थल: १२ से.मि. वर्षा, मरुद्यान; उष्ण मौसमी: धान, उच्च जनघनत्व।
+- भूमध्यसागरीय हावापानीमा हिउँदमा वर्षा र "विश्वको बगैँचा"; चिनियाँ हावापानीमा रेसम; तृणभूमिका नाम स्टेप्स, प्रेरिज, पम्पास, भेल्ड, डाउन्स।
+- टाइगा (६०°–७०°): कोणधारी वन, लुगदी र काठ व्यवसाय; टुन्ड्रा (७०°–९०°): −४५° से. सम्म, एस्किमो–इन्युट, इग्लु र ट्युपिक।
+- उत्तर अमेरिका: क्षेत्रफलमा तेस्रो, म्याकिन्ले ६,१९४ मि., मिसिसिपी–मिसौरी ६,२७५ कि.मि., सुपेरियर ताल; विकसित अर्थतन्त्र।
+- दक्षिण अमेरिका: चौथो ठुलो, एन्डिज ७,००० कि.मि., अकोन्कागुवा ६,९६० मि., अमेजन, एन्जेल झरना ९७९ मि.; युरोपेली उपनिवेशको प्रभाव।
+- अफ्रिका: दोस्रो ठुलो, सबैभन्दा धेरै देश, किलिमन्जारो ५,८९५ मि., नाइल ६,६७० कि.मि., सहारा; विषम हावापानी तर विकास र पर्यटनको सम्भावना।
+- इन्डियन प्लेट युरेसियन प्लेटमुनि वर्षेनि करिब २ से.मि. घुस्दा नेपालमा भूकम्प जान्छ; रेक्टर स्केलमा एक अङ्क बढ्दा शक्ति ३२ र कम्पन १० गुणा बढ्छ; पहिलो मापन स्थल फुलचोकी।
+- नक्साका तीन आधारभूत तत्त्व दिशा, सङ्केत र स्केल; उतार्ने सात विधि; आधुनिक प्रविधि भौगोलिक सूचना प्रणाली, भूमण्डलीय अवस्थिति मापन प्रणाली र गुगल अर्थ।
+
+## अभ्यास
+
+**समूह क — वस्तुगत प्रश्न (१ अङ्क)**
+
+१. समुद्र सतहबाट कति मिटर उचाइ बढ्दा तापक्रम करिब १° से. घट्छ? <span class="marks">[1]</span>
+   (क) ६०–६५ (ख) १६०–१६५ (ग) ५००–५५० (घ) १,०००
+२. पाठ्यपुस्तकअनुसार समशीतोष्ण मण्डलमा कतिवटा उपप्रदेश पर्छन्? <span class="marks">[1]</span>
+   (क) २ (ख) ४ (ग) ६ (घ) ८
+३. भूमध्यसागरीय हावापानीमा वर्षा कहिले हुन्छ? <span class="marks">[1]</span>
+   (क) ग्रीष्ममा (ख) हिउँदमा (ग) बाह्रै महिना (घ) वर्षा हुँदैन
+४. अर्जेन्टिनाको समशीतोष्ण घाँसे मैदानलाई के भनिन्छ? <span class="marks">[1]</span>
+   (क) प्रेरिज (ख) भेल्ड (ग) पम्पास (घ) डाउन्स
+५. टुन्ड्रा प्रदेशमा हिउँको घरलाई के भनिन्छ? <span class="marks">[1]</span>
+   (क) ट्युपिक (ख) इग्लु (ग) टाइगा (घ) मरुद्यान
+६. दक्षिण अमेरिकाको सर्वोच्च शिखर कुन हो? <span class="marks">[1]</span>
+   (क) किलिमन्जारो (ख) म्याकिन्ले (ग) अकोन्कागुवा (घ) एन्जेल
+७. रेक्टर स्केलमा ५ को तुलनामा ७ को भूकम्प कति गुणा शक्तिशाली हुन्छ? <span class="marks">[1]</span>
+   (क) २ (ख) ६४ (ग) १०० (घ) १,०२४
+८. नक्साका आधारभूत तत्त्वमा कुन पर्दैन? <span class="marks">[1]</span>
+   (क) दिशा (ख) सङ्केत (ग) स्केल (घ) रङ
+
+::: note समूह क का उत्तर
+**१.** (ख) — पाठ्यपुस्तकअनुसार हरेक १६०–१६५ मिटरमा १° से. तापक्रम घट्छ।
+**२.** (ग) — भूमध्यसागरीय, मरुस्थलीय, मौसमी, सामुद्रिक, तृणभूमि र सेन्ट लरेन्स–मन्चुरिया गरी छ।
+**३.** (ख) — हिउँदमा समुद्रबाट आउने पश्चिमी वायुले वर्षा गराउँछ; ग्रीष्म सुक्खा हुन्छ।
+**४.** (ग) — प्रेरिज उत्तर अमेरिका, भेल्ड दक्षिण अफ्रिका र डाउन्स अस्ट्रेलियामा छन्।
+**५.** (ख) — छालाको अस्थायी घर ट्युपिक हो; टाइगा वन हो।
+**६.** (ग) — अकोन्कागुवा (६,९६० मि.) एन्डिजमा छ; किलिमन्जारो अफ्रिका र म्याकिन्ले उत्तर अमेरिकामा।
+**७.** (घ) — एक अङ्कमा ३२ गुणा, दुई अङ्कमा ३२ × ३२ = १,०२४ गुणा।
+**८.** (घ) — दिशा, सङ्केत र स्केल तीन आधारभूत तत्त्व हुन्; रङ सहायक मात्र हो।
+:::
+
+**समूह ख — छोटो उत्तर (२ अङ्क)**
+
+१. सामुद्रिक धारले हावापानीमा कसरी प्रभाव पार्छ? उदाहरण दिनुहोस्। <span class="marks">[2]</span>
+२. वृष्टिछायाँ क्षेत्र भनेको के हो? नेपालको उदाहरण दिनुहोस्। <span class="marks">[2]</span>
+३. उष्ण मौसमी हावापानीका कुनै चार विशेषता लेख्नुहोस्। <span class="marks">[2]</span>
+४. भूमध्यसागरीय क्षेत्रलाई "विश्वको बगैँचा" किन भनिन्छ? <span class="marks">[2]</span>
+५. प्रेरिज र स्टेप्सलाई दुग्धपेटी किन भनिन्छ? <span class="marks">[2]</span>
+६. पराकम्पन भनेको के हो? <span class="marks">[2]</span>
+७. भूकम्पका बेला अपनाउनुपर्ने कुनै चार सावधानी लेख्नुहोस्। <span class="marks">[2]</span>
+८. टेम्प्लेट विधि र ट्रेसिङ विधिबिच फरक लेख्नुहोस्। <span class="marks">[2]</span>
+
+::: note समूह ख का उत्तर
+**१.** न्यानो धार बग्ने किनार न्यानो र ओसिलो तथा चिसो धार बग्ने किनार चिसो र शुष्क हुन्छ। अमेरिकाको पूर्वी किनारमा न्यानो गल्फ स्ट्रिमले हावापानी न्यानो र ओसिलो बनाउँछ भने पश्चिमी किनारमा चिसो क्यालिफोर्निया धारले चिसो र शुष्क बनाउँछ।
+**२.** बाफिलो वायु पर्वतले रोक्दा वायु सम्मुख भागमा वर्षा हुन्छ तर पर्वत पछाडिको भागमा पानी नपरी सुक्खा रहन्छ; यस्तो क्षेत्रलाई वृष्टिछायाँ क्षेत्र भनिन्छ। हिमालयले मनसुनी वायु रोक्दा तिब्बत तथा नेपालका मनाङ र मुस्ताङ सुक्खा छन्।
+**३.** (क) ५°–३०° अक्षांशमा महाद्वीपको दक्षिण–पूर्वी भागमा पाइन्छ; (ख) ग्रीष्ममा औसत ३०° र हिउँदमा १५° से.; (ग) ५०–२०० से.मि. मनसुनी वर्षा, धेरैजसो ग्रीष्ममा; (घ) पतझर र सदाबहार वन, धान मुख्य बाली र उच्च जनघनत्व।
+**४.** यहाँको ग्रीष्म घमाइलो र सुक्खा तथा हिउँद ओसिलो हुने हावापानीमा सुन्तला, अङ्गुर, कागती जस्ता रसिला फलफूल र जैतुन प्रशस्त फल्छन्। फलबाट वाइन र अत्तर तथा जैतुनबाट तेल बनाएर संसारभर पठाइन्छ। त्यसैले यसलाई विश्वको बगैँचा भनिन्छ।
+**५.** प्रेरिज र स्टेप्समा उर्वर माटो र प्रशस्त घाँस भएकाले ठुलो लगानीमा व्यावसायिक गाईपालन गरिन्छ। त्यहाँ मासु, छाला र दुधजन्य उद्योग प्रशस्त स्थापना भएका छन् र दुध तथा दुग्ध पदार्थ ठुलो मात्रामा उत्पादन हुन्छ, त्यसैले यिनलाई दुग्धपेटी भनिन्छ।
+**६.** ठुलो भूकम्प (मुख्य हलचल) पछि सोही क्षेत्रमा निरन्तर आइरहने साना भूकम्पलाई पराकम्पन भनिन्छ। ठुलो भूकम्पको पराकम्पन हप्ता, महिना र वर्षौँसम्म जान सक्छ; २०७२ को भूकम्पपछि पनि धेरै पराकम्पन गए।
+**७.** (क) टेबुल, खाट वा डेस्कमुनि घुँडा टेक्ने, ओत लाग्ने र समात्ने; (ख) कम्पन रोकिएपछि बिस्तारै खुला ठाउँमा जाने; (ग) बिजुली र ग्यासको स्विच बन्द गर्ने; (घ) चर्किएका घर, पर्खाल र बिजुलीका पोलबाट टाढा रहने र रेडियोबाट सूचना लिने।
+**८.** टेम्प्लेट विधिमा नक्सालाई बाक्लो कागज वा काठमा उतारेर आकृति काटिन्छ र यसलाई दृष्टिविहीन बालबालिकालाई छोएर पढाउन प्रयोग गरिन्छ। ट्रेसिङ विधिमा वास्तविक नक्सामाथि पारदर्शी ट्रेसिङ कागज राखेर रेखा उतारिन्छ, जसबाट हुबहु नक्सा बन्छ।
+:::
+
+**समूह ग — लामो उत्तर (४ अङ्क)**
+
+१. पहाडको उपस्थिति र वायुको स्वभावले नेपालको हावापानीमा पारेको प्रभाव व्याख्या गर्नुहोस्। <span class="marks">[4]</span>
+२. उष्ण तृणभूमि (सभाना) हावापानीको अवस्थिति, हावापानी, वनस्पति र जनजीवनको वर्णन गर्नुहोस्। <span class="marks">[4]</span>
+३. उत्तर अमेरिकाको आर्थिक गतिविधि र सामाजिक जनजीवनको चर्चा गर्नुहोस्। <span class="marks">[4]</span>
+४. नक्सासम्बन्धी आधुनिक प्रविधिको परिचय दिँदै भ्रमण योजनामा तिनको उपयोग उदाहरणसहित लेख्नुहोस्। <span class="marks">[4]</span>
+
+::: note समूह ग का उत्तर
+**१.** **पहाडको उपस्थिति:** ग्रीष्ममा बङ्गालको खाडी र हिन्द महासागरबाट आउने जलवाष्पयुक्त मनसुनी वायुलाई हिमालय र महाभारत पर्वतले रोकेर उक्लन बाध्य बनाउँछन्; वायु चिसिएर नेपालमा प्रशस्त वर्षा हुन्छ। पोखरा जस्ता वायु सम्मुख ठाउँमा धेरै वर्षा हुन्छ भने हिमालपारिको मनाङ, मुस्ताङ र तिब्बत वृष्टिछायाँमा परेर सुक्खा रहन्छन्। हिउँदमा उत्तरको अति चिसो वायु हिमालयले रोकिदिन्छ। **वायुको स्वभाव:** ग्रीष्ममा समुद्रबाट जमिनतर्फ बग्ने बाफिलो मनसुनी वायुले असारदेखि भदौसम्म धेरैजसो वर्षा गराउँछ; पूर्वबाट आउने भएकाले पूर्वमा बढी र पश्चिममा कम वर्षा हुन्छ। हिउँदमा जमिनबाट समुद्रतर्फ बग्ने सुक्खा वायुले हावापानी शुष्क बनाउँछ। त्यसैले नेपालको खेती र जलविद्युत् मनसुनमा निर्भर छ।
+**२.** **अवस्थिति:** ५°–२०° उत्तर र दक्षिण अक्षांश — सुडान, ब्राजिलको उच्चसमस्थली, ओरिनोको उपत्यका, उत्तरी अस्ट्रेलिया, डेक्कन र शान उच्चसमस्थली। **हावापानी:** ग्रीष्म ३२° से. भन्दा बढी र वर्षा, हिउँद २१° भन्दा कम र सुक्खा; ५०–१५० से.मि. वर्षा; दुई ऋतु। **वनस्पति र जीव:** घाँस राम्रो, रुख फाट्टफुट्ट; लानोस, क्याम्पोस र सभाना भनिन्छ; जिराफ, जेब्रा, हात्ती, अर्ना, हायना पाइने भएकाले संसारको चिडियाखाना। **जनजीवन:** मसाई र हाउसाको परम्परागत फिरन्ते जीवन, कम जनघनत्व र गरिबी; गहुँ, कपास, मकै, पशुपालन; राष्ट्रिय निकुञ्जले पर्यटन र फिल्म छायाङ्कन बढ्दो।
+**३.** **आर्थिक:** अमेरिका र क्यानडाले अतुलनीय पूर्वाधार बनाएका छन्; दक्ष जनशक्ति, उचित व्यवस्थापन र स्रोतको अधिकतम परिचालनले उच्च प्रतिव्यक्ति आय छ। अधिकांश मानिस सेवा, उद्योग र प्रविधिमा; करिब ३ प्रतिशत मात्र कृषिमा भए पनि व्यावसायिक खेतीले आत्मनिर्भर; गहुँ र मकै मुख्य बाली। तामा, फलाम, कोइला, सुन, निकेल, प्लाटिनम, चाँदीका उद्योग, प्रशस्त पेट्रोलियम र पर्यटन। **सामाजिक:** युरोपेली गोराले आदिवासीमाथि शासन गरे; पहिले फ्रेन्च र अङ्ग्रेजीभाषी, अहिले संसारभरका आप्रवासीको मिश्रित समाज। लोकतन्त्र, स्वतन्त्रता, समानता, समावेशिता र समता विशेषता हुन्; जीवनशैली उन्नत; उत्तरमा फिरन्ते इन्युट।
+**४.** **भौगोलिक सूचना प्रणाली** ले तथ्याङ्क कम्प्युटरमा भण्डारण र विश्लेषण गरी नक्सामा विवरण जोड्छ; **भूमण्डलीय अवस्थिति मापन प्रणाली** ले भूउपग्रहबाट अक्षांश, देशान्तर र उचाइ दिन्छ; **गुगल अर्थ** उपग्रह तस्बिरबाट ठाउँ खोज्ने कार्यक्रम हो। **विदुरदेखि स्याफ्रुबेँसी भ्रमणमा:** (क) दिशा, राजमार्ग, दूरी, रुट र समय; (ख) उचाइ र तापक्रम हेरेर सामान तयारी; (ग) होटल, पार्किङ र पर्यटकीय स्थल; (घ) अस्पताल र एम्बुलेन्स; (ङ) मनोरञ्जन कार्यक्रम तय। यसले भ्रमण सुरक्षित र योजनाबद्ध बनाउँछ।
+:::
+
+**समूह घ — विस्तृत उत्तर (८ अङ्क)**
+
+१. विश्वका हावापानीका तीन मण्डलको परिचय दिँदै तीमध्ये उष्ण मरुस्थलीय, भूमध्यसागरीय र टुन्ड्रा हावापानीको अवस्थिति, हावापानी, वनस्पति र जनजीवनको तुलनात्मक वर्णन गर्नुहोस्। <span class="marks">[8]</span>
+२. नेपाल भूकम्पीय जोखिमको क्षेत्र किन हो? भूकम्पको मापन र भूकम्पअघि, भूकम्पका बेला र भूकम्पपछि अपनाउनुपर्ने सुरक्षाका उपायको विवेचना गर्नुहोस्। <span class="marks">[8]</span>
+
+::: note समूह घ का उत्तर
+**१.** **तीन मण्डल:** उष्ण (०°–३०°; सिधा किरण, उच्च ताप र वर्षा; चार उपप्रदेश), समशीतोष्ण (३०°–६०°; सन्तुलित तापक्रम, बसोबासका लागि अनुकूल; छ उपप्रदेश) र शीत (६०°–९०°; छड्के किरण, शून्यभन्दा तल तापक्रम, कम वर्षा; टाइगा र टुन्ड्रा)।
+
+| आधार | उष्ण मरुस्थलीय | भूमध्यसागरीय | टुन्ड्रा |
 |---|---|---|---|
-| Rank by area | 3rd | 4th | 2nd |
-| Area (million km²) | ~24.7 | ~17.8 | ~30.3 |
-| Highest peak | Denali 6,190 m | Aconcagua ~6,960 m | Kilimanjaro 5,895 m |
-| Longest river | Mississippi–Missouri | Amazon | Nile |
-| Largest desert | Great Basin / Sonoran | Atacama | Sahara |
-| Equator crosses? | No | Yes | Yes |
-| Number of countries | 23 | 12 | 54 |
+| अवस्थिति | २०°–३०°, पश्चिमी भाग; सहारा, थार, अटाकामा | ३०°–४५°, पश्चिमी भाग; भूमध्यसागर वरिपरि, क्यालिफोर्निया | ७०°–९०°, आर्कटिक तट, ग्रिनल्यान्ड |
+| तापक्रम | दिउँसो ४०° भन्दा बढी, राति १०° भन्दा कम | ग्रीष्म २७°, हिउँद १०° | ग्रीष्म १०°, हिउँद −४५° सम्म |
+| वर्षा | १२ से.मि. | ४०–८० से.मि., हिउँदमा | २५ से.मि. भन्दा कम |
+| वनस्पति | सिउँडी, मरुद्यानमा पाम | चिल्ला पातका झाडी; अङ्गुर, जैतुन | ग्रीष्ममा काई, झ्याउ, लेउ |
+| जनजीवन | फिरन्ते, मुण्डा घर, ऊँट, पेट्रोलियम | फलफूल, वाइन, जैतुन तेल; प्राचीन सभ्यता | एस्किमो–इन्युट, शिकार, इग्लु |
 
-```figure caption="Areas of the seven continents (million square kilometres, rounded). The three continents of this unit are shaded."
-import numpy as np, matplotlib.pyplot as plt
-fig, ax = plt.subplots(figsize=(4.8,2.8))
-names = ["Asia","Africa","N. America","S. America","Antarctica","Europe","Oceania"]
-vals = [44.6,30.3,24.7,17.8,14.2,10.2,8.5]
-cols = [GRID,ACCENT,ACCENT,ACCENT,GRID,GRID,GRID]
-y = np.arange(len(names))[::-1]
-ax.barh(y, vals, color=cols)
-for yy,v in zip(y,vals):
-    ax.text(v+0.6, yy, f"{v}", va="center", fontsize=8, color=INK)
-ax.set_yticks(y); ax.set_yticklabels(names, fontsize=8)
-ax.set_xlabel("Area (million sq km)", fontsize=8)
-ax.set_xlim(0,52)
-ax.tick_params(labelsize=8)
-ax.spines[['top','right']].set_visible(False)
-```
-
-## 6.10 Natural disaster: earthquakes
-
-### What is an earthquake?
-
-::: definition Earthquake
-An earthquake is the sudden shaking or trembling of the ground caused by the release of energy stored in the rocks of the Earth's crust.
+**निष्कर्ष:** पानी वा तापको अभावले मरुभूमि र टुन्ड्रामा जनघनत्व अति कम छ भने भूमध्यसागरीय मनोरम हावापानीले सघन बस्ती र सभ्यता विकास गरायो; हावापानीले नै वनस्पति र जनजीवन निर्धारण गर्छ।
+**२.** **जोखिमका कारण:** इन्डियन प्लेट युरेसियन प्लेटमुनि वर्षेनि करिब २ से.मि. घुस्दा पहाडमुनि १५–२५ कि.मि. गहिराइमा शक्ति सञ्चय भई चट्टान अचानक भाँचिन्छन्; यही ठक्करले बनिरहेको २,५०० कि.मि. लामो हिमालयको ८०० कि.मि. खण्ड नेपालमा छ; कमजोर निर्माणले क्षति बढाउँछ — १९९० र २०७२ का भूकम्प प्रमाण हुन्। **मापन:** सिस्मोग्राफले म्याग्निच्युड, उद्गमविन्दु र केन्द्रविन्दु पत्ता लगाउँछ; शक्ति रेक्टर स्केलमा र स्थानविशेषको कम्पन तीव्रताका रूपमा नापिन्छ; एक अङ्क बढ्दा शक्ति ३२ र कम्पन १० गुणा; पहिलो मापन स्थल फुलचोकी। **अघि:** संहिताअनुसार भूकम्प प्रतिरोधी घर, चर्किएका घरमा नबस्ने, आपत्कालीन झोला, खुला ठाउँ पहिचान र कृत्रिम अभ्यास। **बेला:** घुँडा टेक्ने, ओत लाग्ने, समात्ने; नआत्तिने; रोकिएपछि खुला ठाउँ जाने; बिजुली र ग्यास बन्द। **पछि:** उद्धार र प्राथमिक उपचार, रेडियोबाट सूचना, पराकम्पन, आगलागी, पहिरो र बाढीबाट सावधानी, बालबालिकालाई मनोसामाजिक परामर्श। भूकम्प रोक्न नसकिए पनि तयारीले क्षति धेरै घटाउँछ।
 :::
-
-The Earth's crust is broken into huge slabs called **tectonic plates** which move a few centimetres a year. Where they collide, slide or pull apart, rocks bend and build up stress. When the stress becomes greater than the strength of the rock, it breaks along a **fault**, and the stored energy is released in **seismic waves** that make the ground shake.
-
-- **Focus (hypocentre):** the point underground where the rock breaks and the earthquake starts.
-- **Epicentre:** the point on the surface directly above the focus. Shaking is usually strongest here.
-- **Seismic waves:** *P-waves* (primary, fastest, push and pull), *S-waves* (secondary, slower, shake sideways) and *surface waves* (the slowest but the most destructive).
-
-```figure caption="Focus and epicentre of an earthquake (schematic cross-section). Seismic waves spread outwards from the focus."
-import numpy as np, matplotlib.pyplot as plt
-from matplotlib.patches import Circle
-fig, ax = plt.subplots(figsize=(4.6,3.0))
-ax.axhspan(-6,0,color="#d9cdb4")
-ax.axhline(0,color=INK,lw=1.2)
-fx, fy = 0, -4.2
-for r in (0.8,1.6,2.4,3.2):
-    th = np.linspace(np.pi*1.08, np.pi*1.92, 60)
-    ax.plot(fx+r*np.cos(th), fy+r*np.sin(th)+0, color=ACCENT, lw=1, alpha=0.8)
-ax.plot([fx],[fy],'o',color=SERIES[3],ms=8)
-ax.plot([0],[0],'^',color=SERIES[3],ms=9)
-ax.plot([0,0],[fy,0],color=MUTED,ls="--",lw=1)
-ax.annotate("Focus", (0,fy), xytext=(1.3,-5.3), fontsize=8, arrowprops=dict(arrowstyle="-", color=MUTED))
-ax.annotate("Epicentre", (0,0), xytext=(1.3,0.8), fontsize=8, arrowprops=dict(arrowstyle="-", color=MUTED))
-ax.text(-5.2,-1.2,"Depth", fontsize=8, rotation=90, va="center", color=INK)
-ax.text(-3.8,0.5,"Earth's surface", fontsize=8, color=INK)
-ax.text(-5.0,-2.6,"Seismic waves\nspread out", fontsize=8, color=ACCENT)
-ax.set_xlim(-5.5,5.5); ax.set_ylim(-6,2); ax.axis('off')
-```
-
-### Measuring earthquakes
-
-A **seismograph** records the ground motion and the record is called a **seismogram**. The **magnitude** (energy released) is expressed on the **Richter scale** (or the more modern *moment magnitude*) from 1 to 9; each whole number represents about 32 times more energy. The **intensity** (the visible damage at a place) is measured on the **Modified Mercalli scale** I to XII. Magnitude is one number for the quake; intensity differs from place to place.
-
-### Why is Nepal at risk?
-
-Nepal lies on the boundary where the **Indian Plate** is pushing northwards under the **Eurasian (Tibetan) Plate** at about 4 to 5 cm per year. This slow collision built the Himalaya and still stores huge strain in the rocks beneath Nepal. It is one of the most earthquake-prone countries in the world, and a great earthquake is expected again in future.
-
-```figure caption="Why Nepal shakes (schematic). The Indian Plate moves northwards at about 4-5 cm a year and slides under the Eurasian Plate; the strain stored along the fault is released in earthquakes."
-import numpy as np, matplotlib.pyplot as plt
-from matplotlib.patches import Polygon
-fig, ax = plt.subplots(figsize=(4.8,2.8))
-ax.add_patch(Polygon([(0,0),(5.5,0),(5.5,-0.9),(0,-0.9)], color="#c9b790"))
-ax.add_patch(Polygon([(5.5,0),(6.6,2.4),(7.8,1.0),(8.6,2.0),(10,0.6),(10,-1.6),(7.5,-1.6),(5.5,-0.9)], color="#9a9a9a"))
-ax.add_patch(Polygon([(0,-0.9),(5.5,-0.9),(10,-3.4),(10,-4.4),(0,-4.4)], color="#e0d2b0"))
-ax.annotate("", xy=(4.0,-0.5), xytext=(0.6,-0.5), arrowprops=dict(arrowstyle="-|>", color=SERIES[3], lw=2))
-ax.text(0.4,0.35,"Indian Plate", fontsize=8, color=INK)
-ax.text(0.4,-0.25,"moves north", fontsize=7.5, color=SERIES[3])
-ax.text(6.4,-2.7,"Eurasian Plate", fontsize=8, color=INK)
-ax.text(6.2,2.8,"Himalaya", fontsize=8, color=INK)
-ax.annotate("Fault (earthquake\nenergy released)", xy=(5.5,-0.9), xytext=(2.0,-3.2), fontsize=8, arrowprops=dict(arrowstyle="-|>", color=MUTED))
-ax.set_xlim(0,10); ax.set_ylim(-4.5,3.3); ax.axis('off')
-```
-
-### Major earthquakes in Nepal
-
-| Earthquake | Date | Magnitude (approx.) | Effect |
-|---|---|---|---|
-| Nepal–Bihar earthquake | 15 January 1934 (2 Magh 2090 BS) | about 8.0–8.4 | About 8,500 deaths in Nepal; much of Kathmandu, Bhaktapur and Patan destroyed |
-| Udayapur earthquake | 21 August 1988 (6 Bhadra 2045 BS) | 6.8 | About 700 deaths in Nepal, thousands of houses damaged in the east |
-| Gorkha earthquake | 25 April 2015 (12 Baisakh 2072 BS) | 7.8 | About 9,000 deaths, about 22,000 injured, more than 500,000 houses destroyed; 31 districts badly hit |
-
-The **2015 Gorkha earthquake** had its epicentre at Barpak, Gorkha, and struck at about midday. A second shock of magnitude 7.3 followed on 12 May 2015 with its epicentre near Kodari in Sindhupalchok. Many heritage sites, including the Dharahara tower and the durbar squares of Kathmandu, Patan and Bhaktapur, were damaged; the earthquake also set off avalanches on Everest and Langtang. Reconstruction was led by the **National Reconstruction Authority**, set up in 2015.
-
-```photo id="soc10/quake-basantapur" caption="Basantapur Durbar Square, Kathmandu, after the 25 April 2015 earthquake. The collapse of temples and old brick buildings was the loss of centuries of heritage; houses of poor construction suffered most." width="88"
-```
-
-### Safety measures
-
-| Before | During | After |
-|---|---|---|
-| Build houses by the building code; bolt heavy furniture; keep an emergency bag with torch, radio, water, first-aid kit; know an open assembly area; practise **Drop, Cover, Hold** drills at school | **Drop** to the ground, take **cover** under a strong table, **hold** on; stay away from windows and walls; if outdoors, go to open ground away from buildings, wires and slopes; if driving, stop in the open | Check for injuries and give first aid; expect **aftershocks**; leave damaged buildings; turn off gas and electricity; listen to the radio; do not spread rumours; help neighbours |
-
-**Tsunami.** A strong earthquake beneath the ocean can displace water and cause a huge sea wave, a **tsunami** (Japanese: "harbour wave"). It does not threaten Nepal directly, but the Indian Ocean tsunami of December 2004 killed more than 200,000 people in the countries around it.
-
-::: caution Do not run during the shaking
-Many injuries occur when people run out through doorways and stairs while the building is shaking. The correct action is *drop, cover and hold on*, and to go out only when the shaking stops.
-:::
-
-## 6.11 Map work
-
-### What is a map?
-
-A **map** is a drawing, to scale, of the whole or part of the Earth's surface on a flat sheet of paper, as seen from above. A **globe** is a model of the Earth that shows shapes and distances correctly; a map is easier to carry but always has some distortion.
-
-| Type of map | Shows | Example |
-|---|---|---|
-| Physical | Mountains, rivers, plains | Relief map of Nepal |
-| Political | Countries, boundaries, capitals | Map of South Asia |
-| Thematic | One topic (rainfall, population, roads) | Population density map |
-| Topographic | Detailed natural and man-made features, with contours | Survey Department 1:25,000 sheets |
-| Cadastral | Land parcels, ownership | Land-registration (*naksa*) maps |
-
-### Components of a map
-
-Every good map has a **title**, a **scale**, a **direction** (north arrow), a **legend** (key) explaining the signs and colours, a **border** and **grid lines** (latitude and longitude), and a **source/date**.
-
-### Scale
-
-**Scale** is the ratio between a distance on the map and the real distance on the ground. It is shown in three ways:
-
-1. **Statement:** "1 cm represents 5 km".
-2. **Representative fraction (RF)**, a ratio with the same unit on both sides: 1 : 500,000.
-3. **Graphical (linear) scale**, a ruler drawn on the map with ground distances marked.
-
-::: example Converting a scale
-**Problem.** Convert the statement scale "1 cm represents 5 km" into a representative fraction. On that map two towns are 7.5 cm apart. What is the real distance?
-
-**Solution.** 5 km = 5 × 1,000 × 100 cm = 500,000 cm.
-So 1 cm on the map = 500,000 cm on the ground, and the RF is **1 : 500,000**.
-Real distance = 7.5 cm × 5 km = **37.5 km**.
-:::
-
-::: example Large-scale and small-scale
-**Problem.** Which is the larger scale, 1 : 25,000 or 1 : 1,000,000?
-
-**Solution.** Compare the fractions 1/25,000 and 1/1,000,000. The first is bigger, so **1 : 25,000 is the larger scale**. It shows a small area in great detail (a village); 1 : 1,000,000 is a small scale and shows a large area with little detail (a country).
-:::
-
-### Direction, grid and contours
-
-- **Direction:** The four cardinal points are north, east, south and west; the intercardinal points are NE, SE, SW and NW. On most maps the top is north.
-- **Grid reference:** the position of a place can be given by the number of the vertical (easting) line followed by the horizontal (northing) line, "read along the corridor, then up the stairs".
-- **Contour lines** join places of the same height above sea level. They show relief: **closely spaced** contours mean a steep slope, **widely spaced** contours a gentle slope, **concentric closed rings** a hill, and **V-shapes pointing to higher ground** a valley.
-
-```figure caption="Contour lines of a hill with a steep side (west) and a gentle side (east). Closely spaced lines mean a steep slope."
-import numpy as np, matplotlib.pyplot as plt
-fig, ax = plt.subplots(figsize=(4.4,3.0))
-x = np.linspace(-4,6,200); y = np.linspace(-3,3,150)
-X,Y = np.meshgrid(x,y)
-Z = 500*np.exp(-((X-0)**2/(2*1.1**2)*np.where(X<0,1.6,0.08) + Y**2/(2*1.6**2)))
-levels=[100,200,300,400]
-cs = ax.contour(X,Y,Z,levels=levels,colors=[SERIES[3]],linewidths=1.1)
-ax.clabel(cs, fmt="%d m", fontsize=7)
-ax.plot([0],[0],'^',color=INK,ms=7)
-ax.text(0.15,0.3,"Peak",fontsize=8,color=INK)
-ax.text(-3.8,2.4,"Steep slope",fontsize=8,color=INK)
-ax.text(2.5,2.4,"Gentle slope",fontsize=8,color=INK)
-ax.set_aspect("equal"); ax.axis("off")
-```
-
-### Drawing a sketch map
-
-1. Decide the area and draw a frame; mark **north**.
-2. Choose a scale; mark fixed points: roads, river, school.
-3. Use **conventional signs** (e.g. a cross for a church, a triangle for a hill, blue lines for rivers).
-4. Add a title, legend and scale. A **sketch map** is a quick map of an area not made by exact measurement; a **plan** is drawn to scale.
-
-::: tip Map questions
-In the exam, always write the formula "Real distance = map distance × scale" and show units. If the question gives an RF, convert to km (divide cm by 100,000).
-:::
-
-## 6.12 Modern technology in mapping
-
-Maps were once drawn by walking and measuring with chains, theodolites and plane tables. Today they are built from data collected from the air and from space.
-
-| Technology | What it is | Use |
-|---|---|---|
-| **Aerial photography** | Photographs taken from aeroplanes or drones | Topographic maps, land use, damage after disasters |
-| **Remote sensing** | Collecting information about the Earth from a distance using satellites and sensors | Weather forecasting, forest and crop monitoring, glacier and flood mapping (e.g. Landsat, Sentinel) |
-| **GPS (Global Positioning System)** | A network of 24+ satellites that lets a receiver compute its exact position, height and time | Navigation, surveying, tracking vehicles, finding a trail |
-| **GIS (Geographic Information System)** | Computer software that stores, analyses and displays map layers (roads, rivers, population) together | Planning schools and roads, disaster risk maps, municipal land records |
-| **Online map tools** | Google Earth, OpenStreetMap, digital maps | Everyday directions; community mapping after the 2015 earthquake |
-
-- **GPS** was developed by the United States (NAVSTAR); similar systems are GLONASS (Russia), Galileo (Europe), BeiDou (China) and NavIC (India), collectively called **GNSS**. A receiver needs signals from at least four satellites to fix latitude, longitude and height.
-- **Nepal's Survey Department** uses aerial photography, satellite images and GPS to prepare topographic and cadastral maps; Nepali mappers on the OpenStreetMap platform drew thousands of buildings and roads in the days after the 2015 earthquake so that rescuers could find their way.
-- **Drones** now provide cheap, very high-resolution images for municipal planning.
-
-::: key Advantages of modern mapping
-It is faster and cheaper, more accurate, easy to update, gives maps of places that are hard to reach (glaciers, jungles) and can overlay many kinds of information. Weaknesses: needs training and equipment, and electronic data can be misused if privacy is not protected.
-:::
-
-## Chapter summary
-
-- **Weather** is the day-to-day condition of the atmosphere; **climate** is its long-term (30-year) average.
-- Climate depends on **latitude, altitude (6.5 °C per 1,000 m), distance from the sea, ocean currents, winds, relief (rain shadow) and vegetation**.
-- The world has **tropical** (equatorial, savanna, monsoon, hot desert), **temperate** (Mediterranean, China type, British type, grassland) and **cold** (taiga, tundra, ice cap) regions.
-- Climate and relief decide vegetation, wildlife, population density, clothing, food and work. Monsoon plains hold the densest populations.
-- North America (3rd, ~24.7 million km², Denali 6,190 m), South America (4th, ~17.8 million km², Aconcagua ~6,960 m, Amazon) and Africa (2nd, ~30.3 million km², Kilimanjaro 5,895 m, Nile, Sahara) differ in relief, climate and economy.
-- An **earthquake** is the sudden shaking of the ground; **focus** is underground, **epicentre** is above it. Nepal sits on the Indian–Eurasian plate boundary; major quakes: 1934, 1988, 2015 (7.8).
-- Safety: **Drop, Cover, Hold**; build to code; keep an emergency kit.
-- A **map** has title, scale, direction, legend and border. Scale can be a statement, RF or graph. Contours show relief.
-- Modern mapping uses **aerial photos, remote sensing, GPS and GIS**.
-
-## Practice questions
-
-**Group A — Objective questions (1 mark each)**
-
-1. The average weather of a place over thirty or more years is called its <span class="marks">[1]</span>
-   (a) season (b) climate (c) weather (d) temperature
-2. Temperature falls by about 6.5 °C for every 1,000 m rise in <span class="marks">[1]</span>
-   (a) latitude (b) longitude (c) altitude (d) humidity
-3. Which climate has hot, dry summers and mild, rainy winters? <span class="marks">[1]</span>
-   (a) Monsoon (b) Mediterranean (c) Tundra (d) Savanna
-4. The longest river in Africa is the <span class="marks">[1]</span>
-   (a) Congo (b) Niger (c) Zambezi (d) Nile
-5. The highest peak of South America is <span class="marks">[1]</span>
-   (a) Denali (b) Aconcagua (c) Kilimanjaro (d) Chimborazo
-6. The point on the Earth's surface directly above the focus is the <span class="marks">[1]</span>
-   (a) fault (b) epicentre (c) crater (d) hypocentre
-7. A map with a scale of 1 : 25,000 is a <span class="marks">[1]</span>
-   (a) small-scale map (b) large-scale map (c) sketch map (d) globe
-8. Which system uses satellites to find a position on the Earth? <span class="marks">[1]</span>
-   (a) GPS (b) CBS (c) ICT (d) UNESCO
-
-::: note Answers to Group A
-**1.** (b): climate is the long-term average.
-**2.** (c): this is the normal lapse rate.
-**3.** (b): the Mediterranean type is dry in summer, wet in winter.
-**4.** (d): the Nile, about 6,650 km, is also the longest river in the world.
-**5.** (b): Aconcagua, about 6,960 m, in Argentina.
-**6.** (b): epicentre; the focus lies underground.
-**7.** (b): the fraction 1/25,000 is larger than 1/1,000,000.
-**8.** (a): GPS, the Global Positioning System.
-:::
-
-**Group B — Short answer (2 marks each)**
-
-1. Differentiate between weather and climate. <span class="marks">[2]</span>
-2. Why is the Terai warmer than Kathmandu? <span class="marks">[2]</span>
-3. Name any two features of the equatorial climate. <span class="marks">[2]</span>
-4. What is the rain-shadow effect? Give one example from Nepal. <span class="marks">[2]</span>
-5. Why is Nepal at high risk of earthquakes? <span class="marks">[2]</span>
-6. Convert the scale 1 cm = 2 km into an RF. <span class="marks">[2]</span>
-
-::: note Answers to Group B
-**1.** Weather is the short-term state of the atmosphere (hours or days); climate is the average weather of a region over thirty or more years.
-**2.** The Terai is much lower (about 100 m) than Kathmandu (about 1,400 m); temperature falls about 6.5 °C per 1,000 m, so the Terai is hotter.
-**3.** Hot and wet all year (about 27 °C, over 200 cm of rain with daily afternoon showers) and dense evergreen rainforest.
-**4.** Moist wind rises over mountains and drops rain on the windward side, leaving the leeward side dry. Mustang lies in the rain shadow of the Annapurna–Dhaulagiri ranges.
-**5.** Nepal lies on the boundary of the Indian and Eurasian plates; the Indian Plate keeps pushing north at 4 to 5 cm a year, storing strain that is released as earthquakes.
-**6.** 2 km = 200,000 cm, so RF = 1 : 200,000.
-:::
-
-**Group C — Long answer (4 marks each)**
-
-1. Describe the savanna climate under location, climate, vegetation and human life. <span class="marks">[4]</span>
-2. Explain any four factors that affect the climate of a place with examples. <span class="marks">[4]</span>
-3. Describe the physical features and economic activities of Africa. <span class="marks">[4]</span>
-4. What should we do before, during and after an earthquake? Write four measures in all. <span class="marks">[4]</span>
-5. What are the uses of GPS, remote sensing and GIS in mapping? <span class="marks">[4]</span>
-
-::: note Answers to Group C
-**1.** Savanna lies about 5° to 20° (up to 30°) north and south of the equator: Sudan and East Africa, the Llanos and Campos in South America, northern Australia. Climate: hot all year, wet summer and long dry winter, rain 75–150 cm. Vegetation: tall elephant grass and umbrella-shaped acacia and baobab. People: herders such as the Maasai, farming of maize and millet, wildlife tourism (lion, elephant, zebra).
-**2.** Latitude (hotter near the equator); altitude (cooler by 6.5 °C per 1,000 m: Kathmandu vs Birgunj); distance from the sea (maritime vs continental: Mumbai vs Nagpur); winds and relief (monsoon rain on windward slopes of the Himalaya, rain shadow of Mustang). Ocean currents and vegetation also matter.
-**3.** Features: Sahara, Kalahari and Namib deserts; Nile, Congo, Niger; Kilimanjaro; Great Rift Valley; Lake Victoria; Victoria Falls. Economy: subsistence farming, cash crops (cocoa, coffee, tea, cotton), minerals (gold, diamonds, copper, oil), tourism.
-**4.** Before: build by the code, keep an emergency kit, practise drop–cover–hold. During: drop, take cover under a table, stay away from windows; outdoors go to open ground. After: check injuries, expect aftershocks, leave damaged buildings, switch off gas and power and listen to the radio.
-**5.** GPS gives exact position and elevation for surveying and navigation; remote sensing (satellites, aerial photos) gives images for land use, forests, floods and glaciers; GIS stores and combines map layers for planning, disaster maps and land records. Together they make maps faster, cheaper, more accurate and easy to update.
-:::
-
