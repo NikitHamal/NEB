@@ -4,6 +4,7 @@ import { runPractical } from './runtime.js';
 
 const PRACTICALS = {
   'alimentary-canal-dissection': () => import('./practicals/earthworm.js'),
+  'flower-family-dissection': () => import('./practicals/flower.js'),
   'onion-root-tip-mitosis-11': () => import('./practicals/onion-mitosis.js'),
   'onion-root-tip-mitosis-12': () => import('./practicals/onion-mitosis.js'),
 };
