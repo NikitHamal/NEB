@@ -4,28 +4,28 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>NEBians — Learn it. Pass it. Pass it on.</title>
-<meta name="description" content="Free notes, past papers and fully solved study books for Class 8 to 12 in Nepal, and a forum where students answer each other.">
+<meta name="description" content="Free notes, past papers and solved study books for every class, field and level in Nepal, and a forum where students answer each other.">
 <link rel="canonical" href="https://nebians.consica.com.np/">
-<meta name="theme-color" content="#f2ece1">
+<meta name="theme-color" content="#f4f6fb">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="NEBians">
 <meta property="og:title" content="NEBians — Learn it. Pass it. Pass it on.">
-<meta property="og:description" content="Free notes, past papers and solved study books for Class 8 to 12, and a forum where Nepal's students help each other.">
+<meta property="og:description" content="Free notes, past papers and solved study books for every class, field and level, and a forum where Nepal's students help each other.">
 <meta property="og:url" content="https://nebians.consica.com.np/">
 <meta property="og:image" content="https://nebians.consica.com.np/og/page/default.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/svg+xml" href="{% static 'web/img/favicon.svg' %}">
 <link rel="apple-touch-icon" href="{% static 'web/img/n-logo-180.png' %}">
 <link rel="manifest" href="{% url 'web:manifest_json' %}" crossorigin="use-credentials">
-<link rel="preload" href="{% static 'web/fonts/landing/poppins-800-latin.woff2' %}" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="{% static 'web/fonts/landing/instrument-serif-normal-latin.woff2' %}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{% static 'web/fonts/app/poppins-700-latin.woff2' %}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{% static 'web/fonts/app/poppins-400-latin.woff2' %}" as="font" type="font/woff2" crossorigin>
 <style>
-@font-face{font-family:P;font-weight:400;font-display:swap;src:url("{% static 'web/fonts/landing/poppins-400-latin.woff2' %}") format("woff2")}
-@font-face{font-family:P;font-weight:600;font-display:swap;src:url("{% static 'web/fonts/landing/poppins-600-latin.woff2' %}") format("woff2")}
-@font-face{font-family:P;font-weight:800;font-display:block;src:url("{% static 'web/fonts/landing/poppins-800-latin.woff2' %}") format("woff2")}
-@font-face{font-family:P;font-weight:600;font-display:swap;unicode-range:U+0900-097F,U+1CD0-1CFF,U+A8E0-A8FF;src:url("{% static 'web/fonts/landing/poppins-600-deva.woff2' %}") format("woff2")}
-@font-face{font-family:S;font-style:normal;font-display:swap;src:url("{% static 'web/fonts/landing/instrument-serif-normal-latin.woff2' %}") format("woff2")}
-@font-face{font-family:S;font-style:italic;font-display:swap;src:url("{% static 'web/fonts/landing/instrument-serif-italic-latin.woff2' %}") format("woff2")}
+@font-face{font-family:P;font-weight:400;font-display:swap;src:url("{% static 'web/fonts/app/poppins-400-latin.woff2' %}") format("woff2")}
+@font-face{font-family:P;font-weight:500;font-display:swap;src:url("{% static 'web/fonts/app/poppins-500-latin.woff2' %}") format("woff2")}
+@font-face{font-family:P;font-weight:600;font-display:swap;src:url("{% static 'web/fonts/app/poppins-600-latin.woff2' %}") format("woff2")}
+@font-face{font-family:P;font-weight:700;font-display:swap;src:url("{% static 'web/fonts/app/poppins-700-latin.woff2' %}") format("woff2")}
+@font-face{font-family:P;font-weight:800;font-display:block;src:url("{% static 'web/fonts/app/poppins-800-latin.woff2' %}") format("woff2")}
+@font-face{font-family:P;font-weight:600;font-display:swap;unicode-range:U+0900-097F,U+1CD0-1CFF,U+A8E0-A8FF;src:url("{% static 'web/fonts/app/poppins-600-devanagari.woff2' %}") format("woff2")}
 </style>
 <link rel="stylesheet" href="{% static 'web/css/landing.css' %}">
 {% if site_theme.festive %}<link rel="stylesheet" href="{% static 'web/css/themes.css' %}">{% endif %}
@@ -37,7 +37,7 @@
 
 <header class="lp-nav" data-nav>
   <a class="lp-brand" href="/" aria-label="NEBians home">
-    <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 27V5l11 13V5M16 27V14l11 13V5" fill="none" stroke="currentColor" stroke-width="4.2" stroke-linejoin="round"/></svg>
+    {% include "landing/_logo.html" with cls="lp-brand-mark" p="n" %}
     <span>NEBians</span>
   </a>
   <nav class="lp-links" aria-label="Main">
@@ -57,8 +57,9 @@
     <a href="{% url 'web:library' %}" style="--i:0">Library</a>
     <a href="#books" style="--i:1">Books</a>
     <a href="{% url 'web:forum' %}" style="--i:2">Forum</a>
-    <a href="#app" style="--i:3">App</a>
-    {% if not signed_in %}<a href="{% url 'web:login' %}" style="--i:4">Sign in</a>{% endif %}
+    <a href="#levels" style="--i:3">Levels</a>
+    <a href="#app" style="--i:4">App</a>
+    {% if not signed_in %}<a href="{% url 'web:login' %}" style="--i:5">Sign in</a>{% endif %}
   </nav>
 </div>
 
@@ -67,45 +68,24 @@
 <div class="lp-hero-track" data-track>
 <section class="lp-hero" aria-labelledby="lp-title">
   {% include "themes/_decor.html" with t=site_theme %}
-  <div class="lp-hero-in">
-    <h1 id="lp-title" class="lp-h1">
-      <span class="lp-mask"><span style="--d:0">Learn it.</span></span>
-      <span class="lp-mask"><span style="--d:1"><em>Pass it.</em></span></span>
-      <span class="lp-mask"><span style="--d:2">Pass it on.</span></span>
-    </h1>
-    {% if site_theme.greeting %}<p class="lp-greet"><span lang="ne">{{ site_theme.greeting.ne }}</span></p>{% endif %}
-    <div class="lp-hero-side">
-      <p class="lp-lede">Notes, past papers and solved books for Class&nbsp;8 to&nbsp;12. Free.</p>
-      <div class="lp-actions">
-        <a class="lp-btn" href="{% url 'web:library' %}"><span>Start reading</span></a>
-        <a class="lp-link" href="#app">Get the app</a>
+  <div class="lp-hero-grid">
+    <div class="lp-hero-copy">
+      {% if site_theme.greeting %}<p class="lp-greet"><span lang="ne">{{ site_theme.greeting.ne }}</span></p>{% endif %}
+      <h1 id="lp-title" class="lp-h1">
+        <span class="lp-mask"><span style="--d:0">Learn it.</span></span>
+        <span class="lp-mask"><span style="--d:1"><em>Pass it.</em></span></span>
+        <span class="lp-mask"><span style="--d:2">Pass it on.</span></span>
+      </h1>
+      <div class="lp-hero-side">
+        <p class="lp-lede">Notes, past papers and books for every class, field and level. Free.</p>
+        <div class="lp-actions">
+          <a class="lp-btn" href="{% url 'web:library' %}"><span>Start reading</span></a>
+          <a class="lp-link" href="#app">Get the app</a>
+        </div>
       </div>
     </div>
+    <div class="lp-hero-logo">{% include "landing/_logo.html" with cls="lp-logo" p="h" %}</div>
   </div>
-
-  <svg class="lp-mark" viewBox="0 0 600 420" aria-hidden="true">
-    <g class="lp-mark-peaks">
-      <path class="lp-peak-back" d="M250 360 L392 168 L452 238 L500 196 L590 360Z"/>
-      <path class="lp-peak" d="M40 362 L212 104 L282 206 L332 150 L440 362Z"/>
-      <path class="lp-snow" d="M212 104 L246 155 L228 150 L214 166 L198 146 L182 150Z M332 150 L356 182 L342 180 L332 192 L320 178Z M392 168 L414 198 L400 196 L390 206 L378 192Z"/>
-    </g>
-    <g class="lp-mark-flag">
-      <path class="lp-pole" d="M212 106 V22"/>
-      <g class="lp-pennant">
-        <path class="lp-pennant-edge" d="M212 18 L268 50 L228 50 L268 86 L212 86Z"/>
-        <path class="lp-pennant-red" d="M216 25 L256 46 L220 46 L256 82 L216 82Z"/>
-        <circle class="lp-pennant-w" cx="227" cy="40" r="4.5"/>
-        <circle class="lp-pennant-w" cx="230" cy="67" r="6"/>
-      </g>
-    </g>
-    <g class="lp-mark-book">
-      <path class="lp-cover" d="M14 356 Q160 330 300 364 Q440 330 586 356 L586 400 Q440 376 300 412 Q160 376 14 400Z"/>
-      <path class="lp-page lp-page-l" d="M30 348 Q166 324 300 356 L300 400 Q166 368 30 390Z"/>
-      <path class="lp-page lp-page-r" d="M570 348 Q434 324 300 356 L300 400 Q434 368 570 390Z"/>
-      <path class="lp-lines" d="M64 360 Q170 342 270 366 M64 374 Q170 356 270 380 M336 366 Q430 342 536 360 M336 380 Q430 356 536 374"/>
-    </g>
-  </svg>
-
   <p class="lp-word" aria-hidden="true">{% for c in "NEBians" %}<span style="--i:{{ forloop.counter0 }}">{{ c }}</span>{% endfor %}</p>
 </section>
 </div>
@@ -116,16 +96,15 @@
   </div>
 </section>
 
-<section class="lp-classes" id="classes" aria-labelledby="lp-classes">
+<section class="lp-classes" id="levels" aria-labelledby="lp-classes">
   <div class="lp-wrap">
-    <h2 id="lp-classes" class="lp-h2" data-reveal>Pick your <em>class.</em></h2>
+    <h2 id="lp-classes" class="lp-h2" data-reveal>Every class. <em>Every field.</em></h2>
     <ol class="lp-rows">
-      {% for g in grades %}
+      {% for l in levels %}
       <li data-reveal style="--i:{{ forloop.counter0 }}">
-        <a class="lp-row" href="{% url 'web:library' %}?grade={{ g.label|urlencode }}">
-          <span class="lp-row-n">{% if g.key == 'bachelor' %}B{% else %}{{ g.label|slice:"6:" }}{% endif %}</span>
-          <span class="lp-row-t"><b>{{ g.label }}</b><small>{{ g.exam }}</small></span>
-          <span class="lp-row-s">{% for s in g.subjects|slice:":5" %}{{ s.name }}{% if not forloop.last %} · {% endif %}{% endfor %}</span>
+        <a class="lp-row" href="{% url 'web:library' %}?{{ l.query }}">
+          <span class="lp-row-n">{{ l.name }}</span>
+          <span class="lp-row-s">{{ l.detail }}</span>
           <span class="lp-row-go" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span>
         </a>
       </li>
@@ -161,18 +140,27 @@
     <div class="lp-wrap lp-forum-in">
       <div class="lp-forum-copy">
         <h2 id="lp-forum" class="lp-h2">Stuck at 11&nbsp;pm? <em>Ask.</em></h2>
-        <a class="lp-btn lp-btn-cream" href="{% url 'web:forum' %}"><span>Open the forum</span></a>
+        <a class="lp-btn lp-btn-cream lp-btn-dark" href="{% url 'web:forum' %}"><span>Open the forum</span></a>
       </div>
       <div class="lp-stack" style="--n:{{ discussions|length|default:2 }}">
         {% for p in discussions %}
         <a class="lp-card" href="/app/forum/post/{{ p.id }}/" style="--i:{{ forloop.counter0 }}">
-          <span class="lp-card-top"><span class="lp-ava">{{ p.initial }}</span>{{ p.name }}<small>{{ p.category }}</small></span>
-          <b>{{ p.title|truncatechars:90 }}</b>
-          <span class="lp-card-foot">{{ p.replies }} repl{{ p.replies|pluralize:"y,ies" }}</span>
+          <span class="lp-card-head">
+            {% if p.avatar %}<img class="lp-ava" src="{{ p.avatar }}" alt="" width="40" height="40" loading="lazy" decoding="async">{% else %}<span class="lp-ava">{{ p.initial }}</span>{% endif %}
+            <span class="lp-card-who"><b>{{ p.name }}</b><small>{{ p.ago }} ago</small></span>
+            <span class="lp-chip">{{ p.category }}</span>
+          </span>
+          <b class="lp-card-title">{{ p.title }}</b>
+          {% if p.excerpt and p.excerpt != p.title %}<span class="lp-card-text">{{ p.excerpt }}</span>{% endif %}
+          <span class="lp-card-foot">
+            <span><svg viewBox="0 0 24 24"><path d="M7 11v9H4v-9zm0 0 4-8c1.7 0 2.6 1 2.3 2.6L12.7 9H19a2 2 0 0 1 2 2.3l-1.2 7A2 2 0 0 1 17.8 20H7"/></svg>{{ p.likes }}</span>
+            <span><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg>{{ p.replies }}</span>
+            <span><svg viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>{{ p.views }}</span>
+            <span class="lp-card-go">Read</span>
+          </span>
         </a>
         {% empty %}
-        <div class="lp-card" style="--i:0"><span class="lp-card-top"><span class="lp-ava">A</span>Asha<small>Chemistry</small></span><b>Why is the second ionisation energy always higher?</b><span class="lp-card-foot">Be the first to answer</span></div>
-        <div class="lp-card" style="--i:1"><span class="lp-card-top"><span class="lp-ava">R</span>Rohan<small>Mathematics</small></span><b>Is there a solved set for the BLE maths model questions?</b><span class="lp-card-foot">Be the first to answer</span></div>
+        <div class="lp-card" style="--i:0"><span class="lp-card-head"><span class="lp-ava">A</span><span class="lp-card-who"><b>Asha</b><small>today</small></span><span class="lp-chip">Chemistry</span></span><b class="lp-card-title">Why is the second ionisation energy always higher?</b><span class="lp-card-text">Once one electron is gone the rest are held more tightly. Is that the whole reason?</span><span class="lp-card-foot"><span class="lp-card-go">Be the first to answer</span></span></div>
         {% endfor %}
       </div>
     </div>
@@ -205,7 +193,7 @@
     <h2 id="lp-faqh" class="lp-h2" data-reveal>Questions people <em>ask first.</em></h2>
     <div class="lp-faq-list">
       <details data-reveal><summary>Is it really free?</summary><p>Yes. Reading, downloading, the forum and the study books are free. Some creators sell their own courses in the marketplace, and those are clearly marked with a price.</p></details>
-      <details data-reveal><summary>Which classes and boards does it cover?</summary><p>Class 8 (BLE), Class 10 (SEE) and Class 11 and 12 (NEB) have the most material, with a growing collection for Bachelor's programmes at TU, KU and PU.</p></details>
+      <details data-reveal><summary>Which classes and fields does it cover?</summary><p>All of them. Every class, field and level is welcome, from school to Master's. Class 8, 10, 11 and 12 have the most material today, and the library grows with every upload.</p></details>
       <details data-reveal><summary>Who writes the material?</summary><p>Students and teachers upload most of the library, and moderators check it before it goes public. The NEBians study books are written by our team against the CDC syllabus.</p></details>
       <details data-reveal><summary>Do I need an account?</summary><p>Not to read. You need one to post in the forum, upload, bookmark and keep your place across devices.</p></details>
     </div>
@@ -218,7 +206,7 @@
   <div class="lp-wrap lp-foot-in">
     <div class="lp-foot-cta">
       <p class="lp-h2">Open a book. <em>Ask a question.</em></p>
-      <a class="lp-btn" href="{% url 'web:home' %}"><span>{% if signed_in %}Open NEBians{% else %}Start, free{% endif %}</span></a>
+      <a class="lp-btn lp-btn-cream lp-btn-dark" href="{% url 'web:home' %}"><span>{% if signed_in %}Open NEBians{% else %}Start, free{% endif %}</span></a>
     </div>
     <nav class="lp-foot-cols" aria-label="Footer">
       <div><small>Study</small><a href="{% url 'web:library' %}">Library</a><a href="{% url 'web:past_papers' %}">Past papers</a><a href="{% url 'web:result_check' %}">Results</a><a href="{% url 'web:doc_tools' %}">PDF tools</a></div>
