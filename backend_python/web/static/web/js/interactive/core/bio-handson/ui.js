@@ -143,6 +143,17 @@ export function createUI(stage, opts) {
       box.style.top = `${Math.max(8, Math.min(h - box.offsetHeight - 8, y + 18))}px`;
       return box;
     },
+    /** Pick any number of options, then Done. */
+    chooseMany(x, y, title, options, cb) {
+      root.querySelectorAll('.bh-pick').forEach((n) => n.remove());
+      const box = el('div', 'bh-pick bh-pick-many', `<b>${esc(title)}</b>`); const picked = new Set();
+      options.forEach((o) => { const b = el('button', '', esc(o.label)); b.type = 'button'; b.addEventListener('click', (e) => { e.stopPropagation(); if (picked.has(o.value)) { picked.delete(o.value); b.classList.remove('on'); } else { picked.add(o.value); b.classList.add('on'); } }); box.appendChild(b); });
+      const done = el('button', 'bh-pick-done', 'Done'); done.type = 'button'; done.addEventListener('click', () => { box.remove(); cb([...picked]); }); box.appendChild(done);
+      root.appendChild(box);
+      const w = stage.clientWidth; const h = stage.clientHeight; const bw = Math.min(250, w - 16);
+      box.style.left = `${Math.max(8, Math.min(w - bw - 8, x - bw / 2))}px`; box.style.top = `${Math.max(8, Math.min(h - box.offsetHeight - 8, y + 18))}px`;
+      return box;
+    },
     clearChooser() { root.querySelectorAll('.bh-pick').forEach((n) => n.remove()); },
     clearResult() { root.querySelectorAll('.bh-result').forEach((n) => n.remove()); },
     dispose() { clearTimeout(toastTimer); root.remove(); panel.dispose(); stage.classList.remove('bh-stage'); },

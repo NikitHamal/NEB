@@ -267,3 +267,5 @@
 .bh-eye-act { flex: 1 1 45%; min-height: 40px; border-radius: 10px; border: 1px solid rgba(250,204,21,.5); background: rgba(250,204,21,.12); color: #fde68a; font: inherit; font-size: .74rem; font-weight: 700; cursor: pointer; padding: 4px 8px; }
 .bh-eye-act:disabled { opacity: .35; cursor: default; }
 .bh-eye-act.glow { animation: bh-glow 1.1s ease-in-out infinite; }
+.bh-pick-many button.on { background: #16a34a; color: #fff; }
+.bh-pick-many .bh-pick-done { background: #0f172a; color: #fff; width: 100%; }
