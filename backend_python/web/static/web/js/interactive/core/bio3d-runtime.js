@@ -3,6 +3,7 @@ import { createPanel, createHud, showInfoCard } from './sim-ui.js';
 import { getBiologyPractical } from './bio3d-data.js';
 import { buildBiologyModel } from './bio3d-models.js';
 import { getBiologyMetricRows, getBiologyFormula, getBiologyBadge, getBiologyConclusion } from './bio3d-science.js';
+import { buildRoom } from './lab3d-room.js';
 
 function initialState(config) {
   const state = { running: true };
@@ -81,23 +82,19 @@ export function initBio3DLab(stage, opts = {}) {
   const engine = createEngine(stage, { fov: 44, shadows: true, environment: true, exposure: 1.05 });
   if (!engine) return null;
   const { scene, camera, quality } = engine;
-  scene.background = new THREE.Color(0x050816);
-  scene.fog = new THREE.Fog(0x050816, 8, 24);
-  basicLights(scene, { ambient: 0.45, key: 1.9, fill: 0.65, keyPos: [4, 8, 6], rim: 0.55, rimPos: [-5, 5, -7] });
-  // Grounding contact occlusion under the bench, for one draw call and no extra render pass.
-  const contactShadow = makeContactShadow({ y: 0.715, width: 6.2, depth: 4.4, opacity: 0.66 });
-  scene.add(contactShadow);
+  // the same bright school lab as the physics and chemistry practicals, with a biology bench
+  buildRoom(scene, { subject: 'biology', title: config.title, subtitle: config.aim }, quality);
+  if (quality.tier !== 'low') { engine.renderer.shadowMap.enabled = true; engine.renderer.shadowMap.type = THREE.PCFSoftShadowMap; }
   const view = cameraViewFor(config.kind, quality.mobile);
   camera.position.set(...view.pos);
   const target = new THREE.Vector3(...view.target);
-  const controls = createOrbitControls(camera, engine.canvas, { target, minDistance: view.min, maxDistance: view.max, autoRotate: quality.reducedMotion ? 0 : 0.04, damping: 0.11 });
+  const controls = createOrbitControls(camera, engine.canvas, { target, minDistance: view.min, maxDistance: view.max, autoRotate: 0, damping: 0.11 });
   controls.setView(new THREE.Vector3(...view.pos), target);
 
   const state = initialState(config);
   const hud = createHud(stage);
   const badge1 = hud.badge(`Class ${config.grade} Biology`, '#22c55e');
   const badge2 = hud.badge(getBiologyBadge(config, state), '#93c5fd');
-  const badge3 = hud.badge('scan-grade PBR model', '#c084fc');
   let stepIndex = 0;
   let records = [];
   let group = null;
@@ -136,9 +133,6 @@ export function initBio3DLab(stage, opts = {}) {
   const readouts = seedRows.slice(0, 5).map((row) => panel.readout({ label: row[0], value: row[1] }));
   panel.section('Scientific formula');
   const formulaOut = panel.readout({ label: 'Model rule', value: getBiologyFormula(config, state) });
-  panel.section('Model fidelity');
-  panel.readout({ label: 'Visual standard', value: quality.tier === 'low' ? 'optimized PBR textures' : 'scan-grade PBR + micro displacement' });
-  panel.readout({ label: 'Scientific labels', value: 'calibrated morphology + live readings' });
   const table = makeTable(panel.body);
 
   function resetView() { controls.setView(new THREE.Vector3(...view.pos), target); }
@@ -146,7 +140,9 @@ export function initBio3DLab(stage, opts = {}) {
   function rebuild() {
     if (group) { scene.remove(group); disposeObject(group); }
     group = new THREE.Group();
+    group.position.y = 0.1; // the models were built for a bench at 0.7; the room's bench is at 0.8
     buildBiologyModel(group, config, state, { quality });
+    group.traverse((o) => { if (o.isMesh && !(o.material && o.material.transparent)) { o.castShadow = true; o.receiveShadow = true; } });
     scene.add(group);
     needsRebuild = false;
     readoutsDirty = true;
@@ -157,7 +153,7 @@ export function initBio3DLab(stage, opts = {}) {
     setReadouts(readouts, rows);
     badge1.set(`Class ${config.grade} Biology`);
     badge2.set(getBiologyBadge(config, state));
-    badge3.set(quality.tier === 'low' ? 'optimized PBR model' : 'scan-grade PBR model');
+    // (the model-fidelity badge is gone: it described the renderer, not the practical)
     formulaOut.set(getBiologyFormula(config, state));
   }
   function recordCurrent() {
