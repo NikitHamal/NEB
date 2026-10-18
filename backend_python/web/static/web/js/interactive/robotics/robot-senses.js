@@ -1,4 +1,5 @@
 import { THREE, createEngine, createOrbitControls, basicLights, makeLabelSprite } from '../core/engine.js';
+import { workshop, miniBot } from '../core/robot-kit.js';
 import { createPanel, createHud } from '../core/sim-ui.js';
 
 export default function init(stage) {
@@ -12,53 +13,25 @@ export default function init(stage) {
     minDistance: 4, maxDistance: 20, target: new THREE.Vector3(2.2, 1, 0),
   });
 
-  basicLights(scene);
-  const grid = new THREE.GridHelper(20, 20, 0x35507c, 0x22344f);
-  scene.add(grid);
-  const ground = new THREE.Mesh(
-    new THREE.PlaneGeometry(20, 20),
-    new THREE.MeshStandardMaterial({ color: 0x152338, roughness: 0.95 })
-  );
-  ground.rotation.x = -Math.PI / 2;
-  ground.position.y = -0.01;
-  scene.add(ground);
+  workshop(scene, engine, quality, { radius: 22, tiles: 5, shadowSize: 7 });
 
+  // the classroom robot, turned to face the wall (+x); its ultrasonic ranger is on the nose
+  const bot = miniBot({ color: 0x2f7de1, wheelR: 0.34, width: 1.2, length: 1.5 });
   const robot = new THREE.Group();
-  const bodyMat = new THREE.MeshStandardMaterial({ color: 0x3ba7e8, roughness: 0.5, metalness: 0.25 });
-  const darkMat = new THREE.MeshStandardMaterial({ color: 0x24344e, roughness: 0.6 });
-  const body = new THREE.Mesh(new THREE.BoxGeometry(1.4, 0.8, 1.1), bodyMat);
-  body.position.y = 0.75;
-  robot.add(body);
-  const wheelGeo = new THREE.CylinderGeometry(0.34, 0.34, 0.2, Math.max(16, seg / 2));
-  [-0.62, 0.62].forEach((z) => {
-    [-0.42, 0.42].forEach((x) => {
-      const w = new THREE.Mesh(wheelGeo, darkMat);
-      w.rotation.x = Math.PI / 2;
-      w.position.set(x, 0.34, z);
-      robot.add(w);
-    });
-  });
-  const sensorBlock = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.42, 0.7), darkMat);
-  sensorBlock.position.set(0.85, 0.95, 0);
-  robot.add(sensorBlock);
-  const eyeMat = new THREE.MeshStandardMaterial({ color: 0x101a2c, emissive: 0x7fe9ff, emissiveIntensity: 1.0 });
-  const eyeGeo = new THREE.CylinderGeometry(0.14, 0.14, 0.1, 18);
-  [-0.2, 0.2].forEach((z) => {
-    const eye = new THREE.Mesh(eyeGeo, eyeMat);
-    eye.rotation.z = Math.PI / 2;
-    eye.position.set(1.02, 0.95, z);
-    robot.add(eye);
-  });
+  bot.group.rotation.y = Math.PI / 2;
+  bot.group.scale.setScalar(1.15);
+  robot.add(bot.group);
   const lbl = makeLabelSprite('Ultrasonic sensor', { scale: 0.7, fontSize: 38 });
-  lbl.position.set(0.85, 1.8, 0);
+  lbl.position.set(0.95, 1.5, 0);
   robot.add(lbl);
   robot.position.x = -3;
   scene.add(robot);
 
   const wall = new THREE.Mesh(
     new THREE.BoxGeometry(0.3, 2.6, 4),
-    new THREE.MeshStandardMaterial({ color: 0xf5b942, roughness: 0.8 })
+    new THREE.MeshStandardMaterial({ color: 0xf1e7d6, roughness: 0.9 })
   );
+  wall.castShadow = true; wall.receiveShadow = true;
   wall.position.set(1.5, 1.3, 0);
   scene.add(wall);
   const wallLbl = makeLabelSprite('Wall', { scale: 0.7, fontSize: 38 });
@@ -66,7 +39,7 @@ export default function init(stage) {
   wall.add(wallLbl);
 
   const ringCount = 5;
-  const ringMat = new THREE.MeshBasicMaterial({ color: 0x7fe9ff, transparent: true, opacity: 0.8, side: THREE.DoubleSide });
+  const ringMat = new THREE.MeshBasicMaterial({ color: 0x0ea5e9, transparent: true, opacity: 0.8, side: THREE.DoubleSide });
   const ringGeo = new THREE.TorusGeometry(0.5, 0.03, 8, Math.max(24, seg));
   const rings = [];
   for (let i = 0; i < ringCount; i++) {

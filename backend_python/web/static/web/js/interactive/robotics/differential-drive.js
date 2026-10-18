@@ -1,5 +1,6 @@
 import { THREE, createEngine, createOrbitControls, basicLights } from '../core/engine.js';
 import { createPanel, createHud } from '../core/sim-ui.js';
+import { workshop, miniBot } from '../core/robot-kit.js';
 
 const ARENA = 11;
 const WHEEL_BASE = 1.0;
@@ -12,22 +13,14 @@ export default function init(stage) {
   const { scene, camera, quality } = engine;
   const seg = quality.segments;
 
-  camera.position.set(0, 12, 9);
+  camera.position.set(0, 7.5, 7.8);
   const controls = createOrbitControls(camera, engine.canvas, {
     minDistance: 5, maxDistance: 26, target: new THREE.Vector3(0, 0, 0),
   });
 
-  basicLights(scene);
+  workshop(scene, engine, quality, { radius: ARENA * 2.2, tiles: 6, shadowSize: ARENA });
 
-  const floor = new THREE.Mesh(
-    new THREE.PlaneGeometry(ARENA * 2, ARENA * 2),
-    new THREE.MeshStandardMaterial({ color: 0x152741, roughness: 0.95 })
-  );
-  floor.rotation.x = -Math.PI / 2;
-  scene.add(floor);
-  scene.add(new THREE.GridHelper(ARENA * 2, 22, 0x35507c, 0x22344f));
-
-  const wallMat = new THREE.MeshStandardMaterial({ color: 0x2c4368, roughness: 0.8 });
+  const wallMat = new THREE.MeshPhysicalMaterial({ color: 0xf5f7fa, roughness: 0.35, clearcoat: 0.6 });
   const wallGeo = new THREE.BoxGeometry(ARENA * 2, 0.6, 0.25);
   [[0, -ARENA, 0], [0, ARENA, 0], [-ARENA, 0, Math.PI / 2], [ARENA, 0, Math.PI / 2]].forEach((w) => {
     const m = new THREE.Mesh(wallGeo, wallMat);
@@ -36,34 +29,17 @@ export default function init(stage) {
     scene.add(m);
   });
 
-  const robot = new THREE.Group();
-  const bodyMat = new THREE.MeshStandardMaterial({ color: 0x2da4ec, roughness: 0.45, metalness: 0.3 });
-  const darkMat = new THREE.MeshStandardMaterial({ color: 0x1c2c44, roughness: 0.6 });
-  const body = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.34, 1.3), bodyMat);
-  body.position.y = 0.46;
-  robot.add(body);
-  const nose = new THREE.Mesh(new THREE.ConeGeometry(0.22, 0.5, Math.max(12, seg / 2)), new THREE.MeshStandardMaterial({ color: 0xf5b942, roughness: 0.5 }));
-  nose.rotation.x = -Math.PI / 2;
-  nose.position.set(0, 0.46, 0.8);
-  robot.add(nose);
-  const wheelGeo = new THREE.CylinderGeometry(0.33, 0.33, 0.18, Math.max(16, seg / 2));
-  const wheelL = new THREE.Mesh(wheelGeo, darkMat);
-  wheelL.rotation.z = Math.PI / 2;
-  wheelL.position.set(-0.62, 0.33, -0.1);
-  robot.add(wheelL);
-  const wheelR = wheelL.clone();
-  wheelR.position.x = 0.62;
-  robot.add(wheelR);
-  const caster = new THREE.Mesh(new THREE.SphereGeometry(0.12, 12, 12), darkMat);
-  caster.position.set(0, 0.12, 0.55);
-  robot.add(caster);
+  const bot = miniBot({ color: 0x2f7de1 });
+  const robot = bot.group;
+  const wheelL = bot.wheelL;
+  const wheelR = bot.wheelR;
   scene.add(robot);
 
   const trailGeo = new THREE.BufferGeometry();
   const trailPos = new Float32Array(TRAIL_MAX * 3);
   trailGeo.setAttribute('position', new THREE.BufferAttribute(trailPos, 3));
   trailGeo.setDrawRange(0, 0);
-  const trail = new THREE.Line(trailGeo, new THREE.LineBasicMaterial({ color: 0x7fe9ff, transparent: true, opacity: 0.85 }));
+  const trail = new THREE.Line(trailGeo, new THREE.LineBasicMaterial({ color: 0x2563eb, transparent: true, opacity: 0.9 }));
   scene.add(trail);
   let trailLen = 0;
   let trailTimer = 0;
