@@ -1,12 +1,33 @@
 # NEBians - Continuity Notes
 
-**Last updated:** September 28, 2026
+**Last updated:** October 18, 2026
 
 > **Android UI work lives in [`ANDROID_UI_CONTINUITY.md`](ANDROID_UI_CONTINUITY.md).** This file covers the Django/web side only.
 
 ---
 
 ## Current Status
+
+### Landing page, /app, site themes, query budgets, self-hosted fonts (Oct 18, 2026)
+
+- **`/` is a standalone landing page** (`web/views_landing.py`, `templates/landing/landing.html`,
+  `static/web/css/landing.css`, `static/web/js/landing.js`). It does not load material3.css or
+  the app shell. The app lives under **`/app/`** (`/app/library/`, `/app/forum/`, ...). Old page
+  URLs answer **308** to the `/app/` equivalent via `views_landing.legacy_redirect` (method and
+  query kept). `ajax/`, `api/`, `auth/`, `login/`, legal pages, sitemap and robots stay at the root.
+- **Site themes replace the hero background SVGs.** `web/site_themes.py` owns the themes
+  (everyday, dashain, tihar, holi, new-year, monsoon, winter, exams): CSS tokens, decor,
+  greeting. Admins force or schedule one at `/admin/themes/` (`SiteTheme` model, migration
+  0146). `resolve()` picks forced > scheduled window (Kathmandu date) > everyday; cached 300 s,
+  `invalidate()` on save. Context processor `web.site_themes.context`.
+- **Query budgets** (`web/test_query_budget.py`) pin forum, leaderboard, search, resources and
+  the suggested feed. Helpers: `api.services.AVATAR_FIELDS`, `web.view_helpers._request_db_user`,
+  `api.view_helpers.prime_for_serializers`. Probe: `backend_python/scratch/perf_probe.py`.
+- **Fonts are self-hosted** (`static/web/css/fonts.css`, `static/web/fonts/app/`). The icon font
+  is a **subset**: an icon not in `fonts/app/material-symbols-outlined.txt` renders as its name.
+  `web/test_icon_font.py` catches literal names; after adding an icon run
+  `python scripts/build_icon_font.py` (needs fonttools + brotli). Admin, coding-agent and
+  background-agent templates still use Google's full font.
 
 ### Creator page themes, templates and the rebuilt studio (COMPLETE, Sep 28, 2026)
 

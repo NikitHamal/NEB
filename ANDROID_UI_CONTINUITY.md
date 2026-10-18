@@ -341,3 +341,28 @@ stat is the full string with `weight(1f, fill = false)` instead of
 **f) Build.** Both `:app:compileModernDebugKotlin` and
 `:app:compileLegacyDebugKotlin` are green. Still not seen on a device — §7.3
 stands, and now covers §11 too.
+
+
+## 12. The PDF reader rebuild (Oct 18, 2026) — compiles, `assembleModernDebug` green
+
+`ui/screens/reader/PdfViewerScreen.kt` plus `ui/screens/reader/pdf/`:
+
+- `PdfDocumentEngine` — one open `PdfRenderer`, page aspect ratios read at open, renders behind
+  a mutex into an `LruCache` sized from the heap (1/6, 16–96 MB). Widths bucket to 160 px; one
+  page never exceeds 6 MP. `close()` defers releasing the renderer if a render is in flight.
+- `ReaderPrefs` — last page and bookmarks per document; theme, layout, keep-screen-on globally.
+- `ReaderZoom` — pinch / double-tap / pan read in the Initial pointer pass (a pinch never reaches
+  the list); at 1x single-finger drags are left to the list or pager. In the scrolling layout
+  vertical movement while zoomed is fed to the list (`dispatchRawDelta`, decay fling). Pages
+  re-render sharp only when the gesture settles (`renderScale`).
+- `PdfPageViews` — `ScrollReader` (LazyColumn) and `PagedReader` (HorizontalPager), boxes sized
+  to the real page so nothing jumps; Paper / Sepia / Night via colour matrices (Night inverts
+  lightness but keeps hue).
+- `PdfReaderChrome` / `PdfReaderSheets` — top and bottom bars (tap the page to hide them; system
+  bars hide too), page chip → go-to-page, scrubber, thumbnails grid, bookmarks, reading options,
+  progress hairline and a page badge in focus mode, a "Continuing from page N" hint.
+- `PdfAssistantOverlay` (Ask Neby) is unchanged; the screen lifts it above the bottom bar.
+- `NebDialogTextField` gained an optional `keyboardOptions` parameter.
+
+Local build without CI secrets: `KEYSTORE_PASSWORD=x KEY_PASSWORD=x ./gradlew :app:compileModernDebugKotlin`
+(the release signing config throws when the variable is unset, even for debug tasks).
