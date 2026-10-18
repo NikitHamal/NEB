@@ -251,6 +251,8 @@ function glucose(ctx) {
   const { world, anim, sfx, ui, fx, input } = ctx;
   const value = [82, 96, 118, 165, 238][Math.floor(Math.random() * 5)];
   const finger = mesh(new THREE.CapsuleGeometry(0.09, 0.42, 6, 14), wet(0xe0a989, { roughness: 0.6, clearcoat: 0.2 }), [-0.35, 0.1, 0.2]); finger.rotation.z = Math.PI / 2; world.add(finger);
+  const nail = mesh(new THREE.SphereGeometry(0.07, 16, 10), wet(0xf2c9b8, { roughness: 0.25, clearcoat: 1 }), [-0.12, 0.17, 0.2]); nail.scale.set(1.2, 0.25, 0.9); world.add(nail);
+  [-0.36, -0.52].forEach((x) => { const crease = mesh(new THREE.TorusGeometry(0.09, 0.004, 4, 20, Math.PI), MAT.matte(0xc58b70), [x, 0.1, 0.2]); crease.rotation.y = Math.PI / 2; world.add(crease); });
   const swab = mesh(new THREE.BoxGeometry(0.16, 0.01, 0.16), MAT.matte(0xffffff), [-0.9, 0.006, 0.4]); world.add(swab);
   const meter = new THREE.Group(); meter.position.set(0.55, 0, 0.15); world.add(meter);
   meter.add(mesh(new THREE.BoxGeometry(0.42, 0.1, 0.7), MAT.gloss(0x1f2937), [0, 0.05, 0]));
@@ -261,7 +263,7 @@ function glucose(ctx) {
   const pad = mesh(new THREE.BoxGeometry(0.04, 0.008, 0.04), MAT.plastic(0xfacc15), [0, 0.062, 0.6]); meter.add(pad);
   function show(t) { lg.fillStyle = '#b8c9a6'; lg.fillRect(0, 0, 256, 128); lg.fillStyle = '#1f2a1a'; lg.font = '700 64px monospace'; lg.textAlign = 'center'; lg.fillText(t, 128, 80); lg.font = '600 20px monospace'; lg.fillText('mg/dL', 200, 115); lcdTex.needsUpdate = true; }
   show('---');
-  const tip = new THREE.Vector3(-0.12, 0.12, 0.2);
+  const tip = new THREE.Vector3(-0.1, 0.12, 0.29);
   const SHOT = { pos: [0.05, 1.6, 1.5], target: [0.05, 0.85, 0.25], fit: 1.7 };
   let rub = 0; let last = null; let pricked = false; let dropOn = null; let lanceMark = null;
   const steps = [

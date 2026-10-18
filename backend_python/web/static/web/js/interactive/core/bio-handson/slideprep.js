@@ -219,6 +219,7 @@ export function createScopeView(ctx, st, field, opts = {}) {
         }, opts));
       }
       ctx.ui.showBelt(false);
+      if (ctx.stage.clientWidth < 640) ctx.ui.collapseCard(true);
       ctx.anim.wait(0.9, () => { eye.show(true); if (cb) cb(); });
     },
     close() {
