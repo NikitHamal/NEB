@@ -23,47 +23,48 @@ const STAGES = [
   },
 ];
 
-// Procedural wing pattern: gradient membrane, radiating veins, dark margin,
-// white spots and eyespots baked into one albedo texture per wing pair.
+// The plain tiger, Danaus chrysippus, common across Nepal's hills and Terai: tawny orange wings
+// with dark veins, a black forewing tip crossed by a white band, and black margins dotted with
+// white. Painted in wing space: u runs from the body (0) to the wing edge (1), v bottom to top.
 function wingTexture(kind) {
-  const size = 256;
+  const size = 512;
   const c = document.createElement('canvas');
   c.width = size; c.height = size;
-  const ctx = c.getContext('2d');
-  const g = ctx.createLinearGradient(0, 0, size, size);
-  if (kind === 'upper') { g.addColorStop(0, '#f9a8d4'); g.addColorStop(0.55, '#e879b9'); g.addColorStop(1, '#a855f7'); }
-  else { g.addColorStop(0, '#c084fc'); g.addColorStop(0.6, '#8b5cf6'); g.addColorStop(1, '#5b21b6'); }
-  ctx.fillStyle = g;
-  ctx.fillRect(0, 0, size, size);
-  ctx.strokeStyle = 'rgba(30,10,25,0.85)';
-  ctx.lineWidth = 5;
-  for (let i = 0; i < 7; i++) {
-    const a = (i / 6) * Math.PI * 0.5;
-    ctx.beginPath();
-    ctx.moveTo(0, size / 2);
-    ctx.quadraticCurveTo(size * 0.4, size / 2 - Math.sin(a) * size * 0.4, size, size / 2 - Math.sin(a) * size * 0.48);
-    ctx.stroke();
+  const g = c.getContext('2d');
+  const base = g.createLinearGradient(0, 0, size, 0);
+  base.addColorStop(0, '#b7561d'); base.addColorStop(0.35, '#e98a2c'); base.addColorStop(1, '#f2a13f');
+  g.fillStyle = base; g.fillRect(0, 0, size, size);
+  // dark scaling near the body
+  const root = g.createLinearGradient(0, 0, size * 0.25, 0); root.addColorStop(0, 'rgba(60,24,10,0.55)'); root.addColorStop(1, 'rgba(60,24,10,0)');
+  g.fillStyle = root; g.fillRect(0, 0, size * 0.25, size);
+  if (kind === 'upper') {
+    // the black apex with its white diagonal band
+    g.fillStyle = '#17110f';
+    g.beginPath(); g.moveTo(size * 0.5, 0); g.lineTo(size, 0); g.lineTo(size, size * 0.72); g.quadraticCurveTo(size * 0.78, size * 0.5, size * 0.5, 0); g.fill(); // canvas y runs down: v = 1 is the top
+    g.fillStyle = '#fbf7ef';
+    [[0.68, 0.86, 22], [0.75, 0.78, 20], [0.82, 0.7, 18], [0.88, 0.62, 15], [0.72, 0.93, 14]].forEach(([x, y, r]) => { g.beginPath(); g.ellipse(x * size, size - y * size, r, r * 0.7, -0.6, 0, Math.PI * 2); g.fill(); });
+  } else {
+    // three small black spots on the hindwing
+    g.fillStyle = '#17110f';
+    [[0.42, 0.62, 9], [0.5, 0.5, 8], [0.56, 0.68, 7]].forEach(([x, y, r]) => { g.beginPath(); g.arc(x * size, size - y * size, r, 0, Math.PI * 2); g.fill(); });
   }
-  ctx.lineWidth = 16;
-  ctx.strokeStyle = 'rgba(24,8,20,0.9)';
-  ctx.strokeRect(0, 0, size, size);
-  ctx.fillStyle = 'rgba(255,255,255,0.92)';
-  [[size * 0.22, size * 0.30, 7], [size * 0.34, size * 0.62, 5], [size * 0.16, size * 0.72, 6], [size * 0.52, size * 0.24, 5]].forEach(([x, y, r]) => {
-    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
-  });
-  function eyespot(x, y, r, inner) {
-    ctx.fillStyle = '#f5e9c8';
-    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
-    ctx.fillStyle = '#1c0f1a';
-    ctx.beginPath(); ctx.arc(x, y, r * 0.66, 0, Math.PI * 2); ctx.fill();
-    ctx.fillStyle = inner;
-    ctx.beginPath(); ctx.arc(x, y, r * 0.32, 0, Math.PI * 2); ctx.fill();
+  // veins radiate from the body
+  g.strokeStyle = 'rgba(28,16,10,0.85)'; g.lineWidth = 3.2;
+  for (let i = 0; i < 8; i++) {
+    const t = i / 7;
+    g.beginPath(); g.moveTo(0, size * (0.5 + (kind === 'upper' ? -0.1 : 0.1)));
+    g.quadraticCurveTo(size * 0.45, size * (0.2 + t * 0.6), size, size * (t * 1.05 - 0.02));
+    g.stroke();
   }
-  eyespot(size * 0.72, size * 0.36, 17, '#fbbf24');
-  eyespot(size * 0.80, size * 0.66, 13, '#93c5fd');
+  // the black margin with its row of white dots, along the outer edge
+  g.lineWidth = 34; g.strokeStyle = '#17110f';
+  g.beginPath(); g.moveTo(size * 0.98, 0); g.lineTo(size * 0.98, size); g.stroke();
+  g.lineWidth = 22; g.beginPath(); g.moveTo(0, kind === 'upper' ? size * 0.99 : size * 0.01); g.lineTo(size, kind === 'upper' ? size * 0.99 : size * 0.01); g.stroke();
+  g.fillStyle = '#fbf7ef';
+  for (let i = 0; i < 12; i++) { g.beginPath(); g.arc(size * 0.975, size * (0.05 + i * 0.08), 4.5, 0, Math.PI * 2); g.fill(); }
   const tex = new THREE.CanvasTexture(c);
   if (THREE.SRGBColorSpace) tex.colorSpace = THREE.SRGBColorSpace;
-  tex.anisotropy = 4;
+  tex.anisotropy = 8;
   return tex;
 }
 
@@ -74,16 +75,16 @@ export default function init(stage) {
   const { scene, camera, renderer, quality } = engine;
   const low = quality.tier === 'low';
 
-  camera.position.set(0, 1.6, 11);
+  camera.position.set(1.5, 4.2, 7.5);
   const controls = createOrbitControls(camera, engine.canvas, {
     minDistance: 4, maxDistance: 18, enablePan: false, maxPolar: Math.PI * 0.7, minPolar: Math.PI * 0.2,
   });
   controls.setTarget(new THREE.Vector3(0, 1, 0));
 
   const disposeEnv = applyEnvironmentLighting(renderer, scene, { sky: '#9fc7ef', horizon: '#5f8f6a', ground: '#131c12' });
-  skyDome(scene, { top: 0x12294d, mid: 0x173a2c, bottom: 0x081009 });
-  scene.fog = new THREE.Fog(0x102419, 16, 40);
-  basicLights(scene, { ambient: 0.45, key: 1.5 });
+  skyDome(scene, { top: 0x5d8fc4, mid: 0x6f9a74, bottom: 0x1f3320 });
+  scene.fog = new THREE.Fog(0x5c7f62, 18, 44);
+  basicLights(scene, { ambient: 0.6, key: 2.0 });
   const fill = new THREE.DirectionalLight(0xffd9a8, 0.4); fill.position.set(-5, 3, -5); scene.add(fill);
 
   // Ground + branch
@@ -189,15 +190,29 @@ export default function init(stage) {
 
   const upperTex = wingTexture('upper');
   const lowerTex = wingTexture('lower');
-  const wingMatUpper = new THREE.MeshStandardMaterial({ map: upperTex, side: THREE.DoubleSide, roughness: 0.42, transparent: true, alphaTest: 0.08 });
-  const wingMatLower = new THREE.MeshStandardMaterial({ map: lowerTex, side: THREE.DoubleSide, roughness: 0.46, transparent: true, alphaTest: 0.08 });
+  const wingMatUpper = new THREE.MeshPhysicalMaterial({ map: upperTex, side: THREE.DoubleSide, roughness: 0.55, sheen: 0.25, sheenColor: new THREE.Color(0xffd7a0) });
+  const wingMatLower = new THREE.MeshPhysicalMaterial({ map: lowerTex, side: THREE.DoubleSide, roughness: 0.58, sheen: 0.25, sheenColor: new THREE.Color(0xffd7a0) });
 
   function makeWing(side, upper) {
+    // real outlines: a long forewing with a rounded apex, a broad rounded hindwing
+    const P = upper
+      ? [[0, 0.04], [0.3, 0.5], [0.85, 0.9], [1.22, 0.98], [1.36, 0.82], [1.28, 0.5], [1.08, 0.22], [0.62, 0.04], [0, -0.04]]
+      : [[0, -0.02], [0.55, 0.02], [0.98, -0.18], [1.06, -0.52], [0.86, -0.86], [0.45, -0.98], [0.14, -0.7], [0, -0.3]];
+    // the outline is drawn as (along the body, out from the body); the forewing reaches
+    // forward, the hindwing back. Rotated so "out" is world Z: the wings spread sideways from the
+    // body (which runs along X) and flap about it.
     const shape = new THREE.Shape();
-    shape.moveTo(0, 0);
-    shape.bezierCurveTo(side * 1.2, upper ? 0.9 : -0.6, side * 1.6, upper ? 0.4 : -0.2, side * 0.1, upper ? 0.1 : -0.4);
-    shape.bezierCurveTo(side * -0.2, upper ? 0.4 : -0.1, side * -0.1, upper ? 0.6 : -0.3, 0, 0);
-    const geo = new THREE.ShapeGeometry(shape, 24);
+    shape.moveTo(P[0][1] * 0.9, 0);
+    shape.splineThru(P.slice(1).map(([o, a]) => new THREE.Vector2(a * 0.9, side * o)));
+    shape.lineTo(P[0][1] * 0.9, 0);
+    const geo = new THREE.ShapeGeometry(shape, 32);
+    geo.rotateX(Math.PI / 2);
+    geo.computeBoundingBox();
+    const bb = geo.boundingBox; const pos = geo.attributes.position; const uv = geo.attributes.uv;
+    const maxOut = Math.max(Math.abs(bb.min.z), Math.abs(bb.max.z));
+    for (let i = 0; i < pos.count; i++) {
+      uv.setXY(i, Math.abs(pos.getZ(i)) / maxOut, (pos.getX(i) - bb.min.x) / (bb.max.x - bb.min.x));
+    }
     const m = new THREE.Mesh(geo, upper ? wingMatUpper : wingMatLower);
     m.castShadow = true;
     return m;
@@ -317,7 +332,8 @@ export default function init(stage) {
     if (spin) root.rotation.y += dt * 0.25;
     if (current === 'butterfly') {
       wingPhase += dt * 9;
-      const flap = 0.25 + Math.abs(Math.sin(wingPhase)) * 0.95;
+      // wings sweep from nearly flat to raised over the back
+      const flap = 0.15 + Math.abs(Math.sin(wingPhase)) * 1.0;
       pivots.left.rotation.x = flap;
       pivots.right.rotation.x = -flap;
       bfGroup.position.y = 0.75 + Math.sin(time * 2.0) * 0.15;

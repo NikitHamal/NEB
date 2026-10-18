@@ -1,3 +1,4 @@
+import { atmosphere } from '../core/space-kit.js';
 import { THREE, createEngine, createOrbitControls, basicLights, makeLabelSprite, makeSignalPoints } from '../core/engine.js';
 import { createPanel, createHud, showInfoCard } from '../core/sim-ui.js';
 
@@ -21,6 +22,12 @@ export default function init(stage) {
   scene.background = new THREE.Color(0x0a0e1a);
   scene.fog = new THREE.Fog(0x0a0e1a, 16, 34);
   basicLights(scene, { ambient: 0.34, key: 1.45, fill: 0.4, rim: 0.45, rimPos: [-5, 4, -8] });
+  // a deep studio sweep instead of a flat void
+  scene.add(new THREE.Mesh(new THREE.SphereGeometry(60, 32, 16), new THREE.ShaderMaterial({
+    side: THREE.BackSide, depthWrite: false, fog: false,
+    vertexShader: 'varying vec3 vP; void main(){ vP = normalize(position); gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.0); }',
+    fragmentShader: 'varying vec3 vP; void main(){ float t = clamp(vP.y*0.5+0.5,0.0,1.0); vec3 c = mix(vec3(0.02,0.03,0.08), vec3(0.10,0.10,0.24), pow(t,1.3)); gl_FragColor = vec4(c, 1.0); }',
+  })));
 
   const inputs = [
     { val: 0.6, weight: 0.8, color: 0x60a5fa },
@@ -38,6 +45,7 @@ export default function init(stage) {
   const soma = new THREE.Mesh(new THREE.SphereGeometry(SOMA_R, seg, Math.max(10, seg >> 1)), somaMat);
   soma.castShadow = quality.shadows;
   scene.add(soma);
+  soma.add(atmosphere(SOMA_R, 0x8b8cff, 1.3, 2.4, 1.0));
 
   // Nucleus: visible inside the soma through the translucent membrane.
   const nucleus = new THREE.Mesh(
@@ -55,6 +63,7 @@ export default function init(stage) {
   outNode.position.set(4, 0, 0);
   outNode.castShadow = quality.shadows;
   scene.add(outNode);
+  outNode.add(atmosphere(0.45, 0xfbbf24, 1.5, 2.2, 1.0));
 
   const inputNodes = [];
   const dendriteMeshes = [];

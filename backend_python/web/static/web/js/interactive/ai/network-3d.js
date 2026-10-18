@@ -1,3 +1,4 @@
+import { atmosphere } from '../core/space-kit.js';
 import { THREE, createEngine, createOrbitControls, basicLights, makeLabelSprite, makeSignalPoints } from '../core/engine.js';
 import { createPanel, createHud, showInfoCard } from '../core/sim-ui.js';
 
@@ -16,6 +17,12 @@ export default function init(stage) {
   scene.background = new THREE.Color(0x070a18);
   scene.fog = new THREE.Fog(0x070a18, 16, 38);
   basicLights(scene, { ambient: 0.38, key: 1.35, fill: 0.45, rim: 0.5, rimPos: [-6, 4, -8] });
+  // a deep studio sweep instead of a flat void
+  scene.add(new THREE.Mesh(new THREE.SphereGeometry(60, 32, 16), new THREE.ShaderMaterial({
+    side: THREE.BackSide, depthWrite: false, fog: false,
+    vertexShader: 'varying vec3 vP; void main(){ vP = normalize(position); gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.0); }',
+    fragmentShader: 'varying vec3 vP; void main(){ float t = clamp(vP.y*0.5+0.5,0.0,1.0); vec3 c = mix(vec3(0.02,0.03,0.08), vec3(0.10,0.10,0.24), pow(t,1.3)); gl_FragColor = vec4(c, 1.0); }',
+  })));
 
   const LAYOUT = [4, 6, 5, 3];
   const LAYER_LABELS = ['Input', 'Hidden 1', 'Hidden 2', 'Output'];
@@ -59,6 +66,8 @@ export default function init(stage) {
       });
       const mesh = new THREE.Mesh(neuronGeometry, mat);
       mesh.position.set(x, y, 0);
+      // a soft rim of light, like a cell lit from within
+      if (quality.tier !== 'low') mesh.add(atmosphere(neuronGeometry.parameters.radius, 0x8b8cff, 1.35, 2.2, 0.9));
       mesh.castShadow = quality.shadows;
       scene.add(mesh);
       neuronMesh[id] = mesh;
