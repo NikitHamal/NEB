@@ -170,11 +170,7 @@ fun EmailVerificationScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             NebArtSlot(collapseOnKeyboard = false) {
-                NebCodeInFlightArt(
-                    filledCount = code.text.length,
-                    total = CODE_LENGTH,
-                    height = artHeight
-                )
+                com.neb.ians.ui.pixel.art.PixelOnboardingArt(com.neb.ians.ui.pixel.art.PixelOnboarding.Kind.Code, a = code.text.length, b = CODE_LENGTH, height = artHeight)
             }
 
             Spacer(modifier = Modifier.height(18.dp))
