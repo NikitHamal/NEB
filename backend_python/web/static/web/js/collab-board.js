@@ -1781,7 +1781,7 @@
         '<div class="cb-ai-actions">' +
           '<button class="md-btn md-btn-outlined" id="cbAiCancel">Cancel</button>' +
           '<button class="md-btn md-btn-filled" id="cbAiSubmit" style="display:flex; align-items:center; gap:6px;">' +
-            '<span class="material-symbols-outlined" style="font-size:18px;">sparkles</span> Generate on Canvas' +
+            '<span class="material-symbols-outlined" style="font-size:18px;">auto_awesome</span> Generate on Canvas' +
           '</button>' +
         '</div>' +
       '</div>';
