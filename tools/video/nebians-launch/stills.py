@@ -13,10 +13,13 @@ tiles = []
 for t in times:
     s = skia.Surface(W, H)
     film.frame(s.getCanvas(), t)
-    tiles.append(Image.fromarray(s.makeImageSnapshot().toarray(colorType=skia.kRGBA_8888_ColorType)[:, :, :3]).resize((640, 360)))
+    tiles.append(Image.fromarray(s.makeImageSnapshot().toarray(colorType=skia.kRGBA_8888_ColorType)[:, :, :3]).resize((W // 3, H // 3)))
 cols = 3
 rows = (len(tiles) + cols - 1) // cols
-sheet = Image.new("RGB", (cols * 644, rows * 364), "black")
+tw, th = W // 3, H // 3
+cols = 3 if W > H else 4
+rows = (len(tiles) + cols - 1) // cols
+sheet = Image.new("RGB", (cols * (tw + 4), rows * (th + 4)), "black")
 for i, im in enumerate(tiles):
-    sheet.paste(im, ((i % cols) * 644, (i // cols) * 364))
+    sheet.paste(im, ((i % cols) * (tw + 4), (i // cols) * (th + 4)))
 sheet.save(out)

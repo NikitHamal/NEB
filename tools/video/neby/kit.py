@@ -6,7 +6,9 @@ import skia
 HERE = os.path.dirname(os.path.abspath(__file__))
 FONTS = os.path.join(HERE, "..", "assets", "fonts")
 
-W, H = 1920, 1080
+W, H = (1080, 1920) if os.environ.get("FILM_ASPECT") == "9x16" else (1920, 1080)
+VERT = H > W
+CX, CY = W / 2, H / 2
 
 BLUE = 0xFF004AC6
 BLUE_BRIGHT = 0xFF0058DF

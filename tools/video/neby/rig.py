@@ -35,11 +35,12 @@ EASES = {"smooth": smoother, "spring": soft_spring}
 
 
 class Performance:
-    def __init__(self, keys, blinks=(), looks=(), body_colors=()):
+    def __init__(self, keys, blinks=(), looks=(), body_colors=(), props=None):
         """keys: [(t, expression_id, blend_s, ease)], blinks: [t], looks: [(t, x, y, blend_s)]."""
         self.keys = sorted(keys)
         self.blinks = sorted(blinks)
         self.looks = sorted(looks)
+        self.props = props
 
     def weights(self, t):
         ws = []
@@ -81,6 +82,8 @@ class NebyRig:
         if key in self.cache:
             return self.cache[key]
         req = {"keys": perf.weights(t), "t": t * 1000.0, "blink": perf.blink(t), "look": perf.look(t)}
+        if perf.props:
+            req.update(perf.props(t))
         self.p.stdin.write(json.dumps(req) + "\n")
         out = self.p.stdout.readline().strip()
         if out.startswith("ERR"):

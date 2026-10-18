@@ -74,9 +74,43 @@ function svg(req) {
                (g.rightVisible ? `<path d="${g.rightPath}" fill="${eyeC}"/>` : '');
   const mouth = g.mouthVisible && g.mouthPath
     ? `<path d="${g.mouthPath}" fill="none" stroke="${eyeC}" stroke-width="${(2.8 * (expr.mouthScale || 1)).toFixed(1)}" stroke-linecap="round"/>` : '';
+  const bbox = d => {
+    const n = (d || '').match(/-?\d+(?:\.\d+)?/g) || [];
+    let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+    for (let i = 0; i + 1 < n.length; i += 2) {
+      const x = +n[i], y = +n[i + 1];
+      x0 = Math.min(x0, x); x1 = Math.max(x1, x); y0 = Math.min(y0, y); y1 = Math.max(y1, y);
+    }
+    return { x0, y0, x1, y1, cx: (x0 + x1) / 2, cy: (y0 + y1) / 2 };
+  };
+  let props = '';
+  if (req.jamara > 0 && g.headPath) {
+    const hb = bbox(g.headPath);
+    const s = req.jamara;
+    const bx = hb.cx - (hb.x1 - hb.x0) * 0.16, by = hb.y0 + 10;
+    const sway = Math.sin((req.t || 0) / 1000 * 2.2) * 3;
+    let blades = '';
+    for (let i = 0; i < 9; i++) {
+      const a = (-0.62 + i * 0.155);
+      const len = (34 + (i % 3) * 9) * s;
+      const tx = bx + Math.sin(a) * len + sway * (len / 40), ty = by - Math.cos(a) * len;
+      const col = ['#d9e64a', '#b8d43a', '#e8ef7a'][i % 3];
+      blades += `<path d="M${bx - 2} ${by} Q${bx + Math.sin(a) * len * 0.5} ${by - Math.cos(a) * len * 0.6} ${tx} ${ty} Q${bx + Math.sin(a) * len * 0.5 + 3} ${by - Math.cos(a) * len * 0.55} ${bx + 2} ${by} Z" fill="${col}"/>`;
+    }
+    props += `<g>${blades}<rect x="${bx - 7}" y="${by - 4}" width="14" height="6" rx="3" fill="#e0313b"/></g>`;
+  }
+  if (req.tika > 0 && g.leftVisible && g.rightVisible) {
+    const l = bbox(g.leftPath), r = bbox(g.rightPath);
+    const k = req.tika;
+    const cx = (l.cx + r.cx) / 2, top = Math.min(l.y0, r.y0);
+    const h = 26 * k, w = 13 * k;
+    const cy = top - 14 - h / 2;
+    props += `<ellipse cx="${cx}" cy="${cy}" rx="${w / 2}" ry="${h / 2}" fill="#e0313b"/>` +
+      [[-3, -5], [3, -1], [-1, 4], [4, 7], [-4, 2]].map(([dx, dy]) => `<ellipse cx="${cx + dx * k}" cy="${cy + dy * k}" rx="${1.6 * k}" ry="${1.1 * k}" fill="#fff6e8"/>`).join('');
+  }
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="-150 -150 300 300"><defs><clipPath id="h"><path d="${g.headPath}"/></clipPath></defs>` +
     `<g transform="translate(${body.x} ${body.y})">${paths(g.backPaths, bodyC)}<path d="${g.headPath}" fill="${bodyC}"/>${decals}` +
-    `<g clip-path="url(#h)">${eyes}</g>${mouth}${paths(g.frontPaths, bodyC)}</g></svg>`;
+    `<g clip-path="url(#h)">${eyes}</g>${mouth}${paths(g.frontPaths, bodyC)}${props}</g></svg>`;
 }
 
 const rl = readline.createInterface({ input: process.stdin });
