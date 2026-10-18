@@ -902,7 +902,7 @@
   {% comment %} Moved down from <head>. Order is the order they were in there, and every
      consumer of them runs on DOMContentLoaded or later, so nothing changes
      except that the page can paint before they arrive. {% endcomment %}
-  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neb-art.js' %}"></script>
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/pixel-art.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/inline-media.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/forum-media.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/media-player.js' %}"></script>
