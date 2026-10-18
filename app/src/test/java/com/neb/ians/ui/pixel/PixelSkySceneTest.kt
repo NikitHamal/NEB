@@ -53,6 +53,29 @@ class PixelSkySceneTest {
             y += s.height + 4
         }
         write(sheet, sheetW, sheetH, File(dir, "sprites.ppm"))
+        // one horizontal strip per UI sprite, for the web (scripts turn them into PNG + CSS)
+        val ui = File(dir, "ui").apply { mkdirs() }
+        val meta = StringBuilder()
+        for ((name, s) in PixelUiSprites.all) {
+            val n = s.frames.size
+            val strip = IntArray(s.width * n * s.height)
+            s.frames.forEachIndexed { f, data ->
+                for (y in 0 until s.height) for (x in 0 until s.width) strip[y * s.width * n + f * s.width + x] = data[y * s.width + x]
+            }
+            writeArgb(strip, s.width * n, s.height, File(ui, "$name.pam"))
+            meta.append("$name ${s.width} ${s.height} $n ${s.frameMs}\n")
+        }
+        File(ui, "meta.txt").writeText(meta.toString())
+    }
+
+    /** PAM with alpha (RGB_ALPHA), so transparent pixels survive the trip to PNG. */
+    private fun writeArgb(px: IntArray, w: Int, h: Int, file: File) {
+        val header = "P7\nWIDTH $w\nHEIGHT $h\nDEPTH 4\nMAXVAL 255\nTUPLTYPE RGB_ALPHA\nENDHDR\n".toByteArray()
+        val body = ByteArray(w * h * 4)
+        px.forEachIndexed { i, c ->
+            body[i * 4] = (c shr 16).toByte(); body[i * 4 + 1] = (c shr 8).toByte(); body[i * 4 + 2] = c.toByte(); body[i * 4 + 3] = (c ushr 24).toByte()
+        }
+        file.writeBytes(header + body)
     }
 
     /** Binary PPM: no imaging library needed on the Android unit-test classpath. */

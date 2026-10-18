@@ -4803,3 +4803,6 @@ button.cp-media-item-icon.cp-audio-play.playing {
   .app-banner-content { justify-content: flex-start; }
   .app-banner-icon { display: none; }
 }
+
+/* Empty states carry the app's pixel art (pixel.css, pixel-states.js): give the sprite room. */
+.empty-state > .px-sprite, .notif-empty-state > .px-sprite, .fp-empty > .px-sprite { margin: 0 auto 12px; display: block; }
