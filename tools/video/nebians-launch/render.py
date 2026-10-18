@@ -21,8 +21,8 @@ def main():
     out = sys.argv[1] if len(sys.argv) > 1 else "neby-launch.mp4"
     draft = "--draft" in sys.argv
     fps = 30 if draft else film.FPS
-    samples = 1 if draft else 3
-    shutter = 0.5 / fps
+    samples = 1 if draft else int(os.environ.get("FILM_SAMPLES", "7"))
+    shutter = 0.42 / fps
     nframes = int(round(film.DURATION * fps))
 
     wav = os.path.join(tempfile.gettempdir(), "neby-score.wav")

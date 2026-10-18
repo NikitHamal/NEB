@@ -718,7 +718,24 @@ def neby_main(c, t):
             return
     if t > 15.0:
         return
-    neby().draw(c, t, x, y, s)
+    sx = sy = 1.0
+    rot = 0.0
+    for a, b in ((3.0, 3.45), (6.9, 7.5), (10.4, 10.9)):
+        if a <= t <= b:
+            k = (t - a) / (b - a)
+            st = math.sin(math.pi * k)
+            sy, sx = 1 + 0.10 * st, 1 - 0.06 * st
+            rot = 8 * math.sin(math.pi * k) * (1 if a != 10.4 else -1)
+        u = t - b
+        if 0 < u < 0.6:
+            sq = 0.12 * math.exp(-u * 9) * math.cos(u * 26)
+            sx, sy = 1 + sq, 1 - sq
+    if t < 1.2:
+        u = t - 0.95
+        if u > 0:
+            sq = 0.10 * math.exp(-u * 8) * math.cos(u * 24)
+            sx, sy = 1 + sq, 1 - sq
+    neby().draw(c, t, x, y, s, rot=rot, sx=sx, sy=sy)
 
 
 def frame(c, t):
