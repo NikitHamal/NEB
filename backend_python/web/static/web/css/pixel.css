@@ -37,4 +37,7 @@
 @keyframes px-storefront{to{background-position-x:-768px}}
 .px-trophy{width:96px;height:96px;background-image:url(../img/pixel/trophy.png);background-size:1152px 96px;animation:px-trophy 1320ms steps(12) infinite}
 @keyframes px-trophy{to{background-position-x:-1152px}}
+/* icon plates (a tinted circle sized for a glyph) step aside once a sprite takes the icon's place */
+.notif-empty-icon:has(>.px-sprite),.bookmarks-empty-icon:has(>.px-sprite){background:none;width:auto;height:auto;border-radius:0;box-shadow:none}
+.request-empty>.px-sprite,.empty-leaderboard>.px-sprite,.follow-list-empty>.px-sprite,.credits-empty>.px-sprite{display:block;margin:0 auto 8px}
 @media (prefers-reduced-motion:reduce){.px-sprite{animation:none}}

@@ -190,4 +190,12 @@
   .cp-poll-section{padding:12px}
   .cp-preview-image-grid img{height:160px}
   .cp-preview-image-grid-3 img:first-child{height:200px}
+}/* Phones: the counter and the main button keep to one line, the anonymous toggle takes its own
+   row above them, and Cancel sits beside Post instead of being pushed off the edge. */
+.cp-char-count,.cp-submit,.cp-cancel{white-space:nowrap}
+@media (max-width:560px){
+  .cp-actions{flex-wrap:wrap;gap:10px}
+  .cp-anon-toggle{flex:1 0 100%}
+  .cp-submit{flex:1;justify-content:center}
+  .cp-cancel{padding:10px 16px}
 }
