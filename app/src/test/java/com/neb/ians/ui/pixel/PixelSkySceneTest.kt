@@ -89,6 +89,18 @@ class PixelSkySceneTest {
             val cv = com.neb.ians.ui.pixel.art.PixelBanners.render(family, v, night)
             writeArgb(cv.pixels, cv.width, cv.height, File(bannerDir, "${family.lowercase()}-$v-${if (night) "night" else "day"}.pam"))
         }
+        // the season motifs, in each theme's light primary, as strips for the web's header and season card
+        val motifs = mapOf("kite" to 0xFFB3261E, "diyo" to 0xFF9A4600, "gulal" to 0xFFA8336B, "gurans" to 0xFFBA1A3A, "drop" to 0xFF006A60, "snow" to 0xFF2E5AAC, "pencil" to 0xFF26418F)
+        val motifMeta = StringBuilder()
+        for ((name, col) in motifs) {
+            val s = PixelMotifs.sprite(name, col.toInt()) ?: continue
+            val n = s.frames.size
+            val strip = IntArray(s.width * n * s.height)
+            s.frames.forEachIndexed { f, data -> for (y in 0 until s.height) for (x in 0 until s.width) strip[y * s.width * n + f * s.width + x] = data[y * s.width + x] }
+            writeArgb(strip, s.width * n, s.height, File(ui, "motif-$name.pam"))
+            motifMeta.append("motif-$name ${s.width} ${s.height} $n ${s.frameMs}\n")
+        }
+        File(ui, "motifs.txt").writeText(motifMeta.toString())
         val coverDir = File(dir, "covers").apply { mkdirs() }
         for (role in com.neb.ians.ui.pixel.art.PixelCovers.ROLES) for (v in 0 until com.neb.ians.ui.pixel.art.PixelCovers.VARIANTS) {
             val cv = com.neb.ians.ui.pixel.art.PixelCovers.render(role, v)

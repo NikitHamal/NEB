@@ -62,11 +62,9 @@
 
   <!-- Hero Card -->
   <div class="rd-hero" style="--subject-color: {{ resource.subject|split:','|first|subject_color }}">
+    {# The resource's pixel banner, the same picture as its card and as the app's detail screen. #}
     <div class="rd-hero-art">
-      <svg viewBox="0 0 220 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="180" cy="40" r="120" fill="var(--subject-color, var(--md-primary))"/>
-        <circle cx="200" cy="160" r="80" fill="var(--subject-color, var(--md-primary))" opacity=".5"/>
-      </svg>
+      <div class="neb-art" data-neb-art="banner" data-neb-subject="{{ resource.subject|split:','|first }}" data-neb-seed="{{ resource.id }}|{{ resource.type }}"></div>
     </div>
     <div class="rd-chips">
       {% for subj in resource.subject|split:"," %}
