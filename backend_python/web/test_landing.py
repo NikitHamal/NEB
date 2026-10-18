@@ -15,7 +15,7 @@ class LandingAndAppPrefixTests(TestCase):
     def test_landing_is_its_own_light_page(self):
         r = self.client.get('/')
         self.assertEqual(r.status_code, 200)
-        self.assertContains(r, 'Pass it on.')
+        self.assertContains(r, 'Study <em>mates.</em>')
         self.assertNotContains(r, 'For students in Nepal')
         self.assertNotContains(r, 'material3.css')
         self.assertContains(r, 'href="/app/library/"')
