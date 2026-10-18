@@ -77,7 +77,6 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material.icons.filled.Close
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -272,7 +271,7 @@ fun ForumPostDetailScreen(
                 val isOwnPost = post.isOwner || (uiState.currentUserId != null && post.authorId == uiState.currentUserId)
                 val topLevel = uiState.topLevelReplies
 
-                PullToRefreshBox(
+                com.neb.ians.ui.components.NebRefreshBox(
                     isRefreshing = isRefreshing,
                     onRefresh = {
                         scope.launch {

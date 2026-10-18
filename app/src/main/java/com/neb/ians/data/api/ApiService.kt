@@ -1617,6 +1617,10 @@ interface ApiService {
     ): List<ApiEditHistory>
 
     // --- News / Announcements (public web parity) ---
+    /** The live festival theme (public, cached 5 min by the server). */
+    @GET("site-theme/")
+    suspend fun getSiteTheme(): ApiSiteTheme
+
     @GET("news/")
     suspend fun getNewsPage(
         @Query("category") category: String? = null
