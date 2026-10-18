@@ -11,9 +11,11 @@ from . import views_marketplace
 from . import credit_views
 from . import views_avatar_api
 from . import views_content_images
+from . import views_site_theme
 
 urlpatterns = [
     # Auth
+    path('site-theme/', views_site_theme.site_theme, name='site-theme'),
     path('auth/google/', views.auth_google, name='auth-google'),
     path('auth/github/', views.auth_github, name='auth-github'),
     path('auth/email/signup/', views.auth_email_signup, name='auth-email-signup'),

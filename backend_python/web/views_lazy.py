@@ -43,7 +43,7 @@ def lazy_page(request, session_id=None):
     user = _get_user_or_none(request)
     if not user:
         login_url = reverse('web:login')
-        next_url = f"/lazy/{session_id}/" if session_id else "/lazy/"
+        next_url = f"/app/lazy/{session_id}/" if session_id else "/app/lazy/"
         return redirect(f"{login_url}?next={next_url}")
     sessions = LazyDocSession.objects.filter(user=user)[:60]
     ctx = _ctx(request, hide_footer_links=True)

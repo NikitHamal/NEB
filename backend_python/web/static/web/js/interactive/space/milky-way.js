@@ -1,5 +1,6 @@
 import { THREE, createEngine, createOrbitControls, makeLabelSprite } from '../core/engine.js';
 import { createPanel, createHud } from '../core/sim-ui.js';
+import { starfield } from '../core/space-kit.js';
 
 const GALAXY_RADIUS = 50;
 const SUN_RADIUS = 26;
@@ -26,96 +27,107 @@ export default function init(stage) {
   camera.position.set(0, 52, 78);
   const controls = createOrbitControls(camera, engine.canvas, { minDistance: 10, maxDistance: 300, autoRotate: 0.02 });
 
-  const count = quality.tier === 'low' ? 3000 : quality.tier === 'medium' ? 9000 : 16000;
+  // A barred spiral, as the Milky Way is: an elongated central bar inside a bulge of old,
+  // yellow stars; two major arms (Scutum-Centaurus, Perseus) and two minor ones of young blue
+  // stars; pink star-forming nebulae strung along the arms; dark dust lanes on their inner
+  // edges; and a soft diffuse glow of unresolved stars under it all.
+  const count = quality.tier === 'low' ? 6000 : quality.tier === 'medium' ? 16000 : 30000;
   const positions = new Float32Array(count * 3);
   const colors = new Float32Array(count * 3);
-  const arms = 4;
-  const armSpread = 0.34;
-  const coreColor = new THREE.Color(0xffe2b0);
-  const midColor = new THREE.Color(0xfff4e0);
-  const armColor = new THREE.Color(0x9fb8ff);
-  const tmpColor = new THREE.Color();
-
+  const sizes = new Float32Array(count);
+  const PITCH = 0.22; // spiral pitch, in the log-spiral's exponent
+  const armAngle = (r, arm) => Math.log(Math.max(r, 6) / 6) / PITCH + arm * Math.PI / 2 + (arm % 2 ? 0 : 0);
+  const old = new THREE.Color(0xffd9a0), mid = new THREE.Color(0xfff2dc), young = new THREE.Color(0xa8c4ff), hot = new THREE.Color(0xd2e0ff);
+  const c = new THREE.Color();
+  const gauss = () => (Math.random() + Math.random() + Math.random() - 1.5) / 1.5;
   for (let i = 0; i < count; i++) {
-    const isBulge = i < count * 0.22;
-    let x;
-    let y;
-    let z;
-    let rNorm;
-    if (isBulge) {
-      const r = Math.pow(Math.random(), 2) * GALAXY_RADIUS * 0.2;
-      const theta = Math.random() * Math.PI * 2;
-      const phi = Math.acos(2 * Math.random() - 1);
-      x = r * Math.sin(phi) * Math.cos(theta);
-      y = r * Math.cos(phi) * 0.62;
-      z = r * Math.sin(phi) * Math.sin(theta);
-      rNorm = r / GALAXY_RADIUS;
+    let x; let y; let z; let col; let size;
+    const kind = Math.random();
+    if (kind < 0.18) {
+      // bulge and bar: a triaxial cloud of old stars, the bar tilted 27 degrees
+      const r = Math.pow(Math.random(), 1.6) * 11;
+      const th = Math.random() * Math.PI * 2;
+      x = Math.cos(th) * r * 1.9; z = Math.sin(th) * r * 0.7; y = gauss() * (3.2 - r * 0.18);
+      const bx = x * Math.cos(0.47) - z * Math.sin(0.47); z = x * Math.sin(0.47) + z * Math.cos(0.47); x = bx;
+      col = c.copy(old).lerp(mid, Math.random() * 0.4); size = 1.2 + Math.random() * 1.4;
     } else {
-      const t = Math.pow(Math.random(), 0.62);
-      const r = 4 + t * (GALAXY_RADIUS - 4);
-      const arm = i % arms;
-      const baseAngle = Math.log(r / 3.2) / 0.28 + (arm * Math.PI * 2) / arms;
-      const scatter = (Math.random() - 0.5) * armSpread * (1 + r / GALAXY_RADIUS);
-      const angle = baseAngle + scatter;
-      const wobble = (Math.random() - 0.5) * 2.2;
-      x = Math.cos(angle) * r + wobble;
-      z = Math.sin(angle) * r + wobble * 0.7;
-      y = (Math.random() - 0.5) * (2.6 - 1.9 * (r / GALAXY_RADIUS));
-      rNorm = r / GALAXY_RADIUS;
+      const t = Math.pow(Math.random(), 0.7);
+      const r = 7 + t * (GALAXY_RADIUS - 7);
+      const arm = Math.floor(Math.random() * 4);
+      const major = arm === 0 || arm === 2;
+      const inArm = Math.random() < (major ? 0.82 : 0.6);
+      const spread = inArm ? gauss() * (0.16 + r * 0.004) * (major ? 1 : 1.4) : (Math.random() - 0.5) * Math.PI * 2;
+      const ang = armAngle(r, arm) + spread;
+      x = Math.cos(ang) * r; z = Math.sin(ang) * r;
+      y = gauss() * (1.1 - (r / GALAXY_RADIUS) * 0.6);
+      const youth = inArm ? Math.max(0, 1 - Math.abs(spread) * 6) : 0;
+      col = c.copy(mid).lerp(young, youth * 0.9 + (r / GALAXY_RADIUS) * 0.15);
+      if (Math.random() < youth * 0.12) col.copy(hot);
+      size = 0.8 + Math.random() * 1.0 + youth * 1.4;
     }
-    positions[i * 3] = x;
-    positions[i * 3 + 1] = y;
-    positions[i * 3 + 2] = z;
-    if (rNorm < 0.3) tmpColor.copy(coreColor).lerp(midColor, rNorm / 0.3);
-    else tmpColor.copy(midColor).lerp(armColor, (rNorm - 0.3) / 0.7);
-    const jitter = 0.82 + Math.random() * 0.18;
-    colors[i * 3] = tmpColor.r * jitter;
-    colors[i * 3 + 1] = tmpColor.g * jitter;
-    colors[i * 3 + 2] = tmpColor.b * jitter;
+    positions[i * 3] = x; positions[i * 3 + 1] = y; positions[i * 3 + 2] = z;
+    const b = 0.6 + Math.random() * 0.4;
+    colors[i * 3] = col.r * b; colors[i * 3 + 1] = col.g * b; colors[i * 3 + 2] = col.b * b;
+    sizes[i] = size;
   }
-
   const geo = new THREE.BufferGeometry();
   geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
   geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-  const mat = new THREE.PointsMaterial({
-    size: quality.tier === 'low' ? 1.1 : 0.85,
-    map: makeStarTexture(),
-    vertexColors: true,
-    transparent: true,
-    depthWrite: false,
-    blending: THREE.AdditiveBlending,
-    sizeAttenuation: true,
+  geo.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+  const mat = new THREE.ShaderMaterial({
+    uniforms: { scale: { value: 1 } },
+    vertexShader: 'attribute float size; varying vec3 vC; uniform float scale; void main(){ vC = color; vec4 mv = modelViewMatrix*vec4(position,1.0); gl_PointSize = size * scale * (300.0 / -mv.z); gl_Position = projectionMatrix*mv; }',
+    fragmentShader: 'varying vec3 vC; void main(){ vec2 d = gl_PointCoord-0.5; float r = length(d); float a = exp(-r*r*18.0); gl_FragColor = vec4(vC*1.25, a); }',
+    vertexColors: true, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
   });
+  engine.onResize((w, h) => { mat.uniforms.scale.value = Math.max(0.6, h / 900) * Math.min(window.devicePixelRatio || 1, 2); });
   const galaxy = new THREE.Points(geo, mat);
   scene.add(galaxy);
 
-  const coreGlow = new THREE.Sprite(new THREE.SpriteMaterial({
-    map: makeStarTexture(),
-    color: 0xffe0a8,
-    transparent: true,
-    depthWrite: false,
-    blending: THREE.AdditiveBlending,
-    opacity: 0.85,
-  }));
-  coreGlow.scale.set(26, 18, 1);
+  // the diffuse disc: unresolved starlight, painted once from the same arms
+  const glowTex = (() => {
+    const W = quality.tier === 'low' ? 512 : 1024;
+    const cv = document.createElement('canvas'); cv.width = cv.height = W; const g = cv.getContext('2d');
+    // a transparent canvas: black would still write alpha and darken the page behind the stage
+    g.globalCompositeOperation = 'lighter';
+    const k = W / (GALAXY_RADIUS * 2.3);
+    const blob = (x, y, r, col, a) => { const gr = g.createRadialGradient(x, y, 0, x, y, r); gr.addColorStop(0, `rgba(${col},${a})`); gr.addColorStop(1, `rgba(${col},0)`); g.fillStyle = gr; g.beginPath(); g.arc(x, y, r, 0, Math.PI * 2); g.fill(); };
+    blob(W / 2, W / 2, W * 0.16, '255,214,150', 0.9);
+    blob(W / 2, W / 2, W * 0.32, '255,226,180', 0.25);
+    for (let arm = 0; arm < 4; arm++) for (let r = 7; r < GALAXY_RADIUS; r += 0.45) {
+      const ang = armAngle(r, arm);
+      const x = W / 2 + Math.cos(ang) * r * k, y = W / 2 + Math.sin(ang) * r * k;
+      blob(x, y, (2.2 + r * 0.09) * k, arm % 2 ? '170,190,255' : '190,205,255', arm % 2 ? 0.05 : 0.08);
+    }
+    // dust lanes trail the arms on their inner edge
+    for (let arm = 0; arm < 4; arm += 2) for (let r = 9; r < GALAXY_RADIUS * 0.85; r += 0.5) {
+      const ang = armAngle(r, arm) - 0.12;
+      const x = W / 2 + Math.cos(ang) * r * k, y = W / 2 + Math.sin(ang) * r * k;
+      g.globalCompositeOperation = 'destination-out'; blob(x, y, (0.9 + r * 0.03) * k, '0,0,0', 0.35);
+    }
+    const t = new THREE.CanvasTexture(cv); if (t.colorSpace !== undefined) t.colorSpace = THREE.SRGBColorSpace; return t;
+  })();
+  const disc = new THREE.Mesh(new THREE.PlaneGeometry(GALAXY_RADIUS * 2.3, GALAXY_RADIUS * 2.3), new THREE.MeshBasicMaterial({ map: glowTex, transparent: true, opacity: 0.9, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide }));
+  disc.rotation.x = -Math.PI / 2;
+  galaxy.add(disc);
+  // star-forming nebulae, pink with hydrogen, along the major arms
+  if (quality.tier !== 'low') {
+    const neb = new THREE.SpriteMaterial({ map: makeStarTexture(), color: 0xff7aa8, transparent: true, opacity: 0.55, blending: THREE.AdditiveBlending, depthWrite: false });
+    for (let i = 0; i < 46; i++) {
+      const arm = (i % 2) * 2; const r = 12 + Math.random() * 34;
+      const ang = armAngle(r, arm) + (Math.random() - 0.5) * 0.08;
+      const sp = new THREE.Sprite(neb); sp.position.set(Math.cos(ang) * r, 0.2, Math.sin(ang) * r); sp.scale.setScalar(1.2 + Math.random() * 1.8); galaxy.add(sp);
+    }
+  }
+  const coreGlow = new THREE.Sprite(new THREE.SpriteMaterial({ map: makeStarTexture(), color: 0xffe0a8, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0.9 }));
+  coreGlow.scale.set(30, 16, 1);
   galaxy.add(coreGlow);
 
-  const bgGeo = new THREE.BufferGeometry();
-  const bgCount = quality.tier === 'low' ? 400 : 1200;
-  const bgPos = new Float32Array(bgCount * 3);
-  for (let i = 0; i < bgCount; i++) {
-    const r = 500 + Math.random() * 800;
-    const theta = Math.random() * Math.PI * 2;
-    const phi = Math.acos(2 * Math.random() - 1);
-    bgPos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
-    bgPos[i * 3 + 1] = r * Math.cos(phi);
-    bgPos[i * 3 + 2] = r * Math.sin(phi) * Math.sin(theta);
-  }
-  bgGeo.setAttribute('position', new THREE.BufferAttribute(bgPos, 3));
-  scene.add(new THREE.Points(bgGeo, new THREE.PointsMaterial({ color: 0x8fa3c4, size: 1.1, sizeAttenuation: false })));
+  scene.add(starfield(quality, 900));
 
   const sunMarker = new THREE.Group();
-  const sunAngle = Math.log(SUN_RADIUS / 3.2) / 0.28 + Math.PI / 2;
+  // the Sun sits in the Orion Spur, between the Perseus and Sagittarius arms
+  const sunAngle = Math.log(SUN_RADIUS / 6) / 0.22 + Math.PI / 2 + Math.PI / 4;
   sunMarker.position.set(Math.cos(sunAngle) * SUN_RADIUS, 0.6, Math.sin(sunAngle) * SUN_RADIUS);
   const sunDot = new THREE.Mesh(new THREE.SphereGeometry(0.55, 16, 16), new THREE.MeshBasicMaterial({ color: 0xffd24d }));
   sunMarker.add(sunDot);

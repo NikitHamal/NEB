@@ -1,0 +1,7 @@
+{% comment %}A small festival motif beside the logo while a festive theme is on. The app's animated pixel
+motif (img/pixel/motif-*.png, exported from PixelMotifs); decorative, so hidden from screen readers (the greeting carries the words).{% endcomment %}
+{% with m=site_theme.app.motif %}{% if m %}
+<span class="st-motif st-motif-{{ m }}" aria-hidden="true" title="{{ site_theme.greeting.en|default:site_theme.name }}">
+<i class="st-motif-px motif-{{ m }}"></i>
+</span>
+{% endif %}{% endwith %}

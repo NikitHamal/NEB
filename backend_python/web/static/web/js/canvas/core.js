@@ -246,7 +246,7 @@ function deleteBoardFlow(b){
     if(wasCurrent){
       var rest=[];S.boards.forEach(function(v,k){rest.push(k)});
       if(rest.length) switchBoard(rest[0]);
-      else location.href="/canvas/";
+      else location.href="/app/canvas/";
     }
   };
   if(isRemoteBoard(b)){

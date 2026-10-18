@@ -1,5 +1,15 @@
 # NEBians launch film
 
+> **Current films (2026-10):**
+> - **Platform launch — `tools/video/platform/`** → `tools/video/dist/nebians-launch-16x9.mp4` (22 s).
+>   Replaces the older browser-rendered cut described below.
+> - **Dashain books release — `tools/video/nebians-launch/`** → `tools/video/dist/nebians-launch-dashain-16x9.mp4` (20 s),
+>   announcing the class 8, 10, 11 and 12 notes and question banks.
+>
+> Both star the real Neby: the product's own avatar geometry (`neby-avatar.js`) animated by
+> `tools/video/neby/rig.py` with eased expression blends, blinks, eye-lines and squash/stretch.
+> The section below documents the earlier Chrome-based pipeline, kept for reference.
+
 A 15-second motion-graphics film for the NEBians launch, built as code. Every frame is computed from a timeline, rendered by headless Chrome, encoded by ffmpeg and scored by a small synthesiser, so **any agent can change the film by editing a spec and re-running one command**. Nothing is edited by hand in a video editor and the pipeline has **zero npm dependencies**.
 
 Everything lives in `tools/video/`. This document is the maintenance guide; `tools/video/README.md` is the CLI reference.

@@ -1,480 +1,1046 @@
 ---
-subject: Social Studies and Human Value Education
+subject: सामाजिक अध्ययन तथा मानव मूल्य शिक्षा
 grade: 10
 unit: 9
-title: Our International Relations and Cooperation
+title: हाम्रो अन्तर्राष्ट्रिय सम्बन्ध र सहयोग
 hours: 0
-area: Units
+area: एकाइ
 ---
 
-No country lives alone. Nepal sells tea and carpets abroad, sends young workers to the Gulf and Malaysia, imports fuel, medicine and machinery, receives tourists and development aid, and sits beside China and India, two of the biggest countries in the world. How a country behaves towards other countries is its **foreign policy**. This unit explains Nepal's foreign policy, the United Nations and its specialised agencies, and how the world is being drawn together by **globalisation** and **information and communication technology (ICT)**. It ends with a skill every citizen needs: understanding the news of the day.
+गाउँको स्वास्थ्यचौकीमा बच्चालाई लगाइने खोप, विद्यालयमा पुगेको दिवा खाजाको सहयोग,
+लुम्बिनी र सगरमाथाको विश्व सम्पदा सूचीमा नाम, खाडीमा काम गर्ने दाइदिदीको सुरक्षा र
+हातको मोबाइलबाट एकैछिनमा आइपुग्ने संसारभरिका समाचार — यी सबै नेपाल संसारसँग
+कसरी जोडिएको छ भन्ने उदाहरण हुन्। कुनै पनि देश आज एक्लै बाँच्न सक्दैन। नेपालले
+आफ्नो स्वतन्त्रता र हित जोगाउँदै अरू देशसँग कस्तो व्यवहार गर्छ, संयुक्त
+राष्ट्रसङ्घ र यसका संस्थाले हामीलाई कसरी सघाउँछन्, विश्वव्यापीकरणले के ल्याउँछ र
+के लैजान्छ, सूचना प्रविधि कसरी सुरक्षित रूपमा प्रयोग गर्ने र संसारमा भइरहेका
+घटनाले हाम्रो जीवनमा कस्तो असर पार्छन् भन्ने यस एकाइमा पढ्नेछौँ।
 
-::: key What the SEE paper expects from this unit
-Typical questions are: "Define foreign policy", "State the five principles of Panchsheel", "Write any four functions of the United Nations", "Name the six principal organs of the UN", "Write two functions each of WHO, UNESCO, FAO and ILO", "What is globalisation? Give two advantages and two disadvantages", "State any four uses of ICT". Learn the **founding years, headquarters and functions** of each organisation.
+::: key यस एकाइबाट परीक्षाले खोज्ने कुरा
+परराष्ट्र नीतिको परिभाषा, मार्गदर्शक सिद्धान्त, आधार र महत्त्व; पञ्चशीलका पाँच
+सिद्धान्त र महत्त्व; संयुक्त राष्ट्रसङ्घको स्थापना (सन् १९४५ अक्टोबर २४), ५१ संस्थापक र
+१९३ सदस्य, नेपालको सदस्यता (सन् १९५५ डिसेम्बर १४), उद्देश्य र छ अङ्गका काम (सुरक्षा
+परिषद्को बनोट र निषेधाधिकार, अन्तर्राष्ट्रिय न्यायालय, जिम्मा जमानी परिषद् किन
+निष्क्रिय); १५ विशिष्टीकृत संस्थाको स्थापना, मुख्यालय र काम; विश्वव्यापीकरण र
+स्थानीयकरणको अर्थ, महत्त्व तथा सकारात्मक–नकारात्मक प्रभाव; शिक्षण सिकाइमा सूचना
+प्रविधिको प्रयोग र यसका साधन; समसामयिक घटनाको अर्थ र प्रभाव। "पुष्टि गर्नुहोस्"
+प्रश्नमा **परिभाषा → तर्क र उदाहरण → निष्कर्ष** को ढाँचा नछोड्नुहोस्।
 :::
 
-## 9.1 Nepal's foreign policy
+## ९.१ नेपालको परराष्ट्र नीति र पञ्चशीलको सिद्धान्त
 
-::: definition Foreign policy
-Foreign policy is the set of principles and actions by which a state conducts its relations with other states to protect and promote its national interest.
+::: definition परराष्ट्र नीति
+कुनै पनि मुलुकले आफ्नो राष्ट्रिय हितका खातिर बाह्य जगत्मा आफ्नो प्रभाव विस्तार र
+प्रवर्धन गर्न तय गरेको राष्ट्रिय नीतिलाई **परराष्ट्र नीति** भनिन्छ। अर्को शब्दमा,
+"परराष्ट्र नीति राज्यको अरू राज्यसँगको अन्तरसम्बन्धलाई नियमित गर्ने व्यवहारको पुञ्ज
+हो।"
 :::
 
-### Objectives
+राज्यहरूबिचको सम्बन्धमा व्यापार, सुरक्षा, संस्कृति, शिक्षा, श्रम जस्ता अनेक आयाम
+हुन्छन्। यी आयाम वा व्यवहारका पुञ्जलाई राज्यहरूले पारस्परिक सम्बन्धका आधारमा
+निरन्तर गतिशील बनाइरहेका हुन्छन्। त्यसरी गतिशील वा नियमित भइरहने व्यवहारबाटै दुई
+देशबिचको सम्बन्ध कस्तो छ भनेर निक्योल र निर्धारण गर्न सकिन्छ। नेपालको परराष्ट्र
+नीतिलाई राजनीतिक, सामाजिक, सांस्कृतिक र आर्थिक पक्षले प्रभाव पार्छन्।
 
-The Constitution of Nepal (Article 51) sets the aim of the foreign policy: to **safeguard the sovereignty, territorial integrity, independence and national interest of Nepal**; to promote the dignity of the country in the world; to protect the rights and welfare of Nepalis abroad; and to achieve **economic prosperity** through friendly and balanced relations.
+वि.सं. २००७ सालभन्दा पहिले नेपालको द्विपक्षीय कूटनीतिक सम्बन्ध **बेलायत, अमेरिका,
+भारत र फ्रान्स** — यी चार देशसँग मात्र सीमित थियो। पाठ्यपुस्तक लेखिँदासम्म यो
+सम्बन्ध **१८३ मुलुक** सम्म विस्तार भइसकेको थियो; १८३ औँ मुलुक **किरिबाटी** (प्रशान्त
+महासागरको टापु देश) हो।
 
-### Guiding principles
+### मार्गदर्शक सिद्धान्त र मान्यता
 
-1. **Panchsheel** (the five principles of peaceful coexistence).
-2. Respect for the **Charter of the United Nations**.
-3. **Non-alignment**: Nepal does not join any military bloc.
-4. Respect for **international law and the norms of world peace**.
-5. Taking decisions on international issues **on their merits**, fairly and independently.
-6. Cooperation with neighbours, equality and mutual benefit; opposition to war, terrorism and nuclear weapons.
+- १. नेपालको **स्वतन्त्रता, सार्वभौमसत्ता, भौगोलिक अखण्डता र स्वाधीनताको रक्षा**,
+  राष्ट्रिय सम्मान र प्रतिष्ठाको अभिवृद्धि तथा **राष्ट्रिय हितको रक्षा** — यो नै मुख्य
+  मार्गदर्शक सिद्धान्त हो।
+- २. **सार्वभौमिक समानता** (सानो वा ठुलो, हरेक राष्ट्र बराबर) र **पञ्चशीलका सिद्धान्त**।
+- ३. **संयुक्त राष्ट्रसङ्घको बडापत्रको भावना**, **असंलग्नता** (कुनै शक्ति गुटमा
+  नलाग्ने), **पारस्परिक सम्मान र लाभ**।
 
-::: definition Panchsheel
-Panchsheel (Pancha Sila) are five principles: (1) mutual respect for each other's territorial integrity and sovereignty; (2) mutual non-aggression; (3) mutual non-interference in internal affairs; (4) equality and mutual benefit; (5) peaceful coexistence.
-:::
+नेपालको संविधानको धारा ५१ (ड) को अन्तर्राष्ट्रिय सम्बन्धसम्बन्धी नीतिले पनि
+संयुक्त राष्ट्रसङ्घको बडापत्र, असंलग्नता, पञ्चशीलको सिद्धान्त, अन्तर्राष्ट्रिय कानुन र
+विश्वशान्तिको मान्यताका आधारमा स्वतन्त्र परराष्ट्र नीति सञ्चालन गर्ने कुरा उल्लेख
+गरेको छ।
 
-The principles were first agreed in the 1954 agreement between India and China, and then spread to Asia and Africa at the **Bandung Conference of 1955**, which Nepal attended. It was also at that time that Nepal joined the world community.
+### परराष्ट्र नीति सञ्चालनका आधार
 
-```photo id="soc10/bandung" caption="Leaders at the Asian-African Conference in Bandung, Indonesia, April 1955. Twenty-nine newly independent states, including Nepal, endorsed ten principles of peaceful coexistence built on Panchsheel; the meeting was the origin of the Non-Aligned Movement." width="72"
+```figure caption="नेपालको परराष्ट्र नीति सञ्चालनका आधार। संविधान र कानुन मुख्य आधार हुन्; अन्तर्राष्ट्रिय कानुन, सन्धि–सम्झौता र सङ्गठनका बडापत्रले पनि नीतिलाई दिशा दिन्छन्।"
+fig, ax = cards([("संविधान र कानुन", "नेपालको संविधान र\nप्रचलित ऐन कानुन"),
+                 ("सुरक्षा नीति", "राष्ट्रिय सुरक्षा नीति र\nअन्य नीतिगत व्यवस्था"),
+                 ("अन्तर्राष्ट्रिय कानुन", "विश्वशान्ति र विवादको\nशान्तिपूर्ण समाधान"),
+                 ("मूल्य", "सहयोग, न्याय, समानता\nर जवाफदेहिता"),
+                 ("सन्धि–सम्झौता", "नेपाल पक्ष भएका सन्धि र\nअन्तर्राष्ट्रिय प्रतिबद्धता"),
+                 ("सङ्गठनका बडापत्र", "क्षेत्रीय र उपक्षेत्रीय\nसङ्गठनका बडापत्र")],
+                cols=3, figsize=(5.8, 2.7))
 ```
 
-### Nepal's relations with neighbours
+### नेपालको परराष्ट्र नीतिको महत्त्व
 
-| Country | Key points |
+- (क) **राष्ट्रियताको संरक्षण र संवर्धन** — नेपालको पहिचान, संस्कृति र स्वाभिमान जोगाउन।
+- (ख) **देशको अस्तित्वको सुरक्षा** — दुई ठुला छिमेकीबिचको भूपरिवेष्टित देशको
+  स्वतन्त्रता जोगाउन।
+- (ग) **पारस्परिक लाभ वृद्धि** — व्यापार, लगानी, पर्यटन, वैदेशिक रोजगारी र सहयोग
+  भित्र्याउन।
+- (घ) **भूराजनीतिक सन्तुलन** — छिमेकी र शक्तिराष्ट्रसँग सन्तुलित सम्बन्ध राख्न।
+- (ङ) **अन्तर्राष्ट्रिय मञ्चमा पहुँच र प्रतिनिधित्व** — संयुक्त राष्ट्रसङ्घ, सार्क,
+  बिमस्टेक जस्ता मञ्चमा आफ्नो आवाज पुर्‍याउन।
+- (च) **शक्तिसम्पन्न राष्ट्रको स्वार्थबाट देशलाई बचाउन**।
+
+### पञ्चशीलको सिद्धान्त
+
+::: definition पञ्चशील
+**पञ्चशील** संस्कृतका "पञ्च" (पाँच) र "शील" (आचरण, नियम) शब्द मिलेर बनेको हो।
+देशहरूबिच पालना गरिने पाँच आचरण वा नियमको संयुक्त रूपलाई पञ्चशील भनिन्छ। यो
+नेपालको परराष्ट्र नीतिको प्रमुख सिद्धान्त हो।
+:::
+
+शान्तिपूर्ण सहअस्तित्व, अहस्तक्षेप र अनाक्रमणमा विश्वास गर्ने यो सिद्धान्त सन्
+१९५४ मा चीन र भारतबिचको सम्झौतामा पहिलो पटक औपचारिक रूपमा लेखिएको थियो र सन्
+१९५५ को बाङडुङ (इन्डोनेसिया) सम्मेलनका सिद्धान्तमा समेटियो। नेपालले पनि छिमेकी
+तथा अरू राष्ट्रसँगको सम्बन्धमा यसलाई अपनाएको छ। यसका पाँच सिद्धान्त:
+
+- (क) एकअर्काको **क्षेत्रीय अखण्डता र सार्वभौमसत्ताको सम्मान**
+- (ख) अरू देशको **आन्तरिक मामिलामा हस्तक्षेप नगर्ने**
+- (ग) **अनाक्रमण** (एकअर्कामाथि आक्रमण नगर्ने)
+- (घ) **परस्पर सहयोग र लाभ** को वृद्धि
+- (ङ) **शान्तिपूर्ण सहअस्तित्व** को नीतिको पालना
+
+```photo id="soc10/bandung" caption="सन् १९५५ को बाङडुङ सम्मेलन। एसिया र अफ्रिकाका नवस्वतन्त्र देशले पञ्चशीलको भावना समेटिएका सिद्धान्त अपनाए; यसैले पछि असंलग्न आन्दोलनको आधार बनायो।" width="62"
+```
+
+### पञ्चशीलको महत्त्व
+
+- (क) **अन्तर्राष्ट्रिय शान्ति र समझदारी** कायम राख्न मदत पुग्छ।
+- (ख) देशहरूबिच **आपसी सहयोग र सहकार्यको वातावरण** बन्छ।
+- (ग) कुनै देशको आन्तरिक गतिविधिमा **बाह्य हस्तक्षेप** हुँदैन।
+- (घ) हरेक देशको **राष्ट्रिय स्वाभिमान, भौगोलिक अखण्डता र सार्वभौमसत्ता** को सम्मान हुन्छ।
+- (ङ) विश्वमा **आपसी भाइचारा र सहअस्तित्व** को वातावरण बन्छ।
+
+::: tip सानो देशका लागि पञ्चशील किन विशेष?
+नेपाल जस्तो सैन्य र आर्थिक रूपमा सानो देशका लागि पञ्चशील सुरक्षा कवच हो। यसले
+"ठुलो देशले सानोमाथि हस्तक्षेप वा आक्रमण गर्न पाउँदैन" भन्ने नैतिक र अन्तर्राष्ट्रिय
+मान्यता दिन्छ। परीक्षामा पञ्चशीलको महत्त्व लेख्दा नेपालको भूपरिवेष्टित अवस्थासँग जोड्नुहोस्।
+:::
+
+::: note क्रियाकलाप — पाठ ९.१
+**१.** नेपालको परराष्ट्र नीतिका आधार (संविधान र कानुन, राष्ट्रिय सुरक्षा नीति,
+अन्तर्राष्ट्रिय कानुन र विश्वशान्ति, सहयोग–न्याय–समानता–जवाफदेहिता, सन्धि–सम्झौता,
+सङ्गठनका बडापत्र) चार्ट वा तालिकामा तयार पारी कक्षामा प्रस्तुत गर्नुहोस्।
+**२.** परराष्ट्र नीतिको महत्त्वबारे संवाद तयार पारेर कक्षामा अभिनय गर्नुहोस्। जस्तै:
+*सुमन:* "हामीलाई परराष्ट्र नीति किन चाहियो?" *रीता:* "दुई ठुला छिमेकीबिच रहेको हाम्रो
+देशको स्वतन्त्रता जोगाउन, व्यापार र रोजगारी बढाउन र संयुक्त राष्ट्रसङ्घ जस्ता मञ्चमा
+आफ्नो कुरा राख्न।"
+:::
+
+### पाठको अभ्यास: नमुना उत्तर
+
+**१. परराष्ट्र नीति भनेको के हो?**
+कुनै मुलुकले आफ्नो राष्ट्रिय हितका खातिर बाह्य जगत्मा आफ्नो प्रभाव विस्तार र
+प्रवर्धन गर्न तय गरेको राष्ट्रिय नीति परराष्ट्र नीति हो। यो राज्यको अरू राज्यसँगको
+अन्तरसम्बन्धलाई नियमित गर्ने व्यवहारको पुञ्ज हो। नेपालको परराष्ट्र नीति स्वतन्त्रता,
+सार्वभौमसत्ता, भौगोलिक अखण्डता र राष्ट्रिय हितको रक्षा तथा पञ्चशील, असंलग्नता र
+संयुक्त राष्ट्रसङ्घको बडापत्रबाट निर्देशित छ।
+
+**२. परराष्ट्र नीतिको महत्त्व उल्लेख गर्नुहोस्।**
+(क) राष्ट्रियताको संरक्षण र संवर्धन गर्छ। (ख) देशको अस्तित्व, स्वतन्त्रता र भौगोलिक
+अखण्डताको सुरक्षा गर्छ। (ग) व्यापार, लगानी, पर्यटन र वैदेशिक रोजगारीबाट पारस्परिक
+लाभ बढाउँछ। (घ) छिमेकी र शक्तिराष्ट्रबिच भूराजनीतिक सन्तुलन कायम राख्छ। (ङ)
+अन्तर्राष्ट्रिय मञ्चमा देशको पहुँच र प्रतिनिधित्व स्थापित गर्छ। (च) शक्तिसम्पन्न
+राष्ट्रको स्वार्थबाट देशलाई बचाउँछ।
+
+**३. पञ्चशीलको सिद्धान्तअन्तर्गत कुन कुन सिद्धान्त पर्छन्?**
+(क) एकअर्काको क्षेत्रीय अखण्डता र सार्वभौमसत्ताको सम्मान, (ख) अरू देशको आन्तरिक
+मामिलामा हस्तक्षेप नगर्ने, (ग) अनाक्रमण, (घ) परस्पर सहयोग र लाभको वृद्धि र (ङ)
+शान्तिपूर्ण सहअस्तित्वको नीतिको पालना।
+
+**४. पञ्चशीलको सिद्धान्तको महत्त्व समेटी एक लेख तयार पार्नुहोस्।**
+*शीर्षक: पञ्चशील — शान्तिपूर्ण विश्वको आधार*
+"पञ्च" र "शील" मिलेर बनेको पञ्चशील देशहरूबिच पालना गरिने पाँच आचरण हो। सन्
+१९५४ मा चीन र भारतबिच औपचारिक रूपमा लेखिएको यो सिद्धान्त सन् १९५५ को बाङडुङ
+सम्मेलनपछि एसिया र अफ्रिकाभरि फैलियो र नेपालको परराष्ट्र नीतिको प्रमुख सिद्धान्त बन्यो।
+क्षेत्रीय अखण्डता र सार्वभौमसत्ताको सम्मान, अहस्तक्षेप, अनाक्रमण, परस्पर सहयोग र
+लाभ तथा शान्तिपूर्ण सहअस्तित्व यसका पाँच खम्बा हुन्। यसको पालनाले अन्तर्राष्ट्रिय शान्ति
+र समझदारी बढ्छ; देशहरूबिच सहयोग र सहकार्यको वातावरण बन्छ; कुनै देशको आन्तरिक
+मामिलामा बाह्य हस्तक्षेप हुँदैन; हरेक देशको स्वाभिमान र सार्वभौमसत्ताको सम्मान हुन्छ
+र विश्वमा भाइचारा फैलिन्छ। नेपाल जस्तो सानो, भूपरिवेष्टित र दुई ठुला छिमेकीबिच रहेको
+देशका लागि यो सुरक्षा कवच हो, किनभने यसले सबै देश बराबर हुन् भन्ने मान्यता दिन्छ।
+आजको युद्ध र तनावले भरिएको संसारमा पनि पञ्चशील उत्तिकै सान्दर्भिक छ।
+
+**५. "पञ्चशीलको सिद्धान्तको अवलम्बनले विश्वमा शान्ति र मेलमिलापको भावना सिर्जना
+गर्छ।" यस भनाइलाई उदाहरणसहित पुष्टि गर्नुहोस्।**
+पञ्चशीलका पाँचै सिद्धान्त द्वन्द्वका मूल कारण रोक्ने खालका छन्। (क) सार्वभौमसत्ता र
+अखण्डताको सम्मान गर्दा सिमाना मिच्ने र भूभाग कब्जा गर्ने काम हुँदैन। (ख) अहस्तक्षेपले
+अर्को देशको सरकार ढाल्ने वा आन्तरिक मामिलामा चलखेल गर्ने प्रवृत्ति रोक्छ। (ग)
+अनाक्रमणले युद्ध नै रोक्छ। (घ) परस्पर सहयोग र लाभले दुवै पक्षलाई फाइदा हुने
+सम्बन्ध बनाउँछ। (ङ) शान्तिपूर्ण सहअस्तित्वले फरक व्यवस्था र विचारका देश पनि सँगै
+बस्न सक्छन् भन्ने सिकाउँछ। **उदाहरण:** नेपालले यसै सिद्धान्तका आधारमा भारत र चीन
+दुवैसँग मैत्रीपूर्ण सम्बन्ध राखेको छ र सिमानाका विवाद वार्ताबाटै समाधान गर्न खोजेको
+छ; बाङडुङ सम्मेलनमा यही भावना अपनाएका एसिया–अफ्रिकाका देशले असंलग्न आन्दोलन
+बनाएर शीतयुद्धका गुटबाट टाढा रहे। उल्टो, अर्को देशको भूभागमा आक्रमण हुँदा (जस्तै
+रुस–युक्रेन युद्ध) लाखौँ मानिस विस्थापित भएका छन्। यसले पञ्चशीलको पालना शान्तिको
+आधार हो भन्ने पुष्टि गर्छ।
+
+## ९.२ संयुक्त राष्ट्रसङ्घ
+
+```photo id="soc10/un-hq" caption="अमेरिकाको न्युयोर्कमा रहेको संयुक्त राष्ट्रसङ्घको मुख्यालय। महासभा, सुरक्षा परिषद् र सचिवालय यहीँ छन्।" width="62"
+```
+
+**संयुक्त राष्ट्रसङ्घ** विश्वमा शान्ति स्थापना र मानव अधिकार संरक्षणका लागि स्थापित
+अन्तर्राष्ट्रिय संस्था हो। दोस्रो विश्वयुद्धको विनाशपछि अब युद्ध नहोस् भन्ने उद्देश्यले
+यसको जन्म भएको हो।
+
+| विषय | तथ्य |
 |---|---|
-| **India** | Open border of about 1,751 km; the **Treaty of Peace and Friendship of 1950**; shared religion, culture and marriages; largest trading partner (most of Nepal's imports and exports); Nepalis work in India; hydropower trade (Power Trade Agreement); issues include border (Kalapani, Susta), trade deficit, and treaty revision |
-| **China** | Diplomatic relations since **1 August 1955**; a boundary treaty (1961) and the Araniko Highway; Rasuwagadhi–Kerung and Tatopani routes; investment, development aid and the **Belt and Road Framework Agreement (2017)**; Nepal follows the **One-China policy**; ancient links through Buddhism and Bhrikuti, Araniko |
-| **Others** | Relations with more than 160 countries: the **USA** (aid, MCC compact, Nepali students and diaspora), the **UK** (Gurkha recruitment, 1923 treaty), **Japan** (aid, JICA), **Germany**, **Gulf countries** (labour migration), **Bangladesh**, **Bhutan** (refugee issue) |
+| स्थापना | सन् १९४५ अक्टोबर २४ (संयुक्त राष्ट्र दिवस) |
+| संस्थापक सदस्य | ५१ राष्ट्र |
+| हालका सदस्य | १९३ राष्ट्र |
+| पछिल्लो (१९३ औँ) सदस्य | दक्षिण सुडान (सन् २०११) |
+| प्रधान कार्यालय | न्युयोर्क, अमेरिका |
+| नेपालको सदस्यता | सन् १९५५ डिसेम्बर १४ |
+| प्रमुख अङ्ग | ६ |
 
-```figure caption="Nepal between its two neighbours (schematic, not to scale). Prithvi Narayan Shah described Nepal as a 'yam between two boulders'; Nepal keeps friendly, balanced relations with both."
-import matplotlib.pyplot as plt
-from matplotlib.patches import Polygon, FancyBboxPatch
-fig, ax = plt.subplots(figsize=(4.8,2.9))
-ax.add_patch(Polygon([(0,3.6),(8,3.6),(8,2.6),(0,2.6)], fc="#f6d4d0", ec=INK, lw=0.8))
-ax.add_patch(Polygon([(0,0),(8,0),(8,1.1),(0,1.1)], fc="#f6e3b8", ec=INK, lw=0.8))
-ax.add_patch(Polygon([(1.4,1.1),(6.6,1.1),(6.0,1.7),(5.0,2.1),(3.2,2.6),(1.8,2.1)], fc="#c9e3c0", ec=INK, lw=1.2))
-ax.text(4,3.1,"China (Tibet Autonomous Region)",ha="center",va="center",fontsize=8.5,color=INK)
-ax.text(4,0.55,"India",ha="center",va="center",fontsize=8.5,color=INK)
-ax.text(3.9,1.65,"NEPAL",ha="center",va="center",fontsize=9,color=INK,fontweight="bold")
-ax.set_xlim(0,8); ax.set_ylim(0,3.8); ax.axis("off")
+### संयुक्त राष्ट्रसङ्घका उद्देश्य
+
+- (क) अन्तर्राष्ट्रिय **शान्ति र सुरक्षा** कायम राख्नु।
+- (ख) जनताको **समान अधिकार र आत्मनिर्णयको सिद्धान्त** को सम्मानका आधारमा राष्ट्रहरूबिच
+  **मैत्रीपूर्ण सम्बन्ध** विकास गर्नु।
+- (ग) आर्थिक, सामाजिक, सांस्कृतिक वा मानवीय प्रकृतिका अन्तर्राष्ट्रिय समस्या समाधान
+  गर्न सहयोग गर्नु र बिनाभेदभाव **मानव अधिकार र मौलिक स्वतन्त्रता** को सम्मान बढाउनु।
+- (घ) यी उद्देश्य पूरा गर्न सदस्य राष्ट्रका काम कारबाहीमा सामञ्जस्य ल्याउने **केन्द्र**
+  का रूपमा सङ्घलाई सङ्गठित बनाउनु।
+
+### संयुक्त राष्ट्रसङ्घका अङ्ग
+
+```figure caption="संयुक्त राष्ट्रसङ्घका छ प्रमुख अङ्ग। अन्तर्राष्ट्रिय न्यायालय नेदरल्यान्ड्सको हेगमा र अरू अङ्ग न्युयोर्कमा छन्; जिम्मा जमानी परिषद् सन् १९९४ देखि निष्क्रिय छ।"
+fig, ax = cards([("महासभा", "सबै १९३ सदस्य; एक\nराष्ट्र एक मत"),
+                 ("सुरक्षा परिषद्", "५ स्थायी + १० अस्थायी\n= १५ सदस्य"),
+                 ("अन्तर्राष्ट्रिय न्यायालय", "१५ न्यायाधीश, ९ वर्ष\nपदावधि; हेग"),
+                 ("आर्थिक–सामाजिक परिषद्", "५४ सदस्य, ३ वर्ष;\n५ क्षेत्रीय आयोग"),
+                 ("जिम्मा जमानी परिषद्", "११ प्रदेश स्वतन्त्र;\nअहिले निष्क्रिय"),
+                 ("सचिवालय", "प्रशासकीय अङ्ग;\nप्रमुख महासचिव")],
+                cols=2, figsize=(5.4, 3.5), title_size=8.8)
 ```
 
-### Important steps in Nepal's foreign relations
+**(क) महासभा:** महासभा संयुक्त राष्ट्रसङ्घको प्रमुख र सबैभन्दा ठुलो अङ्ग हो; सबै सदस्य
+राष्ट्र यसका सदस्य हुन्छन्। यसको नियमित अधिवेशन प्रत्येक वर्ष **सेप्टेम्बरको तेस्रो
+हप्ताको मङ्गलबार** सुरु हुन्छ र मुख्य काम डिसेम्बरको मध्यसम्म चल्छ। प्रत्येक राष्ट्रले
+**५ प्रतिनिधि, ५ वैकल्पिक प्रतिनिधि** र सल्लाहकार पठाउन पाउँछ, तर मत **एउटा मात्र**
+हुन्छ। महत्त्वपूर्ण प्रस्ताव दुईतिहाइ बहुमतले पारित हुन्छन्। **काम:** आर्थिक, सामाजिक,
+सांस्कृतिक र मानवीय क्षेत्रमा राष्ट्रहरूबिच सहयोग विस्तार गर्नु; सङ्घको **बजेट स्वीकृत**
+गर्नु; सुरक्षा परिषद्का **अस्थायी सदस्य चुन्नु**; सुरक्षा परिषद्को सिफारिसमा **महासचिव
+नियुक्त** गर्नु। सबै देशका प्रतिनिधि भेला भई छलफल र निर्णय गर्ने भएकाले यसलाई
+"संयुक्त राष्ट्रसङ्घको संसद्" भनिन्छ।
 
-| Year | Event |
-|---|---|
-| 1923 | Treaty with Britain: Nepal's independence recognised |
-| 1947 | Tripartite agreement on the Gurkhas (Nepal, India, UK) |
-| 1950 | Nepal–India Treaty of Peace and Friendship |
-| 1955 | Nepal joins the **UN** (14 December); diplomatic relations with China |
-| 1961 | Nepal is a founding member of the **Non-Aligned Movement** (Belgrade) |
-| 1975 | King Birendra's proposal for a **Zone of Peace** |
-| 1985 | **SAARC** founded in Dhaka; Secretariat in Kathmandu (1987) |
-| 1997 | Nepal joins **BIMSTEC** |
-| 2004 | Nepal joins the **World Trade Organization** |
+```photo id="soc10/un-ga" caption="संयुक्त राष्ट्रसङ्घ महासभाको बैठक कक्ष। सानो वा ठुलो, धनी वा गरिब — हरेक सदस्य राष्ट्रको एउटै मत हुन्छ।" width="60"
+```
 
-### Regional cooperation: SAARC and BIMSTEC
+**(ख) सुरक्षा परिषद्:** अन्तर्राष्ट्रिय शान्ति र सुरक्षाको मुख्य जिम्मेवारी बोकेको अङ्ग।
+यसमा **५ स्थायी र १० अस्थायी** गरी १५ सदस्य हुन्छन्। अस्थायी सदस्य **दुई वर्ष** का लागि
+महासभाबाट चुनिन्छन्।
 
-| | SAARC | BIMSTEC |
+| सदस्यको प्रकार | देश वा क्षेत्र | सङ्ख्या |
 |---|---|---|
-| Full name | South Asian Association for Regional Cooperation | Bay of Bengal Initiative for Multi-Sectoral Technical and Economic Cooperation |
-| Founded | 8 December 1985, Dhaka | 1997 (Bangkok) |
-| Members | 8: Afghanistan, Bangladesh, Bhutan, India, Maldives, Nepal, Pakistan, Sri Lanka | 7: Bangladesh, Bhutan, India, Myanmar, Nepal, Sri Lanka, Thailand |
-| Secretariat | **Kathmandu** | Dhaka |
-| Aim | Welfare of the people, economic and cultural cooperation, collective self-reliance | Trade, transport, energy and technology cooperation around the Bay of Bengal |
+| स्थायी | अमेरिका, रुस, चीन, फ्रान्स, बेलायत | ५ |
+| अस्थायी | अफ्रिका र एसिया | ५ |
+| अस्थायी | ल्याटिन अमेरिका र क्यारिबियन | २ |
+| अस्थायी | पूर्वी युरोप | १ |
+| अस्थायी | पश्चिमी युरोप र अन्य | २ |
+| | **जम्मा** | **१५** |
 
-SAARC has done useful work (visa exemption for some groups, SAARC Development Fund, University), but the summit has not met since 2014 (Kathmandu) because of tension between India and Pakistan. Nepal gives importance to **BIMSTEC**, which links South and Southeast Asia, and the Mekong–Ganga and **BBIN** initiatives.
+स्थायी सदस्यलाई प्राप्त विशेषाधिकारलाई **निषेधाधिकार (भिटो)** भनिन्छ — पाँचमध्ये एउटाले
+मात्र विरोध गरे पनि ठोस विषयको प्रस्ताव पारित हुँदैन। निर्णयका लागि **५ स्थायी सदस्यको
+सहमतिसहित ९ मत** चाहिन्छ। सबैभन्दा बढी भिटो प्रयोग गर्ने राष्ट्र **रुस** (पहिलेको सोभियत
+सङ्घसमेत) हो; **दोहोरो भिटो** (कुनै विषय प्रक्रियागत हो कि ठोस भन्ने प्रश्नमै भिटो लगाई
+फेरि मूल प्रस्तावमा पनि भिटो लगाउनु) प्रयोग गर्ने पनि रुस नै हो। परिषद्को **अध्यक्षता
+हरेक महिना** सदस्य राष्ट्रका नामको अङ्ग्रेजी वर्णानुक्रमअनुसार फेरिन्छ।
 
-### Why a good foreign policy matters
+**सुरक्षा परिषद्का काम:** हातहतियारको प्रयोग नियन्त्रण गर्नु; विवाद समाधानको उपयुक्त
+प्रयास र समस्याको शान्तिपूर्ण समाधान गर्नु; नयाँ सदस्य लिन महासभामा सिफारिस गर्नु;
+शान्ति भङ्ग गर्ने मुलुकविरुद्ध सैनिक र गैरसैनिक (आर्थिक नाकाबन्दी जस्ता) कदम चाल्नु;
+महासचिव र अन्तर्राष्ट्रिय न्यायालयका न्यायाधीश नियुक्तिमा सिफारिस वा मतदान गर्नु।
+शान्ति स्थापना मिसन पठाउने निर्णय पनि यसैले गर्छ — नेपाली सेना र प्रहरी यस्ता मिसनमा
+सन् १९५८ देखि सहभागी हुँदै आएका छन्।
 
-It protects independence and borders; brings trade, investment, aid and technology; secures the jobs and safety of Nepalis abroad; gives Nepal a voice in the world; and promotes peace, which is vital for a small, landlocked country. Nepal's international role includes its soldiers in **UN peacekeeping** (since 1958, among the largest contributors), elected membership of the UN Security Council (1969–70 and 1988–89) and the role of its mountaineers and Gurkhas.
-
-::: caution Non-alignment is not isolation
-Non-alignment does not mean being neutral about everything or having no friends. It means not joining a military alliance and keeping an independent judgement while cooperating with all.
+::: caution पाठ्यपुस्तकका दुई तथ्यबारे
+**१. पहिलो भिटो:** पाठ्यपुस्तकमा सबैभन्दा पहिले भिटो प्रयोग गर्ने राष्ट्र बेलायत भनिएको
+छ। संयुक्त राष्ट्रसङ्घको अभिलेखअनुसार पहिलो भिटो **सोभियत सङ्घ** ले सन् १९४६
+फेब्रुअरी १६ मा (सिरिया र लेबनानसम्बन्धी प्रस्तावमा) प्रयोग गरेको थियो; बेलायतले
+पहिलो पटक भिटो सन् १९५६ मा मात्र प्रयोग गर्‍यो। सबैभन्दा बढी भिटो रुस/सोभियत सङ्घकै
+हो। **२. दुईतिहाइ बहुमत:** महासभामा **महत्त्वपूर्ण प्रश्न** (शान्ति र सुरक्षा, नयाँ सदस्य,
+बजेट, परिषद्का सदस्यको चुनाव) मात्र दुईतिहाइ बहुमतले पारित हुन्छन्; अरू प्रस्ताव
+उपस्थित र मत दिने सदस्यको साधारण बहुमतले पारित हुन्छन्।
 :::
 
-## 9.2 The United Nations
+**(ग) अन्तर्राष्ट्रिय न्यायालय:** यसमा **१५ न्यायाधीश** हुन्छन्, पदावधि **९ वर्ष**। प्रत्येक
+**३ वर्षमा ५ जना** पदमुक्त हुन्छन् र नयाँ चुनिन्छन्। प्रधान कार्यालय **हेग, नेदरल्यान्ड्स**
+मा छ। **काम:** राष्ट्रहरूबिचको विवादमा निर्णय दिनु (प्रमुख काम); संयुक्त राष्ट्रसङ्घ र
+विशिष्टीकृत संस्थालाई कानुनी विषयमा परामर्श दिनु; अन्तर्राष्ट्रिय सन्धि–सम्झौताको अर्थ
+स्पष्ट पार्नु।
 
-::: definition The United Nations (UN)
-The United Nations is the world organisation of independent states, established on 24 October 1945 to maintain international peace and security and to promote cooperation among nations.
-:::
+**(घ) आर्थिक तथा सामाजिक परिषद्:** यसमा **५४ सदस्य** हुन्छन्, जो **३ वर्ष** का लागि
+निर्वाचित हुन्छन्। यसले अन्तर्राष्ट्रिय आर्थिक र सामाजिक विषयमा छलफल गर्छ;
+विशिष्टीकृत संस्थासँगको सम्बन्धबारे वार्ता र परामर्श गर्छ; मानव अधिकार र मौलिक हकको
+निरीक्षण गर्छ। यसअन्तर्गत **पाँच क्षेत्रीय आयोग** छन्। पाठ्यपुस्तकअनुसार नेपाल सन् २०१३
+देखि २०१५ सम्म यसको सदस्य थियो।
 
-### Background
+**(ङ) जिम्मा जमानी (संरक्षण) परिषद्:** कुनै राष्ट्रले आफ्नो अधीनमा राखेका प्रदेश (जिम्मा
+जमानीका क्षेत्र) प्रति ऊ आफ्नो अन्तर्राष्ट्रिय दायित्व पूरा गर्छ कि गर्दैन भनी निरीक्षण
+गर्नु यसको काम थियो। यसअन्तर्गत **११ प्रदेश** थिए। सन् **१९९४ मा पलाउ** स्वतन्त्र भएपछि
+सबै प्रदेश स्वतन्त्र भइसकेकाले यसले काम गर्नुपर्दैन र यो **निष्क्रिय** छ।
 
-After the horror of the Second World War, 50 countries met in **San Francisco** and signed the **UN Charter** on 26 June 1945, and it came into force on **24 October 1945** (celebrated as **UN Day**). The UN began with 51 members and now has **193**, nearly all of the world's states. Its **headquarters is in New York**, with major offices in Geneva, Vienna and Nairobi. The six official languages are Arabic, Chinese, English, French, Russian and Spanish; its flag shows the world map framed by olive branches on light blue.
+**(च) सचिवालय:** संयुक्त राष्ट्रसङ्घको **प्रशासकीय अङ्ग**, जसको प्रमुख **महासचिव** हुन्छन्।
+सन् १९९८ देखि एक जना **उपमहासचिव** को व्यवस्था छ। महासचिव सुरक्षा परिषद्को
+सिफारिसमा महासभाबाट **५ वर्ष** का लागि नियुक्त हुन्छन्। प्रधान कार्यालय न्युयोर्कमा छ।
+**पहिलो महासचिव** नर्वेका **ट्रिग्वे ली** थिए। पाठ्यपुस्तकअनुसार हालका महासचिव
+पोर्चुगलका **एन्टोनियो गुटेरेस** हुन्, जो **नवौँ** महासचिवका रूपमा **सन् २०१७ जनवरी १**
+देखि कार्यरत छन् (उनको दोस्रो कार्यकाल सन् २०२६ डिसेम्बर ३१ मा सकिन्छ)।
+**सचिवालयका काम:** (क) प्रशासकीय कार्य सञ्चालन; (ख) विश्वको आर्थिक–सामाजिक
+प्रवृत्ति र समस्याको सर्वेक्षण; (ग) विश्वव्यापी महत्त्वका विषयमा सम्मेलन आयोजना; (घ)
+मानव अधिकार, दिगो विकास र निःशस्त्रीकरणबारे अध्ययन गरी प्रतिवेदन तयारी; (ङ)
+महासभालगायत अङ्गका अधिवेशनको तयारी।
 
-```photo id="soc10/un-hq" caption="The United Nations Headquarters on the East River, New York City. The tall Secretariat building, the General Assembly hall and the Security Council chamber stand on international territory in the heart of Manhattan." width="80"
-```
-
-### Objectives (Article 1 of the Charter)
-
-1. To maintain **international peace and security**.
-2. To develop **friendly relations** among nations based on equal rights and self-determination.
-3. To achieve **international cooperation** in solving economic, social, cultural and humanitarian problems and in promoting respect for human rights.
-4. To be a **centre** for harmonising the actions of nations.
-
-### Principal organs
-
-```figure caption="The six principal organs of the United Nations and their seats."
-import matplotlib.pyplot as plt
-from matplotlib.patches import FancyBboxPatch
-fig, ax = plt.subplots(figsize=(4.9,3.2))
-def box(x,y,w,h,t,c,fs=7.8):
-    ax.add_patch(FancyBboxPatch((x,y),w,h,boxstyle="round,pad=0.02,rounding_size=0.1",fc=c,ec=INK,lw=0.8))
-    ax.text(x+w/2,y+h/2,t,ha="center",va="center",fontsize=fs,color=INK)
-box(2.6,3.4,2.8,0.7,"UNITED NATIONS","#cfe0f5",9)
-items=[("General\nAssembly\n193 members","#e5eef9"),("Security\nCouncil\n15 members","#e5eef9"),("Economic and\nSocial Council\n(ECOSOC)","#e5eef9"),("Trusteeship\nCouncil\n(suspended 1994)","#eeeeee"),("International\nCourt of Justice\n(The Hague)","#e5eef9"),("Secretariat\n(Secretary-\nGeneral)","#e5eef9")]
-for i,(t,c) in enumerate(items):
-    r=i//3; col=i%3
-    x=0.2+col*2.65; y=1.7-r*1.6
-    box(x,y,2.3,1.2,t,c)
-    if r==0: ax.plot([x+1.15,x+1.15],[y+1.2,3.15],color=MUTED,lw=0.8)
-ax.plot([1.35,6.65],[3.15,3.15],color=MUTED,lw=0.8); ax.plot([4.0,4.0],[3.15,3.4],color=MUTED,lw=0.8)
-ax.set_xlim(0,8.3); ax.set_ylim(0.0,4.2); ax.axis("off")
-```
-
-| Organ | Seat | Main functions |
-|---|---|---|
-| **General Assembly** | New York | The main deliberative body; all 193 members have **one vote each**; discusses all world issues, passes the budget, elects non-permanent members of the Security Council; meets every September |
-| **Security Council** | New York | Responsible for **peace and security**; 5 **permanent members** with veto power (USA, UK, France, Russia, China) and 10 non-permanent members elected for two years; can impose sanctions or send peacekeepers |
-| **Economic and Social Council (ECOSOC)** | New York | Coordinates economic and social work and the specialised agencies; 54 members |
-| **Trusteeship Council** | New York | Supervised trust territories; suspended its work in 1994 after the last territory became independent |
-| **International Court of Justice (ICJ)** | **The Hague**, Netherlands | The main judicial organ; settles legal disputes between states; 15 judges |
-| **Secretariat** | New York | Administration, led by the **Secretary-General** (António Guterres since 2017) |
-
-```photo id="soc10/un-ga" caption="The General Assembly Hall of the United Nations. Each of the 193 member states, large or small, has one vote; Nepal, which joined on 14 December 1955, speaks here every September in the general debate." width="82"
-```
-
-### Work of the UN
-
-- **Peacekeeping**: blue-helmeted soldiers have supervised ceasefires in dozens of conflicts; Nepali troops and police are among the largest contributors.
-- **Human rights**: the **Universal Declaration of Human Rights (10 December 1948)**, conventions on children, women and disabilities.
-- **Development**: the **Millennium Development Goals** (2000–2015) and the **Sustainable Development Goals (SDGs) 2015–2030**; programmes through UNDP, UNICEF and WFP.
-- **Humanitarian relief**: refugees (UNHCR), food (WFP), disaster relief.
-- **Decolonisation**: helped more than 80 colonies to become free.
-- **Environment and climate**: UNEP, the Paris Agreement (2015).
-- **International law**: treaties on the sea, space, nuclear arms, terrorism.
-
-### Limits and criticisms
-
-The **veto** often paralyses the Security Council; the UN has no army of its own and depends on contributions; the largest powers dominate; sometimes slow or unable to stop conflicts (Rwanda 1994, Syria, Ukraine, Gaza).
-
-### Nepal and the UN
-
-Nepal became a member on **14 December 1955**; it has been a non-permanent member of the Security Council twice, takes part in all major UN conferences and has provided **peacekeepers** to missions in Lebanon, Congo, Haiti, South Sudan and many others; the UN has supported Nepal's peace process (UNMIN, 2007–2011), post-earthquake recovery, health and education.
-
-### Nepal in UN peacekeeping
-
-Nepal first sent military observers to the UN in **1958** (Lebanon). Since then tens of thousands of Nepali soldiers and police have served in missions in Lebanon, Congo, Haiti, Liberia, Sierra Leone, South Sudan, Mali, the Central African Republic and elsewhere. At any time about 5,000 Nepalis are deployed, and Nepal is among the largest troop-contributing countries in the world. Peacekeeping brings pride and respect to Nepal and income to the families of the personnel, but some Nepali peacekeepers have also lost their lives. The Nepal Army and Nepal Police are widely respected for discipline and humanity.
-
-### The Sustainable Development Goals
-
-In 2015 all UN members adopted the **2030 Agenda for Sustainable Development** with 17 goals. Nepal has built them into its periodic plans.
-
-| No. | Goal | No. | Goal |
+| क्र.सं. | महासचिव | देश | कार्यकाल (सन्) |
 |---|---|---|---|
-| 1 | No poverty | 10 | Reduced inequalities |
-| 2 | Zero hunger | 11 | Sustainable cities and communities |
-| 3 | Good health and well-being | 12 | Responsible consumption and production |
-| 4 | Quality education | 13 | Climate action |
-| 5 | Gender equality | 14 | Life below water |
-| 6 | Clean water and sanitation | 15 | Life on land |
-| 7 | Affordable and clean energy | 16 | Peace, justice and strong institutions |
-| 8 | Decent work and economic growth | 17 | Partnerships for the goals |
-| 9 | Industry, innovation and infrastructure | | |
+| १ | ट्रिग्वे ली | नर्वे | १९४६–१९५२ |
+| २ | दाग ह्यामर्सोल्ड | स्विडेन | १९५३–१९६१ |
+| ३ | उ थान्ट | बर्मा (म्यानमार) | १९६१–१९७१ |
+| ४ | कुर्ट वाल्डहाइम | अस्ट्रिया | १९७२–१९८१ |
+| ५ | जाभियर पेरेज डि कुयार | पेरु | १९८२–१९९१ |
+| ६ | बुत्रोस बुत्रोस–घाली | इजिप्ट | १९९२–१९९६ |
+| ७ | कोफी अन्नान | घाना | १९९७–२००६ |
+| ८ | बान की–मुन | दक्षिण कोरिया | २००७–२०१६ |
+| ९ | एन्टोनियो गुटेरेस | पोर्चुगल | २०१७ देखि |
 
-### Other international groupings Nepal belongs to
+::: note क्रियाकलाप — पाठ ९.२
+**१.** संयुक्त राष्ट्रसङ्घको लोगो (जैतुनका दुई हाँगाले घेरिएको विश्वको नक्सा — शान्तिको
+प्रतीक, हल्का निलो पृष्ठभूमि) तयार पारी कक्षामा प्रदर्शन गर्नुहोस्।
+**२.** छ अङ्गका काम तालिकामा देखाउनुहोस् (माथिको चित्र र विवरण आधार बनाउनुहोस्)।
+**३.** हालसम्मका महासचिवको नाम र कार्यावधिको तालिका बनाउनुहोस् (माथिको तालिका हेर्नुहोस्)।
+:::
 
-| Group | Aim | Nepal's position |
+### पाठको अभ्यास: नमुना उत्तर
+
+**१. संयुक्त राष्ट्रसङ्घको स्थापना कहिले भएको हो?**
+संयुक्त राष्ट्रसङ्घको स्थापना **सन् १९४५ अक्टोबर २४** मा ५१ संस्थापक राष्ट्र मिलेर
+भएको हो। त्यसैले हरेक वर्ष अक्टोबर २४ लाई संयुक्त राष्ट्र दिवसका रूपमा मनाइन्छ।
+
+**२. संयुक्त राष्ट्रसङ्घका हालका महासचिव को र कहाँका हुन्?**
+पाठ्यपुस्तकअनुसार हालका महासचिव **एन्टोनियो गुटेरेस** हुन्; उनी **पोर्चुगल** का हुन्। उनी
+नवौँ महासचिवका रूपमा सन् २०१७ जनवरी १ देखि कार्यरत छन्।
+
+**३. "महासभालाई संयुक्त राष्ट्रसङ्घको संसद् भनिन्छ।" यस भनाइलाई पुष्टि गर्नुहोस्।**
+संसद्मा जनताका प्रतिनिधि भेला भई छलफल गर्छन्, कानुन र बजेट पारित गर्छन् र
+पदाधिकारी चुन्छन्। महासभाले पनि यस्तै काम गर्छ: (क) सबै १९३ सदस्य राष्ट्रका
+प्रतिनिधि (प्रत्येकका ५ प्रतिनिधि र ५ वैकल्पिक प्रतिनिधि) यसमा सहभागी हुन्छन्, जसरी
+संसद्मा सबै क्षेत्रका प्रतिनिधि हुन्छन्; (ख) हरेक राष्ट्रको एउटा मत हुन्छ — यो
+प्रजातान्त्रिक समानताको सिद्धान्त हो; (ग) यसले सङ्घको बजेट स्वीकृत गर्छ; (घ) सुरक्षा
+परिषद्का अस्थायी सदस्य र आर्थिक तथा सामाजिक परिषद्का सदस्य चुन्छ र सुरक्षा
+परिषद्को सिफारिसमा महासचिव नियुक्त गर्छ; (ङ) विश्वका आर्थिक, सामाजिक, सांस्कृतिक
+र मानवीय विषयमा छलफल गरी प्रस्ताव पारित गर्छ; (च) प्रस्ताव मतदानबाट पारित हुन्छन्।
+यिनै कारणले महासभालाई संयुक्त राष्ट्रसङ्घको संसद् भनिन्छ।
+
+**४. जिम्मा जमानी परिषद् हाल सक्रिय छैन, किन?**
+यो परिषद् अरू राष्ट्रको अधीनमा राखिएका जिम्मा जमानीका प्रदेशको निरीक्षण गर्न र
+उनीहरूलाई स्वशासन वा स्वतन्त्रतातर्फ लैजान बनाइएको थियो। यसअन्तर्गत ११ प्रदेश थिए।
+अन्तिम प्रदेश **पलाउ** सन् १९९४ मा स्वतन्त्र भएपछि निरीक्षण गर्नुपर्ने कुनै प्रदेश बाँकी
+रहेन। काम नै सकिएकाले यो परिषद् निष्क्रिय छ।
+
+**५. सुरक्षा परिषद्को भूमिका उल्लेख गर्नुहोस्।**
+सुरक्षा परिषद् अन्तर्राष्ट्रिय शान्ति र सुरक्षाको मुख्य जिम्मेवार अङ्ग हो। यसका ५ स्थायी
+र १० अस्थायी गरी १५ सदस्य छन्। **भूमिका:** (क) हातहतियारको प्रयोग नियन्त्रण गर्छ; (ख)
+देशहरूबिचको विवादको शान्तिपूर्ण समाधानको प्रयास गर्छ; (ग) शान्ति भङ्ग गर्ने
+मुलुकविरुद्ध आर्थिक नाकाबन्दी जस्ता गैरसैनिक वा सैनिक कदम चाल्छ; (घ) शान्ति स्थापना
+मिसन पठाउँछ; (ङ) नयाँ सदस्य लिन महासभामा सिफारिस गर्छ; (च) महासचिव नियुक्तिका
+लागि सिफारिस गर्छ र अन्तर्राष्ट्रिय न्यायालयका न्यायाधीशको चुनावमा भाग लिन्छ।
+निर्णयका लागि पाँचै स्थायी सदस्यको सहमतिसहित ९ मत चाहिन्छ।
+
+**६. निषेधाधिकार भनेको के हो? यसको प्रयोग कसले गर्छ?**
+सुरक्षा परिषद्का स्थायी सदस्यले कुनै ठोस प्रस्तावमा विरोधमा मत दिएर त्यसलाई पारित
+हुनबाट रोक्न सक्ने विशेष अधिकारलाई निषेधाधिकार (भिटो) भनिन्छ। अरू १४ सदस्यले समर्थन
+गरे पनि एउटा स्थायी सदस्यले विरोध गरे प्रस्ताव पारित हुँदैन। यसको प्रयोग पाँच स्थायी
+सदस्य — **अमेरिका, रुस, चीन, फ्रान्स र बेलायत** — ले मात्र गर्छन्। सबैभन्दा बढी भिटो रुस
+(सोभियत सङ्घसमेत) ले प्रयोग गरेको छ।
+
+## ९.३ संयुक्त राष्ट्रसङ्घका विशिष्टीकृत संस्था
+
+::: definition विशिष्टीकृत संस्था
+आफ्नै बडापत्र, सदस्य र बजेट भएका तर संयुक्त राष्ट्रसङ्घसँग सम्झौता गरी कुनै निश्चित
+क्षेत्र (श्रम, स्वास्थ्य, कृषि, शिक्षा, हुलाक आदि) मा विश्वव्यापी काम गर्ने स्वायत्त
+अन्तर्राष्ट्रिय संस्थालाई **विशिष्टीकृत संस्था** भनिन्छ। संयुक्त राष्ट्रसङ्घको बडापत्रको
+**धारा ५७** मा यिनको व्यवस्था छ।
+:::
+
+संयुक्त राष्ट्रसङ्घका विशिष्टीकृत संस्था **१५** छन्। **पहिलो** विशिष्टीकृत संस्था
+**अन्तर्राष्ट्रिय श्रम सङ्गठन** हो (सन् १९४६ मा)। नेपालले **सबैभन्दा पहिले सदस्यता लिएको**
+विशिष्टीकृत संस्था **खाद्य तथा कृषि सङ्गठन** हो (सन् १९५१ मा — संयुक्त राष्ट्रसङ्घको
+सदस्य बन्नुभन्दा चार वर्ष पहिले)। यी संस्थाले नेपालको शिक्षा, स्वास्थ्य, कृषि, पर्यटन,
+जलवायु र हुलाक लगायतका क्षेत्रमा योगदान पुर्‍याउँदै आएका छन्।
+
+| क्र.सं. | संस्था | स्थापना / विशिष्टीकृत संस्था बनेको (सन्) | प्रमुख काम | मुख्यालय |
+|---|---|---|---|---|
+| १ | अन्तर्राष्ट्रिय श्रम सङ्गठन (सन् १९६९ मा नोबेल शान्ति पुरस्कार) | १९१९ / १९४६ | श्रमिकको आर्थिक–सामाजिक सुरक्षा; श्रम कानुन बनाउन सहजीकरण; बालश्रम उन्मूलन र बँधुवा कामदारका पक्षमा पैरवी | जेनेभा, स्विट्जरल्यान्ड |
+| २ | खाद्य तथा कृषि सङ्गठन | १९४५ / १९४६ | कृषि, वन र मत्स्य उद्योगको विकास; ग्रामीण जीवनस्तर सुधार; अनुसन्धान प्रोत्साहन | रोम, इटाली |
+| ३ | विश्व स्वास्थ्य सङ्गठन | १९४८ / १९४८ | स्वास्थ्यस्तर सुधार; देशलाई सहायता; रोग नियन्त्रण र उपचार; मातृ–शिशु स्वास्थ्य र पोषण | जेनेभा, स्विट्जरल्यान्ड |
+| ४ | अन्तर्राष्ट्रिय मुद्रा कोष | १९४५ / १९४७ | पारस्परिक सहयोगमा अन्तर्राष्ट्रिय व्यापार विस्तार; मौद्रिक सहयोग र स्थिरता | वासिङ्टन डि.सी., अमेरिका |
+| ५ | संयुक्त राष्ट्रसङ्घीय शैक्षिक, वैज्ञानिक तथा सांस्कृतिक सङ्गठन (युनेस्को) | १९४५ / १९४६ | सबैका लागि शिक्षा; विज्ञान–प्रविधिमा सहयोग; सांस्कृतिक सम्पदा संरक्षण | पेरिस, फ्रान्स |
+| ६ | विश्व बैङ्क | १९४४ / १९४७ | विकासशील देशलाई आर्थिक–प्राविधिक सहयोग; गरिबी निवारणमा साझेदारी | वासिङ्टन डि.सी., अमेरिका |
+| ७ | अन्तर्राष्ट्रिय दूरसञ्चार सङ्घ | १८६५ / १९४७ | अन्तर्राष्ट्रिय दूरसञ्चार सेवाको विकास, प्रवर्धन र अनुसन्धान | जेनेभा, स्विट्जरल्यान्ड |
+| ८ | विश्व हुलाक सङ्घ | १८७४ / १९४८ | विश्वभर सुरक्षित र व्यवस्थित हुलाक वितरण; देशबिच हुलाकको दर निर्धारण | बर्न, स्विट्जरल्यान्ड |
+| ९ | अन्तर्राष्ट्रिय नागरिक उड्डयन सङ्गठन | १९४७ | नागरिक उड्डयनमा सहयोग; सुरक्षित हवाई सेवा; हवाई नीति–नियम निर्माण | मन्ट्रियल, क्यानडा |
+| १० | विश्व मौसम विज्ञान सङ्गठन | १९५० / १९५१ | मौसमको पूर्वानुमान; मौसम सूचना आदानप्रदान; जलवायुसम्बन्धी गतिविधि | जेनेभा, स्विट्जरल्यान्ड |
+| ११ | विश्व बौद्धिक सम्पत्ति सङ्गठन | १९७० / १९७४ | बौद्धिक सम्पत्ति, औद्योगिक सम्पत्ति र प्रतिलिपि अधिकारको संरक्षण | जेनेभा, स्विट्जरल्यान्ड |
+| १२ | अन्तर्राष्ट्रिय सामुद्रिक सङ्गठन | १९५८ / १९५९ | सुरक्षित र प्रभावकारी समुद्री यातायात; सामुद्रिक परिवहनका समस्यामा छलफल | लन्डन, बेलायत |
+| १३ | संयुक्त राष्ट्रसङ्घीय औद्योगिक विकास सङ्गठन | १९६६ / १९८५ | विकासोन्मुख देशको औद्योगीकरण तीव्र पार्ने; उद्योगको आधुनिकीकरण; प्रविधि हस्तान्तरण | भियना, अस्ट्रिया |
+| १४ | अन्तर्राष्ट्रिय कृषि विकास कोष | १९७७ | खाद्य उत्पादन र पोषण बढाउन विकासोन्मुख देशलाई सहयोग | रोम, इटाली |
+| १५ | विश्व पर्यटन सङ्गठन | १९७५ / २००३ | पर्यटन सेवा गुणस्तरीय र व्यवस्थित बनाउने; शान्ति र समझदारी; दिगो आर्थिक विकास; सांस्कृतिक आदानप्रदान | म्याड्रिड, स्पेन |
+
+::: caution तालिकाका दुई सुधार
+**१.** पाठ्यपुस्तकमा अन्तर्राष्ट्रिय दूरसञ्चार सङ्घ "सन् १९५७ मा" विशिष्टीकृत संस्था बनेको
+लेखिएको छ। यो सङ्घ **सन् १९४७** मा संयुक्त राष्ट्रसङ्घको विशिष्टीकृत संस्था बनेको हो;
+"१९५७" छपाइको त्रुटि हो। **२.** पाठ्यपुस्तकले दशौँ संस्थालाई "विश्व जलवायु सङ्गठन"
+भनेको छ; यसको सही नाम **विश्व मौसम विज्ञान सङ्गठन** हो (मौसम र जलवायु दुवैको अध्ययन
+गर्छ)। स्थापना वर्ष र मुख्यालय पाठ्यपुस्तकअनुसार नै सही छन्।
+:::
+
+```figure caption="मुख्यालयका आधारमा विशिष्टीकृत संस्था। छ संस्था स्विट्जरल्यान्डमा छन् — जेनेभामा पाँच र बर्नमा एक; रोम र वासिङ्टन डि.सी. मा दुई–दुई।"
+fig, ax = cards([("जेनेभा", "श्रम, स्वास्थ्य, दूरसञ्चार,\nमौसम, बौद्धिक सम्पत्ति"),
+                 ("रोम", "खाद्य तथा कृषि सङ्गठन,\nकृषि विकास कोष"),
+                 ("वासिङ्टन डि.सी.", "मुद्रा कोष,\nविश्व बैङ्क"),
+                 ("बर्न", "विश्व हुलाक सङ्घ"),
+                 ("पेरिस", "युनेस्को"),
+                 ("अरू सहर", "मन्ट्रियल, लन्डन,\nभियना, म्याड्रिड")],
+                cols=3, figsize=(5.8, 2.7))
+```
+
+```photo id="soc10/who-hq" caption="जेनेभामा रहेको विश्व स्वास्थ्य सङ्गठनको मुख्यालय। यसले नेपालमा बिफर उन्मूलन, पोलियो र दादुरा विरुद्धको खोप तथा कोभिड–१९ नियन्त्रणमा सहयोग गरेको छ।" width="60"
+```
+
+### नेपालसँग केही संस्थाको सम्बन्ध र सहयोग
+
+- **युनेस्को:** काठमाडौँ उपत्यका र सगरमाथा राष्ट्रिय निकुञ्ज (सन् १९७९), चितवन
+  राष्ट्रिय निकुञ्ज (सन् १९८४) र लुम्बिनी (सन् १९९७) लाई विश्व सम्पदा सूचीमा राखेर
+  संरक्षणमा सघाएको छ; साक्षरता, सबैका लागि शिक्षा, सामुदायिक सिकाइ केन्द्र र शिक्षक
+  तालिममा सहयोग गरेको छ; २०७२ को भूकम्पपछि सम्पदा पुनर्निर्माणमा प्राविधिक सहयोग दियो।
+- **विश्व स्वास्थ्य सङ्गठन:** खोप कार्यक्रम, मातृ–शिशु स्वास्थ्य, क्षयरोग र औलो नियन्त्रण,
+  महामारीको बेला औषधि र प्राविधिक सहयोग।
+- **खाद्य तथा कृषि सङ्गठन र कृषि विकास कोष:** उन्नत बिउ, सिँचाइ, पशुपालन, माछापालन र
+  ग्रामीण गरिबी घटाउने कार्यक्रम।
+- **अन्तर्राष्ट्रिय श्रम सङ्गठन:** बालश्रम र कमैया–बँधुवा प्रथाविरुद्ध पैरवी, आप्रवासी
+  श्रमिकको हक।
+- **विश्व बैङ्क र मुद्रा कोष:** सडक, जलविद्युत्, शिक्षा, स्वास्थ्य जस्ता परियोजनामा सहुलियत
+  ऋण र अनुदान; आर्थिक स्थिरताका लागि परामर्श।
+- **विश्व हुलाक सङ्घ, दूरसञ्चार सङ्घ, उड्डयन सङ्गठन, मौसम विज्ञान सङ्गठन र पर्यटन
+  सङ्गठन:** हुलाक, सञ्चार, हवाई सुरक्षा, मौसम पूर्वानुमान र पर्यटन प्रवर्धनमा मापदण्ड र
+  तालिम।
+
+::: note क्रियाकलाप — पाठ ९.३
+**१.** विशिष्टीकृत संस्थाका लोगो सङ्कलन गरी एल्बम तयार पार्नुहोस्।
+**२.** विश्व स्वास्थ्य सङ्गठनले नेपालको स्वास्थ्य क्षेत्रमा पुर्‍याएको योगदान खोजी गरी
+कक्षामा प्रस्तुत गर्नुहोस् (सङ्केत: खोप, बिफर र पोलियो उन्मूलन, कोभिड–१९)।
+**३.** अन्तर्राष्ट्रिय श्रम सङ्गठनले नेपालमा श्रमिकका क्षेत्रमा के के गर्नुपर्ला, सुझाव
+प्रस्तुत गर्नुहोस् (सङ्केत: वैदेशिक रोजगारीमा जाने श्रमिकको सुरक्षा, न्यूनतम ज्याला,
+सामाजिक सुरक्षा कोष, बालश्रम अन्त्य, अनौपचारिक क्षेत्रका कामदारको बिमा)।
+:::
+
+### पाठको अभ्यास: नमुना उत्तर
+
+**१. संयुक्त राष्ट्रसङ्घका विशिष्टीकृत संस्थाहरूको सूची तयार पार्नुहोस्।**
+(१) अन्तर्राष्ट्रिय श्रम सङ्गठन — जेनेभा, (२) खाद्य तथा कृषि सङ्गठन — रोम, (३) विश्व
+स्वास्थ्य सङ्गठन — जेनेभा, (४) अन्तर्राष्ट्रिय मुद्रा कोष — वासिङ्टन डि.सी., (५) युनेस्को —
+पेरिस, (६) विश्व बैङ्क — वासिङ्टन डि.सी., (७) अन्तर्राष्ट्रिय दूरसञ्चार सङ्घ — जेनेभा, (८)
+विश्व हुलाक सङ्घ — बर्न, (९) अन्तर्राष्ट्रिय नागरिक उड्डयन सङ्गठन — मन्ट्रियल, (१०) विश्व
+मौसम विज्ञान सङ्गठन — जेनेभा, (११) विश्व बौद्धिक सम्पत्ति सङ्गठन — जेनेभा, (१२)
+अन्तर्राष्ट्रिय सामुद्रिक सङ्गठन — लन्डन, (१३) संयुक्त राष्ट्रसङ्घीय औद्योगिक विकास
+सङ्गठन — भियना, (१४) अन्तर्राष्ट्रिय कृषि विकास कोष — रोम, (१५) विश्व पर्यटन सङ्गठन
+— म्याड्रिड।
+
+**२. युनेस्कोले नेपालको शैक्षिक तथा सांस्कृतिक विकासमा पुर्‍याएको योगदानको चर्चा
+गर्नुहोस्।**
+सन् १९४५ मा स्थापित र पेरिसमा मुख्यालय रहेको युनेस्कोले शिक्षा, विज्ञान र संस्कृतिमा
+काम गर्छ। **शैक्षिक योगदान:** (क) सबैका लागि शिक्षा र साक्षरता अभियानमा प्राविधिक र
+आर्थिक सहयोग; (ख) सामुदायिक सिकाइ केन्द्र र अनौपचारिक शिक्षाको विस्तार; (ग)
+शिक्षक तालिम, पाठ्यक्रम सुधार र शैक्षिक योजना निर्माणमा परामर्श; (घ) छात्रा र
+पिछडिएका समुदायको शिक्षामा जोड। **सांस्कृतिक योगदान:** (क) काठमाडौँ उपत्यकाका सात
+स्मारक क्षेत्र, सगरमाथा र चितवन राष्ट्रिय निकुञ्ज तथा लुम्बिनीलाई विश्व सम्पदा सूचीमा
+राखेर नेपालको पहिचान विश्वमा फैलायो; (ख) सम्पदा संरक्षणका लागि प्राविधिक सहयोग, विशेषगरी
+२०७२ को भूकम्पपछि पुनर्निर्माणमा; (ग) मातृभाषा र मौलिक संस्कृतिको संरक्षणमा सहयोग।
+यसले नेपालमा पर्यटन बढाउन र शिक्षाको गुणस्तर सुधार्न ठुलो भूमिका खेलेको छ।
+
+**३. विश्व हुलाक सङ्घको उपयोगिता अहिलेको समयमा कति सान्दर्भिक छ जस्तो लाग्छ, तर्क
+प्रस्तुत गर्नुहोस्।**
+इमेल र सामाजिक सञ्जालले चिठी लेख्ने चलन घटाए पनि विश्व हुलाक सङ्घ अझै सान्दर्भिक
+छ। (क) अनलाइन किनमेलका पार्सल, पुस्तक र सामान एक देशबाट अर्को देशमा पठाउन
+हुलाक नै भरपर्दो र सस्तो माध्यम हो; (ख) यसले देशहरूबिच हुलाक दर र नियम तय गरिदिएकाले
+संसारको जुनसुकै कुनामा पनि वस्तु पठाउन सकिन्छ; (ग) राहदानी, सरकारी कागजात र
+औषधि जस्ता महत्त्वपूर्ण वस्तु सुरक्षित पठाउन यसको भूमिका छ; (घ) इन्टरनेट नपुगेका
+दुर्गम क्षेत्रका लागि हुलाक अझै सञ्चारको आधार हो; (ङ) यसले हुलाक सेवालाई डिजिटल
+प्रविधि, पार्सल ट्र्याकिङ र विद्युतीय भुक्तानीसँग जोड्न सहयोग गरिरहेको छ। त्यसैले
+समयअनुसार रूप बदलेर विश्व हुलाक सङ्घ आज पनि उपयोगी छ।
+
+**४. नेपालको कृषि क्षेत्रको विकासका लागि योगदान पुर्‍याउने विशिष्टीकृत संस्थाहरू पहिचान
+गरी तिनीहरूका कार्य उल्लेख गर्नुहोस्।**
+(क) **खाद्य तथा कृषि सङ्गठन (रोम):** कृषि, वन र मत्स्य उद्योगको विकास, उन्नत बिउ र
+प्रविधि, कृषक तालिम, ग्रामीण जीवनस्तर सुधार र कृषि अनुसन्धान। (ख) **अन्तर्राष्ट्रिय कृषि
+विकास कोष (रोम):** खाद्य उत्पादन र पोषण बढाउन ग्रामीण गरिब किसानलाई सहुलियत ऋण र
+अनुदान, पशुपालन र बजार पहुँचका परियोजना। (ग) **विश्व मौसम विज्ञान सङ्गठन:** मौसम
+पूर्वानुमान र जलवायु सूचना, जसले रोपाइँ, बाली भित्र्याउने र बाढी–खडेरीबाट जोगिने योजना
+बनाउन सघाउँछ। (घ) **विश्व बैङ्क:** सिँचाइ, ग्रामीण सडक र कृषि व्यवसायीकरणका परियोजनामा
+लगानी। (ङ) **संयुक्त राष्ट्रसङ्घीय औद्योगिक विकास सङ्गठन:** कृषिमा आधारित उद्योग
+(चिया, दुग्ध, फलफूल प्रशोधन) को आधुनिकीकरण र प्रविधि हस्तान्तरण।
+
+## ९.४ विश्वव्यापीकरण र स्थानीयकरण
+
+### (क) विश्वव्यापीकरण
+
+::: definition विश्वव्यापीकरण
+"विश्व" र "व्यापी" मिलेर बनेको "विश्वव्यापी" शब्दमा "करण" प्रत्यय लागेर विश्वव्यापीकरण
+बनेको हो। विश्वको कुनै एक देश वा क्षेत्रमा उत्पादित **वस्तु, सेवा, पुँजी, प्रविधि, सूचना
+र जनशक्ति** विश्वका जुनसुकै देशमा सहज रूपमा प्रयोग गर्न आयात–निर्यात हुनु
+**विश्वव्यापीकरण** हो। व्यापक अर्थमा यो विश्वको अर्थतन्त्र, संस्कृति र राजनीतिलाई जोड्ने
+प्रक्रिया हो। यसलाई **भूमण्डलीकरण** पनि भनिन्छ।
+:::
+
+परम्परागत रूपमा विश्वव्यापीकरणलाई अर्थतन्त्र जोड्ने प्रक्रियाका सीमित अर्थमा मात्र
+बुझिन्थ्यो। आधुनिक विश्वमा राजनीतिक, आर्थिक, सामाजिक, प्रशासनिक र सांस्कृतिक सबै
+विषयमा **साझा मूल्यमान्यता र प्रक्रिया** स्थापना गर्ने अभियान नै विश्वव्यापीकरण हो।
+यसले देशहरूबिच वस्तु, सेवा, पुँजी, प्रविधि, सूचना र मानिसको **सीमाविहीन स्वतन्त्र
+प्रवाह** लाई मान्यता दिन्छ। **विश्व बैङ्क** ले यसका तीन प्रमुख पक्ष — **व्यापार, वित्तीय
+प्रवाह र सूचना प्रविधि** — मा जोड दिएको छ। नेपालमा विदेशी मोबाइल र गाडी बिक्नु,
+नेपाली चिया र गलैँचा विदेश जानु, लाखौँ युवा विदेशमा काम गरेर विप्रेषण पठाउनु र
+घरघरमा विदेशी चलचित्र तथा सामाजिक सञ्जाल पुग्नु विश्वव्यापीकरणका उदाहरण हुन्।
+
+```figure caption="विश्वव्यापीकरणका पक्ष (पाठ्यपुस्तकको चार्टअनुसार)। यो आर्थिक मात्र नभई राजनीतिक, सामाजिक, सांस्कृतिक, प्रशासनिक र प्राविधिक प्रक्रिया पनि हो।"
+import math
+from matplotlib.patches import Circle, FancyBboxPatch
+fig, ax = plt.subplots(figsize=(5.6, 3.4))
+ax.set_xlim(0, 10); ax.set_ylim(0, 6); ax.axis("off"); ax.set_aspect("equal")
+ax.add_patch(Circle((5, 3), 1.05, fc=ACCENT, ec="none"))
+ax.text(5, 3, "विश्वव्यापीकरणका\nपक्ष", ha="center", va="center", color="white", fontsize=8.6, fontweight="bold")
+labels = ["राजनीतिक", "आर्थिक", "सामाजिक", "सांस्कृतिक", "प्रशासनिक", "प्राविधिक", "सूचना तथा सञ्चार"]
+n = len(labels)
+for i, lab in enumerate(labels):
+    a = math.pi / 2 - i * 2 * math.pi / n
+    x, y = 5 + 3.3 * math.cos(a), 3 + 2.3 * math.sin(a)
+    w = 2.3
+    ax.add_patch(FancyBboxPatch((x - w/2, y - 0.32), w, 0.64, boxstyle="round,pad=0.02,rounding_size=0.18", fc=SERIES[i % 6], ec="none"))
+    ax.text(x, y, lab, ha="center", va="center", color="white", fontsize=8.2, fontweight="bold")
+    ax.plot([5 + 1.08 * math.cos(a), x - 1.0 * math.cos(a)], [3 + 1.08 * math.sin(a), y - 0.4 * math.sin(a)], color=MUTED, lw=1.0)
+```
+
+### विश्वव्यापीकरणको महत्त्व
+
+- (क) **राष्ट्रिय अर्थतन्त्रलाई अन्तर्राष्ट्रिय** बनाउन मदत गर्छ।
+- (ख) अर्थव्यवस्थालाई एकआपसमा आबद्ध बनाउन **आयात–निर्यात खुकुलो** बनाउँछ।
+- (ग) **भन्सार दर घटाउने** र व्यवस्थित बनाउने काम गर्छ।
+- (घ) **राष्ट्रिय आय, बचत, उत्पादन र रोजगारी** बढाउँछ।
+- (ङ) **"विश्व एक गाउँ"** भन्ने मान्यताका साथ सीमाविहीन समुदाय निर्माणमा जोड दिन्छ।
+- (च) सूचना–प्रविधिको विकास गराई विश्वलाई **सामाजिक सञ्जालमा आबद्ध** गराउँछ।
+- (छ) शासनमा **लोकतान्त्रिक मूल्य र मान्यता** विकास गर्न मदत गर्छ।
+- (ज) **सुशासन, विधिको शासन, मानव अधिकार, सामाजिक न्याय र समावेशीकरण** को संरक्षण र
+  संवर्धन गर्छ।
+
+### विश्वव्यापीकरणका सकारात्मक र नकारात्मक प्रभाव
+
+| आयाम | सकारात्मक पक्ष | नकारात्मक पक्ष |
 |---|---|---|
-| **Non-Aligned Movement (NAM)**, 1961 | Independence from military blocs | Founding member |
-| **WTO**, 1995 | Rules of world trade | Member since 2004 (the 147th member and the first least developed country to join through full negotiation) |
-| **BBIN** | Road, rail and power links among Bangladesh, Bhutan, India and Nepal | Participant |
-| **Group of 77** and **LDC group** | Interests of developing and least developed countries | Member; LDC graduation due in 2026 |
-| **Commonwealth, ASEAN, EU, BRICS** | Other regional or political groups | Nepal is not a member of these, but has partnerships and trade with them |
+| राजनीतिक | लोकतान्त्रिक मूल्यमान्यताको विकास; विधिको शासन र समावेशिता; सामाजिक न्याय र मानव अधिकारको प्रवर्धन; बहुलवाद, सुशासन र उत्तरदायी शासन | राजनीतिक अस्थिरताको खतरा; नयाँ उपनिवेशको आशङ्का; नीतिगत भ्रष्टाचार; वैदेशिक हस्तक्षेप; अलोकतान्त्रिक प्रतिस्पर्धा |
+| आर्थिक | आर्थिक उदारीकरण, निजीकरण र विप्रेषणमा वृद्धि; वैदेशिक लगानी र रोजगारी; बजार विस्तार र गरिबी न्यूनीकरण | धनी र गरिबबिचको खाडल बढ्छ; परनिर्भरता; दाताको स्वार्थ हावी; स्रोतसाधनको दोहन; नयाँ आर्थिक अपराध |
+| सामाजिक र सांस्कृतिक | सामाजिक सोच, संस्कार र संरचनामा परिवर्तन; सामाजिक चेतना विस्तार; विश्वव्यापी सामाजिक सञ्जाल; अन्तर्राष्ट्रिय भाषाको प्रयोग; सांस्कृतिक बहुलवाद | मौलिक मूल्यमान्यतामा ह्रास; सामाजिक विकृति र विसङ्गति; आभासी (अनलाइन मात्रको) सम्बन्धमा रमाउने प्रवृत्ति; मातृभाषा बोल्न नजान्ने र यसको महत्त्व घट्ने खतरा |
+| प्रशासनिक तथा शासकीय | सुशासन र उत्तरदायी शासनमा जोड; मजदुरको हकको संरक्षण | बौद्धिक पलायन; श्रमशक्तिको पलायन |
+| सूचना तथा सञ्चार प्रविधि | हरेक तहमा सूचना प्रविधिको प्रयोग; विद्युतीय शासन, विद्युतीय व्यापार र स्मार्ट शासन; अनलाइन सेवा विस्तार; सबै सेवा प्रदायकको वेबसाइट | तथ्याङ्क चोरीको डर; साइबर अपराधमा वृद्धि; राष्ट्रिय सुरक्षामा खतरा |
 
-::: tip UN questions
-Memorise: **founded 24 Oct 1945; HQ New York; 193 members; six organs; five permanent members; ICJ in The Hague; UN Day 24 October; Human Rights Day 10 December**. Marks come from these facts.
+::: tip "सुशासन" को सन्दर्भ
+पाठ्यपुस्तकको तालिकामा सुशासनसँग "सन् १९९०" लेखिएको छ। यसको अर्थ सुशासनको
+अवधारणा सन् १९९० को दशकतिर विश्व बैङ्क जस्ता अन्तर्राष्ट्रिय संस्थामार्फत विश्वभर
+फैलियो भन्ने हो। यो पनि विश्वव्यापीकरणकै प्रभाव हो।
 :::
 
-## 9.3 Specialised agencies of the United Nations
+### (ख) स्थानीयकरण
 
-**Specialised agencies** are autonomous international organisations that work with the UN through ECOSOC, each on one specific field. There are 15 of them. Some UN bodies, like UNICEF and UNDP, are funds and programmes rather than specialised agencies.
+::: definition स्थानीयकरण
+नेपाली शब्दकोशले स्थानीयकरणलाई **प्रशासनिक विकेन्द्रीकरण** को अर्थमा परिभाषित गरेको
+छ। शाब्दिक अर्थमा कुनै विषय, उत्पादन वा सेवालाई निश्चित ठाउँमा सीमित पार्नु
+**स्थानीयकरण** हो। यसले ठाउँविशेषलाई उच्च प्राथमिकता दिन्छ र स्थानीय कला, संस्कृति,
+वेशभूषा, रीतिरिवाज, मूल्यमान्यता तथा स्थानीय मानिसको विचार र इच्छालाई प्राथमिकता दिनुपर्ने
+मान्यता राख्छ।
+:::
 
-| Agency | Founded; headquarters | Main functions | Nepal link |
-|---|---|---|---|
-| **UNESCO** (United Nations Educational, Scientific and Cultural Organization) | 1945 (Nov 1946 in force); Paris | Promote education, science, culture and communication; protect **World Heritage**; literacy | Nepal member since 1953; four World Heritage Sites (Kathmandu Valley, Lumbini, Sagarmatha, Chitwan) |
-| **WHO** (World Health Organization) | 1948; Geneva | Health standards, disease control and vaccination campaigns, response to epidemics; "health for all" | Polio, TB and malaria control, Covid-19 response; WHO South-East Asia regional office in Delhi |
-| **FAO** (Food and Agriculture Organization) | 1945; Rome | Raise nutrition, increase agricultural production, rural development, fight hunger | Support for seeds, livestock, fisheries and food security |
-| **ILO** (International Labour Organization) | 1919; Geneva | Labour standards, workers' rights, decent work, fight child labour and forced labour | Nepal's Labour Act, safe migration, child labour programmes |
-| **World Bank (IBRD/IDA)** | 1944; Washington DC | Long-term loans and grants for development | Large road, energy, education and post-earthquake projects |
-| **IMF** | 1945; Washington DC | Monetary cooperation, financial stability, loans to countries with payment problems | Nepal is a member since 1961 |
-| **ICAO** | 1947; Montreal | Aviation safety and standards | Airport and air safety |
-| **ITU** | 1865 (UN agency 1947); Geneva | Radio spectrum, telecom standards | Telecom and internet |
-| **UPU** | 1874; Bern | Worldwide postal system | Post offices and parcels |
-| **WMO** | 1950; Geneva | Weather, climate and water data | Nepal's weather and flood forecasts |
-| **UNWTO**, **IFAD**, **UNIDO**, **WIPO**, **IMO** | Various | Tourism, rural poverty, industry, intellectual property, shipping | Tourism, farm credit, trade-marks |
+स्थानीयकरणले सूचना प्रविधिको पहुँच स्थानीय तहसम्म पुर्‍याई **ज्ञानमा आधारित समाज**
+बनाउन र नयाँ आविष्कारलाई **स्थानीय सिप र प्रविधिमा आधारित** बनाउन जोड दिन्छ।
+नेपालको **सङ्घीय शासन प्रणाली** (७ प्रदेश र ७५३ स्थानीय तह) ले यसको महत्त्व झन् बढाएको
+छ — यसले राजनीतिमा नागरिकको प्रत्यक्ष सहभागिता, स्थानीय तहबाटै सेवा प्रवाह र स्थानीय
+क्षेत्रको आर्थिक–सामाजिक विकासमा जोड दिन्छ। स्थानीयकरणले मौलिकताको संरक्षण र
+**विविधताबिच एकता** लाई प्राथमिकता दिन्छ। संयुक्त राष्ट्रसङ्घले पनि स्थानीयकरणलाई
+प्राथमिकतामा राखेर **सहस्राब्दी विकास लक्ष्य** (सन् २०००–२०१५) निर्धारण गरेको थियो;
+यसपछिका **दिगो विकास लक्ष्य** (सन् २०१६–२०३०) लाई पनि नेपालका प्रदेश र स्थानीय तहको
+योजनामा स्थानीयकरण गरिएको छ। उदाहरण: गाउँपालिकाले स्थानीय रैथाने बाली (कोदो,
+फापर, चिनो) प्रवर्धन गर्नु, होमस्टे चलाउनु, मातृभाषामा पढाइ सुरु गर्नु।
 
-```photo id="soc10/who-hq" caption="The headquarters of the World Health Organization in Geneva, Switzerland. WHO leads global campaigns such as smallpox eradication (declared achieved in 1980) and the response to Covid-19." width="78"
+### स्थानीयकरणको महत्त्व
+
+- (क) **स्थानीय प्रविधि र सेवा** लाई जोड दिन्छ।
+- (ख) **जनताकेन्द्रित विकास** को दृष्टिकोण प्रस्तुत गर्छ।
+- (ग) **राष्ट्रियताको जगेर्ना** मा जोड दिन्छ।
+- (घ) **स्थानीय संस्कृति र रीतिरिवाज** प्रवर्धन गर्न प्रेरित गर्छ।
+- (ङ) श्रमिक र वस्तुको **अन्तर्राष्ट्रियकरणलाई निरुत्साहित** गर्छ (स्थानीय रोजगारी र
+  उत्पादन बढाउँछ)।
+
+::: example विश्वव्यापीकरण र स्थानीयकरणको सन्तुलन
+**प्रश्न.** विश्वव्यापीकरण र स्थानीयकरण एकअर्काका विरोधी हुन् कि परिपूरक?
+**उत्तर.** विश्वव्यापीकरणले संसारलाई जोड्छ भने स्थानीयकरणले आफ्नो मौलिकता जोगाउँछ।
+दुवै सँगै चल्न सक्छन् — जसलाई "विश्व सोच, स्थानीय काम" भनिन्छ। जस्तै इलामको चिया
+स्थानीय सिप र माटोमा उत्पादन हुन्छ (स्थानीयकरण) तर इन्टरनेटमार्फत विदेशमा बिक्छ
+(विश्वव्यापीकरण)। मोबाइल विदेशी प्रविधि हो, तर त्यसमा नेपाली र मातृभाषामा सामग्री
+बनाउँदा दुवैको फाइदा हुन्छ। त्यसैले यी दुई परिपूरक हुन्।
+:::
+
+::: note क्रियाकलाप — पाठ ९.४
+**१.** विश्वव्यापीकरणले कुन कुन पक्षमा फाइदा पुर्‍याएको छ, समूहमा छलफल गरी निचोड
+प्रस्तुत गर्नुहोस्।
+**२.** विश्वव्यापीकरणका असरबारे एक लेख तयार पार्नुहोस्।
+**३.** स्थानीयकरणको महत्त्वबारे कक्षामा वक्तृत्वकला प्रतियोगिता सञ्चालन गर्नुहोस्।
+**४.** स्थानीयकरणका लागि आफ्नो समुदायमा भएका सकारात्मक अभ्यास (रैथाने बाली, होमस्टे,
+स्थानीय सीपका उद्योग, मातृभाषा शिक्षा, स्थानीय मेला) सोधखोज गरी कक्षामा प्रस्तुत गर्नुहोस्।
+:::
+
+### पाठको अभ्यास: नमुना उत्तर
+
+**१. विश्वव्यापीकरण भनेको के हो?**
+विश्वको कुनै एक देश वा क्षेत्रमा उत्पादित वस्तु, सेवा, पुँजी, प्रविधि, सूचना र जनशक्ति
+विश्वका जुनसुकै देशमा सहज रूपमा प्रयोग गर्न आयात–निर्यात हुने प्रक्रियालाई
+विश्वव्यापीकरण भनिन्छ। व्यापक अर्थमा यो विश्वको अर्थतन्त्र, राजनीति र संस्कृतिलाई
+जोडेर साझा मूल्यमान्यता स्थापना गर्ने प्रक्रिया हो। यसलाई भूमण्डलीकरण पनि भनिन्छ।
+
+**२. विश्वव्यापीकरणको महत्त्व उल्लेख गर्नुहोस्।**
+(क) राष्ट्रिय अर्थतन्त्रलाई अन्तर्राष्ट्रिय बनाउँछ; (ख) आयात–निर्यात खुकुलो पारी
+अर्थव्यवस्थालाई आबद्ध गर्छ; (ग) भन्सार दर घटाउँछ र व्यवस्थित बनाउँछ; (घ) राष्ट्रिय
+आय, बचत, उत्पादन र रोजगारी बढाउँछ; (ङ) "विश्व एक गाउँ" को मान्यतामा सीमाविहीन समुदाय
+बनाउँछ; (च) सूचना प्रविधिको विकास गराई सामाजिक सञ्जालमा जोड्छ; (छ) लोकतान्त्रिक
+मूल्यमान्यता विकास गर्छ; (ज) सुशासन, विधिको शासन, मानव अधिकार, सामाजिक न्याय र
+समावेशीकरणको संरक्षण गर्छ।
+
+**३. विश्वव्यापीकरणका सकारात्मक र नकारात्मक पक्षको सूची तयार पार्नुहोस्।**
+**सकारात्मक:** (१) लोकतान्त्रिक मूल्य, विधिको शासन र मानव अधिकारको प्रवर्धन; (२) वैदेशिक
+लगानी, रोजगारी र विप्रेषण वृद्धि; (३) बजार विस्तार र गरिबी न्यूनीकरण; (४) सामाजिक
+चेतना र सांस्कृतिक बहुलवाद; (५) सुशासन र मजदुरको हकको संरक्षण; (६) विद्युतीय शासन,
+विद्युतीय व्यापार र अनलाइन सेवा। **नकारात्मक:** (१) राजनीतिक अस्थिरता, वैदेशिक हस्तक्षेप
+र नयाँ उपनिवेशको खतरा; (२) धनी–गरिबबिचको खाडल, परनिर्भरता र स्रोतको दोहन; (३)
+मौलिक मूल्यमान्यता र मातृभाषामा ह्रास, सामाजिक विकृति; (४) बौद्धिक र श्रमशक्ति पलायन;
+(५) तथ्याङ्क चोरी, साइबर अपराध र राष्ट्रिय सुरक्षामा खतरा।
+
+**४. स्थानीयकरण भनेको के हो?**
+कुनै विषय, उत्पादन वा सेवालाई निश्चित ठाउँमा केन्द्रित गरी स्थानीय कला, संस्कृति,
+सिप, प्रविधि र स्थानीय जनताको विचार तथा इच्छालाई प्राथमिकता दिने प्रक्रियालाई
+स्थानीयकरण भनिन्छ। नेपाली शब्दकोशले यसलाई प्रशासनिक विकेन्द्रीकरणको अर्थमा लिएको
+छ। सङ्घीय प्रणालीमा स्थानीय तहबाटै सेवा दिनु र योजना बनाउनु यसको उदाहरण हो।
+
+**५. स्थानीयकरणको महत्त्व बुँदागत रूपमा उल्लेख गर्नुहोस्।**
+(क) स्थानीय प्रविधि, सिप र सेवालाई जोड दिन्छ। (ख) जनताकेन्द्रित विकासको दृष्टिकोण दिन्छ।
+(ग) राष्ट्रियताको जगेर्ना गर्छ। (घ) स्थानीय संस्कृति, वेशभूषा र रीतिरिवाजको प्रवर्धन गर्छ।
+(ङ) श्रमिक र वस्तुको अन्तर्राष्ट्रियकरणलाई निरुत्साहित गरी स्थानीय रोजगारी र उत्पादन
+बढाउँछ। (च) राजनीतिमा नागरिकको प्रत्यक्ष सहभागिता र स्थानीय तहमा सेवा प्रवाह बढाउँछ।
+(छ) मौलिकताको संरक्षण गर्दै विविधताबिच एकता कायम गर्छ।
+
+## ९.५ सूचना तथा सञ्चार प्रविधि
+
+मानिसका दैनिक जीवनका हरेक क्षेत्र — शिक्षा, स्वास्थ्य, बैङ्क, कृषि, सरकारी सेवा — मा
+सूचना तथा सञ्चार प्रविधिको प्रयोग बढ्दै गएको छ। सूचना प्रविधिमा **हार्डवेयर** (छुन
+सकिने यन्त्र) र **सफ्टवेयर** (यन्त्र चलाउने कार्यक्रम) दुवैको प्रयोग हुन्छ।
+
+| प्रकार | उदाहरण |
+|---|---|
+| सफ्टवेयर | प्रस्तुतीकरणका ई–सामग्री, सामाजिक सञ्जाल, एप |
+| हार्डवेयर | स्मार्ट बोर्ड, स्मार्टफोन, अन्तरक्रियात्मक बोर्ड, कम्प्युटर |
+
+यिनको प्रयोग गरी भर्चुअल (अनलाइन) सिकाइ, इन्टरनेटमा आधारित खोज, कक्षामा प्रभावकारी
+प्रस्तुतीकरण र सामाजिक सञ्जालमार्फत सिकाइ गर्न सकिन्छ।
+
+### पाठ्यपुस्तकका छ उदाहरण
+
+| पात्र | के गरे? | सूचना प्रविधिको फाइदा |
+|---|---|---|
+| रामकली | युट्युबको इतिहास च्यानलका भिडियो हेरेर दोस्रो विश्वयुद्धको प्रतिवेदन बनाइन्, पावरप्वाइन्ट स्लाइडबाट प्रस्तुत गरिन् र कक्षाको भाइबर समूहमा राखिन् | स्वअध्ययन र ज्ञान बाँडफाँट |
+| शिक्षक मोहन | गुगल र युट्युबबाट लोकबाजा, लोकगीत र लोकनृत्य डाउनलोड गरी प्रोजेक्टरबाट देखाउनुभयो | रुचिकर र दृश्य–श्रव्य शिक्षण |
+| सञ्जय | आमा गम्भीर बिरामी हुँदा काठमाडौँका डाक्टरले भिडियो कलबाट स्थानीय डाक्टरलाई उपचार विधि सिकाए | टाढैबाट उपचार; समय र पैसा बचत |
+| फर्मुल्लाह | कम्प्युटर बिग्रेर प्रोजेक्टर नचलेपछि छिमेकी विद्यालयको अन्तरक्रियात्मक बोर्डबाट प्रेरित भई त्यस्तै बोर्ड राख्ने विचार गरे | नयाँ प्रविधिको जानकारी |
+| डोल्मा | गुगल फर्मबाट सर्वेक्षण गरिन्, मेसेन्जरबाट लिङ्क पठाइन्, एक्सेल सिटमा विश्लेषण गरी तालिका र चित्र बनाइन् | सजिलो तथ्याङ्क सङ्कलन र विश्लेषण |
+| सरस्वती माध्यमिक विद्यालय | गुगल क्लासरुममा गृहकार्य र पृष्ठपोषण; जुम, टिम्स, गुगल मिटबाट उपचारात्मक अनलाइन कक्षा | विद्यार्थीको सिकाइमा सुधार |
+
+सूचना प्रविधिको प्रयोगले विद्यार्थीलाई सिकाइमा **उत्साहित** गराउँछ; सिकाइ **रुचिकर,
+सक्रिय र सहभागितामूलक** हुन्छ; डिजिटल वातावरणले विषयवस्तुमा **अद्यावधिक** रहन सकिन्छ।
+यसले **डिजिटल संस्कृति र डिजिटल साक्षरता** बढाउँछ, जसले मानिसको जिउने तरिका,
+कार्यशैली र सामाजिकीकरणमा नयाँपन ल्याउँछ, चिन्तनको दायरा फराकिलो बनाउँछ र ज्ञानको
+निर्माण तथा वितरणमा सहयोग गर्छ।
+
+### सूचना प्रविधिका लागि प्रयोग हुने साधन
+
+```figure caption="सूचना प्रविधिका पाँच साधन वा तरिका (पाठ्यपुस्तकअनुसार)। चारवटा यन्त्र वा सेवा हुन्; उल्टो कक्षा सिकाउने तरिका हो।"
+fig, ax = cards([("ट्याब्लेट", "टचस्क्रिन भएको बोक्न\nमिल्ने कम्प्युटर"),
+                 ("अन्तरक्रियात्मक बोर्ड", "टिभी जस्तो देखिने तर\nआफैँमा कम्प्युटर"),
+                 ("ई–रिडर", "हजारौँ पुस्तक अटाउने\nपढ्ने यन्त्र"),
+                 ("उल्टो कक्षा", "घरमा अनलाइन सिकाइ,\nकक्षामा अभ्यास"),
+                 ("क्लाउड", "इन्टरनेटमा तथ्याङ्क\nसुरक्षित राख्ने ठाउँ"),
+                 ("सावधानी", "बलियो पासवर्ड, सीमित\nव्यक्तिगत विवरण")],
+                cols=3, figsize=(5.8, 2.7), title_size=8.4)
 ```
 
-::: example Short note: UNESCO
-**UNESCO** was established in 1945 with its headquarters at Paris, France. It works for peace through education, science, culture and communication. It promotes literacy and teacher training, protects cultural and natural heritage through the World Heritage List (including Lumbini and the Kathmandu Valley in Nepal), and supports freedom of the press and scientific cooperation.
+**(क) ट्याब्लेट:** टचस्क्रिन इन्टरफेस भएको बोक्न मिल्ने व्यक्तिगत कम्प्युटर। ल्यापटपभन्दा
+सानो र स्मार्टफोनभन्दा ठुलो हुन्छ। पढ्न, फोटो र भिडियो खिच्न तथा सामग्री तयार पार्न
+प्रयोग हुन्छ।
+
+**(ख) अन्तरक्रियात्मक बोर्ड:** कक्षाकोठामा प्रयोग गरिने विद्युतीय बोर्ड। हेर्दा
+टेलिभिजन जस्तो देखिए पनि यो आफैँमा कम्प्युटर हो; टचस्क्रिन हुन्छ, प्रोजेक्टर चाहिँदैन।
+शिक्षणका क्रममा इन्टरनेटबाट सिधै सामग्री खोजेर देखाउन, सेतोपाटीका रूपमा लेख्न र लेखेका
+कुरा रेकर्ड गरी राख्न सकिन्छ।
+
+**(ग) ई–रिडर (ई–बुक रिडर):** पुस्तक पढ्नका लागि बनाइएको यन्त्र। यसमा हजारौँ पुस्तक
+अटाउँछन्, बोक्न सजिलो हुन्छ र जहाँ बसेर पनि पढ्न सकिन्छ।
+
+**(घ) उल्टो कक्षा (फ्लिप्ड कक्षा):** घरमै बसी अनलाइन माध्यमबाट सिकाइ गर्न सकिने
+अन्तरक्रियात्मक कक्षा। शिक्षकले घर वा कार्यालयबाटै विद्यार्थीलाई सक्रिय गराउन सक्छन्।
+यसका लागि गुगल कक्षा, गुगल मिट, जुम, टिम्स आदि प्रयोग हुन्छन्। अभिभावकको प्रत्यक्ष
+निगरानीमा परियोजनामा आधारित सिकाइ हुने भएकाले यसको प्रचलन बढ्दै छ।
+
+::: tip उल्टो कक्षाको ठ्याक्कै अर्थ
+सामान्य कक्षामा शिक्षक कक्षामा पढाउँछन् र विद्यार्थी घरमा गृहकार्य गर्छन्। **उल्टो
+कक्षा** मा क्रम उल्टिन्छ: विद्यार्थीले नयाँ पाठ घरमै भिडियो वा अनलाइन सामग्रीबाट
+पढ्छन्, अनि कक्षाको समय प्रश्न, छलफल, अभ्यास र परियोजना कार्यमा खर्च हुन्छ। त्यसैले
+यसलाई "उल्टो" भनिएको हो।
 :::
 
-### Case study: how a specialised agency helps Nepal
+**(ङ) क्लाउड:** तथ्याङ्क सञ्चय गर्ने इन्टरनेट सुविधा। गुगल कम्पनीको गुगल ड्राइभ र
+माइक्रोसफ्ट कम्पनीको वन ड्राइभ जस्ता सेवाले निःशुल्क र सशुल्क ठाउँ दिन्छन्। यहाँ राखिएका
+सामग्री बढी सुरक्षित हुन्छन् र जहाँबाट पनि सजिलै खोल्न सकिन्छ।
 
-From the mid-1990s Nepal, with WHO, UNICEF and the Female Community Health Volunteers, ran mass **polio-vaccination** days when volunteers went door to door and booths opened at bus stands. In March 2014 WHO declared the South-East Asia Region, including Nepal, **polio-free**. This one example shows how international cooperation (money, vaccine and technical advice) combined with national effort (health workers and volunteers) can solve a problem that no single country could solve alone.
+### सामाजिक सञ्जालको सुरक्षित प्रयोग
 
-### Other UN bodies Nepal works with
+सामाजिक सञ्जाल ज्ञान बाँड्ने, साथी र आफन्तसँग जोडिने र समाचार पाउने माध्यम हो; तर
+गलत प्रयोगले ठगी, बदनाम, तथ्याङ्क चोरी र लत पनि ल्याउँछ। त्यसैले: (क) बलियो र
+फरक फरक पासवर्ड राख्ने, कसैलाई नबताउने; (ख) घरको ठेगाना, फोन नम्बर र व्यक्तिगत
+फोटो सार्वजनिक नगर्ने; (ग) नचिनेका व्यक्तिको साथी अनुरोध र शङ्कास्पद लिङ्क नखोल्ने;
+(घ) समाचार सेयर गर्नुअघि भरपर्दो स्रोतबाट पुष्टि गर्ने; (ङ) अरूको बारेमा अपमानजनक
+कुरा नलेख्ने; (च) स्क्रिनमा बिताउने समय सीमित राख्ने; (छ) साइबर अपराध भएमा अभिभावक,
+शिक्षक वा प्रहरीलाई तुरुन्तै खबर गर्ने।
 
-- **UNICEF** (1946, New York): children's health, nutrition, schools and rights; immunisation.
-- **UNDP** (1965): development and governance.
-- **UNHCR**: refugees; **WFP**: food aid; **UN Women**: gender equality; **UNFPA**: population and maternal health; **UNEP**: environment.
-
-## 9.4 Globalisation and localisation
-
-### Globalisation
-
-::: definition Globalisation
-Globalisation is the process by which the people, economies, cultures and technologies of the world are becoming more and more connected and dependent on each other through trade, travel, investment and communication.
+::: note क्रियाकलाप — पाठ ९.५
+**१.** विद्यालयमा उपलब्ध सूचना प्रविधि प्रयोग गरी एकाइ १ देखि १० सम्मका कुनै एक
+विषयवस्तुमा सामग्री सङ्कलन गरी कक्षामा प्रस्तुत गर्नुहोस्।
+**२.** मोबाइल फोनमार्फत सामाजिक सञ्जाल प्रयोग गरी आफूले सिकेका कुरा कक्षामा प्रस्तुत
+गर्नुहोस्।
+**३.** "सूचना प्रविधिको प्रयोग आजको आवश्यकता" विषयमा ई–पोस्टर बनाउनुहोस्; साधन नभए
+कागजमा बनाएर कक्षामा प्रस्तुत गर्नुहोस्।
 :::
 
-**Causes:** fast and cheap transport (aeroplanes, container ships); **ICT** (the internet and mobile phones); free trade and the **World Trade Organization (WTO, 1995)**, which Nepal joined in 2004; multinational companies; migration; global media and education.
+### पाठको अभ्यास: नमुना उत्तर
 
-| Advantages | Disadvantages |
-|---|---|
-| Wider **trade and markets** for goods like Nepali tea, carpets and cardamom | **Inequality**: rich countries and companies gain more |
-| **Technology, ideas and knowledge** spread quickly; online learning | Local small industries and farmers cannot compete with cheap imports |
-| Jobs abroad and **remittance**; foreign investment | **Culture and language** may weaken; consumerism |
-| Cultural exchange and tourism | Diseases and crises spread fast (Covid-19, 2008 financial crisis) |
-| Greater awareness of human rights and environment | Pressure on the environment from production and transport; brain drain |
+**१. शिक्षण सिकाइमा सूचना तथा सञ्चार प्रविधिको प्रयोग कसरी गर्न सकिन्छ, उल्लेख
+गर्नुहोस्।**
+(क) युट्युब र गुगलबाट भिडियो, चित्र र सामग्री खोजेर स्वअध्ययन गर्न (रामकली जस्तै);
+(ख) प्रोजेक्टर वा अन्तरक्रियात्मक बोर्डबाट लोकगीत, नक्सा, चलचित्र देखाएर रुचिकर शिक्षण
+गर्न (शिक्षक मोहन जस्तै); (ग) पावरप्वाइन्ट स्लाइडबाट प्रतिवेदन प्रस्तुत गर्न; (घ) गुगल
+फर्म र एक्सेल सिटबाट सर्वेक्षण, तथ्याङ्क विश्लेषण र चित्र बनाउन (डोल्मा जस्तै); (ङ)
+गुगल क्लासरुममा गृहकार्य बुझाउन र पृष्ठपोषण लिन; (च) जुम, टिम्स, गुगल मिटबाट
+अनलाइन र उपचारात्मक कक्षा चलाउन; (छ) ई–रिडरमा पुस्तक पढ्न र क्लाउडमा सामग्री
+सुरक्षित राख्न; (ज) भाइबर वा मेसेन्जर समूहमा सामग्री र सूचना बाँड्न।
 
-### Globalisation and Nepal
+**२. सामाजिक सञ्जालको प्रयोग गरी तपाईँले के के फाइदा लिनुभएको छ, सूची तयार पार्नुहोस्।**
+(१) कक्षाको समूहबाट गृहकार्य, सूचना र नोट पाएको; (२) बिरामी भएर विद्यालय नआएका
+दिन साथीबाट पाठ बुझेको; (३) शैक्षिक भिडियो हेरेर कठिन विषय बुझेको; (४) विदेशमा रहेका
+आफन्तसँग भिडियो कलमा कुरा गरेको; (५) समसामयिक समाचार र परीक्षाको सूचना छिटो पाएको;
+(६) आफ्ना चित्र, लेख र सिप अरूलाई देखाएर प्रोत्साहन पाएको; (७) रक्तदान वा राहत
+सङ्कलन जस्ता सामाजिक अभियानमा सहभागी भएको।
 
-Nepal is both helped and challenged. Students study abroad; Nepali food (momo, dal bhat), music, trekking and mountaineering reach the world; remittance and tourism are key income sources; the country is also flooded with cheap imports, its young people migrate, and its trade deficit (imports far above exports) keeps widening.
+**३. तपाईँको विद्यालयमा सूचना प्रविधिको सुविधा छैन वा कमी छ भने त्यस्तो सुविधाको व्यवस्था
+गरिदिन व्यवस्थापन समितिको नाममा एक पत्र तयार पारी प्रेषित गर्नुहोस्।**
 
-### Cultural globalisation and Nepal's heritage
+मिति: २०८२/०५/१०
 
-Globalisation has taken Nepali culture to the world: the **momo** is now a world street food, Nepali trekking guides and Sherpa mountaineers are famous, the *khukuri* and the *Gurkha* soldier are known worldwide, and Nepali films and music reach migrant communities by internet. At the same time, English-language media, fast food and foreign fashion enter Nepal. Localisation asks us to be proud of our mother tongues, festivals and clothes, to document and teach our oral traditions and to give them a place in the digital world (for example, Nepali Wikipedia and Unicode Devanagari fonts, the Nepali keyboard on phones).
+श्रीमान् अध्यक्षज्यू,
+विद्यालय व्यवस्थापन समिति,
+जनता माध्यमिक विद्यालय, ………।
 
-### Localisation
+**विषय: सूचना प्रविधिको सुविधा उपलब्ध गराइदिने सम्बन्धमा।**
 
-::: definition Localisation
-Localisation is the process of promoting and protecting local products, culture, language, knowledge and decision-making so that communities benefit from globalisation while keeping their identity. Its slogan is "think globally, act locally".
+महोदय,
+हामी यस विद्यालयमा कक्षा १० मा अध्ययनरत विद्यार्थी हौँ। विद्यालयमा एउटा मात्र पुरानो
+कम्प्युटर छ, इन्टरनेट छैन र प्रोजेक्टर पनि काम नलाग्ने अवस्थामा छ। अहिले पाठ्यक्रमले नै
+अनलाइन खोज, प्रस्तुतीकरण र परियोजना कार्य माग गर्छ, तर हामी यसबाट वञ्चित छौँ। अन्य
+विद्यालयका विद्यार्थीले अन्तरक्रियात्मक बोर्ड र अनलाइन कक्षाबाट लाभ लिइरहेका छन्।
+त्यसैले विद्यालयमा (क) कम्तीमा दस कम्प्युटरसहितको प्रयोगशाला, (ख) भरपर्दो इन्टरनेट,
+(ग) कक्षाकोठामा अन्तरक्रियात्मक बोर्ड वा प्रोजेक्टर र (घ) शिक्षकका लागि सूचना प्रविधि
+तालिमको व्यवस्था गरिदिनुहुन विनम्र अनुरोध गर्दछौँ। यसका लागि स्थानीय तह र शिक्षा
+विकास निकायसँग समन्वय गर्न सकिने हाम्रो सुझाव छ।
+
+भवदीय,
+कक्षा १० का विद्यार्थीहरूको तर्फबाट,
+कक्षा प्रतिनिधि …………
+
+**४. सूचना प्रविधिका कुनै दुई साधनको सङ्क्षिप्त परिचय दिनुहोस्।**
+**(क) ट्याब्लेट:** टचस्क्रिन भएको, ल्यापटपभन्दा सानो र स्मार्टफोनभन्दा ठुलो बोक्न मिल्ने
+व्यक्तिगत कम्प्युटर हो; यसबाट पढ्न, फोटो–भिडियो खिच्न र सामग्री बनाउन सकिन्छ। **(ख)
+क्लाउड:** इन्टरनेटमा तथ्याङ्क सञ्चय गर्ने सुविधा हो; गुगल ड्राइभ, वन ड्राइभ जस्ता सेवाले
+निःशुल्क वा सशुल्क ठाउँ दिन्छन् र राखिएका सामग्री जहाँबाट पनि सुरक्षित रूपमा खोल्न
+सकिन्छ।
+
+**५. के तपाईँको विद्यालयमा पनि उल्टो (फ्लिप्ड) कक्षाको सम्भावना छ, कसरी?**
+हो, सम्भावना छ, तर केही तयारी चाहिन्छ। (क) धेरैजसो विद्यार्थीका घरमा अभिभावकको स्मार्टफोन
+छ, त्यसैले शिक्षकले छोटा शैक्षिक भिडियो वा गुगल कक्षामा सामग्री राखिदिन सक्नुहुन्छ; (ख)
+विद्यार्थीले घरमा अभिभावकको निगरानीमा पाठ हेरेर आउँछन् र कक्षामा प्रश्न, छलफल र
+परियोजना कार्य गर्छन्; (ग) इन्टरनेट नभएका साथीका लागि विद्यालयको कम्प्युटर कक्षमा
+सामग्री डाउनलोड गरी राख्न वा पेनड्राइभमा दिन सकिन्छ; (घ) शिक्षकलाई सूचना प्रविधि तालिम
+दिनुपर्छ। तर इन्टरनेट, बिजुली र यन्त्रको पहुँच सबैमा नपुगेसम्म यसलाई परम्परागत कक्षासँग
+मिसाएर बिस्तारै सुरु गर्नु उपयुक्त हुन्छ।
+
+## ९.६ समसामयिक घटना
+
+::: definition समसामयिक घटना
+हालसालै वा वर्तमान समयमा देश र विश्वमा घटेका राजनीतिक, आर्थिक, सामाजिक, वैज्ञानिक,
+खेलकुद र कला–संस्कृतिसम्बन्धी महत्त्वपूर्ण घटनालाई **समसामयिक घटना** भनिन्छ। यस्ता
+घटना पत्रपत्रिका, रेडियो, टेलिभिजन र अनलाइन सञ्चारमाध्यमबाट थाहा पाइन्छ।
 :::
 
-| Area | Examples of localisation |
-|---|---|
-| **Economy** | Buy local goods (Nepali tea, pashmina, handmade paper, Dhaka topi); **One Village One Product** programmes; local brands and farmers' cooperatives selling online |
-| **Culture** | Keep festivals, Newa feasts, the *Dhaka* cloth and national dress, languages of the 124 mother tongues of Nepal (census 2021), folk songs |
-| **Education** | Teaching in local languages; **local curriculum** in schools |
-| **Governance** | **Local governments** plan and decide for their own areas |
-| **Environment** | Community forests, local irrigation and seeds |
+पाठ्यपुस्तकमा वि.सं. २०७९ का पत्रिकाबाट लिइएका पाँच समाचार छन्।
 
-```figure caption="Globalisation connects the world; localisation keeps the community's own identity. A balanced society needs both (schematic)."
-import matplotlib.pyplot as plt
-from matplotlib.patches import Circle
-fig, ax = plt.subplots(figsize=(4.8,2.8))
-ax.add_patch(Circle((2.5,1.5),1.35,fc="#cfe0f5",ec=INK,lw=0.8))
-ax.add_patch(Circle((4.3,1.5),1.35,fc="#d9efd3",ec=INK,lw=0.8))
-ax.text(1.85,1.5,"Globalisation\ntrade, ICT,\nmigration,\ninvestment",ha="center",va="center",fontsize=7.8,color=INK)
-ax.text(4.95,1.5,"Localisation\nlocal products,\nlanguage,\nculture,\nlocal decisions",ha="center",va="center",fontsize=7.8,color=INK)
-ax.text(3.4,1.5,"Balance",ha="center",va="center",fontsize=7.5,color=INK,fontweight="bold",rotation=90)
-ax.set_xlim(0.8,6.2); ax.set_ylim(0,3.1); ax.set_aspect("equal"); ax.axis("off")
+### (क) चन्द्रमाको थप अन्वेषणमा शक्तिशाली देशबिच प्रतिस्पर्धा (कान्तिपुर, २०७९ पुस ९)
+
+सन् २०२३ मा रुस, भारत र युरोपेली अन्तरिक्ष संस्थाले चन्द्रमा जाने मिसनसहित अन्तरिक्ष
+अन्वेषणका काम अघि बढाउँदै थिए। समाचारका मुख्य कुरा:
+
+| मिसन | देश वा संस्था | समाचारमा भनिएको योजना |
+|---|---|---|
+| आर्टेमिस–१ | अमेरिका (नासा) | मानवरहित यानले चन्द्रमाको कक्षमा फन्को लगाएर पृथ्वी फर्कियो (सम्पन्न, सन् २०२२) |
+| आर्टेमिस–२ | अमेरिका (नासा) | अन्तरिक्षयात्री चन्द्रमाको परिक्रमा गरेर फर्कने |
+| आर्टेमिस–३ | अमेरिका (नासा) | पहिलो महिला र पहिलो अश्वेत व्यक्ति चन्द्रमामा अवतरण गर्ने |
+| चन्द्रयान–३ | भारत (इस्रो) | सन् २०२३ मा अवतरण यन्त्र र रोबोटिक रोभर चन्द्रमाको सतहमा उतार्ने (भारत पहिलो पटक सन् २००८ मा चन्द्रयान–१ बाट चन्द्रमा पुगेको) |
+| लुना–२५ | रुस (रोसकोसमस) | दक्षिण ध्रुवीय क्षेत्रमा अवतरण गरी नमुना सङ्कलन गर्ने |
+| स्टारसिप | स्पेस एक्स (इलोन मस्क) | सय जना अट्ने यानमा जापानी अर्बपति युसाकु माएजावासहित ९ जनालाई चन्द्रमाको यात्रा गराउने; पछि मङ्गल ग्रहमा बस्ती बसाल्ने लक्ष्य |
+
+::: caution समाचारपछि के भयो? (परीक्षाका लागि अद्यावधिक)
+समाचारमा भनिएका कुरा योजना मात्र थिए। पछि: **चन्द्रयान–३** सन् २०२३ जुलाई १४ मा
+प्रक्षेपण भई **अगस्ट २३** मा चन्द्रमाको दक्षिण ध्रुव नजिक सफलतापूर्वक अवतरण गर्‍यो — यस
+क्षेत्रमा अवतरण गर्ने भारत पहिलो देश बन्यो। रुसको **लुना–२५** सन् २०२३ अगस्टमा चन्द्रमाको
+सतहमा ठोक्किएर असफल भयो। स्पेस एक्सको माएजावासहितको चन्द्र यात्रा योजना सन् २०२४ मा
+रद्द भयो। नासाका आर्टेमिस मिसन तोकिएको समयभन्दा पछि सारिए। यसले समसामयिक घटना
+सधैँ अद्यावधिक गरेर पढ्नुपर्छ भन्ने देखाउँछ।
+:::
+
+```figure caption="चन्द्र अन्वेषणका प्रमुख घटनाक्रम (पाठ्यपुस्तकको समाचार र त्यसपछिका पुष्टि भएका घटना)।"
+fig, ax = plt.subplots(figsize=(5.8, 2.3))
+ev = [("२००८", "चन्द्रयान–१\nभारत चन्द्रमा पुग्यो", SERIES[1]),
+      ("२०२२", "आर्टेमिस–१\nचन्द्रमाको कक्ष परिक्रमा", SERIES[2]),
+      ("२०२३ जुलाई–अगस्ट", "चन्द्रयान–३ दक्षिण ध्रुव\nनजिक अवतरण", SERIES[3]),
+      ("२०२३ अगस्ट", "लुना–२५ सतहमा\nठोक्कियो, असफल", SERIES[4])]
+xs = [0.5, 1.8, 3.1, 4.4]
+ax.plot([0.0, 4.9], [0, 0], color=MUTED, lw=1.4)
+for i, ((yr, lab, c), x) in enumerate(zip(ev, xs)):
+    ax.scatter([x], [0], s=70, color=c, zorder=3)
+    dy = 0.55 if i % 2 == 0 else -0.55
+    ax.plot([x, x], [0, dy * 0.6], color=c, lw=0.9)
+    ax.text(x, dy, lab, ha="center", va="center", fontsize=7.6, color=INK)
+    ax.text(x, -0.17 if dy > 0 else 0.17, yr, ha="center", va="center", fontsize=7.2, color=c, fontweight="bold")
+ax.set_xlim(-0.3, 5.2); ax.set_ylim(-0.95, 0.95); ax.axis("off")
 ```
 
-::: tip Think globally, act locally
-In a 4-mark answer on "How can we balance globalisation and localisation?" give four actions: use ICT and global markets to sell local goods; protect and teach local languages and festivals; support local entrepreneurs and cooperatives; and take the best ideas from outside while keeping our values.
+### (ख) ओस्कार पुरस्कार २०२२
+
+ओस्कार पुरस्कार चलचित्र क्षेत्रसँग सम्बन्धित विश्वप्रसिद्ध पुरस्कार हो। यसको सुरुआत
+**सन् १९२९ मे १६** बाट भएको हो। सन् २०२२ को ओस्कार **९४ औँ संस्करण** थियो।
+
+| विधा | विजेता |
+|---|---|
+| सर्वश्रेष्ठ चलचित्र | **कोडा** (निर्देशक सियान हेडर) |
+| सर्वश्रेष्ठ निर्देशक | जेन क्याम्पियन |
+| सर्वश्रेष्ठ अभिनेता | विल स्मिथ |
+| सर्वश्रेष्ठ अभिनेत्री | जेसिका चेस्टेन |
+
+::: caution "ऐना झ्यालको पुतली" बारे
+पाठ्यपुस्तकले नेपाली चलचित्र "ऐना झ्यालको पुतली" ओस्कारको मनोनयनमा परेको लेखेको छ।
+ठ्याक्कै भन्दा यो चलचित्र सर्वश्रेष्ठ अन्तर्राष्ट्रिय चलचित्र विधाका लागि **नेपालको
+आधिकारिक प्रविष्टि** का रूपमा पठाइएको थियो; अन्तिम मनोनयन सूचीमा परेको थिएन।
+परीक्षामा "नेपालबाट ओस्कारका लागि पठाइएको" लेख्नु सुरक्षित हुन्छ।
 :::
 
-## 9.5 Information and communication technology (ICT)
+### (ग) विश्व पृथ्वी दिवस २०२२
 
-::: definition ICT
-Information and Communication Technology (ICT) is the group of technologies used to collect, store, process, transmit and exchange information, including computers, mobile phones, the internet, television, radio and satellites.
-:::
+सन् २०२२ को विश्व पृथ्वी दिवस **"पृथ्वीमा लगानी गरौँ"** भन्ने नाराका साथ मनाइयो। यो
+दिवस पहिलो पटक **सन् १९७० अप्रिल २२** मा मनाइएको थियो। संयुक्त राष्ट्रसङ्घको **६३ औँ
+महासभा** ले सन् २००९ मा अप्रिल २२ लाई अन्तर्राष्ट्रिय पृथ्वी दिवसका रूपमा विश्वभर मनाउने
+निर्णय गर्‍यो।
 
-### Milestones in Nepal
+### (घ) डा. सन्दुक रुइतलाई इसा पुरस्कार (अन्नपूर्ण पोस्ट, २०७९ माघ ४)
 
-| Year | Event |
-|---|---|
-| 1913 AD (1970 BS) | First telephone service in Kathmandu (for the Rana palace) |
-| 1951 (2007 BS) | **Radio Nepal** starts broadcasting |
-| 1985 (2041 BS) | **Nepal Television** begins |
-| 1994 | First internet link in Nepal |
-| 2006 | **Electronic Transactions Act** gives legal validity to digital documents and signatures |
-| 2019 | **Digital Nepal Framework** launched as the national ICT roadmap |
-| Today | Mobile phones are almost universal; broadband and 4G cover most towns; 5G and fibre are spreading |
+अन्धोपन निवारणमा गरेको कल्याणकारी कामका लागि नेपाली नेत्ररोग विशेषज्ञ **डा. सन्दुक
+रुइत** ले बहराइनको प्रतिष्ठित **इसा पुरस्कार** पाए। यसको नगद राशि **१० लाख डलर** (झन्डै
+१३ करोड ८ लाख रुपियाँ) हो — उनले पाएका पुरस्कारमध्ये सबैभन्दा ठुलो। बहराइनका पूर्व
+शासकको नाममा स्थापित यो पुरस्कार मानव कल्याणमा सक्रिय व्यक्ति वा संस्थालाई **हरेक दुई
+वर्षमा** दिइन्छ। डा. रुइतले **मोतियाबिन्दुको न्यून लागतको सरल शल्यक्रिया विधि** विकास
+गरे र नेपालसहित एसिया तथा विश्वका लाखौँ व्यक्तिको दृष्टि फर्काए; व्यक्तिगत रूपमा मात्र
+करिब **१ लाख ३० हजार** जनालाई दृष्टि दिएको उनले बताएका छन्। उनले **आँखाभित्र राखिने
+कृत्रिम लेन्स** सुलभ दरमा उत्पादन गरी उपलब्ध गराए, जसले विकासोन्मुख देशका दृष्टिविहीनलाई
+फेरि संसार देख्ने अवसर दियो।
 
-### Uses of ICT
+### (ङ) मध्यपूर्वमा शान्ति स्थापनाका लागि आह्वान (गोरखापत्र, २०७९ मङ्सिर १८)
 
-| Area | Uses |
-|---|---|
-| **Education** | Online classes, e-library, YouTube lessons, school management systems |
-| **Health** | Telemedicine, electronic records, vaccination registers |
-| **Business and banking** | E-commerce, mobile banking, **eSewa, Khalti, Fonepay QR**, online tax filing |
-| **Government (e-governance)** | Online passport and licence applications, National ID, e-procurement, Nagarik app |
-| **Communication** | Calls, email, messaging, video conferencing, social media |
-| **Agriculture and weather** | Market prices, weather alert, drone surveys |
-| **Disaster management** | Early warning, crowd-mapping, SMS alerts |
-| **Entertainment** | Streaming, games, e-books |
+प्यालेस्टाइनका तत्कालीन प्रधानमन्त्री **मोहम्मद स्तयेह** ले इजरायलसँगको द्वन्द्व अन्त्य
+गरी मध्यपूर्वमा शान्ति स्थापना गर्न पहल गर्न संयुक्त राष्ट्रसङ्घलाई आह्वान गरे।
+प्यालेस्टाइनी जनतासँगको अन्तर्राष्ट्रिय ऐक्यबद्धता दिवसका अवसरमा संयुक्त
+राष्ट्रसङ्घको **पश्चिम एसियाका लागि आर्थिक तथा सामाजिक आयोग** ले न्युयोर्कस्थित
+मुख्यालयमा आयोजना गरेको भर्चुअल बैठकमा उनले (क) प्यालेस्टाइनलाई संयुक्त राष्ट्रसङ्घको
+पूर्ण सदस्यता दिने आवेदनलाई समर्थन गर्न, (ख) प्यालेस्टाइनमा आमचुनाव गराउन इजरायललाई
+दबाब दिन र (ग) प्यालेस्टाइनीविरुद्धको अपराधमा इजरायललाई जवाफदेही बनाउन आग्रह गरे।
+प्यालेस्टाइनीहरू सन् **१९६७** मा इजरायलले कब्जा गरेको भूभाग — **पश्चिमी किनार र
+गाजापट्टी** — मा **पूर्वी जेरुसेलम** राजधानी भएको स्वतन्त्र राज्य चाहन्छन्। (यो समाचारपछि
+सन् २०२३ अक्टोबरदेखि गाजामा भीषण युद्ध भयो, जसमा इजरायलमा अध्ययनरत १० नेपाली
+विद्यार्थीसमेत मारिए।)
 
-### Advantages and disadvantages
-
-| Advantages | Disadvantages |
-|---|---|
-| Fast, cheap communication | **Cybercrime**: fraud, hacking, online harassment |
-| Access to knowledge | Fake news and misinformation |
-| Saves time and cost in government and business | Digital divide: villages, poor and women with less access |
-| New jobs: software, freelance, content | Addiction, loss of privacy, eye and sleep problems |
-| Transparency and less corruption | Loss of some traditional jobs |
-
-### Using ICT responsibly
-
-Protect passwords; do not share OTP or personal photos; respect copyright; think before posting; report cyber bullying to the **Nepal Police Cyber Bureau**; verify news before sharing; and limit screen time. Nepal's laws on the subject include the Electronic Transactions Act 2063 and rules on social-media use.
-
-### E-governance in Nepal
-
-E-governance means using ICT to deliver government services. Examples in Nepal include online **passport** applications, the **National ID** card, **e-tax filing** at the Inland Revenue Department, the **Nagarik** mobile app (citizens can see documents and complaints), online company registration, e-procurement of government contracts, digital land records at the Land Revenue offices, and the use of e-payment for government fees. Benefits: time and cost saved, fewer chances for corruption, services available at all hours; challenges: weak internet in remote places, digital illiteracy, cyber security and unequal access.
-
-### Cyber safety rules for students
-
-| Do | Do not |
-|---|---|
-| Use strong, different passwords and two-step verification | Share your password, PIN or OTP with anyone |
-| Check the web address and the sender before clicking | Click unknown links or install pirated apps |
-| Keep your privacy settings tight; think before posting | Post personal photos or addresses for strangers |
-| Tell a parent, teacher or the police Cyber Bureau about harassment | Take revenge or forward humiliating content |
-| Credit the source of what you copy | Copy and paste assignments without credit |
-
-```figure caption="ICT links all areas of life (schematic hub diagram)."
-import matplotlib.pyplot as plt
-import numpy as np
-fig, ax = plt.subplots(figsize=(4.6,3.1))
-ax.text(0,0,"ICT",ha="center",va="center",fontsize=11,fontweight="bold",color=INK,bbox=dict(boxstyle="circle,pad=0.5",fc="#cfe0f5",ec=INK))
-labs=["Education","Health","Banking and\ntrade","E-governance","Communication","Disaster\nwarning"]
-for i,l in enumerate(labs):
-    th=2*np.pi*i/len(labs)+np.pi/6
-    x,y=1.9*np.cos(th),1.25*np.sin(th)
-    ax.plot([x*0.2,x*0.62],[y*0.2,y*0.62],color=MUTED,lw=0.9)
-    ax.text(x,y,l,ha="center",va="center",fontsize=7.8,color=INK,bbox=dict(boxstyle="round,pad=0.3",fc="#e8f5e3",ec=INK,lw=0.7))
-ax.set_xlim(-2.9,2.9); ax.set_ylim(-1.8,1.8); ax.axis("off")
+```figure caption="समसामयिक घटना बुझ्ने तरिका। जुनसुकै समाचारलाई यी चरणमा पढ्दा घटना, कारण र हाम्रो जीवनमा पर्ने प्रभाव स्पष्ट हुन्छ।"
+fig, ax = flow([("के भयो?", "घटना र पात्र"),
+                ("कहाँ?", "स्थान र मिति"),
+                ("किन?", "कारण"),
+                ("प्रभाव", "विश्व, नेपाल"),
+                ("सिकाइ", "हाम्रो भूमिका")],
+               figsize=(5.8, 1.9))
 ```
 
-## 9.6 Contemporary events
+### समसामयिक घटनाको जानकारीको महत्त्व
 
-**Contemporary (current) events** are the important happenings of our own time, locally, nationally and globally. A well-informed citizen reads, compares and thinks about them. The SEE paper may ask you to write about a recent event or to explain its effect on Nepal.
+समसामयिक घटनाको जानकारीले (क) संसारमा भइरहेका परिवर्तन बुझ्न, (ख) विज्ञान र प्रविधिको
+विकासप्रति जिज्ञासा जगाउन, (ग) डा. रुइत जस्ता व्यक्तित्वबाट प्रेरणा लिन, (घ) युद्ध र
+द्वन्द्वको मानवीय मूल्य बुझेर शान्तिको महत्त्व बुझ्न, (ङ) प्रतियोगितात्मक परीक्षा र
+हाजिरीजवाफमा सफल हुन र (च) झुटा र सही समाचार छुट्याउन सघाउँछ।
 
-### How to study a current event
-
-| Question | Meaning |
-|---|---|
-| **What** happened? | Describe the event in two sentences |
-| **Where** and **when**? | Place and date |
-| **Who** is involved? | People, groups, countries |
-| **Why** did it happen? | Causes |
-| **Effect** | On Nepal, on the world; short and long-term |
-| **Your view** | A fair, reasoned opinion; avoid insult and rumour |
-
-Use **reliable sources**: Radio Nepal, Nepal Television, national newspapers, government and UN websites. Check the date and the author; compare two sources; do not forward unverified messages.
-
-### Examples of recent and continuing events
-
-| Event | Importance for Nepal |
-|---|---|
-| **Covid-19 pandemic (2020–2022)** | Lockdowns, return of migrants, fall in tourism, a lesson in health systems; Nepal's vaccination programme |
-| **Re-measurement of Mount Everest (December 2020)** | Nepal and China announced a joint height of **8,848.86 m** |
-| **Federal, provincial and local elections (2079 BS / 2022)** | Continued the three-tier federal democracy |
-| **MCC Compact** | A US grant of about USD 500 million for roads and power lines, ratified by the Federal Parliament in February 2022 |
-| **Electricity exports** | Selling power to India and Bangladesh |
-| **Russia–Ukraine war (from February 2022)** | Higher fuel and fertiliser prices; Nepali students and soldiers affected |
-| **Climate change** | Melting Himalayan glaciers, floods, landslides; COP summits |
-| **Artificial intelligence** | Changes in jobs and learning |
-| **Nepal's graduation from LDC status** | Planned for November 2026 |
-| **Youth-led protests of September 2025** | Triggered by corruption and a social-media ban; the government changed and an interim government was formed; this shows the power and responsibility of young citizens |
-
-*(As this is an area that changes quickly, consult your teacher and the newspaper for the latest developments.)*
-
-::: caution Opinion versus fact
-In a current-affairs answer, separate facts (dates, numbers, official statements) from opinions. Do not blame people or groups without evidence, and do not copy rumours from social media.
+::: note क्रियाकलाप — पाठ ९.६
+**१.** समसामयिक घटनासम्बन्धी समाचार, लेख र सम्पादकीय सङ्कलन गरी कक्षाको सूचना पाटीमा
+टाँस्नुहोस्।
+**२.** समसामयिक विषयमा कक्षामा हाजिरीजवाफ प्रतियोगिता सञ्चालन गर्नुहोस्।
+**३.** राजनीति, खेलकुद र विज्ञान–प्रविधिसँग सम्बन्धित समसामयिक घटना सङ्कलन गरी तिनले
+मानव जीवनमा पार्ने प्रभाव समूहमा छलफल गर्नुहोस्।
 :::
 
-## Chapter summary
+### पाठको अभ्यास: नमुना उत्तर
 
-- **Foreign policy** serves national interest; the Constitution's principles include **Panchsheel, UN Charter, non-alignment, international law and world peace**. Nepal joined the UN in **1955**, NAM in 1961, SAARC (1985, Secretariat in Kathmandu), BIMSTEC (1997), WTO (2004).
-- **Panchsheel:** territorial integrity and sovereignty, non-aggression, non-interference, equality and mutual benefit, peaceful coexistence.
-- The **UN** (24 October 1945; New York; 193 members) has six organs: General Assembly, Security Council (5 permanent members with veto), ECOSOC, Trusteeship Council, ICJ (The Hague) and Secretariat.
-- **Specialised agencies:** UNESCO (Paris, education–science–culture), WHO (Geneva, health), FAO (Rome, food and agriculture), ILO (Geneva, labour), World Bank and IMF (Washington). UNICEF and UNDP are programmes.
-- **Globalisation** = growing worldwide connection; helps trade, technology, remittance but increases inequality and threatens local culture. **Localisation** = protecting and promoting local products, culture and decisions.
-- **ICT** is used in education, health, business, governance and disaster management; risks include cybercrime and fake news.
-- Study **contemporary events** with what/where/when/who/why/effect and use reliable sources.
+**१. समसामयिक घटना भनेको के हो?**
+हालसालै वा वर्तमान समयमा स्थानीय, राष्ट्रिय र अन्तर्राष्ट्रिय स्तरमा घटेका राजनीतिक,
+आर्थिक, सामाजिक, वैज्ञानिक, खेलकुद र कला–संस्कृतिसम्बन्धी महत्त्वपूर्ण घटनालाई
+समसामयिक घटना भनिन्छ। जस्तै: भारतको चन्द्रयान–३ को चन्द्र अवतरण, ओस्कार पुरस्कार,
+डा. सन्दुक रुइतले पाएको इसा पुरस्कार र मध्यपूर्वको द्वन्द्व।
 
-## Practice questions
+**२. समसामयिक घटनाको जानकारीले विद्यार्थीको सोचाइ र व्यवहारमा कस्तो परिवर्तन ल्याउँछ?**
+(क) विद्यार्थी संसारमा के भइरहेको छ भन्नेमा सचेत र जिज्ञासु बन्छन्; (ख) चन्द्र मिसन
+जस्ता घटनाले विज्ञान र अनुसन्धानप्रति रुचि जगाउँछ; (ग) डा. रुइत जस्ता व्यक्तित्वको
+कामले सेवा, परिश्रम र मानवताको प्रेरणा दिन्छ; (घ) युद्ध र द्वन्द्वका समाचारले शान्ति,
+सहिष्णुता र मानव अधिकारको महत्त्व बुझाउँछ; (ङ) पृथ्वी दिवस जस्ता अभियानले वातावरण
+संरक्षणको व्यवहार सिकाउँछ; (च) विभिन्न स्रोतका समाचार तुलना गर्दा आलोचनात्मक सोच
+बढ्छ र झुटा समाचार नपत्याउने बानी बस्छ; (छ) छलफल र हाजिरीजवाफमा आत्मविश्वास बढ्छ।
 
-**Group A — Objective questions (1 mark each)**
+**३. तपाईँको समुदायमा घटेका समसामयिक घटनासँग सम्बन्धित रही एक समाचारको नमुना तयार
+पार्नुहोस्।**
+*"विद्यार्थीद्वारा टोल सरसफाइ र वृक्षारोपण"*
+**रामपुर, २०८२ साउन १५।** विश्व पृथ्वी दिवसको सन्देशबाट प्रेरित भएर जनता माध्यमिक
+विद्यालयका कक्षा १० का ४५ जना विद्यार्थीले शनिबार रामपुर बजार क्षेत्रमा सरसफाइ
+अभियान चलाए। बिहान ७ बजेदेखि सुरु भएको अभियानमा प्लास्टिकजन्य फोहोर छुट्याएर सङ्कलन
+गरियो र खोलाकिनारमा २०० बिरुवा रोपियो। वडाध्यक्षले अभियानको प्रशंसा गर्दै रोपिएका
+बिरुवाको संरक्षण वडाले गर्ने बताए। विद्यार्थीले हरेक महिनाको अन्तिम शनिबार यस्तो
+अभियान निरन्तर चलाउने प्रतिबद्धता जनाए।
 
-1. Nepal became a member of the United Nations in <span class="marks">[1]</span>
-   (a) 1945 (b) 1950 (c) 1955 (d) 1961
-2. The headquarters of the International Court of Justice is in <span class="marks">[1]</span>
-   (a) New York (b) Geneva (c) Paris (d) The Hague
-3. The headquarters of UNESCO is at <span class="marks">[1]</span>
-   (a) Paris (b) Rome (c) Geneva (d) Montreal
-4. Which of the following is NOT a permanent member of the Security Council? <span class="marks">[1]</span>
-   (a) China (b) France (c) India (d) Russia
-5. The Secretariat of SAARC is located in <span class="marks">[1]</span>
-   (a) Dhaka (b) New Delhi (c) Kathmandu (d) Colombo
-6. The five principles of peaceful coexistence are known as <span class="marks">[1]</span>
-   (a) Panchsheel (b) Panchayat (c) Pancharatna (d) Panchamrit
-7. The specialised agency that deals with health is <span class="marks">[1]</span>
-   (a) FAO (b) WHO (c) ILO (d) IMF
-8. "Think globally, act locally" is associated with <span class="marks">[1]</span>
-   (a) localisation (b) colonisation (c) urbanisation (d) privatisation
+**४. सन् २०२२ को सर्वश्रेष्ठ ओस्कार पुरस्कार पाउने चलचित्रको नाम लेख्नुहोस्।**
+सन् २०२२ को ९४ औँ ओस्कारमा सर्वश्रेष्ठ चलचित्रको पुरस्कार सियान हेडरद्वारा निर्देशित
+**कोडा** ले पाएको थियो।
 
-::: note Answers to Group A
-**1.** (c): 14 December 1955.
-**2.** (d): The Hague, Netherlands.
-**3.** (a): Paris, France.
-**4.** (c): India is not a permanent member; the five are USA, UK, France, Russia, China.
-**5.** (c): the SAARC Secretariat is in Kathmandu (since 1987).
-**6.** (a): Panchsheel.
-**7.** (b): the World Health Organization.
-**8.** (a): localisation.
+## अध्यायको सारांश
+
+- परराष्ट्र नीति राष्ट्रिय हितका लागि बाह्य जगत्सँगको सम्बन्ध नियमित गर्ने व्यवहारको पुञ्ज हो; २००७ अघि ४ देशसँग सीमित नेपालको कूटनीतिक सम्बन्ध पाठ्यपुस्तक लेखिँदासम्म १८३ देश (पछिल्लो किरिबाटी) पुगेको थियो।
+- मार्गदर्शक सिद्धान्त: स्वतन्त्रता, सार्वभौमसत्ता, भौगोलिक अखण्डता र राष्ट्रिय हितको रक्षा; सार्वभौमिक समानता, पञ्चशील, संयुक्त राष्ट्रसङ्घको बडापत्र, असंलग्नता, पारस्परिक सम्मान र लाभ।
+- पञ्चशील: अखण्डता र सार्वभौमसत्ताको सम्मान, अहस्तक्षेप, अनाक्रमण, परस्पर सहयोग र लाभ, शान्तिपूर्ण सहअस्तित्व।
+- संयुक्त राष्ट्रसङ्घ: स्थापना सन् १९४५ अक्टोबर २४, ५१ संस्थापक, १९३ सदस्य (पछिल्लो दक्षिण सुडान), मुख्यालय न्युयोर्क, नेपाल सदस्य सन् १९५५ डिसेम्बर १४; छ अङ्ग।
+- सुरक्षा परिषद्: ५ स्थायी (अमेरिका, रुस, चीन, फ्रान्स, बेलायत) + १० अस्थायी (२ वर्ष); निर्णयमा ५ स्थायीसहित ९ मत; भिटो स्थायी सदस्यको विशेषाधिकार।
+- अन्तर्राष्ट्रिय न्यायालय: १५ न्यायाधीश, ९ वर्ष, हेग। आर्थिक–सामाजिक परिषद्: ५४ सदस्य, ३ वर्ष, ५ क्षेत्रीय आयोग। जिम्मा जमानी परिषद्: ११ प्रदेश, पलाउ (१९९४) पछि निष्क्रिय। सचिवालय: महासचिव ५ वर्ष; पहिलो ट्रिग्वे ली, नवौँ एन्टोनियो गुटेरेस (२०१७ देखि)।
+- विशिष्टीकृत संस्था १५ (बडापत्रको धारा ५७); पहिलो अन्तर्राष्ट्रिय श्रम सङ्गठन; नेपालले पहिले सदस्यता लिएको खाद्य तथा कृषि सङ्गठन। जेनेभामा ५, रोम र वासिङ्टनमा २–२, बर्न, पेरिस, मन्ट्रियल, लन्डन, भियना, म्याड्रिडमा १–१।
+- विश्वव्यापीकरण वस्तु, सेवा, पुँजी, प्रविधि, सूचना र जनशक्तिको सीमाविहीन प्रवाह हो (भूमण्डलीकरण); विश्व बैङ्कका तीन पक्ष: व्यापार, वित्तीय प्रवाह, सूचना प्रविधि। यसका राजनीतिक, आर्थिक, सामाजिक–सांस्कृतिक, प्रशासनिक र प्राविधिक सकारात्मक–नकारात्मक प्रभाव छन्।
+- स्थानीयकरण स्थानीय सिप, संस्कृति र जनताको इच्छालाई प्राथमिकता दिने प्रक्रिया हो; सङ्घीयताले यसको महत्त्व बढाएको छ।
+- सूचना प्रविधिमा हार्डवेयर र सफ्टवेयर हुन्छन्; ट्याब्लेट, अन्तरक्रियात्मक बोर्ड, ई–रिडर, उल्टो कक्षा र क्लाउडले सिकाइ रुचिकर, सहभागितामूलक र अद्यावधिक बनाउँछन्; सामाजिक सञ्जाल सुरक्षित रूपमा प्रयोग गर्नुपर्छ।
+- समसामयिक घटना हालसालै घटेका महत्त्वपूर्ण घटना हुन्: चन्द्र अन्वेषण, ९४ औँ ओस्कार (कोडा), पृथ्वी दिवस (१९७० अप्रिल २२ देखि), डा. सन्दुक रुइतलाई इसा पुरस्कार, मध्यपूर्व शान्तिको आह्वान।
+
+## अभ्यास
+
+**समूह क — वस्तुगत प्रश्न (१ अङ्क)**
+
+१. नेपालले संयुक्त राष्ट्रसङ्घको सदस्यता कहिले प्राप्त गर्‍यो? <span class="marks">[1]</span>
+   (क) सन् १९४५ अक्टोबर २४ (ख) सन् १९५१ (ग) सन् १९५५ डिसेम्बर १४ (घ) सन् १९६० डिसेम्बर १४
+२. तलकामध्ये कुन पञ्चशीलको सिद्धान्त होइन? <span class="marks">[1]</span>
+   (क) अनाक्रमण (ख) शान्तिपूर्ण सहअस्तित्व (ग) अहस्तक्षेप (घ) निषेधाधिकार
+३. सुरक्षा परिषद्मा कुल कति सदस्य हुन्छन्? <span class="marks">[1]</span>
+   (क) ५ (ख) १० (ग) १५ (घ) ५४
+४. अन्तर्राष्ट्रिय न्यायालयको मुख्यालय कहाँ छ? <span class="marks">[1]</span>
+   (क) जेनेभा (ख) हेग (ग) न्युयोर्क (घ) पेरिस
+५. नेपालले सबैभन्दा पहिले सदस्यता लिएको विशिष्टीकृत संस्था कुन हो? <span class="marks">[1]</span>
+   (क) विश्व स्वास्थ्य सङ्गठन (ख) युनेस्को (ग) खाद्य तथा कृषि सङ्गठन (घ) अन्तर्राष्ट्रिय श्रम सङ्गठन
+६. विश्व हुलाक सङ्घको मुख्यालय कहाँ छ? <span class="marks">[1]</span>
+   (क) बर्न (ख) रोम (ग) भियना (घ) लन्डन
+७. विश्व बैङ्कले विश्वव्यापीकरणका कुन तीन पक्षमा जोड दिएको छ? <span class="marks">[1]</span>
+   (क) कृषि, उद्योग, पर्यटन (ख) व्यापार, वित्तीय प्रवाह, सूचना प्रविधि (ग) शिक्षा, स्वास्थ्य, यातायात (घ) भाषा, धर्म, संस्कृति
+८. सन् २०२२ को सर्वश्रेष्ठ चलचित्रको ओस्कार कुन चलचित्रले जित्यो? <span class="marks">[1]</span>
+   (क) कोडा (ख) ऐना झ्यालको पुतली (ग) किङ रिचर्ड (घ) टाइटानिक
+
+::: note समूह क का उत्तर
+**१.** (ग) — सन् १९५५ डिसेम्बर १४; सन् १९४५ अक्टोबर २४ सङ्घको स्थापना मिति हो।
+**२.** (घ) — निषेधाधिकार सुरक्षा परिषद्का स्थायी सदस्यको विशेषाधिकार हो, पञ्चशील होइन।
+**३.** (ग) — ५ स्थायी र १० अस्थायी गरी १५; ५४ आर्थिक तथा सामाजिक परिषद्का सदस्य हुन्।
+**४.** (ख) — नेदरल्यान्ड्सको हेग; जेनेभामा धेरै विशिष्टीकृत संस्था छन्।
+**५.** (ग) — नेपाल सन् १९५१ मै खाद्य तथा कृषि सङ्गठनको सदस्य बनेको थियो।
+**६.** (क) — स्विट्जरल्यान्डको बर्न; रोममा खाद्य तथा कृषि सङ्गठन, भियनामा औद्योगिक विकास सङ्गठन छन्।
+**७.** (ख) — विश्व बैङ्कले व्यापार, वित्तीय प्रवाह र सूचना प्रविधिलाई मुख्य पक्ष मानेको छ।
+**८.** (क) — कोडा; ऐना झ्यालको पुतली नेपालबाट पठाइएको चलचित्र हो।
 :::
 
-**Group B — Short answer (2 marks each)**
+**समूह ख — छोटो उत्तर (२ अङ्क)**
 
-1. What is foreign policy? <span class="marks">[2]</span>
-2. List any four of the five principles of Panchsheel. <span class="marks">[2]</span>
-3. Name any four principal organs of the UN. <span class="marks">[2]</span>
-4. Write two functions of the WHO. <span class="marks">[2]</span>
-5. Write two advantages of globalisation. <span class="marks">[2]</span>
-6. Mention two uses of ICT in education. <span class="marks">[2]</span>
+१. नेपालको परराष्ट्र नीति सञ्चालनका कुनै चार आधार लेख्नुहोस्। <span class="marks">[2]</span>
+२. पञ्चशील शब्दको अर्थ बताई यसको कुनै दुई महत्त्व लेख्नुहोस्। <span class="marks">[2]</span>
+३. सुरक्षा परिषद्का अस्थायी सदस्य कसरी र कुन क्षेत्रबाट चुनिन्छन्? <span class="marks">[2]</span>
+४. संयुक्त राष्ट्रसङ्घको सचिवालयका कुनै चार काम लेख्नुहोस्। <span class="marks">[2]</span>
+५. विश्व स्वास्थ्य सङ्गठनको स्थापना, मुख्यालय र दुई काम लेख्नुहोस्। <span class="marks">[2]</span>
+६. विश्वव्यापीकरणले मातृभाषा र मौलिक संस्कृतिमा कस्तो असर पार्छ? <span class="marks">[2]</span>
+७. क्लाउड र अन्तरक्रियात्मक बोर्डबिच के फरक छ? <span class="marks">[2]</span>
+८. डा. सन्दुक रुइतलाई इसा पुरस्कार किन दिइयो? <span class="marks">[2]</span>
 
-::: note Answers to Group B
-**1.** The set of policies and principles by which a state manages its relations with other states in its national interest.
-**2.** Respect for sovereignty and territorial integrity; non-aggression; non-interference in internal affairs; equality and mutual benefit; (peaceful coexistence). (Any four.)
-**3.** General Assembly, Security Council, Economic and Social Council, International Court of Justice (also Secretariat and Trusteeship Council).
-**4.** To fight diseases through vaccination and control programmes; to set international health standards and respond to epidemics.
-**5.** Wider trade and market for goods; fast spread of technology and ideas; jobs and remittance. (Any two.)
-**6.** Online classes and e-libraries; searching information for projects; digital exams and records. (Any two.)
+::: note समूह ख का उत्तर
+**१.** (क) नेपालको संविधान र प्रचलित ऐन कानुन; (ख) राष्ट्रिय सुरक्षा नीति र अन्य नीतिगत व्यवस्था; (ग) अन्तर्राष्ट्रिय कानुन, विश्वशान्ति र विवादको शान्तिपूर्ण समाधानको मान्यता; (घ) नेपाल पक्ष भएका सन्धि–सम्झौता र क्षेत्रीय तथा अन्तर्राष्ट्रिय सङ्गठनका बडापत्र।
+**२.** "पञ्च" (पाँच) र "शील" (आचरण) मिलेर बनेको पञ्चशील देशहरूबिच पालना गरिने पाँच आचरण हो। महत्त्व: (क) अन्तर्राष्ट्रिय शान्ति र समझदारी कायम राख्छ; (ख) हरेक देशको सार्वभौमसत्ता र भौगोलिक अखण्डताको सम्मान गराउँछ र बाह्य हस्तक्षेप रोक्छ।
+**३.** अस्थायी सदस्य महासभाबाट दुई वर्षका लागि चुनिन्छन्। अफ्रिका र एसियाबाट ५, ल्याटिन अमेरिका र क्यारिबियनबाट २, पूर्वी युरोपबाट १ र पश्चिमी युरोप तथा अन्यबाट २ गरी १० सदस्य हुन्छन्।
+**४.** (क) सङ्घको प्रशासकीय कार्य सञ्चालन; (ख) विश्वको आर्थिक–सामाजिक प्रवृत्ति र समस्याको सर्वेक्षण; (ग) विश्वव्यापी महत्त्वका सम्मेलन आयोजना; (घ) मानव अधिकार, दिगो विकास र निःशस्त्रीकरणबारे प्रतिवेदन तयारी तथा महासभालगायतका अधिवेशनको तयारी।
+**५.** विश्व स्वास्थ्य सङ्गठन सन् १९४८ मा स्थापना भई सोही वर्ष विशिष्टीकृत संस्था बनेको हो; मुख्यालय जेनेभा, स्विट्जरल्यान्डमा छ। काम: (क) रोग नियन्त्रण र उपचारमा सहयोग; (ख) मातृ–शिशु स्वास्थ्य र पोषणसम्बन्धी काम।
+**६.** विश्वव्यापीकरणले अङ्ग्रेजी जस्ता अन्तर्राष्ट्रिय भाषा, विदेशी पहिरन, खानपान र मनोरञ्जन घरघरमा पुर्‍याउँछ। यसले नयाँ पुस्तामा मातृभाषा बोल्न नजान्ने, मौलिक चाडपर्व, लोकगीत र मूल्यमान्यतामा कम रुचि हुने र सांस्कृतिक पहिचान कमजोर हुने खतरा ल्याउँछ।
+**७.** अन्तरक्रियात्मक बोर्ड कक्षाकोठामा राखिने टचस्क्रिन भएको, आफैँमा कम्प्युटर भएको विद्युतीय बोर्ड हो, जसमा इन्टरनेटबाट सामग्री देखाउन र लेख्न सकिन्छ। क्लाउड चाहिँ कुनै यन्त्र होइन, इन्टरनेटमा तथ्याङ्क सञ्चय गर्ने सेवा (गुगल ड्राइभ, वन ड्राइभ) हो, जहाँबाट जहाँसुकैबाट सामग्री खोल्न सकिन्छ।
+**८.** डा. रुइतले मोतियाबिन्दुको न्यून लागतको सरल शल्यक्रिया विधि विकास गरे, आँखाभित्र राखिने लेन्स सुलभ दरमा उत्पादन गरे र नेपालसहित विश्वका लाखौँ (व्यक्तिगत रूपमा करिब १ लाख ३० हजार) व्यक्तिको दृष्टि फर्काए। अन्धोपन निवारणको यही मानवीय कामका लागि उनलाई १० लाख डलरको इसा पुरस्कार दिइयो।
 :::
 
-**Group C — Long answer (4 marks each)**
+**समूह ग — लामो उत्तर (४ अङ्क)**
 
-1. Explain the objectives and guiding principles of Nepal's foreign policy. <span class="marks">[4]</span>
-2. Describe the main organs of the United Nations. <span class="marks">[4]</span>
-3. Describe the functions of any four specialised agencies of the UN. <span class="marks">[4]</span>
-4. What is globalisation? Write its merits and demerits for Nepal. <span class="marks">[4]</span>
-5. Explain the importance and risks of ICT in modern life. <span class="marks">[4]</span>
+१. नेपालको परराष्ट्र नीतिका मार्गदर्शक सिद्धान्त र महत्त्व उल्लेख गर्नुहोस्। <span class="marks">[4]</span>
+२. संयुक्त राष्ट्रसङ्घका उद्देश्य लेखी महासभा र अन्तर्राष्ट्रिय न्यायालयको परिचय दिनुहोस्। <span class="marks">[4]</span>
+३. विश्वव्यापीकरणका आर्थिक र सूचना प्रविधि क्षेत्रका सकारात्मक तथा नकारात्मक प्रभाव तालिकामा देखाउनुहोस्। <span class="marks">[4]</span>
+४. सूचना प्रविधिले शिक्षण सिकाइलाई कसरी प्रभावकारी बनाउँछ? पाठका उदाहरणसहित लेख्नुहोस्। <span class="marks">[4]</span>
 
-::: note Answers to Group C
-**1.** Objectives: safeguard sovereignty, territorial integrity and independence; promote national dignity and economic prosperity; protect Nepalis abroad. Principles: Panchsheel, UN Charter, non-alignment, international law, world peace, decisions on merit. One line of explanation for each.
-**2.** General Assembly (all 193 members, one vote each); Security Council (5 permanent members with veto, 10 elected; peace and security); ECOSOC (economic and social coordination); Trusteeship Council (suspended 1994); ICJ (The Hague, legal disputes); Secretariat (Secretary-General, administration).
-**3.** UNESCO (education, science, culture, heritage); WHO (health, disease control); FAO (food and agriculture); ILO (workers' rights, labour standards); also World Bank, IMF. Give the year and headquarters.
-**4.** Globalisation is the worldwide connection of economies and cultures. Merits: trade, technology, remittance, tourism, knowledge. Demerits: inequality, cheap imports hurt local industries, cultural erosion, brain drain, spread of disease.
-**5.** Importance: education, health, business, e-governance, communication and disaster warning. Risks: cybercrime, fake news, addiction, privacy loss, digital divide; use safely.
+::: note समूह ग का उत्तर
+**१.** **मार्गदर्शक सिद्धान्त:** (क) नेपालको स्वतन्त्रता, सार्वभौमसत्ता, भौगोलिक अखण्डता र स्वाधीनताको रक्षा; (ख) राष्ट्रिय सम्मान, प्रतिष्ठा र राष्ट्रिय हितको रक्षा; (ग) सार्वभौमिक समानता र पञ्चशील; (घ) संयुक्त राष्ट्रसङ्घको बडापत्रको भावना, असंलग्नता, पारस्परिक सम्मान र लाभ। **महत्त्व:** (क) राष्ट्रियताको संरक्षण र संवर्धन; (ख) दुई ठुला छिमेकीबिच रहेको देशको अस्तित्वको सुरक्षा; (ग) व्यापार, लगानी, पर्यटन र रोजगारीबाट पारस्परिक लाभ; (घ) भूराजनीतिक सन्तुलन; (ङ) अन्तर्राष्ट्रिय मञ्चमा पहुँच र प्रतिनिधित्व; (च) शक्तिसम्पन्न राष्ट्रको स्वार्थबाट देशको बचाउ। यसैले सन्तुलित र स्वतन्त्र परराष्ट्र नीति नेपालको अस्तित्वको आधार हो।
+**२.** **उद्देश्य:** (क) अन्तर्राष्ट्रिय शान्ति र सुरक्षा कायम राख्नु; (ख) समान अधिकार र आत्मनिर्णयको सिद्धान्तका आधारमा राष्ट्रबिच मैत्री सम्बन्ध; (ग) आर्थिक, सामाजिक, सांस्कृतिक र मानवीय समस्या समाधान तथा बिनाभेदभाव मानव अधिकारको सम्मान; (घ) सदस्य राष्ट्रका काममा सामञ्जस्य ल्याउने केन्द्र बन्नु। **महासभा:** सबै १९३ सदस्य भएको प्रमुख अङ्ग; प्रत्येकका ५ प्रतिनिधि र ५ वैकल्पिक प्रतिनिधि तर एक मत; नियमित अधिवेशन सेप्टेम्बरमा सुरु हुन्छ; बजेट स्वीकृत गर्छ, सुरक्षा परिषद्का अस्थायी सदस्य चुन्छ र महासचिव नियुक्त गर्छ; महत्त्वपूर्ण प्रस्ताव दुईतिहाइले पारित हुन्छन्। **अन्तर्राष्ट्रिय न्यायालय:** हेगमा रहेको, १५ न्यायाधीश (९ वर्ष, हरेक ३ वर्षमा ५ जना फेरिने) भएको अङ्ग; राष्ट्रबिचको विवादमा निर्णय दिन्छ, संयुक्त राष्ट्रसङ्घ र विशिष्टीकृत संस्थालाई कानुनी परामर्श दिन्छ र सन्धि–सम्झौताको अर्थ स्पष्ट पार्छ।
+**३.**
+
+| क्षेत्र | सकारात्मक प्रभाव | नकारात्मक प्रभाव |
+|---|---|---|
+| आर्थिक | आर्थिक उदारीकरण, निजीकरण र विप्रेषण वृद्धि; वैदेशिक लगानी र रोजगारी; बजार विस्तार र गरिबी न्यूनीकरण | धनी–गरिबबिच खाडल; परनिर्भरता; दाताको स्वार्थ हावी; स्रोतको दोहन; नयाँ आर्थिक अपराध |
+| सूचना प्रविधि | हरेक तहमा प्रविधिको प्रयोग; विद्युतीय शासन, विद्युतीय व्यापार र स्मार्ट शासन; अनलाइन सेवा; सबै निकायको वेबसाइट | तथ्याङ्क चोरी; साइबर अपराध वृद्धि; राष्ट्रिय सुरक्षामा खतरा |
+
+निष्कर्ष: फाइदा लिन देशले आफ्नो उत्पादन क्षमता, कानुन र साइबर सुरक्षा बलियो बनाउनुपर्छ।
+**४.** सूचना प्रविधिले (क) **स्वअध्ययन** सजिलो बनाउँछ — रामकलीले युट्युबका भिडियोबाट दोस्रो विश्वयुद्धको प्रतिवेदन बनाइन्; (ख) **रुचिकर शिक्षण** — शिक्षक मोहनले लोकबाजा र लोकनृत्य प्रोजेक्टरबाट देखाउँदा विद्यार्थी खुसी भए; (ग) **तथ्याङ्क सङ्कलन र विश्लेषण** — डोल्माले गुगल फर्म र एक्सेल सिटबाट सर्वेक्षण गरी चित्रसहित प्रतिवेदन बनाइन्; (घ) **अनलाइन कक्षा र पृष्ठपोषण** — सरस्वती माध्यमिक विद्यालयले गुगल क्लासरुम र जुमबाट गृहकार्य, पृष्ठपोषण र उपचारात्मक कक्षा चलाउँदा सिकाइ सुधारियो; (ङ) **ज्ञान बाँडफाँट** — भाइबर समूहमा सामग्री राख्दा सबैले सिके। यसले सिकाइलाई सक्रिय, सहभागितामूलक र अद्यावधिक बनाउँछ र डिजिटल साक्षरता बढाउँछ।
 :::
 
+**समूह घ — विस्तृत उत्तर (८ अङ्क)**
+
+१. संयुक्त राष्ट्रसङ्घको परिचय दिई यसका छ अङ्गको बनोट र कार्य विवेचना गर्नुहोस्। सुरक्षा परिषद्को निषेधाधिकारबारे पनि चर्चा गर्नुहोस्। <span class="marks">[8]</span>
+२. "विश्वव्यापीकरण अवसर पनि हो र चुनौती पनि; स्थानीयकरणले यसलाई सन्तुलित बनाउँछ।" यस भनाइलाई नेपालको सन्दर्भमा पुष्टि गर्नुहोस्। <span class="marks">[8]</span>
+
+::: note समूह घ का उत्तर
+**१.** **परिचय:** दोस्रो विश्वयुद्धपछि विश्वशान्ति र मानव अधिकार संरक्षणका लागि सन् १९४५ अक्टोबर २४ मा ५१ राष्ट्र मिलेर संयुक्त राष्ट्रसङ्घ स्थापना भयो। मुख्यालय न्युयोर्कमा छ, सदस्य १९३ (पछिल्लो दक्षिण सुडान); नेपाल सन् १९५५ डिसेम्बर १४ मा सदस्य बन्यो। **(क) महासभा:** सबै सदस्य; प्रत्येकका ५ प्रतिनिधि, ५ वैकल्पिक तर एक मत; बजेट स्वीकृत, सुरक्षा परिषद्का अस्थायी सदस्यको चुनाव, सिफारिसमा महासचिवको नियुक्ति; "संयुक्त राष्ट्रसङ्घको संसद्"। **(ख) सुरक्षा परिषद्:** ५ स्थायी (अमेरिका, रुस, चीन, फ्रान्स, बेलायत) र १० अस्थायी (२ वर्ष) गरी १५; हातहतियार नियन्त्रण, विवादको शान्तिपूर्ण समाधान, शान्ति भङ्ग गर्नेविरुद्ध सैनिक–गैरसैनिक कदम, नयाँ सदस्य र महासचिवको सिफारिस; अध्यक्षता मासिक रूपमा फेरिन्छ। **(ग) अन्तर्राष्ट्रिय न्यायालय:** हेग; १५ न्यायाधीश, ९ वर्ष; राष्ट्रबिचको विवादमा निर्णय र कानुनी परामर्श। **(घ) आर्थिक तथा सामाजिक परिषद्:** ५४ सदस्य, ३ वर्ष; आर्थिक–सामाजिक विषयमा छलफल, विशिष्टीकृत संस्थासँग समन्वय, मानव अधिकारको निरीक्षण; ५ क्षेत्रीय आयोग। **(ङ) जिम्मा जमानी परिषद्:** ११ जिम्मा जमानी प्रदेशको निरीक्षण; पलाउ सन् १९९४ मा स्वतन्त्र भएपछि निष्क्रिय। **(च) सचिवालय:** प्रशासकीय अङ्ग; प्रमुख महासचिव (५ वर्ष), सन् १९९८ देखि उपमहासचिव; पहिलो महासचिव ट्रिग्वे ली, नवौँ एन्टोनियो गुटेरेस; प्रशासन, सर्वेक्षण, सम्मेलन र प्रतिवेदन। **निषेधाधिकार:** पाँच स्थायी सदस्यले कुनै ठोस प्रस्तावमा विरोध गरेर त्यसलाई रोक्न सक्ने विशेषाधिकार हो; निर्णयका लागि पाँचै स्थायीसहित ९ मत चाहिन्छ। सबैभन्दा बढी र दोहोरो भिटो रुस (सोभियत सङ्घसमेत) ले प्रयोग गरेको छ; पहिलो भिटो पनि सोभियत सङ्घले सन् १९४६ मा प्रयोग गरेको थियो। भिटोले ठुला शक्तिलाई सङ्घमा बाँधेर राख्छ, तर एउटै देशले धेरैको इच्छा रोक्न सक्ने भएकाले यसलाई अप्रजातान्त्रिक भनेर सुधारको माग पनि उठ्ने गरेको छ। **निष्कर्ष:** छ अङ्गको समन्वयले संयुक्त राष्ट्रसङ्घ विश्वशान्ति, न्याय र विकासको साझा मञ्च बनेको छ।
+**२.** **परिचय:** वस्तु, सेवा, पुँजी, प्रविधि, सूचना र जनशक्तिको सीमाविहीन प्रवाह विश्वव्यापीकरण हो भने स्थानीय सिप, संस्कृति र जनताको इच्छालाई प्राथमिकता दिनु स्थानीयकरण हो। **अवसर:** (क) वैदेशिक रोजगारीबाट आउने विप्रेषणले लाखौँ नेपाली परिवार चलाएको छ; (ख) वैदेशिक लगानी, बजार विस्तार र पर्यटन बढेको छ; (ग) इन्टरनेट, मोबाइल बैङ्किङ, विद्युतीय शासन र अनलाइन शिक्षा गाउँगाउँ पुगेका छन्; (घ) लोकतन्त्र, मानव अधिकार, सुशासन र समावेशीकरणका मूल्य फैलिएका छन्; (ङ) नेपाली चिया, गलैँचा, पस्मिना विश्वबजारमा पुगेका छन्। **चुनौती:** (क) आयात धेरै र निर्यात थोरै हुँदा परनिर्भरता र व्यापार घाटा; (ख) धनी–गरिबबिच खाडल; (ग) युवाको श्रम र बौद्धिक पलायनले गाउँ रित्तिएका छन्; (घ) मातृभाषा र मौलिक संस्कृतिमा ह्रास; (ङ) साइबर अपराध र तथ्याङ्क चोरी; (च) दाता र वैदेशिक हस्तक्षेपको डर। **स्थानीयकरणले सन्तुलन:** (क) सङ्घीयताअन्तर्गत ७५३ स्थानीय तहले स्थानीय आवश्यकताअनुसार योजना र सेवा दिन्छन्; (ख) रैथाने बाली, स्थानीय सिप र उद्योग प्रवर्धनले स्थानीय रोजगारी र उत्पादन बढाई परनिर्भरता घटाउँछ; (ग) होमस्टे र स्थानीय संस्कृतिमा आधारित पर्यटनले विश्वव्यापी पर्यटकलाई मौलिक पहिचान बेच्छ; (घ) मातृभाषा शिक्षा र सांस्कृतिक संरक्षणले पहिचान जोगाउँछ; (ङ) विश्वव्यापी प्रविधिलाई स्थानीय भाषा र सिपसँग जोड्दा दुवैको फाइदा हुन्छ। **निष्कर्ष:** "विश्व सोच, स्थानीय काम" को नीति अपनाउँदा नेपालले विश्वव्यापीकरणको अवसर लिन र चुनौती घटाउन सक्छ; यसैले भनाइ पुष्टि हुन्छ।
+:::

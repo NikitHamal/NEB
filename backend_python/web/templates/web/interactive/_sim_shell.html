@@ -1,5 +1,6 @@
     <div class="ix-sim-column">
       <div class="ix-sim-shell" id="ix-sim-shell">
+        <div class="ix-sim-main">
         <div id="sim-stage" class="ix-sim-stage" role="application" aria-label="Interactive simulation">
           <div class="ix-sim-loading" id="ix-sim-loading">
             <div class="ix-spinner md-loader md-loader-screen"></div>
@@ -14,6 +15,9 @@
             <span class="material-symbols-outlined">fullscreen</span>
           </button>
         </div>
+        </div>
+        {# Controls live here, beside the stage on wide screens and under it on phones, so they never cover the simulation. #}
+        <aside class="ix-sim-dock" id="ix-sim-dock" aria-label="Simulation controls"></aside>
       </div>
 
       </div>

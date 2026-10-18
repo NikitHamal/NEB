@@ -120,13 +120,13 @@ def is_indexable_post(post: Post) -> bool:
 def sitemap_entries() -> Iterator[Dict[str, str]]:
     now = timezone.now().isoformat()
     yield {'loc': f'{SITE_BASE_URL}/', 'changefreq': 'daily', 'priority': '1.0', 'lastmod': now}
-    yield {'loc': f'{SITE_BASE_URL}/library/', 'changefreq': 'daily', 'priority': '0.9', 'lastmod': now}
-    yield {'loc': f'{SITE_BASE_URL}/forum/', 'changefreq': 'daily', 'priority': '0.8', 'lastmod': now}
-    yield {'loc': f'{SITE_BASE_URL}/news/', 'changefreq': 'daily', 'priority': '0.7', 'lastmod': now}
-    yield {'loc': f'{SITE_BASE_URL}/results/', 'changefreq': 'monthly', 'priority': '0.7', 'lastmod': now}
-    yield {'loc': f'{SITE_BASE_URL}/results/check/', 'changefreq': 'monthly', 'priority': '0.7', 'lastmod': now}
-    yield {'loc': f'{SITE_BASE_URL}/tools/', 'changefreq': 'monthly', 'priority': '0.5', 'lastmod': now}
-    yield {'loc': f'{SITE_BASE_URL}/library/?tab=interactive', 'changefreq': 'weekly', 'priority': '0.8', 'lastmod': now}
+    yield {'loc': f'{SITE_BASE_URL}/app/library/', 'changefreq': 'daily', 'priority': '0.9', 'lastmod': now}
+    yield {'loc': f'{SITE_BASE_URL}/app/forum/', 'changefreq': 'daily', 'priority': '0.8', 'lastmod': now}
+    yield {'loc': f'{SITE_BASE_URL}/app/news/', 'changefreq': 'daily', 'priority': '0.7', 'lastmod': now}
+    yield {'loc': f'{SITE_BASE_URL}/app/results/', 'changefreq': 'monthly', 'priority': '0.7', 'lastmod': now}
+    yield {'loc': f'{SITE_BASE_URL}/app/results/check/', 'changefreq': 'monthly', 'priority': '0.7', 'lastmod': now}
+    yield {'loc': f'{SITE_BASE_URL}/app/tools/', 'changefreq': 'monthly', 'priority': '0.5', 'lastmod': now}
+    yield {'loc': f'{SITE_BASE_URL}/app/library/?tab=interactive', 'changefreq': 'weekly', 'priority': '0.8', 'lastmod': now}
 
     try:
         from web import curriculum as _curriculum
@@ -145,7 +145,7 @@ def sitemap_entries() -> Iterator[Dict[str, str]]:
             subject_slug = _slug(subject_val)
             if not grade_slug or not subject_slug or grade_slug == 'other':
                 continue
-            loc = f'{SITE_BASE_URL}/subject/{grade_slug}/{subject_slug}/'
+            loc = f'{SITE_BASE_URL}/app/subject/{grade_slug}/{subject_slug}/'
             if loc not in seen:
                 seen.add(loc)
                 yield {'loc': loc, 'changefreq': 'weekly', 'priority': '0.75', 'lastmod': now}
@@ -161,7 +161,7 @@ def sitemap_entries() -> Iterator[Dict[str, str]]:
             if not getattr(announcement, 'slug', None):
                 continue
             yield {
-                'loc': f'{SITE_BASE_URL}/news/{quote(str(announcement.slug), safe="")}/',
+                'loc': f'{SITE_BASE_URL}/app/news/{quote(str(announcement.slug), safe="")}/',
                 'changefreq': 'weekly',
                 'priority': '0.6',
                 'lastmod': _to_lastmod(getattr(announcement, 'published_at', None), now),
@@ -178,7 +178,7 @@ def sitemap_entries() -> Iterator[Dict[str, str]]:
             continue
         ts = getattr(resource, 'updated_at', None) or resource.added_at
         yield {
-            'loc': f'{SITE_BASE_URL}/reader/{quote(str(resource.id), safe="")}/',
+            'loc': f'{SITE_BASE_URL}/app/reader/{quote(str(resource.id), safe="")}/',
             'changefreq': 'weekly',
             'priority': '0.7',
             'lastmod': _to_lastmod(ts, now),
@@ -192,7 +192,7 @@ def sitemap_entries() -> Iterator[Dict[str, str]]:
         if not is_indexable_post(post):
             continue
         yield {
-            'loc': f'{SITE_BASE_URL}/forum/post/{quote(str(post.id), safe="")}/',
+            'loc': f'{SITE_BASE_URL}/app/forum/post/{quote(str(post.id), safe="")}/',
             'changefreq': 'weekly',
             'priority': '0.6',
             'lastmod': _to_lastmod(post.edited_at or post.created_at, now),
@@ -205,7 +205,7 @@ def sitemap_entries() -> Iterator[Dict[str, str]]:
         if not has_public_profile_signal(user):
             continue
         yield {
-            'loc': f'{SITE_BASE_URL}/profile/{quote(user.username, safe="")}/',
+            'loc': f'{SITE_BASE_URL}/app/profile/{quote(user.username, safe="")}/',
             'changefreq': 'weekly',
             'priority': '0.5' if (user.contribution_score or 0) > 0 else '0.3',
             'lastmod': _to_lastmod(user.created_at, now),

@@ -1,0 +1,74 @@
+/* ============================================================
+   The stage, rebuilt: the simulation gets the page's full width,
+   and the controls sit in a dock beside it (under it on phones),
+   so nothing covers the scene. The lesson reads below.
+   ============================================================ */
+.ix-lesson-page[data-sim-type] .ix-lesson-layout { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+.ix-sim-column { gap: 0; }
+.ix-lesson-page[data-sim-type] .ix-sim-shell { position: relative; top: auto; display: grid; grid-template-columns: minmax(0, 1fr); background: #0b1424; border-color: color-mix(in srgb, var(--md-outline-variant) 70%, #0b1424); box-shadow: 0 18px 50px -28px rgba(8, 18, 40, .55); }
+.ix-sim-main { display: flex; flex-direction: column; min-width: 0; }
+.ix-lesson-page[data-sim-type] .ix-sim-shell .ix-sim-stage { aspect-ratio: 16 / 9; min-height: 420px; height: auto; isolation: isolate; max-height: min(78vh, 760px); background: radial-gradient(120% 90% at 50% 0%, #1b2b47 0%, #0d1729 55%, #080f1c 100%); }
+.ix-sim-toolbar { background: #0f1a2d; border-top-color: rgba(255, 255, 255, .07); }
+.ix-sim-hint { color: #9fb0cc; }
+.ix-sim-toolbar .ix-fullscreen-btn { color: #dbe6fb; }
+
+/* the dock */
+.ix-sim-dock { display: none; background: linear-gradient(180deg, #101c31, #0c1627); color: #e8eefb; border-top: 1px solid rgba(255, 255, 255, .07); padding: 12px; gap: 12px; flex-direction: column; overflow: auto; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.18) transparent; }
+.ix-sim-dock.has-panels { display: flex; }
+.ix-lesson-page[data-sim-type] .ix-ctrl-panel.ix-ctrl-docked { left: auto; right: auto; bottom: auto; top: auto; max-width: none; box-shadow: none; overflow: visible; position: static; width: auto; max-height: none; background: rgba(255, 255, 255, .035); backdrop-filter: none; border: 1px solid rgba(255, 255, 255, .08); border-radius: 14px; flex-shrink: 0; }
+.ix-ctrl-docked .ix-ctrl-header { padding: 12px 14px 8px; }
+.ix-ctrl-docked .ix-ctrl-title { font-size: .875rem; letter-spacing: .01em; }
+.ix-lesson-page[data-sim-type] .ix-ctrl-docked .ix-ctrl-body { padding: 2px 14px 14px; gap: 12px; max-height: none; overflow: visible; }
+.ix-ctrl-docked .ix-ctrl-label { font-size: .75rem; }
+.ix-ctrl-docked input[type="range"] { height: 22px; }
+
+@media (min-width: 1100px) {
+  .ix-lesson-page[data-sim-type] .ix-sim-shell.has-dock { grid-template-columns: minmax(0, 1fr) 320px; }
+  .ix-sim-shell.has-dock .ix-sim-dock { border-top: none; border-left: 1px solid rgba(255, 255, 255, .07); max-height: calc(min(78vh, 760px) + 41px); }
+  .ix-lesson-page[data-sim-type] .ix-sim-shell.has-dock .ix-sim-stage { aspect-ratio: auto; min-height: 460px; height: min(78vh, 680px); max-height: none; }
+}
+@media (max-width: 1099px) {
+  .ix-sim-dock { display: none; }
+  .ix-sim-dock.has-panels { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); align-items: start; }
+}
+@media (max-width: 640px) {
+  .ix-lesson-page[data-sim-type] .ix-sim-shell .ix-sim-stage { aspect-ratio: 4 / 3.6; min-height: 300px; max-height: 64vh; height: auto; }
+  .ix-sim-dock { padding: 10px; }
+}
+
+/* fullscreen keeps the dock: the stage fills, the controls stay at hand */
+.ix-sim-shell:fullscreen, .ix-sim-shell.ix-fake-fullscreen { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; height: 100vh; }
+.ix-lesson-page[data-sim-type] .ix-sim-shell:fullscreen .ix-sim-stage, .ix-lesson-page[data-sim-type] .ix-sim-shell.ix-fake-fullscreen .ix-sim-stage { height: auto; min-height: 0; max-height: none; aspect-ratio: auto; flex: 1; }
+@media (min-width: 900px) {
+  .ix-sim-shell.has-dock:fullscreen, .ix-sim-shell.has-dock.ix-fake-fullscreen { grid-template-columns: minmax(0, 1fr) 340px; grid-template-rows: minmax(0, 1fr); }
+  .ix-sim-shell.has-dock:fullscreen .ix-sim-dock, .ix-sim-shell.has-dock.ix-fake-fullscreen .ix-sim-dock { max-height: 100vh; border-left: 1px solid rgba(255,255,255,.07); border-top: none; }
+}
+@media (max-width: 899px) {
+  .ix-sim-shell:fullscreen .ix-sim-dock, .ix-sim-shell.ix-fake-fullscreen .ix-sim-dock { max-height: 40vh; }
+}
+
+/* the lesson reads under the simulation, two columns on wide screens */
+.ix-learn-column { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
+@media (min-width: 1100px) {
+  .ix-learn-column { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; }
+  .ix-learn-column > .ix-objectives, .ix-learn-column > .ix-lesson-nav, .ix-learn-column > .ix-quiz, .ix-learn-column > .ix-fun-fact { grid-column: 1 / -1; }
+}
+
+/* coding lessons keep their own full-height stage */
+.ix-lesson-page[data-sim-type="coding"] .ix-sim-shell { background: var(--md-surface-container-lowest); }
+.ix-lesson-page[data-sim-type="coding"] .ix-sim-stage { aspect-ratio: auto; max-height: none; min-height: 480px; height: auto; }
+.ix-lesson-page[data-sim-type="coding"] .ix-sim-toolbar { background: var(--md-surface-container-low); border-top-color: var(--md-outline-variant); }
+.ix-lesson-page[data-sim-type="coding"] .ix-sim-hint { color: var(--md-on-surface-variant); }
+.ix-lesson-page[data-sim-type="coding"] .ix-sim-toolbar .ix-fullscreen-btn { color: inherit; }
+
+/* a docked panel is never cut short: the dock scrolls instead */
+.ix-lesson-page[data-sim-type] .ix-ctrl-panel.ix-ctrl-docked.collapsed { max-height: none; }
+.ix-lesson-page[data-sim-type] .ix-ctrl-docked .ix-ctrl-info { display: block; }
+.ix-lesson-page[data-sim-type] .ix-sim-shell { position: relative; top: auto; }
+/* the observation book scrolls sideways inside the dock rather than pushing it wider */
+.ix-ctrl-docked .ix-lab-data-table { display: block; max-width: 100%; overflow-x: auto; }
+/* 2D labs: a soft vignette and top light over the canvas, under the HUD and info cards */
+.ix-sim-stage.ix-stage-2d > .ix-sim-canvas { position: relative; z-index: 0; }
+.ix-sim-stage.ix-stage-2d::before { content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 1;
+  background: radial-gradient(120% 90% at 50% 42%, rgba(0,0,12,0) 52%, rgba(0,0,12,.32) 100%), linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,0) 32%); }
+.ix-sim-stage.ix-stage-2d > .ix-hud, .ix-sim-stage.ix-stage-2d > .ix-info-card, .ix-sim-stage.ix-stage-2d > .ix-ctrl-panel { z-index: 3; }

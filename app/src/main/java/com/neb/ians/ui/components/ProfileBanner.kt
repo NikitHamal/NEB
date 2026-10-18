@@ -124,16 +124,10 @@ fun ProfileBanner(
                 )
             } else {
                 val palette = remember(role) { coverPalette(role) }
-                val seed = remember(seedKey, role) { stableSeed("cover|$seedKey|$role") }
 
-                // The art reads no animated state, so it is rasterised once
-                // and left alone while the sheen above it runs.
-                Canvas(modifier = Modifier.fillMaxSize()) {
-                    val rng = Rng(seed)
-                    drawCoverGround(palette, rng)
-                    drawCoverMotif(role, palette, rng)
-                    drawCoverFinish(palette, rng)
-                }
+                // A pixel-art panorama for the role (ui/pixel/art/PixelCovers). The vector
+                // cover (drawCoverGround, drawCoverMotif) is kept but no longer shown.
+                com.neb.ians.ui.pixel.art.PixelCoverArt(role = role.name, seedKey = seedKey, modifier = Modifier.fillMaxSize())
 
                 val transition = rememberInfiniteTransition(label = "coverSheen")
                 val sheen by transition.animateFloat(

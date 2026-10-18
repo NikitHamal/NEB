@@ -43,7 +43,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -180,7 +179,7 @@ fun CreatorStudioScreen(
                     modifier = Modifier.fillMaxWidth()
                 )
 
-                PullToRefreshBox(
+                com.neb.ians.ui.components.NebRefreshBox(
                     isRefreshing = isRefreshing,
                     onRefresh = {
                         scope.launch {
@@ -323,7 +322,7 @@ private fun androidx.compose.foundation.lazy.LazyListScope.studioPageTab(
                 value = uiState.slug,
                 onValueChange = viewModel::updateSlug,
                 label = "Page address",
-                helper = "nebians.consica.com.np/marketplace/${uiState.slug.ifBlank { "your-name" }}/"
+                helper = "nebians.consica.com.np/app/marketplace/${uiState.slug.ifBlank { "your-name" }}/"
             )
             // Only worth asking when the account actually has a choice; most
             // tutors have exactly one kind and the web studio hides it too.

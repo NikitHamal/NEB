@@ -401,10 +401,10 @@
 
     if (toolName === 'navigate_to') {
       var routes = {
-        home: '/', library: '/library/', forum: '/forum/', search: '/search/',
-        news: '/news/', settings: '/settings/', bookmarks: '/bookmarks/',
-        upload: '/upload/', results: '/results/check/',
-        leaderboard: '/forum/leaderboard/', tools: '/tools/',
+        home: '/app/', library: '/app/library/', forum: '/app/forum/', search: '/app/search/',
+        news: '/app/news/', settings: '/app/settings/', bookmarks: '/app/bookmarks/',
+        upload: '/app/upload/', results: '/app/results/check/',
+        leaderboard: '/app/forum/leaderboard/', tools: '/app/tools/',
       };
       var page = args.page || 'home';
       var url = routes[page] || '/';

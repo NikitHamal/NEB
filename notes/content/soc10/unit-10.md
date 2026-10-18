@@ -1,527 +1,1249 @@
 ---
-subject: Social Studies and Human Value Education
+subject: सामाजिक अध्ययन तथा मानव मूल्य शिक्षा
 grade: 10
 unit: 10
-title: Population and Its Management
+title: जनसङ्ख्या र यसको व्यवस्थापन
 hours: 0
-area: Units
+area: एकाइ
 ---
 
-Nepal has about 29 million people. They live on 147,516 square kilometres of land that runs from the hot Terai to the snows of the Himalaya, and they are not spread evenly: more than half live in the Terai, a million live in the Kathmandu Valley alone, while whole districts of the mountains hold only a few thousand. How many people there are, how fast they are growing, how old they are, where they live, how healthy they are and what they do to the environment are all questions of **population**. Study them well, because the schools, hospitals, jobs, roads and food of the next generation depend on the answers. All the figures in this unit come from the **National Population and Housing Census 2021** of the National Statistics Office.
+वि.सं. १९६८ मा पहिलो पटक गन्दा नेपालमा करिब ५६ लाख मानिस थिए। सय वर्षपछि वि.सं.
+२०६८ मा यो सङ्ख्या पौने तीन करोड नाघ्यो र वि.सं. २०७८ को बाह्रौँ जनगणनामा
+**२,९१,६४,५७८** पुग्यो। तर अचम्मको कुरा — जनसङ्ख्या बढिरहेको भए पनि बढ्ने गति भने
+घट्दै छ। हिमाल र पहाडका गाउँ रित्तिँदै छन्, तराई र सहरमा भिड थपिँदै छ; काठमाडौँमा
+२० लाखभन्दा बढी मानिस बस्छन् भने मनाङमा ६ हजार पनि छैनन्। मानिस धेरै भएको ठाउँमा
+नदी फोहोर हुन्छ, हावा धुवाँले भरिन्छ। यस्तो किन हुन्छ, परिवारले योजना बनाएर कसरी
+गुणस्तरीय जीवन बिताउन सक्छ र समुदाय मिलेर स्वास्थ्य कसरी सुधार्न सकिन्छ भन्ने
+कुरा यस एकाइमा पढ्नेछौँ। विद्यालय, अस्पताल, सडक र रोजगारीका सबै योजना जनसङ्ख्याको
+यही जानकारीमा टेकेर बन्छन्।
 
-::: key What the SEE paper expects from this unit
-Be ready to define population terms (census, growth rate, density, sex ratio, dependency ratio), to read a table or diagram of census data and to calculate density or growth, to explain **causes and effects** of uneven distribution and rapid growth, to list **family-planning methods and benefits**, to describe the relation between **population and environment**, and to describe **community health** measures. Quote 2021 census figures correctly.
+::: key यस एकाइबाट परीक्षाले खोज्ने कुरा
+जनसङ्ख्या, जनसङ्ख्याको आकार, वृद्धि र वृद्धिदरको परिभाषा; वि.सं. १९६८–२०७८ का
+जनगणनाका अङ्क, जनसङ्ख्या घट्नु र वृद्धिदर घट्नुका कारण; विश्व र नेपालको वृद्धिदरको
+तुलना; लिङ्ग, जातजाति, धर्म, उमेर, मातृभाषा, साक्षरता र पेसाअनुसारको बनोट (जनगणना
+२०७८); भौगोलिक क्षेत्र, प्रदेश, जिल्ला र सहर–गाउँअनुसार वितरण र असमानताका कारण;
+पारिवारिक योजनाका काम र महत्त्व, गुणस्तरीय जीवनका छ आधार; जनसङ्ख्या र वातावरणको
+अन्तरसम्बन्ध; सामुदायिक स्वास्थ्यको अर्थ, क्षेत्र र महत्त्व। हिसाबमा **सूत्र → मान राख्ने →
+उत्तर र अर्थ** को क्रम नछुटाउनुहोस्।
 :::
 
-## 10.1 Size and growth of Nepal's population
+## १०.१ नेपालको जनसङ्ख्याको आकार र वृद्धिदर
 
-### Census and population size
+"जन" (मानिस) र "सङ्ख्या" (कति जना) मिलेर **जनसङ्ख्या** शब्द बनेको हो। कुनै ठाउँको
+जनसङ्ख्या भन्नाले त्यहाँ निश्चित अवधिमा बसोबास गर्ने सबै उमेर समूह, जातजाति, भाषा,
+क्षेत्र, लिङ्ग, धर्म र पेसाका मानिसको कुल सङ्ख्या बुझिन्छ। नेपालमा बसोबास गर्ने सम्पूर्ण
+मानिसको सङ्ख्या नै नेपालको कुल जनसङ्ख्या हो।
 
-A **census** is the official count of all people living in a country on a given day, together with information on their age, sex, education, work and housing. Nepal's first (partial) census was taken in **1911 AD (1968 BS)**; modern censuses began in 1952/54 and are now held **every ten years**. The 12th census was held on **25 November 2021 (10 Mangsir 2078 BS)**. It counted **29,164,578 people**, of whom 14,253,551 are male (48.87%) and 14,911,027 female (51.13%). The census also counted 2,928 persons who reported "other gender", the first time such information was collected.
-
-| Census year | Population | Increase since previous census | Annual growth rate (%) |
-|---|---|---|---|
-| 1911 | 5,638,749 | — | — |
-| 1941 | 6,283,649 | — | 1.16 |
-| 1952/54 | 8,256,625 | 1,972,976 | 2.27 |
-| 1961 | 9,412,996 | 1,156,371 | 1.64 |
-| 1971 | 11,555,983 | 2,142,987 | 2.05 |
-| 1981 | 15,022,839 | 3,466,856 | 2.62 |
-| 1991 | 18,491,097 | 3,468,258 | 2.08 |
-| 2001 | 23,151,423 | 4,660,326 | 2.25 |
-| 2011 | 26,494,504 | 3,343,081 | 1.35 |
-| **2021** | **29,164,578** | **2,670,074** | **0.92** |
-
-```figure caption="Population of Nepal (bars, millions) and annual growth rate (line, per cent) at each census since 1952/54. The growth rate peaked at 2.62% in 1981 and has fallen to 0.92% in 2021."
-import numpy as np, matplotlib.pyplot as plt
-fig, ax = plt.subplots(figsize=(4.9,3.0))
-yrs = ["1952/54","1961","1971","1981","1991","2001","2011","2021"]
-pop = [8.26,9.41,11.56,15.02,18.49,23.15,26.49,29.16]
-gr = [2.27,1.64,2.05,2.62,2.08,2.25,1.35,0.92]
-x = np.arange(len(yrs))
-ax.bar(x, pop, color=ACCENT, width=0.6)
-for i,v in enumerate(pop): ax.text(i, v+0.5, f"{v:.1f}", ha="center", fontsize=7, color=INK)
-ax.set_xticks(x); ax.set_xticklabels(yrs, fontsize=7)
-ax.set_ylabel("Population (million)", fontsize=8); ax.set_ylim(0,58)
-ax2 = ax.twinx()
-ax2.plot(x, gr, color=SERIES[1], marker="o", lw=1.8)
-for i,v in enumerate(gr): ax2.text(i, v+0.12, f"{v}", ha="center", fontsize=7, color=SERIES[1])
-ax2.set_ylim(-2.4,3.2); ax2.set_ylabel("Growth rate (%)", fontsize=8, color=SERIES[1])
-ax.spines[['top']].set_visible(False); ax2.spines[['top']].set_visible(False)
-ax.tick_params(labelsize=7.5); ax2.tick_params(labelsize=7.5)
-```
-
-### How population changes
-
-Population changes through three things: **births** (fertility), **deaths** (mortality) and **migration**.
-
-| Term | Meaning |
-|---|---|
-| **Crude birth rate (CBR)** | Live births per 1,000 people in a year |
-| **Crude death rate (CDR)** | Deaths per 1,000 people in a year |
-| **Natural increase** | Births minus deaths |
-| **Growth rate** | Percentage change in population per year (natural increase plus net migration) |
-| **Net migration** | Immigrants minus emigrants |
-
-$$\text{Growth rate} \; (\%) = \frac{\text{CBR} - \text{CDR}}{10} + \frac{\text{net migration rate}}{10}$$
-
-::: example Natural increase and doubling time
-**Problem.** A country has a crude birth rate of 22 and a crude death rate of 6 per 1,000, with no migration. Find (a) the natural increase rate per 1,000, (b) the annual growth rate in per cent and (c) the approximate number of years it takes the population to double (rule of 70).
-
-**Solution.**
-(a) Natural increase = 22 − 6 = **16 per 1,000**.
-(b) Growth rate = 16 ÷ 10 = **1.6 per cent** a year.
-(c) Doubling time ≈ 70 ÷ 1.6 = **about 44 years**.
-For Nepal's present growth of 0.92 per cent, doubling time would be 70 ÷ 0.92 ≈ 76 years.
+::: definition जनसङ्ख्या, आकार, वृद्धि र वृद्धिदर
+- **जनसङ्ख्या:** कुनै निश्चित भौगोलिक क्षेत्रमा निश्चित समयमा बसोबास गरिरहेका मानिसको
+  सङ्ख्या।
+- **जनसङ्ख्याको आकार:** कुनै निश्चित क्षेत्रमा निश्चित समयमा बसोबास गर्ने बालबालिका,
+  युवायुवती र वृद्धवृद्धाको जम्मा सङ्ख्या। जनगणना २०७८ अनुसार नेपालको जनसङ्ख्याको
+  आकार **२,९१,६४,५७८** हो।
+- **जनसङ्ख्या वृद्धि:** जन्म, मृत्यु र बसाइँसराइका कारण कुनै स्थानको जनसङ्ख्या थपिएर
+  आकारमा आउने परिवर्तन।
+- **जनसङ्ख्या वृद्धिदर:** प्रतिसय जनसङ्ख्यामा प्रतिवर्ष वृद्धि हुने सङ्ख्या। जनगणना २०७८
+  अनुसार नेपालको वार्षिक वृद्धिदर **०.९२ प्रतिशत** हो।
 :::
 
-::: example Where does the 0.92 per cent come from?
-**Problem.** The population was 26,494,504 in 2011 and 29,164,578 in 2021. The census dates are 10.43 years apart. Find the annual exponential growth rate.
+जनसङ्ख्या स्थिर हुँदैन; जन्म, मृत्यु र बसाइँसराइका कारण यो निरन्तर बदलिइरहन्छ। त्यसैले
+जनसङ्ख्याको आकार भन्दा "कहिलेको?" भन्ने समय तोक्नै पर्छ। यही कारण देशहरूले निश्चित
+अन्तरमा **जनगणना** गर्छन्। नेपालमा जनगणना **वि.सं. १९६८** बाट सुरु भयो र सामान्यतया हरेक
+**१० वर्षमा** गरिन्छ। पछिल्लो, **बाह्रौँ जनगणना वि.सं. २०७८** मा सम्पन्न भयो।
 
-**Solution.** Ratio = 29,164,578 ÷ 26,494,504 = 1.1008.
-Natural logarithm of 1.1008 = 0.0960.
-Rate = 0.0960 ÷ 10.43 = 0.00920, or **0.92% a year**.
-(Dividing by 10 years instead would give 0.96%, which is why the exact interval is used.)
-:::
+### नेपालको जनसङ्ख्याको आकार र वृद्धिदर (वि.सं. १९६८–२०७८)
 
-### Why the growth rate rose and then fell
-
-| Period | What happened |
-|---|---|
-| **1950s–1980s** | Malaria control in the Terai, vaccines, better food and health care caused **death rates to fall quickly** while **birth rates stayed high**; opening of the Terai attracted migrants. Growth rose to 2.62% in 1981. |
-| **1990s–2000s** | Growth stayed above 2% as population momentum continued, but family planning, education and urban life began to lower births |
-| **2011–2021** | Growth fell to 0.92%. Reasons: **fewer births** (the fertility rate is about 2.1 children per woman, at the replacement level), later marriage, more education of girls, and **large emigration** (the census counted **2,190,592 Nepalis absent abroad**, 82% of them men) |
-
-Growth is not equal in all places. Between 2011 and 2021, **Bhaktapur (3.35%)** grew fastest, while **Ramechhap (−1.67%)** and many hill and mountain districts lost people. The Mountain belt (−0.05%) shrank slightly, the Hill grew by 0.30% and the Terai by 1.54% a year.
-
-### Uses of census data
-
-Census data are the base of all planning. The government and municipalities use them to decide where to build schools and health posts, how many teachers and doctors are needed, how to divide the national budget among provinces and local levels, how to draw electoral constituencies, how to measure poverty, literacy and housing, and how to plan food, jobs and pensions. Without a census a country is planning in the dark. That is why every person must answer the census honestly and why Nepal conducted it even during the Covid-19 pandemic.
-
-### Demographic transition
-
-Countries pass through stages as they develop. In the first stage, birth and death rates are both high and population grows slowly; in the second, death rates fall (health and food improve) while birth rates stay high and population grows rapidly; in the third, birth rates also fall (education, family planning, urban life) and growth slows; in the fourth, both are low and the population is stable or ageing. **Nepal is in the late-second to third stage**: death rates have fallen steeply, and birth rates are now low enough that the growth rate is below 1 per cent.
-
-```figure caption="The demographic transition (schematic). Death rate falls first, birth rate later; the gap between them is the natural increase."
-import numpy as np, matplotlib.pyplot as plt
-fig, ax = plt.subplots(figsize=(4.8,2.8))
-x = np.linspace(0,10,200)
-birth = 40 - 25/(1+np.exp(-(x-6.5)*1.2))
-death = 39 - 31/(1+np.exp(-(x-3.5)*1.4))
-ax.plot(x, birth, color=SERIES[1], lw=2, label="Birth rate")
-ax.plot(x, death, color=ACCENT, lw=2, label="Death rate")
-ax.fill_between(x, death, birth, where=birth>death, color="#e8f0fb")
-for xs,lab in ((1,"Stage 1"),(3.5,"Stage 2"),(6.5,"Stage 3"),(9,"Stage 4")):
-    ax.text(xs, 2, lab, ha="center", fontsize=8, color=INK)
-for xb in (2.3,5.0,8.0):
-    ax.axvline(xb, color=GRID, lw=1)
-ax.text(4.7,28,"Natural increase", fontsize=8, color=INK)
-ax.legend(fontsize=8, frameon=False, loc="upper right")
-ax.set_xlabel("Time (development)", fontsize=8); ax.set_ylabel("Rate per 1,000", fontsize=8)
-ax.set_ylim(0,45); ax.set_xticks([])
-ax.spines[['top','right']].set_visible(False)
-ax.tick_params(labelsize=8)
-```
-
-### Effects of rapid population growth
-
-Rapid growth strains food, land, schools, jobs, health services and the environment, and makes it harder to raise **per capita income**. Very slow growth with an ageing population brings other problems. Therefore the goal of **population management** is not to hit a number but to make sure that population size, structure and distribution suit the country's resources.
-
-## 10.2 Composition of the population
-
-Composition means the structure of the population: its age, sex, caste/ethnicity, language, religion, education and rural-urban division.
-
-### Age structure
-
-Demographers divide people into three broad groups:
-
-| Age group | Share in 2021 | Meaning |
-|---|---|---|
-| **0–14 years** (children) | **27.83%** | Dependent; need school and care |
-| **15–59 years** (working age) | **61.96%** | Economically active; produce and pay tax (56.96% in 2011) |
-| **60 years and above** (elderly) | **10.21%** | Often dependent; need health care and pensions |
-
-::: definition Dependency ratio
-The dependency ratio is the number of dependent persons (children under 15 plus persons aged 60 and above) for every 100 persons of working age (15–59).
-:::
-
-::: example Dependency ratio of Nepal, 2021
-**Problem.** Use the 2021 census age shares to find Nepal's total dependency ratio.
-
-**Solution.** Dependents = 27.83% + 10.21% = 38.04%.
-Working age = 61.96%.
-Dependency ratio = (38.04 ÷ 61.96) × 100 = **61.4**.
-So there are about 61 dependents for every 100 working-age persons. The ratio was higher in 2011 because there were more children.
-:::
-
-A big working-age share and few dependants can be a **demographic dividend**: a chance for fast growth if there are enough jobs and skills. If the young have no jobs, the chance is lost. Meanwhile the number of **elderly** is rising fast, so pensions, senior-citizen allowances and health care need planning.
-
-### The population pyramid
-
-A **population pyramid** is a double bar graph showing the numbers of males and females in each five-year age group. Its shape tells the story: a broad base means many births, and a narrow top means few old people.
-
-```figure caption="Population pyramid of Nepal, census 2021 (per cent of total population in each five-year age group; males left, females right). The base is narrowing; the bulge at ages 10-24 is the 'youth bulge'. The females aged 20-39 are more numerous than the males because so many men are abroad."
-import numpy as np, matplotlib.pyplot as plt
-fig, ax = plt.subplots(figsize=(4.8,3.4))
-ages = ["0-4","5-9","10-14","15-19","20-24","25-29","30-34","35-39","40-44","45-49","50-54","55-59","60-64","65-69","70-74","75-79","80-84","85+"]
-m = [1290525,1443405,1495954,1494523,1301018,1122242,978976,936931,828493,687525,692494,537558,465962,379689,292054,170998,78315,56889+36888+13191]
-f = [1148758,1323022,1413911,1471881,1482042,1337107,1168736,1104561,919339,748515,721358,538386,489642,391929,317316,182205,83241,69078+41439+17215]
-tot = 29164578
-mm = [-v/tot*100 for v in m]; ff = [v/tot*100 for v in f]
-y = np.arange(len(ages))
-ax.barh(y, mm, color=ACCENT, height=0.85, label="Male")
-ax.barh(y, ff, color=SERIES[1], height=0.85, label="Female")
-ax.set_yticks(y); ax.set_yticklabels(ages, fontsize=7)
-ax.set_xlim(-12,12)
-ax.set_xticks([-10,-5,0,5,10]); ax.set_xticklabels(["10","5","0","5","10"], fontsize=7.5)
-ax.set_xlabel("Per cent of total population", fontsize=8)
-ax.set_ylabel("Age group (years)", fontsize=8)
-ax.legend(fontsize=8, frameon=False, loc="upper right")
-ax.spines[['top','right']].set_visible(False)
-```
-
-### Sex composition
-
-**Sex ratio** is the number of males per 100 females.
-
-$$\text{Sex ratio} = \frac{\text{number of males}}{\text{number of females}} \times 100$$
-
-::: example Sex ratio
-**Problem.** In 2021 Nepal had 14,253,551 males and 14,911,027 females. Find the sex ratio.
-
-**Solution.** Sex ratio = (14,253,551 ÷ 14,911,027) × 100 = **95.59**.
-There are about 96 males for every 100 females. It was 94.16 in 2011. The ratio is below 100 mainly because of **male emigration**: women outnumber men in the 20–44 age groups.
-:::
-
-### Other aspects of composition
-
-| Aspect | Main facts (census 2021) |
-|---|---|
-| **Ethnic/caste diversity** | More than 140 caste and ethnic groups (142 recorded), among them Chhetri, Brahmin, Magar, Tharu, Tamang, Newar, Dalit communities, Madhesi groups, Kirat peoples and many Janajati groups |
-| **Language** | 124 mother tongues; Nepali is the mother tongue of about 45 per cent; Maithili, Bhojpuri, Tharu, Tamang, Bajjika and Magar follow |
-| **Religion** | Hindu (about 81 per cent), Buddhist (about 8 per cent), Muslim (about 5 per cent), Kirat (about 3 per cent), Christian (under 2 per cent) |
-| **Literacy** | **76.2%** of those aged 5+ (male 83.6%, female 69.4%); it was 65.9% in 2011 |
-| **Urban and rural** | **66.17%** live in urban municipalities; 33.83% in rural municipalities |
-| **Households** | 6,666,937 households; average size **4.37** (4.88 in 2011); 31.55% headed by women |
-| **Disability** | 2.2% of the population have a disability |
-| **Absentees** | 2,190,592 persons absent abroad (23.4% of households have a member abroad) |
-
-::: tip Compare 2011 and 2021
-SEE questions often ask for a trend: "literacy rose from 65.9% to 76.2%", "household size fell from 4.88 to 4.37", "growth fell from 1.35% to 0.92%". A comparison with two numbers is worth more than a vague word like "improved".
-:::
-
-### Ageing and senior citizens
-
-Because people live longer and have fewer children, the share of those aged 60 and above rose to **10.21%** in 2021 (about three million people). Nepal gives a **senior citizen allowance** (monthly social security allowance) to those aged 70 and above, and 60 and above in certain cases (such as Dalits, and those in Karnali), and the Constitution guarantees the rights of senior citizens. Families and communities must give respect, health care and company to the elderly; they carry the knowledge and culture of the community.
-
-### Population policy
-
-The **National Population Policy 2071 BS (2015)** aims to improve the quality of life by balancing population size, structure and distribution with resources, by promoting reproductive health and women's empowerment, by managing migration and urbanisation, and by preparing for the ageing population and use of the demographic dividend. It is carried out through the Ministry of Health and Population, the National Statistics Office and the local governments.
-
-## 10.3 Distribution of population
-
-**Population distribution** is the way people are spread over the land. **Population density** is the average number of persons per square kilometre.
-
-$$\text{Density} = \frac{\text{population}}{\text{area in km}^2}$$
-
-::: example Population density
-**Problem.** Nepal has a population of 29,164,578 and an area of 147,516 km². Find the density. A district has 120,000 people on 3,000 km². Find its density.
-
-**Solution.** Nepal: 29,164,578 ÷ 147,516 = **197.7 ≈ 198 persons per km²**.
-District: 120,000 ÷ 3,000 = **40 persons per km²**, which is far below the national figure.
-:::
-
-### Distribution in Nepal, 2021
-
-| Region | Population | Share | Density (per km²) | Growth 2011–21 (%) |
+| क्र.सं. | जनगणना वर्ष | जनसङ्ख्या | वृद्धिदर (%) | दोब्बर हुन लाग्ने समय |
 |---|---|---|---|---|
-| **Mountain** | 1,772,948 | 6.08% | **34** | −0.05 |
-| **Hill** | 11,757,624 | 40.31% | 192 | 0.30 |
-| **Terai (Tarai)** | 15,634,006 | **53.61%** | **460** | 1.54 |
-| **Nepal** | 29,164,578 | 100% | 198 | 0.92 |
+| १ | वि.सं. १९६८ (सन् १९११) | ५६,३८,७४९ | – | – |
+| २ | वि.सं. १९७७ (सन् १९२०) | ५५,७३,७८८ | −०.१३ | – |
+| ३ | वि.सं. १९८७ (सन् १९३०) | ५५,३२,५७४ | −०.०७ | – |
+| ४ | वि.सं. १९९८ (सन् १९४१) | ६२,८३,६४९ | १.१६ | ६० वर्ष |
+| ५ | वि.सं. २००९/११ (सन् १९५२/५४) | ८२,५६,६२५ | २.२८ | ३१ वर्ष |
+| ६ | वि.सं. २०१८ (सन् १९६१) | ९४,१२,९९६ | १.६४ | ४३ वर्ष |
+| ७ | वि.सं. २०२८ (सन् १९७१) | १,१५,५५,९८३ | २.०५ | ३४ वर्ष |
+| ८ | वि.सं. २०३८ (सन् १९८१) | १,५०,२२,८३९ | २.६२ | २७ वर्ष |
+| ९ | वि.सं. २०४८ (सन् १९९१) | १,८४,९१,०९७ | २.०८ | ३४ वर्ष |
+| १० | वि.सं. २०५८ (सन् २००१) | २,३१,५१,४२३ | २.२५ | ३१ वर्ष |
+| ११ | वि.सं. २०६८ (सन् २०११) | २,६४,९४,५०४ | १.३५ | ५२ वर्ष |
+| १२ | वि.सं. २०७८ (सन् २०२१) | २,९१,६४,५७८ | ०.९२ | ७६ वर्ष (करिब) |
 
-| Province | Population | Density (per km²) |
+*स्रोत: राष्ट्रिय तथ्याङ्क कार्यालय। अन्तिम पङ्क्तिको दोब्बर समय सच्याइएको — तलको सावधानी हेर्नुहोस्।*
+
+```figure caption="नेपालको जनसङ्ख्या (लाखमा) र वार्षिक वृद्धिदर, वि.सं. १९६८–२०७८। वि.सं. १९८७ सम्म जनसङ्ख्या घट्यो, त्यसपछि तीव्र रूपमा बढ्यो; वृद्धिदर वि.सं. २०३८ मा सर्वोच्च (२.६२) पुगेर अहिले ०.९२ मा झरेको छ।"
+years = ["१९६८", "१९७७", "१९८७", "१९९८", "२०११", "२०१८", "२०२८", "२०३८", "२०४८", "२०५८", "२०६८", "२०७८"]
+pop = [56.4, 55.7, 55.3, 62.8, 82.6, 94.1, 115.6, 150.2, 184.9, 231.5, 264.9, 291.6]
+rate = [None, -0.13, -0.07, 1.16, 2.28, 1.64, 2.05, 2.62, 2.08, 2.25, 1.35, 0.92]
+fig, (ax, ax2) = plt.subplots(2, 1, figsize=(5.8, 4.0), sharex=True)
+x = list(range(len(years)))
+ax.bar(x, pop, color=SERIES[0], width=0.62)
+for i, v in zip(x, pop):
+    ax.text(i, v + 6, f"{v:.0f}", ha="center", va="bottom", fontsize=7.2, color=INK)
+ax.set_ylim(0, 340); ax.set_title("जनसङ्ख्या (लाखमा)", fontsize=8.6, color=INK)
+xr = x[1:]; rr = rate[1:]
+ax2.plot(xr, rr, color=SERIES[3], marker="o", lw=2)
+for i, v in zip(xr, rr):
+    ax2.text(i + (0.15 if v < 0 else 0), v + 0.22 if v > 0 else v + (0.25 if i == 2 else -0.45), f"{v:.2f}", ha="center", fontsize=7.0, color=INK)
+ax2.axhline(0, color=MUTED, lw=0.8)
+ax2.set_ylim(-0.9, 3.3); ax2.set_title("वार्षिक वृद्धिदर (%)", fontsize=8.6, color=INK)
+ax2.set_xticks(x); ax2.set_xticklabels(years, fontsize=7.4, rotation=45)
+for a_ in (ax, ax2):
+    for sp in ("top", "right"): a_.spines[sp].set_visible(False)
+    a_.grid(axis="y", color=GRID, lw=0.6); a_.set_axisbelow(True)
+    a_.tick_params(axis="y", labelsize=7.4)
+fig.tight_layout(h_pad=1.2)
+```
+
+### तालिकाको विश्लेषण
+
+**(क) सुरुका तीन जनगणनामा जनसङ्ख्या घट्यो:** वि.सं. १९६८ मा ५६,३८,७४९ रहेको
+जनसङ्ख्या वि.सं. १९७७ र १९८७ मा घटेर वृद्धिदर ऋणात्मक भयो। यसका मुख्य कारण:
+(१) जनगणना वैज्ञानिक ढङ्गले नहुनु — घर–घर पुगेर सबैलाई गन्ने व्यवस्था थिएन; (२)
+**इन्फ्लुएन्जाको महामारी** ले धेरै मानिसको मृत्यु हुनु; (३) **प्रथम विश्वयुद्धमा** गएका
+कतिपय गोरखा सैनिक गणनाबाट छुट्नु।
+
+**(ख) पहिलो वैज्ञानिक जनगणना:** वि.सं. २००९/११ बाट वैज्ञानिक ढङ्गले जनगणना सुरु
+भएकाले त्यस जनगणनालाई **नेपालको पहिलो वैज्ञानिक जनगणना** भनिन्छ।
+
+**(ग) तीव्र वृद्धिको समय:** वि.सं. २०३८ मा जनसङ्ख्या १,५०,२२,८३९ र वृद्धिदर **२.६२
+प्रतिशत** — नेपालको इतिहासकै सर्वोच्च — थियो। वि.सं. २०५८ मा जनसङ्ख्या २,३१,५१,४२३
+र वृद्धिदर २.२५ प्रतिशत रह्यो।
+
+**(घ) वृद्धिदर घट्दो:** वि.सं. २०६८ मा जनसङ्ख्या २,६४,९४,५०४ र वृद्धिदर १.३५ प्रतिशत
+भयो। वि.सं. १९६८ को ५६,३८,७४९ ठिक सय वर्षपछि २,६४,९४,५०४ पुग्यो — करिब **पाँच
+गुणा** (ठ्याक्कै ४.७ गुणा)। वि.सं. २०७८ मा जनसङ्ख्या २,९१,६४,५७८ पुग्यो, जुन दस वर्षअघिको
+भन्दा **२६,७०,०७४** ले बढी र **१०.०८ प्रतिशत** ले बढेको हो; सरदर वार्षिक वृद्धिदर **०.९२
+प्रतिशत** रह्यो।
+
+### वृद्धिदर घट्नुका कारण
+
+- १. **जन्मदरमा ह्रास:** दम्पतीले कम सन्तान जन्माउन थाले।
+- २. **परिवार नियोजनका साधनको प्रयोगदर बढ्नु:** स्वास्थ्य संस्थामा निःशुल्क परामर्श र
+  साधन पाइन थाल्यो।
+- ३. **विवाहको औसत उमेर बढ्नु:** ढिलो विवाहले सन्तान जन्माउने अवधि छोटिन्छ।
+- ४. **शिक्षा र चेतनाको स्तर बढ्नु:** विशेषगरी महिला शिक्षाले सानो परिवारको महत्त्व बुझायो।
+- ५. **स्वास्थ्यमा सुधार:** पाठ्यपुस्तकले स्वास्थ्य सुधार भई मृत्युदर घट्नुलाई पनि कारण भनेको
+  छ। बच्चा बाँच्ने सम्भावना बढेपछि "धेरै जन्माउनुपर्छ" भन्ने सोच घट्छ र अन्ततः जन्मदर घट्छ।
+- ६. **युवा विदेशमा रहनु:** लाखौँ युवा वैदेशिक रोजगारी र अध्ययनमा बाहिर बस्दा देशभित्रको
+  जनसङ्ख्या थपिने गति घट्छ।
+
+::: definition वृद्धिदर र दोब्बर हुने समय नाप्ने सूत्र
+दुई जनगणनाबिचको कुल वृद्धि प्रतिशत यसरी निकालिन्छ:
+
+$$\text{कुल वृद्धि (प्रतिशत)} = \frac{\text{पछिल्लो जनसङ्ख्या} - \text{अघिल्लो जनसङ्ख्या}}{\text{अघिल्लो जनसङ्ख्या}} \times 100$$
+
+वार्षिक वृद्धिदर थाहा भए जनसङ्ख्या दोब्बर हुन लाग्ने समय अनुमान गर्न ७० लाई वृद्धिदरले
+भाग गरिन्छ:
+
+$$\text{दोब्बर हुन लाग्ने समय (वर्ष)} \approx \frac{70}{\text{वार्षिक वृद्धिदर (प्रतिशत)}}$$
+:::
+
+::: example जनगणना २०६८ र २०७८ बिचको वृद्धि
+**प्रश्न.** वि.सं. २०६८ मा जनसङ्ख्या २,६४,९४,५०४ र वि.सं. २०७८ मा २,९१,६४,५७८ थियो।
+दस वर्षमा कति जना र कति प्रतिशत बढ्यो? वार्षिक वृद्धिदर ०.९२ प्रतिशत भए जनसङ्ख्या कति
+वर्षमा दोब्बर होला?
+
+**उत्तर.** थपिएको सङ्ख्या = २,९१,६४,५७८ − २,६४,९४,५०४ = **२६,७०,०७४**।
+कुल वृद्धि = (२६,७०,०७४ ÷ २,६४,९४,५०४) × १०० = **१०.०८ प्रतिशत**।
+दोब्बर हुने समय ≈ ७० ÷ ०.९२ ≈ **७६ वर्ष**।
+
+**ध्यान दिनुहोस्:** १०.०८ लाई १० ले भाग गर्दा करिब १.०१ आउँछ, तर सरकारी वृद्धिदर ०.९२
+हो। सरकारी हिसाबमा हरेक वर्षको वृद्धि अघिल्लो वर्षको थपिएको जनसङ्ख्यामाथि पनि जोडिने
+(चक्रीय) तरिका र दुई जनगणना मितिबिचको वास्तविक अवधि प्रयोग हुन्छ; त्यसैले सरल भागफलभन्दा
+अलि सानो दर आउँछ।
+:::
+
+::: caution पाठ्यपुस्तकका अङ्कमा सच्याइएका कुरा
+(१) पाठ्यपुस्तकको तालिकामा वि.सं. २०७८ को "दोब्बर हुन लाग्ने समय" **७१.३ वर्ष** लेखिएको छ।
+७१.३ वर्ष त नेपालीको **औसत आयु** हो (पाठकै विश्व तुलना तालिकामा यही अङ्क छ)। ७० ÷ ०.९२
+≈ **७६ वर्ष** हुन्छ, त्यसैले माथिको तालिकामा ७६ वर्ष राखिएको छ। (२) पाठमा "वि.सं. २०५८ को
+जनगणनामा वृद्धिदर १.३५ प्रतिशत" भनिएको छ; तालिकाअनुसार १.३५ प्रतिशत **वि.सं. २०६८**
+को वृद्धिदर हो, २०५८ को २.२५ प्रतिशत। (३) सय वर्षमा "५ गुणा" भनिएको अङ्क गोलाइएको हो;
+२,६४,९४,५०४ ÷ ५६,३८,७४९ ≈ ४.७ गुणा। अरू वर्षका दोब्बर समय ७० ÷ वृद्धिदर सूत्रसँग मिल्छन्।
+:::
+
+### विश्व र नेपालको जनसङ्ख्याको तुलना
+
+पाठ्यपुस्तकको क्रियाकलापमा विश्व जनसङ्ख्या तथ्याङ्क पत्र, सन् २०२२ का आधारमा यो तुलना
+दिइएको छ:
+
+| क्षेत्र | जनसङ्ख्या (दस लाखमा) | वृद्धिदर (%) | औसत आयु (वर्ष) |
+|---|---|---|---|
+| विश्व | ७,९६३ | ०.९ | ७२ |
+| अति विकसित देश | १,२७० | −०.२ | ७८ |
+| कम विकसित देश | ६,६९४ | १.२ | ७१ |
+| अति कम विकसित देश | १,१२६ | २.४ | ६४ |
+| नेपाल | ३०.९ | ०.९२ | ७१.३ |
+
+```figure caption="विश्व र नेपालको वार्षिक वृद्धिदर र औसत आयु (विश्व जनसङ्ख्या तथ्याङ्क पत्र, सन् २०२२)। नेपालको वृद्धिदर विश्व औसतकै हाराहारी छ, तर अति कम विकसित देशको भन्दा धेरै कम।"
+import numpy as np
+labels = ["विश्व", "अति विकसित", "कम विकसित", "अति कम विकसित", "नेपाल"]
+rate = [0.9, -0.2, 1.2, 2.4, 0.92]
+life = [72, 78, 71, 64, 71.3]
+fig, (ax, ax2) = plt.subplots(1, 2, figsize=(5.8, 2.7))
+y = np.arange(len(labels))
+cols = [SERIES[1]] * 4 + [SERIES[3]]
+ax.barh(y, rate, color=cols, height=0.6)
+for i, v in zip(y, rate):
+    ax.text(v + (0.08 if v >= 0 else -0.08), i, f"{v:g}", va="center", ha="left" if v >= 0 else "right", fontsize=7.4, color=INK)
+ax.set_yticks(y); ax.set_yticklabels(labels, fontsize=7.8); ax.invert_yaxis()
+ax.set_xlim(-0.9, 3.0); ax.axvline(0, color=MUTED, lw=0.8)
+ax.set_title("वृद्धिदर (%)", fontsize=8.4, color=INK)
+ax2.barh(y, life, color=cols, height=0.6)
+for i, v in zip(y, life):
+    ax2.text(v + 1, i, f"{v:g}", va="center", fontsize=7.4, color=INK)
+ax2.set_yticks(y); ax2.set_yticklabels([]); ax2.invert_yaxis()
+ax2.set_xlim(0, 92); ax2.set_title("औसत आयु (वर्ष)", fontsize=8.4, color=INK)
+for a_ in (ax, ax2):
+    for sp in ("top", "right"): a_.spines[sp].set_visible(False)
+    a_.tick_params(axis="x", labelsize=7.2)
+fig.tight_layout(w_pad=1.0)
+```
+
+तुलनाबाट देखिन्छ — (क) अति विकसित देशमा जन्म मृत्युभन्दा कम भएर वृद्धिदर ऋणात्मक
+(−०.२) छ र औसत आयु सबैभन्दा बढी (७८ वर्ष) छ; (ख) अति कम विकसित देशमा वृद्धिदर
+सबैभन्दा उच्च (२.४) र औसत आयु सबैभन्दा कम (६४ वर्ष) छ — अर्थात् गरिब देशमा जन्म पनि
+धेरै, मृत्यु पनि छिटो; (ग) अति कम विकसित देशमा पर्ने भए पनि नेपालको वृद्धिदर (०.९२) विश्व
+औसत (०.९) जत्तिकै र औसत आयु (७१.३) कम विकसित देशको (७१) भन्दा अलि बढी छ। यो नेपालको
+स्वास्थ्य र परिवार नियोजनमा भएको प्रगतिको सङ्केत हो।
+
+::: caution तालिका पढ्दा ध्यान दिनुहोस्
+"अति कम विकसित देश" छुट्टै समूह होइन, "कम विकसित देश" कै भित्रको उपसमूह हो। त्यसैले
+अति विकसित (१,२७०) र कम विकसित (६,६९४) जोड्दा विश्व (करिब ७,९६३–७,९६४ दस लाख)
+आउँछ; अति कम विकसितलाई फेरि जोड्नु हुँदैन। साथै नेपालको ३ करोड ९ लाख सन् २०२२ को
+**अनुमान** हो; जनगणना २०७८ ले गनेको सङ्ख्या २,९१,६४,५७८ हो।
+:::
+
+::: example विश्व तालिकाबाट हिसाब
+**प्रश्न.** (क) विश्व जनसङ्ख्यामा नेपालको हिस्सा कति प्रतिशत छ? (ख) अति कम विकसित देश र
+विश्वको जनसङ्ख्या दोब्बर हुन कति वर्ष लाग्ला?
+
+**उत्तर.** (क) नेपालको हिस्सा = (३०.९ ÷ ७,९६३) × १०० ≈ **०.३९ प्रतिशत**, अर्थात् संसारका
+हरेक २५८ जनामध्ये करिब एक जना नेपाली। (ख) अति कम विकसित देश: ७० ÷ २.४ ≈ **२९ वर्ष**;
+विश्व: ७० ÷ ०.९ ≈ **७८ वर्ष**। गरिब देशको जनसङ्ख्या विश्व औसतभन्दा करिब ढाई गुणा छिटो
+दोब्बर हुने देखिन्छ, जसले त्यहाँ विद्यालय, अस्पताल र रोजगारीमा ठुलो चाप पार्छ।
+:::
+
+::: note क्रियाकलाप — पाठ १०.१
+**१. कक्षा छलफल:** नेपालको जनसङ्ख्याको विगत र वर्तमान आकारबारे साथीसँग छलफल गरी
+जनसङ्ख्या वृद्धिको अवस्था विश्लेषण गर्नुहोस्। (सङ्केत: १९६८–१९८७ घट्दो, २००९/११–२०३८
+तीव्र वृद्धि, २०५८ पछि वृद्धिदर घट्दो।)
+**२. विद्यालयको स्तम्भचित्र:** आफ्नो विद्यालयका कक्षागत छात्र र छात्राको सङ्ख्या स्तम्भचित्रमा
+देखाएर सूचनापाटीमा टाँस्नुहोस्।
+**३. विश्वसँग तुलना:** माथिको विश्व तालिकाका आधारमा विश्व र नेपालको जनसङ्ख्याको आकार,
+वृद्धिदर र औसत आयु तुलना गर्नुहोस् (माथिको विश्लेषण र उदाहरण हेर्नुहोस्)।
+**४. वडाको तथ्याङ्क:** आफ्नो वडा कार्यालयमा गई विगत ५ वर्षको जनसङ्ख्या र वृद्धिदर खोजी
+गरी तालिका बनाएर कक्षामा प्रस्तुत गर्नुहोस्।
+**५. चार्टपेपर:** वि.सं. २०३८–२०७८ सम्मको जनसङ्ख्या र वृद्धिदर चार्टपेपरमा ठुलो अक्षरमा लेखी
+कक्षाकोठामा टाँस्नुहोस्।
+:::
+
+### पाठको अभ्यास: नमुना उत्तर
+
+**१. जनसङ्ख्याको आकार भन्नाले के बुझिन्छ?**
+कुनै निश्चित भौगोलिक क्षेत्रमा निश्चित समयमा बसोबास गर्ने बालबालिका, युवायुवती र
+वृद्धवृद्धाको जम्मा सङ्ख्यालाई जनसङ्ख्याको आकार भनिन्छ। जन्म, मृत्यु र बसाइँसराइले
+जनसङ्ख्या निरन्तर बदलिने भएकाले आकार भन्दा समय तोक्नुपर्छ। जस्तै, वि.सं. २०७८ को
+जनगणनाअनुसार नेपालको जनसङ्ख्याको आकार २,९१,६४,५७८ हो।
+
+**२. वि.सं. १९७७ र १९८७ को जनगणनामा नेपालको जनसङ्ख्या वृद्धिदर घटेर ऋणात्मक
+हुनुका कारण उल्लेख गर्नुहोस्।**
+वि.सं. १९६८ मा ५६,३८,७४९ रहेको जनसङ्ख्या वि.सं. १९७७ मा ५५,७३,७८८ (वृद्धिदर −०.१३)
+र १९८७ मा ५५,३२,५७४ (−०.०७) मा झर्‍यो। कारण: (क) त्यसबेलाको जनगणना अवैज्ञानिक थियो;
+घर–घर पुगेर गन्ने, प्रशिक्षित गणक र स्पष्ट नक्सा थिएनन्, त्यसैले धेरै मानिस छुटे। (ख)
+इन्फ्लुएन्जाको महामारीले ठुलो सङ्ख्यामा मानिसको मृत्यु भयो। (ग) प्रथम विश्वयुद्धमा
+गएका कतिपय गोरखा सैनिक देशबाहिर भएकाले गणनामा परेनन्। (घ) स्वास्थ्य सुविधा नहुँदा
+सामान्य समयमा पनि मृत्युदर उच्च थियो।
+
+**३. वि.सं. २०५८ देखि २०७८ सम्म नेपालमा जनसङ्ख्या वृद्धिदर घट्दै गएको देखिन्छ।
+यसरी वृद्धिदर घट्नुका कारणको सूची तयार गर्नुहोस्।**
+वृद्धिदर वि.सं. २०५८ मा २.२५, २०६८ मा १.३५ र २०७८ मा ०.९२ प्रतिशत भयो। कारण:
+(क) जन्मदरमा ह्रास; (ख) परिवार नियोजनका साधनको प्रयोगदर बढ्नु; (ग) विवाहको औसत
+उमेर बढ्नु; (घ) शिक्षा, विशेषगरी महिला शिक्षा र चेतनाको स्तर बढ्नु; (ङ) स्वास्थ्यमा सुधार
+भई बालमृत्यु घटेपछि धेरै सन्तान चाहिने सोच घट्नु; (च) सहरीकरण र महँगीले सानो परिवार
+रोज्नु; (छ) लाखौँ युवा वैदेशिक रोजगारी र अध्ययनमा देशबाहिर रहनु।
+
+**४. वि.सं. २०१८ देखि २०७८ सम्मको नेपालको जनसङ्ख्या वृद्धिदरको अवस्थालाई
+रेखाचित्रमा प्रस्तुत गर्नुहोस्।**
+
+```figure caption="नेपालको वार्षिक जनसङ्ख्या वृद्धिदर, वि.सं. २०१८–२०७८ (अभ्यास प्रश्न ४ को उत्तर)। दर २०३८ मा शिखरमा पुगेर त्यसपछि (२०५८ को सानो उकालोबाहेक) घट्दै गएको छ।"
+yrs = ["२०१८", "२०२८", "२०३८", "२०४८", "२०५८", "२०६८", "२०७८"]
+r = [1.64, 2.05, 2.62, 2.08, 2.25, 1.35, 0.92]
+fig, ax = plt.subplots(figsize=(5.4, 2.5))
+x = list(range(len(yrs)))
+ax.plot(x, r, color=SERIES[0], marker="o", lw=2)
+for i, v in zip(x, r):
+    ax.text(i, v + 0.16, f"{v:.2f}", ha="center", fontsize=7.8, color=INK)
+ax.set_xticks(x); ax.set_xticklabels(yrs, fontsize=8)
+ax.set_ylim(0, 3.1); ax.set_ylabel("वृद्धिदर (%)", fontsize=8)
+ax.set_xlabel("जनगणना वर्ष (वि.सं.)", fontsize=8)
+for sp in ("top", "right"): ax.spines[sp].set_visible(False)
+ax.grid(axis="y", color=GRID, lw=0.6); ax.set_axisbelow(True)
+ax.tick_params(axis="y", labelsize=7.6)
+```
+
+रेखाचित्र बनाउँदा तेर्सो अक्षमा जनगणना वर्ष र ठाडो अक्षमा वृद्धिदर (प्रतिशत) राखिन्छ। प्रवृत्ति:
+वि.सं. २०१८ (१.६४) देखि २०३८ (२.६२) सम्म वृद्धिदर बढ्यो, २०४८ मा घट्यो, २०५८ मा
+अलिकति बढ्यो र त्यसपछि तीव्र रूपमा घटेर २०७८ मा ०.९२ पुग्यो।
+
+## १०.२ नेपालको जनसङ्ख्याको बनोट
+
+::: definition जनसङ्ख्याको बनोट
+उमेर, लिङ्ग, मातृभाषा, धर्म, पेसा, जातजाति, शैक्षिक स्थिति आदिका आधारमा गरिएको
+जनसङ्ख्याको वर्गीकरणलाई **जनसङ्ख्याको बनोट** भनिन्छ।
+:::
+
+कुल जनसङ्ख्याले "कति मानिस" बताउँछ; बनोटले "कस्ता मानिस" बताउँछ। बनोटको अध्ययनबाट
+देशमा महिला, पुरुष, बालबालिका, युवायुवती र ज्येष्ठ नागरिक कति छन्; जाति, धर्म, भाषा र
+पेसाअनुसार जनसङ्ख्या कसरी बाँडिएको छ; आर्थिक रूपमा सक्रिय र निष्क्रिय जनसङ्ख्या कति छ
+भन्ने थाहा हुन्छ। यसले सरकारलाई देशको आर्थिक विकासमा योगदान दिन सक्ने जनसङ्ख्या पत्ता
+लगाउन, नीति, कार्यक्रम र योजना बनाउन, कुनै समुदायको वास्तविक अवस्था पहिचान गर्न र
+भौगोलिक क्षेत्रको सम्भावना बुझ्न मदत गर्छ।
+
+```figure caption="जनसङ्ख्याको बनोटका सात आधार। पाठ्यपुस्तकले नेपालको जनसङ्ख्यालाई यिनै आधारमा वर्गीकरण गरेको छ।"
+fig, ax = cards([("लिङ्ग", "पुरुष र महिला"),
+                 ("जातजाति", "१४२ जातजाति"),
+                 ("धर्म", "१० धर्म"),
+                 ("उमेर", "०–१४, १५–५९,\n६० वर्षमाथि"),
+                 ("मातृभाषा", "१२४ भाषा"),
+                 ("शैक्षिक स्थिति", "साक्षर र निरक्षर"),
+                 ("पेसा", "कृषि र गैरकृषि"),
+                 ("उपयोग", "नीति, योजना र\nबजेट निर्माण")],
+                cols=4, figsize=(5.9, 2.5), title_size=8.6)
+```
+
+### (क) लिङ्गअनुसार जनसङ्ख्याको बनोट
+
+| जनगणना वर्ष | पुरुष | प्रतिशत | महिला | प्रतिशत | जम्मा |
+|---|---|---|---|---|---|
+| वि.सं. २०६८ (सन् २०११) | १,२८,४९,०४१ | ४८.५० | १,३६,४५,४६३ | ५१.५० | २,६४,९४,५०४ |
+| वि.सं. २०७८ (सन् २०२१) | १,४२,५३,५५१ | ४८.८७ | १,४९,११,०२७ | ५१.१३ | २,९१,६४,५७८ |
+
+*स्रोत: राष्ट्रिय तथ्याङ्क कार्यालय। प्रतिशत तालिकाकै सङ्ख्याबाट हिसाब गरिएको।*
+
+दुवै जनगणनामा महिलाको सङ्ख्या पुरुषभन्दा बढी छ। यसलाई **लिङ्ग अनुपात** ले नापिन्छ:
+
+$$\text{लिङ्ग अनुपात} = \frac{\text{पुरुषको सङ्ख्या}}{\text{महिलाको सङ्ख्या}} \times 100$$
+
+::: example लिङ्ग अनुपात र प्रतिशतको हिसाब
+**प्रश्न.** जनगणना २०७८ का अङ्कबाट पुरुषको प्रतिशत र लिङ्ग अनुपात निकाल्नुहोस्।
+
+**उत्तर.** पुरुषको प्रतिशत = (१,४२,५३,५५१ ÷ २,९१,६४,५७८) × १०० = **४८.८७ प्रतिशत**;
+महिला = १०० − ४८.८७ = **५१.१३ प्रतिशत**। लिङ्ग अनुपात = (१,४२,५३,५५१ ÷ १,४९,११,०२७)
+× १०० ≈ **९५.६**, अर्थात् प्रत्येक १०० महिलामा करिब ९६ पुरुष। वि.सं. २०६८ मा यो ९४.२
+थियो। धेरै पुरुष वैदेशिक रोजगारीमा देशबाहिर रहेकाले देशभित्र पुरुष कम देखिएका हुन्।
+:::
+
+::: caution पाठ्यपुस्तकको प्रतिशत सच्याइएको
+पाठ्यपुस्तकको तालिकामा वि.सं. २०७८ मा पुरुष **४८.९८** र महिला **५१.०२** प्रतिशत लेखिएको
+छ। तालिकाकै सङ्ख्याबाट हिसाब गर्दा पुरुष **४८.८७** र महिला **५१.१३** प्रतिशत हुन्छ (१,४२,५३,५५१
+÷ २,९१,६४,५७८ = ०.४८८७)। वि.सं. २०६८ को पुरुष प्रतिशत ४८.४९ लेखिएको छ, जुन गोलाउँदा
+४८.५० हुन्छ।
+:::
+
+### (ख) जातजातिअनुसार जनसङ्ख्याको बनोट
+
+जनगणना २०७८ अनुसार नेपालमा **१४२ जातजाति** पहिचान गरिएका छन्।
+
+| क्र.सं. | जाति/समूह | प्रतिशत | क्र.सं. | जाति/समूह | प्रतिशत |
+|---|---|---|---|---|---|
+| १ | क्षेत्री | १६.४५ | १० | राई | २.२० |
+| २ | ब्राह्मण | ११.२९ | ११ | परियार | १.९४ |
+| ३ | मगर | ६.९० | १२ | गुरुङ | १.८६ |
+| ४ | थारू | ६.२० | १३ | ठकुरी | १.७० |
+| ५ | तामाङ | ५.६२ | १४ | मिजार | १.५५ |
+| ६ | विश्वकर्मा | ५.०४ | १५ | तेली | १.४८ |
+| ७ | मुसलमान | ४.८६ | १६ | याक्थुम/लिम्बु | १.४२ |
+| ८ | नेवार | ४.६० | १७ | अन्य | २२.६८ |
+| ९ | यादव | ४.२१ | | **जम्मा** | **१००.००** |
+
+*स्रोत: राष्ट्रिय तथ्याङ्क कार्यालय (जनगणना २०७८)*
+
+```figure caption="जनगणना २०७८ अनुसार जनसङ्ख्याका आधारमा ठुला नौ जाति (प्रतिशत)। यी प्रत्येकको हिस्सा ३.४३ प्रतिशतभन्दा बढी भएकाले प्रत्येकको जनसङ्ख्या दस लाखभन्दा बढी हुन्छ।"
+fig, ax = barh_ranked(["क्षेत्री", "ब्राह्मण", "मगर", "थारू", "तामाङ", "विश्वकर्मा", "मुसलमान", "नेवार", "यादव"],
+                      [16.45, 11.29, 6.90, 6.20, 5.62, 5.04, 4.86, 4.60, 4.21], unit="%",
+                      figsize=(5.6, 3.0), highlight=["क्षेत्री"])
+```
+
+सबैभन्दा ठुलो जाति क्षेत्री (१६.४५%) र दोस्रो ब्राह्मण (११.२९%) छन्। कुनै पनि एउटा जातिको
+हिस्सा २० प्रतिशत पुग्दैन — त्यसैले नेपाल कुनै एक जातिको बहुमत नभएको **बहुजातीय** देश हो।
+
+::: caution "दस लाखभन्दा बढी जनसङ्ख्या भएका जाति" कति?
+पाठ्यपुस्तकले दस लाखभन्दा बढी जनसङ्ख्या भएका "छओटा" जाति भनेको छ। तर कुल
+जनसङ्ख्याको दस लाख भनेको (१०,००,००० ÷ २,९१,६४,५७८) × १०० ≈ **३.४३ प्रतिशत** हो र
+तालिकामा यादव (४.२१%) सम्मका **नौ** जातिको हिस्सा यसभन्दा बढी छ। त्यसैले तालिकाकै
+आधारमा दस लाखभन्दा बढी जनसङ्ख्या भएका जाति नौ वटा हुन्छन्। परीक्षामा तालिकाबाट हिसाब
+देखाएर लेख्नु सुरक्षित हुन्छ।
+:::
+
+### (ग) धर्मअनुसार जनसङ्ख्याको बनोट
+
+नेपाल **बहुधार्मिक** राष्ट्र हो। धार्मिक विविधता भए पनि सबै धर्मावलम्बीबिच सद्भाव र
+सहिष्णुता छ।
+
+| क्र.सं. | धर्म | प्रतिशत | क्र.सं. | धर्म | प्रतिशत |
+|---|---|---|---|---|---|
+| १ | हिन्दु | ८१.१९ | ६ | प्रकृति | ०.३५ |
+| २ | बौद्ध | ८.२१ | ७ | बोन | ०.२३ |
+| ३ | इस्लाम | ५.०९ | ८ | जैन | ०.०१ (२,३९८ जना) |
+| ४ | किरात | ३.१७ | ९ | सिख | ०.०१ (१,४९६ जना) |
+| ५ | क्रिस्चियन | १.७६ | १० | बहाई | ०.०० (५३७ जना) |
+
+*स्रोत: राष्ट्रिय तथ्याङ्क कार्यालय। पाठ्यपुस्तकमा हिन्दुको अङ्क गोलाएर ८१.२ लेखिएको छ।*
+
+हिन्दु पहिलो, बौद्ध दोस्रो, इस्लाम तेस्रो, किरात चौथो र क्रिस्चियन पाँचौँ स्थानमा छन्; प्रकृति,
+बोन, जैन, सिख र बहाई धर्म मान्ने समुदाय पनि छन्। बहाईको ०.०० को अर्थ कोही नभएको
+होइन — ५३७ जना कुल जनसङ्ख्याको तुलनामा सयौँ भागभन्दा पनि सानो भएकाले शून्य देखिएको हो।
+
+### (घ) उमेरअनुसार जनसङ्ख्याको बनोट
+
+उमेरअनुसार जनसङ्ख्यालाई एक वर्ष, पाँच वर्ष, दस वर्ष र **बृहत् उमेर समूह** मा वर्गीकरण गर्न
+सकिन्छ। बृहत् उमेर समूहमा **० देखि १४ वर्ष**, **१५ देखि ५९ वर्ष** र **६० वर्ष र माथि** गरी तीन
+समूह बनाइन्छ। १५–५९ वर्षको जनसङ्ख्यालाई **सक्षम र क्रियाशील** (सक्रिय) तथा १५ वर्षमुनि र
+६० वर्षमाथिकालाई **आश्रित जनसङ्ख्या** भनिन्छ।
+
+| उमेर समूह | वि.सं. २०५८ (%) | वि.सं. २०६८ (%) | वि.सं. २०७८ (%) |
+|---|---|---|---|
+| ० देखि १४ वर्ष | ३९.३५ | ३४.९१ | २७.८३ |
+| १५ देखि ५९ वर्ष | ५४.१५ | ५६.९६ | ६१.९६ |
+| ६० वर्ष र माथि | ६.५० | ८.१३ | १०.२१ |
+| जम्मा | १०० | १०० | १०० |
+
+*स्रोत: राष्ट्रिय तथ्याङ्क कार्यालय*
+
+```figure caption="बृहत् उमेर समूहअनुसार नेपालको जनसङ्ख्या (प्रतिशत)। बालबालिकाको हिस्सा घट्दै र सक्रिय तथा ज्येष्ठ नागरिकको हिस्सा बढ्दै गएको छ।"
+import numpy as np
+yrs = ["२०५८", "२०६८", "२०७८"]
+kids = np.array([39.35, 34.91, 27.83]); work = np.array([54.15, 56.96, 61.96]); old = np.array([6.50, 8.13, 10.21])
+fig, ax = plt.subplots(figsize=(5.6, 2.4))
+y = np.arange(3)
+ax.barh(y, kids, color=SERIES[1], height=0.6, label="०–१४ वर्ष")
+ax.barh(y, work, left=kids, color=SERIES[0], height=0.6, label="१५–५९ वर्ष")
+ax.barh(y, old, left=kids + work, color=SERIES[3], height=0.6, label="६० वर्ष र माथि")
+for i in range(3):
+    ax.text(kids[i] / 2, i, f"{kids[i]:.1f}", ha="center", va="center", color="white", fontsize=8)
+    ax.text(kids[i] + work[i] / 2, i, f"{work[i]:.1f}", ha="center", va="center", color="white", fontsize=8)
+    ax.text(kids[i] + work[i] + old[i] / 2, i, f"{old[i]:.1f}", ha="center", va="center", color="white", fontsize=7.4)
+ax.set_yticks(y); ax.set_yticklabels(yrs, fontsize=8.4); ax.invert_yaxis()
+ax.set_xlim(0, 100); ax.set_xlabel("प्रतिशत", fontsize=8.2)
+ax.legend(fontsize=7.8, frameon=False, ncol=3, loc="upper center", bbox_to_anchor=(0.5, 1.25))
+for s in ("top", "right"): ax.spines[s].set_visible(False)
+ax.tick_params(axis="x", labelsize=7.6)
+```
+
+सक्रिय जनसङ्ख्याको हिस्सा सबैभन्दा बढी छ र हरेक जनगणनामा बढ्दै छ। ६० वर्षमाथिको
+हिस्सा पनि हरेक जनगणनामा बढेको छ भने ० देखि १४ वर्षको हिस्सा घट्दै छ। काम गर्ने हात धेरै
+र आश्रित थोरै भएको यो अवस्था देशका लागि **अवसर** हो — युवालाई सिप र देशभित्रै रोजगारी दिन
+सके विकास छिटो हुन्छ।
+
+::: caution उमेर तालिकाको २०७८ को अङ्क सच्याइएको
+पाठ्यपुस्तकको तालिकामा वि.सं. २०७८ को १५–५९ वर्ष **६५.२** र ६० वर्षमाथि **६.९** प्रतिशत
+लेखिएको छ। यसले पाठकै भनाइ ("६० वर्षमाथिको प्रतिशत हरेक जनगणनामा बढ्दै गएको") सँग
+बाझ्छ (८.१४ बाट ६.९ मा घटेको देखिन्छ) र तीनै अङ्कको जोड पनि १०० हुँदैन (९९.९३)।
+जनगणना २०७८ का वास्तविक अङ्क **६१.९६** र **१०.२१** प्रतिशत हुन्; २७.८३ + ६१.९६ + १०.२१
+= १००। वि.सं. २०६८ का अङ्क पाठ्यपुस्तकमा ५६.९५ र ८.१४ छन्; जनगणनाको ५६.९६ र ८.१३
+सँग गोलाइको मात्र फरक हो।
+:::
+
+::: example आश्रित अनुपात
+**प्रश्न.** जनगणना २०७८ को उमेर बनोटबाट प्रति सय सक्रिय उमेरका मानिसमा कति आश्रित छन्,
+निकाल्नुहोस् र वि.सं. २०५८ सँग तुलना गर्नुहोस्।
+
+$$\text{आश्रित अनुपात} = \frac{\text{०–१४ वर्ष} + \text{६० वर्षमाथि}}{\text{१५–५९ वर्ष}} \times 100$$
+
+**उत्तर.** २०७८: (२७.८३ + १०.२१) ÷ ६१.९६ × १०० = ३८.०४ ÷ ६१.९६ × १०० ≈ **६१**।
+२०५८: (३९.३५ + ६.५०) ÷ ५४.१५ × १०० ≈ **८५**। अर्थात् बीस वर्षअघि १०० सक्रिय व्यक्तिले ८५
+आश्रित पाल्नुपर्थ्यो, अहिले ६१ मात्र। आश्रितको भार घटेको छ, तर तीमध्ये ज्येष्ठ नागरिकको हिस्सा
+बढ्दै छ।
+:::
+
+### (ङ) भाषाअनुसार जनसङ्ख्याको बनोट
+
+नेपाल **बहुभाषिक** राष्ट्र हो। जनगणना २०७८ ले **१२४ भाषा** लाई मातृभाषाका रूपमा पहिचान
+गरेको छ। संविधानले देवनागरी लिपिमा लेखिने नेपाली भाषालाई सरकारी कामकाजको भाषा र
+नेपालमा बोलिने सबै मातृभाषालाई राष्ट्रभाषाको मान्यता दिएको छ।
+
+| भाषा | प्रतिशत | भाषा | प्रतिशत | भाषा | प्रतिशत |
+|---|---|---|---|---|---|
+| नेपाली | ४४.८६ | अवधी | २.९६ | गुरुङ | १.१२ |
+| मैथिली | ११.०५ | नेपालभाषा | २.९६ | मगही | ०.७९ |
+| भोजपुरी | ६.२४ | मगर ढुट | २.७८ | बैतडेली | ०.५२ |
+| थारू | ५.८८ | डोटेली | १.७० | राई | ०.५० |
+| तामाङ | ४.८८ | उर्दु | १.४२ | अन्य | ७.२५ |
+| बज्जिका | ३.८९ | याक्थुङ/लिम्बु | १.२० | **जम्मा** | **१००** |
+
+*स्रोत: राष्ट्रिय तथ्याङ्क कार्यालय (जनगणना २०७८)*
+
+```figure caption="जनगणना २०७८ अनुसार एक प्रतिशतभन्दा बढीले बोल्ने १३ मातृभाषा (प्रतिशत)। नेपाली मातृभाषा हुने करिब ४५ प्रतिशत छन्; बाँकी ५५ प्रतिशतको मातृभाषा अरू नै छ।"
+fig, ax = barh_ranked(["नेपाली", "मैथिली", "भोजपुरी", "थारू", "तामाङ", "बज्जिका", "अवधी", "नेपालभाषा", "मगर ढुट", "डोटेली", "उर्दु", "याक्थुङ/लिम्बु", "गुरुङ"],
+                      [44.86, 11.05, 6.24, 5.88, 4.88, 3.89, 2.96, 2.96, 2.78, 1.70, 1.42, 1.20, 1.12], unit="%",
+                      figsize=(5.6, 4.0), highlight=["नेपाली"])
+```
+
+नेपाली मातृभाषा हुने सबैभन्दा धेरै (४४.८६%) र दोस्रोमा मैथिली (११.०५%) छन्। नेपालीसहित एक
+प्रतिशतभन्दा बढी जनसङ्ख्याले बोल्ने भाषा **१३ वटा** छन्। तालिकाका सबै अङ्क जोड्दा ठ्याक्कै
+१०० हुन्छ।
+
+### (च) शैक्षिक स्थिति र पेसाअनुसारको बनोट
+
+शैक्षिक स्थितिअनुसार बनोटले कति मानिस साक्षर र कति निरक्षर छन् भन्ने देखाउँछ; पेसाअनुसार
+बनोटले कति मानिस कृषि र कति गैरकृषि क्षेत्रमा छन् भन्ने देखाउँछ। पाठ्यपुस्तकले यी दुईलाई
+क्रियाकलापका तालिकामा दिएको छ।
+
+| जनगणना वर्ष | पुरुष साक्षरता (%) | महिला साक्षरता (%) | कुल (%) | कृषिमा (%) | गैरकृषिमा (%) |
+|---|---|---|---|---|---|
+| वि.सं. २०५८ | ६५.५ | ४२.८ | ५४.१ | ६५.७ | ३४.३ |
+| वि.सं. २०६८ | ७६.० | ५७.८ | ६५.९ | ६०.४ | ३९.६ |
+| वि.सं. २०७८ | ८३.६ | ६९.४ | ७६.२ | ५०.६ | ४९.४ |
+
+*स्रोत: राष्ट्रिय तथ्याङ्क कार्यालय। साक्षरता ५ वर्ष र माथिको जनसङ्ख्याको हो।*
+
+```figure caption="पाँच वर्ष र माथिको साक्षरता (बायाँ) र कृषिमा संलग्न जनसङ्ख्या (दायाँ)। बीस वर्षमा महिला साक्षरता २६.६ अङ्कले बढेर पुरुषसँगको खाडल २२.७ बाट १४.२ मा झरेको छ; कृषिमा लाग्नेको हिस्सा ६५.७ बाट ५०.६ प्रतिशतमा झरेको छ।"
+import numpy as np
+yrs = ["२०५८", "२०६८", "२०७८"]
+m = [65.5, 76.0, 83.6]; f = [42.8, 57.8, 69.4]; ag = [65.7, 60.4, 50.6]
+x = np.arange(3); w = 0.36
+fig, (ax, ax2) = plt.subplots(1, 2, figsize=(5.8, 2.7), gridspec_kw={"width_ratios": [3, 2]})
+ax.bar(x - w/2, m, w, color=SERIES[0], label="पुरुष")
+ax.bar(x + w/2, f, w, color=SERIES[3], label="महिला")
+for i in range(3):
+    ax.text(x[i] - w/2, m[i] + 1.5, f"{m[i]:g}", ha="center", fontsize=7.2, color=INK)
+    ax.text(x[i] + w/2, f[i] + 1.5, f"{f[i]:g}", ha="center", fontsize=7.2, color=INK)
+ax.set_xticks(x); ax.set_xticklabels(yrs, fontsize=8)
+ax.set_ylim(0, 100); ax.set_title("साक्षरता (%)", fontsize=8.4, color=INK)
+ax.legend(fontsize=7.4, frameon=False, loc="upper left", ncol=2)
+ax2.bar(x, ag, 0.55, color=SERIES[2])
+for i in range(3):
+    ax2.text(x[i], ag[i] + 1.5, f"{ag[i]:g}", ha="center", fontsize=7.2, color=INK)
+ax2.set_xticks(x); ax2.set_xticklabels(yrs, fontsize=8)
+ax2.set_ylim(0, 100); ax2.set_title("कृषिमा संलग्न (%)", fontsize=8.4, color=INK)
+for a_ in (ax, ax2):
+    for sp in ("top", "right"): a_.spines[sp].set_visible(False)
+    a_.grid(axis="y", color=GRID, lw=0.6); a_.set_axisbelow(True)
+    a_.tick_params(axis="y", labelsize=7.2)
+fig.tight_layout(w_pad=1.5)
+```
+
+::: note क्रियाकलाप — पाठ १०.२
+**१. पेसाको वृत्तचित्र:** माथिको पेसा तालिकाका तीन वर्षका अङ्कलाई तीन वृत्तचित्रमा देखाउनुहोस्।
+वृत्तचित्रको कोण = प्रतिशत × ३.६ डिग्री; जस्तै २०७८ मा कृषि ५०.६ × ३.६ ≈ १८२ डिग्री र
+गैरकृषि ४९.४ × ३.६ ≈ १७८ डिग्री — लगभग आधा–आधा।
+**२. साक्षरताको स्तम्भचित्र:** ५ वर्ष र माथिको पुरुष, महिला र कुल साक्षरता तीन जनगणनाका
+लागि स्तम्भचित्रमा देखाउनुहोस् (माथिको चित्रजस्तै)।
+**३. समुदायको सर्वेक्षण:** आफ्नो समुदायका पाँच घरमा गई ६ वर्ष र माथिको जनसङ्ख्या टिपोट
+गर्नुहोस्, साक्षर महिला र पुरुष छुट्याएर स्तम्भचित्रमा देखाउनुहोस्।
+:::
+
+### पाठको अभ्यास: नमुना उत्तर
+
+**१. जनसङ्ख्याको बनोट भनेको के हो, उदाहरणसहित प्रस्तुत गर्नुहोस्।**
+उमेर, लिङ्ग, मातृभाषा, धर्म, पेसा, जातजाति र शैक्षिक स्थिति आदिका आधारमा गरिएको
+जनसङ्ख्याको वर्गीकरणलाई जनसङ्ख्याको बनोट भनिन्छ। उदाहरण (जनगणना २०७८): **लिङ्ग** —
+पुरुष ४८.८७ र महिला ५१.१३ प्रतिशत; **जाति** — १४२ जातजाति, क्षेत्री १६.४५ प्रतिशत सबैभन्दा
+ठुलो; **धर्म** — १० धर्म, हिन्दु ८१.१९ प्रतिशत; **मातृभाषा** — १२४ भाषा, नेपाली ४४.८६ प्रतिशत;
+**उमेर** — ० देखि १४ वर्ष २७.८३, १५–५९ वर्ष ६१.९६ र ६० वर्षमाथि १०.२१ प्रतिशत; **साक्षरता**
+— ७६.२ प्रतिशत; **पेसा** — कृषिमा ५०.६ प्रतिशत। यस्तो बनोटले नीति र योजनाको आधार दिन्छ।
+
+**२. उमेरअनुसार नेपालको जनसङ्ख्या बनोटको अवस्थालाई विश्लेषण गर्नुहोस्।**
+(क) ० देखि १४ वर्षको हिस्सा वि.सं. २०५८ मा ३९.३५, २०६८ मा ३४.९१ र २०७८ मा २७.८३
+प्रतिशत छ — जन्मदर घटेको प्रमाण। (ख) १५–५९ वर्षको सक्रिय जनसङ्ख्या ५४.१५ बाट ५६.९६ हुँदै
+६१.९६ प्रतिशत पुगेको छ — कुल जनसङ्ख्याको सबैभन्दा ठुलो हिस्सा। (ग) ६० वर्षमाथिको हिस्सा
+६.५० बाट ८.१३ हुँदै १०.२१ प्रतिशत पुगेको छ — औसत आयु बढेको प्रमाण। (घ) आश्रित अनुपात
+करिब ८५ बाट ६१ मा झरेको छ। **निष्कर्ष:** नेपाल काम गर्ने उमेरको जनसङ्ख्या धेरै भएको अवसरको
+अवस्थामा छ; यसको लाभ लिन युवालाई सिप र देशभित्र रोजगारी चाहिन्छ भने बढ्दो ज्येष्ठ नागरिकका
+लागि स्वास्थ्य र सामाजिक सुरक्षाको तयारी चाहिन्छ।
+
+**३. शैक्षिक स्थितिअनुसार जनसङ्ख्याको बनोट भन्नाले के बुझिन्छ? साक्षरता दर बढ्दै जाँदा
+देशको सामाजिक आर्थिक अवस्थामा पर्ने प्रभाव उल्लेख गर्नुहोस्।**
+साक्षर, निरक्षर र शिक्षाको तहका आधारमा जनसङ्ख्याको वर्गीकरणलाई शैक्षिक स्थितिअनुसार
+बनोट भनिन्छ; जस्तै २०७८ मा ५ वर्षमाथिको साक्षरता ७६.२ प्रतिशत (पुरुष ८३.६, महिला ६९.४)।
+**प्रभाव:** (क) सिपयुक्त जनशक्ति बढ्छ र उत्पादन तथा आम्दानी बढ्छ; (ख) मानिस स्वास्थ्य,
+सरसफाइ र परिवार नियोजनप्रति सचेत हुन्छन्, जन्मदर र शिशु मृत्यु घट्छन्; (ग) अन्धविश्वास,
+बालविवाह, दाइजो जस्ता कुरीति घट्छन्; (घ) महिला सशक्त भई निर्णयमा सहभागी हुन्छन्; (ङ)
+नागरिक आफ्ना हक–कर्तव्यप्रति सचेत भई लोकतन्त्र बलियो हुन्छ; (च) मानिस कृषिबाहेक उद्योग,
+व्यापार र सेवा क्षेत्रमा जान सक्छन्।
+
+**४. वि.सं. २०५८ को जनगणनामा कृषि पेसामा संलग्न मानिस बढी भएकामा पछिका जनगणनामा
+गैरकृषि पेसामा लाग्नेको सङ्ख्या बढ्दै गएको देखिन्छ। यसका कारण के के हुन सक्छन्?**
+कृषिमा लाग्ने ६५.७ बाट ५०.६ प्रतिशतमा झरे र गैरकृषिमा ३४.३ बाट ४९.४ प्रतिशत पुगे। कारण:
+(क) शिक्षा बढेपछि युवा जागिर, व्यापार र सेवामा आकर्षित हुनु; (ख) परम्परागत खेतीबाट कम
+आम्दानी, सिँचाइ र बजारको अभाव; (ग) जमिनको खण्डीकरण र बाँझो जमिन; (घ) सहरीकरण र उद्योग,
+होटल, यातायात, निर्माण, बैङ्क जस्ता सेवा क्षेत्रको विस्तार; (ङ) वैदेशिक रोजगारी; (च) सूचना
+प्रविधि र सञ्चारले नयाँ पेसाको अवसर दिनु।
+
+## १०.३ जनसङ्ख्याको वितरण
+
+::: definition जनसङ्ख्या वितरण
+विभिन्न भौगोलिक क्षेत्र, प्रदेश, जिल्ला तथा स्थानीय तहअनुसार जनसङ्ख्या कसरी फैलिएको छ भन्ने
+अवस्थालाई **जनसङ्ख्या वितरण** भनिन्छ।
+:::
+
+नेपालको धरातल, हावापानी, माटो र प्राकृतिक स्रोतमा विविधता भएकाले जनसङ्ख्या सबैतिर
+बराबर छैन। शिक्षा, स्वास्थ्य, यातायात, सञ्चार र रोजगारी जस्ता सेवा सुविधाले पनि वितरणमा
+प्रभाव पार्छन्। वितरणका आधारमा सरकारले क्षेत्रअनुसार योजना बनाउँछ। पाठ्यपुस्तकले वितरणलाई
+चार आधारमा हेरेको छ — **भौगोलिक क्षेत्र, प्रदेश, जिल्ला** र **ग्रामीण–सहरी क्षेत्र**।
+
+### (क) भौगोलिक क्षेत्रअनुसार
+
+| क्षेत्र | वि.सं. २०५८ (%) | वि.सं. २०६८ (%) | वि.सं. २०७८ (%) |
+|---|---|---|---|
+| हिमाल | ७.३० | ६.७३ | ६.०८ |
+| पहाड | ४४.३० | ४३.०१ | ४०.३१ |
+| तराई | ४८.४० | ५०.२७ | ५३.६१ |
+| कुल | १०० | १०० | १०० |
+
+*स्रोत: राष्ट्रिय तथ्याङ्क कार्यालय*
+
+```figure caption="भौगोलिक क्षेत्रअनुसार जनसङ्ख्याको हिस्सा (प्रतिशत)। तराईको हिस्सा हरेक जनगणनामा बढ्दो र हिमाल तथा पहाडको घट्दो छ; २०६८ देखि आधाभन्दा बढी नेपाली तराईमा बस्छन्।"
+import numpy as np
+yrs = ["२०५८", "२०६८", "२०७८"]
+data = {"हिमाल": [7.3, 6.73, 6.08], "पहाड": [44.3, 43.01, 40.31], "तराई": [48.4, 50.27, 53.61]}
+x = np.arange(3); w = 0.26
+fig, ax = plt.subplots(figsize=(5.6, 2.7))
+for k, (name, vals) in enumerate(data.items()):
+    ax.bar(x + (k - 1) * w, vals, w, color=SERIES[k + 1], label=name)
+    for i, v in enumerate(vals):
+        ax.text(x[i] + (k - 1) * w, v + 1.2, f"{v:.1f}", ha="center", fontsize=7.0, color=INK)
+ax.set_xticks(x); ax.set_xticklabels(yrs, fontsize=8.4)
+ax.set_ylim(0, 66); ax.set_ylabel("प्रतिशत", fontsize=8)
+ax.legend(fontsize=7.8, frameon=False, ncol=3, loc="upper left")
+for sp in ("top", "right"): ax.spines[sp].set_visible(False)
+ax.grid(axis="y", color=GRID, lw=0.6); ax.set_axisbelow(True)
+ax.tick_params(axis="y", labelsize=7.4)
+```
+
+तराईको जनसङ्ख्या २०५८ देखि २०७८ सम्म क्रमशः बढेको छ भने हिमाल र पहाडको हिस्सा घट्दै गएको
+छ। समथर र उब्जाउ जमिन, सुगम यातायात, उद्योग, बजार, शिक्षा र स्वास्थ्यको सुविधाका कारण
+हिमाल–पहाडबाट धेरै मानिस तराईमा बसाइँ सरेका छन्।
+
+### (ख) प्रदेशअनुसार
+
+नेपालको संविधानअनुसार नेपाल सात प्रदेशमा विभाजित छ। प्रदेशअनुसार वितरणमा धरातलीय
+स्वरूप, हावापानी र स्रोतसाधनको उपलब्धताले प्रत्यक्ष प्रभाव पार्छ।
+
+| प्रदेश | वि.सं. २०६८ (%) | वि.सं. २०७८ (%) | परिवर्तन |
+|---|---|---|---|
+| कोशी प्रदेश | १७.१२ | १७.०१ | घटेको |
+| मधेश प्रदेश | २०.४० | २०.९७ | बढेको |
+| बागमती प्रदेश | २०.८७ | २०.९७ | बढेको |
+| गण्डकी प्रदेश | ९.०७ | ८.४६ | घटेको |
+| लुम्बिनी प्रदेश | १७.०१ | १७.५६ | बढेको |
+| कर्णाली प्रदेश | ५.८० | ५.७९ | घटेको |
+| सुदूरपश्चिम प्रदेश | ९.६३ | ९.२४ | घटेको |
+
+*स्रोत: राष्ट्रिय तथ्याङ्क कार्यालय*
+
+```figure caption="प्रदेशअनुसार जनसङ्ख्याको हिस्सा, वि.सं. २०६८ र २०७८ (प्रतिशत)। मधेश, बागमती र लुम्बिनीको हिस्सा बढेको छ; बाँकी चार प्रदेशको घटेको छ।"
+import numpy as np
+prov = ["कोशी", "मधेश", "बागमती", "गण्डकी", "लुम्बिनी", "कर्णाली", "सुदूरपश्चिम"]
+a = [17.12, 20.40, 20.87, 9.07, 17.01, 5.80, 9.63]
+b = [17.01, 20.97, 20.97, 8.46, 17.56, 5.79, 9.24]
+x = np.arange(len(prov)); w = 0.38
+fig, ax = plt.subplots(figsize=(5.8, 2.8))
+ax.bar(x - w/2, a, w, color=SERIES[1], label="२०६८")
+ax.bar(x + w/2, b, w, color=SERIES[0], label="२०७८")
+for i in range(len(prov)):
+    ax.text(x[i] + w/2, b[i] + 0.6, f"{b[i]:.1f}", ha="center", fontsize=7.0, color=INK)
+ax.set_xticks(x); ax.set_xticklabels(prov, fontsize=7.8)
+ax.set_ylim(0, 25); ax.set_ylabel("प्रतिशत", fontsize=8)
+ax.legend(fontsize=7.8, frameon=False, ncol=2, loc="upper right")
+for sp in ("top", "right"): ax.spines[sp].set_visible(False)
+ax.grid(axis="y", color=GRID, lw=0.6); ax.set_axisbelow(True)
+ax.tick_params(axis="y", labelsize=7.4)
+```
+
+जनगणना २०७८ अनुसार सबैभन्दा धेरै जनसङ्ख्या **बागमती** र सबैभन्दा कम **कर्णाली** प्रदेशमा
+छ। मधेश दोस्रो स्थानमा छ (बागमती र मधेश दुवैको हिस्सा गोलाउँदा २०.९७ प्रतिशत भए पनि सङ्ख्यामा
+बागमती केही अगाडि छ)। त्यसपछि लुम्बिनी, कोशी, सुदूरपश्चिम र गण्डकी क्रमशः तेस्रो, चौथो,
+पाँचौँ र छैटौँ स्थानमा छन्। वि.सं. २०६८ को तुलनामा मधेश, बागमती र लुम्बिनीबाहेक अरू
+प्रदेशको हिस्सा घटेको छ।
+
+::: caution पाठ्यपुस्तकको वाक्यमा सानो त्रुटि
+पाठमा "२०७८ सालको जनगणनाको तुलनामा … अरू प्रदेशको जनसङ्ख्या प्रतिशत घटेको" लेखिएको छ;
+तुलना **२०६८** सँग गरिएको हो। साथै २०६८ को स्तम्भको जोड ९९.९० आउँछ — पुराना जिल्ला सात
+प्रदेशमा पुनर्गठन गर्दा र गोलाइका कारण यस्तो सानो फरक देखिएको हो; २०७८ को स्तम्भको जोड
+ठ्याक्कै १०० छ।
+:::
+
+### (ग) जिल्लाअनुसार
+
+| धेरै जनसङ्ख्या भएका जिल्ला | जनसङ्ख्या (२०७८) | % | थोरै जनसङ्ख्या भएका जिल्ला | जनसङ्ख्या (२०७८) | % |
+|---|---|---|---|---|---|
+| काठमाडौँ | २०,४१,५८७ | ७.०० | मनाङ | ५,६५८ | ०.०२ |
+| मोरङ | ११,४८,१५६ | ३.९४ | मुस्ताङ | १४,४५२ | ०.०५ |
+| रुपन्देही | ११,२१,९५७ | ३.८५ | डोल्पा | ४२,७७४ | ०.१५ |
+| झापा | ९,९८,०५४ | ३.४२ | रसुवा | ४६,६८९ | ०.१६ |
+| सुनसरी | ९,२६,९६२ | ३.१८ | हुम्ला | ५५,३९४ | ०.१९ |
+
+*स्रोत: राष्ट्रिय तथ्याङ्क कार्यालय*
+
+धेरै जनसङ्ख्या भएका पाँचमध्ये चार जिल्ला (मोरङ, रुपन्देही, झापा, सुनसरी) तराईका र एउटा
+(काठमाडौँ) राजधानी हो; थोरै जनसङ्ख्या भएका पाँचै जिल्ला हिमाली हुन्। केवल पाँच ठुला
+जिल्लामा देशको करिब २१ प्रतिशत (७.०० + ३.९४ + ३.८५ + ३.४२ + ३.१८ = २१.३९) मानिस बस्छन्।
+
+::: example वितरणको हिस्सा र जनघनत्व
+**प्रश्न.** (क) काठमाडौँ जिल्लाको जनसङ्ख्या देशको कति प्रतिशत हो र मनाङको भन्दा कति गुणा
+छ? (ख) नेपालको क्षेत्रफल १,४७,१८१ वर्ग किलोमिटर मान्दा जनगणना २०७८ अनुसार जनघनत्व कति
+हुन्छ?
+
+$$\text{हिस्सा (प्रतिशत)} = \frac{\text{जिल्लाको जनसङ्ख्या}}{\text{देशको कुल जनसङ्ख्या}} \times 100$$
+
+$$\text{जनघनत्व} = \frac{\text{कुल जनसङ्ख्या}}{\text{क्षेत्रफल (वर्ग किलोमिटर)}}$$
+
+**उत्तर.** (क) (२०,४१,५८७ ÷ २,९१,६४,५७८) × १०० = **७.०० प्रतिशत**। २०,४१,५८७ ÷ ५,६५८
+≈ **३६१ गुणा** — यही असमान वितरणको सबैभन्दा ठुलो उदाहरण हो। (ख) जनघनत्व =
+२,९१,६४,५७८ ÷ १,४७,१८१ ≈ **१९८ जना प्रति वर्ग किलोमिटर**। तर यो राष्ट्रिय औसत मात्र हो;
+काठमाडौँमा घना र मनाङ–डोल्पामा अत्यन्त पातलो बस्ती छ।
+:::
+
+### (घ) ग्रामीण र सहरी क्षेत्रअनुसार
+
+अहिले नेपालमा **७५३ स्थानीय तह** छन् — **२९३ नगरपालिका** र **४६० गाउँपालिका**।
+नगरपालिकाको जनसङ्ख्यालाई सहरी र गाउँपालिकाको जनसङ्ख्यालाई ग्रामीण मानिएको छ।
+
+| क्षेत्र | जनसङ्ख्या (२०६८) | % | जनसङ्ख्या (२०७८) | % |
+|---|---|---|---|---|
+| सहरी | ४५,२३,८२० | १७.०७ | १,९२,९६,७८८ | ६६.१७ |
+| ग्रामीण | २,१९,७०,६८४ | ८२.९३ | ९८,६७,७९० | ३३.८३ |
+| कुल | २,६४,९४,५०४ | १०० | २,९१,६४,५७८ | १०० |
+
+*स्रोत: राष्ट्रिय तथ्याङ्क कार्यालय*
+
+```photo id="soc10/market" caption="सहरी बजारको भिड। जनगणना २०७८ अनुसार दुई तिहाइ (६६.१७ प्रतिशत) नेपाली नगरपालिकामा बस्छन्।" width="60"
+```
+
+२०७८ मा सहरी जनसङ्ख्या ६६.१७ र ग्रामीण ३३.८३ प्रतिशत पुग्यो। दस वर्षमै सहरी हिस्सा करिब चार
+गुणा हुनुको मुख्य कारण **सङ्घीय संरचनापछि नगरपालिकाको सङ्ख्या बढ्नु** हो — धेरै गाउँ
+विकास समिति गाभिएर नगरपालिका बने, त्यसैले त्यहाँका मानिस कागजमा "सहरी" भए। यसका साथै
+रोजगारी, शिक्षा र सुविधाका लागि गाउँबाट सहर सर्ने क्रम पनि बढेको छ।
+
+### जनसङ्ख्या वितरण असमान हुनुका कारण
+
+```figure caption="नेपालमा जनसङ्ख्या वितरण असमान हुनुका कारण। प्राकृतिक कारणले हिमाल पातलो र तराई बाक्लो बनाउँछन्; सेवा सुविधा र अवसरले सहर र राजधानीतर्फ मानिस तान्छन्।"
+fig, ax = cards([("धरातल", "समथर तराई सजिलो;\nभिरालो भूभाग कठिन"),
+                 ("हावापानी", "अति चिसो हिमालमा\nबस्न कठिन"),
+                 ("माटो र स्रोत", "उब्जाउ जमिन, पानी,\nवन र खनिज"),
+                 ("यातायात र सञ्चार", "सडक पुगेको ठाउँमा\nबस्ती बढ्छ"),
+                 ("सेवा सुविधा", "विद्यालय, अस्पताल,\nबिजुली, खानेपानी"),
+                 ("रोजगारी र बजार", "उद्योग, व्यापार र\nप्रशासनिक केन्द्र")],
+                cols=3, figsize=(5.9, 2.7), title_size=8.4)
+```
+
+::: note क्रियाकलाप — पाठ १०.३
+**१. जिल्ला तालिका:** माथिको जिल्ला तालिका अध्ययन गरी प्रश्नको उत्तर दिनुहोस्:
+(क) २०७८ अनुसार सबैभन्दा कम जनसङ्ख्या भएको जिल्ला — **मनाङ** (५,६५८ जना, ०.०२%)।
+(ख) सबैभन्दा बढी जनसङ्ख्या भएको जिल्ला — **काठमाडौँ** (२०,४१,५८७ जना, ७%)।
+(ग) जिल्लागत वितरण असमान हुनुका कारण छलफल गरी निष्कर्ष प्रस्तुत गर्नुहोस् — धरातल र
+हावापानी, उब्जाउ जमिन, यातायात, राजधानी र औद्योगिक केन्द्र, शिक्षा–स्वास्थ्य सुविधा र रोजगारीको
+अवसरमा भिन्नता (माथिको चित्र हेर्नुहोस्)।
+**२. प्रदेशको स्तम्भचित्र:** प्रदेशअनुसार वितरण स्तम्भचित्रमा देखाएर विश्लेषण गर्नुहोस् (माथिको
+चित्र हेर्नुहोस्)।
+**३. सहरी जनसङ्ख्या:** २०६८ भन्दा २०७८ मा सहरी जनसङ्ख्या किन बढ्यो, कारण खोजी गरी प्रस्तुत
+गर्नुहोस् — नगरपालिकाको सङ्ख्या बढ्नु, रोजगारी, शिक्षा, स्वास्थ्य र सुविधाका लागि बसाइँसराइ,
+सडक र बजारको विस्तार।
+**४. स्थानीय तहको स्तम्भचित्र:** आफ्नो स्थानीय तहको (वडागत) जनसङ्ख्या स्तम्भचित्रमा देखाई
+कक्षामा टाँस्नुहोस्।
+**५. भौगोलिक प्रवृत्ति:** भौगोलिक क्षेत्रअनुसार वितरणको प्रवृत्ति उल्लेख गर्नुहोस् — तराई बढ्दो
+(४८.४ → ५३.६१), पहाड (४४.३ → ४०.३१) र हिमाल (७.३ → ६.०८) घट्दो।
+:::
+
+### पाठको अभ्यास: नमुना उत्तर
+
+**१. जनसङ्ख्याको वितरण भनेको के हो?**
+विभिन्न भौगोलिक क्षेत्र, प्रदेश, जिल्ला तथा स्थानीय तहअनुसार जनसङ्ख्या कसरी फैलिएको छ भन्ने
+अवस्थालाई जनसङ्ख्याको वितरण भनिन्छ। जस्तै, जनगणना २०७८ अनुसार ५३.६१ प्रतिशत मानिस
+तराईमा, ४०.३१ प्रतिशत पहाडमा र ६.०८ प्रतिशत मात्र हिमालमा बस्छन्। वितरणका आधारमा सरकारले
+क्षेत्रअनुसार योजना बनाउँछ।
+
+**२. नेपालको भौगोलिक क्षेत्रअनुसार जनसङ्ख्याको वितरणको अवस्था उल्लेख गर्नुहोस्।**
+वि.सं. २०५८ मा हिमाल ७.३, पहाड ४४.३ र तराई ४८.४ प्रतिशत; २०६८ मा हिमाल ६.७३, पहाड ४३.०१ र
+तराई ५०.२७ प्रतिशत; २०७८ मा हिमाल ६.०८, पहाड ४०.३१ र तराई ५३.६१ प्रतिशत जनसङ्ख्या थियो।
+तराईको हिस्सा निरन्तर बढेर २०६८ देखि आधाभन्दा बढी पुगेको छ; हिमाल र पहाडको हिस्सा घट्दो छ।
+समथर उब्जाउ जमिन, यातायात, उद्योग, बजार र सेवा सुविधाका कारण मानिस तराईतर्फ सरेका छन्।
+
+**३. भौगोलिक क्षेत्रअनुसार र प्रदेशअनुसार जनसङ्ख्याको वितरण समान रूपमा भएको पाइँदैन,
+यसका कारण उल्लेख गर्नुहोस्।**
+(क) **धरातल:** तराई समथर भएकाले घर, सडक र खेती सजिलो; हिमाल–पहाड भिरालो र विकट।
+(ख) **हावापानी:** हिमालको अति चिसो हावापानीमा बस्न र खेती गर्न कठिन। (ग) **माटो र स्रोत:**
+तराई र बेँसीको उब्जाउ माटो र सिँचाइले धेरै मानिस पाल्न सक्छ। (घ) **यातायात र सञ्चार:**
+सडक सञ्जाल तराई र मध्य पहाडका सहरमा बढी छ। (ङ) **सेवा सुविधा:** राम्रा विद्यालय, क्याम्पस
+र अस्पताल बागमती र तराईका सहरमा केन्द्रित छन्। (च) **रोजगारी र उद्योग:** उद्योग, व्यापार र
+प्रशासनिक केन्द्र काठमाडौँ, विराटनगर, वीरगञ्ज, भैरहवा जस्ता ठाउँमा छन्। (छ) **प्राकृतिक
+प्रकोप:** पहिरो र बाढीको जोखिम भएका ठाउँबाट मानिस सर्छन्। यिनै कारण बागमती, मधेश र
+लुम्बिनीमा धेरै र कर्णाली तथा गण्डकीमा थोरै जनसङ्ख्या छ।
+
+**४. नेपालमा रहेको जनसङ्ख्या वितरणको असमान अवस्थालाई कसरी न्यूनीकरण गर्न सकिन्छ,
+सुझाव प्रस्तुत गर्नुहोस्।**
+(क) हिमाल, पहाड र कर्णाली–सुदूरपश्चिम जस्ता पिछडिएका क्षेत्रमा सडक, बिजुली, सञ्चार र
+खानेपानी पुर्‍याउने; (ख) गुणस्तरीय विद्यालय, क्याम्पस र अस्पताल गाउँ–गाउँमा स्थापना गर्ने;
+(ग) स्थानीय स्रोतमा आधारित उद्योग, कृषि (फलफूल, जडीबुटी, पशुपालन) र पर्यटनबाट रोजगारी
+सिर्जना गर्ने; (घ) प्रदेश र स्थानीय तहलाई बजेट र अधिकार दिएर सन्तुलित विकास गर्ने; (ङ)
+सबै सरकारी सेवा, उद्योग र प्रशासनिक केन्द्र राजधानीमै थुपार्न नदिने; (च) व्यवस्थित बसोबास
+र भूउपयोग योजना लागु गर्ने; (छ) पहाडी क्षेत्रमा उत्पादन गर्नेलाई अनुदान र बजार सुविधा दिने।
+
+## १०.४ पारिवारिक योजना र गुणस्तरीय जीवन
+
+### पारिवारिक योजनाको परिचय
+
+पारिवारिक जीवनलाई स्वस्थ र व्यवस्थित बनाउन योजना चाहिन्छ। परिवारका सदस्यबिचको सुमधुर
+सम्बन्धले योजना बनाउन सघाउँछ र उपयुक्त योजनाले स्वस्थ, सुखी र गुणस्तरीय जीवन दिन्छ।
+
+::: definition पारिवारिक योजना
+आम्दानी तथा अन्य स्रोतको उचित व्यवस्थापन र परिचालनबाट परिवारका सदस्यलाई सुखी
+जीवनयापन गराउने योजनालाई **पारिवारिक योजना** भनिन्छ।
+:::
+
+::: caution पारिवारिक योजना र परिवार नियोजन फरक हुन्
+**परिवार नियोजन** भनेको बच्चा कति र कहिले जन्माउने भन्ने निर्णय र त्यसका साधनको प्रयोग मात्र
+हो। **पारिवारिक योजना** त्योभन्दा फराकिलो छ — आम्दानी, खर्च, बचत, बालबालिकाको शिक्षा,
+ज्येष्ठ नागरिकको हेरचाह र सामाजिक जिम्मेवारी सबै यसमा पर्छन्। परिवार नियोजन पारिवारिक
+योजनाको एउटा अङ्ग मात्र हो।
+:::
+
+**पारिवारिक योजनामा महत्त्व दिनुपर्ने कार्य:**
+
+- (क) घरपरिवार चलाउन आर्थिक स्रोत जुटाउनुपर्छ।
+- (ख) उपलब्ध स्रोतको सही परिचालन गर्नुपर्छ।
+- (ग) आवश्यकताअनुसार बच्चा जन्माउने र उचित जन्मान्तर कायम राख्नुपर्छ।
+- (घ) सामाजिक परिवेशमा समायोजन हुन सामाजिकीकरणका क्रियाकलापमा सहभागी हुनुपर्छ।
+- (ङ) आपसी सरसल्लाह र निर्णयका आधारमा पारिवारिक जिम्मेवारी पूरा गर्नुपर्छ।
+- (च) बालबच्चाको हेरचाह तथा शिक्षादीक्षाको व्यवस्था गर्नुपर्छ।
+- (छ) ज्येष्ठ नागरिकप्रति उचित स्याहार, हेरचाह र सम्मान गर्नुपर्छ।
+
+### पारिवारिक योजनाको महत्त्व
+
+मानिसको जीवन भ्रूण अवस्थाबाट सुरु भई मृत्युपश्चात् समाप्त हुन्छ। यो जीवन सुखमय बनाउन
+सही योजना बनाएर त्यसैअनुरूप पारिवारिक जीवन चलाउनुपर्छ। पारिवारिक योजनाले:
+
+- १. परिवारका सदस्यबिच सुमधुर सम्बन्ध कायम गर्छ।
+- २. परिवारका सदस्य र आर्थिक स्रोतबिच समन्वय कायम गर्न मदत गर्छ।
+- ३. परिवारमा अनावश्यक खर्च घटाउँछ।
+- ४. उद्यमशील बन्न प्रेरणा दिन्छ।
+- ५. स्तनपानलाई प्रोत्साहन दिई आमा र शिशुको स्वास्थ्य सुरक्षा गर्छ।
+- ६. व्यक्ति र परिवारको स्वास्थ्य तथा जीवनस्तर उकास्न मदत गर्छ।
+- ७. सुखी र आरामदायी परिवार बनाउन सहयोग गर्छ।
+- ८. आवश्यकताअनुसार मात्र बच्चा जन्माउन र उचित जन्मान्तर राख्न प्रेरित गर्छ।
+- ९. जनसङ्ख्या वृद्धि नियन्त्रणका लागि अनुकूल वातावरण बनाउँछ।
+- १०. नवदम्पती र आमाबुबालाई आफ्नो दायित्व सफल र प्रभावकारी ढङ्गले निर्वाह गर्न सक्ने बनाउँछ।
+
+::: example दुई परिवारको तुलना
+**प्रश्न.** रमेश र सीताको परिवारले आम्दानीको हिसाब राखेर बचत गर्छ, दुई बच्चाबिच चार वर्षको
+अन्तर राखेको छ र दुवैलाई राम्रो विद्यालयमा पढाउँछ। उनीहरूका छिमेकी हरिको परिवारले कुनै
+योजना नबनाई छ सन्तान जन्मायो, ऋण लिएर चाडपर्वमा धेरै खर्च गर्छ। कुन परिवारको जीवन बढी
+गुणस्तरीय होला र किन?
+
+**उत्तर.** रमेश–सीताको परिवारको। (क) आम्दानी र खर्चको सन्तुलनले ऋणको भार छैन; (ख) उचित
+जन्मान्तरले आमा र बच्चाको स्वास्थ्य राम्रो रहन्छ; (ग) थोरै बच्चा भएकाले हरेकलाई पोषण, शिक्षा
+र हेरचाह पुग्छ; (घ) बचतले बिरामी पर्दा वा आकस्मिक अवस्थामा सहारा दिन्छ। हरिको परिवारमा
+स्रोत धेरै सदस्यमा बाँडिँदा पोषण, शिक्षा र स्वास्थ्य सबै कमजोर हुन्छ र ऋणले तनाव बढाउँछ।
+यसैले पारिवारिक योजना गुणस्तरीय जीवनको मुख्य आधार हो।
+:::
+
+### गुणस्तरीय जीवन
+
+गुणस्तरीय जीवनका लागि भौतिक सेवा सुविधासँगै मनोवैज्ञानिक र आध्यात्मिक आवश्यकता पनि
+पूरा हुनुपर्छ। आधारभूत आवश्यकताका साथै सामाजिक, सांस्कृतिक, आर्थिक र मनोवैज्ञानिक
+आवश्यकता पूरा हुनुपर्छ।
+
+::: definition गुणस्तरीय जीवन
+सुख र सन्तुष्टिका साथ मानव जीवनमा आवश्यक पर्ने सबै सेवा सुविधा परिपूर्ति भएको अवस्थालाई
+**गुणस्तरीय जीवन** भनिन्छ।
+:::
+
+**गुणस्तरीय जीवनका उपाय:** स्वास्थ्य सेवाको सर्वसुलभता र उपयोग; गुणस्तरीय शिक्षा प्राप्ति;
+सन्तुलित भोजनको प्रचुरता र नियमित प्रयोग; आवास, सञ्चारलगायतका सुविधा; फोहोरमैलाको
+उचित व्यवस्थापन र स्वच्छ वातावरणीय सन्तुलन; रोजगारी सिर्जना; सिपमूलक र आयमूलक कार्यक्रम;
+प्रजनन तथा यौन रोगसम्बन्धी समस्याको पहिचान र समाधान।
+
+कुनै देशका जनताको जीवनको गुणस्तरलाई त्यस देशको जनसाङ्ख्यिक, आर्थिक, सामाजिक,
+सांस्कृतिक, राजनीतिक र शैक्षिक अवस्थाले तथा उपलब्ध स्रोतसाधन, विकास प्रक्रिया र वातावरणीय
+अवस्थाले प्रभाव पार्छन्।
+
+### गुणस्तरीय जीवनका आधार
+
+```figure caption="पाठ्यपुस्तकमा दिइएका गुणस्तरीय जीवनका छ आधार। पहिला तीन आधार मापन गर्ने सूचक हुन्; पछिल्ला तीन जीवनको अवस्था र पारिवारिक कर्तव्यसँग जोडिएका छन्।"
+fig, ax = cards([("१. आधारभूत आवश्यकता", "गाँस, बास, कपास, शिक्षा,\nस्वास्थ्य, पानी, सरसफाइ"),
+                 ("२. भौतिक जीवनस्तर सूचक", "बाल मृत्युदर, औसत आयु,\nसाक्षरता; ० देखि १००"),
+                 ("३. मानव विकास सूचकाङ्क", "आय, शिक्षा, औसत आयु;\n० देखि १; सन् १९९०"),
+                 ("४. स्वस्थ र दीर्घ जीवन", "राम्रो स्वास्थ्य र\nलामो औसत आयु"),
+                 ("५. खुसीपन", "मानवीय खुसी र\nसन्तुष्टिको वृद्धि"),
+                 ("६. सन्तानको पालनपोषण", "भरणपोषण, शिक्षादीक्षा,\nउचित जन्मान्तर")],
+                cols=2, figsize=(5.6, 3.8), title_size=8.6)
+```
+
+**१. आधारभूत आवश्यकता परिपूर्ति:** व्यक्ति वा परिवारको गुणस्तरीय जीवन मापन वा तुलना गर्ने
+महत्त्वपूर्ण आधार आधारभूत आवश्यकताको परिपूर्ति हो। **सन् १९७० को दशकदेखि** यसलाई गुणस्तरीय
+जीवनको सूचक मान्न थालियो। आधारभूत आवश्यकतामा **खाद्यान्न, लत्ताकपडा, आवास, शिक्षा,
+स्वास्थ्य, खानेपानी र सरसफाइ** पर्छन्। यी पूरा भएमा जीवनमा सुधार आउँछ।
+
+**२. भौतिक जीवनस्तरका सूचक:** यसमा **पाँच वर्षमुनिको बाल मृत्युदर, औसत आयु र साक्षरता दर**
+गरी तीन तत्त्व पर्छन्। ० देखि १०० अङ्कको आधारमा बढी अङ्क पाउने देशलाई उच्चस्तरको गुणस्तरीय
+जीवन भएको मानिन्छ। हाल यसको मापन पनि मानव विकास सूचकाङ्कबाटै हेर्ने गरिन्छ।
+
+**३. मानव विकास सूचकाङ्क:** मानव विकास मापन गर्ने सबैभन्दा महत्त्वपूर्ण र लोकप्रिय सूचकाङ्क
+हो। **संयुक्त राष्ट्रसङ्घीय विकास कार्यक्रमले सन् १९९०** मा सर्वप्रथम यसलाई प्रचलनमा ल्यायो।
+यसले **प्रतिव्यक्ति आय, शैक्षिक स्तर र औसत आयु** गरी तीन आयामका आधारमा मापन गर्छ। ० देखि
+१ को मानमा बढी अङ्क पाउने देशलाई उच्चस्तरको गुणस्तरीय जीवन भएको मानिन्छ।
+
+**४. स्वस्थ र दीर्घ जीवन:** जनताको स्वास्थ्य राम्रो भए औसत आयु बढ्छ। औसत आयु बढ्नुले
+जीवनशैली, वस्तु तथा सेवाको उपलब्धता, पौष्टिक आहार र स्वास्थ्य उपचारमा देशले गरेको उन्नति
+झल्काउँछ। नेपालीको औसत आयु ७१.३ वर्ष पुग्नु यसैको सङ्केत हो।
+
+**५. खुसीपन वा आनन्दीपन:** मानवीय खुसी, सन्तुष्टि र आनन्दलाई महत्त्व दिएर खुसीपन सूचक
+बनाइएको हो। यसअनुसार मानिसको खुसी वा सन्तुष्टि बढ्नु नै गुणस्तरीय जीवन हो — धन मात्र होइन,
+सम्बन्ध, स्वास्थ्य र मानसिक शान्ति पनि चाहिन्छ।
+
+**६. सन्तानको भरणपोषण र शिक्षा:** सन्तान जन्माएपछि उनीहरूको भरणपोषण र उचित शिक्षादीक्षा
+दिनु आमाबुबाको पहिलो कर्तव्य हो। गुणस्तरीय जीवनका लागि परिवारको आकार महत्त्वपूर्ण हुन्छ।
+आवश्यकताअनुसार बच्चा जन्माउने र उचित जन्मान्तर राख्ने निर्णयले छोराछोरीको भरणपोषण र
+शिक्षामा सहयोग पुग्छ।
+
+```figure caption="पारिवारिक योजना र गुणस्तरीय जीवनको अन्योन्याश्रित सम्बन्ध। योजनाले सुखी परिवार बनाउँछ, सुखी परिवारले फेरि राम्रो योजना बनाउन सघाउँछ।"
+fig, ax = cycle(["पारिवारिक\nयोजना", "स्रोतको\nव्यवस्थित\nउपयोग", "खुसी र\nसुखी\nपरिवार", "सुमधुर\nसम्बन्ध", "उचित\nलालनपालन\nर शिक्षा"],
+                centre="गुणस्तरीय\nजीवन", figsize=(4.6, 3.6))
+```
+
+पारिवारिक योजना र गुणस्तरीय जीवनबिच **अन्योन्याश्रित** (एकअर्कामा निर्भर) सम्बन्ध छ। परिवारमा
+भएको स्रोत योजनाबद्ध र व्यवस्थित ढङ्गले उपयोग गरे खुसी र सुखी परिवार बन्छ। सुखी परिवारमा
+सदस्यबिच सुमधुर सम्बन्ध रहन्छ, जसले परिवारको आकार, छोराछोरीको उचित लालनपालन र रेखदेखमा
+मदत गर्छ। त्यसैले **व्यवस्थित पारिवारिक योजना नै गुणस्तरीय जीवनको मुख्य आधार** हो।
+
+```photo id="soc10/school-girls" caption="विद्यालय जाँदै छात्राहरू। सन्तानको भरणपोषण र शिक्षादीक्षा गुणस्तरीय जीवनको आधार हो; छोरी–छोरा दुवैलाई समान अवसर दिनु पारिवारिक योजनाको अङ्ग हो।" width="60"
+```
+
+::: note क्रियाकलाप — पाठ १०.४
+**१. मेरो योजना:** आफ्नो परिवार र समुदायको जीवन गुणस्तरीय बनाउन के ठोस र रचनात्मक काम गर्न
+सक्नुहुन्छ, योजना प्रस्तुत गर्नुहोस्। (सङ्केत: घरको आम्दानी–खर्चको हिसाब राख्न सघाउने, करेसाबारी
+लगाउने, फोहोर छुट्याउने, साना भाइबहिनीलाई पढाउने, ज्येष्ठ नागरिकको हेरचाह गर्ने, टोल सरसफाइ
+अभियान चलाउने।)
+**२. दिदीलाई चिठी:** सहरमा व्यस्त जीवन बिताइरहेकी दिदीलाई पारिवारिक योजना बनाएर जीवन
+गुणस्तरीय बनाउन सल्लाह दिँदै चिठी लेख्नुहोस् — मासिक बजेट र बचत, समय व्यवस्थापन, व्यायाम र
+स्वस्थ खाना, परिवारसँग समय बिताउने, आवश्यकताअनुसार सन्तान र उचित जन्मान्तर।
+**३. पोस्टर:** समुदायमा पारिवारिक योजनाको महत्त्वबारे जनचेतना जगाउने पोस्टर बनाउनुहोस्
+(जस्तै "योजनाबद्ध परिवार, सुखी संसार")।
+:::
+
+### पाठको अभ्यास: नमुना उत्तर
+
+**१. पारिवारिक योजनाको परिचय दिनुहोस्।**
+आम्दानी तथा अन्य स्रोतको उचित व्यवस्थापन र परिचालनबाट परिवारका सदस्यलाई सुखी जीवनयापन
+गराउने योजनालाई पारिवारिक योजना भनिन्छ। यसमा आर्थिक स्रोत जुटाउने, स्रोतको सही परिचालन
+गर्ने, आवश्यकताअनुसार बच्चा जन्माउने र उचित जन्मान्तर राख्ने, बालबालिकाको शिक्षा तथा ज्येष्ठ
+नागरिकको हेरचाह गर्ने काम पर्छन्। परिवारका सदस्यबिचको सुमधुर सम्बन्धले यस्तो योजना बनाउन
+सघाउँछ र यसले स्वस्थ, सुखी र गुणस्तरीय जीवन दिन्छ।
+
+**२. पारिवारिक योजनाअन्तर्गत गर्नुपर्ने कार्यको सूची बनाउनुहोस्।**
+(क) घरपरिवार चलाउन आर्थिक स्रोत जुटाउने; (ख) उपलब्ध स्रोतको सही परिचालन गर्ने; (ग)
+आवश्यकताअनुसार बच्चा जन्माउने र उचित जन्मान्तर राख्ने; (घ) सामाजिकीकरणका क्रियाकलापमा
+सहभागी भई सामाजिक परिवेशमा समायोजन हुने; (ङ) आपसी सरसल्लाह र निर्णयका आधारमा पारिवारिक
+जिम्मेवारी पूरा गर्ने; (च) बालबच्चाको हेरचाह र शिक्षादीक्षाको व्यवस्था गर्ने; (छ) ज्येष्ठ नागरिकको
+उचित स्याहार, हेरचाह र सम्मान गर्ने।
+
+**३. पारिवारिक योजनाले गुणस्तरीय जीवन प्राप्तिमा कसरी सहयोग पुर्‍याउँछ, उल्लेख गर्नुहोस्।**
+(क) आम्दानी र खर्चको सन्तुलनले अनावश्यक खर्च घटाउँछ र बचत बढाउँछ; (ख) उचित जन्मान्तर र
+स्तनपानले आमा–शिशुको स्वास्थ्य जोगाउँछ; (ग) सानो परिवारमा हरेक सन्तानलाई पोषण, शिक्षा र
+हेरचाह पुग्छ; (घ) उद्यमशील बन्न प्रेरित गरेर आम्दानी बढाउँछ; (ङ) सदस्यबिच सुमधुर सम्बन्ध र
+आपसी सल्लाहले मानसिक शान्ति र खुसी दिन्छ; (च) ज्येष्ठ नागरिकको हेरचाह सुनिश्चित हुन्छ;
+(छ) जनसङ्ख्या वृद्धि नियन्त्रणमा सघाउँछ। यसरी आधारभूत आवश्यकता, स्वास्थ्य, शिक्षा र खुसी —
+गुणस्तरीय जीवनका सबै आधार पारिवारिक योजनाबाटै पूरा हुन्छन्।
+
+**४. गुणस्तरीय जीवनका आधार उल्लेख गर्दै कुनै दुई आधारको छोटकरीमा व्याख्या गर्नुहोस्।**
+आधार: (१) आधारभूत आवश्यकता परिपूर्ति, (२) भौतिक जीवनस्तरका सूचक, (३) मानव विकास
+सूचकाङ्क, (४) स्वस्थ र दीर्घ जीवन, (५) खुसीपन वा आनन्दीपन, (६) सन्तानको भरणपोषण र शिक्षा।
+**आधारभूत आवश्यकता परिपूर्ति:** खाद्यान्न, लत्ताकपडा, आवास, शिक्षा, स्वास्थ्य, खानेपानी र
+सरसफाइ पूरा भएमा जीवनमा सुधार आउँछ; सन् १९७० को दशकदेखि यसलाई गुणस्तरीय जीवनको सूचक
+मानिन्छ। **मानव विकास सूचकाङ्क:** संयुक्त राष्ट्रसङ्घीय विकास कार्यक्रमले सन् १९९० मा सुरु
+गरेको यो सूचकाङ्कले प्रतिव्यक्ति आय, शैक्षिक स्तर र औसत आयुका आधारमा ० देखि १ बिच मान दिन्छ;
+बढी मान पाउने देशमा उच्चस्तरको गुणस्तरीय जीवन मानिन्छ।
+
+**५. सन्तानको उचित भरणपोषण र शिक्षादीक्षाले कसरी गुणस्तरीय जीवनमा प्रभाव पार्छ, उल्लेख
+गर्नुहोस्।**
+(क) पोसिलो खाना र स्याहार पाएका बालबालिका स्वस्थ हुन्छन्, रोग कम लाग्छ र औसत आयु बढ्छ;
+(ख) शिक्षाले ज्ञान र सिप दिएर राम्रो रोजगारी र आम्दानीको बाटो खोल्छ; (ग) शिक्षित सन्तान
+अनुशासित, जिम्मेवार र असल नागरिक बन्छन्; (घ) उनीहरूले बुढेसकालमा आमाबुबाको हेरचाह गर्न
+सक्छन्; (ङ) शिक्षित सन्तानले आफ्नो परिवार पनि योजनाबद्ध बनाउँछन्, त्यसैले गुणस्तरीय जीवन
+पुस्तौँसम्म सर्छ। यसका लागि आवश्यकताअनुसार मात्र बच्चा जन्माउने र उचित जन्मान्तर राख्ने निर्णय
+पहिलो सर्त हो।
+
+## १०.५ जनसङ्ख्या र वातावरणबिचको अन्तरसम्बन्ध
+
+कक्षा १० मा शिक्षकले जनसङ्ख्या र वातावरणसँग सम्बन्धित दुई तस्बिर देखाउनुहुन्छ — चित्र १ मा
+एउटा धार्मिक सम्पदा र नदी सफा छन्; चित्र २ मा त्यही सम्पदा वरपर फोहोर छ र नदीको पानी पनि
+फोहोर छ। शिक्षकले तीन प्रश्न सोध्नुहुन्छ: (क) यी तस्बिर कहाँका हुन्? (ख) दुईबिच के फरक छ?
+(ग) चित्र २ जस्तो अवस्था किन आयो?
+
+### कक्षाको छलफलका मुख्य कुरा
+
+- **समिर:** दुवै तस्बिर धार्मिक र प्राकृतिक सम्पदासँग सम्बन्धित छन्। चित्र १ मा सम्पदा वरपर
+  सफा र नदीमा सफा पानी छ; चित्र २ मा फोहोर।
+- **गीता:** मानिसको बसोबास बढ्दै जाँदा नदी फोहोर भयो। सहर–बजारमा जथाभावी फोहोर गरिन्छ;
+  गाडी र कलकारखानाको धुवाँधुलोले वातावरण बिगार्छ; चेतनाको कमीले नदी, खोला र सडकमा फोहोर
+  फालिन्छ; नदी किनारमा अव्यवस्थित बसोबास बढ्छ; धेरै मानिस भएको ठाउँमा व्यवस्थापनमा ध्यान
+  पुग्दैन।
+- **शिक्षक:** जनसङ्ख्या र वातावरण एकअर्कामा अन्तरसम्बन्धित छन्। स्वच्छ हावा, शुद्ध पानी र खाना
+  वातावरणबाटै पाइन्छ; वातावरणको संरक्षण वा विनाश मानिसकै हातमा छ।
+- **समिर:** उद्योगधन्दाले प्रदूषण गरेको र वनजङ्गल जथाभावी काटेर नाङ्गो जमिन देखिएको चित्र
+  हाम्रै देशको जस्तो लाग्छ।
+- **शिक्षक:** वातावरण परिवर्तनका **तीन मुख्य कारण** — **जनसङ्ख्या वृद्धि, प्राकृतिक स्रोतको
+  बढी प्रयोग र सहरीकरण**।
+
+```photo id="soc10/ktm-haze" caption="धुवाँ र धुलोले ढाकिएको काठमाडौँ उपत्यका। जनसङ्ख्या, सवारी साधन र निर्माण बढेको ठाउँमा वायु प्रदूषण बढ्छ।" width="62"
+```
+
+### जनसङ्ख्या वृद्धिले वातावरणमा पार्ने असर
+
+जनसङ्ख्या बढ्दा त्यसको प्रत्यक्ष असर वातावरणमा पर्छ। शिक्षकका अनुसार:
+
+- १. पानी, जमिन र वनजङ्गलको **जथाभावी प्रयोग** हुन्छ।
+- २. हावा, पानी र माटो **प्रदूषित** हुन्छन्।
+- ३. उब्जाउ जमिनको **उर्वराशक्ति नष्ट** हुँदै जान्छ।
+- ४. **बाढी, पहिरो र भूक्षय** जस्ता समस्या बढ्छन्।
+- ५. **रोग र महामारी** फैलन्छन्।
+- ६. यी सबैले प्राणी जगत्लाई बाँच्न कठिन बनाउँछन्। त्यसैले जनसङ्ख्या र वातावरणबिच
+  **सन्तुलन** अनिवार्य छ।
+
+```figure caption="जनसङ्ख्या र वातावरणको अन्तरसम्बन्ध। जनसङ्ख्या बढ्दा स्रोतको माग बढ्छ, अति प्रयोगले प्रदूषण र प्रकोप ल्याउँछ र बिग्रिएको वातावरणले फेरि मानिसकै स्वास्थ्य र जीविकामा असर गर्छ।"
+fig, ax = cycle(["जनसङ्ख्या\nवृद्धि", "स्रोतको\nमाग र\nअति प्रयोग", "प्रदूषण,\nवन विनाश", "बाढी,\nपहिरो,\nभूक्षय", "रोग र\nजीविका\nसङ्कट"],
+                centre="सन्तुलन\nआवश्यक", figsize=(4.6, 3.6))
+```
+
+### समाधानका उपाय
+
+शिक्षकले सुझाएका उपाय: (क) वातावरण विनाश र प्रदूषणको असरबारे **जनचेतनामूलक कार्यक्रम**;
+(ख) वनजङ्गल फँडानी नगर्ने र खाली जमिनमा **वृक्षरोपण** गर्ने; (ग) उद्योग र कलकारखाना **मानव
+बस्तीबाट टाढा** राख्ने; (घ) **व्यवस्थित सहरीकरण**; (ङ) खोला–नदी जस्ता जल सम्पदामा जथाभावी
+फोहोर नफाल्ने।
+
+::: note क्रियाकलाप — पाठ १०.५
+**१. समुदायको खोजी:** आफ्नो समुदायका मानिसले वातावरण संरक्षणका लागि गरेका काम (सामुदायिक
+वन, सरसफाइ अभियान, फोहोर छुट्याउने, खोला सफाइ, वृक्षरोपण, पानीको मुहान संरक्षण) खोजी गरी
+कक्षामा प्रस्तुत गर्नुहोस्।
+**२. गीत वा कविता:** "वातावरण संरक्षणमा विद्यार्थीको भूमिका" शीर्षकमा गीत वा कविता तयार
+पारी कक्षामा प्रस्तुत गर्नुहोस्।
+:::
+
+### पाठको अभ्यास: नमुना उत्तर
+
+**१. जनसङ्ख्या र वातावरणबिचको अन्तरसम्बन्धको व्याख्या गर्नुहोस्।**
+जनसङ्ख्या र वातावरण एकअर्कामा निर्भर छन्। **वातावरणले मानिसलाई** स्वच्छ हावा, शुद्ध पानी,
+खाना, काठ, ऊर्जा र बसोबासको ठाउँ दिन्छ; राम्रो वातावरणमा मानिस सजिलै हुर्कन्छ र आवश्यकता पूरा
+गर्छ। **मानिसले वातावरणलाई** प्रभाव पार्छ — जनसङ्ख्या बढ्दा पानी, जमिन र वनको जथाभावी प्रयोग
+हुन्छ; हावा, पानी र माटो प्रदूषित हुन्छन्; जमिनको उर्वराशक्ति घट्छ; बाढी, पहिरो र भूक्षय बढ्छन्।
+बिग्रिएको वातावरणले फेरि रोग, महामारी, खाद्य अभाव र गरिबी ल्याएर मानिसलाई नै दुःख दिन्छ।
+जनसङ्ख्या वृद्धि, प्राकृतिक स्रोतको बढी प्रयोग र सहरीकरण वातावरण परिवर्तनका मुख्य कारण हुन्।
+त्यसैले वातावरणको संरक्षण वा विनाश मानिसकै हातमा छ र दुवैबिच सन्तुलन अनिवार्य छ।
+
+**२. जनसङ्ख्या वृद्धिका कारणले कसरी वातावरण प्रदूषण हुन्छ, उल्लेख गर्नुहोस्।**
+(क) सहर–बजारमा मानिस बढ्दा फोहोर बढ्छ र जथाभावी फालिन्छ; (ख) सवारी साधन र कलकारखाना
+बढ्दा धुवाँधुलोले वायु प्रदूषण हुन्छ; (ग) ढल र फोहोर नदी–खोलामा मिसिँदा जल प्रदूषण हुन्छ; (घ)
+नदी किनार र सार्वजनिक जग्गामा अव्यवस्थित बसोबास बढ्छ; (ङ) बढी अन्न उब्जाउन रासायनिक मल र
+विषादीको प्रयोग बढ्दा माटो प्रदूषित हुन्छ; (च) खेती र बस्तीका लागि वन फँडानी हुन्छ; (छ) धेरै
+मानिस भएको ठाउँमा व्यवस्थापन गर्न नसकिँदा र चेतनाको कमीले प्रदूषण झन् बढ्छ।
+
+**३. वातावरण प्रदूषण नियन्त्रणका लागि व्यक्ति, परिवार, समुदाय र स्थानीय सरकारले कस्तो भूमिका
+निर्वाह गर्नुपर्छ, सुझाव प्रस्तुत गर्नुहोस्।**
+**व्यक्ति:** फोहोर तोकिएको ठाउँमा मात्र फाल्ने, प्लास्टिक कम प्रयोग गर्ने, बोटबिरुवा रोप्ने, नजिक
+हिँडेर वा साइकलमा जाने। **परिवार:** घरमै कुहिने र नकुहिने फोहोर छुट्याउने, कुहिने फोहोरबाट
+प्राङ्गारिक मल बनाउने, पानी र बिजुली बचत गर्ने, धुवाँरहित चुलो प्रयोग गर्ने। **समुदाय:** सरसफाइ
+अभियान, सामुदायिक वन संरक्षण, खोला सफाइ, जनचेतना कार्यक्रम र खुला ठाउँमा फोहोर फाल्नेलाई
+सामाजिक दबाब। **स्थानीय सरकार:** फोहोरमैला सङ्कलन र व्यवस्थापन, ढल प्रशोधन, उद्योगलाई
+बस्तीबाट टाढा राख्ने र मापदण्ड लागु गर्ने, व्यवस्थित सहरी योजना, हरियाली क्षेत्र र वृक्षरोपण।
+
+**४. वातावरण संरक्षणका उपायको सूची बनाउनुहोस्।**
+(क) वन फँडानी रोक्ने र खाली जमिनमा वृक्षरोपण; (ख) जनचेतनामूलक कार्यक्रम; (ग) उद्योग
+कलकारखाना बस्तीबाट टाढा स्थापना र धुवाँ–फोहोर प्रशोधन; (घ) व्यवस्थित सहरीकरण; (ङ) नदी–खोला
+र जल सम्पदामा फोहोर नफाल्ने; (च) फोहोर घटाउने, पुनः प्रयोग र पुनः प्रशोधन; (छ) रासायनिक मल
+र विषादीको सट्टा प्राङ्गारिक मल; (ज) सार्वजनिक यातायात र स्वच्छ ऊर्जा (जलविद्युत्, सौर्य) को
+प्रयोग; (झ) जनसङ्ख्या व्यवस्थापन र पारिवारिक योजना।
+
+## १०.६ सामुदायिक स्वास्थ्य
+
+::: definition सामुदायिक स्वास्थ्य
+समुदायका लागि समुदायकै व्यक्तिले समुदायमा रहेका स्वास्थ्य समस्या पहिचान गरी समाधान गर्न र
+व्यक्तिगत तथा वातावरणीय स्वास्थ्यमा सुधार ल्याउन गरिने क्रियाकलापलाई **सामुदायिक स्वास्थ्य**
+भनिन्छ।
+:::
+
+स्वास्थ्य शिविर, घरदैलो स्वास्थ्य सेवा, जुकाको औषधि खुवाउने अभियान र घुम्ती स्वास्थ्य शिविर
+सामुदायिक स्वास्थ्यका गतिविधि हुन्। यसका लागि व्यक्ति, परिवार, समुदाय र राष्ट्रको संयुक्त प्रयास
+चाहिन्छ; स्वास्थ्य सेवा जनताको घरदैलोसम्म पुगे मात्र सामुदायिक स्वास्थ्य सुधार्न सकिन्छ।
+
+**विश्व स्वास्थ्य सङ्गठनले** प्राथमिक स्वास्थ्य सेवाको अवधारणा अघि सारेको हो र नेपालले यसलाई
+राष्ट्रिय कार्यक्रममा नीतिकै रूपमा अपनाएको छ। सुरुमा सामुदायिक स्वास्थ्य शिक्षामा सरसफाइमा
+मात्र जोड दिइन्थ्यो; पछि यसको कार्यक्षेत्र बढेर चार प्रकारका सेवा समेटिए:
+
+| सेवा | अर्थ | उदाहरण |
 |---|---|---|
-| Koshi | 4,961,412 | 192 |
-| Madhesh | 6,114,600 | **633** |
-| Bagmati | 6,116,866 | 301 |
-| Gandaki | 2,466,427 | 115 |
-| Lumbini | 5,122,078 | 230 |
-| Karnali | 1,688,412 | **60** |
-| Sudurpashchim | 2,694,783 | 138 |
+| निरोधात्मक | रोग लाग्नै नदिने | खोप, सरसफाइ, जुकाको औषधि |
+| उपचारात्मक | लागेको रोगको उपचार | स्वास्थ्य शिविर, स्वास्थ्यचौकीको औषधि |
+| संवर्धनात्मक | स्वास्थ्य अझ राम्रो बनाउने | पोषण शिक्षा, व्यायाम, स्वास्थ्य शिक्षा |
+| पुनःस्थापनात्मक | रोग वा चोटपछि सामान्य जीवनमा फर्काउने | फिजियोथेरापी, सहायक सामग्री, परामर्श |
 
-```figure caption="Population density of Nepal's seven provinces, census 2021 (persons per square kilometre). The national average is 198."
-import numpy as np, matplotlib.pyplot as plt
-fig, ax = plt.subplots(figsize=(4.8,2.9))
-names = ["Madhesh","Bagmati","Lumbini","Koshi","Sudurpashchim","Gandaki","Karnali"]
-vals = [633,301,230,192,138,115,60]
-y = np.arange(len(names))[::-1]
-cols = [SERIES[1] if v>198 else ACCENT for v in vals]
-ax.barh(y, vals, color=cols)
-ax.axvline(198, color=INK, ls="--", lw=1)
-ax.text(210, 0, "National average 198", fontsize=7.5, color=INK, va="center")
-for yy,v in zip(y,vals): ax.text(v+8, yy, str(v), va="center", fontsize=8, color=INK)
-ax.set_yticks(y); ax.set_yticklabels(names, fontsize=8)
-ax.set_xlim(0,720); ax.set_xlabel("Persons per sq km", fontsize=8)
-ax.tick_params(labelsize=8)
-ax.spines[['top','right']].set_visible(False)
+```photo id="soc10/health-post" caption="गाउँको स्वास्थ्यचौकी। खोप, सुत्केरी सेवा, परिवार नियोजन र घुम्ती शिविर जस्ता सामुदायिक स्वास्थ्य सेवाको पहिलो केन्द्र यही हो।" width="60"
 ```
 
-**Extremes:** the most populous district is **Kathmandu** (2,041,587 persons; density **5,169 per km²**); the least populous is **Manang** (5,658 persons; density **3 per km²**). Morang, Rupandehi, Jhapa and Sunsari follow Kathmandu in size. **Bagmati** is the largest province (20.97%) and **Karnali** the smallest (5.79%).
+### सामुदायिक स्वास्थ्यका क्षेत्र
 
-```photo id="soc10/ktm-haze" caption="The Kathmandu Valley seen from the Shivapuri hills under haze. With about 2 million people in Kathmandu district alone, the valley is Nepal's densest and fastest-urbanising region, with its traffic, dust and waste." width="86"
+```figure caption="पाठ्यपुस्तकमा दिइएका सामुदायिक स्वास्थ्यका सात क्षेत्र।"
+fig, ax = cards([("विपत् व्यवस्थापन", "प्रकोपअघि तयारी,\nप्राथमिक उपचार"),
+                 ("वातावरणीय स्वास्थ्य", "सरसफाइ, शौचालय,\nसफा पानी"),
+                 ("स्वास्थ्य शिक्षा र खोप", "चेतना र बालबालिकाको\nनियमित खोप"),
+                 ("कुपोषणको रोकथाम", "पोषण शिक्षा,\nसन्तुलित आहार"),
+                 ("खाद्यपदार्थ निरीक्षण", "समुदायमा बिक्री हुने\nखानाको गुणस्तर"),
+                 ("सरुवा रोग र महामारी", "नियन्त्रण र\nरोकथाम"),
+                 ("दुर्घटना र चोटपटक", "सडक, आगलागी,\nडुबानको रोकथाम"),
+                 ("सबैको साझा प्रयास", "व्यक्ति, परिवार,\nसमुदाय र राष्ट्र")],
+                cols=2, figsize=(5.6, 5.4), title_size=8.6)
 ```
 
-### Causes of uneven distribution
+### सामुदायिक स्वास्थ्य सेवाको महत्त्व
 
-| Factor | Effect |
-|---|---|
-| **Relief** | Plains and river valleys are flat and easy to farm and build on (Terai, Kathmandu Valley); steep, high land has few people |
-| **Climate** | Warm, moist land supports crops; very cold, dry highlands do not |
-| **Soil and water** | Fertile alluvium of the Terai and fresh water attract settlement |
-| **Transport** | Roads, airports and markets bring people (East-West Highway, Kathmandu Valley) |
-| **Economic opportunity** | Cities, industries, offices, tourism and trade offer jobs |
-| **Services** | Schools, hospitals and electricity attract people |
-| **History and politics** | Eradication of malaria and the resettlement programmes opened the Terai from the 1950s |
-| **Hazards** | Landslides and floods push people away; earthquakes damage cities |
+- १. व्यक्तिको स्वास्थ्य उसको एकल प्रयासले मात्र सम्भव नहुने भएकाले सामूहिक प्रयासको बाटो
+  देखाउँछ — यही तथ्यबाट सामुदायिक स्वास्थ्यको अवधारणा आएको हो।
+- २. समुदायमा स्वस्थ र सफा वातावरण बनाउँछ; वातावरण फोहोर भए महामारी र रोग फैलन्छन्।
+- ३. देश विकासका लागि आवश्यक **स्वस्थ जनशक्ति** तयार गर्छ।
+- ४. व्यक्तिमा आफ्नो स्वास्थ्यप्रति सचेतना जगाउँछ र सामुदायिक स्वास्थ्यको मर्मअनुसार व्यवहार
+  गर्न सिकाउँछ।
+- ५. योजना बनाएर देशको कुनाकुनासम्म, **जनताको घरदैलोमा** स्वास्थ्य सेवा पुर्‍याउन सघाउँछ।
+- ६. समाजसेवी र समुदायका सदस्य मिलेर स्वास्थ्य शिविर र क्लिनिक चलाउन र जनचेतना बढाउन
+  प्रेरित गर्छ।
 
-### Migration
-
-**Migration** is the movement of people from one place to another to live. **Internal migration** takes place within the country (hill to Terai, village to town); **international migration** crosses the border (Nepalis to India, the Gulf, Malaysia and developed countries).
-
-| Push factors (make people leave) | Pull factors (draw them in) |
-|---|---|
-| Poverty, unemployment, low income | Jobs and higher wages |
-| Lack of schools, health care and roads | Better services in cities |
-| Natural disasters, landslides | Fertile land and security |
-| Conflict (the 1996–2006 conflict) | Education, business, family and marriage |
-
-In the census, **marriage** (38.2%), dependent family member (19.5%) and **work or job** (15.2%) were the most common reasons for the 9.3 million people who had changed their place of residence. The result is rapid growth of towns: two-thirds of Nepalis now live in urban municipalities, but many are small towns, and some hill villages are left with only the old and the very young.
-
-### Problems
-
-Overcrowded cities (traffic, housing shortage, pollution, waste, informal settlements); emptying villages (abandoned farms, shortage of labour); pressure on Terai forests; inequality between regions; difficult service delivery to scattered mountain villages. **Solutions:** balanced development, roads and electricity for the hills, rural jobs, decentralised services under federalism, planned cities, and land-use zoning.
-
-## 10.4 Family planning and quality of life
-
-::: definition Family planning
-Family planning is the voluntary decision of couples to decide the number of children and the interval between births, using safe and effective methods, so that every child is wanted and cared for.
+::: note क्रियाकलाप — पाठ १०.६
+**१. स्वास्थ्य शिविर अवलोकन:** समुदाय वा विद्यालय नजिक सञ्चालन हुने निःशुल्क स्वास्थ्य शिविरको
+अवलोकन गरी प्रतिवेदन (मिति, आयोजक, उपलब्ध सेवा, सेवाग्राहीको सङ्ख्या, सिकेका कुरा) तयार
+पारेर कक्षामा प्रस्तुत गर्नुहोस्।
+**२. मनोवाद:** सामुदायिक स्वास्थ्य गतिविधिमा सहभागी हुँदाको अनुभव समेटेर मनोवाद तयार
+पार्नुहोस्।
+**३. कक्षाको योजना:** सबै मिलेर समुदाय वा विद्यालयमा सामुदायिक स्वास्थ्य सेवाको योजना बनाउनुहोस्
+र सञ्चालनका लागि वडा कार्यालय वा स्वास्थ्यचौकीमा पहल गर्नुहोस्।
+**४. स्वस्थ जीवनशैली:** पाठ्यपुस्तकका उपाय — सन्तुलित आहार; नुन, चिनी, चिल्लो र मसला कम;
+प्रशस्त फलफूल, सागसब्जी र पानी; थोरै–थोरै पटकपटक खाने; तयारी प्याकिङका खाना र मदिरा नखाने;
+नियमित व्यायाम र योग–ध्यान; चाँडै सुत्ने–उठ्ने; टिभी–मोबाइलमा लामो समय नबिताउने; तनावमुक्त र
+सकारात्मक सोच; शिशुलाई स्तनपान र छ महिनापछि थप खाना; किशोरकिशोरी, गर्भवती, सुत्केरी र ज्येष्ठ
+नागरिकको खानपानमा विशेष ध्यान। प्रश्नका सङ्केत: (क) आफूले अपनाएका उपायको सूची बनाउनुहोस्।
+(ख) स्वस्थ जीवनशैलीले मधुमेह, उच्च रक्तचाप र मोटोपना जस्ता नसर्ने रोगबाट बचाउँछ र औसत आयु
+बढाउँछ। (ग) सन्तुलित आहारविहारले सबै पोषक तत्त्व र रोग प्रतिरोधी क्षमता दिन्छ। (घ) "स्वस्थ
+जीवनशैली र आहार, दीर्घायुको आधार" शीर्षकमा वक्तृत्वकला प्रतियोगिता गर्नुहोस्।
 :::
 
-### Methods
+### पाठको अभ्यास: नमुना उत्तर
 
-| Type | Methods |
-|---|---|
-| **Temporary (spacing)** | **Condom**; **oral pills**; **injectable** (Depo-Provera, 3-monthly); **implant** (under the skin of the arm, lasts 3–5 years); **IUCD** (Copper-T); natural methods such as the calendar method |
-| **Permanent (limiting)** | **Vasectomy** (male) and **minilap / tubectomy** (female) |
-| **Emergency** | Emergency contraceptive pills |
+**१. सामुदायिक स्वास्थ्य भनेको के हो? यसको महत्त्व उल्लेख गर्नुहोस्।**
+समुदायका लागि समुदायकै व्यक्तिले समुदायका स्वास्थ्य समस्या पहिचान गरी समाधान गर्न र व्यक्तिगत
+तथा वातावरणीय स्वास्थ्य सुधार्न गरिने क्रियाकलाप सामुदायिक स्वास्थ्य हो; स्वास्थ्य शिविर, घरदैलो
+सेवा, खोप र जुकाको औषधि अभियान यसका उदाहरण हुन्। **महत्त्व:** (क) व्यक्तिको एकल प्रयासले
+समाधान नहुने स्वास्थ्य समस्या सामूहिक प्रयासले समाधान गर्छ; (ख) समुदायको वातावरण सफा राखेर
+महामारी र रोग रोक्छ; (ग) देश विकासका लागि स्वस्थ जनशक्ति तयार गर्छ; (घ) व्यक्तिमा स्वास्थ्य
+सचेतना बढाउँछ; (ङ) स्वास्थ्य सेवा घरदैलो र देशको कुनाकुनासम्म पुर्‍याउँछ; (च) स्वास्थ्य शिविर,
+क्लिनिक र जनचेतनामा समुदायको सहभागिता बढाउँछ।
 
-Family-planning counselling and most methods are available free at government health posts and hospitals across Nepal.
+**२. सामुदायिक स्वास्थ्य सेवालाई प्रभावकारी बनाउने उपाय उल्लेख गर्नुहोस्।**
+(क) हरेक वडामा स्वास्थ्यचौकी र प्रशिक्षित स्वास्थ्यकर्मी तथा पर्याप्त औषधि; (ख) घुम्ती शिविर र
+घरदैलो सेवा; (ग) खोप, पोषण र सरसफाइसम्बन्धी स्वास्थ्य शिक्षा; (घ) महिला सामुदायिक स्वास्थ्य
+स्वयंसेविका र स्थानीय सङ्घसंस्थाको सक्रिय परिचालन; (ङ) सुरक्षित खानेपानी, शौचालय र फोहोर
+व्यवस्थापन; (च) समुदायमा बिक्री हुने खाद्यपदार्थको नियमित निरीक्षण; (छ) विपत् र महामारीको
+पूर्वतयारी; (ज) स्थानीय तहको बजेट र योजनामा स्वास्थ्यलाई प्राथमिकता; (झ) व्यक्ति, परिवार,
+समुदाय र राष्ट्रबिच समन्वय।
 
-### Benefits
+**३. नेपालमा विद्यमान स्वास्थ्य समस्या समाधानका लागि सामुदायिक स्वास्थ्य सेवाले खेल्न सक्ने
+भूमिकाको चर्चा गर्नुहोस्।**
+नेपालका मुख्य स्वास्थ्य समस्या — झाडापखाला, हैजा, डेङ्गु जस्ता सरुवा रोग; बालबालिकामा
+कुपोषण; मातृ तथा शिशु मृत्यु; दुर्गम ठाउँमा स्वास्थ्य सेवाको अभाव; दुर्घटना र प्राकृतिक प्रकोप;
+मधुमेह, उच्च रक्तचाप जस्ता नसर्ने रोग। **सामुदायिक स्वास्थ्यको भूमिका:** (क) **निरोधात्मक** —
+खोप, सरसफाइ, सफा पानी र शौचालय अभियानले सरुवा रोग घटाउँछ; (ख) **कुपोषण रोकथाम** — पोषण
+शिक्षा, स्तनपान र थप खानाबारे परामर्श; (ग) **मातृ–शिशु स्वास्थ्य** — गर्भवतीलाई जाँच र
+स्वास्थ्य संस्थामा सुत्केरी गराउन प्रेरणा, परिवार नियोजन परामर्श; (घ) **घरदैलो र घुम्ती सेवा**
+ले दुर्गम क्षेत्रसम्म उपचार पुर्‍याउँछ; (ङ) **विपत् पूर्वतयारी** र प्राथमिक उपचार तालिम; (च)
+**संवर्धनात्मक** — व्यायाम, स्वस्थ खानपान र लागुपदार्थविरुद्ध चेतनाले नसर्ने रोग घटाउँछ; (छ)
+**पुनःस्थापनात्मक** — अपाङ्गता र चोटपटकपछि सामान्य जीवनमा फर्कन सहयोग। यसरी कम खर्चमा
+धेरै मानिसको स्वास्थ्य सुधार्न सामुदायिक स्वास्थ्य नेपालका लागि सबैभन्दा उपयुक्त उपाय हो।
 
-- **Health of mothers**: spacing births by at least **three years** reduces the risk of death in childbirth; the **maternal mortality ratio** fell to **151 per 100,000 live births** in the 2021 census.
-- **Health of children**: well-spaced and wanted children are healthier, better fed and less likely to die; fewer deaths below age five.
-- **Education and opportunity**: parents can afford to send all children to school, especially girls; women gain time for work and learning.
-- **Economic benefit**: lower expenses, higher savings and a better living standard; less pressure on land, food, forests and public services.
-- **Rights and choice**: a woman and man can make their own decision about family, reducing early marriage and teenage pregnancy.
-- **National benefit**: slower population growth makes it easier to provide schools, jobs and health care.
+## अध्यायको सारांश
 
-Nepal's progress: the **total fertility rate** has dropped from about 5 children per woman in the 1990s to about **2.1** today (Nepal Demographic and Health Survey 2022), and the average age at first marriage has risen (the median is 19 years: 21 for males and 18 for females). The legal age of marriage is **20** for both sexes.
+- निश्चित क्षेत्रमा निश्चित समयमा बस्ने मानिसको सङ्ख्या जनसङ्ख्या हो; जनगणना २०७८ (बाह्रौँ) अनुसार नेपालको जनसङ्ख्या २,९१,६४,५७८ र वार्षिक वृद्धिदर ०.९२ प्रतिशत; दोब्बर हुन करिब ७६ वर्ष (७० ÷ ०.९२)।
+- जनगणना वि.सं. १९६८ मा सुरु; १९७७ र १९८७ मा वृद्धिदर ऋणात्मक (अवैज्ञानिक गणना, इन्फ्लुएन्जा महामारी, विश्वयुद्धमा गएका सैनिक छुट्नु); २००९/११ पहिलो वैज्ञानिक जनगणना; सर्वोच्च वृद्धिदर २०३८ मा २.६२ प्रतिशत।
+- २०६८–२०७८ मा जनसङ्ख्या २६,७०,०७४ (१०.०८%) ले बढ्यो; जन्मदर घट्नु, परिवार नियोजन, ढिलो विवाह, शिक्षा र स्वास्थ्य सुधार वृद्धिदर घट्नुका कारण हुन्।
+- बनोट (२०७८): पुरुष ४८.८७, महिला ५१.१३ प्रतिशत (लिङ्ग अनुपात ९५.६); १४२ जातजाति (क्षेत्री १६.४५, ब्राह्मण ११.२९); १० धर्म (हिन्दु ८१.१९, बौद्ध ८.२१); १२४ भाषा (नेपाली ४४.८६, मैथिली ११.०५); ०–१४ वर्ष २७.८३, १५–५९ वर्ष ६१.९६, ६०+ १०.२१ प्रतिशत; साक्षरता ७६.२ प्रतिशत; कृषिमा ५०.६ प्रतिशत।
+- वितरण (२०७८): तराई ५३.६१, पहाड ४०.३१, हिमाल ६.०८ प्रतिशत; बागमती सबैभन्दा धेरै र कर्णाली सबैभन्दा कम; काठमाडौँ सबैभन्दा धेरै र मनाङ सबैभन्दा कम जनसङ्ख्या भएका जिल्ला; ७५३ स्थानीय तह (२९३ नगरपालिका, ४६० गाउँपालिका); सहरी ६६.१७ प्रतिशत।
+- आम्दानी र स्रोतको उचित व्यवस्थापनबाट परिवारलाई सुखी बनाउने योजना पारिवारिक योजना हो; यसका सात कार्य र दस महत्त्व छन्।
+- गुणस्तरीय जीवनका छ आधार: आधारभूत आवश्यकता, भौतिक जीवनस्तरका सूचक (० देखि १००), मानव विकास सूचकाङ्क (सन् १९९०, ० देखि १), स्वस्थ र दीर्घ जीवन, खुसीपन, सन्तानको भरणपोषण र शिक्षा।
+- जनसङ्ख्या र वातावरण अन्तरसम्बन्धित छन्; वातावरण परिवर्तनका तीन मुख्य कारण जनसङ्ख्या वृद्धि, प्राकृतिक स्रोतको बढी प्रयोग र सहरीकरण।
+- सामुदायिक स्वास्थ्य समुदायकै व्यक्तिले समुदायका स्वास्थ्य समस्या समाधान गर्ने प्रयास हो; यसमा निरोधात्मक, उपचारात्मक, संवर्धनात्मक र पुनःस्थापनात्मक सेवा र सात क्षेत्र पर्छन्।
 
-### Safe motherhood and child survival
+## अभ्यास
 
-Nepal's health indicators have improved quickly. The maternal mortality ratio fell from about 539 per 100,000 live births in 1996 to **151** in the 2021 census, and the infant mortality rate (about 28 per 1,000 live births in 2022) and under-five mortality have fallen sharply compared with the 1990s. The causes are the Safe Motherhood Programme, free delivery under the **Aama programme**, more **skilled birth attendants**, birthing centres in rural areas, immunisation, vitamin A supplements and better nutrition. Remaining problems are anaemia, **stunting** (about a quarter of children under five are too short for their age), early marriage and teenage pregnancy, and unequal access in remote districts.
+**समूह क — वस्तुगत प्रश्न (१ अङ्क)**
 
-### Quality of life
+१. नेपालको पहिलो वैज्ञानिक जनगणना कुन हो? <span class="marks">[1]</span>
+   (क) वि.सं. १९६८ (ख) वि.सं. १९९८ (ग) वि.सं. २००९/११ (घ) वि.सं. २०१८
+२. नेपालको जनसङ्ख्या वृद्धिदर कुन जनगणनामा सबैभन्दा उच्च थियो? <span class="marks">[1]</span>
+   (क) २०२८ (ख) २०३८ (ग) २०५८ (घ) २०६८
+३. जनगणना २०७८ अनुसार दोस्रो ठुलो मातृभाषा कुन हो? <span class="marks">[1]</span>
+   (क) भोजपुरी (ख) थारू (ग) मैथिली (घ) तामाङ
+४. जनगणना २०७८ अनुसार ६० वर्ष र माथिको जनसङ्ख्या कति प्रतिशत छ? <span class="marks">[1]</span>
+   (क) ६.५० (ख) ८.१३ (ग) १०.२१ (घ) २७.८३
+५. जनगणना २०७८ अनुसार सबैभन्दा कम जनसङ्ख्या भएको जिल्ला कुन हो? <span class="marks">[1]</span>
+   (क) मुस्ताङ (ख) मनाङ (ग) डोल्पा (घ) हुम्ला
+६. नेपालमा अहिले कति नगरपालिका छन्? <span class="marks">[1]</span>
+   (क) ४६० (ख) ७५३ (ग) २९३ (घ) ५८
+७. मानव विकास सूचकाङ्कमा तलकामध्ये कुन आयाम पर्दैन? <span class="marks">[1]</span>
+   (क) प्रतिव्यक्ति आय (ख) शैक्षिक स्तर (ग) औसत आयु (घ) जनघनत्व
+८. पाठ्यपुस्तकअनुसार वातावरण परिवर्तनका तीन मुख्य कारणमा कुन पर्दैन? <span class="marks">[1]</span>
+   (क) जनसङ्ख्या वृद्धि (ख) सहरीकरण (ग) प्राकृतिक स्रोतको बढी प्रयोग (घ) खोप कार्यक्रम
 
-Quality of life means the level of wellbeing of people: health, education, income, housing, safe water, freedom, security, a clean environment and social relations. It is measured by indicators such as the **Human Development Index (HDI)** (income, education and life expectancy), literacy, life expectancy (about 70 years), child and maternal mortality, access to electricity (92.2% of households use electricity for lighting) and sanitation (95.5% of households have a toilet).
-
-| Small, planned family | Large family with poor spacing |
-|---|---|
-| Food, health, education for all children | Limited resources shared among many |
-| Mother's health protected | Mothers at higher risk |
-| Savings and investment possible | Little saving; debt |
-| Time for education and work for parents | Early school leaving of children |
-
-::: caution Family planning is not forced
-Family planning is a **voluntary** choice by the couple, supported by information and services. It is not a compulsory limit by the state, and it is not just for women: men share the responsibility.
+::: note समूह क का उत्तर
+**१.** (ग) — वि.सं. २००९/११ बाट वैज्ञानिक ढङ्गले जनगणना सुरु भयो।
+**२.** (ख) — वि.सं. २०३८ मा वृद्धिदर २.६२ प्रतिशत, इतिहासकै उच्च।
+**३.** (ग) — नेपाली ४४.८६ पछि मैथिली ११.०५ प्रतिशत।
+**४.** (ग) — ६.५० र ८.१३ क्रमशः २०५८ र २०६८ का हुन्; २७.८३ ०–१४ वर्षको हो।
+**५.** (ख) — मनाङमा ५,६५८ जना मात्र (०.०२%)।
+**६.** (ग) — ७५३ स्थानीय तहमध्ये २९३ नगरपालिका र ४६० गाउँपालिका; ५८ वि.सं. २०६८ ताकाको सङ्ख्या हो।
+**७.** (घ) — मानव विकास सूचकाङ्कले आय, शिक्षा र औसत आयु मात्र नाप्छ।
+**८.** (घ) — खोप स्वास्थ्य कार्यक्रम हो; बाँकी तीन वातावरण परिवर्तनका कारण हुन्।
 :::
 
-## 10.5 The relationship between population and environment
+**समूह ख — छोटो उत्तर (२ अङ्क)**
 
-**Environment** is everything around us: air, water, soil, forests, wildlife and the things humans have built. People depend on it and also change it.
+१. जनसङ्ख्या वृद्धि र जनसङ्ख्या वृद्धिदरबिच फरक छुट्याउनुहोस्। <span class="marks">[2]</span>
+२. वार्षिक वृद्धिदर १.४ प्रतिशत भएको जिल्लाको जनसङ्ख्या कति वर्षमा दोब्बर होला? <span class="marks">[2]</span>
+३. जनगणना २०७८ अनुसार नेपालको लिङ्ग अनुपात निकाल्नुहोस्। <span class="marks">[2]</span>
+४. आश्रित जनसङ्ख्या भनेको के हो? <span class="marks">[2]</span>
+५. वि.सं. २०६८ भन्दा २०७८ मा सहरी जनसङ्ख्या किन धेरै बढेको देखियो? <span class="marks">[2]</span>
+६. पारिवारिक योजनाका कुनै चार महत्त्व लेख्नुहोस्। <span class="marks">[2]</span>
+७. भौतिक जीवनस्तरका सूचकमा कुन कुन तत्त्व पर्छन्? <span class="marks">[2]</span>
+८. सामुदायिक स्वास्थ्यका कुनै चार क्षेत्र उल्लेख गर्नुहोस्। <span class="marks">[2]</span>
 
-### How population affects the environment
-
-| Pressure | Effect on the environment |
-|---|---|
-| **More people needing food** | Forest and grass cleared for farms; overgrazing; chemical fertilisers pollute water |
-| **More fuel and timber** | Deforestation, firewood use (about 51% of households still cook mainly with firewood), forest fires |
-| **More houses and roads** | Farmland and wetlands lost; hill roads trigger landslides; cities spread |
-| **More vehicles and industries** | **Air pollution** (Kathmandu often has unhealthy air in winter); noise |
-| **More waste** | Garbage, plastic, polluted rivers (Bagmati), landfill problems |
-| **More water use** | Shortage of drinking water; falling groundwater and drying springs |
-| **More energy use** | Greenhouse-gas emissions leading to climate change and glacier melt |
-
-### How the environment affects population
-
-A healthy environment feeds and shelters people; a damaged one harms them. Floods, landslides, drought and earthquakes cause deaths and displacement; polluted air and water cause disease; loss of fertile land forces migration; and climate change threatens farming and water supply.
-
-```figure caption="The two-way link between population and environment (schematic). Growth in numbers increases the demand for resources; damage to the environment then reduces the quality of life."
-import matplotlib.pyplot as plt
-fig, ax = plt.subplots(figsize=(4.8,2.8))
-def box(x,y,w,h,t,c):
-    ax.text(x+w/2,y+h/2,t,ha="center",va="center",fontsize=8,color=INK,bbox=dict(boxstyle="round,pad=0.4",fc=c,ec=INK,lw=0.8))
-box(0.3,1.5,1.7,0.8,"Population growth","#cfe0f5")
-box(3.5,2.5,2.2,0.8,"Demand for food,\nfuel, land, water","#fbe5c4")
-box(3.5,0.4,2.2,0.8,"Lower quality\nof life","#d9efd3")
-box(6.5,1.5,2.2,0.8,"Pollution, forest loss,\nclimate change","#f6d4d0")
-for a,b in (((2.1,2.1),(3.4,2.8)),((5.8,2.7),(7.2,2.35)),((7.3,1.45),(5.8,0.95)),((3.4,0.8),(1.4,1.4))):
-    ax.annotate("",xy=b,xytext=a,arrowprops=dict(arrowstyle="-|>",color=MUTED,lw=1.2))
-ax.set_xlim(0,9); ax.set_ylim(0,3.7); ax.axis("off")
-```
-
-### Nepal's examples
-
-- **Forest:** forests cover about **45 per cent** of Nepal (about 6.6 million hectares). Nepal is a world leader in **community forestry**: around 22,000 community forest user groups manage forests for the benefit of villagers, and forest cover has recovered in the middle hills since the 1990s.
-- **Kathmandu Valley:** urban sprawl, vehicles, brick kilns and burning waste make air quality poor in the dry months; the Bagmati and its tributaries are heavily polluted by sewage.
-- **Terai:** land clearing, brick kilns, groundwater depletion and Churia hills erosion.
-- **Mountains:** melting glaciers, glacial-lake floods and rubbish along trekking trails (Everest).
-
-### Solutions
-
-1. **Control population growth** through family planning and women's education.
-2. **Plant and protect forests**; support community forests; promote alternatives to firewood: LPG, biogas, electricity and improved cookstoves.
-3. **Waste management**: the 3Rs: *reduce, reuse, recycle*; segregate waste; ban single-use plastic bags.
-4. **Clean transport and energy**: public transport, electric vehicles, solar and hydropower.
-5. **Planned settlements and land-use rules**; no building on floodplains and steep slopes; green spaces.
-6. **Environmental education** and law: the Environment Protection Act 2076 (2019).
-7. **Sustainable development**: meeting today's needs without harming the needs of future generations (SDGs).
-
-::: key Carrying capacity
-An area's **carrying capacity** is the maximum number of people that its resources can support in a sustainable way. If the population is larger than the carrying capacity, the environment is damaged; clever use of technology can raise the limit but cannot remove it.
+::: note समूह ख का उत्तर
+**१.** जन्म, मृत्यु र बसाइँसराइका कारण जनसङ्ख्या थपिएर आकारमा आउने परिवर्तन **वृद्धि** हो — जस्तै २०६८–२०७८ मा २६,७०,०७४ जना थपिए। प्रतिसय जनसङ्ख्यामा प्रतिवर्ष थपिने सङ्ख्या **वृद्धिदर** हो — जस्तै ०.९२ प्रतिशत। वृद्धि सङ्ख्यामा र वृद्धिदर प्रतिशतमा व्यक्त हुन्छ।
+**२.** दोब्बर हुने समय ≈ ७० ÷ वार्षिक वृद्धिदर = ७० ÷ १.४ = **५० वर्ष**।
+**३.** लिङ्ग अनुपात = (पुरुष ÷ महिला) × १०० = (१,४२,५३,५५१ ÷ १,४९,११,०२७) × १०० ≈ **९५.६**; अर्थात् प्रत्येक सय महिलामा करिब ९६ पुरुष।
+**४.** १५ वर्षमुनिका बालबालिका र ६० वर्षमाथिका ज्येष्ठ नागरिक, जो सामान्यतया कमाउने काम नगरी सक्रिय उमेर (१५–५९ वर्ष) का मानिसमा निर्भर हुन्छन्, आश्रित जनसङ्ख्या हुन्। जनगणना २०७८ मा यो २७.८३ + १०.२१ = ३८.०४ प्रतिशत छ।
+**५.** सङ्घीय संरचनापछि धेरै गाउँ विकास समिति गाभिएर नगरपालिका बने र नगरपालिकाको सङ्ख्या २९३ पुग्यो, त्यसैले त्यहाँका मानिस सहरी गनिए। साथै रोजगारी, शिक्षा र सुविधाका लागि गाउँबाट सहरतर्फ बसाइँसराइ पनि बढ्यो। सहरी हिस्सा १७.०७ बाट ६६.१७ प्रतिशत पुग्यो।
+**६.** (क) परिवारका सदस्यबिच सुमधुर सम्बन्ध कायम गर्छ; (ख) अनावश्यक खर्च घटाउँछ; (ग) स्तनपानलाई प्रोत्साहन दिई आमा–शिशुको स्वास्थ्य जोगाउँछ; (घ) आवश्यकताअनुसार बच्चा जन्माउन र उचित जन्मान्तर राख्न प्रेरित गरी जनसङ्ख्या नियन्त्रणमा सघाउँछ।
+**७.** पाँच वर्षमुनिको बाल मृत्युदर, औसत आयु र साक्षरता दर। यिनका आधारमा ० देखि १०० अङ्कमा मापन गरिन्छ र बढी अङ्क पाउने देशलाई उच्च गुणस्तरीय जीवन भएको मानिन्छ।
+**८.** (क) वातावरणीय स्वास्थ्य तथा सरसफाइ; (ख) स्वास्थ्य शिक्षा तथा खोप कार्यक्रम; (ग) कुपोषणको रोकथाम; (घ) सरुवा रोग र महामारीको नियन्त्रण र रोकथाम। (अन्य: विपत् व्यवस्थापनको तयारी, खाद्यपदार्थको निरीक्षण, दुर्घटना र चोटपटकको रोकथाम।)
 :::
 
-## 10.6 Community health
+**समूह ग — लामो उत्तर (४ अङ्क)**
 
-### Meaning
+१. वि.सं. १९६८ देखि २०७८ सम्मको नेपालको जनसङ्ख्याको आकार र वृद्धिदरको प्रवृत्ति विश्लेषण गर्नुहोस्। <span class="marks">[4]</span>
+२. जनगणना २०७८ का आधारमा नेपालको जनसङ्ख्याको जातीय, धार्मिक र भाषिक बनोट प्रस्तुत गर्नुहोस्। <span class="marks">[4]</span>
+३. पारिवारिक योजना र गुणस्तरीय जीवनबिचको अन्तरसम्बन्ध प्रस्ट पार्नुहोस्। <span class="marks">[4]</span>
+४. जनसङ्ख्या वृद्धिले वातावरणमा पार्ने असर र त्यसको समाधानका उपाय लेख्नुहोस्। <span class="marks">[4]</span>
 
-The World Health Organization defines **health** as "a state of complete physical, mental and social well-being and not merely the absence of disease or infirmity". **Community health** is the organised effort of the community, the government and others to protect and improve the health of **all** the people of a locality, especially through prevention.
-
-### Components
-
-| Component | Examples |
-|---|---|
-| **Safe drinking water and sanitation** | Tap water (57% of households), toilets (95.5%), the declaration of Nepal as **open-defecation-free in 2019** |
-| **Nutrition** | Balanced diet, breastfeeding for 6 months, vitamin A and iron supplements, school meals |
-| **Immunisation** | The Expanded Programme on Immunisation: BCG, DPT-HepB-Hib, polio, pneumococcal, rotavirus, measles-rubella, Japanese encephalitis, typhoid, HPV |
-| **Maternal and child health** | Antenatal check-ups, skilled birth attendants, institutional delivery, **Aama programme** (free delivery and transport allowance), growth monitoring |
-| **Disease control** | TB, malaria, HIV/AIDS, dengue, diarrhoea, pneumonia; health surveillance |
-| **Health education** | Hand-washing, safe food, oral rehydration solution, avoid tobacco and alcohol, adolescent health |
-| **First aid and emergency** | Basic first aid, ambulances, disaster preparedness |
-| **Mental health** | Counselling, stress control, suicide prevention, reducing stigma |
-
-```photo id="soc10/health-post" caption="A health post in Batulechaur, Pokhara. Health posts and basic health service centres are the first point of care in Nepal's three-tier health system and offer immunisation, maternal and child care, family planning and basic treatment, often free of cost." width="76"
-```
-
-### Nepal's community health system
-
-- The **Constitution of Nepal** guarantees free basic health services as a fundamental right; the **Public Health Service Act (2018/2075 BS)** and the **Health Insurance Act (2017)** expand it.
-- **Three tiers:** the federal government (policy, central hospitals), provinces (provincial hospitals) and **local governments** (health posts, basic hospitals).
-- **Female Community Health Volunteers (FCHVs):** about 50,000 women volunteers, since 1988, who distribute vitamin A, oral rehydration solution and contraceptives and spread health messages; one of Nepal's greatest community-health successes.
-- **Public health achievements:** smallpox eradicated (the last case in Nepal in 1973); **polio-free** certification in 2014; elimination of **maternal and neonatal tetanus** (2005); **trachoma** eliminated as a public health problem (2018); major falls in child death and maternal mortality; **Covid-19** vaccination.
-
-### Common health problems
-
-| Communicable diseases | Non-communicable diseases |
-|---|---|
-| Diarrhoea, typhoid, pneumonia, TB, malaria, dengue, hepatitis | Diabetes, high blood pressure, heart disease, cancer, lung disease |
-| Spread by germs, water, food, insects and contact | Related to lifestyle, tobacco, alcohol, inactivity, pollution and ageing |
-| Control: vaccines, clean water, sanitation, vector control | Control: healthy diet, exercise, regular checks, no smoking |
-
-### What can we do?
-
-Wash hands with soap before eating and after using the toilet; drink boiled or filtered water; keep the surroundings clean and kill mosquito breeding sites; get all vaccines on time; eat a balanced diet; take part in school and community health campaigns; avoid tobacco, drugs and alcohol; and visit the health post early rather than late.
-
-::: tip Health answer pattern
-For "Explain the measures of community health", write: **safe water and sanitation, immunisation, nutrition, maternal and child health, health education and disease control**; add one Nepali fact to each, such as the FCHV programme or polio-free status in 2014.
+::: note समूह ग का उत्तर
+**१.** **सुरुको घट्दो अवस्था:** वि.सं. १९६८ मा ५६,३८,७४९ रहेको जनसङ्ख्या १९७७ (−०.१३%) र १९८७ (−०.०७%) मा घट्यो — अवैज्ञानिक गणना, इन्फ्लुएन्जा महामारी र प्रथम विश्वयुद्धमा गएका सैनिक छुट्नु कारण थिए। **तीव्र वृद्धि:** २००९/११ को पहिलो वैज्ञानिक जनगणनापछि जनसङ्ख्या छिटो बढ्यो; २०३८ मा १,५०,२२,८३९ र वृद्धिदर सर्वोच्च २.६२ प्रतिशत भयो; २०५८ मा २,३१,५१,४२३ (२.२५%)। **घट्दो वृद्धिदर:** २०६८ मा २,६४,९४,५०४ (१.३५%) र २०७८ मा २,९१,६४,५७८ (०.९२%) — सय वर्षमा करिब पाँच गुणा। **कारण:** जन्मदर घट्नु, परिवार नियोजन, ढिलो विवाह, शिक्षा र चेतना, स्वास्थ्य सुधार र युवा विदेशमा रहनु। **निष्कर्ष:** जनसङ्ख्या बढिरहेको छ तर बिस्तारै; दोब्बर हुन लाग्ने समय २७ वर्ष (२०३८) बाट करिब ७६ वर्ष (२०७८) पुगेको छ।
+**२.** **जातीय:** १४२ जातजाति; क्षेत्री १६.४५, ब्राह्मण ११.२९, मगर ६.९, थारू ६.२, तामाङ ५.६२, विश्वकर्मा ५.०४, मुसलमान ४.८६, नेवार ४.६, यादव ४.२१ प्रतिशत; कुनै जातिको बहुमत छैन। **धार्मिक:** १० धर्म; हिन्दु ८१.१९, बौद्ध ८.२१, इस्लाम ५.०९, किरात ३.१७, क्रिस्चियन १.७६ प्रतिशत र प्रकृति, बोन, जैन, सिख तथा बहाई; धार्मिक सहिष्णुता कायम। **भाषिक:** १२४ मातृभाषा; नेपाली ४४.८६, मैथिली ११.०५, भोजपुरी ६.२४, थारू ५.८८, तामाङ ४.८८ प्रतिशत; एक प्रतिशतभन्दा बढीले बोल्ने १३ भाषा। **निष्कर्ष:** नेपाल बहुजातीय, बहुधार्मिक र बहुभाषिक देश हो; यस्तो बनोटले समावेशी नीति, भाषा–संस्कृति संरक्षण र स्रोत बाँडफाँटमा आधार दिन्छ।
+**३.** आम्दानी र स्रोतको उचित व्यवस्थापनबाट परिवारलाई सुखी बनाउने योजना पारिवारिक योजना हो; सबै सेवा सुविधा र सुख–सन्तुष्टि भएको अवस्था गुणस्तरीय जीवन हो। **सम्बन्ध:** (क) योजनाबद्ध खर्च र बचतले आधारभूत आवश्यकता पूरा हुन्छन्; (ख) उचित जन्मान्तर र स्तनपानले आमा–शिशु स्वस्थ रहन्छन् र औसत आयु बढ्छ; (ग) सानो परिवारमा हरेक सन्तानको भरणपोषण र शिक्षा सम्भव हुन्छ; (घ) आपसी सल्लाह र सुमधुर सम्बन्धले खुसीपन बढ्छ; (ङ) खुसी परिवारले फेरि राम्रो योजना बनाउँछ। यसरी दुवै अन्योन्याश्रित छन् र व्यवस्थित पारिवारिक योजना नै गुणस्तरीय जीवनको मुख्य आधार हो।
+**४.** **असर:** (क) पानी, जमिन र वनको जथाभावी प्रयोग; (ख) फोहोर, धुवाँ र ढलले वायु, जल र माटो प्रदूषण; (ग) वन फँडानी र नदी किनारमा अव्यवस्थित बस्ती; (घ) जमिनको उर्वराशक्ति घट्नु; (ङ) बाढी, पहिरो र भूक्षय; (च) रोग र महामारी फैलनु। **उपाय:** (क) जनचेतनामूलक कार्यक्रम; (ख) वन फँडानी रोक्ने र वृक्षरोपण; (ग) उद्योग बस्तीबाट टाढा राख्ने; (घ) व्यवस्थित सहरीकरण र फोहोर व्यवस्थापन; (ङ) नदी–खोलामा फोहोर नफाल्ने; (च) पारिवारिक योजनाद्वारा जनसङ्ख्या व्यवस्थापन। जनसङ्ख्या र वातावरणबिच सन्तुलन नै दिगो विकासको आधार हो।
 :::
 
-## Chapter summary
+**समूह घ — विस्तृत उत्तर (८ अङ्क)**
 
-- The 2021 census counted **29,164,578** people (male 48.87%, female 51.13%); growth rate **0.92%** (1.35% in 2011); the rate peaked at **2.62% in 1981**. **2.19 million** Nepalis were absent abroad.
-- Growth = (CBR − CDR) ÷ 10 (plus net migration); doubling time ≈ 70 ÷ rate.
-- **Composition:** 0–14: **27.83%**; 15–59: **61.96%**; 60+: **10.21%**; dependency ratio ≈ 61.4; **sex ratio 95.59**; literacy **76.2%**; **66.17%** urban; household size 4.37.
-- **Density** = population ÷ area: Nepal **198**; Terai 460, Hill 192, Mountain 34; Madhesh 633 (highest province), Karnali 60 (lowest); Kathmandu 5,169, Manang 3.
-- Uneven distribution is due to relief, climate, soil, transport, jobs and services; **migration** is driven by push and pull factors.
-- **Family planning**: temporary and permanent methods; benefits for health, education, income and environment; TFR about 2.1; maternal mortality ratio 151.
-- Population and environment affect each other; pressures include deforestation, pollution, waste and climate change; solutions include family planning, community forestry, 3Rs and clean energy.
-- **Community health** works through water and sanitation, nutrition, immunisation, maternal and child health, education and disease control; FCHVs and health posts are the base; polio-free in 2014; ODF in 2019.
+१. जनसङ्ख्याको वितरण भनेको के हो? जनगणना २०७८ का आधारमा नेपालको भौगोलिक, प्रदेशगत र सहरी–ग्रामीण वितरणको विश्लेषण गर्दै असमान वितरणका कारण र न्यूनीकरणका उपाय लेख्नुहोस्। <span class="marks">[8]</span>
+२. "जनसङ्ख्या व्यवस्थापनबिना गुणस्तरीय जीवन र स्वस्थ वातावरण सम्भव छैन।" पारिवारिक योजना, वातावरण र सामुदायिक स्वास्थ्यका आधारमा यस भनाइको विवेचना गर्नुहोस्। <span class="marks">[8]</span>
 
-## Practice questions
-
-**Group A — Objective questions (1 mark each)**
-
-1. The total population of Nepal in the census of 2021 was <span class="marks">[1]</span>
-   (a) 26,494,504 (b) 28,000,000 (c) 29,164,578 (d) 30,500,000
-2. The population density of Nepal in 2021 was about <span class="marks">[1]</span>
-   (a) 98 (b) 198 (c) 298 (d) 460
-3. Which district has the highest population? <span class="marks">[1]</span>
-   (a) Morang (b) Kathmandu (c) Jhapa (d) Rupandehi
-4. The sex ratio is the number of <span class="marks">[1]</span>
-   (a) females per 100 males (b) males per 100 females (c) children per 100 adults (d) births per 1,000 people
-5. The ecological belt with the highest share of Nepal's population is <span class="marks">[1]</span>
-   (a) Mountain (b) Hill (c) Terai (d) Himal
-6. Which of the following is a permanent method of family planning? <span class="marks">[1]</span>
-   (a) Condom (b) Pills (c) Vasectomy (d) Implant
-7. Nepal was declared open-defecation-free in <span class="marks">[1]</span>
-   (a) 2010 (b) 2014 (c) 2019 (d) 2022
-8. The percentage of Nepal's population aged 60 and above in 2021 was <span class="marks">[1]</span>
-   (a) 5.2 (b) 10.21 (c) 27.83 (d) 61.96
-
-::: note Answers to Group A
-**1.** (c): 29,164,578.
-**2.** (b): 29,164,578 ÷ 147,516 ≈ 198.
-**3.** (b): Kathmandu, 2,041,587 persons.
-**4.** (b): males per 100 females.
-**5.** (c): 53.61% live in the Terai.
-**6.** (c): vasectomy; condoms, pills and implants are temporary.
-**7.** (c): 2019.
-**8.** (b): 10.21%.
+::: note समूह घ का उत्तर
+**१.** **परिभाषा:** भौगोलिक क्षेत्र, प्रदेश, जिल्ला र स्थानीय तहअनुसार जनसङ्ख्या कसरी फैलिएको छ भन्ने अवस्था जनसङ्ख्या वितरण हो। **भौगोलिक:** तराई ५३.६१, पहाड ४०.३१ र हिमाल ६.०८ प्रतिशत; २०५८ (४८.४) देखि तराईको हिस्सा बढ्दो र हिमाल–पहाडको घट्दो। **प्रदेशगत:** बागमती र मधेश (२०.९७ प्रतिशत), लुम्बिनी (१७.५६), कोशी (१७.०१), सुदूरपश्चिम (९.२४), गण्डकी (८.४६) र कर्णाली (५.७९); २०६८ को तुलनामा मधेश, बागमती र लुम्बिनीको हिस्सा बढ्यो। **जिल्लागत:** काठमाडौँ (२०,४१,५८७; ७%) सबैभन्दा धेरै र मनाङ (५,६५८) सबैभन्दा कम — करिब ३६१ गुणा फरक। **सहरी–ग्रामीण:** सहरी ६६.१७ र ग्रामीण ३३.८३ प्रतिशत; २०६८ मा सहरी १७.०७ प्रतिशत मात्र थियो। **कारण:** धरातल, हावापानी, उब्जाउ माटो र स्रोत, यातायात र सञ्चार, शिक्षा–स्वास्थ्य सुविधा, रोजगारी, उद्योग र प्रशासनिक केन्द्र, प्राकृतिक प्रकोप र नगरपालिकाको सङ्ख्या बढ्नु। **उपाय:** पिछडिएका क्षेत्रमा सडक, बिजुली, सञ्चार र खानेपानी; गाउँमै गुणस्तरीय विद्यालय र अस्पताल; स्थानीय स्रोतमा आधारित उद्योग, कृषि र पर्यटनबाट रोजगारी; प्रदेश र स्थानीय तहलाई अधिकार र बजेट; सेवा र उद्योग राजधानीमा केन्द्रित नगर्ने; व्यवस्थित बसोबास र भूउपयोग योजना। **निष्कर्ष:** सन्तुलित वितरणले स्रोतमाथिको चाप घटाउँछ र सबै क्षेत्रको समान विकास गर्छ।
+**२.** **भूमिका:** जनसङ्ख्या व्यवस्थापन भनेको जनसङ्ख्याको आकार, वृद्धि र वितरणलाई स्रोतसँग सन्तुलित राख्नु हो। **पारिवारिक योजना र गुणस्तरीय जीवन:** आम्दानी र स्रोतको व्यवस्थापन, आवश्यकताअनुसार सन्तान र उचित जन्मान्तरले आधारभूत आवश्यकता, स्वास्थ्य, शिक्षा र खुसी — गुणस्तरीय जीवनका आधार — पूरा गर्छ। धेरै सन्तान भएको योजनाविहीन परिवारमा पोषण, शिक्षा र स्वास्थ्य कमजोर हुन्छ। नेपालमा परिवार नियोजन, ढिलो विवाह र शिक्षाले वृद्धिदर ०.९२ मा झरेको छ र औसत आयु ७१.३ वर्ष पुगेको छ। **वातावरण:** जनसङ्ख्या वृद्धि, प्राकृतिक स्रोतको बढी प्रयोग र सहरीकरण वातावरण परिवर्तनका मुख्य कारण हुन्; यसले प्रदूषण, वन विनाश, उर्वराशक्ति ह्रास, बाढी–पहिरो र महामारी ल्याउँछ। काठमाडौँ जस्ता घना सहरको धुवाँ र फोहोर नदी यसका उदाहरण हुन्। **सामुदायिक स्वास्थ्य:** घना र फोहोर बस्तीमा सरुवा रोग छिटो फैलन्छन्; खोप, सरसफाइ, कुपोषण रोकथाम, खाद्य निरीक्षण र विपत् तयारी जस्ता सामुदायिक प्रयासले स्वस्थ जनशक्ति बनाउँछन्। **विवेचना:** जनसङ्ख्या स्रोतभन्दा छिटो बढे जति आम्दानी बढे पनि प्रतिव्यक्ति सुविधा घट्छ, वातावरण बिग्रन्छ र स्वास्थ्य सेवा अपुग हुन्छ। तर व्यवस्थित जनसङ्ख्या — विशेषगरी ६१.९६ प्रतिशत सक्रिय उमेरको जनशक्ति — लाई सिप र रोजगारी दिए विकासको अवसर बन्छ। **निष्कर्ष:** पारिवारिक योजना, वातावरण संरक्षण र सामुदायिक स्वास्थ्य तीनै मिलेर मात्र गुणस्तरीय जीवन सम्भव छ; त्यसैले भनाइ सही छ।
 :::
-
-**Group B — Short answer (2 marks each)**
-
-1. What is a population census? <span class="marks">[2]</span>
-2. Define population density and write the formula. <span class="marks">[2]</span>
-3. Mention any two reasons for the decline of Nepal's growth rate to 0.92%. <span class="marks">[2]</span>
-4. A district has 240,000 people and an area of 1,200 km². Calculate its density. <span class="marks">[2]</span>
-5. Write any two benefits of family planning. <span class="marks">[2]</span>
-6. What is community health? <span class="marks">[2]</span>
-
-::: note Answers to Group B
-**1.** A census is the official count of all people of a country on a particular day, with their age, sex, education, work and housing. Nepal holds one every ten years.
-**2.** Population density is the average number of persons per square kilometre. Density = population ÷ area (km²).
-**3.** Fall in birth rate (family planning, education of girls, later marriage); large emigration abroad (2.19 million absentees). (Any two.)
-**4.** Density = 240,000 ÷ 1,200 = **200 persons per km²**.
-**5.** Protects the health of mothers and children; lets parents educate all children; reduces pressure on resources. (Any two.)
-**6.** Community health is the organised effort of the people, government and others to protect and improve the health of all the people of a locality, mainly through prevention.
-:::
-
-**Group C — Long answer (4 marks each)**
-
-1. Explain the causes of uneven distribution of population in Nepal. <span class="marks">[4]</span>
-2. Describe the age composition of Nepal's population from the 2021 census and its importance. <span class="marks">[4]</span>
-3. Explain the benefits of family planning. <span class="marks">[4]</span>
-4. Explain the relationship between population and environment, with four suggestions for protecting the environment. <span class="marks">[4]</span>
-5. Describe the measures of community health in Nepal. <span class="marks">[4]</span>
-
-::: note Answers to Group C
-**1.** Relief (Terai plains, valleys dense; mountains sparse: Terai 460 vs Mountain 34); climate; soil and water; transport; jobs and urban facilities; services; history (malaria control and resettlement); natural hazards. Use the examples Kathmandu (5,169) and Manang (3).
-**2.** 0–14: 27.83%; 15–59: 61.96%; 60+: 10.21%. The dependency ratio is about 61. A large working-age group is a demographic dividend if jobs are available; the share of the elderly is rising so pensions and health services are needed; the child share has fallen so family planning is working.
-**3.** Health of mother and child; spacing of births; education of children; lower expenses and higher savings; less pressure on resources and environment; women's empowerment; better quality of life.
-**4.** More people need food, fuel, houses and water, causing deforestation, pollution, waste and climate change; a damaged environment causes disease, disasters and migration. Suggestions: family planning; plant and protect forests; manage waste by the 3Rs; use clean energy and public transport.
-**5.** Safe water and sanitation; immunisation; nutrition; maternal and child care (Aama programme, birthing centres); health education; disease control; FCHVs and health posts; free basic health services and insurance; mental health and first aid.
-:::
-

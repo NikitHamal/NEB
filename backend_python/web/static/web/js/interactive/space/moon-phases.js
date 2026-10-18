@@ -1,4 +1,5 @@
 import { THREE, createEngine, createOrbitControls, makeLabelSprite } from '../core/engine.js';
+import { body, earthWithClouds, sun as makeSun, starfield } from '../core/space-kit.js';
 import { createPanel, createHud } from '../core/sim-ui.js';
 
 const MOON_DIST = 7;
@@ -22,26 +23,14 @@ export default function init(stage) {
   camera.position.set(0, 16, 22);
   const controls = createOrbitControls(camera, engine.canvas, { minDistance: 4, maxDistance: 80 });
 
-  const starGeo = new THREE.BufferGeometry();
-  const starCount = quality.tier === 'low' ? 500 : 1500;
-  const starPos = new Float32Array(starCount * 3);
-  for (let i = 0; i < starCount; i++) {
-    const r = 300 + Math.random() * 500;
-    const theta = Math.random() * Math.PI * 2;
-    const phi = Math.acos(2 * Math.random() - 1);
-    starPos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
-    starPos[i * 3 + 1] = r * Math.cos(phi);
-    starPos[i * 3 + 2] = r * Math.sin(phi) * Math.sin(theta);
-  }
-  starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
-  scene.add(new THREE.Points(starGeo, new THREE.PointsMaterial({ color: 0xbfd0e8, size: 1.3, sizeAttenuation: false })));
+  scene.add(starfield(quality, 1400));
 
   scene.add(new THREE.AmbientLight(0xffffff, 0.12));
   const sunDir = new THREE.DirectionalLight(0xfff4dd, 2.6);
   sunDir.position.set(60, 0, 0);
   scene.add(sunDir);
 
-  const sunBall = new THREE.Mesh(new THREE.SphereGeometry(3, seg, seg), new THREE.MeshBasicMaterial({ color: 0xffc24d }));
+  const sunBall = makeSun(3, quality);
   sunBall.position.set(60, 0, 0);
   scene.add(sunBall);
   const glowCanvas = document.createElement('canvas');
@@ -56,24 +45,17 @@ export default function init(stage) {
   gctx.fillRect(0, 0, 128, 128);
   const glow = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(glowCanvas), transparent: true, depthWrite: false }));
   glow.scale.set(16, 16, 1);
-  sunBall.add(glow);
   const sunLabel = makeLabelSprite('Sunlight comes from here', { scale: 2, fontSize: 36 });
   sunLabel.position.set(0, 5.5, 0);
   sunBall.add(sunLabel);
 
-  const earth = new THREE.Mesh(
-    new THREE.SphereGeometry(1.6, seg, seg),
-    new THREE.MeshStandardMaterial({ color: 0x4d7fff, roughness: 0.8 })
-  );
+  const earth = earthWithClouds(1.6, quality);
   scene.add(earth);
   const earthLabel = makeLabelSprite('Earth (you are here)', { scale: 1.7, fontSize: 36 });
   earthLabel.position.y = 3;
   scene.add(earthLabel);
 
-  const moon = new THREE.Mesh(
-    new THREE.SphereGeometry(0.55, seg, seg),
-    new THREE.MeshStandardMaterial({ color: 0xc9c9c9, roughness: 1 })
-  );
+  const moon = body('moon', 0.55, quality);
   scene.add(moon);
 
   const orbitPts = [];

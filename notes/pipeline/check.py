@@ -5,13 +5,14 @@ Usage: python3 check.py ../content/phy11/unit-03.md
 Exits non-zero and prints every failure if anything does not compile.
 """
 import sys, os, re
+os.environ.setdefault("FIG_LINT", "1")
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import mathsvg, figrun, md2html, photo
 
 def main(path):
     text = open(path, encoding="utf-8").read()
     slug = os.path.basename(os.path.dirname(path))
-    mathsvg.FAILS.clear(); figrun.FAILS.clear(); md2html.LEAKS.clear()
+    mathsvg.FAILS.clear(); figrun.FAILS.clear(); figrun.LINT.clear(); md2html.LEAKS.clear()
     photo.FAILS.clear(); photo.USED.clear(); mathsvg.OVERWIDE.clear()
     meta, html, _ = md2html.convert(text, f"{slug}-{os.path.basename(path)}", 1)
 
@@ -40,6 +41,11 @@ def main(path):
         print(f"\n!! {len(photo.FAILS)} PHOTO FAILURES")
         for aid, err in photo.FAILS:
             print(f"   {aid} -> {err.strip().splitlines()[-1][:140]}")
+    if figrun.LINT:
+        ok = False
+        print(f"\n!! {len(figrun.LINT)} FIGURE LEGIBILITY PROBLEMS (min {figrun.MIN_PT}pt, no overprinted labels)")
+        for _, msg in figrun.LINT[:40]:
+            print(f"   {msg}")
     wide = mathsvg.OVERWIDE
     if wide:
         ok = False

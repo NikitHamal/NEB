@@ -7,7 +7,7 @@
    attribute, and an empty value meant they all fell through to the OS
    preference. A reader on a light page with a dark desktop got the dark palette
    painted into the cards: the exact complaint in issue #47. {% endcomment %}
-<html lang="en" data-theme="{% if dark_mode %}dark{% else %}light{% endif %}">
+<html lang="en" data-theme="{% if dark_mode %}dark{% else %}light{% endif %}" data-neby-look="{{ site_theme.neby.look|default:'classic' }}"{% if site_theme.neby.greet %} data-neby-greet="{{ site_theme.neby.greet }}"{% endif %}{% if site_theme.neby and not site_theme.neby.ambient %} data-neby-ambient="false"{% endif %}{% if site_theme.neby and not site_theme.neby.reactions %} data-neby-reactions="false"{% endif %}{% if site_theme.show_in_app %} data-site-theme="{{ site_theme.key }}" style="{{ site_theme.css }}"{% endif %}>
 
 <head>
   <meta charset="UTF-8">
@@ -88,7 +88,7 @@
         "inLanguage": "en-NP",
         "potentialAction": {
           "@type": "SearchAction",
-          "target": "https://nebians.consica.com.np/search/?q={search_term_string}",
+          "target": "https://nebians.consica.com.np/app/search/?q={search_term_string}",
           "query-input": "required name=search_term_string"
         }
       }
@@ -96,17 +96,21 @@
   }
   </script>
   {% block head_extra %}{% endblock %}
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,0&display=swap">
+  <link rel="preload" href="{% static 'web/fonts/app/material-symbols-outlined.woff2' %}" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="{% static 'web/fonts/app/poppins-400-latin.woff2' %}" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="{% static 'web/css/fonts.css' %}">
   <link rel="stylesheet" href="{% static 'web/css/material3.css' %}">
   <link rel="stylesheet" href="{% static 'web/css/app.css' %}">
+  <link rel="stylesheet" href="{% static 'web/css/pixel.css' %}">
+  <script src="{% static 'web/js/pixel-states.js' %}" defer></script>
+  {% if site_theme.show_in_app and site_theme.festive %}<link rel="stylesheet" href="{% static 'web/css/themes.css' %}">
+  <style>{{ site_theme.app_css|safe }}</style>
+  <script src="{% static 'web/js/themes.js' %}" defer></script>{% endif %}
   <link rel="stylesheet" href="{% static 'web/css/forum-media.css' %}">
   <link rel="stylesheet" href="{% static 'web/css/pages/media-player.css' %}">
   <link rel="stylesheet" href="{% static 'web/css/pages/tools.css' %}">
   <link rel="stylesheet" href="{% static 'web/css/neby-avatar.css' %}">
+  <link rel="stylesheet" href="{% static 'web/css/neby-pixel.css' %}">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
   {% block extra_css %}{% endblock %}
   <link rel="stylesheet" href="{% static 'web/css/ai-widgets.css' %}">
@@ -203,7 +207,7 @@
           </g>
         </g>
       </svg>
-      <span>NEBians</span>
+      <span>NEBians</span>{% if site_theme.show_in_app and site_theme.festive %}{% include "themes/_motif.html" %}{% endif %}
     </a>
     <nav class="md-nav-pill md-topbar-nav">
       <a href="{% url 'web:home' %}" class="{% block nav_home %}{% endblock %}">Home</a>
@@ -311,6 +315,9 @@
       {% endif %}
     </div>
   </header>
+  {% if site_theme.show_in_app and site_theme.festive %}
+  <div class="st-app-strip" aria-hidden="true"></div>
+  {% endif %}
   {% endblock %}
 
   <!-- HTMX loading indicator -->
@@ -350,12 +357,12 @@
         <div class="site-footer-col">
           <h4 class="site-footer-heading">Popular Subjects</h4>
           <ul class="site-footer-list">
-            <li><a href="/subject/class-12/physics/">Class 12 Physics</a></li>
-            <li><a href="/subject/class-12/chemistry/">Class 12 Chemistry</a></li>
-            <li><a href="/subject/class-12/mathematics/">Class 12 Mathematics</a></li>
-            <li><a href="/subject/class-12/english/">Class 12 English</a></li>
-            <li><a href="/subject/class-11/physics/">Class 11 Physics</a></li>
-            <li><a href="/subject/class-11/chemistry/">Class 11 Chemistry</a></li>
+            <li><a href="/app/subject/class-12/physics/">Class 12 Physics</a></li>
+            <li><a href="/app/subject/class-12/chemistry/">Class 12 Chemistry</a></li>
+            <li><a href="/app/subject/class-12/mathematics/">Class 12 Mathematics</a></li>
+            <li><a href="/app/subject/class-12/english/">Class 12 English</a></li>
+            <li><a href="/app/subject/class-11/physics/">Class 11 Physics</a></li>
+            <li><a href="/app/subject/class-11/chemistry/">Class 11 Chemistry</a></li>
           </ul>
         </div>
         <div class="site-footer-col">
@@ -543,7 +550,7 @@
         renderer.link = function(token) {
           const isInternal = token.href && (token.href.startsWith('/') || token.href.startsWith(window.location.origin));
           const html = origLink(token);
-          if (token.href && token.href.startsWith('/profile/')) {
+          if (token.href && token.href.startsWith('/app/profile/')) {
             return html.replace('<a ', '<a class="fp-mention" ');
           }
           if (!isInternal && token.href) {
@@ -895,7 +902,7 @@
   {% comment %} Moved down from <head>. Order is the order they were in there, and every
      consumer of them runs on DOMContentLoaded or later, so nothing changes
      except that the page can paint before they arrive. {% endcomment %}
-  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neb-art.js' %}"></script>
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/pixel-art.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/inline-media.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/forum-media.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/media-player.js' %}"></script>
@@ -903,7 +910,7 @@
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/marked.min.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% load static %}{% static 'web/js/realtime.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/ai-widgets.js' %}"></script>
-  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neby-avatar.js' %}"></script>
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neby-pixel.js' %}"></script>
   {% comment %} The dialog, sheet, picker, menu and choice-control controller.
      One file for all of them; see material3/09-overlays.css. {% endcomment %}
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neb-overlays.js' %}"></script>

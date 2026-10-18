@@ -46,6 +46,8 @@ CATEGORIES = [
      'blurb': 'Train neurons, teach machines to see and discover how ChatGPT-style AI really works — by playing with it.'},
     {'key': 'coding', 'label': 'Coding Adventures', 'icon': 'code_blocks', 'color': '#EC4899',
      'blurb': 'Learn HTML, CSS, JavaScript and Python through games, drag-and-drop blocks and friendly guides.'},
+    {'key': 'neb10', 'label': 'NEB Class 9–10 Lab', 'icon': 'school', 'color': '#0D9488',
+     'blurb': 'The SEE practicals and graph work of classes 9 and 10 as working simulations — mirrors, circuits, indicators, food tests, parabolas and data.'},
 ]
 
 CATEGORY_MAP = {c['key']: c for c in CATEGORIES}
@@ -54,13 +56,13 @@ CATEGORY_MAP = {c['key']: c for c in CATEGORIES}
 def _load_catalog_modules():
     from . import (
         catalog_robotics, catalog_space, catalog_physics, catalog_chemistry,
-        catalog_neb_physics, catalog_neb_chemistry, catalog_biology, catalog_ai,
-        catalog_coding,
+        catalog_neb_physics, catalog_neb_chemistry, catalog_neb_class10,
+        catalog_biology, catalog_ai, catalog_coding,
     )
     return [
         catalog_robotics, catalog_space, catalog_physics, catalog_chemistry,
-        catalog_neb_physics, catalog_neb_chemistry, catalog_biology, catalog_ai,
-        catalog_coding,
+        catalog_neb_physics, catalog_neb_chemistry, catalog_neb_class10,
+        catalog_biology, catalog_ai, catalog_coding,
     ]
 
 

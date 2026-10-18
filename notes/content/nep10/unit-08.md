@@ -118,6 +118,25 @@ crop 0.0 0.1 1.0 0.95
 tint 0.03
 ```
 
+```figure caption="कविताका छ श्लोकको भाव-नक्सा। कविता गौरवबाट सुरु भएर समस्यामा झर्छ र संकल्पमा टुङ्गिन्छ — यही तीन चरण सम्झे व्याख्या क्रममा लेखिन्छ।"
+fig, ax = plt.subplots(figsize=(5.0, 2.9))
+ax.set_xlim(0, 10)
+ax.set_ylim(0, 6.6)
+ax.axis("off")
+shloks = [("श्लोक १", "नेपाल बाँचे गौरव बाँच्छ"), ("श्लोक २", "भोक र नाङ्गोपनको चिन्ता"),
+          ("श्लोक ३", "पहाड र तराईको कथन"), ("श्लोक ४", "गौरवशाली सभ्यता"),
+          ("श्लोक ५", "हिमाल र पुर्खाको वन्दना"), ("श्लोक ६", "अन्तिम संकल्प")]
+for i, (num, line) in enumerate(shloks):
+    y = 5.9 - i * 0.98
+    c = ACCENT if i < 4 else SERIES[1]
+    ax.text(0.15, y, num, ha="left", va="center", fontsize=7.0, color=c)
+    ax.plot([1.25, 1.45], [y, y], color=c, lw=1.6)
+    ax.text(1.6, y, line, ha="left", va="center", fontsize=7.0, color=INK)
+ax.text(5.0, 0.25, "छैटौँ श्लोक संकल्प हो — यसैले कवितालाई आशावादी बनाउँछ।",
+        ha="center", fontsize=6.9, color=MUTED)
+fig.tight_layout()
+```
+
 ## ८.३ पाठबाट शब्दार्थ
 
 | शब्द | अर्थ |
@@ -181,6 +200,27 @@ tint 0.03
 | अनुप्रास | बाँच्ने छ – साँच्ने छ; विशाल – हिमाल; सखार – हजार | समान ध्वनिको आवृत्ति |
 | पुनरावृत्ति | 'श्रम र सिप स्वदेशमै लगाऔँ' | एउटै पङ्क्तिको दोहोरो |
 | सम्बोधन | 'नेपाल आमा', 'हे धन्य पुर्खा' | कसैलाई पुकारेर भनिएको |
+
+```figure caption="वाक्यका तीन प्रकार। परीक्षामा वाक्य दिइएर प्रकार सोधिन्छ; जोड्ने शब्द (र, तर, किनकि) भेट्नु नै पहिचानको सजिलो उपाय हो।"
+fig, ax = plt.subplots(figsize=(4.9, 2.7))
+ax.set_xlim(0, 10)
+ax.set_ylim(0, 6)
+ax.axis("off")
+ax.text(5.0, 5.5, "वाक्य", ha="center", fontsize=8.2, color=INK,
+        bbox=dict(boxstyle="round,pad=0.32", fc="white", ec=INK, lw=1.2))
+items = [("सरल", "एउटै क्रिया\nएउटै भाव", ACCENT),
+         ("मिश्र", "मुख्य र गौण उपवाक्य\n'कि', 'जब', 'किनकि'", SERIES[1]),
+         ("संयुक्त", "दुई स्वतन्त्र वाक्य\n'र', 'तर', 'अनि'", SERIES[2])]
+for i, (name, note, c) in enumerate(items):
+    x = 1.7 + i * 3.3
+    ax.plot([5.0, x], [5.0, 4.2], color=GRID, lw=1.0)
+    ax.text(x, 3.7, name, ha="center", fontsize=7.8, color=c,
+            bbox=dict(boxstyle="round,pad=0.3", fc="white", ec=c, lw=1.0))
+    ax.text(x, 2.5, note, ha="center", va="center", fontsize=6.6, color=INK)
+ax.text(5.0, 0.7, "पहिले क्रिया गन्नु, त्यसपछि जोड्ने शब्द हेर्नु — दुई चरणमै प्रकार ठिक हुन्छ।",
+        ha="center", fontsize=6.8, color=MUTED)
+fig.tight_layout()
+```
 
 ## ८.६ पाठमा आधारित व्याकरण
 

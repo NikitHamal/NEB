@@ -144,7 +144,7 @@ fun ForgotPasswordScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             NebArtSlot {
-                NebCodeInFlightArt(filledCount = if (codeSent) code.length else 0, total = 6)
+                com.neb.ians.ui.pixel.art.PixelOnboardingArt(com.neb.ians.ui.pixel.art.PixelOnboarding.Kind.Code, a = if (codeSent) code.length else 0, b = 6, height = 160.dp)
             }
 
             val phaseSlide = nebSpatialSpec<IntOffset>()

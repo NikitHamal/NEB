@@ -1,6 +1,7 @@
 """Execute authored matplotlib figure code -> cached SVG. House style applied globally."""
 import hashlib, os, io, traceback, warnings
 import matplotlib
+import matplotlib.patches as mpatches
 import fonts
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -10,6 +11,8 @@ warnings.filterwarnings("ignore")
 CACHE = os.path.join(os.path.dirname(__file__), "..", "figures", "_fig")
 os.makedirs(CACHE, exist_ok=True)
 FAILS = []
+LINT = []      # (chapter_id, message): legibility problems found while rendering
+MIN_PT = 6.8   # smallest type a printed figure may carry, after canvas scaling
 
 # Nebians figure house style
 INK      = "#14181f"
@@ -19,6 +22,7 @@ ACCENT   = "#1d6fb8"     # primary
 SERIES   = ["#1d6fb8", "#d9534f", "#2e8b57", "#b8860b", "#6a5acd", "#008b8b"]
 
 FAMILY   = ["Inter", "DejaVu Sans", "Noto Sans Devanagari"]
+TARGET_W = 5.9          # inches; the text column is 6.93 in
 
 fonts.ensure()   # static bold instances, so fontweight="bold" is actually bold
 
@@ -62,19 +66,42 @@ def _style():
 
 def run(code: str, chapter_id: str = "") -> str | None:
     """Exec `code`; it must leave a Figure in `fig`. Returns svg path or None."""
-    key = hashlib.sha1((code + "|v3").encode()).hexdigest()[:20]
+    nep = chapter_id.startswith(("nep", "soc", "health"))
+    key = hashlib.sha1((code + ("|v5ne" if nep else "|v4")).encode()).hexdigest()[:20]
     out = os.path.join(CACHE, key + ".svg")
-    if os.path.exists(out):
+    if os.path.exists(out) and not os.environ.get("FIG_LINT"):
         return out
     _style()
+    # Common patch classes are injected so a figure never fails on a missing
+    # import; `plt.Ellipse` and friends do not exist on pyplot.
     ns = {"plt": plt, "np": np, "matplotlib": matplotlib,
           "INK": INK, "MUTED": MUTED, "GRID": GRID, "ACCENT": ACCENT, "SERIES": SERIES,
-          "matrix": matrix, "mateq": mateq}
+          "matrix": matrix, "mateq": mateq,
+          "flow": flow, "cycle": cycle, "cards": cards,
+          "relation": relation, "barh_ranked": barh_ranked,
+          "Rectangle": mpatches.Rectangle, "Circle": mpatches.Circle,
+          "Ellipse": mpatches.Ellipse, "Polygon": mpatches.Polygon,
+          "Arc": mpatches.Arc, "Wedge": mpatches.Wedge,
+          "FancyArrow": mpatches.FancyArrow, "FancyArrowPatch": mpatches.FancyArrowPatch,
+          "matplotlib.patches": mpatches}
     try:
         exec(compile(code, "<figure>", "exec"), ns)
         fig = ns.get("fig") or plt.gcf()
         if fig is None or not fig.get_axes() and not fig.texts:
             raise RuntimeError("no figure produced")
+        # Labels are set in points, so enlarging the canvas enlarges the
+        # drawing area without touching type size: the chart reads better on
+        # a 176 mm text column, which is 6.9 in wide.
+        w, h = fig.get_size_inches()
+        if w < TARGET_W:
+            scale = min(TARGET_W / w, 1.30)
+            fig.set_size_inches(w * scale, h * scale)
+        else:
+            scale = 1.0
+        if chapter_id.startswith(("nep", "soc", "health")):
+            _devanagari_digits(fig)
+        if os.environ.get("FIG_LINT"):
+            _lint(fig, scale, chapter_id, code)
         fig.savefig(out, format="svg", transparent=True,
                     bbox_inches="tight", pad_inches=0.04)
         plt.close("all")
@@ -83,6 +110,61 @@ def run(code: str, chapter_id: str = "") -> str | None:
         FAILS.append((chapter_id, traceback.format_exc(limit=2)[-400:]))
         plt.close("all")
         return None
+
+
+_DEVA = str.maketrans("0123456789", "०१२३४५६७८९")
+
+def _devanagari_digits(fig):
+    """A Nepali-medium book prints Nepali numerals everywhere, tick labels included.
+    Text inside $...$ is mathtext and is left alone."""
+    import re as _re
+    fig.canvas.draw()
+    def conv(s):
+        parts = _re.split(r"(\$[^$]*\$)", s)
+        return "".join(p if p.startswith("$") else p.translate(_DEVA) for p in parts)
+    for ax in fig.get_axes():
+        for axis in (ax.xaxis, ax.yaxis):
+            ticks = axis.get_ticklabels()
+            if any(_re.search(r"[0-9]", t.get_text()) for t in ticks):
+                locs = axis.get_ticklocs()
+                labels = [conv(t.get_text().replace("\u2212", "-")) for t in ticks]
+                if len(labels) == len(locs):
+                    axis.set_ticks(locs)
+                    axis.set_ticklabels(labels)
+    for t in fig.findobj(matplotlib.text.Text):
+        s = t.get_text()
+        if s and _re.search(r"[0-9]", s):
+            t.set_text(conv(s))
+
+
+def _lint(fig, scale, chapter_id, code):
+    """Flag type too small to read in print, and labels that overprint each other."""
+    fig.canvas.draw()
+    r = fig.canvas.get_renderer()
+    boxes = []
+    head = (code.strip().splitlines() or [""])[0][:60]
+    for t in fig.findobj(matplotlib.text.Text):
+        s = t.get_text().strip()
+        if not s or not t.get_visible() or t.get_alpha() == 0:
+            continue
+        pt = t.get_fontsize() * scale * (5.9 / max(fig.get_size_inches()[0], 5.9)) ** 0
+        if "\\n" in s and "$" not in s:
+            LINT.append((chapter_id, f"literal backslash-n prints as text: {s[:40]!r}  [{head}]"))
+        if pt < MIN_PT:
+            LINT.append((chapter_id, f"tiny text {pt:.1f}pt: {s[:40]!r}  [{head}]"))
+        try:
+            bb = t.get_window_extent(r)
+        except Exception:
+            continue
+        if bb.width > 1 and bb.height > 1:
+            boxes.append((bb, s))
+    for i in range(len(boxes)):
+        for j in range(i + 1, len(boxes)):
+            a, b = boxes[i][0], boxes[j][0]
+            ox = min(a.x1, b.x1) - max(a.x0, b.x0)
+            oy = min(a.y1, b.y1) - max(a.y0, b.y0)
+            if ox > 2 and oy > 2 and ox * oy > 0.25 * min(a.width * a.height, b.width * b.height):
+                LINT.append((chapter_id, f"labels overlap: {boxes[i][1][:30]!r} / {boxes[j][1][:30]!r}  [{head}]"))
 
 
 # ---------------------------------------------------------------- matrices
@@ -150,3 +232,171 @@ def mateq(items, fontsize=11.0, colw=0.52, rowh=0.44, gap=0.20, scale=0.55):
         x += w + gap
     ax.set_xlim(-0.12, W + 0.12); ax.set_ylim(-0.14, H + 0.14)
     return fig
+
+
+# ---------------------------------------------------------------- diagrams
+# Chapters need the same half-dozen diagram shapes over and over — a flow of
+# steps, a cycle, a row of cards, a relation triangle. Hand-drawing each one
+# with FancyBboxPatch produced inconsistent, thin-looking figures, so the
+# shapes live here: one call, a consistent look, and text that is fitted to
+# the box instead of spilling out of it.
+
+def _card(ax, x, y, w, h, title, body="", color=None, tsize=9.0, bsize=7.4,
+          radius=0.055):
+    color = color or SERIES[0]
+    ax.add_patch(mpatches.FancyBboxPatch(
+        (x, y), w, h, boxstyle=f"round,pad=0.004,rounding_size={radius}",
+        facecolor=color, edgecolor="none", alpha=0.92, mutation_aspect=1))
+    if body:
+        ax.text(x + w / 2, y + h * 0.63, title, ha="center", va="center",
+                color="white", fontsize=tsize, fontweight="bold")
+        ax.text(x + w / 2, y + h * 0.28, body, ha="center", va="center",
+                color="white", fontsize=bsize, linespacing=1.25)
+    else:
+        ax.text(x + w / 2, y + h / 2, title, ha="center", va="center",
+                color="white", fontsize=tsize, linespacing=1.25)
+
+
+def flow(steps, note="", figsize=None, colors=None, wrap=True):
+    """A left-to-right flow of steps, each in a rounded card with an arrow."""
+    n = len(steps)
+    figsize = figsize or (min(2.0 + 1.25 * n, 6.6), 1.85 if not note else 2.15)
+    fig, ax = plt.subplots(figsize=figsize)
+    colors = colors or [SERIES[i % len(SERIES)] for i in range(n)]
+    gap, w = 0.055, (1.0 - 0.055 * (n - 1)) / n
+    for i, step in enumerate(steps):
+        x = i * (w + gap)
+        title, body = (step if isinstance(step, (tuple, list)) else (step, ""))
+        _card(ax, x, 0.30, w, 0.52, title, body, colors[i],
+              tsize=8.6 if not body else 8.4, bsize=7.0)
+        if i < n - 1:
+            ax.annotate("", xy=(x + w + gap * 0.95, 0.56),
+                        xytext=(x + w + gap * 0.05, 0.56),
+                        arrowprops=dict(arrowstyle="-|>", color=MUTED, lw=1.3))
+    if note:
+        ax.text(0.5, 0.10, note, ha="center", va="center", color=MUTED,
+                fontsize=7.6)
+    ax.set_xlim(-0.01, 1.01)
+    ax.set_ylim(0.0, 0.92)
+    ax.axis("off")
+    return fig, ax
+
+
+def cycle(nodes, centre="", figsize=(4.6, 3.6), colors=None):
+    """A closed loop of nodes with arrows — for feedback and vicious cycles."""
+    import math
+    n = len(nodes)
+    fig, ax = plt.subplots(figsize=figsize)
+    colors = colors or [SERIES[i % len(SERIES)] for i in range(n)]
+    cx, cy, R, r = 0.5, 0.5, 0.33, 0.135
+    pts = []
+    for i in range(n):
+        a = math.pi / 2 - i * 2 * math.pi / n
+        pts.append((cx + R * math.cos(a), cy + R * math.sin(a)))
+    for (x, y), lab, col in zip(pts, nodes, colors):
+        ax.add_patch(mpatches.Circle((x, y), r, facecolor=col,
+                                     edgecolor="none", alpha=0.92))
+        ax.text(x, y, lab, ha="center", va="center", color="white",
+                fontsize=7.8, linespacing=1.2)
+    for i in range(n):
+        x1, y1 = pts[i]
+        x2, y2 = pts[(i + 1) % n]
+        dx, dy = x2 - x1, y2 - y1
+        d = math.hypot(dx, dy)
+        ux, uy = dx / d, dy / d
+        ax.annotate("", xy=(x2 - ux * (r + 0.02), y2 - uy * (r + 0.02)),
+                    xytext=(x1 + ux * (r + 0.02), y1 + uy * (r + 0.02)),
+                    arrowprops=dict(arrowstyle="-|>", color=MUTED, lw=1.3,
+                                    connectionstyle="arc3,rad=0.17"))
+    if centre:
+        ax.text(cx, cy, centre, ha="center", va="center", color=INK,
+                fontsize=8.6, fontweight="bold", linespacing=1.25)
+    ax.set_xlim(0.02, 0.98)
+    ax.set_ylim(0.02, 0.98)
+    ax.set_aspect("equal")
+    ax.axis("off")
+    return fig, ax
+
+
+def cards(items, cols=2, figsize=None, colors=None, title_size=9.0):
+    """A grid of titled cards — for 'four things', 'five pillars' panels."""
+    n = len(items)
+    rows = (n + cols - 1) // cols
+    figsize = figsize or (min(2.2 + 2.0 * cols, 6.6), 0.95 * rows + 0.45)
+    fig, ax = plt.subplots(figsize=figsize)
+    colors = colors or [SERIES[i % len(SERIES)] for i in range(n)]
+    gx, gy = 0.035, 0.09
+    w = (1.0 - gx * (cols - 1)) / cols
+    h = (1.0 - gy * (rows - 1)) / rows
+    for i, item in enumerate(items):
+        title, body = (item if isinstance(item, (tuple, list)) else (item, ""))
+        r, c = divmod(i, cols)
+        x = c * (w + gx)
+        y = 1.0 - (r + 1) * h - r * gy
+        _card(ax, x, y, w, h, title, body, colors[i], tsize=title_size,
+              bsize=7.2)
+    ax.set_xlim(-0.01, 1.01)
+    ax.set_ylim(-0.02, 1.02)
+    ax.axis("off")
+    return fig, ax
+
+
+def relation(nodes, links, figsize=(5.4, 3.2), colors=None):
+    """Three or four boxes joined by labelled arrows (separation of powers,
+    cause and effect, the parts of a system)."""
+    n = len(nodes)
+    fig, ax = plt.subplots(figsize=figsize)
+    colors = colors or [SERIES[i % len(SERIES)] for i in range(n)]
+    if n == 3:
+        pos = [(0.5, 0.78), (0.17, 0.26), (0.83, 0.26)]
+    elif n == 4:
+        pos = [(0.22, 0.78), (0.78, 0.78), (0.22, 0.24), (0.78, 0.24)]
+    else:
+        pos = [((i + 0.5) / n, 0.5) for i in range(n)]
+    w, h = 0.30, 0.24
+    for (cx, cy), node, col in zip(pos, nodes, colors):
+        title, body = (node if isinstance(node, (tuple, list)) else (node, ""))
+        _card(ax, cx - w / 2, cy - h / 2, w, h, title, body, col,
+              tsize=8.6, bsize=7.0)
+    for a, b, label in links:
+        (x1, y1), (x2, y2) = pos[a], pos[b]
+        ax.annotate("", xy=(x2, y2), xytext=(x1, y1),
+                    arrowprops=dict(arrowstyle="<|-|>", color=MUTED, lw=1.2,
+                                    shrinkA=26, shrinkB=26))
+        if label:
+            ax.text((x1 + x2) / 2, (y1 + y2) / 2 + 0.035, label, ha="center",
+                    va="center", color=MUTED, fontsize=7.2,
+                    linespacing=1.2,
+                    bbox=dict(boxstyle="round,pad=0.18", facecolor="white",
+                              edgecolor="none"))
+    ax.set_xlim(0.0, 1.0)
+    ax.set_ylim(0.05, 0.98)
+    ax.axis("off")
+    return fig, ax
+
+
+def barh_ranked(labels, values, unit="", figsize=None, color=None,
+                highlight=None, fmt="{:g}"):
+    """A ranked horizontal bar chart — the safe choice whenever the category
+    names are long enough to collide on an x axis."""
+    figsize = figsize or (5.9, 0.42 * len(labels) + 0.9)
+    fig, ax = plt.subplots(figsize=figsize)
+    cols = [(SERIES[3] if (highlight and lab in highlight) else
+             (color or SERIES[0])) for lab in labels]
+    y = range(len(labels))
+    ax.barh(list(y), values, color=cols, height=0.64, edgecolor="white",
+            linewidth=1.0)
+    span = max(values) if values else 1
+    for i, v in zip(y, values):
+        ax.text(v + span * 0.015, i, fmt.format(v) + unit, va="center",
+                color=INK, fontsize=8.4)
+    ax.set_yticks(list(y))
+    ax.set_yticklabels(labels, fontsize=8.4)
+    ax.invert_yaxis()
+    ax.set_xlim(0, span * 1.16)
+    ax.grid(axis="x", color=GRID, linewidth=0.7)
+    ax.set_axisbelow(True)
+    for s in ("top", "right", "left"):
+        ax.spines[s].set_visible(False)
+    ax.tick_params(colors=MUTED)
+    return fig, ax

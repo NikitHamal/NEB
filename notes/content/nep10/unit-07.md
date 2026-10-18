@@ -89,6 +89,32 @@ tint 0.03
 | ७ | धेरैमाथि शङ्का; सबै शत्रु जस्तो लाग्नु | चरम |
 | ८ | इन्स्पेक्टरलाई नामको सूची सुनाउनु | अन्त्य |
 
+```figure caption="'शत्रु' कथाको घटनाक्रम र कथाका चार भाग। पहिलो आधा कथा शान्तिको, दोस्रो आधा शङ्काको — यही मोड कथाको प्राण हो।"
+import numpy as np
+fig, ax = plt.subplots(figsize=(5.0, 2.6))
+x = np.arange(8)
+levels = [0.6, 0.7, 1.6, 2.2, 2.6, 3.3, 3.7, 3.0]
+ax.plot(x, levels, "-o", color=ACCENT, lw=1.5, ms=4.5)
+spans = [(0, 1, "आरम्भ"), (2, 4, "द्वन्द्व"), (5, 6, "चरम"), (7, 7, "अन्त्य")]
+for a, b, name in spans:
+    ax.axvspan(a - 0.45, b + 0.45, color=MUTED, alpha=0.10)
+    ax.text((a + b) / 2, 4.35, name, ha="center", fontsize=7.2, color=INK)
+labels = ["भद्र\nस्वभाव", "शत्रु\nनहुनु", "लट्ठी\nप्रहार", "पहिचान\nनहुनु",
+          "शङ्काको\nविस्तार", "दुर्गुणको\nबोध", "सबै शत्रु\nजस्तो", "इन्स्पेक्टरलाई\nसूची"]
+for i, name in enumerate(labels):
+    ax.text(i, levels[i] + 0.22, name, ha="center", va="bottom", fontsize=6.1, color=INK)
+ax.set_xlim(-0.7, 7.7)
+ax.set_ylim(0, 4.9)
+ax.set_xticks(x)
+ax.set_xticklabels([])
+ax.set_ylabel("शङ्काको तीव्रता", fontsize=7.4)
+ax.tick_params(labelsize=7, length=0)
+ax.spines[["top", "right"]].set_visible(False)
+ax.yaxis.grid(True, color=GRID, lw=0.6)
+ax.set_axisbelow(True)
+fig.tight_layout()
+```
+
 ## ७.४ पात्र चित्रण
 
 ### कृष्ण राय — केन्द्रीय पात्र
@@ -150,6 +176,28 @@ tint 0.03
 ### (च) कथाको व्यङ्ग्य
 
 सुरुमा कृष्ण राय 'कसैको शत्रु छैन' भन्छन्, अन्त्यमा 'दर्जनौँ मान्छे शत्रु हुन सक्छन्' भन्ने सूची दिन्छन्। यही उल्टो छेउ कथाको **व्यङ्ग्य** हो — जुन कुरा आफूले जीवनभर भनिरहे, घटनाको एकै रातले त्यसलाई उल्टाइदियो।
+
+```figure caption="शङ्काको चक्र। प्रमाण नभएको शङ्का आफैँलाई पुष्टि गर्ने प्रमाण खोज्छ र अझ बलियो हुन्छ — 'शत्रु' कथाको मुख्य मनोवैज्ञानिक सत्य यही हो।"
+fig, ax = plt.subplots(figsize=(4.9, 2.9))
+ax.set_xlim(0, 10)
+ax.set_ylim(0, 6)
+ax.axis("off")
+nodes = [(5.0, 5.1, "शङ्का जाग्नु"), (8.3, 3.2, "प्रमाण खोज्नु"),
+         (5.0, 1.3, "गलत अर्थ लगाउनु"), (1.7, 3.2, "शङ्का बलियो हुनु")]
+for i, (x, y, name) in enumerate(nodes):
+    ax.text(x, y, name, ha="center", va="center", fontsize=7.2, color=INK,
+            bbox=dict(boxstyle="round,pad=0.32", fc="white", ec=ACCENT, lw=1.1))
+edges = [(0, 1), (1, 2), (2, 3), (3, 0)]
+for a, b in edges:
+    xa, ya, _ = nodes[a]
+    xb, yb, _ = nodes[b]
+    ax.annotate("", xy=(xb, yb), xytext=(xa, ya),
+                arrowprops=dict(arrowstyle="->", color=MUTED, lw=1.1,
+                                shrinkA=22, shrinkB=22))
+ax.text(5.0, 0.32, "चक्र तोड्ने एक मात्र उपाय : प्रमाण नभएसम्म विश्वास नगुमाउनु।",
+        ha="center", fontsize=6.9, color=MUTED)
+fig.tight_layout()
+```
 
 ## ७.६ पाठबाट शब्दार्थ
 

@@ -1,4 +1,5 @@
 import { THREE, createEngine, createOrbitControls, makeLabelSprite } from '../core/engine.js';
+import { body, earthWithClouds, sun as makeSun, starfield } from '../core/space-kit.js';
 import { createPanel, createHud } from '../core/sim-ui.js';
 
 const EARTH_DIST = 34;
@@ -17,25 +18,13 @@ export default function init(stage) {
     target: new THREE.Vector3(EARTH_DIST * 0.6, 0, 0),
   });
 
-  const starGeo = new THREE.BufferGeometry();
-  const starCount = quality.tier === 'low' ? 500 : 1500;
-  const starPos = new Float32Array(starCount * 3);
-  for (let i = 0; i < starCount; i++) {
-    const r = 350 + Math.random() * 600;
-    const theta = Math.random() * Math.PI * 2;
-    const phi = Math.acos(2 * Math.random() - 1);
-    starPos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
-    starPos[i * 3 + 1] = r * Math.cos(phi);
-    starPos[i * 3 + 2] = r * Math.sin(phi) * Math.sin(theta);
-  }
-  starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
-  scene.add(new THREE.Points(starGeo, new THREE.PointsMaterial({ color: 0xbfd0e8, size: 1.3, sizeAttenuation: false })));
+  scene.add(starfield(quality, 1400));
 
   scene.add(new THREE.AmbientLight(0xffffff, 0.16));
   const sunLight = new THREE.PointLight(0xfff2d8, 2200, 0, 2);
   scene.add(sunLight);
 
-  const sun = new THREE.Mesh(new THREE.SphereGeometry(3.6, seg, seg), new THREE.MeshBasicMaterial({ color: 0xffc24d }));
+  const sun = makeSun(3.6, quality);
   scene.add(sun);
   const glowCanvas = document.createElement('canvas');
   glowCanvas.width = 128;
@@ -49,25 +38,18 @@ export default function init(stage) {
   gctx.fillRect(0, 0, 128, 128);
   const glow = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(glowCanvas), transparent: true, depthWrite: false }));
   glow.scale.set(18, 18, 1);
-  sun.add(glow);
   const sunLabel = makeLabelSprite('Sun', { scale: 1.8, fontSize: 38 });
   sunLabel.position.y = 6;
   sun.add(sunLabel);
 
-  const earth = new THREE.Mesh(
-    new THREE.SphereGeometry(1.5, seg, seg),
-    new THREE.MeshStandardMaterial({ color: 0x4d7fff, roughness: 0.8 })
-  );
+  const earth = earthWithClouds(1.5, quality);
   earth.position.set(EARTH_DIST, 0, 0);
   scene.add(earth);
   const earthLabel = makeLabelSprite('Earth', { scale: 1.6, fontSize: 36 });
   earthLabel.position.y = 3;
   earth.add(earthLabel);
 
-  const moon = new THREE.Mesh(
-    new THREE.SphereGeometry(0.55, seg, seg),
-    new THREE.MeshStandardMaterial({ color: 0xc9c9c9, roughness: 1 })
-  );
+  const moon = body('moon', 0.55, quality);
   scene.add(moon);
   const moonLabel = makeLabelSprite('Moon', { scale: 1.2, fontSize: 34 });
   moonLabel.position.y = 1.6;
@@ -181,7 +163,7 @@ export default function init(stage) {
     stateBadge.el.style.setProperty('--ix-hud-color', color);
     const a = ((moonAngle % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
     const isLunar = Math.abs(a - Math.PI) < 0.16 && Math.abs(moon.position.y) < 0.45;
-    moon.material.color.setHex(isLunar ? 0xb5523c : 0xc9c9c9);
+    moon.material.color.setHex(isLunar ? 0xd0705a : 0xffffff);
     controls.update(dt);
   });
 

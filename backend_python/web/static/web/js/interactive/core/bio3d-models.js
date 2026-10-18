@@ -62,7 +62,11 @@ function cylBetween(a, b, radius, material, seg = 16) {
   return mesh;
 }
 function label(group, text, pos, opts = {}) {
-  const s = makeLabelSprite(String(text), { scale: opts.scale || 0.22, fontSize: opts.fontSize || 30, bg: opts.bg, color: opts.color });
+  // constant on-screen size, so a label is readable at any zoom (world-sized ones were specks)
+  const base = makeLabelSprite(String(text), { scale: 1, fontSize: 32, bg: opts.bg || 'rgba(15,23,42,.82)', color: opts.color });
+  const m = base.material.clone(); m.sizeAttenuation = false; m.depthTest = false;
+  const s = new THREE.Sprite(m); const h = 0.034 * Math.min(1.25, Math.max(0.8, (opts.scale || 0.15) / 0.15));
+  s.scale.set(base.scale.x * h, h, 1); s.renderOrder = 20;
   s.position.set(...pos); group.add(s); return s;
 }
 function leader(group, text, from, to, opts = {}) {
@@ -71,7 +75,7 @@ function leader(group, text, from, to, opts = {}) {
 }
 function seeded(seed = 1) { let s = Math.abs(Math.floor(seed)) || 1; return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
 function hashSeed(...items) { return items.join('|').split('').reduce((a, c) => ((a * 31 + c.charCodeAt(0)) >>> 0), 2166136261); }
-function addStamp(group, text = 'real-scale virtual model') { label(group, text, [2.8, 2.65, -2.0], { scale: 0.12, fontSize: 20, bg: 'rgba(15,23,42,.62)' }); }
+function addStamp() { /* the 'real-scale' stamp was a note to ourselves, not to students */ }
 function addDimensionBar(group, text, a, b, y = 0.96) {
   const start = new THREE.Vector3(a, y, -1.45), end = new THREE.Vector3(b, y, -1.45);
   group.add(line([start, end], 0x38bdf8, 1, 0.95));
@@ -81,14 +85,8 @@ function addDimensionBar(group, text, a, b, y = 0.96) {
 }
 
 function addBench(group) {
-  const top = box(8.8, 0.28, 5.2, mat(0x243244, { roughness: 0.78 }), [0, 0.55, 0]); group.add(top);
-  group.add(box(9.2, 0.16, 5.55, mat(0x5b321c, { roughness: 0.82 }), [0, 0.34, 0]));
-  for (let i = -5; i <= 5; i += 1) {
-    const a = line([new THREE.Vector3(i * 0.75, 0.705, -2.6), new THREE.Vector3(i * 0.75, 0.705, 2.6)], 0xffffff, 1, 0.045);
-    const b = line([new THREE.Vector3(-4.4, 0.707, i * 0.52), new THREE.Vector3(4.4, 0.707, i * 0.52)], 0xffffff, 1, 0.045);
-    group.add(a, b);
-  }
-  label(group, 'NEB Biology 3D practical bench', [-2.95, 0.96, -2.18], { scale: 0.15, fontSize: 24, bg: 'rgba(0,0,0,.58)' });
+  // the room's laminate bench is the bench now; this is the white cutting mat on it
+  group.add(box(7.6, 0.02, 4.4, mat(0xf4f6f8, { roughness: 0.7 }), [0, 0.70, 0]));
 }
 function addTray(group, name = 'specimen tray') {
   group.add(box(4.12, 0.10, 2.35, mat(0xe7edf4, { roughness: 0.66 }), [0, 0.83, 0]));
@@ -482,7 +480,7 @@ export function buildBiologyModel(root, config, state, actors = {}) {
   else if (kind === 'skeletonHealth') addSkeleton(root, state, true);
   else if (kind === 'cockroach') addCockroach(root, state);
   else { addTray(root, 'biology practical model'); label(root, config.title, [0,2.3,0], { scale:.16 }); }
-  addMetricPlaque(root, config, state);
+  // live readings live in the controls dock; a second copy floating in the scene was clutter
   addCalibrationReference(root, kind);
   addStamp(root, 'scan-grade scientific PBR - responsive/optimized');
   // Collapse the hundreds of individually transformed primitives into one buffer per

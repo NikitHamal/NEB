@@ -163,7 +163,7 @@ fun NebOptionCard(
             .fillMaxWidth()
             .clip(shape)
             .background(fill)
-            .border(edgeWidth, edge, shape)
+            .border(edgeWidth.coerceAtLeast(0.dp), edge, shape)
             .nebPressable(scale = 0.985f, tactile = TactileType.SelectionChange, onClick = onClick)
             .padding(start = 18.dp, end = 16.dp, top = 15.dp, bottom = 15.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -443,7 +443,7 @@ private fun NebChoiceTile(
         modifier = modifier
             .clip(shape)
             .background(fill)
-            .border(edgeWidth, edge, shape)
+            .border(edgeWidth.coerceAtLeast(0.dp), edge, shape)
             .nebPressable(scale = 0.96f, tactile = TactileType.SelectionChange, onClick = onClick)
             .padding(vertical = 16.dp, horizontal = 8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,

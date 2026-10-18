@@ -1,0 +1,99 @@
+{
+  "key": "D major",
+  "bpm": 100,
+  "music": "synth",
+  "sfx": {
+    "engine": "auto",
+    "kit": "audio/kit.json",
+    "python": "/workspace/earshot/bin/python"
+  },
+  "chords": [
+    "Dmaj9",
+    "Bm11",
+    "Gmaj9",
+    "A7sus4",
+    "Dmaj9",
+    "Bm11",
+    "Gmaj9",
+    "A7sus4",
+    "Bm11",
+    "Gmaj9",
+    "Dmaj9",
+    "A7sus4",
+    "Gmaj9",
+    "Dmaj9",
+    "-"
+  ],
+  "sections": [
+    {
+      "bars": [
+        1,
+        2
+      ],
+      "style": "intro"
+    },
+    {
+      "bars": [
+        3,
+        6
+      ],
+      "style": "groove"
+    },
+    {
+      "bars": [
+        7,
+        8
+      ],
+      "style": "breakdown"
+    },
+    {
+      "bars": [
+        9,
+        12
+      ],
+      "style": "drive"
+    },
+    {
+      "bars": [
+        13,
+        13
+      ],
+      "style": "resolve"
+    },
+    {
+      "bars": [
+        14,
+        14
+      ],
+      "style": "hold"
+    }
+  ],
+  "signature": {
+    "tick": "A6",
+    "tock": "D6",
+    "motif": [
+      0,
+      4,
+      7
+    ],
+    "rhythm": [
+      0,
+      0.5,
+      1.5
+    ]
+  },
+  "typing": "auto",
+  "payoff": "@diyo1",
+  "mix": {
+    "music": 0.82,
+    "sfx": 1.0,
+    "reverb": 1.0,
+    "sidechain": 0.55,
+    "duck_db": 3,
+    "typing_duck_db": 16
+  },
+  "master": {
+    "ceiling": 0.68,
+    "fade": 1.3
+  }
+}

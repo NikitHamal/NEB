@@ -94,7 +94,7 @@ fun NebFabMenu(
             expanded = expanded,
             onDismissRequest = onDismissRequest
         )
-        Spacer(modifier = Modifier.height(gap))
+        Spacer(modifier = Modifier.height(gap.coerceAtLeast(0.dp)))
         anchor()
     }
 }
