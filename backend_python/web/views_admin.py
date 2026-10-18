@@ -1,6 +1,7 @@
 """Views Admin extracted from views.py."""
 from decimal import Decimal
 from .view_helpers import *  # noqa: F401,F403
+from api.services import AVATAR_FIELDS
 
 def admin_pending_resources(request):
     """Admin page to approve/reject pending resources."""
@@ -2406,7 +2407,7 @@ def admin_analytics(request):
     online_user_details = []
     online_user_ids = [u['user_id'] for u in online_users]
     if online_user_ids:
-        user_map = {str(u.id): u for u in UserModel.objects.filter(pk__in=online_user_ids).only('id', 'username', 'photo_url', 'role', 'display_name')}
+        user_map = {str(u.id): u for u in UserModel.objects.filter(pk__in=online_user_ids).only('id', 'role', 'display_name', *AVATAR_FIELDS)}
         for u in online_users:
             usr = user_map.get(u['user_id'])
             if usr:
@@ -2532,7 +2533,7 @@ def admin_analytics_online_users(request):
     online_user_ids = [u['user_id'] for u in online_users]
     user_map = {}
     if online_user_ids:
-        for u in UserModel.objects.filter(pk__in=online_user_ids).only('id', 'username', 'photo_url', 'role', 'display_name'):
+        for u in UserModel.objects.filter(pk__in=online_user_ids).only('id', 'role', 'display_name', *AVATAR_FIELDS):
             user_map[str(u.id)] = {
                 'username': u.username,
                 'display_name': u.display_name or u.username,
