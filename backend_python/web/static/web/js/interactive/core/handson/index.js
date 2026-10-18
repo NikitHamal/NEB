@@ -4,6 +4,7 @@ import { runPractical } from '../bio-handson/runtime.js';
 
 const PRACTICALS = {
   'acid-base-titration': () => import('./practicals/titration.js'),
+  'simple-pendulum-g': () => import('./practicals/pendulum.js'),
   'flame-tests': () => import('./practicals/flame-tests.js'),
 };
 
