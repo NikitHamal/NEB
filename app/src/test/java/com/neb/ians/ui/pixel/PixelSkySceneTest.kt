@@ -1,5 +1,7 @@
 package com.neb.ians.ui.pixel
 
+import com.neb.ians.ui.pixel.art.PixelOnboarding.Kind as ObKind
+import com.neb.ians.ui.pixel.art.PixelOnboarding.Handle as ObHandle
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -101,6 +103,22 @@ class PixelSkySceneTest {
             motifMeta.append("motif-$name ${s.width} ${s.height} $n ${s.frameMs}\n")
         }
         File(ui, "motifs.txt").writeText(motifMeta.toString())
+        // onboarding scenes with Neby composited where the app places the live sprite
+        val obDir = File(dir, "onboarding").apply { mkdirs() }
+        val po = com.neb.ians.ui.pixel.art.PixelOnboarding
+        val cases = listOf(
+            "welcome" to po.render(ObKind.Welcome), "paths" to po.render(ObKind.Paths, 1, 4), "name" to po.render(ObKind.Name, 600),
+            "handle" to po.render(ObKind.Handle, handle = ObHandle.Available), "birthday" to po.render(ObKind.Birthday, 14),
+            "facets" to po.render(ObKind.Facets, 1, 3), "level" to po.render(ObKind.Level, 3, 8), "subjects" to po.render(ObKind.Subjects, 4),
+            "province" to po.render(ObKind.Province, 3), "school" to po.render(ObKind.School, flag = true), "photo" to po.render(ObKind.Photo),
+            "arrival" to po.render(ObKind.Arrival), "code" to po.render(ObKind.Code, 4, 6),
+        )
+        for ((name, sc) in cases) {
+            val cv = sc.canvas
+            val spr = sc.neby.state.sprite.frames[0]
+            for (y in 0 until 48) for (x in 0 until 48) { val v = spr[y * 48 + x]; if ((v ushr 24) == 0xFF) cv.set(sc.neby.x - 24 + x, sc.neby.ground - 46 + y, v) }
+            writeArgb(cv.pixels, cv.width, cv.height, File(obDir, "$name.pam"))
+        }
         val coverDir = File(dir, "covers").apply { mkdirs() }
         for (role in com.neb.ians.ui.pixel.art.PixelCovers.ROLES) for (v in 0 until com.neb.ians.ui.pixel.art.PixelCovers.VARIANTS) {
             val cv = com.neb.ians.ui.pixel.art.PixelCovers.render(role, v)
