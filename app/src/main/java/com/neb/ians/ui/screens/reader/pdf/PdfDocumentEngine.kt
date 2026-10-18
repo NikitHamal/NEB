@@ -2,7 +2,11 @@ package com.neb.ians.ui.screens.reader.pdf
 
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.RectF
 import android.graphics.pdf.PdfRenderer
+import android.os.Build
+import android.os.ext.SdkExtensions
+import androidx.annotation.RequiresExtension
 import android.os.ParcelFileDescriptor
 import android.util.LruCache
 import kotlinx.coroutines.Dispatchers
@@ -67,6 +71,32 @@ class PdfDocumentEngine private constructor(
 
     suspend fun thumbnail(index: Int): Bitmap? = render(index, THUMB_WIDTH)
 
+    /** Whether this device's PDF module can read text (Android 15, or 11+ with the PDF mainline update). */
+    val canReadText: Boolean get() = TEXT_API
+
+    /**
+     * Where [query] occurs on page [index], as rectangles in page fractions (0..1), so they
+     * scale with whatever width the page is drawn at. Empty when text is unavailable.
+     */
+    suspend fun search(index: Int, query: String): List<RectF> {
+        if (!TEXT_API || query.isBlank() || index !in 0 until pageCount) return emptyList()
+        return withContext(Dispatchers.IO) {
+            mutex.withLock {
+                if (closed) emptyList() else runCatching { TextApi.search(renderer, index, query) }.getOrDefault(emptyList())
+            }
+        }
+    }
+
+    /** The text of page [index], or null when the page has none or text is unavailable. */
+    suspend fun pageText(index: Int): String? {
+        if (!TEXT_API || index !in 0 until pageCount) return null
+        return withContext(Dispatchers.IO) {
+            mutex.withLock {
+                if (closed) null else runCatching { TextApi.text(renderer, index) }.getOrNull()?.takeIf { it.isNotBlank() }
+            }
+        }
+    }
+
     override fun close() {
         closed = true
         cache.evictAll()
@@ -95,7 +125,25 @@ class PdfDocumentEngine private constructor(
         return if (width <= cap) width else (cap / BUCKET * BUCKET).coerceAtLeast(THUMB_WIDTH)
     }
 
+    @RequiresExtension(extension = Build.VERSION_CODES.R, version = 13)
+    private object TextApi {
+        fun search(renderer: PdfRenderer, index: Int, query: String): List<RectF> =
+            renderer.openPage(index).use { page ->
+                val w = page.width.toFloat().coerceAtLeast(1f)
+                val h = page.height.toFloat().coerceAtLeast(1f)
+                page.searchText(query).flatMap { match ->
+                    match.bounds.map { r -> RectF(r.left / w, r.top / h, r.right / w, r.bottom / h) }
+                }
+            }
+
+        fun text(renderer: PdfRenderer, index: Int): String =
+            renderer.openPage(index).use { page -> page.textContents.joinToString("\n") { it.text } }
+    }
+
     companion object {
+        private val TEXT_API: Boolean =
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && SdkExtensions.getExtensionVersion(Build.VERSION_CODES.R) >= 13
+
         const val THUMB_WIDTH = 240
         private const val BUCKET = 160
         private const val MAX_WIDTH = 2800

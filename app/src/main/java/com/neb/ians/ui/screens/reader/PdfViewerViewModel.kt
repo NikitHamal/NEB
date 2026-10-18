@@ -12,12 +12,15 @@ import com.neb.ians.ui.screens.reader.pdf.PdfDocumentEngine
 import com.neb.ians.ui.screens.reader.pdf.ReaderPrefs
 import com.neb.ians.ui.screens.reader.pdf.ReadingLayout
 import com.neb.ians.ui.screens.reader.pdf.ReadingTheme
+import com.neb.ians.ui.screens.reader.pdf.ReaderSearch
+import com.neb.ians.ui.screens.reader.pdf.SearchHit
 import com.neb.ians.util.ResourceDownloadManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -46,7 +49,10 @@ data class PdfViewerUiState(
     val bookmarks: Set<Int> = emptySet(),
     val theme: ReadingTheme = ReadingTheme.Paper,
     val layout: ReadingLayout = ReadingLayout.Scroll,
-    val keepScreenOn: Boolean = true
+    val keepScreenOn: Boolean = true,
+    /** Whether this device can read the document's text (search, copy page text). */
+    val canReadText: Boolean = false,
+    val search: ReaderSearch = ReaderSearch()
 )
 
 @HiltViewModel
@@ -63,6 +69,8 @@ class PdfViewerViewModel @Inject constructor(
     private var engine: PdfDocumentEngine? = null
     private var resource: ApiResource? = null
     private var downloadJob: Job? = null
+    private var searchJob: Job? = null
+    private var file: File? = null
 
     init {
         _uiState.update {
@@ -199,6 +207,7 @@ class PdfViewerViewModel @Inject constructor(
                 engine = null
                 val opened = PdfDocumentEngine.open(file)
                 engine = opened
+                this@PdfViewerViewModel.file = file
                 val last = prefs.lastPage(resourceId).coerceIn(0, (opened.pageCount - 1).coerceAtLeast(0))
                 _uiState.update {
                     it.copy(
@@ -209,6 +218,7 @@ class PdfViewerViewModel @Inject constructor(
                         isLoading = false,
                         isDownloading = false,
                         isLocalFileReady = true,
+                        canReadText = opened.canReadText,
                         error = null
                     )
                 }
@@ -219,6 +229,63 @@ class PdfViewerViewModel @Inject constructor(
     }
 
     suspend fun renderPage(index: Int, widthPx: Int): Bitmap? = engine?.render(index, widthPx)
+
+    /** The PDF on disk, for sharing or opening in another app. */
+    fun localFile(): File? = file?.takeIf(File::exists)
+
+    suspend fun pageText(index: Int = _uiState.value.currentPage): String? = engine?.pageText(index)
+
+    fun openSearch() {
+        _uiState.update { it.copy(search = it.search.copy(open = true)) }
+    }
+
+    fun closeSearch() {
+        searchJob?.cancel()
+        _uiState.update { it.copy(search = ReaderSearch()) }
+    }
+
+    /**
+     * Searches every page, starting at the one on screen and wrapping round, so the first hit
+     * is the nearest one ahead. Hits stream in page by page; the first one is jumped to.
+     */
+    fun search(query: String) {
+        searchJob?.cancel()
+        val q = query.trim()
+        _uiState.update { it.copy(search = it.search.copy(query = query, running = q.length >= 2, scanned = 0, hits = emptyList(), byPage = emptyMap(), index = -1)) }
+        val eng = engine ?: return
+        if (q.length < 2) return
+        val start = _uiState.value.currentPage
+        val n = eng.pageCount
+        searchJob = viewModelScope.launch {
+            delay(260)
+            val hits = ArrayList<SearchHit>()
+            val byPage = HashMap<Int, List<android.graphics.RectF>>()
+            for (k in 0 until n) {
+                val page = (start + k) % n
+                val rects = eng.search(page, q)
+                if (rects.isNotEmpty()) {
+                    byPage[page] = rects
+                    rects.sortedWith(compareBy({ it.top }, { it.left })).forEach { hits.add(SearchHit(page, it)) }
+                }
+                val first = hits.isNotEmpty() && _uiState.value.search.index < 0
+                _uiState.update {
+                    it.copy(search = it.search.copy(
+                        scanned = k + 1, hits = hits.toList(), byPage = HashMap(byPage),
+                        index = if (first) 0 else it.search.index,
+                        jump = if (first) it.search.jump + 1 else it.search.jump
+                    ))
+                }
+            }
+            _uiState.update { it.copy(search = it.search.copy(running = false)) }
+        }
+    }
+
+    fun stepSearch(delta: Int) {
+        _uiState.update {
+            val s = it.search
+            if (s.hits.isEmpty()) it else it.copy(search = s.copy(index = Math.floorMod(s.index + delta, s.hits.size), jump = s.jump + 1))
+        }
+    }
 
     override fun onCleared() {
         engine?.close()
