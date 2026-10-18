@@ -18,6 +18,8 @@ const PRACTICALS = {
   'urine-tests-urea-sugar-albumin-bile': () => import('./practicals/biochem.js'),
   'salivary-amylase-temp-ph': () => import('./practicals/biochem.js'),
   'blood-sugar-detection': () => import('./practicals/biochem.js'),
+  'potato-osmometer-osmosis': () => import('./practicals/physiology.js'),
+  'imbibition-seeds-raisins': () => import('./practicals/physiology.js'),
   'onion-root-tip-mitosis-11': () => import('./practicals/onion-mitosis.js'),
   'onion-root-tip-mitosis-12': () => import('./practicals/onion-mitosis.js'),
 };
