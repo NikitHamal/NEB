@@ -241,7 +241,8 @@ private fun PdfReader(state: PdfViewerUiState, viewModel: PdfViewerViewModel, on
         )
         PdfAssistantOverlay(
             documentTitle = state.title,
-            modifier = Modifier.fillMaxSize().padding(bottom = lift)
+            // the spring overshoots; a negative padding throws
+            modifier = Modifier.fillMaxSize().padding(bottom = lift.coerceAtLeast(0.dp))
         )
     }
 
