@@ -665,7 +665,7 @@ def past_papers(request):
         request,
         seo_title="NEB Past Papers (Class 11 & 12) PDF Download — NEBians",
         seo_description="Download free NEB Class 11 and Class 12 previous years board exam question papers in PDF. Science, Management, Humanities, and Law past papers.",
-        page_h1="NEB Past Papers (Class 11 &amp; 12)",
+        page_h1="NEB Past Papers (Class 11 & 12)",
         canonical_url="https://nebians.consica.com.np/app/past-papers/",
         default_type="Past Paper",
     )
@@ -675,7 +675,7 @@ def model_questions(request):
         request,
         seo_title="NEB Model Questions (Class 11 & 12) with Solutions PDF — NEBians",
         seo_description="Download official NEB model questions with answers and blueprints for Class 11 and Class 12 exams. Practice latest syllabus question sets.",
-        page_h1="NEB Model Questions &amp; Solutions",
+        page_h1="NEB Model Questions & Solutions",
         canonical_url="https://nebians.consica.com.np/app/model-questions/",
         default_type="Model Paper",
     )
